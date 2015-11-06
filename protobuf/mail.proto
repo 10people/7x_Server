@@ -1,0 +1,25 @@
+package qxmobile.protobuf;
+
+option java_outer_classname = "MailProtos";
+
+message Mail{
+	required string uuid = 1;
+	optional int32 mailType = 2;
+	required int32 senderId = 3;
+	required string title = 4;
+	required string content = 5;
+	required int64 date = 6;
+	
+	optional int32 warType = 7;
+	optional int64 battleId = 8;
+	optional int32 attackerId = 9;
+	optional int32 victimId = 10;
+	optional int32 lostCoin = 11;
+	optional int32 lostFanRongDu = 12;
+	optional string warResult = 13;
+}
+
+message Mails{
+	repeated Mail mails = 1;
+	optional int32 mailVersion = 2;
+}

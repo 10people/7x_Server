@@ -1,0 +1,27 @@
+2013年11月28日9:52:05
+com.manu.dynasty.combat.domain.Combat.isEnd()
+使用变量来计算队伍中存活的人数，避免每次都遍历队伍元素检查存活状况。
+----------------
+com.manu.dynasty.combat.domain.CombatUnit.searchForEnemyTarget(CombatTeam)
+需要建局部变量，calcLinearDistance中避免new对象。
+----------------
+2013年11月26日15:46:29
+CombatService 122,create object
+BattleService 960, Exception
+com.manu.dynasty.combat.PathLinearFinder.calcExactNode(PathNode, PathNode, int)
+com.manu.dynasty.combat.PathLinearFinder.sortedNodeByDistance(PathNode, List<PathNode>, List<PathNode>)
+com.manu.dynasty.combat.domain.CombatUnit._calcRoundMoveRange(int)
+---
+2013年11月15日9:53:17
+com.manu.dynasty.interceptor.MyInterceptor.TimeRecord.modifyFlag
+这个属性的默认值是UserContext.DATA_TYPE_ALL，会造成每次请求都保存玩家的所有数据。需要修改，按需保存。
+
+----------
+2014年9月30日16：33
+主线任务未做
+装备成长需修改扣除元宝数，新增装备进阶
+武将技能未做
+----------
+2014年10月15日14:15:28
+考虑到合服的问题，那么多预留空间（背包）这个形式，需要角色id不能重复。即所有服统一角色ID。
+每天50~100万新进用户！==做好准备啊======================================================

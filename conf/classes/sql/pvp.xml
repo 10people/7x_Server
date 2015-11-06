@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ServerInfo">
+	<typeAlias alias="pvpRecord" type="com.manu.dynasty.pvp.domain.PvpRecord"></typeAlias>
+	<typeAlias alias="pvpAwardFac" type="com.manu.dynasty.pvp.domain.PvpAwardFactor"></typeAlias>
+	<typeAlias alias="pvpTrialsTemp" type="com.manu.dynasty.pvp.domain.PvpTrialsTemplet"></typeAlias>
+	<typeAlias alias="user" type="com.manu.dynasty.user.domain.User"/>
+	<typeAlias alias="trialsRecord" type="com.manu.dynasty.pvp.domain.PvpTrialsRecord"></typeAlias>
+	<typeAlias alias="zoneKingRecord" type="com.manu.dynasty.pvp.domain.ZoneKingRecord"></typeAlias>
+
+	<select id="PvpDao.getPvpUserIds" resultClass="int" parameterClass="Map">
+		select userId from User where honor &gt; #honor1# and honor &lt;#honor2#	and userId != #userId# and lastLoginDttm &lt; lastLogoutDttm
+	</select>
+	
+	<insert id="PvpDao.insertRecord" parameterClass="pvpRecord">
+		insert into PvpRecord(userId,defendUserId,msgData,dataLen,battleData,atkTime) values(#userId#, #defendUserId#, #msgData:Blob#,#dataLen#,#battleData:Blob#,#atkTime#);
+		<selectKey keyProperty="battleId" resultClass="int">
+			select last_insert_id();
+		</selectKey>
+	</insert>
+	<select id="PvpDao.getRecord" parameterClass="int" resultClass="pvpRecord">
+		select * from PvpRecord where battleId=#battleId#
+	</select>
+	<update id="PvpDao.updateRecord" parameterClass="pvpRecord">
+		update PvpRecord set isWin=#isWin#,dataLen=#dataLen#,battleData=#battleData:Blob#,awardData=#awardData:Blob# where battleId=#battleId#
+	</update>
+	<select id="PvpDao.getRecordList" parameterClass="int" resultClass="pvpRecord">
+		select * from PvpRecord where defendUserId=#userId# order by battleId desc
+	</select>	
+	<select id="PvpDao.getPvpAwardFactors" resultClass="pvpAwardFac">
+		select * from PvpAwardFactor;
+	</select>
+	<select id="PvpDao.getTrialsTemplet" resultClass="pvpTrialsTemp">
+		select * from PvpTrialsTemplet;
+	</select>
+	<select id="PvpDao.getTrialsEnermy" resultClass="user" parameterClass="Map">
+		select * from User where honor &gt; #honor1# and honor &lt;#honor2#	and userId != #userId# ;
+	</select>
+	<insert id="PvpDao.insertPvpTrialsRecord" parameterClass="trialsRecord">
+		insert into PvpTrialsRecord(userId, col, awardId, enermyIdStr) values(#userId#, #col#, #awardId#, #enermyIdStr#);
+	</insert>
+	<delete id="PvpDao.deletePvpTrialsRecord" parameterClass="int">
+		delete from PvpTrialsRecord where userId=#userId#
+	</delete>
+	<select id="PvpDao.getPvpTrialsRecord" parameterClass="int" resultClass="trialsRecord">
+		select * from PvpTrialsRecord where userId=#userId#
+	</select>
+	<update id="PvpDao.updateTrialsRecord" parameterClass="trialsRecord">
+		update PvpTrialsRecord set awardId=#awardId# , enermyIdStr=#enermyIdStr# where userId=#userId# and col=#col#
+	</update>
+	<select id="PvpDao.getZoneKingRecord" parameterClass="int" resultClass="zoneKingRecord">
+		select * from ZoneKingRecord where userId=#userId#
+	</select>
+	<update id="PvpDao.updateZoneKingRecord" parameterClass="zoneKingRecord">
+		update ZoneKingRecord set zoneId=#zoneId#, isKing=#isKing#,defWinTimes=#defWinTimes#,fightTimes=#fightTimes#,beKingTime=#beKingTime#
+	</update>
+	<insert id="PvpDao.insertZoneKingRecord" parameterClass="zoneKingRecord">
+		insert into ZoneKingRecord(userId, zoneId, isKing, defWinTimes, fightTimes, beKingTime) values(#userId#, #zoneId#, #isKing#, #defWinTimes#, #fightTimes#, #beKingTime#);
+	</insert>
+	<select id="PvpDao.getZoneKingRecordByDay" parameterClass="Map" resultClass="zoneKingRecord">
+		select * from ZoneKingRecord where userId=#userId# and type=#day#
+	</select>
+	<select id="PvpDao.getZoneKing">
+		select * from ZoneKingRecord where type=1 and type=1
+	</select>
+	
+	
+</sqlMap>

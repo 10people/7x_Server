@@ -1,0 +1,19 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "NationalScheduleProtos";
+
+message NationalSchedule{
+	required int32 scheduleId = 1;
+	required int32 userId = 2;
+	required int32 modifyType = 3;
+	required int64 startTime = 4;
+	required int32 lastTime = 5;
+	required int32 modifyValue = 6;
+	required int32 cityId = 7;
+}
+
+
+message NationalScheduleList{
+ 	repeated NationalSchedule schedule = 1;
+}

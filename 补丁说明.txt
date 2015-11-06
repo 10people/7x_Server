@@ -1,0 +1,16 @@
+ok	2015年8月24日10:06:44
+	修正信鸽汇报token和登录的先后顺序，jsp位于：
+	/gm/fix-xin-ge0821B.jsp
+	里面有一句new XGFixBEvt();
+	需要看到【XGFixBEvt】已注册登录事件，且XG inst是XGFixB
+	【之前】已修改xg.push.XGFixB@15a075f9
+	
+	size:5
+	com.qx.pvp.PvpMgr@7738fb1b
+	com.qx.junzhu.JunZhuMgr@3dede6c3
+	com.qx.timeworker.TimeWorkerMgr@4dc92bf8
+	com.qx.activity.XianShiActivityMgr@5265cead
+	xg.push.XGFixBEvt@de3b92
+
+ok	2015年8月25日17:26:03
+	创建联盟时，保存联盟贡献会出重复id的异常，补丁是照文写的，在hotfix/AllianceMgr20150825A.jsp

@@ -1,0 +1,15 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+//国战 国家信息
+option java_outer_classname = "NCountryInfoProtos";
+
+message NCountryInfo{
+	required int32 countryId = 1;
+	repeated int32 ownCityIds = 2;
+	repeated string warReport = 3;
+}
+
+message NCountryInfoList{
+	repeated NCountryInfo countryInfo = 1;
+}

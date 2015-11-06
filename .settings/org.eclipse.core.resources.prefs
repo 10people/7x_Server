@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+encoding//conf/classes/txSocket.properties=UTF-8
+encoding//src/log/cunliang_new.txt=gbk
+encoding//src/qxmobile/protobuf=gbk
+encoding//src/qxmobile/protobuf/Cards.java=UTF-8
+encoding//src/qxmobile/protobuf/Chat.java=UTF-8
+encoding//src/qxmobile/protobuf/PlayerData.java=UTF-8
+encoding//src/qxmobile/protobuf/UserYeZhanMessage.java=UTF-8
+encoding//src/qxmobile/protobuf/VIP.java=UTF-8
+encoding//src/qxmobile/protobuf/WuJiangProtos.java=UTF-8
+encoding//webroot/dataConf/uploadConf.jsp=UTF-8

@@ -1,0 +1,631 @@
+<project name="genProto" default="all" basedir=".">
+
+	<!-- set global properties & libs -->
+	<!--<property name="dbaddr" value="172.16.0.15:3306" />-->
+	<property name="encoding" value="UTF-8" />
+	<property name="release.root" value="/usr/local/webroot/dynasty_mobile" />
+	<property name="flash_data_path" value="flex_src/swf/config/data.zip" />
+	<property environment="env">
+	</property>
+
+	<property name="protoJava" value="src" />
+	<property name="protoSrc" value="protobuf" />
+
+	<property name="src.tests" value="src/junit">
+	</property>
+	<property name="classes" value="bin">
+	</property>
+	<property name="reports.tests" value="docs/test">
+	</property>
+
+	<property file="${env.TX_CONF_PATH}/conf.properties" />
+
+	<path id="dbunit.classpath">
+		<pathelement location="lib/dbunit-2.1.jar" />
+		<pathelement location="lib/mysql-connector-java-5.1.6-bin.jar" />
+		<pathelement location="lib/log4j-1.2.14.jar" />
+	</path>
+
+	<!-- All: Do all the things here -->
+	<target name="all">
+		<!--antcall target="clean"/-->
+		<antcall target="compile" />
+		<antcall target="deploy" />
+	</target>
+
+	<target name="clean">
+		<delete dir="webroot/WEB-INF/classes" includes="**/*.class" />
+	</target>
+
+	<target name="compile">
+		<javac srcdir="src" encoding="${encoding}" destdir="webroot/WEB-INF/classes" debug="on" optimize="off" source="1.5" target="1.5" memoryInitialSize="512m" memoryMaximumSize="512m" fork="true">
+			<classpath>
+				<fileset dir="lib">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="deploy">
+		<antcall target="deploy.lib" />
+		<antcall target="deploy.conf" />
+	</target>
+
+	<target name="deploy.lib">
+		<copy todir="webroot/WEB-INF/lib">
+			<fileset dir="lib">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="deploy.conf">
+		<copy todir="webroot/WEB-INF/classes" file="conf/dataConfig.xml">
+		</copy>
+		<copy todir="webroot/WEB-INF/classes">
+			<fileset dir="conf/classes" />
+		</copy>
+		<copy todir="webroot/WEB-INF/classes/data/">
+			<fileset dir="../Design Doc/data/" excludes="battleFlag/" />
+		</copy>
+	</target>
+
+	<!-- load init data -->
+	<target name="load" description="load test data into db">
+		<taskdef name="dbunit" classname="org.dbunit.ant.DbUnitTask" classpathref="dbunit.classpath">
+		</taskdef>
+		<dbunit driver="com.mysql.jdbc.Driver" url="jdbc:mysql://${mysql.dbServer}" userid="${mysql.user}" password="${mysql.passwd}">
+			<!--<operation type="REFRESH" src="bin/data/league000.xml" />-->
+			<operation type="REFRESH" src="bin/data/HeroExp.xml" />
+			<operation type="REFRESH" src="bin/data/HeroTemplet.xml" />
+			<operation type="REFRESH" src="bin/data/HeroType.xml" />
+			<operation type="REFRESH" src="bin/data/item.xml" />
+			<operation type="REFRESH" src="bin/data/Award.xml" />
+			<operation type="REFRESH" src="bin/data/pve.xml" />
+			<operation type="REFRESH" src="bin/data/skill.xml" />
+			<operation type="REFRESH" src="bin/data/CheckPoints.xml" />
+			<operation type="REFRESH" src="bin/data/CopperFoodBuild.xml" />
+			<operation type="REFRESH" src="bin/data/BookAcademy.xml" />
+			<operation type="REFRESH" src="bin/data/BookTechnologyLevel.xml" />
+			<operation type="REFRESH" src="bin/data/SparLevel.xml" />
+			<operation type="REFRESH" src="bin/data/UserLevelTemplet.xml" />
+			<operation type="REFRESH" src="bin/data/Enumer.xml" />
+			<operation type="REFRESH" src="bin/data/UserTechLevelTemplet.xml" />
+			<operation type="REFRESH" src="bin/data/UserTechTemplet.xml" />
+			<operation type="REFRESH" src="bin/data/HeroGrowTemplet.xml" />
+			<operation type="REFRESH" src="bin/data/Achieve.xml" />
+			<operation type="REFRESH" src="bin/data/UserLevelTemplet.xml" />
+			<operation type="REFRESH" src="bin/data/AtkedOrder.xml" />
+			<operation type="REFRESH" src="bin/data/PvpAward.xml" />
+			<operation type="REFRESH" src="bin/data/PvpTrialsTemplet.xml" />
+			<!-- 加载NPC，仅建立数据库时需要导入 -->
+		</dbunit>
+	</target>
+
+	<!-- load init special 仅安装新服建立数据库时需要导入 -->
+	<target name="special" description="load test data into db">
+		<taskdef name="dbunit" classname="org.dbunit.ant.DbUnitTask" classpathref="dbunit.classpath">
+		</taskdef>
+		<dbunit driver="com.mysql.jdbc.Driver" url="jdbc:mysql://${mysql.dbServer}" userid="${mysql.user}" password="${mysql.passwd}">
+			<operation type="REFRESH" src="bin/data/special.xml" />
+
+		</dbunit>
+	</target>
+
+	<!-- release -->
+	<target name="release">
+		<antcall target="release.clean" />
+		<antcall target="release.deploy" />
+		<antcall target="release.data" />
+	</target>
+
+	<target name="release.clean">
+		<delete dir="${release.root}" />
+		<mkdir dir="${release.root}" />
+	</target>
+
+	<target name="release.data">
+		<copy todir="${release.root}">
+			<fileset dir=".">
+				<include name="bin/data/*.xml" />
+				<include name="bin/sql/*.sql" />
+				<include name="bin/sql/*.properties" />
+				<include name="bin/sql/deleteUser/*.*" />
+				<include name="lib/mysql-connector-java-5.1.6-bin.jar" />
+				<include name="lib/log4j-1.2.14.jar" />
+				<include name="version/dbunit-2.1.jar" />
+				<include name="build.xml" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="release.deploy">
+		<copy todir="${release.root}">
+			<fileset dir="webroot">
+				<exclude name="**/*.fla" />
+			</fileset>
+		</copy>
+		<copy todir="${release.root}">
+			<fileset dir="flex_src">
+				<exclude name="**/*.fla" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="zipData">
+		<zip destfile="${flash_data_path}" update="true">
+			<fileset dir="bin/data" includes="*.xml">
+
+			</fileset>
+		</zip>
+	</target>
+
+	<target name="package">
+		<jar jarfile="lib/dynasty-core.jar" update="yes">
+			<fileset dir="webroot/WEB-INF/classes">
+				<include name="com/manu/**" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="protobuf">
+		<!--antcall target="clean"/-->
+		<antcall target="protoHandle">
+			<param name="proto" value="test.proto" />
+			<param name="proto" value="shop.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="packet.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="building.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="items.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="time.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="user.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="account.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="userHero.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="heroRank.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="guild.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="userPve.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="battleItem.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="userLottery.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="heroUnit.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="friend.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="userBuff.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="userYeZhan.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="irrigateRecord.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="pkRecord.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="nationalWar.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="nationalCity.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="nationalSchedule.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="nAccount.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="nCityUserList.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="ncrCity.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="ncrCitys.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="nCityStateMap.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="sMessage.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="nCountryInfo.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="nUserMove.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="nUserAction.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="nUserAttack.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="nAfterCombat.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="nActionResult.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="mail.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="nReport.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="nCheckReport.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="nRequestAward.proto" />
+		</antcall>
+		<antcall target="protoHandle">
+			<param name="proto" value="nPersonalAward.proto" />
+		</antcall>
+	</target>
+	<target name='GenPlayerData'>
+		<antcall target="protoHandle">
+			<param name="proto" value="PlayerData.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenHouse'>
+		<antcall target="protoHandle">
+			<param name="proto" value="house.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenAllianceFight'>
+		<antcall target="protoHandle">
+			<param name="proto" value="AllianceFight.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenChat'>
+		<antcall target="protoHandle">
+			<param name="proto" value="chatMsg.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenZhangHao'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Account.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenAntiCheat'>
+		<antcall target="protoHandle">
+			<param name="proto" value="BattleProg.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenZhanDou'>
+		<antcall target="protoHandle">
+			<param name="proto" value="ZhanDou.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenYouXia'>
+		<antcall target="protoHandle">
+			<param name="proto" value="YouXia.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenPawnShop'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Pawnshop.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenPveLevel'>
+		<antcall target="protoHandle">
+			<param name="proto" value="PveLevel.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenSound'>
+		<antcall target="protoHandle">
+			<param name="proto" value="SoundData.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenKeJi'>
+		<antcall target="protoHandle">
+			<param name="proto" value="KeJi.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenUpAction'>
+		<antcall target="protoHandle">
+			<param name="proto" value="UpAction.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenJunZhu'>
+		<antcall target="protoHandle">
+			<param name="proto" value="JunZhu.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenDailyAward'>
+		<antcall target="protoHandle">
+			<param name="proto" value="DailyAward.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenJingMai'>
+		<antcall target="protoHandle">
+			<param name="proto" value="JingMai.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenPvp'>
+		<antcall target="protoHandle">
+			<param name="proto" value="PVP.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenYaBiao'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Yabiao.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenXianShi'>
+		<antcall target="protoHandle">
+			<param name="proto" value="XianShi.proto" />			
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />			
+		</antcall>
+	</target>
+	<target name='GenFuwen'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Fuwen.proto" />			
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />			
+		</antcall>
+	</target>
+	<target name='GenBagOper'>
+		<antcall target="protoHandle">
+			<param name="proto" value="BagOper.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenFriends'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Friends.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenNotice'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Notice.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenQiandao'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Qiandao.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenGameTask'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Task.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenGuoJia'>
+		<antcall target="protoHandle">
+			<param name="proto" value="GuoJia.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenUserEquip'>
+		<antcall target="protoHandle">
+			<param name="proto" value="UserEquip.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenBattlePveInit'>
+		<antcall target="protoHandle">
+			<param name="proto" value="BattlePveInit.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenBattleResult'>
+		<antcall target="protoHandle">
+			<param name="proto" value="BattlePveResult.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenScene'>
+		<antcall target="protoHandle">
+			<param name="proto" value="sceneSync.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='WuJiang'>
+		<antcall target="protoHandle">
+			<param name="proto" value="WuJiang.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='Mail'>
+		<antcall target="protoHandle">
+			<param name="proto" value="MailProto.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='LianMeng'>
+		<antcall target="protoHandle">
+			<param name="proto" value="UnionInit.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='Cards'>
+		<antcall target="protoHandle">
+			<param name="proto" value="LuckyCard.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+
+	<target name='GenTimeWorker'>
+		<antcall target="protoHandle">
+			<param name="proto" value="TimeWorker.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenMoBai'>
+		<antcall target="protoHandle">
+			<param name="proto" value="MoBai.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+
+	<target name='GenAlliance'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Alliance.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+
+	<target name='GenHuangYe'>
+		<antcall target="protoHandle">
+			<param name="proto" value="HuangYe.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+
+	<target name='GenVIP'>
+		<antcall target="protoHandle">
+			<param name="proto" value="VIP.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+
+	<target name='GenShop'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Shop.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenShouChong'>
+		<antcall target="protoHandle">
+			<param name="proto" value="ShouChong.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenExplore'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Explore.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenTask'>
+		<antcall target="protoHandle">
+			<param name="proto" value="DailyTask.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+    <target name='GenRank'>
+                        <antcall target="protoHandle">
+                            <param name="proto" value="Ranking.proto" />          
+                            <param name="protoSrc" value="../Design Doc/protocolDoc_2014" />            
+                        </antcall>
+        </target>
+	<target name='GenAchievement'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Achievement.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+
+	<target name='GenChengHao'>
+		<antcall target="protoHandle">
+			<param name="proto" value="ChengHao.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenSettings'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Settings.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenEmail'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Email.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenActivity'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Activity.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenMibao'>
+		<antcall target="protoHandle">
+			<param name="proto" value="MiBao.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name="protoHandle">
+		<echo message="${proto}">
+		</echo>
+		<!--<exec executable="E:\work_space\qxmobile\protobuf/protoc.exe">-->
+		<exec executable="protobuf/protoc.exe">
+			<arg value="-I=${protoSrc}" />
+			<arg value="--java_out=${protoJava}" />
+			<arg value="${protoSrc}/${proto}" />
+		</exec>
+	</target>
+
+	<target name="junit">
+		<junit printsummary="yes" haltonfailure="yes">
+			<classpath>
+				<pathelement location="${classes}" />
+				<fileset dir="lib">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+
+			<formatter type="xml" />
+
+			<batchtest fork="yes" todir="${reports.tests}">
+				<fileset dir="${src.tests}">
+					<include name="**/*Test*.java" />
+					<exclude name="**/AllTests.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+</project>
+
+

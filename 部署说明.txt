@@ -1,0 +1,41 @@
+需要安装的软件：
+jdk 1.6
+mysql  5.1
+memcached-1.4.5
+redis-2.6.16
+apache-tomcat-6.0.43
+
+服务器结构说明：
+下面提到的服务器，都是部署在tomcat容器里，启动后会启动web端口，用于后台管理（服务器列表维护、游戏服务器数据查询等）。
+给客户端连接的socket端口，是由web程序开启的。
+客户端先以http方式和登录服务器交互（注册、登录、获取服务器列表信息），之后已socket形式和游戏服务器通信。
+
+【凡是此处未做说明的配置文件条目，均为无需修改或者没用的条目】
+
+登录服务器（用于维护服务器列表和登录）【只有一个】
+mysql配置位于WEB-INF/classes/hibernate.properties
+	需要手动建立qxaccounts库，程序会自动创建相关的表。
+WEB-INF/classes/server.properties里面，
+	cacheServers是memcached的IP和端口，
+	redisServer是redis的IP和端口。
+
+游戏服务器（游戏世界内部逻辑）【可以有多个】
+mysql配置位于WEB-INF/classes/hibernate.properties
+	需要手动建立qxmobile库，程序会自动创建相关的表。
+WEB-INF/classes/server.properties里面，
+	cacheServers是memcached的IP和端口，
+	routerCacheServers是【登录服务器】memcached的IP和端口，需要和【登录服务器】中的cacheServers一致；
+	redisServer是redis的IP和端口；
+	serverId是本服务器的编号；
+	loginServer是【登录服务器】的IP；
+	loginPort是【登录服务器】的端口；
+WEB-INF/classes/txSocket.properties里面，
+	port是给客户端连接的端口，需要和登录服务器中的服务器条目配置一致，需开启防火墙允许。
+	
+========
+2015年8月17日16:16:51
+203.195.204.128  服务器   10.66.143.160:3306  数据库   用户名都是 root   ，密码  Qxws@!(7x
+mysql -uroot -p'Qxws@!(7x' -h10.66.143.160 --default-character-set=utf8
+
+sh /usr/local/shell/iptables_8587.sh  开放端口 8587
+sh /usr/local/shell/iptables.sh       关闭端口 8587

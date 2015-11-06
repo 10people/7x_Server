@@ -1,0 +1,22 @@
+gameappid 游戏appId, qq/weixin不同 qq:1000001292 weixin:wx08bd06615425758c
+openid 玩家openid
+zoneid 大区id
+regtime 玩家注册时间
+level 当前等级
+iFriends 游戏内好友系统中的好友个数
+moneyios ios平台元宝.如果是安卓服，这个字段为0
+moneyandroid android平台元宝。如果是ios服，这个字段为0
+diamondios ios平台银两,如果是安卓服，这个字段为0
+diamondandroid android平台银两,如果是ios服，这个字段为0
+Fight 当前总战斗力
+VipPoint vip点数，可根据点数的区间，算出vip等级
+CareerId 玩家职业 1 天剑 2 狂生 3 灵猴
+
+RoleId 角色id
+
+islogin	                当天是否登陆     (0 or 1)    
+totaltime	          总在线时间
+todayonlinetime      当天在线时间
+ispay	              是否为充值用户(0 or 1)
+todaypay              今日充值金钱树
+LoginChannel          int渠道ID

@@ -1,0 +1,11 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "AccountProtos";
+
+message Account{
+	required string account = 1;
+	required int32 userId = 2;
+	required int64 createDttm = 3;
+	required int64 lastLoginDttm = 4;
+}

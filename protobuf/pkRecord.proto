@@ -1,0 +1,20 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "PkRecordMessage";
+//战报
+message PkRecord{
+
+required int32 atkId = 1;
+required int32 defId = 2;
+required int32 activityType = 3;//掠夺、摧毁、国战、百战
+required string combatId = 4; //战斗动画数据
+required int64 recordAt = 5;//时间
+required int32 resultId = 6; //战斗结果 对应 BattleStar.xml
+repeated string remarks = 7; //备份字段 list索引中 0：攻击者名称 1：防御者名称
+}
+
+
+message PkRecordList{
+	repeated PkRecord pkRecord = 1;
+}

@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xmlns:aop="http://www.springframework.org/schema/aop"
+	     xmlns:tx="http://www.springframework.org/schema/tx"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+       default-autowire="autodetect">
+	<!-- 数据源 -->
+	<bean id="defaultConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+        	<list>
+        		<value>file:${TX_CONF_PATH}/conf.properties</value>
+        	</list>
+        </property>
+    </bean>
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://${mysql.dbServer}"/>
+		<property name="username" value="${mysql.user}"/>
+		<property name="password" value="${mysql.passwd}"/>
+		<property name="defaultAutoCommit" value="true"/>
+		<property name="initialSize" value="5"/>
+		<property name="maxActive" value="40"/>
+		<property name="maxIdle" value="10"/>
+		<property name="minIdle" value="5"/>
+		<property name="maxWait" value="30000"/>
+		<property name="testOnBorrow" value="false"/>
+	</bean>
+	<bean id="serviceLocator" class="com.manu.core.ServiceLocator" factory-method="createInstance" />
+	<bean id="serviceLocator2" class="com.youxigu.boot.ServiceLocator" init-method="register" />
+	
+	<!-- ibatis -->
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation" value="classpath:sqlmap-config.xml"/>
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<bean id="qqDao" class="com.youxigu.friend.dao.QQDao">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+</beans>

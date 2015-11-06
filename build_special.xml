@@ -1,0 +1,31 @@
+<project name="qxmbile打包" default="createJar" basedir=".">
+	<target name="createJar">
+		<jar destfile="qxmobile.jar">
+		<fileset dir="webroot/WEB-INF/classes/" includes="**/*.class"></fileset>
+		<fileset dir="webroot/WEB-INF/classes/" includes="dataConfig.xml"></fileset>
+		<fileset dir="webroot/WEB-INF/classes/" includes="hibernate.cfg.xml"></fileset>
+		</jar>
+	</target>
+	<target name="createZip">
+			<zip destfile="qxmobile.zip" >
+			<fileset 
+				dir="webroot/" 
+				includes="**/*.*" 
+				excludes="**/*.properties,**/*.jar"
+				>
+			</fileset>
+			</zip>
+		</target>
+	<target name="createZip无data">
+				<zip destfile="qxmobileNoData.zip" >
+				<fileset 
+					dir="webroot/" 
+					includes="**/*.*" 
+					excludes="**/*.properties,**/*.jar,**/data/*.*"
+					>
+				</fileset>
+				</zip>
+			</target>
+</project>
+
+

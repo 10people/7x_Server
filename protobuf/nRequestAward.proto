@@ -1,0 +1,10 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+//国战 用户请求接口
+option java_outer_classname = "NRequestAwardProtos";
+
+message NRequestAward{
+	required string account = 1; // 用户帐户ID
+	required int32 exchangeId = 2; //请求奖励xml中的主键
+}

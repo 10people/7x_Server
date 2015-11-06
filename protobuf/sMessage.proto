@@ -1,0 +1,10 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+//Socket 通信问题 信息接口
+option java_outer_classname = "SMessageProtos";
+
+message SMessage{
+	required int32 code = 1;
+	required string message = 2;
+}

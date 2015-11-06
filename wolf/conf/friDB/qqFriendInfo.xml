@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ServerInfo">
+	<typeAlias alias="qqFriendInfo" type="com.youxigu.friend.info.QQFriendInfo"/>
+	<typeAlias alias="serverInfo" type="com.youxigu.friend.info.ServerInfo"/>
+	
+	<select id="getAllQqFriendsInfoByQqIdAndTableIndex" parameterClass="java.util.Map" resultClass="qqFriendInfo">
+    	SELECT svrId,qqId,name,rank FROM QQFriendsInfo_$index$ where qqId = #qqId#;
+    </select>
+	<select id="getAllQqFriendsInfoByTableIndex" parameterClass="int" resultClass="qqFriendInfo">
+    	SELECT svrId,qqId,name,rank FROM QQFriendsInfo_$index$;
+	</select>
+	<select id="getAllServerInfo" resultClass="serverInfo">
+    	SELECT svrId,svrName FROM AllServerInfo;
+	</select>
+</sqlMap>

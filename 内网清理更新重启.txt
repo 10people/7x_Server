@@ -1,0 +1,11 @@
+﻿
+外网/data/software/memcached-1.4.5/memcached 注意位置。
+
+启动memcached 11211端口
+/usr/local/memcached/bin/memcached  -p11211 -d -r -u root   -vv>>m.log 2>&1
+
+启动memcached 11212端口
+/usr/local/memcached/bin/memcached  -p11212 -d -r -u root   -vv>>m.log 2>&1
+
+清空redis数据  
+先运行 /var/ftp/pub/redis-2.6.16/src/redis-cli，在里面执行FLUSHDB 

@@ -1,0 +1,10 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+//国战 客户端请求城池信息数据结构
+option java_outer_classname = "NCRCityProtos";
+
+message NCRCity{
+	required string account = 1;
+	required int32 cityId = 2;
+}

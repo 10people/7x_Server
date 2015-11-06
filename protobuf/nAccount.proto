@@ -1,0 +1,10 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+//国战 用户请求接口
+option java_outer_classname = "NAccountProtos";
+
+message NAccount{
+	required string account = 1; // 用户帐户ID
+	required int32 requestType = 2; //请求功能类型 0 为 登陆 ，1为更新武将镜像， 2：获取国战银两，3:获取个人战斗记录
+}

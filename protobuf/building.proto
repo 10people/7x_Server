@@ -1,0 +1,25 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "BuildingProtos";
+
+message Building{
+	required int32 buildId = 1;
+	optional int32 posX = 2;
+	optional int32 posY = 3;
+	required int32 templateId = 4;
+	required int32 level = 5;
+	required int64 upgradeTime = 6;
+	optional int64 interactTime = 7;
+	required int32 id = 8;
+	optional int32 techId = 9;
+	optional string irrigateUuid = 10;
+}
+
+message Buildings{
+	repeated Building build = 1;
+}
+
+message Farm{
+	repeated Building build = 1;
+}

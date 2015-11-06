@@ -1,0 +1,43 @@
+放项目的配置文件
+log4j.properties 是日志配置文件
+
+
+server.properties 是服务配置文件，这个需要详解下
+一般情况默认的配置是不要改动的，唯一可能改动的就是service_N 这个是服务器用来处理消息的逻辑，一般建议把逻辑放在Task中
+
+mainClass = com.youxigu.boot.Server
+# 用来配置服务器端口号 线程啥的
+port = 8739
+#服务器ip，客户端会连接这个地址
+server = wolfServer
+#服务器名字
+name = wolfServer
+codecFactory = org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory
+clientIoHandler = com.youxigu.net.WolfHandler
+serverIoHandler = com.youxigu.net.WolfMessageChain
+#无效
+isSingleWorker = 1
+
+# Service 必须按照顺序编号，如果遇到取到的是空就终止遍历service
+service_0 = com.youxigu.route.RouteService
+service_1 = com.youxigu.net.WolfHandler
+
+如果只是一般的服务器
+serverIoHandler = com.youxigu.net.WolfHandler
+这样配置可能会更简单一些
+
+如果你为了加强服务器的功能，你可以扩展Server_N来完成，比如你可以在service启动一个新的线程，service对Message的处理只是把消息加入线程处理队列等
+   |———|———|———|—————|
+   | Node | Node | Node |  Node    |
+   |      |      |      |          |
+   |———|———|———|—————|
+   
+			
+			Router   
+   
+  节点之间信息传送方式3种：广播，向节点发送，向模糊节点发送【发送前只知道特征，但不知道具体哪个节点】
+  
+   
+   
+   
+   

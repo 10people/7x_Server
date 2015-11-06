@@ -1,0 +1,23 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "UserProtos";
+
+message User{
+	required int32 userId = 1;
+	required string account = 2;
+	required string userName = 3;
+	required int32 level = 4;
+	required int32 countryId = 5;
+	required int32 heroIdGenerator=6;
+	required int32 itemIdGenerator=7;
+	required int32 buildingIdGenerator=8;
+	required int32 exp=9;
+	optional int32 guildId=10;
+	optional int32 guildDuty=11;
+	optional int32 maxFloorLv=12;
+	optional string qianMing = 13;
+	optional int32 guanZhi = 14;
+	optional int32 collectTime = 15;
+	optional int32 guildMailVersion = 16;
+}

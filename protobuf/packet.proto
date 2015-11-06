@@ -1,0 +1,12 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "PacketProtos";
+message Packet {
+  required int32 cmd = 1;
+  optional int32 para1 = 2;
+  optional int32 para2 = 3;
+  optional int32 para3 = 4;
+  optional int32 para4 = 5;
+  optional bytes attachment = 6;
+ }

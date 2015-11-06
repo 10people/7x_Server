@@ -1,0 +1,19 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "HeroRankProto";
+
+message HeroRank{
+
+	required int32 userId = 1;// 玩家id
+	required int32 siteId = 2;
+	required string heroSite = 3;//阵形  heroId_x_y,heroId_x_y
+	required int32 siteType = 4;//阵形类别
+	
+	
+
+}
+
+message HeroRankList{
+ 	repeated HeroRank hero_rank = 1;
+}

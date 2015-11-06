@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+<!-- 	<file name="data/PveTemplate.xml" /> -->
+	<file name="data/AnnounceTemp.xml" />
+	<file name="data/QiRiLiBao.xml" />
+	<file name="data/ZhuangBeiDiaoluo.xml" />
+	<file name="data/Chenghao.xml" />
+	<file name="data/LegendPveTemp.xml" />
+	<file name="data/LegendNpcTemp.xml" />
+	<file name="data/SkillTemplate.xml" />
+	<file name="data/RobotInitData.xml" />
+	<file name="data/Xilian.xml" />	
+	<file name="data/XilianQujian.xml" />	
+	<file name="data/Xilianzhi.xml" />	
+	<file name="data/XilianzhiQujian.xml" />	
+	<file name="data/XilianShuxing.xml" />	
+	<file name="data/HuangYe.xml" />	
+	<file name="data/HuangyeFog.xml" />	
+	<file name="data/HuangyeNpc.xml" />	
+	<file name="data/HuangyePve.xml" />	
+	<file name="data/HuangyePvp.xml" />	
+	<file name="data/HuangyePvpNpc.xml" />	
+	<file name="data/HuangyeAward.xml" />	
+	<file name="data/HuangYeGuYongBing.xml" />
+	<file name="data/HuangYeDuihuan.xml" />
+	<file name="data/LMGongXianDuihuan.xml" />
+	<file name="data/GongXunDuihuan.xml" />
+	<file name="data/HuangyeRank.xml" />	
+	<file name="data/JunzhuShengji.xml" />	
+	<file name="data/Jiangli.xml" />		
+	<file name="data/Purchase.xml" />		
+	<file name="data/GongjiType.xml" />	
+	<file name="data/VIP.xml" />	
+	<file name="data/RenWu.xml" />	
+	<file name="data/ZhuceRenwu.xml" />	
+	<file name="data/CanShu.xml" />	
+	<file name="data/LianmengMobai.xml" />	
+	<file name="data/LianmengEvent.xml" />	
+	<file name="data/FunctionOpen.xml" />	
+	<file name="data/QianDao.xml" />	
+	<file name="data/QianDaoDesc.xml" />	
+	<file name="data/HuoDong.xml" />	
+<!-- ===============下面的是老版本的数据 2014年4月9日10:50:52 Tigo==================================== -->
+<!-- 	<file name="data/BuildingTemplate.xml" /> -->
+	<file name="data/ItemTemp.xml" />
+<!-- 	<file name="data/AwardTemplate.xml" /> -->
+	<file name="data/ExpTemp.xml" />
+<!-- 	<file name="data/EnemyTemplate.xml" /> -->
+<!-- 	<file name="data/NpcTemplate.xml" /> -->
+	<file name="data/NameId.xml" />
+<!-- 	<file name="data/CountryTemplate.xml" /> -->
+	<file name="data/ZhuangBei.xml" />
+	<file name="data/PveTemp.xml" />
+	<file name="data/EnemyTemp.xml" />
+	<file name="data/NpcTemp.xml" />
+	<file name="data/AwardTemp.xml" />
+	<file name="data/QiangHua.xml" />
+	<file name="data/ZhuXian.xml" />
+	<file name="data/MiBao.xml" />
+	<file name="data/MibaoSkill.xml" />
+	<file name="data/MibaoStar.xml" />
+	<file name="data/MibaoSuiPian.xml" />
+	<file name="data/MibaoJixing.xml" />
+	<!-- 百战千军相关配置 -->
+	<file name="data/BaiZhanNpc.xml" />
+	<file name="data/GuYongBing.xml" />
+	<file name="data/BaiZhan.xml"/>
+	<file name="data/BaiZhanRank.xml"/>
+	<file name="data/Duihuan.xml"/>
+	<file name="data/Dangpu.xml" />
+	<file name="data/DangpuCommon.xml" />
+	<file name="data/LianMeng.xml" />
+	<file name="data/LianmengIcon.xml" />
+	<file name="data/XunHanCheng.xml" />
+	<file name="data/PveStar.xml" />
+	<file name="data/TaoZhuang.xml" />
+	<file name="data/FangWu.xml" />
+	<file name="data/FangWuInformation.xml" />
+	<file name="data/Mail.xml" />
+	<file name="data/ChongZhi.xml"/>
+	<file name="data/Talent.xml"/>
+	<file name="data/TalentAttribute.xml"/>
+	<file name="data/VipFuncOpen.xml"/>
+	<file name="data/BaizhanPipei.xml"/>
+	<file name="data/ZhuangbeiPinzhi.xml"/>
+	<file name="data/DescId.xml"/>
+	<file name="data/YouxiaPveTemp.xml"/>
+	<file name="data/YouxiaNpcTemp.xml"/>
+	<file name="data/YouxiaOpenTime.xml"/>
+	<file name="data/YouxiaSaodangTemp.xml"/>
+	<!--押镖  -->
+	<file name="data/CartTemp.xml"/>
+	<!--限时活动 -->
+	<file name="data/XianshiHuodong.xml"/>
+	<file name="data/XianshiControl.xml"/>
+	<file name="data/QiriQiandaoControl.xml"/>
+	<!--国家活动 -->
+	<file name="data/ShangJiaoTemp.xml"/>
+	<file name="data/LueduoUnionRank.xml"/>
+	<file name="data/ChouHenJiSuan.xml"/>
+	<!-- 符文 -->
+	<file name="data/Fuwen.xml"/>
+	<file name="data/FuwenOpen.xml"/>
+	<file name="data/FuwenJiacheng.xml"/>
+	
+	<file name="data/ShangjiaoRenwu.xml"/>
+	<file name="data/PushInfo.xml"/>
+	<file name="data/Lianmengzhan.xml"/>
+	<file name="data/LMZBuildingTemp.xml"/>
+	<file name="data/CommonItem.xml"/>
+</config>

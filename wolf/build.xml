@@ -1,0 +1,87 @@
+<project name="wolf-build" default="generateJar">
+
+	<property name="encoding" value="UTF-8" />
+	<property name="project_root" value="/usr/local/webroot/wolf" />
+	<property name="lib.dir" value="./lib" />
+	<property name="classes.dir" value="./bin" />
+	<property name="testNG.dir" value="./conf"/>
+	<property name="testng.output" value="./bin" />
+	
+	<target name="generateJar">
+		<antcall target="clean"/>
+		<antcall target="compile" />
+		<antcall target="package" />
+	</target>
+
+	<target name="clean">
+		<delete file="lib/wolf-core.jar"/>
+		<delete file="lib/wolf-route.jar"/>
+	</target>
+
+	<target name="release" depends="compile">
+		<delete file="${project_root}" />
+		<copy todir="${project_root}">
+			<fileset dir=".">
+				<exclude name="src/**"/>
+				<exclude name="dist/**"/>
+				<exclude name="doc/**"/>
+				<exclude name="*.classpath"/>
+				<exclude name="*.project"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="compile">
+		<mkdir dir="./bin"/>
+		<javac srcdir="src" encoding="${encoding}" destdir="bin"
+           debug="on" optimize="off" source="1.6" target="1.6">
+			<classpath>
+				<fileset dir="lib">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="package">
+		<jar jarfile="dist/wolf-core.jar" update="yes">
+			<fileset dir="bin">
+				<include name="com/youxigu/boot/**"/>
+				<include name="com/youxigu/net/**"/>
+				<include name="com/youxigu/concurrent/**"/>
+			</fileset>
+		</jar>
+
+		<jar jarfile="dist/wolf-route.jar" update="yes">
+			<fileset dir="bin">
+				<include name="com/youxigu/route/**"/>
+			</fileset>
+		</jar>
+
+	</target>
+	<target name="复制到七雄">
+		<copy file="dist/wolf-core.jar" tofile="../qxmobile/lib/wolf-core.jar"/>
+		<copy file="dist/wolf-route.jar" tofile="../qxmobile/lib/wolf-route.jar"/>
+	</target>
+	
+	<!-- testng config -->
+	<path id="cpath">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<taskdef name="testng" classname="com.beust.testng.TestNGAntTask" classpathref="cpath" />
+	<path id="runpath">
+		<path refid="cpath" />
+		<pathelement location="${classes.dir}" />
+	</path>
+		
+	<target name="runTest" depends="compile">
+		<echo message="running tests" />
+		<testng classpathref="runpath" outputDir="${testng.output}">
+			<xmlfileset dir="${testNG.dir}" includes="testng.xml" />
+			<jvmarg value="-ea" />
+		</testng>
+	</target>
+
+</project>

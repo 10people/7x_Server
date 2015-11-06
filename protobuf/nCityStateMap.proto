@@ -1,0 +1,12 @@
+package qxmobile.protobuf;
+
+option java_outer_classname = "NCityStateMapProtos";
+
+message NCityStateMap{
+	required int32 cityId = 1;
+	required int32 status = 2; // 0和平1战争
+}
+
+message NCityStateMapList{
+	repeated NCityStateMap nCityStateMap = 1; 
+}

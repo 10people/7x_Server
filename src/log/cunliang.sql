@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS `cunliang_20150529` (
+  `gameappid` char(64) DEFAULT NULL,
+  `openid` char(64) DEFAULT NULL,
+  `zoneid` int(16) DEFAULT NULL,
+  `regtime` datetime DEFAULT NULL,
+  `level` int(16) DEFAULT NULL,
+  `iFriends` int(16) DEFAULT NULL,
+  `moneyios` int(16) DEFAULT NULL,
+  `moneyandroid` int(16) DEFAULT NULL,
+  `diamondios` int(16) DEFAULT NULL,
+  `diamondandroid` int(16) DEFAULT NULL,
+  `Fight` int(16) DEFAULT NULL,
+  `VipPoint` int(16) DEFAULT NULL,
+  `CareerId` int(16) DEFAULT NULL,
+  `RoleId` int(16) DEFAULT NULL,
+  `islogin` tinyint(1) DEFAULT NULL,
+  `totaltime` int(10) DEFAULT NULL,
+  `todayonlinetime` int(10) NOT NULL,
+  `ispay` tinyint(1) NOT NULL,
+  `todaypay` int(11) NOT NULL,
+  `LoginChannel` int(11) NOT NULL,
+  `RoleName` varchar(64) NOT NULL
+) DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;

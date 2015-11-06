@@ -1,0 +1,20 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "UserBuffProtos";
+
+message UserBuff{
+	required int32 userId = 1;
+	required int32 type = 2;//技能的还是道具使用的buff
+	required int32 buffId = 3;
+	
+	required int32 buffType = 4;//哪一类型的buff,相同类型的替换
+	required int64 lastAt = 5;
+	required int64 endAt = 6;
+	required int32 cost = 7;//是否是元宝使用的,技能buff
+}
+
+
+message UserBuffList{
+	repeated UserBuff userBuff = 1;
+}

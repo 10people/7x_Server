@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ServerInfo">
+
+	<typeAlias alias="copperFoodBuild" type="com.manu.dynasty.affairs.domain.CopperFoodBuild"/>
+	<typeAlias alias="userCopper" type="com.manu.dynasty.affairs.domain.UserCopper"/>
+	<typeAlias alias="userFood" type="com.manu.dynasty.affairs.domain.UserFood"/>
+	
+	<typeAlias alias="bookAcademy" type="com.manu.dynasty.affairs.domain.BookAcademy"/>
+	<typeAlias alias="bookTechnologyLevel" type="com.manu.dynasty.affairs.domain.BookTechnologyLevel"/>
+	<typeAlias alias="userTechnology" type="com.manu.dynasty.affairs.domain.UserTechnology"/>
+
+	<typeAlias alias="userTechnologyBuff" type="com.manu.dynasty.affairs.domain.UserTechnologyBuff"/>
+	
+	
+	
+	<select id="CopperFoodDao.getCopperFoodBuilds" resultClass="copperFoodBuild">
+		select * from CopperFoodBuild;
+	</select>
+	
+	<select id="CopperFoodDao.getCopperFoodBuildByTypeLevel" resultClass="copperFoodBuild">
+		select * from CopperFoodBuild where type = #type# and userLevel = #userLevel#
+	</select>
+	
+	<select id="CopperFoodDao.getUserCopper" resultClass="userCopper" >
+		select * from UserCopper where userId = #userId#
+	</select>
+
+	<select id="CopperFoodDao.getUserFood" resultClass="userFood">
+		select * from UserFood where userId = #userId#
+	</select>
+	
+	<insert id="CopperFoodDao.insertUserCopper" parameterClass="userCopper">
+		insert into UserCopper(userId,copperCount,copperGrow,collectAt) values(#userId#,#copperCount#,#copperGrow#,#collectAt#);
+	</insert>
+
+	<update id="CopperFoodDao.updateUserCopper" parameterClass="userCopper">
+		update UserCopper set copperCount = #copperCount#,copperGrow = #copperGrow#, collectAt = #collectAt# where userId = #userId#;
+	</update>
+
+	<insert id="CopperFoodDao.insertUserFood" parameterClass="userFood">
+		insert into UserFood(userId,foods,collectAt,foodGrow) values(#userId#,#foods#,#collectAt#,#foodGrow#);
+	</insert>
+
+	<update id="CopperFoodDao.updateUserFood" parameterClass="userFood">
+		update UserFood set foods = #foods#,collectAt = #collectAt#, foodGrow = #foodGrow# where userId = #userId#;;
+	</update>
+	
+	
+	
+	<select id="BookAcademyDao.getBookAcademy" resultClass="bookAcademy">
+		select * from BookAcademy;
+	</select>
+	<select id="BookAcademyDao.getBookAcademyById" resultClass="bookAcademy">
+		select * from BookAcademy where id = #id#;
+	</select>
+	<select id="BookAcademyDao.getBookTechnologyLevel" resultClass="bookTechnologyLevel">
+		select * from BookTechnologyLevel;
+	</select>
+	<select id="BookAcademyDao.getBookTechnologyLevelByIdAndLevel" resultClass="bookTechnologyLevel">
+		select * from BookTechnologyLevel where technologyId = #technologyId# and technologyLevel = #technologyLevel#;
+	</select>
+	<select id="BookAcademyDao.getUserTechnology" resultClass="userTechnology">
+		select * from UserTechnology where userId = #userId#;
+	</select>
+	<select id="BookAcademyDao.getUserTechnologyIds" resultClass="int">
+		select technologyId from UserTechnology where userId = #userId#;
+	</select>
+	<select id="BookAcademyDao.getUserTechnologyById" resultClass="userTechnology">
+		select * from UserTechnology where userId = #userId# and technologyId =#technologyId# ;
+	</select>
+	<insert id="BookAcademyDao.insertUserTechnology" parameterClass="userTechnology">
+		insert into UserTechnology(userId,technologyId,technologyLevel,endAt,costTime) values(#userId#,#technologyId#,#technologyLevel#,#endAt#,#costTime#);
+		<selectKey resultClass="int" keyProperty="id">
+			select last_insert_Id()
+		</selectKey>
+	</insert>
+	<update id="BookAcademyDao.updateUserTechnology" parameterClass="userTechnology">
+		update UserTechnology set technologyLevel = #technologyLevel#, endAt = #endAt#, costTime = #costTime# where userId = #userId# and technologyId =  #technologyId#;
+	</update>
+	
+	
+	
+	<insert id="BookAcademyDao.insertUserTechnologyBuff" parameterClass="userTechnologyBuff">
+		insert into UserTechnologyBuff(userId,technologyId,affectType,valueType,affectValue) values(#userId#,#technologyId#,#affectType#,#valueType#,#affectValue#);
+		<selectKey resultClass="int" keyProperty="id">
+			select last_insert_Id()
+		</selectKey>
+	</insert>
+	<update id="BookAcademyDao.updateUserTechnologyBuff" parameterClass="userTechnologyBuff">
+		update UserTechnologyBuff set affectType = #affectType#,valueType = #valueType#,affectValue = #affectValue# where userId = #userId# and technologyId =  #technologyId#;
+	</update>
+	<select id="BookAcademyDao.getUserTechnologyBuffById" resultClass="userTechnologyBuff">
+		select * from UserTechnologyBuff where userId = #userId# and technologyId =#technologyId# ;
+	</select>
+	<select id="BookAcademyDao.getUserTechnologyBuffIds" resultClass="int">
+		select technologyId from UserTechnologyBuff where userId = #userId#;
+	</select>
+</sqlMap>

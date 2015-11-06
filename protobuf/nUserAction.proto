@@ -1,0 +1,11 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+//国战 发起 攻城、修城请求
+option java_outer_classname = "NUserActionProtos";
+
+message NUserAction{
+	required string account = 1;
+	required int32 actionType = 2; // 1 攻占 2 修补
+	required int32 cityId = 3; // 城池ID
+}

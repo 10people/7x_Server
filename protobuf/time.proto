@@ -1,0 +1,15 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "TimerProtos";
+
+message ActionTimer{
+	required int32 entityId = 1;
+	required int32 actionId = 2;
+	required int64 actStartTime = 3;
+	required int32 time = 4;
+}
+
+message Timers{
+	repeated ActionTimer timer = 1;
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ServerInfo">
+    <typeAlias alias="sparLevel" type="com.manu.dynasty.spar.domain.SparLevel"/>
+    <typeAlias alias="userSpar" type="com.manu.dynasty.spar.domain.UserSpar"/>
+
+     <insert id="SparDao.insertUserSpar" parameterClass="userSpar">
+     	insert into UserSpar(heroId, userId, sparId, sparLevel, sparNum, experienceValue) 
+     	values(#heroId#, #userId#, #sparId#, #sparLevel#, #sparNum#, #experienceValue#);
+     	<selectKey resultClass="int" keyProperty="userSparId">
+     		select last_insert_Id()
+     	</selectKey>
+     </insert>
+     <update id="SparDao.updateUserSpar" parameterClass="userSpar">
+     	update UserSpar set heroId=#heroId#, sparId=#sparId#, sparLevel=#sparLevel#, sparNum=#sparNum#, experienceValue=#experienceValue#
+     	  where userSparId=#userSparId#;
+     </update>
+     <delete id="SparDao.deleteUserSpar" parameterClass="userSpar">
+     	delete from UserSpar where userId =#userId# and userSparId = #userSparId#;
+     </delete>
+     <select id="SparDao.getUserSpar" resultClass="userSpar" parameterClass="Map">
+     	select * from UserSpar where userId =#userId# and userSparId = #userSparId#;
+     </select>
+     <select id="SparDao.getHeroSpar" resultClass="userSpar" parameterClass="Map">
+     	select * from UserSpar where userId =#userId# and heroId = #heroId#;
+     </select>
+     <select id="SparDao.getUserSpars" resultClass="userSpar" parameterClass="int">
+     	select * from UserSpar where userId = #userId#;
+     </select>
+     <select id="SparDao.getSparLevel" resultClass="SparLevel">
+     	select * from SparLevel; 
+     </select>
+</sqlMap>

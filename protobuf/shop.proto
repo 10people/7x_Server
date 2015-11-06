@@ -1,0 +1,20 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "ShopMessage";
+
+message Shop{
+
+	required int32 id   =1 ;
+	required string name  = 2;
+	required int32 item_type = 3;
+	required int32 cost_type = 4;
+	required int32 item_cost = 5;
+	
+	
+
+}
+
+message ShopItems{
+ 	repeated Shop shop = 1;
+}

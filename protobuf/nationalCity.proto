@@ -1,0 +1,25 @@
+package qxmobile.protobuf;
+
+option java_outer_classname = "NationalCityProtos";
+
+message NationalCity{
+	required int32 id = 1; //城池ID
+	required int32 cityType = 2; // 城池类型 对应xml中 郡、县、国度
+	required int32 defNumCurr = 3; // 城防值当前值
+	required int32 defNumMax = 4; // 城防值最大值
+	required int32 output = 5; // 产出
+	required int32 owner = 6; // 拥有者 国家ID
+	optional int32 firstAtkCountry = 7; // 第一次攻击该城池的国家
+	repeated OccupyMap occupyMaps = 8; // 占有值Map
+	required int32 canOccupy = 9; // 是否能攻占
+	required int32 status = 10; // 城池状态 0 和平 1战争
+}
+
+message OccupyMap{
+	required int32 owner = 1; //国家ID 
+	required int32 value = 2; //占有值 （该国）
+}
+
+message NationalCityList{
+	repeated NationalCity nationalCitys = 1; 
+}

@@ -1,0 +1,16 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "UserYeZhanMessage";
+
+message UserYeZhan{
+
+required int32 userId = 1;
+required int32 score = 3; //奖杯数
+required int32 currShiQi = 4; //当前士气
+required int64 updateAt = 5; //上次恢复时间
+required int32 maxShiQi = 6;//最大
+required int64 robAt = 7;//被掠夺时间
+required int32 canRobId = 8;
+}
+

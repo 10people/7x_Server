@@ -1,0 +1,41 @@
+﻿class ProtoEncrypt
+{
+public:
+    static void EncodeData(unsigned int seed, unsigned char* buffer, int size)
+    {
+        if (size <= kHeadLen) return;
+        int i = 0;
+        for (i = 0; i < kHeadLen; ++i)
+        {
+            seed = (seed << 3) - seed + (buffer[i]);
+        }
+        for (i = kHeadLen; i < size; ++i)
+        {
+            unsigned char old = buffer[i];
+            unsigned char newb = (unsigned char)(seed + old);
+            buffer[i] = newb;
+            seed = (seed << 3) - seed + old;
+        }
+    }
+
+    static void DecodeData(unsigned int seed, unsigned char* buffer, int size)
+    {
+        if (size <= kHeadLen) return;
+        
+        int i = 0;
+        for (i = 0; i < kHeadLen; ++i)
+        {
+            seed = (seed << 3) - seed + (buffer[i]);
+        }
+        for (i = kHeadLen; i < size; ++i)
+        {
+            unsigned char b = buffer[i];
+            unsigned char newb = (unsigned char)(b - seed);
+            buffer[i] = newb;
+            seed = (seed << 3) - seed + newb;
+        }
+    }
+
+private:
+    static const int kHeadLen  = 2;
+};

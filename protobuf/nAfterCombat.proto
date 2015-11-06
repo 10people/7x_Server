@@ -1,0 +1,14 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+//国战 显示 战后信息
+option java_outer_classname = "NAfterCombatProtos";
+
+message NAfterCombat{
+	required int32 atkId = 1; //攻击方ID
+	required int32 defId = 2; // 防守方ID
+	required int32 resultId = 3; // 战斗结果 对应BattleStar.xml中的id值
+	required int32 atkZhanGong = 4; // 战斗得到的战功值
+	required int32 defZhanGong = 5; // 战斗得到的战功值
+	required string combatId = 6; // 战斗唯一标识，可用于查看战斗数据
+}

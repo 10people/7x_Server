@@ -1,0 +1,544 @@
+<metalib tagsetversion="1" name="Log" version="2">
+  
+  <!--
+  ////////////////////////////////////////////////////////
+文档说明：
+   1.该XML只针对第一类数据，用于LOG开发。
+   2.表与字段说明。 表与字段desc列里面说明可选或必填。 
+   3.注意事项。
+     A>增删字段。LOG XML版本确定并接入TDW后，不能删除字段，增加字段在表结尾增加。
+     B>数据类型。同种数据类型可变更。int类型可以转换string,但string 不能转int.
+   4.表名与字段名尽可能与本XML模板保持一致，方便维护。 
+  /////////////////////////////////////////////////////////
+   --> 
+  
+  <!--*****************************************************************
+  ///////////////////////////////////////////////////////////////////
+  //////////////////第一类流水数据/////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+  ********************************************************************-->
+   <!--//////////////////////////////////////////////
+    ///////君主改名日志///////////////////////////////
+    /////////////////////////////////////////////////-->
+  <struct  name="KingChange"  version="1" desc="(必填)君主升级日志">
+    <entry  name="GameSvrId"         type="string"		size="25"							desc="(必填)登录的游戏服务器编号" />
+    <entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	<entry  name="RoleId"			type="int"								desc="(必填) 角色id" />
+	<entry  name="oldName"			type="string"		size="64"						desc="(必填) 旧名称" />
+	<entry  name="newName"			type="string"		size="64"						desc="(必填)新名称" />
+	<entry  name="dtEventTime"			type="string"		size="64"						desc="(必填)升级时间 格式 YYYY-MM-DD HH:MM:SS" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+  </struct>
+
+    <!--//////////////////////////////////////////////
+    ///////君主升级日志///////////////////////////////
+    /////////////////////////////////////////////////-->
+  <struct  name="KingLvup"  version="1" desc="(必填)君主升级日志">
+    <entry  name="GameSvrId"         type="string"		size="25"							desc="(必填)登录的游戏服务器编号" />
+    <entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	<entry  name="RoleId"			type="int"								desc="(必填) 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
+	<entry  name="Level"			type="string"		size="64"						desc="(必填)角色升级后等级" />
+	<entry  name="Exp"			type="string"		size="64"						desc="(必填)升级后剩余经验值" />
+	<entry  name="dtEventTime"			type="string"		size="64"						desc="(必填)升级时间 格式 YYYY-MM-DD HH:MM:SS" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+  </struct>
+  
+	<!--//////////////////////////////////////////////
+    ///////经验获得日志///////////////////////////////
+    /////////////////////////////////////////////////-->
+   <struct  name="GetExp"  version="1" desc="(必填)经验获得日志">
+    <entry  name="GameSvrId"         type="string"		size="25"							desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	<entry  name="RoleId"			type="string"		size="64"							desc="(必填) 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="Reason"			type="int"						defaultvalue="0"	desc="(必填)经验获得方式"/>
+    <entry  name="Num"			type="string"		size="25"	desc="(必填)获得数量" />
+    <entry  name="CurNum"		type="int"						defaultvalue="0"		desc="(必填)当前经验值"/>
+	<entry  name="dtEventTime"		type="datetime"					desc="(必填) 经验获得时间 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+	<!--//////////////////////////////////////////////
+    ///////君主天赋日志///////////////////////////////
+    /////////////////////////////////////////////////-->
+	   <macrosgroup name="VigourType">
+		<macro name="svigour"       value="1" desc="武艺精气"/>
+		<macro name="bvigour"      value="2" desc="体魄精气"/>	
+	  </macrosgroup>
+
+   <struct  name="KingTalent"  version="1" desc="(必填)君主天赋日志">
+    <entry  name="GameSvrId"         type="string"		size="25"							desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	<entry  name="RoleId"			type="string"		size="64"							desc="(必填) 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="Talentid"			type="int"						defaultvalue="0"	desc="(必填)天赋id"/>
+	<entry  name="Talents"			type="string"	size="64"					defaultvalue="0"	desc="(必填)天赋名称"/>
+    <entry  name="Level"			type="int"			desc="(必填)升级后等级" />
+	<entry  name="VigourType"		type="int"						defaultvalue="0"		desc="(必填)升级消耗 1：武艺精气 2：体魄精气"/>
+    <entry  name="Num"		type="int"						defaultvalue="0"		desc="(必填)消耗数量"/>
+	<entry  name="dtEventTime"		type="datetime"					desc="(必填) 经验获得时间 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+
+<!--//////////////////////////////////////////////
+	///////装备进阶日志///////////////////////////////
+   /////////////////////////////////////////////////-->
+
+  <struct name="EquipLvup" version="1" desc="(必填)装备进阶日志">
+    <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="EquipId"			type="int"								desc="(必填) 新装备id" />
+	<entry  name="Equips"			type="string"		size="64"						desc="(必填) 新装备名称" />
+	<entry  name="oldEquipId"			type="int"								desc="(必填) 原装备id" />
+	<entry  name="oldEquips"			type="string"		size="64"						desc="(必填) 原装备名称" />
+	<entry  name="iGoods"			type="string"		size="64"							desc="(必填) 消耗道具名称" />
+	<entry  name="iGoodsnum"			type="int"								desc="(必填) 消耗道具数量" />	
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+   <!--//////////////////////////////////////////////
+	///////装备强化///////////////////////////////
+   /////////////////////////////////////////////////-->
+  <struct name="EquipStrength" version="1" desc="(必填)装备强化">
+   <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="EquipId"			type="int"								desc="(必填) 装备id" />
+	<entry  name="Equips"			type="string"		size="64"						desc="(必填) 装备名称" />
+	<entry  name="BeforeLevel"			type="int"								desc="(必填) 强化前等级" />
+	<entry  name="EquipLevel"			type="int"								desc="(必填) 强化后等级" />
+	<entry  name="Consumes"			type="text"					desc='(必填) 消耗道具名称和数量 以json方式存储[{"name":"**","num":"2"},{"name":"*","num":"2"}...] ' />
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+
+  <!--//////////////////////////////////////////////
+	///////装备洗练///////////////////////////////
+   /////////////////////////////////////////////////-->
+  <struct  name="EquipRefine"  version="1" desc="(必填)装备洗练">
+     <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	<entry  name="RoleId"			type="string"		size="64"				desc="(必填) 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="EquipId"			type="int"								desc="(必填) 装备id" />
+	<entry  name="Equips"			type="string"		size="64"						desc="(必填) 装备名称" />
+	<entry  name="BeforeAttr"			type="string"	size="64"								desc="(必填) 洗练前属性" />
+	<entry  name="Attr"			type="string"		size="64"							desc="(必填) 洗练后属性" />
+	<entry  name="Money"			type="int"								desc="(必填) 消耗元宝数量" />
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+   <!--//////////////////////////////////////////////
+	///////商铺购买日志///////////////////////////////
+   /////////////////////////////////////////////////-->
+    <macrosgroup name="LogType">
+		<macro name="vcoin"       value="1" desc="元宝购买"/>
+		<macro name="contribute"      value="2" desc="贡献购买"/>	
+	  </macrosgroup>
+  <struct     name="ShopBuy" version="1" desc="(必填)商铺购买日志">
+    <entry  name="GameSvrId"         type="string"        size="25"							desc="(必填)登录的游戏服务器编号" />
+	<entry  name="LogType"			type="int"								desc="(必填)log类型 1：元宝够买  2：贡献购买" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	<entry  name="RoleId"			type="string"		size="64"						desc="(必填) 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="iGoodsid"			type="int"								desc="(必填) 购买物品id" />
+	<entry  name="iGoods"			type="string"		size="64"						desc="(必填) 购买物品名称" />
+	<entry  name="BuyNum"			type="int"								desc="(必填) 购买数量" />
+	<entry  name="Money"			type="int"								desc="(必填) 消耗元宝/贡献 数量" />
+	<entry  name="RemainMoney"			type="int"								desc="(必填) 剩余元宝/贡献 数量" />
+    <entry  name="dtEventTime"       type="datetime"											desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+   </struct>
+
+    <!--//////////////////////////////////////////////
+	///////典当物品日志/////////////////////////////// 
+   /////////////////////////////////////////////////-->
+  <struct     name="Pawn" version="1" desc="(必填)典当物品日志">
+    <entry  name="GameSvrId"         type="string"        size="25"							desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	<entry  name="RoleId"			type="string"		size="64"						desc="(必填) 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="iGoodsid"			type="int"								desc="(必填) 典当物品id" />
+	<entry  name="iGoods"			type="string"		size="64"						desc="(必填) 典当物品名称" />
+	<entry  name="Num"			type="int"								desc="(必填) 典当数量" />
+	<entry  name="Renum"			type="int"								desc="(必填)典当后剩余物品数量" />
+	<entry  name="Money"			type="int"								desc="(必填) 获得元宝数量" />
+    <entry  name="dtEventTime"       type="datetime"											desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+   </struct>
+
+   <!--//////////////////////////////////////////////
+	///////体力日志///////////////////////////////
+   /////////////////////////////////////////////////-->
+  <struct  name="PhysicalPower"  version="1" desc="(必填)体力日志">
+     <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	<entry  name="RoleId"			type="string"		size="64"				desc="(必填) 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="OldPower"			type="int"								desc="(必填) 原体力" />
+	<entry  name="Num"			type="int"								desc="(必填) 增加数量" />
+	<entry  name="Power"			type="int"								desc="(必填) 增加后体力数量" />
+	<entry  name="Reason"			type="string"		size="64"						desc="(必填) 增加体力方式" />
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+   <!--//////////////////////////////////////////////
+	///////邮件日志///////////////////////////////
+   /////////////////////////////////////////////////-->	
+<macrosgroup name="LogType">
+		<macro name="system"       value="1" desc="系统邮件"/>
+		<macro name="player"      value="2" desc="玩家邮件"/>	
+	  </macrosgroup>
+  <struct  name="EmailLog"  version="1" desc="(必填)邮件日志">
+    <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="LogType"			type="int"								desc="(必填)log类型 1:系统邮件  2:玩家邮件" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)发件人 OPENID号" />
+	<entry  name="RoleId"		type="string"		size="64"			desc="(必填) 发件人 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 发件人 角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="Recopenid"			type="string"		size="64"						desc="(必填)收件人 OPENID号" />
+	<entry  name="Recrid"		type="string"		size="64"			desc="(必填) 收件人 角色id" />
+	<entry  name="Recrname"			type="string"		size="64"						desc="(必填) 收件人 角色名称" />
+	<entry  name="Title"			type="string"		size="128"							desc="(必填) 邮件标题" />
+	<entry  name="Content"			type="text"								desc="(必填) 内容" />
+	<entry  name="Attach"			type="text"							desc='(必填) 附件 以json方式存储[{"name":"**","num":"2"},{"name":"*","num":"2"}...] ' />
+    <entry  name="dtEventTime"        type="datetime"							desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+  <!--//////////////////////////////////////////////
+	///////过关斩将日志///////////////////////////////
+   /////////////////////////////////////////////////-->
+      <macrosgroup name="Win">
+		<macro name="victory"       value="1" desc="胜利"/>
+		<macro name="lose"       value="2" desc="失败"/>	
+	  </macrosgroup>
+  <struct  name="HeroBattle"  version="1" desc="(必填)过关斩将日志">
+     <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="GateId"			type="int"								desc="(必填) 挑战关卡id" />
+	<entry  name="Gates"			type="string"		size="64"							desc="(必填) 挑战关卡名称" />
+	<entry  name="Win"			type="int"								desc="(必填) 挑战结果 1：胜利  2：失败" />
+	<entry  name="Num"			type="int"								desc="(必填) 挑战次数" />
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+ 
+   <!--//////////////////////////////////////////////
+	///////百战千军挑战日志///////////////////////////////
+   /////////////////////////////////////////////////-->
+	<macrosgroup name="Win">
+		<macro name="victory"       value="1" desc="胜利"/>
+		<macro name="lose"       value="2" desc="失败"/>	
+	  </macrosgroup>
+  <struct  name="Challenge"  version="1" desc="(必填)百战千军挑战日志">
+     <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	<entry  name="RoleId"			type="string"		size="64"				desc="(必填) 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="OpposName"			type="string"		size="64"						desc="(必填) 挑战君主名称" />
+	<entry  name="OpposId"			type="int"								desc="(必填) 挑战君主ID" />
+	<entry  name="Win"			type="int"								desc="(必填) 挑战结果 1：胜利  2：失败" />
+	<entry  name="OldRank"			type="int"								desc="(必填) 挑战前排名" />
+	<entry  name="Rank"			type="int"								desc="(必填) 挑战后排名" />
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+   <!--//////////////////////////////////////////////
+	///////百战千军领奖日志///////////////////////////////
+   /////////////////////////////////////////////////-->
+	<macrosgroup name="Awardtype">
+		<macro name="copper"       value="1" desc="铜币"/>
+		<macro name="prestige"       value="2" desc="威望"/>	
+	  </macrosgroup>
+  <struct  name="ChallengeAward"  version="1" desc="(必填)百战千军领奖日志">
+     <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="AwardType"			type="int"								desc="(必填) 奖励类型 1：铜币 2：威望" />
+	<entry  name="Num"			type="int"								desc="(必填) 奖励数量" />
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+  <!--//////////////////////////////////////////////
+	///////百战千军兑换日志///////////////////////////////
+   /////////////////////////////////////////////////-->
+  <struct  name="ChallengeExchange"  version="1" desc="(必填)百战千军兑换日志">
+     <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="iGoodsid"			type="int"								desc="(必填) 兑换物品id" />
+	<entry  name="iGoods"			type="string"		size="64"				desc="(必填) 兑换物品名称" />
+	<entry  name="Num"			type="int"								desc="(必填) 兑换数量" />
+	<entry  name="OldPrestige"			type="int"								desc="(必填) 兑换前威望" />
+	<entry  name="Prestige"			type="int"								desc="(必填) 兑换后威望" />
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+   <!--//////////////////////////////////////////////
+	///////联盟创建加入离开///////////////////////////////
+   /////////////////////////////////////////////////-->
+   	<macrosgroup name="LogType">
+		<macro name="create"       value="CREATE" desc="创建"/>
+		<macro name="join "       value="JOIN" desc="加入"/>	
+		<macro name="out "       value="OUT" desc="离开"/>	
+	  </macrosgroup>
+  <struct  name="Guild"  version="1" desc="(必填)联盟创建加入离开日志">
+     <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	 <entry  name="LogType"			type="string"  size="16"								desc="(必填)日志类型 CREATE：创建; JOIN:加入 OUT:离开" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="Guildid"			type="int"								desc="(必填) 联盟id" />
+	<entry  name="GuildName"			type="string"		size="64"				desc="(必填) 联盟名称" />
+	<entry  name="GuildLv"			type="int"								desc="(必填) 联盟等级" />
+	<entry  name="Reason"			type="string"		size="64"							desc="(必填) 离开原因" />
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+  <!--//////////////////////////////////////////////
+	///////踢出联盟///////////////////////////////
+   /////////////////////////////////////////////////-->
+
+  <struct  name="GuildOut"  version="1" desc="(必填)踢出联盟">
+     <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="GuildId"			type="int"								desc="(必填) 联盟id" />
+	<entry  name="GuildName"			type="string"		size="64"				desc="(必填) 联盟名称" />
+	<entry  name="KickOpenid"			type="string"		size="64"						desc="(必填)踢出玩家openid" />
+	<entry  name="KickrId"			type="string"		size="64"					desc="(必填) 踢出玩家角色id" />
+	<entry  name="KickrName"			type="string"		size="64"						desc="(必填) 踢出玩家角色名称" />
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+   <!--//////////////////////////////////////////////
+	///////解散联盟///////////////////////////////
+   /////////////////////////////////////////////////-->
+
+  <struct  name="GuildBreak"  version="1" desc="(必填)解散联盟">
+     <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="GuildId"			type="int"								desc="(必填) 联盟id" />
+	<entry  name="GuildName"			type="string"		size="64"				desc="(必填) 联盟名称" />
+	<entry  name="GuildLv"			type="int"						desc="(必填)联盟等级" />
+	<entry  name="GuildExp"			type="int"						desc="(必填) 联盟经验" />
+	<entry  name="GuildBuild"			type="int"							desc="(必填)联盟建设" />
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+  <!--//////////////////////////////////////////////
+	///////转让联盟///////////////////////////////
+   /////////////////////////////////////////////////-->
+
+  <struct  name="GuildTransfer"  version="1" desc="(必填)转让联盟">
+     <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)盟主 OPENID" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 盟主角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 盟主角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="GuildId"			type="int"								desc="(必填) 联盟id" />
+	<entry  name="GuildName"			type="string"		size="64"				desc="(必填) 联盟名称" />
+		<entry  name="oldOpenid"			type="string"		size="64"						desc="(必填)原盟主 OPENID" />
+	<entry  name="oldRid"			type="string"		size="64"					desc="(必填) 原盟主角色id" />
+	<entry  name="oldRname"			type="string"		size="64"						desc="(必填) 原盟主角色名称" />
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+   <!--//////////////////////////////////////////////
+	///////联盟捐献///////////////////////////////
+   /////////////////////////////////////////////////-->
+
+  <struct  name="GuildDonate"  version="1" desc="(必填)联盟捐献">
+    <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)OPENID" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填)角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="GuildId"			type="int"								desc="(必填) 联盟id" />
+	<entry  name="GuildName"			type="string"		size="64"				desc="(必填) 联盟名称" />
+	<entry  name="Tigernum"			type="int"							desc="(必填)捐献虎符数量" />
+	<entry  name="Contribute"			type="int"						desc="(必填) 获得贡献" />
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+   <!--//////////////////////////////////////////////
+	///////膜拜日志///////////////////////////////
+   /////////////////////////////////////////////////-->
+	<macrosgroup name="wsType">
+		<macro name="normal"       value="1" desc="普通"/>
+		<macro name="pious"       value="2" desc="虔诚"/>	
+		<macro name="bow "       value="3" desc="顶礼"/>	
+	  </macrosgroup>
+
+  <struct  name="Worship"  version="1" desc="(必填)膜拜日志">
+    <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="wsType"          type="string"		  size="25"					desc="(必填)膜拜方式" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填) OPENID" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填)角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填)角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="Consumes"			type="text"					desc='(必填) 消耗道具名称和数量 以json方式存储[{"name":"**","num":"2"},{"name":"*","num":"2"}...] ' />
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+   <!--//////////////////////////////////////////////
+	///////每日任务日志///////////////////////////////
+   /////////////////////////////////////////////////-->
+  <struct  name="DailyTask"  version="1" desc="(必填)每日任务日志">
+    <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填) OPENID" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填)角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填)角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="Task"			type="string"		size="64"							desc="(必填) 完成任务名称" />
+	<entry  name="Taskid"			type="int"								desc="(必填) 完成任务id" />
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+   <!--//////////////////////////////////////////////
+	///////洗劫权贵日志///////////////////////////////
+   /////////////////////////////////////////////////-->
+   	<macrosgroup name="Win">
+		<macro name="victory"       value="1" desc="胜利"/>
+		<macro name="lose"       value="2" desc="失败"/>	
+	  </macrosgroup>
+  <struct  name="LootRich"  version="1" desc="(必填)洗劫权贵日志">
+    <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填) OPENID" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填)角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填)角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="Gates"			type="string"		size="64"							desc="(必填) 挑战关卡名称" />
+	<entry  name="GateId"			type="int"								desc="(必填) 挑战关卡id" />
+	<entry  name="Win"			type="int"								desc="(必填) 挑战结果 1：胜利  2：失败" />
+	<entry  name="Count"			type="int"								desc="(必填) 挑战次数" />
+	<entry  name="Copper"			type="int"								desc="(必填) 收益铜币数量" />
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+  <!--//////////////////////////////////////////////
+	///////讨伐山贼日志///////////////////////////////
+   /////////////////////////////////////////////////-->
+   	<macrosgroup name="Win">
+		<macro name="victory"       value="1" desc="胜利"/>
+		<macro name="lose"       value="2" desc="失败"/>	
+	  </macrosgroup>
+	  <macrosgroup name="AwardType">
+		<macro name="crys"       value="1" desc="陨铁仙晶"/>
+		<macro name="spirit"       value="2" desc="陨铁真元"/>	
+	  </macrosgroup>
+  <struct  name="KillRobber"  version="1" desc="(必填)讨伐山贼日志">
+    <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填) OPENID" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填)角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填)角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="Gates"			type="string"		size="64"							desc="(必填) 挑战关卡名称" />
+	<entry  name="Gateid"			type="int"								desc="(必填) 挑战关卡id" />
+	<entry  name="Win"			type="int"								desc="(必填) 挑战结果 1：胜利  2：失败" />
+	<entry  name="Count"			type="int"								desc="(必填) 挑战次数" />
+	<entry  name="Awardtype"			type="int"								desc="(必填) 收益类型 1：陨铁仙晶 2：陨铁真元" />
+	<entry  name="Num"			type="int"								desc="(必填) 收益数量" />
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+    <!--//////////////////////////////////////////////
+	///////剿灭叛军日志///////////////////////////////
+   /////////////////////////////////////////////////-->
+   	<macrosgroup name="Win">
+		<macro name="victory"       value="1" desc="胜利"/>
+		<macro name="lose"       value="2" desc="失败"/>	
+	  </macrosgroup>
+	   <macrosgroup name="Awardtype">
+		<macro name="svigour"       value="1" desc="武艺精气"/>
+		<macro name="bvigour"      value="2" desc="体魄精气"/>	
+	  </macrosgroup>
+  <struct  name="KillRebelArmy"  version="1" desc="(必填)剿灭叛军日志">
+    <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填) OPENID" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填)角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填)角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="Gates"			type="string"		size="64"							desc="(必填) 挑战关卡名称" />
+	<entry  name="GateId"			type="int"								desc="(必填) 挑战关卡id" />
+	<entry  name="Win"			type="int"								desc="(必填) 挑战结果 1：胜利  2：失败" />
+	<entry  name="Count"			type="int"								desc="(必填) 挑战次数" />
+	<entry  name="AwardType"			type="int"								desc="(必填) 收益类型 1:武艺精气 2：体魄精气" />
+	<entry  name="Num"			type="int"								desc="(必填) 收益数量" />
+    <entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+   <!--//////////////////////////////////////////////
+	///////运镖日志//////////////////////////////
+   /////////////////////////////////////////////////-->
+  <struct  name="ConveyDart"  version="1" desc="(必填)运镖日志">
+    <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填) OPENID" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填)角色id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填)角色名称" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+	<entry  name="DartType"			type="int"							desc="(必填) 运镖品质" />
+	<entry  name="Copper"			type="int"								desc="(必填) 收益铜币数量" />
+	<entry  name="Count"			type="int"								desc="(必填) 运镖次数" />
+    <entry  name="dtEventTime"        type="datetime"				desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+  </struct>
+
+  
+   <!--//////////////////////////////////////////////
+	///////劫镖日志//////////////////////////////
+   /////////////////////////////////////////////////-->
+  <struct  name="LootDart"  version="1" desc="(必填)劫镖日志">
+    <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)劫镖君主 OPENID" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填)劫镖君主id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填)劫镖君主名称" />
+	<entry  name="RobedOpenid"			type="string"		size="64"						desc="(必填)被劫镖君主 OPENID" />
+	<entry  name="RobedRid"			type="string"		size="64"					desc="(必填)被劫镖君主id" />
+	<entry  name="Robedrname"			type="string"		size="64"						desc="(必填)被劫镖君主名称" />
+	<entry  name="Copper"			type="int"								desc="(必填) 收益 铜币数量" />
+	<entry  name="Count"			type="int"								desc="(必填) 劫镖次数" />
+    <entry  name="dtEventTime"        type="datetime"				desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+  </struct>
+
+ <!--//////////////////////////////////////////////
+	///////探宝日志//////////////////////////////
+   /////////////////////////////////////////////////-->  
+  <struct  name="FineGem"  version="1" desc="(必填)探宝获得日志">
+    <entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
+	<entry  name="SeekType"			type="int"							desc="(必填) 探宝方式" />
+	<entry  name="vopenid"			type="string"		size="64"						desc="(必填)君主 OPENID" />
+	<entry  name="RoleId"			type="string"		size="64"					desc="(必填)君主id" />
+	<entry  name="RoleName"			type="string"		size="64"						desc="(必填)君主名称" />
+	<entry  name="iGoodsid"			type="int"								desc="(必填) 获得 物品id" />
+	<entry  name="iGoods"			type="string"		size="64"				desc="(必填) 获得 物品名称" />
+	<entry  name="Num"			type="int"								desc="(必填) 获得 物品数量" />
+	<entry  name="DeliGoods"			type="string"		size="64"				desc="(必填) 消耗 物品名称" />
+	<entry  name="DelNum"			type="int"								desc="(必填) 消耗 物品数量" />
+    <entry  name="dtEventTime"        type="datetime"				desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
+	<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
+  </struct>
+
+</metalib>

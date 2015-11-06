@@ -1,0 +1,19 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "ItemProtos";
+
+message Item{
+	required int32 itemId = 1;
+	required int32 templateId = 2;
+	required int32 num = 3;
+	required int32 level = 4;
+	required int32 id = 5;
+	repeated int32 slots=6;
+	required int32 status=7;
+}
+
+message Bag{
+	required int32 num = 1;
+	repeated Item item = 2;
+}

@@ -1,0 +1,39 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "PveMessage";
+//重楼,pve用户数据
+message UserPve{
+
+required int32 userId = 1;
+required int32 pveId = 2;  //胜利的关卡
+
+repeated PveStar pveStar = 3;
+
+required int32 count = 4;//挑战次数
+required int32 recoverTime = 5;//恢复时间,多久恢复一次挑战次数
+required int64 updateAt = 6; //上次恢复时间
+required int32 maxCount = 7;
+
+
+required int32 chapType = 8;  //类型,是重楼还是pve的
+required int32 nowChallengeId = 9 ;  //当前挑战关卡
+required int32 reviveCount = 10;//可以有的复活次数,普通挑战复活次数和元宝花费的挑战次数
+required int32 costCount = 11;  //花费元宝的次数
+
+required int64 wipeOutAt = 13;//扫荡结束时间
+
+
+}
+
+
+message PveStar{
+required int32 pveId = 1;
+required int32 star = 2;
+
+
+}
+
+message UserPveList{
+repeated UserPve userPve = 1;
+}

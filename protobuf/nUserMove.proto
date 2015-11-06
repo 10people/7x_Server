@@ -1,0 +1,10 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+//国战 玩家 移动 接口数据
+option java_outer_classname = "NUserMoveProtos";
+
+message NUserMove{
+	required string account = 1;
+	repeated int32 cityIds = 2;
+}

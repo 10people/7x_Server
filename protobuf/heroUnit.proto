@@ -1,0 +1,15 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "HeroUnitMessage";
+import "userHero.proto";
+
+message HeroCombatUnit{
+	required UserHero userHero = 1; //武将
+	required int32 posX = 2;// 位置横坐标
+	required int32 posY = 3;// 位置纵坐标
+}
+
+message HeroCombatUnitList{
+ 	repeated HeroCombatUnit heroCombatUnit = 1;
+}

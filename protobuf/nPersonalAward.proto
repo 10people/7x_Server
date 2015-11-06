@@ -1,0 +1,17 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+//国战 显示 战后信息
+option java_outer_classname = "NPersonalAwardProtos";
+
+message NPersonalAward{
+	required int32 itemType = 1; //2--经验    7--武将   0---item(背包中的物品)
+	required int32 uId = 2; // 背包中唯一id
+	required int32 itemId = 3; // ItemTemplate中的id
+	required int32 itemTempId = 4; // ItemTemplate中的templateId
+	required int32 num = 5; // 数量
+}
+
+message NPersonalAwardList{
+	repeated NPersonalAward awardList = 1;
+}

@@ -1,0 +1,10 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+//国战 国家信息
+option java_outer_classname = "NCheckReportProtos";
+
+message NCheckReport{
+	required string account = 1; // 玩家帐户
+	required int32 actId = 2; // 0：为进入；1：为退出
+}

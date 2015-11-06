@@ -1,0 +1,16 @@
+package qxmobile.protobuf;
+
+option java_outer_classname = "LotteryMessage";
+//用户抽卡信息记录
+message UserLottery{
+
+required int32 userId = 1;
+required int32 todayValue = 2;//当天抽卡获得的心得
+required int32 allValue = 3;//总的心得
+required int64 updateAt = 4;
+
+required string lotteryResult = 5;//抽奖的结果        ItemId_type_num
+
+}
+
+

@@ -1,0 +1,13 @@
+package qxmobile.protobuf;
+
+option java_outer_classname = "IrrigateRecordProtos";
+
+message IrrigateRecord{
+	required int32 userId = 1;
+	optional string uuid = 2;
+}
+
+message IrrigateRecords{
+	required int64 lastTime = 1;
+	repeated IrrigateRecord record = 2;
+}

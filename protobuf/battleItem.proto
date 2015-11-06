@@ -1,0 +1,20 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "BattleItemInfoProtos";
+
+message BattleItemInfo{
+	required int32 userId = 1;
+	required int32 rank = 2;
+	required int32 current_integral = 3;
+	required int32 daily_fight_times = 4;
+	required int32 daily_win_times = 5;
+	repeated int32 daily_fight_rival = 6;
+	required int32 expAward = 7;
+	required int32 goldAward = 8;
+}
+
+
+message BattleItemInfoList{
+ 	repeated BattleItemInfo battleItem = 1;
+}

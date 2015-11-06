@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ServerInfo">
+	<typeAlias alias="userFriend" type="com.manu.dynasty.friend.domain.UserFriend"/>
+	<typeAlias alias="userFriendAsk" type="com.manu.dynasty.friend.domain.UserFriendAsk"/>
+	
+	
+	<select id="FriendDao.getUserFriends" resultClass="userFriend">
+		select * from UserFriend$tableIndex$ where userId = #userId#
+	</select>
+
+	<select id="FriendDao.getUserFriendByFriendId" resultClass="userFriend">
+		select * from UserFriend$tableIndex$ where userId = #userId# and friendId = #friendId#
+	</select>
+
+	<select id="FriendDao.getUserFriendIds" resultClass="int">
+		select friendId from UserFriend$tableIndex$ where userId = #userId#
+	</select>
+	
+	<insert id="FriendDao.insertUserFriend" parameterClass="userFriend">
+		insert into UserFriend$tableIndex$(userId, friendId, friendType, friendName, gainHp, sendAt, gainAt) values(#userId#, #friendId#, #friendType#, #friendName#,  #gainHp#, #sendAt#, #gainAt#)
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT last_insert_Id() 
+		</selectKey>
+	</insert>
+	
+	<update id="FriendDao.updateUserFriend" parameterClass="userFriend">
+		update UserFriend$tableIndex$ set friendType = #friendType# where userId = #userId# and friendId = #friendId#
+	</update>
+	
+	<delete id="FriendDao.deleteFriend" parameterClass="userFriend">
+		delete from UserFriend$tableIndex$ where userId = #userId# and friendId = #friendId#
+	</delete>
+	
+	
+	
+	<select id="FriendDao.getUserFriendAskByFriendId" resultClass="userFriendAsk">
+		select * from UserFriendAsk where userId = #userId# and friendId = #friendId#
+	</select>
+	
+	<select id="FriendDao.getUserFriendAskIds" resultClass="int">
+		select friendId from UserFriendAsk where userId = #userId#
+	</select>
+	
+	<insert id="FriendDao.insertUserFriendAsk" parameterClass="userFriendAsk">
+		insert into UserFriendAsk(userId, friendId, askAt, friendName) values(#userId#, #friendId#, #askAt#, #friendName#)
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT last_insert_Id() 
+		</selectKey>
+	</insert>
+	
+	<delete id="FriendDao.deleteFriendAsk" parameterClass="userFriendAsk">
+		delete from UserFriendAsk where userId = #userId# and friendId = #friendId#
+	</delete>
+</sqlMap>

@@ -1,0 +1,10 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+//国战 发起进攻接口
+option java_outer_classname = "NUserAttackProtos";
+
+message NUserAttack{
+	required string account = 1;
+	required int32 enemyId = 2;
+}

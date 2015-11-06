@@ -1,0 +1,37 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "NationalWarInfoProtos";
+
+message NationalWarInfo{
+	required int32 userId = 1;
+	required int32 zhanGong = 2;
+	required int32 silver = 3;
+	required int32 killNum_today = 4;
+	required int32 killNum_all = 5;
+	required int32 powerMax = 6; // 体力最大值
+	required int32 powerResume = 7; // 体力回复效率
+	required int32 powerCurrValue = 8; //体力当前值
+	required int32 fightNum_today = 9;
+	required int32 fightNum_all = 10;
+	required int32 zhanGong_today = 11;
+	optional int64 enterTime = 12;
+	required int32 atCityId = 13;
+	optional int64 offLineTime = 14;
+	required int32 status = 15;//玩家状态  0:自由 1：正在攻占 2：正在修补 3：攻占成功 4：修补成功
+	optional int32 zhanli = 16; //镜像战力
+	repeated NWUserCityStatus cityStatus = 17; // 对应城池状态 
+	required int32 healthPersent = 18; // 镜像生命百分比
+}	
+
+message NWUserCityStatus{
+	required int32 cityId = 1;//城池ID
+	required int64 actionTime = 2;//执行动作的起始时间 对应状态  
+	required int32 lastTime = 3; // 动作持续时间
+	required int32 status = 4;//玩家状态
+}
+
+
+message NationalWarInfoList{
+ 	repeated NationalWarInfo nationalWarInfo = 1;
+}

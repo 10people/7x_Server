@@ -1,0 +1,80 @@
+<project name="七雄mobile" default="all" basedir=".">
+
+	<!-- set global properties & libs -->
+	<!--<property name="dbaddr" value="172.16.0.15:3306" />-->
+	<property name="encoding" value="UTF-8" />
+	<property environment="env">
+	</property>
+
+	<property name="src.tests" value="src/junit">
+	</property>
+	<property name="classes" value="bin">
+	</property>
+
+	<!-- All: Do all the things here -->
+	<target name="all">
+		<!--antcall target="clean"/-->
+		<antcall target="compile" />
+		<antcall target="deploy" />
+	</target>
+
+	<target name="clean">
+		<delete dir="webroot/WEB-INF/classes" includes="**/*.class" />
+		<delete dir="webroot/WEB-INF/classes" includes="**/*.xml" />
+		<delete dir="webroot/WEB-INF/classes" includes="**/*.properties" />
+	</target>
+
+	<target name="compile">
+		<javac srcdir="src" encoding="${encoding}" destdir="webroot/WEB-INF/classes" debug="on" optimize="off" source="1.5" target="1.5" memoryInitialSize="512m" memoryMaximumSize="512m" fork="true">
+			<classpath>
+				<fileset dir="lib">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="deploy">
+		<antcall target="deploy.lib" />
+		<antcall target="deploy.conf" />
+	</target>
+
+	<target name="deploy.lib">
+		<copy todir="webroot/WEB-INF/lib">
+			<fileset dir="lib">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="deploy.conf">
+		<copy todir="webroot/WEB-INF/classes" file="conf/dataConfig.xml">
+		</copy>
+		<copy todir="webroot/WEB-INF/classes">
+			<fileset dir="conf/classes" />
+		</copy>
+		<copy todir="webroot/WEB-INF/classes/data/">
+			<fileset dir="../Design_Doc/data/" excludes="battleFlag/" />
+		</copy>
+	</target>
+
+
+	<target name="zipData">
+		<zip destfile="${flash_data_path}" update="true">
+			<fileset dir="bin/data" includes="*.xml">
+
+			</fileset>
+		</zip>
+	</target>
+
+	<target name="package">
+		<jar jarfile="lib/dynasty-core.jar" update="yes">
+			<fileset dir="webroot/WEB-INF/classes">
+				<include name="com/manu/**" />
+			</fileset>
+		</jar>
+	</target>
+
+</project>
+
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ServerInfo">
+	<typeAlias alias="skill" type="com.manu.dynasty.skill.domain.Skill"/>
+	<typeAlias alias="passiveSkill" type="com.manu.dynasty.skill.domain.PassiveSkill"/>
+	
+	<select id="SkillDao.getSkill" resultClass="skill">
+     	select * from Skill ;
+     </select>
+
+	<select id="SkillDao.getSkillById" resultClass="skill">
+     	select * from Skill where id = #id#;
+     </select>
+
+	<select id="SkillDao.getSkillBySkillIdAndLevel" resultClass="skill" parameterClass="skill"> 
+     	select * from Skill where skillId = #skillId# and level = #level#;
+     </select>
+
+	<select id="SkillDao.getPassiveSkillBySkillId" resultClass="skill"> 
+     	select * from PassiveSkill where skillId = #skillId#;
+     </select>
+</sqlMap>

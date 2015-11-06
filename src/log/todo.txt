@@ -1,0 +1,20 @@
+2015年9月9日14:33:40
+那就是注册时一条，之后每次创建角色，都有一条  playerregister 表
+
+PlayerDemo表
+
+OK	为什么等级都是0呢
+
+OK	尚兴跃-游戏谷<wssxy@hotmail.com>  16:45:54
+	ITEMFLOW 和 MONEYFLOW 里面 没记录reason
+
+存量表 没记录战力。。。。
+
+OK	尚兴跃-游戏谷<wssxy@hotmail.com>  16:50:57
+	消费的时候 钱币 记成正数 。目前是负数。
+
+OK	康建虎(269100815)  16:59:01
+	等级都是0，看见了个2，哪个表？
+	尚兴跃-游戏谷<wssxy@hotmail.com>  16:59:58
+	cunliang
+

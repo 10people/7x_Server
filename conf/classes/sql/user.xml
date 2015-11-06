@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ServerInfo">
+	<typeAlias alias="user" type="com.manu.dynasty.user.domain.User"/>
+	<typeAlias alias="userAttributes" type="com.manu.dynasty.user.domain.UserAttributes"/>
+	<typeAlias alias="userLevelTemplet" type="com.manu.dynasty.template.UserLevelTemplet"/>
+	<typeAlias alias="enumer" type="com.manu.dynasty.base.domain.Enumer" />
+	<typeAlias alias="userTechTemplet" type="com.manu.dynasty.template.UserTechTemplet"/>
+	<typeAlias alias="userTechLevelTemplet" type="com.manu.dynasty.template.UserTechLevelTemplet"/>
+	<typeAlias alias="account" type="com.manu.dynasty.account.domain.Account"/>
+	<select id="UserDao.getUserById" parameterClass="int" resultClass="user">
+		select * from User where userId=#userId#
+	</select>	
+	<insert id="UserDao.insertUser" parameterClass="user">
+		insert into User(userName, userLevel,cash,motivation,curExp,honor,lastLoginDttm,lastLogoutDttm,accId) values(#userName#,#userLevel#,#cash#,#motivation#,#curExp#,#honor#,#lastLoginDttm#,#lastLogoutDttm#,#accId#);
+		<selectKey resultClass="int" keyProperty="userId">
+			select last_insert_Id();
+		</selectKey>
+	</insert>
+	<update id="UserDao.updateUser" parameterClass="user">
+		update User set userName=#userName#, userLevel=#userLevel#,cash=#cash#,motivation=#motivation#,curExp=#curExp#,honor=#honor#,lastLoginDttm=#lastLoginDttm#,lastLogoutDttm=#lastLogoutDttm# where userId = #userId#;
+	</update>
+	<select id="UserDao.getUserLevelTemplets" resultClass="userLevelTemplet">
+		select * from UserLevelTemplet
+	</select>	
+	<insert id="UserAttrDao.insertUserAttributes" parameterClass="userAttributes">
+		INSERT INTO UserAttributes$tableIndex$ (userId, attrName, attrValue) 
+		value(#userId#, #attrName#, #attrValue#)
+	</insert>
+	<update id="UserAttrDao.updateUserAttributes" parameterClass="userAttributes">
+		UPDATE UserAttributes$tableIndex$ set attrValue = #attrValue# WHERE userId = #userId# AND attrName = #attrName#
+	</update>
+	<select id="UserAttrDao.getUserAttributesByUserId" parameterClass="java.util.Map" resultClass="userAttributes">
+		SELECT * FROM UserAttributes$tableIndex$ WHERE userId = #userId#		
+	</select>
+	<select id="UserAttrDao.getUserAttributesByAttrName" parameterClass="java.util.Map" resultClass="userAttributes">
+		SELECT * FROM UserAttributes$tableIndex$ WHERE userId = #userId# AND attrName = #attrName#
+	</select>
+	<select id="CommonDao.listEnumer" resultClass="enumer">
+		SELECT * FROM Enumer ORDER BY orderBy
+	</select>
+	
+	<update id="CommonDao.updateEnumerById" parameterClass="enumer">
+		UPDATE Enumer SET enumValue = #enumValue# WHERE enumId = #enumId#
+	</update>
+	<select id="UserDao.getUserIdByHonorAndLogout" parameterClass="int">
+		select userId from User where honor=#honor# and lastLogoutDttm &gt; lastLoginDttm;
+	</select>
+
+	<select id="UserTechDao.getUserTechTemplets" resultClass="userTechTemplet">
+		select * from UserTechTemplet;
+	</select>
+	<select id="UserTechDao.getUserTechLevelTemplets" resultClass="userTechLevelTemplet">
+		select * from UserTechLevelTemplet;
+	</select>
+	<select id="UserDao.getUserIdByName" parameterClass="String" resultClass="int">
+		select userId from User where userName like '%$userName$%' limit 50
+	</select>
+	<select id="UserDao.checkUserName" parameterClass="String" resultClass="int">
+		select count(*) from User where userName=#userName#
+	</select>
+	
+	<select id="UserDao.getUserIdByLevel" resultClass="int">
+	<![CDATA[ select userId from User where userLevel  >= (#userLevel# - 5) and userLevel <= (#userLevel# + 5) and userId <> #userId# limit 15 ]]>
+	</select>
+	<insert id="AccountDao.insertAccount" parameterClass="account">
+		insert into Account(accId, accName) values(#accId#, #accName#);
+	</insert>
+	<select id="AccountDao.getAccountByAccId" parameterClass="String" resultClass="account">
+		select * from Account where accId=#accId#
+	</select>
+	<select id="AccountDao.getAccountByAccName" parameterClass="String" resultClass="account">
+		select * from Account where accName=#accName#
+	</select>
+	<select id="UserDao.getUserIdByAccId" parameterClass="String" resultClass="int">
+		select userId from User where accId=#accId#
+	</select>
+</sqlMap>

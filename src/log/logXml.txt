@@ -1,0 +1,13 @@
+  <!-- ===XXX===== -->
+	<appender name="XXX" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/XXX.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/XXX.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="XXX" level="INFO" additivity="false">
+  	<appender-ref ref="XXX"></appender-ref>
+  </logger>

@@ -1,0 +1,38 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "HeroMessage";
+
+message UserHero{
+
+	required int32 userId = 1;// 玩家id
+	required int32 heroId = 2;// 武将id 
+	required int32 tempId = 3;//武将模版id
+	
+	required string heroName = 4;// 武将姓名
+	required int32 curExp = 5;// 武将当前经验大小
+	required int32 level = 6;// 武将等级
+	required int32 heroType = 7;// 武将职业
+
+	required int32 heroGrow = 11;// 武将成长
+	required int32 heroGrowExp = 12;// 武将成长经验
+
+	required int32 star = 17; // 星级,进阶次数
+	required int32 quality = 18; // 武将品质
+
+	required int32 soldiers = 21;// 兵力
+	
+	required int32 heroExpId = 22;//武将升级经验id
+	required int32 heroGrowExpId = 23; //武将成长经验id
+	required int32 heroFengCount = 24;//暂时不用
+	repeated int32 slots = 25; //穿的装备
+	repeated int32 attributes = 26; // 战斗用到的属性
+	required int32 fights = 27;//战力
+	repeated int32 skills = 28;//技能
+	
+
+}
+
+message UserHeroList{
+ 	repeated UserHero user_hero = 1;
+}

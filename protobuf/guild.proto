@@ -1,0 +1,26 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+option java_outer_classname = "GuildProtos";
+
+message Guild{
+	required int32 guildId = 1;
+	required string guildName = 2;
+	required int32 masterId = 3;
+	required int32 curNum = 4;
+	required int32 maxMember = 5;
+	required int32 strength = 6;
+	required int32 level = 7;
+	required int32 countryId = 8;
+	required string notice = 9;
+	required int32 leaderNum = 10;
+	required int32 enlistBz = 11;
+	required string guildFlag = 12;
+	required int32 enlistCl = 13;
+	required string breifIntroduction = 14;
+}
+
+message GuildList{
+	repeated Guild guilds = 1;
+	optional int32 lv2GuildsCount = 2;
+}

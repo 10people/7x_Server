@@ -1,0 +1,31 @@
+package qxmobile.protobuf;
+
+option java_outer_classname = "NCityUserListProtos";
+
+message NCityUserList{
+	required int32 cityId = 1;
+	repeated NUserInfo nUserList = 2;
+}
+
+message NCityUserChange{
+	required int32 changeType = 1;// 0：进入；1：更新；2：离开
+	required int32 cityId = 2; //城池ID
+	required NUserInfo userInfo = 3; //用户信息
+}
+
+message NUserInfo{
+	optional string account = 1;
+	required int32 userId = 2;
+	required int32 countryId = 3;
+	optional int32 level = 4;
+	required string userName = 5; //玩家名称
+	optional string guildName = 6; //联盟名称
+	optional int32 guanzhi = 7; //官职
+	optional int32 rankId = 8; //军衔
+	optional int32 zhanli = 9; //战力
+	optional int32 actUsedTime = 10; // 动作（攻占、修城）开始时间
+	optional int32 acttype = 11; // 动作类型 （1：攻占 2：修补）
+	optional int32 lasttime = 12; // 动作持续时间 （单位为秒）
+	required int32 healthPersent = 13; //血量百分比
+	optional int32 killNum = 14; //当前连杀数
+}

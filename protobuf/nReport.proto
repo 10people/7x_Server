@@ -1,0 +1,11 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+//国战 国家信息
+option java_outer_classname = "NReportProtos";
+
+message NReport{
+	required int32 id = 1; // ID标识
+	required int32 type = 2; // 1为 国家；2为个人
+	required string warReport = 3; //国战内容
+}

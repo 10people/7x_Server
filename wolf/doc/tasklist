@@ -1,0 +1,46 @@
+1 腾讯各个平台登录API；
+2 腾讯各个平台支付API；
+3 腾讯各个平台获取好友API；
+4 腾讯各个平台其它营销API；
+
+5 定义统一的数据层：负责数据更新的原子性
+
+
+【Server】
+如果要建立一个server：
+1 配置文件
+
+  mainClass = com.youxigu.route.RouteBoot
+# 用来配置服务器端口号 线程啥的
+internalIp=localhost
+wolfPort = 8738
+#服务器ip，客户端会连接这个地址
+#server = wolfServer
+#服务器名字
+name = backendServer0
+codecFactory = com.youxigu.net.codec.SimpleObjectCodicFactory
+serverIoHandler = com.youxigu.net.WolfMessageChain
+
+
+#无效
+isSingleThread = 0
+#是否是wolfServer
+
+# gameSvr超时时间 单位是 秒
+
+
+# Service 必须按照顺序编号，如果遇到取到的是空就终止遍历service
+
+service_0 =com.youxigu.net.routing.SimpleWolfService
+
+所有要发送的数据，都必须继承 RoutingPacket
+
+【Client】
+同Server一样，唯一的区别是
+serverIoHandler 修改为 clientIoHandler
+wolfPort 修改为 serverPort
+internalIp 修改为 serverIp
+
+
+
+

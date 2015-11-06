@@ -1,0 +1,13 @@
+package qxmobile.protobuf;
+
+// option java_package = "com.example.tutorial";
+//国战 发起 攻城、修城请求
+option java_outer_classname = "NActionResultProtos";
+
+message NActionResult{
+	required int32 result = 1; //0为成功，  1为失败
+	required string account = 2;
+	required int32 actionType = 3; // 1 攻占 2 修补
+	required int32 cityId = 4; // 城池ID
+	required int32 getZhanGong = 5; // 获得的战功值
+}

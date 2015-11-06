@@ -1,0 +1,40 @@
+<Server port="8005" shutdown="SHUTDOWN">
+
+  <!--APR library loader. Documentation at /docs/apr.html -->
+  <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="off" />
+  <!--Initialize Jasper prior to webapps are loaded. Documentation at /docs/jasper-howto.html -->
+  <Listener className="org.apache.catalina.core.JasperListener" />
+  <!-- JMX Support for the Tomcat server. Documentation at /docs/non-existent.html -->
+  <Listener className="org.apache.catalina.mbeans.ServerLifecycleListener" />
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+
+  <!-- Global JNDI resources -->
+  <GlobalNamingResources>
+    <Resource name="UserDatabase" auth="Container"
+              type="org.apache.catalina.UserDatabase"
+              description="User database that can be updated and saved"
+              factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
+              pathname="conf/tomcat-users.xml" />
+  </GlobalNamingResources>
+
+  <!-- Define the Tomcat Stand-Alone Service -->
+  <Service name="Catalina">
+	<Connector port="8090" enableLookups="false" redirectPort="8443" command-line-options="-Dorg.apache.tomcat.util.net.NioSelectorShared=false" protocol="org.apache.coyote.http11.Http11NioProtocol" 
+               processCache="1000" connectionTimeout="30000" acceptorThreadCount="4" maxThreads="500" acceptCount="400" URIEncoding="UTF-8" address="internalIp" />
+	<Connector port="8091" enableLookups="false" redirectPort="8443" command-line-options="-Dorg.apache.tomcat.util.net.NioSelectorShared=false" protocol="org.apache.coyote.http11.Http11NioProtocol" 
+               connectionTimeout="30000" maxThreads="100" acceptCount="100" URIEncoding="UTF-8" address="internalIp"/>
+               
+    <!-- Define the top level container in our container hierarchy -->
+    <Engine name="Catalina" defaultHost="localhost">
+
+      <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
+             resourceName="UserDatabase"/>
+
+      <!-- Define the default virtual host -->
+      <Host name="localhost"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true"
+            xmlValidation="false" xmlNamespaceAware="false">
+      </Host>
+    </Engine>
+  </Service>
+</Server>

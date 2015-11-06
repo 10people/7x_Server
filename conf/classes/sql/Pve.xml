@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ServerInfo">
+	<typeAlias alias="checkPointsTemplet" type="com.manu.dynasty.pve.domain.CheckPointsTemplet"/>
+	<typeAlias alias="userPveRecord" type="com.manu.dynasty.pve.domain.UserPveRecord"/>
+	<typeAlias alias="pvePointEnemy" type="com.manu.dynasty.pve.domain.PvePointEnemy"/>
+	
+
+	
+	<select id="PveDao.getPveEnemys" resultClass="pvePointEnemy">
+		select * from PvePointEnemy;
+     </select>
+
+	<select id="PveDao.getPveEnemysByPointId" resultClass="pvePointEnemy">
+		select * from PvePointEnemy where pointId = #pointId#;
+     </select>
+
+	<select id="PveDao.getPointsTemplets" resultClass="checkPointsTemplet">
+		select * from CheckPointsTemplet;
+     </select>
+
+	<select id="PveDao.getPointTempletById" resultClass="checkPointsTemplet">
+		select * from CheckPointsTemplet where id = #id#;
+     </select>
+
+	<select id="PveDao.getPointTempletByBigAndSamll" resultClass="checkPointsTemplet">
+		select * from CheckPointsTemplet where bigPointId = #bigPointId# and smallPointId = #smallPointId#;
+     </select>
+
+	<select id="PveDao.getUserRecord" resultClass="userPveRecord" > 
+		select * from UserPveRecord where userId = #userId#;
+     </select>
+
+	<update id="PveDao.updatePveRecord" parameterClass="userPveRecord">
+		update  UserPveRecord set pointId = #pointId#,lastPointId = #lastPointId#, awards = #awards#, formId=#formId#, isPass = #isPass#, pointStar = #pointStar#, helpUserId = #helpUserId#, challengeCount = #challengeCount#, costChallengeCount = #costChallengeCount#, updateAt = #updateAt# where userId = #userId#;
+	</update>
+
+	<insert id="PveDao.insertPveRecord" parameterClass="userPveRecord">
+		insert into UserPveRecord(userId,pointId,lastPointId,awards,pointStar,formId, helpUserId, isPass, challengeCount, costChallengeCount, updateAt) values(#userId#,#pointId#,#lastPointId#,#awards#,#pointStar#,#formId#, #helpUserId#, #isPass#, #challengeCount#, #costChallengeCount#, #updateAt#);		
+	</insert>
+</sqlMap>

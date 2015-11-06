@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ServerInfo">
+	<typeAlias alias="activityAward" type="com.manu.dynasty.copy.domain.ActivityAward"/>
+	<typeAlias alias="activityConf" type="com.manu.dynasty.copy.domain.ActivityConf"/>
+	<typeAlias alias="activityCopy" type="com.manu.dynasty.copy.domain.ActivityCopy"/>
+	<typeAlias alias="userActivityCopy" type="com.manu.dynasty.copy.domain.UserActivityCopy"/>
+	
+	
+	
+	<select id="ActivityCopyDao.getActivityAward" resultClass="activityAward">
+		select * from ActivityAward;
+	</select>
+	
+	<select id="ActivityCopyDao.getActivityConf" resultClass="activityConf">
+		select * from ActivityConf;
+	</select>
+
+	<select id="ActivityCopyDao.getActivityCopy" resultClass="activityCopy">
+		select * from ActivityCopy;
+	</select>
+	
+	
+	
+	<insert id="ActivityCopyDao.insertActivityAward" parameterClass="activityAward">
+		insert into ActivityAward(copyId, day, beginAt, endAt, awardMore) values(#copyId#, #day#, #beginAt#, #endAt#, #awardMore#);
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT last_insert_Id() 
+		</selectKey>
+	</insert>
+
+	<insert id="ActivityCopyDao.insertUserActivityCopy" parameterClass="userActivityCopy">
+		insert into UserActivityCopy(userId, copyId, pointId, waveNum) values(#userId#, #copyId#, #pointId#, #waveNum#);
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT last_insert_Id() 
+		</selectKey>
+	</insert>
+	
+	<select id="ActivityCopyDao.getUserActivityCopyIds" resultClass="int">
+		select copyId from UserActivityCopy where userId = #userId#;
+	</select>
+
+	<select id="ActivityCopyDao.getUserActivityCopyIdAndUid" resultClass="userActivityCopy">
+		select * from UserActivityCopy where userId = #userId# and copyId = #copyId#;
+	</select>
+	
+	<update id="ActivityCopyDao.updateUserActivityCopy" parameterClass="userActivityCopy">
+		update UserActivityCopy set  pointId = #pointId#, waveNum = #waveNum# where userId = #userId# and copyId = #copyId#;
+	</update>
+	
+</sqlMap>
