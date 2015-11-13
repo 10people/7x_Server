@@ -124,7 +124,11 @@ public class JunZhuMgr extends EventProc {
 			}
 		}
 		sendMainInfo(session);
+		// 天赋的显示通知
 		TalentMgr.instance.noticeTalentCanLevUp(Long.valueOf(junZhuId));
+		// 符文的显示通知
+		JunZhu jz = HibernateUtil.find(JunZhu.class, junZhuId.longValue());
+		EventMgr.addEvent(ED.FUSHI_PUSH, jz);
 	}
 
 	public void sendMainInfo(IoSession session) {

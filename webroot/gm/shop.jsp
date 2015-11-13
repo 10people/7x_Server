@@ -1,6 +1,5 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.qx.pvp.PvpMgr"%>
-<%@page import="com.qx.pvp.PvpDuiHuanBean"%>
 <%@page import="com.qx.huangye.shop.ShopMgr"%>
 <%@page import="com.qx.huangye.shop.PublicShop"%>
 <%@page import="com.qx.account.Account"%>
@@ -76,7 +75,7 @@ function go(act,myid){
         	   int v = Integer.parseInt(request.getParameter("v"));
                PublicShop shop = HibernateUtil.find(PublicShop.class, junzhu.id * ShopMgr.shop_space + 1);
                if(shop == null){
-                   shop = ShopMgr.inst.initHYshopInfo(junzhu.id, 1);
+                   shop = ShopMgr.inst.initShopInfo(junzhu.id, 1);
               }
               ShopMgr.inst.setMoney(1, junzhu.id, shop, v);
              // out("id is "+ 1 + "save1  v is " + v );
@@ -91,20 +90,18 @@ function go(act,myid){
               int v = Integer.parseInt(request.getParameter("v"));
               PublicShop shop = HibernateUtil.find(PublicShop.class, junzhu.id * ShopMgr.shop_space + 3);
               if(shop == null){
-                  shop = ShopMgr.inst.initHYshopInfo(junzhu.id, 3);
+                  shop = ShopMgr.inst.initShopInfo(junzhu.id, 3);
              }
             ShopMgr.inst.setMoney(3, junzhu.id, shop, v);
         //  out("id is "+ 3 + "save1  v is " + v );
           }
           if(action != null && action.equals("updateMoneyddd")){
-        	  PvpDuiHuanBean shop = HibernateUtil.find(PvpDuiHuanBean.class, junzhu.id);
-              if(shop  == null){
-                  shop = PvpMgr.inst.initDuiHuanInfo(junzhu.id);
+        	   int v = Integer.parseInt(request.getParameter("v"));
+               PublicShop shop = HibernateUtil.find(PublicShop.class, junzhu.id * ShopMgr.shop_space + 4);
+               if(shop == null){
+                   shop = ShopMgr.inst.initShopInfo(junzhu.id, 4);
               }
-              int v = Integer.parseInt(request.getParameter("v"));
-              shop.weiWang = v;
-              HibernateUtil.save(shop);
-                   // out("id is "+ 4 + "save1  v is " + v );
+              ShopMgr.inst.setMoney(4, junzhu.id, shop, v);
           }
 
           String mo1 =  "0";
@@ -124,7 +121,7 @@ function go(act,myid){
 				 String s ="";
 				 String sM = "";
 				  if(shop == null){
-	                    shop = ShopMgr.inst.initHYshopInfo(junzhu.id, index);
+	                    shop = ShopMgr.inst.initShopInfo(junzhu.id, index);
 	               }else {
 	            	   ShopMgr.inst.resetHYShopBean(shop);
 	               }
@@ -140,6 +137,9 @@ function go(act,myid){
 					 case 3:s ="联盟战商店";sM = "功勋";
 					 mo3 = ShopMgr.inst.getMoney(index, junzhu.id, shop) + "";
 					 break;
+					 case 4:s ="百战威望商店";sM = "威望";
+                     mo4 = ShopMgr.inst.getMoney(index, junzhu.id, shop) + "";
+                     break;
 				}
 				 out(s + "数据:");
                 tableStart();
@@ -162,6 +162,10 @@ function go(act,myid){
 	                	    td("<input type='text' id='updateMoneyccc' value='"
 	                +mo3+ "'/><input type='button' value='修改' onclick='go(\"updateMoneyccc\", "+ index +")'/><br/>");
 	                break;
+	                case 4:
+                        td("<input type='text' id='updateMoneyddd' value='"
+                +mo4+ "'/><input type='button' value='修改' onclick='go(\"updateMoneyddd\", "+ index +")'/><br/>");
+                break;
 	                }
                 td(sdf.format(shop.nextAutoRefreshTime));
                 td(shop.buyNumber);td(sdf.format(shop.lastResetShopTime));td(shop.goodsInfo);
@@ -170,28 +174,6 @@ function go(act,myid){
                 br();
                 br();
 			}
-              
-			PvpDuiHuanBean shop = HibernateUtil.find(PvpDuiHuanBean.class, junzhu.id);
-              if(shop == null){
-           	   shop = PvpMgr.inst.initDuiHuanInfo(junzhu.id);
-              }else{
-                  out("百战兑换数据");br();
-                  PvpMgr.inst.resetPvpDuiHuanBean(shop);
-              }
-              mo4 = shop.weiWang + "";
-              tableStart();
-              trS();td("威望");
-             td("下次自动刷新商品列表时间");td("今日够买刷新次数");
-              td("更新购买刷新货物次数的时间 "); td("兑换的物品id( 是Duihuan.xml中的id):");
-              td("与兑换的物品id (duiHuanId)相对应, 1 表示可以兑换，0 表示不可以兑换:");
-              trE();
-              trS();
-              td("<input type='text' id='updateMoneyddd' value='"+ mo4+ "'/><input type='button' value='修改' onclick='go(\"updateMoneyddd\", 4)'/><br/>");
-              td(sdf.format(shop.nextDuiHuanTime));
-              td(shop.buyNumber);td(sdf.format(shop.lastShowDuiHuanTime));
-              td(shop.duiHuanId);td(shop.isBuy);
-              trE();
-              tableEnd();
          }
     }
         %>

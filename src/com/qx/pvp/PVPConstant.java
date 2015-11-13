@@ -1,9 +1,5 @@
 package com.qx.pvp;
 
-import java.util.List;
-
-import com.manu.dynasty.base.TempletService;
-import com.manu.dynasty.template.FunctionOpen;
 
 public class PVPConstant {
 	/** 开服时初始npc的个数 **/
@@ -27,18 +23,16 @@ public class PVPConstant {
 	// 5 确定刷新挑战对手列表
 	public static final int BUY_CHALLENGE_COUNT = 0;
 	public static final int CLEAN_CHALLENGE_CD = 1;
-	public static final int WEI_WANG_CHANGE = 2;
-	public static final int REFRESH_DUI_HUAN = 3;
-	public static final int GET_PRODUCE_AWARD = 4;
-	public static final int REFRESH_RANKS = 5;
-	public static final int REFRESH_RANKS_FREE = 6;
-	public static final int reget_ranks = 7;
+	public static final int GET_PRODUCE_AWARD = 2;
+	public static final int REFRESH_RANKS = 3;
+	public static final int REFRESH_RANKS_FREE = 4;
+	public static final int reget_ranks = 5;
 	/**百战冷却清零**/
 //	public static final int CLEAN_CD = 12;
 	/**购买百战类型**/
 //	public static final int BUY_BAI_ZHAN_COUNT = 3;
-	/**百战兑换刷新类型**/
-	public static final int DUI_HUAN_REFRESH = 14;
+//	/**百战兑换刷新类型**/
+//	public static final int DUI_HUAN_REFRESH = 14;
 	
 	/** 发送每日奖励邮件: 玩家登陆游戏 **/
 	public static final byte LOGIN_SEND_EMAIL = 1;

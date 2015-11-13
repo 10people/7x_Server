@@ -1,7 +1,6 @@
 package com.qx.award;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,16 +17,12 @@ import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.BaseItem;
-import com.manu.dynasty.template.HeroGrow;
 import com.manu.dynasty.template.HeroProtoType;
-import com.manu.dynasty.template.JingPo;
 import com.manu.dynasty.template.MiBao;
 import com.manu.dynasty.template.MibaoSuiPian;
 import com.manu.dynasty.template.PveTemp;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
-import com.qx.alliance.AllianceBean;
-import com.qx.alliance.AllianceConstants;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.bag.Bag;
@@ -39,18 +34,13 @@ import com.qx.event.EventMgr;
 import com.qx.guojia.GuoJiaMgr;
 import com.qx.guojia.ResourceGongJin;
 import com.qx.hero.HeroMgr;
-import com.qx.hero.WuJiang;
-import com.qx.huangye.shop.PublicShop;
 import com.qx.huangye.shop.ShopMgr;
-import com.qx.huangye.shop.ShopMgr.Money;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.junzhu.TalentMgr;
 import com.qx.mibao.MiBaoDB;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
-import com.qx.pvp.PvpDuiHuanBean;
-import com.qx.pvp.PvpMgr;
 import com.qx.util.TableIDCreator;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
@@ -469,12 +459,9 @@ public class AwardMgr {
 				TalentMgr.instance.sendTalentInfo(session);
 				break;
 			} else if(a.getItemId() == ITEM_WEI_WANG){ // 添加威望奖励
-				PvpDuiHuanBean duihuan = HibernateUtil.find(PvpDuiHuanBean.class, jz.id);
-				if(duihuan == null){
-					duihuan = PvpMgr.inst.initDuiHuanInfo(jz.id);
-				}
-				duihuan.weiWang += a.getItemNum();
-				HibernateUtil.save(duihuan);
+				int all = ShopMgr.inst.addMoney(ShopMgr.Money.weiWang,
+						ShopMgr.baizhan_shop_type, jz.id, a.getItemNum());
+				log.info("君主：{}获取奖励，威望，获取数是：{}, 获取后拥有：{}", jz.id, a.getItemNum(), all);
 			}else if(a.getItemId() == item_gong_jin){ // 添加贡金
 				ResourceGongJin re = HibernateUtil.find(ResourceGongJin.class, jz.id);
 				if(re == null){
@@ -488,16 +475,9 @@ public class AwardMgr {
 					GuoJiaMgr.inst.pushCanShangjiao(jz.id);
 				}
 			}else if(a.getItemId() == item_huang_ye_bi){ // 玩家荒野币
-				int num = a.getItemNum();
-				int mType = ShopMgr.huangYe_shop_type;
-				PublicShop bean = HibernateUtil.find(PublicShop.class, jz.id * ShopMgr.shop_space 
-						+ mType);
-				if (bean == null) {
-					bean = ShopMgr.inst.initHYshopInfo(jz.id, mType);
-				}
-				int all = num + ShopMgr.inst.getMoney(Money.huangYeBi, jz.id, bean);
-				ShopMgr.inst.setMoney(mType, jz.id, bean, all);
-				log.info("君主：{}获取奖励，荒野币，获取数是：{}, 获取后拥有：{}", jz.id, num, all);
+				int all = ShopMgr.inst.addMoney(ShopMgr.Money.huangYeBi, 
+						ShopMgr.huangYe_shop_type, jz.id, a.getItemNum());
+				log.info("君主：{}获取奖励，荒野币，获取数是：{}, 获取后拥有：{}", jz.id, a.getItemNum(), all);
 			}else {
 				BaseItem bi = TempletService.itemMap.get(a.getItemId());
 				if (bi != null) {// 如果属于背包物品

@@ -40,15 +40,13 @@ import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.guojia.GuoJiaBean;
 import com.qx.guojia.GuoJiaMgr;
+import com.qx.huangye.shop.ShopMgr;
 import com.qx.junzhu.ChengHaoBean;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
-import com.qx.mibao.MiBaoDB;
-import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.pve.PveRecord;
 import com.qx.pvp.PvpBean;
-import com.qx.pvp.PvpDuiHuanBean;
 import com.qx.pvp.PvpMgr;
 
 /**
@@ -1012,12 +1010,8 @@ public class RankingMgr extends EventProc{
 					bzBuilder.setWinCount(bean.allWin);
 					bzBuilder.setWeiwang(bean.showWeiWang);
 				}
-				PvpDuiHuanBean duihuan = HibernateUtil.find(PvpDuiHuanBean.class, jz.id);
-				if(duihuan != null){
-					bzBuilder.setWeiwang(duihuan.weiWang);
-				} else{
-					bzBuilder.setWeiwang(0);
-				}
+				int wei = ShopMgr.inst.getMoney(ShopMgr.Money.weiWang, jz.id, null);
+				bzBuilder.setWeiwang(wei);
 				baiZhanList.add(bzBuilder);
 			}
 		}
@@ -1210,9 +1204,6 @@ public class RankingMgr extends EventProc{
 		if(bean == null){
 			log.error("排行榜中：{}的百战数据为空",jz.name);
 		}else{
-			List<Long> mss = Arrays.asList(bean.miBao1, bean.miBao2, bean.miBao3);
-			List<MiBaoDB> mibaos = MibaoMgr.inst.getMiBaoDBs(mss);
-			JunZhuMgr.inst.cacMiBaoAtt(jz, mibaos);
 			int zhanli = PvpMgr.inst.getZhanli(jz);
 			AllianceBean alli = AllianceMgr.inst.getAllianceByJunZid(jId);
 			String mengName = alli == null?"无联盟":alli.name;

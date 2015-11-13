@@ -30,6 +30,7 @@ public class PurchaseConstants {
 	public static int refresh_HY_shop = 23; // 荒野商店刷新货物的类型
 	public static int BUY_HUANGYE_BATTLE = 22; // 购买荒野挑战机会的type
 	
+	public static int refresh_baizhan_shop = 14; // 百战商店刷新货物类型
 	public static int refresh_LianMeng_shop = 25; // 联盟商店刷新货物的类型
 	public static int refresh_LianMeng_battle_shop = 24;// 联盟战商店刷新货物的类型
 	// end

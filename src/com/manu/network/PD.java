@@ -5,7 +5,6 @@ import qxmobile.protobuf.AchievementProtos.AcheGetRewardRequest;
 import qxmobile.protobuf.AchievementProtos.AcheGetRewardResponse;
 import qxmobile.protobuf.AchievementProtos.AcheListResponse;
 import qxmobile.protobuf.AllianceFightProtos.ApplyFightResp;
-import qxmobile.protobuf.AllianceFightProtos.BattleData;
 import qxmobile.protobuf.AllianceFightProtos.BattlefieldInfoNotify;
 import qxmobile.protobuf.AllianceFightProtos.BattlefieldInfoResp;
 import qxmobile.protobuf.AllianceFightProtos.FightAttackReq;
@@ -244,7 +243,6 @@ import qxmobile.protobuf.PveLevel.PveStarGetSuccess;
 import qxmobile.protobuf.PveLevel.ResetCQTimesBack;
 import qxmobile.protobuf.PveLevel.ResetCQTimesReq;
 import qxmobile.protobuf.PveLevel.YuanZhuListReturn;
-import qxmobile.protobuf.PvpProto.AddChanceResp;
 import qxmobile.protobuf.PvpProto.BaiZhanInfoResp;
 import qxmobile.protobuf.PvpProto.BaiZhanResult;
 import qxmobile.protobuf.PvpProto.BaiZhanResultResp;
@@ -252,11 +250,8 @@ import qxmobile.protobuf.PvpProto.ChallengeReq;
 import qxmobile.protobuf.PvpProto.ChallengeResp;
 import qxmobile.protobuf.PvpProto.ConfirmExecuteReq;
 import qxmobile.protobuf.PvpProto.ConfirmExecuteResp;
-import qxmobile.protobuf.PvpProto.ExchageAwardReq;
-import qxmobile.protobuf.PvpProto.ExchageAwardResp;
 import qxmobile.protobuf.PvpProto.PlayerStateReq;
 import qxmobile.protobuf.PvpProto.PlayerStateResp;
-import qxmobile.protobuf.PvpProto.ReceiveAwardResp;
 import qxmobile.protobuf.PvpProto.ZhandouRecordResp;
 import qxmobile.protobuf.Ranking.AlliancePlayerReq;
 import qxmobile.protobuf.Ranking.AlliancePlayerResp;
@@ -483,10 +478,6 @@ public class PD {
 		ProtobufUtils.register(PveSaoDangRet.getDefaultInstance(), S_PVE_SAO_DANG);
 		/****************** 百战千军协议***************/
 		ProtobufUtils.register(BaiZhanInfoResp.getDefaultInstance(), BAIZHAN_INFO_RESP);
-		ProtobufUtils.register(ExchageAwardReq.getDefaultInstance(), EXCHAGE_AWARD_REQ);
-		ProtobufUtils.register(ExchageAwardResp.getDefaultInstance(), EXCHAGE_AWARD_RESP);
-		ProtobufUtils.register(AddChanceResp.getDefaultInstance(), ADD_CHANCE_RESP);
-		ProtobufUtils.register(ReceiveAwardResp.getDefaultInstance(), RECEIVE_AWARD_RESP);
 		ProtobufUtils.register(ChallengeReq.getDefaultInstance(), CHALLENGE_REQ);
 		ProtobufUtils.register(ChallengeResp.getDefaultInstance(), CHALLENGE_RESP);
 		ProtobufUtils.register(ConfirmExecuteReq.getDefaultInstance(), CONFIRM_EXECUTE_REQ);
@@ -1294,18 +1285,6 @@ public class PD {
 	public static final short BAIZHAN_INFO_REQ		= 27001;
 	/** **/
 	public static final short BAIZHAN_INFO_RESP		= 27002;
-	/** 请求兑换奖励**/
-	public static final short EXCHAGE_AWARD_REQ 	= 27003;
-	/** **/
-	public static final short EXCHAGE_AWARD_RESP 	= 27004;
-	/** 请求增加次数**/
-	public static final short ADD_CHANCE_REQ 		= 27007;
-	/** **/
-	public static final short ADD_CHANCE_RESP 		= 27008;
-	/**请求 领取奖励（领取按钮） **/
-	public static final short RECEIVE_AWARD_REQ 	= 27009;
-	/** **/
-	public static final short RECEIVE_AWARD_RESP 	= 27010;
 	/** 请求 挑战 **/
 	public static final short CHALLENGE_REQ 		= 27011;
 	/** **/

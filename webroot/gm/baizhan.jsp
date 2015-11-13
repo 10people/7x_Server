@@ -6,7 +6,6 @@
 <%@page import="qxmobile.protobuf.HeroMessage.UserHero"%>
 <%@page import="com.manu.dynasty.hero.service.HeroService"%>
 <%@page import="com.qx.pvp.PvpMgr"%>
-<%@page import="com.qx.pvp.PvpDuiHuanBean"%>
 <%@page import="com.qx.pvp.PvpBean"%>
 <%@page import="com.qx.robot.RobotSession"%>
 <%@page import="com.qx.account.Account"%>
@@ -82,7 +81,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	 }else{
     		
     		 %><br> 君主id是：<%=junzhu.id%> <br>君主姓名是：<%=junzhu.name%><%
-    		 PvpDuiHuanBean duihuan = HibernateUtil.find(PvpDuiHuanBean.class, junZhuId);
     		 PvpBean bean = HibernateUtil.find(PvpBean.class, junZhuId);
     		 
     		 if(bean==null){
@@ -91,12 +89,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			 br();
     			 
     			 br();
-	    		 if(duihuan != null && "addW".equals(action)){
-	    			 int v = Integer.parseInt(request.getParameter("v"));
-	    			 duihuan.weiWang += v;
-	    			 HibernateUtil.save(duihuan);
-	    		 }
-	    		 else if("changeZhanCD".equals(action)){
+	    		if("changeZhanCD".equals(action)){
                      int v = Integer.parseInt(request.getParameter("v"));
                      PVPConstant.INTERVAL_ZHAN_SECOND = v;
                  }
@@ -111,7 +104,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    		 else if("deleteBean".equals(action)){
 	    			 try{
 	    			 	HibernateUtil.delete(bean);
-	    			 	HibernateUtil.delete(duihuan);
 	    			 	PvpMgr.inst.removePvpRedisData(junZhuId);
 	    			 }catch(Exception e){
 	    				 e.printStackTrace();
@@ -145,12 +137,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  out.println("<input type='text' id='changeDuiHuanCd' value='"+input
                          +"'/><input type='button' value='修改' onclick='go(\"changeDuiHuanCd\")'/><br/>");
                  out("<br/>");
-	    		 
-	    		 out.println("威望：");
-	    		 if(duihuan == null)out(0);
-	    		 else out(duihuan.weiWang);
-                 out.println("<input type='text' id='addW' value='"+input
-                         +"'/><input type='button' value='增加' onclick='go(\"addW\")'/><br/>");
                  br();
                  out.println("VIP等级："+junzhu.vipLevel);
                  %>
@@ -202,18 +188,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  br();
                  out("上次resetPvpBean的时间: " + bean.lastShowTime);
                  br();
-                 out("秘宝:");
-	    		 tableStart();
-	    		 trS();
-	    		 td("mibao1:  ");td((int)bean.miBao1);
-	    		 trE();
-	    		 trS();
-	    		 td("mibao2:  ");td((int)bean.miBao2);
-	    		 trE();
-	    		 trS();
-	    		 td("mibao3:  ");td((int)bean.miBao3);
-	    		 trE();
-	    		 tableEnd();
 	    		 br();
                  br();
                  out("对手名次显示：");
@@ -233,30 +207,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  tableEnd();
                  br();
                  br();
-                 out("==============兑换页面相关信===============");
-                 if(duihuan != null){
-	                 br();
-	                 out("(A)  下次兑换刷新时间: " + duihuan.nextDuiHuanTime);
-	                 br();
-	                 br();
-	                 out("(A)  兑换的物品id( 是Duihuan.xml中的id): " + duihuan.duiHuanId);
-	                 br();
-	                 br();
-	                 out("(A)  与兑换的物品id (duiHuanId)相对应, 1 表示可以兑换，0 表示不可以兑换:"); 
-	                 br();
-	                 %>&nbsp;&nbsp;&nbsp;&nbsp;<% out(duihuan.isBuy);
-	                 br();
-	                 br();
-	                 out("(A)  上次领取生产奖励(包括威望和铜币)的时间:" + duihuan.lastGetAward);
-	                 br();
-	                 br();
-	                 out("(A)  今日已经购买的刷新次数:" + duihuan.buyNumber);
-	                 br();
-	                 br();
-	                 out("(A)  上次查看兑换的时间:" + duihuan.lastShowDuiHuanTime);
-	                 br();
-	                 
-                 }
+                
                  br();
                  out("=============战斗回放记录===================");
                  br();

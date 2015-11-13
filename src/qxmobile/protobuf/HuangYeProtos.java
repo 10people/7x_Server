@@ -14204,8 +14204,10 @@ public final class HuangYeProtos {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     * type = 10 表示正常请求荒野商店；11表示花钱的刷新荒野商店
-     * type = 20 表示正常请求联盟商店；21表示花钱的刷新联盟商店
+     * type = 10 表示正常请求荒野商店；11表示花钱(荒野币)的刷新荒野商店
+     * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
+     * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
+     * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
      * </pre>
      */
     boolean hasType();
@@ -14213,8 +14215,10 @@ public final class HuangYeProtos {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     * type = 10 表示正常请求荒野商店；11表示花钱的刷新荒野商店
-     * type = 20 表示正常请求联盟商店；21表示花钱的刷新联盟商店
+     * type = 10 表示正常请求荒野商店；11表示花钱(荒野币)的刷新荒野商店
+     * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
+     * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
+     * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
      * </pre>
      */
     int getType();
@@ -14326,8 +14330,10 @@ public final class HuangYeProtos {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     * type = 10 表示正常请求荒野商店；11表示花钱的刷新荒野商店
-     * type = 20 表示正常请求联盟商店；21表示花钱的刷新联盟商店
+     * type = 10 表示正常请求荒野商店；11表示花钱(荒野币)的刷新荒野商店
+     * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
+     * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
+     * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
      * </pre>
      */
     public boolean hasType() {
@@ -14337,8 +14343,10 @@ public final class HuangYeProtos {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     * type = 10 表示正常请求荒野商店；11表示花钱的刷新荒野商店
-     * type = 20 表示正常请求联盟商店；21表示花钱的刷新联盟商店
+     * type = 10 表示正常请求荒野商店；11表示花钱(荒野币)的刷新荒野商店
+     * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
+     * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
+     * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
      * </pre>
      */
     public int getType() {
@@ -14590,8 +14598,10 @@ public final class HuangYeProtos {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       * type = 10 表示正常请求荒野商店；11表示花钱的刷新荒野商店
-       * type = 20 表示正常请求联盟商店；21表示花钱的刷新联盟商店
+       * type = 10 表示正常请求荒野商店；11表示花钱(荒野币)的刷新荒野商店
+       * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
+       * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
+       * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
        * </pre>
        */
       public boolean hasType() {
@@ -14601,8 +14611,10 @@ public final class HuangYeProtos {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       * type = 10 表示正常请求荒野商店；11表示花钱的刷新荒野商店
-       * type = 20 表示正常请求联盟商店；21表示花钱的刷新联盟商店
+       * type = 10 表示正常请求荒野商店；11表示花钱(荒野币)的刷新荒野商店
+       * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
+       * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
+       * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
        * </pre>
        */
       public int getType() {
@@ -14612,8 +14624,10 @@ public final class HuangYeProtos {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       * type = 10 表示正常请求荒野商店；11表示花钱的刷新荒野商店
-       * type = 20 表示正常请求联盟商店；21表示花钱的刷新联盟商店
+       * type = 10 表示正常请求荒野商店；11表示花钱(荒野币)的刷新荒野商店
+       * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
+       * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
+       * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
        * </pre>
        */
       public Builder setType(int value) {
@@ -14626,8 +14640,10 @@ public final class HuangYeProtos {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       * type = 10 表示正常请求荒野商店；11表示花钱的刷新荒野商店
-       * type = 20 表示正常请求联盟商店；21表示花钱的刷新联盟商店
+       * type = 10 表示正常请求荒野商店；11表示花钱(荒野币)的刷新荒野商店
+       * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
+       * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
+       * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
        * </pre>
        */
       public Builder clearType() {
@@ -14675,12 +14691,12 @@ public final class HuangYeProtos {
     /**
      * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
      */
-    java.util.List<qxmobile.protobuf.PvpProto.DuiHuanInfo> 
+    java.util.List<qxmobile.protobuf.HuangYeProtos.DuiHuanInfo> 
         getGoodsInfosList();
     /**
      * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
      */
-    qxmobile.protobuf.PvpProto.DuiHuanInfo getGoodsInfos(int index);
+    qxmobile.protobuf.HuangYeProtos.DuiHuanInfo getGoodsInfos(int index);
     /**
      * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
      */
@@ -14688,12 +14704,12 @@ public final class HuangYeProtos {
     /**
      * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
      */
-    java.util.List<? extends qxmobile.protobuf.PvpProto.DuiHuanInfoOrBuilder> 
+    java.util.List<? extends qxmobile.protobuf.HuangYeProtos.DuiHuanInfoOrBuilder> 
         getGoodsInfosOrBuilderList();
     /**
      * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
      */
-    qxmobile.protobuf.PvpProto.DuiHuanInfoOrBuilder getGoodsInfosOrBuilder(
+    qxmobile.protobuf.HuangYeProtos.DuiHuanInfoOrBuilder getGoodsInfosOrBuilder(
         int index);
 
     // optional int32 remianTime = 3;
@@ -14719,7 +14735,7 @@ public final class HuangYeProtos {
      * <code>optional int32 nextRefreshNeedMoney = 4;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望
      * </pre>
      */
     boolean hasNextRefreshNeedMoney();
@@ -14727,7 +14743,7 @@ public final class HuangYeProtos {
      * <code>optional int32 nextRefreshNeedMoney = 4;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望
      * </pre>
      */
     int getNextRefreshNeedMoney();
@@ -14737,7 +14753,7 @@ public final class HuangYeProtos {
      * <code>optional int32 hyMoney = 5;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望
      * </pre>
      */
     boolean hasHyMoney();
@@ -14745,7 +14761,7 @@ public final class HuangYeProtos {
      * <code>optional int32 hyMoney = 5;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望
      * </pre>
      */
     int getHyMoney();
@@ -14808,10 +14824,10 @@ public final class HuangYeProtos {
             }
             case 18: {
               if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                goodsInfos_ = new java.util.ArrayList<qxmobile.protobuf.PvpProto.DuiHuanInfo>();
+                goodsInfos_ = new java.util.ArrayList<qxmobile.protobuf.HuangYeProtos.DuiHuanInfo>();
                 mutable_bitField0_ |= 0x00000002;
               }
-              goodsInfos_.add(input.readMessage(qxmobile.protobuf.PvpProto.DuiHuanInfo.PARSER, extensionRegistry));
+              goodsInfos_.add(input.readMessage(qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.PARSER, extensionRegistry));
               break;
             }
             case 24: {
@@ -14900,17 +14916,17 @@ public final class HuangYeProtos {
 
     // repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;
     public static final int GOODSINFOS_FIELD_NUMBER = 2;
-    private java.util.List<qxmobile.protobuf.PvpProto.DuiHuanInfo> goodsInfos_;
+    private java.util.List<qxmobile.protobuf.HuangYeProtos.DuiHuanInfo> goodsInfos_;
     /**
      * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
      */
-    public java.util.List<qxmobile.protobuf.PvpProto.DuiHuanInfo> getGoodsInfosList() {
+    public java.util.List<qxmobile.protobuf.HuangYeProtos.DuiHuanInfo> getGoodsInfosList() {
       return goodsInfos_;
     }
     /**
      * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
      */
-    public java.util.List<? extends qxmobile.protobuf.PvpProto.DuiHuanInfoOrBuilder> 
+    public java.util.List<? extends qxmobile.protobuf.HuangYeProtos.DuiHuanInfoOrBuilder> 
         getGoodsInfosOrBuilderList() {
       return goodsInfos_;
     }
@@ -14923,13 +14939,13 @@ public final class HuangYeProtos {
     /**
      * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
      */
-    public qxmobile.protobuf.PvpProto.DuiHuanInfo getGoodsInfos(int index) {
+    public qxmobile.protobuf.HuangYeProtos.DuiHuanInfo getGoodsInfos(int index) {
       return goodsInfos_.get(index);
     }
     /**
      * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
      */
-    public qxmobile.protobuf.PvpProto.DuiHuanInfoOrBuilder getGoodsInfosOrBuilder(
+    public qxmobile.protobuf.HuangYeProtos.DuiHuanInfoOrBuilder getGoodsInfosOrBuilder(
         int index) {
       return goodsInfos_.get(index);
     }
@@ -14965,7 +14981,7 @@ public final class HuangYeProtos {
      * <code>optional int32 nextRefreshNeedMoney = 4;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望
      * </pre>
      */
     public boolean hasNextRefreshNeedMoney() {
@@ -14975,7 +14991,7 @@ public final class HuangYeProtos {
      * <code>optional int32 nextRefreshNeedMoney = 4;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望
      * </pre>
      */
     public int getNextRefreshNeedMoney() {
@@ -14989,7 +15005,7 @@ public final class HuangYeProtos {
      * <code>optional int32 hyMoney = 5;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望
      * </pre>
      */
     public boolean hasHyMoney() {
@@ -14999,7 +15015,7 @@ public final class HuangYeProtos {
      * <code>optional int32 hyMoney = 5;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望
      * </pre>
      */
     public int getHyMoney() {
@@ -15408,22 +15424,22 @@ public final class HuangYeProtos {
       }
 
       // repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;
-      private java.util.List<qxmobile.protobuf.PvpProto.DuiHuanInfo> goodsInfos_ =
+      private java.util.List<qxmobile.protobuf.HuangYeProtos.DuiHuanInfo> goodsInfos_ =
         java.util.Collections.emptyList();
       private void ensureGoodsInfosIsMutable() {
         if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          goodsInfos_ = new java.util.ArrayList<qxmobile.protobuf.PvpProto.DuiHuanInfo>(goodsInfos_);
+          goodsInfos_ = new java.util.ArrayList<qxmobile.protobuf.HuangYeProtos.DuiHuanInfo>(goodsInfos_);
           bitField0_ |= 0x00000002;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.PvpProto.DuiHuanInfo, qxmobile.protobuf.PvpProto.DuiHuanInfo.Builder, qxmobile.protobuf.PvpProto.DuiHuanInfoOrBuilder> goodsInfosBuilder_;
+          qxmobile.protobuf.HuangYeProtos.DuiHuanInfo, qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.Builder, qxmobile.protobuf.HuangYeProtos.DuiHuanInfoOrBuilder> goodsInfosBuilder_;
 
       /**
        * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
        */
-      public java.util.List<qxmobile.protobuf.PvpProto.DuiHuanInfo> getGoodsInfosList() {
+      public java.util.List<qxmobile.protobuf.HuangYeProtos.DuiHuanInfo> getGoodsInfosList() {
         if (goodsInfosBuilder_ == null) {
           return java.util.Collections.unmodifiableList(goodsInfos_);
         } else {
@@ -15443,7 +15459,7 @@ public final class HuangYeProtos {
       /**
        * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
        */
-      public qxmobile.protobuf.PvpProto.DuiHuanInfo getGoodsInfos(int index) {
+      public qxmobile.protobuf.HuangYeProtos.DuiHuanInfo getGoodsInfos(int index) {
         if (goodsInfosBuilder_ == null) {
           return goodsInfos_.get(index);
         } else {
@@ -15454,7 +15470,7 @@ public final class HuangYeProtos {
        * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
        */
       public Builder setGoodsInfos(
-          int index, qxmobile.protobuf.PvpProto.DuiHuanInfo value) {
+          int index, qxmobile.protobuf.HuangYeProtos.DuiHuanInfo value) {
         if (goodsInfosBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -15471,7 +15487,7 @@ public final class HuangYeProtos {
        * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
        */
       public Builder setGoodsInfos(
-          int index, qxmobile.protobuf.PvpProto.DuiHuanInfo.Builder builderForValue) {
+          int index, qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.Builder builderForValue) {
         if (goodsInfosBuilder_ == null) {
           ensureGoodsInfosIsMutable();
           goodsInfos_.set(index, builderForValue.build());
@@ -15484,7 +15500,7 @@ public final class HuangYeProtos {
       /**
        * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
        */
-      public Builder addGoodsInfos(qxmobile.protobuf.PvpProto.DuiHuanInfo value) {
+      public Builder addGoodsInfos(qxmobile.protobuf.HuangYeProtos.DuiHuanInfo value) {
         if (goodsInfosBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -15501,7 +15517,7 @@ public final class HuangYeProtos {
        * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
        */
       public Builder addGoodsInfos(
-          int index, qxmobile.protobuf.PvpProto.DuiHuanInfo value) {
+          int index, qxmobile.protobuf.HuangYeProtos.DuiHuanInfo value) {
         if (goodsInfosBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -15518,7 +15534,7 @@ public final class HuangYeProtos {
        * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
        */
       public Builder addGoodsInfos(
-          qxmobile.protobuf.PvpProto.DuiHuanInfo.Builder builderForValue) {
+          qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.Builder builderForValue) {
         if (goodsInfosBuilder_ == null) {
           ensureGoodsInfosIsMutable();
           goodsInfos_.add(builderForValue.build());
@@ -15532,7 +15548,7 @@ public final class HuangYeProtos {
        * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
        */
       public Builder addGoodsInfos(
-          int index, qxmobile.protobuf.PvpProto.DuiHuanInfo.Builder builderForValue) {
+          int index, qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.Builder builderForValue) {
         if (goodsInfosBuilder_ == null) {
           ensureGoodsInfosIsMutable();
           goodsInfos_.add(index, builderForValue.build());
@@ -15546,7 +15562,7 @@ public final class HuangYeProtos {
        * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
        */
       public Builder addAllGoodsInfos(
-          java.lang.Iterable<? extends qxmobile.protobuf.PvpProto.DuiHuanInfo> values) {
+          java.lang.Iterable<? extends qxmobile.protobuf.HuangYeProtos.DuiHuanInfo> values) {
         if (goodsInfosBuilder_ == null) {
           ensureGoodsInfosIsMutable();
           super.addAll(values, goodsInfos_);
@@ -15585,14 +15601,14 @@ public final class HuangYeProtos {
       /**
        * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
        */
-      public qxmobile.protobuf.PvpProto.DuiHuanInfo.Builder getGoodsInfosBuilder(
+      public qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.Builder getGoodsInfosBuilder(
           int index) {
         return getGoodsInfosFieldBuilder().getBuilder(index);
       }
       /**
        * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
        */
-      public qxmobile.protobuf.PvpProto.DuiHuanInfoOrBuilder getGoodsInfosOrBuilder(
+      public qxmobile.protobuf.HuangYeProtos.DuiHuanInfoOrBuilder getGoodsInfosOrBuilder(
           int index) {
         if (goodsInfosBuilder_ == null) {
           return goodsInfos_.get(index);  } else {
@@ -15602,7 +15618,7 @@ public final class HuangYeProtos {
       /**
        * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
        */
-      public java.util.List<? extends qxmobile.protobuf.PvpProto.DuiHuanInfoOrBuilder> 
+      public java.util.List<? extends qxmobile.protobuf.HuangYeProtos.DuiHuanInfoOrBuilder> 
            getGoodsInfosOrBuilderList() {
         if (goodsInfosBuilder_ != null) {
           return goodsInfosBuilder_.getMessageOrBuilderList();
@@ -15613,31 +15629,31 @@ public final class HuangYeProtos {
       /**
        * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
        */
-      public qxmobile.protobuf.PvpProto.DuiHuanInfo.Builder addGoodsInfosBuilder() {
+      public qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.Builder addGoodsInfosBuilder() {
         return getGoodsInfosFieldBuilder().addBuilder(
-            qxmobile.protobuf.PvpProto.DuiHuanInfo.getDefaultInstance());
+            qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.getDefaultInstance());
       }
       /**
        * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
        */
-      public qxmobile.protobuf.PvpProto.DuiHuanInfo.Builder addGoodsInfosBuilder(
+      public qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.Builder addGoodsInfosBuilder(
           int index) {
         return getGoodsInfosFieldBuilder().addBuilder(
-            index, qxmobile.protobuf.PvpProto.DuiHuanInfo.getDefaultInstance());
+            index, qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.getDefaultInstance());
       }
       /**
        * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
        */
-      public java.util.List<qxmobile.protobuf.PvpProto.DuiHuanInfo.Builder> 
+      public java.util.List<qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.Builder> 
            getGoodsInfosBuilderList() {
         return getGoodsInfosFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.PvpProto.DuiHuanInfo, qxmobile.protobuf.PvpProto.DuiHuanInfo.Builder, qxmobile.protobuf.PvpProto.DuiHuanInfoOrBuilder> 
+          qxmobile.protobuf.HuangYeProtos.DuiHuanInfo, qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.Builder, qxmobile.protobuf.HuangYeProtos.DuiHuanInfoOrBuilder> 
           getGoodsInfosFieldBuilder() {
         if (goodsInfosBuilder_ == null) {
           goodsInfosBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              qxmobile.protobuf.PvpProto.DuiHuanInfo, qxmobile.protobuf.PvpProto.DuiHuanInfo.Builder, qxmobile.protobuf.PvpProto.DuiHuanInfoOrBuilder>(
+              qxmobile.protobuf.HuangYeProtos.DuiHuanInfo, qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.Builder, qxmobile.protobuf.HuangYeProtos.DuiHuanInfoOrBuilder>(
                   goodsInfos_,
                   ((bitField0_ & 0x00000002) == 0x00000002),
                   getParentForChildren(),
@@ -15702,7 +15718,7 @@ public final class HuangYeProtos {
        * <code>optional int32 nextRefreshNeedMoney = 4;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望
        * </pre>
        */
       public boolean hasNextRefreshNeedMoney() {
@@ -15712,7 +15728,7 @@ public final class HuangYeProtos {
        * <code>optional int32 nextRefreshNeedMoney = 4;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望
        * </pre>
        */
       public int getNextRefreshNeedMoney() {
@@ -15722,7 +15738,7 @@ public final class HuangYeProtos {
        * <code>optional int32 nextRefreshNeedMoney = 4;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望
        * </pre>
        */
       public Builder setNextRefreshNeedMoney(int value) {
@@ -15735,7 +15751,7 @@ public final class HuangYeProtos {
        * <code>optional int32 nextRefreshNeedMoney = 4;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望
        * </pre>
        */
       public Builder clearNextRefreshNeedMoney() {
@@ -15751,7 +15767,7 @@ public final class HuangYeProtos {
        * <code>optional int32 hyMoney = 5;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望
        * </pre>
        */
       public boolean hasHyMoney() {
@@ -15761,7 +15777,7 @@ public final class HuangYeProtos {
        * <code>optional int32 hyMoney = 5;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望
        * </pre>
        */
       public int getHyMoney() {
@@ -15771,7 +15787,7 @@ public final class HuangYeProtos {
        * <code>optional int32 hyMoney = 5;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望
        * </pre>
        */
       public Builder setHyMoney(int value) {
@@ -15784,7 +15800,7 @@ public final class HuangYeProtos {
        * <code>optional int32 hyMoney = 5;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望
        * </pre>
        */
       public Builder clearHyMoney() {
@@ -15805,6 +15821,620 @@ public final class HuangYeProtos {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.HyShopResp)
   }
 
+  public interface DuiHuanInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 id = 1;
+    /**
+     * <code>required int32 id = 1;</code>
+     */
+    boolean hasId();
+    /**
+     * <code>required int32 id = 1;</code>
+     */
+    int getId();
+
+    // required int32 site = 2;
+    /**
+     * <code>required int32 site = 2;</code>
+     */
+    boolean hasSite();
+    /**
+     * <code>required int32 site = 2;</code>
+     */
+    int getSite();
+
+    // required bool isChange = 3;
+    /**
+     * <code>required bool isChange = 3;</code>
+     *
+     * <pre>
+     * 1 表示可以兑换 0 表示售罄
+     * </pre>
+     */
+    boolean hasIsChange();
+    /**
+     * <code>required bool isChange = 3;</code>
+     *
+     * <pre>
+     * 1 表示可以兑换 0 表示售罄
+     * </pre>
+     */
+    boolean getIsChange();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.DuiHuanInfo}
+   */
+  public static final class DuiHuanInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements DuiHuanInfoOrBuilder {
+    // Use DuiHuanInfo.newBuilder() to construct.
+    private DuiHuanInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private DuiHuanInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final DuiHuanInfo defaultInstance;
+    public static DuiHuanInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public DuiHuanInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DuiHuanInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              id_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              site_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              isChange_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.HuangYeProtos.internal_static_qxmobile_protobuf_DuiHuanInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.HuangYeProtos.internal_static_qxmobile_protobuf_DuiHuanInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.class, qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<DuiHuanInfo> PARSER =
+        new com.google.protobuf.AbstractParser<DuiHuanInfo>() {
+      public DuiHuanInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new DuiHuanInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DuiHuanInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 id = 1;
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
+    /**
+     * <code>required int32 id = 1;</code>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 id = 1;</code>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    // required int32 site = 2;
+    public static final int SITE_FIELD_NUMBER = 2;
+    private int site_;
+    /**
+     * <code>required int32 site = 2;</code>
+     */
+    public boolean hasSite() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 site = 2;</code>
+     */
+    public int getSite() {
+      return site_;
+    }
+
+    // required bool isChange = 3;
+    public static final int ISCHANGE_FIELD_NUMBER = 3;
+    private boolean isChange_;
+    /**
+     * <code>required bool isChange = 3;</code>
+     *
+     * <pre>
+     * 1 表示可以兑换 0 表示售罄
+     * </pre>
+     */
+    public boolean hasIsChange() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required bool isChange = 3;</code>
+     *
+     * <pre>
+     * 1 表示可以兑换 0 表示售罄
+     * </pre>
+     */
+    public boolean getIsChange() {
+      return isChange_;
+    }
+
+    private void initFields() {
+      id_ = 0;
+      site_ = 0;
+      isChange_ = false;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSite()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIsChange()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, id_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, site_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBool(3, isChange_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, id_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, site_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, isChange_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.HuangYeProtos.DuiHuanInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.HuangYeProtos.DuiHuanInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.HuangYeProtos.DuiHuanInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.HuangYeProtos.DuiHuanInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.HuangYeProtos.DuiHuanInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.HuangYeProtos.DuiHuanInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.HuangYeProtos.DuiHuanInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.HuangYeProtos.DuiHuanInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.HuangYeProtos.DuiHuanInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.HuangYeProtos.DuiHuanInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.HuangYeProtos.DuiHuanInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.DuiHuanInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.HuangYeProtos.DuiHuanInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.HuangYeProtos.internal_static_qxmobile_protobuf_DuiHuanInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.HuangYeProtos.internal_static_qxmobile_protobuf_DuiHuanInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.class, qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        id_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        site_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        isChange_ = false;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.HuangYeProtos.internal_static_qxmobile_protobuf_DuiHuanInfo_descriptor;
+      }
+
+      public qxmobile.protobuf.HuangYeProtos.DuiHuanInfo getDefaultInstanceForType() {
+        return qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.HuangYeProtos.DuiHuanInfo build() {
+        qxmobile.protobuf.HuangYeProtos.DuiHuanInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.HuangYeProtos.DuiHuanInfo buildPartial() {
+        qxmobile.protobuf.HuangYeProtos.DuiHuanInfo result = new qxmobile.protobuf.HuangYeProtos.DuiHuanInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.id_ = id_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.site_ = site_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.isChange_ = isChange_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.HuangYeProtos.DuiHuanInfo) {
+          return mergeFrom((qxmobile.protobuf.HuangYeProtos.DuiHuanInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.HuangYeProtos.DuiHuanInfo other) {
+        if (other == qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.getDefaultInstance()) return this;
+        if (other.hasId()) {
+          setId(other.getId());
+        }
+        if (other.hasSite()) {
+          setSite(other.getSite());
+        }
+        if (other.hasIsChange()) {
+          setIsChange(other.getIsChange());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasId()) {
+          
+          return false;
+        }
+        if (!hasSite()) {
+          
+          return false;
+        }
+        if (!hasIsChange()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.HuangYeProtos.DuiHuanInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.HuangYeProtos.DuiHuanInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 id = 1;
+      private int id_ ;
+      /**
+       * <code>required int32 id = 1;</code>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       */
+      public Builder setId(int value) {
+        bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 site = 2;
+      private int site_ ;
+      /**
+       * <code>required int32 site = 2;</code>
+       */
+      public boolean hasSite() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 site = 2;</code>
+       */
+      public int getSite() {
+        return site_;
+      }
+      /**
+       * <code>required int32 site = 2;</code>
+       */
+      public Builder setSite(int value) {
+        bitField0_ |= 0x00000002;
+        site_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 site = 2;</code>
+       */
+      public Builder clearSite() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        site_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required bool isChange = 3;
+      private boolean isChange_ ;
+      /**
+       * <code>required bool isChange = 3;</code>
+       *
+       * <pre>
+       * 1 表示可以兑换 0 表示售罄
+       * </pre>
+       */
+      public boolean hasIsChange() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required bool isChange = 3;</code>
+       *
+       * <pre>
+       * 1 表示可以兑换 0 表示售罄
+       * </pre>
+       */
+      public boolean getIsChange() {
+        return isChange_;
+      }
+      /**
+       * <code>required bool isChange = 3;</code>
+       *
+       * <pre>
+       * 1 表示可以兑换 0 表示售罄
+       * </pre>
+       */
+      public Builder setIsChange(boolean value) {
+        bitField0_ |= 0x00000004;
+        isChange_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool isChange = 3;</code>
+       *
+       * <pre>
+       * 1 表示可以兑换 0 表示售罄
+       * </pre>
+       */
+      public Builder clearIsChange() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        isChange_ = false;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.DuiHuanInfo)
+    }
+
+    static {
+      defaultInstance = new DuiHuanInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.DuiHuanInfo)
+  }
+
   public interface HyBuyGoodReqOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -15815,6 +16445,8 @@ public final class HuangYeProtos {
      * <pre>
      * type = 1 表示荒野购买
      * type = 2 表示联盟购买
+     * type = 3 联盟战购买
+     * type = 4 百战购买
      * </pre>
      */
     boolean hasType();
@@ -15824,6 +16456,8 @@ public final class HuangYeProtos {
      * <pre>
      * type = 1 表示荒野购买
      * type = 2 表示联盟购买
+     * type = 3 联盟战购买
+     * type = 4 百战购买
      * </pre>
      */
     int getType();
@@ -15840,16 +16474,6 @@ public final class HuangYeProtos {
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.HyBuyGoodReq}
-   *
-   * <pre>
-   *DuiHuanInfo 查看PVP.proto
-   *message DuiHuanInfo{
-   *	required int32 id = 1;
-   *	required int32 site = 2;
-   *	// 1 表示可以兑换 0 表示售罄
-   *	required bool isChange = 3;
-   *}
-   * </pre>
    */
   public static final class HyBuyGoodReq extends
       com.google.protobuf.GeneratedMessage
@@ -15958,6 +16582,8 @@ public final class HuangYeProtos {
      * <pre>
      * type = 1 表示荒野购买
      * type = 2 表示联盟购买
+     * type = 3 联盟战购买
+     * type = 4 百战购买
      * </pre>
      */
     public boolean hasType() {
@@ -15969,6 +16595,8 @@ public final class HuangYeProtos {
      * <pre>
      * type = 1 表示荒野购买
      * type = 2 表示联盟购买
+     * type = 3 联盟战购买
+     * type = 4 百战购买
      * </pre>
      */
     public int getType() {
@@ -16118,16 +16746,6 @@ public final class HuangYeProtos {
     }
     /**
      * Protobuf type {@code qxmobile.protobuf.HyBuyGoodReq}
-     *
-     * <pre>
-     *DuiHuanInfo 查看PVP.proto
-     *message DuiHuanInfo{
-     *	required int32 id = 1;
-     *	required int32 site = 2;
-     *	// 1 表示可以兑换 0 表示售罄
-     *	required bool isChange = 3;
-     *}
-     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -16269,6 +16887,8 @@ public final class HuangYeProtos {
        * <pre>
        * type = 1 表示荒野购买
        * type = 2 表示联盟购买
+       * type = 3 联盟战购买
+       * type = 4 百战购买
        * </pre>
        */
       public boolean hasType() {
@@ -16280,6 +16900,8 @@ public final class HuangYeProtos {
        * <pre>
        * type = 1 表示荒野购买
        * type = 2 表示联盟购买
+       * type = 3 联盟战购买
+       * type = 4 百战购买
        * </pre>
        */
       public int getType() {
@@ -16291,6 +16913,8 @@ public final class HuangYeProtos {
        * <pre>
        * type = 1 表示荒野购买
        * type = 2 表示联盟购买
+       * type = 3 联盟战购买
+       * type = 4 百战购买
        * </pre>
        */
       public Builder setType(int value) {
@@ -16305,6 +16929,8 @@ public final class HuangYeProtos {
        * <pre>
        * type = 1 表示荒野购买
        * type = 2 表示联盟购买
+       * type = 3 联盟战购买
+       * type = 4 百战购买
        * </pre>
        */
       public Builder clearType() {
@@ -16366,7 +16992,7 @@ public final class HuangYeProtos {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * msg ==1: 购买成功
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
      * </pre>
      */
     boolean hasMsg();
@@ -16374,7 +17000,7 @@ public final class HuangYeProtos {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * msg ==1: 购买成功
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
      * </pre>
      */
     int getMsg();
@@ -16384,7 +17010,7 @@ public final class HuangYeProtos {
      * <code>optional int32 remianHyMoney = 2;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献；百战商店:威望
      * </pre>
      */
     boolean hasRemianHyMoney();
@@ -16392,7 +17018,7 @@ public final class HuangYeProtos {
      * <code>optional int32 remianHyMoney = 2;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献；百战商店:威望
      * </pre>
      */
     int getRemianHyMoney();
@@ -16505,7 +17131,7 @@ public final class HuangYeProtos {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * msg ==1: 购买成功
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
      * </pre>
      */
     public boolean hasMsg() {
@@ -16515,7 +17141,7 @@ public final class HuangYeProtos {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * msg ==1: 购买成功
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
      * </pre>
      */
     public int getMsg() {
@@ -16529,7 +17155,7 @@ public final class HuangYeProtos {
      * <code>optional int32 remianHyMoney = 2;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献；百战商店:威望
      * </pre>
      */
     public boolean hasRemianHyMoney() {
@@ -16539,7 +17165,7 @@ public final class HuangYeProtos {
      * <code>optional int32 remianHyMoney = 2;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献；百战商店:威望
      * </pre>
      */
     public int getRemianHyMoney() {
@@ -16804,7 +17430,7 @@ public final class HuangYeProtos {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * msg ==1: 购买成功
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
        * </pre>
        */
       public boolean hasMsg() {
@@ -16814,7 +17440,7 @@ public final class HuangYeProtos {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * msg ==1: 购买成功
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
        * </pre>
        */
       public int getMsg() {
@@ -16824,7 +17450,7 @@ public final class HuangYeProtos {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * msg ==1: 购买成功
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
        * </pre>
        */
       public Builder setMsg(int value) {
@@ -16837,7 +17463,7 @@ public final class HuangYeProtos {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * msg ==1: 购买成功
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
        * </pre>
        */
       public Builder clearMsg() {
@@ -16853,7 +17479,7 @@ public final class HuangYeProtos {
        * <code>optional int32 remianHyMoney = 2;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献；百战商店:威望
        * </pre>
        */
       public boolean hasRemianHyMoney() {
@@ -16863,7 +17489,7 @@ public final class HuangYeProtos {
        * <code>optional int32 remianHyMoney = 2;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献；百战商店:威望
        * </pre>
        */
       public int getRemianHyMoney() {
@@ -16873,7 +17499,7 @@ public final class HuangYeProtos {
        * <code>optional int32 remianHyMoney = 2;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献；百战商店:威望
        * </pre>
        */
       public Builder setRemianHyMoney(int value) {
@@ -16886,7 +17512,7 @@ public final class HuangYeProtos {
        * <code>optional int32 remianHyMoney = 2;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献；百战商店:威望
        * </pre>
        */
       public Builder clearRemianHyMoney() {
@@ -19930,6 +20556,11 @@ public final class HuangYeProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_HyShopResp_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_DuiHuanInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_DuiHuanInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_HyBuyGoodReq_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -19968,65 +20599,66 @@ public final class HuangYeProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rHuangYe.proto\022\021qxmobile.protobuf\032\tPVP." +
-      "proto\"\356\001\n\017OpenHuangYeResp\022\017\n\007hYMoney\030\001 \002" +
-      "(\005\022\025\n\rallianceBuild\030\002 \002(\005\0224\n\010treasure\030\003 " +
-      "\003(\0132\".qxmobile.protobuf.HuangYeTreasure\022" +
-      "\020\n\010allTimes\030\004 \002(\005\022\023\n\013remianTimes\030\005 \002(\005\022\024" +
-      "\n\014buyCiShuInfo\030\006 \002(\005\022\024\n\014buyNextCiShu\030\007 \001" +
-      "(\005\022\024\n\014buyNextMoney\030\010 \001(\005\022\024\n\014leftBuyCiShu" +
-      "\030\t \001(\005\"^\n\017HuangYeTreasure\022\n\n\002id\030\001 \001(\003\022\016\n" +
-      "\006fileId\030\002 \002(\005\022\020\n\010isActive\030\003 \002(\005\022\016\n\006isOpe" +
-      "n\030\004 \001(\005\022\r\n\005jindu\030\005 \001(\005\"!\n\023OpenHuangYeTre",
-      "asure\022\n\n\002id\030\001 \002(\003\"I\n\027OpenHuangYeTreasure" +
-      "Resp\022\016\n\006result\030\001 \002(\005\022\n\n\002id\030\002 \001(\003\022\022\n\nbuil" +
-      "dValue\030\003 \001(\005\"\036\n\020HYTreasureBattle\022\n\n\002id\030\001" +
-      " \002(\003\"\272\002\n\024HYTreasureBattleResp\022\016\n\006status\030" +
-      "\001 \002(\005\022\022\n\nbattleName\030\002 \001(\t\0224\n\010npcInfos\030\003 " +
-      "\003(\0132\".qxmobile.protobuf.TreasureNpcInfo\022" +
-      "\022\n\ntimesOfDay\030\004 \002(\005\022\022\n\ntotalTimes\030\005 \002(\005\022" +
-      "\r\n\005jindu\030\006 \002(\005\022\025\n\rconditionIsOk\030\007 \002(\010\022\022\n" +
-      "\nremainTime\030\010 \001(\005\022\016\n\006zuheId\030\t \001(\005\022\024\n\014buy" +
-      "CiShuInfo\030\n \002(\005\022\024\n\014buyNextCiShu\030\013 \001(\005\022\024\n",
-      "\014buyNextMoney\030\014 \001(\005\022\024\n\014leftBuyCiShu\030\r \001(" +
-      "\005\"C\n\017TreasureNpcInfo\022\r\n\005npcId\030\001 \002(\005\022\020\n\010r" +
-      "emainHP\030\002 \002(\005\022\017\n\007totalHP\030\003 \002(\005\"$\n\016ReqRew" +
-      "ardStore\022\022\n\nlianmengId\030\001 \002(\005\"I\n\022ReqRewar" +
-      "dStoreResp\0223\n\010itemInfo\030\001 \003(\0132!.qxmobile." +
-      "protobuf.RewardItemInfo\"a\n\016RewardItemInf" +
-      "o\022\014\n\004site\030\001 \002(\005\022\014\n\004nums\030\002 \002(\005\0223\n\013applyer" +
-      "Info\030\003 \003(\0132\036.qxmobile.protobuf.ApplyerIn" +
-      "fo\"O\n\013ApplyerInfo\022\020\n\010junzhuId\030\001 \002(\003\022\016\n\006i" +
-      "conId\030\002 \002(\005\022\020\n\010gongXian\030\003 \002(\005\022\014\n\004name\030\004 ",
-      "\002(\t\"\033\n\013ApplyReward\022\014\n\004site\030\001 \002(\005\"x\n\017Appl" +
-      "yRewardResp\022\016\n\006result\030\001 \002(\005\022\017\n\007curSite\030\002" +
-      " \001(\005\022\017\n\007preSite\030\003 \001(\005\0223\n\013applyerInfo\030\004 \001" +
-      "(\0132\036.qxmobile.protobuf.ApplyerInfo\"!\n\021Ca" +
-      "ncelApplyReward\022\014\n\004site\030\001 \002(\005\"G\n\025CancelA" +
-      "pplyRewardResp\022\016\n\006result\030\001 \002(\005\022\014\n\004site\030\002" +
-      " \001(\005\022\020\n\010junzhuId\030\003 \001(\003\",\n\nGiveReward\022\020\n\010" +
-      "junzhuId\030\001 \002(\003\022\014\n\004site\030\002 \002(\005\"N\n\016GiveRewa" +
-      "rdResp\022\016\n\006result\030\001 \002(\005\022\014\n\004site\030\002 \001(\005\022\014\n\004" +
-      "nums\030\003 \001(\005\022\020\n\010junzhuId\030\004 \001(\003\"%\n\021ActiveTr",
-      "easureReq\022\020\n\010idOfFile\030\001 \002(\005\"D\n\022ActiveTre" +
-      "asureResp\022\016\n\006result\030\001 \002(\005\022\n\n\002id\030\002 \001(\003\022\022\n" +
-      "\nbuildValue\030\003 \001(\005\"\031\n\tHyShopReq\022\014\n\004type\030\001" +
-      " \002(\005\"\220\001\n\nHyShopResp\022\013\n\003msg\030\001 \002(\005\0222\n\ngood" +
-      "sInfos\030\002 \003(\0132\036.qxmobile.protobuf.DuiHuan" +
-      "Info\022\022\n\nremianTime\030\003 \001(\005\022\034\n\024nextRefreshN" +
-      "eedMoney\030\004 \001(\005\022\017\n\007hyMoney\030\005 \001(\005\",\n\014HyBuy" +
-      "GoodReq\022\014\n\004type\030\001 \002(\005\022\016\n\006goodId\030\002 \002(\005\"3\n" +
-      "\rHyBuyGoodResp\022\013\n\003msg\030\001 \002(\005\022\025\n\rremianHyM" +
-      "oney\030\002 \001(\005\"\036\n\020MaxDamageRankReq\022\n\n\002id\030\001 \002",
-      "(\003\"F\n\021MaxDamageRankResp\0221\n\ndamageInfo\030\001 " +
-      "\003(\0132\035.qxmobile.protobuf.DamageInfo\">\n\nDa" +
-      "mageInfo\022\014\n\004rank\030\001 \002(\005\022\016\n\006damage\030\002 \002(\005\022\022" +
-      "\n\njunZhuName\030\003 \002(\t\"\251\001\n\024HyBuyBattleTimesR" +
-      "esp\022\021\n\tisSuccess\030\001 \002(\005\022\022\n\ntimesOfDay\030\002 \001" +
-      "(\005\022\022\n\ntotalTimes\030\003 \001(\005\022\024\n\014buyCiShuInfo\030\004" +
-      " \002(\005\022\024\n\014buyNextCiShu\030\005 \001(\005\022\024\n\014buyNextMon" +
-      "ey\030\006 \001(\005\022\024\n\014leftBuyCiShu\030\007 \001(\005B\017B\rHuangY" +
-      "eProtos"
+      "\n\rHuangYe.proto\022\021qxmobile.protobuf\"\356\001\n\017O" +
+      "penHuangYeResp\022\017\n\007hYMoney\030\001 \002(\005\022\025\n\rallia" +
+      "nceBuild\030\002 \002(\005\0224\n\010treasure\030\003 \003(\0132\".qxmob" +
+      "ile.protobuf.HuangYeTreasure\022\020\n\010allTimes" +
+      "\030\004 \002(\005\022\023\n\013remianTimes\030\005 \002(\005\022\024\n\014buyCiShuI" +
+      "nfo\030\006 \002(\005\022\024\n\014buyNextCiShu\030\007 \001(\005\022\024\n\014buyNe" +
+      "xtMoney\030\010 \001(\005\022\024\n\014leftBuyCiShu\030\t \001(\005\"^\n\017H" +
+      "uangYeTreasure\022\n\n\002id\030\001 \001(\003\022\016\n\006fileId\030\002 \002" +
+      "(\005\022\020\n\010isActive\030\003 \002(\005\022\016\n\006isOpen\030\004 \001(\005\022\r\n\005" +
+      "jindu\030\005 \001(\005\"!\n\023OpenHuangYeTreasure\022\n\n\002id",
+      "\030\001 \002(\003\"I\n\027OpenHuangYeTreasureResp\022\016\n\006res" +
+      "ult\030\001 \002(\005\022\n\n\002id\030\002 \001(\003\022\022\n\nbuildValue\030\003 \001(" +
+      "\005\"\036\n\020HYTreasureBattle\022\n\n\002id\030\001 \002(\003\"\272\002\n\024HY" +
+      "TreasureBattleResp\022\016\n\006status\030\001 \002(\005\022\022\n\nba" +
+      "ttleName\030\002 \001(\t\0224\n\010npcInfos\030\003 \003(\0132\".qxmob" +
+      "ile.protobuf.TreasureNpcInfo\022\022\n\ntimesOfD" +
+      "ay\030\004 \002(\005\022\022\n\ntotalTimes\030\005 \002(\005\022\r\n\005jindu\030\006 " +
+      "\002(\005\022\025\n\rconditionIsOk\030\007 \002(\010\022\022\n\nremainTime" +
+      "\030\010 \001(\005\022\016\n\006zuheId\030\t \001(\005\022\024\n\014buyCiShuInfo\030\n" +
+      " \002(\005\022\024\n\014buyNextCiShu\030\013 \001(\005\022\024\n\014buyNextMon",
+      "ey\030\014 \001(\005\022\024\n\014leftBuyCiShu\030\r \001(\005\"C\n\017Treasu" +
+      "reNpcInfo\022\r\n\005npcId\030\001 \002(\005\022\020\n\010remainHP\030\002 \002" +
+      "(\005\022\017\n\007totalHP\030\003 \002(\005\"$\n\016ReqRewardStore\022\022\n" +
+      "\nlianmengId\030\001 \002(\005\"I\n\022ReqRewardStoreResp\022" +
+      "3\n\010itemInfo\030\001 \003(\0132!.qxmobile.protobuf.Re" +
+      "wardItemInfo\"a\n\016RewardItemInfo\022\014\n\004site\030\001" +
+      " \002(\005\022\014\n\004nums\030\002 \002(\005\0223\n\013applyerInfo\030\003 \003(\0132" +
+      "\036.qxmobile.protobuf.ApplyerInfo\"O\n\013Apply" +
+      "erInfo\022\020\n\010junzhuId\030\001 \002(\003\022\016\n\006iconId\030\002 \002(\005" +
+      "\022\020\n\010gongXian\030\003 \002(\005\022\014\n\004name\030\004 \002(\t\"\033\n\013Appl",
+      "yReward\022\014\n\004site\030\001 \002(\005\"x\n\017ApplyRewardResp" +
+      "\022\016\n\006result\030\001 \002(\005\022\017\n\007curSite\030\002 \001(\005\022\017\n\007pre" +
+      "Site\030\003 \001(\005\0223\n\013applyerInfo\030\004 \001(\0132\036.qxmobi" +
+      "le.protobuf.ApplyerInfo\"!\n\021CancelApplyRe" +
+      "ward\022\014\n\004site\030\001 \002(\005\"G\n\025CancelApplyRewardR" +
+      "esp\022\016\n\006result\030\001 \002(\005\022\014\n\004site\030\002 \001(\005\022\020\n\010jun" +
+      "zhuId\030\003 \001(\003\",\n\nGiveReward\022\020\n\010junzhuId\030\001 " +
+      "\002(\003\022\014\n\004site\030\002 \002(\005\"N\n\016GiveRewardResp\022\016\n\006r" +
+      "esult\030\001 \002(\005\022\014\n\004site\030\002 \001(\005\022\014\n\004nums\030\003 \001(\005\022" +
+      "\020\n\010junzhuId\030\004 \001(\003\"%\n\021ActiveTreasureReq\022\020",
+      "\n\010idOfFile\030\001 \002(\005\"D\n\022ActiveTreasureResp\022\016" +
+      "\n\006result\030\001 \002(\005\022\n\n\002id\030\002 \001(\003\022\022\n\nbuildValue" +
+      "\030\003 \001(\005\"\031\n\tHyShopReq\022\014\n\004type\030\001 \002(\005\"\220\001\n\nHy" +
+      "ShopResp\022\013\n\003msg\030\001 \002(\005\0222\n\ngoodsInfos\030\002 \003(" +
+      "\0132\036.qxmobile.protobuf.DuiHuanInfo\022\022\n\nrem" +
+      "ianTime\030\003 \001(\005\022\034\n\024nextRefreshNeedMoney\030\004 " +
+      "\001(\005\022\017\n\007hyMoney\030\005 \001(\005\"9\n\013DuiHuanInfo\022\n\n\002i" +
+      "d\030\001 \002(\005\022\014\n\004site\030\002 \002(\005\022\020\n\010isChange\030\003 \002(\010\"" +
+      ",\n\014HyBuyGoodReq\022\014\n\004type\030\001 \002(\005\022\016\n\006goodId\030" +
+      "\002 \002(\005\"3\n\rHyBuyGoodResp\022\013\n\003msg\030\001 \002(\005\022\025\n\rr",
+      "emianHyMoney\030\002 \001(\005\"\036\n\020MaxDamageRankReq\022\n" +
+      "\n\002id\030\001 \002(\003\"F\n\021MaxDamageRankResp\0221\n\ndamag" +
+      "eInfo\030\001 \003(\0132\035.qxmobile.protobuf.DamageIn" +
+      "fo\">\n\nDamageInfo\022\014\n\004rank\030\001 \002(\005\022\016\n\006damage" +
+      "\030\002 \002(\005\022\022\n\njunZhuName\030\003 \002(\t\"\251\001\n\024HyBuyBatt" +
+      "leTimesResp\022\021\n\tisSuccess\030\001 \002(\005\022\022\n\ntimesO" +
+      "fDay\030\002 \001(\005\022\022\n\ntotalTimes\030\003 \001(\005\022\024\n\014buyCiS" +
+      "huInfo\030\004 \002(\005\022\024\n\014buyNextCiShu\030\005 \001(\005\022\024\n\014bu" +
+      "yNextMoney\030\006 \001(\005\022\024\n\014leftBuyCiShu\030\007 \001(\005B\017" +
+      "B\rHuangYeProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -20159,38 +20791,44 @@ public final class HuangYeProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_HyShopResp_descriptor,
               new java.lang.String[] { "Msg", "GoodsInfos", "RemianTime", "NextRefreshNeedMoney", "HyMoney", });
-          internal_static_qxmobile_protobuf_HyBuyGoodReq_descriptor =
+          internal_static_qxmobile_protobuf_DuiHuanInfo_descriptor =
             getDescriptor().getMessageTypes().get(21);
+          internal_static_qxmobile_protobuf_DuiHuanInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_DuiHuanInfo_descriptor,
+              new java.lang.String[] { "Id", "Site", "IsChange", });
+          internal_static_qxmobile_protobuf_HyBuyGoodReq_descriptor =
+            getDescriptor().getMessageTypes().get(22);
           internal_static_qxmobile_protobuf_HyBuyGoodReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_HyBuyGoodReq_descriptor,
               new java.lang.String[] { "Type", "GoodId", });
           internal_static_qxmobile_protobuf_HyBuyGoodResp_descriptor =
-            getDescriptor().getMessageTypes().get(22);
+            getDescriptor().getMessageTypes().get(23);
           internal_static_qxmobile_protobuf_HyBuyGoodResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_HyBuyGoodResp_descriptor,
               new java.lang.String[] { "Msg", "RemianHyMoney", });
           internal_static_qxmobile_protobuf_MaxDamageRankReq_descriptor =
-            getDescriptor().getMessageTypes().get(23);
+            getDescriptor().getMessageTypes().get(24);
           internal_static_qxmobile_protobuf_MaxDamageRankReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_MaxDamageRankReq_descriptor,
               new java.lang.String[] { "Id", });
           internal_static_qxmobile_protobuf_MaxDamageRankResp_descriptor =
-            getDescriptor().getMessageTypes().get(24);
+            getDescriptor().getMessageTypes().get(25);
           internal_static_qxmobile_protobuf_MaxDamageRankResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_MaxDamageRankResp_descriptor,
               new java.lang.String[] { "DamageInfo", });
           internal_static_qxmobile_protobuf_DamageInfo_descriptor =
-            getDescriptor().getMessageTypes().get(25);
+            getDescriptor().getMessageTypes().get(26);
           internal_static_qxmobile_protobuf_DamageInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_DamageInfo_descriptor,
               new java.lang.String[] { "Rank", "Damage", "JunZhuName", });
           internal_static_qxmobile_protobuf_HyBuyBattleTimesResp_descriptor =
-            getDescriptor().getMessageTypes().get(26);
+            getDescriptor().getMessageTypes().get(27);
           internal_static_qxmobile_protobuf_HyBuyBattleTimesResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_HyBuyBattleTimesResp_descriptor,
@@ -20201,7 +20839,6 @@ public final class HuangYeProtos {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-          qxmobile.protobuf.PvpProto.getDescriptor(),
         }, assigner);
   }
 

@@ -47,6 +47,8 @@ import com.qx.event.EventProc;
 import com.qx.fuwen.FuwenMgr;
 import com.qx.guojia.ResourceGongJin;
 import com.qx.huangye.HYTreasureTimes;
+import com.qx.huangye.shop.PublicShop;
+import com.qx.huangye.shop.ShopMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.junzhu.TalentPoint;
@@ -60,7 +62,6 @@ import com.qx.pve.PveRecord;
 import com.qx.pve.SaoDangBean;
 import com.qx.pvp.LveDuoBean;
 import com.qx.pvp.PvpBean;
-import com.qx.pvp.PvpDuiHuanBean;
 import com.qx.pvp.PvpMgr;
 
 /**
@@ -359,7 +360,7 @@ public class GameTaskMgr extends EventProc{
 					}
 					break;
 				/*
-				 * 0.99 TODO 强化到任意等级
+				 * 0.99  强化到任意等级
 				 */
 				case TaskData.qianghua_level_x:
 					donCond = Integer.parseInt(zx.getDoneCond());
@@ -470,7 +471,7 @@ public class GameTaskMgr extends EventProc{
 					 * 是否领取过威望
 					 */
 				case TaskData.get_produce_weiWang:
-					PvpDuiHuanBean d = HibernateUtil.find(PvpDuiHuanBean.class, junZhuId);
+					PvpBean d = HibernateUtil.find(PvpBean.class, junZhuId);
 					if(d!= null && d.getProduceWeiWangTimes >= 1){
 						b.progress = -1;
 					}
@@ -479,8 +480,9 @@ public class GameTaskMgr extends EventProc{
 					 * 是否花威望购买过东西
 					 */
 				case TaskData.pay_weiWang:
-					d = HibernateUtil.find(PvpDuiHuanBean.class, junZhuId);
-					if(d!=null && d.buyGoodPayWeiWangTimes >= 1){
+					PublicShop s = HibernateUtil.find(PublicShop.class, 
+							junZhuId * ShopMgr.shop_space + ShopMgr.baizhan_shop_type);
+					if(s!=null && s.buyGoodTimes >= 1){
 						b.progress = -1;
 					}
 					break;

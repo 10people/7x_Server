@@ -15,28 +15,27 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import log.ActLog;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
-import qxmobile.protobuf.PvpProto.AddChanceResp;
 import qxmobile.protobuf.PvpProto.BaiZhanInfoResp;
 import qxmobile.protobuf.PvpProto.BaiZhanResult;
 import qxmobile.protobuf.PvpProto.BaiZhanResultResp;
+import qxmobile.protobuf.PvpProto.BuyCiShuInfo;
 import qxmobile.protobuf.PvpProto.ChallengeReq;
 import qxmobile.protobuf.PvpProto.ChallengeResp;
+import qxmobile.protobuf.PvpProto.CleanCDInfo;
 import qxmobile.protobuf.PvpProto.ConfirmExecuteReq;
 import qxmobile.protobuf.PvpProto.ConfirmExecuteResp;
-import qxmobile.protobuf.PvpProto.DuiHuanInfo;
-import qxmobile.protobuf.PvpProto.ExchageAwardReq;
-import qxmobile.protobuf.PvpProto.ExchageAwardResp;
+import qxmobile.protobuf.PvpProto.GetAwardInfo;
 import qxmobile.protobuf.PvpProto.OpponentInfo;
 import qxmobile.protobuf.PvpProto.PVPInfo;
+import qxmobile.protobuf.PvpProto.PayChangeInfo;
 import qxmobile.protobuf.PvpProto.PlayerStateReq;
 import qxmobile.protobuf.PvpProto.PlayerStateResp;
-import qxmobile.protobuf.PvpProto.ReceiveAwardResp;
+import qxmobile.protobuf.PvpProto.RefreshMyInfo;
+import qxmobile.protobuf.PvpProto.RefreshOtherInfo;
 import qxmobile.protobuf.PvpProto.ZhandouItem;
 import qxmobile.protobuf.PvpProto.ZhandouRecordResp;
 import qxmobile.protobuf.ZhanDou;
@@ -52,7 +51,6 @@ import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.boot.GameServer;
 import com.manu.dynasty.hero.service.HeroService;
 import com.manu.dynasty.store.Redis;
-import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.BaiZhan;
 import com.manu.dynasty.template.BaiZhanNpc;
 import com.manu.dynasty.template.BaiZhanRank;
@@ -67,16 +65,12 @@ import com.manu.dynasty.template.Purchase;
 import com.manu.dynasty.template.VipFuncOpen;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.dynasty.util.MathUtils;
-import com.manu.dynasty.util.StringToOthersUtil;
-import com.manu.dynasty.util.StringUtils;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
-import com.manu.network.SessionManager;
 import com.qx.account.FunctionOpenMgr;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
 import com.qx.award.AwardMgr;
-import com.qx.bag.BagMgr;
 import com.qx.battle.PveMgr;
 import com.qx.email.EmailMgr;
 import com.qx.event.ED;
@@ -84,11 +78,11 @@ import com.qx.event.Event;
 import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.guojia.GuoJiaMgr;
+import com.qx.huangye.shop.ShopMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
-import com.qx.persistent.MC;
 import com.qx.purchase.PurchaseConstants;
 import com.qx.purchase.PurchaseMgr;
 import com.qx.task.DailyTaskCondition;
@@ -129,7 +123,7 @@ public class PvpMgr extends EventProc implements Runnable {
 	/* 战斗id */
 	private AtomicInteger zhandouIdMgr = new AtomicInteger(1);
 	/* 战斗录像 */
-	public static Map<Integer, ZhanDouInitResp> replayCache = new HashMap<Integer, ZhanDouInitResp>();
+	//public static Map<Integer, ZhanDouInitResp> replayCache = new HashMap<Integer, ZhanDouInitResp>();
 	/*
 	 * 存放玩家和对手的战斗数据
 	 */
@@ -345,14 +339,13 @@ public class PvpMgr extends EventProc implements Runnable {
 		 * 对手列表信息
 		 */
 		List<Integer> tenRanks = getChallengeRanks(bean, junRank);
-		/*
 		// 根据策划需求，百战第一次，随机一名等级==2的npc
 		if(bean == null || bean.allBattleTimes == 0){
 			BaiZhanNpc npc = null;
 			int size = baiZhanNpcMap.size();
 			for(int i =0; i<size; i++){
 				npc = baiZhanNpcMap.get(i);
-				if(npc.level == 2){
+				if(npc != null && npc.level == 2){
 					break;
 				}
 			}
@@ -364,7 +357,6 @@ public class PvpMgr extends EventProc implements Runnable {
 				tenRanks.set(3, forthRank);
 			}
 		}
-		*/
 		List<OpponentInfo.Builder> enemyBuilderList = fillEnemyListInfo(tenRanks);
 		for (OpponentInfo.Builder b : enemyBuilderList) {
 			resp.addOppoList(b);
@@ -377,6 +369,19 @@ public class PvpMgr extends EventProc implements Runnable {
 		resp.setWeiWangHour(da[0]);
 		resp.setHasWeiWang(da[1]);
 		resp.setCanGetweiWang(da[2]);
+		/*
+		 * 购买百战战斗机会信息
+		 */
+		int[] data = getBuyADDChanceData(jz.vipLevel, bean.buyCount,
+				VipData.bugBaizhanTime, PurchaseConstants.BAIZHAN);
+		if (data == null || data[0] == 0) {
+			// 今日购买回数已经用完，无法再购买
+			resp.setLeftCanBuyCount(0);
+		}else{
+			resp.setLeftCanBuyCount(data[3] - bean.buyCount);
+			resp.setBuyNeedYB(data[2]);
+			resp.setBuyNumber(data[1]);
+		}
 
 		/*
 		 * 发送
@@ -400,15 +405,10 @@ public class PvpMgr extends EventProc implements Runnable {
 		} else {
 			weiHour = bai.weiwang;
 		}
-
-		PvpDuiHuanBean bean = HibernateUtil.find(PvpDuiHuanBean.class, jzId);
-		if (bean == null) {
-			bean = initDuiHuanInfo(jzId);
-		}
-		hasWei = bean.weiWang;
-		int[] addA = getAccAward(new Date(), bean.lastCalculateAward, myRank,
-				vipLevel, bean.lastGetAward);
-		getwei = addA[0] + bean.leiJiWeiWang;
+		hasWei = ShopMgr.inst.getMoney(ShopMgr.Money.weiWang, jzId, null);
+		int[] addA = getAccAward(new Date(), pb.lastCalculateAward, myRank,
+				vipLevel, pb.lastGetAward);
+		getwei = addA[0] + pb.leiJiWeiWang;
 		return new int[]{weiHour, hasWei, getwei};
 	}
 	public int getBattleCountForVip(int vipLev) {
@@ -423,8 +423,6 @@ public class PvpMgr extends EventProc implements Runnable {
 	public PVPInfo.Builder fillPVPInfo(JunZhu jz, PvpBean bean, int junRank) {
 		PVPInfo.Builder pInfo = PVPInfo.newBuilder();
 		pInfo.setRank(junRank);
-		pInfo.setWinToday(bean.winToday);
-		pInfo.setLoseToday(0);
 		pInfo.setLeftTimes(bean.remain);
 		pInfo.setTotalTimes(bean.usedTimes + bean.remain);
 		// 挑战CD时间
@@ -445,7 +443,6 @@ public class PvpMgr extends EventProc implements Runnable {
 			Set<String> elem = DB.zrangebyscore_(KEY, rankTemp - 1,
 					rankTemp - 1);
 			if (elem == null) {
-
 				continue;
 			}
 			String s = null;
@@ -473,16 +470,6 @@ public class PvpMgr extends EventProc implements Runnable {
 				you.setLianMengName("");
 				you.setGuojia(npc.getGuoJiaId((int) playerId));
 				you.setRoleId(npc.getRoleId((int) playerId));
-				int values = receiveWeiWang(-playerId);
-				you.setReceiveWeiWang(values);
-				// MiBaoBriefInfo.Builder mibaoI = null;
-				// int[] npcm = {npc.mibao1, npc.mibao2, npc.mibao3};
-				// for (int i=0; i<3; i++){
-				// mibaoI = MiBaoBriefInfo.newBuilder();
-				// mibaoI.setMiBaoId(npcm[i]);
-				// mibaoI.setStar(npc.mibaoStar);
-				// you.addMiBaos(mibaoI);
-				// }
 				int zhanli = npc.power;
 				log.info("npc:{} 战力是:{}", playerId, zhanli);
 				you.setZhanLi(zhanli);
@@ -508,22 +495,10 @@ public class PvpMgr extends EventProc implements Runnable {
 				AllianceBean guild = AllianceMgr.inst
 						.getAllianceByJunZid(playerId);
 				you.setLianMengName(guild == null ? "" : guild.name);
-				int value = receiveWeiWang(playerId);
-				you.setReceiveWeiWang(value);
-				// List<Long> mss = Arrays.asList(pb.miBao1, pb.miBao2,
-				// pb.miBao3);
-				// List<MiBaoDB> mibaos = MibaoMgr.inst.getMiBaoDBs(mss);
-				// JunZhuMgr.inst.cacMiBaoAtt(junz, mibaos);
 				int zhanli = JunZhuMgr.inst.getJunZhuZhanliFinally(junz);
-				log.info("君主:{}加秘宝:{}的总战力是:{}", playerId, pb.miBao1 + ","
-						+ pb.miBao2 + "," + pb.miBao3, zhanli);
 				you.setZhanLi(zhanli);
 				you.setGuojia(junz.guoJiaId);
 				you.setRoleId(junz.roleId);
-				// List<MiBaoBriefInfo.Builder> mb = fillSimpleMibao(mibaos);
-				// for(MiBaoBriefInfo.Builder d: mb){
-				// you.addMiBaos(d);
-				// }
 				you.setActivateMiBaoCount(MibaoMgr.inst
 						.getActivateCountByZuheId(playerId, pb.zuheId));
 				you.setZuheId(pb.zuheId);
@@ -745,6 +720,7 @@ public class PvpMgr extends EventProc implements Runnable {
 		return bings;
 	}
 
+	/*
 	// 兑换 按钮(每9点 或者 21点系统主动更新一次)
 	public void getExchangeItemInfo(int id, Builder builder, IoSession session) {
 		Date now = new Date();
@@ -767,7 +743,6 @@ public class PvpMgr extends EventProc implements Runnable {
 		int[] ids = null;
 		/*
 		 * type == 1: 花费元宝刷新商品兑换
-		 */
 		if (type == 1) {
 			int needYB = getRefreshNeedWeiWang(bean);
 			if (needYB > weiWa) {
@@ -786,7 +761,6 @@ public class PvpMgr extends EventProc implements Runnable {
 		}
 		/*
 		 * type == 0: 请求商品兑换页面
-		 */
 		ids = stringToIntArr(bean.duiHuanId);
 		if (ids == null || now.getTime() >= bean.nextDuiHuanTime.getTime()) {
 			ids = restDuihuanList(bean);
@@ -796,7 +770,8 @@ public class PvpMgr extends EventProc implements Runnable {
 		fillDuiHuanInfo(bean, resp, ids);
 		session.write(resp.build());
 	}
-
+*/
+	/*
 	public void fillDuiHuanInfo(PvpDuiHuanBean bean,
 			ExchageAwardResp.Builder resp, int[] ids) {
 		resp.setWeiWang(bean.weiWang);
@@ -816,7 +791,8 @@ public class PvpMgr extends EventProc implements Runnable {
 			resp.addDuiHuanList(duihuan);
 		}
 	}
-
+*/
+	/*
 	public void resetPvpDuiHuanBean(PvpDuiHuanBean bean) {
 		//change 20150901
 		if(DateUtils.isTimeToReset(bean.lastShowDuiHuanTime, CanShu.REFRESHTIME_PURCHASE)){
@@ -825,7 +801,8 @@ public class PvpMgr extends EventProc implements Runnable {
 			HibernateUtil.save(bean);
 		}
 	}
-
+*/
+	/*
 	private int getRefreshNeedWeiWang(PvpDuiHuanBean bean) {
 		// 获取刷新兑换列表需要的威望
 		int number = bean.buyNumber;
@@ -833,14 +810,16 @@ public class PvpMgr extends EventProc implements Runnable {
 		int wei = getYuanBao(number, PVPConstant.DUI_HUAN_REFRESH);
 		return wei;
 	}
-
+*/
+	/*
 	private int[] restDuihuanList(PvpDuiHuanBean bean) {
 		int[] ids = getDuiHuanId();
 		bean.duiHuanId = intArrToString(ids);
 		bean.isBuy = intArrToString(setIsBuy());
 		return ids;
 	}
-
+*/
+	/*
 	private int[] getDuiHuanId() {
 		int[] ids = new int[duiHuanNum];
 		for (int i = 0; i < duiHuanNum; i++) {
@@ -868,8 +847,8 @@ public class PvpMgr extends EventProc implements Runnable {
 		}
 		return ids;
 	}
-
-	public void addChallengeChance(int id, Builder builder, IoSession session) {
+*/
+	/*public void addChallengeChance(int id, Builder builder, IoSession session) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 		if (jz == null) {
 			log.error("玩家购买百战次数出错：玩家不存在");
@@ -907,7 +886,7 @@ public class PvpMgr extends EventProc implements Runnable {
 		resp.setYuanbao(yuanbao);
 		session.write(resp.build());
 	}
-
+*/
 	public int[] getBuyADDChanceData(int vipLev, int buyHuiShu,
 			int vipSelfType, int purchaseType) {
 		int can = 1;
@@ -943,44 +922,44 @@ public class PvpMgr extends EventProc implements Runnable {
 		return true;
 	}
 
-	public void reveiveProduceAward(int id, Builder builder, IoSession session) {
-		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
-		if (jz == null) {
-			log.error("君主不存在");
-			return;
-		}
-		ReceiveAwardResp.Builder resp = ReceiveAwardResp.newBuilder();
-		PvpDuiHuanBean bean = HibernateUtil.find(PvpDuiHuanBean.class, jz.id);
-		if (bean == null) {
-			bean = initDuiHuanInfo(jz.id);
-			return;
-		}
-		// }else{
-		// resetPvpDuiHuanBean(bean);
-		// }
-		PvpBean pb = HibernateUtil.find(PvpBean.class, jz.id);
-		int myRank = DB.zscore_(KEY, "jun_" + jz.id);
-		resp.setJunXianLevel(pb.junXianLevel);
-		resp.setRank(myRank);
-		if (myRank > PVPConstant.TOTAL_NPC_COUNT) {
-			myRank = PVPConstant.TOTAL_NPC_COUNT;
-		}
-		BaiZhanRank bai = baiZhanRankMap.get(myRank);
-		if (bai == null) {
-			log.error("BaiZhanRank表中没有找到军衔等级是：{}的奖励配置信息", myRank);
-			return;
-		} else {
-			resp.setWeiWangHour(bai.weiwang);
-			// resp.setJinQianHour(bai.money);
-		}
-		int[] addA = getAccAward(new Date(), bean.lastCalculateAward, myRank,
-				jz.vipLevel, bean.lastGetAward);
-		resp.setWeiWang(addA[0] + bean.leiJiWeiWang);
-		// resp.setJinQian(addA[1] + bean.leiJiTongBi);
-		// 最多可以累计7天领奖
-		resp.setDays(7);
-		session.write(resp.build());
-	}
+//	public void reveiveProduceAward(int id, Builder builder, IoSession session) {
+//		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+//		if (jz == null) {
+//			log.error("君主不存在");
+//			return;
+//		}
+//		ReceiveAwardResp.Builder resp = ReceiveAwardResp.newBuilder();
+////		PvpDuiHuanBean bean = HibernateUtil.find(PvpDuiHuanBean.class, jz.id);
+////		if (bean == null) {
+////			bean = initDuiHuanInfo(jz.id);
+////			return;
+////		}
+//		// }else{
+//		// resetPvpDuiHuanBean(bean);
+//		// }
+//		PvpBean pb = HibernateUtil.find(PvpBean.class, jz.id);
+//		int myRank = DB.zscore_(KEY, "jun_" + jz.id);
+//		resp.setJunXianLevel(pb.junXianLevel);
+//		resp.setRank(myRank);
+//		if (myRank > PVPConstant.TOTAL_NPC_COUNT) {
+//			myRank = PVPConstant.TOTAL_NPC_COUNT;
+//		}
+//		BaiZhanRank bai = baiZhanRankMap.get(myRank);
+//		if (bai == null) {
+//			log.error("BaiZhanRank表中没有找到军衔等级是：{}的奖励配置信息", myRank);
+//			return;
+//		} else {
+//			resp.setWeiWangHour(bai.weiwang);
+//			// resp.setJinQianHour(bai.money);
+//		}
+//		int[] addA = getAccAward(new Date(), pb.lastCalculateAward, myRank,
+//				jz.vipLevel, pb.lastGetAward);
+//		resp.setWeiWang(addA[0] + pb.leiJiWeiWang);
+//		// resp.setJinQian(addA[1] + bean.leiJiTongBi);
+//		// 最多可以累计7天领奖
+//		resp.setDays(7);
+//		session.write(resp.build());
+//	}
 
 	private int[] getAccAward(Date now, Date lastCalculate, int rank,
 			int vipLevel, Date lastGet) {
@@ -1072,10 +1051,6 @@ public class PvpMgr extends EventProc implements Runnable {
 
 		// 需要改动 客户端发送的是某一玩家的排名
 		long oppoId = req.getOppoJunZhuId();
-//		int showWeiWang = req.getShowWeiWang();
-//		// 记录百战的威望值
-//		bean.showWeiWang = showWeiWang;
-//		HibernateUtil.save(bean);
 
 		int youRank = getPvpRankById(oppoId);
 		int myRank = getPvpRankById(jz.id);
@@ -1174,8 +1149,6 @@ public class PvpMgr extends EventProc implements Runnable {
 		}
 		bean.zuheId = zuheId;
 		HibernateUtil.save(bean);
-		log.info("玩家:{}百战更换秘宝:{},{},{}成功", jzId, bean.miBao1, bean.miBao2,
-				bean.miBao3);
 	}
 
 	/**
@@ -1210,10 +1183,6 @@ public class PvpMgr extends EventProc implements Runnable {
 		case PVPConstant.CLEAN_CHALLENGE_CD:
 			cleanChallengeTime(jz, session);
 			break;
-		case PVPConstant.WEI_WANG_CHANGE:
-			int duiHuanId = req.getInfo();
-			weiWangChange(jz, session, duiHuanId);
-			break;
 		case PVPConstant.GET_PRODUCE_AWARD:
 			getProduceAward(jz, session, bean, myRank);
 			break;
@@ -1236,9 +1205,10 @@ public class PvpMgr extends EventProc implements Runnable {
 		int pay = PurchaseMgr.inst.getNeedYuanBao(
 				PurchaseConstants.BAIZHAN_REFRESH_ENEMYS,
 				bean.todayRefEnemyTimes + 1);
+		PayChangeInfo.Builder info = PayChangeInfo.newBuilder();
 		boolean ok = isBuySuccess(jz, pay, session, YBType.YB_BUY_PVP_REFRESH, "PVP购买换一批");
 		if (ok) {
-			resp.setSuccess(1);
+			info.setSuccess(1);
 			log.info("玩家id{},姓名 {}, 购买刷新对手列表们成功，花费元宝{}个", jz.id, jz.name, pay);
 			bean.todayRefEnemyTimes += 1;
 			List<Integer> tenRanks = refreshChallengeRanks(rank);
@@ -1246,42 +1216,45 @@ public class PvpMgr extends EventProc implements Runnable {
 			HibernateUtil.save(bean);
 			List<OpponentInfo.Builder> enemyBuilderList = fillEnemyListInfo(tenRanks);
 			for (OpponentInfo.Builder b : enemyBuilderList) {
-				resp.addOppoList(b);
+				info.addOppoList(b);
 			}
 			pay = PurchaseMgr.inst.getNeedYuanBao(
 					PurchaseConstants.BAIZHAN_REFRESH_ENEMYS,
 					bean.todayRefEnemyTimes + 1);
-			resp.setNextHuanYiPiYB(pay);
+			info.setNextHuanYiPiYB(pay);
 		} else {
 			// 0是元宝不足
-			resp.setSuccess(0);
+			info.setSuccess(0);
 			log.info("玩家id{},姓名 {}, 购买刷新对手列表失败，元宝不足", jz.id, jz.name);
 		}
+		resp.setPayChangeInfo(info);
 		session.write(resp.build());
 	}
 
 	public void refreshEnemysFree(PvpBean bean, IoSession session, int rank) {
 		ConfirmExecuteResp.Builder resp = ConfirmExecuteResp.newBuilder();
+		RefreshMyInfo.Builder info = RefreshMyInfo.newBuilder();
 		List<Integer> tenRanks = refreshChallengeRanks(rank);
 		setChallengeRanks(bean, tenRanks);
 		HibernateUtil.save(bean);
 		List<OpponentInfo.Builder> enemyBuilderList = fillEnemyListInfo(tenRanks);
 		for (OpponentInfo.Builder b : enemyBuilderList) {
-			resp.addOppoList(b);
+			info.addOppoList(b);
 		}
-		resp.setSuccess(1);
-		resp.setJunZhuRank(rank);
+		info.setJunZhuRank(rank);
+		resp.setRefreshMyInfo(info);
 		session.write(resp.build());
 	}
 
 	public void regetEnemys(PvpBean bean, IoSession session, int rank) {
 		ConfirmExecuteResp.Builder resp = ConfirmExecuteResp.newBuilder();
+		RefreshOtherInfo.Builder info = RefreshOtherInfo.newBuilder();
 		List<Integer> tenRanks = getChallengeRanks(bean, rank);
 		List<OpponentInfo.Builder> enemyBuilderList = fillEnemyListInfo(tenRanks);
 		for (OpponentInfo.Builder b : enemyBuilderList) {
-			resp.addOppoList(b);
+			info.addOppoList(b);
 		}
-		resp.setSuccess(1);
+		resp.setRefreshOtherInfo(info);
 		session.write(resp.build());
 	}
 
@@ -1290,9 +1263,12 @@ public class PvpMgr extends EventProc implements Runnable {
 		/* int[]{can,count, yuanbao,allHuishu}; */
 		int[] info = getBuyADDChanceData(jz.vipLevel, bean.buyCount, 
 				VipData.bugBaizhanTime, PurchaseConstants.BAIZHAN);
+		BuyCiShuInfo.Builder respInfo = BuyCiShuInfo.newBuilder();
 		if (info != null) {
 			if (info[0] == 0) {
-				resp.setSuccess(4);
+				// 今日次数已经用完
+				respInfo.setSuccess(3);
+				resp.setBuyCiShuInfo(respInfo);
 				session.write(resp.build());
 				return;
 			}
@@ -1303,19 +1279,20 @@ public class PvpMgr extends EventProc implements Runnable {
 				bean.remain += count;
 				bean.buyCount += 1;
 				HibernateUtil.save(bean);
-				resp.setSuccess(1);
-
-				resp.setLeftTimes(bean.remain);
-				resp.setTotalTimes(bean.usedTimes + bean.remain);
+				respInfo.setSuccess(1);
+				respInfo.setLeftTimes(bean.remain);
+				respInfo.setTotalTimes(bean.usedTimes + bean.remain);
 				log.info("玩家id{},姓名 {}, 购买挑战百战的次数成功花费元宝{}个", jz.id, jz.name,
 						yuanbao);
 			} else {
 				// 0是元宝不足
-				resp.setSuccess(0);
+				respInfo.setSuccess(0);
 			}
 		} else {
-			resp.setSuccess(2);
+			// 数据不对
+			respInfo.setSuccess(2);
 		}
+		resp.setBuyCiShuInfo(respInfo);
 		session.write(resp.build());
 	}
 
@@ -1334,21 +1311,20 @@ public class PvpMgr extends EventProc implements Runnable {
 			return;
 		}
 		ConfirmExecuteResp.Builder resp = ConfirmExecuteResp.newBuilder();
+		CleanCDInfo.Builder info = CleanCDInfo.newBuilder();
 		boolean isPermit = VipMgr.INSTANCE.isVipPermit(
 				VipData.clean_baiZhan_time, jz.vipLevel);
 		if (!isPermit) {
-			resp.setSuccess(5);
+			// vip等级不足
+			info.setSuccess(3);
 			log.info("玩家id{},姓名 {}, 购买清除挑战冷却时间失败：vip等级{}不足，没有权利消除", jz.id,
 					jz.name, jz.vipLevel);
+			resp.setCleanCDInfo(info);
 			session.write(resp.build());
 			return;
 		}
 		int cdYuan = getYuanBao(bean.cdCount + 1, PurchaseConstants.BAIZHAN_CD);
-		if (cdYuan == -1) {
-			return;
-		}
 		boolean yes = isBuySuccess(jz, cdYuan, session, YBType.YB_BUY_PVP_CLEAR_CD, "PVP购买清除CD");
-
 		if (yes) {
 			bean.cdCount += 1;
 			bean.lastDate = new Date(System.currentTimeMillis()
@@ -1356,106 +1332,36 @@ public class PvpMgr extends EventProc implements Runnable {
 			HibernateUtil.save(bean);
 			log.info("玩家id{},姓名 {}, 购买清除挑战冷却时间成功花费元宝{}个", jz.id, jz.name,
 					cdYuan);
-			resp.setLeftTimes(0);
-			resp.setTotalTimes(bean.usedTimes + bean.remain);
-			resp.setSuccess(1);
-			resp.setNextCDYB(getYuanBao(bean.cdCount + 1,  PurchaseConstants.BAIZHAN_CD));
+			info.setLeftTimes(bean.remain);
+			info.setTotalTimes(bean.usedTimes + bean.remain);
+			info.setSuccess(1);
+			info.setNextCDYB(getYuanBao(bean.cdCount + 1,  PurchaseConstants.BAIZHAN_CD));
 		} else {
 			/* 0是元宝不足 */
-			resp.setSuccess(0);
+			info.setSuccess(0);
 			log.info("玩家id{},姓名 {}, 购买清除挑战冷却时间失败：元宝不足", jz.id, jz.name);
 		}
+		resp.setCleanCDInfo(info);
 		session.write(resp.build());
 	}
 
-	private void weiWangChange(JunZhu jz, IoSession session, int id) {
-		PvpDuiHuanBean bean = HibernateUtil.find(PvpDuiHuanBean.class, jz.id);
-		if (bean == null) {
-			bean = initDuiHuanInfo(jz.id);
-		} else {
-			resetPvpDuiHuanBean(bean);
-		}
-		Duihuan dh = duihuanMap.get(id);
-		if (dh == null) {
-			log.error("玩家{}百战兑换商品出错： Duihuan表id是{}无数据", jz.id, id);
-			return;
-		}
-		int weiWang = dh.needNum;
-		ConfirmExecuteResp.Builder resp = ConfirmExecuteResp.newBuilder();
-		if (bean.weiWang >= weiWang) {
-			int index = ArrayUtils.indexOf(stringToIntArr(bean.duiHuanId), id);
-			int[] wei = stringToIntArr(bean.isBuy);
-			if (index != -1) {
-				if(wei[index] == 0){
-					// 已经售罄
-					sendError(session, id, "已经售罄");
-					return;
-				}
-				wei[index] = 0;
-				bean.isBuy = intArrToString(wei);
-			} else {
-				// 购买的物品不存在
-				sendError(session, id, "购买物品不存在");
-				session.write(resp.build());
-				return;
-			}
-			// 添加物品
-			AwardTemp a = new AwardTemp();
-			a.setId(111);
-			a.setItemId(dh.itemId);
-			a.setItemType(dh.itemType);
-			a.setItemNum(dh.itemNum);
-			AwardMgr.inst.giveReward(session, a, jz);
-			final int preV = bean.weiWang;
-			bean.weiWang -= weiWang;
-			bean.buyGoodPayWeiWangTimes += 1;
-			HibernateUtil.save(bean);
-			resp.setSuccess(1);
-			log.info("玩家id{},姓名 {}, 用威望兑换商品[{}]成功 花费威望{}", 
-					jz.id, jz.name, dh.itemId, weiWang);
-			String itemName = BagMgr.inst.getItemName(dh.itemId);
-			ActLog.log.ChallengeExchange(jz.id, jz.name, ActLog.vopenid, dh.itemId, itemName, dh.itemNum, preV, bean.weiWang);
-			// 主线任务: 消耗一次威望（在威望商店里购买1次物品）20190916
-			EventMgr.addEvent(ED.pay_weiWang , new Object[] { jz.id});
-		} else {
-			/* 3是威望不足 */
-			resp.setSuccess(3);
-			log.info("玩家id{},姓名 {}, 用威望兑换商品失败：威望不足", jz.id, jz.name);
-		}
-		session.write(resp.build());
-	}
-	private void sendError(IoSession session, int cmd, String msg) {
-		ErrorMessage.Builder test = ErrorMessage.newBuilder();
-		test.setErrorCode(cmd);
-		test.setErrorDesc(msg);
-		session.write(test.build());
-	}
-	private void getProduceAward(JunZhu jz, IoSession session, PvpBean pb,
+	public void getProduceAward(JunZhu jz, IoSession session, PvpBean bean,
 			int rank) {
 		ConfirmExecuteResp.Builder resp = ConfirmExecuteResp.newBuilder();
-		PvpDuiHuanBean bean = HibernateUtil.find(PvpDuiHuanBean.class, jz.id);
-		if (bean == null) {
-			bean = initDuiHuanInfo(jz.id);
-		} else {
-			// 不用reset 因为不会涉及到方法中大数据
-			// resetPvpDuiHuanBean(bean);
-		}
 		int[] addA = getAccAward(new Date(), bean.lastCalculateAward, rank,
 				jz.vipLevel, bean.lastGetAward);
 		int allWei = bean.leiJiWeiWang + addA[0];
-		// int allTong = bean.leiJiTongBi + addA[1];
-		// jz.tongBi += allTong;
-		// HibernateUtil.save(jz);
-
 		bean.lastCalculateAward = bean.lastGetAward = new Date();
-		// bean.leiJiTongBi = 0;
 		bean.leiJiWeiWang = 0;
-		if(allWei > 0){
+		if(allWei > 0){ 
 			bean.getProduceWeiWangTimes += 1;
 		}
-		saveChangeWeiWang(bean, allWei);
-
-		resp.setSuccess(1);
+		HibernateUtil.save(bean);
+		ShopMgr.inst.addMoney(ShopMgr.Money.weiWang, 
+				ShopMgr.baizhan_shop_type, jz.id, allWei);
+		GetAwardInfo.Builder info = GetAwardInfo.newBuilder();
+		info.setSuccess(1);
+		resp.setGetAwardInfo(info);
 		session.write(resp.build());
 		log.info("玩家id{},姓名 {}, 百战获取生产奖励, 威望:{}", jz.id, jz.name, allWei);
 		// 主线任务: 领取一次威望 20190916
@@ -1498,18 +1404,14 @@ public class PvpMgr extends EventProc implements Runnable {
 			resp.setOldRank(rank);
 			resp.setNewRank(rank);
 			resp.setHighest(bean.highestRank);
-			resp.setReciveWeiWang(0);
-			resp.setBeyond(false);
 			resp.setOldJunXianLevel(bean.junXianLevel);
 			resp.setNewJunXianLevel(bean.junXianLevel);
-			resp.setLostJianShe(0);
 			session.write(resp.build());
 			return;
 		}
 		// 是否重新设置数据
 		resetPvpBean(bean);
 
-		int enemyGuoJiaId = 0;
 		int oldJunXianLevel = bean.junXianLevel;
 		/*
 		 * 修改双方名次
@@ -1526,21 +1428,19 @@ public class PvpMgr extends EventProc implements Runnable {
 			BaiZhanNpc baiZhanNpc = npcs.get(npcId);
 			npcName = baiZhanNpc.name;
 			npcName = HeroService.getNameById(npcName);
-			enemyGuoJiaId = baiZhanNpc.getGuoJiaId(npcId);
 			/*
 			 * if 代码块：名次发生变化 处理
 			 *  君主 的名次升高(比如 90 ——> 50)，对手(npc)的名次下降(比如 50  ——> 90)
 			 */
 			if (ranks[0] != ranks[2]) {
 				// 更换名次之前计算累计的生产奖励
-				calculateProduceJiangLi(jz, ranks[0], jz.vipLevel);
+				calculateProduceJiangLi(jz, ranks[0], jz.vipLevel, bean);
 				resetBeanAfterWin(jId, bean, bean.lastWeiWang,
 						ranks[2]);
 				isJunChange = true;
 			}
 		} else {
 			otherJun = HibernateUtil.find(JunZhu.class, otherId);
-			enemyGuoJiaId = otherJun.guoJiaId;
 			PvpBean otherbean = HibernateUtil.find(PvpBean.class, otherId);
 			/*
 			 * if 代码块：名次发生变化 处理
@@ -1548,10 +1448,10 @@ public class PvpMgr extends EventProc implements Runnable {
 			 */
 			if (ranks[0] != ranks[2] && otherbean != null) {
 				// 更换名次之前计算累计的生产奖励
-				calculateProduceJiangLi(jz, ranks[0], jz.vipLevel);
+				calculateProduceJiangLi(jz, ranks[0], jz.vipLevel, bean);
 				// 更换名次之前计算累计的生产奖励
 				calculateProduceJiangLi(otherJun, ranks[1], otherJun == null ? 0
-						: otherJun.vipLevel);
+						: otherJun.vipLevel, otherbean);
 				// reset敌人信息
 				resetBeanAfterWin(otherId, otherbean, -bean.lastWeiWang,
 						ranks[3]);
@@ -1611,12 +1511,8 @@ public class PvpMgr extends EventProc implements Runnable {
 		resp.setOldRank(ranks[0]);
 		resp.setNewRank(ranks[2]);
 		resp.setHighest(bean.highestRank);
-		resp.setReciveWeiWang(0);
-		// 威望超出了今日所掠夺的最大值
-		resp.setBeyond(false);
 		resp.setOldJunXianLevel(oldJunXianLevel);
 		resp.setNewJunXianLevel(bean.junXianLevel);
-		resp.setLostJianShe(0);
 		session.write(resp.build());
 		// // 主线任务： 完成N次百战（无论输赢）暂时没有开启20150519
 		// EventMgr.addEvent(ED.FINISH_BAIZHAN_N, new Object[]{jId,
@@ -1640,13 +1536,14 @@ public class PvpMgr extends EventProc implements Runnable {
 //				jId, DailyTaskConstants.baizhan_win_id, 1));
 //		}
 		log.info("方法的执行时间是: " + (System.currentTimeMillis() - time));
-		
+		// 君主名次确定发生变化
 		if(isJunChange){
 			// 2015-7-22 刷新百战榜
 			EventMgr.addEvent(ED.BAIZHAN_RANK_REFRESH,jz);
 			// 2015-7-22 刷新君主榜
 			EventMgr.addEvent(ED.JUN_RANK_REFRESH,jz);
 		}
+		// 对手名次确定发生变化
 		if(isEnemyChange && otherJun != null){
 			// 2015-8-26 刷新对手百战榜
 			EventMgr.addEvent(ED.BAIZHAN_RANK_REFRESH,otherJun);
@@ -1723,20 +1620,12 @@ public class PvpMgr extends EventProc implements Runnable {
 		AllianceMgr.inst.changeAlianceBuild(a2, -lost);
 	}
 
-	public void calculateProduceJiangLi(JunZhu jz, int rank, int vipLevel) {
-		PvpDuiHuanBean duiB = HibernateUtil.find(PvpDuiHuanBean.class, jz.id);
-		if (duiB == null) {
-			duiB = initDuiHuanInfo(jz.id);
-		} else {
-			// 不用reset 因为用不到相关数据
-			// resetPvpDuiHuanBean(duiB);
-		}
-		int[] values = getAccAward(new Date(), duiB.lastCalculateAward, rank,
-				vipLevel, duiB.lastGetAward);
-		duiB.leiJiWeiWang += values[0];
-		// duiB.leiJiTongBi += values[1];
-		duiB.lastCalculateAward = new Date();
-		HibernateUtil.save(duiB);
+	public void calculateProduceJiangLi(JunZhu jz, int rank, int vipLevel, PvpBean bean) {
+		int[] values = getAccAward(new Date(), bean.lastCalculateAward, rank,
+				vipLevel, bean.lastGetAward);
+		bean.leiJiWeiWang += values[0];
+		bean.lastCalculateAward = new Date();
+		HibernateUtil.save(bean);
 		ActLog.log.ChallengeAward(jz.id, jz.name, ActLog.vopenid, 2, values[0]);
 	}
 
@@ -1830,15 +1719,15 @@ public class PvpMgr extends EventProc implements Runnable {
 //		return problem;
 //	}
 
-	public void saveChangeWeiWang(PvpDuiHuanBean duihuan, int changeWeiWang) {
-		// synchronized (weiWangLock) {
-		duihuan.weiWang += changeWeiWang;
-		if (duihuan.weiWang < 0) {
-			duihuan.weiWang = 0;
-		}
-		HibernateUtil.save(duihuan);
-		// }
-	}
+//	public void saveChangeWeiWang(PvpDuiHuanBean duihuan, int changeWeiWang) {
+//		// synchronized (weiWangLock) {
+//		duihuan.weiWang += changeWeiWang;
+//		if (duihuan.weiWang < 0) {
+//			duihuan.weiWang = 0;
+//		}
+//		HibernateUtil.save(duihuan);
+//		// }
+//	}
 
 	public void getPlayerState(int id, Builder builder, IoSession session) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
@@ -1912,19 +1801,6 @@ public class PvpMgr extends EventProc implements Runnable {
 		}
 		if (yes == null) {
 			resq.setType(1);
-			/*
-			 * 新需求：去掉威望，20150727
-			 */
-//			int showW = bean.showWeiWang;
-//			int lastW = receiveWeiWang(enemyId);
-//			bean.lastWeiWang = lastW;
-//			HibernateUtil.save(bean);
-//			if (showW != lastW) {
-//				resq.setIsWeiWangChange(true);
-//				resq.setReceiveWeiWang(lastW);
-//			} else {
-			resq.setIsWeiWangChange(false);
-//			}
 			log.info("被挑战者：{}百战中的状态是无战斗状态，可以进入挑战", enemyId);
 		} else {
 			resq.setType(2);
@@ -1990,14 +1866,10 @@ public class PvpMgr extends EventProc implements Runnable {
 	private PvpBean initJunZhuPVPInfo(long jzId, int rank, int jzLevel) {
 		// 获取数据库中是否有此记录，有的话什么也不做
 		PvpBean bean = new PvpBean();
-		bean.rank = 0;
 		bean.junZhuId = jzId;
 		bean.usedTimes = 0;
 		bean.remain = PVPConstant.ZHAN_TOTAL_TIMES;
 		bean.junXianLevel = PVPConstant.XIAO_ZU_JI_BIE;
-		bean.miBao1 = -1;
-		bean.miBao2 = -1;
-		bean.miBao3 = -1;
 		bean.zuheId = -1;
 		bean.gongJiZuHeId = -1;
 		bean.highestRank = rank;
@@ -2014,71 +1886,11 @@ public class PvpMgr extends EventProc implements Runnable {
 		bean.lastWeiWang = 0;
 		bean.allBattleTimes = 0;
 		bean.initPvpTime = new Date();
-		MC.add(bean, jzId);
+		bean.leiJiWeiWang = CanShu.WEIWANG_INIT; // 玩家未领取的威望初始累计值，add 20150917
+		bean.lastCalculateAward = bean.lastGetAward = new Date();
 		HibernateUtil.insert(bean);
 		log.info("玩家id是 ：{}的百战数据库记录PvpBean生成成功，等级是{}", jzId, rank);
-		initDuiHuanInfo(jzId);
 		return bean;
-	}
-
-	public PvpDuiHuanBean initDuiHuanInfo(long jzid) {
-		PvpDuiHuanBean bean = new PvpDuiHuanBean();
-		bean.junZhuId = jzid;
-		bean.duiHuanId = intArrToString(getDuiHuanId());
-		bean.isBuy = intArrToString(setIsBuy());
-		bean.nextDuiHuanTime = getNextNineTime(new Date());
-		bean.leiJiWeiWang = CanShu.WEIWANG_INIT; // 玩家未领取的威望初始值，add 20150917
-		bean.lastCalculateAward = bean.lastGetAward = new Date();
-		MC.add(bean, jzid);
-		HibernateUtil.insert(bean);
-		log.info("玩家id是 ：{}的百战兑换数据库记录pvp_duihuan生成成功", jzid);
-		return bean;
-	}
-
-	private int[] setIsBuy() {
-		int[] yes = new int[duiHuanNum];
-		Arrays.fill(yes, 1);
-		return yes;
-	}
-
-	private int getLeftDuihuanTime(Date nextD, Date curr) {
-		int time = (int) (nextD.getTime() - curr.getTime()) / 1000;
-		return time < 0 ? 0 : time;
-	}
-
-	/**
-	 * 获取距离date时间最近的下一个9点或者21点时间
-	 * 
-	 * @Title: getNextUpdateDuihuan
-	 * @Description:
-	 * @param date
-	 * @return
-	 */
-	public Date getNextNineTime(Date date) {
-		long time = date.getTime();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		int hour = cal.get(Calendar.HOUR_OF_DAY);
-		int min = cal.get(Calendar.MINUTE);
-		int second = cal.get(Calendar.SECOND);
-		int todayTime = hour * 3600 + min * 60 + second;
-
-		if (hour < 9) {
-			int leftTime = (9 * 3600 - todayTime) * 1000;
-			time += leftTime;
-			return new Date(time);
-		}
-		if (hour >= 9 && hour < 21) {
-			int leftTime = (21 * 3600 - todayTime) * 1000;
-			time += leftTime;
-			return new Date(time);
-		}
-		if (hour >= 21) {
-			int leftTime = (24 * 3600 - todayTime + 9 * 3600) * 1000;
-			time += leftTime;
-			return new Date(time);
-		}
-		return date;
 	}
 
 	/**
@@ -2117,7 +1929,6 @@ public class PvpMgr extends EventProc implements Runnable {
 			log.error("在线发送百战每日奖励邮件，玩家:{}百战没有开启", id);
 			return;
 		}
-		Date sendEmailTime = new Date();
 		if (sendType == PVPConstant.LOGIN_SEND_EMAIL) {
 			Date last = bean.lastAwardTime;
 			if (last != null) {
@@ -2180,19 +1991,6 @@ public class PvpMgr extends EventProc implements Runnable {
 		HibernateUtil.save(bean);
 	}
 
-	// 将带有“,”的String转换成整数数组
-	private int[] stringToIntArr(String str) {
-		if (str == null || "".equals(str))
-			return null;
-		return StringToOthersUtil.stringToIntArr(str, ",");
-	}
-
-	// 将整数数组用","拼接成String
-	private String intArrToString(int[] arr) {
-		if (arr == null || arr.length == 0)
-			return "";
-		return StringUtils.join(arr, ",");
-	}
 
 	/**
 	 * 请求 PVP 战斗数据
@@ -2623,8 +2421,9 @@ public class PvpMgr extends EventProc implements Runnable {
 			if (passTime > PVPConstant.REPLAY_SAVE_TIME) {
 				// 数据库删除时间过了的战斗记录
 				HibernateUtil.delete(reco);
-				// 时间过了的战斗在 录像回放map中同样删除掉
-				replayCache.remove(reco.zhandouId);
+//				// 时间过了的战斗在 录像回放map中同样删除掉
+				// 无战斗录像 20151105
+//				replayCache.remove(reco.zhandouId);
 				continue;
 			}
 			info = ZhandouItem.newBuilder();
@@ -2640,7 +2439,6 @@ public class PvpMgr extends EventProc implements Runnable {
 				info.setJunRankChangeV(reco.enemyRankChangeV);
 				if (reco.result1 == PVPConstant.GONG_JI_WIN) {
 					info.setWin(PVPConstant.FANG_SHOU_LOSE);
-					info.setLostBuild(reco.lostBuild);
 				} else {
 					info.setWin(PVPConstant.FANG_SHOU_WIN);
 				}
@@ -2659,7 +2457,6 @@ public class PvpMgr extends EventProc implements Runnable {
 			info.setEnemyRoleId(enemy.getRoleId((int) -eId));
 			info.setEnemyGuoJiaId(enemy.getGuoJiaId((int) -eId));
 		
-			info.setReceiveWeiWang(0);
 			info.setTime(passTime);
 			resp.addInfo(info);
 		}
@@ -2671,18 +2468,18 @@ public class PvpMgr extends EventProc implements Runnable {
 		}
 	}
 
-	public int getTodayBeChallengedTimes(long id) {
-		String where = "where enemyId =" + id + "  and  TO_DAYS(time)= "
-				+ "TO_DAYS(NOW()) and result1 = " + PVPConstant.GONG_JI_WIN;
-		int count = 0;
-		List<ZhanDouRecord> list = HibernateUtil.list(ZhanDouRecord.class,
-				where);
-		if (list != null) {
-			count = list.size();
-		}
-		return count;
-	}
-
+//	public int getTodayBeChallengedTimes(long id) {
+//		String where = "where enemyId =" + id + "  and  TO_DAYS(time)= "
+//				+ "TO_DAYS(NOW()) and result1 = " + PVPConstant.GONG_JI_WIN;
+//		int count = 0;
+//		List<ZhanDouRecord> list = HibernateUtil.list(ZhanDouRecord.class,
+//				where);
+//		if (list != null) {
+//			count = list.size();
+//		}
+//		return count;
+//	}
+/*
 	public int receiveWeiWang(long enemyId) {
 		int changeWeiWang = 0;
 		int beFightTimes = getTodayBeChallengedTimes(enemyId);
@@ -2706,15 +2503,15 @@ public class PvpMgr extends EventProc implements Runnable {
 		}
 		return changeWeiWang;
 	}
-
-	public int receiveJianShe(long enemyId) {
-		int beFightTimes = getTodayBeChallengedTimes(enemyId);
-		beFightTimes += 1;
-		if (beFightTimes > getAwardTimes || enemyId < 0) {
-			return 0;
-		}
-		return CanShu.BAIZHAN_LVEDUO_JIANSHEZHI;
-	}
+*/
+//	public int receiveJianShe(long enemyId) {
+//		int beFightTimes = getTodayBeChallengedTimes(enemyId);
+//		beFightTimes += 1;
+//		if (beFightTimes > getAwardTimes || enemyId < 0) {
+//			return 0;
+//		}
+//		return CanShu.BAIZHAN_LVEDUO_JIANSHEZHI;
+//	}
 
 	public void resetPvpBean(PvpBean bean) {
 		// change 20150901
@@ -2890,15 +2687,9 @@ public class PvpMgr extends EventProc implements Runnable {
 		case PD.BAIZHAN_INFO_REQ:
 			getBaiZhanMainInfo(id, builder, session);
 			break;
-		case PD.EXCHAGE_AWARD_REQ:
-			getExchangeItemInfo(id, builder, session);
-			break;
-		case PD.ADD_CHANCE_REQ:
-			addChallengeChance(id, builder, session);
-			break;
-			// 20150919 去掉 内容显示到百战主页
-//		case PD.RECEIVE_AWARD_REQ:
-//			reveiveProduceAward(id, builder, session);
+//
+//		case PD.ADD_CHANCE_REQ:
+//			addChallengeChance(id, builder, session);
 //			break;
 		case PD.CHALLENGE_REQ:
 			getChanllengeArmy(id, builder, session);

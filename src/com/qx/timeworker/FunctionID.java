@@ -39,6 +39,7 @@ public class FunctionID {
 	public static final int ALLIANCE_EVENT = 1000001;				
 	// 联盟新申请
 	public static final int ALLIANCE_NEW_APPLYER = 1000002;
+	// TODO 探宝 掠夺 运镖 邮箱 符文(二级页面) 
 	//推送某功能红点可以出现 和前段约定code为负数时红点消失
 	public static void pushCanShangjiao(long jzId,IoSession session,int Code){
 		log.info("向君主{}推送--{}可以出现提示红点",jzId,Code);

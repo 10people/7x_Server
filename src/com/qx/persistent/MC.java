@@ -22,8 +22,6 @@ import com.qx.purchase.TiLi;
 import com.qx.purchase.TongBi;
 import com.qx.purchase.XiLian;
 import com.qx.pve.BuZhenBean;
-import com.qx.pvp.PvpBean;
-import com.qx.pvp.PvpDuiHuanBean;
 import com.qx.task.DailyTaskBean;
 import com.qx.timeworker.TimeWorker;
 import com.qx.yabiao.YaBiaoInfo;
@@ -62,10 +60,7 @@ public class MC {
 		cachedClass.add(XiLian.class);		
 		cachedClass.add(UserEquip.class);		
 		cachedClass.add(Achievement.class);		
-		// 百战
-		cachedClass.add(PvpBean.class);
-		// 百战兑换
-		cachedClass.add(PvpDuiHuanBean.class);
+
 		// 探宝
 		cachedClass.add(ExploreMine.class);
 //		cachedClass.add(AllianceBean.class);

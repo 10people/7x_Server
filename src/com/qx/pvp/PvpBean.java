@@ -10,16 +10,11 @@ import javax.persistence.Table;
 import com.qx.persistent.MCSupport;
 
 @Entity
-@Table(name = "PvpBean")
-public class PvpBean implements MCSupport {
-	/**
-	 * @Fields serialVersionUID : TODO
-	 */
-	private static final long serialVersionUID = 1L;
+@Table(name = "pvp_bean")
+public class PvpBean{
+
 	@Id
 	public long junZhuId;
-////	要删除，/* 排名*/
-	public int rank;
 	/*当日已经参加百战的次数*/
 	public int usedTimes;
 	/*当日剩余参加百战的次数*/
@@ -27,10 +22,6 @@ public class PvpBean implements MCSupport {
 	/*军衔等级*/
 	public int junXianLevel = -1;
 
-	/*mibaoDB.java中的miBaoId;//配置文件mibao中id字段，品质可以根据它来查到*/
-	public long miBao1 = -1; // 
-	public long miBao2 = -1;
-	public long miBao3 = -1;
 	@Column(nullable = false, columnDefinition = "int default -1")
 	public int zuheId; //防守技能
 	@Column(nullable = false, columnDefinition = "int default -1")
@@ -83,9 +74,9 @@ public class PvpBean implements MCSupport {
 	@Column(columnDefinition = "DATETIME default '2014-12-01 00:00:00'")
 	public Date initPvpTime;
 	
+	public Date lastGetAward; // 上次计算领取生产奖励的时间
+	public Date lastCalculateAward; // 上次计算生产奖励的时间
+	public int leiJiWeiWang; //生产奖励累计威望值
+	public int getProduceWeiWangTimes = 0; // 累计领取威望奖励的次数
 
-	@Override
-	public long getIdentifier() {
-		return junZhuId;
-	}
 }

@@ -1,6 +1,7 @@
 package com.qx.huangye.shop;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,8 +9,8 @@ import java.util.Map;
 
 import log.ActLog;
 
+import org.apache.lucene.search.Weight;
 import org.apache.mina.core.session.IoSession;
-import org.hibernate.type.descriptor.sql.BitTypeDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,20 +18,22 @@ import qxmobile.protobuf.HuangYeProtos.HyBuyGoodReq;
 import qxmobile.protobuf.HuangYeProtos.HyBuyGoodResp;
 import qxmobile.protobuf.HuangYeProtos.HyShopReq;
 import qxmobile.protobuf.HuangYeProtos.HyShopResp;
-import qxmobile.protobuf.PvpProto.DuiHuanInfo;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.CanShu;
+import com.manu.dynasty.template.Duihuan;
+import com.manu.dynasty.template.GongXunDuihuan;
 import com.manu.dynasty.template.HuangYeDuihuan;
 import com.manu.dynasty.template.LMGongXianDuihuan;
-import com.manu.dynasty.template.GongXunDuihuan;
 import com.manu.dynasty.util.DateUtils;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.award.AwardMgr;
 import com.qx.bag.BagMgr;
+import com.qx.event.ED;
+import com.qx.event.EventMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.pawnshop.GoodsInfo;
@@ -48,6 +51,8 @@ public class ShopMgr {
 	public static final int lianMeng_shop_type = 2;
 	// 联盟战商店
 	public static final int lianmeng_battle_shop_type = 3;
+	// 百战商店
+	public static final int baizhan_shop_type=  4;
 	
 	public Map<Integer, List<BaseDuiHuan>> hyShopListMap = new HashMap<Integer, List<BaseDuiHuan>>();
 	public Map<Integer, BaseDuiHuan> hyShopMap = new HashMap<Integer, BaseDuiHuan>();
@@ -58,12 +63,15 @@ public class ShopMgr {
 	public Map<Integer, List<BaseDuiHuan>>  gongxunShopListMap= new HashMap<Integer, List<BaseDuiHuan>>();
 	public Map<Integer, BaseDuiHuan> gongxunShopMap = new HashMap<Integer, BaseDuiHuan>();
 	
+	public Map<Integer, List<BaseDuiHuan>>  baiZhanShopListMap= new HashMap<Integer, List<BaseDuiHuan>>();
+	public Map<Integer, BaseDuiHuan> baiZhanShopMap = new HashMap<Integer, BaseDuiHuan>();
+	
 	public static final int shop_space = 10;
 	
 	public static Logger logger = LoggerFactory.getLogger(ShopMgr.class);
 	public static ShopMgr inst;
 	public enum Money{
-		huangYeBi, lianMengGongXian, gongXun
+		huangYeBi, lianMengGongXian, gongXun, weiWang
 	}
 
 	public ShopMgr() {
@@ -120,12 +128,27 @@ public class ShopMgr {
 			}
 			gongxunShopMap.put(dh.id, dh);
 		}
+		
+		List<Duihuan> list3 = TempletService
+				.listAll(Duihuan.class.getSimpleName());
+		for (Duihuan dh : list3) {
+			int site = dh.site;
+			List<BaseDuiHuan> dList = baiZhanShopListMap.get(site);
+			if (dList == null) {
+				dList = new ArrayList<BaseDuiHuan>();
+				dList.add(dh);
+				baiZhanShopListMap.put(dh.site, dList);
+			} else {
+				dList.add(dh);
+			}
+			baiZhanShopMap.put(dh.id, dh);
+		}
 	}
 
 	/*
-	 * 荒野、或者联盟商店页面请求
+	 * 荒野、或者联盟商店百战商店、联盟战商店页面请求
 	 */
-	public void dealHyShopReq(int id, Builder builder, IoSession session) {
+	public void dealGetShopInfoReq(int id, Builder builder, IoSession session) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 		if (jz == null) {
 			logger.error("玩家请求商店页面出错：君主不存在");
@@ -136,7 +159,7 @@ public class ShopMgr {
 		int bigType = type / shop_space;
 		PublicShop bean = HibernateUtil.find(PublicShop.class, jz.id * shop_space + bigType);
 		if (bean == null) {
-			bean = initHYshopInfo(jz.id, bigType);
+			bean = initShopInfo(jz.id, bigType);
 		} else {
 			// 检查是否更新
 			resetHYShopBean(bean);
@@ -147,7 +170,7 @@ public class ShopMgr {
 		/*
 		 * type == X1: 花费money刷新商店商品列表
 		 */
-		if (type == 11 || type == 21 || type == 31) {
+		if (type == 11 || type == 21 || type == 31 || type == 41) {
 			int needYB = getRefreshNeedHYMoney(bean, bigType);
 			if (needYB > money) {
 				// money不足，不能手动刷新
@@ -182,7 +205,7 @@ public class ShopMgr {
 				// 自动刷新货物
 				goods = getRandomGoodsList(bigType);
 				bean.goodsInfo = setGoodsInfo(goods);
-				bean.nextAutoRefreshTime = PvpMgr.inst.getNextNineTime(new Date());
+				bean.nextAutoRefreshTime = getNextNineTime(new Date());
 				HibernateUtil.save(bean);
 			}
 			resp.setMsg(0);
@@ -208,15 +231,17 @@ public class ShopMgr {
 			return PurchaseConstants.refresh_LianMeng_shop;
 		case lianmeng_battle_shop_type:
 			return PurchaseConstants.refresh_LianMeng_battle_shop;
+		case baizhan_shop_type:
+			return PurchaseConstants.refresh_baizhan_shop;
 		}
 		return 0;
 	}
 
-	public PublicShop initHYshopInfo(long jid, int shop_type) {
+	public PublicShop initShopInfo(long jid, int shop_type) {
 		PublicShop bean = new PublicShop();
 		bean.id = jid * shop_space + shop_type;
 		bean.goodsInfo = setGoodsInfo(getRandomGoodsList(shop_type));
-		bean.nextAutoRefreshTime = PvpMgr.inst.getNextNineTime(new Date());
+		bean.nextAutoRefreshTime = getNextNineTime(new Date());
 		bean.lastResetShopTime = new Date();
 		bean.buyNumber = 0;
 		bean.setMoney(0);
@@ -273,7 +298,7 @@ public class ShopMgr {
 				.currentTimeMillis()) / 1000;
 		time = time < 0 ? 0 : time;
 		resp.setRemianTime(time);
-		DuiHuanInfo.Builder duihuan = null;
+		qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.Builder duihuan = null;
 		for (GoodsInfo goods : list) {
 			Map<Integer, BaseDuiHuan> m = getShopGoodsMap(shop_type);
 			if(m == null){
@@ -285,7 +310,7 @@ public class ShopMgr {
 				logger.error("goods.getId(): 的 d 为null{}", goods.getId());
 				continue;
 			}
-			duihuan = DuiHuanInfo.newBuilder();
+			duihuan = qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.newBuilder();
 			duihuan.setId(goods.getId());
  			duihuan.setSite(d.site);
 			duihuan.setIsChange(!goods.isSell());
@@ -301,6 +326,8 @@ public class ShopMgr {
 			return lmShopListMap;
 		case 3: 
 			return gongxunShopListMap;
+		case 4:
+			return baiZhanShopListMap;
 		}
 		return null;
 	}
@@ -313,11 +340,13 @@ public class ShopMgr {
 			return lmShopMap;
 		case 3:
 			return gongxunShopMap;
+		case 4:
+			return baiZhanShopMap;
 		}
 		return null;
 	}
 
-	public void dealHyBuyGoodReq(int id, Builder builder, IoSession session) {
+	public void dealBuyGoodReq(int id, Builder builder, IoSession session) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 		if (jz == null) {
 			logger.error("商店购买物品失败：君主不存在");
@@ -329,7 +358,7 @@ public class ShopMgr {
 		HyBuyGoodResp.Builder resp = HyBuyGoodResp.newBuilder();
 		PublicShop bean = HibernateUtil.find(PublicShop.class, jz.id * shop_space + bigType);
 		if (bean == null) {
-			bean = initHYshopInfo(jz.id, bigType);
+			bean = initShopInfo(jz.id, bigType);
 		}
 		// 判断是否售罄
 		List<GoodsInfo> goodsL = getGoodsInfo(bean);
@@ -368,6 +397,7 @@ public class ShopMgr {
 			
 			buyg.setSell(true);
 			bean.goodsInfo = setGoodsInfo(goodsL);
+			bean.buyGoodTimes += 1; // 历史购买物品次数增加
 			HibernateUtil.save(bean);
 			
 			// 添加物品
@@ -386,6 +416,10 @@ public class ShopMgr {
 			String itemName = BagMgr.inst.getItemName(dh.itemId);
 			ActLog.log.ChallengeExchange(jz.id, jz.name, ActLog.vopenid,
 					dh.itemId, itemName, dh.itemNum, preV, oldMoeny);
+			if(bigType == baizhan_shop_type){
+				// 主线任务: 消耗一次威望（在威望商店里购买1次物品）20190916
+				EventMgr.addEvent(ED.pay_weiWang , new Object[] { jz.id});
+			}
 		} else {
 			/* 0：不足 */
 			resp.setMsg(0);
@@ -397,10 +431,11 @@ public class ShopMgr {
 		switch(bigType){
 		case huangYe_shop_type: // 荒野：荒野币
 		case lianmeng_battle_shop_type: // 联盟战：功勋
+		case baizhan_shop_type: // 百战:威望
 			if(bean == null){
 				bean = HibernateUtil.find(PublicShop.class, jzId * shop_space + bigType);
 				if(bean == null){
-					bean = initHYshopInfo(jzId, bigType);
+					bean = initShopInfo(jzId, bigType);
 				}
 			}
 			bean.setMoney(newMoney);
@@ -426,10 +461,16 @@ public class ShopMgr {
 			break;
 		}
 	}
+	public int addMoney(ShopMgr.Money m, int shopType, long jzId, int addValue){
+		int all = addValue + getMoney(m, jzId, null);
+		setMoney(shopType, jzId, null, all);
+		return all;
+	}
 	public int getMoney(int bigType, long jzId, PublicShop bean){
 		switch(bigType){
 		case huangYe_shop_type: // 荒野：荒野币
 		case lianmeng_battle_shop_type: // 联盟战：功勋
+		case baizhan_shop_type: // 百战商店： 威望
 			if(bean == null){
 				bean = HibernateUtil.find(PublicShop.class, jzId * shop_space + bigType);
 			}
@@ -441,21 +482,62 @@ public class ShopMgr {
 		return 0;
 	}
 	public int getMoney(ShopMgr.Money m, long jzId, PublicShop bean){
+		int type = -1;
 		switch(m){
 		case huangYeBi:
-			if(bean == null){
-				 bean = HibernateUtil.find(PublicShop.class, jzId * shop_space + huangYe_shop_type);
-			}
-			return bean == null? 0: bean.getMoney();
+			type = huangYe_shop_type;
+			break;
 		case gongXun:
-			if(bean == null){
-				 bean = HibernateUtil.find(PublicShop.class, jzId * shop_space + lianmeng_battle_shop_type);
-			}
-			return bean == null? 0: bean.getMoney();
+			type=  lianmeng_battle_shop_type;
+			break;
+		case weiWang:
+			type = baizhan_shop_type;
+			break;
 		case lianMengGongXian:
 			AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, jzId);
 			return p == null? 0: p.gongXian;
 		}
+		if(type != -1){
+			if(bean == null){
+				bean = HibernateUtil.find(PublicShop.class, jzId * shop_space + type);
+			}
+			return bean == null? 0: bean.getMoney();
+		}
 		return 0;
+	}
+	
+	/**
+	 * 获取距离date时间最近的下一个9点或者21点时间
+	 * 
+	 * @Title: getNextUpdateDuihuan
+	 * @Description:
+	 * @param date
+	 * @return
+	 */
+	public Date getNextNineTime(Date date) {
+		long time = date.getTime();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		int min = cal.get(Calendar.MINUTE);
+		int second = cal.get(Calendar.SECOND);
+		int todayTime = hour * 3600 + min * 60 + second;
+
+		if (hour < 9) {
+			int leftTime = (9 * 3600 - todayTime) * 1000;
+			time += leftTime;
+			return new Date(time);
+		}
+		if (hour >= 9 && hour < 21) {
+			int leftTime = (21 * 3600 - todayTime) * 1000;
+			time += leftTime;
+			return new Date(time);
+		}
+		if (hour >= 21) {
+			int leftTime = (24 * 3600 - todayTime + 9 * 3600) * 1000;
+			time += leftTime;
+			return new Date(time);
+		}
+		return date;
 	}
 }

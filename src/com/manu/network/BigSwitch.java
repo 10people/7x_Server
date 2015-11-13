@@ -285,9 +285,6 @@ public class BigSwitch {
 			switch (id) {
 			/* 百战千军的协议处理 */
 			case PD.BAIZHAN_INFO_REQ:
-			case PD.EXCHAGE_AWARD_REQ:
-			case PD.ADD_CHANCE_REQ:
-			case PD.RECEIVE_AWARD_REQ:
 			case PD.CHALLENGE_REQ:
 			case PD.CONFIRM_EXECUTE_REQ:
 			case PD.BAIZHAN_RESULT:
@@ -845,10 +842,10 @@ public class BigSwitch {
 //				hyMgr.resourceChangeReq(id, session, builder);
 //				break;
 			case PD.HY_SHOP_REQ:
-				shopMgr.dealHyShopReq(id, builder, session);
+				shopMgr.dealGetShopInfoReq(id, builder, session);
 				break;
 			case PD.HY_BUY_GOOD_REQ:
-				shopMgr.dealHyBuyGoodReq(id, builder, session);
+				shopMgr.dealBuyGoodReq(id, builder, session);
 				break;
 			case PD.ACTIVE_TREASURE_REQ:
 				hyMgr.activeTreasurePoint(id, session, builder);
