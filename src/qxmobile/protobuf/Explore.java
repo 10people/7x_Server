@@ -8,1084 +8,6 @@ public final class Explore {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
-  public interface IfExploreReqOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-  }
-  /**
-   * Protobuf type {@code qxmobile.protobuf.IfExploreReq}
-   *
-   * <pre>
-   * 客户端向服务器请求是否有探宝信息
-   * </pre>
-   */
-  public static final class IfExploreReq extends
-      com.google.protobuf.GeneratedMessage
-      implements IfExploreReqOrBuilder {
-    // Use IfExploreReq.newBuilder() to construct.
-    private IfExploreReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private IfExploreReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final IfExploreReq defaultInstance;
-    public static IfExploreReq getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public IfExploreReq getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private IfExploreReq(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_IfExploreReq_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_IfExploreReq_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.Explore.IfExploreReq.class, qxmobile.protobuf.Explore.IfExploreReq.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<IfExploreReq> PARSER =
-        new com.google.protobuf.AbstractParser<IfExploreReq>() {
-      public IfExploreReq parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new IfExploreReq(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<IfExploreReq> getParserForType() {
-      return PARSER;
-    }
-
-    private void initFields() {
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static qxmobile.protobuf.Explore.IfExploreReq parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreReq parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreReq parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreReq parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreReq parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreReq parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreReq parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreReq parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreReq parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreReq parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.Explore.IfExploreReq prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code qxmobile.protobuf.IfExploreReq}
-     *
-     * <pre>
-     * 客户端向服务器请求是否有探宝信息
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.Explore.IfExploreReqOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_IfExploreReq_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_IfExploreReq_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.Explore.IfExploreReq.class, qxmobile.protobuf.Explore.IfExploreReq.Builder.class);
-      }
-
-      // Construct using qxmobile.protobuf.Explore.IfExploreReq.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_IfExploreReq_descriptor;
-      }
-
-      public qxmobile.protobuf.Explore.IfExploreReq getDefaultInstanceForType() {
-        return qxmobile.protobuf.Explore.IfExploreReq.getDefaultInstance();
-      }
-
-      public qxmobile.protobuf.Explore.IfExploreReq build() {
-        qxmobile.protobuf.Explore.IfExploreReq result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public qxmobile.protobuf.Explore.IfExploreReq buildPartial() {
-        qxmobile.protobuf.Explore.IfExploreReq result = new qxmobile.protobuf.Explore.IfExploreReq(this);
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.Explore.IfExploreReq) {
-          return mergeFrom((qxmobile.protobuf.Explore.IfExploreReq)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(qxmobile.protobuf.Explore.IfExploreReq other) {
-        if (other == qxmobile.protobuf.Explore.IfExploreReq.getDefaultInstance()) return this;
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        qxmobile.protobuf.Explore.IfExploreReq parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.Explore.IfExploreReq) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.IfExploreReq)
-    }
-
-    static {
-      defaultInstance = new IfExploreReq(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.IfExploreReq)
-  }
-
-  public interface IfExploreRespOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required bool yes = 1;
-    /**
-     * <code>required bool yes = 1;</code>
-     *
-     * <pre>
-     * 0 : 没有; 1: 有
-     * </pre>
-     */
-    boolean hasYes();
-    /**
-     * <code>required bool yes = 1;</code>
-     *
-     * <pre>
-     * 0 : 没有; 1: 有
-     * </pre>
-     */
-    boolean getYes();
-  }
-  /**
-   * Protobuf type {@code qxmobile.protobuf.IfExploreResp}
-   *
-   * <pre>
-   * 服务器响应客户端关于上面的请求
-   * </pre>
-   */
-  public static final class IfExploreResp extends
-      com.google.protobuf.GeneratedMessage
-      implements IfExploreRespOrBuilder {
-    // Use IfExploreResp.newBuilder() to construct.
-    private IfExploreResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private IfExploreResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final IfExploreResp defaultInstance;
-    public static IfExploreResp getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public IfExploreResp getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private IfExploreResp(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              yes_ = input.readBool();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_IfExploreResp_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_IfExploreResp_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.Explore.IfExploreResp.class, qxmobile.protobuf.Explore.IfExploreResp.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<IfExploreResp> PARSER =
-        new com.google.protobuf.AbstractParser<IfExploreResp>() {
-      public IfExploreResp parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new IfExploreResp(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<IfExploreResp> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required bool yes = 1;
-    public static final int YES_FIELD_NUMBER = 1;
-    private boolean yes_;
-    /**
-     * <code>required bool yes = 1;</code>
-     *
-     * <pre>
-     * 0 : 没有; 1: 有
-     * </pre>
-     */
-    public boolean hasYes() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required bool yes = 1;</code>
-     *
-     * <pre>
-     * 0 : 没有; 1: 有
-     * </pre>
-     */
-    public boolean getYes() {
-      return yes_;
-    }
-
-    private void initFields() {
-      yes_ = false;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasYes()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(1, yes_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(1, yes_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static qxmobile.protobuf.Explore.IfExploreResp parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreResp parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreResp parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreResp parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreResp parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreResp parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreResp parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreResp parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreResp parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Explore.IfExploreResp parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.Explore.IfExploreResp prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code qxmobile.protobuf.IfExploreResp}
-     *
-     * <pre>
-     * 服务器响应客户端关于上面的请求
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.Explore.IfExploreRespOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_IfExploreResp_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_IfExploreResp_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.Explore.IfExploreResp.class, qxmobile.protobuf.Explore.IfExploreResp.Builder.class);
-      }
-
-      // Construct using qxmobile.protobuf.Explore.IfExploreResp.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        yes_ = false;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_IfExploreResp_descriptor;
-      }
-
-      public qxmobile.protobuf.Explore.IfExploreResp getDefaultInstanceForType() {
-        return qxmobile.protobuf.Explore.IfExploreResp.getDefaultInstance();
-      }
-
-      public qxmobile.protobuf.Explore.IfExploreResp build() {
-        qxmobile.protobuf.Explore.IfExploreResp result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public qxmobile.protobuf.Explore.IfExploreResp buildPartial() {
-        qxmobile.protobuf.Explore.IfExploreResp result = new qxmobile.protobuf.Explore.IfExploreResp(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.yes_ = yes_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.Explore.IfExploreResp) {
-          return mergeFrom((qxmobile.protobuf.Explore.IfExploreResp)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(qxmobile.protobuf.Explore.IfExploreResp other) {
-        if (other == qxmobile.protobuf.Explore.IfExploreResp.getDefaultInstance()) return this;
-        if (other.hasYes()) {
-          setYes(other.getYes());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasYes()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        qxmobile.protobuf.Explore.IfExploreResp parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.Explore.IfExploreResp) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required bool yes = 1;
-      private boolean yes_ ;
-      /**
-       * <code>required bool yes = 1;</code>
-       *
-       * <pre>
-       * 0 : 没有; 1: 有
-       * </pre>
-       */
-      public boolean hasYes() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required bool yes = 1;</code>
-       *
-       * <pre>
-       * 0 : 没有; 1: 有
-       * </pre>
-       */
-      public boolean getYes() {
-        return yes_;
-      }
-      /**
-       * <code>required bool yes = 1;</code>
-       *
-       * <pre>
-       * 0 : 没有; 1: 有
-       * </pre>
-       */
-      public Builder setYes(boolean value) {
-        bitField0_ |= 0x00000001;
-        yes_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required bool yes = 1;</code>
-       *
-       * <pre>
-       * 0 : 没有; 1: 有
-       * </pre>
-       */
-      public Builder clearYes() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        yes_ = false;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.IfExploreResp)
-    }
-
-    static {
-      defaultInstance = new IfExploreResp(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.IfExploreResp)
-  }
-
-  public interface ExploreInfoReqOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-  }
-  /**
-   * Protobuf type {@code qxmobile.protobuf.ExploreInfoReq}
-   *
-   * <pre>
-   * 客户端向服务器：请求探宝主界面
-   * </pre>
-   */
-  public static final class ExploreInfoReq extends
-      com.google.protobuf.GeneratedMessage
-      implements ExploreInfoReqOrBuilder {
-    // Use ExploreInfoReq.newBuilder() to construct.
-    private ExploreInfoReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private ExploreInfoReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final ExploreInfoReq defaultInstance;
-    public static ExploreInfoReq getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public ExploreInfoReq getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private ExploreInfoReq(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_ExploreInfoReq_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_ExploreInfoReq_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.Explore.ExploreInfoReq.class, qxmobile.protobuf.Explore.ExploreInfoReq.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<ExploreInfoReq> PARSER =
-        new com.google.protobuf.AbstractParser<ExploreInfoReq>() {
-      public ExploreInfoReq parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ExploreInfoReq(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ExploreInfoReq> getParserForType() {
-      return PARSER;
-    }
-
-    private void initFields() {
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static qxmobile.protobuf.Explore.ExploreInfoReq parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Explore.ExploreInfoReq parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Explore.ExploreInfoReq parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Explore.ExploreInfoReq parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Explore.ExploreInfoReq parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Explore.ExploreInfoReq parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Explore.ExploreInfoReq parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static qxmobile.protobuf.Explore.ExploreInfoReq parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Explore.ExploreInfoReq parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Explore.ExploreInfoReq parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.Explore.ExploreInfoReq prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code qxmobile.protobuf.ExploreInfoReq}
-     *
-     * <pre>
-     * 客户端向服务器：请求探宝主界面
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.Explore.ExploreInfoReqOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_ExploreInfoReq_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_ExploreInfoReq_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.Explore.ExploreInfoReq.class, qxmobile.protobuf.Explore.ExploreInfoReq.Builder.class);
-      }
-
-      // Construct using qxmobile.protobuf.Explore.ExploreInfoReq.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_ExploreInfoReq_descriptor;
-      }
-
-      public qxmobile.protobuf.Explore.ExploreInfoReq getDefaultInstanceForType() {
-        return qxmobile.protobuf.Explore.ExploreInfoReq.getDefaultInstance();
-      }
-
-      public qxmobile.protobuf.Explore.ExploreInfoReq build() {
-        qxmobile.protobuf.Explore.ExploreInfoReq result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public qxmobile.protobuf.Explore.ExploreInfoReq buildPartial() {
-        qxmobile.protobuf.Explore.ExploreInfoReq result = new qxmobile.protobuf.Explore.ExploreInfoReq(this);
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.Explore.ExploreInfoReq) {
-          return mergeFrom((qxmobile.protobuf.Explore.ExploreInfoReq)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(qxmobile.protobuf.Explore.ExploreInfoReq other) {
-        if (other == qxmobile.protobuf.Explore.ExploreInfoReq.getDefaultInstance()) return this;
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        qxmobile.protobuf.Explore.ExploreInfoReq parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.Explore.ExploreInfoReq) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ExploreInfoReq)
-    }
-
-    static {
-      defaultInstance = new ExploreInfoReq(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ExploreInfoReq)
-  }
-
   public interface ExploreInfoRespOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -2833,7 +1755,7 @@ public final class Explore {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1-元宝不足，2-次数不够，3-时间不到 4-数据错误
+     *1-元宝不足，2-次数不够，3-时间不到 4-数据错误 5 贡献值不够
      * </pre>
      */
     boolean hasType();
@@ -2841,7 +1763,7 @@ public final class Explore {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1-元宝不足，2-次数不够，3-时间不到 4-数据错误
+     *1-元宝不足，2-次数不够，3-时间不到 4-数据错误 5 贡献值不够
      * </pre>
      */
     int getType();
@@ -2953,7 +1875,7 @@ public final class Explore {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1-元宝不足，2-次数不够，3-时间不到 4-数据错误
+     *1-元宝不足，2-次数不够，3-时间不到 4-数据错误 5 贡献值不够
      * </pre>
      */
     public boolean hasType() {
@@ -2963,7 +1885,7 @@ public final class Explore {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1-元宝不足，2-次数不够，3-时间不到 4-数据错误
+     *1-元宝不足，2-次数不够，3-时间不到 4-数据错误 5 贡献值不够
      * </pre>
      */
     public int getType() {
@@ -3215,7 +2137,7 @@ public final class Explore {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1-元宝不足，2-次数不够，3-时间不到 4-数据错误
+       *1-元宝不足，2-次数不够，3-时间不到 4-数据错误 5 贡献值不够
        * </pre>
        */
       public boolean hasType() {
@@ -3225,7 +2147,7 @@ public final class Explore {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1-元宝不足，2-次数不够，3-时间不到 4-数据错误
+       *1-元宝不足，2-次数不够，3-时间不到 4-数据错误 5 贡献值不够
        * </pre>
        */
       public int getType() {
@@ -3235,7 +2157,7 @@ public final class Explore {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1-元宝不足，2-次数不够，3-时间不到 4-数据错误
+       *1-元宝不足，2-次数不够，3-时间不到 4-数据错误 5 贡献值不够
        * </pre>
        */
       public Builder setType(int value) {
@@ -3248,7 +2170,7 @@ public final class Explore {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1-元宝不足，2-次数不够，3-时间不到 4-数据错误
+       *1-元宝不足，2-次数不够，3-时间不到 4-数据错误 5 贡献值不够
        * </pre>
        */
       public Builder clearType() {
@@ -6613,21 +5535,6 @@ public final class Explore {
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_IfExploreReq_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_IfExploreReq_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_IfExploreResp_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_IfExploreResp_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_ExploreInfoReq_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_ExploreInfoReq_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_ExploreInfoResp_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -6666,81 +5573,61 @@ public final class Explore {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rExplore.proto\022\021qxmobile.protobuf\"\016\n\014If" +
-      "ExploreReq\"\034\n\rIfExploreResp\022\013\n\003yes\030\001 \002(\010" +
-      "\"\020\n\016ExploreInfoReq\"\235\001\n\017ExploreInfoResp\022:" +
-      "\n\016mineRegionList\030\001 \003(\0132\".qxmobile.protob" +
-      "uf.ExploreMineInfo\022\020\n\010hasGuild\030\002 \002(\010\022\017\n\007" +
-      "yuanBao\030\003 \002(\005\022\020\n\010gongXian\030\004 \001(\005\022\013\n\003tie\030\005" +
-      " \002(\005\022\014\n\004tong\030\006 \002(\005\")\n\nExploreReq\022\014\n\004type" +
-      "\030\001 \002(\005\022\r\n\005isBuy\030\002 \002(\010\"\033\n\013ExploreResp\022\014\n\004" +
-      "type\030\001 \002(\005\"O\n\021ExploreAwardsInfo\022\014\n\004type\030" +
-      "\001 \002(\005\022,\n\nawardsList\030\002 \003(\0132\030.qxmobile.pro",
-      "tobuf.Award\"\216\001\n\017ExploreMineInfo\022\014\n\004type\030" +
-      "\001 \002(\005\022\025\n\rremainingTime\030\002 \001(\005\022\020\n\010gotTimes" +
-      "\030\003 \001(\005\022\022\n\ntotalTimes\030\004 \002(\005\022\020\n\010discount\030\005" +
-      " \001(\005\022\014\n\004cost\030\006 \001(\005\022\020\n\010isCanGet\030\007 \002(\010\"\233\001\n" +
-      "\005Award\022\016\n\006itemId\030\001 \002(\005\022\020\n\010itemType\030\002 \002(\005" +
-      "\022\017\n\007pieceId\030\004 \001(\005\022\023\n\013pieceNumber\030\005 \001(\005\022\021" +
-      "\n\tpieceType\030\006 \001(\005\022\020\n\010itemStar\030\007 \001(\005\022\022\n\ni" +
-      "temNumber\030\010 \002(\005\022\021\n\tisQuality\030\t \002(\005B\tB\007Ex" +
-      "plore"
+      "\n\rExplore.proto\022\021qxmobile.protobuf\"\235\001\n\017E" +
+      "xploreInfoResp\022:\n\016mineRegionList\030\001 \003(\0132\"" +
+      ".qxmobile.protobuf.ExploreMineInfo\022\020\n\010ha" +
+      "sGuild\030\002 \002(\010\022\017\n\007yuanBao\030\003 \002(\005\022\020\n\010gongXia" +
+      "n\030\004 \001(\005\022\013\n\003tie\030\005 \002(\005\022\014\n\004tong\030\006 \002(\005\")\n\nEx" +
+      "ploreReq\022\014\n\004type\030\001 \002(\005\022\r\n\005isBuy\030\002 \002(\010\"\033\n" +
+      "\013ExploreResp\022\014\n\004type\030\001 \002(\005\"O\n\021ExploreAwa" +
+      "rdsInfo\022\014\n\004type\030\001 \002(\005\022,\n\nawardsList\030\002 \003(" +
+      "\0132\030.qxmobile.protobuf.Award\"\216\001\n\017ExploreM" +
+      "ineInfo\022\014\n\004type\030\001 \002(\005\022\025\n\rremainingTime\030\002",
+      " \001(\005\022\020\n\010gotTimes\030\003 \001(\005\022\022\n\ntotalTimes\030\004 \002" +
+      "(\005\022\020\n\010discount\030\005 \001(\005\022\014\n\004cost\030\006 \001(\005\022\020\n\010is" +
+      "CanGet\030\007 \002(\010\"\233\001\n\005Award\022\016\n\006itemId\030\001 \002(\005\022\020" +
+      "\n\010itemType\030\002 \002(\005\022\017\n\007pieceId\030\004 \001(\005\022\023\n\013pie" +
+      "ceNumber\030\005 \001(\005\022\021\n\tpieceType\030\006 \001(\005\022\020\n\010ite" +
+      "mStar\030\007 \001(\005\022\022\n\nitemNumber\030\010 \002(\005\022\021\n\tisQua" +
+      "lity\030\t \002(\005B\tB\007Explore"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_qxmobile_protobuf_IfExploreReq_descriptor =
-            getDescriptor().getMessageTypes().get(0);
-          internal_static_qxmobile_protobuf_IfExploreReq_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_IfExploreReq_descriptor,
-              new java.lang.String[] { });
-          internal_static_qxmobile_protobuf_IfExploreResp_descriptor =
-            getDescriptor().getMessageTypes().get(1);
-          internal_static_qxmobile_protobuf_IfExploreResp_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_IfExploreResp_descriptor,
-              new java.lang.String[] { "Yes", });
-          internal_static_qxmobile_protobuf_ExploreInfoReq_descriptor =
-            getDescriptor().getMessageTypes().get(2);
-          internal_static_qxmobile_protobuf_ExploreInfoReq_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_ExploreInfoReq_descriptor,
-              new java.lang.String[] { });
           internal_static_qxmobile_protobuf_ExploreInfoResp_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(0);
           internal_static_qxmobile_protobuf_ExploreInfoResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ExploreInfoResp_descriptor,
               new java.lang.String[] { "MineRegionList", "HasGuild", "YuanBao", "GongXian", "Tie", "Tong", });
           internal_static_qxmobile_protobuf_ExploreReq_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_ExploreReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ExploreReq_descriptor,
               new java.lang.String[] { "Type", "IsBuy", });
           internal_static_qxmobile_protobuf_ExploreResp_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_ExploreResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ExploreResp_descriptor,
               new java.lang.String[] { "Type", });
           internal_static_qxmobile_protobuf_ExploreAwardsInfo_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(3);
           internal_static_qxmobile_protobuf_ExploreAwardsInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ExploreAwardsInfo_descriptor,
               new java.lang.String[] { "Type", "AwardsList", });
           internal_static_qxmobile_protobuf_ExploreMineInfo_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_ExploreMineInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ExploreMineInfo_descriptor,
               new java.lang.String[] { "Type", "RemainingTime", "GotTimes", "TotalTimes", "Discount", "Cost", "IsCanGet", });
           internal_static_qxmobile_protobuf_Award_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_qxmobile_protobuf_Award_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_Award_descriptor,

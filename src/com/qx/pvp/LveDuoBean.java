@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.qx.persistent.HibernateUtil;
-import com.qx.persistent.MCSupport;
 @Entity
 @Table(name="lve_duo")
 public class LveDuoBean  {//implements MCSupport {

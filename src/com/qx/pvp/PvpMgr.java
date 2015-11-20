@@ -1853,10 +1853,6 @@ public class PvpMgr extends EventProc implements Runnable {
 		}
 	}
 
-	/**
-	 * // 玩家上线 检查玩家前一个21点的百战奖励是否发出 PvpMgr.inst.addDailyAward(sessoinId,
-	 * PVPConstant.LOGIN_SEND_EMAIL);;
-	 */
 	@Override
 	protected void doReg() {
 		EventMgr.regist(ED.ACC_LOGIN, this);
@@ -2687,10 +2683,6 @@ public class PvpMgr extends EventProc implements Runnable {
 		case PD.BAIZHAN_INFO_REQ:
 			getBaiZhanMainInfo(id, builder, session);
 			break;
-//
-//		case PD.ADD_CHANCE_REQ:
-//			addChallengeChance(id, builder, session);
-//			break;
 		case PD.CHALLENGE_REQ:
 			getChanllengeArmy(id, builder, session);
 			break;

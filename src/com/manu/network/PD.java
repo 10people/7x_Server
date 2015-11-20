@@ -108,12 +108,9 @@ import qxmobile.protobuf.EmailProtos.SendEmail;
 import qxmobile.protobuf.EmailProtos.SendEmailResp;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.Explore.ExploreAwardsInfo;
-import qxmobile.protobuf.Explore.ExploreInfoReq;
 import qxmobile.protobuf.Explore.ExploreInfoResp;
 import qxmobile.protobuf.Explore.ExploreReq;
 import qxmobile.protobuf.Explore.ExploreResp;
-import qxmobile.protobuf.Explore.IfExploreReq;
-import qxmobile.protobuf.Explore.IfExploreResp;
 import qxmobile.protobuf.FriendsProtos.AddFriendReq;
 import qxmobile.protobuf.FriendsProtos.GetFriendListReq;
 import qxmobile.protobuf.FriendsProtos.RemoveFriendReq;
@@ -719,9 +716,6 @@ public class PD {
 		ProtobufUtils.register(GetFullStarAwardresp.getDefaultInstance(), PD.GET_FULL_STAR_AWARD_RESP);
 		
 		// 探宝
-		ProtobufUtils.register(IfExploreReq.getDefaultInstance(), IF_EXPLORE_REQ);
-		ProtobufUtils.register(IfExploreResp.getDefaultInstance(), IF_EXPLORE_RESP);
-		ProtobufUtils.register(ExploreInfoReq.getDefaultInstance(), EXPLORE_INFO_REQ);
 		ProtobufUtils.register(ExploreInfoResp.getDefaultInstance(), EXPLORE_INFO_RESP);
 		ProtobufUtils.register(ExploreReq.getDefaultInstance(), EXPLORE_REQ);
 		ProtobufUtils.register(ExploreResp.getDefaultInstance(), EXPLORE_RESP);
@@ -1505,11 +1499,6 @@ public class PD {
 	public static final short GET_FULL_STAR_AWARD_RESP = 29614;
 	
 	//***************  探宝协议  *******************
-	/**请求是否显示感叹号**/
-	public static final short IF_EXPLORE_REQ      = 30000;
-	/**响应是否感叹号**/
-	public static final short IF_EXPLORE_RESP     = 30001;
-	/********探宝页面需要协议**********/
 	/**请求矿区主界面**/
 	public static final short EXPLORE_INFO_REQ    = 30002;
 	/**响应矿区主界面**/

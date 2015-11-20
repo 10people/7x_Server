@@ -647,10 +647,6 @@ public class BigSwitch {
 			case PD.MIBAO_DEAL_SKILL_REQ:
 				mibaoMgr.doMiBaoDealSkillReq(session, builder);
 				break;
-				// 探宝
-			case PD.IF_EXPLORE_REQ:
-				exploreMgr.sendIfExploreInfo(id, session, builder);
-				break;
 			case PD.EXPLORE_INFO_REQ:
 				exploreMgr.sendExploreMineInfo(id, session, builder);
 				break;

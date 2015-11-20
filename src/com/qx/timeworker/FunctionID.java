@@ -33,13 +33,27 @@ public class FunctionID {
 	public static int jinJie = 1211;
 	// 秘宝升级
 	public static int miBaoShengJi = 600;
-	// 秘宝升级
+	// lianmeng
 	public static int alliance = 410000;
 	// 联盟事件
-	public static final int ALLIANCE_EVENT = 1000001;				
+	public static final int ALLIANCE_EVENT = 1000001;
 	// 联盟新申请
 	public static final int ALLIANCE_NEW_APPLYER = 1000002;
-	// TODO 探宝 掠夺 运镖 邮箱 符文(二级页面) 
+
+	public static int tanBao = 11;  // 探宝
+	public static int tanBao_free = 1101;		// 免费单抽
+	public static int tanBao_sigle_free = 1102; // 付费单抽的免费
+	
+	public static int lveDuo = 211;		//掠夺
+
+	public static int youxiang_system = 41;	// 邮箱-系统
+	public static int youxiang_person = 10; // 邮箱 -私信
+
+	public static int yabiao = 310; //押镖
+	public static int yabiao_history = 313;		//押镖-历史记录
+	public static int yabiao_enemy = 315;//押镖-仇人
+	
+	
 	//推送某功能红点可以出现 和前段约定code为负数时红点消失
 	public static void pushCanShangjiao(long jzId,IoSession session,int Code){
 		log.info("向君主{}推送--{}可以出现提示红点",jzId,Code);

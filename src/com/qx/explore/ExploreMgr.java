@@ -17,7 +17,6 @@ import qxmobile.protobuf.Explore.ExploreInfoResp;
 import qxmobile.protobuf.Explore.ExploreMineInfo;
 import qxmobile.protobuf.Explore.ExploreReq;
 import qxmobile.protobuf.Explore.ExploreResp;
-import qxmobile.protobuf.Explore.IfExploreResp;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
@@ -27,13 +26,16 @@ import com.manu.dynasty.template.MiBao;
 import com.manu.dynasty.template.MibaoSuiPian;
 import com.manu.dynasty.template.Purchase;
 import com.manu.dynasty.util.MathUtils;
+import com.qx.account.FunctionOpenMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.award.AwardMgr;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
 import com.qx.bag.BagMgr;
 import com.qx.event.ED;
+import com.qx.event.Event;
 import com.qx.event.EventMgr;
+import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.mibao.MiBaoDB;
@@ -43,6 +45,7 @@ import com.qx.persistent.MC;
 import com.qx.task.DailyTaskCondition;
 import com.qx.task.DailyTaskConstants;
 import com.qx.task.TaskData;
+import com.qx.timeworker.FunctionID;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
 
@@ -52,7 +55,7 @@ import com.qx.yuanbao.YuanBaoMgr;
  * @author wangZhuan
  * @version 9.0, 2014年11月5日 下午6:08:25
  */
-public class ExploreMgr {
+public class ExploreMgr extends EventProc{
 	public static ExploreMgr inst;
 	public Map<Integer, ItemTemp> itemTempMap;
 	public Map<Integer, Purchase> purchasesMap;
@@ -89,37 +92,37 @@ public class ExploreMgr {
 		this.itemTempMap = itemTempMap;
 		this.purchasesMap = purchasesMap;
 	}
-
-	/**
-	 * 主城界面显示探宝是否还有次数
-	 * 
-	 * @Title: sendIfExploreInfo
-	 * @Description:
-	 * @param code
-	 * @param session
-	 * @param builder
-	 */
-	public void sendIfExploreInfo(int code, IoSession session, Builder builder) {
-		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
-		boolean isHaveChance = false;
-		if (jz != null) {
-			List<ExploreMine> list = getMineList(jz.id);
-			if (list != null) {
-				for (ExploreMine em : list) {
-					if (em != null && em.haveFreeChance() == 127) {
-						isHaveChance = true;
-						break;
-					}
-				}
-			} else {
-				isHaveChance = true;
-			}
-		}
-		qxmobile.protobuf.Explore.IfExploreResp.Builder resp = IfExploreResp
-				.newBuilder();
-		resp.setYes(isHaveChance);
-		session.write(resp.build());
-	}
+//
+//	/**
+//	 * 主城界面显示探宝是否还有次数
+//	 * 
+//	 * @Title: sendIfExploreInfo
+//	 * @Description:
+//	 * @param code
+//	 * @param session
+//	 * @param builder
+//	 */
+//	public void sendIfExploreInfo(int code, IoSession session, Builder builder) {
+//		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+//		boolean isHaveChance = false;
+//		if (jz != null) {
+//			List<ExploreMine> list = getMineList(jz.id);
+//			if (list != null) {
+//				for (ExploreMine em : list) {
+//					if (em != null && em.haveFreeChance() == 127) {
+//						isHaveChance = true;
+//						break;
+//					}
+//				}
+//			} else {
+//				isHaveChance = true;
+//			}
+//		}
+//		qxmobile.protobuf.Explore.IfExploreResp.Builder resp = IfExploreResp
+//				.newBuilder();
+//		resp.setYes(isHaveChance);
+//		session.write(resp.build());
+//	}
 
 	/**
 	 * 请求探宝主界面
@@ -785,5 +788,64 @@ public class ExploreMgr {
 			m5 = new ExploreMine(junZhuId, ExploreConstant.GUILD_2);
 			mineList.add(m5);
 		}
+	}
+
+	@Override
+	public void proc(Event e) {
+		switch (e.id) {
+		case ED.REFRESH_TIME_WORK:
+			IoSession session = (IoSession) e.param;
+			if(session == null){
+				break;
+			}
+			JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+			if(jz == null){
+				break;
+			}
+			boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.tanBao, jz.id, jz.level);
+			if(!isOpen){
+				break;
+			}
+			byte  freeRecord = -1; // -1 没有免费单抽记录； 1-可以免费单抽， 0-不能抽奖
+			boolean  isHaveSigleFreeChance = false;
+			List<ExploreMine> list = getMineList(jz.id);
+			if (list != null) {
+				for (ExploreMine em : list) {
+					if(em.getType() == ExploreConstant.SIGLE){
+						if (em.haveFreeChance() == 127) {
+							isHaveSigleFreeChance = true;
+						}
+					}else if(em.getType() == ExploreConstant.FREE){
+						if (em.haveFreeChance() == 127) {
+							freeRecord = 1;	//可以抽奖
+						}else{
+							freeRecord = 0; //不能抽奖
+						}
+					}
+				}
+			} else {
+				freeRecord = 1;
+				isHaveSigleFreeChance = true;
+			}
+			// 从没有进行过免费单抽，那么可以单抽
+			if(freeRecord == -1){
+				freeRecord = 1;
+			}
+			// 免费单抽有免费机会，可以抽奖
+			if(freeRecord == 1){
+				log.info("免费单抽发送红点通知");
+				FunctionID.pushCanShangjiao(jz.id, session, FunctionID.tanBao_free);
+			}
+			if(isHaveSigleFreeChance){
+				log.info("付费单抽发送免费机会红点通知");
+				FunctionID.pushCanShangjiao(jz.id, session, FunctionID.tanBao_sigle_free);
+			}
+			break;
+		}
+	}
+
+	@Override
+	protected void doReg() {
+		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 	}
 }

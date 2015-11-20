@@ -42,14 +42,19 @@ import com.manu.network.BigSwitch;
 import com.manu.network.SessionAttKey;
 import com.qx.account.AccountManager;
 import com.qx.award.AwardMgr;
+import com.qx.event.ED;
+import com.qx.event.Event;
+import com.qx.event.EventMgr;
+import com.qx.event.EventProc;
 import com.qx.gm.role.GMRoleMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.timeworker.FunctionID;
 import com.qx.util.TableIDCreator;
 import com.qx.world.Mission;
 
-public class EmailMgr implements Runnable {
+public class EmailMgr extends EventProc implements Runnable {
 	public static EmailMgr INSTANCE = null;
 	public ThreadLocal<Long> receiverJzId = new ThreadLocal<Long>();
 	public static Logger log = LoggerFactory.getLogger(EmailMgr.class);
@@ -607,6 +612,50 @@ public class EmailMgr implements Runnable {
 					operCode);
 			break;
 		}
+	}
+
+	@Override
+	public void proc(Event e) {
+		switch (e.id) {
+			case ED.REFRESH_TIME_WORK:
+				IoSession session = (IoSession) e.param;
+				if(session == null){
+					break;
+				}
+				JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+				if(jz == null){
+					break;
+				}
+				List<Email> emailList = HibernateUtil.list(Email.class,
+						" where receiverId = " + jz.id + " and isDelete = "
+								+ DELETE_FALSE + " and isReaded = 0"); 
+				boolean hasSystemEmail = false;
+				boolean hasPersonEmail = false;
+				for (Email mail : emailList) {
+					// 判断是系统邮件 或者 非黑名单的私信（需显示）
+					if(mail.senderJzId == -1){
+						hasSystemEmail = true;
+					}else if(!isSenderBlack(jz.id, mail.senderJzId)){
+						hasPersonEmail = true;
+					}
+					if(hasSystemEmail && hasPersonEmail){
+						break;
+					}
+				}
+				if(hasSystemEmail){
+					// 发送系统邮件未读提示
+					FunctionID.pushCanShangjiao(jz.id, session, FunctionID.youxiang_system);
+				}
+				if(hasPersonEmail){
+					// 发送私信邮件未读提示
+					FunctionID.pushCanShangjiao(jz.id, session, FunctionID.youxiang_person);
+				}
+				break;
+			}
+	}
+	@Override
+	protected void doReg() {
+		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 	}
 
 }

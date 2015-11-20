@@ -57,7 +57,6 @@ import com.manu.dynasty.template.VipFuncOpen;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
-import com.manu.network.SessionManager;
 import com.qx.account.FunctionOpenMgr;
 import com.qx.activity.ActivityMgr;
 import com.qx.alliance.AllianceBean;
@@ -80,6 +79,7 @@ import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.PurchaseConstants;
 import com.qx.purchase.PurchaseMgr;
 import com.qx.ranking.RankingMgr;
+import com.qx.timeworker.FunctionID;
 import com.qx.vip.VipData;
 import com.qx.vip.VipMgr;
 import com.qx.world.Mission;
@@ -1313,14 +1313,14 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		
 		fightingLock.remove(enemyId);
 		willLostGongJin.remove(jId);
-
-		/*
-		 * 给防守者发送被打通知
-		 */
-		IoSession enemySession = SessionManager.inst.getIoSession(enemyId);
-		if(enemySession != null){
-			enemySession.write(PD.LVE_NOTICE_CAN_LVE_DUO);
-		}
+//
+//		/*
+//		 * 给防守者发送被打通知
+//		 */
+//		IoSession enemySession = SessionManager.inst.getIoSession(enemyId);
+//		if(enemySession != null){
+//			enemySession.write(PD.LVE_NOTICE_CAN_LVE_DUO);
+//		}
 	}
 	public void getNextItem(int id, IoSession session, Builder builder){
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
@@ -1548,22 +1548,30 @@ public class LveDuoMgr extends EventProc implements Runnable{
 	}
 	@Override
 	public void proc(Event e) {
-//		if(e == null){
-//			return;
-//		}
-//		if(e.param != null){
-//			switch(e.id){
-//				case ED.GET_JUNXIAN:
-//					JunZhu jz = (JunZhu)e.param;
-////					intAndInsertLveDuoBean(jz.id, jz.level, jz.shengMingMax);
-//					break;
-//			}
-//		}
-		
+		switch (e.id) {
+			case ED.REFRESH_TIME_WORK:
+				IoSession session = (IoSession) e.param;
+				if(session == null){
+					break;
+				}
+				JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+				if(jz == null){
+					break;
+				}
+				boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.lveDuo, jz.id, jz.level);
+				if(!isOpen){
+					break;
+				}
+				LveDuoBean bean = HibernateUtil.find(LveDuoBean.class, jz.id);
+				if(bean != null && bean.hasRecord){
+					FunctionID.pushCanShangjiao(jz.id, session, FunctionID.lveDuo);
+				}
+				break;
+			}
 	}
 	@Override
 	protected void doReg() {
-//		EventMgr.regist(ED.GET_JUNXIAN, this);
+		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 	}
 	public int getGongJin(){
 		return 0;

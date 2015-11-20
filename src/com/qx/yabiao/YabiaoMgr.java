@@ -78,13 +78,16 @@ import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
 import com.manu.network.SessionManager;
 import com.manu.network.SessionUser;
+import com.qx.account.FunctionOpenMgr;
 import com.qx.activity.ActivityMgr;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
 import com.qx.battle.PveMgr;
 import com.qx.email.EmailMgr;
 import com.qx.event.ED;
+import com.qx.event.Event;
 import com.qx.event.EventMgr;
+import com.qx.event.EventProc;
 import com.qx.guojia.GuoJiaBean;
 import com.qx.guojia.GuoJiaMgr;
 import com.qx.junzhu.JunZhu;
@@ -96,6 +99,7 @@ import com.qx.pvp.PvpMgr;
 import com.qx.robot.RobotSession;
 import com.qx.task.DailyTaskCondition;
 import com.qx.task.DailyTaskConstants;
+import com.qx.timeworker.FunctionID;
 import com.qx.vip.VipData;
 import com.qx.vip.VipMgr;
 import com.qx.world.Mission;
@@ -103,7 +107,7 @@ import com.qx.world.Scene;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
 
-public class YabiaoMgr implements Runnable {
+public class YabiaoMgr extends EventProc implements Runnable {
 	public static Logger log = LoggerFactory.getLogger(YabiaoMgr.class);
 	public static YabiaoMgr inst;
 
@@ -2527,6 +2531,41 @@ public class YabiaoMgr implements Runnable {
 		while(it.hasNext()){
 			it.next().shutdown();
 		}
+	}
+
+	@Override
+	public void proc(Event e) {
+		switch (e.id) {
+			case ED.REFRESH_TIME_WORK:
+				IoSession session = (IoSession) e.param;
+				if(session == null){
+					break;
+				}
+				JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+				if(jz == null){
+					break;
+				}
+				boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.yabiao, jz.id, jz.level);
+				if(!isOpen){
+					break;
+				}
+				YaBiaoInfo ybbean = HibernateUtil.find(YaBiaoInfo.class, jz.id);
+				if(ybbean != null){
+					if(ybbean.isNew4Enemy){
+						log.info("-----发送押镖有新仇人红点通知");
+						FunctionID.pushCanShangjiao(jz.id, session, FunctionID.yabiao_enemy);
+					}
+					if(ybbean.isNew4History){
+						log.info("-----发送押镖有新战斗记录红点通知");
+						FunctionID.pushCanShangjiao(jz.id, session, FunctionID.yabiao_history);
+					}
+				}
+				break;
+			}
+	}
+	@Override
+	protected void doReg() {
+		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 	}
 
 //	@Override
