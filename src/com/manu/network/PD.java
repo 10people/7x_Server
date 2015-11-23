@@ -7,6 +7,7 @@ import qxmobile.protobuf.AchievementProtos.AcheListResponse;
 import qxmobile.protobuf.AllianceFightProtos.ApplyFightResp;
 import qxmobile.protobuf.AllianceFightProtos.BattlefieldInfoNotify;
 import qxmobile.protobuf.AllianceFightProtos.BattlefieldInfoResp;
+import qxmobile.protobuf.AllianceFightProtos.BufferInfo;
 import qxmobile.protobuf.AllianceFightProtos.FightAttackReq;
 import qxmobile.protobuf.AllianceFightProtos.FightAttackResp;
 import qxmobile.protobuf.AllianceFightProtos.FightHistoryResp;
@@ -923,6 +924,7 @@ public class PD {
 		ProtobufUtils.register(BattlefieldInfoNotify.getDefaultInstance(), ALLIANCE_BATTLE_FIELD_NOTIFY);
 		ProtobufUtils.register(BattleResultAllianceFight.getDefaultInstance(), ALLIANCE_BATTLE_RESULT);
 		ProtobufUtils.register(FightLasttimeRankResp.getDefaultInstance(), ALLIANCE_FIGTH_LASTTIME_RANK_RESP);
+		ProtobufUtils.register(BufferInfo.getDefaultInstance(), BUFFER_INFO);
 		
 	}
 	
@@ -1963,6 +1965,10 @@ public class PD {
 	public static final short ALLIANCE_BATTLE_FIELD_NOTIFY = 4214;
 	/** 联盟战战斗结果返回*/
 	public static final short ALLIANCE_BATTLE_RESULT = 4216;
+	/** buffer信息*/
+	public static final short BUFFER_INFO = 4217;
+	
+	
 
 	/**红点推送通知协议号*/
 	public static final short RED_NOTICE = 4220;

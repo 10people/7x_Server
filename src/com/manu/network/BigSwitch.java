@@ -37,6 +37,7 @@ import com.qx.award.DailyAwardMgr;
 import com.qx.bag.BagMgr;
 import com.qx.bag.EquipMgr;
 import com.qx.battle.PveMgr;
+import com.qx.buff.BuffMgr;
 import com.qx.card.CardMgr;
 import com.qx.email.EmailMgr;
 import com.qx.equip.web.UserEquipAction;
@@ -150,6 +151,7 @@ public class BigSwitch {
 	public FuwenMgr fuwenMgr;
 	public AllianceFightMgr allianceFightMgr;
 	public CdTimeMgr cdTimeMgr;
+	public BuffMgr buffMgr;
 
 	public static BigSwitch getInst() {
 		if (inst == null) {
@@ -233,6 +235,7 @@ public class BigSwitch {
 		allianceFightMgr = new AllianceFightMgr();
 		cdTimeMgr = new CdTimeMgr();
 		cdTimeMgr.start();
+		buffMgr = new BuffMgr();
 	}
 
 	public void loadModuleData() {

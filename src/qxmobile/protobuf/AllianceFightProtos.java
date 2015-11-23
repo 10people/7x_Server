@@ -9077,6 +9077,24 @@ public final class AllianceFightProtos {
      * </pre>
      */
     long getTargetId();
+
+    // required int32 skillId = 2;
+    /**
+     * <code>required int32 skillId = 2;</code>
+     *
+     * <pre>
+     * 技能id,&lt;=0代表未使用技能
+     * </pre>
+     */
+    boolean hasSkillId();
+    /**
+     * <code>required int32 skillId = 2;</code>
+     *
+     * <pre>
+     * 技能id,&lt;=0代表未使用技能
+     * </pre>
+     */
+    int getSkillId();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.FightAttackReq}
@@ -9136,6 +9154,11 @@ public final class AllianceFightProtos {
             case 8: {
               bitField0_ |= 0x00000001;
               targetId_ = input.readInt64();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              skillId_ = input.readInt32();
               break;
             }
           }
@@ -9202,8 +9225,33 @@ public final class AllianceFightProtos {
       return targetId_;
     }
 
+    // required int32 skillId = 2;
+    public static final int SKILLID_FIELD_NUMBER = 2;
+    private int skillId_;
+    /**
+     * <code>required int32 skillId = 2;</code>
+     *
+     * <pre>
+     * 技能id,&lt;=0代表未使用技能
+     * </pre>
+     */
+    public boolean hasSkillId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 skillId = 2;</code>
+     *
+     * <pre>
+     * 技能id,&lt;=0代表未使用技能
+     * </pre>
+     */
+    public int getSkillId() {
+      return skillId_;
+    }
+
     private void initFields() {
       targetId_ = 0L;
+      skillId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -9211,6 +9259,10 @@ public final class AllianceFightProtos {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasTargetId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSkillId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -9224,6 +9276,9 @@ public final class AllianceFightProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt64(1, targetId_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, skillId_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -9236,6 +9291,10 @@ public final class AllianceFightProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, targetId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, skillId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -9359,6 +9418,8 @@ public final class AllianceFightProtos {
         super.clear();
         targetId_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000001);
+        skillId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -9391,6 +9452,10 @@ public final class AllianceFightProtos {
           to_bitField0_ |= 0x00000001;
         }
         result.targetId_ = targetId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.skillId_ = skillId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -9410,12 +9475,19 @@ public final class AllianceFightProtos {
         if (other.hasTargetId()) {
           setTargetId(other.getTargetId());
         }
+        if (other.hasSkillId()) {
+          setSkillId(other.getSkillId());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasTargetId()) {
+          
+          return false;
+        }
+        if (!hasSkillId()) {
           
           return false;
         }
@@ -9486,6 +9558,55 @@ public final class AllianceFightProtos {
       public Builder clearTargetId() {
         bitField0_ = (bitField0_ & ~0x00000001);
         targetId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // required int32 skillId = 2;
+      private int skillId_ ;
+      /**
+       * <code>required int32 skillId = 2;</code>
+       *
+       * <pre>
+       * 技能id,&lt;=0代表未使用技能
+       * </pre>
+       */
+      public boolean hasSkillId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 skillId = 2;</code>
+       *
+       * <pre>
+       * 技能id,&lt;=0代表未使用技能
+       * </pre>
+       */
+      public int getSkillId() {
+        return skillId_;
+      }
+      /**
+       * <code>required int32 skillId = 2;</code>
+       *
+       * <pre>
+       * 技能id,&lt;=0代表未使用技能
+       * </pre>
+       */
+      public Builder setSkillId(int value) {
+        bitField0_ |= 0x00000002;
+        skillId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 skillId = 2;</code>
+       *
+       * <pre>
+       * 技能id,&lt;=0代表未使用技能
+       * </pre>
+       */
+      public Builder clearSkillId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        skillId_ = 0;
         onChanged();
         return this;
       }
@@ -9585,6 +9706,24 @@ public final class AllianceFightProtos {
      * </pre>
      */
     int getRemainLife();
+
+    // required int32 skillId = 7;
+    /**
+     * <code>required int32 skillId = 7;</code>
+     *
+     * <pre>
+     * 技能id， &lt;=0代表未使用技能
+     * </pre>
+     */
+    boolean hasSkillId();
+    /**
+     * <code>required int32 skillId = 7;</code>
+     *
+     * <pre>
+     * 技能id， &lt;=0代表未使用技能
+     * </pre>
+     */
+    int getSkillId();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.FightAttackResp}
@@ -9670,6 +9809,11 @@ public final class AllianceFightProtos {
             case 48: {
               bitField0_ |= 0x00000010;
               remainLife_ = input.readInt32();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000020;
+              skillId_ = input.readInt32();
               break;
             }
           }
@@ -9824,12 +9968,37 @@ public final class AllianceFightProtos {
       return remainLife_;
     }
 
+    // required int32 skillId = 7;
+    public static final int SKILLID_FIELD_NUMBER = 7;
+    private int skillId_;
+    /**
+     * <code>required int32 skillId = 7;</code>
+     *
+     * <pre>
+     * 技能id， &lt;=0代表未使用技能
+     * </pre>
+     */
+    public boolean hasSkillId() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required int32 skillId = 7;</code>
+     *
+     * <pre>
+     * 技能id， &lt;=0代表未使用技能
+     * </pre>
+     */
+    public int getSkillId() {
+      return skillId_;
+    }
+
     private void initFields() {
       result_ = qxmobile.protobuf.AllianceFightProtos.Result.SUCCESS;
       attackId_ = 0L;
       targetId_ = 0L;
       damage_ = 0;
       remainLife_ = 0;
+      skillId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -9856,6 +10025,10 @@ public final class AllianceFightProtos {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasSkillId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -9877,6 +10050,9 @@ public final class AllianceFightProtos {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeInt32(6, remainLife_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(7, skillId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -9906,6 +10082,10 @@ public final class AllianceFightProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(6, remainLife_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, skillId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -10037,6 +10217,8 @@ public final class AllianceFightProtos {
         bitField0_ = (bitField0_ & ~0x00000008);
         remainLife_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
+        skillId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -10085,6 +10267,10 @@ public final class AllianceFightProtos {
           to_bitField0_ |= 0x00000010;
         }
         result.remainLife_ = remainLife_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.skillId_ = skillId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -10116,6 +10302,9 @@ public final class AllianceFightProtos {
         if (other.hasRemainLife()) {
           setRemainLife(other.getRemainLife());
         }
+        if (other.hasSkillId()) {
+          setSkillId(other.getSkillId());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -10138,6 +10327,10 @@ public final class AllianceFightProtos {
           return false;
         }
         if (!hasRemainLife()) {
+          
+          return false;
+        }
+        if (!hasSkillId()) {
           
           return false;
         }
@@ -10391,6 +10584,55 @@ public final class AllianceFightProtos {
       public Builder clearRemainLife() {
         bitField0_ = (bitField0_ & ~0x00000010);
         remainLife_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 skillId = 7;
+      private int skillId_ ;
+      /**
+       * <code>required int32 skillId = 7;</code>
+       *
+       * <pre>
+       * 技能id， &lt;=0代表未使用技能
+       * </pre>
+       */
+      public boolean hasSkillId() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required int32 skillId = 7;</code>
+       *
+       * <pre>
+       * 技能id， &lt;=0代表未使用技能
+       * </pre>
+       */
+      public int getSkillId() {
+        return skillId_;
+      }
+      /**
+       * <code>required int32 skillId = 7;</code>
+       *
+       * <pre>
+       * 技能id， &lt;=0代表未使用技能
+       * </pre>
+       */
+      public Builder setSkillId(int value) {
+        bitField0_ |= 0x00000020;
+        skillId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 skillId = 7;</code>
+       *
+       * <pre>
+       * 技能id， &lt;=0代表未使用技能
+       * </pre>
+       */
+      public Builder clearSkillId() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        skillId_ = 0;
         onChanged();
         return this;
       }
@@ -14900,6 +15142,805 @@ public final class AllianceFightProtos {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FightRankInfo)
   }
 
+  public interface BufferInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 bufferId = 1;
+    /**
+     * <code>required int32 bufferId = 1;</code>
+     *
+     * <pre>
+     * 对应buff表的BuffId
+     * </pre>
+     */
+    boolean hasBufferId();
+    /**
+     * <code>required int32 bufferId = 1;</code>
+     *
+     * <pre>
+     * 对应buff表的BuffId
+     * </pre>
+     */
+    int getBufferId();
+
+    // required int32 damage = 2;
+    /**
+     * <code>required int32 damage = 2;</code>
+     *
+     * <pre>
+     * 造成的伤害
+     * </pre>
+     */
+    boolean hasDamage();
+    /**
+     * <code>required int32 damage = 2;</code>
+     *
+     * <pre>
+     * 造成的伤害
+     * </pre>
+     */
+    int getDamage();
+
+    // required int32 remainLife = 3;
+    /**
+     * <code>required int32 remainLife = 3;</code>
+     *
+     * <pre>
+     * 剩余血量
+     * </pre>
+     */
+    boolean hasRemainLife();
+    /**
+     * <code>required int32 remainLife = 3;</code>
+     *
+     * <pre>
+     * 剩余血量
+     * </pre>
+     */
+    int getRemainLife();
+
+    // required bool isDead = 4;
+    /**
+     * <code>required bool isDead = 4;</code>
+     *
+     * <pre>
+     * 是否死亡
+     * </pre>
+     */
+    boolean hasIsDead();
+    /**
+     * <code>required bool isDead = 4;</code>
+     *
+     * <pre>
+     * 是否死亡
+     * </pre>
+     */
+    boolean getIsDead();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.BufferInfo}
+   */
+  public static final class BufferInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements BufferInfoOrBuilder {
+    // Use BufferInfo.newBuilder() to construct.
+    private BufferInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private BufferInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final BufferInfo defaultInstance;
+    public static BufferInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public BufferInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BufferInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              bufferId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              damage_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              remainLife_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              isDead_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceFightProtos.internal_static_qxmobile_protobuf_BufferInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceFightProtos.internal_static_qxmobile_protobuf_BufferInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceFightProtos.BufferInfo.class, qxmobile.protobuf.AllianceFightProtos.BufferInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<BufferInfo> PARSER =
+        new com.google.protobuf.AbstractParser<BufferInfo>() {
+      public BufferInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BufferInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BufferInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 bufferId = 1;
+    public static final int BUFFERID_FIELD_NUMBER = 1;
+    private int bufferId_;
+    /**
+     * <code>required int32 bufferId = 1;</code>
+     *
+     * <pre>
+     * 对应buff表的BuffId
+     * </pre>
+     */
+    public boolean hasBufferId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 bufferId = 1;</code>
+     *
+     * <pre>
+     * 对应buff表的BuffId
+     * </pre>
+     */
+    public int getBufferId() {
+      return bufferId_;
+    }
+
+    // required int32 damage = 2;
+    public static final int DAMAGE_FIELD_NUMBER = 2;
+    private int damage_;
+    /**
+     * <code>required int32 damage = 2;</code>
+     *
+     * <pre>
+     * 造成的伤害
+     * </pre>
+     */
+    public boolean hasDamage() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 damage = 2;</code>
+     *
+     * <pre>
+     * 造成的伤害
+     * </pre>
+     */
+    public int getDamage() {
+      return damage_;
+    }
+
+    // required int32 remainLife = 3;
+    public static final int REMAINLIFE_FIELD_NUMBER = 3;
+    private int remainLife_;
+    /**
+     * <code>required int32 remainLife = 3;</code>
+     *
+     * <pre>
+     * 剩余血量
+     * </pre>
+     */
+    public boolean hasRemainLife() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 remainLife = 3;</code>
+     *
+     * <pre>
+     * 剩余血量
+     * </pre>
+     */
+    public int getRemainLife() {
+      return remainLife_;
+    }
+
+    // required bool isDead = 4;
+    public static final int ISDEAD_FIELD_NUMBER = 4;
+    private boolean isDead_;
+    /**
+     * <code>required bool isDead = 4;</code>
+     *
+     * <pre>
+     * 是否死亡
+     * </pre>
+     */
+    public boolean hasIsDead() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required bool isDead = 4;</code>
+     *
+     * <pre>
+     * 是否死亡
+     * </pre>
+     */
+    public boolean getIsDead() {
+      return isDead_;
+    }
+
+    private void initFields() {
+      bufferId_ = 0;
+      damage_ = 0;
+      remainLife_ = 0;
+      isDead_ = false;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasBufferId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasDamage()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRemainLife()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIsDead()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, bufferId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, damage_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, remainLife_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBool(4, isDead_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, bufferId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, damage_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, remainLife_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, isDead_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceFightProtos.BufferInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.BufferInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.BufferInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.BufferInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.BufferInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.BufferInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.BufferInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.BufferInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.BufferInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.BufferInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceFightProtos.BufferInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.BufferInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceFightProtos.BufferInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceFightProtos.internal_static_qxmobile_protobuf_BufferInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceFightProtos.internal_static_qxmobile_protobuf_BufferInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceFightProtos.BufferInfo.class, qxmobile.protobuf.AllianceFightProtos.BufferInfo.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceFightProtos.BufferInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        bufferId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        damage_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        remainLife_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        isDead_ = false;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceFightProtos.internal_static_qxmobile_protobuf_BufferInfo_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceFightProtos.BufferInfo getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceFightProtos.BufferInfo.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceFightProtos.BufferInfo build() {
+        qxmobile.protobuf.AllianceFightProtos.BufferInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceFightProtos.BufferInfo buildPartial() {
+        qxmobile.protobuf.AllianceFightProtos.BufferInfo result = new qxmobile.protobuf.AllianceFightProtos.BufferInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.bufferId_ = bufferId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.damage_ = damage_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.remainLife_ = remainLife_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.isDead_ = isDead_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceFightProtos.BufferInfo) {
+          return mergeFrom((qxmobile.protobuf.AllianceFightProtos.BufferInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceFightProtos.BufferInfo other) {
+        if (other == qxmobile.protobuf.AllianceFightProtos.BufferInfo.getDefaultInstance()) return this;
+        if (other.hasBufferId()) {
+          setBufferId(other.getBufferId());
+        }
+        if (other.hasDamage()) {
+          setDamage(other.getDamage());
+        }
+        if (other.hasRemainLife()) {
+          setRemainLife(other.getRemainLife());
+        }
+        if (other.hasIsDead()) {
+          setIsDead(other.getIsDead());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasBufferId()) {
+          
+          return false;
+        }
+        if (!hasDamage()) {
+          
+          return false;
+        }
+        if (!hasRemainLife()) {
+          
+          return false;
+        }
+        if (!hasIsDead()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceFightProtos.BufferInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceFightProtos.BufferInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 bufferId = 1;
+      private int bufferId_ ;
+      /**
+       * <code>required int32 bufferId = 1;</code>
+       *
+       * <pre>
+       * 对应buff表的BuffId
+       * </pre>
+       */
+      public boolean hasBufferId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 bufferId = 1;</code>
+       *
+       * <pre>
+       * 对应buff表的BuffId
+       * </pre>
+       */
+      public int getBufferId() {
+        return bufferId_;
+      }
+      /**
+       * <code>required int32 bufferId = 1;</code>
+       *
+       * <pre>
+       * 对应buff表的BuffId
+       * </pre>
+       */
+      public Builder setBufferId(int value) {
+        bitField0_ |= 0x00000001;
+        bufferId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 bufferId = 1;</code>
+       *
+       * <pre>
+       * 对应buff表的BuffId
+       * </pre>
+       */
+      public Builder clearBufferId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        bufferId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 damage = 2;
+      private int damage_ ;
+      /**
+       * <code>required int32 damage = 2;</code>
+       *
+       * <pre>
+       * 造成的伤害
+       * </pre>
+       */
+      public boolean hasDamage() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 damage = 2;</code>
+       *
+       * <pre>
+       * 造成的伤害
+       * </pre>
+       */
+      public int getDamage() {
+        return damage_;
+      }
+      /**
+       * <code>required int32 damage = 2;</code>
+       *
+       * <pre>
+       * 造成的伤害
+       * </pre>
+       */
+      public Builder setDamage(int value) {
+        bitField0_ |= 0x00000002;
+        damage_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 damage = 2;</code>
+       *
+       * <pre>
+       * 造成的伤害
+       * </pre>
+       */
+      public Builder clearDamage() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        damage_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 remainLife = 3;
+      private int remainLife_ ;
+      /**
+       * <code>required int32 remainLife = 3;</code>
+       *
+       * <pre>
+       * 剩余血量
+       * </pre>
+       */
+      public boolean hasRemainLife() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 remainLife = 3;</code>
+       *
+       * <pre>
+       * 剩余血量
+       * </pre>
+       */
+      public int getRemainLife() {
+        return remainLife_;
+      }
+      /**
+       * <code>required int32 remainLife = 3;</code>
+       *
+       * <pre>
+       * 剩余血量
+       * </pre>
+       */
+      public Builder setRemainLife(int value) {
+        bitField0_ |= 0x00000004;
+        remainLife_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 remainLife = 3;</code>
+       *
+       * <pre>
+       * 剩余血量
+       * </pre>
+       */
+      public Builder clearRemainLife() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        remainLife_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required bool isDead = 4;
+      private boolean isDead_ ;
+      /**
+       * <code>required bool isDead = 4;</code>
+       *
+       * <pre>
+       * 是否死亡
+       * </pre>
+       */
+      public boolean hasIsDead() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required bool isDead = 4;</code>
+       *
+       * <pre>
+       * 是否死亡
+       * </pre>
+       */
+      public boolean getIsDead() {
+        return isDead_;
+      }
+      /**
+       * <code>required bool isDead = 4;</code>
+       *
+       * <pre>
+       * 是否死亡
+       * </pre>
+       */
+      public Builder setIsDead(boolean value) {
+        bitField0_ |= 0x00000008;
+        isDead_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool isDead = 4;</code>
+       *
+       * <pre>
+       * 是否死亡
+       * </pre>
+       */
+      public Builder clearIsDead() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        isDead_ = false;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.BufferInfo)
+    }
+
+    static {
+      defaultInstance = new BufferInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.BufferInfo)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_RequestFightInfoResp_descriptor;
   private static
@@ -14975,6 +16016,11 @@ public final class AllianceFightProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_FightRankInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_BufferInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_BufferInfo_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -15010,24 +16056,27 @@ public final class AllianceFightProtos {
       "lue\030\004 \002(\005\022\024\n\014curHoldValue\030\005 \002(\005\"v\n\nBattl" +
       "eData\022\022\n\nallianceId\030\001 \002(\005\022\024\n\014allianceNam" +
       "e\030\006 \002(\t\022\014\n\004team\030\002 \002(\005\022\r\n\005score\030\003 \002(\005\022\020\n\010" +
-      "scoreMax\030\004 \002(\005\022\017\n\007holdNum\030\005 \002(\005\"\"\n\016Fight" +
-      "AttackReq\022\020\n\010targetId\030\001 \002(\003\"\204\001\n\017FightAtt" +
-      "ackResp\022)\n\006result\030\001 \002(\0162\031.qxmobile.proto" +
-      "buf.Result\022\020\n\010attackId\030\002 \002(\003\022\020\n\010targetId",
-      "\030\004 \002(\003\022\016\n\006damage\030\005 \002(\005\022\022\n\nremainLife\030\006 \002" +
-      "(\005\"$\n\020PlayerDeadNotify\022\020\n\010junzhuId\030\001 \002(\003" +
-      "\"B\n\022PlayerReviveNotify\022\020\n\010junzhuId\030\001 \002(\003" +
-      "\022\014\n\004posX\030\002 \002(\005\022\014\n\004posZ\030\003 \002(\005\"M\n\020FightHis" +
-      "toryResp\0229\n\014historyInfos\030\001 \003(\0132#.qxmobil" +
-      "e.protobuf.FightHistoryInfo\"r\n\020FightHist" +
-      "oryInfo\022\r\n\005times\030\001 \002(\005\022\r\n\005lm1Id\030\002 \002(\005\022\017\n" +
-      "\007lm1Name\030\003 \002(\t\022\r\n\005lm2Id\030\004 \002(\005\022\017\n\007lm2Name" +
-      "\030\005 \002(\t\022\017\n\007winLmId\030\006 \002(\005\"L\n\025FightLasttime" +
-      "RankResp\0223\n\trankInfos\030\001 \003(\0132 .qxmobile.p",
-      "rotobuf.FightRankInfo\";\n\rFightRankInfo\022\014" +
-      "\n\004lmId\030\001 \002(\005\022\016\n\006lmName\030\002 \002(\t\022\014\n\004rank\030\003 \002" +
-      "(\005*\025\n\006Result\022\013\n\007SUCCESS\020\000B\025B\023AllianceFig" +
-      "htProtos"
+      "scoreMax\030\004 \002(\005\022\017\n\007holdNum\030\005 \002(\005\"3\n\016Fight" +
+      "AttackReq\022\020\n\010targetId\030\001 \002(\003\022\017\n\007skillId\030\002" +
+      " \002(\005\"\225\001\n\017FightAttackResp\022)\n\006result\030\001 \002(\016" +
+      "2\031.qxmobile.protobuf.Result\022\020\n\010attackId\030",
+      "\002 \002(\003\022\020\n\010targetId\030\004 \002(\003\022\016\n\006damage\030\005 \002(\005\022" +
+      "\022\n\nremainLife\030\006 \002(\005\022\017\n\007skillId\030\007 \002(\005\"$\n\020" +
+      "PlayerDeadNotify\022\020\n\010junzhuId\030\001 \002(\003\"B\n\022Pl" +
+      "ayerReviveNotify\022\020\n\010junzhuId\030\001 \002(\003\022\014\n\004po" +
+      "sX\030\002 \002(\005\022\014\n\004posZ\030\003 \002(\005\"M\n\020FightHistoryRe" +
+      "sp\0229\n\014historyInfos\030\001 \003(\0132#.qxmobile.prot" +
+      "obuf.FightHistoryInfo\"r\n\020FightHistoryInf" +
+      "o\022\r\n\005times\030\001 \002(\005\022\r\n\005lm1Id\030\002 \002(\005\022\017\n\007lm1Na" +
+      "me\030\003 \002(\t\022\r\n\005lm2Id\030\004 \002(\005\022\017\n\007lm2Name\030\005 \002(\t" +
+      "\022\017\n\007winLmId\030\006 \002(\005\"L\n\025FightLasttimeRankRe",
+      "sp\0223\n\trankInfos\030\001 \003(\0132 .qxmobile.protobu" +
+      "f.FightRankInfo\";\n\rFightRankInfo\022\014\n\004lmId" +
+      "\030\001 \002(\005\022\016\n\006lmName\030\002 \002(\t\022\014\n\004rank\030\003 \002(\005\"R\n\n" +
+      "BufferInfo\022\020\n\010bufferId\030\001 \002(\005\022\016\n\006damage\030\002" +
+      " \002(\005\022\022\n\nremainLife\030\003 \002(\005\022\016\n\006isDead\030\004 \002(\010" +
+      "*\025\n\006Result\022\013\n\007SUCCESS\020\000B\025B\023AllianceFight" +
+      "Protos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -15081,13 +16130,13 @@ public final class AllianceFightProtos {
           internal_static_qxmobile_protobuf_FightAttackReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_FightAttackReq_descriptor,
-              new java.lang.String[] { "TargetId", });
+              new java.lang.String[] { "TargetId", "SkillId", });
           internal_static_qxmobile_protobuf_FightAttackResp_descriptor =
             getDescriptor().getMessageTypes().get(8);
           internal_static_qxmobile_protobuf_FightAttackResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_FightAttackResp_descriptor,
-              new java.lang.String[] { "Result", "AttackId", "TargetId", "Damage", "RemainLife", });
+              new java.lang.String[] { "Result", "AttackId", "TargetId", "Damage", "RemainLife", "SkillId", });
           internal_static_qxmobile_protobuf_PlayerDeadNotify_descriptor =
             getDescriptor().getMessageTypes().get(9);
           internal_static_qxmobile_protobuf_PlayerDeadNotify_fieldAccessorTable = new
@@ -15124,6 +16173,12 @@ public final class AllianceFightProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_FightRankInfo_descriptor,
               new java.lang.String[] { "LmId", "LmName", "Rank", });
+          internal_static_qxmobile_protobuf_BufferInfo_descriptor =
+            getDescriptor().getMessageTypes().get(15);
+          internal_static_qxmobile_protobuf_BufferInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_BufferInfo_descriptor,
+              new java.lang.String[] { "BufferId", "Damage", "RemainLife", "IsDead", });
           return null;
         }
       };

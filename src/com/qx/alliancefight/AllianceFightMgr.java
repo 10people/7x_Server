@@ -35,13 +35,18 @@ import qxmobile.protobuf.AllianceFightProtos.Result;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
+import com.manu.dynasty.template.Action;
+import com.manu.dynasty.template.Buff;
 import com.manu.dynasty.template.LMZBuildingTemp;
 import com.manu.dynasty.template.Lianmengzhan;
+import com.manu.dynasty.template.Skill;
 import com.manu.network.BigSwitch;
 import com.manu.network.SessionAttKey;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
+import com.qx.buff.Buffer;
+import com.qx.buff.SkillActionType;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
@@ -482,11 +487,13 @@ public class AllianceFightMgr {
 		}
 		FightAttackReq.Builder request = (qxmobile.protobuf.AllianceFightProtos.FightAttackReq.Builder) builder;
 		long targetId = request.getTargetId();			// 攻击目标的君主id
+		int skillId = request.getSkillId();				// 使用的技能id
 		// 防守者是否存在
 		boolean defenderExist = false;
+		Player player = null;
 		FightScene scene = (FightScene) session.getAttribute(SessionAttKey.Scene);
 		for(Map.Entry<Integer, Player> entry : scene.players.entrySet()) {
-			Player player = entry.getValue();
+			player = entry.getValue();
 			if(player.jzId == targetId) {
 				defenderExist = true;
 			}
@@ -503,7 +510,64 @@ public class AllianceFightMgr {
 		if(attackerLmId == defenderLmId) {
 			return;
 		}
-
+		int damageValue = 0;
+		
+		
+		Skill skill = null;
+		if(skillId > 0) {
+			skill = BigSwitch.inst.buffMgr.getSkillById(skillId);
+			if(skill == null) {
+				return;
+			}
+		}
+		if(skill != null) {
+			if(skill.SkillTarget == 0) {
+				logger.warn("攻击失败，该技能不能对自身施放");
+				return;
+			}
+			// 判断距离
+			
+			// 判断cd时间
+			
+			// 判断敌友方
+			
+			// 判断是否受公共cd影响 ，再判断公共cd
+			
+			
+			Action action = BigSwitch.inst.buffMgr.getActionById(skill.Action1);
+			if(action == null) {
+				return;
+			}
+			SkillActionType skillActionType = SkillActionType.getSkillActionType(action.TypeKey);
+			if(skillActionType == null) {
+				return;
+			}
+			
+			if(4 == action.TypeKey || 5 == action.TypeKey) { // 表示是buff效果
+				int buffId = action.Param1;
+				int buffDuration = action.Param2;
+				Buff buff = BigSwitch.inst.buffMgr.getBuffById(buffId);
+				if(buff == null) {
+					return;
+				}
+				if(buffDuration == 0) {
+					buffDuration = buff.BuffDuration;
+				}
+				// 技能cd
+				
+				long endTime = System.currentTimeMillis() + buffDuration;
+				Buffer buffer = Buffer.valueOf(buff.BuffId, buff.IsDebuff, buff.Attr_1_P1, buffDuration, endTime, attacker.id);
+				// buff计时
+				
+				
+			} else if(1 == action.TypeKey) {
+				damageValue = BigSwitch.inst.buffMgr.calcWeaponDamage4Skill(attacker, defender, skill, action);
+			} else if(2 == action.TypeKey) {
+				damageValue = BigSwitch.inst.buffMgr.calcSkillDamage4Skill(attacker, defender, skill, action);
+			}
+			
+		}
+		
 		// 进行伤害计算
 		int damage = getDamage(attacker, defender);
 		int remainLife = scene.junZhuRemainLifeMap.get(defender.id);
@@ -521,22 +585,26 @@ public class AllianceFightMgr {
 		response.setDamage(damage);
 		response.setRemainLife(remainLife);
 		for(Map.Entry<Integer, Player> entry : scene.players.entrySet()) {
-			Player player = entry.getValue();
-			player.session.write(response.build());
+			Player p = entry.getValue();
+			p.session.write(response.build());
 			//logger.info("通知玩家:{}, {}打了{},造成伤害:{},{}剩余血量{}", player.jzId, attacker.id, 
 			//			targetId, damage, targetId, remainLife);
 		}
 		
 		if(remainLife <= 0) {
-			CdTime cdTime = new CdTime(defender.id, System.currentTimeMillis() + lmzConfig.reviveTime * 1000);
-			BigSwitch.inst.cdTimeMgr.addCdTime(cdTime);
-			PlayerDeadNotify.Builder deadNotify = PlayerDeadNotify.newBuilder();
-			deadNotify.setJunzhuId(targetId);
-			for(Map.Entry<Integer, Player> entry : scene.players.entrySet()) {
-				Player player = entry.getValue();
-				player.session.write(deadNotify.build());
-				//logger.info("通知玩家:{},{}死亡,剩余血量{}", player.jzId, attacker.id, remainLife);
-			}
+			processPlayerDead(scene, defender);
+		}
+	}
+
+	public void processPlayerDead(FightScene scene, JunZhu defender) {
+		CdTime cdTime = new CdTime(defender.id, System.currentTimeMillis() + lmzConfig.reviveTime * 1000);
+		BigSwitch.inst.cdTimeMgr.addCdTime(cdTime);
+		PlayerDeadNotify.Builder deadNotify = PlayerDeadNotify.newBuilder();
+		deadNotify.setJunzhuId(defender.id);
+		for(Map.Entry<Integer, Player> entry : scene.players.entrySet()) {
+			Player p = entry.getValue();
+			p.session.write(deadNotify.build());
+			//logger.info("通知玩家:{},{}死亡,剩余血量{}", player.jzId, attacker.id, remainLife);
 		}
 	}
 	

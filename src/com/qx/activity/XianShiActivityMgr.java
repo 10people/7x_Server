@@ -1511,7 +1511,7 @@ public class XianShiActivityMgr  extends EventProc{
 			}
 			if (!xshdCloseList.contains(xs.getId())) {
 				if(xsBean.finishDate==null){
-					// 刷新活动状态
+					//限时活动未完成 刷新活动状态
 					refreshOtherXianShiInfo(jzId, jzlevel, xs, xsBean);
 				}
 			}

@@ -151,6 +151,8 @@ public class CanShu {
 	
 	public static int  REFRESHTIME_PURCHASE;
 	public static int WEIWANG_INIT;
+	public static double WUQI_BAOJILV;
+	public static double JINENG_BAOJILV;
 	
 	/*押镖相关参数--结束*/
 	

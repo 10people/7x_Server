@@ -274,6 +274,8 @@ public class TempletService {
 		CanShu.XILIANZHI_MAX=  Integer.parseInt(map.get("XILIANZHI_MAX").value);
 		/** 玩家未领取的威望的初始值*/
 		CanShu.WEIWANG_INIT=  Integer.parseInt(map.get("WEIWANG_INIT").value);
+		CanShu.WUQI_BAOJILV = Double.parseDouble(map.get("WUQI_BAOJILV").value);
+		CanShu.JINENG_BAOJILV = Double.parseDouble(map.get("JINENG_BAOJILV").value);
 	}
 
 	public ZhuangBei getZhuangBei(int id) {
