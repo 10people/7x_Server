@@ -21,6 +21,38 @@ public final class AllianceFightProtos {
      * </pre>
      */
     SUCCESS(0, 0),
+    /**
+     * <code>SKILL_DISTANCE_ERROR = 1;</code>
+     *
+     * <pre>
+     * 技能施法距离出错
+     * </pre>
+     */
+    SKILL_DISTANCE_ERROR(1, 1),
+    /**
+     * <code>SKILL_COOL_TIME = 2;</code>
+     *
+     * <pre>
+     * 技能处于冷却时间
+     * </pre>
+     */
+    SKILL_COOL_TIME(2, 2),
+    /**
+     * <code>SKILL_NOT_EXIST = 3;</code>
+     *
+     * <pre>
+     * 技能不存在
+     * </pre>
+     */
+    SKILL_NOT_EXIST(3, 3),
+    /**
+     * <code>TARGET_NOT_EXIST = 4;</code>
+     *
+     * <pre>
+     * 攻击的目标不在场景内
+     * </pre>
+     */
+    TARGET_NOT_EXIST(4, 4),
     ;
 
     /**
@@ -31,6 +63,38 @@ public final class AllianceFightProtos {
      * </pre>
      */
     public static final int SUCCESS_VALUE = 0;
+    /**
+     * <code>SKILL_DISTANCE_ERROR = 1;</code>
+     *
+     * <pre>
+     * 技能施法距离出错
+     * </pre>
+     */
+    public static final int SKILL_DISTANCE_ERROR_VALUE = 1;
+    /**
+     * <code>SKILL_COOL_TIME = 2;</code>
+     *
+     * <pre>
+     * 技能处于冷却时间
+     * </pre>
+     */
+    public static final int SKILL_COOL_TIME_VALUE = 2;
+    /**
+     * <code>SKILL_NOT_EXIST = 3;</code>
+     *
+     * <pre>
+     * 技能不存在
+     * </pre>
+     */
+    public static final int SKILL_NOT_EXIST_VALUE = 3;
+    /**
+     * <code>TARGET_NOT_EXIST = 4;</code>
+     *
+     * <pre>
+     * 攻击的目标不在场景内
+     * </pre>
+     */
+    public static final int TARGET_NOT_EXIST_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -38,6 +102,10 @@ public final class AllianceFightProtos {
     public static Result valueOf(int value) {
       switch (value) {
         case 0: return SUCCESS;
+        case 1: return SKILL_DISTANCE_ERROR;
+        case 2: return SKILL_COOL_TIME;
+        case 3: return SKILL_NOT_EXIST;
+        case 4: return TARGET_NOT_EXIST;
         default: return null;
       }
     }
@@ -9628,10 +9696,18 @@ public final class AllianceFightProtos {
     // required .qxmobile.protobuf.Result result = 1;
     /**
      * <code>required .qxmobile.protobuf.Result result = 1;</code>
+     *
+     * <pre>
+     * 只有result为SUCCESS时，其它字段才有效
+     * </pre>
      */
     boolean hasResult();
     /**
      * <code>required .qxmobile.protobuf.Result result = 1;</code>
+     *
+     * <pre>
+     * 只有result为SUCCESS时，其它字段才有效
+     * </pre>
      */
     qxmobile.protobuf.AllianceFightProtos.Result getResult();
 
@@ -9861,12 +9937,20 @@ public final class AllianceFightProtos {
     private qxmobile.protobuf.AllianceFightProtos.Result result_;
     /**
      * <code>required .qxmobile.protobuf.Result result = 1;</code>
+     *
+     * <pre>
+     * 只有result为SUCCESS时，其它字段才有效
+     * </pre>
      */
     public boolean hasResult() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required .qxmobile.protobuf.Result result = 1;</code>
+     *
+     * <pre>
+     * 只有result为SUCCESS时，其它字段才有效
+     * </pre>
      */
     public qxmobile.protobuf.AllianceFightProtos.Result getResult() {
       return result_;
@@ -10360,18 +10444,30 @@ public final class AllianceFightProtos {
       private qxmobile.protobuf.AllianceFightProtos.Result result_ = qxmobile.protobuf.AllianceFightProtos.Result.SUCCESS;
       /**
        * <code>required .qxmobile.protobuf.Result result = 1;</code>
+       *
+       * <pre>
+       * 只有result为SUCCESS时，其它字段才有效
+       * </pre>
        */
       public boolean hasResult() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required .qxmobile.protobuf.Result result = 1;</code>
+       *
+       * <pre>
+       * 只有result为SUCCESS时，其它字段才有效
+       * </pre>
        */
       public qxmobile.protobuf.AllianceFightProtos.Result getResult() {
         return result_;
       }
       /**
        * <code>required .qxmobile.protobuf.Result result = 1;</code>
+       *
+       * <pre>
+       * 只有result为SUCCESS时，其它字段才有效
+       * </pre>
        */
       public Builder setResult(qxmobile.protobuf.AllianceFightProtos.Result value) {
         if (value == null) {
@@ -10384,6 +10480,10 @@ public final class AllianceFightProtos {
       }
       /**
        * <code>required .qxmobile.protobuf.Result result = 1;</code>
+       *
+       * <pre>
+       * 只有result为SUCCESS时，其它字段才有效
+       * </pre>
        */
       public Builder clearResult() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -15163,27 +15263,45 @@ public final class AllianceFightProtos {
      */
     int getBufferId();
 
-    // required int32 damage = 2;
+    // required int64 targetId = 2;
     /**
-     * <code>required int32 damage = 2;</code>
+     * <code>required int64 targetId = 2;</code>
      *
      * <pre>
-     * 造成的伤害
+     * 作用的目标Id
      * </pre>
      */
-    boolean hasDamage();
+    boolean hasTargetId();
     /**
-     * <code>required int32 damage = 2;</code>
+     * <code>required int64 targetId = 2;</code>
      *
      * <pre>
-     * 造成的伤害
+     * 作用的目标Id
      * </pre>
      */
-    int getDamage();
+    long getTargetId();
 
-    // required int32 remainLife = 3;
+    // required int32 value = 3;
     /**
-     * <code>required int32 remainLife = 3;</code>
+     * <code>required int32 value = 3;</code>
+     *
+     * <pre>
+     * 造成的伤害
+     * </pre>
+     */
+    boolean hasValue();
+    /**
+     * <code>required int32 value = 3;</code>
+     *
+     * <pre>
+     * 造成的伤害
+     * </pre>
+     */
+    int getValue();
+
+    // required int32 remainLife = 4;
+    /**
+     * <code>required int32 remainLife = 4;</code>
      *
      * <pre>
      * 剩余血量
@@ -15191,34 +15309,20 @@ public final class AllianceFightProtos {
      */
     boolean hasRemainLife();
     /**
-     * <code>required int32 remainLife = 3;</code>
+     * <code>required int32 remainLife = 4;</code>
      *
      * <pre>
      * 剩余血量
      * </pre>
      */
     int getRemainLife();
-
-    // required bool isDead = 4;
-    /**
-     * <code>required bool isDead = 4;</code>
-     *
-     * <pre>
-     * 是否死亡
-     * </pre>
-     */
-    boolean hasIsDead();
-    /**
-     * <code>required bool isDead = 4;</code>
-     *
-     * <pre>
-     * 是否死亡
-     * </pre>
-     */
-    boolean getIsDead();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.BufferInfo}
+   *
+   * <pre>
+   * buff信息
+   * </pre>
    */
   public static final class BufferInfo extends
       com.google.protobuf.GeneratedMessage
@@ -15275,17 +15379,17 @@ public final class AllianceFightProtos {
             }
             case 16: {
               bitField0_ |= 0x00000002;
-              damage_ = input.readInt32();
+              targetId_ = input.readInt64();
               break;
             }
             case 24: {
               bitField0_ |= 0x00000004;
-              remainLife_ = input.readInt32();
+              value_ = input.readInt32();
               break;
             }
             case 32: {
               bitField0_ |= 0x00000008;
-              isDead_ = input.readBool();
+              remainLife_ = input.readInt32();
               break;
             }
           }
@@ -15352,45 +15456,69 @@ public final class AllianceFightProtos {
       return bufferId_;
     }
 
-    // required int32 damage = 2;
-    public static final int DAMAGE_FIELD_NUMBER = 2;
-    private int damage_;
+    // required int64 targetId = 2;
+    public static final int TARGETID_FIELD_NUMBER = 2;
+    private long targetId_;
     /**
-     * <code>required int32 damage = 2;</code>
+     * <code>required int64 targetId = 2;</code>
      *
      * <pre>
-     * 造成的伤害
+     * 作用的目标Id
      * </pre>
      */
-    public boolean hasDamage() {
+    public boolean hasTargetId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int32 damage = 2;</code>
+     * <code>required int64 targetId = 2;</code>
+     *
+     * <pre>
+     * 作用的目标Id
+     * </pre>
+     */
+    public long getTargetId() {
+      return targetId_;
+    }
+
+    // required int32 value = 3;
+    public static final int VALUE_FIELD_NUMBER = 3;
+    private int value_;
+    /**
+     * <code>required int32 value = 3;</code>
      *
      * <pre>
      * 造成的伤害
      * </pre>
      */
-    public int getDamage() {
-      return damage_;
+    public boolean hasValue() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 value = 3;</code>
+     *
+     * <pre>
+     * 造成的伤害
+     * </pre>
+     */
+    public int getValue() {
+      return value_;
     }
 
-    // required int32 remainLife = 3;
-    public static final int REMAINLIFE_FIELD_NUMBER = 3;
+    // required int32 remainLife = 4;
+    public static final int REMAINLIFE_FIELD_NUMBER = 4;
     private int remainLife_;
     /**
-     * <code>required int32 remainLife = 3;</code>
+     * <code>required int32 remainLife = 4;</code>
      *
      * <pre>
      * 剩余血量
      * </pre>
      */
     public boolean hasRemainLife() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required int32 remainLife = 3;</code>
+     * <code>required int32 remainLife = 4;</code>
      *
      * <pre>
      * 剩余血量
@@ -15400,35 +15528,11 @@ public final class AllianceFightProtos {
       return remainLife_;
     }
 
-    // required bool isDead = 4;
-    public static final int ISDEAD_FIELD_NUMBER = 4;
-    private boolean isDead_;
-    /**
-     * <code>required bool isDead = 4;</code>
-     *
-     * <pre>
-     * 是否死亡
-     * </pre>
-     */
-    public boolean hasIsDead() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>required bool isDead = 4;</code>
-     *
-     * <pre>
-     * 是否死亡
-     * </pre>
-     */
-    public boolean getIsDead() {
-      return isDead_;
-    }
-
     private void initFields() {
       bufferId_ = 0;
-      damage_ = 0;
+      targetId_ = 0L;
+      value_ = 0;
       remainLife_ = 0;
-      isDead_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -15439,15 +15543,15 @@ public final class AllianceFightProtos {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasDamage()) {
+      if (!hasTargetId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasValue()) {
         memoizedIsInitialized = 0;
         return false;
       }
       if (!hasRemainLife()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasIsDead()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -15462,13 +15566,13 @@ public final class AllianceFightProtos {
         output.writeInt32(1, bufferId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, damage_);
+        output.writeInt64(2, targetId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, remainLife_);
+        output.writeInt32(3, value_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBool(4, isDead_);
+        output.writeInt32(4, remainLife_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -15485,15 +15589,15 @@ public final class AllianceFightProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, damage_);
+          .computeInt64Size(2, targetId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, remainLife_);
+          .computeInt32Size(3, value_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(4, isDead_);
+          .computeInt32Size(4, remainLife_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -15575,6 +15679,10 @@ public final class AllianceFightProtos {
     }
     /**
      * Protobuf type {@code qxmobile.protobuf.BufferInfo}
+     *
+     * <pre>
+     * buff信息
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -15613,11 +15721,11 @@ public final class AllianceFightProtos {
         super.clear();
         bufferId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        damage_ = 0;
+        targetId_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000002);
-        remainLife_ = 0;
+        value_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        isDead_ = false;
+        remainLife_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
@@ -15654,15 +15762,15 @@ public final class AllianceFightProtos {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.damage_ = damage_;
+        result.targetId_ = targetId_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.remainLife_ = remainLife_;
+        result.value_ = value_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.isDead_ = isDead_;
+        result.remainLife_ = remainLife_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -15682,14 +15790,14 @@ public final class AllianceFightProtos {
         if (other.hasBufferId()) {
           setBufferId(other.getBufferId());
         }
-        if (other.hasDamage()) {
-          setDamage(other.getDamage());
+        if (other.hasTargetId()) {
+          setTargetId(other.getTargetId());
+        }
+        if (other.hasValue()) {
+          setValue(other.getValue());
         }
         if (other.hasRemainLife()) {
           setRemainLife(other.getRemainLife());
-        }
-        if (other.hasIsDead()) {
-          setIsDead(other.getIsDead());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -15700,15 +15808,15 @@ public final class AllianceFightProtos {
           
           return false;
         }
-        if (!hasDamage()) {
+        if (!hasTargetId()) {
+          
+          return false;
+        }
+        if (!hasValue()) {
           
           return false;
         }
         if (!hasRemainLife()) {
-          
-          return false;
-        }
-        if (!hasIsDead()) {
           
           return false;
         }
@@ -15783,69 +15891,118 @@ public final class AllianceFightProtos {
         return this;
       }
 
-      // required int32 damage = 2;
-      private int damage_ ;
+      // required int64 targetId = 2;
+      private long targetId_ ;
       /**
-       * <code>required int32 damage = 2;</code>
+       * <code>required int64 targetId = 2;</code>
        *
        * <pre>
-       * 造成的伤害
+       * 作用的目标Id
        * </pre>
        */
-      public boolean hasDamage() {
+      public boolean hasTargetId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int32 damage = 2;</code>
+       * <code>required int64 targetId = 2;</code>
        *
        * <pre>
-       * 造成的伤害
+       * 作用的目标Id
        * </pre>
        */
-      public int getDamage() {
-        return damage_;
+      public long getTargetId() {
+        return targetId_;
       }
       /**
-       * <code>required int32 damage = 2;</code>
+       * <code>required int64 targetId = 2;</code>
        *
        * <pre>
-       * 造成的伤害
+       * 作用的目标Id
        * </pre>
        */
-      public Builder setDamage(int value) {
+      public Builder setTargetId(long value) {
         bitField0_ |= 0x00000002;
-        damage_ = value;
+        targetId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 damage = 2;</code>
+       * <code>required int64 targetId = 2;</code>
        *
        * <pre>
-       * 造成的伤害
+       * 作用的目标Id
        * </pre>
        */
-      public Builder clearDamage() {
+      public Builder clearTargetId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        damage_ = 0;
+        targetId_ = 0L;
         onChanged();
         return this;
       }
 
-      // required int32 remainLife = 3;
+      // required int32 value = 3;
+      private int value_ ;
+      /**
+       * <code>required int32 value = 3;</code>
+       *
+       * <pre>
+       * 造成的伤害
+       * </pre>
+       */
+      public boolean hasValue() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 value = 3;</code>
+       *
+       * <pre>
+       * 造成的伤害
+       * </pre>
+       */
+      public int getValue() {
+        return value_;
+      }
+      /**
+       * <code>required int32 value = 3;</code>
+       *
+       * <pre>
+       * 造成的伤害
+       * </pre>
+       */
+      public Builder setValue(int value) {
+        bitField0_ |= 0x00000004;
+        value_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 value = 3;</code>
+       *
+       * <pre>
+       * 造成的伤害
+       * </pre>
+       */
+      public Builder clearValue() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        value_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 remainLife = 4;
       private int remainLife_ ;
       /**
-       * <code>required int32 remainLife = 3;</code>
+       * <code>required int32 remainLife = 4;</code>
        *
        * <pre>
        * 剩余血量
        * </pre>
        */
       public boolean hasRemainLife() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>required int32 remainLife = 3;</code>
+       * <code>required int32 remainLife = 4;</code>
        *
        * <pre>
        * 剩余血量
@@ -15855,77 +16012,28 @@ public final class AllianceFightProtos {
         return remainLife_;
       }
       /**
-       * <code>required int32 remainLife = 3;</code>
+       * <code>required int32 remainLife = 4;</code>
        *
        * <pre>
        * 剩余血量
        * </pre>
        */
       public Builder setRemainLife(int value) {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         remainLife_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 remainLife = 3;</code>
+       * <code>required int32 remainLife = 4;</code>
        *
        * <pre>
        * 剩余血量
        * </pre>
        */
       public Builder clearRemainLife() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        remainLife_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required bool isDead = 4;
-      private boolean isDead_ ;
-      /**
-       * <code>required bool isDead = 4;</code>
-       *
-       * <pre>
-       * 是否死亡
-       * </pre>
-       */
-      public boolean hasIsDead() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>required bool isDead = 4;</code>
-       *
-       * <pre>
-       * 是否死亡
-       * </pre>
-       */
-      public boolean getIsDead() {
-        return isDead_;
-      }
-      /**
-       * <code>required bool isDead = 4;</code>
-       *
-       * <pre>
-       * 是否死亡
-       * </pre>
-       */
-      public Builder setIsDead(boolean value) {
-        bitField0_ |= 0x00000008;
-        isDead_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required bool isDead = 4;</code>
-       *
-       * <pre>
-       * 是否死亡
-       * </pre>
-       */
-      public Builder clearIsDead() {
         bitField0_ = (bitField0_ & ~0x00000008);
-        isDead_ = false;
+        remainLife_ = 0;
         onChanged();
         return this;
       }
@@ -16072,11 +16180,13 @@ public final class AllianceFightProtos {
       "\022\017\n\007winLmId\030\006 \002(\005\"L\n\025FightLasttimeRankRe",
       "sp\0223\n\trankInfos\030\001 \003(\0132 .qxmobile.protobu" +
       "f.FightRankInfo\";\n\rFightRankInfo\022\014\n\004lmId" +
-      "\030\001 \002(\005\022\016\n\006lmName\030\002 \002(\t\022\014\n\004rank\030\003 \002(\005\"R\n\n" +
-      "BufferInfo\022\020\n\010bufferId\030\001 \002(\005\022\016\n\006damage\030\002" +
-      " \002(\005\022\022\n\nremainLife\030\003 \002(\005\022\016\n\006isDead\030\004 \002(\010" +
-      "*\025\n\006Result\022\013\n\007SUCCESS\020\000B\025B\023AllianceFight" +
-      "Protos"
+      "\030\001 \002(\005\022\016\n\006lmName\030\002 \002(\t\022\014\n\004rank\030\003 \002(\005\"S\n\n" +
+      "BufferInfo\022\020\n\010bufferId\030\001 \002(\005\022\020\n\010targetId" +
+      "\030\002 \002(\003\022\r\n\005value\030\003 \002(\005\022\022\n\nremainLife\030\004 \002(" +
+      "\005*o\n\006Result\022\013\n\007SUCCESS\020\000\022\030\n\024SKILL_DISTAN" +
+      "CE_ERROR\020\001\022\023\n\017SKILL_COOL_TIME\020\002\022\023\n\017SKILL" +
+      "_NOT_EXIST\020\003\022\024\n\020TARGET_NOT_EXIST\020\004B\025B\023Al" +
+      "lianceFightProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -16178,7 +16288,7 @@ public final class AllianceFightProtos {
           internal_static_qxmobile_protobuf_BufferInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BufferInfo_descriptor,
-              new java.lang.String[] { "BufferId", "Damage", "RemainLife", "IsDead", });
+              new java.lang.String[] { "BufferId", "TargetId", "Value", "RemainLife", });
           return null;
         }
       };

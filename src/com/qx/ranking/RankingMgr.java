@@ -869,7 +869,7 @@ public class RankingMgr extends EventProc{
 	 * @Description: 获取联盟榜
 	 * @param pageNo 当前页码
 	 * @param guojiaId 国家id
-	 * @param jzName 按联盟名查询
+	 * @param otherJzName 按联盟名查询
 	 * @param type 排序类型（2为默认排序,201按声望排序）
 	 * @return
 	 * @return List<LianMengInfo>

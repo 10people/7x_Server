@@ -9,6 +9,7 @@ import org.aspectj.apache.bcel.generic.NEW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import qxmobile.protobuf.PawnShop;
 import qxmobile.protobuf.Settings.ChangeGuojiaReq;
 import qxmobile.protobuf.Settings.ChangeGuojiaResp;
 import qxmobile.protobuf.Settings.ChangeName;
@@ -19,6 +20,7 @@ import xg.push.XGTagTask;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.store.MemcachedCRUD;
+import com.manu.dynasty.template.DangpuCommon;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
@@ -32,7 +34,9 @@ import com.qx.event.ED;
 import com.qx.event.EventMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.pawnshop.PawnshopMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.purchase.PurchaseMgr;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
 
@@ -49,6 +53,7 @@ public class SettingsMgr {
 	public static int SUCCESS = 0;// 转国成功
 	public static int ERROR_NO_CARD = 102;// 转国失败，没有转国卡
 	public static int ERROR_IN_LIANMENG = 101;// 转国失败，在联盟中
+	public static int ERROR_IN_YUANBAO = 103;//  103-元宝不足
 
 	public void get(int id, IoSession session, Builder builder) {
 		Long v = (Long) session.getAttribute(SessionAttKey.junZhuId);
@@ -153,25 +158,39 @@ public class SettingsMgr {
 			writeByProtoMsg(session, PD.S_ZHUANGGUO_RESP, response);
 			return;
 		}
-		Bag<BagGrid> bag = BagMgr.inst.loadBag(jz.id);
-		int cnt = BagMgr.inst.getItemCount(bag, ZHUANGUOLING);
-		if (cnt <= 0) {
-			// 没有转国令，不能转换国家
-			response.setResult(ERROR_NO_CARD);
-			log.info("{}转国失败，没有转国令", jz.id);
-			writeByProtoMsg(session, PD.S_ZHUANGGUO_RESP, response);
-			return;
-		}
 		// 转国
 		int guojiaId = request.getGuojiaId();
+		int useType = request.getUseType();
+		if(0 == useType) {
+			Bag<BagGrid> bag = BagMgr.inst.loadBag(jz.id);
+			int cnt = BagMgr.inst.getItemCount(bag, ZHUANGUOLING);
+			if (cnt <= 0) {
+				// 没有转国令，不能转换国家
+				response.setResult(ERROR_NO_CARD);
+				log.info("{}转国失败，没有转国令", jz.id);
+				writeByProtoMsg(session, PD.S_ZHUANGGUO_RESP, response);
+				return;
+			}
+			BagMgr.inst.removeItem(bag, ZHUANGUOLING, 1, "使用转国令转换国家",jz.level);
+			BagMgr.inst.sendBagInfo(0, session, null);
+			// 消耗转国卡
+			log.info("{}使用一张转国令成功转换国家到{}", jz.id, jz.guoJiaId);
+			
+		} else if(2 == useType) {
+			DangpuCommon dangpuCommon = PawnshopMgr.inst.getDangpuCommon(1003);
+			int needYuanBao = dangpuCommon.getNeedNum();
+			if(jz.yuanBao < needYuanBao) {
+				response.setResult(ERROR_IN_YUANBAO);
+				log.info("{}转国失败，元宝不足:{}", jz.id, needYuanBao);
+				writeByProtoMsg(session, PD.S_ZHUANGGUO_RESP, response);
+				return;
+			}
+			YuanBaoMgr.inst.diff(jz, -needYuanBao, 0, 0, 0, "转国花费元宝");
+		}
 		int oldGjId = jz.guoJiaId;
 		jz.guoJiaId = guojiaId;
 		int newGjId = jz.guoJiaId;
 		HibernateUtil.save(jz);
-		// 消耗转国卡
-		BagMgr.inst.removeItem(bag, ZHUANGUOLING, 1, "使用转国令转换国家",jz.level);
-		BagMgr.inst.sendBagInfo(0, session, null);
-		log.info("{}使用一张转国令成功转换国家到{}", jz.id, jz.guoJiaId);
 		// 2015-7-31 9:58 添加排行榜国家榜刷新
 		EventMgr.addEvent(ED.CHANGE_GJ_RANK_REFRESH, new Object[]{jz.id,oldGjId,newGjId});
 		response.setResult(SUCCESS);

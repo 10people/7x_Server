@@ -22,7 +22,7 @@ public class RandomUtil {
 		int differ = (int) (endNumInclude * 10 - startNumInclude * 10 + 1);
 		int temp = random.nextInt(differ);
 		temp += 9;
-		double result = temp / 0.1;
+		double result = temp * 0.1;
 		return result;
 	}
 	

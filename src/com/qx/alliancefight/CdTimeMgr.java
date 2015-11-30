@@ -76,7 +76,8 @@ public class CdTimeMgr implements Runnable {
 				cdQueue.remove(cdTime);
 				break;
 			}
-			scene.junZhuRemainLifeMap.put(junzhu.id, junzhu.shengMingMax);
+			Player player = scene.getPlayerByJunZhuId(junzhu.id);
+			player.currentLife = junzhu.shengMingMax;
 			AllianceBean alliance = AllianceMgr.inst.getAllianceByJunZid(junzhu.id);
 			ScoreInfo scoreInfo = scene.scoreInfoMap.get(alliance.id);
 			PlayerReviveNotify.Builder reviveNotify = PlayerReviveNotify.newBuilder();
@@ -84,9 +85,9 @@ public class CdTimeMgr implements Runnable {
 			reviveNotify.setPosX(scoreInfo.bornPointX);
 			reviveNotify.setPosZ(scoreInfo.bornPointZ);
 			for(Map.Entry<Integer, Player> entry : scene.players.entrySet()) {
-				Player player = entry.getValue();
-				player.session.write(reviveNotify.build());
-				logger.info("通知玩家:{}, {}在场景:{}复活了", player.jzId, 
+				Player p = entry.getValue();
+				p.session.write(reviveNotify.build());
+				logger.info("通知玩家:{}, {}在场景:{}复活了", p.jzId, 
 						cdTime.getJunzhuId(), scene.name);
 			}
 			cdQueue.remove(cdTime);

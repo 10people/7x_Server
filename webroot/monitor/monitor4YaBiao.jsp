@@ -1,5 +1,5 @@
-<%@page import="com.qx.yabiao.YabiaoRobotMgr"%>
-<%@page import="com.qx.yabiao.YabiaoMgr"%>
+<%@page import="com.qx.yabiao.YBRobotMgr"%>
+<%@page import="com.qx.yabiao.YaBiaoHuoDongMgr"%>
 <%@page import="com.qx.world.Scene"%>
 <%@page import="java.util.Enumeration"%>
 <%@page import="com.manu.network.SessionManager"%>
@@ -10,7 +10,7 @@
 <%@page import="com.manu.network.BigSwitch"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.Set"%>
-<%@page import="com.qx.yabiao.YBRobot"%>
+<%@page import="com.qx.yabiao.YaBiaoRobot"%>
 <%@page import="com.manu.dynasty.boot.GameServer"%>
 <%@include file="/myFuns.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -23,33 +23,33 @@
 </head>
 <body>
 <%
-String act = request.getParameter("act");
+	String act = request.getParameter("act");
 if("switchOpen".equals(act)){
 	BigSwitch.inst.ybMgr.openFlag = !BigSwitch.inst.ybMgr.openFlag;
 }
 %>
-当前押镖状态为：<%=BigSwitch.inst.ybMgr.openFlag ? "开启" : "关闭" %>
-，设置为<a href='?act=switchOpen'><%=BigSwitch.inst.ybMgr.openFlag ? "关闭" : "开启" %></a>
+当前押镖状态为：<%=BigSwitch.inst.ybMgr.openFlag ? "开启" : "关闭"%>
+，设置为<a href='?act=switchOpen'><%=BigSwitch.inst.ybMgr.openFlag ? "关闭" : "开启"%></a>
 <br/>
-押镖人数:<%=BigSwitch.inst.ybMgr.ybJzId2ScIdMap.size() %><br/>
-劫镖人数:<%=BigSwitch.inst.ybMgr.jbJz2ScIdMap.size() %>
+押镖人数:<%=BigSwitch.inst.ybMgr.ybJzId2ScIdMap.size()%><br/>
+劫镖人数:<%=BigSwitch.inst.ybMgr.jbJz2ScIdMap.size()%>
 <br/>
 	后台输出：
 			<%
-			String isShowLog = request.getParameter("isShowLog");
-			if(isShowLog!=null){
-				YabiaoRobotMgr.isShowLog = Boolean.valueOf(isShowLog);
-			}
-			if(Boolean.valueOf(YabiaoRobotMgr.isShowLog)){
-				%>
+	String isShowLog = request.getParameter("isShowLog");
+	if(isShowLog!=null){
+		YBRobotMgr.isShowLog = Boolean.valueOf(isShowLog);
+	}
+	if(Boolean.valueOf(YBRobotMgr.isShowLog)){
+%>
 				<a>开启</a>|<a href="monitor4YaBiao.jsp?isShowLog=false">关闭</a>
 				<%
-			} else{
+					} else{
 				%>
 				<a href="monitor4YaBiao.jsp?isShowLog=true">开启</a>|<a>关闭</a>
 				<%
-			}
-			%>
+					}
+				%>
 <br/>
 <table border='1'  style='border-collapse:collapse;'>
 <tr>
@@ -57,7 +57,7 @@ if("switchOpen".equals(act)){
 </tr>
 
 <%
-int cnt = 0;
+	int cnt = 0;
 Enumeration<Integer>  ybkey = BigSwitch.inst.ybMgr.yabiaoScenes.keys();
 
 out("<tr><td colspan='5'>"+"押镖列表</td></tr>");
@@ -72,7 +72,7 @@ while(ybkey.hasMoreElements()){
 		Iterator<Long> it = ybSet.iterator();
 		while (it.hasNext()) {
 		    Long str = it.next();
-			YBRobot ybrobot=(YBRobot)BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(str);
+	YaBiaoRobot ybrobot=(YaBiaoRobot)BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(str);
 		    out.print(str+"-"+ybrobot==null?"无":ybrobot.isBattle+";");
 		}
 	}
@@ -91,7 +91,7 @@ while(ybkey.hasMoreElements()){
 		int uid = key;
 		out.append("<td>");		out.append(""+idx);						out.append("</td>");
 		out.append("<td>");		out.append(String.valueOf(uid));		out.append("</td>");
-		out.append("<td>");		out.append(acc);		out.append("</td>");
+		out.append("<td>");		out.append(acc+"x--"+p.getPosX()+"y--"+p.getPosY()+"z--"+p.getPosZ());		out.append("</td>");
 		out.append("<tr>");
 		}
 	}

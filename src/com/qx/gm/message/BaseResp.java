@@ -1,7 +1,7 @@
 package com.qx.gm.message;
 
-public class QueryRoleListResp {
-	private int code;// 返回码，成功返回100
+public class BaseResp {
+	private int code;
 
 	public int getCode() {
 		return code;

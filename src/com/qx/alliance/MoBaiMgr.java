@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.Explore.Award;
-import qxmobile.protobuf.Explore.ExploreAwardsInfo;
+import qxmobile.protobuf.Explore.ExploreResp;
 import qxmobile.protobuf.MoBaiProto.MoBaiInfo;
 import qxmobile.protobuf.MoBaiProto.MoBaiReq;
 
@@ -25,7 +25,6 @@ import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.LianmengMobai;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.SessionAttKey;
-import com.opensymphony.util.DataUtil;
 import com.qx.account.FunctionOpenMgr;
 import com.qx.award.AwardMgr;
 import com.qx.bag.Bag;
@@ -61,7 +60,7 @@ public class MoBaiMgr extends EventProc{
 	}
 
 	public void sendMoBaiInfo(int id, IoSession session, Builder builder,
-			qxmobile.protobuf.Explore.ExploreAwardsInfo.Builder list) {
+			qxmobile.protobuf.Explore.ExploreResp.Builder list) {
 		Long jzId = (Long) session.getAttribute(SessionAttKey.junZhuId);
 		if (jzId == null) {
 			return;
@@ -210,17 +209,16 @@ public class MoBaiMgr extends EventProc{
 		// MemcachedCRUD.getMemCachedClient().addOrIncr(moBaiBuffCnt+member.lianMengId,
 		// conf.buffNum);
 		HibernateUtil.save(bean);
-		ExploreAwardsInfo.Builder list = ExploreAwardsInfo.newBuilder();
+		ExploreResp.Builder list = ExploreResp.newBuilder();
 		{// 计算奖励
 			List<AwardTemp> awardList = PurchaseMgr.inst
 					.jiangLi2award(conf.award);
-			list.setType(0);
+			list.setSuccess(0);
 			for (AwardTemp award : awardList) {
 				Award.Builder ab = Award.newBuilder();
 				ab.setItemId(award.getItemId());
 				ab.setItemType(award.getItemType());
 				ab.setItemNumber(award.getItemNum());
-				ab.setIsQuality(1);
 				AwardMgr.inst.giveReward(session, award, jz);
 				log.info("{}玉膜拜获得奖励 type:{} id:{} num:{}", bean.junZhuId,
 						ab.getItemType(), ab.getItemId(), ab.getItemNumber());

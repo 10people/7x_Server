@@ -12,9 +12,6 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.Scene.ExitFightScene;
-import qxmobile.protobuf.Scene.ExitScene;
-
 import com.google.protobuf.Message;
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.network.msg.AbstractMessage;
@@ -24,8 +21,6 @@ import com.qx.huangye.HYTreasure;
 import com.qx.junzhu.JunZhu;
 import com.qx.log.LogMgr;
 import com.qx.persistent.HibernateUtil;
-import com.qx.world.Scene;
-import com.qx.yabiao.YabiaoMgr;
 
 public class IOHandlerImpl implements IoHandler  {
 	public static IOHandlerImpl inst = new IOHandlerImpl();

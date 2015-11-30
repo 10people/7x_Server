@@ -147,6 +147,12 @@ public class ED {
 	public static final int REFRESH_TIME_WORK = 10164;
 	/**获得军衔事件*/
 	public static final int GET_JUNXIAN =  10165;
+	/**押镖镖车被攻击事件*/
+	public static final int BIAOCHE_BEIDA = 10170;
+	/**押镖镖车被摧毁*/
+	public static final int BIAOCHE_BEISHA = 10171;
+	/**押镖镖车到达终点*/
+	public static final int BIAOCHE_END=10172;
 	// 主线任务事件
 	public static final int get_produce_weiWang = 50;
 	public static final int pay_weiWang = 51;

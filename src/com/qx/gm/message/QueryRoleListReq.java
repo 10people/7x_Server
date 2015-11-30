@@ -1,5 +1,8 @@
 package com.qx.gm.message;
 
+import com.qx.gm.util.CodeUtil;
+import com.qx.gm.util.MD5Util;
+
 public class QueryRoleListReq {
 	private int type;// 协议编号
 	private int firm;// 表示厂商ID
@@ -10,6 +13,18 @@ public class QueryRoleListReq {
 	private int end_time;// 公告结束时间
 	private int interval_time;// 轮播间隔时间
 	private String md5;// 加密
+
+	public boolean checkMd5() {
+		StringBuffer sBuffer = new StringBuffer();
+		sBuffer.append(getType()).append(getFirm()).append(getZone())
+				.append(getNoticeid()).append(getContent())
+				.append(getStart_time()).append(getEnd_time())
+				.append(getInterval_time()).append(CodeUtil.MD5_KEY);
+		if (!MD5Util.checkMD5(sBuffer.toString(), getMd5())) {// MD5验证
+			return false;
+		}
+		return true;
+	}
 
 	public int getNoticeid() {
 		return noticeid;

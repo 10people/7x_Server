@@ -11,6 +11,11 @@ public class UserBuffer {
 	
 	/** 君主身上的buff列表 */
 	private List<Buffer> bufferList = Collections.synchronizedList(new LinkedList<Buffer>());
+	
+	public UserBuffer(long junzhuId) {
+		super();
+		this.junzhuId = junzhuId;
+	}
 
 	public long getJunzhuId() {
 		return junzhuId;

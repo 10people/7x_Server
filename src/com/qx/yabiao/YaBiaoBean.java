@@ -7,15 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.qx.persistent.MCSupport;
-
 @Entity
-@Table(name = "YaBiaoInfo")
-public class YaBiaoInfo implements MCSupport {
-	/**
-	 * @Fields serialVersionUID : TODO
-	 */
-	private static final long serialVersionUID = 1L;
+@Table(name = "YaBiaoBean0")
+public class YaBiaoBean {// implements MCSupport
 	@Id
 	public long junZhuId;
 	/*当日已经参加押镖的次数*/
@@ -37,15 +31,15 @@ public class YaBiaoInfo implements MCSupport {
 	/*镖车类型*/
 	public int horseType;
 	/*镖车的价值（百分比）*/
-	public int  worth;
+//	public int  worth;
 	@Column(nullable = false, columnDefinition = "int default -1")
 	public int zuheId; //防守技能
 	@Column(nullable = false, columnDefinition = "int default -1")
 	public int gongJiZuHeId; //攻击技能
 	/*镖车的血量*/
-	public int  hp;
-	public int  hudun;
-	public int  hudunMax;
+//	public int  hp;
+//	public int  hudun;
+//	public int  hudunMax;
 	/*上次押镖的时间*/
 //	public Date lastYBDate; 没用字段
 	/*上次劫镖镖的时间--计算劫镖冷却*/
@@ -59,10 +53,12 @@ public class YaBiaoInfo implements MCSupport {
 
 	public boolean isNew4History;//是否有新历史记录
 	public boolean isNew4Enemy;//是否有新仇人
-	
-
-	@Override
-	public long getIdentifier() {
-		return junZhuId;
-	}
+	/**以下为镖车道具**/
+	public int baodi;//0表示没有 1表示有1次
+	public int jiasu;//0表示没有 1表示有1次
+	public int baohu;//n表示保护时长 n=0表示没有;n>0表示保护n秒
+//	@Override
+//	public long getIdentifier() {
+//		return junZhuId;
+//	}
 }

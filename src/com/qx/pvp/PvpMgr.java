@@ -2,7 +2,6 @@ package com.qx.pvp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -92,8 +91,8 @@ import com.qx.vip.VipData;
 import com.qx.vip.VipMgr;
 import com.qx.world.GameObject;
 import com.qx.world.Mission;
-import com.qx.yabiao.YaBiaoInfo;
-import com.qx.yabiao.YabiaoMgr;
+import com.qx.yabiao.YaBiaoHuoDongMgr;
+import com.qx.yabiao.YaBiaoBean;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
 
@@ -2274,7 +2273,7 @@ public class PvpMgr extends EventProc implements Runnable {
 	}
 
 	public void setBingData4YaBiao(List<Node> selfs,
-			YaBiaoInfo ybBean, int flagIndex, long jId, int mylevel,
+			YaBiaoBean ybBean, int flagIndex, long jId, int mylevel,
 			int oppolevel, byte begin) {
 		int[] bings = bingsCache4YB.get(jId);
 		// 没有雇佣兵则重新分配
@@ -2345,10 +2344,10 @@ public class PvpMgr extends EventProc implements Runnable {
 	}
 
 	public void fillGuYongBingDataInfo4YaBiao(List<Node> selfs,
-			YaBiaoInfo ybBean, int flagIndex,
+			YaBiaoBean ybBean, int flagIndex,
 			List<GuYongBing> bingList) {
-		HashMap<Integer, Integer> ybNpc = (HashMap<Integer, Integer>)  YabiaoMgr.inst.ybNpcMap.get(ybBean.junZhuId);
-		CartTemp cart = YabiaoMgr.cartMap.get(ybBean.horseType);
+		HashMap<Integer, Integer> ybNpc = (HashMap<Integer, Integer>)  null;//YaBiaoHuoDongMgr.inst.ybNpcMap.get(ybBean.junZhuId);
+		CartTemp cart = YaBiaoHuoDongMgr.cartMap.get(ybBean.horseType);
 		Node.Builder wjNode = null;
 		for (GuYongBing bing : bingList) {
 			wjNode = Node.newBuilder();

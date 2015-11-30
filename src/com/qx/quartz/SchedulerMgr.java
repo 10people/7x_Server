@@ -16,13 +16,11 @@ import org.slf4j.LoggerFactory;
 import com.manu.dynasty.template.CanShu;
 import com.qx.quartz.job.AllianceResouceOutputJob;
 import com.qx.quartz.job.AllianceRewardStoreJob;
-import com.qx.quartz.job.AllianceVoteJob;
 import com.qx.quartz.job.BaiZhanDailyAwardJob;
 import com.qx.quartz.job.BigHouseWorthReduceJob;
 import com.qx.quartz.job.BroadcastJob;
 import com.qx.quartz.job.CheckHouseDealJob;
 import com.qx.quartz.job.DailyTaskJob;
-import com.qx.quartz.job.FenBigHouseJob;
 import com.qx.quartz.job.GuojiaChouhenJieSuanJob;
 import com.qx.quartz.job.GuojiaDayRankResetJob;
 import com.qx.quartz.job.GuojiaSetDiDuiGuoJob;
@@ -31,6 +29,7 @@ import com.qx.quartz.job.LianMengBySWDayRankResetJob;
 import com.qx.quartz.job.LianMengBySWWeekRankResetJob;
 import com.qx.quartz.job.LogPerHourJob;
 import com.qx.quartz.job.LogPerMinuteJob;
+import com.qx.quartz.job.YBrobotManageJob;
 import com.qx.quartz.job.YaBiaoManageJob;
 
 
@@ -104,6 +103,8 @@ public class SchedulerMgr {
 		int closeM = Integer.parseInt(closeYB[1]);
 		closeYBTime.append("0 ").append(closeM).append(" ").append(closeH).append(" * * ?");
 		addScheduler(YaBiaoManageJob.class, closeYBTime.toString());//0 0 11 * * ?
+		//一分钟产生一次机器人镖车
+		addScheduler(YBrobotManageJob.class, "0 */1 * * * ?");//0 0 11 * * ?
 		
 		String time = CanShu.HUANGYEPVP_AWARDTIME;
 		String[] timeArray = time.split(":");

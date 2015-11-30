@@ -2489,7 +2489,7 @@ public final class Settings {
      * <code>required int32 guojiaId = 1;</code>
      *
      * <pre>
-     * 要求改的国家id
+     * 要求改的国家id,1-7
      * </pre>
      */
     boolean hasGuojiaId();
@@ -2497,13 +2497,35 @@ public final class Settings {
      * <code>required int32 guojiaId = 1;</code>
      *
      * <pre>
-     * 要求改的国家id
+     * 要求改的国家id,1-7
      * </pre>
      */
     int getGuojiaId();
+
+    // required int32 useType = 2;
+    /**
+     * <code>required int32 useType = 2;</code>
+     *
+     * <pre>
+     *转国使用的道具：0-转国令，1-元宝
+     * </pre>
+     */
+    boolean hasUseType();
+    /**
+     * <code>required int32 useType = 2;</code>
+     *
+     * <pre>
+     *转国使用的道具：0-转国令，1-元宝
+     * </pre>
+     */
+    int getUseType();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ChangeGuojiaReq}
+   *
+   * <pre>
+   * 转国请求32205
+   * </pre>
    */
   public static final class ChangeGuojiaReq extends
       com.google.protobuf.GeneratedMessage
@@ -2558,6 +2580,11 @@ public final class Settings {
               guojiaId_ = input.readInt32();
               break;
             }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              useType_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2605,7 +2632,7 @@ public final class Settings {
      * <code>required int32 guojiaId = 1;</code>
      *
      * <pre>
-     * 要求改的国家id
+     * 要求改的国家id,1-7
      * </pre>
      */
     public boolean hasGuojiaId() {
@@ -2615,15 +2642,40 @@ public final class Settings {
      * <code>required int32 guojiaId = 1;</code>
      *
      * <pre>
-     * 要求改的国家id
+     * 要求改的国家id,1-7
      * </pre>
      */
     public int getGuojiaId() {
       return guojiaId_;
     }
 
+    // required int32 useType = 2;
+    public static final int USETYPE_FIELD_NUMBER = 2;
+    private int useType_;
+    /**
+     * <code>required int32 useType = 2;</code>
+     *
+     * <pre>
+     *转国使用的道具：0-转国令，1-元宝
+     * </pre>
+     */
+    public boolean hasUseType() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 useType = 2;</code>
+     *
+     * <pre>
+     *转国使用的道具：0-转国令，1-元宝
+     * </pre>
+     */
+    public int getUseType() {
+      return useType_;
+    }
+
     private void initFields() {
       guojiaId_ = 0;
+      useType_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2631,6 +2683,10 @@ public final class Settings {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGuojiaId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasUseType()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -2644,6 +2700,9 @@ public final class Settings {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(1, guojiaId_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, useType_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -2656,6 +2715,10 @@ public final class Settings {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, guojiaId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, useType_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2737,6 +2800,10 @@ public final class Settings {
     }
     /**
      * Protobuf type {@code qxmobile.protobuf.ChangeGuojiaReq}
+     *
+     * <pre>
+     * 转国请求32205
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -2775,6 +2842,8 @@ public final class Settings {
         super.clear();
         guojiaId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        useType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -2807,6 +2876,10 @@ public final class Settings {
           to_bitField0_ |= 0x00000001;
         }
         result.guojiaId_ = guojiaId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.useType_ = useType_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2826,12 +2899,19 @@ public final class Settings {
         if (other.hasGuojiaId()) {
           setGuojiaId(other.getGuojiaId());
         }
+        if (other.hasUseType()) {
+          setUseType(other.getUseType());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasGuojiaId()) {
+          
+          return false;
+        }
+        if (!hasUseType()) {
           
           return false;
         }
@@ -2863,7 +2943,7 @@ public final class Settings {
        * <code>required int32 guojiaId = 1;</code>
        *
        * <pre>
-       * 要求改的国家id
+       * 要求改的国家id,1-7
        * </pre>
        */
       public boolean hasGuojiaId() {
@@ -2873,7 +2953,7 @@ public final class Settings {
        * <code>required int32 guojiaId = 1;</code>
        *
        * <pre>
-       * 要求改的国家id
+       * 要求改的国家id,1-7
        * </pre>
        */
       public int getGuojiaId() {
@@ -2883,7 +2963,7 @@ public final class Settings {
        * <code>required int32 guojiaId = 1;</code>
        *
        * <pre>
-       * 要求改的国家id
+       * 要求改的国家id,1-7
        * </pre>
        */
       public Builder setGuojiaId(int value) {
@@ -2896,12 +2976,61 @@ public final class Settings {
        * <code>required int32 guojiaId = 1;</code>
        *
        * <pre>
-       * 要求改的国家id
+       * 要求改的国家id,1-7
        * </pre>
        */
       public Builder clearGuojiaId() {
         bitField0_ = (bitField0_ & ~0x00000001);
         guojiaId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 useType = 2;
+      private int useType_ ;
+      /**
+       * <code>required int32 useType = 2;</code>
+       *
+       * <pre>
+       *转国使用的道具：0-转国令，1-元宝
+       * </pre>
+       */
+      public boolean hasUseType() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 useType = 2;</code>
+       *
+       * <pre>
+       *转国使用的道具：0-转国令，1-元宝
+       * </pre>
+       */
+      public int getUseType() {
+        return useType_;
+      }
+      /**
+       * <code>required int32 useType = 2;</code>
+       *
+       * <pre>
+       *转国使用的道具：0-转国令，1-元宝
+       * </pre>
+       */
+      public Builder setUseType(int value) {
+        bitField0_ |= 0x00000002;
+        useType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 useType = 2;</code>
+       *
+       * <pre>
+       *转国使用的道具：0-转国令，1-元宝
+       * </pre>
+       */
+      public Builder clearUseType() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        useType_ = 0;
         onChanged();
         return this;
       }
@@ -2925,7 +3054,7 @@ public final class Settings {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 返回修改结果
+     * 返回修改结果,0-成功，101-已有联盟，102-没有转国令， 103-元宝不足
      * </pre>
      */
     boolean hasResult();
@@ -2933,13 +3062,17 @@ public final class Settings {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 返回修改结果
+     * 返回修改结果,0-成功，101-已有联盟，102-没有转国令， 103-元宝不足
      * </pre>
      */
     int getResult();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ChangeGuojiaResp}
+   *
+   * <pre>
+   * 转国响应32206
+   * </pre>
    */
   public static final class ChangeGuojiaResp extends
       com.google.protobuf.GeneratedMessage
@@ -3041,7 +3174,7 @@ public final class Settings {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 返回修改结果
+     * 返回修改结果,0-成功，101-已有联盟，102-没有转国令， 103-元宝不足
      * </pre>
      */
     public boolean hasResult() {
@@ -3051,7 +3184,7 @@ public final class Settings {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 返回修改结果
+     * 返回修改结果,0-成功，101-已有联盟，102-没有转国令， 103-元宝不足
      * </pre>
      */
     public int getResult() {
@@ -3173,6 +3306,10 @@ public final class Settings {
     }
     /**
      * Protobuf type {@code qxmobile.protobuf.ChangeGuojiaResp}
+     *
+     * <pre>
+     * 转国响应32206
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -3299,7 +3436,7 @@ public final class Settings {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 返回修改结果
+       * 返回修改结果,0-成功，101-已有联盟，102-没有转国令， 103-元宝不足
        * </pre>
        */
       public boolean hasResult() {
@@ -3309,7 +3446,7 @@ public final class Settings {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 返回修改结果
+       * 返回修改结果,0-成功，101-已有联盟，102-没有转国令， 103-元宝不足
        * </pre>
        */
       public int getResult() {
@@ -3319,7 +3456,7 @@ public final class Settings {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 返回修改结果
+       * 返回修改结果,0-成功，101-已有联盟，102-没有转国令， 103-元宝不足
        * </pre>
        */
       public Builder setResult(int value) {
@@ -3332,7 +3469,7 @@ public final class Settings {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 返回修改结果
+       * 返回修改结果,0-成功，101-已有联盟，102-没有转国令， 103-元宝不足
        * </pre>
        */
       public Builder clearResult() {
@@ -3396,9 +3533,9 @@ public final class Settings {
       "onfGet\022\014\n\004json\030\001 \002(\t\"\030\n\010ConfSave\022\014\n\004json" +
       "\030\001 \002(\t\"\032\n\nChangeName\022\014\n\004name\030\001 \002(\t\"9\n\016Ch" +
       "angeNameBack\022\014\n\004name\030\001 \002(\t\022\014\n\004code\030\002 \002(\005" +
-      "\022\013\n\003msg\030\003 \001(\t\"#\n\017ChangeGuojiaReq\022\020\n\010guoj" +
-      "iaId\030\001 \002(\005\"\"\n\020ChangeGuojiaResp\022\016\n\006result" +
-      "\030\001 \002(\005B\nB\010Settings"
+      "\022\013\n\003msg\030\003 \001(\t\"4\n\017ChangeGuojiaReq\022\020\n\010guoj" +
+      "iaId\030\001 \002(\005\022\017\n\007useType\030\002 \002(\005\"\"\n\020ChangeGuo" +
+      "jiaResp\022\016\n\006result\030\001 \002(\005B\nB\010Settings"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3434,7 +3571,7 @@ public final class Settings {
           internal_static_qxmobile_protobuf_ChangeGuojiaReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ChangeGuojiaReq_descriptor,
-              new java.lang.String[] { "GuojiaId", });
+              new java.lang.String[] { "GuojiaId", "UseType", });
           internal_static_qxmobile_protobuf_ChangeGuojiaResp_descriptor =
             getDescriptor().getMessageTypes().get(5);
           internal_static_qxmobile_protobuf_ChangeGuojiaResp_fieldAccessorTable = new

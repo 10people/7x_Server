@@ -14,5 +14,10 @@ public class Buff {
 	 public int Attr_3_P2;
 	 public int BuffDisplay;
 	 public int BuffDuration; 
+	 public int SkillId;
+	 public int EffectTime;
+	 public int EffectCycle;
+	 public int Caster;
+	 public int SkillTarget;
 
 }

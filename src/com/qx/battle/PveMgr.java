@@ -468,23 +468,26 @@ public class PveMgr {
 		resp.setMapId(pveTemp.getLandId());
 		resp.setLimitTime(CanShu.MAXTIME_PVE);
 		
-		// 填充敌方数据
-		Group.Builder enemyTroop = Group.newBuilder();
+		List<Node> selfs = new ArrayList<Node>();
 		List<Node> enemys = new ArrayList<Node>();
-		fillEnemysDataInfo(pveTemp, npcList, enemys);
-		enemyTroop.addAllNodes(enemys);
-		enemyTroop.setMaxLevel(999);
-		resp.setEnemyTroop(enemyTroop);
+		int selfFlagId = 1;
 		
 		// 填充己方数据（战斗数据和秘宝信息数据）
 		Group.Builder selfTroop = Group.newBuilder();
-		List<Node> selfs = new ArrayList<Node>();
 		BuZhenMibaoBean mibaoBean = HibernateUtil.find(BuZhenMibaoBean.class, junZhu.id);
 		int zuheId = mibaoBean == null ? -1 : mibaoBean.zuheId;
-		fillJunZhuDataInfo(resp, session, selfs, junZhu,1, zuheId,selfTroop);
-		selfTroop.addAllNodes(selfs);
+		fillJunZhuDataInfo(resp, session, selfs, junZhu, selfFlagId, zuheId,selfTroop);
 		selfTroop.setMaxLevel(BigSwitch.pveGuanQiaMgr.getGuanQiaMaxId(junZhu.id));
+		
+		// 填充敌方数据
+		Group.Builder enemyTroop = Group.newBuilder();
+		fillEnemysDataInfo(pveTemp, npcList, enemys, selfs, selfFlagId++);
+		enemyTroop.addAllNodes(enemys);
+		enemyTroop.setMaxLevel(999);
+
+		selfTroop.addAllNodes(selfs);
 		resp.setSelfTroop(selfTroop);
+		resp.setEnemyTroop(enemyTroop);
 		
 		resp.addStarTemp(pveTemp.getStar1());
 		resp.addStarTemp(pveTemp.getStar2());
@@ -501,21 +504,16 @@ public class PveMgr {
 		}
 		int zhandouId = battleIdMgr.incrementAndGet();    //战斗id 后台使用
 		int mapId = pveTemp.getLandId();
+		int selfFlagId = 1;
 		ZhanDouInitResp.Builder resp = ZhanDouInitResp.newBuilder();
 		resp.setZhandouId(zhandouId);
 		resp.setMapId(mapId);
 		resp.setLimitTime(pveTemp.getTime());
-		// 填充敌方数据
-		Group.Builder enemyTroop = Group.newBuilder();
+		List<Node> selfs = new ArrayList<ZhanDou.Node>();
 		List<Node> enemys = new ArrayList<ZhanDou.Node>();
-		fillEnemysDataInfo(pveTemp, enemyIdList, enemys);
-		enemyTroop.addAllNodes(enemys);
-		enemyTroop.setMaxLevel(999);
-		resp.setEnemyTroop(enemyTroop);
 		
 		// 填充己方数据（战斗数据和秘宝信息数据）
 		Group.Builder selfTroop = Group.newBuilder();
-		List<Node> selfs = new ArrayList<ZhanDou.Node>();
 		Node.Builder junzhuNode = Node.newBuilder();
 		List<Integer> zbIdList = new ArrayList<Integer>();
 		zbIdList.add(xunHanCheng.getWeapon1());
@@ -524,7 +522,7 @@ public class PveMgr {
 		//1.填充己方武器数据
 		fillZhuangbei(junzhuNode, zbIdList);
 		//2.填充己方其它
-		junzhuNode.addFlagIds(1);
+		junzhuNode.addFlagIds(selfFlagId++);
 		junzhuNode.setModleId(junZhu.roleId);
 		junzhuNode.setNodeType(NodeType.PLAYER);
 		junzhuNode.setNodeProfession(NodeProfession.NULL);
@@ -567,16 +565,24 @@ public class PveMgr {
 		addNodeSkill(junzhuNode, mibaoZuheSkillId);
 		selfs.add(junzhuNode.build());
 		selfTroop.setMaxLevel(0);
-		selfTroop.addAllNodes(selfs);
-		resp.setSelfTroop(selfTroop);
 		resp.addStarTemp(pveTemp.getStar1());
 		resp.addStarTemp(pveTemp.getStar2());
 		resp.addStarTemp(pveTemp.getStar3());
+		
+		// 填充敌方数据
+		Group.Builder enemyTroop = Group.newBuilder();
+		fillEnemysDataInfo(pveTemp, enemyIdList, enemys, selfs, selfFlagId);
+		enemyTroop.addAllNodes(enemys);
+		enemyTroop.setMaxLevel(999);
+
+		selfTroop.addAllNodes(selfs);
+		resp.setSelfTroop(selfTroop);
+		resp.setEnemyTroop(enemyTroop);
 		session.write(resp.build());
 	}
 
 	public void fillEnemysDataInfo(PveTemp pveTemp,
-			List<? extends NpcTemp> npcList, List<Node> enemys) {
+			List<? extends NpcTemp> npcList, List<Node> enemys, List<Node> selfs, int selfFlagId) {
 		for (NpcTemp npcTemp : npcList) {
 			Node.Builder node = Node.newBuilder();
 			EnemyTemp enemyTemp = id2Enemy.get(npcTemp.getEnemyId());
@@ -594,7 +600,11 @@ public class PveMgr {
 				eLogger.error("nodeProfession与npcTemp的Profession值不一致，npcTemp.Profession:{}", npcTemp.profession);
 				continue;
 			}
-			node.addFlagIds(npcTemp.getPosition());
+			if(npcTemp.ifTeammate == 1) {
+				node.addFlagIds(selfFlagId++);
+			} else {
+				node.addFlagIds(npcTemp.getPosition());
+			}
 			node.setModleId(npcTemp.modelId);//npc模型id
 			node.setNodeType(nodeType);
 			node.setNodeProfession(nodeProfession);
@@ -616,7 +626,11 @@ public class PveMgr {
 					addNodeSkill(node, skillId);
 				}
 			}
-			enemys.add(node.build());
+			if(npcTemp.ifTeammate == 1) {
+				selfs.add(node.build());
+			} else {
+				enemys.add(node.build());
+			}
 		}
 	}
 	

@@ -2,7 +2,7 @@ package com.qx.gm.message;
 
 import java.util.List;
 
-public class QueryRoleInfoResp {
+public class QueryRoleInfoResp extends BaseResp {
 	private String uin;// 账号ID
 	private int rid;// 角色id
 	private String name;// 角色名字
@@ -20,15 +20,6 @@ public class QueryRoleInfoResp {
 	private List<RoleBackpack> backpack;// 背包道具数组（包括name，id，num）
 	private List<RoleEquip> equip;// 装备信息数组（包括name，id，level）
 	private List<RolePet> pet;// 宠物信息数组（包括name，id，level）
-	private int code;// 返回码，成功返回100
-
-	public int getCode() {
-		return code;
-	}
-
-	public void setCode(int code) {
-		this.code = code;
-	}
 
 	public String getUin() {
 		return uin;

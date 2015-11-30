@@ -2,17 +2,15 @@ package com.qx.gm.notice;
 
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.manu.dynasty.core.servlet.GMServlet;
+import com.qx.gm.message.BaseResp;
 import com.qx.gm.message.DoDelGMNoticeReq;
-import com.qx.gm.message.DoDelGMNoticeResp;
 import com.qx.gm.message.QueryRoleListReq;
-import com.qx.gm.message.QueryRoleListResp;
 import com.qx.gm.util.CodeUtil;
 import com.qx.gm.util.MD5Util;
 import com.qx.persistent.HibernateUtil;
@@ -48,16 +46,10 @@ public class GMNoticeMgr {
 	 * @throws
 	 */
 	public void doSendGMNotice(QueryRoleListReq request, PrintWriter writer) {
-		QueryRoleListResp response = new QueryRoleListResp();
+		BaseResp response = new BaseResp();
 
 		// MD5验证
-		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append(request.getType()).append(request.getFirm())
-				.append(request.getZone()).append(request.getNoticeid())
-				.append(request.getContent()).append(request.getStart_time())
-				.append(request.getEnd_time())
-				.append(request.getInterval_time()).append(CodeUtil.MD5_KEY);
-		if (!MD5Util.checkMD5(sBuffer.toString(), request.getMd5())) {// MD5验证
+		if (!request.checkMd5()) {// MD5验证
 			response.setCode(CodeUtil.MD5_ERROR);
 			GMServlet.write(response, writer);
 			return;
@@ -105,14 +97,11 @@ public class GMNoticeMgr {
 	 * @throws
 	 */
 	public void doDelGMNotice(DoDelGMNoticeReq request, PrintWriter writer) {
-		DoDelGMNoticeResp response = new DoDelGMNoticeResp();
+		BaseResp response = new BaseResp();
 
 		// MD5验证
-		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append(request.getType()).append(request.getFirm())
-				.append(request.getZone()).append(request.getNoticeid())
-				.append(CodeUtil.MD5_KEY);
-		if (!MD5Util.checkMD5(sBuffer.toString(), request.getMd5())) {// MD5验证
+		if (!request.checkMd5()) {// MD5验证
+			response.setCode(CodeUtil.MD5_ERROR);
 			return;
 		}
 

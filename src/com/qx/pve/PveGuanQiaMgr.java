@@ -82,7 +82,7 @@ import com.qx.task.DailyTaskConstants;
 import com.qx.task.GameTaskMgr;
 import com.qx.util.TableIDCreator;
 import com.qx.vip.VipMgr;
-import com.qx.yabiao.YabiaoMgr;
+import com.qx.yabiao.YaBiaoHuoDongMgr;
 import com.qx.youxia.BuZhenYouXia;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
@@ -1002,10 +1002,10 @@ public class PveGuanQiaMgr {
 			PvpMgr.inst.saveGongJiMiBao(junzhu.id, mibaoIds, zuheId);
 			break;
 		case 6:
-			YabiaoMgr.inst.saveFangShouMiBao(junzhu.id, mibaoIds, zuheId);
+			YaBiaoHuoDongMgr.inst.saveFangShouMiBao(junzhu.id, mibaoIds, zuheId);
 			break;
 		case 7:
-			YabiaoMgr.inst.saveGongJiMiBao(junzhu.id, mibaoIds, zuheId);
+			YaBiaoHuoDongMgr.inst.saveGongJiMiBao(junzhu.id, mibaoIds, zuheId);
 			break;
 		case 8:
 		case 9:

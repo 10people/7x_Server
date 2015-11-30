@@ -155,9 +155,9 @@ public final class MoBaiProto {
      */
     int getYbGain();
 
-    // optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;
+    // optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;
     /**
-     * <code>optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;</code>
+     * <code>optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;</code>
      *
      * <pre>
      *膜拜获得的奖励。
@@ -165,21 +165,21 @@ public final class MoBaiProto {
      */
     boolean hasMobaiGain();
     /**
-     * <code>optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;</code>
+     * <code>optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;</code>
      *
      * <pre>
      *膜拜获得的奖励。
      * </pre>
      */
-    qxmobile.protobuf.Explore.ExploreAwardsInfo getMobaiGain();
+    qxmobile.protobuf.Explore.ExploreResp getMobaiGain();
     /**
-     * <code>optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;</code>
+     * <code>optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;</code>
      *
      * <pre>
      *膜拜获得的奖励。
      * </pre>
      */
-    qxmobile.protobuf.Explore.ExploreAwardsInfoOrBuilder getMobaiGainOrBuilder();
+    qxmobile.protobuf.Explore.ExploreRespOrBuilder getMobaiGainOrBuilder();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.MoBaiInfo}
@@ -278,11 +278,11 @@ public final class MoBaiProto {
               break;
             }
             case 74: {
-              qxmobile.protobuf.Explore.ExploreAwardsInfo.Builder subBuilder = null;
+              qxmobile.protobuf.Explore.ExploreResp.Builder subBuilder = null;
               if (((bitField0_ & 0x00000100) == 0x00000100)) {
                 subBuilder = mobaiGain_.toBuilder();
               }
-              mobaiGain_ = input.readMessage(qxmobile.protobuf.Explore.ExploreAwardsInfo.PARSER, extensionRegistry);
+              mobaiGain_ = input.readMessage(qxmobile.protobuf.Explore.ExploreResp.PARSER, extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(mobaiGain_);
                 mobaiGain_ = subBuilder.buildPartial();
@@ -522,11 +522,11 @@ public final class MoBaiProto {
       return ybGain_;
     }
 
-    // optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;
+    // optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;
     public static final int MOBAIGAIN_FIELD_NUMBER = 9;
-    private qxmobile.protobuf.Explore.ExploreAwardsInfo mobaiGain_;
+    private qxmobile.protobuf.Explore.ExploreResp mobaiGain_;
     /**
-     * <code>optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;</code>
+     * <code>optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;</code>
      *
      * <pre>
      *膜拜获得的奖励。
@@ -536,23 +536,23 @@ public final class MoBaiProto {
       return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
-     * <code>optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;</code>
+     * <code>optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;</code>
      *
      * <pre>
      *膜拜获得的奖励。
      * </pre>
      */
-    public qxmobile.protobuf.Explore.ExploreAwardsInfo getMobaiGain() {
+    public qxmobile.protobuf.Explore.ExploreResp getMobaiGain() {
       return mobaiGain_;
     }
     /**
-     * <code>optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;</code>
+     * <code>optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;</code>
      *
      * <pre>
      *膜拜获得的奖励。
      * </pre>
      */
-    public qxmobile.protobuf.Explore.ExploreAwardsInfoOrBuilder getMobaiGainOrBuilder() {
+    public qxmobile.protobuf.Explore.ExploreRespOrBuilder getMobaiGainOrBuilder() {
       return mobaiGain_;
     }
 
@@ -565,7 +565,7 @@ public final class MoBaiProto {
       tbGain_ = 0;
       ybPay_ = 0;
       ybGain_ = 0;
-      mobaiGain_ = qxmobile.protobuf.Explore.ExploreAwardsInfo.getDefaultInstance();
+      mobaiGain_ = qxmobile.protobuf.Explore.ExploreResp.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -828,7 +828,7 @@ public final class MoBaiProto {
         ybGain_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
         if (mobaiGainBuilder_ == null) {
-          mobaiGain_ = qxmobile.protobuf.Explore.ExploreAwardsInfo.getDefaultInstance();
+          mobaiGain_ = qxmobile.protobuf.Explore.ExploreResp.getDefaultInstance();
         } else {
           mobaiGainBuilder_.clear();
         }
@@ -1401,12 +1401,12 @@ public final class MoBaiProto {
         return this;
       }
 
-      // optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;
-      private qxmobile.protobuf.Explore.ExploreAwardsInfo mobaiGain_ = qxmobile.protobuf.Explore.ExploreAwardsInfo.getDefaultInstance();
+      // optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;
+      private qxmobile.protobuf.Explore.ExploreResp mobaiGain_ = qxmobile.protobuf.Explore.ExploreResp.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          qxmobile.protobuf.Explore.ExploreAwardsInfo, qxmobile.protobuf.Explore.ExploreAwardsInfo.Builder, qxmobile.protobuf.Explore.ExploreAwardsInfoOrBuilder> mobaiGainBuilder_;
+          qxmobile.protobuf.Explore.ExploreResp, qxmobile.protobuf.Explore.ExploreResp.Builder, qxmobile.protobuf.Explore.ExploreRespOrBuilder> mobaiGainBuilder_;
       /**
-       * <code>optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;</code>
+       * <code>optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;</code>
        *
        * <pre>
        *膜拜获得的奖励。
@@ -1416,13 +1416,13 @@ public final class MoBaiProto {
         return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
-       * <code>optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;</code>
+       * <code>optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;</code>
        *
        * <pre>
        *膜拜获得的奖励。
        * </pre>
        */
-      public qxmobile.protobuf.Explore.ExploreAwardsInfo getMobaiGain() {
+      public qxmobile.protobuf.Explore.ExploreResp getMobaiGain() {
         if (mobaiGainBuilder_ == null) {
           return mobaiGain_;
         } else {
@@ -1430,13 +1430,13 @@ public final class MoBaiProto {
         }
       }
       /**
-       * <code>optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;</code>
+       * <code>optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;</code>
        *
        * <pre>
        *膜拜获得的奖励。
        * </pre>
        */
-      public Builder setMobaiGain(qxmobile.protobuf.Explore.ExploreAwardsInfo value) {
+      public Builder setMobaiGain(qxmobile.protobuf.Explore.ExploreResp value) {
         if (mobaiGainBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1450,14 +1450,14 @@ public final class MoBaiProto {
         return this;
       }
       /**
-       * <code>optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;</code>
+       * <code>optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;</code>
        *
        * <pre>
        *膜拜获得的奖励。
        * </pre>
        */
       public Builder setMobaiGain(
-          qxmobile.protobuf.Explore.ExploreAwardsInfo.Builder builderForValue) {
+          qxmobile.protobuf.Explore.ExploreResp.Builder builderForValue) {
         if (mobaiGainBuilder_ == null) {
           mobaiGain_ = builderForValue.build();
           onChanged();
@@ -1468,18 +1468,18 @@ public final class MoBaiProto {
         return this;
       }
       /**
-       * <code>optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;</code>
+       * <code>optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;</code>
        *
        * <pre>
        *膜拜获得的奖励。
        * </pre>
        */
-      public Builder mergeMobaiGain(qxmobile.protobuf.Explore.ExploreAwardsInfo value) {
+      public Builder mergeMobaiGain(qxmobile.protobuf.Explore.ExploreResp value) {
         if (mobaiGainBuilder_ == null) {
           if (((bitField0_ & 0x00000100) == 0x00000100) &&
-              mobaiGain_ != qxmobile.protobuf.Explore.ExploreAwardsInfo.getDefaultInstance()) {
+              mobaiGain_ != qxmobile.protobuf.Explore.ExploreResp.getDefaultInstance()) {
             mobaiGain_ =
-              qxmobile.protobuf.Explore.ExploreAwardsInfo.newBuilder(mobaiGain_).mergeFrom(value).buildPartial();
+              qxmobile.protobuf.Explore.ExploreResp.newBuilder(mobaiGain_).mergeFrom(value).buildPartial();
           } else {
             mobaiGain_ = value;
           }
@@ -1491,7 +1491,7 @@ public final class MoBaiProto {
         return this;
       }
       /**
-       * <code>optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;</code>
+       * <code>optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;</code>
        *
        * <pre>
        *膜拜获得的奖励。
@@ -1499,7 +1499,7 @@ public final class MoBaiProto {
        */
       public Builder clearMobaiGain() {
         if (mobaiGainBuilder_ == null) {
-          mobaiGain_ = qxmobile.protobuf.Explore.ExploreAwardsInfo.getDefaultInstance();
+          mobaiGain_ = qxmobile.protobuf.Explore.ExploreResp.getDefaultInstance();
           onChanged();
         } else {
           mobaiGainBuilder_.clear();
@@ -1508,25 +1508,25 @@ public final class MoBaiProto {
         return this;
       }
       /**
-       * <code>optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;</code>
+       * <code>optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;</code>
        *
        * <pre>
        *膜拜获得的奖励。
        * </pre>
        */
-      public qxmobile.protobuf.Explore.ExploreAwardsInfo.Builder getMobaiGainBuilder() {
+      public qxmobile.protobuf.Explore.ExploreResp.Builder getMobaiGainBuilder() {
         bitField0_ |= 0x00000100;
         onChanged();
         return getMobaiGainFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;</code>
+       * <code>optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;</code>
        *
        * <pre>
        *膜拜获得的奖励。
        * </pre>
        */
-      public qxmobile.protobuf.Explore.ExploreAwardsInfoOrBuilder getMobaiGainOrBuilder() {
+      public qxmobile.protobuf.Explore.ExploreRespOrBuilder getMobaiGainOrBuilder() {
         if (mobaiGainBuilder_ != null) {
           return mobaiGainBuilder_.getMessageOrBuilder();
         } else {
@@ -1534,18 +1534,18 @@ public final class MoBaiProto {
         }
       }
       /**
-       * <code>optional .qxmobile.protobuf.ExploreAwardsInfo mobaiGain = 9;</code>
+       * <code>optional .qxmobile.protobuf.ExploreResp mobaiGain = 9;</code>
        *
        * <pre>
        *膜拜获得的奖励。
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          qxmobile.protobuf.Explore.ExploreAwardsInfo, qxmobile.protobuf.Explore.ExploreAwardsInfo.Builder, qxmobile.protobuf.Explore.ExploreAwardsInfoOrBuilder> 
+          qxmobile.protobuf.Explore.ExploreResp, qxmobile.protobuf.Explore.ExploreResp.Builder, qxmobile.protobuf.Explore.ExploreRespOrBuilder> 
           getMobaiGainFieldBuilder() {
         if (mobaiGainBuilder_ == null) {
           mobaiGainBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              qxmobile.protobuf.Explore.ExploreAwardsInfo, qxmobile.protobuf.Explore.ExploreAwardsInfo.Builder, qxmobile.protobuf.Explore.ExploreAwardsInfoOrBuilder>(
+              qxmobile.protobuf.Explore.ExploreResp, qxmobile.protobuf.Explore.ExploreResp.Builder, qxmobile.protobuf.Explore.ExploreRespOrBuilder>(
                   mobaiGain_,
                   getParentForChildren(),
                   isClean());
@@ -2031,13 +2031,13 @@ public final class MoBaiProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\013MoBai.proto\022\021qxmobile.protobuf\032\rExplor" +
-      "e.proto\"\316\001\n\tMoBaiInfo\022\022\n\ntongBiOpen\030\001 \002(" +
+      "e.proto\"\310\001\n\tMoBaiInfo\022\022\n\ntongBiOpen\030\001 \002(" +
       "\010\022\023\n\013yuanBaoOpen\030\002 \002(\010\022\016\n\006yuOpen\030\003 \002(\010\022\021" +
       "\n\tbuffCount\030\004 \002(\005\022\r\n\005tbPay\030\005 \002(\005\022\016\n\006tbGa" +
       "in\030\006 \002(\005\022\r\n\005ybPay\030\007 \002(\005\022\016\n\006ybGain\030\010 \002(\005\022" +
-      "7\n\tmobaiGain\030\t \001(\0132$.qxmobile.protobuf.E" +
-      "xploreAwardsInfo\"\027\n\010MoBaiReq\022\013\n\003cmd\030\001 \002(" +
-      "\005B\014B\nMoBaiProto"
+      "1\n\tmobaiGain\030\t \001(\0132\036.qxmobile.protobuf.E" +
+      "xploreResp\"\027\n\010MoBaiReq\022\013\n\003cmd\030\001 \002(\005B\014B\nM" +
+      "oBaiProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

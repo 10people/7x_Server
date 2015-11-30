@@ -1,5 +1,8 @@
 package com.qx.gm.message;
 
+import com.qx.gm.util.CodeUtil;
+import com.qx.gm.util.MD5Util;
+
 public class OperateTopupReq {
 	private int type;// 协议编号
 	private int firm;// 表示厂商ID
@@ -10,6 +13,17 @@ public class OperateTopupReq {
 	private String start;// 查询开始时间
 	private String end;// 查询结束时间
 	private String md5;// 加密
+
+	public boolean checkMd5() {
+		StringBuffer sBuffer = new StringBuffer();
+		sBuffer.append(getType()).append(getFirm()).append(getZone())
+				.append(getUin()).append(getRoleid()).append(getRolename())
+				.append(getStart()).append(getEnd()).append(CodeUtil.MD5_KEY);
+		if (!MD5Util.checkMD5(sBuffer.toString(), getMd5())) {// MD5验证
+			return false;
+		}
+		return true;
+	}
 
 	public int getType() {
 		return type;

@@ -2,7 +2,6 @@ package com.qx.gm.email;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -23,10 +22,9 @@ import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
+import com.qx.gm.message.BaseResp;
 import com.qx.gm.message.DoSendBareMailReq;
-import com.qx.gm.message.DoSendBareMailResp;
 import com.qx.gm.message.DoSendMailReq;
-import com.qx.gm.message.DoSendMailResp;
 import com.qx.gm.message.MailProp;
 import com.qx.gm.role.GMRoleMgr;
 import com.qx.gm.util.CodeUtil;
@@ -81,16 +79,10 @@ public class GMEmailMgr extends EventProc {
 	 */
 	public void doSendMail(DoSendMailReq request, String prop4Md5,
 			PrintWriter writer) {
-		DoSendMailResp response = new DoSendMailResp();
+		BaseResp response = new BaseResp();
 
 		// MD5验证
-		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append(request.getType()).append(request.getFirm())
-				.append(request.getZone()).append(request.getRolename())
-				.append(request.getLevlemin()).append(request.getLevlemax())
-				.append(request.getSubject()).append(request.getText())
-				.append(prop4Md5).append(CodeUtil.MD5_KEY);
-		if (!MD5Util.checkMD5(sBuffer.toString(), request.getMd5())) {// MD5验证
+		if (!request.checkMd5(prop4Md5)) {
 			response.setCode(CodeUtil.MD5_ERROR);
 			GMServlet.write(response, writer);
 			return;
@@ -243,16 +235,10 @@ public class GMEmailMgr extends EventProc {
 	 * @throws
 	 */
 	public void doSendBareMail(DoSendBareMailReq request, PrintWriter writer) {
-		DoSendBareMailResp response = new DoSendBareMailResp();
+		BaseResp response = new BaseResp();
 
 		// MD5验证
-		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append(request.getType()).append(request.getFirm())
-				.append(request.getZone()).append(request.getRolename())
-				.append(request.getLevlemin()).append(request.getLevlemax())
-				.append(request.getSubject()).append(request.getText())
-				.append(CodeUtil.MD5_KEY);
-		if (!MD5Util.checkMD5(sBuffer.toString(), request.getMd5())) {// MD5验证
+		if (!request.checkMd5()) {
 			response.setCode(CodeUtil.MD5_ERROR);
 			GMServlet.write(response, writer);
 			return;

@@ -15,28 +15,21 @@ import com.manu.dynasty.boot.GameServer;
 import com.manu.dynasty.core.servlet.GMServlet;
 import com.manu.dynasty.hero.service.HeroService;
 import com.manu.dynasty.store.Redis;
-import com.manu.dynasty.template.BaiZhan;
 import com.manu.dynasty.template.BaseItem;
 import com.qx.account.AccountManager;
-import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
-import com.qx.alliance.AlliancePlayer;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
 import com.qx.bag.BagMgr;
 import com.qx.bag.EquipGrid;
 import com.qx.bag.EquipMgr;
+import com.qx.gm.message.BaseResp;
 import com.qx.gm.message.ConsumeRecords;
 import com.qx.gm.message.DoBanUserDownReq;
-import com.qx.gm.message.DoBanUserDownResp;
 import com.qx.gm.message.DoBanUserReq;
-import com.qx.gm.message.DoBanUserResp;
 import com.qx.gm.message.DoBanUserSpeakReq;
-import com.qx.gm.message.DoBanUserSpeakResp;
 import com.qx.gm.message.DoLiftBanUserReq;
-import com.qx.gm.message.DoLiftBanUserResp;
 import com.qx.gm.message.DoLiftBanUserSpeakReq;
-import com.qx.gm.message.DoLiftBanUserSpeakResp;
 import com.qx.gm.message.OperateConsumeReq;
 import com.qx.gm.message.OperateConsumeResp;
 import com.qx.gm.message.OperateTopupReq;
@@ -54,8 +47,6 @@ import com.qx.gm.util.MD5Util;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.PlayerTime;
 import com.qx.persistent.HibernateUtil;
-import com.qx.pvp.PvpBean;
-import com.qx.pvp.PvpMgr;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoInfo;
 
@@ -93,11 +84,7 @@ public class GMRoleMgr {
 		OperateTopupResp response = new OperateTopupResp();
 
 		// MD5验证
-		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append(request.getFirm()).append(request.getRolename())
-				.append(request.getType()).append(request.getUin())
-				.append(request.getZone()).append(CodeUtil.MD5_KEY);
-		if (!MD5Util.checkMD5(sBuffer.toString(), request.getMd5())) {// MD5验证
+		if (!request.checkMd5()) {// MD5验证
 			return;
 		}
 
@@ -181,11 +168,7 @@ public class GMRoleMgr {
 		OperateConsumeResp response = new OperateConsumeResp();
 
 		// MD5验证
-		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append(request.getFirm()).append(request.getRolename())
-				.append(request.getType()).append(request.getUin())
-				.append(request.getZone()).append(CodeUtil.MD5_KEY);
-		if (!MD5Util.checkMD5(sBuffer.toString(), request.getMd5())) {// MD5验证
+		if (!request.checkMd5()) {// MD5验证
 			return;
 		}
 
@@ -259,11 +242,7 @@ public class GMRoleMgr {
 		QueryRoleInfoResp response = new QueryRoleInfoResp();
 
 		// MD5验证
-		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append(request.getType()).append(request.getFirm())
-				.append(request.getZone()).append(request.getUin())
-				.append(request.getRolename()).append(CodeUtil.MD5_KEY);
-		if (!MD5Util.checkMD5(sBuffer.toString(), request.getMd5())) {// MD5验证
+		if (!request.checkMd5()) {// MD5验证
 			response.setCode(CodeUtil.MD5_ERROR);
 			GMServlet.write(response, writer);
 			return;
@@ -284,9 +263,9 @@ public class GMRoleMgr {
 		response.setRid((int) junZhu.id);
 		response.setName(junZhu.name);
 		// 按照模型id判断性别
-		if (junZhu.roleId == 1|| junZhu.roleId == 2) {// 豪杰模型，男性
+		if (junZhu.roleId == 1 || junZhu.roleId == 2) {// 豪杰模型，男性
 			response.setGender("男");
-		} else if (junZhu.roleId == 3|| junZhu.roleId == 4) {// 郡主模型，女性
+		} else if (junZhu.roleId == 3 || junZhu.roleId == 4) {// 郡主模型，女性
 			response.setGender("女");
 		}
 		// TODO 查询职业（暂无职业）
@@ -305,10 +284,11 @@ public class GMRoleMgr {
 			playerTime = new PlayerTime(junZhu.id);
 			HibernateUtil.insert(playerTime);
 		}
-		response.setRegistertime(null==playerTime.getCreateRoleTime()?new Date().toLocaleString():playerTime.getCreateRoleTime()
+		response.setRegistertime(null == playerTime.getCreateRoleTime() ? new Date()
+				.toLocaleString() : playerTime.getCreateRoleTime()
 				.toLocaleString());
-		response.setLastlogintime(null==playerTime.getLoginTime()?new Date().toLocaleString():playerTime.getLoginTime()
-				.toLocaleString());
+		response.setLastlogintime(null == playerTime.getLoginTime() ? new Date()
+				.toLocaleString() : playerTime.getLoginTime().toLocaleString());
 		// 查找背包
 		response.setBackpack(getBackpackList(junZhu));
 		// 查找装备
@@ -331,11 +311,7 @@ public class GMRoleMgr {
 		QueryRoleStatusResp response = new QueryRoleStatusResp();
 
 		// MD5验证
-		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append(request.getType()).append(request.getFirm())
-				.append(request.getZone()).append(request.getUin())
-				.append(request.getRolename()).append(CodeUtil.MD5_KEY);
-		if (!MD5Util.checkMD5(sBuffer.toString(), request.getMd5())) {// MD5验证
+		if (!request.checkMd5()) {// MD5验证
 			response.setCode(CodeUtil.MD5_ERROR);
 			GMServlet.write(response, writer);
 			return;
@@ -358,21 +334,23 @@ public class GMRoleMgr {
 		response.setAreaid(request.getZone());
 		response.setTopup(getTopup(junZhu));
 
-		String ftState = Redis.getInstance().get(CACHE_ROLE_BAN_USER + junZhu.id);
-		String jyState = Redis.getInstance().get(CACHE_ROLE_BAN_USER_SPEAK + junZhu.id);
-		if(null==ftState){
-			ftState="0";
-		} 
-		if(null==jyState){
-			jyState="0";
-		} 
-		if(ftState.equals("0")&&jyState.equals("0")){// 正常
+		String ftState = Redis.getInstance().get(
+				CACHE_ROLE_BAN_USER + junZhu.id);
+		String jyState = Redis.getInstance().get(
+				CACHE_ROLE_BAN_USER_SPEAK + junZhu.id);
+		if (null == ftState) {
+			ftState = "0";
+		}
+		if (null == jyState) {
+			jyState = "0";
+		}
+		if (ftState.equals("0") && jyState.equals("0")) {// 正常
 			response.setStatus(1);
-		} else if(!ftState.equals("0")&&jyState.equals("0")){// 封停
+		} else if (!ftState.equals("0") && jyState.equals("0")) {// 封停
 			response.setStatus(2);
-		} else if(ftState.equals("0")&&!jyState.equals("0")){// 禁言
+		} else if (ftState.equals("0") && !jyState.equals("0")) {// 禁言
 			response.setStatus(3);
-		} else{// 封停又禁言
+		} else {// 封停又禁言
 			response.setStatus(2);
 		}
 
@@ -395,15 +373,10 @@ public class GMRoleMgr {
 	 * @throws
 	 */
 	public void doBanUserSpeak(DoBanUserSpeakReq request, PrintWriter writer) {
-		DoBanUserSpeakResp response = new DoBanUserSpeakResp();
+		BaseResp response = new BaseResp();
 
 		// MD5验证
-		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append(request.getType()).append(request.getFirm())
-				.append(request.getZone()).append(request.getUin())
-				.append(request.getRolename()).append(request.getTimes())
-				.append(request.getBanreason()).append(CodeUtil.MD5_KEY);
-		if (!MD5Util.checkMD5(sBuffer.toString(), request.getMd5())) {// MD5验证
+		if (!request.checkMd5()) {// MD5验证
 			response.setCode(CodeUtil.MD5_ERROR);
 			GMServlet.write(response, writer);
 			return;
@@ -417,7 +390,8 @@ public class GMRoleMgr {
 			return;
 		}
 
-		String status = Redis.getInstance().get(CACHE_ROLE_BAN_USER_SPEAK + junZhu.id);
+		String status = Redis.getInstance().get(
+				CACHE_ROLE_BAN_USER_SPEAK + junZhu.id);
 		if (status != null && !status.equals("0")) {// 已经处于禁言状态
 			response.setCode(CodeUtil.ALREADY_JINYAN);
 			GMServlet.write(response, writer);
@@ -443,15 +417,10 @@ public class GMRoleMgr {
 	 * @throws
 	 */
 	public void doBanUser(DoBanUserReq request, PrintWriter writer) {
-		DoBanUserResp response = new DoBanUserResp();
+		BaseResp response = new BaseResp();
 
 		// MD5验证
-		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append(request.getType()).append(request.getFirm())
-				.append(request.getZone()).append(request.getUin())
-				.append(request.getRolename()).append(request.getTimes())
-				.append(request.getBanreason()).append(CodeUtil.MD5_KEY);
-		if (!MD5Util.checkMD5(sBuffer.toString(), request.getMd5())) {// MD5验证
+		if (!request.checkMd5()) {// MD5验证
 			response.setCode(CodeUtil.MD5_ERROR);
 			GMServlet.write(response, writer);
 			return;
@@ -467,7 +436,8 @@ public class GMRoleMgr {
 
 		kickRole(junZhu);// 封停完了踢下线
 
-		String status = Redis.getInstance().get(CACHE_ROLE_BAN_USER + junZhu.id);
+		String status = Redis.getInstance()
+				.get(CACHE_ROLE_BAN_USER + junZhu.id);
 		if (status != null && !status.equals("0")) {// 已经处于封停状态
 			response.setCode(CodeUtil.ALREADY_FENGTING);
 			GMServlet.write(response, writer);
@@ -493,14 +463,10 @@ public class GMRoleMgr {
 	 * @throws
 	 */
 	public void doLiftBanUser(DoLiftBanUserReq request, PrintWriter writer) {
-		DoLiftBanUserResp response = new DoLiftBanUserResp();
+		BaseResp response = new BaseResp();
 
 		// MD5验证
-		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append(request.getType()).append(request.getFirm())
-				.append(request.getZone()).append(request.getUin())
-				.append(request.getRolename()).append(CodeUtil.MD5_KEY);
-		if (!MD5Util.checkMD5(sBuffer.toString(), request.getMd5())) {// MD5验证
+		if (!request.checkMd5()) {// MD5验证
 			response.setCode(CodeUtil.MD5_ERROR);
 			GMServlet.write(response, writer);
 			return;
@@ -513,7 +479,7 @@ public class GMRoleMgr {
 			GMServlet.write(response, writer);
 			return;
 		}
-		
+
 		// 封停时间清空
 		Redis.getInstance().set(CACHE_ROLE_BAN_USER + junZhu.id, "0");
 
@@ -532,14 +498,10 @@ public class GMRoleMgr {
 	 */
 	public void doLiftBanUserSpeak(DoLiftBanUserSpeakReq request,
 			PrintWriter writer) {
-		DoLiftBanUserSpeakResp response = new DoLiftBanUserSpeakResp();
+		BaseResp response = new BaseResp();
 
 		// MD5验证
-		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append(request.getType()).append(request.getFirm())
-				.append(request.getZone()).append(request.getUin())
-				.append(request.getRolename()).append(CodeUtil.MD5_KEY);
-		if (!MD5Util.checkMD5(sBuffer.toString(), request.getMd5())) {// MD5验证
+		if (!request.checkMd5()) {// MD5验证
 			response.setCode(CodeUtil.MD5_ERROR);
 			GMServlet.write(response, writer);
 			return;
@@ -570,14 +532,10 @@ public class GMRoleMgr {
 	 * @throws
 	 */
 	public void doBanUserDown(DoBanUserDownReq request, PrintWriter writer) {
-		DoBanUserDownResp response = new DoBanUserDownResp();
+		BaseResp response = new BaseResp();
 
 		// MD5验证
-		StringBuffer sBuffer = new StringBuffer();
-		sBuffer.append(request.getType()).append(request.getFirm())
-				.append(request.getZone()).append(request.getUin())
-				.append(request.getRolename()).append(CodeUtil.MD5_KEY);
-		if (!MD5Util.checkMD5(sBuffer.toString(), request.getMd5())) {// MD5验证
+		if (!request.checkMd5()) {// MD5验证
 			response.setCode(CodeUtil.MD5_ERROR);
 			GMServlet.write(response, writer);
 			return;
@@ -660,7 +618,7 @@ public class GMRoleMgr {
 					roleBackpack.setNum(bagGrid.cnt);
 					roleBackpack.setName(HeroService.getNameById(o.getName()));
 				}
-				if(roleBackpack.getId()!=0){
+				if (roleBackpack.getId() != 0) {
 					bagPackList.add(roleBackpack);
 				}
 			}
@@ -857,13 +815,15 @@ public class GMRoleMgr {
 	 * @throws
 	 */
 	public static boolean checkGMJinyan(long junZhuId) {
-		String status = Redis.getInstance().get(CACHE_ROLE_BAN_USER_SPEAK + junZhuId);
+		String status = Redis.getInstance().get(
+				CACHE_ROLE_BAN_USER_SPEAK + junZhuId);
 		if (null == status) {
 			return false;
 		}
 		if (!status.equals("0")) {// 处于禁言状态
 			if (new Date().getTime() > Long.valueOf(status)) {// 如果禁言期限已过
-				Redis.getInstance().set(CACHE_ROLE_BAN_USER_SPEAK + junZhuId, "0");
+				Redis.getInstance().set(CACHE_ROLE_BAN_USER_SPEAK + junZhuId,
+						"0");
 				return false;
 			}
 			return true;

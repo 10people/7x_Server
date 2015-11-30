@@ -16,6 +16,7 @@ public class NpcTemp {
 	public int name;
 	public int desc;
 	public int modelId;
+	public int ifTeammate;
 	
 	public int getId() {
 		return id;

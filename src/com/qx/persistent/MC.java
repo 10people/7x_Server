@@ -11,7 +11,6 @@ import com.qx.award.DailyAwardBean;
 import com.qx.bag.BagGrid;
 import com.qx.bag.EquipGrid;
 import com.qx.equip.domain.UserEquip;
-import com.qx.explore.ExploreMine;
 import com.qx.hero.WjKeJi;
 import com.qx.hero.WuJiang;
 import com.qx.huangye.HYTreasure;
@@ -24,7 +23,6 @@ import com.qx.purchase.XiLian;
 import com.qx.pve.BuZhenBean;
 import com.qx.task.DailyTaskBean;
 import com.qx.timeworker.TimeWorker;
-import com.qx.yabiao.YaBiaoInfo;
 import com.qx.yabiao.YunBiaoHistory;
 
 /**
@@ -61,14 +59,13 @@ public class MC {
 		cachedClass.add(UserEquip.class);		
 		cachedClass.add(Achievement.class);		
 
-		// 探宝
-		cachedClass.add(ExploreMine.class);
+
 //		cachedClass.add(AllianceBean.class);
 		cachedClass.add(AlliancePlayer.class);
 		// 天赋
 		cachedClass.add(TalentAttr.class);
 		//押镖
-		cachedClass.add(YaBiaoInfo.class);
+//		cachedClass.add(YaBiaoBean.class);
 		cachedClass.add(YunBiaoHistory.class);
 		//限时活动
 		cachedClass.add(XianShiBean.class);

@@ -26,7 +26,7 @@
 <%@page import="com.manu.dynasty.template.ExpTemp"%>
 <%@page import="com.qx.junzhu.JunZhu"%>
 <%@page import="com.qx.purchase.XiLian"%>
-<%@page import="com.qx.yabiao.YaBiaoInfo"%>
+<%@page import="com.qx.yabiao.YaBiaoBean"%>
 <%@page import="com.qx.persistent.HibernateUtil"%>
 <%@page import="com.qx.account.Account"%>
 <%@page import="com.qx.timeworker.TimeWorkerMgr"%>
@@ -55,7 +55,7 @@ function go(act){
 </head>
 <body>
 <%
-setOut(out);
+	setOut(out);
 String name = request.getParameter("account");
 name = name == null ? "": name.trim();
 String accIdStr = request.getParameter("accId");// 用户id
@@ -121,28 +121,28 @@ do{
 	 }else if("updateLianmeng".equals(action)){
 		 AlliancePlayer alncPlayer = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
 		 if(alncPlayer == null) {
-			 return;
+	 return;
 		 }
 		 Redis.getInstance().sremove(AllianceMgr.inst.CACHE_MEMBERS_OF_ALLIANCE + alncPlayer.lianMengId,
-				 alncPlayer.junzhuId + "");
+		 alncPlayer.junzhuId + "");
 		 int nowAllianceId = Integer.parseInt(request.getParameter("v"));
 		 alncPlayer.lianMengId = nowAllianceId;
 		 HibernateUtil.save(alncPlayer);
 		 if(nowAllianceId > 0) {
-			 Redis.getInstance().sadd(AllianceMgr.inst.CACHE_MEMBERS_OF_ALLIANCE + alncPlayer.lianMengId,
-				 alncPlayer.junzhuId + "");
+	 Redis.getInstance().sadd(AllianceMgr.inst.CACHE_MEMBERS_OF_ALLIANCE + alncPlayer.lianMengId,
+		 alncPlayer.junzhuId + "");
 		 }
 	 }else if("updateYaBiaoCount".equals(action)){
-		 YaBiaoInfo yb = HibernateUtil.find(YaBiaoInfo.class, junzhu.id);
+		 YaBiaoBean yb = HibernateUtil.find(YaBiaoBean.class, junzhu.id);
 		 if(yb == null) {
-			 return;
+	 return;
 		 }
 		 yb.remainYB = Integer.parseInt(request.getParameter("v"));
 		 HibernateUtil.save(yb);
 	 }else if("updateJieBiaoCount".equals(action)){
-		 YaBiaoInfo yb = HibernateUtil.find(YaBiaoInfo.class, junzhu.id);
+		 YaBiaoBean yb = HibernateUtil.find(YaBiaoBean.class, junzhu.id);
 		 if(yb == null) {
-			 return;
+	 return;
 		 }
 		 yb.remainJB = Integer.parseInt(request.getParameter("v"));
 		 HibernateUtil.save(yb);
@@ -158,17 +158,17 @@ do{
 		 HibernateUtil.save(xilian);
 	 }else if("updateMianfeiXilianCount".equals(action)){
 		 TimeWorker xilianWorker = HibernateUtil.find(TimeWorker.class,junzhu.id);
-			if (xilianWorker == null) {
-				xilianWorker = new TimeWorker();
-				xilianWorker.setJunzhuId(junzhu.id);
-				Date date = new Date(System.currentTimeMillis());
-				xilianWorker.setLastAddTiliTime(date);
-				xilianWorker.setLastAddXilianTime(date);
-				xilianWorker.setXilianTimes(CanShu.FREE_XILIAN_TIMES_MAX);
-				// 添加缓存
-				MC.add(xilianWorker, junzhu.id);
-				HibernateUtil.insert(xilianWorker);
-			}
+	if (xilianWorker == null) {
+		xilianWorker = new TimeWorker();
+		xilianWorker.setJunzhuId(junzhu.id);
+		Date date = new Date(System.currentTimeMillis());
+		xilianWorker.setLastAddTiliTime(date);
+		xilianWorker.setLastAddXilianTime(date);
+		xilianWorker.setXilianTimes(CanShu.FREE_XILIAN_TIMES_MAX);
+		// 添加缓存
+		MC.add(xilianWorker, junzhu.id);
+		HibernateUtil.insert(xilianWorker);
+	}
 		 int num = Integer.parseInt(request.getParameter("v"));
 		 xilianWorker.setXilianTimes(num);
 		 HibernateUtil.save(xilianWorker);
@@ -183,7 +183,7 @@ do{
 	 }
 	 JunZhuMgr.inst.calcAtt(junzhu);
 	 AlliancePlayer alncPlayer = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
-	 YaBiaoInfo ybbean = HibernateUtil.find(YaBiaoInfo.class, junzhu.id);
+	 YaBiaoBean ybbean = HibernateUtil.find(YaBiaoBean.class, junzhu.id);
 	 XiLian xilian = PurchaseMgr.inst.getXiLian(junzhu.id);
 	TimeWorker xilianWorker = HibernateUtil.find(TimeWorker.class, junzhu.id);
 	 String guojiaName = HeroService.getNameById(junzhu.guoJiaId+"");
@@ -244,9 +244,9 @@ do{
 	 int idsSize=FunctionOpenMgr.initIds.size();
 	 for(int i=0; i<idsSize; i++){
 		 for(FunctionOpen fo : FunctionOpenMgr.list){
-			 if(fo.id==FunctionOpenMgr.initIds.get(i)){
-				 out.print(fo.id+"-"+fo.desc+",");
-			 }
+	 if(fo.id==FunctionOpenMgr.initIds.get(i)){
+		 out.print(fo.id+"-"+fo.desc+",");
+	 }
 		 }
 	 }
 	 out.println("]<br>");
@@ -256,20 +256,20 @@ do{
 	 int otheridsSize=ret.getOpenFunctionIDList().size();
 	 for(int j=0; j<otheridsSize; j++){
 		 for(FunctionOpen fo : FunctionOpenMgr.list){
-			 if(fo.id==ret.getOpenFunctionIDList().get(j)){
-				 out.print(fo.id+"-"+fo.desc+",");
-			 }
+	 if(fo.id==ret.getOpenFunctionIDList().get(j)){
+		 out.print(fo.id+"-"+fo.desc+",");
+	 }
 		 }
 	 }
 	 out.println("]<br>");
 	 //
 	 final IoSession fs = new RobotSession(){
 		public WriteFuture write(Object message){
-			setAttachment(message);
-			synchronized(this){
-				this.notify();
-			}
-			return null;
+	setAttachment(message);
+	synchronized(this){
+		this.notify();
+	}
+	return null;
 		}
 	};
 	fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(junzhu.id));
@@ -287,9 +287,9 @@ do{
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String setV = request.getParameter("loginTime");
 		if(setV!=null){
-			Date dt = sf.parse(setV);
-			pt.setLoginTime(dt);
-			HibernateUtil.save(pt);
+	Date dt = sf.parse(setV);
+	pt.setLoginTime(dt);
+	HibernateUtil.save(pt);
 		}
 		out("<form action=''>");
 		out("上次登录时间:<input type='text' name='loginTime' value='"+sf.format(pt.getLoginTime())+"'/>");
@@ -313,7 +313,7 @@ do{
 		pos.y=Float.valueOf(posY);
 		pos.z=Float.valueOf(posZ);
 		HibernateUtil.save(pos);
-		%>
+%>
 		<p>位置已修改</p>
 		<%
 	}

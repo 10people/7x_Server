@@ -4,13 +4,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-import org.apache.commons.lang.math.RandomUtils;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,12 +27,15 @@ import com.qx.junzhu.JunZhu;
 import com.qx.persistent.HibernateUtil;
 import com.qx.util.RandomUtil;
 import com.qx.world.FightScene;
+import com.qx.world.Player;
 import com.qx.world.Scene;
 
 public class BuffMgr {
 	private Logger logger = LoggerFactory.getLogger(BuffMgr.class); 
 	
 	public BuffMgr inst;
+	
+	public boolean buffProcess = true;
 
 	public Map<Integer, Buff> buffConfigMap = new HashMap<Integer, Buff>();
 	
@@ -43,12 +44,12 @@ public class BuffMgr {
 	public Map<Integer, Skill> skillConfigMap = new HashMap<Integer, Skill>();
 	
 	/** 君主buff， <junzhuId, UserBuffer对象> */
-	public Map<Integer, UserBuffer> userBufferMap = new ConcurrentHashMap<Integer, UserBuffer>(); 
+	public Map<Long, UserBuffer> userBufferMap = new ConcurrentHashMap<Long, UserBuffer>(); 
 	
 	public final ScheduledExecutorService EXECUTOR = Executors.newScheduledThreadPool(1);
 	
 	public BuffMgr() {
-		inst = new BuffMgr();
+		inst = this;
 		initData();
 	}
 
@@ -89,12 +90,24 @@ public class BuffMgr {
 	
 	public void addBuffer(long junzhuId, Buffer buffer) {
 		UserBuffer userBuffer = userBufferMap.get(junzhuId);
+		if(userBuffer == null) {
+			synchronized (userBufferMap) {
+				if(userBuffer == null) {
+					userBuffer = new UserBuffer(junzhuId);
+					userBufferMap.put(junzhuId, userBuffer);
+				}
+			}
+		}
 		userBuffer.addBuffer(buffer);
 	}
 	
 	public void startWork() {
 		Thread thread = new Thread(createWorkerThread(), "buffer-worker-thread");
 		thread.start();
+	}
+	
+	public void shutDown() {
+		buffProcess = false;
 	}
 	
 	/**
@@ -105,7 +118,7 @@ public class BuffMgr {
 	private Runnable createWorkerThread() {
 		return new Runnable() {
 			public void run() {
-				while(true) {
+				while(buffProcess) {
 					try {
 						processUserBuffer();
 						Thread.sleep(100);
@@ -120,16 +133,15 @@ public class BuffMgr {
 	
 	protected void processUserBuffer() {
 		synchronized (userBufferMap) {
-			Set<Map.Entry<Integer, UserBuffer>> entrySet = userBufferMap.entrySet();
-			for(Map.Entry<Integer, UserBuffer> entry : entrySet) {
-				long junzhuId = entry.getKey();
+			Set<Map.Entry<Long, UserBuffer>> entrySet = userBufferMap.entrySet();
+			for(Map.Entry<Long, UserBuffer> entry : entrySet) {
 				UserBuffer userBuffer = entry.getValue();
 
-				boolean removeFromCache = false;
+				boolean removeFromCache = false;			// 是否从移除该buff
 				List<Buffer> bufferList = userBuffer.getBufferList();
-				for(Iterator<Buffer> iterator = bufferList.iterator(); ;iterator.hasNext()) {
+				for(Iterator<Buffer> iterator = bufferList.iterator(); iterator.hasNext();) {
 					Buffer buffer = iterator.next();
-					removeFromCache = processPlayerBuffer(junzhuId, buffer);
+					removeFromCache = processPlayerBuffer(buffer);
 					if(removeFromCache) {
 						iterator.remove();
 					}
@@ -142,12 +154,8 @@ public class BuffMgr {
 	 * 处理BUFF
 	 * 
 	 */
-	private boolean processPlayerBuffer(long junzhuId, final Buffer buffer) {
+	private boolean processPlayerBuffer(final Buffer buffer) {
 		if(buffer == null) {
-			return false;
-		}
-		JunZhu junzhu = HibernateUtil.find(JunZhu.class, junzhuId);
-		if(junzhu == null) {
 			return false;
 		}
 		
@@ -162,45 +170,68 @@ public class BuffMgr {
 				return true;
 			}
 			
-			int type = buffer.getType();												//buff类型
-			int period = buffer.getCycle();												//buff的计算周期
-			int damage = buffer.getDamage();											//buff的增量或者减量
+			Buff buff = getBuffById(buffer.getId());
+			if(buff == null) {
+				logger.error("buff计算失败，找不到配置，buffId:{}", buffer.getId());
+				return false;
+			}
+			if(buff.SkillId <= 0) {
+				return true;
+			}
+			
+			// TODO 计算一次必须效果，要是循环效果，则不进行此项计算
+			int totalDamage = 0;															//该buff作用的数量之
+			JunZhu caster = null;
+			JunZhu target = null;
+			///以下可以优化
+			if(buff.Caster == 0) {			// 自己是施放者
+				caster = buffer.getCarryJunzhu();
+				target = buffer.getCastJunzhu();
+			} else if(buff.Caster == 1) { 	// 给我加buff的那个人是施放者
+				caster = buffer.getCastJunzhu();
+				target = buffer.getCarryJunzhu();
+			}
+			///以上可以优化
+			
+			int effectCycle = buff.EffectCycle;											//buff作用间隔
 			long endTime = buffer.getEndTime();											//结束时间
 			long currentTime = System.currentTimeMillis();								//当前时间
-			long lastReduceTime = buffer.getLastCalcTime();								//上次计算的时间
-			long reduceTime = endTime <= currentTime ? endTime : lastReduceTime;		//扣减的时间
-			int reduceCount = (int)((currentTime - reduceTime) / period);				//计算需要扣减的次数
-			if(reduceCount <= 0 && endTime > currentTime) {								//未超时, 直接跳过
+			long lastCalcTime = buffer.getLastCalcTime();								//上次计算的时间
+			long effectTime = endTime <= currentTime ? endTime : lastCalcTime;			//当前计算用的时间
+			int effectCount =  (int) ((currentTime - effectTime)/effectCycle); 			//至本次计算应该作用的次数
+			Skill skill = getSkillById(buff.SkillId);
+			if(skill == null) {
 				return false;
 			}
 			
-			IoSession session = SessionManager.getInst().getIoSession(junzhu.id);
-			long castId = buffer.getCastId();
-			int totalTimes = reduceCount * period;										//总共扣减的时间. 单位:秒
-			int totalDamage = reduceCount * damage;
+			Action action = getActionById(skill.Action1);
+			if(action == null) {
+				return false;
+			}
 			
+			totalDamage += (calcSkillDamage(caster, target, skill) * effectCount);
+			int totalTime = effectCount * effectCycle;
 			//更新上次扣除的时间
-			buffer.setLastCalcTime(lastReduceTime + totalTimes);
+			buffer.setLastCalcTime(lastCalcTime + totalTime);
 			if(endTime <= currentTime) {
 				flushable = true;
 			}
-			Scene scene = (Scene) session.getAttribute(SessionAttKey.playerId_Scene);
+			
+			IoSession session = SessionManager.getInst().getIoSession(target.id);
+			Scene scene = (Scene) session.getAttribute(SessionAttKey.Scene);
 			if(scene != null && scene instanceof FightScene) {
 				FightScene fightScene = (FightScene) scene;
-				Integer remainLife = fightScene.junZhuRemainLifeMap.get(junzhu.id);
-				remainLife -= totalDamage;
-				fightScene.junZhuRemainLifeMap.put(junzhu.id, remainLife);
-				if(totalDamage > 0) {
-					// 向客户端推送buff信息
-					BufferInfo.Builder bufferInfo = BufferInfo.newBuilder();
-					bufferInfo.setBufferId(buffer.getId());
-					bufferInfo.setDamage(totalDamage);
-					bufferInfo.setRemainLife(remainLife);
-					bufferInfo.setIsDead(remainLife > 0 ? true : false);
-					session.write(bufferInfo.build());
-				}
-				if(remainLife <= 0) {
-					BigSwitch.inst.allianceFightMgr.processPlayerDead(fightScene, junzhu);
+				Player player = fightScene.getPlayerByJunZhuId(target.id);
+				processActionEffect(totalDamage, player, action);
+				
+				BufferInfo.Builder bufferInfo = BufferInfo.newBuilder();
+				bufferInfo.setTargetId(target.id);
+				bufferInfo.setBufferId(buffer.getId());
+				bufferInfo.setValue(totalDamage);
+				bufferInfo.setRemainLife(player.currentLife);
+				for(Player p : fightScene.players.values()) {
+					IoSession sess = SessionManager.getInst().getIoSession(p.jzId);
+					sess.write(bufferInfo.build());
 				}
 			}
 			
@@ -209,22 +240,96 @@ public class BuffMgr {
 		}
 		return flushable;
 	}
+
+	public Player processActionEffect(int value, Player player, Action action) {
+		switch(action.TypeKey) {
+			case 1:
+			case 2:	
+				player.currentLife -= value;
+				player.currentLife = Math.max(player.currentLife, 0);
+				break;
+		
+			case 3://回复血量
+				player.currentLife += value;
+				player.currentLife = Math.min(player.currentLife, player.totalLife);
+				break;
+				
+			default:
+				logger.error("buff处理失败，找不到对用的actiontype, actionId:{},actionTypeKey:{}",
+						action.Id, action.TypeKey);
+				break;
+		}
+		return player;
+	}
 	
+	public int calcSkillDamage(JunZhu attacker, JunZhu defender, Skill skill) {
+		int damageValue = 0;
+		Action action = getActionById(skill.Action1);
+		if(action == null) {
+			return 0;
+		}
+		SkillActionType skillActionType = SkillActionType.getSkillActionType(action.TypeKey);
+		if(skillActionType == null) {
+			return 0;
+		}
+		// 计算技能效果概率
+		int prob = RandomUtil.getRandomNum(1000);
+		if(prob > action.Prob) {
+			return 0;
+		}
+		
+		if(4 == action.TypeKey || 5 == action.TypeKey) {// 表示是buff效果
+			processBuff4Skill(attacker, defender, action);
+		} else if(1 == action.TypeKey) {
+			damageValue = calcWeaponDamage4Skill(attacker, defender, skill, action);
+		} else if(2 == action.TypeKey) {
+			damageValue = calcSkillDamage4Skill(attacker, defender, skill, action);
+		} else if(3 == action.TypeKey) {
+			damageValue = calcSkillTreatLife(attacker, defender, skill, action);
+		}
+		return damageValue;
+	}
+
+	protected void processBuff4Skill(JunZhu attacker, JunZhu defender,
+			Action action) {
+		int buffId = action.Param1;									// buffId
+		int buffDuration = action.Param2;							// buff持续时间
+		Buff buff = getBuffById(buffId);
+		if(buff == null) {
+			return;
+		}
+		if(buffDuration == 0) {
+			buffDuration = buff.BuffDuration;
+		}
+		// buff结束时间
+		long endTime = System.currentTimeMillis() + buffDuration;
+		Buffer buffer = Buffer.valueOf(buff.BuffId, buff.IsDebuff, buff.EffectTime, buff.Attr_1_P1, buffDuration, endTime, attacker, defender);
+		BigSwitch.inst.buffMgr.addBuffer(defender.id, buffer);
+	}
+	
+	private int calcSkillTreatLife(JunZhu attacker, JunZhu defender, Skill skill, Action action) {
+		int j = action.Param2;
+		double k = action.Param1 / 1000;
+		int addLife = (int) (k * defender.shengMingMax + j);
+		return addLife;
+	}
+
 	public int calcWeaponDamage4Skill(JunZhu attacker, JunZhu defender, Skill skill, Action action) {
 		int damage = 0;
-		//JC = (a*A攻击*(A攻击+k)/(A攻击+B防御+k)*((A生命/c+k)* (B生命/c+k))^0.5/(B防御+k)*If(A生命>B生命，arctan(A生命/ B生命)*1.083+0.15，1)
+		//JC = (a*A攻击*(A攻击+k)/(A攻击+B防御+k)*((A生命/c+k)* (B生命/c+k))^0.5/(B防御+k)*H
+		//H=If(A生命>B生命){arctan(A生命/ B生命)*1.083+0.15}  else{1}
 		//浮点型四舍五入，保留2位小数。 a=1; c=20; k=10.
 		int a = 1;
 		int c = 20;
 		int k = 10;
 		double H = 1;
-		if(attacker.shengMing > defender.shengMing) {
-			// H，A生命>B生命，H=arctan(A生命/ B生命)*1.083+0.15,否则H=1
-			H = Math.atan(attacker.shengMing / defender.shengMing) * 1.083 + 0.15;
+		if(attacker.shengMingMax > defender.shengMingMax) {
+			H = Math.atan(attacker.shengMingMax / defender.shengMingMax) * 1.083 + 0.15;
 		} 
 		double JC = (a * attacker.gongJi * (attacker.gongJi + k)) / (attacker.gongJi + defender.fangYu + k)
-				* Math.pow(((attacker.shengMing / c + k) * (defender.shengMing / c + k)), 0.5)
-				/ H;
+				* Math.pow(((attacker.shengMingMax / c + k) * (defender.shengMingMax / c + k)), 0.5)
+				/ (defender.fangYu + k)
+				* H;
 		JC = RandomUtil.getScaleValue(JC, 2);
 		
 		// WM = (L+A武器伤害加深)/( L +B武器伤害减免) ,L=500
@@ -265,13 +370,14 @@ public class BuffMgr {
 		int c = 20;
 		int k = 10;
 		double H = 1;
-		if(attacker.shengMing > defender.shengMing) {
+		if(attacker.shengMingMax > defender.shengMingMax) {
 			// H，A生命>B生命，H=arctan(A生命/ B生命)*1.083+0.15,否则H=1
-			H = Math.atan(attacker.shengMing / defender.shengMing) * 1.083 + 0.15;
+			H = Math.atan(attacker.shengMingMax / defender.shengMingMax) * 1.083 + 0.15;
 		} 
 		double JC = (a * attacker.gongJi * (attacker.gongJi + k)) / (attacker.gongJi + defender.fangYu + k)
-				* Math.pow(((attacker.shengMing / c + k) * (defender.shengMing / c + k)), 0.5)
-				/ H;
+				* Math.pow(((attacker.shengMingMax / c + k) * (defender.shengMingMax / c + k)), 0.5)
+				/ (defender.fangYu + k)
+				* H;
 		JC = RandomUtil.getScaleValue(JC, 2);
 		
 		// JM = (L +A技能伤害加深)/( L +B技能伤害减免),L=500

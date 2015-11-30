@@ -53,6 +53,14 @@ public class MathUtils {
     public static int getRandom(int max) {
         return Math.abs(random.nextInt()) % max;
     }
+    /**
+     * 随机一个 [0, max-1]的数
+     * @param long max
+     * @return
+     */
+    public static long getRandom(long max) {
+    	return Math.abs(random.nextLong()) % max;
+    }
     
     /**
      * 在最大和最小值之间随机一个整数[min,max)不包含最大值

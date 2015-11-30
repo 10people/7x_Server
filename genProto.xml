@@ -398,6 +398,12 @@
 			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
 		</antcall>
 	</target>
+	<target name='GenSuBaoMsg'>
+		<antcall target="protoHandle">
+			<param name="proto" value="prompt.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
 	<target name='GenXianShi'>
 		<antcall target="protoHandle">
 			<param name="proto" value="XianShi.proto" />			

@@ -691,5 +691,16 @@ public class PawnshopMgr {
 				curDate);
 		sendShopGoodsInfo(session, goodsList, need, seconds, junZhu.id);
 	}
+	
+	public DangpuCommon getDangpuCommon(int id) {
+		DangpuCommon dangpuCommon = null;
+		for(DangpuCommon dc : commonGoodsList) {
+			if(dc.getId() == id) {
+				dangpuCommon = dc;
+				break;
+			}
+		}
+		return dangpuCommon;
+	}
 
 }

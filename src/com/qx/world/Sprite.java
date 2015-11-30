@@ -5,6 +5,8 @@ public class Sprite {
 	public float posY;
 	public float posZ;
 	public String name;
+	public int totalLife;
+	public int currentLife;
 	public float getPosX() {
 		return posX;
 	}

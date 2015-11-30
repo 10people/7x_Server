@@ -39,6 +39,7 @@ import com.qx.bag.EquipMgr;
 import com.qx.battle.PveMgr;
 import com.qx.buff.BuffMgr;
 import com.qx.card.CardMgr;
+import com.qx.cdkey.CDKeyMgr;
 import com.qx.email.EmailMgr;
 import com.qx.equip.web.UserEquipAction;
 import com.qx.event.EventMgr;
@@ -74,8 +75,8 @@ import com.qx.timeworker.TimeWorkerMgr;
 import com.qx.vip.VipMgr;
 import com.qx.world.Scene;
 import com.qx.world.SceneMgr;
-import com.qx.yabiao.YabiaoMgr;
-import com.qx.yabiao.YabiaoRobotMgr;
+import com.qx.yabiao.YBRobotMgr;
+import com.qx.yabiao.YaBiaoHuoDongMgr;
 import com.qx.youxia.YouXiaMgr;
 import com.qx.yuanbao.YuanBaoMgr;
 
@@ -92,10 +93,10 @@ public class BigSwitch {
 	 */
 	public static BigSwitch inst;
 	public PvpMgr pvpMgr;
-	public YabiaoMgr ybMgr;
+	public YaBiaoHuoDongMgr ybMgr;
 	public GuoJiaMgr gjMgr;
 	public LveDuoMgr lveDuoMgr;
-	public YabiaoRobotMgr ybrobotMgr;
+	public YBRobotMgr ybrobotMgr;
 	// private NationalWarMgrInterface warMgrProxy;
 	public YuanBaoMgr yuanbaoMgr;
 	protected Scene scene;
@@ -152,6 +153,8 @@ public class BigSwitch {
 	public AllianceFightMgr allianceFightMgr;
 	public CdTimeMgr cdTimeMgr;
 	public BuffMgr buffMgr;
+	// cdkey
+	public CDKeyMgr cdKeyMgr;
 
 	public static BigSwitch getInst() {
 		if (inst == null) {
@@ -223,9 +226,9 @@ public class BigSwitch {
 		talentMgr = new TalentMgr();
 		antiCheatMgr = new AntiCheatMgr();
 		logMgr = new LogMgr();
-		ybMgr = new YabiaoMgr();
+		ybMgr = new YaBiaoHuoDongMgr();
 		gjMgr = new GuoJiaMgr();
-		ybrobotMgr = new YabiaoRobotMgr();
+		ybrobotMgr = new YBRobotMgr();
 		xsActivityMgr=new XianShiActivityMgr();
 		noticeMgr = new NoticeMgr();
 		lveDuoMgr = new LveDuoMgr(); // 掠夺管理类实例化
@@ -236,6 +239,8 @@ public class BigSwitch {
 		cdTimeMgr = new CdTimeMgr();
 		cdTimeMgr.start();
 		buffMgr = new BuffMgr();
+		buffMgr.startWork();
+		cdKeyMgr = new CDKeyMgr();
 	}
 
 	public void loadModuleData() {
@@ -975,6 +980,9 @@ public class BigSwitch {
 				break;
 			case PD.ALLIANCE_FIGTH_LASTTIME_RANK:
 				allianceFightMgr.requestFightLasttimeRank(session);
+				break;
+			case PD.C_GET_CDKETY_AWARD_REQ:
+				cdKeyMgr.getCDKeyAward(id, session, builder); 
 				break;
 			default:
 				log.error("未处理的协议 {} {}", id, builder);

@@ -1,11 +1,24 @@
 package com.qx.gm.message;
 
+import com.qx.gm.util.CodeUtil;
+import com.qx.gm.util.MD5Util;
+
 public class DoDelGMNoticeReq {
 	private int type;
 	private int firm;
 	private int zone;
 	private int noticeid;
 	private String md5;
+
+	public boolean checkMd5() {
+		StringBuffer sBuffer = new StringBuffer();
+		sBuffer.append(getType()).append(getFirm()).append(getZone())
+				.append(getNoticeid()).append(CodeUtil.MD5_KEY);
+		if (!MD5Util.checkMD5(sBuffer.toString(), getMd5())) {// MD5验证
+			return false;
+		}
+		return true;
+	}
 
 	public int getType() {
 		return type;

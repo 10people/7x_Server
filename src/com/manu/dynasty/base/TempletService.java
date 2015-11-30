@@ -222,8 +222,10 @@ public class TempletService {
 		/*
 		 * 探宝冷却时间
 		 */
-		CanShu.DIJI_TANBAO_REFRESHTIME = Integer.parseInt(map.get("DIJI_TANBAO_REFRESHTIME").value);
-		CanShu.GAOJI_TANBAO_REFRESHTIME  = Integer.parseInt(map.get("GAOJI_TANBAO_REFRESHTIME").value);
+		CanShu.TONGBI_TANBAO_REFRESHTIME = Integer.parseInt(map.get("TONGBI_TANBAO_REFRESHTIME").value);
+		CanShu.YUANBAO_TANBAO_REFRESHTIME  = Integer.parseInt(map.get("YUANBAO_TANBAO_REFRESHTIME").value);
+		CanShu.TONGBI_TANBAO_FREETIMES  = Integer.parseInt(map.get("TONGBI_TANBAO_FREETIMES").value);
+
 		CanShu.XILIANADD_MIN = Integer.parseInt(map.get("XILIANADD_MIN").value);
 		CanShu.XILIANADD_MAX = Integer.parseInt(map.get("XILIANADD_MAX").value);
 		

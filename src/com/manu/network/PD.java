@@ -81,6 +81,8 @@ import qxmobile.protobuf.BattlePveInit.Troop;
 import qxmobile.protobuf.BattlePveResult.AwardItem;
 import qxmobile.protobuf.BattlePveResult.BattleResult;
 import qxmobile.protobuf.BattlePveResult.BattleResultAllianceFight;
+import qxmobile.protobuf.CDKey.GetCDKeyAwardReq;
+import qxmobile.protobuf.CDKey.GetCDKeyAwardResp;
 import qxmobile.protobuf.Cards.BuyCardBagReq;
 import qxmobile.protobuf.Cards.BuyCardBagResp;
 import qxmobile.protobuf.Cards.OpenCardBagReq;
@@ -108,7 +110,6 @@ import qxmobile.protobuf.EmailProtos.ReadEmailResp;
 import qxmobile.protobuf.EmailProtos.SendEmail;
 import qxmobile.protobuf.EmailProtos.SendEmailResp;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
-import qxmobile.protobuf.Explore.ExploreAwardsInfo;
 import qxmobile.protobuf.Explore.ExploreInfoResp;
 import qxmobile.protobuf.Explore.ExploreReq;
 import qxmobile.protobuf.Explore.ExploreResp;
@@ -358,6 +359,8 @@ import qxmobile.protobuf.Yabiao.BuyCountsReq;
 import qxmobile.protobuf.Yabiao.BuyCountsResp;
 import qxmobile.protobuf.Yabiao.EnemiesResp;
 import qxmobile.protobuf.Yabiao.EnterYaBiaoScene;
+import qxmobile.protobuf.Yabiao.HorsePropReq;
+import qxmobile.protobuf.Yabiao.HorsePropResp;
 import qxmobile.protobuf.Yabiao.HorseType;
 import qxmobile.protobuf.Yabiao.JieBiaoResult;
 import qxmobile.protobuf.Yabiao.RoomInfo;
@@ -567,6 +570,9 @@ public class PD {
 		ProtobufUtils.register(EnterScene.getDefaultInstance(), Enter_Scene);
 		ProtobufUtils.prototypeMap.put((int)Enter_HouseScene, EnterScene.getDefaultInstance());
 		ProtobufUtils.prototypeMap.put((int)Exit_HouseScene,ExitScene.getDefaultInstance());
+		//押镖进入退出场景
+		ProtobufUtils.prototypeMap.put((int)Enter_YBScene, EnterScene.getDefaultInstance());
+		ProtobufUtils.prototypeMap.put((int)Exit_YBScene,ExitScene.getDefaultInstance());
 		ProtobufUtils.prototypeMap.put((int)ENTER_FIGHT_SCENE, EnterScene.getDefaultInstance());
 		ProtobufUtils.register(ExitFightScene.getDefaultInstance(), EXIT_FIGHT_SCENE);
 		ProtobufUtils.register(EnterFightScene.getDefaultInstance(), ENTER_FIGHT_SCENE_OK);
@@ -720,7 +726,6 @@ public class PD {
 		ProtobufUtils.register(ExploreInfoResp.getDefaultInstance(), EXPLORE_INFO_RESP);
 		ProtobufUtils.register(ExploreReq.getDefaultInstance(), EXPLORE_REQ);
 		ProtobufUtils.register(ExploreResp.getDefaultInstance(), EXPLORE_RESP);
-		ProtobufUtils.register(ExploreAwardsInfo.getDefaultInstance(), EXPLORE_AWARDS_INFO);
 		
 		// 当铺
 		ProtobufUtils.register(PawnshopGoodsBuy.getDefaultInstance(), PAWN_SHOP_GOODS_BUY);
@@ -874,6 +879,8 @@ public class PD {
 		ProtobufUtils.register(XieZhuTimesResp.getDefaultInstance(), S_YABIAO_XIEZHU_TIMES_RESP);
 		ProtobufUtils.register(TiChuXieZhuResp.getDefaultInstance(), S_TICHU_YBHELPXZ_RESP);
 		ProtobufUtils.register(isNew4RecordResp.getDefaultInstance(), S_PUSH_YBRECORD_RESP);
+		ProtobufUtils.register(HorsePropReq.getDefaultInstance(), C_BUYHORSEBUFF_REQ);
+		ProtobufUtils.register(HorsePropResp.getDefaultInstance(), S_BUYHORSEBUFF_RESP);
 		
 		// 游侠
 		ProtobufUtils.register(YouXiaZhanDouInitReq.getDefaultInstance(), C_YOUXIA_INIT_REQ);
@@ -912,6 +919,10 @@ public class PD {
 		ProtobufUtils.register(QueryFuwenResp.getDefaultInstance(), S_QUERY_FUWEN_RESP);
 		ProtobufUtils.register(OperateFuwenReq.getDefaultInstance(), C_OPERATE_FUWEN_REQ);
 		ProtobufUtils.register(FuwenResp.getDefaultInstance(), S_OPERATE_FUWEN_RESP);
+		
+		// CDKEY
+		ProtobufUtils.register(GetCDKeyAwardReq.getDefaultInstance(), C_GET_CDKETY_AWARD_REQ);
+		ProtobufUtils.register(GetCDKeyAwardResp.getDefaultInstance(), S_GET_CDKETY_AWARD_RESP);
 		
 		ProtobufUtils.register(RequestFightInfoResp.getDefaultInstance(), ALLIANCE_FIGHT_INFO_RESP);
 		ProtobufUtils.register(ApplyFightResp.getDefaultInstance(), ALLIANCE_FIGHT_APPLY_RESP);
@@ -1097,6 +1108,8 @@ public class PD {
 	public static final short Exit_Scene = 22003;
 	public static final short Enter_HouseScene = 22004;
 	public static final short Exit_HouseScene = 22005;
+	public static final short Enter_YBScene = 22009;
+	public static final short Exit_YBScene = 22010;
 	
 	public static final short S_HEAD_STRING = 22101;
 	
@@ -1827,6 +1840,8 @@ public class PD {
 	public static final short S_YABIAO_XIEZHU_TIMES_RESP = 3437;//请求押镖协助次数返回 
 	public static final short S_TICHU_YBHELPXZ_RESP = 3438;//踢出押镖协助者给协助者返回
 	public static final short S_PUSH_YBRECORD_RESP = 3439;//推送押镖战斗记录
+	public static final short C_BUYHORSEBUFF_REQ = 3440;//请求购买马车buff
+	public static final short S_BUYHORSEBUFF_RESP = 3441;//请求购买马车buff返回
 	
 	/*========== 游侠战斗 ================*/ 
 	/**
@@ -1973,5 +1988,11 @@ public class PD {
 	/**红点推送通知协议号*/
 	public static final short RED_NOTICE = 4220;
 	public static final short FUSHI_RED_NOTICE = 4221;
-
+	
+	/**CDKey**/
+	public static final short C_GET_CDKETY_AWARD_REQ = 4230;
+	public static final short S_GET_CDKETY_AWARD_RESP = 4231;
+	/**盟友快报*/
+	public static final short C_MengYouKuaiBao_Req=4240;//请求盟友快报
+	public static final short S_MengYouKuaiBao_Resq=4241;	//请求盟友快报返回
 }

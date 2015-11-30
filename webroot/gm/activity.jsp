@@ -14,7 +14,7 @@
 <%@page import="qxmobile.protobuf.Activity.GetActivityListResp"%>
 <%@page import="com.manu.network.msg.ProtobufMsg"%>
 <%@page import="com.manu.network.PD"%>
-<%@page import="com.qx.yabiao.YabiaoMgr"%>
+<%@page import="com.qx.yabiao.YaBiaoHuoDongMgr"%>
 <%@page import="com.manu.network.BigSwitch"%>
 <%@page import="com.qx.robot.RobotSession"%>
 <%@page import="org.apache.mina.core.future.WriteFuture"%>
@@ -152,9 +152,9 @@ function changeActivityName(id,obj){
 			<%
 			String receiveState = request.getParameter("receiveState");
 			if(receiveState!=null){
-				YabiaoMgr.openFlag = Boolean.valueOf(receiveState);
+				YaBiaoHuoDongMgr.openFlag = Boolean.valueOf(receiveState);
 			}
-			if(YabiaoMgr.openFlag){
+			if(YaBiaoHuoDongMgr.openFlag){
 				%>
 				<a>开启</a>|<a href="activity.jsp?receiveState=false">关闭</a>
 				<%

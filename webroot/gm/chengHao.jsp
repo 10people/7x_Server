@@ -26,7 +26,7 @@
 <%@page import="com.manu.dynasty.template.ExpTemp"%>
 <%@page import="com.qx.junzhu.JunZhu"%>
 <%@page import="com.qx.purchase.XiLian"%>
-<%@page import="com.qx.yabiao.YaBiaoInfo"%>
+<%@page import="com.qx.yabiao.YaBiaoBean"%>
 <%@page import="com.qx.persistent.HibernateUtil"%>
 <%@page import="com.qx.account.Account"%>
 <%@page import="com.qx.timeworker.TimeWorkerMgr"%>

@@ -53,6 +53,7 @@
 <a href="gm/hate2Guojia.jsp" target='target'>国家仇恨</a><br/>
 <a href="gm/lveDuoInfo.jsp" target='target'>掠夺</a><br/>
 <a href="gm/fuwen.jsp" target='target'>符石</a><br/>
+<a href="gm/cdkey.jsp" target='target'>CDKey</a><br/>
 <a href="gm/setSysTime.jsp" target='target'>设置系统时间</a><br/>
 <a href="gm/worldchat.jsp" target='target'>发送世界聊天</a><br/>
 <a href="gm/sendSysChat.jsp" target='target'>发送系统聊天</a><br/>

@@ -75,7 +75,9 @@
 	<mapping class="com.qx.mibao.MibaoLevelPoint" />
 	<mapping class="com.qx.mibao.MiBaoSkillDB" />
 	 <mapping class="com.qx.pvp.PvpBean"/>
-	 <mapping class="com.qx.yabiao.YaBiaoInfo"/>
+<!-- 	 <mapping class="com.qx.yabiao.YaBiaoInfo"/> -->
+	 <mapping class="com.qx.yabiao.YaBiaoBean"/>
+	 <mapping class="com.qx.prompt.PromptMSG"/>
 	 <mapping class="com.qx.yabiao.YunBiaoHistory"/>
 	 <mapping class="com.qx.pvp.PvpDuiHuanBean"/>
 	 <mapping class="com.qx.pvp.ZhanDouRecord"/>
@@ -114,6 +116,7 @@
     <mapping class="com.qx.alliancefight.AllianceFightRules"/>
     <mapping class="com.qx.alliancefight.AllianceFightMatch"/>
     <mapping class="com.qx.alliancefight.AllianceFightApply"/>
+    <mapping class="com.qx.alliancefight.AllianceFightHistory"/>
     <mapping class="com.qx.yuanbao.YuanBaoInfo"/>
     <mapping class="com.qx.pve.SaoDangBean"/>
     <mapping class="com.qx.junzhu.TalentPoint"/>
@@ -142,6 +145,7 @@
     <mapping class="com.qx.award.DropRateBean"/>
     <mapping class="log.ReasonBean"/>
     <mapping class="com.qx.junzhu.ChengHaoBean"/>
+    <mapping class="com.qx.cdkey.CDKeyInfo"/>
     
 </session-factory>
 

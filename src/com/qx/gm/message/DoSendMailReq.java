@@ -2,6 +2,9 @@ package com.qx.gm.message;
 
 import java.util.List;
 
+import com.qx.gm.util.CodeUtil;
+import com.qx.gm.util.MD5Util;
+
 public class DoSendMailReq {
 	private int type;// 协议编号
 	private int firm;// 表示厂商ID
@@ -12,6 +15,18 @@ public class DoSendMailReq {
 	private String subject;// 主题
 	private String text;// 正文信息
 	private List<MailProp> prop;// 道具信息数组
+
+	public boolean checkMd5(String prop4Md5) {
+		StringBuffer sBuffer = new StringBuffer();
+		sBuffer.append(getType()).append(getFirm()).append(getZone())
+				.append(getRolename()).append(getLevlemin())
+				.append(getLevlemax()).append(getSubject()).append(getText())
+				.append(prop4Md5).append(CodeUtil.MD5_KEY);
+		if (!MD5Util.checkMD5(sBuffer.toString(), getMd5())) {// MD5验证
+			return false;
+		}
+		return true;
+	}
 
 	public List<MailProp> getProp() {
 		return prop;

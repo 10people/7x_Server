@@ -392,6 +392,29 @@ public class AwardMgr {
 	public boolean giveReward(IoSession session, AwardTemp a, JunZhu jz) {
 		return giveReward(session, a, jz, true);
 	}
+	public boolean giveReward(IoSession session,String jiangLi, JunZhu jz) {
+		log.info("给予{}发放奖励--{}开始", jz.id,jiangLi);
+		String[] jiangliArray = jiangLi.split("#");
+		try {
+			for(String jiangli : jiangliArray) {
+				String[] infos = jiangli.split(":");
+				int type = Integer.parseInt(infos[0]);
+				int itemId = Integer.parseInt(infos[1]);
+				int count = Integer.parseInt(infos[2]);
+				AwardTemp a = new AwardTemp();
+				a.setItemType(type);
+				a.setItemId(itemId);
+				a.setItemNum(count);
+				AwardMgr.inst.giveReward(session, a, jz);
+				log.info("给予{}奖励 type {} id {} cnt{}", jz.id,type,itemId,count);
+			}
+		} catch (Exception e) {
+			log.info("给予{}发放奖励--异常{}",jz.id,e);
+			return false;
+		}
+		log.info("给予{}发放奖励--{}结束", jz.id,jiangLi);
+		return true;
+	}
 	
 	public boolean giveReward(IoSession session, AwardTemp a, JunZhu jz,boolean sendMainInfo) {
 		return giveReward(session, a, jz, sendMainInfo, true);

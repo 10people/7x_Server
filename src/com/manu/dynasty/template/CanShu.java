@@ -108,8 +108,9 @@ public class CanShu {
 	/*
 	 * 免费探宝CD时间
 	 */
-	public static int DIJI_TANBAO_REFRESHTIME;
-	public static int GAOJI_TANBAO_REFRESHTIME;
+	public static int TONGBI_TANBAO_REFRESHTIME;
+	public static int YUANBAO_TANBAO_REFRESHTIME;
+	public static int TONGBI_TANBAO_FREETIMES;
 	
 	public static int XILIANADD_MIN;
 	public static int XILIANADD_MAX;

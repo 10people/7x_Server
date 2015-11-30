@@ -11,88 +11,85 @@ public final class Explore {
   public interface ExploreInfoRespOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;
+    // required int32 tongBi = 1;
     /**
-     * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
+     * <code>required int32 tongBi = 1;</code>
      */
-    java.util.List<qxmobile.protobuf.Explore.ExploreMineInfo> 
-        getMineRegionListList();
+    boolean hasTongBi();
     /**
-     * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
+     * <code>required int32 tongBi = 1;</code>
      */
-    qxmobile.protobuf.Explore.ExploreMineInfo getMineRegionList(int index);
-    /**
-     * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-     */
-    int getMineRegionListCount();
-    /**
-     * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-     */
-    java.util.List<? extends qxmobile.protobuf.Explore.ExploreMineInfoOrBuilder> 
-        getMineRegionListOrBuilderList();
-    /**
-     * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-     */
-    qxmobile.protobuf.Explore.ExploreMineInfoOrBuilder getMineRegionListOrBuilder(
-        int index);
+    int getTongBi();
 
-    // required bool hasGuild = 2;
+    // required int32 allFreeTongBiCount = 2;
     /**
-     * <code>required bool hasGuild = 2;</code>
-     *
-     * <pre>
-     * 有没有联盟：0 没有， 1有
-     * </pre>
+     * <code>required int32 allFreeTongBiCount = 2;</code>
      */
-    boolean hasHasGuild();
+    boolean hasAllFreeTongBiCount();
     /**
-     * <code>required bool hasGuild = 2;</code>
-     *
-     * <pre>
-     * 有没有联盟：0 没有， 1有
-     * </pre>
+     * <code>required int32 allFreeTongBiCount = 2;</code>
      */
-    boolean getHasGuild();
+    int getAllFreeTongBiCount();
 
-    // required int32 yuanBao = 3;
+    // required int32 remainFreeTongBiCount = 3;
     /**
-     * <code>required int32 yuanBao = 3;</code>
+     * <code>required int32 remainFreeTongBiCount = 3;</code>
+     */
+    boolean hasRemainFreeTongBiCount();
+    /**
+     * <code>required int32 remainFreeTongBiCount = 3;</code>
+     */
+    int getRemainFreeTongBiCount();
+
+    // required int32 tongBiCd = 4;
+    /**
+     * <code>required int32 tongBiCd = 4;</code>
+     */
+    boolean hasTongBiCd();
+    /**
+     * <code>required int32 tongBiCd = 4;</code>
+     */
+    int getTongBiCd();
+
+    // required int32 yuanBao = 5;
+    /**
+     * <code>required int32 yuanBao = 5;</code>
      */
     boolean hasYuanBao();
     /**
-     * <code>required int32 yuanBao = 3;</code>
+     * <code>required int32 yuanBao = 5;</code>
      */
     int getYuanBao();
 
-    // optional int32 gongXian = 4;
+    // required int32 allFreeYuanBaoCount = 6;
     /**
-     * <code>optional int32 gongXian = 4;</code>
+     * <code>required int32 allFreeYuanBaoCount = 6;</code>
      */
-    boolean hasGongXian();
+    boolean hasAllFreeYuanBaoCount();
     /**
-     * <code>optional int32 gongXian = 4;</code>
+     * <code>required int32 allFreeYuanBaoCount = 6;</code>
      */
-    int getGongXian();
+    int getAllFreeYuanBaoCount();
 
-    // required int32 tie = 5;
+    // required int32 remainFreeYuanBaoCount = 7;
     /**
-     * <code>required int32 tie = 5;</code>
+     * <code>required int32 remainFreeYuanBaoCount = 7;</code>
      */
-    boolean hasTie();
+    boolean hasRemainFreeYuanBaoCount();
     /**
-     * <code>required int32 tie = 5;</code>
+     * <code>required int32 remainFreeYuanBaoCount = 7;</code>
      */
-    int getTie();
+    int getRemainFreeYuanBaoCount();
 
-    // required int32 tong = 6;
+    // required int32 yuanBaoCd = 8;
     /**
-     * <code>required int32 tong = 6;</code>
+     * <code>required int32 yuanBaoCd = 8;</code>
      */
-    boolean hasTong();
+    boolean hasYuanBaoCd();
     /**
-     * <code>required int32 tong = 6;</code>
+     * <code>required int32 yuanBaoCd = 8;</code>
      */
-    int getTong();
+    int getYuanBaoCd();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ExploreInfoResp}
@@ -149,37 +146,44 @@ public final class Explore {
               }
               break;
             }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                mineRegionList_ = new java.util.ArrayList<qxmobile.protobuf.Explore.ExploreMineInfo>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              mineRegionList_.add(input.readMessage(qxmobile.protobuf.Explore.ExploreMineInfo.PARSER, extensionRegistry));
+            case 8: {
+              bitField0_ |= 0x00000001;
+              tongBi_ = input.readInt32();
               break;
             }
             case 16: {
-              bitField0_ |= 0x00000001;
-              hasGuild_ = input.readBool();
+              bitField0_ |= 0x00000002;
+              allFreeTongBiCount_ = input.readInt32();
               break;
             }
             case 24: {
-              bitField0_ |= 0x00000002;
-              yuanBao_ = input.readInt32();
+              bitField0_ |= 0x00000004;
+              remainFreeTongBiCount_ = input.readInt32();
               break;
             }
             case 32: {
-              bitField0_ |= 0x00000004;
-              gongXian_ = input.readInt32();
+              bitField0_ |= 0x00000008;
+              tongBiCd_ = input.readInt32();
               break;
             }
             case 40: {
-              bitField0_ |= 0x00000008;
-              tie_ = input.readInt32();
+              bitField0_ |= 0x00000010;
+              yuanBao_ = input.readInt32();
               break;
             }
             case 48: {
-              bitField0_ |= 0x00000010;
-              tong_ = input.readInt32();
+              bitField0_ |= 0x00000020;
+              allFreeYuanBaoCount_ = input.readInt32();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000040;
+              remainFreeYuanBaoCount_ = input.readInt32();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000080;
+              yuanBaoCd_ = input.readInt32();
               break;
             }
           }
@@ -190,9 +194,6 @@ public final class Explore {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          mineRegionList_ = java.util.Collections.unmodifiableList(mineRegionList_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -225,144 +226,162 @@ public final class Explore {
     }
 
     private int bitField0_;
-    // repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;
-    public static final int MINEREGIONLIST_FIELD_NUMBER = 1;
-    private java.util.List<qxmobile.protobuf.Explore.ExploreMineInfo> mineRegionList_;
+    // required int32 tongBi = 1;
+    public static final int TONGBI_FIELD_NUMBER = 1;
+    private int tongBi_;
     /**
-     * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
+     * <code>required int32 tongBi = 1;</code>
      */
-    public java.util.List<qxmobile.protobuf.Explore.ExploreMineInfo> getMineRegionListList() {
-      return mineRegionList_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-     */
-    public java.util.List<? extends qxmobile.protobuf.Explore.ExploreMineInfoOrBuilder> 
-        getMineRegionListOrBuilderList() {
-      return mineRegionList_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-     */
-    public int getMineRegionListCount() {
-      return mineRegionList_.size();
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-     */
-    public qxmobile.protobuf.Explore.ExploreMineInfo getMineRegionList(int index) {
-      return mineRegionList_.get(index);
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-     */
-    public qxmobile.protobuf.Explore.ExploreMineInfoOrBuilder getMineRegionListOrBuilder(
-        int index) {
-      return mineRegionList_.get(index);
-    }
-
-    // required bool hasGuild = 2;
-    public static final int HASGUILD_FIELD_NUMBER = 2;
-    private boolean hasGuild_;
-    /**
-     * <code>required bool hasGuild = 2;</code>
-     *
-     * <pre>
-     * 有没有联盟：0 没有， 1有
-     * </pre>
-     */
-    public boolean hasHasGuild() {
+    public boolean hasTongBi() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required bool hasGuild = 2;</code>
-     *
-     * <pre>
-     * 有没有联盟：0 没有， 1有
-     * </pre>
+     * <code>required int32 tongBi = 1;</code>
      */
-    public boolean getHasGuild() {
-      return hasGuild_;
+    public int getTongBi() {
+      return tongBi_;
     }
 
-    // required int32 yuanBao = 3;
-    public static final int YUANBAO_FIELD_NUMBER = 3;
-    private int yuanBao_;
+    // required int32 allFreeTongBiCount = 2;
+    public static final int ALLFREETONGBICOUNT_FIELD_NUMBER = 2;
+    private int allFreeTongBiCount_;
     /**
-     * <code>required int32 yuanBao = 3;</code>
+     * <code>required int32 allFreeTongBiCount = 2;</code>
      */
-    public boolean hasYuanBao() {
+    public boolean hasAllFreeTongBiCount() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int32 yuanBao = 3;</code>
+     * <code>required int32 allFreeTongBiCount = 2;</code>
+     */
+    public int getAllFreeTongBiCount() {
+      return allFreeTongBiCount_;
+    }
+
+    // required int32 remainFreeTongBiCount = 3;
+    public static final int REMAINFREETONGBICOUNT_FIELD_NUMBER = 3;
+    private int remainFreeTongBiCount_;
+    /**
+     * <code>required int32 remainFreeTongBiCount = 3;</code>
+     */
+    public boolean hasRemainFreeTongBiCount() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 remainFreeTongBiCount = 3;</code>
+     */
+    public int getRemainFreeTongBiCount() {
+      return remainFreeTongBiCount_;
+    }
+
+    // required int32 tongBiCd = 4;
+    public static final int TONGBICD_FIELD_NUMBER = 4;
+    private int tongBiCd_;
+    /**
+     * <code>required int32 tongBiCd = 4;</code>
+     */
+    public boolean hasTongBiCd() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 tongBiCd = 4;</code>
+     */
+    public int getTongBiCd() {
+      return tongBiCd_;
+    }
+
+    // required int32 yuanBao = 5;
+    public static final int YUANBAO_FIELD_NUMBER = 5;
+    private int yuanBao_;
+    /**
+     * <code>required int32 yuanBao = 5;</code>
+     */
+    public boolean hasYuanBao() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required int32 yuanBao = 5;</code>
      */
     public int getYuanBao() {
       return yuanBao_;
     }
 
-    // optional int32 gongXian = 4;
-    public static final int GONGXIAN_FIELD_NUMBER = 4;
-    private int gongXian_;
+    // required int32 allFreeYuanBaoCount = 6;
+    public static final int ALLFREEYUANBAOCOUNT_FIELD_NUMBER = 6;
+    private int allFreeYuanBaoCount_;
     /**
-     * <code>optional int32 gongXian = 4;</code>
+     * <code>required int32 allFreeYuanBaoCount = 6;</code>
      */
-    public boolean hasGongXian() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+    public boolean hasAllFreeYuanBaoCount() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional int32 gongXian = 4;</code>
+     * <code>required int32 allFreeYuanBaoCount = 6;</code>
      */
-    public int getGongXian() {
-      return gongXian_;
-    }
-
-    // required int32 tie = 5;
-    public static final int TIE_FIELD_NUMBER = 5;
-    private int tie_;
-    /**
-     * <code>required int32 tie = 5;</code>
-     */
-    public boolean hasTie() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>required int32 tie = 5;</code>
-     */
-    public int getTie() {
-      return tie_;
+    public int getAllFreeYuanBaoCount() {
+      return allFreeYuanBaoCount_;
     }
 
-    // required int32 tong = 6;
-    public static final int TONG_FIELD_NUMBER = 6;
-    private int tong_;
+    // required int32 remainFreeYuanBaoCount = 7;
+    public static final int REMAINFREEYUANBAOCOUNT_FIELD_NUMBER = 7;
+    private int remainFreeYuanBaoCount_;
     /**
-     * <code>required int32 tong = 6;</code>
+     * <code>required int32 remainFreeYuanBaoCount = 7;</code>
      */
-    public boolean hasTong() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+    public boolean hasRemainFreeYuanBaoCount() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>required int32 tong = 6;</code>
+     * <code>required int32 remainFreeYuanBaoCount = 7;</code>
      */
-    public int getTong() {
-      return tong_;
+    public int getRemainFreeYuanBaoCount() {
+      return remainFreeYuanBaoCount_;
+    }
+
+    // required int32 yuanBaoCd = 8;
+    public static final int YUANBAOCD_FIELD_NUMBER = 8;
+    private int yuanBaoCd_;
+    /**
+     * <code>required int32 yuanBaoCd = 8;</code>
+     */
+    public boolean hasYuanBaoCd() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>required int32 yuanBaoCd = 8;</code>
+     */
+    public int getYuanBaoCd() {
+      return yuanBaoCd_;
     }
 
     private void initFields() {
-      mineRegionList_ = java.util.Collections.emptyList();
-      hasGuild_ = false;
+      tongBi_ = 0;
+      allFreeTongBiCount_ = 0;
+      remainFreeTongBiCount_ = 0;
+      tongBiCd_ = 0;
       yuanBao_ = 0;
-      gongXian_ = 0;
-      tie_ = 0;
-      tong_ = 0;
+      allFreeYuanBaoCount_ = 0;
+      remainFreeYuanBaoCount_ = 0;
+      yuanBaoCd_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasHasGuild()) {
+      if (!hasTongBi()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasAllFreeTongBiCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRemainFreeTongBiCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTongBiCd()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -370,19 +389,17 @@ public final class Explore {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasTie()) {
+      if (!hasAllFreeYuanBaoCount()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasTong()) {
+      if (!hasRemainFreeYuanBaoCount()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      for (int i = 0; i < getMineRegionListCount(); i++) {
-        if (!getMineRegionList(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
+      if (!hasYuanBaoCd()) {
+        memoizedIsInitialized = 0;
+        return false;
       }
       memoizedIsInitialized = 1;
       return true;
@@ -391,23 +408,29 @@ public final class Explore {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      for (int i = 0; i < mineRegionList_.size(); i++) {
-        output.writeMessage(1, mineRegionList_.get(i));
-      }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(2, hasGuild_);
+        output.writeInt32(1, tongBi_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(3, yuanBao_);
+        output.writeInt32(2, allFreeTongBiCount_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(4, gongXian_);
+        output.writeInt32(3, remainFreeTongBiCount_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(5, tie_);
+        output.writeInt32(4, tongBiCd_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeInt32(6, tong_);
+        output.writeInt32(5, yuanBao_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(6, allFreeYuanBaoCount_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt32(7, remainFreeYuanBaoCount_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeInt32(8, yuanBaoCd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -418,29 +441,37 @@ public final class Explore {
       if (size != -1) return size;
 
       size = 0;
-      for (int i = 0; i < mineRegionList_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, mineRegionList_.get(i));
-      }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(2, hasGuild_);
+          .computeInt32Size(1, tongBi_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, yuanBao_);
+          .computeInt32Size(2, allFreeTongBiCount_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, gongXian_);
+          .computeInt32Size(3, remainFreeTongBiCount_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, tie_);
+          .computeInt32Size(4, tongBiCd_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(6, tong_);
+          .computeInt32Size(5, yuanBao_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, allFreeYuanBaoCount_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, remainFreeYuanBaoCount_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, yuanBaoCd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -554,7 +585,6 @@ public final class Explore {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getMineRegionListFieldBuilder();
         }
       }
       private static Builder create() {
@@ -563,22 +593,22 @@ public final class Explore {
 
       public Builder clear() {
         super.clear();
-        if (mineRegionListBuilder_ == null) {
-          mineRegionList_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          mineRegionListBuilder_.clear();
-        }
-        hasGuild_ = false;
+        tongBi_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        allFreeTongBiCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        yuanBao_ = 0;
+        remainFreeTongBiCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        gongXian_ = 0;
+        tongBiCd_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
-        tie_ = 0;
+        yuanBao_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
-        tong_ = 0;
+        allFreeYuanBaoCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
+        remainFreeYuanBaoCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000040);
+        yuanBaoCd_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -607,35 +637,38 @@ public final class Explore {
         qxmobile.protobuf.Explore.ExploreInfoResp result = new qxmobile.protobuf.Explore.ExploreInfoResp(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (mineRegionListBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            mineRegionList_ = java.util.Collections.unmodifiableList(mineRegionList_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.mineRegionList_ = mineRegionList_;
-        } else {
-          result.mineRegionList_ = mineRegionListBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.hasGuild_ = hasGuild_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        result.tongBi_ = tongBi_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.yuanBao_ = yuanBao_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        result.allFreeTongBiCount_ = allFreeTongBiCount_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.gongXian_ = gongXian_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        result.remainFreeTongBiCount_ = remainFreeTongBiCount_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.tie_ = tie_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        result.tongBiCd_ = tongBiCd_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.tong_ = tong_;
+        result.yuanBao_ = yuanBao_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.allFreeYuanBaoCount_ = allFreeYuanBaoCount_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.remainFreeYuanBaoCount_ = remainFreeYuanBaoCount_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.yuanBaoCd_ = yuanBaoCd_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -652,53 +685,48 @@ public final class Explore {
 
       public Builder mergeFrom(qxmobile.protobuf.Explore.ExploreInfoResp other) {
         if (other == qxmobile.protobuf.Explore.ExploreInfoResp.getDefaultInstance()) return this;
-        if (mineRegionListBuilder_ == null) {
-          if (!other.mineRegionList_.isEmpty()) {
-            if (mineRegionList_.isEmpty()) {
-              mineRegionList_ = other.mineRegionList_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureMineRegionListIsMutable();
-              mineRegionList_.addAll(other.mineRegionList_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.mineRegionList_.isEmpty()) {
-            if (mineRegionListBuilder_.isEmpty()) {
-              mineRegionListBuilder_.dispose();
-              mineRegionListBuilder_ = null;
-              mineRegionList_ = other.mineRegionList_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              mineRegionListBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getMineRegionListFieldBuilder() : null;
-            } else {
-              mineRegionListBuilder_.addAllMessages(other.mineRegionList_);
-            }
-          }
+        if (other.hasTongBi()) {
+          setTongBi(other.getTongBi());
         }
-        if (other.hasHasGuild()) {
-          setHasGuild(other.getHasGuild());
+        if (other.hasAllFreeTongBiCount()) {
+          setAllFreeTongBiCount(other.getAllFreeTongBiCount());
+        }
+        if (other.hasRemainFreeTongBiCount()) {
+          setRemainFreeTongBiCount(other.getRemainFreeTongBiCount());
+        }
+        if (other.hasTongBiCd()) {
+          setTongBiCd(other.getTongBiCd());
         }
         if (other.hasYuanBao()) {
           setYuanBao(other.getYuanBao());
         }
-        if (other.hasGongXian()) {
-          setGongXian(other.getGongXian());
+        if (other.hasAllFreeYuanBaoCount()) {
+          setAllFreeYuanBaoCount(other.getAllFreeYuanBaoCount());
         }
-        if (other.hasTie()) {
-          setTie(other.getTie());
+        if (other.hasRemainFreeYuanBaoCount()) {
+          setRemainFreeYuanBaoCount(other.getRemainFreeYuanBaoCount());
         }
-        if (other.hasTong()) {
-          setTong(other.getTong());
+        if (other.hasYuanBaoCd()) {
+          setYuanBaoCd(other.getYuanBaoCd());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasHasGuild()) {
+        if (!hasTongBi()) {
+          
+          return false;
+        }
+        if (!hasAllFreeTongBiCount()) {
+          
+          return false;
+        }
+        if (!hasRemainFreeTongBiCount()) {
+          
+          return false;
+        }
+        if (!hasTongBiCd()) {
           
           return false;
         }
@@ -706,19 +734,17 @@ public final class Explore {
           
           return false;
         }
-        if (!hasTie()) {
+        if (!hasAllFreeYuanBaoCount()) {
           
           return false;
         }
-        if (!hasTong()) {
+        if (!hasRemainFreeYuanBaoCount()) {
           
           return false;
         }
-        for (int i = 0; i < getMineRegionListCount(); i++) {
-          if (!getMineRegionList(i).isInitialized()) {
-            
-            return false;
-          }
+        if (!hasYuanBaoCd()) {
+          
+          return false;
         }
         return true;
       }
@@ -742,423 +768,266 @@ public final class Explore {
       }
       private int bitField0_;
 
-      // repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;
-      private java.util.List<qxmobile.protobuf.Explore.ExploreMineInfo> mineRegionList_ =
-        java.util.Collections.emptyList();
-      private void ensureMineRegionListIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          mineRegionList_ = new java.util.ArrayList<qxmobile.protobuf.Explore.ExploreMineInfo>(mineRegionList_);
-          bitField0_ |= 0x00000001;
-         }
+      // required int32 tongBi = 1;
+      private int tongBi_ ;
+      /**
+       * <code>required int32 tongBi = 1;</code>
+       */
+      public boolean hasTongBi() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 tongBi = 1;</code>
+       */
+      public int getTongBi() {
+        return tongBi_;
+      }
+      /**
+       * <code>required int32 tongBi = 1;</code>
+       */
+      public Builder setTongBi(int value) {
+        bitField0_ |= 0x00000001;
+        tongBi_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 tongBi = 1;</code>
+       */
+      public Builder clearTongBi() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        tongBi_ = 0;
+        onChanged();
+        return this;
       }
 
-      private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.Explore.ExploreMineInfo, qxmobile.protobuf.Explore.ExploreMineInfo.Builder, qxmobile.protobuf.Explore.ExploreMineInfoOrBuilder> mineRegionListBuilder_;
-
+      // required int32 allFreeTongBiCount = 2;
+      private int allFreeTongBiCount_ ;
       /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
+       * <code>required int32 allFreeTongBiCount = 2;</code>
        */
-      public java.util.List<qxmobile.protobuf.Explore.ExploreMineInfo> getMineRegionListList() {
-        if (mineRegionListBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(mineRegionList_);
-        } else {
-          return mineRegionListBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-       */
-      public int getMineRegionListCount() {
-        if (mineRegionListBuilder_ == null) {
-          return mineRegionList_.size();
-        } else {
-          return mineRegionListBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-       */
-      public qxmobile.protobuf.Explore.ExploreMineInfo getMineRegionList(int index) {
-        if (mineRegionListBuilder_ == null) {
-          return mineRegionList_.get(index);
-        } else {
-          return mineRegionListBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-       */
-      public Builder setMineRegionList(
-          int index, qxmobile.protobuf.Explore.ExploreMineInfo value) {
-        if (mineRegionListBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureMineRegionListIsMutable();
-          mineRegionList_.set(index, value);
-          onChanged();
-        } else {
-          mineRegionListBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-       */
-      public Builder setMineRegionList(
-          int index, qxmobile.protobuf.Explore.ExploreMineInfo.Builder builderForValue) {
-        if (mineRegionListBuilder_ == null) {
-          ensureMineRegionListIsMutable();
-          mineRegionList_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          mineRegionListBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-       */
-      public Builder addMineRegionList(qxmobile.protobuf.Explore.ExploreMineInfo value) {
-        if (mineRegionListBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureMineRegionListIsMutable();
-          mineRegionList_.add(value);
-          onChanged();
-        } else {
-          mineRegionListBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-       */
-      public Builder addMineRegionList(
-          int index, qxmobile.protobuf.Explore.ExploreMineInfo value) {
-        if (mineRegionListBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureMineRegionListIsMutable();
-          mineRegionList_.add(index, value);
-          onChanged();
-        } else {
-          mineRegionListBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-       */
-      public Builder addMineRegionList(
-          qxmobile.protobuf.Explore.ExploreMineInfo.Builder builderForValue) {
-        if (mineRegionListBuilder_ == null) {
-          ensureMineRegionListIsMutable();
-          mineRegionList_.add(builderForValue.build());
-          onChanged();
-        } else {
-          mineRegionListBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-       */
-      public Builder addMineRegionList(
-          int index, qxmobile.protobuf.Explore.ExploreMineInfo.Builder builderForValue) {
-        if (mineRegionListBuilder_ == null) {
-          ensureMineRegionListIsMutable();
-          mineRegionList_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          mineRegionListBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-       */
-      public Builder addAllMineRegionList(
-          java.lang.Iterable<? extends qxmobile.protobuf.Explore.ExploreMineInfo> values) {
-        if (mineRegionListBuilder_ == null) {
-          ensureMineRegionListIsMutable();
-          super.addAll(values, mineRegionList_);
-          onChanged();
-        } else {
-          mineRegionListBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-       */
-      public Builder clearMineRegionList() {
-        if (mineRegionListBuilder_ == null) {
-          mineRegionList_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          mineRegionListBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-       */
-      public Builder removeMineRegionList(int index) {
-        if (mineRegionListBuilder_ == null) {
-          ensureMineRegionListIsMutable();
-          mineRegionList_.remove(index);
-          onChanged();
-        } else {
-          mineRegionListBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-       */
-      public qxmobile.protobuf.Explore.ExploreMineInfo.Builder getMineRegionListBuilder(
-          int index) {
-        return getMineRegionListFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-       */
-      public qxmobile.protobuf.Explore.ExploreMineInfoOrBuilder getMineRegionListOrBuilder(
-          int index) {
-        if (mineRegionListBuilder_ == null) {
-          return mineRegionList_.get(index);  } else {
-          return mineRegionListBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-       */
-      public java.util.List<? extends qxmobile.protobuf.Explore.ExploreMineInfoOrBuilder> 
-           getMineRegionListOrBuilderList() {
-        if (mineRegionListBuilder_ != null) {
-          return mineRegionListBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(mineRegionList_);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-       */
-      public qxmobile.protobuf.Explore.ExploreMineInfo.Builder addMineRegionListBuilder() {
-        return getMineRegionListFieldBuilder().addBuilder(
-            qxmobile.protobuf.Explore.ExploreMineInfo.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-       */
-      public qxmobile.protobuf.Explore.ExploreMineInfo.Builder addMineRegionListBuilder(
-          int index) {
-        return getMineRegionListFieldBuilder().addBuilder(
-            index, qxmobile.protobuf.Explore.ExploreMineInfo.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.ExploreMineInfo mineRegionList = 1;</code>
-       */
-      public java.util.List<qxmobile.protobuf.Explore.ExploreMineInfo.Builder> 
-           getMineRegionListBuilderList() {
-        return getMineRegionListFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.Explore.ExploreMineInfo, qxmobile.protobuf.Explore.ExploreMineInfo.Builder, qxmobile.protobuf.Explore.ExploreMineInfoOrBuilder> 
-          getMineRegionListFieldBuilder() {
-        if (mineRegionListBuilder_ == null) {
-          mineRegionListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              qxmobile.protobuf.Explore.ExploreMineInfo, qxmobile.protobuf.Explore.ExploreMineInfo.Builder, qxmobile.protobuf.Explore.ExploreMineInfoOrBuilder>(
-                  mineRegionList_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
-                  getParentForChildren(),
-                  isClean());
-          mineRegionList_ = null;
-        }
-        return mineRegionListBuilder_;
-      }
-
-      // required bool hasGuild = 2;
-      private boolean hasGuild_ ;
-      /**
-       * <code>required bool hasGuild = 2;</code>
-       *
-       * <pre>
-       * 有没有联盟：0 没有， 1有
-       * </pre>
-       */
-      public boolean hasHasGuild() {
+      public boolean hasAllFreeTongBiCount() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required bool hasGuild = 2;</code>
-       *
-       * <pre>
-       * 有没有联盟：0 没有， 1有
-       * </pre>
+       * <code>required int32 allFreeTongBiCount = 2;</code>
        */
-      public boolean getHasGuild() {
-        return hasGuild_;
+      public int getAllFreeTongBiCount() {
+        return allFreeTongBiCount_;
       }
       /**
-       * <code>required bool hasGuild = 2;</code>
-       *
-       * <pre>
-       * 有没有联盟：0 没有， 1有
-       * </pre>
+       * <code>required int32 allFreeTongBiCount = 2;</code>
        */
-      public Builder setHasGuild(boolean value) {
+      public Builder setAllFreeTongBiCount(int value) {
         bitField0_ |= 0x00000002;
-        hasGuild_ = value;
+        allFreeTongBiCount_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required bool hasGuild = 2;</code>
-       *
-       * <pre>
-       * 有没有联盟：0 没有， 1有
-       * </pre>
+       * <code>required int32 allFreeTongBiCount = 2;</code>
        */
-      public Builder clearHasGuild() {
+      public Builder clearAllFreeTongBiCount() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        hasGuild_ = false;
+        allFreeTongBiCount_ = 0;
         onChanged();
         return this;
       }
 
-      // required int32 yuanBao = 3;
-      private int yuanBao_ ;
+      // required int32 remainFreeTongBiCount = 3;
+      private int remainFreeTongBiCount_ ;
       /**
-       * <code>required int32 yuanBao = 3;</code>
+       * <code>required int32 remainFreeTongBiCount = 3;</code>
        */
-      public boolean hasYuanBao() {
+      public boolean hasRemainFreeTongBiCount() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required int32 yuanBao = 3;</code>
+       * <code>required int32 remainFreeTongBiCount = 3;</code>
+       */
+      public int getRemainFreeTongBiCount() {
+        return remainFreeTongBiCount_;
+      }
+      /**
+       * <code>required int32 remainFreeTongBiCount = 3;</code>
+       */
+      public Builder setRemainFreeTongBiCount(int value) {
+        bitField0_ |= 0x00000004;
+        remainFreeTongBiCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 remainFreeTongBiCount = 3;</code>
+       */
+      public Builder clearRemainFreeTongBiCount() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        remainFreeTongBiCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 tongBiCd = 4;
+      private int tongBiCd_ ;
+      /**
+       * <code>required int32 tongBiCd = 4;</code>
+       */
+      public boolean hasTongBiCd() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 tongBiCd = 4;</code>
+       */
+      public int getTongBiCd() {
+        return tongBiCd_;
+      }
+      /**
+       * <code>required int32 tongBiCd = 4;</code>
+       */
+      public Builder setTongBiCd(int value) {
+        bitField0_ |= 0x00000008;
+        tongBiCd_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 tongBiCd = 4;</code>
+       */
+      public Builder clearTongBiCd() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        tongBiCd_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 yuanBao = 5;
+      private int yuanBao_ ;
+      /**
+       * <code>required int32 yuanBao = 5;</code>
+       */
+      public boolean hasYuanBao() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required int32 yuanBao = 5;</code>
        */
       public int getYuanBao() {
         return yuanBao_;
       }
       /**
-       * <code>required int32 yuanBao = 3;</code>
+       * <code>required int32 yuanBao = 5;</code>
        */
       public Builder setYuanBao(int value) {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000010;
         yuanBao_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 yuanBao = 3;</code>
+       * <code>required int32 yuanBao = 5;</code>
        */
       public Builder clearYuanBao() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000010);
         yuanBao_ = 0;
         onChanged();
         return this;
       }
 
-      // optional int32 gongXian = 4;
-      private int gongXian_ ;
+      // required int32 allFreeYuanBaoCount = 6;
+      private int allFreeYuanBaoCount_ ;
       /**
-       * <code>optional int32 gongXian = 4;</code>
+       * <code>required int32 allFreeYuanBaoCount = 6;</code>
        */
-      public boolean hasGongXian() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>optional int32 gongXian = 4;</code>
-       */
-      public int getGongXian() {
-        return gongXian_;
-      }
-      /**
-       * <code>optional int32 gongXian = 4;</code>
-       */
-      public Builder setGongXian(int value) {
-        bitField0_ |= 0x00000008;
-        gongXian_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 gongXian = 4;</code>
-       */
-      public Builder clearGongXian() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        gongXian_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 tie = 5;
-      private int tie_ ;
-      /**
-       * <code>required int32 tie = 5;</code>
-       */
-      public boolean hasTie() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>required int32 tie = 5;</code>
-       */
-      public int getTie() {
-        return tie_;
-      }
-      /**
-       * <code>required int32 tie = 5;</code>
-       */
-      public Builder setTie(int value) {
-        bitField0_ |= 0x00000010;
-        tie_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 tie = 5;</code>
-       */
-      public Builder clearTie() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        tie_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 tong = 6;
-      private int tong_ ;
-      /**
-       * <code>required int32 tong = 6;</code>
-       */
-      public boolean hasTong() {
+      public boolean hasAllFreeYuanBaoCount() {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>required int32 tong = 6;</code>
+       * <code>required int32 allFreeYuanBaoCount = 6;</code>
        */
-      public int getTong() {
-        return tong_;
+      public int getAllFreeYuanBaoCount() {
+        return allFreeYuanBaoCount_;
       }
       /**
-       * <code>required int32 tong = 6;</code>
+       * <code>required int32 allFreeYuanBaoCount = 6;</code>
        */
-      public Builder setTong(int value) {
+      public Builder setAllFreeYuanBaoCount(int value) {
         bitField0_ |= 0x00000020;
-        tong_ = value;
+        allFreeYuanBaoCount_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 tong = 6;</code>
+       * <code>required int32 allFreeYuanBaoCount = 6;</code>
        */
-      public Builder clearTong() {
+      public Builder clearAllFreeYuanBaoCount() {
         bitField0_ = (bitField0_ & ~0x00000020);
-        tong_ = 0;
+        allFreeYuanBaoCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 remainFreeYuanBaoCount = 7;
+      private int remainFreeYuanBaoCount_ ;
+      /**
+       * <code>required int32 remainFreeYuanBaoCount = 7;</code>
+       */
+      public boolean hasRemainFreeYuanBaoCount() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>required int32 remainFreeYuanBaoCount = 7;</code>
+       */
+      public int getRemainFreeYuanBaoCount() {
+        return remainFreeYuanBaoCount_;
+      }
+      /**
+       * <code>required int32 remainFreeYuanBaoCount = 7;</code>
+       */
+      public Builder setRemainFreeYuanBaoCount(int value) {
+        bitField0_ |= 0x00000040;
+        remainFreeYuanBaoCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 remainFreeYuanBaoCount = 7;</code>
+       */
+      public Builder clearRemainFreeYuanBaoCount() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        remainFreeYuanBaoCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 yuanBaoCd = 8;
+      private int yuanBaoCd_ ;
+      /**
+       * <code>required int32 yuanBaoCd = 8;</code>
+       */
+      public boolean hasYuanBaoCd() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>required int32 yuanBaoCd = 8;</code>
+       */
+      public int getYuanBaoCd() {
+        return yuanBaoCd_;
+      }
+      /**
+       * <code>required int32 yuanBaoCd = 8;</code>
+       */
+      public Builder setYuanBaoCd(int value) {
+        bitField0_ |= 0x00000080;
+        yuanBaoCd_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 yuanBaoCd = 8;</code>
+       */
+      public Builder clearYuanBaoCd() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        yuanBaoCd_ = 0;
         onChanged();
         return this;
       }
@@ -1182,8 +1051,7 @@ public final class Explore {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     * 探宝类型：0-免费，1-单抽，10-10连抽
-     * 矿区类型：0-矿洞 1-矿井 10-矿脉, 11-联盟单抽， 12-联盟10抽
+     * 探宝类型：1-铜币单抽, 2-铜币十连抽；3-元宝单抽，4-元宝十连抽
      * </pre>
      */
     boolean hasType();
@@ -1191,29 +1059,10 @@ public final class Explore {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     * 探宝类型：0-免费，1-单抽，10-10连抽
-     * 矿区类型：0-矿洞 1-矿井 10-矿脉, 11-联盟单抽， 12-联盟10抽
+     * 探宝类型：1-铜币单抽, 2-铜币十连抽；3-元宝单抽，4-元宝十连抽
      * </pre>
      */
     int getType();
-
-    // required bool isBuy = 2;
-    /**
-     * <code>required bool isBuy = 2;</code>
-     *
-     * <pre>
-     * 0是免费抽， 1表示花元宝 或者 贡献值 抽 
-     * </pre>
-     */
-    boolean hasIsBuy();
-    /**
-     * <code>required bool isBuy = 2;</code>
-     *
-     * <pre>
-     * 0是免费抽， 1表示花元宝 或者 贡献值 抽 
-     * </pre>
-     */
-    boolean getIsBuy();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ExploreReq}
@@ -1275,11 +1124,6 @@ public final class Explore {
               type_ = input.readInt32();
               break;
             }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              isBuy_ = input.readBool();
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1327,8 +1171,7 @@ public final class Explore {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     * 探宝类型：0-免费，1-单抽，10-10连抽
-     * 矿区类型：0-矿洞 1-矿井 10-矿脉, 11-联盟单抽， 12-联盟10抽
+     * 探宝类型：1-铜币单抽, 2-铜币十连抽；3-元宝单抽，4-元宝十连抽
      * </pre>
      */
     public boolean hasType() {
@@ -1338,41 +1181,15 @@ public final class Explore {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     * 探宝类型：0-免费，1-单抽，10-10连抽
-     * 矿区类型：0-矿洞 1-矿井 10-矿脉, 11-联盟单抽， 12-联盟10抽
+     * 探宝类型：1-铜币单抽, 2-铜币十连抽；3-元宝单抽，4-元宝十连抽
      * </pre>
      */
     public int getType() {
       return type_;
     }
 
-    // required bool isBuy = 2;
-    public static final int ISBUY_FIELD_NUMBER = 2;
-    private boolean isBuy_;
-    /**
-     * <code>required bool isBuy = 2;</code>
-     *
-     * <pre>
-     * 0是免费抽， 1表示花元宝 或者 贡献值 抽 
-     * </pre>
-     */
-    public boolean hasIsBuy() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required bool isBuy = 2;</code>
-     *
-     * <pre>
-     * 0是免费抽， 1表示花元宝 或者 贡献值 抽 
-     * </pre>
-     */
-    public boolean getIsBuy() {
-      return isBuy_;
-    }
-
     private void initFields() {
       type_ = 0;
-      isBuy_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1380,10 +1197,6 @@ public final class Explore {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasType()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasIsBuy()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1397,9 +1210,6 @@ public final class Explore {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(1, type_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBool(2, isBuy_);
-      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1412,10 +1222,6 @@ public final class Explore {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, type_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(2, isBuy_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1539,8 +1345,6 @@ public final class Explore {
         super.clear();
         type_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        isBuy_ = false;
-        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -1573,10 +1377,6 @@ public final class Explore {
           to_bitField0_ |= 0x00000001;
         }
         result.type_ = type_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.isBuy_ = isBuy_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1596,19 +1396,12 @@ public final class Explore {
         if (other.hasType()) {
           setType(other.getType());
         }
-        if (other.hasIsBuy()) {
-          setIsBuy(other.getIsBuy());
-        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasType()) {
-          
-          return false;
-        }
-        if (!hasIsBuy()) {
           
           return false;
         }
@@ -1640,8 +1433,7 @@ public final class Explore {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       * 探宝类型：0-免费，1-单抽，10-10连抽
-       * 矿区类型：0-矿洞 1-矿井 10-矿脉, 11-联盟单抽， 12-联盟10抽
+       * 探宝类型：1-铜币单抽, 2-铜币十连抽；3-元宝单抽，4-元宝十连抽
        * </pre>
        */
       public boolean hasType() {
@@ -1651,8 +1443,7 @@ public final class Explore {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       * 探宝类型：0-免费，1-单抽，10-10连抽
-       * 矿区类型：0-矿洞 1-矿井 10-矿脉, 11-联盟单抽， 12-联盟10抽
+       * 探宝类型：1-铜币单抽, 2-铜币十连抽；3-元宝单抽，4-元宝十连抽
        * </pre>
        */
       public int getType() {
@@ -1662,8 +1453,7 @@ public final class Explore {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       * 探宝类型：0-免费，1-单抽，10-10连抽
-       * 矿区类型：0-矿洞 1-矿井 10-矿脉, 11-联盟单抽， 12-联盟10抽
+       * 探宝类型：1-铜币单抽, 2-铜币十连抽；3-元宝单抽，4-元宝十连抽
        * </pre>
        */
       public Builder setType(int value) {
@@ -1676,62 +1466,12 @@ public final class Explore {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       * 探宝类型：0-免费，1-单抽，10-10连抽
-       * 矿区类型：0-矿洞 1-矿井 10-矿脉, 11-联盟单抽， 12-联盟10抽
+       * 探宝类型：1-铜币单抽, 2-铜币十连抽；3-元宝单抽，4-元宝十连抽
        * </pre>
        */
       public Builder clearType() {
         bitField0_ = (bitField0_ & ~0x00000001);
         type_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required bool isBuy = 2;
-      private boolean isBuy_ ;
-      /**
-       * <code>required bool isBuy = 2;</code>
-       *
-       * <pre>
-       * 0是免费抽， 1表示花元宝 或者 贡献值 抽 
-       * </pre>
-       */
-      public boolean hasIsBuy() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required bool isBuy = 2;</code>
-       *
-       * <pre>
-       * 0是免费抽， 1表示花元宝 或者 贡献值 抽 
-       * </pre>
-       */
-      public boolean getIsBuy() {
-        return isBuy_;
-      }
-      /**
-       * <code>required bool isBuy = 2;</code>
-       *
-       * <pre>
-       * 0是免费抽， 1表示花元宝 或者 贡献值 抽 
-       * </pre>
-       */
-      public Builder setIsBuy(boolean value) {
-        bitField0_ |= 0x00000002;
-        isBuy_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required bool isBuy = 2;</code>
-       *
-       * <pre>
-       * 0是免费抽， 1表示花元宝 或者 贡献值 抽 
-       * </pre>
-       */
-      public Builder clearIsBuy() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        isBuy_ = false;
         onChanged();
         return this;
       }
@@ -1750,23 +1490,82 @@ public final class Explore {
   public interface ExploreRespOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 type = 1;
+    // required int32 success = 1;
     /**
-     * <code>required int32 type = 1;</code>
+     * <code>required int32 success = 1;</code>
      *
      * <pre>
-     *1-元宝不足，2-次数不够，3-时间不到 4-数据错误 5 贡献值不够
+     *0-抽奖成功, 1-铜币不足, 2-元宝不足 3-数据错误 
      * </pre>
      */
-    boolean hasType();
+    boolean hasSuccess();
     /**
-     * <code>required int32 type = 1;</code>
+     * <code>required int32 success = 1;</code>
      *
      * <pre>
-     *1-元宝不足，2-次数不够，3-时间不到 4-数据错误 5 贡献值不够
+     *0-抽奖成功, 1-铜币不足, 2-元宝不足 3-数据错误 
      * </pre>
      */
-    int getType();
+    int getSuccess();
+
+    // repeated .qxmobile.protobuf.Award awardsList = 2;
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
+     *
+     * <pre>
+     * success == 0的时候发送
+     * </pre>
+     */
+    java.util.List<qxmobile.protobuf.Explore.Award> 
+        getAwardsListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
+     *
+     * <pre>
+     * success == 0的时候发送
+     * </pre>
+     */
+    qxmobile.protobuf.Explore.Award getAwardsList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
+     *
+     * <pre>
+     * success == 0的时候发送
+     * </pre>
+     */
+    int getAwardsListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
+     *
+     * <pre>
+     * success == 0的时候发送
+     * </pre>
+     */
+    java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+        getAwardsListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
+     *
+     * <pre>
+     * success == 0的时候发送
+     * </pre>
+     */
+    qxmobile.protobuf.Explore.AwardOrBuilder getAwardsListOrBuilder(
+        int index);
+
+    // optional .qxmobile.protobuf.TypeInfo info = 3;
+    /**
+     * <code>optional .qxmobile.protobuf.TypeInfo info = 3;</code>
+     */
+    boolean hasInfo();
+    /**
+     * <code>optional .qxmobile.protobuf.TypeInfo info = 3;</code>
+     */
+    qxmobile.protobuf.Explore.TypeInfo getInfo();
+    /**
+     * <code>optional .qxmobile.protobuf.TypeInfo info = 3;</code>
+     */
+    qxmobile.protobuf.Explore.TypeInfoOrBuilder getInfoOrBuilder();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ExploreResp}
@@ -1825,7 +1624,28 @@ public final class Explore {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              type_ = input.readInt32();
+              success_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                awardsList_ = new java.util.ArrayList<qxmobile.protobuf.Explore.Award>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              awardsList_.add(input.readMessage(qxmobile.protobuf.Explore.Award.PARSER, extensionRegistry));
+              break;
+            }
+            case 26: {
+              qxmobile.protobuf.Explore.TypeInfo.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = info_.toBuilder();
+              }
+              info_ = input.readMessage(qxmobile.protobuf.Explore.TypeInfo.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(info_);
+                info_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
               break;
             }
           }
@@ -1836,6 +1656,9 @@ public final class Explore {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          awardsList_ = java.util.Collections.unmodifiableList(awardsList_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -1868,41 +1691,133 @@ public final class Explore {
     }
 
     private int bitField0_;
-    // required int32 type = 1;
-    public static final int TYPE_FIELD_NUMBER = 1;
-    private int type_;
+    // required int32 success = 1;
+    public static final int SUCCESS_FIELD_NUMBER = 1;
+    private int success_;
     /**
-     * <code>required int32 type = 1;</code>
+     * <code>required int32 success = 1;</code>
      *
      * <pre>
-     *1-元宝不足，2-次数不够，3-时间不到 4-数据错误 5 贡献值不够
+     *0-抽奖成功, 1-铜币不足, 2-元宝不足 3-数据错误 
      * </pre>
      */
-    public boolean hasType() {
+    public boolean hasSuccess() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 type = 1;</code>
+     * <code>required int32 success = 1;</code>
      *
      * <pre>
-     *1-元宝不足，2-次数不够，3-时间不到 4-数据错误 5 贡献值不够
+     *0-抽奖成功, 1-铜币不足, 2-元宝不足 3-数据错误 
      * </pre>
      */
-    public int getType() {
-      return type_;
+    public int getSuccess() {
+      return success_;
+    }
+
+    // repeated .qxmobile.protobuf.Award awardsList = 2;
+    public static final int AWARDSLIST_FIELD_NUMBER = 2;
+    private java.util.List<qxmobile.protobuf.Explore.Award> awardsList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
+     *
+     * <pre>
+     * success == 0的时候发送
+     * </pre>
+     */
+    public java.util.List<qxmobile.protobuf.Explore.Award> getAwardsListList() {
+      return awardsList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
+     *
+     * <pre>
+     * success == 0的时候发送
+     * </pre>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+        getAwardsListOrBuilderList() {
+      return awardsList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
+     *
+     * <pre>
+     * success == 0的时候发送
+     * </pre>
+     */
+    public int getAwardsListCount() {
+      return awardsList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
+     *
+     * <pre>
+     * success == 0的时候发送
+     * </pre>
+     */
+    public qxmobile.protobuf.Explore.Award getAwardsList(int index) {
+      return awardsList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
+     *
+     * <pre>
+     * success == 0的时候发送
+     * </pre>
+     */
+    public qxmobile.protobuf.Explore.AwardOrBuilder getAwardsListOrBuilder(
+        int index) {
+      return awardsList_.get(index);
+    }
+
+    // optional .qxmobile.protobuf.TypeInfo info = 3;
+    public static final int INFO_FIELD_NUMBER = 3;
+    private qxmobile.protobuf.Explore.TypeInfo info_;
+    /**
+     * <code>optional .qxmobile.protobuf.TypeInfo info = 3;</code>
+     */
+    public boolean hasInfo() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional .qxmobile.protobuf.TypeInfo info = 3;</code>
+     */
+    public qxmobile.protobuf.Explore.TypeInfo getInfo() {
+      return info_;
+    }
+    /**
+     * <code>optional .qxmobile.protobuf.TypeInfo info = 3;</code>
+     */
+    public qxmobile.protobuf.Explore.TypeInfoOrBuilder getInfoOrBuilder() {
+      return info_;
     }
 
     private void initFields() {
-      type_ = 0;
+      success_ = 0;
+      awardsList_ = java.util.Collections.emptyList();
+      info_ = qxmobile.protobuf.Explore.TypeInfo.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasType()) {
+      if (!hasSuccess()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      for (int i = 0; i < getAwardsListCount(); i++) {
+        if (!getAwardsList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasInfo()) {
+        if (!getInfo().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -1912,7 +1827,13 @@ public final class Explore {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, type_);
+        output.writeInt32(1, success_);
+      }
+      for (int i = 0; i < awardsList_.size(); i++) {
+        output.writeMessage(2, awardsList_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(3, info_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1925,7 +1846,15 @@ public final class Explore {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, type_);
+          .computeInt32Size(1, success_);
+      }
+      for (int i = 0; i < awardsList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, awardsList_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, info_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2039,6 +1968,8 @@ public final class Explore {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getAwardsListFieldBuilder();
+          getInfoFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2047,8 +1978,20 @@ public final class Explore {
 
       public Builder clear() {
         super.clear();
-        type_ = 0;
+        success_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        if (awardsListBuilder_ == null) {
+          awardsList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          awardsListBuilder_.clear();
+        }
+        if (infoBuilder_ == null) {
+          info_ = qxmobile.protobuf.Explore.TypeInfo.getDefaultInstance();
+        } else {
+          infoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -2080,7 +2023,24 @@ public final class Explore {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.type_ = type_;
+        result.success_ = success_;
+        if (awardsListBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            awardsList_ = java.util.Collections.unmodifiableList(awardsList_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.awardsList_ = awardsList_;
+        } else {
+          result.awardsList_ = awardsListBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        if (infoBuilder_ == null) {
+          result.info_ = info_;
+        } else {
+          result.info_ = infoBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2097,598 +2057,8 @@ public final class Explore {
 
       public Builder mergeFrom(qxmobile.protobuf.Explore.ExploreResp other) {
         if (other == qxmobile.protobuf.Explore.ExploreResp.getDefaultInstance()) return this;
-        if (other.hasType()) {
-          setType(other.getType());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasType()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        qxmobile.protobuf.Explore.ExploreResp parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.Explore.ExploreResp) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 type = 1;
-      private int type_ ;
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       *1-元宝不足，2-次数不够，3-时间不到 4-数据错误 5 贡献值不够
-       * </pre>
-       */
-      public boolean hasType() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       *1-元宝不足，2-次数不够，3-时间不到 4-数据错误 5 贡献值不够
-       * </pre>
-       */
-      public int getType() {
-        return type_;
-      }
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       *1-元宝不足，2-次数不够，3-时间不到 4-数据错误 5 贡献值不够
-       * </pre>
-       */
-      public Builder setType(int value) {
-        bitField0_ |= 0x00000001;
-        type_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       *1-元宝不足，2-次数不够，3-时间不到 4-数据错误 5 贡献值不够
-       * </pre>
-       */
-      public Builder clearType() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        type_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ExploreResp)
-    }
-
-    static {
-      defaultInstance = new ExploreResp(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ExploreResp)
-  }
-
-  public interface ExploreAwardsInfoOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 type = 1;
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 探宝类型：0-免费，1-单抽，10-10连抽
-     * 矿区类型：0-矿洞 1-矿井 10-矿脉 11-联盟单抽， 12-联盟10抽
-     * </pre>
-     */
-    boolean hasType();
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 探宝类型：0-免费，1-单抽，10-10连抽
-     * 矿区类型：0-矿洞 1-矿井 10-矿脉 11-联盟单抽， 12-联盟10抽
-     * </pre>
-     */
-    int getType();
-
-    // repeated .qxmobile.protobuf.Award awardsList = 2;
-    /**
-     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
-     *
-     * <pre>
-     * 一系列物品，包含抽得到秘宝切成的碎片物品
-     * </pre>
-     */
-    java.util.List<qxmobile.protobuf.Explore.Award> 
-        getAwardsListList();
-    /**
-     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
-     *
-     * <pre>
-     * 一系列物品，包含抽得到秘宝切成的碎片物品
-     * </pre>
-     */
-    qxmobile.protobuf.Explore.Award getAwardsList(int index);
-    /**
-     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
-     *
-     * <pre>
-     * 一系列物品，包含抽得到秘宝切成的碎片物品
-     * </pre>
-     */
-    int getAwardsListCount();
-    /**
-     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
-     *
-     * <pre>
-     * 一系列物品，包含抽得到秘宝切成的碎片物品
-     * </pre>
-     */
-    java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
-        getAwardsListOrBuilderList();
-    /**
-     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
-     *
-     * <pre>
-     * 一系列物品，包含抽得到秘宝切成的碎片物品
-     * </pre>
-     */
-    qxmobile.protobuf.Explore.AwardOrBuilder getAwardsListOrBuilder(
-        int index);
-  }
-  /**
-   * Protobuf type {@code qxmobile.protobuf.ExploreAwardsInfo}
-   *
-   * <pre>
-   * 服务器向客户端：抽得的奖品
-   * </pre>
-   */
-  public static final class ExploreAwardsInfo extends
-      com.google.protobuf.GeneratedMessage
-      implements ExploreAwardsInfoOrBuilder {
-    // Use ExploreAwardsInfo.newBuilder() to construct.
-    private ExploreAwardsInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private ExploreAwardsInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final ExploreAwardsInfo defaultInstance;
-    public static ExploreAwardsInfo getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public ExploreAwardsInfo getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private ExploreAwardsInfo(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              type_ = input.readInt32();
-              break;
-            }
-            case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                awardsList_ = new java.util.ArrayList<qxmobile.protobuf.Explore.Award>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              awardsList_.add(input.readMessage(qxmobile.protobuf.Explore.Award.PARSER, extensionRegistry));
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          awardsList_ = java.util.Collections.unmodifiableList(awardsList_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_ExploreAwardsInfo_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_ExploreAwardsInfo_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.Explore.ExploreAwardsInfo.class, qxmobile.protobuf.Explore.ExploreAwardsInfo.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<ExploreAwardsInfo> PARSER =
-        new com.google.protobuf.AbstractParser<ExploreAwardsInfo>() {
-      public ExploreAwardsInfo parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ExploreAwardsInfo(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ExploreAwardsInfo> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 type = 1;
-    public static final int TYPE_FIELD_NUMBER = 1;
-    private int type_;
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 探宝类型：0-免费，1-单抽，10-10连抽
-     * 矿区类型：0-矿洞 1-矿井 10-矿脉 11-联盟单抽， 12-联盟10抽
-     * </pre>
-     */
-    public boolean hasType() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 探宝类型：0-免费，1-单抽，10-10连抽
-     * 矿区类型：0-矿洞 1-矿井 10-矿脉 11-联盟单抽， 12-联盟10抽
-     * </pre>
-     */
-    public int getType() {
-      return type_;
-    }
-
-    // repeated .qxmobile.protobuf.Award awardsList = 2;
-    public static final int AWARDSLIST_FIELD_NUMBER = 2;
-    private java.util.List<qxmobile.protobuf.Explore.Award> awardsList_;
-    /**
-     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
-     *
-     * <pre>
-     * 一系列物品，包含抽得到秘宝切成的碎片物品
-     * </pre>
-     */
-    public java.util.List<qxmobile.protobuf.Explore.Award> getAwardsListList() {
-      return awardsList_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
-     *
-     * <pre>
-     * 一系列物品，包含抽得到秘宝切成的碎片物品
-     * </pre>
-     */
-    public java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
-        getAwardsListOrBuilderList() {
-      return awardsList_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
-     *
-     * <pre>
-     * 一系列物品，包含抽得到秘宝切成的碎片物品
-     * </pre>
-     */
-    public int getAwardsListCount() {
-      return awardsList_.size();
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
-     *
-     * <pre>
-     * 一系列物品，包含抽得到秘宝切成的碎片物品
-     * </pre>
-     */
-    public qxmobile.protobuf.Explore.Award getAwardsList(int index) {
-      return awardsList_.get(index);
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
-     *
-     * <pre>
-     * 一系列物品，包含抽得到秘宝切成的碎片物品
-     * </pre>
-     */
-    public qxmobile.protobuf.Explore.AwardOrBuilder getAwardsListOrBuilder(
-        int index) {
-      return awardsList_.get(index);
-    }
-
-    private void initFields() {
-      type_ = 0;
-      awardsList_ = java.util.Collections.emptyList();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasType()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      for (int i = 0; i < getAwardsListCount(); i++) {
-        if (!getAwardsList(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, type_);
-      }
-      for (int i = 0; i < awardsList_.size(); i++) {
-        output.writeMessage(2, awardsList_.get(i));
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, type_);
-      }
-      for (int i = 0; i < awardsList_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, awardsList_.get(i));
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static qxmobile.protobuf.Explore.ExploreAwardsInfo parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Explore.ExploreAwardsInfo parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Explore.ExploreAwardsInfo parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Explore.ExploreAwardsInfo parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Explore.ExploreAwardsInfo parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Explore.ExploreAwardsInfo parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Explore.ExploreAwardsInfo parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static qxmobile.protobuf.Explore.ExploreAwardsInfo parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Explore.ExploreAwardsInfo parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Explore.ExploreAwardsInfo parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.Explore.ExploreAwardsInfo prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code qxmobile.protobuf.ExploreAwardsInfo}
-     *
-     * <pre>
-     * 服务器向客户端：抽得的奖品
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.Explore.ExploreAwardsInfoOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_ExploreAwardsInfo_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_ExploreAwardsInfo_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.Explore.ExploreAwardsInfo.class, qxmobile.protobuf.Explore.ExploreAwardsInfo.Builder.class);
-      }
-
-      // Construct using qxmobile.protobuf.Explore.ExploreAwardsInfo.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getAwardsListFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        type_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        if (awardsListBuilder_ == null) {
-          awardsList_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-        } else {
-          awardsListBuilder_.clear();
-        }
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_ExploreAwardsInfo_descriptor;
-      }
-
-      public qxmobile.protobuf.Explore.ExploreAwardsInfo getDefaultInstanceForType() {
-        return qxmobile.protobuf.Explore.ExploreAwardsInfo.getDefaultInstance();
-      }
-
-      public qxmobile.protobuf.Explore.ExploreAwardsInfo build() {
-        qxmobile.protobuf.Explore.ExploreAwardsInfo result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public qxmobile.protobuf.Explore.ExploreAwardsInfo buildPartial() {
-        qxmobile.protobuf.Explore.ExploreAwardsInfo result = new qxmobile.protobuf.Explore.ExploreAwardsInfo(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.type_ = type_;
-        if (awardsListBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
-            awardsList_ = java.util.Collections.unmodifiableList(awardsList_);
-            bitField0_ = (bitField0_ & ~0x00000002);
-          }
-          result.awardsList_ = awardsList_;
-        } else {
-          result.awardsList_ = awardsListBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.Explore.ExploreAwardsInfo) {
-          return mergeFrom((qxmobile.protobuf.Explore.ExploreAwardsInfo)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(qxmobile.protobuf.Explore.ExploreAwardsInfo other) {
-        if (other == qxmobile.protobuf.Explore.ExploreAwardsInfo.getDefaultInstance()) return this;
-        if (other.hasType()) {
-          setType(other.getType());
+        if (other.hasSuccess()) {
+          setSuccess(other.getSuccess());
         }
         if (awardsListBuilder_ == null) {
           if (!other.awardsList_.isEmpty()) {
@@ -2716,17 +2086,26 @@ public final class Explore {
             }
           }
         }
+        if (other.hasInfo()) {
+          mergeInfo(other.getInfo());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasType()) {
+        if (!hasSuccess()) {
           
           return false;
         }
         for (int i = 0; i < getAwardsListCount(); i++) {
           if (!getAwardsList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasInfo()) {
+          if (!getInfo().isInitialized()) {
             
             return false;
           }
@@ -2738,11 +2117,11 @@ public final class Explore {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        qxmobile.protobuf.Explore.ExploreAwardsInfo parsedMessage = null;
+        qxmobile.protobuf.Explore.ExploreResp parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.Explore.ExploreAwardsInfo) e.getUnfinishedMessage();
+          parsedMessage = (qxmobile.protobuf.Explore.ExploreResp) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -2753,55 +2132,51 @@ public final class Explore {
       }
       private int bitField0_;
 
-      // required int32 type = 1;
-      private int type_ ;
+      // required int32 success = 1;
+      private int success_ ;
       /**
-       * <code>required int32 type = 1;</code>
+       * <code>required int32 success = 1;</code>
        *
        * <pre>
-       * 探宝类型：0-免费，1-单抽，10-10连抽
-       * 矿区类型：0-矿洞 1-矿井 10-矿脉 11-联盟单抽， 12-联盟10抽
+       *0-抽奖成功, 1-铜币不足, 2-元宝不足 3-数据错误 
        * </pre>
        */
-      public boolean hasType() {
+      public boolean hasSuccess() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int32 type = 1;</code>
+       * <code>required int32 success = 1;</code>
        *
        * <pre>
-       * 探宝类型：0-免费，1-单抽，10-10连抽
-       * 矿区类型：0-矿洞 1-矿井 10-矿脉 11-联盟单抽， 12-联盟10抽
+       *0-抽奖成功, 1-铜币不足, 2-元宝不足 3-数据错误 
        * </pre>
        */
-      public int getType() {
-        return type_;
+      public int getSuccess() {
+        return success_;
       }
       /**
-       * <code>required int32 type = 1;</code>
+       * <code>required int32 success = 1;</code>
        *
        * <pre>
-       * 探宝类型：0-免费，1-单抽，10-10连抽
-       * 矿区类型：0-矿洞 1-矿井 10-矿脉 11-联盟单抽， 12-联盟10抽
+       *0-抽奖成功, 1-铜币不足, 2-元宝不足 3-数据错误 
        * </pre>
        */
-      public Builder setType(int value) {
+      public Builder setSuccess(int value) {
         bitField0_ |= 0x00000001;
-        type_ = value;
+        success_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 type = 1;</code>
+       * <code>required int32 success = 1;</code>
        *
        * <pre>
-       * 探宝类型：0-免费，1-单抽，10-10连抽
-       * 矿区类型：0-矿洞 1-矿井 10-矿脉 11-联盟单抽， 12-联盟10抽
+       *0-抽奖成功, 1-铜币不足, 2-元宝不足 3-数据错误 
        * </pre>
        */
-      public Builder clearType() {
+      public Builder clearSuccess() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        type_ = 0;
+        success_ = 0;
         onChanged();
         return this;
       }
@@ -2823,7 +2198,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public java.util.List<qxmobile.protobuf.Explore.Award> getAwardsListList() {
@@ -2837,7 +2212,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public int getAwardsListCount() {
@@ -2851,7 +2226,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public qxmobile.protobuf.Explore.Award getAwardsList(int index) {
@@ -2865,7 +2240,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public Builder setAwardsList(
@@ -2886,7 +2261,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public Builder setAwardsList(
@@ -2904,7 +2279,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public Builder addAwardsList(qxmobile.protobuf.Explore.Award value) {
@@ -2924,7 +2299,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public Builder addAwardsList(
@@ -2945,7 +2320,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public Builder addAwardsList(
@@ -2963,7 +2338,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public Builder addAwardsList(
@@ -2981,7 +2356,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public Builder addAllAwardsList(
@@ -2999,7 +2374,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public Builder clearAwardsList() {
@@ -3016,7 +2391,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public Builder removeAwardsList(int index) {
@@ -3033,7 +2408,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public qxmobile.protobuf.Explore.Award.Builder getAwardsListBuilder(
@@ -3044,7 +2419,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public qxmobile.protobuf.Explore.AwardOrBuilder getAwardsListOrBuilder(
@@ -3058,7 +2433,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
@@ -3073,7 +2448,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public qxmobile.protobuf.Explore.Award.Builder addAwardsListBuilder() {
@@ -3084,7 +2459,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public qxmobile.protobuf.Explore.Award.Builder addAwardsListBuilder(
@@ -3096,7 +2471,7 @@ public final class Explore {
        * <code>repeated .qxmobile.protobuf.Award awardsList = 2;</code>
        *
        * <pre>
-       * 一系列物品，包含抽得到秘宝切成的碎片物品
+       * success == 0的时候发送
        * </pre>
        */
       public java.util.List<qxmobile.protobuf.Explore.Award.Builder> 
@@ -3118,171 +2493,186 @@ public final class Explore {
         return awardsListBuilder_;
       }
 
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ExploreAwardsInfo)
+      // optional .qxmobile.protobuf.TypeInfo info = 3;
+      private qxmobile.protobuf.Explore.TypeInfo info_ = qxmobile.protobuf.Explore.TypeInfo.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          qxmobile.protobuf.Explore.TypeInfo, qxmobile.protobuf.Explore.TypeInfo.Builder, qxmobile.protobuf.Explore.TypeInfoOrBuilder> infoBuilder_;
+      /**
+       * <code>optional .qxmobile.protobuf.TypeInfo info = 3;</code>
+       */
+      public boolean hasInfo() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.TypeInfo info = 3;</code>
+       */
+      public qxmobile.protobuf.Explore.TypeInfo getInfo() {
+        if (infoBuilder_ == null) {
+          return info_;
+        } else {
+          return infoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.TypeInfo info = 3;</code>
+       */
+      public Builder setInfo(qxmobile.protobuf.Explore.TypeInfo value) {
+        if (infoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          info_ = value;
+          onChanged();
+        } else {
+          infoBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.TypeInfo info = 3;</code>
+       */
+      public Builder setInfo(
+          qxmobile.protobuf.Explore.TypeInfo.Builder builderForValue) {
+        if (infoBuilder_ == null) {
+          info_ = builderForValue.build();
+          onChanged();
+        } else {
+          infoBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.TypeInfo info = 3;</code>
+       */
+      public Builder mergeInfo(qxmobile.protobuf.Explore.TypeInfo value) {
+        if (infoBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              info_ != qxmobile.protobuf.Explore.TypeInfo.getDefaultInstance()) {
+            info_ =
+              qxmobile.protobuf.Explore.TypeInfo.newBuilder(info_).mergeFrom(value).buildPartial();
+          } else {
+            info_ = value;
+          }
+          onChanged();
+        } else {
+          infoBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.TypeInfo info = 3;</code>
+       */
+      public Builder clearInfo() {
+        if (infoBuilder_ == null) {
+          info_ = qxmobile.protobuf.Explore.TypeInfo.getDefaultInstance();
+          onChanged();
+        } else {
+          infoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.TypeInfo info = 3;</code>
+       */
+      public qxmobile.protobuf.Explore.TypeInfo.Builder getInfoBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getInfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.TypeInfo info = 3;</code>
+       */
+      public qxmobile.protobuf.Explore.TypeInfoOrBuilder getInfoOrBuilder() {
+        if (infoBuilder_ != null) {
+          return infoBuilder_.getMessageOrBuilder();
+        } else {
+          return info_;
+        }
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.TypeInfo info = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          qxmobile.protobuf.Explore.TypeInfo, qxmobile.protobuf.Explore.TypeInfo.Builder, qxmobile.protobuf.Explore.TypeInfoOrBuilder> 
+          getInfoFieldBuilder() {
+        if (infoBuilder_ == null) {
+          infoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              qxmobile.protobuf.Explore.TypeInfo, qxmobile.protobuf.Explore.TypeInfo.Builder, qxmobile.protobuf.Explore.TypeInfoOrBuilder>(
+                  info_,
+                  getParentForChildren(),
+                  isClean());
+          info_ = null;
+        }
+        return infoBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ExploreResp)
     }
 
     static {
-      defaultInstance = new ExploreAwardsInfo(true);
+      defaultInstance = new ExploreResp(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ExploreAwardsInfo)
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ExploreResp)
   }
 
-  public interface ExploreMineInfoOrBuilder
+  public interface TypeInfoOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 type = 1;
+    // required int32 money = 1;
     /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 探宝类型：0-免费，1-单抽，10-10连抽
-     * 矿区类型：0-矿洞，1-矿井，10-矿脉， 11-联盟单抽， 12-联盟10抽
-     * </pre>
+     * <code>required int32 money = 1;</code>
      */
-    boolean hasType();
+    boolean hasMoney();
     /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 探宝类型：0-免费，1-单抽，10-10连抽
-     * 矿区类型：0-矿洞，1-矿井，10-矿脉， 11-联盟单抽， 12-联盟10抽
-     * </pre>
+     * <code>required int32 money = 1;</code>
      */
-    int getType();
+    int getMoney();
 
-    // optional int32 remainingTime = 2;
+    // required int32 remainFreeCount = 2;
     /**
-     * <code>optional int32 remainingTime = 2;</code>
-     *
-     * <pre>
-     * 距离下次抽奖还有多少时间：当是矿脉， 联盟矿井，联盟矿脉的时候，不发， 而-1表示剩余次数是0的时候
-     * </pre>
+     * <code>required int32 remainFreeCount = 2;</code>
      */
-    boolean hasRemainingTime();
+    boolean hasRemainFreeCount();
     /**
-     * <code>optional int32 remainingTime = 2;</code>
-     *
-     * <pre>
-     * 距离下次抽奖还有多少时间：当是矿脉， 联盟矿井，联盟矿脉的时候，不发， 而-1表示剩余次数是0的时候
-     * </pre>
+     * <code>required int32 remainFreeCount = 2;</code>
      */
-    int getRemainingTime();
+    int getRemainFreeCount();
 
-    // optional int32 gotTimes = 3;
+    // required int32 cd = 3;
     /**
-     * <code>optional int32 gotTimes = 3;</code>
-     *
-     * <pre>
-     * 已领取次数： 当是矿脉，联盟矿井，联盟矿脉的时候，不发
-     * </pre>
+     * <code>required int32 cd = 3;</code>
      */
-    boolean hasGotTimes();
+    boolean hasCd();
     /**
-     * <code>optional int32 gotTimes = 3;</code>
-     *
-     * <pre>
-     * 已领取次数： 当是矿脉，联盟矿井，联盟矿脉的时候，不发
-     * </pre>
+     * <code>required int32 cd = 3;</code>
      */
-    int getGotTimes();
-
-    // required int32 totalTimes = 4;
-    /**
-     * <code>required int32 totalTimes = 4;</code>
-     *
-     * <pre>
-     * 总次数
-     * </pre>
-     */
-    boolean hasTotalTimes();
-    /**
-     * <code>required int32 totalTimes = 4;</code>
-     *
-     * <pre>
-     * 总次数
-     * </pre>
-     */
-    int getTotalTimes();
-
-    // optional int32 discount = 5;
-    /**
-     * <code>optional int32 discount = 5;</code>
-     *
-     * <pre>
-     * 打折数 当是免费抽的时候，不发
-     * </pre>
-     */
-    boolean hasDiscount();
-    /**
-     * <code>optional int32 discount = 5;</code>
-     *
-     * <pre>
-     * 打折数 当是免费抽的时候，不发
-     * </pre>
-     */
-    int getDiscount();
-
-    // optional int32 cost = 6;
-    /**
-     * <code>optional int32 cost = 6;</code>
-     *
-     * <pre>
-     * 元宝数 当是免费抽的时候，不发
-     * </pre>
-     */
-    boolean hasCost();
-    /**
-     * <code>optional int32 cost = 6;</code>
-     *
-     * <pre>
-     * 元宝数 当是免费抽的时候，不发
-     * </pre>
-     */
-    int getCost();
-
-    // required bool isCanGet = 7;
-    /**
-     * <code>required bool isCanGet = 7;</code>
-     *
-     * <pre>
-     * 1 可领取， 0 不可以领取
-     * </pre>
-     */
-    boolean hasIsCanGet();
-    /**
-     * <code>required bool isCanGet = 7;</code>
-     *
-     * <pre>
-     * 1 可领取， 0 不可以领取
-     * </pre>
-     */
-    boolean getIsCanGet();
+    int getCd();
   }
   /**
-   * Protobuf type {@code qxmobile.protobuf.ExploreMineInfo}
-   *
-   * <pre>
-   * 不同的矿区信息
-   * </pre>
+   * Protobuf type {@code qxmobile.protobuf.TypeInfo}
    */
-  public static final class ExploreMineInfo extends
+  public static final class TypeInfo extends
       com.google.protobuf.GeneratedMessage
-      implements ExploreMineInfoOrBuilder {
-    // Use ExploreMineInfo.newBuilder() to construct.
-    private ExploreMineInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements TypeInfoOrBuilder {
+    // Use TypeInfo.newBuilder() to construct.
+    private TypeInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private ExploreMineInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private TypeInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final ExploreMineInfo defaultInstance;
-    public static ExploreMineInfo getDefaultInstance() {
+    private static final TypeInfo defaultInstance;
+    public static TypeInfo getDefaultInstance() {
       return defaultInstance;
     }
 
-    public ExploreMineInfo getDefaultInstanceForType() {
+    public TypeInfo getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -3292,7 +2682,7 @@ public final class Explore {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private ExploreMineInfo(
+    private TypeInfo(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -3317,37 +2707,17 @@ public final class Explore {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              type_ = input.readInt32();
+              money_ = input.readInt32();
               break;
             }
             case 16: {
               bitField0_ |= 0x00000002;
-              remainingTime_ = input.readInt32();
+              remainFreeCount_ = input.readInt32();
               break;
             }
             case 24: {
               bitField0_ |= 0x00000004;
-              gotTimes_ = input.readInt32();
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000008;
-              totalTimes_ = input.readInt32();
-              break;
-            }
-            case 40: {
-              bitField0_ |= 0x00000010;
-              discount_ = input.readInt32();
-              break;
-            }
-            case 48: {
-              bitField0_ |= 0x00000020;
-              cost_ = input.readInt32();
-              break;
-            }
-            case 56: {
-              bitField0_ |= 0x00000040;
-              isCanGet_ = input.readBool();
+              cd_ = input.readInt32();
               break;
             }
           }
@@ -3364,225 +2734,99 @@ public final class Explore {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_ExploreMineInfo_descriptor;
+      return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_TypeInfo_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_ExploreMineInfo_fieldAccessorTable
+      return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_TypeInfo_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.Explore.ExploreMineInfo.class, qxmobile.protobuf.Explore.ExploreMineInfo.Builder.class);
+              qxmobile.protobuf.Explore.TypeInfo.class, qxmobile.protobuf.Explore.TypeInfo.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<ExploreMineInfo> PARSER =
-        new com.google.protobuf.AbstractParser<ExploreMineInfo>() {
-      public ExploreMineInfo parsePartialFrom(
+    public static com.google.protobuf.Parser<TypeInfo> PARSER =
+        new com.google.protobuf.AbstractParser<TypeInfo>() {
+      public TypeInfo parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ExploreMineInfo(input, extensionRegistry);
+        return new TypeInfo(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ExploreMineInfo> getParserForType() {
+    public com.google.protobuf.Parser<TypeInfo> getParserForType() {
       return PARSER;
     }
 
     private int bitField0_;
-    // required int32 type = 1;
-    public static final int TYPE_FIELD_NUMBER = 1;
-    private int type_;
+    // required int32 money = 1;
+    public static final int MONEY_FIELD_NUMBER = 1;
+    private int money_;
     /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 探宝类型：0-免费，1-单抽，10-10连抽
-     * 矿区类型：0-矿洞，1-矿井，10-矿脉， 11-联盟单抽， 12-联盟10抽
-     * </pre>
+     * <code>required int32 money = 1;</code>
      */
-    public boolean hasType() {
+    public boolean hasMoney() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 探宝类型：0-免费，1-单抽，10-10连抽
-     * 矿区类型：0-矿洞，1-矿井，10-矿脉， 11-联盟单抽， 12-联盟10抽
-     * </pre>
+     * <code>required int32 money = 1;</code>
      */
-    public int getType() {
-      return type_;
+    public int getMoney() {
+      return money_;
     }
 
-    // optional int32 remainingTime = 2;
-    public static final int REMAININGTIME_FIELD_NUMBER = 2;
-    private int remainingTime_;
+    // required int32 remainFreeCount = 2;
+    public static final int REMAINFREECOUNT_FIELD_NUMBER = 2;
+    private int remainFreeCount_;
     /**
-     * <code>optional int32 remainingTime = 2;</code>
-     *
-     * <pre>
-     * 距离下次抽奖还有多少时间：当是矿脉， 联盟矿井，联盟矿脉的时候，不发， 而-1表示剩余次数是0的时候
-     * </pre>
+     * <code>required int32 remainFreeCount = 2;</code>
      */
-    public boolean hasRemainingTime() {
+    public boolean hasRemainFreeCount() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional int32 remainingTime = 2;</code>
-     *
-     * <pre>
-     * 距离下次抽奖还有多少时间：当是矿脉， 联盟矿井，联盟矿脉的时候，不发， 而-1表示剩余次数是0的时候
-     * </pre>
+     * <code>required int32 remainFreeCount = 2;</code>
      */
-    public int getRemainingTime() {
-      return remainingTime_;
+    public int getRemainFreeCount() {
+      return remainFreeCount_;
     }
 
-    // optional int32 gotTimes = 3;
-    public static final int GOTTIMES_FIELD_NUMBER = 3;
-    private int gotTimes_;
+    // required int32 cd = 3;
+    public static final int CD_FIELD_NUMBER = 3;
+    private int cd_;
     /**
-     * <code>optional int32 gotTimes = 3;</code>
-     *
-     * <pre>
-     * 已领取次数： 当是矿脉，联盟矿井，联盟矿脉的时候，不发
-     * </pre>
+     * <code>required int32 cd = 3;</code>
      */
-    public boolean hasGotTimes() {
+    public boolean hasCd() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional int32 gotTimes = 3;</code>
-     *
-     * <pre>
-     * 已领取次数： 当是矿脉，联盟矿井，联盟矿脉的时候，不发
-     * </pre>
+     * <code>required int32 cd = 3;</code>
      */
-    public int getGotTimes() {
-      return gotTimes_;
-    }
-
-    // required int32 totalTimes = 4;
-    public static final int TOTALTIMES_FIELD_NUMBER = 4;
-    private int totalTimes_;
-    /**
-     * <code>required int32 totalTimes = 4;</code>
-     *
-     * <pre>
-     * 总次数
-     * </pre>
-     */
-    public boolean hasTotalTimes() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>required int32 totalTimes = 4;</code>
-     *
-     * <pre>
-     * 总次数
-     * </pre>
-     */
-    public int getTotalTimes() {
-      return totalTimes_;
-    }
-
-    // optional int32 discount = 5;
-    public static final int DISCOUNT_FIELD_NUMBER = 5;
-    private int discount_;
-    /**
-     * <code>optional int32 discount = 5;</code>
-     *
-     * <pre>
-     * 打折数 当是免费抽的时候，不发
-     * </pre>
-     */
-    public boolean hasDiscount() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
-    }
-    /**
-     * <code>optional int32 discount = 5;</code>
-     *
-     * <pre>
-     * 打折数 当是免费抽的时候，不发
-     * </pre>
-     */
-    public int getDiscount() {
-      return discount_;
-    }
-
-    // optional int32 cost = 6;
-    public static final int COST_FIELD_NUMBER = 6;
-    private int cost_;
-    /**
-     * <code>optional int32 cost = 6;</code>
-     *
-     * <pre>
-     * 元宝数 当是免费抽的时候，不发
-     * </pre>
-     */
-    public boolean hasCost() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
-    }
-    /**
-     * <code>optional int32 cost = 6;</code>
-     *
-     * <pre>
-     * 元宝数 当是免费抽的时候，不发
-     * </pre>
-     */
-    public int getCost() {
-      return cost_;
-    }
-
-    // required bool isCanGet = 7;
-    public static final int ISCANGET_FIELD_NUMBER = 7;
-    private boolean isCanGet_;
-    /**
-     * <code>required bool isCanGet = 7;</code>
-     *
-     * <pre>
-     * 1 可领取， 0 不可以领取
-     * </pre>
-     */
-    public boolean hasIsCanGet() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
-    }
-    /**
-     * <code>required bool isCanGet = 7;</code>
-     *
-     * <pre>
-     * 1 可领取， 0 不可以领取
-     * </pre>
-     */
-    public boolean getIsCanGet() {
-      return isCanGet_;
+    public int getCd() {
+      return cd_;
     }
 
     private void initFields() {
-      type_ = 0;
-      remainingTime_ = 0;
-      gotTimes_ = 0;
-      totalTimes_ = 0;
-      discount_ = 0;
-      cost_ = 0;
-      isCanGet_ = false;
+      money_ = 0;
+      remainFreeCount_ = 0;
+      cd_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasType()) {
+      if (!hasMoney()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasTotalTimes()) {
+      if (!hasRemainFreeCount()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasIsCanGet()) {
+      if (!hasCd()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -3594,25 +2838,13 @@ public final class Explore {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, type_);
+        output.writeInt32(1, money_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, remainingTime_);
+        output.writeInt32(2, remainFreeCount_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, gotTimes_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(4, totalTimes_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeInt32(5, discount_);
-      }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeInt32(6, cost_);
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeBool(7, isCanGet_);
+        output.writeInt32(3, cd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3625,31 +2857,15 @@ public final class Explore {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, type_);
+          .computeInt32Size(1, money_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, remainingTime_);
+          .computeInt32Size(2, remainFreeCount_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, gotTimes_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, totalTimes_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, discount_);
-      }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(6, cost_);
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(7, isCanGet_);
+          .computeInt32Size(3, cd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3663,53 +2879,53 @@ public final class Explore {
       return super.writeReplace();
     }
 
-    public static qxmobile.protobuf.Explore.ExploreMineInfo parseFrom(
+    public static qxmobile.protobuf.Explore.TypeInfo parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static qxmobile.protobuf.Explore.ExploreMineInfo parseFrom(
+    public static qxmobile.protobuf.Explore.TypeInfo parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static qxmobile.protobuf.Explore.ExploreMineInfo parseFrom(byte[] data)
+    public static qxmobile.protobuf.Explore.TypeInfo parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static qxmobile.protobuf.Explore.ExploreMineInfo parseFrom(
+    public static qxmobile.protobuf.Explore.TypeInfo parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static qxmobile.protobuf.Explore.ExploreMineInfo parseFrom(java.io.InputStream input)
+    public static qxmobile.protobuf.Explore.TypeInfo parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static qxmobile.protobuf.Explore.ExploreMineInfo parseFrom(
+    public static qxmobile.protobuf.Explore.TypeInfo parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static qxmobile.protobuf.Explore.ExploreMineInfo parseDelimitedFrom(java.io.InputStream input)
+    public static qxmobile.protobuf.Explore.TypeInfo parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static qxmobile.protobuf.Explore.ExploreMineInfo parseDelimitedFrom(
+    public static qxmobile.protobuf.Explore.TypeInfo parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static qxmobile.protobuf.Explore.ExploreMineInfo parseFrom(
+    public static qxmobile.protobuf.Explore.TypeInfo parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static qxmobile.protobuf.Explore.ExploreMineInfo parseFrom(
+    public static qxmobile.protobuf.Explore.TypeInfo parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -3718,7 +2934,7 @@ public final class Explore {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.Explore.ExploreMineInfo prototype) {
+    public static Builder newBuilder(qxmobile.protobuf.Explore.TypeInfo prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -3730,28 +2946,24 @@ public final class Explore {
       return builder;
     }
     /**
-     * Protobuf type {@code qxmobile.protobuf.ExploreMineInfo}
-     *
-     * <pre>
-     * 不同的矿区信息
-     * </pre>
+     * Protobuf type {@code qxmobile.protobuf.TypeInfo}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.Explore.ExploreMineInfoOrBuilder {
+       implements qxmobile.protobuf.Explore.TypeInfoOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_ExploreMineInfo_descriptor;
+        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_TypeInfo_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_ExploreMineInfo_fieldAccessorTable
+        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_TypeInfo_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.Explore.ExploreMineInfo.class, qxmobile.protobuf.Explore.ExploreMineInfo.Builder.class);
+                qxmobile.protobuf.Explore.TypeInfo.class, qxmobile.protobuf.Explore.TypeInfo.Builder.class);
       }
 
-      // Construct using qxmobile.protobuf.Explore.ExploreMineInfo.newBuilder()
+      // Construct using qxmobile.protobuf.Explore.TypeInfo.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -3771,20 +2983,12 @@ public final class Explore {
 
       public Builder clear() {
         super.clear();
-        type_ = 0;
+        money_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        remainingTime_ = 0;
+        remainFreeCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        gotTimes_ = 0;
+        cd_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        totalTimes_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        discount_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000010);
-        cost_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000020);
-        isCanGet_ = false;
-        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -3794,104 +2998,76 @@ public final class Explore {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_ExploreMineInfo_descriptor;
+        return qxmobile.protobuf.Explore.internal_static_qxmobile_protobuf_TypeInfo_descriptor;
       }
 
-      public qxmobile.protobuf.Explore.ExploreMineInfo getDefaultInstanceForType() {
-        return qxmobile.protobuf.Explore.ExploreMineInfo.getDefaultInstance();
+      public qxmobile.protobuf.Explore.TypeInfo getDefaultInstanceForType() {
+        return qxmobile.protobuf.Explore.TypeInfo.getDefaultInstance();
       }
 
-      public qxmobile.protobuf.Explore.ExploreMineInfo build() {
-        qxmobile.protobuf.Explore.ExploreMineInfo result = buildPartial();
+      public qxmobile.protobuf.Explore.TypeInfo build() {
+        qxmobile.protobuf.Explore.TypeInfo result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public qxmobile.protobuf.Explore.ExploreMineInfo buildPartial() {
-        qxmobile.protobuf.Explore.ExploreMineInfo result = new qxmobile.protobuf.Explore.ExploreMineInfo(this);
+      public qxmobile.protobuf.Explore.TypeInfo buildPartial() {
+        qxmobile.protobuf.Explore.TypeInfo result = new qxmobile.protobuf.Explore.TypeInfo(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.type_ = type_;
+        result.money_ = money_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.remainingTime_ = remainingTime_;
+        result.remainFreeCount_ = remainFreeCount_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.gotTimes_ = gotTimes_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.totalTimes_ = totalTimes_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000010;
-        }
-        result.discount_ = discount_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
-          to_bitField0_ |= 0x00000020;
-        }
-        result.cost_ = cost_;
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
-          to_bitField0_ |= 0x00000040;
-        }
-        result.isCanGet_ = isCanGet_;
+        result.cd_ = cd_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.Explore.ExploreMineInfo) {
-          return mergeFrom((qxmobile.protobuf.Explore.ExploreMineInfo)other);
+        if (other instanceof qxmobile.protobuf.Explore.TypeInfo) {
+          return mergeFrom((qxmobile.protobuf.Explore.TypeInfo)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(qxmobile.protobuf.Explore.ExploreMineInfo other) {
-        if (other == qxmobile.protobuf.Explore.ExploreMineInfo.getDefaultInstance()) return this;
-        if (other.hasType()) {
-          setType(other.getType());
+      public Builder mergeFrom(qxmobile.protobuf.Explore.TypeInfo other) {
+        if (other == qxmobile.protobuf.Explore.TypeInfo.getDefaultInstance()) return this;
+        if (other.hasMoney()) {
+          setMoney(other.getMoney());
         }
-        if (other.hasRemainingTime()) {
-          setRemainingTime(other.getRemainingTime());
+        if (other.hasRemainFreeCount()) {
+          setRemainFreeCount(other.getRemainFreeCount());
         }
-        if (other.hasGotTimes()) {
-          setGotTimes(other.getGotTimes());
-        }
-        if (other.hasTotalTimes()) {
-          setTotalTimes(other.getTotalTimes());
-        }
-        if (other.hasDiscount()) {
-          setDiscount(other.getDiscount());
-        }
-        if (other.hasCost()) {
-          setCost(other.getCost());
-        }
-        if (other.hasIsCanGet()) {
-          setIsCanGet(other.getIsCanGet());
+        if (other.hasCd()) {
+          setCd(other.getCd());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasType()) {
+        if (!hasMoney()) {
           
           return false;
         }
-        if (!hasTotalTimes()) {
+        if (!hasRemainFreeCount()) {
           
           return false;
         }
-        if (!hasIsCanGet()) {
+        if (!hasCd()) {
           
           return false;
         }
@@ -3902,11 +3078,11 @@ public final class Explore {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        qxmobile.protobuf.Explore.ExploreMineInfo parsedMessage = null;
+        qxmobile.protobuf.Explore.TypeInfo parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.Explore.ExploreMineInfo) e.getUnfinishedMessage();
+          parsedMessage = (qxmobile.protobuf.Explore.TypeInfo) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -3917,362 +3093,114 @@ public final class Explore {
       }
       private int bitField0_;
 
-      // required int32 type = 1;
-      private int type_ ;
+      // required int32 money = 1;
+      private int money_ ;
       /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * 探宝类型：0-免费，1-单抽，10-10连抽
-       * 矿区类型：0-矿洞，1-矿井，10-矿脉， 11-联盟单抽， 12-联盟10抽
-       * </pre>
+       * <code>required int32 money = 1;</code>
        */
-      public boolean hasType() {
+      public boolean hasMoney() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * 探宝类型：0-免费，1-单抽，10-10连抽
-       * 矿区类型：0-矿洞，1-矿井，10-矿脉， 11-联盟单抽， 12-联盟10抽
-       * </pre>
+       * <code>required int32 money = 1;</code>
        */
-      public int getType() {
-        return type_;
+      public int getMoney() {
+        return money_;
       }
       /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * 探宝类型：0-免费，1-单抽，10-10连抽
-       * 矿区类型：0-矿洞，1-矿井，10-矿脉， 11-联盟单抽， 12-联盟10抽
-       * </pre>
+       * <code>required int32 money = 1;</code>
        */
-      public Builder setType(int value) {
+      public Builder setMoney(int value) {
         bitField0_ |= 0x00000001;
-        type_ = value;
+        money_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * 探宝类型：0-免费，1-单抽，10-10连抽
-       * 矿区类型：0-矿洞，1-矿井，10-矿脉， 11-联盟单抽， 12-联盟10抽
-       * </pre>
+       * <code>required int32 money = 1;</code>
        */
-      public Builder clearType() {
+      public Builder clearMoney() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        type_ = 0;
+        money_ = 0;
         onChanged();
         return this;
       }
 
-      // optional int32 remainingTime = 2;
-      private int remainingTime_ ;
+      // required int32 remainFreeCount = 2;
+      private int remainFreeCount_ ;
       /**
-       * <code>optional int32 remainingTime = 2;</code>
-       *
-       * <pre>
-       * 距离下次抽奖还有多少时间：当是矿脉， 联盟矿井，联盟矿脉的时候，不发， 而-1表示剩余次数是0的时候
-       * </pre>
+       * <code>required int32 remainFreeCount = 2;</code>
        */
-      public boolean hasRemainingTime() {
+      public boolean hasRemainFreeCount() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional int32 remainingTime = 2;</code>
-       *
-       * <pre>
-       * 距离下次抽奖还有多少时间：当是矿脉， 联盟矿井，联盟矿脉的时候，不发， 而-1表示剩余次数是0的时候
-       * </pre>
+       * <code>required int32 remainFreeCount = 2;</code>
        */
-      public int getRemainingTime() {
-        return remainingTime_;
+      public int getRemainFreeCount() {
+        return remainFreeCount_;
       }
       /**
-       * <code>optional int32 remainingTime = 2;</code>
-       *
-       * <pre>
-       * 距离下次抽奖还有多少时间：当是矿脉， 联盟矿井，联盟矿脉的时候，不发， 而-1表示剩余次数是0的时候
-       * </pre>
+       * <code>required int32 remainFreeCount = 2;</code>
        */
-      public Builder setRemainingTime(int value) {
+      public Builder setRemainFreeCount(int value) {
         bitField0_ |= 0x00000002;
-        remainingTime_ = value;
+        remainFreeCount_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 remainingTime = 2;</code>
-       *
-       * <pre>
-       * 距离下次抽奖还有多少时间：当是矿脉， 联盟矿井，联盟矿脉的时候，不发， 而-1表示剩余次数是0的时候
-       * </pre>
+       * <code>required int32 remainFreeCount = 2;</code>
        */
-      public Builder clearRemainingTime() {
+      public Builder clearRemainFreeCount() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        remainingTime_ = 0;
+        remainFreeCount_ = 0;
         onChanged();
         return this;
       }
 
-      // optional int32 gotTimes = 3;
-      private int gotTimes_ ;
+      // required int32 cd = 3;
+      private int cd_ ;
       /**
-       * <code>optional int32 gotTimes = 3;</code>
-       *
-       * <pre>
-       * 已领取次数： 当是矿脉，联盟矿井，联盟矿脉的时候，不发
-       * </pre>
+       * <code>required int32 cd = 3;</code>
        */
-      public boolean hasGotTimes() {
+      public boolean hasCd() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional int32 gotTimes = 3;</code>
-       *
-       * <pre>
-       * 已领取次数： 当是矿脉，联盟矿井，联盟矿脉的时候，不发
-       * </pre>
+       * <code>required int32 cd = 3;</code>
        */
-      public int getGotTimes() {
-        return gotTimes_;
+      public int getCd() {
+        return cd_;
       }
       /**
-       * <code>optional int32 gotTimes = 3;</code>
-       *
-       * <pre>
-       * 已领取次数： 当是矿脉，联盟矿井，联盟矿脉的时候，不发
-       * </pre>
+       * <code>required int32 cd = 3;</code>
        */
-      public Builder setGotTimes(int value) {
+      public Builder setCd(int value) {
         bitField0_ |= 0x00000004;
-        gotTimes_ = value;
+        cd_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 gotTimes = 3;</code>
-       *
-       * <pre>
-       * 已领取次数： 当是矿脉，联盟矿井，联盟矿脉的时候，不发
-       * </pre>
+       * <code>required int32 cd = 3;</code>
        */
-      public Builder clearGotTimes() {
+      public Builder clearCd() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        gotTimes_ = 0;
+        cd_ = 0;
         onChanged();
         return this;
       }
 
-      // required int32 totalTimes = 4;
-      private int totalTimes_ ;
-      /**
-       * <code>required int32 totalTimes = 4;</code>
-       *
-       * <pre>
-       * 总次数
-       * </pre>
-       */
-      public boolean hasTotalTimes() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>required int32 totalTimes = 4;</code>
-       *
-       * <pre>
-       * 总次数
-       * </pre>
-       */
-      public int getTotalTimes() {
-        return totalTimes_;
-      }
-      /**
-       * <code>required int32 totalTimes = 4;</code>
-       *
-       * <pre>
-       * 总次数
-       * </pre>
-       */
-      public Builder setTotalTimes(int value) {
-        bitField0_ |= 0x00000008;
-        totalTimes_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 totalTimes = 4;</code>
-       *
-       * <pre>
-       * 总次数
-       * </pre>
-       */
-      public Builder clearTotalTimes() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        totalTimes_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional int32 discount = 5;
-      private int discount_ ;
-      /**
-       * <code>optional int32 discount = 5;</code>
-       *
-       * <pre>
-       * 打折数 当是免费抽的时候，不发
-       * </pre>
-       */
-      public boolean hasDiscount() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>optional int32 discount = 5;</code>
-       *
-       * <pre>
-       * 打折数 当是免费抽的时候，不发
-       * </pre>
-       */
-      public int getDiscount() {
-        return discount_;
-      }
-      /**
-       * <code>optional int32 discount = 5;</code>
-       *
-       * <pre>
-       * 打折数 当是免费抽的时候，不发
-       * </pre>
-       */
-      public Builder setDiscount(int value) {
-        bitField0_ |= 0x00000010;
-        discount_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 discount = 5;</code>
-       *
-       * <pre>
-       * 打折数 当是免费抽的时候，不发
-       * </pre>
-       */
-      public Builder clearDiscount() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        discount_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional int32 cost = 6;
-      private int cost_ ;
-      /**
-       * <code>optional int32 cost = 6;</code>
-       *
-       * <pre>
-       * 元宝数 当是免费抽的时候，不发
-       * </pre>
-       */
-      public boolean hasCost() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
-      }
-      /**
-       * <code>optional int32 cost = 6;</code>
-       *
-       * <pre>
-       * 元宝数 当是免费抽的时候，不发
-       * </pre>
-       */
-      public int getCost() {
-        return cost_;
-      }
-      /**
-       * <code>optional int32 cost = 6;</code>
-       *
-       * <pre>
-       * 元宝数 当是免费抽的时候，不发
-       * </pre>
-       */
-      public Builder setCost(int value) {
-        bitField0_ |= 0x00000020;
-        cost_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 cost = 6;</code>
-       *
-       * <pre>
-       * 元宝数 当是免费抽的时候，不发
-       * </pre>
-       */
-      public Builder clearCost() {
-        bitField0_ = (bitField0_ & ~0x00000020);
-        cost_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required bool isCanGet = 7;
-      private boolean isCanGet_ ;
-      /**
-       * <code>required bool isCanGet = 7;</code>
-       *
-       * <pre>
-       * 1 可领取， 0 不可以领取
-       * </pre>
-       */
-      public boolean hasIsCanGet() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
-      }
-      /**
-       * <code>required bool isCanGet = 7;</code>
-       *
-       * <pre>
-       * 1 可领取， 0 不可以领取
-       * </pre>
-       */
-      public boolean getIsCanGet() {
-        return isCanGet_;
-      }
-      /**
-       * <code>required bool isCanGet = 7;</code>
-       *
-       * <pre>
-       * 1 可领取， 0 不可以领取
-       * </pre>
-       */
-      public Builder setIsCanGet(boolean value) {
-        bitField0_ |= 0x00000040;
-        isCanGet_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required bool isCanGet = 7;</code>
-       *
-       * <pre>
-       * 1 可领取， 0 不可以领取
-       * </pre>
-       */
-      public Builder clearIsCanGet() {
-        bitField0_ = (bitField0_ & ~0x00000040);
-        isCanGet_ = false;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ExploreMineInfo)
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.TypeInfo)
     }
 
     static {
-      defaultInstance = new ExploreMineInfo(true);
+      defaultInstance = new TypeInfo(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ExploreMineInfo)
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.TypeInfo)
   }
 
   public interface AwardOrBuilder
@@ -4281,18 +3209,10 @@ public final class Explore {
     // required int32 itemId = 1;
     /**
      * <code>required int32 itemId = 1;</code>
-     *
-     * <pre>
-     * 物品id
-     * </pre>
      */
     boolean hasItemId();
     /**
      * <code>required int32 itemId = 1;</code>
-     *
-     * <pre>
-     * 物品id
-     * </pre>
      */
     int getItemId();
 
@@ -4301,7 +3221,7 @@ public final class Explore {
      * <code>required int32 itemType = 2;</code>
      *
      * <pre>
-     * 物品类型： 密宝 碎片 普通物品  青铜
+     * 物品类型： 完整秘宝 ；碎片 ；普通物品；
      * </pre>
      */
     boolean hasItemType();
@@ -4309,35 +3229,45 @@ public final class Explore {
      * <code>required int32 itemType = 2;</code>
      *
      * <pre>
-     * 物品类型： 密宝 碎片 普通物品  青铜
+     * 物品类型： 完整秘宝 ；碎片 ；普通物品；
      * </pre>
      */
     int getItemType();
 
-    // optional int32 pieceId = 4;
+    // required int32 itemNumber = 3;
     /**
-     * <code>optional int32 pieceId = 4;</code>
+     * <code>required int32 itemNumber = 3;</code>
+     */
+    boolean hasItemNumber();
+    /**
+     * <code>required int32 itemNumber = 3;</code>
+     */
+    int getItemNumber();
+
+    // optional int32 miBaoStar = 4;
+    /**
+     * <code>optional int32 miBaoStar = 4;</code>
      *
      * <pre>
-     * 当秘宝可分解的时候，分解的碎片id 当时 碎片 普通物品  青铜的时候 不发
+     * itemType == 秘宝 时发送;
      * </pre>
      */
-    boolean hasPieceId();
+    boolean hasMiBaoStar();
     /**
-     * <code>optional int32 pieceId = 4;</code>
+     * <code>optional int32 miBaoStar = 4;</code>
      *
      * <pre>
-     * 当秘宝可分解的时候，分解的碎片id 当时 碎片 普通物品  青铜的时候 不发
+     * itemType == 秘宝 时发送;
      * </pre>
      */
-    int getPieceId();
+    int getMiBaoStar();
 
     // optional int32 pieceNumber = 5;
     /**
      * <code>optional int32 pieceNumber = 5;</code>
      *
      * <pre>
-     * 当秘宝可分解的时候，分解的碎片的个数 当时 碎片 普通物品  青铜时候 不发
+     * itemType == 秘宝可分解 时发送;
      * </pre>
      */
     boolean hasPieceNumber();
@@ -4345,82 +3275,10 @@ public final class Explore {
      * <code>optional int32 pieceNumber = 5;</code>
      *
      * <pre>
-     * 当秘宝可分解的时候，分解的碎片的个数 当时 碎片 普通物品  青铜时候 不发
+     * itemType == 秘宝可分解 时发送;
      * </pre>
      */
     int getPieceNumber();
-
-    // optional int32 pieceType = 6;
-    /**
-     * <code>optional int32 pieceType = 6;</code>
-     *
-     * <pre>
-     * 碎片读表类型 当时 碎片 普通物品  青铜时候 不发
-     * </pre>
-     */
-    boolean hasPieceType();
-    /**
-     * <code>optional int32 pieceType = 6;</code>
-     *
-     * <pre>
-     * 碎片读表类型 当时 碎片 普通物品  青铜时候 不发
-     * </pre>
-     */
-    int getPieceType();
-
-    // optional int32 itemStar = 7;
-    /**
-     * <code>optional int32 itemStar = 7;</code>
-     *
-     * <pre>
-     * (秘宝的星级) 当时 碎片 普通物品  青铜时候 不发
-     * </pre>
-     */
-    boolean hasItemStar();
-    /**
-     * <code>optional int32 itemStar = 7;</code>
-     *
-     * <pre>
-     * (秘宝的星级) 当时 碎片 普通物品  青铜时候 不发
-     * </pre>
-     */
-    int getItemStar();
-
-    // required int32 itemNumber = 8;
-    /**
-     * <code>required int32 itemNumber = 8;</code>
-     *
-     * <pre>
-     * 该物品的个数 
-     * </pre>
-     */
-    boolean hasItemNumber();
-    /**
-     * <code>required int32 itemNumber = 8;</code>
-     *
-     * <pre>
-     * 该物品的个数 
-     * </pre>
-     */
-    int getItemNumber();
-
-    // required int32 isQuality = 9;
-    /**
-     * <code>required int32 isQuality = 9;</code>
-     *
-     * <pre>
-     * 是否是必奖励物品
-     * </pre>
-     */
-    boolean hasIsQuality();
-    /**
-     * <code>required int32 isQuality = 9;</code>
-     *
-     * <pre>
-     * 是否是必奖励物品
-     * </pre>
-     */
-    int getIsQuality();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.Award}
@@ -4487,34 +3345,19 @@ public final class Explore {
               itemType_ = input.readInt32();
               break;
             }
-            case 32: {
+            case 24: {
               bitField0_ |= 0x00000004;
-              pieceId_ = input.readInt32();
-              break;
-            }
-            case 40: {
-              bitField0_ |= 0x00000008;
-              pieceNumber_ = input.readInt32();
-              break;
-            }
-            case 48: {
-              bitField0_ |= 0x00000010;
-              pieceType_ = input.readInt32();
-              break;
-            }
-            case 56: {
-              bitField0_ |= 0x00000020;
-              itemStar_ = input.readInt32();
-              break;
-            }
-            case 64: {
-              bitField0_ |= 0x00000040;
               itemNumber_ = input.readInt32();
               break;
             }
-            case 72: {
-              bitField0_ |= 0x00000080;
-              isQuality_ = input.readInt32();
+            case 32: {
+              bitField0_ |= 0x00000008;
+              miBaoStar_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              pieceNumber_ = input.readInt32();
               break;
             }
           }
@@ -4562,20 +3405,12 @@ public final class Explore {
     private int itemId_;
     /**
      * <code>required int32 itemId = 1;</code>
-     *
-     * <pre>
-     * 物品id
-     * </pre>
      */
     public boolean hasItemId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int32 itemId = 1;</code>
-     *
-     * <pre>
-     * 物品id
-     * </pre>
      */
     public int getItemId() {
       return itemId_;
@@ -4588,7 +3423,7 @@ public final class Explore {
      * <code>required int32 itemType = 2;</code>
      *
      * <pre>
-     * 物品类型： 密宝 碎片 普通物品  青铜
+     * 物品类型： 完整秘宝 ；碎片 ；普通物品；
      * </pre>
      */
     public boolean hasItemType() {
@@ -4598,35 +3433,51 @@ public final class Explore {
      * <code>required int32 itemType = 2;</code>
      *
      * <pre>
-     * 物品类型： 密宝 碎片 普通物品  青铜
+     * 物品类型： 完整秘宝 ；碎片 ；普通物品；
      * </pre>
      */
     public int getItemType() {
       return itemType_;
     }
 
-    // optional int32 pieceId = 4;
-    public static final int PIECEID_FIELD_NUMBER = 4;
-    private int pieceId_;
+    // required int32 itemNumber = 3;
+    public static final int ITEMNUMBER_FIELD_NUMBER = 3;
+    private int itemNumber_;
     /**
-     * <code>optional int32 pieceId = 4;</code>
-     *
-     * <pre>
-     * 当秘宝可分解的时候，分解的碎片id 当时 碎片 普通物品  青铜的时候 不发
-     * </pre>
+     * <code>required int32 itemNumber = 3;</code>
      */
-    public boolean hasPieceId() {
+    public boolean hasItemNumber() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional int32 pieceId = 4;</code>
+     * <code>required int32 itemNumber = 3;</code>
+     */
+    public int getItemNumber() {
+      return itemNumber_;
+    }
+
+    // optional int32 miBaoStar = 4;
+    public static final int MIBAOSTAR_FIELD_NUMBER = 4;
+    private int miBaoStar_;
+    /**
+     * <code>optional int32 miBaoStar = 4;</code>
      *
      * <pre>
-     * 当秘宝可分解的时候，分解的碎片id 当时 碎片 普通物品  青铜的时候 不发
+     * itemType == 秘宝 时发送;
      * </pre>
      */
-    public int getPieceId() {
-      return pieceId_;
+    public boolean hasMiBaoStar() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 miBaoStar = 4;</code>
+     *
+     * <pre>
+     * itemType == 秘宝 时发送;
+     * </pre>
+     */
+    public int getMiBaoStar() {
+      return miBaoStar_;
     }
 
     // optional int32 pieceNumber = 5;
@@ -4636,128 +3487,29 @@ public final class Explore {
      * <code>optional int32 pieceNumber = 5;</code>
      *
      * <pre>
-     * 当秘宝可分解的时候，分解的碎片的个数 当时 碎片 普通物品  青铜时候 不发
+     * itemType == 秘宝可分解 时发送;
      * </pre>
      */
     public boolean hasPieceNumber() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <code>optional int32 pieceNumber = 5;</code>
      *
      * <pre>
-     * 当秘宝可分解的时候，分解的碎片的个数 当时 碎片 普通物品  青铜时候 不发
+     * itemType == 秘宝可分解 时发送;
      * </pre>
      */
     public int getPieceNumber() {
       return pieceNumber_;
     }
 
-    // optional int32 pieceType = 6;
-    public static final int PIECETYPE_FIELD_NUMBER = 6;
-    private int pieceType_;
-    /**
-     * <code>optional int32 pieceType = 6;</code>
-     *
-     * <pre>
-     * 碎片读表类型 当时 碎片 普通物品  青铜时候 不发
-     * </pre>
-     */
-    public boolean hasPieceType() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
-    }
-    /**
-     * <code>optional int32 pieceType = 6;</code>
-     *
-     * <pre>
-     * 碎片读表类型 当时 碎片 普通物品  青铜时候 不发
-     * </pre>
-     */
-    public int getPieceType() {
-      return pieceType_;
-    }
-
-    // optional int32 itemStar = 7;
-    public static final int ITEMSTAR_FIELD_NUMBER = 7;
-    private int itemStar_;
-    /**
-     * <code>optional int32 itemStar = 7;</code>
-     *
-     * <pre>
-     * (秘宝的星级) 当时 碎片 普通物品  青铜时候 不发
-     * </pre>
-     */
-    public boolean hasItemStar() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
-    }
-    /**
-     * <code>optional int32 itemStar = 7;</code>
-     *
-     * <pre>
-     * (秘宝的星级) 当时 碎片 普通物品  青铜时候 不发
-     * </pre>
-     */
-    public int getItemStar() {
-      return itemStar_;
-    }
-
-    // required int32 itemNumber = 8;
-    public static final int ITEMNUMBER_FIELD_NUMBER = 8;
-    private int itemNumber_;
-    /**
-     * <code>required int32 itemNumber = 8;</code>
-     *
-     * <pre>
-     * 该物品的个数 
-     * </pre>
-     */
-    public boolean hasItemNumber() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
-    }
-    /**
-     * <code>required int32 itemNumber = 8;</code>
-     *
-     * <pre>
-     * 该物品的个数 
-     * </pre>
-     */
-    public int getItemNumber() {
-      return itemNumber_;
-    }
-
-    // required int32 isQuality = 9;
-    public static final int ISQUALITY_FIELD_NUMBER = 9;
-    private int isQuality_;
-    /**
-     * <code>required int32 isQuality = 9;</code>
-     *
-     * <pre>
-     * 是否是必奖励物品
-     * </pre>
-     */
-    public boolean hasIsQuality() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
-    }
-    /**
-     * <code>required int32 isQuality = 9;</code>
-     *
-     * <pre>
-     * 是否是必奖励物品
-     * </pre>
-     */
-    public int getIsQuality() {
-      return isQuality_;
-    }
-
     private void initFields() {
       itemId_ = 0;
       itemType_ = 0;
-      pieceId_ = 0;
-      pieceNumber_ = 0;
-      pieceType_ = 0;
-      itemStar_ = 0;
       itemNumber_ = 0;
-      isQuality_ = 0;
+      miBaoStar_ = 0;
+      pieceNumber_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4776,10 +3528,6 @@ public final class Explore {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasIsQuality()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -4794,22 +3542,13 @@ public final class Explore {
         output.writeInt32(2, itemType_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(4, pieceId_);
+        output.writeInt32(3, itemNumber_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(5, pieceNumber_);
+        output.writeInt32(4, miBaoStar_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeInt32(6, pieceType_);
-      }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeInt32(7, itemStar_);
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeInt32(8, itemNumber_);
-      }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        output.writeInt32(9, isQuality_);
+        output.writeInt32(5, pieceNumber_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4830,27 +3569,15 @@ public final class Explore {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, pieceId_);
+          .computeInt32Size(3, itemNumber_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, pieceNumber_);
+          .computeInt32Size(4, miBaoStar_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(6, pieceType_);
-      }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(7, itemStar_);
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(8, itemNumber_);
-      }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(9, isQuality_);
+          .computeInt32Size(5, pieceNumber_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4976,18 +3703,12 @@ public final class Explore {
         bitField0_ = (bitField0_ & ~0x00000001);
         itemType_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        pieceId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        pieceNumber_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        pieceType_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000010);
-        itemStar_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000020);
         itemNumber_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000040);
-        isQuality_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000004);
+        miBaoStar_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        pieceNumber_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -5027,27 +3748,15 @@ public final class Explore {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.pieceId_ = pieceId_;
+        result.itemNumber_ = itemNumber_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.pieceNumber_ = pieceNumber_;
+        result.miBaoStar_ = miBaoStar_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.pieceType_ = pieceType_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
-          to_bitField0_ |= 0x00000020;
-        }
-        result.itemStar_ = itemStar_;
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
-          to_bitField0_ |= 0x00000040;
-        }
-        result.itemNumber_ = itemNumber_;
-        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
-          to_bitField0_ |= 0x00000080;
-        }
-        result.isQuality_ = isQuality_;
+        result.pieceNumber_ = pieceNumber_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5070,23 +3779,14 @@ public final class Explore {
         if (other.hasItemType()) {
           setItemType(other.getItemType());
         }
-        if (other.hasPieceId()) {
-          setPieceId(other.getPieceId());
-        }
-        if (other.hasPieceNumber()) {
-          setPieceNumber(other.getPieceNumber());
-        }
-        if (other.hasPieceType()) {
-          setPieceType(other.getPieceType());
-        }
-        if (other.hasItemStar()) {
-          setItemStar(other.getItemStar());
-        }
         if (other.hasItemNumber()) {
           setItemNumber(other.getItemNumber());
         }
-        if (other.hasIsQuality()) {
-          setIsQuality(other.getIsQuality());
+        if (other.hasMiBaoStar()) {
+          setMiBaoStar(other.getMiBaoStar());
+        }
+        if (other.hasPieceNumber()) {
+          setPieceNumber(other.getPieceNumber());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -5102,10 +3802,6 @@ public final class Explore {
           return false;
         }
         if (!hasItemNumber()) {
-          
-          return false;
-        }
-        if (!hasIsQuality()) {
           
           return false;
         }
@@ -5135,30 +3831,18 @@ public final class Explore {
       private int itemId_ ;
       /**
        * <code>required int32 itemId = 1;</code>
-       *
-       * <pre>
-       * 物品id
-       * </pre>
        */
       public boolean hasItemId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int32 itemId = 1;</code>
-       *
-       * <pre>
-       * 物品id
-       * </pre>
        */
       public int getItemId() {
         return itemId_;
       }
       /**
        * <code>required int32 itemId = 1;</code>
-       *
-       * <pre>
-       * 物品id
-       * </pre>
        */
       public Builder setItemId(int value) {
         bitField0_ |= 0x00000001;
@@ -5168,10 +3852,6 @@ public final class Explore {
       }
       /**
        * <code>required int32 itemId = 1;</code>
-       *
-       * <pre>
-       * 物品id
-       * </pre>
        */
       public Builder clearItemId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -5186,7 +3866,7 @@ public final class Explore {
        * <code>required int32 itemType = 2;</code>
        *
        * <pre>
-       * 物品类型： 密宝 碎片 普通物品  青铜
+       * 物品类型： 完整秘宝 ；碎片 ；普通物品；
        * </pre>
        */
       public boolean hasItemType() {
@@ -5196,7 +3876,7 @@ public final class Explore {
        * <code>required int32 itemType = 2;</code>
        *
        * <pre>
-       * 物品类型： 密宝 碎片 普通物品  青铜
+       * 物品类型： 完整秘宝 ；碎片 ；普通物品；
        * </pre>
        */
       public int getItemType() {
@@ -5206,7 +3886,7 @@ public final class Explore {
        * <code>required int32 itemType = 2;</code>
        *
        * <pre>
-       * 物品类型： 密宝 碎片 普通物品  青铜
+       * 物品类型： 完整秘宝 ；碎片 ；普通物品；
        * </pre>
        */
       public Builder setItemType(int value) {
@@ -5219,7 +3899,7 @@ public final class Explore {
        * <code>required int32 itemType = 2;</code>
        *
        * <pre>
-       * 物品类型： 密宝 碎片 普通物品  青铜
+       * 物品类型： 完整秘宝 ；碎片 ；普通物品；
        * </pre>
        */
       public Builder clearItemType() {
@@ -5229,51 +3909,84 @@ public final class Explore {
         return this;
       }
 
-      // optional int32 pieceId = 4;
-      private int pieceId_ ;
+      // required int32 itemNumber = 3;
+      private int itemNumber_ ;
       /**
-       * <code>optional int32 pieceId = 4;</code>
-       *
-       * <pre>
-       * 当秘宝可分解的时候，分解的碎片id 当时 碎片 普通物品  青铜的时候 不发
-       * </pre>
+       * <code>required int32 itemNumber = 3;</code>
        */
-      public boolean hasPieceId() {
+      public boolean hasItemNumber() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional int32 pieceId = 4;</code>
-       *
-       * <pre>
-       * 当秘宝可分解的时候，分解的碎片id 当时 碎片 普通物品  青铜的时候 不发
-       * </pre>
+       * <code>required int32 itemNumber = 3;</code>
        */
-      public int getPieceId() {
-        return pieceId_;
+      public int getItemNumber() {
+        return itemNumber_;
       }
       /**
-       * <code>optional int32 pieceId = 4;</code>
-       *
-       * <pre>
-       * 当秘宝可分解的时候，分解的碎片id 当时 碎片 普通物品  青铜的时候 不发
-       * </pre>
+       * <code>required int32 itemNumber = 3;</code>
        */
-      public Builder setPieceId(int value) {
+      public Builder setItemNumber(int value) {
         bitField0_ |= 0x00000004;
-        pieceId_ = value;
+        itemNumber_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 pieceId = 4;</code>
+       * <code>required int32 itemNumber = 3;</code>
+       */
+      public Builder clearItemNumber() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        itemNumber_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 miBaoStar = 4;
+      private int miBaoStar_ ;
+      /**
+       * <code>optional int32 miBaoStar = 4;</code>
        *
        * <pre>
-       * 当秘宝可分解的时候，分解的碎片id 当时 碎片 普通物品  青铜的时候 不发
+       * itemType == 秘宝 时发送;
        * </pre>
        */
-      public Builder clearPieceId() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        pieceId_ = 0;
+      public boolean hasMiBaoStar() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 miBaoStar = 4;</code>
+       *
+       * <pre>
+       * itemType == 秘宝 时发送;
+       * </pre>
+       */
+      public int getMiBaoStar() {
+        return miBaoStar_;
+      }
+      /**
+       * <code>optional int32 miBaoStar = 4;</code>
+       *
+       * <pre>
+       * itemType == 秘宝 时发送;
+       * </pre>
+       */
+      public Builder setMiBaoStar(int value) {
+        bitField0_ |= 0x00000008;
+        miBaoStar_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 miBaoStar = 4;</code>
+       *
+       * <pre>
+       * itemType == 秘宝 时发送;
+       * </pre>
+       */
+      public Builder clearMiBaoStar() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        miBaoStar_ = 0;
         onChanged();
         return this;
       }
@@ -5284,17 +3997,17 @@ public final class Explore {
        * <code>optional int32 pieceNumber = 5;</code>
        *
        * <pre>
-       * 当秘宝可分解的时候，分解的碎片的个数 当时 碎片 普通物品  青铜时候 不发
+       * itemType == 秘宝可分解 时发送;
        * </pre>
        */
       public boolean hasPieceNumber() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>optional int32 pieceNumber = 5;</code>
        *
        * <pre>
-       * 当秘宝可分解的时候，分解的碎片的个数 当时 碎片 普通物品  青铜时候 不发
+       * itemType == 秘宝可分解 时发送;
        * </pre>
        */
       public int getPieceNumber() {
@@ -5304,11 +4017,11 @@ public final class Explore {
        * <code>optional int32 pieceNumber = 5;</code>
        *
        * <pre>
-       * 当秘宝可分解的时候，分解的碎片的个数 当时 碎片 普通物品  青铜时候 不发
+       * itemType == 秘宝可分解 时发送;
        * </pre>
        */
       public Builder setPieceNumber(int value) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         pieceNumber_ = value;
         onChanged();
         return this;
@@ -5317,208 +4030,12 @@ public final class Explore {
        * <code>optional int32 pieceNumber = 5;</code>
        *
        * <pre>
-       * 当秘宝可分解的时候，分解的碎片的个数 当时 碎片 普通物品  青铜时候 不发
+       * itemType == 秘宝可分解 时发送;
        * </pre>
        */
       public Builder clearPieceNumber() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        pieceNumber_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional int32 pieceType = 6;
-      private int pieceType_ ;
-      /**
-       * <code>optional int32 pieceType = 6;</code>
-       *
-       * <pre>
-       * 碎片读表类型 当时 碎片 普通物品  青铜时候 不发
-       * </pre>
-       */
-      public boolean hasPieceType() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>optional int32 pieceType = 6;</code>
-       *
-       * <pre>
-       * 碎片读表类型 当时 碎片 普通物品  青铜时候 不发
-       * </pre>
-       */
-      public int getPieceType() {
-        return pieceType_;
-      }
-      /**
-       * <code>optional int32 pieceType = 6;</code>
-       *
-       * <pre>
-       * 碎片读表类型 当时 碎片 普通物品  青铜时候 不发
-       * </pre>
-       */
-      public Builder setPieceType(int value) {
-        bitField0_ |= 0x00000010;
-        pieceType_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 pieceType = 6;</code>
-       *
-       * <pre>
-       * 碎片读表类型 当时 碎片 普通物品  青铜时候 不发
-       * </pre>
-       */
-      public Builder clearPieceType() {
         bitField0_ = (bitField0_ & ~0x00000010);
-        pieceType_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional int32 itemStar = 7;
-      private int itemStar_ ;
-      /**
-       * <code>optional int32 itemStar = 7;</code>
-       *
-       * <pre>
-       * (秘宝的星级) 当时 碎片 普通物品  青铜时候 不发
-       * </pre>
-       */
-      public boolean hasItemStar() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
-      }
-      /**
-       * <code>optional int32 itemStar = 7;</code>
-       *
-       * <pre>
-       * (秘宝的星级) 当时 碎片 普通物品  青铜时候 不发
-       * </pre>
-       */
-      public int getItemStar() {
-        return itemStar_;
-      }
-      /**
-       * <code>optional int32 itemStar = 7;</code>
-       *
-       * <pre>
-       * (秘宝的星级) 当时 碎片 普通物品  青铜时候 不发
-       * </pre>
-       */
-      public Builder setItemStar(int value) {
-        bitField0_ |= 0x00000020;
-        itemStar_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 itemStar = 7;</code>
-       *
-       * <pre>
-       * (秘宝的星级) 当时 碎片 普通物品  青铜时候 不发
-       * </pre>
-       */
-      public Builder clearItemStar() {
-        bitField0_ = (bitField0_ & ~0x00000020);
-        itemStar_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 itemNumber = 8;
-      private int itemNumber_ ;
-      /**
-       * <code>required int32 itemNumber = 8;</code>
-       *
-       * <pre>
-       * 该物品的个数 
-       * </pre>
-       */
-      public boolean hasItemNumber() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
-      }
-      /**
-       * <code>required int32 itemNumber = 8;</code>
-       *
-       * <pre>
-       * 该物品的个数 
-       * </pre>
-       */
-      public int getItemNumber() {
-        return itemNumber_;
-      }
-      /**
-       * <code>required int32 itemNumber = 8;</code>
-       *
-       * <pre>
-       * 该物品的个数 
-       * </pre>
-       */
-      public Builder setItemNumber(int value) {
-        bitField0_ |= 0x00000040;
-        itemNumber_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 itemNumber = 8;</code>
-       *
-       * <pre>
-       * 该物品的个数 
-       * </pre>
-       */
-      public Builder clearItemNumber() {
-        bitField0_ = (bitField0_ & ~0x00000040);
-        itemNumber_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 isQuality = 9;
-      private int isQuality_ ;
-      /**
-       * <code>required int32 isQuality = 9;</code>
-       *
-       * <pre>
-       * 是否是必奖励物品
-       * </pre>
-       */
-      public boolean hasIsQuality() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
-      }
-      /**
-       * <code>required int32 isQuality = 9;</code>
-       *
-       * <pre>
-       * 是否是必奖励物品
-       * </pre>
-       */
-      public int getIsQuality() {
-        return isQuality_;
-      }
-      /**
-       * <code>required int32 isQuality = 9;</code>
-       *
-       * <pre>
-       * 是否是必奖励物品
-       * </pre>
-       */
-      public Builder setIsQuality(int value) {
-        bitField0_ |= 0x00000080;
-        isQuality_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 isQuality = 9;</code>
-       *
-       * <pre>
-       * 是否是必奖励物品
-       * </pre>
-       */
-      public Builder clearIsQuality() {
-        bitField0_ = (bitField0_ & ~0x00000080);
-        isQuality_ = 0;
+        pieceNumber_ = 0;
         onChanged();
         return this;
       }
@@ -5550,15 +4067,10 @@ public final class Explore {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_ExploreResp_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_ExploreAwardsInfo_descriptor;
+    internal_static_qxmobile_protobuf_TypeInfo_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_ExploreAwardsInfo_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_ExploreMineInfo_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_ExploreMineInfo_fieldAccessorTable;
+      internal_static_qxmobile_protobuf_TypeInfo_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_Award_descriptor;
   private static
@@ -5573,23 +4085,21 @@ public final class Explore {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rExplore.proto\022\021qxmobile.protobuf\"\235\001\n\017E" +
-      "xploreInfoResp\022:\n\016mineRegionList\030\001 \003(\0132\"" +
-      ".qxmobile.protobuf.ExploreMineInfo\022\020\n\010ha" +
-      "sGuild\030\002 \002(\010\022\017\n\007yuanBao\030\003 \002(\005\022\020\n\010gongXia" +
-      "n\030\004 \001(\005\022\013\n\003tie\030\005 \002(\005\022\014\n\004tong\030\006 \002(\005\")\n\nEx" +
-      "ploreReq\022\014\n\004type\030\001 \002(\005\022\r\n\005isBuy\030\002 \002(\010\"\033\n" +
-      "\013ExploreResp\022\014\n\004type\030\001 \002(\005\"O\n\021ExploreAwa" +
-      "rdsInfo\022\014\n\004type\030\001 \002(\005\022,\n\nawardsList\030\002 \003(" +
-      "\0132\030.qxmobile.protobuf.Award\"\216\001\n\017ExploreM" +
-      "ineInfo\022\014\n\004type\030\001 \002(\005\022\025\n\rremainingTime\030\002",
-      " \001(\005\022\020\n\010gotTimes\030\003 \001(\005\022\022\n\ntotalTimes\030\004 \002" +
-      "(\005\022\020\n\010discount\030\005 \001(\005\022\014\n\004cost\030\006 \001(\005\022\020\n\010is" +
-      "CanGet\030\007 \002(\010\"\233\001\n\005Award\022\016\n\006itemId\030\001 \002(\005\022\020" +
-      "\n\010itemType\030\002 \002(\005\022\017\n\007pieceId\030\004 \001(\005\022\023\n\013pie" +
-      "ceNumber\030\005 \001(\005\022\021\n\tpieceType\030\006 \001(\005\022\020\n\010ite" +
-      "mStar\030\007 \001(\005\022\022\n\nitemNumber\030\010 \002(\005\022\021\n\tisQua" +
-      "lity\030\t \002(\005B\tB\007Explore"
+      "\n\rExplore.proto\022\021qxmobile.protobuf\"\317\001\n\017E" +
+      "xploreInfoResp\022\016\n\006tongBi\030\001 \002(\005\022\032\n\022allFre" +
+      "eTongBiCount\030\002 \002(\005\022\035\n\025remainFreeTongBiCo" +
+      "unt\030\003 \002(\005\022\020\n\010tongBiCd\030\004 \002(\005\022\017\n\007yuanBao\030\005" +
+      " \002(\005\022\033\n\023allFreeYuanBaoCount\030\006 \002(\005\022\036\n\026rem" +
+      "ainFreeYuanBaoCount\030\007 \002(\005\022\021\n\tyuanBaoCd\030\010" +
+      " \002(\005\"\032\n\nExploreReq\022\014\n\004type\030\001 \002(\005\"w\n\013Expl" +
+      "oreResp\022\017\n\007success\030\001 \002(\005\022,\n\nawardsList\030\002" +
+      " \003(\0132\030.qxmobile.protobuf.Award\022)\n\004info\030\003" +
+      " \001(\0132\033.qxmobile.protobuf.TypeInfo\">\n\010Typ",
+      "eInfo\022\r\n\005money\030\001 \002(\005\022\027\n\017remainFreeCount\030" +
+      "\002 \002(\005\022\n\n\002cd\030\003 \002(\005\"e\n\005Award\022\016\n\006itemId\030\001 \002" +
+      "(\005\022\020\n\010itemType\030\002 \002(\005\022\022\n\nitemNumber\030\003 \002(\005" +
+      "\022\021\n\tmiBaoStar\030\004 \001(\005\022\023\n\013pieceNumber\030\005 \001(\005" +
+      "B\tB\007Explore"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5601,37 +4111,31 @@ public final class Explore {
           internal_static_qxmobile_protobuf_ExploreInfoResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ExploreInfoResp_descriptor,
-              new java.lang.String[] { "MineRegionList", "HasGuild", "YuanBao", "GongXian", "Tie", "Tong", });
+              new java.lang.String[] { "TongBi", "AllFreeTongBiCount", "RemainFreeTongBiCount", "TongBiCd", "YuanBao", "AllFreeYuanBaoCount", "RemainFreeYuanBaoCount", "YuanBaoCd", });
           internal_static_qxmobile_protobuf_ExploreReq_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_ExploreReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ExploreReq_descriptor,
-              new java.lang.String[] { "Type", "IsBuy", });
+              new java.lang.String[] { "Type", });
           internal_static_qxmobile_protobuf_ExploreResp_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_ExploreResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ExploreResp_descriptor,
-              new java.lang.String[] { "Type", });
-          internal_static_qxmobile_protobuf_ExploreAwardsInfo_descriptor =
+              new java.lang.String[] { "Success", "AwardsList", "Info", });
+          internal_static_qxmobile_protobuf_TypeInfo_descriptor =
             getDescriptor().getMessageTypes().get(3);
-          internal_static_qxmobile_protobuf_ExploreAwardsInfo_fieldAccessorTable = new
+          internal_static_qxmobile_protobuf_TypeInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_ExploreAwardsInfo_descriptor,
-              new java.lang.String[] { "Type", "AwardsList", });
-          internal_static_qxmobile_protobuf_ExploreMineInfo_descriptor =
-            getDescriptor().getMessageTypes().get(4);
-          internal_static_qxmobile_protobuf_ExploreMineInfo_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_ExploreMineInfo_descriptor,
-              new java.lang.String[] { "Type", "RemainingTime", "GotTimes", "TotalTimes", "Discount", "Cost", "IsCanGet", });
+              internal_static_qxmobile_protobuf_TypeInfo_descriptor,
+              new java.lang.String[] { "Money", "RemainFreeCount", "Cd", });
           internal_static_qxmobile_protobuf_Award_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_Award_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_Award_descriptor,
-              new java.lang.String[] { "ItemId", "ItemType", "PieceId", "PieceNumber", "PieceType", "ItemStar", "ItemNumber", "IsQuality", });
+              new java.lang.String[] { "ItemId", "ItemType", "ItemNumber", "MiBaoStar", "PieceNumber", });
           return null;
         }
       };

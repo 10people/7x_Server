@@ -1,5 +1,8 @@
 package com.qx.gm.message;
 
+import com.qx.gm.util.CodeUtil;
+import com.qx.gm.util.MD5Util;
+
 public class DoSendBareMailReq {
 	private int type;// 协议编号
 	private int firm;// 表示厂商ID
@@ -10,6 +13,18 @@ public class DoSendBareMailReq {
 	private String subject;// 主题
 	private String text;// 正文信息
 	private String md5;// 加密
+
+	public boolean checkMd5() {
+		StringBuffer sBuffer = new StringBuffer();
+		sBuffer.append(getType()).append(getFirm()).append(getZone())
+				.append(getRolename()).append(getLevlemin())
+				.append(getLevlemax()).append(getSubject()).append(getText())
+				.append(CodeUtil.MD5_KEY);
+		if (!MD5Util.checkMD5(sBuffer.toString(), getMd5())) {// MD5验证
+			return false;
+		}
+		return true;
+	}
 
 	public int getType() {
 		return type;

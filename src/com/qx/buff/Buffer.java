@@ -1,5 +1,7 @@
 package com.qx.buff;
 
+import com.qx.junzhu.JunZhu;
+
 
 /**
  * BUFF对象
@@ -8,7 +10,7 @@ package com.qx.buff;
  */
 public class Buffer {
 
-	/** buffID */
+	/** buffID对应配置表的buffId */
 	private int id;
 	
 	/** buff类型，buff or debuff */
@@ -26,8 +28,11 @@ public class Buffer {
 	/**  效果时间. 单位: 毫秒 */
 	private long endTime;
 	
-	/** 释放该Buffer的单位Id */
-	private long castId;
+	/** 释放该Buffer的君主 */
+	private JunZhu castJunzhu;
+	
+	/** 携带该Buffer的君主Id */
+	private JunZhu carryJunzhu;
 	
 	/** 释放该Buffer的单位类型 */
 	private int unitType = -1;
@@ -91,12 +96,20 @@ public class Buffer {
 		this.startTime = startTime;
 	}
 
-	public long getCastId() {
-		return castId;
+	public JunZhu getCastJunzhu() {
+		return castJunzhu;
 	}
 
-	public void setCastId(long castId) {
-		this.castId = castId;
+	public void setCastJunzhu(JunZhu castJunzhu) {
+		this.castJunzhu = castJunzhu;
+	}
+
+	public JunZhu getCarryJunzhu() {
+		return carryJunzhu;
+	}
+
+	public void setCarryJunzhu(JunZhu carryJunzhu) {
+		this.carryJunzhu = carryJunzhu;
 	}
 
 	public int getUnitType() {
@@ -107,123 +120,27 @@ public class Buffer {
 		this.unitType = unitType;
 	}
 
-	/**
-	 * 
-	 * @param  id				效果ID
-	 * @param  type				buff类型
-	 * @param  damage			施放该效果时造成的伤害量/附加量
-	 * @param  cycle			冷却周期
-	 * @param  endTime			效果结束时间
-	 * @param  castId			释放Buffer的玩家ID
-	 * @return 					效果对象
-	 */
-	public static Buffer valueOf(int id, int type, int damage, int cycle, long endTime, long castId) {
-		long currentTimeMillis = System.currentTimeMillis();
-		Buffer buffer = new Buffer();
-		buffer.id = id;
-		buffer.type = type;
-		buffer.cycle = cycle;
-		buffer.damage = damage;
-		buffer.endTime = endTime;
-		buffer.startTime = currentTimeMillis;
-		buffer.lastCalcTime = currentTimeMillis;
-		buffer.castId = castId;
-		return buffer;
-	}
-	
-	/**
-	 * 
-	 * @param  id				效果ID
-	 * @param  type				buff的类型
-	 * @param  damage			施放该效果时造成的伤害量/附加量
-	 * @param  cycle			跳动周期
-	 * @param  endTime			效果结束时间
-	 * @return {@link Buffer}	效果对象
-	 */
-	public static Buffer valueOf(int id, int type, int damage, int cycle, long endTime, long castId, int unitType) {
-		long currentTimeMillis = System.currentTimeMillis();
-		Buffer buffer = new Buffer();
-		buffer.id = id;
-		buffer.cycle = cycle;
-		buffer.type = type;
-		buffer.damage = damage;
-		buffer.castId = castId;
-		buffer.endTime = endTime;
-		buffer.unitType = unitType;
-		buffer.startTime = currentTimeMillis;
-		buffer.lastCalcTime = currentTimeMillis;
-		return buffer;
-	}
 
 	/**
-	 * 
-	 * @param  id				效果ID
-	 * @param  type				buff类型
-	 * @param  damage			施放该效果时造成的伤害量/附加量
-	 * @param  cycle			跳动周期
-	 * @param  endTime			效果结束时间
-	 * @param  startTime		效果开始时间
-	 * @param  castId			单位ID
-	 * @return 					效果对象
+	 * @param id				效果ID
+	 * @param type				buff类型
+	 * @param revise			误差时间(单位: 毫秒).
+	 * @param damage			施放该效果时造成的伤害量/附加量
+	 * @param cycle				跳动周期
+	 * @param endTime			效果结束时间
+	 * @param castJunzhuId		释放者君主id
+	 * @param carryJunzhu		携带buff的君主
+	 * @return
 	 */
-	public static Buffer valueOf(int id, int type, int damage, int cycle, long startTime, long endTime, long castId) {
+	public static Buffer valueOf(int id, int type, int revise, int damage, int cycle, long endTime, JunZhu castJunzhu, JunZhu carryJunZhu) {
 		long currentTimeMillis = System.currentTimeMillis();
 		Buffer buffer = new Buffer();
 		buffer.id = id;
 		buffer.cycle = cycle;
 		buffer.type = type;
 		buffer.damage = damage;
-		buffer.endTime = endTime;
-		buffer.startTime = currentTimeMillis;
-		buffer.lastCalcTime = currentTimeMillis;
-		buffer.castId = castId;
-		return buffer;
-	}
-	
-	/**
-	 * 
-	 * @param  id				效果ID
-	 * @param  type				buff类型
-	 * @param  damage			施放该效果时造成的伤害量/附加量
-	 * @param  cycle			跳动周期
-	 * @param  endTime			效果结束时间
-	 * @param  startTime		效果开始时间
-	 * @return {@link Buffer}	效果对象
-	 */
-	public static Buffer valueOf(int id, int type, int damage, int cycle, long startTime, long endTime, long castId, int unitType) {
-		long currentTimeMillis = System.currentTimeMillis();
-		Buffer buffer = new Buffer();
-		buffer.id = id;
-		buffer.cycle = cycle;
-		buffer.type = type;
-		buffer.damage = damage;
-		buffer.castId = castId;
-		buffer.endTime = endTime;
-		buffer.unitType = unitType;
-		buffer.startTime = currentTimeMillis;
-		buffer.lastCalcTime = currentTimeMillis;
-		return buffer;
-	}
-
-	/**
-	 * 
-	 * @param  id				效果ID
-	 * @param  type				buff类型
-	 * @param  revise			误差时间(单位: 毫秒).
-	 * @param  damage			施放该效果时造成的伤害量/附加量
-	 * @param  cycle			跳动周期
-	 * @param  endTime			效果结束时间
-	 * @return 					效果对象
-	 */
-	public static Buffer valueOf(int id, int type, int revise, int damage, int cycle, long endTime, long castId, int unitType) {
-		long currentTimeMillis = System.currentTimeMillis();
-		Buffer buffer = new Buffer();
-		buffer.id = id;
-		buffer.cycle = cycle;
-		buffer.type = type;
-		buffer.damage = damage;
-		buffer.castId = castId;
-		buffer.unitType = unitType;
+		buffer.castJunzhu = castJunzhu;
+		buffer.carryJunzhu = carryJunZhu;
 		buffer.endTime = endTime + revise;
 		buffer.startTime = currentTimeMillis + revise;
 		buffer.lastCalcTime = currentTimeMillis + revise;

@@ -43,7 +43,6 @@ import com.qx.ranking.RankingMgr;
  */
 public class FightScene extends Scene {
 
-	public Map<Long, Integer> junZhuRemainLifeMap = null;
 	public final byte TEAM_RED = 1;				// 红队	对应LMZBuildingTemp type=1 side=1
 	public final byte TEAM_BLUE = 2;			// 蓝队	对应LMZBuildingTemp type=1 side=2
 	
@@ -85,7 +84,6 @@ public class FightScene extends Scene {
 		scoreInfoMap = new HashMap<Integer, ScoreInfo>();
 		teamMap = new HashMap<Byte, Integer>();
 		remainTeamSet = new HashSet<Byte>(Arrays.asList(TEAM_RED, TEAM_BLUE));
-		junZhuRemainLifeMap = new HashMap<Long, Integer>();
 		lastBroadcastTime = System.currentTimeMillis();
 		initCampsite();
 	}
@@ -100,12 +98,15 @@ public class FightScene extends Scene {
 	}
 
 	public void enterFightScene(IoSession session, EnterScene.Builder enterFightScene) {
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if(jz == null) {
+			return;
+		}
 		Object uidObject = session.getAttribute(SessionAttKey.playerId_Scene);
 		session.setAttribute(SessionAttKey.Scene, this);
 		final int userId = uidObject == null ? getUserId() : (Integer)uidObject;;
-		session.setAttribute(SessionAttKey.playerId, userId);
+		session.setAttribute(SessionAttKey.playerId, jz.id);
 		
-		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 		AllianceBean alliance = AllianceMgr.inst.getAllianceByJunZid(jz.id);
 		if(alliance == null) {
 			log.error("进入联盟战失败，玩家:{}没有联盟", jz.id);
@@ -128,7 +129,6 @@ public class FightScene extends Scene {
 			return;
 		}
 		
-		junZhuRemainLifeMap.put(jz.id, jz.shengMingMax);
 		ScoreInfo scoreInfo = scoreInfoMap.get(alliance.id);
 		if(scoreInfo == null) {
 			// 进行红蓝方队伍分配
@@ -160,6 +160,8 @@ public class FightScene extends Scene {
 		player.setPosZ(scoreInfo.bornPointZ);
 		player.jzId = (jz == null ? 0 : jz.id);
 		player.roleId = (jz == null ? 1: jz.roleId);
+		player.totalLife = jz.shengMingMax;
+		player.currentLife = jz.shengMingMax;
 		players.put(userId, player);
 		session.setAttribute(SessionAttKey.playerId_Scene, userId);
 		log.info("名字:{},uid:{},进入场景 {},总血量:{}", player.getName(), userId, this.name, jz.shengMingMax);
@@ -191,7 +193,7 @@ public class FightScene extends Scene {
 		response.setPosZ(player.getPosZ());
 		response.setRoleId(jz.roleId);
 		response.setAllianceName(allianceName);
-		response.setRemainLife(junZhuRemainLifeMap.get(jz.id));
+		response.setRemainLife(player.currentLife);
 		response.setTotalLife(jz.shengMingMax);
 		return response;
 	}
@@ -236,7 +238,7 @@ public class FightScene extends Scene {
 			campsite.allianceNumMap.clear();
 			for(Map.Entry<Integer, Player> entry : players.entrySet()) {
 				Player player = entry.getValue();
-				if(junZhuRemainLifeMap.get(player.jzId) <= 0) {
+				if(player.currentLife <= 0) {
 					continue;
 				}
 				int distance = (int) Math.sqrt(
@@ -489,11 +491,20 @@ public class FightScene extends Scene {
 		return allianceId;
 	}
 	
+	public float getPlayerDistance(long junzhuIdOne, long junzhuIdTwo) {
+		Player playerOne = getPlayerByJunZhuId(junzhuIdOne);
+		Player playerTwo = getPlayerByJunZhuId(junzhuIdTwo);
+		float distance = (float) Math.sqrt(
+				Math.pow(playerOne.posX - playerTwo.posX, 2)+
+				Math.pow(playerOne.posZ - playerTwo.posZ, 2));
+		return distance;
+	}
+	
 	public void destory () {
-		junZhuRemainLifeMap.clear();// = null;
 		scoreInfoMap.clear(); //= null;
 		teamMap.clear();// = null;
 		remainTeamSet.clear();// = null;
 		campsiteInfoList.clear();//= null;
 	}
+
 }

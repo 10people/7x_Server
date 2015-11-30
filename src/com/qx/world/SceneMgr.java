@@ -23,7 +23,6 @@ import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.alliancefight.AllianceFightMatch;
 import com.qx.alliancefight.AllianceFightMgr;
-import com.qx.alliancefight.CdTimeMgr;
 import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
@@ -32,7 +31,7 @@ import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.junzhu.PlayerTime;
 import com.qx.persistent.HibernateUtil;
-import com.qx.yabiao.YabiaoMgr;
+import com.qx.yabiao.YaBiaoHuoDongMgr;
 
 public class SceneMgr extends EventProc{
 	public static int sizePerSc = 20;
@@ -82,6 +81,13 @@ public class SceneMgr extends EventProc{
 			case PD.EXIT_FIGHT_SCENE:
 				exitFight(code, session, builder, junZhuId);
 				break;
+			case PD.Enter_YBScene:
+				enterYBScene(code, session, builder);
+				break;
+			case PD.Exit_YBScene:
+				exitYBScene(code, session, builder, junZhuId);
+				break;
+				
 			default:
 				Scene sc = (Scene) session.getAttribute(SessionAttKey.Scene);
 				if(sc == null){
@@ -93,6 +99,35 @@ public class SceneMgr extends EventProc{
 		}
 	}
 	
+	public void exitYBScene(int code, IoSession session, Builder builder,
+			Long junZhuId) {
+		Scene ybSc = (Scene) session.getAttribute(SessionAttKey.Scene);
+		if (ybSc != null) {
+			ybSc.exec(code, session, builder);
+		}else{
+			logger.info("用户{}不在押镖场景中，退出押镖场景失败",junZhuId);
+		}
+	}
+
+	public void enterYBScene(int code, IoSession session, Builder builder) {
+		//离开原来的场景
+		playerExitScene(session);
+		// 进入押镖场景进行押镖
+		int scId = YaBiaoHuoDongMgr.inst.locateFakeSceneId();
+		Scene sc = YaBiaoHuoDongMgr.inst.yabiaoScenes.get(scId);
+		if (sc == null) {// 没有场景
+			synchronized (YaBiaoHuoDongMgr.inst.yabiaoScenes) {// 防止多次创建
+				sc = YaBiaoHuoDongMgr.inst.yabiaoScenes.get(scId);
+				if (sc == null) {
+					sc = new Scene("YB#" + scId);
+					sc.startMissionThread();
+					YaBiaoHuoDongMgr.inst.yabiaoScenes.put(scId, sc);
+				}
+			}
+		}
+		sc.exec(code, session, builder);
+	}
+
 	private void exitFight(int code, IoSession session, Builder builder,
 			Long junZhuId) {
 		Scene scene = (Scene) session.getAttribute(SessionAttKey.Scene);
@@ -306,7 +341,8 @@ public class SceneMgr extends EventProc{
 				scene.exec(PD.Exit_HouseScene, session, exit);
 			} else if(scene.name.contains("YB")){
 				logger.info("君主:{},Uid:{})从押镖场景:{}退出", junZhuId, uid, scene.name);
-				YabiaoMgr.inst.removeJbJz2Map(junZhuId);
+				YaBiaoHuoDongMgr.inst.removeJbJz2Map(junZhuId);
+				scene.exec(PD.Exit_YBScene, session, exit);
 			} else{
 				logger.info("君主:{},Uid:{}从场景:{}退出", junZhuId, uid, scene.name);
 			}	
