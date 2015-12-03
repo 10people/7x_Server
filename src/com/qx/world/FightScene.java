@@ -159,6 +159,7 @@ public class FightScene extends Scene {
 		player.setPosY(enterFightScene.getPosY());
 		player.setPosZ(scoreInfo.bornPointZ);
 		player.jzId = (jz == null ? 0 : jz.id);
+		player.allianceId = AllianceMgr.inst.getAllianceId(player.jzId);
 		player.roleId = (jz == null ? 1: jz.roleId);
 		player.totalLife = jz.shengMingMax;
 		player.currentLife = jz.shengMingMax;
@@ -194,7 +195,7 @@ public class FightScene extends Scene {
 		response.setRoleId(jz.roleId);
 		response.setAllianceName(allianceName);
 		response.setRemainLife(player.currentLife);
-		response.setTotalLife(jz.shengMingMax);
+		response.setTotalLife(player.totalLife);
 		return response;
 	}
 	
@@ -489,15 +490,6 @@ public class FightScene extends Scene {
 			}
 		}
 		return allianceId;
-	}
-	
-	public float getPlayerDistance(long junzhuIdOne, long junzhuIdTwo) {
-		Player playerOne = getPlayerByJunZhuId(junzhuIdOne);
-		Player playerTwo = getPlayerByJunZhuId(junzhuIdTwo);
-		float distance = (float) Math.sqrt(
-				Math.pow(playerOne.posX - playerTwo.posX, 2)+
-				Math.pow(playerOne.posZ - playerTwo.posZ, 2));
-		return distance;
 	}
 	
 	public void destory () {

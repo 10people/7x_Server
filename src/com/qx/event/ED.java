@@ -135,6 +135,8 @@ public class ED {
 	public static final int LIANMENG_WEEK_RANK_RESET = 10159;
 	// 君主转国国家榜刷新
 	public static final int CHANGE_GJ_RANK_REFRESH = 10160;
+	// 君主等级榜刷新
+	public static final int JUNZHU_LEVEL_RANK_REFRESH = 101601;
 	/**GM事件**/
 	public static final int CHECK_EMAIL = 10161;
 	//限时活动精英集星
@@ -153,6 +155,8 @@ public class ED {
 	public static final int BIAOCHE_BEISHA = 10171;
 	/**押镖镖车到达终点*/
 	public static final int BIAOCHE_END=10172;
+	/**押镖镖车出发事件*/
+	public static final int BIAOCHE_CHUFA = 10173;
 	// 主线任务事件
 	public static final int get_produce_weiWang = 50;
 	public static final int pay_weiWang = 51;

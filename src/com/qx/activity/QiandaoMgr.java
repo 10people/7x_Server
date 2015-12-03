@@ -21,6 +21,7 @@ import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.QianDao;
 import com.manu.dynasty.template.QianDaoDesc;
+import com.manu.dynasty.template.QianDaoMonth;
 import com.manu.dynasty.util.StringUtils;
 import com.manu.network.PD;
 import com.manu.network.msg.ProtobufMsg;
@@ -43,6 +44,7 @@ public class QiandaoMgr {
 	// public static final short STATE_N = 0;// 没签过
 	public static Map<Integer, List<QianDao>> awardMap = new HashMap<Integer, List<QianDao>>();
 	public Map<Integer, QianDaoDesc> qianDaoDescMap = new HashMap<Integer, QianDaoDesc>();
+	public Map<Integer, QianDaoMonth> qianDaoMonthMap = new HashMap<Integer, QianDaoMonth>();
 	public static Date debugDate = new Date();// 测试用日期,可调整
 	public static boolean DATE_DEBUG = false;// 日期测试开关
 	public static int RESET_TIME = 4;// 凌晨4点刷新
@@ -77,6 +79,14 @@ public class QiandaoMgr {
 			qianDaoDescMap.put(desc.getMonth(), desc);
 		}
 		this.qianDaoDescMap = qianDaoDescMap;
+		
+		List<QianDaoMonth> qianDaoMonthList = TempletService.listAll(QianDaoMonth.class
+				.getSimpleName());
+		Map<Integer, QianDaoMonth> qianDaoMonthMap = new HashMap<Integer, QianDaoMonth>();
+		for (QianDaoMonth qianDaoMonth : qianDaoMonthList) {
+			qianDaoMonthMap.put(qianDaoMonth.getMonth(), qianDaoMonth);
+		}
+		this.qianDaoMonthMap = qianDaoMonthMap;
 	}
 
 	/**
@@ -150,7 +160,8 @@ public class QiandaoMgr {
 				}
 				response.addAward(award);
 			}
-			logger.info("获取到签到所有的奖励信息", junZhu.id);
+			response.setIcon(this.qianDaoMonthMap.get(getMonth(tmpDate)).getIcon());
+			response.setDesc(this.qianDaoMonthMap.get(getMonth(tmpDate)).getDesc());
 			response.setCurDate(getDate(date));
 			writeByProtoMsg(session, PD.S_GET_QIANDAO_RESP, response);
 		}

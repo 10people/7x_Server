@@ -631,6 +631,8 @@ public class JunZhuMgr extends EventProc {
 				levelChange = true;
 				// 判断君主天赋是否要进行升级提示 20151010
 				TalentMgr.instance.noticeTalentCanLevUp(jz.id);
+				// 君主等级榜刷新
+				EventMgr.addEvent(ED.JUNZHU_LEVEL_RANK_REFRESH, jz);
 			} else {
 				break;
 			}

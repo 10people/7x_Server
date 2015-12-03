@@ -127,17 +127,17 @@ import qxmobile.protobuf.GameTask.TaskSync;
 import qxmobile.protobuf.GuoJia.GuoJiaMainInfoResp;
 import qxmobile.protobuf.GuoJia.JuanXianDayAwardResp;
 import qxmobile.protobuf.GuoJia.JuanXianGongJinResp;
-import qxmobile.protobuf.GuoJia.LveBattleEndReq;
-import qxmobile.protobuf.GuoJia.LveBattleEndResp;
-import qxmobile.protobuf.GuoJia.LveBattleRecordResp;
-import qxmobile.protobuf.GuoJia.LveConfirmReq;
-import qxmobile.protobuf.GuoJia.LveConfirmResp;
-import qxmobile.protobuf.GuoJia.LveDuoInfoResp;
-import qxmobile.protobuf.GuoJia.LveGoLveDuoReq;
-import qxmobile.protobuf.GuoJia.LveGoLveDuoResp;
-import qxmobile.protobuf.GuoJia.LveHelpReq;
-import qxmobile.protobuf.GuoJia.LveNextItemReq;
-import qxmobile.protobuf.GuoJia.LveNextItemResp;
+import qxmobile.protobuf.LveDuo.LveBattleEndReq;
+import qxmobile.protobuf.LveDuo.LveBattleEndResp;
+import qxmobile.protobuf.LveDuo.LveBattleRecordResp;
+import qxmobile.protobuf.LveDuo.LveConfirmReq;
+import qxmobile.protobuf.LveDuo.LveConfirmResp;
+import qxmobile.protobuf.LveDuo.LveDuoInfoResp;
+import qxmobile.protobuf.LveDuo.LveGoLveDuoReq;
+import qxmobile.protobuf.LveDuo.LveGoLveDuoResp;
+import qxmobile.protobuf.LveDuo.LveHelpReq;
+import qxmobile.protobuf.LveDuo.LveNextItemReq;
+import qxmobile.protobuf.LveDuo.LveNextItemResp;
 import qxmobile.protobuf.House.AnswerExchange;
 import qxmobile.protobuf.House.ApplyInfos;
 import qxmobile.protobuf.House.BatchSimpleInfo;
@@ -169,6 +169,9 @@ import qxmobile.protobuf.HuangYeProtos.MaxDamageRankResp;
 import qxmobile.protobuf.HuangYeProtos.OpenHuangYeResp;
 import qxmobile.protobuf.HuangYeProtos.OpenHuangYeTreasure;
 import qxmobile.protobuf.HuangYeProtos.OpenHuangYeTreasureResp;
+import qxmobile.protobuf.JiNengPeiYang.GetJiNengPeiYangQuality;
+import qxmobile.protobuf.JiNengPeiYang.UpgradeJiNengReq;
+import qxmobile.protobuf.JiNengPeiYang.UpgradeJiNengResp;
 import qxmobile.protobuf.JingMaiProto.JingMaiReq;
 import qxmobile.protobuf.JingMaiProto.JingMaiRet;
 import qxmobile.protobuf.JingMaiProto.XueWeiUpReq;
@@ -923,6 +926,11 @@ public class PD {
 		// CDKEY
 		ProtobufUtils.register(GetCDKeyAwardReq.getDefaultInstance(), C_GET_CDKETY_AWARD_REQ);
 		ProtobufUtils.register(GetCDKeyAwardResp.getDefaultInstance(), S_GET_CDKETY_AWARD_RESP);
+		
+		// 技能培养
+		ProtobufUtils.register(GetJiNengPeiYangQuality.getDefaultInstance(),S_GET_JINENG_PEIYANG_QUALITY_RESP);
+		ProtobufUtils.register(UpgradeJiNengReq.getDefaultInstance(),C_UPGRADE_JINENG_REQ);
+		ProtobufUtils.register(UpgradeJiNengResp.getDefaultInstance(),S_UPGRADE_JINENG_RESP);
 		
 		ProtobufUtils.register(RequestFightInfoResp.getDefaultInstance(), ALLIANCE_FIGHT_INFO_RESP);
 		ProtobufUtils.register(ApplyFightResp.getDefaultInstance(), ALLIANCE_FIGHT_APPLY_RESP);
@@ -1842,6 +1850,8 @@ public class PD {
 	public static final short S_PUSH_YBRECORD_RESP = 3439;//推送押镖战斗记录
 	public static final short C_BUYHORSEBUFF_REQ = 3440;//请求购买马车buff
 	public static final short S_BUYHORSEBUFF_RESP = 3441;//请求购买马车buff返回
+	public static final short C_MOVE2BIAOCHE_REQ = 3442;//请求镖车坐标
+	public static final short S_MOVE2BIAOCHE_RESP = 3443;//请求镖车坐标返回
 	
 	/*========== 游侠战斗 ================*/ 
 	/**
@@ -1995,4 +2005,10 @@ public class PD {
 	/**盟友快报*/
 	public static final short C_MengYouKuaiBao_Req=4240;//请求盟友快报
 	public static final short S_MengYouKuaiBao_Resq=4241;	//请求盟友快报返回
+	/**技能培养**/
+	public static final short C_GET_JINENG_PEIYANG_QUALITY_REQ=4250;
+	public static final short S_GET_JINENG_PEIYANG_QUALITY_RESP=4251;
+	public static final short C_UPGRADE_JINENG_REQ=4252;
+	public static final short S_UPGRADE_JINENG_RESP=4253;
+	
 }

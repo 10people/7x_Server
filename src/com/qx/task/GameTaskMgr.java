@@ -449,15 +449,15 @@ public class GameTaskMgr extends EventProc{
 						b.progress = -1;
 					}
 					break;
-				/*
-				 * 是否捐献过贡金
-				 */
-				case TaskData.give_gongjin:
-					ResourceGongJin gongjinBean = HibernateUtil.find(ResourceGongJin.class, junZhuId);
-					if(gongjinBean != null && gongjinBean.juanXianTime != null){
-						b.progress = -1;
-					}
-					break;
+//				/*
+//				 * 是否捐献过贡金
+//				 */
+//				case TaskData.give_gongjin:
+//					ResourceGongJin gongjinBean = HibernateUtil.find(ResourceGongJin.class, junZhuId);
+//					if(gongjinBean != null && gongjinBean.juanXianTime != null){
+//						b.progress = -1;
+//					}
+//					break;
 				/*
 				 * 是否参加过掠夺
 				 */

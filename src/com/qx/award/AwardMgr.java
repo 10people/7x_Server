@@ -41,6 +41,7 @@ import com.qx.junzhu.TalentMgr;
 import com.qx.mibao.MiBaoDB;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.ranking.RankingGongJinMgr;
 import com.qx.util.TableIDCreator;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
@@ -486,17 +487,19 @@ public class AwardMgr {
 						ShopMgr.baizhan_shop_type, jz.id, a.getItemNum());
 				log.info("君主：{}获取奖励，威望，获取数是：{}, 获取后拥有：{}", jz.id, a.getItemNum(), all);
 			}else if(a.getItemId() == item_gong_jin){ // 添加贡金
-				ResourceGongJin re = HibernateUtil.find(ResourceGongJin.class, jz.id);
-				if(re == null){
-					re = GuoJiaMgr.inst.initjzGongJinInfo(jz.id, null, re);
-				}else{
-					GuoJiaMgr.inst.resetResourceGongJin(re);
-				}
-				GuoJiaMgr.inst.changeGongJin(re, a.getItemNum());
-				// 判断能不能上缴
-				if(GuoJiaMgr.inst.isCanShangjiao(jz.id)){
-					GuoJiaMgr.inst.pushCanShangjiao(jz.id);
-				}
+				// 20151127
+				RankingGongJinMgr.inst.addGongJin(jz.id, a.getItemNum());
+//				ResourceGongJin re = HibernateUtil.find(ResourceGongJin.class, jz.id);
+//				if(re == null){
+//					re = GuoJiaMgr.inst.initjzGongJinInfo(jz.id, null, re);
+//				}else{
+//					GuoJiaMgr.inst.resetResourceGongJin(re);
+//				}
+//				GuoJiaMgr.inst.changeGongJin(re, a.getItemNum());
+//				// 判断能不能上缴
+//				if(GuoJiaMgr.inst.isCanShangjiao(jz.id)){
+//					GuoJiaMgr.inst.pushCanShangjiao(jz.id);
+//				}
 			}else if(a.getItemId() == item_huang_ye_bi){ // 玩家荒野币
 				int all = ShopMgr.inst.addMoney(ShopMgr.Money.huangYeBi, 
 						ShopMgr.huangYe_shop_type, jz.id, a.getItemNum());

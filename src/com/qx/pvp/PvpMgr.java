@@ -429,7 +429,8 @@ public class PvpMgr extends EventProc implements Runnable {
 		pInfo.setJunXianLevel(bean.junXianLevel);
 		pInfo.setZhanLi(JunZhuMgr.inst.getJunZhuZhanliFinally(jz));
 		// 添加组合id
-		pInfo.setZuheId(bean.zuheId);
+//		pInfo.setZuheId(bean.zuheId);
+		pInfo.setZuheId(bean.gongJiZuHeId);
 		return pInfo;
 	}
 
@@ -498,9 +499,12 @@ public class PvpMgr extends EventProc implements Runnable {
 				you.setZhanLi(zhanli);
 				you.setGuojia(junz.guoJiaId);
 				you.setRoleId(junz.roleId);
+//				you.setActivateMiBaoCount(MibaoMgr.inst
+//						.getActivateCountByZuheId(playerId, pb.zuheId));
 				you.setActivateMiBaoCount(MibaoMgr.inst
-						.getActivateCountByZuheId(playerId, pb.zuheId));
-				you.setZuheId(pb.zuheId);
+						.getActivateCountByZuheId(playerId, pb.gongJiZuHeId));
+				//you.setZuheId(pb.zuheId);
+				you.setZuheId(pb.gongJiZuHeId);
 				you.setLevel(junz.level);
 				enemyBuilderList.add(you);
 			}
@@ -554,9 +558,12 @@ public class PvpMgr extends EventProc implements Runnable {
 				oppoLe = oppo.level;
 				opzhanli = getZhanli(oppo);
 				PvpBean you = HibernateUtil.find(PvpBean.class, oppoId);
+//				oppoActiveMiBaoCount = MibaoMgr.inst.getActivateCountByZuheId(
+//						oppoId, you.zuheId);
+//				oppoZuheId = you.zuheId;
 				oppoActiveMiBaoCount = MibaoMgr.inst.getActivateCountByZuheId(
-						oppoId, you.zuheId);
-				oppoZuheId = you.zuheId;
+						oppoId, you.gongJiZuHeId);
+				oppoZuheId = you.gongJiZuHeId;
 				oppoRoleId = oppo.roleId;
 			}
 		}
@@ -1073,9 +1080,12 @@ public class PvpMgr extends EventProc implements Runnable {
 				oppoLe = oppo.level;
 				opzhanli = getZhanli(oppo);
 				PvpBean you = HibernateUtil.find(PvpBean.class, oppoId);
+//				oppoActiveMiBaoCount = MibaoMgr.inst.getActivateCountByZuheId(
+//						oppoId, you.zuheId);
+//				oppoZuheId = you.zuheId;
 				oppoActiveMiBaoCount = MibaoMgr.inst.getActivateCountByZuheId(
-						oppoId, you.zuheId);
-				oppoZuheId = you.zuheId;
+						oppoId, you.gongJiZuHeId);
+				oppoZuheId = you.gongJiZuHeId;
 				oppoRoleId = oppo.roleId;
 			}
 		}
@@ -1141,13 +1151,13 @@ public class PvpMgr extends EventProc implements Runnable {
 	}
 
 	public void saveFangShouMiBao(long jzId, List<Long> mibaoIds, int zuheId) {
-		PvpBean bean = HibernateUtil.find(PvpBean.class, jzId);
-		if (bean == null) {
-			log.error("玩家{}的百战没有开启:", jzId);
-			return;
-		}
-		bean.zuheId = zuheId;
-		HibernateUtil.save(bean);
+//		PvpBean bean = HibernateUtil.find(PvpBean.class, jzId);
+//		if (bean == null) {
+//			log.error("玩家{}的百战没有开启:", jzId);
+//			return;
+//		}
+////		bean.zuheId = zuheId;
+//		HibernateUtil.save(bean);
 	}
 
 	/**
@@ -1675,15 +1685,15 @@ public class PvpMgr extends EventProc implements Runnable {
 
 	public boolean resetBeanAfterWin(long jId, PvpBean bean, int weiWang,
 			int rank) {
-		int beforLevel = bean.junXianLevel;
 		bean.junXianLevel = getBaiZhanItemByRank(rank).jibie;
-		if(beforLevel != bean.junXianLevel){
-			// 君主的军衔值发生改变，贡金进行一次结算
-			GuoJiaMgr.inst.getGongJin(jId, beforLevel);
-			if(GuoJiaMgr.inst.isCanShangjiao(jId)){
-				GuoJiaMgr.inst.pushCanShangjiao(jId);
-			}
-		}
+		// 1.1 版本去掉
+//		if(beforLevel != bean.junXianLevel){
+//			// 君主的军衔值发生改变，贡金进行一次结算
+//			GuoJiaMgr.inst.getGongJin(jId, beforLevel);
+//			if(GuoJiaMgr.inst.isCanShangjiao(jId)){
+//				GuoJiaMgr.inst.pushCanShangjiao(jId);
+//			}
+//		}
 		setChallengeRanks(bean, rank);
 		return false;
 	}
@@ -1865,7 +1875,7 @@ public class PvpMgr extends EventProc implements Runnable {
 		bean.usedTimes = 0;
 		bean.remain = PVPConstant.ZHAN_TOTAL_TIMES;
 		bean.junXianLevel = PVPConstant.XIAO_ZU_JI_BIE;
-		bean.zuheId = -1;
+//		bean.zuheId = -1;
 		bean.gongJiZuHeId = -1;
 		bean.highestRank = rank;
 		bean.isLook = true;
@@ -2027,7 +2037,8 @@ public class PvpMgr extends EventProc implements Runnable {
 			// 君主
 			JunZhu enemy = HibernateUtil.find(JunZhu.class, enemyId);
 			PvpBean ebean = HibernateUtil.find(PvpBean.class, enemyId);
-			int zuheId = ebean == null ? -1 : ebean.zuheId;
+//			int zuheId = ebean == null ? -1 : ebean.zuheId;
+			int zuheId = ebean == null ? -1 : ebean.gongJiZuHeId;
 			PveMgr.inst.fillJunZhuDataInfo(resp, session, enemys, enemy,
 					enemyFlagIndex, zuheId, enemyTroop);
 			oppolevel = enemy.level;

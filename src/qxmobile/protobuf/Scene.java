@@ -944,6 +944,36 @@ public final class Scene {
      * <code>required int32 uid = 1;</code>
      */
     int getUid();
+
+    // optional float posX = 2;
+    /**
+     * <code>optional float posX = 2;</code>
+     */
+    boolean hasPosX();
+    /**
+     * <code>optional float posX = 2;</code>
+     */
+    float getPosX();
+
+    // optional float posY = 3;
+    /**
+     * <code>optional float posY = 3;</code>
+     */
+    boolean hasPosY();
+    /**
+     * <code>optional float posY = 3;</code>
+     */
+    float getPosY();
+
+    // optional float posZ = 4;
+    /**
+     * <code>optional float posZ = 4;</code>
+     */
+    boolean hasPosZ();
+    /**
+     * <code>optional float posZ = 4;</code>
+     */
+    float getPosZ();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.EnterSceneConfirm}
@@ -999,6 +1029,21 @@ public final class Scene {
             case 8: {
               bitField0_ |= 0x00000001;
               uid_ = input.readInt32();
+              break;
+            }
+            case 21: {
+              bitField0_ |= 0x00000002;
+              posX_ = input.readFloat();
+              break;
+            }
+            case 29: {
+              bitField0_ |= 0x00000004;
+              posY_ = input.readFloat();
+              break;
+            }
+            case 37: {
+              bitField0_ |= 0x00000008;
+              posZ_ = input.readFloat();
               break;
             }
           }
@@ -1057,8 +1102,59 @@ public final class Scene {
       return uid_;
     }
 
+    // optional float posX = 2;
+    public static final int POSX_FIELD_NUMBER = 2;
+    private float posX_;
+    /**
+     * <code>optional float posX = 2;</code>
+     */
+    public boolean hasPosX() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional float posX = 2;</code>
+     */
+    public float getPosX() {
+      return posX_;
+    }
+
+    // optional float posY = 3;
+    public static final int POSY_FIELD_NUMBER = 3;
+    private float posY_;
+    /**
+     * <code>optional float posY = 3;</code>
+     */
+    public boolean hasPosY() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional float posY = 3;</code>
+     */
+    public float getPosY() {
+      return posY_;
+    }
+
+    // optional float posZ = 4;
+    public static final int POSZ_FIELD_NUMBER = 4;
+    private float posZ_;
+    /**
+     * <code>optional float posZ = 4;</code>
+     */
+    public boolean hasPosZ() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional float posZ = 4;</code>
+     */
+    public float getPosZ() {
+      return posZ_;
+    }
+
     private void initFields() {
       uid_ = 0;
+      posX_ = 0F;
+      posY_ = 0F;
+      posZ_ = 0F;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1079,6 +1175,15 @@ public final class Scene {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(1, uid_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeFloat(2, posX_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeFloat(3, posY_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeFloat(4, posZ_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1091,6 +1196,18 @@ public final class Scene {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, uid_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(2, posX_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(3, posY_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(4, posZ_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1210,6 +1327,12 @@ public final class Scene {
         super.clear();
         uid_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        posX_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        posY_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        posZ_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -1242,6 +1365,18 @@ public final class Scene {
           to_bitField0_ |= 0x00000001;
         }
         result.uid_ = uid_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.posX_ = posX_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.posY_ = posY_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.posZ_ = posZ_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1260,6 +1395,15 @@ public final class Scene {
         if (other == qxmobile.protobuf.Scene.EnterSceneConfirm.getDefaultInstance()) return this;
         if (other.hasUid()) {
           setUid(other.getUid());
+        }
+        if (other.hasPosX()) {
+          setPosX(other.getPosX());
+        }
+        if (other.hasPosY()) {
+          setPosY(other.getPosY());
+        }
+        if (other.hasPosZ()) {
+          setPosZ(other.getPosZ());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1321,6 +1465,105 @@ public final class Scene {
       public Builder clearUid() {
         bitField0_ = (bitField0_ & ~0x00000001);
         uid_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional float posX = 2;
+      private float posX_ ;
+      /**
+       * <code>optional float posX = 2;</code>
+       */
+      public boolean hasPosX() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional float posX = 2;</code>
+       */
+      public float getPosX() {
+        return posX_;
+      }
+      /**
+       * <code>optional float posX = 2;</code>
+       */
+      public Builder setPosX(float value) {
+        bitField0_ |= 0x00000002;
+        posX_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float posX = 2;</code>
+       */
+      public Builder clearPosX() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        posX_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // optional float posY = 3;
+      private float posY_ ;
+      /**
+       * <code>optional float posY = 3;</code>
+       */
+      public boolean hasPosY() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional float posY = 3;</code>
+       */
+      public float getPosY() {
+        return posY_;
+      }
+      /**
+       * <code>optional float posY = 3;</code>
+       */
+      public Builder setPosY(float value) {
+        bitField0_ |= 0x00000004;
+        posY_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float posY = 3;</code>
+       */
+      public Builder clearPosY() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        posY_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // optional float posZ = 4;
+      private float posZ_ ;
+      /**
+       * <code>optional float posZ = 4;</code>
+       */
+      public boolean hasPosZ() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional float posZ = 4;</code>
+       */
+      public float getPosZ() {
+        return posZ_;
+      }
+      /**
+       * <code>optional float posZ = 4;</code>
+       */
+      public Builder setPosZ(float value) {
+        bitField0_ |= 0x00000008;
+        posZ_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float posZ = 4;</code>
+       */
+      public Builder clearPosZ() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        posZ_ = 0F;
         onChanged();
         return this;
       }
@@ -3937,15 +4180,15 @@ public final class Scene {
   public interface ExitFightSceneOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int64 junzhuId = 1;
+    // required int32 uid = 1;
     /**
-     * <code>required int64 junzhuId = 1;</code>
+     * <code>required int32 uid = 1;</code>
      */
-    boolean hasJunzhuId();
+    boolean hasUid();
     /**
-     * <code>required int64 junzhuId = 1;</code>
+     * <code>required int32 uid = 1;</code>
      */
-    long getJunzhuId();
+    int getUid();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ExitFightScene}
@@ -4000,7 +4243,7 @@ public final class Scene {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              junzhuId_ = input.readInt64();
+              uid_ = input.readInt32();
               break;
             }
           }
@@ -4043,31 +4286,31 @@ public final class Scene {
     }
 
     private int bitField0_;
-    // required int64 junzhuId = 1;
-    public static final int JUNZHUID_FIELD_NUMBER = 1;
-    private long junzhuId_;
+    // required int32 uid = 1;
+    public static final int UID_FIELD_NUMBER = 1;
+    private int uid_;
     /**
-     * <code>required int64 junzhuId = 1;</code>
+     * <code>required int32 uid = 1;</code>
      */
-    public boolean hasJunzhuId() {
+    public boolean hasUid() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int64 junzhuId = 1;</code>
+     * <code>required int32 uid = 1;</code>
      */
-    public long getJunzhuId() {
-      return junzhuId_;
+    public int getUid() {
+      return uid_;
     }
 
     private void initFields() {
-      junzhuId_ = 0L;
+      uid_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasJunzhuId()) {
+      if (!hasUid()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -4079,7 +4322,7 @@ public final class Scene {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt64(1, junzhuId_);
+        output.writeInt32(1, uid_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4092,7 +4335,7 @@ public final class Scene {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(1, junzhuId_);
+          .computeInt32Size(1, uid_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4210,7 +4453,7 @@ public final class Scene {
 
       public Builder clear() {
         super.clear();
-        junzhuId_ = 0L;
+        uid_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
@@ -4243,7 +4486,7 @@ public final class Scene {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.junzhuId_ = junzhuId_;
+        result.uid_ = uid_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4260,15 +4503,15 @@ public final class Scene {
 
       public Builder mergeFrom(qxmobile.protobuf.Scene.ExitFightScene other) {
         if (other == qxmobile.protobuf.Scene.ExitFightScene.getDefaultInstance()) return this;
-        if (other.hasJunzhuId()) {
-          setJunzhuId(other.getJunzhuId());
+        if (other.hasUid()) {
+          setUid(other.getUid());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasJunzhuId()) {
+        if (!hasUid()) {
           
           return false;
         }
@@ -4294,35 +4537,35 @@ public final class Scene {
       }
       private int bitField0_;
 
-      // required int64 junzhuId = 1;
-      private long junzhuId_ ;
+      // required int32 uid = 1;
+      private int uid_ ;
       /**
-       * <code>required int64 junzhuId = 1;</code>
+       * <code>required int32 uid = 1;</code>
        */
-      public boolean hasJunzhuId() {
+      public boolean hasUid() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int64 junzhuId = 1;</code>
+       * <code>required int32 uid = 1;</code>
        */
-      public long getJunzhuId() {
-        return junzhuId_;
+      public int getUid() {
+        return uid_;
       }
       /**
-       * <code>required int64 junzhuId = 1;</code>
+       * <code>required int32 uid = 1;</code>
        */
-      public Builder setJunzhuId(long value) {
+      public Builder setUid(int value) {
         bitField0_ |= 0x00000001;
-        junzhuId_ = value;
+        uid_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int64 junzhuId = 1;</code>
+       * <code>required int32 uid = 1;</code>
        */
-      public Builder clearJunzhuId() {
+      public Builder clearUid() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        junzhuId_ = 0L;
+        uid_ = 0;
         onChanged();
         return this;
       }
@@ -4380,16 +4623,17 @@ public final class Scene {
       "\n\017sceneSync.proto\022\021qxmobile.protobuf\"g\n\n" +
       "EnterScene\022\013\n\003uid\030\001 \002(\005\022\022\n\nsenderName\030\002 " +
       "\002(\t\022\014\n\004posX\030\003 \001(\002\022\014\n\004posY\030\004 \001(\002\022\014\n\004posZ\030" +
-      "\005 \001(\002\022\016\n\006roleId\030\006 \001(\005\" \n\021EnterSceneConfi" +
-      "rm\022\013\n\003uid\030\001 \002(\005\"\030\n\tExitScene\022\013\n\003uid\030\001 \002(" +
-      "\005\"C\n\nSpriteMove\022\013\n\003uid\030\001 \002(\005\022\014\n\004posX\030\002 \001" +
-      "(\002\022\014\n\004posY\030\003 \001(\002\022\014\n\004posZ\030\004 \001(\002\"\273\001\n\017Enter" +
-      "FightScene\022\013\n\003uid\030\001 \002(\005\022\020\n\010junZhuId\030\002 \002(" +
-      "\003\022\022\n\nsenderName\030\003 \002(\t\022\014\n\004posX\030\004 \001(\002\022\014\n\004p" +
-      "osY\030\005 \001(\002\022\014\n\004posZ\030\006 \001(\002\022\016\n\006roleId\030\007 \001(\005\022",
-      "\022\n\nremainLife\030\010 \002(\005\022\021\n\ttotalLife\030\t \002(\005\022\024" +
-      "\n\014allianceName\030\n \002(\t\"\"\n\016ExitFightScene\022\020" +
-      "\n\010junzhuId\030\001 \002(\003B\007B\005Scene"
+      "\005 \001(\002\022\016\n\006roleId\030\006 \001(\005\"J\n\021EnterSceneConfi" +
+      "rm\022\013\n\003uid\030\001 \002(\005\022\014\n\004posX\030\002 \001(\002\022\014\n\004posY\030\003 " +
+      "\001(\002\022\014\n\004posZ\030\004 \001(\002\"\030\n\tExitScene\022\013\n\003uid\030\001 " +
+      "\002(\005\"C\n\nSpriteMove\022\013\n\003uid\030\001 \002(\005\022\014\n\004posX\030\002" +
+      " \001(\002\022\014\n\004posY\030\003 \001(\002\022\014\n\004posZ\030\004 \001(\002\"\273\001\n\017Ent" +
+      "erFightScene\022\013\n\003uid\030\001 \002(\005\022\020\n\010junZhuId\030\002 " +
+      "\002(\003\022\022\n\nsenderName\030\003 \002(\t\022\014\n\004posX\030\004 \001(\002\022\014\n",
+      "\004posY\030\005 \001(\002\022\014\n\004posZ\030\006 \001(\002\022\016\n\006roleId\030\007 \001(" +
+      "\005\022\022\n\nremainLife\030\010 \002(\005\022\021\n\ttotalLife\030\t \002(\005" +
+      "\022\024\n\014allianceName\030\n \002(\t\"\035\n\016ExitFightScene" +
+      "\022\013\n\003uid\030\001 \002(\005B\007B\005Scene"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4407,7 +4651,7 @@ public final class Scene {
           internal_static_qxmobile_protobuf_EnterSceneConfirm_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_EnterSceneConfirm_descriptor,
-              new java.lang.String[] { "Uid", });
+              new java.lang.String[] { "Uid", "PosX", "PosY", "PosZ", });
           internal_static_qxmobile_protobuf_ExitScene_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_ExitScene_fieldAccessorTable = new
@@ -4431,7 +4675,7 @@ public final class Scene {
           internal_static_qxmobile_protobuf_ExitFightScene_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ExitFightScene_descriptor,
-              new java.lang.String[] { "JunzhuId", });
+              new java.lang.String[] { "Uid", });
           return null;
         }
       };

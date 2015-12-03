@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "YaBiaoBean0")
+@Table(name = "YaBiaoBean1")
 public class YaBiaoBean {// implements MCSupport
 	@Id
 	public long junZhuId;

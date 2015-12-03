@@ -38,5 +38,8 @@ public class YaBiaoRobot{
 	public int  hudun;
 	public int  hudunMax;
 	public int worth;
+	public int bcNPCId;//镖车NPC配置Id
+	public int zhanli;
+	public int guojiaId;
 }
 

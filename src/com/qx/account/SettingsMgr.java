@@ -1,15 +1,11 @@
 package com.qx.account;
 
-import java.util.Map;
-
 import log.ActLog;
 
 import org.apache.mina.core.session.IoSession;
-import org.aspectj.apache.bcel.generic.NEW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.PawnShop;
 import qxmobile.protobuf.Settings.ChangeGuojiaReq;
 import qxmobile.protobuf.Settings.ChangeGuojiaResp;
 import qxmobile.protobuf.Settings.ChangeName;
@@ -25,18 +21,17 @@ import com.manu.network.BigSwitch;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
 import com.manu.network.msg.ProtobufMsg;
-import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
 import com.qx.bag.BagMgr;
 import com.qx.event.ED;
 import com.qx.event.EventMgr;
+import com.qx.guojia.GuoJiaMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.pawnshop.PawnshopMgr;
 import com.qx.persistent.HibernateUtil;
-import com.qx.purchase.PurchaseMgr;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
 
@@ -54,6 +49,7 @@ public class SettingsMgr {
 	public static int ERROR_NO_CARD = 102;// 转国失败，没有转国卡
 	public static int ERROR_IN_LIANMENG = 101;// 转国失败，在联盟中
 	public static int ERROR_IN_YUANBAO = 103;//  103-元宝不足
+	public static int ERROR_GUOJIA_NOT_EXIST = 104;//  104-国家不存在
 
 	public void get(int id, IoSession session, Builder builder) {
 		Long v = (Long) session.getAttribute(SessionAttKey.junZhuId);
@@ -161,6 +157,14 @@ public class SettingsMgr {
 		// 转国
 		int guojiaId = request.getGuojiaId();
 		int useType = request.getUseType();
+		boolean guoJiaExist = GuoJiaMgr.inst.verifyGuoJiaExist((byte) guojiaId);
+		if(!guoJiaExist) {
+			response.setResult(ERROR_GUOJIA_NOT_EXIST);
+			log.info("{}转国失败，选择的国家不存在", jz.id, guojiaId);
+			writeByProtoMsg(session, PD.S_ZHUANGGUO_RESP, response);
+			return;
+		}
+		
 		if(0 == useType) {
 			Bag<BagGrid> bag = BagMgr.inst.loadBag(jz.id);
 			int cnt = BagMgr.inst.getItemCount(bag, ZHUANGUOLING);
@@ -176,9 +180,9 @@ public class SettingsMgr {
 			// 消耗转国卡
 			log.info("{}使用一张转国令成功转换国家到{}", jz.id, jz.guoJiaId);
 			
-		} else if(2 == useType) {
+		} else if(1 == useType) {
 			DangpuCommon dangpuCommon = PawnshopMgr.inst.getDangpuCommon(1003);
-			int needYuanBao = dangpuCommon.getNeedNum();
+			int needYuanBao = dangpuCommon.getNeedNum() / dangpuCommon.getItemNum();
 			if(jz.yuanBao < needYuanBao) {
 				response.setResult(ERROR_IN_YUANBAO);
 				log.info("{}转国失败，元宝不足:{}", jz.id, needYuanBao);
@@ -186,6 +190,9 @@ public class SettingsMgr {
 				return;
 			}
 			YuanBaoMgr.inst.diff(jz, -needYuanBao, 0, 0, 0, "转国花费元宝");
+		} else {
+			log.error("转国失败，使用转国的方式:{}", useType);
+			return;
 		}
 		int oldGjId = jz.guoJiaId;
 		jz.guoJiaId = guojiaId;

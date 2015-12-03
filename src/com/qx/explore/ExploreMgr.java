@@ -171,13 +171,7 @@ public class ExploreMgr extends EventProc{
 		/*
 		 * 元宝探宝
 		 */
-		all = TanBaoData.yuanBao_all_free_times;
 		e = map.get(TanBaoData.yuanBao_type);
-		if(e != null){
-			resetExploreMine(e);
-		}
-		resp.setAllFreeYuanBaoCount(all);
-		resp.setRemainFreeYuanBaoCount( e == null? all: all - e.usedFreeNumber);
 		resp.setYuanBaoCd(getCD(e == null? null: e.lastFreeGetTime, TanBaoData.yuanBao_CD));
 		resp.setYuanBao(jz.yuanBao);
 
@@ -235,7 +229,6 @@ public class ExploreMgr extends EventProc{
 		}else if(reqType == 3 || reqType == 4){ // 元宝抽奖类型
 			sqlType = TanBaoData.yuanBao_type;
 			timeInterval = TanBaoData.yuanBao_CD;
-			allfreeTimes = TanBaoData.yuanBao_all_free_times;
 			
 			firstFreeId = TanBaoData.yuanBao_first_free_awardId;
 			freeId = TanBaoData.yuanBao_free_normal_awardId;
@@ -255,14 +248,19 @@ public class ExploreMgr extends EventProc{
 		}
 		boolean mustPay = true;
 		// 检查单抽是否可以免费
-		if(reqType == 1 || reqType == 3){
+		if(reqType == 1){ //铜币抽奖有cd，和次数限制
 			int cd = getCD(mine.lastFreeGetTime, timeInterval);
 			int remianTimes = allfreeTimes - mine.usedFreeNumber;
 			if(cd <= 0 && remianTimes > 0){
 				mustPay = false;
 			}
+		}else if(reqType == 3){ // 元宝免费抽奖只根据Cd
+			int cd = getCD(mine.lastFreeGetTime, timeInterval);
+			if(cd <= 0){
+				mustPay = false;
+			}
 		}
-
+		
 		/*
 		 * 付费
 		 */
@@ -322,7 +320,7 @@ public class ExploreMgr extends EventProc{
 				awards.add(award);
 				mine.historyFree += 1;
 				mine.lastFreeGetTime = new Date();
-				mine.usedFreeNumber += 1;
+				mine.usedFreeNumber += 1; // 元宝探宝不需要这个字段，但也记录下来
 			}else{
 				sendExploreFailedMessage(session, wrong);
 				log.error("探宝随机奖励失败,awardId:{}，但是已经把玩家钱扣了~~", awardId);
@@ -354,7 +352,10 @@ public class ExploreMgr extends EventProc{
 		}else{
 			inf.setMoney(jz.yuanBao);
 		}
-		inf.setRemainFreeCount(allfreeTimes - mine.usedFreeNumber);
+		if(reqType == 1){
+			// 铜币免费单抽发送剩余次数
+			inf.setRemainFreeCount(allfreeTimes - mine.usedFreeNumber);
+		}
 		inf.setCd(getCD(mine.lastFreeGetTime, timeInterval));
 		resp.setInfo(inf);
 		session.write(resp.build());
@@ -391,6 +392,8 @@ public class ExploreMgr extends EventProc{
 		}
 		if(DateUtils.isTimeToReset(m.lastFreeGetTime, CanShu.REFRESHTIME_PURCHASE)){
 			m.usedFreeNumber = 0;
+			m.lastFreeGetTime =
+					new Date(System.currentTimeMillis() - TanBaoData.tongBi_CD * 1000);
 			HibernateUtil.save(m);
 			log.info("君主：{}第二天重置探宝：", m.id/space);
 		}
@@ -888,8 +891,7 @@ public class ExploreMgr extends EventProc{
 						}
 					}else if(type == TanBaoData.yuanBao_type){
 						int cd = getCD(mine.lastFreeGetTime,  TanBaoData.yuanBao_CD);
-						int remianTimes = TanBaoData.yuanBao_all_free_times - mine.usedFreeNumber;
-						if(cd <= 0 && remianTimes > 0){
+						if(cd <= 0){
 							freeRecord = 1;	//可以抽奖
 						}else{
 							freeRecord = 0;	//不可以抽奖

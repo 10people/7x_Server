@@ -51,6 +51,7 @@ import com.qx.hero.HeroMgr;
 import com.qx.hero.WuJiangKeJiMgr;
 import com.qx.huangye.HYMgr;
 import com.qx.huangye.shop.ShopMgr;
+import com.qx.jinengpeiyang.JiNengPeiYangMgr;
 import com.qx.jingmai.JmMgr;
 import com.qx.junzhu.ChenghaoMgr;
 import com.qx.junzhu.GrowUpMgr;
@@ -61,6 +62,7 @@ import com.qx.log.LogMgr;
 import com.qx.mibao.MibaoMgr;
 import com.qx.notice.NoticeMgr;
 import com.qx.pawnshop.PawnshopMgr;
+import com.qx.prompt.PromptMsgMgr;
 import com.qx.purchase.PurchaseMgr;
 import com.qx.pve.PveGuanQiaMgr;
 import com.qx.pvp.LveDuoMgr;
@@ -94,6 +96,7 @@ public class BigSwitch {
 	public static BigSwitch inst;
 	public PvpMgr pvpMgr;
 	public YaBiaoHuoDongMgr ybMgr;
+	public PromptMsgMgr ptmgr;
 	public GuoJiaMgr gjMgr;
 	public LveDuoMgr lveDuoMgr;
 	public YBRobotMgr ybrobotMgr;
@@ -155,6 +158,8 @@ public class BigSwitch {
 	public BuffMgr buffMgr;
 	// cdkey
 	public CDKeyMgr cdKeyMgr;
+	// 技能培养
+	public JiNengPeiYangMgr jiNengPeiYangMgr;
 
 	public static BigSwitch getInst() {
 		if (inst == null) {
@@ -227,6 +232,7 @@ public class BigSwitch {
 		antiCheatMgr = new AntiCheatMgr();
 		logMgr = new LogMgr();
 		ybMgr = new YaBiaoHuoDongMgr();
+		ptmgr = new PromptMsgMgr();
 		gjMgr = new GuoJiaMgr();
 		ybrobotMgr = new YBRobotMgr();
 		xsActivityMgr=new XianShiActivityMgr();
@@ -241,6 +247,7 @@ public class BigSwitch {
 		buffMgr = new BuffMgr();
 		buffMgr.startWork();
 		cdKeyMgr = new CDKeyMgr();
+		jiNengPeiYangMgr = new JiNengPeiYangMgr();
 	}
 
 	public void loadModuleData() {
@@ -382,6 +389,8 @@ public class BigSwitch {
 			case PD.C_APP_WAKEUP:
 			case PD.ENTER_FIGHT_SCENE:
 			case PD.EXIT_FIGHT_SCENE:
+			case PD.Enter_YBScene:
+			case PD.Exit_YBScene:
 				// scene.exec(id, session, builder);
 				scMgr.route(id, session, builder);
 				break;
@@ -983,6 +992,12 @@ public class BigSwitch {
 				break;
 			case PD.C_GET_CDKETY_AWARD_REQ:
 				cdKeyMgr.getCDKeyAward(id, session, builder); 
+				break;
+			case PD.C_GET_JINENG_PEIYANG_QUALITY_REQ:
+				jiNengPeiYangMgr.getJiNengPeiYangQuality(id, session, builder);
+				break;
+			case PD.C_UPGRADE_JINENG_REQ:
+				jiNengPeiYangMgr.upgradeJiNeng(id, session, builder);
 				break;
 			default:
 				log.error("未处理的协议 {} {}", id, builder);

@@ -50,6 +50,7 @@ import com.qx.persistent.HibernateUtil;
 import com.qx.ranking.RankingMgr;
 import com.qx.world.FightScene;
 import com.qx.world.Player;
+import com.qx.world.Scene;
 
 public class AllianceFightMgr {
 	public AllianceFightMgr inst;
@@ -68,6 +69,9 @@ public class AllianceFightMgr {
 	
 	/** 玩家技能冷却map  <junzhuId, map<skillId, endTime>> */
 	public Map<Long, Map<Integer, Long>> skillCDTimeMap = new HashMap<Long, Map<Integer,Long>>();
+
+	/** 玩家技能公共冷却结束时间 */
+	public long skillGroupEndTime = System.currentTimeMillis();
 	
 	public int fightState = 8;
 	
@@ -480,65 +484,72 @@ public class AllianceFightMgr {
 	 * @param builder
 	 */
 	public void activeFight(int id, IoSession session, Builder builder) {
+		FightAttackReq.Builder request = (qxmobile.protobuf.AllianceFightProtos.FightAttackReq.Builder) builder;
+		int attackUid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
+		int targetUid = request.getTargetUid();			// 被攻击者的uid
+		int skillId = request.getSkillId();				// 使用的技能id
+		
+		// 防守者是否存在
+		Scene scene = (Scene) session.getAttribute(SessionAttKey.Scene);
+		Player targetPlayer = scene.players.get(targetUid);
+		Player attackPlayer = scene.players.get(attackUid);
+		if(targetPlayer == null) {
+			logger.error("攻击失败，攻击的玩家:{}不在场景里", targetUid);
+			return;
+		}
+		if(attackPlayer == null) {
+			logger.error("攻击失败，攻击的玩家:{}不在场景里", attackUid);
+			return;
+		}
+		
 		JunZhu attacker = JunZhuMgr.inst.getJunZhu(session);
 		if(attacker == null) {
 			logger.error("fight攻击失败，找不到君主");
 			return;
 		}
-		FightAttackReq.Builder request = (qxmobile.protobuf.AllianceFightProtos.FightAttackReq.Builder) builder;
-		long targetId = request.getTargetId();			// 被攻击者的君主id
-		int skillId = request.getSkillId();				// 使用的技能id
-		
-		// 防守者是否存在
-		FightScene scene = (FightScene) session.getAttribute(SessionAttKey.Scene);
-		Player player = scene.players.get(targetId);
-		if(player == null) {
-			logger.error("攻击失败，攻击的玩家:{}不在场景里", targetId);
-			return;
-		}
-		
-		JunZhu defender = HibernateUtil.find(JunZhu.class, targetId);
+		JunZhu defender = HibernateUtil.find(JunZhu.class, targetPlayer.jzId);
 		if(defender == null) {
-			logger.error("攻击失败，找不到被攻击的君主，id:{}", targetId);
+			logger.error("攻击失败，找不到被攻击的君主，id:{}", targetPlayer.jzId);
 			return;
 		}
-		// 同一个联盟的玩家相互之间不能攻击
-		int attackerLmId = scene.getAllianceIdByJzId(attacker.id);
-		int defenderLmId = scene.getAllianceIdByJzId(targetId);
+		// 同一个联盟的玩家与镖车相互之间不能攻击
+		int attackerLmId = attackPlayer.allianceId;
+		int defenderLmId = targetPlayer.allianceId;
+		if(targetPlayer.currentLife <= 0) {
+			return;
+		}
 		// 进行伤害计算
-		if(player.currentLife <= 0) {
-			return;
-		}
 		int damageValue = 0;
 		Skill skill = null;
 		if(skillId > 0) {											// >0表示使用了技能
 			skill = BigSwitch.inst.buffMgr.getSkillById(skillId);
 			if(skill == null) {										// 未找到使用的技能
-				sendAttackResponse(attacker, targetId, Result.SKILL_NOT_EXIST, skillId, scene, damageValue, 0);
+				sendAttackResponse(attackUid, targetUid, Result.SKILL_NOT_EXIST, skillId, scene, damageValue, 0, false);
 				return;
 			}
-			if(skill.SkillTarget == 0 && targetId != attacker.id) {
+			if(skill.SkillTarget == 0 && targetUid != attackUid) {
 				logger.warn("攻击失败，该技能只能对自身施放");
 				return;
-			} else if(skill.SkillTarget == 1 && targetId == attacker.id){
+			} else if(skill.SkillTarget == 1 && targetUid == attackUid){
 				logger.warn("攻击失败，该技能不能对自身施放");
 				return;
 			}
 			// 判断距离
-			float distance = scene.getPlayerDistance(attacker.id, defender.id) * 100;
+			float distance = scene.getPlayerDistance(attackPlayer.userId, targetPlayer.userId) * 100;
 			if(distance > skill.Range_Max || distance < skill.Range_Min) {
 				logger.warn("攻击失败，使用技能距离条件不足，skillId:{},两人距离:{}", skillId, distance);
-				sendAttackResponse(attacker, targetId, Result.SKILL_DISTANCE_ERROR, skillId, scene, damageValue, 0);
+				sendAttackResponse(attackUid, targetUid, Result.SKILL_DISTANCE_ERROR, skillId, scene, damageValue, 0, false);
 				return;
 			}
 			
+			long currentTime = System.currentTimeMillis();
 			// 判断cd时间
 			Map<Integer, Long> skillCDMap = skillCDTimeMap.get(attacker.id);
 			if(skillCDMap != null) {
 				Long endTime = skillCDMap.get(skill.SkillId);
-				if(endTime != null && endTime >= System.currentTimeMillis()) {
+				if(endTime != null && endTime >= currentTime) {
 					logger.warn("攻击失败，君主:{} 技能:{} 处于冷却时间", attacker.id, skillId);
-					sendAttackResponse(attacker, targetId, Result.SKILL_COOL_TIME, skillId, scene, damageValue, 0);
+					sendAttackResponse(attackUid, targetUid, Result.SKILL_COOL_TIME, skillId, scene, damageValue, 0, false);
 					return;
 				}
 			}
@@ -546,46 +557,53 @@ public class AllianceFightMgr {
 			// 判断敌友方
 			
 			// 判断是否受公共cd影响 ，再判断公共cd
-			if(skill.IsInGCD == 1) { // 受公共cd影响
-				
+			if(skill.IsInGCD == 1 && currentTime < skillGroupEndTime) { // 受公共cd影响
+				logger.warn("攻击失败，君主:{} 技能:{} 处于公共冷却时间", attacker.id, skillId);
+				sendAttackResponse(attackUid, targetUid, Result.SKILL_COOL_TIME, skillId, scene, damageValue, 0, false);
 			}
 			Action action = BigSwitch.inst.buffMgr.getActionById(skill.Action1);
 			if(action == null) {
 				return;
 			}
 			damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, skill);
-			updateSkillCdTime(attacker.id, skillId);
-			BigSwitch.inst.buffMgr.processActionEffect(damageValue, player, action);
+			updateSkillCdTime(attacker.id, skill);
+			BigSwitch.inst.buffMgr.processActionEffect(damageValue, targetPlayer, action);
 		} else {
 			if(attackerLmId == defenderLmId) {
 				return;
 			}
 			damageValue = getDamage(attacker, defender);
-			player.currentLife -= damageValue;
+			targetPlayer.currentLife -= damageValue;
 		}
 
 		//logger.info("打架开始：{}攻击了{},造成伤害值:{}", attacker.id, targetId, damage);
 		
-		sendAttackResponse(attacker, targetId, Result.SUCCESS, skillId, scene, damageValue, player.currentLife);
-		if(player.currentLife <= 0) {
-			processPlayerDead(scene, defender);
+		sendAttackResponse(attackUid, targetUid, Result.SUCCESS, skillId, scene, damageValue, targetPlayer.currentLife, true);
+		if(targetPlayer.currentLife <= 0) {
+			processPlayerDead(scene, defender, targetUid);
 		}
 	}
 
-	protected void sendAttackResponse(JunZhu attacker, long targetId, Result result,
-			int skillId, FightScene scene, int damageValue, int remainLife) {
+	protected void sendAttackResponse(int attackUid, int targetUid, Result result,
+			int skillId, Scene scene, int damageValue, int remainLife, boolean succeed) {
 		FightAttackResp.Builder response = FightAttackResp.newBuilder();
 		response.setResult(result);
-		response.setAttackId(attacker.id);
-		response.setTargetId(targetId);
+		response.setAttackUid(attackUid);
+		response.setTargetUid(targetUid);
 		response.setSkillId(skillId);
 		response.setDamage(damageValue);		
 		response.setRemainLife(remainLife);
-		for(Map.Entry<Integer, Player> entry : scene.players.entrySet()) {
-			Player p = entry.getValue();
+		
+		if(succeed) {
+			for(Map.Entry<Integer, Player> entry : scene.players.entrySet()) {
+				Player p = entry.getValue();
+				p.session.write(response.build());
+				//logger.info("通知玩家:{}, {}打了{},造成伤害:{},{}剩余血量{}", player.jzId, attacker.id, 
+				//			targetId, damage, targetId, remainLife);
+			}
+		} else {
+			Player p = scene.players.get(targetUid);
 			p.session.write(response.build());
-			//logger.info("通知玩家:{}, {}打了{},造成伤害:{},{}剩余血量{}", player.jzId, attacker.id, 
-			//			targetId, damage, targetId, remainLife);
 		}
 	}
 	
@@ -595,7 +613,7 @@ public class AllianceFightMgr {
 	 * @param junzhuId
 	 * @param skillId
 	 */
-	public void updateSkillCdTime(long junzhuId, int skillId) {
+	public void updateSkillCdTime(long junzhuId, Skill skill) {
 		Map<Integer, Long> skillCDMap = skillCDTimeMap.get(junzhuId);
 		if(skillCDMap == null) {
 			synchronized (skillCDTimeMap) {
@@ -605,14 +623,17 @@ public class AllianceFightMgr {
 				}
 			}
 		}
-		skillCDMap.put(skillId, System.currentTimeMillis());
+		skillCDMap.put(skill.SkillId, System.currentTimeMillis() + skill.BaseCD);
+		if(skill.IsInGCD == 1) {
+			skillGroupEndTime = System.currentTimeMillis() + skill.CDGroup;
+		}
 	}
 
-	public void processPlayerDead(FightScene scene, JunZhu defender) {
+	public void processPlayerDead(Scene scene, JunZhu defender, int uid) {
 		CdTime cdTime = new CdTime(defender.id, System.currentTimeMillis() + lmzConfig.reviveTime * 1000);
 		BigSwitch.inst.cdTimeMgr.addCdTime(cdTime);
 		PlayerDeadNotify.Builder deadNotify = PlayerDeadNotify.newBuilder();
-		deadNotify.setJunzhuId(defender.id);
+		deadNotify.setUid(uid);
 		for(Map.Entry<Integer, Player> entry : scene.players.entrySet()) {
 			Player p = entry.getValue();
 			p.session.write(deadNotify.build());

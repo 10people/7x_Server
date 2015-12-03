@@ -59,7 +59,6 @@ if("switchOpen".equals(act)){
 <%
 	int cnt = 0;
 Enumeration<Integer>  ybkey = BigSwitch.inst.ybMgr.yabiaoScenes.keys();
-
 out("<tr><td colspan='5'>"+"押镖列表</td></tr>");
 while(ybkey.hasMoreElements()){
 	Integer ybScId =ybkey.nextElement();
@@ -67,12 +66,11 @@ while(ybkey.hasMoreElements()){
 	Iterator<Integer> it2 = sc.players.keySet().iterator();
 	Set<Long> ybSet=BigSwitch.inst.ybMgr.ybJzList2ScIdMap.get(ybScId);
 	 out.print("SceneID--"+ybScId+"押镖set--"+ybSet+"<br>");
-	 out.print(BigSwitch.inst.ybMgr.ybJzId2ScIdMap.get(Long.parseLong("768040")));
 	if(ybSet!=null){
 		Iterator<Long> it = ybSet.iterator();
 		while (it.hasNext()) {
 		    Long str = it.next();
-	YaBiaoRobot ybrobot=(YaBiaoRobot)BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(str);
+			YaBiaoRobot ybrobot=(YaBiaoRobot)BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(str);
 		    out.print(str+"-"+ybrobot==null?"无":ybrobot.isBattle+";");
 		}
 	}
@@ -83,16 +81,15 @@ while(ybkey.hasMoreElements()){
 	while(it2.hasNext()){
 		idx++;
 		Integer key = it2.next();
-		
 		Player p = sc.players.get(key);
-		if(p.jzId==0){
-		out.append("<tr>");
-		String acc = p.getName();
-		int uid = key;
-		out.append("<td>");		out.append(""+idx);						out.append("</td>");
-		out.append("<td>");		out.append(String.valueOf(uid));		out.append("</td>");
-		out.append("<td>");		out.append(acc+"x--"+p.getPosX()+"y--"+p.getPosY()+"z--"+p.getPosZ());		out.append("</td>");
-		out.append("<tr>");
+		if(p.roleId==Scene.YBRobot_RoleId){
+			out.append("<tr>");
+			String acc = p.getName();
+			int uid = key;
+			out.append("<td>");		out.append(""+idx);						out.append("</td>");
+			out.append("<td>");		out.append(String.valueOf(uid));		out.append("</td>");
+			out.append("<td>");		out.append(acc+"x--"+p.getPosX()+"y--"+p.getPosY()+"z--"+p.getPosZ());		out.append("</td>");
+			out.append("<tr>");
 		}
 	}
 }
@@ -104,88 +101,35 @@ while(ybkey1.hasMoreElements()){
 	Iterator<Integer> it2 = sc.players.keySet().iterator();
 	Set<Long> jbSet=BigSwitch.inst.ybMgr.jbJzList2ScIdMap.get(ybScId);
 	if(jbSet!=null){
-	Iterator<Long> it22 = jbSet.iterator();
-	while (it22.hasNext()) {
-	 Long str = it22.next();
-	  out.print(str+";");
-	}
-	}
-	out("<tr><td colspan='5'>"+sc.name+"</td></tr>");
-	int idx = 0;
-	while(it2.hasNext()){
-		idx++;
-		Integer key = it2.next();
-		Player p = sc.players.get(key);
-		if(p.jzId!=0){
-		out.append("<tr>");
-		String acc = p.getName();
-		int uid = key;
-		out.append("<td>");		out.append(""+idx);						out.append("</td>");
-		out.append("<td>");		out.append(String.valueOf(uid));		out.append("</td>");
-		out.append("<td>");		out.append(acc);		out.append("</td>");
-		out.append("<tr>");
+			Iterator<Long> it22 = jbSet.iterator();
+			while (it22.hasNext()) {
+				Long str = it22.next();
+				out.print(str + ";");
+			}
+		}
+		out("<tr><td colspan='5'>" + sc.name + "</td></tr>");
+		int idx = 0;
+		while (it2.hasNext()) {
+			idx++;
+			Integer key = it2.next();
+			Player p = sc.players.get(key);
+			if (p.roleId != Scene.YBRobot_RoleId) {
+				out.append("<tr>");
+				String acc = p.getName();
+				int uid = key;
+				out.append("<td>");
+				out.append("" + idx);
+				out.append("</td>");
+				out.append("<td>");
+				out.append(String.valueOf(uid));
+				out.append("</td>");
+				out.append("<td>");
+				out.append(acc);
+				out.append("</td>");
+				out.append("<tr>");
+			}
 		}
 	}
-}
-// while(ybkey.hasMoreElements()){
-// 	Integer ybScId =ybkey.nextElement();
-// 	Scene ybSc = BigSwitch.inst.ybMgr.yabiaoScenes.get(ybScId);
-// 	Iterator<Integer> itYB = ybSc.players.keySet().iterator();
-// 	out("<tr><td colspan='3'>"+ybSc.name+"--场景押镖角色"+ybSc.players.size()+"</td></tr>");
-// 	cnt += ybSc.players.size();
-// 	int idhx = 0;
-// 	while(itYB.hasNext()){
-// 	idhx++;
-// 	Integer key = itYB.next();
-// 	Set<Long> ybSet=BigSwitch.inst.ybMgr.ybJzList2ScIdMap.get(ybScId); 
-// 	if(ybSet!=null){
-// 		Player p = ybSc.players.get(key);
-// 		for (Long junzhuId : ybSet) {
-// 			JunZhu ybJZ = HibernateUtil.find(JunZhu.class, junzhuId);
-// 			out.append(p.getName()+"-"+ybJZ.name+"-"+ybJZ.name.equals(p.getName())+"<br>");
-// 			if(ybJZ.name.equals(p.getName())) {
-// 				out.append("<tr>");
-// 				String acc = p.getName();
-// 				int uid = key;
-// 				out.append("<td>");		out.append(""+idhx);						out.append("</td>");
-// 				out.append("<td>");		out.append(String.valueOf(uid));		out.append("</td>");
-// 				out.append("<td>");		out.append(acc);		out.append("</td>");
-// 				out.append("<tr>");
-// 				}
-// 		}
-// 	}
-// }
-// }
-// out.append("<br/>----<br/>");
-// while(ybkey.hasMoreElements()){
-// 	Integer ybScId =ybkey.nextElement();
-// 	Scene ybSc = BigSwitch.inst.ybMgr.yabiaoScenes.get(ybScId);
-// 	Iterator<Integer> itYB = ybSc.players.keySet().iterator();
-// 	out("<tr><td colspan='3'>"+ybSc.name+"--场景劫镖镖角色"+ybSc.players.size()+"</td></tr>");
-// 	cnt += ybSc.players.size();
-// 	int idhx = 0;
-// 	while(itYB.hasNext()){
-// 	idhx++;
-// 	Integer key = itYB.next();
-// 	Set<Long> jbSet=BigSwitch.inst.ybMgr.jbJzList2ScIdMap.get(ybScId); 
-// 	if(jbSet!=null){
-// 		Player p = ybSc.players.get(key);
-// 		for (Long junzhuId : jbSet) {
-// 		out.append(p.getName()+"<br>");
-// 			if(junzhuId.equals(p.jzId)) {
-// 				out.append("<tr>");
-// 				String acc = p.getName();
-// 				int uid = key;
-// 				out.append("<td>");		out.append(""+idhx);						out.append("</td>");
-// 				out.append("<td>");		out.append(String.valueOf(uid));		out.append("</td>");
-// 				out.append("<td>");		out.append(acc);		out.append("</td>");
-// 				out.append("<tr>");
-// 			}
-// 		}
-// 	}
-
-// }
-// }
 %>
 </table>
 押镖场景在线玩家数量:<%=cnt %><br/>

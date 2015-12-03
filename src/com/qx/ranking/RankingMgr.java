@@ -1,7 +1,6 @@
 package com.qx.ranking;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +69,7 @@ public class RankingMgr extends EventProc{
 	public static String GUOJIA_WEEK_RANK = "guojia_week_" + GameServer.serverId;// Redis国家榜（周榜）
 	public static String GUOJIA_DAY_LAST_RANK = "guojia_day_last_" + GameServer.serverId;// Redis国家榜（昨日日榜）
 	public static String GUOJIA_WEEK_LAST_RANK = "guojia_week_last_" + GameServer.serverId;// Redis国家榜（上周周榜）
+	public static String JUNZHU_LEVEL_RANK = "junzhu_level_" + GameServer.serverId;// Redis君主等级榜
 	public static String zhanliRank = "zhanli_" + GameServer.serverId;
 	public static String lianMengLevel = "mengLevel_" + GameServer.serverId;
 	public static RankingMgr inst;
@@ -79,9 +79,11 @@ public class RankingMgr extends EventProc{
 	public static int RANK_MAXNUM = 200;// 君主筛选范围
 	public static int RANK_MINLEVEL = 1;// 君主筛选最低等级
 
+
 	public RankingMgr() {
 		initData();
 		inst = this;
+		new RankingGongJinMgr();
 	}
 	
 	public void initData(){
@@ -104,6 +106,17 @@ public class RankingMgr extends EventProc{
 		// 参数配置
 		RANK_MAXNUM = CanShu.RANK_MAXNUM;
 		RANK_MINLEVEL = CanShu.RANK_MINLEVEL;
+	}
+	
+	public void resetLevelRankRedis(JunZhu jz) {
+		if (jz == null) {
+			log.error("resetLevelRankRedis 参数为null");
+			return;
+		}
+		DB.zadd(JUNZHU_LEVEL_RANK, jz.level, jz.id + "");
+		log.info("君主：{}登录：{}添加到redisd,key={}", jz.name, jz.level, JUNZHU_LEVEL_RANK);
+		int size = (int) DB.zcard_(zhanliRank);
+		log.info("君主等级排行榜的size是： {}", size);
 	}
 
 	public void resetZhanliRankRedis(JunZhu jz, int zhanli) {
@@ -462,21 +475,7 @@ public class RankingMgr extends EventProc{
 		newLianmengSWRank(LIANMENG_SW_WEEK_RANK);
 	}
 	
-	/**
-	 * 获取start ~ end名次之间的玩家 （大到小,包含start 和end）
-	 * 
-	 * @Title: getZhanliRank
-	 * @Description:
-	 * @param start
-	 * @param end
-	 * @return 返回一个 从大到小的有序map
-	 */
-	public Map<String, Double> getPaiHangOfType(long start, long end, String paiHangType) {
-		log.info("start:{} 和 end :{} ", start, end);
-		Map<String, Double> map = DB.zrevrangeWithScores(paiHangType, start - 1,
-				end - 1);
-		return map;
-	}
+
 
 	public void printPaiHang(Map<String, Double> map) {
 		for (Map.Entry<String, Double> entry : map.entrySet()) {
@@ -487,114 +486,7 @@ public class RankingMgr extends EventProc{
 		}
 	}
 
-	public void getPaiHangBang(int cmd, IoSession session, Builder builder) {
-		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
-		if (jz == null){
-			log.error("请求排行榜，君主不存在");
-			return;
-		}
-		long jId = jz.id;
-		boolean isInclude = false;
-		RankingResp.Builder resp = RankingResp.newBuilder();
-		/*
-		 * 百战个人排行榜
-		 */
-		Set<String> elems = DB.zrangebyscore_(PvpMgr.KEY, 0, number-1);
-		JunZhuInfo.Builder junInfo = null;
-		if(elems != null && elems.size() != 0)
-		{
-			int rank = 1000;
-			String name = "";
-			for (String s : elems) {
-				String[] sss = s.split("_");
-				long playerId = Long.parseLong(sss[1]);
-				if ("npc".equals(sss[0])) {
-					// NPC
-					BaiZhanNpc npc = PvpMgr.inst.npcs.get((int) playerId);
-					String nameInt = npc.name;
-					name = HeroService.heroNameMap.get(nameInt).Name;
-					junInfo = JunZhuInfo.newBuilder();
-					junInfo.setJunZhuId(-playerId);
-					junInfo.setName(name);
-					junInfo.setLevel(npc.level);
-					junInfo.setLianMeng("无联盟");
-//					junInfo.setWinCount(20);
-					junInfo.setZhanli(npc.power);
-					junInfo.setGuojiaId(npc.getGuoJiaId((int) playerId));
-					junInfo.setRoleId(npc.getRoleId((int) playerId));
-					rank = PvpMgr.inst.getPvpRankById(-playerId);
-					junInfo.setRank(rank);
-					resp.addJunList(junInfo);
-				} else {
-					JunZhu junzhu = HibernateUtil.find(JunZhu.class, playerId);
-					if(playerId == jId){
-						isInclude = true;
-					}
-					rank = PvpMgr.inst.getPvpRankById(playerId);
-					addJunZhuRankInfo(resp, junzhu, rank);
-				}
-			}
-		}else{
-			log.error("获取百战个人排行榜前:{}名数据出错", number);
-		}
-		/*
-		 * 玩家不在100以内，发送玩家信息
-		 */
-		if(!isInclude){
-			int rank =  PvpMgr.inst.getPvpRankById(jz.id);
-			addJunZhuRankInfo(resp, jz, rank);
-		}
-		/*
-		 * 联盟排行榜 
-		 */
-		isInclude = false;
-		int jzMengid = 0;
-		AlliancePlayer guild = HibernateUtil.find(AlliancePlayer.class, jId);
-		if(guild != null){
-			jzMengid = guild.lianMengId;
-		}else{
-			isInclude = true;
-		}
-
-		Map<String, Double> map = getPaiHangOfType(1, lianmengNumber, lianMengLevel);
-		int mengId = 1; 
-		int mengRank = 1;
-		if(map != null && map.size() != 0){
-			for(Map.Entry<String, Double> entry: map.entrySet()){
-				String id = entry.getKey();
-				mengId = Integer.parseInt(id == null? "-1" : id);
-				boolean ok = addLianMengInfo(resp, mengRank, mengId, null);
-				if(ok){
-					mengRank++;
-				}
-				if(mengId == jzMengid){
-					isInclude = true;
-				}
-			}
-		}else{
-			log.error("获取前:{}名联盟等级排行出错", lianmengNumber);
-		}
-		// 判断玩家所在联盟的名次是否在100名以内，否则读取玩家的数据发送
-		if(isInclude){
-			log.error("君主:{}可能没有联盟也或者包括在前：{}名次之内，所以不再单独发送", jId, lianmengNumber);
-		}else {
-			int lianmengId = guild.lianMengId;
-			AllianceBean alncBean = null;
-			try{
-				// 从大到小的排名中占名次
-				mengRank = (int)DB.zrevrank(lianMengLevel, lianmengId+"") + 1;
-			}catch(Exception e){
-				log.error("有可能这个联盟是很早就申请的，所以需要加入到redis中");
-				alncBean = HibernateUtil.find(AllianceBean.class, lianmengId);
-				if(alncBean != null){
-					mengRank = (int)resetLianMengLevelRedis(lianmengId, alncBean.level);
-				}
-			}
-			addLianMengInfo(resp, mengRank, lianmengId, alncBean);
-		}
-		session.write(resp.build());
-	}
-
+	
 	/** 
 	 * @Title: getRankByGjIdAndId 
 	 * @Description: 通过国家id和id获取在排行榜名次
@@ -656,10 +548,10 @@ public class RankingMgr extends EventProc{
 			jzBuilder.setLevel(jz.level);
 			jzBuilder.setGongxian(player.gongXian);
 			jzBuilder.setZhanli(PvpMgr.inst.getZhanli(jz));
-			jzBuilder.setGongjin(GuoJiaMgr.inst.getGongJin(jz.id, PvpMgr.getJunxianLevel(jz.id)));
-			if(GuoJiaMgr.inst.isCanShangjiao(jz.id)){
-				GuoJiaMgr.inst.pushCanShangjiao(jz.id);
-			}
+			jzBuilder.setGongjin(RankingGongJinMgr.inst.getJunZhuGongJin(jz.id));
+//			if(GuoJiaMgr.inst.isCanShangjiao(jz.id)){
+//				GuoJiaMgr.inst.pushCanShangjiao(jz.id);
+//			}
 			RankAlliancePlayer rankPlayer = new RankAlliancePlayer(jzBuilder);
 			rankPlayerList.add(rankPlayer);
 		}
@@ -778,6 +670,10 @@ public class RankingMgr extends EventProc{
 			}
 			rankNum = (int)DB.zcard_(GUOGUAN_RANK+"_"+guojiaId);
 			break;
+		case 5: //贡金个人排行榜
+			RankingGongJinMgr.inst.sendPersonalGongJinRank(pageNo, response, session);
+		case 6://贡金联盟排行榜
+			RankingGongJinMgr.inst.sendAllianceGongJinRank(pageNo, response, session);
 		default:
 			break;
 		}
@@ -1163,6 +1059,53 @@ public class RankingMgr extends EventProc{
 	}
 	
 	/** 
+	 * @Title: getJunzhuLevelRank 
+	 * @Description: 获取等级排行前num位君主
+	 * @param num
+	 * @return
+	 * @return List<JunZhu>
+	 * @throws 
+	 */
+	public List<JunZhu> getJunzhuLevelRank(int num){
+		List<JunZhu> junList = new ArrayList<JunZhu>();
+		Set<String> ids = DB.ztop(JUNZHU_LEVEL_RANK, num);
+		if(ids==null||ids.size()==0){
+			return null;
+		}
+		for(String id:ids){
+			JunZhu junzhu = HibernateUtil.find(JunZhu.class, Integer.parseInt(id));
+			if(junzhu!=null){
+				junList.add(junzhu);
+			}
+		}
+		return junList;
+	}
+	
+	public double calAvgLevel(List<JunZhu> junzhus){
+		if(junzhus.size()==0){
+			return 0;
+		}
+		int sum = 0;
+		for (JunZhu junZhu : junzhus) {
+			sum += junZhu.level;
+		}
+		return sum/junzhus.size();
+	}
+	
+	/** 
+	 * @Title: getTopJunzhuAvgLevel 
+	 * @Description: 获取等级排行前num位君主平均等级
+	 * @param num
+	 * @return
+	 * @return double
+	 * @throws 
+	 */
+	public double getTopJunzhuAvgLevel(int num){
+		List<JunZhu> junzhus = getJunzhuLevelRank(num);
+		return junzhus == null?0:calAvgLevel(junzhus);
+	}
+	
+	/** 
 	 * @Title: getJunZhuDetail 
 	 * @Description: 获取君主详细信息
 	 * @param junBuilder
@@ -1184,10 +1127,10 @@ public class RankingMgr extends EventProc{
 		junBuilder.setJunxian(PvpMgr.inst.getJunxian(jz));
 		int junxianLevel = PvpMgr.getJunxianLevel(jz.id);
 		junBuilder.setJunxianLevel(junxianLevel==-1?1:junxianLevel);
-		junBuilder.setGongjin(GuoJiaMgr.inst.getGongJin(jz.id, PvpMgr.getJunxianLevel(jz.id)));
-		if(GuoJiaMgr.inst.isCanShangjiao(jz.id)){
-			GuoJiaMgr.inst.pushCanShangjiao(jz.id);
-		}
+		junBuilder.setGongjin(RankingGongJinMgr.inst.getJunZhuGongJin(jz.id));
+//		if(GuoJiaMgr.inst.isCanShangjiao(jz.id)){
+//			GuoJiaMgr.inst.pushCanShangjiao(jz.id);
+//		}
 		ChengHaoBean cur = HibernateUtil.find(ChengHaoBean.class, "where jzId="+jz.id+" and state='U'");
 		if(cur != null){
 			junBuilder.setChenghao(cur.tid);
@@ -1399,6 +1342,9 @@ public class RankingMgr extends EventProc{
 			}
 			jzChangeGuojia(jzId, oldGjId, newGjId);
 			break;
+		case ED.JUNZHU_LEVEL_RANK_REFRESH:
+			resetLevelRankRedis(jz);
+			break;
 		}
 	}
 
@@ -1418,5 +1364,6 @@ public class RankingMgr extends EventProc{
 		EventMgr.regist(ED.LIANMENG_DAY_RANK_REFRESH, this);
 		EventMgr.regist(ED.LIANMENG_WEEK_RANK_RESET, this);
 		EventMgr.regist(ED.LIANMENG_WEEK_RANK_REFRESH, this);
+		EventMgr.regist(ED.JUNZHU_LEVEL_RANK_REFRESH, this);
 	}
 }

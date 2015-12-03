@@ -34,6 +34,15 @@ public class UserBuffer {
 	}
 
 	public void addBuffer(Buffer buffer) {
+		Buffer existBuff = null;
+		for(Buffer buff : bufferList) {
+			if(buff.getId() == buffer.getId()) {
+				existBuff = buff;
+			}
+		}
+		if(existBuff != null) {
+			bufferList.remove(existBuff);
+		}
 		bufferList.add(buffer);
 	}
 	

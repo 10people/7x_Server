@@ -24,4 +24,6 @@ public class SessionAttKey {
 	public static final String LM_ZHIWU = "LM_ZHIWU";
 	public static final String VIP_LEVEL = "VIP_LEVEL";
 	public static final String CHENG_HAO_ID = "CHENG_HAO_ID";
+	public static final String RobotType="ROBOT_TYPE";
+	public static final String RobotJZID = "ROBOT_JZID";
 }

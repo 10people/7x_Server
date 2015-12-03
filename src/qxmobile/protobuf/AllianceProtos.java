@@ -1081,6 +1081,24 @@ public final class AllianceProtos {
      * </pre>
      */
     int getCountry();
+
+    // required bool isCanApply = 16;
+    /**
+     * <code>required bool isCanApply = 16;</code>
+     *
+     * <pre>
+     *false-表示里上次退盟不到24小时不能申请，true-可以申请
+     * </pre>
+     */
+    boolean hasIsCanApply();
+    /**
+     * <code>required bool isCanApply = 16;</code>
+     *
+     * <pre>
+     *false-表示里上次退盟不到24小时不能申请，true-可以申请
+     * </pre>
+     */
+    boolean getIsCanApply();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.NonAllianceInfo}
@@ -1210,6 +1228,11 @@ public final class AllianceProtos {
             case 120: {
               bitField0_ |= 0x00004000;
               country_ = input.readInt32();
+              break;
+            }
+            case 128: {
+              bitField0_ |= 0x00008000;
+              isCanApply_ = input.readBool();
               break;
             }
           }
@@ -1661,6 +1684,30 @@ public final class AllianceProtos {
       return country_;
     }
 
+    // required bool isCanApply = 16;
+    public static final int ISCANAPPLY_FIELD_NUMBER = 16;
+    private boolean isCanApply_;
+    /**
+     * <code>required bool isCanApply = 16;</code>
+     *
+     * <pre>
+     *false-表示里上次退盟不到24小时不能申请，true-可以申请
+     * </pre>
+     */
+    public boolean hasIsCanApply() {
+      return ((bitField0_ & 0x00008000) == 0x00008000);
+    }
+    /**
+     * <code>required bool isCanApply = 16;</code>
+     *
+     * <pre>
+     *false-表示里上次退盟不到24小时不能申请，true-可以申请
+     * </pre>
+     */
+    public boolean getIsCanApply() {
+      return isCanApply_;
+    }
+
     private void initFields() {
       id_ = 0;
       name_ = "";
@@ -1677,6 +1724,7 @@ public final class AllianceProtos {
       exp_ = 0;
       isShenPi_ = 0;
       country_ = 0;
+      isCanApply_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1743,6 +1791,10 @@ public final class AllianceProtos {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasIsCanApply()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1794,6 +1846,9 @@ public final class AllianceProtos {
       }
       if (((bitField0_ & 0x00004000) == 0x00004000)) {
         output.writeInt32(15, country_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        output.writeBool(16, isCanApply_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1863,6 +1918,10 @@ public final class AllianceProtos {
       if (((bitField0_ & 0x00004000) == 0x00004000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(15, country_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(16, isCanApply_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2014,6 +2073,8 @@ public final class AllianceProtos {
         bitField0_ = (bitField0_ & ~0x00002000);
         country_ = 0;
         bitField0_ = (bitField0_ & ~0x00004000);
+        isCanApply_ = false;
+        bitField0_ = (bitField0_ & ~0x00008000);
         return this;
       }
 
@@ -2102,6 +2163,10 @@ public final class AllianceProtos {
           to_bitField0_ |= 0x00004000;
         }
         result.country_ = country_;
+        if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
+          to_bitField0_ |= 0x00008000;
+        }
+        result.isCanApply_ = isCanApply_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2169,6 +2234,9 @@ public final class AllianceProtos {
         if (other.hasCountry()) {
           setCountry(other.getCountry());
         }
+        if (other.hasIsCanApply()) {
+          setIsCanApply(other.getIsCanApply());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -2231,6 +2299,10 @@ public final class AllianceProtos {
           return false;
         }
         if (!hasCountry()) {
+          
+          return false;
+        }
+        if (!hasIsCanApply()) {
           
           return false;
         }
@@ -3046,6 +3118,55 @@ public final class AllianceProtos {
       public Builder clearCountry() {
         bitField0_ = (bitField0_ & ~0x00004000);
         country_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required bool isCanApply = 16;
+      private boolean isCanApply_ ;
+      /**
+       * <code>required bool isCanApply = 16;</code>
+       *
+       * <pre>
+       *false-表示里上次退盟不到24小时不能申请，true-可以申请
+       * </pre>
+       */
+      public boolean hasIsCanApply() {
+        return ((bitField0_ & 0x00008000) == 0x00008000);
+      }
+      /**
+       * <code>required bool isCanApply = 16;</code>
+       *
+       * <pre>
+       *false-表示里上次退盟不到24小时不能申请，true-可以申请
+       * </pre>
+       */
+      public boolean getIsCanApply() {
+        return isCanApply_;
+      }
+      /**
+       * <code>required bool isCanApply = 16;</code>
+       *
+       * <pre>
+       *false-表示里上次退盟不到24小时不能申请，true-可以申请
+       * </pre>
+       */
+      public Builder setIsCanApply(boolean value) {
+        bitField0_ |= 0x00008000;
+        isCanApply_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool isCanApply = 16;</code>
+       *
+       * <pre>
+       *false-表示里上次退盟不到24小时不能申请，true-可以申请
+       * </pre>
+       */
+      public Builder clearIsCanApply() {
+        bitField0_ = (bitField0_ & ~0x00008000);
+        isCanApply_ = false;
         onChanged();
         return this;
       }
@@ -36115,95 +36236,95 @@ public final class AllianceProtos {
       "\n\016Alliance.proto\022\021qxmobile.protobuf\"]\n\017A" +
       "llianceNonResp\0225\n\talincInfo\030\001 \003(\0132\".qxmo" +
       "bile.protobuf.NonAllianceInfo\022\023\n\013needYua" +
-      "nbao\030\002 \002(\005\"\224\002\n\017NonAllianceInfo\022\n\n\002id\030\001 \002" +
+      "nbao\030\002 \002(\005\"\250\002\n\017NonAllianceInfo\022\n\n\002id\030\001 \002" +
       "(\005\022\014\n\004name\030\002 \002(\t\022\014\n\004icon\030\003 \002(\005\022\r\n\005level\030" +
       "\004 \002(\005\022\022\n\nreputation\030\005 \002(\005\022\017\n\007members\030\006 \002" +
       "(\005\022\021\n\tmemberMax\030\007 \002(\005\022\022\n\napplyLevel\030\010 \002(" +
       "\005\022\017\n\007junXian\030\t \002(\005\022\025\n\rattchCndition\030\n \002(" +
       "\t\022\021\n\tisApplied\030\013 \002(\010\022\023\n\013creatorName\030\014 \002(" +
       "\t\022\013\n\003exp\030\r \002(\005\022\020\n\010isShenPi\030\016 \002(\005\022\017\n\007coun",
-      "try\030\017 \002(\005\"%\n\017immediatelyJoin\022\022\n\nlianMeng" +
-      "Id\030\001 \002(\005\"Z\n\023immediatelyJoinResp\022\014\n\004code\030" +
-      "\001 \002(\005\0225\n\010alncInfo\030\002 \001(\0132#.qxmobile.proto" +
-      "buf.AllianceHaveResp\"\216\004\n\020AllianceHaveRes" +
-      "p\022\014\n\004name\030\001 \002(\t\022\n\n\002id\030\002 \002(\005\022\r\n\005level\030\003 \002" +
-      "(\005\022\013\n\003exp\030\004 \002(\005\022\017\n\007needExp\030\005 \002(\005\022\r\n\005buil" +
-      "d\030\006 \002(\005\022\017\n\007members\030\007 \002(\005\022\021\n\tmemberMax\030\010 " +
-      "\002(\005\022\024\n\014contribution\030\t \002(\005\022\016\n\006notice\030\n \002(" +
-      "\t\022\017\n\007country\030\026 \002(\005\022\021\n\tshengWang\030\027 \002(\005\022\014\n" +
-      "\004icon\030\013 \002(\005\022\020\n\010identity\030\014 \002(\005\022\017\n\007isAllow",
-      "\030\r \002(\005\022\022\n\napplyLevel\030\032 \002(\005\022\017\n\007junXian\030\030 " +
-      "\002(\005\022\025\n\rattchCndition\030\031 \002(\t\022\020\n\010isShenPi\030\033" +
-      " \002(\005\022\023\n\013mengzhuName\030\016 \002(\t\022\016\n\006status\030\017 \002(" +
-      "\005\022\021\n\tisBaoming\030\020 \001(\005\022\017\n\007isVoted\030\021 \001(\005\022\024\n" +
-      "\014voteJunzhuId\030\022 \001(\003\022\024\n\014isVoteDialog\030\023 \001(" +
-      "\003\022\017\n\007gongJin\030\024 \002(\005\0221\n\nmemberInfo\030\025 \003(\0132\035" +
-      ".qxmobile.protobuf.MemberInfo\"!\n\021CheckAl" +
-      "lianceName\022\014\n\004name\030\001 \002(\t\"2\n\025CheckAllianc" +
-      "eNameResp\022\014\n\004code\030\001 \002(\005\022\013\n\003msg\030\002 \001(\t\",\n\016" +
-      "CreateAlliance\022\014\n\004name\030\001 \002(\t\022\014\n\004icon\030\002 \002",
-      "(\005\"j\n\022CreateAllianceResp\022\014\n\004code\030\001 \002(\005\022\013" +
-      "\n\003msg\030\002 \001(\t\0229\n\014allianceInfo\030\003 \001(\0132#.qxmo" +
-      "bile.protobuf.AllianceHaveResp\"\032\n\014FindAl" +
-      "liance\022\n\n\002id\030\001 \002(\005\"x\n\020FindAllianceResp\022\014" +
-      "\n\004code\030\001 \002(\005\022\013\n\003msg\030\002 \001(\t\022\017\n\007isAllow\030\003 \001" +
-      "(\005\0228\n\014allianceInfo\030\004 \001(\0132\".qxmobile.prot" +
-      "obuf.NonAllianceInfo\"\033\n\rApplyAlliance\022\n\n" +
-      "\002id\030\001 \002(\005\":\n\021ApplyAllianceResp\022\014\n\004code\030\001" +
-      " \002(\005\022\n\n\002id\030\002 \001(\005\022\013\n\003msg\030\003 \001(\t\" \n\022CancelJ" +
-      "oinAlliance\022\n\n\002id\030\001 \002(\005\"?\n\026CancelJoinAll",
-      "ianceResp\022\n\n\002id\030\001 \002(\005\022\014\n\004code\030\002 \002(\005\022\013\n\003m" +
-      "sg\030\003 \001(\t\"\032\n\014ExitAlliance\022\n\n\002id\030\001 \002(\005\" \n\020" +
-      "ExitAllianceResp\022\014\n\004code\030\001 \002(\005\"\031\n\013LookMe" +
-      "mbers\022\n\n\002id\030\001 \002(\005\"D\n\017LookMembersResp\0221\n\n" +
-      "memberInfo\030\001 \003(\0132\035.qxmobile.protobuf.Mem" +
-      "berInfo\"\211\002\n\nMemberInfo\022\r\n\005level\030\001 \002(\005\022\014\n" +
-      "\004name\030\002 \002(\t\022\024\n\014contribution\030\003 \002(\005\022\030\n\020cur" +
-      "MonthGongXian\030\020 \002(\005\022\017\n\007junXian\030\004 \002(\005\022\020\n\010" +
-      "identity\030\005 \002(\005\022\020\n\010junzhuId\030\006 \002(\003\022\016\n\006role" +
-      "Id\030\013 \001(\005\022\016\n\006zhanLi\030\r \002(\005\022\023\n\013offlineTime\030",
-      "\016 \002(\005\022\017\n\007gongJin\030\017 \002(\005\022\021\n\tisBaoming\030\007 \001(" +
-      "\005\022\017\n\007isVoted\030\010 \001(\005\022\017\n\007voteNum\030\n \001(\005\"*\n\nF" +
-      "ireMember\022\n\n\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\"" +
-      ">\n\016FireMemberResp\022\016\n\006result\030\001 \002(\005\022\n\n\002id\030" +
-      "\002 \002(\005\022\020\n\010junzhuId\030\003 \002(\003\"\'\n\007UpTitle\022\n\n\002id" +
-      "\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\"H\n\013UpTitleResp\022" +
-      "\014\n\004code\030\001 \002(\005\022\020\n\010junzhuId\030\003 \002(\003\022\n\n\002id\030\002 " +
-      "\001(\005\022\r\n\005title\030\004 \001(\005\")\n\tDownTitle\022\n\n\002id\030\001 " +
-      "\002(\005\022\020\n\010junzhuId\030\002 \002(\003\"J\n\rDownTitleResp\022\014" +
-      "\n\004code\030\001 \002(\005\022\n\n\002id\030\002 \002(\005\022\020\n\010junzhuId\030\003 \002",
-      "(\003\022\r\n\005title\030\004 \002(\005\"\034\n\016LookApplicants\022\n\n\002i" +
-      "d\030\001 \002(\005\"L\n\022LookApplicantsResp\0226\n\014applica" +
-      "nInfo\030\001 \003(\0132 .qxmobile.protobuf.Applican" +
-      "tInfo\"}\n\rApplicantInfo\022\020\n\010junzhuId\030\001 \002(\003" +
-      "\022\r\n\005level\030\002 \002(\005\022\014\n\004name\030\003 \002(\t\022\017\n\007junXian" +
-      "\030\004 \002(\005\022\014\n\004rank\030\005 \002(\005\022\016\n\006roleId\030\006 \001(\005\022\016\n\006" +
-      "zhanLi\030\007 \002(\005\"+\n\013RefuseApply\022\n\n\002id\030\001 \002(\005\022" +
-      "\020\n\010junzhuId\030\002 \002(\003\"?\n\017RefuseApplyResp\022\016\n\006" +
-      "result\030\001 \002(\005\022\n\n\002id\030\002 \001(\005\022\020\n\010junzhuId\030\003 \001" +
-      "(\003\"*\n\nAgreeApply\022\n\n\002id\030\001 \002(\005\022\020\n\010junzhuId",
-      "\030\002 \002(\003\"q\n\016AgreeApplyResp\022\016\n\006result\030\001 \002(\005" +
-      "\022\020\n\010junzhuId\030\002 \002(\003\022\n\n\002id\030\003 \001(\005\0221\n\nmember" +
-      "Info\030\004 \001(\0132\035.qxmobile.protobuf.MemberInf" +
-      "o\"*\n\014UpdateNotice\022\n\n\002id\030\001 \002(\005\022\016\n\006notice\030" +
-      "\002 \002(\t\" \n\020UpdateNoticeResp\022\014\n\004code\030\001 \002(\005\"" +
-      "\035\n\017DismissAlliance\022\n\n\002id\030\001 \002(\005\"`\n\tOpenAp" +
-      "ply\022\n\n\002id\030\001 \002(\005\022\020\n\010levelMin\030\003 \002(\005\022\022\n\njun" +
-      "XianMin\030\004 \002(\005\022\021\n\tisExamine\030\005 \002(\005\022\016\n\006atta" +
-      "ch\030\006 \001(\t\"\035\n\rOpenApplyResp\022\014\n\004code\030\001 \002(\005\"" +
-      "\030\n\nCloseApply\022\n\n\002id\030\001 \002(\005\"0\n\020TransferAll",
-      "iance\022\n\n\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\"D\n\024T" +
-      "ransferAllianceResp\022\016\n\006result\030\001 \002(\005\022\n\n\002i" +
-      "d\030\002 \002(\005\022\020\n\010junzhuId\030\003 \002(\003\" \n\020MengZhuAppl" +
-      "yResp\022\014\n\004code\030\001 \002(\005\"\037\n\013MengZhuVote\022\020\n\010ju" +
-      "nzhuId\030\001 \002(\003\"4\n\017MengZhuVoteResp\022\020\n\010junzh" +
-      "uId\030\001 \002(\003\022\017\n\007voteNum\030\002 \002(\005\"\036\n\016GiveUpVote" +
-      "Resp\022\014\n\004code\030\001 \002(\005\"\033\n\nDonateHuFu\022\r\n\005coun" +
-      "t\030\001 \002(\005\"A\n\016DonateHuFuResp\022\016\n\006result\030\001 \002(" +
-      "\005\022\020\n\010gongxian\030\002 \002(\005\022\r\n\005build\030\003 \002(\005\"\034\n\014Ev" +
-      "entListReq\022\014\n\004page\030\001 \002(\005\"*\n\rEventListRes",
-      "p\022\014\n\004page\030\001 \002(\005\022\013\n\003msg\030\002 \003(\tB\020B\016Alliance" +
-      "Protos"
+      "try\030\017 \002(\005\022\022\n\nisCanApply\030\020 \002(\010\"%\n\017immedia" +
+      "telyJoin\022\022\n\nlianMengId\030\001 \002(\005\"Z\n\023immediat" +
+      "elyJoinResp\022\014\n\004code\030\001 \002(\005\0225\n\010alncInfo\030\002 " +
+      "\001(\0132#.qxmobile.protobuf.AllianceHaveResp" +
+      "\"\216\004\n\020AllianceHaveResp\022\014\n\004name\030\001 \002(\t\022\n\n\002i" +
+      "d\030\002 \002(\005\022\r\n\005level\030\003 \002(\005\022\013\n\003exp\030\004 \002(\005\022\017\n\007n" +
+      "eedExp\030\005 \002(\005\022\r\n\005build\030\006 \002(\005\022\017\n\007members\030\007" +
+      " \002(\005\022\021\n\tmemberMax\030\010 \002(\005\022\024\n\014contribution\030" +
+      "\t \002(\005\022\016\n\006notice\030\n \002(\t\022\017\n\007country\030\026 \002(\005\022\021" +
+      "\n\tshengWang\030\027 \002(\005\022\014\n\004icon\030\013 \002(\005\022\020\n\010ident",
+      "ity\030\014 \002(\005\022\017\n\007isAllow\030\r \002(\005\022\022\n\napplyLevel" +
+      "\030\032 \002(\005\022\017\n\007junXian\030\030 \002(\005\022\025\n\rattchCndition" +
+      "\030\031 \002(\t\022\020\n\010isShenPi\030\033 \002(\005\022\023\n\013mengzhuName\030" +
+      "\016 \002(\t\022\016\n\006status\030\017 \002(\005\022\021\n\tisBaoming\030\020 \001(\005" +
+      "\022\017\n\007isVoted\030\021 \001(\005\022\024\n\014voteJunzhuId\030\022 \001(\003\022" +
+      "\024\n\014isVoteDialog\030\023 \001(\003\022\017\n\007gongJin\030\024 \002(\005\0221" +
+      "\n\nmemberInfo\030\025 \003(\0132\035.qxmobile.protobuf.M" +
+      "emberInfo\"!\n\021CheckAllianceName\022\014\n\004name\030\001" +
+      " \002(\t\"2\n\025CheckAllianceNameResp\022\014\n\004code\030\001 " +
+      "\002(\005\022\013\n\003msg\030\002 \001(\t\",\n\016CreateAlliance\022\014\n\004na",
+      "me\030\001 \002(\t\022\014\n\004icon\030\002 \002(\005\"j\n\022CreateAlliance" +
+      "Resp\022\014\n\004code\030\001 \002(\005\022\013\n\003msg\030\002 \001(\t\0229\n\014allia" +
+      "nceInfo\030\003 \001(\0132#.qxmobile.protobuf.Allian" +
+      "ceHaveResp\"\032\n\014FindAlliance\022\n\n\002id\030\001 \002(\005\"x" +
+      "\n\020FindAllianceResp\022\014\n\004code\030\001 \002(\005\022\013\n\003msg\030" +
+      "\002 \001(\t\022\017\n\007isAllow\030\003 \001(\005\0228\n\014allianceInfo\030\004" +
+      " \001(\0132\".qxmobile.protobuf.NonAllianceInfo" +
+      "\"\033\n\rApplyAlliance\022\n\n\002id\030\001 \002(\005\":\n\021ApplyAl" +
+      "lianceResp\022\014\n\004code\030\001 \002(\005\022\n\n\002id\030\002 \001(\005\022\013\n\003" +
+      "msg\030\003 \001(\t\" \n\022CancelJoinAlliance\022\n\n\002id\030\001 ",
+      "\002(\005\"?\n\026CancelJoinAllianceResp\022\n\n\002id\030\001 \002(" +
+      "\005\022\014\n\004code\030\002 \002(\005\022\013\n\003msg\030\003 \001(\t\"\032\n\014ExitAlli" +
+      "ance\022\n\n\002id\030\001 \002(\005\" \n\020ExitAllianceResp\022\014\n\004" +
+      "code\030\001 \002(\005\"\031\n\013LookMembers\022\n\n\002id\030\001 \002(\005\"D\n" +
+      "\017LookMembersResp\0221\n\nmemberInfo\030\001 \003(\0132\035.q" +
+      "xmobile.protobuf.MemberInfo\"\211\002\n\nMemberIn" +
+      "fo\022\r\n\005level\030\001 \002(\005\022\014\n\004name\030\002 \002(\t\022\024\n\014contr" +
+      "ibution\030\003 \002(\005\022\030\n\020curMonthGongXian\030\020 \002(\005\022" +
+      "\017\n\007junXian\030\004 \002(\005\022\020\n\010identity\030\005 \002(\005\022\020\n\010ju" +
+      "nzhuId\030\006 \002(\003\022\016\n\006roleId\030\013 \001(\005\022\016\n\006zhanLi\030\r",
+      " \002(\005\022\023\n\013offlineTime\030\016 \002(\005\022\017\n\007gongJin\030\017 \002" +
+      "(\005\022\021\n\tisBaoming\030\007 \001(\005\022\017\n\007isVoted\030\010 \001(\005\022\017" +
+      "\n\007voteNum\030\n \001(\005\"*\n\nFireMember\022\n\n\002id\030\001 \002(" +
+      "\005\022\020\n\010junzhuId\030\002 \002(\003\">\n\016FireMemberResp\022\016\n" +
+      "\006result\030\001 \002(\005\022\n\n\002id\030\002 \002(\005\022\020\n\010junzhuId\030\003 " +
+      "\002(\003\"\'\n\007UpTitle\022\n\n\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002" +
+      " \002(\003\"H\n\013UpTitleResp\022\014\n\004code\030\001 \002(\005\022\020\n\010jun" +
+      "zhuId\030\003 \002(\003\022\n\n\002id\030\002 \001(\005\022\r\n\005title\030\004 \001(\005\")" +
+      "\n\tDownTitle\022\n\n\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(" +
+      "\003\"J\n\rDownTitleResp\022\014\n\004code\030\001 \002(\005\022\n\n\002id\030\002",
+      " \002(\005\022\020\n\010junzhuId\030\003 \002(\003\022\r\n\005title\030\004 \002(\005\"\034\n" +
+      "\016LookApplicants\022\n\n\002id\030\001 \002(\005\"L\n\022LookAppli" +
+      "cantsResp\0226\n\014applicanInfo\030\001 \003(\0132 .qxmobi" +
+      "le.protobuf.ApplicantInfo\"}\n\rApplicantIn" +
+      "fo\022\020\n\010junzhuId\030\001 \002(\003\022\r\n\005level\030\002 \002(\005\022\014\n\004n" +
+      "ame\030\003 \002(\t\022\017\n\007junXian\030\004 \002(\005\022\014\n\004rank\030\005 \002(\005" +
+      "\022\016\n\006roleId\030\006 \001(\005\022\016\n\006zhanLi\030\007 \002(\005\"+\n\013Refu" +
+      "seApply\022\n\n\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\"?\n" +
+      "\017RefuseApplyResp\022\016\n\006result\030\001 \002(\005\022\n\n\002id\030\002" +
+      " \001(\005\022\020\n\010junzhuId\030\003 \001(\003\"*\n\nAgreeApply\022\n\n\002",
+      "id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\"q\n\016AgreeApply" +
+      "Resp\022\016\n\006result\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\022\n" +
+      "\n\002id\030\003 \001(\005\0221\n\nmemberInfo\030\004 \001(\0132\035.qxmobil" +
+      "e.protobuf.MemberInfo\"*\n\014UpdateNotice\022\n\n" +
+      "\002id\030\001 \002(\005\022\016\n\006notice\030\002 \002(\t\" \n\020UpdateNotic" +
+      "eResp\022\014\n\004code\030\001 \002(\005\"\035\n\017DismissAlliance\022\n" +
+      "\n\002id\030\001 \002(\005\"`\n\tOpenApply\022\n\n\002id\030\001 \002(\005\022\020\n\010l" +
+      "evelMin\030\003 \002(\005\022\022\n\njunXianMin\030\004 \002(\005\022\021\n\tisE" +
+      "xamine\030\005 \002(\005\022\016\n\006attach\030\006 \001(\t\"\035\n\rOpenAppl" +
+      "yResp\022\014\n\004code\030\001 \002(\005\"\030\n\nCloseApply\022\n\n\002id\030",
+      "\001 \002(\005\"0\n\020TransferAlliance\022\n\n\002id\030\001 \002(\005\022\020\n" +
+      "\010junzhuId\030\002 \002(\003\"D\n\024TransferAllianceResp\022" +
+      "\016\n\006result\030\001 \002(\005\022\n\n\002id\030\002 \002(\005\022\020\n\010junzhuId\030" +
+      "\003 \002(\003\" \n\020MengZhuApplyResp\022\014\n\004code\030\001 \002(\005\"" +
+      "\037\n\013MengZhuVote\022\020\n\010junzhuId\030\001 \002(\003\"4\n\017Meng" +
+      "ZhuVoteResp\022\020\n\010junzhuId\030\001 \002(\003\022\017\n\007voteNum" +
+      "\030\002 \002(\005\"\036\n\016GiveUpVoteResp\022\014\n\004code\030\001 \002(\005\"\033" +
+      "\n\nDonateHuFu\022\r\n\005count\030\001 \002(\005\"A\n\016DonateHuF" +
+      "uResp\022\016\n\006result\030\001 \002(\005\022\020\n\010gongxian\030\002 \002(\005\022" +
+      "\r\n\005build\030\003 \002(\005\"\034\n\014EventListReq\022\014\n\004page\030\001",
+      " \002(\005\"*\n\rEventListResp\022\014\n\004page\030\001 \002(\005\022\013\n\003m" +
+      "sg\030\002 \003(\tB\020B\016AllianceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -36221,7 +36342,7 @@ public final class AllianceProtos {
           internal_static_qxmobile_protobuf_NonAllianceInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_NonAllianceInfo_descriptor,
-              new java.lang.String[] { "Id", "Name", "Icon", "Level", "Reputation", "Members", "MemberMax", "ApplyLevel", "JunXian", "AttchCndition", "IsApplied", "CreatorName", "Exp", "IsShenPi", "Country", });
+              new java.lang.String[] { "Id", "Name", "Icon", "Level", "Reputation", "Members", "MemberMax", "ApplyLevel", "JunXian", "AttchCndition", "IsApplied", "CreatorName", "Exp", "IsShenPi", "Country", "IsCanApply", });
           internal_static_qxmobile_protobuf_immediatelyJoin_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_immediatelyJoin_fieldAccessorTable = new

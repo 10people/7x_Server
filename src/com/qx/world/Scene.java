@@ -24,14 +24,17 @@ import qxmobile.protobuf.SoundData.PlayerSound;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.template.CanShu;
+import com.manu.dynasty.template.YunBiaoSafe;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.account.AccountManager;
+import com.qx.alliance.AllianceMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.yabiao.YaBiaoHuoDongMgr;
 import com.qx.yabiao.YaBiaoRobot;
 
 
@@ -50,7 +53,7 @@ public class Scene implements Runnable{
 	public volatile ConcurrentHashMap<Integer, Player> players = null;
 	public BlockingQueue<Mission> missions = new LinkedBlockingQueue<Mission>();
 	public ExecutorService syncSceneExecutor = Executors.newSingleThreadExecutor();
-	public static Mission exitYBSc = new Mission(0,null,null);
+	public static Mission exit = new Mission(0,null,null);
 	public String name;
 	public static int YBRobot_RoleId= 50000;//镖车机器人的roleId 很大的数 区分Player是玩家还是玩家的镖车
 	public Scene(String key){
@@ -64,7 +67,7 @@ public class Scene implements Runnable{
 		log.warn("启动场景{}",name);
 	}
 	public void shutdown(){
-		missions.add(exitYBSc);
+		missions.add(exit);
 	}
 	public void run() {
 		while (true) {
@@ -74,7 +77,7 @@ public class Scene implements Runnable{
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
-				if(mission==exitYBSc){
+				if(mission==exit){
 					break;
 				}
 				try {
@@ -110,7 +113,7 @@ public class Scene implements Runnable{
 		
 		if (player == null) {
 			Object jzid = session.getAttribute(SessionAttKey.junZhuId);
-			log.warn("player who want to move is null {}, jzId {}",uid,jzid);
+//			log.warn("player who want to move is null {}, jzId {}",uid,jzid);
 			return;
 		}
 		
@@ -119,6 +122,10 @@ public class Scene implements Runnable{
 		player.setPosZ(move.getPosZ());
 		
 		move.setUid(player.userId);
+		if(this.name.contains("YB")){
+			int safearea=YaBiaoHuoDongMgr.inst.getSafeArea(player.getPosX(), player.getPosZ());
+			player.safeArea=safearea;
+		}
 		this.broadCastEvent(player.userId,move.build());
 	}
 
@@ -132,8 +139,11 @@ public class Scene implements Runnable{
 				if (player.userId == uid) {
 					continue;
 				}
-				if(player.pState != State.State_LEAGUEOFCITY&&player.pState != State.State_HOUSE
-						&& player.pState != State.State_FIGHT_SCENE){
+				//FIXME 在小屋、联盟城、主城、押镖场景、战斗场景才给广播
+				if(player.pState != State.State_LEAGUEOFCITY
+						&&player.pState != State.State_HOUSE
+						&& player.pState != State.State_FIGHT_SCENE
+						&& player.pState != State.State_YABIAO){
 					continue;
 				}
 				player.session.write(build);
@@ -167,6 +177,7 @@ public class Scene implements Runnable{
 		player.setPosY(enterScene.getPosY());
 		player.setPosZ(enterScene.getPosZ());
 		player.jzId = (jz == null ? 0 : jz.id);
+		player.allianceId = AllianceMgr.inst.getAllianceId(player.jzId);
 		player.roleId = (jz == null ? 1: jz.roleId);
 		player.chengHaoId = (String)session.getAttribute(SessionAttKey.CHENG_HAO_ID, "-1");
 		player.lmName = (String)session.getAttribute(SessionAttKey.LM_NAME, "***");
@@ -234,6 +245,7 @@ public class Scene implements Runnable{
 		player.setPosY(enterScene.getPosY());
 		player.setPosZ(enterScene.getPosZ());
 		player.jzId = (jz == null ? 0 : jz.id);
+		player.allianceId = AllianceMgr.inst.getAllianceId(player.jzId);
 		player.roleId = (jz == null ? 1: jz.roleId);
 		players.put(userId, player);
 		
@@ -306,7 +318,7 @@ public class Scene implements Runnable{
 			otherPlayer.setPosZ(player.getPosZ());
 			otherPlayer.setRoleId(player.roleId);
 			ProtobufMsg pm = new ProtobufMsg();
-			pm.id = msgId;//PD.Enter_HouseScene;
+			pm.id = msgId;
 			pm.builder = otherPlayer;
 			session.write(pm);
 			
@@ -465,35 +477,70 @@ public class Scene implements Runnable{
 	public void enterYBScene(IoSession session,final EnterScene.Builder enterYBSc) {
 		//镖车机器人没有JunZhu对象
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
-		
+		boolean isBiaoChe=isBiaoChe(session);
+		if(jz == null){
+			if(!isBiaoChe){
+				log.error("进入押镖场景错误，JunZhu为空，且不是镖车,~~~~~~~~~~~");
+				return;
+			}
+		}
+		YunBiaoSafe birthPlace=null;
+		if(jz!=null){
+			birthPlace=YaBiaoHuoDongMgr.inst.getBirthPlace4YBJZ(this);
+			if(birthPlace==null){
+				log.error("进入押镖场景错误，未找到出生点配置");
+				return;
+			}
+//			session.setAttribute(SessionAttKey.SafeAreaID, birthPlace.areaID); 可能会用到
+		}
 		Object uidObject = session.getAttribute(SessionAttKey.playerId_Scene);
 		session.setAttribute(SessionAttKey.Scene, this);
 		final int userId = uidObject == null ? getUserId() : (Integer)uidObject;
-//		session.setAttribute(SessionAttKey.playerId, jz.id); SessionAttKey.playerId 无用,
 		
 		final Player player = new Player();
 		player.userId = userId;
 		session.setAttribute(SessionAttKey.playerId_Scene, userId);
 		player.session = session;
 		player.setName(jz == null ? enterYBSc.getSenderName() : jz.name);
-		
-		player.setPosX(enterYBSc.getPosX());
-		player.setPosY(enterYBSc.getPosY());
-		player.setPosZ(enterYBSc.getPosZ());
-		player.jzId = (jz == null ? 0 : jz.id);
+		float posX=birthPlace==null?enterYBSc.getPosX():birthPlace.saveAreaX;
+		float posZ=birthPlace==null?enterYBSc.getPosZ():birthPlace.saveAreaZ;
+		player.setPosX(posX);
+		player.setPosY(0);
+		player.setPosZ(posZ);
+		Long jzId4biaoche=0L;//君主Id
+		Integer hp4biaoche=10000;
+		if(jz == null&&isBiaoChe){
+			//TDDO 存君主镖车HP
+			Long tem = (Long) session.getAttribute(SessionAttKey.RobotJZID);
+			if(tem!=null){
+				jzId4biaoche=	tem;
+				YaBiaoRobot ybr = (YaBiaoRobot) BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(jzId4biaoche);
+				hp4biaoche=ybr.hp;
+			}
+		}
+		player.jzId = isBiaoChe? jzId4biaoche : jz.id;
+		player.allianceId = AllianceMgr.inst.getAllianceId(player.jzId);
 		//roleId  镖车机器人的roleId 很大的数 区分Player是玩家还是玩家的镖车
-		player.roleId = (jz == null ? YBRobot_RoleId: jz.roleId);
+		player.roleId =isBiaoChe ? YBRobot_RoleId: jz.roleId;
+		player.totalLife = isBiaoChe? hp4biaoche: jz.shengMingMax; 
+		player.currentLife =isBiaoChe? hp4biaoche: jz.shengMingMax;
 		players.put(userId, player);
-		log.info("{}进入场景 {},这货是<{}>", player.getName(),this.name,(player.roleId==50000)?"镖车机器人":"玩家");
+		log.info("{}进入场景 {},这货是<{}>，血量--<{}/{}>", player.getName(),this.name,isBiaoChe?"镖车机器人":"玩家",player.currentLife,player.totalLife);
 		//告诉当前玩家它的信息，确认进入
 		EnterSceneConfirm.Builder ret = EnterSceneConfirm.newBuilder();
 		ret.setUid(userId);
+		ret.setPosX(player.getPosX());
+		ret.setPosY(player.getPosY());
+		ret.setPosZ(player.getPosZ());
 		session.write(ret.build());
 		
 		//告诉其他玩家，谁进来了。
 		enterYBSc.setUid(userId);
 		enterYBSc.setSenderName(player.getName());
 		enterYBSc.setRoleId(player.roleId);
+		enterYBSc.setPosX(player.getPosX());
+		enterYBSc.setPosY(player.getPosY());
+		enterYBSc.setPosZ(player.getPosZ());
 		syncSceneExecutor.submit(new Runnable() {
 			@Override
 			public void run() {
@@ -501,6 +548,9 @@ public class Scene implements Runnable{
 				pm.id = PD.Enter_YBScene;
 				pm.builder = enterYBSc;
 				broadCastEvent(pm, enterYBSc.getUid());
+				//更新称号
+				ProtobufMsg msg = makeHeadPct(enterYBSc, player);
+				broadCastEvent(msg, enterYBSc.getUid());
 			}
 		});
 	}
@@ -514,7 +564,7 @@ public class Scene implements Runnable{
 		ProtobufMsg pm = new ProtobufMsg();
 		pm.id=PD.EXIT_FIGHT_SCENE;
 		pm.builder = exitFight;
-		exitFight.setJunzhuId(player.jzId);
+		exitFight.setUid(uid);
 		broadCastEvent(pm, player.userId);
 		players.remove(uid);
 		log.info("退出联盟战场景成功，君主:{}退出联盟战场景:{},剩余玩家个数：{}" ,session.getAttribute(SessionAttKey.junZhuId),
@@ -643,10 +693,13 @@ public class Scene implements Runnable{
 		IoSession session=ybrobot.session;
 		if(session == null)
 			return;
+		ExitScene.Builder exitYBSc = ExitScene.newBuilder();
 		Integer uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
 		if(uid == null)
 			return;
-		players.remove(uid);
+		exitYBSc.setUid(uid);
+		exitYBScene( session,exitYBSc);
+//		players.remove(uid);
 		log.info("从场景中移除君主-{}押镖机器人成功", jzId);
 		//移除押镖机器人
 		BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.remove(jzId);
@@ -662,6 +715,23 @@ public class Scene implements Runnable{
 			}
 		}
 		return player;
+	}
+	
+	public boolean isBiaoChe(IoSession session) {
+		Integer uid = (Integer) session.getAttribute(SessionAttKey.RobotType);
+		if(uid!=null&&uid.equals(Scene.YBRobot_RoleId)){
+			return true;
+		}
+		return false;
+	}
+	
+	public float getPlayerDistance(int uidOne, int uidOther) {
+		Player playerOne = players.get(uidOne);
+		Player playerTwo = players.get(uidOther);
+		float distance = (float) Math.sqrt(
+				Math.pow(playerOne.posX - playerTwo.posX, 2)+
+				Math.pow(playerOne.posZ - playerTwo.posZ, 2));
+		return distance;
 	}
 	
 	protected void enterFightScene(IoSession session, final EnterScene.Builder enterFightScene) {

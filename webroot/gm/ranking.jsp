@@ -116,6 +116,9 @@ if(junMinLevel!=null&&junMinLevel.length()!=0){
 	RankingMgr.RANK_MINLEVEL=Integer.parseInt(junMinLevel);
 }
 %>
+<hr/>
+<p><a href="gm/rank4junlevel.jsp">查看君主等级榜</a></p>
+<hr/>
 <form action="">
 <p>
 	<h3>参数设置</h3>

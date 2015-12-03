@@ -2168,10 +2168,18 @@ public final class Prompt {
     // required int64 result = 2;
     /**
      * <code>required int64 result = 2;</code>
+     *
+     * <pre>
+     *10 成功 20没找到对应速报
+     * </pre>
      */
     boolean hasResult();
     /**
      * <code>required int64 result = 2;</code>
+     *
+     * <pre>
+     *10 成功 20没找到对应速报
+     * </pre>
      */
     long getResult();
 
@@ -2189,6 +2197,26 @@ public final class Prompt {
      */
     com.google.protobuf.ByteString
         getFujianBytes();
+
+    // optional float posX = 4;
+    /**
+     * <code>optional float posX = 4;</code>
+     */
+    boolean hasPosX();
+    /**
+     * <code>optional float posX = 4;</code>
+     */
+    float getPosX();
+
+    // optional float posZ = 5;
+    /**
+     * <code>optional float posZ = 5;</code>
+     */
+    boolean hasPosZ();
+    /**
+     * <code>optional float posZ = 5;</code>
+     */
+    float getPosZ();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.UpDateSuBaoResp}
@@ -2260,6 +2288,16 @@ public final class Prompt {
               fujian_ = input.readBytes();
               break;
             }
+            case 37: {
+              bitField0_ |= 0x00000008;
+              posX_ = input.readFloat();
+              break;
+            }
+            case 45: {
+              bitField0_ |= 0x00000010;
+              posZ_ = input.readFloat();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2321,12 +2359,20 @@ public final class Prompt {
     private long result_;
     /**
      * <code>required int64 result = 2;</code>
+     *
+     * <pre>
+     *10 成功 20没找到对应速报
+     * </pre>
      */
     public boolean hasResult() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required int64 result = 2;</code>
+     *
+     * <pre>
+     *10 成功 20没找到对应速报
+     * </pre>
      */
     public long getResult() {
       return result_;
@@ -2375,10 +2421,44 @@ public final class Prompt {
       }
     }
 
+    // optional float posX = 4;
+    public static final int POSX_FIELD_NUMBER = 4;
+    private float posX_;
+    /**
+     * <code>optional float posX = 4;</code>
+     */
+    public boolean hasPosX() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional float posX = 4;</code>
+     */
+    public float getPosX() {
+      return posX_;
+    }
+
+    // optional float posZ = 5;
+    public static final int POSZ_FIELD_NUMBER = 5;
+    private float posZ_;
+    /**
+     * <code>optional float posZ = 5;</code>
+     */
+    public boolean hasPosZ() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional float posZ = 5;</code>
+     */
+    public float getPosZ() {
+      return posZ_;
+    }
+
     private void initFields() {
       subaoId_ = 0L;
       result_ = 0L;
       fujian_ = "";
+      posX_ = 0F;
+      posZ_ = 0F;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2409,6 +2489,12 @@ public final class Prompt {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, getFujianBytes());
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeFloat(4, posX_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeFloat(5, posZ_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -2429,6 +2515,14 @@ public final class Prompt {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, getFujianBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(4, posX_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(5, posZ_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2556,6 +2650,10 @@ public final class Prompt {
         bitField0_ = (bitField0_ & ~0x00000002);
         fujian_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        posX_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        posZ_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -2596,6 +2694,14 @@ public final class Prompt {
           to_bitField0_ |= 0x00000004;
         }
         result.fujian_ = fujian_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.posX_ = posX_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.posZ_ = posZ_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2622,6 +2728,12 @@ public final class Prompt {
           bitField0_ |= 0x00000004;
           fujian_ = other.fujian_;
           onChanged();
+        }
+        if (other.hasPosX()) {
+          setPosX(other.getPosX());
+        }
+        if (other.hasPosZ()) {
+          setPosZ(other.getPosZ());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2695,18 +2807,30 @@ public final class Prompt {
       private long result_ ;
       /**
        * <code>required int64 result = 2;</code>
+       *
+       * <pre>
+       *10 成功 20没找到对应速报
+       * </pre>
        */
       public boolean hasResult() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required int64 result = 2;</code>
+       *
+       * <pre>
+       *10 成功 20没找到对应速报
+       * </pre>
        */
       public long getResult() {
         return result_;
       }
       /**
        * <code>required int64 result = 2;</code>
+       *
+       * <pre>
+       *10 成功 20没找到对应速报
+       * </pre>
        */
       public Builder setResult(long value) {
         bitField0_ |= 0x00000002;
@@ -2716,6 +2840,10 @@ public final class Prompt {
       }
       /**
        * <code>required int64 result = 2;</code>
+       *
+       * <pre>
+       *10 成功 20没找到对应速报
+       * </pre>
        */
       public Builder clearResult() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -2798,6 +2926,72 @@ public final class Prompt {
         return this;
       }
 
+      // optional float posX = 4;
+      private float posX_ ;
+      /**
+       * <code>optional float posX = 4;</code>
+       */
+      public boolean hasPosX() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional float posX = 4;</code>
+       */
+      public float getPosX() {
+        return posX_;
+      }
+      /**
+       * <code>optional float posX = 4;</code>
+       */
+      public Builder setPosX(float value) {
+        bitField0_ |= 0x00000008;
+        posX_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float posX = 4;</code>
+       */
+      public Builder clearPosX() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        posX_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // optional float posZ = 5;
+      private float posZ_ ;
+      /**
+       * <code>optional float posZ = 5;</code>
+       */
+      public boolean hasPosZ() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional float posZ = 5;</code>
+       */
+      public float getPosZ() {
+        return posZ_;
+      }
+      /**
+       * <code>optional float posZ = 5;</code>
+       */
+      public Builder setPosZ(float value) {
+        bitField0_ |= 0x00000010;
+        posZ_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float posZ = 5;</code>
+       */
+      public Builder clearPosZ() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        posZ_ = 0F;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.UpDateSuBaoResp)
     }
 
@@ -2844,9 +3038,9 @@ public final class Prompt {
       "\001 \002(\003\022\021\n\totherJzId\030\002 \002(\003\022\r\n\005subao\030\003 \002(\t\022" +
       "\017\n\007msgType\030\004 \002(\005\022\016\n\006isShow\030\005 \002(\010\022\021\n\tstar" +
       "tTime\030\006 \001(\003\"!\n\016UpDateSuBaoReq\022\017\n\007subaoId" +
-      "\030\001 \002(\003\"B\n\017UpDateSuBaoResp\022\017\n\007subaoId\030\001 \002" +
-      "(\003\022\016\n\006result\030\002 \002(\003\022\016\n\006fujian\030\003 \001(\tB\010B\006Pr" +
-      "ompt"
+      "\030\001 \002(\003\"^\n\017UpDateSuBaoResp\022\017\n\007subaoId\030\001 \002" +
+      "(\003\022\016\n\006result\030\002 \002(\003\022\016\n\006fujian\030\003 \001(\t\022\014\n\004po" +
+      "sX\030\004 \001(\002\022\014\n\004posZ\030\005 \001(\002B\010B\006Prompt"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2876,7 +3070,7 @@ public final class Prompt {
           internal_static_qxmobile_protobuf_UpDateSuBaoResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_UpDateSuBaoResp_descriptor,
-              new java.lang.String[] { "SubaoId", "Result", "Fujian", });
+              new java.lang.String[] { "SubaoId", "Result", "Fujian", "PosX", "PosZ", });
           return null;
         }
       };

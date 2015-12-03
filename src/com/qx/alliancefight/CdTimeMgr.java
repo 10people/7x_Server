@@ -1,7 +1,6 @@
 package com.qx.alliancefight;
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.mina.core.session.IoSession;
@@ -19,7 +18,6 @@ import com.qx.junzhu.JunZhu;
 import com.qx.persistent.HibernateUtil;
 import com.qx.world.FightScene;
 import com.qx.world.Player;
-import com.qx.world.Scene;
 
 public class CdTimeMgr implements Runnable {
 	public CdTimeMgr inst;
@@ -81,7 +79,7 @@ public class CdTimeMgr implements Runnable {
 			AllianceBean alliance = AllianceMgr.inst.getAllianceByJunZid(junzhu.id);
 			ScoreInfo scoreInfo = scene.scoreInfoMap.get(alliance.id);
 			PlayerReviveNotify.Builder reviveNotify = PlayerReviveNotify.newBuilder();
-			reviveNotify.setJunzhuId(cdTime.getJunzhuId());
+			reviveNotify.setUid(player.userId);
 			reviveNotify.setPosX(scoreInfo.bornPointX);
 			reviveNotify.setPosZ(scoreInfo.bornPointZ);
 			for(Map.Entry<Integer, Player> entry : scene.players.entrySet()) {

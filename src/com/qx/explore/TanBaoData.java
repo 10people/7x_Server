@@ -11,7 +11,6 @@ public class TanBaoData {
 
 	/**铜币当日免费次数**/
 	public static int tongBi_all_free_times = CanShu.TONGBI_TANBAO_FREETIMES;
-	public static byte yuanBao_all_free_times = 1;
 	
 	/**铜币免费单抽CD**/
 	public static int tongBi_CD = CanShu.TONGBI_TANBAO_REFRESHTIME; 

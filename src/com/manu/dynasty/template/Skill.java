@@ -11,5 +11,6 @@ public class Skill {
 	public int BaseCD;
 	public int IsInGCD;
 	public int Action1; 
-
+	public int CDGroup;
+	
 }

@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.qx.persistent.MCSupport;
 
 @Entity
 @Table(name = "pvp_bean")
@@ -22,8 +21,8 @@ public class PvpBean{
 	/*军衔等级*/
 	public int junXianLevel = -1;
 
-	@Column(nullable = false, columnDefinition = "int default -1")
-	public int zuheId; //防守技能
+//	@Column(nullable = false, columnDefinition = "int default -1")
+//	public int zuheId; //防守技能
 	@Column(nullable = false, columnDefinition = "int default -1")
 	public int gongJiZuHeId; //攻击技能
 	public int highestRank;

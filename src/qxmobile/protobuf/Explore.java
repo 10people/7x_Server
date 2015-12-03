@@ -61,33 +61,13 @@ public final class Explore {
      */
     int getYuanBao();
 
-    // required int32 allFreeYuanBaoCount = 6;
+    // required int32 yuanBaoCd = 6;
     /**
-     * <code>required int32 allFreeYuanBaoCount = 6;</code>
-     */
-    boolean hasAllFreeYuanBaoCount();
-    /**
-     * <code>required int32 allFreeYuanBaoCount = 6;</code>
-     */
-    int getAllFreeYuanBaoCount();
-
-    // required int32 remainFreeYuanBaoCount = 7;
-    /**
-     * <code>required int32 remainFreeYuanBaoCount = 7;</code>
-     */
-    boolean hasRemainFreeYuanBaoCount();
-    /**
-     * <code>required int32 remainFreeYuanBaoCount = 7;</code>
-     */
-    int getRemainFreeYuanBaoCount();
-
-    // required int32 yuanBaoCd = 8;
-    /**
-     * <code>required int32 yuanBaoCd = 8;</code>
+     * <code>required int32 yuanBaoCd = 6;</code>
      */
     boolean hasYuanBaoCd();
     /**
-     * <code>required int32 yuanBaoCd = 8;</code>
+     * <code>required int32 yuanBaoCd = 6;</code>
      */
     int getYuanBaoCd();
   }
@@ -173,16 +153,6 @@ public final class Explore {
             }
             case 48: {
               bitField0_ |= 0x00000020;
-              allFreeYuanBaoCount_ = input.readInt32();
-              break;
-            }
-            case 56: {
-              bitField0_ |= 0x00000040;
-              remainFreeYuanBaoCount_ = input.readInt32();
-              break;
-            }
-            case 64: {
-              bitField0_ |= 0x00000080;
               yuanBaoCd_ = input.readInt32();
               break;
             }
@@ -306,49 +276,17 @@ public final class Explore {
       return yuanBao_;
     }
 
-    // required int32 allFreeYuanBaoCount = 6;
-    public static final int ALLFREEYUANBAOCOUNT_FIELD_NUMBER = 6;
-    private int allFreeYuanBaoCount_;
+    // required int32 yuanBaoCd = 6;
+    public static final int YUANBAOCD_FIELD_NUMBER = 6;
+    private int yuanBaoCd_;
     /**
-     * <code>required int32 allFreeYuanBaoCount = 6;</code>
+     * <code>required int32 yuanBaoCd = 6;</code>
      */
-    public boolean hasAllFreeYuanBaoCount() {
+    public boolean hasYuanBaoCd() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>required int32 allFreeYuanBaoCount = 6;</code>
-     */
-    public int getAllFreeYuanBaoCount() {
-      return allFreeYuanBaoCount_;
-    }
-
-    // required int32 remainFreeYuanBaoCount = 7;
-    public static final int REMAINFREEYUANBAOCOUNT_FIELD_NUMBER = 7;
-    private int remainFreeYuanBaoCount_;
-    /**
-     * <code>required int32 remainFreeYuanBaoCount = 7;</code>
-     */
-    public boolean hasRemainFreeYuanBaoCount() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
-    }
-    /**
-     * <code>required int32 remainFreeYuanBaoCount = 7;</code>
-     */
-    public int getRemainFreeYuanBaoCount() {
-      return remainFreeYuanBaoCount_;
-    }
-
-    // required int32 yuanBaoCd = 8;
-    public static final int YUANBAOCD_FIELD_NUMBER = 8;
-    private int yuanBaoCd_;
-    /**
-     * <code>required int32 yuanBaoCd = 8;</code>
-     */
-    public boolean hasYuanBaoCd() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
-    }
-    /**
-     * <code>required int32 yuanBaoCd = 8;</code>
+     * <code>required int32 yuanBaoCd = 6;</code>
      */
     public int getYuanBaoCd() {
       return yuanBaoCd_;
@@ -360,8 +298,6 @@ public final class Explore {
       remainFreeTongBiCount_ = 0;
       tongBiCd_ = 0;
       yuanBao_ = 0;
-      allFreeYuanBaoCount_ = 0;
-      remainFreeYuanBaoCount_ = 0;
       yuanBaoCd_ = 0;
     }
     private byte memoizedIsInitialized = -1;
@@ -386,14 +322,6 @@ public final class Explore {
         return false;
       }
       if (!hasYuanBao()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasAllFreeYuanBaoCount()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasRemainFreeYuanBaoCount()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -424,13 +352,7 @@ public final class Explore {
         output.writeInt32(5, yuanBao_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeInt32(6, allFreeYuanBaoCount_);
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeInt32(7, remainFreeYuanBaoCount_);
-      }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        output.writeInt32(8, yuanBaoCd_);
+        output.writeInt32(6, yuanBaoCd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -463,15 +385,7 @@ public final class Explore {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(6, allFreeYuanBaoCount_);
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(7, remainFreeYuanBaoCount_);
-      }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(8, yuanBaoCd_);
+          .computeInt32Size(6, yuanBaoCd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -603,12 +517,8 @@ public final class Explore {
         bitField0_ = (bitField0_ & ~0x00000008);
         yuanBao_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
-        allFreeYuanBaoCount_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000020);
-        remainFreeYuanBaoCount_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000040);
         yuanBaoCd_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -660,14 +570,6 @@ public final class Explore {
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000020;
         }
-        result.allFreeYuanBaoCount_ = allFreeYuanBaoCount_;
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
-          to_bitField0_ |= 0x00000040;
-        }
-        result.remainFreeYuanBaoCount_ = remainFreeYuanBaoCount_;
-        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
-          to_bitField0_ |= 0x00000080;
-        }
         result.yuanBaoCd_ = yuanBaoCd_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -700,12 +602,6 @@ public final class Explore {
         if (other.hasYuanBao()) {
           setYuanBao(other.getYuanBao());
         }
-        if (other.hasAllFreeYuanBaoCount()) {
-          setAllFreeYuanBaoCount(other.getAllFreeYuanBaoCount());
-        }
-        if (other.hasRemainFreeYuanBaoCount()) {
-          setRemainFreeYuanBaoCount(other.getRemainFreeYuanBaoCount());
-        }
         if (other.hasYuanBaoCd()) {
           setYuanBaoCd(other.getYuanBaoCd());
         }
@@ -731,14 +627,6 @@ public final class Explore {
           return false;
         }
         if (!hasYuanBao()) {
-          
-          return false;
-        }
-        if (!hasAllFreeYuanBaoCount()) {
-          
-          return false;
-        }
-        if (!hasRemainFreeYuanBaoCount()) {
           
           return false;
         }
@@ -933,100 +821,34 @@ public final class Explore {
         return this;
       }
 
-      // required int32 allFreeYuanBaoCount = 6;
-      private int allFreeYuanBaoCount_ ;
+      // required int32 yuanBaoCd = 6;
+      private int yuanBaoCd_ ;
       /**
-       * <code>required int32 allFreeYuanBaoCount = 6;</code>
+       * <code>required int32 yuanBaoCd = 6;</code>
        */
-      public boolean hasAllFreeYuanBaoCount() {
+      public boolean hasYuanBaoCd() {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>required int32 allFreeYuanBaoCount = 6;</code>
-       */
-      public int getAllFreeYuanBaoCount() {
-        return allFreeYuanBaoCount_;
-      }
-      /**
-       * <code>required int32 allFreeYuanBaoCount = 6;</code>
-       */
-      public Builder setAllFreeYuanBaoCount(int value) {
-        bitField0_ |= 0x00000020;
-        allFreeYuanBaoCount_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 allFreeYuanBaoCount = 6;</code>
-       */
-      public Builder clearAllFreeYuanBaoCount() {
-        bitField0_ = (bitField0_ & ~0x00000020);
-        allFreeYuanBaoCount_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 remainFreeYuanBaoCount = 7;
-      private int remainFreeYuanBaoCount_ ;
-      /**
-       * <code>required int32 remainFreeYuanBaoCount = 7;</code>
-       */
-      public boolean hasRemainFreeYuanBaoCount() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
-      }
-      /**
-       * <code>required int32 remainFreeYuanBaoCount = 7;</code>
-       */
-      public int getRemainFreeYuanBaoCount() {
-        return remainFreeYuanBaoCount_;
-      }
-      /**
-       * <code>required int32 remainFreeYuanBaoCount = 7;</code>
-       */
-      public Builder setRemainFreeYuanBaoCount(int value) {
-        bitField0_ |= 0x00000040;
-        remainFreeYuanBaoCount_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 remainFreeYuanBaoCount = 7;</code>
-       */
-      public Builder clearRemainFreeYuanBaoCount() {
-        bitField0_ = (bitField0_ & ~0x00000040);
-        remainFreeYuanBaoCount_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 yuanBaoCd = 8;
-      private int yuanBaoCd_ ;
-      /**
-       * <code>required int32 yuanBaoCd = 8;</code>
-       */
-      public boolean hasYuanBaoCd() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
-      }
-      /**
-       * <code>required int32 yuanBaoCd = 8;</code>
+       * <code>required int32 yuanBaoCd = 6;</code>
        */
       public int getYuanBaoCd() {
         return yuanBaoCd_;
       }
       /**
-       * <code>required int32 yuanBaoCd = 8;</code>
+       * <code>required int32 yuanBaoCd = 6;</code>
        */
       public Builder setYuanBaoCd(int value) {
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000020;
         yuanBaoCd_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 yuanBaoCd = 8;</code>
+       * <code>required int32 yuanBaoCd = 6;</code>
        */
       public Builder clearYuanBaoCd() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000020);
         yuanBaoCd_ = 0;
         onChanged();
         return this;
@@ -2634,25 +2456,33 @@ public final class Explore {
      */
     int getMoney();
 
-    // required int32 remainFreeCount = 2;
+    // required int32 cd = 2;
     /**
-     * <code>required int32 remainFreeCount = 2;</code>
-     */
-    boolean hasRemainFreeCount();
-    /**
-     * <code>required int32 remainFreeCount = 2;</code>
-     */
-    int getRemainFreeCount();
-
-    // required int32 cd = 3;
-    /**
-     * <code>required int32 cd = 3;</code>
+     * <code>required int32 cd = 2;</code>
      */
     boolean hasCd();
     /**
-     * <code>required int32 cd = 3;</code>
+     * <code>required int32 cd = 2;</code>
      */
     int getCd();
+
+    // optional int32 remainFreeCount = 3;
+    /**
+     * <code>optional int32 remainFreeCount = 3;</code>
+     *
+     * <pre>
+     *只有type==1的时候发送
+     * </pre>
+     */
+    boolean hasRemainFreeCount();
+    /**
+     * <code>optional int32 remainFreeCount = 3;</code>
+     *
+     * <pre>
+     *只有type==1的时候发送
+     * </pre>
+     */
+    int getRemainFreeCount();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.TypeInfo}
@@ -2712,12 +2542,12 @@ public final class Explore {
             }
             case 16: {
               bitField0_ |= 0x00000002;
-              remainFreeCount_ = input.readInt32();
+              cd_ = input.readInt32();
               break;
             }
             case 24: {
               bitField0_ |= 0x00000004;
-              cd_ = input.readInt32();
+              remainFreeCount_ = input.readInt32();
               break;
             }
           }
@@ -2776,42 +2606,50 @@ public final class Explore {
       return money_;
     }
 
-    // required int32 remainFreeCount = 2;
-    public static final int REMAINFREECOUNT_FIELD_NUMBER = 2;
-    private int remainFreeCount_;
+    // required int32 cd = 2;
+    public static final int CD_FIELD_NUMBER = 2;
+    private int cd_;
     /**
-     * <code>required int32 remainFreeCount = 2;</code>
+     * <code>required int32 cd = 2;</code>
      */
-    public boolean hasRemainFreeCount() {
+    public boolean hasCd() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int32 remainFreeCount = 2;</code>
-     */
-    public int getRemainFreeCount() {
-      return remainFreeCount_;
-    }
-
-    // required int32 cd = 3;
-    public static final int CD_FIELD_NUMBER = 3;
-    private int cd_;
-    /**
-     * <code>required int32 cd = 3;</code>
-     */
-    public boolean hasCd() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>required int32 cd = 3;</code>
+     * <code>required int32 cd = 2;</code>
      */
     public int getCd() {
       return cd_;
     }
 
+    // optional int32 remainFreeCount = 3;
+    public static final int REMAINFREECOUNT_FIELD_NUMBER = 3;
+    private int remainFreeCount_;
+    /**
+     * <code>optional int32 remainFreeCount = 3;</code>
+     *
+     * <pre>
+     *只有type==1的时候发送
+     * </pre>
+     */
+    public boolean hasRemainFreeCount() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 remainFreeCount = 3;</code>
+     *
+     * <pre>
+     *只有type==1的时候发送
+     * </pre>
+     */
+    public int getRemainFreeCount() {
+      return remainFreeCount_;
+    }
+
     private void initFields() {
       money_ = 0;
-      remainFreeCount_ = 0;
       cd_ = 0;
+      remainFreeCount_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2819,10 +2657,6 @@ public final class Explore {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasMoney()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasRemainFreeCount()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -2841,10 +2675,10 @@ public final class Explore {
         output.writeInt32(1, money_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, remainFreeCount_);
+        output.writeInt32(2, cd_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, cd_);
+        output.writeInt32(3, remainFreeCount_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2861,11 +2695,11 @@ public final class Explore {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, remainFreeCount_);
+          .computeInt32Size(2, cd_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, cd_);
+          .computeInt32Size(3, remainFreeCount_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2985,9 +2819,9 @@ public final class Explore {
         super.clear();
         money_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        remainFreeCount_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
         cd_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        remainFreeCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
@@ -3024,11 +2858,11 @@ public final class Explore {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.remainFreeCount_ = remainFreeCount_;
+        result.cd_ = cd_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.cd_ = cd_;
+        result.remainFreeCount_ = remainFreeCount_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3048,11 +2882,11 @@ public final class Explore {
         if (other.hasMoney()) {
           setMoney(other.getMoney());
         }
-        if (other.hasRemainFreeCount()) {
-          setRemainFreeCount(other.getRemainFreeCount());
-        }
         if (other.hasCd()) {
           setCd(other.getCd());
+        }
+        if (other.hasRemainFreeCount()) {
+          setRemainFreeCount(other.getRemainFreeCount());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -3060,10 +2894,6 @@ public final class Explore {
 
       public final boolean isInitialized() {
         if (!hasMoney()) {
-          
-          return false;
-        }
-        if (!hasRemainFreeCount()) {
           
           return false;
         }
@@ -3126,68 +2956,84 @@ public final class Explore {
         return this;
       }
 
-      // required int32 remainFreeCount = 2;
-      private int remainFreeCount_ ;
+      // required int32 cd = 2;
+      private int cd_ ;
       /**
-       * <code>required int32 remainFreeCount = 2;</code>
+       * <code>required int32 cd = 2;</code>
        */
-      public boolean hasRemainFreeCount() {
+      public boolean hasCd() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int32 remainFreeCount = 2;</code>
-       */
-      public int getRemainFreeCount() {
-        return remainFreeCount_;
-      }
-      /**
-       * <code>required int32 remainFreeCount = 2;</code>
-       */
-      public Builder setRemainFreeCount(int value) {
-        bitField0_ |= 0x00000002;
-        remainFreeCount_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 remainFreeCount = 2;</code>
-       */
-      public Builder clearRemainFreeCount() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        remainFreeCount_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 cd = 3;
-      private int cd_ ;
-      /**
-       * <code>required int32 cd = 3;</code>
-       */
-      public boolean hasCd() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>required int32 cd = 3;</code>
+       * <code>required int32 cd = 2;</code>
        */
       public int getCd() {
         return cd_;
       }
       /**
-       * <code>required int32 cd = 3;</code>
+       * <code>required int32 cd = 2;</code>
        */
       public Builder setCd(int value) {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000002;
         cd_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 cd = 3;</code>
+       * <code>required int32 cd = 2;</code>
        */
       public Builder clearCd() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         cd_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 remainFreeCount = 3;
+      private int remainFreeCount_ ;
+      /**
+       * <code>optional int32 remainFreeCount = 3;</code>
+       *
+       * <pre>
+       *只有type==1的时候发送
+       * </pre>
+       */
+      public boolean hasRemainFreeCount() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 remainFreeCount = 3;</code>
+       *
+       * <pre>
+       *只有type==1的时候发送
+       * </pre>
+       */
+      public int getRemainFreeCount() {
+        return remainFreeCount_;
+      }
+      /**
+       * <code>optional int32 remainFreeCount = 3;</code>
+       *
+       * <pre>
+       *只有type==1的时候发送
+       * </pre>
+       */
+      public Builder setRemainFreeCount(int value) {
+        bitField0_ |= 0x00000004;
+        remainFreeCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 remainFreeCount = 3;</code>
+       *
+       * <pre>
+       *只有type==1的时候发送
+       * </pre>
+       */
+      public Builder clearRemainFreeCount() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        remainFreeCount_ = 0;
         onChanged();
         return this;
       }
@@ -4085,21 +3931,19 @@ public final class Explore {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rExplore.proto\022\021qxmobile.protobuf\"\317\001\n\017E" +
+      "\n\rExplore.proto\022\021qxmobile.protobuf\"\222\001\n\017E" +
       "xploreInfoResp\022\016\n\006tongBi\030\001 \002(\005\022\032\n\022allFre" +
       "eTongBiCount\030\002 \002(\005\022\035\n\025remainFreeTongBiCo" +
       "unt\030\003 \002(\005\022\020\n\010tongBiCd\030\004 \002(\005\022\017\n\007yuanBao\030\005" +
-      " \002(\005\022\033\n\023allFreeYuanBaoCount\030\006 \002(\005\022\036\n\026rem" +
-      "ainFreeYuanBaoCount\030\007 \002(\005\022\021\n\tyuanBaoCd\030\010" +
-      " \002(\005\"\032\n\nExploreReq\022\014\n\004type\030\001 \002(\005\"w\n\013Expl" +
-      "oreResp\022\017\n\007success\030\001 \002(\005\022,\n\nawardsList\030\002" +
-      " \003(\0132\030.qxmobile.protobuf.Award\022)\n\004info\030\003" +
-      " \001(\0132\033.qxmobile.protobuf.TypeInfo\">\n\010Typ",
-      "eInfo\022\r\n\005money\030\001 \002(\005\022\027\n\017remainFreeCount\030" +
-      "\002 \002(\005\022\n\n\002cd\030\003 \002(\005\"e\n\005Award\022\016\n\006itemId\030\001 \002" +
-      "(\005\022\020\n\010itemType\030\002 \002(\005\022\022\n\nitemNumber\030\003 \002(\005" +
-      "\022\021\n\tmiBaoStar\030\004 \001(\005\022\023\n\013pieceNumber\030\005 \001(\005" +
-      "B\tB\007Explore"
+      " \002(\005\022\021\n\tyuanBaoCd\030\006 \002(\005\"\032\n\nExploreReq\022\014\n" +
+      "\004type\030\001 \002(\005\"w\n\013ExploreResp\022\017\n\007success\030\001 " +
+      "\002(\005\022,\n\nawardsList\030\002 \003(\0132\030.qxmobile.proto" +
+      "buf.Award\022)\n\004info\030\003 \001(\0132\033.qxmobile.proto" +
+      "buf.TypeInfo\">\n\010TypeInfo\022\r\n\005money\030\001 \002(\005\022" +
+      "\n\n\002cd\030\002 \002(\005\022\027\n\017remainFreeCount\030\003 \001(\005\"e\n\005",
+      "Award\022\016\n\006itemId\030\001 \002(\005\022\020\n\010itemType\030\002 \002(\005\022" +
+      "\022\n\nitemNumber\030\003 \002(\005\022\021\n\tmiBaoStar\030\004 \001(\005\022\023" +
+      "\n\013pieceNumber\030\005 \001(\005B\tB\007Explore"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4111,7 +3955,7 @@ public final class Explore {
           internal_static_qxmobile_protobuf_ExploreInfoResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ExploreInfoResp_descriptor,
-              new java.lang.String[] { "TongBi", "AllFreeTongBiCount", "RemainFreeTongBiCount", "TongBiCd", "YuanBao", "AllFreeYuanBaoCount", "RemainFreeYuanBaoCount", "YuanBaoCd", });
+              new java.lang.String[] { "TongBi", "AllFreeTongBiCount", "RemainFreeTongBiCount", "TongBiCd", "YuanBao", "YuanBaoCd", });
           internal_static_qxmobile_protobuf_ExploreReq_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_ExploreReq_fieldAccessorTable = new
@@ -4129,7 +3973,7 @@ public final class Explore {
           internal_static_qxmobile_protobuf_TypeInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_TypeInfo_descriptor,
-              new java.lang.String[] { "Money", "RemainFreeCount", "Cd", });
+              new java.lang.String[] { "Money", "Cd", "RemainFreeCount", });
           internal_static_qxmobile_protobuf_Award_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_Award_fieldAccessorTable = new

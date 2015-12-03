@@ -9128,23 +9128,23 @@ public final class AllianceFightProtos {
   public interface FightAttackReqOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int64 targetId = 1;
+    // required int32 targetUid = 1;
     /**
-     * <code>required int64 targetId = 1;</code>
+     * <code>required int32 targetUid = 1;</code>
      *
      * <pre>
-     * 攻击目标的君主id
+     * 攻击目标的uid
      * </pre>
      */
-    boolean hasTargetId();
+    boolean hasTargetUid();
     /**
-     * <code>required int64 targetId = 1;</code>
+     * <code>required int32 targetUid = 1;</code>
      *
      * <pre>
-     * 攻击目标的君主id
+     * 攻击目标的uid
      * </pre>
      */
-    long getTargetId();
+    int getTargetUid();
 
     // required int32 skillId = 2;
     /**
@@ -9221,7 +9221,7 @@ public final class AllianceFightProtos {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              targetId_ = input.readInt64();
+              targetUid_ = input.readInt32();
               break;
             }
             case 16: {
@@ -9269,28 +9269,28 @@ public final class AllianceFightProtos {
     }
 
     private int bitField0_;
-    // required int64 targetId = 1;
-    public static final int TARGETID_FIELD_NUMBER = 1;
-    private long targetId_;
+    // required int32 targetUid = 1;
+    public static final int TARGETUID_FIELD_NUMBER = 1;
+    private int targetUid_;
     /**
-     * <code>required int64 targetId = 1;</code>
+     * <code>required int32 targetUid = 1;</code>
      *
      * <pre>
-     * 攻击目标的君主id
+     * 攻击目标的uid
      * </pre>
      */
-    public boolean hasTargetId() {
+    public boolean hasTargetUid() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int64 targetId = 1;</code>
+     * <code>required int32 targetUid = 1;</code>
      *
      * <pre>
-     * 攻击目标的君主id
+     * 攻击目标的uid
      * </pre>
      */
-    public long getTargetId() {
-      return targetId_;
+    public int getTargetUid() {
+      return targetUid_;
     }
 
     // required int32 skillId = 2;
@@ -9318,7 +9318,7 @@ public final class AllianceFightProtos {
     }
 
     private void initFields() {
-      targetId_ = 0L;
+      targetUid_ = 0;
       skillId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
@@ -9326,7 +9326,7 @@ public final class AllianceFightProtos {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasTargetId()) {
+      if (!hasTargetUid()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -9342,7 +9342,7 @@ public final class AllianceFightProtos {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt64(1, targetId_);
+        output.writeInt32(1, targetUid_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(2, skillId_);
@@ -9358,7 +9358,7 @@ public final class AllianceFightProtos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(1, targetId_);
+          .computeInt32Size(1, targetUid_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
@@ -9484,7 +9484,7 @@ public final class AllianceFightProtos {
 
       public Builder clear() {
         super.clear();
-        targetId_ = 0L;
+        targetUid_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         skillId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -9519,7 +9519,7 @@ public final class AllianceFightProtos {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.targetId_ = targetId_;
+        result.targetUid_ = targetUid_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
@@ -9540,8 +9540,8 @@ public final class AllianceFightProtos {
 
       public Builder mergeFrom(qxmobile.protobuf.AllianceFightProtos.FightAttackReq other) {
         if (other == qxmobile.protobuf.AllianceFightProtos.FightAttackReq.getDefaultInstance()) return this;
-        if (other.hasTargetId()) {
-          setTargetId(other.getTargetId());
+        if (other.hasTargetUid()) {
+          setTargetUid(other.getTargetUid());
         }
         if (other.hasSkillId()) {
           setSkillId(other.getSkillId());
@@ -9551,7 +9551,7 @@ public final class AllianceFightProtos {
       }
 
       public final boolean isInitialized() {
-        if (!hasTargetId()) {
+        if (!hasTargetUid()) {
           
           return false;
         }
@@ -9581,51 +9581,51 @@ public final class AllianceFightProtos {
       }
       private int bitField0_;
 
-      // required int64 targetId = 1;
-      private long targetId_ ;
+      // required int32 targetUid = 1;
+      private int targetUid_ ;
       /**
-       * <code>required int64 targetId = 1;</code>
+       * <code>required int32 targetUid = 1;</code>
        *
        * <pre>
-       * 攻击目标的君主id
+       * 攻击目标的uid
        * </pre>
        */
-      public boolean hasTargetId() {
+      public boolean hasTargetUid() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int64 targetId = 1;</code>
+       * <code>required int32 targetUid = 1;</code>
        *
        * <pre>
-       * 攻击目标的君主id
+       * 攻击目标的uid
        * </pre>
        */
-      public long getTargetId() {
-        return targetId_;
+      public int getTargetUid() {
+        return targetUid_;
       }
       /**
-       * <code>required int64 targetId = 1;</code>
+       * <code>required int32 targetUid = 1;</code>
        *
        * <pre>
-       * 攻击目标的君主id
+       * 攻击目标的uid
        * </pre>
        */
-      public Builder setTargetId(long value) {
+      public Builder setTargetUid(int value) {
         bitField0_ |= 0x00000001;
-        targetId_ = value;
+        targetUid_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int64 targetId = 1;</code>
+       * <code>required int32 targetUid = 1;</code>
        *
        * <pre>
-       * 攻击目标的君主id
+       * 攻击目标的uid
        * </pre>
        */
-      public Builder clearTargetId() {
+      public Builder clearTargetUid() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        targetId_ = 0L;
+        targetUid_ = 0;
         onChanged();
         return this;
       }
@@ -9711,41 +9711,41 @@ public final class AllianceFightProtos {
      */
     qxmobile.protobuf.AllianceFightProtos.Result getResult();
 
-    // required int64 attackId = 2;
+    // required int32 attackUid = 2;
     /**
-     * <code>required int64 attackId = 2;</code>
+     * <code>required int32 attackUid = 2;</code>
      *
      * <pre>
-     * 攻击者的君主Id
+     * 攻击者的uid
      * </pre>
      */
-    boolean hasAttackId();
+    boolean hasAttackUid();
     /**
-     * <code>required int64 attackId = 2;</code>
+     * <code>required int32 attackUid = 2;</code>
      *
      * <pre>
-     * 攻击者的君主Id
+     * 攻击者的uid
      * </pre>
      */
-    long getAttackId();
+    int getAttackUid();
 
-    // required int64 targetId = 4;
+    // required int32 targetUid = 4;
     /**
-     * <code>required int64 targetId = 4;</code>
+     * <code>required int32 targetUid = 4;</code>
      *
      * <pre>
-     * 攻击目标对象的君主Id
+     * 攻击目标对象的uid
      * </pre>
      */
-    boolean hasTargetId();
+    boolean hasTargetUid();
     /**
-     * <code>required int64 targetId = 4;</code>
+     * <code>required int32 targetUid = 4;</code>
      *
      * <pre>
-     * 攻击目标对象的君主Id
+     * 攻击目标对象的uid
      * </pre>
      */
-    long getTargetId();
+    int getTargetUid();
 
     // required int32 damage = 5;
     /**
@@ -9869,12 +9869,12 @@ public final class AllianceFightProtos {
             }
             case 16: {
               bitField0_ |= 0x00000002;
-              attackId_ = input.readInt64();
+              attackUid_ = input.readInt32();
               break;
             }
             case 32: {
               bitField0_ |= 0x00000004;
-              targetId_ = input.readInt64();
+              targetUid_ = input.readInt32();
               break;
             }
             case 40: {
@@ -9956,52 +9956,52 @@ public final class AllianceFightProtos {
       return result_;
     }
 
-    // required int64 attackId = 2;
-    public static final int ATTACKID_FIELD_NUMBER = 2;
-    private long attackId_;
+    // required int32 attackUid = 2;
+    public static final int ATTACKUID_FIELD_NUMBER = 2;
+    private int attackUid_;
     /**
-     * <code>required int64 attackId = 2;</code>
+     * <code>required int32 attackUid = 2;</code>
      *
      * <pre>
-     * 攻击者的君主Id
+     * 攻击者的uid
      * </pre>
      */
-    public boolean hasAttackId() {
+    public boolean hasAttackUid() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int64 attackId = 2;</code>
+     * <code>required int32 attackUid = 2;</code>
      *
      * <pre>
-     * 攻击者的君主Id
+     * 攻击者的uid
      * </pre>
      */
-    public long getAttackId() {
-      return attackId_;
+    public int getAttackUid() {
+      return attackUid_;
     }
 
-    // required int64 targetId = 4;
-    public static final int TARGETID_FIELD_NUMBER = 4;
-    private long targetId_;
+    // required int32 targetUid = 4;
+    public static final int TARGETUID_FIELD_NUMBER = 4;
+    private int targetUid_;
     /**
-     * <code>required int64 targetId = 4;</code>
+     * <code>required int32 targetUid = 4;</code>
      *
      * <pre>
-     * 攻击目标对象的君主Id
+     * 攻击目标对象的uid
      * </pre>
      */
-    public boolean hasTargetId() {
+    public boolean hasTargetUid() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required int64 targetId = 4;</code>
+     * <code>required int32 targetUid = 4;</code>
      *
      * <pre>
-     * 攻击目标对象的君主Id
+     * 攻击目标对象的uid
      * </pre>
      */
-    public long getTargetId() {
-      return targetId_;
+    public int getTargetUid() {
+      return targetUid_;
     }
 
     // required int32 damage = 5;
@@ -10078,8 +10078,8 @@ public final class AllianceFightProtos {
 
     private void initFields() {
       result_ = qxmobile.protobuf.AllianceFightProtos.Result.SUCCESS;
-      attackId_ = 0L;
-      targetId_ = 0L;
+      attackUid_ = 0;
+      targetUid_ = 0;
       damage_ = 0;
       remainLife_ = 0;
       skillId_ = 0;
@@ -10093,11 +10093,11 @@ public final class AllianceFightProtos {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasAttackId()) {
+      if (!hasAttackUid()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasTargetId()) {
+      if (!hasTargetUid()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -10124,10 +10124,10 @@ public final class AllianceFightProtos {
         output.writeEnum(1, result_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt64(2, attackId_);
+        output.writeInt32(2, attackUid_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt64(4, targetId_);
+        output.writeInt32(4, targetUid_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(5, damage_);
@@ -10153,11 +10153,11 @@ public final class AllianceFightProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(2, attackId_);
+          .computeInt32Size(2, attackUid_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(4, targetId_);
+          .computeInt32Size(4, targetUid_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
@@ -10293,9 +10293,9 @@ public final class AllianceFightProtos {
         super.clear();
         result_ = qxmobile.protobuf.AllianceFightProtos.Result.SUCCESS;
         bitField0_ = (bitField0_ & ~0x00000001);
-        attackId_ = 0L;
+        attackUid_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        targetId_ = 0L;
+        targetUid_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
         damage_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -10338,11 +10338,11 @@ public final class AllianceFightProtos {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.attackId_ = attackId_;
+        result.attackUid_ = attackUid_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.targetId_ = targetId_;
+        result.targetUid_ = targetUid_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
@@ -10374,11 +10374,11 @@ public final class AllianceFightProtos {
         if (other.hasResult()) {
           setResult(other.getResult());
         }
-        if (other.hasAttackId()) {
-          setAttackId(other.getAttackId());
+        if (other.hasAttackUid()) {
+          setAttackUid(other.getAttackUid());
         }
-        if (other.hasTargetId()) {
-          setTargetId(other.getTargetId());
+        if (other.hasTargetUid()) {
+          setTargetUid(other.getTargetUid());
         }
         if (other.hasDamage()) {
           setDamage(other.getDamage());
@@ -10398,11 +10398,11 @@ public final class AllianceFightProtos {
           
           return false;
         }
-        if (!hasAttackId()) {
+        if (!hasAttackUid()) {
           
           return false;
         }
-        if (!hasTargetId()) {
+        if (!hasTargetUid()) {
           
           return false;
         }
@@ -10492,100 +10492,100 @@ public final class AllianceFightProtos {
         return this;
       }
 
-      // required int64 attackId = 2;
-      private long attackId_ ;
+      // required int32 attackUid = 2;
+      private int attackUid_ ;
       /**
-       * <code>required int64 attackId = 2;</code>
+       * <code>required int32 attackUid = 2;</code>
        *
        * <pre>
-       * 攻击者的君主Id
+       * 攻击者的uid
        * </pre>
        */
-      public boolean hasAttackId() {
+      public boolean hasAttackUid() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int64 attackId = 2;</code>
+       * <code>required int32 attackUid = 2;</code>
        *
        * <pre>
-       * 攻击者的君主Id
+       * 攻击者的uid
        * </pre>
        */
-      public long getAttackId() {
-        return attackId_;
+      public int getAttackUid() {
+        return attackUid_;
       }
       /**
-       * <code>required int64 attackId = 2;</code>
+       * <code>required int32 attackUid = 2;</code>
        *
        * <pre>
-       * 攻击者的君主Id
+       * 攻击者的uid
        * </pre>
        */
-      public Builder setAttackId(long value) {
+      public Builder setAttackUid(int value) {
         bitField0_ |= 0x00000002;
-        attackId_ = value;
+        attackUid_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int64 attackId = 2;</code>
+       * <code>required int32 attackUid = 2;</code>
        *
        * <pre>
-       * 攻击者的君主Id
+       * 攻击者的uid
        * </pre>
        */
-      public Builder clearAttackId() {
+      public Builder clearAttackUid() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        attackId_ = 0L;
+        attackUid_ = 0;
         onChanged();
         return this;
       }
 
-      // required int64 targetId = 4;
-      private long targetId_ ;
+      // required int32 targetUid = 4;
+      private int targetUid_ ;
       /**
-       * <code>required int64 targetId = 4;</code>
+       * <code>required int32 targetUid = 4;</code>
        *
        * <pre>
-       * 攻击目标对象的君主Id
+       * 攻击目标对象的uid
        * </pre>
        */
-      public boolean hasTargetId() {
+      public boolean hasTargetUid() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required int64 targetId = 4;</code>
+       * <code>required int32 targetUid = 4;</code>
        *
        * <pre>
-       * 攻击目标对象的君主Id
+       * 攻击目标对象的uid
        * </pre>
        */
-      public long getTargetId() {
-        return targetId_;
+      public int getTargetUid() {
+        return targetUid_;
       }
       /**
-       * <code>required int64 targetId = 4;</code>
+       * <code>required int32 targetUid = 4;</code>
        *
        * <pre>
-       * 攻击目标对象的君主Id
+       * 攻击目标对象的uid
        * </pre>
        */
-      public Builder setTargetId(long value) {
+      public Builder setTargetUid(int value) {
         bitField0_ |= 0x00000004;
-        targetId_ = value;
+        targetUid_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int64 targetId = 4;</code>
+       * <code>required int32 targetUid = 4;</code>
        *
        * <pre>
-       * 攻击目标对象的君主Id
+       * 攻击目标对象的uid
        * </pre>
        */
-      public Builder clearTargetId() {
+      public Builder clearTargetUid() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        targetId_ = 0L;
+        targetUid_ = 0;
         onChanged();
         return this;
       }
@@ -10751,23 +10751,23 @@ public final class AllianceFightProtos {
   public interface PlayerDeadNotifyOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int64 junzhuId = 1;
+    // required int32 uid = 1;
     /**
-     * <code>required int64 junzhuId = 1;</code>
+     * <code>required int32 uid = 1;</code>
      *
      * <pre>
-     * 死亡的君主id 
+     * 死亡的uid 
      * </pre>
      */
-    boolean hasJunzhuId();
+    boolean hasUid();
     /**
-     * <code>required int64 junzhuId = 1;</code>
+     * <code>required int32 uid = 1;</code>
      *
      * <pre>
-     * 死亡的君主id 
+     * 死亡的uid 
      * </pre>
      */
-    long getJunzhuId();
+    int getUid();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.PlayerDeadNotify}
@@ -10822,7 +10822,7 @@ public final class AllianceFightProtos {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              junzhuId_ = input.readInt64();
+              uid_ = input.readInt32();
               break;
             }
           }
@@ -10865,39 +10865,39 @@ public final class AllianceFightProtos {
     }
 
     private int bitField0_;
-    // required int64 junzhuId = 1;
-    public static final int JUNZHUID_FIELD_NUMBER = 1;
-    private long junzhuId_;
+    // required int32 uid = 1;
+    public static final int UID_FIELD_NUMBER = 1;
+    private int uid_;
     /**
-     * <code>required int64 junzhuId = 1;</code>
+     * <code>required int32 uid = 1;</code>
      *
      * <pre>
-     * 死亡的君主id 
+     * 死亡的uid 
      * </pre>
      */
-    public boolean hasJunzhuId() {
+    public boolean hasUid() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int64 junzhuId = 1;</code>
+     * <code>required int32 uid = 1;</code>
      *
      * <pre>
-     * 死亡的君主id 
+     * 死亡的uid 
      * </pre>
      */
-    public long getJunzhuId() {
-      return junzhuId_;
+    public int getUid() {
+      return uid_;
     }
 
     private void initFields() {
-      junzhuId_ = 0L;
+      uid_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasJunzhuId()) {
+      if (!hasUid()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -10909,7 +10909,7 @@ public final class AllianceFightProtos {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt64(1, junzhuId_);
+        output.writeInt32(1, uid_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -10922,7 +10922,7 @@ public final class AllianceFightProtos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(1, junzhuId_);
+          .computeInt32Size(1, uid_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -11040,7 +11040,7 @@ public final class AllianceFightProtos {
 
       public Builder clear() {
         super.clear();
-        junzhuId_ = 0L;
+        uid_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
@@ -11073,7 +11073,7 @@ public final class AllianceFightProtos {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.junzhuId_ = junzhuId_;
+        result.uid_ = uid_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -11090,15 +11090,15 @@ public final class AllianceFightProtos {
 
       public Builder mergeFrom(qxmobile.protobuf.AllianceFightProtos.PlayerDeadNotify other) {
         if (other == qxmobile.protobuf.AllianceFightProtos.PlayerDeadNotify.getDefaultInstance()) return this;
-        if (other.hasJunzhuId()) {
-          setJunzhuId(other.getJunzhuId());
+        if (other.hasUid()) {
+          setUid(other.getUid());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasJunzhuId()) {
+        if (!hasUid()) {
           
           return false;
         }
@@ -11124,51 +11124,51 @@ public final class AllianceFightProtos {
       }
       private int bitField0_;
 
-      // required int64 junzhuId = 1;
-      private long junzhuId_ ;
+      // required int32 uid = 1;
+      private int uid_ ;
       /**
-       * <code>required int64 junzhuId = 1;</code>
+       * <code>required int32 uid = 1;</code>
        *
        * <pre>
-       * 死亡的君主id 
+       * 死亡的uid 
        * </pre>
        */
-      public boolean hasJunzhuId() {
+      public boolean hasUid() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int64 junzhuId = 1;</code>
+       * <code>required int32 uid = 1;</code>
        *
        * <pre>
-       * 死亡的君主id 
+       * 死亡的uid 
        * </pre>
        */
-      public long getJunzhuId() {
-        return junzhuId_;
+      public int getUid() {
+        return uid_;
       }
       /**
-       * <code>required int64 junzhuId = 1;</code>
+       * <code>required int32 uid = 1;</code>
        *
        * <pre>
-       * 死亡的君主id 
+       * 死亡的uid 
        * </pre>
        */
-      public Builder setJunzhuId(long value) {
+      public Builder setUid(int value) {
         bitField0_ |= 0x00000001;
-        junzhuId_ = value;
+        uid_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int64 junzhuId = 1;</code>
+       * <code>required int32 uid = 1;</code>
        *
        * <pre>
-       * 死亡的君主id 
+       * 死亡的uid 
        * </pre>
        */
-      public Builder clearJunzhuId() {
+      public Builder clearUid() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        junzhuId_ = 0L;
+        uid_ = 0;
         onChanged();
         return this;
       }
@@ -11187,23 +11187,23 @@ public final class AllianceFightProtos {
   public interface PlayerReviveNotifyOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int64 junzhuId = 1;
+    // required int32 uid = 1;
     /**
-     * <code>required int64 junzhuId = 1;</code>
+     * <code>required int32 uid = 1;</code>
      *
      * <pre>
-     * 复活的君主id 
+     * 复活的uid 
      * </pre>
      */
-    boolean hasJunzhuId();
+    boolean hasUid();
     /**
-     * <code>required int64 junzhuId = 1;</code>
+     * <code>required int32 uid = 1;</code>
      *
      * <pre>
-     * 复活的君主id 
+     * 复活的uid 
      * </pre>
      */
-    long getJunzhuId();
+    int getUid();
 
     // required int32 posX = 2;
     /**
@@ -11294,7 +11294,7 @@ public final class AllianceFightProtos {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              junzhuId_ = input.readInt64();
+              uid_ = input.readInt32();
               break;
             }
             case 16: {
@@ -11347,28 +11347,28 @@ public final class AllianceFightProtos {
     }
 
     private int bitField0_;
-    // required int64 junzhuId = 1;
-    public static final int JUNZHUID_FIELD_NUMBER = 1;
-    private long junzhuId_;
+    // required int32 uid = 1;
+    public static final int UID_FIELD_NUMBER = 1;
+    private int uid_;
     /**
-     * <code>required int64 junzhuId = 1;</code>
+     * <code>required int32 uid = 1;</code>
      *
      * <pre>
-     * 复活的君主id 
+     * 复活的uid 
      * </pre>
      */
-    public boolean hasJunzhuId() {
+    public boolean hasUid() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int64 junzhuId = 1;</code>
+     * <code>required int32 uid = 1;</code>
      *
      * <pre>
-     * 复活的君主id 
+     * 复活的uid 
      * </pre>
      */
-    public long getJunzhuId() {
-      return junzhuId_;
+    public int getUid() {
+      return uid_;
     }
 
     // required int32 posX = 2;
@@ -11420,7 +11420,7 @@ public final class AllianceFightProtos {
     }
 
     private void initFields() {
-      junzhuId_ = 0L;
+      uid_ = 0;
       posX_ = 0;
       posZ_ = 0;
     }
@@ -11429,7 +11429,7 @@ public final class AllianceFightProtos {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasJunzhuId()) {
+      if (!hasUid()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -11449,7 +11449,7 @@ public final class AllianceFightProtos {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt64(1, junzhuId_);
+        output.writeInt32(1, uid_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(2, posX_);
@@ -11468,7 +11468,7 @@ public final class AllianceFightProtos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(1, junzhuId_);
+          .computeInt32Size(1, uid_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
@@ -11594,7 +11594,7 @@ public final class AllianceFightProtos {
 
       public Builder clear() {
         super.clear();
-        junzhuId_ = 0L;
+        uid_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         posX_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -11631,7 +11631,7 @@ public final class AllianceFightProtos {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.junzhuId_ = junzhuId_;
+        result.uid_ = uid_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
@@ -11656,8 +11656,8 @@ public final class AllianceFightProtos {
 
       public Builder mergeFrom(qxmobile.protobuf.AllianceFightProtos.PlayerReviveNotify other) {
         if (other == qxmobile.protobuf.AllianceFightProtos.PlayerReviveNotify.getDefaultInstance()) return this;
-        if (other.hasJunzhuId()) {
-          setJunzhuId(other.getJunzhuId());
+        if (other.hasUid()) {
+          setUid(other.getUid());
         }
         if (other.hasPosX()) {
           setPosX(other.getPosX());
@@ -11670,7 +11670,7 @@ public final class AllianceFightProtos {
       }
 
       public final boolean isInitialized() {
-        if (!hasJunzhuId()) {
+        if (!hasUid()) {
           
           return false;
         }
@@ -11704,51 +11704,51 @@ public final class AllianceFightProtos {
       }
       private int bitField0_;
 
-      // required int64 junzhuId = 1;
-      private long junzhuId_ ;
+      // required int32 uid = 1;
+      private int uid_ ;
       /**
-       * <code>required int64 junzhuId = 1;</code>
+       * <code>required int32 uid = 1;</code>
        *
        * <pre>
-       * 复活的君主id 
+       * 复活的uid 
        * </pre>
        */
-      public boolean hasJunzhuId() {
+      public boolean hasUid() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int64 junzhuId = 1;</code>
+       * <code>required int32 uid = 1;</code>
        *
        * <pre>
-       * 复活的君主id 
+       * 复活的uid 
        * </pre>
        */
-      public long getJunzhuId() {
-        return junzhuId_;
+      public int getUid() {
+        return uid_;
       }
       /**
-       * <code>required int64 junzhuId = 1;</code>
+       * <code>required int32 uid = 1;</code>
        *
        * <pre>
-       * 复活的君主id 
+       * 复活的uid 
        * </pre>
        */
-      public Builder setJunzhuId(long value) {
+      public Builder setUid(int value) {
         bitField0_ |= 0x00000001;
-        junzhuId_ = value;
+        uid_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int64 junzhuId = 1;</code>
+       * <code>required int32 uid = 1;</code>
        *
        * <pre>
-       * 复活的君主id 
+       * 复活的uid 
        * </pre>
        */
-      public Builder clearJunzhuId() {
+      public Builder clearUid() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        junzhuId_ = 0L;
+        uid_ = 0;
         onChanged();
         return this;
       }
@@ -15263,9 +15263,9 @@ public final class AllianceFightProtos {
      */
     int getBufferId();
 
-    // required int64 targetId = 2;
+    // required int32 targetId = 2;
     /**
-     * <code>required int64 targetId = 2;</code>
+     * <code>required int32 targetId = 2;</code>
      *
      * <pre>
      * 作用的目标Id
@@ -15273,13 +15273,13 @@ public final class AllianceFightProtos {
      */
     boolean hasTargetId();
     /**
-     * <code>required int64 targetId = 2;</code>
+     * <code>required int32 targetId = 2;</code>
      *
      * <pre>
      * 作用的目标Id
      * </pre>
      */
-    long getTargetId();
+    int getTargetId();
 
     // required int32 value = 3;
     /**
@@ -15379,7 +15379,7 @@ public final class AllianceFightProtos {
             }
             case 16: {
               bitField0_ |= 0x00000002;
-              targetId_ = input.readInt64();
+              targetId_ = input.readInt32();
               break;
             }
             case 24: {
@@ -15456,11 +15456,11 @@ public final class AllianceFightProtos {
       return bufferId_;
     }
 
-    // required int64 targetId = 2;
+    // required int32 targetId = 2;
     public static final int TARGETID_FIELD_NUMBER = 2;
-    private long targetId_;
+    private int targetId_;
     /**
-     * <code>required int64 targetId = 2;</code>
+     * <code>required int32 targetId = 2;</code>
      *
      * <pre>
      * 作用的目标Id
@@ -15470,13 +15470,13 @@ public final class AllianceFightProtos {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int64 targetId = 2;</code>
+     * <code>required int32 targetId = 2;</code>
      *
      * <pre>
      * 作用的目标Id
      * </pre>
      */
-    public long getTargetId() {
+    public int getTargetId() {
       return targetId_;
     }
 
@@ -15530,7 +15530,7 @@ public final class AllianceFightProtos {
 
     private void initFields() {
       bufferId_ = 0;
-      targetId_ = 0L;
+      targetId_ = 0;
       value_ = 0;
       remainLife_ = 0;
     }
@@ -15566,7 +15566,7 @@ public final class AllianceFightProtos {
         output.writeInt32(1, bufferId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt64(2, targetId_);
+        output.writeInt32(2, targetId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(3, value_);
@@ -15589,7 +15589,7 @@ public final class AllianceFightProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(2, targetId_);
+          .computeInt32Size(2, targetId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
@@ -15721,7 +15721,7 @@ public final class AllianceFightProtos {
         super.clear();
         bufferId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        targetId_ = 0L;
+        targetId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
         value_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -15891,10 +15891,10 @@ public final class AllianceFightProtos {
         return this;
       }
 
-      // required int64 targetId = 2;
-      private long targetId_ ;
+      // required int32 targetId = 2;
+      private int targetId_ ;
       /**
-       * <code>required int64 targetId = 2;</code>
+       * <code>required int32 targetId = 2;</code>
        *
        * <pre>
        * 作用的目标Id
@@ -15904,30 +15904,30 @@ public final class AllianceFightProtos {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int64 targetId = 2;</code>
+       * <code>required int32 targetId = 2;</code>
        *
        * <pre>
        * 作用的目标Id
        * </pre>
        */
-      public long getTargetId() {
+      public int getTargetId() {
         return targetId_;
       }
       /**
-       * <code>required int64 targetId = 2;</code>
+       * <code>required int32 targetId = 2;</code>
        *
        * <pre>
        * 作用的目标Id
        * </pre>
        */
-      public Builder setTargetId(long value) {
+      public Builder setTargetId(int value) {
         bitField0_ |= 0x00000002;
         targetId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int64 targetId = 2;</code>
+       * <code>required int32 targetId = 2;</code>
        *
        * <pre>
        * 作用的目标Id
@@ -15935,7 +15935,7 @@ public final class AllianceFightProtos {
        */
       public Builder clearTargetId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        targetId_ = 0L;
+        targetId_ = 0;
         onChanged();
         return this;
       }
@@ -16164,29 +16164,29 @@ public final class AllianceFightProtos {
       "lue\030\004 \002(\005\022\024\n\014curHoldValue\030\005 \002(\005\"v\n\nBattl" +
       "eData\022\022\n\nallianceId\030\001 \002(\005\022\024\n\014allianceNam" +
       "e\030\006 \002(\t\022\014\n\004team\030\002 \002(\005\022\r\n\005score\030\003 \002(\005\022\020\n\010" +
-      "scoreMax\030\004 \002(\005\022\017\n\007holdNum\030\005 \002(\005\"3\n\016Fight" +
-      "AttackReq\022\020\n\010targetId\030\001 \002(\003\022\017\n\007skillId\030\002" +
-      " \002(\005\"\225\001\n\017FightAttackResp\022)\n\006result\030\001 \002(\016" +
-      "2\031.qxmobile.protobuf.Result\022\020\n\010attackId\030",
-      "\002 \002(\003\022\020\n\010targetId\030\004 \002(\003\022\016\n\006damage\030\005 \002(\005\022" +
-      "\022\n\nremainLife\030\006 \002(\005\022\017\n\007skillId\030\007 \002(\005\"$\n\020" +
-      "PlayerDeadNotify\022\020\n\010junzhuId\030\001 \002(\003\"B\n\022Pl" +
-      "ayerReviveNotify\022\020\n\010junzhuId\030\001 \002(\003\022\014\n\004po" +
-      "sX\030\002 \002(\005\022\014\n\004posZ\030\003 \002(\005\"M\n\020FightHistoryRe" +
-      "sp\0229\n\014historyInfos\030\001 \003(\0132#.qxmobile.prot" +
-      "obuf.FightHistoryInfo\"r\n\020FightHistoryInf" +
-      "o\022\r\n\005times\030\001 \002(\005\022\r\n\005lm1Id\030\002 \002(\005\022\017\n\007lm1Na" +
-      "me\030\003 \002(\t\022\r\n\005lm2Id\030\004 \002(\005\022\017\n\007lm2Name\030\005 \002(\t" +
-      "\022\017\n\007winLmId\030\006 \002(\005\"L\n\025FightLasttimeRankRe",
-      "sp\0223\n\trankInfos\030\001 \003(\0132 .qxmobile.protobu" +
-      "f.FightRankInfo\";\n\rFightRankInfo\022\014\n\004lmId" +
-      "\030\001 \002(\005\022\016\n\006lmName\030\002 \002(\t\022\014\n\004rank\030\003 \002(\005\"S\n\n" +
-      "BufferInfo\022\020\n\010bufferId\030\001 \002(\005\022\020\n\010targetId" +
-      "\030\002 \002(\003\022\r\n\005value\030\003 \002(\005\022\022\n\nremainLife\030\004 \002(" +
-      "\005*o\n\006Result\022\013\n\007SUCCESS\020\000\022\030\n\024SKILL_DISTAN" +
-      "CE_ERROR\020\001\022\023\n\017SKILL_COOL_TIME\020\002\022\023\n\017SKILL" +
-      "_NOT_EXIST\020\003\022\024\n\020TARGET_NOT_EXIST\020\004B\025B\023Al" +
-      "lianceFightProtos"
+      "scoreMax\030\004 \002(\005\022\017\n\007holdNum\030\005 \002(\005\"4\n\016Fight" +
+      "AttackReq\022\021\n\ttargetUid\030\001 \002(\005\022\017\n\007skillId\030" +
+      "\002 \002(\005\"\227\001\n\017FightAttackResp\022)\n\006result\030\001 \002(" +
+      "\0162\031.qxmobile.protobuf.Result\022\021\n\tattackUi",
+      "d\030\002 \002(\005\022\021\n\ttargetUid\030\004 \002(\005\022\016\n\006damage\030\005 \002" +
+      "(\005\022\022\n\nremainLife\030\006 \002(\005\022\017\n\007skillId\030\007 \002(\005\"" +
+      "\037\n\020PlayerDeadNotify\022\013\n\003uid\030\001 \002(\005\"=\n\022Play" +
+      "erReviveNotify\022\013\n\003uid\030\001 \002(\005\022\014\n\004posX\030\002 \002(" +
+      "\005\022\014\n\004posZ\030\003 \002(\005\"M\n\020FightHistoryResp\0229\n\014h" +
+      "istoryInfos\030\001 \003(\0132#.qxmobile.protobuf.Fi" +
+      "ghtHistoryInfo\"r\n\020FightHistoryInfo\022\r\n\005ti" +
+      "mes\030\001 \002(\005\022\r\n\005lm1Id\030\002 \002(\005\022\017\n\007lm1Name\030\003 \002(" +
+      "\t\022\r\n\005lm2Id\030\004 \002(\005\022\017\n\007lm2Name\030\005 \002(\t\022\017\n\007win" +
+      "LmId\030\006 \002(\005\"L\n\025FightLasttimeRankResp\0223\n\tr",
+      "ankInfos\030\001 \003(\0132 .qxmobile.protobuf.Fight" +
+      "RankInfo\";\n\rFightRankInfo\022\014\n\004lmId\030\001 \002(\005\022" +
+      "\016\n\006lmName\030\002 \002(\t\022\014\n\004rank\030\003 \002(\005\"S\n\nBufferI" +
+      "nfo\022\020\n\010bufferId\030\001 \002(\005\022\020\n\010targetId\030\002 \002(\005\022" +
+      "\r\n\005value\030\003 \002(\005\022\022\n\nremainLife\030\004 \002(\005*o\n\006Re" +
+      "sult\022\013\n\007SUCCESS\020\000\022\030\n\024SKILL_DISTANCE_ERRO" +
+      "R\020\001\022\023\n\017SKILL_COOL_TIME\020\002\022\023\n\017SKILL_NOT_EX" +
+      "IST\020\003\022\024\n\020TARGET_NOT_EXIST\020\004B\025B\023AllianceF" +
+      "ightProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -16240,25 +16240,25 @@ public final class AllianceFightProtos {
           internal_static_qxmobile_protobuf_FightAttackReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_FightAttackReq_descriptor,
-              new java.lang.String[] { "TargetId", "SkillId", });
+              new java.lang.String[] { "TargetUid", "SkillId", });
           internal_static_qxmobile_protobuf_FightAttackResp_descriptor =
             getDescriptor().getMessageTypes().get(8);
           internal_static_qxmobile_protobuf_FightAttackResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_FightAttackResp_descriptor,
-              new java.lang.String[] { "Result", "AttackId", "TargetId", "Damage", "RemainLife", "SkillId", });
+              new java.lang.String[] { "Result", "AttackUid", "TargetUid", "Damage", "RemainLife", "SkillId", });
           internal_static_qxmobile_protobuf_PlayerDeadNotify_descriptor =
             getDescriptor().getMessageTypes().get(9);
           internal_static_qxmobile_protobuf_PlayerDeadNotify_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_PlayerDeadNotify_descriptor,
-              new java.lang.String[] { "JunzhuId", });
+              new java.lang.String[] { "Uid", });
           internal_static_qxmobile_protobuf_PlayerReviveNotify_descriptor =
             getDescriptor().getMessageTypes().get(10);
           internal_static_qxmobile_protobuf_PlayerReviveNotify_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_PlayerReviveNotify_descriptor,
-              new java.lang.String[] { "JunzhuId", "PosX", "PosZ", });
+              new java.lang.String[] { "Uid", "PosX", "PosZ", });
           internal_static_qxmobile_protobuf_FightHistoryResp_descriptor =
             getDescriptor().getMessageTypes().get(11);
           internal_static_qxmobile_protobuf_FightHistoryResp_fieldAccessorTable = new

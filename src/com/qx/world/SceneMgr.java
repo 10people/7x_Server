@@ -328,7 +328,7 @@ public class SceneMgr extends EventProc{
 			
 			if(scene.name.contains("Fight")) {
 				ExitFightScene.Builder exitFight = ExitFightScene.newBuilder();
-				exitFight.setJunzhuId(junZhuId);
+				exitFight.setUid(uid);
 				logger.info("君主:{},Uid:{})从战斗场景:{}中退出", junZhuId, uid, scene.name);
 				scene.exec(PD.EXIT_FIGHT_SCENE, session, exitFight);
 				return;

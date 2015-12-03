@@ -34,11 +34,15 @@
 	<file name="data/RenWu.xml" />	
 	<file name="data/ZhuceRenwu.xml" />	
 	<file name="data/CanShu.xml" />	
+	<file name="data/YunbiaoTemp.xml" />	
+	<file name="data/CartNPCTemp.xml" />	
+	<file name="data/YunBiaoSafe.xml" />	
 	<file name="data/LianmengMobai.xml" />	
 	<file name="data/LianmengEvent.xml" />	
 	<file name="data/FunctionOpen.xml" />	
 	<file name="data/QianDao.xml" />	
 	<file name="data/QianDaoDesc.xml" />	
+	<file name="data/QianDaoMonth.xml" />	
 	<file name="data/HuoDong.xml" />	
 <!-- ===============下面的是老版本的数据 2014年4月9日10:50:52 Tigo==================================== -->
 <!-- 	<file name="data/BuildingTemplate.xml" /> -->
@@ -112,4 +116,7 @@
 	<file name="data/Buff.xml"/>
 	<file name="data/Action.xml"/>
 	<file name="data/Skill.xml"/>
+	
+	<file name="data/JiNengPeiYang.xml"/>
+	
 </config>

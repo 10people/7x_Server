@@ -14,8 +14,8 @@ import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.ExpTemp;
 import com.manu.dynasty.template.ItemTemp;
 import com.manu.dynasty.template.QiangHua;
+import com.manu.dynasty.template.YunbiaoTemp;
 import com.manu.dynasty.template.ZhuangBei;
-import com.manu.network.BigSwitch;
 import com.qx.award.AwardMgr;
 
 /**
@@ -143,6 +143,56 @@ public class TempletService {
 		buildItemMap();
 		HeroService.initNameMap();
 		loadCanShu();
+		loadYunbiaoTemp();
+	}
+	//加载押镖配置
+	public void loadYunbiaoTemp() {
+		List<YunbiaoTemp> list = listAll(YunbiaoTemp.class.getSimpleName());
+		Map<String, YunbiaoTemp> map = new HashMap<String, YunbiaoTemp>();
+		for(YunbiaoTemp yb: list){
+			map.put(yb.getKey(), yb);
+		}
+
+//		YunbiaoTemp.centerX=Integer.parseInt(map.get("centerX").value);
+//		YunbiaoTemp.centerY=Integer.parseInt(map.get("centerY").value);
+//		YunbiaoTemp.saveArea1X=Integer.parseInt(map.get("saveArea1X").value);
+//		YunbiaoTemp.saveArea1Z=Integer.parseInt(map.get("saveArea1Z").value);
+//		YunbiaoTemp.saveArea1r=Integer.parseInt(map.get("saveArea1r").value);
+//		YunbiaoTemp.saveArea2X=Integer.parseInt(map.get("saveArea2X").value);
+//		YunbiaoTemp.saveArea2Z=Integer.parseInt(map.get("saveArea2Z").value);
+//		YunbiaoTemp.saveArea2r=Integer.parseInt(map.get("saveArea2r").value);
+//		YunbiaoTemp.saveArea3X=Integer.parseInt(map.get("saveArea3X").value);
+//		YunbiaoTemp.saveArea3Z=Integer.parseInt(map.get("saveArea3Z").value);
+//		YunbiaoTemp.saveArea3r=Integer.parseInt(map.get("saveArea3r").value);
+//		YunbiaoTemp.saveArea4X=Integer.parseInt(map.get("saveArea4X").value);
+//		YunbiaoTemp.saveArea4Z=Integer.parseInt(map.get("saveArea4Z").value);
+//		YunbiaoTemp.saveArea4r=Integer.parseInt(map.get("saveArea4r").value);
+		YunbiaoTemp.saveArea_recoveryPro=Integer.parseInt(map.get("saveArea_recoveryPro").value);
+		YunbiaoTemp.saveArea_people_max=Integer.parseInt(map.get("saveArea_people_max").value);
+		YunbiaoTemp.bloodVial_recoveryPro=Integer.parseInt(map.get("bloodVial_recoveryPro").value);
+		YunbiaoTemp.bloodVialCD=Integer.parseInt(map.get("bloodVialCD").value);
+		YunbiaoTemp.bloodVial_freeTimes=Integer.parseInt(map.get("bloodVial_freeTimes").value);
+		YunbiaoTemp.resurgenceTimes=Integer.parseInt(map.get("resurgenceTimes").value);
+		YunbiaoTemp.incomeAddPro=Integer.parseInt(map.get("incomeAddPro").value);
+		YunbiaoTemp.incomeAdd_startTime1=map.get("incomeAdd_startTime1").value;
+		YunbiaoTemp.incomeAdd_endTime1=map.get("incomeAdd_endTime1").value;
+		YunbiaoTemp.incomeAdd_startTime2=map.get("incomeAdd_startTime2").value;
+		YunbiaoTemp.incomeAdd_endTime2=map.get("incomeAdd_endTime2").value;
+		YunbiaoTemp.income_lossless_price=Integer.parseInt(map.get("income_lossless_price").value);
+		YunbiaoTemp.protectDuration=Integer.parseInt(map.get("protectDuration").value);
+		YunbiaoTemp.protectionCD=Integer.parseInt(map.get("protectionCD").value);
+		YunbiaoTemp.speedUpDuration=Integer.parseInt(map.get("speedUpDuration").value);
+		YunbiaoTemp.speedUpEffect=Integer.parseInt(map.get("speedUpEffect").value);
+		YunbiaoTemp.speedUpCD=Integer.parseInt(map.get("speedUpCD").value);
+		YunbiaoTemp.speedUpPrice=Integer.parseInt(map.get("speedUpPrice").value);
+		YunbiaoTemp.cart_attribute_pro=Integer.parseInt(map.get("cart_attribute_pro").value);
+		YunbiaoTemp.foeCart_incomeAdd_pro=Integer.parseInt(map.get("foeCart_incomeAdd_pro").value);
+		YunbiaoTemp.killFoeAward=map.get("killFoeAward").value;
+		YunbiaoTemp.rewarding_killFoe_max=Integer.parseInt(map.get("rewarding_killFoe_max").value);
+		YunbiaoTemp.cartAI_refresh_interval=Integer.parseInt(map.get("cartAI_refresh_interval").value);
+		YunbiaoTemp.cartAImax=Integer.parseInt(map.get("cartAImax").value);
+		YunbiaoTemp.cartAILvlMin=Integer.parseInt(map.get("cartAILvlMin").value);
+		YunbiaoTemp.cartAILvlMax=Integer.parseInt(map.get("cartAILvlMax").value);
 	}
 
 	public void loadCanShu() {

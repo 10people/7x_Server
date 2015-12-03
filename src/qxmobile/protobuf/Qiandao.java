@@ -91,6 +91,51 @@ public final class Qiandao {
      * </pre>
      */
     int getCurDate();
+
+    // required int32 icon = 4;
+    /**
+     * <code>required int32 icon = 4;</code>
+     *
+     * <pre>
+     *密保icon
+     * </pre>
+     */
+    boolean hasIcon();
+    /**
+     * <code>required int32 icon = 4;</code>
+     *
+     * <pre>
+     *密保icon
+     * </pre>
+     */
+    int getIcon();
+
+    // required string desc = 5;
+    /**
+     * <code>required string desc = 5;</code>
+     *
+     * <pre>
+     *密保描述
+     * </pre>
+     */
+    boolean hasDesc();
+    /**
+     * <code>required string desc = 5;</code>
+     *
+     * <pre>
+     *密保描述
+     * </pre>
+     */
+    java.lang.String getDesc();
+    /**
+     * <code>required string desc = 5;</code>
+     *
+     * <pre>
+     *密保描述
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getDescBytes();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.GetQiandaoResp}
@@ -163,6 +208,16 @@ public final class Qiandao {
             case 24: {
               bitField0_ |= 0x00000002;
               curDate_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000004;
+              icon_ = input.readInt32();
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000008;
+              desc_ = input.readBytes();
               break;
             }
           }
@@ -312,10 +367,91 @@ public final class Qiandao {
       return curDate_;
     }
 
+    // required int32 icon = 4;
+    public static final int ICON_FIELD_NUMBER = 4;
+    private int icon_;
+    /**
+     * <code>required int32 icon = 4;</code>
+     *
+     * <pre>
+     *密保icon
+     * </pre>
+     */
+    public boolean hasIcon() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 icon = 4;</code>
+     *
+     * <pre>
+     *密保icon
+     * </pre>
+     */
+    public int getIcon() {
+      return icon_;
+    }
+
+    // required string desc = 5;
+    public static final int DESC_FIELD_NUMBER = 5;
+    private java.lang.Object desc_;
+    /**
+     * <code>required string desc = 5;</code>
+     *
+     * <pre>
+     *密保描述
+     * </pre>
+     */
+    public boolean hasDesc() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required string desc = 5;</code>
+     *
+     * <pre>
+     *密保描述
+     * </pre>
+     */
+    public java.lang.String getDesc() {
+      java.lang.Object ref = desc_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          desc_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string desc = 5;</code>
+     *
+     * <pre>
+     *密保描述
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getDescBytes() {
+      java.lang.Object ref = desc_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        desc_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       award_ = java.util.Collections.emptyList();
       cnt_ = 0;
       curDate_ = 0;
+      icon_ = 0;
+      desc_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -327,6 +463,14 @@ public final class Qiandao {
         return false;
       }
       if (!hasCurDate()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIcon()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasDesc()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -352,6 +496,12 @@ public final class Qiandao {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(3, curDate_);
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(4, icon_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(5, getDescBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -372,6 +522,14 @@ public final class Qiandao {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, curDate_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, icon_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getDescBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -504,6 +662,10 @@ public final class Qiandao {
         bitField0_ = (bitField0_ & ~0x00000002);
         curDate_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
+        icon_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        desc_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -549,6 +711,14 @@ public final class Qiandao {
           to_bitField0_ |= 0x00000002;
         }
         result.curDate_ = curDate_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.icon_ = icon_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.desc_ = desc_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -597,6 +767,14 @@ public final class Qiandao {
         if (other.hasCurDate()) {
           setCurDate(other.getCurDate());
         }
+        if (other.hasIcon()) {
+          setIcon(other.getIcon());
+        }
+        if (other.hasDesc()) {
+          bitField0_ |= 0x00000010;
+          desc_ = other.desc_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -607,6 +785,14 @@ public final class Qiandao {
           return false;
         }
         if (!hasCurDate()) {
+          
+          return false;
+        }
+        if (!hasIcon()) {
+          
+          return false;
+        }
+        if (!hasDesc()) {
           
           return false;
         }
@@ -1048,6 +1234,153 @@ public final class Qiandao {
         return this;
       }
 
+      // required int32 icon = 4;
+      private int icon_ ;
+      /**
+       * <code>required int32 icon = 4;</code>
+       *
+       * <pre>
+       *密保icon
+       * </pre>
+       */
+      public boolean hasIcon() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 icon = 4;</code>
+       *
+       * <pre>
+       *密保icon
+       * </pre>
+       */
+      public int getIcon() {
+        return icon_;
+      }
+      /**
+       * <code>required int32 icon = 4;</code>
+       *
+       * <pre>
+       *密保icon
+       * </pre>
+       */
+      public Builder setIcon(int value) {
+        bitField0_ |= 0x00000008;
+        icon_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 icon = 4;</code>
+       *
+       * <pre>
+       *密保icon
+       * </pre>
+       */
+      public Builder clearIcon() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        icon_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string desc = 5;
+      private java.lang.Object desc_ = "";
+      /**
+       * <code>required string desc = 5;</code>
+       *
+       * <pre>
+       *密保描述
+       * </pre>
+       */
+      public boolean hasDesc() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required string desc = 5;</code>
+       *
+       * <pre>
+       *密保描述
+       * </pre>
+       */
+      public java.lang.String getDesc() {
+        java.lang.Object ref = desc_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          desc_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string desc = 5;</code>
+       *
+       * <pre>
+       *密保描述
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getDescBytes() {
+        java.lang.Object ref = desc_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          desc_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string desc = 5;</code>
+       *
+       * <pre>
+       *密保描述
+       * </pre>
+       */
+      public Builder setDesc(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        desc_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string desc = 5;</code>
+       *
+       * <pre>
+       *密保描述
+       * </pre>
+       */
+      public Builder clearDesc() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        desc_ = getDefaultInstance().getDesc();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string desc = 5;</code>
+       *
+       * <pre>
+       *密保描述
+       * </pre>
+       */
+      public Builder setDescBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        desc_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.GetQiandaoResp)
     }
 
@@ -1067,7 +1400,7 @@ public final class Qiandao {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 返回结果0-成功，101-已经签过
+     * 返回结果0-成功，101-已经签过，102-奖励不存在
      * </pre>
      */
     boolean hasResult();
@@ -1075,7 +1408,7 @@ public final class Qiandao {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 返回结果0-成功，101-已经签过
+     * 返回结果0-成功，101-已经签过，102-奖励不存在
      * </pre>
      */
     int getResult();
@@ -1266,7 +1599,7 @@ public final class Qiandao {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 返回结果0-成功，101-已经签过
+     * 返回结果0-成功，101-已经签过，102-奖励不存在
      * </pre>
      */
     public boolean hasResult() {
@@ -1276,7 +1609,7 @@ public final class Qiandao {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 返回结果0-成功，101-已经签过
+     * 返回结果0-成功，101-已经签过，102-奖励不存在
      * </pre>
      */
     public int getResult() {
@@ -1695,7 +2028,7 @@ public final class Qiandao {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 返回结果0-成功，101-已经签过
+       * 返回结果0-成功，101-已经签过，102-奖励不存在
        * </pre>
        */
       public boolean hasResult() {
@@ -1705,7 +2038,7 @@ public final class Qiandao {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 返回结果0-成功，101-已经签过
+       * 返回结果0-成功，101-已经签过，102-奖励不存在
        * </pre>
        */
       public int getResult() {
@@ -1715,7 +2048,7 @@ public final class Qiandao {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 返回结果0-成功，101-已经签过
+       * 返回结果0-成功，101-已经签过，102-奖励不存在
        * </pre>
        */
       public Builder setResult(int value) {
@@ -1728,7 +2061,7 @@ public final class Qiandao {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 返回结果0-成功，101-已经签过
+       * 返回结果0-成功，101-已经签过，102-奖励不存在
        * </pre>
        */
       public Builder clearResult() {
@@ -3385,16 +3718,17 @@ public final class Qiandao {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rQiandao.proto\022\021qxmobile.protobuf\"^\n\016Ge" +
+      "\n\rQiandao.proto\022\021qxmobile.protobuf\"z\n\016Ge" +
       "tQiandaoResp\022.\n\005award\030\001 \003(\0132\037.qxmobile.p" +
       "rotobuf.QiandaoAward\022\013\n\003cnt\030\002 \002(\005\022\017\n\007cur" +
-      "Date\030\003 \002(\005\"_\n\013QiandaoResp\022\016\n\006result\030\001 \002(" +
-      "\005\022\020\n\010vipCount\030\002 \002(\005\022.\n\005award\030\003 \003(\0132\037.qxm" +
-      "obile.protobuf.QiandaoAward\"\216\001\n\014QiandaoA" +
-      "ward\022\n\n\002id\030\001 \002(\005\022\r\n\005month\030\002 \002(\005\022\013\n\003day\030\003" +
-      " \002(\005\022\r\n\005state\030\004 \001(\005\022\021\n\tawardType\030\005 \001(\005\022\017" +
-      "\n\007awardId\030\006 \001(\005\022\020\n\010awardNum\030\007 \001(\005\022\021\n\tvip" +
-      "Double\030\010 \001(\005B\tB\007Qiandao"
+      "Date\030\003 \002(\005\022\014\n\004icon\030\004 \002(\005\022\014\n\004desc\030\005 \002(\t\"_" +
+      "\n\013QiandaoResp\022\016\n\006result\030\001 \002(\005\022\020\n\010vipCoun" +
+      "t\030\002 \002(\005\022.\n\005award\030\003 \003(\0132\037.qxmobile.protob" +
+      "uf.QiandaoAward\"\216\001\n\014QiandaoAward\022\n\n\002id\030\001" +
+      " \002(\005\022\r\n\005month\030\002 \002(\005\022\013\n\003day\030\003 \002(\005\022\r\n\005stat" +
+      "e\030\004 \001(\005\022\021\n\tawardType\030\005 \001(\005\022\017\n\007awardId\030\006 " +
+      "\001(\005\022\020\n\010awardNum\030\007 \001(\005\022\021\n\tvipDouble\030\010 \001(\005",
+      "B\tB\007Qiandao"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3406,7 +3740,7 @@ public final class Qiandao {
           internal_static_qxmobile_protobuf_GetQiandaoResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_GetQiandaoResp_descriptor,
-              new java.lang.String[] { "Award", "Cnt", "CurDate", });
+              new java.lang.String[] { "Award", "Cnt", "CurDate", "Icon", "Desc", });
           internal_static_qxmobile_protobuf_QiandaoResp_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_QiandaoResp_fieldAccessorTable = new

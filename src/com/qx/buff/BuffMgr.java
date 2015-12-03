@@ -225,7 +225,7 @@ public class BuffMgr {
 				processActionEffect(totalDamage, player, action);
 				
 				BufferInfo.Builder bufferInfo = BufferInfo.newBuilder();
-				bufferInfo.setTargetId(target.id);
+				bufferInfo.setTargetId(player.userId);
 				bufferInfo.setBufferId(buffer.getId());
 				bufferInfo.setValue(totalDamage);
 				bufferInfo.setRemainLife(player.currentLife);
@@ -248,12 +248,13 @@ public class BuffMgr {
 				player.currentLife -= value;
 				player.currentLife = Math.max(player.currentLife, 0);
 				break;
-		
 			case 3://回复血量
 				player.currentLife += value;
 				player.currentLife = Math.min(player.currentLife, player.totalLife);
 				break;
-				
+			case 4:
+			case 5:
+				break;
 			default:
 				logger.error("buff处理失败，找不到对用的actiontype, actionId:{},actionTypeKey:{}",
 						action.Id, action.TypeKey);

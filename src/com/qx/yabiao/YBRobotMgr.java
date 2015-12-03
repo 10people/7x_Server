@@ -221,7 +221,7 @@ public class YBRobotMgr implements Runnable{
 			//跳到下一节点
 			ybr.nodeId+=1;
 			if(ybr.nodeId>=roadPath.size()){
-				log.info("机器人镖车到达最后一个节点1111111{}--{}-{}",ybr.move.getPosX(),ybr.move.getPosY(),ybr.move.getPosZ());
+				log.info("机器人镖车到达最后一个节点{}--{}-{}",ybr.move.getPosX(),ybr.move.getPosY(),ybr.move.getPosZ());
 				
 				ybr.posX=ybr.nextPosX;
 				ybr.posZ=ybr.nextPosZ;
