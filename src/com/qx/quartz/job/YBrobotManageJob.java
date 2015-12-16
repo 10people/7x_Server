@@ -31,20 +31,30 @@ public class YBrobotManageJob implements Job {
 			Map.Entry entry4Sc = (Map.Entry) it4Scene.next();
 			Integer ybScId =(Integer) entry4Sc.getKey();
 			Scene ybsc =(Scene) entry4Sc.getValue();
+			Integer yaochanshengmacheshu=YaBiaoHuoDongMgr.xtmcs4Scene.get(ybScId);
+			if(yaochanshengmacheshu!=null&&yaochanshengmacheshu>0){
+				log.info("场景{}中有{}辆系统马车要投放",ybScId,yaochanshengmacheshu);
+				continue;
+			}
+			int macheSize=0;
 			Set<Long> ybSet=BigSwitch.inst.ybMgr.ybJzList2ScIdMap.get(ybScId);
-			int macheSize=ybSet.size();
+			if(ybSet!=null){
+				macheSize=ybSet.size();//场景中的押镖马车数目
+			}
 			if(macheSize>=YunbiaoTemp.cartAImax){
-				log.info("场景中有马车{}辆，不需要系统马车机器人");
+				log.info("场景中有马车{}辆，不需要系统马车机器人",macheSize);
 				break;
 			}
 			Map<Integer, Integer> safeMap=YaBiaoHuoDongMgr.inst.getSafeAreaCount(ybsc);
 			for(Map.Entry<Integer, Integer> entry :safeMap.entrySet()) {
-				Integer safeId=entry.getValue();
-				if(safeId<YunbiaoTemp.saveArea_people_max){
+				Integer renshu=entry.getValue();//人数
+				Integer pathId=entry.getKey();//路线
+				if(renshu<YunbiaoTemp.saveArea_people_max){
 					int macheshu=YunbiaoTemp.cartAImax-macheSize;
+					YaBiaoHuoDongMgr.xtmcs4Scene.put(ybScId, macheshu);
 					//安全区内人数不满开始产生马车
-					log.info("场景中有马车{}辆，需要系统马车机器人--{}辆");
-					produceXiTongMaChe(ybsc, ybScId, safeId, macheshu);
+					log.info("场景中有马车{}辆，需要系统马车机器人--{}辆",macheSize,macheshu);
+					produceXiTongMaChe(ybsc, ybScId, pathId, macheshu);
 				}
 			}
 			
@@ -64,7 +74,8 @@ public class YBrobotManageJob implements Job {
 			log.info("产生系统马车--{}辆",i+1);
 			try {
 				Thread.sleep(10000);//10秒放一辆镖车 
-				YaBiaoHuoDongMgr.inst.initSysYBRobots(ybsc, pathId,ybScId);
+				boolean res=YaBiaoHuoDongMgr.inst.initSysYBRobots(ybsc, pathId,ybScId);
+				log.info("产生系统马车结果isOK?==={}",res);
 			} catch (InterruptedException e) {
 			log.error("产生系统马车错误:{}",e);	
 			}

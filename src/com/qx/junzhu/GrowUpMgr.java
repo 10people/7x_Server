@@ -131,7 +131,7 @@ public class GrowUpMgr {
 			int lvGt0Cnt = 0;
 			for(MiBaoDB db : mibaoDBList){
 				if(db.getLevel()<=0)continue;
-				if(db.isClear()==false)continue;
+//				if(db.isClear()==false)continue;
 				lvGt0Cnt++;
 				sumLv += db.getLevel();
 			}
@@ -156,8 +156,8 @@ public class GrowUpMgr {
 					MiBaoDB d = mibaoDBList.get(i);
 					if(d.getLevel() >= jz.level || d.getMiBaoId()<=0){
 						continue;
-					}else if(d.isClear()==false){
-						continue;
+//					}else if(d.isClear()==false){
+//						continue;
 					}
 					b.addMibaoDataId(d.getMiBaoId());
 				}
@@ -210,9 +210,9 @@ public class GrowUpMgr {
 					if(d.getStar()>=5){//满了 
 						continue;
 					}
-					if(d.isClear()==false){
-						continue;//未解锁
-					}
+//					if(d.isClear()==false){
+//						continue;//未解锁
+//					}
 					int miBaoId = d.getMiBaoId();
 					if(miBaoId<=0){
 						miBaoId = 301000+(d.getTempId()/100*10)+(d.getTempId()%10);

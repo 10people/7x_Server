@@ -282,6 +282,8 @@ public class AccountManager {
 		session.write(ret.build());
 
 		EventMgr.addEvent(ED.ACC_LOGIN, junZhuId);
+		//TODO 目前阶段等级排行榜不完整，加入  登录时君主等级榜刷新，优化的时候可以删掉删掉 删掉 删掉
+		EventMgr.addEvent(ED.JUNZHU_LEVEL_RANK_REFRESH, junZhu);
 		final IoSession previous = sessionMap.put(junZhuId, session);
 		if (previous != null) {
 			previous.write(PD.S_ACC_login_kick);

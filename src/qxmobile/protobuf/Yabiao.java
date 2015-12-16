@@ -21,34 +21,6 @@ public final class Yabiao {
      */
     int getYaBiaoCiShu();
 
-    // required int32 jieBiaoCiShu = 2;
-    /**
-     * <code>required int32 jieBiaoCiShu = 2;</code>
-     */
-    boolean hasJieBiaoCiShu();
-    /**
-     * <code>required int32 jieBiaoCiShu = 2;</code>
-     */
-    int getJieBiaoCiShu();
-
-    // required int32 state = 3;
-    /**
-     * <code>required int32 state = 3;</code>
-     *
-     * <pre>
-     *君主状态（10:押镖 20：未押镖）
-     * </pre>
-     */
-    boolean hasState();
-    /**
-     * <code>required int32 state = 3;</code>
-     *
-     * <pre>
-     *君主状态（10:押镖 20：未押镖）
-     * </pre>
-     */
-    int getState();
-
     // required bool isOpen = 4;
     /**
      * <code>required bool isOpen = 4;</code>
@@ -84,24 +56,6 @@ public final class Yabiao {
      * </pre>
      */
     int getBuyCiShu();
-
-    // required int32 roomId = 6;
-    /**
-     * <code>required int32 roomId = 6;</code>
-     *
-     * <pre>
-     *押镖时君主所在房间
-     * </pre>
-     */
-    boolean hasRoomId();
-    /**
-     * <code>required int32 roomId = 6;</code>
-     *
-     * <pre>
-     *押镖时君主所在房间
-     * </pre>
-     */
-    int getRoomId();
 
     // required bool isNew4History = 7;
     /**
@@ -201,38 +155,23 @@ public final class Yabiao {
               yaBiaoCiShu_ = input.readInt32();
               break;
             }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              jieBiaoCiShu_ = input.readInt32();
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000004;
-              state_ = input.readInt32();
-              break;
-            }
             case 32: {
-              bitField0_ |= 0x00000008;
+              bitField0_ |= 0x00000002;
               isOpen_ = input.readBool();
               break;
             }
             case 40: {
-              bitField0_ |= 0x00000010;
+              bitField0_ |= 0x00000004;
               buyCiShu_ = input.readInt32();
               break;
             }
-            case 48: {
-              bitField0_ |= 0x00000020;
-              roomId_ = input.readInt32();
-              break;
-            }
             case 56: {
-              bitField0_ |= 0x00000040;
+              bitField0_ |= 0x00000008;
               isNew4History_ = input.readBool();
               break;
             }
             case 64: {
-              bitField0_ |= 0x00000080;
+              bitField0_ |= 0x00000010;
               isNew4Enemy_ = input.readBool();
               break;
             }
@@ -292,46 +231,6 @@ public final class Yabiao {
       return yaBiaoCiShu_;
     }
 
-    // required int32 jieBiaoCiShu = 2;
-    public static final int JIEBIAOCISHU_FIELD_NUMBER = 2;
-    private int jieBiaoCiShu_;
-    /**
-     * <code>required int32 jieBiaoCiShu = 2;</code>
-     */
-    public boolean hasJieBiaoCiShu() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required int32 jieBiaoCiShu = 2;</code>
-     */
-    public int getJieBiaoCiShu() {
-      return jieBiaoCiShu_;
-    }
-
-    // required int32 state = 3;
-    public static final int STATE_FIELD_NUMBER = 3;
-    private int state_;
-    /**
-     * <code>required int32 state = 3;</code>
-     *
-     * <pre>
-     *君主状态（10:押镖 20：未押镖）
-     * </pre>
-     */
-    public boolean hasState() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>required int32 state = 3;</code>
-     *
-     * <pre>
-     *君主状态（10:押镖 20：未押镖）
-     * </pre>
-     */
-    public int getState() {
-      return state_;
-    }
-
     // required bool isOpen = 4;
     public static final int ISOPEN_FIELD_NUMBER = 4;
     private boolean isOpen_;
@@ -343,7 +242,7 @@ public final class Yabiao {
      * </pre>
      */
     public boolean hasIsOpen() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required bool isOpen = 4;</code>
@@ -367,7 +266,7 @@ public final class Yabiao {
      * </pre>
      */
     public boolean hasBuyCiShu() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>required int32 buyCiShu = 5;</code>
@@ -378,30 +277,6 @@ public final class Yabiao {
      */
     public int getBuyCiShu() {
       return buyCiShu_;
-    }
-
-    // required int32 roomId = 6;
-    public static final int ROOMID_FIELD_NUMBER = 6;
-    private int roomId_;
-    /**
-     * <code>required int32 roomId = 6;</code>
-     *
-     * <pre>
-     *押镖时君主所在房间
-     * </pre>
-     */
-    public boolean hasRoomId() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
-    }
-    /**
-     * <code>required int32 roomId = 6;</code>
-     *
-     * <pre>
-     *押镖时君主所在房间
-     * </pre>
-     */
-    public int getRoomId() {
-      return roomId_;
     }
 
     // required bool isNew4History = 7;
@@ -415,7 +290,7 @@ public final class Yabiao {
      * </pre>
      */
     public boolean hasIsNew4History() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>required bool isNew4History = 7;</code>
@@ -439,7 +314,7 @@ public final class Yabiao {
      * </pre>
      */
     public boolean hasIsNew4Enemy() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <code>required bool isNew4Enemy = 8;</code>
@@ -454,11 +329,8 @@ public final class Yabiao {
 
     private void initFields() {
       yaBiaoCiShu_ = 0;
-      jieBiaoCiShu_ = 0;
-      state_ = 0;
       isOpen_ = false;
       buyCiShu_ = 0;
-      roomId_ = 0;
       isNew4History_ = false;
       isNew4Enemy_ = false;
     }
@@ -471,23 +343,11 @@ public final class Yabiao {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasJieBiaoCiShu()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasState()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       if (!hasIsOpen()) {
         memoizedIsInitialized = 0;
         return false;
       }
       if (!hasBuyCiShu()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasRoomId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -510,24 +370,15 @@ public final class Yabiao {
         output.writeInt32(1, yaBiaoCiShu_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, jieBiaoCiShu_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, state_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBool(4, isOpen_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(5, buyCiShu_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeInt32(6, roomId_);
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBool(7, isNew4History_);
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeBool(8, isNew4Enemy_);
       }
       getUnknownFields().writeTo(output);
@@ -545,29 +396,17 @@ public final class Yabiao {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, jieBiaoCiShu_);
+          .computeBoolSize(4, isOpen_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, state_);
+          .computeInt32Size(5, buyCiShu_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(4, isOpen_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, buyCiShu_);
-      }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(6, roomId_);
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(7, isNew4History_);
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(8, isNew4Enemy_);
       }
@@ -695,20 +534,14 @@ public final class Yabiao {
         super.clear();
         yaBiaoCiShu_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        jieBiaoCiShu_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        state_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
         isOpen_ = false;
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000002);
         buyCiShu_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000010);
-        roomId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000004);
         isNew4History_ = false;
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000008);
         isNew4Enemy_ = false;
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -744,29 +577,17 @@ public final class Yabiao {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.jieBiaoCiShu_ = jieBiaoCiShu_;
+        result.isOpen_ = isOpen_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.state_ = state_;
+        result.buyCiShu_ = buyCiShu_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.isOpen_ = isOpen_;
+        result.isNew4History_ = isNew4History_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
-        }
-        result.buyCiShu_ = buyCiShu_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
-          to_bitField0_ |= 0x00000020;
-        }
-        result.roomId_ = roomId_;
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
-          to_bitField0_ |= 0x00000040;
-        }
-        result.isNew4History_ = isNew4History_;
-        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
-          to_bitField0_ |= 0x00000080;
         }
         result.isNew4Enemy_ = isNew4Enemy_;
         result.bitField0_ = to_bitField0_;
@@ -788,20 +609,11 @@ public final class Yabiao {
         if (other.hasYaBiaoCiShu()) {
           setYaBiaoCiShu(other.getYaBiaoCiShu());
         }
-        if (other.hasJieBiaoCiShu()) {
-          setJieBiaoCiShu(other.getJieBiaoCiShu());
-        }
-        if (other.hasState()) {
-          setState(other.getState());
-        }
         if (other.hasIsOpen()) {
           setIsOpen(other.getIsOpen());
         }
         if (other.hasBuyCiShu()) {
           setBuyCiShu(other.getBuyCiShu());
-        }
-        if (other.hasRoomId()) {
-          setRoomId(other.getRoomId());
         }
         if (other.hasIsNew4History()) {
           setIsNew4History(other.getIsNew4History());
@@ -818,23 +630,11 @@ public final class Yabiao {
           
           return false;
         }
-        if (!hasJieBiaoCiShu()) {
-          
-          return false;
-        }
-        if (!hasState()) {
-          
-          return false;
-        }
         if (!hasIsOpen()) {
           
           return false;
         }
         if (!hasBuyCiShu()) {
-          
-          return false;
-        }
-        if (!hasRoomId()) {
           
           return false;
         }
@@ -901,88 +701,6 @@ public final class Yabiao {
         return this;
       }
 
-      // required int32 jieBiaoCiShu = 2;
-      private int jieBiaoCiShu_ ;
-      /**
-       * <code>required int32 jieBiaoCiShu = 2;</code>
-       */
-      public boolean hasJieBiaoCiShu() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required int32 jieBiaoCiShu = 2;</code>
-       */
-      public int getJieBiaoCiShu() {
-        return jieBiaoCiShu_;
-      }
-      /**
-       * <code>required int32 jieBiaoCiShu = 2;</code>
-       */
-      public Builder setJieBiaoCiShu(int value) {
-        bitField0_ |= 0x00000002;
-        jieBiaoCiShu_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 jieBiaoCiShu = 2;</code>
-       */
-      public Builder clearJieBiaoCiShu() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        jieBiaoCiShu_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 state = 3;
-      private int state_ ;
-      /**
-       * <code>required int32 state = 3;</code>
-       *
-       * <pre>
-       *君主状态（10:押镖 20：未押镖）
-       * </pre>
-       */
-      public boolean hasState() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>required int32 state = 3;</code>
-       *
-       * <pre>
-       *君主状态（10:押镖 20：未押镖）
-       * </pre>
-       */
-      public int getState() {
-        return state_;
-      }
-      /**
-       * <code>required int32 state = 3;</code>
-       *
-       * <pre>
-       *君主状态（10:押镖 20：未押镖）
-       * </pre>
-       */
-      public Builder setState(int value) {
-        bitField0_ |= 0x00000004;
-        state_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 state = 3;</code>
-       *
-       * <pre>
-       *君主状态（10:押镖 20：未押镖）
-       * </pre>
-       */
-      public Builder clearState() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        state_ = 0;
-        onChanged();
-        return this;
-      }
-
       // required bool isOpen = 4;
       private boolean isOpen_ ;
       /**
@@ -993,7 +711,7 @@ public final class Yabiao {
        * </pre>
        */
       public boolean hasIsOpen() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required bool isOpen = 4;</code>
@@ -1013,7 +731,7 @@ public final class Yabiao {
        * </pre>
        */
       public Builder setIsOpen(boolean value) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000002;
         isOpen_ = value;
         onChanged();
         return this;
@@ -1026,7 +744,7 @@ public final class Yabiao {
        * </pre>
        */
       public Builder clearIsOpen() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000002);
         isOpen_ = false;
         onChanged();
         return this;
@@ -1042,7 +760,7 @@ public final class Yabiao {
        * </pre>
        */
       public boolean hasBuyCiShu() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>required int32 buyCiShu = 5;</code>
@@ -1062,7 +780,7 @@ public final class Yabiao {
        * </pre>
        */
       public Builder setBuyCiShu(int value) {
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000004;
         buyCiShu_ = value;
         onChanged();
         return this;
@@ -1075,57 +793,8 @@ public final class Yabiao {
        * </pre>
        */
       public Builder clearBuyCiShu() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000004);
         buyCiShu_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 roomId = 6;
-      private int roomId_ ;
-      /**
-       * <code>required int32 roomId = 6;</code>
-       *
-       * <pre>
-       *押镖时君主所在房间
-       * </pre>
-       */
-      public boolean hasRoomId() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
-      }
-      /**
-       * <code>required int32 roomId = 6;</code>
-       *
-       * <pre>
-       *押镖时君主所在房间
-       * </pre>
-       */
-      public int getRoomId() {
-        return roomId_;
-      }
-      /**
-       * <code>required int32 roomId = 6;</code>
-       *
-       * <pre>
-       *押镖时君主所在房间
-       * </pre>
-       */
-      public Builder setRoomId(int value) {
-        bitField0_ |= 0x00000020;
-        roomId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 roomId = 6;</code>
-       *
-       * <pre>
-       *押镖时君主所在房间
-       * </pre>
-       */
-      public Builder clearRoomId() {
-        bitField0_ = (bitField0_ & ~0x00000020);
-        roomId_ = 0;
         onChanged();
         return this;
       }
@@ -1140,7 +809,7 @@ public final class Yabiao {
        * </pre>
        */
       public boolean hasIsNew4History() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>required bool isNew4History = 7;</code>
@@ -1160,7 +829,7 @@ public final class Yabiao {
        * </pre>
        */
       public Builder setIsNew4History(boolean value) {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000008;
         isNew4History_ = value;
         onChanged();
         return this;
@@ -1173,7 +842,7 @@ public final class Yabiao {
        * </pre>
        */
       public Builder clearIsNew4History() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000008);
         isNew4History_ = false;
         onChanged();
         return this;
@@ -1189,7 +858,7 @@ public final class Yabiao {
        * </pre>
        */
       public boolean hasIsNew4Enemy() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>required bool isNew4Enemy = 8;</code>
@@ -1209,7 +878,7 @@ public final class Yabiao {
        * </pre>
        */
       public Builder setIsNew4Enemy(boolean value) {
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000010;
         isNew4Enemy_ = value;
         onChanged();
         return this;
@@ -1222,7 +891,7 @@ public final class Yabiao {
        * </pre>
        */
       public Builder clearIsNew4Enemy() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000010);
         isNew4Enemy_ = false;
         onChanged();
         return this;
@@ -6561,72 +6230,9 @@ public final class Yabiao {
      */
     int getHorse();
 
-    // required int32 remainAskXZ = 2;
+    // required .qxmobile.protobuf.HorseProp horseprop = 2;
     /**
-     * <code>required int32 remainAskXZ = 2;</code>
-     *
-     * <pre>
-     *剩余请求协助次数
-     * </pre>
-     */
-    boolean hasRemainAskXZ();
-    /**
-     * <code>required int32 remainAskXZ = 2;</code>
-     *
-     * <pre>
-     *剩余请求协助次数
-     * </pre>
-     */
-    int getRemainAskXZ();
-
-    // repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;
-    /**
-     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-     *
-     * <pre>
-     *协助君主
-     * </pre>
-     */
-    java.util.List<qxmobile.protobuf.Yabiao.XieZhuJunZhu> 
-        getJzList();
-    /**
-     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-     *
-     * <pre>
-     *协助君主
-     * </pre>
-     */
-    qxmobile.protobuf.Yabiao.XieZhuJunZhu getJz(int index);
-    /**
-     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-     *
-     * <pre>
-     *协助君主
-     * </pre>
-     */
-    int getJzCount();
-    /**
-     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-     *
-     * <pre>
-     *协助君主
-     * </pre>
-     */
-    java.util.List<? extends qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder> 
-        getJzOrBuilderList();
-    /**
-     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-     *
-     * <pre>
-     *协助君主
-     * </pre>
-     */
-    qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder getJzOrBuilder(
-        int index);
-
-    // required .qxmobile.protobuf.HorseProp horseprop = 4;
-    /**
-     * <code>required .qxmobile.protobuf.HorseProp horseprop = 4;</code>
+     * <code>required .qxmobile.protobuf.HorseProp horseprop = 2;</code>
      *
      * <pre>
      *马车道具
@@ -6634,7 +6240,7 @@ public final class Yabiao {
      */
     boolean hasHorseprop();
     /**
-     * <code>required .qxmobile.protobuf.HorseProp horseprop = 4;</code>
+     * <code>required .qxmobile.protobuf.HorseProp horseprop = 2;</code>
      *
      * <pre>
      *马车道具
@@ -6642,7 +6248,7 @@ public final class Yabiao {
      */
     qxmobile.protobuf.Yabiao.HorseProp getHorseprop();
     /**
-     * <code>required .qxmobile.protobuf.HorseProp horseprop = 4;</code>
+     * <code>required .qxmobile.protobuf.HorseProp horseprop = 2;</code>
      *
      * <pre>
      *马车道具
@@ -6650,9 +6256,9 @@ public final class Yabiao {
      */
     qxmobile.protobuf.Yabiao.HorsePropOrBuilder getHorsepropOrBuilder();
 
-    // optional bool isNewHorse = 5;
+    // optional bool isNewHorse = 3;
     /**
-     * <code>optional bool isNewHorse = 5;</code>
+     * <code>optional bool isNewHorse = 3;</code>
      *
      * <pre>
      *是否播放随机马匹效果
@@ -6660,7 +6266,7 @@ public final class Yabiao {
      */
     boolean hasIsNewHorse();
     /**
-     * <code>optional bool isNewHorse = 5;</code>
+     * <code>optional bool isNewHorse = 3;</code>
      *
      * <pre>
      *是否播放随机马匹效果
@@ -6730,22 +6336,9 @@ public final class Yabiao {
               horse_ = input.readInt32();
               break;
             }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              remainAskXZ_ = input.readInt32();
-              break;
-            }
-            case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                jz_ = new java.util.ArrayList<qxmobile.protobuf.Yabiao.XieZhuJunZhu>();
-                mutable_bitField0_ |= 0x00000004;
-              }
-              jz_.add(input.readMessage(qxmobile.protobuf.Yabiao.XieZhuJunZhu.PARSER, extensionRegistry));
-              break;
-            }
-            case 34: {
+            case 18: {
               qxmobile.protobuf.Yabiao.HorseProp.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
                 subBuilder = horseprop_.toBuilder();
               }
               horseprop_ = input.readMessage(qxmobile.protobuf.Yabiao.HorseProp.PARSER, extensionRegistry);
@@ -6753,11 +6346,11 @@ public final class Yabiao {
                 subBuilder.mergeFrom(horseprop_);
                 horseprop_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000002;
               break;
             }
-            case 40: {
-              bitField0_ |= 0x00000008;
+            case 24: {
+              bitField0_ |= 0x00000004;
               isNewHorse_ = input.readBool();
               break;
             }
@@ -6769,9 +6362,6 @@ public final class Yabiao {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          jz_ = java.util.Collections.unmodifiableList(jz_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -6820,101 +6410,21 @@ public final class Yabiao {
       return horse_;
     }
 
-    // required int32 remainAskXZ = 2;
-    public static final int REMAINASKXZ_FIELD_NUMBER = 2;
-    private int remainAskXZ_;
-    /**
-     * <code>required int32 remainAskXZ = 2;</code>
-     *
-     * <pre>
-     *剩余请求协助次数
-     * </pre>
-     */
-    public boolean hasRemainAskXZ() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required int32 remainAskXZ = 2;</code>
-     *
-     * <pre>
-     *剩余请求协助次数
-     * </pre>
-     */
-    public int getRemainAskXZ() {
-      return remainAskXZ_;
-    }
-
-    // repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;
-    public static final int JZ_FIELD_NUMBER = 3;
-    private java.util.List<qxmobile.protobuf.Yabiao.XieZhuJunZhu> jz_;
-    /**
-     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-     *
-     * <pre>
-     *协助君主
-     * </pre>
-     */
-    public java.util.List<qxmobile.protobuf.Yabiao.XieZhuJunZhu> getJzList() {
-      return jz_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-     *
-     * <pre>
-     *协助君主
-     * </pre>
-     */
-    public java.util.List<? extends qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder> 
-        getJzOrBuilderList() {
-      return jz_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-     *
-     * <pre>
-     *协助君主
-     * </pre>
-     */
-    public int getJzCount() {
-      return jz_.size();
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-     *
-     * <pre>
-     *协助君主
-     * </pre>
-     */
-    public qxmobile.protobuf.Yabiao.XieZhuJunZhu getJz(int index) {
-      return jz_.get(index);
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-     *
-     * <pre>
-     *协助君主
-     * </pre>
-     */
-    public qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder getJzOrBuilder(
-        int index) {
-      return jz_.get(index);
-    }
-
-    // required .qxmobile.protobuf.HorseProp horseprop = 4;
-    public static final int HORSEPROP_FIELD_NUMBER = 4;
+    // required .qxmobile.protobuf.HorseProp horseprop = 2;
+    public static final int HORSEPROP_FIELD_NUMBER = 2;
     private qxmobile.protobuf.Yabiao.HorseProp horseprop_;
     /**
-     * <code>required .qxmobile.protobuf.HorseProp horseprop = 4;</code>
+     * <code>required .qxmobile.protobuf.HorseProp horseprop = 2;</code>
      *
      * <pre>
      *马车道具
      * </pre>
      */
     public boolean hasHorseprop() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required .qxmobile.protobuf.HorseProp horseprop = 4;</code>
+     * <code>required .qxmobile.protobuf.HorseProp horseprop = 2;</code>
      *
      * <pre>
      *马车道具
@@ -6924,7 +6434,7 @@ public final class Yabiao {
       return horseprop_;
     }
     /**
-     * <code>required .qxmobile.protobuf.HorseProp horseprop = 4;</code>
+     * <code>required .qxmobile.protobuf.HorseProp horseprop = 2;</code>
      *
      * <pre>
      *马车道具
@@ -6934,21 +6444,21 @@ public final class Yabiao {
       return horseprop_;
     }
 
-    // optional bool isNewHorse = 5;
-    public static final int ISNEWHORSE_FIELD_NUMBER = 5;
+    // optional bool isNewHorse = 3;
+    public static final int ISNEWHORSE_FIELD_NUMBER = 3;
     private boolean isNewHorse_;
     /**
-     * <code>optional bool isNewHorse = 5;</code>
+     * <code>optional bool isNewHorse = 3;</code>
      *
      * <pre>
      *是否播放随机马匹效果
      * </pre>
      */
     public boolean hasIsNewHorse() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional bool isNewHorse = 5;</code>
+     * <code>optional bool isNewHorse = 3;</code>
      *
      * <pre>
      *是否播放随机马匹效果
@@ -6960,8 +6470,6 @@ public final class Yabiao {
 
     private void initFields() {
       horse_ = 0;
-      remainAskXZ_ = 0;
-      jz_ = java.util.Collections.emptyList();
       horseprop_ = qxmobile.protobuf.Yabiao.HorseProp.getDefaultInstance();
       isNewHorse_ = false;
     }
@@ -6974,21 +6482,7 @@ public final class Yabiao {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasRemainAskXZ()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       if (!hasHorseprop()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      for (int i = 0; i < getJzCount(); i++) {
-        if (!getJz(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      if (!getHorseprop().isInitialized()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -7003,16 +6497,10 @@ public final class Yabiao {
         output.writeInt32(1, horse_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, remainAskXZ_);
-      }
-      for (int i = 0; i < jz_.size(); i++) {
-        output.writeMessage(3, jz_.get(i));
+        output.writeMessage(2, horseprop_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeMessage(4, horseprop_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBool(5, isNewHorse_);
+        output.writeBool(3, isNewHorse_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -7029,19 +6517,11 @@ public final class Yabiao {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, remainAskXZ_);
-      }
-      for (int i = 0; i < jz_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, jz_.get(i));
+          .computeMessageSize(2, horseprop_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, horseprop_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(5, isNewHorse_);
+          .computeBoolSize(3, isNewHorse_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -7157,7 +6637,6 @@ public final class Yabiao {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getJzFieldBuilder();
           getHorsepropFieldBuilder();
         }
       }
@@ -7169,22 +6648,14 @@ public final class Yabiao {
         super.clear();
         horse_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        remainAskXZ_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        if (jzBuilder_ == null) {
-          jz_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
-        } else {
-          jzBuilder_.clear();
-        }
         if (horsepropBuilder_ == null) {
           horseprop_ = qxmobile.protobuf.Yabiao.HorseProp.getDefaultInstance();
         } else {
           horsepropBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000002);
         isNewHorse_ = false;
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -7220,26 +6691,13 @@ public final class Yabiao {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.remainAskXZ_ = remainAskXZ_;
-        if (jzBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
-            jz_ = java.util.Collections.unmodifiableList(jz_);
-            bitField0_ = (bitField0_ & ~0x00000004);
-          }
-          result.jz_ = jz_;
-        } else {
-          result.jz_ = jzBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000004;
-        }
         if (horsepropBuilder_ == null) {
           result.horseprop_ = horseprop_;
         } else {
           result.horseprop_ = horsepropBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000008;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
         }
         result.isNewHorse_ = isNewHorse_;
         result.bitField0_ = to_bitField0_;
@@ -7261,35 +6719,6 @@ public final class Yabiao {
         if (other.hasHorse()) {
           setHorse(other.getHorse());
         }
-        if (other.hasRemainAskXZ()) {
-          setRemainAskXZ(other.getRemainAskXZ());
-        }
-        if (jzBuilder_ == null) {
-          if (!other.jz_.isEmpty()) {
-            if (jz_.isEmpty()) {
-              jz_ = other.jz_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-            } else {
-              ensureJzIsMutable();
-              jz_.addAll(other.jz_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.jz_.isEmpty()) {
-            if (jzBuilder_.isEmpty()) {
-              jzBuilder_.dispose();
-              jzBuilder_ = null;
-              jz_ = other.jz_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-              jzBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getJzFieldBuilder() : null;
-            } else {
-              jzBuilder_.addAllMessages(other.jz_);
-            }
-          }
-        }
         if (other.hasHorseprop()) {
           mergeHorseprop(other.getHorseprop());
         }
@@ -7305,21 +6734,7 @@ public final class Yabiao {
           
           return false;
         }
-        if (!hasRemainAskXZ()) {
-          
-          return false;
-        }
         if (!hasHorseprop()) {
-          
-          return false;
-        }
-        for (int i = 0; i < getJzCount(); i++) {
-          if (!getJz(i).isInitialized()) {
-            
-            return false;
-          }
-        }
-        if (!getHorseprop().isInitialized()) {
           
           return false;
         }
@@ -7378,383 +6793,22 @@ public final class Yabiao {
         return this;
       }
 
-      // required int32 remainAskXZ = 2;
-      private int remainAskXZ_ ;
-      /**
-       * <code>required int32 remainAskXZ = 2;</code>
-       *
-       * <pre>
-       *剩余请求协助次数
-       * </pre>
-       */
-      public boolean hasRemainAskXZ() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required int32 remainAskXZ = 2;</code>
-       *
-       * <pre>
-       *剩余请求协助次数
-       * </pre>
-       */
-      public int getRemainAskXZ() {
-        return remainAskXZ_;
-      }
-      /**
-       * <code>required int32 remainAskXZ = 2;</code>
-       *
-       * <pre>
-       *剩余请求协助次数
-       * </pre>
-       */
-      public Builder setRemainAskXZ(int value) {
-        bitField0_ |= 0x00000002;
-        remainAskXZ_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 remainAskXZ = 2;</code>
-       *
-       * <pre>
-       *剩余请求协助次数
-       * </pre>
-       */
-      public Builder clearRemainAskXZ() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        remainAskXZ_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;
-      private java.util.List<qxmobile.protobuf.Yabiao.XieZhuJunZhu> jz_ =
-        java.util.Collections.emptyList();
-      private void ensureJzIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          jz_ = new java.util.ArrayList<qxmobile.protobuf.Yabiao.XieZhuJunZhu>(jz_);
-          bitField0_ |= 0x00000004;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.Yabiao.XieZhuJunZhu, qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder, qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder> jzBuilder_;
-
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public java.util.List<qxmobile.protobuf.Yabiao.XieZhuJunZhu> getJzList() {
-        if (jzBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(jz_);
-        } else {
-          return jzBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public int getJzCount() {
-        if (jzBuilder_ == null) {
-          return jz_.size();
-        } else {
-          return jzBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public qxmobile.protobuf.Yabiao.XieZhuJunZhu getJz(int index) {
-        if (jzBuilder_ == null) {
-          return jz_.get(index);
-        } else {
-          return jzBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public Builder setJz(
-          int index, qxmobile.protobuf.Yabiao.XieZhuJunZhu value) {
-        if (jzBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureJzIsMutable();
-          jz_.set(index, value);
-          onChanged();
-        } else {
-          jzBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public Builder setJz(
-          int index, qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder builderForValue) {
-        if (jzBuilder_ == null) {
-          ensureJzIsMutable();
-          jz_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          jzBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public Builder addJz(qxmobile.protobuf.Yabiao.XieZhuJunZhu value) {
-        if (jzBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureJzIsMutable();
-          jz_.add(value);
-          onChanged();
-        } else {
-          jzBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public Builder addJz(
-          int index, qxmobile.protobuf.Yabiao.XieZhuJunZhu value) {
-        if (jzBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureJzIsMutable();
-          jz_.add(index, value);
-          onChanged();
-        } else {
-          jzBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public Builder addJz(
-          qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder builderForValue) {
-        if (jzBuilder_ == null) {
-          ensureJzIsMutable();
-          jz_.add(builderForValue.build());
-          onChanged();
-        } else {
-          jzBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public Builder addJz(
-          int index, qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder builderForValue) {
-        if (jzBuilder_ == null) {
-          ensureJzIsMutable();
-          jz_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          jzBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public Builder addAllJz(
-          java.lang.Iterable<? extends qxmobile.protobuf.Yabiao.XieZhuJunZhu> values) {
-        if (jzBuilder_ == null) {
-          ensureJzIsMutable();
-          super.addAll(values, jz_);
-          onChanged();
-        } else {
-          jzBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public Builder clearJz() {
-        if (jzBuilder_ == null) {
-          jz_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
-          onChanged();
-        } else {
-          jzBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public Builder removeJz(int index) {
-        if (jzBuilder_ == null) {
-          ensureJzIsMutable();
-          jz_.remove(index);
-          onChanged();
-        } else {
-          jzBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder getJzBuilder(
-          int index) {
-        return getJzFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder getJzOrBuilder(
-          int index) {
-        if (jzBuilder_ == null) {
-          return jz_.get(index);  } else {
-          return jzBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public java.util.List<? extends qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder> 
-           getJzOrBuilderList() {
-        if (jzBuilder_ != null) {
-          return jzBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(jz_);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder addJzBuilder() {
-        return getJzFieldBuilder().addBuilder(
-            qxmobile.protobuf.Yabiao.XieZhuJunZhu.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder addJzBuilder(
-          int index) {
-        return getJzFieldBuilder().addBuilder(
-            index, qxmobile.protobuf.Yabiao.XieZhuJunZhu.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu jz = 3;</code>
-       *
-       * <pre>
-       *协助君主
-       * </pre>
-       */
-      public java.util.List<qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder> 
-           getJzBuilderList() {
-        return getJzFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.Yabiao.XieZhuJunZhu, qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder, qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder> 
-          getJzFieldBuilder() {
-        if (jzBuilder_ == null) {
-          jzBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              qxmobile.protobuf.Yabiao.XieZhuJunZhu, qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder, qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder>(
-                  jz_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
-                  getParentForChildren(),
-                  isClean());
-          jz_ = null;
-        }
-        return jzBuilder_;
-      }
-
-      // required .qxmobile.protobuf.HorseProp horseprop = 4;
+      // required .qxmobile.protobuf.HorseProp horseprop = 2;
       private qxmobile.protobuf.Yabiao.HorseProp horseprop_ = qxmobile.protobuf.Yabiao.HorseProp.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           qxmobile.protobuf.Yabiao.HorseProp, qxmobile.protobuf.Yabiao.HorseProp.Builder, qxmobile.protobuf.Yabiao.HorsePropOrBuilder> horsepropBuilder_;
       /**
-       * <code>required .qxmobile.protobuf.HorseProp horseprop = 4;</code>
+       * <code>required .qxmobile.protobuf.HorseProp horseprop = 2;</code>
        *
        * <pre>
        *马车道具
        * </pre>
        */
       public boolean hasHorseprop() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required .qxmobile.protobuf.HorseProp horseprop = 4;</code>
+       * <code>required .qxmobile.protobuf.HorseProp horseprop = 2;</code>
        *
        * <pre>
        *马车道具
@@ -7768,7 +6822,7 @@ public final class Yabiao {
         }
       }
       /**
-       * <code>required .qxmobile.protobuf.HorseProp horseprop = 4;</code>
+       * <code>required .qxmobile.protobuf.HorseProp horseprop = 2;</code>
        *
        * <pre>
        *马车道具
@@ -7784,11 +6838,11 @@ public final class Yabiao {
         } else {
           horsepropBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>required .qxmobile.protobuf.HorseProp horseprop = 4;</code>
+       * <code>required .qxmobile.protobuf.HorseProp horseprop = 2;</code>
        *
        * <pre>
        *马车道具
@@ -7802,11 +6856,11 @@ public final class Yabiao {
         } else {
           horsepropBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>required .qxmobile.protobuf.HorseProp horseprop = 4;</code>
+       * <code>required .qxmobile.protobuf.HorseProp horseprop = 2;</code>
        *
        * <pre>
        *马车道具
@@ -7814,7 +6868,7 @@ public final class Yabiao {
        */
       public Builder mergeHorseprop(qxmobile.protobuf.Yabiao.HorseProp value) {
         if (horsepropBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
               horseprop_ != qxmobile.protobuf.Yabiao.HorseProp.getDefaultInstance()) {
             horseprop_ =
               qxmobile.protobuf.Yabiao.HorseProp.newBuilder(horseprop_).mergeFrom(value).buildPartial();
@@ -7825,11 +6879,11 @@ public final class Yabiao {
         } else {
           horsepropBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>required .qxmobile.protobuf.HorseProp horseprop = 4;</code>
+       * <code>required .qxmobile.protobuf.HorseProp horseprop = 2;</code>
        *
        * <pre>
        *马车道具
@@ -7842,23 +6896,23 @@ public final class Yabiao {
         } else {
           horsepropBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
       /**
-       * <code>required .qxmobile.protobuf.HorseProp horseprop = 4;</code>
+       * <code>required .qxmobile.protobuf.HorseProp horseprop = 2;</code>
        *
        * <pre>
        *马车道具
        * </pre>
        */
       public qxmobile.protobuf.Yabiao.HorseProp.Builder getHorsepropBuilder() {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000002;
         onChanged();
         return getHorsepropFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .qxmobile.protobuf.HorseProp horseprop = 4;</code>
+       * <code>required .qxmobile.protobuf.HorseProp horseprop = 2;</code>
        *
        * <pre>
        *马车道具
@@ -7872,7 +6926,7 @@ public final class Yabiao {
         }
       }
       /**
-       * <code>required .qxmobile.protobuf.HorseProp horseprop = 4;</code>
+       * <code>required .qxmobile.protobuf.HorseProp horseprop = 2;</code>
        *
        * <pre>
        *马车道具
@@ -7892,20 +6946,20 @@ public final class Yabiao {
         return horsepropBuilder_;
       }
 
-      // optional bool isNewHorse = 5;
+      // optional bool isNewHorse = 3;
       private boolean isNewHorse_ ;
       /**
-       * <code>optional bool isNewHorse = 5;</code>
+       * <code>optional bool isNewHorse = 3;</code>
        *
        * <pre>
        *是否播放随机马匹效果
        * </pre>
        */
       public boolean hasIsNewHorse() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional bool isNewHorse = 5;</code>
+       * <code>optional bool isNewHorse = 3;</code>
        *
        * <pre>
        *是否播放随机马匹效果
@@ -7915,27 +6969,27 @@ public final class Yabiao {
         return isNewHorse_;
       }
       /**
-       * <code>optional bool isNewHorse = 5;</code>
+       * <code>optional bool isNewHorse = 3;</code>
        *
        * <pre>
        *是否播放随机马匹效果
        * </pre>
        */
       public Builder setIsNewHorse(boolean value) {
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000004;
         isNewHorse_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional bool isNewHorse = 5;</code>
+       * <code>optional bool isNewHorse = 3;</code>
        *
        * <pre>
        *是否播放随机马匹效果
        * </pre>
        */
       public Builder clearIsNewHorse() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000004);
         isNewHorse_ = false;
         onChanged();
         return this;
@@ -8728,6 +7782,814 @@ public final class Yabiao {
     }
 
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.XieZhuJunZhu)
+  }
+
+  public interface XieZhuJunZhuRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;
+    /**
+     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+     *
+     * <pre>
+     *协助君主
+     * </pre>
+     */
+    java.util.List<qxmobile.protobuf.Yabiao.XieZhuJunZhu> 
+        getXiezhuJzList();
+    /**
+     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+     *
+     * <pre>
+     *协助君主
+     * </pre>
+     */
+    qxmobile.protobuf.Yabiao.XieZhuJunZhu getXiezhuJz(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+     *
+     * <pre>
+     *协助君主
+     * </pre>
+     */
+    int getXiezhuJzCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+     *
+     * <pre>
+     *协助君主
+     * </pre>
+     */
+    java.util.List<? extends qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder> 
+        getXiezhuJzOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+     *
+     * <pre>
+     *协助君主
+     * </pre>
+     */
+    qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder getXiezhuJzOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.XieZhuJunZhuResp}
+   *
+   * <pre>
+   *public static final short C_YABIAO_XIEZHUS_REQ = 3446;//请求协助君主列表
+   *public static final short S_YABIAO_XIEZHUS_RESP = 3446;//请求协助君主列表返回
+   * </pre>
+   */
+  public static final class XieZhuJunZhuResp extends
+      com.google.protobuf.GeneratedMessage
+      implements XieZhuJunZhuRespOrBuilder {
+    // Use XieZhuJunZhuResp.newBuilder() to construct.
+    private XieZhuJunZhuResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private XieZhuJunZhuResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final XieZhuJunZhuResp defaultInstance;
+    public static XieZhuJunZhuResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public XieZhuJunZhuResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private XieZhuJunZhuResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                xiezhuJz_ = new java.util.ArrayList<qxmobile.protobuf.Yabiao.XieZhuJunZhu>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              xiezhuJz_.add(input.readMessage(qxmobile.protobuf.Yabiao.XieZhuJunZhu.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          xiezhuJz_ = java.util.Collections.unmodifiableList(xiezhuJz_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_XieZhuJunZhuResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_XieZhuJunZhuResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Yabiao.XieZhuJunZhuResp.class, qxmobile.protobuf.Yabiao.XieZhuJunZhuResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<XieZhuJunZhuResp> PARSER =
+        new com.google.protobuf.AbstractParser<XieZhuJunZhuResp>() {
+      public XieZhuJunZhuResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new XieZhuJunZhuResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<XieZhuJunZhuResp> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;
+    public static final int XIEZHUJZ_FIELD_NUMBER = 1;
+    private java.util.List<qxmobile.protobuf.Yabiao.XieZhuJunZhu> xiezhuJz_;
+    /**
+     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+     *
+     * <pre>
+     *协助君主
+     * </pre>
+     */
+    public java.util.List<qxmobile.protobuf.Yabiao.XieZhuJunZhu> getXiezhuJzList() {
+      return xiezhuJz_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+     *
+     * <pre>
+     *协助君主
+     * </pre>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder> 
+        getXiezhuJzOrBuilderList() {
+      return xiezhuJz_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+     *
+     * <pre>
+     *协助君主
+     * </pre>
+     */
+    public int getXiezhuJzCount() {
+      return xiezhuJz_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+     *
+     * <pre>
+     *协助君主
+     * </pre>
+     */
+    public qxmobile.protobuf.Yabiao.XieZhuJunZhu getXiezhuJz(int index) {
+      return xiezhuJz_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+     *
+     * <pre>
+     *协助君主
+     * </pre>
+     */
+    public qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder getXiezhuJzOrBuilder(
+        int index) {
+      return xiezhuJz_.get(index);
+    }
+
+    private void initFields() {
+      xiezhuJz_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getXiezhuJzCount(); i++) {
+        if (!getXiezhuJz(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < xiezhuJz_.size(); i++) {
+        output.writeMessage(1, xiezhuJz_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < xiezhuJz_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, xiezhuJz_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Yabiao.XieZhuJunZhuResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Yabiao.XieZhuJunZhuResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.XieZhuJunZhuResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Yabiao.XieZhuJunZhuResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.XieZhuJunZhuResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.XieZhuJunZhuResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.XieZhuJunZhuResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.XieZhuJunZhuResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.XieZhuJunZhuResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.XieZhuJunZhuResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Yabiao.XieZhuJunZhuResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.XieZhuJunZhuResp}
+     *
+     * <pre>
+     *public static final short C_YABIAO_XIEZHUS_REQ = 3446;//请求协助君主列表
+     *public static final short S_YABIAO_XIEZHUS_RESP = 3446;//请求协助君主列表返回
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Yabiao.XieZhuJunZhuRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_XieZhuJunZhuResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_XieZhuJunZhuResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Yabiao.XieZhuJunZhuResp.class, qxmobile.protobuf.Yabiao.XieZhuJunZhuResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Yabiao.XieZhuJunZhuResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getXiezhuJzFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (xiezhuJzBuilder_ == null) {
+          xiezhuJz_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          xiezhuJzBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_XieZhuJunZhuResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Yabiao.XieZhuJunZhuResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Yabiao.XieZhuJunZhuResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Yabiao.XieZhuJunZhuResp build() {
+        qxmobile.protobuf.Yabiao.XieZhuJunZhuResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Yabiao.XieZhuJunZhuResp buildPartial() {
+        qxmobile.protobuf.Yabiao.XieZhuJunZhuResp result = new qxmobile.protobuf.Yabiao.XieZhuJunZhuResp(this);
+        int from_bitField0_ = bitField0_;
+        if (xiezhuJzBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            xiezhuJz_ = java.util.Collections.unmodifiableList(xiezhuJz_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.xiezhuJz_ = xiezhuJz_;
+        } else {
+          result.xiezhuJz_ = xiezhuJzBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Yabiao.XieZhuJunZhuResp) {
+          return mergeFrom((qxmobile.protobuf.Yabiao.XieZhuJunZhuResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Yabiao.XieZhuJunZhuResp other) {
+        if (other == qxmobile.protobuf.Yabiao.XieZhuJunZhuResp.getDefaultInstance()) return this;
+        if (xiezhuJzBuilder_ == null) {
+          if (!other.xiezhuJz_.isEmpty()) {
+            if (xiezhuJz_.isEmpty()) {
+              xiezhuJz_ = other.xiezhuJz_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureXiezhuJzIsMutable();
+              xiezhuJz_.addAll(other.xiezhuJz_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.xiezhuJz_.isEmpty()) {
+            if (xiezhuJzBuilder_.isEmpty()) {
+              xiezhuJzBuilder_.dispose();
+              xiezhuJzBuilder_ = null;
+              xiezhuJz_ = other.xiezhuJz_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              xiezhuJzBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getXiezhuJzFieldBuilder() : null;
+            } else {
+              xiezhuJzBuilder_.addAllMessages(other.xiezhuJz_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getXiezhuJzCount(); i++) {
+          if (!getXiezhuJz(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Yabiao.XieZhuJunZhuResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Yabiao.XieZhuJunZhuResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;
+      private java.util.List<qxmobile.protobuf.Yabiao.XieZhuJunZhu> xiezhuJz_ =
+        java.util.Collections.emptyList();
+      private void ensureXiezhuJzIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          xiezhuJz_ = new java.util.ArrayList<qxmobile.protobuf.Yabiao.XieZhuJunZhu>(xiezhuJz_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Yabiao.XieZhuJunZhu, qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder, qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder> xiezhuJzBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Yabiao.XieZhuJunZhu> getXiezhuJzList() {
+        if (xiezhuJzBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(xiezhuJz_);
+        } else {
+          return xiezhuJzBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public int getXiezhuJzCount() {
+        if (xiezhuJzBuilder_ == null) {
+          return xiezhuJz_.size();
+        } else {
+          return xiezhuJzBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public qxmobile.protobuf.Yabiao.XieZhuJunZhu getXiezhuJz(int index) {
+        if (xiezhuJzBuilder_ == null) {
+          return xiezhuJz_.get(index);
+        } else {
+          return xiezhuJzBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public Builder setXiezhuJz(
+          int index, qxmobile.protobuf.Yabiao.XieZhuJunZhu value) {
+        if (xiezhuJzBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureXiezhuJzIsMutable();
+          xiezhuJz_.set(index, value);
+          onChanged();
+        } else {
+          xiezhuJzBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public Builder setXiezhuJz(
+          int index, qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder builderForValue) {
+        if (xiezhuJzBuilder_ == null) {
+          ensureXiezhuJzIsMutable();
+          xiezhuJz_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          xiezhuJzBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public Builder addXiezhuJz(qxmobile.protobuf.Yabiao.XieZhuJunZhu value) {
+        if (xiezhuJzBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureXiezhuJzIsMutable();
+          xiezhuJz_.add(value);
+          onChanged();
+        } else {
+          xiezhuJzBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public Builder addXiezhuJz(
+          int index, qxmobile.protobuf.Yabiao.XieZhuJunZhu value) {
+        if (xiezhuJzBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureXiezhuJzIsMutable();
+          xiezhuJz_.add(index, value);
+          onChanged();
+        } else {
+          xiezhuJzBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public Builder addXiezhuJz(
+          qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder builderForValue) {
+        if (xiezhuJzBuilder_ == null) {
+          ensureXiezhuJzIsMutable();
+          xiezhuJz_.add(builderForValue.build());
+          onChanged();
+        } else {
+          xiezhuJzBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public Builder addXiezhuJz(
+          int index, qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder builderForValue) {
+        if (xiezhuJzBuilder_ == null) {
+          ensureXiezhuJzIsMutable();
+          xiezhuJz_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          xiezhuJzBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public Builder addAllXiezhuJz(
+          java.lang.Iterable<? extends qxmobile.protobuf.Yabiao.XieZhuJunZhu> values) {
+        if (xiezhuJzBuilder_ == null) {
+          ensureXiezhuJzIsMutable();
+          super.addAll(values, xiezhuJz_);
+          onChanged();
+        } else {
+          xiezhuJzBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public Builder clearXiezhuJz() {
+        if (xiezhuJzBuilder_ == null) {
+          xiezhuJz_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          xiezhuJzBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public Builder removeXiezhuJz(int index) {
+        if (xiezhuJzBuilder_ == null) {
+          ensureXiezhuJzIsMutable();
+          xiezhuJz_.remove(index);
+          onChanged();
+        } else {
+          xiezhuJzBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder getXiezhuJzBuilder(
+          int index) {
+        return getXiezhuJzFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder getXiezhuJzOrBuilder(
+          int index) {
+        if (xiezhuJzBuilder_ == null) {
+          return xiezhuJz_.get(index);  } else {
+          return xiezhuJzBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder> 
+           getXiezhuJzOrBuilderList() {
+        if (xiezhuJzBuilder_ != null) {
+          return xiezhuJzBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(xiezhuJz_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder addXiezhuJzBuilder() {
+        return getXiezhuJzFieldBuilder().addBuilder(
+            qxmobile.protobuf.Yabiao.XieZhuJunZhu.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder addXiezhuJzBuilder(
+          int index) {
+        return getXiezhuJzFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Yabiao.XieZhuJunZhu.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.XieZhuJunZhu xiezhuJz = 1;</code>
+       *
+       * <pre>
+       *协助君主
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder> 
+           getXiezhuJzBuilderList() {
+        return getXiezhuJzFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Yabiao.XieZhuJunZhu, qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder, qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder> 
+          getXiezhuJzFieldBuilder() {
+        if (xiezhuJzBuilder_ == null) {
+          xiezhuJzBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Yabiao.XieZhuJunZhu, qxmobile.protobuf.Yabiao.XieZhuJunZhu.Builder, qxmobile.protobuf.Yabiao.XieZhuJunZhuOrBuilder>(
+                  xiezhuJz_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          xiezhuJz_ = null;
+        }
+        return xiezhuJzBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.XieZhuJunZhuResp)
+    }
+
+    static {
+      defaultInstance = new XieZhuJunZhuResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.XieZhuJunZhuResp)
   }
 
   public interface HorseTypeOrBuilder
@@ -9626,7 +9488,7 @@ public final class Yabiao {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     *(10:成功 20:失败 30:已进入押镖 40：盟友已协助其他人)
+     *(10:成功 20:失败 30:已进入押镖 40押镖次数已用完)
      * </pre>
      */
     boolean hasResult();
@@ -9634,34 +9496,10 @@ public final class Yabiao {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     *(10:成功 20:失败 30:已进入押镖 40：盟友已协助其他人)
+     *(10:成功 20:失败 30:已进入押镖 40押镖次数已用完)
      * </pre>
      */
     int getResult();
-
-    // required int32 roomId = 2;
-    /**
-     * <code>required int32 roomId = 2;</code>
-     */
-    boolean hasRoomId();
-    /**
-     * <code>required int32 roomId = 2;</code>
-     */
-    int getRoomId();
-
-    // repeated int64 jzId = 3;
-    /**
-     * <code>repeated int64 jzId = 3;</code>
-     */
-    java.util.List<java.lang.Long> getJzIdList();
-    /**
-     * <code>repeated int64 jzId = 3;</code>
-     */
-    int getJzIdCount();
-    /**
-     * <code>repeated int64 jzId = 3;</code>
-     */
-    long getJzId(int index);
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.YabiaoResult}
@@ -9725,32 +9563,6 @@ public final class Yabiao {
               result_ = input.readInt32();
               break;
             }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              roomId_ = input.readInt32();
-              break;
-            }
-            case 24: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                jzId_ = new java.util.ArrayList<java.lang.Long>();
-                mutable_bitField0_ |= 0x00000004;
-              }
-              jzId_.add(input.readInt64());
-              break;
-            }
-            case 26: {
-              int length = input.readRawVarint32();
-              int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004) && input.getBytesUntilLimit() > 0) {
-                jzId_ = new java.util.ArrayList<java.lang.Long>();
-                mutable_bitField0_ |= 0x00000004;
-              }
-              while (input.getBytesUntilLimit() > 0) {
-                jzId_.add(input.readInt64());
-              }
-              input.popLimit(limit);
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -9759,9 +9571,6 @@ public final class Yabiao {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          jzId_ = java.util.Collections.unmodifiableList(jzId_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -9801,7 +9610,7 @@ public final class Yabiao {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     *(10:成功 20:失败 30:已进入押镖 40：盟友已协助其他人)
+     *(10:成功 20:失败 30:已进入押镖 40押镖次数已用完)
      * </pre>
      */
     public boolean hasResult() {
@@ -9811,56 +9620,15 @@ public final class Yabiao {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     *(10:成功 20:失败 30:已进入押镖 40：盟友已协助其他人)
+     *(10:成功 20:失败 30:已进入押镖 40押镖次数已用完)
      * </pre>
      */
     public int getResult() {
       return result_;
     }
 
-    // required int32 roomId = 2;
-    public static final int ROOMID_FIELD_NUMBER = 2;
-    private int roomId_;
-    /**
-     * <code>required int32 roomId = 2;</code>
-     */
-    public boolean hasRoomId() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required int32 roomId = 2;</code>
-     */
-    public int getRoomId() {
-      return roomId_;
-    }
-
-    // repeated int64 jzId = 3;
-    public static final int JZID_FIELD_NUMBER = 3;
-    private java.util.List<java.lang.Long> jzId_;
-    /**
-     * <code>repeated int64 jzId = 3;</code>
-     */
-    public java.util.List<java.lang.Long>
-        getJzIdList() {
-      return jzId_;
-    }
-    /**
-     * <code>repeated int64 jzId = 3;</code>
-     */
-    public int getJzIdCount() {
-      return jzId_.size();
-    }
-    /**
-     * <code>repeated int64 jzId = 3;</code>
-     */
-    public long getJzId(int index) {
-      return jzId_.get(index);
-    }
-
     private void initFields() {
       result_ = 0;
-      roomId_ = 0;
-      jzId_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -9868,10 +9636,6 @@ public final class Yabiao {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasResult()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasRoomId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -9885,12 +9649,6 @@ public final class Yabiao {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(1, result_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, roomId_);
-      }
-      for (int i = 0; i < jzId_.size(); i++) {
-        output.writeInt64(3, jzId_.get(i));
-      }
       getUnknownFields().writeTo(output);
     }
 
@@ -9903,19 +9661,6 @@ public final class Yabiao {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, result_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, roomId_);
-      }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < jzId_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeInt64SizeNoTag(jzId_.get(i));
-        }
-        size += dataSize;
-        size += 1 * getJzIdList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -10041,10 +9786,6 @@ public final class Yabiao {
         super.clear();
         result_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        roomId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        jzId_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -10077,15 +9818,6 @@ public final class Yabiao {
           to_bitField0_ |= 0x00000001;
         }
         result.result_ = result_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.roomId_ = roomId_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          jzId_ = java.util.Collections.unmodifiableList(jzId_);
-          bitField0_ = (bitField0_ & ~0x00000004);
-        }
-        result.jzId_ = jzId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -10105,29 +9837,12 @@ public final class Yabiao {
         if (other.hasResult()) {
           setResult(other.getResult());
         }
-        if (other.hasRoomId()) {
-          setRoomId(other.getRoomId());
-        }
-        if (!other.jzId_.isEmpty()) {
-          if (jzId_.isEmpty()) {
-            jzId_ = other.jzId_;
-            bitField0_ = (bitField0_ & ~0x00000004);
-          } else {
-            ensureJzIdIsMutable();
-            jzId_.addAll(other.jzId_);
-          }
-          onChanged();
-        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasResult()) {
-          
-          return false;
-        }
-        if (!hasRoomId()) {
           
           return false;
         }
@@ -10159,7 +9874,7 @@ public final class Yabiao {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       *(10:成功 20:失败 30:已进入押镖 40：盟友已协助其他人)
+       *(10:成功 20:失败 30:已进入押镖 40押镖次数已用完)
        * </pre>
        */
       public boolean hasResult() {
@@ -10169,7 +9884,7 @@ public final class Yabiao {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       *(10:成功 20:失败 30:已进入押镖 40：盟友已协助其他人)
+       *(10:成功 20:失败 30:已进入押镖 40押镖次数已用完)
        * </pre>
        */
       public int getResult() {
@@ -10179,7 +9894,7 @@ public final class Yabiao {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       *(10:成功 20:失败 30:已进入押镖 40：盟友已协助其他人)
+       *(10:成功 20:失败 30:已进入押镖 40押镖次数已用完)
        * </pre>
        */
       public Builder setResult(int value) {
@@ -10192,111 +9907,12 @@ public final class Yabiao {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       *(10:成功 20:失败 30:已进入押镖 40：盟友已协助其他人)
+       *(10:成功 20:失败 30:已进入押镖 40押镖次数已用完)
        * </pre>
        */
       public Builder clearResult() {
         bitField0_ = (bitField0_ & ~0x00000001);
         result_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 roomId = 2;
-      private int roomId_ ;
-      /**
-       * <code>required int32 roomId = 2;</code>
-       */
-      public boolean hasRoomId() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required int32 roomId = 2;</code>
-       */
-      public int getRoomId() {
-        return roomId_;
-      }
-      /**
-       * <code>required int32 roomId = 2;</code>
-       */
-      public Builder setRoomId(int value) {
-        bitField0_ |= 0x00000002;
-        roomId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 roomId = 2;</code>
-       */
-      public Builder clearRoomId() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        roomId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // repeated int64 jzId = 3;
-      private java.util.List<java.lang.Long> jzId_ = java.util.Collections.emptyList();
-      private void ensureJzIdIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          jzId_ = new java.util.ArrayList<java.lang.Long>(jzId_);
-          bitField0_ |= 0x00000004;
-         }
-      }
-      /**
-       * <code>repeated int64 jzId = 3;</code>
-       */
-      public java.util.List<java.lang.Long>
-          getJzIdList() {
-        return java.util.Collections.unmodifiableList(jzId_);
-      }
-      /**
-       * <code>repeated int64 jzId = 3;</code>
-       */
-      public int getJzIdCount() {
-        return jzId_.size();
-      }
-      /**
-       * <code>repeated int64 jzId = 3;</code>
-       */
-      public long getJzId(int index) {
-        return jzId_.get(index);
-      }
-      /**
-       * <code>repeated int64 jzId = 3;</code>
-       */
-      public Builder setJzId(
-          int index, long value) {
-        ensureJzIdIsMutable();
-        jzId_.set(index, value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated int64 jzId = 3;</code>
-       */
-      public Builder addJzId(long value) {
-        ensureJzIdIsMutable();
-        jzId_.add(value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated int64 jzId = 3;</code>
-       */
-      public Builder addAllJzId(
-          java.lang.Iterable<? extends java.lang.Long> values) {
-        ensureJzIdIsMutable();
-        super.addAll(values, jzId_);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated int64 jzId = 3;</code>
-       */
-      public Builder clearJzId() {
-        jzId_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
@@ -10310,828 +9926,6 @@ public final class Yabiao {
     }
 
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.YabiaoResult)
-  }
-
-  public interface YabiaoInfoRespOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 fangyuZuHeId = 1;
-    /**
-     * <code>required int32 fangyuZuHeId = 1;</code>
-     *
-     * <pre>
-     * 房间列表信息
-     * </pre>
-     */
-    boolean hasFangyuZuHeId();
-    /**
-     * <code>required int32 fangyuZuHeId = 1;</code>
-     *
-     * <pre>
-     * 房间列表信息
-     * </pre>
-     */
-    int getFangyuZuHeId();
-
-    // repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;
-    /**
-     * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-     */
-    java.util.List<qxmobile.protobuf.Yabiao.YabiaoRoomInfo> 
-        getRoomListList();
-    /**
-     * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-     */
-    qxmobile.protobuf.Yabiao.YabiaoRoomInfo getRoomList(int index);
-    /**
-     * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-     */
-    int getRoomListCount();
-    /**
-     * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-     */
-    java.util.List<? extends qxmobile.protobuf.Yabiao.YabiaoRoomInfoOrBuilder> 
-        getRoomListOrBuilderList();
-    /**
-     * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-     */
-    qxmobile.protobuf.Yabiao.YabiaoRoomInfoOrBuilder getRoomListOrBuilder(
-        int index);
-  }
-  /**
-   * Protobuf type {@code qxmobile.protobuf.YabiaoInfoResp}
-   *
-   * <pre>
-   *public static final short C_JIEBIAO_INFO_REQ= 3409;请求劫镖界面
-   *public static final short S_JIEBIAO_INFO_RESP= 3410;
-   *劫镖主界面
-   * </pre>
-   */
-  public static final class YabiaoInfoResp extends
-      com.google.protobuf.GeneratedMessage
-      implements YabiaoInfoRespOrBuilder {
-    // Use YabiaoInfoResp.newBuilder() to construct.
-    private YabiaoInfoResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private YabiaoInfoResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final YabiaoInfoResp defaultInstance;
-    public static YabiaoInfoResp getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public YabiaoInfoResp getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private YabiaoInfoResp(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              fangyuZuHeId_ = input.readInt32();
-              break;
-            }
-            case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                roomList_ = new java.util.ArrayList<qxmobile.protobuf.Yabiao.YabiaoRoomInfo>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              roomList_.add(input.readMessage(qxmobile.protobuf.Yabiao.YabiaoRoomInfo.PARSER, extensionRegistry));
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          roomList_ = java.util.Collections.unmodifiableList(roomList_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_YabiaoInfoResp_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_YabiaoInfoResp_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.Yabiao.YabiaoInfoResp.class, qxmobile.protobuf.Yabiao.YabiaoInfoResp.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<YabiaoInfoResp> PARSER =
-        new com.google.protobuf.AbstractParser<YabiaoInfoResp>() {
-      public YabiaoInfoResp parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new YabiaoInfoResp(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<YabiaoInfoResp> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 fangyuZuHeId = 1;
-    public static final int FANGYUZUHEID_FIELD_NUMBER = 1;
-    private int fangyuZuHeId_;
-    /**
-     * <code>required int32 fangyuZuHeId = 1;</code>
-     *
-     * <pre>
-     * 房间列表信息
-     * </pre>
-     */
-    public boolean hasFangyuZuHeId() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 fangyuZuHeId = 1;</code>
-     *
-     * <pre>
-     * 房间列表信息
-     * </pre>
-     */
-    public int getFangyuZuHeId() {
-      return fangyuZuHeId_;
-    }
-
-    // repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;
-    public static final int ROOMLIST_FIELD_NUMBER = 2;
-    private java.util.List<qxmobile.protobuf.Yabiao.YabiaoRoomInfo> roomList_;
-    /**
-     * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-     */
-    public java.util.List<qxmobile.protobuf.Yabiao.YabiaoRoomInfo> getRoomListList() {
-      return roomList_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-     */
-    public java.util.List<? extends qxmobile.protobuf.Yabiao.YabiaoRoomInfoOrBuilder> 
-        getRoomListOrBuilderList() {
-      return roomList_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-     */
-    public int getRoomListCount() {
-      return roomList_.size();
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-     */
-    public qxmobile.protobuf.Yabiao.YabiaoRoomInfo getRoomList(int index) {
-      return roomList_.get(index);
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-     */
-    public qxmobile.protobuf.Yabiao.YabiaoRoomInfoOrBuilder getRoomListOrBuilder(
-        int index) {
-      return roomList_.get(index);
-    }
-
-    private void initFields() {
-      fangyuZuHeId_ = 0;
-      roomList_ = java.util.Collections.emptyList();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasFangyuZuHeId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      for (int i = 0; i < getRoomListCount(); i++) {
-        if (!getRoomList(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, fangyuZuHeId_);
-      }
-      for (int i = 0; i < roomList_.size(); i++) {
-        output.writeMessage(2, roomList_.get(i));
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, fangyuZuHeId_);
-      }
-      for (int i = 0; i < roomList_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, roomList_.get(i));
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static qxmobile.protobuf.Yabiao.YabiaoInfoResp parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Yabiao.YabiaoInfoResp parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Yabiao.YabiaoInfoResp parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Yabiao.YabiaoInfoResp parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Yabiao.YabiaoInfoResp parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Yabiao.YabiaoInfoResp parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Yabiao.YabiaoInfoResp parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static qxmobile.protobuf.Yabiao.YabiaoInfoResp parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Yabiao.YabiaoInfoResp parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Yabiao.YabiaoInfoResp parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.Yabiao.YabiaoInfoResp prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code qxmobile.protobuf.YabiaoInfoResp}
-     *
-     * <pre>
-     *public static final short C_JIEBIAO_INFO_REQ= 3409;请求劫镖界面
-     *public static final short S_JIEBIAO_INFO_RESP= 3410;
-     *劫镖主界面
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.Yabiao.YabiaoInfoRespOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_YabiaoInfoResp_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_YabiaoInfoResp_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.Yabiao.YabiaoInfoResp.class, qxmobile.protobuf.Yabiao.YabiaoInfoResp.Builder.class);
-      }
-
-      // Construct using qxmobile.protobuf.Yabiao.YabiaoInfoResp.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getRoomListFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        fangyuZuHeId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        if (roomListBuilder_ == null) {
-          roomList_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-        } else {
-          roomListBuilder_.clear();
-        }
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_YabiaoInfoResp_descriptor;
-      }
-
-      public qxmobile.protobuf.Yabiao.YabiaoInfoResp getDefaultInstanceForType() {
-        return qxmobile.protobuf.Yabiao.YabiaoInfoResp.getDefaultInstance();
-      }
-
-      public qxmobile.protobuf.Yabiao.YabiaoInfoResp build() {
-        qxmobile.protobuf.Yabiao.YabiaoInfoResp result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public qxmobile.protobuf.Yabiao.YabiaoInfoResp buildPartial() {
-        qxmobile.protobuf.Yabiao.YabiaoInfoResp result = new qxmobile.protobuf.Yabiao.YabiaoInfoResp(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.fangyuZuHeId_ = fangyuZuHeId_;
-        if (roomListBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
-            roomList_ = java.util.Collections.unmodifiableList(roomList_);
-            bitField0_ = (bitField0_ & ~0x00000002);
-          }
-          result.roomList_ = roomList_;
-        } else {
-          result.roomList_ = roomListBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.Yabiao.YabiaoInfoResp) {
-          return mergeFrom((qxmobile.protobuf.Yabiao.YabiaoInfoResp)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(qxmobile.protobuf.Yabiao.YabiaoInfoResp other) {
-        if (other == qxmobile.protobuf.Yabiao.YabiaoInfoResp.getDefaultInstance()) return this;
-        if (other.hasFangyuZuHeId()) {
-          setFangyuZuHeId(other.getFangyuZuHeId());
-        }
-        if (roomListBuilder_ == null) {
-          if (!other.roomList_.isEmpty()) {
-            if (roomList_.isEmpty()) {
-              roomList_ = other.roomList_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-            } else {
-              ensureRoomListIsMutable();
-              roomList_.addAll(other.roomList_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.roomList_.isEmpty()) {
-            if (roomListBuilder_.isEmpty()) {
-              roomListBuilder_.dispose();
-              roomListBuilder_ = null;
-              roomList_ = other.roomList_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-              roomListBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getRoomListFieldBuilder() : null;
-            } else {
-              roomListBuilder_.addAllMessages(other.roomList_);
-            }
-          }
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasFangyuZuHeId()) {
-          
-          return false;
-        }
-        for (int i = 0; i < getRoomListCount(); i++) {
-          if (!getRoomList(i).isInitialized()) {
-            
-            return false;
-          }
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        qxmobile.protobuf.Yabiao.YabiaoInfoResp parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.Yabiao.YabiaoInfoResp) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 fangyuZuHeId = 1;
-      private int fangyuZuHeId_ ;
-      /**
-       * <code>required int32 fangyuZuHeId = 1;</code>
-       *
-       * <pre>
-       * 房间列表信息
-       * </pre>
-       */
-      public boolean hasFangyuZuHeId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 fangyuZuHeId = 1;</code>
-       *
-       * <pre>
-       * 房间列表信息
-       * </pre>
-       */
-      public int getFangyuZuHeId() {
-        return fangyuZuHeId_;
-      }
-      /**
-       * <code>required int32 fangyuZuHeId = 1;</code>
-       *
-       * <pre>
-       * 房间列表信息
-       * </pre>
-       */
-      public Builder setFangyuZuHeId(int value) {
-        bitField0_ |= 0x00000001;
-        fangyuZuHeId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 fangyuZuHeId = 1;</code>
-       *
-       * <pre>
-       * 房间列表信息
-       * </pre>
-       */
-      public Builder clearFangyuZuHeId() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        fangyuZuHeId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;
-      private java.util.List<qxmobile.protobuf.Yabiao.YabiaoRoomInfo> roomList_ =
-        java.util.Collections.emptyList();
-      private void ensureRoomListIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          roomList_ = new java.util.ArrayList<qxmobile.protobuf.Yabiao.YabiaoRoomInfo>(roomList_);
-          bitField0_ |= 0x00000002;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.Yabiao.YabiaoRoomInfo, qxmobile.protobuf.Yabiao.YabiaoRoomInfo.Builder, qxmobile.protobuf.Yabiao.YabiaoRoomInfoOrBuilder> roomListBuilder_;
-
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public java.util.List<qxmobile.protobuf.Yabiao.YabiaoRoomInfo> getRoomListList() {
-        if (roomListBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(roomList_);
-        } else {
-          return roomListBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public int getRoomListCount() {
-        if (roomListBuilder_ == null) {
-          return roomList_.size();
-        } else {
-          return roomListBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public qxmobile.protobuf.Yabiao.YabiaoRoomInfo getRoomList(int index) {
-        if (roomListBuilder_ == null) {
-          return roomList_.get(index);
-        } else {
-          return roomListBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public Builder setRoomList(
-          int index, qxmobile.protobuf.Yabiao.YabiaoRoomInfo value) {
-        if (roomListBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureRoomListIsMutable();
-          roomList_.set(index, value);
-          onChanged();
-        } else {
-          roomListBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public Builder setRoomList(
-          int index, qxmobile.protobuf.Yabiao.YabiaoRoomInfo.Builder builderForValue) {
-        if (roomListBuilder_ == null) {
-          ensureRoomListIsMutable();
-          roomList_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          roomListBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public Builder addRoomList(qxmobile.protobuf.Yabiao.YabiaoRoomInfo value) {
-        if (roomListBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureRoomListIsMutable();
-          roomList_.add(value);
-          onChanged();
-        } else {
-          roomListBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public Builder addRoomList(
-          int index, qxmobile.protobuf.Yabiao.YabiaoRoomInfo value) {
-        if (roomListBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureRoomListIsMutable();
-          roomList_.add(index, value);
-          onChanged();
-        } else {
-          roomListBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public Builder addRoomList(
-          qxmobile.protobuf.Yabiao.YabiaoRoomInfo.Builder builderForValue) {
-        if (roomListBuilder_ == null) {
-          ensureRoomListIsMutable();
-          roomList_.add(builderForValue.build());
-          onChanged();
-        } else {
-          roomListBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public Builder addRoomList(
-          int index, qxmobile.protobuf.Yabiao.YabiaoRoomInfo.Builder builderForValue) {
-        if (roomListBuilder_ == null) {
-          ensureRoomListIsMutable();
-          roomList_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          roomListBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public Builder addAllRoomList(
-          java.lang.Iterable<? extends qxmobile.protobuf.Yabiao.YabiaoRoomInfo> values) {
-        if (roomListBuilder_ == null) {
-          ensureRoomListIsMutable();
-          super.addAll(values, roomList_);
-          onChanged();
-        } else {
-          roomListBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public Builder clearRoomList() {
-        if (roomListBuilder_ == null) {
-          roomList_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-          onChanged();
-        } else {
-          roomListBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public Builder removeRoomList(int index) {
-        if (roomListBuilder_ == null) {
-          ensureRoomListIsMutable();
-          roomList_.remove(index);
-          onChanged();
-        } else {
-          roomListBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public qxmobile.protobuf.Yabiao.YabiaoRoomInfo.Builder getRoomListBuilder(
-          int index) {
-        return getRoomListFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public qxmobile.protobuf.Yabiao.YabiaoRoomInfoOrBuilder getRoomListOrBuilder(
-          int index) {
-        if (roomListBuilder_ == null) {
-          return roomList_.get(index);  } else {
-          return roomListBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public java.util.List<? extends qxmobile.protobuf.Yabiao.YabiaoRoomInfoOrBuilder> 
-           getRoomListOrBuilderList() {
-        if (roomListBuilder_ != null) {
-          return roomListBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(roomList_);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public qxmobile.protobuf.Yabiao.YabiaoRoomInfo.Builder addRoomListBuilder() {
-        return getRoomListFieldBuilder().addBuilder(
-            qxmobile.protobuf.Yabiao.YabiaoRoomInfo.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public qxmobile.protobuf.Yabiao.YabiaoRoomInfo.Builder addRoomListBuilder(
-          int index) {
-        return getRoomListFieldBuilder().addBuilder(
-            index, qxmobile.protobuf.Yabiao.YabiaoRoomInfo.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.YabiaoRoomInfo roomList = 2;</code>
-       */
-      public java.util.List<qxmobile.protobuf.Yabiao.YabiaoRoomInfo.Builder> 
-           getRoomListBuilderList() {
-        return getRoomListFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.Yabiao.YabiaoRoomInfo, qxmobile.protobuf.Yabiao.YabiaoRoomInfo.Builder, qxmobile.protobuf.Yabiao.YabiaoRoomInfoOrBuilder> 
-          getRoomListFieldBuilder() {
-        if (roomListBuilder_ == null) {
-          roomListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              qxmobile.protobuf.Yabiao.YabiaoRoomInfo, qxmobile.protobuf.Yabiao.YabiaoRoomInfo.Builder, qxmobile.protobuf.Yabiao.YabiaoRoomInfoOrBuilder>(
-                  roomList_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
-                  getParentForChildren(),
-                  isClean());
-          roomList_ = null;
-        }
-        return roomListBuilder_;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.YabiaoInfoResp)
-    }
-
-    static {
-      defaultInstance = new YabiaoInfoResp(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.YabiaoInfoResp)
   }
 
   public interface YabiaoRoomInfoOrBuilder
@@ -15389,23 +14183,23 @@ public final class Yabiao {
   public interface BiaoCheStateOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int64 junZhuId = 1;
+    // required int32 uid = 1;
     /**
-     * <code>required int64 junZhuId = 1;</code>
+     * <code>required int32 uid = 1;</code>
      *
      * <pre>
-     *镖车ID
+     *镖车UID
      * </pre>
      */
-    boolean hasJunZhuId();
+    boolean hasUid();
     /**
-     * <code>required int64 junZhuId = 1;</code>
+     * <code>required int32 uid = 1;</code>
      *
      * <pre>
-     *镖车ID
+     *镖车UID
      * </pre>
      */
-    long getJunZhuId();
+    int getUid();
 
     // required int32 state = 2;
     /**
@@ -15425,47 +14219,27 @@ public final class Yabiao {
      */
     int getState();
 
-    // required int64 usedTime = 3;
+    // required int32 jindu = 3;
     /**
-     * <code>required int64 usedTime = 3;</code>
+     * <code>required int32 jindu = 3;</code>
      *
      * <pre>
-     *押运进度
+     *押运进度  百分比的整数
      * </pre>
      */
-    boolean hasUsedTime();
+    boolean hasJindu();
     /**
-     * <code>required int64 usedTime = 3;</code>
+     * <code>required int32 jindu = 3;</code>
      *
      * <pre>
-     *押运进度
+     *押运进度  百分比的整数
      * </pre>
      */
-    long getUsedTime();
+    int getJindu();
 
-    // required int32 hp = 4;
+    // required int32 baohuCD = 4;
     /**
-     * <code>required int32 hp = 4;</code>
-     */
-    boolean hasHp();
-    /**
-     * <code>required int32 hp = 4;</code>
-     */
-    int getHp();
-
-    // required int32 worth = 5;
-    /**
-     * <code>required int32 worth = 5;</code>
-     */
-    boolean hasWorth();
-    /**
-     * <code>required int32 worth = 5;</code>
-     */
-    int getWorth();
-
-    // required int32 baohuCD = 6;
-    /**
-     * <code>required int32 baohuCD = 6;</code>
+     * <code>required int32 baohuCD = 4;</code>
      *
      * <pre>
      *保护时间
@@ -15473,13 +14247,31 @@ public final class Yabiao {
      */
     boolean hasBaohuCD();
     /**
-     * <code>required int32 baohuCD = 6;</code>
+     * <code>required int32 baohuCD = 4;</code>
      *
      * <pre>
      *保护时间
      * </pre>
      */
     int getBaohuCD();
+
+    // required int32 jiasuTime = 5;
+    /**
+     * <code>required int32 jiasuTime = 5;</code>
+     *
+     * <pre>
+     *加速时间
+     * </pre>
+     */
+    boolean hasJiasuTime();
+    /**
+     * <code>required int32 jiasuTime = 5;</code>
+     *
+     * <pre>
+     *加速时间
+     * </pre>
+     */
+    int getJiasuTime();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.BiaoCheState}
@@ -15534,7 +14326,7 @@ public final class Yabiao {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              junZhuId_ = input.readInt64();
+              uid_ = input.readInt32();
               break;
             }
             case 16: {
@@ -15544,22 +14336,17 @@ public final class Yabiao {
             }
             case 24: {
               bitField0_ |= 0x00000004;
-              usedTime_ = input.readInt64();
+              jindu_ = input.readInt32();
               break;
             }
             case 32: {
               bitField0_ |= 0x00000008;
-              hp_ = input.readInt32();
+              baohuCD_ = input.readInt32();
               break;
             }
             case 40: {
               bitField0_ |= 0x00000010;
-              worth_ = input.readInt32();
-              break;
-            }
-            case 48: {
-              bitField0_ |= 0x00000020;
-              baohuCD_ = input.readInt32();
+              jiasuTime_ = input.readInt32();
               break;
             }
           }
@@ -15602,28 +14389,28 @@ public final class Yabiao {
     }
 
     private int bitField0_;
-    // required int64 junZhuId = 1;
-    public static final int JUNZHUID_FIELD_NUMBER = 1;
-    private long junZhuId_;
+    // required int32 uid = 1;
+    public static final int UID_FIELD_NUMBER = 1;
+    private int uid_;
     /**
-     * <code>required int64 junZhuId = 1;</code>
+     * <code>required int32 uid = 1;</code>
      *
      * <pre>
-     *镖车ID
+     *镖车UID
      * </pre>
      */
-    public boolean hasJunZhuId() {
+    public boolean hasUid() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int64 junZhuId = 1;</code>
+     * <code>required int32 uid = 1;</code>
      *
      * <pre>
-     *镖车ID
+     *镖车UID
      * </pre>
      */
-    public long getJunZhuId() {
-      return junZhuId_;
+    public int getUid() {
+      return uid_;
     }
 
     // required int32 state = 2;
@@ -15650,77 +14437,45 @@ public final class Yabiao {
       return state_;
     }
 
-    // required int64 usedTime = 3;
-    public static final int USEDTIME_FIELD_NUMBER = 3;
-    private long usedTime_;
+    // required int32 jindu = 3;
+    public static final int JINDU_FIELD_NUMBER = 3;
+    private int jindu_;
     /**
-     * <code>required int64 usedTime = 3;</code>
+     * <code>required int32 jindu = 3;</code>
      *
      * <pre>
-     *押运进度
+     *押运进度  百分比的整数
      * </pre>
      */
-    public boolean hasUsedTime() {
+    public boolean hasJindu() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required int64 usedTime = 3;</code>
+     * <code>required int32 jindu = 3;</code>
      *
      * <pre>
-     *押运进度
+     *押运进度  百分比的整数
      * </pre>
      */
-    public long getUsedTime() {
-      return usedTime_;
+    public int getJindu() {
+      return jindu_;
     }
 
-    // required int32 hp = 4;
-    public static final int HP_FIELD_NUMBER = 4;
-    private int hp_;
-    /**
-     * <code>required int32 hp = 4;</code>
-     */
-    public boolean hasHp() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>required int32 hp = 4;</code>
-     */
-    public int getHp() {
-      return hp_;
-    }
-
-    // required int32 worth = 5;
-    public static final int WORTH_FIELD_NUMBER = 5;
-    private int worth_;
-    /**
-     * <code>required int32 worth = 5;</code>
-     */
-    public boolean hasWorth() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
-    }
-    /**
-     * <code>required int32 worth = 5;</code>
-     */
-    public int getWorth() {
-      return worth_;
-    }
-
-    // required int32 baohuCD = 6;
-    public static final int BAOHUCD_FIELD_NUMBER = 6;
+    // required int32 baohuCD = 4;
+    public static final int BAOHUCD_FIELD_NUMBER = 4;
     private int baohuCD_;
     /**
-     * <code>required int32 baohuCD = 6;</code>
+     * <code>required int32 baohuCD = 4;</code>
      *
      * <pre>
      *保护时间
      * </pre>
      */
     public boolean hasBaohuCD() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required int32 baohuCD = 6;</code>
+     * <code>required int32 baohuCD = 4;</code>
      *
      * <pre>
      *保护时间
@@ -15730,20 +14485,43 @@ public final class Yabiao {
       return baohuCD_;
     }
 
+    // required int32 jiasuTime = 5;
+    public static final int JIASUTIME_FIELD_NUMBER = 5;
+    private int jiasuTime_;
+    /**
+     * <code>required int32 jiasuTime = 5;</code>
+     *
+     * <pre>
+     *加速时间
+     * </pre>
+     */
+    public boolean hasJiasuTime() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required int32 jiasuTime = 5;</code>
+     *
+     * <pre>
+     *加速时间
+     * </pre>
+     */
+    public int getJiasuTime() {
+      return jiasuTime_;
+    }
+
     private void initFields() {
-      junZhuId_ = 0L;
+      uid_ = 0;
       state_ = 0;
-      usedTime_ = 0L;
-      hp_ = 0;
-      worth_ = 0;
+      jindu_ = 0;
       baohuCD_ = 0;
+      jiasuTime_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasJunZhuId()) {
+      if (!hasUid()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -15751,19 +14529,15 @@ public final class Yabiao {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasUsedTime()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasHp()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasWorth()) {
+      if (!hasJindu()) {
         memoizedIsInitialized = 0;
         return false;
       }
       if (!hasBaohuCD()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasJiasuTime()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -15775,22 +14549,19 @@ public final class Yabiao {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt64(1, junZhuId_);
+        output.writeInt32(1, uid_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(2, state_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt64(3, usedTime_);
+        output.writeInt32(3, jindu_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(4, hp_);
+        output.writeInt32(4, baohuCD_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeInt32(5, worth_);
-      }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeInt32(6, baohuCD_);
+        output.writeInt32(5, jiasuTime_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -15803,7 +14574,7 @@ public final class Yabiao {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(1, junZhuId_);
+          .computeInt32Size(1, uid_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
@@ -15811,19 +14582,15 @@ public final class Yabiao {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(3, usedTime_);
+          .computeInt32Size(3, jindu_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, hp_);
+          .computeInt32Size(4, baohuCD_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, worth_);
-      }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(6, baohuCD_);
+          .computeInt32Size(5, jiasuTime_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -15941,18 +14708,16 @@ public final class Yabiao {
 
       public Builder clear() {
         super.clear();
-        junZhuId_ = 0L;
+        uid_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
         state_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        usedTime_ = 0L;
+        jindu_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        hp_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        worth_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000010);
         baohuCD_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000008);
+        jiasuTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -15984,7 +14749,7 @@ public final class Yabiao {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.junZhuId_ = junZhuId_;
+        result.uid_ = uid_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
@@ -15992,19 +14757,15 @@ public final class Yabiao {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.usedTime_ = usedTime_;
+        result.jindu_ = jindu_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.hp_ = hp_;
+        result.baohuCD_ = baohuCD_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.worth_ = worth_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
-          to_bitField0_ |= 0x00000020;
-        }
-        result.baohuCD_ = baohuCD_;
+        result.jiasuTime_ = jiasuTime_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -16021,30 +14782,27 @@ public final class Yabiao {
 
       public Builder mergeFrom(qxmobile.protobuf.Yabiao.BiaoCheState other) {
         if (other == qxmobile.protobuf.Yabiao.BiaoCheState.getDefaultInstance()) return this;
-        if (other.hasJunZhuId()) {
-          setJunZhuId(other.getJunZhuId());
+        if (other.hasUid()) {
+          setUid(other.getUid());
         }
         if (other.hasState()) {
           setState(other.getState());
         }
-        if (other.hasUsedTime()) {
-          setUsedTime(other.getUsedTime());
-        }
-        if (other.hasHp()) {
-          setHp(other.getHp());
-        }
-        if (other.hasWorth()) {
-          setWorth(other.getWorth());
+        if (other.hasJindu()) {
+          setJindu(other.getJindu());
         }
         if (other.hasBaohuCD()) {
           setBaohuCD(other.getBaohuCD());
+        }
+        if (other.hasJiasuTime()) {
+          setJiasuTime(other.getJiasuTime());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasJunZhuId()) {
+        if (!hasUid()) {
           
           return false;
         }
@@ -16052,19 +14810,15 @@ public final class Yabiao {
           
           return false;
         }
-        if (!hasUsedTime()) {
-          
-          return false;
-        }
-        if (!hasHp()) {
-          
-          return false;
-        }
-        if (!hasWorth()) {
+        if (!hasJindu()) {
           
           return false;
         }
         if (!hasBaohuCD()) {
+          
+          return false;
+        }
+        if (!hasJiasuTime()) {
           
           return false;
         }
@@ -16090,51 +14844,51 @@ public final class Yabiao {
       }
       private int bitField0_;
 
-      // required int64 junZhuId = 1;
-      private long junZhuId_ ;
+      // required int32 uid = 1;
+      private int uid_ ;
       /**
-       * <code>required int64 junZhuId = 1;</code>
+       * <code>required int32 uid = 1;</code>
        *
        * <pre>
-       *镖车ID
+       *镖车UID
        * </pre>
        */
-      public boolean hasJunZhuId() {
+      public boolean hasUid() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int64 junZhuId = 1;</code>
+       * <code>required int32 uid = 1;</code>
        *
        * <pre>
-       *镖车ID
+       *镖车UID
        * </pre>
        */
-      public long getJunZhuId() {
-        return junZhuId_;
+      public int getUid() {
+        return uid_;
       }
       /**
-       * <code>required int64 junZhuId = 1;</code>
+       * <code>required int32 uid = 1;</code>
        *
        * <pre>
-       *镖车ID
+       *镖车UID
        * </pre>
        */
-      public Builder setJunZhuId(long value) {
+      public Builder setUid(int value) {
         bitField0_ |= 0x00000001;
-        junZhuId_ = value;
+        uid_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int64 junZhuId = 1;</code>
+       * <code>required int32 uid = 1;</code>
        *
        * <pre>
-       *镖车ID
+       *镖车UID
        * </pre>
        */
-      public Builder clearJunZhuId() {
+      public Builder clearUid() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        junZhuId_ = 0L;
+        uid_ = 0;
         onChanged();
         return this;
       }
@@ -16188,135 +14942,69 @@ public final class Yabiao {
         return this;
       }
 
-      // required int64 usedTime = 3;
-      private long usedTime_ ;
+      // required int32 jindu = 3;
+      private int jindu_ ;
       /**
-       * <code>required int64 usedTime = 3;</code>
+       * <code>required int32 jindu = 3;</code>
        *
        * <pre>
-       *押运进度
+       *押运进度  百分比的整数
        * </pre>
        */
-      public boolean hasUsedTime() {
+      public boolean hasJindu() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required int64 usedTime = 3;</code>
+       * <code>required int32 jindu = 3;</code>
        *
        * <pre>
-       *押运进度
+       *押运进度  百分比的整数
        * </pre>
        */
-      public long getUsedTime() {
-        return usedTime_;
+      public int getJindu() {
+        return jindu_;
       }
       /**
-       * <code>required int64 usedTime = 3;</code>
+       * <code>required int32 jindu = 3;</code>
        *
        * <pre>
-       *押运进度
+       *押运进度  百分比的整数
        * </pre>
        */
-      public Builder setUsedTime(long value) {
+      public Builder setJindu(int value) {
         bitField0_ |= 0x00000004;
-        usedTime_ = value;
+        jindu_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int64 usedTime = 3;</code>
+       * <code>required int32 jindu = 3;</code>
        *
        * <pre>
-       *押运进度
+       *押运进度  百分比的整数
        * </pre>
        */
-      public Builder clearUsedTime() {
+      public Builder clearJindu() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        usedTime_ = 0L;
+        jindu_ = 0;
         onChanged();
         return this;
       }
 
-      // required int32 hp = 4;
-      private int hp_ ;
-      /**
-       * <code>required int32 hp = 4;</code>
-       */
-      public boolean hasHp() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>required int32 hp = 4;</code>
-       */
-      public int getHp() {
-        return hp_;
-      }
-      /**
-       * <code>required int32 hp = 4;</code>
-       */
-      public Builder setHp(int value) {
-        bitField0_ |= 0x00000008;
-        hp_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 hp = 4;</code>
-       */
-      public Builder clearHp() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        hp_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 worth = 5;
-      private int worth_ ;
-      /**
-       * <code>required int32 worth = 5;</code>
-       */
-      public boolean hasWorth() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>required int32 worth = 5;</code>
-       */
-      public int getWorth() {
-        return worth_;
-      }
-      /**
-       * <code>required int32 worth = 5;</code>
-       */
-      public Builder setWorth(int value) {
-        bitField0_ |= 0x00000010;
-        worth_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 worth = 5;</code>
-       */
-      public Builder clearWorth() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        worth_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 baohuCD = 6;
+      // required int32 baohuCD = 4;
       private int baohuCD_ ;
       /**
-       * <code>required int32 baohuCD = 6;</code>
+       * <code>required int32 baohuCD = 4;</code>
        *
        * <pre>
        *保护时间
        * </pre>
        */
       public boolean hasBaohuCD() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>required int32 baohuCD = 6;</code>
+       * <code>required int32 baohuCD = 4;</code>
        *
        * <pre>
        *保护时间
@@ -16326,28 +15014,77 @@ public final class Yabiao {
         return baohuCD_;
       }
       /**
-       * <code>required int32 baohuCD = 6;</code>
+       * <code>required int32 baohuCD = 4;</code>
        *
        * <pre>
        *保护时间
        * </pre>
        */
       public Builder setBaohuCD(int value) {
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000008;
         baohuCD_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 baohuCD = 6;</code>
+       * <code>required int32 baohuCD = 4;</code>
        *
        * <pre>
        *保护时间
        * </pre>
        */
       public Builder clearBaohuCD() {
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000008);
         baohuCD_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 jiasuTime = 5;
+      private int jiasuTime_ ;
+      /**
+       * <code>required int32 jiasuTime = 5;</code>
+       *
+       * <pre>
+       *加速时间
+       * </pre>
+       */
+      public boolean hasJiasuTime() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required int32 jiasuTime = 5;</code>
+       *
+       * <pre>
+       *加速时间
+       * </pre>
+       */
+      public int getJiasuTime() {
+        return jiasuTime_;
+      }
+      /**
+       * <code>required int32 jiasuTime = 5;</code>
+       *
+       * <pre>
+       *加速时间
+       * </pre>
+       */
+      public Builder setJiasuTime(int value) {
+        bitField0_ |= 0x00000010;
+        jiasuTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 jiasuTime = 5;</code>
+       *
+       * <pre>
+       *加速时间
+       * </pre>
+       */
+      public Builder clearJiasuTime() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        jiasuTime_ = 0;
         onChanged();
         return this;
       }
@@ -20664,7 +19401,7 @@ public final class Yabiao {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *10：押镖次数 20 ：劫镖次数
+     *10：押镖次数 
      * </pre>
      */
     boolean hasType();
@@ -20672,7 +19409,7 @@ public final class Yabiao {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *10：押镖次数 20 ：劫镖次数
+     *10：押镖次数 
      * </pre>
      */
     int getType();
@@ -20785,7 +19522,7 @@ public final class Yabiao {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *10：押镖次数 20 ：劫镖次数
+     *10：押镖次数 
      * </pre>
      */
     public boolean hasType() {
@@ -20795,7 +19532,7 @@ public final class Yabiao {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *10：押镖次数 20 ：劫镖次数
+     *10：押镖次数 
      * </pre>
      */
     public int getType() {
@@ -21048,7 +19785,7 @@ public final class Yabiao {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *10：押镖次数 20 ：劫镖次数
+       *10：押镖次数 
        * </pre>
        */
       public boolean hasType() {
@@ -21058,7 +19795,7 @@ public final class Yabiao {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *10：押镖次数 20 ：劫镖次数
+       *10：押镖次数 
        * </pre>
        */
       public int getType() {
@@ -21068,7 +19805,7 @@ public final class Yabiao {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *10：押镖次数 20 ：劫镖次数
+       *10：押镖次数 
        * </pre>
        */
       public Builder setType(int value) {
@@ -21081,7 +19818,7 @@ public final class Yabiao {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *10：押镖次数 20 ：劫镖次数
+       *10：押镖次数 
        * </pre>
        */
       public Builder clearType() {
@@ -21126,42 +19863,38 @@ public final class Yabiao {
     // required int32 leftYBTimes = 2;
     /**
      * <code>required int32 leftYBTimes = 2;</code>
+     *
+     * <pre>
+     *剩余押镖次数
+     * </pre>
      */
     boolean hasLeftYBTimes();
     /**
      * <code>required int32 leftYBTimes = 2;</code>
+     *
+     * <pre>
+     *剩余押镖次数
+     * </pre>
      */
     int getLeftYBTimes();
 
-    // required int32 leftJBTimes = 3;
+    // required int32 usedYBVip = 3;
     /**
-     * <code>required int32 leftJBTimes = 3;</code>
-     */
-    boolean hasLeftJBTimes();
-    /**
-     * <code>required int32 leftJBTimes = 3;</code>
-     */
-    int getLeftJBTimes();
-
-    // required int32 usedYBVip = 4;
-    /**
-     * <code>required int32 usedYBVip = 4;</code>
+     * <code>required int32 usedYBVip = 3;</code>
+     *
+     * <pre>
+     *已经花了几次元宝购买押镖次数
+     * </pre>
      */
     boolean hasUsedYBVip();
     /**
-     * <code>required int32 usedYBVip = 4;</code>
+     * <code>required int32 usedYBVip = 3;</code>
+     *
+     * <pre>
+     *已经花了几次元宝购买押镖次数
+     * </pre>
      */
     int getUsedYBVip();
-
-    // required int32 usedJBVip = 5;
-    /**
-     * <code>required int32 usedJBVip = 5;</code>
-     */
-    boolean hasUsedJBVip();
-    /**
-     * <code>required int32 usedJBVip = 5;</code>
-     */
-    int getUsedJBVip();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.BuyCountsResp}
@@ -21230,17 +19963,7 @@ public final class Yabiao {
             }
             case 24: {
               bitField0_ |= 0x00000004;
-              leftJBTimes_ = input.readInt32();
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000008;
               usedYBVip_ = input.readInt32();
-              break;
-            }
-            case 40: {
-              bitField0_ |= 0x00000010;
-              usedJBVip_ = input.readInt32();
               break;
             }
           }
@@ -21312,71 +20035,53 @@ public final class Yabiao {
     private int leftYBTimes_;
     /**
      * <code>required int32 leftYBTimes = 2;</code>
+     *
+     * <pre>
+     *剩余押镖次数
+     * </pre>
      */
     public boolean hasLeftYBTimes() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required int32 leftYBTimes = 2;</code>
+     *
+     * <pre>
+     *剩余押镖次数
+     * </pre>
      */
     public int getLeftYBTimes() {
       return leftYBTimes_;
     }
 
-    // required int32 leftJBTimes = 3;
-    public static final int LEFTJBTIMES_FIELD_NUMBER = 3;
-    private int leftJBTimes_;
+    // required int32 usedYBVip = 3;
+    public static final int USEDYBVIP_FIELD_NUMBER = 3;
+    private int usedYBVip_;
     /**
-     * <code>required int32 leftJBTimes = 3;</code>
+     * <code>required int32 usedYBVip = 3;</code>
+     *
+     * <pre>
+     *已经花了几次元宝购买押镖次数
+     * </pre>
      */
-    public boolean hasLeftJBTimes() {
+    public boolean hasUsedYBVip() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required int32 leftJBTimes = 3;</code>
-     */
-    public int getLeftJBTimes() {
-      return leftJBTimes_;
-    }
-
-    // required int32 usedYBVip = 4;
-    public static final int USEDYBVIP_FIELD_NUMBER = 4;
-    private int usedYBVip_;
-    /**
-     * <code>required int32 usedYBVip = 4;</code>
-     */
-    public boolean hasUsedYBVip() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>required int32 usedYBVip = 4;</code>
+     * <code>required int32 usedYBVip = 3;</code>
+     *
+     * <pre>
+     *已经花了几次元宝购买押镖次数
+     * </pre>
      */
     public int getUsedYBVip() {
       return usedYBVip_;
     }
 
-    // required int32 usedJBVip = 5;
-    public static final int USEDJBVIP_FIELD_NUMBER = 5;
-    private int usedJBVip_;
-    /**
-     * <code>required int32 usedJBVip = 5;</code>
-     */
-    public boolean hasUsedJBVip() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
-    }
-    /**
-     * <code>required int32 usedJBVip = 5;</code>
-     */
-    public int getUsedJBVip() {
-      return usedJBVip_;
-    }
-
     private void initFields() {
       result_ = 0;
       leftYBTimes_ = 0;
-      leftJBTimes_ = 0;
       usedYBVip_ = 0;
-      usedJBVip_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -21391,15 +20096,7 @@ public final class Yabiao {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasLeftJBTimes()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       if (!hasUsedYBVip()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasUsedJBVip()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -21417,13 +20114,7 @@ public final class Yabiao {
         output.writeInt32(2, leftYBTimes_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, leftJBTimes_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(4, usedYBVip_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeInt32(5, usedJBVip_);
+        output.writeInt32(3, usedYBVip_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -21444,15 +20135,7 @@ public final class Yabiao {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, leftJBTimes_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, usedYBVip_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, usedJBVip_);
+          .computeInt32Size(3, usedYBVip_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -21578,12 +20261,8 @@ public final class Yabiao {
         bitField0_ = (bitField0_ & ~0x00000001);
         leftYBTimes_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        leftJBTimes_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
         usedYBVip_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        usedJBVip_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -21623,15 +20302,7 @@ public final class Yabiao {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.leftJBTimes_ = leftJBTimes_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
         result.usedYBVip_ = usedYBVip_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000010;
-        }
-        result.usedJBVip_ = usedJBVip_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -21654,14 +20325,8 @@ public final class Yabiao {
         if (other.hasLeftYBTimes()) {
           setLeftYBTimes(other.getLeftYBTimes());
         }
-        if (other.hasLeftJBTimes()) {
-          setLeftJBTimes(other.getLeftJBTimes());
-        }
         if (other.hasUsedYBVip()) {
           setUsedYBVip(other.getUsedYBVip());
-        }
-        if (other.hasUsedJBVip()) {
-          setUsedJBVip(other.getUsedJBVip());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -21676,15 +20341,7 @@ public final class Yabiao {
           
           return false;
         }
-        if (!hasLeftJBTimes()) {
-          
-          return false;
-        }
         if (!hasUsedYBVip()) {
-          
-          return false;
-        }
-        if (!hasUsedJBVip()) {
           
           return false;
         }
@@ -21763,18 +20420,30 @@ public final class Yabiao {
       private int leftYBTimes_ ;
       /**
        * <code>required int32 leftYBTimes = 2;</code>
+       *
+       * <pre>
+       *剩余押镖次数
+       * </pre>
        */
       public boolean hasLeftYBTimes() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required int32 leftYBTimes = 2;</code>
+       *
+       * <pre>
+       *剩余押镖次数
+       * </pre>
        */
       public int getLeftYBTimes() {
         return leftYBTimes_;
       }
       /**
        * <code>required int32 leftYBTimes = 2;</code>
+       *
+       * <pre>
+       *剩余押镖次数
+       * </pre>
        */
       public Builder setLeftYBTimes(int value) {
         bitField0_ |= 0x00000002;
@@ -21784,6 +20453,10 @@ public final class Yabiao {
       }
       /**
        * <code>required int32 leftYBTimes = 2;</code>
+       *
+       * <pre>
+       *剩余押镖次数
+       * </pre>
        */
       public Builder clearLeftYBTimes() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -21792,101 +20465,51 @@ public final class Yabiao {
         return this;
       }
 
-      // required int32 leftJBTimes = 3;
-      private int leftJBTimes_ ;
+      // required int32 usedYBVip = 3;
+      private int usedYBVip_ ;
       /**
-       * <code>required int32 leftJBTimes = 3;</code>
+       * <code>required int32 usedYBVip = 3;</code>
+       *
+       * <pre>
+       *已经花了几次元宝购买押镖次数
+       * </pre>
        */
-      public boolean hasLeftJBTimes() {
+      public boolean hasUsedYBVip() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required int32 leftJBTimes = 3;</code>
-       */
-      public int getLeftJBTimes() {
-        return leftJBTimes_;
-      }
-      /**
-       * <code>required int32 leftJBTimes = 3;</code>
-       */
-      public Builder setLeftJBTimes(int value) {
-        bitField0_ |= 0x00000004;
-        leftJBTimes_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 leftJBTimes = 3;</code>
-       */
-      public Builder clearLeftJBTimes() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        leftJBTimes_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 usedYBVip = 4;
-      private int usedYBVip_ ;
-      /**
-       * <code>required int32 usedYBVip = 4;</code>
-       */
-      public boolean hasUsedYBVip() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>required int32 usedYBVip = 4;</code>
+       * <code>required int32 usedYBVip = 3;</code>
+       *
+       * <pre>
+       *已经花了几次元宝购买押镖次数
+       * </pre>
        */
       public int getUsedYBVip() {
         return usedYBVip_;
       }
       /**
-       * <code>required int32 usedYBVip = 4;</code>
+       * <code>required int32 usedYBVip = 3;</code>
+       *
+       * <pre>
+       *已经花了几次元宝购买押镖次数
+       * </pre>
        */
       public Builder setUsedYBVip(int value) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000004;
         usedYBVip_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 usedYBVip = 4;</code>
+       * <code>required int32 usedYBVip = 3;</code>
+       *
+       * <pre>
+       *已经花了几次元宝购买押镖次数
+       * </pre>
        */
       public Builder clearUsedYBVip() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000004);
         usedYBVip_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 usedJBVip = 5;
-      private int usedJBVip_ ;
-      /**
-       * <code>required int32 usedJBVip = 5;</code>
-       */
-      public boolean hasUsedJBVip() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>required int32 usedJBVip = 5;</code>
-       */
-      public int getUsedJBVip() {
-        return usedJBVip_;
-      }
-      /**
-       * <code>required int32 usedJBVip = 5;</code>
-       */
-      public Builder setUsedJBVip(int value) {
-        bitField0_ |= 0x00000010;
-        usedJBVip_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 usedJBVip = 5;</code>
-       */
-      public Builder clearUsedJBVip() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        usedJBVip_ = 0;
         onChanged();
         return this;
       }
@@ -21910,7 +20533,7 @@ public final class Yabiao {
      * <code>required int32 code = 1;</code>
      *
      * <pre>
-     *10:成功 20:不在联盟中 30:发送过快
+     *10:成功 20:失败
      * </pre>
      */
     boolean hasCode();
@@ -21918,7 +20541,7 @@ public final class Yabiao {
      * <code>required int32 code = 1;</code>
      *
      * <pre>
-     *10:成功 20:不在联盟中 30:发送过快
+     *10:成功 20:失败
      * </pre>
      */
     int getCode();
@@ -22031,7 +20654,7 @@ public final class Yabiao {
      * <code>required int32 code = 1;</code>
      *
      * <pre>
-     *10:成功 20:不在联盟中 30:发送过快
+     *10:成功 20:失败
      * </pre>
      */
     public boolean hasCode() {
@@ -22041,7 +20664,7 @@ public final class Yabiao {
      * <code>required int32 code = 1;</code>
      *
      * <pre>
-     *10:成功 20:不在联盟中 30:发送过快
+     *10:成功 20:失败
      * </pre>
      */
     public int getCode() {
@@ -22294,7 +20917,7 @@ public final class Yabiao {
        * <code>required int32 code = 1;</code>
        *
        * <pre>
-       *10:成功 20:不在联盟中 30:发送过快
+       *10:成功 20:失败
        * </pre>
        */
       public boolean hasCode() {
@@ -22304,7 +20927,7 @@ public final class Yabiao {
        * <code>required int32 code = 1;</code>
        *
        * <pre>
-       *10:成功 20:不在联盟中 30:发送过快
+       *10:成功 20:失败
        * </pre>
        */
       public int getCode() {
@@ -22314,7 +20937,7 @@ public final class Yabiao {
        * <code>required int32 code = 1;</code>
        *
        * <pre>
-       *10:成功 20:不在联盟中 30:发送过快
+       *10:成功 20:失败
        * </pre>
        */
       public Builder setCode(int value) {
@@ -22327,7 +20950,7 @@ public final class Yabiao {
        * <code>required int32 code = 1;</code>
        *
        * <pre>
-       *10:成功 20:不在联盟中 30:发送过快
+       *10:成功 20:失败
        * </pre>
        */
       public Builder clearCode() {
@@ -22346,573 +20969,6 @@ public final class Yabiao {
     }
 
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.YaBiaoHelpResp)
-  }
-
-  public interface XieZhuTimesRespOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 usedXZ = 1;
-    /**
-     * <code>required int32 usedXZ = 1;</code>
-     *
-     * <pre>
-     *已用协助次数
-     * </pre>
-     */
-    boolean hasUsedXZ();
-    /**
-     * <code>required int32 usedXZ = 1;</code>
-     *
-     * <pre>
-     *已用协助次数
-     * </pre>
-     */
-    int getUsedXZ();
-
-    // required int32 remainXZ = 2;
-    /**
-     * <code>required int32 remainXZ = 2;</code>
-     *
-     * <pre>
-     *剩余协助次数
-     * </pre>
-     */
-    boolean hasRemainXZ();
-    /**
-     * <code>required int32 remainXZ = 2;</code>
-     *
-     * <pre>
-     *剩余协助次数
-     * </pre>
-     */
-    int getRemainXZ();
-  }
-  /**
-   * Protobuf type {@code qxmobile.protobuf.XieZhuTimesResp}
-   *
-   * <pre>
-   *public static final short C_YABIAO_XIEZHU_TIMES_RSQ = 3436;//请求押镖协助次数
-   *public static final short S_YABIAO_XIEZHU_TIMES_RESP = 3437;//请求押镖协助次数返回 
-   * </pre>
-   */
-  public static final class XieZhuTimesResp extends
-      com.google.protobuf.GeneratedMessage
-      implements XieZhuTimesRespOrBuilder {
-    // Use XieZhuTimesResp.newBuilder() to construct.
-    private XieZhuTimesResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private XieZhuTimesResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final XieZhuTimesResp defaultInstance;
-    public static XieZhuTimesResp getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public XieZhuTimesResp getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private XieZhuTimesResp(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              usedXZ_ = input.readInt32();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              remainXZ_ = input.readInt32();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_XieZhuTimesResp_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_XieZhuTimesResp_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.Yabiao.XieZhuTimesResp.class, qxmobile.protobuf.Yabiao.XieZhuTimesResp.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<XieZhuTimesResp> PARSER =
-        new com.google.protobuf.AbstractParser<XieZhuTimesResp>() {
-      public XieZhuTimesResp parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new XieZhuTimesResp(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<XieZhuTimesResp> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 usedXZ = 1;
-    public static final int USEDXZ_FIELD_NUMBER = 1;
-    private int usedXZ_;
-    /**
-     * <code>required int32 usedXZ = 1;</code>
-     *
-     * <pre>
-     *已用协助次数
-     * </pre>
-     */
-    public boolean hasUsedXZ() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 usedXZ = 1;</code>
-     *
-     * <pre>
-     *已用协助次数
-     * </pre>
-     */
-    public int getUsedXZ() {
-      return usedXZ_;
-    }
-
-    // required int32 remainXZ = 2;
-    public static final int REMAINXZ_FIELD_NUMBER = 2;
-    private int remainXZ_;
-    /**
-     * <code>required int32 remainXZ = 2;</code>
-     *
-     * <pre>
-     *剩余协助次数
-     * </pre>
-     */
-    public boolean hasRemainXZ() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required int32 remainXZ = 2;</code>
-     *
-     * <pre>
-     *剩余协助次数
-     * </pre>
-     */
-    public int getRemainXZ() {
-      return remainXZ_;
-    }
-
-    private void initFields() {
-      usedXZ_ = 0;
-      remainXZ_ = 0;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasUsedXZ()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasRemainXZ()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, usedXZ_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, remainXZ_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, usedXZ_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, remainXZ_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static qxmobile.protobuf.Yabiao.XieZhuTimesResp parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Yabiao.XieZhuTimesResp parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Yabiao.XieZhuTimesResp parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Yabiao.XieZhuTimesResp parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Yabiao.XieZhuTimesResp parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Yabiao.XieZhuTimesResp parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Yabiao.XieZhuTimesResp parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static qxmobile.protobuf.Yabiao.XieZhuTimesResp parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Yabiao.XieZhuTimesResp parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Yabiao.XieZhuTimesResp parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.Yabiao.XieZhuTimesResp prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code qxmobile.protobuf.XieZhuTimesResp}
-     *
-     * <pre>
-     *public static final short C_YABIAO_XIEZHU_TIMES_RSQ = 3436;//请求押镖协助次数
-     *public static final short S_YABIAO_XIEZHU_TIMES_RESP = 3437;//请求押镖协助次数返回 
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.Yabiao.XieZhuTimesRespOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_XieZhuTimesResp_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_XieZhuTimesResp_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.Yabiao.XieZhuTimesResp.class, qxmobile.protobuf.Yabiao.XieZhuTimesResp.Builder.class);
-      }
-
-      // Construct using qxmobile.protobuf.Yabiao.XieZhuTimesResp.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        usedXZ_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        remainXZ_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_XieZhuTimesResp_descriptor;
-      }
-
-      public qxmobile.protobuf.Yabiao.XieZhuTimesResp getDefaultInstanceForType() {
-        return qxmobile.protobuf.Yabiao.XieZhuTimesResp.getDefaultInstance();
-      }
-
-      public qxmobile.protobuf.Yabiao.XieZhuTimesResp build() {
-        qxmobile.protobuf.Yabiao.XieZhuTimesResp result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public qxmobile.protobuf.Yabiao.XieZhuTimesResp buildPartial() {
-        qxmobile.protobuf.Yabiao.XieZhuTimesResp result = new qxmobile.protobuf.Yabiao.XieZhuTimesResp(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.usedXZ_ = usedXZ_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.remainXZ_ = remainXZ_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.Yabiao.XieZhuTimesResp) {
-          return mergeFrom((qxmobile.protobuf.Yabiao.XieZhuTimesResp)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(qxmobile.protobuf.Yabiao.XieZhuTimesResp other) {
-        if (other == qxmobile.protobuf.Yabiao.XieZhuTimesResp.getDefaultInstance()) return this;
-        if (other.hasUsedXZ()) {
-          setUsedXZ(other.getUsedXZ());
-        }
-        if (other.hasRemainXZ()) {
-          setRemainXZ(other.getRemainXZ());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasUsedXZ()) {
-          
-          return false;
-        }
-        if (!hasRemainXZ()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        qxmobile.protobuf.Yabiao.XieZhuTimesResp parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.Yabiao.XieZhuTimesResp) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 usedXZ = 1;
-      private int usedXZ_ ;
-      /**
-       * <code>required int32 usedXZ = 1;</code>
-       *
-       * <pre>
-       *已用协助次数
-       * </pre>
-       */
-      public boolean hasUsedXZ() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 usedXZ = 1;</code>
-       *
-       * <pre>
-       *已用协助次数
-       * </pre>
-       */
-      public int getUsedXZ() {
-        return usedXZ_;
-      }
-      /**
-       * <code>required int32 usedXZ = 1;</code>
-       *
-       * <pre>
-       *已用协助次数
-       * </pre>
-       */
-      public Builder setUsedXZ(int value) {
-        bitField0_ |= 0x00000001;
-        usedXZ_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 usedXZ = 1;</code>
-       *
-       * <pre>
-       *已用协助次数
-       * </pre>
-       */
-      public Builder clearUsedXZ() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        usedXZ_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 remainXZ = 2;
-      private int remainXZ_ ;
-      /**
-       * <code>required int32 remainXZ = 2;</code>
-       *
-       * <pre>
-       *剩余协助次数
-       * </pre>
-       */
-      public boolean hasRemainXZ() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required int32 remainXZ = 2;</code>
-       *
-       * <pre>
-       *剩余协助次数
-       * </pre>
-       */
-      public int getRemainXZ() {
-        return remainXZ_;
-      }
-      /**
-       * <code>required int32 remainXZ = 2;</code>
-       *
-       * <pre>
-       *剩余协助次数
-       * </pre>
-       */
-      public Builder setRemainXZ(int value) {
-        bitField0_ |= 0x00000002;
-        remainXZ_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 remainXZ = 2;</code>
-       *
-       * <pre>
-       *剩余协助次数
-       * </pre>
-       */
-      public Builder clearRemainXZ() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        remainXZ_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.XieZhuTimesResp)
-    }
-
-    static {
-      defaultInstance = new XieZhuTimesResp(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.XieZhuTimesResp)
   }
 
   public interface AnswerYaBiaoHelpReqOrBuilder
@@ -26352,10 +24408,18 @@ public final class Yabiao {
     // required int32 propType = 1;
     /**
      * <code>required int32 propType = 1;</code>
+     *
+     * <pre>
+     * 马具配置Id
+     * </pre>
      */
     boolean hasPropType();
     /**
      * <code>required int32 propType = 1;</code>
+     *
+     * <pre>
+     * 马具配置Id
+     * </pre>
      */
     int getPropType();
   }
@@ -26464,12 +24528,20 @@ public final class Yabiao {
     private int propType_;
     /**
      * <code>required int32 propType = 1;</code>
+     *
+     * <pre>
+     * 马具配置Id
+     * </pre>
      */
     public boolean hasPropType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int32 propType = 1;</code>
+     *
+     * <pre>
+     * 马具配置Id
+     * </pre>
      */
     public int getPropType() {
       return propType_;
@@ -26718,18 +24790,30 @@ public final class Yabiao {
       private int propType_ ;
       /**
        * <code>required int32 propType = 1;</code>
+       *
+       * <pre>
+       * 马具配置Id
+       * </pre>
        */
       public boolean hasPropType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int32 propType = 1;</code>
+       *
+       * <pre>
+       * 马具配置Id
+       * </pre>
        */
       public int getPropType() {
         return propType_;
       }
       /**
        * <code>required int32 propType = 1;</code>
+       *
+       * <pre>
+       * 马具配置Id
+       * </pre>
        */
       public Builder setPropType(int value) {
         bitField0_ |= 0x00000001;
@@ -26739,6 +24823,10 @@ public final class Yabiao {
       }
       /**
        * <code>required int32 propType = 1;</code>
+       *
+       * <pre>
+       * 马具配置Id
+       * </pre>
        */
       public Builder clearPropType() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -26764,10 +24852,18 @@ public final class Yabiao {
     // required int32 res = 1;
     /**
      * <code>required int32 res = 1;</code>
+     *
+     * <pre>
+     *10 成功 20 失败 30钱不够花
+     * </pre>
      */
     boolean hasRes();
     /**
      * <code>required int32 res = 1;</code>
+     *
+     * <pre>
+     *10 成功 20 失败 30钱不够花
+     * </pre>
      */
     int getRes();
 
@@ -26903,12 +24999,20 @@ public final class Yabiao {
     private int res_;
     /**
      * <code>required int32 res = 1;</code>
+     *
+     * <pre>
+     *10 成功 20 失败 30钱不够花
+     * </pre>
      */
     public boolean hasRes() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int32 res = 1;</code>
+     *
+     * <pre>
+     *10 成功 20 失败 30钱不够花
+     * </pre>
      */
     public int getRes() {
       return res_;
@@ -26950,10 +25054,6 @@ public final class Yabiao {
         return false;
       }
       if (!hasProp()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!getProp().isInitialized()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -27191,10 +25291,6 @@ public final class Yabiao {
           
           return false;
         }
-        if (!getProp().isInitialized()) {
-          
-          return false;
-        }
         return true;
       }
 
@@ -27221,18 +25317,30 @@ public final class Yabiao {
       private int res_ ;
       /**
        * <code>required int32 res = 1;</code>
+       *
+       * <pre>
+       *10 成功 20 失败 30钱不够花
+       * </pre>
        */
       public boolean hasRes() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int32 res = 1;</code>
+       *
+       * <pre>
+       *10 成功 20 失败 30钱不够花
+       * </pre>
        */
       public int getRes() {
         return res_;
       }
       /**
        * <code>required int32 res = 1;</code>
+       *
+       * <pre>
+       *10 成功 20 失败 30钱不够花
+       * </pre>
        */
       public Builder setRes(int value) {
         bitField0_ |= 0x00000001;
@@ -27242,6 +25350,10 @@ public final class Yabiao {
       }
       /**
        * <code>required int32 res = 1;</code>
+       *
+       * <pre>
+       *10 成功 20 失败 30钱不够花
+       * </pre>
        */
       public Builder clearRes() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -27381,59 +25493,31 @@ public final class Yabiao {
   public interface HorsePropOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 baodi = 1;
+    // repeated int32 toolId = 1;
     /**
-     * <code>required int32 baodi = 1;</code>
+     * <code>repeated int32 toolId = 1;</code>
      *
      * <pre>
-     *保底收益Prop
+     *马具Id
      * </pre>
      */
-    boolean hasBaodi();
+    java.util.List<java.lang.Integer> getToolIdList();
     /**
-     * <code>required int32 baodi = 1;</code>
+     * <code>repeated int32 toolId = 1;</code>
      *
      * <pre>
-     *保底收益Prop
+     *马具Id
      * </pre>
      */
-    int getBaodi();
-
-    // required int32 jiasu = 2;
+    int getToolIdCount();
     /**
-     * <code>required int32 jiasu = 2;</code>
+     * <code>repeated int32 toolId = 1;</code>
      *
      * <pre>
-     *加速Prop
+     *马具Id
      * </pre>
      */
-    boolean hasJiasu();
-    /**
-     * <code>required int32 jiasu = 2;</code>
-     *
-     * <pre>
-     *加速Prop
-     * </pre>
-     */
-    int getJiasu();
-
-    // required int32 baohu = 3;
-    /**
-     * <code>required int32 baohu = 3;</code>
-     *
-     * <pre>
-     *保护Prop
-     * </pre>
-     */
-    boolean hasBaohu();
-    /**
-     * <code>required int32 baohu = 3;</code>
-     *
-     * <pre>
-     *保护Prop
-     * </pre>
-     */
-    int getBaohu();
+    int getToolId(int index);
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.HorseProp}
@@ -27487,18 +25571,24 @@ public final class Yabiao {
               break;
             }
             case 8: {
-              bitField0_ |= 0x00000001;
-              baodi_ = input.readInt32();
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                toolId_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              toolId_.add(input.readInt32());
               break;
             }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              jiasu_ = input.readInt32();
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000004;
-              baohu_ = input.readInt32();
+            case 10: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
+                toolId_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                toolId_.add(input.readInt32());
+              }
+              input.popLimit(limit);
               break;
             }
           }
@@ -27509,6 +25599,9 @@ public final class Yabiao {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          toolId_ = java.util.Collections.unmodifiableList(toolId_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -27540,101 +25633,49 @@ public final class Yabiao {
       return PARSER;
     }
 
-    private int bitField0_;
-    // required int32 baodi = 1;
-    public static final int BAODI_FIELD_NUMBER = 1;
-    private int baodi_;
+    // repeated int32 toolId = 1;
+    public static final int TOOLID_FIELD_NUMBER = 1;
+    private java.util.List<java.lang.Integer> toolId_;
     /**
-     * <code>required int32 baodi = 1;</code>
+     * <code>repeated int32 toolId = 1;</code>
      *
      * <pre>
-     *保底收益Prop
+     *马具Id
      * </pre>
      */
-    public boolean hasBaodi() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+    public java.util.List<java.lang.Integer>
+        getToolIdList() {
+      return toolId_;
     }
     /**
-     * <code>required int32 baodi = 1;</code>
+     * <code>repeated int32 toolId = 1;</code>
      *
      * <pre>
-     *保底收益Prop
+     *马具Id
      * </pre>
      */
-    public int getBaodi() {
-      return baodi_;
-    }
-
-    // required int32 jiasu = 2;
-    public static final int JIASU_FIELD_NUMBER = 2;
-    private int jiasu_;
-    /**
-     * <code>required int32 jiasu = 2;</code>
-     *
-     * <pre>
-     *加速Prop
-     * </pre>
-     */
-    public boolean hasJiasu() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+    public int getToolIdCount() {
+      return toolId_.size();
     }
     /**
-     * <code>required int32 jiasu = 2;</code>
+     * <code>repeated int32 toolId = 1;</code>
      *
      * <pre>
-     *加速Prop
+     *马具Id
      * </pre>
      */
-    public int getJiasu() {
-      return jiasu_;
-    }
-
-    // required int32 baohu = 3;
-    public static final int BAOHU_FIELD_NUMBER = 3;
-    private int baohu_;
-    /**
-     * <code>required int32 baohu = 3;</code>
-     *
-     * <pre>
-     *保护Prop
-     * </pre>
-     */
-    public boolean hasBaohu() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>required int32 baohu = 3;</code>
-     *
-     * <pre>
-     *保护Prop
-     * </pre>
-     */
-    public int getBaohu() {
-      return baohu_;
+    public int getToolId(int index) {
+      return toolId_.get(index);
     }
 
     private void initFields() {
-      baodi_ = 0;
-      jiasu_ = 0;
-      baohu_ = 0;
+      toolId_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasBaodi()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasJiasu()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasBaohu()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -27642,14 +25683,8 @@ public final class Yabiao {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, baodi_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, jiasu_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, baohu_);
+      for (int i = 0; i < toolId_.size(); i++) {
+        output.writeInt32(1, toolId_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -27660,17 +25695,14 @@ public final class Yabiao {
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, baodi_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, jiasu_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, baohu_);
+      {
+        int dataSize = 0;
+        for (int i = 0; i < toolId_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(toolId_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getToolIdList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -27788,12 +25820,8 @@ public final class Yabiao {
 
       public Builder clear() {
         super.clear();
-        baodi_ = 0;
+        toolId_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000001);
-        jiasu_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        baohu_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -27821,20 +25849,11 @@ public final class Yabiao {
       public qxmobile.protobuf.Yabiao.HorseProp buildPartial() {
         qxmobile.protobuf.Yabiao.HorseProp result = new qxmobile.protobuf.Yabiao.HorseProp(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          toolId_ = java.util.Collections.unmodifiableList(toolId_);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
-        result.baodi_ = baodi_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.jiasu_ = jiasu_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.baohu_ = baohu_;
-        result.bitField0_ = to_bitField0_;
+        result.toolId_ = toolId_;
         onBuilt();
         return result;
       }
@@ -27850,32 +25869,21 @@ public final class Yabiao {
 
       public Builder mergeFrom(qxmobile.protobuf.Yabiao.HorseProp other) {
         if (other == qxmobile.protobuf.Yabiao.HorseProp.getDefaultInstance()) return this;
-        if (other.hasBaodi()) {
-          setBaodi(other.getBaodi());
-        }
-        if (other.hasJiasu()) {
-          setJiasu(other.getJiasu());
-        }
-        if (other.hasBaohu()) {
-          setBaohu(other.getBaohu());
+        if (!other.toolId_.isEmpty()) {
+          if (toolId_.isEmpty()) {
+            toolId_ = other.toolId_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureToolIdIsMutable();
+            toolId_.addAll(other.toolId_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasBaodi()) {
-          
-          return false;
-        }
-        if (!hasJiasu()) {
-          
-          return false;
-        }
-        if (!hasBaohu()) {
-          
-          return false;
-        }
         return true;
       }
 
@@ -27898,149 +25906,96 @@ public final class Yabiao {
       }
       private int bitField0_;
 
-      // required int32 baodi = 1;
-      private int baodi_ ;
-      /**
-       * <code>required int32 baodi = 1;</code>
-       *
-       * <pre>
-       *保底收益Prop
-       * </pre>
-       */
-      public boolean hasBaodi() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+      // repeated int32 toolId = 1;
+      private java.util.List<java.lang.Integer> toolId_ = java.util.Collections.emptyList();
+      private void ensureToolIdIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          toolId_ = new java.util.ArrayList<java.lang.Integer>(toolId_);
+          bitField0_ |= 0x00000001;
+         }
       }
       /**
-       * <code>required int32 baodi = 1;</code>
+       * <code>repeated int32 toolId = 1;</code>
        *
        * <pre>
-       *保底收益Prop
+       *马具Id
        * </pre>
        */
-      public int getBaodi() {
-        return baodi_;
+      public java.util.List<java.lang.Integer>
+          getToolIdList() {
+        return java.util.Collections.unmodifiableList(toolId_);
       }
       /**
-       * <code>required int32 baodi = 1;</code>
+       * <code>repeated int32 toolId = 1;</code>
        *
        * <pre>
-       *保底收益Prop
+       *马具Id
        * </pre>
        */
-      public Builder setBaodi(int value) {
-        bitField0_ |= 0x00000001;
-        baodi_ = value;
+      public int getToolIdCount() {
+        return toolId_.size();
+      }
+      /**
+       * <code>repeated int32 toolId = 1;</code>
+       *
+       * <pre>
+       *马具Id
+       * </pre>
+       */
+      public int getToolId(int index) {
+        return toolId_.get(index);
+      }
+      /**
+       * <code>repeated int32 toolId = 1;</code>
+       *
+       * <pre>
+       *马具Id
+       * </pre>
+       */
+      public Builder setToolId(
+          int index, int value) {
+        ensureToolIdIsMutable();
+        toolId_.set(index, value);
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 baodi = 1;</code>
+       * <code>repeated int32 toolId = 1;</code>
        *
        * <pre>
-       *保底收益Prop
+       *马具Id
        * </pre>
        */
-      public Builder clearBaodi() {
+      public Builder addToolId(int value) {
+        ensureToolIdIsMutable();
+        toolId_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 toolId = 1;</code>
+       *
+       * <pre>
+       *马具Id
+       * </pre>
+       */
+      public Builder addAllToolId(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureToolIdIsMutable();
+        super.addAll(values, toolId_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 toolId = 1;</code>
+       *
+       * <pre>
+       *马具Id
+       * </pre>
+       */
+      public Builder clearToolId() {
+        toolId_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000001);
-        baodi_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 jiasu = 2;
-      private int jiasu_ ;
-      /**
-       * <code>required int32 jiasu = 2;</code>
-       *
-       * <pre>
-       *加速Prop
-       * </pre>
-       */
-      public boolean hasJiasu() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required int32 jiasu = 2;</code>
-       *
-       * <pre>
-       *加速Prop
-       * </pre>
-       */
-      public int getJiasu() {
-        return jiasu_;
-      }
-      /**
-       * <code>required int32 jiasu = 2;</code>
-       *
-       * <pre>
-       *加速Prop
-       * </pre>
-       */
-      public Builder setJiasu(int value) {
-        bitField0_ |= 0x00000002;
-        jiasu_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 jiasu = 2;</code>
-       *
-       * <pre>
-       *加速Prop
-       * </pre>
-       */
-      public Builder clearJiasu() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        jiasu_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 baohu = 3;
-      private int baohu_ ;
-      /**
-       * <code>required int32 baohu = 3;</code>
-       *
-       * <pre>
-       *保护Prop
-       * </pre>
-       */
-      public boolean hasBaohu() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>required int32 baohu = 3;</code>
-       *
-       * <pre>
-       *保护Prop
-       * </pre>
-       */
-      public int getBaohu() {
-        return baohu_;
-      }
-      /**
-       * <code>required int32 baohu = 3;</code>
-       *
-       * <pre>
-       *保护Prop
-       * </pre>
-       */
-      public Builder setBaohu(int value) {
-        bitField0_ |= 0x00000004;
-        baohu_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 baohu = 3;</code>
-       *
-       * <pre>
-       *保护Prop
-       * </pre>
-       */
-      public Builder clearBaohu() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        baohu_ = 0;
         onChanged();
         return this;
       }
@@ -28054,6 +26009,2065 @@ public final class Yabiao {
     }
 
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.HorseProp)
+  }
+
+  public interface Move2BiaoCheReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int64 targetId = 1;
+    /**
+     * <code>required int64 targetId = 1;</code>
+     *
+     * <pre>
+     *目标镖车君主Id
+     * </pre>
+     */
+    boolean hasTargetId();
+    /**
+     * <code>required int64 targetId = 1;</code>
+     *
+     * <pre>
+     *目标镖车君主Id
+     * </pre>
+     */
+    long getTargetId();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.Move2BiaoCheReq}
+   *
+   * <pre>
+   *public static final short C_MOVE2BIAOCHE_REQ = 3442;//请求镖车坐标 
+   * </pre>
+   */
+  public static final class Move2BiaoCheReq extends
+      com.google.protobuf.GeneratedMessage
+      implements Move2BiaoCheReqOrBuilder {
+    // Use Move2BiaoCheReq.newBuilder() to construct.
+    private Move2BiaoCheReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private Move2BiaoCheReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final Move2BiaoCheReq defaultInstance;
+    public static Move2BiaoCheReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public Move2BiaoCheReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Move2BiaoCheReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              targetId_ = input.readInt64();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_Move2BiaoCheReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_Move2BiaoCheReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Yabiao.Move2BiaoCheReq.class, qxmobile.protobuf.Yabiao.Move2BiaoCheReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<Move2BiaoCheReq> PARSER =
+        new com.google.protobuf.AbstractParser<Move2BiaoCheReq>() {
+      public Move2BiaoCheReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Move2BiaoCheReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Move2BiaoCheReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int64 targetId = 1;
+    public static final int TARGETID_FIELD_NUMBER = 1;
+    private long targetId_;
+    /**
+     * <code>required int64 targetId = 1;</code>
+     *
+     * <pre>
+     *目标镖车君主Id
+     * </pre>
+     */
+    public boolean hasTargetId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int64 targetId = 1;</code>
+     *
+     * <pre>
+     *目标镖车君主Id
+     * </pre>
+     */
+    public long getTargetId() {
+      return targetId_;
+    }
+
+    private void initFields() {
+      targetId_ = 0L;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasTargetId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt64(1, targetId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, targetId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Yabiao.Move2BiaoCheReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.Move2BiaoCheReq}
+     *
+     * <pre>
+     *public static final short C_MOVE2BIAOCHE_REQ = 3442;//请求镖车坐标 
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Yabiao.Move2BiaoCheReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_Move2BiaoCheReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_Move2BiaoCheReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Yabiao.Move2BiaoCheReq.class, qxmobile.protobuf.Yabiao.Move2BiaoCheReq.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Yabiao.Move2BiaoCheReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        targetId_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_Move2BiaoCheReq_descriptor;
+      }
+
+      public qxmobile.protobuf.Yabiao.Move2BiaoCheReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.Yabiao.Move2BiaoCheReq.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Yabiao.Move2BiaoCheReq build() {
+        qxmobile.protobuf.Yabiao.Move2BiaoCheReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Yabiao.Move2BiaoCheReq buildPartial() {
+        qxmobile.protobuf.Yabiao.Move2BiaoCheReq result = new qxmobile.protobuf.Yabiao.Move2BiaoCheReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.targetId_ = targetId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Yabiao.Move2BiaoCheReq) {
+          return mergeFrom((qxmobile.protobuf.Yabiao.Move2BiaoCheReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Yabiao.Move2BiaoCheReq other) {
+        if (other == qxmobile.protobuf.Yabiao.Move2BiaoCheReq.getDefaultInstance()) return this;
+        if (other.hasTargetId()) {
+          setTargetId(other.getTargetId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasTargetId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Yabiao.Move2BiaoCheReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Yabiao.Move2BiaoCheReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int64 targetId = 1;
+      private long targetId_ ;
+      /**
+       * <code>required int64 targetId = 1;</code>
+       *
+       * <pre>
+       *目标镖车君主Id
+       * </pre>
+       */
+      public boolean hasTargetId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int64 targetId = 1;</code>
+       *
+       * <pre>
+       *目标镖车君主Id
+       * </pre>
+       */
+      public long getTargetId() {
+        return targetId_;
+      }
+      /**
+       * <code>required int64 targetId = 1;</code>
+       *
+       * <pre>
+       *目标镖车君主Id
+       * </pre>
+       */
+      public Builder setTargetId(long value) {
+        bitField0_ |= 0x00000001;
+        targetId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 targetId = 1;</code>
+       *
+       * <pre>
+       *目标镖车君主Id
+       * </pre>
+       */
+      public Builder clearTargetId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        targetId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.Move2BiaoCheReq)
+    }
+
+    static {
+      defaultInstance = new Move2BiaoCheReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.Move2BiaoCheReq)
+  }
+
+  public interface Move2BiaoCheRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int64 targetId = 1;
+    /**
+     * <code>required int64 targetId = 1;</code>
+     *
+     * <pre>
+     *目标镖车君主Id
+     * </pre>
+     */
+    boolean hasTargetId();
+    /**
+     * <code>required int64 targetId = 1;</code>
+     *
+     * <pre>
+     *目标镖车君主Id
+     * </pre>
+     */
+    long getTargetId();
+
+    // required int32 result = 2;
+    /**
+     * <code>required int32 result = 2;</code>
+     *
+     * <pre>
+     *10成功 20：目标不存在 信息已过期
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 2;</code>
+     *
+     * <pre>
+     *10成功 20：目标不存在 信息已过期
+     * </pre>
+     */
+    int getResult();
+
+    // optional float posX = 3;
+    /**
+     * <code>optional float posX = 3;</code>
+     */
+    boolean hasPosX();
+    /**
+     * <code>optional float posX = 3;</code>
+     */
+    float getPosX();
+
+    // optional float posZ = 4;
+    /**
+     * <code>optional float posZ = 4;</code>
+     */
+    boolean hasPosZ();
+    /**
+     * <code>optional float posZ = 4;</code>
+     */
+    float getPosZ();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.Move2BiaoCheResp}
+   *
+   * <pre>
+   *public static final short S_MOVE2BIAOCHE_RESP = 3443;//请求镖车坐标返回 
+   * </pre>
+   */
+  public static final class Move2BiaoCheResp extends
+      com.google.protobuf.GeneratedMessage
+      implements Move2BiaoCheRespOrBuilder {
+    // Use Move2BiaoCheResp.newBuilder() to construct.
+    private Move2BiaoCheResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private Move2BiaoCheResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final Move2BiaoCheResp defaultInstance;
+    public static Move2BiaoCheResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public Move2BiaoCheResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Move2BiaoCheResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              targetId_ = input.readInt64();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              result_ = input.readInt32();
+              break;
+            }
+            case 29: {
+              bitField0_ |= 0x00000004;
+              posX_ = input.readFloat();
+              break;
+            }
+            case 37: {
+              bitField0_ |= 0x00000008;
+              posZ_ = input.readFloat();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_Move2BiaoCheResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_Move2BiaoCheResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Yabiao.Move2BiaoCheResp.class, qxmobile.protobuf.Yabiao.Move2BiaoCheResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<Move2BiaoCheResp> PARSER =
+        new com.google.protobuf.AbstractParser<Move2BiaoCheResp>() {
+      public Move2BiaoCheResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Move2BiaoCheResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Move2BiaoCheResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int64 targetId = 1;
+    public static final int TARGETID_FIELD_NUMBER = 1;
+    private long targetId_;
+    /**
+     * <code>required int64 targetId = 1;</code>
+     *
+     * <pre>
+     *目标镖车君主Id
+     * </pre>
+     */
+    public boolean hasTargetId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int64 targetId = 1;</code>
+     *
+     * <pre>
+     *目标镖车君主Id
+     * </pre>
+     */
+    public long getTargetId() {
+      return targetId_;
+    }
+
+    // required int32 result = 2;
+    public static final int RESULT_FIELD_NUMBER = 2;
+    private int result_;
+    /**
+     * <code>required int32 result = 2;</code>
+     *
+     * <pre>
+     *10成功 20：目标不存在 信息已过期
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 result = 2;</code>
+     *
+     * <pre>
+     *10成功 20：目标不存在 信息已过期
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    // optional float posX = 3;
+    public static final int POSX_FIELD_NUMBER = 3;
+    private float posX_;
+    /**
+     * <code>optional float posX = 3;</code>
+     */
+    public boolean hasPosX() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional float posX = 3;</code>
+     */
+    public float getPosX() {
+      return posX_;
+    }
+
+    // optional float posZ = 4;
+    public static final int POSZ_FIELD_NUMBER = 4;
+    private float posZ_;
+    /**
+     * <code>optional float posZ = 4;</code>
+     */
+    public boolean hasPosZ() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional float posZ = 4;</code>
+     */
+    public float getPosZ() {
+      return posZ_;
+    }
+
+    private void initFields() {
+      targetId_ = 0L;
+      result_ = 0;
+      posX_ = 0F;
+      posZ_ = 0F;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasTargetId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt64(1, targetId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, result_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeFloat(3, posX_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeFloat(4, posZ_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, targetId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, result_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(3, posX_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(4, posZ_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.Move2BiaoCheResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Yabiao.Move2BiaoCheResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.Move2BiaoCheResp}
+     *
+     * <pre>
+     *public static final short S_MOVE2BIAOCHE_RESP = 3443;//请求镖车坐标返回 
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Yabiao.Move2BiaoCheRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_Move2BiaoCheResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_Move2BiaoCheResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Yabiao.Move2BiaoCheResp.class, qxmobile.protobuf.Yabiao.Move2BiaoCheResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Yabiao.Move2BiaoCheResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        targetId_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        posX_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        posZ_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_Move2BiaoCheResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Yabiao.Move2BiaoCheResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Yabiao.Move2BiaoCheResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Yabiao.Move2BiaoCheResp build() {
+        qxmobile.protobuf.Yabiao.Move2BiaoCheResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Yabiao.Move2BiaoCheResp buildPartial() {
+        qxmobile.protobuf.Yabiao.Move2BiaoCheResp result = new qxmobile.protobuf.Yabiao.Move2BiaoCheResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.targetId_ = targetId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.result_ = result_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.posX_ = posX_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.posZ_ = posZ_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Yabiao.Move2BiaoCheResp) {
+          return mergeFrom((qxmobile.protobuf.Yabiao.Move2BiaoCheResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Yabiao.Move2BiaoCheResp other) {
+        if (other == qxmobile.protobuf.Yabiao.Move2BiaoCheResp.getDefaultInstance()) return this;
+        if (other.hasTargetId()) {
+          setTargetId(other.getTargetId());
+        }
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        if (other.hasPosX()) {
+          setPosX(other.getPosX());
+        }
+        if (other.hasPosZ()) {
+          setPosZ(other.getPosZ());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasTargetId()) {
+          
+          return false;
+        }
+        if (!hasResult()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Yabiao.Move2BiaoCheResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Yabiao.Move2BiaoCheResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int64 targetId = 1;
+      private long targetId_ ;
+      /**
+       * <code>required int64 targetId = 1;</code>
+       *
+       * <pre>
+       *目标镖车君主Id
+       * </pre>
+       */
+      public boolean hasTargetId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int64 targetId = 1;</code>
+       *
+       * <pre>
+       *目标镖车君主Id
+       * </pre>
+       */
+      public long getTargetId() {
+        return targetId_;
+      }
+      /**
+       * <code>required int64 targetId = 1;</code>
+       *
+       * <pre>
+       *目标镖车君主Id
+       * </pre>
+       */
+      public Builder setTargetId(long value) {
+        bitField0_ |= 0x00000001;
+        targetId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 targetId = 1;</code>
+       *
+       * <pre>
+       *目标镖车君主Id
+       * </pre>
+       */
+      public Builder clearTargetId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        targetId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // required int32 result = 2;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 2;</code>
+       *
+       * <pre>
+       *10成功 20：目标不存在 信息已过期
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 result = 2;</code>
+       *
+       * <pre>
+       *10成功 20：目标不存在 信息已过期
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 2;</code>
+       *
+       * <pre>
+       *10成功 20：目标不存在 信息已过期
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000002;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 2;</code>
+       *
+       * <pre>
+       *10成功 20：目标不存在 信息已过期
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional float posX = 3;
+      private float posX_ ;
+      /**
+       * <code>optional float posX = 3;</code>
+       */
+      public boolean hasPosX() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional float posX = 3;</code>
+       */
+      public float getPosX() {
+        return posX_;
+      }
+      /**
+       * <code>optional float posX = 3;</code>
+       */
+      public Builder setPosX(float value) {
+        bitField0_ |= 0x00000004;
+        posX_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float posX = 3;</code>
+       */
+      public Builder clearPosX() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        posX_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // optional float posZ = 4;
+      private float posZ_ ;
+      /**
+       * <code>optional float posZ = 4;</code>
+       */
+      public boolean hasPosZ() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional float posZ = 4;</code>
+       */
+      public float getPosZ() {
+        return posZ_;
+      }
+      /**
+       * <code>optional float posZ = 4;</code>
+       */
+      public Builder setPosZ(float value) {
+        bitField0_ |= 0x00000008;
+        posZ_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float posZ = 4;</code>
+       */
+      public Builder clearPosZ() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        posZ_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.Move2BiaoCheResp)
+    }
+
+    static {
+      defaultInstance = new Move2BiaoCheResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.Move2BiaoCheResp)
+  }
+
+  public interface JiaSuReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int64 ybjzId = 1;
+    /**
+     * <code>required int64 ybjzId = 1;</code>
+     *
+     * <pre>
+     *镖车君主Id
+     * </pre>
+     */
+    boolean hasYbjzId();
+    /**
+     * <code>required int64 ybjzId = 1;</code>
+     *
+     * <pre>
+     *镖车君主Id
+     * </pre>
+     */
+    long getYbjzId();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.JiaSuReq}
+   *
+   * <pre>
+   *public static final short C_CARTJIASU_REQ = 3444;//请求镖车加速
+   * </pre>
+   */
+  public static final class JiaSuReq extends
+      com.google.protobuf.GeneratedMessage
+      implements JiaSuReqOrBuilder {
+    // Use JiaSuReq.newBuilder() to construct.
+    private JiaSuReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private JiaSuReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final JiaSuReq defaultInstance;
+    public static JiaSuReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public JiaSuReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private JiaSuReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              ybjzId_ = input.readInt64();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_JiaSuReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_JiaSuReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Yabiao.JiaSuReq.class, qxmobile.protobuf.Yabiao.JiaSuReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<JiaSuReq> PARSER =
+        new com.google.protobuf.AbstractParser<JiaSuReq>() {
+      public JiaSuReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new JiaSuReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JiaSuReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int64 ybjzId = 1;
+    public static final int YBJZID_FIELD_NUMBER = 1;
+    private long ybjzId_;
+    /**
+     * <code>required int64 ybjzId = 1;</code>
+     *
+     * <pre>
+     *镖车君主Id
+     * </pre>
+     */
+    public boolean hasYbjzId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int64 ybjzId = 1;</code>
+     *
+     * <pre>
+     *镖车君主Id
+     * </pre>
+     */
+    public long getYbjzId() {
+      return ybjzId_;
+    }
+
+    private void initFields() {
+      ybjzId_ = 0L;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasYbjzId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt64(1, ybjzId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, ybjzId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Yabiao.JiaSuReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Yabiao.JiaSuReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.JiaSuReq}
+     *
+     * <pre>
+     *public static final short C_CARTJIASU_REQ = 3444;//请求镖车加速
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Yabiao.JiaSuReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_JiaSuReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_JiaSuReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Yabiao.JiaSuReq.class, qxmobile.protobuf.Yabiao.JiaSuReq.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Yabiao.JiaSuReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        ybjzId_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_JiaSuReq_descriptor;
+      }
+
+      public qxmobile.protobuf.Yabiao.JiaSuReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.Yabiao.JiaSuReq.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Yabiao.JiaSuReq build() {
+        qxmobile.protobuf.Yabiao.JiaSuReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Yabiao.JiaSuReq buildPartial() {
+        qxmobile.protobuf.Yabiao.JiaSuReq result = new qxmobile.protobuf.Yabiao.JiaSuReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.ybjzId_ = ybjzId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Yabiao.JiaSuReq) {
+          return mergeFrom((qxmobile.protobuf.Yabiao.JiaSuReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Yabiao.JiaSuReq other) {
+        if (other == qxmobile.protobuf.Yabiao.JiaSuReq.getDefaultInstance()) return this;
+        if (other.hasYbjzId()) {
+          setYbjzId(other.getYbjzId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasYbjzId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Yabiao.JiaSuReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Yabiao.JiaSuReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int64 ybjzId = 1;
+      private long ybjzId_ ;
+      /**
+       * <code>required int64 ybjzId = 1;</code>
+       *
+       * <pre>
+       *镖车君主Id
+       * </pre>
+       */
+      public boolean hasYbjzId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int64 ybjzId = 1;</code>
+       *
+       * <pre>
+       *镖车君主Id
+       * </pre>
+       */
+      public long getYbjzId() {
+        return ybjzId_;
+      }
+      /**
+       * <code>required int64 ybjzId = 1;</code>
+       *
+       * <pre>
+       *镖车君主Id
+       * </pre>
+       */
+      public Builder setYbjzId(long value) {
+        bitField0_ |= 0x00000001;
+        ybjzId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 ybjzId = 1;</code>
+       *
+       * <pre>
+       *镖车君主Id
+       * </pre>
+       */
+      public Builder clearYbjzId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        ybjzId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.JiaSuReq)
+    }
+
+    static {
+      defaultInstance = new JiaSuReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.JiaSuReq)
+  }
+
+  public interface JiaSuRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 resCode = 1;
+    /**
+     * <code>required int32 resCode = 1;</code>
+     *
+     * <pre>
+     *返回结果
+     * </pre>
+     */
+    boolean hasResCode();
+    /**
+     * <code>required int32 resCode = 1;</code>
+     *
+     * <pre>
+     *返回结果
+     * </pre>
+     */
+    int getResCode();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.JiaSuResp}
+   *
+   * <pre>
+   *public static final short S_CARTJIASU_RESP = 3445;//请求镖车加速返回
+   * </pre>
+   */
+  public static final class JiaSuResp extends
+      com.google.protobuf.GeneratedMessage
+      implements JiaSuRespOrBuilder {
+    // Use JiaSuResp.newBuilder() to construct.
+    private JiaSuResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private JiaSuResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final JiaSuResp defaultInstance;
+    public static JiaSuResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public JiaSuResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private JiaSuResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              resCode_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_JiaSuResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_JiaSuResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Yabiao.JiaSuResp.class, qxmobile.protobuf.Yabiao.JiaSuResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<JiaSuResp> PARSER =
+        new com.google.protobuf.AbstractParser<JiaSuResp>() {
+      public JiaSuResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new JiaSuResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JiaSuResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 resCode = 1;
+    public static final int RESCODE_FIELD_NUMBER = 1;
+    private int resCode_;
+    /**
+     * <code>required int32 resCode = 1;</code>
+     *
+     * <pre>
+     *返回结果
+     * </pre>
+     */
+    public boolean hasResCode() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 resCode = 1;</code>
+     *
+     * <pre>
+     *返回结果
+     * </pre>
+     */
+    public int getResCode() {
+      return resCode_;
+    }
+
+    private void initFields() {
+      resCode_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResCode()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, resCode_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, resCode_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Yabiao.JiaSuResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.JiaSuResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Yabiao.JiaSuResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.JiaSuResp}
+     *
+     * <pre>
+     *public static final short S_CARTJIASU_RESP = 3445;//请求镖车加速返回
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Yabiao.JiaSuRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_JiaSuResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_JiaSuResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Yabiao.JiaSuResp.class, qxmobile.protobuf.Yabiao.JiaSuResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Yabiao.JiaSuResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        resCode_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_JiaSuResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Yabiao.JiaSuResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Yabiao.JiaSuResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Yabiao.JiaSuResp build() {
+        qxmobile.protobuf.Yabiao.JiaSuResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Yabiao.JiaSuResp buildPartial() {
+        qxmobile.protobuf.Yabiao.JiaSuResp result = new qxmobile.protobuf.Yabiao.JiaSuResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.resCode_ = resCode_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Yabiao.JiaSuResp) {
+          return mergeFrom((qxmobile.protobuf.Yabiao.JiaSuResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Yabiao.JiaSuResp other) {
+        if (other == qxmobile.protobuf.Yabiao.JiaSuResp.getDefaultInstance()) return this;
+        if (other.hasResCode()) {
+          setResCode(other.getResCode());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResCode()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Yabiao.JiaSuResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Yabiao.JiaSuResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 resCode = 1;
+      private int resCode_ ;
+      /**
+       * <code>required int32 resCode = 1;</code>
+       *
+       * <pre>
+       *返回结果
+       * </pre>
+       */
+      public boolean hasResCode() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 resCode = 1;</code>
+       *
+       * <pre>
+       *返回结果
+       * </pre>
+       */
+      public int getResCode() {
+        return resCode_;
+      }
+      /**
+       * <code>required int32 resCode = 1;</code>
+       *
+       * <pre>
+       *返回结果
+       * </pre>
+       */
+      public Builder setResCode(int value) {
+        bitField0_ |= 0x00000001;
+        resCode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 resCode = 1;</code>
+       *
+       * <pre>
+       *返回结果
+       * </pre>
+       */
+      public Builder clearResCode() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        resCode_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.JiaSuResp)
+    }
+
+    static {
+      defaultInstance = new JiaSuResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.JiaSuResp)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
@@ -28092,6 +28106,11 @@ public final class Yabiao {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_XieZhuJunZhu_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_XieZhuJunZhuResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_XieZhuJunZhuResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_HorseType_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -28106,11 +28125,6 @@ public final class Yabiao {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_YabiaoResult_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_YabiaoInfoResp_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_YabiaoInfoResp_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_YabiaoRoomInfo_descriptor;
   private static
@@ -28177,11 +28191,6 @@ public final class Yabiao {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_YaBiaoHelpResp_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_XieZhuTimesResp_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_XieZhuTimesResp_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_AnswerYaBiaoHelpReq_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -28226,6 +28235,26 @@ public final class Yabiao {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_HorseProp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_Move2BiaoCheReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_Move2BiaoCheReq_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_Move2BiaoCheResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_Move2BiaoCheResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_JiaSuReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_JiaSuReq_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_JiaSuResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_JiaSuResp_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -28235,85 +28264,82 @@ public final class Yabiao {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014Yabiao.proto\022\021qxmobile.protobuf\"\254\001\n\022Ya" +
-      "biaoMainInfoResp\022\023\n\013yaBiaoCiShu\030\001 \002(\005\022\024\n" +
-      "\014jieBiaoCiShu\030\002 \002(\005\022\r\n\005state\030\003 \002(\005\022\016\n\006is" +
-      "Open\030\004 \002(\010\022\020\n\010buyCiShu\030\005 \002(\005\022\016\n\006roomId\030\006" +
-      " \002(\005\022\025\n\risNew4History\030\007 \002(\010\022\023\n\013isNew4Ene" +
-      "my\030\010 \002(\010\"@\n\013EnemiesResp\0221\n\tenemyList\030\001 \003" +
-      "(\0132\036.qxmobile.protobuf.EnemiesInfo\"\214\002\n\013E" +
-      "nemiesInfo\022\020\n\010junZhuId\030\001 \002(\003\022\022\n\njunZhuNa" +
-      "me\030\002 \002(\t\022\024\n\014lianMengName\030\003 \002(\t\022\016\n\006zhanLi" +
-      "\030\004 \002(\005\022\017\n\007eRoomId\030\005 \002(\005\022\r\n\005state\030\006 \002(\005\022\020",
-      "\n\010usedTime\030\007 \002(\003\022\021\n\ttotalTime\030\010 \002(\003\022\021\n\th" +
-      "orseType\030\t \002(\005\022\017\n\007jzLevel\030\n \002(\005\022\n\n\002hp\030\013 " +
-      "\002(\005\022\r\n\005maxHp\030\014 \002(\005\022\016\n\006roleId\030\r \002(\005\022\016\n\006gu" +
-      "ojia\030\016 \002(\005\022\r\n\005hudun\030\017 \001(\005\"B\n\rYBHistoryRe" +
-      "sp\0221\n\013historyList\030\001 \003(\0132\034.qxmobile.proto" +
-      "buf.YBHistory\"\353\001\n\tYBHistory\022\017\n\007enemyId\030\001" +
-      " \002(\003\022\021\n\tenemyName\030\002 \002(\t\022\031\n\021enemylianMeng" +
-      "Name\030\003 \002(\t\022\023\n\013enemyzhanLi\030\004 \002(\005\022\022\n\nenemy" +
-      "Level\030\005 \002(\005\022\022\n\nselfzhanLi\030\006 \002(\005\022\021\n\tselfL" +
-      "evel\030\007 \002(\005\022\016\n\006shouyi\030\010 \002(\005\022\014\n\004time\030\t \002(\003",
-      "\022\014\n\004type\030\n \002(\005\022\016\n\006result\030\013 \002(\005\022\023\n\013enemyG" +
-      "uojia\030\014 \002(\005\"\246\001\n\016YabiaoMenuResp\022\r\n\005horse\030" +
-      "\001 \002(\005\022\023\n\013remainAskXZ\030\002 \002(\005\022+\n\002jz\030\003 \003(\0132\037" +
-      ".qxmobile.protobuf.XieZhuJunZhu\022/\n\thorse" +
-      "prop\030\004 \002(\0132\034.qxmobile.protobuf.HorseProp" +
-      "\022\022\n\nisNewHorse\030\005 \001(\010\"L\n\014XieZhuJunZhu\022\014\n\004" +
-      "jzId\030\001 \002(\003\022\016\n\006roleId\030\002 \002(\005\022\014\n\004name\030\003 \002(\t" +
-      "\022\020\n\010addHuDun\030\004 \002(\005\"\036\n\tHorseType\022\021\n\thorse" +
-      "Type\030\001 \002(\005\" \n\016SetHorseResult\022\016\n\006result\030\001" +
-      " \002(\005\"<\n\014YabiaoResult\022\016\n\006result\030\001 \002(\005\022\016\n\006",
-      "roomId\030\002 \002(\005\022\014\n\004jzId\030\003 \003(\003\"[\n\016YabiaoInfo" +
-      "Resp\022\024\n\014fangyuZuHeId\030\001 \002(\005\0223\n\010roomList\030\002" +
-      " \003(\0132!.qxmobile.protobuf.YabiaoRoomInfo\"" +
-      "W\n\016YabiaoRoomInfo\022\016\n\006roomId\030\001 \002(\005\0225\n\010ybj" +
-      "zList\030\002 \003(\0132#.qxmobile.protobuf.YabiaoJu" +
-      "nZhuInfo\"\307\002\n\020YabiaoJunZhuInfo\022\020\n\010junZhuI" +
-      "d\030\001 \002(\003\022\022\n\njunZhuName\030\002 \002(\t\022\016\n\006zhanLi\030\003 " +
-      "\002(\005\022\n\n\002hp\030\004 \002(\005\022\r\n\005maxHp\030\005 \002(\005\022\r\n\005worth\030" +
-      "\006 \002(\005\022\020\n\010maxWorth\030\007 \002(\005\022\r\n\005state\030\010 \002(\005\022\020" +
-      "\n\010usedTime\030\t \002(\003\022\021\n\ttotalTime\030\n \002(\003\022\024\n\014l",
-      "ianMengName\030\013 \002(\t\022\016\n\006pathId\030\014 \002(\005\022\017\n\007bao" +
-      "huCD\030\r \002(\005\022\r\n\005level\030\016 \002(\005\022\021\n\thorseType\030\017" +
-      " \002(\005\022\017\n\007isEnemy\030\020 \002(\010\022\024\n\014junzhuGuojia\030\021 " +
-      "\002(\005\022\r\n\005huDun\030\022 \002(\005\"}\n\020EnterYaBiaoScene\022\013" +
-      "\n\003uid\030\001 \002(\005\022\016\n\006roomId\030\002 \002(\005\022\022\n\nsenderNam" +
-      "e\030\003 \002(\t\022\014\n\004posX\030\004 \001(\002\022\014\n\004posY\030\005 \001(\002\022\014\n\004p" +
-      "osZ\030\006 \001(\002\022\016\n\006roleId\030\007 \001(\005\"m\n\014BiaoCheStat" +
-      "e\022\020\n\010junZhuId\030\001 \002(\003\022\r\n\005state\030\002 \002(\005\022\020\n\010us" +
-      "edTime\030\003 \002(\003\022\n\n\002hp\030\004 \002(\005\022\r\n\005worth\030\005 \002(\005\022" +
-      "\017\n\007baohuCD\030\006 \002(\005\"\032\n\010RoomInfo\022\016\n\006roomId\030\001",
-      " \002(\005\"\242\001\n\020YabiaoJunZhuList\022\021\n\tlengqueCD\030\001" +
-      " \002(\005\022\024\n\014jieBiaoCiShu\030\002 \002(\005\022\024\n\014gongjiZuHe" +
-      "Id\030\003 \002(\005\022\020\n\010buyCiShu\030\004 \002(\005\022=\n\020yabiaoJunZ" +
-      "huList\030\005 \003(\0132#.qxmobile.protobuf.YabiaoJ" +
-      "unZhuInfo\"!\n\016EnterBattleReq\022\017\n\007enemyId\030\001" +
-      " \002(\003\"+\n\tEndYabiao\022\016\n\006result\030\001 \002(\005\022\016\n\006roo" +
-      "mId\030\002 \002(\005\"b\n\rJieBiaoResult\022\017\n\007enemyId\030\001 " +
-      "\002(\003\022\r\n\005winId\030\002 \002(\003\0221\n\010npcInfos\030\005 \003(\0132\037.q" +
-      "xmobile.protobuf.YBPveNpcInfo\"D\n\014YBPveNp" +
-      "cInfo\022\r\n\005npcId\030\001 \002(\005\022\020\n\010remainHP\030\002 \002(\005\022\023",
-      "\n\013remainHudun\030\003 \001(\005\"\034\n\014BuyCountsReq\022\014\n\004t" +
-      "ype\030\001 \002(\005\"o\n\rBuyCountsResp\022\016\n\006result\030\001 \002" +
-      "(\005\022\023\n\013leftYBTimes\030\002 \002(\005\022\023\n\013leftJBTimes\030\003" +
-      " \002(\005\022\021\n\tusedYBVip\030\004 \002(\005\022\021\n\tusedJBVip\030\005 \002" +
-      "(\005\"\036\n\016YaBiaoHelpResp\022\014\n\004code\030\001 \002(\005\"3\n\017Xi" +
-      "eZhuTimesResp\022\016\n\006usedXZ\030\001 \002(\005\022\020\n\010remainX" +
-      "Z\030\002 \002(\005\"1\n\023AnswerYaBiaoHelpReq\022\014\n\004jzId\030\001" +
-      " \002(\003\022\014\n\004code\030\002 \002(\005\"2\n\024AnswerYaBiaoHelpRe" +
-      "sp\022\014\n\004code\030\001 \002(\005\022\014\n\004name\030\002 \002(\t\"N\n\021AskYaB" +
-      "iaoHelpResp\022+\n\002jz\030\001 \002(\0132\037.qxmobile.proto",
-      "buf.XieZhuJunZhu\022\014\n\004code\030\002 \002(\005\"\036\n\016TiChuY" +
-      "BHelpRsq\022\014\n\004jzId\030\001 \002(\003\"\037\n\017TiChuXieZhuRes" +
-      "p\022\014\n\004name\030\001 \002(\t\">\n\020isNew4RecordResp\022\025\n\ri" +
-      "sNew4History\030\001 \002(\010\022\023\n\013isNew4Enemy\030\002 \002(\010\"" +
-      " \n\014HorsePropReq\022\020\n\010propType\030\001 \002(\005\"H\n\rHor" +
-      "sePropResp\022\013\n\003res\030\001 \002(\005\022*\n\004prop\030\002 \002(\0132\034." +
-      "qxmobile.protobuf.HorseProp\"8\n\tHorseProp" +
-      "\022\r\n\005baodi\030\001 \002(\005\022\r\n\005jiasu\030\002 \002(\005\022\r\n\005baohu\030" +
-      "\003 \002(\005B\010B\006Yabiao"
+      "\n\014Yabiao.proto\022\021qxmobile.protobuf\"w\n\022Yab" +
+      "iaoMainInfoResp\022\023\n\013yaBiaoCiShu\030\001 \002(\005\022\016\n\006" +
+      "isOpen\030\004 \002(\010\022\020\n\010buyCiShu\030\005 \002(\005\022\025\n\risNew4" +
+      "History\030\007 \002(\010\022\023\n\013isNew4Enemy\030\010 \002(\010\"@\n\013En" +
+      "emiesResp\0221\n\tenemyList\030\001 \003(\0132\036.qxmobile." +
+      "protobuf.EnemiesInfo\"\214\002\n\013EnemiesInfo\022\020\n\010" +
+      "junZhuId\030\001 \002(\003\022\022\n\njunZhuName\030\002 \002(\t\022\024\n\014li" +
+      "anMengName\030\003 \002(\t\022\016\n\006zhanLi\030\004 \002(\005\022\017\n\007eRoo" +
+      "mId\030\005 \002(\005\022\r\n\005state\030\006 \002(\005\022\020\n\010usedTime\030\007 \002" +
+      "(\003\022\021\n\ttotalTime\030\010 \002(\003\022\021\n\thorseType\030\t \002(\005",
+      "\022\017\n\007jzLevel\030\n \002(\005\022\n\n\002hp\030\013 \002(\005\022\r\n\005maxHp\030\014" +
+      " \002(\005\022\016\n\006roleId\030\r \002(\005\022\016\n\006guojia\030\016 \002(\005\022\r\n\005" +
+      "hudun\030\017 \001(\005\"B\n\rYBHistoryResp\0221\n\013historyL" +
+      "ist\030\001 \003(\0132\034.qxmobile.protobuf.YBHistory\"" +
+      "\353\001\n\tYBHistory\022\017\n\007enemyId\030\001 \002(\003\022\021\n\tenemyN" +
+      "ame\030\002 \002(\t\022\031\n\021enemylianMengName\030\003 \002(\t\022\023\n\013" +
+      "enemyzhanLi\030\004 \002(\005\022\022\n\nenemyLevel\030\005 \002(\005\022\022\n" +
+      "\nselfzhanLi\030\006 \002(\005\022\021\n\tselfLevel\030\007 \002(\005\022\016\n\006" +
+      "shouyi\030\010 \002(\005\022\014\n\004time\030\t \002(\003\022\014\n\004type\030\n \002(\005" +
+      "\022\016\n\006result\030\013 \002(\005\022\023\n\013enemyGuojia\030\014 \002(\005\"d\n",
+      "\016YabiaoMenuResp\022\r\n\005horse\030\001 \002(\005\022/\n\thorsep" +
+      "rop\030\002 \002(\0132\034.qxmobile.protobuf.HorseProp\022" +
+      "\022\n\nisNewHorse\030\003 \001(\010\"L\n\014XieZhuJunZhu\022\014\n\004j" +
+      "zId\030\001 \002(\003\022\016\n\006roleId\030\002 \002(\005\022\014\n\004name\030\003 \002(\t\022" +
+      "\020\n\010addHuDun\030\004 \002(\005\"E\n\020XieZhuJunZhuResp\0221\n" +
+      "\010xiezhuJz\030\001 \003(\0132\037.qxmobile.protobuf.XieZ" +
+      "huJunZhu\"\036\n\tHorseType\022\021\n\thorseType\030\001 \002(\005" +
+      "\" \n\016SetHorseResult\022\016\n\006result\030\001 \002(\005\"\036\n\014Ya" +
+      "biaoResult\022\016\n\006result\030\001 \002(\005\"W\n\016YabiaoRoom" +
+      "Info\022\016\n\006roomId\030\001 \002(\005\0225\n\010ybjzList\030\002 \003(\0132#",
+      ".qxmobile.protobuf.YabiaoJunZhuInfo\"\307\002\n\020" +
+      "YabiaoJunZhuInfo\022\020\n\010junZhuId\030\001 \002(\003\022\022\n\nju" +
+      "nZhuName\030\002 \002(\t\022\016\n\006zhanLi\030\003 \002(\005\022\n\n\002hp\030\004 \002" +
+      "(\005\022\r\n\005maxHp\030\005 \002(\005\022\r\n\005worth\030\006 \002(\005\022\020\n\010maxW" +
+      "orth\030\007 \002(\005\022\r\n\005state\030\010 \002(\005\022\020\n\010usedTime\030\t " +
+      "\002(\003\022\021\n\ttotalTime\030\n \002(\003\022\024\n\014lianMengName\030\013" +
+      " \002(\t\022\016\n\006pathId\030\014 \002(\005\022\017\n\007baohuCD\030\r \002(\005\022\r\n" +
+      "\005level\030\016 \002(\005\022\021\n\thorseType\030\017 \002(\005\022\017\n\007isEne" +
+      "my\030\020 \002(\010\022\024\n\014junzhuGuojia\030\021 \002(\005\022\r\n\005huDun\030" +
+      "\022 \002(\005\"}\n\020EnterYaBiaoScene\022\013\n\003uid\030\001 \002(\005\022\016",
+      "\n\006roomId\030\002 \002(\005\022\022\n\nsenderName\030\003 \002(\t\022\014\n\004po" +
+      "sX\030\004 \001(\002\022\014\n\004posY\030\005 \001(\002\022\014\n\004posZ\030\006 \001(\002\022\016\n\006" +
+      "roleId\030\007 \001(\005\"]\n\014BiaoCheState\022\013\n\003uid\030\001 \002(" +
+      "\005\022\r\n\005state\030\002 \002(\005\022\r\n\005jindu\030\003 \002(\005\022\017\n\007baohu" +
+      "CD\030\004 \002(\005\022\021\n\tjiasuTime\030\005 \002(\005\"\032\n\010RoomInfo\022" +
+      "\016\n\006roomId\030\001 \002(\005\"\242\001\n\020YabiaoJunZhuList\022\021\n\t" +
+      "lengqueCD\030\001 \002(\005\022\024\n\014jieBiaoCiShu\030\002 \002(\005\022\024\n" +
+      "\014gongjiZuHeId\030\003 \002(\005\022\020\n\010buyCiShu\030\004 \002(\005\022=\n" +
+      "\020yabiaoJunZhuList\030\005 \003(\0132#.qxmobile.proto" +
+      "buf.YabiaoJunZhuInfo\"!\n\016EnterBattleReq\022\017",
+      "\n\007enemyId\030\001 \002(\003\"+\n\tEndYabiao\022\016\n\006result\030\001" +
+      " \002(\005\022\016\n\006roomId\030\002 \002(\005\"b\n\rJieBiaoResult\022\017\n" +
+      "\007enemyId\030\001 \002(\003\022\r\n\005winId\030\002 \002(\003\0221\n\010npcInfo" +
+      "s\030\005 \003(\0132\037.qxmobile.protobuf.YBPveNpcInfo" +
+      "\"D\n\014YBPveNpcInfo\022\r\n\005npcId\030\001 \002(\005\022\020\n\010remai" +
+      "nHP\030\002 \002(\005\022\023\n\013remainHudun\030\003 \001(\005\"\034\n\014BuyCou" +
+      "ntsReq\022\014\n\004type\030\001 \002(\005\"G\n\rBuyCountsResp\022\016\n" +
+      "\006result\030\001 \002(\005\022\023\n\013leftYBTimes\030\002 \002(\005\022\021\n\tus" +
+      "edYBVip\030\003 \002(\005\"\036\n\016YaBiaoHelpResp\022\014\n\004code\030" +
+      "\001 \002(\005\"1\n\023AnswerYaBiaoHelpReq\022\014\n\004jzId\030\001 \002",
+      "(\003\022\014\n\004code\030\002 \002(\005\"2\n\024AnswerYaBiaoHelpResp" +
+      "\022\014\n\004code\030\001 \002(\005\022\014\n\004name\030\002 \002(\t\"N\n\021AskYaBia" +
+      "oHelpResp\022+\n\002jz\030\001 \002(\0132\037.qxmobile.protobu" +
+      "f.XieZhuJunZhu\022\014\n\004code\030\002 \002(\005\"\036\n\016TiChuYBH" +
+      "elpRsq\022\014\n\004jzId\030\001 \002(\003\"\037\n\017TiChuXieZhuResp\022" +
+      "\014\n\004name\030\001 \002(\t\">\n\020isNew4RecordResp\022\025\n\risN" +
+      "ew4History\030\001 \002(\010\022\023\n\013isNew4Enemy\030\002 \002(\010\" \n" +
+      "\014HorsePropReq\022\020\n\010propType\030\001 \002(\005\"H\n\rHorse" +
+      "PropResp\022\013\n\003res\030\001 \002(\005\022*\n\004prop\030\002 \002(\0132\034.qx" +
+      "mobile.protobuf.HorseProp\"\033\n\tHorseProp\022\016",
+      "\n\006toolId\030\001 \003(\005\"#\n\017Move2BiaoCheReq\022\020\n\010tar" +
+      "getId\030\001 \002(\003\"P\n\020Move2BiaoCheResp\022\020\n\010targe" +
+      "tId\030\001 \002(\003\022\016\n\006result\030\002 \002(\005\022\014\n\004posX\030\003 \001(\002\022" +
+      "\014\n\004posZ\030\004 \001(\002\"\032\n\010JiaSuReq\022\016\n\006ybjzId\030\001 \002(" +
+      "\003\"\034\n\tJiaSuResp\022\017\n\007resCode\030\001 \002(\005B\010B\006Yabia" +
+      "o"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -28325,7 +28351,7 @@ public final class Yabiao {
           internal_static_qxmobile_protobuf_YabiaoMainInfoResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_YabiaoMainInfoResp_descriptor,
-              new java.lang.String[] { "YaBiaoCiShu", "JieBiaoCiShu", "State", "IsOpen", "BuyCiShu", "RoomId", "IsNew4History", "IsNew4Enemy", });
+              new java.lang.String[] { "YaBiaoCiShu", "IsOpen", "BuyCiShu", "IsNew4History", "IsNew4Enemy", });
           internal_static_qxmobile_protobuf_EnemiesResp_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_EnemiesResp_fieldAccessorTable = new
@@ -28355,37 +28381,37 @@ public final class Yabiao {
           internal_static_qxmobile_protobuf_YabiaoMenuResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_YabiaoMenuResp_descriptor,
-              new java.lang.String[] { "Horse", "RemainAskXZ", "Jz", "Horseprop", "IsNewHorse", });
+              new java.lang.String[] { "Horse", "Horseprop", "IsNewHorse", });
           internal_static_qxmobile_protobuf_XieZhuJunZhu_descriptor =
             getDescriptor().getMessageTypes().get(6);
           internal_static_qxmobile_protobuf_XieZhuJunZhu_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_XieZhuJunZhu_descriptor,
               new java.lang.String[] { "JzId", "RoleId", "Name", "AddHuDun", });
-          internal_static_qxmobile_protobuf_HorseType_descriptor =
+          internal_static_qxmobile_protobuf_XieZhuJunZhuResp_descriptor =
             getDescriptor().getMessageTypes().get(7);
+          internal_static_qxmobile_protobuf_XieZhuJunZhuResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_XieZhuJunZhuResp_descriptor,
+              new java.lang.String[] { "XiezhuJz", });
+          internal_static_qxmobile_protobuf_HorseType_descriptor =
+            getDescriptor().getMessageTypes().get(8);
           internal_static_qxmobile_protobuf_HorseType_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_HorseType_descriptor,
               new java.lang.String[] { "HorseType", });
           internal_static_qxmobile_protobuf_SetHorseResult_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(9);
           internal_static_qxmobile_protobuf_SetHorseResult_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_SetHorseResult_descriptor,
               new java.lang.String[] { "Result", });
           internal_static_qxmobile_protobuf_YabiaoResult_descriptor =
-            getDescriptor().getMessageTypes().get(9);
+            getDescriptor().getMessageTypes().get(10);
           internal_static_qxmobile_protobuf_YabiaoResult_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_YabiaoResult_descriptor,
-              new java.lang.String[] { "Result", "RoomId", "JzId", });
-          internal_static_qxmobile_protobuf_YabiaoInfoResp_descriptor =
-            getDescriptor().getMessageTypes().get(10);
-          internal_static_qxmobile_protobuf_YabiaoInfoResp_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_YabiaoInfoResp_descriptor,
-              new java.lang.String[] { "FangyuZuHeId", "RoomList", });
+              new java.lang.String[] { "Result", });
           internal_static_qxmobile_protobuf_YabiaoRoomInfo_descriptor =
             getDescriptor().getMessageTypes().get(11);
           internal_static_qxmobile_protobuf_YabiaoRoomInfo_fieldAccessorTable = new
@@ -28409,7 +28435,7 @@ public final class Yabiao {
           internal_static_qxmobile_protobuf_BiaoCheState_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BiaoCheState_descriptor,
-              new java.lang.String[] { "JunZhuId", "State", "UsedTime", "Hp", "Worth", "BaohuCD", });
+              new java.lang.String[] { "Uid", "State", "Jindu", "BaohuCD", "JiasuTime", });
           internal_static_qxmobile_protobuf_RoomInfo_descriptor =
             getDescriptor().getMessageTypes().get(15);
           internal_static_qxmobile_protobuf_RoomInfo_fieldAccessorTable = new
@@ -28457,73 +28483,91 @@ public final class Yabiao {
           internal_static_qxmobile_protobuf_BuyCountsResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BuyCountsResp_descriptor,
-              new java.lang.String[] { "Result", "LeftYBTimes", "LeftJBTimes", "UsedYBVip", "UsedJBVip", });
+              new java.lang.String[] { "Result", "LeftYBTimes", "UsedYBVip", });
           internal_static_qxmobile_protobuf_YaBiaoHelpResp_descriptor =
             getDescriptor().getMessageTypes().get(23);
           internal_static_qxmobile_protobuf_YaBiaoHelpResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_YaBiaoHelpResp_descriptor,
               new java.lang.String[] { "Code", });
-          internal_static_qxmobile_protobuf_XieZhuTimesResp_descriptor =
-            getDescriptor().getMessageTypes().get(24);
-          internal_static_qxmobile_protobuf_XieZhuTimesResp_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_XieZhuTimesResp_descriptor,
-              new java.lang.String[] { "UsedXZ", "RemainXZ", });
           internal_static_qxmobile_protobuf_AnswerYaBiaoHelpReq_descriptor =
-            getDescriptor().getMessageTypes().get(25);
+            getDescriptor().getMessageTypes().get(24);
           internal_static_qxmobile_protobuf_AnswerYaBiaoHelpReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_AnswerYaBiaoHelpReq_descriptor,
               new java.lang.String[] { "JzId", "Code", });
           internal_static_qxmobile_protobuf_AnswerYaBiaoHelpResp_descriptor =
-            getDescriptor().getMessageTypes().get(26);
+            getDescriptor().getMessageTypes().get(25);
           internal_static_qxmobile_protobuf_AnswerYaBiaoHelpResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_AnswerYaBiaoHelpResp_descriptor,
               new java.lang.String[] { "Code", "Name", });
           internal_static_qxmobile_protobuf_AskYaBiaoHelpResp_descriptor =
-            getDescriptor().getMessageTypes().get(27);
+            getDescriptor().getMessageTypes().get(26);
           internal_static_qxmobile_protobuf_AskYaBiaoHelpResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_AskYaBiaoHelpResp_descriptor,
               new java.lang.String[] { "Jz", "Code", });
           internal_static_qxmobile_protobuf_TiChuYBHelpRsq_descriptor =
-            getDescriptor().getMessageTypes().get(28);
+            getDescriptor().getMessageTypes().get(27);
           internal_static_qxmobile_protobuf_TiChuYBHelpRsq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_TiChuYBHelpRsq_descriptor,
               new java.lang.String[] { "JzId", });
           internal_static_qxmobile_protobuf_TiChuXieZhuResp_descriptor =
-            getDescriptor().getMessageTypes().get(29);
+            getDescriptor().getMessageTypes().get(28);
           internal_static_qxmobile_protobuf_TiChuXieZhuResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_TiChuXieZhuResp_descriptor,
               new java.lang.String[] { "Name", });
           internal_static_qxmobile_protobuf_isNew4RecordResp_descriptor =
-            getDescriptor().getMessageTypes().get(30);
+            getDescriptor().getMessageTypes().get(29);
           internal_static_qxmobile_protobuf_isNew4RecordResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_isNew4RecordResp_descriptor,
               new java.lang.String[] { "IsNew4History", "IsNew4Enemy", });
           internal_static_qxmobile_protobuf_HorsePropReq_descriptor =
-            getDescriptor().getMessageTypes().get(31);
+            getDescriptor().getMessageTypes().get(30);
           internal_static_qxmobile_protobuf_HorsePropReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_HorsePropReq_descriptor,
               new java.lang.String[] { "PropType", });
           internal_static_qxmobile_protobuf_HorsePropResp_descriptor =
-            getDescriptor().getMessageTypes().get(32);
+            getDescriptor().getMessageTypes().get(31);
           internal_static_qxmobile_protobuf_HorsePropResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_HorsePropResp_descriptor,
               new java.lang.String[] { "Res", "Prop", });
           internal_static_qxmobile_protobuf_HorseProp_descriptor =
-            getDescriptor().getMessageTypes().get(33);
+            getDescriptor().getMessageTypes().get(32);
           internal_static_qxmobile_protobuf_HorseProp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_HorseProp_descriptor,
-              new java.lang.String[] { "Baodi", "Jiasu", "Baohu", });
+              new java.lang.String[] { "ToolId", });
+          internal_static_qxmobile_protobuf_Move2BiaoCheReq_descriptor =
+            getDescriptor().getMessageTypes().get(33);
+          internal_static_qxmobile_protobuf_Move2BiaoCheReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_Move2BiaoCheReq_descriptor,
+              new java.lang.String[] { "TargetId", });
+          internal_static_qxmobile_protobuf_Move2BiaoCheResp_descriptor =
+            getDescriptor().getMessageTypes().get(34);
+          internal_static_qxmobile_protobuf_Move2BiaoCheResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_Move2BiaoCheResp_descriptor,
+              new java.lang.String[] { "TargetId", "Result", "PosX", "PosZ", });
+          internal_static_qxmobile_protobuf_JiaSuReq_descriptor =
+            getDescriptor().getMessageTypes().get(35);
+          internal_static_qxmobile_protobuf_JiaSuReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_JiaSuReq_descriptor,
+              new java.lang.String[] { "YbjzId", });
+          internal_static_qxmobile_protobuf_JiaSuResp_descriptor =
+            getDescriptor().getMessageTypes().get(36);
+          internal_static_qxmobile_protobuf_JiaSuResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_JiaSuResp_descriptor,
+              new java.lang.String[] { "ResCode", });
           return null;
         }
       };

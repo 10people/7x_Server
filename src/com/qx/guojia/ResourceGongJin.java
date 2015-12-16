@@ -24,7 +24,7 @@ public class ResourceGongJin {
 //	/**上周捐献贡金数目*/
 //	public int lastWeekJX;
 
-	public Date lastRestTime;
+//	public Date lastRestTime;
 //	/**捐献时间*/
 //	public Date juanXianTime;
 	/*

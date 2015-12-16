@@ -16,34 +16,21 @@ import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.JunZhuProto.BuyTimesInfo;
 import qxmobile.protobuf.Shop.BuyMibaoPointResp;
 import qxmobile.protobuf.Shop.BuyTongbiResp;
-import qxmobile.protobuf.Shop.BuyTreasure;
-import qxmobile.protobuf.Shop.BuyTreasureInfosResp;
-import qxmobile.protobuf.Shop.BuyTreasureResp;
 import qxmobile.protobuf.Shop.PurchaseFail;
-import qxmobile.protobuf.Shop.TreasureAward;
-import qxmobile.protobuf.Shop.TreasureCost;
-import qxmobile.protobuf.Shop.TreasureInfo;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.CanShu;
-import com.manu.dynasty.template.HeroProtoType;
 import com.manu.dynasty.template.Jiangli;
-import com.manu.dynasty.template.JingPo;
 import com.manu.dynasty.template.JunzhuShengji;
 import com.manu.dynasty.template.Purchase;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.SessionAttKey;
 import com.qx.award.AwardMgr;
-import com.qx.bag.Bag;
-import com.qx.bag.BagGrid;
-import com.qx.bag.BagMgr;
 import com.qx.equip.web.UserEquipAction;
 import com.qx.event.ED;
 import com.qx.event.EventMgr;
-import com.qx.hero.HeroMgr;
-import com.qx.hero.WuJiang;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.mibao.MibaoLevelPoint;
@@ -522,206 +509,206 @@ public class PurchaseMgr {
 		session.write(ret.build());
 	}
 
-	/**
-	 * 获取宝箱购买信息
-	 * 
-	 * @param cmd
-	 * @param session
-	 * @param builder
-	 */
-	public void sendTreasureInfos(int cmd, IoSession session, Builder builder) {
-		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
-		if (junZhuId == null) {
-			log.error("未发现君主，cmd:{}", cmd);
-			return;
-		}
-		List<Treasure> treasureList = HibernateUtil.list(Treasure.class,
-				" where junZhuId=" + junZhuId);
-		if (treasureList == null || treasureList.size() == 0) {
-			// 初始化宝箱信息
-			treasureList = insertTreasureInfo(junZhuId);
-		}
-		BuyTreasureInfosResp.Builder response = BuyTreasureInfosResp
-				.newBuilder();
-		for (Treasure t : treasureList) {
-			TreasureInfo.Builder treasureInfo = TreasureInfo.newBuilder();
-			treasureInfo.setType(t.getType());
-			treasureInfo.setIsGet(t.isGet());
-			treasureInfo.setTimes(t.getTimes());
-			treasureInfo.setCountDown(t.getCountDown());
-			response.addTreasureInfo(treasureInfo.build());
-		}
-		// 获取各个宝箱购买所花的元宝
-		TreasureCost.Builder costBuilder = TreasureCost.newBuilder();
-		costBuilder.setCostYuan(getNeedYuanBao(
-				PurchaseConstants.TREASURE_MIDDLE, 1));
-		costBuilder.setCostYuan5(getNeedYuanBao(
-				PurchaseConstants.TREASURE_BIG_5, 1));
-		costBuilder.setCostYuan20(getNeedYuanBao(
-				PurchaseConstants.TREASURE_BIG_20, 1));
-		costBuilder.setCostTiangongTu(0);
-		response.setTreasureCost(costBuilder.build());
-		session.write(response.build());
-	}
+//	/**
+//	 * 获取宝箱购买信息
+//	 * 
+//	 * @param cmd
+//	 * @param session
+//	 * @param builder
+//	 */
+//	public void sendTreasureInfos(int cmd, IoSession session, Builder builder) {
+//		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
+//		if (junZhuId == null) {
+//			log.error("未发现君主，cmd:{}", cmd);
+//			return;
+//		}
+//		List<Treasure> treasureList = HibernateUtil.list(Treasure.class,
+//				" where junZhuId=" + junZhuId);
+//		if (treasureList == null || treasureList.size() == 0) {
+//			// 初始化宝箱信息
+//			treasureList = insertTreasureInfo(junZhuId);
+//		}
+//		BuyTreasureInfosResp.Builder response = BuyTreasureInfosResp
+//				.newBuilder();
+//		for (Treasure t : treasureList) {
+//			TreasureInfo.Builder treasureInfo = TreasureInfo.newBuilder();
+//			treasureInfo.setType(t.getType());
+//			treasureInfo.setIsGet(t.isGet());
+//			treasureInfo.setTimes(t.getTimes());
+//			treasureInfo.setCountDown(t.getCountDown());
+//			response.addTreasureInfo(treasureInfo.build());
+//		}
+//		// 获取各个宝箱购买所花的元宝
+//		TreasureCost.Builder costBuilder = TreasureCost.newBuilder();
+//		costBuilder.setCostYuan(getNeedYuanBao(
+//				PurchaseConstants.TREASURE_MIDDLE, 1));
+//		costBuilder.setCostYuan5(getNeedYuanBao(
+//				PurchaseConstants.TREASURE_BIG_5, 1));
+//		costBuilder.setCostYuan20(getNeedYuanBao(
+//				PurchaseConstants.TREASURE_BIG_20, 1));
+//		costBuilder.setCostTiangongTu(0);
+//		response.setTreasureCost(costBuilder.build());
+//		session.write(response.build());
+//	}
+//
+//	/**
+//	 * 插入宝箱购买信息
+//	 * 
+//	 * @param junZhuId
+//	 * @return
+//	 */
+//	protected List<Treasure> insertTreasureInfo(Long junZhuId) {
+//		List<Treasure> treasureList = new ArrayList<Treasure>();
+//		// 宝箱类型：1-小袋宝箱，2-中袋宝箱，3-大袋宝箱
+//		Treasure small = new Treasure(junZhuId, TREASURE_CODE_SMALL);
+//		Treasure middle = new Treasure(junZhuId, TREASURE_CODE_MIDDLE);
+//		treasureList.add(small);
+//		treasureList.add(middle);
+//		HibernateUtil.save(small);
+//		HibernateUtil.save(middle);
+//		return treasureList;
+//	}
 
-	/**
-	 * 插入宝箱购买信息
-	 * 
-	 * @param junZhuId
-	 * @return
-	 */
-	protected List<Treasure> insertTreasureInfo(Long junZhuId) {
-		List<Treasure> treasureList = new ArrayList<Treasure>();
-		// 宝箱类型：1-小袋宝箱，2-中袋宝箱，3-大袋宝箱
-		Treasure small = new Treasure(junZhuId, TREASURE_CODE_SMALL);
-		Treasure middle = new Treasure(junZhuId, TREASURE_CODE_MIDDLE);
-		treasureList.add(small);
-		treasureList.add(middle);
-		HibernateUtil.save(small);
-		HibernateUtil.save(middle);
-		return treasureList;
-	}
+//	/**
+//	 * 购买宝箱
+//	 * 
+//	 * @param cmd
+//	 * @param session
+//	 * @param builder
+//	 */
+//	public void buyTreasure(int cmd, IoSession session, Builder builder) {
+//		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
+//		if (junZhuId == null) {
+//			log.error("未发现君主id，cmd:{}", cmd);
+//			return;
+//		}
+//		JunZhu junZhu = HibernateUtil.find(JunZhu.class, junZhuId);
+//		if (junZhu == null) {
+//			log.error("未发现君主，cmd:{}, junzhuId:{}", cmd, junZhuId);
+//			return;
+//		}
+//		BuyTreasure.Builder request = (qxmobile.protobuf.Shop.BuyTreasure.Builder) builder;
+//		int type = request.getType();
+//		switch (type) {
+//		case TREASURE_CODE_SMALL:
+//			Treasure treasure = HibernateUtil.find(Treasure.class,
+//					" where junZhuId=" + junZhuId + " and type=" + type);
+//			if (!treasure.isGet()) {
+//				log.info("现在还不能领取小袋奖励或者今日次数已用完");
+//				purchaseFail(session, 3);
+//				return;
+//			}
+//			getTreasureAward(treasure, session, 201, junZhu);
+//			break;
+//		case TREASURE_CODE_MIDDLE:
+//			buyMiddleTreasure(session, junZhu, type, request.getAction());
+//			break;
+//		case TREASURE_CODE_BIG:
+//			buyBigTreasure(session, junZhu, type, request.getAction());
+//			break;
+//		default:
+//			log.error("type类型请求错误type value:{},cmd:{}", type, cmd);
+//			break;
+//		}
+//	}
 
-	/**
-	 * 购买宝箱
-	 * 
-	 * @param cmd
-	 * @param session
-	 * @param builder
-	 */
-	public void buyTreasure(int cmd, IoSession session, Builder builder) {
-		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
-		if (junZhuId == null) {
-			log.error("未发现君主id，cmd:{}", cmd);
-			return;
-		}
-		JunZhu junZhu = HibernateUtil.find(JunZhu.class, junZhuId);
-		if (junZhu == null) {
-			log.error("未发现君主，cmd:{}, junzhuId:{}", cmd, junZhuId);
-			return;
-		}
-		BuyTreasure.Builder request = (qxmobile.protobuf.Shop.BuyTreasure.Builder) builder;
-		int type = request.getType();
-		switch (type) {
-		case TREASURE_CODE_SMALL:
-			Treasure treasure = HibernateUtil.find(Treasure.class,
-					" where junZhuId=" + junZhuId + " and type=" + type);
-			if (!treasure.isGet()) {
-				log.info("现在还不能领取小袋奖励或者今日次数已用完");
-				purchaseFail(session, 3);
-				return;
-			}
-			getTreasureAward(treasure, session, 201, junZhu);
-			break;
-		case TREASURE_CODE_MIDDLE:
-			buyMiddleTreasure(session, junZhu, type, request.getAction());
-			break;
-		case TREASURE_CODE_BIG:
-			buyBigTreasure(session, junZhu, type, request.getAction());
-			break;
-		default:
-			log.error("type类型请求错误type value:{},cmd:{}", type, cmd);
-			break;
-		}
-	}
+//	protected void buyBigTreasure(IoSession session, JunZhu junZhu, int type,
+//			int action) {
+//		int needYuanbao = 0;
+//		int jiangliId = 0;
+//		switch (action) {
+//		case 1:// 五连抽
+//			needYuanbao = getNeedYuanBao(PurchaseConstants.TREASURE_BIG_5, 1);
+//			jiangliId = 203;
+//			break;
+//		case 2:// 二十连抽
+//			needYuanbao = getNeedYuanBao(PurchaseConstants.TREASURE_BIG_20, 1);
+//			jiangliId = 204;
+//			break;
+//		default:
+//			break;
+//		}
+//		if (needYuanbao == -1) {
+//			log.error("购买大袋宝箱获取所需元宝数发生错误!");
+//			purchaseFail(session, 1);
+//			return;
+//		}
+//		if (junZhu.yuanBao < needYuanbao) {
+//			log.error("购买大袋宝箱元宝不足");
+//			purchaseFail(session, 1);
+//			return;
+//		}
+//		getTreasureAward(null, session, jiangliId, junZhu);
+//		// junZhu.yuanBao -= needYuanbao;
+//		YuanBaoMgr.inst.diff(junZhu, -needYuanbao, 0,
+//				getPrice(PurchaseConstants.TREASURE_BIG_20),
+//				YBType.YB_BUY_WUPIN, "购买大袋宝箱");
+//		HibernateUtil.save(junZhu);
+//	}
 
-	protected void buyBigTreasure(IoSession session, JunZhu junZhu, int type,
-			int action) {
-		int needYuanbao = 0;
-		int jiangliId = 0;
-		switch (action) {
-		case 1:// 五连抽
-			needYuanbao = getNeedYuanBao(PurchaseConstants.TREASURE_BIG_5, 1);
-			jiangliId = 203;
-			break;
-		case 2:// 二十连抽
-			needYuanbao = getNeedYuanBao(PurchaseConstants.TREASURE_BIG_20, 1);
-			jiangliId = 204;
-			break;
-		default:
-			break;
-		}
-		if (needYuanbao == -1) {
-			log.error("购买大袋宝箱获取所需元宝数发生错误!");
-			purchaseFail(session, 1);
-			return;
-		}
-		if (junZhu.yuanBao < needYuanbao) {
-			log.error("购买大袋宝箱元宝不足");
-			purchaseFail(session, 1);
-			return;
-		}
-		getTreasureAward(null, session, jiangliId, junZhu);
-		// junZhu.yuanBao -= needYuanbao;
-		YuanBaoMgr.inst.diff(junZhu, -needYuanbao, 0,
-				getPrice(PurchaseConstants.TREASURE_BIG_20),
-				YBType.YB_BUY_WUPIN, "购买大袋宝箱");
-		HibernateUtil.save(junZhu);
-	}
-
-	protected void buyMiddleTreasure(IoSession session, JunZhu junZhu, int type,
-			int action) {
-		Treasure treasure = HibernateUtil.find(Treasure.class,
-				" where junZhuId=" + junZhu.id + " and type=" + type);
-		switch (action) {
-		case 1:
-			if (!treasure.isGet()) {
-				purchaseFail(session, 3);
-				return;
-			}
-			getTreasureAward(treasure, session, 202, junZhu);
-			break;
-		case 2:// 天工图购买
-			Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
-			int tianGongCount = BagMgr.inst.getItemCount(bag,
-					TIAN_GONG_TU_ITMEID);
-			int subTianGong = tianGongCount;
-			if (tianGongCount < 0) {
-				log.info("天工图数量不足，不能购买中袋宝箱");
-				purchaseFail(session, 2);
-				return;
-			}
-			getTreasureAward(null, session, 202, junZhu);
-			// 扣除天工图
-			for (BagGrid grid : bag.grids) {
-				if (grid.itemId == TIAN_GONG_TU_ITMEID) {
-					if (grid.cnt >= subTianGong) {
-						grid.cnt -= subTianGong;
-						HibernateUtil.save(grid);
-						break;
-					} else {
-						subTianGong -= grid.cnt;
-						grid.itemId = -1;
-						grid.cnt = 0;
-						HibernateUtil.save(grid);
-					}
-				}
-			}
-			break;
-		case 3:// 元宝购买
-			int needYuanbao = getNeedYuanBao(PurchaseConstants.TREASURE_MIDDLE,
-					treasure.getTimes() + 1);
-			if (needYuanbao == -1) {
-				log.error("购买中袋宝箱获取所需元宝数发生错误!");
-				purchaseFail(session, 1);
-				return;
-			}
-			if (junZhu.yuanBao < needYuanbao) {
-				log.error("购买中袋宝箱元宝不足");
-				purchaseFail(session, 1);
-				return;
-			}
-			getTreasureAward(null, session, 202, junZhu);
-			// junZhu.yuanBao -= needYuanbao;
-			YuanBaoMgr.inst.diff(junZhu, -needYuanbao, 0,
-					getPrice(PurchaseConstants.TREASURE_MIDDLE),
-					YBType.YB_BUY_WUPIN, "购买中袋宝箱");
-			HibernateUtil.save(junZhu);
-			break;
-		default:
-			break;
-		}
-	}
+//	protected void buyMiddleTreasure(IoSession session, JunZhu junZhu, int type,
+//			int action) {
+//		Treasure treasure = HibernateUtil.find(Treasure.class,
+//				" where junZhuId=" + junZhu.id + " and type=" + type);
+//		switch (action) {
+//		case 1:
+//			if (!treasure.isGet()) {
+//				purchaseFail(session, 3);
+//				return;
+//			}
+//			getTreasureAward(treasure, session, 202, junZhu);
+//			break;
+//		case 2:// 天工图购买
+//			Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
+//			int tianGongCount = BagMgr.inst.getItemCount(bag,
+//					TIAN_GONG_TU_ITMEID);
+//			int subTianGong = tianGongCount;
+//			if (tianGongCount < 0) {
+//				log.info("天工图数量不足，不能购买中袋宝箱");
+//				purchaseFail(session, 2);
+//				return;
+//			}
+//			getTreasureAward(null, session, 202, junZhu);
+//			// 扣除天工图
+//			for (BagGrid grid : bag.grids) {
+//				if (grid.itemId == TIAN_GONG_TU_ITMEID) {
+//					if (grid.cnt >= subTianGong) {
+//						grid.cnt -= subTianGong;
+//						HibernateUtil.save(grid);
+//						break;
+//					} else {
+//						subTianGong -= grid.cnt;
+//						grid.itemId = -1;
+//						grid.cnt = 0;
+//						HibernateUtil.save(grid);
+//					}
+//				}
+//			}
+//			break;
+//		case 3:// 元宝购买
+//			int needYuanbao = getNeedYuanBao(PurchaseConstants.TREASURE_MIDDLE,
+//					treasure.getTimes() + 1);
+//			if (needYuanbao == -1) {
+//				log.error("购买中袋宝箱获取所需元宝数发生错误!");
+//				purchaseFail(session, 1);
+//				return;
+//			}
+//			if (junZhu.yuanBao < needYuanbao) {
+//				log.error("购买中袋宝箱元宝不足");
+//				purchaseFail(session, 1);
+//				return;
+//			}
+//			getTreasureAward(null, session, 202, junZhu);
+//			// junZhu.yuanBao -= needYuanbao;
+//			YuanBaoMgr.inst.diff(junZhu, -needYuanbao, 0,
+//					getPrice(PurchaseConstants.TREASURE_MIDDLE),
+//					YBType.YB_BUY_WUPIN, "购买中袋宝箱");
+//			HibernateUtil.save(junZhu);
+//			break;
+//		default:
+//			break;
+//		}
+//	}
 
 	/**
 	 * 不同的vip等级对某操作的次数不同，花费也不同 那么根据玩家vip等级，获取对应操作的元宝数
@@ -771,55 +758,38 @@ public class PurchaseMgr {
 		return Integer.MAX_VALUE;
 	}
 
-	/**
-	 * @Title: getPrice
-	 * @Description: 获取物品单价
-	 * @return
-	 * @return int 返回-1代表获取错误
-	 * @throws
-	 */
-	public int getPrice(int type) {
-		List<Purchase> list = PurchaseMgr.inst.purchaseMap.get(type);
-		for (Purchase p : list) {
-			if (p.getTime() == 1) {
-				return p.getYuanbao();
-			}
-		}
-		return -1;
-	}
-
-	/**
-	 * 获取宝箱奖励
-	 * 
-	 * @param treasure
-	 * @param session
-	 * @param jiangliId
-	 *            奖励id
-	 * @param junZhu
-	 */
-	protected void getTreasureAward(Treasure treasure, IoSession session,
-			int jiangliId, JunZhu junZhu) {
-		Jiangli jiangli = jiangliMap.get(jiangliId);
-		if (jiangli == null) {
-			log.error("没有找到对应的奖励配置信息，jiangli.id:{}", jiangliId);
-			return;
-		}
-		// TODO 这里需要判断背包是否能放下
-
-		List<AwardTemp> awardList = jiangLi2award(jiangli.getItem());
-		sendBuyTreasureResult(session, awardList, junZhu);
-		for (AwardTemp award : awardList) {
-			AwardMgr.inst.giveReward(session, award, junZhu);
-		}
-		if (treasure != null) { // 修改数据库宝箱购买信息
-			Date date = new Date();
-			treasure.setLastGetTime(date);
-			treasure.setTimes(treasure.getTimes() + 1);
-			log.info("君主：{},在时间:{}，领取的宝箱奖励,宝箱type:{} 次数{}", junZhu.id, date,
-					treasure.getType(), treasure.getTimes());
-			HibernateUtil.save(treasure);
-		}
-	}
+//	/**
+//	 * 获取宝箱奖励
+//	 * 
+//	 * @param treasure
+//	 * @param session
+//	 * @param jiangliId
+//	 *            奖励id
+//	 * @param junZhu
+//	 */
+//	protected void getTreasureAward(Treasure treasure, IoSession session,
+//			int jiangliId, JunZhu junZhu) {
+//		Jiangli jiangli = jiangliMap.get(jiangliId);
+//		if (jiangli == null) {
+//			log.error("没有找到对应的奖励配置信息，jiangli.id:{}", jiangliId);
+//			return;
+//		}
+//		// TODO 这里需要判断背包是否能放下
+//
+//		List<AwardTemp> awardList = jiangLi2award(jiangli.getItem());
+//		sendBuyTreasureResult(session, awardList, junZhu);
+//		for (AwardTemp award : awardList) {
+//			AwardMgr.inst.giveReward(session, award, junZhu);
+//		}
+//		if (treasure != null) { // 修改数据库宝箱购买信息
+//			Date date = new Date();
+//			treasure.setLastGetTime(date);
+//			treasure.setTimes(treasure.getTimes() + 1);
+//			log.info("君主：{},在时间:{}，领取的宝箱奖励,宝箱type:{} 次数{}", junZhu.id, date,
+//					treasure.getType(), treasure.getTimes());
+//			HibernateUtil.save(treasure);
+//		}
+//	}
 
 	public List<AwardTemp> jiangLi2award(String jiangli) {
 		List<AwardTemp> awardList = new ArrayList<AwardTemp>();
@@ -849,44 +819,44 @@ public class PurchaseMgr {
 			break;
 		}
 	}
-
-	/**
-	 * 发送宝箱奖励信息
-	 * 
-	 * @param session
-	 * @param awardList
-	 * @param junZhu
-	 */
-	protected void sendBuyTreasureResult(IoSession session,
-			List<AwardTemp> awardList, JunZhu junZhu) {
-		BuyTreasureResp.Builder response = BuyTreasureResp.newBuilder();
-		for (AwardTemp awardTemp : awardList) {
-			TreasureAward.Builder tAward = TreasureAward.newBuilder();
-			int type = awardTemp.getItemType();
-			int itemId = awardTemp.getItemId();
-			tAward.setType(type);
-			tAward.setItemId(itemId);
-			if (type == 7) {// type等于7表示的是武将，这时需要判断是否有该武将，发给前端以做动画使用
-				HeroProtoType hero = HeroMgr.tempId2HeroProto.get(itemId);
-				WuJiang wuJiang = HeroMgr.inst.getWuJiangByHeroId(
-						(int) junZhu.id, hero.getHeroId());
-				if (wuJiang != null) {
-					tAward.setIsNewWuJiang(false);
-				} else {
-					tAward.setIsNewWuJiang(true);
-				}
-				HeroProtoType heroProtoType = HeroMgr.tempId2HeroProto
-						.get(itemId);
-				JingPo jingPo = HeroMgr.id2JingPo.get(heroProtoType
-						.getJingpoId());
-				tAward.setNums(jingPo.getFenjieNum());
-			} else {
-				tAward.setNums(awardTemp.getItemNum());
-			}
-			response.addTreasureAward(tAward.build());
-		}
-		session.write(response.build());
-	}
+//
+//	/**
+//	 * 发送宝箱奖励信息
+//	 * 
+//	 * @param session
+//	 * @param awardList
+//	 * @param junZhu
+//	 */
+//	protected void sendBuyTreasureResult(IoSession session,
+//			List<AwardTemp> awardList, JunZhu junZhu) {
+//		BuyTreasureResp.Builder response = BuyTreasureResp.newBuilder();
+//		for (AwardTemp awardTemp : awardList) {
+//			TreasureAward.Builder tAward = TreasureAward.newBuilder();
+//			int type = awardTemp.getItemType();
+//			int itemId = awardTemp.getItemId();
+//			tAward.setType(type);
+//			tAward.setItemId(itemId);
+//			if (type == 7) {// type等于7表示的是武将，这时需要判断是否有该武将，发给前端以做动画使用
+//				HeroProtoType hero = HeroMgr.tempId2HeroProto.get(itemId);
+//				WuJiang wuJiang = HeroMgr.inst.getWuJiangByHeroId(
+//						(int) junZhu.id, hero.getHeroId());
+//				if (wuJiang != null) {
+//					tAward.setIsNewWuJiang(false);
+//				} else {
+//					tAward.setIsNewWuJiang(true);
+//				}
+//				HeroProtoType heroProtoType = HeroMgr.tempId2HeroProto
+//						.get(itemId);
+//				JingPo jingPo = HeroMgr.id2JingPo.get(heroProtoType
+//						.getJingpoId());
+//				tAward.setNums(jingPo.getFenjieNum());
+//			} else {
+//				tAward.setNums(awardTemp.getItemNum());
+//			}
+//			response.addTreasureAward(tAward.build());
+//		}
+//		session.write(response.build());
+//	}
 
 	/**
 	 * 获得洗练次数

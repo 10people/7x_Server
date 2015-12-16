@@ -15,8 +15,13 @@ public class Player extends Sprite{
 	public String chengHaoId;
 	public String lmName;
 	public int vip;
+	public int jzlevel;//君主等级
 	public int zhiWu;
 	public int safeArea;//安全区编号1-4 0和负数表示不在安全区
+	public int zhanli;//战力
+	public int guojia;//国家
+	public int worth;//马车价值
+	public int horseType;//马车类型
 	public Player(){
 		pState = PlayerData.State.State_LOADINGSCENE;
 	}

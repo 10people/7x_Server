@@ -110,6 +110,10 @@ public class TaskData {
 	public static final byte battle_huang_ye = 60;
 	public static final byte lve_duo = 61;
 	public static final byte pawnshop_buy = 62;
+	public static final byte mibao_shengStar = 66;
+	public static final byte zhuangBei_x_qiangHua_N = 63;
+	public static final byte jinJie_jueSe_jiNeng = 65;
+	public static final byte get_pass_PVE_zhang_award = 64; // 领取通章奖励
 	// end
 	
 	

@@ -47,7 +47,7 @@ public class BaiZhanNpc implements GameObject{
 	public int profession;
 	public int modleId;
 	public int mibaoZuhe;
-	public int mibaoNum;
+	public int mibaoZuheLv;
 	// npc 的国家
 	private int guoJia;
 	private int roleId;

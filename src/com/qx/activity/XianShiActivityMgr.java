@@ -76,10 +76,9 @@ public class XianShiActivityMgr  extends EventProc{
 
 	@SuppressWarnings("unchecked")
 	public void initData() {
+		//加载限时活动小条目所有配置
 		Map<Integer, XianshiHuodong> activityMap = new HashMap<Integer, XianshiHuodong>();
 		Map<Integer, List<XianshiHuodong>>		bigActivityMap = new HashMap<Integer, List<XianshiHuodong>>();
-		Map<Integer, XianshiControl> xsControlMap=new HashMap<Integer, XianshiControl>();
-		Map<Integer, QiriQiandaoControl>	xs7DaysControlMap= new HashMap<Integer, QiriQiandaoControl>();
 		// 加载活动列表
 		List<XianshiHuodong> xianshiActivityList =TempletService.listAll(XianshiHuodong.class.getSimpleName());
 		int tmpId=0;
@@ -98,11 +97,17 @@ public class XianShiActivityMgr  extends EventProc{
 		}
 		XianShiActivityMgr.bigActivityMap=bigActivityMap;
 		XianShiActivityMgr.activityMap=activityMap;
+		
+		//加载限时活动大配置
+		Map<Integer, XianshiControl> xsControlMap=new HashMap<Integer, XianshiControl>();
 		List<XianshiControl> xsControlList = TempletService.listAll(XianshiControl.class.getSimpleName());
 		for (XianshiControl xs : xsControlList) {
 			xsControlMap.put(xs.getId(),xs);
 		}
 		XianShiActivityMgr.xsControlMap=xsControlMap;
+		
+		//加载首日 七日限时活动配置
+		Map<Integer, QiriQiandaoControl>	xs7DaysControlMap= new HashMap<Integer, QiriQiandaoControl>();
 		List<QiriQiandaoControl> xsDaysControlList = TempletService.listAll(QiriQiandaoControl.class.getSimpleName());
 		for (QiriQiandaoControl xs : xsDaysControlList) {
 			xs7DaysControlMap.put(xs.getId(),xs);
@@ -384,7 +389,7 @@ public class XianShiActivityMgr  extends EventProc{
 				if(isShow){
 					log.info("当前君主{}首日限时活动-{}数据-可领取状态:领取（未达到条件）不可领取 code-{}", jzId, huoDongId,code);
 				}
-				hd.setShengTime(0);
+				hd.setShengTime(Integer.valueOf(xshd.getDoneCondition()));
 				hd.setState(40);
 				hd.setJiangli(xshd.getAward());
 				hd.setHuodongId(huoDongId);
@@ -398,7 +403,7 @@ public class XianShiActivityMgr  extends EventProc{
 					log.info("当前君主{}首日限时活动-{}数据-可领取状态已领取 isYiling-{}", jzId, huoDongId,isYiling);
 				}
 				code = 20;
-				hd.setShengTime(shengyu);
+				hd.setShengTime(Integer.valueOf(xshd.getDoneCondition()));
 				hd.setState(code);
 				hd.setJiangli(xshd.getAward());
 				hd.setHuodongId(huoDongId);
@@ -413,7 +418,7 @@ public class XianShiActivityMgr  extends EventProc{
 					log.info("当前君主{}首日限时活动-{}数据-可领取状态：可领取isKeling-{}", jzId, huoDongId,isKeling);
 				}
 				code = 10;
-				hd.setShengTime(shengyu);
+				hd.setShengTime(Integer.valueOf(xshd.getDoneCondition()));
 				hd.setState(code);
 				hd.setJiangli(xshd.getAward());
 				hd.setHuodongId(huoDongId);
@@ -438,7 +443,7 @@ public class XianShiActivityMgr  extends EventProc{
 				}
 				code = 40;
 			}
-			hd.setShengTime(shengyu);
+			hd.setShengTime(Integer.valueOf(xshd.getDoneCondition()));
 			hd.setState(code);
 			hd.setJiangli(xshd.getAward());
 			hd.setHuodongId(huoDongId);
@@ -1180,8 +1185,9 @@ public class XianShiActivityMgr  extends EventProc{
 			hd.setHuodongId(huoDongId);
 			resp.addHuodong(hd);
 		}
-		//首日七日活动没有备注返回-1
-		resp.setBeizhu(-1);
+		int timeDistance=DateUtils.timeDistanceBySecond();
+		//七日活动 2015年12月3日 返回现在时间离明天4点的时间间隔
+		resp.setBeizhu(timeDistance);
 		//返回整个活动剩余时间 首日和七日无限时返回-1
 		resp.setRemainTime(-1);
 		resp.setTypeId(bigId);

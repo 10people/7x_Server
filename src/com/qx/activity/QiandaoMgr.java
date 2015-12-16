@@ -205,7 +205,7 @@ public class QiandaoMgr {
 					"where junzhuId=" + junZhu.id + "");
 			if (qiandaoInfo == null) {// DB没有签到信息
 				qiandaoInfo = new QiandaoInfo();
-				qiandaoInfo.setJunzhuId((int) junZhu.id);
+				qiandaoInfo.id = junZhu.id;
 				qiandaoInfo.setLeijiQiandao(1);
 				qiandaoInfo.setPreQiandao(date);
 				qiandaoInfo

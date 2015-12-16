@@ -1,3 +1,5 @@
+<%@page import="com.qx.activity.ActivityMgr"%>
+<%@page import="com.manu.dynasty.template.DescId"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.manu.dynasty.template.RenWu"%>
 <%@page import="javax.swing.text.Document"%>
@@ -57,7 +59,8 @@ function ff(){
 	<%
 	tableStart();
 	trS();
-	td("任务id");td("名称");td("描述");td("类型");td("条件");td("奖励");td("联盟贡献");
+	td("任务id");td("名称");td("描述");//td("类型");
+	td("条件");td("奖励");td("联盟贡献");
 	trE();
 	List<Integer> ids = DailyTaskMgr.taskIdArr;
 	Map<Integer, RenWu> m= DailyTaskMgr.renWuMap;
@@ -65,8 +68,13 @@ function ff(){
 		RenWu r = m.get(i);
 		if(r != null){
 			trS();
-			td(r.id);td(r.name);td(r.funDesc);
-			td(r.type);td(r.condition);td(r.jiangli);td(r.LmGongxian);
+			td(r.id);td(r.name); //td(r.funDesc);
+			DescId desc = ActivityMgr.descMap.get(r.funDesc);
+	        if(desc != null){
+	        	td(desc.getDescription());
+	        }
+			//td(r.type);
+			td(r.condition);td(r.jiangli);td(r.LmGongxian);
 			trE();
 		}
 	}
@@ -133,14 +141,14 @@ function ff(){
              }
 			tableStart();
 			trS();
-               td("dbId");td("任务描述");
+               td("dbId");//td("任务描述");
                td("进度");td("是否完成");td("是否领奖");td("类型");td("上次进本条任务的时间");
                trE();
 			for(DailyTaskBean task: tasks){
                 RenWu rr = DailyTaskMgr.INSTANCE.renWuMap.get((int)(task.dbId%100));
                  trS();
                  td(task.dbId);
-                 td(rr.funDesc);
+               //  td(rr.funDesc);
                  td(task.jundu);
                  td(task.isFinish);
                  td(task.isGetReward);

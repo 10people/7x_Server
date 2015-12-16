@@ -452,4591 +452,6 @@ public final class Shop {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.PurchaseFail)
   }
 
-  public interface BuyTreasureInfosRespOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-     */
-    java.util.List<qxmobile.protobuf.Shop.TreasureInfo> 
-        getTreasureInfoList();
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-     */
-    qxmobile.protobuf.Shop.TreasureInfo getTreasureInfo(int index);
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-     */
-    int getTreasureInfoCount();
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-     */
-    java.util.List<? extends qxmobile.protobuf.Shop.TreasureInfoOrBuilder> 
-        getTreasureInfoOrBuilderList();
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-     */
-    qxmobile.protobuf.Shop.TreasureInfoOrBuilder getTreasureInfoOrBuilder(
-        int index);
-
-    // required .qxmobile.protobuf.TreasureCost treasureCost = 2;
-    /**
-     * <code>required .qxmobile.protobuf.TreasureCost treasureCost = 2;</code>
-     */
-    boolean hasTreasureCost();
-    /**
-     * <code>required .qxmobile.protobuf.TreasureCost treasureCost = 2;</code>
-     */
-    qxmobile.protobuf.Shop.TreasureCost getTreasureCost();
-    /**
-     * <code>required .qxmobile.protobuf.TreasureCost treasureCost = 2;</code>
-     */
-    qxmobile.protobuf.Shop.TreasureCostOrBuilder getTreasureCostOrBuilder();
-  }
-  /**
-   * Protobuf type {@code qxmobile.protobuf.BuyTreasureInfosResp}
-   *
-   * <pre>
-   * 返回购买宝箱信息
-   * </pre>
-   */
-  public static final class BuyTreasureInfosResp extends
-      com.google.protobuf.GeneratedMessage
-      implements BuyTreasureInfosRespOrBuilder {
-    // Use BuyTreasureInfosResp.newBuilder() to construct.
-    private BuyTreasureInfosResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private BuyTreasureInfosResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final BuyTreasureInfosResp defaultInstance;
-    public static BuyTreasureInfosResp getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public BuyTreasureInfosResp getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private BuyTreasureInfosResp(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                treasureInfo_ = new java.util.ArrayList<qxmobile.protobuf.Shop.TreasureInfo>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              treasureInfo_.add(input.readMessage(qxmobile.protobuf.Shop.TreasureInfo.PARSER, extensionRegistry));
-              break;
-            }
-            case 18: {
-              qxmobile.protobuf.Shop.TreasureCost.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) == 0x00000001)) {
-                subBuilder = treasureCost_.toBuilder();
-              }
-              treasureCost_ = input.readMessage(qxmobile.protobuf.Shop.TreasureCost.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(treasureCost_);
-                treasureCost_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000001;
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          treasureInfo_ = java.util.Collections.unmodifiableList(treasureInfo_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTreasureInfosResp_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTreasureInfosResp_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.Shop.BuyTreasureInfosResp.class, qxmobile.protobuf.Shop.BuyTreasureInfosResp.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<BuyTreasureInfosResp> PARSER =
-        new com.google.protobuf.AbstractParser<BuyTreasureInfosResp>() {
-      public BuyTreasureInfosResp parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new BuyTreasureInfosResp(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<BuyTreasureInfosResp> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;
-    public static final int TREASUREINFO_FIELD_NUMBER = 1;
-    private java.util.List<qxmobile.protobuf.Shop.TreasureInfo> treasureInfo_;
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-     */
-    public java.util.List<qxmobile.protobuf.Shop.TreasureInfo> getTreasureInfoList() {
-      return treasureInfo_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-     */
-    public java.util.List<? extends qxmobile.protobuf.Shop.TreasureInfoOrBuilder> 
-        getTreasureInfoOrBuilderList() {
-      return treasureInfo_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-     */
-    public int getTreasureInfoCount() {
-      return treasureInfo_.size();
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-     */
-    public qxmobile.protobuf.Shop.TreasureInfo getTreasureInfo(int index) {
-      return treasureInfo_.get(index);
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-     */
-    public qxmobile.protobuf.Shop.TreasureInfoOrBuilder getTreasureInfoOrBuilder(
-        int index) {
-      return treasureInfo_.get(index);
-    }
-
-    // required .qxmobile.protobuf.TreasureCost treasureCost = 2;
-    public static final int TREASURECOST_FIELD_NUMBER = 2;
-    private qxmobile.protobuf.Shop.TreasureCost treasureCost_;
-    /**
-     * <code>required .qxmobile.protobuf.TreasureCost treasureCost = 2;</code>
-     */
-    public boolean hasTreasureCost() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required .qxmobile.protobuf.TreasureCost treasureCost = 2;</code>
-     */
-    public qxmobile.protobuf.Shop.TreasureCost getTreasureCost() {
-      return treasureCost_;
-    }
-    /**
-     * <code>required .qxmobile.protobuf.TreasureCost treasureCost = 2;</code>
-     */
-    public qxmobile.protobuf.Shop.TreasureCostOrBuilder getTreasureCostOrBuilder() {
-      return treasureCost_;
-    }
-
-    private void initFields() {
-      treasureInfo_ = java.util.Collections.emptyList();
-      treasureCost_ = qxmobile.protobuf.Shop.TreasureCost.getDefaultInstance();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasTreasureCost()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      for (int i = 0; i < getTreasureInfoCount(); i++) {
-        if (!getTreasureInfo(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      if (!getTreasureCost().isInitialized()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      for (int i = 0; i < treasureInfo_.size(); i++) {
-        output.writeMessage(1, treasureInfo_.get(i));
-      }
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeMessage(2, treasureCost_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      for (int i = 0; i < treasureInfo_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, treasureInfo_.get(i));
-      }
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, treasureCost_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static qxmobile.protobuf.Shop.BuyTreasureInfosResp parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureInfosResp parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureInfosResp parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureInfosResp parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureInfosResp parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureInfosResp parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureInfosResp parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureInfosResp parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureInfosResp parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureInfosResp parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.Shop.BuyTreasureInfosResp prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code qxmobile.protobuf.BuyTreasureInfosResp}
-     *
-     * <pre>
-     * 返回购买宝箱信息
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.Shop.BuyTreasureInfosRespOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTreasureInfosResp_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTreasureInfosResp_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.Shop.BuyTreasureInfosResp.class, qxmobile.protobuf.Shop.BuyTreasureInfosResp.Builder.class);
-      }
-
-      // Construct using qxmobile.protobuf.Shop.BuyTreasureInfosResp.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getTreasureInfoFieldBuilder();
-          getTreasureCostFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        if (treasureInfoBuilder_ == null) {
-          treasureInfo_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          treasureInfoBuilder_.clear();
-        }
-        if (treasureCostBuilder_ == null) {
-          treasureCost_ = qxmobile.protobuf.Shop.TreasureCost.getDefaultInstance();
-        } else {
-          treasureCostBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTreasureInfosResp_descriptor;
-      }
-
-      public qxmobile.protobuf.Shop.BuyTreasureInfosResp getDefaultInstanceForType() {
-        return qxmobile.protobuf.Shop.BuyTreasureInfosResp.getDefaultInstance();
-      }
-
-      public qxmobile.protobuf.Shop.BuyTreasureInfosResp build() {
-        qxmobile.protobuf.Shop.BuyTreasureInfosResp result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public qxmobile.protobuf.Shop.BuyTreasureInfosResp buildPartial() {
-        qxmobile.protobuf.Shop.BuyTreasureInfosResp result = new qxmobile.protobuf.Shop.BuyTreasureInfosResp(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (treasureInfoBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            treasureInfo_ = java.util.Collections.unmodifiableList(treasureInfo_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.treasureInfo_ = treasureInfo_;
-        } else {
-          result.treasureInfo_ = treasureInfoBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        if (treasureCostBuilder_ == null) {
-          result.treasureCost_ = treasureCost_;
-        } else {
-          result.treasureCost_ = treasureCostBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.Shop.BuyTreasureInfosResp) {
-          return mergeFrom((qxmobile.protobuf.Shop.BuyTreasureInfosResp)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(qxmobile.protobuf.Shop.BuyTreasureInfosResp other) {
-        if (other == qxmobile.protobuf.Shop.BuyTreasureInfosResp.getDefaultInstance()) return this;
-        if (treasureInfoBuilder_ == null) {
-          if (!other.treasureInfo_.isEmpty()) {
-            if (treasureInfo_.isEmpty()) {
-              treasureInfo_ = other.treasureInfo_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureTreasureInfoIsMutable();
-              treasureInfo_.addAll(other.treasureInfo_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.treasureInfo_.isEmpty()) {
-            if (treasureInfoBuilder_.isEmpty()) {
-              treasureInfoBuilder_.dispose();
-              treasureInfoBuilder_ = null;
-              treasureInfo_ = other.treasureInfo_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              treasureInfoBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getTreasureInfoFieldBuilder() : null;
-            } else {
-              treasureInfoBuilder_.addAllMessages(other.treasureInfo_);
-            }
-          }
-        }
-        if (other.hasTreasureCost()) {
-          mergeTreasureCost(other.getTreasureCost());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasTreasureCost()) {
-          
-          return false;
-        }
-        for (int i = 0; i < getTreasureInfoCount(); i++) {
-          if (!getTreasureInfo(i).isInitialized()) {
-            
-            return false;
-          }
-        }
-        if (!getTreasureCost().isInitialized()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        qxmobile.protobuf.Shop.BuyTreasureInfosResp parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.Shop.BuyTreasureInfosResp) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;
-      private java.util.List<qxmobile.protobuf.Shop.TreasureInfo> treasureInfo_ =
-        java.util.Collections.emptyList();
-      private void ensureTreasureInfoIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          treasureInfo_ = new java.util.ArrayList<qxmobile.protobuf.Shop.TreasureInfo>(treasureInfo_);
-          bitField0_ |= 0x00000001;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.Shop.TreasureInfo, qxmobile.protobuf.Shop.TreasureInfo.Builder, qxmobile.protobuf.Shop.TreasureInfoOrBuilder> treasureInfoBuilder_;
-
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public java.util.List<qxmobile.protobuf.Shop.TreasureInfo> getTreasureInfoList() {
-        if (treasureInfoBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(treasureInfo_);
-        } else {
-          return treasureInfoBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public int getTreasureInfoCount() {
-        if (treasureInfoBuilder_ == null) {
-          return treasureInfo_.size();
-        } else {
-          return treasureInfoBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public qxmobile.protobuf.Shop.TreasureInfo getTreasureInfo(int index) {
-        if (treasureInfoBuilder_ == null) {
-          return treasureInfo_.get(index);
-        } else {
-          return treasureInfoBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public Builder setTreasureInfo(
-          int index, qxmobile.protobuf.Shop.TreasureInfo value) {
-        if (treasureInfoBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTreasureInfoIsMutable();
-          treasureInfo_.set(index, value);
-          onChanged();
-        } else {
-          treasureInfoBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public Builder setTreasureInfo(
-          int index, qxmobile.protobuf.Shop.TreasureInfo.Builder builderForValue) {
-        if (treasureInfoBuilder_ == null) {
-          ensureTreasureInfoIsMutable();
-          treasureInfo_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          treasureInfoBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public Builder addTreasureInfo(qxmobile.protobuf.Shop.TreasureInfo value) {
-        if (treasureInfoBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTreasureInfoIsMutable();
-          treasureInfo_.add(value);
-          onChanged();
-        } else {
-          treasureInfoBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public Builder addTreasureInfo(
-          int index, qxmobile.protobuf.Shop.TreasureInfo value) {
-        if (treasureInfoBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTreasureInfoIsMutable();
-          treasureInfo_.add(index, value);
-          onChanged();
-        } else {
-          treasureInfoBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public Builder addTreasureInfo(
-          qxmobile.protobuf.Shop.TreasureInfo.Builder builderForValue) {
-        if (treasureInfoBuilder_ == null) {
-          ensureTreasureInfoIsMutable();
-          treasureInfo_.add(builderForValue.build());
-          onChanged();
-        } else {
-          treasureInfoBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public Builder addTreasureInfo(
-          int index, qxmobile.protobuf.Shop.TreasureInfo.Builder builderForValue) {
-        if (treasureInfoBuilder_ == null) {
-          ensureTreasureInfoIsMutable();
-          treasureInfo_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          treasureInfoBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public Builder addAllTreasureInfo(
-          java.lang.Iterable<? extends qxmobile.protobuf.Shop.TreasureInfo> values) {
-        if (treasureInfoBuilder_ == null) {
-          ensureTreasureInfoIsMutable();
-          super.addAll(values, treasureInfo_);
-          onChanged();
-        } else {
-          treasureInfoBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public Builder clearTreasureInfo() {
-        if (treasureInfoBuilder_ == null) {
-          treasureInfo_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          treasureInfoBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public Builder removeTreasureInfo(int index) {
-        if (treasureInfoBuilder_ == null) {
-          ensureTreasureInfoIsMutable();
-          treasureInfo_.remove(index);
-          onChanged();
-        } else {
-          treasureInfoBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public qxmobile.protobuf.Shop.TreasureInfo.Builder getTreasureInfoBuilder(
-          int index) {
-        return getTreasureInfoFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public qxmobile.protobuf.Shop.TreasureInfoOrBuilder getTreasureInfoOrBuilder(
-          int index) {
-        if (treasureInfoBuilder_ == null) {
-          return treasureInfo_.get(index);  } else {
-          return treasureInfoBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public java.util.List<? extends qxmobile.protobuf.Shop.TreasureInfoOrBuilder> 
-           getTreasureInfoOrBuilderList() {
-        if (treasureInfoBuilder_ != null) {
-          return treasureInfoBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(treasureInfo_);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public qxmobile.protobuf.Shop.TreasureInfo.Builder addTreasureInfoBuilder() {
-        return getTreasureInfoFieldBuilder().addBuilder(
-            qxmobile.protobuf.Shop.TreasureInfo.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public qxmobile.protobuf.Shop.TreasureInfo.Builder addTreasureInfoBuilder(
-          int index) {
-        return getTreasureInfoFieldBuilder().addBuilder(
-            index, qxmobile.protobuf.Shop.TreasureInfo.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureInfo treasureInfo = 1;</code>
-       */
-      public java.util.List<qxmobile.protobuf.Shop.TreasureInfo.Builder> 
-           getTreasureInfoBuilderList() {
-        return getTreasureInfoFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.Shop.TreasureInfo, qxmobile.protobuf.Shop.TreasureInfo.Builder, qxmobile.protobuf.Shop.TreasureInfoOrBuilder> 
-          getTreasureInfoFieldBuilder() {
-        if (treasureInfoBuilder_ == null) {
-          treasureInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              qxmobile.protobuf.Shop.TreasureInfo, qxmobile.protobuf.Shop.TreasureInfo.Builder, qxmobile.protobuf.Shop.TreasureInfoOrBuilder>(
-                  treasureInfo_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
-                  getParentForChildren(),
-                  isClean());
-          treasureInfo_ = null;
-        }
-        return treasureInfoBuilder_;
-      }
-
-      // required .qxmobile.protobuf.TreasureCost treasureCost = 2;
-      private qxmobile.protobuf.Shop.TreasureCost treasureCost_ = qxmobile.protobuf.Shop.TreasureCost.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          qxmobile.protobuf.Shop.TreasureCost, qxmobile.protobuf.Shop.TreasureCost.Builder, qxmobile.protobuf.Shop.TreasureCostOrBuilder> treasureCostBuilder_;
-      /**
-       * <code>required .qxmobile.protobuf.TreasureCost treasureCost = 2;</code>
-       */
-      public boolean hasTreasureCost() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required .qxmobile.protobuf.TreasureCost treasureCost = 2;</code>
-       */
-      public qxmobile.protobuf.Shop.TreasureCost getTreasureCost() {
-        if (treasureCostBuilder_ == null) {
-          return treasureCost_;
-        } else {
-          return treasureCostBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>required .qxmobile.protobuf.TreasureCost treasureCost = 2;</code>
-       */
-      public Builder setTreasureCost(qxmobile.protobuf.Shop.TreasureCost value) {
-        if (treasureCostBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          treasureCost_ = value;
-          onChanged();
-        } else {
-          treasureCostBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000002;
-        return this;
-      }
-      /**
-       * <code>required .qxmobile.protobuf.TreasureCost treasureCost = 2;</code>
-       */
-      public Builder setTreasureCost(
-          qxmobile.protobuf.Shop.TreasureCost.Builder builderForValue) {
-        if (treasureCostBuilder_ == null) {
-          treasureCost_ = builderForValue.build();
-          onChanged();
-        } else {
-          treasureCostBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000002;
-        return this;
-      }
-      /**
-       * <code>required .qxmobile.protobuf.TreasureCost treasureCost = 2;</code>
-       */
-      public Builder mergeTreasureCost(qxmobile.protobuf.Shop.TreasureCost value) {
-        if (treasureCostBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002) &&
-              treasureCost_ != qxmobile.protobuf.Shop.TreasureCost.getDefaultInstance()) {
-            treasureCost_ =
-              qxmobile.protobuf.Shop.TreasureCost.newBuilder(treasureCost_).mergeFrom(value).buildPartial();
-          } else {
-            treasureCost_ = value;
-          }
-          onChanged();
-        } else {
-          treasureCostBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000002;
-        return this;
-      }
-      /**
-       * <code>required .qxmobile.protobuf.TreasureCost treasureCost = 2;</code>
-       */
-      public Builder clearTreasureCost() {
-        if (treasureCostBuilder_ == null) {
-          treasureCost_ = qxmobile.protobuf.Shop.TreasureCost.getDefaultInstance();
-          onChanged();
-        } else {
-          treasureCostBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-      /**
-       * <code>required .qxmobile.protobuf.TreasureCost treasureCost = 2;</code>
-       */
-      public qxmobile.protobuf.Shop.TreasureCost.Builder getTreasureCostBuilder() {
-        bitField0_ |= 0x00000002;
-        onChanged();
-        return getTreasureCostFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>required .qxmobile.protobuf.TreasureCost treasureCost = 2;</code>
-       */
-      public qxmobile.protobuf.Shop.TreasureCostOrBuilder getTreasureCostOrBuilder() {
-        if (treasureCostBuilder_ != null) {
-          return treasureCostBuilder_.getMessageOrBuilder();
-        } else {
-          return treasureCost_;
-        }
-      }
-      /**
-       * <code>required .qxmobile.protobuf.TreasureCost treasureCost = 2;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          qxmobile.protobuf.Shop.TreasureCost, qxmobile.protobuf.Shop.TreasureCost.Builder, qxmobile.protobuf.Shop.TreasureCostOrBuilder> 
-          getTreasureCostFieldBuilder() {
-        if (treasureCostBuilder_ == null) {
-          treasureCostBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              qxmobile.protobuf.Shop.TreasureCost, qxmobile.protobuf.Shop.TreasureCost.Builder, qxmobile.protobuf.Shop.TreasureCostOrBuilder>(
-                  treasureCost_,
-                  getParentForChildren(),
-                  isClean());
-          treasureCost_ = null;
-        }
-        return treasureCostBuilder_;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.BuyTreasureInfosResp)
-    }
-
-    static {
-      defaultInstance = new BuyTreasureInfosResp(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.BuyTreasureInfosResp)
-  }
-
-  public interface TreasureInfoOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 type = 1;
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 宝箱类型：1-小袋宝箱，2-中袋宝箱，3-大袋宝箱
-     * </pre>
-     */
-    boolean hasType();
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 宝箱类型：1-小袋宝箱，2-中袋宝箱，3-大袋宝箱
-     * </pre>
-     */
-    int getType();
-
-    // required bool isGet = 2;
-    /**
-     * <code>required bool isGet = 2;</code>
-     *
-     * <pre>
-     * 本次是否可以领取：true-可以，false-不可以
-     * </pre>
-     */
-    boolean hasIsGet();
-    /**
-     * <code>required bool isGet = 2;</code>
-     *
-     * <pre>
-     * 本次是否可以领取：true-可以，false-不可以
-     * </pre>
-     */
-    boolean getIsGet();
-
-    // required int32 times = 3;
-    /**
-     * <code>required int32 times = 3;</code>
-     *
-     * <pre>
-     * 已经领取次数
-     * </pre>
-     */
-    boolean hasTimes();
-    /**
-     * <code>required int32 times = 3;</code>
-     *
-     * <pre>
-     * 已经领取次数
-     * </pre>
-     */
-    int getTimes();
-
-    // optional int32 countDown = 4;
-    /**
-     * <code>optional int32 countDown = 4;</code>
-     *
-     * <pre>
-     * 下次领取剩余时间：单位-秒
-     * </pre>
-     */
-    boolean hasCountDown();
-    /**
-     * <code>optional int32 countDown = 4;</code>
-     *
-     * <pre>
-     * 下次领取剩余时间：单位-秒
-     * </pre>
-     */
-    int getCountDown();
-  }
-  /**
-   * Protobuf type {@code qxmobile.protobuf.TreasureInfo}
-   *
-   * <pre>
-   * 宝箱领取信息
-   * </pre>
-   */
-  public static final class TreasureInfo extends
-      com.google.protobuf.GeneratedMessage
-      implements TreasureInfoOrBuilder {
-    // Use TreasureInfo.newBuilder() to construct.
-    private TreasureInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private TreasureInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final TreasureInfo defaultInstance;
-    public static TreasureInfo getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public TreasureInfo getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private TreasureInfo(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              type_ = input.readInt32();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              isGet_ = input.readBool();
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000004;
-              times_ = input.readInt32();
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000008;
-              countDown_ = input.readInt32();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TreasureInfo_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TreasureInfo_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.Shop.TreasureInfo.class, qxmobile.protobuf.Shop.TreasureInfo.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<TreasureInfo> PARSER =
-        new com.google.protobuf.AbstractParser<TreasureInfo>() {
-      public TreasureInfo parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TreasureInfo(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<TreasureInfo> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 type = 1;
-    public static final int TYPE_FIELD_NUMBER = 1;
-    private int type_;
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 宝箱类型：1-小袋宝箱，2-中袋宝箱，3-大袋宝箱
-     * </pre>
-     */
-    public boolean hasType() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 宝箱类型：1-小袋宝箱，2-中袋宝箱，3-大袋宝箱
-     * </pre>
-     */
-    public int getType() {
-      return type_;
-    }
-
-    // required bool isGet = 2;
-    public static final int ISGET_FIELD_NUMBER = 2;
-    private boolean isGet_;
-    /**
-     * <code>required bool isGet = 2;</code>
-     *
-     * <pre>
-     * 本次是否可以领取：true-可以，false-不可以
-     * </pre>
-     */
-    public boolean hasIsGet() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required bool isGet = 2;</code>
-     *
-     * <pre>
-     * 本次是否可以领取：true-可以，false-不可以
-     * </pre>
-     */
-    public boolean getIsGet() {
-      return isGet_;
-    }
-
-    // required int32 times = 3;
-    public static final int TIMES_FIELD_NUMBER = 3;
-    private int times_;
-    /**
-     * <code>required int32 times = 3;</code>
-     *
-     * <pre>
-     * 已经领取次数
-     * </pre>
-     */
-    public boolean hasTimes() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>required int32 times = 3;</code>
-     *
-     * <pre>
-     * 已经领取次数
-     * </pre>
-     */
-    public int getTimes() {
-      return times_;
-    }
-
-    // optional int32 countDown = 4;
-    public static final int COUNTDOWN_FIELD_NUMBER = 4;
-    private int countDown_;
-    /**
-     * <code>optional int32 countDown = 4;</code>
-     *
-     * <pre>
-     * 下次领取剩余时间：单位-秒
-     * </pre>
-     */
-    public boolean hasCountDown() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional int32 countDown = 4;</code>
-     *
-     * <pre>
-     * 下次领取剩余时间：单位-秒
-     * </pre>
-     */
-    public int getCountDown() {
-      return countDown_;
-    }
-
-    private void initFields() {
-      type_ = 0;
-      isGet_ = false;
-      times_ = 0;
-      countDown_ = 0;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasType()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasIsGet()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasTimes()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, type_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBool(2, isGet_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, times_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(4, countDown_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, type_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(2, isGet_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, times_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, countDown_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static qxmobile.protobuf.Shop.TreasureInfo parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Shop.TreasureInfo parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.TreasureInfo parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Shop.TreasureInfo parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.TreasureInfo parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.TreasureInfo parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.TreasureInfo parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.TreasureInfo parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.TreasureInfo parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.TreasureInfo parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.Shop.TreasureInfo prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code qxmobile.protobuf.TreasureInfo}
-     *
-     * <pre>
-     * 宝箱领取信息
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.Shop.TreasureInfoOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TreasureInfo_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TreasureInfo_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.Shop.TreasureInfo.class, qxmobile.protobuf.Shop.TreasureInfo.Builder.class);
-      }
-
-      // Construct using qxmobile.protobuf.Shop.TreasureInfo.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        type_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        isGet_ = false;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        times_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        countDown_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TreasureInfo_descriptor;
-      }
-
-      public qxmobile.protobuf.Shop.TreasureInfo getDefaultInstanceForType() {
-        return qxmobile.protobuf.Shop.TreasureInfo.getDefaultInstance();
-      }
-
-      public qxmobile.protobuf.Shop.TreasureInfo build() {
-        qxmobile.protobuf.Shop.TreasureInfo result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public qxmobile.protobuf.Shop.TreasureInfo buildPartial() {
-        qxmobile.protobuf.Shop.TreasureInfo result = new qxmobile.protobuf.Shop.TreasureInfo(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.type_ = type_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.isGet_ = isGet_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.times_ = times_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.countDown_ = countDown_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.Shop.TreasureInfo) {
-          return mergeFrom((qxmobile.protobuf.Shop.TreasureInfo)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(qxmobile.protobuf.Shop.TreasureInfo other) {
-        if (other == qxmobile.protobuf.Shop.TreasureInfo.getDefaultInstance()) return this;
-        if (other.hasType()) {
-          setType(other.getType());
-        }
-        if (other.hasIsGet()) {
-          setIsGet(other.getIsGet());
-        }
-        if (other.hasTimes()) {
-          setTimes(other.getTimes());
-        }
-        if (other.hasCountDown()) {
-          setCountDown(other.getCountDown());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasType()) {
-          
-          return false;
-        }
-        if (!hasIsGet()) {
-          
-          return false;
-        }
-        if (!hasTimes()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        qxmobile.protobuf.Shop.TreasureInfo parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.Shop.TreasureInfo) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 type = 1;
-      private int type_ ;
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * 宝箱类型：1-小袋宝箱，2-中袋宝箱，3-大袋宝箱
-       * </pre>
-       */
-      public boolean hasType() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * 宝箱类型：1-小袋宝箱，2-中袋宝箱，3-大袋宝箱
-       * </pre>
-       */
-      public int getType() {
-        return type_;
-      }
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * 宝箱类型：1-小袋宝箱，2-中袋宝箱，3-大袋宝箱
-       * </pre>
-       */
-      public Builder setType(int value) {
-        bitField0_ |= 0x00000001;
-        type_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * 宝箱类型：1-小袋宝箱，2-中袋宝箱，3-大袋宝箱
-       * </pre>
-       */
-      public Builder clearType() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        type_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required bool isGet = 2;
-      private boolean isGet_ ;
-      /**
-       * <code>required bool isGet = 2;</code>
-       *
-       * <pre>
-       * 本次是否可以领取：true-可以，false-不可以
-       * </pre>
-       */
-      public boolean hasIsGet() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required bool isGet = 2;</code>
-       *
-       * <pre>
-       * 本次是否可以领取：true-可以，false-不可以
-       * </pre>
-       */
-      public boolean getIsGet() {
-        return isGet_;
-      }
-      /**
-       * <code>required bool isGet = 2;</code>
-       *
-       * <pre>
-       * 本次是否可以领取：true-可以，false-不可以
-       * </pre>
-       */
-      public Builder setIsGet(boolean value) {
-        bitField0_ |= 0x00000002;
-        isGet_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required bool isGet = 2;</code>
-       *
-       * <pre>
-       * 本次是否可以领取：true-可以，false-不可以
-       * </pre>
-       */
-      public Builder clearIsGet() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        isGet_ = false;
-        onChanged();
-        return this;
-      }
-
-      // required int32 times = 3;
-      private int times_ ;
-      /**
-       * <code>required int32 times = 3;</code>
-       *
-       * <pre>
-       * 已经领取次数
-       * </pre>
-       */
-      public boolean hasTimes() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>required int32 times = 3;</code>
-       *
-       * <pre>
-       * 已经领取次数
-       * </pre>
-       */
-      public int getTimes() {
-        return times_;
-      }
-      /**
-       * <code>required int32 times = 3;</code>
-       *
-       * <pre>
-       * 已经领取次数
-       * </pre>
-       */
-      public Builder setTimes(int value) {
-        bitField0_ |= 0x00000004;
-        times_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 times = 3;</code>
-       *
-       * <pre>
-       * 已经领取次数
-       * </pre>
-       */
-      public Builder clearTimes() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        times_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional int32 countDown = 4;
-      private int countDown_ ;
-      /**
-       * <code>optional int32 countDown = 4;</code>
-       *
-       * <pre>
-       * 下次领取剩余时间：单位-秒
-       * </pre>
-       */
-      public boolean hasCountDown() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>optional int32 countDown = 4;</code>
-       *
-       * <pre>
-       * 下次领取剩余时间：单位-秒
-       * </pre>
-       */
-      public int getCountDown() {
-        return countDown_;
-      }
-      /**
-       * <code>optional int32 countDown = 4;</code>
-       *
-       * <pre>
-       * 下次领取剩余时间：单位-秒
-       * </pre>
-       */
-      public Builder setCountDown(int value) {
-        bitField0_ |= 0x00000008;
-        countDown_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 countDown = 4;</code>
-       *
-       * <pre>
-       * 下次领取剩余时间：单位-秒
-       * </pre>
-       */
-      public Builder clearCountDown() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        countDown_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.TreasureInfo)
-    }
-
-    static {
-      defaultInstance = new TreasureInfo(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.TreasureInfo)
-  }
-
-  public interface TreasureCostOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 costYuan = 1;
-    /**
-     * <code>required int32 costYuan = 1;</code>
-     *
-     * <pre>
-     * 本次购买 中袋宝箱 花费元宝数量
-     * </pre>
-     */
-    boolean hasCostYuan();
-    /**
-     * <code>required int32 costYuan = 1;</code>
-     *
-     * <pre>
-     * 本次购买 中袋宝箱 花费元宝数量
-     * </pre>
-     */
-    int getCostYuan();
-
-    // required int32 costYuan5 = 2;
-    /**
-     * <code>required int32 costYuan5 = 2;</code>
-     *
-     * <pre>
-     * 本次购买 大袋宝箱 5连抽 花费元宝数量
-     * </pre>
-     */
-    boolean hasCostYuan5();
-    /**
-     * <code>required int32 costYuan5 = 2;</code>
-     *
-     * <pre>
-     * 本次购买 大袋宝箱 5连抽 花费元宝数量
-     * </pre>
-     */
-    int getCostYuan5();
-
-    // required int32 costYuan20 = 3;
-    /**
-     * <code>required int32 costYuan20 = 3;</code>
-     *
-     * <pre>
-     * 本次购买 大袋宝箱 20连抽 花费元宝数量
-     * </pre>
-     */
-    boolean hasCostYuan20();
-    /**
-     * <code>required int32 costYuan20 = 3;</code>
-     *
-     * <pre>
-     * 本次购买 大袋宝箱 20连抽 花费元宝数量
-     * </pre>
-     */
-    int getCostYuan20();
-
-    // required int32 costTiangongTu = 4;
-    /**
-     * <code>required int32 costTiangongTu = 4;</code>
-     *
-     * <pre>
-     * 本次购买 中袋宝箱 花费的天工图数量
-     * </pre>
-     */
-    boolean hasCostTiangongTu();
-    /**
-     * <code>required int32 costTiangongTu = 4;</code>
-     *
-     * <pre>
-     * 本次购买 中袋宝箱 花费的天工图数量
-     * </pre>
-     */
-    int getCostTiangongTu();
-  }
-  /**
-   * Protobuf type {@code qxmobile.protobuf.TreasureCost}
-   *
-   * <pre>
-   *购买宝箱花费信息
-   * </pre>
-   */
-  public static final class TreasureCost extends
-      com.google.protobuf.GeneratedMessage
-      implements TreasureCostOrBuilder {
-    // Use TreasureCost.newBuilder() to construct.
-    private TreasureCost(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private TreasureCost(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final TreasureCost defaultInstance;
-    public static TreasureCost getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public TreasureCost getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private TreasureCost(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              costYuan_ = input.readInt32();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              costYuan5_ = input.readInt32();
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000004;
-              costYuan20_ = input.readInt32();
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000008;
-              costTiangongTu_ = input.readInt32();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TreasureCost_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TreasureCost_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.Shop.TreasureCost.class, qxmobile.protobuf.Shop.TreasureCost.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<TreasureCost> PARSER =
-        new com.google.protobuf.AbstractParser<TreasureCost>() {
-      public TreasureCost parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TreasureCost(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<TreasureCost> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 costYuan = 1;
-    public static final int COSTYUAN_FIELD_NUMBER = 1;
-    private int costYuan_;
-    /**
-     * <code>required int32 costYuan = 1;</code>
-     *
-     * <pre>
-     * 本次购买 中袋宝箱 花费元宝数量
-     * </pre>
-     */
-    public boolean hasCostYuan() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 costYuan = 1;</code>
-     *
-     * <pre>
-     * 本次购买 中袋宝箱 花费元宝数量
-     * </pre>
-     */
-    public int getCostYuan() {
-      return costYuan_;
-    }
-
-    // required int32 costYuan5 = 2;
-    public static final int COSTYUAN5_FIELD_NUMBER = 2;
-    private int costYuan5_;
-    /**
-     * <code>required int32 costYuan5 = 2;</code>
-     *
-     * <pre>
-     * 本次购买 大袋宝箱 5连抽 花费元宝数量
-     * </pre>
-     */
-    public boolean hasCostYuan5() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required int32 costYuan5 = 2;</code>
-     *
-     * <pre>
-     * 本次购买 大袋宝箱 5连抽 花费元宝数量
-     * </pre>
-     */
-    public int getCostYuan5() {
-      return costYuan5_;
-    }
-
-    // required int32 costYuan20 = 3;
-    public static final int COSTYUAN20_FIELD_NUMBER = 3;
-    private int costYuan20_;
-    /**
-     * <code>required int32 costYuan20 = 3;</code>
-     *
-     * <pre>
-     * 本次购买 大袋宝箱 20连抽 花费元宝数量
-     * </pre>
-     */
-    public boolean hasCostYuan20() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>required int32 costYuan20 = 3;</code>
-     *
-     * <pre>
-     * 本次购买 大袋宝箱 20连抽 花费元宝数量
-     * </pre>
-     */
-    public int getCostYuan20() {
-      return costYuan20_;
-    }
-
-    // required int32 costTiangongTu = 4;
-    public static final int COSTTIANGONGTU_FIELD_NUMBER = 4;
-    private int costTiangongTu_;
-    /**
-     * <code>required int32 costTiangongTu = 4;</code>
-     *
-     * <pre>
-     * 本次购买 中袋宝箱 花费的天工图数量
-     * </pre>
-     */
-    public boolean hasCostTiangongTu() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>required int32 costTiangongTu = 4;</code>
-     *
-     * <pre>
-     * 本次购买 中袋宝箱 花费的天工图数量
-     * </pre>
-     */
-    public int getCostTiangongTu() {
-      return costTiangongTu_;
-    }
-
-    private void initFields() {
-      costYuan_ = 0;
-      costYuan5_ = 0;
-      costYuan20_ = 0;
-      costTiangongTu_ = 0;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasCostYuan()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasCostYuan5()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasCostYuan20()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasCostTiangongTu()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, costYuan_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, costYuan5_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, costYuan20_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(4, costTiangongTu_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, costYuan_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, costYuan5_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, costYuan20_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, costTiangongTu_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static qxmobile.protobuf.Shop.TreasureCost parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Shop.TreasureCost parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.TreasureCost parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Shop.TreasureCost parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.TreasureCost parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.TreasureCost parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.TreasureCost parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.TreasureCost parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.TreasureCost parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.TreasureCost parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.Shop.TreasureCost prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code qxmobile.protobuf.TreasureCost}
-     *
-     * <pre>
-     *购买宝箱花费信息
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.Shop.TreasureCostOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TreasureCost_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TreasureCost_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.Shop.TreasureCost.class, qxmobile.protobuf.Shop.TreasureCost.Builder.class);
-      }
-
-      // Construct using qxmobile.protobuf.Shop.TreasureCost.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        costYuan_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        costYuan5_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        costYuan20_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        costTiangongTu_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TreasureCost_descriptor;
-      }
-
-      public qxmobile.protobuf.Shop.TreasureCost getDefaultInstanceForType() {
-        return qxmobile.protobuf.Shop.TreasureCost.getDefaultInstance();
-      }
-
-      public qxmobile.protobuf.Shop.TreasureCost build() {
-        qxmobile.protobuf.Shop.TreasureCost result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public qxmobile.protobuf.Shop.TreasureCost buildPartial() {
-        qxmobile.protobuf.Shop.TreasureCost result = new qxmobile.protobuf.Shop.TreasureCost(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.costYuan_ = costYuan_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.costYuan5_ = costYuan5_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.costYuan20_ = costYuan20_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.costTiangongTu_ = costTiangongTu_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.Shop.TreasureCost) {
-          return mergeFrom((qxmobile.protobuf.Shop.TreasureCost)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(qxmobile.protobuf.Shop.TreasureCost other) {
-        if (other == qxmobile.protobuf.Shop.TreasureCost.getDefaultInstance()) return this;
-        if (other.hasCostYuan()) {
-          setCostYuan(other.getCostYuan());
-        }
-        if (other.hasCostYuan5()) {
-          setCostYuan5(other.getCostYuan5());
-        }
-        if (other.hasCostYuan20()) {
-          setCostYuan20(other.getCostYuan20());
-        }
-        if (other.hasCostTiangongTu()) {
-          setCostTiangongTu(other.getCostTiangongTu());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasCostYuan()) {
-          
-          return false;
-        }
-        if (!hasCostYuan5()) {
-          
-          return false;
-        }
-        if (!hasCostYuan20()) {
-          
-          return false;
-        }
-        if (!hasCostTiangongTu()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        qxmobile.protobuf.Shop.TreasureCost parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.Shop.TreasureCost) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 costYuan = 1;
-      private int costYuan_ ;
-      /**
-       * <code>required int32 costYuan = 1;</code>
-       *
-       * <pre>
-       * 本次购买 中袋宝箱 花费元宝数量
-       * </pre>
-       */
-      public boolean hasCostYuan() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 costYuan = 1;</code>
-       *
-       * <pre>
-       * 本次购买 中袋宝箱 花费元宝数量
-       * </pre>
-       */
-      public int getCostYuan() {
-        return costYuan_;
-      }
-      /**
-       * <code>required int32 costYuan = 1;</code>
-       *
-       * <pre>
-       * 本次购买 中袋宝箱 花费元宝数量
-       * </pre>
-       */
-      public Builder setCostYuan(int value) {
-        bitField0_ |= 0x00000001;
-        costYuan_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 costYuan = 1;</code>
-       *
-       * <pre>
-       * 本次购买 中袋宝箱 花费元宝数量
-       * </pre>
-       */
-      public Builder clearCostYuan() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        costYuan_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 costYuan5 = 2;
-      private int costYuan5_ ;
-      /**
-       * <code>required int32 costYuan5 = 2;</code>
-       *
-       * <pre>
-       * 本次购买 大袋宝箱 5连抽 花费元宝数量
-       * </pre>
-       */
-      public boolean hasCostYuan5() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required int32 costYuan5 = 2;</code>
-       *
-       * <pre>
-       * 本次购买 大袋宝箱 5连抽 花费元宝数量
-       * </pre>
-       */
-      public int getCostYuan5() {
-        return costYuan5_;
-      }
-      /**
-       * <code>required int32 costYuan5 = 2;</code>
-       *
-       * <pre>
-       * 本次购买 大袋宝箱 5连抽 花费元宝数量
-       * </pre>
-       */
-      public Builder setCostYuan5(int value) {
-        bitField0_ |= 0x00000002;
-        costYuan5_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 costYuan5 = 2;</code>
-       *
-       * <pre>
-       * 本次购买 大袋宝箱 5连抽 花费元宝数量
-       * </pre>
-       */
-      public Builder clearCostYuan5() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        costYuan5_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 costYuan20 = 3;
-      private int costYuan20_ ;
-      /**
-       * <code>required int32 costYuan20 = 3;</code>
-       *
-       * <pre>
-       * 本次购买 大袋宝箱 20连抽 花费元宝数量
-       * </pre>
-       */
-      public boolean hasCostYuan20() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>required int32 costYuan20 = 3;</code>
-       *
-       * <pre>
-       * 本次购买 大袋宝箱 20连抽 花费元宝数量
-       * </pre>
-       */
-      public int getCostYuan20() {
-        return costYuan20_;
-      }
-      /**
-       * <code>required int32 costYuan20 = 3;</code>
-       *
-       * <pre>
-       * 本次购买 大袋宝箱 20连抽 花费元宝数量
-       * </pre>
-       */
-      public Builder setCostYuan20(int value) {
-        bitField0_ |= 0x00000004;
-        costYuan20_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 costYuan20 = 3;</code>
-       *
-       * <pre>
-       * 本次购买 大袋宝箱 20连抽 花费元宝数量
-       * </pre>
-       */
-      public Builder clearCostYuan20() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        costYuan20_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 costTiangongTu = 4;
-      private int costTiangongTu_ ;
-      /**
-       * <code>required int32 costTiangongTu = 4;</code>
-       *
-       * <pre>
-       * 本次购买 中袋宝箱 花费的天工图数量
-       * </pre>
-       */
-      public boolean hasCostTiangongTu() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>required int32 costTiangongTu = 4;</code>
-       *
-       * <pre>
-       * 本次购买 中袋宝箱 花费的天工图数量
-       * </pre>
-       */
-      public int getCostTiangongTu() {
-        return costTiangongTu_;
-      }
-      /**
-       * <code>required int32 costTiangongTu = 4;</code>
-       *
-       * <pre>
-       * 本次购买 中袋宝箱 花费的天工图数量
-       * </pre>
-       */
-      public Builder setCostTiangongTu(int value) {
-        bitField0_ |= 0x00000008;
-        costTiangongTu_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 costTiangongTu = 4;</code>
-       *
-       * <pre>
-       * 本次购买 中袋宝箱 花费的天工图数量
-       * </pre>
-       */
-      public Builder clearCostTiangongTu() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        costTiangongTu_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.TreasureCost)
-    }
-
-    static {
-      defaultInstance = new TreasureCost(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.TreasureCost)
-  }
-
-  public interface BuyTreasureOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 type = 1;
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 购买类型：1-购买小袋，2-购买中袋，3-购买大袋
-     * </pre>
-     */
-    boolean hasType();
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 购买类型：1-购买小袋，2-购买中袋，3-购买大袋
-     * </pre>
-     */
-    int getType();
-
-    // optional int32 action = 2;
-    /**
-     * <code>optional int32 action = 2;</code>
-     *
-     * <pre>
-     * 购买操作：
-     * type=1时，action：可不发
-     * type=2时，action：1-免费领取，2-天工图购买，3-元宝购买
-     * type=3时，action：1-连续购买5次，2-连续购买20次
-     * </pre>
-     */
-    boolean hasAction();
-    /**
-     * <code>optional int32 action = 2;</code>
-     *
-     * <pre>
-     * 购买操作：
-     * type=1时，action：可不发
-     * type=2时，action：1-免费领取，2-天工图购买，3-元宝购买
-     * type=3时，action：1-连续购买5次，2-连续购买20次
-     * </pre>
-     */
-    int getAction();
-  }
-  /**
-   * Protobuf type {@code qxmobile.protobuf.BuyTreasure}
-   *
-   * <pre>
-   * 请求购买宝箱
-   * </pre>
-   */
-  public static final class BuyTreasure extends
-      com.google.protobuf.GeneratedMessage
-      implements BuyTreasureOrBuilder {
-    // Use BuyTreasure.newBuilder() to construct.
-    private BuyTreasure(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private BuyTreasure(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final BuyTreasure defaultInstance;
-    public static BuyTreasure getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public BuyTreasure getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private BuyTreasure(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              type_ = input.readInt32();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              action_ = input.readInt32();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTreasure_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTreasure_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.Shop.BuyTreasure.class, qxmobile.protobuf.Shop.BuyTreasure.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<BuyTreasure> PARSER =
-        new com.google.protobuf.AbstractParser<BuyTreasure>() {
-      public BuyTreasure parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new BuyTreasure(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<BuyTreasure> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 type = 1;
-    public static final int TYPE_FIELD_NUMBER = 1;
-    private int type_;
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 购买类型：1-购买小袋，2-购买中袋，3-购买大袋
-     * </pre>
-     */
-    public boolean hasType() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 购买类型：1-购买小袋，2-购买中袋，3-购买大袋
-     * </pre>
-     */
-    public int getType() {
-      return type_;
-    }
-
-    // optional int32 action = 2;
-    public static final int ACTION_FIELD_NUMBER = 2;
-    private int action_;
-    /**
-     * <code>optional int32 action = 2;</code>
-     *
-     * <pre>
-     * 购买操作：
-     * type=1时，action：可不发
-     * type=2时，action：1-免费领取，2-天工图购买，3-元宝购买
-     * type=3时，action：1-连续购买5次，2-连续购买20次
-     * </pre>
-     */
-    public boolean hasAction() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional int32 action = 2;</code>
-     *
-     * <pre>
-     * 购买操作：
-     * type=1时，action：可不发
-     * type=2时，action：1-免费领取，2-天工图购买，3-元宝购买
-     * type=3时，action：1-连续购买5次，2-连续购买20次
-     * </pre>
-     */
-    public int getAction() {
-      return action_;
-    }
-
-    private void initFields() {
-      type_ = 0;
-      action_ = 0;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasType()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, type_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, action_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, type_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, action_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static qxmobile.protobuf.Shop.BuyTreasure parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasure parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasure parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasure parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasure parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasure parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasure parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasure parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasure parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasure parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.Shop.BuyTreasure prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code qxmobile.protobuf.BuyTreasure}
-     *
-     * <pre>
-     * 请求购买宝箱
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.Shop.BuyTreasureOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTreasure_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTreasure_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.Shop.BuyTreasure.class, qxmobile.protobuf.Shop.BuyTreasure.Builder.class);
-      }
-
-      // Construct using qxmobile.protobuf.Shop.BuyTreasure.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        type_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        action_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTreasure_descriptor;
-      }
-
-      public qxmobile.protobuf.Shop.BuyTreasure getDefaultInstanceForType() {
-        return qxmobile.protobuf.Shop.BuyTreasure.getDefaultInstance();
-      }
-
-      public qxmobile.protobuf.Shop.BuyTreasure build() {
-        qxmobile.protobuf.Shop.BuyTreasure result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public qxmobile.protobuf.Shop.BuyTreasure buildPartial() {
-        qxmobile.protobuf.Shop.BuyTreasure result = new qxmobile.protobuf.Shop.BuyTreasure(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.type_ = type_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.action_ = action_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.Shop.BuyTreasure) {
-          return mergeFrom((qxmobile.protobuf.Shop.BuyTreasure)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(qxmobile.protobuf.Shop.BuyTreasure other) {
-        if (other == qxmobile.protobuf.Shop.BuyTreasure.getDefaultInstance()) return this;
-        if (other.hasType()) {
-          setType(other.getType());
-        }
-        if (other.hasAction()) {
-          setAction(other.getAction());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasType()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        qxmobile.protobuf.Shop.BuyTreasure parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.Shop.BuyTreasure) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 type = 1;
-      private int type_ ;
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * 购买类型：1-购买小袋，2-购买中袋，3-购买大袋
-       * </pre>
-       */
-      public boolean hasType() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * 购买类型：1-购买小袋，2-购买中袋，3-购买大袋
-       * </pre>
-       */
-      public int getType() {
-        return type_;
-      }
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * 购买类型：1-购买小袋，2-购买中袋，3-购买大袋
-       * </pre>
-       */
-      public Builder setType(int value) {
-        bitField0_ |= 0x00000001;
-        type_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * 购买类型：1-购买小袋，2-购买中袋，3-购买大袋
-       * </pre>
-       */
-      public Builder clearType() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        type_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional int32 action = 2;
-      private int action_ ;
-      /**
-       * <code>optional int32 action = 2;</code>
-       *
-       * <pre>
-       * 购买操作：
-       * type=1时，action：可不发
-       * type=2时，action：1-免费领取，2-天工图购买，3-元宝购买
-       * type=3时，action：1-连续购买5次，2-连续购买20次
-       * </pre>
-       */
-      public boolean hasAction() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional int32 action = 2;</code>
-       *
-       * <pre>
-       * 购买操作：
-       * type=1时，action：可不发
-       * type=2时，action：1-免费领取，2-天工图购买，3-元宝购买
-       * type=3时，action：1-连续购买5次，2-连续购买20次
-       * </pre>
-       */
-      public int getAction() {
-        return action_;
-      }
-      /**
-       * <code>optional int32 action = 2;</code>
-       *
-       * <pre>
-       * 购买操作：
-       * type=1时，action：可不发
-       * type=2时，action：1-免费领取，2-天工图购买，3-元宝购买
-       * type=3时，action：1-连续购买5次，2-连续购买20次
-       * </pre>
-       */
-      public Builder setAction(int value) {
-        bitField0_ |= 0x00000002;
-        action_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 action = 2;</code>
-       *
-       * <pre>
-       * 购买操作：
-       * type=1时，action：可不发
-       * type=2时，action：1-免费领取，2-天工图购买，3-元宝购买
-       * type=3时，action：1-连续购买5次，2-连续购买20次
-       * </pre>
-       */
-      public Builder clearAction() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        action_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.BuyTreasure)
-    }
-
-    static {
-      defaultInstance = new BuyTreasure(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.BuyTreasure)
-  }
-
-  public interface BuyTreasureRespOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-     */
-    java.util.List<qxmobile.protobuf.Shop.TreasureAward> 
-        getTreasureAwardList();
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-     */
-    qxmobile.protobuf.Shop.TreasureAward getTreasureAward(int index);
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-     */
-    int getTreasureAwardCount();
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-     */
-    java.util.List<? extends qxmobile.protobuf.Shop.TreasureAwardOrBuilder> 
-        getTreasureAwardOrBuilderList();
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-     */
-    qxmobile.protobuf.Shop.TreasureAwardOrBuilder getTreasureAwardOrBuilder(
-        int index);
-  }
-  /**
-   * Protobuf type {@code qxmobile.protobuf.BuyTreasureResp}
-   *
-   * <pre>
-   * 购买宝箱返回结果
-   * </pre>
-   */
-  public static final class BuyTreasureResp extends
-      com.google.protobuf.GeneratedMessage
-      implements BuyTreasureRespOrBuilder {
-    // Use BuyTreasureResp.newBuilder() to construct.
-    private BuyTreasureResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private BuyTreasureResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final BuyTreasureResp defaultInstance;
-    public static BuyTreasureResp getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public BuyTreasureResp getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private BuyTreasureResp(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                treasureAward_ = new java.util.ArrayList<qxmobile.protobuf.Shop.TreasureAward>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              treasureAward_.add(input.readMessage(qxmobile.protobuf.Shop.TreasureAward.PARSER, extensionRegistry));
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          treasureAward_ = java.util.Collections.unmodifiableList(treasureAward_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTreasureResp_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTreasureResp_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.Shop.BuyTreasureResp.class, qxmobile.protobuf.Shop.BuyTreasureResp.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<BuyTreasureResp> PARSER =
-        new com.google.protobuf.AbstractParser<BuyTreasureResp>() {
-      public BuyTreasureResp parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new BuyTreasureResp(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<BuyTreasureResp> getParserForType() {
-      return PARSER;
-    }
-
-    // repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;
-    public static final int TREASUREAWARD_FIELD_NUMBER = 1;
-    private java.util.List<qxmobile.protobuf.Shop.TreasureAward> treasureAward_;
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-     */
-    public java.util.List<qxmobile.protobuf.Shop.TreasureAward> getTreasureAwardList() {
-      return treasureAward_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-     */
-    public java.util.List<? extends qxmobile.protobuf.Shop.TreasureAwardOrBuilder> 
-        getTreasureAwardOrBuilderList() {
-      return treasureAward_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-     */
-    public int getTreasureAwardCount() {
-      return treasureAward_.size();
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-     */
-    public qxmobile.protobuf.Shop.TreasureAward getTreasureAward(int index) {
-      return treasureAward_.get(index);
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-     */
-    public qxmobile.protobuf.Shop.TreasureAwardOrBuilder getTreasureAwardOrBuilder(
-        int index) {
-      return treasureAward_.get(index);
-    }
-
-    private void initFields() {
-      treasureAward_ = java.util.Collections.emptyList();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      for (int i = 0; i < getTreasureAwardCount(); i++) {
-        if (!getTreasureAward(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      for (int i = 0; i < treasureAward_.size(); i++) {
-        output.writeMessage(1, treasureAward_.get(i));
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      for (int i = 0; i < treasureAward_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, treasureAward_.get(i));
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static qxmobile.protobuf.Shop.BuyTreasureResp parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureResp parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureResp parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureResp parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureResp parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureResp parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureResp parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureResp parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureResp parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.BuyTreasureResp parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.Shop.BuyTreasureResp prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code qxmobile.protobuf.BuyTreasureResp}
-     *
-     * <pre>
-     * 购买宝箱返回结果
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.Shop.BuyTreasureRespOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTreasureResp_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTreasureResp_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.Shop.BuyTreasureResp.class, qxmobile.protobuf.Shop.BuyTreasureResp.Builder.class);
-      }
-
-      // Construct using qxmobile.protobuf.Shop.BuyTreasureResp.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getTreasureAwardFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        if (treasureAwardBuilder_ == null) {
-          treasureAward_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          treasureAwardBuilder_.clear();
-        }
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTreasureResp_descriptor;
-      }
-
-      public qxmobile.protobuf.Shop.BuyTreasureResp getDefaultInstanceForType() {
-        return qxmobile.protobuf.Shop.BuyTreasureResp.getDefaultInstance();
-      }
-
-      public qxmobile.protobuf.Shop.BuyTreasureResp build() {
-        qxmobile.protobuf.Shop.BuyTreasureResp result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public qxmobile.protobuf.Shop.BuyTreasureResp buildPartial() {
-        qxmobile.protobuf.Shop.BuyTreasureResp result = new qxmobile.protobuf.Shop.BuyTreasureResp(this);
-        int from_bitField0_ = bitField0_;
-        if (treasureAwardBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            treasureAward_ = java.util.Collections.unmodifiableList(treasureAward_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.treasureAward_ = treasureAward_;
-        } else {
-          result.treasureAward_ = treasureAwardBuilder_.build();
-        }
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.Shop.BuyTreasureResp) {
-          return mergeFrom((qxmobile.protobuf.Shop.BuyTreasureResp)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(qxmobile.protobuf.Shop.BuyTreasureResp other) {
-        if (other == qxmobile.protobuf.Shop.BuyTreasureResp.getDefaultInstance()) return this;
-        if (treasureAwardBuilder_ == null) {
-          if (!other.treasureAward_.isEmpty()) {
-            if (treasureAward_.isEmpty()) {
-              treasureAward_ = other.treasureAward_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureTreasureAwardIsMutable();
-              treasureAward_.addAll(other.treasureAward_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.treasureAward_.isEmpty()) {
-            if (treasureAwardBuilder_.isEmpty()) {
-              treasureAwardBuilder_.dispose();
-              treasureAwardBuilder_ = null;
-              treasureAward_ = other.treasureAward_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              treasureAwardBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getTreasureAwardFieldBuilder() : null;
-            } else {
-              treasureAwardBuilder_.addAllMessages(other.treasureAward_);
-            }
-          }
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        for (int i = 0; i < getTreasureAwardCount(); i++) {
-          if (!getTreasureAward(i).isInitialized()) {
-            
-            return false;
-          }
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        qxmobile.protobuf.Shop.BuyTreasureResp parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.Shop.BuyTreasureResp) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;
-      private java.util.List<qxmobile.protobuf.Shop.TreasureAward> treasureAward_ =
-        java.util.Collections.emptyList();
-      private void ensureTreasureAwardIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          treasureAward_ = new java.util.ArrayList<qxmobile.protobuf.Shop.TreasureAward>(treasureAward_);
-          bitField0_ |= 0x00000001;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.Shop.TreasureAward, qxmobile.protobuf.Shop.TreasureAward.Builder, qxmobile.protobuf.Shop.TreasureAwardOrBuilder> treasureAwardBuilder_;
-
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public java.util.List<qxmobile.protobuf.Shop.TreasureAward> getTreasureAwardList() {
-        if (treasureAwardBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(treasureAward_);
-        } else {
-          return treasureAwardBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public int getTreasureAwardCount() {
-        if (treasureAwardBuilder_ == null) {
-          return treasureAward_.size();
-        } else {
-          return treasureAwardBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public qxmobile.protobuf.Shop.TreasureAward getTreasureAward(int index) {
-        if (treasureAwardBuilder_ == null) {
-          return treasureAward_.get(index);
-        } else {
-          return treasureAwardBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public Builder setTreasureAward(
-          int index, qxmobile.protobuf.Shop.TreasureAward value) {
-        if (treasureAwardBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTreasureAwardIsMutable();
-          treasureAward_.set(index, value);
-          onChanged();
-        } else {
-          treasureAwardBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public Builder setTreasureAward(
-          int index, qxmobile.protobuf.Shop.TreasureAward.Builder builderForValue) {
-        if (treasureAwardBuilder_ == null) {
-          ensureTreasureAwardIsMutable();
-          treasureAward_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          treasureAwardBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public Builder addTreasureAward(qxmobile.protobuf.Shop.TreasureAward value) {
-        if (treasureAwardBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTreasureAwardIsMutable();
-          treasureAward_.add(value);
-          onChanged();
-        } else {
-          treasureAwardBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public Builder addTreasureAward(
-          int index, qxmobile.protobuf.Shop.TreasureAward value) {
-        if (treasureAwardBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTreasureAwardIsMutable();
-          treasureAward_.add(index, value);
-          onChanged();
-        } else {
-          treasureAwardBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public Builder addTreasureAward(
-          qxmobile.protobuf.Shop.TreasureAward.Builder builderForValue) {
-        if (treasureAwardBuilder_ == null) {
-          ensureTreasureAwardIsMutable();
-          treasureAward_.add(builderForValue.build());
-          onChanged();
-        } else {
-          treasureAwardBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public Builder addTreasureAward(
-          int index, qxmobile.protobuf.Shop.TreasureAward.Builder builderForValue) {
-        if (treasureAwardBuilder_ == null) {
-          ensureTreasureAwardIsMutable();
-          treasureAward_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          treasureAwardBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public Builder addAllTreasureAward(
-          java.lang.Iterable<? extends qxmobile.protobuf.Shop.TreasureAward> values) {
-        if (treasureAwardBuilder_ == null) {
-          ensureTreasureAwardIsMutable();
-          super.addAll(values, treasureAward_);
-          onChanged();
-        } else {
-          treasureAwardBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public Builder clearTreasureAward() {
-        if (treasureAwardBuilder_ == null) {
-          treasureAward_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          treasureAwardBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public Builder removeTreasureAward(int index) {
-        if (treasureAwardBuilder_ == null) {
-          ensureTreasureAwardIsMutable();
-          treasureAward_.remove(index);
-          onChanged();
-        } else {
-          treasureAwardBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public qxmobile.protobuf.Shop.TreasureAward.Builder getTreasureAwardBuilder(
-          int index) {
-        return getTreasureAwardFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public qxmobile.protobuf.Shop.TreasureAwardOrBuilder getTreasureAwardOrBuilder(
-          int index) {
-        if (treasureAwardBuilder_ == null) {
-          return treasureAward_.get(index);  } else {
-          return treasureAwardBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public java.util.List<? extends qxmobile.protobuf.Shop.TreasureAwardOrBuilder> 
-           getTreasureAwardOrBuilderList() {
-        if (treasureAwardBuilder_ != null) {
-          return treasureAwardBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(treasureAward_);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public qxmobile.protobuf.Shop.TreasureAward.Builder addTreasureAwardBuilder() {
-        return getTreasureAwardFieldBuilder().addBuilder(
-            qxmobile.protobuf.Shop.TreasureAward.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public qxmobile.protobuf.Shop.TreasureAward.Builder addTreasureAwardBuilder(
-          int index) {
-        return getTreasureAwardFieldBuilder().addBuilder(
-            index, qxmobile.protobuf.Shop.TreasureAward.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.TreasureAward treasureAward = 1;</code>
-       */
-      public java.util.List<qxmobile.protobuf.Shop.TreasureAward.Builder> 
-           getTreasureAwardBuilderList() {
-        return getTreasureAwardFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.Shop.TreasureAward, qxmobile.protobuf.Shop.TreasureAward.Builder, qxmobile.protobuf.Shop.TreasureAwardOrBuilder> 
-          getTreasureAwardFieldBuilder() {
-        if (treasureAwardBuilder_ == null) {
-          treasureAwardBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              qxmobile.protobuf.Shop.TreasureAward, qxmobile.protobuf.Shop.TreasureAward.Builder, qxmobile.protobuf.Shop.TreasureAwardOrBuilder>(
-                  treasureAward_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
-                  getParentForChildren(),
-                  isClean());
-          treasureAward_ = null;
-        }
-        return treasureAwardBuilder_;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.BuyTreasureResp)
-    }
-
-    static {
-      defaultInstance = new BuyTreasureResp(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.BuyTreasureResp)
-  }
-
-  public interface TreasureAwardOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 type = 1;
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 获得的物品从哪个表读取
-     * </pre>
-     */
-    boolean hasType();
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 获得的物品从哪个表读取
-     * </pre>
-     */
-    int getType();
-
-    // required int32 itemId = 2;
-    /**
-     * <code>required int32 itemId = 2;</code>
-     *
-     * <pre>
-     * 获得的物品itemId
-     * </pre>
-     */
-    boolean hasItemId();
-    /**
-     * <code>required int32 itemId = 2;</code>
-     *
-     * <pre>
-     * 获得的物品itemId
-     * </pre>
-     */
-    int getItemId();
-
-    // required int32 nums = 3;
-    /**
-     * <code>required int32 nums = 3;</code>
-     *
-     * <pre>
-     * 获得的数量，如果是武将，则nums表示的是获得的精魄数量
-     * </pre>
-     */
-    boolean hasNums();
-    /**
-     * <code>required int32 nums = 3;</code>
-     *
-     * <pre>
-     * 获得的数量，如果是武将，则nums表示的是获得的精魄数量
-     * </pre>
-     */
-    int getNums();
-
-    // optional bool isNewWuJiang = 4;
-    /**
-     * <code>optional bool isNewWuJiang = 4;</code>
-     *
-     * <pre>
-     * 是否是新获得的武将，true-新的，false-不是新的。只有在获得的物品是武将的时候才发该字段
-     * </pre>
-     */
-    boolean hasIsNewWuJiang();
-    /**
-     * <code>optional bool isNewWuJiang = 4;</code>
-     *
-     * <pre>
-     * 是否是新获得的武将，true-新的，false-不是新的。只有在获得的物品是武将的时候才发该字段
-     * </pre>
-     */
-    boolean getIsNewWuJiang();
-  }
-  /**
-   * Protobuf type {@code qxmobile.protobuf.TreasureAward}
-   *
-   * <pre>
-   * 宝箱奖励
-   * </pre>
-   */
-  public static final class TreasureAward extends
-      com.google.protobuf.GeneratedMessage
-      implements TreasureAwardOrBuilder {
-    // Use TreasureAward.newBuilder() to construct.
-    private TreasureAward(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private TreasureAward(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final TreasureAward defaultInstance;
-    public static TreasureAward getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public TreasureAward getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private TreasureAward(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              type_ = input.readInt32();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              itemId_ = input.readInt32();
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000004;
-              nums_ = input.readInt32();
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000008;
-              isNewWuJiang_ = input.readBool();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TreasureAward_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TreasureAward_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.Shop.TreasureAward.class, qxmobile.protobuf.Shop.TreasureAward.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<TreasureAward> PARSER =
-        new com.google.protobuf.AbstractParser<TreasureAward>() {
-      public TreasureAward parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TreasureAward(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<TreasureAward> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 type = 1;
-    public static final int TYPE_FIELD_NUMBER = 1;
-    private int type_;
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 获得的物品从哪个表读取
-     * </pre>
-     */
-    public boolean hasType() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * 获得的物品从哪个表读取
-     * </pre>
-     */
-    public int getType() {
-      return type_;
-    }
-
-    // required int32 itemId = 2;
-    public static final int ITEMID_FIELD_NUMBER = 2;
-    private int itemId_;
-    /**
-     * <code>required int32 itemId = 2;</code>
-     *
-     * <pre>
-     * 获得的物品itemId
-     * </pre>
-     */
-    public boolean hasItemId() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required int32 itemId = 2;</code>
-     *
-     * <pre>
-     * 获得的物品itemId
-     * </pre>
-     */
-    public int getItemId() {
-      return itemId_;
-    }
-
-    // required int32 nums = 3;
-    public static final int NUMS_FIELD_NUMBER = 3;
-    private int nums_;
-    /**
-     * <code>required int32 nums = 3;</code>
-     *
-     * <pre>
-     * 获得的数量，如果是武将，则nums表示的是获得的精魄数量
-     * </pre>
-     */
-    public boolean hasNums() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>required int32 nums = 3;</code>
-     *
-     * <pre>
-     * 获得的数量，如果是武将，则nums表示的是获得的精魄数量
-     * </pre>
-     */
-    public int getNums() {
-      return nums_;
-    }
-
-    // optional bool isNewWuJiang = 4;
-    public static final int ISNEWWUJIANG_FIELD_NUMBER = 4;
-    private boolean isNewWuJiang_;
-    /**
-     * <code>optional bool isNewWuJiang = 4;</code>
-     *
-     * <pre>
-     * 是否是新获得的武将，true-新的，false-不是新的。只有在获得的物品是武将的时候才发该字段
-     * </pre>
-     */
-    public boolean hasIsNewWuJiang() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional bool isNewWuJiang = 4;</code>
-     *
-     * <pre>
-     * 是否是新获得的武将，true-新的，false-不是新的。只有在获得的物品是武将的时候才发该字段
-     * </pre>
-     */
-    public boolean getIsNewWuJiang() {
-      return isNewWuJiang_;
-    }
-
-    private void initFields() {
-      type_ = 0;
-      itemId_ = 0;
-      nums_ = 0;
-      isNewWuJiang_ = false;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasType()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasItemId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasNums()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, type_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, itemId_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, nums_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBool(4, isNewWuJiang_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, type_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, itemId_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, nums_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(4, isNewWuJiang_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static qxmobile.protobuf.Shop.TreasureAward parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Shop.TreasureAward parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.TreasureAward parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.Shop.TreasureAward parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.TreasureAward parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.TreasureAward parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.TreasureAward parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.TreasureAward parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.Shop.TreasureAward parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.Shop.TreasureAward parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.Shop.TreasureAward prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code qxmobile.protobuf.TreasureAward}
-     *
-     * <pre>
-     * 宝箱奖励
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.Shop.TreasureAwardOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TreasureAward_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TreasureAward_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.Shop.TreasureAward.class, qxmobile.protobuf.Shop.TreasureAward.Builder.class);
-      }
-
-      // Construct using qxmobile.protobuf.Shop.TreasureAward.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        type_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        itemId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        nums_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        isNewWuJiang_ = false;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TreasureAward_descriptor;
-      }
-
-      public qxmobile.protobuf.Shop.TreasureAward getDefaultInstanceForType() {
-        return qxmobile.protobuf.Shop.TreasureAward.getDefaultInstance();
-      }
-
-      public qxmobile.protobuf.Shop.TreasureAward build() {
-        qxmobile.protobuf.Shop.TreasureAward result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public qxmobile.protobuf.Shop.TreasureAward buildPartial() {
-        qxmobile.protobuf.Shop.TreasureAward result = new qxmobile.protobuf.Shop.TreasureAward(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.type_ = type_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.itemId_ = itemId_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.nums_ = nums_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.isNewWuJiang_ = isNewWuJiang_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.Shop.TreasureAward) {
-          return mergeFrom((qxmobile.protobuf.Shop.TreasureAward)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(qxmobile.protobuf.Shop.TreasureAward other) {
-        if (other == qxmobile.protobuf.Shop.TreasureAward.getDefaultInstance()) return this;
-        if (other.hasType()) {
-          setType(other.getType());
-        }
-        if (other.hasItemId()) {
-          setItemId(other.getItemId());
-        }
-        if (other.hasNums()) {
-          setNums(other.getNums());
-        }
-        if (other.hasIsNewWuJiang()) {
-          setIsNewWuJiang(other.getIsNewWuJiang());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasType()) {
-          
-          return false;
-        }
-        if (!hasItemId()) {
-          
-          return false;
-        }
-        if (!hasNums()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        qxmobile.protobuf.Shop.TreasureAward parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.Shop.TreasureAward) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 type = 1;
-      private int type_ ;
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * 获得的物品从哪个表读取
-       * </pre>
-       */
-      public boolean hasType() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * 获得的物品从哪个表读取
-       * </pre>
-       */
-      public int getType() {
-        return type_;
-      }
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * 获得的物品从哪个表读取
-       * </pre>
-       */
-      public Builder setType(int value) {
-        bitField0_ |= 0x00000001;
-        type_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * 获得的物品从哪个表读取
-       * </pre>
-       */
-      public Builder clearType() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        type_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 itemId = 2;
-      private int itemId_ ;
-      /**
-       * <code>required int32 itemId = 2;</code>
-       *
-       * <pre>
-       * 获得的物品itemId
-       * </pre>
-       */
-      public boolean hasItemId() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required int32 itemId = 2;</code>
-       *
-       * <pre>
-       * 获得的物品itemId
-       * </pre>
-       */
-      public int getItemId() {
-        return itemId_;
-      }
-      /**
-       * <code>required int32 itemId = 2;</code>
-       *
-       * <pre>
-       * 获得的物品itemId
-       * </pre>
-       */
-      public Builder setItemId(int value) {
-        bitField0_ |= 0x00000002;
-        itemId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 itemId = 2;</code>
-       *
-       * <pre>
-       * 获得的物品itemId
-       * </pre>
-       */
-      public Builder clearItemId() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        itemId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 nums = 3;
-      private int nums_ ;
-      /**
-       * <code>required int32 nums = 3;</code>
-       *
-       * <pre>
-       * 获得的数量，如果是武将，则nums表示的是获得的精魄数量
-       * </pre>
-       */
-      public boolean hasNums() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>required int32 nums = 3;</code>
-       *
-       * <pre>
-       * 获得的数量，如果是武将，则nums表示的是获得的精魄数量
-       * </pre>
-       */
-      public int getNums() {
-        return nums_;
-      }
-      /**
-       * <code>required int32 nums = 3;</code>
-       *
-       * <pre>
-       * 获得的数量，如果是武将，则nums表示的是获得的精魄数量
-       * </pre>
-       */
-      public Builder setNums(int value) {
-        bitField0_ |= 0x00000004;
-        nums_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 nums = 3;</code>
-       *
-       * <pre>
-       * 获得的数量，如果是武将，则nums表示的是获得的精魄数量
-       * </pre>
-       */
-      public Builder clearNums() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        nums_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional bool isNewWuJiang = 4;
-      private boolean isNewWuJiang_ ;
-      /**
-       * <code>optional bool isNewWuJiang = 4;</code>
-       *
-       * <pre>
-       * 是否是新获得的武将，true-新的，false-不是新的。只有在获得的物品是武将的时候才发该字段
-       * </pre>
-       */
-      public boolean hasIsNewWuJiang() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>optional bool isNewWuJiang = 4;</code>
-       *
-       * <pre>
-       * 是否是新获得的武将，true-新的，false-不是新的。只有在获得的物品是武将的时候才发该字段
-       * </pre>
-       */
-      public boolean getIsNewWuJiang() {
-        return isNewWuJiang_;
-      }
-      /**
-       * <code>optional bool isNewWuJiang = 4;</code>
-       *
-       * <pre>
-       * 是否是新获得的武将，true-新的，false-不是新的。只有在获得的物品是武将的时候才发该字段
-       * </pre>
-       */
-      public Builder setIsNewWuJiang(boolean value) {
-        bitField0_ |= 0x00000008;
-        isNewWuJiang_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bool isNewWuJiang = 4;</code>
-       *
-       * <pre>
-       * 是否是新获得的武将，true-新的，false-不是新的。只有在获得的物品是武将的时候才发该字段
-       * </pre>
-       */
-      public Builder clearIsNewWuJiang() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        isNewWuJiang_ = false;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.TreasureAward)
-    }
-
-    static {
-      defaultInstance = new TreasureAward(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.TreasureAward)
-  }
-
   public interface BuyResourceInfosRespOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -7103,7 +2518,7 @@ public final class Shop {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     *0-成功，1-元宝不足
+     *0-成功，1-元宝不足, 2-vip等级不足，功能未开放
      * </pre>
      */
     boolean hasResult();
@@ -7111,7 +2526,7 @@ public final class Shop {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     *0-成功，1-元宝不足
+     *0-成功，1-元宝不足, 2-vip等级不足，功能未开放
      * </pre>
      */
     int getResult();
@@ -7219,7 +2634,7 @@ public final class Shop {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     *0-成功，1-元宝不足
+     *0-成功，1-元宝不足, 2-vip等级不足，功能未开放
      * </pre>
      */
     public boolean hasResult() {
@@ -7229,7 +2644,7 @@ public final class Shop {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     *0-成功，1-元宝不足
+     *0-成功，1-元宝不足, 2-vip等级不足，功能未开放
      * </pre>
      */
     public int getResult() {
@@ -7477,7 +2892,7 @@ public final class Shop {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       *0-成功，1-元宝不足
+       *0-成功，1-元宝不足, 2-vip等级不足，功能未开放
        * </pre>
        */
       public boolean hasResult() {
@@ -7487,7 +2902,7 @@ public final class Shop {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       *0-成功，1-元宝不足
+       *0-成功，1-元宝不足, 2-vip等级不足，功能未开放
        * </pre>
        */
       public int getResult() {
@@ -7497,7 +2912,7 @@ public final class Shop {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       *0-成功，1-元宝不足
+       *0-成功，1-元宝不足, 2-vip等级不足，功能未开放
        * </pre>
        */
       public Builder setResult(int value) {
@@ -7510,7 +2925,7 @@ public final class Shop {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       *0-成功，1-元宝不足
+       *0-成功，1-元宝不足, 2-vip等级不足，功能未开放
        * </pre>
        */
       public Builder clearResult() {
@@ -7531,41 +2946,3485 @@ public final class Shop {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.BuyMibaoPointResp)
   }
 
+  public interface ShopReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 type = 1;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * type = 10 表示正常请求荒野商店；11表示花钱(荒野币)的刷新荒野商店
+     * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
+     * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
+     * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
+     * type = 50 表示正常请求普通商店，（普通商店没有花钱刷新）
+     * type = 60 表示正常请求神秘商店；61 表示花钱（元宝）的刷新神秘商店
+     * </pre>
+     */
+    boolean hasType();
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * type = 10 表示正常请求荒野商店；11表示花钱(荒野币)的刷新荒野商店
+     * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
+     * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
+     * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
+     * type = 50 表示正常请求普通商店，（普通商店没有花钱刷新）
+     * type = 60 表示正常请求神秘商店；61 表示花钱（元宝）的刷新神秘商店
+     * </pre>
+     */
+    int getType();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ShopReq}
+   */
+  public static final class ShopReq extends
+      com.google.protobuf.GeneratedMessage
+      implements ShopReqOrBuilder {
+    // Use ShopReq.newBuilder() to construct.
+    private ShopReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ShopReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ShopReq defaultInstance;
+    public static ShopReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ShopReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ShopReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              type_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_ShopReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_ShopReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Shop.ShopReq.class, qxmobile.protobuf.Shop.ShopReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ShopReq> PARSER =
+        new com.google.protobuf.AbstractParser<ShopReq>() {
+      public ShopReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ShopReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ShopReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 type = 1;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private int type_;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * type = 10 表示正常请求荒野商店；11表示花钱(荒野币)的刷新荒野商店
+     * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
+     * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
+     * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
+     * type = 50 表示正常请求普通商店，（普通商店没有花钱刷新）
+     * type = 60 表示正常请求神秘商店；61 表示花钱（元宝）的刷新神秘商店
+     * </pre>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * type = 10 表示正常请求荒野商店；11表示花钱(荒野币)的刷新荒野商店
+     * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
+     * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
+     * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
+     * type = 50 表示正常请求普通商店，（普通商店没有花钱刷新）
+     * type = 60 表示正常请求神秘商店；61 表示花钱（元宝）的刷新神秘商店
+     * </pre>
+     */
+    public int getType() {
+      return type_;
+    }
+
+    private void initFields() {
+      type_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, type_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, type_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Shop.ShopReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.ShopReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.ShopReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.ShopReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.ShopReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.ShopReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.ShopReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.ShopReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.ShopReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.ShopReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Shop.ShopReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ShopReq}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Shop.ShopReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_ShopReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_ShopReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Shop.ShopReq.class, qxmobile.protobuf.Shop.ShopReq.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Shop.ShopReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        type_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_ShopReq_descriptor;
+      }
+
+      public qxmobile.protobuf.Shop.ShopReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.Shop.ShopReq.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Shop.ShopReq build() {
+        qxmobile.protobuf.Shop.ShopReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Shop.ShopReq buildPartial() {
+        qxmobile.protobuf.Shop.ShopReq result = new qxmobile.protobuf.Shop.ShopReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Shop.ShopReq) {
+          return mergeFrom((qxmobile.protobuf.Shop.ShopReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Shop.ShopReq other) {
+        if (other == qxmobile.protobuf.Shop.ShopReq.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Shop.ShopReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Shop.ShopReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 type = 1;
+      private int type_ ;
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * type = 10 表示正常请求荒野商店；11表示花钱(荒野币)的刷新荒野商店
+       * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
+       * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
+       * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
+       * type = 50 表示正常请求普通商店，（普通商店没有花钱刷新）
+       * type = 60 表示正常请求神秘商店；61 表示花钱（元宝）的刷新神秘商店
+       * </pre>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * type = 10 表示正常请求荒野商店；11表示花钱(荒野币)的刷新荒野商店
+       * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
+       * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
+       * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
+       * type = 50 表示正常请求普通商店，（普通商店没有花钱刷新）
+       * type = 60 表示正常请求神秘商店；61 表示花钱（元宝）的刷新神秘商店
+       * </pre>
+       */
+      public int getType() {
+        return type_;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * type = 10 表示正常请求荒野商店；11表示花钱(荒野币)的刷新荒野商店
+       * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
+       * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
+       * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
+       * type = 50 表示正常请求普通商店，（普通商店没有花钱刷新）
+       * type = 60 表示正常请求神秘商店；61 表示花钱（元宝）的刷新神秘商店
+       * </pre>
+       */
+      public Builder setType(int value) {
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * type = 10 表示正常请求荒野商店；11表示花钱(荒野币)的刷新荒野商店
+       * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
+       * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
+       * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
+       * type = 50 表示正常请求普通商店，（普通商店没有花钱刷新）
+       * type = 60 表示正常请求神秘商店；61 表示花钱（元宝）的刷新神秘商店
+       * </pre>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ShopReq)
+    }
+
+    static {
+      defaultInstance = new ShopReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ShopReq)
+  }
+
+  public interface ShopRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 msg = 1;
+    /**
+     * <code>required int32 msg = 1;</code>
+     *
+     * <pre>
+     * type == X0的时候发送：msg=0：正常请求商店，optional都发送
+     * type == X1的时候发送：msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送
+     * </pre>
+     */
+    boolean hasMsg();
+    /**
+     * <code>required int32 msg = 1;</code>
+     *
+     * <pre>
+     * type == X0的时候发送：msg=0：正常请求商店，optional都发送
+     * type == X1的时候发送：msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送
+     * </pre>
+     */
+    int getMsg();
+
+    // repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;
+    /**
+     * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+     */
+    java.util.List<qxmobile.protobuf.Shop.DuiHuanInfo> 
+        getGoodsInfosList();
+    /**
+     * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+     */
+    qxmobile.protobuf.Shop.DuiHuanInfo getGoodsInfos(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+     */
+    int getGoodsInfosCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+     */
+    java.util.List<? extends qxmobile.protobuf.Shop.DuiHuanInfoOrBuilder> 
+        getGoodsInfosOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+     */
+    qxmobile.protobuf.Shop.DuiHuanInfoOrBuilder getGoodsInfosOrBuilder(
+        int index);
+
+    // optional int32 remianTime = 3;
+    /**
+     * <code>optional int32 remianTime = 3;</code>
+     *
+     * <pre>
+     * 剩余刷新时间
+     * </pre>
+     */
+    boolean hasRemianTime();
+    /**
+     * <code>optional int32 remianTime = 3;</code>
+     *
+     * <pre>
+     * 剩余刷新时间
+     * </pre>
+     */
+    int getRemianTime();
+
+    // optional int32 nextRefreshNeedMoney = 4;
+    /**
+     * <code>optional int32 nextRefreshNeedMoney = 4;</code>
+     *
+     * <pre>
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望；普通：元宝； 神秘：元宝
+     * </pre>
+     */
+    boolean hasNextRefreshNeedMoney();
+    /**
+     * <code>optional int32 nextRefreshNeedMoney = 4;</code>
+     *
+     * <pre>
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望；普通：元宝； 神秘：元宝
+     * </pre>
+     */
+    int getNextRefreshNeedMoney();
+
+    // optional int32 money = 5;
+    /**
+     * <code>optional int32 money = 5;</code>
+     *
+     * <pre>
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望；普通：元宝； 神秘：元宝
+     * </pre>
+     */
+    boolean hasMoney();
+    /**
+     * <code>optional int32 money = 5;</code>
+     *
+     * <pre>
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望；普通：元宝； 神秘：元宝
+     * </pre>
+     */
+    int getMoney();
+
+    // optional int32 tongbi = 6;
+    /**
+     * <code>optional int32 tongbi = 6;</code>
+     *
+     * <pre>
+     * 只是type==神秘商店的时候，发送玩家拥有的铜币
+     * </pre>
+     */
+    boolean hasTongbi();
+    /**
+     * <code>optional int32 tongbi = 6;</code>
+     *
+     * <pre>
+     * 只是type==神秘商店的时候，发送玩家拥有的铜币
+     * </pre>
+     */
+    int getTongbi();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ShopResp}
+   */
+  public static final class ShopResp extends
+      com.google.protobuf.GeneratedMessage
+      implements ShopRespOrBuilder {
+    // Use ShopResp.newBuilder() to construct.
+    private ShopResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ShopResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ShopResp defaultInstance;
+    public static ShopResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ShopResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ShopResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              msg_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                goodsInfos_ = new java.util.ArrayList<qxmobile.protobuf.Shop.DuiHuanInfo>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              goodsInfos_.add(input.readMessage(qxmobile.protobuf.Shop.DuiHuanInfo.PARSER, extensionRegistry));
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000002;
+              remianTime_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000004;
+              nextRefreshNeedMoney_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000008;
+              money_ = input.readInt32();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000010;
+              tongbi_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          goodsInfos_ = java.util.Collections.unmodifiableList(goodsInfos_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_ShopResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_ShopResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Shop.ShopResp.class, qxmobile.protobuf.Shop.ShopResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ShopResp> PARSER =
+        new com.google.protobuf.AbstractParser<ShopResp>() {
+      public ShopResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ShopResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ShopResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 msg = 1;
+    public static final int MSG_FIELD_NUMBER = 1;
+    private int msg_;
+    /**
+     * <code>required int32 msg = 1;</code>
+     *
+     * <pre>
+     * type == X0的时候发送：msg=0：正常请求商店，optional都发送
+     * type == X1的时候发送：msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送
+     * </pre>
+     */
+    public boolean hasMsg() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 msg = 1;</code>
+     *
+     * <pre>
+     * type == X0的时候发送：msg=0：正常请求商店，optional都发送
+     * type == X1的时候发送：msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送
+     * </pre>
+     */
+    public int getMsg() {
+      return msg_;
+    }
+
+    // repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;
+    public static final int GOODSINFOS_FIELD_NUMBER = 2;
+    private java.util.List<qxmobile.protobuf.Shop.DuiHuanInfo> goodsInfos_;
+    /**
+     * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+     */
+    public java.util.List<qxmobile.protobuf.Shop.DuiHuanInfo> getGoodsInfosList() {
+      return goodsInfos_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Shop.DuiHuanInfoOrBuilder> 
+        getGoodsInfosOrBuilderList() {
+      return goodsInfos_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+     */
+    public int getGoodsInfosCount() {
+      return goodsInfos_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+     */
+    public qxmobile.protobuf.Shop.DuiHuanInfo getGoodsInfos(int index) {
+      return goodsInfos_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+     */
+    public qxmobile.protobuf.Shop.DuiHuanInfoOrBuilder getGoodsInfosOrBuilder(
+        int index) {
+      return goodsInfos_.get(index);
+    }
+
+    // optional int32 remianTime = 3;
+    public static final int REMIANTIME_FIELD_NUMBER = 3;
+    private int remianTime_;
+    /**
+     * <code>optional int32 remianTime = 3;</code>
+     *
+     * <pre>
+     * 剩余刷新时间
+     * </pre>
+     */
+    public boolean hasRemianTime() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 remianTime = 3;</code>
+     *
+     * <pre>
+     * 剩余刷新时间
+     * </pre>
+     */
+    public int getRemianTime() {
+      return remianTime_;
+    }
+
+    // optional int32 nextRefreshNeedMoney = 4;
+    public static final int NEXTREFRESHNEEDMONEY_FIELD_NUMBER = 4;
+    private int nextRefreshNeedMoney_;
+    /**
+     * <code>optional int32 nextRefreshNeedMoney = 4;</code>
+     *
+     * <pre>
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望；普通：元宝； 神秘：元宝
+     * </pre>
+     */
+    public boolean hasNextRefreshNeedMoney() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 nextRefreshNeedMoney = 4;</code>
+     *
+     * <pre>
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望；普通：元宝； 神秘：元宝
+     * </pre>
+     */
+    public int getNextRefreshNeedMoney() {
+      return nextRefreshNeedMoney_;
+    }
+
+    // optional int32 money = 5;
+    public static final int MONEY_FIELD_NUMBER = 5;
+    private int money_;
+    /**
+     * <code>optional int32 money = 5;</code>
+     *
+     * <pre>
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望；普通：元宝； 神秘：元宝
+     * </pre>
+     */
+    public boolean hasMoney() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 money = 5;</code>
+     *
+     * <pre>
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望；普通：元宝； 神秘：元宝
+     * </pre>
+     */
+    public int getMoney() {
+      return money_;
+    }
+
+    // optional int32 tongbi = 6;
+    public static final int TONGBI_FIELD_NUMBER = 6;
+    private int tongbi_;
+    /**
+     * <code>optional int32 tongbi = 6;</code>
+     *
+     * <pre>
+     * 只是type==神秘商店的时候，发送玩家拥有的铜币
+     * </pre>
+     */
+    public boolean hasTongbi() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int32 tongbi = 6;</code>
+     *
+     * <pre>
+     * 只是type==神秘商店的时候，发送玩家拥有的铜币
+     * </pre>
+     */
+    public int getTongbi() {
+      return tongbi_;
+    }
+
+    private void initFields() {
+      msg_ = 0;
+      goodsInfos_ = java.util.Collections.emptyList();
+      remianTime_ = 0;
+      nextRefreshNeedMoney_ = 0;
+      money_ = 0;
+      tongbi_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasMsg()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getGoodsInfosCount(); i++) {
+        if (!getGoodsInfos(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, msg_);
+      }
+      for (int i = 0; i < goodsInfos_.size(); i++) {
+        output.writeMessage(2, goodsInfos_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(3, remianTime_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(4, nextRefreshNeedMoney_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(5, money_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(6, tongbi_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, msg_);
+      }
+      for (int i = 0; i < goodsInfos_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, goodsInfos_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, remianTime_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, nextRefreshNeedMoney_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, money_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, tongbi_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Shop.ShopResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.ShopResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.ShopResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.ShopResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.ShopResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.ShopResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.ShopResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.ShopResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.ShopResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.ShopResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Shop.ShopResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ShopResp}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Shop.ShopRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_ShopResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_ShopResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Shop.ShopResp.class, qxmobile.protobuf.Shop.ShopResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Shop.ShopResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getGoodsInfosFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        msg_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (goodsInfosBuilder_ == null) {
+          goodsInfos_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          goodsInfosBuilder_.clear();
+        }
+        remianTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        nextRefreshNeedMoney_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        money_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        tongbi_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_ShopResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Shop.ShopResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Shop.ShopResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Shop.ShopResp build() {
+        qxmobile.protobuf.Shop.ShopResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Shop.ShopResp buildPartial() {
+        qxmobile.protobuf.Shop.ShopResp result = new qxmobile.protobuf.Shop.ShopResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.msg_ = msg_;
+        if (goodsInfosBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            goodsInfos_ = java.util.Collections.unmodifiableList(goodsInfos_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.goodsInfos_ = goodsInfos_;
+        } else {
+          result.goodsInfos_ = goodsInfosBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.remianTime_ = remianTime_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.nextRefreshNeedMoney_ = nextRefreshNeedMoney_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.money_ = money_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.tongbi_ = tongbi_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Shop.ShopResp) {
+          return mergeFrom((qxmobile.protobuf.Shop.ShopResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Shop.ShopResp other) {
+        if (other == qxmobile.protobuf.Shop.ShopResp.getDefaultInstance()) return this;
+        if (other.hasMsg()) {
+          setMsg(other.getMsg());
+        }
+        if (goodsInfosBuilder_ == null) {
+          if (!other.goodsInfos_.isEmpty()) {
+            if (goodsInfos_.isEmpty()) {
+              goodsInfos_ = other.goodsInfos_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureGoodsInfosIsMutable();
+              goodsInfos_.addAll(other.goodsInfos_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.goodsInfos_.isEmpty()) {
+            if (goodsInfosBuilder_.isEmpty()) {
+              goodsInfosBuilder_.dispose();
+              goodsInfosBuilder_ = null;
+              goodsInfos_ = other.goodsInfos_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              goodsInfosBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getGoodsInfosFieldBuilder() : null;
+            } else {
+              goodsInfosBuilder_.addAllMessages(other.goodsInfos_);
+            }
+          }
+        }
+        if (other.hasRemianTime()) {
+          setRemianTime(other.getRemianTime());
+        }
+        if (other.hasNextRefreshNeedMoney()) {
+          setNextRefreshNeedMoney(other.getNextRefreshNeedMoney());
+        }
+        if (other.hasMoney()) {
+          setMoney(other.getMoney());
+        }
+        if (other.hasTongbi()) {
+          setTongbi(other.getTongbi());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasMsg()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getGoodsInfosCount(); i++) {
+          if (!getGoodsInfos(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Shop.ShopResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Shop.ShopResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 msg = 1;
+      private int msg_ ;
+      /**
+       * <code>required int32 msg = 1;</code>
+       *
+       * <pre>
+       * type == X0的时候发送：msg=0：正常请求商店，optional都发送
+       * type == X1的时候发送：msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送
+       * </pre>
+       */
+      public boolean hasMsg() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 msg = 1;</code>
+       *
+       * <pre>
+       * type == X0的时候发送：msg=0：正常请求商店，optional都发送
+       * type == X1的时候发送：msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送
+       * </pre>
+       */
+      public int getMsg() {
+        return msg_;
+      }
+      /**
+       * <code>required int32 msg = 1;</code>
+       *
+       * <pre>
+       * type == X0的时候发送：msg=0：正常请求商店，optional都发送
+       * type == X1的时候发送：msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送
+       * </pre>
+       */
+      public Builder setMsg(int value) {
+        bitField0_ |= 0x00000001;
+        msg_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 msg = 1;</code>
+       *
+       * <pre>
+       * type == X0的时候发送：msg=0：正常请求商店，optional都发送
+       * type == X1的时候发送：msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送
+       * </pre>
+       */
+      public Builder clearMsg() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        msg_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;
+      private java.util.List<qxmobile.protobuf.Shop.DuiHuanInfo> goodsInfos_ =
+        java.util.Collections.emptyList();
+      private void ensureGoodsInfosIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          goodsInfos_ = new java.util.ArrayList<qxmobile.protobuf.Shop.DuiHuanInfo>(goodsInfos_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Shop.DuiHuanInfo, qxmobile.protobuf.Shop.DuiHuanInfo.Builder, qxmobile.protobuf.Shop.DuiHuanInfoOrBuilder> goodsInfosBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Shop.DuiHuanInfo> getGoodsInfosList() {
+        if (goodsInfosBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(goodsInfos_);
+        } else {
+          return goodsInfosBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public int getGoodsInfosCount() {
+        if (goodsInfosBuilder_ == null) {
+          return goodsInfos_.size();
+        } else {
+          return goodsInfosBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public qxmobile.protobuf.Shop.DuiHuanInfo getGoodsInfos(int index) {
+        if (goodsInfosBuilder_ == null) {
+          return goodsInfos_.get(index);
+        } else {
+          return goodsInfosBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public Builder setGoodsInfos(
+          int index, qxmobile.protobuf.Shop.DuiHuanInfo value) {
+        if (goodsInfosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGoodsInfosIsMutable();
+          goodsInfos_.set(index, value);
+          onChanged();
+        } else {
+          goodsInfosBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public Builder setGoodsInfos(
+          int index, qxmobile.protobuf.Shop.DuiHuanInfo.Builder builderForValue) {
+        if (goodsInfosBuilder_ == null) {
+          ensureGoodsInfosIsMutable();
+          goodsInfos_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          goodsInfosBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public Builder addGoodsInfos(qxmobile.protobuf.Shop.DuiHuanInfo value) {
+        if (goodsInfosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGoodsInfosIsMutable();
+          goodsInfos_.add(value);
+          onChanged();
+        } else {
+          goodsInfosBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public Builder addGoodsInfos(
+          int index, qxmobile.protobuf.Shop.DuiHuanInfo value) {
+        if (goodsInfosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGoodsInfosIsMutable();
+          goodsInfos_.add(index, value);
+          onChanged();
+        } else {
+          goodsInfosBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public Builder addGoodsInfos(
+          qxmobile.protobuf.Shop.DuiHuanInfo.Builder builderForValue) {
+        if (goodsInfosBuilder_ == null) {
+          ensureGoodsInfosIsMutable();
+          goodsInfos_.add(builderForValue.build());
+          onChanged();
+        } else {
+          goodsInfosBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public Builder addGoodsInfos(
+          int index, qxmobile.protobuf.Shop.DuiHuanInfo.Builder builderForValue) {
+        if (goodsInfosBuilder_ == null) {
+          ensureGoodsInfosIsMutable();
+          goodsInfos_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          goodsInfosBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public Builder addAllGoodsInfos(
+          java.lang.Iterable<? extends qxmobile.protobuf.Shop.DuiHuanInfo> values) {
+        if (goodsInfosBuilder_ == null) {
+          ensureGoodsInfosIsMutable();
+          super.addAll(values, goodsInfos_);
+          onChanged();
+        } else {
+          goodsInfosBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public Builder clearGoodsInfos() {
+        if (goodsInfosBuilder_ == null) {
+          goodsInfos_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          goodsInfosBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public Builder removeGoodsInfos(int index) {
+        if (goodsInfosBuilder_ == null) {
+          ensureGoodsInfosIsMutable();
+          goodsInfos_.remove(index);
+          onChanged();
+        } else {
+          goodsInfosBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public qxmobile.protobuf.Shop.DuiHuanInfo.Builder getGoodsInfosBuilder(
+          int index) {
+        return getGoodsInfosFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public qxmobile.protobuf.Shop.DuiHuanInfoOrBuilder getGoodsInfosOrBuilder(
+          int index) {
+        if (goodsInfosBuilder_ == null) {
+          return goodsInfos_.get(index);  } else {
+          return goodsInfosBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Shop.DuiHuanInfoOrBuilder> 
+           getGoodsInfosOrBuilderList() {
+        if (goodsInfosBuilder_ != null) {
+          return goodsInfosBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(goodsInfos_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public qxmobile.protobuf.Shop.DuiHuanInfo.Builder addGoodsInfosBuilder() {
+        return getGoodsInfosFieldBuilder().addBuilder(
+            qxmobile.protobuf.Shop.DuiHuanInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public qxmobile.protobuf.Shop.DuiHuanInfo.Builder addGoodsInfosBuilder(
+          int index) {
+        return getGoodsInfosFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Shop.DuiHuanInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.DuiHuanInfo goodsInfos = 2;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Shop.DuiHuanInfo.Builder> 
+           getGoodsInfosBuilderList() {
+        return getGoodsInfosFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Shop.DuiHuanInfo, qxmobile.protobuf.Shop.DuiHuanInfo.Builder, qxmobile.protobuf.Shop.DuiHuanInfoOrBuilder> 
+          getGoodsInfosFieldBuilder() {
+        if (goodsInfosBuilder_ == null) {
+          goodsInfosBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Shop.DuiHuanInfo, qxmobile.protobuf.Shop.DuiHuanInfo.Builder, qxmobile.protobuf.Shop.DuiHuanInfoOrBuilder>(
+                  goodsInfos_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          goodsInfos_ = null;
+        }
+        return goodsInfosBuilder_;
+      }
+
+      // optional int32 remianTime = 3;
+      private int remianTime_ ;
+      /**
+       * <code>optional int32 remianTime = 3;</code>
+       *
+       * <pre>
+       * 剩余刷新时间
+       * </pre>
+       */
+      public boolean hasRemianTime() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 remianTime = 3;</code>
+       *
+       * <pre>
+       * 剩余刷新时间
+       * </pre>
+       */
+      public int getRemianTime() {
+        return remianTime_;
+      }
+      /**
+       * <code>optional int32 remianTime = 3;</code>
+       *
+       * <pre>
+       * 剩余刷新时间
+       * </pre>
+       */
+      public Builder setRemianTime(int value) {
+        bitField0_ |= 0x00000004;
+        remianTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 remianTime = 3;</code>
+       *
+       * <pre>
+       * 剩余刷新时间
+       * </pre>
+       */
+      public Builder clearRemianTime() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        remianTime_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 nextRefreshNeedMoney = 4;
+      private int nextRefreshNeedMoney_ ;
+      /**
+       * <code>optional int32 nextRefreshNeedMoney = 4;</code>
+       *
+       * <pre>
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望；普通：元宝； 神秘：元宝
+       * </pre>
+       */
+      public boolean hasNextRefreshNeedMoney() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 nextRefreshNeedMoney = 4;</code>
+       *
+       * <pre>
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望；普通：元宝； 神秘：元宝
+       * </pre>
+       */
+      public int getNextRefreshNeedMoney() {
+        return nextRefreshNeedMoney_;
+      }
+      /**
+       * <code>optional int32 nextRefreshNeedMoney = 4;</code>
+       *
+       * <pre>
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望；普通：元宝； 神秘：元宝
+       * </pre>
+       */
+      public Builder setNextRefreshNeedMoney(int value) {
+        bitField0_ |= 0x00000008;
+        nextRefreshNeedMoney_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 nextRefreshNeedMoney = 4;</code>
+       *
+       * <pre>
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望；普通：元宝； 神秘：元宝
+       * </pre>
+       */
+      public Builder clearNextRefreshNeedMoney() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        nextRefreshNeedMoney_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 money = 5;
+      private int money_ ;
+      /**
+       * <code>optional int32 money = 5;</code>
+       *
+       * <pre>
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望；普通：元宝； 神秘：元宝
+       * </pre>
+       */
+      public boolean hasMoney() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 money = 5;</code>
+       *
+       * <pre>
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望；普通：元宝； 神秘：元宝
+       * </pre>
+       */
+      public int getMoney() {
+        return money_;
+      }
+      /**
+       * <code>optional int32 money = 5;</code>
+       *
+       * <pre>
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望；普通：元宝； 神秘：元宝
+       * </pre>
+       */
+      public Builder setMoney(int value) {
+        bitField0_ |= 0x00000010;
+        money_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 money = 5;</code>
+       *
+       * <pre>
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望；普通：元宝； 神秘：元宝
+       * </pre>
+       */
+      public Builder clearMoney() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        money_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 tongbi = 6;
+      private int tongbi_ ;
+      /**
+       * <code>optional int32 tongbi = 6;</code>
+       *
+       * <pre>
+       * 只是type==神秘商店的时候，发送玩家拥有的铜币
+       * </pre>
+       */
+      public boolean hasTongbi() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional int32 tongbi = 6;</code>
+       *
+       * <pre>
+       * 只是type==神秘商店的时候，发送玩家拥有的铜币
+       * </pre>
+       */
+      public int getTongbi() {
+        return tongbi_;
+      }
+      /**
+       * <code>optional int32 tongbi = 6;</code>
+       *
+       * <pre>
+       * 只是type==神秘商店的时候，发送玩家拥有的铜币
+       * </pre>
+       */
+      public Builder setTongbi(int value) {
+        bitField0_ |= 0x00000020;
+        tongbi_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 tongbi = 6;</code>
+       *
+       * <pre>
+       * 只是type==神秘商店的时候，发送玩家拥有的铜币
+       * </pre>
+       */
+      public Builder clearTongbi() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        tongbi_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ShopResp)
+    }
+
+    static {
+      defaultInstance = new ShopResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ShopResp)
+  }
+
+  public interface DuiHuanInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 id = 1;
+    /**
+     * <code>required int32 id = 1;</code>
+     */
+    boolean hasId();
+    /**
+     * <code>required int32 id = 1;</code>
+     */
+    int getId();
+
+    // required int32 site = 2;
+    /**
+     * <code>required int32 site = 2;</code>
+     */
+    boolean hasSite();
+    /**
+     * <code>required int32 site = 2;</code>
+     */
+    int getSite();
+
+    // required bool isChange = 3;
+    /**
+     * <code>required bool isChange = 3;</code>
+     *
+     * <pre>
+     * 1 表示可以兑换 0 表示售罄
+     * </pre>
+     */
+    boolean hasIsChange();
+    /**
+     * <code>required bool isChange = 3;</code>
+     *
+     * <pre>
+     * 1 表示可以兑换 0 表示售罄
+     * </pre>
+     */
+    boolean getIsChange();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.DuiHuanInfo}
+   */
+  public static final class DuiHuanInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements DuiHuanInfoOrBuilder {
+    // Use DuiHuanInfo.newBuilder() to construct.
+    private DuiHuanInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private DuiHuanInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final DuiHuanInfo defaultInstance;
+    public static DuiHuanInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public DuiHuanInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DuiHuanInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              id_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              site_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              isChange_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_DuiHuanInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_DuiHuanInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Shop.DuiHuanInfo.class, qxmobile.protobuf.Shop.DuiHuanInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<DuiHuanInfo> PARSER =
+        new com.google.protobuf.AbstractParser<DuiHuanInfo>() {
+      public DuiHuanInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new DuiHuanInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DuiHuanInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 id = 1;
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
+    /**
+     * <code>required int32 id = 1;</code>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 id = 1;</code>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    // required int32 site = 2;
+    public static final int SITE_FIELD_NUMBER = 2;
+    private int site_;
+    /**
+     * <code>required int32 site = 2;</code>
+     */
+    public boolean hasSite() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 site = 2;</code>
+     */
+    public int getSite() {
+      return site_;
+    }
+
+    // required bool isChange = 3;
+    public static final int ISCHANGE_FIELD_NUMBER = 3;
+    private boolean isChange_;
+    /**
+     * <code>required bool isChange = 3;</code>
+     *
+     * <pre>
+     * 1 表示可以兑换 0 表示售罄
+     * </pre>
+     */
+    public boolean hasIsChange() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required bool isChange = 3;</code>
+     *
+     * <pre>
+     * 1 表示可以兑换 0 表示售罄
+     * </pre>
+     */
+    public boolean getIsChange() {
+      return isChange_;
+    }
+
+    private void initFields() {
+      id_ = 0;
+      site_ = 0;
+      isChange_ = false;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSite()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIsChange()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, id_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, site_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBool(3, isChange_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, id_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, site_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, isChange_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Shop.DuiHuanInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.DuiHuanInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.DuiHuanInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.DuiHuanInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.DuiHuanInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.DuiHuanInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.DuiHuanInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.DuiHuanInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.DuiHuanInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.DuiHuanInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Shop.DuiHuanInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.DuiHuanInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Shop.DuiHuanInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_DuiHuanInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_DuiHuanInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Shop.DuiHuanInfo.class, qxmobile.protobuf.Shop.DuiHuanInfo.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Shop.DuiHuanInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        id_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        site_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        isChange_ = false;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_DuiHuanInfo_descriptor;
+      }
+
+      public qxmobile.protobuf.Shop.DuiHuanInfo getDefaultInstanceForType() {
+        return qxmobile.protobuf.Shop.DuiHuanInfo.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Shop.DuiHuanInfo build() {
+        qxmobile.protobuf.Shop.DuiHuanInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Shop.DuiHuanInfo buildPartial() {
+        qxmobile.protobuf.Shop.DuiHuanInfo result = new qxmobile.protobuf.Shop.DuiHuanInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.id_ = id_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.site_ = site_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.isChange_ = isChange_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Shop.DuiHuanInfo) {
+          return mergeFrom((qxmobile.protobuf.Shop.DuiHuanInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Shop.DuiHuanInfo other) {
+        if (other == qxmobile.protobuf.Shop.DuiHuanInfo.getDefaultInstance()) return this;
+        if (other.hasId()) {
+          setId(other.getId());
+        }
+        if (other.hasSite()) {
+          setSite(other.getSite());
+        }
+        if (other.hasIsChange()) {
+          setIsChange(other.getIsChange());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasId()) {
+          
+          return false;
+        }
+        if (!hasSite()) {
+          
+          return false;
+        }
+        if (!hasIsChange()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Shop.DuiHuanInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Shop.DuiHuanInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 id = 1;
+      private int id_ ;
+      /**
+       * <code>required int32 id = 1;</code>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       */
+      public Builder setId(int value) {
+        bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 site = 2;
+      private int site_ ;
+      /**
+       * <code>required int32 site = 2;</code>
+       */
+      public boolean hasSite() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 site = 2;</code>
+       */
+      public int getSite() {
+        return site_;
+      }
+      /**
+       * <code>required int32 site = 2;</code>
+       */
+      public Builder setSite(int value) {
+        bitField0_ |= 0x00000002;
+        site_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 site = 2;</code>
+       */
+      public Builder clearSite() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        site_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required bool isChange = 3;
+      private boolean isChange_ ;
+      /**
+       * <code>required bool isChange = 3;</code>
+       *
+       * <pre>
+       * 1 表示可以兑换 0 表示售罄
+       * </pre>
+       */
+      public boolean hasIsChange() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required bool isChange = 3;</code>
+       *
+       * <pre>
+       * 1 表示可以兑换 0 表示售罄
+       * </pre>
+       */
+      public boolean getIsChange() {
+        return isChange_;
+      }
+      /**
+       * <code>required bool isChange = 3;</code>
+       *
+       * <pre>
+       * 1 表示可以兑换 0 表示售罄
+       * </pre>
+       */
+      public Builder setIsChange(boolean value) {
+        bitField0_ |= 0x00000004;
+        isChange_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool isChange = 3;</code>
+       *
+       * <pre>
+       * 1 表示可以兑换 0 表示售罄
+       * </pre>
+       */
+      public Builder clearIsChange() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        isChange_ = false;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.DuiHuanInfo)
+    }
+
+    static {
+      defaultInstance = new DuiHuanInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.DuiHuanInfo)
+  }
+
+  public interface BuyGoodReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 type = 1;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * type = 1 表示荒野购买
+     * type = 2 表示联盟购买
+     * type = 3 联盟战购买
+     * type = 4 百战购买
+     * type = 5 普通购买
+     * type = 6 神秘购买
+     * </pre>
+     */
+    boolean hasType();
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * type = 1 表示荒野购买
+     * type = 2 表示联盟购买
+     * type = 3 联盟战购买
+     * type = 4 百战购买
+     * type = 5 普通购买
+     * type = 6 神秘购买
+     * </pre>
+     */
+    int getType();
+
+    // required int32 goodId = 2;
+    /**
+     * <code>required int32 goodId = 2;</code>
+     */
+    boolean hasGoodId();
+    /**
+     * <code>required int32 goodId = 2;</code>
+     */
+    int getGoodId();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.BuyGoodReq}
+   */
+  public static final class BuyGoodReq extends
+      com.google.protobuf.GeneratedMessage
+      implements BuyGoodReqOrBuilder {
+    // Use BuyGoodReq.newBuilder() to construct.
+    private BuyGoodReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private BuyGoodReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final BuyGoodReq defaultInstance;
+    public static BuyGoodReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public BuyGoodReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BuyGoodReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              type_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              goodId_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyGoodReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyGoodReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Shop.BuyGoodReq.class, qxmobile.protobuf.Shop.BuyGoodReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<BuyGoodReq> PARSER =
+        new com.google.protobuf.AbstractParser<BuyGoodReq>() {
+      public BuyGoodReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BuyGoodReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BuyGoodReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 type = 1;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private int type_;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * type = 1 表示荒野购买
+     * type = 2 表示联盟购买
+     * type = 3 联盟战购买
+     * type = 4 百战购买
+     * type = 5 普通购买
+     * type = 6 神秘购买
+     * </pre>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * type = 1 表示荒野购买
+     * type = 2 表示联盟购买
+     * type = 3 联盟战购买
+     * type = 4 百战购买
+     * type = 5 普通购买
+     * type = 6 神秘购买
+     * </pre>
+     */
+    public int getType() {
+      return type_;
+    }
+
+    // required int32 goodId = 2;
+    public static final int GOODID_FIELD_NUMBER = 2;
+    private int goodId_;
+    /**
+     * <code>required int32 goodId = 2;</code>
+     */
+    public boolean hasGoodId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 goodId = 2;</code>
+     */
+    public int getGoodId() {
+      return goodId_;
+    }
+
+    private void initFields() {
+      type_ = 0;
+      goodId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGoodId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, type_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, goodId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, type_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, goodId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Shop.BuyGoodReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Shop.BuyGoodReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.BuyGoodReq}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Shop.BuyGoodReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyGoodReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyGoodReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Shop.BuyGoodReq.class, qxmobile.protobuf.Shop.BuyGoodReq.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Shop.BuyGoodReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        type_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        goodId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyGoodReq_descriptor;
+      }
+
+      public qxmobile.protobuf.Shop.BuyGoodReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.Shop.BuyGoodReq.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Shop.BuyGoodReq build() {
+        qxmobile.protobuf.Shop.BuyGoodReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Shop.BuyGoodReq buildPartial() {
+        qxmobile.protobuf.Shop.BuyGoodReq result = new qxmobile.protobuf.Shop.BuyGoodReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.goodId_ = goodId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Shop.BuyGoodReq) {
+          return mergeFrom((qxmobile.protobuf.Shop.BuyGoodReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Shop.BuyGoodReq other) {
+        if (other == qxmobile.protobuf.Shop.BuyGoodReq.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        if (other.hasGoodId()) {
+          setGoodId(other.getGoodId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasType()) {
+          
+          return false;
+        }
+        if (!hasGoodId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Shop.BuyGoodReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Shop.BuyGoodReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 type = 1;
+      private int type_ ;
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * type = 1 表示荒野购买
+       * type = 2 表示联盟购买
+       * type = 3 联盟战购买
+       * type = 4 百战购买
+       * type = 5 普通购买
+       * type = 6 神秘购买
+       * </pre>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * type = 1 表示荒野购买
+       * type = 2 表示联盟购买
+       * type = 3 联盟战购买
+       * type = 4 百战购买
+       * type = 5 普通购买
+       * type = 6 神秘购买
+       * </pre>
+       */
+      public int getType() {
+        return type_;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * type = 1 表示荒野购买
+       * type = 2 表示联盟购买
+       * type = 3 联盟战购买
+       * type = 4 百战购买
+       * type = 5 普通购买
+       * type = 6 神秘购买
+       * </pre>
+       */
+      public Builder setType(int value) {
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * type = 1 表示荒野购买
+       * type = 2 表示联盟购买
+       * type = 3 联盟战购买
+       * type = 4 百战购买
+       * type = 5 普通购买
+       * type = 6 神秘购买
+       * </pre>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 goodId = 2;
+      private int goodId_ ;
+      /**
+       * <code>required int32 goodId = 2;</code>
+       */
+      public boolean hasGoodId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 goodId = 2;</code>
+       */
+      public int getGoodId() {
+        return goodId_;
+      }
+      /**
+       * <code>required int32 goodId = 2;</code>
+       */
+      public Builder setGoodId(int value) {
+        bitField0_ |= 0x00000002;
+        goodId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 goodId = 2;</code>
+       */
+      public Builder clearGoodId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        goodId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.BuyGoodReq)
+    }
+
+    static {
+      defaultInstance = new BuyGoodReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.BuyGoodReq)
+  }
+
+  public interface BuyGoodRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 msg = 1;
+    /**
+     * <code>required int32 msg = 1;</code>
+     *
+     * <pre>
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
+     * </pre>
+     */
+    boolean hasMsg();
+    /**
+     * <code>required int32 msg = 1;</code>
+     *
+     * <pre>
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
+     * </pre>
+     */
+    int getMsg();
+
+    // optional int32 remianMoney = 2;
+    /**
+     * <code>optional int32 remianMoney = 2;</code>
+     *
+     * <pre>
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献；百战商店:威望；普通：元宝； 神秘：元宝或者铜币
+     * </pre>
+     */
+    boolean hasRemianMoney();
+    /**
+     * <code>optional int32 remianMoney = 2;</code>
+     *
+     * <pre>
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献；百战商店:威望；普通：元宝； 神秘：元宝或者铜币
+     * </pre>
+     */
+    int getRemianMoney();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.BuyGoodResp}
+   */
+  public static final class BuyGoodResp extends
+      com.google.protobuf.GeneratedMessage
+      implements BuyGoodRespOrBuilder {
+    // Use BuyGoodResp.newBuilder() to construct.
+    private BuyGoodResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private BuyGoodResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final BuyGoodResp defaultInstance;
+    public static BuyGoodResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public BuyGoodResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BuyGoodResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              msg_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              remianMoney_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyGoodResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyGoodResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Shop.BuyGoodResp.class, qxmobile.protobuf.Shop.BuyGoodResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<BuyGoodResp> PARSER =
+        new com.google.protobuf.AbstractParser<BuyGoodResp>() {
+      public BuyGoodResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BuyGoodResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BuyGoodResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 msg = 1;
+    public static final int MSG_FIELD_NUMBER = 1;
+    private int msg_;
+    /**
+     * <code>required int32 msg = 1;</code>
+     *
+     * <pre>
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
+     * </pre>
+     */
+    public boolean hasMsg() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 msg = 1;</code>
+     *
+     * <pre>
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
+     * </pre>
+     */
+    public int getMsg() {
+      return msg_;
+    }
+
+    // optional int32 remianMoney = 2;
+    public static final int REMIANMONEY_FIELD_NUMBER = 2;
+    private int remianMoney_;
+    /**
+     * <code>optional int32 remianMoney = 2;</code>
+     *
+     * <pre>
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献；百战商店:威望；普通：元宝； 神秘：元宝或者铜币
+     * </pre>
+     */
+    public boolean hasRemianMoney() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 remianMoney = 2;</code>
+     *
+     * <pre>
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献；百战商店:威望；普通：元宝； 神秘：元宝或者铜币
+     * </pre>
+     */
+    public int getRemianMoney() {
+      return remianMoney_;
+    }
+
+    private void initFields() {
+      msg_ = 0;
+      remianMoney_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasMsg()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, msg_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, remianMoney_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, msg_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, remianMoney_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Shop.BuyGoodResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.BuyGoodResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Shop.BuyGoodResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.BuyGoodResp}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Shop.BuyGoodRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyGoodResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyGoodResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Shop.BuyGoodResp.class, qxmobile.protobuf.Shop.BuyGoodResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Shop.BuyGoodResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        msg_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        remianMoney_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyGoodResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Shop.BuyGoodResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Shop.BuyGoodResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Shop.BuyGoodResp build() {
+        qxmobile.protobuf.Shop.BuyGoodResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Shop.BuyGoodResp buildPartial() {
+        qxmobile.protobuf.Shop.BuyGoodResp result = new qxmobile.protobuf.Shop.BuyGoodResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.msg_ = msg_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.remianMoney_ = remianMoney_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Shop.BuyGoodResp) {
+          return mergeFrom((qxmobile.protobuf.Shop.BuyGoodResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Shop.BuyGoodResp other) {
+        if (other == qxmobile.protobuf.Shop.BuyGoodResp.getDefaultInstance()) return this;
+        if (other.hasMsg()) {
+          setMsg(other.getMsg());
+        }
+        if (other.hasRemianMoney()) {
+          setRemianMoney(other.getRemianMoney());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasMsg()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Shop.BuyGoodResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Shop.BuyGoodResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 msg = 1;
+      private int msg_ ;
+      /**
+       * <code>required int32 msg = 1;</code>
+       *
+       * <pre>
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
+       * </pre>
+       */
+      public boolean hasMsg() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 msg = 1;</code>
+       *
+       * <pre>
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
+       * </pre>
+       */
+      public int getMsg() {
+        return msg_;
+      }
+      /**
+       * <code>required int32 msg = 1;</code>
+       *
+       * <pre>
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
+       * </pre>
+       */
+      public Builder setMsg(int value) {
+        bitField0_ |= 0x00000001;
+        msg_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 msg = 1;</code>
+       *
+       * <pre>
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
+       * </pre>
+       */
+      public Builder clearMsg() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        msg_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 remianMoney = 2;
+      private int remianMoney_ ;
+      /**
+       * <code>optional int32 remianMoney = 2;</code>
+       *
+       * <pre>
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献；百战商店:威望；普通：元宝； 神秘：元宝或者铜币
+       * </pre>
+       */
+      public boolean hasRemianMoney() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 remianMoney = 2;</code>
+       *
+       * <pre>
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献；百战商店:威望；普通：元宝； 神秘：元宝或者铜币
+       * </pre>
+       */
+      public int getRemianMoney() {
+        return remianMoney_;
+      }
+      /**
+       * <code>optional int32 remianMoney = 2;</code>
+       *
+       * <pre>
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献；百战商店:威望；普通：元宝； 神秘：元宝或者铜币
+       * </pre>
+       */
+      public Builder setRemianMoney(int value) {
+        bitField0_ |= 0x00000002;
+        remianMoney_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 remianMoney = 2;</code>
+       *
+       * <pre>
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献；百战商店:威望；普通：元宝； 神秘：元宝或者铜币
+       * </pre>
+       */
+      public Builder clearRemianMoney() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        remianMoney_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.BuyGoodResp)
+    }
+
+    static {
+      defaultInstance = new BuyGoodResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.BuyGoodResp)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_PurchaseFail_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_PurchaseFail_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_BuyTreasureInfosResp_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_BuyTreasureInfosResp_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_TreasureInfo_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_TreasureInfo_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_TreasureCost_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_TreasureCost_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_BuyTreasure_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_BuyTreasure_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_BuyTreasureResp_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_BuyTreasureResp_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_TreasureAward_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_TreasureAward_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_BuyResourceInfosResp_descriptor;
   private static
@@ -7586,6 +6445,31 @@ public final class Shop {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_BuyMibaoPointResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ShopReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ShopReq_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ShopResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ShopResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_DuiHuanInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_DuiHuanInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_BuyGoodReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_BuyGoodReq_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_BuyGoodResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_BuyGoodResp_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -7596,26 +6480,22 @@ public final class Shop {
   static {
     java.lang.String[] descriptorData = {
       "\n\nShop.proto\022\021qxmobile.protobuf\"\034\n\014Purch" +
-      "aseFail\022\014\n\004type\030\001 \002(\005\"\204\001\n\024BuyTreasureInf" +
-      "osResp\0225\n\014treasureInfo\030\001 \003(\0132\037.qxmobile." +
-      "protobuf.TreasureInfo\0225\n\014treasureCost\030\002 " +
-      "\002(\0132\037.qxmobile.protobuf.TreasureCost\"M\n\014" +
-      "TreasureInfo\022\014\n\004type\030\001 \002(\005\022\r\n\005isGet\030\002 \002(" +
-      "\010\022\r\n\005times\030\003 \002(\005\022\021\n\tcountDown\030\004 \001(\005\"_\n\014T" +
-      "reasureCost\022\020\n\010costYuan\030\001 \002(\005\022\021\n\tcostYua" +
-      "n5\030\002 \002(\005\022\022\n\ncostYuan20\030\003 \002(\005\022\026\n\016costTian" +
-      "gongTu\030\004 \002(\005\"+\n\013BuyTreasure\022\014\n\004type\030\001 \002(",
-      "\005\022\016\n\006action\030\002 \001(\005\"J\n\017BuyTreasureResp\0227\n\r" +
-      "treasureAward\030\001 \003(\0132 .qxmobile.protobuf." +
-      "TreasureAward\"Q\n\rTreasureAward\022\014\n\004type\030\001" +
-      " \002(\005\022\016\n\006itemId\030\002 \002(\005\022\014\n\004nums\030\003 \002(\005\022\024\n\014is" +
-      "NewWuJiang\030\004 \001(\010\"M\n\024BuyResourceInfosResp" +
-      "\0225\n\014resourceInfo\030\001 \003(\0132\037.qxmobile.protob" +
-      "uf.ResourceInfo\"J\n\014ResourceInfo\022\014\n\004type\030" +
-      "\001 \002(\005\022\r\n\005times\030\002 \002(\005\022\014\n\004cost\030\003 \002(\005\022\017\n\007ge" +
-      "tNums\030\004 \002(\005\".\n\rBuyTongbiResp\022\016\n\006result\030\001" +
-      " \002(\005\022\r\n\005baoji\030\002 \002(\005\"#\n\021BuyMibaoPointResp",
-      "\022\016\n\006result\030\001 \002(\005B\006B\004Shop"
+      "aseFail\022\014\n\004type\030\001 \002(\005\"M\n\024BuyResourceInfo" +
+      "sResp\0225\n\014resourceInfo\030\001 \003(\0132\037.qxmobile.p" +
+      "rotobuf.ResourceInfo\"J\n\014ResourceInfo\022\014\n\004" +
+      "type\030\001 \002(\005\022\r\n\005times\030\002 \002(\005\022\014\n\004cost\030\003 \002(\005\022" +
+      "\017\n\007getNums\030\004 \002(\005\".\n\rBuyTongbiResp\022\016\n\006res" +
+      "ult\030\001 \002(\005\022\r\n\005baoji\030\002 \002(\005\"#\n\021BuyMibaoPoin" +
+      "tResp\022\016\n\006result\030\001 \002(\005\"\027\n\007ShopReq\022\014\n\004type" +
+      "\030\001 \002(\005\"\234\001\n\010ShopResp\022\013\n\003msg\030\001 \002(\005\0222\n\ngood" +
+      "sInfos\030\002 \003(\0132\036.qxmobile.protobuf.DuiHuan",
+      "Info\022\022\n\nremianTime\030\003 \001(\005\022\034\n\024nextRefreshN" +
+      "eedMoney\030\004 \001(\005\022\r\n\005money\030\005 \001(\005\022\016\n\006tongbi\030" +
+      "\006 \001(\005\"9\n\013DuiHuanInfo\022\n\n\002id\030\001 \002(\005\022\014\n\004site" +
+      "\030\002 \002(\005\022\020\n\010isChange\030\003 \002(\010\"*\n\nBuyGoodReq\022\014" +
+      "\n\004type\030\001 \002(\005\022\016\n\006goodId\030\002 \002(\005\"/\n\013BuyGoodR" +
+      "esp\022\013\n\003msg\030\001 \002(\005\022\023\n\013remianMoney\030\002 \001(\005B\006B" +
+      "\004Shop"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -7628,66 +6508,60 @@ public final class Shop {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_PurchaseFail_descriptor,
               new java.lang.String[] { "Type", });
-          internal_static_qxmobile_protobuf_BuyTreasureInfosResp_descriptor =
-            getDescriptor().getMessageTypes().get(1);
-          internal_static_qxmobile_protobuf_BuyTreasureInfosResp_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_BuyTreasureInfosResp_descriptor,
-              new java.lang.String[] { "TreasureInfo", "TreasureCost", });
-          internal_static_qxmobile_protobuf_TreasureInfo_descriptor =
-            getDescriptor().getMessageTypes().get(2);
-          internal_static_qxmobile_protobuf_TreasureInfo_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_TreasureInfo_descriptor,
-              new java.lang.String[] { "Type", "IsGet", "Times", "CountDown", });
-          internal_static_qxmobile_protobuf_TreasureCost_descriptor =
-            getDescriptor().getMessageTypes().get(3);
-          internal_static_qxmobile_protobuf_TreasureCost_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_TreasureCost_descriptor,
-              new java.lang.String[] { "CostYuan", "CostYuan5", "CostYuan20", "CostTiangongTu", });
-          internal_static_qxmobile_protobuf_BuyTreasure_descriptor =
-            getDescriptor().getMessageTypes().get(4);
-          internal_static_qxmobile_protobuf_BuyTreasure_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_BuyTreasure_descriptor,
-              new java.lang.String[] { "Type", "Action", });
-          internal_static_qxmobile_protobuf_BuyTreasureResp_descriptor =
-            getDescriptor().getMessageTypes().get(5);
-          internal_static_qxmobile_protobuf_BuyTreasureResp_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_BuyTreasureResp_descriptor,
-              new java.lang.String[] { "TreasureAward", });
-          internal_static_qxmobile_protobuf_TreasureAward_descriptor =
-            getDescriptor().getMessageTypes().get(6);
-          internal_static_qxmobile_protobuf_TreasureAward_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_TreasureAward_descriptor,
-              new java.lang.String[] { "Type", "ItemId", "Nums", "IsNewWuJiang", });
           internal_static_qxmobile_protobuf_BuyResourceInfosResp_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_BuyResourceInfosResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BuyResourceInfosResp_descriptor,
               new java.lang.String[] { "ResourceInfo", });
           internal_static_qxmobile_protobuf_ResourceInfo_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_ResourceInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ResourceInfo_descriptor,
               new java.lang.String[] { "Type", "Times", "Cost", "GetNums", });
           internal_static_qxmobile_protobuf_BuyTongbiResp_descriptor =
-            getDescriptor().getMessageTypes().get(9);
+            getDescriptor().getMessageTypes().get(3);
           internal_static_qxmobile_protobuf_BuyTongbiResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BuyTongbiResp_descriptor,
               new java.lang.String[] { "Result", "Baoji", });
           internal_static_qxmobile_protobuf_BuyMibaoPointResp_descriptor =
-            getDescriptor().getMessageTypes().get(10);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_BuyMibaoPointResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BuyMibaoPointResp_descriptor,
               new java.lang.String[] { "Result", });
+          internal_static_qxmobile_protobuf_ShopReq_descriptor =
+            getDescriptor().getMessageTypes().get(5);
+          internal_static_qxmobile_protobuf_ShopReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ShopReq_descriptor,
+              new java.lang.String[] { "Type", });
+          internal_static_qxmobile_protobuf_ShopResp_descriptor =
+            getDescriptor().getMessageTypes().get(6);
+          internal_static_qxmobile_protobuf_ShopResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ShopResp_descriptor,
+              new java.lang.String[] { "Msg", "GoodsInfos", "RemianTime", "NextRefreshNeedMoney", "Money", "Tongbi", });
+          internal_static_qxmobile_protobuf_DuiHuanInfo_descriptor =
+            getDescriptor().getMessageTypes().get(7);
+          internal_static_qxmobile_protobuf_DuiHuanInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_DuiHuanInfo_descriptor,
+              new java.lang.String[] { "Id", "Site", "IsChange", });
+          internal_static_qxmobile_protobuf_BuyGoodReq_descriptor =
+            getDescriptor().getMessageTypes().get(8);
+          internal_static_qxmobile_protobuf_BuyGoodReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_BuyGoodReq_descriptor,
+              new java.lang.String[] { "Type", "GoodId", });
+          internal_static_qxmobile_protobuf_BuyGoodResp_descriptor =
+            getDescriptor().getMessageTypes().get(9);
+          internal_static_qxmobile_protobuf_BuyGoodResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_BuyGoodResp_descriptor,
+              new java.lang.String[] { "Msg", "RemianMoney", });
           return null;
         }
       };

@@ -37,4 +37,6 @@ public class YBType {
 	public static final int YB_BUY_LVE_DUO_CLEAR_CD = 127;//掠夺购买消除cd
 	public static final int YB_BUY_LVE_DUO_BATTLE = 128; // 掠夺购买战斗机会
 	public static final int YB_BUY_HUANGYE__BATTLE = 129;
+	public static final int YB_CHANGE_COUNTRY = 130;	//转国购买转国令
+	public static final int YB_DEAD_POS_REVIVE = 131;	//死亡地点复活
 }

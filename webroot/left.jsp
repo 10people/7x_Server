@@ -8,6 +8,7 @@
 </head>
 <body>
 <a href="txGateway.jsp" target='target'>网关信息</a><br/><br/>
+<a href="gm/quickaccount.jsp" target='target'>快速练号</a><br/>
 <a href="gm/playerInfo.jsp" target='target'>玩家</a><br/>
 <a href="gm/logcount.jsp" target='target'>玩家累计登录</a><br/>
 <a href="gm/bagInfo.jsp" target='target'>查看背包</a><br/>
@@ -55,7 +56,7 @@
 <a href="gm/fuwen.jsp" target='target'>符石</a><br/>
 <a href="gm/jinengpeiyang.jsp" target='target'>技能培养</a><br/>
 <a href="gm/cdkey.jsp" target='target'>CDKey</a><br/>
-<a href="gm/setSysTime.jsp" target='target'>设置系统时间</a><br/>
+<a href="gm/setSysTime.jsp1" target='target'>设置系统时间</a><br/>
 <a href="gm/worldchat.jsp" target='target'>发送世界聊天</a><br/>
 <a href="gm/sendSysChat.jsp" target='target'>发送系统聊天</a><br/>
 <a href="gm/broadcast.jsp" target='target'>发送全服广播</a><br/>

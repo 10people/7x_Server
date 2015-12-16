@@ -125,6 +125,7 @@ public class SceneMgr extends EventProc{
 				}
 			}
 		}
+		session.setAttribute(SessionAttKey.SceneID,scId);
 		sc.exec(code, session, builder);
 	}
 
@@ -341,7 +342,6 @@ public class SceneMgr extends EventProc{
 				scene.exec(PD.Exit_HouseScene, session, exit);
 			} else if(scene.name.contains("YB")){
 				logger.info("君主:{},Uid:{})从押镖场景:{}退出", junZhuId, uid, scene.name);
-				YaBiaoHuoDongMgr.inst.removeJbJz2Map(junZhuId);
 				scene.exec(PD.Exit_YBScene, session, exit);
 			} else{
 				logger.info("君主:{},Uid:{}从场景:{}退出", junZhuId, uid, scene.name);

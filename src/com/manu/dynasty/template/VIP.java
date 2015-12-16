@@ -31,4 +31,5 @@ public class VIP {
 	public int InviteAssistTimes;
 	public int LveduoTimes;
 	public int HuangyeTimes;
+	public int resurgenceTimes;
 }

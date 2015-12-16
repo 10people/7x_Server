@@ -6,7 +6,6 @@
 <%@page import="qxmobile.protobuf.HeroMessage.UserHero"%>
 <%@page import="com.manu.dynasty.hero.service.HeroService"%>
 <%@page import="com.qx.pvp.PvpMgr"%>
-<%@page import="com.qx.pvp.PvpDuiHuanBean"%>
 <%@page import="com.qx.pvp.PvpBean"%>
 <%@page import="com.qx.robot.RobotSession"%>
 <%@page import="com.qx.account.Account"%>

@@ -5,7 +5,6 @@
 <%@page import="com.manu.dynasty.base.service.CommonService"%>
 <%@page import="com.manu.dynasty.boot.GameServer"%>
 <%@page import="com.qx.pvp.PvpMgr"%>
-<%@page import="com.qx.pvp.PvpDuiHuanBean"%>
 <%@page import="com.qx.pvp.PvpBean"%>
 <%@page import="com.qx.account.Account"%>
 <%@page import="com.qx.persistent.HibernateUtil"%>
@@ -53,13 +52,14 @@ List<PvpBean> list = HibernateUtil.list(PvpBean.class, "");
 		   HibernateUtil.delete(bean);
 	 }
  }
+ /*
  List<PvpDuiHuanBean> list2 = HibernateUtil.list(PvpDuiHuanBean.class, "");
  for(PvpDuiHuanBean bean: list2){
 	 if(bean.junZhuId % 1000 ==serverid){
 		    HibernateUtil.delete(bean);
 	 }
  }
-        %>
+ */       %>
     
   </body>
 </html>

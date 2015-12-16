@@ -104,34 +104,34 @@ do{
 	 boolean sendInfo = true;
 	 if("upgongjin".equals(action)){
 		 int v = Integer.parseInt(request.getParameter("v"));
-		 log.info("修改君主{}的贡金为{}===》{}",gjBean.junzhuId,gjBean.gongJin,v);
-		 gjBean.gongJin=v;
+		 //log.info("修改君主{}的贡金为{}===》{}",gjBean.junzhuId,gjBean.gongJin,v);
+		 //gjBean.gongJin=v;
 		 HibernateUtil.save(gjBean);
 	 }
 	 if("upjxTime".equals(action)){
 			String time = request.getParameter("v");
 			if (time != null) {
-				log.info("修改君主{}的今日捐献时间为{}===》{}",gjBean.junzhuId,gjBean.juanXianTime,time);
-				gjBean.juanXianTime = sdf.parse(time);
+				//log.info("修改君主{}的今日捐献时间为{}===》{}",gjBean.junzhuId,gjBean.juanXianTime,time);
+				//gjBean.juanXianTime = sdf.parse(time);
 				HibernateUtil.save(gjBean);
 			}
 		}
 		if ("uptodayJX".equals(action)) {
 			int v = Integer.parseInt(request.getParameter("v"));
-			log.info("修改君主{}的今日捐献贡金为{}===》{}",gjBean.junzhuId,gjBean.todayJX,v);
-			gjBean.todayJX = v;
+			//log.info("修改君主{}的今日捐献贡金为{}===》{}",gjBean.junzhuId,gjBean.todayJX,v);
+			//gjBean.todayJX = v;
 			HibernateUtil.save(gjBean);
 		}
 		if ("uptodayJXTimes".equals(action)) {
 			int v = Integer.parseInt(request.getParameter("v"));
-			log.info("修改君主{}的今日捐献贡金次数为{}===》{}",gjBean.junzhuId,gjBean.todayJXTimes,v);
-			gjBean.todayJXTimes = v;
+			//log.info("修改君主{}的今日捐献贡金次数为{}===》{}",gjBean.junzhuId,gjBean.todayJXTimes,v);
+			//gjBean.todayJXTimes = v;
 			HibernateUtil.save(gjBean);
 		}
 		if ("uplastJX".equals(action)) {
 			int v = Integer.parseInt(request.getParameter("v"));
-			log.info("修改君主{}的贡金为上次捐献贡金{}===》{}",gjBean.junzhuId,gjBean.lastJX,v);
-			gjBean.lastJX = v;
+			//log.info("修改君主{}的贡金为上次捐献贡金{}===》{}",gjBean.junzhuId,gjBean.lastJX,v);
+			//gjBean.lastJX = v;
 			HibernateUtil.save(gjBean);
 		}
 		if ("uplastGetDayAwardTime".equals(action)) {
@@ -145,14 +145,14 @@ do{
 		}
 		if ("upthisWeekJX".equals(action)) {
 			int v = Integer.parseInt(request.getParameter("v"));
-			log.info("修改君主{}的本周捐献贡金为{}===》{}",gjBean.junzhuId,gjBean.thisWeekJX,v);
-			gjBean.thisWeekJX = v;
+			//log.info("修改君主{}的本周捐献贡金为{}===》{}",gjBean.junzhuId,gjBean.thisWeekJX,v);
+			//gjBean.thisWeekJX = v;
 			HibernateUtil.save(gjBean);
 		}
 		if ("uplastWeekJX".equals(action)) {
 			int v = Integer.parseInt(request.getParameter("v"));
-			log.info("修改君主{}的上周捐献贡金为{}===》{}",gjBean.junzhuId,gjBean.lastWeekJX,v);
-			gjBean.lastWeekJX = v;
+			//log.info("修改君主{}的上周捐献贡金为{}===》{}",gjBean.junzhuId,gjBean.lastWeekJX,v);
+			//gjBean.lastWeekJX = v;
 			HibernateUtil.save(gjBean);
 		}
 		if ("uplastGetWeekAward".equals(action)) {
@@ -180,44 +180,44 @@ do{
 		trS();
 		td("贡金");
 		td("<input type='text' id='upgongjin' value='"
-				+ gjBean.gongJin
+				//+ gjBean.gongJin
 				+ "'/><input type='button' value='修改' onclick='go(\"upgongjin\")'/><br/>");
 		trE();
 		trS();
 		td("捐献时间");
 		td("<input type='text' id='upjxTime' value='"
-				+ gjBean.juanXianTime
+				//+ gjBean.juanXianTime
 				+ "'/><input type='button' value='修改' onclick='go(\"upjxTime\")'/><br/>");
 		trE();
 		trS();
 		td("本日捐献");
 		td("<input type='text' id='uptodayJX' value='"
-				+ gjBean.todayJX
+				//+ gjBean.todayJX
 				+ "'/><input type='button' value='修改' onclick='go(\"uptodayJX\")'/><br/>");
 		trE();
 		trS();
 		td("本日捐献次数");
 		td("<input type='text' id='uptodayJXTimes' value='"
-				+ gjBean.todayJXTimes
+				//+ gjBean.todayJXTimes
 				+ "'/><input type='button' value='修改' onclick='go(\"uptodayJXTimes\")'/><br/>");
 		trE();
 		trS();
 		td("上次捐献");
 		td("<input type='text' id='uplastJX' value='"
-				+ gjBean.lastJX
+				//+ gjBean.lastJX
 				+ "'/><input type='button' value='修改' onclick='go(\"uplastJX\")'/><br/>");
 		trE();
 		
 		trS();
 		td("本周捐献");
 		td("<input type='text' id='upthisWeekJX' value='"
-				+ gjBean.thisWeekJX
+				//+ gjBean.thisWeekJX
 				+ "'/><input type='button' value='修改' onclick='go(\"upthisWeekJX\")'/><br/>");
 		trE();
 		trS();
 		td("上周捐献");
 		td("<input type='text' id='uplastWeekJX' value='"
-				+ gjBean.lastWeekJX
+				//+ gjBean.lastWeekJX
 				+ "'/><input type='button' value='修改' onclick='go(\"uplastWeekJX\")'/><br/>");
 		trE();
 		trS();

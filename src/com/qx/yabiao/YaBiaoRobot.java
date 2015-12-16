@@ -11,8 +11,7 @@ public class YaBiaoRobot{
 	public long jzId;
 	public int jzLevel;
 	public String name;
-	public String lmName;
-	public int protectCD;
+	public int protectTime;//镖车保护时间
 	public long endBattleTime;
 	public long startTime;
 	public long totalTime;//到达终点的理想时间

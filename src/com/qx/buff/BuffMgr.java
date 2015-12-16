@@ -24,16 +24,14 @@ import com.manu.network.BigSwitch;
 import com.manu.network.SessionAttKey;
 import com.manu.network.SessionManager;
 import com.qx.junzhu.JunZhu;
-import com.qx.persistent.HibernateUtil;
 import com.qx.util.RandomUtil;
-import com.qx.world.FightScene;
 import com.qx.world.Player;
 import com.qx.world.Scene;
 
 public class BuffMgr {
 	private Logger logger = LoggerFactory.getLogger(BuffMgr.class); 
 	
-	public BuffMgr inst;
+	public static BuffMgr inst;
 	
 	public boolean buffProcess = true;
 
@@ -101,6 +99,12 @@ public class BuffMgr {
 		userBuffer.addBuffer(buffer);
 	}
 	
+	public void removeBuff(long junzhuId) {
+		synchronized (userBufferMap) {
+			userBufferMap.remove(junzhuId);
+		}
+	}
+	
 	public void startWork() {
 		Thread thread = new Thread(createWorkerThread(), "buffer-worker-thread");
 		thread.start();
@@ -156,7 +160,7 @@ public class BuffMgr {
 	 */
 	private boolean processPlayerBuffer(final Buffer buffer) {
 		if(buffer == null) {
-			return false;
+			return true;
 		}
 		
 		boolean flushable = false;
@@ -173,17 +177,13 @@ public class BuffMgr {
 			Buff buff = getBuffById(buffer.getId());
 			if(buff == null) {
 				logger.error("buff计算失败，找不到配置，buffId:{}", buffer.getId());
-				return false;
-			}
-			if(buff.SkillId <= 0) {
 				return true;
 			}
 			
 			// TODO 计算一次必须效果，要是循环效果，则不进行此项计算
-			int totalDamage = 0;															//该buff作用的数量之
+																//该buff作用的数量值
 			JunZhu caster = null;
 			JunZhu target = null;
-			///以下可以优化
 			if(buff.Caster == 0) {			// 自己是施放者
 				caster = buffer.getCarryJunzhu();
 				target = buffer.getCastJunzhu();
@@ -191,7 +191,6 @@ public class BuffMgr {
 				caster = buffer.getCastJunzhu();
 				target = buffer.getCarryJunzhu();
 			}
-			///以上可以优化
 			
 			int effectCycle = buff.EffectCycle;											//buff作用间隔
 			long endTime = buffer.getEndTime();											//结束时间
@@ -201,15 +200,21 @@ public class BuffMgr {
 			int effectCount =  (int) ((currentTime - effectTime)/effectCycle); 			//至本次计算应该作用的次数
 			Skill skill = getSkillById(buff.SkillId);
 			if(skill == null) {
-				return false;
+				return true;
 			}
 			
-			Action action = getActionById(skill.Action1);
-			if(action == null) {
-				return false;
+			IoSession session = SessionManager.getInst().getIoSession(target.id);
+			if(session == null) {
+				return true;
 			}
-			
-			totalDamage += (calcSkillDamage(caster, target, skill) * effectCount);
+			Scene scene = (Scene) session.getAttribute(SessionAttKey.Scene);
+			Player targetPlayer = scene.players.get(buffer.getSceneUid());
+			if(targetPlayer == null) {
+				logger.info("场景:{} 找不到uid:{}，君主id:{}的玩家", scene.name, buffer.getSceneUid(), buffer.getCarryJunzhu());
+				return true;
+			}
+			int totalDamage = 0;	
+			totalDamage += (calcSkillDamage(caster, target, skill, buffer.getSceneUid()) * effectCount);
 			int totalTime = effectCount * effectCycle;
 			//更新上次扣除的时间
 			buffer.setLastCalcTime(lastCalcTime + totalTime);
@@ -217,21 +222,20 @@ public class BuffMgr {
 				flushable = true;
 			}
 			
-			IoSession session = SessionManager.getInst().getIoSession(target.id);
-			Scene scene = (Scene) session.getAttribute(SessionAttKey.Scene);
-			if(scene != null && scene instanceof FightScene) {
-				FightScene fightScene = (FightScene) scene;
-				Player player = fightScene.getPlayerByJunZhuId(target.id);
-				processActionEffect(totalDamage, player, action);
-				
-				BufferInfo.Builder bufferInfo = BufferInfo.newBuilder();
-				bufferInfo.setTargetId(player.userId);
-				bufferInfo.setBufferId(buffer.getId());
-				bufferInfo.setValue(totalDamage);
-				bufferInfo.setRemainLife(player.currentLife);
-				for(Player p : fightScene.players.values()) {
-					IoSession sess = SessionManager.getInst().getIoSession(p.jzId);
-					sess.write(bufferInfo.build());
+			if(scene != null){ 
+				processSkillEffect(totalDamage, targetPlayer, skill);
+				if(effectCount > 0) {
+					BufferInfo.Builder bufferInfo = BufferInfo.newBuilder();
+					bufferInfo.setTargetId(targetPlayer.userId);
+					bufferInfo.setBufferId(buffer.getId());
+					bufferInfo.setValue(totalDamage);
+					bufferInfo.setRemainLife(targetPlayer.currentLife);
+					for(Player p : scene.players.values()) {
+						IoSession sess = p.session;   
+						if(sess != null) {
+							sess.write(bufferInfo.build());
+						}
+					}
 				}
 			}
 			
@@ -241,10 +245,11 @@ public class BuffMgr {
 		return flushable;
 	}
 
-	public Player processActionEffect(int value, Player player, Action action) {
+	public Player processSkillEffect(int value, Player player, Skill skill) {
+		Action action = getActionById(skill.Action1);
 		switch(action.TypeKey) {
-			case 1:
-			case 2:	
+			case 1://1.武器伤害攻击
+			case 2://2.技能伤害攻击
 				player.currentLife -= value;
 				player.currentLife = Math.max(player.currentLife, 0);
 				break;
@@ -252,8 +257,8 @@ public class BuffMgr {
 				player.currentLife += value;
 				player.currentLife = Math.min(player.currentLife, player.totalLife);
 				break;
-			case 4:
-			case 5:
+			case 4://buff
+			case 5://debuff
 				break;
 			default:
 				logger.error("buff处理失败，找不到对用的actiontype, actionId:{},actionTypeKey:{}",
@@ -263,7 +268,7 @@ public class BuffMgr {
 		return player;
 	}
 	
-	public int calcSkillDamage(JunZhu attacker, JunZhu defender, Skill skill) {
+	public int calcSkillDamage(JunZhu attacker, JunZhu defender, Skill skill, int uid) {
 		int damageValue = 0;
 		Action action = getActionById(skill.Action1);
 		if(action == null) {
@@ -280,7 +285,7 @@ public class BuffMgr {
 		}
 		
 		if(4 == action.TypeKey || 5 == action.TypeKey) {// 表示是buff效果
-			processBuff4Skill(attacker, defender, action);
+			processBuff4Skill(attacker, defender, action, uid);
 		} else if(1 == action.TypeKey) {
 			damageValue = calcWeaponDamage4Skill(attacker, defender, skill, action);
 		} else if(2 == action.TypeKey) {
@@ -292,7 +297,7 @@ public class BuffMgr {
 	}
 
 	protected void processBuff4Skill(JunZhu attacker, JunZhu defender,
-			Action action) {
+			Action action, int uid) {
 		int buffId = action.Param1;									// buffId
 		int buffDuration = action.Param2;							// buff持续时间
 		Buff buff = getBuffById(buffId);
@@ -304,7 +309,7 @@ public class BuffMgr {
 		}
 		// buff结束时间
 		long endTime = System.currentTimeMillis() + buffDuration;
-		Buffer buffer = Buffer.valueOf(buff.BuffId, buff.IsDebuff, buff.EffectTime, buff.Attr_1_P1, buffDuration, endTime, attacker, defender);
+		Buffer buffer = Buffer.valueOf(buff.BuffId, buff.IsDebuff, buff.EffectTime, buff.Attr_1_P1, buffDuration, endTime, attacker, defender, uid);
 		BigSwitch.inst.buffMgr.addBuffer(defender.id, buffer);
 	}
 	
@@ -320,9 +325,9 @@ public class BuffMgr {
 		//JC = (a*A攻击*(A攻击+k)/(A攻击+B防御+k)*((A生命/c+k)* (B生命/c+k))^0.5/(B防御+k)*H
 		//H=If(A生命>B生命){arctan(A生命/ B生命)*1.083+0.15}  else{1}
 		//浮点型四舍五入，保留2位小数。 a=1; c=20; k=10.
-		int a = 1;
-		int c = 20;
-		int k = 10;
+		double a = 1;
+		double c = 20;
+		double k = 10;
 		double H = 1;
 		if(attacker.shengMingMax > defender.shengMingMax) {
 			H = Math.atan(attacker.shengMingMax / defender.shengMingMax) * 1.083 + 0.15;
@@ -334,14 +339,16 @@ public class BuffMgr {
 		JC = RandomUtil.getScaleValue(JC, 2);
 		
 		// WM = (L+A武器伤害加深)/( L +B武器伤害减免) ,L=500
-		int L = 500;
-		int WM = (L + attacker.wqSH) / (L + defender.wqJM);
+		double L = 500;
+		double WM = (L + attacker.wqSH) / (L + defender.wqJM);
 		double SJ = RandomUtil.getRandomNum(0.9, 1.1);
-		int X = action.Param1;
-		int GD = action.Param2;
+		double X = action.Param1 / 1000;
+		double GD = action.Param2;
 		// 武器未暴击伤害=INT((JC*X+ GD) *WM*SJ)
 		damage = (int) ((JC * X + GD) * WM * SJ); 
 		damage = Math.max(1, damage);
+//		logger.info("未暴击--a:{},c:{},k:{},H:{},jc:{},L:{},WM:{},SJ:{},X:{},GD:{},damage:{}",
+//				a,c,k,H,JC,L,WM,SJ,X,GD,damage);
 		
 		// 计算武器是否暴击了
 		boolean critical = false; 						// 武器是否暴击
@@ -355,10 +362,12 @@ public class BuffMgr {
 		if(critical) {
 			//武器暴击伤害=武器未暴击伤害+INT(JC*X*WB*SJ)
 			//WB = (M +A武器暴击加深)/( M +B武器暴击减免), M=100
-			int M = 100;
+			double M = 100;
 			double WB = (M + attacker.wqBJ) / (M + defender.wqRX);
 			int addValue = (int) (JC * X * WB * SJ);
 			damage += addValue;
+//			logger.info("暴击--M:{},WB:{},addValue:{},damage:{},",
+//					M,WB,addValue,damage);
 		}
 		return damage;
 	}
@@ -367,9 +376,9 @@ public class BuffMgr {
 		int damage = 0;
 		//JC = (a*A攻击*(A攻击+k)/(A攻击+B防御+k)*((A生命/c+k)* (B生命/c+k))^0.5/(B防御+k)*If(A生命>B生命，arctan(A生命/ B生命)*1.083+0.15，1)
 		//浮点型四舍五入，保留2位小数。 a=1; c=20; k=10.
-		int a = 1;
-		int c = 20;
-		int k = 10;
+		double a = 1;
+		double c = 20;
+		double k = 10;
 		double H = 1;
 		if(attacker.shengMingMax > defender.shengMingMax) {
 			// H，A生命>B生命，H=arctan(A生命/ B生命)*1.083+0.15,否则H=1
@@ -382,14 +391,16 @@ public class BuffMgr {
 		JC = RandomUtil.getScaleValue(JC, 2);
 		
 		// JM = (L +A技能伤害加深)/( L +B技能伤害减免),L=500
-		int L = 500;
-		int JM = (L + attacker.jnSH) / (L + defender.jnJM);
+		double L = 500;
+		double JM = (L + attacker.jnSH) / (L + defender.jnJM);
 		double SJ = RandomUtil.getRandomNum(0.9, 1.1);
-		int Y = action.Param1;
-		int GD = action.Param2;
+		double Y = action.Param1 / 1000;
+		double GD = action.Param2;
 		// 技能未暴击伤害=INT((JC*Y+ GD) *JM*SJ)
 		damage = (int) ((JC * Y + GD) * JM * SJ); 
 		damage = Math.max(1, damage);
+//		logger.info("未暴击--a:{},c:{},k:{},H:{},jc:{},L:{},JM:{},SJ:{},Y:{},GD:{},damage:{}",
+//				a,c,k,H,JC,L,JM	,SJ,Y,GD,damage);
 		
 		// 计算武器是否暴击了
 		boolean critical = false; 				// 武器是否暴击
@@ -403,10 +414,12 @@ public class BuffMgr {
 		if(critical) {
 			//技能暴击伤害 = 技能未暴击伤害+INT((JC*Y+ GD) *JB*SJ)
 			//JB = (M+A技能暴击加深)/(M+B技能暴击减免), M=100
-			int M = 100;
+			double M = 100;
 			double JB = (M + attacker.jnBJ) / (M + defender.jnRX);
 			int addValue = (int) (JC * Y * JB * SJ);
 			damage += addValue;
+//			logger.info("暴击--M:{},JB:{},addValue:{},damage:{},",
+//					M,JB,addValue,damage);
 		}
 		return damage; 
 	}

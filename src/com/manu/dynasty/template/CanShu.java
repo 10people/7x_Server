@@ -103,7 +103,19 @@ public class CanShu {
 	public static int LUEDUO_HAND_WEEKMINNUM;
 	public static String LUEDUO_DAYAWARD_GIVETIME;
 	public static String LUEDUO_WEEKWARD_GIVETIME;
-	// 掠夺end
+	public static String LUEDUO_PERSONRANKAWARD_GIVETIME;
+	public static String LUEDUO_LIANMENGRANKAWARD_GIVETIME;
+	
+	public static float LUEDUO_CANSHU_L;
+	public static float LUEDUO_CANSHU_N;
+	public static float LUEDUO_CANSHU_M;
+	public static float LUEDUO_CANSHU_X;
+	public static float LUEDUO_CANSHU_Y;
+	public static float LUEDUO_CANSHU_Z;
+	public static float LUEDUO_CANSHU_A;
+	public static float LUEDUO_CANSHU_B;
+	public static float LUEDUO_CANSHU_C;
+	public static int LUEDUO_GONGJIN_INIT;
 	
 	/*
 	 * 免费探宝CD时间
@@ -154,6 +166,7 @@ public class CanShu {
 	public static int WEIWANG_INIT;
 	public static double WUQI_BAOJILV;
 	public static double JINENG_BAOJILV;
+	
 	
 	/*押镖相关参数--结束*/
 	

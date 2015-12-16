@@ -8,5 +8,6 @@ public class BaseDuiHuan {
 	public int needNum;
 	public int weight;
 	public int site;
+	public int type;
 
 }

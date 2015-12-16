@@ -1,20 +1,6 @@
 package com.manu.dynasty.template;
 
 public class YunbiaoTemp {
-	public static int centerX;                          //中心点X坐标                                  
-	public static int centerY;                          //中心点Z坐标                 
-	public static int saveArea1X;                       //安全区域1X坐标              
-	public static int saveArea1Z;                       //安全区域1Z坐标              
-	public static int saveArea1r;                       //安全区域1半径               
-	public static int saveArea2X;                       //安全区域2X坐标              
-	public static int saveArea2Z;                       //安全区域2Z坐标              
-	public static int saveArea2r;                       //安全区域2半径               
-	public static int saveArea3X;                       //安全区域3X坐标              
-	public static int saveArea3Z;                       //安全区域3Z坐标              
-	public static int saveArea3r;                       //安全区域3半径               
-	public static int saveArea4X;                       //安全区域4X坐标              
-	public static int saveArea4Z;                       //安全区域4Z坐标              
-	public static int saveArea4r;                       //安全区域4半径               
 	public static int saveArea_recoveryPro;             //安全区血量回复速率          
 	public static int saveArea_people_max;              //单个安全区人数上限          
 	public static int bloodVial_recoveryPro;            //血瓶血量回复速率            
@@ -41,7 +27,11 @@ public class YunbiaoTemp {
 	public static int cartAImax;                        //场景内AI镖马数量上限        
 	public static int cartAILvlMin;                     //AI镖马最低等级              
 	public static int cartAILvlMax;                     //AI镖马最高等级              
-
+	public static int autoResurgenceTime;				//死亡后自动安全复活时间(秒）
+	public static int resurgence_onSite_price;			//原地复活价格(元宝）
+	public static String	yunbiao_start_broadcast;//运镖开始广播
+	public static String	yunbiao_end_broadcast;//运镖结束广播
+	
 	/*押镖相关参数--结束*/
 
 	public String key;

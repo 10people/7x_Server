@@ -46,4 +46,12 @@ public class PurchaseConstants {
 	
 	/** 中宝箱两次领奖时间的等待时间，单位-秒 **/
 	public static final int MIDDLE_WAIT_TIME = 24 * 60 * 60;
+	//押镖
+	/** 购买押镖类型 **/
+	public static final int BUY_YABIAO_COUNT = 18;
+	/** 购买劫镖类型 **/
+	public static final int BUY_JIEBIAO_COUNT = 19;
+	/** 购买押镖复活次数类型 **/
+	//TODO 购买押镖复活次数类型配置重复了待策划修改
+	public static final int BUY_FUHUO_COUNT = 27;
 }

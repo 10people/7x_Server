@@ -53,6 +53,46 @@ public final class AllianceFightProtos {
      * </pre>
      */
     TARGET_NOT_EXIST(4, 4),
+    /**
+     * <code>TARGET_IN_SAFE_AREA = 5;</code>
+     *
+     * <pre>
+     * 目标在安全区
+     * </pre>
+     */
+    TARGET_IN_SAFE_AREA(5, 5),
+    /**
+     * <code>SKILL_TARGET_NOT_SELF = 6;</code>
+     *
+     * <pre>
+     * 该技能不能对自己使用
+     * </pre>
+     */
+    SKILL_TARGET_NOT_SELF(6, 6),
+    /**
+     * <code>SKILL_TARGET_NOT_OTHER = 7;</code>
+     *
+     * <pre>
+     * 该技能不能对他人使用
+     * </pre>
+     */
+    SKILL_TARGET_NOT_OTHER(7, 7),
+    /**
+     * <code>SKILL_TARGET_NOT_TEAMMATE = 8;</code>
+     *
+     * <pre>
+     * 该技能不能对友方使用
+     * </pre>
+     */
+    SKILL_TARGET_NOT_TEAMMATE(8, 8),
+    /**
+     * <code>SKILL_TARGET_NOT_ENEMY = 9;</code>
+     *
+     * <pre>
+     * 该技能不能对地方使用
+     * </pre>
+     */
+    SKILL_TARGET_NOT_ENEMY(9, 9),
     ;
 
     /**
@@ -95,6 +135,46 @@ public final class AllianceFightProtos {
      * </pre>
      */
     public static final int TARGET_NOT_EXIST_VALUE = 4;
+    /**
+     * <code>TARGET_IN_SAFE_AREA = 5;</code>
+     *
+     * <pre>
+     * 目标在安全区
+     * </pre>
+     */
+    public static final int TARGET_IN_SAFE_AREA_VALUE = 5;
+    /**
+     * <code>SKILL_TARGET_NOT_SELF = 6;</code>
+     *
+     * <pre>
+     * 该技能不能对自己使用
+     * </pre>
+     */
+    public static final int SKILL_TARGET_NOT_SELF_VALUE = 6;
+    /**
+     * <code>SKILL_TARGET_NOT_OTHER = 7;</code>
+     *
+     * <pre>
+     * 该技能不能对他人使用
+     * </pre>
+     */
+    public static final int SKILL_TARGET_NOT_OTHER_VALUE = 7;
+    /**
+     * <code>SKILL_TARGET_NOT_TEAMMATE = 8;</code>
+     *
+     * <pre>
+     * 该技能不能对友方使用
+     * </pre>
+     */
+    public static final int SKILL_TARGET_NOT_TEAMMATE_VALUE = 8;
+    /**
+     * <code>SKILL_TARGET_NOT_ENEMY = 9;</code>
+     *
+     * <pre>
+     * 该技能不能对地方使用
+     * </pre>
+     */
+    public static final int SKILL_TARGET_NOT_ENEMY_VALUE = 9;
 
 
     public final int getNumber() { return value; }
@@ -106,6 +186,11 @@ public final class AllianceFightProtos {
         case 2: return SKILL_COOL_TIME;
         case 3: return SKILL_NOT_EXIST;
         case 4: return TARGET_NOT_EXIST;
+        case 5: return TARGET_IN_SAFE_AREA;
+        case 6: return SKILL_TARGET_NOT_SELF;
+        case 7: return SKILL_TARGET_NOT_OTHER;
+        case 8: return SKILL_TARGET_NOT_TEAMMATE;
+        case 9: return SKILL_TARGET_NOT_ENEMY;
         default: return null;
       }
     }
@@ -10756,7 +10841,7 @@ public final class AllianceFightProtos {
      * <code>required int32 uid = 1;</code>
      *
      * <pre>
-     * 死亡的uid 
+     * 死亡者的uid 
      * </pre>
      */
     boolean hasUid();
@@ -10764,10 +10849,82 @@ public final class AllianceFightProtos {
      * <code>required int32 uid = 1;</code>
      *
      * <pre>
-     * 死亡的uid 
+     * 死亡者的uid 
      * </pre>
      */
     int getUid();
+
+    // required int32 killerUid = 2;
+    /**
+     * <code>required int32 killerUid = 2;</code>
+     *
+     * <pre>
+     * 击杀者的uid
+     * </pre>
+     */
+    boolean hasKillerUid();
+    /**
+     * <code>required int32 killerUid = 2;</code>
+     *
+     * <pre>
+     * 击杀者的uid
+     * </pre>
+     */
+    int getKillerUid();
+
+    // optional int32 remainAllLifeTimes = 3;
+    /**
+     * <code>optional int32 remainAllLifeTimes = 3;</code>
+     *
+     * <pre>
+     * 今日剩余满血复活次数
+     * </pre>
+     */
+    boolean hasRemainAllLifeTimes();
+    /**
+     * <code>optional int32 remainAllLifeTimes = 3;</code>
+     *
+     * <pre>
+     * 今日剩余满血复活次数
+     * </pre>
+     */
+    int getRemainAllLifeTimes();
+
+    // optional int32 autoReviveRemainTime = 4;
+    /**
+     * <code>optional int32 autoReviveRemainTime = 4;</code>
+     *
+     * <pre>
+     * 自动复活剩余时间，单位：秒
+     * </pre>
+     */
+    boolean hasAutoReviveRemainTime();
+    /**
+     * <code>optional int32 autoReviveRemainTime = 4;</code>
+     *
+     * <pre>
+     * 自动复活剩余时间，单位：秒
+     * </pre>
+     */
+    int getAutoReviveRemainTime();
+
+    // optional int32 onSiteReviveCost = 5;
+    /**
+     * <code>optional int32 onSiteReviveCost = 5;</code>
+     *
+     * <pre>
+     * 原地复活花费元宝数量
+     * </pre>
+     */
+    boolean hasOnSiteReviveCost();
+    /**
+     * <code>optional int32 onSiteReviveCost = 5;</code>
+     *
+     * <pre>
+     * 原地复活花费元宝数量
+     * </pre>
+     */
+    int getOnSiteReviveCost();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.PlayerDeadNotify}
@@ -10825,6 +10982,26 @@ public final class AllianceFightProtos {
               uid_ = input.readInt32();
               break;
             }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              killerUid_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              remainAllLifeTimes_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              autoReviveRemainTime_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              onSiteReviveCost_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -10872,7 +11049,7 @@ public final class AllianceFightProtos {
      * <code>required int32 uid = 1;</code>
      *
      * <pre>
-     * 死亡的uid 
+     * 死亡者的uid 
      * </pre>
      */
     public boolean hasUid() {
@@ -10882,15 +11059,115 @@ public final class AllianceFightProtos {
      * <code>required int32 uid = 1;</code>
      *
      * <pre>
-     * 死亡的uid 
+     * 死亡者的uid 
      * </pre>
      */
     public int getUid() {
       return uid_;
     }
 
+    // required int32 killerUid = 2;
+    public static final int KILLERUID_FIELD_NUMBER = 2;
+    private int killerUid_;
+    /**
+     * <code>required int32 killerUid = 2;</code>
+     *
+     * <pre>
+     * 击杀者的uid
+     * </pre>
+     */
+    public boolean hasKillerUid() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 killerUid = 2;</code>
+     *
+     * <pre>
+     * 击杀者的uid
+     * </pre>
+     */
+    public int getKillerUid() {
+      return killerUid_;
+    }
+
+    // optional int32 remainAllLifeTimes = 3;
+    public static final int REMAINALLLIFETIMES_FIELD_NUMBER = 3;
+    private int remainAllLifeTimes_;
+    /**
+     * <code>optional int32 remainAllLifeTimes = 3;</code>
+     *
+     * <pre>
+     * 今日剩余满血复活次数
+     * </pre>
+     */
+    public boolean hasRemainAllLifeTimes() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 remainAllLifeTimes = 3;</code>
+     *
+     * <pre>
+     * 今日剩余满血复活次数
+     * </pre>
+     */
+    public int getRemainAllLifeTimes() {
+      return remainAllLifeTimes_;
+    }
+
+    // optional int32 autoReviveRemainTime = 4;
+    public static final int AUTOREVIVEREMAINTIME_FIELD_NUMBER = 4;
+    private int autoReviveRemainTime_;
+    /**
+     * <code>optional int32 autoReviveRemainTime = 4;</code>
+     *
+     * <pre>
+     * 自动复活剩余时间，单位：秒
+     * </pre>
+     */
+    public boolean hasAutoReviveRemainTime() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 autoReviveRemainTime = 4;</code>
+     *
+     * <pre>
+     * 自动复活剩余时间，单位：秒
+     * </pre>
+     */
+    public int getAutoReviveRemainTime() {
+      return autoReviveRemainTime_;
+    }
+
+    // optional int32 onSiteReviveCost = 5;
+    public static final int ONSITEREVIVECOST_FIELD_NUMBER = 5;
+    private int onSiteReviveCost_;
+    /**
+     * <code>optional int32 onSiteReviveCost = 5;</code>
+     *
+     * <pre>
+     * 原地复活花费元宝数量
+     * </pre>
+     */
+    public boolean hasOnSiteReviveCost() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int32 onSiteReviveCost = 5;</code>
+     *
+     * <pre>
+     * 原地复活花费元宝数量
+     * </pre>
+     */
+    public int getOnSiteReviveCost() {
+      return onSiteReviveCost_;
+    }
+
     private void initFields() {
       uid_ = 0;
+      killerUid_ = 0;
+      remainAllLifeTimes_ = 0;
+      autoReviveRemainTime_ = 0;
+      onSiteReviveCost_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -10898,6 +11175,10 @@ public final class AllianceFightProtos {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasUid()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasKillerUid()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -10911,6 +11192,18 @@ public final class AllianceFightProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(1, uid_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, killerUid_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, remainAllLifeTimes_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, autoReviveRemainTime_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, onSiteReviveCost_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -10923,6 +11216,22 @@ public final class AllianceFightProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, uid_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, killerUid_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, remainAllLifeTimes_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, autoReviveRemainTime_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, onSiteReviveCost_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -11042,6 +11351,14 @@ public final class AllianceFightProtos {
         super.clear();
         uid_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        killerUid_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        remainAllLifeTimes_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        autoReviveRemainTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onSiteReviveCost_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -11074,6 +11391,22 @@ public final class AllianceFightProtos {
           to_bitField0_ |= 0x00000001;
         }
         result.uid_ = uid_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.killerUid_ = killerUid_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.remainAllLifeTimes_ = remainAllLifeTimes_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.autoReviveRemainTime_ = autoReviveRemainTime_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.onSiteReviveCost_ = onSiteReviveCost_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -11093,12 +11426,28 @@ public final class AllianceFightProtos {
         if (other.hasUid()) {
           setUid(other.getUid());
         }
+        if (other.hasKillerUid()) {
+          setKillerUid(other.getKillerUid());
+        }
+        if (other.hasRemainAllLifeTimes()) {
+          setRemainAllLifeTimes(other.getRemainAllLifeTimes());
+        }
+        if (other.hasAutoReviveRemainTime()) {
+          setAutoReviveRemainTime(other.getAutoReviveRemainTime());
+        }
+        if (other.hasOnSiteReviveCost()) {
+          setOnSiteReviveCost(other.getOnSiteReviveCost());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasUid()) {
+          
+          return false;
+        }
+        if (!hasKillerUid()) {
           
           return false;
         }
@@ -11130,7 +11479,7 @@ public final class AllianceFightProtos {
        * <code>required int32 uid = 1;</code>
        *
        * <pre>
-       * 死亡的uid 
+       * 死亡者的uid 
        * </pre>
        */
       public boolean hasUid() {
@@ -11140,7 +11489,7 @@ public final class AllianceFightProtos {
        * <code>required int32 uid = 1;</code>
        *
        * <pre>
-       * 死亡的uid 
+       * 死亡者的uid 
        * </pre>
        */
       public int getUid() {
@@ -11150,7 +11499,7 @@ public final class AllianceFightProtos {
        * <code>required int32 uid = 1;</code>
        *
        * <pre>
-       * 死亡的uid 
+       * 死亡者的uid 
        * </pre>
        */
       public Builder setUid(int value) {
@@ -11163,12 +11512,208 @@ public final class AllianceFightProtos {
        * <code>required int32 uid = 1;</code>
        *
        * <pre>
-       * 死亡的uid 
+       * 死亡者的uid 
        * </pre>
        */
       public Builder clearUid() {
         bitField0_ = (bitField0_ & ~0x00000001);
         uid_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 killerUid = 2;
+      private int killerUid_ ;
+      /**
+       * <code>required int32 killerUid = 2;</code>
+       *
+       * <pre>
+       * 击杀者的uid
+       * </pre>
+       */
+      public boolean hasKillerUid() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 killerUid = 2;</code>
+       *
+       * <pre>
+       * 击杀者的uid
+       * </pre>
+       */
+      public int getKillerUid() {
+        return killerUid_;
+      }
+      /**
+       * <code>required int32 killerUid = 2;</code>
+       *
+       * <pre>
+       * 击杀者的uid
+       * </pre>
+       */
+      public Builder setKillerUid(int value) {
+        bitField0_ |= 0x00000002;
+        killerUid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 killerUid = 2;</code>
+       *
+       * <pre>
+       * 击杀者的uid
+       * </pre>
+       */
+      public Builder clearKillerUid() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        killerUid_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 remainAllLifeTimes = 3;
+      private int remainAllLifeTimes_ ;
+      /**
+       * <code>optional int32 remainAllLifeTimes = 3;</code>
+       *
+       * <pre>
+       * 今日剩余满血复活次数
+       * </pre>
+       */
+      public boolean hasRemainAllLifeTimes() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 remainAllLifeTimes = 3;</code>
+       *
+       * <pre>
+       * 今日剩余满血复活次数
+       * </pre>
+       */
+      public int getRemainAllLifeTimes() {
+        return remainAllLifeTimes_;
+      }
+      /**
+       * <code>optional int32 remainAllLifeTimes = 3;</code>
+       *
+       * <pre>
+       * 今日剩余满血复活次数
+       * </pre>
+       */
+      public Builder setRemainAllLifeTimes(int value) {
+        bitField0_ |= 0x00000004;
+        remainAllLifeTimes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 remainAllLifeTimes = 3;</code>
+       *
+       * <pre>
+       * 今日剩余满血复活次数
+       * </pre>
+       */
+      public Builder clearRemainAllLifeTimes() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        remainAllLifeTimes_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 autoReviveRemainTime = 4;
+      private int autoReviveRemainTime_ ;
+      /**
+       * <code>optional int32 autoReviveRemainTime = 4;</code>
+       *
+       * <pre>
+       * 自动复活剩余时间，单位：秒
+       * </pre>
+       */
+      public boolean hasAutoReviveRemainTime() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 autoReviveRemainTime = 4;</code>
+       *
+       * <pre>
+       * 自动复活剩余时间，单位：秒
+       * </pre>
+       */
+      public int getAutoReviveRemainTime() {
+        return autoReviveRemainTime_;
+      }
+      /**
+       * <code>optional int32 autoReviveRemainTime = 4;</code>
+       *
+       * <pre>
+       * 自动复活剩余时间，单位：秒
+       * </pre>
+       */
+      public Builder setAutoReviveRemainTime(int value) {
+        bitField0_ |= 0x00000008;
+        autoReviveRemainTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 autoReviveRemainTime = 4;</code>
+       *
+       * <pre>
+       * 自动复活剩余时间，单位：秒
+       * </pre>
+       */
+      public Builder clearAutoReviveRemainTime() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        autoReviveRemainTime_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 onSiteReviveCost = 5;
+      private int onSiteReviveCost_ ;
+      /**
+       * <code>optional int32 onSiteReviveCost = 5;</code>
+       *
+       * <pre>
+       * 原地复活花费元宝数量
+       * </pre>
+       */
+      public boolean hasOnSiteReviveCost() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 onSiteReviveCost = 5;</code>
+       *
+       * <pre>
+       * 原地复活花费元宝数量
+       * </pre>
+       */
+      public int getOnSiteReviveCost() {
+        return onSiteReviveCost_;
+      }
+      /**
+       * <code>optional int32 onSiteReviveCost = 5;</code>
+       *
+       * <pre>
+       * 原地复活花费元宝数量
+       * </pre>
+       */
+      public Builder setOnSiteReviveCost(int value) {
+        bitField0_ |= 0x00000010;
+        onSiteReviveCost_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 onSiteReviveCost = 5;</code>
+       *
+       * <pre>
+       * 原地复活花费元宝数量
+       * </pre>
+       */
+      public Builder clearOnSiteReviveCost() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        onSiteReviveCost_ = 0;
         onChanged();
         return this;
       }
@@ -11205,9 +11750,9 @@ public final class AllianceFightProtos {
      */
     int getUid();
 
-    // required int32 posX = 2;
+    // required float posX = 2;
     /**
-     * <code>required int32 posX = 2;</code>
+     * <code>required float posX = 2;</code>
      *
      * <pre>
      * 复活点X坐标
@@ -11215,17 +11760,17 @@ public final class AllianceFightProtos {
      */
     boolean hasPosX();
     /**
-     * <code>required int32 posX = 2;</code>
+     * <code>required float posX = 2;</code>
      *
      * <pre>
      * 复活点X坐标
      * </pre>
      */
-    int getPosX();
+    float getPosX();
 
-    // required int32 posZ = 3;
+    // required float posZ = 3;
     /**
-     * <code>required int32 posZ = 3;</code>
+     * <code>required float posZ = 3;</code>
      *
      * <pre>
      * 复活点Y坐标
@@ -11233,13 +11778,31 @@ public final class AllianceFightProtos {
      */
     boolean hasPosZ();
     /**
-     * <code>required int32 posZ = 3;</code>
+     * <code>required float posZ = 3;</code>
      *
      * <pre>
      * 复活点Y坐标
      * </pre>
      */
-    int getPosZ();
+    float getPosZ();
+
+    // required int32 life = 4;
+    /**
+     * <code>required int32 life = 4;</code>
+     *
+     * <pre>
+     * 复活后的剩余血量
+     * </pre>
+     */
+    boolean hasLife();
+    /**
+     * <code>required int32 life = 4;</code>
+     *
+     * <pre>
+     * 复活后的剩余血量
+     * </pre>
+     */
+    int getLife();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.PlayerReviveNotify}
@@ -11297,14 +11860,19 @@ public final class AllianceFightProtos {
               uid_ = input.readInt32();
               break;
             }
-            case 16: {
+            case 21: {
               bitField0_ |= 0x00000002;
-              posX_ = input.readInt32();
+              posX_ = input.readFloat();
               break;
             }
-            case 24: {
+            case 29: {
               bitField0_ |= 0x00000004;
-              posZ_ = input.readInt32();
+              posZ_ = input.readFloat();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              life_ = input.readInt32();
               break;
             }
           }
@@ -11371,11 +11939,11 @@ public final class AllianceFightProtos {
       return uid_;
     }
 
-    // required int32 posX = 2;
+    // required float posX = 2;
     public static final int POSX_FIELD_NUMBER = 2;
-    private int posX_;
+    private float posX_;
     /**
-     * <code>required int32 posX = 2;</code>
+     * <code>required float posX = 2;</code>
      *
      * <pre>
      * 复活点X坐标
@@ -11385,21 +11953,21 @@ public final class AllianceFightProtos {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int32 posX = 2;</code>
+     * <code>required float posX = 2;</code>
      *
      * <pre>
      * 复活点X坐标
      * </pre>
      */
-    public int getPosX() {
+    public float getPosX() {
       return posX_;
     }
 
-    // required int32 posZ = 3;
+    // required float posZ = 3;
     public static final int POSZ_FIELD_NUMBER = 3;
-    private int posZ_;
+    private float posZ_;
     /**
-     * <code>required int32 posZ = 3;</code>
+     * <code>required float posZ = 3;</code>
      *
      * <pre>
      * 复活点Y坐标
@@ -11409,20 +11977,45 @@ public final class AllianceFightProtos {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required int32 posZ = 3;</code>
+     * <code>required float posZ = 3;</code>
      *
      * <pre>
      * 复活点Y坐标
      * </pre>
      */
-    public int getPosZ() {
+    public float getPosZ() {
       return posZ_;
+    }
+
+    // required int32 life = 4;
+    public static final int LIFE_FIELD_NUMBER = 4;
+    private int life_;
+    /**
+     * <code>required int32 life = 4;</code>
+     *
+     * <pre>
+     * 复活后的剩余血量
+     * </pre>
+     */
+    public boolean hasLife() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 life = 4;</code>
+     *
+     * <pre>
+     * 复活后的剩余血量
+     * </pre>
+     */
+    public int getLife() {
+      return life_;
     }
 
     private void initFields() {
       uid_ = 0;
-      posX_ = 0;
-      posZ_ = 0;
+      posX_ = 0F;
+      posZ_ = 0F;
+      life_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -11441,6 +12034,10 @@ public final class AllianceFightProtos {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasLife()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -11452,10 +12049,13 @@ public final class AllianceFightProtos {
         output.writeInt32(1, uid_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, posX_);
+        output.writeFloat(2, posX_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, posZ_);
+        output.writeFloat(3, posZ_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, life_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -11472,11 +12072,15 @@ public final class AllianceFightProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, posX_);
+          .computeFloatSize(2, posX_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, posZ_);
+          .computeFloatSize(3, posZ_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, life_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -11596,10 +12200,12 @@ public final class AllianceFightProtos {
         super.clear();
         uid_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        posX_ = 0;
+        posX_ = 0F;
         bitField0_ = (bitField0_ & ~0x00000002);
-        posZ_ = 0;
+        posZ_ = 0F;
         bitField0_ = (bitField0_ & ~0x00000004);
+        life_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -11640,6 +12246,10 @@ public final class AllianceFightProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.posZ_ = posZ_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.life_ = life_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -11665,6 +12275,9 @@ public final class AllianceFightProtos {
         if (other.hasPosZ()) {
           setPosZ(other.getPosZ());
         }
+        if (other.hasLife()) {
+          setLife(other.getLife());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -11679,6 +12292,10 @@ public final class AllianceFightProtos {
           return false;
         }
         if (!hasPosZ()) {
+          
+          return false;
+        }
+        if (!hasLife()) {
           
           return false;
         }
@@ -11753,10 +12370,10 @@ public final class AllianceFightProtos {
         return this;
       }
 
-      // required int32 posX = 2;
-      private int posX_ ;
+      // required float posX = 2;
+      private float posX_ ;
       /**
-       * <code>required int32 posX = 2;</code>
+       * <code>required float posX = 2;</code>
        *
        * <pre>
        * 复活点X坐标
@@ -11766,30 +12383,30 @@ public final class AllianceFightProtos {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int32 posX = 2;</code>
+       * <code>required float posX = 2;</code>
        *
        * <pre>
        * 复活点X坐标
        * </pre>
        */
-      public int getPosX() {
+      public float getPosX() {
         return posX_;
       }
       /**
-       * <code>required int32 posX = 2;</code>
+       * <code>required float posX = 2;</code>
        *
        * <pre>
        * 复活点X坐标
        * </pre>
        */
-      public Builder setPosX(int value) {
+      public Builder setPosX(float value) {
         bitField0_ |= 0x00000002;
         posX_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 posX = 2;</code>
+       * <code>required float posX = 2;</code>
        *
        * <pre>
        * 复活点X坐标
@@ -11797,15 +12414,15 @@ public final class AllianceFightProtos {
        */
       public Builder clearPosX() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        posX_ = 0;
+        posX_ = 0F;
         onChanged();
         return this;
       }
 
-      // required int32 posZ = 3;
-      private int posZ_ ;
+      // required float posZ = 3;
+      private float posZ_ ;
       /**
-       * <code>required int32 posZ = 3;</code>
+       * <code>required float posZ = 3;</code>
        *
        * <pre>
        * 复活点Y坐标
@@ -11815,30 +12432,30 @@ public final class AllianceFightProtos {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required int32 posZ = 3;</code>
+       * <code>required float posZ = 3;</code>
        *
        * <pre>
        * 复活点Y坐标
        * </pre>
        */
-      public int getPosZ() {
+      public float getPosZ() {
         return posZ_;
       }
       /**
-       * <code>required int32 posZ = 3;</code>
+       * <code>required float posZ = 3;</code>
        *
        * <pre>
        * 复活点Y坐标
        * </pre>
        */
-      public Builder setPosZ(int value) {
+      public Builder setPosZ(float value) {
         bitField0_ |= 0x00000004;
         posZ_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 posZ = 3;</code>
+       * <code>required float posZ = 3;</code>
        *
        * <pre>
        * 复活点Y坐标
@@ -11846,7 +12463,56 @@ public final class AllianceFightProtos {
        */
       public Builder clearPosZ() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        posZ_ = 0;
+        posZ_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // required int32 life = 4;
+      private int life_ ;
+      /**
+       * <code>required int32 life = 4;</code>
+       *
+       * <pre>
+       * 复活后的剩余血量
+       * </pre>
+       */
+      public boolean hasLife() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 life = 4;</code>
+       *
+       * <pre>
+       * 复活后的剩余血量
+       * </pre>
+       */
+      public int getLife() {
+        return life_;
+      }
+      /**
+       * <code>required int32 life = 4;</code>
+       *
+       * <pre>
+       * 复活后的剩余血量
+       * </pre>
+       */
+      public Builder setLife(int value) {
+        bitField0_ |= 0x00000008;
+        life_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 life = 4;</code>
+       *
+       * <pre>
+       * 复活后的剩余血量
+       * </pre>
+       */
+      public Builder clearLife() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        life_ = 0;
         onChanged();
         return this;
       }
@@ -11860,6 +12526,450 @@ public final class AllianceFightProtos {
     }
 
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.PlayerReviveNotify)
+  }
+
+  public interface PlayerReviveRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 type = 1;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 0-安全区域复活，1-死亡地点复活
+     * </pre>
+     */
+    boolean hasType();
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 0-安全区域复活，1-死亡地点复活
+     * </pre>
+     */
+    int getType();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.PlayerReviveRequest}
+   *
+   * <pre>
+   *public static final short PLAYER_REVIVE_REQUEST = 4218;
+   * </pre>
+   */
+  public static final class PlayerReviveRequest extends
+      com.google.protobuf.GeneratedMessage
+      implements PlayerReviveRequestOrBuilder {
+    // Use PlayerReviveRequest.newBuilder() to construct.
+    private PlayerReviveRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private PlayerReviveRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final PlayerReviveRequest defaultInstance;
+    public static PlayerReviveRequest getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public PlayerReviveRequest getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PlayerReviveRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              type_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceFightProtos.internal_static_qxmobile_protobuf_PlayerReviveRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceFightProtos.internal_static_qxmobile_protobuf_PlayerReviveRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest.class, qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<PlayerReviveRequest> PARSER =
+        new com.google.protobuf.AbstractParser<PlayerReviveRequest>() {
+      public PlayerReviveRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PlayerReviveRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PlayerReviveRequest> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 type = 1;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private int type_;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 0-安全区域复活，1-死亡地点复活
+     * </pre>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 0-安全区域复活，1-死亡地点复活
+     * </pre>
+     */
+    public int getType() {
+      return type_;
+    }
+
+    private void initFields() {
+      type_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, type_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, type_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.PlayerReviveRequest}
+     *
+     * <pre>
+     *public static final short PLAYER_REVIVE_REQUEST = 4218;
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceFightProtos.internal_static_qxmobile_protobuf_PlayerReviveRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceFightProtos.internal_static_qxmobile_protobuf_PlayerReviveRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest.class, qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        type_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceFightProtos.internal_static_qxmobile_protobuf_PlayerReviveRequest_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest build() {
+        qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest buildPartial() {
+        qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest result = new qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest) {
+          return mergeFrom((qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest other) {
+        if (other == qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 type = 1;
+      private int type_ ;
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 0-安全区域复活，1-死亡地点复活
+       * </pre>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 0-安全区域复活，1-死亡地点复活
+       * </pre>
+       */
+      public int getType() {
+        return type_;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 0-安全区域复活，1-死亡地点复活
+       * </pre>
+       */
+      public Builder setType(int value) {
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 0-安全区域复活，1-死亡地点复活
+       * </pre>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.PlayerReviveRequest)
+    }
+
+    static {
+      defaultInstance = new PlayerReviveRequest(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.PlayerReviveRequest)
   }
 
   public interface FightHistoryRespOrBuilder
@@ -16105,6 +17215,11 @@ public final class AllianceFightProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_PlayerReviveNotify_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_PlayerReviveRequest_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_PlayerReviveRequest_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_FightHistoryResp_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -16170,23 +17285,30 @@ public final class AllianceFightProtos {
       "\0162\031.qxmobile.protobuf.Result\022\021\n\tattackUi",
       "d\030\002 \002(\005\022\021\n\ttargetUid\030\004 \002(\005\022\016\n\006damage\030\005 \002" +
       "(\005\022\022\n\nremainLife\030\006 \002(\005\022\017\n\007skillId\030\007 \002(\005\"" +
-      "\037\n\020PlayerDeadNotify\022\013\n\003uid\030\001 \002(\005\"=\n\022Play" +
-      "erReviveNotify\022\013\n\003uid\030\001 \002(\005\022\014\n\004posX\030\002 \002(" +
-      "\005\022\014\n\004posZ\030\003 \002(\005\"M\n\020FightHistoryResp\0229\n\014h" +
-      "istoryInfos\030\001 \003(\0132#.qxmobile.protobuf.Fi" +
-      "ghtHistoryInfo\"r\n\020FightHistoryInfo\022\r\n\005ti" +
-      "mes\030\001 \002(\005\022\r\n\005lm1Id\030\002 \002(\005\022\017\n\007lm1Name\030\003 \002(" +
-      "\t\022\r\n\005lm2Id\030\004 \002(\005\022\017\n\007lm2Name\030\005 \002(\t\022\017\n\007win" +
-      "LmId\030\006 \002(\005\"L\n\025FightLasttimeRankResp\0223\n\tr",
-      "ankInfos\030\001 \003(\0132 .qxmobile.protobuf.Fight" +
-      "RankInfo\";\n\rFightRankInfo\022\014\n\004lmId\030\001 \002(\005\022" +
-      "\016\n\006lmName\030\002 \002(\t\022\014\n\004rank\030\003 \002(\005\"S\n\nBufferI" +
-      "nfo\022\020\n\010bufferId\030\001 \002(\005\022\020\n\010targetId\030\002 \002(\005\022" +
-      "\r\n\005value\030\003 \002(\005\022\022\n\nremainLife\030\004 \002(\005*o\n\006Re" +
-      "sult\022\013\n\007SUCCESS\020\000\022\030\n\024SKILL_DISTANCE_ERRO" +
-      "R\020\001\022\023\n\017SKILL_COOL_TIME\020\002\022\023\n\017SKILL_NOT_EX" +
-      "IST\020\003\022\024\n\020TARGET_NOT_EXIST\020\004B\025B\023AllianceF" +
-      "ightProtos"
+      "\206\001\n\020PlayerDeadNotify\022\013\n\003uid\030\001 \002(\005\022\021\n\tkil" +
+      "lerUid\030\002 \002(\005\022\032\n\022remainAllLifeTimes\030\003 \001(\005" +
+      "\022\034\n\024autoReviveRemainTime\030\004 \001(\005\022\030\n\020onSite" +
+      "ReviveCost\030\005 \001(\005\"K\n\022PlayerReviveNotify\022\013" +
+      "\n\003uid\030\001 \002(\005\022\014\n\004posX\030\002 \002(\002\022\014\n\004posZ\030\003 \002(\002\022" +
+      "\014\n\004life\030\004 \002(\005\"#\n\023PlayerReviveRequest\022\014\n\004" +
+      "type\030\001 \002(\005\"M\n\020FightHistoryResp\0229\n\014histor" +
+      "yInfos\030\001 \003(\0132#.qxmobile.protobuf.FightHi",
+      "storyInfo\"r\n\020FightHistoryInfo\022\r\n\005times\030\001" +
+      " \002(\005\022\r\n\005lm1Id\030\002 \002(\005\022\017\n\007lm1Name\030\003 \002(\t\022\r\n\005" +
+      "lm2Id\030\004 \002(\005\022\017\n\007lm2Name\030\005 \002(\t\022\017\n\007winLmId\030" +
+      "\006 \002(\005\"L\n\025FightLasttimeRankResp\0223\n\trankIn" +
+      "fos\030\001 \003(\0132 .qxmobile.protobuf.FightRankI" +
+      "nfo\";\n\rFightRankInfo\022\014\n\004lmId\030\001 \002(\005\022\016\n\006lm" +
+      "Name\030\002 \002(\t\022\014\n\004rank\030\003 \002(\005\"S\n\nBufferInfo\022\020" +
+      "\n\010bufferId\030\001 \002(\005\022\020\n\010targetId\030\002 \002(\005\022\r\n\005va" +
+      "lue\030\003 \002(\005\022\022\n\nremainLife\030\004 \002(\005*\372\001\n\006Result" +
+      "\022\013\n\007SUCCESS\020\000\022\030\n\024SKILL_DISTANCE_ERROR\020\001\022",
+      "\023\n\017SKILL_COOL_TIME\020\002\022\023\n\017SKILL_NOT_EXIST\020" +
+      "\003\022\024\n\020TARGET_NOT_EXIST\020\004\022\027\n\023TARGET_IN_SAF" +
+      "E_AREA\020\005\022\031\n\025SKILL_TARGET_NOT_SELF\020\006\022\032\n\026S" +
+      "KILL_TARGET_NOT_OTHER\020\007\022\035\n\031SKILL_TARGET_" +
+      "NOT_TEAMMATE\020\010\022\032\n\026SKILL_TARGET_NOT_ENEMY" +
+      "\020\tB\025B\023AllianceFightProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -16252,39 +17374,45 @@ public final class AllianceFightProtos {
           internal_static_qxmobile_protobuf_PlayerDeadNotify_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_PlayerDeadNotify_descriptor,
-              new java.lang.String[] { "Uid", });
+              new java.lang.String[] { "Uid", "KillerUid", "RemainAllLifeTimes", "AutoReviveRemainTime", "OnSiteReviveCost", });
           internal_static_qxmobile_protobuf_PlayerReviveNotify_descriptor =
             getDescriptor().getMessageTypes().get(10);
           internal_static_qxmobile_protobuf_PlayerReviveNotify_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_PlayerReviveNotify_descriptor,
-              new java.lang.String[] { "Uid", "PosX", "PosZ", });
-          internal_static_qxmobile_protobuf_FightHistoryResp_descriptor =
+              new java.lang.String[] { "Uid", "PosX", "PosZ", "Life", });
+          internal_static_qxmobile_protobuf_PlayerReviveRequest_descriptor =
             getDescriptor().getMessageTypes().get(11);
+          internal_static_qxmobile_protobuf_PlayerReviveRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_PlayerReviveRequest_descriptor,
+              new java.lang.String[] { "Type", });
+          internal_static_qxmobile_protobuf_FightHistoryResp_descriptor =
+            getDescriptor().getMessageTypes().get(12);
           internal_static_qxmobile_protobuf_FightHistoryResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_FightHistoryResp_descriptor,
               new java.lang.String[] { "HistoryInfos", });
           internal_static_qxmobile_protobuf_FightHistoryInfo_descriptor =
-            getDescriptor().getMessageTypes().get(12);
+            getDescriptor().getMessageTypes().get(13);
           internal_static_qxmobile_protobuf_FightHistoryInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_FightHistoryInfo_descriptor,
               new java.lang.String[] { "Times", "Lm1Id", "Lm1Name", "Lm2Id", "Lm2Name", "WinLmId", });
           internal_static_qxmobile_protobuf_FightLasttimeRankResp_descriptor =
-            getDescriptor().getMessageTypes().get(13);
+            getDescriptor().getMessageTypes().get(14);
           internal_static_qxmobile_protobuf_FightLasttimeRankResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_FightLasttimeRankResp_descriptor,
               new java.lang.String[] { "RankInfos", });
           internal_static_qxmobile_protobuf_FightRankInfo_descriptor =
-            getDescriptor().getMessageTypes().get(14);
+            getDescriptor().getMessageTypes().get(15);
           internal_static_qxmobile_protobuf_FightRankInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_FightRankInfo_descriptor,
               new java.lang.String[] { "LmId", "LmName", "Rank", });
           internal_static_qxmobile_protobuf_BufferInfo_descriptor =
-            getDescriptor().getMessageTypes().get(15);
+            getDescriptor().getMessageTypes().get(16);
           internal_static_qxmobile_protobuf_BufferInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BufferInfo_descriptor,

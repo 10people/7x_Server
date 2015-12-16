@@ -50,4 +50,5 @@ public class VipData {
 	static public int askHelpTimes = 16;
 	static public int buyLveDuoTimes = 17;
 	static public int buy_huangye_times = 18;
+	static public int buy_ybmanxue_times = 19;//购买押镖场景满血复活次数
 }

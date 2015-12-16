@@ -441,7 +441,7 @@ public class AllianceMgr extends EventProc{
 	
 //		GuoJiaMgr.inst.calculateGongJinJoinAlliance(junZhu.id);
 		
-		RankingGongJinMgr.inst.fistSetGongJin(junZhu.id, alncBean.id);
+		RankingGongJinMgr.inst.firstSetGongJin(junZhu.id, alncBean.id);
 	}
 
 	protected boolean isAllianceNameExist(String allianceName) {
@@ -783,7 +783,7 @@ public class AllianceMgr extends EventProc{
 		// resetAlliancePlayer 之前，总结计算一次贡金 add 20150915
 //		GuoJiaMgr.inst.calculateGongJinBeforeQuitAlliance(exitMember.junzhuId);
 		// 退出联盟。贡金为0
-		RankingGongJinMgr.inst.setGongJinToData(exitMember.junzhuId, 0);
+		RankingGongJinMgr.inst.setGongJinTo0(exitMember.junzhuId, alncBean.id);
 
 		resetAlliancePlayer(alncBean, exitMember);
 		HibernateUtil.save(exitMember);
@@ -980,7 +980,7 @@ public class AllianceMgr extends EventProc{
 		}
 		// resetAlliancePlayer 之前，总结计算一次贡金 add 20150915
 	//	GuoJiaMgr.inst.calculateGongJinBeforeQuitAlliance(target.junzhuId);
-		RankingGongJinMgr.inst.setGongJinToData(target.junzhuId, 0);
+		RankingGongJinMgr.inst.setGongJinTo0(target.junzhuId, alncBean.id);
 
 		resetAlliancePlayer(alncBean, target);
 		HibernateUtil.save(target);
@@ -1395,7 +1395,7 @@ public class AllianceMgr extends EventProc{
 		
 //		// 加入联盟，重新开始计算贡金  add 20150915
 //		GuoJiaMgr.inst.calculateGongJinJoinAlliance(applyJzId);
-		RankingGongJinMgr.inst.fistSetGongJin(junZhu.id, alncBean.id);
+		RankingGongJinMgr.inst.firstSetGongJin(junZhu.id, alncBean.id);
 
 		// 批准成功操作，删除申请的其他联盟
 		clearApplyAllianceCache(applyer);
@@ -1563,7 +1563,7 @@ public class AllianceMgr extends EventProc{
 					alncBean.id, alncBean.name, alncBean.level });
 
 			// 联盟解散，贡金被设置为0
-			RankingGongJinMgr.inst.setGongJinToData(member.junzhuId, 0);
+			RankingGongJinMgr.inst.setGongJinTo0(member.junzhuId, -1);
 		}
 		RankingMgr.inst.remLianmeng(alncBean.id);// 联盟榜中删除数据
 		HibernateUtil.delete(alncBean);
@@ -1903,7 +1903,7 @@ public class AllianceMgr extends EventProc{
 //
 //		// 加入联盟，重新开始计算贡金  add 20150915
 //		GuoJiaMgr.inst.calculateGongJinJoinAlliance(junZhu.id);
-		RankingGongJinMgr.inst.fistSetGongJin(junZhu.id, alncBean.id);
+		RankingGongJinMgr.inst.firstSetGongJin(junZhu.id, alncBean.id);
 	}
 
 	protected void sendImmediatelyJoinResp(IoSession session, int result,

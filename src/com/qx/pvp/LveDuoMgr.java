@@ -53,6 +53,10 @@ import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.DescId;
 import com.manu.dynasty.template.GongjiType;
 import com.manu.dynasty.template.GuYongBing;
+import com.manu.dynasty.template.LianmengEvent;
+import com.manu.dynasty.template.LueduoLianmengRank;
+import com.manu.dynasty.template.LueduoPersonRank;
+import com.manu.dynasty.template.Mail;
 import com.manu.dynasty.template.VipFuncOpen;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.BigSwitch;
@@ -64,6 +68,7 @@ import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.bag.EquipMgr;
 import com.qx.battle.PveMgr;
+import com.qx.email.EmailMgr;
 import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
@@ -211,13 +216,13 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			}
 			resp.addMengInfos(b);
 		}
-		List<JunZhuInfo.Builder> jl = fillJunZhuInfo(showMengId);
+		List<JunZhuInfo.Builder> jl = fillJunZhuInfo(guo.diDuiGuo_1, guo.diDuiGuo_2, showMengId);
 		for(JunZhuInfo.Builder b: jl){
 			resp.addJunInfos(b);
 		}
 		session.write(resp.build());
 	}
-	public List<JunZhuInfo.Builder> fillJunZhuInfo( int showMengId){
+	public List<JunZhuInfo.Builder> fillJunZhuInfo(int didui1, int didui2,  int showMengId){
 		List<AlliancePlayer> aplayers = AllianceMgr.inst.getAllianceMembers(showMengId);
 		List<JunZhuInfo.Builder> list = new ArrayList<JunZhuInfo.Builder>();
 		for(AlliancePlayer ap: aplayers){
@@ -242,14 +247,30 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			b.setRoleId(zhu.roleId);
 			b.setZhanli(getZhanli(zhu));
 			b.setRank(-1);
-			int gongjin = RankingGongJinMgr.inst.getJunZhuGongJin(zhu.id);
-			b.setGongjin((int)Math.floor(gongjin * CanShu.LUEDUO_RESOURCE_PERCENT));
+			
+			/*
+			 * a)掠夺获胜时被挑战方为非敌对国时
+			 * i.挑战方获得被挑战方当前拥有的N%+L的贡金，防守方损失N%的贡金（个数向上取整）
+			 * b)掠夺获胜时被挑战方为敌对国时
+			 * i.挑战方获得被挑战方当前拥有的M%+L的贡金，防守方损失M%的贡金（个数向上取整）
+			 */
+			int lostGongJin = RankingGongJinMgr.inst.getJunZhuGongJin(zhu.id);
+			// 敌对国
+			if(zhu.guoJiaId == didui1 || zhu.guoJiaId == didui2){
+				lostGongJin = (int)Math.floor(lostGongJin * CanShu.LUEDUO_CANSHU_M) 
+						+ (int)CanShu.LUEDUO_CANSHU_L;
+			}else{ // 非敌对国
+				lostGongJin = (int)Math.floor(lostGongJin * CanShu.LUEDUO_CANSHU_N)
+						+ (int)CanShu.LUEDUO_CANSHU_L;
+			}
+
+			b.setGongjin(lostGongJin);
+
 			// 显示剩余血量，回血只是一个显示，在进入战斗界面进行回血并且记录
 			b.setRemainHp(getBackHp(zhu.id, zhu.shengMingMax));
 //			Map<Integer, int[]> m = ldnpcMapHP.get(zhu.id);
 //			if(m != null){
 //				int[] tem = m.get(101);
-//				// TODO 回血
 //				b.setRemainHp(tem == null? zhu.shengMingMax: tem[1]);
 //			}else{
 //				b.setRemainHp(zhu.shengMingMax);
@@ -399,7 +420,6 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		int yuan =  PurchaseMgr.inst.getNeedYuanBao(type, buyCount);
 		return yuan;
 	}
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 	public int[] getBuyADDChanceData(int vipLev, int buyHuiShu, 
 			int vipSelfType, int purchaseType){
 		return PvpMgr.inst.getBuyADDChanceData(vipLev, buyHuiShu, vipSelfType
@@ -558,11 +578,14 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			guojia = new GuoJiaBean();
 			log.error("GuojiaBean 报错：{}, 不应该，请服务器程序处理", jz.guoJiaId);
 		}
-		JunZhu enemy = HibernateUtil.find(JunZhu.class, enemyId);
-		if(enemy.guoJiaId == guojia.diDuiGuo_1 || enemy.guoJiaId == guojia.diDuiGuo_2){
-			lostGongJin = (int)Math.floor(lostGongJin * CanShu.LUEDUO_RESOURCE_PERCENT);
-		}else{
-			lostGongJin = (int)Math.floor(lostGongJin * CanShu.LUEDUO_RESOURCE_PERCENT);
+		int enemyGuoId = oppo.guoJiaId;
+		// 敌对国
+		if(enemyGuoId == guojia.diDuiGuo_1 || enemyGuoId == guojia.diDuiGuo_2){
+			lostGongJin = (int)Math.floor(lostGongJin * CanShu.LUEDUO_CANSHU_M) 
+					+ (int)CanShu.LUEDUO_CANSHU_L;
+		}else{ // 非敌对国
+			lostGongJin = (int)Math.floor(lostGongJin * CanShu.LUEDUO_CANSHU_N)
+					+ (int)CanShu.LUEDUO_CANSHU_L;
 		}
 
 		/*
@@ -582,7 +605,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 
 		Map<Integer, int[]> m = ldnpcMapHP.get(enemyId);
 		if(m == null){
-			m = intGYBMap(oppo.level, enemyId, enemy.shengMingMax);
+			m = intGYBMap(oppo.level, enemyId, oppo.shengMing);
 			log.info("掠夺防守君主：{}完全更新血条记录", enemyId);
 		}
 		Bing.Builder gu = null;
@@ -653,8 +676,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		resp.setOppoId(enemyId);
 		resp.setOppoRoleId(oppo.roleId);
 		resp.setOppFangShouZuheId(enemyBean.fangShouZuHeId);
-		resp.setOppoActivateMiBaoCount(MibaoMgr.inst
-				.getActivateCountByZuheId(enemyId, enemyBean.fangShouZuHeId));
+//		resp.setOppoActivateMiBaoCount(MibaoMgr.inst.getActiveSkillFromDB(jId, zuheId));
 		resp.setOppoLevel(oppo.level);
 		resp.setGongJin(myGongJin);
 		resp.setLostGongJin(lostGongJin);
@@ -844,7 +866,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		PveMgr.inst.fillDataByGongjiType(junzhuNode, null);
 		PveMgr.inst.fillGongFangInfo(junzhuNode, enemy);
 		// 添加秘宝信息
-		PveMgr.inst.fillJZMiBaoDataInfo(resp, junzhuNode, fangshouId, enemyTroop, enemy.id);
+		PveMgr.inst.fillJZMiBaoDataInfo(junzhuNode, fangshouId, enemy.id);
 		// 敌人的剩余血量
 		junzhuNode.setHp(enemyRemainHp);
 		enemys.add(junzhuNode.build());
@@ -1182,6 +1204,8 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		resp.setWinGongJin(willLostGongJin.get(jId) == null? 0: willLostGongJin.get(jId));
 		session.write(resp.build());
 		
+		int L = (int)CanShu.LUEDUO_CANSHU_L;
+		
 		LveDuoBean fangshouLve = HibernateUtil.find(LveDuoBean.class, enemyId);
 		if(fangshouLve == null){
 			fangshouLve = new LveDuoBean(enemyId);
@@ -1203,7 +1227,8 @@ public class LveDuoMgr extends EventProc implements Runnable{
 				RankingGongJinMgr.inst.addGongJin(jId, v);
 				log.info("君主：{}参加掠夺挑战敌人获得胜利，得到贡金：{}", jId, v);
 
-				RankingGongJinMgr.inst.addGongJin(enemyId, -v);
+				// 防守方损失N%的贡金 或者 防守方损失M%的贡金
+				RankingGongJinMgr.inst.addGongJin(enemyId, -(v - L));
 				log.info("君主：{}在掠夺中被挑战，且失败，失去贡金：{}", enemyId, v);
 			}
 
@@ -1225,16 +1250,16 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			if(g != null && (g.diDuiGuo_1 == enemy.guoJiaId || g.diDuiGuo_2 == enemy.guoJiaId)){
 				zhanr.isHateGuoJia = true;
 				// ii.挑战方所在联盟获得Y建设值，被挑战方所在联盟损失Y建设值
-				alliaceJianShe = CanShu.LUEDUO_JIANSHE_REDUCE;
+				alliaceJianShe = (int)CanShu.LUEDUO_CANSHU_Y;
 				// iii.挑战方所在国家获得B声望值
-				addGuoJiaSW = (int)Math.floor(v * 0.01);
+				addGuoJiaSW = (int)CanShu.LUEDUO_CANSHU_B;
 			}else{
 				 // 非敌对国
 				zhanr.isHateGuoJia = false;
 				// ii.挑战方所在联盟获得X建设值，被挑战方所在联盟损失X建设值
-				alliaceJianShe = CanShu.LUEDUO_JIANSHE_REDUCE;
+				alliaceJianShe = (int)CanShu.LUEDUO_CANSHU_X;
 				// iii.挑战方所在国家获得A声望值
-				addGuoJiaSW = (int)Math.floor(v * 0.01);
+				addGuoJiaSW = (int)CanShu.LUEDUO_CANSHU_A;
 			}
 
 			/*
@@ -1249,12 +1274,15 @@ public class LveDuoMgr extends EventProc implements Runnable{
 				AllianceMgr.inst.changeAlianceBuild(gongjiAlli, alliaceJianShe);
 				log.info("君主：{}主动掠夺：{}，成功，联盟：{}获得建设值：{}",
 						jId, enemyId, gongjiAlli.id, alliaceJianShe);
-				// TODO 找策划配置
-//				String eventStr = AllianceMgr.inst.lianmengEventMap.get(14).str
-//						.replaceFirst("%d", junZhu.name)
-//						.replaceFirst("%d", enemy.name)
-//						.replaceFirst("%d", alliaceJianShe+"");
-//				AllianceMgr.inst.addAllianceEvent(enemyAlli.id, eventStr);
+				
+				// <LianmengEvent ID="17" str="%d掠夺d%成功，联盟获得%d建设值！" />
+				LianmengEvent e = AllianceMgr.inst.lianmengEventMap.get(17);
+				String eventStr = e == null? "": e.str;
+				eventStr = AllianceMgr.inst.lianmengEventMap.get(17).str
+						.replaceFirst("%d", junZhu.name)
+						.replaceFirst("%d", enemy.name)
+						.replaceFirst("%d", alliaceJianShe+"");
+				AllianceMgr.inst.addAllianceEvent(enemyAlli.id, eventStr);
 			}
 	
 			if(enemyAlli != null){
@@ -1263,7 +1291,10 @@ public class LveDuoMgr extends EventProc implements Runnable{
 				AllianceMgr.inst.changeAlianceBuild(enemyAlli, -alliaceJianShe);
 				log.info("君主：{}主动掠夺：{}，成功，联盟：{}损失建设值：{}",
 						jId, enemyId, enemyAlli.id, alliaceJianShe);
-				String eventStr = AllianceMgr.inst.lianmengEventMap.get(14).str
+				
+				LianmengEvent e = AllianceMgr.inst.lianmengEventMap.get(14);
+				String eventStr = e == null? "": e.str;
+				eventStr = AllianceMgr.inst.lianmengEventMap.get(14).str
 						.replaceFirst("%d", enemy.name)
 						.replaceFirst("%d", junZhu.name)
 						.replaceFirst("%d", alliaceJianShe+"");
@@ -1313,11 +1344,12 @@ public class LveDuoMgr extends EventProc implements Runnable{
 				ii.挑战方所在联盟获得Z建设值
 				iii.挑战方所在国家获得C声望值
 			 */
-			int L = 000;
+			 //以下部分参数，策划配置数据，是int型，CanShu就不改了
+			
 			RankingGongJinMgr.inst.addGongJin(jId, L);
 			log.info("君主：{}参加掠夺挑战敌人，失败，得到保底贡金：{}", jId, L);
 			
-			int Z= 000;
+			int Z= (int)CanShu.LUEDUO_CANSHU_Z;
 			AllianceBean gongjiAlli = AllianceMgr.inst.getAllianceByJunZid(jId);
 			if(gongjiAlli != null){
 				// 得到建设值
@@ -1326,7 +1358,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 						jId, enemyId, gongjiAlli.id, Z);
 			}
 			
-			int C = 000;
+			int C = (int)CanShu.LUEDUO_CANSHU_C;
 			GuoJiaBean g = HibernateUtil.find(GuoJiaBean.class, junZhu.guoJiaId);
 			GuoJiaMgr.inst.changeGuoJiaShengWang(g, C);
 			log.info("君主：{}主动掠夺：{}，失败，国家：{}获得保底声望值：{}",
@@ -1344,6 +1376,9 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			fangshouLve.hisWin -= 1;
 			// 防守方成功，所以不计算保护期
 			fangshouLve.lastBattleEndTime =null;
+			
+			// 掠夺别人失败
+			EventMgr.addEvent(ED.Lve_duo_fail , new Object[] {jId, junZhu.name, enemy.name});
 		}
 		
 		HibernateUtil.save(fangshouLve);
@@ -1351,6 +1386,9 @@ public class LveDuoMgr extends EventProc implements Runnable{
 
 		fightingLock.remove(enemyId);
 		willLostGongJin.remove(jId);
+		
+		// enemy 被掠夺
+		EventMgr.addEvent(ED.been_lve_duo , new Object[] {enemy.name, junZhu.name});
 	}
 	public void getNextItem(int id, IoSession session, Builder builder){
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
@@ -1385,7 +1423,13 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		}else if(rankType == 2){
 			showMengId = req.getMengId();
 		}
-		List<JunZhuInfo.Builder> jl = fillJunZhuInfo(showMengId);
+		GuoJiaBean guo = HibernateUtil.find(GuoJiaBean.class, jz.guoJiaId);
+		if (guo == null){
+			log.error("国家id是：{}没有数据库数据", jz.guoJiaId);
+			guo = new GuoJiaBean();
+			guo.guoJiaId = jz.guoJiaId;
+		}
+		List<JunZhuInfo.Builder> jl = fillJunZhuInfo(guo.diDuiGuo_1, guo.diDuiGuo_2, showMengId);
 		for(JunZhuInfo.Builder b: jl){
 			resp.addJunList(b);
 		}
@@ -1423,11 +1467,16 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			info.setGongJiId(reco.gongJiJunId);
 			info.setGongJiwin(reco.result1);
 			info.setTime(reco.time.getTime());
+			int gongJinChange = 0;
 			JunZhu other = null;
 			if (jId == reco.gongJiJunId) {
 				other = HibernateUtil.find(JunZhu.class, reco.fangShouJunId);
+				gongJinChange = reco.gongJiGetGongjin;
 			} else if(jId == reco.fangShouJunId){
 				other = HibernateUtil.find(JunZhu.class, reco.gongJiJunId);
+				if(reco.result1 == PVPConstant.GONG_JI_WIN){
+					gongJinChange = reco.gongJiGetGongjin - (int)CanShu.LUEDUO_CANSHU_L;
+				}else gongJinChange = 0;
 			}
 			if(other == null){
 				continue;
@@ -1444,9 +1493,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			}else{
 				info.setAnotherMengName(b.name);
 			}
-
-			// TODO告诉刘磊磊
-			info.setLostXiaYi(reco.gongJiGetGongjin);
+			info.setLostXiaYi(gongJinChange);
 			resp.addInfo(info);
 		}
 		session.write(resp.build());
@@ -1493,6 +1540,113 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		
 		// 告诉前端 发送完成
 		session.write(PD.LVE_HELP_RESP);
+	}
+	
+	/**
+	 * 每天晚上10点向所有贡金排行的玩家发送排行奖励
+	 * @param jz
+	 */
+	public void sendGongJinDayAward(){
+		int id = 100002;
+		Mail mailConfig = EmailMgr.INSTANCE.getMailConfig(id);
+		if (mailConfig == null) {
+			log.error("mail.xml配置文件找不到type={}的数据", id);
+			return;
+		}
+		String senderName = mailConfig.sender;
+		String content = mailConfig.content;
+	
+		List<LueduoPersonRank> list = RankingGongJinMgr.persRankList;
+		if(list == null){
+			log.error("LueduoPersonRank.xml 无整个条目配置");
+			return;
+		}
+		int min = 1;
+		int max = 1;
+		for(LueduoPersonRank r: list){
+			min = r.min;
+			max = r.max;
+			Map<String, Double> map = 
+					RankingGongJinMgr.inst.getPaiHangOfType(min, max, RankingGongJinMgr.gongJinPersonalRank);
+			if(map == null || map.size() == 0){
+				continue;
+			}
+			for(Map.Entry<String, Double> entry: map.entrySet()){
+				String junzId = entry.getKey();
+				if(junzId == null ){
+					continue;
+				}
+				JunZhu jz = HibernateUtil.find(JunZhu.class, Long.parseLong(junzId));
+				if(jz == null){
+					continue;
+				}
+				content = content.replace("***", (min++) +"");
+				boolean suc = EmailMgr.INSTANCE.sendMail(jz.name, content,
+						r.award, senderName, mailConfig, "");
+				if (suc) {
+					log.info("玩家：{}发送贡金排行奖励邮件，发送成功,award 是：{}, 发送时间是：{}", 
+							jz.id, r.award, new Date());
+				} else {
+					log.error("玩家:{}发送贡金排行奖励邮件失败", jz.name);
+				}
+			}
+		}
+	}
+
+	/**
+	 * 每天晚上10点向所有贡金联盟排行的联盟发送邮件奖励
+	 */
+	public void sendGongJinAllianceAward(){
+		int id = 100003;
+		Mail mailConfig = EmailMgr.INSTANCE.getMailConfig(id);
+		if (mailConfig == null) {
+			log.error("mail.xml配置文件找不到type={}的数据", id);
+			return;
+		}
+		String senderName = mailConfig.sender;
+		String content = mailConfig.content;
+		List<LueduoLianmengRank> list = RankingGongJinMgr.lianMengRankList;
+		if(list == null){
+			log.error("LueduoLianmengRank.xml 无整个条目配置");
+			return;
+		}
+		int min = 1;
+		int max = 1;
+		for(LueduoLianmengRank r: list){
+			min = r.min;
+			max = r.max;
+			Map<String, Double> map = 
+					RankingGongJinMgr.inst.getPaiHangOfType(min, max, RankingGongJinMgr.gongJinAllianceRank);
+			if(map == null || map.size() == 0){
+				continue;
+			}
+			for(Map.Entry<String, Double> entry: map.entrySet()){
+				String lianmengid = entry.getKey();
+				if(lianmengid == null ){
+					continue;
+				}
+				AllianceBean alli = HibernateUtil.find(AllianceBean.class, Long.parseLong(lianmengid));
+				if(alli == null){
+					continue;
+				}
+				AllianceMgr.inst.changeAlianceBuild(alli, r.award);
+				content = content.replace("***", (min++) +"");
+				// 发送通知盟主和副盟主邮件 ， 暂且只给盟主发送
+				long mengzhuid = alli.creatorId;
+				JunZhu mengZhu = HibernateUtil.find(JunZhu.class, mengzhuid);
+				if(mengZhu == null ){
+					continue;
+				}
+				boolean suc = EmailMgr.INSTANCE.sendMail(mengZhu.name, content, 
+						"", senderName, mailConfig, "");
+				if (suc) {
+					log.info("发送贡金联盟排行奖励发送了，发送通知：{}邮件成功，发送时间是：{}", 
+							mengzhuid, r.award, new Date());
+				} else {
+					log.error("发送贡金联盟排行奖励发送了，发送通知：{}邮件失败，", mengZhu.name);
+				}
+			}
+		}
 	}
 	
 	public void addMission(int id, IoSession session, Builder builder) {

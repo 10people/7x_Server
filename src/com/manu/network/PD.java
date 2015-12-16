@@ -14,6 +14,7 @@ import qxmobile.protobuf.AllianceFightProtos.FightHistoryResp;
 import qxmobile.protobuf.AllianceFightProtos.FightLasttimeRankResp;
 import qxmobile.protobuf.AllianceFightProtos.PlayerDeadNotify;
 import qxmobile.protobuf.AllianceFightProtos.PlayerReviveNotify;
+import qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest;
 import qxmobile.protobuf.AllianceFightProtos.RequestFightInfoResp;
 import qxmobile.protobuf.AllianceProtos.AgreeApply;
 import qxmobile.protobuf.AllianceProtos.AgreeApplyResp;
@@ -127,17 +128,6 @@ import qxmobile.protobuf.GameTask.TaskSync;
 import qxmobile.protobuf.GuoJia.GuoJiaMainInfoResp;
 import qxmobile.protobuf.GuoJia.JuanXianDayAwardResp;
 import qxmobile.protobuf.GuoJia.JuanXianGongJinResp;
-import qxmobile.protobuf.LveDuo.LveBattleEndReq;
-import qxmobile.protobuf.LveDuo.LveBattleEndResp;
-import qxmobile.protobuf.LveDuo.LveBattleRecordResp;
-import qxmobile.protobuf.LveDuo.LveConfirmReq;
-import qxmobile.protobuf.LveDuo.LveConfirmResp;
-import qxmobile.protobuf.LveDuo.LveDuoInfoResp;
-import qxmobile.protobuf.LveDuo.LveGoLveDuoReq;
-import qxmobile.protobuf.LveDuo.LveGoLveDuoResp;
-import qxmobile.protobuf.LveDuo.LveHelpReq;
-import qxmobile.protobuf.LveDuo.LveNextItemReq;
-import qxmobile.protobuf.LveDuo.LveNextItemResp;
 import qxmobile.protobuf.House.AnswerExchange;
 import qxmobile.protobuf.House.ApplyInfos;
 import qxmobile.protobuf.House.BatchSimpleInfo;
@@ -160,10 +150,6 @@ import qxmobile.protobuf.HuangYeProtos.ActiveTreasureResp;
 import qxmobile.protobuf.HuangYeProtos.HYTreasureBattle;
 import qxmobile.protobuf.HuangYeProtos.HYTreasureBattleResp;
 import qxmobile.protobuf.HuangYeProtos.HyBuyBattleTimesResp;
-import qxmobile.protobuf.HuangYeProtos.HyBuyGoodReq;
-import qxmobile.protobuf.HuangYeProtos.HyBuyGoodResp;
-import qxmobile.protobuf.HuangYeProtos.HyShopReq;
-import qxmobile.protobuf.HuangYeProtos.HyShopResp;
 import qxmobile.protobuf.HuangYeProtos.MaxDamageRankReq;
 import qxmobile.protobuf.HuangYeProtos.MaxDamageRankResp;
 import qxmobile.protobuf.HuangYeProtos.OpenHuangYeResp;
@@ -184,7 +170,17 @@ import qxmobile.protobuf.JunZhuProto.TalentUpLevelResp;
 import qxmobile.protobuf.KeJiProto.KeJiInfoReq;
 import qxmobile.protobuf.KeJiProto.KeJiInfoRet;
 import qxmobile.protobuf.KeJiProto.KeJiShengJiReq;
-import qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp;
+import qxmobile.protobuf.LveDuo.LveBattleEndReq;
+import qxmobile.protobuf.LveDuo.LveBattleEndResp;
+import qxmobile.protobuf.LveDuo.LveBattleRecordResp;
+import qxmobile.protobuf.LveDuo.LveConfirmReq;
+import qxmobile.protobuf.LveDuo.LveConfirmResp;
+import qxmobile.protobuf.LveDuo.LveDuoInfoResp;
+import qxmobile.protobuf.LveDuo.LveGoLveDuoReq;
+import qxmobile.protobuf.LveDuo.LveGoLveDuoResp;
+import qxmobile.protobuf.LveDuo.LveHelpReq;
+import qxmobile.protobuf.LveDuo.LveNextItemReq;
+import qxmobile.protobuf.LveDuo.LveNextItemResp;
 import qxmobile.protobuf.MibaoProtos.MiBaoDealSkillReq;
 import qxmobile.protobuf.MibaoProtos.MiBaoDealSkillResp;
 import qxmobile.protobuf.MibaoProtos.MibaoActivate;
@@ -228,6 +224,8 @@ import qxmobile.protobuf.PawnShop.PawnshopGoodsList;
 import qxmobile.protobuf.PawnShop.PawnshopRefeshResp;
 import qxmobile.protobuf.PkRecordMessage.PkRecordList;
 import qxmobile.protobuf.PlayerData.PlayerState;
+import qxmobile.protobuf.Prompt.PromptActionReq;
+import qxmobile.protobuf.Prompt.PromptActionResp;
 import qxmobile.protobuf.*;
 import qxmobile.protobuf.PveLevel.BuZhenReport;
 import qxmobile.protobuf.PveLevel.GetPveStarAward;
@@ -273,13 +271,14 @@ import qxmobile.protobuf.Settings.ChangeName;
 import qxmobile.protobuf.Settings.ChangeNameBack;
 import qxmobile.protobuf.Settings.ConfGet;
 import qxmobile.protobuf.Settings.ConfSave;
+import qxmobile.protobuf.Shop.BuyGoodReq;
+import qxmobile.protobuf.Shop.BuyGoodResp;
 import qxmobile.protobuf.Shop.BuyMibaoPointResp;
 import qxmobile.protobuf.Shop.BuyResourceInfosResp;
 import qxmobile.protobuf.Shop.BuyTongbiResp;
-import qxmobile.protobuf.Shop.BuyTreasure;
-import qxmobile.protobuf.Shop.BuyTreasureInfosResp;
-import qxmobile.protobuf.Shop.BuyTreasureResp;
 import qxmobile.protobuf.Shop.PurchaseFail;
+import qxmobile.protobuf.Shop.ShopReq;
+import qxmobile.protobuf.Shop.ShopResp;
 import qxmobile.protobuf.SoundData.PlayerSound;
 import qxmobile.protobuf.TimeWorkerProtos.TimeWorkerRequest;
 import qxmobile.protobuf.TimeWorkerProtos.TimeWorkerResponse;
@@ -365,15 +364,16 @@ import qxmobile.protobuf.Yabiao.EnterYaBiaoScene;
 import qxmobile.protobuf.Yabiao.HorsePropReq;
 import qxmobile.protobuf.Yabiao.HorsePropResp;
 import qxmobile.protobuf.Yabiao.HorseType;
+import qxmobile.protobuf.Yabiao.JiaSuReq;
+import qxmobile.protobuf.Yabiao.JiaSuResp;
 import qxmobile.protobuf.Yabiao.JieBiaoResult;
 import qxmobile.protobuf.Yabiao.RoomInfo;
 import qxmobile.protobuf.Yabiao.SetHorseResult;
 import qxmobile.protobuf.Yabiao.TiChuXieZhuResp;
 import qxmobile.protobuf.Yabiao.TiChuYBHelpRsq;
-import qxmobile.protobuf.Yabiao.XieZhuTimesResp;
+import qxmobile.protobuf.Yabiao.XieZhuJunZhuResp;
 import qxmobile.protobuf.Yabiao.YBHistoryResp;
 import qxmobile.protobuf.Yabiao.YaBiaoHelpResp;
-import qxmobile.protobuf.Yabiao.YabiaoInfoResp;
 import qxmobile.protobuf.Yabiao.YabiaoJunZhuInfo;
 import qxmobile.protobuf.Yabiao.YabiaoJunZhuList;
 import qxmobile.protobuf.Yabiao.YabiaoMainInfoResp;
@@ -431,6 +431,7 @@ public class PD {
 		ProtobufUtils.prototypeMap.put(Integer.valueOf(C_klwhy_9), InProgress.getDefaultInstance());
 		ProtobufUtils.prototypeMap.put(Integer.valueOf(C_klwhy_10), InProgress.getDefaultInstance());
 		ProtobufUtils.prototypeMap.put(Integer.valueOf(S_InitProc), InitProc.getDefaultInstance());
+		ProtobufUtils.prototypeMap.put(Integer.valueOf(C_JIAN_ZHU_UP), ErrorMessage.getDefaultInstance());
 		ProtobufUtils.protoClassToIdMap.put(InitProc.class, Integer.valueOf(S_InitProc));
 		ProtobufUtils.prototypeMap.put(Integer.valueOf(C_XG_TOKEN), ErrorMessage.getDefaultInstance());
 		ProtobufUtils.prototypeMap.put(Integer.valueOf(C_TEST_DELAY), ErrorMessage.getDefaultInstance());
@@ -704,9 +705,6 @@ public class PD {
 		ProtobufUtils.register(DailyTaskRewardResponse.getDefaultInstance(), S_DAILY_TASK_GET_REWARD_RESP);
 		
 		// 商城
-		ProtobufUtils.register(BuyTreasureInfosResp.getDefaultInstance(), BUY_TREASURE_INFOS_RESP);
-		ProtobufUtils.register(BuyTreasure.getDefaultInstance(), BUY_TREASURE);
-		ProtobufUtils.register(BuyTreasureResp.getDefaultInstance(), BUY_TREASURE_RESP);
 		ProtobufUtils.register(BuyResourceInfosResp.getDefaultInstance(), BUY_RESOURCE_INFOS_RESP);
 		ProtobufUtils.register(PurchaseFail.getDefaultInstance(), PURCHASE_FAIL);
 		ProtobufUtils.register(BuyTongbiResp.getDefaultInstance(), S_BUY_TongBi);
@@ -723,7 +721,7 @@ public class PD {
 		ProtobufUtils.register(MibaoInfoOtherReq.getDefaultInstance(), PD.C_MIBAO_INFO_OTHER_REQ);
 		ProtobufUtils.register(MiBaoDealSkillReq.getDefaultInstance(), PD.MIBAO_DEAL_SKILL_REQ);
 		ProtobufUtils.register(MiBaoDealSkillResp.getDefaultInstance(), PD.MIBAO_DEAL_SKILL_RESP);
-		ProtobufUtils.register(GetFullStarAwardresp.getDefaultInstance(), PD.GET_FULL_STAR_AWARD_RESP);
+//		ProtobufUtils.register(GetFullStarAwardresp.getDefaultInstance(), PD.GET_FULL_STAR_AWARD_RESP);
 		
 		// 探宝
 		ProtobufUtils.register(ExploreInfoResp.getDefaultInstance(), EXPLORE_INFO_RESP);
@@ -816,10 +814,10 @@ public class PD {
 //		ProtobufUtils.register(BattleResultHYPvp.getDefaultInstance(), S_HUANGYE_PVP_OVER_RESP);
 //		ProtobufUtils.register(ResourceChange.getDefaultInstance(), C_HYRESOURCE_CHANGE);
 //		ProtobufUtils.register(ResourceChangeResp.getDefaultInstance(), S_HYRESOURCE_CHANGE_RESP);
-		ProtobufUtils.register(HyShopReq.getDefaultInstance(), HY_SHOP_REQ);
-		ProtobufUtils.register(HyShopResp.getDefaultInstance(), HY_SHOP_RESP);
-		ProtobufUtils.register(HyBuyGoodReq.getDefaultInstance(), HY_BUY_GOOD_REQ);
-		ProtobufUtils.register(HyBuyGoodResp.getDefaultInstance(), HY_BUY_GOOD_RESP);
+		ProtobufUtils.register(ShopReq.getDefaultInstance(), HY_SHOP_REQ);
+		ProtobufUtils.register(ShopResp.getDefaultInstance(), HY_SHOP_RESP);
+		ProtobufUtils.register(BuyGoodReq.getDefaultInstance(), HY_BUY_GOOD_REQ);
+		ProtobufUtils.register(BuyGoodResp.getDefaultInstance(), HY_BUY_GOOD_RESP);
 		ProtobufUtils.register(ActiveTreasureReq.getDefaultInstance(), ACTIVE_TREASURE_REQ);
 		ProtobufUtils.register(ActiveTreasureResp.getDefaultInstance(), ACTIVE_TREASURE_RESP);
 		ProtobufUtils.register(MaxDamageRankReq.getDefaultInstance(), MAX_DAMAGE_RANK_REQ);
@@ -864,26 +862,27 @@ public class PD {
 		ProtobufUtils.register(YabiaoResult.getDefaultInstance(), S_YABIAO_RESP);
 		ProtobufUtils.register(JieBiaoResult.getDefaultInstance(), C_YABIAO_RESULT);
 		ProtobufUtils.register(ZhanDouInitError.getDefaultInstance(), S_ZHANDOU_INIT_ERROR);
-		ProtobufUtils.register(YabiaoInfoResp.getDefaultInstance(), S_JIEBIAO_INFO_RESP);
 		ProtobufUtils.register(EnterYaBiaoScene.getDefaultInstance(), C_ENTER_YABIAOSCENE);
-//		ProtobufUtils.register(EndYabiao.getDefaultInstance(), C_ENDYABIAO_REQ);//测试用
 		ProtobufUtils.register(HorseType.getDefaultInstance(), C_SETHORSE_REQ);
 		ProtobufUtils.register(YabiaoJunZhuInfo.getDefaultInstance(), S_YABIAO_ENTER_RESP);
 		ProtobufUtils.register(EnemiesResp.getDefaultInstance(), S_YABIAO_ENEMY_RESP);
 		ProtobufUtils.register(BuyCountsReq.getDefaultInstance(), C_YABIAO_BUY_RSQ);
 		ProtobufUtils.register(BuyCountsResp.getDefaultInstance(), S_YABIAO_BUY_RESP);
 		ProtobufUtils.register(YBHistoryResp.getDefaultInstance(), S_YABIAO_HISTORY_RESP);
+		ProtobufUtils.register(JiaSuReq.getDefaultInstance(), C_CARTJIASU_REQ);
+		ProtobufUtils.register(JiaSuResp.getDefaultInstance(), S_CARTJIASU_RESP);
+		ProtobufUtils.register(PlayerReviveRequest.getDefaultInstance(), PLAYER_REVIVE_REQUEST);
 		//押镖协助
 		ProtobufUtils.register(YaBiaoHelpResp.getDefaultInstance(), S_YABIAO_HELP_RESP);
 		ProtobufUtils.register(AnswerYaBiaoHelpReq.getDefaultInstance(), C_ANSWER_YBHELP_RSQ);
 		ProtobufUtils.register(AnswerYaBiaoHelpResp.getDefaultInstance(), S_ANSWER_YBHELP_RESP);
 		ProtobufUtils.register(TiChuYBHelpRsq.getDefaultInstance(), C_TICHU_YBHELP_RSQ);
 		ProtobufUtils.register(AskYaBiaoHelpResp.getDefaultInstance(), S_ASK_YABIAO_HELP_RESP);
-		ProtobufUtils.register(XieZhuTimesResp.getDefaultInstance(), S_YABIAO_XIEZHU_TIMES_RESP);
 		ProtobufUtils.register(TiChuXieZhuResp.getDefaultInstance(), S_TICHU_YBHELPXZ_RESP);
 		ProtobufUtils.register(isNew4RecordResp.getDefaultInstance(), S_PUSH_YBRECORD_RESP);
 		ProtobufUtils.register(HorsePropReq.getDefaultInstance(), C_BUYHORSEBUFF_REQ);
 		ProtobufUtils.register(HorsePropResp.getDefaultInstance(), S_BUYHORSEBUFF_RESP);
+		ProtobufUtils.register(XieZhuJunZhuResp.getDefaultInstance(), S_YABIAO_XIEZHUS_RESP);
 		
 		// 游侠
 		ProtobufUtils.register(YouXiaZhanDouInitReq.getDefaultInstance(), C_YOUXIA_INIT_REQ);
@@ -927,6 +926,9 @@ public class PD {
 		ProtobufUtils.register(GetCDKeyAwardReq.getDefaultInstance(), C_GET_CDKETY_AWARD_REQ);
 		ProtobufUtils.register(GetCDKeyAwardResp.getDefaultInstance(), S_GET_CDKETY_AWARD_RESP);
 		
+		// 速报
+		ProtobufUtils.register(PromptActionReq.getDefaultInstance(), Prompt_Action_Req);
+		ProtobufUtils.register(PromptActionResp.getDefaultInstance(), Prompt_Action_Resp);
 		// 技能培养
 		ProtobufUtils.register(GetJiNengPeiYangQuality.getDefaultInstance(),S_GET_JINENG_PEIYANG_QUALITY_RESP);
 		ProtobufUtils.register(UpgradeJiNengReq.getDefaultInstance(),C_UPGRADE_JINENG_REQ);
@@ -1364,6 +1366,12 @@ public class PD {
 	public static final short S_CANCEL_EXCHANGE =  27361;//请求撤回交换房屋申请返回结果
 	public static final short C_get_house_info = 27362;//获取自己房子信息
 	public static final short S_house_info = 27363;//推送房子信息
+	//
+	public static final short C_JIAN_ZHU_INFO = 27401;
+	public static final short S_JIAN_ZHU_INFO = 27402;
+	public static final short C_JIAN_ZHU_UP = 27403;
+	public static final short S_JIAN_ZHU_UP = 27404;
+	//
 	//联盟 28001~28099(预计)
 	public static final short GET_UNION_INFO_REQ         = 28001;
 	public static final short UNION_APPLY_JION_REQ       = 28002;
@@ -1675,6 +1683,7 @@ public class PD {
 	public static final short C_MoBai_Info = 4010;
 	public static final short S_MoBai_Info = 4011;
 	public static final short C_MoBai = 4012;
+	public static final short C_GET_MOBAI_AWARD = 4022;
 	/** 加入聊天黑名单 **/
 	public static final short C_JOIN_BLACKLIST = 30151;
 	/** 加入聊天黑名单返回 **/
@@ -1817,8 +1826,8 @@ public class PD {
 	public static final short S_SETHORSE_RESP = 3406;//请求设置马匹返回
 	public static final short C_YABIAO_REQ = 3407;//请求开始押镖
 	public static final short S_YABIAO_RESP = 3408;//请求开始押镖返回
-	public static final short C_JIEBIAO_INFO_REQ= 3409;//请求劫镖界面
-	public static final short S_JIEBIAO_INFO_RESP= 3410;//请求劫镖界面返回
+//	public static final short C_JIEBIAO_INFO_REQ= 3409;//请求劫镖界面
+//	public static final short S_JIEBIAO_INFO_RESP= 3410;//请求劫镖界面返回
 	public static final short C_ENTER_YABIAOSCENE = 3411;//请求进入押镖场景
 	public static final short C_ENTER_JBBATTLE_REQ = 3412;//请求劫镖返回
 	public static final short S_BIAOCHE_INFO_RESP = 3413;//推送镖车信息
@@ -1844,14 +1853,18 @@ public class PD {
 	public static final short C_TICHU_YBHELP_RSQ = 3433;//踢出押镖协助
 	public static final short S_TICHU_YBHELP_RESP = 3434;//踢出押镖协助返回
 	public static final short S_ASK_YABIAO_HELP_RESP = 3435;//答复请求押镖协助返回 
-	public static final short C_YABIAO_XIEZHU_TIMES_RSQ = 3436;//请求押镖协助次数
-	public static final short S_YABIAO_XIEZHU_TIMES_RESP = 3437;//请求押镖协助次数返回 
+//	public static final short C_YABIAO_XIEZHU_TIMES_RSQ = 3436;//请求押镖协助次数
+//	public static final short S_YABIAO_XIEZHU_TIMES_RESP = 3437;//请求押镖协助次数返回 
 	public static final short S_TICHU_YBHELPXZ_RESP = 3438;//踢出押镖协助者给协助者返回
 	public static final short S_PUSH_YBRECORD_RESP = 3439;//推送押镖战斗记录
 	public static final short C_BUYHORSEBUFF_REQ = 3440;//请求购买马车buff
 	public static final short S_BUYHORSEBUFF_RESP = 3441;//请求购买马车buff返回
-	public static final short C_MOVE2BIAOCHE_REQ = 3442;//请求镖车坐标
-	public static final short S_MOVE2BIAOCHE_RESP = 3443;//请求镖车坐标返回
+//	public static final short C_MOVE2BIAOCHE_REQ = 3442;//请求镖车坐标
+//	public static final short S_MOVE2BIAOCHE_RESP = 3443;//请求镖车坐标返回
+	public static final short C_CARTJIASU_REQ = 3444;//请求镖车加速
+	public static final short S_CARTJIASU_RESP = 3445;//请求镖车加速返回
+	public static final short C_YABIAO_XIEZHUS_REQ = 3446;//请求协助君主列表
+	public static final short S_YABIAO_XIEZHUS_RESP = 3447;//请求协助君主列表返回
 	
 	/*========== 游侠战斗 ================*/ 
 	/**
@@ -1992,6 +2005,8 @@ public class PD {
 	public static final short ALLIANCE_BATTLE_RESULT = 4216;
 	/** buffer信息*/
 	public static final short BUFFER_INFO = 4217;
+	/** 玩家请求复活 */
+	public static final short PLAYER_REVIVE_REQUEST = 4218;
 	
 	
 
@@ -2005,6 +2020,8 @@ public class PD {
 	/**盟友快报*/
 	public static final short C_MengYouKuaiBao_Req=4240;//请求盟友快报
 	public static final short S_MengYouKuaiBao_Resq=4241;	//请求盟友快报返回
+	public static final short Prompt_Action_Req = 4242; //快报中的行为请求
+	public static final short Prompt_Action_Resp = 4243; //快报中行为请求返回
 	/**技能培养**/
 	public static final short C_GET_JINENG_PEIYANG_QUALITY_REQ=4250;
 	public static final short S_GET_JINENG_PEIYANG_QUALITY_RESP=4251;

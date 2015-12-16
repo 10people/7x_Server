@@ -34,6 +34,8 @@ public class Buffer {
 	/** 携带该Buffer的君主Id */
 	private JunZhu carryJunzhu;
 	
+	private int sceneUid;
+	
 	/** 释放该Buffer的单位类型 */
 	private int unitType = -1;
 	
@@ -119,7 +121,14 @@ public class Buffer {
 	public void setUnitType(int unitType) {
 		this.unitType = unitType;
 	}
+	
+	public int getSceneUid() {
+		return sceneUid;
+	}
 
+	public void setSceneUid(int sceneUid) {
+		this.sceneUid = sceneUid;
+	}
 
 	/**
 	 * @param id				效果ID
@@ -130,9 +139,10 @@ public class Buffer {
 	 * @param endTime			效果结束时间
 	 * @param castJunzhuId		释放者君主id
 	 * @param carryJunzhu		携带buff的君主
+	 * @param sceneUid			场景里的id
 	 * @return
 	 */
-	public static Buffer valueOf(int id, int type, int revise, int damage, int cycle, long endTime, JunZhu castJunzhu, JunZhu carryJunZhu) {
+	public static Buffer valueOf(int id, int type, int revise, int damage, int cycle, long endTime, JunZhu castJunzhu, JunZhu carryJunZhu, int sceneUid) {
 		long currentTimeMillis = System.currentTimeMillis();
 		Buffer buffer = new Buffer();
 		buffer.id = id;
@@ -144,6 +154,7 @@ public class Buffer {
 		buffer.endTime = endTime + revise;
 		buffer.startTime = currentTimeMillis + revise;
 		buffer.lastCalcTime = currentTimeMillis + revise;
+		buffer.sceneUid = sceneUid;
 		return buffer;
 	}
 	

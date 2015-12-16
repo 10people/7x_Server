@@ -386,6 +386,18 @@
 			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
 		</antcall>
 	</target>
+	<target name='GenJiNengPeiYang'>
+		<antcall target="protoHandle">
+			<param name="proto" value="HeroSkillUp.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenJianZhu'>
+		<antcall target="protoHandle">
+			<param name="proto" value="JianZhu.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
 	<target name='GenPvp'>
 		<antcall target="protoHandle">
 			<param name="proto" value="PVP.proto" />

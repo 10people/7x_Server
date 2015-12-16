@@ -63,14 +63,16 @@ if(idStr == null){
 String act = request.getParameter("act");
 if("add".equals(act)){
 	String chIdStr = request.getParameter("chId");
-	ChengHaoBean bean = HibernateUtil.find(ChengHaoBean.class, "where jzId="+idStr+" and tid="+chIdStr);
-	if(bean == null){
-		bean = new ChengHaoBean();
-		bean.jzId = Long.parseLong(idStr);
-		bean.tid = Integer.parseInt(chIdStr);
-		bean.state='G';
-		HibernateUtil.insert(bean);
-		out("添加成功");
+	if(chIdStr != null){
+		ChengHaoBean bean = HibernateUtil.find(ChengHaoBean.class, "where jzId="+idStr+" and tid="+chIdStr);
+		if(bean == null){
+			bean = new ChengHaoBean();
+			bean.jzId = Long.parseLong(idStr);
+			bean.tid = Integer.parseInt(chIdStr);
+			bean.state='G';
+			HibernateUtil.insert(bean);
+			out("添加成功");
+		}
 	}
 }
 out("玩家ID:"+idStr);br();

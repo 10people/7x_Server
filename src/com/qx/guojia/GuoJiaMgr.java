@@ -1,7 +1,6 @@
 package com.qx.guojia;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,14 +15,12 @@ import org.slf4j.LoggerFactory;
 import qxmobile.protobuf.GuoJia.GuoJiaMainInfoResp;
 import qxmobile.protobuf.GuoJia.GuojiaRankInfo;
 import qxmobile.protobuf.GuoJia.JuanXianDayAwardResp;
-import qxmobile.protobuf.GuoJia.JuanXianGongJinResp;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.boot.GameServer;
 import com.manu.dynasty.store.MemcachedCRUD;
 import com.manu.dynasty.template.AwardTemp;
-import com.manu.dynasty.template.BaiZhan;
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.ChouHenJiSuan;
 import com.manu.dynasty.template.LueduoUnionRank;
@@ -34,9 +31,7 @@ import com.manu.dynasty.util.MathUtils;
 import com.manu.network.PD;
 import com.manu.network.SessionManager;
 import com.manu.network.SessionUser;
-import com.qx.account.FunctionOpenMgr;
 import com.qx.alliance.AllianceBean;
-import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.award.AwardMgr;
 import com.qx.email.EmailMgr;
@@ -47,11 +42,7 @@ import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
-import com.qx.pvp.PvpBean;
-import com.qx.pvp.PvpMgr;
 import com.qx.ranking.RankingMgr;
-import com.qx.task.DailyTaskCondition;
-import com.qx.task.DailyTaskConstants;
 import com.qx.timeworker.FunctionID;
 import com.qx.world.Mission;
 
@@ -69,6 +60,14 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 	public static final Object shengWangLock = new Object();
 	/*
 	 * 国家id
+		 * <NameId nameId="0" Name="无" />
+			<NameId nameId="1" Name="齐" />
+			<NameId nameId="2" Name="楚" />
+			<NameId nameId="3" Name="燕" />
+			<NameId nameId="4" Name="韩" />
+			<NameId nameId="5" Name="赵" />
+			<NameId nameId="6" Name="魏" />
+			<NameId nameId="7" Name="秦" />
 	 */
 	public static final byte guoJia_1 = 1;
 	public static final byte guoJia_2 = 2;
@@ -190,11 +189,8 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 		GuoJiaMainInfoResp.Builder resp=GuoJiaMainInfoResp.newBuilder();
 		ResourceGongJin gongjinBean =HibernateUtil.find(ResourceGongJin.class, jzId);
 		if(gongjinBean==null){
-//			log.error("君主{}请求获取国家主页时初始化贡金信息",jzId);
-//			gongjinBean=initjzGongJinInfo(jz.id, null,gongjinBean);
-//		}else{
-//			resetResourceGongJin(gongjinBean);
 			gongjinBean = new ResourceGongJin();
+			gongjinBean.junzhuId = jzId;
 		}
 		GuoJiaBean gjBean = HibernateUtil.find(GuoJiaBean.class, jz.guoJiaId);
 		if (gjBean == null) {
@@ -229,9 +225,9 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 //			session.write(resp.build());
 //			return;
 			gongjinBean = new ResourceGongJin();
+			gongjinBean.junzhuId = jzId;
 		}else{
 //			resetResourceGongJin(gongjinBean);
-			// TODO 和策划沟通
 //			if(gongjinBean.lastJX<CanShu.LUEDUO_HAND_DAYMINNUM){
 //				log.error("请求领取贡金奖励出错：{}的上缴的贡金未到达领奖要求", jzId);
 //				resp.setResult(30);
@@ -242,7 +238,7 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 //				return;
 //			}
 		}
-		if(gongjinBean.getDayAwardTime!=null && gongjinBean.getDayAwardTime != null){
+		if(gongjinBean.getDayAwardTime!=null){
 			boolean isSameDay = DateUtils.isSameDay(gongjinBean.getDayAwardTime);	
 			if(isSameDay){
 				log.error("请求领取声望排行奖励出错：{}已领取本日奖励", jzId);
@@ -316,21 +312,15 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 	}
 	//判断是否有每日奖励
 	public boolean isDayAward(	ResourceGongJin gongjinBean){
-		if(gongjinBean==null){
-			log.info("君主没有国家声望每日排行奖励");
-			return false;
+		if(gongjinBean != null && gongjinBean.getDayAwardTime != null){
+			boolean isSameDay = DateUtils.isSameDay(gongjinBean.getDayAwardTime);	
+			if(isSameDay){
+				log.info("君主国家声望每日排行奖励今日已领取过");
+				return false;
+			}
 		}
-		boolean isSameDay = DateUtils.isSameDay(gongjinBean.getDayAwardTime);	
-		if(isSameDay){
-			log.info("君主国家声望每日排行奖励今日已领取过");
-			return false;
-		}
-//		if(gongjinBean.lastJX<CanShu.LUEDUO_HAND_DAYMINNUM){
-//			log.info("君主{}没有国家贡金每日奖励可领，上缴数目--{}不达标---{}", gongjinBean.junzhuId,gongjinBean.lastJX,CanShu.LUEDUO_HAND_DAYMINNUM);
-//			return false;
-//		}
 		AlliancePlayer alBean = HibernateUtil.find(AlliancePlayer.class, gongjinBean.junzhuId);
-		if (alBean == null) {
+		if (alBean == null || alBean.lianMengId <=0 ) {
 			log.info("君主{}没有国家声望每日排行奖励可领，无联盟", gongjinBean.junzhuId);
 			return false;
 		}
@@ -562,14 +552,6 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 	 */
 	public void  getGuoJiaMainInfo(long  jzId,GuoJiaBean gjBean,ResourceGongJin gongjinBean,GuoJiaMainInfoResp.Builder mainResp){
 		log.info("君主{}获取国家主页信息  --getGuoJiaMainInfo",jzId);
-//		PvpBean p = HibernateUtil.find(PvpBean.class, jzId);
-//		if(p != null){
-//			log.info("君主{}有军衔{} ，刷新贡金数据",jzId,p.junXianLevel);
-		//1.0加入
-//			 getGongJin(gongjinBean, PvpMgr.getJunxianLevel(jzId));
-//		}else {
-//			 log.info("君主{}无军衔 ，不刷新贡金数据",jzId);
-//		}
 		//当前国家排行
 //		List<GuoJiaBean> gjNowRankList=RankingMgr.inst.getGuojiaWeekRank();
 		List<GuoJiaBean> gjNowRankList=RankingMgr.inst.getGuojiaRank(RankingMgr.GUOJIA_WEEK_RANK);
@@ -762,15 +744,15 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 //			return gonj.gongJin;
 //		}
 //	}
-	//推送可以捐献
-	public void pushCanShangjiao(long jzId){
-		SessionUser su = SessionManager.inst.findByJunZhuId(jzId);
-		if (su != null)
-		{
-			log.info("向君主{}推送贡金可以上缴",jzId);
-			FunctionID.pushCanShangjiao(jzId, su.session, FunctionID.ShangJiao4Gongjin);
-		}
-	}
+//	//推送可以捐献
+//	public void pushCanShangjiao(long jzId){
+//		SessionUser su = SessionManager.inst.findByJunZhuId(jzId);
+//		if (su != null)
+//		{
+//			log.info("向君主{}推送贡金可以上缴",jzId);
+//			FunctionID.pushCanShangjiao(jzId, su.session, FunctionID.ShangJiao4Gongjin);
+//		}
+//	}
 //	//推送取消捐献红点
 //	public void pushCancleShangjiao(long jzId){
 //		SessionUser su = SessionManager.inst.findByJunZhuId(jzId);
@@ -985,32 +967,33 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 
 	public void sendWeekRankWard(JunZhu jz){
 		if(jz == null){
-			log.error("发送上缴贡金排行奖励失败，玩家不存在");
+			log.error("发送国家声望周排行奖励失败，玩家不存在");
 			return;
 		}
 		long jId = jz.id;
 		ResourceGongJin gongjinBean = HibernateUtil.find(ResourceGongJin.class, jId);
-		if(gongjinBean == null){
-			log.error("玩家：{}还没有捐献贡金的记录", gongjinBean);
-			return;
-		}
-		if(DateUtils.isSameWeek_CN(gongjinBean.getWeekAwardTime, new Date())){
-			log.error("玩家：{}领取贡金周奖励失败，本周已经领取过", jId );
-			return;
+//		if(gongjinBean == null){
+//			log.error("玩家：{}还没有捐献贡金的记录", gongjinBean);
+//			return;
+//		}
+		if(gongjinBean != null && gongjinBean.getWeekAwardTime != null){
+			if(DateUtils.isSameWeek_CN(gongjinBean.getWeekAwardTime, new Date())){
+				log.error("玩家：{}发送国家声望周排行奖励失败，本周已经领取过", jId );
+				return;
+			}
 		}
 		
 		/*
 		 * reset
 		 */
 //		resetResourceGongJin(gongjinBean);
-		// TODO 问策划
 //		if(gongjinBean.lastWeekJX < CanShu.LUEDUO_HAND_WEEKMINNUM){
 //			log.error("玩家：{}上周缴纳的贡金值太少，所以没有周排行奖励");
 //			return; 
 //		}
 		AlliancePlayer pl = HibernateUtil.find(AlliancePlayer.class, jId);
 		if(pl == null){
-			log.error("玩家:{}领取周奖励失败，联盟数据不存在", jId);
+			log.error("玩家:{}发送国家声望周排行奖励失败，联盟数据不存在", jId);
 			return;
 		}
 //		Integer guojiRank = (int) RankingMgr.inst.getRankAtGuojiaWeek(jz.guoJiaId);
@@ -1018,7 +1001,7 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 		Integer guojiRank = (int) RankingMgr.inst.getRankById(RankingMgr.GUOJIA_WEEK_RANK, jz.guoJiaId);
 		Integer lianMengRank = (int) RankingMgr.inst.getRankByGjIdAndId(RankingMgr.LIANMENG_SW_WEEK_RANK, jz.guoJiaId, pl.lianMengId);
 		if(guojiRank < 1 || lianMengRank < 1){
-			log.error("玩家：{}领取周奖励失败，所在国家或者联盟声望排行出错", jId);
+			log.error("玩家：{}发送国家声望周排行奖励失败，所在国家或者联盟声望排行出错", jId);
 			return;
 		}
 		
@@ -1033,7 +1016,7 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 			}
 		}
 		if(award == null){
-			log.error("{}请求领取贡金奖励出错,未找到奖励配置", jId);
+			log.error("{}发送国家声望周排行奖励出错,未找到奖励配置", jId);
 			return;
 		}
 		Mail mailConfig = EmailMgr.INSTANCE.getMailConfig(100001);
@@ -1047,10 +1030,14 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 		boolean suc = EmailMgr.INSTANCE.sendMail(jz.name, content,
 				award.toString(), senderName, mailConfig, "");
 		if (suc) {
-			log.info("玩家：{}发送贡金周奖励邮件，发送成功,award 是：{}, 发送时间是：{}", 
+			log.info("玩家：{}发送国家声望周排行奖励邮件，发送成功,award 是：{}, 发送时间是：{}", 
 					jId, award, new Date());
 		} else {
-			log.error("玩家:{}发送贡金周奖励邮件失败", jz.name);
+			log.error("玩家:{}发送国家声望周排行奖励邮件失败", jz.name);
+		}
+		if(gongjinBean == null){
+			gongjinBean = new ResourceGongJin();
+			gongjinBean.junzhuId = jz.id;
 		}
 		gongjinBean.getWeekAwardTime = new Date();
 		HibernateUtil.save(gongjinBean);

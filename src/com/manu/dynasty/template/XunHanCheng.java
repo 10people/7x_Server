@@ -19,13 +19,13 @@ public class XunHanCheng implements GameObject{
 	private int jnJM;
 	private int jnBJ;
 	private int jnRX;
-	private int mibao1;
-	private int mibao2;
-	private int mibao3; 
+	public int mibaoZuhe;
+	public int mibaoZuheLv;
 	private int power;
 	private int weapon1;
 	private int weapon2;
 	private int weapon3;
+	public int model;
 	public long getId() {
 		return id;
 	}
@@ -122,24 +122,24 @@ public class XunHanCheng implements GameObject{
 	public void setJnRX(int jnRX) {
 		this.jnRX = jnRX;
 	}
-	public int getMibao1() {
-		return mibao1;
-	}
-	public void setMibao1(int mibao1) {
-		this.mibao1 = mibao1;
-	}
-	public int getMibao2() {
-		return mibao2;
-	}
-	public void setMibao2(int mibao2) {
-		this.mibao2 = mibao2;
-	}
-	public int getMibao3() {
-		return mibao3;
-	}
-	public void setMibao3(int mibao3) {
-		this.mibao3 = mibao3;
-	}
+//	public int getMibao1() {
+//		return mibao1;
+//	}
+//	public void setMibao1(int mibao1) {
+//		this.mibao1 = mibao1;
+//	}
+//	public int getMibao2() {
+//		return mibao2;
+//	}
+//	public void setMibao2(int mibao2) {
+//		this.mibao2 = mibao2;
+//	}
+//	public int getMibao3() {
+//		return mibao3;
+//	}
+//	public void setMibao3(int mibao3) {
+//		this.mibao3 = mibao3;
+//	}
 	public int getPower() {
 		return power;
 	}

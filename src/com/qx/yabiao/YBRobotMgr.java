@@ -4,23 +4,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import qxmobile.protobuf.Yabiao.BiaoCheState;
 
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.boot.GameServer;
 import com.manu.dynasty.template.CartPath;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
-import com.manu.network.SessionManager;
-import com.manu.network.SessionUser;
-import com.qx.persistent.HibernateUtil;
 import com.qx.world.Scene;
 /**
  * 
@@ -42,7 +35,7 @@ public class YBRobotMgr implements Runnable{
 	public YBRobotMgr(){
 		inst = this;
 		initData();
-		new Thread(this, "ybrobot").start();
+		new Thread(this, "ybrobotMgr").start();
 	}
 	public void initData(){
 		yabiaoRobotMap= new  ConcurrentHashMap<Long, Object>();
@@ -50,7 +43,7 @@ public class YBRobotMgr implements Runnable{
 		List<CartPath> list = TempletService.listAll(CartPath.class.getSimpleName());
 		double distance4All=0;
 		int	pathId=0;
-		int baimaTotalTime=60000;//TODO 普通车走到终点的时间600秒 (假设，许根据配置改)
+		int baimaTotalTime=600000;//TODO 普通车走到终点的时间60秒 (假设，需根据配置改)
 		HashMap<Integer,Double> distMap=new HashMap<Integer, Double>();
 		HashMap<Integer, RoadNode> roadPath=null;
 		int lsize=list.size();
@@ -147,7 +140,6 @@ public class YBRobotMgr implements Runnable{
 //			RoadNode val = (RoadNode) entry.getValue();
 //			System.out.println(key+"----"+val.posX+"=="+val.posZ);
 //		}
-		log.info("押镖机器人路线数据加载完成");
 	}
 
 	@Override
@@ -160,13 +152,10 @@ public class YBRobotMgr implements Runnable{
 				log.error("押镖机器人线程执行押镖移动出错 : {}", e);
 			}
 		}
-		//log.info("退出押镖机器人线程");
+		log.info("退出押镖机器人线程");
 	}
 	//移动所有镖车
 	public void robotsMove() {
-		if(isShowLog){
-			log.info("押镖机器人移动开始");
-		}
 		if(BigSwitch.inst.ybMgr.yabiaoScenes.size()==0){
 			return;
 		}
@@ -180,33 +169,20 @@ public class YBRobotMgr implements Runnable{
 				Map.Entry entryRobot = (Map.Entry) itrobot.next();
 				YaBiaoRobot ybr = (YaBiaoRobot) entryRobot.getValue();
 				if(ybr==null){
-					log.error("押镖 场景机器人出错");
+					log.error("押镖 场景机器人出错,(YaBiaoRobot) entryRobot.getValue()为空");
 					continue;
-				}
-//				log.info("押镖 场景机器人---{}开始移动",ybr.name);
-				long now = System.currentTimeMillis();
-				long addTime=now -ybr.startTime;
-				if(isShowLog){
-					log.info("now-{},start---{},total---{},add---{},used--{}",now,ybr.startTime,ybr.totalTime,addTime,ybr.usedTime);
 				}
 				move(ybsc,ybr,scId);
 				//镖车不会进入战斗了
-//					else{//进入战斗保存镖车状态 }
 
 			}
-		}
-		if(isShowLog){
-			log.info("押镖机器人移动结束");
 		}
 	}
 	//移动实际为扣除已走的时间（路程已定，速度恒定，则可按照时间来计算坐标）
 	public void move(Scene sc,YaBiaoRobot ybr,int scId) {
-		if(isShowLog){
-			log.info("{}镖车移动，已用时间为{}-{},进度{}%",ybr.jzId,ybr.usedTime,ybr.totalTime,(int)((ybr.usedTime/(double)ybr.totalTime)*100));
-		}
 		long now = System.currentTimeMillis();
 		long usedtime=now-ybr.startTime;
-		int upSpeed2UsedTime=(int) (now-ybr.startTime2upSpeed);
+		long upSpeed2UsedTime=(long) (now-ybr.startTime2upSpeed);
 		if(upSpeed2UsedTime>=ybr.upSpeedTime){
 			ybr.speed=1;
 			ybr.startTime2upSpeed=now;
@@ -217,19 +193,26 @@ public class YBRobotMgr implements Runnable{
 		ybr.usedtime4short=(int) (now-ybr.startTime4short);
 		
 		if(ybr.usedtime4short>=ybr.totaltime4short){
+			if(isShowLog){
+				int baifenbi=(int)((ybr.usedTime/(double)ybr.totalTime)*100);
+				log.info("机器人镖车,移动目标坐标为 {}--{}-{},已用时间为{}-{},进度{}%,移动节点id--{},从--{}-{}走向--{}--{},镖车君主ID--《{}》",
+						ybr.move.getPosX(),ybr.move.getPosY(),ybr.move.getPosZ(),
+						ybr.usedTime,ybr.totalTime,baifenbi,ybr.nodeId,
+						ybr.startPosX,ybr.startPosZ,ybr.nextPosX,ybr.nextPosZ,ybr.jzId);
+			}
 			HashMap<Integer, RoadNode> roadPath=road.get(ybr.pathId);
+			if(roadPath==null){
+				log.error("机器人镖车移动--{}出错,未找到pathId=={}的路线配置",ybr.jzId,ybr.pathId);
+				return;
+			}
 			//跳到下一节点
 			ybr.nodeId+=1;
 			if(ybr.nodeId>=roadPath.size()){
 				log.info("机器人镖车到达最后一个节点{}--{}-{}",ybr.move.getPosX(),ybr.move.getPosY(),ybr.move.getPosZ());
-				
 				ybr.posX=ybr.nextPosX;
 				ybr.posZ=ybr.nextPosZ;
 				ybr.move.setPosX(ybr.posX);
 				ybr.move.setPosZ(ybr.posZ);
-				IoSession	session=ybr.session;
-//				sc.exec(PD.Spirite_Move, session, ybr.move);
-				log.info("机器人镖车到达终点");
 				// 移除押镖人的相关信息
 				YaBiaoHuoDongMgr.inst.settleYaBiaoSuccess(ybr.jzId,scId);
 				return;
@@ -256,8 +239,6 @@ public class YBRobotMgr implements Runnable{
 		}
 
 		if(ybr.totaltime4short==0){
-//			ybr.posX=ybr.nextPosX;
-//			ybr.posZ=ybr.nextPosZ;
 			log.error("押镖机器人移动错误,ybr.totaltime4short==0,~~~~~~~~~~~~~~~~~~~~~~~~");
 			return;
 		}else{
@@ -267,68 +248,53 @@ public class YBRobotMgr implements Runnable{
 		}
 		ybr.move.setPosX(ybr.posX);
 		ybr.move.setPosZ(ybr.posZ);
-	
-		IoSession	session=ybr.session;
-		int baifenb=(int)((ybr.usedTime/(double)ybr.totalTime)*100);
-		if(isShowLog){
-			log.info("机器人镖车--{},已用时间为{}-{},进度{}%,移动节点id--{}到{}--{}-{},从--{}-{}走向--{}--{}",
-					ybr.jzId,ybr.usedTime,ybr.totalTime,baifenb,
-					ybr.nodeId,ybr.move.getPosX(),ybr.move.getPosY(),ybr.move.getPosZ(),
-					ybr.startPosX,ybr.startPosZ,ybr.nextPosX,ybr.nextPosZ);
-		}
-		sc.exec(PD.Spirite_Move, session, ybr.move);
+//		float dir=0; 2015年12月4日不需要后台算方向 需要的话可以根据斜率转换
+//		if((ybr.nextPosX-ybr.startPosX)!=0){
+//			dir=(ybr.nextPosZ-ybr.startPosZ)/ (ybr.nextPosX-ybr.startPosX);
+//		}
+//		ybr.move.setDir(dir);
+		sc.exec(PD.Spirite_Move, ybr.session, ybr.move);
+		YaBiaoHuoDongMgr.inst.broadBiaoCheInfo(sc, ybr);
 	}
 	//广播押镖进度
-	public void broadBiaoCheEvent(YaBiaoRobot ybr,Scene sc) {
-		try {
-			if(isShowLog){
-				log.info("押镖机器人广播状态开始");
-			}
-		
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	//广播押镖进度
-	public void broadBiaoCheEvent4FeiQi(YaBiaoRobot ybr,Scene sc) {
-		try {
-			if(isShowLog){
-				log.info("押镖机器人广播状态开始");
-			}
-			BiaoCheState.Builder resp=BiaoCheState.newBuilder();
-			resp.setJunZhuId(ybr.jzId);
-			resp.setUsedTime(ybr.usedTime);
-			YaBiaoBean ybBean = HibernateUtil.find(YaBiaoBean.class, ybr.jzId);
-			resp.setHp(ybr.hp);
-			resp.setWorth(ybr.worth);
-			int protectTime=ybr.protectCD-((int)(System.currentTimeMillis()-ybr.endBattleTime)/1000);
-			resp.setBaohuCD(protectTime>0?protectTime:0);
-			resp.setState(ybr.isBattle?20:(protectTime>0?30:10));//10押送中 20 战斗中 30 保护CD
-			Integer scId=BigSwitch.inst.ybMgr.ybJzId2ScIdMap.get(ybr.jzId);
-			if(scId==null){
-				log.error("镖车所在场景未找到{}",ybr.jzId);
-				return;
-			}
-			Set<Long> jbSet= BigSwitch.inst.ybMgr.jbJzList2ScIdMap.get(scId);
-			if(jbSet==null){
-				if(isShowLog){
-					log.info("场景{}中无劫镖人员,无须广播",sc.name);
-				}
-				return;
-			}
-			for (Long jId : jbSet) {
-				SessionUser su = SessionManager.inst.findByJunZhuId(jId);
-				if(su!=null){//su为空时认为此账号已下线，不推送信息
-					if(isShowLog){
-						log.info("{}镖车移动广播进度给{}",ybr.jzId,jId);
-					}
-					su.session.write(resp.build());
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public void broadBiaoCheEvent4FeiQi(YaBiaoRobot ybr,Scene sc) {
+//		try {
+//			if(isShowLog){
+//				log.info("押镖机器人广播状态开始");
+//			}
+//			BiaoCheState.Builder resp=BiaoCheState.newBuilder();
+////			resp.setJunZhuId(ybr.jzId);
+//			resp.setUsedTime(ybr.usedTime);
+//			YaBiaoBean ybBean = HibernateUtil.find(YaBiaoBean.class, ybr.jzId);
+////			resp.setHp(ybr.hp);
+////			resp.setWorth(ybr.worth);
+//			int protectTime=ybr.protectTime-((int)(System.currentTimeMillis()-ybr.endBattleTime)/1000);
+//			resp.setBaohuCD(protectTime>0?protectTime:0);
+//			resp.setState(ybr.isBattle?20:(protectTime>0?30:10));//10押送中 20 战斗中 30 保护CD
+//			Integer scId=BigSwitch.inst.ybMgr.ybJzId2ScIdMap.get(ybr.jzId);
+//			if(scId==null){
+//				log.error("镖车所在场景未找到{}",ybr.jzId);
+//				return;
+//			}
+//			Set<Long> jbSet= BigSwitch.inst.ybMgr.jbJzList2ScIdMap.get(scId);
+//			if(jbSet==null){
+//				if(isShowLog){
+//					log.info("场景{}中无劫镖人员,无须广播",sc.name);
+//				}
+//				return;
+//			}
+//			for (Long jId : jbSet) {
+//				SessionUser su = SessionManager.inst.findByJunZhuId(jId);
+//				if(su!=null){//su为空时认为此账号已下线，不推送信息
+//					if(isShowLog){
+//						log.info("{}镖车移动广播进度给{}",ybr.jzId,jId);
+//					}
+//					su.session.write(resp.build());
+//				}
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 }

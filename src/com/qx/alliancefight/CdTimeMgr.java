@@ -18,6 +18,7 @@ import com.qx.junzhu.JunZhu;
 import com.qx.persistent.HibernateUtil;
 import com.qx.world.FightScene;
 import com.qx.world.Player;
+import com.qx.world.Scene;
 
 public class CdTimeMgr implements Runnable {
 	public CdTimeMgr inst;
@@ -64,7 +65,7 @@ public class CdTimeMgr implements Runnable {
 				break;
 			}
 			IoSession session = SessionManager.inst.getIoSession(cdTime.getJunzhuId());
-			FightScene scene =  (FightScene) session.getAttribute(SessionAttKey.Scene);
+			Scene scene =  (Scene) session.getAttribute(SessionAttKey.Scene);
 			if(scene == null) {
 				cdQueue.remove(cdTime);
 				break;
@@ -77,11 +78,13 @@ public class CdTimeMgr implements Runnable {
 			Player player = scene.getPlayerByJunZhuId(junzhu.id);
 			player.currentLife = junzhu.shengMingMax;
 			AllianceBean alliance = AllianceMgr.inst.getAllianceByJunZid(junzhu.id);
-			ScoreInfo scoreInfo = scene.scoreInfoMap.get(alliance.id);
+//			ScoreInfo scoreInfo = scene.scoreInfoMap.get(alliance.id);
 			PlayerReviveNotify.Builder reviveNotify = PlayerReviveNotify.newBuilder();
 			reviveNotify.setUid(player.userId);
-			reviveNotify.setPosX(scoreInfo.bornPointX);
-			reviveNotify.setPosZ(scoreInfo.bornPointZ);
+//			reviveNotify.setPosX(scoreInfo.bornPointX);
+//			reviveNotify.setPosZ(scoreInfo.bornPointZ);
+			reviveNotify.setPosX(player.posX);
+			reviveNotify.setPosZ(player.posZ);
 			for(Map.Entry<Integer, Player> entry : scene.players.entrySet()) {
 				Player p = entry.getValue();
 				p.session.write(reviveNotify.build());

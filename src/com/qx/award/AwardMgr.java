@@ -131,11 +131,11 @@ public class AwardMgr {
 	 * 战斗结束后领取奖励
 	 * 
 	 */
-	public void getAward(int guanQiaId, Boolean chuanQiMark, boolean pass,
+	public void getAward(Integer guanQiaId, Boolean chuanQiMark, boolean pass,
 			IoSession session) {
 		List<AwardTemp> getAwardList = new ArrayList<AwardTemp>();
 		BattleResult.Builder ret = BattleResult.newBuilder();
-		if (!pass) {
+		if (!pass || guanQiaId == null) {
 			ret.setExp(0);
 			ret.setMoney(0);
 			session.write(ret.build());
@@ -395,6 +395,9 @@ public class AwardMgr {
 	}
 	public boolean giveReward(IoSession session,String jiangLi, JunZhu jz) {
 		log.info("给予{}发放奖励--{}开始", jz.id,jiangLi);
+		if(jiangLi==null||"".equals(jiangLi)){
+			return true;
+		}
 		String[] jiangliArray = jiangLi.split("#");
 		try {
 			for(String jiangli : jiangliArray) {
@@ -578,12 +581,12 @@ public class AwardMgr {
 				if (a.getItemType() == TYPE_MOBAI_SUIPIAN) {
 					mibaoDB.setLevel(0);
 					mibaoDB.setSuiPianNum(suiNu);
-					mibaoDB.setClear(false);
+//					mibaoDB.setClear(false);
 				}
 				if (a.getItemType() == TYPE_MI_BAO) {
 					mibaoDB.setLevel(1);
 					mibaoDB.setSuiPianNum(0);
-					mibaoDB.setClear(mibao, jz);
+//					mibaoDB.setClear(mibao, jz);
 					log.info("玩家：{}获取了一个完整的秘宝 1 ， mibaodbid：{}", junZhuId, realMiBaoId);
 					isGetMibao = true;
 				}
@@ -765,7 +768,7 @@ public class AwardMgr {
 	 */
 	public void doRenWuForMiBao(MiBaoDB mibaoDB, JunZhu jz){
 		if(mibaoDB.getMiBaoId() > 0 && mibaoDB.getLevel() > 0){
-			if(mibaoDB.isClear()){
+//			if(mibaoDB.isClear()){
 				//  主线任务：星级: 要求解锁
 				EventMgr.addEvent(ED.mibao_shengStar_x, new Object[]{jz.id, mibaoDB.getStar()});
 				//  主线任务：等级 ：要求解锁秘宝
@@ -793,7 +796,7 @@ public class AwardMgr {
 				EventMgr.addEvent(ED.get_x_mibao, new Object[] { jz.id,
 						dbList.size() });
 			}
-		}
+//		}
 	}
 
 	public void isCollectASuitOfGuJuan(long junZhuId, Bag<BagGrid> bag, int baseType, int itemId){

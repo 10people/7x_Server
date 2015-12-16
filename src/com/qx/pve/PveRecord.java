@@ -37,4 +37,7 @@ public class PveRecord {
 	public int jySaoDangTimes;//今日精英扫了几次
 	@Column(columnDefinition="INT default 0")
 	public int cqSaoDangTimes;//今日传奇扫了几次
+	
+	/**该字段只针对章节的最后一关： 是否已经领取通章奖励*/
+	public boolean isGetAward = false;
 }

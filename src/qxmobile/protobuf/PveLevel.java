@@ -22821,6 +22821,418 @@ public final class PveLevel {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.GuanQiaMaxId)
   }
 
+  public interface GetPassZhangJieAwardReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 zhangJieId = 1;
+    /**
+     * <code>required int32 zhangJieId = 1;</code>
+     */
+    boolean hasZhangJieId();
+    /**
+     * <code>required int32 zhangJieId = 1;</code>
+     */
+    int getZhangJieId();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.GetPassZhangJieAwardReq}
+   *
+   * <pre>
+   * 
+   * </pre>
+   */
+  public static final class GetPassZhangJieAwardReq extends
+      com.google.protobuf.GeneratedMessage
+      implements GetPassZhangJieAwardReqOrBuilder {
+    // Use GetPassZhangJieAwardReq.newBuilder() to construct.
+    private GetPassZhangJieAwardReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GetPassZhangJieAwardReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GetPassZhangJieAwardReq defaultInstance;
+    public static GetPassZhangJieAwardReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GetPassZhangJieAwardReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetPassZhangJieAwardReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              zhangJieId_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.PveLevel.internal_static_qxmobile_protobuf_GetPassZhangJieAwardReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.PveLevel.internal_static_qxmobile_protobuf_GetPassZhangJieAwardReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq.class, qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GetPassZhangJieAwardReq> PARSER =
+        new com.google.protobuf.AbstractParser<GetPassZhangJieAwardReq>() {
+      public GetPassZhangJieAwardReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetPassZhangJieAwardReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetPassZhangJieAwardReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 zhangJieId = 1;
+    public static final int ZHANGJIEID_FIELD_NUMBER = 1;
+    private int zhangJieId_;
+    /**
+     * <code>required int32 zhangJieId = 1;</code>
+     */
+    public boolean hasZhangJieId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 zhangJieId = 1;</code>
+     */
+    public int getZhangJieId() {
+      return zhangJieId_;
+    }
+
+    private void initFields() {
+      zhangJieId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasZhangJieId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, zhangJieId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, zhangJieId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.GetPassZhangJieAwardReq}
+     *
+     * <pre>
+     * 
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.PveLevel.internal_static_qxmobile_protobuf_GetPassZhangJieAwardReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.PveLevel.internal_static_qxmobile_protobuf_GetPassZhangJieAwardReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq.class, qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        zhangJieId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.PveLevel.internal_static_qxmobile_protobuf_GetPassZhangJieAwardReq_descriptor;
+      }
+
+      public qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq build() {
+        qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq buildPartial() {
+        qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq result = new qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.zhangJieId_ = zhangJieId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq) {
+          return mergeFrom((qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq other) {
+        if (other == qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq.getDefaultInstance()) return this;
+        if (other.hasZhangJieId()) {
+          setZhangJieId(other.getZhangJieId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasZhangJieId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 zhangJieId = 1;
+      private int zhangJieId_ ;
+      /**
+       * <code>required int32 zhangJieId = 1;</code>
+       */
+      public boolean hasZhangJieId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 zhangJieId = 1;</code>
+       */
+      public int getZhangJieId() {
+        return zhangJieId_;
+      }
+      /**
+       * <code>required int32 zhangJieId = 1;</code>
+       */
+      public Builder setZhangJieId(int value) {
+        bitField0_ |= 0x00000001;
+        zhangJieId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 zhangJieId = 1;</code>
+       */
+      public Builder clearZhangJieId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        zhangJieId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.GetPassZhangJieAwardReq)
+    }
+
+    static {
+      defaultInstance = new GetPassZhangJieAwardReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.GetPassZhangJieAwardReq)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_PvePageReq_descriptor;
   private static
@@ -22951,6 +23363,11 @@ public final class PveLevel {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_GuanQiaMaxId_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_GetPassZhangJieAwardReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_GetPassZhangJieAwardReq_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -23019,7 +23436,8 @@ public final class PveLevel {
       "ill\030\003 \001(\005\"C\n\017MibaoSelectResp\022\017\n\007success\030" +
       "\001 \002(\005\022\014\n\004type\030\002 \002(\005\022\021\n\tzuheSkill\030\003 \001(\005\"3" +
       "\n\014GuanQiaMaxId\022\020\n\010commonId\030\001 \002(\005\022\021\n\tchua" +
-      "nQiId\030\002 \002(\005B\nB\010PveLevel"
+      "nQiId\030\002 \002(\005\"-\n\027GetPassZhangJieAwardReq\022\022",
+      "\n\nzhangJieId\030\001 \002(\005B\nB\010PveLevel"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -23182,6 +23600,12 @@ public final class PveLevel {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_GuanQiaMaxId_descriptor,
               new java.lang.String[] { "CommonId", "ChuanQiId", });
+          internal_static_qxmobile_protobuf_GetPassZhangJieAwardReq_descriptor =
+            getDescriptor().getMessageTypes().get(26);
+          internal_static_qxmobile_protobuf_GetPassZhangJieAwardReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_GetPassZhangJieAwardReq_descriptor,
+              new java.lang.String[] { "ZhangJieId", });
           return null;
         }
       };

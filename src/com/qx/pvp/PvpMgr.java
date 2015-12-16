@@ -473,7 +473,7 @@ public class PvpMgr extends EventProc implements Runnable {
 				int zhanli = npc.power;
 				log.info("npc:{} 战力是:{}", playerId, zhanli);
 				you.setZhanLi(zhanli);
-				you.setActivateMiBaoCount(npc.mibaoNum);
+				you.setZuHeLevel(npc.mibaoZuheLv);
 				you.setZuheId(npc.mibaoZuhe);
 				you.setLevel(npc.level);
 				enemyBuilderList.add(you);
@@ -499,11 +499,7 @@ public class PvpMgr extends EventProc implements Runnable {
 				you.setZhanLi(zhanli);
 				you.setGuojia(junz.guoJiaId);
 				you.setRoleId(junz.roleId);
-//				you.setActivateMiBaoCount(MibaoMgr.inst
-//						.getActivateCountByZuheId(playerId, pb.zuheId));
-				you.setActivateMiBaoCount(MibaoMgr.inst
-						.getActivateCountByZuheId(playerId, pb.gongJiZuHeId));
-				//you.setZuheId(pb.zuheId);
+				you.setZuHeLevel(MibaoMgr.inst.getActiveZuHeLevel(playerId, pb.gongJiZuHeId));
 				you.setZuheId(pb.gongJiZuHeId);
 				you.setLevel(junz.level);
 				enemyBuilderList.add(you);
@@ -542,14 +538,14 @@ public class PvpMgr extends EventProc implements Runnable {
 		int opzhanli = 0;
 		int oppoRoleId = 1;
 		int oppoZuheId = -1;
-		int oppoActiveMiBaoCount = 0;
+		int oppomibaozuheLevel = 0;
 		if (oppoId < 0) {
 			BaiZhanNpc npc = npcs.get((int) -oppoId);
 			if (npc != null) {
 				oppoLe = npc.level;
 				opzhanli = npc.power;
 				oppoZuheId = npc.mibaoZuhe;
-				oppoActiveMiBaoCount = npc.mibaoNum;
+				oppomibaozuheLevel = npc.mibaoZuheLv;
 				oppoRoleId = npc.getRoleId((int) -oppoId);
 			}
 		} else {
@@ -561,8 +557,7 @@ public class PvpMgr extends EventProc implements Runnable {
 //				oppoActiveMiBaoCount = MibaoMgr.inst.getActivateCountByZuheId(
 //						oppoId, you.zuheId);
 //				oppoZuheId = you.zuheId;
-				oppoActiveMiBaoCount = MibaoMgr.inst.getActivateCountByZuheId(
-						oppoId, you.gongJiZuHeId);
+				oppomibaozuheLevel = MibaoMgr.inst.getActiveZuHeLevel(oppoId, you.gongJiZuHeId);
 				oppoZuheId = you.gongJiZuHeId;
 				oppoRoleId = oppo.roleId;
 			}
@@ -573,7 +568,7 @@ public class PvpMgr extends EventProc implements Runnable {
 			bu.setOppoZhanli(opzhanli);
 			bu.setMyZuheId(mybean.gongJiZuHeId);
 			bu.setOppZuheId(oppoZuheId);
-			bu.setOppActivateMiBaoCount(oppoActiveMiBaoCount);
+			bu.setOppZuHeLevel(oppomibaozuheLevel);
 			return bu;
 		}
 		ChallengeResp.Builder resp = ChallengeResp.newBuilder();
@@ -586,7 +581,7 @@ public class PvpMgr extends EventProc implements Runnable {
 		resp.setOppoId(oppoId);
 		resp.setOppoRank(yourank);
 		resp.setOppoRoleId(oppoRoleId);
-		resp.setOppActivateMiBaoCount(oppoActiveMiBaoCount);
+		resp.setOppZuHeLevel(MibaoMgr.inst.getActiveZuHeLevel(oppoId, oppoZuheId));
 		resp.setOppZuheId(oppoZuheId);
 		// 添加到战斗队形缓存
 		armyCache.put(jid, resp);
@@ -1064,14 +1059,14 @@ public class PvpMgr extends EventProc implements Runnable {
 		int opzhanli = 0;
 		int oppoRoleId = 1;
 		int oppoZuheId = -1;
-		int oppoActiveMiBaoCount = 0;
+		int oppoZuheLevel = 0;
 		if (oppoId < 0) {
 			BaiZhanNpc npc = npcs.get((int) -oppoId);
 			if (npc != null) {
 				oppoLe = npc.level;
 				opzhanli = npc.power;
 				oppoZuheId = npc.mibaoZuhe;
-				oppoActiveMiBaoCount = npc.mibaoNum;
+				oppoZuheLevel = npc.mibaoZuheLv;
 				oppoRoleId = npc.getRoleId((int) -oppoId);
 			}
 		} else {
@@ -1080,11 +1075,7 @@ public class PvpMgr extends EventProc implements Runnable {
 				oppoLe = oppo.level;
 				opzhanli = getZhanli(oppo);
 				PvpBean you = HibernateUtil.find(PvpBean.class, oppoId);
-//				oppoActiveMiBaoCount = MibaoMgr.inst.getActivateCountByZuheId(
-//						oppoId, you.zuheId);
-//				oppoZuheId = you.zuheId;
-				oppoActiveMiBaoCount = MibaoMgr.inst.getActivateCountByZuheId(
-						oppoId, you.gongJiZuHeId);
+				oppoZuheLevel = MibaoMgr.inst.getActiveZuHeLevel(oppoId, you.gongJiZuHeId);
 				oppoZuheId = you.gongJiZuHeId;
 				oppoRoleId = oppo.roleId;
 			}
@@ -1099,7 +1090,7 @@ public class PvpMgr extends EventProc implements Runnable {
 		resp.setOppoId(oppoId);
 		resp.setOppoRank(youRank);
 		resp.setOppoRoleId(oppoRoleId);
-		resp.setOppActivateMiBaoCount(oppoActiveMiBaoCount);
+		resp.setOppZuHeLevel(oppoZuheLevel);
 		resp.setOppZuheId(oppoZuheId);
 		// 添加到战斗队形缓存
 		armyCache.put(jz.id, resp);
@@ -2257,7 +2248,7 @@ public class PvpMgr extends EventProc implements Runnable {
 				npc.weapon3);
 		PveMgr.inst.fillZhuangbei(npcNode, weaps);
 		// 添加秘宝信息
-		List<Integer> skillIdList = MibaoMgr.inst.getBattleSkillIds(npc.mibaoZuhe, npc.mibaoNum);
+		List<Integer> skillIdList = MibaoMgr.inst.getSkillIdsFromConfig(npc.mibaoZuhe, npc.mibaoZuheLv);
 		for(Integer skillId : skillIdList) {
 			PveMgr.inst.addNodeSkill(npcNode, skillId);
 		}

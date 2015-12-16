@@ -18,7 +18,6 @@
 <%@page import="qxmobile.protobuf.HeroMessage.UserHero"%>
 <%@page import="com.manu.dynasty.hero.service.HeroService"%>
 <%@page import="com.qx.pvp.PvpMgr"%>
-<%@page import="com.qx.pvp.PvpDuiHuanBean"%>
 <%@page import="com.qx.pvp.PvpBean"%>
 <%@page import="com.qx.robot.RobotSession"%>
 <%@page import="com.qx.account.Account"%>
@@ -272,7 +271,7 @@ typea = request.getParameter("typea");
     		break;
     		}
     		if(diffType != null){
-    			 Map<String, Double> map =  RankingMgr.inst.getPaiHangOfType(rmin, rmax, diffType);     
+    			 Map<String, Double> map =  null;//RankingMgr.inst.getPaiHangOfType(rmin, rmax, diffType);     
     	           if(map == null || map.size() ==0){ 
     	               out("没有找到当前范围内的名次");
     	           }else{

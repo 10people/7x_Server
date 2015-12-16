@@ -193,6 +193,10 @@ public class TempletService {
 		YunbiaoTemp.cartAImax=Integer.parseInt(map.get("cartAImax").value);
 		YunbiaoTemp.cartAILvlMin=Integer.parseInt(map.get("cartAILvlMin").value);
 		YunbiaoTemp.cartAILvlMax=Integer.parseInt(map.get("cartAILvlMax").value);
+		YunbiaoTemp.autoResurgenceTime=Integer.parseInt(map.get("autoResurgenceTime").value);
+		YunbiaoTemp.resurgence_onSite_price=Integer.parseInt(map.get("resurgence_onSite_price").value);
+		YunbiaoTemp.yunbiao_start_broadcast=map.get("yunbiao_start_broadcast").value;
+		YunbiaoTemp.yunbiao_end_broadcast=map.get("yunbiao_end_broadcast").value;
 	}
 
 	public void loadCanShu() {
@@ -298,6 +302,20 @@ public class TempletService {
 		CanShu.LUEDUO_DAYAWARD_GIVETIME = map.get("LUEDUO_DAYAWARD_GIVETIME").value;
 		CanShu.LUEDUO_WEEKWARD_GIVETIME = map.get("LUEDUO_WEEKWARD_GIVETIME").value;
 		CanShu.MAXTIME_LUEDUO = Integer.parseInt(map.get("MAXTIME_LUEDUO").value);
+		CanShu.LUEDUO_PERSONRANKAWARD_GIVETIME = map.get("LUEDUO_PERSONRANKAWARD_GIVETIME").value;
+		CanShu.LUEDUO_LIANMENGRANKAWARD_GIVETIME = map.get("LUEDUO_LIANMENGRANKAWARD_GIVETIME").value;
+		CanShu.LUEDUO_CANSHU_L =  Float.parseFloat(map.get("LUEDUO_CANSHU_L").value);
+		CanShu.LUEDUO_CANSHU_N =  Float.parseFloat(map.get("LUEDUO_CANSHU_N").value);
+		CanShu.LUEDUO_CANSHU_M =  Float.parseFloat(map.get("LUEDUO_CANSHU_M").value);
+		CanShu.LUEDUO_CANSHU_X =  Float.parseFloat(map.get("LUEDUO_CANSHU_X").value);
+		CanShu.LUEDUO_CANSHU_Y =  Float.parseFloat(map.get("LUEDUO_CANSHU_Y").value);
+		CanShu.LUEDUO_CANSHU_Z =  Float.parseFloat(map.get("LUEDUO_CANSHU_Z").value);
+		CanShu.LUEDUO_CANSHU_A =  Float.parseFloat(map.get("LUEDUO_CANSHU_A").value);
+		CanShu.LUEDUO_CANSHU_B =  Float.parseFloat(map.get("LUEDUO_CANSHU_B").value);
+		CanShu.LUEDUO_CANSHU_C =  Float.parseFloat(map.get("LUEDUO_CANSHU_C").value);
+		CanShu.LUEDUO_GONGJIN_INIT = Integer.parseInt(map.get("LUEDUO_GONGJIN_INIT").value);
+		
+
 		/*
 		 * 押镖
 		 */

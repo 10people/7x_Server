@@ -421,6 +421,8 @@ public class VipMgr {
 			return vip.LveduoTimes;
 		case 18:
 			return vip.HuangyeTimes;
+		case 19:
+			return vip.resurgenceTimes;
 		}
 		return 0;
 	}

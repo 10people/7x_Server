@@ -163,7 +163,7 @@ public class ActivityMgr extends EventProc{
 	 * @throws 
 	 */
 	public void pushQiandaoAvailable(long junZhuId,IoSession session){
-		QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,	"where junzhuId=" + junZhuId + "");
+		QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,	junZhuId);
 		if (QiandaoMgr.instance.hasAlreadyQiandao(qiandaoInfo)) {
 			if (QiandaoMgr.instance.canBuQian(junZhuId,qiandaoInfo)) {// 今天是否可以补签
 				FunctionID.pushCanShangjiao(junZhuId, session, FunctionID.Qiandao);

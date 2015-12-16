@@ -708,9 +708,7 @@ public class YouXiaMgr extends EventProc{
 				junZhu.name, type, needMoney);
 		HibernateUtil.save(yxBean);
 
-		YuanBaoMgr.inst.diff(junZhu, -needMoney, 0,
-				PurchaseMgr.inst.getPrice(PurchaseConstants.YOUXIA_TIMES),
-				YBType.YB_BUY_YOUXIA_CISHU, "购买游侠玩法次数");
+		YuanBaoMgr.inst.diff(junZhu, -needMoney, 0, needMoney, YBType.YB_BUY_YOUXIA_CISHU, "购买游侠玩法次数");
 		HibernateUtil.save(junZhu);
 		JunZhuMgr.inst.sendMainInfo(session);
 

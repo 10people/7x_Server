@@ -530,6 +530,21 @@ public class Redis {
 		this.pool.returnResource(redis);
 		return yes;
 	}
+	
+	
+	// TODO ,需要测试返回结果。
+	public String rename(String oldkey, String newkey) {
+		Jedis redis = this.pool.getResource();
+		String ok = "error";
+		try {
+			ok = redis.rename(oldkey, newkey);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		} finally {
+			this.pool.returnResource(redis);
+		}
+		return ok;
+	}
 
 	/**********************************************************************
 	 * 排行用到的SortedSet 2015-7-17 改score类型int为double

@@ -27,10 +27,10 @@ import com.qx.bag.BagGrid;
 import com.qx.bag.BagMgr;
 import com.qx.event.ED;
 import com.qx.event.EventMgr;
+import com.qx.huangye.shop.ShopMgr;
 import com.qx.guojia.GuoJiaMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
-import com.qx.pawnshop.PawnshopMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
@@ -181,15 +181,15 @@ public class SettingsMgr {
 			log.info("{}使用一张转国令成功转换国家到{}", jz.id, jz.guoJiaId);
 			
 		} else if(1 == useType) {
-			DangpuCommon dangpuCommon = PawnshopMgr.inst.getDangpuCommon(1003);
-			int needYuanBao = dangpuCommon.getNeedNum() / dangpuCommon.getItemNum();
+			DangpuCommon dangpuCommon = ShopMgr.inst.getDangpuCommon(1003);
+			int needYuanBao = dangpuCommon.needNum/dangpuCommon.itemNum;
 			if(jz.yuanBao < needYuanBao) {
 				response.setResult(ERROR_IN_YUANBAO);
 				log.info("{}转国失败，元宝不足:{}", jz.id, needYuanBao);
 				writeByProtoMsg(session, PD.S_ZHUANGGUO_RESP, response);
 				return;
 			}
-			YuanBaoMgr.inst.diff(jz, -needYuanBao, 0, 0, 0, "转国花费元宝");
+			YuanBaoMgr.inst.diff(jz, -needYuanBao, 0, needYuanBao, YBType.YB_CHANGE_COUNTRY, "转国花费元宝");
 		} else {
 			log.error("转国失败，使用转国的方式:{}", useType);
 			return;

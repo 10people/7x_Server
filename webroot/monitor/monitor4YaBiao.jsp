@@ -23,16 +23,27 @@
 </head>
 <body>
 <%
-	String act = request.getParameter("act");
+	String  act= request.getParameter("act");
 if("switchOpen".equals(act)){
 	BigSwitch.inst.ybMgr.openFlag = !BigSwitch.inst.ybMgr.openFlag;
 }
+String moreProfit=request.getParameter("moreProfit");
+moreProfit=moreProfit==null?"100":moreProfit;
+	int canshu=Integer.parseInt(moreProfit);
+	BigSwitch.inst.ybMgr.setMoreProfitState(canshu);
+
 %>
+
+  	<form action="">
+  	 	收益倍率<input type='text' name='moreProfit' id='moreProfit' value='<%=moreProfit%>'/>
+	  	<button type="submit">修改</button>
+	</form>
 当前押镖状态为：<%=BigSwitch.inst.ybMgr.openFlag ? "开启" : "关闭"%>
 ，设置为<a href='?act=switchOpen'><%=BigSwitch.inst.ybMgr.openFlag ? "关闭" : "开启"%></a>
 <br/>
 押镖人数:<%=BigSwitch.inst.ybMgr.ybJzId2ScIdMap.size()%><br/>
-劫镖人数:<%=BigSwitch.inst.ybMgr.jbJz2ScIdMap.size()%>
+<%-- 劫镖人数:<%=BigSwitch.inst.ybMgr.jbJz2ScIdMap.size()%> 现在的代码jbJz2ScIdMap废弃 无用，无法快捷的统计劫镖人数 --%>
+<br/>
 <br/>
 	后台输出：
 			<%
@@ -86,9 +97,18 @@ while(ybkey.hasMoreElements()){
 			out.append("<tr>");
 			String acc = p.getName();
 			int uid = key;
-			out.append("<td>");		out.append(""+idx);						out.append("</td>");
-			out.append("<td>");		out.append(String.valueOf(uid));		out.append("</td>");
-			out.append("<td>");		out.append(acc+"x--"+p.getPosX()+"y--"+p.getPosY()+"z--"+p.getPosZ());		out.append("</td>");
+			out.append("<td>");
+			out.append(""+idx);
+			out.append("</td>");
+			out.append("<td>");
+			out.append(String.valueOf(uid));
+			out.append("</td>");
+			out.append("<td>");
+			out.append(acc);
+			out.append("</td>");
+			out.append("<td>");
+			out.append("x坐标--"+p.getPosX()+"y坐标--"+p.getPosY()+"z坐标--"+p.getPosZ());
+			out.append("</td>");
 			out.append("<tr>");
 		}
 	}
@@ -99,14 +119,14 @@ while(ybkey1.hasMoreElements()){
 	Integer ybScId =ybkey1.nextElement();
 	Scene sc = BigSwitch.inst.ybMgr.yabiaoScenes.get(ybScId);
 	Iterator<Integer> it2 = sc.players.keySet().iterator();
-	Set<Long> jbSet=BigSwitch.inst.ybMgr.jbJzList2ScIdMap.get(ybScId);
-	if(jbSet!=null){
-			Iterator<Long> it22 = jbSet.iterator();
-			while (it22.hasNext()) {
-				Long str = it22.next();
-				out.print(str + ";");
-			}
-		}
+// 	Set<Long> jbSet=BigSwitch.inst.ybMgr.jbJzList2ScIdMap.get(ybScId);
+// 	if(jbSet!=null){
+// 			Iterator<Long> it22 = jbSet.iterator();
+// 			while (it22.hasNext()) {
+// 				Long str = it22.next();
+// 				out.print(str + ";");
+// 			}
+// 		}
 		out("<tr><td colspan='5'>" + sc.name + "</td></tr>");
 		int idx = 0;
 		while (it2.hasNext()) {
@@ -126,6 +146,11 @@ while(ybkey1.hasMoreElements()){
 				out.append("<td>");
 				out.append(acc);
 				out.append("</td>");
+				out.append("<td>");
+				out.append("x坐标--"+p.getPosX()+"y坐标--"+p.getPosY()+"z坐标--"+p.getPosZ());
+				out.append("</td>");
+				out.append("</td>");
+				
 				out.append("<tr>");
 			}
 		}

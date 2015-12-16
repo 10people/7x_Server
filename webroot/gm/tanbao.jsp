@@ -118,7 +118,7 @@ pageContext.setAttribute("basePath",basePath);
 	    		        /*
 	    		         * 元宝探宝
 	    		         */
-	    		        all = TanBaoData.yuanBao_all_free_times;
+	    		        all = 0;//TanBaoData.yuanBao_all_free_times;
 	    		        e = map.get(TanBaoData.yuanBao_type);
 	    		        if(e != null){
                             ExploreMgr.inst.resetExploreMine(e);

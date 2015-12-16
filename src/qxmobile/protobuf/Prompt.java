@@ -854,25 +854,33 @@ public final class Prompt {
     com.google.protobuf.ByteString
         getSubaoBytes();
 
-    // required int32 msgType = 4;
+    // required int32 eventId = 4;
     /**
-     * <code>required int32 msgType = 4;</code>
+     * <code>required int32 eventId = 4;</code>
      */
-    boolean hasMsgType();
+    boolean hasEventId();
     /**
-     * <code>required int32 msgType = 4;</code>
+     * <code>required int32 eventId = 4;</code>
      */
-    int getMsgType();
+    int getEventId();
 
-    // required bool isShow = 5;
+    // required int32 configId = 5;
     /**
-     * <code>required bool isShow = 5;</code>
+     * <code>required int32 configId = 5;</code>
+     *
+     * <pre>
+     *配置表中的ID
+     * </pre>
      */
-    boolean hasIsShow();
+    boolean hasConfigId();
     /**
-     * <code>required bool isShow = 5;</code>
+     * <code>required int32 configId = 5;</code>
+     *
+     * <pre>
+     *配置表中的ID
+     * </pre>
      */
-    boolean getIsShow();
+    int getConfigId();
 
     // optional int64 startTime = 6;
     /**
@@ -956,12 +964,12 @@ public final class Prompt {
             }
             case 32: {
               bitField0_ |= 0x00000008;
-              msgType_ = input.readInt32();
+              eventId_ = input.readInt32();
               break;
             }
             case 40: {
               bitField0_ |= 0x00000010;
-              isShow_ = input.readBool();
+              configId_ = input.readInt32();
               break;
             }
             case 48: {
@@ -1084,36 +1092,44 @@ public final class Prompt {
       }
     }
 
-    // required int32 msgType = 4;
-    public static final int MSGTYPE_FIELD_NUMBER = 4;
-    private int msgType_;
+    // required int32 eventId = 4;
+    public static final int EVENTID_FIELD_NUMBER = 4;
+    private int eventId_;
     /**
-     * <code>required int32 msgType = 4;</code>
+     * <code>required int32 eventId = 4;</code>
      */
-    public boolean hasMsgType() {
+    public boolean hasEventId() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required int32 msgType = 4;</code>
+     * <code>required int32 eventId = 4;</code>
      */
-    public int getMsgType() {
-      return msgType_;
+    public int getEventId() {
+      return eventId_;
     }
 
-    // required bool isShow = 5;
-    public static final int ISSHOW_FIELD_NUMBER = 5;
-    private boolean isShow_;
+    // required int32 configId = 5;
+    public static final int CONFIGID_FIELD_NUMBER = 5;
+    private int configId_;
     /**
-     * <code>required bool isShow = 5;</code>
+     * <code>required int32 configId = 5;</code>
+     *
+     * <pre>
+     *配置表中的ID
+     * </pre>
      */
-    public boolean hasIsShow() {
+    public boolean hasConfigId() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>required bool isShow = 5;</code>
+     * <code>required int32 configId = 5;</code>
+     *
+     * <pre>
+     *配置表中的ID
+     * </pre>
      */
-    public boolean getIsShow() {
-      return isShow_;
+    public int getConfigId() {
+      return configId_;
     }
 
     // optional int64 startTime = 6;
@@ -1136,8 +1152,8 @@ public final class Prompt {
       subaoId_ = 0L;
       otherJzId_ = 0L;
       subao_ = "";
-      msgType_ = 0;
-      isShow_ = false;
+      eventId_ = 0;
+      configId_ = 0;
       startTime_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
@@ -1157,11 +1173,11 @@ public final class Prompt {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasMsgType()) {
+      if (!hasEventId()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasIsShow()) {
+      if (!hasConfigId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1182,10 +1198,10 @@ public final class Prompt {
         output.writeBytes(3, getSubaoBytes());
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(4, msgType_);
+        output.writeInt32(4, eventId_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeBool(5, isShow_);
+        output.writeInt32(5, configId_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeInt64(6, startTime_);
@@ -1213,11 +1229,11 @@ public final class Prompt {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, msgType_);
+          .computeInt32Size(4, eventId_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(5, isShow_);
+          .computeInt32Size(5, configId_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
@@ -1349,9 +1365,9 @@ public final class Prompt {
         bitField0_ = (bitField0_ & ~0x00000002);
         subao_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
-        msgType_ = 0;
+        eventId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
-        isShow_ = false;
+        configId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
         startTime_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -1398,11 +1414,11 @@ public final class Prompt {
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.msgType_ = msgType_;
+        result.eventId_ = eventId_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.isShow_ = isShow_;
+        result.configId_ = configId_;
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000020;
         }
@@ -1434,11 +1450,11 @@ public final class Prompt {
           subao_ = other.subao_;
           onChanged();
         }
-        if (other.hasMsgType()) {
-          setMsgType(other.getMsgType());
+        if (other.hasEventId()) {
+          setEventId(other.getEventId());
         }
-        if (other.hasIsShow()) {
-          setIsShow(other.getIsShow());
+        if (other.hasConfigId()) {
+          setConfigId(other.getConfigId());
         }
         if (other.hasStartTime()) {
           setStartTime(other.getStartTime());
@@ -1460,11 +1476,11 @@ public final class Prompt {
           
           return false;
         }
-        if (!hasMsgType()) {
+        if (!hasEventId()) {
           
           return false;
         }
-        if (!hasIsShow()) {
+        if (!hasConfigId()) {
           
           return false;
         }
@@ -1630,68 +1646,84 @@ public final class Prompt {
         return this;
       }
 
-      // required int32 msgType = 4;
-      private int msgType_ ;
+      // required int32 eventId = 4;
+      private int eventId_ ;
       /**
-       * <code>required int32 msgType = 4;</code>
+       * <code>required int32 eventId = 4;</code>
        */
-      public boolean hasMsgType() {
+      public boolean hasEventId() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>required int32 msgType = 4;</code>
+       * <code>required int32 eventId = 4;</code>
        */
-      public int getMsgType() {
-        return msgType_;
+      public int getEventId() {
+        return eventId_;
       }
       /**
-       * <code>required int32 msgType = 4;</code>
+       * <code>required int32 eventId = 4;</code>
        */
-      public Builder setMsgType(int value) {
+      public Builder setEventId(int value) {
         bitField0_ |= 0x00000008;
-        msgType_ = value;
+        eventId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 msgType = 4;</code>
+       * <code>required int32 eventId = 4;</code>
        */
-      public Builder clearMsgType() {
+      public Builder clearEventId() {
         bitField0_ = (bitField0_ & ~0x00000008);
-        msgType_ = 0;
+        eventId_ = 0;
         onChanged();
         return this;
       }
 
-      // required bool isShow = 5;
-      private boolean isShow_ ;
+      // required int32 configId = 5;
+      private int configId_ ;
       /**
-       * <code>required bool isShow = 5;</code>
+       * <code>required int32 configId = 5;</code>
+       *
+       * <pre>
+       *配置表中的ID
+       * </pre>
        */
-      public boolean hasIsShow() {
+      public boolean hasConfigId() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>required bool isShow = 5;</code>
+       * <code>required int32 configId = 5;</code>
+       *
+       * <pre>
+       *配置表中的ID
+       * </pre>
        */
-      public boolean getIsShow() {
-        return isShow_;
+      public int getConfigId() {
+        return configId_;
       }
       /**
-       * <code>required bool isShow = 5;</code>
+       * <code>required int32 configId = 5;</code>
+       *
+       * <pre>
+       *配置表中的ID
+       * </pre>
        */
-      public Builder setIsShow(boolean value) {
+      public Builder setConfigId(int value) {
         bitField0_ |= 0x00000010;
-        isShow_ = value;
+        configId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required bool isShow = 5;</code>
+       * <code>required int32 configId = 5;</code>
+       *
+       * <pre>
+       *配置表中的ID
+       * </pre>
        */
-      public Builder clearIsShow() {
+      public Builder clearConfigId() {
         bitField0_ = (bitField0_ & ~0x00000010);
-        isShow_ = false;
+        configId_ = 0;
         onChanged();
         return this;
       }
@@ -1740,42 +1772,61 @@ public final class Prompt {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.SuBaoMSG)
   }
 
-  public interface UpDateSuBaoReqOrBuilder
+  public interface PromptActionReqOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int64 subaoId = 1;
+    // required int32 reqType = 1;
     /**
-     * <code>required int64 subaoId = 1;</code>
+     * <code>required int32 reqType = 1;</code>
+     *
+     * <pre>
+     * 1-忽略， 2- 祝福， 3- 安慰， 4 -领奖, 5- 前往 可以增加对应的协议
+     * </pre>
      */
-    boolean hasSubaoId();
+    boolean hasReqType();
     /**
-     * <code>required int64 subaoId = 1;</code>
+     * <code>required int32 reqType = 1;</code>
+     *
+     * <pre>
+     * 1-忽略， 2- 祝福， 3- 安慰， 4 -领奖, 5- 前往 可以增加对应的协议
+     * </pre>
      */
-    long getSubaoId();
+    int getReqType();
+
+    // required int64 suBaoId = 2;
+    /**
+     * <code>required int64 suBaoId = 2;</code>
+     */
+    boolean hasSuBaoId();
+    /**
+     * <code>required int64 suBaoId = 2;</code>
+     */
+    long getSuBaoId();
   }
   /**
-   * Protobuf type {@code qxmobile.protobuf.UpDateSuBaoReq}
+   * Protobuf type {@code qxmobile.protobuf.PromptActionReq}
    *
    * <pre>
-   *更新盟友速报
+   *	public static final short Prompt_Action_Req = 4242; //快报中的行为请求
+   *	public static final short Prompt_Action_Resp = 4243; //快报中行为请求返回
    * </pre>
    */
-  public static final class UpDateSuBaoReq extends
+  public static final class PromptActionReq extends
       com.google.protobuf.GeneratedMessage
-      implements UpDateSuBaoReqOrBuilder {
-    // Use UpDateSuBaoReq.newBuilder() to construct.
-    private UpDateSuBaoReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements PromptActionReqOrBuilder {
+    // Use PromptActionReq.newBuilder() to construct.
+    private PromptActionReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private UpDateSuBaoReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private PromptActionReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final UpDateSuBaoReq defaultInstance;
-    public static UpDateSuBaoReq getDefaultInstance() {
+    private static final PromptActionReq defaultInstance;
+    public static PromptActionReq getDefaultInstance() {
       return defaultInstance;
     }
 
-    public UpDateSuBaoReq getDefaultInstanceForType() {
+    public PromptActionReq getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -1785,7 +1836,7 @@ public final class Prompt {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private UpDateSuBaoReq(
+    private PromptActionReq(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1810,7 +1861,12 @@ public final class Prompt {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              subaoId_ = input.readInt64();
+              reqType_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              suBaoId_ = input.readInt64();
               break;
             }
           }
@@ -1827,57 +1883,86 @@ public final class Prompt {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_UpDateSuBaoReq_descriptor;
+      return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_PromptActionReq_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_UpDateSuBaoReq_fieldAccessorTable
+      return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_PromptActionReq_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.Prompt.UpDateSuBaoReq.class, qxmobile.protobuf.Prompt.UpDateSuBaoReq.Builder.class);
+              qxmobile.protobuf.Prompt.PromptActionReq.class, qxmobile.protobuf.Prompt.PromptActionReq.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<UpDateSuBaoReq> PARSER =
-        new com.google.protobuf.AbstractParser<UpDateSuBaoReq>() {
-      public UpDateSuBaoReq parsePartialFrom(
+    public static com.google.protobuf.Parser<PromptActionReq> PARSER =
+        new com.google.protobuf.AbstractParser<PromptActionReq>() {
+      public PromptActionReq parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new UpDateSuBaoReq(input, extensionRegistry);
+        return new PromptActionReq(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<UpDateSuBaoReq> getParserForType() {
+    public com.google.protobuf.Parser<PromptActionReq> getParserForType() {
       return PARSER;
     }
 
     private int bitField0_;
-    // required int64 subaoId = 1;
-    public static final int SUBAOID_FIELD_NUMBER = 1;
-    private long subaoId_;
+    // required int32 reqType = 1;
+    public static final int REQTYPE_FIELD_NUMBER = 1;
+    private int reqType_;
     /**
-     * <code>required int64 subaoId = 1;</code>
+     * <code>required int32 reqType = 1;</code>
+     *
+     * <pre>
+     * 1-忽略， 2- 祝福， 3- 安慰， 4 -领奖, 5- 前往 可以增加对应的协议
+     * </pre>
      */
-    public boolean hasSubaoId() {
+    public boolean hasReqType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int64 subaoId = 1;</code>
+     * <code>required int32 reqType = 1;</code>
+     *
+     * <pre>
+     * 1-忽略， 2- 祝福， 3- 安慰， 4 -领奖, 5- 前往 可以增加对应的协议
+     * </pre>
      */
-    public long getSubaoId() {
-      return subaoId_;
+    public int getReqType() {
+      return reqType_;
+    }
+
+    // required int64 suBaoId = 2;
+    public static final int SUBAOID_FIELD_NUMBER = 2;
+    private long suBaoId_;
+    /**
+     * <code>required int64 suBaoId = 2;</code>
+     */
+    public boolean hasSuBaoId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int64 suBaoId = 2;</code>
+     */
+    public long getSuBaoId() {
+      return suBaoId_;
     }
 
     private void initFields() {
-      subaoId_ = 0L;
+      reqType_ = 0;
+      suBaoId_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasSubaoId()) {
+      if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSuBaoId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1889,7 +1974,10 @@ public final class Prompt {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt64(1, subaoId_);
+        output.writeInt32(1, reqType_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt64(2, suBaoId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1902,7 +1990,11 @@ public final class Prompt {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(1, subaoId_);
+          .computeInt32Size(1, reqType_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, suBaoId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1916,53 +2008,53 @@ public final class Prompt {
       return super.writeReplace();
     }
 
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoReq parseFrom(
+    public static qxmobile.protobuf.Prompt.PromptActionReq parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoReq parseFrom(
+    public static qxmobile.protobuf.Prompt.PromptActionReq parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoReq parseFrom(byte[] data)
+    public static qxmobile.protobuf.Prompt.PromptActionReq parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoReq parseFrom(
+    public static qxmobile.protobuf.Prompt.PromptActionReq parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoReq parseFrom(java.io.InputStream input)
+    public static qxmobile.protobuf.Prompt.PromptActionReq parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoReq parseFrom(
+    public static qxmobile.protobuf.Prompt.PromptActionReq parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoReq parseDelimitedFrom(java.io.InputStream input)
+    public static qxmobile.protobuf.Prompt.PromptActionReq parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoReq parseDelimitedFrom(
+    public static qxmobile.protobuf.Prompt.PromptActionReq parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoReq parseFrom(
+    public static qxmobile.protobuf.Prompt.PromptActionReq parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoReq parseFrom(
+    public static qxmobile.protobuf.Prompt.PromptActionReq parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1971,7 +2063,7 @@ public final class Prompt {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.Prompt.UpDateSuBaoReq prototype) {
+    public static Builder newBuilder(qxmobile.protobuf.Prompt.PromptActionReq prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -1983,28 +2075,29 @@ public final class Prompt {
       return builder;
     }
     /**
-     * Protobuf type {@code qxmobile.protobuf.UpDateSuBaoReq}
+     * Protobuf type {@code qxmobile.protobuf.PromptActionReq}
      *
      * <pre>
-     *更新盟友速报
+     *	public static final short Prompt_Action_Req = 4242; //快报中的行为请求
+     *	public static final short Prompt_Action_Resp = 4243; //快报中行为请求返回
      * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.Prompt.UpDateSuBaoReqOrBuilder {
+       implements qxmobile.protobuf.Prompt.PromptActionReqOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_UpDateSuBaoReq_descriptor;
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_PromptActionReq_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_UpDateSuBaoReq_fieldAccessorTable
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_PromptActionReq_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.Prompt.UpDateSuBaoReq.class, qxmobile.protobuf.Prompt.UpDateSuBaoReq.Builder.class);
+                qxmobile.protobuf.Prompt.PromptActionReq.class, qxmobile.protobuf.Prompt.PromptActionReq.Builder.class);
       }
 
-      // Construct using qxmobile.protobuf.Prompt.UpDateSuBaoReq.newBuilder()
+      // Construct using qxmobile.protobuf.Prompt.PromptActionReq.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2024,8 +2117,10 @@ public final class Prompt {
 
       public Builder clear() {
         super.clear();
-        subaoId_ = 0L;
+        reqType_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        suBaoId_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -2035,54 +2130,65 @@ public final class Prompt {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_UpDateSuBaoReq_descriptor;
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_PromptActionReq_descriptor;
       }
 
-      public qxmobile.protobuf.Prompt.UpDateSuBaoReq getDefaultInstanceForType() {
-        return qxmobile.protobuf.Prompt.UpDateSuBaoReq.getDefaultInstance();
+      public qxmobile.protobuf.Prompt.PromptActionReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.Prompt.PromptActionReq.getDefaultInstance();
       }
 
-      public qxmobile.protobuf.Prompt.UpDateSuBaoReq build() {
-        qxmobile.protobuf.Prompt.UpDateSuBaoReq result = buildPartial();
+      public qxmobile.protobuf.Prompt.PromptActionReq build() {
+        qxmobile.protobuf.Prompt.PromptActionReq result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public qxmobile.protobuf.Prompt.UpDateSuBaoReq buildPartial() {
-        qxmobile.protobuf.Prompt.UpDateSuBaoReq result = new qxmobile.protobuf.Prompt.UpDateSuBaoReq(this);
+      public qxmobile.protobuf.Prompt.PromptActionReq buildPartial() {
+        qxmobile.protobuf.Prompt.PromptActionReq result = new qxmobile.protobuf.Prompt.PromptActionReq(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.subaoId_ = subaoId_;
+        result.reqType_ = reqType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.suBaoId_ = suBaoId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.Prompt.UpDateSuBaoReq) {
-          return mergeFrom((qxmobile.protobuf.Prompt.UpDateSuBaoReq)other);
+        if (other instanceof qxmobile.protobuf.Prompt.PromptActionReq) {
+          return mergeFrom((qxmobile.protobuf.Prompt.PromptActionReq)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(qxmobile.protobuf.Prompt.UpDateSuBaoReq other) {
-        if (other == qxmobile.protobuf.Prompt.UpDateSuBaoReq.getDefaultInstance()) return this;
-        if (other.hasSubaoId()) {
-          setSubaoId(other.getSubaoId());
+      public Builder mergeFrom(qxmobile.protobuf.Prompt.PromptActionReq other) {
+        if (other == qxmobile.protobuf.Prompt.PromptActionReq.getDefaultInstance()) return this;
+        if (other.hasReqType()) {
+          setReqType(other.getReqType());
+        }
+        if (other.hasSuBaoId()) {
+          setSuBaoId(other.getSuBaoId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasSubaoId()) {
+        if (!hasReqType()) {
+          
+          return false;
+        }
+        if (!hasSuBaoId()) {
           
           return false;
         }
@@ -2093,11 +2199,11 @@ public final class Prompt {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        qxmobile.protobuf.Prompt.UpDateSuBaoReq parsedMessage = null;
+        qxmobile.protobuf.Prompt.PromptActionReq parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.Prompt.UpDateSuBaoReq) e.getUnfinishedMessage();
+          parsedMessage = (qxmobile.protobuf.Prompt.PromptActionReq) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -2108,51 +2214,100 @@ public final class Prompt {
       }
       private int bitField0_;
 
-      // required int64 subaoId = 1;
-      private long subaoId_ ;
+      // required int32 reqType = 1;
+      private int reqType_ ;
       /**
-       * <code>required int64 subaoId = 1;</code>
+       * <code>required int32 reqType = 1;</code>
+       *
+       * <pre>
+       * 1-忽略， 2- 祝福， 3- 安慰， 4 -领奖, 5- 前往 可以增加对应的协议
+       * </pre>
        */
-      public boolean hasSubaoId() {
+      public boolean hasReqType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int64 subaoId = 1;</code>
+       * <code>required int32 reqType = 1;</code>
+       *
+       * <pre>
+       * 1-忽略， 2- 祝福， 3- 安慰， 4 -领奖, 5- 前往 可以增加对应的协议
+       * </pre>
        */
-      public long getSubaoId() {
-        return subaoId_;
+      public int getReqType() {
+        return reqType_;
       }
       /**
-       * <code>required int64 subaoId = 1;</code>
+       * <code>required int32 reqType = 1;</code>
+       *
+       * <pre>
+       * 1-忽略， 2- 祝福， 3- 安慰， 4 -领奖, 5- 前往 可以增加对应的协议
+       * </pre>
        */
-      public Builder setSubaoId(long value) {
+      public Builder setReqType(int value) {
         bitField0_ |= 0x00000001;
-        subaoId_ = value;
+        reqType_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int64 subaoId = 1;</code>
+       * <code>required int32 reqType = 1;</code>
+       *
+       * <pre>
+       * 1-忽略， 2- 祝福， 3- 安慰， 4 -领奖, 5- 前往 可以增加对应的协议
+       * </pre>
        */
-      public Builder clearSubaoId() {
+      public Builder clearReqType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        subaoId_ = 0L;
+        reqType_ = 0;
         onChanged();
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.UpDateSuBaoReq)
+      // required int64 suBaoId = 2;
+      private long suBaoId_ ;
+      /**
+       * <code>required int64 suBaoId = 2;</code>
+       */
+      public boolean hasSuBaoId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int64 suBaoId = 2;</code>
+       */
+      public long getSuBaoId() {
+        return suBaoId_;
+      }
+      /**
+       * <code>required int64 suBaoId = 2;</code>
+       */
+      public Builder setSuBaoId(long value) {
+        bitField0_ |= 0x00000002;
+        suBaoId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 suBaoId = 2;</code>
+       */
+      public Builder clearSuBaoId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        suBaoId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.PromptActionReq)
     }
 
     static {
-      defaultInstance = new UpDateSuBaoReq(true);
+      defaultInstance = new PromptActionReq(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.UpDateSuBaoReq)
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.PromptActionReq)
   }
 
-  public interface UpDateSuBaoRespOrBuilder
+  public interface PromptActionRespOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
     // required int64 subaoId = 1;
@@ -2186,14 +2341,26 @@ public final class Prompt {
     // optional string fujian = 3;
     /**
      * <code>optional string fujian = 3;</code>
+     *
+     * <pre>
+     *例子：对于领奖的类型，显示的是奖励物品 
+     * </pre>
      */
     boolean hasFujian();
     /**
      * <code>optional string fujian = 3;</code>
+     *
+     * <pre>
+     *例子：对于领奖的类型，显示的是奖励物品 
+     * </pre>
      */
     java.lang.String getFujian();
     /**
      * <code>optional string fujian = 3;</code>
+     *
+     * <pre>
+     *例子：对于领奖的类型，显示的是奖励物品 
+     * </pre>
      */
     com.google.protobuf.ByteString
         getFujianBytes();
@@ -2219,28 +2386,28 @@ public final class Prompt {
     float getPosZ();
   }
   /**
-   * Protobuf type {@code qxmobile.protobuf.UpDateSuBaoResp}
+   * Protobuf type {@code qxmobile.protobuf.PromptActionResp}
    *
    * <pre>
    *更新盟友速报返回
    * </pre>
    */
-  public static final class UpDateSuBaoResp extends
+  public static final class PromptActionResp extends
       com.google.protobuf.GeneratedMessage
-      implements UpDateSuBaoRespOrBuilder {
-    // Use UpDateSuBaoResp.newBuilder() to construct.
-    private UpDateSuBaoResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements PromptActionRespOrBuilder {
+    // Use PromptActionResp.newBuilder() to construct.
+    private PromptActionResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private UpDateSuBaoResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private PromptActionResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final UpDateSuBaoResp defaultInstance;
-    public static UpDateSuBaoResp getDefaultInstance() {
+    private static final PromptActionResp defaultInstance;
+    public static PromptActionResp getDefaultInstance() {
       return defaultInstance;
     }
 
-    public UpDateSuBaoResp getDefaultInstanceForType() {
+    public PromptActionResp getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -2250,7 +2417,7 @@ public final class Prompt {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private UpDateSuBaoResp(
+    private PromptActionResp(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2312,28 +2479,28 @@ public final class Prompt {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_UpDateSuBaoResp_descriptor;
+      return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_PromptActionResp_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_UpDateSuBaoResp_fieldAccessorTable
+      return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_PromptActionResp_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.Prompt.UpDateSuBaoResp.class, qxmobile.protobuf.Prompt.UpDateSuBaoResp.Builder.class);
+              qxmobile.protobuf.Prompt.PromptActionResp.class, qxmobile.protobuf.Prompt.PromptActionResp.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<UpDateSuBaoResp> PARSER =
-        new com.google.protobuf.AbstractParser<UpDateSuBaoResp>() {
-      public UpDateSuBaoResp parsePartialFrom(
+    public static com.google.protobuf.Parser<PromptActionResp> PARSER =
+        new com.google.protobuf.AbstractParser<PromptActionResp>() {
+      public PromptActionResp parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new UpDateSuBaoResp(input, extensionRegistry);
+        return new PromptActionResp(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<UpDateSuBaoResp> getParserForType() {
+    public com.google.protobuf.Parser<PromptActionResp> getParserForType() {
       return PARSER;
     }
 
@@ -2383,12 +2550,20 @@ public final class Prompt {
     private java.lang.Object fujian_;
     /**
      * <code>optional string fujian = 3;</code>
+     *
+     * <pre>
+     *例子：对于领奖的类型，显示的是奖励物品 
+     * </pre>
      */
     public boolean hasFujian() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional string fujian = 3;</code>
+     *
+     * <pre>
+     *例子：对于领奖的类型，显示的是奖励物品 
+     * </pre>
      */
     public java.lang.String getFujian() {
       java.lang.Object ref = fujian_;
@@ -2406,6 +2581,10 @@ public final class Prompt {
     }
     /**
      * <code>optional string fujian = 3;</code>
+     *
+     * <pre>
+     *例子：对于领奖的类型，显示的是奖励物品 
+     * </pre>
      */
     public com.google.protobuf.ByteString
         getFujianBytes() {
@@ -2536,53 +2715,53 @@ public final class Prompt {
       return super.writeReplace();
     }
 
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoResp parseFrom(
+    public static qxmobile.protobuf.Prompt.PromptActionResp parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoResp parseFrom(
+    public static qxmobile.protobuf.Prompt.PromptActionResp parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoResp parseFrom(byte[] data)
+    public static qxmobile.protobuf.Prompt.PromptActionResp parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoResp parseFrom(
+    public static qxmobile.protobuf.Prompt.PromptActionResp parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoResp parseFrom(java.io.InputStream input)
+    public static qxmobile.protobuf.Prompt.PromptActionResp parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoResp parseFrom(
+    public static qxmobile.protobuf.Prompt.PromptActionResp parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoResp parseDelimitedFrom(java.io.InputStream input)
+    public static qxmobile.protobuf.Prompt.PromptActionResp parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoResp parseDelimitedFrom(
+    public static qxmobile.protobuf.Prompt.PromptActionResp parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoResp parseFrom(
+    public static qxmobile.protobuf.Prompt.PromptActionResp parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static qxmobile.protobuf.Prompt.UpDateSuBaoResp parseFrom(
+    public static qxmobile.protobuf.Prompt.PromptActionResp parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -2591,7 +2770,7 @@ public final class Prompt {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.Prompt.UpDateSuBaoResp prototype) {
+    public static Builder newBuilder(qxmobile.protobuf.Prompt.PromptActionResp prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -2603,7 +2782,7 @@ public final class Prompt {
       return builder;
     }
     /**
-     * Protobuf type {@code qxmobile.protobuf.UpDateSuBaoResp}
+     * Protobuf type {@code qxmobile.protobuf.PromptActionResp}
      *
      * <pre>
      *更新盟友速报返回
@@ -2611,20 +2790,20 @@ public final class Prompt {
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.Prompt.UpDateSuBaoRespOrBuilder {
+       implements qxmobile.protobuf.Prompt.PromptActionRespOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_UpDateSuBaoResp_descriptor;
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_PromptActionResp_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_UpDateSuBaoResp_fieldAccessorTable
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_PromptActionResp_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.Prompt.UpDateSuBaoResp.class, qxmobile.protobuf.Prompt.UpDateSuBaoResp.Builder.class);
+                qxmobile.protobuf.Prompt.PromptActionResp.class, qxmobile.protobuf.Prompt.PromptActionResp.Builder.class);
       }
 
-      // Construct using qxmobile.protobuf.Prompt.UpDateSuBaoResp.newBuilder()
+      // Construct using qxmobile.protobuf.Prompt.PromptActionResp.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2663,23 +2842,23 @@ public final class Prompt {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_UpDateSuBaoResp_descriptor;
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_PromptActionResp_descriptor;
       }
 
-      public qxmobile.protobuf.Prompt.UpDateSuBaoResp getDefaultInstanceForType() {
-        return qxmobile.protobuf.Prompt.UpDateSuBaoResp.getDefaultInstance();
+      public qxmobile.protobuf.Prompt.PromptActionResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Prompt.PromptActionResp.getDefaultInstance();
       }
 
-      public qxmobile.protobuf.Prompt.UpDateSuBaoResp build() {
-        qxmobile.protobuf.Prompt.UpDateSuBaoResp result = buildPartial();
+      public qxmobile.protobuf.Prompt.PromptActionResp build() {
+        qxmobile.protobuf.Prompt.PromptActionResp result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public qxmobile.protobuf.Prompt.UpDateSuBaoResp buildPartial() {
-        qxmobile.protobuf.Prompt.UpDateSuBaoResp result = new qxmobile.protobuf.Prompt.UpDateSuBaoResp(this);
+      public qxmobile.protobuf.Prompt.PromptActionResp buildPartial() {
+        qxmobile.protobuf.Prompt.PromptActionResp result = new qxmobile.protobuf.Prompt.PromptActionResp(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -2708,16 +2887,16 @@ public final class Prompt {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.Prompt.UpDateSuBaoResp) {
-          return mergeFrom((qxmobile.protobuf.Prompt.UpDateSuBaoResp)other);
+        if (other instanceof qxmobile.protobuf.Prompt.PromptActionResp) {
+          return mergeFrom((qxmobile.protobuf.Prompt.PromptActionResp)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(qxmobile.protobuf.Prompt.UpDateSuBaoResp other) {
-        if (other == qxmobile.protobuf.Prompt.UpDateSuBaoResp.getDefaultInstance()) return this;
+      public Builder mergeFrom(qxmobile.protobuf.Prompt.PromptActionResp other) {
+        if (other == qxmobile.protobuf.Prompt.PromptActionResp.getDefaultInstance()) return this;
         if (other.hasSubaoId()) {
           setSubaoId(other.getSubaoId());
         }
@@ -2755,11 +2934,11 @@ public final class Prompt {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        qxmobile.protobuf.Prompt.UpDateSuBaoResp parsedMessage = null;
+        qxmobile.protobuf.Prompt.PromptActionResp parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.Prompt.UpDateSuBaoResp) e.getUnfinishedMessage();
+          parsedMessage = (qxmobile.protobuf.Prompt.PromptActionResp) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -2856,12 +3035,20 @@ public final class Prompt {
       private java.lang.Object fujian_ = "";
       /**
        * <code>optional string fujian = 3;</code>
+       *
+       * <pre>
+       *例子：对于领奖的类型，显示的是奖励物品 
+       * </pre>
        */
       public boolean hasFujian() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional string fujian = 3;</code>
+       *
+       * <pre>
+       *例子：对于领奖的类型，显示的是奖励物品 
+       * </pre>
        */
       public java.lang.String getFujian() {
         java.lang.Object ref = fujian_;
@@ -2876,6 +3063,10 @@ public final class Prompt {
       }
       /**
        * <code>optional string fujian = 3;</code>
+       *
+       * <pre>
+       *例子：对于领奖的类型，显示的是奖励物品 
+       * </pre>
        */
       public com.google.protobuf.ByteString
           getFujianBytes() {
@@ -2892,6 +3083,10 @@ public final class Prompt {
       }
       /**
        * <code>optional string fujian = 3;</code>
+       *
+       * <pre>
+       *例子：对于领奖的类型，显示的是奖励物品 
+       * </pre>
        */
       public Builder setFujian(
           java.lang.String value) {
@@ -2905,6 +3100,10 @@ public final class Prompt {
       }
       /**
        * <code>optional string fujian = 3;</code>
+       *
+       * <pre>
+       *例子：对于领奖的类型，显示的是奖励物品 
+       * </pre>
        */
       public Builder clearFujian() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -2914,6 +3113,10 @@ public final class Prompt {
       }
       /**
        * <code>optional string fujian = 3;</code>
+       *
+       * <pre>
+       *例子：对于领奖的类型，显示的是奖励物品 
+       * </pre>
        */
       public Builder setFujianBytes(
           com.google.protobuf.ByteString value) {
@@ -2992,15 +3195,15 @@ public final class Prompt {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.UpDateSuBaoResp)
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.PromptActionResp)
     }
 
     static {
-      defaultInstance = new UpDateSuBaoResp(true);
+      defaultInstance = new PromptActionResp(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.UpDateSuBaoResp)
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.PromptActionResp)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
@@ -3014,15 +3217,15 @@ public final class Prompt {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_SuBaoMSG_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_UpDateSuBaoReq_descriptor;
+    internal_static_qxmobile_protobuf_PromptActionReq_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_UpDateSuBaoReq_fieldAccessorTable;
+      internal_static_qxmobile_protobuf_PromptActionReq_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_UpDateSuBaoResp_descriptor;
+    internal_static_qxmobile_protobuf_PromptActionResp_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_UpDateSuBaoResp_fieldAccessorTable;
+      internal_static_qxmobile_protobuf_PromptActionResp_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3034,13 +3237,14 @@ public final class Prompt {
     java.lang.String[] descriptorData = {
       "\n\014prompt.proto\022\021qxmobile.protobuf\"=\n\rPro" +
       "mptMSGResp\022,\n\007msgList\030\001 \003(\0132\033.qxmobile.p" +
-      "rotobuf.SuBaoMSG\"q\n\010SuBaoMSG\022\017\n\007subaoId\030" +
+      "rotobuf.SuBaoMSG\"s\n\010SuBaoMSG\022\017\n\007subaoId\030" +
       "\001 \002(\003\022\021\n\totherJzId\030\002 \002(\003\022\r\n\005subao\030\003 \002(\t\022" +
-      "\017\n\007msgType\030\004 \002(\005\022\016\n\006isShow\030\005 \002(\010\022\021\n\tstar" +
-      "tTime\030\006 \001(\003\"!\n\016UpDateSuBaoReq\022\017\n\007subaoId" +
-      "\030\001 \002(\003\"^\n\017UpDateSuBaoResp\022\017\n\007subaoId\030\001 \002" +
-      "(\003\022\016\n\006result\030\002 \002(\003\022\016\n\006fujian\030\003 \001(\t\022\014\n\004po" +
-      "sX\030\004 \001(\002\022\014\n\004posZ\030\005 \001(\002B\010B\006Prompt"
+      "\017\n\007eventId\030\004 \002(\005\022\020\n\010configId\030\005 \002(\005\022\021\n\tst" +
+      "artTime\030\006 \001(\003\"3\n\017PromptActionReq\022\017\n\007reqT" +
+      "ype\030\001 \002(\005\022\017\n\007suBaoId\030\002 \002(\003\"_\n\020PromptActi" +
+      "onResp\022\017\n\007subaoId\030\001 \002(\003\022\016\n\006result\030\002 \002(\003\022" +
+      "\016\n\006fujian\030\003 \001(\t\022\014\n\004posX\030\004 \001(\002\022\014\n\004posZ\030\005 " +
+      "\001(\002B\010B\006Prompt"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3058,18 +3262,18 @@ public final class Prompt {
           internal_static_qxmobile_protobuf_SuBaoMSG_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_SuBaoMSG_descriptor,
-              new java.lang.String[] { "SubaoId", "OtherJzId", "Subao", "MsgType", "IsShow", "StartTime", });
-          internal_static_qxmobile_protobuf_UpDateSuBaoReq_descriptor =
+              new java.lang.String[] { "SubaoId", "OtherJzId", "Subao", "EventId", "ConfigId", "StartTime", });
+          internal_static_qxmobile_protobuf_PromptActionReq_descriptor =
             getDescriptor().getMessageTypes().get(2);
-          internal_static_qxmobile_protobuf_UpDateSuBaoReq_fieldAccessorTable = new
+          internal_static_qxmobile_protobuf_PromptActionReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_UpDateSuBaoReq_descriptor,
-              new java.lang.String[] { "SubaoId", });
-          internal_static_qxmobile_protobuf_UpDateSuBaoResp_descriptor =
+              internal_static_qxmobile_protobuf_PromptActionReq_descriptor,
+              new java.lang.String[] { "ReqType", "SuBaoId", });
+          internal_static_qxmobile_protobuf_PromptActionResp_descriptor =
             getDescriptor().getMessageTypes().get(3);
-          internal_static_qxmobile_protobuf_UpDateSuBaoResp_fieldAccessorTable = new
+          internal_static_qxmobile_protobuf_PromptActionResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_UpDateSuBaoResp_descriptor,
+              internal_static_qxmobile_protobuf_PromptActionResp_descriptor,
               new java.lang.String[] { "SubaoId", "Result", "Fujian", "PosX", "PosZ", });
           return null;
         }

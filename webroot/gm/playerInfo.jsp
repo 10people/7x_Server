@@ -1,3 +1,5 @@
+<%@page import="com.qx.yabiao.YBBattleBean"%>
+<%@page import="com.qx.yabiao.YaBiaoHuoDongMgr"%>
 <%@page import="com.manu.dynasty.template.CanShu"%>
 <%@page import="com.qx.persistent.MC"%>
 <%@page import="com.qx.timeworker.TimeWorker"%>
@@ -135,16 +137,13 @@ do{
 	 }else if("updateYaBiaoCount".equals(action)){
 		 YaBiaoBean yb = HibernateUtil.find(YaBiaoBean.class, junzhu.id);
 		 if(yb == null) {
-	 return;
+	 			return;
 		 }
 		 yb.remainYB = Integer.parseInt(request.getParameter("v"));
 		 HibernateUtil.save(yb);
 	 }else if("updateJieBiaoCount".equals(action)){
-		 YaBiaoBean yb = HibernateUtil.find(YaBiaoBean.class, junzhu.id);
-		 if(yb == null) {
-	 return;
-		 }
-		 yb.remainJB = Integer.parseInt(request.getParameter("v"));
+		 YBBattleBean yb =YaBiaoHuoDongMgr.inst.getYBZhanDouInfo(junzhu.id, junzhu.vipLevel);
+		 yb.remainJB4Award = Integer.parseInt(request.getParameter("v"));
 		 HibernateUtil.save(yb);
 	 }else if("updateXilianCount".equals(action)){
 		 XiLian xilian = PurchaseMgr.inst.getXiLian(junzhu.id);
@@ -184,6 +183,7 @@ do{
 	 JunZhuMgr.inst.calcAtt(junzhu);
 	 AlliancePlayer alncPlayer = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
 	 YaBiaoBean ybbean = HibernateUtil.find(YaBiaoBean.class, junzhu.id);
+	 YBBattleBean jbBean =YaBiaoHuoDongMgr.inst.getYBZhanDouInfo(junzhu.id, junzhu.vipLevel);
 	 XiLian xilian = PurchaseMgr.inst.getXiLian(junzhu.id);
 	TimeWorker xilianWorker = HibernateUtil.find(TimeWorker.class, junzhu.id);
 	 String guojiaName = HeroService.getNameById(junzhu.guoJiaId+"");
@@ -212,7 +212,7 @@ do{
 	 trS();td("hpMax");td(junzhu.shengMingMax);td("<br/>");trE();
 	 trS();td("联盟id");td(alncPlayer != null ? alncPlayer.lianMengId : 0);td("<input type='text' id='updateLianmeng' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateLianmeng\")'/><br/>");trE();
 	 trS();td("剩余押镖次数");td(ybbean != null ?ybbean.remainYB: "未开启");td("<input type='text' id='updateYaBiaoCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateYaBiaoCount\")'/><br/>");trE();
-	 trS();td("剩余劫镖次数");td(ybbean != null ?ybbean.remainJB : "未开启");td("<input type='text' id='updateJieBiaoCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateJieBiaoCount\")'/><br/>");trE();
+	 trS();td("剩余劫镖次数");td(ybbean != null ?jbBean.remainJB4Award : "未开启");td("<input type='text' id='updateJieBiaoCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateJieBiaoCount\")'/><br/>");trE();
 	 trS();td("当日免费洗练剩余次数");td(xilianWorker.getXilianTimes());td("<input type='text' id='updateMianfeiXilianCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateMianfeiXilianCount\")'/><br/>");trE();
 	 trS();td("当日元宝洗练已使用次数");td(xilian.getNum());td("<input type='text' id='updateXilianCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateXilianCount\")'/><br/>");trE();
 	 trS();td("当日洗练石洗练已使用次数");td(xilian.getXlsCount());td("<input type='text' id='updateXilianShiCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateXilianShiCount\")'/><br/>");trE();

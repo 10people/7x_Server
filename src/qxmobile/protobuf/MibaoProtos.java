@@ -47,68 +47,75 @@ public final class MibaoProtos {
      */
     int getRemainTime();
 
-    // repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;
+    // repeated .qxmobile.protobuf.SkillInfo skillList = 3;
     /**
-     * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+     * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
      *
      * <pre>
-     * 秘宝组信息
+     * 秘宝技能信息
      * </pre>
      */
-    java.util.List<qxmobile.protobuf.MibaoProtos.MibaoGroup> 
-        getMibaoGroupList();
+    java.util.List<qxmobile.protobuf.MibaoProtos.SkillInfo> 
+        getSkillListList();
     /**
-     * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+     * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
      *
      * <pre>
-     * 秘宝组信息
+     * 秘宝技能信息
      * </pre>
      */
-    qxmobile.protobuf.MibaoProtos.MibaoGroup getMibaoGroup(int index);
+    qxmobile.protobuf.MibaoProtos.SkillInfo getSkillList(int index);
     /**
-     * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+     * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
      *
      * <pre>
-     * 秘宝组信息
+     * 秘宝技能信息
      * </pre>
      */
-    int getMibaoGroupCount();
+    int getSkillListCount();
     /**
-     * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+     * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
      *
      * <pre>
-     * 秘宝组信息
+     * 秘宝技能信息
      * </pre>
      */
-    java.util.List<? extends qxmobile.protobuf.MibaoProtos.MibaoGroupOrBuilder> 
-        getMibaoGroupOrBuilderList();
+    java.util.List<? extends qxmobile.protobuf.MibaoProtos.SkillInfoOrBuilder> 
+        getSkillListOrBuilderList();
     /**
-     * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+     * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
      *
      * <pre>
-     * 秘宝组信息
+     * 秘宝技能信息
      * </pre>
      */
-    qxmobile.protobuf.MibaoProtos.MibaoGroupOrBuilder getMibaoGroupOrBuilder(
+    qxmobile.protobuf.MibaoProtos.SkillInfoOrBuilder getSkillListOrBuilder(
         int index);
 
-    // required int32 needAllStar = 4;
+    // repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;
     /**
-     * <code>required int32 needAllStar = 4;</code>
-     *
-     * <pre>
-     * 可以领取宝箱的秘宝星星总数，分母
-     * </pre>
+     * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
      */
-    boolean hasNeedAllStar();
+    java.util.List<qxmobile.protobuf.MibaoProtos.MibaoInfo> 
+        getMiBaoListList();
     /**
-     * <code>required int32 needAllStar = 4;</code>
-     *
-     * <pre>
-     * 可以领取宝箱的秘宝星星总数，分母
-     * </pre>
+     * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
      */
-    int getNeedAllStar();
+    qxmobile.protobuf.MibaoProtos.MibaoInfo getMiBaoList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+     */
+    int getMiBaoListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+     */
+    java.util.List<? extends qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder> 
+        getMiBaoListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+     */
+    qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder getMiBaoListOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.MibaoInfoResp}
@@ -173,15 +180,18 @@ public final class MibaoProtos {
             }
             case 26: {
               if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                mibaoGroup_ = new java.util.ArrayList<qxmobile.protobuf.MibaoProtos.MibaoGroup>();
+                skillList_ = new java.util.ArrayList<qxmobile.protobuf.MibaoProtos.SkillInfo>();
                 mutable_bitField0_ |= 0x00000004;
               }
-              mibaoGroup_.add(input.readMessage(qxmobile.protobuf.MibaoProtos.MibaoGroup.PARSER, extensionRegistry));
+              skillList_.add(input.readMessage(qxmobile.protobuf.MibaoProtos.SkillInfo.PARSER, extensionRegistry));
               break;
             }
-            case 32: {
-              bitField0_ |= 0x00000004;
-              needAllStar_ = input.readInt32();
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                miBaoList_ = new java.util.ArrayList<qxmobile.protobuf.MibaoProtos.MibaoInfo>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              miBaoList_.add(input.readMessage(qxmobile.protobuf.MibaoProtos.MibaoInfo.PARSER, extensionRegistry));
               break;
             }
           }
@@ -193,7 +203,10 @@ public final class MibaoProtos {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          mibaoGroup_ = java.util.Collections.unmodifiableList(mibaoGroup_);
+          skillList_ = java.util.Collections.unmodifiableList(skillList_);
+        }
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          miBaoList_ = java.util.Collections.unmodifiableList(miBaoList_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -275,91 +288,103 @@ public final class MibaoProtos {
       return remainTime_;
     }
 
-    // repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;
-    public static final int MIBAOGROUP_FIELD_NUMBER = 3;
-    private java.util.List<qxmobile.protobuf.MibaoProtos.MibaoGroup> mibaoGroup_;
+    // repeated .qxmobile.protobuf.SkillInfo skillList = 3;
+    public static final int SKILLLIST_FIELD_NUMBER = 3;
+    private java.util.List<qxmobile.protobuf.MibaoProtos.SkillInfo> skillList_;
     /**
-     * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+     * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
      *
      * <pre>
-     * 秘宝组信息
+     * 秘宝技能信息
      * </pre>
      */
-    public java.util.List<qxmobile.protobuf.MibaoProtos.MibaoGroup> getMibaoGroupList() {
-      return mibaoGroup_;
+    public java.util.List<qxmobile.protobuf.MibaoProtos.SkillInfo> getSkillListList() {
+      return skillList_;
     }
     /**
-     * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+     * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
      *
      * <pre>
-     * 秘宝组信息
+     * 秘宝技能信息
      * </pre>
      */
-    public java.util.List<? extends qxmobile.protobuf.MibaoProtos.MibaoGroupOrBuilder> 
-        getMibaoGroupOrBuilderList() {
-      return mibaoGroup_;
+    public java.util.List<? extends qxmobile.protobuf.MibaoProtos.SkillInfoOrBuilder> 
+        getSkillListOrBuilderList() {
+      return skillList_;
     }
     /**
-     * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+     * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
      *
      * <pre>
-     * 秘宝组信息
+     * 秘宝技能信息
      * </pre>
      */
-    public int getMibaoGroupCount() {
-      return mibaoGroup_.size();
+    public int getSkillListCount() {
+      return skillList_.size();
     }
     /**
-     * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+     * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
      *
      * <pre>
-     * 秘宝组信息
+     * 秘宝技能信息
      * </pre>
      */
-    public qxmobile.protobuf.MibaoProtos.MibaoGroup getMibaoGroup(int index) {
-      return mibaoGroup_.get(index);
+    public qxmobile.protobuf.MibaoProtos.SkillInfo getSkillList(int index) {
+      return skillList_.get(index);
     }
     /**
-     * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+     * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
      *
      * <pre>
-     * 秘宝组信息
+     * 秘宝技能信息
      * </pre>
      */
-    public qxmobile.protobuf.MibaoProtos.MibaoGroupOrBuilder getMibaoGroupOrBuilder(
+    public qxmobile.protobuf.MibaoProtos.SkillInfoOrBuilder getSkillListOrBuilder(
         int index) {
-      return mibaoGroup_.get(index);
+      return skillList_.get(index);
     }
 
-    // required int32 needAllStar = 4;
-    public static final int NEEDALLSTAR_FIELD_NUMBER = 4;
-    private int needAllStar_;
+    // repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;
+    public static final int MIBAOLIST_FIELD_NUMBER = 4;
+    private java.util.List<qxmobile.protobuf.MibaoProtos.MibaoInfo> miBaoList_;
     /**
-     * <code>required int32 needAllStar = 4;</code>
-     *
-     * <pre>
-     * 可以领取宝箱的秘宝星星总数，分母
-     * </pre>
+     * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
      */
-    public boolean hasNeedAllStar() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+    public java.util.List<qxmobile.protobuf.MibaoProtos.MibaoInfo> getMiBaoListList() {
+      return miBaoList_;
     }
     /**
-     * <code>required int32 needAllStar = 4;</code>
-     *
-     * <pre>
-     * 可以领取宝箱的秘宝星星总数，分母
-     * </pre>
+     * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
      */
-    public int getNeedAllStar() {
-      return needAllStar_;
+    public java.util.List<? extends qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder> 
+        getMiBaoListOrBuilderList() {
+      return miBaoList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+     */
+    public int getMiBaoListCount() {
+      return miBaoList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+     */
+    public qxmobile.protobuf.MibaoProtos.MibaoInfo getMiBaoList(int index) {
+      return miBaoList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+     */
+    public qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder getMiBaoListOrBuilder(
+        int index) {
+      return miBaoList_.get(index);
     }
 
     private void initFields() {
       levelPoint_ = 0;
       remainTime_ = 0;
-      mibaoGroup_ = java.util.Collections.emptyList();
-      needAllStar_ = 0;
+      skillList_ = java.util.Collections.emptyList();
+      miBaoList_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -374,12 +399,14 @@ public final class MibaoProtos {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasNeedAllStar()) {
-        memoizedIsInitialized = 0;
-        return false;
+      for (int i = 0; i < getSkillListCount(); i++) {
+        if (!getSkillList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
-      for (int i = 0; i < getMibaoGroupCount(); i++) {
-        if (!getMibaoGroup(i).isInitialized()) {
+      for (int i = 0; i < getMiBaoListCount(); i++) {
+        if (!getMiBaoList(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -397,11 +424,11 @@ public final class MibaoProtos {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(2, remainTime_);
       }
-      for (int i = 0; i < mibaoGroup_.size(); i++) {
-        output.writeMessage(3, mibaoGroup_.get(i));
+      for (int i = 0; i < skillList_.size(); i++) {
+        output.writeMessage(3, skillList_.get(i));
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(4, needAllStar_);
+      for (int i = 0; i < miBaoList_.size(); i++) {
+        output.writeMessage(4, miBaoList_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -420,13 +447,13 @@ public final class MibaoProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, remainTime_);
       }
-      for (int i = 0; i < mibaoGroup_.size(); i++) {
+      for (int i = 0; i < skillList_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, mibaoGroup_.get(i));
+          .computeMessageSize(3, skillList_.get(i));
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      for (int i = 0; i < miBaoList_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, needAllStar_);
+          .computeMessageSize(4, miBaoList_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -536,7 +563,8 @@ public final class MibaoProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getMibaoGroupFieldBuilder();
+          getSkillListFieldBuilder();
+          getMiBaoListFieldBuilder();
         }
       }
       private static Builder create() {
@@ -549,14 +577,18 @@ public final class MibaoProtos {
         bitField0_ = (bitField0_ & ~0x00000001);
         remainTime_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        if (mibaoGroupBuilder_ == null) {
-          mibaoGroup_ = java.util.Collections.emptyList();
+        if (skillListBuilder_ == null) {
+          skillList_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000004);
         } else {
-          mibaoGroupBuilder_.clear();
+          skillListBuilder_.clear();
         }
-        needAllStar_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
+        if (miBaoListBuilder_ == null) {
+          miBaoList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        } else {
+          miBaoListBuilder_.clear();
+        }
         return this;
       }
 
@@ -593,19 +625,24 @@ public final class MibaoProtos {
           to_bitField0_ |= 0x00000002;
         }
         result.remainTime_ = remainTime_;
-        if (mibaoGroupBuilder_ == null) {
+        if (skillListBuilder_ == null) {
           if (((bitField0_ & 0x00000004) == 0x00000004)) {
-            mibaoGroup_ = java.util.Collections.unmodifiableList(mibaoGroup_);
+            skillList_ = java.util.Collections.unmodifiableList(skillList_);
             bitField0_ = (bitField0_ & ~0x00000004);
           }
-          result.mibaoGroup_ = mibaoGroup_;
+          result.skillList_ = skillList_;
         } else {
-          result.mibaoGroup_ = mibaoGroupBuilder_.build();
+          result.skillList_ = skillListBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000004;
+        if (miBaoListBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+            miBaoList_ = java.util.Collections.unmodifiableList(miBaoList_);
+            bitField0_ = (bitField0_ & ~0x00000008);
+          }
+          result.miBaoList_ = miBaoList_;
+        } else {
+          result.miBaoList_ = miBaoListBuilder_.build();
         }
-        result.needAllStar_ = needAllStar_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -628,34 +665,57 @@ public final class MibaoProtos {
         if (other.hasRemainTime()) {
           setRemainTime(other.getRemainTime());
         }
-        if (mibaoGroupBuilder_ == null) {
-          if (!other.mibaoGroup_.isEmpty()) {
-            if (mibaoGroup_.isEmpty()) {
-              mibaoGroup_ = other.mibaoGroup_;
+        if (skillListBuilder_ == null) {
+          if (!other.skillList_.isEmpty()) {
+            if (skillList_.isEmpty()) {
+              skillList_ = other.skillList_;
               bitField0_ = (bitField0_ & ~0x00000004);
             } else {
-              ensureMibaoGroupIsMutable();
-              mibaoGroup_.addAll(other.mibaoGroup_);
+              ensureSkillListIsMutable();
+              skillList_.addAll(other.skillList_);
             }
             onChanged();
           }
         } else {
-          if (!other.mibaoGroup_.isEmpty()) {
-            if (mibaoGroupBuilder_.isEmpty()) {
-              mibaoGroupBuilder_.dispose();
-              mibaoGroupBuilder_ = null;
-              mibaoGroup_ = other.mibaoGroup_;
+          if (!other.skillList_.isEmpty()) {
+            if (skillListBuilder_.isEmpty()) {
+              skillListBuilder_.dispose();
+              skillListBuilder_ = null;
+              skillList_ = other.skillList_;
               bitField0_ = (bitField0_ & ~0x00000004);
-              mibaoGroupBuilder_ = 
+              skillListBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getMibaoGroupFieldBuilder() : null;
+                   getSkillListFieldBuilder() : null;
             } else {
-              mibaoGroupBuilder_.addAllMessages(other.mibaoGroup_);
+              skillListBuilder_.addAllMessages(other.skillList_);
             }
           }
         }
-        if (other.hasNeedAllStar()) {
-          setNeedAllStar(other.getNeedAllStar());
+        if (miBaoListBuilder_ == null) {
+          if (!other.miBaoList_.isEmpty()) {
+            if (miBaoList_.isEmpty()) {
+              miBaoList_ = other.miBaoList_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+            } else {
+              ensureMiBaoListIsMutable();
+              miBaoList_.addAll(other.miBaoList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.miBaoList_.isEmpty()) {
+            if (miBaoListBuilder_.isEmpty()) {
+              miBaoListBuilder_.dispose();
+              miBaoListBuilder_ = null;
+              miBaoList_ = other.miBaoList_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+              miBaoListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getMiBaoListFieldBuilder() : null;
+            } else {
+              miBaoListBuilder_.addAllMessages(other.miBaoList_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -670,12 +730,14 @@ public final class MibaoProtos {
           
           return false;
         }
-        if (!hasNeedAllStar()) {
-          
-          return false;
+        for (int i = 0; i < getSkillListCount(); i++) {
+          if (!getSkillList(i).isInitialized()) {
+            
+            return false;
+          }
         }
-        for (int i = 0; i < getMibaoGroupCount(); i++) {
-          if (!getMibaoGroup(i).isInitialized()) {
+        for (int i = 0; i < getMiBaoListCount(); i++) {
+          if (!getMiBaoList(i).isInitialized()) {
             
             return false;
           }
@@ -800,365 +862,556 @@ public final class MibaoProtos {
         return this;
       }
 
-      // repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;
-      private java.util.List<qxmobile.protobuf.MibaoProtos.MibaoGroup> mibaoGroup_ =
+      // repeated .qxmobile.protobuf.SkillInfo skillList = 3;
+      private java.util.List<qxmobile.protobuf.MibaoProtos.SkillInfo> skillList_ =
         java.util.Collections.emptyList();
-      private void ensureMibaoGroupIsMutable() {
+      private void ensureSkillListIsMutable() {
         if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          mibaoGroup_ = new java.util.ArrayList<qxmobile.protobuf.MibaoProtos.MibaoGroup>(mibaoGroup_);
+          skillList_ = new java.util.ArrayList<qxmobile.protobuf.MibaoProtos.SkillInfo>(skillList_);
           bitField0_ |= 0x00000004;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.MibaoProtos.MibaoGroup, qxmobile.protobuf.MibaoProtos.MibaoGroup.Builder, qxmobile.protobuf.MibaoProtos.MibaoGroupOrBuilder> mibaoGroupBuilder_;
+          qxmobile.protobuf.MibaoProtos.SkillInfo, qxmobile.protobuf.MibaoProtos.SkillInfo.Builder, qxmobile.protobuf.MibaoProtos.SkillInfoOrBuilder> skillListBuilder_;
 
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public java.util.List<qxmobile.protobuf.MibaoProtos.MibaoGroup> getMibaoGroupList() {
-        if (mibaoGroupBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(mibaoGroup_);
+      public java.util.List<qxmobile.protobuf.MibaoProtos.SkillInfo> getSkillListList() {
+        if (skillListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(skillList_);
         } else {
-          return mibaoGroupBuilder_.getMessageList();
+          return skillListBuilder_.getMessageList();
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public int getMibaoGroupCount() {
-        if (mibaoGroupBuilder_ == null) {
-          return mibaoGroup_.size();
+      public int getSkillListCount() {
+        if (skillListBuilder_ == null) {
+          return skillList_.size();
         } else {
-          return mibaoGroupBuilder_.getCount();
+          return skillListBuilder_.getCount();
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public qxmobile.protobuf.MibaoProtos.MibaoGroup getMibaoGroup(int index) {
-        if (mibaoGroupBuilder_ == null) {
-          return mibaoGroup_.get(index);
+      public qxmobile.protobuf.MibaoProtos.SkillInfo getSkillList(int index) {
+        if (skillListBuilder_ == null) {
+          return skillList_.get(index);
         } else {
-          return mibaoGroupBuilder_.getMessage(index);
+          return skillListBuilder_.getMessage(index);
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public Builder setMibaoGroup(
-          int index, qxmobile.protobuf.MibaoProtos.MibaoGroup value) {
-        if (mibaoGroupBuilder_ == null) {
+      public Builder setSkillList(
+          int index, qxmobile.protobuf.MibaoProtos.SkillInfo value) {
+        if (skillListBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureMibaoGroupIsMutable();
-          mibaoGroup_.set(index, value);
+          ensureSkillListIsMutable();
+          skillList_.set(index, value);
           onChanged();
         } else {
-          mibaoGroupBuilder_.setMessage(index, value);
+          skillListBuilder_.setMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public Builder setMibaoGroup(
-          int index, qxmobile.protobuf.MibaoProtos.MibaoGroup.Builder builderForValue) {
-        if (mibaoGroupBuilder_ == null) {
-          ensureMibaoGroupIsMutable();
-          mibaoGroup_.set(index, builderForValue.build());
+      public Builder setSkillList(
+          int index, qxmobile.protobuf.MibaoProtos.SkillInfo.Builder builderForValue) {
+        if (skillListBuilder_ == null) {
+          ensureSkillListIsMutable();
+          skillList_.set(index, builderForValue.build());
           onChanged();
         } else {
-          mibaoGroupBuilder_.setMessage(index, builderForValue.build());
+          skillListBuilder_.setMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public Builder addMibaoGroup(qxmobile.protobuf.MibaoProtos.MibaoGroup value) {
-        if (mibaoGroupBuilder_ == null) {
+      public Builder addSkillList(qxmobile.protobuf.MibaoProtos.SkillInfo value) {
+        if (skillListBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureMibaoGroupIsMutable();
-          mibaoGroup_.add(value);
+          ensureSkillListIsMutable();
+          skillList_.add(value);
           onChanged();
         } else {
-          mibaoGroupBuilder_.addMessage(value);
+          skillListBuilder_.addMessage(value);
         }
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public Builder addMibaoGroup(
-          int index, qxmobile.protobuf.MibaoProtos.MibaoGroup value) {
-        if (mibaoGroupBuilder_ == null) {
+      public Builder addSkillList(
+          int index, qxmobile.protobuf.MibaoProtos.SkillInfo value) {
+        if (skillListBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureMibaoGroupIsMutable();
-          mibaoGroup_.add(index, value);
+          ensureSkillListIsMutable();
+          skillList_.add(index, value);
           onChanged();
         } else {
-          mibaoGroupBuilder_.addMessage(index, value);
+          skillListBuilder_.addMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public Builder addMibaoGroup(
-          qxmobile.protobuf.MibaoProtos.MibaoGroup.Builder builderForValue) {
-        if (mibaoGroupBuilder_ == null) {
-          ensureMibaoGroupIsMutable();
-          mibaoGroup_.add(builderForValue.build());
+      public Builder addSkillList(
+          qxmobile.protobuf.MibaoProtos.SkillInfo.Builder builderForValue) {
+        if (skillListBuilder_ == null) {
+          ensureSkillListIsMutable();
+          skillList_.add(builderForValue.build());
           onChanged();
         } else {
-          mibaoGroupBuilder_.addMessage(builderForValue.build());
+          skillListBuilder_.addMessage(builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public Builder addMibaoGroup(
-          int index, qxmobile.protobuf.MibaoProtos.MibaoGroup.Builder builderForValue) {
-        if (mibaoGroupBuilder_ == null) {
-          ensureMibaoGroupIsMutable();
-          mibaoGroup_.add(index, builderForValue.build());
+      public Builder addSkillList(
+          int index, qxmobile.protobuf.MibaoProtos.SkillInfo.Builder builderForValue) {
+        if (skillListBuilder_ == null) {
+          ensureSkillListIsMutable();
+          skillList_.add(index, builderForValue.build());
           onChanged();
         } else {
-          mibaoGroupBuilder_.addMessage(index, builderForValue.build());
+          skillListBuilder_.addMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public Builder addAllMibaoGroup(
-          java.lang.Iterable<? extends qxmobile.protobuf.MibaoProtos.MibaoGroup> values) {
-        if (mibaoGroupBuilder_ == null) {
-          ensureMibaoGroupIsMutable();
-          super.addAll(values, mibaoGroup_);
+      public Builder addAllSkillList(
+          java.lang.Iterable<? extends qxmobile.protobuf.MibaoProtos.SkillInfo> values) {
+        if (skillListBuilder_ == null) {
+          ensureSkillListIsMutable();
+          super.addAll(values, skillList_);
           onChanged();
         } else {
-          mibaoGroupBuilder_.addAllMessages(values);
+          skillListBuilder_.addAllMessages(values);
         }
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public Builder clearMibaoGroup() {
-        if (mibaoGroupBuilder_ == null) {
-          mibaoGroup_ = java.util.Collections.emptyList();
+      public Builder clearSkillList() {
+        if (skillListBuilder_ == null) {
+          skillList_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
         } else {
-          mibaoGroupBuilder_.clear();
+          skillListBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public Builder removeMibaoGroup(int index) {
-        if (mibaoGroupBuilder_ == null) {
-          ensureMibaoGroupIsMutable();
-          mibaoGroup_.remove(index);
+      public Builder removeSkillList(int index) {
+        if (skillListBuilder_ == null) {
+          ensureSkillListIsMutable();
+          skillList_.remove(index);
           onChanged();
         } else {
-          mibaoGroupBuilder_.remove(index);
+          skillListBuilder_.remove(index);
         }
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public qxmobile.protobuf.MibaoProtos.MibaoGroup.Builder getMibaoGroupBuilder(
+      public qxmobile.protobuf.MibaoProtos.SkillInfo.Builder getSkillListBuilder(
           int index) {
-        return getMibaoGroupFieldBuilder().getBuilder(index);
+        return getSkillListFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public qxmobile.protobuf.MibaoProtos.MibaoGroupOrBuilder getMibaoGroupOrBuilder(
+      public qxmobile.protobuf.MibaoProtos.SkillInfoOrBuilder getSkillListOrBuilder(
           int index) {
-        if (mibaoGroupBuilder_ == null) {
-          return mibaoGroup_.get(index);  } else {
-          return mibaoGroupBuilder_.getMessageOrBuilder(index);
+        if (skillListBuilder_ == null) {
+          return skillList_.get(index);  } else {
+          return skillListBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public java.util.List<? extends qxmobile.protobuf.MibaoProtos.MibaoGroupOrBuilder> 
-           getMibaoGroupOrBuilderList() {
-        if (mibaoGroupBuilder_ != null) {
-          return mibaoGroupBuilder_.getMessageOrBuilderList();
+      public java.util.List<? extends qxmobile.protobuf.MibaoProtos.SkillInfoOrBuilder> 
+           getSkillListOrBuilderList() {
+        if (skillListBuilder_ != null) {
+          return skillListBuilder_.getMessageOrBuilderList();
         } else {
-          return java.util.Collections.unmodifiableList(mibaoGroup_);
+          return java.util.Collections.unmodifiableList(skillList_);
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public qxmobile.protobuf.MibaoProtos.MibaoGroup.Builder addMibaoGroupBuilder() {
-        return getMibaoGroupFieldBuilder().addBuilder(
-            qxmobile.protobuf.MibaoProtos.MibaoGroup.getDefaultInstance());
+      public qxmobile.protobuf.MibaoProtos.SkillInfo.Builder addSkillListBuilder() {
+        return getSkillListFieldBuilder().addBuilder(
+            qxmobile.protobuf.MibaoProtos.SkillInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public qxmobile.protobuf.MibaoProtos.MibaoGroup.Builder addMibaoGroupBuilder(
+      public qxmobile.protobuf.MibaoProtos.SkillInfo.Builder addSkillListBuilder(
           int index) {
-        return getMibaoGroupFieldBuilder().addBuilder(
-            index, qxmobile.protobuf.MibaoProtos.MibaoGroup.getDefaultInstance());
+        return getSkillListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.MibaoProtos.SkillInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoGroup mibaoGroup = 3;</code>
+       * <code>repeated .qxmobile.protobuf.SkillInfo skillList = 3;</code>
        *
        * <pre>
-       * 秘宝组信息
+       * 秘宝技能信息
        * </pre>
        */
-      public java.util.List<qxmobile.protobuf.MibaoProtos.MibaoGroup.Builder> 
-           getMibaoGroupBuilderList() {
-        return getMibaoGroupFieldBuilder().getBuilderList();
+      public java.util.List<qxmobile.protobuf.MibaoProtos.SkillInfo.Builder> 
+           getSkillListBuilderList() {
+        return getSkillListFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.MibaoProtos.MibaoGroup, qxmobile.protobuf.MibaoProtos.MibaoGroup.Builder, qxmobile.protobuf.MibaoProtos.MibaoGroupOrBuilder> 
-          getMibaoGroupFieldBuilder() {
-        if (mibaoGroupBuilder_ == null) {
-          mibaoGroupBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              qxmobile.protobuf.MibaoProtos.MibaoGroup, qxmobile.protobuf.MibaoProtos.MibaoGroup.Builder, qxmobile.protobuf.MibaoProtos.MibaoGroupOrBuilder>(
-                  mibaoGroup_,
+          qxmobile.protobuf.MibaoProtos.SkillInfo, qxmobile.protobuf.MibaoProtos.SkillInfo.Builder, qxmobile.protobuf.MibaoProtos.SkillInfoOrBuilder> 
+          getSkillListFieldBuilder() {
+        if (skillListBuilder_ == null) {
+          skillListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.MibaoProtos.SkillInfo, qxmobile.protobuf.MibaoProtos.SkillInfo.Builder, qxmobile.protobuf.MibaoProtos.SkillInfoOrBuilder>(
+                  skillList_,
                   ((bitField0_ & 0x00000004) == 0x00000004),
                   getParentForChildren(),
                   isClean());
-          mibaoGroup_ = null;
+          skillList_ = null;
         }
-        return mibaoGroupBuilder_;
+        return skillListBuilder_;
       }
 
-      // required int32 needAllStar = 4;
-      private int needAllStar_ ;
+      // repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;
+      private java.util.List<qxmobile.protobuf.MibaoProtos.MibaoInfo> miBaoList_ =
+        java.util.Collections.emptyList();
+      private void ensureMiBaoListIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          miBaoList_ = new java.util.ArrayList<qxmobile.protobuf.MibaoProtos.MibaoInfo>(miBaoList_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.MibaoProtos.MibaoInfo, qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder, qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder> miBaoListBuilder_;
+
       /**
-       * <code>required int32 needAllStar = 4;</code>
-       *
-       * <pre>
-       * 可以领取宝箱的秘宝星星总数，分母
-       * </pre>
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
        */
-      public boolean hasNeedAllStar() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+      public java.util.List<qxmobile.protobuf.MibaoProtos.MibaoInfo> getMiBaoListList() {
+        if (miBaoListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(miBaoList_);
+        } else {
+          return miBaoListBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>required int32 needAllStar = 4;</code>
-       *
-       * <pre>
-       * 可以领取宝箱的秘宝星星总数，分母
-       * </pre>
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
        */
-      public int getNeedAllStar() {
-        return needAllStar_;
+      public int getMiBaoListCount() {
+        if (miBaoListBuilder_ == null) {
+          return miBaoList_.size();
+        } else {
+          return miBaoListBuilder_.getCount();
+        }
       }
       /**
-       * <code>required int32 needAllStar = 4;</code>
-       *
-       * <pre>
-       * 可以领取宝箱的秘宝星星总数，分母
-       * </pre>
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
        */
-      public Builder setNeedAllStar(int value) {
-        bitField0_ |= 0x00000008;
-        needAllStar_ = value;
-        onChanged();
+      public qxmobile.protobuf.MibaoProtos.MibaoInfo getMiBaoList(int index) {
+        if (miBaoListBuilder_ == null) {
+          return miBaoList_.get(index);
+        } else {
+          return miBaoListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+       */
+      public Builder setMiBaoList(
+          int index, qxmobile.protobuf.MibaoProtos.MibaoInfo value) {
+        if (miBaoListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMiBaoListIsMutable();
+          miBaoList_.set(index, value);
+          onChanged();
+        } else {
+          miBaoListBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>required int32 needAllStar = 4;</code>
-       *
-       * <pre>
-       * 可以领取宝箱的秘宝星星总数，分母
-       * </pre>
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
        */
-      public Builder clearNeedAllStar() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        needAllStar_ = 0;
-        onChanged();
+      public Builder setMiBaoList(
+          int index, qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder builderForValue) {
+        if (miBaoListBuilder_ == null) {
+          ensureMiBaoListIsMutable();
+          miBaoList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          miBaoListBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+       */
+      public Builder addMiBaoList(qxmobile.protobuf.MibaoProtos.MibaoInfo value) {
+        if (miBaoListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMiBaoListIsMutable();
+          miBaoList_.add(value);
+          onChanged();
+        } else {
+          miBaoListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+       */
+      public Builder addMiBaoList(
+          int index, qxmobile.protobuf.MibaoProtos.MibaoInfo value) {
+        if (miBaoListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMiBaoListIsMutable();
+          miBaoList_.add(index, value);
+          onChanged();
+        } else {
+          miBaoListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+       */
+      public Builder addMiBaoList(
+          qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder builderForValue) {
+        if (miBaoListBuilder_ == null) {
+          ensureMiBaoListIsMutable();
+          miBaoList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          miBaoListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+       */
+      public Builder addMiBaoList(
+          int index, qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder builderForValue) {
+        if (miBaoListBuilder_ == null) {
+          ensureMiBaoListIsMutable();
+          miBaoList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          miBaoListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+       */
+      public Builder addAllMiBaoList(
+          java.lang.Iterable<? extends qxmobile.protobuf.MibaoProtos.MibaoInfo> values) {
+        if (miBaoListBuilder_ == null) {
+          ensureMiBaoListIsMutable();
+          super.addAll(values, miBaoList_);
+          onChanged();
+        } else {
+          miBaoListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+       */
+      public Builder clearMiBaoList() {
+        if (miBaoListBuilder_ == null) {
+          miBaoList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+          onChanged();
+        } else {
+          miBaoListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+       */
+      public Builder removeMiBaoList(int index) {
+        if (miBaoListBuilder_ == null) {
+          ensureMiBaoListIsMutable();
+          miBaoList_.remove(index);
+          onChanged();
+        } else {
+          miBaoListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+       */
+      public qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder getMiBaoListBuilder(
+          int index) {
+        return getMiBaoListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+       */
+      public qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder getMiBaoListOrBuilder(
+          int index) {
+        if (miBaoListBuilder_ == null) {
+          return miBaoList_.get(index);  } else {
+          return miBaoListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+       */
+      public java.util.List<? extends qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder> 
+           getMiBaoListOrBuilderList() {
+        if (miBaoListBuilder_ != null) {
+          return miBaoListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(miBaoList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+       */
+      public qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder addMiBaoListBuilder() {
+        return getMiBaoListFieldBuilder().addBuilder(
+            qxmobile.protobuf.MibaoProtos.MibaoInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+       */
+      public qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder addMiBaoListBuilder(
+          int index) {
+        return getMiBaoListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.MibaoProtos.MibaoInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MibaoInfo miBaoList = 4;</code>
+       */
+      public java.util.List<qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder> 
+           getMiBaoListBuilderList() {
+        return getMiBaoListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.MibaoProtos.MibaoInfo, qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder, qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder> 
+          getMiBaoListFieldBuilder() {
+        if (miBaoListBuilder_ == null) {
+          miBaoListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.MibaoProtos.MibaoInfo, qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder, qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder>(
+                  miBaoList_,
+                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  getParentForChildren(),
+                  isClean());
+          miBaoList_ = null;
+        }
+        return miBaoListBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.MibaoInfoResp)
@@ -1172,145 +1425,64 @@ public final class MibaoProtos {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.MibaoInfoResp)
   }
 
-  public interface MibaoGroupOrBuilder
+  public interface SkillInfoOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;
+    // required int32 activeZuheId = 1;
     /**
-     * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-     *
-     * <pre>
-     * 秘宝信息
-     * </pre>
-     */
-    java.util.List<qxmobile.protobuf.MibaoProtos.MibaoInfo> 
-        getMibaoInfoList();
-    /**
-     * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-     *
-     * <pre>
-     * 秘宝信息
-     * </pre>
-     */
-    qxmobile.protobuf.MibaoProtos.MibaoInfo getMibaoInfo(int index);
-    /**
-     * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-     *
-     * <pre>
-     * 秘宝信息
-     * </pre>
-     */
-    int getMibaoInfoCount();
-    /**
-     * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-     *
-     * <pre>
-     * 秘宝信息
-     * </pre>
-     */
-    java.util.List<? extends qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder> 
-        getMibaoInfoOrBuilderList();
-    /**
-     * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-     *
-     * <pre>
-     * 秘宝信息
-     * </pre>
-     */
-    qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder getMibaoInfoOrBuilder(
-        int index);
-
-    // required int32 skillId = 2;
-    /**
-     * <code>required int32 skillId = 2;</code>
-     *
-     * <pre>
-     * 技能id
-     * </pre>
-     */
-    boolean hasSkillId();
-    /**
-     * <code>required int32 skillId = 2;</code>
-     *
-     * <pre>
-     * 技能id
-     * </pre>
-     */
-    int getSkillId();
-
-    // optional int32 zuheId = 3;
-    /**
-     * <code>optional int32 zuheId = 3;</code>
+     * <code>required int32 activeZuheId = 1;</code>
      *
      * <pre>
      * 组合id
      * </pre>
      */
-    boolean hasZuheId();
+    boolean hasActiveZuheId();
     /**
-     * <code>optional int32 zuheId = 3;</code>
+     * <code>required int32 activeZuheId = 1;</code>
      *
      * <pre>
      * 组合id
      * </pre>
      */
-    int getZuheId();
+    int getActiveZuheId();
 
-    // required int32 hasActive = 4;
+    // required int32 level = 2;
     /**
-     * <code>required int32 hasActive = 4;</code>
+     * <code>required int32 level = 2;</code>
      *
      * <pre>
-     * 技能状态：0-没有解锁过，1-已经解锁过
+     * 技能等级
      * </pre>
      */
-    boolean hasHasActive();
+    boolean hasLevel();
     /**
-     * <code>required int32 hasActive = 4;</code>
+     * <code>required int32 level = 2;</code>
      *
      * <pre>
-     * 技能状态：0-没有解锁过，1-已经解锁过
+     * 技能等级
      * </pre>
      */
-    int getHasActive();
-
-    // required int32 hasJinjie = 5;
-    /**
-     * <code>required int32 hasJinjie = 5;</code>
-     *
-     * <pre>
-     * 技能状态：0-没有进阶过，1-已经进阶过
-     * </pre>
-     */
-    boolean hasHasJinjie();
-    /**
-     * <code>required int32 hasJinjie = 5;</code>
-     *
-     * <pre>
-     * 技能状态：0-没有进阶过，1-已经进阶过
-     * </pre>
-     */
-    int getHasJinjie();
+    int getLevel();
   }
   /**
-   * Protobuf type {@code qxmobile.protobuf.MibaoGroup}
+   * Protobuf type {@code qxmobile.protobuf.SkillInfo}
    */
-  public static final class MibaoGroup extends
+  public static final class SkillInfo extends
       com.google.protobuf.GeneratedMessage
-      implements MibaoGroupOrBuilder {
-    // Use MibaoGroup.newBuilder() to construct.
-    private MibaoGroup(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements SkillInfoOrBuilder {
+    // Use SkillInfo.newBuilder() to construct.
+    private SkillInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private MibaoGroup(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private SkillInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final MibaoGroup defaultInstance;
-    public static MibaoGroup getDefaultInstance() {
+    private static final SkillInfo defaultInstance;
+    public static SkillInfo getDefaultInstance() {
       return defaultInstance;
     }
 
-    public MibaoGroup getDefaultInstanceForType() {
+    public SkillInfo getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -1320,7 +1492,7 @@ public final class MibaoProtos {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private MibaoGroup(
+    private SkillInfo(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1343,32 +1515,14 @@ public final class MibaoProtos {
               }
               break;
             }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                mibaoInfo_ = new java.util.ArrayList<qxmobile.protobuf.MibaoProtos.MibaoInfo>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              mibaoInfo_.add(input.readMessage(qxmobile.protobuf.MibaoProtos.MibaoInfo.PARSER, extensionRegistry));
+            case 8: {
+              bitField0_ |= 0x00000001;
+              activeZuheId_ = input.readInt32();
               break;
             }
             case 16: {
-              bitField0_ |= 0x00000001;
-              skillId_ = input.readInt32();
-              break;
-            }
-            case 24: {
               bitField0_ |= 0x00000002;
-              zuheId_ = input.readInt32();
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000004;
-              hasActive_ = input.readInt32();
-              break;
-            }
-            case 40: {
-              bitField0_ |= 0x00000008;
-              hasJinjie_ = input.readInt32();
+              level_ = input.readInt32();
               break;
             }
           }
@@ -1379,222 +1533,102 @@ public final class MibaoProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          mibaoInfo_ = java.util.Collections.unmodifiableList(mibaoInfo_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return qxmobile.protobuf.MibaoProtos.internal_static_qxmobile_protobuf_MibaoGroup_descriptor;
+      return qxmobile.protobuf.MibaoProtos.internal_static_qxmobile_protobuf_SkillInfo_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.MibaoProtos.internal_static_qxmobile_protobuf_MibaoGroup_fieldAccessorTable
+      return qxmobile.protobuf.MibaoProtos.internal_static_qxmobile_protobuf_SkillInfo_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.MibaoProtos.MibaoGroup.class, qxmobile.protobuf.MibaoProtos.MibaoGroup.Builder.class);
+              qxmobile.protobuf.MibaoProtos.SkillInfo.class, qxmobile.protobuf.MibaoProtos.SkillInfo.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<MibaoGroup> PARSER =
-        new com.google.protobuf.AbstractParser<MibaoGroup>() {
-      public MibaoGroup parsePartialFrom(
+    public static com.google.protobuf.Parser<SkillInfo> PARSER =
+        new com.google.protobuf.AbstractParser<SkillInfo>() {
+      public SkillInfo parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new MibaoGroup(input, extensionRegistry);
+        return new SkillInfo(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<MibaoGroup> getParserForType() {
+    public com.google.protobuf.Parser<SkillInfo> getParserForType() {
       return PARSER;
     }
 
     private int bitField0_;
-    // repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;
-    public static final int MIBAOINFO_FIELD_NUMBER = 1;
-    private java.util.List<qxmobile.protobuf.MibaoProtos.MibaoInfo> mibaoInfo_;
+    // required int32 activeZuheId = 1;
+    public static final int ACTIVEZUHEID_FIELD_NUMBER = 1;
+    private int activeZuheId_;
     /**
-     * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
+     * <code>required int32 activeZuheId = 1;</code>
      *
      * <pre>
-     * 秘宝信息
+     * 组合id
      * </pre>
      */
-    public java.util.List<qxmobile.protobuf.MibaoProtos.MibaoInfo> getMibaoInfoList() {
-      return mibaoInfo_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-     *
-     * <pre>
-     * 秘宝信息
-     * </pre>
-     */
-    public java.util.List<? extends qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder> 
-        getMibaoInfoOrBuilderList() {
-      return mibaoInfo_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-     *
-     * <pre>
-     * 秘宝信息
-     * </pre>
-     */
-    public int getMibaoInfoCount() {
-      return mibaoInfo_.size();
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-     *
-     * <pre>
-     * 秘宝信息
-     * </pre>
-     */
-    public qxmobile.protobuf.MibaoProtos.MibaoInfo getMibaoInfo(int index) {
-      return mibaoInfo_.get(index);
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-     *
-     * <pre>
-     * 秘宝信息
-     * </pre>
-     */
-    public qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder getMibaoInfoOrBuilder(
-        int index) {
-      return mibaoInfo_.get(index);
-    }
-
-    // required int32 skillId = 2;
-    public static final int SKILLID_FIELD_NUMBER = 2;
-    private int skillId_;
-    /**
-     * <code>required int32 skillId = 2;</code>
-     *
-     * <pre>
-     * 技能id
-     * </pre>
-     */
-    public boolean hasSkillId() {
+    public boolean hasActiveZuheId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 skillId = 2;</code>
-     *
-     * <pre>
-     * 技能id
-     * </pre>
-     */
-    public int getSkillId() {
-      return skillId_;
-    }
-
-    // optional int32 zuheId = 3;
-    public static final int ZUHEID_FIELD_NUMBER = 3;
-    private int zuheId_;
-    /**
-     * <code>optional int32 zuheId = 3;</code>
+     * <code>required int32 activeZuheId = 1;</code>
      *
      * <pre>
      * 组合id
      * </pre>
      */
-    public boolean hasZuheId() {
+    public int getActiveZuheId() {
+      return activeZuheId_;
+    }
+
+    // required int32 level = 2;
+    public static final int LEVEL_FIELD_NUMBER = 2;
+    private int level_;
+    /**
+     * <code>required int32 level = 2;</code>
+     *
+     * <pre>
+     * 技能等级
+     * </pre>
+     */
+    public boolean hasLevel() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional int32 zuheId = 3;</code>
+     * <code>required int32 level = 2;</code>
      *
      * <pre>
-     * 组合id
+     * 技能等级
      * </pre>
      */
-    public int getZuheId() {
-      return zuheId_;
-    }
-
-    // required int32 hasActive = 4;
-    public static final int HASACTIVE_FIELD_NUMBER = 4;
-    private int hasActive_;
-    /**
-     * <code>required int32 hasActive = 4;</code>
-     *
-     * <pre>
-     * 技能状态：0-没有解锁过，1-已经解锁过
-     * </pre>
-     */
-    public boolean hasHasActive() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>required int32 hasActive = 4;</code>
-     *
-     * <pre>
-     * 技能状态：0-没有解锁过，1-已经解锁过
-     * </pre>
-     */
-    public int getHasActive() {
-      return hasActive_;
-    }
-
-    // required int32 hasJinjie = 5;
-    public static final int HASJINJIE_FIELD_NUMBER = 5;
-    private int hasJinjie_;
-    /**
-     * <code>required int32 hasJinjie = 5;</code>
-     *
-     * <pre>
-     * 技能状态：0-没有进阶过，1-已经进阶过
-     * </pre>
-     */
-    public boolean hasHasJinjie() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>required int32 hasJinjie = 5;</code>
-     *
-     * <pre>
-     * 技能状态：0-没有进阶过，1-已经进阶过
-     * </pre>
-     */
-    public int getHasJinjie() {
-      return hasJinjie_;
+    public int getLevel() {
+      return level_;
     }
 
     private void initFields() {
-      mibaoInfo_ = java.util.Collections.emptyList();
-      skillId_ = 0;
-      zuheId_ = 0;
-      hasActive_ = 0;
-      hasJinjie_ = 0;
+      activeZuheId_ = 0;
+      level_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasSkillId()) {
+      if (!hasActiveZuheId()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasHasActive()) {
+      if (!hasLevel()) {
         memoizedIsInitialized = 0;
         return false;
-      }
-      if (!hasHasJinjie()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      for (int i = 0; i < getMibaoInfoCount(); i++) {
-        if (!getMibaoInfo(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -1603,20 +1637,11 @@ public final class MibaoProtos {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      for (int i = 0; i < mibaoInfo_.size(); i++) {
-        output.writeMessage(1, mibaoInfo_.get(i));
-      }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(2, skillId_);
+        output.writeInt32(1, activeZuheId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(3, zuheId_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(4, hasActive_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(5, hasJinjie_);
+        output.writeInt32(2, level_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1627,25 +1652,13 @@ public final class MibaoProtos {
       if (size != -1) return size;
 
       size = 0;
-      for (int i = 0; i < mibaoInfo_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, mibaoInfo_.get(i));
-      }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, skillId_);
+          .computeInt32Size(1, activeZuheId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, zuheId_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, hasActive_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, hasJinjie_);
+          .computeInt32Size(2, level_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1659,53 +1672,53 @@ public final class MibaoProtos {
       return super.writeReplace();
     }
 
-    public static qxmobile.protobuf.MibaoProtos.MibaoGroup parseFrom(
+    public static qxmobile.protobuf.MibaoProtos.SkillInfo parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static qxmobile.protobuf.MibaoProtos.MibaoGroup parseFrom(
+    public static qxmobile.protobuf.MibaoProtos.SkillInfo parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static qxmobile.protobuf.MibaoProtos.MibaoGroup parseFrom(byte[] data)
+    public static qxmobile.protobuf.MibaoProtos.SkillInfo parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static qxmobile.protobuf.MibaoProtos.MibaoGroup parseFrom(
+    public static qxmobile.protobuf.MibaoProtos.SkillInfo parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static qxmobile.protobuf.MibaoProtos.MibaoGroup parseFrom(java.io.InputStream input)
+    public static qxmobile.protobuf.MibaoProtos.SkillInfo parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static qxmobile.protobuf.MibaoProtos.MibaoGroup parseFrom(
+    public static qxmobile.protobuf.MibaoProtos.SkillInfo parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static qxmobile.protobuf.MibaoProtos.MibaoGroup parseDelimitedFrom(java.io.InputStream input)
+    public static qxmobile.protobuf.MibaoProtos.SkillInfo parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static qxmobile.protobuf.MibaoProtos.MibaoGroup parseDelimitedFrom(
+    public static qxmobile.protobuf.MibaoProtos.SkillInfo parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static qxmobile.protobuf.MibaoProtos.MibaoGroup parseFrom(
+    public static qxmobile.protobuf.MibaoProtos.SkillInfo parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static qxmobile.protobuf.MibaoProtos.MibaoGroup parseFrom(
+    public static qxmobile.protobuf.MibaoProtos.SkillInfo parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1714,7 +1727,7 @@ public final class MibaoProtos {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.MibaoProtos.MibaoGroup prototype) {
+    public static Builder newBuilder(qxmobile.protobuf.MibaoProtos.SkillInfo prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -1726,24 +1739,24 @@ public final class MibaoProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code qxmobile.protobuf.MibaoGroup}
+     * Protobuf type {@code qxmobile.protobuf.SkillInfo}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.MibaoProtos.MibaoGroupOrBuilder {
+       implements qxmobile.protobuf.MibaoProtos.SkillInfoOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return qxmobile.protobuf.MibaoProtos.internal_static_qxmobile_protobuf_MibaoGroup_descriptor;
+        return qxmobile.protobuf.MibaoProtos.internal_static_qxmobile_protobuf_SkillInfo_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.MibaoProtos.internal_static_qxmobile_protobuf_MibaoGroup_fieldAccessorTable
+        return qxmobile.protobuf.MibaoProtos.internal_static_qxmobile_protobuf_SkillInfo_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.MibaoProtos.MibaoGroup.class, qxmobile.protobuf.MibaoProtos.MibaoGroup.Builder.class);
+                qxmobile.protobuf.MibaoProtos.SkillInfo.class, qxmobile.protobuf.MibaoProtos.SkillInfo.Builder.class);
       }
 
-      // Construct using qxmobile.protobuf.MibaoProtos.MibaoGroup.newBuilder()
+      // Construct using qxmobile.protobuf.MibaoProtos.SkillInfo.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1755,7 +1768,6 @@ public final class MibaoProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getMibaoInfoFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1764,20 +1776,10 @@ public final class MibaoProtos {
 
       public Builder clear() {
         super.clear();
-        if (mibaoInfoBuilder_ == null) {
-          mibaoInfo_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          mibaoInfoBuilder_.clear();
-        }
-        skillId_ = 0;
+        activeZuheId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        level_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        zuheId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        hasActive_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        hasJinjie_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1787,126 +1789,67 @@ public final class MibaoProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return qxmobile.protobuf.MibaoProtos.internal_static_qxmobile_protobuf_MibaoGroup_descriptor;
+        return qxmobile.protobuf.MibaoProtos.internal_static_qxmobile_protobuf_SkillInfo_descriptor;
       }
 
-      public qxmobile.protobuf.MibaoProtos.MibaoGroup getDefaultInstanceForType() {
-        return qxmobile.protobuf.MibaoProtos.MibaoGroup.getDefaultInstance();
+      public qxmobile.protobuf.MibaoProtos.SkillInfo getDefaultInstanceForType() {
+        return qxmobile.protobuf.MibaoProtos.SkillInfo.getDefaultInstance();
       }
 
-      public qxmobile.protobuf.MibaoProtos.MibaoGroup build() {
-        qxmobile.protobuf.MibaoProtos.MibaoGroup result = buildPartial();
+      public qxmobile.protobuf.MibaoProtos.SkillInfo build() {
+        qxmobile.protobuf.MibaoProtos.SkillInfo result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public qxmobile.protobuf.MibaoProtos.MibaoGroup buildPartial() {
-        qxmobile.protobuf.MibaoProtos.MibaoGroup result = new qxmobile.protobuf.MibaoProtos.MibaoGroup(this);
+      public qxmobile.protobuf.MibaoProtos.SkillInfo buildPartial() {
+        qxmobile.protobuf.MibaoProtos.SkillInfo result = new qxmobile.protobuf.MibaoProtos.SkillInfo(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (mibaoInfoBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            mibaoInfo_ = java.util.Collections.unmodifiableList(mibaoInfo_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.mibaoInfo_ = mibaoInfo_;
-        } else {
-          result.mibaoInfo_ = mibaoInfoBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.skillId_ = skillId_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        result.activeZuheId_ = activeZuheId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.zuheId_ = zuheId_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.hasActive_ = hasActive_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.hasJinjie_ = hasJinjie_;
+        result.level_ = level_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.MibaoProtos.MibaoGroup) {
-          return mergeFrom((qxmobile.protobuf.MibaoProtos.MibaoGroup)other);
+        if (other instanceof qxmobile.protobuf.MibaoProtos.SkillInfo) {
+          return mergeFrom((qxmobile.protobuf.MibaoProtos.SkillInfo)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(qxmobile.protobuf.MibaoProtos.MibaoGroup other) {
-        if (other == qxmobile.protobuf.MibaoProtos.MibaoGroup.getDefaultInstance()) return this;
-        if (mibaoInfoBuilder_ == null) {
-          if (!other.mibaoInfo_.isEmpty()) {
-            if (mibaoInfo_.isEmpty()) {
-              mibaoInfo_ = other.mibaoInfo_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureMibaoInfoIsMutable();
-              mibaoInfo_.addAll(other.mibaoInfo_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.mibaoInfo_.isEmpty()) {
-            if (mibaoInfoBuilder_.isEmpty()) {
-              mibaoInfoBuilder_.dispose();
-              mibaoInfoBuilder_ = null;
-              mibaoInfo_ = other.mibaoInfo_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              mibaoInfoBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getMibaoInfoFieldBuilder() : null;
-            } else {
-              mibaoInfoBuilder_.addAllMessages(other.mibaoInfo_);
-            }
-          }
+      public Builder mergeFrom(qxmobile.protobuf.MibaoProtos.SkillInfo other) {
+        if (other == qxmobile.protobuf.MibaoProtos.SkillInfo.getDefaultInstance()) return this;
+        if (other.hasActiveZuheId()) {
+          setActiveZuheId(other.getActiveZuheId());
         }
-        if (other.hasSkillId()) {
-          setSkillId(other.getSkillId());
-        }
-        if (other.hasZuheId()) {
-          setZuheId(other.getZuheId());
-        }
-        if (other.hasHasActive()) {
-          setHasActive(other.getHasActive());
-        }
-        if (other.hasHasJinjie()) {
-          setHasJinjie(other.getHasJinjie());
+        if (other.hasLevel()) {
+          setLevel(other.getLevel());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasSkillId()) {
+        if (!hasActiveZuheId()) {
           
           return false;
         }
-        if (!hasHasActive()) {
+        if (!hasLevel()) {
           
           return false;
-        }
-        if (!hasHasJinjie()) {
-          
-          return false;
-        }
-        for (int i = 0; i < getMibaoInfoCount(); i++) {
-          if (!getMibaoInfo(i).isInitialized()) {
-            
-            return false;
-          }
         }
         return true;
       }
@@ -1915,11 +1858,11 @@ public final class MibaoProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        qxmobile.protobuf.MibaoProtos.MibaoGroup parsedMessage = null;
+        qxmobile.protobuf.MibaoProtos.SkillInfo parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.MibaoProtos.MibaoGroup) e.getUnfinishedMessage();
+          parsedMessage = (qxmobile.protobuf.MibaoProtos.SkillInfo) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -1930,523 +1873,113 @@ public final class MibaoProtos {
       }
       private int bitField0_;
 
-      // repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;
-      private java.util.List<qxmobile.protobuf.MibaoProtos.MibaoInfo> mibaoInfo_ =
-        java.util.Collections.emptyList();
-      private void ensureMibaoInfoIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          mibaoInfo_ = new java.util.ArrayList<qxmobile.protobuf.MibaoProtos.MibaoInfo>(mibaoInfo_);
-          bitField0_ |= 0x00000001;
-         }
+      // required int32 activeZuheId = 1;
+      private int activeZuheId_ ;
+      /**
+       * <code>required int32 activeZuheId = 1;</code>
+       *
+       * <pre>
+       * 组合id
+       * </pre>
+       */
+      public boolean hasActiveZuheId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 activeZuheId = 1;</code>
+       *
+       * <pre>
+       * 组合id
+       * </pre>
+       */
+      public int getActiveZuheId() {
+        return activeZuheId_;
+      }
+      /**
+       * <code>required int32 activeZuheId = 1;</code>
+       *
+       * <pre>
+       * 组合id
+       * </pre>
+       */
+      public Builder setActiveZuheId(int value) {
+        bitField0_ |= 0x00000001;
+        activeZuheId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 activeZuheId = 1;</code>
+       *
+       * <pre>
+       * 组合id
+       * </pre>
+       */
+      public Builder clearActiveZuheId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        activeZuheId_ = 0;
+        onChanged();
+        return this;
       }
 
-      private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.MibaoProtos.MibaoInfo, qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder, qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder> mibaoInfoBuilder_;
-
+      // required int32 level = 2;
+      private int level_ ;
       /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
+       * <code>required int32 level = 2;</code>
        *
        * <pre>
-       * 秘宝信息
+       * 技能等级
        * </pre>
        */
-      public java.util.List<qxmobile.protobuf.MibaoProtos.MibaoInfo> getMibaoInfoList() {
-        if (mibaoInfoBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(mibaoInfo_);
-        } else {
-          return mibaoInfoBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-       *
-       * <pre>
-       * 秘宝信息
-       * </pre>
-       */
-      public int getMibaoInfoCount() {
-        if (mibaoInfoBuilder_ == null) {
-          return mibaoInfo_.size();
-        } else {
-          return mibaoInfoBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-       *
-       * <pre>
-       * 秘宝信息
-       * </pre>
-       */
-      public qxmobile.protobuf.MibaoProtos.MibaoInfo getMibaoInfo(int index) {
-        if (mibaoInfoBuilder_ == null) {
-          return mibaoInfo_.get(index);
-        } else {
-          return mibaoInfoBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-       *
-       * <pre>
-       * 秘宝信息
-       * </pre>
-       */
-      public Builder setMibaoInfo(
-          int index, qxmobile.protobuf.MibaoProtos.MibaoInfo value) {
-        if (mibaoInfoBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureMibaoInfoIsMutable();
-          mibaoInfo_.set(index, value);
-          onChanged();
-        } else {
-          mibaoInfoBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-       *
-       * <pre>
-       * 秘宝信息
-       * </pre>
-       */
-      public Builder setMibaoInfo(
-          int index, qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder builderForValue) {
-        if (mibaoInfoBuilder_ == null) {
-          ensureMibaoInfoIsMutable();
-          mibaoInfo_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          mibaoInfoBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-       *
-       * <pre>
-       * 秘宝信息
-       * </pre>
-       */
-      public Builder addMibaoInfo(qxmobile.protobuf.MibaoProtos.MibaoInfo value) {
-        if (mibaoInfoBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureMibaoInfoIsMutable();
-          mibaoInfo_.add(value);
-          onChanged();
-        } else {
-          mibaoInfoBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-       *
-       * <pre>
-       * 秘宝信息
-       * </pre>
-       */
-      public Builder addMibaoInfo(
-          int index, qxmobile.protobuf.MibaoProtos.MibaoInfo value) {
-        if (mibaoInfoBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureMibaoInfoIsMutable();
-          mibaoInfo_.add(index, value);
-          onChanged();
-        } else {
-          mibaoInfoBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-       *
-       * <pre>
-       * 秘宝信息
-       * </pre>
-       */
-      public Builder addMibaoInfo(
-          qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder builderForValue) {
-        if (mibaoInfoBuilder_ == null) {
-          ensureMibaoInfoIsMutable();
-          mibaoInfo_.add(builderForValue.build());
-          onChanged();
-        } else {
-          mibaoInfoBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-       *
-       * <pre>
-       * 秘宝信息
-       * </pre>
-       */
-      public Builder addMibaoInfo(
-          int index, qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder builderForValue) {
-        if (mibaoInfoBuilder_ == null) {
-          ensureMibaoInfoIsMutable();
-          mibaoInfo_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          mibaoInfoBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-       *
-       * <pre>
-       * 秘宝信息
-       * </pre>
-       */
-      public Builder addAllMibaoInfo(
-          java.lang.Iterable<? extends qxmobile.protobuf.MibaoProtos.MibaoInfo> values) {
-        if (mibaoInfoBuilder_ == null) {
-          ensureMibaoInfoIsMutable();
-          super.addAll(values, mibaoInfo_);
-          onChanged();
-        } else {
-          mibaoInfoBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-       *
-       * <pre>
-       * 秘宝信息
-       * </pre>
-       */
-      public Builder clearMibaoInfo() {
-        if (mibaoInfoBuilder_ == null) {
-          mibaoInfo_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          mibaoInfoBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-       *
-       * <pre>
-       * 秘宝信息
-       * </pre>
-       */
-      public Builder removeMibaoInfo(int index) {
-        if (mibaoInfoBuilder_ == null) {
-          ensureMibaoInfoIsMutable();
-          mibaoInfo_.remove(index);
-          onChanged();
-        } else {
-          mibaoInfoBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-       *
-       * <pre>
-       * 秘宝信息
-       * </pre>
-       */
-      public qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder getMibaoInfoBuilder(
-          int index) {
-        return getMibaoInfoFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-       *
-       * <pre>
-       * 秘宝信息
-       * </pre>
-       */
-      public qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder getMibaoInfoOrBuilder(
-          int index) {
-        if (mibaoInfoBuilder_ == null) {
-          return mibaoInfo_.get(index);  } else {
-          return mibaoInfoBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-       *
-       * <pre>
-       * 秘宝信息
-       * </pre>
-       */
-      public java.util.List<? extends qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder> 
-           getMibaoInfoOrBuilderList() {
-        if (mibaoInfoBuilder_ != null) {
-          return mibaoInfoBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(mibaoInfo_);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-       *
-       * <pre>
-       * 秘宝信息
-       * </pre>
-       */
-      public qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder addMibaoInfoBuilder() {
-        return getMibaoInfoFieldBuilder().addBuilder(
-            qxmobile.protobuf.MibaoProtos.MibaoInfo.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-       *
-       * <pre>
-       * 秘宝信息
-       * </pre>
-       */
-      public qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder addMibaoInfoBuilder(
-          int index) {
-        return getMibaoInfoFieldBuilder().addBuilder(
-            index, qxmobile.protobuf.MibaoProtos.MibaoInfo.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.MibaoInfo mibaoInfo = 1;</code>
-       *
-       * <pre>
-       * 秘宝信息
-       * </pre>
-       */
-      public java.util.List<qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder> 
-           getMibaoInfoBuilderList() {
-        return getMibaoInfoFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.MibaoProtos.MibaoInfo, qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder, qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder> 
-          getMibaoInfoFieldBuilder() {
-        if (mibaoInfoBuilder_ == null) {
-          mibaoInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              qxmobile.protobuf.MibaoProtos.MibaoInfo, qxmobile.protobuf.MibaoProtos.MibaoInfo.Builder, qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder>(
-                  mibaoInfo_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
-                  getParentForChildren(),
-                  isClean());
-          mibaoInfo_ = null;
-        }
-        return mibaoInfoBuilder_;
-      }
-
-      // required int32 skillId = 2;
-      private int skillId_ ;
-      /**
-       * <code>required int32 skillId = 2;</code>
-       *
-       * <pre>
-       * 技能id
-       * </pre>
-       */
-      public boolean hasSkillId() {
+      public boolean hasLevel() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int32 skillId = 2;</code>
+       * <code>required int32 level = 2;</code>
        *
        * <pre>
-       * 技能id
+       * 技能等级
        * </pre>
        */
-      public int getSkillId() {
-        return skillId_;
+      public int getLevel() {
+        return level_;
       }
       /**
-       * <code>required int32 skillId = 2;</code>
+       * <code>required int32 level = 2;</code>
        *
        * <pre>
-       * 技能id
+       * 技能等级
        * </pre>
        */
-      public Builder setSkillId(int value) {
+      public Builder setLevel(int value) {
         bitField0_ |= 0x00000002;
-        skillId_ = value;
+        level_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 skillId = 2;</code>
+       * <code>required int32 level = 2;</code>
        *
        * <pre>
-       * 技能id
+       * 技能等级
        * </pre>
        */
-      public Builder clearSkillId() {
+      public Builder clearLevel() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        skillId_ = 0;
+        level_ = 0;
         onChanged();
         return this;
       }
 
-      // optional int32 zuheId = 3;
-      private int zuheId_ ;
-      /**
-       * <code>optional int32 zuheId = 3;</code>
-       *
-       * <pre>
-       * 组合id
-       * </pre>
-       */
-      public boolean hasZuheId() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>optional int32 zuheId = 3;</code>
-       *
-       * <pre>
-       * 组合id
-       * </pre>
-       */
-      public int getZuheId() {
-        return zuheId_;
-      }
-      /**
-       * <code>optional int32 zuheId = 3;</code>
-       *
-       * <pre>
-       * 组合id
-       * </pre>
-       */
-      public Builder setZuheId(int value) {
-        bitField0_ |= 0x00000004;
-        zuheId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 zuheId = 3;</code>
-       *
-       * <pre>
-       * 组合id
-       * </pre>
-       */
-      public Builder clearZuheId() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        zuheId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 hasActive = 4;
-      private int hasActive_ ;
-      /**
-       * <code>required int32 hasActive = 4;</code>
-       *
-       * <pre>
-       * 技能状态：0-没有解锁过，1-已经解锁过
-       * </pre>
-       */
-      public boolean hasHasActive() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>required int32 hasActive = 4;</code>
-       *
-       * <pre>
-       * 技能状态：0-没有解锁过，1-已经解锁过
-       * </pre>
-       */
-      public int getHasActive() {
-        return hasActive_;
-      }
-      /**
-       * <code>required int32 hasActive = 4;</code>
-       *
-       * <pre>
-       * 技能状态：0-没有解锁过，1-已经解锁过
-       * </pre>
-       */
-      public Builder setHasActive(int value) {
-        bitField0_ |= 0x00000008;
-        hasActive_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 hasActive = 4;</code>
-       *
-       * <pre>
-       * 技能状态：0-没有解锁过，1-已经解锁过
-       * </pre>
-       */
-      public Builder clearHasActive() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        hasActive_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 hasJinjie = 5;
-      private int hasJinjie_ ;
-      /**
-       * <code>required int32 hasJinjie = 5;</code>
-       *
-       * <pre>
-       * 技能状态：0-没有进阶过，1-已经进阶过
-       * </pre>
-       */
-      public boolean hasHasJinjie() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>required int32 hasJinjie = 5;</code>
-       *
-       * <pre>
-       * 技能状态：0-没有进阶过，1-已经进阶过
-       * </pre>
-       */
-      public int getHasJinjie() {
-        return hasJinjie_;
-      }
-      /**
-       * <code>required int32 hasJinjie = 5;</code>
-       *
-       * <pre>
-       * 技能状态：0-没有进阶过，1-已经进阶过
-       * </pre>
-       */
-      public Builder setHasJinjie(int value) {
-        bitField0_ |= 0x00000010;
-        hasJinjie_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 hasJinjie = 5;</code>
-       *
-       * <pre>
-       * 技能状态：0-没有进阶过，1-已经进阶过
-       * </pre>
-       */
-      public Builder clearHasJinjie() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        hasJinjie_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.MibaoGroup)
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.SkillInfo)
     }
 
     static {
-      defaultInstance = new MibaoGroup(true);
+      defaultInstance = new SkillInfo(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.MibaoGroup)
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.SkillInfo)
   }
 
   public interface MibaoInfoOrBuilder
@@ -2632,27 +2165,9 @@ public final class MibaoProtos {
      */
     int getShengMing();
 
-    // required bool isLock = 11;
+    // required int32 zhanLi = 11;
     /**
-     * <code>required bool isLock = 11;</code>
-     *
-     * <pre>
-     * 锁定状态，true-锁定，false-未锁定
-     * </pre>
-     */
-    boolean hasIsLock();
-    /**
-     * <code>required bool isLock = 11;</code>
-     *
-     * <pre>
-     * 锁定状态，true-锁定，false-未锁定
-     * </pre>
-     */
-    boolean getIsLock();
-
-    // required int32 zhanLi = 12;
-    /**
-     * <code>required int32 zhanLi = 12;</code>
+     * <code>required int32 zhanLi = 11;</code>
      *
      * <pre>
      * 提供战力值
@@ -2660,7 +2175,7 @@ public final class MibaoProtos {
      */
     boolean hasZhanLi();
     /**
-     * <code>required int32 zhanLi = 12;</code>
+     * <code>required int32 zhanLi = 11;</code>
      *
      * <pre>
      * 提供战力值
@@ -2775,11 +2290,6 @@ public final class MibaoProtos {
             }
             case 88: {
               bitField0_ |= 0x00000400;
-              isLock_ = input.readBool();
-              break;
-            }
-            case 96: {
-              bitField0_ |= 0x00000800;
               zhanLi_ = input.readInt32();
               break;
             }
@@ -3063,45 +2573,21 @@ public final class MibaoProtos {
       return shengMing_;
     }
 
-    // required bool isLock = 11;
-    public static final int ISLOCK_FIELD_NUMBER = 11;
-    private boolean isLock_;
-    /**
-     * <code>required bool isLock = 11;</code>
-     *
-     * <pre>
-     * 锁定状态，true-锁定，false-未锁定
-     * </pre>
-     */
-    public boolean hasIsLock() {
-      return ((bitField0_ & 0x00000400) == 0x00000400);
-    }
-    /**
-     * <code>required bool isLock = 11;</code>
-     *
-     * <pre>
-     * 锁定状态，true-锁定，false-未锁定
-     * </pre>
-     */
-    public boolean getIsLock() {
-      return isLock_;
-    }
-
-    // required int32 zhanLi = 12;
-    public static final int ZHANLI_FIELD_NUMBER = 12;
+    // required int32 zhanLi = 11;
+    public static final int ZHANLI_FIELD_NUMBER = 11;
     private int zhanLi_;
     /**
-     * <code>required int32 zhanLi = 12;</code>
+     * <code>required int32 zhanLi = 11;</code>
      *
      * <pre>
      * 提供战力值
      * </pre>
      */
     public boolean hasZhanLi() {
-      return ((bitField0_ & 0x00000800) == 0x00000800);
+      return ((bitField0_ & 0x00000400) == 0x00000400);
     }
     /**
-     * <code>required int32 zhanLi = 12;</code>
+     * <code>required int32 zhanLi = 11;</code>
      *
      * <pre>
      * 提供战力值
@@ -3122,7 +2608,6 @@ public final class MibaoProtos {
       gongJi_ = 0;
       fangYu_ = 0;
       shengMing_ = 0;
-      isLock_ = false;
       zhanLi_ = 0;
     }
     private byte memoizedIsInitialized = -1;
@@ -3170,10 +2655,6 @@ public final class MibaoProtos {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasIsLock()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       if (!hasZhanLi()) {
         memoizedIsInitialized = 0;
         return false;
@@ -3216,10 +2697,7 @@ public final class MibaoProtos {
         output.writeInt32(10, shengMing_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
-        output.writeBool(11, isLock_);
-      }
-      if (((bitField0_ & 0x00000800) == 0x00000800)) {
-        output.writeInt32(12, zhanLi_);
+        output.writeInt32(11, zhanLi_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3272,11 +2750,7 @@ public final class MibaoProtos {
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(11, isLock_);
-      }
-      if (((bitField0_ & 0x00000800) == 0x00000800)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(12, zhanLi_);
+          .computeInt32Size(11, zhanLi_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3418,10 +2892,8 @@ public final class MibaoProtos {
         bitField0_ = (bitField0_ & ~0x00000100);
         shengMing_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
-        isLock_ = false;
-        bitField0_ = (bitField0_ & ~0x00000400);
         zhanLi_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -3493,10 +2965,6 @@ public final class MibaoProtos {
         if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
           to_bitField0_ |= 0x00000400;
         }
-        result.isLock_ = isLock_;
-        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
-          to_bitField0_ |= 0x00000800;
-        }
         result.zhanLi_ = zhanLi_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -3544,9 +3012,6 @@ public final class MibaoProtos {
         if (other.hasShengMing()) {
           setShengMing(other.getShengMing());
         }
-        if (other.hasIsLock()) {
-          setIsLock(other.getIsLock());
-        }
         if (other.hasZhanLi()) {
           setZhanLi(other.getZhanLi());
         }
@@ -3592,10 +3057,6 @@ public final class MibaoProtos {
           return false;
         }
         if (!hasShengMing()) {
-          
-          return false;
-        }
-        if (!hasIsLock()) {
           
           return false;
         }
@@ -4115,69 +3576,20 @@ public final class MibaoProtos {
         return this;
       }
 
-      // required bool isLock = 11;
-      private boolean isLock_ ;
-      /**
-       * <code>required bool isLock = 11;</code>
-       *
-       * <pre>
-       * 锁定状态，true-锁定，false-未锁定
-       * </pre>
-       */
-      public boolean hasIsLock() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
-      }
-      /**
-       * <code>required bool isLock = 11;</code>
-       *
-       * <pre>
-       * 锁定状态，true-锁定，false-未锁定
-       * </pre>
-       */
-      public boolean getIsLock() {
-        return isLock_;
-      }
-      /**
-       * <code>required bool isLock = 11;</code>
-       *
-       * <pre>
-       * 锁定状态，true-锁定，false-未锁定
-       * </pre>
-       */
-      public Builder setIsLock(boolean value) {
-        bitField0_ |= 0x00000400;
-        isLock_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required bool isLock = 11;</code>
-       *
-       * <pre>
-       * 锁定状态，true-锁定，false-未锁定
-       * </pre>
-       */
-      public Builder clearIsLock() {
-        bitField0_ = (bitField0_ & ~0x00000400);
-        isLock_ = false;
-        onChanged();
-        return this;
-      }
-
-      // required int32 zhanLi = 12;
+      // required int32 zhanLi = 11;
       private int zhanLi_ ;
       /**
-       * <code>required int32 zhanLi = 12;</code>
+       * <code>required int32 zhanLi = 11;</code>
        *
        * <pre>
        * 提供战力值
        * </pre>
        */
       public boolean hasZhanLi() {
-        return ((bitField0_ & 0x00000800) == 0x00000800);
+        return ((bitField0_ & 0x00000400) == 0x00000400);
       }
       /**
-       * <code>required int32 zhanLi = 12;</code>
+       * <code>required int32 zhanLi = 11;</code>
        *
        * <pre>
        * 提供战力值
@@ -4187,27 +3599,27 @@ public final class MibaoProtos {
         return zhanLi_;
       }
       /**
-       * <code>required int32 zhanLi = 12;</code>
+       * <code>required int32 zhanLi = 11;</code>
        *
        * <pre>
        * 提供战力值
        * </pre>
        */
       public Builder setZhanLi(int value) {
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00000400;
         zhanLi_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 zhanLi = 12;</code>
+       * <code>required int32 zhanLi = 11;</code>
        *
        * <pre>
        * 提供战力值
        * </pre>
        */
       public Builder clearZhanLi() {
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00000400);
         zhanLi_ = 0;
         onChanged();
         return this;
@@ -7779,31 +7191,13 @@ public final class MibaoProtos {
   public interface MiBaoDealSkillReqOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 activeOrJinjie = 1;
+    // required int32 zuheId = 1;
     /**
-     * <code>required int32 activeOrJinjie = 1;</code>
-     *
-     * <pre>
-     * 1激活请求，2 进阶请求
-     * </pre>
-     */
-    boolean hasActiveOrJinjie();
-    /**
-     * <code>required int32 activeOrJinjie = 1;</code>
-     *
-     * <pre>
-     * 1激活请求，2 进阶请求
-     * </pre>
-     */
-    int getActiveOrJinjie();
-
-    // required int32 zuheId = 2;
-    /**
-     * <code>required int32 zuheId = 2;</code>
+     * <code>required int32 zuheId = 1;</code>
      */
     boolean hasZuheId();
     /**
-     * <code>required int32 zuheId = 2;</code>
+     * <code>required int32 zuheId = 1;</code>
      */
     int getZuheId();
   }
@@ -7866,11 +7260,6 @@ public final class MibaoProtos {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              activeOrJinjie_ = input.readInt32();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
               zuheId_ = input.readInt32();
               break;
             }
@@ -7914,48 +7303,23 @@ public final class MibaoProtos {
     }
 
     private int bitField0_;
-    // required int32 activeOrJinjie = 1;
-    public static final int ACTIVEORJINJIE_FIELD_NUMBER = 1;
-    private int activeOrJinjie_;
+    // required int32 zuheId = 1;
+    public static final int ZUHEID_FIELD_NUMBER = 1;
+    private int zuheId_;
     /**
-     * <code>required int32 activeOrJinjie = 1;</code>
-     *
-     * <pre>
-     * 1激活请求，2 进阶请求
-     * </pre>
+     * <code>required int32 zuheId = 1;</code>
      */
-    public boolean hasActiveOrJinjie() {
+    public boolean hasZuheId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 activeOrJinjie = 1;</code>
-     *
-     * <pre>
-     * 1激活请求，2 进阶请求
-     * </pre>
-     */
-    public int getActiveOrJinjie() {
-      return activeOrJinjie_;
-    }
-
-    // required int32 zuheId = 2;
-    public static final int ZUHEID_FIELD_NUMBER = 2;
-    private int zuheId_;
-    /**
-     * <code>required int32 zuheId = 2;</code>
-     */
-    public boolean hasZuheId() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required int32 zuheId = 2;</code>
+     * <code>required int32 zuheId = 1;</code>
      */
     public int getZuheId() {
       return zuheId_;
     }
 
     private void initFields() {
-      activeOrJinjie_ = 0;
       zuheId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
@@ -7963,10 +7327,6 @@ public final class MibaoProtos {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasActiveOrJinjie()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       if (!hasZuheId()) {
         memoizedIsInitialized = 0;
         return false;
@@ -7979,10 +7339,7 @@ public final class MibaoProtos {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, activeOrJinjie_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, zuheId_);
+        output.writeInt32(1, zuheId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -7995,11 +7352,7 @@ public final class MibaoProtos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, activeOrJinjie_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, zuheId_);
+          .computeInt32Size(1, zuheId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -8123,10 +7476,8 @@ public final class MibaoProtos {
 
       public Builder clear() {
         super.clear();
-        activeOrJinjie_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
         zuheId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -8158,10 +7509,6 @@ public final class MibaoProtos {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.activeOrJinjie_ = activeOrJinjie_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
         result.zuheId_ = zuheId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -8179,9 +7526,6 @@ public final class MibaoProtos {
 
       public Builder mergeFrom(qxmobile.protobuf.MibaoProtos.MiBaoDealSkillReq other) {
         if (other == qxmobile.protobuf.MibaoProtos.MiBaoDealSkillReq.getDefaultInstance()) return this;
-        if (other.hasActiveOrJinjie()) {
-          setActiveOrJinjie(other.getActiveOrJinjie());
-        }
         if (other.hasZuheId()) {
           setZuheId(other.getZuheId());
         }
@@ -8190,10 +7534,6 @@ public final class MibaoProtos {
       }
 
       public final boolean isInitialized() {
-        if (!hasActiveOrJinjie()) {
-          
-          return false;
-        }
         if (!hasZuheId()) {
           
           return false;
@@ -8220,83 +7560,34 @@ public final class MibaoProtos {
       }
       private int bitField0_;
 
-      // required int32 activeOrJinjie = 1;
-      private int activeOrJinjie_ ;
+      // required int32 zuheId = 1;
+      private int zuheId_ ;
       /**
-       * <code>required int32 activeOrJinjie = 1;</code>
-       *
-       * <pre>
-       * 1激活请求，2 进阶请求
-       * </pre>
+       * <code>required int32 zuheId = 1;</code>
        */
-      public boolean hasActiveOrJinjie() {
+      public boolean hasZuheId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int32 activeOrJinjie = 1;</code>
-       *
-       * <pre>
-       * 1激活请求，2 进阶请求
-       * </pre>
-       */
-      public int getActiveOrJinjie() {
-        return activeOrJinjie_;
-      }
-      /**
-       * <code>required int32 activeOrJinjie = 1;</code>
-       *
-       * <pre>
-       * 1激活请求，2 进阶请求
-       * </pre>
-       */
-      public Builder setActiveOrJinjie(int value) {
-        bitField0_ |= 0x00000001;
-        activeOrJinjie_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 activeOrJinjie = 1;</code>
-       *
-       * <pre>
-       * 1激活请求，2 进阶请求
-       * </pre>
-       */
-      public Builder clearActiveOrJinjie() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        activeOrJinjie_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 zuheId = 2;
-      private int zuheId_ ;
-      /**
-       * <code>required int32 zuheId = 2;</code>
-       */
-      public boolean hasZuheId() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required int32 zuheId = 2;</code>
+       * <code>required int32 zuheId = 1;</code>
        */
       public int getZuheId() {
         return zuheId_;
       }
       /**
-       * <code>required int32 zuheId = 2;</code>
+       * <code>required int32 zuheId = 1;</code>
        */
       public Builder setZuheId(int value) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000001;
         zuheId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 zuheId = 2;</code>
+       * <code>required int32 zuheId = 1;</code>
        */
       public Builder clearZuheId() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         zuheId_ = 0;
         onChanged();
         return this;
@@ -8321,7 +7612,7 @@ public final class MibaoProtos {
      * <code>required int32 message = 1;</code>
      *
      * <pre>
-     *10-激活失败，11-激活成功；20-进阶失败，21-进阶成功
+     * -1 完整秘宝不够， -2，已经激活过了,0-成功
      * </pre>
      */
     boolean hasMessage();
@@ -8329,28 +7620,10 @@ public final class MibaoProtos {
      * <code>required int32 message = 1;</code>
      *
      * <pre>
-     *10-激活失败，11-激活成功；20-进阶失败，21-进阶成功
+     * -1 完整秘宝不够， -2，已经激活过了,0-成功
      * </pre>
      */
     int getMessage();
-
-    // optional int32 skillId = 2;
-    /**
-     * <code>optional int32 skillId = 2;</code>
-     *
-     * <pre>
-     * 21的时候 发送
-     * </pre>
-     */
-    boolean hasSkillId();
-    /**
-     * <code>optional int32 skillId = 2;</code>
-     *
-     * <pre>
-     * 21的时候 发送
-     * </pre>
-     */
-    int getSkillId();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.MiBaoDealSkillResp}
@@ -8408,11 +7681,6 @@ public final class MibaoProtos {
               message_ = input.readInt32();
               break;
             }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              skillId_ = input.readInt32();
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -8460,7 +7728,7 @@ public final class MibaoProtos {
      * <code>required int32 message = 1;</code>
      *
      * <pre>
-     *10-激活失败，11-激活成功；20-进阶失败，21-进阶成功
+     * -1 完整秘宝不够， -2，已经激活过了,0-成功
      * </pre>
      */
     public boolean hasMessage() {
@@ -8470,40 +7738,15 @@ public final class MibaoProtos {
      * <code>required int32 message = 1;</code>
      *
      * <pre>
-     *10-激活失败，11-激活成功；20-进阶失败，21-进阶成功
+     * -1 完整秘宝不够， -2，已经激活过了,0-成功
      * </pre>
      */
     public int getMessage() {
       return message_;
     }
 
-    // optional int32 skillId = 2;
-    public static final int SKILLID_FIELD_NUMBER = 2;
-    private int skillId_;
-    /**
-     * <code>optional int32 skillId = 2;</code>
-     *
-     * <pre>
-     * 21的时候 发送
-     * </pre>
-     */
-    public boolean hasSkillId() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional int32 skillId = 2;</code>
-     *
-     * <pre>
-     * 21的时候 发送
-     * </pre>
-     */
-    public int getSkillId() {
-      return skillId_;
-    }
-
     private void initFields() {
       message_ = 0;
-      skillId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -8524,9 +7767,6 @@ public final class MibaoProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(1, message_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, skillId_);
-      }
       getUnknownFields().writeTo(output);
     }
 
@@ -8539,10 +7779,6 @@ public final class MibaoProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, message_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, skillId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -8662,8 +7898,6 @@ public final class MibaoProtos {
         super.clear();
         message_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        skillId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -8696,10 +7930,6 @@ public final class MibaoProtos {
           to_bitField0_ |= 0x00000001;
         }
         result.message_ = message_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.skillId_ = skillId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -8718,9 +7948,6 @@ public final class MibaoProtos {
         if (other == qxmobile.protobuf.MibaoProtos.MiBaoDealSkillResp.getDefaultInstance()) return this;
         if (other.hasMessage()) {
           setMessage(other.getMessage());
-        }
-        if (other.hasSkillId()) {
-          setSkillId(other.getSkillId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -8759,7 +7986,7 @@ public final class MibaoProtos {
        * <code>required int32 message = 1;</code>
        *
        * <pre>
-       *10-激活失败，11-激活成功；20-进阶失败，21-进阶成功
+       * -1 完整秘宝不够， -2，已经激活过了,0-成功
        * </pre>
        */
       public boolean hasMessage() {
@@ -8769,7 +7996,7 @@ public final class MibaoProtos {
        * <code>required int32 message = 1;</code>
        *
        * <pre>
-       *10-激活失败，11-激活成功；20-进阶失败，21-进阶成功
+       * -1 完整秘宝不够， -2，已经激活过了,0-成功
        * </pre>
        */
       public int getMessage() {
@@ -8779,7 +8006,7 @@ public final class MibaoProtos {
        * <code>required int32 message = 1;</code>
        *
        * <pre>
-       *10-激活失败，11-激活成功；20-进阶失败，21-进阶成功
+       * -1 完整秘宝不够， -2，已经激活过了,0-成功
        * </pre>
        */
       public Builder setMessage(int value) {
@@ -8792,61 +8019,12 @@ public final class MibaoProtos {
        * <code>required int32 message = 1;</code>
        *
        * <pre>
-       *10-激活失败，11-激活成功；20-进阶失败，21-进阶成功
+       * -1 完整秘宝不够， -2，已经激活过了,0-成功
        * </pre>
        */
       public Builder clearMessage() {
         bitField0_ = (bitField0_ & ~0x00000001);
         message_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional int32 skillId = 2;
-      private int skillId_ ;
-      /**
-       * <code>optional int32 skillId = 2;</code>
-       *
-       * <pre>
-       * 21的时候 发送
-       * </pre>
-       */
-      public boolean hasSkillId() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional int32 skillId = 2;</code>
-       *
-       * <pre>
-       * 21的时候 发送
-       * </pre>
-       */
-      public int getSkillId() {
-        return skillId_;
-      }
-      /**
-       * <code>optional int32 skillId = 2;</code>
-       *
-       * <pre>
-       * 21的时候 发送
-       * </pre>
-       */
-      public Builder setSkillId(int value) {
-        bitField0_ |= 0x00000002;
-        skillId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 skillId = 2;</code>
-       *
-       * <pre>
-       * 21的时候 发送
-       * </pre>
-       */
-      public Builder clearSkillId() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        skillId_ = 0;
         onChanged();
         return this;
       }
@@ -8862,577 +8040,16 @@ public final class MibaoProtos {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.MiBaoDealSkillResp)
   }
 
-  public interface GetFullStarAwardrespOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 success = 1;
-    /**
-     * <code>required int32 success = 1;</code>
-     *
-     * <pre>
-     * 1 表示领取成功
-     * </pre>
-     */
-    boolean hasSuccess();
-    /**
-     * <code>required int32 success = 1;</code>
-     *
-     * <pre>
-     * 1 表示领取成功
-     * </pre>
-     */
-    int getSuccess();
-
-    // optional int32 nexNeedAllStar = 2;
-    /**
-     * <code>optional int32 nexNeedAllStar = 2;</code>
-     *
-     * <pre>
-     * success == 1的时候发送
-     * </pre>
-     */
-    boolean hasNexNeedAllStar();
-    /**
-     * <code>optional int32 nexNeedAllStar = 2;</code>
-     *
-     * <pre>
-     * success == 1的时候发送
-     * </pre>
-     */
-    int getNexNeedAllStar();
-  }
-  /**
-   * Protobuf type {@code qxmobile.protobuf.GetFullStarAwardresp}
-   *
-   * <pre>
-   *&#47;/////秘宝收集足够星星进行宝箱领奖/////////////////////
-   *	public static final short GET_FULL_STAR_AWARD_REQ = 29613;
-   *	public static final short GET_FULL_STAR_AWARD_RESP = 29614;
-   * </pre>
-   */
-  public static final class GetFullStarAwardresp extends
-      com.google.protobuf.GeneratedMessage
-      implements GetFullStarAwardrespOrBuilder {
-    // Use GetFullStarAwardresp.newBuilder() to construct.
-    private GetFullStarAwardresp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private GetFullStarAwardresp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final GetFullStarAwardresp defaultInstance;
-    public static GetFullStarAwardresp getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public GetFullStarAwardresp getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private GetFullStarAwardresp(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              success_ = input.readInt32();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              nexNeedAllStar_ = input.readInt32();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return qxmobile.protobuf.MibaoProtos.internal_static_qxmobile_protobuf_GetFullStarAwardresp_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.MibaoProtos.internal_static_qxmobile_protobuf_GetFullStarAwardresp_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp.class, qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<GetFullStarAwardresp> PARSER =
-        new com.google.protobuf.AbstractParser<GetFullStarAwardresp>() {
-      public GetFullStarAwardresp parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GetFullStarAwardresp(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<GetFullStarAwardresp> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 success = 1;
-    public static final int SUCCESS_FIELD_NUMBER = 1;
-    private int success_;
-    /**
-     * <code>required int32 success = 1;</code>
-     *
-     * <pre>
-     * 1 表示领取成功
-     * </pre>
-     */
-    public boolean hasSuccess() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 success = 1;</code>
-     *
-     * <pre>
-     * 1 表示领取成功
-     * </pre>
-     */
-    public int getSuccess() {
-      return success_;
-    }
-
-    // optional int32 nexNeedAllStar = 2;
-    public static final int NEXNEEDALLSTAR_FIELD_NUMBER = 2;
-    private int nexNeedAllStar_;
-    /**
-     * <code>optional int32 nexNeedAllStar = 2;</code>
-     *
-     * <pre>
-     * success == 1的时候发送
-     * </pre>
-     */
-    public boolean hasNexNeedAllStar() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional int32 nexNeedAllStar = 2;</code>
-     *
-     * <pre>
-     * success == 1的时候发送
-     * </pre>
-     */
-    public int getNexNeedAllStar() {
-      return nexNeedAllStar_;
-    }
-
-    private void initFields() {
-      success_ = 0;
-      nexNeedAllStar_ = 0;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasSuccess()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, success_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, nexNeedAllStar_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, success_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, nexNeedAllStar_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code qxmobile.protobuf.GetFullStarAwardresp}
-     *
-     * <pre>
-     *&#47;/////秘宝收集足够星星进行宝箱领奖/////////////////////
-     *	public static final short GET_FULL_STAR_AWARD_REQ = 29613;
-     *	public static final short GET_FULL_STAR_AWARD_RESP = 29614;
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.MibaoProtos.GetFullStarAwardrespOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return qxmobile.protobuf.MibaoProtos.internal_static_qxmobile_protobuf_GetFullStarAwardresp_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.MibaoProtos.internal_static_qxmobile_protobuf_GetFullStarAwardresp_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp.class, qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp.Builder.class);
-      }
-
-      // Construct using qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        success_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        nexNeedAllStar_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return qxmobile.protobuf.MibaoProtos.internal_static_qxmobile_protobuf_GetFullStarAwardresp_descriptor;
-      }
-
-      public qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp getDefaultInstanceForType() {
-        return qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp.getDefaultInstance();
-      }
-
-      public qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp build() {
-        qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp buildPartial() {
-        qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp result = new qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.success_ = success_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.nexNeedAllStar_ = nexNeedAllStar_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp) {
-          return mergeFrom((qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp other) {
-        if (other == qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp.getDefaultInstance()) return this;
-        if (other.hasSuccess()) {
-          setSuccess(other.getSuccess());
-        }
-        if (other.hasNexNeedAllStar()) {
-          setNexNeedAllStar(other.getNexNeedAllStar());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasSuccess()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.MibaoProtos.GetFullStarAwardresp) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 success = 1;
-      private int success_ ;
-      /**
-       * <code>required int32 success = 1;</code>
-       *
-       * <pre>
-       * 1 表示领取成功
-       * </pre>
-       */
-      public boolean hasSuccess() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 success = 1;</code>
-       *
-       * <pre>
-       * 1 表示领取成功
-       * </pre>
-       */
-      public int getSuccess() {
-        return success_;
-      }
-      /**
-       * <code>required int32 success = 1;</code>
-       *
-       * <pre>
-       * 1 表示领取成功
-       * </pre>
-       */
-      public Builder setSuccess(int value) {
-        bitField0_ |= 0x00000001;
-        success_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 success = 1;</code>
-       *
-       * <pre>
-       * 1 表示领取成功
-       * </pre>
-       */
-      public Builder clearSuccess() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        success_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional int32 nexNeedAllStar = 2;
-      private int nexNeedAllStar_ ;
-      /**
-       * <code>optional int32 nexNeedAllStar = 2;</code>
-       *
-       * <pre>
-       * success == 1的时候发送
-       * </pre>
-       */
-      public boolean hasNexNeedAllStar() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional int32 nexNeedAllStar = 2;</code>
-       *
-       * <pre>
-       * success == 1的时候发送
-       * </pre>
-       */
-      public int getNexNeedAllStar() {
-        return nexNeedAllStar_;
-      }
-      /**
-       * <code>optional int32 nexNeedAllStar = 2;</code>
-       *
-       * <pre>
-       * success == 1的时候发送
-       * </pre>
-       */
-      public Builder setNexNeedAllStar(int value) {
-        bitField0_ |= 0x00000002;
-        nexNeedAllStar_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 nexNeedAllStar = 2;</code>
-       *
-       * <pre>
-       * success == 1的时候发送
-       * </pre>
-       */
-      public Builder clearNexNeedAllStar() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        nexNeedAllStar_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.GetFullStarAwardresp)
-    }
-
-    static {
-      defaultInstance = new GetFullStarAwardresp(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.GetFullStarAwardresp)
-  }
-
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_MibaoInfoResp_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_MibaoInfoResp_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_MibaoGroup_descriptor;
+    internal_static_qxmobile_protobuf_SkillInfo_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_MibaoGroup_fieldAccessorTable;
+      internal_static_qxmobile_protobuf_SkillInfo_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_MibaoInfo_descriptor;
   private static
@@ -9483,11 +8100,6 @@ public final class MibaoProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_MiBaoDealSkillResp_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_GetFullStarAwardresp_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_GetFullStarAwardresp_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -9497,33 +8109,29 @@ public final class MibaoProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\013MiBao.proto\022\021qxmobile.protobuf\"\177\n\rMiba" +
-      "oInfoResp\022\022\n\nlevelPoint\030\001 \002(\005\022\022\n\nremainT" +
-      "ime\030\002 \002(\005\0221\n\nmibaoGroup\030\003 \003(\0132\035.qxmobile" +
-      ".protobuf.MibaoGroup\022\023\n\013needAllStar\030\004 \002(" +
-      "\005\"\204\001\n\nMibaoGroup\022/\n\tmibaoInfo\030\001 \003(\0132\034.qx" +
-      "mobile.protobuf.MibaoInfo\022\017\n\007skillId\030\002 \002" +
-      "(\005\022\016\n\006zuheId\030\003 \001(\005\022\021\n\thasActive\030\004 \002(\005\022\021\n" +
-      "\thasJinjie\030\005 \002(\005\"\326\001\n\tMibaoInfo\022\014\n\004dbId\030\001" +
-      " \002(\003\022\016\n\006tempId\030\002 \002(\005\022\017\n\007miBaoId\030\003 \002(\005\022\014\n" +
-      "\004star\030\004 \002(\005\022\r\n\005level\030\005 \002(\005\022\022\n\nsuiPianNum",
-      "\030\006 \002(\005\022\026\n\016needSuipianNum\030\007 \002(\005\022\016\n\006gongJi" +
-      "\030\010 \002(\005\022\016\n\006fangYu\030\t \002(\005\022\021\n\tshengMing\030\n \002(" +
-      "\005\022\016\n\006isLock\030\013 \002(\010\022\016\n\006zhanLi\030\014 \002(\005\"$\n\021Mib" +
-      "aoInfoOtherReq\022\017\n\007ownerId\030\001 \002(\003\"\037\n\rMibao" +
-      "Activate\022\016\n\006tempId\030\001 \002(\005\"T\n\021MibaoActivat" +
-      "eResp\022\016\n\006result\030\001 \002(\005\022/\n\tmibaoInfo\030\002 \001(\013" +
-      "2\034.qxmobile.protobuf.MibaoInfo\"\"\n\017MibaoL" +
-      "evelupReq\022\017\n\007mibaoId\030\001 \002(\005\"C\n\020MibaoLevel" +
-      "upResp\022/\n\tmibaoInfo\030\001 \002(\0132\034.qxmobile.pro" +
-      "tobuf.MibaoInfo\"!\n\016MibaoStarUpReq\022\017\n\007mib",
-      "aoId\030\001 \002(\005\"B\n\017MibaoStarUpResp\022/\n\tmibaoIn" +
-      "fo\030\001 \002(\0132\034.qxmobile.protobuf.MibaoInfo\";" +
-      "\n\021MiBaoDealSkillReq\022\026\n\016activeOrJinjie\030\001 " +
-      "\002(\005\022\016\n\006zuheId\030\002 \002(\005\"6\n\022MiBaoDealSkillRes" +
-      "p\022\017\n\007message\030\001 \002(\005\022\017\n\007skillId\030\002 \001(\005\"?\n\024G" +
-      "etFullStarAwardresp\022\017\n\007success\030\001 \002(\005\022\026\n\016" +
-      "nexNeedAllStar\030\002 \001(\005B\rB\013MibaoProtos"
+      "\n\013MiBao.proto\022\021qxmobile.protobuf\"\231\001\n\rMib" +
+      "aoInfoResp\022\022\n\nlevelPoint\030\001 \002(\005\022\022\n\nremain" +
+      "Time\030\002 \002(\005\022/\n\tskillList\030\003 \003(\0132\034.qxmobile" +
+      ".protobuf.SkillInfo\022/\n\tmiBaoList\030\004 \003(\0132\034" +
+      ".qxmobile.protobuf.MibaoInfo\"0\n\tSkillInf" +
+      "o\022\024\n\014activeZuheId\030\001 \002(\005\022\r\n\005level\030\002 \002(\005\"\306" +
+      "\001\n\tMibaoInfo\022\014\n\004dbId\030\001 \002(\003\022\016\n\006tempId\030\002 \002" +
+      "(\005\022\017\n\007miBaoId\030\003 \002(\005\022\014\n\004star\030\004 \002(\005\022\r\n\005lev" +
+      "el\030\005 \002(\005\022\022\n\nsuiPianNum\030\006 \002(\005\022\026\n\016needSuip" +
+      "ianNum\030\007 \002(\005\022\016\n\006gongJi\030\010 \002(\005\022\016\n\006fangYu\030\t",
+      " \002(\005\022\021\n\tshengMing\030\n \002(\005\022\016\n\006zhanLi\030\013 \002(\005\"" +
+      "$\n\021MibaoInfoOtherReq\022\017\n\007ownerId\030\001 \002(\003\"\037\n" +
+      "\rMibaoActivate\022\016\n\006tempId\030\001 \002(\005\"T\n\021MibaoA" +
+      "ctivateResp\022\016\n\006result\030\001 \002(\005\022/\n\tmibaoInfo" +
+      "\030\002 \001(\0132\034.qxmobile.protobuf.MibaoInfo\"\"\n\017" +
+      "MibaoLevelupReq\022\017\n\007mibaoId\030\001 \002(\005\"C\n\020Miba" +
+      "oLevelupResp\022/\n\tmibaoInfo\030\001 \002(\0132\034.qxmobi" +
+      "le.protobuf.MibaoInfo\"!\n\016MibaoStarUpReq\022" +
+      "\017\n\007mibaoId\030\001 \002(\005\"B\n\017MibaoStarUpResp\022/\n\tm" +
+      "ibaoInfo\030\001 \002(\0132\034.qxmobile.protobuf.Mibao",
+      "Info\"#\n\021MiBaoDealSkillReq\022\016\n\006zuheId\030\001 \002(" +
+      "\005\"%\n\022MiBaoDealSkillResp\022\017\n\007message\030\001 \002(\005" +
+      "B\rB\013MibaoProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9535,19 +8143,19 @@ public final class MibaoProtos {
           internal_static_qxmobile_protobuf_MibaoInfoResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_MibaoInfoResp_descriptor,
-              new java.lang.String[] { "LevelPoint", "RemainTime", "MibaoGroup", "NeedAllStar", });
-          internal_static_qxmobile_protobuf_MibaoGroup_descriptor =
+              new java.lang.String[] { "LevelPoint", "RemainTime", "SkillList", "MiBaoList", });
+          internal_static_qxmobile_protobuf_SkillInfo_descriptor =
             getDescriptor().getMessageTypes().get(1);
-          internal_static_qxmobile_protobuf_MibaoGroup_fieldAccessorTable = new
+          internal_static_qxmobile_protobuf_SkillInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_MibaoGroup_descriptor,
-              new java.lang.String[] { "MibaoInfo", "SkillId", "ZuheId", "HasActive", "HasJinjie", });
+              internal_static_qxmobile_protobuf_SkillInfo_descriptor,
+              new java.lang.String[] { "ActiveZuheId", "Level", });
           internal_static_qxmobile_protobuf_MibaoInfo_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_MibaoInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_MibaoInfo_descriptor,
-              new java.lang.String[] { "DbId", "TempId", "MiBaoId", "Star", "Level", "SuiPianNum", "NeedSuipianNum", "GongJi", "FangYu", "ShengMing", "IsLock", "ZhanLi", });
+              new java.lang.String[] { "DbId", "TempId", "MiBaoId", "Star", "Level", "SuiPianNum", "NeedSuipianNum", "GongJi", "FangYu", "ShengMing", "ZhanLi", });
           internal_static_qxmobile_protobuf_MibaoInfoOtherReq_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_qxmobile_protobuf_MibaoInfoOtherReq_fieldAccessorTable = new
@@ -9595,19 +8203,13 @@ public final class MibaoProtos {
           internal_static_qxmobile_protobuf_MiBaoDealSkillReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_MiBaoDealSkillReq_descriptor,
-              new java.lang.String[] { "ActiveOrJinjie", "ZuheId", });
+              new java.lang.String[] { "ZuheId", });
           internal_static_qxmobile_protobuf_MiBaoDealSkillResp_descriptor =
             getDescriptor().getMessageTypes().get(11);
           internal_static_qxmobile_protobuf_MiBaoDealSkillResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_MiBaoDealSkillResp_descriptor,
-              new java.lang.String[] { "Message", "SkillId", });
-          internal_static_qxmobile_protobuf_GetFullStarAwardresp_descriptor =
-            getDescriptor().getMessageTypes().get(12);
-          internal_static_qxmobile_protobuf_GetFullStarAwardresp_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_GetFullStarAwardresp_descriptor,
-              new java.lang.String[] { "Success", "NexNeedAllStar", });
+              new java.lang.String[] { "Message", });
           return null;
         }
       };

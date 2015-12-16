@@ -39,27 +39,33 @@ public class MiBaoDB {
 	
 	@Transient
 	private int shengMing;
-
-	/**秘宝是否解锁 true: 解锁状态，false： 未解锁状态
-	 * 只有当是true的时候，数据可信，否则需要进一步验证*/
-	@Column(columnDefinition = "boolean default false")
-	private boolean isClear;
 	
-	public boolean isClear() {
-		return this.isClear;
-	}
-	public void setClear(MiBao miBaoCfg, JunZhu jz) {
-		if(miBaoCfg == null || jz == null) {
-			this.isClear = false;
-			return;
-		}
-		boolean lock = MibaoMgr.inst.isLock(miBaoCfg.unlockType, miBaoCfg.unlockValue, jz);
-		this.isClear = !lock;
-	}
+	public boolean hasShengXing = false;
+	
+	/*
+	 * 20151203  1.1 版本 秘宝没有锁定状态
+	 */
 
-	public void setClear(boolean isClear){
-		this.isClear = isClear;
-	}
+//	/**秘宝是否解锁 true: 解锁状态，false： 未解锁状态
+//	 * 只有当是true的时候，数据可信，否则需要进一步验证*/
+//	@Column(columnDefinition = "boolean default false")
+//	private boolean isClear;
+	
+//	public boolean isClear() {
+//		return this.isClear;
+//	}
+//	public void setClear(MiBao miBaoCfg, JunZhu jz) {
+//		if(miBaoCfg == null || jz == null) {
+//			this.isClear = false;
+//			return;
+//		}
+//		boolean lock = MibaoMgr.inst.isLock(miBaoCfg.unlockType, miBaoCfg.unlockValue, jz);
+//		this.isClear = !lock;
+//	}
+//
+//	public void setClear(boolean isClear){
+//		this.isClear = isClear;
+//	}
 	//2015年4月17日16:57:30int改为long
 	public long getDbId() {
 		return dbId;

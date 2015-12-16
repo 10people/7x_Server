@@ -17,7 +17,7 @@ public class MibaoLevelPoint {
 	public int dayTimes;
 	public Date lastBuyTime;
 	
-	public int needAllStar; // 能够获取宝箱需要的星星数，分母
+//	public int needAllStar; // 能够获取宝箱需要的星星数，分母
 
 	@Override
 	public String toString() {

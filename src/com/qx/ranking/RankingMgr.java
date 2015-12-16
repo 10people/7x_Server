@@ -671,9 +671,12 @@ public class RankingMgr extends EventProc{
 			rankNum = (int)DB.zcard_(GUOGUAN_RANK+"_"+guojiaId);
 			break;
 		case 5: //贡金个人排行榜
-			RankingGongJinMgr.inst.sendPersonalGongJinRank(pageNo, response, session);
+			RankingGongJinMgr.inst.sendPersonalGongJinRank(pageNo, response);
+			rankNum = (int)DB.zcard_(RankingGongJinMgr.gongJinPersonalRank);
+			break;
 		case 6://贡金联盟排行榜
-			RankingGongJinMgr.inst.sendAllianceGongJinRank(pageNo, response, session);
+			RankingGongJinMgr.inst.sendAllianceGongJinRank(pageNo, response);
+			rankNum = (int)DB.zcard_(RankingGongJinMgr.gongJinAllianceRank);
 		default:
 			break;
 		}
@@ -1073,7 +1076,7 @@ public class RankingMgr extends EventProc{
 			return null;
 		}
 		for(String id:ids){
-			JunZhu junzhu = HibernateUtil.find(JunZhu.class, Integer.parseInt(id));
+			JunZhu junzhu = HibernateUtil.find(JunZhu.class, Long.parseLong(id));
 			if(junzhu!=null){
 				junList.add(junzhu);
 			}
@@ -1242,6 +1245,8 @@ public class RankingMgr extends EventProc{
 		DB.zrem(LIANMENG_SW_WEEK_RANK+"_"+guojiaId, mengId+"");
 		DB.zrem(LIANMENG_SW_LAST_WEEK_RANK+"_0", mengId+"");
 		DB.zrem(LIANMENG_SW_LAST_WEEK_RANK+"_"+guojiaId, mengId+"");
+		// 20151211
+		DB.zrem(RankingGongJinMgr.gongJinAllianceRank, mengId+"");
 		log.info("已经从redis所有联盟相关榜清除id={}的联盟信息",mengId+"");
 	}
 	

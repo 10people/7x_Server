@@ -33,6 +33,7 @@ import com.manu.dynasty.template.ExpTemp;
 import com.manu.dynasty.template.HeroGrow;
 import com.manu.dynasty.template.JunzhuShengji;
 import com.manu.dynasty.template.MiBao;
+import com.manu.dynasty.template.MiBaoExtraAttribute;
 import com.manu.dynasty.template.MibaoStar;
 import com.manu.dynasty.template.QiangHua;
 import com.manu.dynasty.template.Talent;
@@ -219,11 +220,11 @@ public class JunZhuMgr extends EventProc {
 				log.error("找不到秘宝配置，mibaoId:{}", mibaoDB.getMiBaoId());
 				continue;
 			}
-			boolean lock = MibaoMgr.inst.isLock(mibaoConf.unlockType,
-					mibaoConf.unlockValue, junzhu);
-			if (lock) {
-				continue;
-			}
+//			boolean lock = MibaoMgr.inst.isLock(mibaoConf.unlockType,
+//					mibaoConf.unlockValue, junzhu);
+//			if (lock) {
+//				continue;
+//			}
 			MibaoStar mibaoStar = MibaoMgr.inst.mibaoStarMap.get(mibaoDB
 					.getStar());
 			if (mibaoStar == null) {
@@ -243,6 +244,15 @@ public class JunZhuMgr extends EventProc {
 			junzhu.gongJi += gongji;
 			junzhu.fangYu += fangyu;
 			junzhu.shengMingMax += shengming;
+			/*
+			 * 秘宝等级达到一定程度，会有额外属性加成
+			 */
+			List<MiBaoExtraAttribute> mibaoexA = MibaoMgr.inst.
+					getAddAttrList(mibaoDB.getMiBaoId(), mibaoDB.getLevel());
+			for(MiBaoExtraAttribute m: mibaoexA){
+				addAttrToX(m.shuxing, m.Num, junzhu);
+			}
+		
 			gongjiMibao += gongji;
 			fangyuMibao += fangyu;
 			shengmingMibao += shengming;
@@ -355,12 +365,12 @@ public class JunZhuMgr extends EventProc {
 					log.error("找不到秘宝配置，mibaoId:{}", mid.getMiBaoId());
 					continue;
 				}
-				boolean lock = !mid.isClear();
-				if(lock){
-					if(MibaoMgr.inst.isLock(mi.unlockType, mi.unlockValue, junzhu)){
-						continue;
-					}
-				}
+//				boolean lock = !mid.isClear();
+//				if(lock){
+//					if(MibaoMgr.inst.isLock(mi.unlockType, mi.unlockValue, junzhu)){
+//						continue;
+//					}
+//				}
 				MibaoStar mibaoStar = MibaoMgr.inst.mibaoStarMap.get(mid
 						.getStar());
 				if (mibaoStar == null) {
@@ -370,21 +380,60 @@ public class JunZhuMgr extends EventProc {
 				}
 				float chengZhang = mibaoStar.getChengzhang();
 				int level = mid.getLevel();
-				if (mi != null) {
-					int gongji = MibaoMgr.inst.clacMibaoAttr(chengZhang,
-							mi.getGongji(), mi.getGongjiRate(), level);
-					int fangyu = MibaoMgr.inst.clacMibaoAttr(chengZhang,
-							mi.getFangyu(), mi.getFangyuRate(), level);
-					int shengming = MibaoMgr.inst.clacMibaoAttr(chengZhang,
-							mi.getShengming(), mi.getShengmingRate(), level);
-					junzhu.gongJi += gongji;
-					junzhu.fangYu += fangyu;
-					junzhu.shengMingMax += shengming;
+				int gongji = MibaoMgr.inst.clacMibaoAttr(chengZhang,
+						mi.getGongji(), mi.getGongjiRate(), level);
+				int fangyu = MibaoMgr.inst.clacMibaoAttr(chengZhang,
+						mi.getFangyu(), mi.getFangyuRate(), level);
+				int shengming = MibaoMgr.inst.clacMibaoAttr(chengZhang,
+						mi.getShengming(), mi.getShengmingRate(), level);
+				junzhu.gongJi += gongji;
+				junzhu.fangYu += fangyu;
+				junzhu.shengMingMax += shengming;
+				
+				/*
+				 * 秘宝等级达到一定程度，会有额外属性加成
+				 */
+				List<MiBaoExtraAttribute> mibaoexA = MibaoMgr.inst.
+						getAddAttrList(mid.getMiBaoId(), mid.getLevel());
+				for(MiBaoExtraAttribute m: mibaoexA){
+					addAttrToX(m.shuxing, m.Num, junzhu);
 				}
 			}
 		}
 	}
-
+	
+	public void addAttrToX(String x1, int addValue, JunZhu jz){
+		char x = x1.charAt(0);
+		switch(x){
+		case 'A':
+			 jz.wqSH += addValue;
+			 return;
+		case 'B':
+			jz.wqJM += addValue;
+			return;
+		case 'C':
+			jz.wqBJ += addValue;
+			return;
+		case 'D':
+			jz.wqRX += addValue;
+			return;
+		case 'E':
+			jz.jnSH += addValue;
+			return;
+		case 'F':
+			jz.jnJM += addValue;
+			return;
+		case 'G':
+			jz.jnBJ += addValue;
+			return;
+		case 'H':
+			jz.jnRX += addValue;
+			return;
+		default:
+			log.error("没有参数是：{}的 属性", x1);
+			break;
+		}
+	}
 	public void calcEquipAtt(JunZhu junzhu, Bag<EquipGrid> bag) {
 		List<EquipGrid> list = bag.grids;
 		int size = list.size();
@@ -400,7 +449,7 @@ public class JunZhuMgr extends EventProc {
 				continue;
 			}
 			BaseItem equip = TempletService.itemMap.get(gd.itemId);
-			if (equip.getType() != BaseItem.TYPE_EQUIP) {
+			if ((equip==null)||equip.getType() != BaseItem.TYPE_EQUIP) {
 				continue;
 			}
 			// 装备基础属性
@@ -1006,24 +1055,41 @@ public class JunZhuMgr extends EventProc {
 		// 建立君主角色成功
 		EventMgr.regist(ED.CREATE_JUNZHU_SUCCESS, this);
 	}
-
-	public int calcMibaoZhanLi(GameObject gameObj, int gongJi, int fangYu,
-			int shengMing) {
-		// 取得原来属性值
-		int fangyuPre = gameObj.getFangyu();
-		int gongjiPre = gameObj.getGongji();
-		int shengmingPre = gameObj.getShengming();
-		// 设为当前秘宝属性值
-		gameObj.setFangyu(gongJi);
-		gameObj.setGongji(fangYu);
-		gameObj.setShengming(shengMing);
-		int zhanLi = getZhanli(gameObj);
-		// 计算完战力后， 重置原来的属性值
-		gameObj.setFangyu(fangyuPre);
-		gameObj.setGongji(gongjiPre);
-		gameObj.setShengming(shengmingPre);
+	public int calcMibaoZhanLi(int gongJi, int fangYu,
+			int shengMing, int mibaoid, int mibaolevel) {
+		JunZhu jz = new JunZhu();
+		jz.fangYu = fangYu;
+		jz.shengMing = shengMing;
+		jz.gongJi = gongJi;
+		/*
+		 * 秘宝等级达到一定程度，会有额外属性加成
+		 */
+		List<MiBaoExtraAttribute> mibaoexA = MibaoMgr.inst.
+				getAddAttrList(mibaoid, mibaolevel);
+		for(MiBaoExtraAttribute m: mibaoexA){
+			addAttrToX(m.shuxing, m.Num, jz);
+		}
+		int zhanLi = getZhanli(jz);
 		return zhanLi;
 	}
+
+//	public int calcMibaoZhanLi(GameObject gameObj, int gongJi, int fangYu,
+//			int shengMing) {
+//		// 取得原来属性值
+//		int fangyuPre = gameObj.getFangyu();
+//		int gongjiPre = gameObj.getGongji();
+//		int shengmingPre = gameObj.getShengming();
+//		// 设为当前秘宝属性值
+//		gameObj.setFangyu(gongJi);
+//		gameObj.setGongji(fangYu);
+//		gameObj.setShengming(shengMing);
+//		int zhanLi = getZhanli(gameObj);
+//		// 计算完战力后， 重置原来的属性值
+//		gameObj.setFangyu(fangyuPre);
+//		gameObj.setGongji(gongjiPre);
+//		gameObj.setShengming(shengmingPre);
+//		return zhanLi;
+//	}
 
 	/**
 	 * 获取战力
@@ -1046,11 +1112,11 @@ public class JunZhuMgr extends EventProc {
 		int jnshdk = gameOb.getJnJM();
 		int jnbjjs = gameOb.getJnBJ();
 		int jnbjdk = gameOb.getJnRX();
-		log.info("参与战力值计算的各项属性值:[gongji=" + gongji + ", fangyu=" + fangyu
-				+ ", shengming=" + shengming + ", wqshjs=" + wqshjs
-				+ ", wqshdk=" + wqshdk + ", wqbjjs=" + wqbjjs + ", wqbjdk="
-				+ wqbjdk + ", jnshjs=" + jnshjs + ", jnshdk=" + jnshdk
-				+ ", jnbjjs=" + jnbjjs + ", jnbjdk=" + jnbjdk + "]");
+//		log.info("参与战力值计算的各项属性值:[gongji=" + gongji + ", fangyu=" + fangyu
+//				+ ", shengming=" + shengming + ", wqshjs=" + wqshjs
+//				+ ", wqshdk=" + wqshdk + ", wqbjjs=" + wqbjjs + ", wqbjdk="
+//				+ wqbjdk + ", jnshjs=" + jnshjs + ", jnshdk=" + jnshdk
+//				+ ", jnbjjs=" + jnbjjs + ", jnbjdk=" + jnbjdk + "]");
 		double m = CanShu.ZHANLI_M;
 		double c = CanShu.ZHANLI_C;
 		double r = CanShu.ZHANLI_R;
@@ -1069,7 +1135,7 @@ public class JunZhuMgr extends EventProc {
 				* (1 + baoJiLv + jnshdk / zhanliL + jnbjdk / zhanliL);
 		double result = m * w * Math.pow(wq * wz + jN * jZ, (1 / r));
 		int zhanli = (int) Math.round(result);
-		log.info("name 是 :{}的君主或者其他npc的综合战力是:{}", gameOb.getName(), zhanli);
+//		log.info("name 是 :{}的君主或者其他npc的综合战力是:{}", gameOb.getName(), zhanli);
 		return zhanli;
 	}
 

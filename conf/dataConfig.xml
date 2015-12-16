@@ -37,7 +37,17 @@
 	<file name="data/YunbiaoTemp.xml" />	
 	<file name="data/CartNPCTemp.xml" />	
 	<file name="data/YunBiaoSafe.xml" />	
+	<file name="data/MaJu.xml" />	
+	<file name="data/ReportTemp.xml" />	
 	<file name="data/LianmengMobai.xml" />	
+	<file name="data/LianMengTuTeng.xml" />	
+	
+	<file name="data/LianMengKeJi.xml" />	
+	<file name="data/LianMengKeZhan.xml" />	
+	<file name="data/LianMengShangPu.xml" />	
+	<file name="data/LianMengShuYuan.xml" />	
+	<file name="data/LianMengZongMiao.xml" />	
+	
 	<file name="data/LianmengEvent.xml" />	
 	<file name="data/FunctionOpen.xml" />	
 	<file name="data/QianDao.xml" />	
@@ -55,6 +65,7 @@
 <!-- 	<file name="data/CountryTemplate.xml" /> -->
 	<file name="data/ZhuangBei.xml" />
 	<file name="data/PveTemp.xml" />
+	<file name="data/PveBigAward.xml" />
 	<file name="data/EnemyTemp.xml" />
 	<file name="data/NpcTemp.xml" />
 	<file name="data/AwardTemp.xml" />
@@ -65,6 +76,8 @@
 	<file name="data/MibaoStar.xml" />
 	<file name="data/MibaoSuiPian.xml" />
 	<file name="data/MibaoJixing.xml" />
+	<file name="data/MibaoSkillLv.xml" />
+	<file name="data/MiBaoExtraAttribute.xml"/>
 	<!-- 百战千军相关配置 -->
 	<file name="data/BaiZhanNpc.xml" />
 	<file name="data/GuYongBing.xml" />
@@ -101,8 +114,11 @@
 	<file name="data/QiriQiandaoControl.xml"/>
 	<!--国家活动 -->
 	<file name="data/ShangJiaoTemp.xml"/>
-	<file name="data/LueduoUnionRank.xml"/>
 	<file name="data/ChouHenJiSuan.xml"/>
+	<!-- 掠夺 -->
+	<file name="data/LueduoLianmengRank.xml"/>
+    <file name="data/LueduoPersonRank.xml"/>
+    <file name="data/LueduoUnionRank.xml"/>
 	<!-- 符文 -->
 	<file name="data/Fuwen.xml"/>
 	<file name="data/FuwenOpen.xml"/>

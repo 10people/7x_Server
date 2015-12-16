@@ -152,11 +152,14 @@ public class ED {
 	/**押镖镖车被攻击事件*/
 	public static final int BIAOCHE_BEIDA = 10170;
 	/**押镖镖车被摧毁*/
-	public static final int BIAOCHE_BEISHA = 10171;
-	/**押镖镖车到达终点*/
+	public static final int BIAOCHE_CUIHUI = 10171;
+	/**押镖镖车从场景中移除*/
 	public static final int BIAOCHE_END=10172;
 	/**押镖镖车出发事件*/
 	public static final int BIAOCHE_CHUFA = 10173;
+	
+	public static final int Lve_duo_fail = 10174; // 掠夺失败
+	public static final int been_lve_duo = 10175; // 被掠夺
 	// 主线任务事件
 	public static final int get_produce_weiWang = 50;
 	public static final int pay_weiWang = 51;
@@ -171,4 +174,13 @@ public class ED {
 	public static final int battle_huang_ye = 60;
 	public static final int lve_duo = 61;
 	public static final int pawnshop_buy = 62;
+	/**任意N件装备强化到N级*/
+	public static final int zhuangBei_x_qiangHua_N = 63;
+	/**领取通章奖励**/
+	public static final int get_pass_PVE_zhang_award = 64;
+	/**进阶任意角色技能1次*/
+	public static final int jinJie_jueSe_jiNeng = 65;
+	/**指定秘宝升星一次： 指定秘宝id*/
+	public static final int mibao_shengStar = 66;
+	
 }

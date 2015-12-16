@@ -22,6 +22,7 @@ import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.store.MemcachedCRUD;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.CanShu;
+import com.manu.dynasty.template.LianMengTuTeng;
 import com.manu.dynasty.template.LianmengMobai;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.SessionAttKey;
@@ -261,6 +262,18 @@ public class MoBaiMgr extends EventProc{
 	 * @param time
 	 */
 	protected void updateMobaiLevel(int lmId, int buffNum, Date time) {
+		{//增加联盟累计膜拜次数
+			LmTuTeng tt = HibernateUtil.find(LmTuTeng.class, lmId);
+			if(tt == null){
+				tt = new LmTuTeng();
+				tt.lmId = lmId;
+				tt.dTime = time;
+				HibernateUtil.insert(tt);
+			}else{
+				tt.times+=1;
+				HibernateUtil.update(tt);
+			}
+		}
 		LMMoBaiInfo lmmbInfo = (LMMoBaiInfo) MemcachedCRUD.getMemCachedClient()
 				.get(moBaiBuffCnt+lmId);
 		if (lmmbInfo == null) {// 如果没有该联盟勠力同心信息，初始化勠力同心信息
@@ -465,5 +478,94 @@ public class MoBaiMgr extends EventProc{
 	@Override
 	protected void doReg() {
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
+	}
+
+	/**
+	 * 领取阶段性膜拜奖励
+	 * @param id
+	 * @param session
+	 * @param builder
+	 */
+	public void getStepAward(int id, IoSession session, Builder builder) {
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			return;
+		}
+		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jz.id);
+		if (member == null) {
+			sendError(id, session, "您不在联盟中。");
+			return;
+		}
+		int tuTengLv = 1;//FIXME 
+		LianMengTuTeng conf = getTuTengConf(tuTengLv);
+		if(conf == null){
+			log.error("LianMengTuTeng not found for lv {}, lm {}", tuTengLv, member.lianMengId);
+			return;
+		}
+		LmTuTeng tuTengBean = HibernateUtil.find(LmTuTeng.class, member.lianMengId);
+		if(tuTengBean == null){
+			log.error("tuTeng bean not find for {}",member.lianMengId);
+			return;
+		}
+		//计算当前可以领取的阶段
+		int maxReachStep = 0;
+		int[] arr = new int[]{0,conf.moBaiTimes1,conf.moBaiTimes2,conf.moBaiTimes3};
+		for(int i=1; i<=3; i++){
+			if(tuTengBean.times>=arr[i]){
+				maxReachStep = i;
+			}
+		}
+		int wantStep = 1;//FIXME
+		if(maxReachStep<wantStep){
+			log.error("lm {} times {} ,reach {} want {} by pid {}", 
+					member.lianMengId,tuTengBean.times, maxReachStep, wantStep, jz.id);
+			return;
+		}
+		//检查请求的阶段是否已经领取过。
+		MoBaiBean bean = HibernateUtil.find(MoBaiBean.class, jz.id);
+		if (bean == null) {// 没有膜拜过
+			bean = new MoBaiBean();
+			bean.junZhuId = member.junzhuId;
+			HibernateUtil.insert(bean);
+		}
+		Date preTime = null;
+		switch(wantStep){
+		case 1:preTime = bean.step1time;break; 
+		case 2:preTime = bean.step2time;break; 
+		case 3:preTime = bean.step3time;break;
+		default:
+			return;
+		}
+		if(preTime != null && DateUtils.isSameDay(preTime)){
+			return;//已经领取过了。
+		}
+		//
+		String awards[] = new String[]{null, conf.award1, conf.award2,conf.award3};
+		String award = awards[wantStep];
+		log.info("准备发奖给{}，阶段{}",jz.id,wantStep);
+		AwardMgr.inst.giveReward(session, award, jz);
+		Date now = new Date();
+		switch(wantStep){
+		case 1:bean.step1time = now;break;
+		case 2:bean.step2time = now;break;
+		case 3:bean.step3time = now;break;
+		default:
+			break;
+		}
+		HibernateUtil.update(bean);
+		log.info("结束发奖给{}，阶段{}，奖励{}",jz.id,wantStep,award);
+	}
+
+	public LianMengTuTeng getTuTengConf(int tuTengLv) {
+		List<LianMengTuTeng> list = TempletService.listAll(LianMengTuTeng.class.getSimpleName());
+		if(list == null){
+			return null;
+		}
+		for(LianMengTuTeng t : list){
+			if(t.tuTengLevel == tuTengLv){
+				return t;
+			}
+		}
+		return null;
 	}
 }

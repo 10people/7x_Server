@@ -30,6 +30,7 @@ import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AllianceVoteMgr;
 import com.qx.alliance.HouseMgr;
 import com.qx.alliance.MoBaiMgr;
+import com.qx.alliance.building.JianZhuMgr;
 import com.qx.alliancefight.AllianceFightMgr;
 import com.qx.alliancefight.CdTimeMgr;
 import com.qx.award.AwardMgr;
@@ -61,7 +62,6 @@ import com.qx.junzhu.TalentMgr;
 import com.qx.log.LogMgr;
 import com.qx.mibao.MibaoMgr;
 import com.qx.notice.NoticeMgr;
-import com.qx.pawnshop.PawnshopMgr;
 import com.qx.prompt.PromptMsgMgr;
 import com.qx.purchase.PurchaseMgr;
 import com.qx.pve.PveGuanQiaMgr;
@@ -126,7 +126,7 @@ public class BigSwitch {
 	public GameTaskMgr gameTaskMgr;
 	public MibaoMgr mibaoMgr;
 	public ExploreMgr exploreMgr;
-	public PawnshopMgr pawnshopMgr;
+//	public PawnshopMgr pawnshopMgr;
 	public AllianceMgr allianceMgr;
 	public AllianceVoteMgr allianceVoteMgr;
 	public UserEquipAction userEquipAction;
@@ -215,12 +215,13 @@ public class BigSwitch {
 		dailyTaskMgr = new DailyTaskMgr();
 		mibaoMgr = new MibaoMgr();
 		exploreMgr = new ExploreMgr();
-		pawnshopMgr = new PawnshopMgr();
+//		pawnshopMgr = new PawnshopMgr();
 		// 添加服务器定时任务
 		new SchedulerMgr().doSchedule();
 		allianceMgr = new AllianceMgr();
 		allianceVoteMgr = new AllianceVoteMgr();
 		moBaiMgr = new MoBaiMgr();
+		JianZhuMgr.inst = new JianZhuMgr();
 		hyMgr = new HYMgr();
 		shopMgr = new ShopMgr();
 		rankMgr = new RankingMgr();
@@ -253,7 +254,7 @@ public class BigSwitch {
 	public void loadModuleData() {
 		allianceMgr.inst.initData();
 		mibaoMgr.inst.initData();
-		pawnshopMgr.inst.initData();
+//		pawnshopMgr.inst.initData();
 		exploreMgr.inst.initData();
 		vipMgr.INSTANCE.initData();
 		pMgr.inst.initData();
@@ -323,17 +324,17 @@ public class BigSwitch {
 			case PD.C_YABIAO_MENU_REQ:
 			case PD.C_YABIAO_REQ:
 			case PD.C_SETHORSE_REQ:
-			case PD.C_JIEBIAO_INFO_REQ:
-			case PD.C_ENTER_YABIAOSCENE:
-//			case PD.C_ENDYABIAO_REQ:
+//			case PD.C_JIEBIAO_INFO_REQ:
 			case PD.C_BIAOCHE_INFO:
-			case PD.C_YABIAO_RESULT:
 			case PD.C_YABIAO_BUY_RSQ:
 			case PD.C_YABIAO_HELP_RSQ:
 			case PD.C_ANSWER_YBHELP_RSQ:
 			case PD.C_TICHU_YBHELP_RSQ:
-			case PD.C_YABIAO_XIEZHU_TIMES_RSQ:
-			case PD.C_ZHANDOU_INIT_YB_REQ:// 2015年7月28日处理押镖战斗数据初始化
+//			case PD.C_YABIAO_XIEZHU_TIMES_RSQ:
+//			case PD.C_MOVE2BIAOCHE_REQ:
+			case PD.C_CARTJIASU_REQ:
+			case PD.C_BUYHORSEBUFF_REQ:
+			case PD.C_YABIAO_XIEZHUS_REQ:
 				ybMgr.addMission(id, session, builder);
 				break;
 			// 押镖处理结束
@@ -627,12 +628,12 @@ public class BigSwitch {
 			case PD.C_DAILY_TASK_GET_REWARD_REQ:
 				DailyTaskMgr.INSTANCE.getTaskReward(id, session, builder);
 				break;
-			case PD.BUY_TREASURE_INFOS_REQ:
-				PurchaseMgr.inst.sendTreasureInfos(id, session, builder);
-				break;
-			case PD.BUY_TREASURE:
-				PurchaseMgr.inst.buyTreasure(id, session, builder);
-				break;
+//			case PD.BUY_TREASURE_INFOS_REQ:
+//				PurchaseMgr.inst.sendTreasureInfos(id, session, builder);
+//				break;
+//			case PD.BUY_TREASURE:
+//				PurchaseMgr.inst.buyTreasure(id, session, builder);
+//				break;
 			case PD.C_TaskReq:
 				gameTaskMgr.sendTaskList(id, session, builder);
 				break;
@@ -642,10 +643,10 @@ public class BigSwitch {
 			case PD.C_TaskProgress:
 				gameTaskMgr.clientUpdateProgress(id, session, builder);
 				break;
-				// 秘宝攒齐星星，宝箱领奖
-			case PD.GET_FULL_STAR_AWARD_REQ:
-				mibaoMgr.getAwardWhenFullStar(session, id);
-				break;
+//				// 秘宝攒齐星星，宝箱领奖
+//			case PD.GET_FULL_STAR_AWARD_REQ:
+//				mibaoMgr.getAwardWhenFullStar(session, id);
+//				break;
 			case PD.C_MIBAO_ACTIVATE_REQ:
 				mibaoMgr.mibaoActivate(id, session, builder);
 				break;
@@ -670,17 +671,26 @@ public class BigSwitch {
 			case PD.EXPLORE_REQ:
 				exploreMgr.toExplore(id, session, builder);
 				break;
-			case PD.PAWN_SHOP_GOODS_LIST_REQ:
-				pawnshopMgr.getGoodsList(id, session);
+//			case PD.PAWN_SHOP_GOODS_LIST_REQ:
+//				pawnshopMgr.getGoodsList(id, session);
+//				break;
+//			case PD.PAWN_SHOP_GOODS_BUY:
+//				pawnshopMgr.buyGoods(id, session, builder);
+//				break;
+//			case PD.PAWN_SHOP_GOODS_SELL:
+//				pawnshopMgr.sellGoods(id, session, builder);
+//				break;
+//			case PD.PAWN_SHOP_GOODS_REFRESH:
+//				pawnshopMgr.refreshPawnshop(id, session, builder);
+//				break;
+			case PD.C_JIAN_ZHU_INFO:
+				JianZhuMgr.inst.getInfo(id,session,builder);
 				break;
-			case PD.PAWN_SHOP_GOODS_BUY:
-				pawnshopMgr.buyGoods(id, session, builder);
+			case PD.C_JIAN_ZHU_UP:
+				JianZhuMgr.inst.up(id,session,builder);
 				break;
-			case PD.PAWN_SHOP_GOODS_SELL:
-				pawnshopMgr.sellGoods(id, session, builder);
-				break;
-			case PD.PAWN_SHOP_GOODS_REFRESH:
-				pawnshopMgr.refreshPawnshop(id, session, builder);
+			case PD.C_GET_MOBAI_AWARD:
+				moBaiMgr.getStepAward(id,session,builder);
 				break;
 			case PD.C_MoBai:
 				moBaiMgr.moBai(id, session, builder);
@@ -998,6 +1008,9 @@ public class BigSwitch {
 				break;
 			case PD.C_UPGRADE_JINENG_REQ:
 				jiNengPeiYangMgr.upgradeJiNeng(id, session, builder);
+				break;
+			case PD.PLAYER_REVIVE_REQUEST:
+				allianceFightMgr.reviveRequest(id, session, builder);
 				break;
 			default:
 				log.error("未处理的协议 {} {}", id, builder);

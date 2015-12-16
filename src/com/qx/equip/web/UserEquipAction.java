@@ -256,7 +256,7 @@ public class UserEquipAction  extends EventProc {
 		if (equipXiLian != null) {
 			HibernateUtil.delete(equipXiLian);
 		} else {
-			log.error("cmd:{},没有找到洗练数据：equipId:{},junzhuId:{}", id, equipId,
+			log.error("cmd:{},没有找到洗练数据：equipId:{},junzhuId:{}~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", id, equipId,
 					junZhu.id);
 			sendError(id, session, "cmd:" + id + ",没有找到洗练数据：equipId:" + equipId
 					+ "junzhuId:" + junZhu.id);
@@ -279,8 +279,9 @@ public class UserEquipAction  extends EventProc {
 		EquipXiLian equipXiLian = HibernateUtil.find(EquipXiLian.class,
 				" where equipId=" + equipId + " and junZhuId=" + junZhu.id);
 		if (equipXiLian == null) {
-			log.error("没有找到洗练数据，equipId:{}", equipId);
-			sendError(id, session, "没有找到洗练数据，equipId:" + equipId);
+			log.error("洗练结果确认失败，没有找到洗练数据，equipId:{}", equipId);
+			//TODO 2015年12月11日 前端不知道为什么需要确认洗练的时候还发确认操作 跟雷庆约定去掉无洗练结果确认进行请求确认操作的错误返回
+//			sendError(id, session, "没有找到洗练数据，equipId:" + equipId);
 			return;
 		}
 
@@ -291,7 +292,7 @@ public class UserEquipAction  extends EventProc {
 		if (equipWhere == 1) {
 			BagGrid source = findEquip(equipId, junZhu.id);
 			if (source == null) {
-				throw new BaseException("洗练装备不存在");
+				throw new BaseException("洗练结果确认失败，洗练装备不存在");
 			}
 			target = source;
 			targetInstId = source.instId;
@@ -299,29 +300,29 @@ public class UserEquipAction  extends EventProc {
 		} else if (equipWhere == 2) {
 			EquipGrid source = HibernateUtil.find(EquipGrid.class, equipId);
 			if (source == null) {
-				throw new BaseException("洗练装备不存在 2");
+				throw new BaseException("洗练结果确认失败，洗练装备不存在 2");
 			}
 			target = source;
 			targetItemId = source.itemId;
 			targetInstId = source.instId;
 		}
 		if (target == null) {
-			throw new BaseException("洗练装备不存在");
+			throw new BaseException("洗练结果确认失败，洗练装备不存在");
 		}
 
 		TempletService template = TempletService.getInstance();
 		ZhuangBei zhuangBei = template.getZhuangBei(targetItemId);
 		if (zhuangBei == null) {
-			log.error("没有找到对应的装备,zhuangBeiId:", targetItemId);
-			sendError(id, session, "没有找到对应的装备,zhuangBeiId:" + targetItemId);
+			log.error("洗练结果确认失败，没有找到对应的装备,zhuangBeiId:", targetItemId);
+			sendError(id, session, "洗练结果确认失败，没有找到对应的装备,zhuangBeiId:" + targetItemId);
 			return;
 		}
 		UserEquip dbUe = null;
 		if (targetInstId > 0) {
 			dbUe = HibernateUtil.find(UserEquip.class, targetInstId);
 			if (dbUe == null) {
-				log.error("没有找到已经洗练的装备数据，equipId:{}", targetInstId);
-				sendError(id, session, "没有找到已经洗练的装备数据，equipId:{}"
+				log.error("洗练结果确认失败，没有找到已经洗练的装备数据，equipId:{}", targetInstId);
+				sendError(id, session, "洗练结果确认失败，没有找到已经洗练的装备数据，equipId:{}"
 						+ targetInstId);
 				return;
 			}
@@ -763,7 +764,18 @@ public class UserEquipAction  extends EventProc {
 					equipXiLian.getJnBJAdd(),
 					equipXiLian.getJnRXAdd()
 					);
-			HibernateUtil.save(equipXiLian);
+			if(equipXiLian.getWqSHAdd()>0||
+					equipXiLian.getWqJMAdd()>0||
+					equipXiLian.getWqBJAdd()>0||
+					equipXiLian.getWqRXAdd()>0||
+					equipXiLian.getJnSHAdd()>0||
+					equipXiLian.getJnJMAdd()>0||
+					equipXiLian.getJnBJAdd()>0||
+					equipXiLian.getJnRXAdd()>0){
+				HibernateUtil.save(equipXiLian);
+			}else{
+				log.info("君主{}洗练结果都是0",junZhu.id);
+			}
 		}
 		
 		
@@ -804,8 +816,7 @@ public class UserEquipAction  extends EventProc {
 				payYuanBao = needYuanBao;
 				// junZhu.yuanBao -= needYuanBao;
 				// 计算洗练
-				YuanBaoMgr.inst.diff(junZhu, -needYuanBao, 0,
-						PurchaseMgr.inst.getPrice(PurchaseConstants.XILIAN),
+				YuanBaoMgr.inst.diff(junZhu, -needYuanBao, 0, needYuanBao,
 						YBType.YB_XILIAN_ZHUANGBEI, "洗练装备");
 				
 				xiLian.setNum(xiLian.getNum() + 1);
@@ -1667,8 +1678,8 @@ public class UserEquipAction  extends EventProc {
 		// 进阶后的装备信息
 		ZhuangBei jinJieZb = template.getZhuangBei(jinJieZbId);
 		if (jinJieZb == null) {
-			log.error("未找到对应装备配置信息，zhuangbeiId:{}", jinJieZbId);
-			sendError(cmd, session, "装备进阶失败，没有进阶后的装备。");
+			log.error("未找到对应装备配置信息，zhuangbeiId:{}......................", jinJieZbId);
+			sendError(cmd, session, "装备进阶失败，没有进阶后的装备");
 			return;
 		}
 

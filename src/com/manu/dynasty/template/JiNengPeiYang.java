@@ -1,13 +1,13 @@
 package com.manu.dynasty.template;
 
 public class JiNengPeiYang {
-	private int id;
-	private int wuqiType;
-	private int jinengType;
-	private int quality;
-	private int nextId;
-	private int needLv;
-	private int needNum;
+	public int id;
+	public int wuqiType;
+	public int jinengType;
+	public int quality;
+	public int nextId;
+	public int needLv;
+	public int needNum;
 
 	public int getId() {
 		return id;

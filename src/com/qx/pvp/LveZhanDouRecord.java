@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 @Entity
 @Table(name="lve_zhandou_r")
 public class LveZhanDouRecord {
@@ -21,7 +22,7 @@ public class LveZhanDouRecord {
 
 	/*
 	 * 当 result1 == PVPConstant.GONG_JI_WIN：： 
-	 * 		攻击方得到值，防守方损失相应的值 
+	 * 		攻击方得到值，防守方损失为::: 相应的值 - (int)CanShu.LUEDUO_CANSHU_L
 	 * 
 	 * 当  result1 == PVPConstant.GONG_JI_LOSE
 	 *  	攻击方得到保底值，防守方零损失

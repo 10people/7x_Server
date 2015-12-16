@@ -1159,28 +1159,28 @@ public class HYMgr {
 		return bings;
 	}
 	
-	public void fillNpcJZDataInfo(ZhanDouInitResp.Builder resp, 
-			List<Node> selfs, int flagIndex, HuangyePvpNpc pvpNpc,
-			Group.Builder enemyTroop){
-		// 1 添加装备
-		List<Integer> zbIdList = Arrays.asList(pvpNpc.weapon1, pvpNpc.weapon2, pvpNpc.weapon3);
-		Node.Builder junzhuNode = Node.newBuilder();
-		PveMgr.inst.fillZhuangbei(junzhuNode, zbIdList);
-		// 添加flag
-		junzhuNode.addFlagIds(flagIndex);
-		// 添加君主基本信息（暴击、类型、读表类型、视野）
-		junzhuNode.setNodeType(NodeType.PLAYER);
-		junzhuNode.setNodeProfession(NodeProfession.NULL);
-		junzhuNode.setModleId(pvpNpc.model);// 君主ModelId
-		junzhuNode.setNodeName(pvpNpc.name+"");
-		PveMgr.inst.fillDataByGongjiType(junzhuNode, null);
-		PveMgr.inst.fillGongFangInfo(junzhuNode, pvpNpc);
-		// 添加秘宝信息
-		List<Integer> mibaoCfgIdList = Arrays.asList(pvpNpc.mibao1, pvpNpc.mibao2, pvpNpc.mibao3);
-		PveMgr.inst.fillNpcMibaoDataInfo(mibaoCfgIdList, junzhuNode, enemyTroop);
-		junzhuNode.setHp(junzhuNode.getHpMax());
-		selfs.add(junzhuNode.build());
-	}
+//	public void fillNpcJZDataInfo(ZhanDouInitResp.Builder resp, 
+//			List<Node> selfs, int flagIndex, HuangyePvpNpc pvpNpc,
+//			Group.Builder enemyTroop){
+//		// 1 添加装备
+//		List<Integer> zbIdList = Arrays.asList(pvpNpc.weapon1, pvpNpc.weapon2, pvpNpc.weapon3);
+//		Node.Builder junzhuNode = Node.newBuilder();
+//		PveMgr.inst.fillZhuangbei(junzhuNode, zbIdList);
+//		// 添加flag
+//		junzhuNode.addFlagIds(flagIndex);
+//		// 添加君主基本信息（暴击、类型、读表类型、视野）
+//		junzhuNode.setNodeType(NodeType.PLAYER);
+//		junzhuNode.setNodeProfession(NodeProfession.NULL);
+//		junzhuNode.setModleId(pvpNpc.model);// 君主ModelId
+//		junzhuNode.setNodeName(pvpNpc.name+"");
+//		PveMgr.inst.fillDataByGongjiType(junzhuNode, null);
+//		PveMgr.inst.fillGongFangInfo(junzhuNode, pvpNpc);
+//		// 添加秘宝信息
+////		List<Integer> mibaoCfgIdList = Arrays.asList(pvpNpc.mibao1, pvpNpc.mibao2, pvpNpc.mibao3);
+//		PveMgr.inst.fillNpcMibaoDataInfo();mibaoCfgIdList, junzhuNode, enemyTroop);
+//		junzhuNode.setHp(junzhuNode.getHpMax());
+//		selfs.add(junzhuNode.build());
+//	}
 	
 /*	*//**
 	 * 资源点战斗结束处理

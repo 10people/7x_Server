@@ -77,20 +77,19 @@
 	 <mapping class="com.qx.pvp.PvpBean"/>
 <!-- 	 <mapping class="com.qx.yabiao.YaBiaoInfo"/> -->
 	 <mapping class="com.qx.yabiao.YaBiaoBean"/>
-	 <mapping class="com.qx.yabiao.ShaLuBean"/>
+	 <mapping class="com.qx.yabiao.YBBattleBean"/>
 	 <mapping class="com.qx.prompt.PromptMSG"/>
 	 <mapping class="com.qx.yabiao.YunBiaoHistory"/>
-	 <mapping class="com.qx.pvp.PvpDuiHuanBean"/>
 	 <mapping class="com.qx.pvp.ZhanDouRecord"/>
     <mapping class="com.qx.explore.ExploreMine"/>
     <mapping class="com.qx.pve.BuZhenMibaoBean"/>
-    <mapping class="com.qx.pawnshop.PawnshopBean"/>
     <mapping class="com.qx.alliance.AllianceBean"/>
     <mapping class="com.qx.alliance.AllianceApply"/>
     <mapping class="com.qx.alliance.AlliancePlayer"/>
     <mapping class="com.qx.alliance.AllianceGongXianRecord"/>
     <mapping class="com.qx.junzhu.PlayerTime"/>
     <mapping class="com.qx.alliance.MoBaiBean"/>
+    <mapping class="com.qx.alliance.LmTuTeng"/>
     <mapping class="com.qx.account.SettingsBean"/>
     <mapping class="com.qx.huangye.HYFog"/>
     <mapping class="com.qx.huangye.HYResource"/>
@@ -147,6 +146,7 @@
     <mapping class="log.ReasonBean"/>
     <mapping class="com.qx.junzhu.ChengHaoBean"/>
     <mapping class="com.qx.cdkey.CDKeyInfo"/>
+    <mapping class="com.qx.jinengpeiyang.JNBean"/>
     
 </session-factory>
 

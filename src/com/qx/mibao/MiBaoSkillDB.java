@@ -1,6 +1,8 @@
 package com.qx.mibao;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -8,11 +10,16 @@ import javax.persistence.Table;
 @Table(name="mibao_skill")
 public class MiBaoSkillDB {
 	@Id 
-	// id = junzhuId * 10 + zuHeId
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public long id;
-	/**是否手动解锁： true： 解锁， false ： 没有解锁*/
-	public boolean hasClear = false;
-	/**是否手动进阶过： true：已经进阶了，false：没有**/
-	public boolean hasJinjie = false;
+
+	public long jId;
+	public int zuHeId; // 已经激活的秘宝技能id， zuHeId 是 MibaoSkill 的id
+	public int level;
+//	/**是否手动解锁： true： 解锁， false ： 没有解锁*/
+//	public boolean hasClear = false;
+//	/**是否手动进阶过： true：已经进阶了，false：没有**/
+//	public boolean hasJinjie = false;
+
 	
 }

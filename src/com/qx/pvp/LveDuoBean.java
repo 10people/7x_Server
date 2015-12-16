@@ -35,6 +35,9 @@ public class LveDuoBean  {//implements MCSupport {
 	public Date lastBattleTime; //攻击数据
 	public Date lastBattleEndTime; // 防守数据
 	public boolean hasRecord; // true: 有新记录，false:没有
+	
+	/**获取贡金排行奖励的时间*/
+	public Date getGongJinTime;
 
 //	@Override
 //	public long getIdentifier() {

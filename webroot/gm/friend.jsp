@@ -8,7 +8,6 @@
 <%@page import="qxmobile.protobuf.FriendsProtos.RemoveFriendReq"%>
 <%@page import="qxmobile.protobuf.FriendsProtos.GetFriendListResp"%>
 <%@page import="com.manu.network.msg.ProtobufMsg"%>
-<%@page import="qxmobile.protobuf.PvpProto.AddChanceResp"%>
 <%@page import="qxmobile.protobuf.FriendsProtos.AddFriendReq"%>
 <%@page import="qxmobile.protobuf.FriendsProtos.FriendJunzhuInfo"%>
 <%@page import="java.util.List"%>

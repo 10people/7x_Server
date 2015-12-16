@@ -2821,15 +2821,15 @@ public final class PvpProto {
      */
     int getZuheId();
 
-    // required int32 activateMiBaoCount = 10;
+    // required int32 zuHeLevel = 10;
     /**
-     * <code>required int32 activateMiBaoCount = 10;</code>
+     * <code>required int32 zuHeLevel = 10;</code>
      */
-    boolean hasActivateMiBaoCount();
+    boolean hasZuHeLevel();
     /**
-     * <code>required int32 activateMiBaoCount = 10;</code>
+     * <code>required int32 zuHeLevel = 10;</code>
      */
-    int getActivateMiBaoCount();
+    int getZuHeLevel();
 
     // required int32 level = 11;
     /**
@@ -2939,7 +2939,7 @@ public final class PvpProto {
             }
             case 80: {
               bitField0_ |= 0x00000200;
-              activateMiBaoCount_ = input.readInt32();
+              zuHeLevel_ = input.readInt32();
               break;
             }
             case 88: {
@@ -3193,20 +3193,20 @@ public final class PvpProto {
       return zuheId_;
     }
 
-    // required int32 activateMiBaoCount = 10;
-    public static final int ACTIVATEMIBAOCOUNT_FIELD_NUMBER = 10;
-    private int activateMiBaoCount_;
+    // required int32 zuHeLevel = 10;
+    public static final int ZUHELEVEL_FIELD_NUMBER = 10;
+    private int zuHeLevel_;
     /**
-     * <code>required int32 activateMiBaoCount = 10;</code>
+     * <code>required int32 zuHeLevel = 10;</code>
      */
-    public boolean hasActivateMiBaoCount() {
+    public boolean hasZuHeLevel() {
       return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
-     * <code>required int32 activateMiBaoCount = 10;</code>
+     * <code>required int32 zuHeLevel = 10;</code>
      */
-    public int getActivateMiBaoCount() {
-      return activateMiBaoCount_;
+    public int getZuHeLevel() {
+      return zuHeLevel_;
     }
 
     // required int32 level = 11;
@@ -3235,7 +3235,7 @@ public final class PvpProto {
       guojia_ = 0;
       roleId_ = 0;
       zuheId_ = 0;
-      activateMiBaoCount_ = 0;
+      zuHeLevel_ = 0;
       level_ = 0;
     }
     private byte memoizedIsInitialized = -1;
@@ -3279,7 +3279,7 @@ public final class PvpProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasActivateMiBaoCount()) {
+      if (!hasZuHeLevel()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -3322,7 +3322,7 @@ public final class PvpProto {
         output.writeInt32(9, zuheId_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
-        output.writeInt32(10, activateMiBaoCount_);
+        output.writeInt32(10, zuHeLevel_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         output.writeInt32(11, level_);
@@ -3374,7 +3374,7 @@ public final class PvpProto {
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(10, activateMiBaoCount_);
+          .computeInt32Size(10, zuHeLevel_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
@@ -3514,7 +3514,7 @@ public final class PvpProto {
         bitField0_ = (bitField0_ & ~0x00000080);
         zuheId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
-        activateMiBaoCount_ = 0;
+        zuHeLevel_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
         level_ = 0;
         bitField0_ = (bitField0_ & ~0x00000400);
@@ -3585,7 +3585,7 @@ public final class PvpProto {
         if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
           to_bitField0_ |= 0x00000200;
         }
-        result.activateMiBaoCount_ = activateMiBaoCount_;
+        result.zuHeLevel_ = zuHeLevel_;
         if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
           to_bitField0_ |= 0x00000400;
         }
@@ -3637,8 +3637,8 @@ public final class PvpProto {
         if (other.hasZuheId()) {
           setZuheId(other.getZuheId());
         }
-        if (other.hasActivateMiBaoCount()) {
-          setActivateMiBaoCount(other.getActivateMiBaoCount());
+        if (other.hasZuHeLevel()) {
+          setZuHeLevel(other.getZuHeLevel());
         }
         if (other.hasLevel()) {
           setLevel(other.getLevel());
@@ -3684,7 +3684,7 @@ public final class PvpProto {
           
           return false;
         }
-        if (!hasActivateMiBaoCount()) {
+        if (!hasZuHeLevel()) {
           
           return false;
         }
@@ -4109,35 +4109,35 @@ public final class PvpProto {
         return this;
       }
 
-      // required int32 activateMiBaoCount = 10;
-      private int activateMiBaoCount_ ;
+      // required int32 zuHeLevel = 10;
+      private int zuHeLevel_ ;
       /**
-       * <code>required int32 activateMiBaoCount = 10;</code>
+       * <code>required int32 zuHeLevel = 10;</code>
        */
-      public boolean hasActivateMiBaoCount() {
+      public boolean hasZuHeLevel() {
         return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>required int32 activateMiBaoCount = 10;</code>
+       * <code>required int32 zuHeLevel = 10;</code>
        */
-      public int getActivateMiBaoCount() {
-        return activateMiBaoCount_;
+      public int getZuHeLevel() {
+        return zuHeLevel_;
       }
       /**
-       * <code>required int32 activateMiBaoCount = 10;</code>
+       * <code>required int32 zuHeLevel = 10;</code>
        */
-      public Builder setActivateMiBaoCount(int value) {
+      public Builder setZuHeLevel(int value) {
         bitField0_ |= 0x00000200;
-        activateMiBaoCount_ = value;
+        zuHeLevel_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 activateMiBaoCount = 10;</code>
+       * <code>required int32 zuHeLevel = 10;</code>
        */
-      public Builder clearActivateMiBaoCount() {
+      public Builder clearZuHeLevel() {
         bitField0_ = (bitField0_ & ~0x00000200);
-        activateMiBaoCount_ = 0;
+        zuHeLevel_ = 0;
         onChanged();
         return this;
       }
@@ -5989,15 +5989,15 @@ public final class PvpProto {
      */
     int getOppZuheId();
 
-    // required int32 oppActivateMiBaoCount = 14;
+    // required int32 oppZuHeLevel = 14;
     /**
-     * <code>required int32 oppActivateMiBaoCount = 14;</code>
+     * <code>required int32 oppZuHeLevel = 14;</code>
      */
-    boolean hasOppActivateMiBaoCount();
+    boolean hasOppZuHeLevel();
     /**
-     * <code>required int32 oppActivateMiBaoCount = 14;</code>
+     * <code>required int32 oppZuHeLevel = 14;</code>
      */
-    int getOppActivateMiBaoCount();
+    int getOppZuHeLevel();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ChallengeResp}
@@ -6127,7 +6127,7 @@ public final class PvpProto {
             }
             case 112: {
               bitField0_ |= 0x00000800;
-              oppActivateMiBaoCount_ = input.readInt32();
+              oppZuHeLevel_ = input.readInt32();
               break;
             }
           }
@@ -6490,20 +6490,20 @@ public final class PvpProto {
       return oppZuheId_;
     }
 
-    // required int32 oppActivateMiBaoCount = 14;
-    public static final int OPPACTIVATEMIBAOCOUNT_FIELD_NUMBER = 14;
-    private int oppActivateMiBaoCount_;
+    // required int32 oppZuHeLevel = 14;
+    public static final int OPPZUHELEVEL_FIELD_NUMBER = 14;
+    private int oppZuHeLevel_;
     /**
-     * <code>required int32 oppActivateMiBaoCount = 14;</code>
+     * <code>required int32 oppZuHeLevel = 14;</code>
      */
-    public boolean hasOppActivateMiBaoCount() {
+    public boolean hasOppZuHeLevel() {
       return ((bitField0_ & 0x00000800) == 0x00000800);
     }
     /**
-     * <code>required int32 oppActivateMiBaoCount = 14;</code>
+     * <code>required int32 oppZuHeLevel = 14;</code>
      */
-    public int getOppActivateMiBaoCount() {
-      return oppActivateMiBaoCount_;
+    public int getOppZuHeLevel() {
+      return oppZuHeLevel_;
     }
 
     private void initFields() {
@@ -6520,7 +6520,7 @@ public final class PvpProto {
       oppoRoleId_ = 0;
       myZuheId_ = 0;
       oppZuheId_ = 0;
-      oppActivateMiBaoCount_ = 0;
+      oppZuHeLevel_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6555,7 +6555,7 @@ public final class PvpProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasOppActivateMiBaoCount()) {
+      if (!hasOppZuHeLevel()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -6618,7 +6618,7 @@ public final class PvpProto {
         output.writeInt32(13, oppZuheId_);
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
-        output.writeInt32(14, oppActivateMiBaoCount_);
+        output.writeInt32(14, oppZuHeLevel_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -6683,7 +6683,7 @@ public final class PvpProto {
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(14, oppActivateMiBaoCount_);
+          .computeInt32Size(14, oppZuHeLevel_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6841,7 +6841,7 @@ public final class PvpProto {
         bitField0_ = (bitField0_ & ~0x00000800);
         oppZuheId_ = 0;
         bitField0_ = (bitField0_ & ~0x00001000);
-        oppActivateMiBaoCount_ = 0;
+        oppZuHeLevel_ = 0;
         bitField0_ = (bitField0_ & ~0x00002000);
         return this;
       }
@@ -6936,7 +6936,7 @@ public final class PvpProto {
         if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
           to_bitField0_ |= 0x00000800;
         }
-        result.oppActivateMiBaoCount_ = oppActivateMiBaoCount_;
+        result.oppZuHeLevel_ = oppZuHeLevel_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -7038,8 +7038,8 @@ public final class PvpProto {
         if (other.hasOppZuheId()) {
           setOppZuheId(other.getOppZuheId());
         }
-        if (other.hasOppActivateMiBaoCount()) {
-          setOppActivateMiBaoCount(other.getOppActivateMiBaoCount());
+        if (other.hasOppZuHeLevel()) {
+          setOppZuHeLevel(other.getOppZuHeLevel());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -7074,7 +7074,7 @@ public final class PvpProto {
           
           return false;
         }
-        if (!hasOppActivateMiBaoCount()) {
+        if (!hasOppZuHeLevel()) {
           
           return false;
         }
@@ -8151,35 +8151,35 @@ public final class PvpProto {
         return this;
       }
 
-      // required int32 oppActivateMiBaoCount = 14;
-      private int oppActivateMiBaoCount_ ;
+      // required int32 oppZuHeLevel = 14;
+      private int oppZuHeLevel_ ;
       /**
-       * <code>required int32 oppActivateMiBaoCount = 14;</code>
+       * <code>required int32 oppZuHeLevel = 14;</code>
        */
-      public boolean hasOppActivateMiBaoCount() {
+      public boolean hasOppZuHeLevel() {
         return ((bitField0_ & 0x00002000) == 0x00002000);
       }
       /**
-       * <code>required int32 oppActivateMiBaoCount = 14;</code>
+       * <code>required int32 oppZuHeLevel = 14;</code>
        */
-      public int getOppActivateMiBaoCount() {
-        return oppActivateMiBaoCount_;
+      public int getOppZuHeLevel() {
+        return oppZuHeLevel_;
       }
       /**
-       * <code>required int32 oppActivateMiBaoCount = 14;</code>
+       * <code>required int32 oppZuHeLevel = 14;</code>
        */
-      public Builder setOppActivateMiBaoCount(int value) {
+      public Builder setOppZuHeLevel(int value) {
         bitField0_ |= 0x00002000;
-        oppActivateMiBaoCount_ = value;
+        oppZuHeLevel_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 oppActivateMiBaoCount = 14;</code>
+       * <code>required int32 oppZuHeLevel = 14;</code>
        */
-      public Builder clearOppActivateMiBaoCount() {
+      public Builder clearOppZuHeLevel() {
         bitField0_ = (bitField0_ & ~0x00002000);
-        oppActivateMiBaoCount_ = 0;
+        oppZuHeLevel_ = 0;
         onChanged();
         return this;
       }
@@ -19575,62 +19575,61 @@ public final class PvpProto {
       "canCleanCDvipLev\030\013 \002(\005\022\023\n\013weiWangHour\030\014 " +
       "\002(\005\022\022\n\nhasWeiWang\030\r \002(\005\022\025\n\rcanGetweiWang",
       "\030\016 \002(\005\022\027\n\017leftCanBuyCount\030\017 \002(\005\022\021\n\tbuyNe" +
-      "edYB\030\020 \001(\005\022\021\n\tbuyNumber\030\021 \001(\005\"\331\001\n\014Oppone" +
+      "edYB\030\020 \001(\005\022\021\n\tbuyNumber\030\021 \001(\005\"\320\001\n\014Oppone" +
       "ntInfo\022\020\n\010junZhuId\030\001 \002(\003\022\022\n\njunZhuName\030\002" +
       " \002(\t\022\024\n\014lianMengName\030\003 \002(\t\022\014\n\004rank\030\004 \002(\005" +
       "\022\016\n\006zhanLi\030\005 \002(\005\022\024\n\014junXianLevel\030\006 \002(\005\022\016" +
       "\n\006guojia\030\007 \002(\005\022\016\n\006roleId\030\010 \002(\005\022\016\n\006zuheId" +
-      "\030\t \002(\005\022\032\n\022activateMiBaoCount\030\n \002(\005\022\r\n\005le" +
-      "vel\030\013 \002(\005\"\202\001\n\007PVPInfo\022\014\n\004rank\030\001 \002(\005\022\016\n\006z" +
-      "hanLi\030\002 \002(\005\022\021\n\tleftTimes\030\003 \002(\005\022\022\n\ntotalT" +
-      "imes\030\004 \002(\005\022\014\n\004time\030\005 \002(\005\022\024\n\014junXianLevel",
-      "\030\006 \002(\005\022\016\n\006zuheId\030\007 \002(\005\"$\n\014ChallengeReq\022\024" +
-      "\n\014oppoJunZhuId\030\001 \002(\003\"\335\002\n\rChallengeResp\0221" +
-      "\n\nmySoldiers\030\001 \003(\0132\035.qxmobile.protobuf.G" +
-      "uYongBing\022\020\n\010myZhanli\030\002 \002(\005\0223\n\014oppoSoldi" +
-      "ers\030\003 \003(\0132\035.qxmobile.protobuf.GuYongBing" +
-      "\022\022\n\noppoZhanli\030\004 \002(\005\022\020\n\010openTime\030\005 \001(\003\022\017" +
-      "\n\007myLevel\030\006 \001(\005\022\021\n\toppoLevel\030\007 \001(\005\022\016\n\006op" +
-      "poId\030\010 \002(\003\022\016\n\006myRank\030\t \001(\005\022\020\n\010oppoRank\030\n" +
-      " \002(\005\022\022\n\noppoRoleId\030\013 \002(\005\022\020\n\010myZuheId\030\014 \002" +
-      "(\005\022\021\n\toppZuheId\030\r \002(\005\022\035\n\025oppActivateMiBa",
-      "oCount\030\016 \002(\005\"\030\n\nGuYongBing\022\n\n\002id\030\001 \002(\005\"!" +
-      "\n\021ConfirmExecuteReq\022\014\n\004type\030\001 \002(\005\"\350\002\n\022Co" +
-      "nfirmExecuteResp\0225\n\014buyCiShuInfo\030\001 \001(\0132\037" +
-      ".qxmobile.protobuf.BuyCiShuInfo\0223\n\013clean" +
-      "CDInfo\030\002 \001(\0132\036.qxmobile.protobuf.CleanCD" +
-      "Info\0225\n\014getAwardInfo\030\003 \001(\0132\037.qxmobile.pr" +
-      "otobuf.GetAwardInfo\0227\n\rpayChangeInfo\030\004 \001" +
-      "(\0132 .qxmobile.protobuf.PayChangeInfo\0227\n\r" +
-      "refreshMyInfo\030\005 \001(\0132 .qxmobile.protobuf." +
-      "RefreshMyInfo\022=\n\020refreshOtherInfo\030\006 \001(\0132",
-      "#.qxmobile.protobuf.RefreshOtherInfo\"F\n\014" +
-      "BuyCiShuInfo\022\017\n\007success\030\001 \002(\005\022\021\n\tleftTim" +
-      "es\030\002 \001(\005\022\022\n\ntotalTimes\030\003 \001(\005\"W\n\013CleanCDI" +
-      "nfo\022\017\n\007success\030\001 \002(\005\022\021\n\tleftTimes\030\002 \001(\005\022" +
-      "\022\n\ntotalTimes\030\003 \001(\005\022\020\n\010nextCDYB\030\004 \001(\005\"\037\n" +
-      "\014GetAwardInfo\022\017\n\007success\030\001 \002(\005\"k\n\rPayCha" +
-      "ngeInfo\022\017\n\007success\030\001 \002(\005\022\026\n\016nextHuanYiPi" +
-      "YB\030\002 \001(\005\0221\n\010oppoList\030\003 \003(\0132\037.qxmobile.pr" +
-      "otobuf.OpponentInfo\"V\n\rRefreshMyInfo\0221\n\010" +
-      "oppoList\030\001 \003(\0132\037.qxmobile.protobuf.Oppon",
-      "entInfo\022\022\n\njunZhuRank\030\002 \002(\005\"E\n\020RefreshOt" +
-      "herInfo\0221\n\010oppoList\030\001 \003(\0132\037.qxmobile.pro" +
-      "tobuf.OpponentInfo\"B\n\rBaiZhanResult\022\017\n\007e" +
-      "nemyId\030\001 \002(\003\022\r\n\005winId\030\002 \002(\003\022\021\n\tzhandouId" +
-      "\030\003 \002(\005\"x\n\021BaiZhanResultResp\022\017\n\007oldRank\030\001" +
-      " \001(\005\022\017\n\007newRank\030\002 \001(\005\022\017\n\007highest\030\003 \001(\005\022\027" +
-      "\n\017oldJunXianLevel\030\006 \001(\005\022\027\n\017newJunXianLev" +
-      "el\030\007 \001(\005\"@\n\016PlayerStateReq\022\017\n\007enemyId\030\001 " +
-      "\002(\003\022\014\n\004rank\030\002 \002(\005\022\017\n\007junRank\030\003 \002(\005\"\037\n\017Pl" +
-      "ayerStateResp\022\014\n\004type\030\001 \002(\005\"A\n\021ZhandouRe",
-      "cordResp\022,\n\004info\030\001 \003(\0132\036.qxmobile.protob" +
-      "uf.ZhandouItem\"\262\001\n\013ZhandouItem\022\021\n\tzhando" +
-      "uId\030\001 \002(\005\022\017\n\007enemyId\030\002 \002(\003\022\021\n\tenemyName\030" +
-      "\003 \002(\t\022\014\n\004time\030\004 \002(\005\022\013\n\003win\030\005 \002(\005\022\026\n\016junR" +
-      "ankChangeV\030\006 \002(\005\022\r\n\005level\030\007 \002(\005\022\025\n\renemy" +
-      "GuoJiaId\030\t \002(\005\022\023\n\013enemyRoleId\030\013 \002(\005B\nB\010P" +
-      "vpProto"
+      "\030\t \002(\005\022\021\n\tzuHeLevel\030\n \002(\005\022\r\n\005level\030\013 \002(\005" +
+      "\"\202\001\n\007PVPInfo\022\014\n\004rank\030\001 \002(\005\022\016\n\006zhanLi\030\002 \002" +
+      "(\005\022\021\n\tleftTimes\030\003 \002(\005\022\022\n\ntotalTimes\030\004 \002(" +
+      "\005\022\014\n\004time\030\005 \002(\005\022\024\n\014junXianLevel\030\006 \002(\005\022\016\n",
+      "\006zuheId\030\007 \002(\005\"$\n\014ChallengeReq\022\024\n\014oppoJun" +
+      "ZhuId\030\001 \002(\003\"\324\002\n\rChallengeResp\0221\n\nmySoldi" +
+      "ers\030\001 \003(\0132\035.qxmobile.protobuf.GuYongBing" +
+      "\022\020\n\010myZhanli\030\002 \002(\005\0223\n\014oppoSoldiers\030\003 \003(\013" +
+      "2\035.qxmobile.protobuf.GuYongBing\022\022\n\noppoZ" +
+      "hanli\030\004 \002(\005\022\020\n\010openTime\030\005 \001(\003\022\017\n\007myLevel" +
+      "\030\006 \001(\005\022\021\n\toppoLevel\030\007 \001(\005\022\016\n\006oppoId\030\010 \002(" +
+      "\003\022\016\n\006myRank\030\t \001(\005\022\020\n\010oppoRank\030\n \002(\005\022\022\n\no" +
+      "ppoRoleId\030\013 \002(\005\022\020\n\010myZuheId\030\014 \002(\005\022\021\n\topp" +
+      "ZuheId\030\r \002(\005\022\024\n\014oppZuHeLevel\030\016 \002(\005\"\030\n\nGu",
+      "YongBing\022\n\n\002id\030\001 \002(\005\"!\n\021ConfirmExecuteRe" +
+      "q\022\014\n\004type\030\001 \002(\005\"\350\002\n\022ConfirmExecuteResp\0225" +
+      "\n\014buyCiShuInfo\030\001 \001(\0132\037.qxmobile.protobuf" +
+      ".BuyCiShuInfo\0223\n\013cleanCDInfo\030\002 \001(\0132\036.qxm" +
+      "obile.protobuf.CleanCDInfo\0225\n\014getAwardIn" +
+      "fo\030\003 \001(\0132\037.qxmobile.protobuf.GetAwardInf" +
+      "o\0227\n\rpayChangeInfo\030\004 \001(\0132 .qxmobile.prot" +
+      "obuf.PayChangeInfo\0227\n\rrefreshMyInfo\030\005 \001(" +
+      "\0132 .qxmobile.protobuf.RefreshMyInfo\022=\n\020r" +
+      "efreshOtherInfo\030\006 \001(\0132#.qxmobile.protobu",
+      "f.RefreshOtherInfo\"F\n\014BuyCiShuInfo\022\017\n\007su" +
+      "ccess\030\001 \002(\005\022\021\n\tleftTimes\030\002 \001(\005\022\022\n\ntotalT" +
+      "imes\030\003 \001(\005\"W\n\013CleanCDInfo\022\017\n\007success\030\001 \002" +
+      "(\005\022\021\n\tleftTimes\030\002 \001(\005\022\022\n\ntotalTimes\030\003 \001(" +
+      "\005\022\020\n\010nextCDYB\030\004 \001(\005\"\037\n\014GetAwardInfo\022\017\n\007s" +
+      "uccess\030\001 \002(\005\"k\n\rPayChangeInfo\022\017\n\007success" +
+      "\030\001 \002(\005\022\026\n\016nextHuanYiPiYB\030\002 \001(\005\0221\n\010oppoLi" +
+      "st\030\003 \003(\0132\037.qxmobile.protobuf.OpponentInf" +
+      "o\"V\n\rRefreshMyInfo\0221\n\010oppoList\030\001 \003(\0132\037.q" +
+      "xmobile.protobuf.OpponentInfo\022\022\n\njunZhuR",
+      "ank\030\002 \002(\005\"E\n\020RefreshOtherInfo\0221\n\010oppoLis" +
+      "t\030\001 \003(\0132\037.qxmobile.protobuf.OpponentInfo" +
+      "\"B\n\rBaiZhanResult\022\017\n\007enemyId\030\001 \002(\003\022\r\n\005wi" +
+      "nId\030\002 \002(\003\022\021\n\tzhandouId\030\003 \002(\005\"x\n\021BaiZhanR" +
+      "esultResp\022\017\n\007oldRank\030\001 \001(\005\022\017\n\007newRank\030\002 " +
+      "\001(\005\022\017\n\007highest\030\003 \001(\005\022\027\n\017oldJunXianLevel\030" +
+      "\006 \001(\005\022\027\n\017newJunXianLevel\030\007 \001(\005\"@\n\016Player" +
+      "StateReq\022\017\n\007enemyId\030\001 \002(\003\022\014\n\004rank\030\002 \002(\005\022" +
+      "\017\n\007junRank\030\003 \002(\005\"\037\n\017PlayerStateResp\022\014\n\004t" +
+      "ype\030\001 \002(\005\"A\n\021ZhandouRecordResp\022,\n\004info\030\001",
+      " \003(\0132\036.qxmobile.protobuf.ZhandouItem\"\262\001\n" +
+      "\013ZhandouItem\022\021\n\tzhandouId\030\001 \002(\005\022\017\n\007enemy" +
+      "Id\030\002 \002(\003\022\021\n\tenemyName\030\003 \002(\t\022\014\n\004time\030\004 \002(" +
+      "\005\022\013\n\003win\030\005 \002(\005\022\026\n\016junRankChangeV\030\006 \002(\005\022\r" +
+      "\n\005level\030\007 \002(\005\022\025\n\renemyGuoJiaId\030\t \002(\005\022\023\n\013" +
+      "enemyRoleId\030\013 \002(\005B\nB\010PvpProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -19648,7 +19647,7 @@ public final class PvpProto {
           internal_static_qxmobile_protobuf_OpponentInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_OpponentInfo_descriptor,
-              new java.lang.String[] { "JunZhuId", "JunZhuName", "LianMengName", "Rank", "ZhanLi", "JunXianLevel", "Guojia", "RoleId", "ZuheId", "ActivateMiBaoCount", "Level", });
+              new java.lang.String[] { "JunZhuId", "JunZhuName", "LianMengName", "Rank", "ZhanLi", "JunXianLevel", "Guojia", "RoleId", "ZuheId", "ZuHeLevel", "Level", });
           internal_static_qxmobile_protobuf_PVPInfo_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_PVPInfo_fieldAccessorTable = new
@@ -19666,7 +19665,7 @@ public final class PvpProto {
           internal_static_qxmobile_protobuf_ChallengeResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ChallengeResp_descriptor,
-              new java.lang.String[] { "MySoldiers", "MyZhanli", "OppoSoldiers", "OppoZhanli", "OpenTime", "MyLevel", "OppoLevel", "OppoId", "MyRank", "OppoRank", "OppoRoleId", "MyZuheId", "OppZuheId", "OppActivateMiBaoCount", });
+              new java.lang.String[] { "MySoldiers", "MyZhanli", "OppoSoldiers", "OppoZhanli", "OpenTime", "MyLevel", "OppoLevel", "OppoId", "MyRank", "OppoRank", "OppoRoleId", "MyZuheId", "OppZuheId", "OppZuHeLevel", });
           internal_static_qxmobile_protobuf_GuYongBing_descriptor =
             getDescriptor().getMessageTypes().get(5);
           internal_static_qxmobile_protobuf_GuYongBing_fieldAccessorTable = new

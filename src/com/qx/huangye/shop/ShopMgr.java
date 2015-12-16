@@ -9,20 +9,21 @@ import java.util.Map;
 
 import log.ActLog;
 
-import org.apache.lucene.search.Weight;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.HuangYeProtos.HyBuyGoodReq;
-import qxmobile.protobuf.HuangYeProtos.HyBuyGoodResp;
-import qxmobile.protobuf.HuangYeProtos.HyShopReq;
-import qxmobile.protobuf.HuangYeProtos.HyShopResp;
+import qxmobile.protobuf.Shop.BuyGoodReq;
+import qxmobile.protobuf.Shop.BuyGoodResp;
+import qxmobile.protobuf.Shop.ShopReq;
+import qxmobile.protobuf.Shop.ShopResp;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.CanShu;
+import com.manu.dynasty.template.Dangpu;
+import com.manu.dynasty.template.DangpuCommon;
 import com.manu.dynasty.template.Duihuan;
 import com.manu.dynasty.template.GongXunDuihuan;
 import com.manu.dynasty.template.HuangYeDuihuan;
@@ -43,6 +44,7 @@ import com.qx.purchase.PurchaseMgr;
 import com.qx.pvp.PvpMgr;
 import com.qx.util.JsonUtils;
 import com.qx.util.RandomUtil;
+import com.qx.yuanbao.YBType;
 
 public class ShopMgr {
 	// 荒野商店
@@ -53,6 +55,10 @@ public class ShopMgr {
 	public static final int lianmeng_battle_shop_type = 3;
 	// 百战商店
 	public static final int baizhan_shop_type=  4;
+//	// 普通商店
+//	public static final int common_shop_type = 5;
+	// 神秘商店
+	public static final int mysterious_shop_type = 6;
 	
 	public Map<Integer, List<BaseDuiHuan>> hyShopListMap = new HashMap<Integer, List<BaseDuiHuan>>();
 	public Map<Integer, BaseDuiHuan> hyShopMap = new HashMap<Integer, BaseDuiHuan>();
@@ -66,7 +72,19 @@ public class ShopMgr {
 	public Map<Integer, List<BaseDuiHuan>>  baiZhanShopListMap= new HashMap<Integer, List<BaseDuiHuan>>();
 	public Map<Integer, BaseDuiHuan> baiZhanShopMap = new HashMap<Integer, BaseDuiHuan>();
 	
+	// 普通商店
+//	public Map<Integer, List<BaseDuiHuan>>  commonShopListMap= new HashMap<Integer, List<BaseDuiHuan>>();
+	public Map<Integer, BaseDuiHuan> commonShopMap = new HashMap<Integer, BaseDuiHuan>();
+	
+	// 神秘商店
+	public Map<Integer, List<BaseDuiHuan>>  mysteriousShopListMap= new HashMap<Integer, List<BaseDuiHuan>>();
+	public Map<Integer, BaseDuiHuan> mysteriousShopMap = new HashMap<Integer, BaseDuiHuan>();
+
 	public static final int shop_space = 10;
+	
+	// 神秘商店的购买类型： 0： 铜币购买， 1 元宝购买
+	public static int tongBi_buy = 0;
+	public static int yuanBao_buy = 1;
 	
 	public static Logger logger = LoggerFactory.getLogger(ShopMgr.class);
 	public static ShopMgr inst;
@@ -143,6 +161,35 @@ public class ShopMgr {
 			}
 			baiZhanShopMap.put(dh.id, dh);
 		}
+		List<DangpuCommon> list4 = TempletService
+				.listAll(DangpuCommon.class.getSimpleName());
+		for (DangpuCommon dh : list4) {
+//			int site = dh.site;
+//			List<BaseDuiHuan> dList = commonShopListMap.get(site);
+//			if (dList == null) {
+//				dList = new ArrayList<BaseDuiHuan>();
+//				dList.add(dh);
+//				commonShopListMap.put(dh.site, dList);
+//			} else {
+//				dList.add(dh);
+//			}
+			commonShopMap.put(dh.id, dh);
+		}
+	
+		List<Dangpu> list5 = TempletService
+				.listAll(Dangpu.class.getSimpleName());
+		for (Dangpu dh : list5) {
+			int site = dh.site;
+			List<BaseDuiHuan> dList = mysteriousShopListMap.get(site);
+			if (dList == null) {
+				dList = new ArrayList<BaseDuiHuan>();
+				dList.add(dh);
+				mysteriousShopListMap.put(dh.site, dList);
+			} else {
+				dList.add(dh);
+			}
+			mysteriousShopMap.put(dh.id, dh);
+		}
 	}
 
 	/*
@@ -154,7 +201,7 @@ public class ShopMgr {
 			logger.error("玩家请求商店页面出错：君主不存在");
 			return;
 		}
-		HyShopReq.Builder req = (HyShopReq.Builder) builder;
+		ShopReq.Builder req = (ShopReq.Builder) builder;
 		int type = req.getType();
 		int bigType = type / shop_space;
 		PublicShop bean = HibernateUtil.find(PublicShop.class, jz.id * shop_space + bigType);
@@ -164,13 +211,16 @@ public class ShopMgr {
 			// 检查是否更新
 			resetHYShopBean(bean);
 		}
-		HyShopResp.Builder resp = HyShopResp.newBuilder();
+		ShopResp.Builder resp = ShopResp.newBuilder();
 		List<GoodsInfo> goods = getGoodsInfo(bean);
-		int money = getMoney(bigType, jz.id, bean);
+		int money = getMoney(bigType, jz, bean);
+		/*
+		 * 普通商店类型： 5，普通商店永不刷新，所以普通商店物品客户端处理显示
+		 */
 		/*
 		 * type == X1: 花费money刷新商店商品列表
 		 */
-		if (type == 11 || type == 21 || type == 31 || type == 41) {
+		if (type == 11 || type == 21 || type == 31 || type == 41 || type == 61) {
 			int needYB = getRefreshNeedHYMoney(bean, bigType);
 			if (needYB > money) {
 				// money不足，不能手动刷新
@@ -179,16 +229,22 @@ public class ShopMgr {
 				session.write(resp.build());
 				return;
 			}
-			// 可以扣钱刷新
-			money -= needYB;
-			setMoney(bigType, jz.id, bean, money);
+			// 特殊处理：神秘商店刷新花费元宝
+			if(type == 61){
+				PvpMgr.inst.isBuySuccess(jz, 
+						needYB, session, YBType.YB_PAWN_REFRESH, "神秘商店刷新");
+				money = jz.yuanBao;
+			}else{
+				money -= needYB;
+				setMoney(bigType, jz.id, bean, money);
+			}
 			// 刷新货物
 			goods = getRandomGoodsList(bigType);
 			bean.goodsInfo = setGoodsInfo(goods);
 			// 今日刷新货物次数加1
 			bean.buyNumber += 1;
 			HibernateUtil.save(bean);
-			
+	
 			logger.info("玩家id{},姓名 {},商店类型：{}， 用货币刷新商品列表，花费货币：{}", jz.id, jz.name,
 					bigType, needYB);
 			resp.setMsg(12);
@@ -211,7 +267,11 @@ public class ShopMgr {
 			resp.setMsg(0);
 		}
 		fillDuiHuanInfo(bean, resp, goods, bigType);
-		resp.setHyMoney(money);
+		resp.setMoney(money);
+		// 神秘商店也发送铜币数
+		if(bigType == mysterious_shop_type){
+			resp.setTongbi(jz.tongBi);
+		}
 		session.write(resp.build());
 	}
 
@@ -233,6 +293,8 @@ public class ShopMgr {
 			return PurchaseConstants.refresh_LianMeng_battle_shop;
 		case baizhan_shop_type:
 			return PurchaseConstants.refresh_baizhan_shop;
+		case mysterious_shop_type:
+			return PurchaseConstants.PAWNSHOP_REFRESH;
 		}
 		return 0;
 	}
@@ -291,14 +353,14 @@ public class ShopMgr {
 		}
 	}
 
-	public void fillDuiHuanInfo(PublicShop bean, HyShopResp.Builder resp,
+	public void fillDuiHuanInfo(PublicShop bean, ShopResp.Builder resp,
 			List<GoodsInfo> list, int shop_type) {
 		resp.setNextRefreshNeedMoney(getRefreshNeedHYMoney(bean, shop_type));
 		int time = (int) (bean.nextAutoRefreshTime.getTime() - System
 				.currentTimeMillis()) / 1000;
 		time = time < 0 ? 0 : time;
 		resp.setRemianTime(time);
-		qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.Builder duihuan = null;
+		qxmobile.protobuf.Shop.DuiHuanInfo.Builder duihuan = null;
 		for (GoodsInfo goods : list) {
 			Map<Integer, BaseDuiHuan> m = getShopGoodsMap(shop_type);
 			if(m == null){
@@ -310,7 +372,7 @@ public class ShopMgr {
 				logger.error("goods.getId(): 的 d 为null{}", goods.getId());
 				continue;
 			}
-			duihuan = qxmobile.protobuf.HuangYeProtos.DuiHuanInfo.newBuilder();
+			duihuan = qxmobile.protobuf.Shop.DuiHuanInfo.newBuilder();
 			duihuan.setId(goods.getId());
  			duihuan.setSite(d.site);
 			duihuan.setIsChange(!goods.isSell());
@@ -328,6 +390,8 @@ public class ShopMgr {
 			return gongxunShopListMap;
 		case 4:
 			return baiZhanShopListMap;
+		case 6:
+			return mysteriousShopListMap;
 		}
 		return null;
 	}
@@ -342,6 +406,10 @@ public class ShopMgr {
 			return gongxunShopMap;
 		case 4:
 			return baiZhanShopMap;
+		case 5:
+			return commonShopMap;
+		case 6:
+			return mysteriousShopMap;
 		}
 		return null;
 	}
@@ -352,10 +420,48 @@ public class ShopMgr {
 			logger.error("商店购买物品失败：君主不存在");
 			return;
 		}
-		HyBuyGoodReq.Builder req = (HyBuyGoodReq.Builder) builder;
+		BuyGoodReq.Builder req = (BuyGoodReq.Builder) builder;
 		int goodId = req.getGoodId();
 		int bigType = req.getType();
-		HyBuyGoodResp.Builder resp = HyBuyGoodResp.newBuilder();
+
+		BaseDuiHuan dh = getShopGoodsMap(bigType).get(goodId);
+		if (dh == null) {
+			logger.error("玩家{}， 商店类型:{}购买物品失败：BaseDuiHuan 子类表id是{}无数据", jz.id,
+					bigType, goodId);
+			return;
+		}
+		BuyGoodResp.Builder resp = BuyGoodResp.newBuilder();
+
+		int money = dh.needNum;
+		/*
+		 * 普通商店物品
+		 */
+		if(bigType == 5){
+			boolean ok = PvpMgr.inst.isBuySuccess(jz, money, session,
+					YBType.YB_BUY_WUPIN, "元宝购买普通商店物品");
+			// 添加物品
+			if(ok){
+				AwardTemp a = new AwardTemp();
+				a.setId(111);
+				a.setItemId(dh.itemId);
+				a.setItemType(dh.itemType);
+				a.setItemNum(dh.itemNum);
+				AwardMgr.inst.giveReward(session, a, jz);
+
+				resp.setMsg(1);
+				resp.setRemianMoney(jz.yuanBao);
+				logger.info("玩家id{}, 用元宝：{}购买普通商店物品：{}成功", jz.id, money, goodId);
+			} else {
+				resp.setMsg(0);
+				logger.info("玩家id{}, 用元宝：{}购买普通商店物品:{}失败：元宝不足",jz.id, money, goodId);
+			}
+			session.write(resp.build());
+			return;
+		}
+		/*
+		 * 其他几种商店物品购买
+		 */
+		int oldMoney = 0;
 		PublicShop bean = HibernateUtil.find(PublicShop.class, jz.id * shop_space + bigType);
 		if (bean == null) {
 			bean = initShopInfo(jz.id, bigType);
@@ -382,24 +488,34 @@ public class ShopMgr {
 			session.write(resp.build());
 			return;
 		}
-		BaseDuiHuan dh = getShopGoodsMap(bigType).get(goodId);
-		if (dh == null) {
-			logger.error("玩家{}， 商店类型:{}购买物品失败：BaseDuiHuan 子类表id是{}无数据", jz.id,
-					bigType, goodId);
-			return;
+		oldMoney = getMoney(bigType, jz, bean);
+		// 神秘商品的铜币购买
+		if(bigType == mysterious_shop_type && dh.type == tongBi_buy){
+			oldMoney = jz.tongBi;
 		}
-		int money = dh.needNum;
-		int oldMoeny = getMoney(bigType, jz.id, bean);
-		if (oldMoeny >= money) {
-			final int preV = oldMoeny;
-			oldMoeny -= money;
-			setMoney(bigType, jz.id, bean, oldMoeny);
-			
+		if(oldMoney >= money) {
+			final int preV = oldMoney;
+			// 神秘商店的铜币购买
+			if(bigType == mysterious_shop_type && dh.type == tongBi_buy){
+				jz.tongBi -= money;
+				HibernateUtil.save(jz);
+				JunZhuMgr.inst.sendMainInfo(session);
+				oldMoney = jz.tongBi;
+			}else if(bigType == mysterious_shop_type && dh.type == yuanBao_buy){
+				// 普通商店元宝购买或者神秘商店元宝购买
+				PvpMgr.inst.isBuySuccess(jz, money, session, YBType.YB_BUY_WUPIN, "元宝购买神秘商店物品");
+				oldMoney = jz.yuanBao;
+			}else{
+				// 其他类型购买
+				oldMoney -= money;
+				setMoney(bigType, jz.id, bean, oldMoney);
+			}
+
 			buyg.setSell(true);
 			bean.goodsInfo = setGoodsInfo(goodsL);
 			bean.buyGoodTimes += 1; // 历史购买物品次数增加
 			HibernateUtil.save(bean);
-			
+
 			// 添加物品
 			AwardTemp a = new AwardTemp();
 			a.setId(111);
@@ -410,23 +526,37 @@ public class ShopMgr {
 
 			/* 购买成功 */
 			resp.setMsg(1);
-			resp.setRemianHyMoney(oldMoeny);
+			resp.setRemianMoney(oldMoney);
 			logger.info("玩家id{},姓名 {}, 商店类型:{}用货币购买物品[{}]成功 货币{}", jz.id, jz.name,
 					bigType, dh.itemId, money);
 			String itemName = BagMgr.inst.getItemName(dh.itemId);
 			ActLog.log.ChallengeExchange(jz.id, jz.name, ActLog.vopenid,
-					dh.itemId, itemName, dh.itemNum, preV, oldMoeny);
+					dh.itemId, itemName, dh.itemNum, preV, oldMoney);
 			if(bigType == baizhan_shop_type){
 				// 主线任务: 消耗一次威望（在威望商店里购买1次物品）20190916
 				EventMgr.addEvent(ED.pay_weiWang , new Object[] { jz.id});
 			}
+			// 购买的要是宝石，就判定是否有任务完成
+			if(bigType == mysterious_shop_type && a.getItemType() == AwardMgr.type_baoShi){
+				EventMgr.addEvent(ED.pawnshop_buy, new Object[] { jz.id});
+				logger.info("君主:{}在神秘商铺购买宝石,宝石id：{}成功, 判定是否有购买宝石任务", jz.id, a.getItemId());
+			}
 		} else {
 			/* 0：不足 */
 			resp.setMsg(0);
-			logger.info("玩家id{},姓名 {},  商店类型:{},用货币购买物品失败：货币不足", jz.id, jz.name, bigType);
+			logger.info("玩家id{},姓名 {},  商店类型:{},goodId :{}用货币购买物品失败：货币不足",
+					jz.id, jz.name, bigType, goodId);
 		}
 		session.write(resp.build());
 	}
+
+/**
+ *  处理玩家荒野币，功勋，威望 ，贡献值
+ * @param bigType
+ * @param jzId
+ * @param bean
+ * @param newMoney
+ */
 	public void setMoney(int bigType, long jzId, PublicShop bean, int newMoney){
 		switch(bigType){
 		case huangYe_shop_type: // 荒野：荒野币
@@ -466,7 +596,9 @@ public class ShopMgr {
 		setMoney(shopType, jzId, null, all);
 		return all;
 	}
-	public int getMoney(int bigType, long jzId, PublicShop bean){
+
+	public int getMoney(int bigType, JunZhu jz , PublicShop bean){
+		long jzId = jz.id;
 		switch(bigType){
 		case huangYe_shop_type: // 荒野：荒野币
 		case lianmeng_battle_shop_type: // 联盟战：功勋
@@ -478,6 +610,8 @@ public class ShopMgr {
 		case lianMeng_shop_type: // 联盟商店是贡献值
 			AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, jzId);
 			return p == null? 0: p.gongXian;
+		case mysterious_shop_type:
+			return jz.yuanBao;
 		}
 		return 0;
 	}
@@ -539,5 +673,9 @@ public class ShopMgr {
 			return new Date(time);
 		}
 		return date;
+	}
+	public DangpuCommon getDangpuCommon(int id) {
+		DangpuCommon dangpuCommon = (DangpuCommon)commonShopMap.get(id);
+		return dangpuCommon;
 	}
 }

@@ -83,6 +83,213 @@ public final class Scene {
      * </pre>
      */
     int getRoleId();
+
+    // optional int32 chengHao = 7;
+    /**
+     * <code>optional int32 chengHao = 7;</code>
+     *
+     * <pre>
+     *称号
+     * </pre>
+     */
+    boolean hasChengHao();
+    /**
+     * <code>optional int32 chengHao = 7;</code>
+     *
+     * <pre>
+     *称号
+     * </pre>
+     */
+    int getChengHao();
+
+    // optional int32 currentLife = 8;
+    /**
+     * <code>optional int32 currentLife = 8;</code>
+     *
+     * <pre>
+     * 剩余血量     
+     * </pre>
+     */
+    boolean hasCurrentLife();
+    /**
+     * <code>optional int32 currentLife = 8;</code>
+     *
+     * <pre>
+     * 剩余血量     
+     * </pre>
+     */
+    int getCurrentLife();
+
+    // optional int32 totalLife = 9;
+    /**
+     * <code>optional int32 totalLife = 9;</code>
+     *
+     * <pre>
+     * 总血量
+     * </pre>
+     */
+    boolean hasTotalLife();
+    /**
+     * <code>optional int32 totalLife = 9;</code>
+     *
+     * <pre>
+     * 总血量
+     * </pre>
+     */
+    int getTotalLife();
+
+    // optional string allianceName = 10;
+    /**
+     * <code>optional string allianceName = 10;</code>
+     *
+     * <pre>
+     * 联盟名
+     * </pre>
+     */
+    boolean hasAllianceName();
+    /**
+     * <code>optional string allianceName = 10;</code>
+     *
+     * <pre>
+     * 联盟名
+     * </pre>
+     */
+    java.lang.String getAllianceName();
+    /**
+     * <code>optional string allianceName = 10;</code>
+     *
+     * <pre>
+     * 联盟名
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getAllianceNameBytes();
+
+    // optional int32 vipLevel = 11;
+    /**
+     * <code>optional int32 vipLevel = 11;</code>
+     *
+     * <pre>
+     * vip等级
+     * </pre>
+     */
+    boolean hasVipLevel();
+    /**
+     * <code>optional int32 vipLevel = 11;</code>
+     *
+     * <pre>
+     * vip等级
+     * </pre>
+     */
+    int getVipLevel();
+
+    // optional int32 zhiWu = 12;
+    /**
+     * <code>optional int32 zhiWu = 12;</code>
+     *
+     * <pre>
+     * 职位
+     * </pre>
+     */
+    boolean hasZhiWu();
+    /**
+     * <code>optional int32 zhiWu = 12;</code>
+     *
+     * <pre>
+     * 职位
+     * </pre>
+     */
+    int getZhiWu();
+
+    // optional int32 level = 13;
+    /**
+     * <code>optional int32 level = 13;</code>
+     *
+     * <pre>
+     * 人物等级
+     * </pre>
+     */
+    boolean hasLevel();
+    /**
+     * <code>optional int32 level = 13;</code>
+     *
+     * <pre>
+     * 人物等级
+     * </pre>
+     */
+    int getLevel();
+
+    // optional int32 zhanli = 14;
+    /**
+     * <code>optional int32 zhanli = 14;</code>
+     *
+     * <pre>
+     * 战力
+     * </pre>
+     */
+    boolean hasZhanli();
+    /**
+     * <code>optional int32 zhanli = 14;</code>
+     *
+     * <pre>
+     * 战力
+     * </pre>
+     */
+    int getZhanli();
+
+    // optional int32 guojia = 15;
+    /**
+     * <code>optional int32 guojia = 15;</code>
+     *
+     * <pre>
+     * 国家id
+     * </pre>
+     */
+    boolean hasGuojia();
+    /**
+     * <code>optional int32 guojia = 15;</code>
+     *
+     * <pre>
+     * 国家id
+     * </pre>
+     */
+    int getGuojia();
+
+    // optional int32 worth = 16;
+    /**
+     * <code>optional int32 worth = 16;</code>
+     *
+     * <pre>
+     *马车价值
+     * </pre>
+     */
+    boolean hasWorth();
+    /**
+     * <code>optional int32 worth = 16;</code>
+     *
+     * <pre>
+     *马车价值
+     * </pre>
+     */
+    int getWorth();
+
+    // optional int32 horseType = 17;
+    /**
+     * <code>optional int32 horseType = 17;</code>
+     *
+     * <pre>
+     *马车类型
+     * </pre>
+     */
+    boolean hasHorseType();
+    /**
+     * <code>optional int32 horseType = 17;</code>
+     *
+     * <pre>
+     *马车类型
+     * </pre>
+     */
+    int getHorseType();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.EnterScene}
@@ -163,6 +370,61 @@ public final class Scene {
             case 48: {
               bitField0_ |= 0x00000020;
               roleId_ = input.readInt32();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000040;
+              chengHao_ = input.readInt32();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000080;
+              currentLife_ = input.readInt32();
+              break;
+            }
+            case 72: {
+              bitField0_ |= 0x00000100;
+              totalLife_ = input.readInt32();
+              break;
+            }
+            case 82: {
+              bitField0_ |= 0x00000200;
+              allianceName_ = input.readBytes();
+              break;
+            }
+            case 88: {
+              bitField0_ |= 0x00000400;
+              vipLevel_ = input.readInt32();
+              break;
+            }
+            case 96: {
+              bitField0_ |= 0x00000800;
+              zhiWu_ = input.readInt32();
+              break;
+            }
+            case 104: {
+              bitField0_ |= 0x00001000;
+              level_ = input.readInt32();
+              break;
+            }
+            case 112: {
+              bitField0_ |= 0x00002000;
+              zhanli_ = input.readInt32();
+              break;
+            }
+            case 120: {
+              bitField0_ |= 0x00004000;
+              guojia_ = input.readInt32();
+              break;
+            }
+            case 128: {
+              bitField0_ |= 0x00008000;
+              worth_ = input.readInt32();
+              break;
+            }
+            case 136: {
+              bitField0_ |= 0x00010000;
+              horseType_ = input.readInt32();
               break;
             }
           }
@@ -336,6 +598,301 @@ public final class Scene {
       return roleId_;
     }
 
+    // optional int32 chengHao = 7;
+    public static final int CHENGHAO_FIELD_NUMBER = 7;
+    private int chengHao_;
+    /**
+     * <code>optional int32 chengHao = 7;</code>
+     *
+     * <pre>
+     *称号
+     * </pre>
+     */
+    public boolean hasChengHao() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional int32 chengHao = 7;</code>
+     *
+     * <pre>
+     *称号
+     * </pre>
+     */
+    public int getChengHao() {
+      return chengHao_;
+    }
+
+    // optional int32 currentLife = 8;
+    public static final int CURRENTLIFE_FIELD_NUMBER = 8;
+    private int currentLife_;
+    /**
+     * <code>optional int32 currentLife = 8;</code>
+     *
+     * <pre>
+     * 剩余血量     
+     * </pre>
+     */
+    public boolean hasCurrentLife() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional int32 currentLife = 8;</code>
+     *
+     * <pre>
+     * 剩余血量     
+     * </pre>
+     */
+    public int getCurrentLife() {
+      return currentLife_;
+    }
+
+    // optional int32 totalLife = 9;
+    public static final int TOTALLIFE_FIELD_NUMBER = 9;
+    private int totalLife_;
+    /**
+     * <code>optional int32 totalLife = 9;</code>
+     *
+     * <pre>
+     * 总血量
+     * </pre>
+     */
+    public boolean hasTotalLife() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional int32 totalLife = 9;</code>
+     *
+     * <pre>
+     * 总血量
+     * </pre>
+     */
+    public int getTotalLife() {
+      return totalLife_;
+    }
+
+    // optional string allianceName = 10;
+    public static final int ALLIANCENAME_FIELD_NUMBER = 10;
+    private java.lang.Object allianceName_;
+    /**
+     * <code>optional string allianceName = 10;</code>
+     *
+     * <pre>
+     * 联盟名
+     * </pre>
+     */
+    public boolean hasAllianceName() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional string allianceName = 10;</code>
+     *
+     * <pre>
+     * 联盟名
+     * </pre>
+     */
+    public java.lang.String getAllianceName() {
+      java.lang.Object ref = allianceName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          allianceName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string allianceName = 10;</code>
+     *
+     * <pre>
+     * 联盟名
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getAllianceNameBytes() {
+      java.lang.Object ref = allianceName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        allianceName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional int32 vipLevel = 11;
+    public static final int VIPLEVEL_FIELD_NUMBER = 11;
+    private int vipLevel_;
+    /**
+     * <code>optional int32 vipLevel = 11;</code>
+     *
+     * <pre>
+     * vip等级
+     * </pre>
+     */
+    public boolean hasVipLevel() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional int32 vipLevel = 11;</code>
+     *
+     * <pre>
+     * vip等级
+     * </pre>
+     */
+    public int getVipLevel() {
+      return vipLevel_;
+    }
+
+    // optional int32 zhiWu = 12;
+    public static final int ZHIWU_FIELD_NUMBER = 12;
+    private int zhiWu_;
+    /**
+     * <code>optional int32 zhiWu = 12;</code>
+     *
+     * <pre>
+     * 职位
+     * </pre>
+     */
+    public boolean hasZhiWu() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional int32 zhiWu = 12;</code>
+     *
+     * <pre>
+     * 职位
+     * </pre>
+     */
+    public int getZhiWu() {
+      return zhiWu_;
+    }
+
+    // optional int32 level = 13;
+    public static final int LEVEL_FIELD_NUMBER = 13;
+    private int level_;
+    /**
+     * <code>optional int32 level = 13;</code>
+     *
+     * <pre>
+     * 人物等级
+     * </pre>
+     */
+    public boolean hasLevel() {
+      return ((bitField0_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>optional int32 level = 13;</code>
+     *
+     * <pre>
+     * 人物等级
+     * </pre>
+     */
+    public int getLevel() {
+      return level_;
+    }
+
+    // optional int32 zhanli = 14;
+    public static final int ZHANLI_FIELD_NUMBER = 14;
+    private int zhanli_;
+    /**
+     * <code>optional int32 zhanli = 14;</code>
+     *
+     * <pre>
+     * 战力
+     * </pre>
+     */
+    public boolean hasZhanli() {
+      return ((bitField0_ & 0x00002000) == 0x00002000);
+    }
+    /**
+     * <code>optional int32 zhanli = 14;</code>
+     *
+     * <pre>
+     * 战力
+     * </pre>
+     */
+    public int getZhanli() {
+      return zhanli_;
+    }
+
+    // optional int32 guojia = 15;
+    public static final int GUOJIA_FIELD_NUMBER = 15;
+    private int guojia_;
+    /**
+     * <code>optional int32 guojia = 15;</code>
+     *
+     * <pre>
+     * 国家id
+     * </pre>
+     */
+    public boolean hasGuojia() {
+      return ((bitField0_ & 0x00004000) == 0x00004000);
+    }
+    /**
+     * <code>optional int32 guojia = 15;</code>
+     *
+     * <pre>
+     * 国家id
+     * </pre>
+     */
+    public int getGuojia() {
+      return guojia_;
+    }
+
+    // optional int32 worth = 16;
+    public static final int WORTH_FIELD_NUMBER = 16;
+    private int worth_;
+    /**
+     * <code>optional int32 worth = 16;</code>
+     *
+     * <pre>
+     *马车价值
+     * </pre>
+     */
+    public boolean hasWorth() {
+      return ((bitField0_ & 0x00008000) == 0x00008000);
+    }
+    /**
+     * <code>optional int32 worth = 16;</code>
+     *
+     * <pre>
+     *马车价值
+     * </pre>
+     */
+    public int getWorth() {
+      return worth_;
+    }
+
+    // optional int32 horseType = 17;
+    public static final int HORSETYPE_FIELD_NUMBER = 17;
+    private int horseType_;
+    /**
+     * <code>optional int32 horseType = 17;</code>
+     *
+     * <pre>
+     *马车类型
+     * </pre>
+     */
+    public boolean hasHorseType() {
+      return ((bitField0_ & 0x00010000) == 0x00010000);
+    }
+    /**
+     * <code>optional int32 horseType = 17;</code>
+     *
+     * <pre>
+     *马车类型
+     * </pre>
+     */
+    public int getHorseType() {
+      return horseType_;
+    }
+
     private void initFields() {
       uid_ = 0;
       senderName_ = "";
@@ -343,6 +900,17 @@ public final class Scene {
       posY_ = 0F;
       posZ_ = 0F;
       roleId_ = 0;
+      chengHao_ = 0;
+      currentLife_ = 0;
+      totalLife_ = 0;
+      allianceName_ = "";
+      vipLevel_ = 0;
+      zhiWu_ = 0;
+      level_ = 0;
+      zhanli_ = 0;
+      guojia_ = 0;
+      worth_ = 0;
+      horseType_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -382,6 +950,39 @@ public final class Scene {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeInt32(6, roleId_);
       }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt32(7, chengHao_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeInt32(8, currentLife_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeInt32(9, totalLife_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeBytes(10, getAllianceNameBytes());
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeInt32(11, vipLevel_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeInt32(12, zhiWu_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        output.writeInt32(13, level_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        output.writeInt32(14, zhanli_);
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        output.writeInt32(15, guojia_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        output.writeInt32(16, worth_);
+      }
+      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+        output.writeInt32(17, horseType_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -414,6 +1015,50 @@ public final class Scene {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(6, roleId_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, chengHao_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, currentLife_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(9, totalLife_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(10, getAllianceNameBytes());
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(11, vipLevel_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(12, zhiWu_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(13, level_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(14, zhanli_);
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(15, guojia_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(16, worth_);
+      }
+      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(17, horseType_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -543,6 +1188,28 @@ public final class Scene {
         bitField0_ = (bitField0_ & ~0x00000010);
         roleId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
+        chengHao_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000040);
+        currentLife_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
+        totalLife_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000100);
+        allianceName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000200);
+        vipLevel_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000400);
+        zhiWu_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000800);
+        level_ = 0;
+        bitField0_ = (bitField0_ & ~0x00001000);
+        zhanli_ = 0;
+        bitField0_ = (bitField0_ & ~0x00002000);
+        guojia_ = 0;
+        bitField0_ = (bitField0_ & ~0x00004000);
+        worth_ = 0;
+        bitField0_ = (bitField0_ & ~0x00008000);
+        horseType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00010000);
         return this;
       }
 
@@ -595,6 +1262,50 @@ public final class Scene {
           to_bitField0_ |= 0x00000020;
         }
         result.roleId_ = roleId_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.chengHao_ = chengHao_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.currentLife_ = currentLife_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.totalLife_ = totalLife_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.allianceName_ = allianceName_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.vipLevel_ = vipLevel_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.zhiWu_ = zhiWu_;
+        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+          to_bitField0_ |= 0x00001000;
+        }
+        result.level_ = level_;
+        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+          to_bitField0_ |= 0x00002000;
+        }
+        result.zhanli_ = zhanli_;
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+          to_bitField0_ |= 0x00004000;
+        }
+        result.guojia_ = guojia_;
+        if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
+          to_bitField0_ |= 0x00008000;
+        }
+        result.worth_ = worth_;
+        if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
+          to_bitField0_ |= 0x00010000;
+        }
+        result.horseType_ = horseType_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -630,6 +1341,41 @@ public final class Scene {
         }
         if (other.hasRoleId()) {
           setRoleId(other.getRoleId());
+        }
+        if (other.hasChengHao()) {
+          setChengHao(other.getChengHao());
+        }
+        if (other.hasCurrentLife()) {
+          setCurrentLife(other.getCurrentLife());
+        }
+        if (other.hasTotalLife()) {
+          setTotalLife(other.getTotalLife());
+        }
+        if (other.hasAllianceName()) {
+          bitField0_ |= 0x00000200;
+          allianceName_ = other.allianceName_;
+          onChanged();
+        }
+        if (other.hasVipLevel()) {
+          setVipLevel(other.getVipLevel());
+        }
+        if (other.hasZhiWu()) {
+          setZhiWu(other.getZhiWu());
+        }
+        if (other.hasLevel()) {
+          setLevel(other.getLevel());
+        }
+        if (other.hasZhanli()) {
+          setZhanli(other.getZhanli());
+        }
+        if (other.hasGuojia()) {
+          setGuojia(other.getGuojia());
+        }
+        if (other.hasWorth()) {
+          setWorth(other.getWorth());
+        }
+        if (other.hasHorseType()) {
+          setHorseType(other.getHorseType());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -917,6 +1663,594 @@ public final class Scene {
       public Builder clearRoleId() {
         bitField0_ = (bitField0_ & ~0x00000020);
         roleId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 chengHao = 7;
+      private int chengHao_ ;
+      /**
+       * <code>optional int32 chengHao = 7;</code>
+       *
+       * <pre>
+       *称号
+       * </pre>
+       */
+      public boolean hasChengHao() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional int32 chengHao = 7;</code>
+       *
+       * <pre>
+       *称号
+       * </pre>
+       */
+      public int getChengHao() {
+        return chengHao_;
+      }
+      /**
+       * <code>optional int32 chengHao = 7;</code>
+       *
+       * <pre>
+       *称号
+       * </pre>
+       */
+      public Builder setChengHao(int value) {
+        bitField0_ |= 0x00000040;
+        chengHao_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 chengHao = 7;</code>
+       *
+       * <pre>
+       *称号
+       * </pre>
+       */
+      public Builder clearChengHao() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        chengHao_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 currentLife = 8;
+      private int currentLife_ ;
+      /**
+       * <code>optional int32 currentLife = 8;</code>
+       *
+       * <pre>
+       * 剩余血量     
+       * </pre>
+       */
+      public boolean hasCurrentLife() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional int32 currentLife = 8;</code>
+       *
+       * <pre>
+       * 剩余血量     
+       * </pre>
+       */
+      public int getCurrentLife() {
+        return currentLife_;
+      }
+      /**
+       * <code>optional int32 currentLife = 8;</code>
+       *
+       * <pre>
+       * 剩余血量     
+       * </pre>
+       */
+      public Builder setCurrentLife(int value) {
+        bitField0_ |= 0x00000080;
+        currentLife_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 currentLife = 8;</code>
+       *
+       * <pre>
+       * 剩余血量     
+       * </pre>
+       */
+      public Builder clearCurrentLife() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        currentLife_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 totalLife = 9;
+      private int totalLife_ ;
+      /**
+       * <code>optional int32 totalLife = 9;</code>
+       *
+       * <pre>
+       * 总血量
+       * </pre>
+       */
+      public boolean hasTotalLife() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional int32 totalLife = 9;</code>
+       *
+       * <pre>
+       * 总血量
+       * </pre>
+       */
+      public int getTotalLife() {
+        return totalLife_;
+      }
+      /**
+       * <code>optional int32 totalLife = 9;</code>
+       *
+       * <pre>
+       * 总血量
+       * </pre>
+       */
+      public Builder setTotalLife(int value) {
+        bitField0_ |= 0x00000100;
+        totalLife_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 totalLife = 9;</code>
+       *
+       * <pre>
+       * 总血量
+       * </pre>
+       */
+      public Builder clearTotalLife() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        totalLife_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string allianceName = 10;
+      private java.lang.Object allianceName_ = "";
+      /**
+       * <code>optional string allianceName = 10;</code>
+       *
+       * <pre>
+       * 联盟名
+       * </pre>
+       */
+      public boolean hasAllianceName() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional string allianceName = 10;</code>
+       *
+       * <pre>
+       * 联盟名
+       * </pre>
+       */
+      public java.lang.String getAllianceName() {
+        java.lang.Object ref = allianceName_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          allianceName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string allianceName = 10;</code>
+       *
+       * <pre>
+       * 联盟名
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getAllianceNameBytes() {
+        java.lang.Object ref = allianceName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          allianceName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string allianceName = 10;</code>
+       *
+       * <pre>
+       * 联盟名
+       * </pre>
+       */
+      public Builder setAllianceName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        allianceName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string allianceName = 10;</code>
+       *
+       * <pre>
+       * 联盟名
+       * </pre>
+       */
+      public Builder clearAllianceName() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        allianceName_ = getDefaultInstance().getAllianceName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string allianceName = 10;</code>
+       *
+       * <pre>
+       * 联盟名
+       * </pre>
+       */
+      public Builder setAllianceNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        allianceName_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 vipLevel = 11;
+      private int vipLevel_ ;
+      /**
+       * <code>optional int32 vipLevel = 11;</code>
+       *
+       * <pre>
+       * vip等级
+       * </pre>
+       */
+      public boolean hasVipLevel() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional int32 vipLevel = 11;</code>
+       *
+       * <pre>
+       * vip等级
+       * </pre>
+       */
+      public int getVipLevel() {
+        return vipLevel_;
+      }
+      /**
+       * <code>optional int32 vipLevel = 11;</code>
+       *
+       * <pre>
+       * vip等级
+       * </pre>
+       */
+      public Builder setVipLevel(int value) {
+        bitField0_ |= 0x00000400;
+        vipLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 vipLevel = 11;</code>
+       *
+       * <pre>
+       * vip等级
+       * </pre>
+       */
+      public Builder clearVipLevel() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        vipLevel_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 zhiWu = 12;
+      private int zhiWu_ ;
+      /**
+       * <code>optional int32 zhiWu = 12;</code>
+       *
+       * <pre>
+       * 职位
+       * </pre>
+       */
+      public boolean hasZhiWu() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional int32 zhiWu = 12;</code>
+       *
+       * <pre>
+       * 职位
+       * </pre>
+       */
+      public int getZhiWu() {
+        return zhiWu_;
+      }
+      /**
+       * <code>optional int32 zhiWu = 12;</code>
+       *
+       * <pre>
+       * 职位
+       * </pre>
+       */
+      public Builder setZhiWu(int value) {
+        bitField0_ |= 0x00000800;
+        zhiWu_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 zhiWu = 12;</code>
+       *
+       * <pre>
+       * 职位
+       * </pre>
+       */
+      public Builder clearZhiWu() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        zhiWu_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 level = 13;
+      private int level_ ;
+      /**
+       * <code>optional int32 level = 13;</code>
+       *
+       * <pre>
+       * 人物等级
+       * </pre>
+       */
+      public boolean hasLevel() {
+        return ((bitField0_ & 0x00001000) == 0x00001000);
+      }
+      /**
+       * <code>optional int32 level = 13;</code>
+       *
+       * <pre>
+       * 人物等级
+       * </pre>
+       */
+      public int getLevel() {
+        return level_;
+      }
+      /**
+       * <code>optional int32 level = 13;</code>
+       *
+       * <pre>
+       * 人物等级
+       * </pre>
+       */
+      public Builder setLevel(int value) {
+        bitField0_ |= 0x00001000;
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 level = 13;</code>
+       *
+       * <pre>
+       * 人物等级
+       * </pre>
+       */
+      public Builder clearLevel() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 zhanli = 14;
+      private int zhanli_ ;
+      /**
+       * <code>optional int32 zhanli = 14;</code>
+       *
+       * <pre>
+       * 战力
+       * </pre>
+       */
+      public boolean hasZhanli() {
+        return ((bitField0_ & 0x00002000) == 0x00002000);
+      }
+      /**
+       * <code>optional int32 zhanli = 14;</code>
+       *
+       * <pre>
+       * 战力
+       * </pre>
+       */
+      public int getZhanli() {
+        return zhanli_;
+      }
+      /**
+       * <code>optional int32 zhanli = 14;</code>
+       *
+       * <pre>
+       * 战力
+       * </pre>
+       */
+      public Builder setZhanli(int value) {
+        bitField0_ |= 0x00002000;
+        zhanli_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 zhanli = 14;</code>
+       *
+       * <pre>
+       * 战力
+       * </pre>
+       */
+      public Builder clearZhanli() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        zhanli_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 guojia = 15;
+      private int guojia_ ;
+      /**
+       * <code>optional int32 guojia = 15;</code>
+       *
+       * <pre>
+       * 国家id
+       * </pre>
+       */
+      public boolean hasGuojia() {
+        return ((bitField0_ & 0x00004000) == 0x00004000);
+      }
+      /**
+       * <code>optional int32 guojia = 15;</code>
+       *
+       * <pre>
+       * 国家id
+       * </pre>
+       */
+      public int getGuojia() {
+        return guojia_;
+      }
+      /**
+       * <code>optional int32 guojia = 15;</code>
+       *
+       * <pre>
+       * 国家id
+       * </pre>
+       */
+      public Builder setGuojia(int value) {
+        bitField0_ |= 0x00004000;
+        guojia_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 guojia = 15;</code>
+       *
+       * <pre>
+       * 国家id
+       * </pre>
+       */
+      public Builder clearGuojia() {
+        bitField0_ = (bitField0_ & ~0x00004000);
+        guojia_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 worth = 16;
+      private int worth_ ;
+      /**
+       * <code>optional int32 worth = 16;</code>
+       *
+       * <pre>
+       *马车价值
+       * </pre>
+       */
+      public boolean hasWorth() {
+        return ((bitField0_ & 0x00008000) == 0x00008000);
+      }
+      /**
+       * <code>optional int32 worth = 16;</code>
+       *
+       * <pre>
+       *马车价值
+       * </pre>
+       */
+      public int getWorth() {
+        return worth_;
+      }
+      /**
+       * <code>optional int32 worth = 16;</code>
+       *
+       * <pre>
+       *马车价值
+       * </pre>
+       */
+      public Builder setWorth(int value) {
+        bitField0_ |= 0x00008000;
+        worth_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 worth = 16;</code>
+       *
+       * <pre>
+       *马车价值
+       * </pre>
+       */
+      public Builder clearWorth() {
+        bitField0_ = (bitField0_ & ~0x00008000);
+        worth_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 horseType = 17;
+      private int horseType_ ;
+      /**
+       * <code>optional int32 horseType = 17;</code>
+       *
+       * <pre>
+       *马车类型
+       * </pre>
+       */
+      public boolean hasHorseType() {
+        return ((bitField0_ & 0x00010000) == 0x00010000);
+      }
+      /**
+       * <code>optional int32 horseType = 17;</code>
+       *
+       * <pre>
+       *马车类型
+       * </pre>
+       */
+      public int getHorseType() {
+        return horseType_;
+      }
+      /**
+       * <code>optional int32 horseType = 17;</code>
+       *
+       * <pre>
+       *马车类型
+       * </pre>
+       */
+      public Builder setHorseType(int value) {
+        bitField0_ |= 0x00010000;
+        horseType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 horseType = 17;</code>
+       *
+       * <pre>
+       *马车类型
+       * </pre>
+       */
+      public Builder clearHorseType() {
+        bitField0_ = (bitField0_ & ~0x00010000);
+        horseType_ = 0;
         onChanged();
         return this;
       }
@@ -2025,6 +3359,16 @@ public final class Scene {
      * <code>optional float posZ = 4;</code>
      */
     float getPosZ();
+
+    // required float dir = 5;
+    /**
+     * <code>required float dir = 5;</code>
+     */
+    boolean hasDir();
+    /**
+     * <code>required float dir = 5;</code>
+     */
+    float getDir();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.SpriteMove}
@@ -2095,6 +3439,11 @@ public final class Scene {
             case 37: {
               bitField0_ |= 0x00000008;
               posZ_ = input.readFloat();
+              break;
+            }
+            case 45: {
+              bitField0_ |= 0x00000010;
+              dir_ = input.readFloat();
               break;
             }
           }
@@ -2201,11 +3550,28 @@ public final class Scene {
       return posZ_;
     }
 
+    // required float dir = 5;
+    public static final int DIR_FIELD_NUMBER = 5;
+    private float dir_;
+    /**
+     * <code>required float dir = 5;</code>
+     */
+    public boolean hasDir() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required float dir = 5;</code>
+     */
+    public float getDir() {
+      return dir_;
+    }
+
     private void initFields() {
       uid_ = 0;
       posX_ = 0F;
       posY_ = 0F;
       posZ_ = 0F;
+      dir_ = 0F;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2213,6 +3579,10 @@ public final class Scene {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasUid()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasDir()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -2234,6 +3604,9 @@ public final class Scene {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeFloat(4, posZ_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeFloat(5, dir_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2259,6 +3632,10 @@ public final class Scene {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(4, posZ_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(5, dir_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2384,6 +3761,8 @@ public final class Scene {
         bitField0_ = (bitField0_ & ~0x00000004);
         posZ_ = 0F;
         bitField0_ = (bitField0_ & ~0x00000008);
+        dir_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -2428,6 +3807,10 @@ public final class Scene {
           to_bitField0_ |= 0x00000008;
         }
         result.posZ_ = posZ_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.dir_ = dir_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2456,12 +3839,19 @@ public final class Scene {
         if (other.hasPosZ()) {
           setPosZ(other.getPosZ());
         }
+        if (other.hasDir()) {
+          setDir(other.getDir());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasUid()) {
+          
+          return false;
+        }
+        if (!hasDir()) {
           
           return false;
         }
@@ -2615,6 +4005,39 @@ public final class Scene {
       public Builder clearPosZ() {
         bitField0_ = (bitField0_ & ~0x00000008);
         posZ_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // required float dir = 5;
+      private float dir_ ;
+      /**
+       * <code>required float dir = 5;</code>
+       */
+      public boolean hasDir() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required float dir = 5;</code>
+       */
+      public float getDir() {
+        return dir_;
+      }
+      /**
+       * <code>required float dir = 5;</code>
+       */
+      public Builder setDir(float value) {
+        bitField0_ |= 0x00000010;
+        dir_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required float dir = 5;</code>
+       */
+      public Builder clearDir() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        dir_ = 0F;
         onChanged();
         return this;
       }
@@ -4620,20 +6043,25 @@ public final class Scene {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017sceneSync.proto\022\021qxmobile.protobuf\"g\n\n" +
-      "EnterScene\022\013\n\003uid\030\001 \002(\005\022\022\n\nsenderName\030\002 " +
-      "\002(\t\022\014\n\004posX\030\003 \001(\002\022\014\n\004posY\030\004 \001(\002\022\014\n\004posZ\030" +
-      "\005 \001(\002\022\016\n\006roleId\030\006 \001(\005\"J\n\021EnterSceneConfi" +
-      "rm\022\013\n\003uid\030\001 \002(\005\022\014\n\004posX\030\002 \001(\002\022\014\n\004posY\030\003 " +
-      "\001(\002\022\014\n\004posZ\030\004 \001(\002\"\030\n\tExitScene\022\013\n\003uid\030\001 " +
-      "\002(\005\"C\n\nSpriteMove\022\013\n\003uid\030\001 \002(\005\022\014\n\004posX\030\002" +
-      " \001(\002\022\014\n\004posY\030\003 \001(\002\022\014\n\004posZ\030\004 \001(\002\"\273\001\n\017Ent" +
-      "erFightScene\022\013\n\003uid\030\001 \002(\005\022\020\n\010junZhuId\030\002 " +
-      "\002(\003\022\022\n\nsenderName\030\003 \002(\t\022\014\n\004posX\030\004 \001(\002\022\014\n",
-      "\004posY\030\005 \001(\002\022\014\n\004posZ\030\006 \001(\002\022\016\n\006roleId\030\007 \001(" +
-      "\005\022\022\n\nremainLife\030\010 \002(\005\022\021\n\ttotalLife\030\t \002(\005" +
-      "\022\024\n\014allianceName\030\n \002(\t\"\035\n\016ExitFightScene" +
-      "\022\013\n\003uid\030\001 \002(\005B\007B\005Scene"
+      "\n\017sceneSync.proto\022\021qxmobile.protobuf\"\251\002\n" +
+      "\nEnterScene\022\013\n\003uid\030\001 \002(\005\022\022\n\nsenderName\030\002" +
+      " \002(\t\022\014\n\004posX\030\003 \001(\002\022\014\n\004posY\030\004 \001(\002\022\014\n\004posZ" +
+      "\030\005 \001(\002\022\016\n\006roleId\030\006 \001(\005\022\020\n\010chengHao\030\007 \001(\005" +
+      "\022\023\n\013currentLife\030\010 \001(\005\022\021\n\ttotalLife\030\t \001(\005" +
+      "\022\024\n\014allianceName\030\n \001(\t\022\020\n\010vipLevel\030\013 \001(\005" +
+      "\022\r\n\005zhiWu\030\014 \001(\005\022\r\n\005level\030\r \001(\005\022\016\n\006zhanli" +
+      "\030\016 \001(\005\022\016\n\006guojia\030\017 \001(\005\022\r\n\005worth\030\020 \001(\005\022\021\n" +
+      "\thorseType\030\021 \001(\005\"J\n\021EnterSceneConfirm\022\013\n" +
+      "\003uid\030\001 \002(\005\022\014\n\004posX\030\002 \001(\002\022\014\n\004posY\030\003 \001(\002\022\014",
+      "\n\004posZ\030\004 \001(\002\"\030\n\tExitScene\022\013\n\003uid\030\001 \002(\005\"P" +
+      "\n\nSpriteMove\022\013\n\003uid\030\001 \002(\005\022\014\n\004posX\030\002 \001(\002\022" +
+      "\014\n\004posY\030\003 \001(\002\022\014\n\004posZ\030\004 \001(\002\022\013\n\003dir\030\005 \002(\002" +
+      "\"\273\001\n\017EnterFightScene\022\013\n\003uid\030\001 \002(\005\022\020\n\010jun" +
+      "ZhuId\030\002 \002(\003\022\022\n\nsenderName\030\003 \002(\t\022\014\n\004posX\030" +
+      "\004 \001(\002\022\014\n\004posY\030\005 \001(\002\022\014\n\004posZ\030\006 \001(\002\022\016\n\006rol" +
+      "eId\030\007 \001(\005\022\022\n\nremainLife\030\010 \002(\005\022\021\n\ttotalLi" +
+      "fe\030\t \002(\005\022\024\n\014allianceName\030\n \002(\t\"\035\n\016ExitFi" +
+      "ghtScene\022\013\n\003uid\030\001 \002(\005B\007B\005Scene"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4645,7 +6073,7 @@ public final class Scene {
           internal_static_qxmobile_protobuf_EnterScene_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_EnterScene_descriptor,
-              new java.lang.String[] { "Uid", "SenderName", "PosX", "PosY", "PosZ", "RoleId", });
+              new java.lang.String[] { "Uid", "SenderName", "PosX", "PosY", "PosZ", "RoleId", "ChengHao", "CurrentLife", "TotalLife", "AllianceName", "VipLevel", "ZhiWu", "Level", "Zhanli", "Guojia", "Worth", "HorseType", });
           internal_static_qxmobile_protobuf_EnterSceneConfirm_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_EnterSceneConfirm_fieldAccessorTable = new
@@ -4663,7 +6091,7 @@ public final class Scene {
           internal_static_qxmobile_protobuf_SpriteMove_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_SpriteMove_descriptor,
-              new java.lang.String[] { "Uid", "PosX", "PosY", "PosZ", });
+              new java.lang.String[] { "Uid", "PosX", "PosY", "PosZ", "Dir", });
           internal_static_qxmobile_protobuf_EnterFightScene_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_EnterFightScene_fieldAccessorTable = new

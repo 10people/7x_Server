@@ -1,7 +1,6 @@
 package com.qx.battle;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,13 +39,14 @@ import com.manu.dynasty.template.HeroGrow;
 import com.manu.dynasty.template.HeroProtoType;
 import com.manu.dynasty.template.LegendNpcTemp;
 import com.manu.dynasty.template.LegendPveTemp;
-import com.manu.dynasty.template.MiBao;
 import com.manu.dynasty.template.NpcTemp;
+import com.manu.dynasty.template.PveBigAward;
 import com.manu.dynasty.template.PveTemp;
 import com.manu.dynasty.template.ShiBing;
 import com.manu.dynasty.template.SkillTemplate;
 import com.manu.dynasty.template.XunHanCheng;
 import com.manu.dynasty.template.ZhuangBei;
+import com.manu.dynasty.util.MathUtils;
 import com.manu.network.BigSwitch;
 import com.manu.network.SessionAttKey;
 import com.qx.bag.EquipMgr;
@@ -55,10 +55,10 @@ import com.qx.hero.WuJiang;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.mibao.MiBaoDB;
-import com.qx.mibao.MiBaoSkillDB;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.pve.BuZhenMibaoBean;
+import com.qx.pve.PveGuanQiaMgr;
 import com.qx.pve.PveRecord;
 import com.qx.world.GameObject;
 
@@ -74,7 +74,7 @@ public class PveMgr {
 	public static Logger eLogger = LoggerFactory.getLogger(PveMgr.class);
 	public AtomicInteger troopIdMgr = new AtomicInteger(1);
 	public static AtomicInteger battleIdMgr = new AtomicInteger(1);
-	public static int PVE_CHONG_LOU = 100101;
+	public static int PVE_CHONG_LOU = 100001;
 	
 	public static final int TYPE_DUN 	= 14;
 	public static final int TYPE_QIANG 	= 12;
@@ -92,6 +92,11 @@ public class PveMgr {
 	public Map<Integer, GongjiType> id2GongjiType;
 	public Map<Integer, SkillTemplate> id2SkillTemplate;
 	public Map<Integer, List<LegendNpcTemp>> id2LegendNpcTemp;
+
+	public static Map<Integer, Integer> lastGuanQiaOfZhang =
+			new HashMap<Integer, Integer>();
+	public static Map<Integer, PveBigAward> passAwardMap =
+			new HashMap<Integer, PveBigAward>();
 	
 	public PveMgr(){
 		inst = this;
@@ -100,10 +105,23 @@ public class PveMgr {
 	
 	public void initData() {
 		List list = TempletService.listAll("PveTemp");
+		
 		Map<Integer, PveTemp> id2Pve = new HashMap<Integer, PveTemp>();
 		for(Object o : list){
 			PveTemp pveTemp = (PveTemp)o;
 			id2Pve.put(pveTemp.getId(), pveTemp);
+
+			/*
+			 * 获取章节最大关卡id
+			 */
+			int big = pveTemp.bigId;
+			Integer guanqia = lastGuanQiaOfZhang.get(big);
+			if(guanqia != null){
+				lastGuanQiaOfZhang.put(big,
+						MathUtils.getMax(pveTemp.id, guanqia));
+			}else{
+				lastGuanQiaOfZhang.put(big, pveTemp.id);
+			}
 		}
 		this.id2Pve = id2Pve;
 		
@@ -172,6 +190,12 @@ public class PveMgr {
 			legNpcList.add(npcTemp);
 		}
 		this.id2LegendNpcTemp = id2LegendNpcTemp;
+		
+		List listPassA = TempletService.listAll(PveBigAward.class.getSimpleName());
+		for(Object o : listPassA){
+			PveBigAward passA = (PveBigAward) o;
+			passAwardMap.put(passA.bigId, passA);
+		}
 	}
 	
 	public void enQueueReq(int code, IoSession session, Builder builder){
@@ -396,23 +420,11 @@ public class PveMgr {
 	public void PVEDataInfoRequest(int id, IoSession session, Builder builder) {
 		PveZhanDouInitReq.Builder req = (qxmobile.protobuf.ZhanDou.PveZhanDouInitReq.Builder) builder;
 		int zhangJieId = req.getChapterId();
-		JunZhu junZhu =  JunZhuMgr.inst.getJunZhu(session);
-		if(junZhu == null){
-			eLogger.error("找不到君主，junZhuId:{}", session.getAttribute(SessionAttKey.junZhuId));
-			sendZhanDouInitError(session, "找不到君主");
-			return;
-		}
 		
-		PveRecord r = HibernateUtil.find(PveRecord.class, "where uid="+junZhu.id+" and guanQiaId="+zhangJieId);
 		boolean chuanQiMark = false;
 		PveTemp pveTemp = null;
 		List<? extends NpcTemp> npcList = null;
 		if(req.getLevelType()==LevelType.LEVEL_TALE){
-			if(r != null && r.cqPassTimes >= LEGEND_DAY_TIMES){
-				sendZhanDouInitError(session, "传奇关卡每日只可挑战"+LEGEND_DAY_TIMES+"次");
-				eLogger.info("{}传奇关卡次数受限{}",junZhu.id, zhangJieId);
-				return;
-			}
 			pveTemp = legendId2Pve.get(zhangJieId);
 			chuanQiMark = true;
 		}else{
@@ -434,6 +446,22 @@ public class PveMgr {
 			return;
 		}
 		
+		session.setAttribute(SessionAttKey.chuanQiMark, chuanQiMark);
+		session.setAttribute(SessionAttKey.guanQiaId, zhangJieId);
+		//表示在创建君主之前进入的战斗
+		if(zhangJieId == PVE_CHONG_LOU) {
+			pveInit4ChongLou(session, pveTemp, npcList);
+			return;
+		}
+		
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if(junZhu == null){
+			eLogger.error("找不到君主，junZhuId:{}", session.getAttribute(SessionAttKey.junZhuId));
+			sendZhanDouInitError(session, "找不到君主");
+			return;
+		}
+
+		PveRecord r = HibernateUtil.find(PveRecord.class, "where uid="+junZhu.id+" and guanQiaId="+zhangJieId);
 		if(r == null){
 			session.setAttribute(SessionAttKey.firstQuanQiaId, pveTemp.getId());
 		} else {
@@ -442,11 +470,12 @@ public class PveMgr {
 			}
 		}
 		
-		session.setAttribute(SessionAttKey.chuanQiMark, chuanQiMark);
-		session.setAttribute(SessionAttKey.guanQiaId, zhangJieId);
-		if(zhangJieId == PVE_CHONG_LOU) {
-			pveInit4ChongLou(session, pveTemp, npcList, junZhu);
-			return;
+		if(chuanQiMark) {
+			if(r != null && r.cqPassTimes >= LEGEND_DAY_TIMES){
+				sendZhanDouInitError(session, "传奇关卡每日只可挑战"+LEGEND_DAY_TIMES+"次");
+				eLogger.info("{}传奇关卡次数受限{}",junZhu.id, zhangJieId);
+				return;
+			}
 		}
 		
 		int useTili = pveTemp.getUseHp();
@@ -494,8 +523,8 @@ public class PveMgr {
 		resp.addStarTemp(pveTemp.getStar3());
 		session.write(resp.build());
 	}
-	protected void pveInit4ChongLou(IoSession session, PveTemp pveTemp, List<? extends NpcTemp> enemyIdList,
-			JunZhu junZhu) {
+	
+	protected void pveInit4ChongLou(IoSession session, PveTemp pveTemp, List<? extends NpcTemp> enemyIdList) {
 		XunHanCheng xunHanCheng = (XunHanCheng) TempletService.listAll(XunHanCheng.class.getSimpleName()).get(0);
 		if(xunHanCheng == null) {
 			eLogger.error("未找到‘重楼’关卡-xunHanCheng配置信息");
@@ -523,10 +552,10 @@ public class PveMgr {
 		fillZhuangbei(junzhuNode, zbIdList);
 		//2.填充己方其它
 		junzhuNode.addFlagIds(selfFlagId++);
-		junzhuNode.setModleId(junZhu.roleId);
+		junzhuNode.setModleId(xunHanCheng.model);
 		junzhuNode.setNodeType(NodeType.PLAYER);
 		junzhuNode.setNodeProfession(NodeProfession.NULL);
-		junzhuNode.setNodeName(junZhu.getName());
+		junzhuNode.setNodeName(xunHanCheng.getName());
 		junzhuNode.setMoveSpeed(0);
 		junzhuNode.setAttackSpeed(0);
 		junzhuNode.setAttackRange(0);
@@ -548,21 +577,19 @@ public class PveMgr {
 		junzhuNode.setCriSkillY(0);
 		junzhuNode.setHp(junzhuNode.getHpMax());
 		//3.填充己方秘宝列表
-		List<Integer> mibaoIdList = Arrays.asList(xunHanCheng.getMibao1(), 
-				xunHanCheng.getMibao2(), xunHanCheng.getMibao3());
-		
-		for(Integer mibaoId : mibaoIdList) {
-			if(mibaoId <= 0) {
-				continue;
-			}
-			MiBao mibaoCfg = MibaoMgr.mibaoMap.get(mibaoId);
-			selfTroop.addMibaoIcons(mibaoCfg.getIcon());
-			addNodeSkill(junzhuNode, 0);
-		}
+//		List<Integer> mibaoIdList = Arrays.asList(xunHanCheng.getMibao1(), 
+//				xunHanCheng.getMibao2(), xunHanCheng.getMibao3());
+//		
+//		for(Integer mibaoId : mibaoIdList) {
+//			if(mibaoId <= 0) {
+//				continue;
+//			}
+//			MiBao mibaoCfg = MibaoMgr.mibaoMap.get(mibaoId);
+//			selfTroop.addMibaoIcons(mibaoCfg.getIcon());
+//			addNodeSkill(junzhuNode, 0);
+//		}
 		//4.填充秘宝组合技能信息
-		int mibaoZuheSkillId = -1;
-		mibaoZuheSkillId = MibaoMgr.inst.getMibaoZuheSkillId(mibaoIdList);
-		addNodeSkill(junzhuNode, mibaoZuheSkillId);
+		fillNpcMibaoDataInfo(xunHanCheng.mibaoZuhe, junzhuNode, xunHanCheng.mibaoZuheLv);
 		selfs.add(junzhuNode.build());
 		selfTroop.setMaxLevel(0);
 		resp.addStarTemp(pveTemp.getStar1());
@@ -634,10 +661,9 @@ public class PveMgr {
 		}
 	}
 	
-	public void fillJZMiBaoDataInfo(ZhanDouInitResp.Builder resp, Node.Builder junzhuNode, 
-			int skillZuheId, Group.Builder selfTroop, //List<MiBaoDB> mibaoDBList,
+	public void fillJZMiBaoDataInfo( Node.Builder junzhuNode, 
+			int skillZuheId, //Group.Builder selfTroop, //List<MiBaoDB> mibaoDBList,
 			long jId){
-		int zuheCount = 0;
 //		for(MiBaoDB miBaoDB : mibaoDBList) {
 //			if(miBaoDB.getLevel() <= 0) {//没有激活的秘宝，属性不计算在内
 //				continue;
@@ -650,33 +676,26 @@ public class PveMgr {
 //			// 0.97版本，君主的属性已经在进入主城时，加上所有激活的秘宝属性了
 //			selfTroop.addMibaoIcons(mibao.getIcon());
 //		} 
-		MiBaoSkillDB skillD = HibernateUtil.find(MiBaoSkillDB.class, jId * MibaoMgr.skill_db_space + skillZuheId);
-		if(skillD != null){
-			if(skillD.hasClear){
-				zuheCount = 2;
-			}
-			if(skillD.hasJinjie){
-				zuheCount = 3;
-			}
-		}
-		List<Integer> skillIdList = MibaoMgr.inst.getBattleSkillIds(skillZuheId, zuheCount);
+		List<Integer> skillIdList = MibaoMgr.inst.getBattleJunZhuSkillIds(skillZuheId, jId);
 		for(Integer skillId : skillIdList) {
 			addNodeSkill(junzhuNode, skillId);
 		}
 	}
 	
-	public void fillNpcMibaoDataInfo(List<Integer> mibaoCfgIdList, Node.Builder node, Group.Builder troop) {
-		for(Integer cfgId : mibaoCfgIdList) {
-			if(cfgId <= 0) {
-				continue;
-			}
-			MiBao mibao = MibaoMgr.mibaoMap.get(cfgId);
-			troop.addMibaoIcons(mibao.getIcon());
-			addNodeSkill(node, 0);
-		}
+	public void fillNpcMibaoDataInfo(int zuHeId, Node.Builder node, int zuHeLevel) {
+//		for(Integer cfgId : mibaoCfgIdList) {
+//			if(cfgId <= 0) {
+//				continue;
+//			}
+//			MiBao mibao = MibaoMgr.mibaoMap.get(cfgId);
+//			troop.addMibaoIcons(mibao.getIcon());
+//			addNodeSkill(node, 0);
+//		}
 		// 添加秘宝组合技能信息
-		int zuheSkillId = MibaoMgr.inst.getMibaoZuheSkillId(mibaoCfgIdList);
-		addNodeSkill(node, zuheSkillId);
+		List<Integer> skillIdList = MibaoMgr.inst.getSkillIdsFromConfig(zuHeId, zuHeLevel);
+		for(Integer skillId : skillIdList) {
+			addNodeSkill(node, skillId);
+		}
 	}
 	
 	/**
@@ -749,7 +768,7 @@ public class PveMgr {
 		fillDataByGongjiType(junzhuNode, null);
 		fillGongFangInfo(junzhuNode, junZhu);
 		// 添加秘宝信息
-		fillJZMiBaoDataInfo(resp, junzhuNode, skillZuheId, selfTroop, junZhu.id);
+		fillJZMiBaoDataInfo(junzhuNode, skillZuheId, junZhu.id);
 		junzhuNode.setHp(junzhuNode.getHpMax());
 		selfs.add(junzhuNode.build());
 	}
@@ -781,7 +800,7 @@ public class PveMgr {
 		fillDataByGongjiType(junzhuNode, null);
 		fillGongFangInfo(junzhuNode, junZhu);
 		// 添加秘宝信息
-		fillJZMiBaoDataInfo(resp, junzhuNode, skillZuheId, selfTroop, junZhu.id );
+		fillJZMiBaoDataInfo(junzhuNode, skillZuheId, junZhu.id );
 		junzhuNode.setHp(Hp);
 		selfs.add(junzhuNode.build());
 	}
@@ -803,7 +822,7 @@ public class PveMgr {
 		fillDataByGongjiType(junzhuNode, null);
 		fillGongFangInfo(junzhuNode, junZhu);
 		// 添加秘宝信息
-		fillJZMiBaoDataInfo(resp, junzhuNode, skillZuheId, selfTroop, junZhu.id);
+		fillJZMiBaoDataInfo(junzhuNode, skillZuheId, junZhu.id);
 		junzhuNode.setHp(Hp);
 		//护盾
 		junzhuNode.setHudun(hudun);

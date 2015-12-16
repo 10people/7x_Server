@@ -21,6 +21,7 @@ import com.qx.quartz.job.BaiZhanDailyAwardJob;
 import com.qx.quartz.job.BigHouseWorthReduceJob;
 import com.qx.quartz.job.BroadcastJob;
 import com.qx.quartz.job.CheckHouseDealJob;
+import com.qx.quartz.job.CleanLMSBJob;
 import com.qx.quartz.job.DailyTaskJob;
 import com.qx.quartz.job.GuojiaChouhenJieSuanJob;
 import com.qx.quartz.job.GuojiaDayRankResetJob;
@@ -31,6 +32,7 @@ import com.qx.quartz.job.LianMengBySWWeekRankResetJob;
 import com.qx.quartz.job.LogPerHourJob;
 import com.qx.quartz.job.LogPerMinuteJob;
 import com.qx.quartz.job.ResetGongJinJob;
+import com.qx.quartz.job.SendGongJinAwardJob;
 import com.qx.quartz.job.YBrobotManageJob;
 import com.qx.quartz.job.YaBiaoJiaChengJob;
 import com.qx.quartz.job.YaBiaoManageJob;
@@ -61,7 +63,6 @@ public class SchedulerMgr {
 	 * 添加任务
 	 * @Title: start 
 	 * @Description:
-	 * TODO 没有做测试，稍后几天，进行性能测试：(20141209)
 	 */
 	public void doSchedule(){
 	//	addScheduler(TestJob.class, "0/10 * * * * ?");
@@ -113,33 +114,33 @@ public class SchedulerMgr {
 		String[] openYBMORE1 = YunbiaoTemp.incomeAdd_startTime1.split(":");
 		int openHMORE1 = Integer.parseInt(openYBMORE1[0]);
 		int openMMORE1 = Integer.parseInt(openYBMORE1[1]);
-		openYBTime.append("0 ").append(openMMORE1).append(" ").append(openHMORE1).append(" * * ?");
-//		addScheduler(YaBiaoJiaChengJob.class, openYBMORETime1.toString());//"0 0 8 * * ?"
+		openYBMORETime1.append("0 ").append(openMMORE1).append(" ").append(openHMORE1).append(" * * ?");
+		addScheduler(YaBiaoJiaChengJob.class, openYBMORETime1.toString());//"0 0 8 * * ?"
 		//开启押镖活动多倍收益2
 		StringBuffer openYBMORETime2=new StringBuffer();
 		String[] openYBMORE2 =YunbiaoTemp.incomeAdd_startTime2.split(":");
 		int openHMORE2 = Integer.parseInt(openYBMORE2[0]);
 		int openMMORE2 = Integer.parseInt(openYBMORE2[1]);
-		openYBTime.append("0 ").append(openMMORE2).append(" ").append(openHMORE2).append(" * * ?");
-//		addScheduler(YaBiaoJiaChengJob.class, openYBMORETime2.toString());//"0 0 8 * * ?"
+		openYBMORETime2.append("0 ").append(openMMORE2).append(" ").append(openHMORE2).append(" * * ?");
+		addScheduler(YaBiaoJiaChengJob.class, openYBMORETime2.toString());//"0 0 8 * * ?"
 		//关闭押镖活动多倍收益1
 		StringBuffer closeYBMORETime1=new StringBuffer();
 		String[] closeYBMORE1 = YunbiaoTemp.incomeAdd_endTime1.split(":");
 		int closeHMORE1 = Integer.parseInt(closeYBMORE1[0]);
 		int closeMMORE1 = Integer.parseInt(closeYBMORE1[1]);
-		closeYBTime.append("0 ").append(closeMMORE1).append(" ").append(closeHMORE1).append(" * * ?");
-//		addScheduler(YaBiaoJiaChengJob.class, closeYBMORETime1.toString());//0 0 11 * * ?
+		closeYBMORETime1.append("0 ").append(closeMMORE1).append(" ").append(closeHMORE1).append(" * * ?");
+		addScheduler(YaBiaoJiaChengJob.class, closeYBMORETime1.toString());//0 0 11 * * ?
 		//关闭押镖活动多倍收益2
 		StringBuffer closeYBMORETime2=new StringBuffer();
 		String[] closeYBMORE2 = YunbiaoTemp.incomeAdd_endTime2.split(":");
 		int closeHMORE2 = Integer.parseInt(closeYBMORE2[0]);
 		int closeMMORE2 = Integer.parseInt(closeYBMORE2[1]);
-		closeYBTime.append("0 ").append(closeMMORE2).append(" ").append(closeHMORE2).append(" * * ?");
-//		addScheduler(YaBiaoJiaChengJob.class, closeYBMORETime2.toString());//0 0 11 * * ?
+		closeYBMORETime2.append("0 ").append(closeMMORE2).append(" ").append(closeHMORE2).append(" * * ?");
+		addScheduler(YaBiaoJiaChengJob.class, closeYBMORETime2.toString());//0 0 11 * * ?
 		
 		
 		//10分钟产生一次机器人镖车
-		addScheduler(YBrobotManageJob.class, "0 */10 * * * ?");
+		addScheduler(YBrobotManageJob.class, "0 */1 * * * ?");
 		
 		String time = CanShu.HUANGYEPVP_AWARDTIME;
 		String[] timeArray = time.split(":");
@@ -155,7 +156,12 @@ public class SchedulerMgr {
 		addScheduler(GuojiaChouhenJieSuanJob.class,"0 0 0 ? * 2");
 		// 每天00:05，刷新国家敌对国
 		addScheduler(GuojiaSetDiDuiGuoJob.class, "0 5 0 * * ?");
+		// 每天8:00 ，刷新君主贡金排行和 联盟贡金排行
 		addScheduler(ResetGongJinJob.class, "0 0 8 * * ?");
+		// 每天4:00  清理过期的盟友速报
+		addScheduler(CleanLMSBJob.class, "0 0 4 * * ?");
+		// 每天22:00 贡金个人排行和联盟排行发放奖励 
+		addScheduler(SendGongJinAwardJob.class, "0 0 22 * * ?");
 	}
 
 	/**

@@ -58,7 +58,7 @@
 						out.print("" + (pvpBean == null ? -1 : pvpBean.junXianLevel));
 						out.print("</td>");
 						out.print("<td>");
-						out.print("" + (pvpBean == null ? -1 : pvpBean.rank));
+						out.print("");// + (pvpBean == null ? -1 : pvpBean.rank));
 						out.print("</td>");
 						out.print("</tr>");
 					}

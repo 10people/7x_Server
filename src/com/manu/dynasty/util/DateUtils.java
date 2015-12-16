@@ -6,8 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import com.manu.dynasty.template.CanShu;
-
 public class DateUtils {
 
 	public static final String DATETIME_DATE = "yyyy-MM-dd";
@@ -50,6 +48,54 @@ public class DateUtils {
 		}
 		long differTime = bigDate.getTime() - smallDate.getTime();
 		ldDis = (int) (differTime / 1000 / 60 / 60);
+		return ldDis;
+	}
+	/**
+	 * 获取两个Date对象之间的毫秒差
+	 * 
+	 * @param bigDate		
+	 * @param smallDate
+	 * @return
+	 */
+	public static int timeDistanceBySecond(Date bigDate,
+			Date smallDate) {
+		int ldDis = 0;
+		if (bigDate == null || smallDate == null) {
+			throw new NullPointerException("bigDate or smallDate is null");
+		}
+		long differTime = bigDate.getTime() - smallDate.getTime();
+		ldDis = (int) differTime;
+		return ldDis;
+	}
+	
+	/**
+	 * @Description 获取smallDate到现在的秒数之差
+	 * @param smallDate
+	 * @return
+	 */
+	public static int timeDistanceBySeconds(Date smallDate) {
+		Date bigDate = new Date();
+		int ldDis = 0;
+		if (smallDate == null) {
+			return ldDis;
+		}
+		long differTime = bigDate.getTime() - smallDate.getTime();
+		ldDis = (int) (differTime / 1000);
+		return ldDis;
+	}
+	/**
+	 * 获取现在离明天四点有多久（毫秒）
+	 * @return 
+	 */
+	public static int timeDistanceBySecond() {
+		Date now =new Date();
+		int year=now.getYear();
+		int month=now.getMonth();
+		int date =now.getDate()+1;
+		int hrs=4;
+		int min=0;
+		Date nextDay=new Date(year, month, date, hrs, min);
+		int ldDis = timeDistanceBySecond(nextDay, now);
 		return ldDis;
 	}
 

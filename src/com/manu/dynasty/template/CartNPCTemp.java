@@ -1,5 +1,7 @@
 package com.manu.dynasty.template;
 
+import com.qx.junzhu.JunZhu;
+
 public class CartNPCTemp {
 	public int id;
 	public int quality;//无用
@@ -24,5 +26,25 @@ public class CartNPCTemp {
 	public String skill4;
 	public String skill5;
 	public String yuansu;
-	public int name;
+	public String name;
+	//TODO 待策划加入 2015年12月10日
+//	public int roleId;
+	
+	public JunZhu valueOfJunZhu(long junzhuId) {
+		JunZhu junzhu = new JunZhu();
+		junzhu.id = junzhuId;
+		junzhu.shengMingMax = this.shengming;
+		junzhu.fangYu = this.fangyu;
+		junzhu.gongJi = this.gongji;
+		junzhu.wqSH = this.wqSH;
+		junzhu.wqJM = this.wqJM;
+		junzhu.wqBJ = this.wqBJ;
+		junzhu.wqRX = this.wqRX;
+		junzhu.jnBJ = this.jnBJ;
+		junzhu.jnJM = this.jnJM;
+		junzhu.jnRX = this.jnRX;
+		junzhu.jnSH = this.jnSH;
+		junzhu.level = this.level;
+		return junzhu;
+	}
 }
