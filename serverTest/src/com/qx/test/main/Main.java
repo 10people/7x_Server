@@ -2,6 +2,7 @@ package com.qx.test.main;
 
 import java.net.InetSocketAddress;
 import java.util.Random;
+import java.util.concurrent.Phaser;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -27,20 +28,36 @@ public class Main {
 	public static AtomicInteger enterSceneCnt = new AtomicInteger(0);
 	public static long startTime;
 	public static IoConnector net;
+	public static boolean exitWhenFinish = false;
 	
 	public static void main(String[] args) throws Exception{
 		net = setup();
 //		InetSocketAddress addr = new InetSocketAddress("192.168.3.80", 8586);
-		InetSocketAddress addr = new InetSocketAddress("192.168.0.176", 8586);
+		String hostname = "127.0.0.1";
+//		String hostname = "192.168.3.80";
 		int cnt = 1;
+		if(args != null && args.length==1){
+			cnt = Integer.parseInt(args[0]);
+			System.out.println("次数设定:"+cnt);
+		}
+		final InetSocketAddress addr = new InetSocketAddress(hostname, 8586);
 		watchCnt = new AtomicInteger(cnt);
 		String head = "2TestLoad2"+new Random().nextInt(99999);
-		 startTime = System.currentTimeMillis();
+		startTime = System.currentTimeMillis();
+		final Phaser p = new Phaser(1);
 		for(int i = 0; i < cnt; i++) {
-			GameClient c = new GameClient(head+i);
-			c.log = false;//i<2;
-			c.launch(net, addr);
+			final GameClient c = new GameClient(head+i);
+			//c.log = false;//i<2;
+			Runnable r = new Runnable() {
+				public void run() {
+					p.arriveAndAwaitAdvance();
+					c.launch(net, addr);;
+				}
+			};
+			p.register();
+			new Thread(r,c.accountName).start();
 		}
+		p.arrive();
 		do{
 			long cur = System.currentTimeMillis();
 			System.out.println("时间:"+(cur - startTime)+
@@ -53,6 +70,7 @@ public class Main {
 					" 已进入场景:"+enterSceneCnt
 					);
 			Thread.sleep(1000*1);
+			break;//------------------------------------------------------
 		}while(net.isActive());
 	}
 	
@@ -65,7 +83,8 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		net.dispose();
+		if(exitWhenFinish)
+			net.dispose();
 	}
 
 	public static IoConnector setup() {

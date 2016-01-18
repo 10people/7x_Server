@@ -8,6 +8,7 @@ public class MibaoSuiPian {
 	private int tempId;
 	private int money;
 	private int icon;
+	public int recyclePrice;
 	public int getIcon() {
 		return icon;
 	}

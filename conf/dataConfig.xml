@@ -32,6 +32,7 @@
 	<file name="data/GongjiType.xml" />	
 	<file name="data/VIP.xml" />	
 	<file name="data/RenWu.xml" />	
+	<file name="data/HuoYueTemp.xml" /> 
 	<file name="data/ZhuceRenwu.xml" />	
 	<file name="data/CanShu.xml" />	
 	<file name="data/YunbiaoTemp.xml" />	
@@ -132,7 +133,10 @@
 	<file name="data/Buff.xml"/>
 	<file name="data/Action.xml"/>
 	<file name="data/Skill.xml"/>
+	<file name="data/GuanQiaJunZhu.xml"/>
 	
 	<file name="data/JiNengPeiYang.xml"/>
+	
+	<file name="data/LianmengFengshan.xml"/>
 	
 </config>

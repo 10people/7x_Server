@@ -1,5 +1,6 @@
 package com.qx.jinengpeiyang;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,13 +17,17 @@ import qxmobile.protobuf.JiNengPeiYang.UpgradeJiNengResp;
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.JiNengPeiYang;
+import com.manu.network.SessionManager;
 import com.qx.event.ED;
+import com.qx.event.Event;
 import com.qx.event.EventMgr;
+import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.timeworker.FunctionID;
 
-public class JiNengPeiYangMgr {
+public class JiNengPeiYangMgr extends EventProc{
 	public static JiNengPeiYangMgr inst;
 	public Logger log = LoggerFactory.getLogger(JiNengPeiYangMgr.class);
 	public Map<Integer, JiNengPeiYang> jiNengPeiYangMap = new HashMap<Integer, JiNengPeiYang>();
@@ -59,41 +64,33 @@ public class JiNengPeiYangMgr {
 			session.write(resp.build());
 			return;
 		}
-		int quality = p.quality;
-		if (quality == 2) {// 小于最高等级
-			log.info("君主 {} 的技能突破已达到最高等级", junZhu.id);
-			resp.setResult(100);
-			resp.setErrorMsg("已突破到最高等级");
-			session.write(resp.build());
-			return;
-		}
-		JiNengPeiYang next = jiNengPeiYangMap.get(p.nextId);
-		if(next == null){
-			log.info("未找到下个技能 {}", p.id);
-			resp.setResult(405);
-			resp.setErrorMsg("暂时不能突破");
-			session.write(resp.build());
-			return;
-		}
+//		int quality = p.quality;
+//		if (p.nextId<=0) {// 小于最高等级
+//			log.info("君主 {} 的技能突破已达到最高等级", junZhu.id);
+//			resp.setResult(100);
+//			resp.setErrorMsg("已突破到最高等级");
+//			session.write(resp.build());
+//			return;
+//		}
 		
-		if (junZhu.level < next.getNeedLv()) {
+		if (junZhu.level < p.getNeedLv()) {
 			log.info("君主 {} 等级未达到技能培养 {} 突破要求的等级 {}", junZhu.id,
-					next.getId(), next.getNeedLv());
+					p.getId(), p.getNeedLv());
 			resp.setResult(1);
 			resp.setErrorMsg("技能突破未解锁");
 			session.write(resp.build());
 			return;
 		}
-		if (junZhu.tongBi < next.getNeedNum()) {
-			log.info("君主 {} 铜币 {} 不足技能 {} 培养需要的 {} 铜币" + junZhu.id,
-					next.getId(), next.getNeedNum());
+		if (junZhu.tongBi < p.getNeedNum()) {
+			log.info("君主 {} 铜币 {} 不足技能 {} 培养需要的 {} 铜币" , junZhu.id,
+					junZhu.tongBi, p.getId(), p.getNeedNum());
 			resp.setResult(101);
 			resp.setErrorMsg("铜币不足");
 			session.write(resp.build());
 			return;
 		}
 		// 扣除铜币
-		junZhu.tongBi = junZhu.tongBi - next.getNeedNum();
+		junZhu.tongBi = junZhu.tongBi - p.getNeedNum();
 		HibernateUtil.save(junZhu);
 		JunZhuMgr.inst.sendMainInfo(session);
 		// 技能突破
@@ -104,17 +101,41 @@ public class JiNengPeiYangMgr {
 			bean.jzId = junZhu.id;
 			insert = true;
 		}
-		setIdToBean(bean,next);
+		setIdToBean(bean,p);
 		if(insert){
 			HibernateUtil.insert(bean);
 		}else{
 			HibernateUtil.update(bean);
 		}
-		log.info("{} get skill {}, pay tongBi {}", junZhu.id, next.id, next.getNeedNum());
+		log.info("{} get skill {}, pay tongBi {}", junZhu.id, p.id, p.getNeedNum());
 		resp.setResult(0);
 		session.write(resp.build());
 		// 进阶角色技能
 		EventMgr.addEvent(ED.jinJie_jueSe_jiNeng, new Object[]{junZhu.id});
+		//
+		addNewJn(junZhu, p);
+		
+	}
+
+	/**
+	 * 新获得的技能保存起来，用于进战斗后的提示。
+	 * @param junZhu
+	 * @param p
+	 */
+	public void addNewJn(JunZhu junZhu, JiNengPeiYang p) {
+		NewJNBean nb = HibernateUtil.find(NewJNBean.class, junZhu.id);
+		if(nb == null){
+			nb = new NewJNBean();
+			nb.ids="";
+			nb.jzId = junZhu.id;
+			HibernateUtil.insert(nb);
+		}
+		if(nb.ids==null || nb.ids.isEmpty()){
+			nb.ids=""+p.id;
+		}else{
+			nb.ids += "#"+p.id;
+		}
+		HibernateUtil.update(nb);
 	}
 	public void setIdToBean(JNBean bean, JiNengPeiYang next) {
 		switch(next.wuqiType){
@@ -167,6 +188,39 @@ public class JiNengPeiYangMgr {
 		bean.wq3_3 = 3300;
 		return bean;
 	}
+	public void fixOpenByLevel(JNBean bean, long jzId){
+		JunZhu jz = HibernateUtil.find(JunZhu.class, jzId);
+		if(jz == null){
+			return;
+		}
+		fixOpenByLevel(bean, jz, bean.wq1_1);
+		fixOpenByLevel(bean, jz, bean.wq1_2);
+		fixOpenByLevel(bean, jz, bean.wq1_3);
+		fixOpenByLevel(bean, jz, bean.wq2_1);
+		fixOpenByLevel(bean, jz, bean.wq2_2);
+		fixOpenByLevel(bean, jz, bean.wq2_3);
+		fixOpenByLevel(bean, jz, bean.wq3_1);
+		fixOpenByLevel(bean, jz, bean.wq3_2);
+		fixOpenByLevel(bean, jz, bean.wq3_3);
+	}
+	public void fixOpenByLevel(JNBean bean, JunZhu jz, int jnId) {
+		JiNengPeiYang conf = jiNengPeiYangMap.get(jnId);
+		if(conf == null){
+			return;
+		}
+		if(jz.level>=conf.needLv){
+			return;
+		}
+		JiNengPeiYang t = new JiNengPeiYang();
+		t.wuqiType = conf.wuqiType;
+		t.jinengType = conf.jinengType;
+		t.id = 0;
+		//把等级不够的技能id设置为0
+		if(jz.level<conf.needLv){
+			setIdToBean(bean, t);
+		}
+	}
+
 	public void getJiNengPeiYangQuality(int cmd, IoSession session,
 			Builder builder) {
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
@@ -184,19 +238,121 @@ public class JiNengPeiYangMgr {
 		List<JiNengPeiYang> jiNengPeiYangList = TempletService
 				.listAll(JiNengPeiYang.class.getSimpleName());
 		for (JiNengPeiYang p : jiNengPeiYangList) {
-			int curUseId = 0;
-			switch(p.wuqiType){
-			case 0:curUseId=bean.wq1_1;break;
-			case 1:curUseId=bean.wq2_1;break;
-			case 2:curUseId=bean.wq3_1;break;
-			default:break;			
-			}
+			int curUseId = getCurId(bean, p);
 			HeroData.Builder hb = HeroData.newBuilder();
 			hb.setSkillId(p.id);
-			hb.setIsUp(p.id<curUseId);
+			boolean open = p.id<=curUseId;
+			if(p.quality==0){//第一列技能，等级到了就开启（已突破状态）
+				open = p.needLv<=junZhu.level;
+			}
+			hb.setIsUp(open);
 			resp.addListHeroData(hb);
 		}
 		session.write(resp.build());
+	}
+
+	public int getCurId(JNBean bean, JiNengPeiYang p) {
+		int curUseId = 0;
+		switch(p.wuqiType){
+		case 0:
+			switch(p.jinengType){
+			case 0:curUseId=bean.wq1_1;break;
+			case 1:curUseId=bean.wq1_2;break;
+			case 2:curUseId=bean.wq1_3;break;
+			}
+			break;
+		case 1:
+			switch(p.jinengType){
+			case 0:curUseId=bean.wq2_1;break;
+			case 1:curUseId=bean.wq2_2;break;
+			case 2:curUseId=bean.wq2_3;break;
+			}
+			break;
+		case 2:
+			switch(p.jinengType){
+			case 0:curUseId=bean.wq3_1;break;
+			case 1:curUseId=bean.wq3_2;break;
+			case 2:curUseId=bean.wq3_3;break;
+			}
+			break;
+		default:break;			
+		}
+		return curUseId;
+	}
+	
+	public int[] getNewJNIds(long jzId){
+		NewJNBean bean = HibernateUtil.find(NewJNBean.class, jzId);
+		if(bean == null || bean.ids == null || bean.ids.isEmpty()){
+			return new int[0];
+		}
+		String arr[] = bean.ids.split("#");
+		int[] ret = new int[arr.length];
+		for(int i=0;i<arr.length;i++){
+			ret[i] = Integer.parseInt(arr[i]);
+		}
+		bean.ids="";
+		HibernateUtil.update(bean);
+		return ret;
+	}
+
+	@Override
+	public void proc(Event param) {
+		switch(param.id){
+		case ED.junzhu_level_up:
+			checkRedNotice(param);
+			break;
+		}
+	}
+
+	/**
+	 * 检查红点提醒
+	 * @param param
+	 */
+	public void checkRedNotice(Event param) {
+		// new Object[] { jz.id, jz.level, jz })
+		Object[] arr = (Object[]) param.param;
+		Integer lv = (Integer) arr[1];
+		JunZhu jz = (JunZhu) arr[2];		
+		JNBean bean = HibernateUtil.find(JNBean.class, jz.id);
+		if(bean == null){
+			bean = getDefaultBean();
+		}
+		//
+		@SuppressWarnings("unchecked")
+		List<JiNengPeiYang> jiNengPeiYangList = TempletService
+				.listAll(JiNengPeiYang.class.getSimpleName());
+		boolean hit = false;
+		for (JiNengPeiYang p : jiNengPeiYangList) {
+			if(p.getQuality()==0){
+				if(p.needLv == jz.level){
+					//品质为0，且等级刚好达到，则是新获得技能
+					addNewJn(jz, p);
+				}
+				continue;//品质0的技能，按等级开启，不提示。
+			}
+			if(jz.level<p.needLv){
+				continue;//君主等级未达到，跳过
+			}
+			int curUseId = getCurId(bean, p);
+			if(p.id>curUseId){
+				//等级够，且技能id大于当前使用的id，则可进阶。
+				hit = true;
+				break;
+			}
+		}
+		if(!hit){//没有可以进阶的技能
+			return;
+		}
+		IoSession session = SessionManager.getInst().getIoSession(jz.id);
+		if(session == null){
+			return;
+		}
+		FunctionID.pushCanShangjiao(jz.id, session, FunctionID.JiNengJinJie);
+	}
+
+	@Override
+	protected void doReg() {
+		EventMgr.regist(ED.junzhu_level_up, this);
 	}
 
 }

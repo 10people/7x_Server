@@ -6,4 +6,5 @@ public class YouxiaOpenTime {
 	public String OpenTime;
 	public int maxTimes;
 	public int CD;
+	public int openLevel;
 }

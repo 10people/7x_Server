@@ -2,7 +2,7 @@ package com.manu.dynasty.template;
 
 import com.qx.world.GameObject;
 
-public class EnemyTemp implements GameObject{
+public class EnemyTemp extends GameObject{
 	private int id;
 	private int icon;
 	private int zhiye;

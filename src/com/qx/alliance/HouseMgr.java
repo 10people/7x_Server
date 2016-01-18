@@ -48,6 +48,7 @@ import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.FangWu;
 import com.manu.dynasty.template.FangWuInformation;
 import com.manu.dynasty.template.Jiangli;
+import com.manu.dynasty.template.LianMengKeJi;
 import com.manu.dynasty.template.Mail;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.BigSwitch;
@@ -57,6 +58,7 @@ import com.manu.network.SessionManager;
 import com.manu.network.SessionUser;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.account.FunctionOpenMgr;
+import com.qx.alliance.building.JianZhuMgr;
 import com.qx.award.DailyAwardMgr;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
@@ -480,7 +482,10 @@ public class HouseMgr extends EventProc implements Runnable {
 
 		HouseExpInfo.Builder expInfo = HouseExpInfo.newBuilder();
 		expInfo.setLevel(hb.level);
-		expInfo.setMax(fwConf.produceLimit + bigFWConf.produceLimit);
+		LianMengKeJi kjConf=JianZhuMgr.inst.getKeJiConfForFangWu(member.lianMengId);
+		int addLimit4keji=kjConf.value1;
+		int exMax=fwConf.produceLimit + bigFWConf.produceLimit+addLimit4keji;
+		expInfo.setMax(exMax);
 		// 设置领取区间，以小房子为准
 		Date preGetExpT = hb.preGainExpTime;
 		if (hb.preGainExpTime == null) {
@@ -494,7 +499,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			t = t / 1000;// second
 			t = t / 60;// minu
 			t = (t * (fwConf.produceSpeed + bigFWConf.produceSpeed)) / 60;// 产出经验速度为大房子世俗+小房子时速
-			t = Math.min(t, fwConf.produceLimit + bigFWConf.produceLimit);
+			t = Math.min(t, exMax);
 			expInfo.setCur((int) t);
 		}
 		if (hb.cunchuExp > 0) {
@@ -519,12 +524,13 @@ public class HouseMgr extends EventProc implements Runnable {
 			t /= 1000;
 			expInfo.setCoolTime((int) (t >= 3600 ? 0 : 3600 - t));
 		} else {
-
 			expInfo.setLeftUpTimes(sumConfUpTimes);
 			expInfo.setCoolTime(0);
 		}
 		expInfo.setNeedGongXian(fwConf.needNum);
 		expInfo.setGainHouseExp(fwConf.addNum);
+		int kjLevel=kjConf.level;
+		expInfo.setKejiLevel(kjLevel);
 		return expInfo;
 	}
 

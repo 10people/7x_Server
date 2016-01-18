@@ -180,6 +180,60 @@ public final class MoBaiProto {
      * </pre>
      */
     qxmobile.protobuf.Explore.ExploreRespOrBuilder getMobaiGainOrBuilder();
+
+    // required int32 bigStep0 = 10;
+    /**
+     * <code>required int32 bigStep0 = 10;</code>
+     *
+     * <pre>
+     *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+     * </pre>
+     */
+    boolean hasBigStep0();
+    /**
+     * <code>required int32 bigStep0 = 10;</code>
+     *
+     * <pre>
+     *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+     * </pre>
+     */
+    int getBigStep0();
+
+    // required int32 bigStep1 = 11;
+    /**
+     * <code>required int32 bigStep1 = 11;</code>
+     *
+     * <pre>
+     *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+     * </pre>
+     */
+    boolean hasBigStep1();
+    /**
+     * <code>required int32 bigStep1 = 11;</code>
+     *
+     * <pre>
+     *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+     * </pre>
+     */
+    int getBigStep1();
+
+    // required int32 bigStep2 = 12;
+    /**
+     * <code>required int32 bigStep2 = 12;</code>
+     *
+     * <pre>
+     *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+     * </pre>
+     */
+    boolean hasBigStep2();
+    /**
+     * <code>required int32 bigStep2 = 12;</code>
+     *
+     * <pre>
+     *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+     * </pre>
+     */
+    int getBigStep2();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.MoBaiInfo}
@@ -288,6 +342,21 @@ public final class MoBaiProto {
                 mobaiGain_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000100;
+              break;
+            }
+            case 80: {
+              bitField0_ |= 0x00000200;
+              bigStep0_ = input.readInt32();
+              break;
+            }
+            case 88: {
+              bitField0_ |= 0x00000400;
+              bigStep1_ = input.readInt32();
+              break;
+            }
+            case 96: {
+              bitField0_ |= 0x00000800;
+              bigStep2_ = input.readInt32();
               break;
             }
           }
@@ -556,6 +625,78 @@ public final class MoBaiProto {
       return mobaiGain_;
     }
 
+    // required int32 bigStep0 = 10;
+    public static final int BIGSTEP0_FIELD_NUMBER = 10;
+    private int bigStep0_;
+    /**
+     * <code>required int32 bigStep0 = 10;</code>
+     *
+     * <pre>
+     *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+     * </pre>
+     */
+    public boolean hasBigStep0() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>required int32 bigStep0 = 10;</code>
+     *
+     * <pre>
+     *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+     * </pre>
+     */
+    public int getBigStep0() {
+      return bigStep0_;
+    }
+
+    // required int32 bigStep1 = 11;
+    public static final int BIGSTEP1_FIELD_NUMBER = 11;
+    private int bigStep1_;
+    /**
+     * <code>required int32 bigStep1 = 11;</code>
+     *
+     * <pre>
+     *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+     * </pre>
+     */
+    public boolean hasBigStep1() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>required int32 bigStep1 = 11;</code>
+     *
+     * <pre>
+     *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+     * </pre>
+     */
+    public int getBigStep1() {
+      return bigStep1_;
+    }
+
+    // required int32 bigStep2 = 12;
+    public static final int BIGSTEP2_FIELD_NUMBER = 12;
+    private int bigStep2_;
+    /**
+     * <code>required int32 bigStep2 = 12;</code>
+     *
+     * <pre>
+     *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+     * </pre>
+     */
+    public boolean hasBigStep2() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>required int32 bigStep2 = 12;</code>
+     *
+     * <pre>
+     *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+     * </pre>
+     */
+    public int getBigStep2() {
+      return bigStep2_;
+    }
+
     private void initFields() {
       tongBiOpen_ = false;
       yuanBaoOpen_ = false;
@@ -566,6 +707,9 @@ public final class MoBaiProto {
       ybPay_ = 0;
       ybGain_ = 0;
       mobaiGain_ = qxmobile.protobuf.Explore.ExploreResp.getDefaultInstance();
+      bigStep0_ = 0;
+      bigStep1_ = 0;
+      bigStep2_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -601,6 +745,18 @@ public final class MoBaiProto {
         return false;
       }
       if (!hasYbGain()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasBigStep0()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasBigStep1()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasBigStep2()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -643,6 +799,15 @@ public final class MoBaiProto {
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeMessage(9, mobaiGain_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeInt32(10, bigStep0_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeInt32(11, bigStep1_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeInt32(12, bigStep2_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -688,6 +853,18 @@ public final class MoBaiProto {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, mobaiGain_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, bigStep0_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(11, bigStep1_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(12, bigStep2_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -833,6 +1010,12 @@ public final class MoBaiProto {
           mobaiGainBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000100);
+        bigStep0_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
+        bigStep1_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000400);
+        bigStep2_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -901,6 +1084,18 @@ public final class MoBaiProto {
         } else {
           result.mobaiGain_ = mobaiGainBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.bigStep0_ = bigStep0_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.bigStep1_ = bigStep1_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.bigStep2_ = bigStep2_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -944,6 +1139,15 @@ public final class MoBaiProto {
         if (other.hasMobaiGain()) {
           mergeMobaiGain(other.getMobaiGain());
         }
+        if (other.hasBigStep0()) {
+          setBigStep0(other.getBigStep0());
+        }
+        if (other.hasBigStep1()) {
+          setBigStep1(other.getBigStep1());
+        }
+        if (other.hasBigStep2()) {
+          setBigStep2(other.getBigStep2());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -978,6 +1182,18 @@ public final class MoBaiProto {
           return false;
         }
         if (!hasYbGain()) {
+          
+          return false;
+        }
+        if (!hasBigStep0()) {
+          
+          return false;
+        }
+        if (!hasBigStep1()) {
+          
+          return false;
+        }
+        if (!hasBigStep2()) {
           
           return false;
         }
@@ -1554,6 +1770,153 @@ public final class MoBaiProto {
         return mobaiGainBuilder_;
       }
 
+      // required int32 bigStep0 = 10;
+      private int bigStep0_ ;
+      /**
+       * <code>required int32 bigStep0 = 10;</code>
+       *
+       * <pre>
+       *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+       * </pre>
+       */
+      public boolean hasBigStep0() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>required int32 bigStep0 = 10;</code>
+       *
+       * <pre>
+       *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+       * </pre>
+       */
+      public int getBigStep0() {
+        return bigStep0_;
+      }
+      /**
+       * <code>required int32 bigStep0 = 10;</code>
+       *
+       * <pre>
+       *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+       * </pre>
+       */
+      public Builder setBigStep0(int value) {
+        bitField0_ |= 0x00000200;
+        bigStep0_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 bigStep0 = 10;</code>
+       *
+       * <pre>
+       *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+       * </pre>
+       */
+      public Builder clearBigStep0() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        bigStep0_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 bigStep1 = 11;
+      private int bigStep1_ ;
+      /**
+       * <code>required int32 bigStep1 = 11;</code>
+       *
+       * <pre>
+       *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+       * </pre>
+       */
+      public boolean hasBigStep1() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>required int32 bigStep1 = 11;</code>
+       *
+       * <pre>
+       *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+       * </pre>
+       */
+      public int getBigStep1() {
+        return bigStep1_;
+      }
+      /**
+       * <code>required int32 bigStep1 = 11;</code>
+       *
+       * <pre>
+       *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+       * </pre>
+       */
+      public Builder setBigStep1(int value) {
+        bitField0_ |= 0x00000400;
+        bigStep1_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 bigStep1 = 11;</code>
+       *
+       * <pre>
+       *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+       * </pre>
+       */
+      public Builder clearBigStep1() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        bigStep1_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 bigStep2 = 12;
+      private int bigStep2_ ;
+      /**
+       * <code>required int32 bigStep2 = 12;</code>
+       *
+       * <pre>
+       *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+       * </pre>
+       */
+      public boolean hasBigStep2() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>required int32 bigStep2 = 12;</code>
+       *
+       * <pre>
+       *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+       * </pre>
+       */
+      public int getBigStep2() {
+        return bigStep2_;
+      }
+      /**
+       * <code>required int32 bigStep2 = 12;</code>
+       *
+       * <pre>
+       *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+       * </pre>
+       */
+      public Builder setBigStep2(int value) {
+        bitField0_ |= 0x00000800;
+        bigStep2_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 bigStep2 = 12;</code>
+       *
+       * <pre>
+       *今日已经领了几个阶段的奖励，取值0/1/2，0表示可领1表示可领2已经领取
+       * </pre>
+       */
+      public Builder clearBigStep2() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        bigStep2_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.MoBaiInfo)
     }
 
@@ -2031,13 +2394,14 @@ public final class MoBaiProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\013MoBai.proto\022\021qxmobile.protobuf\032\rExplor" +
-      "e.proto\"\310\001\n\tMoBaiInfo\022\022\n\ntongBiOpen\030\001 \002(" +
+      "e.proto\"\376\001\n\tMoBaiInfo\022\022\n\ntongBiOpen\030\001 \002(" +
       "\010\022\023\n\013yuanBaoOpen\030\002 \002(\010\022\016\n\006yuOpen\030\003 \002(\010\022\021" +
       "\n\tbuffCount\030\004 \002(\005\022\r\n\005tbPay\030\005 \002(\005\022\016\n\006tbGa" +
       "in\030\006 \002(\005\022\r\n\005ybPay\030\007 \002(\005\022\016\n\006ybGain\030\010 \002(\005\022" +
       "1\n\tmobaiGain\030\t \001(\0132\036.qxmobile.protobuf.E" +
-      "xploreResp\"\027\n\010MoBaiReq\022\013\n\003cmd\030\001 \002(\005B\014B\nM" +
-      "oBaiProto"
+      "xploreResp\022\020\n\010bigStep0\030\n \002(\005\022\020\n\010bigStep1" +
+      "\030\013 \002(\005\022\020\n\010bigStep2\030\014 \002(\005\"\027\n\010MoBaiReq\022\013\n\003" +
+      "cmd\030\001 \002(\005B\014B\nMoBaiProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2049,7 +2413,7 @@ public final class MoBaiProto {
           internal_static_qxmobile_protobuf_MoBaiInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_MoBaiInfo_descriptor,
-              new java.lang.String[] { "TongBiOpen", "YuanBaoOpen", "YuOpen", "BuffCount", "TbPay", "TbGain", "YbPay", "YbGain", "MobaiGain", });
+              new java.lang.String[] { "TongBiOpen", "YuanBaoOpen", "YuOpen", "BuffCount", "TbPay", "TbGain", "YbPay", "YbGain", "MobaiGain", "BigStep0", "BigStep1", "BigStep2", });
           internal_static_qxmobile_protobuf_MoBaiReq_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_MoBaiReq_fieldAccessorTable = new

@@ -17,7 +17,7 @@
 <%@page import="com.qx.account.FunctionOpenMgr"%>
 <%@page import="com.manu.network.SessionUser"%>
 <%@page import="com.manu.network.SessionManager"%>
-<%@page import="com.qx.battle.PveMgr"%>
+<%@page import="com.qx.pve.PveMgr"%>
 <%@page import="com.qx.junzhu.JunZhuMgr"%>
 <%@page import="com.manu.dynasty.base.TempletService"%>
 <%@page import="com.manu.dynasty.template.ExpTemp"%>
@@ -145,6 +145,16 @@ do{
 		 YouXiaBean yxb = yxBeanMap.get(3);
 		 yxb.times += v;
 		 HibernateUtil.save(yxb);
+	 }else if("add4".equals(action)){
+		 int v = Integer.parseInt(request.getParameter("v"));
+		 YouXiaBean yxb = yxBeanMap.get(4);
+		 yxb.times += v;
+		 HibernateUtil.save(yxb);
+	 }else if("addJingqi".equals(action)){
+		 int v = Integer.parseInt(request.getParameter("v"));
+		 YouXiaBean yxb = yxBeanMap.get(5);
+		 yxb.times += v;
+		 HibernateUtil.save(yxb);
 	 }else if("updateJinbi".equals(action)){
 		 String dayStr = request.getParameter("v");
 		 YouXiaMgr.inst.youxiaOpenTimeMap.get(1).OpenDay = dayStr;
@@ -154,12 +164,22 @@ do{
 	 }else if("updateJingqi".equals(action)){
 		 String dayStr = request.getParameter("v");
 		 YouXiaMgr.inst.youxiaOpenTimeMap.get(3).OpenDay = dayStr;
+	 }else if("update4".equals(action)){
+		 String dayStr = request.getParameter("v");
+		 YouXiaMgr.inst.youxiaOpenTimeMap.get(4).OpenDay = dayStr;
+	 }else if("update5".equals(action)){
+		 String dayStr = request.getParameter("v");
+		 YouXiaMgr.inst.youxiaOpenTimeMap.get(5).OpenDay = dayStr;
 	 }else if("updateJinbiTime".equals(action)){
 		 updateLastBattleTime(request.getParameter("v"), 1, yxBeanMap);
 	 }else if("updateCailiaoTime".equals(action)){
 		 updateLastBattleTime(request.getParameter("v"), 2, yxBeanMap);
 	 }else if("updateJingqiTime".equals(action)){
 		 updateLastBattleTime(request.getParameter("v"), 3, yxBeanMap);
+	 }else if("update4Time".equals(action)){
+		 updateLastBattleTime(request.getParameter("v"), 4, yxBeanMap);
+	 }else if("update5Time".equals(action)){
+		 updateLastBattleTime(request.getParameter("v"), 5, yxBeanMap);
 	 }else {
 		 sendInfo = false;
 	 }
@@ -199,6 +219,18 @@ do{
 	 	td(YouXiaMgr.inst.youxiaOpenTimeMap.get(3).OpenDay);td("<input type='text' id='updateJingqi' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateJingqi\")'/><br/>");//out.println("<a href='?action=addYuanBao'>+100</a><br/>");
 	 	td(yxBeanMap.get(3).lastBattleTime == null ? "从未挑战过" : simpleDateFormat.format(yxBeanMap.get(3).lastBattleTime));
 	 	td("<input type='text' id='updateJingqiTime' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateJingqiTime\")'/><br/>");
+	 trE();
+
+	 trS();td("完璧归赵");td(yxBeanMap.get(4).times);td("<input type='text' id='add4' value='"+input+"'/><input type='button' value='增加' onclick='go(\"add4\")'/><br/>");
+	 	td(YouXiaMgr.inst.youxiaOpenTimeMap.get(4).OpenDay);td("<input type='text' id='updateJingqi' value='"+input+"'/><input type='button' value='修改' onclick='go(\"update4\")'/><br/>");//out.println("<a href='?action=addYuanBao'>+100</a><br/>");
+	 	td(yxBeanMap.get(4).lastBattleTime == null ? "从未挑战过" : simpleDateFormat.format(yxBeanMap.get(4).lastBattleTime));
+	 	td("<input type='text' id='update4Time' value='"+input+"'/><input type='button' value='修改' onclick='go(\"update4Time\")'/><br/>");
+	 trE();
+
+	 trS();td("横扫六合");td(yxBeanMap.get(5).times);td("<input type='text' id='add5' value='"+input+"'/><input type='button' value='增加' onclick='go(\"add5\")'/><br/>");
+	 	td(YouXiaMgr.inst.youxiaOpenTimeMap.get(5).OpenDay);td("<input type='text' id='updateJingqi' value='"+input+"'/><input type='button' value='修改' onclick='go(\"update5\")'/><br/>");//out.println("<a href='?action=addYuanBao'>+100</a><br/>");
+	 	td(yxBeanMap.get(5).lastBattleTime == null ? "从未挑战过" : simpleDateFormat.format(yxBeanMap.get(5).lastBattleTime));
+	 	td("<input type='text' id='update5Time' value='"+input+"'/><input type='button' value='修改' onclick='go(\"update5Time\")'/><br/>");
 	 trE();
 	 tableEnd();
 	 br();

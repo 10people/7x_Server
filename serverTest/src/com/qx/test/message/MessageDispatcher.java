@@ -1,7 +1,12 @@
 package com.qx.test.message;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.mina.core.session.IoSession;
 
+import pct.TestBase;
+import pct.TestJiNengPeiYang;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 
 import com.google.protobuf.MessageLite.Builder;
@@ -19,10 +24,17 @@ public class MessageDispatcher {
 		super();
 		this.client = c;
 	}
-
+	public static Map<Integer, TestBase> handlerMap = new HashMap<Integer, TestBase>();
+	public static void listen(int id, TestBase tb){
+		handlerMap.put(id, tb);
+	}
 	public  void msgDispatcher(int id, Builder builder, IoSession session) {
 		try {
 			switch (id) {
+			case PD.S_ERROR:
+				ErrorMessage.Builder em = (qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder) builder;
+				System.out.println("服务器返回错误信息:"+em.getCmd()+","+em.getErrorDesc());
+				break;
 			case PD.ACC_REG_RET:
 				client.regResult(session, builder);
 				break;
@@ -34,6 +46,9 @@ public class MessageDispatcher {
 				break;
 			case PD.CREATE_ROLE_RESPONSE:
 				client.createRoleRet(builder);
+				break;
+			case PD.S_InitProc:
+				client.antiCheat(builder);
 				break;
 			case PD.Enter_Scene_Confirm:
 				client.enterSceneRet(builder);
@@ -53,7 +68,15 @@ public class MessageDispatcher {
 			case PD.JunZhuInfoRet:
 				WuJiangTest.readJunZhuInfo(session, builder);
 				break;
+			case PD.S_GET_JINENG_PEIYANG_QUALITY_RESP:
+				TestJiNengPeiYang.readList(session,builder);
+				break;
 			default:
+				TestBase tb = handlerMap.get(id);
+				if(tb != null){
+					tb.handle(id, session, builder);
+					break;
+				}
 				if(client.log)System.out.println("未处理的消息:"+id+"->"+(builder == null ? "" : 
 					builder.getDefaultInstanceForType().getClass().getSimpleName())
 					);

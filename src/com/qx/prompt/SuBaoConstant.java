@@ -11,8 +11,8 @@ public class SuBaoConstant {
 	/**玩家的镖马被攻打，系统自动发消息 (给盟友)       **/
 	public static final int mcbd_toOther=102 ;
 	
-	/**玩家的镖马出发，系统自动发消息(给自己)           **/
-	public static  final int mccf_toSelf=103 ;
+	/**马车出发，系统自动发消息(给自己)           **/
+	public static  final int mccf_toSelf=103 ;//此id废弃 2015年12月24日策划拆成2个事件 2015年12月24日15:30:08恢复马车出发发给自己
 	
 	/**玩家的镖马出发，系统自动发消息(给未加入协助的盟友)           **/
 	public static  final int mccf_toOther=104 ;
@@ -35,15 +35,28 @@ public class SuBaoConstant {
 	public static final int xzsb=112;
 	/**击杀仇人                                 **/       	
 	public static final int jscr=113;         
+	/**击杀仇人马车                                 **/       	
+	public static final int djcr_toSelf=114;         
+	/**击杀非仇人 马车                                **/       	
+	public static final int djfcr_toSelf=115;         
+	/**加入协助成功给自己                               **/       	
+	public static final int jionxz_toSelf=116;         
 	
 	public static final int lveDuo_fail_event = 201;
 	public static final int been_lveDuo_event = 202;
 	public static final int lveDuo_comfort_event = 203;
 	
-	//// 1-忽略， 2- 祝福， 3- 安慰， 4 -领奖  5-前往
+//	0：无按钮
+//	1：忽略
+//	2：前往
+//	3：祝福
+//	4：安慰
+//	5：领取
+//	6：知道了
 	public static final int ignore = 1;
-	public static final int bless = 2;
-	public static final int comfort = 3;
-	public static final int getAward = 4;
-	public static final int go = 5;
+	public static final int go = 2;
+	public static final int bless = 3;
+	public static final int comfort = 4;
+	public static final int getAward= 5;
+	public static final int iKnow= 6;
 }

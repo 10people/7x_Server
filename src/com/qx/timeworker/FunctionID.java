@@ -29,10 +29,13 @@ public class FunctionID {
 	public static int baizhan = 300100;
 	// 铜币膜拜
 	public static int tongBiMoBai = 400010;
+	public static int JiNengJinJie = 500007;
 	// 进阶
 	public static int jinJie = 1211;
 	// 秘宝升级
 	public static int miBaoShengJi = 600;
+	// 秘宝技能激活
+	public static int miBaoJiNeng = 610;
 	// lianmeng
 	public static int alliance = 410000;
 	// 联盟事件
@@ -44,7 +47,9 @@ public class FunctionID {
 	public static int tanBao_free = 1101;		// 免费单抽
 	public static int tanBao_sigle_free = 1102; // 付费单抽的免费
 	
-	public static int lveDuo = 211;		//掠夺
+	public static int lveDuo = 211; //掠夺
+	public static int LueDuoJiLu = 220;		//战争-掠夺-历史记录
+	public static int LueDuoCiShu = 215; //战争-掠夺-剩余次数
 
 	public static int youxiang_system = 41;	// 邮箱-系统
 	public static int youxiang_person = 10; // 邮箱 -私信
@@ -52,7 +57,11 @@ public class FunctionID {
 	public static int yabiao = 310; //押镖
 	public static int yabiao_history = 313;		//押镖-历史记录
 	public static int yabiao_enemy = 315;//押镖-仇人
+	public static int yabiao_ciShu = 312; //战争-行镖-剩余次数
 	
+	public static final int chuZheng_zhanDou = 8;
+	public static final int shi_lian = 250;
+	public static final int fengShan = 400010;//TODO 带策划配置ID
 	
 	//推送某功能红点可以出现 和前段约定code为负数时红点消失
 	public static void pushCanShangjiao(long jzId,IoSession session,int Code){

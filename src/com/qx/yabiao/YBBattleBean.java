@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "YBBattleBean")
+@Table(name = "YBBattleBean29")
 public class YBBattleBean {//押镖战斗相关数据存储
 	@Id
 	public long jzId;
@@ -25,7 +25,13 @@ public class YBBattleBean {//押镖战斗相关数据存储
 	public int fuhuo4uesd;//当日已用满血复活次数
 	public int buyfuhuo4Vip;//当日购买复活次数 第n次
 	public int fuhuoTimes4Vip;//当日购买的复活次数 总数
+	
 	public int xueping4uesd;//当日血瓶使用次数
+	public int buyblood4Vip;//当日购买血瓶次数 第n次
+	public int bloodTimes4Vip;//当日购买的血瓶次数 总数
+	
+	public int reviveOnDeadPos;
+	public Date lastReviveOnDeadPosTime;
 	
 	public Date lastResetTime;
 	@Column(nullable = false, columnDefinition = "int default -1")

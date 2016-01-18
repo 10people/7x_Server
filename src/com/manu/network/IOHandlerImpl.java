@@ -21,6 +21,7 @@ import com.qx.huangye.HYTreasure;
 import com.qx.junzhu.JunZhu;
 import com.qx.log.LogMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.world.Scene;
 
 public class IOHandlerImpl implements IoHandler  {
 	public static IOHandlerImpl inst = new IOHandlerImpl();
@@ -127,6 +128,11 @@ public class IOHandlerImpl implements IoHandler  {
 				long OnlineTime = (System.currentTimeMillis() - session.getCreationTime())/1000;
 				OurLog.log.PlayerLogout(OnlineTime, junzhu.level, 0, String.valueOf(junZhuId));
 				CunLiangLog.inst.logout(junZhuId, OnlineTime, junzhu.tongBi);
+			}
+			
+			Scene scene = (Scene) session.getAttribute(SessionAttKey.Scene);
+			if(scene != null && scene.name.contains("YB")) {
+				scene.saveExitYBInfo(junzhu.id);
 			}
 		}
 	}

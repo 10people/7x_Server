@@ -39,4 +39,6 @@ public class YBType {
 	public static final int YB_BUY_HUANGYE__BATTLE = 129;
 	public static final int YB_CHANGE_COUNTRY = 130;	//转国购买转国令
 	public static final int YB_DEAD_POS_REVIVE = 131;	//死亡地点复活
+	public static final int YB_All_LIFE_REVIVE = 132;	//满血复活
+	public static final int WORLD_CHAT = 133;	//广播频道聊天
 }

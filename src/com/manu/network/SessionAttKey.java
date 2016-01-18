@@ -15,6 +15,7 @@ public class SessionAttKey {
 	public static final String buZhenWuJiangIds = "buZhenWuJiangIds";
 	public static final String buZhenMibaoIds = "buZhenMibaoIds";
 	public static final String LAST_CHAT_KEY = "lastChatKey";
+	public static final String LAST_ASKYBHLEP_KEY = "lastAskybHlepKey";
 	public static final String LAST_SEND_EMAIL_KEY = "lastSendEmailKey";
 	public static final String LAST_ANSWER_YBHELP_KEY = "lastAnswerYbhelpKey";
 	public static final String NEW_PLAYER_GUOJIA_TUIJIAN = "newPlayerGuojia";

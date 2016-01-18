@@ -84,7 +84,7 @@ public class ActivityMgr extends EventProc{
 				ac.setId(huoDong.getId());
 				switch (huoDong.getId()) {
 				case ACT_QIANDAO:// 每日登录奖励
-					QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,	"where junzhuId=" + junZhu.id + "");
+					QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,	 junZhu.id );
 					if (QiandaoMgr.instance.hasAlreadyQiandao(qiandaoInfo)) {
 						if (QiandaoMgr.instance.canBuQian(junZhu.id,qiandaoInfo)) {// 今天是否可以补签
 							ac.setState(ACTIVITY_NOT_FINISH);

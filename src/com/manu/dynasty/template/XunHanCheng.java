@@ -2,7 +2,7 @@ package com.manu.dynasty.template;
 
 import com.qx.world.GameObject;
 
-public class XunHanCheng implements GameObject{
+public class XunHanCheng extends GameObject{
 	private int id;
 	private int icon;
 	private String name; 
@@ -26,6 +26,53 @@ public class XunHanCheng implements GameObject{
 	private int weapon2;
 	private int weapon3;
 	public int model;
+	private int pugongHeavy;
+	private int skill1Heavy;
+	private int skill2Heavy;
+	private int pugongLight;
+	private int skill1Light;
+	private int skill2Light;
+	private int pugongRange;
+	private int skill1Range;
+	private int skill2Range;
+	
+	@Override
+	public int getPugongHeavy() {
+		return pugongHeavy;
+	}
+	@Override
+	public int getSkill1Heavy() {
+		return skill1Heavy;
+	}
+	@Override
+	public int getSkill2Heavy() {
+		return skill2Heavy;
+	}
+	@Override
+	public int getPugongLight() {
+		return pugongLight;
+	}
+	@Override
+	public int getSkill1Light() {
+		return skill1Light;
+	}
+	@Override
+	public int getSkill2Light() {
+		return skill2Light;
+	}
+	@Override
+	public int getPugongRange() {
+		return pugongRange;
+	}
+	@Override
+	public int getSkill1Range() {
+		return skill1Range;
+	}
+	@Override
+	public int getSkill2Range() {
+		return skill2Range;
+	}
+
 	public long getId() {
 		return id;
 	}

@@ -78,4 +78,6 @@ public class PvpBean{
 	public int leiJiWeiWang; //生产奖励累计威望值
 	public int getProduceWeiWangTimes = 0; // 累计领取威望奖励的次数
 
+//	public int dailyaward;
+	public int rankAward; // 累计的最高排名奖励
 }

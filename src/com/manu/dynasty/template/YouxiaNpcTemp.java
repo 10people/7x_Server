@@ -16,4 +16,7 @@ public class YouxiaNpcTemp {
 //	public int icon;
 //	public int level;
 	public int droptype;
+	public int ifTeammate;
+	public int lifebarNum = 1;
+	public int modelApID;
 }

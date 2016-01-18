@@ -1,3 +1,20 @@
+<%@page import="com.qx.junzhu.JunZhuMgr"%>
+<%@page import="qxmobile.protobuf.JunZhuProto.JunZhuInfoRet"%>
+<%@page import="com.qx.persistent.MC"%>
+<%@page import="com.qx.account.FunctionOpenMgr"%>
+<%@page import="com.manu.dynasty.store.MemcachedCRUD"%>
+<%@page import="com.manu.dynasty.util.MathUtils"%>
+<%@page import="com.qx.ranking.RankingGongJinMgr"%>
+<%@page import="qxmobile.protobuf.Ranking.GongJinInfo"%>
+<%@page import="com.qx.task.DailyTaskMgr"%>
+<%@page import="com.qx.task.DailyTaskBean"%>
+<%@page import="com.qx.task.WorkTaskBean"%>
+<%@page import="com.qx.task.GameTaskMgr"%>
+<%@page import="com.manu.dynasty.template.ZhuXian"%>
+<%@page import="com.qx.mibao.MiBaoSkillDB"%>
+<%@page import="java.util.Date"%>
+<%@page import="com.qx.alliance.AlliancePlayer"%>
+<%@page import="com.qx.alliance.AllianceBean"%>
 <%@page import="com.manu.dynasty.store.Redis"%>
 <%@page import="com.qx.bag.BagGrid"%>
 <%@page import="com.qx.bag.Bag"%>
@@ -121,7 +138,7 @@
 					URL url = new URL("http://192.168.3.80:8090/qxrouter/accountReg.jsp?name="+ accName + "&pwd=" + accPwd + "");
 					HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 					InputStream in = conn.getInputStream();
-					BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+					BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 					StringBuffer buffer = new StringBuffer();
 					do {
 						String line = reader.readLine();
@@ -172,10 +189,39 @@
 							/**复制角色信息**/
 							long newId = newJunZhu.id;
 							String newName = newJunZhu.name;
+							
 							newJunZhu = junzhu.clone();
 							newJunZhu.id = newId;
 							newJunZhu.name = newName;
+							newJunZhu.level = junzhu.level;
 							HibernateUtil.save(newJunZhu);
+							// JunZhuInfoRet.Builder jzbuilder = JunZhuMgr.inst.buildMainInfo(newJunZhu,new RobotSession());
+							// JunZhuMgr.jzInfoCache.put(newJunZhu.id, jzbuilder);
+							
+							// 主线
+							List<WorkTaskBean> taskList = GameTaskMgr.inst.getTaskList(junzhu.id);
+							int maxid = 0;
+							for(WorkTaskBean b: taskList){
+								maxid = MathUtils.getMax(b.tid, maxid);
+								b.dbId = newId * GameTaskMgr.spaceFactor + b.dbId % GameTaskMgr.spaceFactor;
+								HibernateUtil.insert(b);
+							}
+							MemcachedCRUD.getMemCachedClient().set(FunctionOpenMgr.awardRenWuOverIdKey+newId, maxid);
+							MemcachedCRUD.getMemCachedClient().set(FunctionOpenMgr.REN_WU_OVER_ID+newId, maxid);
+							// 每日任务
+							List<DailyTaskBean> dtaskL = DailyTaskMgr.INSTANCE.getDailyTasks(junzhu.id);
+                            for(DailyTaskBean b: dtaskL){
+                                b.dbId = newId * DailyTaskMgr.space + (b.dbId % DailyTaskMgr.space);
+                                HibernateUtil.insert(b);
+                            }
+							/*联盟*/
+							AlliancePlayer oldA = HibernateUtil.find(AlliancePlayer.class,  junzhu.id);
+							if(oldA != null){
+								oldA.title = 0;
+								oldA.junzhuId = newId;
+								HibernateUtil.insert(oldA);
+							}
+							
 							/**复制联盟贡献**/
 							AllianceGongXianRecord allianceGongXianRecord = HibernateUtil.find(AllianceGongXianRecord.class, junzhu.id);
 							if(allianceGongXianRecord!=null){
@@ -273,6 +319,13 @@
 								mibao.setOwnerId(newJunZhu.id);
 								HibernateUtil.insert(mibao);
 							}
+							MiBaoSkillDB mk = HibernateUtil.find(MiBaoSkillDB.class,"where jId="+junzhu.id);
+							if(mk != null){
+								mk.id = TableIDCreator.getTableID(MiBaoSkillDB.class, 1);
+								mk.jId = newId;
+								HibernateUtil.insert(mk);
+							}
+							
 							/**mibaolevelpoint**/
 							MibaoLevelPoint mibaoLevelPoint = HibernateUtil.find(MibaoLevelPoint.class,junzhu.id);
 							if(mibaoLevelPoint!=null){
@@ -411,6 +464,10 @@
 							for(String id:list){
 								Redis.getInstance().lpush_(FuwenMgr.CACHE_FUWEN_LANWEI + newJunZhu.id, id);
 							}
+							
+							// 贡金
+							RankingGongJinMgr.inst.addGongJin(newId, 1000);
+							%>复制ok<%
 							}catch(Exception e){
 								%>复制出错<%
 							}
@@ -429,6 +486,9 @@
 								<tr>
 									<th>君主名：</th><td><%=newJunZhu.name %></td>
 								</tr>
+								<tr>
+                                    <th>君主level：</th><td><%=newJunZhu.level %></td>
+                                </tr>
 							</table>
 							<%
 						} else{

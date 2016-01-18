@@ -740,6 +740,24 @@ public final class PawnShop {
      * </pre>
      */
     int getCount();
+
+    // required int32 goodsType = 3;
+    /**
+     * <code>required int32 goodsType = 3;</code>
+     *
+     * <pre>
+     * 1-背包， 2-秘宝
+     * </pre>
+     */
+    boolean hasGoodsType();
+    /**
+     * <code>required int32 goodsType = 3;</code>
+     *
+     * <pre>
+     * 1-背包， 2-秘宝
+     * </pre>
+     */
+    int getGoodsType();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.SellGoodsInfo}
@@ -800,6 +818,11 @@ public final class PawnShop {
             case 16: {
               bitField0_ |= 0x00000002;
               count_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              goodsType_ = input.readInt32();
               break;
             }
           }
@@ -890,9 +913,34 @@ public final class PawnShop {
       return count_;
     }
 
+    // required int32 goodsType = 3;
+    public static final int GOODSTYPE_FIELD_NUMBER = 3;
+    private int goodsType_;
+    /**
+     * <code>required int32 goodsType = 3;</code>
+     *
+     * <pre>
+     * 1-背包， 2-秘宝
+     * </pre>
+     */
+    public boolean hasGoodsType() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 goodsType = 3;</code>
+     *
+     * <pre>
+     * 1-背包， 2-秘宝
+     * </pre>
+     */
+    public int getGoodsType() {
+      return goodsType_;
+    }
+
     private void initFields() {
       bagId_ = 0L;
       count_ = 0;
+      goodsType_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -904,6 +952,10 @@ public final class PawnShop {
         return false;
       }
       if (!hasCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGoodsType()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -919,6 +971,9 @@ public final class PawnShop {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(2, count_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, goodsType_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -936,6 +991,10 @@ public final class PawnShop {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, count_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, goodsType_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1057,6 +1116,8 @@ public final class PawnShop {
         bitField0_ = (bitField0_ & ~0x00000001);
         count_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
+        goodsType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -1093,6 +1154,10 @@ public final class PawnShop {
           to_bitField0_ |= 0x00000002;
         }
         result.count_ = count_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.goodsType_ = goodsType_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1115,6 +1180,9 @@ public final class PawnShop {
         if (other.hasCount()) {
           setCount(other.getCount());
         }
+        if (other.hasGoodsType()) {
+          setGoodsType(other.getGoodsType());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -1125,6 +1193,10 @@ public final class PawnShop {
           return false;
         }
         if (!hasCount()) {
+          
+          return false;
+        }
+        if (!hasGoodsType()) {
           
           return false;
         }
@@ -1244,6 +1316,55 @@ public final class PawnShop {
       public Builder clearCount() {
         bitField0_ = (bitField0_ & ~0x00000002);
         count_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 goodsType = 3;
+      private int goodsType_ ;
+      /**
+       * <code>required int32 goodsType = 3;</code>
+       *
+       * <pre>
+       * 1-背包， 2-秘宝
+       * </pre>
+       */
+      public boolean hasGoodsType() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 goodsType = 3;</code>
+       *
+       * <pre>
+       * 1-背包， 2-秘宝
+       * </pre>
+       */
+      public int getGoodsType() {
+        return goodsType_;
+      }
+      /**
+       * <code>required int32 goodsType = 3;</code>
+       *
+       * <pre>
+       * 1-背包， 2-秘宝
+       * </pre>
+       */
+      public Builder setGoodsType(int value) {
+        bitField0_ |= 0x00000004;
+        goodsType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 goodsType = 3;</code>
+       *
+       * <pre>
+       * 1-背包， 2-秘宝
+       * </pre>
+       */
+      public Builder clearGoodsType() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        goodsType_ = 0;
         onChanged();
         return this;
       }
@@ -4499,7 +4620,7 @@ public final class PawnShop {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     *0-成功，1-元宝不足，2-联盟贡献不足，3-铜币不足
+     *0-成功，1-元宝不足，2-联盟贡献不足，3-铜币不足，4-如果购买的是虎符，表示vip等级不够
      * </pre>
      */
     boolean hasResult();
@@ -4507,7 +4628,7 @@ public final class PawnShop {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     *0-成功，1-元宝不足，2-联盟贡献不足，3-铜币不足
+     *0-成功，1-元宝不足，2-联盟贡献不足，3-铜币不足，4-如果购买的是虎符，表示vip等级不够
      * </pre>
      */
     int getResult();
@@ -4688,7 +4809,7 @@ public final class PawnShop {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     *0-成功，1-元宝不足，2-联盟贡献不足，3-铜币不足
+     *0-成功，1-元宝不足，2-联盟贡献不足，3-铜币不足，4-如果购买的是虎符，表示vip等级不够
      * </pre>
      */
     public boolean hasResult() {
@@ -4698,7 +4819,7 @@ public final class PawnShop {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     *0-成功，1-元宝不足，2-联盟贡献不足，3-铜币不足
+     *0-成功，1-元宝不足，2-联盟贡献不足，3-铜币不足，4-如果购买的是虎符，表示vip等级不够
      * </pre>
      */
     public int getResult() {
@@ -5089,7 +5210,7 @@ public final class PawnShop {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       *0-成功，1-元宝不足，2-联盟贡献不足，3-铜币不足
+       *0-成功，1-元宝不足，2-联盟贡献不足，3-铜币不足，4-如果购买的是虎符，表示vip等级不够
        * </pre>
        */
       public boolean hasResult() {
@@ -5099,7 +5220,7 @@ public final class PawnShop {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       *0-成功，1-元宝不足，2-联盟贡献不足，3-铜币不足
+       *0-成功，1-元宝不足，2-联盟贡献不足，3-铜币不足，4-如果购买的是虎符，表示vip等级不够
        * </pre>
        */
       public int getResult() {
@@ -5109,7 +5230,7 @@ public final class PawnShop {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       *0-成功，1-元宝不足，2-联盟贡献不足，3-铜币不足
+       *0-成功，1-元宝不足，2-联盟贡献不足，3-铜币不足，4-如果购买的是虎符，表示vip等级不够
        * </pre>
        */
       public Builder setResult(int value) {
@@ -5122,7 +5243,7 @@ public final class PawnShop {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       *0-成功，1-元宝不足，2-联盟贡献不足，3-铜币不足
+       *0-成功，1-元宝不足，2-联盟贡献不足，3-铜币不足，4-如果购买的是虎符，表示vip等级不够
        * </pre>
        */
       public Builder clearResult() {
@@ -5336,19 +5457,19 @@ public final class PawnShop {
     java.lang.String[] descriptorData = {
       "\n\016Pawnshop.proto\022\021qxmobile.protobuf\"H\n\021P" +
       "awnShopGoodsSell\0223\n\tsellGinfo\030\001 \003(\0132 .qx" +
-      "mobile.protobuf.SellGoodsInfo\"-\n\rSellGoo" +
-      "dsInfo\022\r\n\005bagId\030\001 \002(\003\022\r\n\005count\030\002 \002(\005\"\263\001\n" +
-      "\021PawnshopGoodsList\0220\n\nnormalInfo\030\001 \003(\0132\034" +
-      ".qxmobile.protobuf.GoodsInfo\0220\n\nsecretIn" +
-      "fo\030\002 \003(\0132\034.qxmobile.protobuf.GoodsInfo\022\023" +
-      "\n\013refreshCost\030\003 \002(\005\022\023\n\013refreshTime\030\004 \002(\005" +
-      "\022\020\n\010gongXian\030\005 \002(\005\".\n\tGoodsInfo\022\016\n\006itemI" +
-      "d\030\001 \002(\005\022\021\n\tisSoldOut\030\002 \002(\010\"$\n\022PawnshopRe",
-      "feshResp\022\016\n\006result\030\001 \002(\005\"0\n\020PawnshopGood" +
-      "sBuy\022\014\n\004type\030\001 \002(\005\022\016\n\006itemId\030\002 \002(\005\"Z\n\024Pa" +
-      "wnshopGoodsBuyResp\022\016\n\006result\030\001 \002(\005\022\014\n\004ty" +
-      "pe\030\002 \002(\005\022\016\n\006itemId\030\003 \002(\005\022\024\n\014contribution" +
-      "\030\004 \001(\005B\nB\010PawnShop"
+      "mobile.protobuf.SellGoodsInfo\"@\n\rSellGoo" +
+      "dsInfo\022\r\n\005bagId\030\001 \002(\003\022\r\n\005count\030\002 \002(\005\022\021\n\t" +
+      "goodsType\030\003 \002(\005\"\263\001\n\021PawnshopGoodsList\0220\n" +
+      "\nnormalInfo\030\001 \003(\0132\034.qxmobile.protobuf.Go" +
+      "odsInfo\0220\n\nsecretInfo\030\002 \003(\0132\034.qxmobile.p" +
+      "rotobuf.GoodsInfo\022\023\n\013refreshCost\030\003 \002(\005\022\023" +
+      "\n\013refreshTime\030\004 \002(\005\022\020\n\010gongXian\030\005 \002(\005\".\n" +
+      "\tGoodsInfo\022\016\n\006itemId\030\001 \002(\005\022\021\n\tisSoldOut\030",
+      "\002 \002(\010\"$\n\022PawnshopRefeshResp\022\016\n\006result\030\001 " +
+      "\002(\005\"0\n\020PawnshopGoodsBuy\022\014\n\004type\030\001 \002(\005\022\016\n" +
+      "\006itemId\030\002 \002(\005\"Z\n\024PawnshopGoodsBuyResp\022\016\n" +
+      "\006result\030\001 \002(\005\022\014\n\004type\030\002 \002(\005\022\016\n\006itemId\030\003 " +
+      "\002(\005\022\024\n\014contribution\030\004 \001(\005B\nB\010PawnShop"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5366,7 +5487,7 @@ public final class PawnShop {
           internal_static_qxmobile_protobuf_SellGoodsInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_SellGoodsInfo_descriptor,
-              new java.lang.String[] { "BagId", "Count", });
+              new java.lang.String[] { "BagId", "Count", "GoodsType", });
           internal_static_qxmobile_protobuf_PawnshopGoodsList_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_PawnshopGoodsList_fieldAccessorTable = new

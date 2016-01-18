@@ -46,7 +46,6 @@ import com.qx.achievement.AchievementConstants;
 import com.qx.bag.Bag;
 import com.qx.bag.EquipGrid;
 import com.qx.bag.EquipMgr;
-import com.qx.battle.PveMgr;
 import com.qx.event.ED;
 import com.qx.event.EventMgr;
 import com.qx.jingmai.JmBean;
@@ -54,6 +53,7 @@ import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.persistent.MC;
+import com.qx.pve.PveMgr;
 import com.qx.world.Mission;
 
 /**

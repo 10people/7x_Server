@@ -40,4 +40,5 @@ public class YouXiaBean {
 	 * 历史总共赢得次数
 	 */
 	public int allWinTimes;
+	public int allBattleTimes;
 }

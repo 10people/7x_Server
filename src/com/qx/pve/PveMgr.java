@@ -1,4 +1,4 @@
-package com.qx.battle;
+package com.qx.pve;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import log.ActLog;
+import log.OurLog;
 
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
@@ -17,7 +20,9 @@ import qxmobile.protobuf.BattlePveInit.Hero;
 import qxmobile.protobuf.BattlePveInit.HeroType;
 import qxmobile.protobuf.BattlePveInit.Soldier;
 import qxmobile.protobuf.BattlePveInit.Troop;
+import qxmobile.protobuf.PveLevel.PveBattleOver;
 import qxmobile.protobuf.ZhanDou;
+import qxmobile.protobuf.ZhanDou.DroppenItem;
 import qxmobile.protobuf.ZhanDou.Group;
 import qxmobile.protobuf.ZhanDou.LevelType;
 import qxmobile.protobuf.ZhanDou.Node;
@@ -32,11 +37,14 @@ import qxmobile.protobuf.ZhanDou.ZhanDouInitResp;
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.hero.service.HeroService;
+import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.EnemyTemp;
 import com.manu.dynasty.template.GongjiType;
+import com.manu.dynasty.template.GuanQiaJunZhu;
 import com.manu.dynasty.template.HeroGrow;
 import com.manu.dynasty.template.HeroProtoType;
+import com.manu.dynasty.template.JiNengPeiYang;
 import com.manu.dynasty.template.LegendNpcTemp;
 import com.manu.dynasty.template.LegendPveTemp;
 import com.manu.dynasty.template.NpcTemp;
@@ -49,17 +57,24 @@ import com.manu.dynasty.template.ZhuangBei;
 import com.manu.dynasty.util.MathUtils;
 import com.manu.network.BigSwitch;
 import com.manu.network.SessionAttKey;
+import com.qx.award.AwardMgr;
 import com.qx.bag.EquipMgr;
+import com.qx.event.ED;
+import com.qx.event.EventMgr;
 import com.qx.hero.HeroMgr;
 import com.qx.hero.WuJiang;
+import com.qx.jinengpeiyang.JNBean;
+import com.qx.jinengpeiyang.JiNengPeiYangMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.mibao.MiBaoDB;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
-import com.qx.pve.BuZhenMibaoBean;
-import com.qx.pve.PveGuanQiaMgr;
-import com.qx.pve.PveRecord;
+import com.qx.pvp.PvpMgr;
+import com.qx.secure.AntiCheatMgr;
+import com.qx.task.DailyTaskCondition;
+import com.qx.task.DailyTaskConstants;
+import com.qx.util.TableIDCreator;
 import com.qx.world.GameObject;
 
 /**
@@ -71,7 +86,7 @@ import com.qx.world.GameObject;
 public class PveMgr {
 	public static PveMgr inst;
 	public static long godId = 0;
-	public static Logger eLogger = LoggerFactory.getLogger(PveMgr.class);
+	public static Logger logger = LoggerFactory.getLogger(PveMgr.class);
 	public AtomicInteger troopIdMgr = new AtomicInteger(1);
 	public static AtomicInteger battleIdMgr = new AtomicInteger(1);
 	public static int PVE_CHONG_LOU = 100001;
@@ -88,15 +103,16 @@ public class PveMgr {
 	public Map<Integer, LegendPveTemp> legendId2Pve;
 	public Map<Integer, List<NpcTemp>> id2NpcList;
 	public Map<Integer, EnemyTemp> id2Enemy;
+	public Map<Integer, GuanQiaJunZhu> id2GuanQiaJunZhu;
 	public Map<Integer, ShiBing> id2Solder;
 	public Map<Integer, GongjiType> id2GongjiType;
 	public Map<Integer, SkillTemplate> id2SkillTemplate;
 	public Map<Integer, List<LegendNpcTemp>> id2LegendNpcTemp;
 
-	public static Map<Integer, Integer> lastGuanQiaOfZhang =
-			new HashMap<Integer, Integer>();
-	public static Map<Integer, PveBigAward> passAwardMap =
-			new HashMap<Integer, PveBigAward>();
+	public static Map<Integer, Integer> lastGuanQiaOfZhang = new HashMap<Integer, Integer>();
+	public static Map<Integer, PveBigAward> passAwardMap = new HashMap<Integer, PveBigAward>();
+	// 玩家进入战斗前，提前算好怪物掉落奖励  <junZhuId, <postionId, List<AwardTemp>>>
+	public Map<Long, Map<Integer, List<AwardTemp>>> dropAwardMapBefore = new HashMap<Long, Map<Integer,List<AwardTemp>>>();
 	
 	public PveMgr(){
 		inst = this;
@@ -153,6 +169,14 @@ public class PveMgr {
 			id2Enemy.put((int)enemy.getId(), enemy);
 		}
 		this.id2Enemy = id2Enemy;
+
+		list = TempletService.listAll(GuanQiaJunZhu.class.getSimpleName());
+		Map<Integer, GuanQiaJunZhu> id2GuanQiaJunZhu = new HashMap<Integer, GuanQiaJunZhu>();
+		for(Object o : list){
+			GuanQiaJunZhu enemy = (GuanQiaJunZhu)o;
+			id2GuanQiaJunZhu.put((int)enemy.id, enemy);
+		}
+		this.id2GuanQiaJunZhu = id2GuanQiaJunZhu;
 		
 //		list = TempletService.listAll(ShiBing.class.getSimpleName());
 //		Map<Integer, ShiBing> id2Solder = new HashMap<Integer, ShiBing>();
@@ -199,7 +223,7 @@ public class PveMgr {
 	}
 	
 	public void enQueueReq(int code, IoSession session, Builder builder){
-		eLogger.debug("operation code: {}", code);
+		logger.debug("operation code: {}", code);
 		
 		initBattleInfo(code,session,builder);
 	}
@@ -220,8 +244,8 @@ public class PveMgr {
 		hero.setHeroId(0);
 		hero.setHeroTempId(0);
 		HeroMgr.getInstance().initLord(session, hero);
-		eLogger.info("君主攻击{}防御{}血量{}", hero.getAttackValue(),hero.getDefenceValue(),hero.getHpMax());
-		eLogger.info("确认君主是否真的被初始化了 弓形态 {}" , hero.hasWeaponGong());
+		logger.info("君主攻击{}防御{}血量{}", hero.getAttackValue(),hero.getDefenceValue(),hero.getHpMax());
+		logger.info("确认君主是否真的被初始化了 弓形态 {}" , hero.hasWeaponGong());
 		
 		//Soldier.Builder soldier = Soldier.newBuilder();
 		//soldier.setSoldierId(soldierIdMgr.getAndIncrement());
@@ -248,7 +272,7 @@ public class PveMgr {
 			hero = Hero.newBuilder();
 			HeroProtoType type = HeroMgr.id2Hero.get(w.getHeroId());
 			if (type == null) {
-				eLogger.error("武将信息异常，没有对应的武将原型{}", w.getHeroId());
+				logger.error("武将信息异常，没有对应的武将原型{}", w.getHeroId());
 				continue;
 			}
 			hero.setHeroName(HeroService.getNameById(String.valueOf(type.getHeroName())));
@@ -276,14 +300,14 @@ public class PveMgr {
 		
 		PveTemp pveTemp = id2Pve.get(pveId);
 		if (pveTemp == null) {
-			eLogger.error("不存在改关卡 {}",pveId);
+			logger.error("不存在改关卡 {}",pveId);
 			return null;
 		}
 		
 		int npcId = pveTemp.getNpcId();
 		List<NpcTemp> npcs = id2NpcList.get(npcId);
 		if (npcs == null) {
-			eLogger.error("没有对应这个id的NPC：" + String.valueOf(npcId));
+			logger.error("没有对应这个id的NPC：" + String.valueOf(npcId));
 			return null;
 		}
 		
@@ -292,7 +316,7 @@ public class PveMgr {
 			if(enemyId == 0)continue;
 			EnemyTemp enemy = id2Enemy.get(enemyId);
 			if (enemy == null) {
-				eLogger.error("没有对应这个id的enemy：" + String.valueOf(enemyId));
+				logger.error("没有对应这个id的enemy：" + String.valueOf(enemyId));
 				continue;
 			}
 			
@@ -301,7 +325,7 @@ public class PveMgr {
 //			ShiBing shiBing = id2Solder.get(enemy.getShiBingId());
 			ShiBing shiBing = id2Solder.get(21010 );
 			if (shiBing == null) {
-				eLogger.error("没有找到敌人所带的士兵数据敌将id{}", enemy.getId());
+				logger.error("没有找到敌人所带的士兵数据敌将id{}", enemy.getId());
 				return null;
 			}
 			soldier = setSoldierProperties(shiBing, hero);
@@ -322,8 +346,8 @@ public class PveMgr {
 		if(pve){
 			session.setAttribute(SessionAttKey.guanQiaId, pveId);
 		}
-		eLogger.info("君主的弓形态信息：{}",battle.getSelfs(0).getHero().getWeaponDun().getWeaponRatio());
-		eLogger.info("君主的最大的生命值：{}",battle.getSelfs(0).getHero().getHpMax());
+		logger.info("君主的弓形态信息：{}",battle.getSelfs(0).getHero().getWeaponDun().getWeaponRatio());
+		logger.info("君主的最大的生命值：{}",battle.getSelfs(0).getHero().getHpMax());
 		return battle;
 	}
 	
@@ -368,13 +392,13 @@ public class PveMgr {
 	protected ShiBing getSoldierByHeroGrowId(int heroGrowId) {
 		HeroGrow grow = HeroMgr.id2HeroGrow.get(heroGrowId);
 		if (grow == null) {
-			eLogger.error("heroGrow中没有这个id：{}", heroGrowId);
+			logger.error("heroGrow中没有这个id：{}", heroGrowId);
 			return null;
 		}
 		int soldierId = grow.getShiBingId();
 		ShiBing soldier = id2Solder.get(soldierId);
 		if (soldier == null) {
-			eLogger.error("shibing.xml中没有这个id：{}", soldierId);
+			logger.error("shibing.xml中没有这个id：{}", soldierId);
 			return null;
 		}
 		
@@ -423,7 +447,6 @@ public class PveMgr {
 		
 		boolean chuanQiMark = false;
 		PveTemp pveTemp = null;
-		List<? extends NpcTemp> npcList = null;
 		if(req.getLevelType()==LevelType.LEVEL_TALE){
 			pveTemp = legendId2Pve.get(zhangJieId);
 			chuanQiMark = true;
@@ -432,9 +455,11 @@ public class PveMgr {
 		}
 		if(pveTemp == null){
 			sendZhanDouInitError(session, "数据配置错误1");
-			eLogger.error("请求pve章节id错误，zhangJieId:{} 类型{}", zhangJieId,req.getLevelType());
+			logger.error("请求pve章节id错误，zhangJieId:{} 类型{}", zhangJieId,req.getLevelType());
 			return;
 		}
+
+		List<? extends NpcTemp> npcList = null;
 		if(req.getLevelType()==LevelType.LEVEL_TALE){
 			npcList = id2LegendNpcTemp.get(pveTemp.getNpcId());
 		}else{
@@ -442,7 +467,7 @@ public class PveMgr {
 		}
 		if(npcList == null || npcList.size() == 0){
 			sendZhanDouInitError(session, "数据配置错误2");
-			eLogger.error("章节怪物配置为空，zhangjieId:{}, npcId:{}", zhangJieId, pveTemp.getNpcId());
+			logger.error("章节怪物配置为空，zhangjieId:{}, npcId:{}", zhangJieId, pveTemp.getNpcId());
 			return;
 		}
 		
@@ -456,7 +481,7 @@ public class PveMgr {
 		
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
 		if(junZhu == null){
-			eLogger.error("找不到君主，junZhuId:{}", session.getAttribute(SessionAttKey.junZhuId));
+			logger.error("找不到君主，junZhuId:{}", session.getAttribute(SessionAttKey.junZhuId));
 			sendZhanDouInitError(session, "找不到君主");
 			return;
 		}
@@ -471,16 +496,16 @@ public class PveMgr {
 		}
 		
 		if(chuanQiMark) {
-			if(r != null && r.cqPassTimes >= LEGEND_DAY_TIMES){
-				sendZhanDouInitError(session, "传奇关卡每日只可挑战"+LEGEND_DAY_TIMES+"次");
-				eLogger.info("{}传奇关卡次数受限{}",junZhu.id, zhangJieId);
+			if(r != null && r.cqPassTimes >= CanShu.DAYTIMES_LEGENDPVE){
+				sendZhanDouInitError(session, "传奇关卡每日只可挑战"+CanShu.DAYTIMES_LEGENDPVE+"次");
+				logger.info("{}传奇关卡次数受限{}",junZhu.id, zhangJieId);
 				return;
 			}
 		}
 		
 		int useTili = pveTemp.getUseHp();
 		if(junZhu.tiLi < useTili) {
-			eLogger.error("junzhuId:{}体力不足{},zhangJieId:{}", junZhu.id, useTili, zhangJieId);
+			logger.error("junzhuId:{}体力不足{},zhangJieId:{}", junZhu.id, useTili, zhangJieId);
 			sendZhanDouInitError(session, "体力不足，无法进入战斗");
 			return;
 		}
@@ -489,7 +514,7 @@ public class PveMgr {
 			JunZhuMgr.inst.updateTiLi(junZhu, -1, "PVE");
 			HibernateUtil.save(junZhu);
 			JunZhuMgr.inst.sendMainInfo(session);
-			eLogger.info("junzhu:{}进入战斗，扣除1点体力，关卡类型{}", junZhu.name,req.getLevelType());
+			logger.info("junzhu:{}进入战斗，扣除1点体力，关卡类型{}", junZhu.name,req.getLevelType());
 		}
 		
 		ZhanDouInitResp.Builder resp = ZhanDouInitResp.newBuilder();
@@ -497,12 +522,10 @@ public class PveMgr {
 		resp.setMapId(pveTemp.getLandId());
 		resp.setLimitTime(CanShu.MAXTIME_PVE);
 		
-		List<Node> selfs = new ArrayList<Node>();
-		List<Node> enemys = new ArrayList<Node>();
-		int selfFlagId = 1;
-		
 		// 填充己方数据（战斗数据和秘宝信息数据）
+		int selfFlagId = 1;
 		Group.Builder selfTroop = Group.newBuilder();
+		List<Node> selfs = new ArrayList<Node>();
 		BuZhenMibaoBean mibaoBean = HibernateUtil.find(BuZhenMibaoBean.class, junZhu.id);
 		int zuheId = mibaoBean == null ? -1 : mibaoBean.zuheId;
 		fillJunZhuDataInfo(resp, session, selfs, junZhu, selfFlagId, zuheId,selfTroop);
@@ -510,7 +533,8 @@ public class PveMgr {
 		
 		// 填充敌方数据
 		Group.Builder enemyTroop = Group.newBuilder();
-		fillEnemysDataInfo(pveTemp, npcList, enemys, selfs, selfFlagId++);
+		List<Node> enemys = new ArrayList<Node>();
+		fillEnemysDataInfo(pveTemp, npcList, enemys, selfs, selfFlagId++, junZhu.id);
 		enemyTroop.addAllNodes(enemys);
 		enemyTroop.setMaxLevel(999);
 
@@ -521,35 +545,33 @@ public class PveMgr {
 		resp.addStarTemp(pveTemp.getStar1());
 		resp.addStarTemp(pveTemp.getStar2());
 		resp.addStarTemp(pveTemp.getStar3());
+		resp.setStarArrive(r == null ? 0 : r.achieve);
 		session.write(resp.build());
 	}
 	
 	protected void pveInit4ChongLou(IoSession session, PveTemp pveTemp, List<? extends NpcTemp> enemyIdList) {
 		XunHanCheng xunHanCheng = (XunHanCheng) TempletService.listAll(XunHanCheng.class.getSimpleName()).get(0);
 		if(xunHanCheng == null) {
-			eLogger.error("未找到‘重楼’关卡-xunHanCheng配置信息");
+			logger.error("未找到‘重楼’关卡-xunHanCheng配置信息");
 			sendZhanDouInitError(session, "数据配置错误1");
 			return;
 		}
-		int zhandouId = battleIdMgr.incrementAndGet();    //战斗id 后台使用
-		int mapId = pveTemp.getLandId();
-		int selfFlagId = 1;
 		ZhanDouInitResp.Builder resp = ZhanDouInitResp.newBuilder();
-		resp.setZhandouId(zhandouId);
-		resp.setMapId(mapId);
+		resp.setZhandouId(battleIdMgr.incrementAndGet());
+		resp.setMapId(pveTemp.getLandId());
 		resp.setLimitTime(pveTemp.getTime());
-		List<Node> selfs = new ArrayList<ZhanDou.Node>();
-		List<Node> enemys = new ArrayList<ZhanDou.Node>();
 		
 		// 填充己方数据（战斗数据和秘宝信息数据）
+		int selfFlagId = 1;
 		Group.Builder selfTroop = Group.newBuilder();
+		List<Node> selfs = new ArrayList<ZhanDou.Node>();
 		Node.Builder junzhuNode = Node.newBuilder();
-		List<Integer> zbIdList = new ArrayList<Integer>();
+		List<Integer> zbIdList = new ArrayList<Integer>(3);
 		zbIdList.add(xunHanCheng.getWeapon1());
 		zbIdList.add(xunHanCheng.getWeapon2());
 		zbIdList.add(xunHanCheng.getWeapon3());
 		//1.填充己方武器数据
-		fillZhuangbei(junzhuNode, zbIdList);
+		fillZhuangbei4Npc(junzhuNode, zbIdList, xunHanCheng);
 		//2.填充己方其它
 		junzhuNode.addFlagIds(selfFlagId++);
 		junzhuNode.setModleId(xunHanCheng.model);
@@ -562,6 +584,7 @@ public class PveMgr {
 		junzhuNode.setEyeRange(0);// 君主视野 全局，发0
 		junzhuNode.setAttackValue(xunHanCheng.getGongji());
 		junzhuNode.setDefenceValue(xunHanCheng.getFangyu());
+		junzhuNode.setHp(xunHanCheng.getShengming());
 		junzhuNode.setHpMax(xunHanCheng.getShengming());
 		junzhuNode.setAttackAmplify(xunHanCheng.getWqSH());
 		junzhuNode.setAttackReduction(xunHanCheng.getWqJM());
@@ -575,8 +598,9 @@ public class PveMgr {
 		junzhuNode.setCriY(0);
 		junzhuNode.setCriSkillX(0);
 		junzhuNode.setCriSkillY(0);
-		junzhuNode.setHp(junzhuNode.getHpMax());
-		//3.填充己方秘宝列表
+		junzhuNode.setHpNum(1);
+		junzhuNode.setAppearanceId(1);
+//3.填充己方秘宝列表
 //		List<Integer> mibaoIdList = Arrays.asList(xunHanCheng.getMibao1(), 
 //				xunHanCheng.getMibao2(), xunHanCheng.getMibao3());
 //		
@@ -592,72 +616,103 @@ public class PveMgr {
 		fillNpcMibaoDataInfo(xunHanCheng.mibaoZuhe, junzhuNode, xunHanCheng.mibaoZuheLv);
 		selfs.add(junzhuNode.build());
 		selfTroop.setMaxLevel(0);
-		resp.addStarTemp(pveTemp.getStar1());
-		resp.addStarTemp(pveTemp.getStar2());
-		resp.addStarTemp(pveTemp.getStar3());
 		
 		// 填充敌方数据
 		Group.Builder enemyTroop = Group.newBuilder();
-		fillEnemysDataInfo(pveTemp, enemyIdList, enemys, selfs, selfFlagId);
+		List<Node> enemys = new ArrayList<ZhanDou.Node>();
+		fillEnemysDataInfo(pveTemp, enemyIdList, enemys, selfs, selfFlagId, 0);
 		enemyTroop.addAllNodes(enemys);
 		enemyTroop.setMaxLevel(999);
 
 		selfTroop.addAllNodes(selfs);
 		resp.setSelfTroop(selfTroop);
 		resp.setEnemyTroop(enemyTroop);
+		resp.addStarTemp(pveTemp.getStar1());
+		resp.addStarTemp(pveTemp.getStar2());
+		resp.addStarTemp(pveTemp.getStar3());
+		resp.setStarArrive(0);
 		session.write(resp.build());
 	}
 
-	public void fillEnemysDataInfo(PveTemp pveTemp,
-			List<? extends NpcTemp> npcList, List<Node> enemys, List<Node> selfs, int selfFlagId) {
+	public void fillEnemysDataInfo(PveTemp pveTemp, List<? extends NpcTemp> npcList,
+			List<Node> enemys, List<Node> selfs, int selfFlagId, long junzhuId) {
+		Map<Integer, List<AwardTemp>> npcDropAward = new HashMap<Integer, List<AwardTemp>>();
+		int index = 0;
 		for (NpcTemp npcTemp : npcList) {
-			Node.Builder node = Node.newBuilder();
-			EnemyTemp enemyTemp = id2Enemy.get(npcTemp.getEnemyId());
-			if(enemyTemp == null){
-				eLogger.error("enemy表未发现id为:{}的配置", npcTemp.getEnemyId());
-				continue;
-			}
 			NodeType nodeType = NodeType.valueOf(npcTemp.type);
 			if(nodeType == null){
-				eLogger.error("nodeType与npcTemp的type值不一致，npcTemp.type:{}", npcTemp.type);
+				logger.error("nodeType与npcTemp的type值不一致，npcTemp.type:{}", npcTemp.type);
 				continue;
 			}
 			NodeProfession nodeProfession = NodeProfession.valueOf(npcTemp.profession);
 			if(nodeProfession == null) {
-				eLogger.error("nodeProfession与npcTemp的Profession值不一致，npcTemp.Profession:{}", npcTemp.profession);
+				logger.error("nodeProfession与npcTemp的Profession值不一致，npcTemp.Profession:{}", npcTemp.profession);
 				continue;
 			}
-			if(npcTemp.ifTeammate == 1) {
-				node.addFlagIds(selfFlagId++);
+			
+			if(nodeType == NodeType.PLAYER) {	//模拟玩家npc
+				GuanQiaJunZhu guanQiaJunZhu = id2GuanQiaJunZhu.get(npcTemp.enemyId);
+				if(guanQiaJunZhu == null) {
+					logger.error("找不到id:{}的GuanQiaJunZhu配置", npcTemp.enemyId);
+					return;
+				}
+				if(npcTemp.ifTeammate == 1) {
+					PvpMgr.inst.fillNPCDataInfo(selfs, guanQiaJunZhu, selfFlagId++, npcTemp.enemyId);
+				} else {
+					PvpMgr.inst.fillNPCDataInfo(enemys, guanQiaJunZhu, npcTemp.getPosition(), npcTemp.enemyId);
+				}
 			} else {
-				node.addFlagIds(npcTemp.getPosition());
-			}
-			node.setModleId(npcTemp.modelId);//npc模型id
-			node.setNodeType(nodeType);
-			node.setNodeProfession(nodeProfession);
-			node.setHp(enemyTemp.getShengming());
-			node.setNodeName(npcTemp.name+"");
-			GongjiType gongjiType = id2GongjiType.get(npcTemp.gongjiType);
-			fillDataByGongjiType(node, gongjiType);
-			
-			fillGongFangInfo(node, enemyTemp);
-			
-			String skills = npcTemp.skills;
-			if(skills != null && !skills.equals("")){
-				String[] skillList = skills.split(",");
-				for (String s : skillList) {
-					if(s.equals("")){
-						continue;
+				EnemyTemp enemyTemp = id2Enemy.get(npcTemp.getEnemyId());
+				if(enemyTemp == null){
+					logger.error("enemy表未发现id为:{}的配置", npcTemp.getEnemyId());
+					continue;
+				}
+				Node.Builder node = Node.newBuilder();
+				node.setModleId(npcTemp.modelId);//npc模型id
+				node.setNodeType(nodeType);
+				node.setNodeProfession(nodeProfession);
+				node.setHp(enemyTemp.getShengming() * npcTemp.lifebarNum);
+				node.setNodeName(npcTemp.name+"");
+				node.setHpNum(npcTemp.lifebarNum);
+				node.setAppearanceId(npcTemp.modelApID);
+				GongjiType gongjiType = id2GongjiType.get(npcTemp.gongjiType);
+				fillDataByGongjiType(node, gongjiType);
+				fillGongFangInfo(node, enemyTemp);
+				String skills = npcTemp.skills;
+				if(skills != null && !skills.equals("")){
+					String[] skillList = skills.split(",");
+					for (String s : skillList) {
+						if(s.equals("")){
+							continue;
+						}
+						int skillId = Integer.parseInt(s);
+						addNodeSkill(node, skillId);
 					}
-					int skillId = Integer.parseInt(s);
-					addNodeSkill(node, skillId);
+				}
+				List<AwardTemp> npcAwardList = AwardMgr.inst.getHitAwardList(
+						npcTemp.award, ",", "=");
+				npcDropAward.put(npcTemp.position, npcAwardList);
+				int size = npcAwardList.size();
+				for (int i = 0; i < size; i++) {
+					AwardTemp awardTemp = npcAwardList.get(i);
+					DroppenItem.Builder dropItem = DroppenItem.newBuilder();
+					dropItem.setId(index);
+					dropItem.setCommonItemId(awardTemp.getItemId());
+					dropItem.setNum(awardTemp.getItemNum());
+					node.addDroppenItems(dropItem);
+					index++;
+				}
+				if(npcTemp.ifTeammate == 1) {
+					node.addFlagIds(selfFlagId++);
+					selfs.add(node.build());
+				} else {
+					node.addFlagIds(npcTemp.getPosition());
+					enemys.add(node.build());
 				}
 			}
-			if(npcTemp.ifTeammate == 1) {
-				selfs.add(node.build());
-			} else {
-				enemys.add(node.build());
-			}
+		}
+		if(junzhuId > 0) {
+			dropAwardMapBefore.put(junzhuId, npcDropAward);
 		}
 	}
 	
@@ -758,7 +813,7 @@ public class PveMgr {
 		Node.Builder junzhuNode = Node.newBuilder();
 		// 添加装备
 		List<Integer> zbIdList = EquipMgr.inst.getEquipCfgIdList(junZhu);
-		fillZhuangbei(junzhuNode, zbIdList);
+		fillZhuangbei4Player(junzhuNode, zbIdList, junZhu.id);
 		// 添加flag,添加君主基本信息（暴击、类型、读表类型、视野）
 		junzhuNode.addFlagIds(flagIndex);
 		junzhuNode.setNodeType(NodeType.PLAYER);
@@ -770,6 +825,8 @@ public class PveMgr {
 		// 添加秘宝信息
 		fillJZMiBaoDataInfo(junzhuNode, skillZuheId, junZhu.id);
 		junzhuNode.setHp(junzhuNode.getHpMax());
+		junzhuNode.setHpNum(1);
+		junzhuNode.setAppearanceId(1);
 		selfs.add(junzhuNode.build());
 	}
 	/**
@@ -790,7 +847,7 @@ public class PveMgr {
 		Node.Builder junzhuNode = Node.newBuilder();
 		// 添加装备
 		List<Integer> zbIdList = EquipMgr.inst.getEquipCfgIdList(junZhu);
-		fillZhuangbei(junzhuNode, zbIdList);
+		fillZhuangbei4Player(junzhuNode, zbIdList, junZhu.id);
 		// 添加flag,添加君主基本信息（暴击、类型、读表类型、视野）
 		junzhuNode.addFlagIds(flagIndex);
 		junzhuNode.setNodeType(NodeType.PLAYER);
@@ -802,6 +859,8 @@ public class PveMgr {
 		// 添加秘宝信息
 		fillJZMiBaoDataInfo(junzhuNode, skillZuheId, junZhu.id );
 		junzhuNode.setHp(Hp);
+		junzhuNode.setHpNum(1);
+		junzhuNode.setAppearanceId(1);
 		selfs.add(junzhuNode.build());
 	}
 	public void fillYaBiaoJunZhuDataInfo4YB(ZhanDouInitResp.Builder resp, IoSession session, 
@@ -812,7 +871,7 @@ public class PveMgr {
 		Node.Builder junzhuNode = Node.newBuilder();
 		// 添加装备
 		List<Integer> zbIdList = EquipMgr.inst.getEquipCfgIdList(junZhu);
-		fillZhuangbei(junzhuNode, zbIdList);
+		fillZhuangbei4Player(junzhuNode, zbIdList, junZhu.id);
 		// 添加flag,添加君主基本信息（暴击、类型、读表类型、视野）
 		junzhuNode.addFlagIds(flagIndex);
 		junzhuNode.setNodeType(NodeType.PLAYER);
@@ -827,6 +886,8 @@ public class PveMgr {
 		//护盾
 		junzhuNode.setHudun(hudun);
 		junzhuNode.setHudunMax(hudunMax);
+		junzhuNode.setHpNum(1);
+		junzhuNode.setAppearanceId(1);
 		selfs.add(junzhuNode.build());
 	}
 	
@@ -836,7 +897,7 @@ public class PveMgr {
 		}
 		SkillTemplate skillCfg = id2SkillTemplate.get(skillId);
 		if(skillCfg == null) {
-			eLogger.error("SkillTemplate配置错误，未发现技能id:{}的相关信息", skillId);
+			logger.error("SkillTemplate配置错误，未发现技能id:{}的相关信息", skillId);
 			return;
 		}
 		NodeSkill.Builder nodeSkill = NodeSkill.newBuilder();
@@ -857,38 +918,141 @@ public class PveMgr {
 		node.addSkills(nodeSkill);
 	}
 	
-	public void fillZhuangbei(Node.Builder junzhuNode,
-			List<Integer> zbIdList) {
+	public void fillZhuangbei4Npc(Node.Builder junzhuNode, List<Integer> zbIdList, GameObject gb) {
 		for(Integer zbid : zbIdList){
 			ZhuangBei zhuangBei = HeroMgr.id2ZhuangBei.get(zbid);
 			if (zhuangBei == null) {
-				eLogger.error("装备不存在，id是: " + String.valueOf(zbid));
+				logger.error("装备不存在，id是: " + String.valueOf(zbid));
 				continue;
 			}
+			SkillTemplate xiShuCarry = null;
 			switch(zhuangBei.getBuWei()){
 			case HeroMgr.WEAPON_HEAVY:
+				{
+					JiNengPeiYang py = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(gb.getPugongHeavy());
+					xiShuCarry = id2SkillTemplate.get(py.skillId);
+				}
+				break;
 			case HeroMgr.WEAPON_LIGHT:
+				{
+					JiNengPeiYang py = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(gb.getPugongLight());
+					xiShuCarry = id2SkillTemplate.get(py.skillId);
+				}
+				break;
 			case HeroMgr.WEAPON_RANGED:
+				{
+					JiNengPeiYang py = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(gb.getPugongRange());
+					xiShuCarry = id2SkillTemplate.get(py.skillId);
+				}
 				break;
 			default:
+				logger.error("填充装备数据出错，没有该部位id:{}的装备", zhuangBei.getBuWei());
 				continue;
 			}
-			PlayerWeapon.Builder weaponBuilder = PlayerWeapon.newBuilder(); 
-			fillPlayerWeapon(zhuangBei, weaponBuilder, junzhuNode);
+			if(xiShuCarry == null) {
+				logger.error("填充装备数据出错，skillTemplete未找到");
+				continue;
+			}
+			// FIXME 如果返回的是null是否有问题
+			PlayerWeapon.Builder weaponBuilder = fillPlayerWeapon(zhuangBei, junzhuNode, xiShuCarry);
 			switch(zhuangBei.getBuWei()){
 				case HeroMgr.WEAPON_HEAVY:
+					weaponBuilder.addSkillLevel(gb.getPugongHeavy());
+					weaponBuilder.addSkillLevel(gb.getSkill1Heavy());
+					weaponBuilder.addSkillLevel(gb.getSkill2Heavy());
 					junzhuNode.setWeaponHeavy(weaponBuilder);
 					break;
 				case HeroMgr.WEAPON_LIGHT:
+					weaponBuilder.addSkillLevel(gb.getPugongRange());
+					weaponBuilder.addSkillLevel(gb.getSkill1Light());
+					weaponBuilder.addSkillLevel(gb.getSkill2Light());
 					junzhuNode.setWeaponLight(weaponBuilder);
 					break;
 				case HeroMgr.WEAPON_RANGED:
+					weaponBuilder.addSkillLevel(gb.getPugongRange());
+					weaponBuilder.addSkillLevel(gb.getSkill1Range());
+					weaponBuilder.addSkillLevel(gb.getSkill2Range());
 					junzhuNode.setWeaponRanged(weaponBuilder);
 					break;
 				default:
-					eLogger.error("填充装备数据出错，没有该部位id:{}的装备", zhuangBei.getBuWei());
+					logger.error("填充装备数据出错，没有该部位id:{}的装备", zhuangBei.getBuWei());
 					break;
 			}		
+		}
+	}
+	
+	
+	public void fillZhuangbei4Player(Node.Builder junzhuNode, List<Integer> zbIdList, long junzhuId) {
+		for(Integer zbid : zbIdList){
+			ZhuangBei zhuangBei = HeroMgr.id2ZhuangBei.get(zbid);
+			if (zhuangBei == null) {
+				logger.error("装备不存在，id是: " + String.valueOf(zbid));
+				continue;
+			}
+			
+			JNBean bean = HibernateUtil.find(JNBean.class, junzhuId);
+			if(bean == null){
+				bean = JiNengPeiYangMgr.inst.getDefaultBean();
+			}
+			JiNengPeiYangMgr.inst.fixOpenByLevel(bean, junzhuId);
+			JiNengPeiYang py = null;
+			SkillTemplate xiShuCarry = null;
+			switch(zhuangBei.getBuWei()){
+				case HeroMgr.WEAPON_HEAVY:
+					py = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(bean.wq1_1);
+					break;
+				case HeroMgr.WEAPON_LIGHT:
+					py = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(bean.wq2_1);
+					break;
+				case HeroMgr.WEAPON_RANGED:
+					py = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(bean.wq3_1);
+					break;
+				default:
+					continue;
+			}
+			xiShuCarry = id2SkillTemplate.get(py.skillId);
+			if(xiShuCarry == null) {
+				logger.error("战斗填充装备信息错误，找不到skillTemp配置id:{}", py.skillId);
+				continue;
+			}
+			int[] newSkillIds = JiNengPeiYangMgr.inst.getNewJNIds(junzhuId);
+			PlayerWeapon.Builder weaponBuilder = fillPlayerWeapon(zhuangBei, junzhuNode, xiShuCarry);
+			switch(zhuangBei.getBuWei()){
+				case HeroMgr.WEAPON_HEAVY:
+					weaponBuilder.addSkillLevel(bean.wq1_1);
+					weaponBuilder.addSkillLevel(bean.wq1_2);
+					weaponBuilder.addSkillLevel(bean.wq1_3);
+					addWeaponSkillFirstActive(weaponBuilder, newSkillIds);
+					junzhuNode.setWeaponHeavy(weaponBuilder);
+					break;
+				case HeroMgr.WEAPON_LIGHT:
+					weaponBuilder.addSkillLevel(bean.wq2_1);
+					weaponBuilder.addSkillLevel(bean.wq2_2);
+					weaponBuilder.addSkillLevel(bean.wq2_3);
+					addWeaponSkillFirstActive(weaponBuilder, newSkillIds);
+					junzhuNode.setWeaponLight(weaponBuilder);
+					break;
+				case HeroMgr.WEAPON_RANGED:
+					weaponBuilder.addSkillLevel(bean.wq3_1);
+					weaponBuilder.addSkillLevel(bean.wq3_2);
+					weaponBuilder.addSkillLevel(bean.wq3_3);
+					addWeaponSkillFirstActive(weaponBuilder, newSkillIds);
+					junzhuNode.setWeaponRanged(weaponBuilder);
+					break;
+				default:
+					logger.error("填充装备数据出错，没有该部位id:{}的装备", zhuangBei.getBuWei());
+					break;
+			}
+		}
+	}
+	
+	private void addWeaponSkillFirstActive(PlayerWeapon.Builder weaponBuilder, int[] newSkillIds) {
+		List<Integer> skillLevelList = weaponBuilder.getSkillLevelList();
+		for(int i = 0; i < newSkillIds.length; i++) {
+			int index = skillLevelList.indexOf(newSkillIds[i]);
+			if(index != -1) {
+				weaponBuilder.addSkillFirstActive(index);
+			}
 		}
 	}
 	
@@ -897,33 +1061,147 @@ public class PveMgr {
 	 * @param zhuangBei
 	 * @param weaponHeavy
 	 */
-	protected void fillPlayerWeapon(ZhuangBei zhuangBei,
-			qxmobile.protobuf.ZhanDou.PlayerWeapon.Builder weaponHeavy, Node.Builder junzhuNode) {
+	protected PlayerWeapon.Builder fillPlayerWeapon(ZhuangBei zhuangBei, Node.Builder junzhuNode,
+			SkillTemplate xiShuCarry) {
+		PlayerWeapon.Builder weaponBuilder = PlayerWeapon.newBuilder();
 		GongjiType gongjiType = id2GongjiType.get(zhuangBei.getGongjiType());
 		if(gongjiType == null){
-			eLogger.error("装备的GongjiType未找到，装备ID {}, GongjiType {}",
-					zhuangBei.id, zhuangBei.getGongjiType());
-			return;
+			logger.error("装备的GongjiType未找到，装备ID {}, GongjiType {}", zhuangBei.id, zhuangBei.getGongjiType());
+			return weaponBuilder;
 		}
-		weaponHeavy.setWeaponId(zhuangBei.modelId);
-		weaponHeavy.setMoveSpeed(gongjiType.getMoveSpeed());
-		weaponHeavy.setAttackSpeed(gongjiType.getAttackSpeed());
-		weaponHeavy.setAttackRange(gongjiType.getAttackRange());
-		for(float xishu : zhuangBei.getXishuArray()) {
-			weaponHeavy.addWeaponRatio(xishu);
-		}
-		weaponHeavy.setCriX(gongjiType.getBaojiX());
-		weaponHeavy.setCriY(gongjiType.getBaojiY());
-		weaponHeavy.setCriSkillX(gongjiType.getJnbaojiX());
-		weaponHeavy.setCriSkillY(gongjiType.getJnbaojiY());
-		if(zhuangBei.skill != null && !zhuangBei.skill.equals("")) {
-			String[] skills = zhuangBei.skill.split(",");
-			for(String skillId : skills) {
-				addNodeSkill(junzhuNode, Integer.parseInt(skillId));
-			}
-		}
+		weaponBuilder.setWeaponId(zhuangBei.modelId);
+		weaponBuilder.setMoveSpeed(gongjiType.getMoveSpeed());
+		weaponBuilder.setAttackSpeed(gongjiType.getAttackSpeed());
+		weaponBuilder.setAttackRange(gongjiType.getAttackRange());
+		weaponBuilder.addWeaponRatio(xiShuCarry.value1);
+		weaponBuilder.addWeaponRatio(xiShuCarry.value2);
+		weaponBuilder.addWeaponRatio(xiShuCarry.value3);
+		weaponBuilder.addWeaponRatio(xiShuCarry.value4);
+		weaponBuilder.setCriX(gongjiType.getBaojiX());
+		weaponBuilder.setCriY(gongjiType.getBaojiY());
+		weaponBuilder.setCriSkillX(gongjiType.getJnbaojiX());
+		weaponBuilder.setCriSkillY(gongjiType.getJnbaojiY());
+		return weaponBuilder;
 	}
 
+	public void battleOver(int id, IoSession session, Builder builder) {
+		PveBattleOver.Builder request = (qxmobile.protobuf.PveLevel.PveBattleOver.Builder) builder;
+		boolean ok = request.getSPass();
+		Integer guanQiaId = (Integer) session
+				.getAttribute(SessionAttKey.guanQiaId);
+		if (guanQiaId == null || guanQiaId == PveMgr.PVE_CHONG_LOU) {
+			AwardMgr.inst.getAward(guanQiaId, false, false, session, null);
+			return;
+		}
+		// AntiCheatMgr.anti = true;
+		if (AntiCheatMgr.anti) {// 检查作弊
+			Object o = session.removeAttribute(SessionAttKey.antiCheatPass);
+			if (o == null) {
+				return;
+			}
+		}
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		Long junZhuId = junZhu.id;
+		Boolean chuanQiMark = (Boolean) session
+				.getAttribute(SessionAttKey.chuanQiMark);
+		if (junZhuId == null || guanQiaId == null) {
+			logger.error("null value , pid {}, guanQiaId{}", junZhuId, guanQiaId);
+			return;
+		}
+		logger.info("{}请求领取奖励{},类型{}", junZhuId, guanQiaId, chuanQiMark);
+
+		PveTemp pveTemp = null;
+		if (chuanQiMark != null && chuanQiMark) {
+			pveTemp = PveMgr.inst.legendId2Pve.get(guanQiaId);
+		} else {
+			pveTemp = PveMgr.inst.getId2Pve().get(guanQiaId);
+		}
+		if (pveTemp == null) {
+			logger.error("请求pve章节id错误，zhangJieId:{}", guanQiaId);
+			return;
+		}
+		ActLog.log.HeroBattle(junZhuId, junZhu.name, ActLog.vopenid, guanQiaId, pveTemp.smaName, ok?1:2, 1);
+		List<AwardTemp> getNpcAwardList = new ArrayList<AwardTemp>();
+		int resultForLog;//0 失败；2首次；3再次
+		if (ok) {
+			PveRecord r = HibernateUtil.find(PveRecord.class,
+					"where guanQiaId=" + guanQiaId + " and uid=" + junZhuId);
+			if (r == null) {
+				r = new PveRecord();
+				// 改主键不自增
+				r.dbId = TableIDCreator.getTableID(PveRecord.class, 1L);
+				r.guanQiaId = guanQiaId;
+				r.uid = junZhuId;
+				resultForLog = 2;
+			}else{
+				resultForLog = 3;
+			}
+			if (chuanQiMark != null && chuanQiMark) {
+				r.chuanQiPass = true;
+				r.cqPassTimes += 1;
+				r.cqStar = Math.max(r.cqStar, request.getStar());
+				logger.info("{}传奇关卡{}", junZhuId, guanQiaId);
+			} else {
+				r.starLevel = request.getStar();
+				r.star = Math.max(r.star, request.getStar());
+				r.achieve = r.achieve | request.getAchievement();
+				chuanQiMark = false;
+				
+			}
+			logger.info("junZhuId {} 关卡{} 战斗结束 , 成功", junZhuId, guanQiaId);
+			logger.info("获得星级 star {}", request.getStar());
+			HibernateUtil.save(r);
+			
+			List<Integer> droppenList = request.getDropeenItemNpcsList();
+			Map<Integer, List<AwardTemp>> npcDropAwardMap = dropAwardMapBefore.get(junZhu.id);
+			for (Integer npcPos : droppenList) {
+				List<AwardTemp> posNpcDropAward = npcDropAwardMap.get(npcPos);
+				if(posNpcDropAward != null) {
+					// 根据掉落类型获取应该获得的奖励
+					getNpcAwardList.addAll(posNpcDropAward);
+				}
+			}
+			
+			//限时活动精英集星
+			EventMgr.addEvent(ED.JINGYINGJIXING, junZhuId);
+
+			// 战斗胜利扣除剩余应该消耗的体力
+			int useTili = pveTemp.getUseHp();
+			useTili -= 1;
+			JunZhuMgr.inst.updateTiLi(junZhu, -useTili, "关卡胜利");
+			HibernateUtil.save(junZhu);
+			JunZhuMgr.inst.sendMainInfo(session);
+			logger.info("junzhu:{}在关卡zhangjieId:{}战斗胜利扣除体力:{}", junZhu.name,
+					guanQiaId, useTili);
+		} else {
+			logger.info("{} pve fail at {}", junZhuId, guanQiaId);
+			resultForLog = 0;
+		}
+		OurLog.log.RoundFlow(ActLog.vopenid,guanQiaId.intValue(), 2, request.getStar(), 0, resultForLog,String.valueOf(junZhuId));
+		AwardMgr.inst.getAward(guanQiaId, chuanQiMark, ok, session, getNpcAwardList);
+		if (chuanQiMark != null && chuanQiMark) {
+			if (ok) {
+				// 主线任务：完成传奇关卡并且胜利一次
+				EventMgr.addEvent(ED.CHUANQI_GUANQIA_SUCCESS, new Object[] {
+						junZhuId, guanQiaId });
+			}
+			// 每日任务中记录完成传奇关卡一次（不论输赢）
+			EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
+					junZhuId, DailyTaskConstants.chuanqi_guanqia_3, 1));
+		}else{
+			if(ok){
+				// 主线任务：完成普通关卡并且胜利一次
+				EventMgr.addEvent(ED.PVE_GUANQIA, new Object[] { junZhuId,
+						guanQiaId });
+			}
+			// 每日任务中记录完成过关斩将1次(无论输赢)
+			EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
+					junZhuId, DailyTaskConstants.guoguan_5_id, 1));
+		}
+		// 2015-7-22 15:46 过关榜刷新
+		EventMgr.addEvent(ED.GUOGUAN_RANK_REFRESH, junZhu);
+	}
+	
 	/**
 	 * 发送战斗初始化错误信息
 	 * @param session
@@ -934,7 +1212,6 @@ public class PveMgr {
 		errorResp.setResult(msg);
 		session.write(errorResp.build());
 	}
-	
 
 	public Map<Integer, PveTemp> getId2Pve() {
 		return id2Pve;
@@ -955,9 +1232,5 @@ public class PveMgr {
 	public Map<Integer, GongjiType> getId2GongjiType() {
 		return id2GongjiType;
 	}
-	
-	
-	
-	
 	
 }

@@ -6892,6 +6892,24 @@ public final class PveLevel {
      */
     int getCqPassTimes();
 
+    // optional int32 cqDayTimes = 18;
+    /**
+     * <code>optional int32 cqDayTimes = 18;</code>
+     *
+     * <pre>
+     *传奇关卡每日可玩次数。
+     * </pre>
+     */
+    boolean hasCqDayTimes();
+    /**
+     * <code>optional int32 cqDayTimes = 18;</code>
+     *
+     * <pre>
+     *传奇关卡每日可玩次数。
+     * </pre>
+     */
+    int getCqDayTimes();
+
     // optional int32 cqResetPay = 8;
     /**
      * <code>optional int32 cqResetPay = 8;</code>
@@ -7163,53 +7181,58 @@ public final class PveLevel {
               break;
             }
             case 64: {
-              bitField0_ |= 0x00000020;
+              bitField0_ |= 0x00000040;
               cqResetPay_ = input.readInt32();
               break;
             }
             case 72: {
-              bitField0_ |= 0x00000040;
+              bitField0_ |= 0x00000080;
               cqResetTimes_ = input.readInt32();
               break;
             }
             case 80: {
-              bitField0_ |= 0x00000080;
+              bitField0_ |= 0x00000100;
               cqResetLeft_ = input.readInt32();
               break;
             }
             case 88: {
-              bitField0_ |= 0x00000100;
+              bitField0_ |= 0x00000200;
               jySaoDangUsedTimes_ = input.readInt32();
               break;
             }
             case 96: {
-              bitField0_ |= 0x00000200;
+              bitField0_ |= 0x00000400;
               jySaoDangDayTimes_ = input.readInt32();
               break;
             }
             case 104: {
-              bitField0_ |= 0x00000400;
+              bitField0_ |= 0x00000800;
               cqSaoDangUsedTimes_ = input.readInt32();
               break;
             }
             case 112: {
-              bitField0_ |= 0x00000800;
+              bitField0_ |= 0x00001000;
               cqSaoDangDayTimes_ = input.readInt32();
               break;
             }
             case 120: {
-              bitField0_ |= 0x00001000;
+              bitField0_ |= 0x00002000;
               acheive_ = input.readInt32();
               break;
             }
             case 128: {
-              bitField0_ |= 0x00002000;
+              bitField0_ |= 0x00004000;
               acheiveRewardState_ = input.readInt32();
               break;
             }
             case 136: {
               bitField0_ |= 0x00000008;
               zuheId_ = input.readInt32();
+              break;
+            }
+            case 144: {
+              bitField0_ |= 0x00000020;
+              cqDayTimes_ = input.readInt32();
               break;
             }
           }
@@ -7559,6 +7582,30 @@ public final class PveLevel {
       return cqPassTimes_;
     }
 
+    // optional int32 cqDayTimes = 18;
+    public static final int CQDAYTIMES_FIELD_NUMBER = 18;
+    private int cqDayTimes_;
+    /**
+     * <code>optional int32 cqDayTimes = 18;</code>
+     *
+     * <pre>
+     *传奇关卡每日可玩次数。
+     * </pre>
+     */
+    public boolean hasCqDayTimes() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional int32 cqDayTimes = 18;</code>
+     *
+     * <pre>
+     *传奇关卡每日可玩次数。
+     * </pre>
+     */
+    public int getCqDayTimes() {
+      return cqDayTimes_;
+    }
+
     // optional int32 cqResetPay = 8;
     public static final int CQRESETPAY_FIELD_NUMBER = 8;
     private int cqResetPay_;
@@ -7570,7 +7617,7 @@ public final class PveLevel {
      * </pre>
      */
     public boolean hasCqResetPay() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
      * <code>optional int32 cqResetPay = 8;</code>
@@ -7594,7 +7641,7 @@ public final class PveLevel {
      * </pre>
      */
     public boolean hasCqResetTimes() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
      * <code>optional int32 cqResetTimes = 9;</code>
@@ -7618,7 +7665,7 @@ public final class PveLevel {
      * </pre>
      */
     public boolean hasCqResetLeft() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
      * <code>optional int32 cqResetLeft = 10;</code>
@@ -7642,7 +7689,7 @@ public final class PveLevel {
      * </pre>
      */
     public boolean hasJySaoDangUsedTimes() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
+      return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
      * <code>optional int32 jySaoDangUsedTimes = 11;</code>
@@ -7666,7 +7713,7 @@ public final class PveLevel {
      * </pre>
      */
     public boolean hasJySaoDangDayTimes() {
-      return ((bitField0_ & 0x00000200) == 0x00000200);
+      return ((bitField0_ & 0x00000400) == 0x00000400);
     }
     /**
      * <code>optional int32 jySaoDangDayTimes = 12;</code>
@@ -7690,7 +7737,7 @@ public final class PveLevel {
      * </pre>
      */
     public boolean hasCqSaoDangUsedTimes() {
-      return ((bitField0_ & 0x00000400) == 0x00000400);
+      return ((bitField0_ & 0x00000800) == 0x00000800);
     }
     /**
      * <code>optional int32 cqSaoDangUsedTimes = 13;</code>
@@ -7714,7 +7761,7 @@ public final class PveLevel {
      * </pre>
      */
     public boolean hasCqSaoDangDayTimes() {
-      return ((bitField0_ & 0x00000800) == 0x00000800);
+      return ((bitField0_ & 0x00001000) == 0x00001000);
     }
     /**
      * <code>optional int32 cqSaoDangDayTimes = 14;</code>
@@ -7738,7 +7785,7 @@ public final class PveLevel {
      * </pre>
      */
     public boolean hasAcheive() {
-      return ((bitField0_ & 0x00001000) == 0x00001000);
+      return ((bitField0_ & 0x00002000) == 0x00002000);
     }
     /**
      * <code>required int32 acheive = 15;</code>
@@ -7762,7 +7809,7 @@ public final class PveLevel {
      * </pre>
      */
     public boolean hasAcheiveRewardState() {
-      return ((bitField0_ & 0x00002000) == 0x00002000);
+      return ((bitField0_ & 0x00004000) == 0x00004000);
     }
     /**
      * <code>required int32 acheiveRewardState = 16;</code>
@@ -7784,6 +7831,7 @@ public final class PveLevel {
       mibaoIds_ = java.util.Collections.emptyList();
       zuheId_ = 0;
       cqPassTimes_ = 0;
+      cqDayTimes_ = 0;
       cqResetPay_ = 0;
       cqResetTimes_ = 0;
       cqResetLeft_ = 0;
@@ -7859,35 +7907,38 @@ public final class PveLevel {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeInt32(7, cqPassTimes_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeInt32(8, cqResetPay_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeInt32(9, cqResetTimes_);
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeInt32(10, cqResetLeft_);
       }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeInt32(11, jySaoDangUsedTimes_);
       }
-      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
         output.writeInt32(12, jySaoDangDayTimes_);
       }
-      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
         output.writeInt32(13, cqSaoDangUsedTimes_);
       }
-      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
         output.writeInt32(14, cqSaoDangDayTimes_);
       }
-      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
         output.writeInt32(15, acheive_);
       }
-      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
         output.writeInt32(16, acheiveRewardState_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(17, zuheId_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(18, cqDayTimes_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -7931,45 +7982,49 @@ public final class PveLevel {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(7, cqPassTimes_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, cqResetPay_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(9, cqResetTimes_);
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(10, cqResetLeft_);
       }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(11, jySaoDangUsedTimes_);
       }
-      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(12, jySaoDangDayTimes_);
       }
-      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(13, cqSaoDangUsedTimes_);
       }
-      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(14, cqSaoDangDayTimes_);
       }
-      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(15, acheive_);
       }
-      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(16, acheiveRewardState_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(17, zuheId_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(18, cqDayTimes_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -8113,24 +8168,26 @@ public final class PveLevel {
         bitField0_ = (bitField0_ & ~0x00000040);
         cqPassTimes_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
-        cqResetPay_ = 0;
+        cqDayTimes_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
-        cqResetTimes_ = 0;
+        cqResetPay_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
-        cqResetLeft_ = 0;
+        cqResetTimes_ = 0;
         bitField0_ = (bitField0_ & ~0x00000400);
-        jySaoDangUsedTimes_ = 0;
+        cqResetLeft_ = 0;
         bitField0_ = (bitField0_ & ~0x00000800);
-        jySaoDangDayTimes_ = 0;
+        jySaoDangUsedTimes_ = 0;
         bitField0_ = (bitField0_ & ~0x00001000);
-        cqSaoDangUsedTimes_ = 0;
+        jySaoDangDayTimes_ = 0;
         bitField0_ = (bitField0_ & ~0x00002000);
-        cqSaoDangDayTimes_ = 0;
+        cqSaoDangUsedTimes_ = 0;
         bitField0_ = (bitField0_ & ~0x00004000);
-        acheive_ = 0;
+        cqSaoDangDayTimes_ = 0;
         bitField0_ = (bitField0_ & ~0x00008000);
-        acheiveRewardState_ = 0;
+        acheive_ = 0;
         bitField0_ = (bitField0_ & ~0x00010000);
+        acheiveRewardState_ = 0;
+        bitField0_ = (bitField0_ & ~0x00020000);
         return this;
       }
 
@@ -8205,37 +8262,41 @@ public final class PveLevel {
         if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000020;
         }
-        result.cqResetPay_ = cqResetPay_;
+        result.cqDayTimes_ = cqDayTimes_;
         if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
           to_bitField0_ |= 0x00000040;
         }
-        result.cqResetTimes_ = cqResetTimes_;
+        result.cqResetPay_ = cqResetPay_;
         if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
           to_bitField0_ |= 0x00000080;
         }
-        result.cqResetLeft_ = cqResetLeft_;
+        result.cqResetTimes_ = cqResetTimes_;
         if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
           to_bitField0_ |= 0x00000100;
         }
-        result.jySaoDangUsedTimes_ = jySaoDangUsedTimes_;
+        result.cqResetLeft_ = cqResetLeft_;
         if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
           to_bitField0_ |= 0x00000200;
         }
-        result.jySaoDangDayTimes_ = jySaoDangDayTimes_;
+        result.jySaoDangUsedTimes_ = jySaoDangUsedTimes_;
         if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
           to_bitField0_ |= 0x00000400;
         }
-        result.cqSaoDangUsedTimes_ = cqSaoDangUsedTimes_;
+        result.jySaoDangDayTimes_ = jySaoDangDayTimes_;
         if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
           to_bitField0_ |= 0x00000800;
         }
-        result.cqSaoDangDayTimes_ = cqSaoDangDayTimes_;
+        result.cqSaoDangUsedTimes_ = cqSaoDangUsedTimes_;
         if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
           to_bitField0_ |= 0x00001000;
         }
-        result.acheive_ = acheive_;
+        result.cqSaoDangDayTimes_ = cqSaoDangDayTimes_;
         if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
           to_bitField0_ |= 0x00002000;
+        }
+        result.acheive_ = acheive_;
+        if (((from_bitField0_ & 0x00020000) == 0x00020000)) {
+          to_bitField0_ |= 0x00004000;
         }
         result.acheiveRewardState_ = acheiveRewardState_;
         result.bitField0_ = to_bitField0_;
@@ -8332,6 +8393,9 @@ public final class PveLevel {
         }
         if (other.hasCqPassTimes()) {
           setCqPassTimes(other.getCqPassTimes());
+        }
+        if (other.hasCqDayTimes()) {
+          setCqDayTimes(other.getCqDayTimes());
         }
         if (other.hasCqResetPay()) {
           setCqResetPay(other.getCqResetPay());
@@ -9431,6 +9495,55 @@ public final class PveLevel {
         return this;
       }
 
+      // optional int32 cqDayTimes = 18;
+      private int cqDayTimes_ ;
+      /**
+       * <code>optional int32 cqDayTimes = 18;</code>
+       *
+       * <pre>
+       *传奇关卡每日可玩次数。
+       * </pre>
+       */
+      public boolean hasCqDayTimes() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional int32 cqDayTimes = 18;</code>
+       *
+       * <pre>
+       *传奇关卡每日可玩次数。
+       * </pre>
+       */
+      public int getCqDayTimes() {
+        return cqDayTimes_;
+      }
+      /**
+       * <code>optional int32 cqDayTimes = 18;</code>
+       *
+       * <pre>
+       *传奇关卡每日可玩次数。
+       * </pre>
+       */
+      public Builder setCqDayTimes(int value) {
+        bitField0_ |= 0x00000100;
+        cqDayTimes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 cqDayTimes = 18;</code>
+       *
+       * <pre>
+       *传奇关卡每日可玩次数。
+       * </pre>
+       */
+      public Builder clearCqDayTimes() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        cqDayTimes_ = 0;
+        onChanged();
+        return this;
+      }
+
       // optional int32 cqResetPay = 8;
       private int cqResetPay_ ;
       /**
@@ -9441,7 +9554,7 @@ public final class PveLevel {
        * </pre>
        */
       public boolean hasCqResetPay() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
        * <code>optional int32 cqResetPay = 8;</code>
@@ -9461,7 +9574,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder setCqResetPay(int value) {
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000200;
         cqResetPay_ = value;
         onChanged();
         return this;
@@ -9474,7 +9587,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder clearCqResetPay() {
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000200);
         cqResetPay_ = 0;
         onChanged();
         return this;
@@ -9490,7 +9603,7 @@ public final class PveLevel {
        * </pre>
        */
       public boolean hasCqResetTimes() {
-        return ((bitField0_ & 0x00000200) == 0x00000200);
+        return ((bitField0_ & 0x00000400) == 0x00000400);
       }
       /**
        * <code>optional int32 cqResetTimes = 9;</code>
@@ -9510,7 +9623,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder setCqResetTimes(int value) {
-        bitField0_ |= 0x00000200;
+        bitField0_ |= 0x00000400;
         cqResetTimes_ = value;
         onChanged();
         return this;
@@ -9523,7 +9636,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder clearCqResetTimes() {
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000400);
         cqResetTimes_ = 0;
         onChanged();
         return this;
@@ -9539,7 +9652,7 @@ public final class PveLevel {
        * </pre>
        */
       public boolean hasCqResetLeft() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
+        return ((bitField0_ & 0x00000800) == 0x00000800);
       }
       /**
        * <code>optional int32 cqResetLeft = 10;</code>
@@ -9559,7 +9672,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder setCqResetLeft(int value) {
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000800;
         cqResetLeft_ = value;
         onChanged();
         return this;
@@ -9572,7 +9685,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder clearCqResetLeft() {
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000800);
         cqResetLeft_ = 0;
         onChanged();
         return this;
@@ -9588,7 +9701,7 @@ public final class PveLevel {
        * </pre>
        */
       public boolean hasJySaoDangUsedTimes() {
-        return ((bitField0_ & 0x00000800) == 0x00000800);
+        return ((bitField0_ & 0x00001000) == 0x00001000);
       }
       /**
        * <code>optional int32 jySaoDangUsedTimes = 11;</code>
@@ -9608,7 +9721,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder setJySaoDangUsedTimes(int value) {
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00001000;
         jySaoDangUsedTimes_ = value;
         onChanged();
         return this;
@@ -9621,7 +9734,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder clearJySaoDangUsedTimes() {
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00001000);
         jySaoDangUsedTimes_ = 0;
         onChanged();
         return this;
@@ -9637,7 +9750,7 @@ public final class PveLevel {
        * </pre>
        */
       public boolean hasJySaoDangDayTimes() {
-        return ((bitField0_ & 0x00001000) == 0x00001000);
+        return ((bitField0_ & 0x00002000) == 0x00002000);
       }
       /**
        * <code>optional int32 jySaoDangDayTimes = 12;</code>
@@ -9657,7 +9770,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder setJySaoDangDayTimes(int value) {
-        bitField0_ |= 0x00001000;
+        bitField0_ |= 0x00002000;
         jySaoDangDayTimes_ = value;
         onChanged();
         return this;
@@ -9670,7 +9783,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder clearJySaoDangDayTimes() {
-        bitField0_ = (bitField0_ & ~0x00001000);
+        bitField0_ = (bitField0_ & ~0x00002000);
         jySaoDangDayTimes_ = 0;
         onChanged();
         return this;
@@ -9686,7 +9799,7 @@ public final class PveLevel {
        * </pre>
        */
       public boolean hasCqSaoDangUsedTimes() {
-        return ((bitField0_ & 0x00002000) == 0x00002000);
+        return ((bitField0_ & 0x00004000) == 0x00004000);
       }
       /**
        * <code>optional int32 cqSaoDangUsedTimes = 13;</code>
@@ -9706,7 +9819,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder setCqSaoDangUsedTimes(int value) {
-        bitField0_ |= 0x00002000;
+        bitField0_ |= 0x00004000;
         cqSaoDangUsedTimes_ = value;
         onChanged();
         return this;
@@ -9719,7 +9832,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder clearCqSaoDangUsedTimes() {
-        bitField0_ = (bitField0_ & ~0x00002000);
+        bitField0_ = (bitField0_ & ~0x00004000);
         cqSaoDangUsedTimes_ = 0;
         onChanged();
         return this;
@@ -9735,7 +9848,7 @@ public final class PveLevel {
        * </pre>
        */
       public boolean hasCqSaoDangDayTimes() {
-        return ((bitField0_ & 0x00004000) == 0x00004000);
+        return ((bitField0_ & 0x00008000) == 0x00008000);
       }
       /**
        * <code>optional int32 cqSaoDangDayTimes = 14;</code>
@@ -9755,7 +9868,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder setCqSaoDangDayTimes(int value) {
-        bitField0_ |= 0x00004000;
+        bitField0_ |= 0x00008000;
         cqSaoDangDayTimes_ = value;
         onChanged();
         return this;
@@ -9768,7 +9881,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder clearCqSaoDangDayTimes() {
-        bitField0_ = (bitField0_ & ~0x00004000);
+        bitField0_ = (bitField0_ & ~0x00008000);
         cqSaoDangDayTimes_ = 0;
         onChanged();
         return this;
@@ -9784,7 +9897,7 @@ public final class PveLevel {
        * </pre>
        */
       public boolean hasAcheive() {
-        return ((bitField0_ & 0x00008000) == 0x00008000);
+        return ((bitField0_ & 0x00010000) == 0x00010000);
       }
       /**
        * <code>required int32 acheive = 15;</code>
@@ -9804,7 +9917,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder setAcheive(int value) {
-        bitField0_ |= 0x00008000;
+        bitField0_ |= 0x00010000;
         acheive_ = value;
         onChanged();
         return this;
@@ -9817,7 +9930,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder clearAcheive() {
-        bitField0_ = (bitField0_ & ~0x00008000);
+        bitField0_ = (bitField0_ & ~0x00010000);
         acheive_ = 0;
         onChanged();
         return this;
@@ -9833,7 +9946,7 @@ public final class PveLevel {
        * </pre>
        */
       public boolean hasAcheiveRewardState() {
-        return ((bitField0_ & 0x00010000) == 0x00010000);
+        return ((bitField0_ & 0x00020000) == 0x00020000);
       }
       /**
        * <code>required int32 acheiveRewardState = 16;</code>
@@ -9853,7 +9966,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder setAcheiveRewardState(int value) {
-        bitField0_ |= 0x00010000;
+        bitField0_ |= 0x00020000;
         acheiveRewardState_ = value;
         onChanged();
         return this;
@@ -9866,7 +9979,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder clearAcheiveRewardState() {
-        bitField0_ = (bitField0_ & ~0x00010000);
+        bitField0_ = (bitField0_ & ~0x00020000);
         acheiveRewardState_ = 0;
         onChanged();
         return this;
@@ -12052,6 +12165,32 @@ public final class PveLevel {
      * </pre>
      */
     int getAchievement();
+
+    // repeated int32 dropeenItemNpcs = 5;
+    /**
+     * <code>repeated int32 dropeenItemNpcs = 5;</code>
+     *
+     * <pre>
+     *玩家获得的
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getDropeenItemNpcsList();
+    /**
+     * <code>repeated int32 dropeenItemNpcs = 5;</code>
+     *
+     * <pre>
+     *玩家获得的
+     * </pre>
+     */
+    int getDropeenItemNpcsCount();
+    /**
+     * <code>repeated int32 dropeenItemNpcs = 5;</code>
+     *
+     * <pre>
+     *玩家获得的
+     * </pre>
+     */
+    int getDropeenItemNpcs(int index);
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.PveBattleOver}
@@ -12128,6 +12267,27 @@ public final class PveLevel {
               achievement_ = input.readInt32();
               break;
             }
+            case 40: {
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+                dropeenItemNpcs_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000010;
+              }
+              dropeenItemNpcs_.add(input.readInt32());
+              break;
+            }
+            case 42: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010) && input.getBytesUntilLimit() > 0) {
+                dropeenItemNpcs_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000010;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                dropeenItemNpcs_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -12136,6 +12296,9 @@ public final class PveLevel {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+          dropeenItemNpcs_ = java.util.Collections.unmodifiableList(dropeenItemNpcs_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -12264,11 +12427,47 @@ public final class PveLevel {
       return achievement_;
     }
 
+    // repeated int32 dropeenItemNpcs = 5;
+    public static final int DROPEENITEMNPCS_FIELD_NUMBER = 5;
+    private java.util.List<java.lang.Integer> dropeenItemNpcs_;
+    /**
+     * <code>repeated int32 dropeenItemNpcs = 5;</code>
+     *
+     * <pre>
+     *玩家获得的
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getDropeenItemNpcsList() {
+      return dropeenItemNpcs_;
+    }
+    /**
+     * <code>repeated int32 dropeenItemNpcs = 5;</code>
+     *
+     * <pre>
+     *玩家获得的
+     * </pre>
+     */
+    public int getDropeenItemNpcsCount() {
+      return dropeenItemNpcs_.size();
+    }
+    /**
+     * <code>repeated int32 dropeenItemNpcs = 5;</code>
+     *
+     * <pre>
+     *玩家获得的
+     * </pre>
+     */
+    public int getDropeenItemNpcs(int index) {
+      return dropeenItemNpcs_.get(index);
+    }
+
     private void initFields() {
       sSection_ = 0;
       sPass_ = false;
       star_ = 0;
       achievement_ = 0;
+      dropeenItemNpcs_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -12306,6 +12505,9 @@ public final class PveLevel {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(4, achievement_);
       }
+      for (int i = 0; i < dropeenItemNpcs_.size(); i++) {
+        output.writeInt32(5, dropeenItemNpcs_.get(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -12330,6 +12532,15 @@ public final class PveLevel {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, achievement_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < dropeenItemNpcs_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(dropeenItemNpcs_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getDropeenItemNpcsList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -12459,6 +12670,8 @@ public final class PveLevel {
         bitField0_ = (bitField0_ & ~0x00000004);
         achievement_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
+        dropeenItemNpcs_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -12503,6 +12716,11 @@ public final class PveLevel {
           to_bitField0_ |= 0x00000008;
         }
         result.achievement_ = achievement_;
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          dropeenItemNpcs_ = java.util.Collections.unmodifiableList(dropeenItemNpcs_);
+          bitField0_ = (bitField0_ & ~0x00000010);
+        }
+        result.dropeenItemNpcs_ = dropeenItemNpcs_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -12530,6 +12748,16 @@ public final class PveLevel {
         }
         if (other.hasAchievement()) {
           setAchievement(other.getAchievement());
+        }
+        if (!other.dropeenItemNpcs_.isEmpty()) {
+          if (dropeenItemNpcs_.isEmpty()) {
+            dropeenItemNpcs_ = other.dropeenItemNpcs_;
+            bitField0_ = (bitField0_ & ~0x00000010);
+          } else {
+            ensureDropeenItemNpcsIsMutable();
+            dropeenItemNpcs_.addAll(other.dropeenItemNpcs_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -12762,6 +12990,100 @@ public final class PveLevel {
       public Builder clearAchievement() {
         bitField0_ = (bitField0_ & ~0x00000008);
         achievement_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated int32 dropeenItemNpcs = 5;
+      private java.util.List<java.lang.Integer> dropeenItemNpcs_ = java.util.Collections.emptyList();
+      private void ensureDropeenItemNpcsIsMutable() {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+          dropeenItemNpcs_ = new java.util.ArrayList<java.lang.Integer>(dropeenItemNpcs_);
+          bitField0_ |= 0x00000010;
+         }
+      }
+      /**
+       * <code>repeated int32 dropeenItemNpcs = 5;</code>
+       *
+       * <pre>
+       *玩家获得的
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getDropeenItemNpcsList() {
+        return java.util.Collections.unmodifiableList(dropeenItemNpcs_);
+      }
+      /**
+       * <code>repeated int32 dropeenItemNpcs = 5;</code>
+       *
+       * <pre>
+       *玩家获得的
+       * </pre>
+       */
+      public int getDropeenItemNpcsCount() {
+        return dropeenItemNpcs_.size();
+      }
+      /**
+       * <code>repeated int32 dropeenItemNpcs = 5;</code>
+       *
+       * <pre>
+       *玩家获得的
+       * </pre>
+       */
+      public int getDropeenItemNpcs(int index) {
+        return dropeenItemNpcs_.get(index);
+      }
+      /**
+       * <code>repeated int32 dropeenItemNpcs = 5;</code>
+       *
+       * <pre>
+       *玩家获得的
+       * </pre>
+       */
+      public Builder setDropeenItemNpcs(
+          int index, int value) {
+        ensureDropeenItemNpcsIsMutable();
+        dropeenItemNpcs_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 dropeenItemNpcs = 5;</code>
+       *
+       * <pre>
+       *玩家获得的
+       * </pre>
+       */
+      public Builder addDropeenItemNpcs(int value) {
+        ensureDropeenItemNpcsIsMutable();
+        dropeenItemNpcs_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 dropeenItemNpcs = 5;</code>
+       *
+       * <pre>
+       *玩家获得的
+       * </pre>
+       */
+      public Builder addAllDropeenItemNpcs(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureDropeenItemNpcsIsMutable();
+        super.addAll(values, dropeenItemNpcs_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 dropeenItemNpcs = 5;</code>
+       *
+       * <pre>
+       *玩家获得的
+       * </pre>
+       */
+      public Builder clearDropeenItemNpcs() {
+        dropeenItemNpcs_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000010);
         onChanged();
         return this;
       }
@@ -20820,7 +21142,7 @@ public final class PveLevel {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关
+     *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，11-游侠完璧归赵，12-游侠横扫六和
      * </pre>
      */
     boolean hasType();
@@ -20828,7 +21150,7 @@ public final class PveLevel {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关
+     *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，11-游侠完璧归赵，12-游侠横扫六和
      * </pre>
      */
     int getType();
@@ -21013,7 +21335,7 @@ public final class PveLevel {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关
+     *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，11-游侠完璧归赵，12-游侠横扫六和
      * </pre>
      */
     public boolean hasType() {
@@ -21023,7 +21345,7 @@ public final class PveLevel {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关
+     *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，11-游侠完璧归赵，12-游侠横扫六和
      * </pre>
      */
     public int getType() {
@@ -21381,7 +21703,7 @@ public final class PveLevel {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关
+       *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，11-游侠完璧归赵，12-游侠横扫六和
        * </pre>
        */
       public boolean hasType() {
@@ -21391,7 +21713,7 @@ public final class PveLevel {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关
+       *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，11-游侠完璧归赵，12-游侠横扫六和
        * </pre>
        */
       public int getType() {
@@ -21401,7 +21723,7 @@ public final class PveLevel {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关
+       *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，11-游侠完璧归赵，12-游侠横扫六和
        * </pre>
        */
       public Builder setType(int value) {
@@ -21414,7 +21736,7 @@ public final class PveLevel {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关
+       *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，11-游侠完璧归赵，12-游侠横扫六和
        * </pre>
        */
       public Builder clearType() {
@@ -22838,7 +23160,7 @@ public final class PveLevel {
    * Protobuf type {@code qxmobile.protobuf.GetPassZhangJieAwardReq}
    *
    * <pre>
-   * 
+   * 通章奖励
    * </pre>
    */
   public static final class GetPassZhangJieAwardReq extends
@@ -23067,7 +23389,7 @@ public final class PveLevel {
      * Protobuf type {@code qxmobile.protobuf.GetPassZhangJieAwardReq}
      *
      * <pre>
-     * 
+     * 通章奖励
      * </pre>
      */
     public static final class Builder extends
@@ -23233,6 +23555,483 @@ public final class PveLevel {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.GetPassZhangJieAwardReq)
   }
 
+  public interface GetNotGetAwardZhangJieRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated int32 zhangJiaId = 1;
+    /**
+     * <code>repeated int32 zhangJiaId = 1;</code>
+     */
+    java.util.List<java.lang.Integer> getZhangJiaIdList();
+    /**
+     * <code>repeated int32 zhangJiaId = 1;</code>
+     */
+    int getZhangJiaIdCount();
+    /**
+     * <code>repeated int32 zhangJiaId = 1;</code>
+     */
+    int getZhangJiaId(int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.GetNotGetAwardZhangJieResp}
+   *
+   * <pre>
+   * 返回未领取通过奖励的章节id列表 ，S_NOT_GET_AWART_ZHANGJIE_RESP = 24157
+   * </pre>
+   */
+  public static final class GetNotGetAwardZhangJieResp extends
+      com.google.protobuf.GeneratedMessage
+      implements GetNotGetAwardZhangJieRespOrBuilder {
+    // Use GetNotGetAwardZhangJieResp.newBuilder() to construct.
+    private GetNotGetAwardZhangJieResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GetNotGetAwardZhangJieResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GetNotGetAwardZhangJieResp defaultInstance;
+    public static GetNotGetAwardZhangJieResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GetNotGetAwardZhangJieResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetNotGetAwardZhangJieResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                zhangJiaId_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              zhangJiaId_.add(input.readInt32());
+              break;
+            }
+            case 10: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
+                zhangJiaId_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                zhangJiaId_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          zhangJiaId_ = java.util.Collections.unmodifiableList(zhangJiaId_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.PveLevel.internal_static_qxmobile_protobuf_GetNotGetAwardZhangJieResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.PveLevel.internal_static_qxmobile_protobuf_GetNotGetAwardZhangJieResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp.class, qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GetNotGetAwardZhangJieResp> PARSER =
+        new com.google.protobuf.AbstractParser<GetNotGetAwardZhangJieResp>() {
+      public GetNotGetAwardZhangJieResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetNotGetAwardZhangJieResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetNotGetAwardZhangJieResp> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated int32 zhangJiaId = 1;
+    public static final int ZHANGJIAID_FIELD_NUMBER = 1;
+    private java.util.List<java.lang.Integer> zhangJiaId_;
+    /**
+     * <code>repeated int32 zhangJiaId = 1;</code>
+     */
+    public java.util.List<java.lang.Integer>
+        getZhangJiaIdList() {
+      return zhangJiaId_;
+    }
+    /**
+     * <code>repeated int32 zhangJiaId = 1;</code>
+     */
+    public int getZhangJiaIdCount() {
+      return zhangJiaId_.size();
+    }
+    /**
+     * <code>repeated int32 zhangJiaId = 1;</code>
+     */
+    public int getZhangJiaId(int index) {
+      return zhangJiaId_.get(index);
+    }
+
+    private void initFields() {
+      zhangJiaId_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < zhangJiaId_.size(); i++) {
+        output.writeInt32(1, zhangJiaId_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < zhangJiaId_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(zhangJiaId_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getZhangJiaIdList().size();
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.GetNotGetAwardZhangJieResp}
+     *
+     * <pre>
+     * 返回未领取通过奖励的章节id列表 ，S_NOT_GET_AWART_ZHANGJIE_RESP = 24157
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.PveLevel.internal_static_qxmobile_protobuf_GetNotGetAwardZhangJieResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.PveLevel.internal_static_qxmobile_protobuf_GetNotGetAwardZhangJieResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp.class, qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        zhangJiaId_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.PveLevel.internal_static_qxmobile_protobuf_GetNotGetAwardZhangJieResp_descriptor;
+      }
+
+      public qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp build() {
+        qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp buildPartial() {
+        qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp result = new qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp(this);
+        int from_bitField0_ = bitField0_;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          zhangJiaId_ = java.util.Collections.unmodifiableList(zhangJiaId_);
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.zhangJiaId_ = zhangJiaId_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp) {
+          return mergeFrom((qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp other) {
+        if (other == qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp.getDefaultInstance()) return this;
+        if (!other.zhangJiaId_.isEmpty()) {
+          if (zhangJiaId_.isEmpty()) {
+            zhangJiaId_ = other.zhangJiaId_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureZhangJiaIdIsMutable();
+            zhangJiaId_.addAll(other.zhangJiaId_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated int32 zhangJiaId = 1;
+      private java.util.List<java.lang.Integer> zhangJiaId_ = java.util.Collections.emptyList();
+      private void ensureZhangJiaIdIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          zhangJiaId_ = new java.util.ArrayList<java.lang.Integer>(zhangJiaId_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      /**
+       * <code>repeated int32 zhangJiaId = 1;</code>
+       */
+      public java.util.List<java.lang.Integer>
+          getZhangJiaIdList() {
+        return java.util.Collections.unmodifiableList(zhangJiaId_);
+      }
+      /**
+       * <code>repeated int32 zhangJiaId = 1;</code>
+       */
+      public int getZhangJiaIdCount() {
+        return zhangJiaId_.size();
+      }
+      /**
+       * <code>repeated int32 zhangJiaId = 1;</code>
+       */
+      public int getZhangJiaId(int index) {
+        return zhangJiaId_.get(index);
+      }
+      /**
+       * <code>repeated int32 zhangJiaId = 1;</code>
+       */
+      public Builder setZhangJiaId(
+          int index, int value) {
+        ensureZhangJiaIdIsMutable();
+        zhangJiaId_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 zhangJiaId = 1;</code>
+       */
+      public Builder addZhangJiaId(int value) {
+        ensureZhangJiaIdIsMutable();
+        zhangJiaId_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 zhangJiaId = 1;</code>
+       */
+      public Builder addAllZhangJiaId(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureZhangJiaIdIsMutable();
+        super.addAll(values, zhangJiaId_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 zhangJiaId = 1;</code>
+       */
+      public Builder clearZhangJiaId() {
+        zhangJiaId_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.GetNotGetAwardZhangJieResp)
+    }
+
+    static {
+      defaultInstance = new GetNotGetAwardZhangJieResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.GetNotGetAwardZhangJieResp)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_PvePageReq_descriptor;
   private static
@@ -23368,6 +24167,11 @@ public final class PveLevel {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_GetPassZhangJieAwardReq_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_GetNotGetAwardZhangJieResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_GetNotGetAwardZhangJieResp_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -23395,49 +24199,52 @@ public final class PveLevel {
       "aId\030\001 \002(\005\"9\n\020ResetCQTimesBack\022\021\n\tguanQia" +
       "Id\030\001 \002(\005\022\022\n\ncqResetPay\030\002 \002(\005\"5\n\022GuanQiaI" +
       "nfoRequest\022\021\n\tguanQiaId\030\001 \002(\005\022\014\n\004type\030\002 " +
-      "\001(\005\"\252\003\n\013GuanQiaInfo\022\021\n\tguanQiaId\030\001 \002(\005\022," +
+      "\001(\005\"\276\003\n\013GuanQiaInfo\022\021\n\tguanQiaId\030\001 \002(\005\022," +
       "\n\005items\030\002 \003(\0132\035.qxmobile.protobuf.Reward",
       "Item\022-\n\007enemies\030\003 \003(\0132\034.qxmobile.protobu" +
       "f.EnemyInfo\022\014\n\004desc\030\004 \002(\t\022\014\n\004tili\030\005 \002(\005\022" +
       "\020\n\010mibaoIds\030\006 \003(\003\022\016\n\006zuheId\030\021 \001(\005\022\023\n\013cqP" +
-      "assTimes\030\007 \001(\005\022\022\n\ncqResetPay\030\010 \001(\005\022\024\n\014cq" +
-      "ResetTimes\030\t \001(\005\022\023\n\013cqResetLeft\030\n \001(\005\022\032\n" +
-      "\022jySaoDangUsedTimes\030\013 \001(\005\022\031\n\021jySaoDangDa" +
-      "yTimes\030\014 \001(\005\022\032\n\022cqSaoDangUsedTimes\030\r \001(\005" +
-      "\022\031\n\021cqSaoDangDayTimes\030\016 \001(\005\022\017\n\007acheive\030\017" +
-      " \002(\005\022\032\n\022acheiveRewardState\030\020 \002(\005\"T\n\tEnem" +
-      "yInfo\022\014\n\004name\030\001 \002(\t\022\014\n\004icon\030\002 \002(\t\022\014\n\004typ",
-      "e\030\003 \002(\005\022\r\n\005level\030\004 \002(\005\022\016\n\006yuansu\030\005 \002(\t\"Z" +
-      "\n\nRewardItem\022\016\n\006itemId\030\001 \002(\005\022\020\n\010itemType" +
-      "\030\002 \002(\005\022\014\n\004name\030\003 \002(\t\022\014\n\004icon\030\004 \002(\t\022\016\n\006pi" +
-      "nZhi\030\005 \001(\005\"U\n\rPveBattleOver\022\021\n\ts_section" +
-      "\030\001 \002(\005\022\016\n\006s_pass\030\002 \002(\010\022\014\n\004star\030\003 \002(\005\022\023\n\013" +
-      "achievement\030\004 \001(\005\"7\n\017GetPveStarAward\022\021\n\t" +
-      "guanQiaId\030\002 \002(\005\022\021\n\ts_starNum\030\001 \002(\005\"F\n\rPv" +
-      "eStarAwards\0225\n\010s_awards\030\001 \003(\0132#.qxmobile" +
-      ".protobuf.PveStarAwardItem\";\n\020PveStarAwa" +
-      "rdItem\022\023\n\013s_awardName\030\001 \002(\t\022\022\n\ns_awardNu",
-      "m\030\002 \002(\005\"K\n\021PveStarGetSuccess\022\021\n\tguanQiaI" +
-      "d\030\003 \002(\005\022\021\n\ts_starNum\030\001 \002(\005\022\020\n\010s_result\030\002" +
-      " \002(\010\"1\n\rPveSaoDangReq\022\021\n\tguanQiaId\030\001 \002(\005" +
-      "\022\r\n\005times\030\002 \002(\005\"x\n\rPveSaoDangRet\022\021\n\tguan" +
-      "QiaId\030\001 \002(\005\022\017\n\007endTime\030\002 \002(\005\022\017\n\007allTime\030" +
-      "\003 \002(\005\0222\n\006awards\030\004 \003(\0132\".qxmobile.protobu" +
-      "f.PveSaoDangAward\"f\n\017PveSaoDangAward\022\013\n\003" +
-      "exp\030\001 \002(\005\022\r\n\005money\030\002 \002(\005\0227\n\nawardItems\030\003" +
-      " \003(\0132#.qxmobile.protobuf.SaoDangAwardIte" +
-      "m\"E\n\020SaoDangAwardItem\022\020\n\010itemType\030\001 \002(\005\022",
-      "\016\n\006itemId\030\002 \002(\005\022\017\n\007itemNum\030\003 \002(\005\"=\n\021Yuan" +
-      "ZhuListReturn\022(\n\004list\030\001 \003(\0132\032.qxmobile.p" +
-      "rotobuf.YuanJun\"2\n\007YuanJun\022\n\n\002id\030\001 \002(\005\022\014" +
-      "\n\004name\030\002 \002(\t\022\r\n\005level\030\003 \002(\005\"\"\n\014BuZhenRep" +
-      "ort\022\022\n\nwuJiangIds\030\001 \003(\005\"@\n\013MibaoSelect\022\014" +
-      "\n\004type\030\001 \002(\005\022\020\n\010mibaoIds\030\002 \003(\003\022\021\n\tzuheSk" +
-      "ill\030\003 \001(\005\"C\n\017MibaoSelectResp\022\017\n\007success\030" +
-      "\001 \002(\005\022\014\n\004type\030\002 \002(\005\022\021\n\tzuheSkill\030\003 \001(\005\"3" +
-      "\n\014GuanQiaMaxId\022\020\n\010commonId\030\001 \002(\005\022\021\n\tchua" +
-      "nQiId\030\002 \002(\005\"-\n\027GetPassZhangJieAwardReq\022\022",
-      "\n\nzhangJieId\030\001 \002(\005B\nB\010PveLevel"
+      "assTimes\030\007 \001(\005\022\022\n\ncqDayTimes\030\022 \001(\005\022\022\n\ncq" +
+      "ResetPay\030\010 \001(\005\022\024\n\014cqResetTimes\030\t \001(\005\022\023\n\013" +
+      "cqResetLeft\030\n \001(\005\022\032\n\022jySaoDangUsedTimes\030" +
+      "\013 \001(\005\022\031\n\021jySaoDangDayTimes\030\014 \001(\005\022\032\n\022cqSa" +
+      "oDangUsedTimes\030\r \001(\005\022\031\n\021cqSaoDangDayTime" +
+      "s\030\016 \001(\005\022\017\n\007acheive\030\017 \002(\005\022\032\n\022acheiveRewar" +
+      "dState\030\020 \002(\005\"T\n\tEnemyInfo\022\014\n\004name\030\001 \002(\t\022",
+      "\014\n\004icon\030\002 \002(\t\022\014\n\004type\030\003 \002(\005\022\r\n\005level\030\004 \002" +
+      "(\005\022\016\n\006yuansu\030\005 \002(\t\"Z\n\nRewardItem\022\016\n\006item" +
+      "Id\030\001 \002(\005\022\020\n\010itemType\030\002 \002(\005\022\014\n\004name\030\003 \002(\t" +
+      "\022\014\n\004icon\030\004 \002(\t\022\016\n\006pinZhi\030\005 \001(\005\"n\n\rPveBat" +
+      "tleOver\022\021\n\ts_section\030\001 \002(\005\022\016\n\006s_pass\030\002 \002" +
+      "(\010\022\014\n\004star\030\003 \002(\005\022\023\n\013achievement\030\004 \001(\005\022\027\n" +
+      "\017dropeenItemNpcs\030\005 \003(\005\"7\n\017GetPveStarAwar" +
+      "d\022\021\n\tguanQiaId\030\002 \002(\005\022\021\n\ts_starNum\030\001 \002(\005\"" +
+      "F\n\rPveStarAwards\0225\n\010s_awards\030\001 \003(\0132#.qxm" +
+      "obile.protobuf.PveStarAwardItem\";\n\020PveSt",
+      "arAwardItem\022\023\n\013s_awardName\030\001 \002(\t\022\022\n\ns_aw" +
+      "ardNum\030\002 \002(\005\"K\n\021PveStarGetSuccess\022\021\n\tgua" +
+      "nQiaId\030\003 \002(\005\022\021\n\ts_starNum\030\001 \002(\005\022\020\n\010s_res" +
+      "ult\030\002 \002(\010\"1\n\rPveSaoDangReq\022\021\n\tguanQiaId\030" +
+      "\001 \002(\005\022\r\n\005times\030\002 \002(\005\"x\n\rPveSaoDangRet\022\021\n" +
+      "\tguanQiaId\030\001 \002(\005\022\017\n\007endTime\030\002 \002(\005\022\017\n\007all" +
+      "Time\030\003 \002(\005\0222\n\006awards\030\004 \003(\0132\".qxmobile.pr" +
+      "otobuf.PveSaoDangAward\"f\n\017PveSaoDangAwar" +
+      "d\022\013\n\003exp\030\001 \002(\005\022\r\n\005money\030\002 \002(\005\0227\n\nawardIt" +
+      "ems\030\003 \003(\0132#.qxmobile.protobuf.SaoDangAwa",
+      "rdItem\"E\n\020SaoDangAwardItem\022\020\n\010itemType\030\001" +
+      " \002(\005\022\016\n\006itemId\030\002 \002(\005\022\017\n\007itemNum\030\003 \002(\005\"=\n" +
+      "\021YuanZhuListReturn\022(\n\004list\030\001 \003(\0132\032.qxmob" +
+      "ile.protobuf.YuanJun\"2\n\007YuanJun\022\n\n\002id\030\001 " +
+      "\002(\005\022\014\n\004name\030\002 \002(\t\022\r\n\005level\030\003 \002(\005\"\"\n\014BuZh" +
+      "enReport\022\022\n\nwuJiangIds\030\001 \003(\005\"@\n\013MibaoSel" +
+      "ect\022\014\n\004type\030\001 \002(\005\022\020\n\010mibaoIds\030\002 \003(\003\022\021\n\tz" +
+      "uheSkill\030\003 \001(\005\"C\n\017MibaoSelectResp\022\017\n\007suc" +
+      "cess\030\001 \002(\005\022\014\n\004type\030\002 \002(\005\022\021\n\tzuheSkill\030\003 " +
+      "\001(\005\"3\n\014GuanQiaMaxId\022\020\n\010commonId\030\001 \002(\005\022\021\n",
+      "\tchuanQiId\030\002 \002(\005\"-\n\027GetPassZhangJieAward" +
+      "Req\022\022\n\nzhangJieId\030\001 \002(\005\"0\n\032GetNotGetAwar" +
+      "dZhangJieResp\022\022\n\nzhangJiaId\030\001 \003(\005B\nB\010Pve" +
+      "Level"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -23497,7 +24304,7 @@ public final class PveLevel {
           internal_static_qxmobile_protobuf_GuanQiaInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_GuanQiaInfo_descriptor,
-              new java.lang.String[] { "GuanQiaId", "Items", "Enemies", "Desc", "Tili", "MibaoIds", "ZuheId", "CqPassTimes", "CqResetPay", "CqResetTimes", "CqResetLeft", "JySaoDangUsedTimes", "JySaoDangDayTimes", "CqSaoDangUsedTimes", "CqSaoDangDayTimes", "Acheive", "AcheiveRewardState", });
+              new java.lang.String[] { "GuanQiaId", "Items", "Enemies", "Desc", "Tili", "MibaoIds", "ZuheId", "CqPassTimes", "CqDayTimes", "CqResetPay", "CqResetTimes", "CqResetLeft", "JySaoDangUsedTimes", "JySaoDangDayTimes", "CqSaoDangUsedTimes", "CqSaoDangDayTimes", "Acheive", "AcheiveRewardState", });
           internal_static_qxmobile_protobuf_EnemyInfo_descriptor =
             getDescriptor().getMessageTypes().get(9);
           internal_static_qxmobile_protobuf_EnemyInfo_fieldAccessorTable = new
@@ -23515,7 +24322,7 @@ public final class PveLevel {
           internal_static_qxmobile_protobuf_PveBattleOver_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_PveBattleOver_descriptor,
-              new java.lang.String[] { "SSection", "SPass", "Star", "Achievement", });
+              new java.lang.String[] { "SSection", "SPass", "Star", "Achievement", "DropeenItemNpcs", });
           internal_static_qxmobile_protobuf_GetPveStarAward_descriptor =
             getDescriptor().getMessageTypes().get(12);
           internal_static_qxmobile_protobuf_GetPveStarAward_fieldAccessorTable = new
@@ -23606,6 +24413,12 @@ public final class PveLevel {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_GetPassZhangJieAwardReq_descriptor,
               new java.lang.String[] { "ZhangJieId", });
+          internal_static_qxmobile_protobuf_GetNotGetAwardZhangJieResp_descriptor =
+            getDescriptor().getMessageTypes().get(27);
+          internal_static_qxmobile_protobuf_GetNotGetAwardZhangJieResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_GetNotGetAwardZhangJieResp_descriptor,
+              new java.lang.String[] { "ZhangJiaId", });
           return null;
         }
       };

@@ -2,19 +2,31 @@ package com.qx.account;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import qxmobile.protobuf.JunZhuProto.MainSimpleInfoReq;
+import qxmobile.protobuf.JunZhuProto.MainSimpleInfoResp;
+import qxmobile.protobuf.JunZhuProto.SimpleInfo;
+
+import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.store.MemcachedCRUD;
 import com.manu.dynasty.template.FunctionOpen;
 import com.manu.dynasty.template.ZhuXian;
+import com.manu.network.SessionAttKey;
+import com.qx.persistent.HibernateUtil;
+import com.qx.pvp.LveDuoBean;
+import com.qx.pvp.LveStaticData;
 import com.qx.task.GameTaskMgr;
 import com.qx.task.WorkTaskBean;
+import com.qx.timeworker.FunctionID;
+import com.qx.yabiao.YaBiaoBean;
+import com.qx.yabiao.YaBiaoHuoDongMgr;
 
 /**
  * @author 康建虎
@@ -179,5 +191,61 @@ public class FunctionOpenMgr {
 			return false;
 		}
 		return false;
+	}
+	
+	public static void getFunctionInfo(IoSession session , Builder builder){
+		Long jId = (Long) session.getAttribute(SessionAttKey.junZhuId);
+		if(jId == null) {
+			log.error("找不到君主");
+			return;
+		}
+		MainSimpleInfoReq.Builder req = (MainSimpleInfoReq.Builder)builder;
+		int functionId = req.getFunctionType();
+		MainSimpleInfoResp.Builder resp = MainSimpleInfoResp.newBuilder();
+		switch(functionId){
+		case FunctionID.chuZheng_zhanDou: // 出征-战斗
+			SimpleInfo.Builder infob = SimpleInfo.newBuilder();
+			YaBiaoBean b = HibernateUtil.find(YaBiaoBean.class, jId);
+			int all = YaBiaoHuoDongMgr.inst.getYaBiaoCountForVip(0);
+			int remain = all;
+			if(b != null){
+				remain = b.remainYB;
+				all = b.remainYB + b.usedYB;
+			}
+			infob.setNum1(remain);
+			infob.setNum2(all);
+			infob.setFunctionId(FunctionID.yabiao);
+			if(b != null && (b.isNew4Enemy || b.isNew4History)){
+				infob.setIsShowRed(true);
+			}else{
+				infob.setIsShowRed(false);
+			}
+			resp.addInfo(infob);
+			
+			LveDuoBean lvb= HibernateUtil.find(LveDuoBean.class, jId);
+			all = LveStaticData.free_all_battle_times;
+			remain = all;
+			if(lvb != null){
+				all =lvb.todayTimes;
+				remain = all - lvb.usedTimes;
+			}
+			infob = SimpleInfo.newBuilder();
+			infob.setNum1(remain);
+			infob.setNum2(all);
+			infob.setFunctionId(FunctionID.lveDuo); // 掠夺
+			if(lvb != null && lvb.hasRecord){
+				infob.setIsShowRed(true);
+			}else{
+				infob.setIsShowRed(false);
+			}
+			resp.addInfo(infob);
+
+			session.write(resp.build());
+			break;
+			// 其实是游侠按钮改为的试炼按钮，服务器不做处理
+//		case FunctionID.shi_lian:
+//			break;
+		// 福利按钮  TODO 问 策划
+		}
 	}
 }

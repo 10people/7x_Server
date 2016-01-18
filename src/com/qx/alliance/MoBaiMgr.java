@@ -49,8 +49,6 @@ import com.qx.yuanbao.YuanBaoMgr;
 
 public class MoBaiMgr extends EventProc{
 	public static Logger log = LoggerFactory.getLogger(MoBaiMgr.class);
-	public static String moBaiBuffCnt = "moBaiBuffCnt#";
-	public static Date today;
 
 	public MoBaiMgr() {
 
@@ -100,24 +98,40 @@ public class MoBaiMgr extends EventProc{
 		ret.setTbGain(Integer.valueOf(tbConf.tili));
 		ret.setYbPay(ybConf.needNum);
 		ret.setYbGain(Integer.valueOf(tbConf.tili));
-		LMMoBaiInfo lmmbInfo = (LMMoBaiInfo) MemcachedCRUD.getMemCachedClient()
-				.get(moBaiBuffCnt+member.lianMengId);
 		long cnt;
-		today = new Date();
-		if (lmmbInfo == null) {// 未找到联盟的勠力同心等级信息,设置为0
+		Date today = new Date();
+		LmTuTeng tuTengBean = HibernateUtil.find(LmTuTeng.class, member.lianMengId);
+		if (tuTengBean == null) {// 未找到联盟的勠力同心等级信息,设置为0
 			cnt = 0;
 		} else {
 			// change 20150901
-			if(DateUtils.isTimeToReset(lmmbInfo.getLastDate(), CanShu.REFRESHTIME_PURCHASE)){
+			if(DateUtils.isTimeToReset(tuTengBean.dTime, CanShu.REFRESHTIME_PURCHASE)){
 				cnt = 0;
+				tuTengBean.times = 0;
+				tuTengBean.dTime = today;
+				HibernateUtil.update(tuTengBean);
 			} else {
-				cnt = lmmbInfo.getBuffLevel();
+				cnt = tuTengBean.times;
 			}
 		}
 		ret.setBuffCount((int) cnt);
 		if (list != null) {
 			ret.setMobaiGain(list);
 		}
+		MoBaiBean stepBean = HibernateUtil.find(MoBaiBean.class, jz.id);
+		if(stepBean == null){
+			stepBean = new MoBaiBean();
+		}
+		int tuTengLv = 1;//FIXME 
+		LianMengTuTeng conf = getTuTengConf(tuTengLv);
+		if(conf == null){
+			log.error("LianMengTuTeng not found for lv {}, lm {}", tuTengLv, member.lianMengId);
+			return;
+		}
+		//0 不可领； 1 可以领； 2 已领取
+		ret.setBigStep0(cnt<conf.moBaiTimes1?0: DateUtils.isSameDay(today, stepBean.step1time)?2:1);
+		ret.setBigStep1(cnt<conf.moBaiTimes2?0: DateUtils.isSameDay(today, stepBean.step2time)?2:1);
+		ret.setBigStep2(cnt<conf.moBaiTimes3?0: DateUtils.isSameDay(today, stepBean.step3time)?2:1);
 		session.write(ret.build());
 		log.info("发送膜拜信息给{}，buff cnt {}", jzId, cnt);
 	}
@@ -200,12 +214,12 @@ public class MoBaiMgr extends EventProc{
 			spend.add(jo);
 			BagMgr.inst.removeItem(bag, yuId, 1, "膜拜",jz.level);
 		}
-		today = new Date();
+		Date today = new Date();
 		BagMgr.inst.sendBagInfo(0, session, null);
 		bean.yuTime = today;
 		bean.yuTimes += 1;
 
-		updateMobaiLevel(member.lianMengId, conf.buffNum, today);
+		updateMobaiLevel(member.lianMengId, 1/*conf.buffNum*/, today);
 
 		// MemcachedCRUD.getMemCachedClient().addOrIncr(moBaiBuffCnt+member.lianMengId,
 		// conf.buffNum);
@@ -270,29 +284,9 @@ public class MoBaiMgr extends EventProc{
 				tt.dTime = time;
 				HibernateUtil.insert(tt);
 			}else{
-				tt.times+=1;
+				tt.times+=buffNum;
 				HibernateUtil.update(tt);
 			}
-		}
-		LMMoBaiInfo lmmbInfo = (LMMoBaiInfo) MemcachedCRUD.getMemCachedClient()
-				.get(moBaiBuffCnt+lmId);
-		if (lmmbInfo == null) {// 如果没有该联盟勠力同心信息，初始化勠力同心信息
-			LMMoBaiInfo temInfo = new LMMoBaiInfo();
-			temInfo.setLastDate(time);
-			temInfo.setBuffLevel(buffNum);
-			MemcachedCRUD.getMemCachedClient().add(moBaiBuffCnt+lmId,
-					temInfo);
-		} else {
-			// change 20150901
-			if (DateUtils.isTimeToReset(lmmbInfo.getLastDate(), CanShu.REFRESHTIME_PURCHASE)) {
-				lmmbInfo.setLastDate(time);
-				lmmbInfo.setBuffLevel(buffNum);
-			} else {
-				lmmbInfo.setLastDate(time);
-				lmmbInfo.setBuffLevel(lmmbInfo.getBuffLevel() + buffNum);
-			}
-			MemcachedCRUD.getMemCachedClient().replace(moBaiBuffCnt+lmId,
-					lmmbInfo);
 		}
 	}
 
@@ -330,11 +324,11 @@ public class MoBaiMgr extends EventProc{
 		log.info("膜拜扣除{}:{}元宝{}", jz.id, jz.name, conf.needNum);
 		JunZhuMgr.inst.sendMainInfo(session);
 
-		today = new Date();
+		Date today = new Date();
 		bean.yuanBaoTime = today;
 		HibernateUtil.save(bean);
 
-		updateMobaiLevel(member.lianMengId, conf.buffNum, today);
+		updateMobaiLevel(member.lianMengId, 1/*conf.buffNum*/, today);
 		// MemcachedCRUD.getMemCachedClient().addOrIncr(moBaiBuffCnt+member.lianMengId,
 		// conf.buffNum);
 		log.info("{}元宝膜拜", bean.junZhuId);
@@ -385,11 +379,11 @@ public class MoBaiMgr extends EventProc{
 		ActLog.log.Worship(jz.id, jz.name, ActLog.vopenid, "1", spend);
 		JunZhuMgr.inst.sendMainInfo(session);
 
-		today = new Date();
+		Date today = new Date();
 		bean.tongBiTime = today;
 		HibernateUtil.save(bean);
 
-		updateMobaiLevel(member.lianMengId, conf.buffNum, today);
+		updateMobaiLevel(member.lianMengId, 1/*conf.buffNum*/, today);
 		// MemcachedCRUD.getMemCachedClient().addOrIncr(moBaiBuffCnt+member.lianMengId,
 		// conf.buffNum);
 		log.info("{}铜币膜拜", bean.junZhuId);
@@ -426,6 +420,18 @@ public class MoBaiMgr extends EventProc{
 	}
 
 	public void isCanTongBiMoBai(JunZhu jz, IoSession session){
+		boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionOpenMgr.TYPE_ALLIANCE, jz.id, jz.level);
+		if(!isOpen){
+			return;
+		}
+		AlliancePlayer alliancePlayer = HibernateUtil.find(AlliancePlayer.class, jz.id);
+		if(alliancePlayer == null) {
+			return;
+		}
+		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, alliancePlayer.lianMengId);
+		if(alliance == null) {
+			return;
+		}
 		MoBaiBean bean = HibernateUtil.find(MoBaiBean.class, jz.id);
 		if(bean != null){
 			if(bean.tongBiTime != null){
@@ -505,6 +511,7 @@ public class MoBaiMgr extends EventProc{
 		LmTuTeng tuTengBean = HibernateUtil.find(LmTuTeng.class, member.lianMengId);
 		if(tuTengBean == null){
 			log.error("tuTeng bean not find for {}",member.lianMengId);
+			sendError(0, session, "本联盟今日膜拜次数未产生");
 			return;
 		}
 		//计算当前可以领取的阶段
@@ -515,10 +522,16 @@ public class MoBaiMgr extends EventProc{
 				maxReachStep = i;
 			}
 		}
-		int wantStep = 1;//FIXME
+		if(builder == null){
+			sendError(0, session, "请选择领取阶段");
+			return;
+		}
+		MoBaiReq.Builder req = (qxmobile.protobuf.MoBaiProto.MoBaiReq.Builder) builder;
+		int wantStep = req.getCmd();//FIXME
 		if(maxReachStep<wantStep){
 			log.error("lm {} times {} ,reach {} want {} by pid {}", 
 					member.lianMengId,tuTengBean.times, maxReachStep, wantStep, jz.id);
+			sendError(0, session, "进度未达到");
 			return;
 		}
 		//检查请求的阶段是否已经领取过。
@@ -537,6 +550,8 @@ public class MoBaiMgr extends EventProc{
 			return;
 		}
 		if(preTime != null && DateUtils.isSameDay(preTime)){
+			log.info("{} 已经领取过 {}", jz.id, wantStep);
+			sendError(0, session, "该奖励已领。");
 			return;//已经领取过了。
 		}
 		//
@@ -554,6 +569,7 @@ public class MoBaiMgr extends EventProc{
 		}
 		HibernateUtil.update(bean);
 		log.info("结束发奖给{}，阶段{}，奖励{}",jz.id,wantStep,award);
+		sendMoBaiInfo(0, session, null);
 	}
 
 	public LianMengTuTeng getTuTengConf(int tuTengLv) {

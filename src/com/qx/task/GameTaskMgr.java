@@ -1,5 +1,6 @@
 package com.qx.task;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ import com.manu.dynasty.store.MemcachedCRUD;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.BaseItem;
 import com.manu.dynasty.template.Fuwen;
+import com.manu.dynasty.template.JiNengPeiYang;
 import com.manu.dynasty.template.ZhuXian;
 import com.manu.dynasty.template.ZhuangBei;
 import com.manu.network.SessionAttKey;
@@ -50,6 +52,7 @@ import com.qx.huangye.HYTreasureTimes;
 import com.qx.huangye.shop.PublicShop;
 import com.qx.huangye.shop.ShopMgr;
 import com.qx.jinengpeiyang.JNBean;
+import com.qx.jinengpeiyang.JiNengPeiYangMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.junzhu.TalentPoint;
@@ -64,6 +67,7 @@ import com.qx.pve.SaoDangBean;
 import com.qx.pvp.LveDuoBean;
 import com.qx.pvp.PvpBean;
 import com.qx.pvp.PvpMgr;
+import com.qx.youxia.YouXiaBean;
 
 /**
  * 任务进度，负数表示已完成，但未领奖；已领奖的任务客户端看不到。
@@ -560,6 +564,21 @@ public class GameTaskMgr extends EventProc{
 					}
 					break;
 					/*
+					 * X个角色技能达到N级
+					 * 完成条件填字符串 x:n
+					 */
+				case TaskData.jueSe_x_jiNeng_n:
+					condis = zx.getDoneCond().split(":");
+					if(condis != null && condis.length == 2){
+						boolean yes = isJueSeJiNengOk(junZhuId,
+								Integer.parseInt(condis[0]),
+								Integer.parseInt(condis[1]));
+						if(yes){
+							b.progress = -1;
+						}
+					}
+					break;
+					/*
 					 * 是否领取过任意通章 奖励
 					 */
 				case TaskData.get_pass_PVE_zhang_award:
@@ -572,6 +591,31 @@ public class GameTaskMgr extends EventProc{
 						}
 					}
 					break;
+				case TaskData.finish_youxia_x:
+					donCond = Integer.parseInt(zx.getDoneCond());
+					List<YouXiaBean> youXiaInfoList = HibernateUtil.list(YouXiaBean.class,
+							" where junzhuId = " +junZhuId);
+					int allwin = 0;
+					for(YouXiaBean you: youXiaInfoList){
+						allwin += you.allWinTimes;
+					}
+					if(allwin >= donCond){
+						b.progress = -1;
+					}
+					break;
+				case TaskData.go_youxia:
+					donCond = Integer.parseInt(zx.getDoneCond());
+					youXiaInfoList = HibernateUtil.list(YouXiaBean.class,
+							" where junzhuId = " +junZhuId);
+					int allBattle = 0;
+					for(YouXiaBean you: youXiaInfoList){
+						allBattle += you.allBattleTimes;
+					}
+					if(allBattle >= donCond){
+						b.progress = -1;
+					}
+					break;
+					
 			}
 		}
 		HibernateUtil.save(b);
@@ -829,11 +873,11 @@ public class GameTaskMgr extends EventProc{
 			   log.info("主线任务完成，完成一次秘宝合成的任务,秘宝id：{}", mibaoID);
 			   recordTaskProcess(junZhuId, TaskData.MIBAO_HECHENG, mibaoID+"");
 			   break;
-		   case ED.MIBAO_SHENGJI:
-			   Integer mibaoId = (Integer)obs[1];
-			   log.info("主线任务完成，完成一次秘宝升级的任务,秘宝id：{}", mibaoId);
-			   recordTaskProcess(junZhuId, TaskData.MIBAO_SHENGJI, mibaoId+"");
-			   break;
+//		   case ED.MIBAO_SHENGJI:
+//			   Integer mibaoId = (Integer)obs[1];
+//			   log.info("主线任务完成，完成一次秘宝升级的任务,秘宝id：{}", mibaoId);
+//			   recordTaskProcess(junZhuId, TaskData.MIBAO_SHENGJI, mibaoId+"");
+//			   break;
 		   case ED.MIBAO_SEHNGXING:
 			   Integer mibaoid = (Integer)obs[1];
 			   log.info("主线任务完成，完成一次秘宝升星的任务，秘宝id：{}", mibaoid);
@@ -887,6 +931,9 @@ public class GameTaskMgr extends EventProc{
 			   break;
 		   case ED.finish_jiebiao_x:
 			   recordTaskProcess(junZhuId, TaskData.finish_jiebiao_x, 1+"");
+			   break;
+		   case ED.go_youxia:
+			   recordTaskProcess(junZhuId, TaskData.go_youxia, 1+"");
 			   break;
 		   case ED.finish_youxia_x:
 			   log.info("君主：{},主线任务完成游侠活动",junZhuId);
@@ -946,11 +993,14 @@ public class GameTaskMgr extends EventProc{
 			   Integer mbid = (Integer)obs[1];
 			   recordTaskProcess(junZhuId, TaskData.mibao_shengStar, mbid+"");
 			   break;
-		   case ED.jinJie_jueSe_jiNeng:
-			   recordTaskProcess(junZhuId, TaskData.jinJie_jueSe_jiNeng, 1+"");
-			   break;
 		   case ED.get_pass_PVE_zhang_award:
 			   recordTaskProcess(junZhuId, TaskData.get_pass_PVE_zhang_award, 1+"");
+			   break;
+		   /*
+		    * 判断角色技能相关任务是否完成
+		    */
+		   case ED.jinJie_jueSe_jiNeng:
+			   jueSe_jiNeng_task(junZhuId);
 			   break;
 		   default:
 			   break;
@@ -958,6 +1008,83 @@ public class GameTaskMgr extends EventProc{
 	   }
 	}
 
+	public void jueSe_jiNeng_task(long junZhuId){
+		List<WorkTaskBean> list = getTaskList(junZhuId);
+		if(list == null){
+			return;
+		}
+		ZhuXian task = null;
+		boolean toSend = false;
+		for (WorkTaskBean b: list){
+			task = zhuxianTaskMap.get(b.tid);
+			if(task == null){
+				continue;
+			}
+			if(b.progress != 0){
+				continue;
+			}
+			byte type = task.getDoneType();
+			switch(type){
+				case TaskData.jinJie_jueSe_jiNeng:
+					dealTask(junZhuId, b, type, task);
+					toSend = true;
+					break;
+				case TaskData.jueSe_x_jiNeng_n:
+					String[] condis = task.getDoneCond().split(":");
+					if(condis != null && condis.length == 2){
+						boolean yes = isJueSeJiNengOk(junZhuId,
+								Integer.parseInt(condis[0]),
+								Integer.parseInt(condis[1]));
+						if(yes){
+							dealTask(junZhuId, b, type, task);
+							toSend = true;
+							log.info("君主：{}，x个技能升级到n等级的主线任务完成", junZhuId);
+						}
+					}
+					break;
+			}
+			if(toSend){
+				break;
+			}
+		}
+		toSendTask(toSend, junZhuId);
+	}
+	
+	public boolean isJueSeJiNengOk(long jid, int numberCondition, int levelCondition){
+		JNBean jn = HibernateUtil.find(JNBean.class, jid);
+		int number = 0;
+		if(jn != null){
+			Field[] fs = jn.getClass().getDeclaredFields();
+			for(int i=0; i < fs.length ; i++){
+				Field f = fs[i];
+				f.setAccessible(true);
+				String type = f.getType().toString();//得到此属性的类型  
+				if (type.equals("int")) {
+					try {
+						int va = f.getInt(jn);
+						if(va == 0){
+							continue;
+						}
+						JiNengPeiYang peizhi = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(va);
+						if(peizhi != null){
+							if(peizhi.quality >= levelCondition){
+								number ++ ;
+							}
+						}
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		if(number >= numberCondition){
+			return true;
+		}
+		return false;
+	}
+	
 	public void tianfu_Task(Long junZhuId, int pointLevel){
 		List<WorkTaskBean> list = getTaskList(junZhuId);
 		if(list == null){
@@ -1044,9 +1171,6 @@ public class GameTaskMgr extends EventProc{
 						}
 					}
 					break;
-			}
-			if(toSend){
-				break;
 			}
 		}
 		toSendTask(toSend, junZhuId);
@@ -1153,7 +1277,6 @@ public class GameTaskMgr extends EventProc{
 		EventMgr.regist(ED.XILIAN_ONE_GONG, this);
 		EventMgr.regist(ED.JINJIE_ONE_GONG, this);
 		EventMgr.regist(ED.MIBAO_HECHENG, this);
-		EventMgr.regist(ED.MIBAO_SHENGJI, this);
 		EventMgr.regist(ED.MIBAO_SEHNGXING, this);
 		EventMgr.regist(ED.SUCCESS_BAIZHAN_N, this);
 		/*
@@ -1196,6 +1319,8 @@ public class GameTaskMgr extends EventProc{
 		EventMgr.regist(ED.get_pass_PVE_zhang_award, this);
 		EventMgr.regist(ED.jinJie_jueSe_jiNeng, this);
 		EventMgr.regist(ED.mibao_shengStar, this);
+		EventMgr.regist(ED.go_youxia, this);
+		
 	}
 	
 	public void zhuangBeiTask(Long junZhuId, String param1, Bag<EquipGrid> equips, int which){

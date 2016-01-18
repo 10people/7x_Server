@@ -43,7 +43,6 @@ import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.ranking.RankingMgr;
-import com.qx.timeworker.FunctionID;
 import com.qx.world.Mission;
 
 public class GuoJiaMgr  extends EventProc implements Runnable{
@@ -978,7 +977,7 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 //		}
 		if(gongjinBean != null && gongjinBean.getWeekAwardTime != null){
 			if(DateUtils.isSameWeek_CN(gongjinBean.getWeekAwardTime, new Date())){
-				log.error("玩家：{}发送国家声望周排行奖励失败，本周已经领取过", jId );
+				log.info("玩家：{}国家声望周排行奖励方法return，本周已经领取过", jId );
 				return;
 			}
 		}
@@ -993,13 +992,15 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 //		}
 		AlliancePlayer pl = HibernateUtil.find(AlliancePlayer.class, jId);
 		if(pl == null){
-			log.error("玩家:{}发送国家声望周排行奖励失败，联盟数据不存在", jId);
+			log.info("玩家:{}国家声望周排行奖励方法return，不是联盟玩家", jId);
 			return;
 		}
 //		Integer guojiRank = (int) RankingMgr.inst.getRankAtGuojiaWeek(jz.guoJiaId);
 //		Integer lianMengRank = (int) RankingMgr.inst.getRankAtLianmengBySW(pl.lianMengId, jz.guoJiaId);
-		Integer guojiRank = (int) RankingMgr.inst.getRankById(RankingMgr.GUOJIA_WEEK_RANK, jz.guoJiaId);
-		Integer lianMengRank = (int) RankingMgr.inst.getRankByGjIdAndId(RankingMgr.LIANMENG_SW_WEEK_RANK, jz.guoJiaId, pl.lianMengId);
+		// 因为代码执行是在重置排行榜之后，所以用last排行榜的数据进行奖励分配。
+		Integer guojiRank = (int) RankingMgr.inst.getRankById(RankingMgr.GUOJIA_WEEK_LAST_RANK, jz.guoJiaId);
+		Integer lianMengRank = (int) RankingMgr.inst.getRankByGjIdAndId(
+				RankingMgr.LIANMENG_SW_LAST_WEEK_RANK, jz.guoJiaId, pl.lianMengId);
 		if(guojiRank < 1 || lianMengRank < 1){
 			log.error("玩家：{}发送国家声望周排行奖励失败，所在国家或者联盟声望排行出错", jId);
 			return;
@@ -1041,6 +1042,9 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 		}
 		gongjinBean.getWeekAwardTime = new Date();
 		HibernateUtil.save(gongjinBean);
+		log.info("玩家：{}国家声望周排行奖励邮件发送，gongjinbean保存成功，其中"
+				+ "guojiRank：{}， lianMengRank：{}，发送邮件结果success：{} ",
+				jz.id, guojiRank, lianMengRank, suc);
 	}
 	/**
 	 * @Description 计算敌对国

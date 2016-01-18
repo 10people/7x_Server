@@ -10,7 +10,7 @@
 <%@page import="com.qx.account.FunctionOpenMgr"%>
 <%@page import="com.manu.network.SessionUser"%>
 <%@page import="com.manu.network.SessionManager"%>
-<%@page import="com.qx.battle.PveMgr"%>
+<%@page import="com.qx.pve.PveMgr"%>
 <%@page import="com.qx.junzhu.JunZhuMgr"%>
 <%@page import="com.manu.dynasty.base.TempletService"%>
 <%@page import="com.manu.dynasty.template.ExpTemp"%>

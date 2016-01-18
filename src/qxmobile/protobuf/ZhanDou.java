@@ -12,7 +12,7 @@ public final class ZhanDou {
    * Protobuf enum {@code qxmobile.protobuf.NodeType}
    *
    * <pre>
-   *绫诲瀷
+   *类型
    * </pre>
    */
   public enum NodeType
@@ -21,7 +21,7 @@ public final class ZhanDou {
      * <code>GEAR = 1;</code>
      *
      * <pre>
-     *鏈哄叧
+     *机关
      * </pre>
      */
     GEAR(0, 1),
@@ -29,7 +29,7 @@ public final class ZhanDou {
      * <code>SOLDIER = 2;</code>
      *
      * <pre>
-     *灏忓叺
+     *小兵
      * </pre>
      */
     SOLDIER(1, 2),
@@ -37,7 +37,7 @@ public final class ZhanDou {
      * <code>HERO = 3;</code>
      *
      * <pre>
-     *姝﹀皢
+     *武将
      * </pre>
      */
     HERO(2, 3),
@@ -45,7 +45,7 @@ public final class ZhanDou {
      * <code>BOSS = 4;</code>
      *
      * <pre>
-     *鍏冲簳
+     *关底
      * </pre>
      */
     BOSS(3, 4),
@@ -53,7 +53,7 @@ public final class ZhanDou {
      * <code>PLAYER = 5;</code>
      *
      * <pre>
-     *鐜╁
+     *玩家
      * </pre>
      */
     PLAYER(4, 5),
@@ -61,7 +61,7 @@ public final class ZhanDou {
      * <code>GOD = 6;</code>
      *
      * <pre>
-     *鐪嬩笉瑙佺殑NPC锛岀敤鏉ユ斁鎶�兘
+     *看不见的NPC，用来放技能
      * </pre>
      */
     GOD(5, 6),
@@ -69,7 +69,8 @@ public final class ZhanDou {
      * <code>NPC = 7;</code>
      *
      * <pre>
-     *涓嶅弬涓庢垬鏂楋紝娌℃湁鎴樻枟鍔ㄤ綔锛屼絾鏄嚭鐜板湪鎴樻枟涓殑浜�     * </pre>
+     *不参与战斗，没有战斗动作，但是出现在战斗中的人
+     * </pre>
      */
     NPC(6, 7),
     ;
@@ -78,7 +79,7 @@ public final class ZhanDou {
      * <code>GEAR = 1;</code>
      *
      * <pre>
-     *鏈哄叧
+     *机关
      * </pre>
      */
     public static final int GEAR_VALUE = 1;
@@ -86,7 +87,7 @@ public final class ZhanDou {
      * <code>SOLDIER = 2;</code>
      *
      * <pre>
-     *灏忓叺
+     *小兵
      * </pre>
      */
     public static final int SOLDIER_VALUE = 2;
@@ -94,7 +95,7 @@ public final class ZhanDou {
      * <code>HERO = 3;</code>
      *
      * <pre>
-     *姝﹀皢
+     *武将
      * </pre>
      */
     public static final int HERO_VALUE = 3;
@@ -102,7 +103,7 @@ public final class ZhanDou {
      * <code>BOSS = 4;</code>
      *
      * <pre>
-     *鍏冲簳
+     *关底
      * </pre>
      */
     public static final int BOSS_VALUE = 4;
@@ -110,7 +111,7 @@ public final class ZhanDou {
      * <code>PLAYER = 5;</code>
      *
      * <pre>
-     *鐜╁
+     *玩家
      * </pre>
      */
     public static final int PLAYER_VALUE = 5;
@@ -118,7 +119,7 @@ public final class ZhanDou {
      * <code>GOD = 6;</code>
      *
      * <pre>
-     *鐪嬩笉瑙佺殑NPC锛岀敤鏉ユ斁鎶�兘
+     *看不见的NPC，用来放技能
      * </pre>
      */
     public static final int GOD_VALUE = 6;
@@ -126,7 +127,8 @@ public final class ZhanDou {
      * <code>NPC = 7;</code>
      *
      * <pre>
-     *涓嶅弬涓庢垬鏂楋紝娌℃湁鎴樻枟鍔ㄤ綔锛屼絾鏄嚭鐜板湪鎴樻枟涓殑浜�     * </pre>
+     *不参与战斗，没有战斗动作，但是出现在战斗中的人
+     * </pre>
      */
     public static final int NPC_VALUE = 7;
 
@@ -197,7 +199,7 @@ public final class ZhanDou {
    * Protobuf enum {@code qxmobile.protobuf.NodeProfession}
    *
    * <pre>
-   *鑱屼笟
+   *职业
    * </pre>
    */
   public enum NodeProfession
@@ -319,7 +321,7 @@ public final class ZhanDou {
    * Protobuf enum {@code qxmobile.protobuf.LevelType}
    *
    * <pre>
-   *鍏冲崱绫诲瀷
+   *关卡类型
    * </pre>
    */
   public enum LevelType
@@ -328,7 +330,7 @@ public final class ZhanDou {
      * <code>LEVEL_NORMAL = 1;</code>
      *
      * <pre>
-     *鏅�鍏冲崱
+     *普通关卡
      * </pre>
      */
     LEVEL_NORMAL(0, 1),
@@ -336,7 +338,7 @@ public final class ZhanDou {
      * <code>LEVEL_ELITE = 2;</code>
      *
      * <pre>
-     *绮捐嫳鍏冲崱
+     *精英关卡
      * </pre>
      */
     LEVEL_ELITE(1, 2),
@@ -344,7 +346,7 @@ public final class ZhanDou {
      * <code>LEVEL_TALE = 3;</code>
      *
      * <pre>
-     *浼犲鍏冲崱
+     *传奇关卡
      * </pre>
      */
     LEVEL_TALE(2, 3),
@@ -354,7 +356,7 @@ public final class ZhanDou {
      * <code>LEVEL_NORMAL = 1;</code>
      *
      * <pre>
-     *鏅�鍏冲崱
+     *普通关卡
      * </pre>
      */
     public static final int LEVEL_NORMAL_VALUE = 1;
@@ -362,7 +364,7 @@ public final class ZhanDou {
      * <code>LEVEL_ELITE = 2;</code>
      *
      * <pre>
-     *绮捐嫳鍏冲崱
+     *精英关卡
      * </pre>
      */
     public static final int LEVEL_ELITE_VALUE = 2;
@@ -370,7 +372,7 @@ public final class ZhanDou {
      * <code>LEVEL_TALE = 3;</code>
      *
      * <pre>
-     *浼犲鍏冲崱
+     *传奇关卡
      * </pre>
      */
     public static final int LEVEL_TALE_VALUE = 3;
@@ -2137,7 +2139,7 @@ public final class ZhanDou {
      * <code>required float weaponId = 1;</code>
      *
      * <pre>
-     *姝﹀櫒鐨勬ā鍨媔d
+     *武器的模型id
      * </pre>
      */
     boolean hasWeaponId();
@@ -2145,7 +2147,7 @@ public final class ZhanDou {
      * <code>required float weaponId = 1;</code>
      *
      * <pre>
-     *姝﹀櫒鐨勬ā鍨媔d
+     *武器的模型id
      * </pre>
      */
     float getWeaponId();
@@ -2199,14 +2201,16 @@ public final class ZhanDou {
      * <code>required int32 criX = 6;</code>
      *
      * <pre>
-     *鏆村嚮鐜囧ぇ鏁�     * </pre>
+     *暴击率大数
+     * </pre>
      */
     boolean hasCriX();
     /**
      * <code>required int32 criX = 6;</code>
      *
      * <pre>
-     *鏆村嚮鐜囧ぇ鏁�     * </pre>
+     *暴击率大数
+     * </pre>
      */
     int getCriX();
 
@@ -2215,14 +2219,16 @@ public final class ZhanDou {
      * <code>required int32 criY = 7;</code>
      *
      * <pre>
-     *鏆村嚮鐜囧皬鏁�     * </pre>
+     *暴击率小数
+     * </pre>
      */
     boolean hasCriY();
     /**
      * <code>required int32 criY = 7;</code>
      *
      * <pre>
-     *鏆村嚮鐜囧皬鏁�     * </pre>
+     *暴击率小数
+     * </pre>
      */
     int getCriY();
 
@@ -2231,14 +2237,16 @@ public final class ZhanDou {
      * <code>required int32 criSkillX = 8;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鐜囧ぇ鏁�     * </pre>
+     *技能暴击率大数
+     * </pre>
      */
     boolean hasCriSkillX();
     /**
      * <code>required int32 criSkillX = 8;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鐜囧ぇ鏁�     * </pre>
+     *技能暴击率大数
+     * </pre>
      */
     int getCriSkillX();
 
@@ -2247,16 +2255,70 @@ public final class ZhanDou {
      * <code>required int32 criSkillY = 9;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鐜囧皬鏁�     * </pre>
+     *技能暴击率小数
+     * </pre>
      */
     boolean hasCriSkillY();
     /**
      * <code>required int32 criSkillY = 9;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鐜囧皬鏁�     * </pre>
+     *技能暴击率小数
+     * </pre>
      */
     int getCriSkillY();
+
+    // repeated int32 skillLevel = 10;
+    /**
+     * <code>repeated int32 skillLevel = 10;</code>
+     *
+     * <pre>
+     *技能等级，0-普攻，1-技能1（八荒烈日，绝影星光斩，追星箭），2-技能2（乾坤斗转，血迹烙印，寒冰箭）
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getSkillLevelList();
+    /**
+     * <code>repeated int32 skillLevel = 10;</code>
+     *
+     * <pre>
+     *技能等级，0-普攻，1-技能1（八荒烈日，绝影星光斩，追星箭），2-技能2（乾坤斗转，血迹烙印，寒冰箭）
+     * </pre>
+     */
+    int getSkillLevelCount();
+    /**
+     * <code>repeated int32 skillLevel = 10;</code>
+     *
+     * <pre>
+     *技能等级，0-普攻，1-技能1（八荒烈日，绝影星光斩，追星箭），2-技能2（乾坤斗转，血迹烙印，寒冰箭）
+     * </pre>
+     */
+    int getSkillLevel(int index);
+
+    // repeated int32 skillFirstActive = 11;
+    /**
+     * <code>repeated int32 skillFirstActive = 11;</code>
+     *
+     * <pre>
+     *技能首次开启列表，内容是skillLevel的下标
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getSkillFirstActiveList();
+    /**
+     * <code>repeated int32 skillFirstActive = 11;</code>
+     *
+     * <pre>
+     *技能首次开启列表，内容是skillLevel的下标
+     * </pre>
+     */
+    int getSkillFirstActiveCount();
+    /**
+     * <code>repeated int32 skillFirstActive = 11;</code>
+     *
+     * <pre>
+     *技能首次开启列表，内容是skillLevel的下标
+     * </pre>
+     */
+    int getSkillFirstActive(int index);
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.PlayerWeapon}
@@ -2370,6 +2432,48 @@ public final class ZhanDou {
               criSkillY_ = input.readInt32();
               break;
             }
+            case 80: {
+              if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+                skillLevel_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000200;
+              }
+              skillLevel_.add(input.readInt32());
+              break;
+            }
+            case 82: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000200) == 0x00000200) && input.getBytesUntilLimit() > 0) {
+                skillLevel_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000200;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                skillLevel_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+            case 88: {
+              if (!((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
+                skillFirstActive_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000400;
+              }
+              skillFirstActive_.add(input.readInt32());
+              break;
+            }
+            case 90: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000400) == 0x00000400) && input.getBytesUntilLimit() > 0) {
+                skillFirstActive_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000400;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                skillFirstActive_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2380,6 +2484,12 @@ public final class ZhanDou {
       } finally {
         if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
           weaponRatio_ = java.util.Collections.unmodifiableList(weaponRatio_);
+        }
+        if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+          skillLevel_ = java.util.Collections.unmodifiableList(skillLevel_);
+        }
+        if (((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
+          skillFirstActive_ = java.util.Collections.unmodifiableList(skillFirstActive_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2420,7 +2530,7 @@ public final class ZhanDou {
      * <code>required float weaponId = 1;</code>
      *
      * <pre>
-     *姝﹀櫒鐨勬ā鍨媔d
+     *武器的模型id
      * </pre>
      */
     public boolean hasWeaponId() {
@@ -2430,7 +2540,7 @@ public final class ZhanDou {
      * <code>required float weaponId = 1;</code>
      *
      * <pre>
-     *姝﹀櫒鐨勬ā鍨媔d
+     *武器的模型id
      * </pre>
      */
     public float getWeaponId() {
@@ -2515,7 +2625,8 @@ public final class ZhanDou {
      * <code>required int32 criX = 6;</code>
      *
      * <pre>
-     *鏆村嚮鐜囧ぇ鏁�     * </pre>
+     *暴击率大数
+     * </pre>
      */
     public boolean hasCriX() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
@@ -2524,7 +2635,8 @@ public final class ZhanDou {
      * <code>required int32 criX = 6;</code>
      *
      * <pre>
-     *鏆村嚮鐜囧ぇ鏁�     * </pre>
+     *暴击率大数
+     * </pre>
      */
     public int getCriX() {
       return criX_;
@@ -2537,7 +2649,8 @@ public final class ZhanDou {
      * <code>required int32 criY = 7;</code>
      *
      * <pre>
-     *鏆村嚮鐜囧皬鏁�     * </pre>
+     *暴击率小数
+     * </pre>
      */
     public boolean hasCriY() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
@@ -2546,7 +2659,8 @@ public final class ZhanDou {
      * <code>required int32 criY = 7;</code>
      *
      * <pre>
-     *鏆村嚮鐜囧皬鏁�     * </pre>
+     *暴击率小数
+     * </pre>
      */
     public int getCriY() {
       return criY_;
@@ -2559,7 +2673,8 @@ public final class ZhanDou {
      * <code>required int32 criSkillX = 8;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鐜囧ぇ鏁�     * </pre>
+     *技能暴击率大数
+     * </pre>
      */
     public boolean hasCriSkillX() {
       return ((bitField0_ & 0x00000040) == 0x00000040);
@@ -2568,7 +2683,8 @@ public final class ZhanDou {
      * <code>required int32 criSkillX = 8;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鐜囧ぇ鏁�     * </pre>
+     *技能暴击率大数
+     * </pre>
      */
     public int getCriSkillX() {
       return criSkillX_;
@@ -2581,7 +2697,8 @@ public final class ZhanDou {
      * <code>required int32 criSkillY = 9;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鐜囧皬鏁�     * </pre>
+     *技能暴击率小数
+     * </pre>
      */
     public boolean hasCriSkillY() {
       return ((bitField0_ & 0x00000080) == 0x00000080);
@@ -2590,10 +2707,81 @@ public final class ZhanDou {
      * <code>required int32 criSkillY = 9;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鐜囧皬鏁�     * </pre>
+     *技能暴击率小数
+     * </pre>
      */
     public int getCriSkillY() {
       return criSkillY_;
+    }
+
+    // repeated int32 skillLevel = 10;
+    public static final int SKILLLEVEL_FIELD_NUMBER = 10;
+    private java.util.List<java.lang.Integer> skillLevel_;
+    /**
+     * <code>repeated int32 skillLevel = 10;</code>
+     *
+     * <pre>
+     *技能等级，0-普攻，1-技能1（八荒烈日，绝影星光斩，追星箭），2-技能2（乾坤斗转，血迹烙印，寒冰箭）
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getSkillLevelList() {
+      return skillLevel_;
+    }
+    /**
+     * <code>repeated int32 skillLevel = 10;</code>
+     *
+     * <pre>
+     *技能等级，0-普攻，1-技能1（八荒烈日，绝影星光斩，追星箭），2-技能2（乾坤斗转，血迹烙印，寒冰箭）
+     * </pre>
+     */
+    public int getSkillLevelCount() {
+      return skillLevel_.size();
+    }
+    /**
+     * <code>repeated int32 skillLevel = 10;</code>
+     *
+     * <pre>
+     *技能等级，0-普攻，1-技能1（八荒烈日，绝影星光斩，追星箭），2-技能2（乾坤斗转，血迹烙印，寒冰箭）
+     * </pre>
+     */
+    public int getSkillLevel(int index) {
+      return skillLevel_.get(index);
+    }
+
+    // repeated int32 skillFirstActive = 11;
+    public static final int SKILLFIRSTACTIVE_FIELD_NUMBER = 11;
+    private java.util.List<java.lang.Integer> skillFirstActive_;
+    /**
+     * <code>repeated int32 skillFirstActive = 11;</code>
+     *
+     * <pre>
+     *技能首次开启列表，内容是skillLevel的下标
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getSkillFirstActiveList() {
+      return skillFirstActive_;
+    }
+    /**
+     * <code>repeated int32 skillFirstActive = 11;</code>
+     *
+     * <pre>
+     *技能首次开启列表，内容是skillLevel的下标
+     * </pre>
+     */
+    public int getSkillFirstActiveCount() {
+      return skillFirstActive_.size();
+    }
+    /**
+     * <code>repeated int32 skillFirstActive = 11;</code>
+     *
+     * <pre>
+     *技能首次开启列表，内容是skillLevel的下标
+     * </pre>
+     */
+    public int getSkillFirstActive(int index) {
+      return skillFirstActive_.get(index);
     }
 
     private void initFields() {
@@ -2606,6 +2794,8 @@ public final class ZhanDou {
       criY_ = 0;
       criSkillX_ = 0;
       criSkillY_ = 0;
+      skillLevel_ = java.util.Collections.emptyList();
+      skillFirstActive_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2678,6 +2868,12 @@ public final class ZhanDou {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeInt32(9, criSkillY_);
       }
+      for (int i = 0; i < skillLevel_.size(); i++) {
+        output.writeInt32(10, skillLevel_.get(i));
+      }
+      for (int i = 0; i < skillFirstActive_.size(); i++) {
+        output.writeInt32(11, skillFirstActive_.get(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -2724,6 +2920,24 @@ public final class ZhanDou {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(9, criSkillY_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < skillLevel_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(skillLevel_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getSkillLevelList().size();
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < skillFirstActive_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(skillFirstActive_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getSkillFirstActiveList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2859,6 +3073,10 @@ public final class ZhanDou {
         bitField0_ = (bitField0_ & ~0x00000080);
         criSkillY_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
+        skillLevel_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000200);
+        skillFirstActive_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -2924,6 +3142,16 @@ public final class ZhanDou {
           to_bitField0_ |= 0x00000080;
         }
         result.criSkillY_ = criSkillY_;
+        if (((bitField0_ & 0x00000200) == 0x00000200)) {
+          skillLevel_ = java.util.Collections.unmodifiableList(skillLevel_);
+          bitField0_ = (bitField0_ & ~0x00000200);
+        }
+        result.skillLevel_ = skillLevel_;
+        if (((bitField0_ & 0x00000400) == 0x00000400)) {
+          skillFirstActive_ = java.util.Collections.unmodifiableList(skillFirstActive_);
+          bitField0_ = (bitField0_ & ~0x00000400);
+        }
+        result.skillFirstActive_ = skillFirstActive_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2973,6 +3201,26 @@ public final class ZhanDou {
         }
         if (other.hasCriSkillY()) {
           setCriSkillY(other.getCriSkillY());
+        }
+        if (!other.skillLevel_.isEmpty()) {
+          if (skillLevel_.isEmpty()) {
+            skillLevel_ = other.skillLevel_;
+            bitField0_ = (bitField0_ & ~0x00000200);
+          } else {
+            ensureSkillLevelIsMutable();
+            skillLevel_.addAll(other.skillLevel_);
+          }
+          onChanged();
+        }
+        if (!other.skillFirstActive_.isEmpty()) {
+          if (skillFirstActive_.isEmpty()) {
+            skillFirstActive_ = other.skillFirstActive_;
+            bitField0_ = (bitField0_ & ~0x00000400);
+          } else {
+            ensureSkillFirstActiveIsMutable();
+            skillFirstActive_.addAll(other.skillFirstActive_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -3039,7 +3287,7 @@ public final class ZhanDou {
        * <code>required float weaponId = 1;</code>
        *
        * <pre>
-       *姝﹀櫒鐨勬ā鍨媔d
+       *武器的模型id
        * </pre>
        */
       public boolean hasWeaponId() {
@@ -3049,7 +3297,7 @@ public final class ZhanDou {
        * <code>required float weaponId = 1;</code>
        *
        * <pre>
-       *姝﹀櫒鐨勬ā鍨媔d
+       *武器的模型id
        * </pre>
        */
       public float getWeaponId() {
@@ -3059,7 +3307,7 @@ public final class ZhanDou {
        * <code>required float weaponId = 1;</code>
        *
        * <pre>
-       *姝﹀櫒鐨勬ā鍨媔d
+       *武器的模型id
        * </pre>
        */
       public Builder setWeaponId(float value) {
@@ -3072,7 +3320,7 @@ public final class ZhanDou {
        * <code>required float weaponId = 1;</code>
        *
        * <pre>
-       *姝﹀櫒鐨勬ā鍨媔d
+       *武器的模型id
        * </pre>
        */
       public Builder clearWeaponId() {
@@ -3253,7 +3501,8 @@ public final class ZhanDou {
        * <code>required int32 criX = 6;</code>
        *
        * <pre>
-       *鏆村嚮鐜囧ぇ鏁�       * </pre>
+       *暴击率大数
+       * </pre>
        */
       public boolean hasCriX() {
         return ((bitField0_ & 0x00000020) == 0x00000020);
@@ -3262,7 +3511,8 @@ public final class ZhanDou {
        * <code>required int32 criX = 6;</code>
        *
        * <pre>
-       *鏆村嚮鐜囧ぇ鏁�       * </pre>
+       *暴击率大数
+       * </pre>
        */
       public int getCriX() {
         return criX_;
@@ -3271,7 +3521,8 @@ public final class ZhanDou {
        * <code>required int32 criX = 6;</code>
        *
        * <pre>
-       *鏆村嚮鐜囧ぇ鏁�       * </pre>
+       *暴击率大数
+       * </pre>
        */
       public Builder setCriX(int value) {
         bitField0_ |= 0x00000020;
@@ -3283,7 +3534,8 @@ public final class ZhanDou {
        * <code>required int32 criX = 6;</code>
        *
        * <pre>
-       *鏆村嚮鐜囧ぇ鏁�       * </pre>
+       *暴击率大数
+       * </pre>
        */
       public Builder clearCriX() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -3298,7 +3550,8 @@ public final class ZhanDou {
        * <code>required int32 criY = 7;</code>
        *
        * <pre>
-       *鏆村嚮鐜囧皬鏁�       * </pre>
+       *暴击率小数
+       * </pre>
        */
       public boolean hasCriY() {
         return ((bitField0_ & 0x00000040) == 0x00000040);
@@ -3307,7 +3560,8 @@ public final class ZhanDou {
        * <code>required int32 criY = 7;</code>
        *
        * <pre>
-       *鏆村嚮鐜囧皬鏁�       * </pre>
+       *暴击率小数
+       * </pre>
        */
       public int getCriY() {
         return criY_;
@@ -3316,7 +3570,8 @@ public final class ZhanDou {
        * <code>required int32 criY = 7;</code>
        *
        * <pre>
-       *鏆村嚮鐜囧皬鏁�       * </pre>
+       *暴击率小数
+       * </pre>
        */
       public Builder setCriY(int value) {
         bitField0_ |= 0x00000040;
@@ -3328,7 +3583,8 @@ public final class ZhanDou {
        * <code>required int32 criY = 7;</code>
        *
        * <pre>
-       *鏆村嚮鐜囧皬鏁�       * </pre>
+       *暴击率小数
+       * </pre>
        */
       public Builder clearCriY() {
         bitField0_ = (bitField0_ & ~0x00000040);
@@ -3343,7 +3599,8 @@ public final class ZhanDou {
        * <code>required int32 criSkillX = 8;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鐜囧ぇ鏁�       * </pre>
+       *技能暴击率大数
+       * </pre>
        */
       public boolean hasCriSkillX() {
         return ((bitField0_ & 0x00000080) == 0x00000080);
@@ -3352,7 +3609,8 @@ public final class ZhanDou {
        * <code>required int32 criSkillX = 8;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鐜囧ぇ鏁�       * </pre>
+       *技能暴击率大数
+       * </pre>
        */
       public int getCriSkillX() {
         return criSkillX_;
@@ -3361,7 +3619,8 @@ public final class ZhanDou {
        * <code>required int32 criSkillX = 8;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鐜囧ぇ鏁�       * </pre>
+       *技能暴击率大数
+       * </pre>
        */
       public Builder setCriSkillX(int value) {
         bitField0_ |= 0x00000080;
@@ -3373,7 +3632,8 @@ public final class ZhanDou {
        * <code>required int32 criSkillX = 8;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鐜囧ぇ鏁�       * </pre>
+       *技能暴击率大数
+       * </pre>
        */
       public Builder clearCriSkillX() {
         bitField0_ = (bitField0_ & ~0x00000080);
@@ -3388,7 +3648,8 @@ public final class ZhanDou {
        * <code>required int32 criSkillY = 9;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鐜囧皬鏁�       * </pre>
+       *技能暴击率小数
+       * </pre>
        */
       public boolean hasCriSkillY() {
         return ((bitField0_ & 0x00000100) == 0x00000100);
@@ -3397,7 +3658,8 @@ public final class ZhanDou {
        * <code>required int32 criSkillY = 9;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鐜囧皬鏁�       * </pre>
+       *技能暴击率小数
+       * </pre>
        */
       public int getCriSkillY() {
         return criSkillY_;
@@ -3406,7 +3668,8 @@ public final class ZhanDou {
        * <code>required int32 criSkillY = 9;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鐜囧皬鏁�       * </pre>
+       *技能暴击率小数
+       * </pre>
        */
       public Builder setCriSkillY(int value) {
         bitField0_ |= 0x00000100;
@@ -3418,11 +3681,200 @@ public final class ZhanDou {
        * <code>required int32 criSkillY = 9;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鐜囧皬鏁�       * </pre>
+       *技能暴击率小数
+       * </pre>
        */
       public Builder clearCriSkillY() {
         bitField0_ = (bitField0_ & ~0x00000100);
         criSkillY_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated int32 skillLevel = 10;
+      private java.util.List<java.lang.Integer> skillLevel_ = java.util.Collections.emptyList();
+      private void ensureSkillLevelIsMutable() {
+        if (!((bitField0_ & 0x00000200) == 0x00000200)) {
+          skillLevel_ = new java.util.ArrayList<java.lang.Integer>(skillLevel_);
+          bitField0_ |= 0x00000200;
+         }
+      }
+      /**
+       * <code>repeated int32 skillLevel = 10;</code>
+       *
+       * <pre>
+       *技能等级，0-普攻，1-技能1（八荒烈日，绝影星光斩，追星箭），2-技能2（乾坤斗转，血迹烙印，寒冰箭）
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getSkillLevelList() {
+        return java.util.Collections.unmodifiableList(skillLevel_);
+      }
+      /**
+       * <code>repeated int32 skillLevel = 10;</code>
+       *
+       * <pre>
+       *技能等级，0-普攻，1-技能1（八荒烈日，绝影星光斩，追星箭），2-技能2（乾坤斗转，血迹烙印，寒冰箭）
+       * </pre>
+       */
+      public int getSkillLevelCount() {
+        return skillLevel_.size();
+      }
+      /**
+       * <code>repeated int32 skillLevel = 10;</code>
+       *
+       * <pre>
+       *技能等级，0-普攻，1-技能1（八荒烈日，绝影星光斩，追星箭），2-技能2（乾坤斗转，血迹烙印，寒冰箭）
+       * </pre>
+       */
+      public int getSkillLevel(int index) {
+        return skillLevel_.get(index);
+      }
+      /**
+       * <code>repeated int32 skillLevel = 10;</code>
+       *
+       * <pre>
+       *技能等级，0-普攻，1-技能1（八荒烈日，绝影星光斩，追星箭），2-技能2（乾坤斗转，血迹烙印，寒冰箭）
+       * </pre>
+       */
+      public Builder setSkillLevel(
+          int index, int value) {
+        ensureSkillLevelIsMutable();
+        skillLevel_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 skillLevel = 10;</code>
+       *
+       * <pre>
+       *技能等级，0-普攻，1-技能1（八荒烈日，绝影星光斩，追星箭），2-技能2（乾坤斗转，血迹烙印，寒冰箭）
+       * </pre>
+       */
+      public Builder addSkillLevel(int value) {
+        ensureSkillLevelIsMutable();
+        skillLevel_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 skillLevel = 10;</code>
+       *
+       * <pre>
+       *技能等级，0-普攻，1-技能1（八荒烈日，绝影星光斩，追星箭），2-技能2（乾坤斗转，血迹烙印，寒冰箭）
+       * </pre>
+       */
+      public Builder addAllSkillLevel(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureSkillLevelIsMutable();
+        super.addAll(values, skillLevel_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 skillLevel = 10;</code>
+       *
+       * <pre>
+       *技能等级，0-普攻，1-技能1（八荒烈日，绝影星光斩，追星箭），2-技能2（乾坤斗转，血迹烙印，寒冰箭）
+       * </pre>
+       */
+      public Builder clearSkillLevel() {
+        skillLevel_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000200);
+        onChanged();
+        return this;
+      }
+
+      // repeated int32 skillFirstActive = 11;
+      private java.util.List<java.lang.Integer> skillFirstActive_ = java.util.Collections.emptyList();
+      private void ensureSkillFirstActiveIsMutable() {
+        if (!((bitField0_ & 0x00000400) == 0x00000400)) {
+          skillFirstActive_ = new java.util.ArrayList<java.lang.Integer>(skillFirstActive_);
+          bitField0_ |= 0x00000400;
+         }
+      }
+      /**
+       * <code>repeated int32 skillFirstActive = 11;</code>
+       *
+       * <pre>
+       *技能首次开启列表，内容是skillLevel的下标
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getSkillFirstActiveList() {
+        return java.util.Collections.unmodifiableList(skillFirstActive_);
+      }
+      /**
+       * <code>repeated int32 skillFirstActive = 11;</code>
+       *
+       * <pre>
+       *技能首次开启列表，内容是skillLevel的下标
+       * </pre>
+       */
+      public int getSkillFirstActiveCount() {
+        return skillFirstActive_.size();
+      }
+      /**
+       * <code>repeated int32 skillFirstActive = 11;</code>
+       *
+       * <pre>
+       *技能首次开启列表，内容是skillLevel的下标
+       * </pre>
+       */
+      public int getSkillFirstActive(int index) {
+        return skillFirstActive_.get(index);
+      }
+      /**
+       * <code>repeated int32 skillFirstActive = 11;</code>
+       *
+       * <pre>
+       *技能首次开启列表，内容是skillLevel的下标
+       * </pre>
+       */
+      public Builder setSkillFirstActive(
+          int index, int value) {
+        ensureSkillFirstActiveIsMutable();
+        skillFirstActive_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 skillFirstActive = 11;</code>
+       *
+       * <pre>
+       *技能首次开启列表，内容是skillLevel的下标
+       * </pre>
+       */
+      public Builder addSkillFirstActive(int value) {
+        ensureSkillFirstActiveIsMutable();
+        skillFirstActive_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 skillFirstActive = 11;</code>
+       *
+       * <pre>
+       *技能首次开启列表，内容是skillLevel的下标
+       * </pre>
+       */
+      public Builder addAllSkillFirstActive(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureSkillFirstActiveIsMutable();
+        super.addAll(values, skillFirstActive_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 skillFirstActive = 11;</code>
+       *
+       * <pre>
+       *技能首次开启列表，内容是skillLevel的下标
+       * </pre>
+       */
+      public Builder clearSkillFirstActive() {
+        skillFirstActive_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000400);
         onChanged();
         return this;
       }
@@ -3446,7 +3898,7 @@ public final class ZhanDou {
      * <code>required int32 id = 1;</code>
      *
      * <pre>
-     *鍞竴id
+     *唯一id
      * </pre>
      */
     boolean hasId();
@@ -3454,7 +3906,7 @@ public final class ZhanDou {
      * <code>required int32 id = 1;</code>
      *
      * <pre>
-     *鍞竴id
+     *唯一id
      * </pre>
      */
     int getId();
@@ -3464,7 +3916,7 @@ public final class ZhanDou {
      * <code>required int32 commonItemId = 2;</code>
      *
      * <pre>
-     *commonItem琛╥d
+     *commonItem表id
      * </pre>
      */
     boolean hasCommonItemId();
@@ -3472,7 +3924,7 @@ public final class ZhanDou {
      * <code>required int32 commonItemId = 2;</code>
      *
      * <pre>
-     *commonItem琛╥d
+     *commonItem表id
      * </pre>
      */
     int getCommonItemId();
@@ -3482,7 +3934,7 @@ public final class ZhanDou {
      * <code>required int32 num = 3;</code>
      *
      * <pre>
-     *鏁伴噺
+     *数量
      * </pre>
      */
     boolean hasNum();
@@ -3490,7 +3942,7 @@ public final class ZhanDou {
      * <code>required int32 num = 3;</code>
      *
      * <pre>
-     *鏁伴噺
+     *数量
      * </pre>
      */
     int getNum();
@@ -3608,7 +4060,7 @@ public final class ZhanDou {
      * <code>required int32 id = 1;</code>
      *
      * <pre>
-     *鍞竴id
+     *唯一id
      * </pre>
      */
     public boolean hasId() {
@@ -3618,7 +4070,7 @@ public final class ZhanDou {
      * <code>required int32 id = 1;</code>
      *
      * <pre>
-     *鍞竴id
+     *唯一id
      * </pre>
      */
     public int getId() {
@@ -3632,7 +4084,7 @@ public final class ZhanDou {
      * <code>required int32 commonItemId = 2;</code>
      *
      * <pre>
-     *commonItem琛╥d
+     *commonItem表id
      * </pre>
      */
     public boolean hasCommonItemId() {
@@ -3642,7 +4094,7 @@ public final class ZhanDou {
      * <code>required int32 commonItemId = 2;</code>
      *
      * <pre>
-     *commonItem琛╥d
+     *commonItem表id
      * </pre>
      */
     public int getCommonItemId() {
@@ -3656,7 +4108,7 @@ public final class ZhanDou {
      * <code>required int32 num = 3;</code>
      *
      * <pre>
-     *鏁伴噺
+     *数量
      * </pre>
      */
     public boolean hasNum() {
@@ -3666,7 +4118,7 @@ public final class ZhanDou {
      * <code>required int32 num = 3;</code>
      *
      * <pre>
-     *鏁伴噺
+     *数量
      * </pre>
      */
     public int getNum() {
@@ -3964,7 +4416,7 @@ public final class ZhanDou {
        * <code>required int32 id = 1;</code>
        *
        * <pre>
-       *鍞竴id
+       *唯一id
        * </pre>
        */
       public boolean hasId() {
@@ -3974,7 +4426,7 @@ public final class ZhanDou {
        * <code>required int32 id = 1;</code>
        *
        * <pre>
-       *鍞竴id
+       *唯一id
        * </pre>
        */
       public int getId() {
@@ -3984,7 +4436,7 @@ public final class ZhanDou {
        * <code>required int32 id = 1;</code>
        *
        * <pre>
-       *鍞竴id
+       *唯一id
        * </pre>
        */
       public Builder setId(int value) {
@@ -3997,7 +4449,7 @@ public final class ZhanDou {
        * <code>required int32 id = 1;</code>
        *
        * <pre>
-       *鍞竴id
+       *唯一id
        * </pre>
        */
       public Builder clearId() {
@@ -4013,7 +4465,7 @@ public final class ZhanDou {
        * <code>required int32 commonItemId = 2;</code>
        *
        * <pre>
-       *commonItem琛╥d
+       *commonItem表id
        * </pre>
        */
       public boolean hasCommonItemId() {
@@ -4023,7 +4475,7 @@ public final class ZhanDou {
        * <code>required int32 commonItemId = 2;</code>
        *
        * <pre>
-       *commonItem琛╥d
+       *commonItem表id
        * </pre>
        */
       public int getCommonItemId() {
@@ -4033,7 +4485,7 @@ public final class ZhanDou {
        * <code>required int32 commonItemId = 2;</code>
        *
        * <pre>
-       *commonItem琛╥d
+       *commonItem表id
        * </pre>
        */
       public Builder setCommonItemId(int value) {
@@ -4046,7 +4498,7 @@ public final class ZhanDou {
        * <code>required int32 commonItemId = 2;</code>
        *
        * <pre>
-       *commonItem琛╥d
+       *commonItem表id
        * </pre>
        */
       public Builder clearCommonItemId() {
@@ -4062,7 +4514,7 @@ public final class ZhanDou {
        * <code>required int32 num = 3;</code>
        *
        * <pre>
-       *鏁伴噺
+       *数量
        * </pre>
        */
       public boolean hasNum() {
@@ -4072,7 +4524,7 @@ public final class ZhanDou {
        * <code>required int32 num = 3;</code>
        *
        * <pre>
-       *鏁伴噺
+       *数量
        * </pre>
        */
       public int getNum() {
@@ -4082,7 +4534,7 @@ public final class ZhanDou {
        * <code>required int32 num = 3;</code>
        *
        * <pre>
-       *鏁伴噺
+       *数量
        * </pre>
        */
       public Builder setNum(int value) {
@@ -4095,7 +4547,7 @@ public final class ZhanDou {
        * <code>required int32 num = 3;</code>
        *
        * <pre>
-       *鏁伴噺
+       *数量
        * </pre>
        */
       public Builder clearNum() {
@@ -4124,7 +4576,7 @@ public final class ZhanDou {
      * <code>repeated int32 flagIds = 1;</code>
      *
      * <pre>
-     *鏍囨潌id(璇昏〃寰楀埌)
+     *标杆id(读表得到)
      * </pre>
      */
     java.util.List<java.lang.Integer> getFlagIdsList();
@@ -4132,7 +4584,7 @@ public final class ZhanDou {
      * <code>repeated int32 flagIds = 1;</code>
      *
      * <pre>
-     *鏍囨潌id(璇昏〃寰楀埌)
+     *标杆id(读表得到)
      * </pre>
      */
     int getFlagIdsCount();
@@ -4140,7 +4592,7 @@ public final class ZhanDou {
      * <code>repeated int32 flagIds = 1;</code>
      *
      * <pre>
-     *鏍囨潌id(璇昏〃寰楀埌)
+     *标杆id(读表得到)
      * </pre>
      */
     int getFlagIds(int index);
@@ -4150,7 +4602,7 @@ public final class ZhanDou {
      * <code>required int32 modleId = 2;</code>
      *
      * <pre>
-     *妯″瀷ID
+     *模型ID
      * </pre>
      */
     boolean hasModleId();
@@ -4158,7 +4610,7 @@ public final class ZhanDou {
      * <code>required int32 modleId = 2;</code>
      *
      * <pre>
-     *妯″瀷ID
+     *模型ID
      * </pre>
      */
     int getModleId();
@@ -4168,7 +4620,7 @@ public final class ZhanDou {
      * <code>required .qxmobile.protobuf.NodeType nodeType = 3;</code>
      *
      * <pre>
-     *绫诲瀷
+     *类型
      * </pre>
      */
     boolean hasNodeType();
@@ -4176,7 +4628,7 @@ public final class ZhanDou {
      * <code>required .qxmobile.protobuf.NodeType nodeType = 3;</code>
      *
      * <pre>
-     *绫诲瀷
+     *类型
      * </pre>
      */
     qxmobile.protobuf.ZhanDou.NodeType getNodeType();
@@ -4186,7 +4638,7 @@ public final class ZhanDou {
      * <code>required .qxmobile.protobuf.NodeProfession nodeProfession = 4;</code>
      *
      * <pre>
-     *鑱屼笟
+     *职业
      * </pre>
      */
     boolean hasNodeProfession();
@@ -4194,7 +4646,7 @@ public final class ZhanDou {
      * <code>required .qxmobile.protobuf.NodeProfession nodeProfession = 4;</code>
      *
      * <pre>
-     *鑱屼笟
+     *职业
      * </pre>
      */
     qxmobile.protobuf.ZhanDou.NodeProfession getNodeProfession();
@@ -4219,7 +4671,7 @@ public final class ZhanDou {
      * <code>required float moveSpeed = 6;</code>
      *
      * <pre>
-     *鍚涗富鐨勬灞炴�涓�
+     *君主的此属性为0
      * </pre>
      */
     boolean hasMoveSpeed();
@@ -4227,7 +4679,7 @@ public final class ZhanDou {
      * <code>required float moveSpeed = 6;</code>
      *
      * <pre>
-     *鍚涗富鐨勬灞炴�涓�
+     *君主的此属性为0
      * </pre>
      */
     float getMoveSpeed();
@@ -4237,7 +4689,7 @@ public final class ZhanDou {
      * <code>required float attackSpeed = 7;</code>
      *
      * <pre>
-     *鍚涗富鐨勬灞炴�涓�
+     *君主的此属性为0
      * </pre>
      */
     boolean hasAttackSpeed();
@@ -4245,7 +4697,7 @@ public final class ZhanDou {
      * <code>required float attackSpeed = 7;</code>
      *
      * <pre>
-     *鍚涗富鐨勬灞炴�涓�
+     *君主的此属性为0
      * </pre>
      */
     float getAttackSpeed();
@@ -4255,7 +4707,7 @@ public final class ZhanDou {
      * <code>required float attackRange = 8;</code>
      *
      * <pre>
-     *鍚涗富鐨勬灞炴�涓�
+     *君主的此属性为0
      * </pre>
      */
     boolean hasAttackRange();
@@ -4263,7 +4715,7 @@ public final class ZhanDou {
      * <code>required float attackRange = 8;</code>
      *
      * <pre>
-     *鍚涗富鐨勬灞炴�涓�
+     *君主的此属性为0
      * </pre>
      */
     float getAttackRange();
@@ -4273,7 +4725,7 @@ public final class ZhanDou {
      * <code>required float eyeRange = 9;</code>
      *
      * <pre>
-     *瑙嗛噹鑼冨洿
+     *视野范围
      * </pre>
      */
     boolean hasEyeRange();
@@ -4281,7 +4733,7 @@ public final class ZhanDou {
      * <code>required float eyeRange = 9;</code>
      *
      * <pre>
-     *瑙嗛噹鑼冨洿
+     *视野范围
      * </pre>
      */
     float getEyeRange();
@@ -4311,7 +4763,7 @@ public final class ZhanDou {
      * <code>required int32 hp = 12;</code>
      *
      * <pre>
-     *褰撳墠琛�噺
+     *当前血量，初始时等于 hpMax * hpNum
      * </pre>
      */
     boolean hasHp();
@@ -4319,7 +4771,7 @@ public final class ZhanDou {
      * <code>required int32 hp = 12;</code>
      *
      * <pre>
-     *褰撳墠琛�噺
+     *当前血量，初始时等于 hpMax * hpNum
      * </pre>
      */
     int getHp();
@@ -4329,7 +4781,7 @@ public final class ZhanDou {
      * <code>required int32 hpMax = 13;</code>
      *
      * <pre>
-     *鏈�ぇ琛�噺
+     *最大血量，多血条时表示单管血条的血量
      * </pre>
      */
     boolean hasHpMax();
@@ -4337,7 +4789,7 @@ public final class ZhanDou {
      * <code>required int32 hpMax = 13;</code>
      *
      * <pre>
-     *鏈�ぇ琛�噺
+     *最大血量，多血条时表示单管血条的血量
      * </pre>
      */
     int getHpMax();
@@ -4347,7 +4799,7 @@ public final class ZhanDou {
      * <code>required float attackAmplify = 14;</code>
      *
      * <pre>
-     *浼ゅ鍔犳繁
+     *伤害加深
      * </pre>
      */
     boolean hasAttackAmplify();
@@ -4355,7 +4807,7 @@ public final class ZhanDou {
      * <code>required float attackAmplify = 14;</code>
      *
      * <pre>
-     *浼ゅ鍔犳繁
+     *伤害加深
      * </pre>
      */
     float getAttackAmplify();
@@ -4365,7 +4817,7 @@ public final class ZhanDou {
      * <code>required float attackReduction = 15;</code>
      *
      * <pre>
-     *浼ゅ鍑忓厤
+     *伤害减免
      * </pre>
      */
     boolean hasAttackReduction();
@@ -4373,7 +4825,7 @@ public final class ZhanDou {
      * <code>required float attackReduction = 15;</code>
      *
      * <pre>
-     *浼ゅ鍑忓厤
+     *伤害减免
      * </pre>
      */
     float getAttackReduction();
@@ -4383,7 +4835,7 @@ public final class ZhanDou {
      * <code>required float attackAmplify_cri = 16;</code>
      *
      * <pre>
-     *浼ゅ鏆村嚮鍔犳繁
+     *伤害暴击加深
      * </pre>
      */
     boolean hasAttackAmplifyCri();
@@ -4391,7 +4843,7 @@ public final class ZhanDou {
      * <code>required float attackAmplify_cri = 16;</code>
      *
      * <pre>
-     *浼ゅ鏆村嚮鍔犳繁
+     *伤害暴击加深
      * </pre>
      */
     float getAttackAmplifyCri();
@@ -4401,7 +4853,7 @@ public final class ZhanDou {
      * <code>required float attackReduction_cri = 17;</code>
      *
      * <pre>
-     *浼ゅ鏆村嚮鍑忓厤
+     *伤害暴击减免
      * </pre>
      */
     boolean hasAttackReductionCri();
@@ -4409,7 +4861,7 @@ public final class ZhanDou {
      * <code>required float attackReduction_cri = 17;</code>
      *
      * <pre>
-     *浼ゅ鏆村嚮鍑忓厤
+     *伤害暴击减免
      * </pre>
      */
     float getAttackReductionCri();
@@ -4419,7 +4871,7 @@ public final class ZhanDou {
      * <code>required float skillAmplify = 18;</code>
      *
      * <pre>
-     *鎶�兘鍔犳繁
+     *技能加深
      * </pre>
      */
     boolean hasSkillAmplify();
@@ -4427,7 +4879,7 @@ public final class ZhanDou {
      * <code>required float skillAmplify = 18;</code>
      *
      * <pre>
-     *鎶�兘鍔犳繁
+     *技能加深
      * </pre>
      */
     float getSkillAmplify();
@@ -4437,7 +4889,7 @@ public final class ZhanDou {
      * <code>required float skillReduction = 19;</code>
      *
      * <pre>
-     *鎶�兘鍑忓厤
+     *技能减免
      * </pre>
      */
     boolean hasSkillReduction();
@@ -4445,7 +4897,7 @@ public final class ZhanDou {
      * <code>required float skillReduction = 19;</code>
      *
      * <pre>
-     *鎶�兘鍑忓厤
+     *技能减免
      * </pre>
      */
     float getSkillReduction();
@@ -4455,7 +4907,7 @@ public final class ZhanDou {
      * <code>required float skillAmplify_cri = 20;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鍔犳繁
+     *技能暴击加深
      * </pre>
      */
     boolean hasSkillAmplifyCri();
@@ -4463,7 +4915,7 @@ public final class ZhanDou {
      * <code>required float skillAmplify_cri = 20;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鍔犳繁
+     *技能暴击加深
      * </pre>
      */
     float getSkillAmplifyCri();
@@ -4473,7 +4925,7 @@ public final class ZhanDou {
      * <code>required float skillReduction_cri = 21;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鍑忓厤
+     *技能暴击减免
      * </pre>
      */
     boolean hasSkillReductionCri();
@@ -4481,7 +4933,7 @@ public final class ZhanDou {
      * <code>required float skillReduction_cri = 21;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鍑忓厤
+     *技能暴击减免
      * </pre>
      */
     float getSkillReductionCri();
@@ -4491,7 +4943,7 @@ public final class ZhanDou {
      * <code>required int32 criX = 22;</code>
      *
      * <pre>
-     *鏆村嚮鐜囧ぇ鏁帮紝鍚涗富鐨勬灞炴�涓�
+     *暴击率大数，君主的此属性为0
      * </pre>
      */
     boolean hasCriX();
@@ -4499,7 +4951,7 @@ public final class ZhanDou {
      * <code>required int32 criX = 22;</code>
      *
      * <pre>
-     *鏆村嚮鐜囧ぇ鏁帮紝鍚涗富鐨勬灞炴�涓�
+     *暴击率大数，君主的此属性为0
      * </pre>
      */
     int getCriX();
@@ -4509,7 +4961,7 @@ public final class ZhanDou {
      * <code>required int32 criY = 23;</code>
      *
      * <pre>
-     *鏆村嚮鐜囧皬鏁帮紝鍚涗富鐨勬灞炴�涓�
+     *暴击率小数，君主的此属性为0
      * </pre>
      */
     boolean hasCriY();
@@ -4517,7 +4969,7 @@ public final class ZhanDou {
      * <code>required int32 criY = 23;</code>
      *
      * <pre>
-     *鏆村嚮鐜囧皬鏁帮紝鍚涗富鐨勬灞炴�涓�
+     *暴击率小数，君主的此属性为0
      * </pre>
      */
     int getCriY();
@@ -4527,7 +4979,7 @@ public final class ZhanDou {
      * <code>required int32 criSkillX = 24;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鐜囧ぇ鏁帮紝鍚涗富鐨勬灞炴�涓�
+     *技能暴击率大数，君主的此属性为0
      * </pre>
      */
     boolean hasCriSkillX();
@@ -4535,7 +4987,7 @@ public final class ZhanDou {
      * <code>required int32 criSkillX = 24;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鐜囧ぇ鏁帮紝鍚涗富鐨勬灞炴�涓�
+     *技能暴击率大数，君主的此属性为0
      * </pre>
      */
     int getCriSkillX();
@@ -4545,7 +4997,7 @@ public final class ZhanDou {
      * <code>required int32 criSkillY = 25;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鐜囧皬鏁帮紝鍚涗富鐨勬灞炴�涓�
+     *技能暴击率小数，君主的此属性为0
      * </pre>
      */
     boolean hasCriSkillY();
@@ -4553,7 +5005,7 @@ public final class ZhanDou {
      * <code>required int32 criSkillY = 25;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鐜囧皬鏁帮紝鍚涗富鐨勬灞炴�涓�
+     *技能暴击率小数，君主的此属性为0
      * </pre>
      */
     int getCriSkillY();
@@ -4588,7 +5040,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponHeavy = 27;</code>
      *
      * <pre>
-     *鍚涗富閲嶆鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主重武器 君主独有 未装备为null
      * </pre>
      */
     boolean hasWeaponHeavy();
@@ -4596,7 +5048,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponHeavy = 27;</code>
      *
      * <pre>
-     *鍚涗富閲嶆鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主重武器 君主独有 未装备为null
      * </pre>
      */
     qxmobile.protobuf.ZhanDou.PlayerWeapon getWeaponHeavy();
@@ -4604,7 +5056,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponHeavy = 27;</code>
      *
      * <pre>
-     *鍚涗富閲嶆鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主重武器 君主独有 未装备为null
      * </pre>
      */
     qxmobile.protobuf.ZhanDou.PlayerWeaponOrBuilder getWeaponHeavyOrBuilder();
@@ -4614,7 +5066,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponLight = 28;</code>
      *
      * <pre>
-     *鍚涗富杞绘鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主轻武器 君主独有 未装备为null
      * </pre>
      */
     boolean hasWeaponLight();
@@ -4622,7 +5074,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponLight = 28;</code>
      *
      * <pre>
-     *鍚涗富杞绘鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主轻武器 君主独有 未装备为null
      * </pre>
      */
     qxmobile.protobuf.ZhanDou.PlayerWeapon getWeaponLight();
@@ -4630,7 +5082,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponLight = 28;</code>
      *
      * <pre>
-     *鍚涗富杞绘鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主轻武器 君主独有 未装备为null
      * </pre>
      */
     qxmobile.protobuf.ZhanDou.PlayerWeaponOrBuilder getWeaponLightOrBuilder();
@@ -4640,7 +5092,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponRanged = 29;</code>
      *
      * <pre>
-     *鍚涗富寮撴鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主弓武器 君主独有 未装备为null
      * </pre>
      */
     boolean hasWeaponRanged();
@@ -4648,7 +5100,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponRanged = 29;</code>
      *
      * <pre>
-     *鍚涗富寮撴鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主弓武器 君主独有 未装备为null
      * </pre>
      */
     qxmobile.protobuf.ZhanDou.PlayerWeapon getWeaponRanged();
@@ -4656,7 +5108,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponRanged = 29;</code>
      *
      * <pre>
-     *鍚涗富寮撴鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主弓武器 君主独有 未装备为null
      * </pre>
      */
     qxmobile.protobuf.ZhanDou.PlayerWeaponOrBuilder getWeaponRangedOrBuilder();
@@ -4666,7 +5118,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
      *
      * <pre>
-     *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+     *杀死怪后掉落物品列表
      * </pre>
      */
     java.util.List<qxmobile.protobuf.ZhanDou.DroppenItem> 
@@ -4675,7 +5127,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
      *
      * <pre>
-     *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+     *杀死怪后掉落物品列表
      * </pre>
      */
     qxmobile.protobuf.ZhanDou.DroppenItem getDroppenItems(int index);
@@ -4683,7 +5135,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
      *
      * <pre>
-     *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+     *杀死怪后掉落物品列表
      * </pre>
      */
     int getDroppenItemsCount();
@@ -4691,7 +5143,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
      *
      * <pre>
-     *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+     *杀死怪后掉落物品列表
      * </pre>
      */
     java.util.List<? extends qxmobile.protobuf.ZhanDou.DroppenItemOrBuilder> 
@@ -4700,7 +5152,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
      *
      * <pre>
-     *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+     *杀死怪后掉落物品列表
      * </pre>
      */
     qxmobile.protobuf.ZhanDou.DroppenItemOrBuilder getDroppenItemsOrBuilder(
@@ -4711,7 +5163,7 @@ public final class ZhanDou {
      * <code>optional int32 droppenType = 31;</code>
      *
      * <pre>
-     *鎺夎惤鐗╁搧鐨勯『搴忕被鍨嬶紝0-鍚屾椂鎺夎惤锛�-椤哄簭鎺夎惤
+     *掉落物品的顺序类型，0-同时掉落，1-顺序掉落
      * </pre>
      */
     boolean hasDroppenType();
@@ -4719,7 +5171,7 @@ public final class ZhanDou {
      * <code>optional int32 droppenType = 31;</code>
      *
      * <pre>
-     *鎺夎惤鐗╁搧鐨勯『搴忕被鍨嬶紝0-鍚屾椂鎺夎惤锛�-椤哄簭鎺夎惤
+     *掉落物品的顺序类型，0-同时掉落，1-顺序掉落
      * </pre>
      */
     int getDroppenType();
@@ -4729,14 +5181,16 @@ public final class ZhanDou {
      * <code>optional int32 hudun = 32;</code>
      *
      * <pre>
-     *褰撳墠鎶ょ浘鍊�     * </pre>
+     *当前护盾值
+     * </pre>
      */
     boolean hasHudun();
     /**
      * <code>optional int32 hudun = 32;</code>
      *
      * <pre>
-     *褰撳墠鎶ょ浘鍊�     * </pre>
+     *当前护盾值
+     * </pre>
      */
     int getHudun();
 
@@ -4745,16 +5199,54 @@ public final class ZhanDou {
      * <code>optional int32 hudunMax = 33;</code>
      *
      * <pre>
-     *鏈�ぇ鎶ょ浘鍊�     * </pre>
+     *最大护盾值
+     * </pre>
      */
     boolean hasHudunMax();
     /**
      * <code>optional int32 hudunMax = 33;</code>
      *
      * <pre>
-     *鏈�ぇ鎶ょ浘鍊�     * </pre>
+     *最大护盾值
+     * </pre>
      */
     int getHudunMax();
+
+    // required int32 hpNum = 34;
+    /**
+     * <code>required int32 hpNum = 34;</code>
+     *
+     * <pre>
+     *血条数量
+     * </pre>
+     */
+    boolean hasHpNum();
+    /**
+     * <code>required int32 hpNum = 34;</code>
+     *
+     * <pre>
+     *血条数量
+     * </pre>
+     */
+    int getHpNum();
+
+    // required int32 appearanceId = 35;
+    /**
+     * <code>required int32 appearanceId = 35;</code>
+     *
+     * <pre>
+     *外观表id
+     * </pre>
+     */
+    boolean hasAppearanceId();
+    /**
+     * <code>required int32 appearanceId = 35;</code>
+     *
+     * <pre>
+     *外观表id
+     * </pre>
+     */
+    int getAppearanceId();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.Node}
@@ -5031,6 +5523,16 @@ public final class ZhanDou {
               hudunMax_ = input.readInt32();
               break;
             }
+            case 272: {
+              bitField0_ |= 0x40000000;
+              hpNum_ = input.readInt32();
+              break;
+            }
+            case 280: {
+              bitField0_ |= 0x80000000;
+              appearanceId_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -5087,7 +5589,7 @@ public final class ZhanDou {
      * <code>repeated int32 flagIds = 1;</code>
      *
      * <pre>
-     *鏍囨潌id(璇昏〃寰楀埌)
+     *标杆id(读表得到)
      * </pre>
      */
     public java.util.List<java.lang.Integer>
@@ -5098,7 +5600,7 @@ public final class ZhanDou {
      * <code>repeated int32 flagIds = 1;</code>
      *
      * <pre>
-     *鏍囨潌id(璇昏〃寰楀埌)
+     *标杆id(读表得到)
      * </pre>
      */
     public int getFlagIdsCount() {
@@ -5108,7 +5610,7 @@ public final class ZhanDou {
      * <code>repeated int32 flagIds = 1;</code>
      *
      * <pre>
-     *鏍囨潌id(璇昏〃寰楀埌)
+     *标杆id(读表得到)
      * </pre>
      */
     public int getFlagIds(int index) {
@@ -5122,7 +5624,7 @@ public final class ZhanDou {
      * <code>required int32 modleId = 2;</code>
      *
      * <pre>
-     *妯″瀷ID
+     *模型ID
      * </pre>
      */
     public boolean hasModleId() {
@@ -5132,7 +5634,7 @@ public final class ZhanDou {
      * <code>required int32 modleId = 2;</code>
      *
      * <pre>
-     *妯″瀷ID
+     *模型ID
      * </pre>
      */
     public int getModleId() {
@@ -5146,7 +5648,7 @@ public final class ZhanDou {
      * <code>required .qxmobile.protobuf.NodeType nodeType = 3;</code>
      *
      * <pre>
-     *绫诲瀷
+     *类型
      * </pre>
      */
     public boolean hasNodeType() {
@@ -5156,7 +5658,7 @@ public final class ZhanDou {
      * <code>required .qxmobile.protobuf.NodeType nodeType = 3;</code>
      *
      * <pre>
-     *绫诲瀷
+     *类型
      * </pre>
      */
     public qxmobile.protobuf.ZhanDou.NodeType getNodeType() {
@@ -5170,7 +5672,7 @@ public final class ZhanDou {
      * <code>required .qxmobile.protobuf.NodeProfession nodeProfession = 4;</code>
      *
      * <pre>
-     *鑱屼笟
+     *职业
      * </pre>
      */
     public boolean hasNodeProfession() {
@@ -5180,7 +5682,7 @@ public final class ZhanDou {
      * <code>required .qxmobile.protobuf.NodeProfession nodeProfession = 4;</code>
      *
      * <pre>
-     *鑱屼笟
+     *职业
      * </pre>
      */
     public qxmobile.protobuf.ZhanDou.NodeProfession getNodeProfession() {
@@ -5237,7 +5739,7 @@ public final class ZhanDou {
      * <code>required float moveSpeed = 6;</code>
      *
      * <pre>
-     *鍚涗富鐨勬灞炴�涓�
+     *君主的此属性为0
      * </pre>
      */
     public boolean hasMoveSpeed() {
@@ -5247,7 +5749,7 @@ public final class ZhanDou {
      * <code>required float moveSpeed = 6;</code>
      *
      * <pre>
-     *鍚涗富鐨勬灞炴�涓�
+     *君主的此属性为0
      * </pre>
      */
     public float getMoveSpeed() {
@@ -5261,7 +5763,7 @@ public final class ZhanDou {
      * <code>required float attackSpeed = 7;</code>
      *
      * <pre>
-     *鍚涗富鐨勬灞炴�涓�
+     *君主的此属性为0
      * </pre>
      */
     public boolean hasAttackSpeed() {
@@ -5271,7 +5773,7 @@ public final class ZhanDou {
      * <code>required float attackSpeed = 7;</code>
      *
      * <pre>
-     *鍚涗富鐨勬灞炴�涓�
+     *君主的此属性为0
      * </pre>
      */
     public float getAttackSpeed() {
@@ -5285,7 +5787,7 @@ public final class ZhanDou {
      * <code>required float attackRange = 8;</code>
      *
      * <pre>
-     *鍚涗富鐨勬灞炴�涓�
+     *君主的此属性为0
      * </pre>
      */
     public boolean hasAttackRange() {
@@ -5295,7 +5797,7 @@ public final class ZhanDou {
      * <code>required float attackRange = 8;</code>
      *
      * <pre>
-     *鍚涗富鐨勬灞炴�涓�
+     *君主的此属性为0
      * </pre>
      */
     public float getAttackRange() {
@@ -5309,7 +5811,7 @@ public final class ZhanDou {
      * <code>required float eyeRange = 9;</code>
      *
      * <pre>
-     *瑙嗛噹鑼冨洿
+     *视野范围
      * </pre>
      */
     public boolean hasEyeRange() {
@@ -5319,7 +5821,7 @@ public final class ZhanDou {
      * <code>required float eyeRange = 9;</code>
      *
      * <pre>
-     *瑙嗛噹鑼冨洿
+     *视野范围
      * </pre>
      */
     public float getEyeRange() {
@@ -5365,7 +5867,7 @@ public final class ZhanDou {
      * <code>required int32 hp = 12;</code>
      *
      * <pre>
-     *褰撳墠琛�噺
+     *当前血量，初始时等于 hpMax * hpNum
      * </pre>
      */
     public boolean hasHp() {
@@ -5375,7 +5877,7 @@ public final class ZhanDou {
      * <code>required int32 hp = 12;</code>
      *
      * <pre>
-     *褰撳墠琛�噺
+     *当前血量，初始时等于 hpMax * hpNum
      * </pre>
      */
     public int getHp() {
@@ -5389,7 +5891,7 @@ public final class ZhanDou {
      * <code>required int32 hpMax = 13;</code>
      *
      * <pre>
-     *鏈�ぇ琛�噺
+     *最大血量，多血条时表示单管血条的血量
      * </pre>
      */
     public boolean hasHpMax() {
@@ -5399,7 +5901,7 @@ public final class ZhanDou {
      * <code>required int32 hpMax = 13;</code>
      *
      * <pre>
-     *鏈�ぇ琛�噺
+     *最大血量，多血条时表示单管血条的血量
      * </pre>
      */
     public int getHpMax() {
@@ -5413,7 +5915,7 @@ public final class ZhanDou {
      * <code>required float attackAmplify = 14;</code>
      *
      * <pre>
-     *浼ゅ鍔犳繁
+     *伤害加深
      * </pre>
      */
     public boolean hasAttackAmplify() {
@@ -5423,7 +5925,7 @@ public final class ZhanDou {
      * <code>required float attackAmplify = 14;</code>
      *
      * <pre>
-     *浼ゅ鍔犳繁
+     *伤害加深
      * </pre>
      */
     public float getAttackAmplify() {
@@ -5437,7 +5939,7 @@ public final class ZhanDou {
      * <code>required float attackReduction = 15;</code>
      *
      * <pre>
-     *浼ゅ鍑忓厤
+     *伤害减免
      * </pre>
      */
     public boolean hasAttackReduction() {
@@ -5447,7 +5949,7 @@ public final class ZhanDou {
      * <code>required float attackReduction = 15;</code>
      *
      * <pre>
-     *浼ゅ鍑忓厤
+     *伤害减免
      * </pre>
      */
     public float getAttackReduction() {
@@ -5461,7 +5963,7 @@ public final class ZhanDou {
      * <code>required float attackAmplify_cri = 16;</code>
      *
      * <pre>
-     *浼ゅ鏆村嚮鍔犳繁
+     *伤害暴击加深
      * </pre>
      */
     public boolean hasAttackAmplifyCri() {
@@ -5471,7 +5973,7 @@ public final class ZhanDou {
      * <code>required float attackAmplify_cri = 16;</code>
      *
      * <pre>
-     *浼ゅ鏆村嚮鍔犳繁
+     *伤害暴击加深
      * </pre>
      */
     public float getAttackAmplifyCri() {
@@ -5485,7 +5987,7 @@ public final class ZhanDou {
      * <code>required float attackReduction_cri = 17;</code>
      *
      * <pre>
-     *浼ゅ鏆村嚮鍑忓厤
+     *伤害暴击减免
      * </pre>
      */
     public boolean hasAttackReductionCri() {
@@ -5495,7 +5997,7 @@ public final class ZhanDou {
      * <code>required float attackReduction_cri = 17;</code>
      *
      * <pre>
-     *浼ゅ鏆村嚮鍑忓厤
+     *伤害暴击减免
      * </pre>
      */
     public float getAttackReductionCri() {
@@ -5509,7 +6011,7 @@ public final class ZhanDou {
      * <code>required float skillAmplify = 18;</code>
      *
      * <pre>
-     *鎶�兘鍔犳繁
+     *技能加深
      * </pre>
      */
     public boolean hasSkillAmplify() {
@@ -5519,7 +6021,7 @@ public final class ZhanDou {
      * <code>required float skillAmplify = 18;</code>
      *
      * <pre>
-     *鎶�兘鍔犳繁
+     *技能加深
      * </pre>
      */
     public float getSkillAmplify() {
@@ -5533,7 +6035,7 @@ public final class ZhanDou {
      * <code>required float skillReduction = 19;</code>
      *
      * <pre>
-     *鎶�兘鍑忓厤
+     *技能减免
      * </pre>
      */
     public boolean hasSkillReduction() {
@@ -5543,7 +6045,7 @@ public final class ZhanDou {
      * <code>required float skillReduction = 19;</code>
      *
      * <pre>
-     *鎶�兘鍑忓厤
+     *技能减免
      * </pre>
      */
     public float getSkillReduction() {
@@ -5557,7 +6059,7 @@ public final class ZhanDou {
      * <code>required float skillAmplify_cri = 20;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鍔犳繁
+     *技能暴击加深
      * </pre>
      */
     public boolean hasSkillAmplifyCri() {
@@ -5567,7 +6069,7 @@ public final class ZhanDou {
      * <code>required float skillAmplify_cri = 20;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鍔犳繁
+     *技能暴击加深
      * </pre>
      */
     public float getSkillAmplifyCri() {
@@ -5581,7 +6083,7 @@ public final class ZhanDou {
      * <code>required float skillReduction_cri = 21;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鍑忓厤
+     *技能暴击减免
      * </pre>
      */
     public boolean hasSkillReductionCri() {
@@ -5591,7 +6093,7 @@ public final class ZhanDou {
      * <code>required float skillReduction_cri = 21;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鍑忓厤
+     *技能暴击减免
      * </pre>
      */
     public float getSkillReductionCri() {
@@ -5605,7 +6107,7 @@ public final class ZhanDou {
      * <code>required int32 criX = 22;</code>
      *
      * <pre>
-     *鏆村嚮鐜囧ぇ鏁帮紝鍚涗富鐨勬灞炴�涓�
+     *暴击率大数，君主的此属性为0
      * </pre>
      */
     public boolean hasCriX() {
@@ -5615,7 +6117,7 @@ public final class ZhanDou {
      * <code>required int32 criX = 22;</code>
      *
      * <pre>
-     *鏆村嚮鐜囧ぇ鏁帮紝鍚涗富鐨勬灞炴�涓�
+     *暴击率大数，君主的此属性为0
      * </pre>
      */
     public int getCriX() {
@@ -5629,7 +6131,7 @@ public final class ZhanDou {
      * <code>required int32 criY = 23;</code>
      *
      * <pre>
-     *鏆村嚮鐜囧皬鏁帮紝鍚涗富鐨勬灞炴�涓�
+     *暴击率小数，君主的此属性为0
      * </pre>
      */
     public boolean hasCriY() {
@@ -5639,7 +6141,7 @@ public final class ZhanDou {
      * <code>required int32 criY = 23;</code>
      *
      * <pre>
-     *鏆村嚮鐜囧皬鏁帮紝鍚涗富鐨勬灞炴�涓�
+     *暴击率小数，君主的此属性为0
      * </pre>
      */
     public int getCriY() {
@@ -5653,7 +6155,7 @@ public final class ZhanDou {
      * <code>required int32 criSkillX = 24;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鐜囧ぇ鏁帮紝鍚涗富鐨勬灞炴�涓�
+     *技能暴击率大数，君主的此属性为0
      * </pre>
      */
     public boolean hasCriSkillX() {
@@ -5663,7 +6165,7 @@ public final class ZhanDou {
      * <code>required int32 criSkillX = 24;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鐜囧ぇ鏁帮紝鍚涗富鐨勬灞炴�涓�
+     *技能暴击率大数，君主的此属性为0
      * </pre>
      */
     public int getCriSkillX() {
@@ -5677,7 +6179,7 @@ public final class ZhanDou {
      * <code>required int32 criSkillY = 25;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鐜囧皬鏁帮紝鍚涗富鐨勬灞炴�涓�
+     *技能暴击率小数，君主的此属性为0
      * </pre>
      */
     public boolean hasCriSkillY() {
@@ -5687,7 +6189,7 @@ public final class ZhanDou {
      * <code>required int32 criSkillY = 25;</code>
      *
      * <pre>
-     *鎶�兘鏆村嚮鐜囧皬鏁帮紝鍚涗富鐨勬灞炴�涓�
+     *技能暴击率小数，君主的此属性为0
      * </pre>
      */
     public int getCriSkillY() {
@@ -5737,7 +6239,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponHeavy = 27;</code>
      *
      * <pre>
-     *鍚涗富閲嶆鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主重武器 君主独有 未装备为null
      * </pre>
      */
     public boolean hasWeaponHeavy() {
@@ -5747,7 +6249,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponHeavy = 27;</code>
      *
      * <pre>
-     *鍚涗富閲嶆鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主重武器 君主独有 未装备为null
      * </pre>
      */
     public qxmobile.protobuf.ZhanDou.PlayerWeapon getWeaponHeavy() {
@@ -5757,7 +6259,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponHeavy = 27;</code>
      *
      * <pre>
-     *鍚涗富閲嶆鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主重武器 君主独有 未装备为null
      * </pre>
      */
     public qxmobile.protobuf.ZhanDou.PlayerWeaponOrBuilder getWeaponHeavyOrBuilder() {
@@ -5771,7 +6273,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponLight = 28;</code>
      *
      * <pre>
-     *鍚涗富杞绘鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主轻武器 君主独有 未装备为null
      * </pre>
      */
     public boolean hasWeaponLight() {
@@ -5781,7 +6283,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponLight = 28;</code>
      *
      * <pre>
-     *鍚涗富杞绘鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主轻武器 君主独有 未装备为null
      * </pre>
      */
     public qxmobile.protobuf.ZhanDou.PlayerWeapon getWeaponLight() {
@@ -5791,7 +6293,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponLight = 28;</code>
      *
      * <pre>
-     *鍚涗富杞绘鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主轻武器 君主独有 未装备为null
      * </pre>
      */
     public qxmobile.protobuf.ZhanDou.PlayerWeaponOrBuilder getWeaponLightOrBuilder() {
@@ -5805,7 +6307,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponRanged = 29;</code>
      *
      * <pre>
-     *鍚涗富寮撴鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主弓武器 君主独有 未装备为null
      * </pre>
      */
     public boolean hasWeaponRanged() {
@@ -5815,7 +6317,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponRanged = 29;</code>
      *
      * <pre>
-     *鍚涗富寮撴鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主弓武器 君主独有 未装备为null
      * </pre>
      */
     public qxmobile.protobuf.ZhanDou.PlayerWeapon getWeaponRanged() {
@@ -5825,7 +6327,7 @@ public final class ZhanDou {
      * <code>optional .qxmobile.protobuf.PlayerWeapon weaponRanged = 29;</code>
      *
      * <pre>
-     *鍚涗富寮撴鍣�鍚涗富鐙湁 鏈澶囦负null
+     *君主弓武器 君主独有 未装备为null
      * </pre>
      */
     public qxmobile.protobuf.ZhanDou.PlayerWeaponOrBuilder getWeaponRangedOrBuilder() {
@@ -5839,7 +6341,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
      *
      * <pre>
-     *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+     *杀死怪后掉落物品列表
      * </pre>
      */
     public java.util.List<qxmobile.protobuf.ZhanDou.DroppenItem> getDroppenItemsList() {
@@ -5849,7 +6351,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
      *
      * <pre>
-     *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+     *杀死怪后掉落物品列表
      * </pre>
      */
     public java.util.List<? extends qxmobile.protobuf.ZhanDou.DroppenItemOrBuilder> 
@@ -5860,7 +6362,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
      *
      * <pre>
-     *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+     *杀死怪后掉落物品列表
      * </pre>
      */
     public int getDroppenItemsCount() {
@@ -5870,7 +6372,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
      *
      * <pre>
-     *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+     *杀死怪后掉落物品列表
      * </pre>
      */
     public qxmobile.protobuf.ZhanDou.DroppenItem getDroppenItems(int index) {
@@ -5880,7 +6382,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
      *
      * <pre>
-     *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+     *杀死怪后掉落物品列表
      * </pre>
      */
     public qxmobile.protobuf.ZhanDou.DroppenItemOrBuilder getDroppenItemsOrBuilder(
@@ -5895,7 +6397,7 @@ public final class ZhanDou {
      * <code>optional int32 droppenType = 31;</code>
      *
      * <pre>
-     *鎺夎惤鐗╁搧鐨勯『搴忕被鍨嬶紝0-鍚屾椂鎺夎惤锛�-椤哄簭鎺夎惤
+     *掉落物品的顺序类型，0-同时掉落，1-顺序掉落
      * </pre>
      */
     public boolean hasDroppenType() {
@@ -5905,7 +6407,7 @@ public final class ZhanDou {
      * <code>optional int32 droppenType = 31;</code>
      *
      * <pre>
-     *鎺夎惤鐗╁搧鐨勯『搴忕被鍨嬶紝0-鍚屾椂鎺夎惤锛�-椤哄簭鎺夎惤
+     *掉落物品的顺序类型，0-同时掉落，1-顺序掉落
      * </pre>
      */
     public int getDroppenType() {
@@ -5919,7 +6421,8 @@ public final class ZhanDou {
      * <code>optional int32 hudun = 32;</code>
      *
      * <pre>
-     *褰撳墠鎶ょ浘鍊�     * </pre>
+     *当前护盾值
+     * </pre>
      */
     public boolean hasHudun() {
       return ((bitField0_ & 0x10000000) == 0x10000000);
@@ -5928,7 +6431,8 @@ public final class ZhanDou {
      * <code>optional int32 hudun = 32;</code>
      *
      * <pre>
-     *褰撳墠鎶ょ浘鍊�     * </pre>
+     *当前护盾值
+     * </pre>
      */
     public int getHudun() {
       return hudun_;
@@ -5941,7 +6445,8 @@ public final class ZhanDou {
      * <code>optional int32 hudunMax = 33;</code>
      *
      * <pre>
-     *鏈�ぇ鎶ょ浘鍊�     * </pre>
+     *最大护盾值
+     * </pre>
      */
     public boolean hasHudunMax() {
       return ((bitField0_ & 0x20000000) == 0x20000000);
@@ -5950,10 +6455,59 @@ public final class ZhanDou {
      * <code>optional int32 hudunMax = 33;</code>
      *
      * <pre>
-     *鏈�ぇ鎶ょ浘鍊�     * </pre>
+     *最大护盾值
+     * </pre>
      */
     public int getHudunMax() {
       return hudunMax_;
+    }
+
+    // required int32 hpNum = 34;
+    public static final int HPNUM_FIELD_NUMBER = 34;
+    private int hpNum_;
+    /**
+     * <code>required int32 hpNum = 34;</code>
+     *
+     * <pre>
+     *血条数量
+     * </pre>
+     */
+    public boolean hasHpNum() {
+      return ((bitField0_ & 0x40000000) == 0x40000000);
+    }
+    /**
+     * <code>required int32 hpNum = 34;</code>
+     *
+     * <pre>
+     *血条数量
+     * </pre>
+     */
+    public int getHpNum() {
+      return hpNum_;
+    }
+
+    // required int32 appearanceId = 35;
+    public static final int APPEARANCEID_FIELD_NUMBER = 35;
+    private int appearanceId_;
+    /**
+     * <code>required int32 appearanceId = 35;</code>
+     *
+     * <pre>
+     *外观表id
+     * </pre>
+     */
+    public boolean hasAppearanceId() {
+      return ((bitField0_ & 0x80000000) == 0x80000000);
+    }
+    /**
+     * <code>required int32 appearanceId = 35;</code>
+     *
+     * <pre>
+     *外观表id
+     * </pre>
+     */
+    public int getAppearanceId() {
+      return appearanceId_;
     }
 
     private void initFields() {
@@ -5990,6 +6544,8 @@ public final class ZhanDou {
       droppenType_ = 0;
       hudun_ = 0;
       hudunMax_ = 0;
+      hpNum_ = 0;
+      appearanceId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6089,6 +6645,14 @@ public final class ZhanDou {
         return false;
       }
       if (!hasCriSkillY()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasHpNum()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasAppearanceId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -6227,6 +6791,12 @@ public final class ZhanDou {
       }
       if (((bitField0_ & 0x20000000) == 0x20000000)) {
         output.writeInt32(33, hudunMax_);
+      }
+      if (((bitField0_ & 0x40000000) == 0x40000000)) {
+        output.writeInt32(34, hpNum_);
+      }
+      if (((bitField0_ & 0x80000000) == 0x80000000)) {
+        output.writeInt32(35, appearanceId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -6373,6 +6943,14 @@ public final class ZhanDou {
       if (((bitField0_ & 0x20000000) == 0x20000000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(33, hudunMax_);
+      }
+      if (((bitField0_ & 0x40000000) == 0x40000000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(34, hpNum_);
+      }
+      if (((bitField0_ & 0x80000000) == 0x80000000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(35, appearanceId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6581,6 +7159,10 @@ public final class ZhanDou {
         bitField0_ = (bitField0_ & ~0x80000000);
         hudunMax_ = 0;
         bitField1_ = (bitField1_ & ~0x00000001);
+        hpNum_ = 0;
+        bitField1_ = (bitField1_ & ~0x00000002);
+        appearanceId_ = 0;
+        bitField1_ = (bitField1_ & ~0x00000004);
         return this;
       }
 
@@ -6765,6 +7347,14 @@ public final class ZhanDou {
           to_bitField0_ |= 0x20000000;
         }
         result.hudunMax_ = hudunMax_;
+        if (((from_bitField1_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x40000000;
+        }
+        result.hpNum_ = hpNum_;
+        if (((from_bitField1_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x80000000;
+        }
+        result.appearanceId_ = appearanceId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6935,6 +7525,12 @@ public final class ZhanDou {
         if (other.hasHudunMax()) {
           setHudunMax(other.getHudunMax());
         }
+        if (other.hasHpNum()) {
+          setHpNum(other.getHpNum());
+        }
+        if (other.hasAppearanceId()) {
+          setAppearanceId(other.getAppearanceId());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -7036,6 +7632,14 @@ public final class ZhanDou {
           
           return false;
         }
+        if (!hasHpNum()) {
+          
+          return false;
+        }
+        if (!hasAppearanceId()) {
+          
+          return false;
+        }
         for (int i = 0; i < getSkillsCount(); i++) {
           if (!getSkills(i).isInitialized()) {
             
@@ -7101,7 +7705,7 @@ public final class ZhanDou {
        * <code>repeated int32 flagIds = 1;</code>
        *
        * <pre>
-       *鏍囨潌id(璇昏〃寰楀埌)
+       *标杆id(读表得到)
        * </pre>
        */
       public java.util.List<java.lang.Integer>
@@ -7112,7 +7716,7 @@ public final class ZhanDou {
        * <code>repeated int32 flagIds = 1;</code>
        *
        * <pre>
-       *鏍囨潌id(璇昏〃寰楀埌)
+       *标杆id(读表得到)
        * </pre>
        */
       public int getFlagIdsCount() {
@@ -7122,7 +7726,7 @@ public final class ZhanDou {
        * <code>repeated int32 flagIds = 1;</code>
        *
        * <pre>
-       *鏍囨潌id(璇昏〃寰楀埌)
+       *标杆id(读表得到)
        * </pre>
        */
       public int getFlagIds(int index) {
@@ -7132,7 +7736,7 @@ public final class ZhanDou {
        * <code>repeated int32 flagIds = 1;</code>
        *
        * <pre>
-       *鏍囨潌id(璇昏〃寰楀埌)
+       *标杆id(读表得到)
        * </pre>
        */
       public Builder setFlagIds(
@@ -7146,7 +7750,7 @@ public final class ZhanDou {
        * <code>repeated int32 flagIds = 1;</code>
        *
        * <pre>
-       *鏍囨潌id(璇昏〃寰楀埌)
+       *标杆id(读表得到)
        * </pre>
        */
       public Builder addFlagIds(int value) {
@@ -7159,7 +7763,7 @@ public final class ZhanDou {
        * <code>repeated int32 flagIds = 1;</code>
        *
        * <pre>
-       *鏍囨潌id(璇昏〃寰楀埌)
+       *标杆id(读表得到)
        * </pre>
        */
       public Builder addAllFlagIds(
@@ -7173,7 +7777,7 @@ public final class ZhanDou {
        * <code>repeated int32 flagIds = 1;</code>
        *
        * <pre>
-       *鏍囨潌id(璇昏〃寰楀埌)
+       *标杆id(读表得到)
        * </pre>
        */
       public Builder clearFlagIds() {
@@ -7189,7 +7793,7 @@ public final class ZhanDou {
        * <code>required int32 modleId = 2;</code>
        *
        * <pre>
-       *妯″瀷ID
+       *模型ID
        * </pre>
        */
       public boolean hasModleId() {
@@ -7199,7 +7803,7 @@ public final class ZhanDou {
        * <code>required int32 modleId = 2;</code>
        *
        * <pre>
-       *妯″瀷ID
+       *模型ID
        * </pre>
        */
       public int getModleId() {
@@ -7209,7 +7813,7 @@ public final class ZhanDou {
        * <code>required int32 modleId = 2;</code>
        *
        * <pre>
-       *妯″瀷ID
+       *模型ID
        * </pre>
        */
       public Builder setModleId(int value) {
@@ -7222,7 +7826,7 @@ public final class ZhanDou {
        * <code>required int32 modleId = 2;</code>
        *
        * <pre>
-       *妯″瀷ID
+       *模型ID
        * </pre>
        */
       public Builder clearModleId() {
@@ -7238,7 +7842,7 @@ public final class ZhanDou {
        * <code>required .qxmobile.protobuf.NodeType nodeType = 3;</code>
        *
        * <pre>
-       *绫诲瀷
+       *类型
        * </pre>
        */
       public boolean hasNodeType() {
@@ -7248,7 +7852,7 @@ public final class ZhanDou {
        * <code>required .qxmobile.protobuf.NodeType nodeType = 3;</code>
        *
        * <pre>
-       *绫诲瀷
+       *类型
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.NodeType getNodeType() {
@@ -7258,7 +7862,7 @@ public final class ZhanDou {
        * <code>required .qxmobile.protobuf.NodeType nodeType = 3;</code>
        *
        * <pre>
-       *绫诲瀷
+       *类型
        * </pre>
        */
       public Builder setNodeType(qxmobile.protobuf.ZhanDou.NodeType value) {
@@ -7274,7 +7878,7 @@ public final class ZhanDou {
        * <code>required .qxmobile.protobuf.NodeType nodeType = 3;</code>
        *
        * <pre>
-       *绫诲瀷
+       *类型
        * </pre>
        */
       public Builder clearNodeType() {
@@ -7290,7 +7894,7 @@ public final class ZhanDou {
        * <code>required .qxmobile.protobuf.NodeProfession nodeProfession = 4;</code>
        *
        * <pre>
-       *鑱屼笟
+       *职业
        * </pre>
        */
       public boolean hasNodeProfession() {
@@ -7300,7 +7904,7 @@ public final class ZhanDou {
        * <code>required .qxmobile.protobuf.NodeProfession nodeProfession = 4;</code>
        *
        * <pre>
-       *鑱屼笟
+       *职业
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.NodeProfession getNodeProfession() {
@@ -7310,7 +7914,7 @@ public final class ZhanDou {
        * <code>required .qxmobile.protobuf.NodeProfession nodeProfession = 4;</code>
        *
        * <pre>
-       *鑱屼笟
+       *职业
        * </pre>
        */
       public Builder setNodeProfession(qxmobile.protobuf.ZhanDou.NodeProfession value) {
@@ -7326,7 +7930,7 @@ public final class ZhanDou {
        * <code>required .qxmobile.protobuf.NodeProfession nodeProfession = 4;</code>
        *
        * <pre>
-       *鑱屼笟
+       *职业
        * </pre>
        */
       public Builder clearNodeProfession() {
@@ -7416,7 +8020,7 @@ public final class ZhanDou {
        * <code>required float moveSpeed = 6;</code>
        *
        * <pre>
-       *鍚涗富鐨勬灞炴�涓�
+       *君主的此属性为0
        * </pre>
        */
       public boolean hasMoveSpeed() {
@@ -7426,7 +8030,7 @@ public final class ZhanDou {
        * <code>required float moveSpeed = 6;</code>
        *
        * <pre>
-       *鍚涗富鐨勬灞炴�涓�
+       *君主的此属性为0
        * </pre>
        */
       public float getMoveSpeed() {
@@ -7436,7 +8040,7 @@ public final class ZhanDou {
        * <code>required float moveSpeed = 6;</code>
        *
        * <pre>
-       *鍚涗富鐨勬灞炴�涓�
+       *君主的此属性为0
        * </pre>
        */
       public Builder setMoveSpeed(float value) {
@@ -7449,7 +8053,7 @@ public final class ZhanDou {
        * <code>required float moveSpeed = 6;</code>
        *
        * <pre>
-       *鍚涗富鐨勬灞炴�涓�
+       *君主的此属性为0
        * </pre>
        */
       public Builder clearMoveSpeed() {
@@ -7465,7 +8069,7 @@ public final class ZhanDou {
        * <code>required float attackSpeed = 7;</code>
        *
        * <pre>
-       *鍚涗富鐨勬灞炴�涓�
+       *君主的此属性为0
        * </pre>
        */
       public boolean hasAttackSpeed() {
@@ -7475,7 +8079,7 @@ public final class ZhanDou {
        * <code>required float attackSpeed = 7;</code>
        *
        * <pre>
-       *鍚涗富鐨勬灞炴�涓�
+       *君主的此属性为0
        * </pre>
        */
       public float getAttackSpeed() {
@@ -7485,7 +8089,7 @@ public final class ZhanDou {
        * <code>required float attackSpeed = 7;</code>
        *
        * <pre>
-       *鍚涗富鐨勬灞炴�涓�
+       *君主的此属性为0
        * </pre>
        */
       public Builder setAttackSpeed(float value) {
@@ -7498,7 +8102,7 @@ public final class ZhanDou {
        * <code>required float attackSpeed = 7;</code>
        *
        * <pre>
-       *鍚涗富鐨勬灞炴�涓�
+       *君主的此属性为0
        * </pre>
        */
       public Builder clearAttackSpeed() {
@@ -7514,7 +8118,7 @@ public final class ZhanDou {
        * <code>required float attackRange = 8;</code>
        *
        * <pre>
-       *鍚涗富鐨勬灞炴�涓�
+       *君主的此属性为0
        * </pre>
        */
       public boolean hasAttackRange() {
@@ -7524,7 +8128,7 @@ public final class ZhanDou {
        * <code>required float attackRange = 8;</code>
        *
        * <pre>
-       *鍚涗富鐨勬灞炴�涓�
+       *君主的此属性为0
        * </pre>
        */
       public float getAttackRange() {
@@ -7534,7 +8138,7 @@ public final class ZhanDou {
        * <code>required float attackRange = 8;</code>
        *
        * <pre>
-       *鍚涗富鐨勬灞炴�涓�
+       *君主的此属性为0
        * </pre>
        */
       public Builder setAttackRange(float value) {
@@ -7547,7 +8151,7 @@ public final class ZhanDou {
        * <code>required float attackRange = 8;</code>
        *
        * <pre>
-       *鍚涗富鐨勬灞炴�涓�
+       *君主的此属性为0
        * </pre>
        */
       public Builder clearAttackRange() {
@@ -7563,7 +8167,7 @@ public final class ZhanDou {
        * <code>required float eyeRange = 9;</code>
        *
        * <pre>
-       *瑙嗛噹鑼冨洿
+       *视野范围
        * </pre>
        */
       public boolean hasEyeRange() {
@@ -7573,7 +8177,7 @@ public final class ZhanDou {
        * <code>required float eyeRange = 9;</code>
        *
        * <pre>
-       *瑙嗛噹鑼冨洿
+       *视野范围
        * </pre>
        */
       public float getEyeRange() {
@@ -7583,7 +8187,7 @@ public final class ZhanDou {
        * <code>required float eyeRange = 9;</code>
        *
        * <pre>
-       *瑙嗛噹鑼冨洿
+       *视野范围
        * </pre>
        */
       public Builder setEyeRange(float value) {
@@ -7596,7 +8200,7 @@ public final class ZhanDou {
        * <code>required float eyeRange = 9;</code>
        *
        * <pre>
-       *瑙嗛噹鑼冨洿
+       *视野范围
        * </pre>
        */
       public Builder clearEyeRange() {
@@ -7678,7 +8282,7 @@ public final class ZhanDou {
        * <code>required int32 hp = 12;</code>
        *
        * <pre>
-       *褰撳墠琛�噺
+       *当前血量，初始时等于 hpMax * hpNum
        * </pre>
        */
       public boolean hasHp() {
@@ -7688,7 +8292,7 @@ public final class ZhanDou {
        * <code>required int32 hp = 12;</code>
        *
        * <pre>
-       *褰撳墠琛�噺
+       *当前血量，初始时等于 hpMax * hpNum
        * </pre>
        */
       public int getHp() {
@@ -7698,7 +8302,7 @@ public final class ZhanDou {
        * <code>required int32 hp = 12;</code>
        *
        * <pre>
-       *褰撳墠琛�噺
+       *当前血量，初始时等于 hpMax * hpNum
        * </pre>
        */
       public Builder setHp(int value) {
@@ -7711,7 +8315,7 @@ public final class ZhanDou {
        * <code>required int32 hp = 12;</code>
        *
        * <pre>
-       *褰撳墠琛�噺
+       *当前血量，初始时等于 hpMax * hpNum
        * </pre>
        */
       public Builder clearHp() {
@@ -7727,7 +8331,7 @@ public final class ZhanDou {
        * <code>required int32 hpMax = 13;</code>
        *
        * <pre>
-       *鏈�ぇ琛�噺
+       *最大血量，多血条时表示单管血条的血量
        * </pre>
        */
       public boolean hasHpMax() {
@@ -7737,7 +8341,7 @@ public final class ZhanDou {
        * <code>required int32 hpMax = 13;</code>
        *
        * <pre>
-       *鏈�ぇ琛�噺
+       *最大血量，多血条时表示单管血条的血量
        * </pre>
        */
       public int getHpMax() {
@@ -7747,7 +8351,7 @@ public final class ZhanDou {
        * <code>required int32 hpMax = 13;</code>
        *
        * <pre>
-       *鏈�ぇ琛�噺
+       *最大血量，多血条时表示单管血条的血量
        * </pre>
        */
       public Builder setHpMax(int value) {
@@ -7760,7 +8364,7 @@ public final class ZhanDou {
        * <code>required int32 hpMax = 13;</code>
        *
        * <pre>
-       *鏈�ぇ琛�噺
+       *最大血量，多血条时表示单管血条的血量
        * </pre>
        */
       public Builder clearHpMax() {
@@ -7776,7 +8380,7 @@ public final class ZhanDou {
        * <code>required float attackAmplify = 14;</code>
        *
        * <pre>
-       *浼ゅ鍔犳繁
+       *伤害加深
        * </pre>
        */
       public boolean hasAttackAmplify() {
@@ -7786,7 +8390,7 @@ public final class ZhanDou {
        * <code>required float attackAmplify = 14;</code>
        *
        * <pre>
-       *浼ゅ鍔犳繁
+       *伤害加深
        * </pre>
        */
       public float getAttackAmplify() {
@@ -7796,7 +8400,7 @@ public final class ZhanDou {
        * <code>required float attackAmplify = 14;</code>
        *
        * <pre>
-       *浼ゅ鍔犳繁
+       *伤害加深
        * </pre>
        */
       public Builder setAttackAmplify(float value) {
@@ -7809,7 +8413,7 @@ public final class ZhanDou {
        * <code>required float attackAmplify = 14;</code>
        *
        * <pre>
-       *浼ゅ鍔犳繁
+       *伤害加深
        * </pre>
        */
       public Builder clearAttackAmplify() {
@@ -7825,7 +8429,7 @@ public final class ZhanDou {
        * <code>required float attackReduction = 15;</code>
        *
        * <pre>
-       *浼ゅ鍑忓厤
+       *伤害减免
        * </pre>
        */
       public boolean hasAttackReduction() {
@@ -7835,7 +8439,7 @@ public final class ZhanDou {
        * <code>required float attackReduction = 15;</code>
        *
        * <pre>
-       *浼ゅ鍑忓厤
+       *伤害减免
        * </pre>
        */
       public float getAttackReduction() {
@@ -7845,7 +8449,7 @@ public final class ZhanDou {
        * <code>required float attackReduction = 15;</code>
        *
        * <pre>
-       *浼ゅ鍑忓厤
+       *伤害减免
        * </pre>
        */
       public Builder setAttackReduction(float value) {
@@ -7858,7 +8462,7 @@ public final class ZhanDou {
        * <code>required float attackReduction = 15;</code>
        *
        * <pre>
-       *浼ゅ鍑忓厤
+       *伤害减免
        * </pre>
        */
       public Builder clearAttackReduction() {
@@ -7874,7 +8478,7 @@ public final class ZhanDou {
        * <code>required float attackAmplify_cri = 16;</code>
        *
        * <pre>
-       *浼ゅ鏆村嚮鍔犳繁
+       *伤害暴击加深
        * </pre>
        */
       public boolean hasAttackAmplifyCri() {
@@ -7884,7 +8488,7 @@ public final class ZhanDou {
        * <code>required float attackAmplify_cri = 16;</code>
        *
        * <pre>
-       *浼ゅ鏆村嚮鍔犳繁
+       *伤害暴击加深
        * </pre>
        */
       public float getAttackAmplifyCri() {
@@ -7894,7 +8498,7 @@ public final class ZhanDou {
        * <code>required float attackAmplify_cri = 16;</code>
        *
        * <pre>
-       *浼ゅ鏆村嚮鍔犳繁
+       *伤害暴击加深
        * </pre>
        */
       public Builder setAttackAmplifyCri(float value) {
@@ -7907,7 +8511,7 @@ public final class ZhanDou {
        * <code>required float attackAmplify_cri = 16;</code>
        *
        * <pre>
-       *浼ゅ鏆村嚮鍔犳繁
+       *伤害暴击加深
        * </pre>
        */
       public Builder clearAttackAmplifyCri() {
@@ -7923,7 +8527,7 @@ public final class ZhanDou {
        * <code>required float attackReduction_cri = 17;</code>
        *
        * <pre>
-       *浼ゅ鏆村嚮鍑忓厤
+       *伤害暴击减免
        * </pre>
        */
       public boolean hasAttackReductionCri() {
@@ -7933,7 +8537,7 @@ public final class ZhanDou {
        * <code>required float attackReduction_cri = 17;</code>
        *
        * <pre>
-       *浼ゅ鏆村嚮鍑忓厤
+       *伤害暴击减免
        * </pre>
        */
       public float getAttackReductionCri() {
@@ -7943,7 +8547,7 @@ public final class ZhanDou {
        * <code>required float attackReduction_cri = 17;</code>
        *
        * <pre>
-       *浼ゅ鏆村嚮鍑忓厤
+       *伤害暴击减免
        * </pre>
        */
       public Builder setAttackReductionCri(float value) {
@@ -7956,7 +8560,7 @@ public final class ZhanDou {
        * <code>required float attackReduction_cri = 17;</code>
        *
        * <pre>
-       *浼ゅ鏆村嚮鍑忓厤
+       *伤害暴击减免
        * </pre>
        */
       public Builder clearAttackReductionCri() {
@@ -7972,7 +8576,7 @@ public final class ZhanDou {
        * <code>required float skillAmplify = 18;</code>
        *
        * <pre>
-       *鎶�兘鍔犳繁
+       *技能加深
        * </pre>
        */
       public boolean hasSkillAmplify() {
@@ -7982,7 +8586,7 @@ public final class ZhanDou {
        * <code>required float skillAmplify = 18;</code>
        *
        * <pre>
-       *鎶�兘鍔犳繁
+       *技能加深
        * </pre>
        */
       public float getSkillAmplify() {
@@ -7992,7 +8596,7 @@ public final class ZhanDou {
        * <code>required float skillAmplify = 18;</code>
        *
        * <pre>
-       *鎶�兘鍔犳繁
+       *技能加深
        * </pre>
        */
       public Builder setSkillAmplify(float value) {
@@ -8005,7 +8609,7 @@ public final class ZhanDou {
        * <code>required float skillAmplify = 18;</code>
        *
        * <pre>
-       *鎶�兘鍔犳繁
+       *技能加深
        * </pre>
        */
       public Builder clearSkillAmplify() {
@@ -8021,7 +8625,7 @@ public final class ZhanDou {
        * <code>required float skillReduction = 19;</code>
        *
        * <pre>
-       *鎶�兘鍑忓厤
+       *技能减免
        * </pre>
        */
       public boolean hasSkillReduction() {
@@ -8031,7 +8635,7 @@ public final class ZhanDou {
        * <code>required float skillReduction = 19;</code>
        *
        * <pre>
-       *鎶�兘鍑忓厤
+       *技能减免
        * </pre>
        */
       public float getSkillReduction() {
@@ -8041,7 +8645,7 @@ public final class ZhanDou {
        * <code>required float skillReduction = 19;</code>
        *
        * <pre>
-       *鎶�兘鍑忓厤
+       *技能减免
        * </pre>
        */
       public Builder setSkillReduction(float value) {
@@ -8054,7 +8658,7 @@ public final class ZhanDou {
        * <code>required float skillReduction = 19;</code>
        *
        * <pre>
-       *鎶�兘鍑忓厤
+       *技能减免
        * </pre>
        */
       public Builder clearSkillReduction() {
@@ -8070,7 +8674,7 @@ public final class ZhanDou {
        * <code>required float skillAmplify_cri = 20;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鍔犳繁
+       *技能暴击加深
        * </pre>
        */
       public boolean hasSkillAmplifyCri() {
@@ -8080,7 +8684,7 @@ public final class ZhanDou {
        * <code>required float skillAmplify_cri = 20;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鍔犳繁
+       *技能暴击加深
        * </pre>
        */
       public float getSkillAmplifyCri() {
@@ -8090,7 +8694,7 @@ public final class ZhanDou {
        * <code>required float skillAmplify_cri = 20;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鍔犳繁
+       *技能暴击加深
        * </pre>
        */
       public Builder setSkillAmplifyCri(float value) {
@@ -8103,7 +8707,7 @@ public final class ZhanDou {
        * <code>required float skillAmplify_cri = 20;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鍔犳繁
+       *技能暴击加深
        * </pre>
        */
       public Builder clearSkillAmplifyCri() {
@@ -8119,7 +8723,7 @@ public final class ZhanDou {
        * <code>required float skillReduction_cri = 21;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鍑忓厤
+       *技能暴击减免
        * </pre>
        */
       public boolean hasSkillReductionCri() {
@@ -8129,7 +8733,7 @@ public final class ZhanDou {
        * <code>required float skillReduction_cri = 21;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鍑忓厤
+       *技能暴击减免
        * </pre>
        */
       public float getSkillReductionCri() {
@@ -8139,7 +8743,7 @@ public final class ZhanDou {
        * <code>required float skillReduction_cri = 21;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鍑忓厤
+       *技能暴击减免
        * </pre>
        */
       public Builder setSkillReductionCri(float value) {
@@ -8152,7 +8756,7 @@ public final class ZhanDou {
        * <code>required float skillReduction_cri = 21;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鍑忓厤
+       *技能暴击减免
        * </pre>
        */
       public Builder clearSkillReductionCri() {
@@ -8168,7 +8772,7 @@ public final class ZhanDou {
        * <code>required int32 criX = 22;</code>
        *
        * <pre>
-       *鏆村嚮鐜囧ぇ鏁帮紝鍚涗富鐨勬灞炴�涓�
+       *暴击率大数，君主的此属性为0
        * </pre>
        */
       public boolean hasCriX() {
@@ -8178,7 +8782,7 @@ public final class ZhanDou {
        * <code>required int32 criX = 22;</code>
        *
        * <pre>
-       *鏆村嚮鐜囧ぇ鏁帮紝鍚涗富鐨勬灞炴�涓�
+       *暴击率大数，君主的此属性为0
        * </pre>
        */
       public int getCriX() {
@@ -8188,7 +8792,7 @@ public final class ZhanDou {
        * <code>required int32 criX = 22;</code>
        *
        * <pre>
-       *鏆村嚮鐜囧ぇ鏁帮紝鍚涗富鐨勬灞炴�涓�
+       *暴击率大数，君主的此属性为0
        * </pre>
        */
       public Builder setCriX(int value) {
@@ -8201,7 +8805,7 @@ public final class ZhanDou {
        * <code>required int32 criX = 22;</code>
        *
        * <pre>
-       *鏆村嚮鐜囧ぇ鏁帮紝鍚涗富鐨勬灞炴�涓�
+       *暴击率大数，君主的此属性为0
        * </pre>
        */
       public Builder clearCriX() {
@@ -8217,7 +8821,7 @@ public final class ZhanDou {
        * <code>required int32 criY = 23;</code>
        *
        * <pre>
-       *鏆村嚮鐜囧皬鏁帮紝鍚涗富鐨勬灞炴�涓�
+       *暴击率小数，君主的此属性为0
        * </pre>
        */
       public boolean hasCriY() {
@@ -8227,7 +8831,7 @@ public final class ZhanDou {
        * <code>required int32 criY = 23;</code>
        *
        * <pre>
-       *鏆村嚮鐜囧皬鏁帮紝鍚涗富鐨勬灞炴�涓�
+       *暴击率小数，君主的此属性为0
        * </pre>
        */
       public int getCriY() {
@@ -8237,7 +8841,7 @@ public final class ZhanDou {
        * <code>required int32 criY = 23;</code>
        *
        * <pre>
-       *鏆村嚮鐜囧皬鏁帮紝鍚涗富鐨勬灞炴�涓�
+       *暴击率小数，君主的此属性为0
        * </pre>
        */
       public Builder setCriY(int value) {
@@ -8250,7 +8854,7 @@ public final class ZhanDou {
        * <code>required int32 criY = 23;</code>
        *
        * <pre>
-       *鏆村嚮鐜囧皬鏁帮紝鍚涗富鐨勬灞炴�涓�
+       *暴击率小数，君主的此属性为0
        * </pre>
        */
       public Builder clearCriY() {
@@ -8266,7 +8870,7 @@ public final class ZhanDou {
        * <code>required int32 criSkillX = 24;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鐜囧ぇ鏁帮紝鍚涗富鐨勬灞炴�涓�
+       *技能暴击率大数，君主的此属性为0
        * </pre>
        */
       public boolean hasCriSkillX() {
@@ -8276,7 +8880,7 @@ public final class ZhanDou {
        * <code>required int32 criSkillX = 24;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鐜囧ぇ鏁帮紝鍚涗富鐨勬灞炴�涓�
+       *技能暴击率大数，君主的此属性为0
        * </pre>
        */
       public int getCriSkillX() {
@@ -8286,7 +8890,7 @@ public final class ZhanDou {
        * <code>required int32 criSkillX = 24;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鐜囧ぇ鏁帮紝鍚涗富鐨勬灞炴�涓�
+       *技能暴击率大数，君主的此属性为0
        * </pre>
        */
       public Builder setCriSkillX(int value) {
@@ -8299,7 +8903,7 @@ public final class ZhanDou {
        * <code>required int32 criSkillX = 24;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鐜囧ぇ鏁帮紝鍚涗富鐨勬灞炴�涓�
+       *技能暴击率大数，君主的此属性为0
        * </pre>
        */
       public Builder clearCriSkillX() {
@@ -8315,7 +8919,7 @@ public final class ZhanDou {
        * <code>required int32 criSkillY = 25;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鐜囧皬鏁帮紝鍚涗富鐨勬灞炴�涓�
+       *技能暴击率小数，君主的此属性为0
        * </pre>
        */
       public boolean hasCriSkillY() {
@@ -8325,7 +8929,7 @@ public final class ZhanDou {
        * <code>required int32 criSkillY = 25;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鐜囧皬鏁帮紝鍚涗富鐨勬灞炴�涓�
+       *技能暴击率小数，君主的此属性为0
        * </pre>
        */
       public int getCriSkillY() {
@@ -8335,7 +8939,7 @@ public final class ZhanDou {
        * <code>required int32 criSkillY = 25;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鐜囧皬鏁帮紝鍚涗富鐨勬灞炴�涓�
+       *技能暴击率小数，君主的此属性为0
        * </pre>
        */
       public Builder setCriSkillY(int value) {
@@ -8348,7 +8952,7 @@ public final class ZhanDou {
        * <code>required int32 criSkillY = 25;</code>
        *
        * <pre>
-       *鎶�兘鏆村嚮鐜囧皬鏁帮紝鍚涗富鐨勬灞炴�涓�
+       *技能暴击率小数，君主的此属性为0
        * </pre>
        */
       public Builder clearCriSkillY() {
@@ -8606,7 +9210,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponHeavy = 27;</code>
        *
        * <pre>
-       *鍚涗富閲嶆鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主重武器 君主独有 未装备为null
        * </pre>
        */
       public boolean hasWeaponHeavy() {
@@ -8616,7 +9220,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponHeavy = 27;</code>
        *
        * <pre>
-       *鍚涗富閲嶆鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主重武器 君主独有 未装备为null
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.PlayerWeapon getWeaponHeavy() {
@@ -8630,7 +9234,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponHeavy = 27;</code>
        *
        * <pre>
-       *鍚涗富閲嶆鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主重武器 君主独有 未装备为null
        * </pre>
        */
       public Builder setWeaponHeavy(qxmobile.protobuf.ZhanDou.PlayerWeapon value) {
@@ -8650,7 +9254,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponHeavy = 27;</code>
        *
        * <pre>
-       *鍚涗富閲嶆鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主重武器 君主独有 未装备为null
        * </pre>
        */
       public Builder setWeaponHeavy(
@@ -8668,7 +9272,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponHeavy = 27;</code>
        *
        * <pre>
-       *鍚涗富閲嶆鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主重武器 君主独有 未装备为null
        * </pre>
        */
       public Builder mergeWeaponHeavy(qxmobile.protobuf.ZhanDou.PlayerWeapon value) {
@@ -8691,7 +9295,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponHeavy = 27;</code>
        *
        * <pre>
-       *鍚涗富閲嶆鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主重武器 君主独有 未装备为null
        * </pre>
        */
       public Builder clearWeaponHeavy() {
@@ -8708,7 +9312,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponHeavy = 27;</code>
        *
        * <pre>
-       *鍚涗富閲嶆鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主重武器 君主独有 未装备为null
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.PlayerWeapon.Builder getWeaponHeavyBuilder() {
@@ -8720,7 +9324,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponHeavy = 27;</code>
        *
        * <pre>
-       *鍚涗富閲嶆鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主重武器 君主独有 未装备为null
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.PlayerWeaponOrBuilder getWeaponHeavyOrBuilder() {
@@ -8734,7 +9338,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponHeavy = 27;</code>
        *
        * <pre>
-       *鍚涗富閲嶆鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主重武器 君主独有 未装备为null
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -8759,7 +9363,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponLight = 28;</code>
        *
        * <pre>
-       *鍚涗富杞绘鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主轻武器 君主独有 未装备为null
        * </pre>
        */
       public boolean hasWeaponLight() {
@@ -8769,7 +9373,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponLight = 28;</code>
        *
        * <pre>
-       *鍚涗富杞绘鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主轻武器 君主独有 未装备为null
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.PlayerWeapon getWeaponLight() {
@@ -8783,7 +9387,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponLight = 28;</code>
        *
        * <pre>
-       *鍚涗富杞绘鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主轻武器 君主独有 未装备为null
        * </pre>
        */
       public Builder setWeaponLight(qxmobile.protobuf.ZhanDou.PlayerWeapon value) {
@@ -8803,7 +9407,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponLight = 28;</code>
        *
        * <pre>
-       *鍚涗富杞绘鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主轻武器 君主独有 未装备为null
        * </pre>
        */
       public Builder setWeaponLight(
@@ -8821,7 +9425,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponLight = 28;</code>
        *
        * <pre>
-       *鍚涗富杞绘鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主轻武器 君主独有 未装备为null
        * </pre>
        */
       public Builder mergeWeaponLight(qxmobile.protobuf.ZhanDou.PlayerWeapon value) {
@@ -8844,7 +9448,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponLight = 28;</code>
        *
        * <pre>
-       *鍚涗富杞绘鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主轻武器 君主独有 未装备为null
        * </pre>
        */
       public Builder clearWeaponLight() {
@@ -8861,7 +9465,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponLight = 28;</code>
        *
        * <pre>
-       *鍚涗富杞绘鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主轻武器 君主独有 未装备为null
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.PlayerWeapon.Builder getWeaponLightBuilder() {
@@ -8873,7 +9477,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponLight = 28;</code>
        *
        * <pre>
-       *鍚涗富杞绘鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主轻武器 君主独有 未装备为null
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.PlayerWeaponOrBuilder getWeaponLightOrBuilder() {
@@ -8887,7 +9491,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponLight = 28;</code>
        *
        * <pre>
-       *鍚涗富杞绘鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主轻武器 君主独有 未装备为null
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -8912,7 +9516,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponRanged = 29;</code>
        *
        * <pre>
-       *鍚涗富寮撴鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主弓武器 君主独有 未装备为null
        * </pre>
        */
       public boolean hasWeaponRanged() {
@@ -8922,7 +9526,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponRanged = 29;</code>
        *
        * <pre>
-       *鍚涗富寮撴鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主弓武器 君主独有 未装备为null
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.PlayerWeapon getWeaponRanged() {
@@ -8936,7 +9540,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponRanged = 29;</code>
        *
        * <pre>
-       *鍚涗富寮撴鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主弓武器 君主独有 未装备为null
        * </pre>
        */
       public Builder setWeaponRanged(qxmobile.protobuf.ZhanDou.PlayerWeapon value) {
@@ -8956,7 +9560,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponRanged = 29;</code>
        *
        * <pre>
-       *鍚涗富寮撴鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主弓武器 君主独有 未装备为null
        * </pre>
        */
       public Builder setWeaponRanged(
@@ -8974,7 +9578,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponRanged = 29;</code>
        *
        * <pre>
-       *鍚涗富寮撴鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主弓武器 君主独有 未装备为null
        * </pre>
        */
       public Builder mergeWeaponRanged(qxmobile.protobuf.ZhanDou.PlayerWeapon value) {
@@ -8997,7 +9601,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponRanged = 29;</code>
        *
        * <pre>
-       *鍚涗富寮撴鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主弓武器 君主独有 未装备为null
        * </pre>
        */
       public Builder clearWeaponRanged() {
@@ -9014,7 +9618,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponRanged = 29;</code>
        *
        * <pre>
-       *鍚涗富寮撴鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主弓武器 君主独有 未装备为null
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.PlayerWeapon.Builder getWeaponRangedBuilder() {
@@ -9026,7 +9630,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponRanged = 29;</code>
        *
        * <pre>
-       *鍚涗富寮撴鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主弓武器 君主独有 未装备为null
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.PlayerWeaponOrBuilder getWeaponRangedOrBuilder() {
@@ -9040,7 +9644,7 @@ public final class ZhanDou {
        * <code>optional .qxmobile.protobuf.PlayerWeapon weaponRanged = 29;</code>
        *
        * <pre>
-       *鍚涗富寮撴鍣�鍚涗富鐙湁 鏈澶囦负null
+       *君主弓武器 君主独有 未装备为null
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -9074,7 +9678,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public java.util.List<qxmobile.protobuf.ZhanDou.DroppenItem> getDroppenItemsList() {
@@ -9088,7 +9692,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public int getDroppenItemsCount() {
@@ -9102,7 +9706,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.DroppenItem getDroppenItems(int index) {
@@ -9116,7 +9720,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public Builder setDroppenItems(
@@ -9137,7 +9741,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public Builder setDroppenItems(
@@ -9155,7 +9759,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public Builder addDroppenItems(qxmobile.protobuf.ZhanDou.DroppenItem value) {
@@ -9175,7 +9779,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public Builder addDroppenItems(
@@ -9196,7 +9800,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public Builder addDroppenItems(
@@ -9214,7 +9818,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public Builder addDroppenItems(
@@ -9232,7 +9836,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public Builder addAllDroppenItems(
@@ -9250,7 +9854,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public Builder clearDroppenItems() {
@@ -9267,7 +9871,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public Builder removeDroppenItems(int index) {
@@ -9284,7 +9888,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.DroppenItem.Builder getDroppenItemsBuilder(
@@ -9295,7 +9899,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.DroppenItemOrBuilder getDroppenItemsOrBuilder(
@@ -9309,7 +9913,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public java.util.List<? extends qxmobile.protobuf.ZhanDou.DroppenItemOrBuilder> 
@@ -9324,7 +9928,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.DroppenItem.Builder addDroppenItemsBuilder() {
@@ -9335,7 +9939,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.DroppenItem.Builder addDroppenItemsBuilder(
@@ -9347,7 +9951,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.DroppenItem droppenItems = 30;</code>
        *
        * <pre>
-       *鏉�鎬悗鎺夎惤鐗╁搧鍒楄〃
+       *杀死怪后掉落物品列表
        * </pre>
        */
       public java.util.List<qxmobile.protobuf.ZhanDou.DroppenItem.Builder> 
@@ -9375,7 +9979,7 @@ public final class ZhanDou {
        * <code>optional int32 droppenType = 31;</code>
        *
        * <pre>
-       *鎺夎惤鐗╁搧鐨勯『搴忕被鍨嬶紝0-鍚屾椂鎺夎惤锛�-椤哄簭鎺夎惤
+       *掉落物品的顺序类型，0-同时掉落，1-顺序掉落
        * </pre>
        */
       public boolean hasDroppenType() {
@@ -9385,7 +9989,7 @@ public final class ZhanDou {
        * <code>optional int32 droppenType = 31;</code>
        *
        * <pre>
-       *鎺夎惤鐗╁搧鐨勯『搴忕被鍨嬶紝0-鍚屾椂鎺夎惤锛�-椤哄簭鎺夎惤
+       *掉落物品的顺序类型，0-同时掉落，1-顺序掉落
        * </pre>
        */
       public int getDroppenType() {
@@ -9395,7 +9999,7 @@ public final class ZhanDou {
        * <code>optional int32 droppenType = 31;</code>
        *
        * <pre>
-       *鎺夎惤鐗╁搧鐨勯『搴忕被鍨嬶紝0-鍚屾椂鎺夎惤锛�-椤哄簭鎺夎惤
+       *掉落物品的顺序类型，0-同时掉落，1-顺序掉落
        * </pre>
        */
       public Builder setDroppenType(int value) {
@@ -9408,7 +10012,7 @@ public final class ZhanDou {
        * <code>optional int32 droppenType = 31;</code>
        *
        * <pre>
-       *鎺夎惤鐗╁搧鐨勯『搴忕被鍨嬶紝0-鍚屾椂鎺夎惤锛�-椤哄簭鎺夎惤
+       *掉落物品的顺序类型，0-同时掉落，1-顺序掉落
        * </pre>
        */
       public Builder clearDroppenType() {
@@ -9424,7 +10028,8 @@ public final class ZhanDou {
        * <code>optional int32 hudun = 32;</code>
        *
        * <pre>
-       *褰撳墠鎶ょ浘鍊�       * </pre>
+       *当前护盾值
+       * </pre>
        */
       public boolean hasHudun() {
         return ((bitField0_ & 0x80000000) == 0x80000000);
@@ -9433,7 +10038,8 @@ public final class ZhanDou {
        * <code>optional int32 hudun = 32;</code>
        *
        * <pre>
-       *褰撳墠鎶ょ浘鍊�       * </pre>
+       *当前护盾值
+       * </pre>
        */
       public int getHudun() {
         return hudun_;
@@ -9442,7 +10048,8 @@ public final class ZhanDou {
        * <code>optional int32 hudun = 32;</code>
        *
        * <pre>
-       *褰撳墠鎶ょ浘鍊�       * </pre>
+       *当前护盾值
+       * </pre>
        */
       public Builder setHudun(int value) {
         bitField0_ |= 0x80000000;
@@ -9454,7 +10061,8 @@ public final class ZhanDou {
        * <code>optional int32 hudun = 32;</code>
        *
        * <pre>
-       *褰撳墠鎶ょ浘鍊�       * </pre>
+       *当前护盾值
+       * </pre>
        */
       public Builder clearHudun() {
         bitField0_ = (bitField0_ & ~0x80000000);
@@ -9469,7 +10077,8 @@ public final class ZhanDou {
        * <code>optional int32 hudunMax = 33;</code>
        *
        * <pre>
-       *鏈�ぇ鎶ょ浘鍊�       * </pre>
+       *最大护盾值
+       * </pre>
        */
       public boolean hasHudunMax() {
         return ((bitField1_ & 0x00000001) == 0x00000001);
@@ -9478,7 +10087,8 @@ public final class ZhanDou {
        * <code>optional int32 hudunMax = 33;</code>
        *
        * <pre>
-       *鏈�ぇ鎶ょ浘鍊�       * </pre>
+       *最大护盾值
+       * </pre>
        */
       public int getHudunMax() {
         return hudunMax_;
@@ -9487,7 +10097,8 @@ public final class ZhanDou {
        * <code>optional int32 hudunMax = 33;</code>
        *
        * <pre>
-       *鏈�ぇ鎶ょ浘鍊�       * </pre>
+       *最大护盾值
+       * </pre>
        */
       public Builder setHudunMax(int value) {
         bitField1_ |= 0x00000001;
@@ -9499,11 +10110,110 @@ public final class ZhanDou {
        * <code>optional int32 hudunMax = 33;</code>
        *
        * <pre>
-       *鏈�ぇ鎶ょ浘鍊�       * </pre>
+       *最大护盾值
+       * </pre>
        */
       public Builder clearHudunMax() {
         bitField1_ = (bitField1_ & ~0x00000001);
         hudunMax_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 hpNum = 34;
+      private int hpNum_ ;
+      /**
+       * <code>required int32 hpNum = 34;</code>
+       *
+       * <pre>
+       *血条数量
+       * </pre>
+       */
+      public boolean hasHpNum() {
+        return ((bitField1_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 hpNum = 34;</code>
+       *
+       * <pre>
+       *血条数量
+       * </pre>
+       */
+      public int getHpNum() {
+        return hpNum_;
+      }
+      /**
+       * <code>required int32 hpNum = 34;</code>
+       *
+       * <pre>
+       *血条数量
+       * </pre>
+       */
+      public Builder setHpNum(int value) {
+        bitField1_ |= 0x00000002;
+        hpNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 hpNum = 34;</code>
+       *
+       * <pre>
+       *血条数量
+       * </pre>
+       */
+      public Builder clearHpNum() {
+        bitField1_ = (bitField1_ & ~0x00000002);
+        hpNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 appearanceId = 35;
+      private int appearanceId_ ;
+      /**
+       * <code>required int32 appearanceId = 35;</code>
+       *
+       * <pre>
+       *外观表id
+       * </pre>
+       */
+      public boolean hasAppearanceId() {
+        return ((bitField1_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 appearanceId = 35;</code>
+       *
+       * <pre>
+       *外观表id
+       * </pre>
+       */
+      public int getAppearanceId() {
+        return appearanceId_;
+      }
+      /**
+       * <code>required int32 appearanceId = 35;</code>
+       *
+       * <pre>
+       *外观表id
+       * </pre>
+       */
+      public Builder setAppearanceId(int value) {
+        bitField1_ |= 0x00000004;
+        appearanceId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 appearanceId = 35;</code>
+       *
+       * <pre>
+       *外观表id
+       * </pre>
+       */
+      public Builder clearAppearanceId() {
+        bitField1_ = (bitField1_ & ~0x00000004);
+        appearanceId_ = 0;
         onChanged();
         return this;
       }
@@ -9527,7 +10237,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
      *
      * <pre>
-     *鎴樻枟鍗曚綅鍒楄〃
+     *战斗单位列表
      * </pre>
      */
     java.util.List<qxmobile.protobuf.ZhanDou.Node> 
@@ -9536,7 +10246,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
      *
      * <pre>
-     *鎴樻枟鍗曚綅鍒楄〃
+     *战斗单位列表
      * </pre>
      */
     qxmobile.protobuf.ZhanDou.Node getNodes(int index);
@@ -9544,7 +10254,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
      *
      * <pre>
-     *鎴樻枟鍗曚綅鍒楄〃
+     *战斗单位列表
      * </pre>
      */
     int getNodesCount();
@@ -9552,7 +10262,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
      *
      * <pre>
-     *鎴樻枟鍗曚綅鍒楄〃
+     *战斗单位列表
      * </pre>
      */
     java.util.List<? extends qxmobile.protobuf.ZhanDou.NodeOrBuilder> 
@@ -9561,7 +10271,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
      *
      * <pre>
-     *鎴樻枟鍗曚綅鍒楄〃
+     *战斗单位列表
      * </pre>
      */
     qxmobile.protobuf.ZhanDou.NodeOrBuilder getNodesOrBuilder(
@@ -9572,7 +10282,7 @@ public final class ZhanDou {
      * <code>repeated int32 mibaoIcons = 2;</code>
      *
      * <pre>
-     *绉樺疂鍥炬爣鍒楄〃
+     *秘宝图标列表
      * </pre>
      */
     java.util.List<java.lang.Integer> getMibaoIconsList();
@@ -9580,7 +10290,7 @@ public final class ZhanDou {
      * <code>repeated int32 mibaoIcons = 2;</code>
      *
      * <pre>
-     *绉樺疂鍥炬爣鍒楄〃
+     *秘宝图标列表
      * </pre>
      */
     int getMibaoIconsCount();
@@ -9588,7 +10298,7 @@ public final class ZhanDou {
      * <code>repeated int32 mibaoIcons = 2;</code>
      *
      * <pre>
-     *绉樺疂鍥炬爣鍒楄〃
+     *秘宝图标列表
      * </pre>
      */
     int getMibaoIcons(int index);
@@ -9598,7 +10308,7 @@ public final class ZhanDou {
      * <code>required int32 maxLevel = 3;</code>
      *
      * <pre>
-     *Pve杩涘害锛岀湡瀹炵帺瀹跺彂鐪熷疄鐨刾vp杩涘害锛屾ā鎷熺帺瀹跺拰闈炵帺瀹跺彂999
+     *Pve进度，真实玩家发真实的pvp进度，模拟玩家和非玩家发999
      * </pre>
      */
     boolean hasMaxLevel();
@@ -9606,7 +10316,7 @@ public final class ZhanDou {
      * <code>required int32 maxLevel = 3;</code>
      *
      * <pre>
-     *Pve杩涘害锛岀湡瀹炵帺瀹跺彂鐪熷疄鐨刾vp杩涘害锛屾ā鎷熺帺瀹跺拰闈炵帺瀹跺彂999
+     *Pve进度，真实玩家发真实的pvp进度，模拟玩家和非玩家发999
      * </pre>
      */
     int getMaxLevel();
@@ -9749,7 +10459,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
      *
      * <pre>
-     *鎴樻枟鍗曚綅鍒楄〃
+     *战斗单位列表
      * </pre>
      */
     public java.util.List<qxmobile.protobuf.ZhanDou.Node> getNodesList() {
@@ -9759,7 +10469,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
      *
      * <pre>
-     *鎴樻枟鍗曚綅鍒楄〃
+     *战斗单位列表
      * </pre>
      */
     public java.util.List<? extends qxmobile.protobuf.ZhanDou.NodeOrBuilder> 
@@ -9770,7 +10480,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
      *
      * <pre>
-     *鎴樻枟鍗曚綅鍒楄〃
+     *战斗单位列表
      * </pre>
      */
     public int getNodesCount() {
@@ -9780,7 +10490,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
      *
      * <pre>
-     *鎴樻枟鍗曚綅鍒楄〃
+     *战斗单位列表
      * </pre>
      */
     public qxmobile.protobuf.ZhanDou.Node getNodes(int index) {
@@ -9790,7 +10500,7 @@ public final class ZhanDou {
      * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
      *
      * <pre>
-     *鎴樻枟鍗曚綅鍒楄〃
+     *战斗单位列表
      * </pre>
      */
     public qxmobile.protobuf.ZhanDou.NodeOrBuilder getNodesOrBuilder(
@@ -9805,7 +10515,7 @@ public final class ZhanDou {
      * <code>repeated int32 mibaoIcons = 2;</code>
      *
      * <pre>
-     *绉樺疂鍥炬爣鍒楄〃
+     *秘宝图标列表
      * </pre>
      */
     public java.util.List<java.lang.Integer>
@@ -9816,7 +10526,7 @@ public final class ZhanDou {
      * <code>repeated int32 mibaoIcons = 2;</code>
      *
      * <pre>
-     *绉樺疂鍥炬爣鍒楄〃
+     *秘宝图标列表
      * </pre>
      */
     public int getMibaoIconsCount() {
@@ -9826,7 +10536,7 @@ public final class ZhanDou {
      * <code>repeated int32 mibaoIcons = 2;</code>
      *
      * <pre>
-     *绉樺疂鍥炬爣鍒楄〃
+     *秘宝图标列表
      * </pre>
      */
     public int getMibaoIcons(int index) {
@@ -9840,7 +10550,7 @@ public final class ZhanDou {
      * <code>required int32 maxLevel = 3;</code>
      *
      * <pre>
-     *Pve杩涘害锛岀湡瀹炵帺瀹跺彂鐪熷疄鐨刾vp杩涘害锛屾ā鎷熺帺瀹跺拰闈炵帺瀹跺彂999
+     *Pve进度，真实玩家发真实的pvp进度，模拟玩家和非玩家发999
      * </pre>
      */
     public boolean hasMaxLevel() {
@@ -9850,7 +10560,7 @@ public final class ZhanDou {
      * <code>required int32 maxLevel = 3;</code>
      *
      * <pre>
-     *Pve杩涘害锛岀湡瀹炵帺瀹跺彂鐪熷疄鐨刾vp杩涘害锛屾ā鎷熺帺瀹跺拰闈炵帺瀹跺彂999
+     *Pve进度，真实玩家发真实的pvp进度，模拟玩家和非玩家发999
      * </pre>
      */
     public int getMaxLevel() {
@@ -10201,7 +10911,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public java.util.List<qxmobile.protobuf.ZhanDou.Node> getNodesList() {
@@ -10215,7 +10925,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public int getNodesCount() {
@@ -10229,7 +10939,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.Node getNodes(int index) {
@@ -10243,7 +10953,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public Builder setNodes(
@@ -10264,7 +10974,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public Builder setNodes(
@@ -10282,7 +10992,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public Builder addNodes(qxmobile.protobuf.ZhanDou.Node value) {
@@ -10302,7 +11012,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public Builder addNodes(
@@ -10323,7 +11033,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public Builder addNodes(
@@ -10341,7 +11051,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public Builder addNodes(
@@ -10359,7 +11069,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public Builder addAllNodes(
@@ -10377,7 +11087,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public Builder clearNodes() {
@@ -10394,7 +11104,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public Builder removeNodes(int index) {
@@ -10411,7 +11121,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.Node.Builder getNodesBuilder(
@@ -10422,7 +11132,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.NodeOrBuilder getNodesOrBuilder(
@@ -10436,7 +11146,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public java.util.List<? extends qxmobile.protobuf.ZhanDou.NodeOrBuilder> 
@@ -10451,7 +11161,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.Node.Builder addNodesBuilder() {
@@ -10462,7 +11172,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public qxmobile.protobuf.ZhanDou.Node.Builder addNodesBuilder(
@@ -10474,7 +11184,7 @@ public final class ZhanDou {
        * <code>repeated .qxmobile.protobuf.Node nodes = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍗曚綅鍒楄〃
+       *战斗单位列表
        * </pre>
        */
       public java.util.List<qxmobile.protobuf.ZhanDou.Node.Builder> 
@@ -10508,7 +11218,7 @@ public final class ZhanDou {
        * <code>repeated int32 mibaoIcons = 2;</code>
        *
        * <pre>
-       *绉樺疂鍥炬爣鍒楄〃
+       *秘宝图标列表
        * </pre>
        */
       public java.util.List<java.lang.Integer>
@@ -10519,7 +11229,7 @@ public final class ZhanDou {
        * <code>repeated int32 mibaoIcons = 2;</code>
        *
        * <pre>
-       *绉樺疂鍥炬爣鍒楄〃
+       *秘宝图标列表
        * </pre>
        */
       public int getMibaoIconsCount() {
@@ -10529,7 +11239,7 @@ public final class ZhanDou {
        * <code>repeated int32 mibaoIcons = 2;</code>
        *
        * <pre>
-       *绉樺疂鍥炬爣鍒楄〃
+       *秘宝图标列表
        * </pre>
        */
       public int getMibaoIcons(int index) {
@@ -10539,7 +11249,7 @@ public final class ZhanDou {
        * <code>repeated int32 mibaoIcons = 2;</code>
        *
        * <pre>
-       *绉樺疂鍥炬爣鍒楄〃
+       *秘宝图标列表
        * </pre>
        */
       public Builder setMibaoIcons(
@@ -10553,7 +11263,7 @@ public final class ZhanDou {
        * <code>repeated int32 mibaoIcons = 2;</code>
        *
        * <pre>
-       *绉樺疂鍥炬爣鍒楄〃
+       *秘宝图标列表
        * </pre>
        */
       public Builder addMibaoIcons(int value) {
@@ -10566,7 +11276,7 @@ public final class ZhanDou {
        * <code>repeated int32 mibaoIcons = 2;</code>
        *
        * <pre>
-       *绉樺疂鍥炬爣鍒楄〃
+       *秘宝图标列表
        * </pre>
        */
       public Builder addAllMibaoIcons(
@@ -10580,7 +11290,7 @@ public final class ZhanDou {
        * <code>repeated int32 mibaoIcons = 2;</code>
        *
        * <pre>
-       *绉樺疂鍥炬爣鍒楄〃
+       *秘宝图标列表
        * </pre>
        */
       public Builder clearMibaoIcons() {
@@ -10596,7 +11306,7 @@ public final class ZhanDou {
        * <code>required int32 maxLevel = 3;</code>
        *
        * <pre>
-       *Pve杩涘害锛岀湡瀹炵帺瀹跺彂鐪熷疄鐨刾vp杩涘害锛屾ā鎷熺帺瀹跺拰闈炵帺瀹跺彂999
+       *Pve进度，真实玩家发真实的pvp进度，模拟玩家和非玩家发999
        * </pre>
        */
       public boolean hasMaxLevel() {
@@ -10606,7 +11316,7 @@ public final class ZhanDou {
        * <code>required int32 maxLevel = 3;</code>
        *
        * <pre>
-       *Pve杩涘害锛岀湡瀹炵帺瀹跺彂鐪熷疄鐨刾vp杩涘害锛屾ā鎷熺帺瀹跺拰闈炵帺瀹跺彂999
+       *Pve进度，真实玩家发真实的pvp进度，模拟玩家和非玩家发999
        * </pre>
        */
       public int getMaxLevel() {
@@ -10616,7 +11326,7 @@ public final class ZhanDou {
        * <code>required int32 maxLevel = 3;</code>
        *
        * <pre>
-       *Pve杩涘害锛岀湡瀹炵帺瀹跺彂鐪熷疄鐨刾vp杩涘害锛屾ā鎷熺帺瀹跺拰闈炵帺瀹跺彂999
+       *Pve进度，真实玩家发真实的pvp进度，模拟玩家和非玩家发999
        * </pre>
        */
       public Builder setMaxLevel(int value) {
@@ -10629,7 +11339,7 @@ public final class ZhanDou {
        * <code>required int32 maxLevel = 3;</code>
        *
        * <pre>
-       *Pve杩涘害锛岀湡瀹炵帺瀹跺彂鐪熷疄鐨刾vp杩涘害锛屾ā鎷熺帺瀹跺拰闈炵帺瀹跺彂999
+       *Pve进度，真实玩家发真实的pvp进度，模拟玩家和非玩家发999
        * </pre>
        */
       public Builder clearMaxLevel() {
@@ -11564,7 +12274,7 @@ public final class ZhanDou {
      * <code>required int32 zhandouId = 1;</code>
      *
      * <pre>
-     *鎴樻枟id 鍚庡彴浣跨敤
+     *战斗id 后台使用
      * </pre>
      */
     boolean hasZhandouId();
@@ -11572,7 +12282,7 @@ public final class ZhanDou {
      * <code>required int32 zhandouId = 1;</code>
      *
      * <pre>
-     *鎴樻枟id 鍚庡彴浣跨敤
+     *战斗id 后台使用
      * </pre>
      */
     int getZhandouId();
@@ -11592,7 +12302,7 @@ public final class ZhanDou {
      * <code>required int32 limitTime = 3;</code>
      *
      * <pre>
-     *鏃堕棿闄愬埗锛屽崟浣嶇
+     *时间限制，单位秒
      * </pre>
      */
     boolean hasLimitTime();
@@ -11600,7 +12310,7 @@ public final class ZhanDou {
      * <code>required int32 limitTime = 3;</code>
      *
      * <pre>
-     *鏃堕棿闄愬埗锛屽崟浣嶇
+     *时间限制，单位秒
      * </pre>
      */
     int getLimitTime();
@@ -11638,7 +12348,7 @@ public final class ZhanDou {
      * <code>repeated int32 starTemp = 6;</code>
      *
      * <pre>
-     *鏄熺骇璇勪环鍒楄〃
+     *星级评价列表，三个id
      * </pre>
      */
     java.util.List<java.lang.Integer> getStarTempList();
@@ -11646,7 +12356,7 @@ public final class ZhanDou {
      * <code>repeated int32 starTemp = 6;</code>
      *
      * <pre>
-     *鏄熺骇璇勪环鍒楄〃
+     *星级评价列表，三个id
      * </pre>
      */
     int getStarTempCount();
@@ -11654,25 +12364,43 @@ public final class ZhanDou {
      * <code>repeated int32 starTemp = 6;</code>
      *
      * <pre>
-     *鏄熺骇璇勪环鍒楄〃
+     *星级评价列表，三个id
      * </pre>
      */
     int getStarTemp(int index);
 
-    // optional float HYK = 7;
+    // optional int32 starArrive = 7;
     /**
-     * <code>optional float HYK = 7;</code>
+     * <code>optional int32 starArrive = 7;</code>
      *
      * <pre>
-     *鑽掗噹鎴樻枟鐨勪激瀹宠绠楃郴鏁癒
+     *星级评价达成列表，一个三位数
+     * </pre>
+     */
+    boolean hasStarArrive();
+    /**
+     * <code>optional int32 starArrive = 7;</code>
+     *
+     * <pre>
+     *星级评价达成列表，一个三位数
+     * </pre>
+     */
+    int getStarArrive();
+
+    // optional float HYK = 8;
+    /**
+     * <code>optional float HYK = 8;</code>
+     *
+     * <pre>
+     *荒野战斗的伤害计算系数K
      * </pre>
      */
     boolean hasHYK();
     /**
-     * <code>optional float HYK = 7;</code>
+     * <code>optional float HYK = 8;</code>
      *
      * <pre>
-     *鑽掗噹鎴樻枟鐨勪激瀹宠绠楃郴鏁癒
+     *荒野战斗的伤害计算系数K
      * </pre>
      */
     float getHYK();
@@ -11790,8 +12518,13 @@ public final class ZhanDou {
               input.popLimit(limit);
               break;
             }
-            case 61: {
+            case 56: {
               bitField0_ |= 0x00000020;
+              starArrive_ = input.readInt32();
+              break;
+            }
+            case 69: {
+              bitField0_ |= 0x00000040;
               hYK_ = input.readFloat();
               break;
             }
@@ -11845,7 +12578,7 @@ public final class ZhanDou {
      * <code>required int32 zhandouId = 1;</code>
      *
      * <pre>
-     *鎴樻枟id 鍚庡彴浣跨敤
+     *战斗id 后台使用
      * </pre>
      */
     public boolean hasZhandouId() {
@@ -11855,7 +12588,7 @@ public final class ZhanDou {
      * <code>required int32 zhandouId = 1;</code>
      *
      * <pre>
-     *鎴樻枟id 鍚庡彴浣跨敤
+     *战斗id 后台使用
      * </pre>
      */
     public int getZhandouId() {
@@ -11885,7 +12618,7 @@ public final class ZhanDou {
      * <code>required int32 limitTime = 3;</code>
      *
      * <pre>
-     *鏃堕棿闄愬埗锛屽崟浣嶇
+     *时间限制，单位秒
      * </pre>
      */
     public boolean hasLimitTime() {
@@ -11895,7 +12628,7 @@ public final class ZhanDou {
      * <code>required int32 limitTime = 3;</code>
      *
      * <pre>
-     *鏃堕棿闄愬埗锛屽崟浣嶇
+     *时间限制，单位秒
      * </pre>
      */
     public int getLimitTime() {
@@ -11953,7 +12686,7 @@ public final class ZhanDou {
      * <code>repeated int32 starTemp = 6;</code>
      *
      * <pre>
-     *鏄熺骇璇勪环鍒楄〃
+     *星级评价列表，三个id
      * </pre>
      */
     public java.util.List<java.lang.Integer>
@@ -11964,7 +12697,7 @@ public final class ZhanDou {
      * <code>repeated int32 starTemp = 6;</code>
      *
      * <pre>
-     *鏄熺骇璇勪环鍒楄〃
+     *星级评价列表，三个id
      * </pre>
      */
     public int getStarTempCount() {
@@ -11974,31 +12707,55 @@ public final class ZhanDou {
      * <code>repeated int32 starTemp = 6;</code>
      *
      * <pre>
-     *鏄熺骇璇勪环鍒楄〃
+     *星级评价列表，三个id
      * </pre>
      */
     public int getStarTemp(int index) {
       return starTemp_.get(index);
     }
 
-    // optional float HYK = 7;
-    public static final int HYK_FIELD_NUMBER = 7;
-    private float hYK_;
+    // optional int32 starArrive = 7;
+    public static final int STARARRIVE_FIELD_NUMBER = 7;
+    private int starArrive_;
     /**
-     * <code>optional float HYK = 7;</code>
+     * <code>optional int32 starArrive = 7;</code>
      *
      * <pre>
-     *鑽掗噹鎴樻枟鐨勪激瀹宠绠楃郴鏁癒
+     *星级评价达成列表，一个三位数
      * </pre>
      */
-    public boolean hasHYK() {
+    public boolean hasStarArrive() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional float HYK = 7;</code>
+     * <code>optional int32 starArrive = 7;</code>
      *
      * <pre>
-     *鑽掗噹鎴樻枟鐨勪激瀹宠绠楃郴鏁癒
+     *星级评价达成列表，一个三位数
+     * </pre>
+     */
+    public int getStarArrive() {
+      return starArrive_;
+    }
+
+    // optional float HYK = 8;
+    public static final int HYK_FIELD_NUMBER = 8;
+    private float hYK_;
+    /**
+     * <code>optional float HYK = 8;</code>
+     *
+     * <pre>
+     *荒野战斗的伤害计算系数K
+     * </pre>
+     */
+    public boolean hasHYK() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional float HYK = 8;</code>
+     *
+     * <pre>
+     *荒野战斗的伤害计算系数K
      * </pre>
      */
     public float getHYK() {
@@ -12012,6 +12769,7 @@ public final class ZhanDou {
       enemyTroop_ = qxmobile.protobuf.ZhanDou.Group.getDefaultInstance();
       selfTroop_ = qxmobile.protobuf.ZhanDou.Group.getDefaultInstance();
       starTemp_ = java.util.Collections.emptyList();
+      starArrive_ = 0;
       hYK_ = 0F;
     }
     private byte memoizedIsInitialized = -1;
@@ -12073,7 +12831,10 @@ public final class ZhanDou {
         output.writeInt32(6, starTemp_.get(i));
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeFloat(7, hYK_);
+        output.writeInt32(7, starArrive_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeFloat(8, hYK_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -12115,7 +12876,11 @@ public final class ZhanDou {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(7, hYK_);
+          .computeInt32Size(7, starArrive_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(8, hYK_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -12255,8 +13020,10 @@ public final class ZhanDou {
         bitField0_ = (bitField0_ & ~0x00000010);
         starTemp_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000020);
-        hYK_ = 0F;
+        starArrive_ = 0;
         bitField0_ = (bitField0_ & ~0x00000040);
+        hYK_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -12321,6 +13088,10 @@ public final class ZhanDou {
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000020;
         }
+        result.starArrive_ = starArrive_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000040;
+        }
         result.hYK_ = hYK_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -12362,6 +13133,9 @@ public final class ZhanDou {
             starTemp_.addAll(other.starTemp_);
           }
           onChanged();
+        }
+        if (other.hasStarArrive()) {
+          setStarArrive(other.getStarArrive());
         }
         if (other.hasHYK()) {
           setHYK(other.getHYK());
@@ -12427,7 +13201,7 @@ public final class ZhanDou {
        * <code>required int32 zhandouId = 1;</code>
        *
        * <pre>
-       *鎴樻枟id 鍚庡彴浣跨敤
+       *战斗id 后台使用
        * </pre>
        */
       public boolean hasZhandouId() {
@@ -12437,7 +13211,7 @@ public final class ZhanDou {
        * <code>required int32 zhandouId = 1;</code>
        *
        * <pre>
-       *鎴樻枟id 鍚庡彴浣跨敤
+       *战斗id 后台使用
        * </pre>
        */
       public int getZhandouId() {
@@ -12447,7 +13221,7 @@ public final class ZhanDou {
        * <code>required int32 zhandouId = 1;</code>
        *
        * <pre>
-       *鎴樻枟id 鍚庡彴浣跨敤
+       *战斗id 后台使用
        * </pre>
        */
       public Builder setZhandouId(int value) {
@@ -12460,7 +13234,7 @@ public final class ZhanDou {
        * <code>required int32 zhandouId = 1;</code>
        *
        * <pre>
-       *鎴樻枟id 鍚庡彴浣跨敤
+       *战斗id 后台使用
        * </pre>
        */
       public Builder clearZhandouId() {
@@ -12509,7 +13283,7 @@ public final class ZhanDou {
        * <code>required int32 limitTime = 3;</code>
        *
        * <pre>
-       *鏃堕棿闄愬埗锛屽崟浣嶇
+       *时间限制，单位秒
        * </pre>
        */
       public boolean hasLimitTime() {
@@ -12519,7 +13293,7 @@ public final class ZhanDou {
        * <code>required int32 limitTime = 3;</code>
        *
        * <pre>
-       *鏃堕棿闄愬埗锛屽崟浣嶇
+       *时间限制，单位秒
        * </pre>
        */
       public int getLimitTime() {
@@ -12529,7 +13303,7 @@ public final class ZhanDou {
        * <code>required int32 limitTime = 3;</code>
        *
        * <pre>
-       *鏃堕棿闄愬埗锛屽崟浣嶇
+       *时间限制，单位秒
        * </pre>
        */
       public Builder setLimitTime(int value) {
@@ -12542,7 +13316,7 @@ public final class ZhanDou {
        * <code>required int32 limitTime = 3;</code>
        *
        * <pre>
-       *鏃堕棿闄愬埗锛屽崟浣嶇
+       *时间限制，单位秒
        * </pre>
        */
       public Builder clearLimitTime() {
@@ -12798,7 +13572,7 @@ public final class ZhanDou {
        * <code>repeated int32 starTemp = 6;</code>
        *
        * <pre>
-       *鏄熺骇璇勪环鍒楄〃
+       *星级评价列表，三个id
        * </pre>
        */
       public java.util.List<java.lang.Integer>
@@ -12809,7 +13583,7 @@ public final class ZhanDou {
        * <code>repeated int32 starTemp = 6;</code>
        *
        * <pre>
-       *鏄熺骇璇勪环鍒楄〃
+       *星级评价列表，三个id
        * </pre>
        */
       public int getStarTempCount() {
@@ -12819,7 +13593,7 @@ public final class ZhanDou {
        * <code>repeated int32 starTemp = 6;</code>
        *
        * <pre>
-       *鏄熺骇璇勪环鍒楄〃
+       *星级评价列表，三个id
        * </pre>
        */
       public int getStarTemp(int index) {
@@ -12829,7 +13603,7 @@ public final class ZhanDou {
        * <code>repeated int32 starTemp = 6;</code>
        *
        * <pre>
-       *鏄熺骇璇勪环鍒楄〃
+       *星级评价列表，三个id
        * </pre>
        */
       public Builder setStarTemp(
@@ -12843,7 +13617,7 @@ public final class ZhanDou {
        * <code>repeated int32 starTemp = 6;</code>
        *
        * <pre>
-       *鏄熺骇璇勪环鍒楄〃
+       *星级评价列表，三个id
        * </pre>
        */
       public Builder addStarTemp(int value) {
@@ -12856,7 +13630,7 @@ public final class ZhanDou {
        * <code>repeated int32 starTemp = 6;</code>
        *
        * <pre>
-       *鏄熺骇璇勪环鍒楄〃
+       *星级评价列表，三个id
        * </pre>
        */
       public Builder addAllStarTemp(
@@ -12870,7 +13644,7 @@ public final class ZhanDou {
        * <code>repeated int32 starTemp = 6;</code>
        *
        * <pre>
-       *鏄熺骇璇勪环鍒楄〃
+       *星级评价列表，三个id
        * </pre>
        */
       public Builder clearStarTemp() {
@@ -12880,50 +13654,99 @@ public final class ZhanDou {
         return this;
       }
 
-      // optional float HYK = 7;
-      private float hYK_ ;
+      // optional int32 starArrive = 7;
+      private int starArrive_ ;
       /**
-       * <code>optional float HYK = 7;</code>
+       * <code>optional int32 starArrive = 7;</code>
        *
        * <pre>
-       *鑽掗噹鎴樻枟鐨勪激瀹宠绠楃郴鏁癒
+       *星级评价达成列表，一个三位数
        * </pre>
        */
-      public boolean hasHYK() {
+      public boolean hasStarArrive() {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>optional float HYK = 7;</code>
+       * <code>optional int32 starArrive = 7;</code>
        *
        * <pre>
-       *鑽掗噹鎴樻枟鐨勪激瀹宠绠楃郴鏁癒
+       *星级评价达成列表，一个三位数
+       * </pre>
+       */
+      public int getStarArrive() {
+        return starArrive_;
+      }
+      /**
+       * <code>optional int32 starArrive = 7;</code>
+       *
+       * <pre>
+       *星级评价达成列表，一个三位数
+       * </pre>
+       */
+      public Builder setStarArrive(int value) {
+        bitField0_ |= 0x00000040;
+        starArrive_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 starArrive = 7;</code>
+       *
+       * <pre>
+       *星级评价达成列表，一个三位数
+       * </pre>
+       */
+      public Builder clearStarArrive() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        starArrive_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional float HYK = 8;
+      private float hYK_ ;
+      /**
+       * <code>optional float HYK = 8;</code>
+       *
+       * <pre>
+       *荒野战斗的伤害计算系数K
+       * </pre>
+       */
+      public boolean hasHYK() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional float HYK = 8;</code>
+       *
+       * <pre>
+       *荒野战斗的伤害计算系数K
        * </pre>
        */
       public float getHYK() {
         return hYK_;
       }
       /**
-       * <code>optional float HYK = 7;</code>
+       * <code>optional float HYK = 8;</code>
        *
        * <pre>
-       *鑽掗噹鎴樻枟鐨勪激瀹宠绠楃郴鏁癒
+       *荒野战斗的伤害计算系数K
        * </pre>
        */
       public Builder setHYK(float value) {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
         hYK_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional float HYK = 7;</code>
+       * <code>optional float HYK = 8;</code>
        *
        * <pre>
-       *鑽掗噹鎴樻枟鐨勪激瀹宠绠楃郴鏁癒
+       *荒野战斗的伤害计算系数K
        * </pre>
        */
       public Builder clearHYK() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         hYK_ = 0F;
         onChanged();
         return this;
@@ -12962,7 +13785,7 @@ public final class ZhanDou {
    * Protobuf type {@code qxmobile.protobuf.ZhanDouInitError}
    *
    * <pre>
-   *璇锋眰鎴樻枟閿欒杩斿洖锛孲_ZHANDOU_INIT_ERROR = 3421
+   *请求战斗错误返回，S_ZHANDOU_INIT_ERROR = 3421
    * </pre>
    */
   public static final class ZhanDouInitError extends
@@ -13218,7 +14041,7 @@ public final class ZhanDou {
      * Protobuf type {@code qxmobile.protobuf.ZhanDouInitError}
      *
      * <pre>
-     *璇锋眰鎴樻枟閿欒杩斿洖锛孲_ZHANDOU_INIT_ERROR = 3421
+     *请求战斗错误返回，S_ZHANDOU_INIT_ERROR = 3421
      * </pre>
      */
     public static final class Builder extends
@@ -13444,7 +14267,7 @@ public final class ZhanDou {
    * Protobuf type {@code qxmobile.protobuf.ZhanDouReplayReq}
    *
    * <pre>
-   *鎴樻枟鍥炴斁璇锋眰
+   *战斗回放请求
    * </pre>
    */
   public static final class ZhanDouReplayReq extends
@@ -13673,7 +14496,7 @@ public final class ZhanDou {
      * Protobuf type {@code qxmobile.protobuf.ZhanDouReplayReq}
      *
      * <pre>
-     *鎴樻枟鍥炴斁璇锋眰
+     *战斗回放请求
      * </pre>
      */
     public static final class Builder extends
@@ -13847,21 +14670,24 @@ public final class ZhanDou {
      * <code>required .qxmobile.protobuf.ZhanDouInitResp initInfo = 1;</code>
      *
      * <pre>
-     *鎴樻枟鍒濆鍖栦俊鎭�     * </pre>
+     *战斗初始化信息
+     * </pre>
      */
     boolean hasInitInfo();
     /**
      * <code>required .qxmobile.protobuf.ZhanDouInitResp initInfo = 1;</code>
      *
      * <pre>
-     *鎴樻枟鍒濆鍖栦俊鎭�     * </pre>
+     *战斗初始化信息
+     * </pre>
      */
     qxmobile.protobuf.ZhanDou.ZhanDouInitResp getInitInfo();
     /**
      * <code>required .qxmobile.protobuf.ZhanDouInitResp initInfo = 1;</code>
      *
      * <pre>
-     *鎴樻枟鍒濆鍖栦俊鎭�     * </pre>
+     *战斗初始化信息
+     * </pre>
      */
     qxmobile.protobuf.ZhanDou.ZhanDouInitRespOrBuilder getInitInfoOrBuilder();
 
@@ -13870,7 +14696,7 @@ public final class ZhanDou {
      * <code>required string playerAction = 2;</code>
      *
      * <pre>
-     *鐜╁鎿嶄綔
+     *玩家操作
      * </pre>
      */
     boolean hasPlayerAction();
@@ -13878,7 +14704,7 @@ public final class ZhanDou {
      * <code>required string playerAction = 2;</code>
      *
      * <pre>
-     *鐜╁鎿嶄綔
+     *玩家操作
      * </pre>
      */
     java.lang.String getPlayerAction();
@@ -13886,7 +14712,7 @@ public final class ZhanDou {
      * <code>required string playerAction = 2;</code>
      *
      * <pre>
-     *鐜╁鎿嶄綔
+     *玩家操作
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -13896,7 +14722,7 @@ public final class ZhanDou {
    * Protobuf type {@code qxmobile.protobuf.ZhanDouReplayResp}
    *
    * <pre>
-   *褰曞儚鍥炴斁杩斿洖
+   *录像回放返回
    * </pre>
    */
   public static final class ZhanDouReplayResp extends
@@ -14012,7 +14838,8 @@ public final class ZhanDou {
      * <code>required .qxmobile.protobuf.ZhanDouInitResp initInfo = 1;</code>
      *
      * <pre>
-     *鎴樻枟鍒濆鍖栦俊鎭�     * </pre>
+     *战斗初始化信息
+     * </pre>
      */
     public boolean hasInitInfo() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
@@ -14021,7 +14848,8 @@ public final class ZhanDou {
      * <code>required .qxmobile.protobuf.ZhanDouInitResp initInfo = 1;</code>
      *
      * <pre>
-     *鎴樻枟鍒濆鍖栦俊鎭�     * </pre>
+     *战斗初始化信息
+     * </pre>
      */
     public qxmobile.protobuf.ZhanDou.ZhanDouInitResp getInitInfo() {
       return initInfo_;
@@ -14030,7 +14858,8 @@ public final class ZhanDou {
      * <code>required .qxmobile.protobuf.ZhanDouInitResp initInfo = 1;</code>
      *
      * <pre>
-     *鎴樻枟鍒濆鍖栦俊鎭�     * </pre>
+     *战斗初始化信息
+     * </pre>
      */
     public qxmobile.protobuf.ZhanDou.ZhanDouInitRespOrBuilder getInitInfoOrBuilder() {
       return initInfo_;
@@ -14043,7 +14872,7 @@ public final class ZhanDou {
      * <code>required string playerAction = 2;</code>
      *
      * <pre>
-     *鐜╁鎿嶄綔
+     *玩家操作
      * </pre>
      */
     public boolean hasPlayerAction() {
@@ -14053,7 +14882,7 @@ public final class ZhanDou {
      * <code>required string playerAction = 2;</code>
      *
      * <pre>
-     *鐜╁鎿嶄綔
+     *玩家操作
      * </pre>
      */
     public java.lang.String getPlayerAction() {
@@ -14074,7 +14903,7 @@ public final class ZhanDou {
      * <code>required string playerAction = 2;</code>
      *
      * <pre>
-     *鐜╁鎿嶄綔
+     *玩家操作
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -14224,7 +15053,7 @@ public final class ZhanDou {
      * Protobuf type {@code qxmobile.protobuf.ZhanDouReplayResp}
      *
      * <pre>
-     *褰曞儚鍥炴斁杩斿洖
+     *录像回放返回
      * </pre>
      */
     public static final class Builder extends
@@ -14382,7 +15211,8 @@ public final class ZhanDou {
        * <code>required .qxmobile.protobuf.ZhanDouInitResp initInfo = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍒濆鍖栦俊鎭�       * </pre>
+       *战斗初始化信息
+       * </pre>
        */
       public boolean hasInitInfo() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
@@ -14391,7 +15221,8 @@ public final class ZhanDou {
        * <code>required .qxmobile.protobuf.ZhanDouInitResp initInfo = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍒濆鍖栦俊鎭�       * </pre>
+       *战斗初始化信息
+       * </pre>
        */
       public qxmobile.protobuf.ZhanDou.ZhanDouInitResp getInitInfo() {
         if (initInfoBuilder_ == null) {
@@ -14404,7 +15235,8 @@ public final class ZhanDou {
        * <code>required .qxmobile.protobuf.ZhanDouInitResp initInfo = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍒濆鍖栦俊鎭�       * </pre>
+       *战斗初始化信息
+       * </pre>
        */
       public Builder setInitInfo(qxmobile.protobuf.ZhanDou.ZhanDouInitResp value) {
         if (initInfoBuilder_ == null) {
@@ -14423,7 +15255,8 @@ public final class ZhanDou {
        * <code>required .qxmobile.protobuf.ZhanDouInitResp initInfo = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍒濆鍖栦俊鎭�       * </pre>
+       *战斗初始化信息
+       * </pre>
        */
       public Builder setInitInfo(
           qxmobile.protobuf.ZhanDou.ZhanDouInitResp.Builder builderForValue) {
@@ -14440,7 +15273,8 @@ public final class ZhanDou {
        * <code>required .qxmobile.protobuf.ZhanDouInitResp initInfo = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍒濆鍖栦俊鎭�       * </pre>
+       *战斗初始化信息
+       * </pre>
        */
       public Builder mergeInitInfo(qxmobile.protobuf.ZhanDou.ZhanDouInitResp value) {
         if (initInfoBuilder_ == null) {
@@ -14462,7 +15296,8 @@ public final class ZhanDou {
        * <code>required .qxmobile.protobuf.ZhanDouInitResp initInfo = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍒濆鍖栦俊鎭�       * </pre>
+       *战斗初始化信息
+       * </pre>
        */
       public Builder clearInitInfo() {
         if (initInfoBuilder_ == null) {
@@ -14478,7 +15313,8 @@ public final class ZhanDou {
        * <code>required .qxmobile.protobuf.ZhanDouInitResp initInfo = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍒濆鍖栦俊鎭�       * </pre>
+       *战斗初始化信息
+       * </pre>
        */
       public qxmobile.protobuf.ZhanDou.ZhanDouInitResp.Builder getInitInfoBuilder() {
         bitField0_ |= 0x00000001;
@@ -14489,7 +15325,8 @@ public final class ZhanDou {
        * <code>required .qxmobile.protobuf.ZhanDouInitResp initInfo = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍒濆鍖栦俊鎭�       * </pre>
+       *战斗初始化信息
+       * </pre>
        */
       public qxmobile.protobuf.ZhanDou.ZhanDouInitRespOrBuilder getInitInfoOrBuilder() {
         if (initInfoBuilder_ != null) {
@@ -14502,7 +15339,8 @@ public final class ZhanDou {
        * <code>required .qxmobile.protobuf.ZhanDouInitResp initInfo = 1;</code>
        *
        * <pre>
-       *鎴樻枟鍒濆鍖栦俊鎭�       * </pre>
+       *战斗初始化信息
+       * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
           qxmobile.protobuf.ZhanDou.ZhanDouInitResp, qxmobile.protobuf.ZhanDou.ZhanDouInitResp.Builder, qxmobile.protobuf.ZhanDou.ZhanDouInitRespOrBuilder> 
@@ -14524,7 +15362,7 @@ public final class ZhanDou {
        * <code>required string playerAction = 2;</code>
        *
        * <pre>
-       *鐜╁鎿嶄綔
+       *玩家操作
        * </pre>
        */
       public boolean hasPlayerAction() {
@@ -14534,7 +15372,7 @@ public final class ZhanDou {
        * <code>required string playerAction = 2;</code>
        *
        * <pre>
-       *鐜╁鎿嶄綔
+       *玩家操作
        * </pre>
        */
       public java.lang.String getPlayerAction() {
@@ -14552,7 +15390,7 @@ public final class ZhanDou {
        * <code>required string playerAction = 2;</code>
        *
        * <pre>
-       *鐜╁鎿嶄綔
+       *玩家操作
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -14572,7 +15410,7 @@ public final class ZhanDou {
        * <code>required string playerAction = 2;</code>
        *
        * <pre>
-       *鐜╁鎿嶄綔
+       *玩家操作
        * </pre>
        */
       public Builder setPlayerAction(
@@ -14589,7 +15427,7 @@ public final class ZhanDou {
        * <code>required string playerAction = 2;</code>
        *
        * <pre>
-       *鐜╁鎿嶄綔
+       *玩家操作
        * </pre>
        */
       public Builder clearPlayerAction() {
@@ -14602,7 +15440,7 @@ public final class ZhanDou {
        * <code>required string playerAction = 2;</code>
        *
        * <pre>
-       *鐜╁鎿嶄綔
+       *玩家操作
        * </pre>
        */
       public Builder setPlayerActionBytes(
@@ -14635,7 +15473,7 @@ public final class ZhanDou {
      * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *钘忓疂鐐筰d
+     *藏宝点id
      * </pre>
      */
     boolean hasId();
@@ -14643,7 +15481,7 @@ public final class ZhanDou {
      * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *钘忓疂鐐筰d
+     *藏宝点id
      * </pre>
      */
     long getId();
@@ -14652,7 +15490,8 @@ public final class ZhanDou {
    * Protobuf type {@code qxmobile.protobuf.HuangYePveReq}
    *
    * <pre>
-   *鑽掗噹钘忓疂鐐规寫鎴�   * </pre>
+   *荒野藏宝点挑战
+   * </pre>
    */
   public static final class HuangYePveReq extends
       com.google.protobuf.GeneratedMessage
@@ -14754,7 +15593,7 @@ public final class ZhanDou {
      * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *钘忓疂鐐筰d
+     *藏宝点id
      * </pre>
      */
     public boolean hasId() {
@@ -14764,7 +15603,7 @@ public final class ZhanDou {
      * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *钘忓疂鐐筰d
+     *藏宝点id
      * </pre>
      */
     public long getId() {
@@ -14888,7 +15727,8 @@ public final class ZhanDou {
      * Protobuf type {@code qxmobile.protobuf.HuangYePveReq}
      *
      * <pre>
-     *鑽掗噹钘忓疂鐐规寫鎴�     * </pre>
+     *荒野藏宝点挑战
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -15015,7 +15855,7 @@ public final class ZhanDou {
        * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *钘忓疂鐐筰d
+       *藏宝点id
        * </pre>
        */
       public boolean hasId() {
@@ -15025,7 +15865,7 @@ public final class ZhanDou {
        * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *钘忓疂鐐筰d
+       *藏宝点id
        * </pre>
        */
       public long getId() {
@@ -15035,7 +15875,7 @@ public final class ZhanDou {
        * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *钘忓疂鐐筰d
+       *藏宝点id
        * </pre>
        */
       public Builder setId(long value) {
@@ -15048,7 +15888,7 @@ public final class ZhanDou {
        * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *钘忓疂鐐筰d
+       *藏宝点id
        * </pre>
        */
       public Builder clearId() {
@@ -15077,7 +15917,7 @@ public final class ZhanDou {
      * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *钘忓疂鐐筰d
+     *藏宝点id
      * </pre>
      */
     boolean hasId();
@@ -15085,7 +15925,7 @@ public final class ZhanDou {
      * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *钘忓疂鐐筰d
+     *藏宝点id
      * </pre>
      */
     long getId();
@@ -15095,7 +15935,7 @@ public final class ZhanDou {
      * <code>required int32 isPass = 2;</code>
      *
      * <pre>
-     *鏄惁閫氬叧(涔熸槸鎸囨槸鍚﹀嚮鏉�渶鍚庝竴涓猲pc) :0-澶辫触锛�-鎴愬姛
+     *是否通关(也是指是否击杀最后一个npc) :0-失败，1-成功
      * </pre>
      */
     boolean hasIsPass();
@@ -15103,7 +15943,7 @@ public final class ZhanDou {
      * <code>required int32 isPass = 2;</code>
      *
      * <pre>
-     *鏄惁閫氬叧(涔熸槸鎸囨槸鍚﹀嚮鏉�渶鍚庝竴涓猲pc) :0-澶辫触锛�-鎴愬姛
+     *是否通关(也是指是否击杀最后一个npc) :0-失败，1-成功
      * </pre>
      */
     int getIsPass();
@@ -15113,7 +15953,7 @@ public final class ZhanDou {
      * <code>required int32 damageValue = 3;</code>
      *
      * <pre>
-     *閫犳垚鐨勪激瀹冲�
+     *造成的伤害值
      * </pre>
      */
     boolean hasDamageValue();
@@ -15121,7 +15961,7 @@ public final class ZhanDou {
      * <code>required int32 damageValue = 3;</code>
      *
      * <pre>
-     *閫犳垚鐨勪激瀹冲�
+     *造成的伤害值
      * </pre>
      */
     int getDamageValue();
@@ -15156,14 +15996,16 @@ public final class ZhanDou {
      * <code>required int32 costTime = 5;</code>
      *
      * <pre>
-     *鐢ㄧ殑鏃堕棿锛屽崟浣�绉�     * </pre>
+     *用的时间，单位-秒
+     * </pre>
      */
     boolean hasCostTime();
     /**
      * <code>required int32 costTime = 5;</code>
      *
      * <pre>
-     *鐢ㄧ殑鏃堕棿锛屽崟浣�绉�     * </pre>
+     *用的时间，单位-秒
+     * </pre>
      */
     int getCostTime();
   }
@@ -15171,7 +16013,8 @@ public final class ZhanDou {
    * Protobuf type {@code qxmobile.protobuf.HuangYePveOver}
    *
    * <pre>
-   *鑽掗噹钘忓疂鐐规垬鏂楃粨鏉�   * </pre>
+   *荒野藏宝点战斗结束
+   * </pre>
    */
   public static final class HuangYePveOver extends
       com.google.protobuf.GeneratedMessage
@@ -15299,7 +16142,7 @@ public final class ZhanDou {
      * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *钘忓疂鐐筰d
+     *藏宝点id
      * </pre>
      */
     public boolean hasId() {
@@ -15309,7 +16152,7 @@ public final class ZhanDou {
      * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *钘忓疂鐐筰d
+     *藏宝点id
      * </pre>
      */
     public long getId() {
@@ -15323,7 +16166,7 @@ public final class ZhanDou {
      * <code>required int32 isPass = 2;</code>
      *
      * <pre>
-     *鏄惁閫氬叧(涔熸槸鎸囨槸鍚﹀嚮鏉�渶鍚庝竴涓猲pc) :0-澶辫触锛�-鎴愬姛
+     *是否通关(也是指是否击杀最后一个npc) :0-失败，1-成功
      * </pre>
      */
     public boolean hasIsPass() {
@@ -15333,7 +16176,7 @@ public final class ZhanDou {
      * <code>required int32 isPass = 2;</code>
      *
      * <pre>
-     *鏄惁閫氬叧(涔熸槸鎸囨槸鍚﹀嚮鏉�渶鍚庝竴涓猲pc) :0-澶辫触锛�-鎴愬姛
+     *是否通关(也是指是否击杀最后一个npc) :0-失败，1-成功
      * </pre>
      */
     public int getIsPass() {
@@ -15347,7 +16190,7 @@ public final class ZhanDou {
      * <code>required int32 damageValue = 3;</code>
      *
      * <pre>
-     *閫犳垚鐨勪激瀹冲�
+     *造成的伤害值
      * </pre>
      */
     public boolean hasDamageValue() {
@@ -15357,7 +16200,7 @@ public final class ZhanDou {
      * <code>required int32 damageValue = 3;</code>
      *
      * <pre>
-     *閫犳垚鐨勪激瀹冲�
+     *造成的伤害值
      * </pre>
      */
     public int getDamageValue() {
@@ -15407,7 +16250,8 @@ public final class ZhanDou {
      * <code>required int32 costTime = 5;</code>
      *
      * <pre>
-     *鐢ㄧ殑鏃堕棿锛屽崟浣�绉�     * </pre>
+     *用的时间，单位-秒
+     * </pre>
      */
     public boolean hasCostTime() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
@@ -15416,7 +16260,8 @@ public final class ZhanDou {
      * <code>required int32 costTime = 5;</code>
      *
      * <pre>
-     *鐢ㄧ殑鏃堕棿锛屽崟浣�绉�     * </pre>
+     *用的时间，单位-秒
+     * </pre>
      */
     public int getCostTime() {
       return costTime_;
@@ -15589,7 +16434,8 @@ public final class ZhanDou {
      * Protobuf type {@code qxmobile.protobuf.HuangYePveOver}
      *
      * <pre>
-     *鑽掗噹钘忓疂鐐规垬鏂楃粨鏉�     * </pre>
+     *荒野藏宝点战斗结束
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -15803,7 +16649,7 @@ public final class ZhanDou {
        * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *钘忓疂鐐筰d
+       *藏宝点id
        * </pre>
        */
       public boolean hasId() {
@@ -15813,7 +16659,7 @@ public final class ZhanDou {
        * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *钘忓疂鐐筰d
+       *藏宝点id
        * </pre>
        */
       public long getId() {
@@ -15823,7 +16669,7 @@ public final class ZhanDou {
        * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *钘忓疂鐐筰d
+       *藏宝点id
        * </pre>
        */
       public Builder setId(long value) {
@@ -15836,7 +16682,7 @@ public final class ZhanDou {
        * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *钘忓疂鐐筰d
+       *藏宝点id
        * </pre>
        */
       public Builder clearId() {
@@ -15852,7 +16698,7 @@ public final class ZhanDou {
        * <code>required int32 isPass = 2;</code>
        *
        * <pre>
-       *鏄惁閫氬叧(涔熸槸鎸囨槸鍚﹀嚮鏉�渶鍚庝竴涓猲pc) :0-澶辫触锛�-鎴愬姛
+       *是否通关(也是指是否击杀最后一个npc) :0-失败，1-成功
        * </pre>
        */
       public boolean hasIsPass() {
@@ -15862,7 +16708,7 @@ public final class ZhanDou {
        * <code>required int32 isPass = 2;</code>
        *
        * <pre>
-       *鏄惁閫氬叧(涔熸槸鎸囨槸鍚﹀嚮鏉�渶鍚庝竴涓猲pc) :0-澶辫触锛�-鎴愬姛
+       *是否通关(也是指是否击杀最后一个npc) :0-失败，1-成功
        * </pre>
        */
       public int getIsPass() {
@@ -15872,7 +16718,7 @@ public final class ZhanDou {
        * <code>required int32 isPass = 2;</code>
        *
        * <pre>
-       *鏄惁閫氬叧(涔熸槸鎸囨槸鍚﹀嚮鏉�渶鍚庝竴涓猲pc) :0-澶辫触锛�-鎴愬姛
+       *是否通关(也是指是否击杀最后一个npc) :0-失败，1-成功
        * </pre>
        */
       public Builder setIsPass(int value) {
@@ -15885,7 +16731,7 @@ public final class ZhanDou {
        * <code>required int32 isPass = 2;</code>
        *
        * <pre>
-       *鏄惁閫氬叧(涔熸槸鎸囨槸鍚﹀嚮鏉�渶鍚庝竴涓猲pc) :0-澶辫触锛�-鎴愬姛
+       *是否通关(也是指是否击杀最后一个npc) :0-失败，1-成功
        * </pre>
        */
       public Builder clearIsPass() {
@@ -15901,7 +16747,7 @@ public final class ZhanDou {
        * <code>required int32 damageValue = 3;</code>
        *
        * <pre>
-       *閫犳垚鐨勪激瀹冲�
+       *造成的伤害值
        * </pre>
        */
       public boolean hasDamageValue() {
@@ -15911,7 +16757,7 @@ public final class ZhanDou {
        * <code>required int32 damageValue = 3;</code>
        *
        * <pre>
-       *閫犳垚鐨勪激瀹冲�
+       *造成的伤害值
        * </pre>
        */
       public int getDamageValue() {
@@ -15921,7 +16767,7 @@ public final class ZhanDou {
        * <code>required int32 damageValue = 3;</code>
        *
        * <pre>
-       *閫犳垚鐨勪激瀹冲�
+       *造成的伤害值
        * </pre>
        */
       public Builder setDamageValue(int value) {
@@ -15934,7 +16780,7 @@ public final class ZhanDou {
        * <code>required int32 damageValue = 3;</code>
        *
        * <pre>
-       *閫犳垚鐨勪激瀹冲�
+       *造成的伤害值
        * </pre>
        */
       public Builder clearDamageValue() {
@@ -16190,7 +17036,8 @@ public final class ZhanDou {
        * <code>required int32 costTime = 5;</code>
        *
        * <pre>
-       *鐢ㄧ殑鏃堕棿锛屽崟浣�绉�       * </pre>
+       *用的时间，单位-秒
+       * </pre>
        */
       public boolean hasCostTime() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
@@ -16199,7 +17046,8 @@ public final class ZhanDou {
        * <code>required int32 costTime = 5;</code>
        *
        * <pre>
-       *鐢ㄧ殑鏃堕棿锛屽崟浣�绉�       * </pre>
+       *用的时间，单位-秒
+       * </pre>
        */
       public int getCostTime() {
         return costTime_;
@@ -16208,7 +17056,8 @@ public final class ZhanDou {
        * <code>required int32 costTime = 5;</code>
        *
        * <pre>
-       *鐢ㄧ殑鏃堕棿锛屽崟浣�绉�       * </pre>
+       *用的时间，单位-秒
+       * </pre>
        */
       public Builder setCostTime(int value) {
         bitField0_ |= 0x00000010;
@@ -16220,7 +17069,8 @@ public final class ZhanDou {
        * <code>required int32 costTime = 5;</code>
        *
        * <pre>
-       *鐢ㄧ殑鏃堕棿锛屽崟浣�绉�       * </pre>
+       *用的时间，单位-秒
+       * </pre>
        */
       public Builder clearCostTime() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -16248,7 +17098,7 @@ public final class ZhanDou {
      * <code>required int32 npcId = 1;</code>
      *
      * <pre>
-     *鍙戠殑鏄痭pc鍦ㄥ湴鍥句腑鐨勪綅缃甪lagId
+     *发的是npc在地图中的位置flagId
      * </pre>
      */
     boolean hasNpcId();
@@ -16256,7 +17106,7 @@ public final class ZhanDou {
      * <code>required int32 npcId = 1;</code>
      *
      * <pre>
-     *鍙戠殑鏄痭pc鍦ㄥ湴鍥句腑鐨勪綅缃甪lagId
+     *发的是npc在地图中的位置flagId
      * </pre>
      */
     int getNpcId();
@@ -16266,7 +17116,7 @@ public final class ZhanDou {
      * <code>required int32 remainHP = 2;</code>
      *
      * <pre>
-     *鍓╀綑琛�噺
+     *剩余血量
      * </pre>
      */
     boolean hasRemainHP();
@@ -16274,7 +17124,7 @@ public final class ZhanDou {
      * <code>required int32 remainHP = 2;</code>
      *
      * <pre>
-     *鍓╀綑琛�噺
+     *剩余血量
      * </pre>
      */
     int getRemainHP();
@@ -16387,7 +17237,7 @@ public final class ZhanDou {
      * <code>required int32 npcId = 1;</code>
      *
      * <pre>
-     *鍙戠殑鏄痭pc鍦ㄥ湴鍥句腑鐨勪綅缃甪lagId
+     *发的是npc在地图中的位置flagId
      * </pre>
      */
     public boolean hasNpcId() {
@@ -16397,7 +17247,7 @@ public final class ZhanDou {
      * <code>required int32 npcId = 1;</code>
      *
      * <pre>
-     *鍙戠殑鏄痭pc鍦ㄥ湴鍥句腑鐨勪綅缃甪lagId
+     *发的是npc在地图中的位置flagId
      * </pre>
      */
     public int getNpcId() {
@@ -16411,7 +17261,7 @@ public final class ZhanDou {
      * <code>required int32 remainHP = 2;</code>
      *
      * <pre>
-     *鍓╀綑琛�噺
+     *剩余血量
      * </pre>
      */
     public boolean hasRemainHP() {
@@ -16421,7 +17271,7 @@ public final class ZhanDou {
      * <code>required int32 remainHP = 2;</code>
      *
      * <pre>
-     *鍓╀綑琛�噺
+     *剩余血量
      * </pre>
      */
     public int getRemainHP() {
@@ -16694,7 +17544,7 @@ public final class ZhanDou {
        * <code>required int32 npcId = 1;</code>
        *
        * <pre>
-       *鍙戠殑鏄痭pc鍦ㄥ湴鍥句腑鐨勪綅缃甪lagId
+       *发的是npc在地图中的位置flagId
        * </pre>
        */
       public boolean hasNpcId() {
@@ -16704,7 +17554,7 @@ public final class ZhanDou {
        * <code>required int32 npcId = 1;</code>
        *
        * <pre>
-       *鍙戠殑鏄痭pc鍦ㄥ湴鍥句腑鐨勪綅缃甪lagId
+       *发的是npc在地图中的位置flagId
        * </pre>
        */
       public int getNpcId() {
@@ -16714,7 +17564,7 @@ public final class ZhanDou {
        * <code>required int32 npcId = 1;</code>
        *
        * <pre>
-       *鍙戠殑鏄痭pc鍦ㄥ湴鍥句腑鐨勪綅缃甪lagId
+       *发的是npc在地图中的位置flagId
        * </pre>
        */
       public Builder setNpcId(int value) {
@@ -16727,7 +17577,7 @@ public final class ZhanDou {
        * <code>required int32 npcId = 1;</code>
        *
        * <pre>
-       *鍙戠殑鏄痭pc鍦ㄥ湴鍥句腑鐨勪綅缃甪lagId
+       *发的是npc在地图中的位置flagId
        * </pre>
        */
       public Builder clearNpcId() {
@@ -16743,7 +17593,7 @@ public final class ZhanDou {
        * <code>required int32 remainHP = 2;</code>
        *
        * <pre>
-       *鍓╀綑琛�噺
+       *剩余血量
        * </pre>
        */
       public boolean hasRemainHP() {
@@ -16753,7 +17603,7 @@ public final class ZhanDou {
        * <code>required int32 remainHP = 2;</code>
        *
        * <pre>
-       *鍓╀綑琛�噺
+       *剩余血量
        * </pre>
        */
       public int getRemainHP() {
@@ -16763,7 +17613,7 @@ public final class ZhanDou {
        * <code>required int32 remainHP = 2;</code>
        *
        * <pre>
-       *鍓╀綑琛�噺
+       *剩余血量
        * </pre>
        */
       public Builder setRemainHP(int value) {
@@ -16776,7 +17626,7 @@ public final class ZhanDou {
        * <code>required int32 remainHP = 2;</code>
        *
        * <pre>
-       *鍓╀綑琛�噺
+       *剩余血量
        * </pre>
        */
       public Builder clearRemainHP() {
@@ -16805,7 +17655,7 @@ public final class ZhanDou {
      * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *璧勬簮鐐筰d
+     *资源点id
      * </pre>
      */
     boolean hasId();
@@ -16813,7 +17663,7 @@ public final class ZhanDou {
      * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *璧勬簮鐐筰d
+     *资源点id
      * </pre>
      */
     long getId();
@@ -16840,7 +17690,8 @@ public final class ZhanDou {
    * Protobuf type {@code qxmobile.protobuf.HuangYePvpReq}
    *
    * <pre>
-   *鑽掗噹璧勬簮鐐规寫鎴�   * </pre>
+   *荒野资源点挑战
+   * </pre>
    */
   public static final class HuangYePvpReq extends
       com.google.protobuf.GeneratedMessage
@@ -16947,7 +17798,7 @@ public final class ZhanDou {
      * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *璧勬簮鐐筰d
+     *资源点id
      * </pre>
      */
     public boolean hasId() {
@@ -16957,7 +17808,7 @@ public final class ZhanDou {
      * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *璧勬簮鐐筰d
+     *资源点id
      * </pre>
      */
     public long getId() {
@@ -17117,7 +17968,8 @@ public final class ZhanDou {
      * Protobuf type {@code qxmobile.protobuf.HuangYePvpReq}
      *
      * <pre>
-     *鑽掗噹璧勬簮鐐规寫鎴�     * </pre>
+     *荒野资源点挑战
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -17257,7 +18109,7 @@ public final class ZhanDou {
        * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *璧勬簮鐐筰d
+       *资源点id
        * </pre>
        */
       public boolean hasId() {
@@ -17267,7 +18119,7 @@ public final class ZhanDou {
        * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *璧勬簮鐐筰d
+       *资源点id
        * </pre>
        */
       public long getId() {
@@ -17277,7 +18129,7 @@ public final class ZhanDou {
        * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *璧勬簮鐐筰d
+       *资源点id
        * </pre>
        */
       public Builder setId(long value) {
@@ -17290,7 +18142,7 @@ public final class ZhanDou {
        * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *璧勬簮鐐筰d
+       *资源点id
        * </pre>
        */
       public Builder clearId() {
@@ -17368,7 +18220,7 @@ public final class ZhanDou {
      * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *璧勬簮鐐筰d
+     *资源点id
      * </pre>
      */
     boolean hasId();
@@ -17376,7 +18228,7 @@ public final class ZhanDou {
      * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *璧勬簮鐐筰d
+     *资源点id
      * </pre>
      */
     long getId();
@@ -17386,7 +18238,7 @@ public final class ZhanDou {
      * <code>required int32 isPass = 2;</code>
      *
      * <pre>
-     *鏄惁閫氬叧(鍏ㄩ儴姝讳骸) :0-澶辫触锛�-鎴愬姛
+     *是否通关(全部死亡) :0-失败，1-成功
      * </pre>
      */
     boolean hasIsPass();
@@ -17394,7 +18246,7 @@ public final class ZhanDou {
      * <code>required int32 isPass = 2;</code>
      *
      * <pre>
-     *鏄惁閫氬叧(鍏ㄩ儴姝讳骸) :0-澶辫触锛�-鎴愬姛
+     *是否通关(全部死亡) :0-失败，1-成功
      * </pre>
      */
     int getIsPass();
@@ -17413,7 +18265,8 @@ public final class ZhanDou {
    * Protobuf type {@code qxmobile.protobuf.HuangYePvpOver}
    *
    * <pre>
-   *鑽掗噹璧勬簮鐐规垬鏂楃粨鏉�   * </pre>
+   *荒野资源点战斗结束
+   * </pre>
    */
   public static final class HuangYePvpOver extends
       com.google.protobuf.GeneratedMessage
@@ -17525,7 +18378,7 @@ public final class ZhanDou {
      * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *璧勬簮鐐筰d
+     *资源点id
      * </pre>
      */
     public boolean hasId() {
@@ -17535,7 +18388,7 @@ public final class ZhanDou {
      * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *璧勬簮鐐筰d
+     *资源点id
      * </pre>
      */
     public long getId() {
@@ -17549,7 +18402,7 @@ public final class ZhanDou {
      * <code>required int32 isPass = 2;</code>
      *
      * <pre>
-     *鏄惁閫氬叧(鍏ㄩ儴姝讳骸) :0-澶辫触锛�-鎴愬姛
+     *是否通关(全部死亡) :0-失败，1-成功
      * </pre>
      */
     public boolean hasIsPass() {
@@ -17559,7 +18412,7 @@ public final class ZhanDou {
      * <code>required int32 isPass = 2;</code>
      *
      * <pre>
-     *鏄惁閫氬叧(鍏ㄩ儴姝讳骸) :0-澶辫触锛�-鎴愬姛
+     *是否通关(全部死亡) :0-失败，1-成功
      * </pre>
      */
     public int getIsPass() {
@@ -17723,7 +18576,8 @@ public final class ZhanDou {
      * Protobuf type {@code qxmobile.protobuf.HuangYePvpOver}
      *
      * <pre>
-     *鑽掗噹璧勬簮鐐规垬鏂楃粨鏉�     * </pre>
+     *荒野资源点战斗结束
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -17876,7 +18730,7 @@ public final class ZhanDou {
        * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *璧勬簮鐐筰d
+       *资源点id
        * </pre>
        */
       public boolean hasId() {
@@ -17886,7 +18740,7 @@ public final class ZhanDou {
        * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *璧勬簮鐐筰d
+       *资源点id
        * </pre>
        */
       public long getId() {
@@ -17896,7 +18750,7 @@ public final class ZhanDou {
        * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *璧勬簮鐐筰d
+       *资源点id
        * </pre>
        */
       public Builder setId(long value) {
@@ -17909,7 +18763,7 @@ public final class ZhanDou {
        * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *璧勬簮鐐筰d
+       *资源点id
        * </pre>
        */
       public Builder clearId() {
@@ -17925,7 +18779,7 @@ public final class ZhanDou {
        * <code>required int32 isPass = 2;</code>
        *
        * <pre>
-       *鏄惁閫氬叧(鍏ㄩ儴姝讳骸) :0-澶辫触锛�-鎴愬姛
+       *是否通关(全部死亡) :0-失败，1-成功
        * </pre>
        */
       public boolean hasIsPass() {
@@ -17935,7 +18789,7 @@ public final class ZhanDou {
        * <code>required int32 isPass = 2;</code>
        *
        * <pre>
-       *鏄惁閫氬叧(鍏ㄩ儴姝讳骸) :0-澶辫触锛�-鎴愬姛
+       *是否通关(全部死亡) :0-失败，1-成功
        * </pre>
        */
       public int getIsPass() {
@@ -17945,7 +18799,7 @@ public final class ZhanDou {
        * <code>required int32 isPass = 2;</code>
        *
        * <pre>
-       *鏄惁閫氬叧(鍏ㄩ儴姝讳骸) :0-澶辫触锛�-鎴愬姛
+       *是否通关(全部死亡) :0-失败，1-成功
        * </pre>
        */
       public Builder setIsPass(int value) {
@@ -17958,7 +18812,7 @@ public final class ZhanDou {
        * <code>required int32 isPass = 2;</code>
        *
        * <pre>
-       *鏄惁閫氬叧(鍏ㄩ儴姝讳骸) :0-澶辫触锛�-鎴愬姛
+       *是否通关(全部死亡) :0-失败，1-成功
        * </pre>
        */
       public Builder clearIsPass() {
@@ -18424,7 +19278,7 @@ public final class ZhanDou {
      * <code>required int32 id = 1;</code>
      *
      * <pre>
-     *鍚庡彴id
+     *后台id
      * </pre>
      */
     boolean hasId();
@@ -18432,7 +19286,7 @@ public final class ZhanDou {
      * <code>required int32 id = 1;</code>
      *
      * <pre>
-     *鍚庡彴id
+     *后台id
      * </pre>
      */
     int getId();
@@ -18442,7 +19296,7 @@ public final class ZhanDou {
      * <code>required int32 num = 2;</code>
      *
      * <pre>
-     *鎺夎惤娆℃暟
+     *掉落次数
      * </pre>
      */
     boolean hasNum();
@@ -18450,7 +19304,7 @@ public final class ZhanDou {
      * <code>required int32 num = 2;</code>
      *
      * <pre>
-     *鎺夎惤娆℃暟
+     *掉落次数
      * </pre>
      */
     int getNum();
@@ -18459,7 +19313,8 @@ public final class ZhanDou {
    * Protobuf type {@code qxmobile.protobuf.DroppenItemResult}
    *
    * <pre>
-   *鐜╁寰楀埌鐨勬帀钀界墿鍝�   * </pre>
+   *玩家得到的掉落物品
+   * </pre>
    */
   public static final class DroppenItemResult extends
       com.google.protobuf.GeneratedMessage
@@ -18566,7 +19421,7 @@ public final class ZhanDou {
      * <code>required int32 id = 1;</code>
      *
      * <pre>
-     *鍚庡彴id
+     *后台id
      * </pre>
      */
     public boolean hasId() {
@@ -18576,7 +19431,7 @@ public final class ZhanDou {
      * <code>required int32 id = 1;</code>
      *
      * <pre>
-     *鍚庡彴id
+     *后台id
      * </pre>
      */
     public int getId() {
@@ -18590,7 +19445,7 @@ public final class ZhanDou {
      * <code>required int32 num = 2;</code>
      *
      * <pre>
-     *鎺夎惤娆℃暟
+     *掉落次数
      * </pre>
      */
     public boolean hasNum() {
@@ -18600,7 +19455,7 @@ public final class ZhanDou {
      * <code>required int32 num = 2;</code>
      *
      * <pre>
-     *鎺夎惤娆℃暟
+     *掉落次数
      * </pre>
      */
     public int getNum() {
@@ -18736,7 +19591,8 @@ public final class ZhanDou {
      * Protobuf type {@code qxmobile.protobuf.DroppenItemResult}
      *
      * <pre>
-     *鐜╁寰楀埌鐨勬帀钀界墿鍝�     * </pre>
+     *玩家得到的掉落物品
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -18876,7 +19732,7 @@ public final class ZhanDou {
        * <code>required int32 id = 1;</code>
        *
        * <pre>
-       *鍚庡彴id
+       *后台id
        * </pre>
        */
       public boolean hasId() {
@@ -18886,7 +19742,7 @@ public final class ZhanDou {
        * <code>required int32 id = 1;</code>
        *
        * <pre>
-       *鍚庡彴id
+       *后台id
        * </pre>
        */
       public int getId() {
@@ -18896,7 +19752,7 @@ public final class ZhanDou {
        * <code>required int32 id = 1;</code>
        *
        * <pre>
-       *鍚庡彴id
+       *后台id
        * </pre>
        */
       public Builder setId(int value) {
@@ -18909,7 +19765,7 @@ public final class ZhanDou {
        * <code>required int32 id = 1;</code>
        *
        * <pre>
-       *鍚庡彴id
+       *后台id
        * </pre>
        */
       public Builder clearId() {
@@ -18925,7 +19781,7 @@ public final class ZhanDou {
        * <code>required int32 num = 2;</code>
        *
        * <pre>
-       *鎺夎惤娆℃暟
+       *掉落次数
        * </pre>
        */
       public boolean hasNum() {
@@ -18935,7 +19791,7 @@ public final class ZhanDou {
        * <code>required int32 num = 2;</code>
        *
        * <pre>
-       *鎺夎惤娆℃暟
+       *掉落次数
        * </pre>
        */
       public int getNum() {
@@ -18945,7 +19801,7 @@ public final class ZhanDou {
        * <code>required int32 num = 2;</code>
        *
        * <pre>
-       *鎺夎惤娆℃暟
+       *掉落次数
        * </pre>
        */
       public Builder setNum(int value) {
@@ -18958,7 +19814,7 @@ public final class ZhanDou {
        * <code>required int32 num = 2;</code>
        *
        * <pre>
-       *鎺夎惤娆℃暟
+       *掉落次数
        * </pre>
        */
       public Builder clearNum() {
@@ -18987,7 +19843,7 @@ public final class ZhanDou {
      * <code>required int32 id = 1;</code>
      *
      * <pre>
-     *娓镐緺绔犺妭id锛�00101
+     *游侠章节id：300101
      * </pre>
      */
     boolean hasId();
@@ -18995,7 +19851,7 @@ public final class ZhanDou {
      * <code>required int32 id = 1;</code>
      *
      * <pre>
-     *娓镐緺绔犺妭id锛�00101
+     *游侠章节id：300101
      * </pre>
      */
     int getId();
@@ -19023,21 +19879,24 @@ public final class ZhanDou {
      * <code>repeated int32 dropeenItemNpcs = 3;</code>
      *
      * <pre>
-     *鐜╁鑾峰緱鐨�     * </pre>
+     *玩家获得的
+     * </pre>
      */
     java.util.List<java.lang.Integer> getDropeenItemNpcsList();
     /**
      * <code>repeated int32 dropeenItemNpcs = 3;</code>
      *
      * <pre>
-     *鐜╁鑾峰緱鐨�     * </pre>
+     *玩家获得的
+     * </pre>
      */
     int getDropeenItemNpcsCount();
     /**
      * <code>repeated int32 dropeenItemNpcs = 3;</code>
      *
      * <pre>
-     *鐜╁鑾峰緱鐨�     * </pre>
+     *玩家获得的
+     * </pre>
      */
     int getDropeenItemNpcs(int index);
 
@@ -19046,14 +19905,16 @@ public final class ZhanDou {
      * <code>required int32 score = 4;</code>
      *
      * <pre>
-     *鏈鎵撲簡鎬墿鐨勬暟閲�     * </pre>
+     *本次打了怪物的数量
+     * </pre>
      */
     boolean hasScore();
     /**
      * <code>required int32 score = 4;</code>
      *
      * <pre>
-     *鏈鎵撲簡鎬墿鐨勬暟閲�     * </pre>
+     *本次打了怪物的数量
+     * </pre>
      */
     int getScore();
   }
@@ -19061,7 +19922,7 @@ public final class ZhanDou {
    * Protobuf type {@code qxmobile.protobuf.BattleYouXiaResultReq}
    *
    * <pre>
-   *璇锋眰娓镐緺娲诲姩鎴樻枟缁撴灉
+   *请求游侠活动战斗结果
    * </pre>
    */
   public static final class BattleYouXiaResultReq extends
@@ -19198,7 +20059,7 @@ public final class ZhanDou {
      * <code>required int32 id = 1;</code>
      *
      * <pre>
-     *娓镐緺绔犺妭id锛�00101
+     *游侠章节id：300101
      * </pre>
      */
     public boolean hasId() {
@@ -19208,7 +20069,7 @@ public final class ZhanDou {
      * <code>required int32 id = 1;</code>
      *
      * <pre>
-     *娓镐緺绔犺妭id锛�00101
+     *游侠章节id：300101
      * </pre>
      */
     public int getId() {
@@ -19246,7 +20107,8 @@ public final class ZhanDou {
      * <code>repeated int32 dropeenItemNpcs = 3;</code>
      *
      * <pre>
-     *鐜╁鑾峰緱鐨�     * </pre>
+     *玩家获得的
+     * </pre>
      */
     public java.util.List<java.lang.Integer>
         getDropeenItemNpcsList() {
@@ -19256,7 +20118,8 @@ public final class ZhanDou {
      * <code>repeated int32 dropeenItemNpcs = 3;</code>
      *
      * <pre>
-     *鐜╁鑾峰緱鐨�     * </pre>
+     *玩家获得的
+     * </pre>
      */
     public int getDropeenItemNpcsCount() {
       return dropeenItemNpcs_.size();
@@ -19265,7 +20128,8 @@ public final class ZhanDou {
      * <code>repeated int32 dropeenItemNpcs = 3;</code>
      *
      * <pre>
-     *鐜╁鑾峰緱鐨�     * </pre>
+     *玩家获得的
+     * </pre>
      */
     public int getDropeenItemNpcs(int index) {
       return dropeenItemNpcs_.get(index);
@@ -19278,7 +20142,8 @@ public final class ZhanDou {
      * <code>required int32 score = 4;</code>
      *
      * <pre>
-     *鏈鎵撲簡鎬墿鐨勬暟閲�     * </pre>
+     *本次打了怪物的数量
+     * </pre>
      */
     public boolean hasScore() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
@@ -19287,7 +20152,8 @@ public final class ZhanDou {
      * <code>required int32 score = 4;</code>
      *
      * <pre>
-     *鏈鎵撲簡鎬墿鐨勬暟閲�     * </pre>
+     *本次打了怪物的数量
+     * </pre>
      */
     public int getScore() {
       return score_;
@@ -19447,7 +20313,7 @@ public final class ZhanDou {
      * Protobuf type {@code qxmobile.protobuf.BattleYouXiaResultReq}
      *
      * <pre>
-     *璇锋眰娓镐緺娲诲姩鎴樻枟缁撴灉
+     *请求游侠活动战斗结果
      * </pre>
      */
     public static final class Builder extends
@@ -19618,7 +20484,7 @@ public final class ZhanDou {
        * <code>required int32 id = 1;</code>
        *
        * <pre>
-       *娓镐緺绔犺妭id锛�00101
+       *游侠章节id：300101
        * </pre>
        */
       public boolean hasId() {
@@ -19628,7 +20494,7 @@ public final class ZhanDou {
        * <code>required int32 id = 1;</code>
        *
        * <pre>
-       *娓镐緺绔犺妭id锛�00101
+       *游侠章节id：300101
        * </pre>
        */
       public int getId() {
@@ -19638,7 +20504,7 @@ public final class ZhanDou {
        * <code>required int32 id = 1;</code>
        *
        * <pre>
-       *娓镐緺绔犺妭id锛�00101
+       *游侠章节id：300101
        * </pre>
        */
       public Builder setId(int value) {
@@ -19651,7 +20517,7 @@ public final class ZhanDou {
        * <code>required int32 id = 1;</code>
        *
        * <pre>
-       *娓镐緺绔犺妭id锛�00101
+       *游侠章节id：300101
        * </pre>
        */
       public Builder clearId() {
@@ -19722,7 +20588,8 @@ public final class ZhanDou {
        * <code>repeated int32 dropeenItemNpcs = 3;</code>
        *
        * <pre>
-       *鐜╁鑾峰緱鐨�       * </pre>
+       *玩家获得的
+       * </pre>
        */
       public java.util.List<java.lang.Integer>
           getDropeenItemNpcsList() {
@@ -19732,7 +20599,8 @@ public final class ZhanDou {
        * <code>repeated int32 dropeenItemNpcs = 3;</code>
        *
        * <pre>
-       *鐜╁鑾峰緱鐨�       * </pre>
+       *玩家获得的
+       * </pre>
        */
       public int getDropeenItemNpcsCount() {
         return dropeenItemNpcs_.size();
@@ -19741,7 +20609,8 @@ public final class ZhanDou {
        * <code>repeated int32 dropeenItemNpcs = 3;</code>
        *
        * <pre>
-       *鐜╁鑾峰緱鐨�       * </pre>
+       *玩家获得的
+       * </pre>
        */
       public int getDropeenItemNpcs(int index) {
         return dropeenItemNpcs_.get(index);
@@ -19750,7 +20619,8 @@ public final class ZhanDou {
        * <code>repeated int32 dropeenItemNpcs = 3;</code>
        *
        * <pre>
-       *鐜╁鑾峰緱鐨�       * </pre>
+       *玩家获得的
+       * </pre>
        */
       public Builder setDropeenItemNpcs(
           int index, int value) {
@@ -19763,7 +20633,8 @@ public final class ZhanDou {
        * <code>repeated int32 dropeenItemNpcs = 3;</code>
        *
        * <pre>
-       *鐜╁鑾峰緱鐨�       * </pre>
+       *玩家获得的
+       * </pre>
        */
       public Builder addDropeenItemNpcs(int value) {
         ensureDropeenItemNpcsIsMutable();
@@ -19775,7 +20646,8 @@ public final class ZhanDou {
        * <code>repeated int32 dropeenItemNpcs = 3;</code>
        *
        * <pre>
-       *鐜╁鑾峰緱鐨�       * </pre>
+       *玩家获得的
+       * </pre>
        */
       public Builder addAllDropeenItemNpcs(
           java.lang.Iterable<? extends java.lang.Integer> values) {
@@ -19788,7 +20660,8 @@ public final class ZhanDou {
        * <code>repeated int32 dropeenItemNpcs = 3;</code>
        *
        * <pre>
-       *鐜╁鑾峰緱鐨�       * </pre>
+       *玩家获得的
+       * </pre>
        */
       public Builder clearDropeenItemNpcs() {
         dropeenItemNpcs_ = java.util.Collections.emptyList();
@@ -19803,7 +20676,8 @@ public final class ZhanDou {
        * <code>required int32 score = 4;</code>
        *
        * <pre>
-       *鏈鎵撲簡鎬墿鐨勬暟閲�       * </pre>
+       *本次打了怪物的数量
+       * </pre>
        */
       public boolean hasScore() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
@@ -19812,7 +20686,8 @@ public final class ZhanDou {
        * <code>required int32 score = 4;</code>
        *
        * <pre>
-       *鏈鎵撲簡鎬墿鐨勬暟閲�       * </pre>
+       *本次打了怪物的数量
+       * </pre>
        */
       public int getScore() {
         return score_;
@@ -19821,7 +20696,8 @@ public final class ZhanDou {
        * <code>required int32 score = 4;</code>
        *
        * <pre>
-       *鏈鎵撲簡鎬墿鐨勬暟閲�       * </pre>
+       *本次打了怪物的数量
+       * </pre>
        */
       public Builder setScore(int value) {
         bitField0_ |= 0x00000008;
@@ -19833,7 +20709,8 @@ public final class ZhanDou {
        * <code>required int32 score = 4;</code>
        *
        * <pre>
-       *鏈鎵撲簡鎬墿鐨勬暟閲�       * </pre>
+       *本次打了怪物的数量
+       * </pre>
        */
       public Builder clearScore() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -19963,69 +20840,72 @@ public final class ZhanDou {
       " \002(\002\022\016\n\006value2\030\006 \002(\002\022\016\n\006value3\030\007 \002(\002\022\016\n\006" +
       "value4\030\010 \002(\002\022\016\n\006value5\030\t \002(\002\022\016\n\006value6\030\n" +
       " \002(\002\022\016\n\006value7\030\013 \001(\t\022\022\n\ntimePeriod\030\014 \002(\005" +
-      "\022\017\n\007endtime\030\r \001(\002\022\017\n\007zhudong\030\016 \002(\010\"\264\001\n\014P" +
+      "\022\017\n\007endtime\030\r \001(\002\022\017\n\007zhudong\030\016 \002(\010\"\342\001\n\014P" +
       "layerWeapon\022\020\n\010weaponId\030\001 \002(\002\022\021\n\tmoveSpe" +
       "ed\030\002 \002(\002\022\023\n\013attackSpeed\030\003 \002(\002\022\023\n\013attackR" +
       "ange\030\004 \002(\002\022\023\n\013weaponRatio\030\005 \003(\002\022\014\n\004criX\030",
       "\006 \002(\005\022\014\n\004criY\030\007 \002(\005\022\021\n\tcriSkillX\030\010 \002(\005\022\021" +
-      "\n\tcriSkillY\030\t \002(\005\"<\n\013DroppenItem\022\n\n\002id\030\001" +
-      " \002(\005\022\024\n\014commonItemId\030\002 \002(\005\022\013\n\003num\030\003 \002(\005\"" +
-      "\204\007\n\004Node\022\017\n\007flagIds\030\001 \003(\005\022\017\n\007modleId\030\002 \002" +
-      "(\005\022-\n\010nodeType\030\003 \002(\0162\033.qxmobile.protobuf" +
-      ".NodeType\0229\n\016nodeProfession\030\004 \002(\0162!.qxmo" +
-      "bile.protobuf.NodeProfession\022\020\n\010nodeName" +
-      "\030\005 \002(\t\022\021\n\tmoveSpeed\030\006 \002(\002\022\023\n\013attackSpeed" +
-      "\030\007 \002(\002\022\023\n\013attackRange\030\010 \002(\002\022\020\n\010eyeRange\030" +
-      "\t \002(\002\022\023\n\013attackValue\030\n \002(\005\022\024\n\014defenceVal",
-      "ue\030\013 \002(\005\022\n\n\002hp\030\014 \002(\005\022\r\n\005hpMax\030\r \002(\005\022\025\n\ra" +
-      "ttackAmplify\030\016 \002(\002\022\027\n\017attackReduction\030\017 " +
-      "\002(\002\022\031\n\021attackAmplify_cri\030\020 \002(\002\022\033\n\023attack" +
-      "Reduction_cri\030\021 \002(\002\022\024\n\014skillAmplify\030\022 \002(" +
-      "\002\022\026\n\016skillReduction\030\023 \002(\002\022\030\n\020skillAmplif" +
-      "y_cri\030\024 \002(\002\022\032\n\022skillReduction_cri\030\025 \002(\002\022" +
-      "\014\n\004criX\030\026 \002(\005\022\014\n\004criY\030\027 \002(\005\022\021\n\tcriSkillX" +
-      "\030\030 \002(\005\022\021\n\tcriSkillY\030\031 \002(\005\022,\n\006skills\030\032 \003(" +
-      "\0132\034.qxmobile.protobuf.NodeSkill\0224\n\013weapo" +
-      "nHeavy\030\033 \001(\0132\037.qxmobile.protobuf.PlayerW",
-      "eapon\0224\n\013weaponLight\030\034 \001(\0132\037.qxmobile.pr" +
-      "otobuf.PlayerWeapon\0225\n\014weaponRanged\030\035 \001(" +
-      "\0132\037.qxmobile.protobuf.PlayerWeapon\0224\n\014dr" +
-      "oppenItems\030\036 \003(\0132\036.qxmobile.protobuf.Dro" +
-      "ppenItem\022\023\n\013droppenType\030\037 \001(\005\022\r\n\005hudun\030 " +
-      " \001(\005\022\020\n\010hudunMax\030! \001(\005\"U\n\005Group\022&\n\005nodes" +
-      "\030\001 \003(\0132\027.qxmobile.protobuf.Node\022\022\n\nmibao" +
-      "Icons\030\002 \003(\005\022\020\n\010maxLevel\030\003 \002(\005\"W\n\021PveZhan" +
-      "DouInitReq\022\021\n\tchapterId\030\001 \002(\005\022/\n\tlevelTy" +
-      "pe\030\002 \002(\0162\034.qxmobile.protobuf.LevelType\"#",
-      "\n\021PvpZhanDouInitReq\022\016\n\006userId\030\001 \002(\003\"\300\001\n\017" +
-      "ZhanDouInitResp\022\021\n\tzhandouId\030\001 \002(\005\022\r\n\005ma" +
-      "pId\030\002 \002(\005\022\021\n\tlimitTime\030\003 \002(\005\022,\n\nenemyTro" +
-      "op\030\004 \002(\0132\030.qxmobile.protobuf.Group\022+\n\tse" +
-      "lfTroop\030\005 \002(\0132\030.qxmobile.protobuf.Group\022" +
-      "\020\n\010starTemp\030\006 \003(\005\022\013\n\003HYK\030\007 \001(\002\"\"\n\020ZhanDo" +
-      "uInitError\022\016\n\006result\030\001 \002(\t\"%\n\020ZhanDouRep" +
-      "layReq\022\021\n\tzhandouId\030\001 \002(\005\"_\n\021ZhanDouRepl" +
-      "ayResp\0224\n\010initInfo\030\001 \002(\0132\".qxmobile.prot" +
-      "obuf.ZhanDouInitResp\022\024\n\014playerAction\030\002 \002",
-      "(\t\"\033\n\rHuangYePveReq\022\n\n\002id\030\001 \002(\003\"\206\001\n\016Huan" +
-      "gYePveOver\022\n\n\002id\030\001 \002(\003\022\016\n\006isPass\030\002 \002(\005\022\023" +
-      "\n\013damageValue\030\003 \002(\005\0221\n\010npcInfos\030\004 \003(\0132\037." +
-      "qxmobile.protobuf.HYPveNpcInfo\022\020\n\010costTi" +
-      "me\030\005 \002(\005\"/\n\014HYPveNpcInfo\022\r\n\005npcId\030\001 \002(\005\022" +
-      "\020\n\010remainHP\030\002 \002(\005\"+\n\rHuangYePvpReq\022\n\n\002id" +
-      "\030\001 \002(\003\022\016\n\006bossId\030\002 \002(\005\"<\n\016HuangYePvpOver" +
-      "\022\n\n\002id\030\001 \002(\003\022\016\n\006isPass\030\002 \002(\005\022\016\n\006bossId\030\003" +
-      " \002(\005\")\n\024YouXiaZhanDouInitReq\022\021\n\tchapterI" +
-      "d\030\001 \002(\005\",\n\021DroppenItemResult\022\n\n\002id\030\001 \002(\005",
-      "\022\013\n\003num\030\002 \002(\005\"[\n\025BattleYouXiaResultReq\022\n" +
-      "\n\002id\030\001 \002(\005\022\016\n\006result\030\002 \002(\005\022\027\n\017dropeenIte" +
-      "mNpcs\030\003 \003(\005\022\r\n\005score\030\004 \002(\005*S\n\010NodeType\022\010" +
-      "\n\004GEAR\020\001\022\013\n\007SOLDIER\020\002\022\010\n\004HERO\020\003\022\010\n\004BOSS\020" +
-      "\004\022\n\n\006PLAYER\020\005\022\007\n\003GOD\020\006\022\007\n\003NPC\020\007*I\n\016NodeP" +
-      "rofession\022\010\n\004NULL\020\000\022\007\n\003DUN\020\001\022\t\n\005QIANG\020\002\022" +
-      "\010\n\004GONG\020\003\022\007\n\003CHE\020\004\022\006\n\002QI\020\005*>\n\tLevelType\022" +
-      "\020\n\014LEVEL_NORMAL\020\001\022\017\n\013LEVEL_ELITE\020\002\022\016\n\nLE" +
-      "VEL_TALE\020\003B\tB\007ZhanDou"
+      "\n\tcriSkillY\030\t \002(\005\022\022\n\nskillLevel\030\n \003(\005\022\030\n" +
+      "\020skillFirstActive\030\013 \003(\005\"<\n\013DroppenItem\022\n" +
+      "\n\002id\030\001 \002(\005\022\024\n\014commonItemId\030\002 \002(\005\022\013\n\003num\030" +
+      "\003 \002(\005\"\251\007\n\004Node\022\017\n\007flagIds\030\001 \003(\005\022\017\n\007modle" +
+      "Id\030\002 \002(\005\022-\n\010nodeType\030\003 \002(\0162\033.qxmobile.pr" +
+      "otobuf.NodeType\0229\n\016nodeProfession\030\004 \002(\0162" +
+      "!.qxmobile.protobuf.NodeProfession\022\020\n\010no" +
+      "deName\030\005 \002(\t\022\021\n\tmoveSpeed\030\006 \002(\002\022\023\n\013attac" +
+      "kSpeed\030\007 \002(\002\022\023\n\013attackRange\030\010 \002(\002\022\020\n\010eye",
+      "Range\030\t \002(\002\022\023\n\013attackValue\030\n \002(\005\022\024\n\014defe" +
+      "nceValue\030\013 \002(\005\022\n\n\002hp\030\014 \002(\005\022\r\n\005hpMax\030\r \002(" +
+      "\005\022\025\n\rattackAmplify\030\016 \002(\002\022\027\n\017attackReduct" +
+      "ion\030\017 \002(\002\022\031\n\021attackAmplify_cri\030\020 \002(\002\022\033\n\023" +
+      "attackReduction_cri\030\021 \002(\002\022\024\n\014skillAmplif" +
+      "y\030\022 \002(\002\022\026\n\016skillReduction\030\023 \002(\002\022\030\n\020skill" +
+      "Amplify_cri\030\024 \002(\002\022\032\n\022skillReduction_cri\030" +
+      "\025 \002(\002\022\014\n\004criX\030\026 \002(\005\022\014\n\004criY\030\027 \002(\005\022\021\n\tcri" +
+      "SkillX\030\030 \002(\005\022\021\n\tcriSkillY\030\031 \002(\005\022,\n\006skill" +
+      "s\030\032 \003(\0132\034.qxmobile.protobuf.NodeSkill\0224\n",
+      "\013weaponHeavy\030\033 \001(\0132\037.qxmobile.protobuf.P" +
+      "layerWeapon\0224\n\013weaponLight\030\034 \001(\0132\037.qxmob" +
+      "ile.protobuf.PlayerWeapon\0225\n\014weaponRange" +
+      "d\030\035 \001(\0132\037.qxmobile.protobuf.PlayerWeapon" +
+      "\0224\n\014droppenItems\030\036 \003(\0132\036.qxmobile.protob" +
+      "uf.DroppenItem\022\023\n\013droppenType\030\037 \001(\005\022\r\n\005h" +
+      "udun\030  \001(\005\022\020\n\010hudunMax\030! \001(\005\022\r\n\005hpNum\030\" " +
+      "\002(\005\022\024\n\014appearanceId\030# \002(\005\"U\n\005Group\022&\n\005no" +
+      "des\030\001 \003(\0132\027.qxmobile.protobuf.Node\022\022\n\nmi" +
+      "baoIcons\030\002 \003(\005\022\020\n\010maxLevel\030\003 \002(\005\"W\n\021PveZ",
+      "hanDouInitReq\022\021\n\tchapterId\030\001 \002(\005\022/\n\tleve" +
+      "lType\030\002 \002(\0162\034.qxmobile.protobuf.LevelTyp" +
+      "e\"#\n\021PvpZhanDouInitReq\022\016\n\006userId\030\001 \002(\003\"\324" +
+      "\001\n\017ZhanDouInitResp\022\021\n\tzhandouId\030\001 \002(\005\022\r\n" +
+      "\005mapId\030\002 \002(\005\022\021\n\tlimitTime\030\003 \002(\005\022,\n\nenemy" +
+      "Troop\030\004 \002(\0132\030.qxmobile.protobuf.Group\022+\n" +
+      "\tselfTroop\030\005 \002(\0132\030.qxmobile.protobuf.Gro" +
+      "up\022\020\n\010starTemp\030\006 \003(\005\022\022\n\nstarArrive\030\007 \001(\005" +
+      "\022\013\n\003HYK\030\010 \001(\002\"\"\n\020ZhanDouInitError\022\016\n\006res" +
+      "ult\030\001 \002(\t\"%\n\020ZhanDouReplayReq\022\021\n\tzhandou",
+      "Id\030\001 \002(\005\"_\n\021ZhanDouReplayResp\0224\n\010initInf" +
+      "o\030\001 \002(\0132\".qxmobile.protobuf.ZhanDouInitR" +
+      "esp\022\024\n\014playerAction\030\002 \002(\t\"\033\n\rHuangYePveR" +
+      "eq\022\n\n\002id\030\001 \002(\003\"\206\001\n\016HuangYePveOver\022\n\n\002id\030" +
+      "\001 \002(\003\022\016\n\006isPass\030\002 \002(\005\022\023\n\013damageValue\030\003 \002" +
+      "(\005\0221\n\010npcInfos\030\004 \003(\0132\037.qxmobile.protobuf" +
+      ".HYPveNpcInfo\022\020\n\010costTime\030\005 \002(\005\"/\n\014HYPve" +
+      "NpcInfo\022\r\n\005npcId\030\001 \002(\005\022\020\n\010remainHP\030\002 \002(\005" +
+      "\"+\n\rHuangYePvpReq\022\n\n\002id\030\001 \002(\003\022\016\n\006bossId\030" +
+      "\002 \002(\005\"<\n\016HuangYePvpOver\022\n\n\002id\030\001 \002(\003\022\016\n\006i",
+      "sPass\030\002 \002(\005\022\016\n\006bossId\030\003 \002(\005\")\n\024YouXiaZha" +
+      "nDouInitReq\022\021\n\tchapterId\030\001 \002(\005\",\n\021Droppe" +
+      "nItemResult\022\n\n\002id\030\001 \002(\005\022\013\n\003num\030\002 \002(\005\"[\n\025" +
+      "BattleYouXiaResultReq\022\n\n\002id\030\001 \002(\005\022\016\n\006res" +
+      "ult\030\002 \002(\005\022\027\n\017dropeenItemNpcs\030\003 \003(\005\022\r\n\005sc" +
+      "ore\030\004 \002(\005*S\n\010NodeType\022\010\n\004GEAR\020\001\022\013\n\007SOLDI" +
+      "ER\020\002\022\010\n\004HERO\020\003\022\010\n\004BOSS\020\004\022\n\n\006PLAYER\020\005\022\007\n\003" +
+      "GOD\020\006\022\007\n\003NPC\020\007*I\n\016NodeProfession\022\010\n\004NULL" +
+      "\020\000\022\007\n\003DUN\020\001\022\t\n\005QIANG\020\002\022\010\n\004GONG\020\003\022\007\n\003CHE\020" +
+      "\004\022\006\n\002QI\020\005*>\n\tLevelType\022\020\n\014LEVEL_NORMAL\020\001",
+      "\022\017\n\013LEVEL_ELITE\020\002\022\016\n\nLEVEL_TALE\020\003B\tB\007Zha" +
+      "nDou"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -20043,7 +20923,7 @@ public final class ZhanDou {
           internal_static_qxmobile_protobuf_PlayerWeapon_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_PlayerWeapon_descriptor,
-              new java.lang.String[] { "WeaponId", "MoveSpeed", "AttackSpeed", "AttackRange", "WeaponRatio", "CriX", "CriY", "CriSkillX", "CriSkillY", });
+              new java.lang.String[] { "WeaponId", "MoveSpeed", "AttackSpeed", "AttackRange", "WeaponRatio", "CriX", "CriY", "CriSkillX", "CriSkillY", "SkillLevel", "SkillFirstActive", });
           internal_static_qxmobile_protobuf_DroppenItem_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_DroppenItem_fieldAccessorTable = new
@@ -20055,7 +20935,7 @@ public final class ZhanDou {
           internal_static_qxmobile_protobuf_Node_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_Node_descriptor,
-              new java.lang.String[] { "FlagIds", "ModleId", "NodeType", "NodeProfession", "NodeName", "MoveSpeed", "AttackSpeed", "AttackRange", "EyeRange", "AttackValue", "DefenceValue", "Hp", "HpMax", "AttackAmplify", "AttackReduction", "AttackAmplifyCri", "AttackReductionCri", "SkillAmplify", "SkillReduction", "SkillAmplifyCri", "SkillReductionCri", "CriX", "CriY", "CriSkillX", "CriSkillY", "Skills", "WeaponHeavy", "WeaponLight", "WeaponRanged", "DroppenItems", "DroppenType", "Hudun", "HudunMax", });
+              new java.lang.String[] { "FlagIds", "ModleId", "NodeType", "NodeProfession", "NodeName", "MoveSpeed", "AttackSpeed", "AttackRange", "EyeRange", "AttackValue", "DefenceValue", "Hp", "HpMax", "AttackAmplify", "AttackReduction", "AttackAmplifyCri", "AttackReductionCri", "SkillAmplify", "SkillReduction", "SkillAmplifyCri", "SkillReductionCri", "CriX", "CriY", "CriSkillX", "CriSkillY", "Skills", "WeaponHeavy", "WeaponLight", "WeaponRanged", "DroppenItems", "DroppenType", "Hudun", "HudunMax", "HpNum", "AppearanceId", });
           internal_static_qxmobile_protobuf_Group_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_Group_fieldAccessorTable = new
@@ -20079,7 +20959,7 @@ public final class ZhanDou {
           internal_static_qxmobile_protobuf_ZhanDouInitResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ZhanDouInitResp_descriptor,
-              new java.lang.String[] { "ZhandouId", "MapId", "LimitTime", "EnemyTroop", "SelfTroop", "StarTemp", "HYK", });
+              new java.lang.String[] { "ZhandouId", "MapId", "LimitTime", "EnemyTroop", "SelfTroop", "StarTemp", "StarArrive", "HYK", });
           internal_static_qxmobile_protobuf_ZhanDouInitError_descriptor =
             getDescriptor().getMessageTypes().get(8);
           internal_static_qxmobile_protobuf_ZhanDouInitError_fieldAccessorTable = new

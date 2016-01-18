@@ -24,6 +24,7 @@
 <a href="gm/timeworker.jsp" target='target'>定时请求任务</a><br/>
 <a href="gm/readEmail.jsp" target='target'>查看删除邮件</a><br/>
 <a href="gm/sendEmail.jsp" target='target'>发送邮件</a><br/>
+<a href="gm/subaoInfo.jsp" target='target'>速报（通知）</a><br/>
 <a href="gm/achievement.jsp" target='target'>成就系统</a><br/>
 <a href="gm/vip.jsp" target='target'>vip管理</a><br/>
 <a href="gm/dailyTask.jsp" target='target'>每日任务</a><br/>

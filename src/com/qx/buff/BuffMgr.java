@@ -298,8 +298,8 @@ public class BuffMgr {
 
 	protected void processBuff4Skill(JunZhu attacker, JunZhu defender,
 			Action action, int uid) {
-		int buffId = action.Param1;									// buffId
-		int buffDuration = action.Param2;							// buff持续时间
+		int buffId = (int) action.Param1;									// buffId
+		int buffDuration = (int) action.Param2;									// buff持续时间
 		Buff buff = getBuffById(buffId);
 		if(buff == null) {
 			return;
@@ -314,7 +314,7 @@ public class BuffMgr {
 	}
 	
 	private int calcSkillTreatLife(JunZhu attacker, JunZhu defender, Skill skill, Action action) {
-		int j = action.Param2;
+		double j = action.Param2;
 		double k = action.Param1 / 1000;
 		int addLife = (int) (k * defender.shengMingMax + j);
 		return addLife;

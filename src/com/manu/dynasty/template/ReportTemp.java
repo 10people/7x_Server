@@ -9,7 +9,7 @@ public class ReportTemp {
 	public int   receiveObject; //消息接收对象
 	public String   recveiveScence;//可接收消息的场景
 	public String   popupable;     //是否主动弹出
-	public int   languageID;    //文字描述ID
+	public int   DescID;    //文字描述ID
 	public String   button;        //按钮
 	public String   clickAward;    //点击按钮奖励
 								//显示方式

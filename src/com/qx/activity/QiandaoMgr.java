@@ -121,8 +121,7 @@ public class QiandaoMgr {
 				logger.error("cmd:{},未发现君主", cmd);
 				return;
 			}
-			QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,
-					"where junzhuId=" + junZhu.id + "");
+			QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,junZhu.id);
 			int leijiQiandao = 0;
 			if (null != qiandaoInfo) {
 				// 进入到了第二个月
@@ -201,15 +200,13 @@ public class QiandaoMgr {
 			}
 			boolean isBuqian = false;
 			/* 记录信息到DB */
-			QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,
-					"where junzhuId=" + junZhu.id + "");
+			QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,junZhu.id );
 			if (qiandaoInfo == null) {// DB没有签到信息
 				qiandaoInfo = new QiandaoInfo();
 				qiandaoInfo.id = junZhu.id;
 				qiandaoInfo.setLeijiQiandao(1);
 				qiandaoInfo.setPreQiandao(date);
-				qiandaoInfo
-						.setQiandaoDate(getMonth(date) + ":" + getDate(date));
+				qiandaoInfo.setQiandaoDate(getMonth(date) + ":" + getDate(date));
 				HibernateUtil.insert(qiandaoInfo);
 			} else {// DB已有有签到信息
 				if (isSameDate(date, qiandaoInfo.getPreQiandao())) {
@@ -314,10 +311,16 @@ public class QiandaoMgr {
 			tmpDate.setDate(tmpDate.getDate()-1);
 		}
 		List<QianDao> awardList = awardMap.get(getMonth(tmpDate));
-//		QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,
-//				"where junzhuId=" + junZhuId + "");
 		JunZhu junZhu = HibernateUtil.find(JunZhu.class, junZhuId);
-		QianDao qianDao = awardList.get(qiandaoInfo.getLeijiQiandao() - 1);
+		if(qiandaoInfo.getLeijiQiandao()<=0){
+			return false;
+		}
+		QianDao qianDao =null;
+		if(qiandaoInfo.getLeijiQiandao()>awardList.size()){
+			qianDao = awardList.get(awardList.size() - 1);
+		}else{
+			qianDao = awardList.get(qiandaoInfo.getLeijiQiandao() - 1);
+		}
 		if (getBuqianState(qiandaoInfo, qianDao, junZhu) == 1) {
 			// 满足条件当天签到能够补签
 			return true;
@@ -393,8 +396,6 @@ public class QiandaoMgr {
 		} else {
 			date = new Date();
 		}
-//		QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,
-//				"where junzhuId=" + JunzhuId + "");
 		if (null == qiandaoInfo) {// 签到信息为空，没有签到过
 			return false;
 		} else if (isSameDate(qiandaoInfo.getPreQiandao(), date)) {// 如果当前日期和上次签到日期是同一天

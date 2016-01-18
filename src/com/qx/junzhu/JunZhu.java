@@ -17,7 +17,7 @@ import com.qx.world.GameObject;
  */
 @Entity
 @Table(name = "JunZhu")
-public class JunZhu implements MCSupport, GameObject, Cloneable{
+public class JunZhu extends GameObject implements MCSupport, Cloneable{
 	/**
 	 * 
 	 */

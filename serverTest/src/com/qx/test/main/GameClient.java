@@ -4,18 +4,17 @@ import java.net.InetSocketAddress;
 import java.util.Random;
 
 import org.apache.mina.core.future.ConnectFuture;
-import org.apache.mina.core.future.IoFuture;
 import org.apache.mina.core.future.IoFutureListener;
 import org.apache.mina.core.service.IoConnector;
 import org.apache.mina.core.session.IoSession;
-import org.apache.mina.filter.codec.ProtocolCodecFactory;
-import org.apache.mina.filter.codec.ProtocolCodecFilter;
-import org.apache.mina.filter.codec.ProtocolDecoder;
-import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
-import qxmobile.protobuf.BattlePveResult.BattlePveResultReq;
+import pct.TestBase;
+import qxmobile.protobuf.BattleProg.InProgress;
+import qxmobile.protobuf.BattleProg.InitProc;
 import qxmobile.protobuf.GameTask.TaskInfo;
 import qxmobile.protobuf.GameTask.TaskProgress;
+import qxmobile.protobuf.MoBaiProto.MoBaiInfo;
+import qxmobile.protobuf.MoBaiProto.MoBaiReq;
 import qxmobile.protobuf.PlayerData.PlayerState;
 import qxmobile.protobuf.PlayerData.State;
 import qxmobile.protobuf.PveLevel.GuanQiaInfoRequest;
@@ -33,17 +32,22 @@ import qxmobile.protobuf.ZhangHao.RoleNameResponse;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.network.PD;
-import com.manu.network.ProtoBuffDecoder;
-import com.manu.network.TXCodecFactory;
+import com.manu.network.msg.ProtobufMsg;
 import com.qx.test.message.MessageDispatcher;
 
+/**
+ * 在oper方法里写进入游戏后的操作
+ * @author 康建虎
+ *
+ */
 public class GameClient {
-	private String accountName;
-	private IoSession session;
+	public String accountName;
+	public IoSession session;
 	public boolean log = true;
 	
 	public GameClient(String accountName) {
-		this.accountName = accountName;
+//		this.accountName = accountName;
+		this.accountName = "t1";
 	}
 
 	public void launch(final IoConnector connector, InetSocketAddress addr) {
@@ -59,7 +63,8 @@ public class GameClient {
 				session = future.getSession();
 				session.setAttribute("router",new MessageDispatcher(GameClient.this));
 				session.write("tgw_l7_forward\r\nHost:app12345.qzoneapp.com:80\r\n\r\n");
-				regOrLogin();
+//				regOrLogin();
+				login(session);
 			}
 		});
 	}
@@ -91,6 +96,10 @@ public class GameClient {
 		if(log)System.out.println(name + "注册成功，id：" + accId);
 		Main.regOkCnt.incrementAndGet();
 		//
+		login(session);
+	}
+
+	public void login(IoSession session) {
 		LoginReq.Builder login = LoginReq.newBuilder();
 		login.setName(accountName);
 		session.write(login.build());
@@ -103,12 +112,14 @@ public class GameClient {
 		//1，登录成功并创建过角色。2，登录成功并未创建过角色。3,登录失败
 		Main.loginOkCnt.incrementAndGet();
 		switch(code){
+		case 100:
 		case 1:
 			enterScene();
 			break;
 		case 2:
 //			createRole();
-			randomNameFromServer();
+//			randomNameFromServer();
+			createRole(getRandomString(6));
 			break;
 		case 3:
 			if(log)System.out.println("登录失败");
@@ -118,6 +129,17 @@ public class GameClient {
 			break;
 		}
 	}
+	//随机生产名字
+		public static String getRandomString(int length) { 
+		    String base = "abcdefghijklmnopqrstuvwxyz0123456789俞伯牙席潮海丁克曾管正学管虎管谟业管仲陈伟霆王世充李渊杨坚郭树清李鸿忠王穗明刘铁男李登辉彭长健邓鸿王中军景百孚赵永亮陆兆禧严介和郁亮茅于轼王小波冯唐";   
+		    Random random = new Random();   
+		    StringBuffer sb = new StringBuffer();   
+		    for (int i = 0; i < length; i++) {   
+		        int number = random.nextInt(base.length());   
+		        sb.append(base.charAt(number));   
+		    }   
+		    return sb.toString();   
+		 }
 
 	public void enterScene() {
 		//
@@ -164,7 +186,7 @@ public class GameClient {
 			enterScene();
 			Main.createRoleOkCnt.incrementAndGet();
 		}else{
-			createRole("fail"+accountName);
+			createRole(getRandomString(6));
 		}
 	}
 
@@ -185,7 +207,31 @@ public class GameClient {
 //		wuJiangInfo();//请求武将图鉴
 //		guanQianInfo();
 //		wuJiangKeJi();
-		taskListReq();
+//		taskListReq();
+//		session.write(PD.C_InitProc);
+//		session.write(PD.C_GET_JINENG_PEIYANG_QUALITY_REQ);
+		getMoBaiInfo();
+		getMoBaiAward();
+	}
+
+	private void getMoBaiInfo() {
+		MessageDispatcher.listen(PD.S_MoBai_Info, new TestBase(){
+			@Override
+			public void handle(int id, IoSession session, Builder builder) {
+				MoBaiInfo.Builder mb = (qxmobile.protobuf.MoBaiProto.MoBaiInfo.Builder) builder;
+				System.out.println(mb.build().toString());
+			}
+		});
+		session.write(PD.C_MoBai_Info);
+	}
+
+	public void getMoBaiAward() {
+		ProtobufMsg msg = new ProtobufMsg();
+		msg.id = PD.C_GET_MOBAI_AWARD;
+		MoBaiReq.Builder mb = MoBaiReq.newBuilder();
+		mb.setCmd(2);
+		msg.builder = mb;
+		session.write(msg);
 	}
 
 	private void taskListReq() {
@@ -212,17 +258,43 @@ public class GameClient {
 		zd.setChapterId(100103);
 		session.write(zd.build());
 		//
-		BattlePveResultReq.Builder rz = BattlePveResultReq.newBuilder();
-		rz.setResult(1);
-		rz.setUid(0);
-		rz.setBigId(0);
-		rz.setSmaId(0);
-		session.write(rz.build());
 	}
 
 	private void wuJiangInfo() {
 		HeroInfoReq.Builder req = HeroInfoReq.newBuilder();
 		req.setUid(000);
 		session.write(req.build());
+	}
+
+	public void antiCheat(Builder builder) {
+		InitProc.Builder ret = (qxmobile.protobuf.BattleProg.InitProc.Builder) builder	;		
+//		required int32 a = 1;//下一次请求密语使用的协议号。
+//		required string b = 2;  //服务器加密后的数据，下一次请求密语时发给服务器。
+//		required int32 c = 3;//收到次协议后多少毫秒，再次给服务器发送密语请求
+		ProtobufMsg msg = new ProtobufMsg();
+		msg.id = ret.getA();
+		InProgress.Builder r = InProgress.newBuilder();
+		r.setA(ret.getB());
+		r.setB("#");
+		msg.builder = r;
+		System.out.println("密语"+ret.getB()+" 协议号:"+msg.id);
+		try {
+			Thread.sleep(ret.getC()+1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(msg.id%4==0){
+			msg = new ProtobufMsg();
+			msg.id = PD.C_zlgdlc;
+			InProgress.Builder r2 = InProgress.newBuilder();
+			r2.setA(ret.getB());
+			r2.setB("#");
+			msg.builder = r2;
+			session.write(msg);//终止
+			System.out.println("终止密语过程");
+		}else{
+			session.write(msg);			
+		}
 	}
 }

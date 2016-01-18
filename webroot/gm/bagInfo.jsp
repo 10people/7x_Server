@@ -189,7 +189,11 @@
 				   <%
 			   }
 			%>
-			<td><%=bg.itemId<=0 ? "-" : ((ZhuangBei)TempletService.itemMap.get(bg.itemId)).getJinjieItem()%> </td>
+			<td><%=bg.itemId<=0 ? "-" :
+				(TempletService.itemMap.get(bg.itemId)==null)?
+						"没有找到配置":
+							((ZhuangBei)TempletService.itemMap.get(bg.itemId)).getJinjieItem()
+							%> </td>
 			<td><%=ue==null?"没强化信息":ue.getLevel()%> </td>
 			<td><%=ue==null?"没强化信息":ue.getExp()%> </td>
 		<%

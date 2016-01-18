@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 @Entity
-@Table(name="gongjininfo")
+@Table(name="resource_gongjin")
 public class ResourceGongJin {
 	@Id
 	public long junzhuId;

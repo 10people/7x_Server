@@ -67,6 +67,7 @@
 	<mapping class="com.qx.vip.VipRechargeRecord" />
 	<mapping class="com.qx.vip.PlayerVipInfo" />
 	<mapping class="com.qx.task.DailyTaskBean" /><!-- MC 20141013 -->
+	<mapping class="com.qx.task.DailyTaskActivity" />
 	<mapping class="com.qx.purchase.Treasure" />
 	<mapping class="com.manu.dynasty.template.NameKu" />
 	<mapping class="com.qx.task.WorkTaskBean" />
@@ -113,6 +114,7 @@
     <mapping class="com.qx.world.PosInfo"/>
     <mapping class="com.qx.alliance.HuanWu"/>
     <mapping class="com.qx.alliance.BigHouse"/>
+    <mapping class="com.qx.alliance.FengshanBean"/>
     <mapping class="com.qx.alliancefight.AllianceFightRules"/>
     <mapping class="com.qx.alliancefight.AllianceFightMatch"/>
     <mapping class="com.qx.alliancefight.AllianceFightApply"/>
@@ -147,6 +149,13 @@
     <mapping class="com.qx.junzhu.ChengHaoBean"/>
     <mapping class="com.qx.cdkey.CDKeyInfo"/>
     <mapping class="com.qx.jinengpeiyang.JNBean"/>
+    <mapping class="com.qx.alliance.building.JianZhuLvBean"/>
+    <mapping class="com.qx.alliance.building.LMKJBean"/>
+    <mapping class="com.qx.jinengpeiyang.NewJNBean"/>
+    <mapping class="com.qx.alliance.building.ChouJiangBean"/>
+    <mapping class="com.qx.prompt.PromptInfo"/>
+    <mapping class="com.qx.yabiao.LastExitYBInfo"/>
+    <mapping class="com.manu.dynasty.chat.ChatInfo"/>
     
 </session-factory>
 

@@ -671,11 +671,11 @@ public class RankingMgr extends EventProc{
 			rankNum = (int)DB.zcard_(GUOGUAN_RANK+"_"+guojiaId);
 			break;
 		case 5: //贡金个人排行榜
-			RankingGongJinMgr.inst.sendPersonalGongJinRank(pageNo, response);
+			RankingGongJinMgr.inst.sendPersonalGongJinRank(pageNo, response, session);
 			rankNum = (int)DB.zcard_(RankingGongJinMgr.gongJinPersonalRank);
 			break;
 		case 6://贡金联盟排行榜
-			RankingGongJinMgr.inst.sendAllianceGongJinRank(pageNo, response);
+			RankingGongJinMgr.inst.sendAllianceGongJinRank(pageNo, response, session);
 			rankNum = (int)DB.zcard_(RankingGongJinMgr.gongJinAllianceRank);
 		default:
 			break;
@@ -1120,7 +1120,8 @@ public class RankingMgr extends EventProc{
 	public JunZhuInfo.Builder getJunZhuDetail(JunZhuInfo.Builder junBuilder,JunZhu jz){
 		junBuilder.setJunZhuId(jz.id);
 		junBuilder.setRoleId(jz.roleId);
-		junBuilder.setLianMeng(AllianceMgr.inst.getAlliance(jz));
+		String lianmename = AllianceMgr.inst.getAlliance(jz);
+		junBuilder.setLianMeng(lianmename);
 		junBuilder.setName(jz.name);
 		junBuilder.setGongji(jz.gongJi);
 		junBuilder.setZhanli(PvpMgr.inst.getZhanli(jz));
@@ -1130,7 +1131,12 @@ public class RankingMgr extends EventProc{
 		junBuilder.setJunxian(PvpMgr.inst.getJunxian(jz));
 		int junxianLevel = PvpMgr.getJunxianLevel(jz.id);
 		junBuilder.setJunxianLevel(junxianLevel==-1?1:junxianLevel);
-		junBuilder.setGongjin(RankingGongJinMgr.inst.getJunZhuGongJin(jz.id));
+		if(lianmename.equals("")){
+			junBuilder.setGongjin(-1);
+			log.info("玩家：{}是无联盟玩家，所以gongjin记录不存在", jz.id);
+		}else{
+			junBuilder.setGongjin(RankingGongJinMgr.inst.getJunZhuGongJin(jz.id));
+		}
 //		if(GuoJiaMgr.inst.isCanShangjiao(jz.id)){
 //			GuoJiaMgr.inst.pushCanShangjiao(jz.id);
 //		}
@@ -1177,15 +1183,15 @@ public class RankingMgr extends EventProc{
 	 */
 	public void jzChangeGuojia(long jzId,int oldGjId,int newGjId){
 		// 君主榜转到相应国家
-		int junScore = DB.zscore_(JUNZHU_RANK+"_"+oldGjId, jzId+"");
+		double junScore = DB.zscore(JUNZHU_RANK+"_"+oldGjId, jzId+"");
 		DB.zrem(JUNZHU_RANK+"_"+oldGjId, jzId+"");
 		DB.zadd(JUNZHU_RANK+"_"+newGjId, junScore, jzId+"");
 		// 百战榜转到相应国家
-		int bzScore = DB.zscore_(BAIZHAN_RANK+"_"+oldGjId, jzId+"");
+		double bzScore = DB.zscore(BAIZHAN_RANK+"_"+oldGjId, jzId+"");
 		DB.zrem(BAIZHAN_RANK+"_"+oldGjId, jzId+"");
 		DB.zadd(BAIZHAN_RANK+"_"+newGjId, bzScore, jzId+"");
 		// 过关榜转到相应国家
-		int ggScore = DB.zscore_(GUOGUAN_RANK+"_"+oldGjId, jzId+"");
+		double ggScore = DB.zscore(GUOGUAN_RANK+"_"+oldGjId, jzId+"");
 		DB.zrem(GUOGUAN_RANK+"_"+oldGjId, jzId+"");
 		DB.zadd(GUOGUAN_RANK+"_"+newGjId, ggScore, jzId+"");
 	}

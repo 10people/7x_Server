@@ -117,7 +117,10 @@ public class UserEquipService {
 			log.error("强化等级已经达到满级, equipId:{}", equipId);
 			return ;
 		}
-		
+		if (doIt && currLv >= junzhulevel) {
+			log.error("强化等级已经达到君主等级, equipId:{}", equipId);
+			return ;
+		}
 		Map<Long,Integer> caiLiaoIds = new LinkedHashMap<Long,Integer>();
 		for(Long dbId : caiLiaoList){
 			Integer cnt = caiLiaoIds.get(dbId);
@@ -463,7 +466,7 @@ public class UserEquipService {
 		}	
 		long junZhuId = junZhu.id;
 		log.info("君主{}开始==============《一键强化》",junZhuId);
-		{//let me show you
+		//{//let me show you
 			Bag<EquipGrid> equips = EquipMgr.inst.loadEquips(junZhuId);
 			if(equips == null){
 				return;
@@ -471,13 +474,13 @@ public class UserEquipService {
 			Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhuId);
 			doUpAll(junZhu,equips, bag, true);//武器
 			doUpAll(junZhu,equips, bag, false);//防具
-		}
+		//}
 		log.info("君主{}结束==============《一键强化》",junZhuId);
 		//返回一键强化信息
 		sendQianhuaInfo4YiJian(junZhuId,session);
 		// 发送君主信息 2015年9月24日
 		JunZhuMgr.inst.sendMainInfo(session);
-		BagMgr.inst.sendBagInfo(0, session, null);
+		BagMgr.inst.sendBagInfo(session, bag);
 		BagMgr.inst.sendEquipInfo(0, session, null);
 		//主线任务：完成一次强化, 参数定为-1， 在GameTaskMgr中获取一个最大的newLevel作为条件判断
 		EventMgr.addEvent(ED.QIANG_HUA_FINISH, new Object[]{junZhuId, -1});

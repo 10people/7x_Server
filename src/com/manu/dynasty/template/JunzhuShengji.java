@@ -24,6 +24,8 @@ public class JunzhuShengji {
 	public int jnBJ;//技能伤害加深
 	public int jnRX;//技能伤害加深
 	///////////
+	
+	public int moneyXishu;
 	public int getLevelId() {
 		return levelId;
 	}

@@ -1,10 +1,10 @@
+<%@page import="qxmobile.protobuf.JiNengPeiYang.HeroData"%>
 <%@page import="qxmobile.protobuf.JiNengPeiYang.UpgradeJiNengResp"%>
 <%@page import="qxmobile.protobuf.JiNengPeiYang.UpgradeJiNengReq"%>
 <%@page import="com.manu.dynasty.template.JiNengPeiYang"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.manu.dynasty.store.Redis"%>
 <%@page import="com.qx.jinengpeiyang.JiNengPeiYangMgr"%>
-<%@page import="qxmobile.protobuf.JiNengPeiYang.JiNengQuality"%>
 <%@page import="java.util.List"%>
 <%@page import="com.manu.network.PD"%>
 <%@page import="com.manu.network.BigSwitch"%>
@@ -74,8 +74,7 @@
 							+ GameServer.serverId));
 			UpgradeJiNengReq.Builder builder = UpgradeJiNengReq
 					.newBuilder();
-			builder.setWuqiType(wuqiType);
-			builder.setJinengType(jinengType);
+			builder.setSkillID(wuqiType);
 			synchronized (fs) {
 				BigSwitch.inst.route(PD.C_UPGRADE_JINENG_REQ, builder, fs);
 				//	fs.wait();
@@ -135,7 +134,7 @@
 			}
 			GetJiNengPeiYangQuality resp = (GetJiNengPeiYangQuality) fs
 					.getAttachment();
-			List<JiNengQuality> jinengList = resp.getJnList();
+			List<HeroData> jinengList = resp.getListHeroDataList();
 	%>
 	<table border="1">
 		<tr>
@@ -145,14 +144,13 @@
 			<th>操作</th>
 		</tr>
 		<%
-			for (JiNengQuality jineng : jinengList) {
+			for (HeroData jineng : jinengList) {
 		%>
 		<tr>
-			<td><%=jineng.getWuqiType()%></td>
-			<td><%=jineng.getJinengType()%></td>
-			<td><%=jineng.getQuality()%></td>
+			<td><%=jineng.getSkillId()%></td>
+			<td><%=jineng.getIsUp()%></td>
 			<td><a
-				href="jinengpeiyang.jsp?wuqiType=<%=jineng.getWuqiType()%>&jinengType=<%=jineng.getJinengType()%>">突破</a></td>
+				href="jinengpeiyang.jsp?wuqiType=<%=jineng.getSkillId()%>">突破</a></td>
 		</tr>
 		<%
 			}

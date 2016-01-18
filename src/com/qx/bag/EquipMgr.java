@@ -55,6 +55,12 @@ public class EquipMgr extends EventProc{
 		long start = base;
 		long end = start + maxGridCount - 1;
 		String[] keys = getKeys(pid);
+		if(keys==null){
+			Bag<EquipGrid> bag = new Bag<EquipGrid>();
+//			bag.grids = Collections.EMPTY_LIST;
+			bag.ownerId = pid;
+			return bag;
+		}
 		Object[] mcArr = MemcachedCRUD.getMemCachedClient().getMultiArray(keys);
 		List<EquipGrid> list = null; 
 		if(mcArr[4] == null){//第一个取不到，认为MC里没有。
@@ -217,6 +223,14 @@ public class EquipMgr extends EventProc{
 		BaseItem o = TempletService.itemMap.get(bg.itemId);
 		if(o == null){
 			log.error("物品没有找到 {}",bg.itemId);
+			return;
+		}
+		BaseItem.TYPE_BAO_XIANG = 101;
+		if(o.getType() == BaseItem.TYPE_BAO_XIANG 
+				|| o.getType() == BaseItem.TYPE_TONG_BI_TAN_BAO
+				|| o.getType() == BaseItem.TYPE_YUAN_BAO_TAN_BAO
+				){
+			BagMgr.inst.useItem(session,bag,indexInBag,o, junZhu);
 			return;
 		}
 		if(o.getType() != BaseItem.TYPE_EQUIP){
@@ -444,8 +458,8 @@ public class EquipMgr extends EventProc{
 	public void proc(Event param) {
 		switch(param.id){
 		case ED.PVE_GUANQIA:
-			Object[] data = (Object[]) param.param;
-			removeInitailWeapon(data);
+//			Object[] data = (Object[]) param.param;
+//			removeInitailWeapon(data);//2015年12月25日11:49:48，不要这个功能了。
 			break;
 		}
 	}

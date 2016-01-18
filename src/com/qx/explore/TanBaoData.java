@@ -18,16 +18,18 @@ public class TanBaoData {
 
 	//几种探宝奖励id，都表示 AwardTemp.xlsx 中的 awardId 字段
 	public static int tongBi_first_free_awardId = 9100;
-	public static int tongBi_free_normal_awardId = 9101;
-	public static int tongBi_first_pay_awardId = 9104;
-	public static int tongBi_pay_normal_awardId = 9102;
-	public static int tongBi_pay_good_awardId = 9103;
+	public static int tongBi_normal_awardId = 9101;
+	public static int tongBi_good_awardId = 9102;
 	
+
 	public static int yuanBao_first_free_awardId = 9000;
-	public static int yuanBao_free_normal_awardId = 9001;
-	public static int yuanBao_first_pay_awardId = 9004;
-	public static int yuanBao_pay_normal_awardId = 9002;
-	public static int yuanBao_pay_good_awardId = 9003;
+	
+	public static int yuanBao_first_pay_awardId = 9001;
+	
+	public static int yuanBao_normal_awardId = 9002;
+	public static int yuanBao_good_awardId = 9003;
+	
+	public static int yuanBao_first_good_awardId = 9004;
 
 
 

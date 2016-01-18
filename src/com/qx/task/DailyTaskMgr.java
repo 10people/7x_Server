@@ -17,16 +17,21 @@ import qxmobile.protobuf.DailyTaskProtos.DailyTaskInfo;
 import qxmobile.protobuf.DailyTaskProtos.DailyTaskListResponse;
 import qxmobile.protobuf.DailyTaskProtos.DailyTaskRewardRequest;
 import qxmobile.protobuf.DailyTaskProtos.DailyTaskRewardResponse;
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.AwardTemp;
+import com.manu.dynasty.template.CanShu;
+import com.manu.dynasty.template.HuoYueTemp;
 import com.manu.dynasty.template.RenWu;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.dynasty.util.MathUtils;
+import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
 import com.manu.network.SessionManager;
 import com.manu.network.SessionUser;
+import com.manu.network.msg.ProtobufMsg;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
 import com.qx.award.AwardMgr;
@@ -52,11 +57,15 @@ public class DailyTaskMgr extends EventProc {
 	/** <类型，列表> **/
 	public static Map<Integer, RenWu> renWuMap = new HashMap<Integer, RenWu>();
 	public static Map<Integer, RenWu> shangjiaoRenwuMap = new HashMap<Integer, RenWu>();
-	private static final int space = 100;
+	public static final int space = 100;
 	private static int maxTaskId = -1;
 	public static List<Integer> taskIdArr;
 	public static int dailyTaskOpenRowId = 106;
 	public final  static int allGongJinNum = 8;
+	
+	public static Map<Integer, HuoYueTemp> HuoYueTempMap = new HashMap<Integer, HuoYueTemp>();
+	public static int weekHuoYue = 1;
+	public static int dailyHuoYue = 0;
 	
 	public DailyTaskMgr() {
 		INSTANCE = this;
@@ -83,6 +92,10 @@ public class DailyTaskMgr extends EventProc {
 			}
 		}
 		
+		List<HuoYueTemp> hl = TempletService.listAll(HuoYueTemp.class.getSimpleName());
+		for(HuoYueTemp t: hl){
+			HuoYueTempMap.put(t.id, t);
+		}
 	}
 	
 	/**
@@ -131,9 +144,61 @@ public class DailyTaskMgr extends EventProc {
 		// 判断是不是有联盟
 		boolean has = isLianMeng(jId);
 		response.setHasGuild(has);
+		// 增加任务活跃度相关情况
+		DailyTaskActivity acti = HibernateUtil.find(DailyTaskActivity.class, jId);
+		if(acti == null){
+			acti = new DailyTaskActivity();
+			acti.jid = jId;
+		}else{
+			resetDailyTaskActivity(acti);
+		}
+		int timeDistance = DateUtils.timeDistanceBySecond();
+		response.setRemainTime(timeDistance);
+		int todayHuo = acti.todyHuoYue;
+		int weekHuo = acti.weekHuoYue;
+		response.setTodaylHuoYue(todayHuo);
+		response.setWeekHuoYue(weekHuo);
+		response.addAwardStatus(acti.isGet1? 1: 0);
+		response.addAwardStatus(acti.isGet2? 1: 0);
+		response.addAwardStatus(acti.isGet3? 1: 0);
+		response.addAwardStatus(acti.isGet4? 1: 0);
+		response.addAwardStatus(acti.isGet5? 1: 0);
+		response.addAwardStatus(acti.isGet6? 1: 0);
+		response.addAwardStatus(acti.isGet7? 1: 0);
 		session.write(response.build());
 	}
 	
+	public void resetDailyTaskActivity(DailyTaskActivity acti){
+		if(acti == null){
+			return;
+		}
+		Date now = new Date();
+		boolean isSave = false;
+		if(acti.lastResetWeek != null){
+			boolean isSameWeek = DateUtils.isSameWeek_CN(now, acti.lastResetWeek);
+			if(!isSameWeek){
+				acti.weekHuoYue = 0;
+				acti.lastResetWeek = now;
+				acti.isGet6 = false;
+				acti.isGet7 = false;
+				isSave = true;
+			}
+		}
+		if(acti.lastResetDaily != null && DateUtils.isTimeToReset(acti.lastResetDaily,
+				CanShu.REFRESHTIME_PURCHASE)) {
+			acti.todyHuoYue = 0;
+			acti.lastResetDaily = now;
+			acti.isGet1 = false;
+			acti.isGet2 = false;
+			acti.isGet3 = false;
+			acti.isGet4 = false;
+			acti.isGet5 = false;
+			isSave = true;
+		}
+		if(isSave){
+			HibernateUtil.save(acti);
+		}
+	}
 	public List<DailyTaskInfo> fillTaskInfo(List<DailyTaskBean> tasks, long jid){
 		if(tasks == null) return null;
 		List<DailyTaskInfo> taskInfoList = 
@@ -330,7 +395,7 @@ public class DailyTaskMgr extends EventProc {
 		DailyTaskBean taskBean = getTaskByTaskId(jId, dbtaskId);
 		int jindu = taskBean.jundu;
 		int condi = renWu.condition;
-		String jiangLi = renWu.jiangli;
+		String jiangLi = renWu.award;
 		int val = renWu.LmGongxian;
 		/*
 		 * 缴纳贡金
@@ -407,6 +472,23 @@ public class DailyTaskMgr extends EventProc {
 				AllianceMgr.inst.changeAlianceBuild(a, val);
 			}
 		}
+		
+		// 每日任务之活跃度记录
+		DailyTaskActivity acti = HibernateUtil.find(DailyTaskActivity.class, junzhu.id);
+		if(acti == null){
+			acti = new DailyTaskActivity();
+			acti.jid = junzhu.id;
+		}else{
+			resetDailyTaskActivity(acti);
+		}
+		acti.todyHuoYue += renWu.huoyue;
+		acti.weekHuoYue += renWu.huoyue;
+		if(acti.lastResetDaily == null) acti.lastResetDaily = new Date();
+		if(acti.lastResetWeek == null) acti.lastResetWeek = new Date();
+		HibernateUtil.save(acti);
+		
+		// TODO @ you 添加改变活跃度事件
+		EventMgr.addEvent(ED.HUOYUE_CHANGE, new Object[] { jId,acti.todyHuoYue});
 		/*
 		 * 是否是缴纳贡金任务
 		 */
@@ -429,12 +511,23 @@ public class DailyTaskMgr extends EventProc {
 		response.setTaskId(taskId);
 		response.setStatus(true);
 		response.setMsg("领取成功");
+		response.setTodaylHuoYue(acti.todyHuoYue);
+		response.setWeekHuoYue(acti.weekHuoYue);
 		session.write(response.build());
 		if(reSend){
 			taskListRequest(1, session);
 		}
 	}
 
+	public int getTodayHuoYueDu(long jid){
+		DailyTaskActivity acti = HibernateUtil.find(DailyTaskActivity.class, jid);
+		if(acti == null){
+			return 0;
+		}
+		resetDailyTaskActivity(acti);
+		return acti.todyHuoYue;
+	}
+	
 	@Override
 	public void proc(Event event) {
 		if(event.param == null || !(event.param instanceof DailyTaskCondition)){
@@ -569,5 +662,92 @@ public class DailyTaskMgr extends EventProc {
 	}
 	public boolean isYuekaTaskFinish(long jid){
 		return VipMgr.INSTANCE.hasYueKaAward(jid);
+	}
+	
+	public void getHuoYueDuAward(int id, IoSession session, Builder builder){
+		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
+		if(junzhu == null) {
+			logger.error("找不到君主");
+			return;
+		}
+		ErrorMessage.Builder req = (ErrorMessage.Builder)builder;
+		int huodongid = req.getErrorCode();
+		DailyTaskActivity acti = HibernateUtil.find(DailyTaskActivity.class, junzhu.id);
+		if(acti == null){
+			return;
+		}else{
+			resetDailyTaskActivity(acti);
+		}
+		// 是否已经领奖
+		if(isGet(acti, huodongid)){
+			logger.info("玩家：{}每日任务活跃度数：{}奖励已经领取过", junzhu.id, huodongid);
+			sendError(session, huodongid, PD.dailyTask_get_huoYue_award_resp, 1);
+			return;
+		}
+		HuoYueTemp t =  HuoYueTempMap.get(huodongid);
+		if(t == null){
+			logger.error("HuoYueTempMap 获取huodongid：{}的配置失败", huodongid);
+			sendError(session,huodongid, PD.dailyTask_get_huoYue_award_resp, 2);
+			return;
+		}
+		// 是否达到领取条件
+		if(t.type == weekHuoYue){
+			if(acti.weekHuoYue < t.needNum){
+				logger.info("玩家：{}的每日任务周活跃度数：{}太小，不够领奖", junzhu.id, acti.weekHuoYue);
+				sendError(session, huodongid, PD.dailyTask_get_huoYue_award_resp, 3);
+				return;
+			}
+		}else if(t.type == dailyHuoYue){
+			if(acti.todyHuoYue < t.needNum){
+				logger.info("玩家：{}的每日任务日活跃度数：{}太小，不够领奖", junzhu.id, acti.todyHuoYue);
+				sendError(session, huodongid, PD.dailyTask_get_huoYue_award_resp, 4);
+				return;
+			}
+		}
+		// 领奖
+		AwardMgr.inst.giveReward(session, t.award, junzhu);
+		// 记录已领奖
+		setGet(acti, huodongid, true);
+		HibernateUtil.save(acti);
+		sendError(session,huodongid, PD.dailyTask_get_huoYue_award_resp, 0);
+	}
+	public void sendError(IoSession session,int xiangZiid, short PDid, int errorCode) {
+		if (session == null) {
+			logger.warn("session is null: {}", errorCode);
+			return;
+		}
+		ErrorMessage.Builder test = ErrorMessage.newBuilder();
+		test.setErrorCode(errorCode);
+		test.setErrorDesc(xiangZiid+"");
+		ProtobufMsg pm = new ProtobufMsg();
+		pm.id = PDid;
+		pm.builder = test;
+		session.write(pm);
+	}
+	public void setGet(DailyTaskActivity acti, int huodongid, boolean status){
+		if(acti == null) return;
+		switch(huodongid){
+		case 1: acti.isGet1 = status;break;
+		case 2: acti.isGet2 = status;break;
+		case 3: acti.isGet3 = status;break;
+		case 4: acti.isGet4 = status;break;
+		case 5: acti.isGet5 = status;break;
+		case 6: acti.isGet6 = status;break;
+		case 7: acti.isGet7 = status;break;
+		}
+	}
+	public boolean isGet(DailyTaskActivity acti, int huodongid){
+		if(acti == null) return false;
+		switch(huodongid){
+		case 1: return acti.isGet1;
+		case 2: return acti.isGet2;
+		case 3: return acti.isGet3;
+		case 4: return acti.isGet4;
+		case 5: return acti.isGet5;
+		case 6: return acti.isGet6;
+		case 7: return acti.isGet7;
+		}
+		logger.error("没有活跃度id：{}的数据表DailyTaskActivity数据", huodongid);
+		return false;
 	}
 }

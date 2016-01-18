@@ -764,14 +764,14 @@ public class UserEquipAction  extends EventProc {
 					equipXiLian.getJnBJAdd(),
 					equipXiLian.getJnRXAdd()
 					);
-			if(equipXiLian.getWqSHAdd()>0||
-					equipXiLian.getWqJMAdd()>0||
-					equipXiLian.getWqBJAdd()>0||
-					equipXiLian.getWqRXAdd()>0||
-					equipXiLian.getJnSHAdd()>0||
-					equipXiLian.getJnJMAdd()>0||
-					equipXiLian.getJnBJAdd()>0||
-					equipXiLian.getJnRXAdd()>0){
+			if(     equipXiLian.getWqSHAdd()!=0||
+					equipXiLian.getWqJMAdd()!=0||
+					equipXiLian.getWqBJAdd()!=0||
+					equipXiLian.getWqRXAdd()!=0||
+					equipXiLian.getJnSHAdd()!=0||
+					equipXiLian.getJnJMAdd()!=0||
+					equipXiLian.getJnBJAdd()!=0||
+					equipXiLian.getJnRXAdd()!=0){
 				HibernateUtil.save(equipXiLian);
 			}else{
 				log.info("君主{}洗练结果都是0",junZhu.id);
@@ -1874,13 +1874,13 @@ public class UserEquipAction  extends EventProc {
 			log.info("君主--{}身上装备洗满,不推送",jzId);
 			return;
 		}
-		//免费洗练次数判断
-		int freeXilianCount=TimeWorkerMgr.instance.getXilianTimes(jz);
-		if(freeXilianCount>0){
-			log.info("君主{}有免费洗练次数--{}，推送信息",jzId,freeXilianCount);
-			FunctionID.pushCanShangjiao(jzId, session, FunctionID.XiLian);
-			return;
-		}
+		//免费洗练次数判断 1.1废弃免费洗练
+//		int freeXilianCount=TimeWorkerMgr.instance.getXilianTimes(jz);
+//		if(freeXilianCount>0){
+//			log.info("君主{}有免费洗练次数--{}，推送信息",jzId,freeXilianCount);
+//			FunctionID.pushCanShangjiao(jzId, session, FunctionID.XiLian);
+//			return;
+//		}
 		//洗练石次数判断
 		Bag<BagGrid> bag = BagMgr.inst.loadBag(jzId);
 		int cnt = BagMgr.inst.getItemCount(bag, xilianshi);
@@ -2033,24 +2033,25 @@ public class UserEquipAction  extends EventProc {
 	public void proc(Event evt) {
 		switch (evt.id) {
 		case ED.REFRESH_TIME_WORK:
-			log.info("定时刷新免费洗练次数");
+			log.info("定时刷新洗练次数");
 			IoSession session=(IoSession) evt.param;
 			if(session==null){
-				log.error("定时刷新免费洗练次数错误，session为null");
+				log.error("定时刷新洗练次数错误，session为null");
 				break;
 			}
 			JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 			if(jz==null){
-				log.error("定时刷新免费洗练次数错误，JunZhu为null");
+				log.error("定时刷新洗练次数错误，JunZhu为null");
 				break;
 			}
 			try {
+				log.info("定时刷新君主---{}洗练红点",jz.id);
 				isCanPushXilian(jz, session);
-				log.info("定时刷新免费洗练次数完成");
+				log.info("定时刷新洗练次数完成");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			log.info("定时刷新判断是否可以进阶");
+			log.info("定时刷新君主---{}进阶红点",jz.id);
 			// 判断是否可以进阶
 			boolean isCanJinjie=isCanJinJie4All(jz);
 			if(isCanJinjie){

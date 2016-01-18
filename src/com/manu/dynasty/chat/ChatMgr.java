@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.mina.core.session.IoSession;
+import org.quartz.jobs.ee.mail.SendMailJob;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +26,7 @@ import qxmobile.protobuf.Chat.ChatPct.Channel;
 import qxmobile.protobuf.Chat.GetBlacklistResp;
 import qxmobile.protobuf.Chat.JoinToBlacklist;
 import qxmobile.protobuf.Chat.SChatLogList;
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.boot.GameServer;
@@ -33,6 +35,7 @@ import com.manu.dynasty.hero.service.HeroService;
 import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.BaiZhan;
 import com.manu.dynasty.template.CanShu;
+import com.manu.dynasty.util.DateUtils;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
@@ -169,10 +172,35 @@ public class ChatMgr implements Runnable {
 		case PD.C_Send_Chat:
 			clientSendChat(id, builder, session);
 			break;
+		case PD.C_GET_CHAT_CONF:
+			sendChatConf(id,session,builder);
+			break;
 		default:
 			log.error("未处理的消息{}", id);
 			break;
 		}
+	}
+	public static int freeTimes = 10;
+	public static int worldPrice = 50;
+	public void sendChatConf(int id, IoSession session, Builder builder) {
+		Long jzId = (Long) session.getAttribute(SessionAttKey.junZhuId);
+		if(jzId == null){
+			return;
+		}
+		int useTimes = 0;
+		ChatInfo info = HibernateUtil.find(ChatInfo.class, jzId);
+		if(info != null && DateUtils.isSameDay(info.lastTime)){
+			//不是null且是今日的记录，则使用次数有效。
+			useTimes = info.useTimes;
+		}
+		ErrorMessage.Builder ret = ErrorMessage.newBuilder();
+		ret.setCmd(worldPrice);
+		ret.setErrorCode(Math.max(0,freeTimes - useTimes));
+		ret.setErrorDesc("ErrorCode是剩余免费世界聊天次数。");
+		ProtobufMsg msg = new ProtobufMsg();
+		msg.builder = ret;
+		msg.id = PD.S_GET_CHAT_CONF;
+		session.write(msg);
 	}
 
 	public void clientSendChat(int id, Builder builder, IoSession session) {
@@ -261,10 +289,52 @@ public class ChatMgr implements Runnable {
 		case XiaoWu:
 			xiaoWu(session, cm);
 			break;
+		case Broadcast:
+			userBroadcast(session,cm);
+			break;
 		default:
 			log.error("未处理的频道类型 {}", cm.getChannel());
 			break;
 		}
+	}
+
+	/**
+	 * 玩家发起广播，客户端需要横向滚动。2015年12月28日11:17:29
+	 * @param session
+	 * @param cm
+	 */
+	public void userBroadcast(IoSession session,
+			qxmobile.protobuf.Chat.ChatPct.Builder cm) {
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if(jz == null){
+			return;
+		}
+		ChatInfo info = HibernateUtil.find(ChatInfo.class, jz.id);
+		if(info == null){//没发过
+			info = new ChatInfo();
+			info.jzId = jz.id;
+			info.lastTime = new Date();
+			info.useTimes = 1;
+			HibernateUtil.insert(info);
+		}else if(!DateUtils.isSameDay(info.lastTime)){
+			//今天没发过，重置次数
+			info.lastTime = new Date();
+			info.useTimes = 1;
+			HibernateUtil.update(info);
+		}else if(info.useTimes<freeTimes){
+			//有免费次数
+			//info.lastTime = new Date();
+			info.useTimes += 1;
+			HibernateUtil.update(info);
+		}else if(jz.yuanBao<worldPrice){
+			log.info("{}元宝不足，不能发广播", jz.yuanBao);
+			return;
+		}else{
+			YuanBaoMgr.inst.diff(jz, -worldPrice, worldPrice, 0, YBType.WORLD_CHAT, "广播频道聊天");
+			HibernateUtil.save(jz);
+			JunZhuMgr.inst.sendMainInfo(session);
+		}
+		broadcast(cm, allUser);
 	}
 
 	public void xiaoWu(IoSession session,

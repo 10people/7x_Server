@@ -167,7 +167,8 @@ public class TempletService {
 //		YunbiaoTemp.saveArea4X=Integer.parseInt(map.get("saveArea4X").value);
 //		YunbiaoTemp.saveArea4Z=Integer.parseInt(map.get("saveArea4Z").value);
 //		YunbiaoTemp.saveArea4r=Integer.parseInt(map.get("saveArea4r").value);
-		YunbiaoTemp.saveArea_recoveryPro=Integer.parseInt(map.get("saveArea_recoveryPro").value);
+		YunbiaoTemp.saveArea_recoveryPro=Float.parseFloat(map.get("saveArea_recoveryPro").value);
+		YunbiaoTemp.saveArea_recovery_interval=Integer.parseInt(map.get("saveArea_recovery_interval").value);
 		YunbiaoTemp.saveArea_people_max=Integer.parseInt(map.get("saveArea_people_max").value);
 		YunbiaoTemp.bloodVial_recoveryPro=Integer.parseInt(map.get("bloodVial_recoveryPro").value);
 		YunbiaoTemp.bloodVialCD=Integer.parseInt(map.get("bloodVialCD").value);
@@ -187,16 +188,22 @@ public class TempletService {
 		YunbiaoTemp.speedUpPrice=Integer.parseInt(map.get("speedUpPrice").value);
 		YunbiaoTemp.cart_attribute_pro=Integer.parseInt(map.get("cart_attribute_pro").value);
 		YunbiaoTemp.foeCart_incomeAdd_pro=Integer.parseInt(map.get("foeCart_incomeAdd_pro").value);
-		YunbiaoTemp.killFoeAward=map.get("killFoeAward").value;
 		YunbiaoTemp.rewarding_killFoe_max=Integer.parseInt(map.get("rewarding_killFoe_max").value);
-		YunbiaoTemp.cartAI_refresh_interval=Integer.parseInt(map.get("cartAI_refresh_interval").value);
+		YunbiaoTemp.cartAI_refresh_interval=map.get("cartAI_refresh_interval").value;
 		YunbiaoTemp.cartAImax=Integer.parseInt(map.get("cartAImax").value);
 		YunbiaoTemp.cartAILvlMin=Integer.parseInt(map.get("cartAILvlMin").value);
 		YunbiaoTemp.cartAILvlMax=Integer.parseInt(map.get("cartAILvlMax").value);
 		YunbiaoTemp.autoResurgenceTime=Integer.parseInt(map.get("autoResurgenceTime").value);
-		YunbiaoTemp.resurgence_onSite_price=Integer.parseInt(map.get("resurgence_onSite_price").value);
 		YunbiaoTemp.yunbiao_start_broadcast=map.get("yunbiao_start_broadcast").value;
 		YunbiaoTemp.yunbiao_end_broadcast=map.get("yunbiao_end_broadcast").value;
+		YunbiaoTemp.yunbiao_comforted_award_k=Double.parseDouble(map.get("yunbiao_comforted_award_k").value);
+		YunbiaoTemp.yunbiao_comforted_award_b=Integer.parseInt(map.get("yunbiao_comforted_award_b").value);
+		YunbiaoTemp.cartAI_appear_interval=Integer.parseInt(map.get("cartAI_appear_interval").value);
+		YunbiaoTemp.killFoeAward_k=Double.parseDouble(map.get("killFoeAward_k").value);
+		YunbiaoTemp.killFoeAward_b=Double.parseDouble(map.get("killFoeAward_b").value);
+		YunbiaoTemp.cartTime=Integer.parseInt(map.get("cartTime").value);
+		YunbiaoTemp.yunbiaoScene_modelNum_max=Integer.parseInt(map.get("yunbiaoScene_modelNum_max").value);
+		YunbiaoTemp.yunbiao_start_broadcast_CD=Integer.parseInt(map.get("yunbiao_start_broadcast_CD").value);
 	}
 
 	public void loadCanShu() {
@@ -223,6 +230,7 @@ public class TempletService {
 		CanShu.MAXTIME_PVE = Integer.parseInt(map.get("MAXTIME_PVE").value);
 		CanShu.MAXTIME_HUANGYE_PVE = Integer.parseInt(map.get("MAXTIME_HUANGYE_PVE").value);
 		CanShu.MAXTIME_HUANGYE_PVP = Integer.parseInt(map.get("MAXTIME_HUANGYE_PVP").value);
+		CanShu.DAYTIMES_LEGENDPVE = Integer.parseInt(map.get("DAYTIMES_LEGENDPVE").value);
 		CanShu.ADD_TILI_INTERVAL_TIME = Integer.parseInt(map.get("ADD_TILI_INTERVAL_TIME").value);
 		CanShu.ADD_TILI_INTERVAL_VALUE = Integer.parseInt(map.get("ADD_TILI_INTERVAL_VALUE").value);
 		CanShu.ADD_XILIAN_VALUE = Integer.parseInt(map.get("ADD_XILIAN_VALUE").value);
@@ -234,6 +242,10 @@ public class TempletService {
 		CanShu.ZHANLI_C = Double.parseDouble(map.get("ZHANLI_C").value);
 		CanShu.ZHANLI_R = Double.parseDouble(map.get("ZHANLI_R").value);
 		CanShu.ZHANLI_L = Double.parseDouble(map.get("ZHANLI_L").value);
+		CanShu.ZHANLI_K1 = Double.parseDouble(map.get("ZHANLI_k1").value);
+		CanShu.ZHANLI_K2 = Double.parseDouble(map.get("ZHANLI_k2").value);
+		CanShu.ZHANLI_M1 = Double.parseDouble(map.get("ZHANLI_m1").value);
+		CanShu.ZHANLI_M2 = Double.parseDouble(map.get("ZHANLI_m2").value);
 		
 		/*
 		 * 百战掠夺建设和威望奖励
@@ -279,6 +291,8 @@ public class TempletService {
 		CanShu.TONGBI_TANBAO_REFRESHTIME = Integer.parseInt(map.get("TONGBI_TANBAO_REFRESHTIME").value);
 		CanShu.YUANBAO_TANBAO_REFRESHTIME  = Integer.parseInt(map.get("YUANBAO_TANBAO_REFRESHTIME").value);
 		CanShu.TONGBI_TANBAO_FREETIMES  = Integer.parseInt(map.get("TONGBI_TANBAO_FREETIMES").value);
+		CanShu.TONGBI_TANBAO_BAODI=  Integer.parseInt(map.get("TONGBI_TANBAO_BAODI").value);
+		CanShu.YUANBAO_TANBAO_BAODI=  Integer.parseInt(map.get("YUANBAO_TANBAO_BAODI").value);
 
 		CanShu.XILIANADD_MIN = Integer.parseInt(map.get("XILIANADD_MIN").value);
 		CanShu.XILIANADD_MAX = Integer.parseInt(map.get("XILIANADD_MAX").value);
@@ -346,6 +360,9 @@ public class TempletService {
 		CanShu.WEIWANG_INIT=  Integer.parseInt(map.get("WEIWANG_INIT").value);
 		CanShu.WUQI_BAOJILV = Double.parseDouble(map.get("WUQI_BAOJILV").value);
 		CanShu.JINENG_BAOJILV = Double.parseDouble(map.get("JINENG_BAOJILV").value);
+		
+		CanShu.LUEDUO_AWARDEDCOMFORT_MAXTIMES =  Integer.parseInt(map.get("LUEDUO_AWARDEDCOMFORT_MAXTIMES").value);
+		CanShu.YUNBIAO_AWARDEDCOMFORT_MAXTIMES =  Integer.parseInt(map.get("YUNBIAO_AWARDEDCOMFORT_MAXTIMES").value);
 	}
 
 	public ZhuangBei getZhuangBei(int id) {

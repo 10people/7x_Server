@@ -23,7 +23,7 @@
 -<br/>
 <table border='1'  style='border-collapse:collapse;'>
 <tr>
-<th>序号</th><th>userId</th><th>userName</th><th>状态</th><th>坐标</th>
+<th>序号</th><th>userId</th><th>userName</th><th>状态</th><th>坐标</th><th>君主id</th>
 </tr>
 
 <%
@@ -50,6 +50,7 @@ while(ki.hasMoreElements()){
 		out.append("<td>");		out.append(acc);		out.append("</td>");
 		out.append("<td>");		out.append(p.pState.name());		out.append("</td>");
 		td(p.getPosX()+","+p.getPosY()+","+p.getPosZ());
+		td(p.jzId);
 		out.append("<tr>");
 	}
 }

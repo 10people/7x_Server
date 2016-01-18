@@ -1,3 +1,6 @@
+<%@page import="qxmobile.protobuf.AllianceFightProtos.FightAttackReq"%>
+<%@page import="com.manu.network.SessionManager"%>
+<%@page import="com.qx.junzhu.JunZhuMgr"%>
 <%@page import="com.qx.alliancefight.AllianceFightMgr"%>
 <%@page import="com.manu.network.BigSwitch"%>
 <%@page import="com.qx.alliancefight.CdTimeMgr"%>
@@ -21,7 +24,10 @@
 </script>
 </head>
 <body>
-联盟战复活管理：状态-<%=BigSwitch.inst.cdTimeMgr.isOpenCdTimeMgr()%>__<a href="?act=openCdtime">开启</a>
+联盟战复活管理：状态-<%=BigSwitch.inst.cdTimeMgr.isOpenCdTimeMgr()%>__<a href="?act=openCdtime">开启</a><br/>
+<a href="?act=castSkill&skillId=101">释放技能101</a>
+<a href="?act=castSkill&skillId=102">释放技能102</a>
+<a href="?act=castSkill&skillId=103">释放技能103</a>
 <br/>
 联盟战匹配：<a href="?act=fightMatch">开始匹配</a>
 <%
@@ -49,6 +55,17 @@
 			return;			
 		}
 		BigSwitch.inst.allianceFightMgr.dayFightState = Integer.parseInt(curState); 
+	} else if("castSkill".equals(act)) {
+		String skillIdStr = request.getParameter("skillId");
+		int skillId = Integer.parseInt(skillIdStr);
+		IoSession cliSession = SessionManager.inst.getIoSession(27002L);
+		FightAttackReq.Builder cliRequest = FightAttackReq.newBuilder();
+		if(skillId == 101) {
+	   	} else if(skillId == 102) {
+	   	}
+		cliRequest.setSkillId(skillId);
+		BigSwitch.inst.allianceFightMgr.activeFight(1, cliSession, cliRequest);
+		
 	}
 %>
 

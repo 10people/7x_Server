@@ -117,7 +117,7 @@ if(session.getAttribute("name") != null && name.length()==0){
  			充值（单位：rmb）：（将会模仿游戏中的充值接口给予充值）</div><%
  			br();
  			out.println("<input type='text' id='vipRecharge' value='"+input+"'/><input type='button' value='充值' onclick='go(\"vipRecharge\")'/><br/><br/<hr/>>");
- 			%><div style="color: #FF0000">修改VIP等级:</br>可以修改到1~10,任意VIP等级，仅仅修改的是VIP等级和对应的VIP经验，君主元宝数不会发生任何变化</div><%
+ 			%><div style="color: #FF0000">修改VIP等级:</br>可以修改到1~xxx(看配置最大值),任意VIP等级，仅仅修改的是VIP等级和对应的VIP经验，君主元宝数不会发生任何变化</div><%
  			input = request.getParameter("value");
             if(input == null){
                 input = junzhu.vipLevel +"";

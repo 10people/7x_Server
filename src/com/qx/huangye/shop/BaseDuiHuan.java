@@ -10,4 +10,10 @@ public class BaseDuiHuan {
 	public int site;
 	public int type;
 
+	public int getNeedLv(){
+		return 0;
+	}
+	public int getMax(){
+		return 0;
+	}
 }

@@ -1,6 +1,4 @@
 package com.qx.world;
-
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,6 +11,7 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.PlayerData;
 import qxmobile.protobuf.PlayerData.State;
@@ -25,17 +24,20 @@ import qxmobile.protobuf.SoundData.PlayerSound;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.template.CanShu;
+import com.manu.dynasty.template.LianMengKeJi;
 import com.manu.dynasty.template.YunBiaoSafe;
+import com.manu.dynasty.template.YunbiaoTemp;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.account.AccountManager;
 import com.qx.alliance.AllianceMgr;
+import com.qx.alliance.building.JianZhuMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
-import com.qx.yabiao.LastExitInfo;
+import com.qx.yabiao.LastExitYBInfo;
 import com.qx.yabiao.YaBiaoHuoDongMgr;
 import com.qx.yabiao.YaBiaoRobot;
 
@@ -58,9 +60,6 @@ public class Scene implements Runnable{
 	public static Mission exit = new Mission(0,null,null);
 	public String name;
 	public static int YBRobot_RoleId= 50000;//镖车机器人的roleId 很大的数 区分Player是玩家还是玩家的镖车
-	
-	/** <君主id，上次离开该场景的信息> 目前只对押镖场景有用 */
-	public Map<Long, LastExitInfo> lastExitInfoMaps = new HashMap<Long, LastExitInfo>();
 	
 	public Scene(String key){
 		players  = new ConcurrentHashMap<Integer, Player>();
@@ -192,7 +191,7 @@ public class Scene implements Runnable{
 		player.chengHaoId = (String)session.getAttribute(SessionAttKey.CHENG_HAO_ID, "-1");
 		player.lmName = (String)session.getAttribute(SessionAttKey.LM_NAME, "***");
 		player.vip = CanShu.VIPLV_ININT;
-		player.zhiWu = (Integer)session.getAttribute(SessionAttKey.LM_ZHIWU, 0);
+		player.zhiWu = (Integer)session.getAttribute(SessionAttKey.LM_ZHIWU, -1);
 		players.put(userId, player);
 		
 		//告诉当前玩家它的信息，确认进入
@@ -204,22 +203,20 @@ public class Scene implements Runnable{
 		enterScene.setUid(userId);
 		enterScene.setSenderName(player.getName());
 		enterScene.setRoleId(jz == null ? 1: jz.roleId);
+		enterScene.setJzId(player.jzId);
 		syncSceneExecutor.submit(new Runnable() {
-			
 			@Override
 			public void run() {
 				broadCastEvent(enterScene.build(), enterScene.getUid());
-				
-				ProtobufMsg msg = makeHeadPct(enterScene, player);
+				ProtobufMsg msg = makeHeadPct(player);
 				broadCastEvent(msg, enterScene.getUid());
 			}
-
 		});
 	}
-	public ProtobufMsg makeHeadPct(final EnterScene.Builder enterScene,
-			final Player player) {
+	public ProtobufMsg makeHeadPct(final Player player) {
 		ErrorMessage.Builder head = ErrorMessage.newBuilder();
-		head.setCmd(0);head.setErrorCode(enterScene.getUid());
+		head.setCmd(0);
+		head.setErrorCode(player.userId);
 		head.setErrorDesc("chengHao:"+player.chengHaoId
 				+"#$#LM:"+player.lmName
 				+"#$#VIP:"+(player.vip)
@@ -266,6 +263,7 @@ public class Scene implements Runnable{
 		
 		//告诉其他玩家，谁进来了。
 		enterScene.setUid(userId);
+		enterScene.setJzId(player.jzId);
 		enterScene.setSenderName(player.getName());
 		enterScene.setRoleId(jz == null ? 1 : jz.roleId);
 		syncSceneExecutor.submit(new Runnable() {
@@ -298,10 +296,10 @@ public class Scene implements Runnable{
 			playerInfo.setPosY(player.getPosY());
 			playerInfo.setPosZ(player.getPosZ());
 			playerInfo.setRoleId(player.roleId);
-			
+			playerInfo.setJzId(player.jzId);
 			session.write(playerInfo.build());
 			//更新脑门上的称号
-			ProtobufMsg msg = makeHeadPct(playerInfo, player);
+			ProtobufMsg msg = makeHeadPct(player);
 			session.write(msg);
 		}
 	}
@@ -314,6 +312,7 @@ public class Scene implements Runnable{
 	 * @param enterPlayer 进入的人的 Player对象
 	 */
 	public void informComerOtherPlayers(IoSession session,int msgId, Player enterPlayer) {
+		long jzId=enterPlayer.jzId;
 		log.warn("告诉进入某个场景的--{}当前场景--{}中都有谁，人数--{}", enterPlayer.name,this.name, players.size());
 		for(Player p : players.values()){
 			EnterScene.Builder enterSc = EnterScene.newBuilder();
@@ -337,6 +336,12 @@ public class Scene implements Runnable{
 			//2015年12月12日 加入马车价值 马车类型
 			enterSc.setWorth(p.worth);
 			enterSc.setHorseType(p.horseType);
+			enterSc.setXuePingRemain(p.xuePingRemain);
+			enterSc.setJzId(p.jzId);
+			if(p.jzId>0&&p.roleId!=YBRobot_RoleId){//2015年12月31日 只有君主才赋值血量){
+				boolean IsEnemy =YaBiaoHuoDongMgr.inst.isEmeny(jzId, p.jzId);
+				enterSc.setIsEnemy(IsEnemy);
+			}
 			ProtobufMsg pm = new ProtobufMsg();
 			pm.id = msgId;
 			pm.builder = enterSc;
@@ -388,19 +393,17 @@ public class Scene implements Runnable{
 		//2015年12月12日 加入马车价值 马车类型
 		enterSc.setWorth(p.worth);
 		enterSc.setHorseType(p.horseType);
-		ProtobufMsg pm = new ProtobufMsg();
-		pm.id = msgId;
-		pm.builder = enterSc;
-		broadCastEvent(pm,p.userId);
+		enterSc.setJzId(p.jzId);
+		if(this.name.contains("YB")){
+			broadCastEvent4YB(enterSc, p.userId);
+		}else{
+			ProtobufMsg pm = new ProtobufMsg();
+			pm.id = msgId;
+			pm.builder = enterSc;
+			broadCastEvent(pm,p.userId);
+		}
 	}
 	//增加房屋人员广播 重复方法废弃无用
-//	public void broadCastEventForHouse(ProtobufMsg pmsg, int skip) {
-//		for(Player player : players.values()){
-//			if(player.userId == skip)continue;
-//			player.session.write(pmsg);
-//			log.info("通知场景里的玩家{}，有人进来了，消息id{},内容{}", player.jzId, pmsg.id, pmsg.builder);
-//		}
-//	}
 	
 	/**
 	 * @Description 广播某人 进/出场景
@@ -410,14 +413,42 @@ public class Scene implements Runnable{
 	public void broadCastEvent(ProtobufMsg pmsg, int skip) {
 		log.info(" 广播userId=={} 进/出场景--{}",skip,this.name);
 		for(Player player : players.values()){
-			if(player.userId == skip)continue;
+//			if(player.userId == skip)continue;
 			player.session.write(pmsg);
 		}
 	}
-	public void broadCastEvent2All(ProtobufMsg pmsg, int skip) {
+	/**
+	 * @Description 广播某人 进/出场景
+	 * @param pmsg
+	 * @param skip 某人userId
+	 */
+	public void broadCastEvent4YB(EnterScene.Builder enterYBSc, int skip) {
+		ProtobufMsg pm = new ProtobufMsg();
+		pm.id = PD.Enter_YBScene;
+		long ybjzId=enterYBSc.getJzId();
 		log.info(" 广播userId=={} 进/出场景--{}",skip,this.name);
 		for(Player player : players.values()){
-			player.session.write(pmsg);
+			if(player.userId == skip)continue;
+			if(ybjzId>0){
+				boolean IsEnemy =YaBiaoHuoDongMgr.inst.isEmeny(player.jzId, ybjzId);
+				enterYBSc.setIsEnemy(IsEnemy);
+			}
+			pm.builder = enterYBSc;
+			player.session.write(pm);
+		}
+	}
+	public void broadCastEvent2All4YB(EnterScene.Builder enterYBSc) {
+		ProtobufMsg pm = new ProtobufMsg();
+		pm.id = PD.Enter_YBScene;
+		long ybjzId=enterYBSc.getJzId();
+		log.info(" 广播userId=={} 进/出场景--{}",enterYBSc.getUid(),this.name);
+		for(Player player : players.values()){
+			if(ybjzId>0){
+				boolean IsEnemy =YaBiaoHuoDongMgr.inst.isEmeny(player.jzId, ybjzId);
+				enterYBSc.setIsEnemy(IsEnemy);
+			}
+			pm.builder = enterYBSc;
+			player.session.write(pm);
 		}
 	}
 
@@ -442,6 +473,9 @@ public class Scene implements Runnable{
 			case PD.Enter_HouseScene://2015年11月27日 策划删除联盟城 房屋废弃
 				EnterScene.Builder enterHouseScene = (EnterScene.Builder)builder;
 				enterHouseScene(session,enterHouseScene);
+				break;
+			case PD.C_SHOW_WU_QI:
+				setShowWuQi(code,session,builder);
 				break;
 			case PD.Spirite_Move:
 				SpriteMove.Builder move = (SpriteMove.Builder)builder;
@@ -485,9 +519,57 @@ public class Scene implements Runnable{
 				ExitScene.Builder exitYBSc = (ExitScene.Builder) builder;
 				exitYBScene( session,exitYBSc);
 				break;
+			case PD.SAFE_AREA_BOOLD_RETURN:
+				bloodReturnInSafeArea();
+				break;
 			default:
 				log.warn("Scene场景处理不了的协议unkown code: {}" , code);
 				break;
+		}
+	}
+
+	private void bloodReturnInSafeArea() {
+		for(Player player : players.values()) {
+			if(player.jzId <= 0 || player.roleId == Scene.YBRobot_RoleId) {
+				continue;
+			}
+			if(player.safeArea > 0 && player.currentLife < player.totalLife) {
+				double keJiRate = 0;
+				if(player.allianceId > 0) {
+					LianMengKeJi lmKeJiConf = JianZhuMgr.inst.getKeJiConfForYaBiao(player.allianceId, 204);//204君主在安全区回血速率
+					if(lmKeJiConf != null) {
+						keJiRate = lmKeJiConf.value1;
+					}
+				}
+				int returnValue = (int) Math.floor(player.totalLife * (YunbiaoTemp.saveArea_recoveryPro/100.0 * (1 + keJiRate/100)));
+				player.currentLife = Math.min(player.totalLife, player.currentLife + returnValue);
+				SafeAreaBloodReturn.Builder response = SafeAreaBloodReturn.newBuilder();
+				response.setUid(player.userId);
+				response.setReturnValue(returnValue);
+				response.setRemainLife(player.currentLife);
+				for(Player p : players.values()) {
+					p.session.write(response.build());
+				}
+			}
+		}
+	}
+
+	public void setShowWuQi(int code, IoSession session, Builder builder) {
+		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
+		if (junZhuId == null) {
+			return;
+		}
+		int useWq = 1;
+		PosInfo p = HibernateUtil.find(PosInfo.class, junZhuId);
+		if(p == null){
+			p = new PosInfo();
+			p.x = p.y = p.z = 0;
+			p.jzId = junZhuId;
+			p.showWuQi = useWq;
+			HibernateUtil.insert(p);
+		}else{
+			p.showWuQi = useWq;
+			HibernateUtil.update(p);
 		}
 	}
 
@@ -505,10 +587,30 @@ public class Scene implements Runnable{
 		pm.builder = exitYBSc;
 		broadCastEvent(pm, player.userId);
 		players.remove(uid);
-		LastExitInfo lastExitInfo = new LastExitInfo(player.safeArea, player.currentLife, player.posX, player.posY, player.posZ);
-		lastExitInfoMaps.put(player.jzId, lastExitInfo);
+		saveExitYBInfo(player);
 		log.info("君主:{}退出联盟战场景:{},剩余玩家个数：{},退出时坐标x--{},z---{}"
 				 ,session.getAttribute(SessionAttKey.junZhuId),this.name, players.size(), player.posX, player.posZ);
+	}
+
+	public void saveExitYBInfo(long junzhuId) {
+		Player player = getPlayerByJunZhuId(junzhuId);
+		if(player != null) {
+			saveExitYBInfo(player);
+		}
+	}
+	
+	protected void saveExitYBInfo(Player player) {
+		if(player.jzId>0 && player.roleId != Scene.YBRobot_RoleId){//马车不保存
+			LastExitYBInfo lastExitInfo = HibernateUtil.find(LastExitYBInfo.class, player.jzId);
+			if(lastExitInfo == null) {
+				lastExitInfo = new LastExitYBInfo(player.jzId, player.safeArea, player.currentLife, 
+						player.posX, player.posY, player.posZ);
+			} else {
+				lastExitInfo.updateInfo(player.safeArea, player.currentLife, player.posX, player.posY, player.posZ);
+			}
+			log.info("君主:{}离开押镖场景，坐标x,z:{},{},剩余血量:{},处于安全区id:{}",player.name,player.posX, player.posZ,player.currentLife,player.safeArea);
+			HibernateUtil.save(lastExitInfo);
+		}
 	}
 
 	public void enterYBScene(IoSession session,final EnterScene.Builder enterYBSc) {
@@ -523,6 +625,7 @@ public class Scene implements Runnable{
 		}
 		YunBiaoSafe birthPlace=null;
 		int zhanli = 0;
+		int xuePingRemain = 0;
 		if(jz!=null){
 			zhanli=JunZhuMgr.inst.getJunZhuZhanliFinally(jz);
 			birthPlace=YaBiaoHuoDongMgr.inst.getBirthPlace4YBJZ(this);
@@ -530,6 +633,7 @@ public class Scene implements Runnable{
 				log.error("进入押镖场景错误，未找到出生点配置");
 				return;
 			}
+			xuePingRemain = YaBiaoHuoDongMgr.inst.getXuePingRemainTimes(jz.id, jz.vipLevel);
 		}
 		Object uidObject = session.getAttribute(SessionAttKey.playerId_Scene);
 		session.setAttribute(SessionAttKey.Scene, this);
@@ -576,13 +680,17 @@ public class Scene implements Runnable{
 			player.jzlevel=jz.level;
 			player.guojia=jz.guoJiaId;
 		}
-		if(player.jzId>0){
-			LastExitInfo lastExitInfo = lastExitInfoMaps.get(player.jzId);
-			if(lastExitInfo != null) {
-				player.posX = lastExitInfo.posX;
-				player.posZ = lastExitInfo.posZ;
-				player.currentLife = lastExitInfo.getAddLife() + player.currentLife;
-				player.currentLife = lastExitInfo.remainLife <= 0 ? 1: lastExitInfo.remainLife;
+		if(player.jzId > 0){
+			if(player.roleId != YBRobot_RoleId) {//2015年12月31日 只有君主才赋值血量
+				LastExitYBInfo lastExitInfo = HibernateUtil.find(LastExitYBInfo.class, player.jzId);
+				if(lastExitInfo != null && !lastExitInfo.isReset()) {
+					player.posX = lastExitInfo.posX;
+					player.posZ = lastExitInfo.posZ;
+					int addLife = lastExitInfo.getAddLife(player.totalLife);
+					log.info("君主:{}进入场景:{},原来血量:{},增加血量:{},总血量:{}",player.name, this.name, player.currentLife, addLife, addLife + lastExitInfo.remainLife);
+					player.currentLife = addLife + lastExitInfo.remainLife;
+					player.currentLife = Math.min(player.totalLife, player.currentLife);
+				}
 			}
 			player.allianceId = AllianceMgr.inst.getAllianceId(player.jzId);
 		}
@@ -590,8 +698,9 @@ public class Scene implements Runnable{
 		player.chengHaoId = (String)session.getAttribute(SessionAttKey.CHENG_HAO_ID, "-1");
 		player.vip = CanShu.VIPLV_ININT;
 		player.zhanli=zhanli;
-		Object zhiWu=session.getAttribute(SessionAttKey.LM_ZHIWU, 0);
-		zhiWu=(zhiWu==null)?0:zhiWu;
+		player.xuePingRemain = xuePingRemain;
+		Object zhiWu=session.getAttribute(SessionAttKey.LM_ZHIWU, -1);
+		zhiWu=(zhiWu==null)?-1:zhiWu;
 		player.zhiWu = (Integer)zhiWu;
 		players.put(userId, player);
 		
@@ -626,13 +735,12 @@ public class Scene implements Runnable{
 		//2015年12月12日 加入马车价值 马车类型
 		enterYBSc.setWorth(player.worth);
 		enterYBSc.setHorseType(player.horseType);
+		enterYBSc.setXuePingRemain(xuePingRemain);
+		enterYBSc.setJzId(player.jzId);
 		syncSceneExecutor.submit(new Runnable() {
 			@Override
 			public void run() {
-				ProtobufMsg pm = new ProtobufMsg();
-				pm.id = PD.Enter_YBScene;
-				pm.builder = enterYBSc;
-				broadCastEvent2All(pm, enterYBSc.getUid());
+				broadCastEvent2All4YB(enterYBSc);
 			}
 		});
 	}
@@ -688,6 +796,7 @@ public class Scene implements Runnable{
 				enterHouseInfo.setPosY(enterPlayer.getPosY());
 				enterHouseInfo.setPosZ(enterPlayer.getPosZ());
 				enterHouseInfo.setRoleId(enterPlayer.roleId);
+				enterHouseInfo.setJzId(enterPlayer.jzId);
 				ProtobufMsg pm = new ProtobufMsg();
 				pm.id = PD.Enter_HouseScene;
 				pm.builder = enterHouseInfo;
@@ -703,6 +812,7 @@ public class Scene implements Runnable{
 				enterCity.setPosY(enterPlayer.getPosY());
 				enterCity.setPosZ(enterPlayer.getPosZ());
 				enterCity.setRoleId(enterPlayer.roleId);
+				enterCity.setJzId(enterPlayer.jzId);
 				broadCastEvent(enterCity.build(), enterPlayer.userId);
 				break;
 			case State_LOADINGSCENE:
@@ -774,15 +884,27 @@ public class Scene implements Runnable{
 	 * @param jzId
 	 * @param isKill 是否被杀
 	 */
-	public void exitForYaBiaoRobot(Long jzId,boolean isKill) {
+	public void exit4YaBiaoRobot(Long jzId,boolean isKill) {
 		YaBiaoRobot ybrobot=(YaBiaoRobot)BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(jzId);
+		if(ybrobot == null)return;
 		IoSession session=ybrobot.session;
 		if(session == null)
 			return;
 		if(isKill){
 			Integer uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
+			if(uid == null){
+				log.error("移除君主马车出错：找不到君主{}马车的uid",jzId);
+				return ;
+			}
 			Player player = players.get(uid);
 			if(player != null) {
+				//2016年1月5日 君主马车移除需广播
+				ExitScene.Builder exitYBSc = ExitScene.newBuilder();
+				exitYBSc.setUid(uid);
+				ProtobufMsg pm = new ProtobufMsg();
+				pm.id=PD.Exit_YBScene;
+				pm.builder = exitYBSc;
+				broadCastEvent(pm, player.userId);
 				players.remove(uid);
 			}else {
 				log.error("从场景中移除君主-{}押镖机器人错误，未找到对应Player对象", jzId);
@@ -790,30 +912,20 @@ public class Scene implements Runnable{
 		}else{
 			ExitScene.Builder exitYBSc = ExitScene.newBuilder();
 			Integer uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
-			if(uid == null)
+			if(uid == null){
+				log.error("移除君主马车出错：找不到君主{}马车的uid",jzId);
 				return;
+			}
 			exitYBSc.setUid(uid);
 			exitYBScene( session,exitYBSc);
 		}
 		log.info("从场景中移除君主-{}押镖机器人成功", jzId);
-		//移除押镖机器人
-		BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.remove(jzId);
 	}
 	
 	public Player getPlayerByJunZhuId(long junzhuId) {
 		for(Map.Entry<Integer, Player> entry : players.entrySet()) {
 			Player player = entry.getValue();
-			if(player.jzId == junzhuId) {
-				return player;
-			}
-		}
-		return null;
-	}
-	
-	public Player getPlayer(long junzhuId, int roleId) {
-		for(Map.Entry<Integer, Player> entry : players.entrySet()) {
-			Player player = entry.getValue();
-			if(player.jzId == junzhuId && player.roleId == roleId) {
+			if(player.jzId == junzhuId && player.roleId != Scene.YBRobot_RoleId) {
 				return player;
 			}
 		}

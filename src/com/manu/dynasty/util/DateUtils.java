@@ -98,7 +98,42 @@ public class DateUtils {
 		int ldDis = timeDistanceBySecond(nextDay, now);
 		return ldDis;
 	}
-
+	/**
+	 * 
+	 * @param oclock_hour
+	 * @param oclock_min
+	 * @return
+	 */
+	public static int timeDistanceTodayOclock(int oclock_hour, int oclock_min) {
+		Date now =new Date();
+		int year=now.getYear();
+		int month=now.getMonth();
+		int date =now.getDate();
+		int hrs = oclock_hour;
+		int min = oclock_min;
+		Date nextTime = new Date(year, month, date, hrs, min);
+		if(now.getTime() >= nextTime.getTime()){
+			return 0;
+		}
+		int ldDis = timeDistanceBySecond(nextTime, now);
+		return ldDis;
+	}
+	/**
+	 * 得到n小时之前日期的字符串
+	 * @return 
+	 */
+	public static String getNHourAgo(int n) {
+		Date now =new Date();
+		int year=now.getYear();
+		int month=now.getMonth();
+		int date =now.getDate();
+		int hrs=now.getHours()-n;
+		int min=now.getMinutes();
+		int ss=now.getSeconds();
+		Date nextDay=new Date(year, month, date, hrs, min,ss);
+		datetime2Text(nextDay);
+		return datetime2Text(nextDay);
+	}
 	/**
 	 * Return a Timestamp for right now
 	 * 
@@ -1231,6 +1266,47 @@ public class DateUtils {
 		}
 		if((date.after(startTime) && date.before(endTime))
 				||date.equals(startTime) || date.equals(endTime)) {
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * @Description 判断是否在[begin,end)的时间内
+	 * @param begin
+	 * @param end
+	 * @return
+	 */
+	public static boolean isInDeadline4Start(String begin, String end){
+		Calendar calendar = Calendar.getInstance();
+		Date date = calendar.getTime();
+		Date startTime = calendar.getTime();
+		Date endTime = calendar.getTime();
+		if(begin != null){
+			String[] startTimeArr = begin.split(":");
+			if(startTimeArr.length == 2){
+				if(startTimeArr[0] != null && !("").equals(startTimeArr[0])){
+					calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(startTimeArr[0]));
+				}
+				if(startTimeArr[1] != null && !("").equals(startTimeArr[1])){
+					calendar.set(Calendar.MINUTE, Integer.parseInt(startTimeArr[1]));
+				}
+				startTime = calendar.getTime();
+			}
+		}
+		if(end != null){
+			String[] endTimeArr = end.split(":");
+			if(endTimeArr.length == 2){
+				if(endTimeArr[0] != null){
+					calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(endTimeArr[0]));
+				}
+				if(endTimeArr[1] != null){
+					calendar.set(Calendar.MINUTE, Integer.parseInt(endTimeArr[1]));
+				}
+				endTime = calendar.getTime();
+			}
+		}
+		if((date.after(startTime) && date.before(endTime))
+				||date.equals(startTime)) {
 			return true;
 		}
 		return false;

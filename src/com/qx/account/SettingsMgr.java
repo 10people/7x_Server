@@ -176,7 +176,7 @@ public class SettingsMgr {
 				return;
 			}
 			BagMgr.inst.removeItem(bag, ZHUANGUOLING, 1, "使用转国令转换国家",jz.level);
-			BagMgr.inst.sendBagInfo(0, session, null);
+			BagMgr.inst.sendBagInfo(session, bag);
 			// 消耗转国卡
 			log.info("{}使用一张转国令成功转换国家到{}", jz.id, jz.guoJiaId);
 			

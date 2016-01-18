@@ -54,4 +54,7 @@ public class PurchaseConstants {
 	/** 购买押镖复活次数类型 **/
 	//TODO 购买押镖复活次数类型配置重复了待策划修改
 	public static final int BUY_FUHUO_COUNT = 27;
+	public static final int BUY_XUEPING_COUNT = 26;
+	/** 押镖原地复活花费元宝类型 */
+	public static final int YB_REVIVE_DEAD_POS = 28	;
 }

@@ -8,6 +8,7 @@ public class JiNengPeiYang {
 	public int nextId;
 	public int needLv;
 	public int needNum;
+	public int skillId;
 
 	public int getId() {
 		return id;

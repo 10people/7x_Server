@@ -66,8 +66,8 @@ public class SchedulerMgr {
 	 */
 	public void doSchedule(){
 	//	addScheduler(TestJob.class, "0/10 * * * * ?");
-		// 每天晚上21点百战日奖励添加
-		addScheduler(BaiZhanDailyAwardJob.class, "0 0 21 * * ?");
+		// 每天晚上23:58 发送在线且没有领奖的百战日奖励邮件
+		addScheduler(BaiZhanDailyAwardJob.class, "0 58 23 * * ?");
 		//每周一到周六晚上22点衰减高级房屋价值
 		StringBuffer shuaijianTime=new StringBuffer();
 		shuaijianTime.append("0 0 ").append(String.valueOf(CanShu.REFRESHTIME_GAOJIFANGWU)).append(" ? * 2-7");
@@ -138,9 +138,10 @@ public class SchedulerMgr {
 		closeYBMORETime2.append("0 ").append(closeMMORE2).append(" ").append(closeHMORE2).append(" * * ?");
 		addScheduler(YaBiaoJiaChengJob.class, closeYBMORETime2.toString());//0 0 11 * * ?
 		
-		
-		//10分钟产生一次机器人镖车
-		addScheduler(YBrobotManageJob.class, "0 */1 * * * ?");
+		StringBuffer cartRefreshTime=new StringBuffer();
+		cartRefreshTime.append("0 */").append(YunbiaoTemp.cartAI_refresh_interval).append(" * * * ?");
+		//30分钟产生一次机器人镖车 "0 */30 * * * ?"
+		addScheduler(YBrobotManageJob.class, cartRefreshTime.toString());
 		
 		String time = CanShu.HUANGYEPVP_AWARDTIME;
 		String[] timeArray = time.split(":");

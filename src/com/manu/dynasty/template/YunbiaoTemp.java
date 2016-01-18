@@ -1,7 +1,8 @@
 package com.manu.dynasty.template;
 
 public class YunbiaoTemp {
-	public static int saveArea_recoveryPro;             //安全区血量回复速率          
+	public static float saveArea_recoveryPro;             //安全区血量回复速率          
+	public static int saveArea_recovery_interval;         //安全区血量回复时间间隔秒        
 	public static int saveArea_people_max;              //单个安全区人数上限          
 	public static int bloodVial_recoveryPro;            //血瓶血量回复速率            
 	public static int bloodVialCD;                      //血瓶CD（秒）                
@@ -21,17 +22,22 @@ public class YunbiaoTemp {
 	public static int speedUpPrice;                     //马鞭价格                    
 	public static int cart_attribute_pro;               //镖马属性系数                
 	public static int foeCart_incomeAdd_pro;            //劫获仇人镖马收益加成(%)     
-	public static String killFoeAward;                  //杀死单个仇人奖励            
 	public static int rewarding_killFoe_max;            //（有奖励）杀死仇人上限      
-	public static int cartAI_refresh_interval;          //机器人镖马刷新时间间隔（min)
+	public static String cartAI_refresh_interval;          //机器人镖马刷新时间间隔（min)
 	public static int cartAImax;                        //场景内AI镖马数量上限        
 	public static int cartAILvlMin;                     //AI镖马最低等级              
 	public static int cartAILvlMax;                     //AI镖马最高等级              
 	public static int autoResurgenceTime;				//死亡后自动安全复活时间(秒）
-	public static int resurgence_onSite_price;			//原地复活价格(元宝）
 	public static String	yunbiao_start_broadcast;//运镖开始广播
 	public static String	yunbiao_end_broadcast;//运镖结束广播
-	
+	public static double yunbiao_comforted_award_k;//运镖被安慰奖励系数k
+	public static int yunbiao_comforted_award_b;//运镖被安慰奖励参数b
+	public static int cartAI_appear_interval;//机器人镖马出现时间间隔（s）
+	public static double killFoeAward_k;//杀死单个仇人奖励系数k
+	public static double killFoeAward_b;//杀死单个仇人奖励系数b
+	public static int cartTime;//马车正常到达时间（秒）
+	public static int yunbiaoScene_modelNum_max;//运镖场景模型数量上限
+	public static int yunbiao_start_broadcast_CD;//"运镖开始广播循环CD（秒）
 	/*押镖相关参数--结束*/
 
 	public String key;

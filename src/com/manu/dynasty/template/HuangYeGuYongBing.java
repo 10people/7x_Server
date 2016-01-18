@@ -2,7 +2,7 @@ package com.manu.dynasty.template;
 
 import com.qx.world.GameObject;
 
-public class HuangYeGuYongBing implements GameObject {
+public class HuangYeGuYongBing extends GameObject {
 	public int id;
 	public int icon;
 	public int zhiye;
@@ -34,6 +34,9 @@ public class HuangYeGuYongBing implements GameObject {
 	public int renshu;
 	public int type;
 	public int profession;
+	public int lifebarNum = 1;
+	public int modelApID;
+	
 	@Override
 	public String getName() {
 		return name;

@@ -67,7 +67,6 @@ import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.bag.EquipMgr;
-import com.qx.battle.PveMgr;
 import com.qx.email.EmailMgr;
 import com.qx.event.ED;
 import com.qx.event.Event;
@@ -83,6 +82,7 @@ import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.PurchaseConstants;
 import com.qx.purchase.PurchaseMgr;
+import com.qx.pve.PveMgr;
 import com.qx.ranking.RankingGongJinMgr;
 import com.qx.ranking.RankingMgr;
 import com.qx.timeworker.FunctionID;
@@ -832,6 +832,8 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			wjNode.setNodeProfession(NodeProfession.valueOf(bing.profession));
 			wjNode.setHp(gybs[1]);
 			wjNode.setNodeName(PvpMgr.inst.getNPCName(bing.name));
+			wjNode.setHpNum(bing.lifebarNum);
+			wjNode.setAppearanceId(bing.modelApID);
 			PveMgr.inst.fillGongFangInfo(wjNode, bing);
 			String skills = bing.skills;
 			if (skills != null && !skills.equals("")) {
@@ -856,7 +858,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		Node.Builder junzhuNode = Node.newBuilder();
 		// 添加装备
 		List<Integer> zbIdList = EquipMgr.inst.getEquipCfgIdList(enemy);
-		PveMgr.inst.fillZhuangbei(junzhuNode, zbIdList);
+		PveMgr.inst.fillZhuangbei4Player(junzhuNode, zbIdList, junZhu.id);
 		// 添加flag,添加君主基本信息（暴击、类型、读表类型、视野）
 		junzhuNode.addFlagIds(101);
 		junzhuNode.setNodeType(NodeType.PLAYER);
@@ -869,6 +871,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		PveMgr.inst.fillJZMiBaoDataInfo(junzhuNode, fangshouId, enemy.id);
 		// 敌人的剩余血量
 		junzhuNode.setHp(enemyRemainHp);
+		junzhuNode.setHpNum(1);
 		enemys.add(junzhuNode.build());
 		
 		
@@ -935,7 +938,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 				continue;
 			}
 			int renshu = bing.renshu;
-			int shengming = bing.shengming;
+			int shengming = bing.shengming * bing.lifebarNum;
 			for (int k = 0; k < renshu; k++) {
 				m.put(c, new int[]{bl[i], shengming});
 				c++;
@@ -1217,6 +1220,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			zhanr = new LveZhanDouRecord(zhandouId, jId,
 					enemyId, new Date(), 0);
 		}
+		int fangshouFangSuishi = 0;
 		if(winId == jId){
 			/*
 			 * 1-- 贡金，在显示的时候，是否是敌对国，数据不同，已经确定
@@ -1228,8 +1232,11 @@ public class LveDuoMgr extends EventProc implements Runnable{
 				log.info("君主：{}参加掠夺挑战敌人获得胜利，得到贡金：{}", jId, v);
 
 				// 防守方损失N%的贡金 或者 防守方损失M%的贡金
-				RankingGongJinMgr.inst.addGongJin(enemyId, -(v - L));
-				log.info("君主：{}在掠夺中被挑战，且失败，失去贡金：{}", enemyId, v);
+				fangshouFangSuishi = v -L;
+				if(fangshouFangSuishi > 0){
+					RankingGongJinMgr.inst.addGongJin(enemyId, -fangshouFangSuishi);
+					log.info("君主：{}在掠夺中被挑战，且失败，失去贡金：{}", enemyId, v);
+				}
 			}
 
 			/*
@@ -1387,8 +1394,10 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		fightingLock.remove(enemyId);
 		willLostGongJin.remove(jId);
 		
+		int anweiJiang = (int) Math.round(CanShu.LUEDUO_COMFORTED_AWARD_K *
+				fangshouFangSuishi + CanShu.LUEDUO_COMFORTED_AWARD_B);
 		// enemy 被掠夺
-		EventMgr.addEvent(ED.been_lve_duo , new Object[] {enemy.name, junZhu.name});
+		EventMgr.addEvent(ED.been_lve_duo , new Object[] {enemyId, enemy.name, junZhu.name, anweiJiang});
 	}
 	public void getNextItem(int id, IoSession session, Builder builder){
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
@@ -1567,11 +1576,16 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			min = r.min;
 			max = r.max;
 			Map<String, Double> map = 
-					RankingGongJinMgr.inst.getPaiHangOfType(min, max, RankingGongJinMgr.gongJinPersonalRank);
+					RankingGongJinMgr.inst.getPaiHangOfType(min-1, max-1, RankingGongJinMgr.gongJinPersonalRank);
 			if(map == null || map.size() == 0){
 				continue;
 			}
 			for(Map.Entry<String, Double> entry: map.entrySet()){
+				double score = entry.getValue();
+				// 小于等于0的不发送贡金奖励
+				if(score <= 0){
+					continue;
+				}
 				String junzId = entry.getKey();
 				if(junzId == null ){
 					continue;
@@ -1616,11 +1630,16 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			min = r.min;
 			max = r.max;
 			Map<String, Double> map = 
-					RankingGongJinMgr.inst.getPaiHangOfType(min, max, RankingGongJinMgr.gongJinAllianceRank);
+					RankingGongJinMgr.inst.getPaiHangOfType(min-1, max-1, RankingGongJinMgr.gongJinAllianceRank);
 			if(map == null || map.size() == 0){
 				continue;
 			}
 			for(Map.Entry<String, Double> entry: map.entrySet()){
+				double score = entry.getValue();
+				// 小于等于0的不发送贡金奖励
+				if(score <= 0){
+					continue;
+				}
 				String lianmengid = entry.getKey();
 				if(lianmengid == null ){
 					continue;
@@ -1743,13 +1762,30 @@ public class LveDuoMgr extends EventProc implements Runnable{
 				if(jz == null){
 					break;
 				}
-				boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.lveDuo, jz.id, jz.level);
+				boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.LueDuoJiLu, jz.id, jz.level);
 				if(!isOpen){
 					break;
 				}
 				LveDuoBean bean = HibernateUtil.find(LveDuoBean.class, jz.id);
 				if(bean != null && bean.hasRecord){
-					FunctionID.pushCanShangjiao(jz.id, session, FunctionID.lveDuo);
+					/*
+					 * 前台 页面等级发生改变，所以不用显示具体行为，下同
+					 */
+					/*
+					 * 又改为具体的了  ~ ~ 欲哭无泪啊 
+					 * */
+					FunctionID.pushCanShangjiao(jz.id, session, FunctionID.LueDuoJiLu);
+//					FunctionID.pushCanShangjiao(jz.id, session, FunctionID.lveDuo);
+					break;
+				}
+				int all = LveStaticData.free_all_battle_times;
+				int used = 0;
+				if(bean != null){
+					all = bean.todayTimes;
+					used = bean.usedTimes;
+				}
+				if(all > used){
+					FunctionID.pushCanShangjiao(jz.id, session, FunctionID.LueDuoCiShu);
 				}
 				break;
 			}

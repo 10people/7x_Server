@@ -21,10 +21,22 @@ public class ExploreMine{
 	public int usedFreeNumber;
 	// 付费抽奖累计概率, <= 1000;
 	public int totalProbability;
+
+
+	/*
+	 * 元宝抽奖：(historyFree ==1 && historyPay == 1)以后，
+	 * historyBaoDi从1开始累加, 而historyFree以及historyPay不再update
+	 * 
+	 * 铜币抽奖：无论付费或者免费单抽，或者十抽，historyFree从1开始累加计算。另两个字段无关。
+	 * 
+	 */
 	public int historyFree;
+	// 元宝抽：付费次数
 	public int historyPay;
-//	// 历史抽奖次数
-//	public int allTimes;
+	// 元宝抽：保底次数
+	public int historyBaoDi;
+	
+
 //	// 免费单抽或者联盟单抽是否已经领取过好的奖励了: 
 //	// add 包括10连抽是否已经领过好的奖励
 //	@Column(columnDefinition = "boolean default false")

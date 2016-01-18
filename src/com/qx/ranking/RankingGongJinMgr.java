@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.mina.core.session.IoSession;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,9 +16,12 @@ import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.LueduoLianmengRank;
 import com.manu.dynasty.template.LueduoPersonRank;
+import com.manu.network.SessionAttKey;
 import com.qx.alliance.AllianceBean;
+import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.junzhu.JunZhu;
+import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 
 public class RankingGongJinMgr {
@@ -50,17 +54,26 @@ public class RankingGongJinMgr {
 		lianMengRankList = list2;
 	}
 
-	public void sendPersonalGongJinRank(int pageNo, RankingResp.Builder response){
+	public void sendPersonalGongJinRank(int pageNo, RankingResp.Builder response, IoSession session){
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			log.error("junzhu not exit");
+			return;
+		}
 		int start = PAGE_SIZE * (pageNo - 1);
 		int end = start + PAGE_SIZE;
 		Map<String, Double> gongJinPermap = getPaiHangOfType(start, end, gongJinPersonalRank);
-		int needId = 1; 
+		long needId = 1; 
 		int needRank = 1;
+		boolean include  =  false;
 		if(gongJinPermap != null && gongJinPermap.size() != 0){
 			for(Map.Entry<String, Double> entry: gongJinPermap.entrySet()){
 				String id = entry.getKey();
 				double value = entry.getValue();
-				needId = Integer.parseInt(id == null? "-1" : id);
+				needId = Long.parseLong(id == null? "-1" : id);
+				if(needId == jz.id){
+					include = true;
+				}
 				JunZhu junzhu = HibernateUtil.find(JunZhu.class, needId);
 				if(junzhu != null){
 					GongJinInfo.Builder f = GongJinInfo.newBuilder();
@@ -74,14 +87,30 @@ public class RankingGongJinMgr {
 		}else{
 			log.error("获取start:{}, end:{} 贡金个人排行榜出错", start, end);
 		}
+		if(!include){
+			needRank = (int)DB.zrevrank(gongJinPersonalRank, jz.id+"") + 1;
+			GongJinInfo.Builder f = GongJinInfo.newBuilder();
+			f.setId(jz.id);
+			f.setName(jz.name);
+			f.setGongJin(getJunZhuGongJin(jz.id));
+			f.setRank(needRank);
+			response.addGongInfoList(f);
+		}
 
 	}
-	public void sendAllianceGongJinRank(int pageNo, RankingResp.Builder response){
+	public void sendAllianceGongJinRank(int pageNo, RankingResp.Builder response, IoSession session){
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			log.error("junzhu not exit");
+			return;
+		}
+		AllianceBean guild = AllianceMgr.inst.getAllianceByJunZid(jz.id);
 		int start = PAGE_SIZE * (pageNo - 1);
 		int end = start + PAGE_SIZE;
 		Map<String, Double> gongJinAllamap = getPaiHangOfType(start, end, gongJinAllianceRank);
 		int needId = 1; 
 		int needRank = 1;
+		boolean include  =  false;
 		if(gongJinAllamap != null && gongJinAllamap.size() != 0){
 			for(Map.Entry<String, Double> entry: gongJinAllamap.entrySet()){
 				String id = entry.getKey();
@@ -96,9 +125,30 @@ public class RankingGongJinMgr {
 					f.setRank(needRank ++);
 					response.addGongInfoList(f);
 				}
+				if(guild != null && guild.id  == needId){
+					include = true;
+				}
 			}
 		}else{
 			log.error("获取start:{}, end:{} 贡金联盟排行榜出错", start, end);
+		}
+		// 判断玩家所在联盟的名次是否在x以内，否则读取玩家的数据发送
+		if(include || guild == null){
+			log.error("君主:{}可能没有联盟也或者联盟名次之内，所以不再单独发送", jz.id);
+		}else {
+			int lianmengId = guild.id;
+			try{
+				// 从大到小的排名中占名次
+				needRank = (int)DB.zrevrank(gongJinAllianceRank, lianmengId+"") + 1;
+				GongJinInfo.Builder f = GongJinInfo.newBuilder();
+				f.setId(lianmengId);
+				f.setName(guild.name);
+				f.setGongJin(getAllianceGongJin(lianmengId));
+				f.setRank(needRank);
+				response.addGongInfoList(f);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -113,13 +163,13 @@ public class RankingGongJinMgr {
 	 */
 	public Map<String, Double> getPaiHangOfType(long start, long end, String paiHangType) {
 		log.info("start:{} 和 end :{} ", start, end);
-		Map<String, Double> map = DB.zrevrangeWithScores(paiHangType, start - 1,
-				end - 1);
+		Map<String, Double> map = DB.zrevrangeWithScores(paiHangType, start,
+				end);
 		return map;
 	}
 
 	public int getJunZhuGongJin(long junzhuId){
-		int gongj = DB.zscore_(gongJinPersonalRank, junzhuId + "");
+		int gongj = (int) DB.zscore(gongJinPersonalRank, junzhuId + "");
 		if(gongj != -1){
 			return gongj;
 		}
@@ -128,9 +178,9 @@ public class RankingGongJinMgr {
 	}
 
 	public int getAllianceGongJin(int allianceId){
-		int gongj = DB.zscore_(gongJinAllianceRank, allianceId + "");
+		double gongj = DB.zscore(gongJinAllianceRank, allianceId + "");
 		if(gongj != -1){
-			return gongj;
+			return (int)gongj;
 		}
 		log.error("联盟整体贡金数据不正确，联盟id:{}", allianceId);
 		return -1;
@@ -143,11 +193,13 @@ public class RankingGongJinMgr {
 			return;
 		}
 		int g = getJunZhuGongJin(junZhuId);
-
+		final int pre = g;
 		g += addValue; 
 		g = g <= 0? 0: g; 
 		DB.zadd(gongJinPersonalRank, g, junZhuId+"");
-		log.info("君主：{}的贡金增加增加值是：{}，目前是：{}", junZhuId, addValue, g);
+		log.info("君主：{}的贡金 {} 增加增加值是：{}，目前是：{}", junZhuId, pre, addValue, g);
+		
+		log.info("now get it {}", getJunZhuGongJin(junZhuId));
 
 		int allG = getAllianceGongJin(a.lianMengId);
 		allG = allG < 0? 0: allG;
@@ -160,6 +212,7 @@ public class RankingGongJinMgr {
 		if(g == -1){
 			return;
 		}
+		// 退出联盟贡金设置为0
 		DB.zadd(gongJinPersonalRank, 0, junZhuId+"");
 
 		if(lianMengId != -1){
@@ -200,7 +253,7 @@ public class RankingGongJinMgr {
 			max = Math.min(max, size);
 
 			Map<String, Double> map = 
-					getPaiHangOfType(min, max, oldRank);
+					getPaiHangOfType(min-1, max-1, oldRank);
 			if(map == null || map.size() == 0){
 				continue;
 			}
@@ -210,7 +263,7 @@ public class RankingGongJinMgr {
 				if(junzId == null ){
 					continue;
 				}
-				if(score == 0){
+				if(score <= 0){
 					continue;
 				}
 				int newData = 0;

@@ -1,3 +1,4 @@
+<%@page import="com.qx.ranking.RankingGongJinMgr"%>
 <%@page import="com.manu.dynasty.template.CanShu"%>
 <%@page import="com.qx.guojia.GuoJiaMgr"%>
 <%@page import="org.slf4j.LoggerFactory"%>
@@ -22,7 +23,7 @@
 <%@page import="com.qx.account.FunctionOpenMgr"%>
 <%@page import="com.manu.network.SessionUser"%>
 <%@page import="com.manu.network.SessionManager"%>
-<%@page import="com.qx.battle.PveMgr"%>
+<%@page import="com.qx.pve.PveMgr"%>
 <%@page import="com.qx.junzhu.JunZhuMgr"%>
 <%@page import="com.manu.dynasty.base.TempletService"%>
 <%@page import="com.manu.dynasty.template.ExpTemp"%>
@@ -99,6 +100,11 @@ do{
 	}
 	ResourceGongJin gjBean =HibernateUtil.find(ResourceGongJin.class, junzhu.id);
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	if(gjBean == null){
+		gjBean = new ResourceGongJin();
+		gjBean.junzhuId = junzhu.id;
+	}
+	
 	if(gjBean!=null){
 	 String action = request.getParameter("action");
 	 boolean sendInfo = true;
@@ -106,7 +112,10 @@ do{
 		 int v = Integer.parseInt(request.getParameter("v"));
 		 //log.info("修改君主{}的贡金为{}===》{}",gjBean.junzhuId,gjBean.gongJin,v);
 		 //gjBean.gongJin=v;
-		 HibernateUtil.save(gjBean);
+		 //HibernateUtil.save(gjBean);
+		 int gongJin = RankingGongJinMgr.inst.getJunZhuGongJin(gjBean.junzhuId);
+		 int diff = v - gongJin;
+		 RankingGongJinMgr.inst.addGongJin(gjBean.junzhuId, diff);
 	 }
 	 if("upjxTime".equals(action)){
 			String time = request.getParameter("v");
@@ -179,11 +188,13 @@ do{
 		tableStart();
 		trS();
 		td("贡金");
+		int gongJin = RankingGongJinMgr.inst.getJunZhuGongJin(gjBean.junzhuId);
 		td("<input type='text' id='upgongjin' value='"
 				//+ gjBean.gongJin
+				+gongJin
 				+ "'/><input type='button' value='修改' onclick='go(\"upgongjin\")'/><br/>");
 		trE();
-		trS();
+		/* 	trS();
 		td("捐献时间");
 		td("<input type='text' id='upjxTime' value='"
 				//+ gjBean.juanXianTime
@@ -201,25 +212,25 @@ do{
 				//+ gjBean.todayJXTimes
 				+ "'/><input type='button' value='修改' onclick='go(\"uptodayJXTimes\")'/><br/>");
 		trE();
-		trS();
-		td("上次捐献");
+		trS(); */
+/* 		td("上次捐献");
 		td("<input type='text' id='uplastJX' value='"
 				//+ gjBean.lastJX
 				+ "'/><input type='button' value='修改' onclick='go(\"uplastJX\")'/><br/>");
-		trE();
+		trE(); */
 		
-		trS();
+/* 		trS();
 		td("本周捐献");
 		td("<input type='text' id='upthisWeekJX' value='"
 				//+ gjBean.thisWeekJX
 				+ "'/><input type='button' value='修改' onclick='go(\"upthisWeekJX\")'/><br/>");
-		trE();
-		trS();
+		trE(); */
+	/* 	trS();
 		td("上周捐献");
 		td("<input type='text' id='uplastWeekJX' value='"
 				//+ gjBean.lastWeekJX
 				+ "'/><input type='button' value='修改' onclick='go(\"uplastWeekJX\")'/><br/>");
-		trE();
+		trE(); */
 		trS();
 		td("上次领取每日奖励时间");
 		td("<input type='text' id='uplastGetDayAwardTime' value='"
@@ -232,11 +243,11 @@ do{
 				+ gjBean.getWeekAwardTime
 				+ "'/><input type='button' value='修改' onclick='go(\"uplastGetWeekAward\")'/><br/>");
 		trE();
-		trS();
+	/* 	trS();
 		td("上缴开启关闭");
 		td("'<input type='button' value='开启' onclick='setLueduo(\"openShangjiao\")'/><br/>");
 		td("'<input type='button' value='关闭' onclick='setLueduo(\"closeShangjiao\")'/><br/>");
-		trE();
+		trE(); */
 		tableEnd();
 	}else{
 		out("当前君主国家贡金功能未开启");

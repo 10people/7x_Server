@@ -89,10 +89,18 @@ public final class AllianceFightProtos {
      * <code>SKILL_TARGET_NOT_ENEMY = 9;</code>
      *
      * <pre>
-     * 该技能不能对地方使用
+     * 该技能不能对敌方使用
      * </pre>
      */
     SKILL_TARGET_NOT_ENEMY(9, 9),
+    /**
+     * <code>CART_IN_PROTECT_TIME = 10;</code>
+     *
+     * <pre>
+     * 马车处于保护期
+     * </pre>
+     */
+    CART_IN_PROTECT_TIME(10, 10),
     ;
 
     /**
@@ -171,10 +179,18 @@ public final class AllianceFightProtos {
      * <code>SKILL_TARGET_NOT_ENEMY = 9;</code>
      *
      * <pre>
-     * 该技能不能对地方使用
+     * 该技能不能对敌方使用
      * </pre>
      */
     public static final int SKILL_TARGET_NOT_ENEMY_VALUE = 9;
+    /**
+     * <code>CART_IN_PROTECT_TIME = 10;</code>
+     *
+     * <pre>
+     * 马车处于保护期
+     * </pre>
+     */
+    public static final int CART_IN_PROTECT_TIME_VALUE = 10;
 
 
     public final int getNumber() { return value; }
@@ -191,6 +207,7 @@ public final class AllianceFightProtos {
         case 7: return SKILL_TARGET_NOT_OTHER;
         case 8: return SKILL_TARGET_NOT_TEAMMATE;
         case 9: return SKILL_TARGET_NOT_ENEMY;
+        case 10: return CART_IN_PROTECT_TIME;
         default: return null;
       }
     }
@@ -9819,7 +9836,7 @@ public final class AllianceFightProtos {
      * <code>required int32 targetUid = 4;</code>
      *
      * <pre>
-     * 攻击目标对象的uid
+     * 攻击目标对象的uid, 如果是-1表示的是攻击者处在安全区域，前端只做攻击动作处理，不进行玩家血量的减少
      * </pre>
      */
     boolean hasTargetUid();
@@ -9827,7 +9844,7 @@ public final class AllianceFightProtos {
      * <code>required int32 targetUid = 4;</code>
      *
      * <pre>
-     * 攻击目标对象的uid
+     * 攻击目标对象的uid, 如果是-1表示的是攻击者处在安全区域，前端只做攻击动作处理，不进行玩家血量的减少
      * </pre>
      */
     int getTargetUid();
@@ -10072,7 +10089,7 @@ public final class AllianceFightProtos {
      * <code>required int32 targetUid = 4;</code>
      *
      * <pre>
-     * 攻击目标对象的uid
+     * 攻击目标对象的uid, 如果是-1表示的是攻击者处在安全区域，前端只做攻击动作处理，不进行玩家血量的减少
      * </pre>
      */
     public boolean hasTargetUid() {
@@ -10082,7 +10099,7 @@ public final class AllianceFightProtos {
      * <code>required int32 targetUid = 4;</code>
      *
      * <pre>
-     * 攻击目标对象的uid
+     * 攻击目标对象的uid, 如果是-1表示的是攻击者处在安全区域，前端只做攻击动作处理，不进行玩家血量的减少
      * </pre>
      */
     public int getTargetUid() {
@@ -10632,7 +10649,7 @@ public final class AllianceFightProtos {
        * <code>required int32 targetUid = 4;</code>
        *
        * <pre>
-       * 攻击目标对象的uid
+       * 攻击目标对象的uid, 如果是-1表示的是攻击者处在安全区域，前端只做攻击动作处理，不进行玩家血量的减少
        * </pre>
        */
       public boolean hasTargetUid() {
@@ -10642,7 +10659,7 @@ public final class AllianceFightProtos {
        * <code>required int32 targetUid = 4;</code>
        *
        * <pre>
-       * 攻击目标对象的uid
+       * 攻击目标对象的uid, 如果是-1表示的是攻击者处在安全区域，前端只做攻击动作处理，不进行玩家血量的减少
        * </pre>
        */
       public int getTargetUid() {
@@ -10652,7 +10669,7 @@ public final class AllianceFightProtos {
        * <code>required int32 targetUid = 4;</code>
        *
        * <pre>
-       * 攻击目标对象的uid
+       * 攻击目标对象的uid, 如果是-1表示的是攻击者处在安全区域，前端只做攻击动作处理，不进行玩家血量的减少
        * </pre>
        */
       public Builder setTargetUid(int value) {
@@ -10665,7 +10682,7 @@ public final class AllianceFightProtos {
        * <code>required int32 targetUid = 4;</code>
        *
        * <pre>
-       * 攻击目标对象的uid
+       * 攻击目标对象的uid, 如果是-1表示的是攻击者处在安全区域，前端只做攻击动作处理，不进行玩家血量的减少
        * </pre>
        */
       public Builder clearTargetUid() {
@@ -11732,6 +11749,24 @@ public final class AllianceFightProtos {
   public interface PlayerReviveNotifyOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
+    // required int32 result = 5;
+    /**
+     * <code>required int32 result = 5;</code>
+     *
+     * <pre>
+     * 结果，0-成功，1-原地复活元宝不足
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 5;</code>
+     *
+     * <pre>
+     * 结果，0-成功，1-原地复活元宝不足
+     * </pre>
+     */
+    int getResult();
+
     // required int32 uid = 1;
     /**
      * <code>required int32 uid = 1;</code>
@@ -11856,23 +11891,28 @@ public final class AllianceFightProtos {
               break;
             }
             case 8: {
-              bitField0_ |= 0x00000001;
+              bitField0_ |= 0x00000002;
               uid_ = input.readInt32();
               break;
             }
             case 21: {
-              bitField0_ |= 0x00000002;
+              bitField0_ |= 0x00000004;
               posX_ = input.readFloat();
               break;
             }
             case 29: {
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000008;
               posZ_ = input.readFloat();
               break;
             }
             case 32: {
-              bitField0_ |= 0x00000008;
+              bitField0_ |= 0x00000010;
               life_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
               break;
             }
           }
@@ -11915,6 +11955,30 @@ public final class AllianceFightProtos {
     }
 
     private int bitField0_;
+    // required int32 result = 5;
+    public static final int RESULT_FIELD_NUMBER = 5;
+    private int result_;
+    /**
+     * <code>required int32 result = 5;</code>
+     *
+     * <pre>
+     * 结果，0-成功，1-原地复活元宝不足
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 5;</code>
+     *
+     * <pre>
+     * 结果，0-成功，1-原地复活元宝不足
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
     // required int32 uid = 1;
     public static final int UID_FIELD_NUMBER = 1;
     private int uid_;
@@ -11926,7 +11990,7 @@ public final class AllianceFightProtos {
      * </pre>
      */
     public boolean hasUid() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required int32 uid = 1;</code>
@@ -11950,7 +12014,7 @@ public final class AllianceFightProtos {
      * </pre>
      */
     public boolean hasPosX() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>required float posX = 2;</code>
@@ -11974,7 +12038,7 @@ public final class AllianceFightProtos {
      * </pre>
      */
     public boolean hasPosZ() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>required float posZ = 3;</code>
@@ -11998,7 +12062,7 @@ public final class AllianceFightProtos {
      * </pre>
      */
     public boolean hasLife() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <code>required int32 life = 4;</code>
@@ -12012,6 +12076,7 @@ public final class AllianceFightProtos {
     }
 
     private void initFields() {
+      result_ = 0;
       uid_ = 0;
       posX_ = 0F;
       posZ_ = 0F;
@@ -12022,6 +12087,10 @@ public final class AllianceFightProtos {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasUid()) {
         memoizedIsInitialized = 0;
         return false;
@@ -12045,17 +12114,20 @@ public final class AllianceFightProtos {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(1, uid_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeFloat(2, posX_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeFloat(3, posZ_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeInt32(4, life_);
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(5, result_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -12066,21 +12138,25 @@ public final class AllianceFightProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, uid_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(2, posX_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(3, posZ_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, life_);
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, result_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -12198,14 +12274,16 @@ public final class AllianceFightProtos {
 
       public Builder clear() {
         super.clear();
-        uid_ = 0;
+        result_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        posX_ = 0F;
+        uid_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        posZ_ = 0F;
+        posX_ = 0F;
         bitField0_ = (bitField0_ & ~0x00000004);
-        life_ = 0;
+        posZ_ = 0F;
         bitField0_ = (bitField0_ & ~0x00000008);
+        life_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -12237,17 +12315,21 @@ public final class AllianceFightProtos {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.uid_ = uid_;
+        result.result_ = result_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.posX_ = posX_;
+        result.uid_ = uid_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.posZ_ = posZ_;
+        result.posX_ = posX_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
+        }
+        result.posZ_ = posZ_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
         }
         result.life_ = life_;
         result.bitField0_ = to_bitField0_;
@@ -12266,6 +12348,9 @@ public final class AllianceFightProtos {
 
       public Builder mergeFrom(qxmobile.protobuf.AllianceFightProtos.PlayerReviveNotify other) {
         if (other == qxmobile.protobuf.AllianceFightProtos.PlayerReviveNotify.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
         if (other.hasUid()) {
           setUid(other.getUid());
         }
@@ -12283,6 +12368,10 @@ public final class AllianceFightProtos {
       }
 
       public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
         if (!hasUid()) {
           
           return false;
@@ -12321,6 +12410,55 @@ public final class AllianceFightProtos {
       }
       private int bitField0_;
 
+      // required int32 result = 5;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 5;</code>
+       *
+       * <pre>
+       * 结果，0-成功，1-原地复活元宝不足
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 5;</code>
+       *
+       * <pre>
+       * 结果，0-成功，1-原地复活元宝不足
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 5;</code>
+       *
+       * <pre>
+       * 结果，0-成功，1-原地复活元宝不足
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 5;</code>
+       *
+       * <pre>
+       * 结果，0-成功，1-原地复活元宝不足
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
       // required int32 uid = 1;
       private int uid_ ;
       /**
@@ -12331,7 +12469,7 @@ public final class AllianceFightProtos {
        * </pre>
        */
       public boolean hasUid() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required int32 uid = 1;</code>
@@ -12351,7 +12489,7 @@ public final class AllianceFightProtos {
        * </pre>
        */
       public Builder setUid(int value) {
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         uid_ = value;
         onChanged();
         return this;
@@ -12364,7 +12502,7 @@ public final class AllianceFightProtos {
        * </pre>
        */
       public Builder clearUid() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         uid_ = 0;
         onChanged();
         return this;
@@ -12380,7 +12518,7 @@ public final class AllianceFightProtos {
        * </pre>
        */
       public boolean hasPosX() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>required float posX = 2;</code>
@@ -12400,7 +12538,7 @@ public final class AllianceFightProtos {
        * </pre>
        */
       public Builder setPosX(float value) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         posX_ = value;
         onChanged();
         return this;
@@ -12413,7 +12551,7 @@ public final class AllianceFightProtos {
        * </pre>
        */
       public Builder clearPosX() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         posX_ = 0F;
         onChanged();
         return this;
@@ -12429,7 +12567,7 @@ public final class AllianceFightProtos {
        * </pre>
        */
       public boolean hasPosZ() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>required float posZ = 3;</code>
@@ -12449,7 +12587,7 @@ public final class AllianceFightProtos {
        * </pre>
        */
       public Builder setPosZ(float value) {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         posZ_ = value;
         onChanged();
         return this;
@@ -12462,7 +12600,7 @@ public final class AllianceFightProtos {
        * </pre>
        */
       public Builder clearPosZ() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         posZ_ = 0F;
         onChanged();
         return this;
@@ -12478,7 +12616,7 @@ public final class AllianceFightProtos {
        * </pre>
        */
       public boolean hasLife() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>required int32 life = 4;</code>
@@ -12498,7 +12636,7 @@ public final class AllianceFightProtos {
        * </pre>
        */
       public Builder setLife(int value) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         life_ = value;
         onChanged();
         return this;
@@ -12511,7 +12649,7 @@ public final class AllianceFightProtos {
        * </pre>
        */
       public Builder clearLife() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         life_ = 0;
         onChanged();
         return this;
@@ -17159,6 +17297,692 @@ public final class AllianceFightProtos {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.BufferInfo)
   }
 
+  public interface SafeAreaBloodReturnOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 uid = 1;
+    /**
+     * <code>required int32 uid = 1;</code>
+     *
+     * <pre>
+     * 玩家uid
+     * </pre>
+     */
+    boolean hasUid();
+    /**
+     * <code>required int32 uid = 1;</code>
+     *
+     * <pre>
+     * 玩家uid
+     * </pre>
+     */
+    int getUid();
+
+    // required int32 returnValue = 2;
+    /**
+     * <code>required int32 returnValue = 2;</code>
+     *
+     * <pre>
+     * 回复血量
+     * </pre>
+     */
+    boolean hasReturnValue();
+    /**
+     * <code>required int32 returnValue = 2;</code>
+     *
+     * <pre>
+     * 回复血量
+     * </pre>
+     */
+    int getReturnValue();
+
+    // required int32 remainLife = 3;
+    /**
+     * <code>required int32 remainLife = 3;</code>
+     *
+     * <pre>
+     * 总剩余血量
+     * </pre>
+     */
+    boolean hasRemainLife();
+    /**
+     * <code>required int32 remainLife = 3;</code>
+     *
+     * <pre>
+     * 总剩余血量
+     * </pre>
+     */
+    int getRemainLife();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.SafeAreaBloodReturn}
+   *
+   * <pre>
+   * 安全区回血响应，public static final short SAFE_AREA_BOOLD_RETURN_RESP = 4222;
+   * </pre>
+   */
+  public static final class SafeAreaBloodReturn extends
+      com.google.protobuf.GeneratedMessage
+      implements SafeAreaBloodReturnOrBuilder {
+    // Use SafeAreaBloodReturn.newBuilder() to construct.
+    private SafeAreaBloodReturn(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private SafeAreaBloodReturn(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final SafeAreaBloodReturn defaultInstance;
+    public static SafeAreaBloodReturn getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public SafeAreaBloodReturn getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SafeAreaBloodReturn(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              uid_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              returnValue_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              remainLife_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceFightProtos.internal_static_qxmobile_protobuf_SafeAreaBloodReturn_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceFightProtos.internal_static_qxmobile_protobuf_SafeAreaBloodReturn_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn.class, qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<SafeAreaBloodReturn> PARSER =
+        new com.google.protobuf.AbstractParser<SafeAreaBloodReturn>() {
+      public SafeAreaBloodReturn parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SafeAreaBloodReturn(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SafeAreaBloodReturn> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 uid = 1;
+    public static final int UID_FIELD_NUMBER = 1;
+    private int uid_;
+    /**
+     * <code>required int32 uid = 1;</code>
+     *
+     * <pre>
+     * 玩家uid
+     * </pre>
+     */
+    public boolean hasUid() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 uid = 1;</code>
+     *
+     * <pre>
+     * 玩家uid
+     * </pre>
+     */
+    public int getUid() {
+      return uid_;
+    }
+
+    // required int32 returnValue = 2;
+    public static final int RETURNVALUE_FIELD_NUMBER = 2;
+    private int returnValue_;
+    /**
+     * <code>required int32 returnValue = 2;</code>
+     *
+     * <pre>
+     * 回复血量
+     * </pre>
+     */
+    public boolean hasReturnValue() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 returnValue = 2;</code>
+     *
+     * <pre>
+     * 回复血量
+     * </pre>
+     */
+    public int getReturnValue() {
+      return returnValue_;
+    }
+
+    // required int32 remainLife = 3;
+    public static final int REMAINLIFE_FIELD_NUMBER = 3;
+    private int remainLife_;
+    /**
+     * <code>required int32 remainLife = 3;</code>
+     *
+     * <pre>
+     * 总剩余血量
+     * </pre>
+     */
+    public boolean hasRemainLife() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 remainLife = 3;</code>
+     *
+     * <pre>
+     * 总剩余血量
+     * </pre>
+     */
+    public int getRemainLife() {
+      return remainLife_;
+    }
+
+    private void initFields() {
+      uid_ = 0;
+      returnValue_ = 0;
+      remainLife_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasUid()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasReturnValue()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRemainLife()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, uid_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, returnValue_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, remainLife_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, uid_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, returnValue_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, remainLife_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.SafeAreaBloodReturn}
+     *
+     * <pre>
+     * 安全区回血响应，public static final short SAFE_AREA_BOOLD_RETURN_RESP = 4222;
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturnOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceFightProtos.internal_static_qxmobile_protobuf_SafeAreaBloodReturn_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceFightProtos.internal_static_qxmobile_protobuf_SafeAreaBloodReturn_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn.class, qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        uid_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        returnValue_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        remainLife_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceFightProtos.internal_static_qxmobile_protobuf_SafeAreaBloodReturn_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn build() {
+        qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn buildPartial() {
+        qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn result = new qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.uid_ = uid_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.returnValue_ = returnValue_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.remainLife_ = remainLife_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn) {
+          return mergeFrom((qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn other) {
+        if (other == qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn.getDefaultInstance()) return this;
+        if (other.hasUid()) {
+          setUid(other.getUid());
+        }
+        if (other.hasReturnValue()) {
+          setReturnValue(other.getReturnValue());
+        }
+        if (other.hasRemainLife()) {
+          setRemainLife(other.getRemainLife());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasUid()) {
+          
+          return false;
+        }
+        if (!hasReturnValue()) {
+          
+          return false;
+        }
+        if (!hasRemainLife()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 uid = 1;
+      private int uid_ ;
+      /**
+       * <code>required int32 uid = 1;</code>
+       *
+       * <pre>
+       * 玩家uid
+       * </pre>
+       */
+      public boolean hasUid() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 uid = 1;</code>
+       *
+       * <pre>
+       * 玩家uid
+       * </pre>
+       */
+      public int getUid() {
+        return uid_;
+      }
+      /**
+       * <code>required int32 uid = 1;</code>
+       *
+       * <pre>
+       * 玩家uid
+       * </pre>
+       */
+      public Builder setUid(int value) {
+        bitField0_ |= 0x00000001;
+        uid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 uid = 1;</code>
+       *
+       * <pre>
+       * 玩家uid
+       * </pre>
+       */
+      public Builder clearUid() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        uid_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 returnValue = 2;
+      private int returnValue_ ;
+      /**
+       * <code>required int32 returnValue = 2;</code>
+       *
+       * <pre>
+       * 回复血量
+       * </pre>
+       */
+      public boolean hasReturnValue() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 returnValue = 2;</code>
+       *
+       * <pre>
+       * 回复血量
+       * </pre>
+       */
+      public int getReturnValue() {
+        return returnValue_;
+      }
+      /**
+       * <code>required int32 returnValue = 2;</code>
+       *
+       * <pre>
+       * 回复血量
+       * </pre>
+       */
+      public Builder setReturnValue(int value) {
+        bitField0_ |= 0x00000002;
+        returnValue_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 returnValue = 2;</code>
+       *
+       * <pre>
+       * 回复血量
+       * </pre>
+       */
+      public Builder clearReturnValue() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        returnValue_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 remainLife = 3;
+      private int remainLife_ ;
+      /**
+       * <code>required int32 remainLife = 3;</code>
+       *
+       * <pre>
+       * 总剩余血量
+       * </pre>
+       */
+      public boolean hasRemainLife() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 remainLife = 3;</code>
+       *
+       * <pre>
+       * 总剩余血量
+       * </pre>
+       */
+      public int getRemainLife() {
+        return remainLife_;
+      }
+      /**
+       * <code>required int32 remainLife = 3;</code>
+       *
+       * <pre>
+       * 总剩余血量
+       * </pre>
+       */
+      public Builder setRemainLife(int value) {
+        bitField0_ |= 0x00000004;
+        remainLife_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 remainLife = 3;</code>
+       *
+       * <pre>
+       * 总剩余血量
+       * </pre>
+       */
+      public Builder clearRemainLife() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        remainLife_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.SafeAreaBloodReturn)
+    }
+
+    static {
+      defaultInstance = new SafeAreaBloodReturn(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.SafeAreaBloodReturn)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_RequestFightInfoResp_descriptor;
   private static
@@ -17244,6 +18068,11 @@ public final class AllianceFightProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_BufferInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_SafeAreaBloodReturn_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_SafeAreaBloodReturn_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -17288,27 +18117,30 @@ public final class AllianceFightProtos {
       "\206\001\n\020PlayerDeadNotify\022\013\n\003uid\030\001 \002(\005\022\021\n\tkil" +
       "lerUid\030\002 \002(\005\022\032\n\022remainAllLifeTimes\030\003 \001(\005" +
       "\022\034\n\024autoReviveRemainTime\030\004 \001(\005\022\030\n\020onSite" +
-      "ReviveCost\030\005 \001(\005\"K\n\022PlayerReviveNotify\022\013" +
-      "\n\003uid\030\001 \002(\005\022\014\n\004posX\030\002 \002(\002\022\014\n\004posZ\030\003 \002(\002\022" +
-      "\014\n\004life\030\004 \002(\005\"#\n\023PlayerReviveRequest\022\014\n\004" +
-      "type\030\001 \002(\005\"M\n\020FightHistoryResp\0229\n\014histor" +
-      "yInfos\030\001 \003(\0132#.qxmobile.protobuf.FightHi",
-      "storyInfo\"r\n\020FightHistoryInfo\022\r\n\005times\030\001" +
-      " \002(\005\022\r\n\005lm1Id\030\002 \002(\005\022\017\n\007lm1Name\030\003 \002(\t\022\r\n\005" +
-      "lm2Id\030\004 \002(\005\022\017\n\007lm2Name\030\005 \002(\t\022\017\n\007winLmId\030" +
-      "\006 \002(\005\"L\n\025FightLasttimeRankResp\0223\n\trankIn" +
-      "fos\030\001 \003(\0132 .qxmobile.protobuf.FightRankI" +
-      "nfo\";\n\rFightRankInfo\022\014\n\004lmId\030\001 \002(\005\022\016\n\006lm" +
-      "Name\030\002 \002(\t\022\014\n\004rank\030\003 \002(\005\"S\n\nBufferInfo\022\020" +
-      "\n\010bufferId\030\001 \002(\005\022\020\n\010targetId\030\002 \002(\005\022\r\n\005va" +
-      "lue\030\003 \002(\005\022\022\n\nremainLife\030\004 \002(\005*\372\001\n\006Result" +
-      "\022\013\n\007SUCCESS\020\000\022\030\n\024SKILL_DISTANCE_ERROR\020\001\022",
-      "\023\n\017SKILL_COOL_TIME\020\002\022\023\n\017SKILL_NOT_EXIST\020" +
-      "\003\022\024\n\020TARGET_NOT_EXIST\020\004\022\027\n\023TARGET_IN_SAF" +
-      "E_AREA\020\005\022\031\n\025SKILL_TARGET_NOT_SELF\020\006\022\032\n\026S" +
-      "KILL_TARGET_NOT_OTHER\020\007\022\035\n\031SKILL_TARGET_" +
-      "NOT_TEAMMATE\020\010\022\032\n\026SKILL_TARGET_NOT_ENEMY" +
-      "\020\tB\025B\023AllianceFightProtos"
+      "ReviveCost\030\005 \001(\005\"[\n\022PlayerReviveNotify\022\016" +
+      "\n\006result\030\005 \002(\005\022\013\n\003uid\030\001 \002(\005\022\014\n\004posX\030\002 \002(" +
+      "\002\022\014\n\004posZ\030\003 \002(\002\022\014\n\004life\030\004 \002(\005\"#\n\023PlayerR" +
+      "eviveRequest\022\014\n\004type\030\001 \002(\005\"M\n\020FightHisto" +
+      "ryResp\0229\n\014historyInfos\030\001 \003(\0132#.qxmobile.",
+      "protobuf.FightHistoryInfo\"r\n\020FightHistor" +
+      "yInfo\022\r\n\005times\030\001 \002(\005\022\r\n\005lm1Id\030\002 \002(\005\022\017\n\007l" +
+      "m1Name\030\003 \002(\t\022\r\n\005lm2Id\030\004 \002(\005\022\017\n\007lm2Name\030\005" +
+      " \002(\t\022\017\n\007winLmId\030\006 \002(\005\"L\n\025FightLasttimeRa" +
+      "nkResp\0223\n\trankInfos\030\001 \003(\0132 .qxmobile.pro" +
+      "tobuf.FightRankInfo\";\n\rFightRankInfo\022\014\n\004" +
+      "lmId\030\001 \002(\005\022\016\n\006lmName\030\002 \002(\t\022\014\n\004rank\030\003 \002(\005" +
+      "\"S\n\nBufferInfo\022\020\n\010bufferId\030\001 \002(\005\022\020\n\010targ" +
+      "etId\030\002 \002(\005\022\r\n\005value\030\003 \002(\005\022\022\n\nremainLife\030" +
+      "\004 \002(\005\"K\n\023SafeAreaBloodReturn\022\013\n\003uid\030\001 \002(",
+      "\005\022\023\n\013returnValue\030\002 \002(\005\022\022\n\nremainLife\030\003 \002" +
+      "(\005*\224\002\n\006Result\022\013\n\007SUCCESS\020\000\022\030\n\024SKILL_DIST" +
+      "ANCE_ERROR\020\001\022\023\n\017SKILL_COOL_TIME\020\002\022\023\n\017SKI" +
+      "LL_NOT_EXIST\020\003\022\024\n\020TARGET_NOT_EXIST\020\004\022\027\n\023" +
+      "TARGET_IN_SAFE_AREA\020\005\022\031\n\025SKILL_TARGET_NO" +
+      "T_SELF\020\006\022\032\n\026SKILL_TARGET_NOT_OTHER\020\007\022\035\n\031" +
+      "SKILL_TARGET_NOT_TEAMMATE\020\010\022\032\n\026SKILL_TAR" +
+      "GET_NOT_ENEMY\020\t\022\030\n\024CART_IN_PROTECT_TIME\020" +
+      "\nB\025B\023AllianceFightProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -17380,7 +18212,7 @@ public final class AllianceFightProtos {
           internal_static_qxmobile_protobuf_PlayerReviveNotify_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_PlayerReviveNotify_descriptor,
-              new java.lang.String[] { "Uid", "PosX", "PosZ", "Life", });
+              new java.lang.String[] { "Result", "Uid", "PosX", "PosZ", "Life", });
           internal_static_qxmobile_protobuf_PlayerReviveRequest_descriptor =
             getDescriptor().getMessageTypes().get(11);
           internal_static_qxmobile_protobuf_PlayerReviveRequest_fieldAccessorTable = new
@@ -17417,6 +18249,12 @@ public final class AllianceFightProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BufferInfo_descriptor,
               new java.lang.String[] { "BufferId", "TargetId", "Value", "RemainLife", });
+          internal_static_qxmobile_protobuf_SafeAreaBloodReturn_descriptor =
+            getDescriptor().getMessageTypes().get(17);
+          internal_static_qxmobile_protobuf_SafeAreaBloodReturn_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_SafeAreaBloodReturn_descriptor,
+              new java.lang.String[] { "Uid", "ReturnValue", "RemainLife", });
           return null;
         }
       };

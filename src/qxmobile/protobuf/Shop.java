@@ -1154,7 +1154,7 @@ public final class Shop {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     * 资源类型：1-体力，2-百战次数，3-铜币，4地契，5-天工图
+     * 资源类型：1-体力，2-百战次数，3-铜币，4地契，5-天工图 
      * </pre>
      */
     boolean hasType();
@@ -1162,7 +1162,7 @@ public final class Shop {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     * 资源类型：1-体力，2-百战次数，3-铜币，4地契，5-天工图
+     * 资源类型：1-体力，2-百战次数，3-铜币，4地契，5-天工图 
      * </pre>
      */
     int getType();
@@ -1343,7 +1343,7 @@ public final class Shop {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     * 资源类型：1-体力，2-百战次数，3-铜币，4地契，5-天工图
+     * 资源类型：1-体力，2-百战次数，3-铜币，4地契，5-天工图 
      * </pre>
      */
     public boolean hasType() {
@@ -1353,7 +1353,7 @@ public final class Shop {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     * 资源类型：1-体力，2-百战次数，3-铜币，4地契，5-天工图
+     * 资源类型：1-体力，2-百战次数，3-铜币，4地契，5-天工图 
      * </pre>
      */
     public int getType() {
@@ -1752,7 +1752,7 @@ public final class Shop {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       * 资源类型：1-体力，2-百战次数，3-铜币，4地契，5-天工图
+       * 资源类型：1-体力，2-百战次数，3-铜币，4地契，5-天工图 
        * </pre>
        */
       public boolean hasType() {
@@ -1762,7 +1762,7 @@ public final class Shop {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       * 资源类型：1-体力，2-百战次数，3-铜币，4地契，5-天工图
+       * 资源类型：1-体力，2-百战次数，3-铜币，4地契，5-天工图 
        * </pre>
        */
       public int getType() {
@@ -1772,7 +1772,7 @@ public final class Shop {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       * 资源类型：1-体力，2-百战次数，3-铜币，4地契，5-天工图
+       * 资源类型：1-体力，2-百战次数，3-铜币，4地契，5-天工图 
        * </pre>
        */
       public Builder setType(int value) {
@@ -1785,7 +1785,7 @@ public final class Shop {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       * 资源类型：1-体力，2-百战次数，3-铜币，4地契，5-天工图
+       * 资源类型：1-体力，2-百战次数，3-铜币，4地契，5-天工图 
        * </pre>
        */
       public Builder clearType() {
@@ -2510,6 +2510,2430 @@ public final class Shop {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.BuyTongbiResp)
   }
 
+  public interface LianXuBuyTongbiRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-成功，1-今日次数用完，2-元宝不足
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-成功，1-今日次数用完，2-元宝不足
+     * </pre>
+     */
+    int getResult();
+
+    // repeated .qxmobile.protobuf.TongbiResp tongbi = 2;
+    /**
+     * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+     */
+    java.util.List<qxmobile.protobuf.Shop.TongbiResp> 
+        getTongbiList();
+    /**
+     * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+     */
+    qxmobile.protobuf.Shop.TongbiResp getTongbi(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+     */
+    int getTongbiCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+     */
+    java.util.List<? extends qxmobile.protobuf.Shop.TongbiRespOrBuilder> 
+        getTongbiOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+     */
+    qxmobile.protobuf.Shop.TongbiRespOrBuilder getTongbiOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.LianXuBuyTongbiResp}
+   *
+   * <pre>
+   *public static final short S_BUY_TongBi_LiXu = 28330;
+   * </pre>
+   */
+  public static final class LianXuBuyTongbiResp extends
+      com.google.protobuf.GeneratedMessage
+      implements LianXuBuyTongbiRespOrBuilder {
+    // Use LianXuBuyTongbiResp.newBuilder() to construct.
+    private LianXuBuyTongbiResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private LianXuBuyTongbiResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final LianXuBuyTongbiResp defaultInstance;
+    public static LianXuBuyTongbiResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public LianXuBuyTongbiResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private LianXuBuyTongbiResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                tongbi_ = new java.util.ArrayList<qxmobile.protobuf.Shop.TongbiResp>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              tongbi_.add(input.readMessage(qxmobile.protobuf.Shop.TongbiResp.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          tongbi_ = java.util.Collections.unmodifiableList(tongbi_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_LianXuBuyTongbiResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_LianXuBuyTongbiResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Shop.LianXuBuyTongbiResp.class, qxmobile.protobuf.Shop.LianXuBuyTongbiResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<LianXuBuyTongbiResp> PARSER =
+        new com.google.protobuf.AbstractParser<LianXuBuyTongbiResp>() {
+      public LianXuBuyTongbiResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new LianXuBuyTongbiResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<LianXuBuyTongbiResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-成功，1-今日次数用完，2-元宝不足
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-成功，1-今日次数用完，2-元宝不足
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    // repeated .qxmobile.protobuf.TongbiResp tongbi = 2;
+    public static final int TONGBI_FIELD_NUMBER = 2;
+    private java.util.List<qxmobile.protobuf.Shop.TongbiResp> tongbi_;
+    /**
+     * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+     */
+    public java.util.List<qxmobile.protobuf.Shop.TongbiResp> getTongbiList() {
+      return tongbi_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Shop.TongbiRespOrBuilder> 
+        getTongbiOrBuilderList() {
+      return tongbi_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+     */
+    public int getTongbiCount() {
+      return tongbi_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+     */
+    public qxmobile.protobuf.Shop.TongbiResp getTongbi(int index) {
+      return tongbi_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+     */
+    public qxmobile.protobuf.Shop.TongbiRespOrBuilder getTongbiOrBuilder(
+        int index) {
+      return tongbi_.get(index);
+    }
+
+    private void initFields() {
+      result_ = 0;
+      tongbi_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getTongbiCount(); i++) {
+        if (!getTongbi(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      for (int i = 0; i < tongbi_.size(); i++) {
+        output.writeMessage(2, tongbi_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      for (int i = 0; i < tongbi_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, tongbi_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Shop.LianXuBuyTongbiResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.LianXuBuyTongbiResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.LianXuBuyTongbiResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.LianXuBuyTongbiResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.LianXuBuyTongbiResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.LianXuBuyTongbiResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.LianXuBuyTongbiResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.LianXuBuyTongbiResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.LianXuBuyTongbiResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.LianXuBuyTongbiResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Shop.LianXuBuyTongbiResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.LianXuBuyTongbiResp}
+     *
+     * <pre>
+     *public static final short S_BUY_TongBi_LiXu = 28330;
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Shop.LianXuBuyTongbiRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_LianXuBuyTongbiResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_LianXuBuyTongbiResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Shop.LianXuBuyTongbiResp.class, qxmobile.protobuf.Shop.LianXuBuyTongbiResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Shop.LianXuBuyTongbiResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getTongbiFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (tongbiBuilder_ == null) {
+          tongbi_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          tongbiBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_LianXuBuyTongbiResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Shop.LianXuBuyTongbiResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Shop.LianXuBuyTongbiResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Shop.LianXuBuyTongbiResp build() {
+        qxmobile.protobuf.Shop.LianXuBuyTongbiResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Shop.LianXuBuyTongbiResp buildPartial() {
+        qxmobile.protobuf.Shop.LianXuBuyTongbiResp result = new qxmobile.protobuf.Shop.LianXuBuyTongbiResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        if (tongbiBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            tongbi_ = java.util.Collections.unmodifiableList(tongbi_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.tongbi_ = tongbi_;
+        } else {
+          result.tongbi_ = tongbiBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Shop.LianXuBuyTongbiResp) {
+          return mergeFrom((qxmobile.protobuf.Shop.LianXuBuyTongbiResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Shop.LianXuBuyTongbiResp other) {
+        if (other == qxmobile.protobuf.Shop.LianXuBuyTongbiResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        if (tongbiBuilder_ == null) {
+          if (!other.tongbi_.isEmpty()) {
+            if (tongbi_.isEmpty()) {
+              tongbi_ = other.tongbi_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureTongbiIsMutable();
+              tongbi_.addAll(other.tongbi_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.tongbi_.isEmpty()) {
+            if (tongbiBuilder_.isEmpty()) {
+              tongbiBuilder_.dispose();
+              tongbiBuilder_ = null;
+              tongbi_ = other.tongbi_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              tongbiBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getTongbiFieldBuilder() : null;
+            } else {
+              tongbiBuilder_.addAllMessages(other.tongbi_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getTongbiCount(); i++) {
+          if (!getTongbi(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Shop.LianXuBuyTongbiResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Shop.LianXuBuyTongbiResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-成功，1-今日次数用完，2-元宝不足
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-成功，1-今日次数用完，2-元宝不足
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-成功，1-今日次数用完，2-元宝不足
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-成功，1-今日次数用完，2-元宝不足
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .qxmobile.protobuf.TongbiResp tongbi = 2;
+      private java.util.List<qxmobile.protobuf.Shop.TongbiResp> tongbi_ =
+        java.util.Collections.emptyList();
+      private void ensureTongbiIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          tongbi_ = new java.util.ArrayList<qxmobile.protobuf.Shop.TongbiResp>(tongbi_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Shop.TongbiResp, qxmobile.protobuf.Shop.TongbiResp.Builder, qxmobile.protobuf.Shop.TongbiRespOrBuilder> tongbiBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Shop.TongbiResp> getTongbiList() {
+        if (tongbiBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(tongbi_);
+        } else {
+          return tongbiBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public int getTongbiCount() {
+        if (tongbiBuilder_ == null) {
+          return tongbi_.size();
+        } else {
+          return tongbiBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public qxmobile.protobuf.Shop.TongbiResp getTongbi(int index) {
+        if (tongbiBuilder_ == null) {
+          return tongbi_.get(index);
+        } else {
+          return tongbiBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public Builder setTongbi(
+          int index, qxmobile.protobuf.Shop.TongbiResp value) {
+        if (tongbiBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTongbiIsMutable();
+          tongbi_.set(index, value);
+          onChanged();
+        } else {
+          tongbiBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public Builder setTongbi(
+          int index, qxmobile.protobuf.Shop.TongbiResp.Builder builderForValue) {
+        if (tongbiBuilder_ == null) {
+          ensureTongbiIsMutable();
+          tongbi_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          tongbiBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public Builder addTongbi(qxmobile.protobuf.Shop.TongbiResp value) {
+        if (tongbiBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTongbiIsMutable();
+          tongbi_.add(value);
+          onChanged();
+        } else {
+          tongbiBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public Builder addTongbi(
+          int index, qxmobile.protobuf.Shop.TongbiResp value) {
+        if (tongbiBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTongbiIsMutable();
+          tongbi_.add(index, value);
+          onChanged();
+        } else {
+          tongbiBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public Builder addTongbi(
+          qxmobile.protobuf.Shop.TongbiResp.Builder builderForValue) {
+        if (tongbiBuilder_ == null) {
+          ensureTongbiIsMutable();
+          tongbi_.add(builderForValue.build());
+          onChanged();
+        } else {
+          tongbiBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public Builder addTongbi(
+          int index, qxmobile.protobuf.Shop.TongbiResp.Builder builderForValue) {
+        if (tongbiBuilder_ == null) {
+          ensureTongbiIsMutable();
+          tongbi_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          tongbiBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public Builder addAllTongbi(
+          java.lang.Iterable<? extends qxmobile.protobuf.Shop.TongbiResp> values) {
+        if (tongbiBuilder_ == null) {
+          ensureTongbiIsMutable();
+          super.addAll(values, tongbi_);
+          onChanged();
+        } else {
+          tongbiBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public Builder clearTongbi() {
+        if (tongbiBuilder_ == null) {
+          tongbi_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          tongbiBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public Builder removeTongbi(int index) {
+        if (tongbiBuilder_ == null) {
+          ensureTongbiIsMutable();
+          tongbi_.remove(index);
+          onChanged();
+        } else {
+          tongbiBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public qxmobile.protobuf.Shop.TongbiResp.Builder getTongbiBuilder(
+          int index) {
+        return getTongbiFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public qxmobile.protobuf.Shop.TongbiRespOrBuilder getTongbiOrBuilder(
+          int index) {
+        if (tongbiBuilder_ == null) {
+          return tongbi_.get(index);  } else {
+          return tongbiBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Shop.TongbiRespOrBuilder> 
+           getTongbiOrBuilderList() {
+        if (tongbiBuilder_ != null) {
+          return tongbiBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(tongbi_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public qxmobile.protobuf.Shop.TongbiResp.Builder addTongbiBuilder() {
+        return getTongbiFieldBuilder().addBuilder(
+            qxmobile.protobuf.Shop.TongbiResp.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public qxmobile.protobuf.Shop.TongbiResp.Builder addTongbiBuilder(
+          int index) {
+        return getTongbiFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Shop.TongbiResp.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.TongbiResp tongbi = 2;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Shop.TongbiResp.Builder> 
+           getTongbiBuilderList() {
+        return getTongbiFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Shop.TongbiResp, qxmobile.protobuf.Shop.TongbiResp.Builder, qxmobile.protobuf.Shop.TongbiRespOrBuilder> 
+          getTongbiFieldBuilder() {
+        if (tongbiBuilder_ == null) {
+          tongbiBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Shop.TongbiResp, qxmobile.protobuf.Shop.TongbiResp.Builder, qxmobile.protobuf.Shop.TongbiRespOrBuilder>(
+                  tongbi_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          tongbi_ = null;
+        }
+        return tongbiBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.LianXuBuyTongbiResp)
+    }
+
+    static {
+      defaultInstance = new LianXuBuyTongbiResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.LianXuBuyTongbiResp)
+  }
+
+  public interface TongbiRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 shumu = 1;
+    /**
+     * <code>required int32 shumu = 1;</code>
+     *
+     * <pre>
+     *购买铜币的数目
+     * </pre>
+     */
+    boolean hasShumu();
+    /**
+     * <code>required int32 shumu = 1;</code>
+     *
+     * <pre>
+     *购买铜币的数目
+     * </pre>
+     */
+    int getShumu();
+
+    // required int32 baoji = 2;
+    /**
+     * <code>required int32 baoji = 2;</code>
+     *
+     * <pre>
+     *购买铜币获得的倍数
+     * </pre>
+     */
+    boolean hasBaoji();
+    /**
+     * <code>required int32 baoji = 2;</code>
+     *
+     * <pre>
+     *购买铜币获得的倍数
+     * </pre>
+     */
+    int getBaoji();
+
+    // required int32 cost = 3;
+    /**
+     * <code>required int32 cost = 3;</code>
+     *
+     * <pre>
+     *购买铜币花费的元宝
+     * </pre>
+     */
+    boolean hasCost();
+    /**
+     * <code>required int32 cost = 3;</code>
+     *
+     * <pre>
+     *购买铜币花费的元宝
+     * </pre>
+     */
+    int getCost();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.TongbiResp}
+   */
+  public static final class TongbiResp extends
+      com.google.protobuf.GeneratedMessage
+      implements TongbiRespOrBuilder {
+    // Use TongbiResp.newBuilder() to construct.
+    private TongbiResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TongbiResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TongbiResp defaultInstance;
+    public static TongbiResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TongbiResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TongbiResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              shumu_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              baoji_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              cost_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TongbiResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TongbiResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Shop.TongbiResp.class, qxmobile.protobuf.Shop.TongbiResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TongbiResp> PARSER =
+        new com.google.protobuf.AbstractParser<TongbiResp>() {
+      public TongbiResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TongbiResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TongbiResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 shumu = 1;
+    public static final int SHUMU_FIELD_NUMBER = 1;
+    private int shumu_;
+    /**
+     * <code>required int32 shumu = 1;</code>
+     *
+     * <pre>
+     *购买铜币的数目
+     * </pre>
+     */
+    public boolean hasShumu() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 shumu = 1;</code>
+     *
+     * <pre>
+     *购买铜币的数目
+     * </pre>
+     */
+    public int getShumu() {
+      return shumu_;
+    }
+
+    // required int32 baoji = 2;
+    public static final int BAOJI_FIELD_NUMBER = 2;
+    private int baoji_;
+    /**
+     * <code>required int32 baoji = 2;</code>
+     *
+     * <pre>
+     *购买铜币获得的倍数
+     * </pre>
+     */
+    public boolean hasBaoji() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 baoji = 2;</code>
+     *
+     * <pre>
+     *购买铜币获得的倍数
+     * </pre>
+     */
+    public int getBaoji() {
+      return baoji_;
+    }
+
+    // required int32 cost = 3;
+    public static final int COST_FIELD_NUMBER = 3;
+    private int cost_;
+    /**
+     * <code>required int32 cost = 3;</code>
+     *
+     * <pre>
+     *购买铜币花费的元宝
+     * </pre>
+     */
+    public boolean hasCost() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 cost = 3;</code>
+     *
+     * <pre>
+     *购买铜币花费的元宝
+     * </pre>
+     */
+    public int getCost() {
+      return cost_;
+    }
+
+    private void initFields() {
+      shumu_ = 0;
+      baoji_ = 0;
+      cost_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasShumu()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasBaoji()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCost()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, shumu_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, baoji_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, cost_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, shumu_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, baoji_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, cost_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Shop.TongbiResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.TongbiResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.TongbiResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.TongbiResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.TongbiResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.TongbiResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.TongbiResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.TongbiResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.TongbiResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.TongbiResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Shop.TongbiResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.TongbiResp}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Shop.TongbiRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TongbiResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TongbiResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Shop.TongbiResp.class, qxmobile.protobuf.Shop.TongbiResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Shop.TongbiResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        shumu_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        baoji_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        cost_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_TongbiResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Shop.TongbiResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Shop.TongbiResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Shop.TongbiResp build() {
+        qxmobile.protobuf.Shop.TongbiResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Shop.TongbiResp buildPartial() {
+        qxmobile.protobuf.Shop.TongbiResp result = new qxmobile.protobuf.Shop.TongbiResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.shumu_ = shumu_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.baoji_ = baoji_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.cost_ = cost_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Shop.TongbiResp) {
+          return mergeFrom((qxmobile.protobuf.Shop.TongbiResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Shop.TongbiResp other) {
+        if (other == qxmobile.protobuf.Shop.TongbiResp.getDefaultInstance()) return this;
+        if (other.hasShumu()) {
+          setShumu(other.getShumu());
+        }
+        if (other.hasBaoji()) {
+          setBaoji(other.getBaoji());
+        }
+        if (other.hasCost()) {
+          setCost(other.getCost());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasShumu()) {
+          
+          return false;
+        }
+        if (!hasBaoji()) {
+          
+          return false;
+        }
+        if (!hasCost()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Shop.TongbiResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Shop.TongbiResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 shumu = 1;
+      private int shumu_ ;
+      /**
+       * <code>required int32 shumu = 1;</code>
+       *
+       * <pre>
+       *购买铜币的数目
+       * </pre>
+       */
+      public boolean hasShumu() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 shumu = 1;</code>
+       *
+       * <pre>
+       *购买铜币的数目
+       * </pre>
+       */
+      public int getShumu() {
+        return shumu_;
+      }
+      /**
+       * <code>required int32 shumu = 1;</code>
+       *
+       * <pre>
+       *购买铜币的数目
+       * </pre>
+       */
+      public Builder setShumu(int value) {
+        bitField0_ |= 0x00000001;
+        shumu_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 shumu = 1;</code>
+       *
+       * <pre>
+       *购买铜币的数目
+       * </pre>
+       */
+      public Builder clearShumu() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        shumu_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 baoji = 2;
+      private int baoji_ ;
+      /**
+       * <code>required int32 baoji = 2;</code>
+       *
+       * <pre>
+       *购买铜币获得的倍数
+       * </pre>
+       */
+      public boolean hasBaoji() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 baoji = 2;</code>
+       *
+       * <pre>
+       *购买铜币获得的倍数
+       * </pre>
+       */
+      public int getBaoji() {
+        return baoji_;
+      }
+      /**
+       * <code>required int32 baoji = 2;</code>
+       *
+       * <pre>
+       *购买铜币获得的倍数
+       * </pre>
+       */
+      public Builder setBaoji(int value) {
+        bitField0_ |= 0x00000002;
+        baoji_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 baoji = 2;</code>
+       *
+       * <pre>
+       *购买铜币获得的倍数
+       * </pre>
+       */
+      public Builder clearBaoji() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        baoji_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 cost = 3;
+      private int cost_ ;
+      /**
+       * <code>required int32 cost = 3;</code>
+       *
+       * <pre>
+       *购买铜币花费的元宝
+       * </pre>
+       */
+      public boolean hasCost() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 cost = 3;</code>
+       *
+       * <pre>
+       *购买铜币花费的元宝
+       * </pre>
+       */
+      public int getCost() {
+        return cost_;
+      }
+      /**
+       * <code>required int32 cost = 3;</code>
+       *
+       * <pre>
+       *购买铜币花费的元宝
+       * </pre>
+       */
+      public Builder setCost(int value) {
+        bitField0_ |= 0x00000004;
+        cost_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 cost = 3;</code>
+       *
+       * <pre>
+       *购买铜币花费的元宝
+       * </pre>
+       */
+      public Builder clearCost() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        cost_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.TongbiResp)
+    }
+
+    static {
+      defaultInstance = new TongbiResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.TongbiResp)
+  }
+
+  public interface BuyTongbiDataRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 nowCount = 1;
+    /**
+     * <code>required int32 nowCount = 1;</code>
+     *
+     * <pre>
+     *当前次数
+     * </pre>
+     */
+    boolean hasNowCount();
+    /**
+     * <code>required int32 nowCount = 1;</code>
+     *
+     * <pre>
+     *当前次数
+     * </pre>
+     */
+    int getNowCount();
+
+    // required int32 maxCount = 2;
+    /**
+     * <code>required int32 maxCount = 2;</code>
+     *
+     * <pre>
+     *最大次数
+     * </pre>
+     */
+    boolean hasMaxCount();
+    /**
+     * <code>required int32 maxCount = 2;</code>
+     *
+     * <pre>
+     *最大次数
+     * </pre>
+     */
+    int getMaxCount();
+
+    // required int32 cost = 3;
+    /**
+     * <code>required int32 cost = 3;</code>
+     *
+     * <pre>
+     *花费元宝
+     * </pre>
+     */
+    boolean hasCost();
+    /**
+     * <code>required int32 cost = 3;</code>
+     *
+     * <pre>
+     *花费元宝
+     * </pre>
+     */
+    int getCost();
+
+    // required int32 getTonbi = 4;
+    /**
+     * <code>required int32 getTonbi = 4;</code>
+     *
+     * <pre>
+     *获得铜币
+     * </pre>
+     */
+    boolean hasGetTonbi();
+    /**
+     * <code>required int32 getTonbi = 4;</code>
+     *
+     * <pre>
+     *获得铜币
+     * </pre>
+     */
+    int getGetTonbi();
+
+    // required int32 lixuCount = 5;
+    /**
+     * <code>required int32 lixuCount = 5;</code>
+     *
+     * <pre>
+     *当前可连续购买次数
+     * </pre>
+     */
+    boolean hasLixuCount();
+    /**
+     * <code>required int32 lixuCount = 5;</code>
+     *
+     * <pre>
+     *当前可连续购买次数
+     * </pre>
+     */
+    int getLixuCount();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.BuyTongbiDataResp}
+   *
+   * <pre>
+   *public static final short S_BUY_TongBi_Data = 2830;
+   * </pre>
+   */
+  public static final class BuyTongbiDataResp extends
+      com.google.protobuf.GeneratedMessage
+      implements BuyTongbiDataRespOrBuilder {
+    // Use BuyTongbiDataResp.newBuilder() to construct.
+    private BuyTongbiDataResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private BuyTongbiDataResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final BuyTongbiDataResp defaultInstance;
+    public static BuyTongbiDataResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public BuyTongbiDataResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BuyTongbiDataResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              nowCount_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              maxCount_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              cost_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              getTonbi_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              lixuCount_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTongbiDataResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTongbiDataResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Shop.BuyTongbiDataResp.class, qxmobile.protobuf.Shop.BuyTongbiDataResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<BuyTongbiDataResp> PARSER =
+        new com.google.protobuf.AbstractParser<BuyTongbiDataResp>() {
+      public BuyTongbiDataResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BuyTongbiDataResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BuyTongbiDataResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 nowCount = 1;
+    public static final int NOWCOUNT_FIELD_NUMBER = 1;
+    private int nowCount_;
+    /**
+     * <code>required int32 nowCount = 1;</code>
+     *
+     * <pre>
+     *当前次数
+     * </pre>
+     */
+    public boolean hasNowCount() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 nowCount = 1;</code>
+     *
+     * <pre>
+     *当前次数
+     * </pre>
+     */
+    public int getNowCount() {
+      return nowCount_;
+    }
+
+    // required int32 maxCount = 2;
+    public static final int MAXCOUNT_FIELD_NUMBER = 2;
+    private int maxCount_;
+    /**
+     * <code>required int32 maxCount = 2;</code>
+     *
+     * <pre>
+     *最大次数
+     * </pre>
+     */
+    public boolean hasMaxCount() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 maxCount = 2;</code>
+     *
+     * <pre>
+     *最大次数
+     * </pre>
+     */
+    public int getMaxCount() {
+      return maxCount_;
+    }
+
+    // required int32 cost = 3;
+    public static final int COST_FIELD_NUMBER = 3;
+    private int cost_;
+    /**
+     * <code>required int32 cost = 3;</code>
+     *
+     * <pre>
+     *花费元宝
+     * </pre>
+     */
+    public boolean hasCost() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 cost = 3;</code>
+     *
+     * <pre>
+     *花费元宝
+     * </pre>
+     */
+    public int getCost() {
+      return cost_;
+    }
+
+    // required int32 getTonbi = 4;
+    public static final int GETTONBI_FIELD_NUMBER = 4;
+    private int getTonbi_;
+    /**
+     * <code>required int32 getTonbi = 4;</code>
+     *
+     * <pre>
+     *获得铜币
+     * </pre>
+     */
+    public boolean hasGetTonbi() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 getTonbi = 4;</code>
+     *
+     * <pre>
+     *获得铜币
+     * </pre>
+     */
+    public int getGetTonbi() {
+      return getTonbi_;
+    }
+
+    // required int32 lixuCount = 5;
+    public static final int LIXUCOUNT_FIELD_NUMBER = 5;
+    private int lixuCount_;
+    /**
+     * <code>required int32 lixuCount = 5;</code>
+     *
+     * <pre>
+     *当前可连续购买次数
+     * </pre>
+     */
+    public boolean hasLixuCount() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required int32 lixuCount = 5;</code>
+     *
+     * <pre>
+     *当前可连续购买次数
+     * </pre>
+     */
+    public int getLixuCount() {
+      return lixuCount_;
+    }
+
+    private void initFields() {
+      nowCount_ = 0;
+      maxCount_ = 0;
+      cost_ = 0;
+      getTonbi_ = 0;
+      lixuCount_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasNowCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasMaxCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCost()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGetTonbi()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLixuCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, nowCount_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, maxCount_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, cost_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, getTonbi_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, lixuCount_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, nowCount_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, maxCount_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, cost_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, getTonbi_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, lixuCount_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Shop.BuyTongbiDataResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.BuyTongbiDataResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.BuyTongbiDataResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.BuyTongbiDataResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.BuyTongbiDataResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.BuyTongbiDataResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.BuyTongbiDataResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.BuyTongbiDataResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.BuyTongbiDataResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.BuyTongbiDataResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Shop.BuyTongbiDataResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.BuyTongbiDataResp}
+     *
+     * <pre>
+     *public static final short S_BUY_TongBi_Data = 2830;
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Shop.BuyTongbiDataRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTongbiDataResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTongbiDataResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Shop.BuyTongbiDataResp.class, qxmobile.protobuf.Shop.BuyTongbiDataResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Shop.BuyTongbiDataResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        nowCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        maxCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        cost_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        getTonbi_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        lixuCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_BuyTongbiDataResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Shop.BuyTongbiDataResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Shop.BuyTongbiDataResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Shop.BuyTongbiDataResp build() {
+        qxmobile.protobuf.Shop.BuyTongbiDataResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Shop.BuyTongbiDataResp buildPartial() {
+        qxmobile.protobuf.Shop.BuyTongbiDataResp result = new qxmobile.protobuf.Shop.BuyTongbiDataResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.nowCount_ = nowCount_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.maxCount_ = maxCount_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.cost_ = cost_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.getTonbi_ = getTonbi_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.lixuCount_ = lixuCount_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Shop.BuyTongbiDataResp) {
+          return mergeFrom((qxmobile.protobuf.Shop.BuyTongbiDataResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Shop.BuyTongbiDataResp other) {
+        if (other == qxmobile.protobuf.Shop.BuyTongbiDataResp.getDefaultInstance()) return this;
+        if (other.hasNowCount()) {
+          setNowCount(other.getNowCount());
+        }
+        if (other.hasMaxCount()) {
+          setMaxCount(other.getMaxCount());
+        }
+        if (other.hasCost()) {
+          setCost(other.getCost());
+        }
+        if (other.hasGetTonbi()) {
+          setGetTonbi(other.getGetTonbi());
+        }
+        if (other.hasLixuCount()) {
+          setLixuCount(other.getLixuCount());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasNowCount()) {
+          
+          return false;
+        }
+        if (!hasMaxCount()) {
+          
+          return false;
+        }
+        if (!hasCost()) {
+          
+          return false;
+        }
+        if (!hasGetTonbi()) {
+          
+          return false;
+        }
+        if (!hasLixuCount()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Shop.BuyTongbiDataResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Shop.BuyTongbiDataResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 nowCount = 1;
+      private int nowCount_ ;
+      /**
+       * <code>required int32 nowCount = 1;</code>
+       *
+       * <pre>
+       *当前次数
+       * </pre>
+       */
+      public boolean hasNowCount() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 nowCount = 1;</code>
+       *
+       * <pre>
+       *当前次数
+       * </pre>
+       */
+      public int getNowCount() {
+        return nowCount_;
+      }
+      /**
+       * <code>required int32 nowCount = 1;</code>
+       *
+       * <pre>
+       *当前次数
+       * </pre>
+       */
+      public Builder setNowCount(int value) {
+        bitField0_ |= 0x00000001;
+        nowCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 nowCount = 1;</code>
+       *
+       * <pre>
+       *当前次数
+       * </pre>
+       */
+      public Builder clearNowCount() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        nowCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 maxCount = 2;
+      private int maxCount_ ;
+      /**
+       * <code>required int32 maxCount = 2;</code>
+       *
+       * <pre>
+       *最大次数
+       * </pre>
+       */
+      public boolean hasMaxCount() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 maxCount = 2;</code>
+       *
+       * <pre>
+       *最大次数
+       * </pre>
+       */
+      public int getMaxCount() {
+        return maxCount_;
+      }
+      /**
+       * <code>required int32 maxCount = 2;</code>
+       *
+       * <pre>
+       *最大次数
+       * </pre>
+       */
+      public Builder setMaxCount(int value) {
+        bitField0_ |= 0x00000002;
+        maxCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 maxCount = 2;</code>
+       *
+       * <pre>
+       *最大次数
+       * </pre>
+       */
+      public Builder clearMaxCount() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        maxCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 cost = 3;
+      private int cost_ ;
+      /**
+       * <code>required int32 cost = 3;</code>
+       *
+       * <pre>
+       *花费元宝
+       * </pre>
+       */
+      public boolean hasCost() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 cost = 3;</code>
+       *
+       * <pre>
+       *花费元宝
+       * </pre>
+       */
+      public int getCost() {
+        return cost_;
+      }
+      /**
+       * <code>required int32 cost = 3;</code>
+       *
+       * <pre>
+       *花费元宝
+       * </pre>
+       */
+      public Builder setCost(int value) {
+        bitField0_ |= 0x00000004;
+        cost_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 cost = 3;</code>
+       *
+       * <pre>
+       *花费元宝
+       * </pre>
+       */
+      public Builder clearCost() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        cost_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 getTonbi = 4;
+      private int getTonbi_ ;
+      /**
+       * <code>required int32 getTonbi = 4;</code>
+       *
+       * <pre>
+       *获得铜币
+       * </pre>
+       */
+      public boolean hasGetTonbi() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 getTonbi = 4;</code>
+       *
+       * <pre>
+       *获得铜币
+       * </pre>
+       */
+      public int getGetTonbi() {
+        return getTonbi_;
+      }
+      /**
+       * <code>required int32 getTonbi = 4;</code>
+       *
+       * <pre>
+       *获得铜币
+       * </pre>
+       */
+      public Builder setGetTonbi(int value) {
+        bitField0_ |= 0x00000008;
+        getTonbi_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 getTonbi = 4;</code>
+       *
+       * <pre>
+       *获得铜币
+       * </pre>
+       */
+      public Builder clearGetTonbi() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        getTonbi_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 lixuCount = 5;
+      private int lixuCount_ ;
+      /**
+       * <code>required int32 lixuCount = 5;</code>
+       *
+       * <pre>
+       *当前可连续购买次数
+       * </pre>
+       */
+      public boolean hasLixuCount() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required int32 lixuCount = 5;</code>
+       *
+       * <pre>
+       *当前可连续购买次数
+       * </pre>
+       */
+      public int getLixuCount() {
+        return lixuCount_;
+      }
+      /**
+       * <code>required int32 lixuCount = 5;</code>
+       *
+       * <pre>
+       *当前可连续购买次数
+       * </pre>
+       */
+      public Builder setLixuCount(int value) {
+        bitField0_ |= 0x00000010;
+        lixuCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 lixuCount = 5;</code>
+       *
+       * <pre>
+       *当前可连续购买次数
+       * </pre>
+       */
+      public Builder clearLixuCount() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        lixuCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.BuyTongbiDataResp)
+    }
+
+    static {
+      defaultInstance = new BuyTongbiDataResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.BuyTongbiDataResp)
+  }
+
   public interface BuyMibaoPointRespOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -2958,7 +5382,7 @@ public final class Shop {
      * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
      * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
      * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
-     * type = 50 表示正常请求普通商店，（普通商店没有花钱刷新）
+     * type = 50 表示正常请求普通商店
      * type = 60 表示正常请求神秘商店；61 表示花钱（元宝）的刷新神秘商店
      * </pre>
      */
@@ -2971,7 +5395,7 @@ public final class Shop {
      * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
      * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
      * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
-     * type = 50 表示正常请求普通商店，（普通商店没有花钱刷新）
+     * type = 50 表示正常请求普通商店
      * type = 60 表示正常请求神秘商店；61 表示花钱（元宝）的刷新神秘商店
      * </pre>
      */
@@ -3084,7 +5508,7 @@ public final class Shop {
      * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
      * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
      * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
-     * type = 50 表示正常请求普通商店，（普通商店没有花钱刷新）
+     * type = 50 表示正常请求普通商店
      * type = 60 表示正常请求神秘商店；61 表示花钱（元宝）的刷新神秘商店
      * </pre>
      */
@@ -3099,7 +5523,7 @@ public final class Shop {
      * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
      * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
      * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
-     * type = 50 表示正常请求普通商店，（普通商店没有花钱刷新）
+     * type = 50 表示正常请求普通商店
      * type = 60 表示正常请求神秘商店；61 表示花钱（元宝）的刷新神秘商店
      * </pre>
      */
@@ -3352,7 +5776,7 @@ public final class Shop {
        * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
        * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
        * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
-       * type = 50 表示正常请求普通商店，（普通商店没有花钱刷新）
+       * type = 50 表示正常请求普通商店
        * type = 60 表示正常请求神秘商店；61 表示花钱（元宝）的刷新神秘商店
        * </pre>
        */
@@ -3367,7 +5791,7 @@ public final class Shop {
        * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
        * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
        * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
-       * type = 50 表示正常请求普通商店，（普通商店没有花钱刷新）
+       * type = 50 表示正常请求普通商店
        * type = 60 表示正常请求神秘商店；61 表示花钱（元宝）的刷新神秘商店
        * </pre>
        */
@@ -3382,7 +5806,7 @@ public final class Shop {
        * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
        * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
        * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
-       * type = 50 表示正常请求普通商店，（普通商店没有花钱刷新）
+       * type = 50 表示正常请求普通商店
        * type = 60 表示正常请求神秘商店；61 表示花钱（元宝）的刷新神秘商店
        * </pre>
        */
@@ -3400,7 +5824,7 @@ public final class Shop {
        * type = 20 表示正常请求联盟商店；21表示花钱(贡献)的刷新联盟商店
        * type = 30 表示正常请求联盟战商店；31表示花钱(功勋)的刷新联盟战商店
        * type = 40 表示正常请求百战商店: 41 表示花钱(威望) 的刷新百战商店
-       * type = 50 表示正常请求普通商店，（普通商店没有花钱刷新）
+       * type = 50 表示正常请求普通商店
        * type = 60 表示正常请求神秘商店；61 表示花钱（元宝）的刷新神秘商店
        * </pre>
        */
@@ -3493,7 +5917,7 @@ public final class Shop {
      * <code>optional int32 nextRefreshNeedMoney = 4;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望；普通：元宝； 神秘：元宝
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望； 神秘：元宝
      * </pre>
      */
     boolean hasNextRefreshNeedMoney();
@@ -3501,7 +5925,7 @@ public final class Shop {
      * <code>optional int32 nextRefreshNeedMoney = 4;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望；普通：元宝； 神秘：元宝
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望； 神秘：元宝
      * </pre>
      */
     int getNextRefreshNeedMoney();
@@ -3511,7 +5935,7 @@ public final class Shop {
      * <code>optional int32 money = 5;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望；普通：元宝； 神秘：元宝
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望； 神秘：元宝
      * </pre>
      */
     boolean hasMoney();
@@ -3519,7 +5943,7 @@ public final class Shop {
      * <code>optional int32 money = 5;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望；普通：元宝； 神秘：元宝
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望； 神秘：元宝
      * </pre>
      */
     int getMoney();
@@ -3541,6 +5965,24 @@ public final class Shop {
      * </pre>
      */
     int getTongbi();
+
+    // optional int32 lmshopLv = 7;
+    /**
+     * <code>optional int32 lmshopLv = 7;</code>
+     *
+     * <pre>
+     * type==2X 的时候发送
+     * </pre>
+     */
+    boolean hasLmshopLv();
+    /**
+     * <code>optional int32 lmshopLv = 7;</code>
+     *
+     * <pre>
+     * type==2X 的时候发送
+     * </pre>
+     */
+    int getLmshopLv();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ShopResp}
@@ -3624,6 +6066,11 @@ public final class Shop {
             case 48: {
               bitField0_ |= 0x00000010;
               tongbi_ = input.readInt32();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000020;
+              lmshopLv_ = input.readInt32();
               break;
             }
           }
@@ -3762,7 +6209,7 @@ public final class Shop {
      * <code>optional int32 nextRefreshNeedMoney = 4;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望；普通：元宝； 神秘：元宝
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望； 神秘：元宝
      * </pre>
      */
     public boolean hasNextRefreshNeedMoney() {
@@ -3772,7 +6219,7 @@ public final class Shop {
      * <code>optional int32 nextRefreshNeedMoney = 4;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望；普通：元宝； 神秘：元宝
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望； 神秘：元宝
      * </pre>
      */
     public int getNextRefreshNeedMoney() {
@@ -3786,7 +6233,7 @@ public final class Shop {
      * <code>optional int32 money = 5;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望；普通：元宝； 神秘：元宝
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望； 神秘：元宝
      * </pre>
      */
     public boolean hasMoney() {
@@ -3796,7 +6243,7 @@ public final class Shop {
      * <code>optional int32 money = 5;</code>
      *
      * <pre>
-     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望；普通：元宝； 神秘：元宝
+     * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望； 神秘：元宝
      * </pre>
      */
     public int getMoney() {
@@ -3827,6 +6274,30 @@ public final class Shop {
       return tongbi_;
     }
 
+    // optional int32 lmshopLv = 7;
+    public static final int LMSHOPLV_FIELD_NUMBER = 7;
+    private int lmshopLv_;
+    /**
+     * <code>optional int32 lmshopLv = 7;</code>
+     *
+     * <pre>
+     * type==2X 的时候发送
+     * </pre>
+     */
+    public boolean hasLmshopLv() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional int32 lmshopLv = 7;</code>
+     *
+     * <pre>
+     * type==2X 的时候发送
+     * </pre>
+     */
+    public int getLmshopLv() {
+      return lmshopLv_;
+    }
+
     private void initFields() {
       msg_ = 0;
       goodsInfos_ = java.util.Collections.emptyList();
@@ -3834,6 +6305,7 @@ public final class Shop {
       nextRefreshNeedMoney_ = 0;
       money_ = 0;
       tongbi_ = 0;
+      lmshopLv_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3875,6 +6347,9 @@ public final class Shop {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeInt32(6, tongbi_);
       }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(7, lmshopLv_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -3907,6 +6382,10 @@ public final class Shop {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(6, tongbi_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, lmshopLv_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4041,6 +6520,8 @@ public final class Shop {
         bitField0_ = (bitField0_ & ~0x00000010);
         tongbi_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
+        lmshopLv_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -4098,6 +6579,10 @@ public final class Shop {
           to_bitField0_ |= 0x00000010;
         }
         result.tongbi_ = tongbi_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.lmshopLv_ = lmshopLv_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4154,6 +6639,9 @@ public final class Shop {
         }
         if (other.hasTongbi()) {
           setTongbi(other.getTongbi());
+        }
+        if (other.hasLmshopLv()) {
+          setLmshopLv(other.getLmshopLv());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4540,7 +7028,7 @@ public final class Shop {
        * <code>optional int32 nextRefreshNeedMoney = 4;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望；普通：元宝； 神秘：元宝
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望； 神秘：元宝
        * </pre>
        */
       public boolean hasNextRefreshNeedMoney() {
@@ -4550,7 +7038,7 @@ public final class Shop {
        * <code>optional int32 nextRefreshNeedMoney = 4;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望；普通：元宝； 神秘：元宝
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望； 神秘：元宝
        * </pre>
        */
       public int getNextRefreshNeedMoney() {
@@ -4560,7 +7048,7 @@ public final class Shop {
        * <code>optional int32 nextRefreshNeedMoney = 4;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望；普通：元宝； 神秘：元宝
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望； 神秘：元宝
        * </pre>
        */
       public Builder setNextRefreshNeedMoney(int value) {
@@ -4573,7 +7061,7 @@ public final class Shop {
        * <code>optional int32 nextRefreshNeedMoney = 4;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望；普通：元宝； 神秘：元宝
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店：威望； 神秘：元宝
        * </pre>
        */
       public Builder clearNextRefreshNeedMoney() {
@@ -4589,7 +7077,7 @@ public final class Shop {
        * <code>optional int32 money = 5;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望；普通：元宝； 神秘：元宝
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望； 神秘：元宝
        * </pre>
        */
       public boolean hasMoney() {
@@ -4599,7 +7087,7 @@ public final class Shop {
        * <code>optional int32 money = 5;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望；普通：元宝； 神秘：元宝
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望； 神秘：元宝
        * </pre>
        */
       public int getMoney() {
@@ -4609,7 +7097,7 @@ public final class Shop {
        * <code>optional int32 money = 5;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望；普通：元宝； 神秘：元宝
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望； 神秘：元宝
        * </pre>
        */
       public Builder setMoney(int value) {
@@ -4622,7 +7110,7 @@ public final class Shop {
        * <code>optional int32 money = 5;</code>
        *
        * <pre>
-       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望；普通：元宝； 神秘：元宝
+       * 对应商店的货币，荒野商店：荒野币；联盟商店：联盟贡献； 百战商店:威望； 神秘：元宝
        * </pre>
        */
       public Builder clearMoney() {
@@ -4681,6 +7169,55 @@ public final class Shop {
         return this;
       }
 
+      // optional int32 lmshopLv = 7;
+      private int lmshopLv_ ;
+      /**
+       * <code>optional int32 lmshopLv = 7;</code>
+       *
+       * <pre>
+       * type==2X 的时候发送
+       * </pre>
+       */
+      public boolean hasLmshopLv() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional int32 lmshopLv = 7;</code>
+       *
+       * <pre>
+       * type==2X 的时候发送
+       * </pre>
+       */
+      public int getLmshopLv() {
+        return lmshopLv_;
+      }
+      /**
+       * <code>optional int32 lmshopLv = 7;</code>
+       *
+       * <pre>
+       * type==2X 的时候发送
+       * </pre>
+       */
+      public Builder setLmshopLv(int value) {
+        bitField0_ |= 0x00000040;
+        lmshopLv_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 lmshopLv = 7;</code>
+       *
+       * <pre>
+       * type==2X 的时候发送
+       * </pre>
+       */
+      public Builder clearLmshopLv() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        lmshopLv_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ShopResp)
     }
 
@@ -4732,6 +7269,24 @@ public final class Shop {
      * </pre>
      */
     boolean getIsChange();
+
+    // optional int32 remainCount = 4;
+    /**
+     * <code>optional int32 remainCount = 4;</code>
+     *
+     * <pre>
+     *type == 普通商店是否发送
+     * </pre>
+     */
+    boolean hasRemainCount();
+    /**
+     * <code>optional int32 remainCount = 4;</code>
+     *
+     * <pre>
+     *type == 普通商店是否发送
+     * </pre>
+     */
+    int getRemainCount();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.DuiHuanInfo}
@@ -4797,6 +7352,11 @@ public final class Shop {
             case 24: {
               bitField0_ |= 0x00000004;
               isChange_ = input.readBool();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              remainCount_ = input.readInt32();
               break;
             }
           }
@@ -4895,10 +7455,35 @@ public final class Shop {
       return isChange_;
     }
 
+    // optional int32 remainCount = 4;
+    public static final int REMAINCOUNT_FIELD_NUMBER = 4;
+    private int remainCount_;
+    /**
+     * <code>optional int32 remainCount = 4;</code>
+     *
+     * <pre>
+     *type == 普通商店是否发送
+     * </pre>
+     */
+    public boolean hasRemainCount() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 remainCount = 4;</code>
+     *
+     * <pre>
+     *type == 普通商店是否发送
+     * </pre>
+     */
+    public int getRemainCount() {
+      return remainCount_;
+    }
+
     private void initFields() {
       id_ = 0;
       site_ = 0;
       isChange_ = false;
+      remainCount_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4933,6 +7518,9 @@ public final class Shop {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBool(3, isChange_);
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, remainCount_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -4953,6 +7541,10 @@ public final class Shop {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, isChange_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, remainCount_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5076,6 +7668,8 @@ public final class Shop {
         bitField0_ = (bitField0_ & ~0x00000002);
         isChange_ = false;
         bitField0_ = (bitField0_ & ~0x00000004);
+        remainCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -5116,6 +7710,10 @@ public final class Shop {
           to_bitField0_ |= 0x00000004;
         }
         result.isChange_ = isChange_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.remainCount_ = remainCount_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5140,6 +7738,9 @@ public final class Shop {
         }
         if (other.hasIsChange()) {
           setIsChange(other.getIsChange());
+        }
+        if (other.hasRemainCount()) {
+          setRemainCount(other.getRemainCount());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -5291,6 +7892,55 @@ public final class Shop {
       public Builder clearIsChange() {
         bitField0_ = (bitField0_ & ~0x00000004);
         isChange_ = false;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 remainCount = 4;
+      private int remainCount_ ;
+      /**
+       * <code>optional int32 remainCount = 4;</code>
+       *
+       * <pre>
+       *type == 普通商店是否发送
+       * </pre>
+       */
+      public boolean hasRemainCount() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 remainCount = 4;</code>
+       *
+       * <pre>
+       *type == 普通商店是否发送
+       * </pre>
+       */
+      public int getRemainCount() {
+        return remainCount_;
+      }
+      /**
+       * <code>optional int32 remainCount = 4;</code>
+       *
+       * <pre>
+       *type == 普通商店是否发送
+       * </pre>
+       */
+      public Builder setRemainCount(int value) {
+        bitField0_ |= 0x00000008;
+        remainCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 remainCount = 4;</code>
+       *
+       * <pre>
+       *type == 普通商店是否发送
+       * </pre>
+       */
+      public Builder clearRemainCount() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        remainCount_ = 0;
         onChanged();
         return this;
       }
@@ -5879,7 +8529,7 @@ public final class Shop {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启， 5： 普通商店物品购买次数已经用完
      * </pre>
      */
     boolean hasMsg();
@@ -5887,7 +8537,7 @@ public final class Shop {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启， 5： 普通商店物品购买次数已经用完
      * </pre>
      */
     int getMsg();
@@ -6018,7 +8668,7 @@ public final class Shop {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启， 5： 普通商店物品购买次数已经用完
      * </pre>
      */
     public boolean hasMsg() {
@@ -6028,7 +8678,7 @@ public final class Shop {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启， 5： 普通商店物品购买次数已经用完
      * </pre>
      */
     public int getMsg() {
@@ -6317,7 +8967,7 @@ public final class Shop {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启， 5： 普通商店物品购买次数已经用完
        * </pre>
        */
       public boolean hasMsg() {
@@ -6327,7 +8977,7 @@ public final class Shop {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启， 5： 普通商店物品购买次数已经用完
        * </pre>
        */
       public int getMsg() {
@@ -6337,7 +8987,7 @@ public final class Shop {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启， 5： 普通商店物品购买次数已经用完
        * </pre>
        */
       public Builder setMsg(int value) {
@@ -6350,7 +9000,7 @@ public final class Shop {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启， 5： 普通商店物品购买次数已经用完
        * </pre>
        */
       public Builder clearMsg() {
@@ -6441,6 +9091,21 @@ public final class Shop {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_BuyTongbiResp_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_LianXuBuyTongbiResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_LianXuBuyTongbiResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_TongbiResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_TongbiResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_BuyTongbiDataResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_BuyTongbiDataResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_BuyMibaoPointResp_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -6485,17 +9150,24 @@ public final class Shop {
       "rotobuf.ResourceInfo\"J\n\014ResourceInfo\022\014\n\004" +
       "type\030\001 \002(\005\022\r\n\005times\030\002 \002(\005\022\014\n\004cost\030\003 \002(\005\022" +
       "\017\n\007getNums\030\004 \002(\005\".\n\rBuyTongbiResp\022\016\n\006res" +
-      "ult\030\001 \002(\005\022\r\n\005baoji\030\002 \002(\005\"#\n\021BuyMibaoPoin" +
-      "tResp\022\016\n\006result\030\001 \002(\005\"\027\n\007ShopReq\022\014\n\004type" +
-      "\030\001 \002(\005\"\234\001\n\010ShopResp\022\013\n\003msg\030\001 \002(\005\0222\n\ngood" +
-      "sInfos\030\002 \003(\0132\036.qxmobile.protobuf.DuiHuan",
-      "Info\022\022\n\nremianTime\030\003 \001(\005\022\034\n\024nextRefreshN" +
-      "eedMoney\030\004 \001(\005\022\r\n\005money\030\005 \001(\005\022\016\n\006tongbi\030" +
-      "\006 \001(\005\"9\n\013DuiHuanInfo\022\n\n\002id\030\001 \002(\005\022\014\n\004site" +
-      "\030\002 \002(\005\022\020\n\010isChange\030\003 \002(\010\"*\n\nBuyGoodReq\022\014" +
-      "\n\004type\030\001 \002(\005\022\016\n\006goodId\030\002 \002(\005\"/\n\013BuyGoodR" +
-      "esp\022\013\n\003msg\030\001 \002(\005\022\023\n\013remianMoney\030\002 \001(\005B\006B" +
-      "\004Shop"
+      "ult\030\001 \002(\005\022\r\n\005baoji\030\002 \002(\005\"T\n\023LianXuBuyTon" +
+      "gbiResp\022\016\n\006result\030\001 \002(\005\022-\n\006tongbi\030\002 \003(\0132" +
+      "\035.qxmobile.protobuf.TongbiResp\"8\n\nTongbi" +
+      "Resp\022\r\n\005shumu\030\001 \002(\005\022\r\n\005baoji\030\002 \002(\005\022\014\n\004co",
+      "st\030\003 \002(\005\"j\n\021BuyTongbiDataResp\022\020\n\010nowCoun" +
+      "t\030\001 \002(\005\022\020\n\010maxCount\030\002 \002(\005\022\014\n\004cost\030\003 \002(\005\022" +
+      "\020\n\010getTonbi\030\004 \002(\005\022\021\n\tlixuCount\030\005 \002(\005\"#\n\021" +
+      "BuyMibaoPointResp\022\016\n\006result\030\001 \002(\005\"\027\n\007Sho" +
+      "pReq\022\014\n\004type\030\001 \002(\005\"\256\001\n\010ShopResp\022\013\n\003msg\030\001" +
+      " \002(\005\0222\n\ngoodsInfos\030\002 \003(\0132\036.qxmobile.prot" +
+      "obuf.DuiHuanInfo\022\022\n\nremianTime\030\003 \001(\005\022\034\n\024" +
+      "nextRefreshNeedMoney\030\004 \001(\005\022\r\n\005money\030\005 \001(" +
+      "\005\022\016\n\006tongbi\030\006 \001(\005\022\020\n\010lmshopLv\030\007 \001(\005\"N\n\013D" +
+      "uiHuanInfo\022\n\n\002id\030\001 \002(\005\022\014\n\004site\030\002 \002(\005\022\020\n\010",
+      "isChange\030\003 \002(\010\022\023\n\013remainCount\030\004 \001(\005\"*\n\nB" +
+      "uyGoodReq\022\014\n\004type\030\001 \002(\005\022\016\n\006goodId\030\002 \002(\005\"" +
+      "/\n\013BuyGoodResp\022\013\n\003msg\030\001 \002(\005\022\023\n\013remianMon" +
+      "ey\030\002 \001(\005B\006B\004Shop"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6526,38 +9198,56 @@ public final class Shop {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BuyTongbiResp_descriptor,
               new java.lang.String[] { "Result", "Baoji", });
-          internal_static_qxmobile_protobuf_BuyMibaoPointResp_descriptor =
+          internal_static_qxmobile_protobuf_LianXuBuyTongbiResp_descriptor =
             getDescriptor().getMessageTypes().get(4);
+          internal_static_qxmobile_protobuf_LianXuBuyTongbiResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_LianXuBuyTongbiResp_descriptor,
+              new java.lang.String[] { "Result", "Tongbi", });
+          internal_static_qxmobile_protobuf_TongbiResp_descriptor =
+            getDescriptor().getMessageTypes().get(5);
+          internal_static_qxmobile_protobuf_TongbiResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_TongbiResp_descriptor,
+              new java.lang.String[] { "Shumu", "Baoji", "Cost", });
+          internal_static_qxmobile_protobuf_BuyTongbiDataResp_descriptor =
+            getDescriptor().getMessageTypes().get(6);
+          internal_static_qxmobile_protobuf_BuyTongbiDataResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_BuyTongbiDataResp_descriptor,
+              new java.lang.String[] { "NowCount", "MaxCount", "Cost", "GetTonbi", "LixuCount", });
+          internal_static_qxmobile_protobuf_BuyMibaoPointResp_descriptor =
+            getDescriptor().getMessageTypes().get(7);
           internal_static_qxmobile_protobuf_BuyMibaoPointResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BuyMibaoPointResp_descriptor,
               new java.lang.String[] { "Result", });
           internal_static_qxmobile_protobuf_ShopReq_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(8);
           internal_static_qxmobile_protobuf_ShopReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ShopReq_descriptor,
               new java.lang.String[] { "Type", });
           internal_static_qxmobile_protobuf_ShopResp_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(9);
           internal_static_qxmobile_protobuf_ShopResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ShopResp_descriptor,
-              new java.lang.String[] { "Msg", "GoodsInfos", "RemianTime", "NextRefreshNeedMoney", "Money", "Tongbi", });
+              new java.lang.String[] { "Msg", "GoodsInfos", "RemianTime", "NextRefreshNeedMoney", "Money", "Tongbi", "LmshopLv", });
           internal_static_qxmobile_protobuf_DuiHuanInfo_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(10);
           internal_static_qxmobile_protobuf_DuiHuanInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_DuiHuanInfo_descriptor,
-              new java.lang.String[] { "Id", "Site", "IsChange", });
+              new java.lang.String[] { "Id", "Site", "IsChange", "RemainCount", });
           internal_static_qxmobile_protobuf_BuyGoodReq_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(11);
           internal_static_qxmobile_protobuf_BuyGoodReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BuyGoodReq_descriptor,
               new java.lang.String[] { "Type", "GoodId", });
           internal_static_qxmobile_protobuf_BuyGoodResp_descriptor =
-            getDescriptor().getMessageTypes().get(9);
+            getDescriptor().getMessageTypes().get(12);
           internal_static_qxmobile_protobuf_BuyGoodResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BuyGoodResp_descriptor,

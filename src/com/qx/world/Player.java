@@ -22,6 +22,7 @@ public class Player extends Sprite{
 	public int guojia;//国家
 	public int worth;//马车价值
 	public int horseType;//马车类型
+	public int xuePingRemain;
 	public Player(){
 		pState = PlayerData.State.State_LOADINGSCENE;
 	}

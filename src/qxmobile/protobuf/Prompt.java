@@ -60,8 +60,8 @@ public final class Prompt {
    * Protobuf type {@code qxmobile.protobuf.PromptMSGResp}
    *
    * <pre>
-   *public static final short C_YABIAO_SOS_HISTORY_RSQ = 3427;//请求押镖求助历史
-   *public static final short S_YABIAO_SOS_HISTORY_RESP = 3428;//请求押镖求助历史返回
+   *public static final short C_MengYouKuaiBao_Req=4240;//请求盟友快报
+   *public static final short S_MengYouKuaiBao_Resq=4241;	//请求盟友快报返回
    * </pre>
    */
   public static final class PromptMSGResp extends
@@ -337,8 +337,8 @@ public final class Prompt {
      * Protobuf type {@code qxmobile.protobuf.PromptMSGResp}
      *
      * <pre>
-     *public static final short C_YABIAO_SOS_HISTORY_RSQ = 3427;//请求押镖求助历史
-     *public static final short S_YABIAO_SOS_HISTORY_RESP = 3428;//请求押镖求助历史返回
+     *public static final short C_MengYouKuaiBao_Req=4240;//请求盟友快报
+     *public static final short S_MengYouKuaiBao_Resq=4241;	//请求盟友快报返回
      * </pre>
      */
     public static final class Builder extends
@@ -882,20 +882,26 @@ public final class Prompt {
      */
     int getConfigId();
 
-    // optional int64 startTime = 6;
+    // optional string award = 6;
     /**
-     * <code>optional int64 startTime = 6;</code>
+     * <code>optional string award = 6;</code>
      */
-    boolean hasStartTime();
+    boolean hasAward();
     /**
-     * <code>optional int64 startTime = 6;</code>
+     * <code>optional string award = 6;</code>
      */
-    long getStartTime();
+    java.lang.String getAward();
+    /**
+     * <code>optional string award = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getAwardBytes();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.SuBaoMSG}
    *
    * <pre>
+   *	public static final short S_MengYouKuaiBao_PUSH=3448;	//盟友快报推送
    *盟友速报
    * </pre>
    */
@@ -972,9 +978,9 @@ public final class Prompt {
               configId_ = input.readInt32();
               break;
             }
-            case 48: {
+            case 50: {
               bitField0_ |= 0x00000020;
-              startTime_ = input.readInt64();
+              award_ = input.readBytes();
               break;
             }
           }
@@ -1132,20 +1138,47 @@ public final class Prompt {
       return configId_;
     }
 
-    // optional int64 startTime = 6;
-    public static final int STARTTIME_FIELD_NUMBER = 6;
-    private long startTime_;
+    // optional string award = 6;
+    public static final int AWARD_FIELD_NUMBER = 6;
+    private java.lang.Object award_;
     /**
-     * <code>optional int64 startTime = 6;</code>
+     * <code>optional string award = 6;</code>
      */
-    public boolean hasStartTime() {
+    public boolean hasAward() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional int64 startTime = 6;</code>
+     * <code>optional string award = 6;</code>
      */
-    public long getStartTime() {
-      return startTime_;
+    public java.lang.String getAward() {
+      java.lang.Object ref = award_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          award_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string award = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getAwardBytes() {
+      java.lang.Object ref = award_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        award_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private void initFields() {
@@ -1154,7 +1187,7 @@ public final class Prompt {
       subao_ = "";
       eventId_ = 0;
       configId_ = 0;
-      startTime_ = 0L;
+      award_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1204,7 +1237,7 @@ public final class Prompt {
         output.writeInt32(5, configId_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeInt64(6, startTime_);
+        output.writeBytes(6, getAwardBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -1237,7 +1270,7 @@ public final class Prompt {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(6, startTime_);
+          .computeBytesSize(6, getAwardBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1321,6 +1354,7 @@ public final class Prompt {
      * Protobuf type {@code qxmobile.protobuf.SuBaoMSG}
      *
      * <pre>
+     *	public static final short S_MengYouKuaiBao_PUSH=3448;	//盟友快报推送
      *盟友速报
      * </pre>
      */
@@ -1369,7 +1403,7 @@ public final class Prompt {
         bitField0_ = (bitField0_ & ~0x00000008);
         configId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
-        startTime_ = 0L;
+        award_ = "";
         bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
@@ -1422,7 +1456,7 @@ public final class Prompt {
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000020;
         }
-        result.startTime_ = startTime_;
+        result.award_ = award_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1456,8 +1490,10 @@ public final class Prompt {
         if (other.hasConfigId()) {
           setConfigId(other.getConfigId());
         }
-        if (other.hasStartTime()) {
-          setStartTime(other.getStartTime());
+        if (other.hasAward()) {
+          bitField0_ |= 0x00000020;
+          award_ = other.award_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1728,35 +1764,76 @@ public final class Prompt {
         return this;
       }
 
-      // optional int64 startTime = 6;
-      private long startTime_ ;
+      // optional string award = 6;
+      private java.lang.Object award_ = "";
       /**
-       * <code>optional int64 startTime = 6;</code>
+       * <code>optional string award = 6;</code>
        */
-      public boolean hasStartTime() {
+      public boolean hasAward() {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional int64 startTime = 6;</code>
+       * <code>optional string award = 6;</code>
        */
-      public long getStartTime() {
-        return startTime_;
+      public java.lang.String getAward() {
+        java.lang.Object ref = award_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          award_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>optional int64 startTime = 6;</code>
+       * <code>optional string award = 6;</code>
        */
-      public Builder setStartTime(long value) {
-        bitField0_ |= 0x00000020;
-        startTime_ = value;
+      public com.google.protobuf.ByteString
+          getAwardBytes() {
+        java.lang.Object ref = award_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          award_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string award = 6;</code>
+       */
+      public Builder setAward(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        award_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int64 startTime = 6;</code>
+       * <code>optional string award = 6;</code>
        */
-      public Builder clearStartTime() {
+      public Builder clearAward() {
         bitField0_ = (bitField0_ & ~0x00000020);
-        startTime_ = 0L;
+        award_ = getDefaultInstance().getAward();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string award = 6;</code>
+       */
+      public Builder setAwardBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        award_ = value;
         onChanged();
         return this;
       }
@@ -1780,7 +1857,7 @@ public final class Prompt {
      * <code>required int32 reqType = 1;</code>
      *
      * <pre>
-     * 1-忽略， 2- 祝福， 3- 安慰， 4 -领奖, 5- 前往 可以增加对应的协议
+     * 1-忽略， 3- 祝福， 4- 安慰， 5 -领奖, 2- 前往 可以增加对应的协议 
      * </pre>
      */
     boolean hasReqType();
@@ -1788,7 +1865,7 @@ public final class Prompt {
      * <code>required int32 reqType = 1;</code>
      *
      * <pre>
-     * 1-忽略， 2- 祝福， 3- 安慰， 4 -领奖, 5- 前往 可以增加对应的协议
+     * 1-忽略， 3- 祝福， 4- 安慰， 5 -领奖, 2- 前往 可以增加对应的协议 
      * </pre>
      */
     int getReqType();
@@ -1916,7 +1993,7 @@ public final class Prompt {
      * <code>required int32 reqType = 1;</code>
      *
      * <pre>
-     * 1-忽略， 2- 祝福， 3- 安慰， 4 -领奖, 5- 前往 可以增加对应的协议
+     * 1-忽略， 3- 祝福， 4- 安慰， 5 -领奖, 2- 前往 可以增加对应的协议 
      * </pre>
      */
     public boolean hasReqType() {
@@ -1926,7 +2003,7 @@ public final class Prompt {
      * <code>required int32 reqType = 1;</code>
      *
      * <pre>
-     * 1-忽略， 2- 祝福， 3- 安慰， 4 -领奖, 5- 前往 可以增加对应的协议
+     * 1-忽略， 3- 祝福， 4- 安慰， 5 -领奖, 2- 前往 可以增加对应的协议 
      * </pre>
      */
     public int getReqType() {
@@ -2220,7 +2297,7 @@ public final class Prompt {
        * <code>required int32 reqType = 1;</code>
        *
        * <pre>
-       * 1-忽略， 2- 祝福， 3- 安慰， 4 -领奖, 5- 前往 可以增加对应的协议
+       * 1-忽略， 3- 祝福， 4- 安慰， 5 -领奖, 2- 前往 可以增加对应的协议 
        * </pre>
        */
       public boolean hasReqType() {
@@ -2230,7 +2307,7 @@ public final class Prompt {
        * <code>required int32 reqType = 1;</code>
        *
        * <pre>
-       * 1-忽略， 2- 祝福， 3- 安慰， 4 -领奖, 5- 前往 可以增加对应的协议
+       * 1-忽略， 3- 祝福， 4- 安慰， 5 -领奖, 2- 前往 可以增加对应的协议 
        * </pre>
        */
       public int getReqType() {
@@ -2240,7 +2317,7 @@ public final class Prompt {
        * <code>required int32 reqType = 1;</code>
        *
        * <pre>
-       * 1-忽略， 2- 祝福， 3- 安慰， 4 -领奖, 5- 前往 可以增加对应的协议
+       * 1-忽略， 3- 祝福， 4- 安慰， 5 -领奖, 2- 前往 可以增加对应的协议 
        * </pre>
        */
       public Builder setReqType(int value) {
@@ -2253,7 +2330,7 @@ public final class Prompt {
        * <code>required int32 reqType = 1;</code>
        *
        * <pre>
-       * 1-忽略， 2- 祝福， 3- 安慰， 4 -领奖, 5- 前往 可以增加对应的协议
+       * 1-忽略， 3- 祝福， 4- 安慰， 5 -领奖, 2- 前往 可以增加对应的协议 
        * </pre>
        */
       public Builder clearReqType() {
@@ -2320,9 +2397,9 @@ public final class Prompt {
      */
     long getSubaoId();
 
-    // required int64 result = 2;
+    // required int32 result = 2;
     /**
-     * <code>required int64 result = 2;</code>
+     * <code>required int32 result = 2;</code>
      *
      * <pre>
      *10 成功 20没找到对应速报
@@ -2330,17 +2407,27 @@ public final class Prompt {
      */
     boolean hasResult();
     /**
-     * <code>required int64 result = 2;</code>
+     * <code>required int32 result = 2;</code>
      *
      * <pre>
      *10 成功 20没找到对应速报
      * </pre>
      */
-    long getResult();
+    int getResult();
 
-    // optional string fujian = 3;
+    // required int32 subaoType = 3;
     /**
-     * <code>optional string fujian = 3;</code>
+     * <code>required int32 subaoType = 3;</code>
+     */
+    boolean hasSubaoType();
+    /**
+     * <code>required int32 subaoType = 3;</code>
+     */
+    int getSubaoType();
+
+    // optional string fujian = 4;
+    /**
+     * <code>optional string fujian = 4;</code>
      *
      * <pre>
      *例子：对于领奖的类型，显示的是奖励物品 
@@ -2348,7 +2435,7 @@ public final class Prompt {
      */
     boolean hasFujian();
     /**
-     * <code>optional string fujian = 3;</code>
+     * <code>optional string fujian = 4;</code>
      *
      * <pre>
      *例子：对于领奖的类型，显示的是奖励物品 
@@ -2356,7 +2443,7 @@ public final class Prompt {
      */
     java.lang.String getFujian();
     /**
-     * <code>optional string fujian = 3;</code>
+     * <code>optional string fujian = 4;</code>
      *
      * <pre>
      *例子：对于领奖的类型，显示的是奖励物品 
@@ -2365,23 +2452,33 @@ public final class Prompt {
     com.google.protobuf.ByteString
         getFujianBytes();
 
-    // optional float posX = 4;
+    // optional int64 ybuid = 5;
     /**
-     * <code>optional float posX = 4;</code>
+     * <code>optional int64 ybuid = 5;</code>
+     */
+    boolean hasYbuid();
+    /**
+     * <code>optional int64 ybuid = 5;</code>
+     */
+    long getYbuid();
+
+    // optional float posX = 6;
+    /**
+     * <code>optional float posX = 6;</code>
      */
     boolean hasPosX();
     /**
-     * <code>optional float posX = 4;</code>
+     * <code>optional float posX = 6;</code>
      */
     float getPosX();
 
-    // optional float posZ = 5;
+    // optional float posZ = 7;
     /**
-     * <code>optional float posZ = 5;</code>
+     * <code>optional float posZ = 7;</code>
      */
     boolean hasPosZ();
     /**
-     * <code>optional float posZ = 5;</code>
+     * <code>optional float posZ = 7;</code>
      */
     float getPosZ();
   }
@@ -2447,21 +2544,31 @@ public final class Prompt {
             }
             case 16: {
               bitField0_ |= 0x00000002;
-              result_ = input.readInt64();
+              result_ = input.readInt32();
               break;
             }
-            case 26: {
+            case 24: {
               bitField0_ |= 0x00000004;
+              subaoType_ = input.readInt32();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
               fujian_ = input.readBytes();
               break;
             }
-            case 37: {
-              bitField0_ |= 0x00000008;
+            case 40: {
+              bitField0_ |= 0x00000010;
+              ybuid_ = input.readInt64();
+              break;
+            }
+            case 53: {
+              bitField0_ |= 0x00000020;
               posX_ = input.readFloat();
               break;
             }
-            case 45: {
-              bitField0_ |= 0x00000010;
+            case 61: {
+              bitField0_ |= 0x00000040;
               posZ_ = input.readFloat();
               break;
             }
@@ -2521,11 +2628,11 @@ public final class Prompt {
       return subaoId_;
     }
 
-    // required int64 result = 2;
+    // required int32 result = 2;
     public static final int RESULT_FIELD_NUMBER = 2;
-    private long result_;
+    private int result_;
     /**
-     * <code>required int64 result = 2;</code>
+     * <code>required int32 result = 2;</code>
      *
      * <pre>
      *10 成功 20没找到对应速报
@@ -2535,31 +2642,47 @@ public final class Prompt {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int64 result = 2;</code>
+     * <code>required int32 result = 2;</code>
      *
      * <pre>
      *10 成功 20没找到对应速报
      * </pre>
      */
-    public long getResult() {
+    public int getResult() {
       return result_;
     }
 
-    // optional string fujian = 3;
-    public static final int FUJIAN_FIELD_NUMBER = 3;
+    // required int32 subaoType = 3;
+    public static final int SUBAOTYPE_FIELD_NUMBER = 3;
+    private int subaoType_;
+    /**
+     * <code>required int32 subaoType = 3;</code>
+     */
+    public boolean hasSubaoType() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 subaoType = 3;</code>
+     */
+    public int getSubaoType() {
+      return subaoType_;
+    }
+
+    // optional string fujian = 4;
+    public static final int FUJIAN_FIELD_NUMBER = 4;
     private java.lang.Object fujian_;
     /**
-     * <code>optional string fujian = 3;</code>
+     * <code>optional string fujian = 4;</code>
      *
      * <pre>
      *例子：对于领奖的类型，显示的是奖励物品 
      * </pre>
      */
     public boolean hasFujian() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional string fujian = 3;</code>
+     * <code>optional string fujian = 4;</code>
      *
      * <pre>
      *例子：对于领奖的类型，显示的是奖励物品 
@@ -2580,7 +2703,7 @@ public final class Prompt {
       }
     }
     /**
-     * <code>optional string fujian = 3;</code>
+     * <code>optional string fujian = 4;</code>
      *
      * <pre>
      *例子：对于领奖的类型，显示的是奖励物品 
@@ -2600,33 +2723,49 @@ public final class Prompt {
       }
     }
 
-    // optional float posX = 4;
-    public static final int POSX_FIELD_NUMBER = 4;
-    private float posX_;
+    // optional int64 ybuid = 5;
+    public static final int YBUID_FIELD_NUMBER = 5;
+    private long ybuid_;
     /**
-     * <code>optional float posX = 4;</code>
+     * <code>optional int64 ybuid = 5;</code>
      */
-    public boolean hasPosX() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+    public boolean hasYbuid() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional float posX = 4;</code>
+     * <code>optional int64 ybuid = 5;</code>
+     */
+    public long getYbuid() {
+      return ybuid_;
+    }
+
+    // optional float posX = 6;
+    public static final int POSX_FIELD_NUMBER = 6;
+    private float posX_;
+    /**
+     * <code>optional float posX = 6;</code>
+     */
+    public boolean hasPosX() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional float posX = 6;</code>
      */
     public float getPosX() {
       return posX_;
     }
 
-    // optional float posZ = 5;
-    public static final int POSZ_FIELD_NUMBER = 5;
+    // optional float posZ = 7;
+    public static final int POSZ_FIELD_NUMBER = 7;
     private float posZ_;
     /**
-     * <code>optional float posZ = 5;</code>
+     * <code>optional float posZ = 7;</code>
      */
     public boolean hasPosZ() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional float posZ = 5;</code>
+     * <code>optional float posZ = 7;</code>
      */
     public float getPosZ() {
       return posZ_;
@@ -2634,8 +2773,10 @@ public final class Prompt {
 
     private void initFields() {
       subaoId_ = 0L;
-      result_ = 0L;
+      result_ = 0;
+      subaoType_ = 0;
       fujian_ = "";
+      ybuid_ = 0L;
       posX_ = 0F;
       posZ_ = 0F;
     }
@@ -2652,6 +2793,10 @@ public final class Prompt {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasSubaoType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -2663,16 +2808,22 @@ public final class Prompt {
         output.writeInt64(1, subaoId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt64(2, result_);
+        output.writeInt32(2, result_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, getFujianBytes());
+        output.writeInt32(3, subaoType_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeFloat(4, posX_);
+        output.writeBytes(4, getFujianBytes());
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeFloat(5, posZ_);
+        output.writeInt64(5, ybuid_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeFloat(6, posX_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeFloat(7, posZ_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2689,19 +2840,27 @@ public final class Prompt {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(2, result_);
+          .computeInt32Size(2, result_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, getFujianBytes());
+          .computeInt32Size(3, subaoType_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(4, posX_);
+          .computeBytesSize(4, getFujianBytes());
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(5, posZ_);
+          .computeInt64Size(5, ybuid_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(6, posX_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(7, posZ_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2825,14 +2984,18 @@ public final class Prompt {
         super.clear();
         subaoId_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000001);
-        result_ = 0L;
+        result_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        fujian_ = "";
+        subaoType_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        posX_ = 0F;
+        fujian_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
-        posZ_ = 0F;
+        ybuid_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000010);
+        posX_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        posZ_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -2872,13 +3035,21 @@ public final class Prompt {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.fujian_ = fujian_;
+        result.subaoType_ = subaoType_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.posX_ = posX_;
+        result.fujian_ = fujian_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
+        }
+        result.ybuid_ = ybuid_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.posX_ = posX_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
         }
         result.posZ_ = posZ_;
         result.bitField0_ = to_bitField0_;
@@ -2903,10 +3074,16 @@ public final class Prompt {
         if (other.hasResult()) {
           setResult(other.getResult());
         }
+        if (other.hasSubaoType()) {
+          setSubaoType(other.getSubaoType());
+        }
         if (other.hasFujian()) {
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000008;
           fujian_ = other.fujian_;
           onChanged();
+        }
+        if (other.hasYbuid()) {
+          setYbuid(other.getYbuid());
         }
         if (other.hasPosX()) {
           setPosX(other.getPosX());
@@ -2924,6 +3101,10 @@ public final class Prompt {
           return false;
         }
         if (!hasResult()) {
+          
+          return false;
+        }
+        if (!hasSubaoType()) {
           
           return false;
         }
@@ -2982,10 +3163,10 @@ public final class Prompt {
         return this;
       }
 
-      // required int64 result = 2;
-      private long result_ ;
+      // required int32 result = 2;
+      private int result_ ;
       /**
-       * <code>required int64 result = 2;</code>
+       * <code>required int32 result = 2;</code>
        *
        * <pre>
        *10 成功 20没找到对应速报
@@ -2995,30 +3176,30 @@ public final class Prompt {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int64 result = 2;</code>
+       * <code>required int32 result = 2;</code>
        *
        * <pre>
        *10 成功 20没找到对应速报
        * </pre>
        */
-      public long getResult() {
+      public int getResult() {
         return result_;
       }
       /**
-       * <code>required int64 result = 2;</code>
+       * <code>required int32 result = 2;</code>
        *
        * <pre>
        *10 成功 20没找到对应速报
        * </pre>
        */
-      public Builder setResult(long value) {
+      public Builder setResult(int value) {
         bitField0_ |= 0x00000002;
         result_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int64 result = 2;</code>
+       * <code>required int32 result = 2;</code>
        *
        * <pre>
        *10 成功 20没找到对应速报
@@ -3026,25 +3207,58 @@ public final class Prompt {
        */
       public Builder clearResult() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        result_ = 0L;
+        result_ = 0;
         onChanged();
         return this;
       }
 
-      // optional string fujian = 3;
+      // required int32 subaoType = 3;
+      private int subaoType_ ;
+      /**
+       * <code>required int32 subaoType = 3;</code>
+       */
+      public boolean hasSubaoType() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 subaoType = 3;</code>
+       */
+      public int getSubaoType() {
+        return subaoType_;
+      }
+      /**
+       * <code>required int32 subaoType = 3;</code>
+       */
+      public Builder setSubaoType(int value) {
+        bitField0_ |= 0x00000004;
+        subaoType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 subaoType = 3;</code>
+       */
+      public Builder clearSubaoType() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        subaoType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string fujian = 4;
       private java.lang.Object fujian_ = "";
       /**
-       * <code>optional string fujian = 3;</code>
+       * <code>optional string fujian = 4;</code>
        *
        * <pre>
        *例子：对于领奖的类型，显示的是奖励物品 
        * </pre>
        */
       public boolean hasFujian() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional string fujian = 3;</code>
+       * <code>optional string fujian = 4;</code>
        *
        * <pre>
        *例子：对于领奖的类型，显示的是奖励物品 
@@ -3062,7 +3276,7 @@ public final class Prompt {
         }
       }
       /**
-       * <code>optional string fujian = 3;</code>
+       * <code>optional string fujian = 4;</code>
        *
        * <pre>
        *例子：对于领奖的类型，显示的是奖励物品 
@@ -3082,7 +3296,7 @@ public final class Prompt {
         }
       }
       /**
-       * <code>optional string fujian = 3;</code>
+       * <code>optional string fujian = 4;</code>
        *
        * <pre>
        *例子：对于领奖的类型，显示的是奖励物品 
@@ -3093,26 +3307,26 @@ public final class Prompt {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         fujian_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string fujian = 3;</code>
+       * <code>optional string fujian = 4;</code>
        *
        * <pre>
        *例子：对于领奖的类型，显示的是奖励物品 
        * </pre>
        */
       public Builder clearFujian() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         fujian_ = getDefaultInstance().getFujian();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string fujian = 3;</code>
+       * <code>optional string fujian = 4;</code>
        *
        * <pre>
        *例子：对于领奖的类型，显示的是奖励物品 
@@ -3123,73 +3337,106 @@ public final class Prompt {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         fujian_ = value;
         onChanged();
         return this;
       }
 
-      // optional float posX = 4;
-      private float posX_ ;
+      // optional int64 ybuid = 5;
+      private long ybuid_ ;
       /**
-       * <code>optional float posX = 4;</code>
+       * <code>optional int64 ybuid = 5;</code>
        */
-      public boolean hasPosX() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+      public boolean hasYbuid() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional float posX = 4;</code>
+       * <code>optional int64 ybuid = 5;</code>
+       */
+      public long getYbuid() {
+        return ybuid_;
+      }
+      /**
+       * <code>optional int64 ybuid = 5;</code>
+       */
+      public Builder setYbuid(long value) {
+        bitField0_ |= 0x00000010;
+        ybuid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 ybuid = 5;</code>
+       */
+      public Builder clearYbuid() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        ybuid_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional float posX = 6;
+      private float posX_ ;
+      /**
+       * <code>optional float posX = 6;</code>
+       */
+      public boolean hasPosX() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional float posX = 6;</code>
        */
       public float getPosX() {
         return posX_;
       }
       /**
-       * <code>optional float posX = 4;</code>
+       * <code>optional float posX = 6;</code>
        */
       public Builder setPosX(float value) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000020;
         posX_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional float posX = 4;</code>
+       * <code>optional float posX = 6;</code>
        */
       public Builder clearPosX() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000020);
         posX_ = 0F;
         onChanged();
         return this;
       }
 
-      // optional float posZ = 5;
+      // optional float posZ = 7;
       private float posZ_ ;
       /**
-       * <code>optional float posZ = 5;</code>
+       * <code>optional float posZ = 7;</code>
        */
       public boolean hasPosZ() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>optional float posZ = 5;</code>
+       * <code>optional float posZ = 7;</code>
        */
       public float getPosZ() {
         return posZ_;
       }
       /**
-       * <code>optional float posZ = 5;</code>
+       * <code>optional float posZ = 7;</code>
        */
       public Builder setPosZ(float value) {
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000040;
         posZ_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional float posZ = 5;</code>
+       * <code>optional float posZ = 7;</code>
        */
       public Builder clearPosZ() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000040);
         posZ_ = 0F;
         onChanged();
         return this;
@@ -3237,14 +3484,15 @@ public final class Prompt {
     java.lang.String[] descriptorData = {
       "\n\014prompt.proto\022\021qxmobile.protobuf\"=\n\rPro" +
       "mptMSGResp\022,\n\007msgList\030\001 \003(\0132\033.qxmobile.p" +
-      "rotobuf.SuBaoMSG\"s\n\010SuBaoMSG\022\017\n\007subaoId\030" +
+      "rotobuf.SuBaoMSG\"o\n\010SuBaoMSG\022\017\n\007subaoId\030" +
       "\001 \002(\003\022\021\n\totherJzId\030\002 \002(\003\022\r\n\005subao\030\003 \002(\t\022" +
-      "\017\n\007eventId\030\004 \002(\005\022\020\n\010configId\030\005 \002(\005\022\021\n\tst" +
-      "artTime\030\006 \001(\003\"3\n\017PromptActionReq\022\017\n\007reqT" +
-      "ype\030\001 \002(\005\022\017\n\007suBaoId\030\002 \002(\003\"_\n\020PromptActi" +
-      "onResp\022\017\n\007subaoId\030\001 \002(\003\022\016\n\006result\030\002 \002(\003\022" +
-      "\016\n\006fujian\030\003 \001(\t\022\014\n\004posX\030\004 \001(\002\022\014\n\004posZ\030\005 " +
-      "\001(\002B\010B\006Prompt"
+      "\017\n\007eventId\030\004 \002(\005\022\020\n\010configId\030\005 \002(\005\022\r\n\005aw" +
+      "ard\030\006 \001(\t\"3\n\017PromptActionReq\022\017\n\007reqType\030" +
+      "\001 \002(\005\022\017\n\007suBaoId\030\002 \002(\003\"\201\001\n\020PromptActionR" +
+      "esp\022\017\n\007subaoId\030\001 \002(\003\022\016\n\006result\030\002 \002(\005\022\021\n\t" +
+      "subaoType\030\003 \002(\005\022\016\n\006fujian\030\004 \001(\t\022\r\n\005ybuid" +
+      "\030\005 \001(\003\022\014\n\004posX\030\006 \001(\002\022\014\n\004posZ\030\007 \001(\002B\010B\006Pr",
+      "ompt"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3262,7 +3510,7 @@ public final class Prompt {
           internal_static_qxmobile_protobuf_SuBaoMSG_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_SuBaoMSG_descriptor,
-              new java.lang.String[] { "SubaoId", "OtherJzId", "Subao", "EventId", "ConfigId", "StartTime", });
+              new java.lang.String[] { "SubaoId", "OtherJzId", "Subao", "EventId", "ConfigId", "Award", });
           internal_static_qxmobile_protobuf_PromptActionReq_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_PromptActionReq_fieldAccessorTable = new
@@ -3274,7 +3522,7 @@ public final class Prompt {
           internal_static_qxmobile_protobuf_PromptActionResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_PromptActionResp_descriptor,
-              new java.lang.String[] { "SubaoId", "Result", "Fujian", "PosX", "PosZ", });
+              new java.lang.String[] { "SubaoId", "Result", "SubaoType", "Fujian", "Ybuid", "PosX", "PosZ", });
           return null;
         }
       };

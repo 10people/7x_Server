@@ -32,4 +32,6 @@ public class VIP {
 	public int LveduoTimes;
 	public int HuangyeTimes;
 	public int resurgenceTimes;
+	public int BloodVialTimes;
+	public int resOnSiteTimes;
 }

@@ -19,4 +19,10 @@ public class BuZhenYouXia {
 	
 	@Column(columnDefinition = "INT default -1")
 	public int jingQiZuheId;
+	
+	@Column(columnDefinition = "INT default -1")
+	public int type4;		//完璧归赵
+	
+	@Column(columnDefinition = "INT default -1")
+	public int type5;		//横扫六合
 }

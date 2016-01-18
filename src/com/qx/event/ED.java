@@ -60,6 +60,7 @@ public class ED {
 	/**领取固定精英关卡奖励完成任务事件*/
 	public static final int GET_START_PVE_AWARD = 10014;
 	
+	public static final int LM_TITLE_CHANGE = 10122;
 	public static final int Join_LM = 10123;
 	public static final int Leave_LM = 10124;
 	
@@ -70,7 +71,7 @@ public class ED {
 
 	// 主线任务：完成一次洗练
 	public static final int XILIAN_ONE_GONG =10127;
-	// 主线任务：完成一次进阶一次弓
+	// 主线任务：完成一次进阶武器
 	public static final int JINJIE_ONE_GONG= 10128;
 	// 主线任务：完成一次秘宝合成
 	public static final int MIBAO_HECHENG = 10129;
@@ -160,6 +161,8 @@ public class ED {
 	
 	public static final int Lve_duo_fail = 10174; // 掠夺失败
 	public static final int been_lve_duo = 10175; // 被掠夺
+	/**活跃度变化*/
+	public static final int HUOYUE_CHANGE=10176;
 	// 主线任务事件
 	public static final int get_produce_weiWang = 50;
 	public static final int pay_weiWang = 51;
@@ -182,5 +185,6 @@ public class ED {
 	public static final int jinJie_jueSe_jiNeng = 65;
 	/**指定秘宝升星一次： 指定秘宝id*/
 	public static final int mibao_shengStar = 66;
-	
+	/**记录一次游侠*/
+	public static final int go_youxia = 30;
 }

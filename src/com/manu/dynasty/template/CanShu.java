@@ -24,6 +24,10 @@ public class CanShu {
 	public static double ZHANLI_C;
 	public static double ZHANLI_R;
 	public static double ZHANLI_L;
+	public static double ZHANLI_K1;
+	public static double ZHANLI_K2;
+	public static double ZHANLI_M1;
+	public static double ZHANLI_M2;
 	
 	public static double CHUSHIHUA_CHUANDAIZHUANGBEI_1;
 	public static double CHUSHIHUA_CHUANDAIZHUANGBEI_2;
@@ -64,6 +68,7 @@ public class CanShu {
 	public static int MAXTIME_BAIZHAN;
 	public static int MAXTIME_HUANGYE_PVE;
 	public static int MAXTIME_HUANGYE_PVP;
+	public static int DAYTIMES_LEGENDPVE;
 	
 	
 	public static int CHAT_INTERVAL_TIME;
@@ -117,12 +122,18 @@ public class CanShu {
 	public static float LUEDUO_CANSHU_C;
 	public static int LUEDUO_GONGJIN_INIT;
 	
+	public static float LUEDUO_COMFORTED_AWARD_K;
+	public static float LUEDUO_COMFORTED_AWARD_B;
+	
 	/*
 	 * 免费探宝CD时间
 	 */
 	public static int TONGBI_TANBAO_REFRESHTIME;
 	public static int YUANBAO_TANBAO_REFRESHTIME;
 	public static int TONGBI_TANBAO_FREETIMES;
+	public static int TONGBI_TANBAO_BAODI;
+	public static int YUANBAO_TANBAO_BAODI;
+	
 	
 	public static int XILIANADD_MIN;
 	public static int XILIANADD_MAX;
@@ -166,9 +177,16 @@ public class CanShu {
 	public static int WEIWANG_INIT;
 	public static double WUQI_BAOJILV;
 	public static double JINENG_BAOJILV;
-	
+
 	
 	/*押镖相关参数--结束*/
+	
+	/* 
+		<CanShu key="LUEDUO_AWARDEDCOMFORT_MAXTIMES" value="5" desc="安慰被掠夺盟友有奖励的次数" />
+		<CanShu key="YUNBIAO_AWARDEDCOMFORT_MAXTIMES" value="5" desc="安慰被劫镖盟友有奖励的次数" />
+	安慰盟友*/
+	public static int LUEDUO_AWARDEDCOMFORT_MAXTIMES;
+	public static int YUNBIAO_AWARDEDCOMFORT_MAXTIMES;
 	
 	public String key;
 	public String value;

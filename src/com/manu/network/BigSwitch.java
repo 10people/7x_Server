@@ -20,6 +20,7 @@ import com.manu.dynasty.util.BaseException;
 import com.manu.network.msg.AbstractMessage;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.account.AccountManager;
+import com.qx.account.FunctionOpenMgr;
 import com.qx.account.SettingsMgr;
 import com.qx.achievement.AchievementMgr;
 import com.qx.activity.ActivityMgr;
@@ -28,6 +29,7 @@ import com.qx.activity.ShouchongMgr;
 import com.qx.activity.XianShiActivityMgr;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AllianceVoteMgr;
+import com.qx.alliance.FengShanMgr;
 import com.qx.alliance.HouseMgr;
 import com.qx.alliance.MoBaiMgr;
 import com.qx.alliance.building.JianZhuMgr;
@@ -37,7 +39,6 @@ import com.qx.award.AwardMgr;
 import com.qx.award.DailyAwardMgr;
 import com.qx.bag.BagMgr;
 import com.qx.bag.EquipMgr;
-import com.qx.battle.PveMgr;
 import com.qx.buff.BuffMgr;
 import com.qx.card.CardMgr;
 import com.qx.cdkey.CDKeyMgr;
@@ -45,6 +46,7 @@ import com.qx.email.EmailMgr;
 import com.qx.equip.web.UserEquipAction;
 import com.qx.event.EventMgr;
 import com.qx.explore.ExploreMgr;
+import com.qx.fight.FightMgr;
 import com.qx.friends.FriendMgr;
 import com.qx.fuwen.FuwenMgr;
 import com.qx.guojia.GuoJiaMgr;
@@ -65,6 +67,7 @@ import com.qx.notice.NoticeMgr;
 import com.qx.prompt.PromptMsgMgr;
 import com.qx.purchase.PurchaseMgr;
 import com.qx.pve.PveGuanQiaMgr;
+import com.qx.pve.PveMgr;
 import com.qx.pvp.LveDuoMgr;
 import com.qx.pvp.PvpMgr;
 import com.qx.quartz.SchedulerMgr;
@@ -128,6 +131,7 @@ public class BigSwitch {
 	public ExploreMgr exploreMgr;
 //	public PawnshopMgr pawnshopMgr;
 	public AllianceMgr allianceMgr;
+	public FengShanMgr fengshanMgr;
 	public AllianceVoteMgr allianceVoteMgr;
 	public UserEquipAction userEquipAction;
 	public HYMgr hyMgr;
@@ -154,6 +158,7 @@ public class BigSwitch {
 	public NoticeMgr noticeMgr;
 	public FuwenMgr fuwenMgr;
 	public AllianceFightMgr allianceFightMgr;
+	public FightMgr fightMgr;
 	public CdTimeMgr cdTimeMgr;
 	public BuffMgr buffMgr;
 	// cdkey
@@ -219,6 +224,7 @@ public class BigSwitch {
 		// 添加服务器定时任务
 		new SchedulerMgr().doSchedule();
 		allianceMgr = new AllianceMgr();
+		fengshanMgr=new FengShanMgr();
 		allianceVoteMgr = new AllianceVoteMgr();
 		moBaiMgr = new MoBaiMgr();
 		JianZhuMgr.inst = new JianZhuMgr();
@@ -243,6 +249,7 @@ public class BigSwitch {
 		new GrowUpMgr();
 		fuwenMgr = new FuwenMgr();
 		allianceFightMgr = new AllianceFightMgr();
+		fightMgr = new FightMgr();
 		cdTimeMgr = new CdTimeMgr();
 		cdTimeMgr.start();
 		buffMgr = new BuffMgr();
@@ -253,6 +260,7 @@ public class BigSwitch {
 
 	public void loadModuleData() {
 		allianceMgr.inst.initData();
+		fengshanMgr.inst.initData();
 		mibaoMgr.inst.initData();
 //		pawnshopMgr.inst.initData();
 		exploreMgr.inst.initData();
@@ -330,11 +338,15 @@ public class BigSwitch {
 			case PD.C_YABIAO_HELP_RSQ:
 			case PD.C_ANSWER_YBHELP_RSQ:
 			case PD.C_TICHU_YBHELP_RSQ:
+			case PD.C_CHECK_YABIAOHELP_RSQ:
 //			case PD.C_YABIAO_XIEZHU_TIMES_RSQ:
 //			case PD.C_MOVE2BIAOCHE_REQ:
+			case PD.C_GETMABIANTYPE_REQ:
 			case PD.C_CARTJIASU_REQ:
 			case PD.C_BUYHORSEBUFF_REQ:
 			case PD.C_YABIAO_XIEZHUS_REQ:
+			case PD.C_BUYXUEPING_REQ:
+			case PD.C_YABIAO_MOREINFO_RSQ:
 				ybMgr.addMission(id, session, builder);
 				break;
 			// 押镖处理结束
@@ -350,6 +362,9 @@ public class BigSwitch {
 				lveDuoMgr.addMission(id, session, builder);
 				break;
 			// 掠夺end
+			case PD.mainSimpleInfoReq:
+				FunctionOpenMgr.getFunctionInfo(session, builder);
+				break;
 			case PD.C_PVE_Reset_CQ:
 				pveGuanQiaMgr.resetChuanQiTimes(id, builder, session);
 				break;
@@ -373,12 +388,14 @@ public class BigSwitch {
 			case PD.C_DROP_CONN:
 				log.info("sid {} drop con.",session.getId());
 				break;
+			case PD.C_GET_CHAT_CONF:
 			case PD.C_Send_Chat:
 				ChatMgr.getInst().addMission(id, session, builder);
 				break;
 			case PD.C_Get_Chat_Log:
 				ChatMgr.getInst().sendChatLog(id, builder, session);
 				break;
+			case PD.C_SHOW_WU_QI:
 			case PD.Enter_Scene:
 			case PD.Enter_HouseScene:
 			case PD.Exit_HouseScene:
@@ -452,8 +469,14 @@ public class BigSwitch {
 			case PD.BattlePveResult_Req:// 废弃，这里处理放在batteOver里
 				// awardMgr.getAward(session, builder);
 				break;
+			case PD.has_get_zhangJie_award_req:
+				pveGuanQiaMgr.hasGetPassZhangJieAward( session, builder);
+				break;
+			case PD.get_passZhangJie_award_req:
+				pveGuanQiaMgr.getPassZhangJieAward(id, session, builder);
+				break;
 			case PD.PVE_BATTLE_OVER_REPORT:
-				pveGuanQiaMgr.battleOver(id, session, builder);
+				pveMgr.battleOver(id, session, builder);
 				break;
 			case PD.PVE_STAR_REWARD_INFO_REQ:
 				pveGuanQiaMgr.queryStartRewards(id, session, builder);
@@ -580,8 +603,14 @@ public class BigSwitch {
 			case PD.C_BUY_TiLi:
 				pMgr.buyTiLi(id, session, builder);
 				break;
+			case PD.C_BUY_TongBi_Data:
+				pMgr.sendTongBiData(id, session, builder);
+				break;
 			case PD.C_BUY_TongBi:
 				pMgr.buyTongBi(id, session, builder);
+				break;
+			case PD.C_BUY_TongBi_LiXu:
+				pMgr.buyTongBiLianXu(id, session, builder);
 				break;
 			case PD.C_BUY_MIBAO_POINT:
 				pMgr.buyMibaoPoint(id, session, builder);
@@ -627,6 +656,9 @@ public class BigSwitch {
 				break;
 			case PD.C_DAILY_TASK_GET_REWARD_REQ:
 				DailyTaskMgr.INSTANCE.getTaskReward(id, session, builder);
+				break;
+			case PD.dailyTask_get_huoYue_award_req: // 获取每日任务活跃度奖励
+				DailyTaskMgr.INSTANCE.getHuoYueDuAward(id, session, builder);
 				break;
 //			case PD.BUY_TREASURE_INFOS_REQ:
 //				PurchaseMgr.inst.sendTreasureInfos(id, session, builder);
@@ -677,9 +709,9 @@ public class BigSwitch {
 //			case PD.PAWN_SHOP_GOODS_BUY:
 //				pawnshopMgr.buyGoods(id, session, builder);
 //				break;
-//			case PD.PAWN_SHOP_GOODS_SELL:
-//				pawnshopMgr.sellGoods(id, session, builder);
-//				break;
+			case PD.PAWN_SHOP_GOODS_SELL:
+				shopMgr.sellGoods(id, session, builder);
+				break;
 //			case PD.PAWN_SHOP_GOODS_REFRESH:
 //				pawnshopMgr.refreshPawnshop(id, session, builder);
 //				break;
@@ -688,6 +720,21 @@ public class BigSwitch {
 				break;
 			case PD.C_JIAN_ZHU_UP:
 				JianZhuMgr.inst.up(id,session,builder);
+				break;
+			case PD.C_LMKJ_UP:
+				JianZhuMgr.inst.upLMKJ(id,session,builder);
+				break;
+			case PD.C_LMKJ_INFO:
+				JianZhuMgr.inst.sendLMKJInfo(id,session,builder);
+				break;
+			case PD.C_LM_CHOU_JIANG_1:
+				JianZhuMgr.inst.chouJiang_1(id,session,builder);
+				break;
+			case PD.C_LM_CHOU_JIANG_N:
+				JianZhuMgr.inst.chouJiang_N(id,session,builder);
+				break;
+			case PD.C_LM_CHOU_JIANG_INFO:
+				JianZhuMgr.inst.sendChouJiangInfo(id,session,builder);
 				break;
 			case PD.C_GET_MOBAI_AWARD:
 				moBaiMgr.getStepAward(id,session,builder);
@@ -769,6 +816,12 @@ public class BigSwitch {
 				break;
 			case PD.IMMEDIATELY_JOIN:
 				allianceMgr.immidiatelyJoin(id, session, builder);
+				break;
+			case PD.C_ALLIANCE_FENGSHAN_REQ:
+				fengshanMgr.getFengShanInfo(id, builder, session);
+				break;
+			case PD.C_DO_ALLIANCE_FENGSHAN_REQ:
+				fengshanMgr.doFengShan(id, builder, session);
 				break;
 			case PD.C_JOIN_BLACKLIST:
 				ChatMgr.inst.joinBlacklist(id, session, builder, true);
@@ -917,6 +970,15 @@ public class BigSwitch {
 				qiandaoMgr.qiandao(id, session, builder);
 				break;
 			/*
+			 * 套装
+			 */
+			case PD.tao_zhuang_Req:
+				JunZhuMgr.inst.getTaoZhuangInfo(id, session);
+				break;
+			case PD.activate_tao_zhuang_req:
+				JunZhuMgr.inst.activitedTaoZhuang(id, session, builder);
+				break;
+			/*
 			 * 天赋
 			 */
 			case PD.TALENT_INFO_REQ:
@@ -989,7 +1051,7 @@ public class BigSwitch {
 				allianceFightMgr.applyFight(session);
 				break;
 			case PD.FIGHT_ATTACK_REQ:
-				allianceFightMgr.activeFight(id, session, builder);
+				fightMgr.activeFight(id, session, builder);
 				break;
 			case PD.ALLIANCE_BATTLE_FIELD_REQ:
 				allianceFightMgr.requestBattlefieldInfo(session);
@@ -1010,7 +1072,17 @@ public class BigSwitch {
 				jiNengPeiYangMgr.upgradeJiNeng(id, session, builder);
 				break;
 			case PD.PLAYER_REVIVE_REQUEST:
-				allianceFightMgr.reviveRequest(id, session, builder);
+				fightMgr.reviveRequest(id, session, builder);
+				break;
+			case PD.C_MengYouKuaiBao_Req:
+			case PD.Prompt_Action_Req:
+				ptmgr.addMission(id, session, builder);
+				break;
+			case PD.C_BUY_REVIVE_TIMES_REQ:
+				YaBiaoHuoDongMgr.inst.buyReviveAllLifeTimes(id, session, builder);
+				break;
+			case PD.C_NOT_GET_AWART_ZHANGJIE_REQ:
+				pveGuanQiaMgr.notGetAwardZhangJieRequest(id, session, builder);
 				break;
 			default:
 				log.error("未处理的协议 {} {}", id, builder);

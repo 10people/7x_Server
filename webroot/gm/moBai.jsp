@@ -1,3 +1,5 @@
+<%@page import="java.util.Date"%>
+<%@page import="com.qx.alliance.LmTuTeng"%>
 <%@page import="com.qx.yuanbao.YBType"%>
 <%@page import="com.qx.vip.VipMgr"%>
 <%@page import="com.qx.vip.VipData"%>
@@ -15,7 +17,7 @@
 <%@page import="com.qx.account.FunctionOpenMgr"%>
 <%@page import="com.manu.network.SessionUser"%>
 <%@page import="com.manu.network.SessionManager"%>
-<%@page import="com.qx.battle.PveMgr"%>
+<%@page import="com.qx.pve.PveMgr"%>
 <%@page import="com.qx.junzhu.JunZhuMgr"%>
 <%@page import="com.manu.dynasty.base.TempletService"%>
 <%@page import="com.manu.dynasty.template.ExpTemp"%>
@@ -45,7 +47,24 @@ function go(act){
 <title>Insert title here</title>
 </head>
 <body>
-
+<%!
+int updateMobaiLevel(int lmId, int buffNum, Date time) {
+	{//增加联盟累计膜拜次数
+		LmTuTeng tt = HibernateUtil.find(LmTuTeng.class, lmId);
+		if(tt == null){
+			tt = new LmTuTeng();
+			tt.lmId = lmId;
+			tt.dTime = time;
+			tt.times = buffNum;
+			HibernateUtil.insert(tt);
+		}else{
+			tt.times+=buffNum;
+			HibernateUtil.update(tt);
+		}
+		return tt.times;
+	}
+}
+%>
 <%
 setOut(out);
 	String name = request.getParameter("account");
@@ -79,19 +98,17 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 	long junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
 		JunZhu junzhu = HibernateUtil.find(JunZhu.class, junZhuId);
 		 AlliancePlayer member = null;
-		 LMMoBaiInfo lmmbInfo = null;
-		 int bufferLevel = 0;
 		 member = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
-		 if (member != null && member.lianMengId > 0) {
-			AllianceBean alliance = HibernateUtil.find(AllianceBean.class, member.lianMengId);
-			if(alliance != null) {
-				lmmbInfo = (LMMoBaiInfo) MemcachedCRUD.getMemCachedClient().get(MoBaiMgr.moBaiBuffCnt + member.lianMengId);
-				if(lmmbInfo != null) {
-					bufferLevel = lmmbInfo.getBuffLevel();
-				}
-			}
+		 if(member == null || member.lianMengId<=0){
+			 out("没有加入联盟");
+			 return;
 		 }
-		 
+		 int bufferLevel = 0;
+		 LmTuTeng tt = HibernateUtil.find(LmTuTeng.class, member.lianMengId);
+		 if(tt!=null){
+			 bufferLevel = tt.times;
+		 }
+		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, member.lianMengId);
 	 if(junzhu == null){
  		out.println("没有君主");
 	 }else{
@@ -121,12 +138,7 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		 PveMgr.godId = junzhu.id;
 	 }else if("addBufferLevel".equals(action)) {
 		 int v = Integer.parseInt(request.getParameter("v"));
-		 if(lmmbInfo != null) {
-			 int level = lmmbInfo.getBuffLevel();
-			 level += v;
-			 lmmbInfo.setBuffLevel(level);
-			 MemcachedCRUD.getMemCachedClient().replace(MoBaiMgr.moBaiBuffCnt + member.lianMengId, lmmbInfo);
-		 }
+		 bufferLevel = updateMobaiLevel(member.lianMengId, v, new Date());
 	 }else{
 		 sendInfo = false;
 	 }
@@ -146,9 +158,9 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 	 br();
 	 tableStart();
 	 if(member == null) {
-		 trS();td("戮力同心等级:："+bufferLevel);tdS();input("addBufferLevel",input);out("没有联盟，无法操作");tdE();trE();
+		 trS();td("整个联盟膜拜次数:："+bufferLevel);tdS();input("addBufferLevel",input);out("没有联盟，无法操作");tdE();trE();
 	 } else {
-		 trS();td("戮力同心等级:："+bufferLevel);tdS();input("addBufferLevel",input);out("<input type='button' value='增加' onclick='go(\"addBufferLevel\")'/><br/>");tdE();trE();
+		 trS();td("整个联盟膜拜次数:："+bufferLevel);tdS();input("addBufferLevel",input);out("<input type='button' value='增加' onclick='go(\"addBufferLevel\")'/><br/>");tdE();trE();
 	 }
 	 trS();td("铜币："+junzhu.tongBi);tdS();input("addTongBi",input);out("<input type='button' value='增加' onclick='go(\"addTongBi\")'/><br/>");tdE();trE();//td("<a href='?action=addTongBi'>+100</a><br/>");
 	 trS();td("元宝："+junzhu.yuanBao);td("<input type='text' id='addYuanBao' value='"+input+"'/><input type='button' value='增加' onclick='go(\"addYuanBao\")'/><br/>");trE();//td("<a href='?action=addYuanBao'>+100</a><br/>");
@@ -161,10 +173,12 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		 br();
 		 out("联盟id:"+member.lianMengId);
 		 space();
-		 long cnt = MemcachedCRUD.getMemCachedClient().getCounter(MoBaiMgr.moBaiBuffCnt+member.lianMengId);
-		 out("联盟Buff层数:");out(cnt<0 ? "无" : cnt);
+		 out("");out("");
 		 br();
 		 br();
+	 }
+	 {//阶段奖励
+		 
 	 }
 	 MoBaiBean bean = HibernateUtil.find(MoBaiBean.class, junzhu.id);
 	 if(bean == null){
@@ -197,6 +211,11 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		 trS();
 		 int vipAddTimes = VipMgr.INSTANCE.getValueByVipLevel(junzhu.vipLevel, VipData.yujueDuihuan);
 		 td("VIP增加玉膜拜次数");td(vipAddTimes);td("");
+		 trE();
+		 trS();
+		 td("阶段1领取时间:");td(bean.step1time);td("");
+		 td("阶段2领取时间:");td(bean.step2time);td("");
+		 td("阶段3领取时间:");td(bean.step3time);td("");
 		 trE();
 		 tableEnd();
 		 br();

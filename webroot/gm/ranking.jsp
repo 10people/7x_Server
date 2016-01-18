@@ -116,7 +116,10 @@ if(junMinLevel!=null&&junMinLevel.length()!=0){
 }
 %>
 <hr/>
-<p><a href="gm/rank4junlevel.jsp">查看君主等级榜</a></p>
+<p><a href="gm/rank4junlevel.jsp" style="color: #FF0000">查看君主等级榜</a> &nbsp;&nbsp;&nbsp;
+<a href="gm/baizhanRankN.jsp" style="color: #FF0000" target='target'>百战名次排行榜</a> &nbsp;&nbsp;&nbsp;
+<a href="gm/baizhanRankN.jsp"  style="color: #FF0000" target='target'>个人贡金/联盟贡金排行榜</a><br/>
+</p>
 <hr/>
 <form action="">
 <p>
@@ -230,7 +233,7 @@ out("(排行类型: 战力排行:1; 联盟排行： 2)");%>
     
     <button type="submit">查询</button>
     </form>
-<a href="gm/baizhanRankN.jsp" target='target'>个人英雄排行榜</a><br/>
+
 <%
 rankmin = request.getParameter("rankmin");
 rankmax = request.getParameter("rankmax");

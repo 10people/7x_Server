@@ -7,6 +7,7 @@ import log.OurLog;
 import log.parser.ReasonMgr;
 
 import org.apache.mina.core.session.IoSession;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +17,9 @@ import qxmobile.protobuf.BagOperProtos.EquipInfo;
 import qxmobile.protobuf.BagOperProtos.EquipInfoOtherReq;
 import qxmobile.protobuf.BagOperProtos.YuJueHeChengResult;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import qxmobile.protobuf.Explore.Award;
+import qxmobile.protobuf.Explore.ExploreResp;
+import qxmobile.protobuf.Explore.TypeInfo;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
@@ -23,18 +27,21 @@ import com.manu.dynasty.hero.service.HeroService;
 import com.manu.dynasty.store.MemcachedCRUD;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.BaseItem;
+import com.manu.dynasty.template.ItemTemp;
 import com.manu.dynasty.template.Jiangli;
 import com.manu.dynasty.template.QiangHua;
 import com.manu.dynasty.template.ZhuangBei;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
 import com.manu.network.msg.ProtobufMsg;
+import com.qx.award.AwardMgr;
 import com.qx.award.DailyAwardMgr;
 import com.qx.equip.domain.UserEquip;
 import com.qx.equip.web.UEConstant;
 import com.qx.equip.web.UserEquipAction;
 import com.qx.event.ED;
 import com.qx.event.EventMgr;
+import com.qx.explore.TanBaoData;
 import com.qx.hero.HeroMgr; 
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
@@ -268,6 +275,10 @@ public class BagMgr {
 			return;
 		}
 		Bag<BagGrid> bag = loadBag(junZhuId);
+		sendBagInfo(session, bag);
+	}
+
+	public void sendBagInfo(IoSession session, Bag<BagGrid> bag) {
 		BagInfo.Builder b = buildBag(bag);
 		session.write(b.build());
 		log.debug("send bag info");
@@ -694,4 +705,117 @@ public class BagMgr {
 	}
 	int[] yuJueIds = new int[]{950001,950002,950003,950004,950005};
 	int yuJueNeedCnt = 1;
+	public  void useItem(IoSession session, Bag<BagGrid> bag,
+			int indexInBag, BaseItem o, JunZhu junZhu) {
+		if(o.getType() == BaseItem.TYPE_BAO_XIANG 
+				){
+			useItemBaoXiang(session, bag, indexInBag, o, junZhu);
+		}else if(o.getType() == BaseItem.TYPE_YUAN_BAO_TAN_BAO){
+			tanBao(session,bag,indexInBag,o, junZhu, TanBaoData.tongBi_normal_awardId);
+		}else if(o.getType() == BaseItem.TYPE_TONG_BI_TAN_BAO){
+			tanBao(session,bag,indexInBag,o, junZhu, TanBaoData.yuanBao_normal_awardId);
+		}else{
+			log.error("物品不能使用 ， id {}",o.getId());
+		}
+	}
+	public void tanBao(IoSession session, Bag<BagGrid> bag, int indexInBag,
+			BaseItem o, JunZhu junZhu, int awardId) {
+		AwardTemp award = AwardMgr.inst.calcAwardTemp(awardId);
+		if(award == null){
+			log.error("使用物品探宝出现数据错误，物品id{}", o.getId());
+			return;
+		}
+		ItemTemp it = (ItemTemp) o;
+		BagGrid bg = bag.grids.get(indexInBag);
+		final int cnt = bg.cnt;
+		bg.cnt = 0;
+		bg.itemId = 0;
+		HibernateUtil.update(bg);
+		log.info("{} 物品探宝 {} x {}，先删除该物品，下面给奖励",
+				junZhu.id, it.id, cnt);
+		AwardMgr.inst.giveReward(session, award, junZhu);
+		log.info("{} 物品探宝 {} x {} 结束",
+				junZhu.id, it.id, cnt);
+		//
+		ExploreResp.Builder ret = ExploreResp.newBuilder();
+		ret.setSuccess(0);//
+		//
+		award2msg(ret,award);
+		ProtobufMsg msg = new ProtobufMsg();
+		msg.id = PD.S_USE_ITEM;
+		msg.builder = ret;
+		session.write(msg);
+		//
+		sendBagInfo(session, bag);
+	}
+
+	public  void useItemBaoXiang(IoSession session, Bag<BagGrid> bag,
+			int indexInBag, BaseItem o, JunZhu junZhu) {
+		ItemTemp it = (ItemTemp) o;
+		String drops = it.awardID;
+		if(drops == null || drops.isEmpty()){
+			log.error("conf error for item {}", o.getId());
+			return;
+		}
+		int[] awardConf = TempletService.parseAwardString(drops);
+		BagGrid bg = bag.grids.get(indexInBag);
+		final int cnt = bg.cnt;
+		bg.cnt = 0;
+		bg.itemId = 0;
+		HibernateUtil.update(bg);
+		log.info("{} 开宝箱 {} x {}，先删除该物品，下面给奖励",
+				junZhu.id, it.id, cnt);
+		//
+		ExploreResp.Builder ret = ExploreResp.newBuilder();
+		ret.setSuccess(0);//
+		//
+		for(int i=0; i<cnt; i++){
+			log.info("pid {}, id {} 第 {} 遍",junZhu.id,it.id, i+1);
+			List<AwardTemp> hits = drop(session, junZhu, it, awardConf);
+			awards2message(hits,ret);
+		}
+		log.info("{} 开宝箱 {} x {} 结束",
+				junZhu.id, it.id, cnt);
+		//
+		ProtobufMsg msg = new ProtobufMsg();
+		msg.id = PD.S_USE_ITEM;
+		msg.builder = ret;
+		session.write(msg);
+		//
+		sendBagInfo(session, bag);
+	}
+
+	public void awards2message(List<AwardTemp> hits,
+			qxmobile.protobuf.Explore.ExploreResp.Builder ret) {
+		int cnt = hits.size();
+		for(int i=0; i<cnt; i++){
+			AwardTemp o = hits.get(i);
+			award2msg(ret, o);
+		}
+	}
+
+	public void award2msg(qxmobile.protobuf.Explore.ExploreResp.Builder ret,
+			AwardTemp o) {
+		Award.Builder a = Award.newBuilder();
+		a.setItemType(o.getItemType());
+		a.setItemId(o.getItemId());
+		a.setItemNumber(o.getItemNum());
+		ret.addAwardsList(a);
+	}
+
+	public  List<AwardTemp> drop(IoSession session, JunZhu junZhu, ItemTemp it,
+			int[] awardConf) {
+		List<Integer> fistHitAwardIdList = AwardMgr.inst.getHitAwardId(awardConf, 0);
+		List<AwardTemp> hitList = new ArrayList<AwardTemp>();
+		for (Integer awardId : fistHitAwardIdList) {
+			AwardTemp calcV = AwardMgr.inst.calcAwardTemp(awardId);
+			if(calcV == null) {
+				continue;
+			}
+			AwardMgr.inst.giveReward(session, calcV, junZhu,false);
+			log.info("{} 开宝箱 {} 得到 {} x {}", junZhu.id,it.id,calcV.getId(),calcV.getItemNum());
+			hitList.add(calcV);
+		}
+		return hitList;
+	}
 }

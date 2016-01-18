@@ -277,6 +277,36 @@ public class VipMgr {
 		}
 	}
 
+	public void addVipExp(JunZhu jz, int addExpValue){
+		long jid = jz.id;
+		
+		PlayerVipInfo vipInfo = HibernateUtil.find(PlayerVipInfo.class, jid);
+		if (vipInfo == null) {
+			vipInfo = new PlayerVipInfo();
+			vipInfo.accId = jid;
+			vipInfo.sumAmount = 0;
+			vipInfo.level = 0;
+			vipInfo.vipExp = 0;
+		}
+
+		int vipExp = addExpValue + vipInfo.vipExp;
+		log.info("玩家：{}，增加vip经验之前的vipExp：{}， 增加之后的vipExp：{}", jid, vipInfo.vipExp,
+				vipExp);
+
+		int vip = getVipLevel(vipInfo.level, vipExp);
+		log.info("玩家：{}，增加vip经验之前的等级：{}， 增加vip经验之后的等级：{}", jid, jz.vipLevel, vip);
+
+		/*
+		 * 说明： PlayerVipInfo,JunZhu 三张表中的vipLeve的值都表示vip等级 ,
+		 */
+		vipInfo.level = vip;
+		vipInfo.vipExp = vipExp;
+		HibernateUtil.save(vipInfo);
+
+		jz.vipLevel = vip;
+		HibernateUtil.save(jz);
+	}
+
 	public int getAddyuanbao(ChongZhi data, boolean isFirstRecharge) {
 		if (isFirstRecharge) {
 			return data.addNum + data.extraFirst;
@@ -361,6 +391,10 @@ public class VipMgr {
 		}
 		return false;
 	}
+	
+	public VipFuncOpen getVipFuncOpen(int type) {
+		return vipFuncOpenTemp.get(type);
+	}
 
 	public VIP getVIPByVipLevel(int vipLevel) {
 		VIP vip = vipTemp.get(vipLevel);
@@ -423,6 +457,10 @@ public class VipMgr {
 			return vip.HuangyeTimes;
 		case 19:
 			return vip.resurgenceTimes;
+		case VipData.buy_ybblood_times:
+			return vip.BloodVialTimes;
+		case VipData.buy_revive_times:
+			return vip.resOnSiteTimes;
 		}
 		return 0;
 	}

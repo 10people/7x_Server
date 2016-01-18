@@ -8049,6 +8049,24 @@ public final class House {
      * </pre>
      */
     int getCurGongxian();
+
+    // optional int32 kejiLevel = 11;
+    /**
+     * <code>optional int32 kejiLevel = 11;</code>
+     *
+     * <pre>
+     *对应科技的等级
+     * </pre>
+     */
+    boolean hasKejiLevel();
+    /**
+     * <code>optional int32 kejiLevel = 11;</code>
+     *
+     * <pre>
+     *对应科技的等级
+     * </pre>
+     */
+    int getKejiLevel();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.HouseExpInfo}
@@ -8158,6 +8176,11 @@ public final class House {
             case 80: {
               bitField0_ |= 0x00000200;
               curGongxian_ = input.readInt32();
+              break;
+            }
+            case 88: {
+              bitField0_ |= 0x00000400;
+              kejiLevel_ = input.readInt32();
               break;
             }
           }
@@ -8440,6 +8463,30 @@ public final class House {
       return curGongxian_;
     }
 
+    // optional int32 kejiLevel = 11;
+    public static final int KEJILEVEL_FIELD_NUMBER = 11;
+    private int kejiLevel_;
+    /**
+     * <code>optional int32 kejiLevel = 11;</code>
+     *
+     * <pre>
+     *对应科技的等级
+     * </pre>
+     */
+    public boolean hasKejiLevel() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional int32 kejiLevel = 11;</code>
+     *
+     * <pre>
+     *对应科技的等级
+     * </pre>
+     */
+    public int getKejiLevel() {
+      return kejiLevel_;
+    }
+
     private void initFields() {
       max_ = 0;
       cur_ = 0;
@@ -8451,6 +8498,7 @@ public final class House {
       needGongXian_ = 0;
       gainHouseExp_ = 0;
       curGongxian_ = 0;
+      kejiLevel_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -8506,6 +8554,9 @@ public final class House {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeInt32(10, curGongxian_);
       }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeInt32(11, kejiLevel_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -8554,6 +8605,10 @@ public final class House {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(10, curGongxian_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(11, kejiLevel_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -8700,6 +8755,8 @@ public final class House {
         bitField0_ = (bitField0_ & ~0x00000100);
         curGongxian_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
+        kejiLevel_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -8768,6 +8825,10 @@ public final class House {
           to_bitField0_ |= 0x00000200;
         }
         result.curGongxian_ = curGongxian_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.kejiLevel_ = kejiLevel_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -8813,6 +8874,9 @@ public final class House {
         }
         if (other.hasCurGongxian()) {
           setCurGongxian(other.getCurGongxian());
+        }
+        if (other.hasKejiLevel()) {
+          setKejiLevel(other.getKejiLevel());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -9339,6 +9403,55 @@ public final class House {
       public Builder clearCurGongxian() {
         bitField0_ = (bitField0_ & ~0x00000200);
         curGongxian_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 kejiLevel = 11;
+      private int kejiLevel_ ;
+      /**
+       * <code>optional int32 kejiLevel = 11;</code>
+       *
+       * <pre>
+       *对应科技的等级
+       * </pre>
+       */
+      public boolean hasKejiLevel() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional int32 kejiLevel = 11;</code>
+       *
+       * <pre>
+       *对应科技的等级
+       * </pre>
+       */
+      public int getKejiLevel() {
+        return kejiLevel_;
+      }
+      /**
+       * <code>optional int32 kejiLevel = 11;</code>
+       *
+       * <pre>
+       *对应科技的等级
+       * </pre>
+       */
+      public Builder setKejiLevel(int value) {
+        bitField0_ |= 0x00000400;
+        kejiLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 kejiLevel = 11;</code>
+       *
+       * <pre>
+       *对应科技的等级
+       * </pre>
+       */
+      public Builder clearKejiLevel() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        kejiLevel_ = 0;
         onChanged();
         return this;
       }
@@ -17991,31 +18104,31 @@ public final class House {
       "\t\"4\n\nApplyInfos\022&\n\004list\030\001 \003(\0132\030.qxmobile" +
       ".protobuf.Apply\"1\n\005Apply\022\014\n\004jzId\030\001 \002(\003\022\014" +
       "\n\004name\030\002 \002(\t\022\014\n\004date\030\003 \001(\t\",\n\016AnswerExch" +
-      "ange\022\014\n\004code\030\001 \002(\005\022\014\n\004jzId\030\002 \002(\003\"\304\001\n\014Hou" +
+      "ange\022\014\n\004code\030\001 \002(\005\022\014\n\004jzId\030\002 \002(\003\"\327\001\n\014Hou" +
       "seExpInfo\022\013\n\003max\030\001 \002(\005\022\013\n\003cur\030\002 \002(\005\022\r\n\005l",
       "evel\030\003 \002(\005\022\023\n\013lvupNeedExp\030\004 \001(\005\022\016\n\006curEx" +
       "p\030\005 \001(\005\022\023\n\013leftUpTimes\030\006 \001(\005\022\020\n\010coolTime" +
       "\030\007 \001(\005\022\024\n\014needGongXian\030\010 \001(\005\022\024\n\014gainHous" +
-      "eExp\030\t \001(\005\022\023\n\013curGongxian\030\n \001(\005\"1\n\020Enter" +
-      "OrExitHouse\022\017\n\007houseId\030\001 \002(\003\022\014\n\004code\030\002 \002" +
-      "(\005\"u\n\nHuanWuInfo\022\014\n\004jzId\030\001 \002(\003\022\016\n\006jzName" +
-      "\030\002 \002(\t\022\r\n\005slot1\030\003 \002(\t\022\r\n\005slot2\030\004 \002(\t\022\r\n\005" +
-      "slot3\030\005 \002(\t\022\r\n\005slot4\030\006 \002(\t\022\r\n\005slot5\030\007 \002(" +
-      "\t\"9\n\tsetHuanWu\022\014\n\004code\030\001 \002(\005\022\016\n\006boxIdx\030\002" +
-      " \002(\005\022\016\n\006itemId\030\003 \002(\005\"?\n\rLianMengBoxes\022.\n",
-      "\007boxList\030\001 \003(\0132\035.qxmobile.protobuf.HuanW" +
-      "uInfo\"p\n\014ExchangeItem\022\017\n\007selfIdx\030\001 \002(\005\022\021" +
-      "\n\ttargetIdx\030\002 \002(\005\022\022\n\ntargetJzId\030\003 \002(\003\022\024\n" +
-      "\014targetItemId\030\004 \002(\t\022\022\n\nselfItemId\030\005 \002(\t\"" +
-      ")\n\014ExItemResult\022\014\n\004code\030\001 \002(\005\022\013\n\003msg\030\002 \002" +
-      "(\t\" \n\020ExCanJuanJiangLi\022\014\n\004code\030\001 \002(\005\"@\n\020" +
-      "HouseVisitorInfo\022,\n\004list\030\001 \003(\0132\036.qxmobil" +
-      "e.protobuf.VisitorInfo\"o\n\013VisitorInfo\022\014\n" +
-      "\004jzId\030\001 \002(\003\022\016\n\006jzName\030\002 \002(\t\022\r\n\005level\030\003 \002" +
-      "(\005\022\020\n\010gongxian\030\004 \002(\005\022\017\n\007junxian\030\005 \002(\005\022\020\n",
-      "\010guanxian\030\006 \002(\005\"B\n\016OffVisitorInfo\022\021\n\tvis" +
-      "itorId\030\001 \002(\003\022\017\n\007houseId\030\002 \002(\003\022\014\n\004code\030\003 " +
-      "\002(\005B\007B\005House"
+      "eExp\030\t \001(\005\022\023\n\013curGongxian\030\n \001(\005\022\021\n\tkejiL" +
+      "evel\030\013 \001(\005\"1\n\020EnterOrExitHouse\022\017\n\007houseI" +
+      "d\030\001 \002(\003\022\014\n\004code\030\002 \002(\005\"u\n\nHuanWuInfo\022\014\n\004j" +
+      "zId\030\001 \002(\003\022\016\n\006jzName\030\002 \002(\t\022\r\n\005slot1\030\003 \002(\t" +
+      "\022\r\n\005slot2\030\004 \002(\t\022\r\n\005slot3\030\005 \002(\t\022\r\n\005slot4\030" +
+      "\006 \002(\t\022\r\n\005slot5\030\007 \002(\t\"9\n\tsetHuanWu\022\014\n\004cod" +
+      "e\030\001 \002(\005\022\016\n\006boxIdx\030\002 \002(\005\022\016\n\006itemId\030\003 \002(\005\"",
+      "?\n\rLianMengBoxes\022.\n\007boxList\030\001 \003(\0132\035.qxmo" +
+      "bile.protobuf.HuanWuInfo\"p\n\014ExchangeItem" +
+      "\022\017\n\007selfIdx\030\001 \002(\005\022\021\n\ttargetIdx\030\002 \002(\005\022\022\n\n" +
+      "targetJzId\030\003 \002(\003\022\024\n\014targetItemId\030\004 \002(\t\022\022" +
+      "\n\nselfItemId\030\005 \002(\t\")\n\014ExItemResult\022\014\n\004co" +
+      "de\030\001 \002(\005\022\013\n\003msg\030\002 \002(\t\" \n\020ExCanJuanJiangL" +
+      "i\022\014\n\004code\030\001 \002(\005\"@\n\020HouseVisitorInfo\022,\n\004l" +
+      "ist\030\001 \003(\0132\036.qxmobile.protobuf.VisitorInf" +
+      "o\"o\n\013VisitorInfo\022\014\n\004jzId\030\001 \002(\003\022\016\n\006jzName" +
+      "\030\002 \002(\t\022\r\n\005level\030\003 \002(\005\022\020\n\010gongxian\030\004 \002(\005\022",
+      "\017\n\007junxian\030\005 \002(\005\022\020\n\010guanxian\030\006 \002(\005\"B\n\016Of" +
+      "fVisitorInfo\022\021\n\tvisitorId\030\001 \002(\003\022\017\n\007house" +
+      "Id\030\002 \002(\003\022\014\n\004code\030\003 \002(\005B\007B\005House"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -18087,7 +18200,7 @@ public final class House {
           internal_static_qxmobile_protobuf_HouseExpInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_HouseExpInfo_descriptor,
-              new java.lang.String[] { "Max", "Cur", "Level", "LvupNeedExp", "CurExp", "LeftUpTimes", "CoolTime", "NeedGongXian", "GainHouseExp", "CurGongxian", });
+              new java.lang.String[] { "Max", "Cur", "Level", "LvupNeedExp", "CurExp", "LeftUpTimes", "CoolTime", "NeedGongXian", "GainHouseExp", "CurGongxian", "KejiLevel", });
           internal_static_qxmobile_protobuf_EnterOrExitHouse_descriptor =
             getDescriptor().getMessageTypes().get(11);
           internal_static_qxmobile_protobuf_EnterOrExitHouse_fieldAccessorTable = new

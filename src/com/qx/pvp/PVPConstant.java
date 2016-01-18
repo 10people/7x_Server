@@ -27,6 +27,8 @@ public class PVPConstant {
 	public static final int REFRESH_RANKS = 3;
 	public static final int REFRESH_RANKS_FREE = 4;
 	public static final int reget_ranks = 5;
+	public static final int get_rank_award = 6;
+	public static final int get_daily_award = 7;
 	/**百战冷却清零**/
 //	public static final int CLEAN_CD = 12;
 	/**购买百战类型**/

@@ -26,8 +26,8 @@ public class YaBiaoJiaChengJob implements Job {
 	 * @Description 刷新押镖收益状态
 	 */
 	public void refreshMoreProfitState() {
-		boolean buff2Profit1=	DateUtils.isInDeadline(YunbiaoTemp.incomeAdd_startTime1, YunbiaoTemp.incomeAdd_endTime1);
-		boolean buff2Profit2=  DateUtils.isInDeadline(YunbiaoTemp.incomeAdd_startTime2, YunbiaoTemp.incomeAdd_endTime2);
+		boolean buff2Profit1=	DateUtils.isInDeadline4Start(YunbiaoTemp.incomeAdd_startTime1, YunbiaoTemp.incomeAdd_endTime1);
+		boolean buff2Profit2=  DateUtils.isInDeadline4Start(YunbiaoTemp.incomeAdd_startTime2, YunbiaoTemp.incomeAdd_endTime2);
 		String template=YunbiaoTemp.yunbiao_start_broadcast;
 		if(buff2Profit1||buff2Profit2){
 			YaBiaoHuoDongMgr.SHOUYI_PROFIT=YunbiaoTemp.incomeAddPro;
@@ -37,6 +37,20 @@ public class YaBiaoJiaChengJob implements Job {
 			YaBiaoHuoDongMgr.SHOUYI_PROFIT=100;
 			BroadcastMgr.inst.send(template);
 		}
+		YaBiaoHuoDongMgr.syncBroadExecutor.submit(new Runnable() {
+			@Override
+			public void run() {
+				while(YaBiaoHuoDongMgr.SHOUYI_PROFIT>100) {
+					try {
+						String template=YunbiaoTemp.yunbiao_start_broadcast;
+						BroadcastMgr.inst.send(template);
+						Thread.sleep(YunbiaoTemp.yunbiao_start_broadcast_CD*1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
 		log.info("押镖收益比率为{}",YaBiaoHuoDongMgr.SHOUYI_PROFIT);
 	}
 }

@@ -16,7 +16,7 @@ import javax.persistence.Table;
  *       9.0, 2015年1月19日 下午7:37:16
  */
 @Entity
-@Table(name = "ZhanDouRecord")
+@Table(name = "zhandou_record")
 public class ZhanDouRecord{
 	@Id
 	public int zhandouId;

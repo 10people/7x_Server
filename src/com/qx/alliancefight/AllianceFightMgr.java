@@ -60,6 +60,7 @@ import com.qx.ranking.RankingMgr;
 import com.qx.world.FightScene;
 import com.qx.world.Player;
 import com.qx.world.Scene;
+import com.qx.yabiao.YBBattleBean;
 import com.qx.yabiao.YaBiaoHuoDongMgr;
 import com.qx.yabiao.YaBiaoRobot;
 import com.qx.yuanbao.YBType;
@@ -536,10 +537,15 @@ public class AllianceFightMgr {
 			logger.error("攻击失败，找不到被攻击的君主，id:{}", targetPlayer.jzId);
 			return;
 		}
+		YBBattleBean ybBattle = YaBiaoHuoDongMgr.inst.getYBZhanDouInfo(defender.id, defender.vipLevel);
 		if(skillId != 121 && targetPlayer.safeArea >= 0) {
 			logger.info("攻击失败，被攻击的目标在安全区，safeArea:{}，targetJZId:{}",targetPlayer.safeArea,targetPlayer.jzId);
 			sendAttackError(Result.TARGET_IN_SAFE_AREA, scene, attackUid);
 			return;
+		} else if(skillId == 121){
+			if(YaBiaoHuoDongMgr.inst.getXuePingRemainTimes(defender.id, defender.vipLevel) <= 0) {
+				return;
+			}
 		}
 		
 		boolean teammate = isTeammate(targetPlayer, attackPlayer); 
@@ -558,6 +564,14 @@ public class AllianceFightMgr {
 		updateSkillCdTime(attacker.id, skill);
 		BigSwitch.inst.buffMgr.processSkillEffect(damageValue, targetPlayer, skill);
 	
+		if(skillId == 121) {
+			attackPlayer.xuePingRemain -= 1;
+			if(ybBattle != null) {
+				ybBattle.xueping4uesd += 1;
+				HibernateUtil.save(ybBattle);
+			}
+		}
+
 		logger.info("发生打架事件：jz:{}攻击了jz:{},使用技能:{},造成伤害值:{}", attacker.id, defender.id, skillId, damageValue);
 		sendAttackResponse(attackUid, targetUid, Result.SUCCESS, skillId, scene, damageValue, targetPlayer.currentLife, true);
 		if(targetPlayer.currentLife <= 0) {
@@ -623,6 +637,7 @@ public class AllianceFightMgr {
 		}
 
 		if(targetPlayer.currentLife <= 0) {
+			processYBPlayerDead(scene, defender, targetUid, attackPlayer.userId);
 			cartInjuredFirstRecord.remove(defender.id);
 			YaBiaoHuoDongMgr.inst.settleJieBiaoResult(targetPlayer.jzId, session);
 		}
@@ -775,7 +790,7 @@ public class AllianceFightMgr {
 //		BigSwitch.inst.cdTimeMgr.addCdTime(cdTime);
 		
 		BuffMgr.inst.removeBuff(defender.id);
-		int onSiteReviveCost = YunbiaoTemp.resurgence_onSite_price;
+		int onSiteReviveCost = 10;
 		int remainReviveTimes = YaBiaoHuoDongMgr.inst.getFuhuoTimes(defender);
 		
 		PlayerDeadNotify.Builder deadNotify = PlayerDeadNotify.newBuilder();
@@ -970,7 +985,8 @@ public class AllianceFightMgr {
 		PlayerReviveNotify.Builder reviveNotify = PlayerReviveNotify.newBuilder();
 		reviveNotify.setUid(player.userId);
 		if(type == 0) {//安全区复活
-			YunBiaoSafe safeArea = YaBiaoHuoDongMgr.inst.getNearestSafeArea((int)player.posX, (int)player.posZ);
+			int safeAreaId = YaBiaoHuoDongMgr.inst.getNearSafeArea(player.posX, player.posZ);
+			YunBiaoSafe safeArea = YaBiaoHuoDongMgr.safeAreaMap.get(safeAreaId);
 			if(safeArea == null) {
 				reviveNotify.setPosX(player.posX);
 				reviveNotify.setPosZ(player.posZ);
@@ -981,7 +997,7 @@ public class AllianceFightMgr {
 				player.posZ = safeArea.saveAreaZ;
 			}
 		} else if(type == 1) {//原地安全复活
-			int costYuanBao = YunbiaoTemp.resurgence_onSite_price;
+			int costYuanBao = 10;
 			if(junzhu.yuanBao < costYuanBao) {
 				logger.error("押镖场景，原地复活失败，元宝不足");
 				return;

@@ -1,7 +1,6 @@
 <%@page import="com.qx.explore.TanBaoData"%>
 <%@page import="com.qx.account.AccountManager"%>
 <%@page import="qxmobile.protobuf.Explore.ExploreReq"%>
-<%@page import="com.qx.explore.ExploreConstant"%>
 <%@page import="com.manu.dynasty.boot.GameServer"%>
 <%@page import="com.qx.robot.RobotSession"%>
 <%@page import="com.qx.account.Account"%>
@@ -68,6 +67,7 @@ pageContext.setAttribute("basePath",basePath);
     	 if(junzhu == null){
     	    out.println("没有君主");
     	 }else{	
+    		
     		     %><br> 君主id是：<%=junzhu.id%> <br>君主姓名是：<%=junzhu.name%><%
     		    br();
     		     String input = request.getParameter("v");
@@ -82,54 +82,14 @@ pageContext.setAttribute("basePath",basePath);
                   out.println("免费铜币单抽CD(单位是秒)："+ TanBaoData.tongBi_CD);
                   out.println("<input type='text' id='changeFCD' value='"+input
                           +"'/><input type='button' value='修改' onclick='go(\"changeFCD\")'/>");
+                  br();
                   out.println("免费元宝单抽CD(单位是秒)："+ TanBaoData.yuanBao_CD);
                   out.println("<input type='text' id='changeSCD' value='"+input
                           +"'/><input type='button' value='修改' onclick='go(\"changeSCD\")'/>");
                   
                   br();
-                  int gongxian =0;
 	    		 if("lookTanbao".equals(action)){ 
-	    			 int v = Integer.parseInt(request.getParameter("v"));
-	    			 List<ExploreMine> mineList = ExploreMgr.inst.getMineList(junZhuId);
-	    		        Map<Long, ExploreMine> map = new HashMap<Long, ExploreMine>();
-	    		        for(ExploreMine e: mineList){
-	    		            map.put(e.id % ExploreMgr.space, e);
-	    		        }
-	    		        /*
-	    		         *  铜币探宝
-	    		         */
-	    		         tableStart();
-	                     trS();td("君主id");td("类型");
-	                     td("免费抽奖时间");td("已用免费抽奖次数");
-	                     td("付费抽奖累计概率");td("历史免费抽奖次数");td("历史付费抽奖次数（10连抽算10次）");
-	                     trE();
-	    		        int all = TanBaoData.tongBi_all_free_times;
-	    		        ExploreMine e = map.get(TanBaoData.tongBi_type);
-	    		        if(e != null){
-	    		        	ExploreMgr.inst.resetExploreMine(e);
-	    		        }else{
-	    		        	e = new ExploreMine();
-	    		        }
-	    		        trS();td(e.id / 100);td("铜币抽奖");
-                        td(e.lastFreeGetTime);td(e.usedFreeNumber);
-                        td(e.totalProbability);td(e.historyFree);td(e.historyPay);
-                        trE();
-
-	    		        /*
-	    		         * 元宝探宝
-	    		         */
-	    		        all = 0;//TanBaoData.yuanBao_all_free_times;
-	    		        e = map.get(TanBaoData.yuanBao_type);
-	    		        if(e != null){
-                            ExploreMgr.inst.resetExploreMine(e);
-                        }else{
-                            e = new ExploreMine();
-                        }
-                        trS();td(e.id / 100);td("元宝抽奖");
-                        td(e.lastFreeGetTime);td(e.usedFreeNumber);
-                        td(e.totalProbability);td(e.historyFree);td(e.historyPay);
-                        trE();
-                        tableEnd();	                	
+	    			              	
 	    		 }else if("changeFCD".equals(action)){
 	    			 int v = Integer.parseInt(request.getParameter("v"));
 	    			 TanBaoData.tongBi_CD= v;
@@ -145,14 +105,72 @@ pageContext.setAttribute("basePath",basePath);
 	    			 }
 	    			 ExploreReq.Builder bb = ExploreReq.newBuilder();
 	    			 bb.setType(v);
-	    			 ExploreMgr.inst.toExplore(0, ss, bb);
+	    			 int i =0;
+	    					 ExploreMgr.inst.toExplore(0, ss, bb);
+	    			 if(i == 0){
+	    				 %><script>alert("探宝成功");</script><%;
+	    			 }else if(i == -1){%><script>alert("君主没有登录游戏");</script><%}
+	    			 else if(i == -2){%><script>alert("探宝类型不存在");</script><%}
+	    			 else if(i == -3){%><script>alert("铜币单抽失败，铜币不足");</script><%}
+	    			 else if(i == -4){%><script>alert("铜币10抽失败，铜币不足");</script><%}
+	    			 else if(i == -5){%><script>alert("元宝单抽失败，元宝不足");</script><%}
+	    			 else if(i == -6){%><script>alert("元宝十连抽失败，元宝不足");</script><%}
 	    		 }
-	    		
+	    		 /* int v = Integer.parseInt(request.getParameter("v"));
+                 List<ExploreMine> mineList = ExploreMgr.inst.getMineList(junZhuId);
+                    Map<Long, ExploreMine> map = new HashMap<Long, ExploreMine>();
+                    for(ExploreMine e: mineList){
+                        map.put(e.id % ExploreMgr.space, e);
+                    }
+                    */
+                    /*
+                     *  铜币探宝
+                     
+                     */
+                     junzhu = HibernateUtil.find(JunZhu.class, junZhuId);
+                     out("探宝记录");
+                    br();
+                     tableStart();
+                     trS();td("君主id");td("类型");td("单抽花费");td("十抽花费");td("玩家货币");
+                     td("上次免费抽奖时间");td("已用免费抽奖次数");
+                     td("付费抽奖累计概率");td("（元宝免费、铜币总）抽奖次数");td("元宝付费抽奖次数");td("元宝保底抽次数（10连抽算10次）");
+                     trE();
+                    int all = TanBaoData.tongBi_all_free_times;
+                    ExploreMine e = ExploreMgr.inst.getMineByType(junZhuId, TanBaoData.tongBi_type);
+                    if(e != null){
+                        ExploreMgr.inst.resetExploreMine(e);
+                    }else{
+                        e = ExploreMgr.inst.intMineForType(junZhuId, TanBaoData.tongBi_type);
+                    }
+                    trS();td(e.id / ExploreMgr.space);td("铜币抽奖");td( ExploreMgr.inst.getCost(1));
+                    td(ExploreMgr.inst.getCost(2));td("铜币" + junzhu.tongBi);
+                    td(e.lastFreeGetTime);td(e.usedFreeNumber);
+                    td(e.totalProbability);td(e.historyFree);td("XXX");td("XXX");
+                    trE();
+
+                    /*
+                     * 元宝探宝
+                     */
+                    all = 0;//TanBaoData.yuanBao_all_free_times;
+                    e = ExploreMgr.inst.getMineByType(junZhuId, TanBaoData.yuanBao_type);
+                    if(e != null){
+                        ExploreMgr.inst.resetExploreMine(e);
+                    }else{
+                        e = ExploreMgr.inst.intMineForType(junZhuId, TanBaoData.yuanBao_type);
+                    }
+                    trS();td(e.id / ExploreMgr.space);td("元宝抽奖");
+                    td( ExploreMgr.inst.getCost(3));
+                    td(ExploreMgr.inst.getCost(4));td("元宝："+junzhu.yuanBao);
+                    td(e.lastFreeGetTime);td(e.usedFreeNumber);
+                    td(e.totalProbability);td(e.historyFree);td(e.historyPay);td(e.historyBaoDi);
+                    trE();
+                    tableEnd();   
+	    		 br();
                  br();
                  out("点击进行某种抽奖操作：(请填写以上存在的探宝类型)");
                  br();
-                 out("(在线情况可在背包中查看所得奖励),元宝或者联盟的贡献值不够会导致抽奖失败");
                  br();
+                 input = "1";
                  out.println("<input type='text' id='tenChou' value='"+input
                          +"'/><input type='button' value='一次某类型抽奖' onclick='go(\"tenChou\")'/>");
                 

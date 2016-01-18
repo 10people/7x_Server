@@ -66,7 +66,6 @@ import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.award.AwardMgr;
-import com.qx.battle.PveMgr;
 import com.qx.email.EmailMgr;
 import com.qx.event.ED;
 import com.qx.event.EventMgr;
@@ -76,6 +75,7 @@ import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.PurchaseConstants;
 import com.qx.purchase.PurchaseMgr;
+import com.qx.pve.PveMgr;
 import com.qx.pve.PveRecord;
 import com.qx.pvp.PvpMgr;
 import com.qx.task.DailyTaskCondition;
@@ -1107,8 +1107,10 @@ public class HYMgr {
 			wjNode.setModleId(bing.modelId);
 			wjNode.setNodeType(NodeType.valueOf(bing.type));
 			wjNode.setNodeProfession(NodeProfession.valueOf(bing.profession));
-			wjNode.setHp(bing.shengming);
+			wjNode.setHp(bing.shengming * bing.lifebarNum);
 			wjNode.setNodeName(PvpMgr.inst.getNPCName(bing.name));
+			wjNode.setHpNum(bing.lifebarNum);
+			wjNode.setAppearanceId(bing.modelApID);
 			PveMgr.inst.fillGongFangInfo(wjNode, bing);
 			String skills = bing.skills;
 			if(skills != null && !skills.equals("")){
@@ -1444,6 +1446,7 @@ public class HYMgr {
 			HuangyePve hyCfg = huangyePveMap.get(hyPveCfg.id);
 			String treaName = HeroService.getNameById(hyCfg == null ? "" : hyCfg.nameId+"");
 			String eventStr = AllianceMgr.inst.lianmengEventMap.get(11).str
+					.replaceFirst("%d", zhiWei)
 					.replaceFirst("%d", junzhu.name)
 					.replaceFirst("%d", treaName);
 			AllianceMgr.inst.addAllianceEvent(alliance.id, eventStr);
@@ -1668,6 +1671,8 @@ public class HYMgr {
 			node.setModleId(hyNpcCfg.modelId);
 			node.setHp(npc.remainHp);
 			node.setNodeName(hyNpcCfg.name+"");
+			node.setHpNum(hyNpcCfg.lifebarNum);
+			node.setAppearanceId(hyNpcCfg.modelApID);
 			GongjiType gongjiType = PveMgr.inst.id2GongjiType.get(hyNpcCfg.gongjiType);
 			PveMgr.inst.fillDataByGongjiType(node, gongjiType);
 			PveMgr.inst.fillGongFangInfo(node, enemyTemp);
@@ -1953,7 +1958,7 @@ public class HYMgr {
 				continue;
 			}
 			HYTreasureNpc treasureNpc = new HYTreasureNpc(npcCfg.position, 
-					hyTreasure.id, npcCfg.id, enemyCfg.getShengming(), npcCfg.boCi); 
+					hyTreasure.id, npcCfg.id, enemyCfg.getShengming() * npcCfg.lifebarNum, npcCfg.boCi); 
 			HibernateUtil.insert(treasureNpc);
 			treasureNpcList.add(treasureNpc);
 		}

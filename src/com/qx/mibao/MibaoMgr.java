@@ -275,17 +275,21 @@ public class MibaoMgr extends EventProc{
 		EventMgr.addEvent(ED.MIBAO_HECHENG, new Object[]{junZhu.id, miBaoCfg.getId()});
 		// 刷新君主榜 2015-7-30 14：44
 		EventMgr.addEvent(ED.JUN_RANK_REFRESH, junZhu);
-		// 主线任务： 获取秘宝的个数
-		String where2 = " WHERE ownerId =" + junZhu.id + " AND level>=1 " ;
-		List<MiBaoDB> dbList = HibernateUtil.list(MiBaoDB.class, where2);
-		if(dbList != null && dbList.size() != 0){
-			EventMgr.addEvent(ED.get_x_mibao, new Object[]{junZhu.id, dbList.size()});
+		int mibaoCount = getActivateMiBaoCount(junZhu.id);
+		if(mibaoCount > 0){
+			EventMgr.addEvent(ED.get_x_mibao, new Object[]{junZhu.id, mibaoCount});
 		}
 		
 		//  主线任务：秘寶星级
 		EventMgr.addEvent(ED.mibao_shengStar_x, new Object[]{junZhu.id, miBaoDB.getStar()});
 		//  主线任务：秘寶等级
 		EventMgr.addEvent(ED.mibao_shengji_x, new Object[]{junZhu.id, miBaoDB.getLevel()});
+
+		// 判断是否发送是否秘宝技能可以显示
+		if(mibaoCount > 0){
+			isCanMiBaoJiNengOpen(junZhu, session, mibaoCount);
+		}
+		
 	}
 	
 	/**
@@ -294,6 +298,10 @@ public class MibaoMgr extends EventProc{
 	 * @param session
 	 */
 	public void mibaoInfosRequest(int cmd, IoSession session) {
+		if(session == null){
+			logger.error("cmd:{},估计是gm操作，但不发送",cmd);
+			return;
+		}
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
 		if(junZhu == null) {
 			logger.error("cmd:{},未发现君主",cmd);
@@ -313,7 +321,8 @@ public class MibaoMgr extends EventProc{
 		if(levelPoint == null) {
 			levelPoint = new MibaoLevelPoint();
 			levelPoint.junzhuId = junZhu.id;
-			levelPoint.point = LEVEL_POINT_INIT;
+			levelPoint.point = 
+				VipMgr.INSTANCE.getValueByVipLevel(junZhu.vipLevel, VipData.mibaoCountLimit);
 			levelPoint.lastAddTime = date;
 			levelPoint.lastBuyTime = date;
 			levelPoint.dayTimes = 0;
@@ -457,7 +466,7 @@ public class MibaoMgr extends EventProc{
 		mibaoInfo.setSuiPianNum(miBaoDB.getSuiPianNum());
 		mibaoInfo.setNeedSuipianNum(needSuipianNum);
 		int gongJi = clacMibaoAttr(chengZhang, miBaoCfg.getGongji(), miBaoCfg.getGongjiRate(), level);
-		int fangYu = clacMibaoAttr(chengZhang, miBaoCfg.getGongji(), miBaoCfg.getGongjiRate(), level);
+		int fangYu = clacMibaoAttr(chengZhang, miBaoCfg.getFangyu(), miBaoCfg.getFangyuRate(), level);
 		int shengMing = clacMibaoAttr(chengZhang, miBaoCfg.getShengming(), miBaoCfg.getShengmingRate(), level);
 		mibaoInfo.setGongJi(gongJi);
 		mibaoInfo.setFangYu(fangYu);
@@ -654,8 +663,6 @@ public class MibaoMgr extends EventProc{
 		fillMibaoInfoBuilder(junZhu, mibaoInfo, miBaoDB, miBaoCfg, mibaoStar, false);
 		resp.setMibaoInfo(mibaoInfo);
 		session.write(resp.build());
-		// 刷新战力数据
-		JunZhuMgr.inst.sendPveMibaoZhanli(junZhu, session);
 		junZhu.tongBi = junZhu.tongBi - expTemp.getNeedExp();
 		HibernateUtil.save(junZhu);
 		JunZhuMgr.inst.sendMainInfo(session);
@@ -765,8 +772,11 @@ public class MibaoMgr extends EventProc{
 		if(skillCfg == null){
 			return retList;
 		}
-		int showSkill = skillCfg.skill;
-		retList.add(showSkill);
+		String[] showSkills = skillCfg.skill.split(",");
+		for(String skillId : showSkills) {
+			retList.add(Integer.parseInt(skillId));
+		}
+		
 		String skill2 = skillCfg.skill2;
 		if(skill2 == null || skill2.equals("")) {
 			return retList;
@@ -795,12 +805,18 @@ public class MibaoMgr extends EventProc{
 	 * // 是否有激活秘宝技能
 	 */
 	public MiBaoSkillDB getActiveSkillFromDB(long jId, int zuheId){
+		if(zuheId <= 0){
+			return null;
+		}
 		MiBaoSkillDB skillD = HibernateUtil.find(MiBaoSkillDB.class,
 				" where jId = " + jId +" and zuHeId = " + zuheId);
 		return skillD;
 	}
 
 	public int getActiveZuHeLevel(long jId, int zuheId){
+		if(zuheId <= 0){
+			return -1;
+		}
 		MiBaoSkillDB skillD = HibernateUtil.find(MiBaoSkillDB.class,
 				" where jId = " + jId +" and zuHeId = " + zuheId);
 		// 没有手动激活
@@ -827,6 +843,32 @@ public class MibaoMgr extends EventProc{
 		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB.class,
 				"where ownerId = " + junzhuId + " and level > 0 and miBaoId > 0");
 		return mibaoDBList;
+	}
+	public boolean isMibaoLevelOk(long junzhuId, int x_number, int l_level){
+		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB.class,
+				"where ownerId = " + junzhuId + " and level >= " + l_level +  " and miBaoId > 0");
+		return mibaoDBList.size() >= x_number;
+	}
+	public int getMaxMibaoLevel(long junzhuId){
+		List<MiBaoDB> mibaoDBList=getActiveMibaosFromDB(junzhuId);
+		int maxLevel=0;
+		for (MiBaoDB miBaoDB : mibaoDBList) {
+			if(miBaoDB.getLevel()>maxLevel){
+				maxLevel=miBaoDB.getLevel();
+			}
+		}
+		return maxLevel;
+	}
+	
+	public boolean isMibaoStarOk(long junzhuId, int x_number, int star){
+		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB.class,
+				"where ownerId = " + junzhuId + " and star >= " + star +  " and miBaoId > 0");
+		return mibaoDBList.size() >= x_number;
+	}
+	public boolean isMibaoCountOk(long junzhuId, int x_number){
+		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB.class,
+				"where ownerId = " + junzhuId +  " and miBaoId > 0");
+		return mibaoDBList.size() >= x_number;
 	}
 	
 	public int getActivateMiBaoCount(long junzhuId) {
@@ -883,16 +925,22 @@ public class MibaoMgr extends EventProc{
 //	}
 //	
 	public void refreshLevelPoint(MibaoLevelPoint levelPoint, Date curDate, int vipLevel) {
-		Date lastAddTime = levelPoint.lastAddTime;
-		int addValue = (int) ((curDate.getTime() - lastAddTime.getTime()) / 1000 / CanShu.ADD_MIBAODIANSHU_INTERVAL_TIME);
+		long last = levelPoint.lastAddTime.getTime();
+		long now = curDate.getTime();
+		long time = now - last;
+		int interval = CanShu.ADD_MIBAODIANSHU_INTERVAL_TIME;
+		int addValue = (int) (time / (interval * 1000));
 		int maxValue = VipMgr.INSTANCE.getValueByVipLevel(vipLevel, VipData.mibaoCountLimit);
 		if(levelPoint.point >= maxValue) {
+			return;
+		}
+		if(addValue <= 0){
 			return;
 		}
 		levelPoint.point += addValue;
 		levelPoint.point = Math.min(maxValue, levelPoint.point);
 		logger.info("本次增加秘宝升级点数:{}, lastTime:{}, curTime{}", addValue, levelPoint.lastAddTime, curDate);
-		Date curAddTime = new Date(addValue * CanShu.ADD_MIBAODIANSHU_INTERVAL_TIME * 1000 + lastAddTime.getTime());
+		Date curAddTime = new Date(addValue * interval * 1000 + last);
 		levelPoint.lastAddTime = curAddTime;
 		HibernateUtil.save(levelPoint);
 	}
@@ -1096,6 +1144,32 @@ public class MibaoMgr extends EventProc{
 		}
 	}
 
+	public void isCanMiBaoJiNengOpen(JunZhu junZhu, IoSession session, int count){
+		if(junZhu == null || session == null){
+			return;
+		}
+		if(count <= 0){
+			return;
+		}
+		List<MiBaoSkillDB> dblist = getSkillDBList(junZhu.id);
+		Map<Integer,  MiBaoSkillDB>  dbmap = new HashMap<Integer, MiBaoSkillDB>();
+		for(MiBaoSkillDB d: dblist){
+			dbmap.put(d.zuHeId, d);
+		}
+		for(Map.Entry<Integer, MibaoSkill> e: mibaoSkillMap.entrySet()){
+			MibaoSkill confSkill = e.getValue();
+			if(count >= confSkill.needNum){
+				// 如果秘宝技能不在数据库，则可以开启技能
+				if(dbmap.get(confSkill.id) == null){
+					FunctionID.pushCanShangjiao(junZhu.id, session, FunctionID.miBaoJiNeng);
+					logger.info("向君主{}推送--秘宝技能激活的红点提示", junZhu.id);
+					break;
+				}
+			}
+		}
+	}
+
+	
 //	/**
 //	 * 集齐星星数，宝箱领奖
 //	 * @param session

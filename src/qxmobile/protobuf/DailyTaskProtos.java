@@ -88,7 +88,7 @@ public final class DailyTaskProtos {
      * <code>optional int32 guoJia1 = 5;</code>
      *
      * <pre>
-     * 对于百战任务，设置的两个国家对手
+     * 对于百战任务，设置的两个国家对手， taskId 等于2的时候发送（百战豪杰）
      * </pre>
      */
     boolean hasGuoJia1();
@@ -96,7 +96,7 @@ public final class DailyTaskProtos {
      * <code>optional int32 guoJia1 = 5;</code>
      *
      * <pre>
-     * 对于百战任务，设置的两个国家对手
+     * 对于百战任务，设置的两个国家对手， taskId 等于2的时候发送（百战豪杰）
      * </pre>
      */
     int getGuoJia1();
@@ -335,7 +335,7 @@ public final class DailyTaskProtos {
      * <code>optional int32 guoJia1 = 5;</code>
      *
      * <pre>
-     * 对于百战任务，设置的两个国家对手
+     * 对于百战任务，设置的两个国家对手， taskId 等于2的时候发送（百战豪杰）
      * </pre>
      */
     public boolean hasGuoJia1() {
@@ -345,7 +345,7 @@ public final class DailyTaskProtos {
      * <code>optional int32 guoJia1 = 5;</code>
      *
      * <pre>
-     * 对于百战任务，设置的两个国家对手
+     * 对于百战任务，设置的两个国家对手， taskId 等于2的时候发送（百战豪杰）
      * </pre>
      */
     public int getGuoJia1() {
@@ -914,7 +914,7 @@ public final class DailyTaskProtos {
        * <code>optional int32 guoJia1 = 5;</code>
        *
        * <pre>
-       * 对于百战任务，设置的两个国家对手
+       * 对于百战任务，设置的两个国家对手， taskId 等于2的时候发送（百战豪杰）
        * </pre>
        */
       public boolean hasGuoJia1() {
@@ -924,7 +924,7 @@ public final class DailyTaskProtos {
        * <code>optional int32 guoJia1 = 5;</code>
        *
        * <pre>
-       * 对于百战任务，设置的两个国家对手
+       * 对于百战任务，设置的两个国家对手， taskId 等于2的时候发送（百战豪杰）
        * </pre>
        */
       public int getGuoJia1() {
@@ -934,7 +934,7 @@ public final class DailyTaskProtos {
        * <code>optional int32 guoJia1 = 5;</code>
        *
        * <pre>
-       * 对于百战任务，设置的两个国家对手
+       * 对于百战任务，设置的两个国家对手， taskId 等于2的时候发送（百战豪杰）
        * </pre>
        */
       public Builder setGuoJia1(int value) {
@@ -947,7 +947,7 @@ public final class DailyTaskProtos {
        * <code>optional int32 guoJia1 = 5;</code>
        *
        * <pre>
-       * 对于百战任务，设置的两个国家对手
+       * 对于百战任务，设置的两个国家对手， taskId 等于2的时候发送（百战豪杰）
        * </pre>
        */
       public Builder clearGuoJia1() {
@@ -1577,6 +1577,62 @@ public final class DailyTaskProtos {
      * </pre>
      */
     boolean getHasGuild();
+
+    // required int32 todaylHuoYue = 3;
+    /**
+     * <code>required int32 todaylHuoYue = 3;</code>
+     */
+    boolean hasTodaylHuoYue();
+    /**
+     * <code>required int32 todaylHuoYue = 3;</code>
+     */
+    int getTodaylHuoYue();
+
+    // required int32 weekHuoYue = 4;
+    /**
+     * <code>required int32 weekHuoYue = 4;</code>
+     */
+    boolean hasWeekHuoYue();
+    /**
+     * <code>required int32 weekHuoYue = 4;</code>
+     */
+    int getWeekHuoYue();
+
+    // required int32 remainTime = 5;
+    /**
+     * <code>required int32 remainTime = 5;</code>
+     */
+    boolean hasRemainTime();
+    /**
+     * <code>required int32 remainTime = 5;</code>
+     */
+    int getRemainTime();
+
+    // repeated int32 awardStatus = 6;
+    /**
+     * <code>repeated int32 awardStatus = 6;</code>
+     *
+     * <pre>
+     *每个活跃度节点（箱子）的领奖情况（包括周活跃度）: 0-没有领奖, 1-已经领取
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getAwardStatusList();
+    /**
+     * <code>repeated int32 awardStatus = 6;</code>
+     *
+     * <pre>
+     *每个活跃度节点（箱子）的领奖情况（包括周活跃度）: 0-没有领奖, 1-已经领取
+     * </pre>
+     */
+    int getAwardStatusCount();
+    /**
+     * <code>repeated int32 awardStatus = 6;</code>
+     *
+     * <pre>
+     *每个活跃度节点（箱子）的领奖情况（包括周活跃度）: 0-没有领奖, 1-已经领取
+     * </pre>
+     */
+    int getAwardStatus(int index);
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.DailyTaskListResponse}
@@ -1646,6 +1702,42 @@ public final class DailyTaskProtos {
               hasGuild_ = input.readBool();
               break;
             }
+            case 24: {
+              bitField0_ |= 0x00000002;
+              todaylHuoYue_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000004;
+              weekHuoYue_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000008;
+              remainTime_ = input.readInt32();
+              break;
+            }
+            case 48: {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+                awardStatus_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              awardStatus_.add(input.readInt32());
+              break;
+            }
+            case 50: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020) && input.getBytesUntilLimit() > 0) {
+                awardStatus_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                awardStatus_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1656,6 +1748,9 @@ public final class DailyTaskProtos {
       } finally {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
           taskInfo_ = java.util.Collections.unmodifiableList(taskInfo_);
+        }
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+          awardStatus_ = java.util.Collections.unmodifiableList(awardStatus_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -1749,9 +1844,96 @@ public final class DailyTaskProtos {
       return hasGuild_;
     }
 
+    // required int32 todaylHuoYue = 3;
+    public static final int TODAYLHUOYUE_FIELD_NUMBER = 3;
+    private int todaylHuoYue_;
+    /**
+     * <code>required int32 todaylHuoYue = 3;</code>
+     */
+    public boolean hasTodaylHuoYue() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 todaylHuoYue = 3;</code>
+     */
+    public int getTodaylHuoYue() {
+      return todaylHuoYue_;
+    }
+
+    // required int32 weekHuoYue = 4;
+    public static final int WEEKHUOYUE_FIELD_NUMBER = 4;
+    private int weekHuoYue_;
+    /**
+     * <code>required int32 weekHuoYue = 4;</code>
+     */
+    public boolean hasWeekHuoYue() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 weekHuoYue = 4;</code>
+     */
+    public int getWeekHuoYue() {
+      return weekHuoYue_;
+    }
+
+    // required int32 remainTime = 5;
+    public static final int REMAINTIME_FIELD_NUMBER = 5;
+    private int remainTime_;
+    /**
+     * <code>required int32 remainTime = 5;</code>
+     */
+    public boolean hasRemainTime() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 remainTime = 5;</code>
+     */
+    public int getRemainTime() {
+      return remainTime_;
+    }
+
+    // repeated int32 awardStatus = 6;
+    public static final int AWARDSTATUS_FIELD_NUMBER = 6;
+    private java.util.List<java.lang.Integer> awardStatus_;
+    /**
+     * <code>repeated int32 awardStatus = 6;</code>
+     *
+     * <pre>
+     *每个活跃度节点（箱子）的领奖情况（包括周活跃度）: 0-没有领奖, 1-已经领取
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getAwardStatusList() {
+      return awardStatus_;
+    }
+    /**
+     * <code>repeated int32 awardStatus = 6;</code>
+     *
+     * <pre>
+     *每个活跃度节点（箱子）的领奖情况（包括周活跃度）: 0-没有领奖, 1-已经领取
+     * </pre>
+     */
+    public int getAwardStatusCount() {
+      return awardStatus_.size();
+    }
+    /**
+     * <code>repeated int32 awardStatus = 6;</code>
+     *
+     * <pre>
+     *每个活跃度节点（箱子）的领奖情况（包括周活跃度）: 0-没有领奖, 1-已经领取
+     * </pre>
+     */
+    public int getAwardStatus(int index) {
+      return awardStatus_.get(index);
+    }
+
     private void initFields() {
       taskInfo_ = java.util.Collections.emptyList();
       hasGuild_ = false;
+      todaylHuoYue_ = 0;
+      weekHuoYue_ = 0;
+      remainTime_ = 0;
+      awardStatus_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1759,6 +1941,18 @@ public final class DailyTaskProtos {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasHasGuild()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTodaylHuoYue()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasWeekHuoYue()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRemainTime()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1781,6 +1975,18 @@ public final class DailyTaskProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeBool(2, hasGuild_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(3, todaylHuoYue_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(4, weekHuoYue_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(5, remainTime_);
+      }
+      for (int i = 0; i < awardStatus_.size(); i++) {
+        output.writeInt32(6, awardStatus_.get(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1797,6 +2003,27 @@ public final class DailyTaskProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, hasGuild_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, todaylHuoYue_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, weekHuoYue_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, remainTime_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < awardStatus_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(awardStatus_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getAwardStatusList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1927,6 +2154,14 @@ public final class DailyTaskProtos {
         }
         hasGuild_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
+        todaylHuoYue_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        weekHuoYue_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        remainTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        awardStatus_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -1968,6 +2203,23 @@ public final class DailyTaskProtos {
           to_bitField0_ |= 0x00000001;
         }
         result.hasGuild_ = hasGuild_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.todaylHuoYue_ = todaylHuoYue_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.weekHuoYue_ = weekHuoYue_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.remainTime_ = remainTime_;
+        if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          awardStatus_ = java.util.Collections.unmodifiableList(awardStatus_);
+          bitField0_ = (bitField0_ & ~0x00000020);
+        }
+        result.awardStatus_ = awardStatus_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2013,12 +2265,43 @@ public final class DailyTaskProtos {
         if (other.hasHasGuild()) {
           setHasGuild(other.getHasGuild());
         }
+        if (other.hasTodaylHuoYue()) {
+          setTodaylHuoYue(other.getTodaylHuoYue());
+        }
+        if (other.hasWeekHuoYue()) {
+          setWeekHuoYue(other.getWeekHuoYue());
+        }
+        if (other.hasRemainTime()) {
+          setRemainTime(other.getRemainTime());
+        }
+        if (!other.awardStatus_.isEmpty()) {
+          if (awardStatus_.isEmpty()) {
+            awardStatus_ = other.awardStatus_;
+            bitField0_ = (bitField0_ & ~0x00000020);
+          } else {
+            ensureAwardStatusIsMutable();
+            awardStatus_.addAll(other.awardStatus_);
+          }
+          onChanged();
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasHasGuild()) {
+          
+          return false;
+        }
+        if (!hasTodaylHuoYue()) {
+          
+          return false;
+        }
+        if (!hasWeekHuoYue()) {
+          
+          return false;
+        }
+        if (!hasRemainTime()) {
           
           return false;
         }
@@ -2335,6 +2618,199 @@ public final class DailyTaskProtos {
       public Builder clearHasGuild() {
         bitField0_ = (bitField0_ & ~0x00000002);
         hasGuild_ = false;
+        onChanged();
+        return this;
+      }
+
+      // required int32 todaylHuoYue = 3;
+      private int todaylHuoYue_ ;
+      /**
+       * <code>required int32 todaylHuoYue = 3;</code>
+       */
+      public boolean hasTodaylHuoYue() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 todaylHuoYue = 3;</code>
+       */
+      public int getTodaylHuoYue() {
+        return todaylHuoYue_;
+      }
+      /**
+       * <code>required int32 todaylHuoYue = 3;</code>
+       */
+      public Builder setTodaylHuoYue(int value) {
+        bitField0_ |= 0x00000004;
+        todaylHuoYue_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 todaylHuoYue = 3;</code>
+       */
+      public Builder clearTodaylHuoYue() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        todaylHuoYue_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 weekHuoYue = 4;
+      private int weekHuoYue_ ;
+      /**
+       * <code>required int32 weekHuoYue = 4;</code>
+       */
+      public boolean hasWeekHuoYue() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 weekHuoYue = 4;</code>
+       */
+      public int getWeekHuoYue() {
+        return weekHuoYue_;
+      }
+      /**
+       * <code>required int32 weekHuoYue = 4;</code>
+       */
+      public Builder setWeekHuoYue(int value) {
+        bitField0_ |= 0x00000008;
+        weekHuoYue_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 weekHuoYue = 4;</code>
+       */
+      public Builder clearWeekHuoYue() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        weekHuoYue_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 remainTime = 5;
+      private int remainTime_ ;
+      /**
+       * <code>required int32 remainTime = 5;</code>
+       */
+      public boolean hasRemainTime() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required int32 remainTime = 5;</code>
+       */
+      public int getRemainTime() {
+        return remainTime_;
+      }
+      /**
+       * <code>required int32 remainTime = 5;</code>
+       */
+      public Builder setRemainTime(int value) {
+        bitField0_ |= 0x00000010;
+        remainTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 remainTime = 5;</code>
+       */
+      public Builder clearRemainTime() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        remainTime_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated int32 awardStatus = 6;
+      private java.util.List<java.lang.Integer> awardStatus_ = java.util.Collections.emptyList();
+      private void ensureAwardStatusIsMutable() {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+          awardStatus_ = new java.util.ArrayList<java.lang.Integer>(awardStatus_);
+          bitField0_ |= 0x00000020;
+         }
+      }
+      /**
+       * <code>repeated int32 awardStatus = 6;</code>
+       *
+       * <pre>
+       *每个活跃度节点（箱子）的领奖情况（包括周活跃度）: 0-没有领奖, 1-已经领取
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getAwardStatusList() {
+        return java.util.Collections.unmodifiableList(awardStatus_);
+      }
+      /**
+       * <code>repeated int32 awardStatus = 6;</code>
+       *
+       * <pre>
+       *每个活跃度节点（箱子）的领奖情况（包括周活跃度）: 0-没有领奖, 1-已经领取
+       * </pre>
+       */
+      public int getAwardStatusCount() {
+        return awardStatus_.size();
+      }
+      /**
+       * <code>repeated int32 awardStatus = 6;</code>
+       *
+       * <pre>
+       *每个活跃度节点（箱子）的领奖情况（包括周活跃度）: 0-没有领奖, 1-已经领取
+       * </pre>
+       */
+      public int getAwardStatus(int index) {
+        return awardStatus_.get(index);
+      }
+      /**
+       * <code>repeated int32 awardStatus = 6;</code>
+       *
+       * <pre>
+       *每个活跃度节点（箱子）的领奖情况（包括周活跃度）: 0-没有领奖, 1-已经领取
+       * </pre>
+       */
+      public Builder setAwardStatus(
+          int index, int value) {
+        ensureAwardStatusIsMutable();
+        awardStatus_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 awardStatus = 6;</code>
+       *
+       * <pre>
+       *每个活跃度节点（箱子）的领奖情况（包括周活跃度）: 0-没有领奖, 1-已经领取
+       * </pre>
+       */
+      public Builder addAwardStatus(int value) {
+        ensureAwardStatusIsMutable();
+        awardStatus_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 awardStatus = 6;</code>
+       *
+       * <pre>
+       *每个活跃度节点（箱子）的领奖情况（包括周活跃度）: 0-没有领奖, 1-已经领取
+       * </pre>
+       */
+      public Builder addAllAwardStatus(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureAwardStatusIsMutable();
+        super.addAll(values, awardStatus_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 awardStatus = 6;</code>
+       *
+       * <pre>
+       *每个活跃度节点（箱子）的领奖情况（包括周活跃度）: 0-没有领奖, 1-已经领取
+       * </pre>
+       */
+      public Builder clearAwardStatus() {
+        awardStatus_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
         onChanged();
         return this;
       }
@@ -2859,6 +3335,26 @@ public final class DailyTaskProtos {
      */
     com.google.protobuf.ByteString
         getMsgBytes();
+
+    // required int32 todaylHuoYue = 4;
+    /**
+     * <code>required int32 todaylHuoYue = 4;</code>
+     */
+    boolean hasTodaylHuoYue();
+    /**
+     * <code>required int32 todaylHuoYue = 4;</code>
+     */
+    int getTodaylHuoYue();
+
+    // required int32 weekHuoYue = 5;
+    /**
+     * <code>required int32 weekHuoYue = 5;</code>
+     */
+    boolean hasWeekHuoYue();
+    /**
+     * <code>required int32 weekHuoYue = 5;</code>
+     */
+    int getWeekHuoYue();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.DailyTaskRewardResponse}
@@ -2928,6 +3424,16 @@ public final class DailyTaskProtos {
             case 26: {
               bitField0_ |= 0x00000004;
               msg_ = input.readBytes();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              todaylHuoYue_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              weekHuoYue_ = input.readInt32();
               break;
             }
           }
@@ -3073,10 +3579,44 @@ public final class DailyTaskProtos {
       }
     }
 
+    // required int32 todaylHuoYue = 4;
+    public static final int TODAYLHUOYUE_FIELD_NUMBER = 4;
+    private int todaylHuoYue_;
+    /**
+     * <code>required int32 todaylHuoYue = 4;</code>
+     */
+    public boolean hasTodaylHuoYue() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 todaylHuoYue = 4;</code>
+     */
+    public int getTodaylHuoYue() {
+      return todaylHuoYue_;
+    }
+
+    // required int32 weekHuoYue = 5;
+    public static final int WEEKHUOYUE_FIELD_NUMBER = 5;
+    private int weekHuoYue_;
+    /**
+     * <code>required int32 weekHuoYue = 5;</code>
+     */
+    public boolean hasWeekHuoYue() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required int32 weekHuoYue = 5;</code>
+     */
+    public int getWeekHuoYue() {
+      return weekHuoYue_;
+    }
+
     private void initFields() {
       taskId_ = 0;
       status_ = false;
       msg_ = "";
+      todaylHuoYue_ = 0;
+      weekHuoYue_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3095,6 +3635,14 @@ public final class DailyTaskProtos {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasTodaylHuoYue()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasWeekHuoYue()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -3110,6 +3658,12 @@ public final class DailyTaskProtos {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, getMsgBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, todaylHuoYue_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, weekHuoYue_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3131,6 +3685,14 @@ public final class DailyTaskProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, getMsgBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, todaylHuoYue_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, weekHuoYue_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3258,6 +3820,10 @@ public final class DailyTaskProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         msg_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        todaylHuoYue_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        weekHuoYue_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -3298,6 +3864,14 @@ public final class DailyTaskProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.msg_ = msg_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.todaylHuoYue_ = todaylHuoYue_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.weekHuoYue_ = weekHuoYue_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3325,6 +3899,12 @@ public final class DailyTaskProtos {
           msg_ = other.msg_;
           onChanged();
         }
+        if (other.hasTodaylHuoYue()) {
+          setTodaylHuoYue(other.getTodaylHuoYue());
+        }
+        if (other.hasWeekHuoYue()) {
+          setWeekHuoYue(other.getWeekHuoYue());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -3339,6 +3919,14 @@ public final class DailyTaskProtos {
           return false;
         }
         if (!hasMsg()) {
+          
+          return false;
+        }
+        if (!hasTodaylHuoYue()) {
+          
+          return false;
+        }
+        if (!hasWeekHuoYue()) {
           
           return false;
         }
@@ -3560,6 +4148,72 @@ public final class DailyTaskProtos {
         return this;
       }
 
+      // required int32 todaylHuoYue = 4;
+      private int todaylHuoYue_ ;
+      /**
+       * <code>required int32 todaylHuoYue = 4;</code>
+       */
+      public boolean hasTodaylHuoYue() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 todaylHuoYue = 4;</code>
+       */
+      public int getTodaylHuoYue() {
+        return todaylHuoYue_;
+      }
+      /**
+       * <code>required int32 todaylHuoYue = 4;</code>
+       */
+      public Builder setTodaylHuoYue(int value) {
+        bitField0_ |= 0x00000008;
+        todaylHuoYue_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 todaylHuoYue = 4;</code>
+       */
+      public Builder clearTodaylHuoYue() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        todaylHuoYue_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 weekHuoYue = 5;
+      private int weekHuoYue_ ;
+      /**
+       * <code>required int32 weekHuoYue = 5;</code>
+       */
+      public boolean hasWeekHuoYue() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required int32 weekHuoYue = 5;</code>
+       */
+      public int getWeekHuoYue() {
+        return weekHuoYue_;
+      }
+      /**
+       * <code>required int32 weekHuoYue = 5;</code>
+       */
+      public Builder setWeekHuoYue(int value) {
+        bitField0_ |= 0x00000010;
+        weekHuoYue_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 weekHuoYue = 5;</code>
+       */
+      public Builder clearWeekHuoYue() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        weekHuoYue_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.DailyTaskRewardResponse)
     }
 
@@ -3610,13 +4264,16 @@ public final class DailyTaskProtos {
       "h\030\002 \002(\010\022\r\n\005jindu\030\003 \002(\005\022\r\n\005isGet\030\004 \002(\010\022\017\n" +
       "\007guoJia1\030\005 \001(\005\022\017\n\007guoJia2\030\006 \001(\005\"K\n\025Daily" +
       "TaskFinishInform\0222\n\010taskInfo\030\001 \002(\0132 .qxm" +
-      "obile.protobuf.DailyTaskInfo\"]\n\025DailyTas" +
-      "kListResponse\0222\n\010taskInfo\030\001 \003(\0132 .qxmobi" +
-      "le.protobuf.DailyTaskInfo\022\020\n\010hasGuild\030\002 " +
-      "\002(\010\"(\n\026DailyTaskRewardRequest\022\016\n\006taskId\030" +
-      "\001 \002(\005\"F\n\027DailyTaskRewardResponse\022\016\n\006task",
-      "Id\030\001 \002(\005\022\016\n\006status\030\002 \002(\010\022\013\n\003msg\030\003 \002(\tB\021B" +
-      "\017DailyTaskProtos"
+      "obile.protobuf.DailyTaskInfo\"\260\001\n\025DailyTa" +
+      "skListResponse\0222\n\010taskInfo\030\001 \003(\0132 .qxmob" +
+      "ile.protobuf.DailyTaskInfo\022\020\n\010hasGuild\030\002" +
+      " \002(\010\022\024\n\014todaylHuoYue\030\003 \002(\005\022\022\n\nweekHuoYue" +
+      "\030\004 \002(\005\022\022\n\nremainTime\030\005 \002(\005\022\023\n\013awardStatu",
+      "s\030\006 \003(\005\"(\n\026DailyTaskRewardRequest\022\016\n\006tas" +
+      "kId\030\001 \002(\005\"p\n\027DailyTaskRewardResponse\022\016\n\006" +
+      "taskId\030\001 \002(\005\022\016\n\006status\030\002 \002(\010\022\013\n\003msg\030\003 \002(" +
+      "\t\022\024\n\014todaylHuoYue\030\004 \002(\005\022\022\n\nweekHuoYue\030\005 " +
+      "\002(\005B\021B\017DailyTaskProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3640,7 +4297,7 @@ public final class DailyTaskProtos {
           internal_static_qxmobile_protobuf_DailyTaskListResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_DailyTaskListResponse_descriptor,
-              new java.lang.String[] { "TaskInfo", "HasGuild", });
+              new java.lang.String[] { "TaskInfo", "HasGuild", "TodaylHuoYue", "WeekHuoYue", "RemainTime", "AwardStatus", });
           internal_static_qxmobile_protobuf_DailyTaskRewardRequest_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_qxmobile_protobuf_DailyTaskRewardRequest_fieldAccessorTable = new
@@ -3652,7 +4309,7 @@ public final class DailyTaskProtos {
           internal_static_qxmobile_protobuf_DailyTaskRewardResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_DailyTaskRewardResponse_descriptor,
-              new java.lang.String[] { "TaskId", "Status", "Msg", });
+              new java.lang.String[] { "TaskId", "Status", "Msg", "TodaylHuoYue", "WeekHuoYue", });
           return null;
         }
       };

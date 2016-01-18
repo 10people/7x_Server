@@ -128,17 +128,17 @@ function go(act,myid){
 				 switch(index){
 					 case 1:s = "荒野商店";
 					 sM = "荒野币"; 
-					 mo1 = ShopMgr.inst.getMoney(index, junzhu.id, shop) + "";
+					 mo1 = ShopMgr.inst.getMoney(index, junzhu, shop) + "";
 					 out("mo111111111 is " + mo1);
 					 break;
 					 case 2:s = "联盟商店";sM = "联盟贡献";
-					 mo2 = ShopMgr.inst.getMoney(index, junzhu.id, shop) + "";
+					 mo2 = ShopMgr.inst.getMoney(index, junzhu, shop) + "";
 					 break;
 					 case 3:s ="联盟战商店";sM = "功勋";
-					 mo3 = ShopMgr.inst.getMoney(index, junzhu.id, shop) + "";
+					 mo3 = ShopMgr.inst.getMoney(index, junzhu, shop) + "";
 					 break;
 					 case 4:s ="百战威望商店";sM = "威望";
-                     mo4 = ShopMgr.inst.getMoney(index, junzhu.id, shop) + "";
+                     mo4 = ShopMgr.inst.getMoney(index, junzhu, shop) + "";
                      break;
 				}
 				 out(s + "数据:");

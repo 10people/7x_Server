@@ -84,6 +84,7 @@ public class TaskData {
 	/*
 	 * 主线任务，对应Zhuxian.xml的doneType. add 20150630
 	 */
+	public static final byte go_youxia = 30;
 	public static final byte finish_youxia_x = 31;
 	public static final byte finish_yunbiao_x = 35;
 	public static final byte finish_jiebiao_x = 36;
@@ -114,6 +115,10 @@ public class TaskData {
 	public static final byte zhuangBei_x_qiangHua_N = 63;
 	public static final byte jinJie_jueSe_jiNeng = 65;
 	public static final byte get_pass_PVE_zhang_award = 64; // 领取通章奖励
+	/**X个角色技能达到N级**/
+	public static final int jueSe_x_jiNeng_n = 67;
+	/**拥有X个N星秘宝**/
+	public static final int miabao_x_star_n = 68;
 	// end
 	
 	
@@ -139,7 +144,7 @@ public class TaskData {
 //	/** 对应Zhuxian.xml的doneCond**/
 //	public static int shengXing_mibao = 301022;
 	public static int tanbao_itemId_1 = 960101;
-	public static int tanbao_itemId_2 = 301011;
+//	public static int tanbao_itemId_2 = 301011;
 //	public static int dangpPu_itemId = 921001;
 //	public static int qianghua_itemId_1 = 101003;
 //	public static int qianghua_itemId_2 = 101101;

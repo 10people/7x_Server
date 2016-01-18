@@ -5,6 +5,9 @@ public abstract class BaseItem {
 	public static int TYPE_WuQi_CaiLiao = 1;
 	public static int TYPE_FangJu_CaiLiao = 2;
 	public static int TYPE_JinJie_CaiLiao = 6;
+	public static int TYPE_BAO_XIANG = 101;//宝箱，使用后执行掉落。
+	public static int TYPE_TONG_BI_TAN_BAO = 102;//
+	public static int TYPE_YUAN_BAO_TAN_BAO = 103;//
 	public static int TYPE_EQUIP = 20000;
 	public static int TYPE_HeroProto = 70000;
 	/** 11 ~ 15 换卡材料： 古卷*/

@@ -12,6 +12,7 @@ public class ItemTemp extends BaseItem{
 	public int itemType;
 	public int sellNum;
 	public int effectId;//强化材料给的强化经验
+	public String awardID;
 	public int getId() {
 		return id;
 	}

@@ -650,6 +650,7 @@ public class Redis {
 	}
 
 	/**
+	 * !!!这个是用来做排行的，不是用来取值的，因为结果会+1
 	 * 返回的是score的值
 	 * @Title: zscore_ 
 	 * @Description:
@@ -665,6 +666,7 @@ public class Redis {
 		Double vv = redis.zscore(key, member);
 		if(vv != null){
 			ret = (int)vv.doubleValue();
+	//		log.info("double is {}, int is {}, cast is {}", vv, vv.intValue(), ret);
 		}
 		this.pool.returnResource(redis);
 		if(ret != -1){

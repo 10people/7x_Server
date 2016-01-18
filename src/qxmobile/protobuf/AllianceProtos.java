@@ -35979,6 +35979,3290 @@ public final class AllianceProtos {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.EventListResp)
   }
 
+  public interface PlayerAllianceStateOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int64 junzhuId = 1;
+    /**
+     * <code>required int64 junzhuId = 1;</code>
+     *
+     * <pre>
+     * 君主id
+     * </pre>
+     */
+    boolean hasJunzhuId();
+    /**
+     * <code>required int64 junzhuId = 1;</code>
+     *
+     * <pre>
+     * 君主id
+     * </pre>
+     */
+    long getJunzhuId();
+
+    // required int32 allianceId = 2;
+    /**
+     * <code>required int32 allianceId = 2;</code>
+     *
+     * <pre>
+     * 联盟id，为0表示没有联盟，有无联盟依据id来判断，再决定联盟名与职位的显示
+     * </pre>
+     */
+    boolean hasAllianceId();
+    /**
+     * <code>required int32 allianceId = 2;</code>
+     *
+     * <pre>
+     * 联盟id，为0表示没有联盟，有无联盟依据id来判断，再决定联盟名与职位的显示
+     * </pre>
+     */
+    int getAllianceId();
+
+    // required string allianceName = 3;
+    /**
+     * <code>required string allianceName = 3;</code>
+     *
+     * <pre>
+     * 联盟名字
+     * </pre>
+     */
+    boolean hasAllianceName();
+    /**
+     * <code>required string allianceName = 3;</code>
+     *
+     * <pre>
+     * 联盟名字
+     * </pre>
+     */
+    java.lang.String getAllianceName();
+    /**
+     * <code>required string allianceName = 3;</code>
+     *
+     * <pre>
+     * 联盟名字
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getAllianceNameBytes();
+
+    // required int32 title = 4;
+    /**
+     * <code>required int32 title = 4;</code>
+     *
+     * <pre>
+     * 职位：0-成员，1-副盟主，2-盟主
+     * </pre>
+     */
+    boolean hasTitle();
+    /**
+     * <code>required int32 title = 4;</code>
+     *
+     * <pre>
+     * 职位：0-成员，1-副盟主，2-盟主
+     * </pre>
+     */
+    int getTitle();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.PlayerAllianceState}
+   *
+   * <pre>
+   * 玩家联盟状态信息，用于玩家加入联盟或退出联盟成功后，更新前端玩家的联盟信息和头顶上显示的联盟名字
+   * </pre>
+   */
+  public static final class PlayerAllianceState extends
+      com.google.protobuf.GeneratedMessage
+      implements PlayerAllianceStateOrBuilder {
+    // Use PlayerAllianceState.newBuilder() to construct.
+    private PlayerAllianceState(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private PlayerAllianceState(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final PlayerAllianceState defaultInstance;
+    public static PlayerAllianceState getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public PlayerAllianceState getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PlayerAllianceState(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              junzhuId_ = input.readInt64();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              allianceId_ = input.readInt32();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              allianceName_ = input.readBytes();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              title_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_PlayerAllianceState_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_PlayerAllianceState_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceProtos.PlayerAllianceState.class, qxmobile.protobuf.AllianceProtos.PlayerAllianceState.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<PlayerAllianceState> PARSER =
+        new com.google.protobuf.AbstractParser<PlayerAllianceState>() {
+      public PlayerAllianceState parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PlayerAllianceState(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PlayerAllianceState> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int64 junzhuId = 1;
+    public static final int JUNZHUID_FIELD_NUMBER = 1;
+    private long junzhuId_;
+    /**
+     * <code>required int64 junzhuId = 1;</code>
+     *
+     * <pre>
+     * 君主id
+     * </pre>
+     */
+    public boolean hasJunzhuId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int64 junzhuId = 1;</code>
+     *
+     * <pre>
+     * 君主id
+     * </pre>
+     */
+    public long getJunzhuId() {
+      return junzhuId_;
+    }
+
+    // required int32 allianceId = 2;
+    public static final int ALLIANCEID_FIELD_NUMBER = 2;
+    private int allianceId_;
+    /**
+     * <code>required int32 allianceId = 2;</code>
+     *
+     * <pre>
+     * 联盟id，为0表示没有联盟，有无联盟依据id来判断，再决定联盟名与职位的显示
+     * </pre>
+     */
+    public boolean hasAllianceId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 allianceId = 2;</code>
+     *
+     * <pre>
+     * 联盟id，为0表示没有联盟，有无联盟依据id来判断，再决定联盟名与职位的显示
+     * </pre>
+     */
+    public int getAllianceId() {
+      return allianceId_;
+    }
+
+    // required string allianceName = 3;
+    public static final int ALLIANCENAME_FIELD_NUMBER = 3;
+    private java.lang.Object allianceName_;
+    /**
+     * <code>required string allianceName = 3;</code>
+     *
+     * <pre>
+     * 联盟名字
+     * </pre>
+     */
+    public boolean hasAllianceName() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required string allianceName = 3;</code>
+     *
+     * <pre>
+     * 联盟名字
+     * </pre>
+     */
+    public java.lang.String getAllianceName() {
+      java.lang.Object ref = allianceName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          allianceName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string allianceName = 3;</code>
+     *
+     * <pre>
+     * 联盟名字
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getAllianceNameBytes() {
+      java.lang.Object ref = allianceName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        allianceName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 title = 4;
+    public static final int TITLE_FIELD_NUMBER = 4;
+    private int title_;
+    /**
+     * <code>required int32 title = 4;</code>
+     *
+     * <pre>
+     * 职位：0-成员，1-副盟主，2-盟主
+     * </pre>
+     */
+    public boolean hasTitle() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 title = 4;</code>
+     *
+     * <pre>
+     * 职位：0-成员，1-副盟主，2-盟主
+     * </pre>
+     */
+    public int getTitle() {
+      return title_;
+    }
+
+    private void initFields() {
+      junzhuId_ = 0L;
+      allianceId_ = 0;
+      allianceName_ = "";
+      title_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasJunzhuId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasAllianceId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasAllianceName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTitle()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt64(1, junzhuId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, allianceId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getAllianceNameBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, title_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, junzhuId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, allianceId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getAllianceNameBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, title_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceProtos.PlayerAllianceState parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.PlayerAllianceState parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.PlayerAllianceState parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.PlayerAllianceState parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.PlayerAllianceState parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.PlayerAllianceState parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.PlayerAllianceState parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.PlayerAllianceState parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.PlayerAllianceState parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.PlayerAllianceState parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceProtos.PlayerAllianceState prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.PlayerAllianceState}
+     *
+     * <pre>
+     * 玩家联盟状态信息，用于玩家加入联盟或退出联盟成功后，更新前端玩家的联盟信息和头顶上显示的联盟名字
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceProtos.PlayerAllianceStateOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_PlayerAllianceState_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_PlayerAllianceState_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceProtos.PlayerAllianceState.class, qxmobile.protobuf.AllianceProtos.PlayerAllianceState.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceProtos.PlayerAllianceState.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        junzhuId_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        allianceId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        allianceName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        title_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_PlayerAllianceState_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.PlayerAllianceState getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceProtos.PlayerAllianceState.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceProtos.PlayerAllianceState build() {
+        qxmobile.protobuf.AllianceProtos.PlayerAllianceState result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.PlayerAllianceState buildPartial() {
+        qxmobile.protobuf.AllianceProtos.PlayerAllianceState result = new qxmobile.protobuf.AllianceProtos.PlayerAllianceState(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.junzhuId_ = junzhuId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.allianceId_ = allianceId_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.allianceName_ = allianceName_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.title_ = title_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceProtos.PlayerAllianceState) {
+          return mergeFrom((qxmobile.protobuf.AllianceProtos.PlayerAllianceState)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceProtos.PlayerAllianceState other) {
+        if (other == qxmobile.protobuf.AllianceProtos.PlayerAllianceState.getDefaultInstance()) return this;
+        if (other.hasJunzhuId()) {
+          setJunzhuId(other.getJunzhuId());
+        }
+        if (other.hasAllianceId()) {
+          setAllianceId(other.getAllianceId());
+        }
+        if (other.hasAllianceName()) {
+          bitField0_ |= 0x00000004;
+          allianceName_ = other.allianceName_;
+          onChanged();
+        }
+        if (other.hasTitle()) {
+          setTitle(other.getTitle());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasJunzhuId()) {
+          
+          return false;
+        }
+        if (!hasAllianceId()) {
+          
+          return false;
+        }
+        if (!hasAllianceName()) {
+          
+          return false;
+        }
+        if (!hasTitle()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceProtos.PlayerAllianceState parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceProtos.PlayerAllianceState) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int64 junzhuId = 1;
+      private long junzhuId_ ;
+      /**
+       * <code>required int64 junzhuId = 1;</code>
+       *
+       * <pre>
+       * 君主id
+       * </pre>
+       */
+      public boolean hasJunzhuId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int64 junzhuId = 1;</code>
+       *
+       * <pre>
+       * 君主id
+       * </pre>
+       */
+      public long getJunzhuId() {
+        return junzhuId_;
+      }
+      /**
+       * <code>required int64 junzhuId = 1;</code>
+       *
+       * <pre>
+       * 君主id
+       * </pre>
+       */
+      public Builder setJunzhuId(long value) {
+        bitField0_ |= 0x00000001;
+        junzhuId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 junzhuId = 1;</code>
+       *
+       * <pre>
+       * 君主id
+       * </pre>
+       */
+      public Builder clearJunzhuId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        junzhuId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // required int32 allianceId = 2;
+      private int allianceId_ ;
+      /**
+       * <code>required int32 allianceId = 2;</code>
+       *
+       * <pre>
+       * 联盟id，为0表示没有联盟，有无联盟依据id来判断，再决定联盟名与职位的显示
+       * </pre>
+       */
+      public boolean hasAllianceId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 allianceId = 2;</code>
+       *
+       * <pre>
+       * 联盟id，为0表示没有联盟，有无联盟依据id来判断，再决定联盟名与职位的显示
+       * </pre>
+       */
+      public int getAllianceId() {
+        return allianceId_;
+      }
+      /**
+       * <code>required int32 allianceId = 2;</code>
+       *
+       * <pre>
+       * 联盟id，为0表示没有联盟，有无联盟依据id来判断，再决定联盟名与职位的显示
+       * </pre>
+       */
+      public Builder setAllianceId(int value) {
+        bitField0_ |= 0x00000002;
+        allianceId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 allianceId = 2;</code>
+       *
+       * <pre>
+       * 联盟id，为0表示没有联盟，有无联盟依据id来判断，再决定联盟名与职位的显示
+       * </pre>
+       */
+      public Builder clearAllianceId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        allianceId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string allianceName = 3;
+      private java.lang.Object allianceName_ = "";
+      /**
+       * <code>required string allianceName = 3;</code>
+       *
+       * <pre>
+       * 联盟名字
+       * </pre>
+       */
+      public boolean hasAllianceName() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required string allianceName = 3;</code>
+       *
+       * <pre>
+       * 联盟名字
+       * </pre>
+       */
+      public java.lang.String getAllianceName() {
+        java.lang.Object ref = allianceName_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          allianceName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string allianceName = 3;</code>
+       *
+       * <pre>
+       * 联盟名字
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getAllianceNameBytes() {
+        java.lang.Object ref = allianceName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          allianceName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string allianceName = 3;</code>
+       *
+       * <pre>
+       * 联盟名字
+       * </pre>
+       */
+      public Builder setAllianceName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        allianceName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string allianceName = 3;</code>
+       *
+       * <pre>
+       * 联盟名字
+       * </pre>
+       */
+      public Builder clearAllianceName() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        allianceName_ = getDefaultInstance().getAllianceName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string allianceName = 3;</code>
+       *
+       * <pre>
+       * 联盟名字
+       * </pre>
+       */
+      public Builder setAllianceNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        allianceName_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 title = 4;
+      private int title_ ;
+      /**
+       * <code>required int32 title = 4;</code>
+       *
+       * <pre>
+       * 职位：0-成员，1-副盟主，2-盟主
+       * </pre>
+       */
+      public boolean hasTitle() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 title = 4;</code>
+       *
+       * <pre>
+       * 职位：0-成员，1-副盟主，2-盟主
+       * </pre>
+       */
+      public int getTitle() {
+        return title_;
+      }
+      /**
+       * <code>required int32 title = 4;</code>
+       *
+       * <pre>
+       * 职位：0-成员，1-副盟主，2-盟主
+       * </pre>
+       */
+      public Builder setTitle(int value) {
+        bitField0_ |= 0x00000008;
+        title_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 title = 4;</code>
+       *
+       * <pre>
+       * 职位：0-成员，1-副盟主，2-盟主
+       * </pre>
+       */
+      public Builder clearTitle() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        title_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.PlayerAllianceState)
+    }
+
+    static {
+      defaultInstance = new PlayerAllianceState(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.PlayerAllianceState)
+  }
+
+  public interface FengShanInfoRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;
+    /**
+     * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+     */
+    java.util.List<qxmobile.protobuf.AllianceProtos.FengShanInfo> 
+        getFsInfoList();
+    /**
+     * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+     */
+    qxmobile.protobuf.AllianceProtos.FengShanInfo getFsInfo(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+     */
+    int getFsInfoCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+     */
+    java.util.List<? extends qxmobile.protobuf.AllianceProtos.FengShanInfoOrBuilder> 
+        getFsInfoOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+     */
+    qxmobile.protobuf.AllianceProtos.FengShanInfoOrBuilder getFsInfoOrBuilder(
+        int index);
+
+    // required int32 huoyuedu = 2;
+    /**
+     * <code>required int32 huoyuedu = 2;</code>
+     *
+     * <pre>
+     *当前活跃度
+     * </pre>
+     */
+    boolean hasHuoyuedu();
+    /**
+     * <code>required int32 huoyuedu = 2;</code>
+     *
+     * <pre>
+     *当前活跃度
+     * </pre>
+     */
+    int getHuoyuedu();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.FengShanInfoResp}
+   *
+   * <pre>
+   *public static final short C_ALLIANCE_FENGSHAN_REQ = 30168; 请求封禅信息
+   *public static final short S_ALLIANCE_FENGSHAN_RESP = 30169;  请求封禅信息 返回  
+   * </pre>
+   */
+  public static final class FengShanInfoResp extends
+      com.google.protobuf.GeneratedMessage
+      implements FengShanInfoRespOrBuilder {
+    // Use FengShanInfoResp.newBuilder() to construct.
+    private FengShanInfoResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FengShanInfoResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FengShanInfoResp defaultInstance;
+    public static FengShanInfoResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FengShanInfoResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FengShanInfoResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                fsInfo_ = new java.util.ArrayList<qxmobile.protobuf.AllianceProtos.FengShanInfo>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              fsInfo_.add(input.readMessage(qxmobile.protobuf.AllianceProtos.FengShanInfo.PARSER, extensionRegistry));
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000001;
+              huoyuedu_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          fsInfo_ = java.util.Collections.unmodifiableList(fsInfo_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanInfoResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanInfoResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceProtos.FengShanInfoResp.class, qxmobile.protobuf.AllianceProtos.FengShanInfoResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FengShanInfoResp> PARSER =
+        new com.google.protobuf.AbstractParser<FengShanInfoResp>() {
+      public FengShanInfoResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FengShanInfoResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FengShanInfoResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;
+    public static final int FSINFO_FIELD_NUMBER = 1;
+    private java.util.List<qxmobile.protobuf.AllianceProtos.FengShanInfo> fsInfo_;
+    /**
+     * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+     */
+    public java.util.List<qxmobile.protobuf.AllianceProtos.FengShanInfo> getFsInfoList() {
+      return fsInfo_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+     */
+    public java.util.List<? extends qxmobile.protobuf.AllianceProtos.FengShanInfoOrBuilder> 
+        getFsInfoOrBuilderList() {
+      return fsInfo_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+     */
+    public int getFsInfoCount() {
+      return fsInfo_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+     */
+    public qxmobile.protobuf.AllianceProtos.FengShanInfo getFsInfo(int index) {
+      return fsInfo_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+     */
+    public qxmobile.protobuf.AllianceProtos.FengShanInfoOrBuilder getFsInfoOrBuilder(
+        int index) {
+      return fsInfo_.get(index);
+    }
+
+    // required int32 huoyuedu = 2;
+    public static final int HUOYUEDU_FIELD_NUMBER = 2;
+    private int huoyuedu_;
+    /**
+     * <code>required int32 huoyuedu = 2;</code>
+     *
+     * <pre>
+     *当前活跃度
+     * </pre>
+     */
+    public boolean hasHuoyuedu() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 huoyuedu = 2;</code>
+     *
+     * <pre>
+     *当前活跃度
+     * </pre>
+     */
+    public int getHuoyuedu() {
+      return huoyuedu_;
+    }
+
+    private void initFields() {
+      fsInfo_ = java.util.Collections.emptyList();
+      huoyuedu_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasHuoyuedu()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getFsInfoCount(); i++) {
+        if (!getFsInfo(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < fsInfo_.size(); i++) {
+        output.writeMessage(1, fsInfo_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(2, huoyuedu_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < fsInfo_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, fsInfo_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, huoyuedu_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfoResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfoResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfoResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfoResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfoResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfoResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfoResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfoResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfoResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfoResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceProtos.FengShanInfoResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.FengShanInfoResp}
+     *
+     * <pre>
+     *public static final short C_ALLIANCE_FENGSHAN_REQ = 30168; 请求封禅信息
+     *public static final short S_ALLIANCE_FENGSHAN_RESP = 30169;  请求封禅信息 返回  
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceProtos.FengShanInfoRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanInfoResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanInfoResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceProtos.FengShanInfoResp.class, qxmobile.protobuf.AllianceProtos.FengShanInfoResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceProtos.FengShanInfoResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getFsInfoFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (fsInfoBuilder_ == null) {
+          fsInfo_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          fsInfoBuilder_.clear();
+        }
+        huoyuedu_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanInfoResp_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.FengShanInfoResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceProtos.FengShanInfoResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceProtos.FengShanInfoResp build() {
+        qxmobile.protobuf.AllianceProtos.FengShanInfoResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.FengShanInfoResp buildPartial() {
+        qxmobile.protobuf.AllianceProtos.FengShanInfoResp result = new qxmobile.protobuf.AllianceProtos.FengShanInfoResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (fsInfoBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            fsInfo_ = java.util.Collections.unmodifiableList(fsInfo_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.fsInfo_ = fsInfo_;
+        } else {
+          result.fsInfo_ = fsInfoBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.huoyuedu_ = huoyuedu_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceProtos.FengShanInfoResp) {
+          return mergeFrom((qxmobile.protobuf.AllianceProtos.FengShanInfoResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceProtos.FengShanInfoResp other) {
+        if (other == qxmobile.protobuf.AllianceProtos.FengShanInfoResp.getDefaultInstance()) return this;
+        if (fsInfoBuilder_ == null) {
+          if (!other.fsInfo_.isEmpty()) {
+            if (fsInfo_.isEmpty()) {
+              fsInfo_ = other.fsInfo_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureFsInfoIsMutable();
+              fsInfo_.addAll(other.fsInfo_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.fsInfo_.isEmpty()) {
+            if (fsInfoBuilder_.isEmpty()) {
+              fsInfoBuilder_.dispose();
+              fsInfoBuilder_ = null;
+              fsInfo_ = other.fsInfo_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              fsInfoBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getFsInfoFieldBuilder() : null;
+            } else {
+              fsInfoBuilder_.addAllMessages(other.fsInfo_);
+            }
+          }
+        }
+        if (other.hasHuoyuedu()) {
+          setHuoyuedu(other.getHuoyuedu());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasHuoyuedu()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getFsInfoCount(); i++) {
+          if (!getFsInfo(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceProtos.FengShanInfoResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceProtos.FengShanInfoResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;
+      private java.util.List<qxmobile.protobuf.AllianceProtos.FengShanInfo> fsInfo_ =
+        java.util.Collections.emptyList();
+      private void ensureFsInfoIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          fsInfo_ = new java.util.ArrayList<qxmobile.protobuf.AllianceProtos.FengShanInfo>(fsInfo_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.AllianceProtos.FengShanInfo, qxmobile.protobuf.AllianceProtos.FengShanInfo.Builder, qxmobile.protobuf.AllianceProtos.FengShanInfoOrBuilder> fsInfoBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.AllianceProtos.FengShanInfo> getFsInfoList() {
+        if (fsInfoBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(fsInfo_);
+        } else {
+          return fsInfoBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public int getFsInfoCount() {
+        if (fsInfoBuilder_ == null) {
+          return fsInfo_.size();
+        } else {
+          return fsInfoBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public qxmobile.protobuf.AllianceProtos.FengShanInfo getFsInfo(int index) {
+        if (fsInfoBuilder_ == null) {
+          return fsInfo_.get(index);
+        } else {
+          return fsInfoBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public Builder setFsInfo(
+          int index, qxmobile.protobuf.AllianceProtos.FengShanInfo value) {
+        if (fsInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFsInfoIsMutable();
+          fsInfo_.set(index, value);
+          onChanged();
+        } else {
+          fsInfoBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public Builder setFsInfo(
+          int index, qxmobile.protobuf.AllianceProtos.FengShanInfo.Builder builderForValue) {
+        if (fsInfoBuilder_ == null) {
+          ensureFsInfoIsMutable();
+          fsInfo_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          fsInfoBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public Builder addFsInfo(qxmobile.protobuf.AllianceProtos.FengShanInfo value) {
+        if (fsInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFsInfoIsMutable();
+          fsInfo_.add(value);
+          onChanged();
+        } else {
+          fsInfoBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public Builder addFsInfo(
+          int index, qxmobile.protobuf.AllianceProtos.FengShanInfo value) {
+        if (fsInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFsInfoIsMutable();
+          fsInfo_.add(index, value);
+          onChanged();
+        } else {
+          fsInfoBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public Builder addFsInfo(
+          qxmobile.protobuf.AllianceProtos.FengShanInfo.Builder builderForValue) {
+        if (fsInfoBuilder_ == null) {
+          ensureFsInfoIsMutable();
+          fsInfo_.add(builderForValue.build());
+          onChanged();
+        } else {
+          fsInfoBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public Builder addFsInfo(
+          int index, qxmobile.protobuf.AllianceProtos.FengShanInfo.Builder builderForValue) {
+        if (fsInfoBuilder_ == null) {
+          ensureFsInfoIsMutable();
+          fsInfo_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          fsInfoBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public Builder addAllFsInfo(
+          java.lang.Iterable<? extends qxmobile.protobuf.AllianceProtos.FengShanInfo> values) {
+        if (fsInfoBuilder_ == null) {
+          ensureFsInfoIsMutable();
+          super.addAll(values, fsInfo_);
+          onChanged();
+        } else {
+          fsInfoBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public Builder clearFsInfo() {
+        if (fsInfoBuilder_ == null) {
+          fsInfo_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          fsInfoBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public Builder removeFsInfo(int index) {
+        if (fsInfoBuilder_ == null) {
+          ensureFsInfoIsMutable();
+          fsInfo_.remove(index);
+          onChanged();
+        } else {
+          fsInfoBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public qxmobile.protobuf.AllianceProtos.FengShanInfo.Builder getFsInfoBuilder(
+          int index) {
+        return getFsInfoFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public qxmobile.protobuf.AllianceProtos.FengShanInfoOrBuilder getFsInfoOrBuilder(
+          int index) {
+        if (fsInfoBuilder_ == null) {
+          return fsInfo_.get(index);  } else {
+          return fsInfoBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public java.util.List<? extends qxmobile.protobuf.AllianceProtos.FengShanInfoOrBuilder> 
+           getFsInfoOrBuilderList() {
+        if (fsInfoBuilder_ != null) {
+          return fsInfoBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(fsInfo_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public qxmobile.protobuf.AllianceProtos.FengShanInfo.Builder addFsInfoBuilder() {
+        return getFsInfoFieldBuilder().addBuilder(
+            qxmobile.protobuf.AllianceProtos.FengShanInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public qxmobile.protobuf.AllianceProtos.FengShanInfo.Builder addFsInfoBuilder(
+          int index) {
+        return getFsInfoFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.AllianceProtos.FengShanInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FengShanInfo fsInfo = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.AllianceProtos.FengShanInfo.Builder> 
+           getFsInfoBuilderList() {
+        return getFsInfoFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.AllianceProtos.FengShanInfo, qxmobile.protobuf.AllianceProtos.FengShanInfo.Builder, qxmobile.protobuf.AllianceProtos.FengShanInfoOrBuilder> 
+          getFsInfoFieldBuilder() {
+        if (fsInfoBuilder_ == null) {
+          fsInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.AllianceProtos.FengShanInfo, qxmobile.protobuf.AllianceProtos.FengShanInfo.Builder, qxmobile.protobuf.AllianceProtos.FengShanInfoOrBuilder>(
+                  fsInfo_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          fsInfo_ = null;
+        }
+        return fsInfoBuilder_;
+      }
+
+      // required int32 huoyuedu = 2;
+      private int huoyuedu_ ;
+      /**
+       * <code>required int32 huoyuedu = 2;</code>
+       *
+       * <pre>
+       *当前活跃度
+       * </pre>
+       */
+      public boolean hasHuoyuedu() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 huoyuedu = 2;</code>
+       *
+       * <pre>
+       *当前活跃度
+       * </pre>
+       */
+      public int getHuoyuedu() {
+        return huoyuedu_;
+      }
+      /**
+       * <code>required int32 huoyuedu = 2;</code>
+       *
+       * <pre>
+       *当前活跃度
+       * </pre>
+       */
+      public Builder setHuoyuedu(int value) {
+        bitField0_ |= 0x00000002;
+        huoyuedu_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 huoyuedu = 2;</code>
+       *
+       * <pre>
+       *当前活跃度
+       * </pre>
+       */
+      public Builder clearHuoyuedu() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        huoyuedu_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FengShanInfoResp)
+    }
+
+    static {
+      defaultInstance = new FengShanInfoResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FengShanInfoResp)
+  }
+
+  public interface FengShanInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 confId = 1;
+    /**
+     * <code>required int32 confId = 1;</code>
+     *
+     * <pre>
+     * 配置id
+     * </pre>
+     */
+    boolean hasConfId();
+    /**
+     * <code>required int32 confId = 1;</code>
+     *
+     * <pre>
+     * 配置id
+     * </pre>
+     */
+    int getConfId();
+
+    // required int32 state = 2;
+    /**
+     * <code>required int32 state = 2;</code>
+     *
+     * <pre>
+     * 状态 1未达到条件 2可封禅 3 已封禅
+     * </pre>
+     */
+    boolean hasState();
+    /**
+     * <code>required int32 state = 2;</code>
+     *
+     * <pre>
+     * 状态 1未达到条件 2可封禅 3 已封禅
+     * </pre>
+     */
+    int getState();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.FengShanInfo}
+   */
+  public static final class FengShanInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements FengShanInfoOrBuilder {
+    // Use FengShanInfo.newBuilder() to construct.
+    private FengShanInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FengShanInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FengShanInfo defaultInstance;
+    public static FengShanInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FengShanInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FengShanInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              confId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              state_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceProtos.FengShanInfo.class, qxmobile.protobuf.AllianceProtos.FengShanInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FengShanInfo> PARSER =
+        new com.google.protobuf.AbstractParser<FengShanInfo>() {
+      public FengShanInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FengShanInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FengShanInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 confId = 1;
+    public static final int CONFID_FIELD_NUMBER = 1;
+    private int confId_;
+    /**
+     * <code>required int32 confId = 1;</code>
+     *
+     * <pre>
+     * 配置id
+     * </pre>
+     */
+    public boolean hasConfId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 confId = 1;</code>
+     *
+     * <pre>
+     * 配置id
+     * </pre>
+     */
+    public int getConfId() {
+      return confId_;
+    }
+
+    // required int32 state = 2;
+    public static final int STATE_FIELD_NUMBER = 2;
+    private int state_;
+    /**
+     * <code>required int32 state = 2;</code>
+     *
+     * <pre>
+     * 状态 1未达到条件 2可封禅 3 已封禅
+     * </pre>
+     */
+    public boolean hasState() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 state = 2;</code>
+     *
+     * <pre>
+     * 状态 1未达到条件 2可封禅 3 已封禅
+     * </pre>
+     */
+    public int getState() {
+      return state_;
+    }
+
+    private void initFields() {
+      confId_ = 0;
+      state_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasConfId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasState()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, confId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, state_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, confId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, state_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceProtos.FengShanInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.FengShanInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceProtos.FengShanInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceProtos.FengShanInfo.class, qxmobile.protobuf.AllianceProtos.FengShanInfo.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceProtos.FengShanInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        confId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        state_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanInfo_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.FengShanInfo getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceProtos.FengShanInfo.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceProtos.FengShanInfo build() {
+        qxmobile.protobuf.AllianceProtos.FengShanInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.FengShanInfo buildPartial() {
+        qxmobile.protobuf.AllianceProtos.FengShanInfo result = new qxmobile.protobuf.AllianceProtos.FengShanInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.confId_ = confId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.state_ = state_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceProtos.FengShanInfo) {
+          return mergeFrom((qxmobile.protobuf.AllianceProtos.FengShanInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceProtos.FengShanInfo other) {
+        if (other == qxmobile.protobuf.AllianceProtos.FengShanInfo.getDefaultInstance()) return this;
+        if (other.hasConfId()) {
+          setConfId(other.getConfId());
+        }
+        if (other.hasState()) {
+          setState(other.getState());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasConfId()) {
+          
+          return false;
+        }
+        if (!hasState()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceProtos.FengShanInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceProtos.FengShanInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 confId = 1;
+      private int confId_ ;
+      /**
+       * <code>required int32 confId = 1;</code>
+       *
+       * <pre>
+       * 配置id
+       * </pre>
+       */
+      public boolean hasConfId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 confId = 1;</code>
+       *
+       * <pre>
+       * 配置id
+       * </pre>
+       */
+      public int getConfId() {
+        return confId_;
+      }
+      /**
+       * <code>required int32 confId = 1;</code>
+       *
+       * <pre>
+       * 配置id
+       * </pre>
+       */
+      public Builder setConfId(int value) {
+        bitField0_ |= 0x00000001;
+        confId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 confId = 1;</code>
+       *
+       * <pre>
+       * 配置id
+       * </pre>
+       */
+      public Builder clearConfId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        confId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 state = 2;
+      private int state_ ;
+      /**
+       * <code>required int32 state = 2;</code>
+       *
+       * <pre>
+       * 状态 1未达到条件 2可封禅 3 已封禅
+       * </pre>
+       */
+      public boolean hasState() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 state = 2;</code>
+       *
+       * <pre>
+       * 状态 1未达到条件 2可封禅 3 已封禅
+       * </pre>
+       */
+      public int getState() {
+        return state_;
+      }
+      /**
+       * <code>required int32 state = 2;</code>
+       *
+       * <pre>
+       * 状态 1未达到条件 2可封禅 3 已封禅
+       * </pre>
+       */
+      public Builder setState(int value) {
+        bitField0_ |= 0x00000002;
+        state_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 state = 2;</code>
+       *
+       * <pre>
+       * 状态 1未达到条件 2可封禅 3 已封禅
+       * </pre>
+       */
+      public Builder clearState() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        state_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FengShanInfo)
+    }
+
+    static {
+      defaultInstance = new FengShanInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FengShanInfo)
+  }
+
+  public interface FengShanReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 confId = 1;
+    /**
+     * <code>required int32 confId = 1;</code>
+     *
+     * <pre>
+     * 配置id
+     * </pre>
+     */
+    boolean hasConfId();
+    /**
+     * <code>required int32 confId = 1;</code>
+     *
+     * <pre>
+     * 配置id
+     * </pre>
+     */
+    int getConfId();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.FengShanReq}
+   *
+   * <pre>
+   *public static final short C_DO_ALLIANCE_FENGSHAN_REQ = 30170; 请求封禅
+   * </pre>
+   */
+  public static final class FengShanReq extends
+      com.google.protobuf.GeneratedMessage
+      implements FengShanReqOrBuilder {
+    // Use FengShanReq.newBuilder() to construct.
+    private FengShanReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FengShanReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FengShanReq defaultInstance;
+    public static FengShanReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FengShanReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FengShanReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              confId_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceProtos.FengShanReq.class, qxmobile.protobuf.AllianceProtos.FengShanReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FengShanReq> PARSER =
+        new com.google.protobuf.AbstractParser<FengShanReq>() {
+      public FengShanReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FengShanReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FengShanReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 confId = 1;
+    public static final int CONFID_FIELD_NUMBER = 1;
+    private int confId_;
+    /**
+     * <code>required int32 confId = 1;</code>
+     *
+     * <pre>
+     * 配置id
+     * </pre>
+     */
+    public boolean hasConfId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 confId = 1;</code>
+     *
+     * <pre>
+     * 配置id
+     * </pre>
+     */
+    public int getConfId() {
+      return confId_;
+    }
+
+    private void initFields() {
+      confId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasConfId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, confId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, confId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceProtos.FengShanReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceProtos.FengShanReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.FengShanReq}
+     *
+     * <pre>
+     *public static final short C_DO_ALLIANCE_FENGSHAN_REQ = 30170; 请求封禅
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceProtos.FengShanReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceProtos.FengShanReq.class, qxmobile.protobuf.AllianceProtos.FengShanReq.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceProtos.FengShanReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        confId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanReq_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.FengShanReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceProtos.FengShanReq.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceProtos.FengShanReq build() {
+        qxmobile.protobuf.AllianceProtos.FengShanReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.FengShanReq buildPartial() {
+        qxmobile.protobuf.AllianceProtos.FengShanReq result = new qxmobile.protobuf.AllianceProtos.FengShanReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.confId_ = confId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceProtos.FengShanReq) {
+          return mergeFrom((qxmobile.protobuf.AllianceProtos.FengShanReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceProtos.FengShanReq other) {
+        if (other == qxmobile.protobuf.AllianceProtos.FengShanReq.getDefaultInstance()) return this;
+        if (other.hasConfId()) {
+          setConfId(other.getConfId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasConfId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceProtos.FengShanReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceProtos.FengShanReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 confId = 1;
+      private int confId_ ;
+      /**
+       * <code>required int32 confId = 1;</code>
+       *
+       * <pre>
+       * 配置id
+       * </pre>
+       */
+      public boolean hasConfId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 confId = 1;</code>
+       *
+       * <pre>
+       * 配置id
+       * </pre>
+       */
+      public int getConfId() {
+        return confId_;
+      }
+      /**
+       * <code>required int32 confId = 1;</code>
+       *
+       * <pre>
+       * 配置id
+       * </pre>
+       */
+      public Builder setConfId(int value) {
+        bitField0_ |= 0x00000001;
+        confId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 confId = 1;</code>
+       *
+       * <pre>
+       * 配置id
+       * </pre>
+       */
+      public Builder clearConfId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        confId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FengShanReq)
+    }
+
+    static {
+      defaultInstance = new FengShanReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FengShanReq)
+  }
+
+  public interface FengShanRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 confId = 1;
+    /**
+     * <code>required int32 confId = 1;</code>
+     *
+     * <pre>
+     * 配置id
+     * </pre>
+     */
+    boolean hasConfId();
+    /**
+     * <code>required int32 confId = 1;</code>
+     *
+     * <pre>
+     * 配置id
+     * </pre>
+     */
+    int getConfId();
+
+    // required int32 result = 2;
+    /**
+     * <code>required int32 result = 2;</code>
+     *
+     * <pre>
+     * 状态 10 成功 
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 2;</code>
+     *
+     * <pre>
+     * 状态 10 成功 
+     * </pre>
+     */
+    int getResult();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.FengShanResp}
+   *
+   * <pre>
+   *public static final short S_DO_ALLIANCE_FENGSHAN_RESP = 30171; 请求封禅 返回 
+   * </pre>
+   */
+  public static final class FengShanResp extends
+      com.google.protobuf.GeneratedMessage
+      implements FengShanRespOrBuilder {
+    // Use FengShanResp.newBuilder() to construct.
+    private FengShanResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FengShanResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FengShanResp defaultInstance;
+    public static FengShanResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FengShanResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FengShanResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              confId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              result_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceProtos.FengShanResp.class, qxmobile.protobuf.AllianceProtos.FengShanResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FengShanResp> PARSER =
+        new com.google.protobuf.AbstractParser<FengShanResp>() {
+      public FengShanResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FengShanResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FengShanResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 confId = 1;
+    public static final int CONFID_FIELD_NUMBER = 1;
+    private int confId_;
+    /**
+     * <code>required int32 confId = 1;</code>
+     *
+     * <pre>
+     * 配置id
+     * </pre>
+     */
+    public boolean hasConfId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 confId = 1;</code>
+     *
+     * <pre>
+     * 配置id
+     * </pre>
+     */
+    public int getConfId() {
+      return confId_;
+    }
+
+    // required int32 result = 2;
+    public static final int RESULT_FIELD_NUMBER = 2;
+    private int result_;
+    /**
+     * <code>required int32 result = 2;</code>
+     *
+     * <pre>
+     * 状态 10 成功 
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 result = 2;</code>
+     *
+     * <pre>
+     * 状态 10 成功 
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    private void initFields() {
+      confId_ = 0;
+      result_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasConfId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, confId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, result_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, confId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, result_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceProtos.FengShanResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.FengShanResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceProtos.FengShanResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.FengShanResp}
+     *
+     * <pre>
+     *public static final short S_DO_ALLIANCE_FENGSHAN_RESP = 30171; 请求封禅 返回 
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceProtos.FengShanRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceProtos.FengShanResp.class, qxmobile.protobuf.AllianceProtos.FengShanResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceProtos.FengShanResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        confId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_FengShanResp_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.FengShanResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceProtos.FengShanResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceProtos.FengShanResp build() {
+        qxmobile.protobuf.AllianceProtos.FengShanResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.FengShanResp buildPartial() {
+        qxmobile.protobuf.AllianceProtos.FengShanResp result = new qxmobile.protobuf.AllianceProtos.FengShanResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.confId_ = confId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.result_ = result_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceProtos.FengShanResp) {
+          return mergeFrom((qxmobile.protobuf.AllianceProtos.FengShanResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceProtos.FengShanResp other) {
+        if (other == qxmobile.protobuf.AllianceProtos.FengShanResp.getDefaultInstance()) return this;
+        if (other.hasConfId()) {
+          setConfId(other.getConfId());
+        }
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasConfId()) {
+          
+          return false;
+        }
+        if (!hasResult()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceProtos.FengShanResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceProtos.FengShanResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 confId = 1;
+      private int confId_ ;
+      /**
+       * <code>required int32 confId = 1;</code>
+       *
+       * <pre>
+       * 配置id
+       * </pre>
+       */
+      public boolean hasConfId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 confId = 1;</code>
+       *
+       * <pre>
+       * 配置id
+       * </pre>
+       */
+      public int getConfId() {
+        return confId_;
+      }
+      /**
+       * <code>required int32 confId = 1;</code>
+       *
+       * <pre>
+       * 配置id
+       * </pre>
+       */
+      public Builder setConfId(int value) {
+        bitField0_ |= 0x00000001;
+        confId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 confId = 1;</code>
+       *
+       * <pre>
+       * 配置id
+       * </pre>
+       */
+      public Builder clearConfId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        confId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 result = 2;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 2;</code>
+       *
+       * <pre>
+       * 状态 10 成功 
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 result = 2;</code>
+       *
+       * <pre>
+       * 状态 10 成功 
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 2;</code>
+       *
+       * <pre>
+       * 状态 10 成功 
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000002;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 2;</code>
+       *
+       * <pre>
+       * 状态 10 成功 
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FengShanResp)
+    }
+
+    static {
+      defaultInstance = new FengShanResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FengShanResp)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_AllianceNonResp_descriptor;
   private static
@@ -36224,6 +39508,31 @@ public final class AllianceProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_EventListResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_PlayerAllianceState_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_PlayerAllianceState_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_FengShanInfoResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_FengShanInfoResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_FengShanInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_FengShanInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_FengShanReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_FengShanReq_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_FengShanResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_FengShanResp_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -36324,7 +39633,15 @@ public final class AllianceProtos {
       "uResp\022\016\n\006result\030\001 \002(\005\022\020\n\010gongxian\030\002 \002(\005\022" +
       "\r\n\005build\030\003 \002(\005\"\034\n\014EventListReq\022\014\n\004page\030\001",
       " \002(\005\"*\n\rEventListResp\022\014\n\004page\030\001 \002(\005\022\013\n\003m" +
-      "sg\030\002 \003(\tB\020B\016AllianceProtos"
+      "sg\030\002 \003(\t\"`\n\023PlayerAllianceState\022\020\n\010junzh" +
+      "uId\030\001 \002(\003\022\022\n\nallianceId\030\002 \002(\005\022\024\n\014allianc" +
+      "eName\030\003 \002(\t\022\r\n\005title\030\004 \002(\005\"U\n\020FengShanIn" +
+      "foResp\022/\n\006fsInfo\030\001 \003(\0132\037.qxmobile.protob" +
+      "uf.FengShanInfo\022\020\n\010huoyuedu\030\002 \002(\005\"-\n\014Fen" +
+      "gShanInfo\022\016\n\006confId\030\001 \002(\005\022\r\n\005state\030\002 \002(\005" +
+      "\"\035\n\013FengShanReq\022\016\n\006confId\030\001 \002(\005\".\n\014FengS" +
+      "hanResp\022\016\n\006confId\030\001 \002(\005\022\016\n\006result\030\002 \002(\005B" +
+      "\020B\016AllianceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -36625,6 +39942,36 @@ public final class AllianceProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_EventListResp_descriptor,
               new java.lang.String[] { "Page", "Msg", });
+          internal_static_qxmobile_protobuf_PlayerAllianceState_descriptor =
+            getDescriptor().getMessageTypes().get(49);
+          internal_static_qxmobile_protobuf_PlayerAllianceState_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_PlayerAllianceState_descriptor,
+              new java.lang.String[] { "JunzhuId", "AllianceId", "AllianceName", "Title", });
+          internal_static_qxmobile_protobuf_FengShanInfoResp_descriptor =
+            getDescriptor().getMessageTypes().get(50);
+          internal_static_qxmobile_protobuf_FengShanInfoResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FengShanInfoResp_descriptor,
+              new java.lang.String[] { "FsInfo", "Huoyuedu", });
+          internal_static_qxmobile_protobuf_FengShanInfo_descriptor =
+            getDescriptor().getMessageTypes().get(51);
+          internal_static_qxmobile_protobuf_FengShanInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FengShanInfo_descriptor,
+              new java.lang.String[] { "ConfId", "State", });
+          internal_static_qxmobile_protobuf_FengShanReq_descriptor =
+            getDescriptor().getMessageTypes().get(52);
+          internal_static_qxmobile_protobuf_FengShanReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FengShanReq_descriptor,
+              new java.lang.String[] { "ConfId", });
+          internal_static_qxmobile_protobuf_FengShanResp_descriptor =
+            getDescriptor().getMessageTypes().get(53);
+          internal_static_qxmobile_protobuf_FengShanResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FengShanResp_descriptor,
+              new java.lang.String[] { "ConfId", "Result", });
           return null;
         }
       };

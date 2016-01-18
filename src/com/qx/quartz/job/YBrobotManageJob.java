@@ -16,12 +16,13 @@ import com.qx.world.Scene;
 import com.qx.yabiao.YaBiaoHuoDongMgr;
 
 public class YBrobotManageJob implements Job {
+	public static int interval=YunbiaoTemp.cartAI_appear_interval*1000;
 	private Logger log = LoggerFactory.getLogger(YBrobotManageJob.class);
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		log.info("押镖系统机器人马车生成开始");
-		if(BigSwitch.inst.ybMgr.yabiaoScenes.size()==0){
+		if(BigSwitch.inst.ybMgr.yabiaoScenes==null||BigSwitch.inst.ybMgr.yabiaoScenes.size()==0){
 			log.info("押镖场景为空~~~~~~~~~~~~~~~~~~~~");
 			return;
 		}
@@ -43,7 +44,7 @@ public class YBrobotManageJob implements Job {
 			}
 			if(macheSize>=YunbiaoTemp.cartAImax){
 				log.info("场景中有马车{}辆，不需要系统马车机器人",macheSize);
-				break;
+				continue;
 			}
 			Map<Integer, Integer> safeMap=YaBiaoHuoDongMgr.inst.getSafeAreaCount(ybsc);
 			for(Map.Entry<Integer, Integer> entry :safeMap.entrySet()) {
@@ -73,8 +74,8 @@ public class YBrobotManageJob implements Job {
 		for(int i = 0; i < count; i++) {
 			log.info("产生系统马车--{}辆",i+1);
 			try {
-				Thread.sleep(10000);//10秒放一辆镖车 
 				boolean res=YaBiaoHuoDongMgr.inst.initSysYBRobots(ybsc, pathId,ybScId);
+				Thread.sleep(interval);
 				log.info("产生系统马车结果isOK?==={}",res);
 			} catch (InterruptedException e) {
 			log.error("产生系统马车错误:{}",e);	

@@ -45,6 +45,7 @@ import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
+import com.qx.alliance.AlliancePlayer;
 import com.qx.award.AwardMgr;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
@@ -250,8 +251,10 @@ public class AccountManager {
 		} else {
 			AllianceBean alliance = AllianceMgr.inst.getAllianceByJunZid(junZhu.id);
 			if(alliance != null) {
-				ret.setCode(100);	//表示有联盟
+				AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
+				session.setAttribute(SessionAttKey.LM_ZHIWU, member == null ? 0 : member.title);
 				session.setAttribute(SessionAttKey.LM_NAME, alliance.name);
+				ret.setCode(100);	//表示有联盟
 			} else {
 				ret.setCode(1);
 			}

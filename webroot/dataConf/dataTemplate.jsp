@@ -371,7 +371,7 @@ if("item".equals(type)){
 			b.setSPass(t.star>=0 ? false : true);
 			if(!b.getSPass())t.star = -1;
 			b.setSSection(i-1);
-			BigSwitch.pveGuanQiaMgr.battleOver(0, new RobotSession(), b);
+			BigSwitch.inst.pveMgr.battleOver(0, new RobotSession(), b);
 		}
 		out.append("<tr>");
 		out.append("<td>");		out.println(i);		out.append("</td>");

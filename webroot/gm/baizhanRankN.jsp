@@ -1,3 +1,5 @@
+<%@page import="com.qx.alliance.AllianceBean"%>
+<%@page import="com.qx.ranking.RankingGongJinMgr"%>
 <%@page import="com.manu.dynasty.template.BaiZhanNpc"%>
 <%@page import="com.qx.pvp.PVPConstant"%>
 <%@page import="com.manu.dynasty.base.service.CommonService"%>
@@ -41,57 +43,142 @@ String rankmax ="";
         最高名次 <input type="text" name="rankmax" value="<%=rankmax%>">&nbsp;
         <br/>
       
-    <button type="submit">查询</button>
+    <button type="submit" name="action" value ="geren">百战等级名次排行查询</button>
+    </form>
+        <form action="">
+    <br/>
+     (请输出大于等于1的数字)
+    <br/>
+        最低名次 <input type="text" name="rankmin" value="<%=rankmin%>">&nbsp;和&nbsp;
+        最高名次 <input type="text" name="rankmax" value="<%=rankmax%>">&nbsp;
+        <br/>
+      
+    <button type="submit" name="action" value ="gerengongjin">个人贡金排行查询</button>
+    </form>
+       <form action="">
+    <br/>
+     (请输出大于等于1的数字)
+    <br/>
+        最低名次 <input type="text" name="rankmin" value="<%=rankmin%>">&nbsp;和&nbsp;
+        最高名次 <input type="text" name="rankmax" value="<%=rankmax%>">&nbsp;
+        <br/>
+      
+    <button type="submit" name="action" value ="lianmenggongjin">联盟贡金排行查询</button>
     </form>
     
 
 <% 
 rankmin = request.getParameter("rankmin");
 rankmax = request.getParameter("rankmax");
+String action = request.getParameter("action");
     if(rankmin != null && rankmin.length()>0 && rankmax != null && rankmax.length()>0){
         long rmin = Long.parseLong(rankmin);
         long rmax = Long.parseLong(rankmax);
     	// Set<String> elem = DB.zrangebyscore_(KEY, tenRanks[k]-1, tenRanks[k]-1);
-       Set<String> elems =  PvpMgr.inst.DB.zrangebyscore_( PvpMgr.inst.KEY, rmin-1, rmax-1);
-       if(elems == null){
-    	   out("没有找到");
-       }else{
-    	   br();
-    	   out("输入的名次是： " + rmin + " ;" + rmax);
-    	   br();
-    	   br();
-    	   tableStart();
-    	   trS();
-           td("id");td("姓名");td("名次");td("国家");td("roleId");
-           trE();
-    	   for(String s: elems){
-    		   String[] sss = s.split("_");
-               long playerId = Long.parseLong(sss[1]);
-               String name = "";
-               int guojiaId = 0;
-               long rankkk  = 0;
-               int roldId = 0;
-               if("npc".equals(sss[0])){
-                   // NPC
-                   BaiZhanNpc npc = PvpMgr.inst.npcs.get((int)playerId);
-                   String nameInt = npc.name;
-                   name  = HeroService.heroNameMap.get(nameInt).Name;
-                   guojiaId = npc.getGuoJiaId((int)playerId);
-                   rankkk = (int)PvpMgr.inst.getPvpRankById(-playerId);
-                   roldId = npc.getRoleId((int)playerId);
-               }else{
-            	   JunZhu junzhu = HibernateUtil.find(JunZhu.class, playerId);
-            	   name = junzhu.name;
-            	   guojiaId = junzhu.guoJiaId;
-            	   rankkk = (int)PvpMgr.inst.getPvpRankById(playerId);
-            	   roldId = junzhu.roleId;
-               }
-               trS();
-               td((int)playerId);td(name);td(rankkk);td(guojiaId);td(roldId);
-               trE();
-    	   }
-    	   tableEnd();
-       }
+    	if(action.equals("geren")){
+		       Set<String> elems =  PvpMgr.DB.zrangebyscore_( PvpMgr.inst.KEY, rmin-1, rmax-1);
+		       if(elems == null){
+		    	   out("没有找到");
+		       }else{
+		    	   br();
+		    	   out("输入的名次是： " + rmin + " ;" + rmax);
+		    	   br();
+		    	   br();
+		    	   tableStart();
+		    	   trS();
+		           td("id");td("姓名");td("名次");td("国家");td("roleId");
+		           trE();
+		    	   for(String s: elems){
+		    		   String[] sss = s.split("_");
+		               long playerId = Long.parseLong(sss[1]);
+		               String name = "";
+		               int guojiaId = 0;
+		               long rankkk  = 0;
+		               int roldId = 0;
+		               if("npc".equals(sss[0])){
+		                   // NPC
+		                   BaiZhanNpc npc = PvpMgr.inst.npcs.get((int)playerId);
+		                   String nameInt = npc.name;
+		                   name  = HeroService.heroNameMap.get(nameInt).Name;
+		                   guojiaId = npc.getGuoJiaId((int)playerId);
+		                   rankkk = (int)PvpMgr.inst.getPvpRankById(-playerId);
+		                   roldId = npc.getRoleId((int)playerId);
+		               }else{
+		            	   JunZhu junzhu = HibernateUtil.find(JunZhu.class, playerId);
+		            	   name = junzhu.name;
+		            	   guojiaId = junzhu.guoJiaId;
+		            	   rankkk = (int)PvpMgr.inst.getPvpRankById(playerId);
+		            	   roldId = junzhu.roleId;
+		               }
+		               trS();
+		               td((int)playerId);td(name);td(rankkk);td(guojiaId);td(roldId);
+		               trE();
+		    	   }
+		    	   tableEnd();
+		       }
+    	}else
+    	if(action.equals("gerengongjin")){
+    		Map<String, Double> gongJinPermap = RankingGongJinMgr.inst.getPaiHangOfType( rmin-1, rmax-1,
+    				RankingGongJinMgr. gongJinPersonalRank);
+    		if(gongJinPermap == null){
+                out("没有找到");
+            }else{
+                br();
+                out("输入的名次是： " + rmin + " ;" + rmax);
+                br();
+                br();
+                tableStart();
+                trS();
+                td("id");td("姓名");td("名次");td("贡金");
+                trE();
+                int ran= 1;
+                for(Map.Entry<String, Double> entry: gongJinPermap.entrySet()){
+                    String id = entry.getKey();
+                    double value = entry.getValue();
+                    long needId = Long.parseLong(id == null? "-1" : id);
+                    JunZhu junzhu = HibernateUtil.find(JunZhu.class, needId);
+                    if(junzhu != null){
+                    	trS();
+                        td(needId);
+                       td(junzhu.name);
+                        td(ran ++);
+                        td((int)value);
+                        trE();
+                    }
+                }
+            }
+    	}else
+    	if(action.equals("lianmenggongjin")){
+            Map<String, Double> gongJinPermap = RankingGongJinMgr.inst.getPaiHangOfType( rmin-1, rmax-1,
+                    RankingGongJinMgr.gongJinAllianceRank);
+            if(gongJinPermap == null){
+                out("没有找到");
+            }else{
+                br();
+                out("输入的名次是： " + rmin + " ;" + rmax);
+                br();
+                br();
+                tableStart();
+                trS();
+                td("id");td("联盟姓名");td("名次");td("贡金");
+                trE();
+                int ran= 1;
+                for(Map.Entry<String, Double> entry: gongJinPermap.entrySet()){
+                    String id = entry.getKey();
+                    double value = entry.getValue();
+                    long needId = Long.parseLong(id == null? "-1" : id);
+                    AllianceBean alncBean = HibernateUtil.find(AllianceBean.class, needId);
+                    if(alncBean != null){
+                        trS();
+                        td(needId);
+                       td(alncBean.name);
+                        td(ran ++);
+                        td((int)value);
+                        trE();
+                    }
+                }
+            }
+        }
     }
 %>
   </body>

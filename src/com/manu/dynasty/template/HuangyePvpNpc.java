@@ -2,7 +2,7 @@ package com.manu.dynasty.template;
 
 import com.qx.world.GameObject;
 
-public class HuangyePvpNpc implements GameObject{
+public class HuangyePvpNpc extends GameObject{
 	public int id;
 	public int icon;
 	public int zhiye;

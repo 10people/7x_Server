@@ -28,7 +28,6 @@ import com.qx.alliance.AlliancePlayer;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
 import com.qx.bag.BagMgr;
-import com.qx.battle.PveMgr;
 import com.qx.event.ED;
 import com.qx.event.EventMgr;
 import com.qx.guojia.GuoJiaMgr;
@@ -41,8 +40,10 @@ import com.qx.junzhu.TalentMgr;
 import com.qx.mibao.MiBaoDB;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.pve.PveMgr;
 import com.qx.ranking.RankingGongJinMgr;
 import com.qx.util.TableIDCreator;
+import com.qx.vip.VipMgr;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
 
@@ -58,6 +59,8 @@ public class AwardMgr {
 	public static int ITEM_WEI_WANG = 900011;	// 威望
 	public static int item_gong_jin = 900028; //贡金
 	public static int item_huang_ye_bi = 900026; //荒野币
+	public static int vip_exp = 900029; // vip经验
+	public static int item_yuan_bao = 900002;  // 元宝
 
 	
 	/** 物品奖励 */
@@ -132,7 +135,7 @@ public class AwardMgr {
 	 * 
 	 */
 	public void getAward(Integer guanQiaId, Boolean chuanQiMark, boolean pass,
-			IoSession session) {
+			IoSession session, List<AwardTemp> getNpcAwardList) {
 		List<AwardTemp> getAwardList = new ArrayList<AwardTemp>();
 		BattleResult.Builder ret = BattleResult.newBuilder();
 		if (!pass || guanQiaId == null) {
@@ -162,8 +165,6 @@ public class AwardMgr {
 		JunZhuMgr.inst.addExp(jz, conf.getExp());
 		log.info("{}打完关卡:{} 传奇:{} 得到金钱{} 经验{}", jz.name, guanQiaId,
 				chuanQiMark, conf.getMoney(), conf.getExp());
-		ret.setMoney(conf.getMoney());
-		ret.setExp(conf.getExp());
 
 		if (session.getAttribute(SessionAttKey.firstQuanQiaId) == null) {
 			log.info("不是首次挑战该关卡，关卡id:{} 传奇:{}，不能获得首次奖励", conf.getId(),
@@ -181,7 +182,6 @@ public class AwardMgr {
 				for (Integer awardId : fistHitAwardIdList) {
 					AwardTemp calcV = calcAwardTemp(awardId);
 					if(calcV != null) {
-						fillBattleAwardInfo(ret, calcV);
 						getAwardList.add(calcV);
 						log.info("给予 {}关卡首次奖励type {} id {}, 关卡id:{} 传奇:{} ",
 								jz.name, calcV.getItemType(), calcV.getItemId(),
@@ -191,16 +191,34 @@ public class AwardMgr {
 			}
 		}
 		session.setAttribute(SessionAttKey.firstQuanQiaId, null);
-		//log.info("计算掉落");
+		// 关卡奖励
 		List<Integer> hitAwardIdList = getHitAwardId(conf.awardConf, jz.id);
 		for (Integer awardId : hitAwardIdList) {
 			AwardTemp calcV = calcAwardTemp(awardId);
 			if(calcV != null) {
-				fillBattleAwardInfo(ret, calcV);
 				getAwardList.add(calcV);
 			}
 		}
+		// npc掉落的物品
+		getAwardList.addAll(getNpcAwardList);
+		
+		int getTongBiTotal = conf.getMoney();
+		int getExpTotal = conf.getExp();
+		for (AwardTemp calcV : getAwardList) {
+			if(calcV != null) {
+				if (calcV.getItemId() == AwardMgr.ITEM_TONGBI_ID) {// 铜币
+					getTongBiTotal += calcV.getItemNum();
+				} else if (calcV.getItemId() == AwardMgr.ITEM_EXP_ID) {// 经验
+					getExpTotal += calcV.getItemNum();
+				} else {
+					fillBattleAwardInfo(ret, calcV);
+				}
+			}
+		}
+		ret.setMoney(getTongBiTotal);
+		ret.setExp(getExpTotal);
 		session.write(ret.build());
+		// 发送奖励
 		for(AwardTemp award : getAwardList) {
 			giveReward(session, award, jz, false,false);
 		}
@@ -477,13 +495,13 @@ public class AwardMgr {
 				int all = TalentMgr.instance.addWuYiJingQi(jz.id,
 						a.getItemNum());
 				log.info("{} 获得武艺精气{},达到{}", jz.id, a.getItemNum(), all);
-				TalentMgr.instance.sendTalentInfo(session);
+//				TalentMgr.instance.sendTalentInfo(session);
 				break;
 			} else if (a.getItemId() == 900019) {// 体魄精气
 				int all = TalentMgr.instance.addTiPoJingQi(jz.id,
 						a.getItemNum());
 				log.info("{} 获得体魄精气{},达到{}", jz.id, a.getItemNum(), all);
-				TalentMgr.instance.sendTalentInfo(session);
+//				TalentMgr.instance.sendTalentInfo(session);
 				break;
 			} else if(a.getItemId() == ITEM_WEI_WANG){ // 添加威望奖励
 				int all = ShopMgr.inst.addMoney(ShopMgr.Money.weiWang,
@@ -507,6 +525,9 @@ public class AwardMgr {
 				int all = ShopMgr.inst.addMoney(ShopMgr.Money.huangYeBi, 
 						ShopMgr.huangYe_shop_type, jz.id, a.getItemNum());
 				log.info("君主：{}获取奖励，荒野币，获取数是：{}, 获取后拥有：{}", jz.id, a.getItemNum(), all);
+			}else if(a.getItemId() == vip_exp){
+				VipMgr.INSTANCE.addVipExp(jz, a.getItemNum());
+				log.info("君主：{}通过奖励获取vip经验：{}点，完成", jz.id, a.getItemNum());
 			}else {
 				BaseItem bi = TempletService.itemMap.get(a.getItemId());
 				if (bi != null) {// 如果属于背包物品
@@ -546,6 +567,10 @@ public class AwardMgr {
 			int realMiBaoId = 0;
 			if (a.getItemType() == TYPE_MOBAI_SUIPIAN) {// 碎片
 				suipian = MibaoMgr.inst.mibaoSuipianMap_2.get(a.getItemId());
+				if(suipian == null){
+					log.error("秘宝MibaoSuiPian配置没有{}数据", a.getItemId());
+					return false;
+				}
 				tempId = suipian.getTempId();
 				initialStar = suipian.getInitialStar();
 				suiNu = a.getItemNum();
@@ -622,8 +647,9 @@ public class AwardMgr {
 			 *  判断秘宝相关任务是否有完成
 			 */
 			if (isGetMibao) {
-				doRenWuForMiBao(mibaoDB, jz);
 				EventMgr.addEvent(ED.GAIN_MIBAO, new Object[]{jz,session});
+				// 写在后面，怕有异常导致后面代码无法执行
+				doRenWuForMiBao(mibaoDB, jz, session);
 			}
 			break;
 			/*
@@ -766,37 +792,24 @@ public class AwardMgr {
 	 * @param mibaoDB
 	 * @param jz
 	 */
-	public void doRenWuForMiBao(MiBaoDB mibaoDB, JunZhu jz){
+	public void doRenWuForMiBao(MiBaoDB mibaoDB, JunZhu jz, IoSession session){
 		if(mibaoDB.getMiBaoId() > 0 && mibaoDB.getLevel() > 0){
-//			if(mibaoDB.isClear()){
-				//  主线任务：星级: 要求解锁
-				EventMgr.addEvent(ED.mibao_shengStar_x, new Object[]{jz.id, mibaoDB.getStar()});
-				//  主线任务：等级 ：要求解锁秘宝
-				EventMgr.addEvent(ED.mibao_shengji_x, new Object[]{jz.id, mibaoDB.getLevel()});
-			}
-			// 获取秘宝：获得一个秘宝： 不要求解锁 
+			//  主线任务：星级: 要求解锁
+			EventMgr.addEvent(ED.mibao_shengStar_x, new Object[]{jz.id, mibaoDB.getStar()});
+			//  主线任务：等级 ：要求解锁秘宝
+			EventMgr.addEvent(ED.mibao_shengji_x, new Object[]{jz.id, mibaoDB.getLevel()});
+			// 获取秘宝：获得一个秘宝
 			EventMgr.addEvent(ED.get_item_finish, new Object[] { jz.id, mibaoDB.getMiBaoId()});
 			// 获取秘宝 ：秘宝合成: 不要求解锁 -朱诚 20150925
 			EventMgr.addEvent(ED.MIBAO_HECHENG, new Object[]{jz.id, mibaoDB.getMiBaoId()});
 			// 主线任务： 获取秘宝的个数： 不要求解锁 -朱诚 20150925
-			String where2 = " WHERE ownerId =" + jz.id + " AND level>=1 AND miBaoId > 0";
-			List<MiBaoDB> dbList = HibernateUtil.list(MiBaoDB.class, where2);
-			int number = 0;
-			for(MiBaoDB d: dbList){
-				if(d.getMiBaoId() > 0 && d.getLevel() > 0){
-//					if(d.isClear()){
-						number ++;
-//					}else if(MibaoMgr.inst.isClear(d.getMiBaoId(), jz)){
-//						number ++;
-//						HibernateUtil.save(d);
-//					}
-				}
-			}
+			int number = MibaoMgr.inst.getActivateMiBaoCount(jz.id);
 			if (number > 0) {
-				EventMgr.addEvent(ED.get_x_mibao, new Object[] { jz.id,
-						dbList.size() });
+				EventMgr.addEvent(ED.get_x_mibao, new Object[] { jz.id, number});
+				// 判断秘宝技能是是否可以开启。先写在这里，就不用eventMgr了
+				MibaoMgr.inst.isCanMiBaoJiNengOpen(jz, session, number);
 			}
-//		}
+		}
 	}
 
 	public void isCollectASuitOfGuJuan(long junZhuId, Bag<BagGrid> bag, int baseType, int itemId){

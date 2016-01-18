@@ -32,6 +32,11 @@ import com.tencent.xinge.TagTokenPair;
 import com.tencent.xinge.XingeApp;
 
 /**
+ * Android
+ * 3286074930
+youxiguwushuang
+ * ==================================
+ * IOS
  * 新申请了个QQ 3270162390
 密码1q2w3e4r
 http://xg.qq.com/xg/apps/ctr_app

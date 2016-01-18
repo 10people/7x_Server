@@ -17,10 +17,13 @@ import org.slf4j.LoggerFactory;
 
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.FuWen.JunzhuAttr;
+import qxmobile.protobuf.JunZhuProto.ActivateTaoZhReq;
+import qxmobile.protobuf.JunZhuProto.ActivateTaoZhResp;
 import qxmobile.protobuf.JunZhuProto.JunZhuAddPointReq;
 import qxmobile.protobuf.JunZhuProto.JunZhuAttPointRet;
 import qxmobile.protobuf.JunZhuProto.JunZhuInfoRet;
 import qxmobile.protobuf.JunZhuProto.JunZhuInfoSpecifyReq;
+import qxmobile.protobuf.JunZhuProto.TaoZhuangResp;
 import qxmobile.protobuf.Ranking.JunZhuInfo;
 
 import com.google.protobuf.MessageLite.Builder;
@@ -31,6 +34,7 @@ import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.ChongZhi;
 import com.manu.dynasty.template.ExpTemp;
 import com.manu.dynasty.template.HeroGrow;
+import com.manu.dynasty.template.JiNengPeiYang;
 import com.manu.dynasty.template.JunzhuShengji;
 import com.manu.dynasty.template.MiBao;
 import com.manu.dynasty.template.MiBaoExtraAttribute;
@@ -41,6 +45,7 @@ import com.manu.dynasty.template.TalentAttribute;
 import com.manu.dynasty.template.TaoZhuang;
 import com.manu.dynasty.template.VIP;
 import com.manu.dynasty.template.ZhuangBei;
+import com.manu.dynasty.util.MathUtils;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
 import com.manu.network.SessionManager;
@@ -65,7 +70,10 @@ import com.qx.hero.HeroMgr;
 import com.qx.hero.WuJiang;
 import com.qx.huangye.HYResourceNpc;
 import com.qx.huangye.HYTreasure;
+import com.qx.jinengpeiyang.JNBean;
+import com.qx.jinengpeiyang.JiNengPeiYangMgr;
 import com.qx.mibao.MiBaoDB;
+import com.qx.mibao.MiBaoSkillDB;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.persistent.MC;
@@ -98,12 +106,23 @@ public class JunZhuMgr extends EventProc {
 	public static Map<Long, JunZhuInfoRet.Builder> jzInfoCache = Collections.synchronizedMap(new LRUMap(5000));
 
 	public static Map<Integer, TaoZhuang> taoZhuangMap = new HashMap<Integer, TaoZhuang>();
+
+	public static final int taoZhuangType = 1;
+	public static final int taoZhuangQiangHuaType = 2;
+	public static int minTaoZhuangId = 100;
+	public static int minTaoZhuangQHId = 100;
+	
 	public JunZhuMgr() {
 		inst = this;
 
 		List<TaoZhuang> listTa = TempletService.listAll(TaoZhuang.class.getSimpleName());
 		for(TaoZhuang t: listTa){
-			taoZhuangMap.put(t.condition, t);
+			taoZhuangMap.put(t.id, t);
+			if(t.type == taoZhuangType){
+				minTaoZhuangId = MathUtils.getMin(t.id, minTaoZhuangId);
+			}else if(t.type == taoZhuangQiangHuaType){
+				minTaoZhuangQHId = MathUtils.getMin(t.id, minTaoZhuangQHId);
+			}
 		}
 	}
 
@@ -524,8 +543,14 @@ public class JunZhuMgr extends EventProc {
 			}
 		}
 		try {
-			calcTaoZhuang(junzhu, minPinZhi);
-			calcTaoZhuangQianHua(junzhu, minQHlv);
+			AcitvitedTaoZhuang taozhuang = 
+					HibernateUtil.find(AcitvitedTaoZhuang.class, junzhu.id);
+			if(taozhuang == null){
+				taozhuang = new AcitvitedTaoZhuang();
+				taozhuang.jId = junzhu.id;
+			}
+			calcTaoZhuang(junzhu, taozhuang);
+			calcTaoZhuangQianHua(junzhu, taozhuang);
 		} catch (Exception e) {
 			log.error("计算套装出错", e);
 		}
@@ -537,81 +562,117 @@ public class JunZhuMgr extends EventProc {
 	 * @param junzhu
 	 * @param minColor
 	 */
-	public void calcTaoZhuangQianHua(JunZhu junzhu, int minQHlv) {
-		int idx;
-		if (minQHlv >= 100) {
-			idx = 8;
-		} else if (minQHlv >= 80) {
-			idx = 7;
-		} else if (minQHlv >= 60) {
-			idx = 6;
-		} else if (minQHlv >= 30) {
-			idx = 5;
-		} else {
+	public void calcTaoZhuangQianHua(JunZhu junzhu, AcitvitedTaoZhuang taozhuang) {
+		if(junzhu == null) return;
+//		int idx;
+//		if (minQHlv >= 100) {
+//			idx = 8;
+//		} else if (minQHlv >= 80) {
+//			idx = 7;
+//		} else if (minQHlv >= 60) {
+//			idx = 6;
+//		} else if (minQHlv >= 30) {
+//			idx = 5;
+//		} else {
+//			return;
+//		}
+//		idx -= 1;// 5678->4567
+//		List list = TempletService.listAll(TaoZhuang.class.getSimpleName());
+//		if (list == null) {
+//			log.error("没有套装配置");
+//			return;
+//		}
+//		if (idx >= list.size()) {
+//			return;
+//		}
+//		TaoZhuang t = (TaoZhuang) list.get(idx);
+		if(taozhuang == null || taozhuang.maxActiQiangHuaId <= 0){
 			return;
 		}
-		idx -= 1;// 5678->4567
-		List list = TempletService.listAll(TaoZhuang.class.getSimpleName());
-		if (list == null) {
-			log.error("没有套装配置");
-			return;
-		}
-		if (idx >= list.size()) {
-			return;
-		}
-		TaoZhuang t = (TaoZhuang) list.get(idx);
-		int[] key = { t.shuxing1, t.shuxing2, t.shuxing3 };
-		int[] v = { t.num1, t.num2, t.num3 };
 		int[] fv = new int[4];
-		for (int i = 0; i < 3; i++) {
-			switch (key[i]) {
-			case 4:
-				junzhu.wqSH += v[i];
-				fv[0] = v[i];
-				break;// 武器伤害加深
-			case 5:
-				junzhu.wqJM += v[i];
-				fv[1] = v[i];
-				break;// 武器伤害抵抗
-			case 6:
-				junzhu.jnSH += v[i];
-				fv[2] = v[i];
-				break;// 技能伤害加深
-			case 7:
-				junzhu.jnJM += v[i];
-				fv[3] = v[i];
-				break;// 技能伤害抵抗
-			default:
-				log.error("未处理的套装强化属性类型{}", key[i]);
-				break;
+		TaoZhuang t = null;
+		for(int id = minTaoZhuangQHId; id <= taozhuang.maxActiQiangHuaId; id++){
+			t = taoZhuangMap.get(id);
+			if(t == null || t.type != taoZhuangQiangHuaType){
+				continue;
+			}
+			int[] key = { t.shuxing1, t.shuxing2, t.shuxing3 };
+			int[] v = { t.num1, t.num2, t.num3 };
+			for (int i = 0; i < 3; i++) {
+				switch (key[i]) {
+				case 1:
+					junzhu.gongJi += v[i];
+					fv[0] += v[i];
+					break;
+				case 2:
+					junzhu.fangYu  += v[i];
+					fv[1] += v[i];
+					break;
+				case 3:
+					junzhu.shengMing += v[i];
+					fv[2] += v[i];
+					break;
+				default:
+					log.error("未处理的套装强化属性类型{}", key[i]);
+					break;
+				}
 			}
 		}
-		log.info("[{}]强化套装加成{},{},{},{}", fv[0], fv[1], fv[2], fv[3]);
+		log.info("[{}]强化套装加成{},{},{}", fv[0], fv[1], fv[2]);
 	}
+//		int[] key = { t.shuxing1, t.shuxing2, t.shuxing3 };
+//		int[] v = { t.num1, t.num2, t.num3 };
+//		int[] fv = new int[4];
+//		for (int i = 0; i < 3; i++) {
+//			switch (key[i]) {
+//			case 4:
+//				junzhu.wqSH += v[i];
+//				fv[0] = v[i];
+//				break;// 武器伤害加深
+//			case 5:
+//				junzhu.wqJM += v[i];
+//				fv[1] = v[i];
+//				break;// 武器伤害抵抗
+//			case 6:
+//				junzhu.jnSH += v[i];
+//				fv[2] = v[i];
+//				break;// 技能伤害加深
+//			case 7:
+//				junzhu.jnJM += v[i];
+//				fv[3] = v[i];
+//				break;// 技能伤害抵抗
+//			default:
+//				log.error("未处理的套装强化属性类型{}", key[i]);
+//				break;
+//			}
+//		}
+//		log.info("[{}]强化套装加成{},{},{},{}", fv[0], fv[1], fv[2], fv[3]);
+	
 
 	/**
 	 * 计算套装（品质）
 	 * 
 	 * @param junzhu
 	 */
-	public void calcTaoZhuang(JunZhu junzhu, int minPinZhi) {
+	public void calcTaoZhuang(JunZhu junzhu, AcitvitedTaoZhuang taozhuang) {
 		if(junzhu == null){
 			return;
 		}
-		// 小于2的 不加成属性
-		if (minPinZhi < 2) {
+//		// 小于2的 不加成属性
+//		if (minPinZhi < 2) {
+//			return;
+//		}
+		if( taozhuang == null || taozhuang.maxActiId <= 0){
 			return;
 		}
-		// 角色穿了套装进行的属性加成 是套装等级一下的所有套装等级都加上
+//		// 角色穿了套装进行的属性加成 是套装等级一下的所有套装等级都加上
 		int gongji = 0;
 		int fangyu = 0;
 		int shengming = 0;
-		log.info("junzhuId :{} minPinZhi is {} ", junzhu.id, minPinZhi);
-		// 最小的品质从2开始
-		for (int condition = 2; condition <= minPinZhi; condition++) {
-			TaoZhuang t =  taoZhuangMap.get(condition);
-			if (t != null) {
-				log.info("junzhuId {}, 加成了 套装condition：{}", junzhu.id, condition);
+		for(int i = minTaoZhuangId; i <= taozhuang.maxActiId; i++){
+			TaoZhuang t =  taoZhuangMap.get(i);
+			if (t != null && t.type == taoZhuangType) {
+				log.info("junzhuId {}, 加成了 套装condition：{}", junzhu.id, t.condition);
 				junzhu.gongJi += t.num1;
 				junzhu.fangYu += t.num2;
 				junzhu.shengMingMax += t.num3;
@@ -621,6 +682,22 @@ public class JunZhuMgr extends EventProc {
 			}
 		}
 		log.info("[{}]套装总加成:{},{},{}", junzhu.name, gongji, fangyu, shengming);
+	//	log.info("junzhuId :{} minPinZhi is {} ", junzhu.id, minPinZhi);
+//		// 最小的品质从2开始
+//		for (int condition = 2; condition <= minPinZhi; condition++) {
+//			// TODO @wangzhuan 20160115
+////			TaoZhuang t =  taoZhuangMap.get(condition);
+////			if (t != null) {
+////				log.info("junzhuId {}, 加成了 套装condition：{}", junzhu.id, condition);
+////				junzhu.gongJi += t.num1;
+////				junzhu.fangYu += t.num2;
+////				junzhu.shengMingMax += t.num3;
+////				gongji += t.num1;
+////				fangyu += t.num2;
+////				shengming += t.num3;
+////			}
+//		}
+		
 	}
 
 	public void addExp(JunZhu jz, final int v) {
@@ -1061,6 +1138,7 @@ public class JunZhuMgr extends EventProc {
 		jz.fangYu = fangYu;
 		jz.shengMing = shengMing;
 		jz.gongJi = gongJi;
+		jz.id = -999; //区别真实JunZhu对象,因为getZhanli方法中对真实君主有不一样的数据处理
 		/*
 		 * 秘宝等级达到一定程度，会有额外属性加成
 		 */
@@ -1120,6 +1198,10 @@ public class JunZhuMgr extends EventProc {
 		double m = CanShu.ZHANLI_M;
 		double c = CanShu.ZHANLI_C;
 		double r = CanShu.ZHANLI_R;
+		double k1 = CanShu.ZHANLI_K1;
+		double k2 = CanShu.ZHANLI_K2;
+		double m1 = CanShu.ZHANLI_M1;
+		double m2 = CanShu.ZHANLI_M2;
 		double puGongQuan = CanShu.JUNZHU_PUGONG_QUANZHONG;
 		double puGongBei = CanShu.JUNZHU_PUGONG_BEISHU;
 		double jiNengQuan = CanShu.JUNZHU_JINENG_QUANZHONG;
@@ -1127,10 +1209,91 @@ public class JunZhuMgr extends EventProc {
 		double zhanliL = CanShu.ZHANLI_L;
 		double baoJiLv = 0.2;
 		double w = gongji + fangyu + shengming / c;
-		double wq = puGongQuan * puGongBei;
+		
+		double wqk = 0; // 默认值设为0
+		
+		double jnk = 0; // 默认值设为1
+		
+		double mb = 1; // 设置默认值设为1
+	
+		if(gameOb instanceof JunZhu){
+			JunZhu ju = (JunZhu) gameOb;
+			if(ju.id > 0){
+				JNBean bean = HibernateUtil.find(JNBean.class, ju.id);
+				if(bean != null){
+					JiNengPeiYang p = null;
+					// 重武器普攻突破等级
+					if(bean.wq1_1 != 0){
+						p = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(bean.wq1_1);
+					}
+					int quality1 = p == null? 0: p.quality;
+					// 轻武器普攻突破等级
+					p = null;
+					if(bean.wq2_1 != 0){
+						p = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(bean.wq2_1);
+					}
+					int quality2 = p == null? 0:p.quality;
+					// 弓箭普攻突破等级
+					p = null;
+					if(bean.wq3_1 != 0){
+						p = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(bean.wq3_1);
+					}
+					int quality3 = p == null? 0:p.quality;
+					 // 计算wq
+					wqk = k1 * (quality1 + quality2+ quality3);
+					
+					p = null;
+					if(bean.wq1_2 != 0){
+						p = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(bean.wq1_2);
+					}
+					int quality4 = p == null? 0:p.quality;
+					
+					p = null;
+					if(bean.wq1_3 != 0){
+						p = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(bean.wq1_3);
+					}
+					int quality5 = p == null? 0:p.quality;
+					
+					p = null;
+					if(bean.wq2_2 != 0){
+						p = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(bean.wq2_2);
+					}
+					int quality6 = p == null? 0:p.quality;
+					
+					p = null;
+					if(bean.wq2_3 != 0){
+						p = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(bean.wq2_3);
+					}
+					int quality7 = p == null? 0:p.quality;
+					
+					p = null;
+					if(bean.wq3_2 != 0){
+						p = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(bean.wq3_2);
+					}
+					int quality8 = p == null? 0:p.quality;
+					
+					p = null;
+					if(bean.wq3_3 != 0){
+						p = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(bean.wq3_3);
+					}
+					int quality9 = p == null? 0:p.quality;
+					
+					jnk = k2 *(quality4 + quality5 +quality6 + quality7 + quality8 + quality9);
+					
+				}
+				// 秘宝技能个数
+				int mibaoSkillNum = MibaoMgr.inst.getSkillDBList(ju.id).size();
+				mb = 1 + MathUtils.getMin(1, mibaoSkillNum) * (m1 + m2 * mibaoSkillNum);
+			}
+		}
+		
+		double wq = puGongQuan * puGongBei * (1 + wqk) * mb;
+		
 		double wz = (1 + baoJiLv + wqshjs / zhanliL + wqbjjs / zhanliL)
 				* (1 + baoJiLv + wqshdk / zhanliL + wqbjdk / zhanliL);
-		double jN = jiNengQuan * jiNengBei;
+		
+		double jN = jiNengQuan * jiNengBei *(1 + jnk) * mb;
+		
 		double jZ = (1 + baoJiLv + jnshjs / zhanliL + jnbjjs / zhanliL)
 				* (1 + baoJiLv + jnshdk / zhanliL + jnbjdk / zhanliL);
 		double result = m * w * Math.pow(wq * wz + jN * jZ, (1 / r));
@@ -1219,5 +1382,161 @@ public class JunZhuMgr extends EventProc {
 		protobufMsg.id = PD.JUNZHU_INFO_SPECIFY_RESP;
 		protobufMsg.builder = response;
 		session.write(protobufMsg);
+	}
+	
+
+	/**
+	 * 套装当前激活的pinzhi / qianghua level
+	 * @param id
+	 * @param session
+	 */
+	public void getTaoZhuangInfo(int id, IoSession session ){
+		JunZhu junzhu = getJunZhu(session);
+		if (junzhu == null) return;
+		TaoZhuangResp.Builder resp = TaoZhuangResp.newBuilder();
+		AcitvitedTaoZhuang taozhuang = 
+				HibernateUtil.find(AcitvitedTaoZhuang.class, junzhu.id);
+		if(taozhuang == null){
+			resp.setMaxActiZhuang(0);
+			resp.setMaxQiangHuaZh(0);
+			session.write(resp.build());
+			return;
+		}
+		resp.setMaxQiangHuaZh(taozhuang.maxActiQiangHuaId);
+		resp.setMaxActiZhuang(taozhuang.maxActiId);
+		session.write(resp.build());
+	}
+	
+	public void activitedTaoZhuang(int id, IoSession session, Builder builder ){
+		JunZhu junzhu = getJunZhu(session);
+		if (junzhu == null) return;
+		ActivateTaoZhReq.Builder req = ( ActivateTaoZhReq.Builder) builder;
+		int activatedType = req.getActivatedType();
+		int reqActId = req.getActivatedId();
+		AcitvitedTaoZhuang taozhuang = 
+				HibernateUtil.find(AcitvitedTaoZhuang.class, junzhu.id);
+		if(taozhuang == null){
+			taozhuang = new AcitvitedTaoZhuang();
+			taozhuang.jId = junzhu.id;
+		}
+		ActivateTaoZhResp.Builder resp = ActivateTaoZhResp.newBuilder();
+		switch(activatedType){
+		case taoZhuangType: // 套装激活
+		{
+			resp.setActivatedType(1);
+			resp.setActivatedId(reqActId);
+			if(reqActId <= taozhuang.maxActiId){
+				// 已经激活过了
+				resp.setSuccess(1);
+				session.write(resp.build());
+				return;
+			}
+			if(taozhuang.maxActiId + 1 != reqActId){
+				// 激活过度
+				resp.setSuccess(2);
+				session.write(resp.build());
+				return;
+			}
+			TaoZhuang conf = taoZhuangMap.get(reqActId);
+			if(conf == null){
+				// 没有配置
+				resp.setSuccess(3);
+				session.write(resp.build());
+				return;
+			}
+			// 加载身上的装备
+			List<EquipGrid> list = EquipMgr.inst.loadEquips(junzhu.id).grids;
+			int cnt = list.size();
+			cnt = Math.min(9, cnt);
+			int minPinZhi = 100;
+			for (int i = 0; i < cnt; i++) {
+				EquipGrid gd = list.get(i);
+				if (gd == null || gd.itemId <= 0) {
+					minPinZhi = 0;
+					continue;
+				}
+				BaseItem equip = TempletService.itemMap.get(gd.itemId);
+				if ((equip==null)||equip.getType() != BaseItem.TYPE_EQUIP) {
+					continue;
+				}
+				// 装备基础属性
+				ZhuangBei zb = (ZhuangBei) equip;
+				minPinZhi = Math.min(minPinZhi, zb.pinZhi);
+			}
+			//品质不够
+			if(minPinZhi < conf.condition){
+				resp.setSuccess(4);
+				session.write(resp.build());
+				return;
+			}
+			// 激活成功
+			taozhuang.maxActiId = conf.id;
+			HibernateUtil.save(taozhuang);
+			resp.setSuccess(0);
+			session.write(resp.build());
+			log.info("君主:{}套装激活成功，激活id是：{}", junzhu.id, taozhuang.maxActiId);
+			return;
+		}
+		case taoZhuangQiangHuaType:
+		{
+			resp.setActivatedType(2);
+			resp.setActivatedId(reqActId);
+			if(reqActId <= taozhuang.maxActiQiangHuaId){
+				// 已经激活过了
+				resp.setSuccess(1);
+				session.write(resp.build());
+				return;
+			}
+			if(taozhuang.maxActiQiangHuaId + 1 != reqActId){
+				// 激活过度
+				resp.setSuccess(2);
+				session.write(resp.build());
+				return;
+			}
+			TaoZhuang conf = taoZhuangMap.get(reqActId);
+			if(conf == null){
+				// 没有配置
+				resp.setSuccess(3);
+				session.write(resp.build());
+				return;
+			}
+			// 加载身上的装备
+			List<EquipGrid> list = EquipMgr.inst.loadEquips(junzhu.id).grids;
+			int cnt = list.size();
+			cnt = Math.min(9, cnt);
+			int minQHlv = 100;
+			for (int i = 0; i < cnt; i++) {
+				EquipGrid gd = list.get(i);
+				if (gd == null || gd.instId <= 0) {
+					minQHlv = 0;
+					continue;
+				}
+				UserEquip userEquip = HibernateUtil.find(UserEquip.class, gd.instId);
+				if (userEquip == null) {
+					minQHlv = 0;
+					continue;
+				}
+				int lv = userEquip.getLevel();
+				if (lv <= 0) {
+					minQHlv = 0;
+					continue;
+				}
+				minQHlv = Math.min(minQHlv, lv);
+			}
+			//强化等级不够
+			if(minQHlv < conf.condition){
+				resp.setSuccess(4);
+				session.write(resp.build());
+				return;
+			}
+			// 激活成功
+			taozhuang.maxActiQiangHuaId = conf.id;
+			HibernateUtil.save(taozhuang);
+			resp.setSuccess(0);
+			session.write(resp.build());
+			log.info("君主:{}强化套装激活成功，激活id是：{}", junzhu.id,taozhuang.maxActiQiangHuaId);
+			return;
+		}
+		}
 	}
 }

@@ -15,8 +15,10 @@ import org.slf4j.LoggerFactory;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.JunZhuProto.BuyTimesInfo;
 import qxmobile.protobuf.Shop.BuyMibaoPointResp;
-import qxmobile.protobuf.Shop.BuyTongbiResp;
+import qxmobile.protobuf.Shop.BuyTongbiDataResp;
+import qxmobile.protobuf.Shop.LianXuBuyTongbiResp;
 import qxmobile.protobuf.Shop.PurchaseFail;
+import qxmobile.protobuf.Shop.TongbiResp;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
@@ -106,8 +108,7 @@ public class PurchaseMgr {
 		}
 
 		Map<Integer, Jiangli> jiangliMap = new HashMap<Integer, Jiangli>();
-		List<Jiangli> jiangliList = TempletService.listAll(Jiangli.class
-				.getSimpleName());
+		List<Jiangli> jiangliList = TempletService.listAll(Jiangli.class.getSimpleName());
 		for (Jiangli jiangli : jiangliList) {
 			jiangliMap.put(jiangli.getId(), jiangli);
 		}
@@ -146,8 +147,7 @@ public class PurchaseMgr {
 			}
 		}
 
-		boolean ret = consume(tiLi.getNum(), session, Ti_Li_CODE, curDate,
-				junZhu);
+		boolean ret = consume_Tili(tiLi.getNum(), session,  curDate,junZhu);
 		if (ret) {
 			tiLi.setDate(curDate);
 			tiLi.setNum(tiLi.getNum() + 1);
@@ -165,10 +165,20 @@ public class PurchaseMgr {
 		}
 		sendInfo(0, session, null);
 	}
-
+	
+	/**
+	 * @Description 单次购买铜币
+	 * @param code
+	 * @param session
+	 * @param builder
+	 */
 	public void buyTongBi(int code, IoSession session, Builder builder) {
-		long junZhuId = getJunZhuIdBySession(session);
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junZhu == null) {
+			error(session, Tong_Bi_CODE, "君主信息异常");
+		}
+		long junZhuId = junZhu.id;
+		log.info("玩家{} 单次购买铜币开始", junZhuId);
 		TongBi tongBi = HibernateUtil.find(TongBi.class, junZhuId);
 		Date today = Calendar.getInstance().getTime();
 		if (tongBi == null) {
@@ -188,44 +198,199 @@ public class PurchaseMgr {
 				int maxBuy = VipMgr.INSTANCE.getValueByVipLevel(
 						junZhu.vipLevel, VipData.bugMoneyTime);
 				if (tongBi.getNum() >= maxBuy) {
-					sendBuyTiliResp(session, 1, 0);
+					sendBuyTongbiResp(session, 1,null);
 					log.error("今天购买铜币次数达到最大，vipLevel:{},已经购买次数:{}",
 							junZhu.vipLevel, maxBuy);
 					return;
 				}
 			}
 		}
-
-		boolean ret = consume(tongBi.getNum(), session, Tong_Bi_CODE, today,
-				junZhu);
-		if (ret) {
-			tongBi.setDate(today);
-			tongBi.setNum(tongBi.getNum() + 1);
-			log.info("玩家{}第{}次购买铜币成功", junZhuId, tongBi.getNum());
-			HibernateUtil.save(tongBi);
-			HibernateUtil.save(junZhu);
-			JunZhuMgr.inst.sendMainInfo(session);
-			// 主线任务：购买1次铜币
-			EventMgr.addEvent(ED.buy_tongbi_1_times, new Object[] { junZhu.id });
-			// 每日任务中记录完成一次购买铜币
-			EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
-					junZhuId, DailyTaskConstants.buy_tongbi_id, 1));
-		} else {
-			log.info("玩家{}第{}次购买铜币失败", junZhuId, tongBi.getNum());
+		Purchase p = getBuyConf(tongBi.getNum()+1, Tong_Bi_CODE);
+		if (p == null) {
+			log.info("玩家{}第{}次购买铜币失败，未找到配置", junZhuId, tongBi.getNum());
+			error(session, Tong_Bi_CODE, "购买出现问题");
+			return;
 		}
+		// 公式 from 数值策划
+		// 第N次购买获得的铜币=(【君主等级系数】×【购买次数系数】×【暴击倍数】) / 100
+		if (p.getYuanbao() > junZhu.yuanBao) {
+			log.info("玩家{}第{}次购买铜币失败，元宝不足 ", junZhuId, tongBi.getNum());
+			sendBuyTongbiResp(session, 2,null);
+			return;
+		}
+		YuanBaoMgr.inst.diff(junZhu, -p.getYuanbao(), 0,getPriceConf(Tong_Bi_CODE), YBType.YB_BUY_WUPIN, "购买铜币");
+		int baoJi = UserEquipAction.getInstance().getAddValue(3, 0);
+		int xishu = 1;
+		JunzhuShengji conf = JunZhuMgr.inst.getJunzhuShengjiByLevel(junZhu.level);
+		if(conf != null){
+			xishu = conf.moneyXishu;
+		}
+		int getTongbi = (xishu * p.getNumber() * baoJi)/ 100;
+		log.info("计算铜币数量{} x {} x {} = {}",xishu, p.getNumber(), baoJi, getTongbi);
+		junZhu.tongBi = junZhu.tongBi + getTongbi;
+		log.info("[{}]增加铜币{}", junZhu.id, getTongbi);
+		//保存
+		tongBi.setDate(today);
+		tongBi.setNum(tongBi.getNum() + 1);
+		log.info("玩家{}第{}次购买铜币成功 ", junZhuId, tongBi.getNum());
+		HibernateUtil.save(tongBi);
+		HibernateUtil.save(junZhu);
+		//推送
+		TongbiResp.Builder tbResp=TongbiResp.newBuilder();
+		tbResp.setBaoji(baoJi);
+		tbResp.setCost(p.getYuanbao());
+		tbResp.setShumu(getTongbi);
+		sendBuyTongbiResp(session, 0, tbResp);
+		sendTongBiData(0, session, null);
+		JunZhuMgr.inst.sendMainInfo(session);
+		// 主线任务：购买1次铜币
+		EventMgr.addEvent(ED.buy_tongbi_1_times, new Object[] { junZhu.id });
+		// 每日任务中记录完成一次购买铜币
+		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
+				junZhuId, DailyTaskConstants.buy_tongbi_id, 1));
 	}
-
+	
 	/**
+	 * @Description 连续购买铜币
+	 * @param code
+	 * @param session
+	 * @param builder
+	 */
+	public void buyTongBiLianXu(int code, IoSession session, Builder builder) {
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		int code4Tongbi=Tong_Bi_CODE;
+		if (junZhu == null) {
+			error(session, code4Tongbi, "君主信息异常");
+			return;
+		}
+		log.info("玩家{}连续购买铜币开始", junZhu.id);
+		long junZhuId =junZhu.id;
+		TongBi tongBi = HibernateUtil.find(TongBi.class, junZhuId);
+		Date today = Calendar.getInstance().getTime();
+		int maxBuyTimes= VipMgr.INSTANCE.getValueByVipLevel(junZhu.vipLevel, VipData.bugMoneyTime);
+		if (tongBi == null) {
+			tongBi = new TongBi();
+			tongBi.setDbId(junZhuId);
+			tongBi.setDate(today);
+			tongBi.setNum(0);
+			// 添加到缓存
+			MC.add(tongBi, junZhuId);
+			HibernateUtil.insert(tongBi);
+		} else {
+			Date lastDate = tongBi.getDate();
+			// change 20150901
+			if(DateUtils.isTimeToReset(lastDate, CanShu.REFRESHTIME_PURCHASE)){
+				tongBi.setNum(0);
+			}else{
+				if (tongBi.getNum() >= maxBuyTimes) {
+					sendBuyTongbiResp(session, 1, null);
+					log.error("今天购买铜币次数达到最大，vipLevel:{},已经购买次数:{}",junZhu.vipLevel, maxBuyTimes);
+					return;
+				}
+			}
+		}
+		int time=tongBi.getNum();
+		Purchase p = getBuyConf(time, code4Tongbi);
+		if(time==0){
+			 p = getBuyConf(1, code4Tongbi);
+		}
+		if (p == null) {
+			log.info("玩家{}连续购买铜币失败，未找到配置", junZhuId);
+			error(session, Tong_Bi_CODE, "购买出现问题");
+			return;
+		}
+		//当前阶段买一次铜币的花费的元宝数目
+		int nowlevelCost=p.getYuanbao();
+		List<Purchase> costList=new ArrayList<Purchase>();
+		int cost4all=0;
+		int buyCount=0;
+		for (int i = time+1; i <=maxBuyTimes; i++) {
+			Purchase p4temp=  getBuyConf(i, code4Tongbi);
+			if(i == time+1&&p4temp!=null&&p4temp.getYuanbao()!=nowlevelCost){
+				nowlevelCost=p4temp.getYuanbao();
+			}
+			if(p4temp==null||p4temp.getYuanbao()!=nowlevelCost){
+				break;
+			}
+			costList.add(p4temp);
+			cost4all+=p4temp.getYuanbao();
+			buyCount++;
+		}
+		if (cost4all> junZhu.yuanBao) {
+			log.error("玩家{}连续购买铜币失败,元宝不够", junZhuId);
+			sendBuyTongbiResp(session, 2, null);
+			return;
+		}
+		YuanBaoMgr.inst.diff(junZhu, -cost4all, 0,getPriceConf(code4Tongbi), YBType.YB_BUY_WUPIN, "连续购买铜币");
+		LianXuBuyTongbiResp.Builder resp = LianXuBuyTongbiResp.newBuilder();
+		// 公式 from 数值策划
+		// 第N次购买获得的铜币=(【君主等级系数】×【购买次数系数】×【暴击倍数】) / 100
+		int xishu = 1;
+		JunzhuShengji conf = JunZhuMgr.inst.getJunzhuShengjiByLevel(junZhu.level);
+		if(conf != null){
+			xishu = conf.moneyXishu;
+		}
+		int shouyi=0;
+		for (int i = 0; i < buyCount; i++) {
+			Purchase p4Cost=costList.get(i);
+			if(p4Cost==null){
+				log.error("玩家{}连续购买第{}次购买铜币出错，未找到Purchase配置",junZhu.id,i);
+				continue;
+			}
+			int baoJi = UserEquipAction.getInstance().getAddValue(3, 0);
+			int getTongbi = (xishu * p4Cost.getNumber() * baoJi)/ 100;
+			log.info("连续购买铜币，计算铜币数量{} x {} x {} = {}",xishu, p4Cost.getNumber(), baoJi, getTongbi);
+			junZhu.tongBi = junZhu.tongBi + getTongbi;
+			log.info("[{}]连续购买铜币，增加铜币{}", junZhu.id, getTongbi);
+			TongbiResp.Builder tbResp=TongbiResp.newBuilder();
+			tbResp.setBaoji(baoJi);
+			tbResp.setCost(p4Cost.getYuanbao());
+			tbResp.setShumu(getTongbi);
+			resp.addTongbi(tbResp.build());
+			shouyi+=getTongbi;
+		}
+		//保存
+		tongBi.setDate(today);
+		tongBi.setNum(tongBi.getNum() + buyCount);
+		HibernateUtil.save(tongBi);
+		HibernateUtil.save(junZhu);
+		//推送
+		resp.setResult(0);
+		session.write(resp.build());
+		sendTongBiData(0, session, null);
+		JunZhuMgr.inst.sendMainInfo(session);
+		log.info("玩家{}连续--{}次购买铜币成功,花费--{}，收益--{}", junZhu.id, buyCount,cost4all,shouyi);
+		// 主线任务：购买1次铜币
+		EventMgr.addEvent(ED.buy_tongbi_1_times, new Object[] { junZhu.id });
+		// 每日任务中记录完成一次购买铜币
+		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
+				junZhuId, DailyTaskConstants.buy_tongbi_id, 1));
+	}
+	
+	
+	/**
+	 * @Description 单次购买铜币
 	 * @param time
 	 * @param session
-	 * @param code
-	 *            1 体力，2铜币
 	 * @param date
 	 * @param junZhu
 	 * @return
 	 */
-	protected boolean consume(int time, IoSession session, int code, Date date,
+	protected boolean consume_Tongb1(int time, IoSession session,  Date date,
 			JunZhu junZhu) {
+		
+		return true;
+	}
+	/**
+	 * @param time
+	 * @param session
+	 * @param date
+	 * @param junZhu
+	 * @return
+	 */
+	protected boolean consume_Tili(int time, IoSession session,  Date date,
+			JunZhu junZhu) {
+		int code=Ti_Li_CODE;
 		time = time + 1;
 		Purchase p = getBuyConf(time, code);
 		if (p == null) {
@@ -256,21 +421,6 @@ public class PurchaseMgr {
 			YuanBaoMgr.inst.diff(junZhu, -p.getYuanbao(), 0,
 					getPriceConf(code), YBType.YB_BUY_WUPIN, "购买体力");
 			break;
-		case Tong_Bi_CODE:
-			// 第N次购买获得的铜币=【君主等级系数】×【购买次数系数】×【暴击倍数】
-			if (!yuanBaoEnough) {
-				sendBuyTiliResp(session, 2, 0);
-				return false;
-			}
-			YuanBaoMgr.inst.diff(junZhu, -p.getYuanbao(), 0,
-					getPriceConf(code), YBType.YB_BUY_WUPIN, "购买铜币");
-			int baoJi = UserEquipAction.getInstance().getAddValue(3, 0);
-			int getTongbi = (p.getNumber() * baoJi);
-			log.info("计算铜币数量 {} x {} = {}", p.getNumber(), baoJi, getTongbi);
-			junZhu.tongBi = junZhu.tongBi + getTongbi;
-			log.info("[{}]增加铜币{}", junZhu.id, getTongbi);
-			sendBuyTiliResp(session, 0, baoJi);
-			break;
 		default:
 			return false;
 		}
@@ -278,16 +428,18 @@ public class PurchaseMgr {
 		return true;
 	}
 
-	protected void sendBuyTiliResp(IoSession session, int result, int baoJi) {
-		BuyTongbiResp.Builder response = BuyTongbiResp.newBuilder();
-		response.setResult(result);
-		response.setBaoji(baoJi);
-		session.write(response.build());
+
+	protected void sendBuyTongbiResp(IoSession session, int result,TongbiResp.Builder tbResp) {
+		LianXuBuyTongbiResp.Builder resp = LianXuBuyTongbiResp.newBuilder();
+		resp.setResult(result);
+		if(tbResp!=null){
+			resp.addTongbi(tbResp.build());
+		}
+		session.write(resp.build());
 	}
 
 	public int calcTongBi(JunZhu junZhu, float xishu) {
-		List<JunzhuShengji> list = TempletService.listAll(JunzhuShengji.class
-				.getSimpleName());
+		List<JunzhuShengji> list = TempletService.listAll(JunzhuShengji.class.getSimpleName());
 		int idx = junZhu.level - 1;// 配置文件从1级开始的
 		JunzhuShengji conf = list.get(idx);
 		if (conf == null) {
@@ -975,5 +1127,75 @@ public class PurchaseMgr {
 		resp.setResult(0);
 		session.write(resp.build());
 		sendInfo(0, session, null);
+	}
+	
+	/**
+	 * @Description 获取铜币购买相关信息
+	 * @param id
+	 * @param session
+	 * @param builder
+	 */
+	public void sendTongBiData(int id, IoSession session, Builder builder) {
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			return;
+		}
+		long junZhuId =jz.id;
+		TongBi tb = HibernateUtil.find(TongBi.class, junZhuId);
+		BuyTongbiDataResp.Builder resp = BuyTongbiDataResp.newBuilder();
+		int maxCount4Tongbi = VipMgr.INSTANCE.getValueByVipLevel(jz.vipLevel,VipData.bugMoneyTime);
+		if(tb!=null&&DateUtils.isTimeToReset(tb.getDate(), CanShu.REFRESHTIME_PURCHASE)){
+			tb.setNum(0);
+		}
+		int nowCount=0;
+		nowCount=tb==null?nowCount:tb.getNum();
+		resp.setNowCount(nowCount);
+		resp.setMaxCount(maxCount4Tongbi);
+		Purchase p4conf = getBuyConf(nowCount + 1,Tong_Bi_CODE);
+		if (p4conf == null) {
+			log.error("Purchase 铜币 ，配置错误");
+			resp.setCost(0);
+			resp.setGetTonbi(0);
+		} else {
+			int baoJi = 1;
+			int xishu = 1;
+			JunzhuShengji conf = JunZhuMgr.inst.getJunzhuShengjiByLevel(jz.level);
+			if(conf != null){
+				xishu = conf.moneyXishu;
+			}
+			int getTongbi = (xishu * p4conf.getNumber() * baoJi)/ 100;
+			resp.setCost(p4conf.getYuanbao());
+			resp.setGetTonbi(getTongbi);
+		}
+		
+		int time=nowCount;
+		Purchase p = null;
+		if(time==0){
+			 p = getBuyConf(1, Tong_Bi_CODE);
+		}else{
+			p = getBuyConf(time, Tong_Bi_CODE);
+		}
+		if (p == null) {
+			log.info("玩家{}连续购买铜币失败，未找到配置", junZhuId);
+			error(session, Tong_Bi_CODE, "购买出现问题");
+			return;
+		}
+		//当前阶段买一次铜币的花费的元宝数目
+		int nowlevelCost=p.getYuanbao();
+		int lianxuCount=0;
+		for (int i = time+1; i <= maxCount4Tongbi; i++) {
+			Purchase p4temp=  getBuyConf(i, Tong_Bi_CODE);
+			if(i == time+1&&p4temp!=null&&p4temp.getYuanbao()!=nowlevelCost){
+				nowlevelCost=p4temp.getYuanbao();
+			}
+			if(p4temp==null||p4temp.getYuanbao()!=nowlevelCost){
+				break;
+			}
+			lianxuCount++;
+		}
+		resp.setLixuCount(lianxuCount);
+		log.info("君主{}返回今日购买铜币次数--{}，最大铜币购买次数--{}，下次购买每次花费--{}，每次获得铜币--{}，可连续购买次数--{}",
+				junZhuId,resp.getNowCount(),resp.getMaxCount(),resp.getCost(),resp.getGetTonbi(),resp.getLixuCount());
+		session.write(resp.build());
 	}
 }

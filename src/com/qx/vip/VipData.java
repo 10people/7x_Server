@@ -26,6 +26,7 @@ public class VipData {
 	static public int youxia_times = 18; //key="18" desc="游侠玩法次数" 
 	static public int clear_lveDuo_CD = 21;
 	static public int can_buy_huagnye_times = 22; //key="22" 购买荒野挑战次数需要的最低vip等级
+	static public int buy_revive_all_life = 23; // 购买满血复活所需VIP等级
 
 	
 	/*
@@ -51,4 +52,6 @@ public class VipData {
 	static public int buyLveDuoTimes = 17;
 	static public int buy_huangye_times = 18;
 	static public int buy_ybmanxue_times = 19;//购买押镖场景满血复活次数
+	static public final int buy_ybblood_times = 20;//购买押镖场景血瓶次数
+	static public final int buy_revive_times = 21;//购买押镖场景满血次数
 }

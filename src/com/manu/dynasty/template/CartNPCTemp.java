@@ -27,8 +27,8 @@ public class CartNPCTemp {
 	public String skill5;
 	public String yuansu;
 	public String name;
-	//TODO 待策划加入 2015年12月10日
-//	public int roleId;
+	//待策划加入 2015年12月10日
+	public int roleId;
 	
 	public JunZhu valueOfJunZhu(long junzhuId) {
 		JunZhu junzhu = new JunZhu();

@@ -9,9 +9,10 @@ public class RenWu {
 	public int funDesc;
 	public int type;
 	public int condition;
-	public String jiangli;
+	public String award;
 	public int LmGongxian;
 	public int icon;
 	public int frontId;
+	public int huoyue;
 }
 

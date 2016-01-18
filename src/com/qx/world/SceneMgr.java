@@ -54,16 +54,17 @@ public class SceneMgr extends EventProc{
 		if(junZhuId == null){
 			return;
 		}
-		Integer lmId = jzId2lmId.get(junZhuId);
-		if(lmId == null){//之前没存过
-			AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, junZhuId);
-			if(ap == null || ap.lianMengId < 0) {	//没有联盟数据
-				lmId = locateFakeLmId(junZhuId);	//分配一个场景
-			}else{
-				lmId = ap.lianMengId;
-			}
-			jzId2lmId.put(junZhuId,lmId);			//加入缓存
-		}
+		Integer lmId = locateFakeLmId(junZhuId);
+//		Integer lmId = jzId2lmId.get(junZhuId);
+//		if(lmId == null){//之前没存过
+//			AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, junZhuId);
+//			if(ap == null || ap.lianMengId < 0) {	//没有联盟数据
+//				lmId = locateFakeLmId(junZhuId);	//分配一个场景
+//			}else{
+//				lmId = ap.lianMengId;
+//			}
+//			jzId2lmId.put(junZhuId,lmId);			//加入缓存
+//		}
 		
 		switch(code) {
 			case PD.Enter_Scene:
@@ -291,20 +292,20 @@ public class SceneMgr extends EventProc{
 	public void proc(Event param) {
 		switch(param.id){
 			case ED.Join_LM:{
-				Object[] oa = (Object[]) param.param;
-				Long jzId = (Long) oa[0];
-				Integer lmId = (Integer) oa[1];
-				Integer pre = jzId2lmId.put(jzId, lmId);
-				removeFromPreSc(jzId, pre);
+//				Object[] oa = (Object[]) param.param;
+//				Long jzId = (Long) oa[0];
+//				Integer lmId = (Integer) oa[1];
+//				Integer pre = jzId2lmId.put(jzId, lmId);
+//				removeFromPreSc(jzId, pre);
 			}
 			break;
 			case ED.Leave_LM:{
-				Object[] oa = (Object[]) param.param;
-				Long jzId = (Long) oa[0];
-				Integer preLmId  = (Integer) oa[1];
-				Integer	nowSceneId = locateFakeLmId(jzId);
-				jzId2lmId.put(jzId, nowSceneId);
-				removeFromPreSc(jzId, preLmId);
+//				Object[] oa = (Object[]) param.param;
+//				Long jzId = (Long) oa[0];
+//				Integer preLmId  = (Integer) oa[1];
+//				Integer	nowSceneId = locateFakeLmId(jzId);
+//				jzId2lmId.put(jzId, nowSceneId);
+//				removeFromPreSc(jzId, preLmId);
 			}
 			break;
 		}

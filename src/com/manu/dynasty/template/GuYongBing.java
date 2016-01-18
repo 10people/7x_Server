@@ -17,7 +17,7 @@ import com.qx.world.GameObject;
  *          jnJM="0" jnBJ="0" jnRX="0" skill1="0" skill2="0"
  *           skill3="0" skill4="0" skill5="0" power="342" /> 
  */
-public class GuYongBing implements GameObject{
+public class GuYongBing extends GameObject{
 	public int id;
 	public int icon;
 	public int zhiye;
@@ -50,6 +50,8 @@ public class GuYongBing implements GameObject{
 	public int type;
 	public int profession;
 	public int zhanweiLve ;
+	public int lifebarNum = 1;
+	public int modelApID;
 	@Override
 	public String getName() {
 		return name;
