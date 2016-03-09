@@ -10,7 +10,7 @@ public class Action {
 	public float Param5;
 	public int TSR;
 	public int TTR;
-	public int CeOnHit;
+	public String CeOnHit;
 	public int Prob;
 
 }

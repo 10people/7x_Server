@@ -189,7 +189,7 @@ do{
 		 	JunZhuMgr.inst.sendMainInfo(u.session);
 		 }
 	 }
-	 JunZhuMgr.inst.calcAtt(junzhu);
+	 JunZhuMgr.inst.calcJunZhuTotalAtt(junzhu);
 	 AlliancePlayer alncPlayer = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
 	 String guojiaName = HeroService.getNameById(junzhu.guoJiaId+"");
 	 out.println("&nbsp;君主id："+junzhu.id+" &nbsp; 名字:"+junzhu.name+"&nbsp; 国家:" + guojiaName);
@@ -203,19 +203,19 @@ do{
 	 String country = HeroService.getNameById(junzhu.guoJiaId+"");
 	 tableStart();
 	 trS();td("玩法类型");td("今日可玩次数");td("");td("玩法开放星期数");td("修改，必须按同样格式");td("上次挑战时间");td("改变时间：可以为负数(单位:秒)");trE();
-	 trS();td("金币关");td(yxBeanMap.get(1).times);td("<input type='text' id='addJinbi' value='"+input+"'/><input type='button' value='增加' onclick='go(\"addJinbi\")'/><br/>");
+	 trS();td("洗劫权贵");td(yxBeanMap.get(1).times);td("<input type='text' id='addJinbi' value='"+input+"'/><input type='button' value='增加' onclick='go(\"addJinbi\")'/><br/>");
 	 	td(YouXiaMgr.inst.youxiaOpenTimeMap.get(1).OpenDay);td("<input type='text' id='updateJinbi' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateJinbi\")'/><br/>");
 	 	td(yxBeanMap.get(1).lastBattleTime == null ? "从未挑战过" : simpleDateFormat.format(yxBeanMap.get(1).lastBattleTime));
 	 	td("<input type='text' id='updateJinbiTime' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateJinbiTime\")'/><br/>");
 	 trE();
 	 
-	 trS();td("材料关");td(yxBeanMap.get(2).times);td("<input type='text' id='addCailiao' value='"+input+"'/><input type='button' value='增加' onclick='go(\"addCailiao\")'/><br/>");
+	 trS();td("完璧归赵");td(yxBeanMap.get(2).times);td("<input type='text' id='addCailiao' value='"+input+"'/><input type='button' value='增加' onclick='go(\"addCailiao\")'/><br/>");
 	 	td(YouXiaMgr.inst.youxiaOpenTimeMap.get(2).OpenDay);td("<input type='text' id='updateCailiao' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateCailiao\")'/><br/>");
 	 	td(yxBeanMap.get(2).lastBattleTime == null ? "从未挑战过" : simpleDateFormat.format(yxBeanMap.get(2).lastBattleTime));
 	 	td("<input type='text' id='updateCailiaoTime' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateCailiaoTime\")'/><br/>");
 	 trE();
 	 
-	 trS();td("精气关");td(yxBeanMap.get(3).times);td("<input type='text' id='addJingqi' value='"+input+"'/><input type='button' value='增加' onclick='go(\"addJingqi\")'/><br/>");
+	 trS();td("剿灭叛军");td(yxBeanMap.get(3).times);td("<input type='text' id='addJingqi' value='"+input+"'/><input type='button' value='增加' onclick='go(\"addJingqi\")'/><br/>");
 	 	td(YouXiaMgr.inst.youxiaOpenTimeMap.get(3).OpenDay);td("<input type='text' id='updateJingqi' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateJingqi\")'/><br/>");//out.println("<a href='?action=addYuanBao'>+100</a><br/>");
 	 	td(yxBeanMap.get(3).lastBattleTime == null ? "从未挑战过" : simpleDateFormat.format(yxBeanMap.get(3).lastBattleTime));
 	 	td("<input type='text' id='updateJingqiTime' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateJingqiTime\")'/><br/>");

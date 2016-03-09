@@ -8,6 +8,8 @@ import org.apache.mina.core.session.IoSession;
 import pct.TestBase;
 import pct.TestJiNengPeiYang;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import qxmobile.protobuf.JunZhuProto.JunZhuInfoRet;
+import qxmobile.protobuf.Scene.EnterScene;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.util.BaseException;
@@ -54,7 +56,11 @@ public class MessageDispatcher {
 				client.enterSceneRet(builder);
 				break;
 			case PD.Spirite_Move:
-			case PD.Enter_Scene:
+				break;
+			case PD.Enter_Scene:{
+				EnterScene.Builder enterSc = (EnterScene.Builder )builder;
+				System.out.println("A收到进入场景通知 - "+enterSc.getSenderName());
+			}
 				break;
 			case PD.HERO_INFO:
 				WuJiangTest.readList(session,builder);
@@ -66,11 +72,20 @@ public class MessageDispatcher {
 				WuJiangTest.readGuanQiaInfo(session, builder);
 				break;
 			case PD.JunZhuInfoRet:
-				WuJiangTest.readJunZhuInfo(session, builder);
+				JunZhuInfoRet.Builder jzInfo = WuJiangTest.readJunZhuInfo(session, builder);
+				client.jzId = jzInfo.getId();
 				break;
 			case PD.S_GET_JINENG_PEIYANG_QUALITY_RESP:
 				TestJiNengPeiYang.readList(session,builder);
 				break;
+			case PD.S_BIAOCHE_STATE:
+				//TODO
+				break;
+			case PD.Enter_YBScene:{
+				EnterScene.Builder enterSc = (EnterScene.Builder )builder;
+				System.out.println("B收到进入场景通知 - "+enterSc.getSenderName());
+				break;
+			}
 			default:
 				TestBase tb = handlerMap.get(id);
 				if(tb != null){

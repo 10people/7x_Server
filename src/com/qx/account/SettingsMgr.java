@@ -32,6 +32,7 @@ import com.qx.guojia.GuoJiaMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.vip.VipData;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
 
@@ -92,7 +93,7 @@ public class SettingsMgr {
 		ChangeName.Builder req = (qxmobile.protobuf.Settings.ChangeName.Builder) builder;
 		ChangeNameBack.Builder ret = ChangeNameBack.newBuilder();
 		ret.setName(req.getName());
-		boolean open = BigSwitch.inst.vipMgr.isVipPermit(4, jz.vipLevel);
+		boolean open = BigSwitch.inst.vipMgr.isVipPermit(VipData.change_name, jz.vipLevel);
 		if (!open) {
 			ret.setCode(-400);
 			ret.setMsg("VIP等级不足");

@@ -19458,7 +19458,7 @@ public final class Yabiao {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *10：押镖次数 
+     *10：押镖次数 30领取押镖福利次数
      * </pre>
      */
     boolean hasType();
@@ -19466,7 +19466,7 @@ public final class Yabiao {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *10：押镖次数 
+     *10：押镖次数 30领取押镖福利次数
      * </pre>
      */
     int getType();
@@ -19579,7 +19579,7 @@ public final class Yabiao {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *10：押镖次数 
+     *10：押镖次数 30领取押镖福利次数
      * </pre>
      */
     public boolean hasType() {
@@ -19589,7 +19589,7 @@ public final class Yabiao {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *10：押镖次数 
+     *10：押镖次数 30领取押镖福利次数
      * </pre>
      */
     public int getType() {
@@ -19842,7 +19842,7 @@ public final class Yabiao {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *10：押镖次数 
+       *10：押镖次数 30领取押镖福利次数
        * </pre>
        */
       public boolean hasType() {
@@ -19852,7 +19852,7 @@ public final class Yabiao {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *10：押镖次数 
+       *10：押镖次数 30领取押镖福利次数
        * </pre>
        */
       public int getType() {
@@ -19862,7 +19862,7 @@ public final class Yabiao {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *10：押镖次数 
+       *10：押镖次数 30领取押镖福利次数
        * </pre>
        */
       public Builder setType(int value) {
@@ -19875,7 +19875,7 @@ public final class Yabiao {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *10：押镖次数 
+       *10：押镖次数 30领取押镖福利次数
        * </pre>
        */
       public Builder clearType() {
@@ -26255,7 +26255,7 @@ public final class Yabiao {
    * Protobuf type {@code qxmobile.protobuf.Move2BiaoCheReq}
    *
    * <pre>
-   *public static final short C_MOVE2BIAOCHE_REQ = 3442;//请求镖车坐标 
+   *public static final short C_MOVE2BIAOCHE_REQ = 3452;//请求镖车坐标 
    * </pre>
    */
   public static final class Move2BiaoCheReq extends
@@ -26492,7 +26492,7 @@ public final class Yabiao {
      * Protobuf type {@code qxmobile.protobuf.Move2BiaoCheReq}
      *
      * <pre>
-     *public static final short C_MOVE2BIAOCHE_REQ = 3442;//请求镖车坐标 
+     *public static final short C_MOVE2BIAOCHE_REQ = 3452;//请求镖车坐标 
      * </pre>
      */
     public static final class Builder extends
@@ -26735,10 +26735,6 @@ public final class Yabiao {
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.Move2BiaoCheResp}
-   *
-   * <pre>
-   *public static final short S_MOVE2BIAOCHE_RESP = 3443;//请求镖车坐标返回 
-   * </pre>
    */
   public static final class Move2BiaoCheResp extends
       com.google.protobuf.GeneratedMessage
@@ -27071,10 +27067,6 @@ public final class Yabiao {
     }
     /**
      * Protobuf type {@code qxmobile.protobuf.Move2BiaoCheResp}
-     *
-     * <pre>
-     *public static final short S_MOVE2BIAOCHE_RESP = 3443;//请求镖车坐标返回 
-     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -30113,7 +30105,7 @@ public final class Yabiao {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 0-请求购买信息成功,1-请求类型错误,2-元宝不足，3-vip等级不足，100-购买成功
+     * 0-请求购买信息成功,1-请求类型错误,2-元宝不足，3-vip等级不足，4-今日购买次数用完。100-购买成功
      * </pre>
      */
     boolean hasResult();
@@ -30121,7 +30113,7 @@ public final class Yabiao {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 0-请求购买信息成功,1-请求类型错误,2-元宝不足，3-vip等级不足，100-购买成功
+     * 0-请求购买信息成功,1-请求类型错误,2-元宝不足，3-vip等级不足，4-今日购买次数用完。100-购买成功
      * </pre>
      */
     int getResult();
@@ -30325,7 +30317,7 @@ public final class Yabiao {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 0-请求购买信息成功,1-请求类型错误,2-元宝不足，3-vip等级不足，100-购买成功
+     * 0-请求购买信息成功,1-请求类型错误,2-元宝不足，3-vip等级不足，4-今日购买次数用完。100-购买成功
      * </pre>
      */
     public boolean hasResult() {
@@ -30335,7 +30327,7 @@ public final class Yabiao {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 0-请求购买信息成功,1-请求类型错误,2-元宝不足，3-vip等级不足，100-购买成功
+     * 0-请求购买信息成功,1-请求类型错误,2-元宝不足，3-vip等级不足，4-今日购买次数用完。100-购买成功
      * </pre>
      */
     public int getResult() {
@@ -30775,7 +30767,7 @@ public final class Yabiao {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 0-请求购买信息成功,1-请求类型错误,2-元宝不足，3-vip等级不足，100-购买成功
+       * 0-请求购买信息成功,1-请求类型错误,2-元宝不足，3-vip等级不足，4-今日购买次数用完。100-购买成功
        * </pre>
        */
       public boolean hasResult() {
@@ -30785,7 +30777,7 @@ public final class Yabiao {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 0-请求购买信息成功,1-请求类型错误,2-元宝不足，3-vip等级不足，100-购买成功
+       * 0-请求购买信息成功,1-请求类型错误,2-元宝不足，3-vip等级不足，4-今日购买次数用完。100-购买成功
        * </pre>
        */
       public int getResult() {
@@ -30795,7 +30787,7 @@ public final class Yabiao {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 0-请求购买信息成功,1-请求类型错误,2-元宝不足，3-vip等级不足，100-购买成功
+       * 0-请求购买信息成功,1-请求类型错误,2-元宝不足，3-vip等级不足，4-今日购买次数用完。100-购买成功
        * </pre>
        */
       public Builder setResult(int value) {
@@ -30808,7 +30800,7 @@ public final class Yabiao {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 0-请求购买信息成功,1-请求类型错误,2-元宝不足，3-vip等级不足，100-购买成功
+       * 0-请求购买信息成功,1-请求类型错误,2-元宝不足，3-vip等级不足，4-今日购买次数用完。100-购买成功
        * </pre>
        */
       public Builder clearResult() {
@@ -31479,7 +31471,7 @@ public final class Yabiao {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1表示押镖
+     *1表示押镖 
      * </pre>
      */
     boolean hasType();
@@ -31487,7 +31479,7 @@ public final class Yabiao {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1表示押镖
+     *1表示押镖 
      * </pre>
      */
     int getType();
@@ -31599,7 +31591,7 @@ public final class Yabiao {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1表示押镖
+     *1表示押镖 
      * </pre>
      */
     public boolean hasType() {
@@ -31609,7 +31601,7 @@ public final class Yabiao {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1表示押镖
+     *1表示押镖 
      * </pre>
      */
     public int getType() {
@@ -31861,7 +31853,7 @@ public final class Yabiao {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1表示押镖
+       *1表示押镖 
        * </pre>
        */
       public boolean hasType() {
@@ -31871,7 +31863,7 @@ public final class Yabiao {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1表示押镖
+       *1表示押镖 
        * </pre>
        */
       public int getType() {
@@ -31881,7 +31873,7 @@ public final class Yabiao {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1表示押镖
+       *1表示押镖 
        * </pre>
        */
       public Builder setType(int value) {
@@ -31894,7 +31886,7 @@ public final class Yabiao {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1表示押镖
+       *1表示押镖 
        * </pre>
        */
       public Builder clearType() {
@@ -31923,7 +31915,7 @@ public final class Yabiao {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1表示押镖
+     *1表示押镖 2劫镖次数 3表示福利次数
      * </pre>
      */
     boolean hasType();
@@ -31931,7 +31923,7 @@ public final class Yabiao {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1表示押镖
+     *1表示押镖 2劫镖次数 3表示福利次数
      * </pre>
      */
     int getType();
@@ -32066,7 +32058,7 @@ public final class Yabiao {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1表示押镖
+     *1表示押镖 2劫镖次数 3表示福利次数
      * </pre>
      */
     public boolean hasType() {
@@ -32076,7 +32068,7 @@ public final class Yabiao {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1表示押镖
+     *1表示押镖 2劫镖次数 3表示福利次数
      * </pre>
      */
     public int getType() {
@@ -32377,7 +32369,7 @@ public final class Yabiao {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1表示押镖
+       *1表示押镖 2劫镖次数 3表示福利次数
        * </pre>
        */
       public boolean hasType() {
@@ -32387,7 +32379,7 @@ public final class Yabiao {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1表示押镖
+       *1表示押镖 2劫镖次数 3表示福利次数
        * </pre>
        */
       public int getType() {
@@ -32397,7 +32389,7 @@ public final class Yabiao {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1表示押镖
+       *1表示押镖 2劫镖次数 3表示福利次数
        * </pre>
        */
       public Builder setType(int value) {
@@ -32410,7 +32402,7 @@ public final class Yabiao {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1表示押镖
+       *1表示押镖 2劫镖次数 3表示福利次数
        * </pre>
        */
       public Builder clearType() {
@@ -33011,6 +33003,692 @@ public final class Yabiao {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.CheckYabiaoHelpResp)
   }
 
+  public interface GainFuLiRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *10:成功 20:已领取 30不是福利领取时间
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *10:成功 20:已领取 30不是福利领取时间
+     * </pre>
+     */
+    int getResult();
+
+    // required int32 leftYBTimes = 2;
+    /**
+     * <code>required int32 leftYBTimes = 2;</code>
+     *
+     * <pre>
+     *剩余押镖次数
+     * </pre>
+     */
+    boolean hasLeftYBTimes();
+    /**
+     * <code>required int32 leftYBTimes = 2;</code>
+     *
+     * <pre>
+     *剩余押镖次数
+     * </pre>
+     */
+    int getLeftYBTimes();
+
+    // required int32 fuliTimes = 3;
+    /**
+     * <code>required int32 fuliTimes = 3;</code>
+     *
+     * <pre>
+     *已领取福利次数
+     * </pre>
+     */
+    boolean hasFuliTimes();
+    /**
+     * <code>required int32 fuliTimes = 3;</code>
+     *
+     * <pre>
+     *已领取福利次数
+     * </pre>
+     */
+    int getFuliTimes();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.GainFuLiResp}
+   *
+   * <pre>
+   *public static final short S_GAIN_YABIAO_FULI_RESP = 3451;//请求领取押镖 福利次数返回
+   * </pre>
+   */
+  public static final class GainFuLiResp extends
+      com.google.protobuf.GeneratedMessage
+      implements GainFuLiRespOrBuilder {
+    // Use GainFuLiResp.newBuilder() to construct.
+    private GainFuLiResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GainFuLiResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GainFuLiResp defaultInstance;
+    public static GainFuLiResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GainFuLiResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GainFuLiResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              leftYBTimes_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              fuliTimes_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_GainFuLiResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_GainFuLiResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Yabiao.GainFuLiResp.class, qxmobile.protobuf.Yabiao.GainFuLiResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GainFuLiResp> PARSER =
+        new com.google.protobuf.AbstractParser<GainFuLiResp>() {
+      public GainFuLiResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GainFuLiResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GainFuLiResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *10:成功 20:已领取 30不是福利领取时间
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *10:成功 20:已领取 30不是福利领取时间
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    // required int32 leftYBTimes = 2;
+    public static final int LEFTYBTIMES_FIELD_NUMBER = 2;
+    private int leftYBTimes_;
+    /**
+     * <code>required int32 leftYBTimes = 2;</code>
+     *
+     * <pre>
+     *剩余押镖次数
+     * </pre>
+     */
+    public boolean hasLeftYBTimes() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 leftYBTimes = 2;</code>
+     *
+     * <pre>
+     *剩余押镖次数
+     * </pre>
+     */
+    public int getLeftYBTimes() {
+      return leftYBTimes_;
+    }
+
+    // required int32 fuliTimes = 3;
+    public static final int FULITIMES_FIELD_NUMBER = 3;
+    private int fuliTimes_;
+    /**
+     * <code>required int32 fuliTimes = 3;</code>
+     *
+     * <pre>
+     *已领取福利次数
+     * </pre>
+     */
+    public boolean hasFuliTimes() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 fuliTimes = 3;</code>
+     *
+     * <pre>
+     *已领取福利次数
+     * </pre>
+     */
+    public int getFuliTimes() {
+      return fuliTimes_;
+    }
+
+    private void initFields() {
+      result_ = 0;
+      leftYBTimes_ = 0;
+      fuliTimes_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLeftYBTimes()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasFuliTimes()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, leftYBTimes_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, fuliTimes_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, leftYBTimes_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, fuliTimes_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Yabiao.GainFuLiResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Yabiao.GainFuLiResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.GainFuLiResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Yabiao.GainFuLiResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.GainFuLiResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.GainFuLiResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.GainFuLiResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.GainFuLiResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.GainFuLiResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.GainFuLiResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Yabiao.GainFuLiResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.GainFuLiResp}
+     *
+     * <pre>
+     *public static final short S_GAIN_YABIAO_FULI_RESP = 3451;//请求领取押镖 福利次数返回
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Yabiao.GainFuLiRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_GainFuLiResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_GainFuLiResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Yabiao.GainFuLiResp.class, qxmobile.protobuf.Yabiao.GainFuLiResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Yabiao.GainFuLiResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        leftYBTimes_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        fuliTimes_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_GainFuLiResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Yabiao.GainFuLiResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Yabiao.GainFuLiResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Yabiao.GainFuLiResp build() {
+        qxmobile.protobuf.Yabiao.GainFuLiResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Yabiao.GainFuLiResp buildPartial() {
+        qxmobile.protobuf.Yabiao.GainFuLiResp result = new qxmobile.protobuf.Yabiao.GainFuLiResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.leftYBTimes_ = leftYBTimes_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.fuliTimes_ = fuliTimes_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Yabiao.GainFuLiResp) {
+          return mergeFrom((qxmobile.protobuf.Yabiao.GainFuLiResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Yabiao.GainFuLiResp other) {
+        if (other == qxmobile.protobuf.Yabiao.GainFuLiResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        if (other.hasLeftYBTimes()) {
+          setLeftYBTimes(other.getLeftYBTimes());
+        }
+        if (other.hasFuliTimes()) {
+          setFuliTimes(other.getFuliTimes());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        if (!hasLeftYBTimes()) {
+          
+          return false;
+        }
+        if (!hasFuliTimes()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Yabiao.GainFuLiResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Yabiao.GainFuLiResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *10:成功 20:已领取 30不是福利领取时间
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *10:成功 20:已领取 30不是福利领取时间
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *10:成功 20:已领取 30不是福利领取时间
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *10:成功 20:已领取 30不是福利领取时间
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 leftYBTimes = 2;
+      private int leftYBTimes_ ;
+      /**
+       * <code>required int32 leftYBTimes = 2;</code>
+       *
+       * <pre>
+       *剩余押镖次数
+       * </pre>
+       */
+      public boolean hasLeftYBTimes() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 leftYBTimes = 2;</code>
+       *
+       * <pre>
+       *剩余押镖次数
+       * </pre>
+       */
+      public int getLeftYBTimes() {
+        return leftYBTimes_;
+      }
+      /**
+       * <code>required int32 leftYBTimes = 2;</code>
+       *
+       * <pre>
+       *剩余押镖次数
+       * </pre>
+       */
+      public Builder setLeftYBTimes(int value) {
+        bitField0_ |= 0x00000002;
+        leftYBTimes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 leftYBTimes = 2;</code>
+       *
+       * <pre>
+       *剩余押镖次数
+       * </pre>
+       */
+      public Builder clearLeftYBTimes() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        leftYBTimes_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 fuliTimes = 3;
+      private int fuliTimes_ ;
+      /**
+       * <code>required int32 fuliTimes = 3;</code>
+       *
+       * <pre>
+       *已领取福利次数
+       * </pre>
+       */
+      public boolean hasFuliTimes() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 fuliTimes = 3;</code>
+       *
+       * <pre>
+       *已领取福利次数
+       * </pre>
+       */
+      public int getFuliTimes() {
+        return fuliTimes_;
+      }
+      /**
+       * <code>required int32 fuliTimes = 3;</code>
+       *
+       * <pre>
+       *已领取福利次数
+       * </pre>
+       */
+      public Builder setFuliTimes(int value) {
+        bitField0_ |= 0x00000004;
+        fuliTimes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 fuliTimes = 3;</code>
+       *
+       * <pre>
+       *已领取福利次数
+       * </pre>
+       */
+      public Builder clearFuliTimes() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        fuliTimes_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.GainFuLiResp)
+    }
+
+    static {
+      defaultInstance = new GainFuLiResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.GainFuLiResp)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_YabiaoMainInfoResp_descriptor;
   private static
@@ -33236,6 +33914,11 @@ public final class Yabiao {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_CheckYabiaoHelpResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_GainFuLiResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_GainFuLiResp_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -33332,7 +34015,9 @@ public final class Yabiao {
       "\030\001 \002(\005\"!\n\021YaBiaoMoreInfoReq\022\014\n\004type\030\001 \002(" +
       "\005\"1\n\022YaBiaoMoreInfoResp\022\014\n\004type\030\001 \002(\005\022\r\n" +
       "\005count\030\002 \002(\005\"%\n\023CheckYabiaoHelpResp\022\016\n\006y" +
-      "bjzId\030\001 \003(\003B\010B\006Yabiao"
+      "bjzId\030\001 \003(\003\"F\n\014GainFuLiResp\022\016\n\006result\030\001 " +
+      "\002(\005\022\023\n\013leftYBTimes\030\002 \002(\005\022\021\n\tfuliTimes\030\003 " +
+      "\002(\005B\010B\006Yabiao"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -33609,6 +34294,12 @@ public final class Yabiao {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_CheckYabiaoHelpResp_descriptor,
               new java.lang.String[] { "YbjzId", });
+          internal_static_qxmobile_protobuf_GainFuLiResp_descriptor =
+            getDescriptor().getMessageTypes().get(45);
+          internal_static_qxmobile_protobuf_GainFuLiResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_GainFuLiResp_descriptor,
+              new java.lang.String[] { "Result", "LeftYBTimes", "FuliTimes", });
           return null;
         }
       };

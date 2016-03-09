@@ -272,7 +272,7 @@ public class HeroMgr implements Runnable{
 			initLord(session, hero);
 		}
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
-		JunZhuMgr.inst.calcAtt(junZhu);//FIXME 后期要避免重复计算。
+		JunZhuMgr.inst.calcJunZhuTotalAtt(junZhu);//FIXME 后期要避免重复计算。
 		hero.setHeroName(junZhu.name);
 		
 		int attack = junZhu.gongJi;

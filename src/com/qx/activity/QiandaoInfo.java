@@ -20,6 +20,8 @@ public class QiandaoInfo implements MCSupport {
 	public Date preQiandao;// 上次签到时间
 	public String qiandaoDate;// 签到日期 :分割月日，#分割两个日期
 	public String getDoubleDate;// 领取双倍奖励的日期,分割同上
+	
+	public int historyQianDao;
 
 	public String getGetDoubleDate() {
 		return getDoubleDate;

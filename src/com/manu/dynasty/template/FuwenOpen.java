@@ -5,7 +5,7 @@ public class FuwenOpen {
 	private int level;
 	private int lanweiID;
 	private int lanweiType;
-
+	public int inlayColor;
 	public int getId() {
 		return id;
 	}

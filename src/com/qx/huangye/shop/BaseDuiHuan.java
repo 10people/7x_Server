@@ -16,4 +16,7 @@ public class BaseDuiHuan {
 	public int getMax(){
 		return 0;
 	}
+	public int getVIP(){
+		return -1;
+	}
 }

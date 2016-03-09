@@ -62,8 +62,10 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 					<!-- 添加碎片数量<input type="text" name="num" ><br/> -->
 					<input type='hidden' name='action' value="add"/>
 					<button type="submit">添加一个完整秘宝</button>
+					</form>
 					<br/>
 					<br/>
+					<form action="">
 					秘宝碎片id（MibaoSuiPian.xml的id ）<input type="text" name="mibaoSuiPianId" ><br/>
 					添加碎片数量<input type="text" name="num" ><br/>
                     <input type='hidden' name='action' value="addSuipian"/>
@@ -79,7 +81,7 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		if(jz != null){
 			String action = request.getParameter("action");
 			if("add".equals(action)){
-				int mibaoId = Integer.parseInt(request.getParameter("mibaoId"));
+				int mibaoId = Integer.parseInt(request.getParameter("mibaoId").trim());
 				//int num = Integer.parseInt(request.getParameter("num"));
 				AwardTemp a = new AwardTemp();
 				a.setAwardId(0);
@@ -152,7 +154,7 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		out.println("当前秘宝(包括不完整秘宝)个数:"+miBaoDBList.size());
 		%>
 		<table border='1'>
-		<tr><th>数据库id</th><th>秘宝ID</th><th>模板id</th>
+		<tr><th>数据库id</th><th>秘宝ID</th><th>模板id</th><th>碎片id</th>
 		<th>秘宝名称</th><th>数量</th><th>合成需要数量</th><th>升星需要数量</th>
 		<th>等级</th><th>星星</th><th>操作</th></tr>
 		<% 
@@ -161,16 +163,26 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 			if(bean.getMiBaoId()  > 0) {
 				MiBao mibao = MibaoMgr.inst.mibaoMap.get(bean.getMiBaoId());
 				mibaoName = HeroService.getNameById(mibao.nameId+"");
+			}else{
+				for(Map.Entry<Integer, MiBao> entry : MibaoMgr.inst.mibaoMap.entrySet()) {
+					if(entry.getValue().tempId == bean.getTempId()) {
+						MiBao mibao = entry.getValue();
+						mibaoName = HeroService.getNameById(mibao.nameId+"");
+						break;
+					}
+				}
 			}
+
+			MibaoSuiPian spConf = MibaoMgr.inst.mibaoSuipianMap.get(bean.getTempId());
 			%>
 			<tr>
 			<td><%=bean.getDbId() %></td>
 			<td><%=bean.getMiBaoId() %></td>
 			<td><%=bean.getTempId() %></td>
+			<td><%=spConf.getId() %></td>
 			<td><%=mibaoName %></td>
 			<td><%=bean.getSuiPianNum() %></td>
 			<td><%
-			MibaoSuiPian spConf = MibaoMgr.inst.mibaoSuipianMap.get(bean.getTempId());
 			out.append(""+(spConf == null ? 0 : spConf.getHechengNum()));
 			%></td>
 			<td><%

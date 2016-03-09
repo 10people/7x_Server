@@ -10,7 +10,6 @@ public class EnemyTemp extends GameObject{
 	private String description;
 	private int quality;
 	private int level;
-	private int gongjiType;
 	private int gongji;
 	private int fangyu;
 	private int shengming;
@@ -147,12 +146,6 @@ public class EnemyTemp extends GameObject{
 	}
 	public void setPower(int power) {
 		this.power = power;
-	}
-	public int getGongjiType() {
-		return gongjiType;
-	}
-	public void setGongjiType(int gongjiType) {
-		this.gongjiType = gongjiType;
 	}
 	public String getYuansu() {
 		return yuansu;

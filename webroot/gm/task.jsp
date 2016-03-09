@@ -1,3 +1,4 @@
+<%@page import="com.qx.account.AccountManager"%>
 <%@page import="com.qx.account.FunctionOpenMgr"%>
 <%@page import="com.qx.award.AwardMgr"%>
 <%@page import="com.manu.dynasty.template.AwardTemp"%>
@@ -97,16 +98,21 @@ function go(act, id, type){
 						b.tid = Integer.valueOf(v);
 						b.progress = 0;
 						HibernateUtil.save(b);
+						IoSession ss = AccountManager.getIoSession(junzhu.id);
+						if(ss != null)GameTaskMgr.inst.sendTaskList(0, ss, null);
 					}
 				} else if("delete".equals(action)) {
 					WorkTaskBean o = HibernateUtil.find(WorkTaskBean.class, " where dbId="+request.getParameter("dbId"));
+					out("啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊竟然删除了！！！！");out(o.tid);
 					HibernateUtil.delete(o);
 				} else if("addProg".equals(action)) {
+					//领奖
 			        WorkTaskBean taskBean = HibernateUtil.find(WorkTaskBean.class, " where dbId="+request.getParameter("dbId"));
 			        if(taskBean != null){
 				        int taskId = taskBean.tid;
 				        if(taskBean != null && taskBean.progress == -1){
 					        ZhuXian zhuXian = GameTaskMgr.inst.zhuxianTaskMap.get(taskId);
+					        out("啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊竟然删除了222222222！！！！");out(taskId);
 					        HibernateUtil.delete(taskBean);
 					        String awardStr = zhuXian.getAward();
 					        StringBuffer mess = new StringBuffer();
@@ -132,6 +138,8 @@ function go(act, id, type){
 					        }
 				        }
 			        }
+			        IoSession ss = AccountManager.getIoSession(junzhu.id);
+					if(ss != null)GameTaskMgr.inst.sendTaskList(0, ss, null);
 				} else if("subProg".equals(action)) {
 					WorkTaskBean o = HibernateUtil.find(WorkTaskBean.class, " where dbId="+request.getParameter("dbId"));
 					o.progress = -1;
@@ -139,8 +147,10 @@ function go(act, id, type){
 					{
 	                    MemcachedCRUD.getMemCachedClient().set("RenWuOverId#"+junzhu.id, o.tid);
 					}
+					IoSession ss = AccountManager.getIoSession(junzhu.id);
+					if(ss != null)GameTaskMgr.inst.sendTaskList(0, ss, null);
 				}
-				JunZhuMgr.inst.calcAtt(junzhu);
+				JunZhuMgr.inst.calcJunZhuTotalAtt(junzhu);
 				out.println("&nbsp;君主id：" + junzhu.id);
 				ExpTemp expTemp = TempletService.getInstance().getExpTemp(1, junzhu.level);
 				out.println("等级：" + junzhu.level + "");

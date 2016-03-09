@@ -79,7 +79,7 @@ public class DataLoader {
 	private List<?> loadFile(String file, boolean exitWhenFail) {
 		try {
 			file = GameServer.confFileBasePath + file;
-			logger.info("load file: {}", file);
+//			logger.info("load file: {}", file);
 			InputStream resourceAsStream = this.getClass().getResourceAsStream(file);
 			if(resourceAsStream == null){
 				logger.error("文件不存在:"+file);
@@ -88,7 +88,9 @@ public class DataLoader {
 				}
 				return null;
 			}
-			return loadFromStream(resourceAsStream);
+			List<?> ret = loadFromStream(resourceAsStream);
+			resourceAsStream.close();
+			return ret;
 		} catch (Exception e) {
 			logger.error("载入文件出错："+file);
 			e.printStackTrace();

@@ -57,7 +57,7 @@
 </head>
 <body>
 <form action="">
-	账号：<input type="text" name="actName"/>
+	账号：<input type="text" name="actName" value="${session.name }"/>
 	<button type="submit">查询</button>
 </form>
 <p>
@@ -84,9 +84,11 @@
 		if(account!=null){
 			session.setAttribute("name",actName);
 			long junzhuId = account.getAccountId()* 1000 + GameServer.serverId;
+			int state = com.qx.fuwen.FuwenMgr.inst.getTuisongState(junzhuId);
 			List<com.manu.dynasty.template.Fuwen> fuwenTj = FuwenMgr.inst.getFuShiTuijian(junzhuId, 1);
 			List<com.manu.dynasty.template.Fuwen> baoshiTj = FuwenMgr.inst.getFuShiTuijian(junzhuId, 2);
 			%>
+			<p>红点状态值：<%=state %></p>
 			<p>符文进度:<%=FuwenMgr.inst.getFuShiProgress(junzhuId, 1) %></p>
 			<p>宝石进度:<%=FuwenMgr.inst.getFuShiProgress(junzhuId, 2) %></p>
 			<p>符文推荐:

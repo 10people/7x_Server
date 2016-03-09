@@ -101,6 +101,14 @@ public final class AllianceFightProtos {
      * </pre>
      */
     CART_IN_PROTECT_TIME(10, 10),
+    /**
+     * <code>DAY_NOT_GET_AWARD_TIMES = 11;</code>
+     *
+     * <pre>
+     * 今日有奖劫镖次数已经用完 
+     * </pre>
+     */
+    DAY_NOT_GET_AWARD_TIMES(11, 11),
     ;
 
     /**
@@ -191,6 +199,14 @@ public final class AllianceFightProtos {
      * </pre>
      */
     public static final int CART_IN_PROTECT_TIME_VALUE = 10;
+    /**
+     * <code>DAY_NOT_GET_AWARD_TIMES = 11;</code>
+     *
+     * <pre>
+     * 今日有奖劫镖次数已经用完 
+     * </pre>
+     */
+    public static final int DAY_NOT_GET_AWARD_TIMES_VALUE = 11;
 
 
     public final int getNumber() { return value; }
@@ -208,6 +224,7 @@ public final class AllianceFightProtos {
         case 8: return SKILL_TARGET_NOT_TEAMMATE;
         case 9: return SKILL_TARGET_NOT_ENEMY;
         case 10: return CART_IN_PROTECT_TIME;
+        case 11: return DAY_NOT_GET_AWARD_TIMES;
         default: return null;
       }
     }
@@ -18133,14 +18150,15 @@ public final class AllianceFightProtos {
       "etId\030\002 \002(\005\022\r\n\005value\030\003 \002(\005\022\022\n\nremainLife\030" +
       "\004 \002(\005\"K\n\023SafeAreaBloodReturn\022\013\n\003uid\030\001 \002(",
       "\005\022\023\n\013returnValue\030\002 \002(\005\022\022\n\nremainLife\030\003 \002" +
-      "(\005*\224\002\n\006Result\022\013\n\007SUCCESS\020\000\022\030\n\024SKILL_DIST" +
+      "(\005*\261\002\n\006Result\022\013\n\007SUCCESS\020\000\022\030\n\024SKILL_DIST" +
       "ANCE_ERROR\020\001\022\023\n\017SKILL_COOL_TIME\020\002\022\023\n\017SKI" +
       "LL_NOT_EXIST\020\003\022\024\n\020TARGET_NOT_EXIST\020\004\022\027\n\023" +
       "TARGET_IN_SAFE_AREA\020\005\022\031\n\025SKILL_TARGET_NO" +
       "T_SELF\020\006\022\032\n\026SKILL_TARGET_NOT_OTHER\020\007\022\035\n\031" +
       "SKILL_TARGET_NOT_TEAMMATE\020\010\022\032\n\026SKILL_TAR" +
       "GET_NOT_ENEMY\020\t\022\030\n\024CART_IN_PROTECT_TIME\020" +
-      "\nB\025B\023AllianceFightProtos"
+      "\n\022\033\n\027DAY_NOT_GET_AWARD_TIMES\020\013B\025B\023Allian" +
+      "ceFightProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

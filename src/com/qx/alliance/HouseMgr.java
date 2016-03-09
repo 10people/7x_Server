@@ -2,6 +2,7 @@ package com.qx.alliance;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -400,7 +401,10 @@ public class HouseMgr extends EventProc implements Runnable {
 		FangWu fwConf = (FangWu) fwList.get(hb.level - 1);
 		HouseExpInfo.Builder expInfo = HouseExpInfo.newBuilder();
 		expInfo.setLevel(hb.level);
-		expInfo.setMax(fwConf.produceLimit);
+		LianMengKeJi kjConf=JianZhuMgr.inst.getKeJiConfForFangWu(hb.lmId);
+		int addLimit4keji=kjConf.value1;
+		int exMax=fwConf.produceLimit +addLimit4keji;
+		expInfo.setMax(exMax);
 		Date preGetExpT = hb.preGainExpTime;
 		if (hb.preGainExpTime == null) {
 			preGetExpT = hb.firstHoldTime;
@@ -413,11 +417,14 @@ public class HouseMgr extends EventProc implements Runnable {
 			t = t / 1000;// second
 			t = t / 60;// minu
 			t = t * fwConf.produceSpeed / 60;// 时速
-			t = Math.min(t, fwConf.produceLimit);
+//			t = Math.min(t, fwConf.produceLimit);
+			t = Math.min(t, exMax);
 			expInfo.setCur((int) t);
 		}
+		//离开联盟时君主在房屋中攒的经验
 		if (hb.cunchuExp > 0) {
-			expInfo.setCur(expInfo.getCur() + hb.cunchuExp);
+			int tmpExp= Math.min(expInfo.getCur() + hb.cunchuExp, exMax);
+			expInfo.setCur(tmpExp);
 		}
 		// vip等级对应的房屋升级次数
 		JunZhu junZhu = HibernateUtil.find(JunZhu.class, hb.jzId);
@@ -443,6 +450,8 @@ public class HouseMgr extends EventProc implements Runnable {
 		}
 		expInfo.setNeedGongXian(fwConf.needNum);
 		expInfo.setGainHouseExp(fwConf.addNum);
+		int kjLevel=kjConf.level;
+		expInfo.setKejiLevel(kjLevel);
 		return expInfo;
 	}
 
@@ -503,7 +512,8 @@ public class HouseMgr extends EventProc implements Runnable {
 			expInfo.setCur((int) t);
 		}
 		if (hb.cunchuExp > 0) {
-			expInfo.setCur(expInfo.getCur() + hb.cunchuExp);
+			int tmpExp= Math.min(expInfo.getCur() + hb.cunchuExp, exMax);
+			expInfo.setCur(tmpExp);
 		}
 		expInfo.setLvupNeedExp(fwConf.exp);
 		// vip等级对应的房屋升级次数
@@ -589,8 +599,8 @@ public class HouseMgr extends EventProc implements Runnable {
 		}
 		List<HouseBean> hs = HibernateUtil.list(HouseBean.class, "where lmId="
 				+ ap.lianMengId);
-		List<BigHouse> bigHs = HibernateUtil.list(BigHouse.class, "where lmId="
-				+ ap.lianMengId);
+		//2016年2月17日 因策划去掉大房子设计 暂时屏蔽大房子 //HibernateUtil.list(BigHouse.class, "where lmId="+ap.lianMengId);
+		List<BigHouse> bigHs =Collections.EMPTY_LIST;
 		BatchSimpleInfo.Builder ret = BatchSimpleInfo.newBuilder();
 		HouseBean self = null;
 		// 获取上次联盟成员获取房屋信息的时间
@@ -731,6 +741,8 @@ public class HouseMgr extends EventProc implements Runnable {
 		if (bean == null) {
 			bean = new HouseBean();
 			bean.jzId = jzId;
+			//2016年3月7日  策划  为了过引导任务 要求加入 房屋初始经验  只有第一次会给
+			bean.cunchuExp=CanShu.FANGWU_INITIAL_EXP;
 		} else if (bean.lmId <= 0) {// 从其他联盟退出了。
 		} else {
 			log.error("该玩家已有房屋，属于联盟{}", bean.lmId);
@@ -813,9 +825,9 @@ public class HouseMgr extends EventProc implements Runnable {
 			}
 			long jzId=jz.id;
 			int level=jz.level;
-			boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.HuiJia4JingYan, jzId, level);
+			boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.LianMeng, jzId, level);
 			if(!isOpen){
-				log.info("君主--{}的功能---{}未开启,不推送",jzId,FunctionID.HuiJia4JingYan);
+				log.info("君主--{}的功能---{}未开启,不推送",jzId,FunctionID.LianMeng);
 				return;
 			}
 			isCanLingqufangwuExp(jz, session);
@@ -875,14 +887,15 @@ public class HouseMgr extends EventProc implements Runnable {
 		if (bh == null) {
 			// 由于您已经离开***联盟，所以您原有的普通房屋的数据将被保存，
 			// 在您加入新的联盟后会在新的联盟城中的随机位置重建。
-			Mail cfg = EmailMgr.INSTANCE.getMailConfig(10022);
-			String content = cfg.content.replace("***", lmName);
+			//2016年2月2日 策划去掉 离开联盟的房屋邮件
+//			Mail cfg = EmailMgr.INSTANCE.getMailConfig(10022);
+//			String content = cfg.content.replace("***", lmName);
 
-			String fuJian = "";
-			boolean ok = EmailMgr.INSTANCE.sendMail(jz.name, content, fuJian,
-					cfg.sender, cfg, "");
-			log.info("发送小房子邮件给{}成功 {}", jz.name, ok);
+//			String fuJian = "";
+//			boolean ok = EmailMgr.INSTANCE.sendMail(jz.name, content, fuJian,cfg.sender, cfg, "");
+//			log.info("发送小房子邮件给{}成功 {}", jz.name, ok);
 		} else {
+			//由于策划去掉大房屋以下代码理论上不会执行
 			if (bh.previousId > 0) {
 				// 返还贡献发送邮件
 				AlliancePlayer curMember = HibernateUtil.find(
@@ -898,7 +911,7 @@ public class HouseMgr extends EventProc implements Runnable {
 				// 您拥有的普通房屋的数据将被保存，在您加入新的联盟后将会被随机分配到某块土地上重建。
 				Mail cfg = EmailMgr.INSTANCE.getMailConfig(10014);
 				String content = cfg.content.replace("****",
-						HibernateUtil.find(AllianceBean.class, lmId).name);
+						HibernateUtil.find(AllianceBean.class, (long)lmId).name);
 				content = content.replace("aaa",
 						getFWName(bh.location - 100, bh.location - 100));
 				content = content
@@ -3022,7 +3035,7 @@ public class HouseMgr extends EventProc implements Runnable {
 	 */
 	public void isCanLingqufangwuExp(JunZhu jz,IoSession session) {
 		if(isCanLingqufangwuExp(jz)){
-			FunctionID.pushCanShangjiao(jz.id, session, FunctionID.HuiJia4JingYan);
+			FunctionID.pushCanShowRed(jz.id, session, FunctionID.LianMengHouse);
 		}
 	}
 	/**

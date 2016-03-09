@@ -1857,7 +1857,14 @@ public final class Prompt {
      * <code>required int32 reqType = 1;</code>
      *
      * <pre>
-     * 1-忽略， 3- 祝福， 4- 安慰， 5 -领奖, 2- 前往 可以增加对应的协议 
+     *	0：无按钮
+     *	1：忽略
+     *	2：押镖前往
+     *	3：祝福
+     *	4：安慰
+     *	5：领取
+     *	6：知道了
+     *	7：掠夺前往
      * </pre>
      */
     boolean hasReqType();
@@ -1865,7 +1872,14 @@ public final class Prompt {
      * <code>required int32 reqType = 1;</code>
      *
      * <pre>
-     * 1-忽略， 3- 祝福， 4- 安慰， 5 -领奖, 2- 前往 可以增加对应的协议 
+     *	0：无按钮
+     *	1：忽略
+     *	2：押镖前往
+     *	3：祝福
+     *	4：安慰
+     *	5：领取
+     *	6：知道了
+     *	7：掠夺前往
      * </pre>
      */
     int getReqType();
@@ -1993,7 +2007,14 @@ public final class Prompt {
      * <code>required int32 reqType = 1;</code>
      *
      * <pre>
-     * 1-忽略， 3- 祝福， 4- 安慰， 5 -领奖, 2- 前往 可以增加对应的协议 
+     *	0：无按钮
+     *	1：忽略
+     *	2：押镖前往
+     *	3：祝福
+     *	4：安慰
+     *	5：领取
+     *	6：知道了
+     *	7：掠夺前往
      * </pre>
      */
     public boolean hasReqType() {
@@ -2003,7 +2024,14 @@ public final class Prompt {
      * <code>required int32 reqType = 1;</code>
      *
      * <pre>
-     * 1-忽略， 3- 祝福， 4- 安慰， 5 -领奖, 2- 前往 可以增加对应的协议 
+     *	0：无按钮
+     *	1：忽略
+     *	2：押镖前往
+     *	3：祝福
+     *	4：安慰
+     *	5：领取
+     *	6：知道了
+     *	7：掠夺前往
      * </pre>
      */
     public int getReqType() {
@@ -2297,7 +2325,14 @@ public final class Prompt {
        * <code>required int32 reqType = 1;</code>
        *
        * <pre>
-       * 1-忽略， 3- 祝福， 4- 安慰， 5 -领奖, 2- 前往 可以增加对应的协议 
+       *	0：无按钮
+       *	1：忽略
+       *	2：押镖前往
+       *	3：祝福
+       *	4：安慰
+       *	5：领取
+       *	6：知道了
+       *	7：掠夺前往
        * </pre>
        */
       public boolean hasReqType() {
@@ -2307,7 +2342,14 @@ public final class Prompt {
        * <code>required int32 reqType = 1;</code>
        *
        * <pre>
-       * 1-忽略， 3- 祝福， 4- 安慰， 5 -领奖, 2- 前往 可以增加对应的协议 
+       *	0：无按钮
+       *	1：忽略
+       *	2：押镖前往
+       *	3：祝福
+       *	4：安慰
+       *	5：领取
+       *	6：知道了
+       *	7：掠夺前往
        * </pre>
        */
       public int getReqType() {
@@ -2317,7 +2359,14 @@ public final class Prompt {
        * <code>required int32 reqType = 1;</code>
        *
        * <pre>
-       * 1-忽略， 3- 祝福， 4- 安慰， 5 -领奖, 2- 前往 可以增加对应的协议 
+       *	0：无按钮
+       *	1：忽略
+       *	2：押镖前往
+       *	3：祝福
+       *	4：安慰
+       *	5：领取
+       *	6：知道了
+       *	7：掠夺前往
        * </pre>
        */
       public Builder setReqType(int value) {
@@ -2330,7 +2379,14 @@ public final class Prompt {
        * <code>required int32 reqType = 1;</code>
        *
        * <pre>
-       * 1-忽略， 3- 祝福， 4- 安慰， 5 -领奖, 2- 前往 可以增加对应的协议 
+       *	0：无按钮
+       *	1：忽略
+       *	2：押镖前往
+       *	3：祝福
+       *	4：安慰
+       *	5：领取
+       *	6：知道了
+       *	7：掠夺前往
        * </pre>
        */
       public Builder clearReqType() {
@@ -2402,7 +2458,7 @@ public final class Prompt {
      * <code>required int32 result = 2;</code>
      *
      * <pre>
-     *10 成功 20没找到对应速报
+     *10 成功 20没找到对应速报 大于10的编码全都表示消息已过期
      * </pre>
      */
     boolean hasResult();
@@ -2410,7 +2466,7 @@ public final class Prompt {
      * <code>required int32 result = 2;</code>
      *
      * <pre>
-     *10 成功 20没找到对应速报
+     *10 成功 20没找到对应速报 大于10的编码全都表示消息已过期
      * </pre>
      */
     int getResult();
@@ -2635,7 +2691,7 @@ public final class Prompt {
      * <code>required int32 result = 2;</code>
      *
      * <pre>
-     *10 成功 20没找到对应速报
+     *10 成功 20没找到对应速报 大于10的编码全都表示消息已过期
      * </pre>
      */
     public boolean hasResult() {
@@ -2645,7 +2701,7 @@ public final class Prompt {
      * <code>required int32 result = 2;</code>
      *
      * <pre>
-     *10 成功 20没找到对应速报
+     *10 成功 20没找到对应速报 大于10的编码全都表示消息已过期
      * </pre>
      */
     public int getResult() {
@@ -3169,7 +3225,7 @@ public final class Prompt {
        * <code>required int32 result = 2;</code>
        *
        * <pre>
-       *10 成功 20没找到对应速报
+       *10 成功 20没找到对应速报 大于10的编码全都表示消息已过期
        * </pre>
        */
       public boolean hasResult() {
@@ -3179,7 +3235,7 @@ public final class Prompt {
        * <code>required int32 result = 2;</code>
        *
        * <pre>
-       *10 成功 20没找到对应速报
+       *10 成功 20没找到对应速报 大于10的编码全都表示消息已过期
        * </pre>
        */
       public int getResult() {
@@ -3189,7 +3245,7 @@ public final class Prompt {
        * <code>required int32 result = 2;</code>
        *
        * <pre>
-       *10 成功 20没找到对应速报
+       *10 成功 20没找到对应速报 大于10的编码全都表示消息已过期
        * </pre>
        */
       public Builder setResult(int value) {
@@ -3202,7 +3258,7 @@ public final class Prompt {
        * <code>required int32 result = 2;</code>
        *
        * <pre>
-       *10 成功 20没找到对应速报
+       *10 成功 20没找到对应速报 大于10的编码全都表示消息已过期
        * </pre>
        */
       public Builder clearResult() {
@@ -3453,6 +3509,4407 @@ public final class Prompt {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.PromptActionResp)
   }
 
+  public interface JunQingReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 type = 1;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *1-掠夺，2-行镖
+     * </pre>
+     */
+    boolean hasType();
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *1-掠夺，2-行镖
+     * </pre>
+     */
+    int getType();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.JunQingReq}
+   *
+   * <pre>
+   *public static final short alliance_junQing_req = 26075;
+   *public static final short alliance_junQing_resq = 26076;
+   * </pre>
+   */
+  public static final class JunQingReq extends
+      com.google.protobuf.GeneratedMessage
+      implements JunQingReqOrBuilder {
+    // Use JunQingReq.newBuilder() to construct.
+    private JunQingReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private JunQingReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final JunQingReq defaultInstance;
+    public static JunQingReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public JunQingReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private JunQingReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              type_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_JunQingReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_JunQingReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Prompt.JunQingReq.class, qxmobile.protobuf.Prompt.JunQingReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<JunQingReq> PARSER =
+        new com.google.protobuf.AbstractParser<JunQingReq>() {
+      public JunQingReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new JunQingReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JunQingReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 type = 1;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private int type_;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *1-掠夺，2-行镖
+     * </pre>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *1-掠夺，2-行镖
+     * </pre>
+     */
+    public int getType() {
+      return type_;
+    }
+
+    private void initFields() {
+      type_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, type_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, type_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Prompt.JunQingReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Prompt.JunQingReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.JunQingReq}
+     *
+     * <pre>
+     *public static final short alliance_junQing_req = 26075;
+     *public static final short alliance_junQing_resq = 26076;
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Prompt.JunQingReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_JunQingReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_JunQingReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Prompt.JunQingReq.class, qxmobile.protobuf.Prompt.JunQingReq.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Prompt.JunQingReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        type_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_JunQingReq_descriptor;
+      }
+
+      public qxmobile.protobuf.Prompt.JunQingReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.Prompt.JunQingReq.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Prompt.JunQingReq build() {
+        qxmobile.protobuf.Prompt.JunQingReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Prompt.JunQingReq buildPartial() {
+        qxmobile.protobuf.Prompt.JunQingReq result = new qxmobile.protobuf.Prompt.JunQingReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Prompt.JunQingReq) {
+          return mergeFrom((qxmobile.protobuf.Prompt.JunQingReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Prompt.JunQingReq other) {
+        if (other == qxmobile.protobuf.Prompt.JunQingReq.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Prompt.JunQingReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Prompt.JunQingReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 type = 1;
+      private int type_ ;
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *1-掠夺，2-行镖
+       * </pre>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *1-掠夺，2-行镖
+       * </pre>
+       */
+      public int getType() {
+        return type_;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *1-掠夺，2-行镖
+       * </pre>
+       */
+      public Builder setType(int value) {
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *1-掠夺，2-行镖
+       * </pre>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.JunQingReq)
+    }
+
+    static {
+      defaultInstance = new JunQingReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.JunQingReq)
+  }
+
+  public interface JunQingRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 type = 1;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *1-掠夺，2-行镖
+     * </pre>
+     */
+    boolean hasType();
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *1-掠夺，2-行镖
+     * </pre>
+     */
+    int getType();
+
+    // repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;
+    /**
+     * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+     */
+    java.util.List<qxmobile.protobuf.Prompt.HistoryBattleInfo> 
+        getInfosList();
+    /**
+     * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+     */
+    qxmobile.protobuf.Prompt.HistoryBattleInfo getInfos(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+     */
+    int getInfosCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+     */
+    java.util.List<? extends qxmobile.protobuf.Prompt.HistoryBattleInfoOrBuilder> 
+        getInfosOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+     */
+    qxmobile.protobuf.Prompt.HistoryBattleInfoOrBuilder getInfosOrBuilder(
+        int index);
+
+    // optional int32 todayRemainHelp = 3;
+    /**
+     * <code>optional int32 todayRemainHelp = 3;</code>
+     *
+     * <pre>
+     * 掠夺
+     * </pre>
+     */
+    boolean hasTodayRemainHelp();
+    /**
+     * <code>optional int32 todayRemainHelp = 3;</code>
+     *
+     * <pre>
+     * 掠夺
+     * </pre>
+     */
+    int getTodayRemainHelp();
+
+    // optional int32 todayAllHelp = 4;
+    /**
+     * <code>optional int32 todayAllHelp = 4;</code>
+     */
+    boolean hasTodayAllHelp();
+    /**
+     * <code>optional int32 todayAllHelp = 4;</code>
+     */
+    int getTodayAllHelp();
+
+    // optional int32 cd = 5;
+    /**
+     * <code>optional int32 cd = 5;</code>
+     */
+    boolean hasCd();
+    /**
+     * <code>optional int32 cd = 5;</code>
+     */
+    int getCd();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.JunQingResp}
+   */
+  public static final class JunQingResp extends
+      com.google.protobuf.GeneratedMessage
+      implements JunQingRespOrBuilder {
+    // Use JunQingResp.newBuilder() to construct.
+    private JunQingResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private JunQingResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final JunQingResp defaultInstance;
+    public static JunQingResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public JunQingResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private JunQingResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              type_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                infos_ = new java.util.ArrayList<qxmobile.protobuf.Prompt.HistoryBattleInfo>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              infos_.add(input.readMessage(qxmobile.protobuf.Prompt.HistoryBattleInfo.PARSER, extensionRegistry));
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000002;
+              todayRemainHelp_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000004;
+              todayAllHelp_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000008;
+              cd_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          infos_ = java.util.Collections.unmodifiableList(infos_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_JunQingResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_JunQingResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Prompt.JunQingResp.class, qxmobile.protobuf.Prompt.JunQingResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<JunQingResp> PARSER =
+        new com.google.protobuf.AbstractParser<JunQingResp>() {
+      public JunQingResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new JunQingResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JunQingResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 type = 1;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private int type_;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *1-掠夺，2-行镖
+     * </pre>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *1-掠夺，2-行镖
+     * </pre>
+     */
+    public int getType() {
+      return type_;
+    }
+
+    // repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;
+    public static final int INFOS_FIELD_NUMBER = 2;
+    private java.util.List<qxmobile.protobuf.Prompt.HistoryBattleInfo> infos_;
+    /**
+     * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+     */
+    public java.util.List<qxmobile.protobuf.Prompt.HistoryBattleInfo> getInfosList() {
+      return infos_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Prompt.HistoryBattleInfoOrBuilder> 
+        getInfosOrBuilderList() {
+      return infos_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+     */
+    public int getInfosCount() {
+      return infos_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+     */
+    public qxmobile.protobuf.Prompt.HistoryBattleInfo getInfos(int index) {
+      return infos_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+     */
+    public qxmobile.protobuf.Prompt.HistoryBattleInfoOrBuilder getInfosOrBuilder(
+        int index) {
+      return infos_.get(index);
+    }
+
+    // optional int32 todayRemainHelp = 3;
+    public static final int TODAYREMAINHELP_FIELD_NUMBER = 3;
+    private int todayRemainHelp_;
+    /**
+     * <code>optional int32 todayRemainHelp = 3;</code>
+     *
+     * <pre>
+     * 掠夺
+     * </pre>
+     */
+    public boolean hasTodayRemainHelp() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 todayRemainHelp = 3;</code>
+     *
+     * <pre>
+     * 掠夺
+     * </pre>
+     */
+    public int getTodayRemainHelp() {
+      return todayRemainHelp_;
+    }
+
+    // optional int32 todayAllHelp = 4;
+    public static final int TODAYALLHELP_FIELD_NUMBER = 4;
+    private int todayAllHelp_;
+    /**
+     * <code>optional int32 todayAllHelp = 4;</code>
+     */
+    public boolean hasTodayAllHelp() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 todayAllHelp = 4;</code>
+     */
+    public int getTodayAllHelp() {
+      return todayAllHelp_;
+    }
+
+    // optional int32 cd = 5;
+    public static final int CD_FIELD_NUMBER = 5;
+    private int cd_;
+    /**
+     * <code>optional int32 cd = 5;</code>
+     */
+    public boolean hasCd() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 cd = 5;</code>
+     */
+    public int getCd() {
+      return cd_;
+    }
+
+    private void initFields() {
+      type_ = 0;
+      infos_ = java.util.Collections.emptyList();
+      todayRemainHelp_ = 0;
+      todayAllHelp_ = 0;
+      cd_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getInfosCount(); i++) {
+        if (!getInfos(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, type_);
+      }
+      for (int i = 0; i < infos_.size(); i++) {
+        output.writeMessage(2, infos_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(3, todayRemainHelp_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(4, todayAllHelp_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(5, cd_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, type_);
+      }
+      for (int i = 0; i < infos_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, infos_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, todayRemainHelp_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, todayAllHelp_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, cd_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Prompt.JunQingResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Prompt.JunQingResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Prompt.JunQingResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.JunQingResp}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Prompt.JunQingRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_JunQingResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_JunQingResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Prompt.JunQingResp.class, qxmobile.protobuf.Prompt.JunQingResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Prompt.JunQingResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getInfosFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        type_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (infosBuilder_ == null) {
+          infos_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          infosBuilder_.clear();
+        }
+        todayRemainHelp_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        todayAllHelp_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        cd_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_JunQingResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Prompt.JunQingResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Prompt.JunQingResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Prompt.JunQingResp build() {
+        qxmobile.protobuf.Prompt.JunQingResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Prompt.JunQingResp buildPartial() {
+        qxmobile.protobuf.Prompt.JunQingResp result = new qxmobile.protobuf.Prompt.JunQingResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        if (infosBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            infos_ = java.util.Collections.unmodifiableList(infos_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.infos_ = infos_;
+        } else {
+          result.infos_ = infosBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.todayRemainHelp_ = todayRemainHelp_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.todayAllHelp_ = todayAllHelp_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.cd_ = cd_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Prompt.JunQingResp) {
+          return mergeFrom((qxmobile.protobuf.Prompt.JunQingResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Prompt.JunQingResp other) {
+        if (other == qxmobile.protobuf.Prompt.JunQingResp.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        if (infosBuilder_ == null) {
+          if (!other.infos_.isEmpty()) {
+            if (infos_.isEmpty()) {
+              infos_ = other.infos_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureInfosIsMutable();
+              infos_.addAll(other.infos_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.infos_.isEmpty()) {
+            if (infosBuilder_.isEmpty()) {
+              infosBuilder_.dispose();
+              infosBuilder_ = null;
+              infos_ = other.infos_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              infosBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getInfosFieldBuilder() : null;
+            } else {
+              infosBuilder_.addAllMessages(other.infos_);
+            }
+          }
+        }
+        if (other.hasTodayRemainHelp()) {
+          setTodayRemainHelp(other.getTodayRemainHelp());
+        }
+        if (other.hasTodayAllHelp()) {
+          setTodayAllHelp(other.getTodayAllHelp());
+        }
+        if (other.hasCd()) {
+          setCd(other.getCd());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasType()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getInfosCount(); i++) {
+          if (!getInfos(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Prompt.JunQingResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Prompt.JunQingResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 type = 1;
+      private int type_ ;
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *1-掠夺，2-行镖
+       * </pre>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *1-掠夺，2-行镖
+       * </pre>
+       */
+      public int getType() {
+        return type_;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *1-掠夺，2-行镖
+       * </pre>
+       */
+      public Builder setType(int value) {
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *1-掠夺，2-行镖
+       * </pre>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;
+      private java.util.List<qxmobile.protobuf.Prompt.HistoryBattleInfo> infos_ =
+        java.util.Collections.emptyList();
+      private void ensureInfosIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          infos_ = new java.util.ArrayList<qxmobile.protobuf.Prompt.HistoryBattleInfo>(infos_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Prompt.HistoryBattleInfo, qxmobile.protobuf.Prompt.HistoryBattleInfo.Builder, qxmobile.protobuf.Prompt.HistoryBattleInfoOrBuilder> infosBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Prompt.HistoryBattleInfo> getInfosList() {
+        if (infosBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(infos_);
+        } else {
+          return infosBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public int getInfosCount() {
+        if (infosBuilder_ == null) {
+          return infos_.size();
+        } else {
+          return infosBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public qxmobile.protobuf.Prompt.HistoryBattleInfo getInfos(int index) {
+        if (infosBuilder_ == null) {
+          return infos_.get(index);
+        } else {
+          return infosBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public Builder setInfos(
+          int index, qxmobile.protobuf.Prompt.HistoryBattleInfo value) {
+        if (infosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureInfosIsMutable();
+          infos_.set(index, value);
+          onChanged();
+        } else {
+          infosBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public Builder setInfos(
+          int index, qxmobile.protobuf.Prompt.HistoryBattleInfo.Builder builderForValue) {
+        if (infosBuilder_ == null) {
+          ensureInfosIsMutable();
+          infos_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          infosBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public Builder addInfos(qxmobile.protobuf.Prompt.HistoryBattleInfo value) {
+        if (infosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureInfosIsMutable();
+          infos_.add(value);
+          onChanged();
+        } else {
+          infosBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public Builder addInfos(
+          int index, qxmobile.protobuf.Prompt.HistoryBattleInfo value) {
+        if (infosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureInfosIsMutable();
+          infos_.add(index, value);
+          onChanged();
+        } else {
+          infosBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public Builder addInfos(
+          qxmobile.protobuf.Prompt.HistoryBattleInfo.Builder builderForValue) {
+        if (infosBuilder_ == null) {
+          ensureInfosIsMutable();
+          infos_.add(builderForValue.build());
+          onChanged();
+        } else {
+          infosBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public Builder addInfos(
+          int index, qxmobile.protobuf.Prompt.HistoryBattleInfo.Builder builderForValue) {
+        if (infosBuilder_ == null) {
+          ensureInfosIsMutable();
+          infos_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          infosBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public Builder addAllInfos(
+          java.lang.Iterable<? extends qxmobile.protobuf.Prompt.HistoryBattleInfo> values) {
+        if (infosBuilder_ == null) {
+          ensureInfosIsMutable();
+          super.addAll(values, infos_);
+          onChanged();
+        } else {
+          infosBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public Builder clearInfos() {
+        if (infosBuilder_ == null) {
+          infos_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          infosBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public Builder removeInfos(int index) {
+        if (infosBuilder_ == null) {
+          ensureInfosIsMutable();
+          infos_.remove(index);
+          onChanged();
+        } else {
+          infosBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public qxmobile.protobuf.Prompt.HistoryBattleInfo.Builder getInfosBuilder(
+          int index) {
+        return getInfosFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public qxmobile.protobuf.Prompt.HistoryBattleInfoOrBuilder getInfosOrBuilder(
+          int index) {
+        if (infosBuilder_ == null) {
+          return infos_.get(index);  } else {
+          return infosBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Prompt.HistoryBattleInfoOrBuilder> 
+           getInfosOrBuilderList() {
+        if (infosBuilder_ != null) {
+          return infosBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(infos_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public qxmobile.protobuf.Prompt.HistoryBattleInfo.Builder addInfosBuilder() {
+        return getInfosFieldBuilder().addBuilder(
+            qxmobile.protobuf.Prompt.HistoryBattleInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public qxmobile.protobuf.Prompt.HistoryBattleInfo.Builder addInfosBuilder(
+          int index) {
+        return getInfosFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Prompt.HistoryBattleInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.HistoryBattleInfo infos = 2;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Prompt.HistoryBattleInfo.Builder> 
+           getInfosBuilderList() {
+        return getInfosFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Prompt.HistoryBattleInfo, qxmobile.protobuf.Prompt.HistoryBattleInfo.Builder, qxmobile.protobuf.Prompt.HistoryBattleInfoOrBuilder> 
+          getInfosFieldBuilder() {
+        if (infosBuilder_ == null) {
+          infosBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Prompt.HistoryBattleInfo, qxmobile.protobuf.Prompt.HistoryBattleInfo.Builder, qxmobile.protobuf.Prompt.HistoryBattleInfoOrBuilder>(
+                  infos_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          infos_ = null;
+        }
+        return infosBuilder_;
+      }
+
+      // optional int32 todayRemainHelp = 3;
+      private int todayRemainHelp_ ;
+      /**
+       * <code>optional int32 todayRemainHelp = 3;</code>
+       *
+       * <pre>
+       * 掠夺
+       * </pre>
+       */
+      public boolean hasTodayRemainHelp() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 todayRemainHelp = 3;</code>
+       *
+       * <pre>
+       * 掠夺
+       * </pre>
+       */
+      public int getTodayRemainHelp() {
+        return todayRemainHelp_;
+      }
+      /**
+       * <code>optional int32 todayRemainHelp = 3;</code>
+       *
+       * <pre>
+       * 掠夺
+       * </pre>
+       */
+      public Builder setTodayRemainHelp(int value) {
+        bitField0_ |= 0x00000004;
+        todayRemainHelp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 todayRemainHelp = 3;</code>
+       *
+       * <pre>
+       * 掠夺
+       * </pre>
+       */
+      public Builder clearTodayRemainHelp() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        todayRemainHelp_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 todayAllHelp = 4;
+      private int todayAllHelp_ ;
+      /**
+       * <code>optional int32 todayAllHelp = 4;</code>
+       */
+      public boolean hasTodayAllHelp() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 todayAllHelp = 4;</code>
+       */
+      public int getTodayAllHelp() {
+        return todayAllHelp_;
+      }
+      /**
+       * <code>optional int32 todayAllHelp = 4;</code>
+       */
+      public Builder setTodayAllHelp(int value) {
+        bitField0_ |= 0x00000008;
+        todayAllHelp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 todayAllHelp = 4;</code>
+       */
+      public Builder clearTodayAllHelp() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        todayAllHelp_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 cd = 5;
+      private int cd_ ;
+      /**
+       * <code>optional int32 cd = 5;</code>
+       */
+      public boolean hasCd() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 cd = 5;</code>
+       */
+      public int getCd() {
+        return cd_;
+      }
+      /**
+       * <code>optional int32 cd = 5;</code>
+       */
+      public Builder setCd(int value) {
+        bitField0_ |= 0x00000010;
+        cd_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 cd = 5;</code>
+       */
+      public Builder clearCd() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        cd_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.JunQingResp)
+    }
+
+    static {
+      defaultInstance = new JunQingResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.JunQingResp)
+  }
+
+  public interface HistoryBattleInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 itemId = 19;
+    /**
+     * <code>required int32 itemId = 19;</code>
+     *
+     * <pre>
+     * 掠夺的itemId就是掠夺战斗id
+     * </pre>
+     */
+    boolean hasItemId();
+    /**
+     * <code>required int32 itemId = 19;</code>
+     *
+     * <pre>
+     * 掠夺的itemId就是掠夺战斗id
+     * </pre>
+     */
+    int getItemId();
+
+    // required int64 enemyJid = 1;
+    /**
+     * <code>required int64 enemyJid = 1;</code>
+     */
+    boolean hasEnemyJid();
+    /**
+     * <code>required int64 enemyJid = 1;</code>
+     */
+    long getEnemyJid();
+
+    // required string enemyName = 2;
+    /**
+     * <code>required string enemyName = 2;</code>
+     */
+    boolean hasEnemyName();
+    /**
+     * <code>required string enemyName = 2;</code>
+     */
+    java.lang.String getEnemyName();
+    /**
+     * <code>required string enemyName = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getEnemyNameBytes();
+
+    // required int32 enemyCountryId = 3;
+    /**
+     * <code>required int32 enemyCountryId = 3;</code>
+     */
+    boolean hasEnemyCountryId();
+    /**
+     * <code>required int32 enemyCountryId = 3;</code>
+     */
+    int getEnemyCountryId();
+
+    // required int32 enemyAllHP = 4;
+    /**
+     * <code>required int32 enemyAllHP = 4;</code>
+     */
+    boolean hasEnemyAllHP();
+    /**
+     * <code>required int32 enemyAllHP = 4;</code>
+     */
+    int getEnemyAllHP();
+
+    // required int32 enemyRemainHP = 5;
+    /**
+     * <code>required int32 enemyRemainHP = 5;</code>
+     */
+    boolean hasEnemyRemainHP();
+    /**
+     * <code>required int32 enemyRemainHP = 5;</code>
+     */
+    int getEnemyRemainHP();
+
+    // required string enemyAllianceName = 6;
+    /**
+     * <code>required string enemyAllianceName = 6;</code>
+     */
+    boolean hasEnemyAllianceName();
+    /**
+     * <code>required string enemyAllianceName = 6;</code>
+     */
+    java.lang.String getEnemyAllianceName();
+    /**
+     * <code>required string enemyAllianceName = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getEnemyAllianceNameBytes();
+
+    // required int32 enemyZhanLi = 7;
+    /**
+     * <code>required int32 enemyZhanLi = 7;</code>
+     */
+    boolean hasEnemyZhanLi();
+    /**
+     * <code>required int32 enemyZhanLi = 7;</code>
+     */
+    int getEnemyZhanLi();
+
+    // required int32 enemyRoleId = 8;
+    /**
+     * <code>required int32 enemyRoleId = 8;</code>
+     */
+    boolean hasEnemyRoleId();
+    /**
+     * <code>required int32 enemyRoleId = 8;</code>
+     */
+    int getEnemyRoleId();
+
+    // required int32 enemyLevel = 18;
+    /**
+     * <code>required int32 enemyLevel = 18;</code>
+     */
+    boolean hasEnemyLevel();
+    /**
+     * <code>required int32 enemyLevel = 18;</code>
+     */
+    int getEnemyLevel();
+
+    // required int64 friendJid = 9;
+    /**
+     * <code>required int64 friendJid = 9;</code>
+     */
+    boolean hasFriendJid();
+    /**
+     * <code>required int64 friendJid = 9;</code>
+     */
+    long getFriendJid();
+
+    // required string friendName = 10;
+    /**
+     * <code>required string friendName = 10;</code>
+     */
+    boolean hasFriendName();
+    /**
+     * <code>required string friendName = 10;</code>
+     */
+    java.lang.String getFriendName();
+    /**
+     * <code>required string friendName = 10;</code>
+     */
+    com.google.protobuf.ByteString
+        getFriendNameBytes();
+
+    // required int32 friendRoleId = 11;
+    /**
+     * <code>required int32 friendRoleId = 11;</code>
+     */
+    boolean hasFriendRoleId();
+    /**
+     * <code>required int32 friendRoleId = 11;</code>
+     */
+    int getFriendRoleId();
+
+    // optional int64 happendTime = 12;
+    /**
+     * <code>optional int64 happendTime = 12;</code>
+     *
+     * <pre>
+     * 策划没有确定要不要这个，先写上
+     * </pre>
+     */
+    boolean hasHappendTime();
+    /**
+     * <code>optional int64 happendTime = 12;</code>
+     *
+     * <pre>
+     * 策划没有确定要不要这个，先写上
+     * </pre>
+     */
+    long getHappendTime();
+
+    // optional int32 remainTime = 13;
+    /**
+     * <code>optional int32 remainTime = 13;</code>
+     *
+     * <pre>
+     *掠夺
+     * </pre>
+     */
+    boolean hasRemainTime();
+    /**
+     * <code>optional int32 remainTime = 13;</code>
+     *
+     * <pre>
+     *掠夺
+     * </pre>
+     */
+    int getRemainTime();
+
+    // optional int32 willLostBuild = 14;
+    /**
+     * <code>optional int32 willLostBuild = 14;</code>
+     *
+     * <pre>
+     *将要损失的建设值
+     * </pre>
+     */
+    boolean hasWillLostBuild();
+    /**
+     * <code>optional int32 willLostBuild = 14;</code>
+     *
+     * <pre>
+     *将要损失的建设值
+     * </pre>
+     */
+    int getWillLostBuild();
+
+    // optional int32 state = 20;
+    /**
+     * <code>optional int32 state = 20;</code>
+     *
+     * <pre>
+     *该条记录的状态
+     * </pre>
+     */
+    boolean hasState();
+    /**
+     * <code>optional int32 state = 20;</code>
+     *
+     * <pre>
+     *该条记录的状态
+     * </pre>
+     */
+    int getState();
+
+    // optional int32 friendAllHP = 15;
+    /**
+     * <code>optional int32 friendAllHP = 15;</code>
+     *
+     * <pre>
+     * 行镖
+     * </pre>
+     */
+    boolean hasFriendAllHP();
+    /**
+     * <code>optional int32 friendAllHP = 15;</code>
+     *
+     * <pre>
+     * 行镖
+     * </pre>
+     */
+    int getFriendAllHP();
+
+    // optional int32 friendRemainHP = 16;
+    /**
+     * <code>optional int32 friendRemainHP = 16;</code>
+     */
+    boolean hasFriendRemainHP();
+    /**
+     * <code>optional int32 friendRemainHP = 16;</code>
+     */
+    int getFriendRemainHP();
+
+    // optional int32 friendHorseRoleId = 17;
+    /**
+     * <code>optional int32 friendHorseRoleId = 17;</code>
+     */
+    boolean hasFriendHorseRoleId();
+    /**
+     * <code>optional int32 friendHorseRoleId = 17;</code>
+     */
+    int getFriendHorseRoleId();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.HistoryBattleInfo}
+   */
+  public static final class HistoryBattleInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements HistoryBattleInfoOrBuilder {
+    // Use HistoryBattleInfo.newBuilder() to construct.
+    private HistoryBattleInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private HistoryBattleInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final HistoryBattleInfo defaultInstance;
+    public static HistoryBattleInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public HistoryBattleInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private HistoryBattleInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000002;
+              enemyJid_ = input.readInt64();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000004;
+              enemyName_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000008;
+              enemyCountryId_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000010;
+              enemyAllHP_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000020;
+              enemyRemainHP_ = input.readInt32();
+              break;
+            }
+            case 50: {
+              bitField0_ |= 0x00000040;
+              enemyAllianceName_ = input.readBytes();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000080;
+              enemyZhanLi_ = input.readInt32();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000100;
+              enemyRoleId_ = input.readInt32();
+              break;
+            }
+            case 72: {
+              bitField0_ |= 0x00000400;
+              friendJid_ = input.readInt64();
+              break;
+            }
+            case 82: {
+              bitField0_ |= 0x00000800;
+              friendName_ = input.readBytes();
+              break;
+            }
+            case 88: {
+              bitField0_ |= 0x00001000;
+              friendRoleId_ = input.readInt32();
+              break;
+            }
+            case 96: {
+              bitField0_ |= 0x00002000;
+              happendTime_ = input.readInt64();
+              break;
+            }
+            case 104: {
+              bitField0_ |= 0x00004000;
+              remainTime_ = input.readInt32();
+              break;
+            }
+            case 112: {
+              bitField0_ |= 0x00008000;
+              willLostBuild_ = input.readInt32();
+              break;
+            }
+            case 120: {
+              bitField0_ |= 0x00020000;
+              friendAllHP_ = input.readInt32();
+              break;
+            }
+            case 128: {
+              bitField0_ |= 0x00040000;
+              friendRemainHP_ = input.readInt32();
+              break;
+            }
+            case 136: {
+              bitField0_ |= 0x00080000;
+              friendHorseRoleId_ = input.readInt32();
+              break;
+            }
+            case 144: {
+              bitField0_ |= 0x00000200;
+              enemyLevel_ = input.readInt32();
+              break;
+            }
+            case 152: {
+              bitField0_ |= 0x00000001;
+              itemId_ = input.readInt32();
+              break;
+            }
+            case 160: {
+              bitField0_ |= 0x00010000;
+              state_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_HistoryBattleInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_HistoryBattleInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Prompt.HistoryBattleInfo.class, qxmobile.protobuf.Prompt.HistoryBattleInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<HistoryBattleInfo> PARSER =
+        new com.google.protobuf.AbstractParser<HistoryBattleInfo>() {
+      public HistoryBattleInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new HistoryBattleInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<HistoryBattleInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 itemId = 19;
+    public static final int ITEMID_FIELD_NUMBER = 19;
+    private int itemId_;
+    /**
+     * <code>required int32 itemId = 19;</code>
+     *
+     * <pre>
+     * 掠夺的itemId就是掠夺战斗id
+     * </pre>
+     */
+    public boolean hasItemId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 itemId = 19;</code>
+     *
+     * <pre>
+     * 掠夺的itemId就是掠夺战斗id
+     * </pre>
+     */
+    public int getItemId() {
+      return itemId_;
+    }
+
+    // required int64 enemyJid = 1;
+    public static final int ENEMYJID_FIELD_NUMBER = 1;
+    private long enemyJid_;
+    /**
+     * <code>required int64 enemyJid = 1;</code>
+     */
+    public boolean hasEnemyJid() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int64 enemyJid = 1;</code>
+     */
+    public long getEnemyJid() {
+      return enemyJid_;
+    }
+
+    // required string enemyName = 2;
+    public static final int ENEMYNAME_FIELD_NUMBER = 2;
+    private java.lang.Object enemyName_;
+    /**
+     * <code>required string enemyName = 2;</code>
+     */
+    public boolean hasEnemyName() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required string enemyName = 2;</code>
+     */
+    public java.lang.String getEnemyName() {
+      java.lang.Object ref = enemyName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          enemyName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string enemyName = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getEnemyNameBytes() {
+      java.lang.Object ref = enemyName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        enemyName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 enemyCountryId = 3;
+    public static final int ENEMYCOUNTRYID_FIELD_NUMBER = 3;
+    private int enemyCountryId_;
+    /**
+     * <code>required int32 enemyCountryId = 3;</code>
+     */
+    public boolean hasEnemyCountryId() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 enemyCountryId = 3;</code>
+     */
+    public int getEnemyCountryId() {
+      return enemyCountryId_;
+    }
+
+    // required int32 enemyAllHP = 4;
+    public static final int ENEMYALLHP_FIELD_NUMBER = 4;
+    private int enemyAllHP_;
+    /**
+     * <code>required int32 enemyAllHP = 4;</code>
+     */
+    public boolean hasEnemyAllHP() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required int32 enemyAllHP = 4;</code>
+     */
+    public int getEnemyAllHP() {
+      return enemyAllHP_;
+    }
+
+    // required int32 enemyRemainHP = 5;
+    public static final int ENEMYREMAINHP_FIELD_NUMBER = 5;
+    private int enemyRemainHP_;
+    /**
+     * <code>required int32 enemyRemainHP = 5;</code>
+     */
+    public boolean hasEnemyRemainHP() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required int32 enemyRemainHP = 5;</code>
+     */
+    public int getEnemyRemainHP() {
+      return enemyRemainHP_;
+    }
+
+    // required string enemyAllianceName = 6;
+    public static final int ENEMYALLIANCENAME_FIELD_NUMBER = 6;
+    private java.lang.Object enemyAllianceName_;
+    /**
+     * <code>required string enemyAllianceName = 6;</code>
+     */
+    public boolean hasEnemyAllianceName() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>required string enemyAllianceName = 6;</code>
+     */
+    public java.lang.String getEnemyAllianceName() {
+      java.lang.Object ref = enemyAllianceName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          enemyAllianceName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string enemyAllianceName = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getEnemyAllianceNameBytes() {
+      java.lang.Object ref = enemyAllianceName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        enemyAllianceName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 enemyZhanLi = 7;
+    public static final int ENEMYZHANLI_FIELD_NUMBER = 7;
+    private int enemyZhanLi_;
+    /**
+     * <code>required int32 enemyZhanLi = 7;</code>
+     */
+    public boolean hasEnemyZhanLi() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>required int32 enemyZhanLi = 7;</code>
+     */
+    public int getEnemyZhanLi() {
+      return enemyZhanLi_;
+    }
+
+    // required int32 enemyRoleId = 8;
+    public static final int ENEMYROLEID_FIELD_NUMBER = 8;
+    private int enemyRoleId_;
+    /**
+     * <code>required int32 enemyRoleId = 8;</code>
+     */
+    public boolean hasEnemyRoleId() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>required int32 enemyRoleId = 8;</code>
+     */
+    public int getEnemyRoleId() {
+      return enemyRoleId_;
+    }
+
+    // required int32 enemyLevel = 18;
+    public static final int ENEMYLEVEL_FIELD_NUMBER = 18;
+    private int enemyLevel_;
+    /**
+     * <code>required int32 enemyLevel = 18;</code>
+     */
+    public boolean hasEnemyLevel() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>required int32 enemyLevel = 18;</code>
+     */
+    public int getEnemyLevel() {
+      return enemyLevel_;
+    }
+
+    // required int64 friendJid = 9;
+    public static final int FRIENDJID_FIELD_NUMBER = 9;
+    private long friendJid_;
+    /**
+     * <code>required int64 friendJid = 9;</code>
+     */
+    public boolean hasFriendJid() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>required int64 friendJid = 9;</code>
+     */
+    public long getFriendJid() {
+      return friendJid_;
+    }
+
+    // required string friendName = 10;
+    public static final int FRIENDNAME_FIELD_NUMBER = 10;
+    private java.lang.Object friendName_;
+    /**
+     * <code>required string friendName = 10;</code>
+     */
+    public boolean hasFriendName() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>required string friendName = 10;</code>
+     */
+    public java.lang.String getFriendName() {
+      java.lang.Object ref = friendName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          friendName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string friendName = 10;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFriendNameBytes() {
+      java.lang.Object ref = friendName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        friendName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 friendRoleId = 11;
+    public static final int FRIENDROLEID_FIELD_NUMBER = 11;
+    private int friendRoleId_;
+    /**
+     * <code>required int32 friendRoleId = 11;</code>
+     */
+    public boolean hasFriendRoleId() {
+      return ((bitField0_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>required int32 friendRoleId = 11;</code>
+     */
+    public int getFriendRoleId() {
+      return friendRoleId_;
+    }
+
+    // optional int64 happendTime = 12;
+    public static final int HAPPENDTIME_FIELD_NUMBER = 12;
+    private long happendTime_;
+    /**
+     * <code>optional int64 happendTime = 12;</code>
+     *
+     * <pre>
+     * 策划没有确定要不要这个，先写上
+     * </pre>
+     */
+    public boolean hasHappendTime() {
+      return ((bitField0_ & 0x00002000) == 0x00002000);
+    }
+    /**
+     * <code>optional int64 happendTime = 12;</code>
+     *
+     * <pre>
+     * 策划没有确定要不要这个，先写上
+     * </pre>
+     */
+    public long getHappendTime() {
+      return happendTime_;
+    }
+
+    // optional int32 remainTime = 13;
+    public static final int REMAINTIME_FIELD_NUMBER = 13;
+    private int remainTime_;
+    /**
+     * <code>optional int32 remainTime = 13;</code>
+     *
+     * <pre>
+     *掠夺
+     * </pre>
+     */
+    public boolean hasRemainTime() {
+      return ((bitField0_ & 0x00004000) == 0x00004000);
+    }
+    /**
+     * <code>optional int32 remainTime = 13;</code>
+     *
+     * <pre>
+     *掠夺
+     * </pre>
+     */
+    public int getRemainTime() {
+      return remainTime_;
+    }
+
+    // optional int32 willLostBuild = 14;
+    public static final int WILLLOSTBUILD_FIELD_NUMBER = 14;
+    private int willLostBuild_;
+    /**
+     * <code>optional int32 willLostBuild = 14;</code>
+     *
+     * <pre>
+     *将要损失的建设值
+     * </pre>
+     */
+    public boolean hasWillLostBuild() {
+      return ((bitField0_ & 0x00008000) == 0x00008000);
+    }
+    /**
+     * <code>optional int32 willLostBuild = 14;</code>
+     *
+     * <pre>
+     *将要损失的建设值
+     * </pre>
+     */
+    public int getWillLostBuild() {
+      return willLostBuild_;
+    }
+
+    // optional int32 state = 20;
+    public static final int STATE_FIELD_NUMBER = 20;
+    private int state_;
+    /**
+     * <code>optional int32 state = 20;</code>
+     *
+     * <pre>
+     *该条记录的状态
+     * </pre>
+     */
+    public boolean hasState() {
+      return ((bitField0_ & 0x00010000) == 0x00010000);
+    }
+    /**
+     * <code>optional int32 state = 20;</code>
+     *
+     * <pre>
+     *该条记录的状态
+     * </pre>
+     */
+    public int getState() {
+      return state_;
+    }
+
+    // optional int32 friendAllHP = 15;
+    public static final int FRIENDALLHP_FIELD_NUMBER = 15;
+    private int friendAllHP_;
+    /**
+     * <code>optional int32 friendAllHP = 15;</code>
+     *
+     * <pre>
+     * 行镖
+     * </pre>
+     */
+    public boolean hasFriendAllHP() {
+      return ((bitField0_ & 0x00020000) == 0x00020000);
+    }
+    /**
+     * <code>optional int32 friendAllHP = 15;</code>
+     *
+     * <pre>
+     * 行镖
+     * </pre>
+     */
+    public int getFriendAllHP() {
+      return friendAllHP_;
+    }
+
+    // optional int32 friendRemainHP = 16;
+    public static final int FRIENDREMAINHP_FIELD_NUMBER = 16;
+    private int friendRemainHP_;
+    /**
+     * <code>optional int32 friendRemainHP = 16;</code>
+     */
+    public boolean hasFriendRemainHP() {
+      return ((bitField0_ & 0x00040000) == 0x00040000);
+    }
+    /**
+     * <code>optional int32 friendRemainHP = 16;</code>
+     */
+    public int getFriendRemainHP() {
+      return friendRemainHP_;
+    }
+
+    // optional int32 friendHorseRoleId = 17;
+    public static final int FRIENDHORSEROLEID_FIELD_NUMBER = 17;
+    private int friendHorseRoleId_;
+    /**
+     * <code>optional int32 friendHorseRoleId = 17;</code>
+     */
+    public boolean hasFriendHorseRoleId() {
+      return ((bitField0_ & 0x00080000) == 0x00080000);
+    }
+    /**
+     * <code>optional int32 friendHorseRoleId = 17;</code>
+     */
+    public int getFriendHorseRoleId() {
+      return friendHorseRoleId_;
+    }
+
+    private void initFields() {
+      itemId_ = 0;
+      enemyJid_ = 0L;
+      enemyName_ = "";
+      enemyCountryId_ = 0;
+      enemyAllHP_ = 0;
+      enemyRemainHP_ = 0;
+      enemyAllianceName_ = "";
+      enemyZhanLi_ = 0;
+      enemyRoleId_ = 0;
+      enemyLevel_ = 0;
+      friendJid_ = 0L;
+      friendName_ = "";
+      friendRoleId_ = 0;
+      happendTime_ = 0L;
+      remainTime_ = 0;
+      willLostBuild_ = 0;
+      state_ = 0;
+      friendAllHP_ = 0;
+      friendRemainHP_ = 0;
+      friendHorseRoleId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasItemId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasEnemyJid()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasEnemyName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasEnemyCountryId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasEnemyAllHP()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasEnemyRemainHP()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasEnemyAllianceName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasEnemyZhanLi()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasEnemyRoleId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasEnemyLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasFriendJid()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasFriendName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasFriendRoleId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt64(1, enemyJid_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(2, getEnemyNameBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(3, enemyCountryId_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(4, enemyAllHP_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(5, enemyRemainHP_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBytes(6, getEnemyAllianceNameBytes());
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeInt32(7, enemyZhanLi_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeInt32(8, enemyRoleId_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeInt64(9, friendJid_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeBytes(10, getFriendNameBytes());
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        output.writeInt32(11, friendRoleId_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        output.writeInt64(12, happendTime_);
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        output.writeInt32(13, remainTime_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        output.writeInt32(14, willLostBuild_);
+      }
+      if (((bitField0_ & 0x00020000) == 0x00020000)) {
+        output.writeInt32(15, friendAllHP_);
+      }
+      if (((bitField0_ & 0x00040000) == 0x00040000)) {
+        output.writeInt32(16, friendRemainHP_);
+      }
+      if (((bitField0_ & 0x00080000) == 0x00080000)) {
+        output.writeInt32(17, friendHorseRoleId_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeInt32(18, enemyLevel_);
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(19, itemId_);
+      }
+      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+        output.writeInt32(20, state_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, enemyJid_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getEnemyNameBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, enemyCountryId_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, enemyAllHP_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, enemyRemainHP_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, getEnemyAllianceNameBytes());
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, enemyZhanLi_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, enemyRoleId_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(9, friendJid_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(10, getFriendNameBytes());
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(11, friendRoleId_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(12, happendTime_);
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(13, remainTime_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(14, willLostBuild_);
+      }
+      if (((bitField0_ & 0x00020000) == 0x00020000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(15, friendAllHP_);
+      }
+      if (((bitField0_ & 0x00040000) == 0x00040000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(16, friendRemainHP_);
+      }
+      if (((bitField0_ & 0x00080000) == 0x00080000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(17, friendHorseRoleId_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(18, enemyLevel_);
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(19, itemId_);
+      }
+      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(20, state_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Prompt.HistoryBattleInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Prompt.HistoryBattleInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Prompt.HistoryBattleInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Prompt.HistoryBattleInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Prompt.HistoryBattleInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Prompt.HistoryBattleInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Prompt.HistoryBattleInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Prompt.HistoryBattleInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Prompt.HistoryBattleInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Prompt.HistoryBattleInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Prompt.HistoryBattleInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.HistoryBattleInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Prompt.HistoryBattleInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_HistoryBattleInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_HistoryBattleInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Prompt.HistoryBattleInfo.class, qxmobile.protobuf.Prompt.HistoryBattleInfo.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Prompt.HistoryBattleInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        itemId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        enemyJid_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        enemyName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        enemyCountryId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        enemyAllHP_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        enemyRemainHP_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        enemyAllianceName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
+        enemyZhanLi_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
+        enemyRoleId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000100);
+        enemyLevel_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
+        friendJid_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000400);
+        friendName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000800);
+        friendRoleId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00001000);
+        happendTime_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00002000);
+        remainTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00004000);
+        willLostBuild_ = 0;
+        bitField0_ = (bitField0_ & ~0x00008000);
+        state_ = 0;
+        bitField0_ = (bitField0_ & ~0x00010000);
+        friendAllHP_ = 0;
+        bitField0_ = (bitField0_ & ~0x00020000);
+        friendRemainHP_ = 0;
+        bitField0_ = (bitField0_ & ~0x00040000);
+        friendHorseRoleId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00080000);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_HistoryBattleInfo_descriptor;
+      }
+
+      public qxmobile.protobuf.Prompt.HistoryBattleInfo getDefaultInstanceForType() {
+        return qxmobile.protobuf.Prompt.HistoryBattleInfo.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Prompt.HistoryBattleInfo build() {
+        qxmobile.protobuf.Prompt.HistoryBattleInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Prompt.HistoryBattleInfo buildPartial() {
+        qxmobile.protobuf.Prompt.HistoryBattleInfo result = new qxmobile.protobuf.Prompt.HistoryBattleInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.itemId_ = itemId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.enemyJid_ = enemyJid_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.enemyName_ = enemyName_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.enemyCountryId_ = enemyCountryId_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.enemyAllHP_ = enemyAllHP_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.enemyRemainHP_ = enemyRemainHP_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.enemyAllianceName_ = enemyAllianceName_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.enemyZhanLi_ = enemyZhanLi_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.enemyRoleId_ = enemyRoleId_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.enemyLevel_ = enemyLevel_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.friendJid_ = friendJid_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.friendName_ = friendName_;
+        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+          to_bitField0_ |= 0x00001000;
+        }
+        result.friendRoleId_ = friendRoleId_;
+        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+          to_bitField0_ |= 0x00002000;
+        }
+        result.happendTime_ = happendTime_;
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+          to_bitField0_ |= 0x00004000;
+        }
+        result.remainTime_ = remainTime_;
+        if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
+          to_bitField0_ |= 0x00008000;
+        }
+        result.willLostBuild_ = willLostBuild_;
+        if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
+          to_bitField0_ |= 0x00010000;
+        }
+        result.state_ = state_;
+        if (((from_bitField0_ & 0x00020000) == 0x00020000)) {
+          to_bitField0_ |= 0x00020000;
+        }
+        result.friendAllHP_ = friendAllHP_;
+        if (((from_bitField0_ & 0x00040000) == 0x00040000)) {
+          to_bitField0_ |= 0x00040000;
+        }
+        result.friendRemainHP_ = friendRemainHP_;
+        if (((from_bitField0_ & 0x00080000) == 0x00080000)) {
+          to_bitField0_ |= 0x00080000;
+        }
+        result.friendHorseRoleId_ = friendHorseRoleId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Prompt.HistoryBattleInfo) {
+          return mergeFrom((qxmobile.protobuf.Prompt.HistoryBattleInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Prompt.HistoryBattleInfo other) {
+        if (other == qxmobile.protobuf.Prompt.HistoryBattleInfo.getDefaultInstance()) return this;
+        if (other.hasItemId()) {
+          setItemId(other.getItemId());
+        }
+        if (other.hasEnemyJid()) {
+          setEnemyJid(other.getEnemyJid());
+        }
+        if (other.hasEnemyName()) {
+          bitField0_ |= 0x00000004;
+          enemyName_ = other.enemyName_;
+          onChanged();
+        }
+        if (other.hasEnemyCountryId()) {
+          setEnemyCountryId(other.getEnemyCountryId());
+        }
+        if (other.hasEnemyAllHP()) {
+          setEnemyAllHP(other.getEnemyAllHP());
+        }
+        if (other.hasEnemyRemainHP()) {
+          setEnemyRemainHP(other.getEnemyRemainHP());
+        }
+        if (other.hasEnemyAllianceName()) {
+          bitField0_ |= 0x00000040;
+          enemyAllianceName_ = other.enemyAllianceName_;
+          onChanged();
+        }
+        if (other.hasEnemyZhanLi()) {
+          setEnemyZhanLi(other.getEnemyZhanLi());
+        }
+        if (other.hasEnemyRoleId()) {
+          setEnemyRoleId(other.getEnemyRoleId());
+        }
+        if (other.hasEnemyLevel()) {
+          setEnemyLevel(other.getEnemyLevel());
+        }
+        if (other.hasFriendJid()) {
+          setFriendJid(other.getFriendJid());
+        }
+        if (other.hasFriendName()) {
+          bitField0_ |= 0x00000800;
+          friendName_ = other.friendName_;
+          onChanged();
+        }
+        if (other.hasFriendRoleId()) {
+          setFriendRoleId(other.getFriendRoleId());
+        }
+        if (other.hasHappendTime()) {
+          setHappendTime(other.getHappendTime());
+        }
+        if (other.hasRemainTime()) {
+          setRemainTime(other.getRemainTime());
+        }
+        if (other.hasWillLostBuild()) {
+          setWillLostBuild(other.getWillLostBuild());
+        }
+        if (other.hasState()) {
+          setState(other.getState());
+        }
+        if (other.hasFriendAllHP()) {
+          setFriendAllHP(other.getFriendAllHP());
+        }
+        if (other.hasFriendRemainHP()) {
+          setFriendRemainHP(other.getFriendRemainHP());
+        }
+        if (other.hasFriendHorseRoleId()) {
+          setFriendHorseRoleId(other.getFriendHorseRoleId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasItemId()) {
+          
+          return false;
+        }
+        if (!hasEnemyJid()) {
+          
+          return false;
+        }
+        if (!hasEnemyName()) {
+          
+          return false;
+        }
+        if (!hasEnemyCountryId()) {
+          
+          return false;
+        }
+        if (!hasEnemyAllHP()) {
+          
+          return false;
+        }
+        if (!hasEnemyRemainHP()) {
+          
+          return false;
+        }
+        if (!hasEnemyAllianceName()) {
+          
+          return false;
+        }
+        if (!hasEnemyZhanLi()) {
+          
+          return false;
+        }
+        if (!hasEnemyRoleId()) {
+          
+          return false;
+        }
+        if (!hasEnemyLevel()) {
+          
+          return false;
+        }
+        if (!hasFriendJid()) {
+          
+          return false;
+        }
+        if (!hasFriendName()) {
+          
+          return false;
+        }
+        if (!hasFriendRoleId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Prompt.HistoryBattleInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Prompt.HistoryBattleInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 itemId = 19;
+      private int itemId_ ;
+      /**
+       * <code>required int32 itemId = 19;</code>
+       *
+       * <pre>
+       * 掠夺的itemId就是掠夺战斗id
+       * </pre>
+       */
+      public boolean hasItemId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 itemId = 19;</code>
+       *
+       * <pre>
+       * 掠夺的itemId就是掠夺战斗id
+       * </pre>
+       */
+      public int getItemId() {
+        return itemId_;
+      }
+      /**
+       * <code>required int32 itemId = 19;</code>
+       *
+       * <pre>
+       * 掠夺的itemId就是掠夺战斗id
+       * </pre>
+       */
+      public Builder setItemId(int value) {
+        bitField0_ |= 0x00000001;
+        itemId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 itemId = 19;</code>
+       *
+       * <pre>
+       * 掠夺的itemId就是掠夺战斗id
+       * </pre>
+       */
+      public Builder clearItemId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        itemId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int64 enemyJid = 1;
+      private long enemyJid_ ;
+      /**
+       * <code>required int64 enemyJid = 1;</code>
+       */
+      public boolean hasEnemyJid() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int64 enemyJid = 1;</code>
+       */
+      public long getEnemyJid() {
+        return enemyJid_;
+      }
+      /**
+       * <code>required int64 enemyJid = 1;</code>
+       */
+      public Builder setEnemyJid(long value) {
+        bitField0_ |= 0x00000002;
+        enemyJid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 enemyJid = 1;</code>
+       */
+      public Builder clearEnemyJid() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        enemyJid_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // required string enemyName = 2;
+      private java.lang.Object enemyName_ = "";
+      /**
+       * <code>required string enemyName = 2;</code>
+       */
+      public boolean hasEnemyName() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required string enemyName = 2;</code>
+       */
+      public java.lang.String getEnemyName() {
+        java.lang.Object ref = enemyName_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          enemyName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string enemyName = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getEnemyNameBytes() {
+        java.lang.Object ref = enemyName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          enemyName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string enemyName = 2;</code>
+       */
+      public Builder setEnemyName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        enemyName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string enemyName = 2;</code>
+       */
+      public Builder clearEnemyName() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        enemyName_ = getDefaultInstance().getEnemyName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string enemyName = 2;</code>
+       */
+      public Builder setEnemyNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        enemyName_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 enemyCountryId = 3;
+      private int enemyCountryId_ ;
+      /**
+       * <code>required int32 enemyCountryId = 3;</code>
+       */
+      public boolean hasEnemyCountryId() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 enemyCountryId = 3;</code>
+       */
+      public int getEnemyCountryId() {
+        return enemyCountryId_;
+      }
+      /**
+       * <code>required int32 enemyCountryId = 3;</code>
+       */
+      public Builder setEnemyCountryId(int value) {
+        bitField0_ |= 0x00000008;
+        enemyCountryId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 enemyCountryId = 3;</code>
+       */
+      public Builder clearEnemyCountryId() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        enemyCountryId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 enemyAllHP = 4;
+      private int enemyAllHP_ ;
+      /**
+       * <code>required int32 enemyAllHP = 4;</code>
+       */
+      public boolean hasEnemyAllHP() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required int32 enemyAllHP = 4;</code>
+       */
+      public int getEnemyAllHP() {
+        return enemyAllHP_;
+      }
+      /**
+       * <code>required int32 enemyAllHP = 4;</code>
+       */
+      public Builder setEnemyAllHP(int value) {
+        bitField0_ |= 0x00000010;
+        enemyAllHP_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 enemyAllHP = 4;</code>
+       */
+      public Builder clearEnemyAllHP() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        enemyAllHP_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 enemyRemainHP = 5;
+      private int enemyRemainHP_ ;
+      /**
+       * <code>required int32 enemyRemainHP = 5;</code>
+       */
+      public boolean hasEnemyRemainHP() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required int32 enemyRemainHP = 5;</code>
+       */
+      public int getEnemyRemainHP() {
+        return enemyRemainHP_;
+      }
+      /**
+       * <code>required int32 enemyRemainHP = 5;</code>
+       */
+      public Builder setEnemyRemainHP(int value) {
+        bitField0_ |= 0x00000020;
+        enemyRemainHP_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 enemyRemainHP = 5;</code>
+       */
+      public Builder clearEnemyRemainHP() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        enemyRemainHP_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string enemyAllianceName = 6;
+      private java.lang.Object enemyAllianceName_ = "";
+      /**
+       * <code>required string enemyAllianceName = 6;</code>
+       */
+      public boolean hasEnemyAllianceName() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>required string enemyAllianceName = 6;</code>
+       */
+      public java.lang.String getEnemyAllianceName() {
+        java.lang.Object ref = enemyAllianceName_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          enemyAllianceName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string enemyAllianceName = 6;</code>
+       */
+      public com.google.protobuf.ByteString
+          getEnemyAllianceNameBytes() {
+        java.lang.Object ref = enemyAllianceName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          enemyAllianceName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string enemyAllianceName = 6;</code>
+       */
+      public Builder setEnemyAllianceName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        enemyAllianceName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string enemyAllianceName = 6;</code>
+       */
+      public Builder clearEnemyAllianceName() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        enemyAllianceName_ = getDefaultInstance().getEnemyAllianceName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string enemyAllianceName = 6;</code>
+       */
+      public Builder setEnemyAllianceNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        enemyAllianceName_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 enemyZhanLi = 7;
+      private int enemyZhanLi_ ;
+      /**
+       * <code>required int32 enemyZhanLi = 7;</code>
+       */
+      public boolean hasEnemyZhanLi() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>required int32 enemyZhanLi = 7;</code>
+       */
+      public int getEnemyZhanLi() {
+        return enemyZhanLi_;
+      }
+      /**
+       * <code>required int32 enemyZhanLi = 7;</code>
+       */
+      public Builder setEnemyZhanLi(int value) {
+        bitField0_ |= 0x00000080;
+        enemyZhanLi_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 enemyZhanLi = 7;</code>
+       */
+      public Builder clearEnemyZhanLi() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        enemyZhanLi_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 enemyRoleId = 8;
+      private int enemyRoleId_ ;
+      /**
+       * <code>required int32 enemyRoleId = 8;</code>
+       */
+      public boolean hasEnemyRoleId() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>required int32 enemyRoleId = 8;</code>
+       */
+      public int getEnemyRoleId() {
+        return enemyRoleId_;
+      }
+      /**
+       * <code>required int32 enemyRoleId = 8;</code>
+       */
+      public Builder setEnemyRoleId(int value) {
+        bitField0_ |= 0x00000100;
+        enemyRoleId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 enemyRoleId = 8;</code>
+       */
+      public Builder clearEnemyRoleId() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        enemyRoleId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 enemyLevel = 18;
+      private int enemyLevel_ ;
+      /**
+       * <code>required int32 enemyLevel = 18;</code>
+       */
+      public boolean hasEnemyLevel() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>required int32 enemyLevel = 18;</code>
+       */
+      public int getEnemyLevel() {
+        return enemyLevel_;
+      }
+      /**
+       * <code>required int32 enemyLevel = 18;</code>
+       */
+      public Builder setEnemyLevel(int value) {
+        bitField0_ |= 0x00000200;
+        enemyLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 enemyLevel = 18;</code>
+       */
+      public Builder clearEnemyLevel() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        enemyLevel_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int64 friendJid = 9;
+      private long friendJid_ ;
+      /**
+       * <code>required int64 friendJid = 9;</code>
+       */
+      public boolean hasFriendJid() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>required int64 friendJid = 9;</code>
+       */
+      public long getFriendJid() {
+        return friendJid_;
+      }
+      /**
+       * <code>required int64 friendJid = 9;</code>
+       */
+      public Builder setFriendJid(long value) {
+        bitField0_ |= 0x00000400;
+        friendJid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 friendJid = 9;</code>
+       */
+      public Builder clearFriendJid() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        friendJid_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // required string friendName = 10;
+      private java.lang.Object friendName_ = "";
+      /**
+       * <code>required string friendName = 10;</code>
+       */
+      public boolean hasFriendName() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>required string friendName = 10;</code>
+       */
+      public java.lang.String getFriendName() {
+        java.lang.Object ref = friendName_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          friendName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string friendName = 10;</code>
+       */
+      public com.google.protobuf.ByteString
+          getFriendNameBytes() {
+        java.lang.Object ref = friendName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          friendName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string friendName = 10;</code>
+       */
+      public Builder setFriendName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        friendName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string friendName = 10;</code>
+       */
+      public Builder clearFriendName() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        friendName_ = getDefaultInstance().getFriendName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string friendName = 10;</code>
+       */
+      public Builder setFriendNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        friendName_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 friendRoleId = 11;
+      private int friendRoleId_ ;
+      /**
+       * <code>required int32 friendRoleId = 11;</code>
+       */
+      public boolean hasFriendRoleId() {
+        return ((bitField0_ & 0x00001000) == 0x00001000);
+      }
+      /**
+       * <code>required int32 friendRoleId = 11;</code>
+       */
+      public int getFriendRoleId() {
+        return friendRoleId_;
+      }
+      /**
+       * <code>required int32 friendRoleId = 11;</code>
+       */
+      public Builder setFriendRoleId(int value) {
+        bitField0_ |= 0x00001000;
+        friendRoleId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 friendRoleId = 11;</code>
+       */
+      public Builder clearFriendRoleId() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        friendRoleId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 happendTime = 12;
+      private long happendTime_ ;
+      /**
+       * <code>optional int64 happendTime = 12;</code>
+       *
+       * <pre>
+       * 策划没有确定要不要这个，先写上
+       * </pre>
+       */
+      public boolean hasHappendTime() {
+        return ((bitField0_ & 0x00002000) == 0x00002000);
+      }
+      /**
+       * <code>optional int64 happendTime = 12;</code>
+       *
+       * <pre>
+       * 策划没有确定要不要这个，先写上
+       * </pre>
+       */
+      public long getHappendTime() {
+        return happendTime_;
+      }
+      /**
+       * <code>optional int64 happendTime = 12;</code>
+       *
+       * <pre>
+       * 策划没有确定要不要这个，先写上
+       * </pre>
+       */
+      public Builder setHappendTime(long value) {
+        bitField0_ |= 0x00002000;
+        happendTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 happendTime = 12;</code>
+       *
+       * <pre>
+       * 策划没有确定要不要这个，先写上
+       * </pre>
+       */
+      public Builder clearHappendTime() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        happendTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 remainTime = 13;
+      private int remainTime_ ;
+      /**
+       * <code>optional int32 remainTime = 13;</code>
+       *
+       * <pre>
+       *掠夺
+       * </pre>
+       */
+      public boolean hasRemainTime() {
+        return ((bitField0_ & 0x00004000) == 0x00004000);
+      }
+      /**
+       * <code>optional int32 remainTime = 13;</code>
+       *
+       * <pre>
+       *掠夺
+       * </pre>
+       */
+      public int getRemainTime() {
+        return remainTime_;
+      }
+      /**
+       * <code>optional int32 remainTime = 13;</code>
+       *
+       * <pre>
+       *掠夺
+       * </pre>
+       */
+      public Builder setRemainTime(int value) {
+        bitField0_ |= 0x00004000;
+        remainTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 remainTime = 13;</code>
+       *
+       * <pre>
+       *掠夺
+       * </pre>
+       */
+      public Builder clearRemainTime() {
+        bitField0_ = (bitField0_ & ~0x00004000);
+        remainTime_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 willLostBuild = 14;
+      private int willLostBuild_ ;
+      /**
+       * <code>optional int32 willLostBuild = 14;</code>
+       *
+       * <pre>
+       *将要损失的建设值
+       * </pre>
+       */
+      public boolean hasWillLostBuild() {
+        return ((bitField0_ & 0x00008000) == 0x00008000);
+      }
+      /**
+       * <code>optional int32 willLostBuild = 14;</code>
+       *
+       * <pre>
+       *将要损失的建设值
+       * </pre>
+       */
+      public int getWillLostBuild() {
+        return willLostBuild_;
+      }
+      /**
+       * <code>optional int32 willLostBuild = 14;</code>
+       *
+       * <pre>
+       *将要损失的建设值
+       * </pre>
+       */
+      public Builder setWillLostBuild(int value) {
+        bitField0_ |= 0x00008000;
+        willLostBuild_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 willLostBuild = 14;</code>
+       *
+       * <pre>
+       *将要损失的建设值
+       * </pre>
+       */
+      public Builder clearWillLostBuild() {
+        bitField0_ = (bitField0_ & ~0x00008000);
+        willLostBuild_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 state = 20;
+      private int state_ ;
+      /**
+       * <code>optional int32 state = 20;</code>
+       *
+       * <pre>
+       *该条记录的状态
+       * </pre>
+       */
+      public boolean hasState() {
+        return ((bitField0_ & 0x00010000) == 0x00010000);
+      }
+      /**
+       * <code>optional int32 state = 20;</code>
+       *
+       * <pre>
+       *该条记录的状态
+       * </pre>
+       */
+      public int getState() {
+        return state_;
+      }
+      /**
+       * <code>optional int32 state = 20;</code>
+       *
+       * <pre>
+       *该条记录的状态
+       * </pre>
+       */
+      public Builder setState(int value) {
+        bitField0_ |= 0x00010000;
+        state_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 state = 20;</code>
+       *
+       * <pre>
+       *该条记录的状态
+       * </pre>
+       */
+      public Builder clearState() {
+        bitField0_ = (bitField0_ & ~0x00010000);
+        state_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 friendAllHP = 15;
+      private int friendAllHP_ ;
+      /**
+       * <code>optional int32 friendAllHP = 15;</code>
+       *
+       * <pre>
+       * 行镖
+       * </pre>
+       */
+      public boolean hasFriendAllHP() {
+        return ((bitField0_ & 0x00020000) == 0x00020000);
+      }
+      /**
+       * <code>optional int32 friendAllHP = 15;</code>
+       *
+       * <pre>
+       * 行镖
+       * </pre>
+       */
+      public int getFriendAllHP() {
+        return friendAllHP_;
+      }
+      /**
+       * <code>optional int32 friendAllHP = 15;</code>
+       *
+       * <pre>
+       * 行镖
+       * </pre>
+       */
+      public Builder setFriendAllHP(int value) {
+        bitField0_ |= 0x00020000;
+        friendAllHP_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 friendAllHP = 15;</code>
+       *
+       * <pre>
+       * 行镖
+       * </pre>
+       */
+      public Builder clearFriendAllHP() {
+        bitField0_ = (bitField0_ & ~0x00020000);
+        friendAllHP_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 friendRemainHP = 16;
+      private int friendRemainHP_ ;
+      /**
+       * <code>optional int32 friendRemainHP = 16;</code>
+       */
+      public boolean hasFriendRemainHP() {
+        return ((bitField0_ & 0x00040000) == 0x00040000);
+      }
+      /**
+       * <code>optional int32 friendRemainHP = 16;</code>
+       */
+      public int getFriendRemainHP() {
+        return friendRemainHP_;
+      }
+      /**
+       * <code>optional int32 friendRemainHP = 16;</code>
+       */
+      public Builder setFriendRemainHP(int value) {
+        bitField0_ |= 0x00040000;
+        friendRemainHP_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 friendRemainHP = 16;</code>
+       */
+      public Builder clearFriendRemainHP() {
+        bitField0_ = (bitField0_ & ~0x00040000);
+        friendRemainHP_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 friendHorseRoleId = 17;
+      private int friendHorseRoleId_ ;
+      /**
+       * <code>optional int32 friendHorseRoleId = 17;</code>
+       */
+      public boolean hasFriendHorseRoleId() {
+        return ((bitField0_ & 0x00080000) == 0x00080000);
+      }
+      /**
+       * <code>optional int32 friendHorseRoleId = 17;</code>
+       */
+      public int getFriendHorseRoleId() {
+        return friendHorseRoleId_;
+      }
+      /**
+       * <code>optional int32 friendHorseRoleId = 17;</code>
+       */
+      public Builder setFriendHorseRoleId(int value) {
+        bitField0_ |= 0x00080000;
+        friendHorseRoleId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 friendHorseRoleId = 17;</code>
+       */
+      public Builder clearFriendHorseRoleId() {
+        bitField0_ = (bitField0_ & ~0x00080000);
+        friendHorseRoleId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.HistoryBattleInfo)
+    }
+
+    static {
+      defaultInstance = new HistoryBattleInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.HistoryBattleInfo)
+  }
+
+  public interface QuZhuReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 itemId = 19;
+    /**
+     * <code>required int32 itemId = 19;</code>
+     */
+    boolean hasItemId();
+    /**
+     * <code>required int32 itemId = 19;</code>
+     */
+    int getItemId();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.QuZhuReq}
+   *
+   * <pre>
+   *public static final short go_qu_zhu_req = 26078; // 驱逐
+   *public static final short go_qu_zhu_resp = 26079; // 驱逐返回
+   * </pre>
+   */
+  public static final class QuZhuReq extends
+      com.google.protobuf.GeneratedMessage
+      implements QuZhuReqOrBuilder {
+    // Use QuZhuReq.newBuilder() to construct.
+    private QuZhuReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private QuZhuReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final QuZhuReq defaultInstance;
+    public static QuZhuReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public QuZhuReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private QuZhuReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 152: {
+              bitField0_ |= 0x00000001;
+              itemId_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_QuZhuReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_QuZhuReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Prompt.QuZhuReq.class, qxmobile.protobuf.Prompt.QuZhuReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<QuZhuReq> PARSER =
+        new com.google.protobuf.AbstractParser<QuZhuReq>() {
+      public QuZhuReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new QuZhuReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<QuZhuReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 itemId = 19;
+    public static final int ITEMID_FIELD_NUMBER = 19;
+    private int itemId_;
+    /**
+     * <code>required int32 itemId = 19;</code>
+     */
+    public boolean hasItemId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 itemId = 19;</code>
+     */
+    public int getItemId() {
+      return itemId_;
+    }
+
+    private void initFields() {
+      itemId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasItemId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(19, itemId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(19, itemId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Prompt.QuZhuReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Prompt.QuZhuReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Prompt.QuZhuReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Prompt.QuZhuReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Prompt.QuZhuReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Prompt.QuZhuReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Prompt.QuZhuReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Prompt.QuZhuReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Prompt.QuZhuReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Prompt.QuZhuReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Prompt.QuZhuReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.QuZhuReq}
+     *
+     * <pre>
+     *public static final short go_qu_zhu_req = 26078; // 驱逐
+     *public static final short go_qu_zhu_resp = 26079; // 驱逐返回
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Prompt.QuZhuReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_QuZhuReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_QuZhuReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Prompt.QuZhuReq.class, qxmobile.protobuf.Prompt.QuZhuReq.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Prompt.QuZhuReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        itemId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Prompt.internal_static_qxmobile_protobuf_QuZhuReq_descriptor;
+      }
+
+      public qxmobile.protobuf.Prompt.QuZhuReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.Prompt.QuZhuReq.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Prompt.QuZhuReq build() {
+        qxmobile.protobuf.Prompt.QuZhuReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Prompt.QuZhuReq buildPartial() {
+        qxmobile.protobuf.Prompt.QuZhuReq result = new qxmobile.protobuf.Prompt.QuZhuReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.itemId_ = itemId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Prompt.QuZhuReq) {
+          return mergeFrom((qxmobile.protobuf.Prompt.QuZhuReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Prompt.QuZhuReq other) {
+        if (other == qxmobile.protobuf.Prompt.QuZhuReq.getDefaultInstance()) return this;
+        if (other.hasItemId()) {
+          setItemId(other.getItemId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasItemId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Prompt.QuZhuReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Prompt.QuZhuReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 itemId = 19;
+      private int itemId_ ;
+      /**
+       * <code>required int32 itemId = 19;</code>
+       */
+      public boolean hasItemId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 itemId = 19;</code>
+       */
+      public int getItemId() {
+        return itemId_;
+      }
+      /**
+       * <code>required int32 itemId = 19;</code>
+       */
+      public Builder setItemId(int value) {
+        bitField0_ |= 0x00000001;
+        itemId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 itemId = 19;</code>
+       */
+      public Builder clearItemId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        itemId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.QuZhuReq)
+    }
+
+    static {
+      defaultInstance = new QuZhuReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.QuZhuReq)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_PromptMSGResp_descriptor;
   private static
@@ -3473,6 +7930,26 @@ public final class Prompt {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_PromptActionResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_JunQingReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_JunQingReq_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_JunQingResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_JunQingResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_HistoryBattleInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_HistoryBattleInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_QuZhuReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_QuZhuReq_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3491,8 +7968,24 @@ public final class Prompt {
       "\001 \002(\005\022\017\n\007suBaoId\030\002 \002(\003\"\201\001\n\020PromptActionR" +
       "esp\022\017\n\007subaoId\030\001 \002(\003\022\016\n\006result\030\002 \002(\005\022\021\n\t" +
       "subaoType\030\003 \002(\005\022\016\n\006fujian\030\004 \001(\t\022\r\n\005ybuid" +
-      "\030\005 \001(\003\022\014\n\004posX\030\006 \001(\002\022\014\n\004posZ\030\007 \001(\002B\010B\006Pr",
-      "ompt"
+      "\030\005 \001(\003\022\014\n\004posX\030\006 \001(\002\022\014\n\004posZ\030\007 \001(\002\"\032\n\nJu",
+      "nQingReq\022\014\n\004type\030\001 \002(\005\"\213\001\n\013JunQingResp\022\014" +
+      "\n\004type\030\001 \002(\005\0223\n\005infos\030\002 \003(\0132$.qxmobile.p" +
+      "rotobuf.HistoryBattleInfo\022\027\n\017todayRemain" +
+      "Help\030\003 \001(\005\022\024\n\014todayAllHelp\030\004 \001(\005\022\n\n\002cd\030\005" +
+      " \001(\005\"\270\003\n\021HistoryBattleInfo\022\016\n\006itemId\030\023 \002" +
+      "(\005\022\020\n\010enemyJid\030\001 \002(\003\022\021\n\tenemyName\030\002 \002(\t\022" +
+      "\026\n\016enemyCountryId\030\003 \002(\005\022\022\n\nenemyAllHP\030\004 " +
+      "\002(\005\022\025\n\renemyRemainHP\030\005 \002(\005\022\031\n\021enemyAllia" +
+      "nceName\030\006 \002(\t\022\023\n\013enemyZhanLi\030\007 \002(\005\022\023\n\013en" +
+      "emyRoleId\030\010 \002(\005\022\022\n\nenemyLevel\030\022 \002(\005\022\021\n\tf",
+      "riendJid\030\t \002(\003\022\022\n\nfriendName\030\n \002(\t\022\024\n\014fr" +
+      "iendRoleId\030\013 \002(\005\022\023\n\013happendTime\030\014 \001(\003\022\022\n" +
+      "\nremainTime\030\r \001(\005\022\025\n\rwillLostBuild\030\016 \001(\005" +
+      "\022\r\n\005state\030\024 \001(\005\022\023\n\013friendAllHP\030\017 \001(\005\022\026\n\016" +
+      "friendRemainHP\030\020 \001(\005\022\031\n\021friendHorseRoleI" +
+      "d\030\021 \001(\005\"\032\n\010QuZhuReq\022\016\n\006itemId\030\023 \002(\005B\010B\006P" +
+      "rompt"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3523,6 +8016,30 @@ public final class Prompt {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_PromptActionResp_descriptor,
               new java.lang.String[] { "SubaoId", "Result", "SubaoType", "Fujian", "Ybuid", "PosX", "PosZ", });
+          internal_static_qxmobile_protobuf_JunQingReq_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_qxmobile_protobuf_JunQingReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_JunQingReq_descriptor,
+              new java.lang.String[] { "Type", });
+          internal_static_qxmobile_protobuf_JunQingResp_descriptor =
+            getDescriptor().getMessageTypes().get(5);
+          internal_static_qxmobile_protobuf_JunQingResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_JunQingResp_descriptor,
+              new java.lang.String[] { "Type", "Infos", "TodayRemainHelp", "TodayAllHelp", "Cd", });
+          internal_static_qxmobile_protobuf_HistoryBattleInfo_descriptor =
+            getDescriptor().getMessageTypes().get(6);
+          internal_static_qxmobile_protobuf_HistoryBattleInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_HistoryBattleInfo_descriptor,
+              new java.lang.String[] { "ItemId", "EnemyJid", "EnemyName", "EnemyCountryId", "EnemyAllHP", "EnemyRemainHP", "EnemyAllianceName", "EnemyZhanLi", "EnemyRoleId", "EnemyLevel", "FriendJid", "FriendName", "FriendRoleId", "HappendTime", "RemainTime", "WillLostBuild", "State", "FriendAllHP", "FriendRemainHP", "FriendHorseRoleId", });
+          internal_static_qxmobile_protobuf_QuZhuReq_descriptor =
+            getDescriptor().getMessageTypes().get(7);
+          internal_static_qxmobile_protobuf_QuZhuReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_QuZhuReq_descriptor,
+              new java.lang.String[] { "ItemId", });
           return null;
         }
       };

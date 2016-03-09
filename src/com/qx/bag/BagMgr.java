@@ -1,11 +1,17 @@
 package com.qx.bag;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import log.OurLog;
 import log.parser.ReasonMgr;
 
+import org.apache.commons.collections.map.LRUMap;
 import org.apache.mina.core.session.IoSession;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -25,6 +31,7 @@ import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.hero.service.HeroService;
 import com.manu.dynasty.store.MemcachedCRUD;
+import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.BaseItem;
 import com.manu.dynasty.template.ItemTemp;
@@ -63,7 +70,7 @@ public class BagMgr {
 	public BagMgr(){
 		inst = this;
 	}
-
+	
 	public Bag<BagGrid> loadBag(long pid){
 		final long start = pid * spaceFactor;
 		final long end = start + maxGridCount - 1;
@@ -257,8 +264,10 @@ public class BagMgr {
 		OurLog.log.ItemFlow(jzLevel, iGoodsType, itemId, cnt, AfterCount, Reason, SubReason, iMoney, MONEYTYPE_pay1_free0, 1,
 				String.valueOf(bag.ownerId));
 		// 添加符石推送检测 2015-9-22
-		JunZhu jz = HibernateUtil.find(JunZhu.class, bag.ownerId);
-		EventMgr.addEvent(ED.FUSHI_PUSH, jz);
+		if(bi.getType() == AwardMgr.type_fuWen || bi.getType()==AwardMgr.type_baoShi){
+			JunZhu jz = HibernateUtil.find(JunZhu.class, bag.ownerId);
+			EventMgr.addEvent(ED.FUSHI_PUSH, jz);
+		}
 	}
 	public String getItemName(int id){
 		BaseItem o = TempletService.itemMap.get(id);
@@ -387,7 +396,7 @@ public class BagMgr {
 					item.setTongShuai(zb.getTongli());
 					item.setWuYi(zb.getWuli());
 					item.setMouLi(zb.getMouli());
-					UserEquip ue = HibernateUtil.find(UserEquip.class, gd.instId);
+					UserEquip ue = gd.instId > 0 ? HibernateUtil.find(UserEquip.class, gd.instId) : null;
 					fillEquipAtt(item, zb,ue);//先把基础值放上，强化、洗练的值后面再加
 					if(gd.instId>0){
 						item.setQiangHuaLv(ue == null ? 0 : ue.getLevel());
@@ -489,7 +498,7 @@ public class BagMgr {
 						item.setTongShuai(zb.getTongli());
 						item.setWuYi(zb.getWuli());
 						item.setMouLi(zb.getMouli());
-						UserEquip ue = HibernateUtil.find(UserEquip.class, gd.instId);
+						UserEquip ue = gd.instId>0 ? HibernateUtil.find(UserEquip.class, gd.instId) : null;
 						fillEquipAtt(item, zb,ue);//先把基础值放上，强化、洗练的值后面再加
 						if(gd.instId>0){
 							item.setQiangHuaLv(ue == null ? 0 : ue.getLevel());
@@ -690,8 +699,8 @@ public class BagMgr {
 			}
 		}
 		// 添加符石推送检测 2015-9-22
-		JunZhu jz = HibernateUtil.find(JunZhu.class, bag.ownerId);
-		EventMgr.addEvent(ED.FUSHI_PUSH, jz);
+//		JunZhu jz = HibernateUtil.find(JunZhu.class, bag.ownerId);
+//		EventMgr.addEvent(ED.FUSHI_PUSH, jz);
 	}
 	public void sendError(IoSession session, String msg) {
 		if(session == null){
@@ -782,7 +791,8 @@ public class BagMgr {
 		msg.builder = ret;
 		session.write(msg);
 		//
-		sendBagInfo(session, bag);
+		sendBagInfo(0,session,null);
+		JunZhuMgr.inst.sendMainInfo(session);//同步铜币
 	}
 
 	public void awards2message(List<AwardTemp> hits,
@@ -812,10 +822,68 @@ public class BagMgr {
 			if(calcV == null) {
 				continue;
 			}
-			AwardMgr.inst.giveReward(session, calcV, junZhu,false);
+			AwardMgr.inst.giveReward(session, calcV, junZhu,false,false);
 			log.info("{} 开宝箱 {} 得到 {} x {}", junZhu.id,it.id,calcV.getId(),calcV.getItemNum());
 			hitList.add(calcV);
 		}
 		return hitList;
+	}
+	
+	
+	public void sendHighlightItemIdsInBag(IoSession session){
+		Long ll = (Long) session.getAttribute(SessionAttKey.junZhuId);
+		if(ll == null){
+			return;
+		}
+		long jzId = ll.longValue();
+		final Set<String> confSet = TempletService.effectshowItemIds;
+		if(confSet == null || confSet.isEmpty()){
+			ProtobufMsg msg = new ProtobufMsg();
+			msg.id = PD.S_GET_HighLight_item_ids;
+			qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder builder = ErrorMessage.newBuilder();
+			msg.builder = builder;
+			builder.setCmd(0);
+			builder.setErrorCode(0);
+			builder.setErrorDesc("");
+			session.write(msg);
+			return;
+		}
+		confSet.add("180102");
+		String key = "HighlightItemIdsInBag#"+jzId;
+		final Set<String> showedSet = new HashSet<>();
+		Set<String> redisData = Redis.getInstance().sget(key);
+		if(redisData != null){
+			showedSet.addAll(		redisData );
+		}
+		final Set<String> showedThisTime = new HashSet<>();
+		
+		final StringBuffer sb = new StringBuffer();
+		sb.append("#");
+		Bag<BagGrid> bag = loadBag(jzId);
+		bag.grids.stream()
+			.filter(gd->gd != null)
+			.filter(gd->gd.itemId>0)
+			.filter(gd->gd.cnt>0)
+			.filter(gd->showedSet.contains(gd.itemId)==false)//没有展示过
+			.filter(gd->confSet.contains(gd.itemId))//且配置了要展示
+			.forEach(gd->{
+				sb.append(gd.itemId);
+				sb.append("#");
+				showedThisTime.add(String.valueOf(gd.itemId));
+			});
+		
+		ProtobufMsg msg = new ProtobufMsg();
+		msg.id = PD.S_GET_HighLight_item_ids;
+		qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder builder = ErrorMessage.newBuilder();
+		msg.builder = builder;
+		builder.setCmd(0);
+		builder.setErrorCode(0);
+		builder.setErrorDesc(sb.toString());
+		session.write(msg);
+		//
+		if(showedThisTime.size()>0){
+			String[] arr = new String[showedThisTime.size()];
+			Redis.getInstance().sadd(key, showedThisTime.toArray(arr));
+		}
 	}
 }

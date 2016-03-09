@@ -102,7 +102,7 @@ public class DateUtils {
 	 * 
 	 * @param oclock_hour
 	 * @param oclock_min
-	 * @return
+	 * @return =0已结过了oclock_hour点oclock_min分
 	 */
 	public static int timeDistanceTodayOclock(int oclock_hour, int oclock_min) {
 		Date now =new Date();
@@ -118,6 +118,28 @@ public class DateUtils {
 		int ldDis = timeDistanceBySecond(nextTime, now);
 		return ldDis;
 	}
+	/**
+	 * @Description 算出时间time和今天 oclock_hour时oclock_min分的时间差 (毫秒数)
+	 * @param time
+	 * @param oclock_hour
+	 * @param oclock_min
+	 * @return 返回》=0的数值
+	 */
+	public static int timeDistanceTodayByclock(	Date time ,int oclock_hour, int oclock_min) {
+		Date now =new Date();
+		int year=now.getYear();
+		int month=now.getMonth();
+		int date =now.getDate();
+		int hrs = oclock_hour;
+		int min = oclock_min;
+		Date nextTime = new Date(year, month, date, hrs, min);
+		if(time.getTime() >= nextTime.getTime()){
+			return 0;
+		}
+		int ldDis = timeDistanceBySecond(nextTime, time);
+		return ldDis;
+	}
+
 	/**
 	 * 得到n小时之前日期的字符串
 	 * @return 
@@ -1201,6 +1223,17 @@ public class DateUtils {
 		return now;
 	}
 
+	public static Date getLast10(){
+		Date now = new Date();
+		int year=now.getYear();
+		int month=now.getMonth();
+		int date =now.getDate();
+		int hrs=-2;
+		int min=now.getMinutes();
+		int ss=now.getSeconds();
+		Date nextDay=new Date(year, month, date, hrs, min,ss);
+		return nextDay;
+	}
 	/**
 	 * 返回 距离现在最近的一个21点的具体时间点。
 	 * @Title: getTimeFromLast21 

@@ -133,10 +133,6 @@ public class DailyTaskMgr extends EventProc {
 			resetOrAddTaskList(jId, tasks);
 		}
 		List<DailyTaskInfo> taskInfoList = fillTaskInfo(tasks, jId);
-		if(taskInfoList == null || taskInfoList.size() == 0){
-			logger.error("每日任务初始化失败");
-			return;
-		}
 		DailyTaskListResponse.Builder response = DailyTaskListResponse.newBuilder();
 		for(DailyTaskInfo taskInfo : taskInfoList) {
 			response.addTaskInfo(taskInfo);
@@ -200,9 +196,8 @@ public class DailyTaskMgr extends EventProc {
 		}
 	}
 	public List<DailyTaskInfo> fillTaskInfo(List<DailyTaskBean> tasks, long jid){
-		if(tasks == null) return null;
-		List<DailyTaskInfo> taskInfoList = 
-				new ArrayList<DailyTaskInfo>();
+		List<DailyTaskInfo> taskInfoList = new ArrayList<DailyTaskInfo>();
+		if(tasks == null) return taskInfoList;
 		DailyTaskInfo.Builder taskInfo = null;
 		int taskId = 0;
 		for(DailyTaskBean task: tasks){
@@ -488,7 +483,7 @@ public class DailyTaskMgr extends EventProc {
 		HibernateUtil.save(acti);
 		
 		// TODO @ you 添加改变活跃度事件
-		EventMgr.addEvent(ED.HUOYUE_CHANGE, new Object[] { jId,acti.todyHuoYue});
+		EventMgr.addEvent(ED.HUOYUE_CHANGE, new Object[] { jId,acti.todyHuoYue, junzhu.level});
 		/*
 		 * 是否是缴纳贡金任务
 		 */

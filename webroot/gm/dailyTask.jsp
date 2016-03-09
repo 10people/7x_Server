@@ -74,7 +74,7 @@ function ff(){
 	        	td(desc.getDescription());
 	        }
 			//td(r.type);
-			td(r.condition);td(r.jiangli);td(r.LmGongxian);
+			td(r.condition);td(/*r.jiangli*/"");td(r.LmGongxian);
 			trE();
 		}
 	}

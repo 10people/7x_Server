@@ -19,8 +19,9 @@ public class LMKJBean {
 	public int type_109;
 	public int type_110;
 	public int type_111;
-	public int type_202;
+//	public int type_202;
 //	public int type_203;
 	public int type_301;
 	public int type_204;
+	public int type_205;
 }

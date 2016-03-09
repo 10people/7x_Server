@@ -4805,6 +4805,24 @@ public final class AllianceProtos {
      */
     qxmobile.protobuf.AllianceProtos.MemberInfoOrBuilder getMemberInfoOrBuilder(
         int index);
+
+    // required int32 lmTargetLevel = 28;
+    /**
+     * <code>required int32 lmTargetLevel = 28;</code>
+     *
+     * <pre>
+     *联盟目标等级奖励，为-1表示都领完了
+     * </pre>
+     */
+    boolean hasLmTargetLevel();
+    /**
+     * <code>required int32 lmTargetLevel = 28;</code>
+     *
+     * <pre>
+     *联盟目标等级奖励，为-1表示都领完了
+     * </pre>
+     */
+    int getLmTargetLevel();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.AllianceHaveResp}
@@ -4997,6 +5015,11 @@ public final class AllianceProtos {
             case 216: {
               bitField0_ |= 0x00040000;
               isShenPi_ = input.readInt32();
+              break;
+            }
+            case 224: {
+              bitField0_ |= 0x04000000;
+              lmTargetLevel_ = input.readInt32();
               break;
             }
           }
@@ -5790,6 +5813,30 @@ public final class AllianceProtos {
       return memberInfo_.get(index);
     }
 
+    // required int32 lmTargetLevel = 28;
+    public static final int LMTARGETLEVEL_FIELD_NUMBER = 28;
+    private int lmTargetLevel_;
+    /**
+     * <code>required int32 lmTargetLevel = 28;</code>
+     *
+     * <pre>
+     *联盟目标等级奖励，为-1表示都领完了
+     * </pre>
+     */
+    public boolean hasLmTargetLevel() {
+      return ((bitField0_ & 0x04000000) == 0x04000000);
+    }
+    /**
+     * <code>required int32 lmTargetLevel = 28;</code>
+     *
+     * <pre>
+     *联盟目标等级奖励，为-1表示都领完了
+     * </pre>
+     */
+    public int getLmTargetLevel() {
+      return lmTargetLevel_;
+    }
+
     private void initFields() {
       name_ = "";
       id_ = 0;
@@ -5818,6 +5865,7 @@ public final class AllianceProtos {
       isVoteDialog_ = 0L;
       gongJin_ = 0;
       memberInfo_ = java.util.Collections.emptyList();
+      lmTargetLevel_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5909,6 +5957,10 @@ public final class AllianceProtos {
         return false;
       }
       if (!hasGongJin()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLmTargetLevel()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -6005,6 +6057,9 @@ public final class AllianceProtos {
       }
       if (((bitField0_ & 0x00040000) == 0x00040000)) {
         output.writeInt32(27, isShenPi_);
+      }
+      if (((bitField0_ & 0x04000000) == 0x04000000)) {
+        output.writeInt32(28, lmTargetLevel_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -6122,6 +6177,10 @@ public final class AllianceProtos {
       if (((bitField0_ & 0x00040000) == 0x00040000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(27, isShenPi_);
+      }
+      if (((bitField0_ & 0x04000000) == 0x04000000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(28, lmTargetLevel_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6302,6 +6361,8 @@ public final class AllianceProtos {
         } else {
           memberInfoBuilder_.clear();
         }
+        lmTargetLevel_ = 0;
+        bitField0_ = (bitField0_ & ~0x08000000);
         return this;
       }
 
@@ -6443,6 +6504,10 @@ public final class AllianceProtos {
         } else {
           result.memberInfo_ = memberInfoBuilder_.build();
         }
+        if (((from_bitField0_ & 0x08000000) == 0x08000000)) {
+          to_bitField0_ |= 0x04000000;
+        }
+        result.lmTargetLevel_ = lmTargetLevel_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6571,6 +6636,9 @@ public final class AllianceProtos {
             }
           }
         }
+        if (other.hasLmTargetLevel()) {
+          setLmTargetLevel(other.getLmTargetLevel());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -6661,6 +6729,10 @@ public final class AllianceProtos {
           return false;
         }
         if (!hasGongJin()) {
+          
+          return false;
+        }
+        if (!hasLmTargetLevel()) {
           
           return false;
         }
@@ -8328,6 +8400,55 @@ public final class AllianceProtos {
           memberInfo_ = null;
         }
         return memberInfoBuilder_;
+      }
+
+      // required int32 lmTargetLevel = 28;
+      private int lmTargetLevel_ ;
+      /**
+       * <code>required int32 lmTargetLevel = 28;</code>
+       *
+       * <pre>
+       *联盟目标等级奖励，为-1表示都领完了
+       * </pre>
+       */
+      public boolean hasLmTargetLevel() {
+        return ((bitField0_ & 0x08000000) == 0x08000000);
+      }
+      /**
+       * <code>required int32 lmTargetLevel = 28;</code>
+       *
+       * <pre>
+       *联盟目标等级奖励，为-1表示都领完了
+       * </pre>
+       */
+      public int getLmTargetLevel() {
+        return lmTargetLevel_;
+      }
+      /**
+       * <code>required int32 lmTargetLevel = 28;</code>
+       *
+       * <pre>
+       *联盟目标等级奖励，为-1表示都领完了
+       * </pre>
+       */
+      public Builder setLmTargetLevel(int value) {
+        bitField0_ |= 0x08000000;
+        lmTargetLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 lmTargetLevel = 28;</code>
+       *
+       * <pre>
+       *联盟目标等级奖励，为-1表示都领完了
+       * </pre>
+       */
+      public Builder clearLmTargetLevel() {
+        bitField0_ = (bitField0_ & ~0x08000000);
+        lmTargetLevel_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.AllianceHaveResp)
@@ -39263,6 +39384,1580 @@ public final class AllianceProtos {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FengShanResp)
   }
 
+  public interface AllianceTargetRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 level = 1;
+    /**
+     * <code>required int32 level = 1;</code>
+     *
+     * <pre>
+     * 联盟等级
+     * </pre>
+     */
+    boolean hasLevel();
+    /**
+     * <code>required int32 level = 1;</code>
+     *
+     * <pre>
+     * 联盟等级
+     * </pre>
+     */
+    int getLevel();
+
+    // required bool getAward = 2;
+    /**
+     * <code>required bool getAward = 2;</code>
+     *
+     * <pre>
+     * 是否领取奖励，true-领取，false-未领取
+     * </pre>
+     */
+    boolean hasGetAward();
+    /**
+     * <code>required bool getAward = 2;</code>
+     *
+     * <pre>
+     * 是否领取奖励，true-领取，false-未领取
+     * </pre>
+     */
+    boolean getGetAward();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.AllianceTargetResp}
+   *
+   * <pre>
+   * 联盟目标信息返回   short S_ALLIANCE_TARGET_INFO_Resp = 30174;
+   * </pre>
+   */
+  public static final class AllianceTargetResp extends
+      com.google.protobuf.GeneratedMessage
+      implements AllianceTargetRespOrBuilder {
+    // Use AllianceTargetResp.newBuilder() to construct.
+    private AllianceTargetResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private AllianceTargetResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final AllianceTargetResp defaultInstance;
+    public static AllianceTargetResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public AllianceTargetResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AllianceTargetResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              level_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              getAward_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AllianceTargetResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AllianceTargetResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceProtos.AllianceTargetResp.class, qxmobile.protobuf.AllianceProtos.AllianceTargetResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<AllianceTargetResp> PARSER =
+        new com.google.protobuf.AbstractParser<AllianceTargetResp>() {
+      public AllianceTargetResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AllianceTargetResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AllianceTargetResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 level = 1;
+    public static final int LEVEL_FIELD_NUMBER = 1;
+    private int level_;
+    /**
+     * <code>required int32 level = 1;</code>
+     *
+     * <pre>
+     * 联盟等级
+     * </pre>
+     */
+    public boolean hasLevel() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 level = 1;</code>
+     *
+     * <pre>
+     * 联盟等级
+     * </pre>
+     */
+    public int getLevel() {
+      return level_;
+    }
+
+    // required bool getAward = 2;
+    public static final int GETAWARD_FIELD_NUMBER = 2;
+    private boolean getAward_;
+    /**
+     * <code>required bool getAward = 2;</code>
+     *
+     * <pre>
+     * 是否领取奖励，true-领取，false-未领取
+     * </pre>
+     */
+    public boolean hasGetAward() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required bool getAward = 2;</code>
+     *
+     * <pre>
+     * 是否领取奖励，true-领取，false-未领取
+     * </pre>
+     */
+    public boolean getGetAward() {
+      return getAward_;
+    }
+
+    private void initFields() {
+      level_ = 0;
+      getAward_ = false;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGetAward()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, level_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBool(2, getAward_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, level_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(2, getAward_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceProtos.AllianceTargetResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceTargetResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceTargetResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceTargetResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceTargetResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceTargetResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceTargetResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceTargetResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceTargetResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceTargetResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceProtos.AllianceTargetResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.AllianceTargetResp}
+     *
+     * <pre>
+     * 联盟目标信息返回   short S_ALLIANCE_TARGET_INFO_Resp = 30174;
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceProtos.AllianceTargetRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AllianceTargetResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AllianceTargetResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceProtos.AllianceTargetResp.class, qxmobile.protobuf.AllianceProtos.AllianceTargetResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceProtos.AllianceTargetResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        level_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        getAward_ = false;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AllianceTargetResp_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.AllianceTargetResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceProtos.AllianceTargetResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceProtos.AllianceTargetResp build() {
+        qxmobile.protobuf.AllianceProtos.AllianceTargetResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.AllianceTargetResp buildPartial() {
+        qxmobile.protobuf.AllianceProtos.AllianceTargetResp result = new qxmobile.protobuf.AllianceProtos.AllianceTargetResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.level_ = level_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.getAward_ = getAward_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceProtos.AllianceTargetResp) {
+          return mergeFrom((qxmobile.protobuf.AllianceProtos.AllianceTargetResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceProtos.AllianceTargetResp other) {
+        if (other == qxmobile.protobuf.AllianceProtos.AllianceTargetResp.getDefaultInstance()) return this;
+        if (other.hasLevel()) {
+          setLevel(other.getLevel());
+        }
+        if (other.hasGetAward()) {
+          setGetAward(other.getGetAward());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasLevel()) {
+          
+          return false;
+        }
+        if (!hasGetAward()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceProtos.AllianceTargetResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceProtos.AllianceTargetResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 level = 1;
+      private int level_ ;
+      /**
+       * <code>required int32 level = 1;</code>
+       *
+       * <pre>
+       * 联盟等级
+       * </pre>
+       */
+      public boolean hasLevel() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 level = 1;</code>
+       *
+       * <pre>
+       * 联盟等级
+       * </pre>
+       */
+      public int getLevel() {
+        return level_;
+      }
+      /**
+       * <code>required int32 level = 1;</code>
+       *
+       * <pre>
+       * 联盟等级
+       * </pre>
+       */
+      public Builder setLevel(int value) {
+        bitField0_ |= 0x00000001;
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 level = 1;</code>
+       *
+       * <pre>
+       * 联盟等级
+       * </pre>
+       */
+      public Builder clearLevel() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required bool getAward = 2;
+      private boolean getAward_ ;
+      /**
+       * <code>required bool getAward = 2;</code>
+       *
+       * <pre>
+       * 是否领取奖励，true-领取，false-未领取
+       * </pre>
+       */
+      public boolean hasGetAward() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required bool getAward = 2;</code>
+       *
+       * <pre>
+       * 是否领取奖励，true-领取，false-未领取
+       * </pre>
+       */
+      public boolean getGetAward() {
+        return getAward_;
+      }
+      /**
+       * <code>required bool getAward = 2;</code>
+       *
+       * <pre>
+       * 是否领取奖励，true-领取，false-未领取
+       * </pre>
+       */
+      public Builder setGetAward(boolean value) {
+        bitField0_ |= 0x00000002;
+        getAward_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool getAward = 2;</code>
+       *
+       * <pre>
+       * 是否领取奖励，true-领取，false-未领取
+       * </pre>
+       */
+      public Builder clearGetAward() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        getAward_ = false;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.AllianceTargetResp)
+    }
+
+    static {
+      defaultInstance = new AllianceTargetResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.AllianceTargetResp)
+  }
+
+  public interface GetAllianceLevelAwardOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 level = 1;
+    /**
+     * <code>required int32 level = 1;</code>
+     *
+     * <pre>
+     * 联盟等级
+     * </pre>
+     */
+    boolean hasLevel();
+    /**
+     * <code>required int32 level = 1;</code>
+     *
+     * <pre>
+     * 联盟等级
+     * </pre>
+     */
+    int getLevel();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.GetAllianceLevelAward}
+   *
+   * <pre>
+   * 领取联盟等级目标奖励   short C_GET_ALLIANCEL_LEVEL_AWARD = 30175;
+   * </pre>
+   */
+  public static final class GetAllianceLevelAward extends
+      com.google.protobuf.GeneratedMessage
+      implements GetAllianceLevelAwardOrBuilder {
+    // Use GetAllianceLevelAward.newBuilder() to construct.
+    private GetAllianceLevelAward(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GetAllianceLevelAward(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GetAllianceLevelAward defaultInstance;
+    public static GetAllianceLevelAward getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GetAllianceLevelAward getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetAllianceLevelAward(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              level_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_GetAllianceLevelAward_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_GetAllianceLevelAward_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward.class, qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GetAllianceLevelAward> PARSER =
+        new com.google.protobuf.AbstractParser<GetAllianceLevelAward>() {
+      public GetAllianceLevelAward parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetAllianceLevelAward(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetAllianceLevelAward> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 level = 1;
+    public static final int LEVEL_FIELD_NUMBER = 1;
+    private int level_;
+    /**
+     * <code>required int32 level = 1;</code>
+     *
+     * <pre>
+     * 联盟等级
+     * </pre>
+     */
+    public boolean hasLevel() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 level = 1;</code>
+     *
+     * <pre>
+     * 联盟等级
+     * </pre>
+     */
+    public int getLevel() {
+      return level_;
+    }
+
+    private void initFields() {
+      level_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, level_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, level_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.GetAllianceLevelAward}
+     *
+     * <pre>
+     * 领取联盟等级目标奖励   short C_GET_ALLIANCEL_LEVEL_AWARD = 30175;
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_GetAllianceLevelAward_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_GetAllianceLevelAward_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward.class, qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        level_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_GetAllianceLevelAward_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward build() {
+        qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward buildPartial() {
+        qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward result = new qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.level_ = level_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward) {
+          return mergeFrom((qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward other) {
+        if (other == qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward.getDefaultInstance()) return this;
+        if (other.hasLevel()) {
+          setLevel(other.getLevel());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasLevel()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 level = 1;
+      private int level_ ;
+      /**
+       * <code>required int32 level = 1;</code>
+       *
+       * <pre>
+       * 联盟等级
+       * </pre>
+       */
+      public boolean hasLevel() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 level = 1;</code>
+       *
+       * <pre>
+       * 联盟等级
+       * </pre>
+       */
+      public int getLevel() {
+        return level_;
+      }
+      /**
+       * <code>required int32 level = 1;</code>
+       *
+       * <pre>
+       * 联盟等级
+       * </pre>
+       */
+      public Builder setLevel(int value) {
+        bitField0_ |= 0x00000001;
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 level = 1;</code>
+       *
+       * <pre>
+       * 联盟等级
+       * </pre>
+       */
+      public Builder clearLevel() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.GetAllianceLevelAward)
+    }
+
+    static {
+      defaultInstance = new GetAllianceLevelAward(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.GetAllianceLevelAward)
+  }
+
+  public interface GetAllianceLevelAwardRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-领取成功，1-该等级奖励已经领取，2-联盟等级未达到
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-领取成功，1-该等级奖励已经领取，2-联盟等级未达到
+     * </pre>
+     */
+    int getResult();
+
+    // required int32 nextLevel = 2;
+    /**
+     * <code>required int32 nextLevel = 2;</code>
+     *
+     * <pre>
+     * 下一个等级目标，如果为-1则是全部完成
+     * </pre>
+     */
+    boolean hasNextLevel();
+    /**
+     * <code>required int32 nextLevel = 2;</code>
+     *
+     * <pre>
+     * 下一个等级目标，如果为-1则是全部完成
+     * </pre>
+     */
+    int getNextLevel();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.GetAllianceLevelAwardResp}
+   *
+   * <pre>
+   *领取联盟等级目标奖励结果返回  short S_GET_ALLIANCEL_LEVEL_AWARD_RESP = 30176;
+   * </pre>
+   */
+  public static final class GetAllianceLevelAwardResp extends
+      com.google.protobuf.GeneratedMessage
+      implements GetAllianceLevelAwardRespOrBuilder {
+    // Use GetAllianceLevelAwardResp.newBuilder() to construct.
+    private GetAllianceLevelAwardResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GetAllianceLevelAwardResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GetAllianceLevelAwardResp defaultInstance;
+    public static GetAllianceLevelAwardResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GetAllianceLevelAwardResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetAllianceLevelAwardResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              nextLevel_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_GetAllianceLevelAwardResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_GetAllianceLevelAwardResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp.class, qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GetAllianceLevelAwardResp> PARSER =
+        new com.google.protobuf.AbstractParser<GetAllianceLevelAwardResp>() {
+      public GetAllianceLevelAwardResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetAllianceLevelAwardResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetAllianceLevelAwardResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-领取成功，1-该等级奖励已经领取，2-联盟等级未达到
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-领取成功，1-该等级奖励已经领取，2-联盟等级未达到
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    // required int32 nextLevel = 2;
+    public static final int NEXTLEVEL_FIELD_NUMBER = 2;
+    private int nextLevel_;
+    /**
+     * <code>required int32 nextLevel = 2;</code>
+     *
+     * <pre>
+     * 下一个等级目标，如果为-1则是全部完成
+     * </pre>
+     */
+    public boolean hasNextLevel() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 nextLevel = 2;</code>
+     *
+     * <pre>
+     * 下一个等级目标，如果为-1则是全部完成
+     * </pre>
+     */
+    public int getNextLevel() {
+      return nextLevel_;
+    }
+
+    private void initFields() {
+      result_ = 0;
+      nextLevel_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasNextLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, nextLevel_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, nextLevel_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.GetAllianceLevelAwardResp}
+     *
+     * <pre>
+     *领取联盟等级目标奖励结果返回  short S_GET_ALLIANCEL_LEVEL_AWARD_RESP = 30176;
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_GetAllianceLevelAwardResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_GetAllianceLevelAwardResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp.class, qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        nextLevel_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_GetAllianceLevelAwardResp_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp build() {
+        qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp buildPartial() {
+        qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp result = new qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.nextLevel_ = nextLevel_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp) {
+          return mergeFrom((qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp other) {
+        if (other == qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        if (other.hasNextLevel()) {
+          setNextLevel(other.getNextLevel());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        if (!hasNextLevel()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-领取成功，1-该等级奖励已经领取，2-联盟等级未达到
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-领取成功，1-该等级奖励已经领取，2-联盟等级未达到
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-领取成功，1-该等级奖励已经领取，2-联盟等级未达到
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-领取成功，1-该等级奖励已经领取，2-联盟等级未达到
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 nextLevel = 2;
+      private int nextLevel_ ;
+      /**
+       * <code>required int32 nextLevel = 2;</code>
+       *
+       * <pre>
+       * 下一个等级目标，如果为-1则是全部完成
+       * </pre>
+       */
+      public boolean hasNextLevel() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 nextLevel = 2;</code>
+       *
+       * <pre>
+       * 下一个等级目标，如果为-1则是全部完成
+       * </pre>
+       */
+      public int getNextLevel() {
+        return nextLevel_;
+      }
+      /**
+       * <code>required int32 nextLevel = 2;</code>
+       *
+       * <pre>
+       * 下一个等级目标，如果为-1则是全部完成
+       * </pre>
+       */
+      public Builder setNextLevel(int value) {
+        bitField0_ |= 0x00000002;
+        nextLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 nextLevel = 2;</code>
+       *
+       * <pre>
+       * 下一个等级目标，如果为-1则是全部完成
+       * </pre>
+       */
+      public Builder clearNextLevel() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        nextLevel_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.GetAllianceLevelAwardResp)
+    }
+
+    static {
+      defaultInstance = new GetAllianceLevelAwardResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.GetAllianceLevelAwardResp)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_AllianceNonResp_descriptor;
   private static
@@ -39533,6 +41228,21 @@ public final class AllianceProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_FengShanResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_AllianceTargetResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_AllianceTargetResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_GetAllianceLevelAward_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_GetAllianceLevelAward_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_GetAllianceLevelAwardResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_GetAllianceLevelAwardResp_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -39556,7 +41266,7 @@ public final class AllianceProtos {
       "telyJoin\022\022\n\nlianMengId\030\001 \002(\005\"Z\n\023immediat" +
       "elyJoinResp\022\014\n\004code\030\001 \002(\005\0225\n\010alncInfo\030\002 " +
       "\001(\0132#.qxmobile.protobuf.AllianceHaveResp" +
-      "\"\216\004\n\020AllianceHaveResp\022\014\n\004name\030\001 \002(\t\022\n\n\002i" +
+      "\"\245\004\n\020AllianceHaveResp\022\014\n\004name\030\001 \002(\t\022\n\n\002i" +
       "d\030\002 \002(\005\022\r\n\005level\030\003 \002(\005\022\013\n\003exp\030\004 \002(\005\022\017\n\007n" +
       "eedExp\030\005 \002(\005\022\r\n\005build\030\006 \002(\005\022\017\n\007members\030\007" +
       " \002(\005\022\021\n\tmemberMax\030\010 \002(\005\022\024\n\014contribution\030" +
@@ -39569,79 +41279,83 @@ public final class AllianceProtos {
       "\022\017\n\007isVoted\030\021 \001(\005\022\024\n\014voteJunzhuId\030\022 \001(\003\022" +
       "\024\n\014isVoteDialog\030\023 \001(\003\022\017\n\007gongJin\030\024 \002(\005\0221" +
       "\n\nmemberInfo\030\025 \003(\0132\035.qxmobile.protobuf.M" +
-      "emberInfo\"!\n\021CheckAllianceName\022\014\n\004name\030\001" +
-      " \002(\t\"2\n\025CheckAllianceNameResp\022\014\n\004code\030\001 " +
-      "\002(\005\022\013\n\003msg\030\002 \001(\t\",\n\016CreateAlliance\022\014\n\004na",
-      "me\030\001 \002(\t\022\014\n\004icon\030\002 \002(\005\"j\n\022CreateAlliance" +
-      "Resp\022\014\n\004code\030\001 \002(\005\022\013\n\003msg\030\002 \001(\t\0229\n\014allia" +
-      "nceInfo\030\003 \001(\0132#.qxmobile.protobuf.Allian" +
-      "ceHaveResp\"\032\n\014FindAlliance\022\n\n\002id\030\001 \002(\005\"x" +
-      "\n\020FindAllianceResp\022\014\n\004code\030\001 \002(\005\022\013\n\003msg\030" +
-      "\002 \001(\t\022\017\n\007isAllow\030\003 \001(\005\0228\n\014allianceInfo\030\004" +
-      " \001(\0132\".qxmobile.protobuf.NonAllianceInfo" +
-      "\"\033\n\rApplyAlliance\022\n\n\002id\030\001 \002(\005\":\n\021ApplyAl" +
-      "lianceResp\022\014\n\004code\030\001 \002(\005\022\n\n\002id\030\002 \001(\005\022\013\n\003" +
-      "msg\030\003 \001(\t\" \n\022CancelJoinAlliance\022\n\n\002id\030\001 ",
-      "\002(\005\"?\n\026CancelJoinAllianceResp\022\n\n\002id\030\001 \002(" +
-      "\005\022\014\n\004code\030\002 \002(\005\022\013\n\003msg\030\003 \001(\t\"\032\n\014ExitAlli" +
-      "ance\022\n\n\002id\030\001 \002(\005\" \n\020ExitAllianceResp\022\014\n\004" +
-      "code\030\001 \002(\005\"\031\n\013LookMembers\022\n\n\002id\030\001 \002(\005\"D\n" +
-      "\017LookMembersResp\0221\n\nmemberInfo\030\001 \003(\0132\035.q" +
-      "xmobile.protobuf.MemberInfo\"\211\002\n\nMemberIn" +
-      "fo\022\r\n\005level\030\001 \002(\005\022\014\n\004name\030\002 \002(\t\022\024\n\014contr" +
-      "ibution\030\003 \002(\005\022\030\n\020curMonthGongXian\030\020 \002(\005\022" +
-      "\017\n\007junXian\030\004 \002(\005\022\020\n\010identity\030\005 \002(\005\022\020\n\010ju" +
-      "nzhuId\030\006 \002(\003\022\016\n\006roleId\030\013 \001(\005\022\016\n\006zhanLi\030\r",
-      " \002(\005\022\023\n\013offlineTime\030\016 \002(\005\022\017\n\007gongJin\030\017 \002" +
-      "(\005\022\021\n\tisBaoming\030\007 \001(\005\022\017\n\007isVoted\030\010 \001(\005\022\017" +
-      "\n\007voteNum\030\n \001(\005\"*\n\nFireMember\022\n\n\002id\030\001 \002(" +
-      "\005\022\020\n\010junzhuId\030\002 \002(\003\">\n\016FireMemberResp\022\016\n" +
-      "\006result\030\001 \002(\005\022\n\n\002id\030\002 \002(\005\022\020\n\010junzhuId\030\003 " +
-      "\002(\003\"\'\n\007UpTitle\022\n\n\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002" +
-      " \002(\003\"H\n\013UpTitleResp\022\014\n\004code\030\001 \002(\005\022\020\n\010jun" +
-      "zhuId\030\003 \002(\003\022\n\n\002id\030\002 \001(\005\022\r\n\005title\030\004 \001(\005\")" +
-      "\n\tDownTitle\022\n\n\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(" +
-      "\003\"J\n\rDownTitleResp\022\014\n\004code\030\001 \002(\005\022\n\n\002id\030\002",
-      " \002(\005\022\020\n\010junzhuId\030\003 \002(\003\022\r\n\005title\030\004 \002(\005\"\034\n" +
-      "\016LookApplicants\022\n\n\002id\030\001 \002(\005\"L\n\022LookAppli" +
-      "cantsResp\0226\n\014applicanInfo\030\001 \003(\0132 .qxmobi" +
-      "le.protobuf.ApplicantInfo\"}\n\rApplicantIn" +
-      "fo\022\020\n\010junzhuId\030\001 \002(\003\022\r\n\005level\030\002 \002(\005\022\014\n\004n" +
-      "ame\030\003 \002(\t\022\017\n\007junXian\030\004 \002(\005\022\014\n\004rank\030\005 \002(\005" +
-      "\022\016\n\006roleId\030\006 \001(\005\022\016\n\006zhanLi\030\007 \002(\005\"+\n\013Refu" +
-      "seApply\022\n\n\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\"?\n" +
-      "\017RefuseApplyResp\022\016\n\006result\030\001 \002(\005\022\n\n\002id\030\002" +
-      " \001(\005\022\020\n\010junzhuId\030\003 \001(\003\"*\n\nAgreeApply\022\n\n\002",
-      "id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\"q\n\016AgreeApply" +
-      "Resp\022\016\n\006result\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\022\n" +
-      "\n\002id\030\003 \001(\005\0221\n\nmemberInfo\030\004 \001(\0132\035.qxmobil" +
-      "e.protobuf.MemberInfo\"*\n\014UpdateNotice\022\n\n" +
-      "\002id\030\001 \002(\005\022\016\n\006notice\030\002 \002(\t\" \n\020UpdateNotic" +
-      "eResp\022\014\n\004code\030\001 \002(\005\"\035\n\017DismissAlliance\022\n" +
-      "\n\002id\030\001 \002(\005\"`\n\tOpenApply\022\n\n\002id\030\001 \002(\005\022\020\n\010l" +
-      "evelMin\030\003 \002(\005\022\022\n\njunXianMin\030\004 \002(\005\022\021\n\tisE" +
-      "xamine\030\005 \002(\005\022\016\n\006attach\030\006 \001(\t\"\035\n\rOpenAppl" +
-      "yResp\022\014\n\004code\030\001 \002(\005\"\030\n\nCloseApply\022\n\n\002id\030",
-      "\001 \002(\005\"0\n\020TransferAlliance\022\n\n\002id\030\001 \002(\005\022\020\n" +
-      "\010junzhuId\030\002 \002(\003\"D\n\024TransferAllianceResp\022" +
-      "\016\n\006result\030\001 \002(\005\022\n\n\002id\030\002 \002(\005\022\020\n\010junzhuId\030" +
-      "\003 \002(\003\" \n\020MengZhuApplyResp\022\014\n\004code\030\001 \002(\005\"" +
-      "\037\n\013MengZhuVote\022\020\n\010junzhuId\030\001 \002(\003\"4\n\017Meng" +
-      "ZhuVoteResp\022\020\n\010junzhuId\030\001 \002(\003\022\017\n\007voteNum" +
-      "\030\002 \002(\005\"\036\n\016GiveUpVoteResp\022\014\n\004code\030\001 \002(\005\"\033" +
-      "\n\nDonateHuFu\022\r\n\005count\030\001 \002(\005\"A\n\016DonateHuF" +
-      "uResp\022\016\n\006result\030\001 \002(\005\022\020\n\010gongxian\030\002 \002(\005\022" +
-      "\r\n\005build\030\003 \002(\005\"\034\n\014EventListReq\022\014\n\004page\030\001",
-      " \002(\005\"*\n\rEventListResp\022\014\n\004page\030\001 \002(\005\022\013\n\003m" +
-      "sg\030\002 \003(\t\"`\n\023PlayerAllianceState\022\020\n\010junzh" +
-      "uId\030\001 \002(\003\022\022\n\nallianceId\030\002 \002(\005\022\024\n\014allianc" +
-      "eName\030\003 \002(\t\022\r\n\005title\030\004 \002(\005\"U\n\020FengShanIn" +
-      "foResp\022/\n\006fsInfo\030\001 \003(\0132\037.qxmobile.protob" +
-      "uf.FengShanInfo\022\020\n\010huoyuedu\030\002 \002(\005\"-\n\014Fen" +
-      "gShanInfo\022\016\n\006confId\030\001 \002(\005\022\r\n\005state\030\002 \002(\005" +
-      "\"\035\n\013FengShanReq\022\016\n\006confId\030\001 \002(\005\".\n\014FengS" +
-      "hanResp\022\016\n\006confId\030\001 \002(\005\022\016\n\006result\030\002 \002(\005B" +
-      "\020B\016AllianceProtos"
+      "emberInfo\022\025\n\rlmTargetLevel\030\034 \002(\005\"!\n\021Chec" +
+      "kAllianceName\022\014\n\004name\030\001 \002(\t\"2\n\025CheckAlli" +
+      "anceNameResp\022\014\n\004code\030\001 \002(\005\022\013\n\003msg\030\002 \001(\t\"",
+      ",\n\016CreateAlliance\022\014\n\004name\030\001 \002(\t\022\014\n\004icon\030" +
+      "\002 \002(\005\"j\n\022CreateAllianceResp\022\014\n\004code\030\001 \002(" +
+      "\005\022\013\n\003msg\030\002 \001(\t\0229\n\014allianceInfo\030\003 \001(\0132#.q" +
+      "xmobile.protobuf.AllianceHaveResp\"\032\n\014Fin" +
+      "dAlliance\022\n\n\002id\030\001 \002(\005\"x\n\020FindAllianceRes" +
+      "p\022\014\n\004code\030\001 \002(\005\022\013\n\003msg\030\002 \001(\t\022\017\n\007isAllow\030" +
+      "\003 \001(\005\0228\n\014allianceInfo\030\004 \001(\0132\".qxmobile.p" +
+      "rotobuf.NonAllianceInfo\"\033\n\rApplyAlliance" +
+      "\022\n\n\002id\030\001 \002(\005\":\n\021ApplyAllianceResp\022\014\n\004cod" +
+      "e\030\001 \002(\005\022\n\n\002id\030\002 \001(\005\022\013\n\003msg\030\003 \001(\t\" \n\022Canc",
+      "elJoinAlliance\022\n\n\002id\030\001 \002(\005\"?\n\026CancelJoin" +
+      "AllianceResp\022\n\n\002id\030\001 \002(\005\022\014\n\004code\030\002 \002(\005\022\013" +
+      "\n\003msg\030\003 \001(\t\"\032\n\014ExitAlliance\022\n\n\002id\030\001 \002(\005\"" +
+      " \n\020ExitAllianceResp\022\014\n\004code\030\001 \002(\005\"\031\n\013Loo" +
+      "kMembers\022\n\n\002id\030\001 \002(\005\"D\n\017LookMembersResp\022" +
+      "1\n\nmemberInfo\030\001 \003(\0132\035.qxmobile.protobuf." +
+      "MemberInfo\"\211\002\n\nMemberInfo\022\r\n\005level\030\001 \002(\005" +
+      "\022\014\n\004name\030\002 \002(\t\022\024\n\014contribution\030\003 \002(\005\022\030\n\020" +
+      "curMonthGongXian\030\020 \002(\005\022\017\n\007junXian\030\004 \002(\005\022" +
+      "\020\n\010identity\030\005 \002(\005\022\020\n\010junzhuId\030\006 \002(\003\022\016\n\006r",
+      "oleId\030\013 \001(\005\022\016\n\006zhanLi\030\r \002(\005\022\023\n\013offlineTi" +
+      "me\030\016 \002(\005\022\017\n\007gongJin\030\017 \002(\005\022\021\n\tisBaoming\030\007" +
+      " \001(\005\022\017\n\007isVoted\030\010 \001(\005\022\017\n\007voteNum\030\n \001(\005\"*" +
+      "\n\nFireMember\022\n\n\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002" +
+      "(\003\">\n\016FireMemberResp\022\016\n\006result\030\001 \002(\005\022\n\n\002" +
+      "id\030\002 \002(\005\022\020\n\010junzhuId\030\003 \002(\003\"\'\n\007UpTitle\022\n\n" +
+      "\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\"H\n\013UpTitleRe" +
+      "sp\022\014\n\004code\030\001 \002(\005\022\020\n\010junzhuId\030\003 \002(\003\022\n\n\002id" +
+      "\030\002 \001(\005\022\r\n\005title\030\004 \001(\005\")\n\tDownTitle\022\n\n\002id" +
+      "\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\"J\n\rDownTitleRes",
+      "p\022\014\n\004code\030\001 \002(\005\022\n\n\002id\030\002 \002(\005\022\020\n\010junzhuId\030" +
+      "\003 \002(\003\022\r\n\005title\030\004 \002(\005\"\034\n\016LookApplicants\022\n" +
+      "\n\002id\030\001 \002(\005\"L\n\022LookApplicantsResp\0226\n\014appl" +
+      "icanInfo\030\001 \003(\0132 .qxmobile.protobuf.Appli" +
+      "cantInfo\"}\n\rApplicantInfo\022\020\n\010junzhuId\030\001 " +
+      "\002(\003\022\r\n\005level\030\002 \002(\005\022\014\n\004name\030\003 \002(\t\022\017\n\007junX" +
+      "ian\030\004 \002(\005\022\014\n\004rank\030\005 \002(\005\022\016\n\006roleId\030\006 \001(\005\022" +
+      "\016\n\006zhanLi\030\007 \002(\005\"+\n\013RefuseApply\022\n\n\002id\030\001 \002" +
+      "(\005\022\020\n\010junzhuId\030\002 \002(\003\"?\n\017RefuseApplyResp\022" +
+      "\016\n\006result\030\001 \002(\005\022\n\n\002id\030\002 \001(\005\022\020\n\010junzhuId\030",
+      "\003 \001(\003\"*\n\nAgreeApply\022\n\n\002id\030\001 \002(\005\022\020\n\010junzh" +
+      "uId\030\002 \002(\003\"q\n\016AgreeApplyResp\022\016\n\006result\030\001 " +
+      "\002(\005\022\020\n\010junzhuId\030\002 \002(\003\022\n\n\002id\030\003 \001(\005\0221\n\nmem" +
+      "berInfo\030\004 \001(\0132\035.qxmobile.protobuf.Member" +
+      "Info\"*\n\014UpdateNotice\022\n\n\002id\030\001 \002(\005\022\016\n\006noti" +
+      "ce\030\002 \002(\t\" \n\020UpdateNoticeResp\022\014\n\004code\030\001 \002" +
+      "(\005\"\035\n\017DismissAlliance\022\n\n\002id\030\001 \002(\005\"`\n\tOpe" +
+      "nApply\022\n\n\002id\030\001 \002(\005\022\020\n\010levelMin\030\003 \002(\005\022\022\n\n" +
+      "junXianMin\030\004 \002(\005\022\021\n\tisExamine\030\005 \002(\005\022\016\n\006a" +
+      "ttach\030\006 \001(\t\"\035\n\rOpenApplyResp\022\014\n\004code\030\001 \002",
+      "(\005\"\030\n\nCloseApply\022\n\n\002id\030\001 \002(\005\"0\n\020Transfer" +
+      "Alliance\022\n\n\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\"D" +
+      "\n\024TransferAllianceResp\022\016\n\006result\030\001 \002(\005\022\n" +
+      "\n\002id\030\002 \002(\005\022\020\n\010junzhuId\030\003 \002(\003\" \n\020MengZhuA" +
+      "pplyResp\022\014\n\004code\030\001 \002(\005\"\037\n\013MengZhuVote\022\020\n" +
+      "\010junzhuId\030\001 \002(\003\"4\n\017MengZhuVoteResp\022\020\n\010ju" +
+      "nzhuId\030\001 \002(\003\022\017\n\007voteNum\030\002 \002(\005\"\036\n\016GiveUpV" +
+      "oteResp\022\014\n\004code\030\001 \002(\005\"\033\n\nDonateHuFu\022\r\n\005c" +
+      "ount\030\001 \002(\005\"A\n\016DonateHuFuResp\022\016\n\006result\030\001" +
+      " \002(\005\022\020\n\010gongxian\030\002 \002(\005\022\r\n\005build\030\003 \002(\005\"\034\n",
+      "\014EventListReq\022\014\n\004page\030\001 \002(\005\"*\n\rEventList" +
+      "Resp\022\014\n\004page\030\001 \002(\005\022\013\n\003msg\030\002 \003(\t\"`\n\023Playe" +
+      "rAllianceState\022\020\n\010junzhuId\030\001 \002(\003\022\022\n\nalli" +
+      "anceId\030\002 \002(\005\022\024\n\014allianceName\030\003 \002(\t\022\r\n\005ti" +
+      "tle\030\004 \002(\005\"U\n\020FengShanInfoResp\022/\n\006fsInfo\030" +
+      "\001 \003(\0132\037.qxmobile.protobuf.FengShanInfo\022\020" +
+      "\n\010huoyuedu\030\002 \002(\005\"-\n\014FengShanInfo\022\016\n\006conf" +
+      "Id\030\001 \002(\005\022\r\n\005state\030\002 \002(\005\"\035\n\013FengShanReq\022\016" +
+      "\n\006confId\030\001 \002(\005\".\n\014FengShanResp\022\016\n\006confId" +
+      "\030\001 \002(\005\022\016\n\006result\030\002 \002(\005\"5\n\022AllianceTarget",
+      "Resp\022\r\n\005level\030\001 \002(\005\022\020\n\010getAward\030\002 \002(\010\"&\n" +
+      "\025GetAllianceLevelAward\022\r\n\005level\030\001 \002(\005\">\n" +
+      "\031GetAllianceLevelAwardResp\022\016\n\006result\030\001 \002" +
+      "(\005\022\021\n\tnextLevel\030\002 \002(\005B\020B\016AllianceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -39677,7 +41391,7 @@ public final class AllianceProtos {
           internal_static_qxmobile_protobuf_AllianceHaveResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_AllianceHaveResp_descriptor,
-              new java.lang.String[] { "Name", "Id", "Level", "Exp", "NeedExp", "Build", "Members", "MemberMax", "Contribution", "Notice", "Country", "ShengWang", "Icon", "Identity", "IsAllow", "ApplyLevel", "JunXian", "AttchCndition", "IsShenPi", "MengzhuName", "Status", "IsBaoming", "IsVoted", "VoteJunzhuId", "IsVoteDialog", "GongJin", "MemberInfo", });
+              new java.lang.String[] { "Name", "Id", "Level", "Exp", "NeedExp", "Build", "Members", "MemberMax", "Contribution", "Notice", "Country", "ShengWang", "Icon", "Identity", "IsAllow", "ApplyLevel", "JunXian", "AttchCndition", "IsShenPi", "MengzhuName", "Status", "IsBaoming", "IsVoted", "VoteJunzhuId", "IsVoteDialog", "GongJin", "MemberInfo", "LmTargetLevel", });
           internal_static_qxmobile_protobuf_CheckAllianceName_descriptor =
             getDescriptor().getMessageTypes().get(5);
           internal_static_qxmobile_protobuf_CheckAllianceName_fieldAccessorTable = new
@@ -39972,6 +41686,24 @@ public final class AllianceProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_FengShanResp_descriptor,
               new java.lang.String[] { "ConfId", "Result", });
+          internal_static_qxmobile_protobuf_AllianceTargetResp_descriptor =
+            getDescriptor().getMessageTypes().get(54);
+          internal_static_qxmobile_protobuf_AllianceTargetResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_AllianceTargetResp_descriptor,
+              new java.lang.String[] { "Level", "GetAward", });
+          internal_static_qxmobile_protobuf_GetAllianceLevelAward_descriptor =
+            getDescriptor().getMessageTypes().get(55);
+          internal_static_qxmobile_protobuf_GetAllianceLevelAward_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_GetAllianceLevelAward_descriptor,
+              new java.lang.String[] { "Level", });
+          internal_static_qxmobile_protobuf_GetAllianceLevelAwardResp_descriptor =
+            getDescriptor().getMessageTypes().get(56);
+          internal_static_qxmobile_protobuf_GetAllianceLevelAwardResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_GetAllianceLevelAwardResp_descriptor,
+              new java.lang.String[] { "Result", "NextLevel", });
           return null;
         }
       };

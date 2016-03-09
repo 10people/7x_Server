@@ -483,10 +483,18 @@ public final class XianShi {
     // required int32 beizhu = 2;
     /**
      * <code>required int32 beizhu = 2;</code>
+     *
+     * <pre>
+     *存储当前进度
+     * </pre>
      */
     boolean hasBeizhu();
     /**
      * <code>required int32 beizhu = 2;</code>
+     *
+     * <pre>
+     *存储当前进度
+     * </pre>
      */
     int getBeizhu();
 
@@ -689,12 +697,20 @@ public final class XianShi {
     private int beizhu_;
     /**
      * <code>required int32 beizhu = 2;</code>
+     *
+     * <pre>
+     *存储当前进度
+     * </pre>
      */
     public boolean hasBeizhu() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int32 beizhu = 2;</code>
+     *
+     * <pre>
+     *存储当前进度
+     * </pre>
      */
     public int getBeizhu() {
       return beizhu_;
@@ -1344,18 +1360,30 @@ public final class XianShi {
       private int beizhu_ ;
       /**
        * <code>required int32 beizhu = 2;</code>
+       *
+       * <pre>
+       *存储当前进度
+       * </pre>
        */
       public boolean hasBeizhu() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required int32 beizhu = 2;</code>
+       *
+       * <pre>
+       *存储当前进度
+       * </pre>
        */
       public int getBeizhu() {
         return beizhu_;
       }
       /**
        * <code>required int32 beizhu = 2;</code>
+       *
+       * <pre>
+       *存储当前进度
+       * </pre>
        */
       public Builder setBeizhu(int value) {
         bitField0_ |= 0x00000002;
@@ -1365,6 +1393,10 @@ public final class XianShi {
       }
       /**
        * <code>required int32 beizhu = 2;</code>
+       *
+       * <pre>
+       *存储当前进度
+       * </pre>
        */
       public Builder clearBeizhu() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1548,6 +1580,10 @@ public final class XianShi {
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.HuoDongInfo}
+   *
+   * <pre>
+   *小活动条目
+   * </pre>
    */
   public static final class HuoDongInfo extends
       com.google.protobuf.GeneratedMessage
@@ -1915,6 +1951,10 @@ public final class XianShi {
     }
     /**
      * Protobuf type {@code qxmobile.protobuf.HuoDongInfo}
+     *
+     * <pre>
+     *小活动条目
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -2883,7 +2923,7 @@ public final class XianShi {
      * <code>required int32 result = 2;</code>
      *
      * <pre>
-     *结果 10:成功 20：已领取 30：活动已关闭 40:活动未开启 50:条件未达成
+     *结果 10:成功 20：已领取 30：活动已关闭 40:活动未开启 超时不可领取50:条件未达成 
      * </pre>
      */
     boolean hasResult();
@@ -2891,7 +2931,7 @@ public final class XianShi {
      * <code>required int32 result = 2;</code>
      *
      * <pre>
-     *结果 10:成功 20：已领取 30：活动已关闭 40:活动未开启 50:条件未达成
+     *结果 10:成功 20：已领取 30：活动已关闭 40:活动未开启 超时不可领取50:条件未达成 
      * </pre>
      */
     int getResult();
@@ -3032,7 +3072,7 @@ public final class XianShi {
      * <code>required int32 result = 2;</code>
      *
      * <pre>
-     *结果 10:成功 20：已领取 30：活动已关闭 40:活动未开启 50:条件未达成
+     *结果 10:成功 20：已领取 30：活动已关闭 40:活动未开启 超时不可领取50:条件未达成 
      * </pre>
      */
     public boolean hasResult() {
@@ -3042,7 +3082,7 @@ public final class XianShi {
      * <code>required int32 result = 2;</code>
      *
      * <pre>
-     *结果 10:成功 20：已领取 30：活动已关闭 40:活动未开启 50:条件未达成
+     *结果 10:成功 20：已领取 30：活动已关闭 40:活动未开启 超时不可领取50:条件未达成 
      * </pre>
      */
     public int getResult() {
@@ -3368,7 +3408,7 @@ public final class XianShi {
        * <code>required int32 result = 2;</code>
        *
        * <pre>
-       *结果 10:成功 20：已领取 30：活动已关闭 40:活动未开启 50:条件未达成
+       *结果 10:成功 20：已领取 30：活动已关闭 40:活动未开启 超时不可领取50:条件未达成 
        * </pre>
        */
       public boolean hasResult() {
@@ -3378,7 +3418,7 @@ public final class XianShi {
        * <code>required int32 result = 2;</code>
        *
        * <pre>
-       *结果 10:成功 20：已领取 30：活动已关闭 40:活动未开启 50:条件未达成
+       *结果 10:成功 20：已领取 30：活动已关闭 40:活动未开启 超时不可领取50:条件未达成 
        * </pre>
        */
       public int getResult() {
@@ -3388,7 +3428,7 @@ public final class XianShi {
        * <code>required int32 result = 2;</code>
        *
        * <pre>
-       *结果 10:成功 20：已领取 30：活动已关闭 40:活动未开启 50:条件未达成
+       *结果 10:成功 20：已领取 30：活动已关闭 40:活动未开启 超时不可领取50:条件未达成 
        * </pre>
        */
       public Builder setResult(int value) {
@@ -3401,7 +3441,7 @@ public final class XianShi {
        * <code>required int32 result = 2;</code>
        *
        * <pre>
-       *结果 10:成功 20：已领取 30：活动已关闭 40:活动未开启 50:条件未达成
+       *结果 10:成功 20：已领取 30：活动已关闭 40:活动未开启 超时不可领取50:条件未达成 
        * </pre>
        */
       public Builder clearResult() {
@@ -3459,6 +3499,7 @@ public final class XianShi {
    *public static final short S_XIANSHI_AWARD_RESP = 4008;//请求领取限时活动奖励返回
    *public static final short C_XIANSHI_REQ = 4009;//请求可开启的限时活动(首日/七日)
    *public static final short S_XIANSHI_RESP = 4010;//请求可开启的限时活动(首日/七日)返回
+   *当前开启的大活动列表
    * </pre>
    */
   public static final class OpenXianShiResp extends
@@ -3719,6 +3760,7 @@ public final class XianShi {
      *public static final short S_XIANSHI_AWARD_RESP = 4008;//请求领取限时活动奖励返回
      *public static final short C_XIANSHI_REQ = 4009;//请求可开启的限时活动(首日/七日)
      *public static final short S_XIANSHI_RESP = 4010;//请求可开启的限时活动(首日/七日)返回
+     *当前开启的大活动列表
      * </pre>
      */
     public static final class Builder extends
@@ -4177,7 +4219,7 @@ public final class XianShi {
      * <code>required int32 shunxu = 3;</code>
      *
      * <pre>
-     *顺序
+     *顺序  对于首日活动此字段存储 剩余时间
      * </pre>
      */
     boolean hasShunxu();
@@ -4185,7 +4227,7 @@ public final class XianShi {
      * <code>required int32 shunxu = 3;</code>
      *
      * <pre>
-     *顺序
+     *顺序  对于首日活动此字段存储 剩余时间
      * </pre>
      */
     int getShunxu();
@@ -4228,6 +4270,10 @@ public final class XianShi {
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.OpenXianShi}
+   *
+   * <pre>
+   *当前开启的大活动条目
+   * </pre>
    */
   public static final class OpenXianShi extends
       com.google.protobuf.GeneratedMessage
@@ -4428,7 +4474,7 @@ public final class XianShi {
      * <code>required int32 shunxu = 3;</code>
      *
      * <pre>
-     *顺序
+     *顺序  对于首日活动此字段存储 剩余时间
      * </pre>
      */
     public boolean hasShunxu() {
@@ -4438,7 +4484,7 @@ public final class XianShi {
      * <code>required int32 shunxu = 3;</code>
      *
      * <pre>
-     *顺序
+     *顺序  对于首日活动此字段存储 剩余时间
      * </pre>
      */
     public int getShunxu() {
@@ -4656,6 +4702,10 @@ public final class XianShi {
     }
     /**
      * Protobuf type {@code qxmobile.protobuf.OpenXianShi}
+     *
+     * <pre>
+     *当前开启的大活动条目
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -4983,7 +5033,7 @@ public final class XianShi {
        * <code>required int32 shunxu = 3;</code>
        *
        * <pre>
-       *顺序
+       *顺序  对于首日活动此字段存储 剩余时间
        * </pre>
        */
       public boolean hasShunxu() {
@@ -4993,7 +5043,7 @@ public final class XianShi {
        * <code>required int32 shunxu = 3;</code>
        *
        * <pre>
-       *顺序
+       *顺序  对于首日活动此字段存储 剩余时间
        * </pre>
        */
       public int getShunxu() {
@@ -5003,7 +5053,7 @@ public final class XianShi {
        * <code>required int32 shunxu = 3;</code>
        *
        * <pre>
-       *顺序
+       *顺序  对于首日活动此字段存储 剩余时间
        * </pre>
        */
       public Builder setShunxu(int value) {
@@ -5016,7 +5066,7 @@ public final class XianShi {
        * <code>required int32 shunxu = 3;</code>
        *
        * <pre>
-       *顺序
+       *顺序  对于首日活动此字段存储 剩余时间
        * </pre>
        */
       public Builder clearShunxu() {
@@ -5135,6 +5185,2776 @@ public final class XianShi {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.OpenXianShi)
   }
 
+  public interface FuLiHuoDongRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;
+    /**
+     * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+     */
+    java.util.List<qxmobile.protobuf.XianShi.FuLiHuoDong> 
+        getXianshiList();
+    /**
+     * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+     */
+    qxmobile.protobuf.XianShi.FuLiHuoDong getXianshi(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+     */
+    int getXianshiCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+     */
+    java.util.List<? extends qxmobile.protobuf.XianShi.FuLiHuoDongOrBuilder> 
+        getXianshiOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+     */
+    qxmobile.protobuf.XianShi.FuLiHuoDongOrBuilder getXianshiOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.FuLiHuoDongResp}
+   *
+   * <pre>
+   *public static final short C_FULIINFO_REQ = 4020;请求福利信息
+   *public static final short S_FULIINFO_RESP = 4021;//请求福利信息返回
+   * </pre>
+   */
+  public static final class FuLiHuoDongResp extends
+      com.google.protobuf.GeneratedMessage
+      implements FuLiHuoDongRespOrBuilder {
+    // Use FuLiHuoDongResp.newBuilder() to construct.
+    private FuLiHuoDongResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FuLiHuoDongResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FuLiHuoDongResp defaultInstance;
+    public static FuLiHuoDongResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FuLiHuoDongResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FuLiHuoDongResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                xianshi_ = new java.util.ArrayList<qxmobile.protobuf.XianShi.FuLiHuoDong>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              xianshi_.add(input.readMessage(qxmobile.protobuf.XianShi.FuLiHuoDong.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          xianshi_ = java.util.Collections.unmodifiableList(xianshi_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDongResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDongResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.XianShi.FuLiHuoDongResp.class, qxmobile.protobuf.XianShi.FuLiHuoDongResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FuLiHuoDongResp> PARSER =
+        new com.google.protobuf.AbstractParser<FuLiHuoDongResp>() {
+      public FuLiHuoDongResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FuLiHuoDongResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FuLiHuoDongResp> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;
+    public static final int XIANSHI_FIELD_NUMBER = 1;
+    private java.util.List<qxmobile.protobuf.XianShi.FuLiHuoDong> xianshi_;
+    /**
+     * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+     */
+    public java.util.List<qxmobile.protobuf.XianShi.FuLiHuoDong> getXianshiList() {
+      return xianshi_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+     */
+    public java.util.List<? extends qxmobile.protobuf.XianShi.FuLiHuoDongOrBuilder> 
+        getXianshiOrBuilderList() {
+      return xianshi_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+     */
+    public int getXianshiCount() {
+      return xianshi_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+     */
+    public qxmobile.protobuf.XianShi.FuLiHuoDong getXianshi(int index) {
+      return xianshi_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+     */
+    public qxmobile.protobuf.XianShi.FuLiHuoDongOrBuilder getXianshiOrBuilder(
+        int index) {
+      return xianshi_.get(index);
+    }
+
+    private void initFields() {
+      xianshi_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getXianshiCount(); i++) {
+        if (!getXianshi(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < xianshi_.size(); i++) {
+        output.writeMessage(1, xianshi_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < xianshi_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, xianshi_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.XianShi.FuLiHuoDongResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.FuLiHuoDongResp}
+     *
+     * <pre>
+     *public static final short C_FULIINFO_REQ = 4020;请求福利信息
+     *public static final short S_FULIINFO_RESP = 4021;//请求福利信息返回
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.XianShi.FuLiHuoDongRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDongResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDongResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.XianShi.FuLiHuoDongResp.class, qxmobile.protobuf.XianShi.FuLiHuoDongResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.XianShi.FuLiHuoDongResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getXianshiFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (xianshiBuilder_ == null) {
+          xianshi_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          xianshiBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDongResp_descriptor;
+      }
+
+      public qxmobile.protobuf.XianShi.FuLiHuoDongResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.XianShi.FuLiHuoDongResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.XianShi.FuLiHuoDongResp build() {
+        qxmobile.protobuf.XianShi.FuLiHuoDongResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.XianShi.FuLiHuoDongResp buildPartial() {
+        qxmobile.protobuf.XianShi.FuLiHuoDongResp result = new qxmobile.protobuf.XianShi.FuLiHuoDongResp(this);
+        int from_bitField0_ = bitField0_;
+        if (xianshiBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            xianshi_ = java.util.Collections.unmodifiableList(xianshi_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.xianshi_ = xianshi_;
+        } else {
+          result.xianshi_ = xianshiBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.XianShi.FuLiHuoDongResp) {
+          return mergeFrom((qxmobile.protobuf.XianShi.FuLiHuoDongResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.XianShi.FuLiHuoDongResp other) {
+        if (other == qxmobile.protobuf.XianShi.FuLiHuoDongResp.getDefaultInstance()) return this;
+        if (xianshiBuilder_ == null) {
+          if (!other.xianshi_.isEmpty()) {
+            if (xianshi_.isEmpty()) {
+              xianshi_ = other.xianshi_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureXianshiIsMutable();
+              xianshi_.addAll(other.xianshi_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.xianshi_.isEmpty()) {
+            if (xianshiBuilder_.isEmpty()) {
+              xianshiBuilder_.dispose();
+              xianshiBuilder_ = null;
+              xianshi_ = other.xianshi_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              xianshiBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getXianshiFieldBuilder() : null;
+            } else {
+              xianshiBuilder_.addAllMessages(other.xianshi_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getXianshiCount(); i++) {
+          if (!getXianshi(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.XianShi.FuLiHuoDongResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.XianShi.FuLiHuoDongResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;
+      private java.util.List<qxmobile.protobuf.XianShi.FuLiHuoDong> xianshi_ =
+        java.util.Collections.emptyList();
+      private void ensureXianshiIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          xianshi_ = new java.util.ArrayList<qxmobile.protobuf.XianShi.FuLiHuoDong>(xianshi_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.XianShi.FuLiHuoDong, qxmobile.protobuf.XianShi.FuLiHuoDong.Builder, qxmobile.protobuf.XianShi.FuLiHuoDongOrBuilder> xianshiBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.XianShi.FuLiHuoDong> getXianshiList() {
+        if (xianshiBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(xianshi_);
+        } else {
+          return xianshiBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public int getXianshiCount() {
+        if (xianshiBuilder_ == null) {
+          return xianshi_.size();
+        } else {
+          return xianshiBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public qxmobile.protobuf.XianShi.FuLiHuoDong getXianshi(int index) {
+        if (xianshiBuilder_ == null) {
+          return xianshi_.get(index);
+        } else {
+          return xianshiBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public Builder setXianshi(
+          int index, qxmobile.protobuf.XianShi.FuLiHuoDong value) {
+        if (xianshiBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureXianshiIsMutable();
+          xianshi_.set(index, value);
+          onChanged();
+        } else {
+          xianshiBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public Builder setXianshi(
+          int index, qxmobile.protobuf.XianShi.FuLiHuoDong.Builder builderForValue) {
+        if (xianshiBuilder_ == null) {
+          ensureXianshiIsMutable();
+          xianshi_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          xianshiBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public Builder addXianshi(qxmobile.protobuf.XianShi.FuLiHuoDong value) {
+        if (xianshiBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureXianshiIsMutable();
+          xianshi_.add(value);
+          onChanged();
+        } else {
+          xianshiBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public Builder addXianshi(
+          int index, qxmobile.protobuf.XianShi.FuLiHuoDong value) {
+        if (xianshiBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureXianshiIsMutable();
+          xianshi_.add(index, value);
+          onChanged();
+        } else {
+          xianshiBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public Builder addXianshi(
+          qxmobile.protobuf.XianShi.FuLiHuoDong.Builder builderForValue) {
+        if (xianshiBuilder_ == null) {
+          ensureXianshiIsMutable();
+          xianshi_.add(builderForValue.build());
+          onChanged();
+        } else {
+          xianshiBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public Builder addXianshi(
+          int index, qxmobile.protobuf.XianShi.FuLiHuoDong.Builder builderForValue) {
+        if (xianshiBuilder_ == null) {
+          ensureXianshiIsMutable();
+          xianshi_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          xianshiBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public Builder addAllXianshi(
+          java.lang.Iterable<? extends qxmobile.protobuf.XianShi.FuLiHuoDong> values) {
+        if (xianshiBuilder_ == null) {
+          ensureXianshiIsMutable();
+          super.addAll(values, xianshi_);
+          onChanged();
+        } else {
+          xianshiBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public Builder clearXianshi() {
+        if (xianshiBuilder_ == null) {
+          xianshi_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          xianshiBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public Builder removeXianshi(int index) {
+        if (xianshiBuilder_ == null) {
+          ensureXianshiIsMutable();
+          xianshi_.remove(index);
+          onChanged();
+        } else {
+          xianshiBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public qxmobile.protobuf.XianShi.FuLiHuoDong.Builder getXianshiBuilder(
+          int index) {
+        return getXianshiFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public qxmobile.protobuf.XianShi.FuLiHuoDongOrBuilder getXianshiOrBuilder(
+          int index) {
+        if (xianshiBuilder_ == null) {
+          return xianshi_.get(index);  } else {
+          return xianshiBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public java.util.List<? extends qxmobile.protobuf.XianShi.FuLiHuoDongOrBuilder> 
+           getXianshiOrBuilderList() {
+        if (xianshiBuilder_ != null) {
+          return xianshiBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(xianshi_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public qxmobile.protobuf.XianShi.FuLiHuoDong.Builder addXianshiBuilder() {
+        return getXianshiFieldBuilder().addBuilder(
+            qxmobile.protobuf.XianShi.FuLiHuoDong.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public qxmobile.protobuf.XianShi.FuLiHuoDong.Builder addXianshiBuilder(
+          int index) {
+        return getXianshiFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.XianShi.FuLiHuoDong.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuLiHuoDong xianshi = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.XianShi.FuLiHuoDong.Builder> 
+           getXianshiBuilderList() {
+        return getXianshiFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.XianShi.FuLiHuoDong, qxmobile.protobuf.XianShi.FuLiHuoDong.Builder, qxmobile.protobuf.XianShi.FuLiHuoDongOrBuilder> 
+          getXianshiFieldBuilder() {
+        if (xianshiBuilder_ == null) {
+          xianshiBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.XianShi.FuLiHuoDong, qxmobile.protobuf.XianShi.FuLiHuoDong.Builder, qxmobile.protobuf.XianShi.FuLiHuoDongOrBuilder>(
+                  xianshi_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          xianshi_ = null;
+        }
+        return xianshiBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FuLiHuoDongResp)
+    }
+
+    static {
+      defaultInstance = new FuLiHuoDongResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FuLiHuoDongResp)
+  }
+
+  public interface FuLiHuoDongOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 typeId = 1;
+    /**
+     * <code>required int32 typeId = 1;</code>
+     *
+     * <pre>
+     *活动Id
+     * </pre>
+     */
+    boolean hasTypeId();
+    /**
+     * <code>required int32 typeId = 1;</code>
+     *
+     * <pre>
+     *活动Id
+     * </pre>
+     */
+    int getTypeId();
+
+    // required string content = 2;
+    /**
+     * <code>required string content = 2;</code>
+     */
+    boolean hasContent();
+    /**
+     * <code>required string content = 2;</code>
+     */
+    java.lang.String getContent();
+    /**
+     * <code>required string content = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getContentBytes();
+
+    // required bool isCanGet = 3;
+    /**
+     * <code>required bool isCanGet = 3;</code>
+     *
+     * <pre>
+     *是否可以领取
+     * </pre>
+     */
+    boolean hasIsCanGet();
+    /**
+     * <code>required bool isCanGet = 3;</code>
+     *
+     * <pre>
+     *是否可以领取
+     * </pre>
+     */
+    boolean getIsCanGet();
+
+    // optional int32 remainTime = 4;
+    /**
+     * <code>optional int32 remainTime = 4;</code>
+     *
+     * <pre>
+     *剩余等待时间
+     * </pre>
+     */
+    boolean hasRemainTime();
+    /**
+     * <code>optional int32 remainTime = 4;</code>
+     *
+     * <pre>
+     *剩余等待时间
+     * </pre>
+     */
+    int getRemainTime();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.FuLiHuoDong}
+   */
+  public static final class FuLiHuoDong extends
+      com.google.protobuf.GeneratedMessage
+      implements FuLiHuoDongOrBuilder {
+    // Use FuLiHuoDong.newBuilder() to construct.
+    private FuLiHuoDong(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FuLiHuoDong(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FuLiHuoDong defaultInstance;
+    public static FuLiHuoDong getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FuLiHuoDong getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FuLiHuoDong(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              typeId_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              content_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              isCanGet_ = input.readBool();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              remainTime_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDong_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDong_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.XianShi.FuLiHuoDong.class, qxmobile.protobuf.XianShi.FuLiHuoDong.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FuLiHuoDong> PARSER =
+        new com.google.protobuf.AbstractParser<FuLiHuoDong>() {
+      public FuLiHuoDong parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FuLiHuoDong(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FuLiHuoDong> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 typeId = 1;
+    public static final int TYPEID_FIELD_NUMBER = 1;
+    private int typeId_;
+    /**
+     * <code>required int32 typeId = 1;</code>
+     *
+     * <pre>
+     *活动Id
+     * </pre>
+     */
+    public boolean hasTypeId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 typeId = 1;</code>
+     *
+     * <pre>
+     *活动Id
+     * </pre>
+     */
+    public int getTypeId() {
+      return typeId_;
+    }
+
+    // required string content = 2;
+    public static final int CONTENT_FIELD_NUMBER = 2;
+    private java.lang.Object content_;
+    /**
+     * <code>required string content = 2;</code>
+     */
+    public boolean hasContent() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string content = 2;</code>
+     */
+    public java.lang.String getContent() {
+      java.lang.Object ref = content_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          content_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string content = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getContentBytes() {
+      java.lang.Object ref = content_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        content_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required bool isCanGet = 3;
+    public static final int ISCANGET_FIELD_NUMBER = 3;
+    private boolean isCanGet_;
+    /**
+     * <code>required bool isCanGet = 3;</code>
+     *
+     * <pre>
+     *是否可以领取
+     * </pre>
+     */
+    public boolean hasIsCanGet() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required bool isCanGet = 3;</code>
+     *
+     * <pre>
+     *是否可以领取
+     * </pre>
+     */
+    public boolean getIsCanGet() {
+      return isCanGet_;
+    }
+
+    // optional int32 remainTime = 4;
+    public static final int REMAINTIME_FIELD_NUMBER = 4;
+    private int remainTime_;
+    /**
+     * <code>optional int32 remainTime = 4;</code>
+     *
+     * <pre>
+     *剩余等待时间
+     * </pre>
+     */
+    public boolean hasRemainTime() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 remainTime = 4;</code>
+     *
+     * <pre>
+     *剩余等待时间
+     * </pre>
+     */
+    public int getRemainTime() {
+      return remainTime_;
+    }
+
+    private void initFields() {
+      typeId_ = 0;
+      content_ = "";
+      isCanGet_ = false;
+      remainTime_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasTypeId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasContent()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIsCanGet()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, typeId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getContentBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBool(3, isCanGet_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, remainTime_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, typeId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getContentBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, isCanGet_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, remainTime_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.XianShi.FuLiHuoDong parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDong parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDong parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDong parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDong parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDong parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDong parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDong parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDong parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDong parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.XianShi.FuLiHuoDong prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.FuLiHuoDong}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.XianShi.FuLiHuoDongOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDong_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDong_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.XianShi.FuLiHuoDong.class, qxmobile.protobuf.XianShi.FuLiHuoDong.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.XianShi.FuLiHuoDong.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        typeId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        content_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        isCanGet_ = false;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        remainTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDong_descriptor;
+      }
+
+      public qxmobile.protobuf.XianShi.FuLiHuoDong getDefaultInstanceForType() {
+        return qxmobile.protobuf.XianShi.FuLiHuoDong.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.XianShi.FuLiHuoDong build() {
+        qxmobile.protobuf.XianShi.FuLiHuoDong result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.XianShi.FuLiHuoDong buildPartial() {
+        qxmobile.protobuf.XianShi.FuLiHuoDong result = new qxmobile.protobuf.XianShi.FuLiHuoDong(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.typeId_ = typeId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.content_ = content_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.isCanGet_ = isCanGet_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.remainTime_ = remainTime_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.XianShi.FuLiHuoDong) {
+          return mergeFrom((qxmobile.protobuf.XianShi.FuLiHuoDong)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.XianShi.FuLiHuoDong other) {
+        if (other == qxmobile.protobuf.XianShi.FuLiHuoDong.getDefaultInstance()) return this;
+        if (other.hasTypeId()) {
+          setTypeId(other.getTypeId());
+        }
+        if (other.hasContent()) {
+          bitField0_ |= 0x00000002;
+          content_ = other.content_;
+          onChanged();
+        }
+        if (other.hasIsCanGet()) {
+          setIsCanGet(other.getIsCanGet());
+        }
+        if (other.hasRemainTime()) {
+          setRemainTime(other.getRemainTime());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasTypeId()) {
+          
+          return false;
+        }
+        if (!hasContent()) {
+          
+          return false;
+        }
+        if (!hasIsCanGet()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.XianShi.FuLiHuoDong parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.XianShi.FuLiHuoDong) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 typeId = 1;
+      private int typeId_ ;
+      /**
+       * <code>required int32 typeId = 1;</code>
+       *
+       * <pre>
+       *活动Id
+       * </pre>
+       */
+      public boolean hasTypeId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 typeId = 1;</code>
+       *
+       * <pre>
+       *活动Id
+       * </pre>
+       */
+      public int getTypeId() {
+        return typeId_;
+      }
+      /**
+       * <code>required int32 typeId = 1;</code>
+       *
+       * <pre>
+       *活动Id
+       * </pre>
+       */
+      public Builder setTypeId(int value) {
+        bitField0_ |= 0x00000001;
+        typeId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 typeId = 1;</code>
+       *
+       * <pre>
+       *活动Id
+       * </pre>
+       */
+      public Builder clearTypeId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        typeId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string content = 2;
+      private java.lang.Object content_ = "";
+      /**
+       * <code>required string content = 2;</code>
+       */
+      public boolean hasContent() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string content = 2;</code>
+       */
+      public java.lang.String getContent() {
+        java.lang.Object ref = content_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          content_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string content = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getContentBytes() {
+        java.lang.Object ref = content_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          content_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string content = 2;</code>
+       */
+      public Builder setContent(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        content_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string content = 2;</code>
+       */
+      public Builder clearContent() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        content_ = getDefaultInstance().getContent();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string content = 2;</code>
+       */
+      public Builder setContentBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        content_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required bool isCanGet = 3;
+      private boolean isCanGet_ ;
+      /**
+       * <code>required bool isCanGet = 3;</code>
+       *
+       * <pre>
+       *是否可以领取
+       * </pre>
+       */
+      public boolean hasIsCanGet() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required bool isCanGet = 3;</code>
+       *
+       * <pre>
+       *是否可以领取
+       * </pre>
+       */
+      public boolean getIsCanGet() {
+        return isCanGet_;
+      }
+      /**
+       * <code>required bool isCanGet = 3;</code>
+       *
+       * <pre>
+       *是否可以领取
+       * </pre>
+       */
+      public Builder setIsCanGet(boolean value) {
+        bitField0_ |= 0x00000004;
+        isCanGet_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool isCanGet = 3;</code>
+       *
+       * <pre>
+       *是否可以领取
+       * </pre>
+       */
+      public Builder clearIsCanGet() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        isCanGet_ = false;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 remainTime = 4;
+      private int remainTime_ ;
+      /**
+       * <code>optional int32 remainTime = 4;</code>
+       *
+       * <pre>
+       *剩余等待时间
+       * </pre>
+       */
+      public boolean hasRemainTime() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 remainTime = 4;</code>
+       *
+       * <pre>
+       *剩余等待时间
+       * </pre>
+       */
+      public int getRemainTime() {
+        return remainTime_;
+      }
+      /**
+       * <code>optional int32 remainTime = 4;</code>
+       *
+       * <pre>
+       *剩余等待时间
+       * </pre>
+       */
+      public Builder setRemainTime(int value) {
+        bitField0_ |= 0x00000008;
+        remainTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 remainTime = 4;</code>
+       *
+       * <pre>
+       *剩余等待时间
+       * </pre>
+       */
+      public Builder clearRemainTime() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        remainTime_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FuLiHuoDong)
+    }
+
+    static {
+      defaultInstance = new FuLiHuoDong(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FuLiHuoDong)
+  }
+
+  public interface FuLiHuoDongAwardReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 fuLiType = 1;
+    /**
+     * <code>required int32 fuLiType = 1;</code>
+     */
+    boolean hasFuLiType();
+    /**
+     * <code>required int32 fuLiType = 1;</code>
+     */
+    int getFuLiType();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.FuLiHuoDongAwardReq}
+   *
+   * <pre>
+   *	public static final short C_FULIINFOAWARD_REQ = 4030;//请求福利奖励
+   * </pre>
+   */
+  public static final class FuLiHuoDongAwardReq extends
+      com.google.protobuf.GeneratedMessage
+      implements FuLiHuoDongAwardReqOrBuilder {
+    // Use FuLiHuoDongAwardReq.newBuilder() to construct.
+    private FuLiHuoDongAwardReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FuLiHuoDongAwardReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FuLiHuoDongAwardReq defaultInstance;
+    public static FuLiHuoDongAwardReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FuLiHuoDongAwardReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FuLiHuoDongAwardReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              fuLiType_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDongAwardReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDongAwardReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq.class, qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FuLiHuoDongAwardReq> PARSER =
+        new com.google.protobuf.AbstractParser<FuLiHuoDongAwardReq>() {
+      public FuLiHuoDongAwardReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FuLiHuoDongAwardReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FuLiHuoDongAwardReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 fuLiType = 1;
+    public static final int FULITYPE_FIELD_NUMBER = 1;
+    private int fuLiType_;
+    /**
+     * <code>required int32 fuLiType = 1;</code>
+     */
+    public boolean hasFuLiType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 fuLiType = 1;</code>
+     */
+    public int getFuLiType() {
+      return fuLiType_;
+    }
+
+    private void initFields() {
+      fuLiType_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasFuLiType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, fuLiType_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, fuLiType_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.FuLiHuoDongAwardReq}
+     *
+     * <pre>
+     *	public static final short C_FULIINFOAWARD_REQ = 4030;//请求福利奖励
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.XianShi.FuLiHuoDongAwardReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDongAwardReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDongAwardReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq.class, qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        fuLiType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDongAwardReq_descriptor;
+      }
+
+      public qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq build() {
+        qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq buildPartial() {
+        qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq result = new qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.fuLiType_ = fuLiType_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq) {
+          return mergeFrom((qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq other) {
+        if (other == qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq.getDefaultInstance()) return this;
+        if (other.hasFuLiType()) {
+          setFuLiType(other.getFuLiType());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasFuLiType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 fuLiType = 1;
+      private int fuLiType_ ;
+      /**
+       * <code>required int32 fuLiType = 1;</code>
+       */
+      public boolean hasFuLiType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 fuLiType = 1;</code>
+       */
+      public int getFuLiType() {
+        return fuLiType_;
+      }
+      /**
+       * <code>required int32 fuLiType = 1;</code>
+       */
+      public Builder setFuLiType(int value) {
+        bitField0_ |= 0x00000001;
+        fuLiType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 fuLiType = 1;</code>
+       */
+      public Builder clearFuLiType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        fuLiType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FuLiHuoDongAwardReq)
+    }
+
+    static {
+      defaultInstance = new FuLiHuoDongAwardReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FuLiHuoDongAwardReq)
+  }
+
+  public interface FuLiHuoDongAwardRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 fuLiType = 1;
+    /**
+     * <code>required int32 fuLiType = 1;</code>
+     */
+    boolean hasFuLiType();
+    /**
+     * <code>required int32 fuLiType = 1;</code>
+     */
+    int getFuLiType();
+
+    // required string result = 2;
+    /**
+     * <code>required string result = 2;</code>
+     *
+     * <pre>
+     *0：表示 领取失败  “0:90000:100”是领取成功这个奖励成功
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required string result = 2;</code>
+     *
+     * <pre>
+     *0：表示 领取失败  “0:90000:100”是领取成功这个奖励成功
+     * </pre>
+     */
+    java.lang.String getResult();
+    /**
+     * <code>required string result = 2;</code>
+     *
+     * <pre>
+     *0：表示 领取失败  “0:90000:100”是领取成功这个奖励成功
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getResultBytes();
+
+    // optional string nextShow = 3;
+    /**
+     * <code>optional string nextShow = 3;</code>
+     *
+     * <pre>
+     *领取当前后下个展示内容 这个可以去掉了
+     * </pre>
+     */
+    boolean hasNextShow();
+    /**
+     * <code>optional string nextShow = 3;</code>
+     *
+     * <pre>
+     *领取当前后下个展示内容 这个可以去掉了
+     * </pre>
+     */
+    java.lang.String getNextShow();
+    /**
+     * <code>optional string nextShow = 3;</code>
+     *
+     * <pre>
+     *领取当前后下个展示内容 这个可以去掉了
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getNextShowBytes();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.FuLiHuoDongAwardResp}
+   *
+   * <pre>
+   *	public static final short S_FULIINFOAWARD_RESP = 4031; 请求福利奖励返回
+   * </pre>
+   */
+  public static final class FuLiHuoDongAwardResp extends
+      com.google.protobuf.GeneratedMessage
+      implements FuLiHuoDongAwardRespOrBuilder {
+    // Use FuLiHuoDongAwardResp.newBuilder() to construct.
+    private FuLiHuoDongAwardResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FuLiHuoDongAwardResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FuLiHuoDongAwardResp defaultInstance;
+    public static FuLiHuoDongAwardResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FuLiHuoDongAwardResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FuLiHuoDongAwardResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              fuLiType_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              result_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              nextShow_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDongAwardResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDongAwardResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp.class, qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FuLiHuoDongAwardResp> PARSER =
+        new com.google.protobuf.AbstractParser<FuLiHuoDongAwardResp>() {
+      public FuLiHuoDongAwardResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FuLiHuoDongAwardResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FuLiHuoDongAwardResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 fuLiType = 1;
+    public static final int FULITYPE_FIELD_NUMBER = 1;
+    private int fuLiType_;
+    /**
+     * <code>required int32 fuLiType = 1;</code>
+     */
+    public boolean hasFuLiType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 fuLiType = 1;</code>
+     */
+    public int getFuLiType() {
+      return fuLiType_;
+    }
+
+    // required string result = 2;
+    public static final int RESULT_FIELD_NUMBER = 2;
+    private java.lang.Object result_;
+    /**
+     * <code>required string result = 2;</code>
+     *
+     * <pre>
+     *0：表示 领取失败  “0:90000:100”是领取成功这个奖励成功
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string result = 2;</code>
+     *
+     * <pre>
+     *0：表示 领取失败  “0:90000:100”是领取成功这个奖励成功
+     * </pre>
+     */
+    public java.lang.String getResult() {
+      java.lang.Object ref = result_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          result_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string result = 2;</code>
+     *
+     * <pre>
+     *0：表示 领取失败  “0:90000:100”是领取成功这个奖励成功
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getResultBytes() {
+      java.lang.Object ref = result_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        result_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string nextShow = 3;
+    public static final int NEXTSHOW_FIELD_NUMBER = 3;
+    private java.lang.Object nextShow_;
+    /**
+     * <code>optional string nextShow = 3;</code>
+     *
+     * <pre>
+     *领取当前后下个展示内容 这个可以去掉了
+     * </pre>
+     */
+    public boolean hasNextShow() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string nextShow = 3;</code>
+     *
+     * <pre>
+     *领取当前后下个展示内容 这个可以去掉了
+     * </pre>
+     */
+    public java.lang.String getNextShow() {
+      java.lang.Object ref = nextShow_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          nextShow_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string nextShow = 3;</code>
+     *
+     * <pre>
+     *领取当前后下个展示内容 这个可以去掉了
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getNextShowBytes() {
+      java.lang.Object ref = nextShow_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        nextShow_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      fuLiType_ = 0;
+      result_ = "";
+      nextShow_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasFuLiType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, fuLiType_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getResultBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getNextShowBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, fuLiType_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getResultBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getNextShowBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.FuLiHuoDongAwardResp}
+     *
+     * <pre>
+     *	public static final short S_FULIINFOAWARD_RESP = 4031; 请求福利奖励返回
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.XianShi.FuLiHuoDongAwardRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDongAwardResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDongAwardResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp.class, qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        fuLiType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        nextShow_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_FuLiHuoDongAwardResp_descriptor;
+      }
+
+      public qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp build() {
+        qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp buildPartial() {
+        qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp result = new qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.fuLiType_ = fuLiType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.result_ = result_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.nextShow_ = nextShow_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp) {
+          return mergeFrom((qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp other) {
+        if (other == qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp.getDefaultInstance()) return this;
+        if (other.hasFuLiType()) {
+          setFuLiType(other.getFuLiType());
+        }
+        if (other.hasResult()) {
+          bitField0_ |= 0x00000002;
+          result_ = other.result_;
+          onChanged();
+        }
+        if (other.hasNextShow()) {
+          bitField0_ |= 0x00000004;
+          nextShow_ = other.nextShow_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasFuLiType()) {
+          
+          return false;
+        }
+        if (!hasResult()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 fuLiType = 1;
+      private int fuLiType_ ;
+      /**
+       * <code>required int32 fuLiType = 1;</code>
+       */
+      public boolean hasFuLiType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 fuLiType = 1;</code>
+       */
+      public int getFuLiType() {
+        return fuLiType_;
+      }
+      /**
+       * <code>required int32 fuLiType = 1;</code>
+       */
+      public Builder setFuLiType(int value) {
+        bitField0_ |= 0x00000001;
+        fuLiType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 fuLiType = 1;</code>
+       */
+      public Builder clearFuLiType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        fuLiType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string result = 2;
+      private java.lang.Object result_ = "";
+      /**
+       * <code>required string result = 2;</code>
+       *
+       * <pre>
+       *0：表示 领取失败  “0:90000:100”是领取成功这个奖励成功
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string result = 2;</code>
+       *
+       * <pre>
+       *0：表示 领取失败  “0:90000:100”是领取成功这个奖励成功
+       * </pre>
+       */
+      public java.lang.String getResult() {
+        java.lang.Object ref = result_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          result_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string result = 2;</code>
+       *
+       * <pre>
+       *0：表示 领取失败  “0:90000:100”是领取成功这个奖励成功
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getResultBytes() {
+        java.lang.Object ref = result_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          result_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string result = 2;</code>
+       *
+       * <pre>
+       *0：表示 领取失败  “0:90000:100”是领取成功这个奖励成功
+       * </pre>
+       */
+      public Builder setResult(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string result = 2;</code>
+       *
+       * <pre>
+       *0：表示 领取失败  “0:90000:100”是领取成功这个奖励成功
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        result_ = getDefaultInstance().getResult();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string result = 2;</code>
+       *
+       * <pre>
+       *0：表示 领取失败  “0:90000:100”是领取成功这个奖励成功
+       * </pre>
+       */
+      public Builder setResultBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string nextShow = 3;
+      private java.lang.Object nextShow_ = "";
+      /**
+       * <code>optional string nextShow = 3;</code>
+       *
+       * <pre>
+       *领取当前后下个展示内容 这个可以去掉了
+       * </pre>
+       */
+      public boolean hasNextShow() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string nextShow = 3;</code>
+       *
+       * <pre>
+       *领取当前后下个展示内容 这个可以去掉了
+       * </pre>
+       */
+      public java.lang.String getNextShow() {
+        java.lang.Object ref = nextShow_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          nextShow_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string nextShow = 3;</code>
+       *
+       * <pre>
+       *领取当前后下个展示内容 这个可以去掉了
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getNextShowBytes() {
+        java.lang.Object ref = nextShow_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          nextShow_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string nextShow = 3;</code>
+       *
+       * <pre>
+       *领取当前后下个展示内容 这个可以去掉了
+       * </pre>
+       */
+      public Builder setNextShow(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        nextShow_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string nextShow = 3;</code>
+       *
+       * <pre>
+       *领取当前后下个展示内容 这个可以去掉了
+       * </pre>
+       */
+      public Builder clearNextShow() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        nextShow_ = getDefaultInstance().getNextShow();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string nextShow = 3;</code>
+       *
+       * <pre>
+       *领取当前后下个展示内容 这个可以去掉了
+       * </pre>
+       */
+      public Builder setNextShowBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        nextShow_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FuLiHuoDongAwardResp)
+    }
+
+    static {
+      defaultInstance = new FuLiHuoDongAwardResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FuLiHuoDongAwardResp)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_XinShouXSActivity_descriptor;
   private static
@@ -5170,6 +7990,26 @@ public final class XianShi {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_OpenXianShi_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_FuLiHuoDongResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_FuLiHuoDongResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_FuLiHuoDong_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_FuLiHuoDong_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_FuLiHuoDongAwardReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_FuLiHuoDongAwardReq_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_FuLiHuoDongAwardResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_FuLiHuoDongAwardResp_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -5192,7 +8032,14 @@ public final class XianShi {
       "xianshi\030\001 \003(\0132\036.qxmobile.protobuf.OpenXi" +
       "anShi\"^\n\013OpenXianShi\022\016\n\006typeId\030\001 \002(\005\022\014\n\004" +
       "name\030\002 \002(\t\022\016\n\006shunxu\030\003 \002(\005\022\r\n\005state\030\004 \002(" +
-      "\005\022\022\n\nisNewAward\030\005 \002(\010B\tB\007XianShi"
+      "\005\022\022\n\nisNewAward\030\005 \002(\010\"B\n\017FuLiHuoDongResp" +
+      "\022/\n\007xianshi\030\001 \003(\0132\036.qxmobile.protobuf.Fu" +
+      "LiHuoDong\"T\n\013FuLiHuoDong\022\016\n\006typeId\030\001 \002(\005" +
+      "\022\017\n\007content\030\002 \002(\t\022\020\n\010isCanGet\030\003 \002(\010\022\022\n\nr" +
+      "emainTime\030\004 \001(\005\"\'\n\023FuLiHuoDongAwardReq\022\020" +
+      "\n\010fuLiType\030\001 \002(\005\"J\n\024FuLiHuoDongAwardResp" +
+      "\022\020\n\010fuLiType\030\001 \002(\005\022\016\n\006result\030\002 \002(\t\022\020\n\010ne",
+      "xtShow\030\003 \001(\tB\tB\007XianShi"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5241,6 +8088,30 @@ public final class XianShi {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_OpenXianShi_descriptor,
               new java.lang.String[] { "TypeId", "Name", "Shunxu", "State", "IsNewAward", });
+          internal_static_qxmobile_protobuf_FuLiHuoDongResp_descriptor =
+            getDescriptor().getMessageTypes().get(7);
+          internal_static_qxmobile_protobuf_FuLiHuoDongResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FuLiHuoDongResp_descriptor,
+              new java.lang.String[] { "Xianshi", });
+          internal_static_qxmobile_protobuf_FuLiHuoDong_descriptor =
+            getDescriptor().getMessageTypes().get(8);
+          internal_static_qxmobile_protobuf_FuLiHuoDong_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FuLiHuoDong_descriptor,
+              new java.lang.String[] { "TypeId", "Content", "IsCanGet", "RemainTime", });
+          internal_static_qxmobile_protobuf_FuLiHuoDongAwardReq_descriptor =
+            getDescriptor().getMessageTypes().get(9);
+          internal_static_qxmobile_protobuf_FuLiHuoDongAwardReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FuLiHuoDongAwardReq_descriptor,
+              new java.lang.String[] { "FuLiType", });
+          internal_static_qxmobile_protobuf_FuLiHuoDongAwardResp_descriptor =
+            getDescriptor().getMessageTypes().get(10);
+          internal_static_qxmobile_protobuf_FuLiHuoDongAwardResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FuLiHuoDongAwardResp_descriptor,
+              new java.lang.String[] { "FuLiType", "Result", "NextShow", });
           return null;
         }
       };

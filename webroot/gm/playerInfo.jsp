@@ -1,3 +1,6 @@
+<%@page import="com.qx.task.DailyTaskMgr"%>
+<%@page import="java.lang.reflect.Field"%>
+<%@page import="com.qx.task.DailyTaskActivity"%>
 <%@page import="com.qx.yabiao.YBBattleBean"%>
 <%@page import="com.qx.yabiao.YaBiaoHuoDongMgr"%>
 <%@page import="com.manu.dynasty.template.CanShu"%>
@@ -67,7 +70,7 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 }
 %>
   	<form action="">
-	  	账号<input type="text" name="account" value="<%=name%>">&nbsp;或&nbsp;
+	  	账号<input type="text" name="account" value="${name}">&nbsp;或&nbsp;
 	  	君主ID<input type="text" name="accId" value="<%=accIdStr%>">
 	  	<button type="submit">查询</button>
 	</form>
@@ -97,6 +100,7 @@ do{
 		out.println("没有君主");
 		break;
 	}
+	session.setAttribute("jzId", junZhuId);
 	if(junzhu.level == 0 || junzhu.shengMingMax == 0){
 		JunZhuMgr.inst.fixCreateJunZhu(junZhuId, junzhu.name, junzhu.roleId, junzhu.guoJiaId);
 	}
@@ -161,7 +165,30 @@ do{
 		 int num = Integer.parseInt(request.getParameter("v"));
 		 xilian.setXlsCount(num);
 		 HibernateUtil.save(xilian);
-	 }else if("updateMianfeiXilianCount".equals(action)){
+	 }else if("updateTodyHuoYue".equals(action)){
+		 DailyTaskActivity acti = HibernateUtil.find(DailyTaskActivity.class, junzhu.id);
+		 int num = Integer.parseInt(request.getParameter("v"));
+		 if(acti==null){
+			 acti=new DailyTaskActivity();
+			 acti.jid=junzhu.id;
+		 }else{
+			 DailyTaskMgr.INSTANCE.resetDailyTaskActivity(acti);
+		 }
+		acti.setTodyHuoYue(num);
+		HibernateUtil.save(acti);
+	 }else if("updateWeekHuoYue".equals(action)){
+		 DailyTaskActivity acti = HibernateUtil.find(DailyTaskActivity.class, junzhu.id);
+		 if(acti==null){
+			 acti=new DailyTaskActivity();
+			 acti.jid=junzhu.id;
+		 }else{
+			 DailyTaskMgr.INSTANCE.resetDailyTaskActivity(acti);
+		 }
+		 int num = Integer.parseInt(request.getParameter("v"));
+		  acti.setWeekHuoYue(num);
+		 HibernateUtil.save(acti);
+	 }
+	 else if("updateMianfeiXilianCount".equals(action)){
 		 TimeWorker xilianWorker = HibernateUtil.find(TimeWorker.class,junzhu.id);
 	if (xilianWorker == null) {
 		xilianWorker = new TimeWorker();
@@ -186,12 +213,14 @@ do{
 		 	JunZhuMgr.inst.sendMainInfo(u.session);
 		 }
 	 }
-	 JunZhuMgr.inst.calcAtt(junzhu);
+	 JunZhuMgr.inst.calcJunZhuTotalAtt(junzhu);
 	 AlliancePlayer alncPlayer = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
 	 YaBiaoBean ybbean = HibernateUtil.find(YaBiaoBean.class, junzhu.id);
 	 YBBattleBean jbBean =YaBiaoHuoDongMgr.inst.getYBZhanDouInfo(junzhu.id, junzhu.vipLevel);
 	 XiLian xilian = PurchaseMgr.inst.getXiLian(junzhu.id);
 	TimeWorker xilianWorker = HibernateUtil.find(TimeWorker.class, junzhu.id);
+	//2016年1月19日 活跃度
+	DailyTaskActivity acti = HibernateUtil.find(DailyTaskActivity.class, junzhu.id);
 	 String guojiaName = HeroService.getNameById(junzhu.guoJiaId+"");
 	 out.println("&nbsp;君主id："+junzhu.id+" &nbsp; 名字:"+junzhu.name+"&nbsp; 国家:" + guojiaName);
 	 out.println("<a href='chengHao.jsp?jzId="+junzhu.id+"'>查看称号</a>");
@@ -225,6 +254,22 @@ do{
 	 trS();td("当日免费洗练剩余次数");td(xilianWorker.getXilianTimes());td("<input type='text' id='updateMianfeiXilianCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateMianfeiXilianCount\")'/><br/>");trE();
 	 trS();td("当日元宝洗练已使用次数");td(xilian.getNum());td("<input type='text' id='updateXilianCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateXilianCount\")'/><br/>");trE();
 	 trS();td("当日洗练石洗练已使用次数");td(xilian.getXlsCount());td("<input type='text' id='updateXilianShiCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateXilianShiCount\")'/><br/>");trE();
+	 Integer todyHuoYue=new Integer(0);
+	 Integer weekHuoYue=new Integer(0);
+	 Field[] field = DailyTaskActivity.class.getDeclaredFields();  
+	 if(acti!=null){
+		for(int i = 0 ; i < field.length; i++){  
+			Field f = field[i];  
+			f.setAccessible(true); 
+			if("todyHuoYue".equals(f.getName())){
+				todyHuoYue =(Integer) f.get(acti);
+			}else if("weekHuoYue".equals(f.getName())){
+				weekHuoYue= (Integer)f.get(acti);
+			}
+		}  
+	 }
+	 trS();td("日活跃度");td((Integer)todyHuoYue);td("<input type='text' id='updateTodyHuoYue' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateTodyHuoYue\")'/><br/>");trE();
+	 trS();td("周活跃度");td((Integer)weekHuoYue);td("<input type='text' id='updateWeekHuoYue' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateWeekHuoYue\")'/><br/>");trE();
 	 trS();td("国家");td(country);trE();
 	 trS();td("七日奖励登录天数");td(loginCount);trE();
 	 tableEnd();

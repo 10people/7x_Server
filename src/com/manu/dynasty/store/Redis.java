@@ -600,6 +600,15 @@ public class Redis {
 
 		return ret;
 	}
+	
+	public Double zScoreGongJin (String key, String member) {
+		Jedis redis = this.pool.getResource();
+
+		Double ret = redis.zscore(key, member);
+
+		this.pool.returnResource(redis);
+		return ret;
+	}
 
 	/**
 	 * 按照score的值从小到大排序，返回member的排名 排序是从0开始

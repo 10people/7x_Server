@@ -96,7 +96,9 @@ public class CdTimeMgr implements Runnable {
 	}
 	
 	public void start() {
-		new Thread(this, "CdTimeMgr-Tread").start();
+		Thread t = new Thread(this, "CdTimeMgr-Tread");
+		t.setDaemon(true);
+		t.start();
 		logger.info("开启联盟战复活时间管理");
 	} 
 	

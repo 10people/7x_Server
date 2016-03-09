@@ -48,6 +48,7 @@ import com.manu.dynasty.hero.service.HeroService;
 import com.manu.dynasty.store.MemcachedCRUD;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.CanShu;
+import com.manu.dynasty.template.LegendPveTemp;
 import com.manu.dynasty.template.MibaoSkill;
 import com.manu.dynasty.template.Purchase;
 import com.manu.dynasty.template.PveBigAward;
@@ -306,21 +307,21 @@ public class PveGuanQiaMgr {
 		// 领奖之后才能打关卡
 		int maxRwIdx = FunctionOpenMgr.inst.getMaxAwardRenWuOrderIdx(junZhuId);
 		for (; i < size; i++) {
-			PveTemp t = list.get(i);
-			if (t.getBigId() != reqSection) {
+			PveTemp pveTemp = list.get(i);
+			if (pveTemp.getBigId() != reqSection) {
 				break;
 			}
 
-			PveRecord r = rMap.get(t.getId());
+			PveRecord r = rMap.get(pveTemp.getId());
 			if (r == null) {
 				r = nullRecord;
 			}
 			qxmobile.protobuf.PveLevel.Level.Builder lb = qxmobile.protobuf.PveLevel.Level
 					.newBuilder();
-			lb.setSLevel(t.getMonarchLevel());
+			lb.setSLevel(pveTemp.getMonarchLevel());
 			lb.setSPass(r.star >= 0);
-			lb.setType(t.getChapType());
-			lb.setGuanQiaId(t.getId());
+			lb.setType(pveTemp.getChapType());
+			lb.setGuanQiaId(pveTemp.getId());
 			lb.setSStarNum(r.star);
 			// 1是精英关卡，才有胜利评价。
 			lb.setWinLevel(r.star);
@@ -328,16 +329,15 @@ public class PveGuanQiaMgr {
 			String achieveStr = String.valueOf(r.achieve);
 			achieveStr = StringUtils.leftPad(achieveStr, 3, "0");
 			String achieveRewardStateStr = String.valueOf(r.achieveRewardState);
-			achieveRewardStateStr = StringUtils.leftPad(achieveRewardStateStr,
-					3, "0");
+			achieveRewardStateStr = StringUtils.leftPad(achieveRewardStateStr, 3, "0");
 			for (int index = 0; index < 3; index++) {
 				StarInfo.Builder starInfo = StarInfo.newBuilder();
 				if (index == 0) {
-					starInfo.setStarId(t.getStar1());
+					starInfo.setStarId(pveTemp.getStar1());
 				} else if (index == 1) {
-					starInfo.setStarId(t.getStar2());
+					starInfo.setStarId(pveTemp.getStar2());
 				} else if (index == 2) {
-					starInfo.setStarId(t.getStar3());
+					starInfo.setStarId(pveTemp.getStar3());
 				}
 				if (achieveStr.charAt(index) == '1') {
 					starInfo.setFinished(true);
@@ -351,21 +351,50 @@ public class PveGuanQiaMgr {
 				}
 				lb.addStarInfo(starInfo);
 			}
-
+			// 传奇关卡星级信息
+			String cqStarStr = String.valueOf(r.cqStar);
+			cqStarStr = StringUtils.leftPad(cqStarStr, 3, "0");
+			String cqStarRewardStateStr = String.valueOf(r.cqStarRewardState);
+			cqStarRewardStateStr = StringUtils.leftPad(cqStarRewardStateStr, 3, "0");
+			LegendPveTemp legendPveTemp = PveMgr.inst.legendId2Pve.get(pveTemp.id);
+			if(legendPveTemp != null) {
+				for (int index = 0; index < 3; index++) {
+					StarInfo.Builder starInfo = StarInfo.newBuilder();
+					if (index == 0) {
+						starInfo.setStarId(legendPveTemp.getStar1());
+					} else if (index == 1) {
+						starInfo.setStarId(legendPveTemp.getStar2());
+					} else if (index == 2) {
+						starInfo.setStarId(legendPveTemp.getStar3());
+					}
+					if (cqStarStr.charAt(index) == '1') {
+						starInfo.setFinished(true);
+					} else {
+						starInfo.setFinished(false);
+					}
+					if (cqStarRewardStateStr.charAt(index) == '1') {
+						starInfo.setGetRewardState(true);
+					} else {
+						starInfo.setGetRewardState(false);
+					}
+					lb.addCqStarInfo(starInfo);
+				}
+			}
+			
 			lb.setChuanQiPass(r.chuanQiPass);// 传奇关卡信息
-			lb.setPingJia(r.cqStar);// 传奇关卡星级评价
-			if (t.RenWuLimit <= 0) {
+			lb.setPingJia(r.cqWinLevel);// 传奇关卡星级评价
+			if (pveTemp.RenWuLimit <= 0) {
 				lb.setRenWuId(0);
 			} else {
 				ZhuXian rwConf = GameTaskMgr.inst.zhuxianTaskMap
-						.get(t.RenWuLimit);
+						.get(pveTemp.RenWuLimit);
 				if (rwConf == null) {
 					lb.setRenWuId(0);// 没有该任务，可以攻打。
 				} else if (rwConf.orderIdx <= maxRwIdx) {
 					// 有该主线任务并且该任务已完成
 					lb.setRenWuId(0);
 				} else {
-					lb.setRenWuId(t.RenWuLimit);
+					lb.setRenWuId(pveTemp.RenWuLimit);
 				}
 			}
 			b.addSAllLevel(lb);
@@ -451,6 +480,7 @@ public class PveGuanQiaMgr {
 		// int guanQiaId = star / 10;
 		int guanQiaId = b.getGuanQiaId();
 		int starId = b.getSStarNum();
+		boolean chuanQiMark = b.getIsChuanQi();
 		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
 		if (junZhuId == null) {
 			return;
@@ -467,7 +497,12 @@ public class PveGuanQiaMgr {
 			return;
 		}
 		log.info("{}请求领取星级奖励guanQiaId-{},星级id-{},", junZhuId, guanQiaId, starId);
-		PveTemp pveTemp = PveMgr.inst.getId2Pve().get(guanQiaId);
+		PveTemp pveTemp = null;
+		if(chuanQiMark) {
+			pveTemp = PveMgr.inst.legendId2Pve.get(guanQiaId);
+		} else {
+			pveTemp = PveMgr.inst.getId2Pve().get(guanQiaId);
+		}
 		if (pveTemp == null) {
 			log.error("请求pve章节id错误，zhangJieId:{}", guanQiaId);
 			return;
@@ -475,6 +510,8 @@ public class PveGuanQiaMgr {
 		int star1 = pveTemp.getStar1();
 		int star2 = pveTemp.getStar2();
 		int star3 = pveTemp.getStar3();
+		int getStar = chuanQiMark ? r.cqStar : r.achieve;
+		int starRewardState = chuanQiMark ? r.cqStarRewardState : r.achieveRewardState;
 		int key = 0;
 		if (starId == star1) {
 			key = 100;
@@ -486,15 +523,15 @@ public class PveGuanQiaMgr {
 			sendError(session, "请求数据错误 starId:" + starId);
 			return;
 		}
-		if ((key & r.achieve) != key) {
-			log.info("星级数据错误key {}, match {} star {}", key, (key & r.star),
-					r.star);
+		if ((key & getStar) != key) {
+			log.info("星级数据错误key {}, match {} star {}", key, (key & getStar),
+					getStar);
 			sendError(session, "您还没有获得这个星星。");
 			return;
 		}
-		if ((key & r.achieveRewardState) == key) {
+		if ((key & starRewardState) == key) {
 			log.info("已领数据错误key {}, match {} startRewardState {}", key,
-					(key & r.achieveRewardState), r.achieveRewardState);
+					(key & starRewardState), starRewardState);
 			PveStarGetSuccess.Builder ret = PveStarGetSuccess.newBuilder();
 			ret.setGuanQiaId(guanQiaId);
 			ret.setSResult(false);
@@ -502,7 +539,11 @@ public class PveGuanQiaMgr {
 			session.write(ret.build());
 			return;
 		}
-		r.achieveRewardState += key;
+		if(chuanQiMark) {
+			r.cqStarRewardState += key;
+		} else {
+			r.achieveRewardState += key;
+		}
 		HibernateUtil.save(r);
 		log.info("{}领取星级奖励 guanQiaId{}, starId{}", junZhuId, guanQiaId, starId);
 		// 获得物品奖励配置
@@ -943,7 +984,8 @@ public class PveGuanQiaMgr {
 			log.error("君主{}该秘宝技能{}未激活", junzhu.id,zuheId);
 			return;
 		}
-		// 1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点 6-押镖防御秘宝 7-押镖攻击密保
+		//1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，
+		//8-游侠金币关，9-游侠材料关，10-游侠精气关，13-游侠完璧归赵，14-游侠横扫六和,11-掠夺防守，12-掠夺攻击
 		switch (battleType) {
 		case 1:
 			saveMibao4Pve(session, mibaoIds, junzhu, zuheId);
@@ -971,6 +1013,8 @@ public class PveGuanQiaMgr {
 		case 8:
 		case 9:
 		case 10:
+		case 13:
+		case 14:
 			saveMibao4YouXia(battleType, junzhu.id, zuheId);
 			break;
 		case 11:
@@ -1003,10 +1047,10 @@ public class PveGuanQiaMgr {
 		case 10:
 			buzhen.jingQiZuheId = zuheId;
 			break;
-		case 11:
+		case 13:
 			buzhen.type4 = zuheId;
 			break;
-		case 12:
+		case 14:
 			buzhen.type5 = zuheId;
 			break;
 		default:

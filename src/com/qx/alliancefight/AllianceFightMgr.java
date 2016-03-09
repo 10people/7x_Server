@@ -599,7 +599,7 @@ public class AllianceFightMgr {
 				logger.error("攻击失败，找不到被攻击的目标（系统马车）配置，uid:{},jzId:{},npcId:{}", targetPlayer.userId, targetPlayer.jzId, ybr.bcNPCId);
 				return;
 			}
-			defender = cartNpcTemp.valueOfJunZhu(targetPlayer.jzId); 
+			defender = cartNpcTemp.getSimuJunZhu(targetPlayer.jzId); 
 		} else {// 真实玩家的马车
 			defender = HibernateUtil.find(JunZhu.class, targetPlayer.jzId);
 			isPlayerCart = true;

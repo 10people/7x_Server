@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import javax.xml.ws.Response;
+
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -533,11 +535,13 @@ public class RankingMgr extends EventProc{
 	public void getRankAlliancePlayer(int id, IoSession session, Builder builder) {
 		AlliancePlayerReq.Builder request = (AlliancePlayerReq.Builder)builder;
 		int mengId = request.getMengId();
+
+		AlliancePlayerResp.Builder response = AlliancePlayerResp.newBuilder();
 		List<AlliancePlayer> playerList = AllianceMgr.inst.getAllianceMembers(mengId);
 		if(playerList==null||playerList.size()==0){
+			session.write(response.build());
 			return;
 		}
-		AlliancePlayerResp.Builder response = AlliancePlayerResp.newBuilder();
 		List<RankAlliancePlayer> rankPlayerList = new ArrayList<RankAlliancePlayer>();
 		for(AlliancePlayer player:playerList){
 			JunZhu jz = HibernateUtil.find(JunZhu.class, player.junzhuId);

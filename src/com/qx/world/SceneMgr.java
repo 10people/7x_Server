@@ -103,8 +103,15 @@ public class SceneMgr extends EventProc{
 	public void exitYBScene(int code, IoSession session, Builder builder,
 			Long junZhuId) {
 		Scene ybSc = (Scene) session.getAttribute(SessionAttKey.Scene);
+		ExitScene.Builder exitYBSc = ExitScene.newBuilder();
+		Integer uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
+		if(uid == null){
+			logger.error("离开押镖场景处理出错，未找到君主---{}的uid",junZhuId);
+			return;
+		}
+		exitYBSc.setUid(uid);
 		if (ybSc != null) {
-			ybSc.exec(code, session, builder);
+			ybSc.exec(code, session, exitYBSc);
 		}else{
 			logger.info("用户{}不在押镖场景中，退出押镖场景失败",junZhuId);
 		}
@@ -115,19 +122,21 @@ public class SceneMgr extends EventProc{
 		playerExitScene(session);
 		// 进入押镖场景进行押镖
 		int scId = YaBiaoHuoDongMgr.inst.locateFakeSceneId();
-		Scene sc = YaBiaoHuoDongMgr.inst.yabiaoScenes.get(scId);
-		if (sc == null) {// 没有场景
-			synchronized (YaBiaoHuoDongMgr.inst.yabiaoScenes) {// 防止多次创建
-				sc = YaBiaoHuoDongMgr.inst.yabiaoScenes.get(scId);
-				if (sc == null) {
-					sc = new Scene("YB#" + scId);
-					sc.startMissionThread();
-					YaBiaoHuoDongMgr.inst.yabiaoScenes.put(scId, sc);
+		synchronized (YaBiaoHuoDongMgr.inst.yabiaoScenes) {
+			Scene  sc = YaBiaoHuoDongMgr.inst.yabiaoScenes.get(scId);
+			if (sc == null) {// 没有场景
+				synchronized (YaBiaoHuoDongMgr.inst.yabiaoScenes) {// 防止多次创建
+					sc = YaBiaoHuoDongMgr.inst.yabiaoScenes.get(scId);
+					if (sc == null) {
+						sc = new Scene("YB#" + scId);
+						sc.startMissionThread();
+						YaBiaoHuoDongMgr.inst.yabiaoScenes.put(scId, sc);
+					}
 				}
 			}
+			sc.exec(code, session, builder);
 		}
 		session.setAttribute(SessionAttKey.SceneID,scId);
-		sc.exec(code, session, builder);
 	}
 
 	private void exitFight(int code, IoSession session, Builder builder,
@@ -326,7 +335,8 @@ public class SceneMgr extends EventProc{
 		Scene scene = (Scene) session.getAttribute(SessionAttKey.Scene);
 		if (scene != null) {
 			Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
-			int uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
+			Integer uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
+			if(uid == null)return;
 			
 			if(scene.name.contains("Fight")) {
 				ExitFightScene.Builder exitFight = ExitFightScene.newBuilder();

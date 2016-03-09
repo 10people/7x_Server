@@ -33,6 +33,7 @@ import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.persistent.LRUCache;
 import com.qx.persistent.MC;
 
 /**
@@ -184,8 +185,6 @@ public class EquipMgr extends EventProc{
 		BagMgr.inst.sendBagInfo(0, session, null);
 		BagMgr.inst.sendEquipInfo(0, session, null);
 		JunZhuMgr.inst.sendMainInfo(session);
-		// 刷新战力数据
-		JunZhuMgr.inst.getPVEMiBaoZhanLi(session);
 		// 刷新君主榜
 		EventMgr.addEvent(ED.JUN_RANK_REFRESH, jz);
 	}
@@ -268,6 +267,7 @@ public class EquipMgr extends EventProc{
 			eg.itemId = bg.itemId;
 			MC.add(eg, eg.dbId);
 			HibernateUtil.insert(eg);
+			equips.grids.set(slot, eg);
 			
 			bg.instId = bg.itemId = bg.cnt = 0;
 			HibernateUtil.save(bg);
@@ -353,8 +353,6 @@ public class EquipMgr extends EventProc{
 		JunZhuMgr.inst.sendMainInfo(session);
 		// 事件管理中添加穿装备事件
 		EventMgr.addEvent(ED.EQUIP_ADD, new Object[]{equips.ownerId, zb.getId(), equips});
-		// 刷新战力数据
-		JunZhuMgr.inst.getPVEMiBaoZhanLi(session);
 		// 刷新君主榜
 		EventMgr.addEvent(ED.JUN_RANK_REFRESH, junZhu);
 	}

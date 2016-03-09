@@ -784,6 +784,24 @@ public final class JunZhuProto {
      * </pre>
      */
     int getGuoJiaId();
+
+    // optional int32 nuQiValue = 34;
+    /**
+     * <code>optional int32 nuQiValue = 34;</code>
+     *
+     * <pre>
+     *初始怒气
+     * </pre>
+     */
+    boolean hasNuQiValue();
+    /**
+     * <code>optional int32 nuQiValue = 34;</code>
+     *
+     * <pre>
+     *初始怒气
+     * </pre>
+     */
+    int getNuQiValue();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.JunZhuInfoRet}
@@ -1000,6 +1018,11 @@ public final class JunZhuProto {
             case 264: {
               bitField0_ |= 0x20000000;
               zhanLiMibao_ = input.readInt32();
+              break;
+            }
+            case 272: {
+              bitField1_ |= 0x00000002;
+              nuQiValue_ = input.readInt32();
               break;
             }
           }
@@ -1720,6 +1743,30 @@ public final class JunZhuProto {
       return guoJiaId_;
     }
 
+    // optional int32 nuQiValue = 34;
+    public static final int NUQIVALUE_FIELD_NUMBER = 34;
+    private int nuQiValue_;
+    /**
+     * <code>optional int32 nuQiValue = 34;</code>
+     *
+     * <pre>
+     *初始怒气
+     * </pre>
+     */
+    public boolean hasNuQiValue() {
+      return ((bitField1_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 nuQiValue = 34;</code>
+     *
+     * <pre>
+     *初始怒气
+     * </pre>
+     */
+    public int getNuQiValue() {
+      return nuQiValue_;
+    }
+
     private void initFields() {
       id_ = 0L;
       name_ = "";
@@ -1754,6 +1801,7 @@ public final class JunZhuProto {
       junXian_ = 0;
       vipLv_ = 0;
       guoJiaId_ = 0;
+      nuQiValue_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1889,6 +1937,9 @@ public final class JunZhuProto {
       }
       if (((bitField0_ & 0x20000000) == 0x20000000)) {
         output.writeInt32(33, zhanLiMibao_);
+      }
+      if (((bitField1_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(34, nuQiValue_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2030,6 +2081,10 @@ public final class JunZhuProto {
       if (((bitField0_ & 0x20000000) == 0x20000000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(33, zhanLiMibao_);
+      }
+      if (((bitField1_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(34, nuQiValue_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2213,6 +2268,8 @@ public final class JunZhuProto {
         bitField0_ = (bitField0_ & ~0x80000000);
         guoJiaId_ = 0;
         bitField1_ = (bitField1_ & ~0x00000001);
+        nuQiValue_ = 0;
+        bitField1_ = (bitField1_ & ~0x00000002);
         return this;
       }
 
@@ -2375,6 +2432,10 @@ public final class JunZhuProto {
           to_bitField1_ |= 0x00000001;
         }
         result.guoJiaId_ = guoJiaId_;
+        if (((from_bitField1_ & 0x00000002) == 0x00000002)) {
+          to_bitField1_ |= 0x00000002;
+        }
+        result.nuQiValue_ = nuQiValue_;
         result.bitField0_ = to_bitField0_;
         result.bitField1_ = to_bitField1_;
         onBuilt();
@@ -2492,6 +2553,9 @@ public final class JunZhuProto {
         }
         if (other.hasGuoJiaId()) {
           setGuoJiaId(other.getGuoJiaId());
+        }
+        if (other.hasNuQiValue()) {
+          setNuQiValue(other.getNuQiValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -3915,6 +3979,55 @@ public final class JunZhuProto {
       public Builder clearGuoJiaId() {
         bitField1_ = (bitField1_ & ~0x00000001);
         guoJiaId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 nuQiValue = 34;
+      private int nuQiValue_ ;
+      /**
+       * <code>optional int32 nuQiValue = 34;</code>
+       *
+       * <pre>
+       *初始怒气
+       * </pre>
+       */
+      public boolean hasNuQiValue() {
+        return ((bitField1_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 nuQiValue = 34;</code>
+       *
+       * <pre>
+       *初始怒气
+       * </pre>
+       */
+      public int getNuQiValue() {
+        return nuQiValue_;
+      }
+      /**
+       * <code>optional int32 nuQiValue = 34;</code>
+       *
+       * <pre>
+       *初始怒气
+       * </pre>
+       */
+      public Builder setNuQiValue(int value) {
+        bitField1_ |= 0x00000002;
+        nuQiValue_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 nuQiValue = 34;</code>
+       *
+       * <pre>
+       *初始怒气
+       * </pre>
+       */
+      public Builder clearNuQiValue() {
+        bitField1_ = (bitField1_ & ~0x00000002);
+        nuQiValue_ = 0;
         onChanged();
         return this;
       }
@@ -11759,16 +11872,6 @@ public final class JunZhuProto {
      * <code>optional int32 num2 = 3;</code>
      */
     int getNum2();
-
-    // required bool isShowRed = 4;
-    /**
-     * <code>required bool isShowRed = 4;</code>
-     */
-    boolean hasIsShowRed();
-    /**
-     * <code>required bool isShowRed = 4;</code>
-     */
-    boolean getIsShowRed();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.SimpleInfo}
@@ -11834,11 +11937,6 @@ public final class JunZhuProto {
             case 24: {
               bitField0_ |= 0x00000004;
               num2_ = input.readInt32();
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000008;
-              isShowRed_ = input.readBool();
               break;
             }
           }
@@ -11929,27 +12027,10 @@ public final class JunZhuProto {
       return num2_;
     }
 
-    // required bool isShowRed = 4;
-    public static final int ISSHOWRED_FIELD_NUMBER = 4;
-    private boolean isShowRed_;
-    /**
-     * <code>required bool isShowRed = 4;</code>
-     */
-    public boolean hasIsShowRed() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>required bool isShowRed = 4;</code>
-     */
-    public boolean getIsShowRed() {
-      return isShowRed_;
-    }
-
     private void initFields() {
       functionId_ = 0;
       num1_ = 0;
       num2_ = 0;
-      isShowRed_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -11957,10 +12038,6 @@ public final class JunZhuProto {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasFunctionId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasIsShowRed()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -11979,9 +12056,6 @@ public final class JunZhuProto {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(3, num2_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBool(4, isShowRed_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -12003,10 +12077,6 @@ public final class JunZhuProto {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, num2_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(4, isShowRed_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -12130,8 +12200,6 @@ public final class JunZhuProto {
         bitField0_ = (bitField0_ & ~0x00000002);
         num2_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        isShowRed_ = false;
-        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -12172,10 +12240,6 @@ public final class JunZhuProto {
           to_bitField0_ |= 0x00000004;
         }
         result.num2_ = num2_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.isShowRed_ = isShowRed_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -12201,19 +12265,12 @@ public final class JunZhuProto {
         if (other.hasNum2()) {
           setNum2(other.getNum2());
         }
-        if (other.hasIsShowRed()) {
-          setIsShowRed(other.getIsShowRed());
-        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasFunctionId()) {
-          
-          return false;
-        }
-        if (!hasIsShowRed()) {
           
           return false;
         }
@@ -12334,39 +12391,6 @@ public final class JunZhuProto {
       public Builder clearNum2() {
         bitField0_ = (bitField0_ & ~0x00000004);
         num2_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required bool isShowRed = 4;
-      private boolean isShowRed_ ;
-      /**
-       * <code>required bool isShowRed = 4;</code>
-       */
-      public boolean hasIsShowRed() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>required bool isShowRed = 4;</code>
-       */
-      public boolean getIsShowRed() {
-        return isShowRed_;
-      }
-      /**
-       * <code>required bool isShowRed = 4;</code>
-       */
-      public Builder setIsShowRed(boolean value) {
-        bitField0_ |= 0x00000008;
-        isShowRed_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required bool isShowRed = 4;</code>
-       */
-      public Builder clearIsShowRed() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        isShowRed_ = false;
         onChanged();
         return this;
       }
@@ -14288,7 +14312,7 @@ public final class JunZhuProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\014JunZhu.proto\022\021qxmobile.protobuf\"\017\n\rJun" +
-      "ZhuInfoReq\"\254\004\n\rJunZhuInfoRet\022\n\n\002id\030\001 \002(\003" +
+      "ZhuInfoReq\"\277\004\n\rJunZhuInfoRet\022\n\n\002id\030\001 \002(\003" +
       "\022\014\n\004name\030\002 \002(\t\022\016\n\006gender\030\003 \002(\005\022\022\n\nlianMe" +
       "ngId\030\004 \002(\005\022\r\n\005level\030\005 \002(\005\022\013\n\003exp\030\006 \002(\003\022\016" +
       "\n\006gongJi\030\007 \001(\005\022\023\n\013gongjiMibao\030\036 \001(\005\022\016\n\006f" +
@@ -14302,31 +14326,31 @@ public final class JunZhuProto {
       "\030\n\020tiLipurchaseTime\030\030 \001(\005\022\017\n\007tiLiMax\030\031 \001" +
       "(\005\022\016\n\006zhanLi\030\032 \001(\005\022\023\n\013zhanLiMibao\030! \001(\005\022" +
       "\017\n\007junXian\030\033 \001(\005\022\r\n\005vipLv\030\034 \001(\005\022\020\n\010guoJi" +
-      "aId\030\035 \001(\005\"\023\n\021JunZhuAttPointReq\"]\n\021JunZhu" +
-      "AttPointRet\022\020\n\010attPoint\030\001 \002(\005\022\020\n\010zhiLiAd" +
-      "d\030\002 \002(\005\022\017\n\007wuLiAdd\030\003 \002(\005\022\023\n\013zhengZhiAdd\030" +
-      "\004 \002(\005\"K\n\021JunZhuAddPointReq\022\020\n\010zhiLiAdd\030\001" +
-      " \002(\005\022\017\n\007wuLiAdd\030\002 \002(\005\022\023\n\013zhengZhiAdd\030\003 \002",
-      "(\005\"\247\001\n\014BuyTimesInfo\022\016\n\006tongBi\030\001 \002(\005\022\014\n\004t" +
-      "iLi\030\002 \002(\005\022\024\n\014tongBiHuaFei\030\003 \002(\005\022\022\n\ntiLiH" +
-      "uaFei\030\004 \002(\005\022\023\n\013tongBiHuoDe\030\005 \002(\005\022\021\n\ttiLi" +
-      "HuoDe\030\006 \002(\005\022\023\n\013mibaoHuaFei\030\007 \002(\005\022\022\n\nmiba" +
-      "oHuoDe\030\010 \002(\005\" \n\016PveMiBaoZhanLi\022\016\n\006zhanli" +
-      "\030\001 \002(\005\"\227\001\n\016TalentInfoResp\022\022\n\nwuYiJingQi\030" +
-      "\001 \002(\005\022\026\n\016jinGongDianShu\030\002 \002(\005\022\022\n\ntiPoJin" +
-      "gQi\030\003 \002(\005\022\027\n\017fangShouDianShu\030\004 \002(\005\022,\n\006po" +
-      "ints\030\005 \003(\0132\034.qxmobile.protobuf.PointInfo" +
-      "\"e\n\tPointInfo\022\017\n\007pointId\030\001 \002(\005\022\020\n\010pointL",
-      "ev\030\002 \002(\005\022\014\n\004desc\030\003 \002(\t\022\023\n\013difValueLev\030\004 " +
-      "\001(\005\022\022\n\nneedJingQi\030\005 \001(\005\"#\n\020TalentUpLevel" +
-      "Req\022\017\n\007pointId\030\001 \002(\005\"5\n\021TalentUpLevelRes" +
-      "p\022\023\n\013errorNumber\030\001 \002(\005\022\013\n\003msg\030\002 \002(\t\"(\n\024J" +
-      "unZhuInfoSpecifyReq\022\020\n\010junzhuId\030\001 \002(\003\")\n" +
-      "\021MainSimpleInfoReq\022\024\n\014functionType\030\001 \002(\005" +
-      "\"A\n\022MainSimpleInfoResp\022+\n\004info\030\001 \003(\0132\035.q" +
-      "xmobile.protobuf.SimpleInfo\"O\n\nSimpleInf" +
-      "o\022\022\n\nfunctionId\030\001 \002(\005\022\014\n\004num1\030\002 \001(\005\022\014\n\004n" +
-      "um2\030\003 \001(\005\022\021\n\tisShowRed\030\004 \002(\010\"=\n\rTaoZhuan",
+      "aId\030\035 \001(\005\022\021\n\tnuQiValue\030\" \001(\005\"\023\n\021JunZhuAt" +
+      "tPointReq\"]\n\021JunZhuAttPointRet\022\020\n\010attPoi" +
+      "nt\030\001 \002(\005\022\020\n\010zhiLiAdd\030\002 \002(\005\022\017\n\007wuLiAdd\030\003 " +
+      "\002(\005\022\023\n\013zhengZhiAdd\030\004 \002(\005\"K\n\021JunZhuAddPoi" +
+      "ntReq\022\020\n\010zhiLiAdd\030\001 \002(\005\022\017\n\007wuLiAdd\030\002 \002(\005",
+      "\022\023\n\013zhengZhiAdd\030\003 \002(\005\"\247\001\n\014BuyTimesInfo\022\016" +
+      "\n\006tongBi\030\001 \002(\005\022\014\n\004tiLi\030\002 \002(\005\022\024\n\014tongBiHu" +
+      "aFei\030\003 \002(\005\022\022\n\ntiLiHuaFei\030\004 \002(\005\022\023\n\013tongBi" +
+      "HuoDe\030\005 \002(\005\022\021\n\ttiLiHuoDe\030\006 \002(\005\022\023\n\013mibaoH" +
+      "uaFei\030\007 \002(\005\022\022\n\nmibaoHuoDe\030\010 \002(\005\" \n\016PveMi" +
+      "BaoZhanLi\022\016\n\006zhanli\030\001 \002(\005\"\227\001\n\016TalentInfo" +
+      "Resp\022\022\n\nwuYiJingQi\030\001 \002(\005\022\026\n\016jinGongDianS" +
+      "hu\030\002 \002(\005\022\022\n\ntiPoJingQi\030\003 \002(\005\022\027\n\017fangShou" +
+      "DianShu\030\004 \002(\005\022,\n\006points\030\005 \003(\0132\034.qxmobile" +
+      ".protobuf.PointInfo\"e\n\tPointInfo\022\017\n\007poin",
+      "tId\030\001 \002(\005\022\020\n\010pointLev\030\002 \002(\005\022\014\n\004desc\030\003 \002(" +
+      "\t\022\023\n\013difValueLev\030\004 \001(\005\022\022\n\nneedJingQi\030\005 \001" +
+      "(\005\"#\n\020TalentUpLevelReq\022\017\n\007pointId\030\001 \002(\005\"" +
+      "5\n\021TalentUpLevelResp\022\023\n\013errorNumber\030\001 \002(" +
+      "\005\022\013\n\003msg\030\002 \002(\t\"(\n\024JunZhuInfoSpecifyReq\022\020" +
+      "\n\010junzhuId\030\001 \002(\003\")\n\021MainSimpleInfoReq\022\024\n" +
+      "\014functionType\030\001 \002(\005\"A\n\022MainSimpleInfoRes" +
+      "p\022+\n\004info\030\001 \003(\0132\035.qxmobile.protobuf.Simp" +
+      "leInfo\"<\n\nSimpleInfo\022\022\n\nfunctionId\030\001 \002(\005" +
+      "\022\014\n\004num1\030\002 \001(\005\022\014\n\004num2\030\003 \001(\005\"=\n\rTaoZhuan",
       "gResp\022\025\n\rmaxActiZhuang\030\001 \002(\005\022\025\n\rmaxQiang" +
       "HuaZh\030\002 \002(\005\">\n\020ActivateTaoZhReq\022\025\n\ractiv" +
       "atedType\030\001 \002(\005\022\023\n\013activatedId\030\002 \002(\005\"P\n\021A" +
@@ -14350,7 +14374,7 @@ public final class JunZhuProto {
           internal_static_qxmobile_protobuf_JunZhuInfoRet_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_JunZhuInfoRet_descriptor,
-              new java.lang.String[] { "Id", "Name", "Gender", "LianMengId", "Level", "Exp", "GongJi", "GongjiMibao", "FangYu", "FangYuMibao", "ShengMing", "ShengMingMibao", "WqSH", "WqJM", "WqBJ", "WqRX", "WqBJL", "JnSH", "JnJM", "JnBJ", "JnRX", "JnBJL", "ExpMax", "JinBi", "YuanBao", "Tili", "TiLipurchaseTime", "TiLiMax", "ZhanLi", "ZhanLiMibao", "JunXian", "VipLv", "GuoJiaId", });
+              new java.lang.String[] { "Id", "Name", "Gender", "LianMengId", "Level", "Exp", "GongJi", "GongjiMibao", "FangYu", "FangYuMibao", "ShengMing", "ShengMingMibao", "WqSH", "WqJM", "WqBJ", "WqRX", "WqBJL", "JnSH", "JnJM", "JnBJ", "JnRX", "JnBJL", "ExpMax", "JinBi", "YuanBao", "Tili", "TiLipurchaseTime", "TiLiMax", "ZhanLi", "ZhanLiMibao", "JunXian", "VipLv", "GuoJiaId", "NuQiValue", });
           internal_static_qxmobile_protobuf_JunZhuAttPointReq_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_JunZhuAttPointReq_fieldAccessorTable = new
@@ -14428,7 +14452,7 @@ public final class JunZhuProto {
           internal_static_qxmobile_protobuf_SimpleInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_SimpleInfo_descriptor,
-              new java.lang.String[] { "FunctionId", "Num1", "Num2", "IsShowRed", });
+              new java.lang.String[] { "FunctionId", "Num1", "Num2", });
           internal_static_qxmobile_protobuf_TaoZhuangResp_descriptor =
             getDescriptor().getMessageTypes().get(15);
           internal_static_qxmobile_protobuf_TaoZhuangResp_fieldAccessorTable = new

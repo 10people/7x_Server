@@ -77,7 +77,8 @@ public class FilterMgr {
 			chain.doFilter(request, response);
 		} else {
 			// 跳转到登陆页面
-			response.sendRedirect("login.jsp");
+			String v = request.getContextPath();
+			response.sendRedirect(request.getContextPath()+"/login.jsp");
 		}
 	}
 }

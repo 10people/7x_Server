@@ -56,7 +56,7 @@ if(session.getAttribute("name") != null && name.length()==0){
 	 }else if("addXilianTimes".equals(action)){
 		 TimeWorkerMgr.instance.addEquipFreeXilianTimes(junzhu);
 	 }
-	 JunZhuMgr.inst.calcAtt(junzhu);
+	 JunZhuMgr.inst.calcJunZhuTotalAtt(junzhu);
 	 out.println("&nbsp;君主id："+junzhu.id);out.println("<br/>");
 	 ExpTemp expTemp = TempletService.getInstance().getExpTemp(1, junzhu.level);
 	 out.println("等级："+junzhu.level+"<br/>");

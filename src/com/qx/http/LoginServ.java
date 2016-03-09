@@ -30,6 +30,7 @@ public class LoginServ implements Runnable{
 		chName2id.put("HaiMa", 		600);
 		chName2id.put("IApple", 		700);
 		chName2id.put("iTools", 		800);
+		chName2id.put("TX", 		900);
 		chName2id.put("GuangFang", 		0);
 	}
 	public static Map<Long, Integer> accId2channelCode = Collections.synchronizedMap(new LRUMap(10000));

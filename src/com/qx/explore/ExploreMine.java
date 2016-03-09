@@ -36,6 +36,11 @@ public class ExploreMine{
 	// 元宝抽：保底次数
 	public int historyBaoDi;
 	
+	public int danChouClickNumber; //单抽点击次数
+	public int tenChouClickNumber; //十连抽点击次数
+	
+	
+	
 
 //	// 免费单抽或者联盟单抽是否已经领取过好的奖励了: 
 //	// add 包括10连抽是否已经领过好的奖励

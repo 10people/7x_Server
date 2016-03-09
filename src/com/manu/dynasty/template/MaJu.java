@@ -31,9 +31,14 @@ public class MaJu {
 	public int value3;
 	
 	/**
-	 * 目前无意义 
-	 * 2015年12月10日加注释
+	 * 
+	 * 2015年12月10日加注释 2016年1月25日马具收益加成
 	 */
 	public int value4;
+	/**
+	 * 马具收益加成
+	 *  2016年1月25日马具收益加成
+	 */
+	public double profitPara;
 	
 }

@@ -38,7 +38,9 @@ public class YaBiaoRobot{
 	public int  hudunMax;
 	public int worth;
 	public int bcNPCId;//镖车NPC配置Id
+	public int bcNPCNo;//镖车NPC编号 2016年1月20日需求变更用的那20辆镖车编号
 	public int zhanli;
 	public int guojiaId;
+	public YBCartAttr4Fight cartAttr4Fight;
 }
 

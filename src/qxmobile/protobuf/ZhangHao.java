@@ -1733,6 +1733,60 @@ public final class ZhangHao {
      * </pre>
      */
     int getSerTime();
+
+    // optional string serverTime = 10;
+    /**
+     * <code>optional string serverTime = 10;</code>
+     *
+     * <pre>
+     * 2008-05-01 21:34:42
+     * </pre>
+     */
+    boolean hasServerTime();
+    /**
+     * <code>optional string serverTime = 10;</code>
+     *
+     * <pre>
+     * 2008-05-01 21:34:42
+     * </pre>
+     */
+    java.lang.String getServerTime();
+    /**
+     * <code>optional string serverTime = 10;</code>
+     *
+     * <pre>
+     * 2008-05-01 21:34:42
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getServerTimeBytes();
+
+    // optional string accountRegisterTime = 11;
+    /**
+     * <code>optional string accountRegisterTime = 11;</code>
+     *
+     * <pre>
+     * 2008-05-01 20:34:42
+     * </pre>
+     */
+    boolean hasAccountRegisterTime();
+    /**
+     * <code>optional string accountRegisterTime = 11;</code>
+     *
+     * <pre>
+     * 2008-05-01 20:34:42
+     * </pre>
+     */
+    java.lang.String getAccountRegisterTime();
+    /**
+     * <code>optional string accountRegisterTime = 11;</code>
+     *
+     * <pre>
+     * 2008-05-01 20:34:42
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getAccountRegisterTimeBytes();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.LoginRet}
@@ -1844,6 +1898,16 @@ public final class ZhangHao {
             case 72: {
               bitField0_ |= 0x00000080;
               serTime_ = input.readInt32();
+              break;
+            }
+            case 82: {
+              bitField0_ |= 0x00000100;
+              serverTime_ = input.readBytes();
+              break;
+            }
+            case 90: {
+              bitField0_ |= 0x00000200;
+              accountRegisterTime_ = input.readBytes();
               break;
             }
           }
@@ -2133,6 +2197,116 @@ public final class ZhangHao {
       return serTime_;
     }
 
+    // optional string serverTime = 10;
+    public static final int SERVERTIME_FIELD_NUMBER = 10;
+    private java.lang.Object serverTime_;
+    /**
+     * <code>optional string serverTime = 10;</code>
+     *
+     * <pre>
+     * 2008-05-01 21:34:42
+     * </pre>
+     */
+    public boolean hasServerTime() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional string serverTime = 10;</code>
+     *
+     * <pre>
+     * 2008-05-01 21:34:42
+     * </pre>
+     */
+    public java.lang.String getServerTime() {
+      java.lang.Object ref = serverTime_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          serverTime_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string serverTime = 10;</code>
+     *
+     * <pre>
+     * 2008-05-01 21:34:42
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getServerTimeBytes() {
+      java.lang.Object ref = serverTime_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        serverTime_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string accountRegisterTime = 11;
+    public static final int ACCOUNTREGISTERTIME_FIELD_NUMBER = 11;
+    private java.lang.Object accountRegisterTime_;
+    /**
+     * <code>optional string accountRegisterTime = 11;</code>
+     *
+     * <pre>
+     * 2008-05-01 20:34:42
+     * </pre>
+     */
+    public boolean hasAccountRegisterTime() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional string accountRegisterTime = 11;</code>
+     *
+     * <pre>
+     * 2008-05-01 20:34:42
+     * </pre>
+     */
+    public java.lang.String getAccountRegisterTime() {
+      java.lang.Object ref = accountRegisterTime_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          accountRegisterTime_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string accountRegisterTime = 11;</code>
+     *
+     * <pre>
+     * 2008-05-01 20:34:42
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getAccountRegisterTimeBytes() {
+      java.lang.Object ref = accountRegisterTime_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        accountRegisterTime_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       code_ = 0;
       msg_ = "";
@@ -2143,6 +2317,8 @@ public final class ZhangHao {
       z_ = 0F;
       guoJiaId_ = 0;
       serTime_ = 0;
+      serverTime_ = "";
+      accountRegisterTime_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2190,6 +2366,12 @@ public final class ZhangHao {
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeInt32(9, serTime_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeBytes(10, getServerTimeBytes());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeBytes(11, getAccountRegisterTimeBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -2240,6 +2422,14 @@ public final class ZhangHao {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(9, serTime_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(10, getServerTimeBytes());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(11, getAccountRegisterTimeBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2375,6 +2565,10 @@ public final class ZhangHao {
         bitField0_ = (bitField0_ & ~0x00000080);
         serTime_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
+        serverTime_ = "";
+        bitField0_ = (bitField0_ & ~0x00000200);
+        accountRegisterTime_ = "";
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -2440,6 +2634,14 @@ public final class ZhangHao {
           to_bitField0_ |= 0x00000080;
         }
         result.serTime_ = serTime_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.serverTime_ = serverTime_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.accountRegisterTime_ = accountRegisterTime_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2491,6 +2693,16 @@ public final class ZhangHao {
         }
         if (other.hasSerTime()) {
           setSerTime(other.getSerTime());
+        }
+        if (other.hasServerTime()) {
+          bitField0_ |= 0x00000200;
+          serverTime_ = other.serverTime_;
+          onChanged();
+        }
+        if (other.hasAccountRegisterTime()) {
+          bitField0_ |= 0x00000400;
+          accountRegisterTime_ = other.accountRegisterTime_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -3030,6 +3242,202 @@ public final class ZhangHao {
       public Builder clearSerTime() {
         bitField0_ = (bitField0_ & ~0x00000100);
         serTime_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string serverTime = 10;
+      private java.lang.Object serverTime_ = "";
+      /**
+       * <code>optional string serverTime = 10;</code>
+       *
+       * <pre>
+       * 2008-05-01 21:34:42
+       * </pre>
+       */
+      public boolean hasServerTime() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional string serverTime = 10;</code>
+       *
+       * <pre>
+       * 2008-05-01 21:34:42
+       * </pre>
+       */
+      public java.lang.String getServerTime() {
+        java.lang.Object ref = serverTime_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          serverTime_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string serverTime = 10;</code>
+       *
+       * <pre>
+       * 2008-05-01 21:34:42
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getServerTimeBytes() {
+        java.lang.Object ref = serverTime_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          serverTime_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string serverTime = 10;</code>
+       *
+       * <pre>
+       * 2008-05-01 21:34:42
+       * </pre>
+       */
+      public Builder setServerTime(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        serverTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string serverTime = 10;</code>
+       *
+       * <pre>
+       * 2008-05-01 21:34:42
+       * </pre>
+       */
+      public Builder clearServerTime() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        serverTime_ = getDefaultInstance().getServerTime();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string serverTime = 10;</code>
+       *
+       * <pre>
+       * 2008-05-01 21:34:42
+       * </pre>
+       */
+      public Builder setServerTimeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        serverTime_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string accountRegisterTime = 11;
+      private java.lang.Object accountRegisterTime_ = "";
+      /**
+       * <code>optional string accountRegisterTime = 11;</code>
+       *
+       * <pre>
+       * 2008-05-01 20:34:42
+       * </pre>
+       */
+      public boolean hasAccountRegisterTime() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional string accountRegisterTime = 11;</code>
+       *
+       * <pre>
+       * 2008-05-01 20:34:42
+       * </pre>
+       */
+      public java.lang.String getAccountRegisterTime() {
+        java.lang.Object ref = accountRegisterTime_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          accountRegisterTime_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string accountRegisterTime = 11;</code>
+       *
+       * <pre>
+       * 2008-05-01 20:34:42
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getAccountRegisterTimeBytes() {
+        java.lang.Object ref = accountRegisterTime_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          accountRegisterTime_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string accountRegisterTime = 11;</code>
+       *
+       * <pre>
+       * 2008-05-01 20:34:42
+       * </pre>
+       */
+      public Builder setAccountRegisterTime(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        accountRegisterTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string accountRegisterTime = 11;</code>
+       *
+       * <pre>
+       * 2008-05-01 20:34:42
+       * </pre>
+       */
+      public Builder clearAccountRegisterTime() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        accountRegisterTime_ = getDefaultInstance().getAccountRegisterTime();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string accountRegisterTime = 11;</code>
+       *
+       * <pre>
+       * 2008-05-01 20:34:42
+       * </pre>
+       */
+      public Builder setAccountRegisterTimeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        accountRegisterTime_ = value;
         onChanged();
         return this;
       }
@@ -5413,16 +5821,17 @@ public final class ZhangHao {
       "\n\rAccount.proto\022\021qxmobile.protobuf\"\026\n\006Re" +
       "gReq\022\014\n\004name\030\001 \002(\t\"#\n\006RegRet\022\013\n\003uid\030\001 \002(" +
       "\005\022\014\n\004name\030\002 \002(\t\"\030\n\010LoginReq\022\014\n\004name\030\001 \002(" +
-      "\t\"\221\001\n\010LoginRet\022\014\n\004code\030\001 \002(\005\022\013\n\003msg\030\002 \002(" +
+      "\t\"\302\001\n\010LoginRet\022\014\n\004code\030\001 \002(\005\022\013\n\003msg\030\002 \002(" +
       "\t\022\016\n\006roleId\030\003 \001(\005\022\026\n\016openFunctionID\030\004 \003(" +
       "\005\022\t\n\001x\030\005 \001(\002\022\t\n\001y\030\006 \001(\002\022\t\n\001z\030\007 \001(\002\022\020\n\010gu" +
-      "oJiaId\030\010 \001(\005\022\017\n\007serTime\030\t \001(\005\"G\n\021CreateR" +
-      "oleRequest\022\016\n\006roleId\030\001 \002(\005\022\020\n\010roleName\030\002" +
-      " \002(\t\022\020\n\010guoJiaId\030\003 \002(\005\"4\n\022CreateRoleResp" +
-      "onse\022\021\n\tisSucceed\030\001 \002(\010\022\013\n\003msg\030\002 \002(\t\"!\n\017",
-      "RoleNameRequest\022\016\n\006roleId\030\001 \002(\005\"$\n\020RoleN" +
-      "ameResponse\022\020\n\010roleName\030\001 \002(\tB\nB\010ZhangHa" +
-      "o"
+      "oJiaId\030\010 \001(\005\022\017\n\007serTime\030\t \001(\005\022\022\n\nserverT" +
+      "ime\030\n \001(\t\022\033\n\023accountRegisterTime\030\013 \001(\t\"G" +
+      "\n\021CreateRoleRequest\022\016\n\006roleId\030\001 \002(\005\022\020\n\010r" +
+      "oleName\030\002 \002(\t\022\020\n\010guoJiaId\030\003 \002(\005\"4\n\022Creat",
+      "eRoleResponse\022\021\n\tisSucceed\030\001 \002(\010\022\013\n\003msg\030" +
+      "\002 \002(\t\"!\n\017RoleNameRequest\022\016\n\006roleId\030\001 \002(\005" +
+      "\"$\n\020RoleNameResponse\022\020\n\010roleName\030\001 \002(\tB\n" +
+      "B\010ZhangHao"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5452,7 +5861,7 @@ public final class ZhangHao {
           internal_static_qxmobile_protobuf_LoginRet_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_LoginRet_descriptor,
-              new java.lang.String[] { "Code", "Msg", "RoleId", "OpenFunctionID", "X", "Y", "Z", "GuoJiaId", "SerTime", });
+              new java.lang.String[] { "Code", "Msg", "RoleId", "OpenFunctionID", "X", "Y", "Z", "GuoJiaId", "SerTime", "ServerTime", "AccountRegisterTime", });
           internal_static_qxmobile_protobuf_CreateRoleRequest_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_CreateRoleRequest_fieldAccessorTable = new

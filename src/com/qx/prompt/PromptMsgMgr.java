@@ -1,48 +1,84 @@
 package com.qx.prompt;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import qxmobile.protobuf.Prompt.PromptActionReq;
-import qxmobile.protobuf.Prompt.PromptActionResp;
-import qxmobile.protobuf.Prompt.PromptMSGResp;
-import qxmobile.protobuf.Prompt.SuBaoMSG;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.boot.GameServer;
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.DescId;
+import com.manu.dynasty.template.GuYongBing;
 import com.manu.dynasty.template.JunzhuShengji;
 import com.manu.dynasty.template.ReportTemp;
 import com.manu.dynasty.template.YunbiaoTemp;
 import com.manu.dynasty.util.DateUtils;
+import com.manu.network.BigSwitch;
 import com.manu.network.PD;
+import com.manu.network.SessionAttKey;
 import com.manu.network.SessionManager;
 import com.manu.network.SessionUser;
+import com.manu.network.msg.ProtobufMsg;
 import com.qx.activity.ActivityMgr;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.award.AwardMgr;
+import com.qx.bag.EquipMgr;
 import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.pve.PveMgr;
+import com.qx.pvp.LveDuoBean;
+import com.qx.pvp.LveDuoMgr;
+import com.qx.pvp.PvpMgr;
+import com.qx.task.DailyTaskMgr;
 import com.qx.world.Mission;
+import com.qx.world.Player;
+import com.qx.world.Scene;
 import com.qx.yabiao.YaBiaoHuoDongMgr;
+import com.qx.yabiao.YaBiaoRobot;
+
+import qxmobile.protobuf.Prompt.HistoryBattleInfo;
+import qxmobile.protobuf.Prompt.JunQingReq;
+import qxmobile.protobuf.Prompt.JunQingResp;
+import qxmobile.protobuf.Prompt.PromptActionReq;
+import qxmobile.protobuf.Prompt.PromptActionResp;
+import qxmobile.protobuf.Prompt.PromptMSGResp;
+import qxmobile.protobuf.Prompt.QuZhuReq;
+import qxmobile.protobuf.Prompt.SuBaoMSG;
+import qxmobile.protobuf.ZhanDou;
+import qxmobile.protobuf.ZhanDou.Group;
+import qxmobile.protobuf.ZhanDou.Node;
+import qxmobile.protobuf.ZhanDou.NodeProfession;
+import qxmobile.protobuf.ZhanDou.NodeType;
+import qxmobile.protobuf.ZhanDou.PvpZhanDouInitReq;
+import qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq;
+import qxmobile.protobuf.ZhanDou.ZhanDouInitError;
+import qxmobile.protobuf.ZhanDou.ZhanDouInitResp;
 //盟友快报Mgr
+/**
+ * 联盟军情，速报（已删）
+ * 包括掠夺驱逐
+ * @author myg
+ *
+ */
 public class PromptMsgMgr extends EventProc implements Runnable {
 	public static Logger log = LoggerFactory.getLogger(PromptMsgMgr.class);
 	public static PromptMsgMgr inst;
@@ -50,6 +86,10 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 	private static Mission exit = new Mission(0, null, null);
 	public static Map<Integer, ReportTemp> reportMap;
 	public static int tongbiCODE = AwardMgr.ITEM_TONGBI_ID;
+	public static Map<Integer, Long> fightingLock = new HashMap<Integer, Long>();
+//	public static Map<Long, Long[]> prepareLock = new HashMap<Long, Long[]>();
+//	public static Map<Integer, GuYongBing> bingMap = new HashMap<Integer, GuYongBing>();
+	private AtomicInteger zhandouIdMgr = new AtomicInteger(1);
 	public PromptMsgMgr() {
 		inst = this;
 		initData();
@@ -57,6 +97,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		new Thread(this, "PromptMsgMgr").start();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void initData() {
 		List<ReportTemp> reportList = TempletService.listAll(ReportTemp.class.getSimpleName());
 		 Map<Integer, ReportTemp> reportMap = new HashMap<Integer, ReportTemp>();
@@ -95,6 +136,18 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		IoSession session = m.session;
 		Builder builder = m.builer;
 		switch (m.code) {
+		case PD.go_qu_zhu_req:
+			goQuZhu(id, session, builder);
+			break;
+		case PD.qu_zhu_battle_end_req: //联盟军情之 掠夺驱逐玩法
+			dealQuZhuBattleResult(id, session, builder);
+			break;
+		case PD.qu_zhu_req:
+			quZhuInitData(id, session, builder);
+			break;
+		case PD.alliance_junQing_req: //联盟军情
+			allianceMIReq(id, session, builder);
+			break;
 		case PD.C_MengYouKuaiBao_Req:
 			getMengyoukuaibao(id, builder, session);
 			break;
@@ -111,7 +164,8 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			switch(allActionType){
 				case SuBaoConstant.ignore:
 				case SuBaoConstant.iKnow:
- 					ignoreSuBao(suBaoId, session, resp);
+				case SuBaoConstant.lveDuo_go:
+ 					ignoreSuBao(suBaoId, session, resp, allActionType);
 					break;
 				case SuBaoConstant.bless:
 					blessSomeOne(suBaoId, session, resp, jz);
@@ -308,19 +362,19 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 	 * @param builder
 	 * @param session
 	 */
-	public void ignoreSuBao(long subaoId,  IoSession session, PromptActionResp.Builder resp)  {
+	public void ignoreSuBao(long subaoId,  IoSession session, PromptActionResp.Builder resp, int type)  {
 		PromptMSG msg = HibernateUtil.find(PromptMSG.class,subaoId);
 		if(msg==null){
 			resp.setSubaoId(subaoId);
 			resp.setResult(20);
-			resp.setSubaoType(SuBaoConstant.ignore);
+			resp.setSubaoType(type);
 			session.write(resp.build());
 			return;
 		}
 		HibernateUtil.delete(msg);
 		resp.setSubaoId(subaoId);
 		resp.setResult(10);
-		resp.setSubaoType(SuBaoConstant.ignore);
+		resp.setSubaoType(type);
 		session.write(resp.build());
 	}
 
@@ -422,7 +476,8 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		switch(msg.eventId){
 	
 			case SuBaoConstant.been_lveDuo_event: //被掠夺 产生一个安慰速报
-				 msg2 = saveLMKBByCondition(msg.otherJzId, msg.jzId, new String[]{msg.jzName2, jz.name, msg.cartWorth},
+				 msg2 = saveLMKBByCondition(msg.otherJzId, jz.id, 
+						 new String[]{msg.jzName1, jz.name, msg.cartWorth},
 						SuBaoConstant.lveDuo_comfort_event, -1);
 				
 				break;
@@ -769,6 +824,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		}
 		pushLMKB2Self(chufaJz, horseType, eventId);
 	}
+
 	@Override
 	public void proc(Event e) {
 		switch (e.id) {
@@ -785,15 +841,18 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		case ED.BIAOCHE_CUIHUI://押镖镖车摧毁求安慰 和通知自己
 			handleCarDestroy(e);
 			break;
-		case ED.Lve_duo_fail: //掠夺失败
+//		case ED.Lve_duo_fail: //掠夺失败
+////			handleLveDuo(e);
+//			break;
 		case ED.been_lve_duo: // 被掠夺
-			handleLveDuoAttack(e);
+			handleBeanLveDuo(e);
 			break;
 		default:
 			break;
 		}
 	}
-	public  void handleLveDuoAttack(Event e) {
+	public void handleBeanLveDuo(Event e){
+		// 参数列表：{jId, junZhu.name, enemy.name, lostbuild}
 		if(e == null || e.param == null){
 			return;
 		}
@@ -801,53 +860,110 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			return;
 		}
 		Object[] oa = (Object[]) e.param;
-		if(oa.length <= 2){
+		if(oa.length < 5){
 			return;
 		}
-		if(oa[0] == null || oa[1] == null ||oa[2] == null){
-			log.error("发送掠夺通报失败，参数有null，请程序查看");
+		if(oa[0] == null || oa[1] == null ||oa[2] == null
+				|| oa[3]==null  ||oa[4]==null ){
+			log.error("发送掠夺失败，参数有null，请程序查看");
 			return;
 		}
-		long selfJunId = (Long) oa[0];
-		String selfJunZhuName = (String) oa[1];
-		String enemyJunZhuName = (String) oa[2];
-		int jiangli = 0;
-		int eventId=0;
-		if(e.id == ED.Lve_duo_fail){
-			eventId = SuBaoConstant.lveDuo_fail_event;
-		}else{
-			eventId = SuBaoConstant.been_lveDuo_event;
-			if(oa.length == 4 && oa[3] != null){
-				jiangli =(Integer) oa[3];
-			}else{
-				log.error("被掠夺快报有错，没有有效参数oa[3]，请程序查看");
-			}
+//		int eventId = SuBaoConstant.lveDuo_fail_event;
+		long  lveduoJzId = (Long) oa[0]; // 掠夺者
+		long beanLveDjId =  (Long) oa[1];
+		int willLostbuild = (Integer)oa[2];
+		int zhandouId = (Integer)oa[3];
+		int willLostBuildAllianceId = (Integer)oa[4];
+		LveDuoMI mi = HibernateUtil.find(LveDuoMI.class, zhandouId);
+		if(mi != null){
+			log.error("存在战斗id是 ：{}的联盟军情之掠夺军情", zhandouId);
+			return;
 		}
-		AllianceBean	lmBean = AllianceMgr.inst.getAllianceByJunZid(selfJunId);
+		Date now = new Date();
+		Date willLostBuildTime = 
+				new Date(System.currentTimeMillis() + CanShu.EXPEL_TIMELIMIT * 60 * 1000);
+		mi = new LveDuoMI(zhandouId, beanLveDjId, lveduoJzId,
+				willLostBuildTime, willLostbuild, now, willLostBuildAllianceId);
+		mi.remainHp = -1; // 初始值，表示没有被打过
+		HibernateUtil.insert(mi);
+		
+//		AllianceBean lmBean = AllianceMgr.inst.getAllianceByJunZid(firstJzId);
+//		if (lmBean != null) {
+//			boolean yes = tell(firstJzId, lmBean.id,
+//					eventId,  new String[]{firstName, secondName});
+//			if(yes){
+//				log.info("玩家:{}掠夺玩家：{}失败，"
+//						+ "向玩家：{}所在的联盟的所有联盟成员发送报消息成功", firstName, secondName, firstName);
+//			}
+//		}
+	}
+
+	public void handleBeanLveDuoAttack(Event e) {
+		if(e == null || e.param == null){
+			return;
+		}
+		if(! (e.param instanceof Object[])){
+			return;
+		}
+		Object[] oa = (Object[]) e.param;
+		if(oa.length < 5){
+			return;
+		}
+		if(oa[0] == null || oa[1] == null ||oa[2] == null
+				|| oa[3] == null  ||oa[4] == null ){
+			log.error("发送被掠夺通报失败，参数有null，请程序查看");
+			return;
+		}
+		long firstJzId = (Long) oa[0]; // 掠夺者
+		String firstName = (String) oa[1];
+		long secondJzId = (Long)oa[2]; // 被掠夺者
+		String secondName = (String) oa[3];
+		int jiangli = (Integer) oa[4];
+		int eventId = SuBaoConstant.been_lveDuo_event;
+		AllianceBean lmBean = AllianceMgr.inst.getAllianceByJunZid(secondJzId);
 		if (lmBean != null) {
-			boolean yes = tell(selfJunId, lmBean.id,
-					eventId,  new String[]{selfJunZhuName, enemyJunZhuName, "" , jiangli+""});
+			boolean yes = tell(secondJzId, lmBean.id,
+					eventId,  new String[]{firstName, secondName, "" , jiangli+""});
 			if(yes){
-				log.info("玩家:{}掠夺失败，向自己所在的联盟的所有联盟成员发送报消息成功", selfJunId);
+				log.info("玩家:{}掠夺玩家：{}成功，"
+						+ "向玩家：{}所在的联盟的所有联盟成员发送报消息成功", firstJzId, secondJzId, secondJzId);
 			}
 		}
 	}
 	public  void handleCarAttack(Event e) {
 		Object[]	oa = (Object[]) e.param;
-		JunZhu	ybjz=(JunZhu)oa[0];
-		Integer	horseType = (Integer) oa[1];
-		if(horseType==null||ybjz==null){
-			log.error("镖车被攻击事件处理失败,horseType=={}||chufaJz=={}",
-					horseType,ybjz);
+		Long	jbJzId = (Long) oa[0];
+		Long	ybjzId=(Long)oa[1];
+		Integer	jbJzUid = (Integer) oa[2];
+		Integer	ybjzUid=(Integer)oa[3];
+		if(ybjzId==null||jbJzId==null||jbJzUid==null||ybjzUid==null){
+			log.error("镖车被攻击事件处理失败,ybjz=={}||jbJz=={},jbJzUid=={}||ybjzUid=={}",ybjzId,jbJzId,jbJzUid,ybjzUid);
 			return;
 		}
-		AllianceBean	lmBean = AllianceMgr.inst.getAllianceByJunZid(ybjz.id);
+		AllianceBean	lmBean = AllianceMgr.inst.getAllianceByJunZid(ybjzId);
 		if (lmBean != null) {
-			pushKB2ALLMengYou(ybjz, lmBean.id, horseType, SuBaoConstant.mcbd_toOther, "");
+			YaBiaoJunQing msg=saveYaBiaoJunQing(ybjzId, jbJzId,jbJzUid,ybjzUid,lmBean.id);
+			//添加新押镖联盟军情事件
+			EventMgr.addEvent(ED.NEW_LIANMENG_YB_JUQING,msg);
 		}
-		
-		pushLMKB2Self(ybjz, horseType, SuBaoConstant.mcbd_toSelf);
 	}
+	/**
+	 * @Description 保存联盟军情
+	 * @return
+	 */
+	public YaBiaoJunQing saveYaBiaoJunQing(long ybJzId, Long jbJzId, Integer ybjzUid, Integer jbjzUid, int lmId) {
+		YaBiaoJunQing msg=new YaBiaoJunQing();
+		msg.ybjzId=ybJzId;
+		msg.jbjzId=jbJzId;
+		msg.ybjzUid=ybjzUid;
+		msg.jbjzUid=jbjzUid;
+		msg.lmId=lmId;
+		msg.happenTime=new Date();
+		HibernateUtil.save(msg);
+		log.info("保存联盟---{}联盟军情,押镖君主--{}，劫镖君主---{}", lmId,ybJzId,jbJzId);
+		return msg;
+	}
+
 	public  void handleCarRemove(Event e) {
 		Object[] oa = (Object[]) e.param;
 		Long	chufaJzId = (Long) oa[0];
@@ -858,10 +974,49 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		}
 		AllianceBean	lmBean = AllianceMgr.inst.getAllianceByJunZid(chufaJzId);
 		if (lmBean != null) {
+			//清理联盟速报
 			deleteLMSB2AllMengYou(lmBean.id, chufaJzId);
+			//清理联盟押镖军情
+			deleteLMJQ2AllMengYou(lmBean.id, chufaJzId);
 		}else{
 			deleteLMSB(chufaJzId, chufaJzId);
 		}
+	}
+	
+	/**
+	 * @Description 返回押镖军情的两个Player对象
+	 * @param msg
+	 * @return
+	 */
+	public List<Object> getLianMengJunQing4YB(YaBiaoJunQing msg ) {
+		List<Object> result4Empty=Collections.EMPTY_LIST;
+		if(msg==null){
+			log.error("联盟军情生成失败，YaBiaoJuQing--{}",msg);
+			return result4Empty;
+		}
+		long ybJzId=msg.ybjzId;
+		YaBiaoRobot ybr = (YaBiaoRobot) BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(ybJzId);
+		if(ybr==null){
+			log.error("联盟军情生成失败，未找到押镖马车--{}",ybJzId);
+			return result4Empty;
+		}
+		//马车所在场景对象
+		Scene sc = (Scene) ybr.session.getAttribute(SessionAttKey.Scene);
+		if (sc == null) {
+			log.error("联盟军情生成失败 ，镖车--{}场景未找到",ybJzId);
+			return result4Empty;
+		}
+		Player biaoChe=sc.players.get(msg.ybjzUid);
+		Player jbjz=sc.players.get(msg.jbjzUid);
+		if(biaoChe==null||jbjz==null){
+			log.error("联盟军情生成失败 ，镖车--{}未找到",msg.ybjzUid);
+			return result4Empty;
+		}
+		List<Object> result=new ArrayList<Object>();
+		result.add(biaoChe);
+		result.add(jbjz);
+		result.add(ybr.horseType);
+		return result;
 	}
 	public  void handleCarStart(Event e) {
 		Object[]oa = (Object[]) e.param;
@@ -962,7 +1117,419 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		log.info("清理联盟---{}的所有成员的联盟速报结束",lmId);
 		return true;
 	}
+	
+	/**
+	 * @Description 清理联盟---lmId的关于--chufaJzId的联盟军情
+	 * @param lmId
+	 * @param chufaJzId
+	 * @return
+	 */
+	public boolean deleteLMJQ2AllMengYou(int lmId, Long chufaJzId) {
+		log.info("清理联盟---{}的关于--{}的联盟军情开始",lmId,chufaJzId);
+		List<YaBiaoJunQing> msgList = HibernateUtil.list(YaBiaoJunQing.class, "where ybjzId='"+chufaJzId+"'");
+		for (YaBiaoJunQing msg : msgList) {
+			if (msg!=null) {
+				log.info("删除联盟---{}的 成员--{}的联盟军情Id--{}",lmId,chufaJzId,msg.id);
+				HibernateUtil.delete(msg);
+			}
+		}
+		log.info("清理联盟---{}的关于--{}的联盟军情结束",lmId,chufaJzId);
+		return true;
+	}
 
+	public void allianceMIReq(int id, IoSession session, Builder builder){
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			log.error("掠夺求助出错，君主不存在");
+			return;
+		}
+		long jId = jz.id;
+		JunQingReq.Builder req = (JunQingReq.Builder)builder;
+		int type = req.getType();
+		AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jId);
+		if(player == null || player.lianMengId <=0 ){
+			return;
+		}
+		JunQingResp.Builder resp = JunQingResp.newBuilder();
+		resp.setType(type);
+		switch(type){
+		case 1:
+			dealLveDuoInfo(resp, jz, player.lianMengId);
+			break;
+		case 2:
+			dealYaBiaoInfo(resp, jz, player.lianMengId);
+			break;
+		}
+		ProtobufMsg pm = new ProtobufMsg();
+		pm.id = PD.alliance_junQing_resq;
+		pm.builder = resp;
+		session.write(pm);
+	}
+	
+	public void dealYaBiaoInfo(JunQingResp.Builder resp, JunZhu jzzzz, int lmid){
+		/*
+		 * 军情数据
+		 */
+//		lmId
+		String where = " where lmId = " +lmid;
+		List<YaBiaoJunQing> list = HibernateUtil.list(YaBiaoJunQing.class, where);
+		HistoryBattleInfo.Builder info = null;
+		Player enemy = null;
+		Player friend = null;
+		for(YaBiaoJunQing mi: list){
+			List<Object> pli = getLianMengJunQing4YB(mi);
+			if(pli.size() == 0){
+				continue;
+			}
+			enemy = (Player)pli.get(1);
+			friend =  (Player)pli.get(0);
+			info = HistoryBattleInfo.newBuilder();
+			info.setEnemyJid(enemy.jzId);
+			info.setEnemyName(enemy.name);
+			info.setEnemyLevel(enemy.jzlevel);
+			info.setEnemyCountryId(enemy.guojia);
+			info.setEnemyAllHP(enemy.totalLife);
+			info.setEnemyRemainHP(enemy.currentLife);
+			info.setEnemyAllianceName(enemy.lmName);
+			info.setEnemyZhanLi(enemy.zhanli);
+			info.setEnemyRoleId(enemy.roleId);
+	
+			info.setFriendAllHP(friend.totalLife);
+			info.setFriendRemainHP(friend.currentLife);
+			info.setFriendJid(friend.jzId);
+			info.setFriendName(friend.name);
+			info.setFriendRoleId(friend.roleId);
+			info.setHappendTime(mi.happenTime.getTime());
+			info.setFriendHorseRoleId((int)pli.get(2));
+			info.setItemId((int)mi.id);
+			resp.addInfos(info);
+		}
+	}
+	public void dealLveDuoInfo(JunQingResp.Builder resp, JunZhu jz, int lmid){
+		/*
+		 * 掠夺军情数据
+		 */
+		String where = " where lmId = " + lmid;
+		List<LveDuoMI> list = HibernateUtil.list(LveDuoMI.class, where);
+		HistoryBattleInfo.Builder info = null;
+		JunZhu enemy = null;
+		JunZhu friend = null;
+		for(LveDuoMI mi: list){
+			info = HistoryBattleInfo.newBuilder();
+			info.setEnemyJid(mi.lveDuoJunId);
+			enemy = HibernateUtil.find(JunZhu.class, mi.lveDuoJunId);
+			if(enemy == null){
+				continue;
+			}
+			friend = HibernateUtil.find(JunZhu.class, mi.beanLveDuoJunId);
+			if(friend == null){
+				continue;
+			}
+			long time = mi.willLostBuildTime.getTime() - System.currentTimeMillis();
+			if(time <= 0){
+				// 扣除建设值的倒计时已经结束，扣除建设值在其他方法中处理，此处只continue
+				continue;
+			}
+			info.setEnemyName(enemy.name);
+			info.setEnemyLevel(enemy.level);
+			info.setEnemyCountryId(enemy.guoJiaId);
+			info.setEnemyAllHP(enemy.shengMingMax);
+			info.setEnemyRemainHP(mi.remainHp == -1? info.getEnemyAllHP(): mi.remainHp);
+			// TODO
+			info.setEnemyAllianceName("我的联盟");
+			info.setEnemyZhanLi(JunZhuMgr.inst.getZhanli(enemy));
+			info.setEnemyRoleId(enemy.roleId);
+			int state = 0; // 0 没有     1 正在被驱逐
+			Long yes  = fightingLock.get(mi.zhanDouIdFromLveDuo);
+			if(yes != null){
+				if(System.currentTimeMillis() > (yes + 3 * 60 * 1000)){
+					fightingLock.remove(mi.zhanDouIdFromLveDuo);
+				}else{
+					state = 1;
+				}
+			}
+			info.setState(state);
+			info.setFriendJid(friend.id);
+			info.setFriendName(friend.name);
+			info.setFriendRoleId(friend.roleId);
+			info.setHappendTime(mi.battleHappendTime.getTime());
+			info.setRemainTime((int)time/1000);
+			info.setWillLostBuild(mi.willLostBuild);
+			info.setItemId(mi.zhanDouIdFromLveDuo);
+			resp.addInfos(info);
+		}
+		/*
+		 * 掠夺协助次数
+		 */
+		LveDuoHelp help = HibernateUtil.find(LveDuoHelp.class, jz.id);
+		if(help == null){
+			help = new LveDuoHelp(jz.id);
+		}else{
+			resetHelpData(help);
+		}
+		resp.setTodayAllHelp(help.todayAllHelp);
+		resp.setTodayRemainHelp(help.todayRemainHelp);
+		resp.setCd(getCD(help.lastHelpTime));
+	}
+	public int getCD(Date lastDate){
+		if(lastDate == null) return 0;
+		Date now = new Date();
+		int cd = CanShu.EXPEL_CD;
+		int leftTime = (int) (lastDate.getTime() / 1000 - now.getTime()
+				/ 1000 +  cd);
+		return leftTime<=0?0:leftTime;
+	}
+	
+	public void quZhuInitData(int d, IoSession session, Builder builder){
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junZhu == null) {
+			log.error("君主不存在");
+			return;
+		}
+		long jid = junZhu.id;
+		PvpZhanDouInitReq.Builder req = (PvpZhanDouInitReq.Builder) builder;
+		int zhanDouIdFromLveDuo = (int)req.getUserId();
+		LveDuoMI lveMi = HibernateUtil.find(LveDuoMI.class, zhanDouIdFromLveDuo);
+		if(lveMi == null){
+			ZhanDouInitError.Builder errresp = ZhanDouInitError.newBuilder();
+			errresp.setResult("驱逐时间已过");
+			session.write(errresp.build());
+			log.error("君主：{}驱逐失败，驱逐对象已无效", jid);
+			return;
+		}
+		long enemyId = lveMi.lveDuoJunId;
+		AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, jid);
+		if(p == null || p.lianMengId <= 0){
+			ZhanDouInitError.Builder errresp = ZhanDouInitError.newBuilder();
+			errresp.setResult("您已退出联盟，无法驱逐");
+			session.write(errresp.build());
+			log.error("君主：{}驱逐敌人：{}失败，君主退出联盟", jid, enemyId);
+			return;
+		}
+		AlliancePlayer p2 = HibernateUtil.find(AlliancePlayer.class, enemyId);
+		if(p2 == null || p2.lianMengId <= 0){
+			ZhanDouInitError.Builder errresp = ZhanDouInitError.newBuilder();
+			errresp.setResult("对手已退出联盟，无法驱逐");
+			session.write(errresp.build());
+			log.error("君主：{}驱逐敌人：{}失败，敌人退出联盟", jid, enemyId);
+			return;
+		}
+		Long yes = fightingLock.get(enemyId);
+		if(yes != null){
+			if(System.currentTimeMillis() > (yes + 3 * 60 * 1000)){
+				fightingLock.remove(enemyId);
+			}else{
+				ZhanDouInitError.Builder errresp = ZhanDouInitError.newBuilder();
+				errresp.setResult("NOT");
+				session.write(errresp.build());
+				log.error("君主：{}驱逐敌人：{}失败，另有攻击方已经在驱逐敌人", jid, enemyId);
+				return;
+			}
+		}
+		// 协防次数
+		LveDuoHelp helpInfo = HibernateUtil.find(LveDuoHelp.class, jid);
+		if(helpInfo == null){
+			helpInfo = new LveDuoHelp(jid);
+		}else{
+			resetHelpData(helpInfo);
+		}
+		if(helpInfo.todayRemainHelp <= 0){
+			ZhanDouInitError.Builder errresp = ZhanDouInitError.newBuilder();
+			errresp.setResult("协防剩余次数不够");
+			session.write(errresp.build());
+			log.error("君主：{}驱逐敌人：{}失败，协防剩余次数不够", jid, enemyId);
+			return;
+		}
+		// 协防cd
+		if(getCD(helpInfo.lastHelpTime) > 0){
+			ZhanDouInitError.Builder errresp = ZhanDouInitError.newBuilder();
+			errresp.setResult("协防CD");
+			session.write(errresp.build());
+			log.error("君主：{}驱逐敌人：{}失败，协防CD", jid, enemyId);
+			return;
+		}
+		int newZhandouId = zhandouIdMgr.incrementAndGet(); // 战斗id 后台使用
+		
+		ZhanDouInitResp.Builder resp = ZhanDouInitResp.newBuilder();
+		Group.Builder enemyTroop = Group.newBuilder();
+		List<Node> enemys = new ArrayList<ZhanDou.Node>();
+		// 对手
+		int enemyIndex = 101;
+		JunZhu enemy = HibernateUtil.find(JunZhu.class, enemyId);
+		JunZhuMgr.inst.calcJunZhuTotalAtt(enemy);
+		Node.Builder enemyNode = Node.newBuilder();
+		List<Integer> zbIdList = EquipMgr.inst.getEquipCfgIdList(enemy);
+		PveMgr.inst.fillZhuangbei4Player(enemyNode, zbIdList, enemy.id);
+		enemyNode.addFlagIds(101);
+		enemyNode.setNodeType(NodeType.PLAYER);
+		enemyNode.setNodeProfession(NodeProfession.NULL);
+		enemyNode.setModleId(enemy.roleId);
+		enemyNode.setNodeName(enemy.name);
+		PveMgr.inst.fillDataByGongjiType(enemyNode, null);
+		PveMgr.inst.fillGongFangInfo(enemyNode, enemy);
+		LveDuoBean ebean = HibernateUtil.find(LveDuoBean.class, enemyId);
+		int fangshouId = ebean == null ? -1 : ebean.fangShouZuHeId;
+		PveMgr.inst.fillJZMiBaoDataInfo(enemyNode, fangshouId, enemy.id);
+		LveDuoMI duoMI = HibernateUtil.find(LveDuoMI.class, zhanDouIdFromLveDuo);
+		int enemyRem = duoMI.remainHp;
+		enemyNode.setHp(enemyRem);
+		enemyNode.setHpNum(1);
+		enemyNode.setAppearanceId(1);
+		enemyNode.setNuQiZhi(MibaoMgr.inst.getChuShiNuQi(enemy.id));
+		enemys.add(enemyNode.build());
+		// 敌人雇佣兵
+		enemyIndex += 1;
+		setBingData(enemys, enemyIndex, enemy.level);
+		enemyTroop.addAllNodes(enemys);
+		enemyTroop.setMaxLevel(BigSwitch.pveGuanQiaMgr.getGuanQiaMaxId(enemyId));
+		resp.setEnemyTroop(enemyTroop);
+
+		/*
+		 *  君主自己
+		 */
+		
+		long jId = junZhu.id;
+		int jlevel = junZhu.level;
+		int mapId = 0;
+		Group.Builder selfTroop = Group.newBuilder();
+		List<Node> selfs = new ArrayList<ZhanDou.Node>();
+		LveDuoBean bean = HibernateUtil.find(LveDuoBean.class, jId);
+		int gongjiId = bean == null ? -1 : bean.gongJiZuHeId;
+		int selfFlagIndex = 1;
+		PveMgr.inst.fillJunZhuDataInfo(resp, session, selfs, junZhu,
+				selfFlagIndex, gongjiId, selfTroop);
+		selfFlagIndex += 1;
+		setBingData(selfs, selfFlagIndex,jlevel);
+		selfTroop.addAllNodes(selfs);
+		selfTroop.setMaxLevel(BigSwitch.pveGuanQiaMgr.getGuanQiaMaxId(jId));
+		resp.setSelfTroop(selfTroop);
+		resp.setZhandouId(newZhandouId);
+		resp.setMapId(mapId);
+		resp.setLimitTime(CanShu.MAXTIME_LUEDUO);
+		session.write(resp.build());
+		log.info("君主：{}驱逐敌人：{}， 符合条件，进入战斗界面完成", junZhu.id, enemyId);
+		dealBattleRecord(helpInfo, zhanDouIdFromLveDuo, enemyId);
+	}
+
+	public void setBingData(List<Node> selfs, int flagIndex, int mylevel){
+		int[] bings = LveDuoMgr.inst.resetFangShouGuongYongBing(mylevel);
+		ArrayList<GuYongBing> bingList = new ArrayList<GuYongBing>();
+		for (int i = 0; i < bings.length; i++) {
+			GuYongBing bing =  LveDuoMgr.bingMap.get(bings[i]);
+			int renshu = bing.renshu;
+			for (int k = 0; k < renshu; k++) {
+				bingList.add(bing);
+			}
+		}
+		PvpMgr.inst.fillGuYongBingDataInfo(selfs, flagIndex, bingList);
+	}
+	public void dealBattleRecord(LveDuoHelp bean,Integer zhanDouIdFromLveDuo,
+			long enemyId){
+		bean.lastHelpTime = new Date();
+		bean.todayRemainHelp  -= 1;
+		HibernateUtil.save(bean);
+		fightingLock.put(zhanDouIdFromLveDuo, System.currentTimeMillis());
+		log.info("防守方：{}，战斗锁定", enemyId);
+//		EventMgr.addEvent(ED.lve_duo , new Object[] { jz.id});
+	}
+	
+	public void resetHelpData(LveDuoHelp bean){
+		if(bean == null ||bean.lastHelpTime == null){
+			return;
+		}
+		if(DateUtils.isTimeToReset(bean.lastHelpTime, CanShu.REFRESHTIME_PURCHASE)){
+			bean.todayAllHelp = CanShu.EXPEL_DAYTIMES;
+			bean.todayRemainHelp = bean.todayAllHelp;
+			HibernateUtil.save(bean);
+			log.info("君主：{}过第二天零点重置了掠夺LveDuoHelp：", bean.junzhuId);
+		}
+	}
+	
+	public void dealQuZhuBattleResult(int id, IoSession session, Builder builder){
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junZhu == null) {
+			log.error("君主不存在");
+			return;
+		}
+		long jId = junZhu.id;
+		QuZhuBattleEndReq.Builder req = (QuZhuBattleEndReq.Builder)builder;
+		int oldZhandouId = req.getItemId();
+		LveDuoMI lvMI = HibernateUtil.find(LveDuoMI.class, oldZhandouId);
+		if(lvMI == null){
+			log.info("没有数据"); // TODO
+			return;
+		}
+		long winId = req.getWinId();
+		long enemyId = lvMI.lveDuoJunId;
+		if(winId == enemyId){
+			// 驱逐失败 TODO
+		}else if(winId == jId){
+			// 驱逐成功
+			HibernateUtil.delete(lvMI);
+		}
+		fightingLock.remove(oldZhandouId);
+	}
+	
+	public void goQuZhu(int id, IoSession session, Builder builder){
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junZhu == null) {
+			log.error("君主不存在");
+			return;
+		}
+		long jid = junZhu.id;
+		QuZhuReq.Builder req = (QuZhuReq.Builder) builder;
+		int zhanDouIdFromLveDuo = (int)req.getItemId();
+		LveDuoMI lveMi = HibernateUtil.find(LveDuoMI.class, zhanDouIdFromLveDuo);
+		// Code == 0: 可以协防
+		// 1 对手联盟变更 2  我的联盟变更
+		//3 ：驱逐时间已过。4 对手正在被驱逐 5 协防次数不够  6 协防cd大于0
+		if(lveMi == null){
+			DailyTaskMgr.INSTANCE.sendError(session, 3, PD.go_qu_zhu_resp, 3);
+			return;
+		}
+		long enemyId = lveMi.lveDuoJunId;
+		AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, jid);
+		if(p == null || p.lianMengId <= 0){
+			DailyTaskMgr.INSTANCE.sendError(session, 2, PD.go_qu_zhu_resp, 2);
+			log.error("君主：{}驱逐敌人：{}失败，君主退出联盟", jid, enemyId);
+			return;
+		}
+		AlliancePlayer p2 = HibernateUtil.find(AlliancePlayer.class, enemyId);
+		if(p2 == null || p2.lianMengId <= 0){
+			DailyTaskMgr.INSTANCE.sendError(session, 1, PD.go_qu_zhu_resp,1);
+			log.error("君主：{}驱逐敌人：{}失败，敌人退出联盟", jid, enemyId);
+			return;
+		}
+		Long yes = fightingLock.get(enemyId);
+		if(yes != null){
+			if(System.currentTimeMillis() > (yes + 3 * 60 * 1000)){
+				fightingLock.remove(enemyId);
+			}else{
+				DailyTaskMgr.INSTANCE.sendError(session, 4, PD.go_qu_zhu_resp, 4);
+				log.error("君主：{}驱逐敌人：{}失败，另有攻击方已经在驱逐敌人", jid, enemyId);
+				return;
+			}
+		}
+		// 协防次数
+		LveDuoHelp helpInfo = HibernateUtil.find(LveDuoHelp.class, jid);
+		if(helpInfo == null){
+			helpInfo = new LveDuoHelp(jid);
+		}else{
+			resetHelpData(helpInfo);
+		}
+		if(helpInfo.todayRemainHelp <= 0){
+			DailyTaskMgr.INSTANCE.sendError(session, 5, PD.go_qu_zhu_resp, 5);
+			log.error("君主：{}驱逐敌人：{}失败，协防剩余次数不够", jid, enemyId);
+			return;
+		}
+		// 协防cd
+		if(getCD(helpInfo.lastHelpTime) > 0){
+			DailyTaskMgr.INSTANCE.sendError(session, 6, PD.go_qu_zhu_resp, 6);
+			log.error("君主：{}驱逐敌人：{}失败，协防CD", jid, enemyId);
+			return;
+		}
+		DailyTaskMgr.INSTANCE.sendError(session, 0, PD.go_qu_zhu_resp, 0);
+	}
 	@Override
 	protected void doReg() {
 		EventMgr.regist(ED.BIAOCHE_CHUFA, this);

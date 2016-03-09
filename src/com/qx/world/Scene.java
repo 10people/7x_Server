@@ -190,7 +190,7 @@ public class Scene implements Runnable{
 		player.roleId = (jz == null ? 1: jz.roleId);
 		player.chengHaoId = (String)session.getAttribute(SessionAttKey.CHENG_HAO_ID, "-1");
 		player.lmName = (String)session.getAttribute(SessionAttKey.LM_NAME, "***");
-		player.vip = CanShu.VIPLV_ININT;
+		player.vip = jz.vipLevel;
 		player.zhiWu = (Integer)session.getAttribute(SessionAttKey.LM_ZHIWU, -1);
 		players.put(userId, player);
 		
@@ -315,6 +315,9 @@ public class Scene implements Runnable{
 		long jzId=enterPlayer.jzId;
 		log.warn("告诉进入某个场景的--{}当前场景--{}中都有谁，人数--{}", enterPlayer.name,this.name, players.size());
 		for(Player p : players.values()){
+			if(p == enterPlayer){
+				continue;//跳过自己。
+			}
 			EnterScene.Builder enterSc = EnterScene.newBuilder();
 			enterSc.setSenderName(p.getName());
 			enterSc.setUid(p.userId);
@@ -441,8 +444,9 @@ public class Scene implements Runnable{
 		ProtobufMsg pm = new ProtobufMsg();
 		pm.id = PD.Enter_YBScene;
 		long ybjzId=enterYBSc.getJzId();
-		log.info(" 广播userId=={} 进/出场景--{}",enterYBSc.getUid(),this.name);
+		log.info(" 广播{}:{} 进/出场景--{}",enterYBSc.getUid(),enterYBSc.getSenderName(),this.name);
 		for(Player player : players.values()){
+			if(player.jzId<0)continue;
 			if(ybjzId>0){
 				boolean IsEnemy =YaBiaoHuoDongMgr.inst.isEmeny(player.jzId, ybjzId);
 				enterYBSc.setIsEnemy(IsEnemy);
@@ -671,6 +675,8 @@ public class Scene implements Runnable{
 			player.guojia=ybr.guojiaId;
 			player.worth=ybr.worth;
 			player.horseType=ybr.horseType;
+			JunZhu jz4Vip=HibernateUtil.find(JunZhu.class, player.jzId);
+			player.vip = jz4Vip==null?0:jz4Vip.vipLevel;
 		}else {
 			player.jzId =  jz.id;
 			player.roleId =jz.roleId;
@@ -679,6 +685,7 @@ public class Scene implements Runnable{
 			//2015年12月9日 梁霄说策划加上国家，等级，战力
 			player.jzlevel=jz.level;
 			player.guojia=jz.guoJiaId;
+			player.vip = jz==null?0:jz.vipLevel;
 		}
 		if(player.jzId > 0){
 			if(player.roleId != YBRobot_RoleId) {//2015年12月31日 只有君主才赋值血量
@@ -696,7 +703,6 @@ public class Scene implements Runnable{
 		}
 		player.lmName =(String)session.getAttribute(SessionAttKey.LM_NAME, "***");
 		player.chengHaoId = (String)session.getAttribute(SessionAttKey.CHENG_HAO_ID, "-1");
-		player.vip = CanShu.VIPLV_ININT;
 		player.zhanli=zhanli;
 		player.xuePingRemain = xuePingRemain;
 		Object zhiWu=session.getAttribute(SessionAttKey.LM_ZHIWU, -1);
@@ -713,7 +719,7 @@ public class Scene implements Runnable{
 		ret.setPosY(player.getPosY());
 		ret.setPosZ(player.getPosZ());
 		session.write(ret.build());
-		
+		/* 2016年3月7日17:25:41 发送状态时会进行玩家可见性同步。
 		//告诉其他玩家，谁进来了。
 		enterYBSc.setUid(userId);
 		enterYBSc.setSenderName(player.getName());
@@ -743,6 +749,7 @@ public class Scene implements Runnable{
 				broadCastEvent2All4YB(enterYBSc);
 			}
 		});
+		*/
 	}
 
 	protected void exitFightScene(ExitFightScene.Builder exitFight, IoSession session) {
@@ -884,7 +891,7 @@ public class Scene implements Runnable{
 	 * @param jzId
 	 * @param isKill 是否被杀
 	 */
-	public void exit4YaBiaoRobot(Long jzId,boolean isKill) {
+	public synchronized void exit4YaBiaoRobot(Long jzId,boolean isKill) {
 		YaBiaoRobot ybrobot=(YaBiaoRobot)BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(jzId);
 		if(ybrobot == null)return;
 		IoSession session=ybrobot.session;
@@ -899,12 +906,13 @@ public class Scene implements Runnable{
 			Player player = players.get(uid);
 			if(player != null) {
 				//2016年1月5日 君主马车移除需广播
-				ExitScene.Builder exitYBSc = ExitScene.newBuilder();
-				exitYBSc.setUid(uid);
-				ProtobufMsg pm = new ProtobufMsg();
-				pm.id=PD.Exit_YBScene;
-				pm.builder = exitYBSc;
-				broadCastEvent(pm, player.userId);
+				//2016年2月17日 马车被杀死不走Scene 广播
+//				ExitScene.Builder exitYBSc = ExitScene.newBuilder();
+//				exitYBSc.setUid(uid);
+//				ProtobufMsg pm = new ProtobufMsg();
+//				pm.id=PD.Exit_YBScene;
+//				pm.builder = exitYBSc;
+//				broadCastEvent(pm, player.userId);
 				players.remove(uid);
 			}else {
 				log.error("从场景中移除君主-{}押镖机器人错误，未找到对应Player对象", jzId);

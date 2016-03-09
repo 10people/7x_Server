@@ -136,6 +136,50 @@ public final class Qiandao {
      */
     com.google.protobuf.ByteString
         getDescBytes();
+
+    // repeated bool isGetvipPresent = 6;
+    /**
+     * <code>repeated bool isGetvipPresent = 6;</code>
+     *
+     * <pre>
+     * 0-没有领奖，1-领奖
+     * </pre>
+     */
+    java.util.List<java.lang.Boolean> getIsGetvipPresentList();
+    /**
+     * <code>repeated bool isGetvipPresent = 6;</code>
+     *
+     * <pre>
+     * 0-没有领奖，1-领奖
+     * </pre>
+     */
+    int getIsGetvipPresentCount();
+    /**
+     * <code>repeated bool isGetvipPresent = 6;</code>
+     *
+     * <pre>
+     * 0-没有领奖，1-领奖
+     * </pre>
+     */
+    boolean getIsGetvipPresent(int index);
+
+    // required int32 allQianNum = 7;
+    /**
+     * <code>required int32 allQianNum = 7;</code>
+     *
+     * <pre>
+     * 历史总共签到次数
+     * </pre>
+     */
+    boolean hasAllQianNum();
+    /**
+     * <code>required int32 allQianNum = 7;</code>
+     *
+     * <pre>
+     * 历史总共签到次数
+     * </pre>
+     */
+    int getAllQianNum();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.GetQiandaoResp}
@@ -220,6 +264,32 @@ public final class Qiandao {
               desc_ = input.readBytes();
               break;
             }
+            case 48: {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+                isGetvipPresent_ = new java.util.ArrayList<java.lang.Boolean>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              isGetvipPresent_.add(input.readBool());
+              break;
+            }
+            case 50: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020) && input.getBytesUntilLimit() > 0) {
+                isGetvipPresent_ = new java.util.ArrayList<java.lang.Boolean>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                isGetvipPresent_.add(input.readBool());
+              }
+              input.popLimit(limit);
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000010;
+              allQianNum_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -230,6 +300,9 @@ public final class Qiandao {
       } finally {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
           award_ = java.util.Collections.unmodifiableList(award_);
+        }
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+          isGetvipPresent_ = java.util.Collections.unmodifiableList(isGetvipPresent_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -446,12 +519,73 @@ public final class Qiandao {
       }
     }
 
+    // repeated bool isGetvipPresent = 6;
+    public static final int ISGETVIPPRESENT_FIELD_NUMBER = 6;
+    private java.util.List<java.lang.Boolean> isGetvipPresent_;
+    /**
+     * <code>repeated bool isGetvipPresent = 6;</code>
+     *
+     * <pre>
+     * 0-没有领奖，1-领奖
+     * </pre>
+     */
+    public java.util.List<java.lang.Boolean>
+        getIsGetvipPresentList() {
+      return isGetvipPresent_;
+    }
+    /**
+     * <code>repeated bool isGetvipPresent = 6;</code>
+     *
+     * <pre>
+     * 0-没有领奖，1-领奖
+     * </pre>
+     */
+    public int getIsGetvipPresentCount() {
+      return isGetvipPresent_.size();
+    }
+    /**
+     * <code>repeated bool isGetvipPresent = 6;</code>
+     *
+     * <pre>
+     * 0-没有领奖，1-领奖
+     * </pre>
+     */
+    public boolean getIsGetvipPresent(int index) {
+      return isGetvipPresent_.get(index);
+    }
+
+    // required int32 allQianNum = 7;
+    public static final int ALLQIANNUM_FIELD_NUMBER = 7;
+    private int allQianNum_;
+    /**
+     * <code>required int32 allQianNum = 7;</code>
+     *
+     * <pre>
+     * 历史总共签到次数
+     * </pre>
+     */
+    public boolean hasAllQianNum() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required int32 allQianNum = 7;</code>
+     *
+     * <pre>
+     * 历史总共签到次数
+     * </pre>
+     */
+    public int getAllQianNum() {
+      return allQianNum_;
+    }
+
     private void initFields() {
       award_ = java.util.Collections.emptyList();
       cnt_ = 0;
       curDate_ = 0;
       icon_ = 0;
       desc_ = "";
+      isGetvipPresent_ = java.util.Collections.emptyList();
+      allQianNum_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -471,6 +605,10 @@ public final class Qiandao {
         return false;
       }
       if (!hasDesc()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasAllQianNum()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -502,6 +640,12 @@ public final class Qiandao {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBytes(5, getDescBytes());
       }
+      for (int i = 0; i < isGetvipPresent_.size(); i++) {
+        output.writeBool(6, isGetvipPresent_.get(i));
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(7, allQianNum_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -530,6 +674,16 @@ public final class Qiandao {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(5, getDescBytes());
+      }
+      {
+        int dataSize = 0;
+        dataSize = 1 * getIsGetvipPresentList().size();
+        size += dataSize;
+        size += 1 * getIsGetvipPresentList().size();
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, allQianNum_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -666,6 +820,10 @@ public final class Qiandao {
         bitField0_ = (bitField0_ & ~0x00000008);
         desc_ = "";
         bitField0_ = (bitField0_ & ~0x00000010);
+        isGetvipPresent_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
+        allQianNum_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -719,6 +877,15 @@ public final class Qiandao {
           to_bitField0_ |= 0x00000008;
         }
         result.desc_ = desc_;
+        if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          isGetvipPresent_ = java.util.Collections.unmodifiableList(isGetvipPresent_);
+          bitField0_ = (bitField0_ & ~0x00000020);
+        }
+        result.isGetvipPresent_ = isGetvipPresent_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.allQianNum_ = allQianNum_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -775,6 +942,19 @@ public final class Qiandao {
           desc_ = other.desc_;
           onChanged();
         }
+        if (!other.isGetvipPresent_.isEmpty()) {
+          if (isGetvipPresent_.isEmpty()) {
+            isGetvipPresent_ = other.isGetvipPresent_;
+            bitField0_ = (bitField0_ & ~0x00000020);
+          } else {
+            ensureIsGetvipPresentIsMutable();
+            isGetvipPresent_.addAll(other.isGetvipPresent_);
+          }
+          onChanged();
+        }
+        if (other.hasAllQianNum()) {
+          setAllQianNum(other.getAllQianNum());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -793,6 +973,10 @@ public final class Qiandao {
           return false;
         }
         if (!hasDesc()) {
+          
+          return false;
+        }
+        if (!hasAllQianNum()) {
           
           return false;
         }
@@ -1377,6 +1561,149 @@ public final class Qiandao {
   }
   bitField0_ |= 0x00000010;
         desc_ = value;
+        onChanged();
+        return this;
+      }
+
+      // repeated bool isGetvipPresent = 6;
+      private java.util.List<java.lang.Boolean> isGetvipPresent_ = java.util.Collections.emptyList();
+      private void ensureIsGetvipPresentIsMutable() {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+          isGetvipPresent_ = new java.util.ArrayList<java.lang.Boolean>(isGetvipPresent_);
+          bitField0_ |= 0x00000020;
+         }
+      }
+      /**
+       * <code>repeated bool isGetvipPresent = 6;</code>
+       *
+       * <pre>
+       * 0-没有领奖，1-领奖
+       * </pre>
+       */
+      public java.util.List<java.lang.Boolean>
+          getIsGetvipPresentList() {
+        return java.util.Collections.unmodifiableList(isGetvipPresent_);
+      }
+      /**
+       * <code>repeated bool isGetvipPresent = 6;</code>
+       *
+       * <pre>
+       * 0-没有领奖，1-领奖
+       * </pre>
+       */
+      public int getIsGetvipPresentCount() {
+        return isGetvipPresent_.size();
+      }
+      /**
+       * <code>repeated bool isGetvipPresent = 6;</code>
+       *
+       * <pre>
+       * 0-没有领奖，1-领奖
+       * </pre>
+       */
+      public boolean getIsGetvipPresent(int index) {
+        return isGetvipPresent_.get(index);
+      }
+      /**
+       * <code>repeated bool isGetvipPresent = 6;</code>
+       *
+       * <pre>
+       * 0-没有领奖，1-领奖
+       * </pre>
+       */
+      public Builder setIsGetvipPresent(
+          int index, boolean value) {
+        ensureIsGetvipPresentIsMutable();
+        isGetvipPresent_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bool isGetvipPresent = 6;</code>
+       *
+       * <pre>
+       * 0-没有领奖，1-领奖
+       * </pre>
+       */
+      public Builder addIsGetvipPresent(boolean value) {
+        ensureIsGetvipPresentIsMutable();
+        isGetvipPresent_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bool isGetvipPresent = 6;</code>
+       *
+       * <pre>
+       * 0-没有领奖，1-领奖
+       * </pre>
+       */
+      public Builder addAllIsGetvipPresent(
+          java.lang.Iterable<? extends java.lang.Boolean> values) {
+        ensureIsGetvipPresentIsMutable();
+        super.addAll(values, isGetvipPresent_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bool isGetvipPresent = 6;</code>
+       *
+       * <pre>
+       * 0-没有领奖，1-领奖
+       * </pre>
+       */
+      public Builder clearIsGetvipPresent() {
+        isGetvipPresent_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
+        onChanged();
+        return this;
+      }
+
+      // required int32 allQianNum = 7;
+      private int allQianNum_ ;
+      /**
+       * <code>required int32 allQianNum = 7;</code>
+       *
+       * <pre>
+       * 历史总共签到次数
+       * </pre>
+       */
+      public boolean hasAllQianNum() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>required int32 allQianNum = 7;</code>
+       *
+       * <pre>
+       * 历史总共签到次数
+       * </pre>
+       */
+      public int getAllQianNum() {
+        return allQianNum_;
+      }
+      /**
+       * <code>required int32 allQianNum = 7;</code>
+       *
+       * <pre>
+       * 历史总共签到次数
+       * </pre>
+       */
+      public Builder setAllQianNum(int value) {
+        bitField0_ |= 0x00000040;
+        allQianNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 allQianNum = 7;</code>
+       *
+       * <pre>
+       * 历史总共签到次数
+       * </pre>
+       */
+      public Builder clearAllQianNum() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        allQianNum_ = 0;
         onChanged();
         return this;
       }
@@ -3694,6 +4021,967 @@ public final class Qiandao {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.QiandaoAward)
   }
 
+  public interface GetVipPresentReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 vip = 1;
+    /**
+     * <code>required int32 vip = 1;</code>
+     *
+     * <pre>
+     * VIPQianDao.xml的VIP值（1~7）
+     * </pre>
+     */
+    boolean hasVip();
+    /**
+     * <code>required int32 vip = 1;</code>
+     *
+     * <pre>
+     * VIPQianDao.xml的VIP值（1~7）
+     * </pre>
+     */
+    int getVip();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.GetVipPresentReq}
+   */
+  public static final class GetVipPresentReq extends
+      com.google.protobuf.GeneratedMessage
+      implements GetVipPresentReqOrBuilder {
+    // Use GetVipPresentReq.newBuilder() to construct.
+    private GetVipPresentReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GetVipPresentReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GetVipPresentReq defaultInstance;
+    public static GetVipPresentReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GetVipPresentReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetVipPresentReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              vip_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Qiandao.internal_static_qxmobile_protobuf_GetVipPresentReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Qiandao.internal_static_qxmobile_protobuf_GetVipPresentReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Qiandao.GetVipPresentReq.class, qxmobile.protobuf.Qiandao.GetVipPresentReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GetVipPresentReq> PARSER =
+        new com.google.protobuf.AbstractParser<GetVipPresentReq>() {
+      public GetVipPresentReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetVipPresentReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetVipPresentReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 vip = 1;
+    public static final int VIP_FIELD_NUMBER = 1;
+    private int vip_;
+    /**
+     * <code>required int32 vip = 1;</code>
+     *
+     * <pre>
+     * VIPQianDao.xml的VIP值（1~7）
+     * </pre>
+     */
+    public boolean hasVip() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 vip = 1;</code>
+     *
+     * <pre>
+     * VIPQianDao.xml的VIP值（1~7）
+     * </pre>
+     */
+    public int getVip() {
+      return vip_;
+    }
+
+    private void initFields() {
+      vip_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasVip()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, vip_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, vip_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Qiandao.GetVipPresentReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Qiandao.GetVipPresentReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.GetVipPresentReq}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Qiandao.GetVipPresentReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Qiandao.internal_static_qxmobile_protobuf_GetVipPresentReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Qiandao.internal_static_qxmobile_protobuf_GetVipPresentReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Qiandao.GetVipPresentReq.class, qxmobile.protobuf.Qiandao.GetVipPresentReq.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Qiandao.GetVipPresentReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        vip_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Qiandao.internal_static_qxmobile_protobuf_GetVipPresentReq_descriptor;
+      }
+
+      public qxmobile.protobuf.Qiandao.GetVipPresentReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.Qiandao.GetVipPresentReq.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Qiandao.GetVipPresentReq build() {
+        qxmobile.protobuf.Qiandao.GetVipPresentReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Qiandao.GetVipPresentReq buildPartial() {
+        qxmobile.protobuf.Qiandao.GetVipPresentReq result = new qxmobile.protobuf.Qiandao.GetVipPresentReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.vip_ = vip_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Qiandao.GetVipPresentReq) {
+          return mergeFrom((qxmobile.protobuf.Qiandao.GetVipPresentReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Qiandao.GetVipPresentReq other) {
+        if (other == qxmobile.protobuf.Qiandao.GetVipPresentReq.getDefaultInstance()) return this;
+        if (other.hasVip()) {
+          setVip(other.getVip());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasVip()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Qiandao.GetVipPresentReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Qiandao.GetVipPresentReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 vip = 1;
+      private int vip_ ;
+      /**
+       * <code>required int32 vip = 1;</code>
+       *
+       * <pre>
+       * VIPQianDao.xml的VIP值（1~7）
+       * </pre>
+       */
+      public boolean hasVip() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 vip = 1;</code>
+       *
+       * <pre>
+       * VIPQianDao.xml的VIP值（1~7）
+       * </pre>
+       */
+      public int getVip() {
+        return vip_;
+      }
+      /**
+       * <code>required int32 vip = 1;</code>
+       *
+       * <pre>
+       * VIPQianDao.xml的VIP值（1~7）
+       * </pre>
+       */
+      public Builder setVip(int value) {
+        bitField0_ |= 0x00000001;
+        vip_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 vip = 1;</code>
+       *
+       * <pre>
+       * VIPQianDao.xml的VIP值（1~7）
+       * </pre>
+       */
+      public Builder clearVip() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        vip_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.GetVipPresentReq)
+    }
+
+    static {
+      defaultInstance = new GetVipPresentReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.GetVipPresentReq)
+  }
+
+  public interface GetVipPresentRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 vip = 1;
+    /**
+     * <code>required int32 vip = 1;</code>
+     */
+    boolean hasVip();
+    /**
+     * <code>required int32 vip = 1;</code>
+     */
+    int getVip();
+
+    // required int32 success = 2;
+    /**
+     * <code>required int32 success = 2;</code>
+     *
+     * <pre>
+     *0-领取成功，1-已经领过奖励，2-累计签到天数不够
+     * </pre>
+     */
+    boolean hasSuccess();
+    /**
+     * <code>required int32 success = 2;</code>
+     *
+     * <pre>
+     *0-领取成功，1-已经领过奖励，2-累计签到天数不够
+     * </pre>
+     */
+    int getSuccess();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.GetVipPresentResp}
+   */
+  public static final class GetVipPresentResp extends
+      com.google.protobuf.GeneratedMessage
+      implements GetVipPresentRespOrBuilder {
+    // Use GetVipPresentResp.newBuilder() to construct.
+    private GetVipPresentResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GetVipPresentResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GetVipPresentResp defaultInstance;
+    public static GetVipPresentResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GetVipPresentResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetVipPresentResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              vip_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              success_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Qiandao.internal_static_qxmobile_protobuf_GetVipPresentResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Qiandao.internal_static_qxmobile_protobuf_GetVipPresentResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Qiandao.GetVipPresentResp.class, qxmobile.protobuf.Qiandao.GetVipPresentResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GetVipPresentResp> PARSER =
+        new com.google.protobuf.AbstractParser<GetVipPresentResp>() {
+      public GetVipPresentResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetVipPresentResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetVipPresentResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 vip = 1;
+    public static final int VIP_FIELD_NUMBER = 1;
+    private int vip_;
+    /**
+     * <code>required int32 vip = 1;</code>
+     */
+    public boolean hasVip() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 vip = 1;</code>
+     */
+    public int getVip() {
+      return vip_;
+    }
+
+    // required int32 success = 2;
+    public static final int SUCCESS_FIELD_NUMBER = 2;
+    private int success_;
+    /**
+     * <code>required int32 success = 2;</code>
+     *
+     * <pre>
+     *0-领取成功，1-已经领过奖励，2-累计签到天数不够
+     * </pre>
+     */
+    public boolean hasSuccess() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 success = 2;</code>
+     *
+     * <pre>
+     *0-领取成功，1-已经领过奖励，2-累计签到天数不够
+     * </pre>
+     */
+    public int getSuccess() {
+      return success_;
+    }
+
+    private void initFields() {
+      vip_ = 0;
+      success_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasVip()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSuccess()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, vip_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, success_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, vip_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, success_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Qiandao.GetVipPresentResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Qiandao.GetVipPresentResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Qiandao.GetVipPresentResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.GetVipPresentResp}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Qiandao.GetVipPresentRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Qiandao.internal_static_qxmobile_protobuf_GetVipPresentResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Qiandao.internal_static_qxmobile_protobuf_GetVipPresentResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Qiandao.GetVipPresentResp.class, qxmobile.protobuf.Qiandao.GetVipPresentResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Qiandao.GetVipPresentResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        vip_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        success_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Qiandao.internal_static_qxmobile_protobuf_GetVipPresentResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Qiandao.GetVipPresentResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Qiandao.GetVipPresentResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Qiandao.GetVipPresentResp build() {
+        qxmobile.protobuf.Qiandao.GetVipPresentResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Qiandao.GetVipPresentResp buildPartial() {
+        qxmobile.protobuf.Qiandao.GetVipPresentResp result = new qxmobile.protobuf.Qiandao.GetVipPresentResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.vip_ = vip_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.success_ = success_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Qiandao.GetVipPresentResp) {
+          return mergeFrom((qxmobile.protobuf.Qiandao.GetVipPresentResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Qiandao.GetVipPresentResp other) {
+        if (other == qxmobile.protobuf.Qiandao.GetVipPresentResp.getDefaultInstance()) return this;
+        if (other.hasVip()) {
+          setVip(other.getVip());
+        }
+        if (other.hasSuccess()) {
+          setSuccess(other.getSuccess());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasVip()) {
+          
+          return false;
+        }
+        if (!hasSuccess()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Qiandao.GetVipPresentResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Qiandao.GetVipPresentResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 vip = 1;
+      private int vip_ ;
+      /**
+       * <code>required int32 vip = 1;</code>
+       */
+      public boolean hasVip() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 vip = 1;</code>
+       */
+      public int getVip() {
+        return vip_;
+      }
+      /**
+       * <code>required int32 vip = 1;</code>
+       */
+      public Builder setVip(int value) {
+        bitField0_ |= 0x00000001;
+        vip_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 vip = 1;</code>
+       */
+      public Builder clearVip() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        vip_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 success = 2;
+      private int success_ ;
+      /**
+       * <code>required int32 success = 2;</code>
+       *
+       * <pre>
+       *0-领取成功，1-已经领过奖励，2-累计签到天数不够
+       * </pre>
+       */
+      public boolean hasSuccess() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 success = 2;</code>
+       *
+       * <pre>
+       *0-领取成功，1-已经领过奖励，2-累计签到天数不够
+       * </pre>
+       */
+      public int getSuccess() {
+        return success_;
+      }
+      /**
+       * <code>required int32 success = 2;</code>
+       *
+       * <pre>
+       *0-领取成功，1-已经领过奖励，2-累计签到天数不够
+       * </pre>
+       */
+      public Builder setSuccess(int value) {
+        bitField0_ |= 0x00000002;
+        success_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 success = 2;</code>
+       *
+       * <pre>
+       *0-领取成功，1-已经领过奖励，2-累计签到天数不够
+       * </pre>
+       */
+      public Builder clearSuccess() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        success_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.GetVipPresentResp)
+    }
+
+    static {
+      defaultInstance = new GetVipPresentResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.GetVipPresentResp)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_GetQiandaoResp_descriptor;
   private static
@@ -3709,6 +4997,16 @@ public final class Qiandao {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_QiandaoAward_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_GetVipPresentReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_GetVipPresentReq_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_GetVipPresentResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_GetVipPresentResp_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3718,17 +5016,20 @@ public final class Qiandao {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rQiandao.proto\022\021qxmobile.protobuf\"z\n\016Ge" +
-      "tQiandaoResp\022.\n\005award\030\001 \003(\0132\037.qxmobile.p" +
-      "rotobuf.QiandaoAward\022\013\n\003cnt\030\002 \002(\005\022\017\n\007cur" +
-      "Date\030\003 \002(\005\022\014\n\004icon\030\004 \002(\005\022\014\n\004desc\030\005 \002(\t\"_" +
-      "\n\013QiandaoResp\022\016\n\006result\030\001 \002(\005\022\020\n\010vipCoun" +
-      "t\030\002 \002(\005\022.\n\005award\030\003 \003(\0132\037.qxmobile.protob" +
-      "uf.QiandaoAward\"\216\001\n\014QiandaoAward\022\n\n\002id\030\001" +
-      " \002(\005\022\r\n\005month\030\002 \002(\005\022\013\n\003day\030\003 \002(\005\022\r\n\005stat" +
-      "e\030\004 \001(\005\022\021\n\tawardType\030\005 \001(\005\022\017\n\007awardId\030\006 " +
-      "\001(\005\022\020\n\010awardNum\030\007 \001(\005\022\021\n\tvipDouble\030\010 \001(\005",
-      "B\tB\007Qiandao"
+      "\n\rQiandao.proto\022\021qxmobile.protobuf\"\247\001\n\016G" +
+      "etQiandaoResp\022.\n\005award\030\001 \003(\0132\037.qxmobile." +
+      "protobuf.QiandaoAward\022\013\n\003cnt\030\002 \002(\005\022\017\n\007cu" +
+      "rDate\030\003 \002(\005\022\014\n\004icon\030\004 \002(\005\022\014\n\004desc\030\005 \002(\t\022" +
+      "\027\n\017isGetvipPresent\030\006 \003(\010\022\022\n\nallQianNum\030\007" +
+      " \002(\005\"_\n\013QiandaoResp\022\016\n\006result\030\001 \002(\005\022\020\n\010v" +
+      "ipCount\030\002 \002(\005\022.\n\005award\030\003 \003(\0132\037.qxmobile." +
+      "protobuf.QiandaoAward\"\216\001\n\014QiandaoAward\022\n" +
+      "\n\002id\030\001 \002(\005\022\r\n\005month\030\002 \002(\005\022\013\n\003day\030\003 \002(\005\022\r" +
+      "\n\005state\030\004 \001(\005\022\021\n\tawardType\030\005 \001(\005\022\017\n\007awar",
+      "dId\030\006 \001(\005\022\020\n\010awardNum\030\007 \001(\005\022\021\n\tvipDouble" +
+      "\030\010 \001(\005\"\037\n\020GetVipPresentReq\022\013\n\003vip\030\001 \002(\005\"" +
+      "1\n\021GetVipPresentResp\022\013\n\003vip\030\001 \002(\005\022\017\n\007suc" +
+      "cess\030\002 \002(\005B\tB\007Qiandao"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3740,7 +5041,7 @@ public final class Qiandao {
           internal_static_qxmobile_protobuf_GetQiandaoResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_GetQiandaoResp_descriptor,
-              new java.lang.String[] { "Award", "Cnt", "CurDate", "Icon", "Desc", });
+              new java.lang.String[] { "Award", "Cnt", "CurDate", "Icon", "Desc", "IsGetvipPresent", "AllQianNum", });
           internal_static_qxmobile_protobuf_QiandaoResp_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_QiandaoResp_fieldAccessorTable = new
@@ -3753,6 +5054,18 @@ public final class Qiandao {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_QiandaoAward_descriptor,
               new java.lang.String[] { "Id", "Month", "Day", "State", "AwardType", "AwardId", "AwardNum", "VipDouble", });
+          internal_static_qxmobile_protobuf_GetVipPresentReq_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_qxmobile_protobuf_GetVipPresentReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_GetVipPresentReq_descriptor,
+              new java.lang.String[] { "Vip", });
+          internal_static_qxmobile_protobuf_GetVipPresentResp_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_qxmobile_protobuf_GetVipPresentResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_GetVipPresentResp_descriptor,
+              new java.lang.String[] { "Vip", "Success", });
           return null;
         }
       };

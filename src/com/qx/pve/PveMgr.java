@@ -60,7 +60,9 @@ import com.manu.network.SessionAttKey;
 import com.qx.award.AwardMgr;
 import com.qx.bag.EquipMgr;
 import com.qx.event.ED;
+import com.qx.event.Event;
 import com.qx.event.EventMgr;
+import com.qx.event.EventProc;
 import com.qx.hero.HeroMgr;
 import com.qx.hero.WuJiang;
 import com.qx.jinengpeiyang.JNBean;
@@ -74,6 +76,7 @@ import com.qx.pvp.PvpMgr;
 import com.qx.secure.AntiCheatMgr;
 import com.qx.task.DailyTaskCondition;
 import com.qx.task.DailyTaskConstants;
+import com.qx.timeworker.FunctionID;
 import com.qx.util.TableIDCreator;
 import com.qx.world.GameObject;
 
@@ -83,7 +86,7 @@ import com.qx.world.GameObject;
  * @author hudali
  *
  */
-public class PveMgr {
+public class PveMgr extends EventProc {
 	public static PveMgr inst;
 	public static long godId = 0;
 	public static Logger logger = LoggerFactory.getLogger(PveMgr.class);
@@ -352,7 +355,7 @@ public class PveMgr {
 	}
 	
 	protected Hero.Builder setEnemyHeroProperties(EnemyTemp enemy) {
-		GongjiType gongjiType = id2GongjiType.get(enemy.getGongjiType());
+		GongjiType gongjiType = id2GongjiType.get(1/*enemy.getGongjiType()*/);
 		Hero.Builder hero = Hero.newBuilder();
 		hero.setAttackValue(enemy.getGongji());
 		hero.setDefenceValue(enemy.getFangyu());
@@ -485,13 +488,17 @@ public class PveMgr {
 			sendZhanDouInitError(session, "找不到君主");
 			return;
 		}
-
+		
+		int star = 0;
 		PveRecord r = HibernateUtil.find(PveRecord.class, "where uid="+junZhu.id+" and guanQiaId="+zhangJieId);
 		if(r == null){
 			session.setAttribute(SessionAttKey.firstQuanQiaId, pveTemp.getId());
 		} else {
 			if(chuanQiMark && !r.chuanQiPass) {
 				session.setAttribute(SessionAttKey.firstQuanQiaId, pveTemp.getId());
+				star = r.cqStar;
+			} else {
+				star = r.achieve;
 			}
 		}
 		
@@ -545,7 +552,7 @@ public class PveMgr {
 		resp.addStarTemp(pveTemp.getStar1());
 		resp.addStarTemp(pveTemp.getStar2());
 		resp.addStarTemp(pveTemp.getStar3());
-		resp.setStarArrive(r == null ? 0 : r.achieve);
+		resp.setStarArrive(star/*r == null ? 0 : r.achieve*/);
 		session.write(resp.build());
 	}
 	
@@ -600,6 +607,7 @@ public class PveMgr {
 		junzhuNode.setCriSkillY(0);
 		junzhuNode.setHpNum(1);
 		junzhuNode.setAppearanceId(1);
+		junzhuNode.setNuQiZhi(0);
 //3.填充己方秘宝列表
 //		List<Integer> mibaoIdList = Arrays.asList(xunHanCheng.getMibao1(), 
 //				xunHanCheng.getMibao2(), xunHanCheng.getMibao3());
@@ -657,9 +665,9 @@ public class PveMgr {
 					return;
 				}
 				if(npcTemp.ifTeammate == 1) {
-					PvpMgr.inst.fillNPCDataInfo(selfs, guanQiaJunZhu, selfFlagId++, npcTemp.enemyId);
+					PvpMgr.inst.fillNPCDataInfo(selfs, guanQiaJunZhu, selfFlagId++, npcTemp.modelId,false);
 				} else {
-					PvpMgr.inst.fillNPCDataInfo(enemys, guanQiaJunZhu, npcTemp.getPosition(), npcTemp.enemyId);
+					PvpMgr.inst.fillNPCDataInfo(enemys, guanQiaJunZhu, npcTemp.getPosition(), npcTemp.modelId, false);
 				}
 			} else {
 				EnemyTemp enemyTemp = id2Enemy.get(npcTemp.getEnemyId());
@@ -668,6 +676,9 @@ public class PveMgr {
 					continue;
 				}
 				Node.Builder node = Node.newBuilder();
+				if(npcTemp.position == 109) {
+					System.out.println();
+				}
 				node.setModleId(npcTemp.modelId);//npc模型id
 				node.setNodeType(nodeType);
 				node.setNodeProfession(nodeProfession);
@@ -675,6 +686,7 @@ public class PveMgr {
 				node.setNodeName(npcTemp.name+"");
 				node.setHpNum(npcTemp.lifebarNum);
 				node.setAppearanceId(npcTemp.modelApID);
+				node.setNuQiZhi(0);
 				GongjiType gongjiType = id2GongjiType.get(npcTemp.gongjiType);
 				fillDataByGongjiType(node, gongjiType);
 				fillGongFangInfo(node, enemyTemp);
@@ -784,6 +796,7 @@ public class PveMgr {
 	public void fillGongFangInfo(Node.Builder node, GameObject object){
 		node.setAttackValue(object.getGongji());
 		node.setDefenceValue(object.getFangyu());
+		// 注意: hpmax == shenming (不用乘以lifebarNum)
 		node.setHpMax(object.getShengming());
 		node.setAttackAmplify(object.getWqSH());
 		node.setAttackReduction(object.getWqJM());
@@ -808,8 +821,7 @@ public class PveMgr {
 	public void fillJunZhuDataInfo(ZhanDouInitResp.Builder resp, IoSession session, 
 			List<Node> selfs, JunZhu junZhu, int flagIndex, int skillZuheId,
 			Group.Builder selfTroop){
-		List<MiBaoDB> miBaoDBList = HibernateUtil.list(MiBaoDB.class, " where ownerId=" + junZhu.id);
-		JunZhuMgr.inst.cacMiBaoAtt(junZhu, miBaoDBList);
+		JunZhuMgr.inst.calcJunZhuTotalAtt(junZhu);
 		Node.Builder junzhuNode = Node.newBuilder();
 		// 添加装备
 		List<Integer> zbIdList = EquipMgr.inst.getEquipCfgIdList(junZhu);
@@ -827,6 +839,7 @@ public class PveMgr {
 		junzhuNode.setHp(junzhuNode.getHpMax());
 		junzhuNode.setHpNum(1);
 		junzhuNode.setAppearanceId(1);
+		junzhuNode.setNuQiZhi(MibaoMgr.inst.getChuShiNuQi(junZhu.id));
 		selfs.add(junzhuNode.build());
 	}
 	/**
@@ -842,8 +855,7 @@ public class PveMgr {
 	public void fillYaBiaoJunZhuDataInfo(ZhanDouInitResp.Builder resp, IoSession session, 
 			List<Node> selfs, JunZhu junZhu, int flagIndex, int skillZuheId,int Hp,
 			Group.Builder selfTroop){
-		List<MiBaoDB> miBaoDBList = HibernateUtil.list(MiBaoDB.class, " where ownerId=" + junZhu.id);
-		JunZhuMgr.inst.cacMiBaoAtt(junZhu, miBaoDBList);
+		JunZhuMgr.inst.calcJunZhuTotalAtt(junZhu);
 		Node.Builder junzhuNode = Node.newBuilder();
 		// 添加装备
 		List<Integer> zbIdList = EquipMgr.inst.getEquipCfgIdList(junZhu);
@@ -861,13 +873,13 @@ public class PveMgr {
 		junzhuNode.setHp(Hp);
 		junzhuNode.setHpNum(1);
 		junzhuNode.setAppearanceId(1);
+		junzhuNode.setNuQiZhi(MibaoMgr.inst.getChuShiNuQi(junZhu.id));
 		selfs.add(junzhuNode.build());
 	}
 	public void fillYaBiaoJunZhuDataInfo4YB(ZhanDouInitResp.Builder resp, IoSession session, 
 			List<Node> selfs, JunZhu junZhu, int flagIndex, int skillZuheId,int Hp,int hudun,int hudunMax,
 			Group.Builder selfTroop){
-		List<MiBaoDB> miBaoDBList = HibernateUtil.list(MiBaoDB.class, " where ownerId=" + junZhu.id);
-		JunZhuMgr.inst.cacMiBaoAtt(junZhu, miBaoDBList);
+		JunZhuMgr.inst.calcJunZhuTotalAtt(junZhu);
 		Node.Builder junzhuNode = Node.newBuilder();
 		// 添加装备
 		List<Integer> zbIdList = EquipMgr.inst.getEquipCfgIdList(junZhu);
@@ -880,7 +892,7 @@ public class PveMgr {
 		junzhuNode.setNodeName(junZhu.name);
 		fillDataByGongjiType(junzhuNode, null);
 		fillGongFangInfo(junzhuNode, junZhu);
-		// 添加秘宝信息
+		// 添加秘宝技能信息
 		fillJZMiBaoDataInfo(junzhuNode, skillZuheId, junZhu.id);
 		junzhuNode.setHp(Hp);
 		//护盾
@@ -888,6 +900,7 @@ public class PveMgr {
 		junzhuNode.setHudunMax(hudunMax);
 		junzhuNode.setHpNum(1);
 		junzhuNode.setAppearanceId(1);
+		junzhuNode.setNuQiZhi(MibaoMgr.inst.getChuShiNuQi(junZhu.id));
 		selfs.add(junzhuNode.build());
 	}
 	
@@ -915,6 +928,7 @@ public class PveMgr {
 		nodeSkill.setEndtime(skillCfg.endTime);
 		nodeSkill.setTimePeriod(skillCfg.getTimePeriod());
 		nodeSkill.setZhudong(skillCfg.zhudong == 1 ? true : false);
+		nodeSkill.setImmediately(skillCfg.immediately);
 		node.addSkills(nodeSkill);
 	}
 	
@@ -1086,7 +1100,7 @@ public class PveMgr {
 
 	public void battleOver(int id, IoSession session, Builder builder) {
 		PveBattleOver.Builder request = (qxmobile.protobuf.PveLevel.PveBattleOver.Builder) builder;
-		boolean ok = request.getSPass();
+		boolean win = request.getSPass();
 		Integer guanQiaId = (Integer) session
 				.getAttribute(SessionAttKey.guanQiaId);
 		if (guanQiaId == null || guanQiaId == PveMgr.PVE_CHONG_LOU) {
@@ -1120,10 +1134,10 @@ public class PveMgr {
 			logger.error("请求pve章节id错误，zhangJieId:{}", guanQiaId);
 			return;
 		}
-		ActLog.log.HeroBattle(junZhuId, junZhu.name, ActLog.vopenid, guanQiaId, pveTemp.smaName, ok?1:2, 1);
+		ActLog.log.HeroBattle(junZhuId, junZhu.name, ActLog.vopenid, guanQiaId, pveTemp.smaName, win?1:2, 1);
 		List<AwardTemp> getNpcAwardList = new ArrayList<AwardTemp>();
 		int resultForLog;//0 失败；2首次；3再次
-		if (ok) {
+		if (win) {
 			PveRecord r = HibernateUtil.find(PveRecord.class,
 					"where guanQiaId=" + guanQiaId + " and uid=" + junZhuId);
 			if (r == null) {
@@ -1139,14 +1153,14 @@ public class PveMgr {
 			if (chuanQiMark != null && chuanQiMark) {
 				r.chuanQiPass = true;
 				r.cqPassTimes += 1;
-				r.cqStar = Math.max(r.cqStar, request.getStar());
+				r.cqWinLevel = Math.max(r.cqWinLevel, request.getStar());
+				r.cqStar = r.achieve | request.getAchievement();
 				logger.info("{}传奇关卡{}", junZhuId, guanQiaId);
 			} else {
 				r.starLevel = request.getStar();
 				r.star = Math.max(r.star, request.getStar());
 				r.achieve = r.achieve | request.getAchievement();
 				chuanQiMark = false;
-				
 			}
 			logger.info("junZhuId {} 关卡{} 战斗结束 , 成功", junZhuId, guanQiaId);
 			logger.info("获得星级 star {}", request.getStar());
@@ -1178,9 +1192,9 @@ public class PveMgr {
 			resultForLog = 0;
 		}
 		OurLog.log.RoundFlow(ActLog.vopenid,guanQiaId.intValue(), 2, request.getStar(), 0, resultForLog,String.valueOf(junZhuId));
-		AwardMgr.inst.getAward(guanQiaId, chuanQiMark, ok, session, getNpcAwardList);
+		AwardMgr.inst.getAward(guanQiaId, chuanQiMark, win, session, getNpcAwardList);
 		if (chuanQiMark != null && chuanQiMark) {
-			if (ok) {
+			if (win) {
 				// 主线任务：完成传奇关卡并且胜利一次
 				EventMgr.addEvent(ED.CHUANQI_GUANQIA_SUCCESS, new Object[] {
 						junZhuId, guanQiaId });
@@ -1189,7 +1203,7 @@ public class PveMgr {
 			EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
 					junZhuId, DailyTaskConstants.chuanqi_guanqia_3, 1));
 		}else{
-			if(ok){
+			if(win){
 				// 主线任务：完成普通关卡并且胜利一次
 				EventMgr.addEvent(ED.PVE_GUANQIA, new Object[] { junZhuId,
 						guanQiaId });
@@ -1231,6 +1245,47 @@ public class PveMgr {
 
 	public Map<Integer, GongjiType> getId2GongjiType() {
 		return id2GongjiType;
+	}
+
+	@Override
+	public void proc(Event event) {
+		switch (event.id) {
+		case ED.REFRESH_TIME_WORK:
+			IoSession session=(IoSession) event.param;
+			if(session==null){
+				break;
+			}
+			JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+			if(jz==null){
+				break;
+			}
+			Map<Integer, PveRecord> map = BigSwitch.pveGuanQiaMgr.recordMgr.getRecords(jz.id);
+			for(Map.Entry<Integer, Integer> entry : PveMgr.lastGuanQiaOfZhang.entrySet()) {
+				Integer guanqiaID = entry.getValue();
+				if(guanqiaID == null){
+					continue;
+				}
+				PveRecord r = map.get(guanqiaID);
+				// 已经通关
+				if(r == null){
+					continue;
+				}
+				// 是不是已经领取
+				if(!r.isGetAward){
+					FunctionID.pushCanShowRed(jz.id, session, FunctionID.PVE_PASS_ZHANGJIE_GET_AWARD);
+					return;
+				}
+			}
+			break;
+		default:
+			logger.error("错误事件参数", event.id);
+			break;
+		}
+	}
+
+	@Override
+	protected void doReg() {
+		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 	}
 	
 }

@@ -7,8 +7,8 @@ import javax.persistence.Table;
 import com.qx.persistent.MCSupport;
 
 @Entity
-@Table(name = "YunBiaoHistory")
-public class YunBiaoHistory implements MCSupport {
+@Table(name = "YunBiaoHistory123")
+public class YunBiaoHistory{
 	/**
 	 * @Fields serialVersionUID : TODO
 	 */
@@ -27,8 +27,4 @@ public class YunBiaoHistory implements MCSupport {
 	public int historyJB;
 	
 
-	@Override
-	public long getIdentifier() {
-		return junZhuId;
-	}
 }

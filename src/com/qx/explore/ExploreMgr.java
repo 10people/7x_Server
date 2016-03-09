@@ -230,6 +230,7 @@ public class ExploreMgr extends EventProc{
 		}
 	
 		int money = getCost(reqType);
+		int chouCishu = 0;
 		
 		// 11 铜币免费单抽， 12铜币付费单抽， 13- 铜币十连抽  
 		// 21 元宝免费单抽，22元宝付费单抽， 23- 元宝十连抽 
@@ -249,6 +250,7 @@ public class ExploreMgr extends EventProc{
 					}
 					chouType = 12;
 				}
+				chouCishu = 1;
 				break;
 			case 2:
 				boolean ok = isTongBiOk(jz, money, session);
@@ -259,6 +261,7 @@ public class ExploreMgr extends EventProc{
 					log.error("君主:{}铜币10抽失败，铜币不足", jz.id);
 					return ;
 				}
+				chouCishu = 10;
 				break;
 			case 3:
 				cd = getCD(mine.lastFreeGetTime, TanBaoData.yuanBao_CD);
@@ -274,6 +277,7 @@ public class ExploreMgr extends EventProc{
 						return ;
 					}
 				}
+				chouCishu = 1;
 				break;
 			case 4:
 				ok = isYuanBaoOk(jz, money, session);
@@ -284,6 +288,7 @@ public class ExploreMgr extends EventProc{
 					log.error("君主:{}元宝十连抽失败，元宝不足", jz.id);
 					return ;
 				}
+				chouCishu = 10;
 				break;
 			default:
 				log.error("君主:{}探宝失败，无效探宝类型{}", jz.id, reqType);
@@ -294,7 +299,7 @@ public class ExploreMgr extends EventProc{
 		 */
 		List<Integer> awarL = getAwardIds(mine, chouType);
 		HibernateUtil.save(mine);
-
+		
 		List<AwardTemp> awards = new ArrayList<AwardTemp>();
 		for(Integer awardId: awarL){
 			AwardTemp award = AwardMgr.inst.calcAwardTemp(awardId);
@@ -303,11 +308,12 @@ public class ExploreMgr extends EventProc{
 
 		Map<Integer, int[]> fenjieM = mibaoAward(awards, jz);
 		// 先增添奖励，再筛选是否碎成碎片
+		session.setAttribute("inTanBaoGiveReward");
 		for (AwardTemp awa : awards) {
 			AwardMgr.inst.giveReward(session, awa, jz, false);
 			log.info("{}探宝奖励{}:{}:{}",jz.id,awa.getItemType(),awa.getItemId(),awa.getItemNum());
 		}
-
+		session.removeAttribute("inTanBaoGiveReward");
 		ExploreResp.Builder resp = ExploreResp.newBuilder();
 		resp.setSuccess(0);
 		sendExploreAwardInfo(resp, awards, fenjieM);
@@ -334,10 +340,22 @@ public class ExploreMgr extends EventProc{
 						a.getItemId() });
 			}
 		}
-		// 每日任务中记录探宝成功一次
+		// 每日任务中记录探宝成功chouCishu次
 		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
-				jz.id, DailyTaskConstants.tanbao_5_id, 1));
+				jz.id, DailyTaskConstants.tanbao_5_id, chouCishu));
 		EventMgr.addEvent(ED.TAN_BAO_JIANG_LI, new Object[]{jz,session,awards});
+		/*
+		 * 限时活动（成就）触发事件
+		 */
+		if(chouType == 21 || chouType == 22){
+			EventMgr.addEvent(ED.tanbao_oneTimes, new Object[]{jz.id, mine.danChouClickNumber});
+		}else if(chouType == 23){
+			EventMgr.addEvent(ED.tanbao_tenTimes, new Object[]{jz.id, mine.tenChouClickNumber});
+		}else if(chouType == 11 || chouType == 12){
+			EventMgr.addEvent(ED.tongbi_oneTimes, new Object[]{jz.id, mine.danChouClickNumber});
+		}else if(chouType == 13){
+			EventMgr.addEvent(ED.tongbi_tenTimes, new Object[]{jz.id, mine.tenChouClickNumber});
+		}
 	}
 
 
@@ -377,17 +395,28 @@ public class ExploreMgr extends EventProc{
 			}
 			else{
 				list.add(getTongNormalAwardId(m)); 
+				m.historyFree += 1;
 			}
 			m.lastFreeGetTime = new Date();
 			m.usedFreeNumber += 1;
+			m.danChouClickNumber += 1;
 			break;
 		case 12:
 			list.add(getTongNormalAwardId(m));
+			m.historyFree += 1;
+			m.danChouClickNumber += 1;
 			break;
-		case 13:
+		case 13: // 铜币十连抽
+			/*
+			 * 每次铜币10连抽行为都是单独的抽奖tenToEx.totalProbability == 0，不和单抽关联
+			 * 20160118 from 策划 
+			 */
+			ExploreMine tenToEx = new ExploreMine();
+			tenToEx.totalProbability = 0;
 			for(int i=0; i<10; i++){
-				list.add(getTongNormalAwardId(m));
+				list.add(getTongNormalAwardId(tenToEx));
 			}
+			m.tenChouClickNumber += 1;
 			break;
 		case 21:
 			if(m.historyFree == 0){
@@ -397,6 +426,8 @@ public class ExploreMgr extends EventProc{
 				list.add(getYuanNormalAwardId(m));
 			}
 			m.lastFreeGetTime = new Date();
+			// 为了限时活动记录
+			m.danChouClickNumber += 1;
 			break;
 		case 22:
 			if(m.historyPay == 0){
@@ -405,24 +436,41 @@ public class ExploreMgr extends EventProc{
 			}else{
 				list.add(getYuanNormalAwardId(m));
 			}
+			// 为了限时活动记录
+			m.danChouClickNumber += 1;
 			break;
-		case 23:
+		case 23: //元宝十连抽
+			/*
+			 * 元宝 十连抽 不走 同意概率
+			 * 每一次 10连抽行为都重新从 totalProbability==0 开始算起。
+			 */
 			if(m.historyPay == 0){
 				list.add(getYuanFirstPayAwardId(m));
 				log.info("元宝十连抽：第一次historyPay == 0 执行");
+	
+				ExploreMine tenEx = new ExploreMine();
+				tenEx.totalProbability = 0;
+				tenEx.historyBaoDi = m.historyBaoDi;
 				for(int i=0; i<9; i++){
-					list.add(getYuanNormalAwardId(m));
+					list.add(getYuanNormalAwardId(tenEx));
 				}
+				m.historyBaoDi = tenEx.historyBaoDi;
 			}else{
+				ExploreMine tenEx = new ExploreMine();
+				tenEx.totalProbability = 0;
+				tenEx.historyBaoDi = m.historyBaoDi;
 				for(int i=0; i<10; i++){
-					list.add(getYuanNormalAwardId(m));
+					list.add(getYuanNormalAwardId(tenEx));
 				}
+				m.historyBaoDi = tenEx.historyBaoDi;
 			}
+			// 为了限时活动记录
+			m.tenChouClickNumber += 1;
 			break;
 		}
 		return list;
 	}
-
+	
 	public int getYuanFirstFreeAwardId(ExploreMine m){
 		m.historyFree += 1;
 		return TanBaoData.yuanBao_first_free_awardId;
@@ -472,7 +520,6 @@ public class ExploreMgr extends EventProc{
 		if(goodId == awardId){
 			mine.totalProbability = mine.totalProbability - allProbability;
 		}
-		mine.historyFree += 1;
 		return awardId;
 	}
 
@@ -490,8 +537,8 @@ public class ExploreMgr extends EventProc{
 			return;
 		}
 		if(m.id%space ==TanBaoData.tongBi_type){
-			int cd = TanBaoData.tongBi_CD * 1000;
 			if(DateUtils.isTimeToReset(m.lastFreeGetTime, CanShu.REFRESHTIME_PURCHASE)){
+				int cd = TanBaoData.tongBi_CD * 1000;
 				m.usedFreeNumber = 0;
 				m.lastFreeGetTime =
 						new Date(System.currentTimeMillis() - cd);
@@ -1004,39 +1051,47 @@ public class ExploreMgr extends EventProc{
 			if(!isOpen){
 				break;
 			}
-			byte  freeRecord = -1; // -1 没有免费单抽记录； 1-可以免费单抽， 0-不能抽奖
+			/*
+			 *  -1 没有免费单抽记录； 1-可以免费单抽， 0-不能抽奖
+			 */
+			byte freeRecord_yuanbao = -1; 
+			byte freeRecord_tongbi = -1;
 			List<ExploreMine> list = getMineList(jz.id);
-			if (list != null) {
+			if (list != null && list.size() != 0) {
 				for (ExploreMine mine : list) {
 					int type = (int)(mine.id % space);
 					if( type == TanBaoData.tongBi_type){
+						resetExploreMine(mine);
 						int cd = getCD(mine.lastFreeGetTime,  TanBaoData.tongBi_CD);
 						int remianTimes = TanBaoData.tongBi_all_free_times - mine.usedFreeNumber;
 						if(cd <= 0 && remianTimes > 0){
-							freeRecord = 1;	//可以抽奖
+							freeRecord_tongbi = 1;	//可以抽奖
 						}else{
-							freeRecord = 0;	//不可以抽奖
+							freeRecord_tongbi = 0;	//不可以抽奖
 						}
 					}else if(type == TanBaoData.yuanBao_type){
 						int cd = getCD(mine.lastFreeGetTime,  TanBaoData.yuanBao_CD);
 						if(cd <= 0){
-							freeRecord = 1;	//可以抽奖
+							freeRecord_yuanbao = 1;	//可以抽奖
 						}else{
-							freeRecord = 0;	//不可以抽奖
+							freeRecord_yuanbao = 0;	//不可以抽奖
 						}
 					}
 				}
-			} else {
-				freeRecord = 1;
 			}
 			// 从没有进行过免费单抽，那么可以单抽
-			if(freeRecord == -1){
-				freeRecord = 1;
+			if(freeRecord_yuanbao == -1){
+				freeRecord_yuanbao = 1;
+			}
+			if(freeRecord_tongbi == -1){
+				freeRecord_tongbi = 1;
 			}
 			// 免费单抽有免费机会，可以抽奖
-			if(freeRecord == 1){
-				log.info("免费单抽发送红点通知");
-				FunctionID.pushCanShangjiao(jz.id, session, FunctionID.tanBao_free);
+			if(freeRecord_tongbi == 1){
+				FunctionID.pushCanShowRed(jz.id, session, FunctionID.tanBao_free_tongbi);
+			}
+			if(freeRecord_yuanbao == 1){
+				FunctionID.pushCanShowRed(jz.id, session, FunctionID.tanBao_free_yuanbao);
 			}
 			break;
 		}

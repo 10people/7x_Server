@@ -76,7 +76,7 @@ import com.qx.yuanbao.YuanBaoMgr;
  *
  */
 public class UserEquipAction  extends EventProc {
-	public static Logger log = LoggerFactory.getLogger(UserEquipAction.class);
+	public static Logger log = LoggerFactory.getLogger(UserEquipAction.class.getSimpleName());
 	public static UserEquipAction instance;
 	/** 洗练增加值表 <洗练类型typeID:元宝|免费, 洗练列表> **/
 	public Map<Integer, List<Xilian>> xilianMap;
@@ -457,6 +457,7 @@ public class UserEquipAction  extends EventProc {
 				TimeWorkerMgr.instance.getXilianTimes(junZhu),
 				TimeWorkerMgr.instance.getXilianCountDown(junZhu.id),
 				equipXiLian);
+		JunZhuMgr.inst.sendMainInfo(session);
 	}
 
 	public void xiLian(int id, IoSession session,
@@ -1891,7 +1892,7 @@ public class UserEquipAction  extends EventProc {
 		int xilianshiCount=xiLian.getXlsCount();
 		if(xilianshiCount <CanShu.XILIANSHI_MAXTIMES){
 			log.info("君主{}洗练石今日洗练次数--{},有洗练石--{}个，推送信息",jzId,xilianshiCount,cnt);
-			FunctionID.pushCanShangjiao(jzId, session, FunctionID.XiLian);
+			FunctionID.pushCanShowRed(jzId, session, FunctionID.XiLian);
 		}
 	}
 	//判断君主身上所有装备是否洗满
@@ -2055,7 +2056,7 @@ public class UserEquipAction  extends EventProc {
 			// 判断是否可以进阶
 			boolean isCanJinjie=isCanJinJie4All(jz);
 			if(isCanJinjie){
-				FunctionID.pushCanShangjiao(jz.id, session, FunctionID.jinJie);
+				FunctionID.pushCanShowRed(jz.id, session, FunctionID.jinJie);
 			}
 			log.info("定时刷新判断是否可以进阶完成+isCanJinjie==={}",isCanJinjie);
 			break;

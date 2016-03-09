@@ -16,6 +16,7 @@ public class SkillTemplate {
 	public String value7; 
 	public int timePeriod;
 	public int zhudong;
+	public int immediately;
 	public int getId() {
 		return id;
 	}

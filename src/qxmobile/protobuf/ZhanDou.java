@@ -588,6 +588,16 @@ public final class ZhanDou {
      * <code>required bool zhudong = 14;</code>
      */
     boolean getZhudong();
+
+    // required int32 immediately = 15;
+    /**
+     * <code>required int32 immediately = 15;</code>
+     */
+    boolean hasImmediately();
+    /**
+     * <code>required int32 immediately = 15;</code>
+     */
+    int getImmediately();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.NodeSkill}
@@ -708,6 +718,11 @@ public final class ZhanDou {
             case 112: {
               bitField0_ |= 0x00002000;
               zhudong_ = input.readBool();
+              break;
+            }
+            case 120: {
+              bitField0_ |= 0x00004000;
+              immediately_ = input.readInt32();
               break;
             }
           }
@@ -1028,6 +1043,22 @@ public final class ZhanDou {
       return zhudong_;
     }
 
+    // required int32 immediately = 15;
+    public static final int IMMEDIATELY_FIELD_NUMBER = 15;
+    private int immediately_;
+    /**
+     * <code>required int32 immediately = 15;</code>
+     */
+    public boolean hasImmediately() {
+      return ((bitField0_ & 0x00004000) == 0x00004000);
+    }
+    /**
+     * <code>required int32 immediately = 15;</code>
+     */
+    public int getImmediately() {
+      return immediately_;
+    }
+
     private void initFields() {
       id_ = 0;
       name_ = "";
@@ -1043,6 +1074,7 @@ public final class ZhanDou {
       timePeriod_ = 0;
       endtime_ = 0F;
       zhudong_ = false;
+      immediately_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1097,6 +1129,10 @@ public final class ZhanDou {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasImmediately()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1145,6 +1181,9 @@ public final class ZhanDou {
       }
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
         output.writeBool(14, zhudong_);
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        output.writeInt32(15, immediately_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1210,6 +1249,10 @@ public final class ZhanDou {
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(14, zhudong_);
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(15, immediately_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1355,6 +1398,8 @@ public final class ZhanDou {
         bitField0_ = (bitField0_ & ~0x00001000);
         zhudong_ = false;
         bitField0_ = (bitField0_ & ~0x00002000);
+        immediately_ = 0;
+        bitField0_ = (bitField0_ & ~0x00004000);
         return this;
       }
 
@@ -1439,6 +1484,10 @@ public final class ZhanDou {
           to_bitField0_ |= 0x00002000;
         }
         result.zhudong_ = zhudong_;
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+          to_bitField0_ |= 0x00004000;
+        }
+        result.immediately_ = immediately_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1501,6 +1550,9 @@ public final class ZhanDou {
         if (other.hasZhudong()) {
           setZhudong(other.getZhudong());
         }
+        if (other.hasImmediately()) {
+          setImmediately(other.getImmediately());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -1551,6 +1603,10 @@ public final class ZhanDou {
           return false;
         }
         if (!hasZhudong()) {
+          
+          return false;
+        }
+        if (!hasImmediately()) {
           
           return false;
         }
@@ -2116,6 +2172,39 @@ public final class ZhanDou {
       public Builder clearZhudong() {
         bitField0_ = (bitField0_ & ~0x00002000);
         zhudong_ = false;
+        onChanged();
+        return this;
+      }
+
+      // required int32 immediately = 15;
+      private int immediately_ ;
+      /**
+       * <code>required int32 immediately = 15;</code>
+       */
+      public boolean hasImmediately() {
+        return ((bitField0_ & 0x00004000) == 0x00004000);
+      }
+      /**
+       * <code>required int32 immediately = 15;</code>
+       */
+      public int getImmediately() {
+        return immediately_;
+      }
+      /**
+       * <code>required int32 immediately = 15;</code>
+       */
+      public Builder setImmediately(int value) {
+        bitField0_ |= 0x00004000;
+        immediately_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 immediately = 15;</code>
+       */
+      public Builder clearImmediately() {
+        bitField0_ = (bitField0_ & ~0x00004000);
+        immediately_ = 0;
         onChanged();
         return this;
       }
@@ -5247,6 +5336,24 @@ public final class ZhanDou {
      * </pre>
      */
     int getAppearanceId();
+
+    // required int32 nuQiZhi = 36;
+    /**
+     * <code>required int32 nuQiZhi = 36;</code>
+     *
+     * <pre>
+     *怒气值
+     * </pre>
+     */
+    boolean hasNuQiZhi();
+    /**
+     * <code>required int32 nuQiZhi = 36;</code>
+     *
+     * <pre>
+     *怒气值
+     * </pre>
+     */
+    int getNuQiZhi();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.Node}
@@ -5533,6 +5640,11 @@ public final class ZhanDou {
               appearanceId_ = input.readInt32();
               break;
             }
+            case 288: {
+              bitField1_ |= 0x00000001;
+              nuQiZhi_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -5582,6 +5694,7 @@ public final class ZhanDou {
     }
 
     private int bitField0_;
+    private int bitField1_;
     // repeated int32 flagIds = 1;
     public static final int FLAGIDS_FIELD_NUMBER = 1;
     private java.util.List<java.lang.Integer> flagIds_;
@@ -6510,6 +6623,30 @@ public final class ZhanDou {
       return appearanceId_;
     }
 
+    // required int32 nuQiZhi = 36;
+    public static final int NUQIZHI_FIELD_NUMBER = 36;
+    private int nuQiZhi_;
+    /**
+     * <code>required int32 nuQiZhi = 36;</code>
+     *
+     * <pre>
+     *怒气值
+     * </pre>
+     */
+    public boolean hasNuQiZhi() {
+      return ((bitField1_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 nuQiZhi = 36;</code>
+     *
+     * <pre>
+     *怒气值
+     * </pre>
+     */
+    public int getNuQiZhi() {
+      return nuQiZhi_;
+    }
+
     private void initFields() {
       flagIds_ = java.util.Collections.emptyList();
       modleId_ = 0;
@@ -6546,6 +6683,7 @@ public final class ZhanDou {
       hudunMax_ = 0;
       hpNum_ = 0;
       appearanceId_ = 0;
+      nuQiZhi_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6653,6 +6791,10 @@ public final class ZhanDou {
         return false;
       }
       if (!hasAppearanceId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasNuQiZhi()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -6797,6 +6939,9 @@ public final class ZhanDou {
       }
       if (((bitField0_ & 0x80000000) == 0x80000000)) {
         output.writeInt32(35, appearanceId_);
+      }
+      if (((bitField1_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(36, nuQiZhi_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -6951,6 +7096,10 @@ public final class ZhanDou {
       if (((bitField0_ & 0x80000000) == 0x80000000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(35, appearanceId_);
+      }
+      if (((bitField1_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(36, nuQiZhi_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -7163,6 +7312,8 @@ public final class ZhanDou {
         bitField1_ = (bitField1_ & ~0x00000002);
         appearanceId_ = 0;
         bitField1_ = (bitField1_ & ~0x00000004);
+        nuQiZhi_ = 0;
+        bitField1_ = (bitField1_ & ~0x00000008);
         return this;
       }
 
@@ -7192,6 +7343,7 @@ public final class ZhanDou {
         int from_bitField0_ = bitField0_;
         int from_bitField1_ = bitField1_;
         int to_bitField0_ = 0;
+        int to_bitField1_ = 0;
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
           flagIds_ = java.util.Collections.unmodifiableList(flagIds_);
           bitField0_ = (bitField0_ & ~0x00000001);
@@ -7355,7 +7507,12 @@ public final class ZhanDou {
           to_bitField0_ |= 0x80000000;
         }
         result.appearanceId_ = appearanceId_;
+        if (((from_bitField1_ & 0x00000008) == 0x00000008)) {
+          to_bitField1_ |= 0x00000001;
+        }
+        result.nuQiZhi_ = nuQiZhi_;
         result.bitField0_ = to_bitField0_;
+        result.bitField1_ = to_bitField1_;
         onBuilt();
         return result;
       }
@@ -7531,6 +7688,9 @@ public final class ZhanDou {
         if (other.hasAppearanceId()) {
           setAppearanceId(other.getAppearanceId());
         }
+        if (other.hasNuQiZhi()) {
+          setNuQiZhi(other.getNuQiZhi());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -7637,6 +7797,10 @@ public final class ZhanDou {
           return false;
         }
         if (!hasAppearanceId()) {
+          
+          return false;
+        }
+        if (!hasNuQiZhi()) {
           
           return false;
         }
@@ -10214,6 +10378,55 @@ public final class ZhanDou {
       public Builder clearAppearanceId() {
         bitField1_ = (bitField1_ & ~0x00000004);
         appearanceId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 nuQiZhi = 36;
+      private int nuQiZhi_ ;
+      /**
+       * <code>required int32 nuQiZhi = 36;</code>
+       *
+       * <pre>
+       *怒气值
+       * </pre>
+       */
+      public boolean hasNuQiZhi() {
+        return ((bitField1_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 nuQiZhi = 36;</code>
+       *
+       * <pre>
+       *怒气值
+       * </pre>
+       */
+      public int getNuQiZhi() {
+        return nuQiZhi_;
+      }
+      /**
+       * <code>required int32 nuQiZhi = 36;</code>
+       *
+       * <pre>
+       *怒气值
+       * </pre>
+       */
+      public Builder setNuQiZhi(int value) {
+        bitField1_ |= 0x00000008;
+        nuQiZhi_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 nuQiZhi = 36;</code>
+       *
+       * <pre>
+       *怒气值
+       * </pre>
+       */
+      public Builder clearNuQiZhi() {
+        bitField1_ = (bitField1_ & ~0x00000008);
+        nuQiZhi_ = 0;
         onChanged();
         return this;
       }
@@ -20730,6 +20943,539 @@ public final class ZhanDou {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.BattleYouXiaResultReq)
   }
 
+  public interface QuZhuBattleEndReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 itemId = 1;
+    /**
+     * <code>required int32 itemId = 1;</code>
+     *
+     * <pre>
+     *useId
+     * </pre>
+     */
+    boolean hasItemId();
+    /**
+     * <code>required int32 itemId = 1;</code>
+     *
+     * <pre>
+     *useId
+     * </pre>
+     */
+    int getItemId();
+
+    // required int64 winId = 2;
+    /**
+     * <code>required int64 winId = 2;</code>
+     */
+    boolean hasWinId();
+    /**
+     * <code>required int64 winId = 2;</code>
+     */
+    long getWinId();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.QuZhuBattleEndReq}
+   *
+   * <pre>
+   *驱逐战斗结束	public static final short qu_zhu_battle_end_req = 26077;
+   * </pre>
+   */
+  public static final class QuZhuBattleEndReq extends
+      com.google.protobuf.GeneratedMessage
+      implements QuZhuBattleEndReqOrBuilder {
+    // Use QuZhuBattleEndReq.newBuilder() to construct.
+    private QuZhuBattleEndReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private QuZhuBattleEndReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final QuZhuBattleEndReq defaultInstance;
+    public static QuZhuBattleEndReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public QuZhuBattleEndReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private QuZhuBattleEndReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              itemId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              winId_ = input.readInt64();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.ZhanDou.internal_static_qxmobile_protobuf_QuZhuBattleEndReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.ZhanDou.internal_static_qxmobile_protobuf_QuZhuBattleEndReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq.class, qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<QuZhuBattleEndReq> PARSER =
+        new com.google.protobuf.AbstractParser<QuZhuBattleEndReq>() {
+      public QuZhuBattleEndReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new QuZhuBattleEndReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<QuZhuBattleEndReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 itemId = 1;
+    public static final int ITEMID_FIELD_NUMBER = 1;
+    private int itemId_;
+    /**
+     * <code>required int32 itemId = 1;</code>
+     *
+     * <pre>
+     *useId
+     * </pre>
+     */
+    public boolean hasItemId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 itemId = 1;</code>
+     *
+     * <pre>
+     *useId
+     * </pre>
+     */
+    public int getItemId() {
+      return itemId_;
+    }
+
+    // required int64 winId = 2;
+    public static final int WINID_FIELD_NUMBER = 2;
+    private long winId_;
+    /**
+     * <code>required int64 winId = 2;</code>
+     */
+    public boolean hasWinId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int64 winId = 2;</code>
+     */
+    public long getWinId() {
+      return winId_;
+    }
+
+    private void initFields() {
+      itemId_ = 0;
+      winId_ = 0L;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasItemId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasWinId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, itemId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt64(2, winId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, itemId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, winId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.QuZhuBattleEndReq}
+     *
+     * <pre>
+     *驱逐战斗结束	public static final short qu_zhu_battle_end_req = 26077;
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.ZhanDou.QuZhuBattleEndReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.ZhanDou.internal_static_qxmobile_protobuf_QuZhuBattleEndReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.ZhanDou.internal_static_qxmobile_protobuf_QuZhuBattleEndReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq.class, qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        itemId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        winId_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.ZhanDou.internal_static_qxmobile_protobuf_QuZhuBattleEndReq_descriptor;
+      }
+
+      public qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq build() {
+        qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq buildPartial() {
+        qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq result = new qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.itemId_ = itemId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.winId_ = winId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq) {
+          return mergeFrom((qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq other) {
+        if (other == qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq.getDefaultInstance()) return this;
+        if (other.hasItemId()) {
+          setItemId(other.getItemId());
+        }
+        if (other.hasWinId()) {
+          setWinId(other.getWinId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasItemId()) {
+          
+          return false;
+        }
+        if (!hasWinId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 itemId = 1;
+      private int itemId_ ;
+      /**
+       * <code>required int32 itemId = 1;</code>
+       *
+       * <pre>
+       *useId
+       * </pre>
+       */
+      public boolean hasItemId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 itemId = 1;</code>
+       *
+       * <pre>
+       *useId
+       * </pre>
+       */
+      public int getItemId() {
+        return itemId_;
+      }
+      /**
+       * <code>required int32 itemId = 1;</code>
+       *
+       * <pre>
+       *useId
+       * </pre>
+       */
+      public Builder setItemId(int value) {
+        bitField0_ |= 0x00000001;
+        itemId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 itemId = 1;</code>
+       *
+       * <pre>
+       *useId
+       * </pre>
+       */
+      public Builder clearItemId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        itemId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int64 winId = 2;
+      private long winId_ ;
+      /**
+       * <code>required int64 winId = 2;</code>
+       */
+      public boolean hasWinId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int64 winId = 2;</code>
+       */
+      public long getWinId() {
+        return winId_;
+      }
+      /**
+       * <code>required int64 winId = 2;</code>
+       */
+      public Builder setWinId(long value) {
+        bitField0_ |= 0x00000002;
+        winId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 winId = 2;</code>
+       */
+      public Builder clearWinId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        winId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.QuZhuBattleEndReq)
+    }
+
+    static {
+      defaultInstance = new QuZhuBattleEndReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.QuZhuBattleEndReq)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_NodeSkill_descriptor;
   private static
@@ -20825,6 +21571,11 @@ public final class ZhanDou {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_BattleYouXiaResultReq_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_QuZhuBattleEndReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_QuZhuBattleEndReq_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -20834,78 +21585,80 @@ public final class ZhanDou {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rZhanDou.proto\022\021qxmobile.protobuf\"\355\001\n\tN" +
+      "\n\rZhanDou.proto\022\021qxmobile.protobuf\"\202\002\n\tN" +
       "odeSkill\022\n\n\002id\030\001 \002(\005\022\014\n\004name\030\002 \002(\t\022\r\n\005zh" +
       "iye\030\003 \002(\005\022\021\n\tskillType\030\004 \002(\005\022\016\n\006value1\030\005" +
       " \002(\002\022\016\n\006value2\030\006 \002(\002\022\016\n\006value3\030\007 \002(\002\022\016\n\006" +
       "value4\030\010 \002(\002\022\016\n\006value5\030\t \002(\002\022\016\n\006value6\030\n" +
       " \002(\002\022\016\n\006value7\030\013 \001(\t\022\022\n\ntimePeriod\030\014 \002(\005" +
-      "\022\017\n\007endtime\030\r \001(\002\022\017\n\007zhudong\030\016 \002(\010\"\342\001\n\014P" +
-      "layerWeapon\022\020\n\010weaponId\030\001 \002(\002\022\021\n\tmoveSpe" +
-      "ed\030\002 \002(\002\022\023\n\013attackSpeed\030\003 \002(\002\022\023\n\013attackR" +
-      "ange\030\004 \002(\002\022\023\n\013weaponRatio\030\005 \003(\002\022\014\n\004criX\030",
-      "\006 \002(\005\022\014\n\004criY\030\007 \002(\005\022\021\n\tcriSkillX\030\010 \002(\005\022\021" +
-      "\n\tcriSkillY\030\t \002(\005\022\022\n\nskillLevel\030\n \003(\005\022\030\n" +
-      "\020skillFirstActive\030\013 \003(\005\"<\n\013DroppenItem\022\n" +
-      "\n\002id\030\001 \002(\005\022\024\n\014commonItemId\030\002 \002(\005\022\013\n\003num\030" +
-      "\003 \002(\005\"\251\007\n\004Node\022\017\n\007flagIds\030\001 \003(\005\022\017\n\007modle" +
-      "Id\030\002 \002(\005\022-\n\010nodeType\030\003 \002(\0162\033.qxmobile.pr" +
-      "otobuf.NodeType\0229\n\016nodeProfession\030\004 \002(\0162" +
-      "!.qxmobile.protobuf.NodeProfession\022\020\n\010no" +
-      "deName\030\005 \002(\t\022\021\n\tmoveSpeed\030\006 \002(\002\022\023\n\013attac" +
-      "kSpeed\030\007 \002(\002\022\023\n\013attackRange\030\010 \002(\002\022\020\n\010eye",
-      "Range\030\t \002(\002\022\023\n\013attackValue\030\n \002(\005\022\024\n\014defe" +
-      "nceValue\030\013 \002(\005\022\n\n\002hp\030\014 \002(\005\022\r\n\005hpMax\030\r \002(" +
-      "\005\022\025\n\rattackAmplify\030\016 \002(\002\022\027\n\017attackReduct" +
-      "ion\030\017 \002(\002\022\031\n\021attackAmplify_cri\030\020 \002(\002\022\033\n\023" +
-      "attackReduction_cri\030\021 \002(\002\022\024\n\014skillAmplif" +
-      "y\030\022 \002(\002\022\026\n\016skillReduction\030\023 \002(\002\022\030\n\020skill" +
-      "Amplify_cri\030\024 \002(\002\022\032\n\022skillReduction_cri\030" +
-      "\025 \002(\002\022\014\n\004criX\030\026 \002(\005\022\014\n\004criY\030\027 \002(\005\022\021\n\tcri" +
-      "SkillX\030\030 \002(\005\022\021\n\tcriSkillY\030\031 \002(\005\022,\n\006skill" +
-      "s\030\032 \003(\0132\034.qxmobile.protobuf.NodeSkill\0224\n",
-      "\013weaponHeavy\030\033 \001(\0132\037.qxmobile.protobuf.P" +
-      "layerWeapon\0224\n\013weaponLight\030\034 \001(\0132\037.qxmob" +
-      "ile.protobuf.PlayerWeapon\0225\n\014weaponRange" +
-      "d\030\035 \001(\0132\037.qxmobile.protobuf.PlayerWeapon" +
-      "\0224\n\014droppenItems\030\036 \003(\0132\036.qxmobile.protob" +
-      "uf.DroppenItem\022\023\n\013droppenType\030\037 \001(\005\022\r\n\005h" +
-      "udun\030  \001(\005\022\020\n\010hudunMax\030! \001(\005\022\r\n\005hpNum\030\" " +
-      "\002(\005\022\024\n\014appearanceId\030# \002(\005\"U\n\005Group\022&\n\005no" +
-      "des\030\001 \003(\0132\027.qxmobile.protobuf.Node\022\022\n\nmi" +
-      "baoIcons\030\002 \003(\005\022\020\n\010maxLevel\030\003 \002(\005\"W\n\021PveZ",
-      "hanDouInitReq\022\021\n\tchapterId\030\001 \002(\005\022/\n\tleve" +
-      "lType\030\002 \002(\0162\034.qxmobile.protobuf.LevelTyp" +
-      "e\"#\n\021PvpZhanDouInitReq\022\016\n\006userId\030\001 \002(\003\"\324" +
-      "\001\n\017ZhanDouInitResp\022\021\n\tzhandouId\030\001 \002(\005\022\r\n" +
-      "\005mapId\030\002 \002(\005\022\021\n\tlimitTime\030\003 \002(\005\022,\n\nenemy" +
-      "Troop\030\004 \002(\0132\030.qxmobile.protobuf.Group\022+\n" +
-      "\tselfTroop\030\005 \002(\0132\030.qxmobile.protobuf.Gro" +
-      "up\022\020\n\010starTemp\030\006 \003(\005\022\022\n\nstarArrive\030\007 \001(\005" +
-      "\022\013\n\003HYK\030\010 \001(\002\"\"\n\020ZhanDouInitError\022\016\n\006res" +
-      "ult\030\001 \002(\t\"%\n\020ZhanDouReplayReq\022\021\n\tzhandou",
-      "Id\030\001 \002(\005\"_\n\021ZhanDouReplayResp\0224\n\010initInf" +
-      "o\030\001 \002(\0132\".qxmobile.protobuf.ZhanDouInitR" +
-      "esp\022\024\n\014playerAction\030\002 \002(\t\"\033\n\rHuangYePveR" +
-      "eq\022\n\n\002id\030\001 \002(\003\"\206\001\n\016HuangYePveOver\022\n\n\002id\030" +
-      "\001 \002(\003\022\016\n\006isPass\030\002 \002(\005\022\023\n\013damageValue\030\003 \002" +
-      "(\005\0221\n\010npcInfos\030\004 \003(\0132\037.qxmobile.protobuf" +
-      ".HYPveNpcInfo\022\020\n\010costTime\030\005 \002(\005\"/\n\014HYPve" +
-      "NpcInfo\022\r\n\005npcId\030\001 \002(\005\022\020\n\010remainHP\030\002 \002(\005" +
-      "\"+\n\rHuangYePvpReq\022\n\n\002id\030\001 \002(\003\022\016\n\006bossId\030" +
-      "\002 \002(\005\"<\n\016HuangYePvpOver\022\n\n\002id\030\001 \002(\003\022\016\n\006i",
-      "sPass\030\002 \002(\005\022\016\n\006bossId\030\003 \002(\005\")\n\024YouXiaZha" +
-      "nDouInitReq\022\021\n\tchapterId\030\001 \002(\005\",\n\021Droppe" +
-      "nItemResult\022\n\n\002id\030\001 \002(\005\022\013\n\003num\030\002 \002(\005\"[\n\025" +
-      "BattleYouXiaResultReq\022\n\n\002id\030\001 \002(\005\022\016\n\006res" +
-      "ult\030\002 \002(\005\022\027\n\017dropeenItemNpcs\030\003 \003(\005\022\r\n\005sc" +
-      "ore\030\004 \002(\005*S\n\010NodeType\022\010\n\004GEAR\020\001\022\013\n\007SOLDI" +
-      "ER\020\002\022\010\n\004HERO\020\003\022\010\n\004BOSS\020\004\022\n\n\006PLAYER\020\005\022\007\n\003" +
-      "GOD\020\006\022\007\n\003NPC\020\007*I\n\016NodeProfession\022\010\n\004NULL" +
-      "\020\000\022\007\n\003DUN\020\001\022\t\n\005QIANG\020\002\022\010\n\004GONG\020\003\022\007\n\003CHE\020" +
-      "\004\022\006\n\002QI\020\005*>\n\tLevelType\022\020\n\014LEVEL_NORMAL\020\001",
-      "\022\017\n\013LEVEL_ELITE\020\002\022\016\n\nLEVEL_TALE\020\003B\tB\007Zha" +
-      "nDou"
+      "\022\017\n\007endtime\030\r \001(\002\022\017\n\007zhudong\030\016 \002(\010\022\023\n\013im" +
+      "mediately\030\017 \002(\005\"\342\001\n\014PlayerWeapon\022\020\n\010weap" +
+      "onId\030\001 \002(\002\022\021\n\tmoveSpeed\030\002 \002(\002\022\023\n\013attackS" +
+      "peed\030\003 \002(\002\022\023\n\013attackRange\030\004 \002(\002\022\023\n\013weapo",
+      "nRatio\030\005 \003(\002\022\014\n\004criX\030\006 \002(\005\022\014\n\004criY\030\007 \002(\005" +
+      "\022\021\n\tcriSkillX\030\010 \002(\005\022\021\n\tcriSkillY\030\t \002(\005\022\022" +
+      "\n\nskillLevel\030\n \003(\005\022\030\n\020skillFirstActive\030\013" +
+      " \003(\005\"<\n\013DroppenItem\022\n\n\002id\030\001 \002(\005\022\024\n\014commo" +
+      "nItemId\030\002 \002(\005\022\013\n\003num\030\003 \002(\005\"\272\007\n\004Node\022\017\n\007f" +
+      "lagIds\030\001 \003(\005\022\017\n\007modleId\030\002 \002(\005\022-\n\010nodeTyp" +
+      "e\030\003 \002(\0162\033.qxmobile.protobuf.NodeType\0229\n\016" +
+      "nodeProfession\030\004 \002(\0162!.qxmobile.protobuf" +
+      ".NodeProfession\022\020\n\010nodeName\030\005 \002(\t\022\021\n\tmov" +
+      "eSpeed\030\006 \002(\002\022\023\n\013attackSpeed\030\007 \002(\002\022\023\n\013att",
+      "ackRange\030\010 \002(\002\022\020\n\010eyeRange\030\t \002(\002\022\023\n\013atta" +
+      "ckValue\030\n \002(\005\022\024\n\014defenceValue\030\013 \002(\005\022\n\n\002h" +
+      "p\030\014 \002(\005\022\r\n\005hpMax\030\r \002(\005\022\025\n\rattackAmplify\030" +
+      "\016 \002(\002\022\027\n\017attackReduction\030\017 \002(\002\022\031\n\021attack" +
+      "Amplify_cri\030\020 \002(\002\022\033\n\023attackReduction_cri" +
+      "\030\021 \002(\002\022\024\n\014skillAmplify\030\022 \002(\002\022\026\n\016skillRed" +
+      "uction\030\023 \002(\002\022\030\n\020skillAmplify_cri\030\024 \002(\002\022\032" +
+      "\n\022skillReduction_cri\030\025 \002(\002\022\014\n\004criX\030\026 \002(\005" +
+      "\022\014\n\004criY\030\027 \002(\005\022\021\n\tcriSkillX\030\030 \002(\005\022\021\n\tcri" +
+      "SkillY\030\031 \002(\005\022,\n\006skills\030\032 \003(\0132\034.qxmobile.",
+      "protobuf.NodeSkill\0224\n\013weaponHeavy\030\033 \001(\0132" +
+      "\037.qxmobile.protobuf.PlayerWeapon\0224\n\013weap" +
+      "onLight\030\034 \001(\0132\037.qxmobile.protobuf.Player" +
+      "Weapon\0225\n\014weaponRanged\030\035 \001(\0132\037.qxmobile." +
+      "protobuf.PlayerWeapon\0224\n\014droppenItems\030\036 " +
+      "\003(\0132\036.qxmobile.protobuf.DroppenItem\022\023\n\013d" +
+      "roppenType\030\037 \001(\005\022\r\n\005hudun\030  \001(\005\022\020\n\010hudun" +
+      "Max\030! \001(\005\022\r\n\005hpNum\030\" \002(\005\022\024\n\014appearanceId" +
+      "\030# \002(\005\022\017\n\007nuQiZhi\030$ \002(\005\"U\n\005Group\022&\n\005node" +
+      "s\030\001 \003(\0132\027.qxmobile.protobuf.Node\022\022\n\nmiba",
+      "oIcons\030\002 \003(\005\022\020\n\010maxLevel\030\003 \002(\005\"W\n\021PveZha" +
+      "nDouInitReq\022\021\n\tchapterId\030\001 \002(\005\022/\n\tlevelT" +
+      "ype\030\002 \002(\0162\034.qxmobile.protobuf.LevelType\"" +
+      "#\n\021PvpZhanDouInitReq\022\016\n\006userId\030\001 \002(\003\"\324\001\n" +
+      "\017ZhanDouInitResp\022\021\n\tzhandouId\030\001 \002(\005\022\r\n\005m" +
+      "apId\030\002 \002(\005\022\021\n\tlimitTime\030\003 \002(\005\022,\n\nenemyTr" +
+      "oop\030\004 \002(\0132\030.qxmobile.protobuf.Group\022+\n\ts" +
+      "elfTroop\030\005 \002(\0132\030.qxmobile.protobuf.Group" +
+      "\022\020\n\010starTemp\030\006 \003(\005\022\022\n\nstarArrive\030\007 \001(\005\022\013" +
+      "\n\003HYK\030\010 \001(\002\"\"\n\020ZhanDouInitError\022\016\n\006resul",
+      "t\030\001 \002(\t\"%\n\020ZhanDouReplayReq\022\021\n\tzhandouId" +
+      "\030\001 \002(\005\"_\n\021ZhanDouReplayResp\0224\n\010initInfo\030" +
+      "\001 \002(\0132\".qxmobile.protobuf.ZhanDouInitRes" +
+      "p\022\024\n\014playerAction\030\002 \002(\t\"\033\n\rHuangYePveReq" +
+      "\022\n\n\002id\030\001 \002(\003\"\206\001\n\016HuangYePveOver\022\n\n\002id\030\001 " +
+      "\002(\003\022\016\n\006isPass\030\002 \002(\005\022\023\n\013damageValue\030\003 \002(\005" +
+      "\0221\n\010npcInfos\030\004 \003(\0132\037.qxmobile.protobuf.H" +
+      "YPveNpcInfo\022\020\n\010costTime\030\005 \002(\005\"/\n\014HYPveNp" +
+      "cInfo\022\r\n\005npcId\030\001 \002(\005\022\020\n\010remainHP\030\002 \002(\005\"+" +
+      "\n\rHuangYePvpReq\022\n\n\002id\030\001 \002(\003\022\016\n\006bossId\030\002 ",
+      "\002(\005\"<\n\016HuangYePvpOver\022\n\n\002id\030\001 \002(\003\022\016\n\006isP" +
+      "ass\030\002 \002(\005\022\016\n\006bossId\030\003 \002(\005\")\n\024YouXiaZhanD" +
+      "ouInitReq\022\021\n\tchapterId\030\001 \002(\005\",\n\021DroppenI" +
+      "temResult\022\n\n\002id\030\001 \002(\005\022\013\n\003num\030\002 \002(\005\"[\n\025Ba" +
+      "ttleYouXiaResultReq\022\n\n\002id\030\001 \002(\005\022\016\n\006resul" +
+      "t\030\002 \002(\005\022\027\n\017dropeenItemNpcs\030\003 \003(\005\022\r\n\005scor" +
+      "e\030\004 \002(\005\"2\n\021QuZhuBattleEndReq\022\016\n\006itemId\030\001" +
+      " \002(\005\022\r\n\005winId\030\002 \002(\003*S\n\010NodeType\022\010\n\004GEAR\020" +
+      "\001\022\013\n\007SOLDIER\020\002\022\010\n\004HERO\020\003\022\010\n\004BOSS\020\004\022\n\n\006PL" +
+      "AYER\020\005\022\007\n\003GOD\020\006\022\007\n\003NPC\020\007*I\n\016NodeProfessi",
+      "on\022\010\n\004NULL\020\000\022\007\n\003DUN\020\001\022\t\n\005QIANG\020\002\022\010\n\004GONG" +
+      "\020\003\022\007\n\003CHE\020\004\022\006\n\002QI\020\005*>\n\tLevelType\022\020\n\014LEVE" +
+      "L_NORMAL\020\001\022\017\n\013LEVEL_ELITE\020\002\022\016\n\nLEVEL_TAL" +
+      "E\020\003B\tB\007ZhanDou"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -20917,7 +21670,7 @@ public final class ZhanDou {
           internal_static_qxmobile_protobuf_NodeSkill_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_NodeSkill_descriptor,
-              new java.lang.String[] { "Id", "Name", "Zhiye", "SkillType", "Value1", "Value2", "Value3", "Value4", "Value5", "Value6", "Value7", "TimePeriod", "Endtime", "Zhudong", });
+              new java.lang.String[] { "Id", "Name", "Zhiye", "SkillType", "Value1", "Value2", "Value3", "Value4", "Value5", "Value6", "Value7", "TimePeriod", "Endtime", "Zhudong", "Immediately", });
           internal_static_qxmobile_protobuf_PlayerWeapon_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_PlayerWeapon_fieldAccessorTable = new
@@ -20935,7 +21688,7 @@ public final class ZhanDou {
           internal_static_qxmobile_protobuf_Node_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_Node_descriptor,
-              new java.lang.String[] { "FlagIds", "ModleId", "NodeType", "NodeProfession", "NodeName", "MoveSpeed", "AttackSpeed", "AttackRange", "EyeRange", "AttackValue", "DefenceValue", "Hp", "HpMax", "AttackAmplify", "AttackReduction", "AttackAmplifyCri", "AttackReductionCri", "SkillAmplify", "SkillReduction", "SkillAmplifyCri", "SkillReductionCri", "CriX", "CriY", "CriSkillX", "CriSkillY", "Skills", "WeaponHeavy", "WeaponLight", "WeaponRanged", "DroppenItems", "DroppenType", "Hudun", "HudunMax", "HpNum", "AppearanceId", });
+              new java.lang.String[] { "FlagIds", "ModleId", "NodeType", "NodeProfession", "NodeName", "MoveSpeed", "AttackSpeed", "AttackRange", "EyeRange", "AttackValue", "DefenceValue", "Hp", "HpMax", "AttackAmplify", "AttackReduction", "AttackAmplifyCri", "AttackReductionCri", "SkillAmplify", "SkillReduction", "SkillAmplifyCri", "SkillReductionCri", "CriX", "CriY", "CriSkillX", "CriSkillY", "Skills", "WeaponHeavy", "WeaponLight", "WeaponRanged", "DroppenItems", "DroppenType", "Hudun", "HudunMax", "HpNum", "AppearanceId", "NuQiZhi", });
           internal_static_qxmobile_protobuf_Group_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_Group_fieldAccessorTable = new
@@ -21026,6 +21779,12 @@ public final class ZhanDou {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BattleYouXiaResultReq_descriptor,
               new java.lang.String[] { "Id", "Result", "DropeenItemNpcs", "Score", });
+          internal_static_qxmobile_protobuf_QuZhuBattleEndReq_descriptor =
+            getDescriptor().getMessageTypes().get(19);
+          internal_static_qxmobile_protobuf_QuZhuBattleEndReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_QuZhuBattleEndReq_descriptor,
+              new java.lang.String[] { "ItemId", "WinId", });
           return null;
         }
       };

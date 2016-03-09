@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.manu.network.SessionManager;
 import com.qx.junzhu.JunZhu;
 import com.qx.persistent.HibernateUtil;
+import com.qx.pvp.LveDuoMgr;
 import com.qx.pvp.PVPConstant;
 import com.qx.pvp.PvpMgr;
 
@@ -32,7 +33,16 @@ public class BaiZhanDailyAwardJob implements Job {
 			long junid = Long.valueOf(id);
 			jz = HibernateUtil.find(JunZhu.class, junid);
 			if(jz != null){
-				PvpMgr.inst.addDailyAward(junid, PVPConstant.ONLINE_SEND_EMAIL);
+				try{
+					PvpMgr.inst.addDailyAward(junid, PVPConstant.ONLINE_SEND_EMAIL);
+				}catch(Exception e){
+					logger.info("{}", e);
+				}
+				try{
+					LveDuoMgr.inst.addGongJinDailyAward(junid, PVPConstant.ONLINE_SEND_EMAIL);
+				}catch(Exception e){
+					logger.info("{}", e);
+				}
 			}
 		}
 		logger.info("BaiZhanDailyAwardJob 结束");

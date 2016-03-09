@@ -7,6 +7,12 @@ package com.qx.event;
  */
 public class ED {
 	public static final int TAN_BAO_JIANG_LI = 100;
+	/**探宝单抽**/
+	public static final int tanbao_oneTimes = 101;
+	/**探宝十连抽**/
+	public static final int tanbao_tenTimes = 102;
+	public static final int tongbi_oneTimes = 103; //铜币单抽
+	public static final int tongbi_tenTimes = 104; // 铜币十连抽
 	
 	public static final int MIBAO_UP_STAR = 110;
 	
@@ -163,6 +169,12 @@ public class ED {
 	public static final int been_lve_duo = 10175; // 被掠夺
 	/**活跃度变化*/
 	public static final int HUOYUE_CHANGE=10176;
+	/**新的押镖联盟军情*/
+	public static final int NEW_LIANMENG_YB_JUQING = 0;
+	
+	public static final int LM_SHOP_BUY = 10181;
+	
+	public static final int BUY_TongBi_BaoJi = 10201;
 	// 主线任务事件
 	public static final int get_produce_weiWang = 50;
 	public static final int pay_weiWang = 51;
@@ -170,7 +182,7 @@ public class ED {
 	public static final int saoDang = 53;
 	public static final int wear_fushi = 54;
 	public static final int mobai = 55;
-	public static final int give_gongjin = 56;
+	public static final int jibai =71;
 	public static final int fix_house = 57;
 	public static final int get_house_exp = 58;
 	public static final int have_total_guJuan = 59;
@@ -187,4 +199,9 @@ public class ED {
 	public static final int mibao_shengStar = 66;
 	/**记录一次游侠*/
 	public static final int go_youxia = 30;
+	public static final int miabao_x_star_n = 68;
+	public static final int qiandao = 69; // 签到一次
+	public static final int qiandao_get_v = 70;// 签到领取V特权奖励
+	public static final int get_achieve = 72; // 领取成就奖励（即就是限时活动奖励）
+	public static final int active_taozhuang = 78; //激活品质套装
 }

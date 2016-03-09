@@ -8,4 +8,5 @@ public class LianmengMobai {
 	public int tili;
 	public int gongxian;
 	public int buffNum;
+	public int jianshe;
 }

@@ -13,6 +13,7 @@ public class Fuwen {
 	private int shuxingName;
 	private int fuwenFront;
 	private int fuwenNext;
+	public int inlayColor;
 
 	public int getShuxingName() {
 		return shuxingName;

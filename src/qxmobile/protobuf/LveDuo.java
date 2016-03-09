@@ -279,6 +279,60 @@ public final class LveDuo {
      * <code>required int32 myFangShouId = 16;</code>
      */
     int getMyFangShouId();
+
+    // required int32 timeToNight = 17;
+    /**
+     * <code>required int32 timeToNight = 17;</code>
+     *
+     * <pre>
+     *倒计时（-1 表示今天的奖励已经领取了）
+     * </pre>
+     */
+    boolean hasTimeToNight();
+    /**
+     * <code>required int32 timeToNight = 17;</code>
+     *
+     * <pre>
+     *倒计时（-1 表示今天的奖励已经领取了）
+     * </pre>
+     */
+    int getTimeToNight();
+
+    // required int32 gongJinRank = 18;
+    /**
+     * <code>required int32 gongJinRank = 18;</code>
+     *
+     * <pre>
+     * 贡金排行
+     * </pre>
+     */
+    boolean hasGongJinRank();
+    /**
+     * <code>required int32 gongJinRank = 18;</code>
+     *
+     * <pre>
+     * 贡金排行
+     * </pre>
+     */
+    int getGongJinRank();
+
+    // required int32 gongJinMengRank = 19;
+    /**
+     * <code>required int32 gongJinMengRank = 19;</code>
+     *
+     * <pre>
+     *联盟贡金排行
+     * </pre>
+     */
+    boolean hasGongJinMengRank();
+    /**
+     * <code>required int32 gongJinMengRank = 19;</code>
+     *
+     * <pre>
+     *联盟贡金排行
+     * </pre>
+     */
+    int getGongJinMengRank();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.LveDuoInfoResp}
@@ -418,6 +472,21 @@ public final class LveDuo {
             case 128: {
               bitField0_ |= 0x00001000;
               myFangShouId_ = input.readInt32();
+              break;
+            }
+            case 136: {
+              bitField0_ |= 0x00002000;
+              timeToNight_ = input.readInt32();
+              break;
+            }
+            case 144: {
+              bitField0_ |= 0x00004000;
+              gongJinRank_ = input.readInt32();
+              break;
+            }
+            case 152: {
+              bitField0_ |= 0x00008000;
+              gongJinMengRank_ = input.readInt32();
               break;
             }
           }
@@ -849,6 +918,78 @@ public final class LveDuo {
       return myFangShouId_;
     }
 
+    // required int32 timeToNight = 17;
+    public static final int TIMETONIGHT_FIELD_NUMBER = 17;
+    private int timeToNight_;
+    /**
+     * <code>required int32 timeToNight = 17;</code>
+     *
+     * <pre>
+     *倒计时（-1 表示今天的奖励已经领取了）
+     * </pre>
+     */
+    public boolean hasTimeToNight() {
+      return ((bitField0_ & 0x00002000) == 0x00002000);
+    }
+    /**
+     * <code>required int32 timeToNight = 17;</code>
+     *
+     * <pre>
+     *倒计时（-1 表示今天的奖励已经领取了）
+     * </pre>
+     */
+    public int getTimeToNight() {
+      return timeToNight_;
+    }
+
+    // required int32 gongJinRank = 18;
+    public static final int GONGJINRANK_FIELD_NUMBER = 18;
+    private int gongJinRank_;
+    /**
+     * <code>required int32 gongJinRank = 18;</code>
+     *
+     * <pre>
+     * 贡金排行
+     * </pre>
+     */
+    public boolean hasGongJinRank() {
+      return ((bitField0_ & 0x00004000) == 0x00004000);
+    }
+    /**
+     * <code>required int32 gongJinRank = 18;</code>
+     *
+     * <pre>
+     * 贡金排行
+     * </pre>
+     */
+    public int getGongJinRank() {
+      return gongJinRank_;
+    }
+
+    // required int32 gongJinMengRank = 19;
+    public static final int GONGJINMENGRANK_FIELD_NUMBER = 19;
+    private int gongJinMengRank_;
+    /**
+     * <code>required int32 gongJinMengRank = 19;</code>
+     *
+     * <pre>
+     *联盟贡金排行
+     * </pre>
+     */
+    public boolean hasGongJinMengRank() {
+      return ((bitField0_ & 0x00008000) == 0x00008000);
+    }
+    /**
+     * <code>required int32 gongJinMengRank = 19;</code>
+     *
+     * <pre>
+     *联盟贡金排行
+     * </pre>
+     */
+    public int getGongJinMengRank() {
+      return gongJinMengRank_;
+    }
+
     private void initFields() {
       used_ = 0;
       all_ = 0;
@@ -866,6 +1007,9 @@ public final class LveDuo {
       clearCdYB_ = 0;
       remainBuyHuiShi_ = 0;
       myFangShouId_ = 0;
+      timeToNight_ = 0;
+      gongJinRank_ = 0;
+      gongJinMengRank_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -905,6 +1049,18 @@ public final class LveDuo {
         return false;
       }
       if (!hasMyFangShouId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTimeToNight()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGongJinRank()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGongJinMengRank()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -981,6 +1137,15 @@ public final class LveDuo {
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
         output.writeInt32(16, myFangShouId_);
       }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        output.writeInt32(17, timeToNight_);
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        output.writeInt32(18, gongJinRank_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        output.writeInt32(19, gongJinMengRank_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1053,6 +1218,18 @@ public final class LveDuo {
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(16, myFangShouId_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(17, timeToNight_);
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(18, gongJinRank_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(19, gongJinMengRank_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1217,6 +1394,12 @@ public final class LveDuo {
         bitField0_ = (bitField0_ & ~0x00004000);
         myFangShouId_ = 0;
         bitField0_ = (bitField0_ & ~0x00008000);
+        timeToNight_ = 0;
+        bitField0_ = (bitField0_ & ~0x00010000);
+        gongJinRank_ = 0;
+        bitField0_ = (bitField0_ & ~0x00020000);
+        gongJinMengRank_ = 0;
+        bitField0_ = (bitField0_ & ~0x00040000);
         return this;
       }
 
@@ -1324,6 +1507,18 @@ public final class LveDuo {
           to_bitField0_ |= 0x00001000;
         }
         result.myFangShouId_ = myFangShouId_;
+        if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
+          to_bitField0_ |= 0x00002000;
+        }
+        result.timeToNight_ = timeToNight_;
+        if (((from_bitField0_ & 0x00020000) == 0x00020000)) {
+          to_bitField0_ |= 0x00004000;
+        }
+        result.gongJinRank_ = gongJinRank_;
+        if (((from_bitField0_ & 0x00040000) == 0x00040000)) {
+          to_bitField0_ |= 0x00008000;
+        }
+        result.gongJinMengRank_ = gongJinMengRank_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1457,6 +1652,15 @@ public final class LveDuo {
         if (other.hasMyFangShouId()) {
           setMyFangShouId(other.getMyFangShouId());
         }
+        if (other.hasTimeToNight()) {
+          setTimeToNight(other.getTimeToNight());
+        }
+        if (other.hasGongJinRank()) {
+          setGongJinRank(other.getGongJinRank());
+        }
+        if (other.hasGongJinMengRank()) {
+          setGongJinMengRank(other.getGongJinMengRank());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -1495,6 +1699,18 @@ public final class LveDuo {
           return false;
         }
         if (!hasMyFangShouId()) {
+          
+          return false;
+        }
+        if (!hasTimeToNight()) {
+          
+          return false;
+        }
+        if (!hasGongJinRank()) {
+          
+          return false;
+        }
+        if (!hasGongJinMengRank()) {
           
           return false;
         }
@@ -2815,6 +3031,153 @@ public final class LveDuo {
         return this;
       }
 
+      // required int32 timeToNight = 17;
+      private int timeToNight_ ;
+      /**
+       * <code>required int32 timeToNight = 17;</code>
+       *
+       * <pre>
+       *倒计时（-1 表示今天的奖励已经领取了）
+       * </pre>
+       */
+      public boolean hasTimeToNight() {
+        return ((bitField0_ & 0x00010000) == 0x00010000);
+      }
+      /**
+       * <code>required int32 timeToNight = 17;</code>
+       *
+       * <pre>
+       *倒计时（-1 表示今天的奖励已经领取了）
+       * </pre>
+       */
+      public int getTimeToNight() {
+        return timeToNight_;
+      }
+      /**
+       * <code>required int32 timeToNight = 17;</code>
+       *
+       * <pre>
+       *倒计时（-1 表示今天的奖励已经领取了）
+       * </pre>
+       */
+      public Builder setTimeToNight(int value) {
+        bitField0_ |= 0x00010000;
+        timeToNight_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 timeToNight = 17;</code>
+       *
+       * <pre>
+       *倒计时（-1 表示今天的奖励已经领取了）
+       * </pre>
+       */
+      public Builder clearTimeToNight() {
+        bitField0_ = (bitField0_ & ~0x00010000);
+        timeToNight_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 gongJinRank = 18;
+      private int gongJinRank_ ;
+      /**
+       * <code>required int32 gongJinRank = 18;</code>
+       *
+       * <pre>
+       * 贡金排行
+       * </pre>
+       */
+      public boolean hasGongJinRank() {
+        return ((bitField0_ & 0x00020000) == 0x00020000);
+      }
+      /**
+       * <code>required int32 gongJinRank = 18;</code>
+       *
+       * <pre>
+       * 贡金排行
+       * </pre>
+       */
+      public int getGongJinRank() {
+        return gongJinRank_;
+      }
+      /**
+       * <code>required int32 gongJinRank = 18;</code>
+       *
+       * <pre>
+       * 贡金排行
+       * </pre>
+       */
+      public Builder setGongJinRank(int value) {
+        bitField0_ |= 0x00020000;
+        gongJinRank_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 gongJinRank = 18;</code>
+       *
+       * <pre>
+       * 贡金排行
+       * </pre>
+       */
+      public Builder clearGongJinRank() {
+        bitField0_ = (bitField0_ & ~0x00020000);
+        gongJinRank_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 gongJinMengRank = 19;
+      private int gongJinMengRank_ ;
+      /**
+       * <code>required int32 gongJinMengRank = 19;</code>
+       *
+       * <pre>
+       *联盟贡金排行
+       * </pre>
+       */
+      public boolean hasGongJinMengRank() {
+        return ((bitField0_ & 0x00040000) == 0x00040000);
+      }
+      /**
+       * <code>required int32 gongJinMengRank = 19;</code>
+       *
+       * <pre>
+       *联盟贡金排行
+       * </pre>
+       */
+      public int getGongJinMengRank() {
+        return gongJinMengRank_;
+      }
+      /**
+       * <code>required int32 gongJinMengRank = 19;</code>
+       *
+       * <pre>
+       *联盟贡金排行
+       * </pre>
+       */
+      public Builder setGongJinMengRank(int value) {
+        bitField0_ |= 0x00040000;
+        gongJinMengRank_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 gongJinMengRank = 19;</code>
+       *
+       * <pre>
+       *联盟贡金排行
+       * </pre>
+       */
+      public Builder clearGongJinMengRank() {
+        bitField0_ = (bitField0_ & ~0x00040000);
+        gongJinMengRank_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.LveDuoInfoResp)
     }
 
@@ -3329,6 +3692,7 @@ public final class LveDuo {
      * <pre>
      * clear CD :1
      * buy 掠夺： 2
+     * 确定领奖：3
      * </pre>
      */
     boolean hasDoType();
@@ -3338,6 +3702,7 @@ public final class LveDuo {
      * <pre>
      * clear CD :1
      * buy 掠夺： 2
+     * 确定领奖：3
      * </pre>
      */
     int getDoType();
@@ -3447,6 +3812,7 @@ public final class LveDuo {
      * <pre>
      * clear CD :1
      * buy 掠夺： 2
+     * 确定领奖：3
      * </pre>
      */
     public boolean hasDoType() {
@@ -3458,6 +3824,7 @@ public final class LveDuo {
      * <pre>
      * clear CD :1
      * buy 掠夺： 2
+     * 确定领奖：3
      * </pre>
      */
     public int getDoType() {
@@ -3707,6 +4074,7 @@ public final class LveDuo {
        * <pre>
        * clear CD :1
        * buy 掠夺： 2
+       * 确定领奖：3
        * </pre>
        */
       public boolean hasDoType() {
@@ -3718,6 +4086,7 @@ public final class LveDuo {
        * <pre>
        * clear CD :1
        * buy 掠夺： 2
+       * 确定领奖：3
        * </pre>
        */
       public int getDoType() {
@@ -3729,6 +4098,7 @@ public final class LveDuo {
        * <pre>
        * clear CD :1
        * buy 掠夺： 2
+       * 确定领奖：3
        * </pre>
        */
       public Builder setDoType(int value) {
@@ -3743,6 +4113,7 @@ public final class LveDuo {
        * <pre>
        * clear CD :1
        * buy 掠夺： 2
+       * 确定领奖：3
        * </pre>
        */
       public Builder clearDoType() {
@@ -3772,6 +4143,7 @@ public final class LveDuo {
      *
      * <pre>
      * 1： clear cd 成功; 2：clear cd vip 不够，3：（数据出错）购买失败 , 0:元宝不足, 6： 购买掠夺次数，今日购买回数已用完
+     * 7, 今天已经领奖了， 8,：领奖成功
      * </pre>
      */
     boolean hasIsOk();
@@ -3780,6 +4152,7 @@ public final class LveDuo {
      *
      * <pre>
      * 1： clear cd 成功; 2：clear cd vip 不够，3：（数据出错）购买失败 , 0:元宝不足, 6： 购买掠夺次数，今日购买回数已用完
+     * 7, 今天已经领奖了， 8,：领奖成功
      * </pre>
      */
     int getIsOk();
@@ -4110,6 +4483,7 @@ public final class LveDuo {
      *
      * <pre>
      * 1： clear cd 成功; 2：clear cd vip 不够，3：（数据出错）购买失败 , 0:元宝不足, 6： 购买掠夺次数，今日购买回数已用完
+     * 7, 今天已经领奖了， 8,：领奖成功
      * </pre>
      */
     public boolean hasIsOk() {
@@ -4120,6 +4494,7 @@ public final class LveDuo {
      *
      * <pre>
      * 1： clear cd 成功; 2：clear cd vip 不够，3：（数据出错）购买失败 , 0:元宝不足, 6： 购买掠夺次数，今日购买回数已用完
+     * 7, 今天已经领奖了， 8,：领奖成功
      * </pre>
      */
     public int getIsOk() {
@@ -4770,6 +5145,7 @@ public final class LveDuo {
        *
        * <pre>
        * 1： clear cd 成功; 2：clear cd vip 不够，3：（数据出错）购买失败 , 0:元宝不足, 6： 购买掠夺次数，今日购买回数已用完
+       * 7, 今天已经领奖了， 8,：领奖成功
        * </pre>
        */
       public boolean hasIsOk() {
@@ -4780,6 +5156,7 @@ public final class LveDuo {
        *
        * <pre>
        * 1： clear cd 成功; 2：clear cd vip 不够，3：（数据出错）购买失败 , 0:元宝不足, 6： 购买掠夺次数，今日购买回数已用完
+       * 7, 今天已经领奖了， 8,：领奖成功
        * </pre>
        */
       public int getIsOk() {
@@ -4790,6 +5167,7 @@ public final class LveDuo {
        *
        * <pre>
        * 1： clear cd 成功; 2：clear cd vip 不够，3：（数据出错）购买失败 , 0:元宝不足, 6： 购买掠夺次数，今日购买回数已用完
+       * 7, 今天已经领奖了， 8,：领奖成功
        * </pre>
        */
       public Builder setIsOk(int value) {
@@ -4803,6 +5181,7 @@ public final class LveDuo {
        *
        * <pre>
        * 1： clear cd 成功; 2：clear cd vip 不够，3：（数据出错）购买失败 , 0:元宝不足, 6： 购买掠夺次数，今日购买回数已用完
+       * 7, 今天已经领奖了， 8,：领奖成功
        * </pre>
        */
       public Builder clearIsOk() {
@@ -6277,6 +6656,42 @@ public final class LveDuo {
      * <code>optional int32 oppoActivateMiBaoCount = 13;</code>
      */
     int getOppoActivateMiBaoCount();
+
+    // optional int32 used = 14;
+    /**
+     * <code>optional int32 used = 14;</code>
+     *
+     * <pre>
+     *已经掠夺次数
+     * </pre>
+     */
+    boolean hasUsed();
+    /**
+     * <code>optional int32 used = 14;</code>
+     *
+     * <pre>
+     *已经掠夺次数
+     * </pre>
+     */
+    int getUsed();
+
+    // optional int32 all = 15;
+    /**
+     * <code>optional int32 all = 15;</code>
+     *
+     * <pre>
+     * 总共可用战斗次数
+     * </pre>
+     */
+    boolean hasAll();
+    /**
+     * <code>optional int32 all = 15;</code>
+     *
+     * <pre>
+     * 总共可用战斗次数
+     * </pre>
+     */
+    int getAll();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.LveGoLveDuoResp}
@@ -6398,6 +6813,16 @@ public final class LveDuo {
             case 104: {
               bitField0_ |= 0x00000400;
               oppoActivateMiBaoCount_ = input.readInt32();
+              break;
+            }
+            case 112: {
+              bitField0_ |= 0x00000800;
+              used_ = input.readInt32();
+              break;
+            }
+            case 120: {
+              bitField0_ |= 0x00001000;
+              all_ = input.readInt32();
               break;
             }
           }
@@ -6704,6 +7129,54 @@ public final class LveDuo {
       return oppoActivateMiBaoCount_;
     }
 
+    // optional int32 used = 14;
+    public static final int USED_FIELD_NUMBER = 14;
+    private int used_;
+    /**
+     * <code>optional int32 used = 14;</code>
+     *
+     * <pre>
+     *已经掠夺次数
+     * </pre>
+     */
+    public boolean hasUsed() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional int32 used = 14;</code>
+     *
+     * <pre>
+     *已经掠夺次数
+     * </pre>
+     */
+    public int getUsed() {
+      return used_;
+    }
+
+    // optional int32 all = 15;
+    public static final int ALL_FIELD_NUMBER = 15;
+    private int all_;
+    /**
+     * <code>optional int32 all = 15;</code>
+     *
+     * <pre>
+     * 总共可用战斗次数
+     * </pre>
+     */
+    public boolean hasAll() {
+      return ((bitField0_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>optional int32 all = 15;</code>
+     *
+     * <pre>
+     * 总共可用战斗次数
+     * </pre>
+     */
+    public int getAll() {
+      return all_;
+    }
+
     private void initFields() {
       isCanLveDuo_ = 0;
       mySoldiers_ = java.util.Collections.emptyList();
@@ -6718,6 +7191,8 @@ public final class LveDuo {
       gongJin_ = 0;
       oppoLevel_ = 0;
       oppoActivateMiBaoCount_ = 0;
+      used_ = 0;
+      all_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6786,6 +7261,12 @@ public final class LveDuo {
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         output.writeInt32(13, oppoActivateMiBaoCount_);
       }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeInt32(14, used_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        output.writeInt32(15, all_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -6846,6 +7327,14 @@ public final class LveDuo {
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(13, oppoActivateMiBaoCount_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(14, used_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(15, all_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6999,6 +7488,10 @@ public final class LveDuo {
         bitField0_ = (bitField0_ & ~0x00000800);
         oppoActivateMiBaoCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00001000);
+        used_ = 0;
+        bitField0_ = (bitField0_ & ~0x00002000);
+        all_ = 0;
+        bitField0_ = (bitField0_ & ~0x00004000);
         return this;
       }
 
@@ -7089,6 +7582,14 @@ public final class LveDuo {
           to_bitField0_ |= 0x00000400;
         }
         result.oppoActivateMiBaoCount_ = oppoActivateMiBaoCount_;
+        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.used_ = used_;
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+          to_bitField0_ |= 0x00001000;
+        }
+        result.all_ = all_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -7189,6 +7690,12 @@ public final class LveDuo {
         }
         if (other.hasOppoActivateMiBaoCount()) {
           setOppoActivateMiBaoCount(other.getOppoActivateMiBaoCount());
+        }
+        if (other.hasUsed()) {
+          setUsed(other.getUsed());
+        }
+        if (other.hasAll()) {
+          setAll(other.getAll());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -8092,6 +8599,104 @@ public final class LveDuo {
       public Builder clearOppoActivateMiBaoCount() {
         bitField0_ = (bitField0_ & ~0x00001000);
         oppoActivateMiBaoCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 used = 14;
+      private int used_ ;
+      /**
+       * <code>optional int32 used = 14;</code>
+       *
+       * <pre>
+       *已经掠夺次数
+       * </pre>
+       */
+      public boolean hasUsed() {
+        return ((bitField0_ & 0x00002000) == 0x00002000);
+      }
+      /**
+       * <code>optional int32 used = 14;</code>
+       *
+       * <pre>
+       *已经掠夺次数
+       * </pre>
+       */
+      public int getUsed() {
+        return used_;
+      }
+      /**
+       * <code>optional int32 used = 14;</code>
+       *
+       * <pre>
+       *已经掠夺次数
+       * </pre>
+       */
+      public Builder setUsed(int value) {
+        bitField0_ |= 0x00002000;
+        used_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 used = 14;</code>
+       *
+       * <pre>
+       *已经掠夺次数
+       * </pre>
+       */
+      public Builder clearUsed() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        used_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 all = 15;
+      private int all_ ;
+      /**
+       * <code>optional int32 all = 15;</code>
+       *
+       * <pre>
+       * 总共可用战斗次数
+       * </pre>
+       */
+      public boolean hasAll() {
+        return ((bitField0_ & 0x00004000) == 0x00004000);
+      }
+      /**
+       * <code>optional int32 all = 15;</code>
+       *
+       * <pre>
+       * 总共可用战斗次数
+       * </pre>
+       */
+      public int getAll() {
+        return all_;
+      }
+      /**
+       * <code>optional int32 all = 15;</code>
+       *
+       * <pre>
+       * 总共可用战斗次数
+       * </pre>
+       */
+      public Builder setAll(int value) {
+        bitField0_ |= 0x00004000;
+        all_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 all = 15;</code>
+       *
+       * <pre>
+       * 总共可用战斗次数
+       * </pre>
+       */
+      public Builder clearAll() {
+        bitField0_ = (bitField0_ & ~0x00004000);
+        all_ = 0;
         onChanged();
         return this;
       }
@@ -15049,7 +15654,7 @@ public final class LveDuo {
   static {
     java.lang.String[] descriptorData = {
       "\n\014LveDuo.proto\022\021qxmobile.protobuf\032\rRanki" +
-      "ng.proto\"\262\003\n\016LveDuoInfoResp\022\014\n\004used\030\001 \002(" +
+      "ng.proto\"\365\003\n\016LveDuoInfoResp\022\014\n\004used\030\001 \002(" +
       "\005\022\013\n\003all\030\002 \002(\005\022\021\n\thasRecord\030\003 \002(\010\022\016\n\006CdT" +
       "ime\030\004 \002(\005\022\031\n\021nowMaxBattleCount\030\005 \002(\005\022\017\n\007" +
       "gongJin\030\006 \002(\005\022\021\n\tshowGuoId\030\007 \002(\005\022\025\n\rcanC" +
@@ -15060,45 +15665,47 @@ public final class LveDuo {
       "huInfo\022\027\n\017buyNextBattleYB\030\014 \001(\005\022\032\n\022buyNe",
       "xtBattleCount\030\r \001(\005\022\021\n\tclearCdYB\030\016 \001(\005\022\027" +
       "\n\017remainBuyHuiShi\030\017 \001(\005\022\024\n\014myFangShouId\030" +
-      "\020 \002(\005\")\n\007GuoInfo\022\020\n\010guojiaId\030\001 \002(\005\022\014\n\004ha" +
-      "te\030\002 \002(\005\"\037\n\rLveConfirmReq\022\016\n\006doType\030\001 \002(" +
-      "\005\"\361\001\n\016LveConfirmResp\022\014\n\004isOk\030\001 \002(\005\022\016\n\006le" +
-      "ftCD\030\002 \001(\005\022\013\n\003all\030\003 \001(\005\022\025\n\rnextCDYuanBao" +
-      "\030\004 \001(\005\022\014\n\004used\030\005 \001(\005\022\017\n\007gongJin\030\006 \001(\005\022\031\n" +
-      "\021nowMaxBattleCount\030\007 \001(\005\022\025\n\rcanClearCdVI" +
-      "P\030\010 \001(\005\022\027\n\017buyNextBattleYB\030\t \001(\005\022\032\n\022buyN" +
-      "extBattleCount\030\n \001(\005\022\027\n\017remainBuyHuiShi\030",
-      "\013 \001(\005\"&\n\017LveBattleResult\022\023\n\013lostGongJin\030" +
-      "\001 \002(\005\"!\n\016LveGoLveDuoReq\022\017\n\007enemyId\030\001 \002(\003" +
-      "\"\330\002\n\017LveGoLveDuoResp\022\023\n\013isCanLveDuo\030\001 \002(" +
-      "\005\022+\n\nmySoldiers\030\002 \003(\0132\027.qxmobile.protobu" +
-      "f.Bing\022\020\n\010myZhanli\030\003 \001(\005\022\026\n\016myGongjiZuhe" +
-      "Id\030\004 \001(\005\022-\n\014oppoSoldiers\030\005 \003(\0132\027.qxmobil" +
-      "e.protobuf.Bing\022\022\n\noppoZhanli\030\006 \001(\005\022\016\n\006o" +
-      "ppoId\030\007 \001(\003\022\022\n\noppoRoleId\030\010 \001(\005\022\031\n\021oppFa" +
-      "ngShouZuheId\030\t \001(\005\022\023\n\013lostGongJin\030\n \001(\005\022" +
-      "\017\n\007gongJin\030\013 \001(\005\022\021\n\toppoLevel\030\014 \001(\005\022\036\n\026o",
-      "ppoActivateMiBaoCount\030\r \001(\005\"\036\n\004Bing\022\n\n\002i" +
-      "d\030\001 \002(\005\022\n\n\002hp\030\002 \002(\005\"}\n\017LveBattleEndReq\022\017" +
-      "\n\007enemyId\030\001 \002(\003\022\r\n\005winId\030\002 \002(\003\022\021\n\tzhando" +
-      "uId\030\003 \002(\005\022&\n\005bings\030\004 \003(\0132\027.qxmobile.prot" +
-      "obuf.Bing\022\017\n\007enemyHp\030\005 \002(\005\"&\n\020LveBattleE" +
-      "ndResp\022\022\n\nwinGongJin\030\001 \002(\005\"E\n\023LveBattleR" +
-      "ecordResp\022.\n\004info\030\001 \003(\0132 .qxmobile.proto" +
-      "buf.LveBattleItem\"\206\002\n\rLveBattleItem\022\021\n\tz" +
-      "handouId\030\001 \002(\005\022\021\n\tanotherId\030\002 \002(\003\022\023\n\013ano" +
-      "therName\030\003 \002(\t\022\027\n\017anotherGuoJiaId\030\004 \002(\005\022",
-      "\025\n\ranotherRoleId\030\005 \002(\005\022\024\n\014anotherLevel\030\006" +
-      " \002(\005\022\014\n\004time\030\007 \002(\003\022\021\n\tgongJiwin\030\010 \002(\005\022\025\n" +
-      "\ranotherZhanli\030\t \002(\005\022\027\n\017anotherMengName\030" +
-      "\n \002(\t\022\021\n\tlostXiaYi\030\013 \002(\005\022\020\n\010gongJiId\030\014 \002" +
-      "(\003\"T\n\016LveNextItemReq\022\020\n\010rankType\030\001 \002(\005\022\016" +
-      "\n\006mengId\030\002 \001(\005\022\016\n\006pageNo\030\003 \001(\005\022\020\n\010guojia" +
-      "Id\030\004 \001(\005\"t\n\017LveNextItemResp\022.\n\007junList\030\001" +
-      " \003(\0132\035.qxmobile.protobuf.JunZhuInfo\0221\n\010m" +
-      "engList\030\002 \003(\0132\037.qxmobile.protobuf.LianMe" +
-      "ngInfo\"/\n\nLveHelpReq\022\017\n\007enemyId\030\001 \002(\003\022\020\n",
-      "\010remainHp\030\002 \002(\005B\010B\006LveDuo"
+      "\020 \002(\005\022\023\n\013timeToNight\030\021 \002(\005\022\023\n\013gongJinRan" +
+      "k\030\022 \002(\005\022\027\n\017gongJinMengRank\030\023 \002(\005\")\n\007GuoI" +
+      "nfo\022\020\n\010guojiaId\030\001 \002(\005\022\014\n\004hate\030\002 \002(\005\"\037\n\rL" +
+      "veConfirmReq\022\016\n\006doType\030\001 \002(\005\"\361\001\n\016LveConf" +
+      "irmResp\022\014\n\004isOk\030\001 \002(\005\022\016\n\006leftCD\030\002 \001(\005\022\013\n" +
+      "\003all\030\003 \001(\005\022\025\n\rnextCDYuanBao\030\004 \001(\005\022\014\n\004use" +
+      "d\030\005 \001(\005\022\017\n\007gongJin\030\006 \001(\005\022\031\n\021nowMaxBattle" +
+      "Count\030\007 \001(\005\022\025\n\rcanClearCdVIP\030\010 \001(\005\022\027\n\017bu",
+      "yNextBattleYB\030\t \001(\005\022\032\n\022buyNextBattleCoun" +
+      "t\030\n \001(\005\022\027\n\017remainBuyHuiShi\030\013 \001(\005\"&\n\017LveB" +
+      "attleResult\022\023\n\013lostGongJin\030\001 \002(\005\"!\n\016LveG" +
+      "oLveDuoReq\022\017\n\007enemyId\030\001 \002(\003\"\363\002\n\017LveGoLve" +
+      "DuoResp\022\023\n\013isCanLveDuo\030\001 \002(\005\022+\n\nmySoldie" +
+      "rs\030\002 \003(\0132\027.qxmobile.protobuf.Bing\022\020\n\010myZ" +
+      "hanli\030\003 \001(\005\022\026\n\016myGongjiZuheId\030\004 \001(\005\022-\n\014o" +
+      "ppoSoldiers\030\005 \003(\0132\027.qxmobile.protobuf.Bi" +
+      "ng\022\022\n\noppoZhanli\030\006 \001(\005\022\016\n\006oppoId\030\007 \001(\003\022\022" +
+      "\n\noppoRoleId\030\010 \001(\005\022\031\n\021oppFangShouZuheId\030",
+      "\t \001(\005\022\023\n\013lostGongJin\030\n \001(\005\022\017\n\007gongJin\030\013 " +
+      "\001(\005\022\021\n\toppoLevel\030\014 \001(\005\022\036\n\026oppoActivateMi" +
+      "BaoCount\030\r \001(\005\022\014\n\004used\030\016 \001(\005\022\013\n\003all\030\017 \001(" +
+      "\005\"\036\n\004Bing\022\n\n\002id\030\001 \002(\005\022\n\n\002hp\030\002 \002(\005\"}\n\017Lve" +
+      "BattleEndReq\022\017\n\007enemyId\030\001 \002(\003\022\r\n\005winId\030\002" +
+      " \002(\003\022\021\n\tzhandouId\030\003 \002(\005\022&\n\005bings\030\004 \003(\0132\027" +
+      ".qxmobile.protobuf.Bing\022\017\n\007enemyHp\030\005 \002(\005" +
+      "\"&\n\020LveBattleEndResp\022\022\n\nwinGongJin\030\001 \002(\005" +
+      "\"E\n\023LveBattleRecordResp\022.\n\004info\030\001 \003(\0132 ." +
+      "qxmobile.protobuf.LveBattleItem\"\206\002\n\rLveB",
+      "attleItem\022\021\n\tzhandouId\030\001 \002(\005\022\021\n\tanotherI" +
+      "d\030\002 \002(\003\022\023\n\013anotherName\030\003 \002(\t\022\027\n\017anotherG" +
+      "uoJiaId\030\004 \002(\005\022\025\n\ranotherRoleId\030\005 \002(\005\022\024\n\014" +
+      "anotherLevel\030\006 \002(\005\022\014\n\004time\030\007 \002(\003\022\021\n\tgong" +
+      "Jiwin\030\010 \002(\005\022\025\n\ranotherZhanli\030\t \002(\005\022\027\n\017an" +
+      "otherMengName\030\n \002(\t\022\021\n\tlostXiaYi\030\013 \002(\005\022\020" +
+      "\n\010gongJiId\030\014 \002(\003\"T\n\016LveNextItemReq\022\020\n\010ra" +
+      "nkType\030\001 \002(\005\022\016\n\006mengId\030\002 \001(\005\022\016\n\006pageNo\030\003" +
+      " \001(\005\022\020\n\010guojiaId\030\004 \001(\005\"t\n\017LveNextItemRes" +
+      "p\022.\n\007junList\030\001 \003(\0132\035.qxmobile.protobuf.J",
+      "unZhuInfo\0221\n\010mengList\030\002 \003(\0132\037.qxmobile.p" +
+      "rotobuf.LianMengInfo\"/\n\nLveHelpReq\022\017\n\007en" +
+      "emyId\030\001 \002(\003\022\020\n\010remainHp\030\002 \002(\005B\010B\006LveDuo"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -15110,7 +15717,7 @@ public final class LveDuo {
           internal_static_qxmobile_protobuf_LveDuoInfoResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_LveDuoInfoResp_descriptor,
-              new java.lang.String[] { "Used", "All", "HasRecord", "CdTime", "NowMaxBattleCount", "GongJin", "ShowGuoId", "CanClearCdVIP", "GuoLianInfos", "MengInfos", "JunInfos", "BuyNextBattleYB", "BuyNextBattleCount", "ClearCdYB", "RemainBuyHuiShi", "MyFangShouId", });
+              new java.lang.String[] { "Used", "All", "HasRecord", "CdTime", "NowMaxBattleCount", "GongJin", "ShowGuoId", "CanClearCdVIP", "GuoLianInfos", "MengInfos", "JunInfos", "BuyNextBattleYB", "BuyNextBattleCount", "ClearCdYB", "RemainBuyHuiShi", "MyFangShouId", "TimeToNight", "GongJinRank", "GongJinMengRank", });
           internal_static_qxmobile_protobuf_GuoInfo_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_GuoInfo_fieldAccessorTable = new
@@ -15146,7 +15753,7 @@ public final class LveDuo {
           internal_static_qxmobile_protobuf_LveGoLveDuoResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_LveGoLveDuoResp_descriptor,
-              new java.lang.String[] { "IsCanLveDuo", "MySoldiers", "MyZhanli", "MyGongjiZuheId", "OppoSoldiers", "OppoZhanli", "OppoId", "OppoRoleId", "OppFangShouZuheId", "LostGongJin", "GongJin", "OppoLevel", "OppoActivateMiBaoCount", });
+              new java.lang.String[] { "IsCanLveDuo", "MySoldiers", "MyZhanli", "MyGongjiZuheId", "OppoSoldiers", "OppoZhanli", "OppoId", "OppoRoleId", "OppFangShouZuheId", "LostGongJin", "GongJin", "OppoLevel", "OppoActivateMiBaoCount", "Used", "All", });
           internal_static_qxmobile_protobuf_Bing_descriptor =
             getDescriptor().getMessageTypes().get(7);
           internal_static_qxmobile_protobuf_Bing_fieldAccessorTable = new

@@ -9,10 +9,15 @@ public class YunbiaoTemp {
 	public static int bloodVial_freeTimes;              //每日免费血瓶数量            
 	public static int resurgenceTimes;                  //每日满血复活次数            
 	public static int incomeAddPro;                     //时间段内运镖收益倍数       
-	public static String incomeAdd_startTime1;          //运镖收益加成起始时间1       
-	public static String incomeAdd_endTime1;            //运镖收益加成结束时间1       
+	public static String incomeAdd_startTime1;          //运镖收益加成起始时间1       2016年1月27日去掉  2016年2月1日加上
+	public static String incomeAdd_endTime1;            //运镖收益加成结束时间1    
+	public static int	time1_switch;	//时段1开关
 	public static String incomeAdd_startTime2;          //运镖收益加成起始时间2       
-	public static String incomeAdd_endTime2;            //运镖收益加成结束时间2       
+	public static String incomeAdd_endTime2;            //运镖收益加成结束时间2 
+	public static int	time2_switch;
+	public static String incomeAdd_startTime3;          //运镖收益加成起始时间3       
+	public static String incomeAdd_endTime3;            //运镖收益加成结束时间3    
+	public static int	time3_switch;
 	public static int income_lossless_price;            //100%收益价格                
 	public static int protectDuration;                  //镖马保护罩持续时间（秒）    
 	public static int protectionCD;                     //镖马保护罩冷却时间（秒）    
@@ -38,6 +43,13 @@ public class YunbiaoTemp {
 	public static int cartTime;//马车正常到达时间（秒）
 	public static int yunbiaoScene_modelNum_max;//运镖场景模型数量上限
 	public static int yunbiao_start_broadcast_CD;//"运镖开始广播循环CD（秒）
+	public static int robincome_LvMax;//劫镖收益无损等级差上限
+//	public static int cartTimesAdd1;// desc="时段1可领运镖次数" value="3" />2016年1月27日 去掉
+	public static int cartTimesAdd2;// desc="时段2可领运镖次数" value="3" />
+	public static float cartLifebarNum;//君主马车生命倍数
+	public static float damage_amend_X;
+	public static float damage_amend_Y;
+	
 	/*押镖相关参数--结束*/
 
 	public String key;

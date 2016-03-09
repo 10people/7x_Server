@@ -18,10 +18,12 @@ public class DailyTaskConstants {
 	public static final int buy_tongbi_id = 7;
 	public static final int tanbao_5_id = 8;
 	public static final int huangye_2_id = 9;
-	public static final int get_yueka_money_id = 10;
-	public static final int get_tili_id_11 = 11;
-	public static final int get_tili_id_12 = 12;
-	public static final int get_tili_id_13 = 13;
+	public static final int get_yueka_money_id = -10;
+	
+	public static final int get_tili_id_11 = -11;
+	public static final int get_tili_id_12 = -12;
+	public static final int get_tili_id_13 = -13;
+	
 	public static final int level_up_tianFu = 14;
 	public static final int youXia_activity = 15;
 	public static final int yunBiao         = 16;

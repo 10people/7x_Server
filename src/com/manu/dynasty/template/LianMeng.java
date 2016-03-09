@@ -9,6 +9,7 @@ public class LianMeng {
 	private int statueType;
 	private int mobaiAward;
 	private int buffNum;
+	public String targetAward;
 	public int getId() {
 		return id;
 	}

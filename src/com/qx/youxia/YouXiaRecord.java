@@ -1,5 +1,6 @@
 package com.qx.youxia;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -17,6 +18,12 @@ public class YouXiaRecord {
 	private long junzhuId;
 	
 	private int guanQiaId;
+
+	private int type;//游侠类型
+	
+	/** 是否通过关，需要根据不同的游侠类型的通关条件来确定 ，0-未通关，1-通关*/
+	@Column(columnDefinition = "INT default " + YouXiaMgr.GUANQIA_NOT_PASS)
+	private int pass;
 
 	/** 历史杀怪最好成绩 */
 	private int score;
@@ -51,6 +58,22 @@ public class YouXiaRecord {
 
 	public void setScore(int score) {
 		this.score = score;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public int getPass() {
+		return pass;
+	}
+
+	public void setPass(int pass) {
+		this.pass = pass;
 	}
 
 }

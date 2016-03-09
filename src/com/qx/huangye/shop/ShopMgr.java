@@ -262,6 +262,7 @@ public class ShopMgr {
 			bean.goodsInfo = setGoodsInfo(goods);
 			// 今日刷新货物次数加1
 			bean.buyNumber += 1;
+			bean.lastResetShopTime = new Date();
 			HibernateUtil.save(bean);
 	
 			logger.info("玩家id{},姓名 {},商店类型：{}， 用货币刷新商品列表，花费货币：{}", jz.id, jz.name,
@@ -272,7 +273,7 @@ public class ShopMgr {
 			 * type == X0: 请求商品兑换页面
 			 */
 			String s = bean.goodsInfo;
-			if(type == 50 && s == null){ // 普通商店特殊处理
+			if(type == 50 && s == null){ // 普通商店特殊处理（普通商店没有自动刷新和手动刷新功能）
 				goods = getRandomGoodsList(bigType);
 				bean.goodsInfo = setGoodsInfo(goods);
 				HibernateUtil.save(bean);
@@ -395,7 +396,10 @@ public class ShopMgr {
 	public void resetHYShopBean(PublicShop bean) {
 		if (DateUtils.isTimeToReset(bean.lastResetShopTime,
 				CanShu.REFRESHTIME_PURCHASE)) {
+			// 重置 刷新购买次数
 			bean.buyNumber = 0;
+			bean.lastResetShopTime = new Date();
+			// 普通商店重置每类物品的购买次数
 			if(bean.id % shop_space == common_shop_type){
 				List<GoodsInfo> goodsL = getGoodsInfo(bean);
 				for(GoodsInfo  g: goodsL){
@@ -408,7 +412,6 @@ public class ShopMgr {
 				}
 				bean.goodsInfo = setGoodsInfo(goodsL);
 			}
-			bean.lastResetShopTime = new Date();
 			HibernateUtil.save(bean);
 		}
 	}
@@ -515,6 +518,15 @@ public class ShopMgr {
 				session.write(resp.build());
 				return;
 			}
+		}
+		
+		// 判断vip是否能买
+		if(jz.vipLevel < dh.getVIP()){
+			resp.setMsg(5);
+			logger.info("玩家id{}, 购买商店物品：{}失败，vip等级不够，需要vip等级：{}", 
+					jz.id, goodId, dh.getVIP());
+			session.write(resp.build());
+			return;
 		}
 //		/*
 //		 * 普通商店物品
@@ -629,6 +641,9 @@ public class ShopMgr {
 			if(bigType == mysterious_shop_type && a.getItemType() == AwardMgr.type_fuWen){
 				EventMgr.addEvent(ED.pawnshop_buy, new Object[] { jz.id});
 				logger.info("君主:{}在神秘商铺购买符文,符文id：{}成功, 判定是否有购买符文任务", jz.id, a.getItemId());
+			}
+			if(bigType == lianMeng_shop_type){
+				EventMgr.addEvent(ED.LM_SHOP_BUY, new Object[]{jz, a, itemName});
 			}
 		} else {
 			/* 0：不足 */
@@ -843,6 +858,10 @@ public class ShopMgr {
 					sendError(cmd, session, "指定典当秘宝碎片数量不足");
 					return;
 				}
+				if(m.getStar() < MibaoMgr.mibao_first_full_star){
+					sendError(cmd, session, "指定典当秘宝碎片星级不足");
+					return;
+				}
 				mibaoData.put(bagId, m);
 			}else{
 				logger.error("没有找到卖出物品数据，bagDBid:{}", bagId);
@@ -869,12 +888,14 @@ public class ShopMgr {
 						bagGrid.itemId);
 				int sellPrice = itemTemp.getSellNum();
 				int totalSellPrice = sellCount * sellPrice;
-				YuanBaoMgr.inst.diff(junZhu, totalSellPrice, 0, sellPrice,
-						YBType.YB_PAWN_SELL, "当铺出售商品");
+				// 改为铜币， 20160126
+//				YuanBaoMgr.inst.diff(junZhu, totalSellPrice, 0, sellPrice,
+//						YBType.YB_PAWN_SELL, "当铺出售商品");
+				junZhu.tongBi += totalSellPrice;
 				// 扣除背包物品
 				BagMgr.inst.removeItem(bag, bagGrid.itemId, sellCount, "当铺典当物品",junZhu.level);
 			
-				logger.info("君主:{}在当铺典当物品itemId:{},数量:{},时间:{},获得元宝:{}",
+				logger.info("君主:{}在当铺典当物品itemId:{},数量:{},时间:{},获得铜币:{}",
 						junZhu.name, bagGrid.itemId, sellCount, date,
 						totalSellPrice);
 				ActLog.log.Pawn(junZhu.id, junZhu.name, ActLog.vopenid, bagGrid.itemId, itemTemp.getName(), sellCount, 0, totalSellPrice);

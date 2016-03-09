@@ -21,10 +21,12 @@ import com.manu.dynasty.store.Redis;
 import com.manu.network.BigSwitch;
 import com.manu.network.SessionManager;
 import com.manu.network.TXSocketMgr;
+import com.qx.activity.XianShiActivityMgr;
 import com.qx.event.EventMgr;
 import com.qx.guojia.GuoJiaMgr;
 import com.qx.http.EndServ;
 import com.qx.persistent.HibernateUtil;
+import com.qx.prompt.PromptMsgMgr;
 import com.qx.pvp.LveDuoMgr;
 import com.qx.quartz.SchedulerMgr;
 import com.qx.util.TableIDCreator;
@@ -41,6 +43,9 @@ public class InitServlet implements Servlet{
 		log.info("初始化国家数据");
 		GuoJiaMgr.inst.initGuoJiaBeanInfo();
 		log.info("初始化国家数据完成");
+		log.info("初始化服务器时间为准的活动数据");
+		XianShiActivityMgr.instance.initGlobalActivityInfo();
+		log.info("初始化服务器时间为准的活动数据完成");
 		new DBHelper();//读取配置
 		log.info("============server start success...");
 	}
@@ -69,6 +74,7 @@ public class InitServlet implements Servlet{
 		GameServer.shutdown();
 		MemcachedCRUD.sockIoPool.shutDown();
 		TableIDCreator.sockIoPool.shutDown();
+		PromptMsgMgr.inst.shutdown();
 		Redis.destroy(); 
 		HibernateUtil.getSessionFactory().close();
 		log.info("================game server shutdown ok================");

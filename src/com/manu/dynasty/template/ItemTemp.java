@@ -13,6 +13,7 @@ public class ItemTemp extends BaseItem{
 	public int sellNum;
 	public int effectId;//强化材料给的强化经验
 	public String awardID;
+	public int effectshow;//是否在背包中展示首次获得。
 	public int getId() {
 		return id;
 	}

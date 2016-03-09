@@ -78,10 +78,12 @@ import com.qx.task.DailyTaskMgr;
 import com.qx.task.GameTaskMgr;
 import com.qx.timeworker.TimeWorkerMgr;
 import com.qx.vip.VipMgr;
+import com.qx.world.BroadcastMgr;
 import com.qx.world.Scene;
 import com.qx.world.SceneMgr;
 import com.qx.yabiao.YBRobotMgr;
 import com.qx.yabiao.YaBiaoHuoDongMgr;
+import com.qx.yabiao.YaBiaoRobotProduceMgr;
 import com.qx.youxia.YouXiaMgr;
 import com.qx.yuanbao.YuanBaoMgr;
 
@@ -221,8 +223,6 @@ public class BigSwitch {
 		mibaoMgr = new MibaoMgr();
 		exploreMgr = new ExploreMgr();
 //		pawnshopMgr = new PawnshopMgr();
-		// 添加服务器定时任务
-		new SchedulerMgr().doSchedule();
 		allianceMgr = new AllianceMgr();
 		fengshanMgr=new FengShanMgr();
 		allianceVoteMgr = new AllianceVoteMgr();
@@ -256,6 +256,9 @@ public class BigSwitch {
 		buffMgr.startWork();
 		cdKeyMgr = new CDKeyMgr();
 		jiNengPeiYangMgr = new JiNengPeiYangMgr();
+		new YaBiaoRobotProduceMgr();
+		// 添加服务器定时任务
+		new SchedulerMgr().doSchedule();
 	}
 
 	public void loadModuleData() {
@@ -396,6 +399,7 @@ public class BigSwitch {
 				ChatMgr.getInst().sendChatLog(id, builder, session);
 				break;
 			case PD.C_SHOW_WU_QI:
+			case PD.Exit_Scene:
 			case PD.Enter_Scene:
 			case PD.Enter_HouseScene:
 			case PD.Exit_HouseScene:
@@ -532,6 +536,9 @@ public class BigSwitch {
 			case PD.C_EquipAdd:
 				equipMgr.equipAdd(id, session, builder);
 				break;
+			case PD.C_GET_HighLight_item_ids:
+				bagMgr.sendHighlightItemIdsInBag(session);
+				break;
 			case PD.C_BagInfo:
 				bagMgr.sendBagInfo(id, session, builder);
 				break;
@@ -642,6 +649,9 @@ public class BigSwitch {
 			case PD.C_YOUXIA_GUANQIA_REQ:
 				youXiaMgr.requestGuanQiaInfo(id, session, builder);
 				break;
+			case PD.C_YOUXIA_TYPE_INFO_REQ:
+				youXiaMgr.requestTypePassInfo(id, session, builder);
+				break;
 			case PD.C_YOUXIA_SAO_DANG_REQ:
 				youXiaMgr.saoDang(id, session, builder);
 				break;
@@ -679,6 +689,13 @@ public class BigSwitch {
 //			case PD.GET_FULL_STAR_AWARD_REQ:
 //				mibaoMgr.getAwardWhenFullStar(session, id);
 //				break;
+			case PD.C_CLOSE_TAN_BAO_UI:{
+				String template = (String) session.getAttribute("MiBaoBDCache");//, template);
+				if(template != null){
+					BroadcastMgr.inst.send(template);
+				}
+			}
+				break;
 			case PD.C_MIBAO_ACTIVATE_REQ:
 				mibaoMgr.mibaoActivate(id, session, builder);
 				break;
@@ -948,9 +965,9 @@ public class BigSwitch {
 			case PD.C_RECHARGE_REQ:
 				vipMgr.recharge(id, session, builder);
 				break;
-			case PD.C_PVE_MIBAO_ZHANLI:
-				junZhuMgr.getPVEMiBaoZhanLi(session);
-				break;
+//			case PD.C_PVE_MIBAO_ZHANLI:
+//				junZhuMgr.getPVEMiBaoZhanLi(session);
+//				break;
 			case PD.C_FRIEND_ADD_REQ:
 				friendMgr.addFriend(id, session, builder);
 				break;
@@ -968,6 +985,9 @@ public class BigSwitch {
 				break;
 			case PD.C_QIANDAO_REQ:
 				qiandaoMgr.qiandao(id, session, builder);
+				break;
+			case PD.qianDao_get_vip_present_req:
+				qiandaoMgr.getVipPresent(session, builder);
 				break;
 			/*
 			 * 套装
@@ -1020,6 +1040,12 @@ public class BigSwitch {
 				break;
 			case PD.C_XIANSHI_REQ:
 				xsActivityMgr.getOpenXianShiHuoDong(id, builder, session);
+				break;
+			case PD.C_FULIINFO_REQ:
+				xsActivityMgr.getFuLiInfo(id, builder, session);
+				break;
+			case PD.C_FULIINFOAWARD_REQ:
+				xsActivityMgr.gainFuLiAward(id, builder, session);
 				break;
 			case PD.C_GET_VERSION_NOTICE_REQ:
 				noticeMgr.getVersionNotice(id, session, builder);
@@ -1076,6 +1102,9 @@ public class BigSwitch {
 				break;
 			case PD.C_MengYouKuaiBao_Req:
 			case PD.Prompt_Action_Req:
+			case PD.alliance_junQing_req: //联盟军情消息请求
+			case PD.qu_zhu_battle_end_req: //联盟军情之 （掠夺）驱逐
+			case PD.go_qu_zhu_req:
 				ptmgr.addMission(id, session, builder);
 				break;
 			case PD.C_BUY_REVIVE_TIMES_REQ:
@@ -1083,6 +1112,12 @@ public class BigSwitch {
 				break;
 			case PD.C_NOT_GET_AWART_ZHANGJIE_REQ:
 				pveGuanQiaMgr.notGetAwardZhangJieRequest(id, session, builder);
+				break;
+			case PD.C_ALLIANCE_TARGET_INFO:
+				allianceMgr.requestAllianceTargetInfo(id, session, builder);
+				break;
+			case PD.C_GET_ALLIANCEL_LEVEL_AWARD:
+				allianceMgr.getAllianceLevelAward(id, session, builder);
 				break;
 			default:
 				log.error("未处理的协议 {} {}", id, builder);

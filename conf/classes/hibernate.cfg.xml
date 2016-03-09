@@ -80,6 +80,8 @@
 	 <mapping class="com.qx.yabiao.YaBiaoBean"/>
 	 <mapping class="com.qx.yabiao.YBBattleBean"/>
 	 <mapping class="com.qx.prompt.PromptMSG"/>
+	 <mapping class="com.qx.prompt.YaBiaoJunQing"/>
+	 <mapping class="com.qx.yabiao.YunBiaoHistory"/>
 	 <mapping class="com.qx.yabiao.YunBiaoHistory"/>
 	 <mapping class="com.qx.pvp.ZhanDouRecord"/>
     <mapping class="com.qx.explore.ExploreMine"/>
@@ -115,6 +117,7 @@
     <mapping class="com.qx.alliance.HuanWu"/>
     <mapping class="com.qx.alliance.BigHouse"/>
     <mapping class="com.qx.alliance.FengshanBean"/>
+    <mapping class="com.qx.alliance.AllianceLevelAward"/>
     <mapping class="com.qx.alliancefight.AllianceFightRules"/>
     <mapping class="com.qx.alliancefight.AllianceFightMatch"/>
     <mapping class="com.qx.alliancefight.AllianceFightApply"/>
@@ -124,6 +127,9 @@
     <mapping class="com.qx.junzhu.TalentPoint"/>
     <mapping class="com.qx.junzhu.TalentAttr"/>
     <mapping class="com.qx.activity.QiandaoInfo"/>
+    <mapping class="com.qx.activity.FuliInfo"/>
+     <mapping class="com.qx.activity.GlobalActivityBean"/>
+     <mapping class="com.qx.activity.QianDaoPresent"/>
     <mapping class="com.qx.activity.ShouchongInfo"/>
     <mapping class="com.qx.world.ProblemPlayer"/>
     <mapping class="com.qx.youxia.YouXiaBean"/>
@@ -147,6 +153,7 @@
     <mapping class="com.qx.award.DropRateBean"/>
     <mapping class="log.ReasonBean"/>
     <mapping class="com.qx.junzhu.ChengHaoBean"/>
+    <mapping class="com.qx.junzhu.AcitvitedTaoZhuang"/>
     <mapping class="com.qx.cdkey.CDKeyInfo"/>
     <mapping class="com.qx.jinengpeiyang.JNBean"/>
     <mapping class="com.qx.alliance.building.JianZhuLvBean"/>
@@ -155,7 +162,10 @@
     <mapping class="com.qx.alliance.building.ChouJiangBean"/>
     <mapping class="com.qx.prompt.PromptInfo"/>
     <mapping class="com.qx.yabiao.LastExitYBInfo"/>
+    <mapping class="com.qx.prompt.LveDuoMI"/>
+    <mapping class="com.qx.prompt.LveDuoHelp"/>
     <mapping class="com.manu.dynasty.chat.ChatInfo"/>
+   
     
 </session-factory>
 

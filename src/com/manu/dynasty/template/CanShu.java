@@ -63,6 +63,7 @@ public class CanShu {
 	public static double BAIZHAN_LVEDUO_K;
 	public static int BAIZHAN_NPC_WEIWANG;
 	public static int BAIZHAN_WEIWANG_ADDLIMIT;
+	public static int BAIZHAN_FIRSTWIN_YUANBAO;
 	
 	public static int MAXTIME_PVE;
 	public static int MAXTIME_BAIZHAN;
@@ -177,8 +178,18 @@ public class CanShu {
 	public static int WEIWANG_INIT;
 	public static double WUQI_BAOJILV;
 	public static double JINENG_BAOJILV;
-
+	public static int JION_ALLIANCE_LV_MINI;
 	
+	public static int WORLDCHAT_FREETIMES;
+	public static int WORLDCHAT_PRICE;
+	public static int BROADCAST_PRICE;
+	/***房屋初始经验"*/
+	public static int FANGWU_INITIAL_EXP;
+
+	/* 驱逐*/
+	public static int EXPEL_TIMELIMIT;
+	public static int EXPEL_DAYTIMES;
+	public static int EXPEL_CD;
 	/*押镖相关参数--结束*/
 	
 	/* 
@@ -187,7 +198,7 @@ public class CanShu {
 	安慰盟友*/
 	public static int LUEDUO_AWARDEDCOMFORT_MAXTIMES;
 	public static int YUNBIAO_AWARDEDCOMFORT_MAXTIMES;
-	
+	public static int TILI_JILEI_SHANGXIAN;//体力积累上限" 2016年1月19日
 	public String key;
 	public String value;
 	public String getKey() {

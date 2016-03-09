@@ -37,7 +37,7 @@ String rankmax ="";
 %>
     <form action="">
     <br/>
-     (请输出大于等于1的数字)
+     (请输出大于等于1的数字)<div style="color: #FF0000">(但是如果想获取倒数x（x>=1）个名次玩家，请分别输入:-x 、 0)</div>
     <br/>
         最低名次 <input type="text" name="rankmin" value="<%=rankmin%>">&nbsp;和&nbsp;
         最高名次 <input type="text" name="rankmax" value="<%=rankmax%>">&nbsp;
@@ -76,46 +76,51 @@ String action = request.getParameter("action");
         long rmax = Long.parseLong(rankmax);
     	// Set<String> elem = DB.zrangebyscore_(KEY, tenRanks[k]-1, tenRanks[k]-1);
     	if(action.equals("geren")){
-		       Set<String> elems =  PvpMgr.DB.zrangebyscore_( PvpMgr.inst.KEY, rmin-1, rmax-1);
-		       if(elems == null){
-		    	   out("没有找到");
-		       }else{
+    		Set<String> elems = null;
+    		if(rmin < 0 && rmax<= 0 && rmin <= rmax){
+    			 elems =  PvpMgr.DB.zrange(PvpMgr.KEY, (int)rmin, (int)rmax);
+    		}else if(rmin > 0 && rmax>0 && rmin <= rmax){
+		       elems =  PvpMgr.DB.zrangebyscore_( PvpMgr.KEY, rmin-1, rmax-1);
+    		}
+	       if(elems == null){
+	    	   out("没有找到");
+	       }else{
 		    	   br();
-		    	   out("输入的名次是： " + rmin + " ;" + rmax);
-		    	   br();
-		    	   br();
-		    	   tableStart();
-		    	   trS();
-		           td("id");td("姓名");td("名次");td("国家");td("roleId");
-		           trE();
-		    	   for(String s: elems){
-		    		   String[] sss = s.split("_");
-		               long playerId = Long.parseLong(sss[1]);
-		               String name = "";
-		               int guojiaId = 0;
-		               long rankkk  = 0;
-		               int roldId = 0;
-		               if("npc".equals(sss[0])){
-		                   // NPC
-		                   BaiZhanNpc npc = PvpMgr.inst.npcs.get((int)playerId);
-		                   String nameInt = npc.name;
-		                   name  = HeroService.heroNameMap.get(nameInt).Name;
-		                   guojiaId = npc.getGuoJiaId((int)playerId);
-		                   rankkk = (int)PvpMgr.inst.getPvpRankById(-playerId);
-		                   roldId = npc.getRoleId((int)playerId);
-		               }else{
-		            	   JunZhu junzhu = HibernateUtil.find(JunZhu.class, playerId);
-		            	   name = junzhu.name;
-		            	   guojiaId = junzhu.guoJiaId;
-		            	   rankkk = (int)PvpMgr.inst.getPvpRankById(playerId);
-		            	   roldId = junzhu.roleId;
-		               }
-		               trS();
-		               td((int)playerId);td(name);td(rankkk);td(guojiaId);td(roldId);
-		               trE();
-		    	   }
-		    	   tableEnd();
-		       }
+	    	   out("输入的名次是： " + rmin + " ;" + rmax);
+	    	   br();
+	    	   br();
+	    	   tableStart();
+	    	   trS();
+	           td("id");td("姓名");td("名次");td("国家");td("roleId");
+	           trE();
+	    	   for(String s: elems){
+	    		   String[] sss = s.split("_");
+	               long playerId = Long.parseLong(sss[1]);
+	               String name = "";
+	               int guojiaId = 0;
+	               long rankkk  = 0;
+	               int roldId = 0;
+	               if("npc".equals(sss[0])){
+	                   // NPC
+	                   BaiZhanNpc npc = PvpMgr.inst.npcs.get((int)playerId);
+	                   String nameInt = npc.name;
+	                   name  = HeroService.heroNameMap.get(nameInt).Name;
+	                   guojiaId = npc.getGuoJiaId((int)playerId);
+	                   rankkk = (int)PvpMgr.inst.getPvpRankById(-playerId);
+	                   roldId = npc.getRoleId((int)playerId);
+	               }else{
+	            	   JunZhu junzhu = HibernateUtil.find(JunZhu.class, playerId);
+	            	   name = junzhu.name;
+	            	   guojiaId = junzhu.guoJiaId;
+	            	   rankkk = (int)PvpMgr.inst.getPvpRankById(playerId);
+	            	   roldId = junzhu.roleId;
+	               }
+	               trS();
+	               td((int)playerId);td(name);td(rankkk);td(guojiaId);td(roldId);
+	               trE();
+	    	   }
+	    	   tableEnd();
+	       }
     	}else
     	if(action.equals("gerengongjin")){
     		Map<String, Double> gongJinPermap = RankingGongJinMgr.inst.getPaiHangOfType( rmin-1, rmax-1,

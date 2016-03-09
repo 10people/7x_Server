@@ -12,28 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.mina.core.session.IoSession;
-import org.quartz.jobs.ee.mail.SendMailJob;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.Chat.BlackJunzhuInfo;
-import qxmobile.protobuf.Chat.BlacklistResp;
-import qxmobile.protobuf.Chat.CGetChat;
-import qxmobile.protobuf.Chat.CGetYuYing;
-import qxmobile.protobuf.Chat.CancelBlack;
-import qxmobile.protobuf.Chat.ChatPct;
-import qxmobile.protobuf.Chat.ChatPct.Channel;
-import qxmobile.protobuf.Chat.GetBlacklistResp;
-import qxmobile.protobuf.Chat.JoinToBlacklist;
-import qxmobile.protobuf.Chat.SChatLogList;
-import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
-
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.boot.GameServer;
-import com.manu.dynasty.hero.service.HeroService;
 //import com.manu.dynasty.pvp.domain.NationalWarConstants;
 import com.manu.dynasty.store.Redis;
-import com.manu.dynasty.template.BaiZhan;
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.BigSwitch;
@@ -49,12 +34,24 @@ import com.qx.gm.role.GMRoleMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
-import com.qx.purchase.PurchaseMgr;
 import com.qx.pvp.PvpBean;
 import com.qx.pvp.PvpMgr;
+import com.qx.vip.VipData;
 import com.qx.world.Mission;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
+
+import qxmobile.protobuf.Chat.BlackJunzhuInfo;
+import qxmobile.protobuf.Chat.BlacklistResp;
+import qxmobile.protobuf.Chat.CGetChat;
+import qxmobile.protobuf.Chat.CGetYuYing;
+import qxmobile.protobuf.Chat.CancelBlack;
+import qxmobile.protobuf.Chat.ChatPct;
+import qxmobile.protobuf.Chat.ChatPct.Channel;
+import qxmobile.protobuf.Chat.GetBlacklistResp;
+import qxmobile.protobuf.Chat.JoinToBlacklist;
+import qxmobile.protobuf.Chat.SChatLogList;
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 
 //FIXME 需要使用单独的线程来处理聊天。
 /**
@@ -180,8 +177,10 @@ public class ChatMgr implements Runnable {
 			break;
 		}
 	}
-	public static int freeTimes = 10;
-	public static int worldPrice = 50;
+	
+	public static int worldFreeTimesOfDay = CanShu.WORLDCHAT_FREETIMES;
+	public static int worldPrice = CanShu.WORLDCHAT_PRICE;
+	
 	public void sendChatConf(int id, IoSession session, Builder builder) {
 		Long jzId = (Long) session.getAttribute(SessionAttKey.junZhuId);
 		if(jzId == null){
@@ -195,7 +194,7 @@ public class ChatMgr implements Runnable {
 		}
 		ErrorMessage.Builder ret = ErrorMessage.newBuilder();
 		ret.setCmd(worldPrice);
-		ret.setErrorCode(Math.max(0,freeTimes - useTimes));
+		ret.setErrorCode(Math.max(0,worldFreeTimesOfDay - useTimes));
 		ret.setErrorDesc("ErrorCode是剩余免费世界聊天次数。");
 		ProtobufMsg msg = new ProtobufMsg();
 		msg.builder = ret;
@@ -246,6 +245,7 @@ public class ChatMgr implements Runnable {
 		AllianceBean ybabean = AllianceMgr.inst.getAllianceByJunZid(jz.id);
 		String lianmengName=ybabean == null ? "" : ybabean.name;
 		cm.setLianmengName(lianmengName);
+		cm.setLianmengId(ybabean == null ? 0 : ybabean.id);
 		log.info("君主{} vip等级---{} 联盟---{} 国家 --{} 发表聊天", jz.name,cm.getVipLevel(),"".endsWith(cm.getLianmengName())?"无联盟":cm.getLianmengName(),cm.getGuoJia());
 		// 处理聊天内容
 		String content = replaceIllegal(msg);
@@ -265,37 +265,59 @@ public class ChatMgr implements Runnable {
 			sendGuoJia(cm);
 			break;
 		case SHIJIE:
-			boolean open = BigSwitch.inst.vipMgr.isVipPermit(3, jz.vipLevel);
-			if (!open) {
-				log.info("{}未满足世界聊天VIP要求", jz.name);
-				return;
-			}
-			int cost = PurchaseMgr.inst.getNeedYuanBao(CHAT_WORLD_COST_TYPE, 1);
-			if (jz.yuanBao < cost) {
-				log.info("世界频道元宝不足{}", jz.name);
-				return;
-			}
-			YuanBaoMgr.inst.diff(jz, -cost, 0, cost, YBType.YB_CHAT_WORLD,
-					"世界聊天");
-			HibernateUtil.save(jz);
-			if(cost>0){
-				JunZhuMgr.inst.sendMainInfo(session);// 推送元宝信息
-			}
-			log.info("junzhu:{}世界聊天,花费元宝:{}", jz.name, cost);
-			chWorld.saveChatRecord(cm);
-			cm.clearSoundData();// 去除声音信息。
-			broadcast(cm, allUser);
+			sendWorldChat(session, cm, jz);
 			break;
 		case XiaoWu:
 			xiaoWu(session, cm);
 			break;
 		case Broadcast:
-			userBroadcast(session,cm);
+			userBroadcast(session,cm, jz);
 			break;
 		default:
 			log.error("未处理的频道类型 {}", cm.getChannel());
 			break;
 		}
+	}
+
+	private void sendWorldChat(IoSession session, ChatPct.Builder cm, JunZhu jz) {
+		boolean open = BigSwitch.inst.vipMgr.isVipPermit(VipData.world_chat, jz.vipLevel);
+		if (!open) {
+			log.info("{}未满足世界聊天VIP要求", jz.name);
+			return;
+		}
+		
+		boolean sendFree = false;
+		ChatInfo info = HibernateUtil.find(ChatInfo.class, jz.id);
+		if(info == null){ //没发过
+			info = new ChatInfo();
+			info.jzId = jz.id;
+			info.lastTime = new Date();
+			info.useTimes = 1;
+			HibernateUtil.insert(info);
+		}else if(!DateUtils.isSameDay(info.lastTime)){ //今天没发过，重置次数
+			info.lastTime = new Date();
+			info.useTimes = 1;
+			HibernateUtil.update(info);
+		}else if(info.useTimes < worldFreeTimesOfDay){ //有免费次数
+			sendFree = true;
+			info.useTimes += 1;
+			HibernateUtil.update(info);
+		}else if(jz.yuanBao < worldPrice){
+			log.info("{}元宝不足，不能发广播", jz.yuanBao);
+			return;
+		}
+		
+		if(!sendFree) {
+			YuanBaoMgr.inst.diff(jz, -worldPrice, 0, worldPrice, YBType.YB_CHAT_WORLD, "世界聊天");
+			HibernateUtil.save(jz);
+			if(worldPrice > 0){
+				JunZhuMgr.inst.sendMainInfo(session);// 推送元宝信息
+			}
+			log.info("junzhu:{}世界聊天,花费元宝:{}", jz.name, worldPrice);
+		}
+		chWorld.saveChatRecord(cm);
+		cm.clearSoundData();// 去除声音信息。
+		broadcast(cm, allUser);
 	}
 
 	/**
@@ -304,36 +326,14 @@ public class ChatMgr implements Runnable {
 	 * @param cm
 	 */
 	public void userBroadcast(IoSession session,
-			qxmobile.protobuf.Chat.ChatPct.Builder cm) {
-		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
-		if(jz == null){
-			return;
-		}
-		ChatInfo info = HibernateUtil.find(ChatInfo.class, jz.id);
-		if(info == null){//没发过
-			info = new ChatInfo();
-			info.jzId = jz.id;
-			info.lastTime = new Date();
-			info.useTimes = 1;
-			HibernateUtil.insert(info);
-		}else if(!DateUtils.isSameDay(info.lastTime)){
-			//今天没发过，重置次数
-			info.lastTime = new Date();
-			info.useTimes = 1;
-			HibernateUtil.update(info);
-		}else if(info.useTimes<freeTimes){
-			//有免费次数
-			//info.lastTime = new Date();
-			info.useTimes += 1;
-			HibernateUtil.update(info);
-		}else if(jz.yuanBao<worldPrice){
+			qxmobile.protobuf.Chat.ChatPct.Builder cm, JunZhu jz) {
+		if(jz.yuanBao < CanShu.BROADCAST_PRICE){
 			log.info("{}元宝不足，不能发广播", jz.yuanBao);
 			return;
-		}else{
-			YuanBaoMgr.inst.diff(jz, -worldPrice, worldPrice, 0, YBType.WORLD_CHAT, "广播频道聊天");
-			HibernateUtil.save(jz);
-			JunZhuMgr.inst.sendMainInfo(session);
 		}
+		YuanBaoMgr.inst.diff(jz, -CanShu.BROADCAST_PRICE, CanShu.BROADCAST_PRICE, 0, YBType.WORLD_CHAT, "广播频道聊天");
+		HibernateUtil.save(jz);
+		JunZhuMgr.inst.sendMainInfo(session);
 		broadcast(cm, allUser);
 	}
 

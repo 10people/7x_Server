@@ -207,6 +207,10 @@ public class EmailMgr extends EventProc implements Runnable {
 			sendSendEmailResp(session, 2);
 			return;
 		}
+		if(content.length() > 500) {
+			sendSendEmailResp(session, 9);
+			return;
+		}
 		Map<Long, Long> coldTimeMap = (Map<Long, Long>) session
 				.getAttribute(SessionAttKey.LAST_SEND_EMAIL_KEY);
 		if (coldTimeMap == null) {
@@ -228,6 +232,7 @@ public class EmailMgr extends EventProc implements Runnable {
 					cmd);
 			return;
 		}
+		content  = ChatMgr.inst.replaceIllegal(content);
 		boolean isSuccess = sendMail(receiverName, content, "", sender.id,sender.name,
 				mailConfig, "");
 		if (isSuccess) {
@@ -632,10 +637,10 @@ public class EmailMgr extends EventProc implements Runnable {
 				boolean hasSystemEmail = false;
 				boolean hasPersonEmail = false;
 				for (Email mail : emailList) {
-					// 判断是系统邮件 或者 非黑名单的私信（需显示）
+					// 判断是系统邮件
 					if(mail.senderJzId == -1){
 						hasSystemEmail = true;
-					}else if(!isSenderBlack(jz.id, mail.senderJzId)){
+					}else if(!isSenderBlack(jz.id, mail.senderJzId)){ //  非黑名单的私信（需显示）
 						hasPersonEmail = true;
 					}
 					if(hasSystemEmail && hasPersonEmail){
@@ -644,11 +649,11 @@ public class EmailMgr extends EventProc implements Runnable {
 				}
 				if(hasSystemEmail){
 					// 发送系统邮件未读提示
-					FunctionID.pushCanShangjiao(jz.id, session, FunctionID.youxiang_system);
+					FunctionID.pushCanShowRed(jz.id, session, FunctionID.youxiang_system);
 				}
 				if(hasPersonEmail){
 					// 发送私信邮件未读提示
-					FunctionID.pushCanShangjiao(jz.id, session, FunctionID.youxiang_person);
+					FunctionID.pushCanShowRed(jz.id, session, FunctionID.youxiang_person);
 				}
 				break;
 			}

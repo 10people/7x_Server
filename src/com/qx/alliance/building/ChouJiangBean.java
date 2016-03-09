@@ -17,4 +17,6 @@ public class ChouJiangBean {
 	
 	@Column(columnDefinition = "INT default 0")
 	public int todayUsedTimes;
+	public int todayLeftTimes;
+	public int historyAll;
 }

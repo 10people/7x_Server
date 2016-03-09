@@ -41,6 +41,8 @@ public class SuBaoConstant {
 	public static final int djfcr_toSelf=115;         
 	/**加入协助成功给自己                               **/       	
 	public static final int jionxz_toSelf=116;         
+	/**领取押镖福利次数                             **/       	
+	public static final int fuli_toSelf=117;         
 	
 	public static final int lveDuo_fail_event = 201;
 	public static final int been_lveDuo_event = 202;
@@ -48,15 +50,17 @@ public class SuBaoConstant {
 	
 //	0：无按钮
 //	1：忽略
-//	2：前往
+//	2：押镖前往
 //	3：祝福
 //	4：安慰
 //	5：领取
 //	6：知道了
+//	7：掠夺前往
 	public static final int ignore = 1;
 	public static final int go = 2;
 	public static final int bless = 3;
 	public static final int comfort = 4;
 	public static final int getAward= 5;
 	public static final int iKnow= 6;
+	public static final int lveDuo_go = 7;
 }

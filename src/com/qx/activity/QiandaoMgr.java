@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.Qiandao.GetQiandaoResp;
+import qxmobile.protobuf.Qiandao.GetVipPresentReq;
+import qxmobile.protobuf.Qiandao.GetVipPresentResp;
 import qxmobile.protobuf.Qiandao.QiandaoAward;
 import qxmobile.protobuf.Qiandao.QiandaoResp;
 
@@ -22,10 +24,14 @@ import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.QianDao;
 import com.manu.dynasty.template.QianDaoDesc;
 import com.manu.dynasty.template.QianDaoMonth;
+import com.manu.dynasty.template.VIPQianDao;
+import com.manu.dynasty.util.MathUtils;
 import com.manu.dynasty.util.StringUtils;
 import com.manu.network.PD;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.award.AwardMgr;
+import com.qx.event.ED;
+import com.qx.event.EventMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
@@ -49,6 +55,8 @@ public class QiandaoMgr {
 	public static boolean DATE_DEBUG = false;// 日期测试开关
 	public static int RESET_TIME = 4;// 凌晨4点刷新
 
+	public static Map<Integer, VIPQianDao> vipQianDaoMap = new HashMap<Integer, VIPQianDao>();
+	public static int maxCanGoVipLevel = 1;
 	public QiandaoMgr() {
 		instance = this;
 		initData();
@@ -87,6 +95,13 @@ public class QiandaoMgr {
 			qianDaoMonthMap.put(qianDaoMonth.getMonth(), qianDaoMonth);
 		}
 		this.qianDaoMonthMap = qianDaoMonthMap;
+		
+		List<VIPQianDao> list3 = TempletService.listAll(VIPQianDao.class
+				.getSimpleName());
+		for(VIPQianDao v: list3){
+			vipQianDaoMap.put(v.VIP, v);
+			maxCanGoVipLevel = MathUtils.getMax(maxCanGoVipLevel, v.VIP);
+		}
 	}
 
 	/**
@@ -145,11 +160,14 @@ public class QiandaoMgr {
 				award.setMonth(qianDao.getMonth());
 				award.setVipDouble(qianDao.getVipDouble());
 				if (hasAlreadyQiandao(qiandaoInfo)) {// 今天已签到
-					if (qianDao.getDay() == leijiQiandao && getBuqianState(qiandaoInfo, qianDao, junZhu) == 1) {
-						award.setState(1);
-					} else {
+					/*
+					 *  20160218  改为 不能补签
+					 */
+//					if (qianDao.getDay() == leijiQiandao && getBuqianState(qiandaoInfo, qianDao, junZhu) == 1) {
+//						award.setState(1);
+//					} else {
 						award.setState(0);
-					}
+//					}
 				} else {// 今天未签到
 					if (qianDao.getDay() == leijiQiandao + 1) {
 						award.setState(1);
@@ -162,6 +180,22 @@ public class QiandaoMgr {
 			response.setIcon(this.qianDaoMonthMap.get(getMonth(tmpDate)).getIcon());
 			response.setDesc(this.qianDaoMonthMap.get(getMonth(tmpDate)).getDesc());
 			response.setCurDate(getDate(date));
+			QianDaoPresent pre = HibernateUtil.find(QianDaoPresent.class, junZhu.id);
+			if(pre == null){
+				pre = new QianDaoPresent();
+				pre.jId = junZhu.id;
+			}
+			for(int i = 1; i <= maxCanGoVipLevel; i++){
+				response.addIsGetvipPresent(isGet(pre, i));
+			}
+			/*
+			 * if 语句是因为有些旧号（添加次功能之前建立的号） 可能数据不对，为了测试，所以暂且赋值为累计签到。
+			 */
+			if(qiandaoInfo != null && qiandaoInfo.historyQianDao == 0){
+				qiandaoInfo.historyQianDao = qiandaoInfo.getLeijiQiandao();
+				HibernateUtil.save(leijiQiandao);
+			}
+			response.setAllQianNum(qiandaoInfo == null? 0: qiandaoInfo.historyQianDao);
 			writeByProtoMsg(session, PD.S_GET_QIANDAO_RESP, response);
 		}
 	}
@@ -207,6 +241,7 @@ public class QiandaoMgr {
 				qiandaoInfo.setLeijiQiandao(1);
 				qiandaoInfo.setPreQiandao(date);
 				qiandaoInfo.setQiandaoDate(getMonth(date) + ":" + getDate(date));
+				qiandaoInfo.historyQianDao += 1;
 				HibernateUtil.insert(qiandaoInfo);
 			} else {// DB已有有签到信息
 				if (isSameDate(date, qiandaoInfo.getPreQiandao())) {
@@ -218,8 +253,10 @@ public class QiandaoMgr {
 						writeByProtoMsg(session, PD.S_QIANDAO_RESP, response);
 						return;
 					} else {
-						// 可以补签，DB签到信息不变
+						// 可以补签，其他DB签到信息不变
 						isBuqian = true;
+//						// TODO 待定 问@策划, 后续 。。。策划说不累计。
+//						qiandaoInfo.historyQianDao += 1;
 					}
 				} else {
 					// 今日未签到
@@ -234,6 +271,7 @@ public class QiandaoMgr {
 								+ "#" + getMonth(tmpDate) + ":" + getDate(tmpDate));
 					}
 					qiandaoInfo.setPreQiandao(date);
+					qiandaoInfo.historyQianDao += 1;
 				}
 				HibernateUtil.save(qiandaoInfo);
 			}
@@ -290,6 +328,8 @@ public class QiandaoMgr {
 					award.getAwardId());
 			response.setResult(SUCCESS);
 			writeByProtoMsg(session, PD.S_QIANDAO_RESP, response);
+			// 签到任务
+			EventMgr.addEvent(ED.qiandao, new Object[]{junZhu.id});
 		}
 	}
 
@@ -298,61 +338,63 @@ public class QiandaoMgr {
 	 * 
 	 * @param junZhuId
 	 * @return false 不可以 true 可以
+	 * 
+	 * 20160218  改为没有补签行为
 	 */
 	public boolean canBuQian(long junZhuId,QiandaoInfo qiandaoInfo) {
-		Date date = null;
-		if (DATE_DEBUG) {
-			date = debugDate;
-		} else {
-			date = new Date();
-		}
-		Date tmpDate = new Date(date.getTime());
-		if(tmpDate.getHours()<RESET_TIME){
-			tmpDate.setDate(tmpDate.getDate()-1);
-		}
-		List<QianDao> awardList = awardMap.get(getMonth(tmpDate));
-		JunZhu junZhu = HibernateUtil.find(JunZhu.class, junZhuId);
-		if(qiandaoInfo.getLeijiQiandao()<=0){
-			return false;
-		}
-		QianDao qianDao =null;
-		if(qiandaoInfo.getLeijiQiandao()>awardList.size()){
-			qianDao = awardList.get(awardList.size() - 1);
-		}else{
-			qianDao = awardList.get(qiandaoInfo.getLeijiQiandao() - 1);
-		}
-		if (getBuqianState(qiandaoInfo, qianDao, junZhu) == 1) {
-			// 满足条件当天签到能够补签
-			return true;
-		}
+//		Date date = null;
+//		if (DATE_DEBUG) {
+//			date = debugDate;
+//		} else {
+//			date = new Date();
+//		}
+//		Date tmpDate = new Date(date.getTime());
+//		if(tmpDate.getHours()<RESET_TIME){
+//			tmpDate.setDate(tmpDate.getDate()-1);
+//		}
+//		List<QianDao> awardList = awardMap.get(getMonth(tmpDate));
+//		JunZhu junZhu = HibernateUtil.find(JunZhu.class, junZhuId);
+//		if(qiandaoInfo.getLeijiQiandao()<=0){
+//			return false;
+//		}
+//		QianDao qianDao =null;
+//		if(qiandaoInfo.getLeijiQiandao()>awardList.size()){
+//			qianDao = awardList.get(awardList.size() - 1);
+//		}else{
+//			qianDao = awardList.get(qiandaoInfo.getLeijiQiandao() - 1);
+//		}
+//		if (getBuqianState(qiandaoInfo, qianDao, junZhu) == 1) {
+//			// 满足条件当天签到能够补签
+//			return true;
+//		}
 		return false;
 	}
 
-	/**
-	 * 获取这一天是否能够补签
-	 * 
-	 * @param qiandaoInfo
-	 * @param qianDao
-	 * @param junZhu
-	 * @return 0-不能补签；1-可以补签
-	 */
-	protected int getBuqianState(QiandaoInfo qiandaoInfo, QianDao qianDao,
-			JunZhu junZhu) {
-		if (null == qiandaoInfo) {
-			return 0;
-		}
-		int state = 0;
-		if (junZhu.vipLevel >= qianDao.getVipDouble()
-				&& !isGetDoubleByDate(qiandaoInfo, qianDao.getMonth(),
-						qianDao.getDay())&&qianDao.getVipDouble()!=0) {
-			// 满足条件
-			// 1、vip等级满足双倍条件
-			// 2、当天的没有领过双倍奖励
-			// 3、当天奖励有双倍
-			state = 1;
-		}
-		return state;
-	}
+//	/**
+//	 * 获取这一天是否能够补签
+//	 * 
+//	 * @param qiandaoInfo
+//	 * @param qianDao
+//	 * @param junZhu
+//	 * @return 0-不能补签；1-可以补签
+//	 */
+//	protected int getBuqianState(QiandaoInfo qiandaoInfo, QianDao qianDao,
+//			JunZhu junZhu) {
+//		if (null == qiandaoInfo) {
+//			return 0;
+//		}
+//		int state = 0;
+//		if (junZhu.vipLevel >= qianDao.getVipDouble()
+//				&& !isGetDoubleByDate(qiandaoInfo, qianDao.getMonth(),
+//						qianDao.getDay())&&qianDao.getVipDouble()!=0) {
+//			// 满足条件
+//			// 1、vip等级满足双倍条件
+//			// 2、当天的没有领过双倍奖励
+//			// 3、当天奖励有双倍
+//			state = 1;
+//		}
+//		return state;
+//	}
 
 	/**
 	 * 判断这一天是否领过双倍奖励
@@ -564,4 +606,95 @@ public class QiandaoMgr {
 			}
 		}
 	};
+	
+	public void getVipPresent(IoSession session, Builder builder){
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junZhu == null) {
+			logger.error("领取vip特权奖励出错，君主不在session");
+			return;
+		}
+		GetVipPresentReq.Builder req = (GetVipPresentReq.Builder)builder;
+		int vip = req.getVip();
+		long jid = junZhu.id;
+		QianDaoPresent pre = HibernateUtil.find(QianDaoPresent.class, jid);
+		if(pre ==null){
+			pre = new QianDaoPresent();
+			pre.jId = jid;
+		}
+		GetVipPresentResp.Builder resp = GetVipPresentResp.newBuilder();
+		resp.setVip(vip);
+		boolean isGet = isGet(pre, vip);
+		// 是否已经领奖
+		if(isGet){
+			resp.setSuccess(1);
+			writeByProtoMsg(session, PD.qianDao_get_vip_present_resp, resp);
+			logger.info("已经领奖");
+			return ;
+		}
+		// 配置文件
+		VIPQianDao conf = vipQianDaoMap.get(vip);
+		if(conf == null){
+			logger.info("vipQianDaoMap获取不到vip:{}的配置", vip);
+			resp.setSuccess(3);
+			writeByProtoMsg(session, PD.qianDao_get_vip_present_resp, resp);
+			return ;
+		}
+		// 是否签到天数不够
+		QiandaoInfo bean = HibernateUtil.find(QiandaoInfo.class, jid);
+		if(bean == null || bean.historyQianDao < conf.day){
+			logger.info("君主：{}领取vip特权礼包失败，累计签到天数：{}不够", jid, 
+					bean == null? 0: bean.historyQianDao);
+			resp.setSuccess(2);
+			writeByProtoMsg(session, PD.qianDao_get_vip_present_resp, resp);
+			return ;
+		}
+		// 领奖
+		AwardMgr.inst.giveReward(session, conf.jifen, junZhu);
+		// 记录领奖状态
+		setGetVipAwardInfo(pre, vip, true);
+		HibernateUtil.save(pre);
+		logger.info("君主：{}领取vip：{}特权礼包成功 ", jid, vip);
+		resp.setSuccess(0);
+		writeByProtoMsg(session, PD.qianDao_get_vip_present_resp, resp);
+		// 领取签到特权任务
+		EventMgr.addEvent(ED.qiandao_get_v, new Object[]{junZhu.id});
+	}
+
+	public boolean isGet(QianDaoPresent pre, int vip){
+		switch(vip){
+			case 1: return pre.isGet1;
+			case 2: return pre.isGet2;
+			case 3: return pre.isGet3;
+			case 4: return pre.isGet4;
+			case 5: return pre.isGet5;
+			case 6: return pre.isGet6;
+			case 7: return pre.isGet7;
+			case 8: return pre.isGet8;
+			case 9: return pre.isGet9;
+			case 10: return pre.isGet10;
+			case 11: return pre.isGet11;
+			default:
+				logger.error("QianDaoPresent中无法get到vip：{}的领奖信息", vip);
+		}
+		return false;
+	}
+	
+	public void setGetVipAwardInfo(QianDaoPresent pre, int vip, boolean isGet){
+		switch(vip){
+			case 1: pre.isGet1 = isGet;break;
+			case 2: pre.isGet2 = isGet;break;
+			case 3: pre.isGet3 = isGet;break;
+			case 4: pre.isGet4 = isGet;break;
+			case 5: pre.isGet5 = isGet;break;
+			case 6: pre.isGet6 = isGet;break;
+			case 7: pre.isGet7 = isGet;break;
+			case 8: pre.isGet8 = isGet;break;
+			case 9: pre.isGet9 = isGet;break;
+			case 10: pre.isGet10 = isGet;break;
+			case 11: pre.isGet11 = isGet;break;
+			default:
+				logger.error("setGetVipAwardInfo,vip=={}的set失败", vip);
+				break;
+		}
+	}
 }

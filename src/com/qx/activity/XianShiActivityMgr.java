@@ -11,6 +11,10 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import qxmobile.protobuf.XianShi.FuLiHuoDong;
+import qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq;
+import qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp;
+import qxmobile.protobuf.XianShi.FuLiHuoDongResp;
 import qxmobile.protobuf.XianShi.GainAward;
 import qxmobile.protobuf.XianShi.HuoDongInfo;
 import qxmobile.protobuf.XianShi.OpenXianShi;
@@ -44,6 +48,9 @@ import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
+import com.qx.explore.ExploreMgr;
+import com.qx.explore.ExploreMine;
+import com.qx.explore.TanBaoData;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.junzhu.PlayerTime;
@@ -53,6 +60,8 @@ import com.qx.persistent.MC;
 import com.qx.pve.PveMgr;
 import com.qx.task.GameTaskMgr;
 import com.qx.task.TaskData;
+import com.qx.timeworker.FunctionID;
+import com.qx.vip.VipMgr;
 import com.qx.world.Mission;
 
 public class XianShiActivityMgr  extends EventProc{
@@ -71,6 +80,8 @@ public class XianShiActivityMgr  extends EventProc{
 	public static final String XIANSHI7DAY_KEY = "xianshi7Day_" + GameServer.serverId;//记录登录总天数
 	public static List<Integer> xshdCloseList=new ArrayList<Integer>();
 	public static boolean isShow=false;
+	public static boolean isOpen4YueKa=false;//封测月卡福利活动是否开启标记
+	public static boolean isOpen4FengceHongBao=false;//封测红包活动是否开启标记
 	public XianShiActivityMgr() {
 		instance = this;
 		initData();
@@ -115,8 +126,70 @@ public class XianShiActivityMgr  extends EventProc{
 			xs7DaysControlMap.put(xs.getId(),xs);
 		}
 		XianShiActivityMgr.xs7DaysControlMap=xs7DaysControlMap;
+		checkGlobalActivityState() ;
 	}
-	
+	//"初始化服务器时间为准的活动数据
+	public  void initGlobalActivityInfo() {
+		//封测红包活动
+		GlobalActivityBean hongbaoInfo = HibernateUtil.find(GlobalActivityBean.class,FuliConstant.fengcehongbao);
+		if(hongbaoInfo==null){
+			Date startTime =new Date();
+			log.info("封测红包活动数据初始化--{}",startTime);
+			hongbaoInfo = new GlobalActivityBean();
+			hongbaoInfo.id=FuliConstant.fengcehongbao;
+			hongbaoInfo.startTime=startTime;
+			HibernateUtil.save(hongbaoInfo);
+		}
+		//封测月卡活动 
+		GlobalActivityBean yuekaInfo = HibernateUtil.find(GlobalActivityBean.class,FuliConstant.yuekafuli);
+		if(yuekaInfo==null){
+			Date startTime =new Date();
+			log.info("封测月卡活动数据初始化--{}",startTime);
+		    yuekaInfo = new GlobalActivityBean();
+			yuekaInfo.id=FuliConstant.yuekafuli;
+			yuekaInfo.startTime=startTime;
+			HibernateUtil.save(yuekaInfo);
+		}
+	}
+	//重置服务器时间为准的活动状态
+	public void checkGlobalActivityState() {
+		
+		//封测红包活动 
+		GlobalActivityBean hongbaoInfo = HibernateUtil.find(GlobalActivityBean.class,FuliConstant.fengcehongbao);
+		if(hongbaoInfo==null){
+			Date startTime =new Date();
+			log.info("重置服务器时间为准的活动状态时，封测红包活动数据初始化--{}",startTime);
+			hongbaoInfo = new GlobalActivityBean();
+			hongbaoInfo.id=FuliConstant.fengcehongbao;
+			hongbaoInfo.startTime=startTime;
+			HibernateUtil.save(hongbaoInfo);
+		}
+		Date now =new Date();
+		int hourDistance1=DateUtils.timeDistanceByHour(now, hongbaoInfo.startTime);
+		if((hourDistance1/24)-30<0){
+			isOpen4FengceHongBao=true;
+		}else{
+			isOpen4FengceHongBao=false;
+		}
+		log.info("以服务器时间为准的---<封测红包>活动状态--{}",isOpen4FengceHongBao);
+		//封测月卡活动
+		GlobalActivityBean yuekaInfo = HibernateUtil.find(GlobalActivityBean.class,FuliConstant.yuekafuli);
+		if(yuekaInfo==null){
+			Date startTime =new Date();
+			log.info("重置服务器时间为准的活动状态时，封测月卡活动数据初始化--{}",startTime);
+			yuekaInfo = new GlobalActivityBean();
+			yuekaInfo.id=FuliConstant.yuekafuli;
+			yuekaInfo.startTime=startTime;
+			HibernateUtil.save(yuekaInfo);
+		}
+		int hourDistance2=DateUtils.timeDistanceByHour(now, yuekaInfo.startTime);
+		if((hourDistance2/24)-30<0){
+			isOpen4YueKa=true;
+		}else {
+			isOpen4YueKa=false;
+		}
+		log.info("以服务器时间为准的---<封测月卡>活动状态--{}",isOpen4YueKa);
+	}
 	/**
 	 * @Description jsp控制限时活动开关
 	 * @param typeId
@@ -301,9 +374,499 @@ public class XianShiActivityMgr  extends EventProc{
 		}
 		session.write(resp.build());
 	}
-
+	//获取福利信息
+	public void getFuLiInfo(int id, Builder builder,IoSession session) {
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			log.error("请求福利状态信息出错：君主不存在");
+			return;
+		}
+		long jzId=jz.id;
+		Date now =new Date();
+		FuLiHuoDongResp.Builder resp=FuLiHuoDongResp.newBuilder();
+		FuliInfo info=HibernateUtil.find(FuliInfo.class, jzId);
+		if(info==null){
+			log.info("初始化君主--{}的福利info",jzId);
+			info=new FuliInfo();
+			info.jzId=jzId;
+			HibernateUtil.save(info);
+		}
+		if(isOpen4FengceHongBao){
+			FuLiHuoDong.Builder fengce=FuLiHuoDong.newBuilder();
+			fengce.setTypeId(FuliConstant.fengcehongbao);
+		
+			getFengCeHongBaoInfo(info, now,fengce);
+			
+			resp.addXianshi(fengce);
+		}
+		boolean isCanGetYueKa=	VipMgr.INSTANCE.hasYueKaAward(jzId);
+		if(isCanGetYueKa&&isOpen4YueKa){
+			FuLiHuoDong.Builder yueka=FuLiHuoDong.newBuilder();
+			yueka.setTypeId(FuliConstant.yuekafuli);
+			boolean isGet2=check4YuKaFuLi(info, now);
+			log.info("君主--{}月卡福利可领取状态--{}",jzId,isGet2);
+			yueka.setIsCanGet(isGet2);
+			if(isGet2){
+				yueka.setContent(FuliConstant.yuekafuliAward);
+			}else{
+				int hour = DateUtils.getHourOfDay(now);
+				int year=now.getYear();
+				int month=now.getMonth();
+				int hrs=4;
+				int min=0;
+				if(hour>=4){
+					int date =now.getDate()+1;
+					Date nextDay=new Date(year, month, date, hrs, min);
+					int	timeDistance = DateUtils.timeDistanceBySecond(nextDay, now)/1000;
+					yueka.setRemainTime(timeDistance);
+					yueka.setContent("明天4点");
+				}else {
+					int date =now.getDate();
+					Date nextDay=new Date(year, month, date, hrs, min);
+					int	timeDistance = DateUtils.timeDistanceBySecond(nextDay, now)/1000;
+					yueka.setRemainTime(timeDistance);
+					yueka.setContent("今天4点");
+				};
+			}
+			resp.addXianshi(yueka);
+		}
+		if(!xshdCloseList.contains(FuliConstant.tilifuli)){
+			FuLiHuoDong.Builder tili=FuLiHuoDong.newBuilder();
+			tili.setTypeId(FuliConstant.tilifuli);
+			getTiliFuLiInfo(info, now,tili);
+			log.info("君主--{}体力福利可领取状态--{}",jzId,tili.getContent());
+			resp.addXianshi(tili);
+		}
+		session.write(resp.build());
+	}
 	
 
+	//领取封测福利奖励
+	public void gainFuLiAward(int id, Builder builder,IoSession session) {
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			log.error("请求领取福利出错：君主不存在");
+			return;
+		}
+		long jzId=jz.id;
+		FuLiHuoDongAwardReq.Builder req=(FuLiHuoDongAwardReq.Builder)builder;
+		int type=req.getFuLiType();
+		FuliInfo info=HibernateUtil.find(FuliInfo.class, jzId);
+		if(info==null){
+			log.info("初始化君主--{}的福利info,此处未保存",jzId);
+			info=new FuliInfo();
+			info.jzId=jzId;
+		}
+		FuLiHuoDongAwardResp.Builder resp=FuLiHuoDongAwardResp.newBuilder();
+		resp.setFuLiType(type);
+		String result=null;
+		switch (type) {
+		case FuliConstant.fengcehongbao:
+			result=gainFengCeHongBao(jz, info, session);
+			resp.setResult(result);
+			break;
+		case FuliConstant.yuekafuli:
+			result=gainYueKaFuLi(jz, info, session);
+			resp.setResult(result);
+			break;
+		case FuliConstant.tilifuli:
+			result=gainTiLiFuLi(jz, info, session);
+			resp.setResult(result);
+			break;
+		default:
+			log.error("{}--请求领取福利出错：type--{}不存在",jzId,type);
+			break;
+		}
+		session.write(resp.build());
+		//给前端重新发福利信息
+		getFuLiInfo(id, builder, session);
+	}
+	private String gainFengCeHongBao(JunZhu jz,FuliInfo info,IoSession session) {
+		long jzId=jz.id;
+		if(!isOpen4FengceHongBao){
+			log.info("君主--{}领取封测红包福利失败,活动关闭",jzId);
+			return "0";
+		}
+		Date now =new Date();
+		log.info("君主--{}领取封测红包福利",jzId);
+		int fengceHongBaoCode=getNowHongBaoFuLiCode();
+		int isGetCode=check4FengCeHongBao(info, now,fengceHongBaoCode);
+		String award="0";
+//		boolean isGet1=check4FengCeHongBao(info, now);
+		switch (isGetCode) {
+		case 1:
+			award="0:900002:"+FuliConstant.fengcehongbaoAward1;
+			log.info("君主--{}领取封测红包福利1--{}",jzId,award);
+			if(award!=null&&!"".equals(award)&&award.contains(":")){
+				AwardMgr.inst.giveReward(session, award, jz);
+			}
+			info.getFengCeHongBaoTime1=now;
+			HibernateUtil.save(info);
+			break;
+		case 2:
+			award="0:900002:"+FuliConstant.fengcehongbaoAward2;
+			log.info("君主--{}领取封测红包福利2--{}",jzId,award);
+			if(award!=null&&!"".equals(award)&&award.contains(":")){
+				AwardMgr.inst.giveReward(session, award, jz);
+			}
+			info.getFengCeHongBaoTime2=now;
+			HibernateUtil.save(info);
+			break;
+		default:
+			log.error("君主--{}不可以领取封测红包福利",jzId);
+			break;
+		}
+		return award;
+	}
+	private String gainYueKaFuLi(JunZhu jz,FuliInfo info,IoSession session) {
+		long jzId=jz.id;
+		if(!isOpen4YueKa){
+			log.info("君主--{}领取月卡福利失败,活动关闭",jzId);
+			return "0";
+		}
+		Date now =new Date();
+		log.info("君主--{}领取月卡福利",jzId);
+		boolean isCanGetYueKa=	VipMgr.INSTANCE.hasYueKaAward(jzId);
+		if(!isCanGetYueKa){
+			log.info("君主--{}领取月卡福利失败,isCanGetYueKa为false",jzId);
+			return "0";
+		}
+		boolean isGet1=check4YuKaFuLi(info, now);
+		if(isGet1){
+			//TODO 奖励
+			String award="0:900002:120";
+			log.info("君主--{}领取月卡福利--{}",jzId,award);
+			if(award!=null&&!"".equals(award)&&award.contains(":")){
+				AwardMgr.inst.giveReward(session, award, jz);
+			}
+			info.getYuKaFuLiTime=now;
+			HibernateUtil.save(info);
+			return award;
+		}else{
+			log.info("君主--{}不可以领取月卡福利",jzId);
+			return "0";
+		}
+	}
+	private String gainTiLiFuLi(JunZhu jz,FuliInfo info,IoSession session) {
+		long jzId=jz.id;
+		log.info("君主--{}领取体力福利",jzId);
+		if(xshdCloseList.contains(FuliConstant.tilifuli)){
+			log.info("封测体力活动强制关闭,{}--领取失败",jzId);
+			return "0";
+		}
+		Date now =new Date();
+		int tiliCode=getNowTiliCode();
+		String award=null;
+		switch (tiliCode) {
+		case 1:
+			if(getDistance4Tili1(info)){
+				//可领奖励1
+				award="0:900003:50";
+				info.getTiLiTime1=now;
+			}
+			break;
+		case 2:
+			if(getDistance4Tili2(info)){
+				//可领奖励2
+				award="0:900003:50";
+				info.getTiLiTime2=now;
+			}
+			break;
+		case 3:
+			if(getDistance4Tili3(info)){
+				//可领奖励3
+				award="0:900003:50";
+				info.getTiLiTime3=now;
+			}
+			break;
+		case 4:
+			//不可领奖励3
+
+			break;
+		}
+		//TODO 奖励
+		if(award!=null&&!"".equals(award)&&award.contains(":")){
+			log.info("君主--{}领取体力福利--{}",jzId,award);
+			AwardMgr.inst.giveReward(session, award, jz);
+			HibernateUtil.save(info);
+			return award;
+		}else{
+			log.info("君主--{}领取体力福利失败",jzId);
+			return "0";
+		}
+	}
+	// 现在应该领哪个体力奖励
+	public int getNowTiliCode() {
+		int hour = DateUtils.getHourOfDay(new Date());
+		//算出现在是哪个时段
+		int tiliCode=(hour >= 0 && hour < FuliConstant.show_tili_clock_12)?0:
+					(hour >= FuliConstant.show_tili_clock_12 && hour < FuliConstant.show_tili_clock_14)?1:
+					(hour >= FuliConstant.show_tili_clock_14 && hour < FuliConstant.show_tili_clock_18)?11:
+					(hour >= FuliConstant.show_tili_clock_18 && hour < FuliConstant.show_tili_clock_20)?2:
+					(hour >= FuliConstant.show_tili_clock_20 && hour < FuliConstant.show_tili_clock_21)?21:
+					(hour >= FuliConstant.show_tili_clock_21 && hour < FuliConstant.show_tili_clock_24)?3:4;
+		return tiliCode;
+	}
+
+	public void getTiliFuLiInfo(FuliInfo info, Date now,FuLiHuoDong.Builder tili) {
+		int tiliCode=getNowTiliCode();
+		int year=now.getYear();
+		int month=now.getMonth();
+		int date =now.getDate();
+		int hrs=12;
+		int min=0;
+		Date nextDay;
+		int	timeDistance;
+		boolean isCan=false;
+		switch (tiliCode) {
+		case 0:
+			//不可领奖励1
+			tili.setContent("今天12点");
+			break;
+		case 1:
+			isCan=getDistance4Tili1(info);
+			if(isCan){
+				//可领奖励1
+				tili.setContent(FuliConstant.tilifuliAward1);
+			}else{
+				hrs=FuliConstant.show_tili_clock_18;
+				//不可领奖励1
+				tili.setContent("今天"+FuliConstant.show_tili_clock_18+"点");
+			}
+			break;
+		case 11:
+			hrs=FuliConstant.show_tili_clock_18;
+				//不可领奖励1
+			tili.setContent("今天"+FuliConstant.show_tili_clock_18+"点");
+			break;
+		case 2:
+			isCan=getDistance4Tili2(info);
+			if(isCan){
+				//可领奖励1
+				tili.setContent(FuliConstant.tilifuliAward2);
+			}else{
+				hrs=FuliConstant.show_tili_clock_21;
+				//不可领奖励1
+				tili.setContent("今天"+FuliConstant.show_tili_clock_21+"点");
+			}
+			break;
+		case 21:
+			hrs=FuliConstant.show_tili_clock_21;
+			//不可领奖励1
+			tili.setContent("今天"+FuliConstant.show_tili_clock_21+"点");
+			break;
+		case 3:
+			isCan=getDistance4Tili3(info);
+			if(isCan){
+				//可领奖励1
+				tili.setContent(FuliConstant.tilifuliAward3);
+			}else{
+				date+=1;
+				hrs=FuliConstant.show_tili_clock_12;
+				//不可领奖励1
+				tili.setContent("明天"+FuliConstant.show_tili_clock_12+"点");
+			}
+			break;
+		case 4:
+			date+=1;
+			hrs=FuliConstant.show_tili_clock_12;
+			//不可领奖励3
+			tili.setContent("明天"+FuliConstant.show_tili_clock_12+"点");
+			break;
+		}
+		nextDay=new Date(year, month, date, hrs, min);
+		timeDistance = DateUtils.timeDistanceBySecond(nextDay, now)/1000;
+		tili.setRemainTime(timeDistance);
+		tili.setIsCanGet(isCan);
+	}
+	
+	/**
+	 * @Description 获取封测红包福利信息 
+	 * 部分参数写死 比如17:30分之类的 如果要变更需求 该配置需一起修改
+	 * @param info
+	 * @param now
+	 * @param fengce
+	 */
+	public void getFengCeHongBaoInfo(FuliInfo info, Date now,FuLiHuoDong.Builder fengce) {
+		long jzId=info.jzId;
+		int fengceHongBaoCode=getNowHongBaoFuLiCode();
+		int isGetCode=check4FengCeHongBao(info, now,fengceHongBaoCode);
+		log.info("君主--{}封测红包福利可领取状态--{}",jzId,isGetCode);
+//		isGetCode1 ：
+//		 * 0：将要领明天9：00后 奖励;
+//		 * 10：将要领今天9:00 奖励;
+//		 * 1： 可领9:00 奖励 ; 
+//		 * 20：将要领今天17:30 奖励;
+//		 * 2：可领17:30 奖励;  
+		Date nextDay=null;
+		int timeDistance=0;
+		switch (isGetCode) {
+		case 1:
+			fengce.setContent(FuliConstant.fengcehongbaoAward1);
+			break;
+		case 2:
+			fengce.setContent(FuliConstant.fengcehongbaoAward2);
+			break;
+		case 10:
+			int year1=now.getYear();
+			int month1=now.getMonth();
+			int date1 =now.getDate()+1;
+			int hrs1=9;
+			int min1=0;
+			nextDay=new Date(year1, month1, date1, hrs1, min1);
+			timeDistance = DateUtils.timeDistanceBySecond(nextDay, now)/1000;
+			fengce.setRemainTime(timeDistance);
+			fengce.setContent("今天9:00");
+			break;
+		case 20:
+			int year=now.getYear();
+			int month=now.getMonth();
+			int date =now.getDate()+1;
+			int hrs=17;
+			int min=30;
+			nextDay=new Date(year, month, date, hrs, min);
+			timeDistance = DateUtils.timeDistanceBySecond(nextDay, now)/1000;
+			fengce.setRemainTime(timeDistance);
+			fengce.setContent("今天17:30");
+			break;
+		case 0:
+			//算出明天9点到现在的秒差
+			timeDistance=DateUtils.timeDistanceBySecond()/1000;
+			//加5小时
+			timeDistance+=5*3600;
+			fengce.setRemainTime(timeDistance);
+			fengce.setContent("明天9:00");
+			break;
+		default:
+			break;
+		}
+		fengce.setIsCanGet(isGetCode==1||isGetCode==2);
+	}
+	
+	/** 
+	 * @Description 现在应该领哪个红包奖励
+	 * @return 1表示 可领取9：00之前的奖励
+	 *         2表示  可领取17：30之后的奖励  
+	 *         3表示 可领取9：00-17：30之间的奖励 
+	 */
+	public int getNowHongBaoFuLiCode() {
+		int distance1=DateUtils.timeDistanceTodayOclock(9, 0);
+		if(distance1>0){
+			return 1;
+		}
+		int distance2=DateUtils.timeDistanceTodayOclock(17, 30);
+		if(distance2>0){
+			return 3;
+		}
+		return 2;
+	}
+	/**
+	 * @Description
+	 * @param info
+	 * @param now
+	 * @return 
+	 */
+	
+	/**
+	 * @Description
+	 * @param info
+	 * @param now
+	 * @param  fengceHongBaoCode
+	 *   	   1表示 可领取9：00之前的奖励
+	 *         2表示  可领取17：30之后的奖励  
+	 *         3表示 可领取9：00-17：30之后的奖励 
+	 * @return 
+	 * 0：将要领明天9：00后 奖励;
+	 * 10：将要领今天9:00 奖励;
+	 * 1： 可领9:00 奖励 ; 
+	 * 20：将要领今天17:30 奖励;
+	 * 2：可领17:30 奖励;  
+	 */
+	public int check4FengCeHongBao(FuliInfo info,Date now,int fengceHongBaoCode) {
+		int result=0;
+		boolean distance2_9=false;
+		switch (fengceHongBaoCode) {
+		case 3:
+			if(info.getFengCeHongBaoTime1==null)
+			{
+				result=  1;
+				break;
+			}
+			boolean hasGet=DateUtils.isTimeToReset(info.getFengCeHongBaoTime1, 9);
+			//false 说明9:00-17:30已经领奖  ； true  可领今天9:00-17:30奖励
+			if(!hasGet){
+				result= 20;
+			}else{
+				result= 1;
+			}
+			break;
+		case 1:
+			if(info.getFengCeHongBaoTime2==null)
+			{
+				result= 2;
+				break;
+			}
+			distance2_9=DateUtils.isTimeToReset(info.getFengCeHongBaoTime2, 9);
+			if(distance2_9){
+				result=  2;
+			}else{
+				result=  10;
+			}
+			break;
+	
+		case 2:
+			if(info.getFengCeHongBaoTime2==null)
+			{
+				result= 2;
+				break;
+			}
+			int distance2_17=DateUtils.timeDistanceTodayByclock(info.getFengCeHongBaoTime2, 17, 30);
+			//0 说明已经领过
+			if(distance2_17==0){
+				result=  0;
+			}else{
+				result=  2;
+			}
+			break;
+		default:
+			log.error("君主--{}，check4FengCeHongBao,ERROR_CODE--{}",info.jzId,fengceHongBaoCode);
+			break;
+		}
+		return result;
+	}
+
+	public boolean getDistance4Tili1(FuliInfo info) {
+		//今天领了体力福利1没有
+		boolean result=true;
+		if(info!=null&&info.getTiLiTime1!=null){
+			result=DateUtils.isTimeToReset(info.getTiLiTime1, CanShu.REFRESHTIME_PURCHASE);
+		}
+		return result;
+	}
+	public boolean getDistance4Tili2(FuliInfo info) {
+		//今天领了体力福利2没有
+		boolean result=true;
+		if(info!=null&&info.getTiLiTime2!=null){
+			result=DateUtils.isTimeToReset(info.getTiLiTime2, CanShu.REFRESHTIME_PURCHASE);
+		}
+		return result;
+	}
+	public boolean getDistance4Tili3(FuliInfo info) {
+		//今天领了体力福利3没有
+		boolean result=true;
+		if(info!=null&&info.getTiLiTime3!=null){
+			result=DateUtils.isTimeToReset(info.getTiLiTime3, CanShu.REFRESHTIME_PURCHASE);
+		}
+		return result;
+	}
+	public boolean check4YuKaFuLi(FuliInfo info,Date now) {
+		boolean result=true;
+		//今天领了月卡福利没有
+		if(info!=null&&info.getYuKaFuLiTime!=null){
+			result=DateUtils.isTimeToReset(info.getYuKaFuLiTime, CanShu.REFRESHTIME_PURCHASE);
+		}
+		return result;
+	}
 	/**
 	 * @Description: 根据小活动id判断大活动是否关闭
 	 * @param huodongId
@@ -1278,6 +1841,10 @@ public class XianShiActivityMgr  extends EventProc{
 			resp.setResult(10);
 			GainOtherAwardResp(session, resp);
 			log.info("君主{}的其他限时活动之{}奖励， 领取成功",jzId,huodongId);
+			// 领取【探宝】
+			if(bigId == XianShiConstont.TANBAO_ONETIMES){
+				EventMgr.addEvent(ED.get_achieve , new Object[] {jzId});
+			}
 			//判断限时活动是否可以完成关闭
 			finishXianShiActivity(bigId, jzId, xsBean,session);
 		}else{ 
@@ -1744,7 +2311,8 @@ public class XianShiActivityMgr  extends EventProc{
 					continue;
 				}
 			}
-//			FIXME 认为第一个未完成的后面所有任务都不能完成
+//			FIXME 认为第一个未完成的后面所有任务都不能完成 策划这么决定的 认不认不知道
+			//此处判定条件随机待变更
 			if(isWanCheng(jzId,xshd)){
 				isNewAward=true;
 				continue;
@@ -1788,10 +2356,21 @@ public class XianShiActivityMgr  extends EventProc{
 			result= checkStar4Mibao(jzId, xshd);
 			break;
 		case TaskData.get_x_mibao://19
-			//TODO 秘宝获得或者合成
+			//秘宝获得或者合成
 			result= checkCount4Mibao(jzId, xshd);
 			//对应操作
 			break;
+		case TaskData.tanbao_oneTime://74
+			//探宝1抽
+			result= check4TanbaoOneTimes(jzId, xshd);
+			//对应操作
+			break;
+		case TaskData.tanbao_tenTime://	75	
+			//探宝10连抽
+			result= check4TanbaoTenTimes(jzId, xshd);
+			//对应操作
+			break;
+		//TODO 探宝10次 1次处理
 		default:
 			break;
 		}
@@ -1803,12 +2382,38 @@ public class XianShiActivityMgr  extends EventProc{
 		}
 		return result;
 	}
+	//检查探宝10连抽是否完成
+	public boolean check4TanbaoTenTimes(long jzId, XianshiHuodong xshd) {
+		boolean	result=false;
+		ExploreMine tanbaodata=	ExploreMgr.inst.getMineByType(jzId, TanBaoData.yuanBao_type);
+		if(tanbaodata!=null){
+			Integer count4TanbaoTenTime=Integer.valueOf(xshd.getDoneCondition());
+			result=tanbaodata.tenChouClickNumber>=count4TanbaoTenTime;
+			log.info("君主-{}的探宝10连抽限时活动-{}状态---{}---君主完成次数--{}，所需条件---{}",
+					jzId,xshd.getId(),result,tanbaodata.tenChouClickNumber,count4TanbaoTenTime);
+		}
+		return result;
+	}
+	//检查探宝单抽是否完成
+	public boolean check4TanbaoOneTimes(long jzId, XianshiHuodong xshd) {
+		boolean	result=false;
+		ExploreMine tanbaodata=	ExploreMgr.inst.getMineByType(jzId, TanBaoData.yuanBao_type);
+		if(tanbaodata!=null){
+			Integer count4TanbaoOneTime=Integer.valueOf(xshd.getDoneCondition());
+			result=tanbaodata.danChouClickNumber>=count4TanbaoOneTime;
+			log.info("君主-{}的探宝10连抽限时活动-{}状态---{}---君主完成次数--{}，所需条件---{}",
+					jzId,xshd.getId(),result,tanbaodata.danChouClickNumber,count4TanbaoOneTime);
+		}
+		return result;
+	}
+
 	protected boolean checkJZLevel(long jzId,XianshiHuodong xshd) {
 		boolean	result=false;
 		JunZhu jz=HibernateUtil.find(JunZhu.class, jzId);
 		if(jz!=null){
 			Integer level=Integer.valueOf(xshd.getDoneCondition());
 			result= jz.level>=level;
+			log.info("君主-{}的冲级限时活动-{}状态---{}---君主等级--{}，所需条件---{}",jzId,xshd.getId(),result,jz.level,level);
 		}
 		return  result;
 	}
@@ -1904,10 +2509,116 @@ public class XianShiActivityMgr  extends EventProc{
 			// 活动未完成且活动开启 
 			refreshMiBaoLevelUpActivity(event);
 			break;	
+		case ED.tanbao_oneTimes:
+			//探宝1次
+			refreshTanbao4oneTimes(event);
+			break;	
+		case ED.tanbao_tenTimes:
+			//探宝10次
+			refreshTanbao4tenTimes(event);
+			break;	
+		case ED.REFRESH_TIME_WORK:
+			//探宝10次
+			refreshFuLiRedNode(event);
+			break;	
 		}
 	}
 
+	public void refreshFuLiRedNode(Event e) {
+		IoSession session = (IoSession) e.param;
+		if(session == null){
+			return;
+		}
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if(jz == null){
+			log.error("刷新君主福利奖励红点出错，君主不存在");
+			return;
+		}
+		long jzId=jz.id;
+		log.info("刷新君主---{}福利奖励红点",jz.id);
+		Date now =new Date();
+		FuliInfo info=HibernateUtil.find(FuliInfo.class, jzId);
+		if(info==null){
+			log.info("定时刷新中初始化君主--{}的福利info",jzId);
+			info=new FuliInfo();
+			info.jzId=jzId;
+			HibernateUtil.save(info);
+		}
+		int fengceHongBaoCode=getNowHongBaoFuLiCode();
+		int isGetCode=check4FengCeHongBao(info, now,fengceHongBaoCode);
+		log.info("君主--{}封测红包福利可领取状态--{}",jzId,isGetCode);
+		if(isGetCode==1||isGetCode==2){
+			FunctionID.pushCanShowRed(jz.id, session, FunctionID.fengcehongbao);
+		}
+		boolean isGet2=check4YuKaFuLi(info, now);
+		log.info("君主--{}月卡福利可领取状态--{}",jzId,isGet2);
+		if(isGet2){
+			FunctionID.pushCanShowRed(jz.id, session, FunctionID.yuekafuli);
+		}
+		FuLiHuoDong.Builder tili=FuLiHuoDong.newBuilder();
+		tili.setTypeId(FuliConstant.tilifuli);
+		getTiliFuLiInfo(info, now,tili);
+		log.info("君主--{}体力福利可领取状态--{}",jzId,tili.getContent());
+		boolean isGet3="体力奖励".equals(tili.getContent());
+		if(isGet3){
+			FunctionID.pushCanShowRed(jz.id, session, FunctionID.tilifuli);
+		}
+	}
 
+	//刷新探宝10次
+	public void refreshTanbao4tenTimes(Event event) {
+		// 活动未完成且活动开启
+		Object[]	obs = (Object[])event.param;
+		long jzId = (Long)obs[0];
+		log.info("君主-{}--探宝10次限时活动数据刷新",jzId);
+		XianshiControl xs=xsControlMap.get(XianShiConstont.TANBAO_TENTIMES);
+		if(xs==null){
+			log.info("君主-{}--限时活动--{}数据刷新,活动配置没了，不刷新",jzId,XianShiConstont.TANBAO_TENTIMES);
+			return;
+		}
+		XianShiBean 	xsBean = HibernateUtil.find(XianShiBean.class, xs.getId() + jzId * 100);
+		if (xsBean == null) {
+			xsBean = initXianShiInfo(jzId, xs.getId());
+		}
+		//限时活动 进行完成超时判断  （不是首日和七日活动时）
+		if(checkisFinished(xsBean)){
+			log.info("君主-{}--探宝10次限时活动数据刷新,活动完成，不刷新",jzId);
+			return;
+		}
+		if (!xshdCloseList.contains(xs.getId())) {
+			if(xsBean.finishDate==null){
+				//限时活动未完成 刷新活动状态
+				refreshNormalXianShiInfo(jzId, xs, xsBean);
+			}
+		}
+	}
+	//刷新探宝1次
+	public void refreshTanbao4oneTimes(Event event) {
+		// 活动未完成且活动开启
+		Object[]	obs = (Object[])event.param;
+		long jzId = (Long)obs[0];
+		log.info("君主-{}--冲级送礼限时活动数据刷新",jzId);
+		XianshiControl xs=xsControlMap.get(XianShiConstont.TANBAO_ONETIMES);
+		if(xs==null){
+			log.info("君主-{}--限时活动--{}数据刷新,活动配置没了，不刷新",jzId,XianShiConstont.TANBAO_ONETIMES);
+			return;
+		}
+		XianShiBean 	xsBean = HibernateUtil.find(XianShiBean.class, xs.getId() + jzId * 100);
+		if (xsBean == null) {
+			xsBean = initXianShiInfo(jzId, xs.getId());
+		}
+		//限时活动 进行完成超时判断  （不是首日和七日活动时）
+		if(checkisFinished(xsBean)){
+			log.info("君主-{}--冲级送礼限时活动数据刷新,活动完成，不刷新",jzId);
+			return;
+		}
+		if (!xshdCloseList.contains(xs.getId())) {
+			if(xsBean.finishDate==null){
+				//限时活动未完成 刷新活动状态
+				refreshNormalXianShiInfo(jzId, xs, xsBean);
+			}
+		}
+	}
 
 	@Override
 	public void doReg() {
@@ -1920,6 +2631,9 @@ public class XianShiActivityMgr  extends EventProc{
 		EventMgr.regist(ED.MIBAO_SEHNGXING, this);// 主线任务：完成一次秘宝生星级
 		EventMgr.regist(ED.mibao_shengji_x, this);// 主线任务：完成一次秘宝升级
 		EventMgr.regist(ED.QIANG_HUA_FINISH, this);//完成一次强化
+		EventMgr.regist(ED.tanbao_oneTimes, this);//探宝单抽
+		EventMgr.regist(ED.tanbao_tenTimes, this);//探宝10连抽
+		EventMgr.regist(ED.REFRESH_TIME_WORK, this);//红点刷新
 	}
 
 	/**

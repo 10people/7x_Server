@@ -1,3 +1,4 @@
+<%@page import="com.qx.world.SceneMgr"%>
 <%@page import="com.qx.account.AccountManager"%>
 <%@page import="com.qx.world.Scene"%>
 <%@page import="java.util.Enumeration"%>
@@ -17,6 +18,20 @@
 <title>监控</title>
 </head>
 <body>
+<%String act = request.getParameter("act");
+if("modSizePerSc".equals(act)){
+	String size = request.getParameter("sizePerSc");
+	SceneMgr.sizePerSc = Integer.parseInt(size);
+}
+%>
+<form action='' method="get">
+<input type="hidden" name="act" value="modSizePerSc">
+每层人数限制:<input  type='number' name='sizePerSc' value='<%=SceneMgr.sizePerSc %>'/>
+<button type='submit' >修改</button>
+</form>
+<br/>
+<a href='?clearOffLine=1'>清理离线</a>
+<br/>
 连接数量:<%=SessionManager.getInst().sessionMap.size() %><br/>
 君主数量:<%=AccountManager.sessionMap.size() %><br/>
 <br/>
@@ -31,11 +46,12 @@ int cnt = 0;
 Enumeration<Integer>  ki = BigSwitch.inst.scMgr.lmCities.keys();
 Enumeration<Long>  houseki = BigSwitch.inst.scMgr.houseScenes.keys();
 Enumeration<Integer>  fightki = BigSwitch.inst.scMgr.fightScenes.keys();
+boolean clearOffLine = request.getParameter("clearOffLine") != null;
 while(ki.hasMoreElements()){
 	Integer lmId = ki.nextElement();
 	Scene sc = BigSwitch.inst.scMgr.lmCities.get(lmId);
 	Iterator<Integer> it2 = sc.players.keySet().iterator();
-	out("<tr><td colspan='5'>"+sc.name+"</td></tr>");
+	out("<tr><td colspan='6'>"+sc.name+"</td></tr>");
 	cnt += sc.players.size();
 	int idx = 0;
 	while(it2.hasNext()){
@@ -50,7 +66,13 @@ while(ki.hasMoreElements()){
 		out.append("<td>");		out.append(acc);		out.append("</td>");
 		out.append("<td>");		out.append(p.pState.name());		out.append("</td>");
 		td(p.getPosX()+","+p.getPosY()+","+p.getPosZ());
-		td(p.jzId);
+		IoSession ss = AccountManager.sessionMap.get(p.jzId);
+		String online = ss != null && ss.isConnected() ? "" : "-离线";
+		if(clearOffLine && online.length()>0){
+			it2.remove();
+			online += "-removed";
+		}
+		td(p.jzId+online);
 		out.append("<tr>");
 	}
 }

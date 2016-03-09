@@ -22,12 +22,16 @@ public class PveRecord {
 	public int achieveRewardState;
 	public boolean chuanQiPass = false;
 	@Column(columnDefinition="INT default 0")
-	public int cqPassTimes;//传奇关卡通关次数。
+	public int cqPassTimes;				//传奇关卡通关次数。
 	@Column(columnDefinition="INT default 0")
-	public int cqStar;//传奇星星
+	public int cqWinLevel;				//传奇胜利等级-小胜、完胜..
 	@Column(columnDefinition="INT default 0")
-	public int cqResetTimes;//传奇关卡重置【已经】重置了几次
-	public Date cqResetDate;//上次重置时间。
+	public int cqStar;					//传奇星级评价
+	@Column(columnDefinition="INT default 0")
+	public int cqStarRewardState;		//传奇星级奖励领取状态
+	@Column(columnDefinition="INT default 0")
+	public int cqResetTimes;			//传奇关卡重置【已经】重置了几次
+	public Date cqResetDate;			//上次重置时间。
 	
 	@Column(columnDefinition="INT default 0")
 	public int starLevel;

@@ -77,8 +77,7 @@ pageContext.setAttribute("basePath",basePath);
                  byte tongbi = TanBaoData.tongBi_type;
                  byte yuanbao = TanBaoData.yuanBao_type;
               
-                  out.println("探宝类型：1-铜币单抽, 2-铜币十连抽；3-元宝单抽，4-元宝十连抽");
-                  br();
+                
                   out.println("免费铜币单抽CD(单位是秒)："+ TanBaoData.tongBi_CD);
                   out.println("<input type='text' id='changeFCD' value='"+input
                           +"'/><input type='button' value='修改' onclick='go(\"changeFCD\")'/>");
@@ -166,6 +165,8 @@ pageContext.setAttribute("basePath",basePath);
                     trE();
                     tableEnd();   
 	    		 br();
+	    		  out.println("探宝类型：1-铜币单抽, 2-铜币十连抽；3-元宝单抽，4-元宝十连抽");
+                  br();
                  br();
                  out("点击进行某种抽奖操作：(请填写以上存在的探宝类型)");
                  br();

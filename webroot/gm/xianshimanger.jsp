@@ -1,3 +1,6 @@
+<%@page import="com.qx.activity.FuliConstant"%>
+<%@page import="com.qx.activity.XianShiConstont"%>
+<%@page import="com.manu.dynasty.template.XianshiHuodong"%>
 <%@page import="com.manu.dynasty.template.XianshiControl"%>
 <%@page import="com.qx.activity.XianShiBean"%>
 <%@page import="java.util.List"%>
@@ -88,6 +91,12 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 				<%
 			}
 			%>
+			<br>
+			当前封测红包活动状态为：<%=BigSwitch.inst.xsActivityMgr.isOpen4FengceHongBao ? "开启" : "关闭"%>
+			<br>
+			当前封测月卡活动状态为：<%=BigSwitch.inst.xsActivityMgr.isOpen4YueKa ? "开启" : "关闭"%>
+			<br>
+			当前封测体力活动状态为：<%=XianShiActivityMgr.instance.xshdCloseList.contains(FuliConstant.tilifuli)?"关闭":"开启"%>
   	<form action="">
 	  	账号<input type="text" name="account" value="<%=name%>">&nbsp;或&nbsp;
 	  	君主ID<input type="text" name="accId" value="<%=accIdStr%>">
@@ -150,9 +159,11 @@ do{
 			return;
 		}else{
 			Date lastLogInTime = playerTime.getLoginTime();
-			if(lastLogInTime!=null){
+		String dayCount=	XianShiActivityMgr.DB.get(XianShiActivityMgr.XIANSHI7DAY_KEY + junZhuId);
+// 	boolean	isExist =XianShiActivityMgr.DB.lexist((XianShiActivityMgr.XIANSHIFINISH_KEY + junZhuId), XianShiConstont.QIRIQIANDAO_TYPE + "");
+		if(lastLogInTime!=null){
 				trS();
-				td("上次登录时间");
+				td("连续登陆天数"+dayCount+"；上次登录时间");
 				td("<input type='text' id='upLoginTime' value='"
 					+ sdf.format(lastLogInTime)
 					+ "'/><input type='button' value='修改' onclick='goday(\"upLoginTime\")'/><br/>");
@@ -172,6 +183,20 @@ do{
 			trE();
 			}else{
 				out("没有找到活动Id为"+xs.bigId+"的活动<br>");
+			}
+		}
+		
+		out("<br><br>");
+		List<XianshiHuodong> xsList=XianShiActivityMgr.instance.bigActivityMap.get(1501000);
+		for(XianshiHuodong xs : xsList){
+			if(xs!=null){
+				boolean	isYiling=false;
+			boolean isKeling =XianShiActivityMgr.instance.DB.lexist((XianShiActivityMgr.XIANSHIKELING_KEY + junzhu.id), xs.getId()+ "");
+// 			boolean isYiling =XianShiActivityMgr.instance.DB.lexist((XianShiActivityMgr.XIANSHIYILING_KEY + junzhu.id), xs.getId()+ "");
+			trS();
+			td(xs.getDesc());
+			td(isYiling?"已领":(isKeling?"可领":"不可领"+ xs.getId()+"---"+XianShiActivityMgr.XIANSHIKELING_KEY + junzhu.id));
+			trE();
 			}
 		}
 		tableEnd();

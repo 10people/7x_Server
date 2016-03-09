@@ -319,6 +319,24 @@ public final class Chat {
     com.google.protobuf.ByteString
         getLianmengNameBytes();
 
+    // optional int32 lianmengId = 19;
+    /**
+     * <code>optional int32 lianmengId = 19;</code>
+     *
+     * <pre>
+     *发言者的联盟id，新增 2016年3月2日
+     * </pre>
+     */
+    boolean hasLianmengId();
+    /**
+     * <code>optional int32 lianmengId = 19;</code>
+     *
+     * <pre>
+     *发言者的联盟id，新增 2016年3月2日
+     * </pre>
+     */
+    int getLianmengId();
+
     // optional int32 vipLevel = 18;
     /**
      * <code>optional int32 vipLevel = 18;</code>
@@ -502,8 +520,13 @@ public final class Chat {
               break;
             }
             case 144: {
-              bitField0_ |= 0x00010000;
+              bitField0_ |= 0x00020000;
               vipLevel_ = input.readInt32();
+              break;
+            }
+            case 152: {
+              bitField0_ |= 0x00010000;
+              lianmengId_ = input.readInt32();
               break;
             }
           }
@@ -1221,6 +1244,30 @@ public final class Chat {
       }
     }
 
+    // optional int32 lianmengId = 19;
+    public static final int LIANMENGID_FIELD_NUMBER = 19;
+    private int lianmengId_;
+    /**
+     * <code>optional int32 lianmengId = 19;</code>
+     *
+     * <pre>
+     *发言者的联盟id，新增 2016年3月2日
+     * </pre>
+     */
+    public boolean hasLianmengId() {
+      return ((bitField0_ & 0x00010000) == 0x00010000);
+    }
+    /**
+     * <code>optional int32 lianmengId = 19;</code>
+     *
+     * <pre>
+     *发言者的联盟id，新增 2016年3月2日
+     * </pre>
+     */
+    public int getLianmengId() {
+      return lianmengId_;
+    }
+
     // optional int32 vipLevel = 18;
     public static final int VIPLEVEL_FIELD_NUMBER = 18;
     private int vipLevel_;
@@ -1232,7 +1279,7 @@ public final class Chat {
      * </pre>
      */
     public boolean hasVipLevel() {
-      return ((bitField0_ & 0x00010000) == 0x00010000);
+      return ((bitField0_ & 0x00020000) == 0x00020000);
     }
     /**
      * <code>optional int32 vipLevel = 18;</code>
@@ -1263,6 +1310,7 @@ public final class Chat {
       isYBHelp_ = false;
       isLveDuoHelp_ = false;
       lianmengName_ = "";
+      lianmengId_ = 0;
       vipLevel_ = 0;
     }
     private byte memoizedIsInitialized = -1;
@@ -1344,8 +1392,11 @@ public final class Chat {
       if (((bitField0_ & 0x00008000) == 0x00008000)) {
         output.writeBytes(17, getLianmengNameBytes());
       }
-      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+      if (((bitField0_ & 0x00020000) == 0x00020000)) {
         output.writeInt32(18, vipLevel_);
+      }
+      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+        output.writeInt32(19, lianmengId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1426,9 +1477,13 @@ public final class Chat {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(17, getLianmengNameBytes());
       }
-      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+      if (((bitField0_ & 0x00020000) == 0x00020000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(18, vipLevel_);
+      }
+      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(19, lianmengId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1586,8 +1641,10 @@ public final class Chat {
         bitField0_ = (bitField0_ & ~0x00008000);
         lianmengName_ = "";
         bitField0_ = (bitField0_ & ~0x00010000);
-        vipLevel_ = 0;
+        lianmengId_ = 0;
         bitField0_ = (bitField0_ & ~0x00020000);
+        vipLevel_ = 0;
+        bitField0_ = (bitField0_ & ~0x00040000);
         return this;
       }
 
@@ -1688,6 +1745,10 @@ public final class Chat {
         if (((from_bitField0_ & 0x00020000) == 0x00020000)) {
           to_bitField0_ |= 0x00010000;
         }
+        result.lianmengId_ = lianmengId_;
+        if (((from_bitField0_ & 0x00040000) == 0x00040000)) {
+          to_bitField0_ |= 0x00020000;
+        }
         result.vipLevel_ = vipLevel_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -1774,6 +1835,9 @@ public final class Chat {
           bitField0_ |= 0x00010000;
           lianmengName_ = other.lianmengName_;
           onChanged();
+        }
+        if (other.hasLianmengId()) {
+          setLianmengId(other.getLianmengId());
         }
         if (other.hasVipLevel()) {
           setVipLevel(other.getVipLevel());
@@ -2876,6 +2940,55 @@ public final class Chat {
         return this;
       }
 
+      // optional int32 lianmengId = 19;
+      private int lianmengId_ ;
+      /**
+       * <code>optional int32 lianmengId = 19;</code>
+       *
+       * <pre>
+       *发言者的联盟id，新增 2016年3月2日
+       * </pre>
+       */
+      public boolean hasLianmengId() {
+        return ((bitField0_ & 0x00020000) == 0x00020000);
+      }
+      /**
+       * <code>optional int32 lianmengId = 19;</code>
+       *
+       * <pre>
+       *发言者的联盟id，新增 2016年3月2日
+       * </pre>
+       */
+      public int getLianmengId() {
+        return lianmengId_;
+      }
+      /**
+       * <code>optional int32 lianmengId = 19;</code>
+       *
+       * <pre>
+       *发言者的联盟id，新增 2016年3月2日
+       * </pre>
+       */
+      public Builder setLianmengId(int value) {
+        bitField0_ |= 0x00020000;
+        lianmengId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 lianmengId = 19;</code>
+       *
+       * <pre>
+       *发言者的联盟id，新增 2016年3月2日
+       * </pre>
+       */
+      public Builder clearLianmengId() {
+        bitField0_ = (bitField0_ & ~0x00020000);
+        lianmengId_ = 0;
+        onChanged();
+        return this;
+      }
+
       // optional int32 vipLevel = 18;
       private int vipLevel_ ;
       /**
@@ -2886,7 +2999,7 @@ public final class Chat {
        * </pre>
        */
       public boolean hasVipLevel() {
-        return ((bitField0_ & 0x00020000) == 0x00020000);
+        return ((bitField0_ & 0x00040000) == 0x00040000);
       }
       /**
        * <code>optional int32 vipLevel = 18;</code>
@@ -2906,7 +3019,7 @@ public final class Chat {
        * </pre>
        */
       public Builder setVipLevel(int value) {
-        bitField0_ |= 0x00020000;
+        bitField0_ |= 0x00040000;
         vipLevel_ = value;
         onChanged();
         return this;
@@ -2919,7 +3032,7 @@ public final class Chat {
        * </pre>
        */
       public Builder clearVipLevel() {
-        bitField0_ = (bitField0_ & ~0x00020000);
+        bitField0_ = (bitField0_ & ~0x00040000);
         vipLevel_ = 0;
         onChanged();
         return this;
@@ -8798,7 +8911,7 @@ public final class Chat {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rchatMsg.proto\022\021qxmobile.protobuf\"\334\003\n\007C" +
+      "\n\rchatMsg.proto\022\021qxmobile.protobuf\"\360\003\n\007C" +
       "hatPct\022\020\n\010senderId\030\001 \002(\003\022\022\n\nsenderName\030\002" +
       " \002(\t\022\022\n\nreceiverId\030\003 \001(\005\022\024\n\014receiverName" +
       "\030\004 \001(\t\022;\n\007channel\030\005 \002(\0162\".qxmobile.proto" +
@@ -8807,25 +8920,26 @@ public final class Chat {
       "uoJia\030\t \001(\005\022\021\n\tsoundData\030\n \003(\002\022\020\n\010soundL" +
       "en\030\013 \001(\005\022\016\n\006isLink\030\014 \001(\010\022\014\n\004type\030\r \001(\005\022\r" +
       "\n\005param\030\016 \001(\t\022\020\n\010isYBHelp\030\017 \001(\010\022\024\n\014isLve" +
-      "DuoHelp\030\020 \001(\010\022\024\n\014lianmengName\030\021 \001(\t\022\020\n\010v",
-      "ipLevel\030\022 \001(\005\"b\n\007Channel\022\n\n\006SILIAO\020\000\022\014\n\010" +
-      "LIANMENG\020\001\022\n\n\006GUOJIA\020\002\022\n\n\006SHIJIE\020\003\022\n\n\006SY" +
-      "STEM\020\004\022\n\n\006XiaoWu\020\005\022\r\n\tBroadcast\020\006\"\031\n\nCGe" +
-      "tYuYing\022\013\n\003seq\030\001 \002(\005\";\n\010CGetChat\022\r\n\005star" +
-      "t\030\001 \002(\005\022\013\n\003end\030\002 \002(\005\022\023\n\013channelCode\030\003 \001(" +
-      "\005\"8\n\014SChatLogList\022(\n\004logs\030\001 \003(\0132\032.qxmobi" +
-      "le.protobuf.ChatPct\"#\n\017JoinToBlacklist\022\020" +
-      "\n\010junzhuId\030\001 \002(\003\"i\n\rBlacklistResp\022\016\n\006res" +
-      "ult\030\001 \002(\005\0226\n\njunzhuInfo\030\002 \001(\0132\".qxmobile" +
-      ".protobuf.BlackJunzhuInfo\022\020\n\010junzhuId\030\003 ",
-      "\001(\003\"\246\001\n\017BlackJunzhuInfo\022\020\n\010junzhuId\030\001 \002(" +
-      "\003\022\014\n\004name\030\002 \002(\t\022\024\n\014lianMengName\030\003 \002(\t\022\016\n" +
-      "\006iconId\030\004 \002(\005\022\r\n\005level\030\005 \002(\005\022\r\n\005vipLv\030\006 " +
-      "\001(\005\022\017\n\007junXian\030\007 \001(\t\022\016\n\006guojia\030\010 \001(\005\022\016\n\006" +
-      "zhanLi\030\t \001(\005\"\\\n\020GetBlacklistResp\0226\n\njunz" +
-      "huInfo\030\001 \003(\0132\".qxmobile.protobuf.BlackJu" +
-      "nzhuInfo\022\020\n\010blackMax\030\003 \001(\005\"\037\n\013CancelBlac" +
-      "k\022\020\n\010junzhuId\030\001 \002(\003B\006B\004Chat"
+      "DuoHelp\030\020 \001(\010\022\024\n\014lianmengName\030\021 \001(\t\022\022\n\nl",
+      "ianmengId\030\023 \001(\005\022\020\n\010vipLevel\030\022 \001(\005\"b\n\007Cha" +
+      "nnel\022\n\n\006SILIAO\020\000\022\014\n\010LIANMENG\020\001\022\n\n\006GUOJIA" +
+      "\020\002\022\n\n\006SHIJIE\020\003\022\n\n\006SYSTEM\020\004\022\n\n\006XiaoWu\020\005\022\r" +
+      "\n\tBroadcast\020\006\"\031\n\nCGetYuYing\022\013\n\003seq\030\001 \002(\005" +
+      "\";\n\010CGetChat\022\r\n\005start\030\001 \002(\005\022\013\n\003end\030\002 \002(\005" +
+      "\022\023\n\013channelCode\030\003 \001(\005\"8\n\014SChatLogList\022(\n" +
+      "\004logs\030\001 \003(\0132\032.qxmobile.protobuf.ChatPct\"" +
+      "#\n\017JoinToBlacklist\022\020\n\010junzhuId\030\001 \002(\003\"i\n\r" +
+      "BlacklistResp\022\016\n\006result\030\001 \002(\005\0226\n\njunzhuI" +
+      "nfo\030\002 \001(\0132\".qxmobile.protobuf.BlackJunzh",
+      "uInfo\022\020\n\010junzhuId\030\003 \001(\003\"\246\001\n\017BlackJunzhuI" +
+      "nfo\022\020\n\010junzhuId\030\001 \002(\003\022\014\n\004name\030\002 \002(\t\022\024\n\014l" +
+      "ianMengName\030\003 \002(\t\022\016\n\006iconId\030\004 \002(\005\022\r\n\005lev" +
+      "el\030\005 \002(\005\022\r\n\005vipLv\030\006 \001(\005\022\017\n\007junXian\030\007 \001(\t" +
+      "\022\016\n\006guojia\030\010 \001(\005\022\016\n\006zhanLi\030\t \001(\005\"\\\n\020GetB" +
+      "lacklistResp\0226\n\njunzhuInfo\030\001 \003(\0132\".qxmob" +
+      "ile.protobuf.BlackJunzhuInfo\022\020\n\010blackMax" +
+      "\030\003 \001(\005\"\037\n\013CancelBlack\022\020\n\010junzhuId\030\001 \002(\003B" +
+      "\006B\004Chat"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -8837,7 +8951,7 @@ public final class Chat {
           internal_static_qxmobile_protobuf_ChatPct_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ChatPct_descriptor,
-              new java.lang.String[] { "SenderId", "SenderName", "ReceiverId", "ReceiverName", "Channel", "Content", "DateTime", "Seq", "GuoJia", "SoundData", "SoundLen", "IsLink", "Type", "Param", "IsYBHelp", "IsLveDuoHelp", "LianmengName", "VipLevel", });
+              new java.lang.String[] { "SenderId", "SenderName", "ReceiverId", "ReceiverName", "Channel", "Content", "DateTime", "Seq", "GuoJia", "SoundData", "SoundLen", "IsLink", "Type", "Param", "IsYBHelp", "IsLveDuoHelp", "LianmengName", "LianmengId", "VipLevel", });
           internal_static_qxmobile_protobuf_CGetYuYing_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_CGetYuYing_fieldAccessorTable = new

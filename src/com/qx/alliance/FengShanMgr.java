@@ -13,14 +13,17 @@ import qxmobile.protobuf.AllianceProtos.FengShanInfo;
 import qxmobile.protobuf.AllianceProtos.FengShanInfoResp;
 import qxmobile.protobuf.AllianceProtos.FengShanReq;
 import qxmobile.protobuf.AllianceProtos.FengShanResp;
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.LianmengFengshan;
 import com.manu.dynasty.util.DateUtils;
+import com.manu.network.BigSwitch;
 import com.manu.network.SessionManager;
 import com.manu.network.SessionUser;
+import com.qx.account.FunctionOpenMgr;
 import com.qx.award.AwardMgr;
 import com.qx.event.ED;
 import com.qx.event.Event;
@@ -55,7 +58,8 @@ public class FengShanMgr extends EventProc{
 
 	@Override
 	protected void doReg() {
-		EventMgr.regist(ED.HUOYUE_CHANGE, this);		
+		EventMgr.regist(ED.HUOYUE_CHANGE, this);
+		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 	}
 	@Override
 	public void proc(Event event) {
@@ -64,7 +68,30 @@ public class FengShanMgr extends EventProc{
 			refreshFengShanInfo(event);
 			break;
 		case ED.REFRESH_TIME_WORK:
-			break;
+			IoSession session=(IoSession) event.param;
+			if(session==null){
+				break;
+			}
+			JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+			if(jz==null){
+				break;
+			}
+			int huoyue = DailyTaskMgr.INSTANCE.getTodayHuoYueDu(jz.id);
+			boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.LianMeng, jz.id, jz.level);
+			if(!isOpen){
+				break;
+			}
+			//封禅活动1
+			LianmengFengshan fsConf1=LianmengFengshanMap.get(1);
+			FengshanBean fsBean =getFengShanBean(jz.id);
+			if(huoyue>=fsConf1.huoyuedu&&!fsBean.isGetFengShan1){
+				FunctionID.pushCanShowRed(jz.id , session, FunctionID.FengShanDaDian);
+			}
+			//刷新封禅活动2
+			LianmengFengshan fsConf2=LianmengFengshanMap.get(2);
+			if(huoyue>=fsConf2.huoyuedu&&!fsBean.isGetFengShan2){
+				FunctionID.pushCanShowRed(jz.id, session, FunctionID.FengShanShengDian);
+			}
 		}
 	}
 
@@ -106,6 +133,11 @@ public class FengShanMgr extends EventProc{
 			return;
 		}
 		long jzId=jz.id;
+		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jzId);
+		if (member == null || member.lianMengId <= 0) {
+			sendError(id, session, "您不在联盟中。");
+			return;
+		}
 		log.info("{}请求封禅信息开始",jzId);
 		int huoyue=DailyTaskMgr.INSTANCE.getTodayHuoYueDu(jzId);
 		FengshanBean fsBean =getFengShanBean(jzId);
@@ -144,7 +176,7 @@ public class FengShanMgr extends EventProc{
 		}
 		return 1;
 	}
-	//请求进行封禅
+	//请求进行封禅 10成功 其他失败
 	public void  doFengShan(int id, Builder builder, IoSession session) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 		if (jz == null) {
@@ -152,6 +184,11 @@ public class FengShanMgr extends EventProc{
 			return;
 		}
 		long jzId=jz.id;
+		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jzId);
+		if (member == null || member.lianMengId <= 0) {
+			sendError(id, session, "您不在联盟中。");
+			return;
+		}
 		FengShanReq.Builder rep=(FengShanReq.Builder)builder;
 		int confId=rep.getConfId();
 		log.info("{}请求封禅--{}开始",jzId,confId);
@@ -167,11 +204,40 @@ public class FengShanMgr extends EventProc{
 			log.error("{}请求封禅出错，错误的配置ID--{}",jzId,confId);
 			break;
 		}
+		if(result==10){
+			//增加虔诚值
+			BigSwitch.inst.moBaiMgr.updateMobaiLevel(member.lianMengId, 1/*conf.buffNum*/, new Date());
+			String fengShanName="大典";
+			fengShanName=confId==2?"盛典":fengShanName;
+			LianmengFengshan fsConf=LianmengFengshanMap.get(confId);
+			String[] jiangliArray = fsConf.award.split("#");
+			String jiansheStr=jiangliArray[1].split(":")[2];
+			int  jianshe=Integer.parseInt(jiansheStr);
+			String expStr=jiangliArray[2].split(":")[2];
+			int exp = Integer.parseInt(expStr);
+			saveAllianceEvent(jz.name, fengShanName, jianshe, member.lianMengId, exp);
+		}
 		FengShanResp.Builder resp=FengShanResp.newBuilder();
 		resp.setConfId(confId);
 		resp.setResult(result);
 		log.info("{}请求封禅结束，结果--{}",jzId,result);
 		session.write(resp.build());
+	}
+	//保存封禅联盟事件
+	public void saveAllianceEvent(String jzName,String fengShanName,int jianshe,int lianMengId, int exp) {
+		String eventStr = AllianceMgr.inst.lianmengEventMap.get(19).str.replaceFirst("%d", jzName)
+				.replaceFirst("%d",fengShanName).replaceFirst("%d",jianshe+"").replaceFirst("%d", exp+"");
+		AllianceMgr.inst.addAllianceEvent(lianMengId, eventStr);
+	}
+	public void sendError(int cmd, IoSession session, String msg) {
+		if (session == null) {
+			log.warn("session is null: {}", msg);
+			return;
+		}
+		ErrorMessage.Builder test = ErrorMessage.newBuilder();
+		test.setErrorCode(cmd);
+		test.setErrorDesc(msg);
+		session.write(test.build());
 	}
 	//进行封禅
 	public int doFengShan(int confId,JunZhu jz, IoSession session){
@@ -208,6 +274,7 @@ public class FengShanMgr extends EventProc{
 		}
 		fsBean.lastResetTime=new Date();
 		HibernateUtil.save(fsBean);
+	
 		return 10;
 	}
 
@@ -216,23 +283,28 @@ public class FengShanMgr extends EventProc{
 	public void refreshFengShanInfo(Event event) {
 		Object[]	obs = (Object[])event.param;
 		long jzId = (Long)obs[0];
+		
 		int huoyue=(Integer)obs[1];
+		int level = (Integer)obs[2];
+		boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.LianMeng, jzId, level);
+		if(!isOpen){
+			return;
+		}
 		SessionUser su = SessionManager.inst.findByJunZhuId(jzId);
 		//封禅活动1
 		LianmengFengshan fsConf1=LianmengFengshanMap.get(1);
-		if(huoyue>=fsConf1.huoyuedu){
+		FengshanBean fsBean =getFengShanBean(jzId);
+		if(huoyue>=fsConf1.huoyuedu&&!fsBean.isGetFengShan1){
 			if(su.session!=null){
-				FunctionID.pushCanShangjiao(jzId,su.session, FunctionID.fengShan);
+				FunctionID.pushCanShowRed(jzId,su.session, FunctionID.FengShanDaDian);
 			}
-			return;
 		}
 		//刷新封禅活动2
 		LianmengFengshan fsConf2=LianmengFengshanMap.get(2);
-		if(huoyue>=fsConf2.huoyuedu){
+		if(huoyue>=fsConf2.huoyuedu&&!fsBean.isGetFengShan2){
 			if(su.session!=null){
-				FunctionID.pushCanShangjiao(jzId,su.session, FunctionID.fengShan);
+				FunctionID.pushCanShowRed(jzId,su.session, FunctionID.FengShanShengDian);
 			}
-			return;
 		}
 	}
 

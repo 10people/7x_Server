@@ -333,6 +333,30 @@ public class HibernateUtil {
     	}
     	return id;
 	}
+	
+	
+	public static <T> int getColumnValueMaxOnWhere(Class<T> t, String column, String where) {
+		Integer id = null;
+		Session session = sessionFactory.getCurrentSession();
+    	Transaction tr = session.beginTransaction();
+    	String hql = "select max("+column+") from "+ t.getSimpleName() + where;
+    	try{
+	    	Query query = session.createQuery(hql);
+	    	Object uniqueResult = query.uniqueResult();
+	    	if(uniqueResult == null){
+	    		id = 1;
+	    	}else{
+	    		id = Integer.parseInt(uniqueResult +"");
+	    		id = Math.max(1, id);
+	    	}
+	    	tr.commit();
+    	}catch(Exception e){
+    		tr.rollback();
+    		log.error("query column value max fail for {} {}", t, hql);
+    		log.error("query column value max fail", e);
+    	}
+    	return id;
+	}
 	public static List<Map<String, Object>> querySql(String hql){
 		Session session = sessionFactory.getCurrentSession();
     	Transaction tr = session.beginTransaction();

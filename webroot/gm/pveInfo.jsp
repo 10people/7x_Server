@@ -1,3 +1,7 @@
+<%@page import="com.qx.util.TableIDCreator"%>
+<%@page import="com.manu.dynasty.template.PveTemp"%>
+<%@page import="java.util.Map"%>
+<%@page import="com.qx.pve.PveMgr"%>
 <%@page import="com.manu.dynasty.boot.GameServer"%>
 <%@page import="com.qx.pve.BuZhenBean"%>
 <%@page import="com.qx.pve.PveRecord"%>
@@ -56,6 +60,15 @@
 				session.setAttribute("name", name);
 				pid = account.getAccountId()*1000+GameServer.serverId;
 	%><%=pid%>:<%=account.getAccountName()%>
+	<br/>
+	<br/>
+	进度调整，输入关卡id，之前的都会通过：
+	<form action="">
+		<input type="text" name="guanqiaId" value="">
+		<input type="hidden" name="action" value="update">
+		<button type="submit">调整</button>
+	</form>
+	
 	<br /> pve信息--------------
 	<br />
 	<%
@@ -67,6 +80,28 @@
 					int dbId = Integer.parseInt(request.getParameter("dbId"));
 					PveRecord o= list.remove(dbId);
 					HibernateUtil.delete(o);
+				} else if("update".equals(action)) {
+					int guanqiaId = Integer.parseInt(request.getParameter("guanqiaId"));
+					Map<Integer, PveTemp> pveMap = PveMgr.inst.id2Pve;
+					for(Map.Entry<Integer, PveTemp> entry : pveMap.entrySet()) {
+						int key = entry.getKey();
+						if(key < guanqiaId) {
+							PveRecord r = HibernateUtil.find(PveRecord.class, "where guanQiaId=" + key + " and uid=" + pid);
+							if (r == null) {
+								r = new PveRecord();
+								// 改主键不自增
+								r.dbId = TableIDCreator.getTableID(PveRecord.class, 1L);
+								r.guanQiaId = key;
+								r.star = 1;
+								r.starLevel = 1;
+								r.uid = pid;
+								r.achieve = 0;
+								r.chuanQiPass = true;
+								HibernateUtil.save(r);
+							}
+						}
+					}
+					
 				}
 	%>
 	<%

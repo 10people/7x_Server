@@ -23,8 +23,12 @@ if("send".equals(act)){
 }else if("tiliGive18".equals(act)){
 	XG.inst.pushGetTili(20);
 	out("发送完毕");
+}else if("switchOpenClose".equals(act)){
+	XG.pushOpen = !XG.pushOpen;
 }
 %>
+信鸽功能：<%=XG.pushOpen ? "已开启" : "已关闭" %>
+&nbsp;<a href='?act=switchOpenClose'>切换</a><br/>
 <form action="xin-ge.jsp" method="post">
 <input type="text" name='content'>
 <input type="hidden" name="act" value="send">

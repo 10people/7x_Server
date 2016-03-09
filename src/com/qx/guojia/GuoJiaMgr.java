@@ -849,8 +849,12 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 	public void initGuoJiaBeanInfo() {
 		// 获取数据库中是否有此记录，有的话什么也不做
 		log.info("初始化国家数据，时间-{}",new Date());
+		List<GuoJiaBean> list = HibernateUtil.list(GuoJiaBean.class,"");
+		Map<Integer,GuoJiaBean> map = new HashMap<Integer,GuoJiaBean>();
+		list.forEach(t->map.put(t.guoJiaId, t));
 		for (int i = 1; i < 8; i++) {
-			GuoJiaBean bean = HibernateUtil.find(GuoJiaBean.class, i);
+//			GuoJiaBean bean = HibernateUtil.find(GuoJiaBean.class, i);
+			GuoJiaBean bean = map.get(i);
 			if(bean==null){
 				GuoJiaBean gjbean = new GuoJiaBean();
 				gjbean.guoJiaId=i;

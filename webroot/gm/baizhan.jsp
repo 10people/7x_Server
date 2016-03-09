@@ -82,10 +82,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		
     		 %><br> 君主id是：<%=junzhu.id%> <br>君主姓名是：<%=junzhu.name%><%
     		 PvpBean bean = HibernateUtil.find(PvpBean.class, junZhuId);
-    		 
+    		
     		 if(bean==null){
     			 out.println("君主没有百战数据");
     		 }else{
+    			 int used = bean.usedTimes;
+    			 int remain = bean.remain;
     			 br();
     			 
     			 br();
@@ -115,6 +117,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                      int v = Integer.parseInt(request.getParameter("v"));
                      junzhu.vipLevel = v;
                      HibernateUtil.save(junzhu);
+                 }else if("changeUsedTimes".equals(action)){
+                	 bean.usedTimes = 0;
+                	 bean.remain = PVPConstant.ZHAN_TOTAL_TIMES;
+                	 used=  bean.usedTimes;
+                	 remain  = bean.remain;
+                	 HibernateUtil.save(bean);
+                	 out("okkkkk");
                  }
 	    		 
 	    		
@@ -148,13 +157,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  <a href="changePVPRank.jsp" target='target'>改变君主名次</a><br/>
                   <%  br();br();
                  br();
+                 
                  BaiZhan bz = PvpMgr.inst.baiZhanMap.get(bean.junXianLevel);
                  String jxStr = bz == null ? "???" : HeroService.getNameById(bz.name);
                  out("军衔等级:" + bean.junXianLevel+"-"+jxStr);
                  br();br();
-                 out("当日剩余百战次数:" + bean.remain);
-                 br();br();
-                 out("当日已经参加的百战次数:" + bean.usedTimes);
+       
+                 out("当日已经参加的百战次数:" + used +"  ");
+                 out("当日剩余百战次数:" + remain + "  ");
+                /*  out("<input type='button' value='恢复挑战次数' onclick='go(\"changeUsedTimes\")'/><br/>"); */
+                %>
+                 <button type="submit" name="action" value ="changeUsedTimes">恢复挑战次数</button>
+                 <%
+                 out("okkkkk33333333");
+                 out("<br/>");
                  br();br();
                  out("上次百战的时间:" + bean.lastDate);
                  br();br();

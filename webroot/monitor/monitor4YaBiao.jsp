@@ -1,8 +1,17 @@
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="com.manu.dynasty.base.TempletService"%>
+<%@page import="com.manu.dynasty.template.YunbiaoTemp"%>
+<%@page import="com.qx.ranking.RankingMgr"%>
+<%@page import="java.util.Comparator"%>
+<%@page import="java.util.Collections"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.qx.yabiao.YaBiaoRobotProduceMgr"%>
 <%@page import="com.manu.dynasty.template.MaJu"%>
 <%@page import="com.qx.buff.BuffMgr"%>
 <%@page import="com.manu.dynasty.template.Skill"%>
 <%@page import="com.qx.alliancefight.AllianceFightMgr"%>
-<%@page import="com.qx.quartz.job.YBrobotManageJob"%>
 <%@page import="com.qx.yabiao.YBRobotMgr"%>
 <%@page import="com.qx.yabiao.YaBiaoHuoDongMgr"%>
 <%@page import="com.qx.world.Scene"%>
@@ -32,19 +41,43 @@
 if("switchOpen".equals(act)){
 	BigSwitch.inst.ybMgr.openFlag = !BigSwitch.inst.ybMgr.openFlag;
 }else if("productMache".equals(act)) {
-	new YBrobotManageJob().execute(null);
+	//new YBrobotManageJob().execute(null);
+	YaBiaoRobotProduceMgr.inst.produceCart();
 }
-	String moreProfit=request.getParameter("moreProfit");
-	moreProfit=moreProfit==null?""+(int)YaBiaoHuoDongMgr.SHOUYI_PROFIT:moreProfit;
-	int canshu=Integer.parseInt(moreProfit);
-	if(YaBiaoHuoDongMgr.SHOUYI_PROFIT!=canshu){
-		BigSwitch.inst.ybMgr.setMoreProfitState(canshu);
+	String fuliFlag=request.getParameter("fuliFlag");
+	String fuli=YaBiaoHuoDongMgr.FULITIME_FLAG?"1":"0";
+	if(fuliFlag!=null){
+		int canshu=Integer.parseInt(fuliFlag);
+		if(1==canshu){
+//	 		BigSwitch.inst.ybMgr.setfuliFlagState(canshu);
+			BigSwitch.inst.ybMgr.setFuLiState(true);
+			YunbiaoTemp.incomeAdd_startTime2="0:0";
+			YunbiaoTemp.incomeAdd_endTime2="24:00";
+		}else if(0==canshu) {
+			
+			List<YunbiaoTemp> list = TempletService.listAll(YunbiaoTemp.class.getSimpleName());
+			Map<String, YunbiaoTemp> map = new HashMap<String, YunbiaoTemp>();
+			for(YunbiaoTemp yb: list){
+				map.put(yb.getKey(), yb);
+			}
+			YunbiaoTemp.incomeAdd_startTime2=map.get("incomeAdd_startTime2").value;
+			YunbiaoTemp.incomeAdd_endTime2=map.get("incomeAdd_endTime2").value;
+			BigSwitch.inst.ybMgr.setFuLiState(false);
+		}
+	}else{
+		fuliFlag=fuli;
+	}
+	String saveArea_people_max=request.getParameter("saveArea_people_max");
+	saveArea_people_max=saveArea_people_max==null?""+(int)YunbiaoTemp.saveArea_people_max:saveArea_people_max;
+	int peopleCanshu=Integer.parseInt(saveArea_people_max);
+	if(YunbiaoTemp.saveArea_people_max!=peopleCanshu){
+		YunbiaoTemp.saveArea_people_max=peopleCanshu;
 	}
 	String interval=request.getParameter("interval");
-	interval=interval==null?""+YBrobotManageJob.interval:interval;
+	interval=interval==null?""+YaBiaoRobotProduceMgr.interval:interval;
 	int timeInterval=Integer.parseInt(interval);
-	if(YBrobotManageJob.interval!=timeInterval){
-		YBrobotManageJob.interval=timeInterval;
+	if(YaBiaoRobotProduceMgr.interval!=timeInterval){
+		YaBiaoRobotProduceMgr.interval=timeInterval;
 	}
 	
 	String normal=request.getParameter("normal");
@@ -64,7 +97,11 @@ if("switchOpen".equals(act)){
 %>
 
   	<form action="">
-  	 	收益倍率<input type='text' name='moreProfit' id='moreProfit' value='<%=moreProfit%>'/>
+  	 	福利时间(0-关闭1-开启)<input type='text' name='fuliFlag' id='fuliFlag' value='<%=fuliFlag%>'/>
+	  	<button type="submit">修改</button>
+	</form>
+  	<form action="">
+  	 	安全区人数上限<input type='text' name='saveArea_people_max' id='saveArea_people_max' value='<%=saveArea_people_max%>'/>
 	  	<button type="submit">修改</button>
 	</form>
   	<form action="">
@@ -105,12 +142,14 @@ if("calcDamame".equals(act)) {
 }
 %>
 <br/>
-押镖人数:<%=BigSwitch.inst.ybMgr.ybJzId2ScIdMap.size()%><br/>
+马车总数:<%=BigSwitch.inst.ybMgr.ybJzId2ScIdMap.size()%><br/>
+马车等级：<%=YaBiaoRobotProduceMgr.produceCartList.toString() %><br/>
+服务器等级：<%=(int) RankingMgr.inst.getTopJunzhuAvgLevel(50) %><br/>
 <%-- 劫镖人数:<%=BigSwitch.inst.ybMgr.jbJz2ScIdMap.size()%> 现在的代码jbJz2ScIdMap废弃 无用，无法快捷的统计劫镖人数 --%>
 <br/>
 <br/>
 	后台输出：
-			<%
+<%
 	String isShowLog = request.getParameter("isShowLog");
 	if(isShowLog!=null){
 		YBRobotMgr.isShowLog = Boolean.valueOf(isShowLog);
@@ -128,13 +167,33 @@ if("calcDamame".equals(act)) {
 <br/>
 <table border='1'  style='border-collapse:collapse;'>
 <tr>
-<th>序号</th><th>userId</th><th>userName</th>
+<th>序号</th><th>马车编号</th><th>等级</th><th>userId</th><th>userName</th><th>坐标</th><th>路线</th>
 </tr>
 
 <%
+	class LevelComparator implements Comparator {  
+    public int compare(Object object1, Object object2) {// 实现接口中的方法  
+    	Player p1 = (Player) object1; // 强制转换  
+    	Player p2 = (Player) object2;  
+    	int result=new Integer(p2.jzlevel).compareTo(new Integer(p1.jzlevel));
+    	if(result==0){
+    		YaBiaoRobot	tem1=(YaBiaoRobot) BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(p1.jzId);
+    		YaBiaoRobot	tem2=(YaBiaoRobot) BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(p2.jzId);
+    		result=new Integer(tem1.bcNPCNo).compareTo(new Integer(tem2.bcNPCNo));
+    	}
+        return   result;
+    }  
+}  
+class SafeAreaComparator implements Comparator {  
+    public int compare(Object object1, Object object2) {// 实现接口中的方法  
+    	Player p2 = (Player) object1; // 强制转换  
+    	Player p1 = (Player) object2;  
+        return new Integer(p1.safeArea).compareTo(new Integer(p2.safeArea));  
+    }  
+} 
 	int cnt = 0;
 Enumeration<Integer>  ybkey = BigSwitch.inst.ybMgr.yabiaoScenes.keys();
-out("<tr><td colspan='5'>"+"押镖列表</td></tr>");
+out("<tr><td colspan='7'>"+"押镖列表</td></tr>");
 while(ybkey.hasMoreElements()){
 	Integer ybScId =ybkey.nextElement();
 	Scene sc = BigSwitch.inst.ybMgr.yabiaoScenes.get(ybScId);
@@ -150,35 +209,60 @@ while(ybkey.hasMoreElements()){
 // 		}
 // 	}
 	
-	out("<tr><td colspan='5'>"+sc.name+"场景精灵数"+sc.players.size()+"</td></tr>");
+	out("<tr><td colspan='7'>"+sc.name+"场景精灵数(人+马车总数)"+sc.players.size()+"</td></tr>");
 	cnt += sc.players.size();
 	int idx = 0;
+	List<Player> cartList=new ArrayList<Player>();
 	while(it2.hasNext()){
-		idx++;
 		Integer key = it2.next();
 		Player p = sc.players.get(key);
 		if(p.roleId==Scene.YBRobot_RoleId){
-			out.append("<tr>");
-			String acc = p.getName();
-			int uid = key;
-			out.append("<td>");
-			out.append(""+idx);
-			out.append("</td>");
-			out.append("<td>");
-			out.append(String.valueOf(uid));
-			out.append("</td>");
-			out.append("<td>");
-			out.append(acc);
-			out.append("</td>");
-			out.append("<td>");
-			out.append("x坐标--"+p.getPosX()+"y坐标--"+p.getPosY()+"z坐标--"+p.getPosZ());
-			out.append("</td>");
-			out.append("<tr>");
+	cartList.add(p);
+	
 		}
 	}
+ 
+	Collections.sort(cartList, new LevelComparator());
+	int checkFlag=-1;
+	for(int ii=0;ii<cartList.size();ii++){
+		idx++;
+		Player p=cartList.get(ii);
+		YaBiaoRobot	tem=(YaBiaoRobot) BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(p.jzId);
+		out.append("<tr>");
+		String acc = p.getName();
+		//int uid = key;
+		out.append("<td>");
+		out.append(""+idx);
+		out.append("</td>");
+		out.append("<td>");
+		if(checkFlag!=tem.bcNPCNo){
+			checkFlag=tem.bcNPCNo;
+			out.append("<font color='green'>"+tem.bcNPCNo+"</font>");
+		}else{
+			out.append("<font color='red'>"+tem.bcNPCNo+"</font>");
+		}
+		out.append("</td>");
+		out.append("<td>");
+		out.append(""+p.jzlevel);
+		out.append("</td>");
+		out.append("<td>"+"<a target='_blank' href='ShowPlay.jsp?uid="+p.userId+"&&ybScId="+ybScId+"'>");
+		out.append(String.valueOf(p.userId));
+		out.append("</td>");
+		out.append("<td>");
+		out.append(acc);
+		out.append("</td>");
+		out.append("<td>");
+		out.append("x坐标--"+p.getPosX()+"y坐标--"+p.getPosY()+"z坐标--"+p.getPosZ());
+		out.append("</td>");
+		out.append("<td>");
+		out.append(""+tem.pathId);
+		out.append("</td>");
+		
+		out.append("<tr>");
+	};
 }
 Enumeration<Integer>  ybkey1 = BigSwitch.inst.ybMgr.yabiaoScenes.keys();
-out("<tr><td colspan='5'>"+"劫镖列表</td></tr>");
+out("<tr><td colspan='7'>"+"劫镖列表</td></tr>");
 while(ybkey1.hasMoreElements()){
 	Integer ybScId =ybkey1.nextElement();
 	Scene sc = BigSwitch.inst.ybMgr.yabiaoScenes.get(ybScId);
@@ -191,32 +275,54 @@ while(ybkey1.hasMoreElements()){
 // 				out.print(str + ";");
 // 			}
 // 		}
-		out("<tr><td colspan='5'>" + sc.name + "</td></tr>");
-		int idx = 0;
+		List<Player> playerList=new ArrayList<Player>();
+		out("<tr><td colspan='7'>" + sc.name + "</td></tr>");
+	
 		while (it2.hasNext()) {
-			idx++;
-			Integer key = it2.next();
-			Player p = sc.players.get(key);
-			if (p.roleId != Scene.YBRobot_RoleId) {
+	Integer key = it2.next();
+	Player p = sc.players.get(key);
+	if (p.roleId != Scene.YBRobot_RoleId) {
+		playerList.add(p);
+	}
+		}
+		int idx2 = 0;
+		int index=0;
+		Collections.sort(playerList, new SafeAreaComparator());
+		for(int i=0;i<playerList.size();i++){
+			Player p = playerList.get(i);
+			if (p.safeArea != index) {
 				out.append("<tr>");
-				String acc = p.getName();
-				int uid = key;
-				out.append("<td>");
-				out.append("" + idx);
+				out.append("<td colspan='7'>");
+				out.append("安全区" + p.safeArea);
 				out.append("</td>");
-				out.append("<td>");
-				out.append(String.valueOf(uid));
-				out.append("</td>");
-				out.append("<td>");
-				out.append(acc);
-				out.append("</td>");
-				out.append("<td>");
-				out.append("x坐标--"+p.getPosX()+"y坐标--"+p.getPosY()+"z坐标--"+p.getPosZ());
-				out.append("</td>");
-				out.append("</td>");
-				
 				out.append("<tr>");
+				index=p.safeArea;
+				idx2=0;
 			}
+			idx2++;
+			out.append("<tr>");
+			String acc = p.getName();
+			out.append("<td>");
+			out.append("" + idx2);
+			out.append("</td>");
+			out.append("<td>");
+			out.append("没有");
+			out.append("</td>");
+			out.append("<td>");
+			out.append("" + p.jzlevel);
+			out.append("</td>");
+			out.append("<td>");
+			out.append(String.valueOf(p.userId));
+			out.append("</td>");
+			out.append("<td>");
+			out.append(acc);
+			out.append("</td>");
+			out.append("<td>");
+			out.append("x坐标--" + p.getPosX() + "y坐标--" + p.getPosY()
+					+ "z坐标--" + p.getPosZ());
+			out.append("</td>");
+			out.append("</td>");
+			out.append("<tr>");
 		}
 	}
 %>

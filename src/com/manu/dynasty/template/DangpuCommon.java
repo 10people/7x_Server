@@ -5,9 +5,13 @@ import com.qx.huangye.shop.BaseDuiHuan;
 public class DangpuCommon extends BaseDuiHuan{
 	
 	public int max;
+	public int VIP;
 	public int getMax(){
 		System.out.print("是的，调用了：max =  " + max);
 		return max;
+	}
+	public int getVIP(){
+		return VIP;
 	}
 //implements Comparable<DangpuCommon> {
 

@@ -78,6 +78,7 @@
 <%@page import="java.net.URL"%>
 <%@page import="com.qx.persistent.HibernateUtil"%>
 <%@page import="com.manu.dynasty.boot.GameServer"%>
+<%@include file="/myFuns.jsp"%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -90,7 +91,7 @@
 	<h2>一键复制帐号</h2>
 	<hr />
 	<script type="text/javascript">
-		var password = "mimahenjiandan";
+		var password = "1";
 		function checkCreateAccount() {
 			var oldAccName = document.getElementById("accName").value;
 			var oldAccPwd = document.getElementById("accPwd").value;
@@ -127,11 +128,12 @@
 		if (action != null) {
 			if (action.equals("createAccount")) {
 				Account account = new Account();
-				oldJunName = new String(oldJunName.getBytes("ISO-8859-1"),"UTF-8");
+				/* oldJunName = new String(oldJunName.getBytes("ISO-8859-1"),"UTF-8"); */
 				JunZhu junzhu = HibernateUtil.find(JunZhu.class,  " where name='" + oldJunName +"'", false);
 				System.out.println(junzhu);
 				if(junzhu==null){
 					%>君主不存在<%
+					out(oldJunName);
 				}else{
 					/**注册帐号**/
 					int code = 0;
@@ -178,23 +180,30 @@
 							junNameIndex++;
 						}while(null!=HibernateUtil.find(JunZhu.class,  " where name='" + newJunzhuName +"'", false));
 						builder.setRoleName(newJunzhuName);
-						synchronized(fs){
+						/* synchronized(fs){
 							BigSwitch.inst.route(PD.CREATE_ROLE_REQUEST, builder, fs);
 						//	fs.wait();
-						}
-						CreateRoleResponse resp = (CreateRoleResponse)fs.getAttachment();
-						if(resp.getIsSucceed()){
-							JunZhu newJunZhu = HibernateUtil.find(JunZhu.class,  " where name='" + newJunzhuName +"'", false);
+						} */
+					//	CreateRoleResponse resp = (CreateRoleResponse)fs.getAttachment();
+					//	resp.i
+						if(true){
+							JunZhu newJunZhu = new JunZhu();
+									//HibernateUtil.find(JunZhu.class,  " where name='" + newJunzhuName +"'", false);
 							try{
 							/**复制角色信息**/
-							long newId = newJunZhu.id;
-							String newName = newJunZhu.name;
-							
+							long newId = account.getAccountId() * 1000 + GameServer.serverId;
 							newJunZhu = junzhu.clone();
 							newJunZhu.id = newId;
-							newJunZhu.name = newName;
+							newJunZhu.name = newJunzhuName;
+							String newName = newJunZhu.name;
 							newJunZhu.level = junzhu.level;
-							HibernateUtil.save(newJunZhu);
+							out(newJunZhu.level);
+							// 这里是save不是insert
+							MC.add(newJunZhu, newId);
+							HibernateUtil.insert(newJunZhu);
+							out("00000000000000000-------------"+newJunZhu.level);
+							out("元宝是：" + newJunZhu.yuanBao);
+							out("经验是：" + newJunZhu.exp);
 							// JunZhuInfoRet.Builder jzbuilder = JunZhuMgr.inst.buildMainInfo(newJunZhu,new RobotSession());
 							// JunZhuMgr.jzInfoCache.put(newJunZhu.id, jzbuilder);
 							
@@ -364,9 +373,10 @@
 								HibernateUtil.insert(pvpBean);
 							}
 							/**QiandaoInfo**/
-							QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,"where junzhuId="+junzhu.id+"");
+							QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,junzhu.id);
 							if(qiandaoInfo!=null){
 								qiandaoInfo.id=newJunZhu.id;
+								MC.add(qiandaoInfo, newJunZhu.id);
 								HibernateUtil.insert(qiandaoInfo);
 							}
 							/**SaoDangBean**/

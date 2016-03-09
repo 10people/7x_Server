@@ -104,7 +104,7 @@ public class TaskData {
 	public static final byte saoDang = 53;
 	public static final byte wear_fushi = 54;
 	public static final byte mobai = 55;
-	public static final byte give_gongjin = 56;
+	public static final byte jibai = 71;
 	public static final byte fix_house = 57;
 	public static final byte get_house_exp = 58;
 	public static final byte have_total_guJuan = 59;
@@ -119,6 +119,15 @@ public class TaskData {
 	public static final int jueSe_x_jiNeng_n = 67;
 	/**拥有X个N星秘宝**/
 	public static final int miabao_x_star_n = 68;
+	public static final byte qiandao = 69; // 签到一次
+	public static final byte qiandao_get_v = 70;// 签到领取V特权奖励
+	public static final byte get_achieve = 72; // 领取成就奖励（即就是限时活动奖励）
+	public static final byte tanbao_oneTimes = 74;//元宝单抽x次
+	public static final byte tanbao_tenTimes = 75;//元宝10抽x次
+	public static final byte tongbi_oneTimes = 76;//铜币单抽x次
+	public static final byte tongbi_tenTimes = 77;//铜币10抽x次
+	public static final byte active_taozhuang = 78;//激活品质套装
+	public static final byte battle_shiLian_II = 79; //攻打试练II难度1次（拿符石）
 	// end
 	
 	
@@ -134,6 +143,10 @@ public class TaskData {
 	/**对应XianshiControl.xml的doneTyp*/
 	//探宝次数
 	public static final int tanbaocishu =45;
+	//探宝1抽
+	public static final int tanbao_oneTime = 74;
+	//探宝10连抽
+	public static final int tanbao_tenTime = 75;
 //	/** 对应Zhuxian.xml的doneCond**/
 //	public static int xiLian_itemId = 102001;
 //	public static int jinJie_itemId = 102001;
@@ -143,7 +156,7 @@ public class TaskData {
 //	public static int heCheng_mibao = 301012;
 //	/** 对应Zhuxian.xml的doneCond**/
 //	public static int shengXing_mibao = 301022;
-	public static int tanbao_itemId_1 = 960101;
+	public static int tanbao_itemId_1 = 301011;
 //	public static int tanbao_itemId_2 = 301011;
 //	public static int dangpPu_itemId = 921001;
 //	public static int qianghua_itemId_1 = 101003;

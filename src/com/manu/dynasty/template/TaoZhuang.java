@@ -10,5 +10,6 @@ public class TaoZhuang {
 	public int num2;
 	public int shuxing3;
 	public int num3;
+	public int neededNum;
 	
 }

@@ -37,8 +37,10 @@
 	<file name="data/CanShu.xml" />	
 	<file name="data/YunbiaoTemp.xml" />	
 	<file name="data/CartNPCTemp.xml" />	
+	<file name="data/CartNPCName.xml" />	
 	<file name="data/YunBiaoSafe.xml" />	
 	<file name="data/MaJu.xml" />	
+	<file name="data/RobCartXishu.xml" />	
 	<file name="data/ReportTemp.xml" />	
 	<file name="data/LianmengMobai.xml" />	
 	<file name="data/LianMengTuTeng.xml" />	
@@ -51,7 +53,9 @@
 	
 	<file name="data/LianmengEvent.xml" />	
 	<file name="data/FunctionOpen.xml" />	
+	<file name="data/Fengcefuli.xml" />	
 	<file name="data/QianDao.xml" />	
+	<file name="data/VIPQianDao.xml" />   
 	<file name="data/QianDaoDesc.xml" />	
 	<file name="data/QianDaoMonth.xml" />	
 	<file name="data/HuoDong.xml" />	
@@ -138,5 +142,5 @@
 	<file name="data/JiNengPeiYang.xml"/>
 	
 	<file name="data/LianmengFengshan.xml"/>
-	
+	<file name="data/ChuShiNuQi.xml"/>
 </config>

@@ -10,6 +10,7 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.MibaoProtos.MiBaoDealSkillReq;
 import qxmobile.protobuf.MibaoProtos.MiBaoDealSkillResp;
 import qxmobile.protobuf.MibaoProtos.MibaoActivate;
@@ -26,6 +27,7 @@ import qxmobile.protobuf.MibaoProtos.SkillInfo;
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.CanShu;
+import com.manu.dynasty.template.ChuShiNuQi;
 import com.manu.dynasty.template.ExpTemp;
 import com.manu.dynasty.template.MiBao;
 import com.manu.dynasty.template.MiBaoExtraAttribute;
@@ -95,11 +97,12 @@ public class MibaoMgr extends EventProc{
 	
 //	public static int skill_db_space = 10;
 
-	public static int mibao_first_full_star = 5;
+	public static int mibao_first_full_star = 1;
 	//public static Map<Integer, MibaoJixing> jXMap = new HashMap<Integer, MibaoJixing>();
 	
 	public static Map<Integer, List<MiBaoExtraAttribute>> mibaoExtraAttrMap = 
 			new HashMap<Integer, List<MiBaoExtraAttribute>>();
+	public static Map<Integer, ChuShiNuQi> chuShinuQiMap = new HashMap<Integer, ChuShiNuQi>();
 
 	public MibaoMgr() {
 		inst = this;
@@ -143,6 +146,7 @@ public class MibaoMgr extends EventProc{
 		List<MibaoStar> starList = TempletService.listAll(MibaoStar.class.getSimpleName());
 		for(MibaoStar mibaoStar : starList) {
 			mibaoStarMap.put(mibaoStar.getStar(), mibaoStar);
+			mibao_first_full_star = MathUtils.getMax(mibaoStar.getStar(), mibao_first_full_star);
 		}
 		this.mibaoStarMap = mibaoStarMap;
 		
@@ -166,7 +170,10 @@ public class MibaoMgr extends EventProc{
 			}
 			alist.add(attr);
 		}
-
+		List<ChuShiNuQi> nul = TempletService.listAll(ChuShiNuQi.class.getSimpleName());
+		for(ChuShiNuQi nu : nul) {
+			chuShinuQiMap.put(nu.num, nu);
+		}
 //		// 添加
 //		List<MibaoJixing> jlist = TempletService.listAll(MibaoJixing.class.getSimpleName());
 //		MibaoJixing lastJX = null;
@@ -182,7 +189,16 @@ public class MibaoMgr extends EventProc{
 //			logger.info("j.sum == {}; j.nextsum =={}, award =={}", j.sum, j.nextSum, j.award);
 //		}
 	}
-	
+	public void sendError(IoSession session, String msg) {
+		if(session == null){
+			logger.warn("session is null: {}",msg);
+			return;
+		}
+		ErrorMessage.Builder test = ErrorMessage.newBuilder();
+		test.setErrorCode(1);
+		test.setErrorDesc(msg);
+		session.write(test.build());		
+	}
 	/**
 	 * 秘宝激活
 	 * @param cmd
@@ -191,6 +207,10 @@ public class MibaoMgr extends EventProc{
 	 */
 	public void mibaoActivate(int cmd, IoSession session, Builder builder) {
 		MibaoActivate.Builder request = (qxmobile.protobuf.MibaoProtos.MibaoActivate.Builder) builder;
+		if(request == null){
+			sendError(session, "请选择秘宝");
+			return;
+		}
 		int tempId = request.getTempId();
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
 		if(junZhu == null) {
@@ -284,7 +304,7 @@ public class MibaoMgr extends EventProc{
 		EventMgr.addEvent(ED.mibao_shengStar_x, new Object[]{junZhu.id, miBaoDB.getStar()});
 		//  主线任务：秘寶等级
 		EventMgr.addEvent(ED.mibao_shengji_x, new Object[]{junZhu.id, miBaoDB.getLevel()});
-
+		EventMgr.addEvent(ED.miabao_x_star_n, new Object[]{junZhu.id});
 		// 判断是否发送是否秘宝技能可以显示
 		if(mibaoCount > 0){
 			isCanMiBaoJiNengOpen(junZhu, session, mibaoCount);
@@ -546,8 +566,6 @@ public class MibaoMgr extends EventProc{
 		fillMibaoInfoBuilder(junZhu, mibaoInfo, miBaoDB, miBaoCfg, nextStarCfg, false);
 		resp.setMibaoInfo(mibaoInfo);
 		session.write(resp.build());
-		// 刷新战力数据
-		JunZhuMgr.inst.sendPveMibaoZhanli(junZhu, session);
 		junZhu.tongBi = junZhu.tongBi - curStarCfg.getNeedMoney();
 		HibernateUtil.save(junZhu);
 		JunZhuMgr.inst.sendMainInfo(session);
@@ -565,6 +583,8 @@ public class MibaoMgr extends EventProc{
 		 */
 			EventMgr.addEvent(ED.mibao_shengStar, new Object[]{junZhu.id, miBaoDB.getMiBaoId()});
 			//		}
+		// 秘宝升星	
+		EventMgr.addEvent(ED.miabao_x_star_n, new Object[]{junZhu.id});
 		// 刷新君主榜 2015-7-30 14：44
 		EventMgr.addEvent(ED.JUN_RANK_REFRESH, junZhu);
 	}
@@ -838,7 +858,21 @@ public class MibaoMgr extends EventProc{
 //		}
 //		return mibaoSkill;
 //	}
-	
+	public int getChuShiNuQi(long junzhuId){
+		int size = getActivateMiBaoCount(junzhuId);
+		if(size == 0) return 0;
+		ChuShiNuQi c = chuShinuQiMap.get(size);
+		if(c == null) return 0;
+		logger.info("君主进入战斗，秘宝怒气是：{}", junzhuId, c.nuqiValue);
+		return c.nuqiValue;
+	}
+	public int getShowChuShiNuQi(long junzhuId){
+		int size = getActivateMiBaoCount(junzhuId);
+		if(size == 0) return 0;
+		ChuShiNuQi c = chuShinuQiMap.get(size);
+		if(c == null) return 0;
+		return c.nuqiRatioc;
+	}
 	public List<MiBaoDB> getActiveMibaosFromDB(long junzhuId) {
 		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB.class,
 				"where ownerId = " + junzhuId + " and level > 0 and miBaoId > 0");
@@ -1139,7 +1173,7 @@ public class MibaoMgr extends EventProc{
 				continue;
 			}
 			// 可以升级
-			FunctionID.pushCanShangjiao(junZhu.id, session, FunctionID.miBaoShengJi);
+			FunctionID.pushCanShowRed(junZhu.id, session, FunctionID.miBaoShengJi);
 			break;
 		}
 	}
@@ -1161,7 +1195,7 @@ public class MibaoMgr extends EventProc{
 			if(count >= confSkill.needNum){
 				// 如果秘宝技能不在数据库，则可以开启技能
 				if(dbmap.get(confSkill.id) == null){
-					FunctionID.pushCanShangjiao(junZhu.id, session, FunctionID.miBaoJiNeng);
+					FunctionID.pushCanShowRed(junZhu.id, session, FunctionID.miBaoJiNeng);
 					logger.info("向君主{}推送--秘宝技能激活的红点提示", junZhu.id);
 					break;
 				}
@@ -1169,7 +1203,72 @@ public class MibaoMgr extends EventProc{
 		}
 	}
 
+	public void isMiBaoCanUpStar(JunZhu junZhu, IoSession session){
+		List<MiBaoDB> list= getActiveMibaosFromDB(junZhu.id);
+		for(MiBaoDB miBaoDB: list){
+			MibaoStar curStarCfg = mibaoStarMap.get(miBaoDB.getStar());
+			if(curStarCfg == null){
+				continue;
+			}
+			MibaoStar nextStarCfg = mibaoStarMap.get(miBaoDB.getStar() + 1);
+			if(nextStarCfg == null) {
+				continue;
+			}
+			MiBao miBaoCfg = mibaoMap.get(miBaoDB.getMiBaoId());
+			if(miBaoCfg == null) {
+				continue;
+			}
+			if(miBaoDB.getSuiPianNum() < curStarCfg.getNeedNum()) {
+				continue;
+			}
+			if(junZhu.tongBi < curStarCfg.getNeedMoney()){
+				continue;
+			}
+			FunctionID.pushCanShowRed(junZhu.id, session, FunctionID.MiBaoShengXing);
+			break;
+		}
+	}
 	
+	public void isMiBaoCanHeCheng(JunZhu junZhu, IoSession session){
+		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB.class,
+				"where ownerId = " + junZhu.id);
+		for(MiBaoDB miBaoDB: mibaoDBList){
+			if(miBaoDB.getLevel() > 0) {
+				continue;
+			}
+			if(miBaoDB.getMiBaoId() > 0){
+				continue;
+			}
+			MibaoSuiPian mibaoSuiPian = mibaoSuipianMap.get(miBaoDB.getTempId());
+			if(mibaoSuiPian == null) {
+				continue;
+			}
+			
+			MiBao miBaoCfg = null;
+			for(Map.Entry<Integer, MiBao> entry : mibaoMap.entrySet()) {
+				if(entry.getValue().tempId == miBaoDB.getTempId()) {
+					miBaoCfg = entry.getValue();
+					break;
+				}
+			}
+			if(miBaoCfg == null) {
+				continue;
+			}
+			int star = miBaoCfg.getInitialStar();
+			MibaoStar curStarCfg = mibaoStarMap.get(star);
+			if(curStarCfg == null) {
+				continue;
+			}
+			if(miBaoDB.getSuiPianNum() < mibaoSuiPian.getHechengNum()) {
+				continue;
+			}
+			if(junZhu.tongBi < mibaoSuiPian.getMoney()) {
+				continue;
+			}
+			FunctionID.pushCanShowRed(junZhu.id, session, FunctionID.MiBaoHeCheng);
+			break;
+		}
+	}
 //	/**
 //	 * 集齐星星数，宝箱领奖
 //	 * @param session
@@ -1269,12 +1368,20 @@ public class MibaoMgr extends EventProc{
 			if(jz == null){
 				break;
 			}
-			boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.miBaoShengJi, jz.id, jz.level);
+			boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.mibao, jz.id, jz.level);
 			if(!isOpen){
-				logger.info("君主：{}--秘宝升级：{}的功能---未开启,不推送",jz.id,FunctionID.miBaoShengJi);
+				logger.info("君主：{}--秘宝升级：{}的功能---未开启,不推送",jz.id,FunctionID.mibao);
 				break;
 			}
+			// 秘宝升级
 			isCanMiBaoShengJi(jz, session);
+			// 秘宝技能
+			int number = MibaoMgr.inst.getActivateMiBaoCount(jz.id);
+			if(number > 0) isCanMiBaoJiNengOpen(jz, session, number);
+			// 秘宝升星
+			isMiBaoCanUpStar(jz, session);
+			// 秘宝合成
+			isMiBaoCanHeCheng(jz, session);
 			break;
 		default:
 			break;

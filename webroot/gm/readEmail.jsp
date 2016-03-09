@@ -66,7 +66,7 @@
 					mail.setIsDelete(2);
 					HibernateUtil.save(mail);
 				} 
-				JunZhuMgr.inst.calcAtt(junzhu);
+				JunZhuMgr.inst.calcJunZhuTotalAtt(junzhu);
 				out.println("&nbsp;君主id：" + junzhu.id);
 				out.println("<br/>");
 				ExpTemp expTemp = TempletService.getInstance()

@@ -20,6 +20,7 @@ public class ClientHandler extends IoHandlerAdapter{
 	public void exceptionCaught(IoSession session, Throwable cause)
 			throws Exception {
 		System.out.println("ClientHandler.exceptionCaught()");
+		cause.printStackTrace();
 	}
 
 	@Override

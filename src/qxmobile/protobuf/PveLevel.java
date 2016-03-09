@@ -2747,6 +2747,51 @@ public final class PveLevel {
      */
     qxmobile.protobuf.PveLevel.StarInfoOrBuilder getStarInfoOrBuilder(
         int index);
+
+    // repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;
+    /**
+     * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+     *
+     * <pre>
+     *传奇关星级信息
+     * </pre>
+     */
+    java.util.List<qxmobile.protobuf.PveLevel.StarInfo> 
+        getCqStarInfoList();
+    /**
+     * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+     *
+     * <pre>
+     *传奇关星级信息
+     * </pre>
+     */
+    qxmobile.protobuf.PveLevel.StarInfo getCqStarInfo(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+     *
+     * <pre>
+     *传奇关星级信息
+     * </pre>
+     */
+    int getCqStarInfoCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+     *
+     * <pre>
+     *传奇关星级信息
+     * </pre>
+     */
+    java.util.List<? extends qxmobile.protobuf.PveLevel.StarInfoOrBuilder> 
+        getCqStarInfoOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+     *
+     * <pre>
+     *传奇关星级信息
+     * </pre>
+     */
+    qxmobile.protobuf.PveLevel.StarInfoOrBuilder getCqStarInfoOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.Level}
@@ -2847,6 +2892,14 @@ public final class PveLevel {
               starInfo_.add(input.readMessage(qxmobile.protobuf.PveLevel.StarInfo.PARSER, extensionRegistry));
               break;
             }
+            case 90: {
+              if (!((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
+                cqStarInfo_ = new java.util.ArrayList<qxmobile.protobuf.PveLevel.StarInfo>();
+                mutable_bitField0_ |= 0x00000400;
+              }
+              cqStarInfo_.add(input.readMessage(qxmobile.protobuf.PveLevel.StarInfo.PARSER, extensionRegistry));
+              break;
+            }
             case 96: {
               bitField0_ |= 0x00000100;
               winLevel_ = input.readInt32();
@@ -2862,6 +2915,9 @@ public final class PveLevel {
       } finally {
         if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
           starInfo_ = java.util.Collections.unmodifiableList(starInfo_);
+        }
+        if (((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
+          cqStarInfo_ = java.util.Collections.unmodifiableList(cqStarInfo_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -3167,6 +3223,62 @@ public final class PveLevel {
       return starInfo_.get(index);
     }
 
+    // repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;
+    public static final int CQSTARINFO_FIELD_NUMBER = 11;
+    private java.util.List<qxmobile.protobuf.PveLevel.StarInfo> cqStarInfo_;
+    /**
+     * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+     *
+     * <pre>
+     *传奇关星级信息
+     * </pre>
+     */
+    public java.util.List<qxmobile.protobuf.PveLevel.StarInfo> getCqStarInfoList() {
+      return cqStarInfo_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+     *
+     * <pre>
+     *传奇关星级信息
+     * </pre>
+     */
+    public java.util.List<? extends qxmobile.protobuf.PveLevel.StarInfoOrBuilder> 
+        getCqStarInfoOrBuilderList() {
+      return cqStarInfo_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+     *
+     * <pre>
+     *传奇关星级信息
+     * </pre>
+     */
+    public int getCqStarInfoCount() {
+      return cqStarInfo_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+     *
+     * <pre>
+     *传奇关星级信息
+     * </pre>
+     */
+    public qxmobile.protobuf.PveLevel.StarInfo getCqStarInfo(int index) {
+      return cqStarInfo_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+     *
+     * <pre>
+     *传奇关星级信息
+     * </pre>
+     */
+    public qxmobile.protobuf.PveLevel.StarInfoOrBuilder getCqStarInfoOrBuilder(
+        int index) {
+      return cqStarInfo_.get(index);
+    }
+
     private void initFields() {
       sLevel_ = 0;
       sPass_ = false;
@@ -3178,6 +3290,7 @@ public final class PveLevel {
       renWuId_ = 0;
       winLevel_ = 0;
       starInfo_ = java.util.Collections.emptyList();
+      cqStarInfo_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3222,6 +3335,12 @@ public final class PveLevel {
           return false;
         }
       }
+      for (int i = 0; i < getCqStarInfoCount(); i++) {
+        if (!getCqStarInfo(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -3255,6 +3374,9 @@ public final class PveLevel {
       }
       for (int i = 0; i < starInfo_.size(); i++) {
         output.writeMessage(10, starInfo_.get(i));
+      }
+      for (int i = 0; i < cqStarInfo_.size(); i++) {
+        output.writeMessage(11, cqStarInfo_.get(i));
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeInt32(12, winLevel_);
@@ -3303,6 +3425,10 @@ public final class PveLevel {
       for (int i = 0; i < starInfo_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(10, starInfo_.get(i));
+      }
+      for (int i = 0; i < cqStarInfo_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(11, cqStarInfo_.get(i));
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
@@ -3417,6 +3543,7 @@ public final class PveLevel {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getStarInfoFieldBuilder();
+          getCqStarInfoFieldBuilder();
         }
       }
       private static Builder create() {
@@ -3448,6 +3575,12 @@ public final class PveLevel {
           bitField0_ = (bitField0_ & ~0x00000200);
         } else {
           starInfoBuilder_.clear();
+        }
+        if (cqStarInfoBuilder_ == null) {
+          cqStarInfo_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000400);
+        } else {
+          cqStarInfoBuilder_.clear();
         }
         return this;
       }
@@ -3522,6 +3655,15 @@ public final class PveLevel {
         } else {
           result.starInfo_ = starInfoBuilder_.build();
         }
+        if (cqStarInfoBuilder_ == null) {
+          if (((bitField0_ & 0x00000400) == 0x00000400)) {
+            cqStarInfo_ = java.util.Collections.unmodifiableList(cqStarInfo_);
+            bitField0_ = (bitField0_ & ~0x00000400);
+          }
+          result.cqStarInfo_ = cqStarInfo_;
+        } else {
+          result.cqStarInfo_ = cqStarInfoBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3591,6 +3733,32 @@ public final class PveLevel {
             }
           }
         }
+        if (cqStarInfoBuilder_ == null) {
+          if (!other.cqStarInfo_.isEmpty()) {
+            if (cqStarInfo_.isEmpty()) {
+              cqStarInfo_ = other.cqStarInfo_;
+              bitField0_ = (bitField0_ & ~0x00000400);
+            } else {
+              ensureCqStarInfoIsMutable();
+              cqStarInfo_.addAll(other.cqStarInfo_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.cqStarInfo_.isEmpty()) {
+            if (cqStarInfoBuilder_.isEmpty()) {
+              cqStarInfoBuilder_.dispose();
+              cqStarInfoBuilder_ = null;
+              cqStarInfo_ = other.cqStarInfo_;
+              bitField0_ = (bitField0_ & ~0x00000400);
+              cqStarInfoBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getCqStarInfoFieldBuilder() : null;
+            } else {
+              cqStarInfoBuilder_.addAllMessages(other.cqStarInfo_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -3630,6 +3798,12 @@ public final class PveLevel {
         }
         for (int i = 0; i < getStarInfoCount(); i++) {
           if (!getStarInfo(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getCqStarInfoCount(); i++) {
+          if (!getCqStarInfo(i).isInitialized()) {
             
             return false;
           }
@@ -4407,6 +4581,318 @@ public final class PveLevel {
           starInfo_ = null;
         }
         return starInfoBuilder_;
+      }
+
+      // repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;
+      private java.util.List<qxmobile.protobuf.PveLevel.StarInfo> cqStarInfo_ =
+        java.util.Collections.emptyList();
+      private void ensureCqStarInfoIsMutable() {
+        if (!((bitField0_ & 0x00000400) == 0x00000400)) {
+          cqStarInfo_ = new java.util.ArrayList<qxmobile.protobuf.PveLevel.StarInfo>(cqStarInfo_);
+          bitField0_ |= 0x00000400;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.PveLevel.StarInfo, qxmobile.protobuf.PveLevel.StarInfo.Builder, qxmobile.protobuf.PveLevel.StarInfoOrBuilder> cqStarInfoBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.PveLevel.StarInfo> getCqStarInfoList() {
+        if (cqStarInfoBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(cqStarInfo_);
+        } else {
+          return cqStarInfoBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public int getCqStarInfoCount() {
+        if (cqStarInfoBuilder_ == null) {
+          return cqStarInfo_.size();
+        } else {
+          return cqStarInfoBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public qxmobile.protobuf.PveLevel.StarInfo getCqStarInfo(int index) {
+        if (cqStarInfoBuilder_ == null) {
+          return cqStarInfo_.get(index);
+        } else {
+          return cqStarInfoBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public Builder setCqStarInfo(
+          int index, qxmobile.protobuf.PveLevel.StarInfo value) {
+        if (cqStarInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCqStarInfoIsMutable();
+          cqStarInfo_.set(index, value);
+          onChanged();
+        } else {
+          cqStarInfoBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public Builder setCqStarInfo(
+          int index, qxmobile.protobuf.PveLevel.StarInfo.Builder builderForValue) {
+        if (cqStarInfoBuilder_ == null) {
+          ensureCqStarInfoIsMutable();
+          cqStarInfo_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          cqStarInfoBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public Builder addCqStarInfo(qxmobile.protobuf.PveLevel.StarInfo value) {
+        if (cqStarInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCqStarInfoIsMutable();
+          cqStarInfo_.add(value);
+          onChanged();
+        } else {
+          cqStarInfoBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public Builder addCqStarInfo(
+          int index, qxmobile.protobuf.PveLevel.StarInfo value) {
+        if (cqStarInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCqStarInfoIsMutable();
+          cqStarInfo_.add(index, value);
+          onChanged();
+        } else {
+          cqStarInfoBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public Builder addCqStarInfo(
+          qxmobile.protobuf.PveLevel.StarInfo.Builder builderForValue) {
+        if (cqStarInfoBuilder_ == null) {
+          ensureCqStarInfoIsMutable();
+          cqStarInfo_.add(builderForValue.build());
+          onChanged();
+        } else {
+          cqStarInfoBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public Builder addCqStarInfo(
+          int index, qxmobile.protobuf.PveLevel.StarInfo.Builder builderForValue) {
+        if (cqStarInfoBuilder_ == null) {
+          ensureCqStarInfoIsMutable();
+          cqStarInfo_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          cqStarInfoBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public Builder addAllCqStarInfo(
+          java.lang.Iterable<? extends qxmobile.protobuf.PveLevel.StarInfo> values) {
+        if (cqStarInfoBuilder_ == null) {
+          ensureCqStarInfoIsMutable();
+          super.addAll(values, cqStarInfo_);
+          onChanged();
+        } else {
+          cqStarInfoBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public Builder clearCqStarInfo() {
+        if (cqStarInfoBuilder_ == null) {
+          cqStarInfo_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000400);
+          onChanged();
+        } else {
+          cqStarInfoBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public Builder removeCqStarInfo(int index) {
+        if (cqStarInfoBuilder_ == null) {
+          ensureCqStarInfoIsMutable();
+          cqStarInfo_.remove(index);
+          onChanged();
+        } else {
+          cqStarInfoBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public qxmobile.protobuf.PveLevel.StarInfo.Builder getCqStarInfoBuilder(
+          int index) {
+        return getCqStarInfoFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public qxmobile.protobuf.PveLevel.StarInfoOrBuilder getCqStarInfoOrBuilder(
+          int index) {
+        if (cqStarInfoBuilder_ == null) {
+          return cqStarInfo_.get(index);  } else {
+          return cqStarInfoBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public java.util.List<? extends qxmobile.protobuf.PveLevel.StarInfoOrBuilder> 
+           getCqStarInfoOrBuilderList() {
+        if (cqStarInfoBuilder_ != null) {
+          return cqStarInfoBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(cqStarInfo_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public qxmobile.protobuf.PveLevel.StarInfo.Builder addCqStarInfoBuilder() {
+        return getCqStarInfoFieldBuilder().addBuilder(
+            qxmobile.protobuf.PveLevel.StarInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public qxmobile.protobuf.PveLevel.StarInfo.Builder addCqStarInfoBuilder(
+          int index) {
+        return getCqStarInfoFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.PveLevel.StarInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.StarInfo cqStarInfo = 11;</code>
+       *
+       * <pre>
+       *传奇关星级信息
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.PveLevel.StarInfo.Builder> 
+           getCqStarInfoBuilderList() {
+        return getCqStarInfoFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.PveLevel.StarInfo, qxmobile.protobuf.PveLevel.StarInfo.Builder, qxmobile.protobuf.PveLevel.StarInfoOrBuilder> 
+          getCqStarInfoFieldBuilder() {
+        if (cqStarInfoBuilder_ == null) {
+          cqStarInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.PveLevel.StarInfo, qxmobile.protobuf.PveLevel.StarInfo.Builder, qxmobile.protobuf.PveLevel.StarInfoOrBuilder>(
+                  cqStarInfo_,
+                  ((bitField0_ & 0x00000400) == 0x00000400),
+                  getParentForChildren(),
+                  isClean());
+          cqStarInfo_ = null;
+        }
+        return cqStarInfoBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.Level)
@@ -13137,6 +13623,24 @@ public final class PveLevel {
      * </pre>
      */
     int getSStarNum();
+
+    // required bool isChuanQi = 3;
+    /**
+     * <code>required bool isChuanQi = 3;</code>
+     *
+     * <pre>
+     * 是否是传奇关，true-是，false-否
+     * </pre>
+     */
+    boolean hasIsChuanQi();
+    /**
+     * <code>required bool isChuanQi = 3;</code>
+     *
+     * <pre>
+     * 是否是传奇关，true-是，false-否
+     * </pre>
+     */
+    boolean getIsChuanQi();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.GetPveStarAward}
@@ -13201,6 +13705,11 @@ public final class PveLevel {
             case 16: {
               bitField0_ |= 0x00000001;
               guanQiaId_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              isChuanQi_ = input.readBool();
               break;
             }
           }
@@ -13291,9 +13800,34 @@ public final class PveLevel {
       return sStarNum_;
     }
 
+    // required bool isChuanQi = 3;
+    public static final int ISCHUANQI_FIELD_NUMBER = 3;
+    private boolean isChuanQi_;
+    /**
+     * <code>required bool isChuanQi = 3;</code>
+     *
+     * <pre>
+     * 是否是传奇关，true-是，false-否
+     * </pre>
+     */
+    public boolean hasIsChuanQi() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required bool isChuanQi = 3;</code>
+     *
+     * <pre>
+     * 是否是传奇关，true-是，false-否
+     * </pre>
+     */
+    public boolean getIsChuanQi() {
+      return isChuanQi_;
+    }
+
     private void initFields() {
       guanQiaId_ = 0;
       sStarNum_ = 0;
+      isChuanQi_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -13305,6 +13839,10 @@ public final class PveLevel {
         return false;
       }
       if (!hasSStarNum()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIsChuanQi()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -13320,6 +13858,9 @@ public final class PveLevel {
       }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(2, guanQiaId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBool(3, isChuanQi_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -13337,6 +13878,10 @@ public final class PveLevel {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, guanQiaId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, isChuanQi_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -13462,6 +14007,8 @@ public final class PveLevel {
         bitField0_ = (bitField0_ & ~0x00000001);
         sStarNum_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
+        isChuanQi_ = false;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -13498,6 +14045,10 @@ public final class PveLevel {
           to_bitField0_ |= 0x00000002;
         }
         result.sStarNum_ = sStarNum_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.isChuanQi_ = isChuanQi_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -13520,6 +14071,9 @@ public final class PveLevel {
         if (other.hasSStarNum()) {
           setSStarNum(other.getSStarNum());
         }
+        if (other.hasIsChuanQi()) {
+          setIsChuanQi(other.getIsChuanQi());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -13530,6 +14084,10 @@ public final class PveLevel {
           return false;
         }
         if (!hasSStarNum()) {
+          
+          return false;
+        }
+        if (!hasIsChuanQi()) {
           
           return false;
         }
@@ -13649,6 +14207,55 @@ public final class PveLevel {
       public Builder clearSStarNum() {
         bitField0_ = (bitField0_ & ~0x00000002);
         sStarNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required bool isChuanQi = 3;
+      private boolean isChuanQi_ ;
+      /**
+       * <code>required bool isChuanQi = 3;</code>
+       *
+       * <pre>
+       * 是否是传奇关，true-是，false-否
+       * </pre>
+       */
+      public boolean hasIsChuanQi() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required bool isChuanQi = 3;</code>
+       *
+       * <pre>
+       * 是否是传奇关，true-是，false-否
+       * </pre>
+       */
+      public boolean getIsChuanQi() {
+        return isChuanQi_;
+      }
+      /**
+       * <code>required bool isChuanQi = 3;</code>
+       *
+       * <pre>
+       * 是否是传奇关，true-是，false-否
+       * </pre>
+       */
+      public Builder setIsChuanQi(boolean value) {
+        bitField0_ |= 0x00000004;
+        isChuanQi_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool isChuanQi = 3;</code>
+       *
+       * <pre>
+       * 是否是传奇关，true-是，false-否
+       * </pre>
+       */
+      public Builder clearIsChuanQi() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        isChuanQi_ = false;
         onChanged();
         return this;
       }
@@ -21142,7 +21749,7 @@ public final class PveLevel {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，11-游侠完璧归赵，12-游侠横扫六和
+     *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，13-游侠完璧归赵，14-游侠横扫六和,11-掠夺防守，12-掠夺攻击
      * </pre>
      */
     boolean hasType();
@@ -21150,7 +21757,7 @@ public final class PveLevel {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，11-游侠完璧归赵，12-游侠横扫六和
+     *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，13-游侠完璧归赵，14-游侠横扫六和,11-掠夺防守，12-掠夺攻击
      * </pre>
      */
     int getType();
@@ -21335,7 +21942,7 @@ public final class PveLevel {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，11-游侠完璧归赵，12-游侠横扫六和
+     *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，13-游侠完璧归赵，14-游侠横扫六和,11-掠夺防守，12-掠夺攻击
      * </pre>
      */
     public boolean hasType() {
@@ -21345,7 +21952,7 @@ public final class PveLevel {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，11-游侠完璧归赵，12-游侠横扫六和
+     *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，13-游侠完璧归赵，14-游侠横扫六和,11-掠夺防守，12-掠夺攻击
      * </pre>
      */
     public int getType() {
@@ -21703,7 +22310,7 @@ public final class PveLevel {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，11-游侠完璧归赵，12-游侠横扫六和
+       *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，13-游侠完璧归赵，14-游侠横扫六和,11-掠夺防守，12-掠夺攻击
        * </pre>
        */
       public boolean hasType() {
@@ -21713,7 +22320,7 @@ public final class PveLevel {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，11-游侠完璧归赵，12-游侠横扫六和
+       *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，13-游侠完璧归赵，14-游侠横扫六和,11-掠夺防守，12-掠夺攻击
        * </pre>
        */
       public int getType() {
@@ -21723,7 +22330,7 @@ public final class PveLevel {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，11-游侠完璧归赵，12-游侠横扫六和
+       *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，13-游侠完璧归赵，14-游侠横扫六和,11-掠夺防守，12-掠夺攻击
        * </pre>
        */
       public Builder setType(int value) {
@@ -21736,7 +22343,7 @@ public final class PveLevel {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，11-游侠完璧归赵，12-游侠横扫六和
+       *1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，8-游侠金币关，9-游侠材料关，10-游侠精气关，13-游侠完璧归赵，14-游侠横扫六和,11-掠夺防守，12-掠夺攻击
        * </pre>
        */
       public Builder clearType() {
@@ -24188,63 +24795,64 @@ public final class PveLevel {
       "State\030\003 \003(\0132#.qxmobile.protobuf.PveStarA" +
       "wardSate\022\023\n\013maxCqPassId\030\007 \001(\005\"6\n\020PveStar" +
       "AwardSate\022\021\n\ts_starNum\030\001 \002(\005\022\017\n\007s_state\030" +
-      "\002 \002(\010\"\325\001\n\005Level\022\017\n\007s_level\030\001 \002(\005\022\016\n\006s_pa" +
+      "\002 \002(\010\"\206\002\n\005Level\022\017\n\007s_level\030\001 \002(\005\022\016\n\006s_pa" +
       "ss\030\002 \002(\010\022\021\n\ts_starNum\030\003 \002(\005\022\021\n\tguanQiaId" +
       "\030\004 \002(\005\022\014\n\004type\030\005 \002(\005\022\023\n\013chuanQiPass\030\007 \002(",
       "\010\022\017\n\007pingJia\030\010 \002(\005\022\017\n\007renWuId\030\t \002(\005\022\021\n\tw" +
       "in_Level\030\014 \001(\005\022-\n\010starInfo\030\n \003(\0132\033.qxmob" +
-      "ile.protobuf.StarInfo\"D\n\010StarInfo\022\016\n\006sta" +
-      "rId\030\003 \002(\005\022\020\n\010finished\030\001 \002(\010\022\026\n\016getReward" +
-      "State\030\002 \002(\010\"$\n\017ResetCQTimesReq\022\021\n\tguanQi" +
-      "aId\030\001 \002(\005\"9\n\020ResetCQTimesBack\022\021\n\tguanQia" +
-      "Id\030\001 \002(\005\022\022\n\ncqResetPay\030\002 \002(\005\"5\n\022GuanQiaI" +
-      "nfoRequest\022\021\n\tguanQiaId\030\001 \002(\005\022\014\n\004type\030\002 " +
-      "\001(\005\"\276\003\n\013GuanQiaInfo\022\021\n\tguanQiaId\030\001 \002(\005\022," +
-      "\n\005items\030\002 \003(\0132\035.qxmobile.protobuf.Reward",
-      "Item\022-\n\007enemies\030\003 \003(\0132\034.qxmobile.protobu" +
-      "f.EnemyInfo\022\014\n\004desc\030\004 \002(\t\022\014\n\004tili\030\005 \002(\005\022" +
-      "\020\n\010mibaoIds\030\006 \003(\003\022\016\n\006zuheId\030\021 \001(\005\022\023\n\013cqP" +
-      "assTimes\030\007 \001(\005\022\022\n\ncqDayTimes\030\022 \001(\005\022\022\n\ncq" +
-      "ResetPay\030\010 \001(\005\022\024\n\014cqResetTimes\030\t \001(\005\022\023\n\013" +
-      "cqResetLeft\030\n \001(\005\022\032\n\022jySaoDangUsedTimes\030" +
-      "\013 \001(\005\022\031\n\021jySaoDangDayTimes\030\014 \001(\005\022\032\n\022cqSa" +
-      "oDangUsedTimes\030\r \001(\005\022\031\n\021cqSaoDangDayTime" +
-      "s\030\016 \001(\005\022\017\n\007acheive\030\017 \002(\005\022\032\n\022acheiveRewar" +
-      "dState\030\020 \002(\005\"T\n\tEnemyInfo\022\014\n\004name\030\001 \002(\t\022",
-      "\014\n\004icon\030\002 \002(\t\022\014\n\004type\030\003 \002(\005\022\r\n\005level\030\004 \002" +
-      "(\005\022\016\n\006yuansu\030\005 \002(\t\"Z\n\nRewardItem\022\016\n\006item" +
-      "Id\030\001 \002(\005\022\020\n\010itemType\030\002 \002(\005\022\014\n\004name\030\003 \002(\t" +
-      "\022\014\n\004icon\030\004 \002(\t\022\016\n\006pinZhi\030\005 \001(\005\"n\n\rPveBat" +
-      "tleOver\022\021\n\ts_section\030\001 \002(\005\022\016\n\006s_pass\030\002 \002" +
-      "(\010\022\014\n\004star\030\003 \002(\005\022\023\n\013achievement\030\004 \001(\005\022\027\n" +
-      "\017dropeenItemNpcs\030\005 \003(\005\"7\n\017GetPveStarAwar" +
-      "d\022\021\n\tguanQiaId\030\002 \002(\005\022\021\n\ts_starNum\030\001 \002(\005\"" +
-      "F\n\rPveStarAwards\0225\n\010s_awards\030\001 \003(\0132#.qxm" +
-      "obile.protobuf.PveStarAwardItem\";\n\020PveSt",
-      "arAwardItem\022\023\n\013s_awardName\030\001 \002(\t\022\022\n\ns_aw" +
-      "ardNum\030\002 \002(\005\"K\n\021PveStarGetSuccess\022\021\n\tgua" +
-      "nQiaId\030\003 \002(\005\022\021\n\ts_starNum\030\001 \002(\005\022\020\n\010s_res" +
-      "ult\030\002 \002(\010\"1\n\rPveSaoDangReq\022\021\n\tguanQiaId\030" +
-      "\001 \002(\005\022\r\n\005times\030\002 \002(\005\"x\n\rPveSaoDangRet\022\021\n" +
-      "\tguanQiaId\030\001 \002(\005\022\017\n\007endTime\030\002 \002(\005\022\017\n\007all" +
-      "Time\030\003 \002(\005\0222\n\006awards\030\004 \003(\0132\".qxmobile.pr" +
-      "otobuf.PveSaoDangAward\"f\n\017PveSaoDangAwar" +
-      "d\022\013\n\003exp\030\001 \002(\005\022\r\n\005money\030\002 \002(\005\0227\n\nawardIt" +
-      "ems\030\003 \003(\0132#.qxmobile.protobuf.SaoDangAwa",
-      "rdItem\"E\n\020SaoDangAwardItem\022\020\n\010itemType\030\001" +
-      " \002(\005\022\016\n\006itemId\030\002 \002(\005\022\017\n\007itemNum\030\003 \002(\005\"=\n" +
-      "\021YuanZhuListReturn\022(\n\004list\030\001 \003(\0132\032.qxmob" +
-      "ile.protobuf.YuanJun\"2\n\007YuanJun\022\n\n\002id\030\001 " +
-      "\002(\005\022\014\n\004name\030\002 \002(\t\022\r\n\005level\030\003 \002(\005\"\"\n\014BuZh" +
-      "enReport\022\022\n\nwuJiangIds\030\001 \003(\005\"@\n\013MibaoSel" +
-      "ect\022\014\n\004type\030\001 \002(\005\022\020\n\010mibaoIds\030\002 \003(\003\022\021\n\tz" +
-      "uheSkill\030\003 \001(\005\"C\n\017MibaoSelectResp\022\017\n\007suc" +
-      "cess\030\001 \002(\005\022\014\n\004type\030\002 \002(\005\022\021\n\tzuheSkill\030\003 " +
-      "\001(\005\"3\n\014GuanQiaMaxId\022\020\n\010commonId\030\001 \002(\005\022\021\n",
-      "\tchuanQiId\030\002 \002(\005\"-\n\027GetPassZhangJieAward" +
-      "Req\022\022\n\nzhangJieId\030\001 \002(\005\"0\n\032GetNotGetAwar" +
-      "dZhangJieResp\022\022\n\nzhangJiaId\030\001 \003(\005B\nB\010Pve" +
-      "Level"
+      "ile.protobuf.StarInfo\022/\n\ncqStarInfo\030\013 \003(" +
+      "\0132\033.qxmobile.protobuf.StarInfo\"D\n\010StarIn" +
+      "fo\022\016\n\006starId\030\003 \002(\005\022\020\n\010finished\030\001 \002(\010\022\026\n\016" +
+      "getRewardState\030\002 \002(\010\"$\n\017ResetCQTimesReq\022" +
+      "\021\n\tguanQiaId\030\001 \002(\005\"9\n\020ResetCQTimesBack\022\021" +
+      "\n\tguanQiaId\030\001 \002(\005\022\022\n\ncqResetPay\030\002 \002(\005\"5\n" +
+      "\022GuanQiaInfoRequest\022\021\n\tguanQiaId\030\001 \002(\005\022\014" +
+      "\n\004type\030\002 \001(\005\"\276\003\n\013GuanQiaInfo\022\021\n\tguanQiaI",
+      "d\030\001 \002(\005\022,\n\005items\030\002 \003(\0132\035.qxmobile.protob" +
+      "uf.RewardItem\022-\n\007enemies\030\003 \003(\0132\034.qxmobil" +
+      "e.protobuf.EnemyInfo\022\014\n\004desc\030\004 \002(\t\022\014\n\004ti" +
+      "li\030\005 \002(\005\022\020\n\010mibaoIds\030\006 \003(\003\022\016\n\006zuheId\030\021 \001" +
+      "(\005\022\023\n\013cqPassTimes\030\007 \001(\005\022\022\n\ncqDayTimes\030\022 " +
+      "\001(\005\022\022\n\ncqResetPay\030\010 \001(\005\022\024\n\014cqResetTimes\030" +
+      "\t \001(\005\022\023\n\013cqResetLeft\030\n \001(\005\022\032\n\022jySaoDangU" +
+      "sedTimes\030\013 \001(\005\022\031\n\021jySaoDangDayTimes\030\014 \001(" +
+      "\005\022\032\n\022cqSaoDangUsedTimes\030\r \001(\005\022\031\n\021cqSaoDa" +
+      "ngDayTimes\030\016 \001(\005\022\017\n\007acheive\030\017 \002(\005\022\032\n\022ach",
+      "eiveRewardState\030\020 \002(\005\"T\n\tEnemyInfo\022\014\n\004na" +
+      "me\030\001 \002(\t\022\014\n\004icon\030\002 \002(\t\022\014\n\004type\030\003 \002(\005\022\r\n\005" +
+      "level\030\004 \002(\005\022\016\n\006yuansu\030\005 \002(\t\"Z\n\nRewardIte" +
+      "m\022\016\n\006itemId\030\001 \002(\005\022\020\n\010itemType\030\002 \002(\005\022\014\n\004n" +
+      "ame\030\003 \002(\t\022\014\n\004icon\030\004 \002(\t\022\016\n\006pinZhi\030\005 \001(\005\"" +
+      "n\n\rPveBattleOver\022\021\n\ts_section\030\001 \002(\005\022\016\n\006s" +
+      "_pass\030\002 \002(\010\022\014\n\004star\030\003 \002(\005\022\023\n\013achievement" +
+      "\030\004 \001(\005\022\027\n\017dropeenItemNpcs\030\005 \003(\005\"J\n\017GetPv" +
+      "eStarAward\022\021\n\tguanQiaId\030\002 \002(\005\022\021\n\ts_starN" +
+      "um\030\001 \002(\005\022\021\n\tisChuanQi\030\003 \002(\010\"F\n\rPveStarAw",
+      "ards\0225\n\010s_awards\030\001 \003(\0132#.qxmobile.protob" +
+      "uf.PveStarAwardItem\";\n\020PveStarAwardItem\022" +
+      "\023\n\013s_awardName\030\001 \002(\t\022\022\n\ns_awardNum\030\002 \002(\005" +
+      "\"K\n\021PveStarGetSuccess\022\021\n\tguanQiaId\030\003 \002(\005" +
+      "\022\021\n\ts_starNum\030\001 \002(\005\022\020\n\010s_result\030\002 \002(\010\"1\n" +
+      "\rPveSaoDangReq\022\021\n\tguanQiaId\030\001 \002(\005\022\r\n\005tim" +
+      "es\030\002 \002(\005\"x\n\rPveSaoDangRet\022\021\n\tguanQiaId\030\001" +
+      " \002(\005\022\017\n\007endTime\030\002 \002(\005\022\017\n\007allTime\030\003 \002(\005\0222" +
+      "\n\006awards\030\004 \003(\0132\".qxmobile.protobuf.PveSa" +
+      "oDangAward\"f\n\017PveSaoDangAward\022\013\n\003exp\030\001 \002",
+      "(\005\022\r\n\005money\030\002 \002(\005\0227\n\nawardItems\030\003 \003(\0132#." +
+      "qxmobile.protobuf.SaoDangAwardItem\"E\n\020Sa" +
+      "oDangAwardItem\022\020\n\010itemType\030\001 \002(\005\022\016\n\006item" +
+      "Id\030\002 \002(\005\022\017\n\007itemNum\030\003 \002(\005\"=\n\021YuanZhuList" +
+      "Return\022(\n\004list\030\001 \003(\0132\032.qxmobile.protobuf" +
+      ".YuanJun\"2\n\007YuanJun\022\n\n\002id\030\001 \002(\005\022\014\n\004name\030" +
+      "\002 \002(\t\022\r\n\005level\030\003 \002(\005\"\"\n\014BuZhenReport\022\022\n\n" +
+      "wuJiangIds\030\001 \003(\005\"@\n\013MibaoSelect\022\014\n\004type\030" +
+      "\001 \002(\005\022\020\n\010mibaoIds\030\002 \003(\003\022\021\n\tzuheSkill\030\003 \001" +
+      "(\005\"C\n\017MibaoSelectResp\022\017\n\007success\030\001 \002(\005\022\014",
+      "\n\004type\030\002 \002(\005\022\021\n\tzuheSkill\030\003 \001(\005\"3\n\014GuanQ" +
+      "iaMaxId\022\020\n\010commonId\030\001 \002(\005\022\021\n\tchuanQiId\030\002" +
+      " \002(\005\"-\n\027GetPassZhangJieAwardReq\022\022\n\nzhang" +
+      "JieId\030\001 \002(\005\"0\n\032GetNotGetAwardZhangJieRes" +
+      "p\022\022\n\nzhangJiaId\030\001 \003(\005B\nB\010PveLevel"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -24274,7 +24882,7 @@ public final class PveLevel {
           internal_static_qxmobile_protobuf_Level_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_Level_descriptor,
-              new java.lang.String[] { "SLevel", "SPass", "SStarNum", "GuanQiaId", "Type", "ChuanQiPass", "PingJia", "RenWuId", "WinLevel", "StarInfo", });
+              new java.lang.String[] { "SLevel", "SPass", "SStarNum", "GuanQiaId", "Type", "ChuanQiPass", "PingJia", "RenWuId", "WinLevel", "StarInfo", "CqStarInfo", });
           internal_static_qxmobile_protobuf_StarInfo_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_StarInfo_fieldAccessorTable = new
@@ -24328,7 +24936,7 @@ public final class PveLevel {
           internal_static_qxmobile_protobuf_GetPveStarAward_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_GetPveStarAward_descriptor,
-              new java.lang.String[] { "GuanQiaId", "SStarNum", });
+              new java.lang.String[] { "GuanQiaId", "SStarNum", "IsChuanQi", });
           internal_static_qxmobile_protobuf_PveStarAwards_descriptor =
             getDescriptor().getMessageTypes().get(13);
           internal_static_qxmobile_protobuf_PveStarAwards_fieldAccessorTable = new

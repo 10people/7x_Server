@@ -41,6 +41,7 @@ import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.Jiangli;
 import com.manu.dynasty.template.NameKu;
 import com.manu.dynasty.template.ZhuceRenwu;
+import com.manu.dynasty.util.DateUtils;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
 import com.qx.alliance.AllianceBean;
@@ -58,6 +59,7 @@ import com.qx.http.CreateJunZhuSer;
 import com.qx.http.LoginServ;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.junzhu.PlayerTime;
 import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.PurchaseMgr;
 import com.qx.util.RandomUtil;
@@ -278,15 +280,25 @@ public class AccountManager {
 			EventMgr.addEvent(ED.JUNZHU_LOGIN, junZhuId);
 			EventMgr.addEvent(ED.CHECK_EMAIL, Long.valueOf(junZhuId));
 			ret.setSerTime((new Date()).getHours());
+
+			//TODO 目前阶段等级排行榜不完整，加入  登录时君主等级榜刷新，优化的时候可以删掉删掉 删掉 删掉
+			EventMgr.addEvent(ED.JUNZHU_LEVEL_RANK_REFRESH, junZhu);
 		}
 
 		ret.setMsg("登录成功");
+		String serverTime=	DateUtils.datetime2Text(new Date());
+		ret.setServerTime(serverTime);
+		PlayerTime playerTime = HibernateUtil.find(PlayerTime.class, junZhuId);
+		if(playerTime != null&&playerTime.getCreateRoleTime()!=null) {
+			String createRoleTime=	DateUtils.datetime2Text(playerTime.getCreateRoleTime());
+			ret.setAccountRegisterTime(createRoleTime);
+		}else{
+			ret.setAccountRegisterTime(serverTime);
+		}
 
 		session.write(ret.build());
 
 		EventMgr.addEvent(ED.ACC_LOGIN, junZhuId);
-		//TODO 目前阶段等级排行榜不完整，加入  登录时君主等级榜刷新，优化的时候可以删掉删掉 删掉 删掉
-		EventMgr.addEvent(ED.JUNZHU_LEVEL_RANK_REFRESH, junZhu);
 		final IoSession previous = sessionMap.put(junZhuId, session);
 		if (previous != null) {
 			previous.write(PD.S_ACC_login_kick);

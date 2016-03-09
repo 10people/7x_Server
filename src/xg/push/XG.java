@@ -41,22 +41,40 @@ youxiguwushuang
 密码1q2w3e4r
 http://xg.qq.com/xg/apps/ctr_app
  * @author 康建虎
+ * -------------------------------------------------2016年2月22日16:23:59 应用宝------------------------------
+ 张玉谷(张玉谷) 11:06:04
+安卓信鸽也接一下吧
+张玉谷(张玉谷) 11:06:13
+http://xg.qq.com/xg/apps/ctr_app/get_app_info?app_id=2100172721
+张玉谷(张玉谷) 11:06:13
+信鸽：
+3286074930
+youxiguwushuang
+张玉谷(张玉谷) 11:06:37
+ACCESS ID
+2100172721
+
+ACCESS KEY
+A24E38E6ANZP
+
+应用包名
+com.tencent.tmgp.qixiongwushuang
+
+SECRET KEY
+9ddc56da653412ec346f0aaa8b8aea52
  *
  */
 public class XG extends EventProc{
 	public static boolean pushOpen = false;//默认不开启，不然每个开着的服务器都会发推送。
+	public static boolean isAndroidServer = true;
 	public static String tag1TiLiGive="tagTiLiGive";//体力赠送提示
 	public static String tag2TiLiFull="tagTiLiFull";//2.	体力回满提示
 	public static String tag3BiaoJuYunSong="tagBiaoJuYunSong";//3.	镖局运送提醒
 	public static String tag4DangPuShuaXin="tagDangPuShuaXin";//4.	商铺刷新提醒
 	private Logger log = LoggerFactory.getLogger(XG.class);
+	public static String title = "七雄无双";
 	public static XG inst = new XG();
 	
-//	2.7 IOS 平台推送消息给所有设备
-	public static JSONObject pushAllIos(long accessId,String secretKey,String content,int
-	environment){
-		return null;
-	}
 	//示例：
 	//XingeApp.pushAllIos(000, "myKey", "大家好!", XingeApp.IOSENV_PROD);
 	//返回值:
@@ -76,7 +94,12 @@ public class XG extends EventProc{
 	}
 	public org.json.JSONObject pushAllIos(String content, long accessId, String secretKey, int env){
 		log.info("pushAllIos请求发送 {}",content);
-		org.json.JSONObject ret = XingeApp.pushAllIos(accessId, secretKey, content, env);
+		org.json.JSONObject ret = null;
+		if(isAndroidServer ){
+			ret = XingeApp.pushAllAndroid(accessId, secretKey, title, content);
+		}else{
+			ret = XingeApp.pushAllIos(accessId, secretKey, content, env);
+		}
 		log.info("发送结果{}",ret);
 		return ret;
 	}
@@ -209,7 +232,12 @@ public class XG extends EventProc{
 		Iterator<XGParam> it = XGParam.channels.values().iterator();
 		while(it.hasNext()){
 			XGParam param = it.next();
-			JSONObject ret = XingeApp.pushTagIos(param.accessId, param.secretKey, info, tag, param.env);
+			JSONObject ret = null;
+			if(isAndroidServer){
+				ret = XingeApp.pushTagAndroid(param.accessId, param.secretKey, title, info, tag);
+			}else {
+				ret = XingeApp.pushTagIos(param.accessId, param.secretKey, info, tag, param.env);
+			}
 			log.info("{} 推送领取体力 结果:{}",param.channel, ret);
 		}
 	}
@@ -302,7 +330,12 @@ public class XG extends EventProc{
 				if(cc == null){
 					return;
 				}
-				JSONObject ret = XingeApp.pushTokenIos(pp.accessId, pp.secretKey, cc, bean.token, pp.env);
+				JSONObject ret = null;
+				if(isAndroidServer){
+					ret = XingeApp.pushTokenAndroid(pp.accessId, pp.secretKey, title, cc, bean.token);
+				}else{
+					ret = XingeApp.pushTokenIos(pp.accessId, pp.secretKey, cc, bean.token, pp.env);
+				}
 				log.info("push {} to {} ret {}",cc,id,ret);
 			}
 		},"sendBaiZhanFail").start();

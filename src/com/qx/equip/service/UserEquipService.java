@@ -321,8 +321,6 @@ public class UserEquipService {
 			ActLog.log.EquipStrength(junZhu.id, junZhu.name, ActLog.vopenid, dbUe.getEquiped(), zhuangbeiCfg.getName(), preLv, newLv, logCaiLiao);
 			// 主线任务：完成一次强化
 			EventMgr.addEvent(ED.QIANG_HUA_FINISH, new Object[]{junZhuId, newLv});
-			// 发送主界面战力
-			JunZhuMgr.inst.getPVEMiBaoZhanLi(session);
 			// 每日任务中记录完成强化装备1次
 			EventMgr.addEvent(ED.DAILY_TASK_PROCESS, 
 					new DailyTaskCondition(junZhuId, DailyTaskConstants.qianghua_id, 1));
@@ -520,6 +518,7 @@ public class UserEquipService {
 			int curLevel=0;
 			if(dbUe==null){
 				log.error("找不到装备equipId:{}的强化数据instId:{}",  eg.dbId,  eg.instId);
+				continue;
 			}else{
 				curExp=dbUe.getExp();
 				curLevel=dbUe.getLevel();

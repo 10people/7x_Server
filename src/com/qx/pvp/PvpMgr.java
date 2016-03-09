@@ -351,15 +351,44 @@ public class PvpMgr extends EventProc implements Runnable {
 //			}
 			// 策划新需求  20160106
 			npc = baiZhanNpcMap.get(1);
+			int forthId = -1;
 			if(npc != null){
-				int forthId = MathUtils.getRandomInMax(npc.minRank, npc.maxRank);
-				int forthRank = getPvpRankById(-forthId);
-				log.info("forthId is {}, forthRank is {}", forthId, forthRank);
-				// 前端第四个是引导对象
-				tenRanks.set(3, forthRank);
-				// 数据库中的修改
-				bean.rank4 = forthRank;
-				HibernateUtil.save(bean);
+				int forthRank = npc.minRank -1;
+				int minRank = npc.minRank - 1;
+				int maxRank = npc.maxRank - 1;
+
+				do{
+					// 名次在[minrank-1, maxRank-1] 之间的玩家
+					Set<String> elem = DB.zrangebyscore_(KEY, minRank, maxRank);
+					if (elem != null && elem.size() != 0) {
+						for (String str : elem) {
+							if (str == null) {
+								continue;
+							}
+							String[] sss = str.split("_");
+							long playerId = Long.parseLong(sss[1]);
+							// 首个npc作为被选择敌人
+							if ("npc".equals(sss[0])) {
+								forthId = (int)playerId;
+								forthRank ++;
+								break;
+							}
+						}
+					}else{
+						//elem 没数据，break while
+						break;
+					}
+					minRank = ++maxRank;
+					maxRank = minRank+200; //200个200个的取出
+				}while(forthId == -1);
+				if(forthId != -1){
+					tenRanks.set(0, forthRank);// 前端第1个是引导对象
+					bean.rank1 = forthRank; // 数据库中的修改
+					HibernateUtil.save(bean);
+					log.info("引导首次百战：forthId is {}, forthRank is {}", forthId, forthRank);
+				}else{
+					log.error("君主：{}引导首次百战出错，没有找到匹配等级低的npc对手", jz.id);
+				}
 			}else{
 				log.error("找不到baiZhanNpcMap中id ==1的配置条目");
 			}
@@ -396,8 +425,12 @@ public class PvpMgr extends EventProc implements Runnable {
 		resp.setRankAward(bean.rankAward);
 		/*玩家每日奖励信息
 		 * */
-		int timeDistance = DateUtils.timeDistanceTodayOclock(21, 0);
-		resp.setNextTimeTo21(timeDistance);
+		if(bean.lastAwardTime != null && DateUtils.isSameDay(bean.lastAwardTime)){
+			resp.setNextTimeTo21(-1); // 今日奖励已经领取过了
+		}else{
+			int timeDistance = DateUtils.timeDistanceTodayOclock(21, 0);
+			resp.setNextTimeTo21(timeDistance / 1000);
+		}
 
 		/*
 		 * 发送
@@ -443,7 +476,8 @@ public class PvpMgr extends EventProc implements Runnable {
 		pInfo.setTotalTimes(bean.usedTimes + bean.remain);
 		// 挑战CD时间
 		pInfo.setTime(bean.remain == 0 ? 0 : getCountDown(bean));
-		pInfo.setJunXianLevel(bean.junXianLevel);
+//		pInfo.setJunXianLevel(bean.junXianLevel);
+		pInfo.setBaizhanXMLId(getBaiZhanItemByRank(junRank).id);
 		pInfo.setZhanLi(JunZhuMgr.inst.getJunZhuZhanliFinally(jz));
 		// 添加组合id
 //		pInfo.setZuheId(bean.zuheId);
@@ -453,6 +487,7 @@ public class PvpMgr extends EventProc implements Runnable {
 	}
 
 	public List<OpponentInfo.Builder> fillEnemyListInfo(List<Integer> tenRanks) {
+		int i = 1;
 		List<OpponentInfo.Builder> enemyBuilderList = new ArrayList<OpponentInfo.Builder>();
 		for (Integer rankTemp : tenRanks) {
 			if (rankTemp < 1) {
@@ -494,6 +529,7 @@ public class PvpMgr extends EventProc implements Runnable {
 				you.setZuHeLevel(npc.mibaoZuheLv);
 				you.setZuheId(npc.mibaoZuhe);
 				you.setLevel(npc.level);
+				you.setHistoryRank((int)playerId);
 				enemyBuilderList.add(you);
 			} else {
 				// junzhu
@@ -520,9 +556,13 @@ public class PvpMgr extends EventProc implements Runnable {
 				you.setZuHeLevel(MibaoMgr.inst.getActiveZuHeLevel(playerId, pb.gongJiZuHeId));
 				you.setZuheId(pb.gongJiZuHeId);
 				you.setLevel(junz.level);
+				you.setHistoryRank(pb.highestRank);
 				enemyBuilderList.add(you);
 			}
+			// 20160218 对手列表改为5个
+			if(i++>=5){break;}
 		}
+		log.info("enemyBuilderList .size is：{}",  enemyBuilderList.size());
 		return enemyBuilderList;
 	}
 
@@ -1750,6 +1790,14 @@ public class PvpMgr extends EventProc implements Runnable {
 			return;
 		}
 		int awardYuanBao = br.yuanbao - oldYuanB;
+		/*
+		 * 所以希望对第一次百战胜利后排名奖励的元宝数做特殊处理，
+		 * 在原有计算值的基础上加上一个固定值，固定值读Canshu表的BAIZHAN_FIRSTWIN_YUANBAO
+		 */
+		if(bean.allBattleTimes == 1){
+			awardYuanBao += CanShu.BAIZHAN_FIRSTWIN_YUANBAO;
+			log.info("玩家:{}首次百战胜利，额外添加奖励，总奖励元宝：{}", jz.id, awardYuanBao);
+		}
 		if (awardYuanBao <= 0) {
 			log.error("玩家:{}百战名次升到历史最高:{}，奖励元宝小于等于0，所以不发放奖励", jz.id,
 					highestRank);
@@ -1920,14 +1968,14 @@ public class PvpMgr extends EventProc implements Runnable {
 	public void proc(Event event) {
 		switch (event.id) {
 		case ED.ACC_LOGIN:
-			JunZhu junzhu = null;
-			if (event.param != null && event.param instanceof JunZhu) {
-				junzhu = (JunZhu) event.param;
-				if (junzhu == null) {
-					log.error("junzhu not exist");
-					return;
-				}
-			}
+//			JunZhu junzhu = null;
+//			if (event.param != null && event.param instanceof JunZhu) {
+//				junzhu = (JunZhu) event.param;
+//				if (junzhu == null) {
+//					log.error("junzhu not exist");
+//					return;
+//				}
+//			}
 			if (event.param != null && event.param instanceof Long) {
 				long jzid = (Long) event.param;
 				addDailyAward(jzid, PVPConstant.LOGIN_SEND_EMAIL);
@@ -1948,9 +1996,15 @@ public class PvpMgr extends EventProc implements Runnable {
 				log.info("君主：{}--百战千军：{}的功能---未开启,被挑战不推送",jz.id,FunctionID.baizhan);
 				break;
 			}
+			// 百战历史记录
 			PvpBean bean = HibernateUtil.find(PvpBean.class, jz.id);
 			if(bean != null && !bean.isLook){
-				FunctionID.pushCanShangjiao(jz.id, session, FunctionID.baizhan);
+				FunctionID.pushCanShowRed(jz.id, session, FunctionID.baiZhanRecord);
+			}
+			// 百战次数
+			if (bean == null ||
+					(bean.remain > 0 && getCountDown(bean) <= 0)){
+				FunctionID.pushCanShowRed(jz.id, session, FunctionID.baizhanCount);
 			}
 			break;
 		}
@@ -2028,16 +2082,22 @@ public class PvpMgr extends EventProc implements Runnable {
 			log.error("在线发送百战每日奖励邮件，玩家:{}百战没有开启", id);
 			return;
 		}
-		// 次日玩家登陆
+		// 玩家登陆
 		if (sendType == PVPConstant.LOGIN_SEND_EMAIL) {
 			Date last = bean.lastAwardTime;
-			if (last != null) {
-				int remainTime = DateUtils.getTimeToNextNeedHour(last, 21);
-				int time = (int) ((System.currentTimeMillis() - last.getTime()) / 1000);
-				if (time <= remainTime) {
+			// 今天的奖励已经发出去了, 今日奖励已经给出表明昨天的也已经给出。
+			if(last != null){
+				if(DateUtils.isSameDay(last)){
+					return;
+				}else if(DateUtils.isBeforeDay(System.currentTimeMillis(), last.getTime())){
 					log.info("君主:{}上一个21点的百战每日奖励已经发出", id);
 					return;
 				}
+//				int remainTime = DateUtils.getTimeToNextNeedHour(last, 21);
+//				int time = (int) ((System.currentTimeMillis() - last.getTime()) / 1000);
+//				if (time <= remainTime) {
+//					log.info("君主:{}上一个21点的百战每日奖励已经发出", id);
+//					return;
 			}else {
 				int ho1 = DateUtils.getHourOfDay(bean.initPvpTime);
 				Date now = new Date();
@@ -2053,7 +2113,6 @@ public class PvpMgr extends EventProc implements Runnable {
 					return;
 				}
 			}
-//			// sendEmailTime = DateUtils.getLast21Time();
 			// 玩家在线发送奖励
 		}else if(sendType == PVPConstant.ONLINE_SEND_EMAIL){
 			Date last = bean.lastAwardTime;
@@ -2090,12 +2149,19 @@ public class PvpMgr extends EventProc implements Runnable {
 		boolean suc = EmailMgr.INSTANCE.sendMail(junZhu.name, content,
 				dayAward.toString(), senderName, mailConfig, "");
 		if (suc) {
-			log.info("玩家:{}百战每日奖励邮件发出成功，奖励是:{}", junZhu.name, dayAward);
+			if (sendType == PVPConstant.LOGIN_SEND_EMAIL) {
+				bean.lastAwardTime = DateUtils.getLast10();
+				log.info("玩家:{}再次登录游戏发送前一天的百战每日奖励邮件，成功，奖励是:{}，bean.lastAwardTime 记做：{} ",
+						 junZhu.name, dayAward, bean.lastAwardTime);
+			}else if(sendType == PVPConstant.ONLINE_SEND_EMAIL){
+				bean.lastAwardTime = new Date();
+				log.info("玩家:{}在线发送当天的百战每日奖励邮件，成功，奖励是:{}，bean.lastAwardTime 记做：{} ",
+						 junZhu.name, dayAward, bean.lastAwardTime);
+			}
+			HibernateUtil.save(bean);
 		} else {
-			log.error("玩家:{}百战每日奖励邮件发送失败", junZhu.name);
+			log.error("玩家:{}百战每日奖励邮件发送失败， sendMail出错导致", junZhu.name);
 		}
-		bean.lastAwardTime = new Date();
-		HibernateUtil.save(bean);
 	}
 
 
@@ -2131,7 +2197,7 @@ public class PvpMgr extends EventProc implements Runnable {
 		if (isNpc) {
 			// npc
 			BaiZhanNpc npc = npcs.get(npcId);
-			fillNPCDataInfo(enemys, npc, enemyFlagIndex, npcId);
+			fillNPCDataInfo(enemys, npc, enemyFlagIndex, npcId, true);
 			oppolevel = npc.level;
 			enemyTroop.setMaxLevel(999);
 		} else {
@@ -2336,16 +2402,27 @@ public class PvpMgr extends EventProc implements Runnable {
 //		EventMgr.addEvent(ED.finish_jiebiao_x, new Object[] { junZhu.id });
 //
 //	}
-
+	
+	/**
+	 * 
+	 * @param selfs
+	 * @param npc
+	 * @param flagIndex
+	 * @param modelNum			modelId，pve时读NpcTemp表的modelId需要根据modelCompute来判断是否需要计算
+	 * @param modelCompute		modelId是否需要计算（pvp里需要计算）
+	 */
 	public void fillNPCDataInfo(List<Node> selfs, PvpNpc npc, int flagIndex,
-			int npcId) {
+			int modelNum, boolean modelCompute) {
 		Node.Builder npcNode = Node.newBuilder();
 		npcNode.addFlagIds(flagIndex);
-
 		// 君主类型
 		npcNode.setNodeType(NodeType.PLAYER);
 		npcNode.setNodeProfession(NodeProfession.NULL);
-		npcNode.setModleId(npc.getRoleId(npcId));
+		if(modelCompute) {
+			npcNode.setModleId(npc.getRoleId(modelNum));
+		} else {
+			npcNode.setModleId(modelNum);
+		}
 		PveMgr.inst.fillDataByGongjiType(npcNode, null);
 		// type
 		npcNode.setNodeType(NodeType.valueOf(npc.type));
@@ -2353,6 +2430,7 @@ public class PvpMgr extends EventProc implements Runnable {
 		npcNode.setNodeName(getNPCName(npc.name));
 		npcNode.setHpNum(npc.lifebarNum);
 		npcNode.setAppearanceId(npc.modelApID);
+		npcNode.setNuQiZhi(0);
 		PveMgr.inst.fillGongFangInfo(npcNode, npc);
 		// 添加装备
 		List<Integer> weaps = Arrays.asList(npc.weapon1, npc.weapon2,
@@ -2445,6 +2523,7 @@ public class PvpMgr extends EventProc implements Runnable {
 			wjNode.setNodeName(getNPCName(bing.name));
 			wjNode.setHpNum(bing.lifebarNum);
 			wjNode.setAppearanceId(bing.modelApID);
+			wjNode.setNuQiZhi(0);
 			PveMgr.inst.fillGongFangInfo(wjNode, bing);
 			String skills = bing.skills;
 			if (skills != null && !skills.equals("")) {
@@ -2484,6 +2563,7 @@ public class PvpMgr extends EventProc implements Runnable {
 				wjNode.setNodeName(getNPCName(bing.name));
 				wjNode.setHpNum(bing.lifebarNum);
 				wjNode.setAppearanceId(bing.modelApID);
+				wjNode.setNuQiZhi(0);
 				PveMgr.inst.fillGongFangInfo(wjNode, bing);
 				String skills = bing.skills;
 				if (skills != null && !skills.equals("")) {

@@ -27,10 +27,12 @@ public class CartNPCTemp {
 	public String skill5;
 	public String yuansu;
 	public String name;
+	private JunZhu junzhu;
 	//待策划加入 2015年12月10日
 	public int roleId;
+	public float lifebarNum;
 	
-	public JunZhu valueOfJunZhu(long junzhuId) {
+	private JunZhu valueOfJunZhu(long junzhuId) {
 		JunZhu junzhu = new JunZhu();
 		junzhu.id = junzhuId;
 		junzhu.shengMingMax = this.shengming;
@@ -45,6 +47,19 @@ public class CartNPCTemp {
 		junzhu.jnRX = this.jnRX;
 		junzhu.jnSH = this.jnSH;
 		junzhu.level = this.level;
+		return junzhu;
+	}
+	
+	public JunZhu getSimuJunZhu(long junzhuId) {
+		if(junzhu == null) {
+			synchronized (this) {
+				if(junzhu == null) {
+					junzhu = valueOfJunZhu(junzhuId);
+				}
+			}
+		} else {
+			junzhu.id = junzhuId;
+		}
 		return junzhu;
 	}
 }

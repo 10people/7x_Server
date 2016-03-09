@@ -92,7 +92,7 @@ public class JiNengPeiYangMgr extends EventProc{
 		// 扣除铜币
 		junZhu.tongBi = junZhu.tongBi - p.getNeedNum();
 		HibernateUtil.save(junZhu);
-		JunZhuMgr.inst.sendMainInfo(session);
+//		JunZhuMgr.inst.sendMainInfo(session);
 		// 技能突破
 		JNBean bean = HibernateUtil.find(JNBean.class, junZhu.id);
 		boolean insert = false;
@@ -114,6 +114,8 @@ public class JiNengPeiYangMgr extends EventProc{
 		EventMgr.addEvent(ED.jinJie_jueSe_jiNeng, new Object[]{junZhu.id});
 		//
 		addNewJn(junZhu, p);
+		//
+		JunZhuMgr.inst.sendMainInfo(session);
 		
 	}
 
@@ -301,6 +303,9 @@ public class JiNengPeiYangMgr extends EventProc{
 		case ED.junzhu_level_up:
 			checkRedNotice(param);
 			break;
+		case ED.JUNZHU_LEVEL_RANK_REFRESH:
+			checkRedNotice((JunZhu) param.param);
+			break;
 		}
 	}
 
@@ -311,8 +316,14 @@ public class JiNengPeiYangMgr extends EventProc{
 	public void checkRedNotice(Event param) {
 		// new Object[] { jz.id, jz.level, jz })
 		Object[] arr = (Object[]) param.param;
-		Integer lv = (Integer) arr[1];
-		JunZhu jz = (JunZhu) arr[2];		
+//		Integer lv = (Integer) arr[1];
+		JunZhu jz = (JunZhu) arr[2];
+		checkRedNotice(jz);
+	}
+	public void checkRedNotice(JunZhu jz){
+		if(jz == null){
+			return;
+		}
 		JNBean bean = HibernateUtil.find(JNBean.class, jz.id);
 		if(bean == null){
 			bean = getDefaultBean();
@@ -347,12 +358,13 @@ public class JiNengPeiYangMgr extends EventProc{
 		if(session == null){
 			return;
 		}
-		FunctionID.pushCanShangjiao(jz.id, session, FunctionID.JiNengJinJie);
+		FunctionID.pushCanShowRed(jz.id, session, FunctionID.JiNengJinJie);
 	}
 
 	@Override
 	protected void doReg() {
 		EventMgr.regist(ED.junzhu_level_up, this);
+		EventMgr.regist(ED.JUNZHU_LEVEL_RANK_REFRESH, this);
 	}
 
 }

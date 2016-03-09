@@ -14,6 +14,7 @@ import com.qx.equip.domain.UserEquip;
 import com.qx.hero.WjKeJi;
 import com.qx.hero.WuJiang;
 import com.qx.huangye.HYTreasure;
+import com.qx.jinengpeiyang.JNBean;
 import com.qx.jingmai.JmBean;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.TalentAttr;
@@ -36,6 +37,7 @@ public class MC {
 	 */
 	public static Set<Class<? extends MCSupport>> cachedClass = new HashSet<Class<? extends MCSupport>>();
 	static{
+		cachedClass.add(JNBean.class);
 		cachedClass.add(JunZhu.class);
 		cachedClass.add(WjKeJi.class);
 
@@ -66,7 +68,6 @@ public class MC {
 		cachedClass.add(TalentAttr.class);
 		//押镖
 //		cachedClass.add(YaBiaoBean.class);
-		cachedClass.add(YunBiaoHistory.class);
 		//限时活动
 		cachedClass.add(XianShiBean.class);
 		// 荒野藏宝点

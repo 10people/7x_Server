@@ -226,6 +226,7 @@ public class PurchaseMgr {
 			xishu = conf.moneyXishu;
 		}
 		int getTongbi = (xishu * p.getNumber() * baoJi)/ 100;
+		checkBaoJiBroadcast(junZhu, baoJi);
 		log.info("计算铜币数量{} x {} x {} = {}",xishu, p.getNumber(), baoJi, getTongbi);
 		junZhu.tongBi = junZhu.tongBi + getTongbi;
 		log.info("[{}]增加铜币{}", junZhu.id, getTongbi);
@@ -250,6 +251,10 @@ public class PurchaseMgr {
 				junZhuId, DailyTaskConstants.buy_tongbi_id, 1));
 	}
 	
+	public void checkBaoJiBroadcast(JunZhu junZhu, int baoJi) {
+		EventMgr.addEvent(ED.BUY_TongBi_BaoJi, new Object[]{junZhu, baoJi});
+	}
+
 	/**
 	 * @Description 连续购买铜币
 	 * @param code
@@ -348,6 +353,7 @@ public class PurchaseMgr {
 			tbResp.setShumu(getTongbi);
 			resp.addTongbi(tbResp.build());
 			shouyi+=getTongbi;
+			checkBaoJiBroadcast(junZhu, baoJi);
 		}
 		//保存
 		tongBi.setDate(today);

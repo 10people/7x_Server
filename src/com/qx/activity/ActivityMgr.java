@@ -166,10 +166,10 @@ public class ActivityMgr extends EventProc{
 		QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,	junZhuId);
 		if (QiandaoMgr.instance.hasAlreadyQiandao(qiandaoInfo)) {
 			if (QiandaoMgr.instance.canBuQian(junZhuId,qiandaoInfo)) {// 今天是否可以补签
-				FunctionID.pushCanShangjiao(junZhuId, session, FunctionID.Qiandao);
+				FunctionID.pushCanShowRed(junZhuId, session, FunctionID.Qiandao);
 			}
 		} else {
-			FunctionID.pushCanShangjiao(junZhuId, session, FunctionID.Qiandao);
+			FunctionID.pushCanShowRed(junZhuId, session, FunctionID.Qiandao);
 		}
 	}
 	
@@ -184,7 +184,7 @@ public class ActivityMgr extends EventProc{
 	public void pushShouchongAvailable(long junZhuId,IoSession session){
 		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class,"where junzhuId=" + junZhuId + "");
 		if (ShouchongMgr.instance.getShouChongState(info) == ShouchongMgr.STATE_AWARD) {
-			FunctionID.pushCanShangjiao(junZhuId, session, FunctionID.Shouchong);
+			FunctionID.pushCanShowRed(junZhuId, session, FunctionID.Shouchong);
 		}
 	}
 	

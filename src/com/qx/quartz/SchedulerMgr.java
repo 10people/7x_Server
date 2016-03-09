@@ -31,9 +31,11 @@ import com.qx.quartz.job.LianMengBySWDayRankResetJob;
 import com.qx.quartz.job.LianMengBySWWeekRankResetJob;
 import com.qx.quartz.job.LogPerHourJob;
 import com.qx.quartz.job.LogPerMinuteJob;
+import com.qx.quartz.job.LveDuoJunQingJob;
+import com.qx.quartz.job.RefreshGlobalActivity;
 import com.qx.quartz.job.ResetGongJinJob;
 import com.qx.quartz.job.SendGongJinAwardJob;
-import com.qx.quartz.job.YBrobotManageJob;
+import com.qx.quartz.job.YBrobotRefreshJob;
 import com.qx.quartz.job.YaBiaoJiaChengJob;
 import com.qx.quartz.job.YaBiaoManageJob;
 
@@ -66,7 +68,7 @@ public class SchedulerMgr {
 	 */
 	public void doSchedule(){
 	//	addScheduler(TestJob.class, "0/10 * * * * ?");
-		// 每天晚上23:58 发送在线且没有领奖的百战日奖励邮件
+		// 每天晚上23:58 发送在线且没有领奖的百战日奖励邮件, 掠夺也会在23:58发送每日奖励邮件，因此都加在这个任务中
 		addScheduler(BaiZhanDailyAwardJob.class, "0 58 23 * * ?");
 		//每周一到周六晚上22点衰减高级房屋价值
 		StringBuffer shuaijianTime=new StringBuffer();
@@ -109,39 +111,53 @@ public class SchedulerMgr {
 		addScheduler(YaBiaoManageJob.class, closeYBTime.toString());//0 0 11 * * ?
 		
 		
-		//开启押镖活动多倍收益1
+		//开启押镖活动福利1 2016年1月27日去掉 2016年2月1日加回来
 		StringBuffer openYBMORETime1=new StringBuffer();
 		String[] openYBMORE1 = YunbiaoTemp.incomeAdd_startTime1.split(":");
 		int openHMORE1 = Integer.parseInt(openYBMORE1[0]);
 		int openMMORE1 = Integer.parseInt(openYBMORE1[1]);
 		openYBMORETime1.append("0 ").append(openMMORE1).append(" ").append(openHMORE1).append(" * * ?");
 		addScheduler(YaBiaoJiaChengJob.class, openYBMORETime1.toString());//"0 0 8 * * ?"
-		//开启押镖活动多倍收益2
+		//开启押镖活动福利2
 		StringBuffer openYBMORETime2=new StringBuffer();
 		String[] openYBMORE2 =YunbiaoTemp.incomeAdd_startTime2.split(":");
 		int openHMORE2 = Integer.parseInt(openYBMORE2[0]);
 		int openMMORE2 = Integer.parseInt(openYBMORE2[1]);
 		openYBMORETime2.append("0 ").append(openMMORE2).append(" ").append(openHMORE2).append(" * * ?");
 		addScheduler(YaBiaoJiaChengJob.class, openYBMORETime2.toString());//"0 0 8 * * ?"
-		//关闭押镖活动多倍收益1
+		//开启押镖活动福利3
+		StringBuffer openYBMORETime3=new StringBuffer();
+		String[] openYBMORE3 =YunbiaoTemp.incomeAdd_startTime3.split(":");
+		int openHMORE3 = Integer.parseInt(openYBMORE3[0]);
+		int openMMORE3 = Integer.parseInt(openYBMORE3[1]);
+		openYBMORETime3.append("0 ").append(openMMORE3).append(" ").append(openHMORE3).append(" * * ?");
+		addScheduler(YaBiaoJiaChengJob.class, openYBMORETime3.toString());//"0 0 8 * * ?"
+//		//关闭押镖活动福利1 2016年1月27日 去掉
 		StringBuffer closeYBMORETime1=new StringBuffer();
 		String[] closeYBMORE1 = YunbiaoTemp.incomeAdd_endTime1.split(":");
 		int closeHMORE1 = Integer.parseInt(closeYBMORE1[0]);
 		int closeMMORE1 = Integer.parseInt(closeYBMORE1[1]);
 		closeYBMORETime1.append("0 ").append(closeMMORE1).append(" ").append(closeHMORE1).append(" * * ?");
 		addScheduler(YaBiaoJiaChengJob.class, closeYBMORETime1.toString());//0 0 11 * * ?
-		//关闭押镖活动多倍收益2
+		//关闭押镖活动福利2
 		StringBuffer closeYBMORETime2=new StringBuffer();
 		String[] closeYBMORE2 = YunbiaoTemp.incomeAdd_endTime2.split(":");
 		int closeHMORE2 = Integer.parseInt(closeYBMORE2[0]);
 		int closeMMORE2 = Integer.parseInt(closeYBMORE2[1]);
 		closeYBMORETime2.append("0 ").append(closeMMORE2).append(" ").append(closeHMORE2).append(" * * ?");
 		addScheduler(YaBiaoJiaChengJob.class, closeYBMORETime2.toString());//0 0 11 * * ?
+		//关闭押镖活动福利3
+		StringBuffer closeYBMORETime3=new StringBuffer();
+		String[] closeYBMORE3 = YunbiaoTemp.incomeAdd_endTime3.split(":");
+		int closeHMORE3 = Integer.parseInt(closeYBMORE3[0]);
+		int closeMMORE3 = Integer.parseInt(closeYBMORE3[1]);
+		closeYBMORETime3.append("0 ").append(closeMMORE3).append(" ").append(closeHMORE3).append(" * * ?");
+		addScheduler(YaBiaoJiaChengJob.class, closeYBMORETime3.toString());//0 0 11 * * ?
 		
 		StringBuffer cartRefreshTime=new StringBuffer();
 		cartRefreshTime.append("0 */").append(YunbiaoTemp.cartAI_refresh_interval).append(" * * * ?");
-		//30分钟产生一次机器人镖车 "0 */30 * * * ?"
-		addScheduler(YBrobotManageJob.class, cartRefreshTime.toString());
+		//2016年1月20日 需求变更 只刷新维护20辆马车的等级列表 //30分钟产生一次机器人镖车 "0 */30 * * * ?"
+		addScheduler(YBrobotRefreshJob.class, cartRefreshTime.toString());
 		
 		String time = CanShu.HUANGYEPVP_AWARDTIME;
 		String[] timeArray = time.split(":");
@@ -163,6 +179,9 @@ public class SchedulerMgr {
 		addScheduler(CleanLMSBJob.class, "0 0 4 * * ?");
 		// 每天22:00 贡金个人排行和联盟排行发放奖励 
 		addScheduler(SendGongJinAwardJob.class, "0 0 22 * * ?");
+		// 每天4:00  重置服务器时间为准的活动状态
+		addScheduler(RefreshGlobalActivity.class, "0 0 4 * * ?");
+		addScheduler(LveDuoJunQingJob.class, "0 1 0 * * ?");
 	}
 
 	/**
@@ -180,7 +199,7 @@ public class SchedulerMgr {
 				.build(); 
 		try {
 			scheduler.scheduleJob(job, trigger);
-			log.info("添加job：{}到定时任务列表中成功", jobClass);
+//			log.info("添加job：{}到定时任务列表中成功", jobClass);
 		} catch (SchedulerException e) {
 			e.printStackTrace();
 			log.error("添加job：{}到定时任务列表中失败", jobClass);

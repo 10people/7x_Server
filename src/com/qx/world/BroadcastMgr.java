@@ -51,7 +51,10 @@ type	完成条件
 10	玩家成功通关某难度的游侠活动（填写游侠关卡ID）
 11	玩家百战前10名名次发生变动
 12 当玩家所有秘宝的总星数达到N的时候播放广播
-
+13	玩家合成3星秘宝
+14	元宝买铜币 暴击×10 发广播
+15	联盟商店
+16	联盟祭拜
 
 	 * 
 	 */
@@ -132,7 +135,103 @@ type	完成条件
 		case ED.BAI_ZHAN_RANK_UP:
 			checkBaiZhan(param);
 			break;
+		case ED.BUY_TongBi_BaoJi:
+			checkBuyTongBiBoaJi(param);
+			break;
+		case ED.LM_SHOP_BUY:
+			checkLM_ShopBuy(param);
+			break;
+		case ED.jibai:
+			checkJiBai(param);
+			break;
 		}
+	}
+	public void checkJiBai(Event param) {
+		//new Object[] {junZhuId, hitO.optInt("id")}
+		Object[] arr = (Object[]) param.param;
+		//JunZhu jz = (JunZhu) arr[0];
+		Long jzId = (Long) arr[0];
+		Integer itemId = (Integer) arr[1];
+		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
+		if(confList == null){
+			return;
+		}
+		AnnounceTemp targetConf = null;
+		String strCon = String.valueOf(itemId);
+		for(AnnounceTemp conf : confList){
+			if(conf.type != 16){//
+				continue;
+			}
+			if(strCon.equals(conf.condition)){
+				targetConf = conf;
+				break;
+			}
+		}
+		if(targetConf == null){
+			return;
+		}
+		String template = targetConf.announcement;
+		//[ffffff]恭喜[-][dbba8f]*玩家名字七个字*[-][ffffff]在[-]06de34]联盟祭拜[-][ffffff]时获得[-][f5aa29]鎏金钱匣[-][ffffff]！[-]
+		JunZhu jz = HibernateUtil.find(JunZhu.class, jzId);
+		if(jz == null)return;
+		template = template.replace("*玩家名字七个字*", jz.name);
+		send(template);
+	}
+	public void checkLM_ShopBuy(Event param) {
+		//new Object[]{jz, a, itemName}
+		Object[] arr = (Object[]) param.param;
+		JunZhu jz = (JunZhu) arr[0];
+		AwardTemp at = (AwardTemp) arr[1];
+		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
+		if(confList == null){
+			return;
+		}
+		AnnounceTemp targetConf = null;
+		String strCon = String.valueOf(at.getItemId());
+		for(AnnounceTemp conf : confList){
+			if(conf.type != 15){//
+				continue;
+			}
+			if(strCon.equals(conf.condition)){
+				targetConf = conf;
+				break;
+			}
+		}
+		if(targetConf == null){
+			return;
+		}
+		String template = targetConf.announcement;
+		//[ffffff]恭喜[-][dbba8f]*玩家名字七个字*[-][ffffff]在[-]06de34]联盟商店[-][ffffff]兑换获得[-][f5aa29]女娲补天石的碎片[-][ffffff]！[-]
+		template = template.replace("*玩家名字七个字*", jz.name);
+		send(template);
+	}
+	public void checkBuyTongBiBoaJi(Event param) {
+		//new Object[]{junZhu, baoJi}
+		Object[] arr = (Object[]) param.param;
+		JunZhu jz = (JunZhu) arr[0];
+		int baoJi = (Integer) arr[1];
+		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
+		if(confList == null){
+			return;
+		}
+		AnnounceTemp targetConf = null;
+		String strCon = String.valueOf(baoJi);
+		for(AnnounceTemp conf : confList){
+			if(conf.type != 14){//
+				continue;
+			}
+			if(strCon.equals(conf.condition)){
+				targetConf = conf;
+				break;
+			}
+		}
+		if(targetConf == null){
+			return;
+		}
+		String template = targetConf.announcement;
+		//[ffffff]恭喜[-][dbba8f]*玩家名字七个字*[-][ffffff]购买[-][f5aa29]铜币[-][ffffff]时获得[-][d80202]10倍[-][ffffff]暴击！[-]
+		template = template.replace("*玩家名字七个字*", jz.name);
+		send(template);
 	}
 	protected void checkMiBaoActive(Event param) {
 		//junZhu,session,miBaoCfg
@@ -430,8 +529,8 @@ type	完成条件
 		//new Object[]{jz,session});
 		Object[] arr = (Object[]) param.param;
 		JunZhu jz =  (JunZhu) arr[0];
-		checkMiBaoStarCnt(jz);
 		IoSession session = (IoSession) arr[1];
+		checkMiBaoStarCnt(jz, session);
 		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
 		if(confList == null){
 			return;
@@ -459,7 +558,13 @@ type	完成条件
 		String template = targetConf.announcement;
 		template = template.replace("*玩家名字七个字*", jz.name);
 		//template = template.replace("#N#", String.valueOf(cnt));
-		send(template);
+		if(session.containsAttribute("inTanBaoGiveReward")){
+			//2016年1月26日13:30:26 客户端点击界面时才发广播，先存起来你。
+			session.setAttribute("MiBaoBDCache", template);
+		}else{
+			send(template);
+		}
+//		send(template);
 	}
 	protected void checkMiBaoUpStart(Event param) {
 		//new Object[]{junZhu,session,miBaoCfg}
@@ -469,8 +574,8 @@ type	完成条件
 		}
 		Object[] arr = (Object[]) param.param;
 		JunZhu jz =  (JunZhu) arr[0];
-		checkMiBaoStarCnt(jz);
 		IoSession session = (IoSession) arr[1];
+		checkMiBaoStarCnt(jz,session);
 		MiBao mibao = (MiBao) arr[2];
 		MibaoStar curStarCfg = (MibaoStar) arr[3];
 		String starStr = String.valueOf(curStarCfg.getStar()+1);
@@ -537,10 +642,12 @@ type	完成条件
 			String template = targetConf.announcement;
 			template = template.replace("*玩家名字七个字*", jz.name);
 			template = template.replace("#秘宝名字#", HeroService.getNameById(String.valueOf(mibao.nameId)));
-			send(template);
+			//send(template);
+			//2016年1月26日13:30:26 客户端点击界面时才发广播，先存起来你。
+			session.setAttribute("MiBaoBDCache", template);
 		}
 	}
-	protected void checkMiBaoStarCnt(JunZhu jz) {
+	protected void checkMiBaoStarCnt(JunZhu jz, IoSession session) {
 		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
 		if(confList == null){
 			return;
@@ -568,7 +675,12 @@ type	完成条件
 		String template = targetConf.announcement;
 		template = template.replace("*玩家名字七个字*", jz.name);
 		//template = template.replace("#N#", String.valueOf(cnt));
-		send(template);
+		if(session.containsAttribute("inTanBaoGiveReward")){
+			//2016年1月26日13:30:26 客户端点击界面时才发广播，先存起来你。
+			session.setAttribute("MiBaoBDCache", template);
+		}else{
+			send(template);
+		}
 	}
 	@Override
 	protected void doReg() {
@@ -584,5 +696,7 @@ type	完成条件
 		EventMgr.regist(ED.YOU_XIA_SUCCESS, this);
 		EventMgr.regist(ED.BAI_ZHAN_RANK_UP, this);
 		EventMgr.regist(ED.MIBAO_HECHENG_BROADCAST, this);
+		EventMgr.regist(ED.LM_SHOP_BUY, this);
+		EventMgr.regist(ED.jibai, this);
 	}
 }

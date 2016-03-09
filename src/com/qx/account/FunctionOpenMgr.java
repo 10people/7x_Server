@@ -16,8 +16,10 @@ import qxmobile.protobuf.JunZhuProto.SimpleInfo;
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.store.MemcachedCRUD;
+import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.FunctionOpen;
 import com.manu.dynasty.template.ZhuXian;
+import com.manu.dynasty.util.DateUtils;
 import com.manu.network.SessionAttKey;
 import com.qx.persistent.HibernateUtil;
 import com.qx.pvp.LveDuoBean;
@@ -41,8 +43,8 @@ public class FunctionOpenMgr {
 	public static FunctionOpen[] others; 
 	public static List<FunctionOpen> list;
 	public static Map<Integer, FunctionOpen> openMap = new HashMap<Integer, FunctionOpen>();
-	public static int HUANG_YE_QIU_SHENG = 300200;
-	public static final int TYPE_ALLIANCE = 104;			//联盟类型
+//	public static int HUANG_YE_QIU_SHENG = 300200;
+	public static final int TYPE_ALLIANCE = FunctionID.LianMeng;			//联盟类型
 
 	public  void init(){
 		list = TempletService.listAll(FunctionOpen.class.getSimpleName());
@@ -209,35 +211,34 @@ public class FunctionOpenMgr {
 			int all = YaBiaoHuoDongMgr.inst.getYaBiaoCountForVip(0);
 			int remain = all;
 			if(b != null){
-				remain = b.remainYB;
-				all = b.remainYB + b.usedYB;
+				if (DateUtils.isTimeToReset(b.lastShowTime, CanShu.REFRESHTIME_PURCHASE)) {
+					// nothing
+				}else{
+					remain = b.remainYB;
+					all = b.remainYB + b.usedYB;
+				}
 			}
 			infob.setNum1(remain);
 			infob.setNum2(all);
 			infob.setFunctionId(FunctionID.yabiao);
-			if(b != null && (b.isNew4Enemy || b.isNew4History)){
-				infob.setIsShowRed(true);
-			}else{
-				infob.setIsShowRed(false);
-			}
+
 			resp.addInfo(infob);
-			
+
 			LveDuoBean lvb= HibernateUtil.find(LveDuoBean.class, jId);
 			all = LveStaticData.free_all_battle_times;
 			remain = all;
 			if(lvb != null){
-				all =lvb.todayTimes;
-				remain = all - lvb.usedTimes;
+				if (DateUtils.isTimeToReset(lvb.lastRestTime, CanShu.REFRESHTIME_PURCHASE)) {
+				}else{
+					all = lvb.todayTimes;
+					remain = lvb.todayTimes - lvb.usedTimes;
+				}
 			}
 			infob = SimpleInfo.newBuilder();
 			infob.setNum1(remain);
 			infob.setNum2(all);
 			infob.setFunctionId(FunctionID.lveDuo); // 掠夺
-			if(lvb != null && lvb.hasRecord){
-				infob.setIsShowRed(true);
-			}else{
-				infob.setIsShowRed(false);
-			}
+	
 			resp.addInfo(infob);
 
 			session.write(resp.build());
@@ -245,7 +246,6 @@ public class FunctionOpenMgr {
 			// 其实是游侠按钮改为的试炼按钮，服务器不做处理
 //		case FunctionID.shi_lian:
 //			break;
-		// 福利按钮  TODO 问 策划
 		}
 	}
 }

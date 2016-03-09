@@ -108,8 +108,10 @@ function go(act,myid){
           String mo2 = "0";
           String mo3 = "0";
           String mo4 = "0";
+          String mo5 = "0";
+          String mo6 = "0";
           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			for(int index =1; index<=3; index++){
+			for(int index =1; index<=6; index++){
 				//
 				   // 荒野商店
                        // public static final int huangYe_shop_type = 1;
@@ -117,6 +119,12 @@ function go(act,myid){
                        //  public static final int lianMeng_shop_type = 2;
                        // 联盟战商店
                         //   public static final int lianmeng_battle_shop_type = 3;
+                        // 百战商店
+				   // public static final int baizhan_shop_type=  4;
+				//  // 普通商店
+				 //   public static final int common_shop_type = 5;
+				    // 神秘商店
+				 //   public static final int mysterious_shop_type = 6;
 				 PublicShop shop = HibernateUtil.find(PublicShop.class, junzhu.id * ShopMgr.shop_space + index);
 				 String s ="";
 				 String sM = "";
@@ -140,12 +148,18 @@ function go(act,myid){
 					 case 4:s ="百战威望商店";sM = "威望";
                      mo4 = ShopMgr.inst.getMoney(index, junzhu, shop) + "";
                      break;
+					 case 5: s="普通商店";sM="元宝";
+					  mo5 = junzhu.yuanBao+"";
+					 break;
+					 case 6: s="神秘商店";sM="铜币";
+                     mo6 = junzhu.tongBi+"";
+					 break;
 				}
 				 out(s + "数据:");
                 tableStart();
                   trS();
                   td(sM);td("下次自动刷新商品列表时间");td("今日够买刷新次数");
-                  td("更新购买刷新货物次数的时间 "); td("商品信息");
+                  td("上次购买刷新时间 "); td("商品信息");
                   trE();
                   trS();
                    switch(index){
@@ -166,9 +180,20 @@ function go(act,myid){
                         td("<input type='text' id='updateMoneyddd' value='"
                 +mo4+ "'/><input type='button' value='修改' onclick='go(\"updateMoneyddd\", "+ index +")'/><br/>");
                 break;
+	                case 5:
+                        td(mo5);
+                break;
+	                case 6:
+	                	 td(mo6+"<br/>"+"(铜币数)(但是神秘商店的物品有的是花元宝买)");
+                break;
 	                }
+                   if(index == 5){td("凌晨4点恢复每种物品购买次数");}else{
                 td(sdf.format(shop.nextAutoRefreshTime));
-                td(shop.buyNumber);td(sdf.format(shop.lastResetShopTime));td(shop.goodsInfo);
+                   }
+                if(index == 5){td("不刷新");}else{
+                td(shop.buyNumber);}
+                if(index == 5){td("不提供购买刷新功能");}else{
+                	td(sdf.format(shop.lastResetShopTime));}td(shop.goodsInfo);
                 trE();
                 tableEnd();
                 br();

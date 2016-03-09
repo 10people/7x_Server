@@ -11,7 +11,8 @@ public class XianShiConstont {
 	public static final int MIBAO_LEVELUP=1520000;//"升级秘宝   
 	public static final int MIBAO_STAR=1521000;//"升星秘宝   
 	public static final int MIBAO_GET=1519000;//获得秘宝    2015年12月23日
-
+	public static final int TANBAO_ONETIMES=1574000;//元宝单抽
+	public static final int TANBAO_TENTIMES=1575000 ;//元宝十连
 //	public static final int ZAIXIANLIBAO_DONE_TYPE =42;
 //	public static final int QIRIQIANDAO_DONE_TYPE =43;
 //	public static final int CHONGJISONGLI_DONE_TYPE =1;
@@ -20,4 +21,6 @@ public class XianShiConstont {
 //	public static final int JINJIEDAREN_DONE_TYPE =40;
 	public static final int XIANSHIOPEN =10;
 	public static final int XIANSHIClOSE =20;
+	
+
 }

@@ -4515,6 +4515,1103 @@ public final class YouXiaProtos {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.YouXiaTimesBuyResp)
   }
 
+  public interface YouXiaTypeInfoReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 type = 1;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 游侠玩法类型
+     * </pre>
+     */
+    boolean hasType();
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 游侠玩法类型
+     * </pre>
+     */
+    int getType();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.YouXiaTypeInfoReq}
+   *
+   * <pre>
+   * 游侠关卡通关信息请求, short C_YOUXIA_TYPE_INFO_REQ = 615;
+   * </pre>
+   */
+  public static final class YouXiaTypeInfoReq extends
+      com.google.protobuf.GeneratedMessage
+      implements YouXiaTypeInfoReqOrBuilder {
+    // Use YouXiaTypeInfoReq.newBuilder() to construct.
+    private YouXiaTypeInfoReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private YouXiaTypeInfoReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final YouXiaTypeInfoReq defaultInstance;
+    public static YouXiaTypeInfoReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public YouXiaTypeInfoReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private YouXiaTypeInfoReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              type_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_YouXiaTypeInfoReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_YouXiaTypeInfoReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq.class, qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<YouXiaTypeInfoReq> PARSER =
+        new com.google.protobuf.AbstractParser<YouXiaTypeInfoReq>() {
+      public YouXiaTypeInfoReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new YouXiaTypeInfoReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<YouXiaTypeInfoReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 type = 1;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private int type_;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 游侠玩法类型
+     * </pre>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 游侠玩法类型
+     * </pre>
+     */
+    public int getType() {
+      return type_;
+    }
+
+    private void initFields() {
+      type_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, type_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, type_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.YouXiaTypeInfoReq}
+     *
+     * <pre>
+     * 游侠关卡通关信息请求, short C_YOUXIA_TYPE_INFO_REQ = 615;
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_YouXiaTypeInfoReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_YouXiaTypeInfoReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq.class, qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        type_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_YouXiaTypeInfoReq_descriptor;
+      }
+
+      public qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq build() {
+        qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq buildPartial() {
+        qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq result = new qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq) {
+          return mergeFrom((qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq other) {
+        if (other == qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 type = 1;
+      private int type_ ;
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 游侠玩法类型
+       * </pre>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 游侠玩法类型
+       * </pre>
+       */
+      public int getType() {
+        return type_;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 游侠玩法类型
+       * </pre>
+       */
+      public Builder setType(int value) {
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 游侠玩法类型
+       * </pre>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.YouXiaTypeInfoReq)
+    }
+
+    static {
+      defaultInstance = new YouXiaTypeInfoReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.YouXiaTypeInfoReq)
+  }
+
+  public interface YouXiaTypeInfoRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 type = 1;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 游侠玩法类型	
+     * </pre>
+     */
+    boolean hasType();
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 游侠玩法类型	
+     * </pre>
+     */
+    int getType();
+
+    // repeated int32 passGuanQiaId = 2;
+    /**
+     * <code>repeated int32 passGuanQiaId = 2;</code>
+     *
+     * <pre>
+     * 该玩法类型下的通过的id，对应配置表YouxiaPveTemp的id
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getPassGuanQiaIdList();
+    /**
+     * <code>repeated int32 passGuanQiaId = 2;</code>
+     *
+     * <pre>
+     * 该玩法类型下的通过的id，对应配置表YouxiaPveTemp的id
+     * </pre>
+     */
+    int getPassGuanQiaIdCount();
+    /**
+     * <code>repeated int32 passGuanQiaId = 2;</code>
+     *
+     * <pre>
+     * 该玩法类型下的通过的id，对应配置表YouxiaPveTemp的id
+     * </pre>
+     */
+    int getPassGuanQiaId(int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.YouXiaTypeInfoResp}
+   *
+   * <pre>
+   * 游侠关卡通关信息返回, short S_YOUXIA_TYPE_INFO_RESP = 616;
+   * </pre>
+   */
+  public static final class YouXiaTypeInfoResp extends
+      com.google.protobuf.GeneratedMessage
+      implements YouXiaTypeInfoRespOrBuilder {
+    // Use YouXiaTypeInfoResp.newBuilder() to construct.
+    private YouXiaTypeInfoResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private YouXiaTypeInfoResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final YouXiaTypeInfoResp defaultInstance;
+    public static YouXiaTypeInfoResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public YouXiaTypeInfoResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private YouXiaTypeInfoResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              type_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                passGuanQiaId_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              passGuanQiaId_.add(input.readInt32());
+              break;
+            }
+            case 18: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
+                passGuanQiaId_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                passGuanQiaId_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          passGuanQiaId_ = java.util.Collections.unmodifiableList(passGuanQiaId_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_YouXiaTypeInfoResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_YouXiaTypeInfoResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp.class, qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<YouXiaTypeInfoResp> PARSER =
+        new com.google.protobuf.AbstractParser<YouXiaTypeInfoResp>() {
+      public YouXiaTypeInfoResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new YouXiaTypeInfoResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<YouXiaTypeInfoResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 type = 1;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private int type_;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 游侠玩法类型	
+     * </pre>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 游侠玩法类型	
+     * </pre>
+     */
+    public int getType() {
+      return type_;
+    }
+
+    // repeated int32 passGuanQiaId = 2;
+    public static final int PASSGUANQIAID_FIELD_NUMBER = 2;
+    private java.util.List<java.lang.Integer> passGuanQiaId_;
+    /**
+     * <code>repeated int32 passGuanQiaId = 2;</code>
+     *
+     * <pre>
+     * 该玩法类型下的通过的id，对应配置表YouxiaPveTemp的id
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getPassGuanQiaIdList() {
+      return passGuanQiaId_;
+    }
+    /**
+     * <code>repeated int32 passGuanQiaId = 2;</code>
+     *
+     * <pre>
+     * 该玩法类型下的通过的id，对应配置表YouxiaPveTemp的id
+     * </pre>
+     */
+    public int getPassGuanQiaIdCount() {
+      return passGuanQiaId_.size();
+    }
+    /**
+     * <code>repeated int32 passGuanQiaId = 2;</code>
+     *
+     * <pre>
+     * 该玩法类型下的通过的id，对应配置表YouxiaPveTemp的id
+     * </pre>
+     */
+    public int getPassGuanQiaId(int index) {
+      return passGuanQiaId_.get(index);
+    }
+
+    private void initFields() {
+      type_ = 0;
+      passGuanQiaId_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, type_);
+      }
+      for (int i = 0; i < passGuanQiaId_.size(); i++) {
+        output.writeInt32(2, passGuanQiaId_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, type_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < passGuanQiaId_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(passGuanQiaId_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getPassGuanQiaIdList().size();
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.YouXiaTypeInfoResp}
+     *
+     * <pre>
+     * 游侠关卡通关信息返回, short S_YOUXIA_TYPE_INFO_RESP = 616;
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_YouXiaTypeInfoResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_YouXiaTypeInfoResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp.class, qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        type_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        passGuanQiaId_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_YouXiaTypeInfoResp_descriptor;
+      }
+
+      public qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp build() {
+        qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp buildPartial() {
+        qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp result = new qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          passGuanQiaId_ = java.util.Collections.unmodifiableList(passGuanQiaId_);
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.passGuanQiaId_ = passGuanQiaId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp) {
+          return mergeFrom((qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp other) {
+        if (other == qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        if (!other.passGuanQiaId_.isEmpty()) {
+          if (passGuanQiaId_.isEmpty()) {
+            passGuanQiaId_ = other.passGuanQiaId_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensurePassGuanQiaIdIsMutable();
+            passGuanQiaId_.addAll(other.passGuanQiaId_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 type = 1;
+      private int type_ ;
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 游侠玩法类型	
+       * </pre>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 游侠玩法类型	
+       * </pre>
+       */
+      public int getType() {
+        return type_;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 游侠玩法类型	
+       * </pre>
+       */
+      public Builder setType(int value) {
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 游侠玩法类型	
+       * </pre>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated int32 passGuanQiaId = 2;
+      private java.util.List<java.lang.Integer> passGuanQiaId_ = java.util.Collections.emptyList();
+      private void ensurePassGuanQiaIdIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          passGuanQiaId_ = new java.util.ArrayList<java.lang.Integer>(passGuanQiaId_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated int32 passGuanQiaId = 2;</code>
+       *
+       * <pre>
+       * 该玩法类型下的通过的id，对应配置表YouxiaPveTemp的id
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getPassGuanQiaIdList() {
+        return java.util.Collections.unmodifiableList(passGuanQiaId_);
+      }
+      /**
+       * <code>repeated int32 passGuanQiaId = 2;</code>
+       *
+       * <pre>
+       * 该玩法类型下的通过的id，对应配置表YouxiaPveTemp的id
+       * </pre>
+       */
+      public int getPassGuanQiaIdCount() {
+        return passGuanQiaId_.size();
+      }
+      /**
+       * <code>repeated int32 passGuanQiaId = 2;</code>
+       *
+       * <pre>
+       * 该玩法类型下的通过的id，对应配置表YouxiaPveTemp的id
+       * </pre>
+       */
+      public int getPassGuanQiaId(int index) {
+        return passGuanQiaId_.get(index);
+      }
+      /**
+       * <code>repeated int32 passGuanQiaId = 2;</code>
+       *
+       * <pre>
+       * 该玩法类型下的通过的id，对应配置表YouxiaPveTemp的id
+       * </pre>
+       */
+      public Builder setPassGuanQiaId(
+          int index, int value) {
+        ensurePassGuanQiaIdIsMutable();
+        passGuanQiaId_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 passGuanQiaId = 2;</code>
+       *
+       * <pre>
+       * 该玩法类型下的通过的id，对应配置表YouxiaPveTemp的id
+       * </pre>
+       */
+      public Builder addPassGuanQiaId(int value) {
+        ensurePassGuanQiaIdIsMutable();
+        passGuanQiaId_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 passGuanQiaId = 2;</code>
+       *
+       * <pre>
+       * 该玩法类型下的通过的id，对应配置表YouxiaPveTemp的id
+       * </pre>
+       */
+      public Builder addAllPassGuanQiaId(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensurePassGuanQiaIdIsMutable();
+        super.addAll(values, passGuanQiaId_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 passGuanQiaId = 2;</code>
+       *
+       * <pre>
+       * 该玩法类型下的通过的id，对应配置表YouxiaPveTemp的id
+       * </pre>
+       */
+      public Builder clearPassGuanQiaId() {
+        passGuanQiaId_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.YouXiaTypeInfoResp)
+    }
+
+    static {
+      defaultInstance = new YouXiaTypeInfoResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.YouXiaTypeInfoResp)
+  }
+
   public interface YouXiaGuanQiaInfoReqOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -7681,6 +8778,16 @@ public final class YouXiaProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_YouXiaTimesBuyResp_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_YouXiaTypeInfoReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_YouXiaTypeInfoReq_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_YouXiaTypeInfoResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_YouXiaTypeInfoResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_YouXiaGuanQiaInfoReq_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -7725,16 +8832,19 @@ public final class YouXiaProtos {
       "t\030\002 \002(\005\022\020\n\010getTimes\030\003 \002(\005\022\026\n\016remainBuyTi" +
       "mes\030\004 \002(\005\"!\n\021YouXiaTimesBuyReq\022\014\n\004type\030\001",
       " \002(\005\"G\n\022YouXiaTimesBuyResp\022\016\n\006result\030\001 \002" +
-      "(\005\022\014\n\004type\030\002 \001(\005\022\023\n\013ramainTimes\030\003 \001(\005\")\n" +
-      "\024YouXiaGuanQiaInfoReq\022\021\n\tguanQiaId\030\001 \002(\005" +
-      "\"I\n\025YouXiaGuanQiaInfoResp\022\021\n\tbestScore\030\001" +
-      " \002(\005\022\017\n\007saoDang\030\002 \002(\010\022\014\n\004time\030\003 \001(\005\"4\n\020Y" +
-      "ouXiaSaoDangReq\022\021\n\tguanQiaId\030\001 \002(\005\022\r\n\005ti" +
-      "mes\030\002 \002(\005\"\\\n\020YouXiaSaoDangRet\022\021\n\tguanQia" +
-      "Id\030\001 \002(\005\0225\n\006awards\030\002 \003(\0132%.qxmobile.prot" +
-      "obuf.YXSaoDangAwardItem\"G\n\022YXSaoDangAwar" +
-      "dItem\022\020\n\010itemType\030\001 \002(\005\022\016\n\006itemId\030\002 \002(\005\022",
-      "\017\n\007itemNum\030\003 \002(\005B\016B\014YouXiaProtos"
+      "(\005\022\014\n\004type\030\002 \001(\005\022\023\n\013ramainTimes\030\003 \001(\005\"!\n" +
+      "\021YouXiaTypeInfoReq\022\014\n\004type\030\001 \002(\005\"9\n\022YouX" +
+      "iaTypeInfoResp\022\014\n\004type\030\001 \002(\005\022\025\n\rpassGuan" +
+      "QiaId\030\002 \003(\005\")\n\024YouXiaGuanQiaInfoReq\022\021\n\tg" +
+      "uanQiaId\030\001 \002(\005\"I\n\025YouXiaGuanQiaInfoResp\022" +
+      "\021\n\tbestScore\030\001 \002(\005\022\017\n\007saoDang\030\002 \002(\010\022\014\n\004t" +
+      "ime\030\003 \001(\005\"4\n\020YouXiaSaoDangReq\022\021\n\tguanQia" +
+      "Id\030\001 \002(\005\022\r\n\005times\030\002 \002(\005\"\\\n\020YouXiaSaoDang" +
+      "Ret\022\021\n\tguanQiaId\030\001 \002(\005\0225\n\006awards\030\002 \003(\0132%",
+      ".qxmobile.protobuf.YXSaoDangAwardItem\"G\n" +
+      "\022YXSaoDangAwardItem\022\020\n\010itemType\030\001 \002(\005\022\016\n" +
+      "\006itemId\030\002 \002(\005\022\017\n\007itemNum\030\003 \002(\005B\016B\014YouXia" +
+      "Protos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -7777,32 +8887,44 @@ public final class YouXiaProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_YouXiaTimesBuyResp_descriptor,
               new java.lang.String[] { "Result", "Type", "RamainTimes", });
-          internal_static_qxmobile_protobuf_YouXiaGuanQiaInfoReq_descriptor =
+          internal_static_qxmobile_protobuf_YouXiaTypeInfoReq_descriptor =
             getDescriptor().getMessageTypes().get(6);
+          internal_static_qxmobile_protobuf_YouXiaTypeInfoReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_YouXiaTypeInfoReq_descriptor,
+              new java.lang.String[] { "Type", });
+          internal_static_qxmobile_protobuf_YouXiaTypeInfoResp_descriptor =
+            getDescriptor().getMessageTypes().get(7);
+          internal_static_qxmobile_protobuf_YouXiaTypeInfoResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_YouXiaTypeInfoResp_descriptor,
+              new java.lang.String[] { "Type", "PassGuanQiaId", });
+          internal_static_qxmobile_protobuf_YouXiaGuanQiaInfoReq_descriptor =
+            getDescriptor().getMessageTypes().get(8);
           internal_static_qxmobile_protobuf_YouXiaGuanQiaInfoReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_YouXiaGuanQiaInfoReq_descriptor,
               new java.lang.String[] { "GuanQiaId", });
           internal_static_qxmobile_protobuf_YouXiaGuanQiaInfoResp_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(9);
           internal_static_qxmobile_protobuf_YouXiaGuanQiaInfoResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_YouXiaGuanQiaInfoResp_descriptor,
               new java.lang.String[] { "BestScore", "SaoDang", "Time", });
           internal_static_qxmobile_protobuf_YouXiaSaoDangReq_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(10);
           internal_static_qxmobile_protobuf_YouXiaSaoDangReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_YouXiaSaoDangReq_descriptor,
               new java.lang.String[] { "GuanQiaId", "Times", });
           internal_static_qxmobile_protobuf_YouXiaSaoDangRet_descriptor =
-            getDescriptor().getMessageTypes().get(9);
+            getDescriptor().getMessageTypes().get(11);
           internal_static_qxmobile_protobuf_YouXiaSaoDangRet_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_YouXiaSaoDangRet_descriptor,
               new java.lang.String[] { "GuanQiaId", "Awards", });
           internal_static_qxmobile_protobuf_YXSaoDangAwardItem_descriptor =
-            getDescriptor().getMessageTypes().get(10);
+            getDescriptor().getMessageTypes().get(12);
           internal_static_qxmobile_protobuf_YXSaoDangAwardItem_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_YXSaoDangAwardItem_descriptor,

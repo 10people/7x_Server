@@ -2,7 +2,9 @@ package com.qx.fight;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
@@ -55,7 +57,7 @@ public class FightMgr {
 	public long skillGroupEndTime = System.currentTimeMillis();
 	
 	/** 玩家马车第一次被攻击记录<君主id, 第一次被攻击时间> */
-	public Map<Long, Long> cartInjuredFirstRecord = new HashMap<Long, Long>();
+	public Map<Long, Set<Long>> cartInjuredFirstRecord = new HashMap<Long, Set<Long>>();
 	
 	public FightMgr() {
 		inst = this;
@@ -134,6 +136,7 @@ public class FightMgr {
 		}
 		
 		int damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, skill, targetUid);
+		damageValue = fixDamageValue(targetPlayer, skill, damageValue);
 		updateSkillCdTime(attacker.id, skill);
 		BigSwitch.inst.buffMgr.processSkillEffect(damageValue, targetPlayer, skill);
 	
@@ -154,6 +157,17 @@ public class FightMgr {
 		}
 	}
 
+	private int fixDamageValue(Player targetPlayer, Skill skill, int damageValue) {
+		if(skill != null) {
+			if(101 == skill.SkillId) {
+				damageValue = Math.min(damageValue, (int)(targetPlayer.totalLife * YunbiaoTemp.damage_amend_X));
+			} else if(111 == skill.SkillId) {
+				damageValue = Math.min(damageValue, (int)(targetPlayer.totalLife * YunbiaoTemp.damage_amend_Y));
+			}
+		}
+		return damageValue;
+	}
+
 	private void processAttackCart(JunZhu attacker, IoSession session, Scene scene, 
 			Player attackPlayer, Player targetPlayer, int skillId) {
 		int targetUid = targetPlayer.userId;
@@ -165,22 +179,22 @@ public class FightMgr {
 			return;
 		}
 		boolean isPlayerCart = false;
-		JunZhu defender = null;
-		if(targetPlayer.jzId < 0) {// 是系统马车
-			CartNPCTemp cartNpcTemp = YaBiaoHuoDongMgr.biaoCheNpcMap.get(ybr.bcNPCId);
-			if(cartNpcTemp == null) {
-				logger.error("攻击失败，找不到被攻击的目标（系统马车）配置，uid:{},jzId:{},npcId:{}", targetPlayer.userId, targetPlayer.jzId, ybr.bcNPCId);
-				return;
-			}
-			defender = cartNpcTemp.valueOfJunZhu(targetPlayer.jzId); 
-		} else {// 真实玩家的马车
-			defender = HibernateUtil.find(JunZhu.class, targetPlayer.jzId);
+		JunZhu defender = ybr.cartAttr4Fight;
+		if(targetPlayer.jzId > 0) {// 是系统马车
 			isPlayerCart = true;
-		}
+		} 
+		
 		if(defender == null) {
-			logger.error("攻击失败，找不到被攻击的君主，id:{}", targetPlayer.jzId);
+			logger.error("攻击失败，君主马车的属性有误，君主id:{}", targetPlayer.jzId);
 			return;
 		}
+		
+		YBBattleBean jbBattleBean = YaBiaoHuoDongMgr.inst.getYBZhanDouInfo(attacker.id, attacker.vipLevel);
+		if(jbBattleBean.remainJB4Award<=0){
+			sendAttackError(Result.DAY_NOT_GET_AWARD_TIMES, scene, attackUid);
+			return;
+		}
+		
 		if(ybr.protectTime > 0) {
 			sendAttackError(Result.CART_IN_PROTECT_TIME, scene, attackUid);
 			return;
@@ -199,6 +213,7 @@ public class FightMgr {
 		}
 		
 		int damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, skill, targetUid);
+		damageValue = fixDamageValue(targetPlayer, skill, damageValue);
 		updateSkillCdTime(attacker.id, skill);
 		BigSwitch.inst.buffMgr.processSkillEffect(damageValue, targetPlayer, skill);
 
@@ -206,10 +221,14 @@ public class FightMgr {
 		sendAttackResponse(attackUid, targetUid, Result.SUCCESS, skillId, scene, damageValue, targetPlayer.currentLife, true);
 		// 第一次被攻击 ， 需要发送速报
 		if(isPlayerCart) {
-			Long firstInjuredTime = cartInjuredFirstRecord.get(targetPlayer.jzId);
-			if(firstInjuredTime == null) {
-				EventMgr.addEvent(ED.BIAOCHE_BEIDA, new Object[] {defender, ybr.horseType, System.currentTimeMillis()});
-				cartInjuredFirstRecord.put(targetPlayer.jzId, System.currentTimeMillis());
+			Set<Long> firstInjuredSet = cartInjuredFirstRecord.get(targetPlayer.jzId);
+			if(firstInjuredSet == null) {
+				firstInjuredSet = new HashSet<Long>();
+				cartInjuredFirstRecord.put(targetPlayer.jzId, firstInjuredSet);
+			}
+			if(!firstInjuredSet.contains(attackPlayer.jzId)) {
+				EventMgr.addEvent(ED.BIAOCHE_BEIDA, new Object[] {attacker.id, defender.id, attackPlayer.userId, targetPlayer.userId});
+				firstInjuredSet.add(attackPlayer.jzId);
 			}
 		}
 
@@ -218,8 +237,8 @@ public class FightMgr {
 			cartInjuredFirstRecord.remove(defender.id);
 			YaBiaoHuoDongMgr.inst.settleJieBiaoResult(targetPlayer.jzId, session);
 		}
-		//攻击的若是马车，计算马车的反击伤害
-		processCartBeatBack(attacker, scene, attackPlayer, targetPlayer, defender);
+		//攻击的若是马车，计算马车的反击伤害 2016年1月20日 16:41:53 不要该功能
+		//processCartBeatBack(attacker, scene, attackPlayer, targetPlayer, defender);
 	}
 
 	private boolean isCartOfTeammate(Player targetPlayer, Player attackPlayer) {
@@ -287,8 +306,8 @@ public class FightMgr {
 		} else if(skill.SkillTarget == 1 && targetIsSelf){
 			return Result.SKILL_TARGET_NOT_SELF;
 		}
-		// 判断距离
-		if(distance > skill.Range_Max || distance < skill.Range_Min) {
+		// 判断距离 2016年2月1日 18:20:25 最大距离要加100
+		if(distance > skill.Range_Max + 100 || distance < skill.Range_Min) {
 			return Result.SKILL_DISTANCE_ERROR;
 		}
 		

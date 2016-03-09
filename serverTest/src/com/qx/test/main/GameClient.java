@@ -3,14 +3,21 @@ package com.qx.test.main;
 import java.net.InetSocketAddress;
 import java.util.Random;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.future.IoFutureListener;
 import org.apache.mina.core.service.IoConnector;
 import org.apache.mina.core.session.IoSession;
 
 import pct.TestBase;
+import qxmobile.protobuf.BagOperProtos.EquipAddReq;
 import qxmobile.protobuf.BattleProg.InProgress;
 import qxmobile.protobuf.BattleProg.InitProc;
+import qxmobile.protobuf.Chat.ChatPct;
+import qxmobile.protobuf.Chat.ChatPct.Channel;
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import qxmobile.protobuf.Explore.ExploreResp;
 import qxmobile.protobuf.GameTask.TaskInfo;
 import qxmobile.protobuf.GameTask.TaskProgress;
 import qxmobile.protobuf.MoBaiProto.MoBaiInfo;
@@ -19,6 +26,10 @@ import qxmobile.protobuf.PlayerData.PlayerState;
 import qxmobile.protobuf.PlayerData.State;
 import qxmobile.protobuf.PveLevel.GuanQiaInfoRequest;
 import qxmobile.protobuf.Scene.EnterScene;
+import qxmobile.protobuf.Scene.EnterSceneConfirm;
+import qxmobile.protobuf.Scene.ExitScene;
+import qxmobile.protobuf.Scene.SpriteMove;
+import qxmobile.protobuf.UpActionProto.UpAction_C_getData;
 import qxmobile.protobuf.WuJiangProtos.HeroInfoReq;
 import qxmobile.protobuf.ZhanDou.PveZhanDouInitReq;
 import qxmobile.protobuf.ZhangHao.CreateRoleRequest;
@@ -31,6 +42,7 @@ import qxmobile.protobuf.ZhangHao.RoleNameRequest;
 import qxmobile.protobuf.ZhangHao.RoleNameResponse;
 
 import com.google.protobuf.MessageLite.Builder;
+import com.manu.dynasty.util.ProtobufUtils;
 import com.manu.network.PD;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.test.message.MessageDispatcher;
@@ -44,10 +56,11 @@ public class GameClient {
 	public String accountName;
 	public IoSession session;
 	public boolean log = true;
+	public int uid;
 	
 	public GameClient(String accountName) {
-//		this.accountName = accountName;
-		this.accountName = "t1";
+		this.accountName = accountName;
+//		this.accountName = "t1";
 	}
 
 	public void launch(final IoConnector connector, InetSocketAddress addr) {
@@ -63,17 +76,27 @@ public class GameClient {
 				session = future.getSession();
 				session.setAttribute("router",new MessageDispatcher(GameClient.this));
 				session.write("tgw_l7_forward\r\nHost:app12345.qzoneapp.com:80\r\n\r\n");
-//				regOrLogin();
-				login(session);
+				regOrLogin();
+//				login(session);
 			}
 		});
 	}
 
 	private void regOrLogin() {
-		if(log)System.out.println("尝试注册:"+accountName);
-		RegReq.Builder regReq = RegReq.newBuilder();
-		regReq.setName(accountName);
-		session.write(regReq.build());
+//		if(log)System.out.println("尝试注册:"+accountName);
+//		RegReq.Builder regReq = RegReq.newBuilder();
+//		regReq.setName(accountName);
+//		session.write(regReq.build());
+		HttpClient hc = new HttpClient();
+		GetMethod gm = new GetMethod("http://192.168.3.80:8090/qxrouter/accountReg.jsp?name="+accountName+"&pwd=1");
+		try{
+			hc.executeMethod(gm);
+			String responseMess = gm.getResponseBodyAsString().trim();
+			System.out.println(responseMess);
+			login(session);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	public void regResult(IoSession session, Builder builder){
 		RegRet regRet = (RegRet) builder.build();
@@ -146,6 +169,10 @@ public class GameClient {
 		EnterScene.Builder req = EnterScene.newBuilder();
 		req.setUid(1);
 		req.setSenderName(accountName);
+		req.setJzId(0);
+		req.setPosX(-7.998339f);
+		req.setPosY(4.7422743f);
+		req.setPosZ(-18.933374f);
 		session.write(req.build());
 		if(log)System.out.println("发起进入场景。");
 		//报告状态
@@ -153,7 +180,6 @@ public class GameClient {
 		b.setSState(State.State_LEAGUEOFCITY);
 		session.write(b.build());
 		//
-		oper();
 	}
 
 	public void randomNameFromServer() {
@@ -171,6 +197,7 @@ public class GameClient {
 		session.write(req.build());
 	}
 	Random rnd = new Random();
+	public long jzId;
 	public void randNameRet(Builder builder) {
 		RoleNameResponse.Builder ret = (qxmobile.protobuf.ZhangHao.RoleNameResponse.Builder) builder;
 		String name = ret.getRoleName();
@@ -189,13 +216,39 @@ public class GameClient {
 			createRole(getRandomString(6));
 		}
 	}
-
+	float x,y,z; 
 	public void enterSceneRet(Builder builder) {
 		if(log)System.out.println("进入场景OK");
 		Main.enterSceneCnt.incrementAndGet();
-		int cnt = Main.watchCnt.decrementAndGet();
-		if(cnt == 0){
-			Main.finish();
+		EnterSceneConfirm.Builder ret = (EnterSceneConfirm.Builder)builder;
+		x = ret.getPosX();
+		y = ret.getPosY();
+		z = ret.getPosZ();
+		if(uid <= 0){
+			uid = ret.getUid();
+			int cnt = Main.watchCnt.decrementAndGet();
+			if(cnt == 0){
+				Main.finish();
+			}
+			//
+			oper();
+		}else{
+			//报告状态
+			PlayerState.Builder b = PlayerState.newBuilder();
+			b.setSState(State.State_YABIAO);
+			//
+			session.write(b.build());		
+			//move 调整在押镖场景中的位置
+			SpriteMove.Builder move = SpriteMove.newBuilder();
+			move.setDir(0);
+			move.setUid(uid);
+//			move.setPosX(184.29079f+);
+			int diff = (int) (jzId/1000 - 436);
+			diff = 0;
+			move.setPosX(x+diff);
+			move.setPosY(y);
+			move.setPosZ(z);
+			session.write(move.build());
 		}
 	}
 	
@@ -210,8 +263,77 @@ public class GameClient {
 //		taskListReq();
 //		session.write(PD.C_InitProc);
 //		session.write(PD.C_GET_JINENG_PEIYANG_QUALITY_REQ);
-		getMoBaiInfo();
-		getMoBaiAward();
+//		联盟抽奖信息();
+//		session.write(PD.C_CLOSE_TAN_BAO_UI);
+		enterYBScene();
+//		useItem();
+//		聊天广播();
+//		getMoBaiInfo();
+//		getMoBaiAward();
+	}
+
+	public void enterYBScene() {
+		//先退出主城
+		exitMainCity();
+//		if(11>1)return;
+		//
+		ProtobufMsg msg = new ProtobufMsg();
+		msg.id = PD.Enter_YBScene;
+		EnterScene.Builder req = EnterScene.newBuilder();
+		req.setUid(uid);
+		req.setSenderName(accountName);
+		req.setJzId(jzId);
+		req.setPosX(x);
+		req.setPosY(y);
+		req.setPosZ(z);
+		msg.builder = req;
+		session.write(msg);
+		if(log)System.out.println("发起进入场景。");
+	}
+
+	public void exitMainCity() {
+		ExitScene.Builder req = ExitScene.newBuilder();
+		req.setUid(uid);
+		
+		session.write(req.build());
+	}
+
+	public void 联盟抽奖信息() {
+		ProtobufUtils.prototypeMap.put(Integer.valueOf(PD.S_LM_CHOU_JIANG_INFO), ExploreResp.getDefaultInstance());
+		MessageDispatcher.listen(PD.S_LM_CHOU_JIANG_INFO, new TestBase(){
+			@Override
+			public void handle(int id, IoSession session, Builder builder) {
+				ExploreResp.Builder c = (ExploreResp.Builder)builder;
+				System.out.println("剩余次数:"+c.getInfo().getRemainFreeCount());
+			}
+		});
+		session.write(PD.C_LM_CHOU_JIANG_INFO);
+	}
+
+	public void 聊天广播() {
+		MessageDispatcher.listen(PD.S_Send_Chat, new TestBase(){
+			@Override
+			public void handle(int id, IoSession session, Builder builder) {
+				ChatPct.Builder c = (ChatPct.Builder)builder;
+				System.out.println(c.getSenderName()+" say: "+ c.getContent());
+			}
+		});
+		ProtobufUtils.prototypeMap.put(Integer.valueOf(PD.S_Send_Chat), ChatPct.getDefaultInstance());
+		ChatPct.Builder cm = ChatPct.newBuilder();
+		cm.setContent("来自玩家发起的广播");
+		cm.setSenderId(0);
+		cm.setSenderName("王尼玛");
+		cm.setChannel(Channel.Broadcast);
+		ProtobufMsg msg = new ProtobufMsg();
+		msg.id = PD.C_Send_Chat;
+		msg.builder = cm;
+		session.write(msg);
+	}
+
+	private void useItem() {
+		EquipAddReq.Builder req = EquipAddReq.newBuilder();
+		req.setGridIndex(12);
+		session.write(req);
 	}
 
 	private void getMoBaiInfo() {

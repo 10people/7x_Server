@@ -27,6 +27,8 @@ import qxmobile.protobuf.YouXiaProtos.YouXiaTimesBuyReq;
 import qxmobile.protobuf.YouXiaProtos.YouXiaTimesBuyResp;
 import qxmobile.protobuf.YouXiaProtos.YouXiaTimesInfoReq;
 import qxmobile.protobuf.YouXiaProtos.YouXiaTimesInfoResp;
+import qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq;
+import qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoResp;
 import qxmobile.protobuf.ZhanDou.BattleYouXiaResultReq;
 import qxmobile.protobuf.ZhanDou.DroppenItem;
 import qxmobile.protobuf.ZhanDou.Group;
@@ -64,7 +66,6 @@ import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.PurchaseConstants;
 import com.qx.purchase.PurchaseMgr;
-import com.qx.pve.PveGuanQiaMgr;
 import com.qx.pve.PveMgr;
 import com.qx.pvp.PvpMgr;
 import com.qx.task.DailyTaskCondition;
@@ -81,14 +82,20 @@ public class YouXiaMgr extends EventProc{
 	private Logger logger = LoggerFactory.getLogger(YouXiaMgr.class);
 
 	public Map<Integer, YouxiaPveTemp> youxiaPveTempMap = new HashMap<Integer, YouxiaPveTemp>();
+	public Map<Integer, List<YouxiaPveTemp>> youxiaPveTempListByType = new HashMap<Integer, List<YouxiaPveTemp>>();
 	public Map<Integer, YouxiaNpcTemp> youxiaNpcTempMap = new HashMap<Integer, YouxiaNpcTemp>();
 	public Map<Integer, List<YouxiaNpcTemp>> youxiaNpcMapByNpcId = new HashMap<Integer, List<YouxiaNpcTemp>>();
 	public Map<Integer, YouxiaOpenTime> youxiaOpenTimeMap = new HashMap<Integer, YouxiaOpenTime>();
 	// 玩家进入战斗前，提前算好怪物掉落奖励  <junZhuId, <postionId, List<AwardTemp>>>
 	public Map<Long, Map<Integer, List<AwardTemp>>> dropAwardMapBefore = new HashMap<Long, Map<Integer,List<AwardTemp>>>();
 
-	public static final int DROP_ALL = 0;			// 全部掉落
-	public static final int DROP_ORDER = 1;			// 顺次掉落，超过最大配置数量，则从头开始
+	public static final int DROP_ALL = 0;				// 全部掉落
+	public static final int DROP_ORDER = 1;				// 顺次掉落，超过最大配置数量，则从头开始
+
+	public static final int GUANQIA_PASS = 1;			
+	public static final int GUANQIA_NOT_PASS = 0;		
+
+	public static final int BATTLE_WIN = 1;		
 	
 	public YouXiaMgr() {
 		inst = this;	
@@ -97,11 +104,20 @@ public class YouXiaMgr extends EventProc{
 
 	public void initData() {
 		Map<Integer, YouxiaPveTemp> youxiaPveTempMap = new HashMap<Integer, YouxiaPveTemp>();
+		Map<Integer, List<YouxiaPveTemp>> youxiaPveTempListByType = new HashMap<Integer, List<YouxiaPveTemp>>();
 		List<YouxiaPveTemp> youxiaPveTempList = TempletService.listAll(YouxiaPveTemp.class.getSimpleName());
 		for (YouxiaPveTemp pveTemp : youxiaPveTempList) {
 			youxiaPveTempMap.put(pveTemp.id, pveTemp);
+			
+			List<YouxiaPveTemp> pveList = youxiaPveTempListByType.get(pveTemp.bigId);
+			if(pveList == null) {
+				pveList = new ArrayList<YouxiaPveTemp>();
+				youxiaPveTempListByType.put(pveTemp.bigId, pveList);	
+			}
+			pveList.add(pveTemp);
 		}
 		this.youxiaPveTempMap = youxiaPveTempMap;
+		this.youxiaPveTempListByType = youxiaPveTempListByType;
 
 		Map<Integer, YouxiaNpcTemp> youxiaNpcTempMap = new HashMap<Integer, YouxiaNpcTemp>();
 		Map<Integer, List<YouxiaNpcTemp>> youxiaNpcMapByNpcId = new HashMap<Integer, List<YouxiaNpcTemp>>();
@@ -130,19 +146,19 @@ public class YouXiaMgr extends EventProc{
 
 	public void battleOverReport(int id, IoSession session, Builder builder) {
 		BattleYouXiaResultReq.Builder request = (qxmobile.protobuf.ZhanDou.BattleYouXiaResultReq.Builder) builder;
-		int zhangJieId = request.getId();
-		int result = request.getResult();
-		int score = request.getScore();
+		int guanQiaId = request.getId();
+		int win = request.getResult();
+		int killNum = request.getScore();
+		List<Integer> dropList4NpcPos = request.getDropeenItemNpcsList();
 		
-		List<Integer> droppenList = request.getDropeenItemNpcsList();
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
 		if (junZhu == null) {
 			logger.error("找不到君主，junZhuId:{}", session.getAttribute(SessionAttKey.junZhuId));
 			return;
 		}
-		YouxiaPveTemp pveTemp = youxiaPveTempMap.get(zhangJieId);
+		YouxiaPveTemp pveTemp = youxiaPveTempMap.get(guanQiaId);
 		if (pveTemp == null) {
-			logger.error("游侠战斗结算失败，找不到游侠章节:{}配置错误，zhangJieId:{}", zhangJieId);
+			logger.error("游侠战斗结算失败，找不到游侠章节:{}配置错误，zhangJieId:{}", guanQiaId);
 			return;
 		}
 		
@@ -152,14 +168,17 @@ public class YouXiaMgr extends EventProc{
 		BattleResult.Builder response = BattleResult.newBuilder();
 		int getTongbi = 0;
 		int getExp = 0;
-		if (result == 1) { // 只有胜利才会给奖励
+		if (win == BATTLE_WIN) { // 只有胜利才会给奖励
 			//怪物掉落奖励
 			Map<Integer, List<AwardTemp>> npcDropAwardMap = dropAwardMapBefore.get(junZhu.id);
-			int deadNum = Math.min(droppenList.size(), pveTemp.maxNum);
+			int deadNum = Math.min(dropList4NpcPos.size(), pveTemp.maxNum);
 			for (int i = 0; i < deadNum; i++) {
-				Integer npcPos = droppenList.get(i);
-				int deadTimes = 0;
-				if(npcDeadTimesMap.containsKey(npcPos)) {
+				Integer npcPos = dropList4NpcPos.get(i);
+				Integer deadTimes = npcDeadTimesMap.get(npcPos);
+				if(deadTimes == null) {
+					deadTimes = 1;
+					npcDeadTimesMap.put(npcPos, deadTimes);
+				} else {
 					deadTimes += 1;
 					npcDeadTimesMap.put(npcPos, deadTimes);
 				}
@@ -176,8 +195,7 @@ public class YouXiaMgr extends EventProc{
 				}
 			}
 			//配置的关卡奖励
-			List<AwardTemp> guanQiaAwardList = AwardMgr.inst.getHitAwardList(
-					pveTemp.awardId, ",", "=");
+			List<AwardTemp> guanQiaAwardList = AwardMgr.inst.getHitAwardList(pveTemp.awardId, ",", "=");
 			for (AwardTemp award : guanQiaAwardList) {
 				getAwardList.add(award);
 			}
@@ -213,23 +231,28 @@ public class YouXiaMgr extends EventProc{
 								DailyTaskConstants.youXia_activity, 1));
 			}
 			// 游侠关卡记录
-			YouXiaRecord yxRecord = HibernateUtil.find(YouXiaRecord.class, " where junzhuId="+junZhu.id +" and guanQiaId="+ zhangJieId);
+			int pass = isGuanQiaPass(win, killNum, pveTemp);
+			YouXiaRecord yxRecord = HibernateUtil.find(YouXiaRecord.class, " where junzhuId="+junZhu.id +" and guanQiaId="+ guanQiaId);
 			if(yxRecord == null) {
 				yxRecord = new YouXiaRecord();
 				yxRecord.setId(TableIDCreator.getTableID(YouXiaRecord.class, 1));
-				yxRecord.setGuanQiaId(zhangJieId);
+				yxRecord.setGuanQiaId(guanQiaId);
 				yxRecord.setJunzhuId(junZhu.id);
-				yxRecord.setScore(score);
+				yxRecord.setScore(killNum);
+				yxRecord.setType(pveTemp.bigId);
+				yxRecord.setPass(pass);
 				HibernateUtil.insert(yxRecord);
 			} else {
 				int before = yxRecord.getScore();
-				int nowScore = Math.max(before, score);//跟上次比存储数量较大的
+				int nowScore = Math.max(before, killNum);//跟上次比存储数量较大的
 				nowScore = Math.min(nowScore, pveTemp.maxNum);//最大的数量不能超过配置表的最大数量
+				yxRecord.setType(pveTemp.bigId);
 				yxRecord.setScore(nowScore);
+				yxRecord.setPass(pass);
 				HibernateUtil.save(yxRecord);
 			}
-			if(score >= pveTemp.maxNum) {
-				EventMgr.addEvent(ED.YOU_XIA_SUCCESS, new Object[]{junZhu, zhangJieId});
+			if(killNum >= pveTemp.maxNum) {
+				EventMgr.addEvent(ED.YOU_XIA_SUCCESS, new Object[]{junZhu, guanQiaId});
 			}
 		}
 		for (AwardTemp award : getAwardList) {
@@ -242,17 +265,17 @@ public class YouXiaMgr extends EventProc{
 			}
 		}
 
-		logger.info("游侠战斗结算成功，{}:{}战斗结束，关卡{}，droppenList.size:{} 铜币{}，经验{}，结果{}",junZhu.id,junZhu.name,zhangJieId,
-				droppenList.size(),getTongbi,getExp,result);
+		logger.info("游侠战斗结算成功，{}:{}战斗结束，关卡{}，droppenList.size:{} 铜币{}，经验{}，结果{}",junZhu.id,junZhu.name,guanQiaId,
+				dropList4NpcPos.size(),getTongbi,getExp,win);
 		switch(pveTemp.bigId){
 		case 1:
-			ActLog.log.LootRich(junZhu.id, junZhu.name, ActLog.vopenid, "", zhangJieId, result==1?1:2, 1, getTongbi);
+			ActLog.log.LootRich(junZhu.id, junZhu.name, ActLog.vopenid, "", guanQiaId, win==1?1:2, 1, getTongbi);
 			break;
 		case 2:
-			ActLog.log.KillRobber(junZhu.id, junZhu.name, ActLog.vopenid, "", zhangJieId, result==1?1:2, 1, 0, 0);
+			ActLog.log.KillRobber(junZhu.id, junZhu.name, ActLog.vopenid, "", guanQiaId, win==1?1:2, 1, 0, 0);
 			break;
 		case 3:
-			ActLog.log.KillRebelArmy(junZhu.id, junZhu.name, ActLog.vopenid, "", zhangJieId, result==1?1:2, 1, 0, 0);
+			ActLog.log.KillRebelArmy(junZhu.id, junZhu.name, ActLog.vopenid, "", guanQiaId, win==1?1:2, 1, 0, 0);
 			break;
 		}
 		
@@ -269,6 +292,25 @@ public class YouXiaMgr extends EventProc{
 		dropAwardMapBefore.remove(junZhu.id);
 	}
 	
+	private int isGuanQiaPass(int win, int killNum, YouxiaPveTemp pveTemp) {
+		switch(pveTemp.bigId) {
+			case 1:
+				if(killNum >= pveTemp.maxNum) {
+					return GUANQIA_PASS;
+				}
+				break;
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+				if(win == BATTLE_WIN){
+					return GUANQIA_PASS;
+				}
+				break;
+		}
+		return GUANQIA_NOT_PASS;
+	}
+
 	/**
 	 * 根据该npc死亡次数，获取该npc掉落的物品奖励
 	 * @param npcAwardList			该npc掉落物品序列
@@ -443,9 +485,9 @@ public class YouXiaMgr extends EventProc{
 					return;
 				}
 				if(npcTemp.ifTeammate == 1) {
-					PvpMgr.inst.fillNPCDataInfo(selfs, guanQiaJunZhu, selfFlagId++, npcTemp.enemyId);
+					PvpMgr.inst.fillNPCDataInfo(selfs, guanQiaJunZhu, selfFlagId++, npcTemp.modelId, false);
 				} else {
-					PvpMgr.inst.fillNPCDataInfo(enemys, guanQiaJunZhu, npcTemp.position, npcTemp.enemyId);
+					PvpMgr.inst.fillNPCDataInfo(enemys, guanQiaJunZhu, npcTemp.position, npcTemp.modelId, false);
 				}
 			} else {
 				EnemyTemp enemyTemp = PveMgr.inst.id2Enemy.get(npcTemp.enemyId);
@@ -460,6 +502,7 @@ public class YouXiaMgr extends EventProc{
 				node.setNodeName(npcTemp.name + "");
 				node.setHpNum(npcTemp.lifebarNum);
 				node.setAppearanceId(npcTemp.modelApID);
+				node.setNuQiZhi(0);
 				GongjiType gongjiType = PveMgr.inst.id2GongjiType.get(npcTemp.gongjiType);
 				PveMgr.inst.fillDataByGongjiType(node, gongjiType);
 				PveMgr.inst.fillGongFangInfo(node, enemyTemp);
@@ -513,7 +556,7 @@ public class YouXiaMgr extends EventProc{
 		HibernateUtil.save(yxBean);
 		allBattle ++; //记录本次
 		// 参加游侠任务
-		EventMgr.addEvent(ED.go_youxia, new Object[] { junZhu.id, allBattle});
+		EventMgr.addEvent(ED.go_youxia, new Object[] { junZhu.id, allBattle, pveTemp.bigId});
 	}
 
 	private int getSaveMibaoZuheId(long junzhuId, int type) {
@@ -619,14 +662,18 @@ public class YouXiaMgr extends EventProc{
 		int minutescfg = Integer.parseInt(time[1]);
 
 		Calendar calendar = Calendar.getInstance();
+		Date nowDate = calendar.getTime(); 
 		calendar.set(Calendar.HOUR_OF_DAY, hourCfg);
 		calendar.set(Calendar.MINUTE, minutescfg);
 		Date updateDate = calendar.getTime();
 		// 是否需要更新次数
-		if (beanInfo.lastBattleTime != null
+		if (beanInfo.lastBattleTime != null 
+				&& !nowDate.before(updateDate)
 				&& beanInfo.lastBattleTime.before(updateDate)) {
-			beanInfo.times = openTimeCfg.maxTimes;
-			HibernateUtil.save(beanInfo);
+			if(beanInfo.times < openTimeCfg.maxTimes) {
+				beanInfo.times = openTimeCfg.maxTimes;
+				HibernateUtil.save(beanInfo);
+			}
 		}
 	}
 
@@ -982,6 +1029,9 @@ public class YouXiaMgr extends EventProc{
 		if (junZhu == null) {
 			return;
 		}
+		List<YouXiaBean> list = HibernateUtil.list(YouXiaBean.class, " where junzhuId=" + junZhu.id);
+		HashMap<Integer, YouXiaBean> typeMap = new HashMap<Integer, YouXiaBean>();
+		list.forEach(b->typeMap.put(b.type, b));
 		for(Integer zhangJieId: youxiaPveTempMap.keySet()){
 			YouxiaPveTemp pveTemp = youxiaPveTempMap.get(zhangJieId);
 			if (pveTemp == null) {
@@ -991,9 +1041,12 @@ public class YouXiaMgr extends EventProc{
 			if (junZhu.level < pveTemp.monarchLevel) {
 				continue;
 			}
+			YouXiaBean yxBean = typeMap.get(pveTemp.bigId);
+			/*
 			// 判断今日挑战次数
 			YouXiaBean yxBean = HibernateUtil.find(YouXiaBean.class,
 					" where junzhuId=" + junZhu.id + " and type =" + pveTemp.bigId);
+					*/
 			if (yxBean == null || yxBean.times <= 0) {
 				continue;
 			}
@@ -1021,7 +1074,7 @@ public class YouXiaMgr extends EventProc{
 					continue;
 				}
 			}
-			FunctionID.pushCanShangjiao(junZhu.id, session, FunctionID.youXiaStatus);
+			FunctionID.pushCanShowRed(junZhu.id, session, FunctionID.youXiaStatus);
 			return;
 		}
 	}
@@ -1038,9 +1091,9 @@ public class YouXiaMgr extends EventProc{
 			if(jz==null){
 				break;
 			}
-			boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.youXia, jz.id, jz.level);
+			boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.shiLian, jz.id, jz.level);
 			if(!isOpen){
-				logger.info("君主：{}--游侠：{}的功能---未开启,不推送",jz.id,FunctionID.youXia);
+				logger.info("君主：{}--游侠：{}的功能---未开启,不推送",jz.id,FunctionID.shiLian);
 				break;
 			}
 			isCanBattleYouXia(jz, session);
@@ -1055,6 +1108,46 @@ public class YouXiaMgr extends EventProc{
 	@Override
 	protected void doReg() {
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);		
+	}
+
+	public void requestTypePassInfo(int id, IoSession session, Builder builder) {
+		YouXiaTypeInfoReq.Builder request = (qxmobile.protobuf.YouXiaProtos.YouXiaTypeInfoReq.Builder) builder;
+		int type = request.getType();
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junZhu == null) {
+			logger.error("游侠玩法通关信息请求失败，找不到君主，junZhuId:{}", session.getAttribute(SessionAttKey.junZhuId));
+			return;
+		}
+		
+		YouxiaOpenTime openCfg = youxiaOpenTimeMap.get(type);
+		if (openCfg == null) {
+			logger.error("游侠玩法通关信息请求失败，youxiaOpenTime配置有误，type:{}", type);
+			return;
+		}
+
+		List<YouxiaPveTemp> pveTempList = youxiaPveTempListByType.get(type);
+		if(pveTempList == null) {
+			logger.error("游侠玩法通关信息请求失败，游侠关卡找不到，type:{}", type);
+			return;
+		}
+		
+		List<YouXiaRecord> yxRecordList = HibernateUtil.list(YouXiaRecord.class, 
+				" where junzhuId="+junZhu.id +" and type="+ type);
+		YouXiaTypeInfoResp.Builder response = YouXiaTypeInfoResp.newBuilder();
+		response.setType(type);
+		if(yxRecordList == null) {
+			session.write(response.build());
+			return;
+		}
+		
+		for(YouXiaRecord record : yxRecordList) {
+			for(YouxiaPveTemp pveCfg : pveTempList) {
+				if(record.getGuanQiaId() == pveCfg.id && record.getPass() == GUANQIA_PASS) {
+					response.addPassGuanQiaId(record.getGuanQiaId());
+				}
+			}
+		}
+		session.write(response.build());
 	}
 	
 }

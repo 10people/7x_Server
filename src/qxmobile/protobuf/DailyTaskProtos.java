@@ -3336,23 +3336,39 @@ public final class DailyTaskProtos {
     com.google.protobuf.ByteString
         getMsgBytes();
 
-    // required int32 todaylHuoYue = 4;
+    // optional int32 todaylHuoYue = 4;
     /**
-     * <code>required int32 todaylHuoYue = 4;</code>
+     * <code>optional int32 todaylHuoYue = 4;</code>
+     *
+     * <pre>
+     *status == true,发送
+     * </pre>
      */
     boolean hasTodaylHuoYue();
     /**
-     * <code>required int32 todaylHuoYue = 4;</code>
+     * <code>optional int32 todaylHuoYue = 4;</code>
+     *
+     * <pre>
+     *status == true,发送
+     * </pre>
      */
     int getTodaylHuoYue();
 
-    // required int32 weekHuoYue = 5;
+    // optional int32 weekHuoYue = 5;
     /**
-     * <code>required int32 weekHuoYue = 5;</code>
+     * <code>optional int32 weekHuoYue = 5;</code>
+     *
+     * <pre>
+     *status == true,发送
+     * </pre>
      */
     boolean hasWeekHuoYue();
     /**
-     * <code>required int32 weekHuoYue = 5;</code>
+     * <code>optional int32 weekHuoYue = 5;</code>
+     *
+     * <pre>
+     *status == true,发送
+     * </pre>
      */
     int getWeekHuoYue();
   }
@@ -3579,33 +3595,49 @@ public final class DailyTaskProtos {
       }
     }
 
-    // required int32 todaylHuoYue = 4;
+    // optional int32 todaylHuoYue = 4;
     public static final int TODAYLHUOYUE_FIELD_NUMBER = 4;
     private int todaylHuoYue_;
     /**
-     * <code>required int32 todaylHuoYue = 4;</code>
+     * <code>optional int32 todaylHuoYue = 4;</code>
+     *
+     * <pre>
+     *status == true,发送
+     * </pre>
      */
     public boolean hasTodaylHuoYue() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required int32 todaylHuoYue = 4;</code>
+     * <code>optional int32 todaylHuoYue = 4;</code>
+     *
+     * <pre>
+     *status == true,发送
+     * </pre>
      */
     public int getTodaylHuoYue() {
       return todaylHuoYue_;
     }
 
-    // required int32 weekHuoYue = 5;
+    // optional int32 weekHuoYue = 5;
     public static final int WEEKHUOYUE_FIELD_NUMBER = 5;
     private int weekHuoYue_;
     /**
-     * <code>required int32 weekHuoYue = 5;</code>
+     * <code>optional int32 weekHuoYue = 5;</code>
+     *
+     * <pre>
+     *status == true,发送
+     * </pre>
      */
     public boolean hasWeekHuoYue() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>required int32 weekHuoYue = 5;</code>
+     * <code>optional int32 weekHuoYue = 5;</code>
+     *
+     * <pre>
+     *status == true,发送
+     * </pre>
      */
     public int getWeekHuoYue() {
       return weekHuoYue_;
@@ -3632,14 +3664,6 @@ public final class DailyTaskProtos {
         return false;
       }
       if (!hasMsg()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasTodaylHuoYue()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasWeekHuoYue()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -3922,14 +3946,6 @@ public final class DailyTaskProtos {
           
           return false;
         }
-        if (!hasTodaylHuoYue()) {
-          
-          return false;
-        }
-        if (!hasWeekHuoYue()) {
-          
-          return false;
-        }
         return true;
       }
 
@@ -4148,22 +4164,34 @@ public final class DailyTaskProtos {
         return this;
       }
 
-      // required int32 todaylHuoYue = 4;
+      // optional int32 todaylHuoYue = 4;
       private int todaylHuoYue_ ;
       /**
-       * <code>required int32 todaylHuoYue = 4;</code>
+       * <code>optional int32 todaylHuoYue = 4;</code>
+       *
+       * <pre>
+       *status == true,发送
+       * </pre>
        */
       public boolean hasTodaylHuoYue() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>required int32 todaylHuoYue = 4;</code>
+       * <code>optional int32 todaylHuoYue = 4;</code>
+       *
+       * <pre>
+       *status == true,发送
+       * </pre>
        */
       public int getTodaylHuoYue() {
         return todaylHuoYue_;
       }
       /**
-       * <code>required int32 todaylHuoYue = 4;</code>
+       * <code>optional int32 todaylHuoYue = 4;</code>
+       *
+       * <pre>
+       *status == true,发送
+       * </pre>
        */
       public Builder setTodaylHuoYue(int value) {
         bitField0_ |= 0x00000008;
@@ -4172,7 +4200,11 @@ public final class DailyTaskProtos {
         return this;
       }
       /**
-       * <code>required int32 todaylHuoYue = 4;</code>
+       * <code>optional int32 todaylHuoYue = 4;</code>
+       *
+       * <pre>
+       *status == true,发送
+       * </pre>
        */
       public Builder clearTodaylHuoYue() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -4181,22 +4213,34 @@ public final class DailyTaskProtos {
         return this;
       }
 
-      // required int32 weekHuoYue = 5;
+      // optional int32 weekHuoYue = 5;
       private int weekHuoYue_ ;
       /**
-       * <code>required int32 weekHuoYue = 5;</code>
+       * <code>optional int32 weekHuoYue = 5;</code>
+       *
+       * <pre>
+       *status == true,发送
+       * </pre>
        */
       public boolean hasWeekHuoYue() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>required int32 weekHuoYue = 5;</code>
+       * <code>optional int32 weekHuoYue = 5;</code>
+       *
+       * <pre>
+       *status == true,发送
+       * </pre>
        */
       public int getWeekHuoYue() {
         return weekHuoYue_;
       }
       /**
-       * <code>required int32 weekHuoYue = 5;</code>
+       * <code>optional int32 weekHuoYue = 5;</code>
+       *
+       * <pre>
+       *status == true,发送
+       * </pre>
        */
       public Builder setWeekHuoYue(int value) {
         bitField0_ |= 0x00000010;
@@ -4205,7 +4249,11 @@ public final class DailyTaskProtos {
         return this;
       }
       /**
-       * <code>required int32 weekHuoYue = 5;</code>
+       * <code>optional int32 weekHuoYue = 5;</code>
+       *
+       * <pre>
+       *status == true,发送
+       * </pre>
        */
       public Builder clearWeekHuoYue() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -4272,8 +4320,8 @@ public final class DailyTaskProtos {
       "s\030\006 \003(\005\"(\n\026DailyTaskRewardRequest\022\016\n\006tas" +
       "kId\030\001 \002(\005\"p\n\027DailyTaskRewardResponse\022\016\n\006" +
       "taskId\030\001 \002(\005\022\016\n\006status\030\002 \002(\010\022\013\n\003msg\030\003 \002(" +
-      "\t\022\024\n\014todaylHuoYue\030\004 \002(\005\022\022\n\nweekHuoYue\030\005 " +
-      "\002(\005B\021B\017DailyTaskProtos"
+      "\t\022\024\n\014todaylHuoYue\030\004 \001(\005\022\022\n\nweekHuoYue\030\005 " +
+      "\001(\005B\021B\017DailyTaskProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

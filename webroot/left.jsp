@@ -12,8 +12,10 @@
 <a href="gm/playerInfo.jsp" target='target'>玩家</a><br/>
 <a href="gm/logcount.jsp" target='target'>玩家累计登录</a><br/>
 <a href="gm/bagInfo.jsp" target='target'>查看背包</a><br/>
+<a href="gm/showYaBiao.jsp" target='target'>押镖</a><br/>
 <a href="gm/mibao.jsp" target='target'>秘宝</a><br/>
 <a href="gm/gongjinmanger.jsp" target='target'>贡金管理</a><br/>
+<a href="gm/showHouse.jsp" target='target'>小屋经验</a><br/>
 <a href="gm/xianshimanger.jsp" target='target'>限时管理</a><br/>
 <a href="gm/jzKejiInfo.jsp" target='target'>君主科技</a><br/>
 <a href="gm/tianFu.jsp" target='target'>天赋</a><br/>

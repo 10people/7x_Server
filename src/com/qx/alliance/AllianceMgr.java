@@ -20,6 +20,7 @@ import qxmobile.protobuf.AllianceProtos.AgreeApply;
 import qxmobile.protobuf.AllianceProtos.AgreeApplyResp;
 import qxmobile.protobuf.AllianceProtos.AllianceHaveResp;
 import qxmobile.protobuf.AllianceProtos.AllianceNonResp;
+import qxmobile.protobuf.AllianceProtos.AllianceTargetResp;
 import qxmobile.protobuf.AllianceProtos.ApplicantInfo;
 import qxmobile.protobuf.AllianceProtos.ApplyAlliance;
 import qxmobile.protobuf.AllianceProtos.ApplyAllianceResp;
@@ -39,6 +40,8 @@ import qxmobile.protobuf.AllianceProtos.FindAlliance;
 import qxmobile.protobuf.AllianceProtos.FindAllianceResp;
 import qxmobile.protobuf.AllianceProtos.FireMember;
 import qxmobile.protobuf.AllianceProtos.FireMemberResp;
+import qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward;
+import qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp;
 import qxmobile.protobuf.AllianceProtos.LookApplicantsResp;
 import qxmobile.protobuf.AllianceProtos.LookMembersResp;
 import qxmobile.protobuf.AllianceProtos.MemberInfo;
@@ -62,6 +65,7 @@ import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.boot.GameServer;
 import com.manu.dynasty.store.Redis;
+import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.ItemTemp;
 import com.manu.dynasty.template.LianMeng;
@@ -127,8 +131,6 @@ public class AllianceMgr extends EventProc{
 	public static final int OPEN_APPLY = 1;
 	/** 关闭招募 **/
 	public static final int CLOSE_APPLY = 0;
-	/** 招募等级设置最低下限 **/
-	public static final int APPLY_LEVEL_MIN = 20;
 	/** 加入同一联盟从离开到下次间隔时间，单位-毫秒*/
 	public static long JOIN_SAME_INTEVAL = 24L * 60 * 60 * 1000;
 	/** 联盟名最大长度 */
@@ -154,6 +156,9 @@ public class AllianceMgr extends EventProc{
 	/** 联盟建设值锁 **/
 	public static final Object buildLock = new Object();
 	public static final Object reputationLock  = new Object();
+	
+	/** 联盟等级奖励默认开始等级 **/
+	private static final int LEVEL_AWARD_DEFAULT = 2;
 
 	public AllianceMgr() {
 		inst = this;
@@ -206,6 +211,29 @@ public class AllianceMgr extends EventProc{
 			logger.error("找不到联盟，id:{}", member.lianMengId);
 			return;
 		}
+		AllianceHaveResp.Builder response = AllianceHaveResp.newBuilder();
+		fillAllianceResponse(alncBean, response, member);
+		session.write(response.build());
+	}
+	/**
+	 * 联盟信息变化时发送
+	 * 
+	 * @param junZhu
+	 * @param session
+	 * @param member 可以为 null
+	 * @param alncBean 可以为 null
+	 */
+	public void sendAllianceInfo(JunZhu junZhu, IoSession session,
+			AlliancePlayer member, AllianceBean alncBean){
+		if(junZhu == null) return;
+		if(member == null){
+			member = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
+		}
+		if(member == null || member.lianMengId <= 0) return;
+		if(alncBean == null){
+			alncBean = HibernateUtil.find(AllianceBean.class, member.lianMengId);
+		}
+		if(alncBean == null) return;
 		AllianceHaveResp.Builder response = AllianceHaveResp.newBuilder();
 		fillAllianceResponse(alncBean, response, member);
 		session.write(response.build());
@@ -389,7 +417,7 @@ public class AllianceMgr extends EventProc{
 		alncBean.country = junZhu.guoJiaId;
 		alncBean.isAllow = OPEN_APPLY;
 		alncBean.members = 1;
-		alncBean.minApplyLevel = APPLY_LEVEL_MIN;
+		alncBean.minApplyLevel = CanShu.JION_ALLIANCE_LV_MINI;
 		alncBean.minApplyJunxian = 1;// 军衔保存
 		alncBean.isShenPi = 1;		// 默认不需要审批
 		alncBean.status = AllianceConstants.STATUS_NORMAL;
@@ -437,6 +465,8 @@ public class AllianceMgr extends EventProc{
 					mailConfig.sender, mailConfig, "");
 		}
 		EventMgr.addEvent(ED.Join_LM, new Object[] { junZhu.id, alncBean.id, alncBean.name, member.title});
+		//刷新相关红点
+		EventMgr.addEvent(ED.REFRESH_TIME_WORK, session);
 		RankingMgr.inst.resetLianMengLevelRedis(alncBean.id, 1);
 		EventMgr.addEvent(ED.LIANMENG_RANK_REFRESH, new Integer(alncBean.id));
 		EventMgr.addEvent(ED.LIANMENG_DAY_RANK_REFRESH, new Object[]{alncBean,0});
@@ -579,6 +609,9 @@ public class AllianceMgr extends EventProc{
 		
 		List<MemberInfo> allMemberInfo = getAllMemberInfoList(alncBean.id);
 		alncInfo.addAllMemberInfo(allMemberInfo);
+		AllianceLevelAward levelAward = getAllianceLevelAward(alncPlayer.junzhuId);
+		alncInfo.setLmTargetLevel(levelAward.curLevel);
+		
 	}
 
 	public void findAlliance(int cmd, IoSession session, Builder builder) {
@@ -700,7 +733,7 @@ public class AllianceMgr extends EventProc{
 			IoSession isession = AccountManager.getIoSession(member.junzhuId);
 			if (isession != null) {
 				isession.write(PD.ALLIANCE_HAVE_NEW_APPLYER);
-				FunctionID.pushCanShangjiao(member.junzhuId, isession, FunctionID.ALLIANCE_NEW_APPLYER);
+				FunctionID.pushCanShowRed(member.junzhuId, isession, FunctionID.LianMengShenQing);
 			}
 		}
 	}
@@ -876,22 +909,7 @@ public class AllianceMgr extends EventProc{
 	 * @return
 	 */
 	public List<AlliancePlayer> getAllianceMembers(int alncId) {
-		List<AlliancePlayer> memberList = new ArrayList<AlliancePlayer>();
-		Set<String> idsSet = Redis.getInstance().sget(CACHE_MEMBERS_OF_ALLIANCE + alncId);
-		if (idsSet == null || idsSet.size() == 0) {
-			memberList = HibernateUtil.list(AlliancePlayer.class, " where lianMengId=" + alncId);
-		} else {
-			for (String id : idsSet) {
-				Long memberId = Long.parseLong(id);
-				AlliancePlayer alncPlayer = HibernateUtil.find(AlliancePlayer.class, memberId);
-				if (alncPlayer == null) {
-					logger.error("联盟id:{},未找到成员id:{}", alncId, memberId);
-					continue;
-				}
-				memberList.add(alncPlayer);
-			}
-		}
-		return memberList;
+		return HibernateUtil.list(AlliancePlayer.class, " where lianMengId=" + alncId);
 	}
 	
 	protected List<MemberInfo> getAllMemberInfoList(int allianceId) {
@@ -1442,6 +1460,8 @@ public class AllianceMgr extends EventProc{
 			su.session.write(PD.ALLIANCE_ALLOW_NOTIFY);
 			su.session.setAttribute(SessionAttKey.LM_NAME, alncBean.name);
 			su.session.setAttribute(SessionAttKey.LM_ZHIWU, alncPlayer.title);
+			//刷新相关红点
+			EventMgr.addEvent(ED.REFRESH_TIME_WORK, su.session);
 		}
 	}
 
@@ -1672,7 +1692,7 @@ public class AllianceMgr extends EventProc{
 			attach = "";
 		}
 
-		alncBean.minApplyLevel = Math.max(APPLY_LEVEL_MIN, levelMin);
+		alncBean.minApplyLevel = Math.max(CanShu.JION_ALLIANCE_LV_MINI, levelMin);
 		alncBean.minApplyJunxian = junXianMin;
 		alncBean.isShenPi = isExamine;
 		alncBean.isAllow = OPEN_APPLY;
@@ -1902,6 +1922,8 @@ public class AllianceMgr extends EventProc{
 		JunZhuMgr.inst.sendMainInfo(session);
 		// 触发事件，房屋管理用到。
 		EventMgr.addEvent(ED.Join_LM, new Object[] {junZhu.id, alncBean.id, alncBean.name, alncPlayer.title});
+		//刷新相关红点
+		EventMgr.addEvent(ED.REFRESH_TIME_WORK, session);
 		AllianceHaveResp.Builder alncInfo = AllianceHaveResp.newBuilder();
 		fillAllianceResponse(alncBean, alncInfo, alncPlayer);
 		sendImmediatelyJoinResp(session, 0, alncInfo);
@@ -2092,7 +2114,8 @@ public class AllianceMgr extends EventProc{
 		sendDonateHuFuResp(session, 0, addGongxian, addGongxian);
 		changeGongXianRecord(junZhu.id, addGongxian);
 		String eventStr = lianmengEventMap.get(9).str.replaceFirst("%d", junZhu.name)
-				.replaceFirst("%d", String.valueOf(count)).replaceFirst("%d", String.valueOf(addGongxian));
+				.replaceFirst("%d", String.valueOf(count)).replaceFirst("%d", String.valueOf(addGongxian))
+				.replaceFirst("%d", String.valueOf(addGongxian));
 		addAllianceEvent(alncBean.id, eventStr);
 	}
 	
@@ -2215,7 +2238,8 @@ public class AllianceMgr extends EventProc{
 			if(isOnline) {
 				SessionUser su = SessionManager.inst.findByJunZhuId(member.junzhuId);
 				if (su != null && su.session != null) {
-					FunctionID.pushCanShangjiao(member.junzhuId, su.session, FunctionID.ALLIANCE_EVENT);
+					//联盟客栈动态
+					FunctionID.pushCanShowRed(member.junzhuId, su.session, FunctionID.LianMengKeZhanDongTai);
 				}
 			}
 		}
@@ -2305,8 +2329,8 @@ public class AllianceMgr extends EventProc{
 			return;
 		}
 		if(alliancePlayer.title == TITLE_LEADER || alliancePlayer.title == TITLE_DEPUTY_LEADER) {
-			FunctionID.pushCanShangjiao(jz.id, session, FunctionID.alliance);
-			FunctionID.pushCanShangjiao(jz.id, session, FunctionID.ALLIANCE_NEW_APPLYER);
+//			FunctionID.pushCanShangjiao(jz.id, session, FunctionID.alliance);
+			FunctionID.pushCanShowRed(jz.id, session, FunctionID.LianMengShenQing);
 		}
 	}
 
@@ -2316,7 +2340,7 @@ public class AllianceMgr extends EventProc{
 		Long jzId = (Long) oa[0];
 		Integer lmId = (Integer) oa[1];
 		logger.info("君主--{},加入或者离开联盟--id--{}",jzId,lmId);
-		AllianceBean alncBean = HibernateUtil.find(AllianceBean.class,lmId);
+		AllianceBean alncBean = HibernateUtil.find(AllianceBean.class,(long)lmId);
 		if (alncBean == null) {
 			logger.error("找不到联盟，id:{}", lmId);
 			return;
@@ -2407,6 +2431,109 @@ public class AllianceMgr extends EventProc{
 			}
 		}
 		return false;
+	}
+
+	public void requestAllianceTargetInfo(int cmd, IoSession session, Builder builder) {
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junZhu == null) {
+			logger.error("未发现君主，cmd:{}", cmd);
+			return;
+		}
+		AllianceLevelAward levelAward = getAllianceLevelAward(junZhu.id);
+		AllianceTargetResp.Builder response = AllianceTargetResp.newBuilder();
+		response.setLevel(levelAward.curLevel);
+		response.setGetAward(false);
+		session.write(response.build());
+	}
+
+	private AllianceLevelAward getAllianceLevelAward(long junzhuId) {
+		AllianceLevelAward levelAward = HibernateUtil.find(AllianceLevelAward.class, junzhuId);
+		if(levelAward == null) {
+			levelAward = new AllianceLevelAward();
+			levelAward.junZhuId = junzhuId;
+			levelAward.getAwardLevel = "";
+			levelAward.curLevel = LEVEL_AWARD_DEFAULT;	//默认从等级2开始
+			HibernateUtil.insert(levelAward);
+		}
+		return levelAward;
+	}
+
+	public void getAllianceLevelAward(int cmd, IoSession session, Builder builder) {
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junZhu == null) {
+			logger.error("未发现君主，cmd:{}", cmd);
+			return;
+		}
+		// 判断君主是否有联盟
+		AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
+		if (player == null || player.lianMengId <= 0) {
+			logger.info("领取联盟等级目标奖励失败，玩家:{}没有联盟", junZhu.id);
+			return;
+		}
+		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, player.lianMengId);
+		if (alliance == null) {
+			logger.error("领取联盟等级目标奖励失败，联盟{}不存在", player.lianMengId);
+			return;
+		}
+		
+		GetAllianceLevelAward.Builder request = (qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward.Builder) builder;
+		int level = request.getLevel();
+		if(level > alliance.level){
+			logger.error("领取联盟等级目标奖励失败, 领取等级大于联盟等级");
+			return;
+		}
+		
+		AllianceLevelAward levelAward = getAllianceLevelAward(junZhu.id);
+		if(levelAward.curLevel != level) {
+			logger.error("领取联盟等级目标奖励失败, 领取等级与:{}当前可以领取等级:{}不符", level, levelAward.curLevel);
+			return;
+		}
+		GetAllianceLevelAwardResp.Builder response = GetAllianceLevelAwardResp.newBuilder();	
+		// 先判断是否已经领过
+		if(levelAward.getAwardLevel.contains("" + level)) {
+			logger.error("领取联盟等级目标奖励失败,君主:{}领取过联盟等级:{}的奖励", junZhu.id, level);
+			response.setResult(1);
+			response.setNextLevel(level);
+			session.write(response.build());
+			return;
+		}
+		
+		// 再判断所在联盟等级是否达到
+		if(alliance.level < level) {
+			logger.error("领取联盟等级目标奖励失败,联盟:{}等级:{}未达到领取的等级:{}", junZhu.id, alliance.level, level);
+			response.setResult(2);
+			response.setNextLevel(level);
+			session.write(response.build());
+			return;
+		}
+		// 发放奖励
+		LianMeng lianMengCfg = lianMengMap.get(level);
+		if(lianMengCfg == null) {
+			logger.error("领取联盟等级目标奖励失败，找不到联盟等级为:{}的配置", level);
+			return;
+		}
+		if(!lianMengCfg.targetAward.equals("")) {
+			List<AwardTemp> list = AwardMgr.inst.parseAwardConf(lianMengCfg.targetAward, "#", ":");
+			for(AwardTemp a : list) {
+				AwardMgr.inst.giveReward(session, a, junZhu);
+			}
+		}
+		if(levelAward.getAwardLevel.equals("")) {
+			levelAward.getAwardLevel = level + "";
+		} else {
+			levelAward.getAwardLevel = levelAward.getAwardLevel + "_" + level;
+		}
+		int nextLevel = level + 1;
+		LianMeng nextLianMengCfg = lianMengMap.get(nextLevel);
+		if(nextLianMengCfg == null) {
+			nextLevel = -1;
+		}
+		levelAward.curLevel = nextLevel;
+		HibernateUtil.save(levelAward);
+		logger.info("领取联盟等级目标奖励成功，君主:{}领取了联盟:{}目标等级:{}的奖励", junZhu.id, alliance.id, level);
+		response.setResult(0);
+		response.setNextLevel(nextLevel);
+		session.write(response.build());
 	}
 
 }

@@ -23,6 +23,7 @@ import com.manu.dynasty.template.MibaoSuiPian;
 import com.manu.dynasty.template.PveTemp;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
+import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.bag.Bag;
@@ -30,8 +31,6 @@ import com.qx.bag.BagGrid;
 import com.qx.bag.BagMgr;
 import com.qx.event.ED;
 import com.qx.event.EventMgr;
-import com.qx.guojia.GuoJiaMgr;
-import com.qx.guojia.ResourceGongJin;
 import com.qx.hero.HeroMgr;
 import com.qx.huangye.shop.ShopMgr;
 import com.qx.junzhu.JunZhu;
@@ -44,13 +43,14 @@ import com.qx.pve.PveMgr;
 import com.qx.ranking.RankingGongJinMgr;
 import com.qx.util.TableIDCreator;
 import com.qx.vip.VipMgr;
+import com.qx.yabiao.YaBiaoHuoDongMgr;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
 
 public class AwardMgr {
 	public static AwardMgr inst;
 	public static boolean cheatHit = false;
-	public static Logger log = LoggerFactory.getLogger(AwardMgr.class);
+	public static Logger log = LoggerFactory.getLogger(AwardMgr.class.getSimpleName());
 	public static Random rnd = new Random();
 	public Map<Integer, List<AwardTemp>> awardId2Award;
 	public static int ITEM_TONGBI_ID = 900001; 		//铜币
@@ -61,6 +61,7 @@ public class AwardMgr {
 	public static int item_huang_ye_bi = 900026; //荒野币
 	public static int vip_exp = 900029; // vip经验
 	public static int item_yuan_bao = 900002;  // 元宝
+	public static int ITEM_ALLIANCE_EXP = 900032;  // 联盟经验
 
 	
 	/** 物品奖励 */
@@ -310,7 +311,7 @@ public class AwardMgr {
 						log.error("没有命中奖励:{}", award);
 					} else {
 						list.add(calcV);
-						log.info("命中奖励 awardId:{}, 添加", awardId);
+//						log.info("命中奖励 awardId:{}, 添加", awardId);
 					}
 				}
 			}
@@ -383,6 +384,7 @@ public class AwardMgr {
 			}
 			iconId = proto.getIcon();
 			break;
+		case 21://玉玦
 		case TYPE_ITEM:
 		case TYPE_ZHUANG_BEI:// 装备 装进背包
 		case TYPE_YU_JUE:// 玉玦
@@ -399,7 +401,7 @@ public class AwardMgr {
 			iconId = MibaoMgr.inst.mibaoSuipianMap_2.get(itemId).getIcon();
 			break;
 		default:
-			log.error("未知奖励类型 {}, awardId{}", itemType, itemId);
+			log.error("A未知奖励类型 {}, awardId{}", itemType, itemId);
 			break;
 		}
 		if (iconId == 0) {
@@ -448,6 +450,7 @@ public class AwardMgr {
 		long junZhuId = jz.id;
 		Bag<BagGrid> bag;
 		switch (a.getItemType()) {
+		case 21://玉玦
 		case TYPE_ITEM:// 物品
 			if (a.getItemId() == 900009) {// 卡包积分
 				jz.cardJiFen += a.getItemNum();
@@ -471,6 +474,18 @@ public class AwardMgr {
 			} else if (a.getItemId() == 900006) { // 经验
 				JunZhuMgr.inst.addExp(jz, a.getItemNum());
 				log.info("{} 获得经验{},达到{}", jz.id, a.getItemNum(), jz.exp);
+			}else if (a.getItemId() == 900031) { // 押镖福利次数
+				YaBiaoHuoDongMgr.inst.saveFuliTimes(jz, a.getItemNum());
+				log.info("{} 获得押镖福利次数{}", jz.id, a.getItemNum());
+			}else if (a.getItemId() == 900017  ) { // 2016年2月1日 建设值 
+				AllianceBean alliance = AllianceMgr.inst.getAllianceByJunZid(jz.id);
+				if(alliance == null) {
+					log.error("发放建设值奖励失败，未找到{}所在联盟", jz.id);
+				}else{
+					AllianceMgr.inst.changeAlianceBuild(alliance, a.getItemNum());
+					log.info("发放君主--{}建设值奖励--{}，所在联盟{}", jz.id, a.getItemNum(),alliance.id);
+					AllianceMgr.inst.sendAllianceInfo(jz, session, null, alliance);
+				}
 			} else if (a.getItemId() == 900015) {// 联盟贡献值
 				AlliancePlayer member = HibernateUtil.find(
 						AlliancePlayer.class, jz.id);
@@ -480,9 +495,6 @@ public class AwardMgr {
 					log.info("{} 获得联盟贡献值{},达到{}", jz.id, a.getItemNum(),
 							member.gongXian);
 				} else {
-					/*
-					 * 新需求： 没有联盟依旧可以获得联盟声望奖励 2150831
-					 */
 					member = new AlliancePlayer();
 					AllianceMgr.inst.initAlliancePlayerInfo(junZhuId, -1, member, 0);
 					member.gongXian = a.getItemNum();
@@ -490,6 +502,7 @@ public class AwardMgr {
 					log.error("{} 无AlliancePlayer数据， 新建， 并获得联盟贡献：{} ", jz.id, member.gongXian);
 				}
 				AllianceMgr.inst.changeGongXianRecord(jz.id, a.getItemNum());
+				AllianceMgr.inst.sendAllianceInfo(jz, session, member, null);
 				break;
 			} else if (a.getItemId() == 900018) {// 武艺精气
 				int all = TalentMgr.instance.addWuYiJingQi(jz.id,
@@ -528,7 +541,15 @@ public class AwardMgr {
 			}else if(a.getItemId() == vip_exp){
 				VipMgr.INSTANCE.addVipExp(jz, a.getItemNum());
 				log.info("君主：{}通过奖励获取vip经验：{}点，完成", jz.id, a.getItemNum());
-			}else {
+			}else if(a.getItemId() == 900032){ //联盟经验
+				AllianceBean ac = AllianceMgr.inst.getAllianceByJunZid(jz.id);
+				if(ac != null && a.getItemNum() != 0){
+					AllianceMgr.inst.addAllianceExp(a.getItemNum(), ac);
+					log.info("联盟：{}通过奖励获取联盟经验：{}点，完成", ac.id, a.getItemNum());
+					AllianceMgr.inst.sendAllianceInfo(jz, session, null, ac);
+				}
+			}
+				else{
 				BaseItem bi = TempletService.itemMap.get(a.getItemId());
 				if (bi != null) {// 如果属于背包物品
 					bag = BagMgr.inst.loadBag(junZhuId);
@@ -798,8 +819,8 @@ public class AwardMgr {
 			EventMgr.addEvent(ED.mibao_shengStar_x, new Object[]{jz.id, mibaoDB.getStar()});
 			//  主线任务：等级 ：要求解锁秘宝
 			EventMgr.addEvent(ED.mibao_shengji_x, new Object[]{jz.id, mibaoDB.getLevel()});
-			// 获取秘宝：获得一个秘宝
-			EventMgr.addEvent(ED.get_item_finish, new Object[] { jz.id, mibaoDB.getMiBaoId()});
+//			 获取秘宝：获得一个秘宝
+//			EventMgr.addEvent(ED.get_item_finish, new Object[] { jz.id, mibaoDB.getMiBaoId()});
 			// 获取秘宝 ：秘宝合成: 不要求解锁 -朱诚 20150925
 			EventMgr.addEvent(ED.MIBAO_HECHENG, new Object[]{jz.id, mibaoDB.getMiBaoId()});
 			// 主线任务： 获取秘宝的个数： 不要求解锁 -朱诚 20150925
@@ -809,6 +830,7 @@ public class AwardMgr {
 				// 判断秘宝技能是是否可以开启。先写在这里，就不用eventMgr了
 				MibaoMgr.inst.isCanMiBaoJiNengOpen(jz, session, number);
 			}
+			EventMgr.addEvent(ED.miabao_x_star_n, new Object[]{jz.id});
 		}
 	}
 

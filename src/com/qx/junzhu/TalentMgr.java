@@ -402,10 +402,10 @@ public class TalentMgr {
 		if(jz == null){
 			return false;
 		}
-		boolean yes = FunctionOpenMgr.inst.isFunctionOpen(functionOpenId, jId, jz.level);
-		if(! yes){
-			return false;
-		}
+//		boolean yes = FunctionOpenMgr.inst.isFunctionOpen(functionOpenId, jId, jz.level);
+//		if(! yes){
+//			return false;
+//		}
 		Map<Integer, TalentPoint> map = getJunZhuTalentPoints(jId);
 		for(Talent talentData: listTalent){
 			int pointId = talentData.point;

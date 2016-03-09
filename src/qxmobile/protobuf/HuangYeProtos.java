@@ -4299,6 +4299,26 @@ public final class HuangYeProtos {
      * </pre>
      */
     int getLeftBuyCiShu();
+
+    // required int32 thisBoCi = 14;
+    /**
+     * <code>required int32 thisBoCi = 14;</code>
+     */
+    boolean hasThisBoCi();
+    /**
+     * <code>required int32 thisBoCi = 14;</code>
+     */
+    int getThisBoCi();
+
+    // required int32 allBoCi = 15;
+    /**
+     * <code>required int32 allBoCi = 15;</code>
+     */
+    boolean hasAllBoCi();
+    /**
+     * <code>required int32 allBoCi = 15;</code>
+     */
+    int getAllBoCi();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.HYTreasureBattleResp}
@@ -4421,6 +4441,16 @@ public final class HuangYeProtos {
             case 104: {
               bitField0_ |= 0x00000800;
               leftBuyCiShu_ = input.readInt32();
+              break;
+            }
+            case 112: {
+              bitField0_ |= 0x00001000;
+              thisBoCi_ = input.readInt32();
+              break;
+            }
+            case 120: {
+              bitField0_ |= 0x00002000;
+              allBoCi_ = input.readInt32();
               break;
             }
           }
@@ -4821,6 +4851,38 @@ public final class HuangYeProtos {
       return leftBuyCiShu_;
     }
 
+    // required int32 thisBoCi = 14;
+    public static final int THISBOCI_FIELD_NUMBER = 14;
+    private int thisBoCi_;
+    /**
+     * <code>required int32 thisBoCi = 14;</code>
+     */
+    public boolean hasThisBoCi() {
+      return ((bitField0_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>required int32 thisBoCi = 14;</code>
+     */
+    public int getThisBoCi() {
+      return thisBoCi_;
+    }
+
+    // required int32 allBoCi = 15;
+    public static final int ALLBOCI_FIELD_NUMBER = 15;
+    private int allBoCi_;
+    /**
+     * <code>required int32 allBoCi = 15;</code>
+     */
+    public boolean hasAllBoCi() {
+      return ((bitField0_ & 0x00002000) == 0x00002000);
+    }
+    /**
+     * <code>required int32 allBoCi = 15;</code>
+     */
+    public int getAllBoCi() {
+      return allBoCi_;
+    }
+
     private void initFields() {
       status_ = 0;
       battleName_ = "";
@@ -4835,6 +4897,8 @@ public final class HuangYeProtos {
       buyNextCiShu_ = 0;
       buyNextMoney_ = 0;
       leftBuyCiShu_ = 0;
+      thisBoCi_ = 0;
+      allBoCi_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4862,6 +4926,14 @@ public final class HuangYeProtos {
         return false;
       }
       if (!hasBuyCiShuInfo()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasThisBoCi()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasAllBoCi()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -4916,6 +4988,12 @@ public final class HuangYeProtos {
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         output.writeInt32(13, leftBuyCiShu_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        output.writeInt32(14, thisBoCi_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        output.writeInt32(15, allBoCi_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4977,6 +5055,14 @@ public final class HuangYeProtos {
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(13, leftBuyCiShu_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(14, thisBoCi_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(15, allBoCi_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5129,6 +5215,10 @@ public final class HuangYeProtos {
         bitField0_ = (bitField0_ & ~0x00000800);
         leftBuyCiShu_ = 0;
         bitField0_ = (bitField0_ & ~0x00001000);
+        thisBoCi_ = 0;
+        bitField0_ = (bitField0_ & ~0x00002000);
+        allBoCi_ = 0;
+        bitField0_ = (bitField0_ & ~0x00004000);
         return this;
       }
 
@@ -5214,6 +5304,14 @@ public final class HuangYeProtos {
           to_bitField0_ |= 0x00000800;
         }
         result.leftBuyCiShu_ = leftBuyCiShu_;
+        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+          to_bitField0_ |= 0x00001000;
+        }
+        result.thisBoCi_ = thisBoCi_;
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+          to_bitField0_ |= 0x00002000;
+        }
+        result.allBoCi_ = allBoCi_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5294,6 +5392,12 @@ public final class HuangYeProtos {
         if (other.hasLeftBuyCiShu()) {
           setLeftBuyCiShu(other.getLeftBuyCiShu());
         }
+        if (other.hasThisBoCi()) {
+          setThisBoCi(other.getThisBoCi());
+        }
+        if (other.hasAllBoCi()) {
+          setAllBoCi(other.getAllBoCi());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -5320,6 +5424,14 @@ public final class HuangYeProtos {
           return false;
         }
         if (!hasBuyCiShuInfo()) {
+          
+          return false;
+        }
+        if (!hasThisBoCi()) {
+          
+          return false;
+        }
+        if (!hasAllBoCi()) {
           
           return false;
         }
@@ -6224,6 +6336,72 @@ public final class HuangYeProtos {
       public Builder clearLeftBuyCiShu() {
         bitField0_ = (bitField0_ & ~0x00001000);
         leftBuyCiShu_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 thisBoCi = 14;
+      private int thisBoCi_ ;
+      /**
+       * <code>required int32 thisBoCi = 14;</code>
+       */
+      public boolean hasThisBoCi() {
+        return ((bitField0_ & 0x00002000) == 0x00002000);
+      }
+      /**
+       * <code>required int32 thisBoCi = 14;</code>
+       */
+      public int getThisBoCi() {
+        return thisBoCi_;
+      }
+      /**
+       * <code>required int32 thisBoCi = 14;</code>
+       */
+      public Builder setThisBoCi(int value) {
+        bitField0_ |= 0x00002000;
+        thisBoCi_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 thisBoCi = 14;</code>
+       */
+      public Builder clearThisBoCi() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        thisBoCi_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 allBoCi = 15;
+      private int allBoCi_ ;
+      /**
+       * <code>required int32 allBoCi = 15;</code>
+       */
+      public boolean hasAllBoCi() {
+        return ((bitField0_ & 0x00004000) == 0x00004000);
+      }
+      /**
+       * <code>required int32 allBoCi = 15;</code>
+       */
+      public int getAllBoCi() {
+        return allBoCi_;
+      }
+      /**
+       * <code>required int32 allBoCi = 15;</code>
+       */
+      public Builder setAllBoCi(int value) {
+        bitField0_ |= 0x00004000;
+        allBoCi_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 allBoCi = 15;</code>
+       */
+      public Builder clearAllBoCi() {
+        bitField0_ = (bitField0_ & ~0x00004000);
+        allBoCi_ = 0;
         onChanged();
         return this;
       }
@@ -17249,7 +17427,7 @@ public final class HuangYeProtos {
       "jindu\030\005 \001(\005\"!\n\023OpenHuangYeTreasure\022\n\n\002id",
       "\030\001 \002(\003\"I\n\027OpenHuangYeTreasureResp\022\016\n\006res" +
       "ult\030\001 \002(\005\022\n\n\002id\030\002 \001(\003\022\022\n\nbuildValue\030\003 \001(" +
-      "\005\"\036\n\020HYTreasureBattle\022\n\n\002id\030\001 \002(\003\"\272\002\n\024HY" +
+      "\005\"\036\n\020HYTreasureBattle\022\n\n\002id\030\001 \002(\003\"\335\002\n\024HY" +
       "TreasureBattleResp\022\016\n\006status\030\001 \002(\005\022\022\n\nba" +
       "ttleName\030\002 \001(\t\0224\n\010npcInfos\030\003 \003(\0132\".qxmob" +
       "ile.protobuf.TreasureNpcInfo\022\022\n\ntimesOfD" +
@@ -17257,38 +17435,38 @@ public final class HuangYeProtos {
       "\002(\005\022\025\n\rconditionIsOk\030\007 \002(\010\022\022\n\nremainTime" +
       "\030\010 \001(\005\022\016\n\006zuheId\030\t \001(\005\022\024\n\014buyCiShuInfo\030\n" +
       " \002(\005\022\024\n\014buyNextCiShu\030\013 \001(\005\022\024\n\014buyNextMon",
-      "ey\030\014 \001(\005\022\024\n\014leftBuyCiShu\030\r \001(\005\"C\n\017Treasu" +
-      "reNpcInfo\022\r\n\005npcId\030\001 \002(\005\022\020\n\010remainHP\030\002 \002" +
-      "(\005\022\017\n\007totalHP\030\003 \002(\005\"$\n\016ReqRewardStore\022\022\n" +
-      "\nlianmengId\030\001 \002(\005\"I\n\022ReqRewardStoreResp\022" +
-      "3\n\010itemInfo\030\001 \003(\0132!.qxmobile.protobuf.Re" +
-      "wardItemInfo\"a\n\016RewardItemInfo\022\014\n\004site\030\001" +
-      " \002(\005\022\014\n\004nums\030\002 \002(\005\0223\n\013applyerInfo\030\003 \003(\0132" +
-      "\036.qxmobile.protobuf.ApplyerInfo\"O\n\013Apply" +
-      "erInfo\022\020\n\010junzhuId\030\001 \002(\003\022\016\n\006iconId\030\002 \002(\005" +
-      "\022\020\n\010gongXian\030\003 \002(\005\022\014\n\004name\030\004 \002(\t\"\033\n\013Appl",
-      "yReward\022\014\n\004site\030\001 \002(\005\"x\n\017ApplyRewardResp" +
-      "\022\016\n\006result\030\001 \002(\005\022\017\n\007curSite\030\002 \001(\005\022\017\n\007pre" +
-      "Site\030\003 \001(\005\0223\n\013applyerInfo\030\004 \001(\0132\036.qxmobi" +
-      "le.protobuf.ApplyerInfo\"!\n\021CancelApplyRe" +
-      "ward\022\014\n\004site\030\001 \002(\005\"G\n\025CancelApplyRewardR" +
-      "esp\022\016\n\006result\030\001 \002(\005\022\014\n\004site\030\002 \001(\005\022\020\n\010jun" +
-      "zhuId\030\003 \001(\003\",\n\nGiveReward\022\020\n\010junzhuId\030\001 " +
-      "\002(\003\022\014\n\004site\030\002 \002(\005\"N\n\016GiveRewardResp\022\016\n\006r" +
-      "esult\030\001 \002(\005\022\014\n\004site\030\002 \001(\005\022\014\n\004nums\030\003 \001(\005\022" +
-      "\020\n\010junzhuId\030\004 \001(\003\"%\n\021ActiveTreasureReq\022\020",
-      "\n\010idOfFile\030\001 \002(\005\"D\n\022ActiveTreasureResp\022\016" +
-      "\n\006result\030\001 \002(\005\022\n\n\002id\030\002 \001(\003\022\022\n\nbuildValue" +
-      "\030\003 \001(\005\"\036\n\020MaxDamageRankReq\022\n\n\002id\030\001 \002(\003\"F" +
-      "\n\021MaxDamageRankResp\0221\n\ndamageInfo\030\001 \003(\0132" +
-      "\035.qxmobile.protobuf.DamageInfo\">\n\nDamage" +
-      "Info\022\014\n\004rank\030\001 \002(\005\022\016\n\006damage\030\002 \002(\005\022\022\n\nju" +
-      "nZhuName\030\003 \002(\t\"\251\001\n\024HyBuyBattleTimesResp\022" +
-      "\021\n\tisSuccess\030\001 \002(\005\022\022\n\ntimesOfDay\030\002 \001(\005\022\022" +
-      "\n\ntotalTimes\030\003 \001(\005\022\024\n\014buyCiShuInfo\030\004 \002(\005" +
-      "\022\024\n\014buyNextCiShu\030\005 \001(\005\022\024\n\014buyNextMoney\030\006",
-      " \001(\005\022\024\n\014leftBuyCiShu\030\007 \001(\005B\017B\rHuangYePro" +
-      "tos"
+      "ey\030\014 \001(\005\022\024\n\014leftBuyCiShu\030\r \001(\005\022\020\n\010thisBo" +
+      "Ci\030\016 \002(\005\022\017\n\007allBoCi\030\017 \002(\005\"C\n\017TreasureNpc" +
+      "Info\022\r\n\005npcId\030\001 \002(\005\022\020\n\010remainHP\030\002 \002(\005\022\017\n" +
+      "\007totalHP\030\003 \002(\005\"$\n\016ReqRewardStore\022\022\n\nlian" +
+      "mengId\030\001 \002(\005\"I\n\022ReqRewardStoreResp\0223\n\010it" +
+      "emInfo\030\001 \003(\0132!.qxmobile.protobuf.RewardI" +
+      "temInfo\"a\n\016RewardItemInfo\022\014\n\004site\030\001 \002(\005\022" +
+      "\014\n\004nums\030\002 \002(\005\0223\n\013applyerInfo\030\003 \003(\0132\036.qxm" +
+      "obile.protobuf.ApplyerInfo\"O\n\013ApplyerInf" +
+      "o\022\020\n\010junzhuId\030\001 \002(\003\022\016\n\006iconId\030\002 \002(\005\022\020\n\010g",
+      "ongXian\030\003 \002(\005\022\014\n\004name\030\004 \002(\t\"\033\n\013ApplyRewa" +
+      "rd\022\014\n\004site\030\001 \002(\005\"x\n\017ApplyRewardResp\022\016\n\006r" +
+      "esult\030\001 \002(\005\022\017\n\007curSite\030\002 \001(\005\022\017\n\007preSite\030" +
+      "\003 \001(\005\0223\n\013applyerInfo\030\004 \001(\0132\036.qxmobile.pr" +
+      "otobuf.ApplyerInfo\"!\n\021CancelApplyReward\022" +
+      "\014\n\004site\030\001 \002(\005\"G\n\025CancelApplyRewardResp\022\016" +
+      "\n\006result\030\001 \002(\005\022\014\n\004site\030\002 \001(\005\022\020\n\010junzhuId" +
+      "\030\003 \001(\003\",\n\nGiveReward\022\020\n\010junzhuId\030\001 \002(\003\022\014" +
+      "\n\004site\030\002 \002(\005\"N\n\016GiveRewardResp\022\016\n\006result" +
+      "\030\001 \002(\005\022\014\n\004site\030\002 \001(\005\022\014\n\004nums\030\003 \001(\005\022\020\n\010ju",
+      "nzhuId\030\004 \001(\003\"%\n\021ActiveTreasureReq\022\020\n\010idO" +
+      "fFile\030\001 \002(\005\"D\n\022ActiveTreasureResp\022\016\n\006res" +
+      "ult\030\001 \002(\005\022\n\n\002id\030\002 \001(\003\022\022\n\nbuildValue\030\003 \001(" +
+      "\005\"\036\n\020MaxDamageRankReq\022\n\n\002id\030\001 \002(\003\"F\n\021Max" +
+      "DamageRankResp\0221\n\ndamageInfo\030\001 \003(\0132\035.qxm" +
+      "obile.protobuf.DamageInfo\">\n\nDamageInfo\022" +
+      "\014\n\004rank\030\001 \002(\005\022\016\n\006damage\030\002 \002(\005\022\022\n\njunZhuN" +
+      "ame\030\003 \002(\t\"\251\001\n\024HyBuyBattleTimesResp\022\021\n\tis" +
+      "Success\030\001 \002(\005\022\022\n\ntimesOfDay\030\002 \001(\005\022\022\n\ntot" +
+      "alTimes\030\003 \001(\005\022\024\n\014buyCiShuInfo\030\004 \002(\005\022\024\n\014b",
+      "uyNextCiShu\030\005 \001(\005\022\024\n\014buyNextMoney\030\006 \001(\005\022" +
+      "\024\n\014leftBuyCiShu\030\007 \001(\005B\017B\rHuangYeProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -17330,7 +17508,7 @@ public final class HuangYeProtos {
           internal_static_qxmobile_protobuf_HYTreasureBattleResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_HYTreasureBattleResp_descriptor,
-              new java.lang.String[] { "Status", "BattleName", "NpcInfos", "TimesOfDay", "TotalTimes", "Jindu", "ConditionIsOk", "RemainTime", "ZuheId", "BuyCiShuInfo", "BuyNextCiShu", "BuyNextMoney", "LeftBuyCiShu", });
+              new java.lang.String[] { "Status", "BattleName", "NpcInfos", "TimesOfDay", "TotalTimes", "Jindu", "ConditionIsOk", "RemainTime", "ZuheId", "BuyCiShuInfo", "BuyNextCiShu", "BuyNextMoney", "LeftBuyCiShu", "ThisBoCi", "AllBoCi", });
           internal_static_qxmobile_protobuf_TreasureNpcInfo_descriptor =
             getDescriptor().getMessageTypes().get(6);
           internal_static_qxmobile_protobuf_TreasureNpcInfo_fieldAccessorTable = new

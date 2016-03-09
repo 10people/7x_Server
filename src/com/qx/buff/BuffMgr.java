@@ -107,6 +107,7 @@ public class BuffMgr {
 	
 	public void startWork() {
 		Thread thread = new Thread(createWorkerThread(), "buffer-worker-thread");
+		thread.setDaemon(true);
 		thread.start();
 	}
 	
@@ -347,8 +348,9 @@ public class BuffMgr {
 		// 武器未暴击伤害=INT((JC*X+ GD) *WM*SJ)
 		damage = (int) ((JC * X + GD) * WM * SJ); 
 		damage = Math.max(1, damage);
-//		logger.info("未暴击--a:{},c:{},k:{},H:{},jc:{},L:{},WM:{},SJ:{},X:{},GD:{},damage:{}",
-//				a,c,k,H,JC,L,WM,SJ,X,GD,damage);
+//		logger.info("攻击者君主:{},被攻击者:{}",attacker,defender);
+//		logger.info("普通攻击,攻击者id:{},被攻击者id:{},未暴击--a:{},c:{},k:{},H:{},jc:{},L:{},WM:{},SJ:{},X:{},GD:{},damage:{},attacker.wqSH:{},defender.wqJM:{}",
+//				attacker.id, defender.id, a,c,k,H,JC,L,WM,SJ,X,GD,damage,attacker.wqSH,defender.wqJM);
 		
 		// 计算武器是否暴击了
 		boolean critical = false; 						// 武器是否暴击
@@ -366,8 +368,8 @@ public class BuffMgr {
 			double WB = (M + attacker.wqBJ) / (M + defender.wqRX);
 			int addValue = (int) (JC * X * WB * SJ);
 			damage += addValue;
-//			logger.info("暴击--M:{},WB:{},addValue:{},damage:{},",
-//					M,WB,addValue,damage);
+//			logger.info("普通攻击,攻击者id:{},被攻击者id:{},造成暴击--M:{},WB:{},addValue:{},damage:{},,attacker.wqSH:{},defender.wqJM:{}",
+//					attacker.id, defender.id,M,WB,addValue,damage,attacker.wqSH,defender.wqJM);
 		}
 		return damage;
 	}
@@ -399,8 +401,8 @@ public class BuffMgr {
 		// 技能未暴击伤害=INT((JC*Y+ GD) *JM*SJ)
 		damage = (int) ((JC * Y + GD) * JM * SJ); 
 		damage = Math.max(1, damage);
-//		logger.info("未暴击--a:{},c:{},k:{},H:{},jc:{},L:{},JM:{},SJ:{},Y:{},GD:{},damage:{}",
-//				a,c,k,H,JC,L,JM	,SJ,Y,GD,damage);
+//		logger.info("致命一击，攻击者id:{},被攻击者id:{},未暴击--a:{},c:{},k:{},H:{},jc:{},L:{},JM:{},SJ:{},Y:{},GD:{},damage:{}",
+//				attacker.id, defender.id,a,c,k,H,JC,L,JM	,SJ,Y,GD,damage);
 		
 		// 计算武器是否暴击了
 		boolean critical = false; 				// 武器是否暴击
@@ -418,8 +420,8 @@ public class BuffMgr {
 			double JB = (M + attacker.jnBJ) / (M + defender.jnRX);
 			int addValue = (int) (JC * Y * JB * SJ);
 			damage += addValue;
-//			logger.info("暴击--M:{},JB:{},addValue:{},damage:{},",
-//					M,JB,addValue,damage);
+//			logger.info("致命一击，攻击者id:{},被攻击者id:{},造成暴击--M:{},JB:{},addValue:{},damage:{},",
+//					attacker.id, defender.id,M,JB,addValue,damage);
 		}
 		return damage; 
 	}

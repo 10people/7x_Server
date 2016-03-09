@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "YaBiaoBean12")
+@Table(name = "YaBiaoBean01")
 public class YaBiaoBean {// implements MCSupport
 	@Id
 	public long junZhuId;
@@ -15,11 +15,11 @@ public class YaBiaoBean {// implements MCSupport
 	public int usedYB;
 	/*当日剩余参加押镖的次数*/
 	public int remainYB; 
-//2015年12月12日 1.1版本协助次数完全没限制了
-//	/*当日已经参加协助的次数*/
-//	public int usedXZ;
-//	/*当日剩余参加协助的次数*/
-//	public int remainXZ;
+	//2016年1月25日需求变更加入福利次数
+	public int todayFuliTimes1; //本日领取时段1的福利次数 2016年1月28日策划去掉第一个时段
+	public int todayFuliTimes2; //本日领取时段2的福利次数
+	public int todayFuliTimes3; //本日领取时段3的福利次数
+
 	/*当日已经请求协助的次数*/
 	public int usedAskXZ;
 	/*当日剩余请求协助的次数*/

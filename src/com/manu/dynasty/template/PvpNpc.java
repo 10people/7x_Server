@@ -39,7 +39,7 @@ public class PvpNpc extends GameObject {
 //	public int mibao2;
 //	public int mibao3;
 	public int mibaoLv;
-	public int mibaoStar;
+//	public int mibaoStar;
 	public int weapon1;
 	public int weapon2;
 	public int weapon3;

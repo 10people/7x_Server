@@ -78,7 +78,7 @@ function go(act, id, type){
 					int type = Integer.parseInt(request.getParameter("t"));
 					AchievementMgr.instance.acheProcess(new AchievementCondition(junzhu.id, type, jinduAdd));
 				}
-				JunZhuMgr.inst.calcAtt(junzhu);
+				JunZhuMgr.inst.calcJunZhuTotalAtt(junzhu);
 				out.println("&nbsp;君主id：" + junzhu.id);
 				out.println("<br/>");
 				ExpTemp expTemp = TempletService.getInstance().getExpTemp(1, junzhu.level);

@@ -41,6 +41,9 @@
 		String itemNum = request.getParameter("itemNum");
 		itemNum = null==itemNum?"0":itemNum;
 		String jzId = request.getParameter("jzId");
+		if(jzId == null){
+			jzId = session.getAttribute("jzId").toString();
+		}
 		jzId = jzId == null ? "" : jzId;
 		jzId=jzId.trim();
 	%>
@@ -142,7 +145,7 @@
 							bg = empty;
 						}
 						int targetItemId=bg.itemId;
-						UserEquip ue = HibernateUtil.find(UserEquip.class, bg.instId);
+						UserEquip ue =bg.instId>0? HibernateUtil.find(UserEquip.class, bg.instId):null;
 						String xilianStr="无装备";
 						if(bg.dbId!=0){
 							xilianStr = ue == null ? "没洗练信息" : ue
