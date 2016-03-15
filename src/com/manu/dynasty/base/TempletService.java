@@ -415,6 +415,10 @@ public class TempletService {
 		CanShu.YUNBIAO_AWARDEDCOMFORT_MAXTIMES =  Integer.parseInt(map.get("YUNBIAO_AWARDEDCOMFORT_MAXTIMES").value);
 		CanShu.TILI_JILEI_SHANGXIAN =  Integer.parseInt(map.get("TILI_JILEI_SHANGXIAN").value);
 		CanShu.FANGWU_INITIAL_EXP =  Integer.parseInt(map.get("FANGWU_INITIAL_EXP").value);
+		CanShu.CONGRATULATE_AWARD_K =  Double.parseDouble(map.get("CONGRATULATE_AWARD_K").value);
+		CanShu.CONGRATULATE_AWARD_B =  Double.parseDouble(map.get("CONGRATULATE_AWARD_B").value);
+		CanShu.BIAOQING_INTERVAL =  Integer.parseInt(map.get("BIAOQING_INTERVAL").value);
+		CanShu.GREETED_CD =  Integer.parseInt(map.get("GREETED_CD").value);
 	}
 
 	public ZhuangBei getZhuangBei(int id) {

@@ -40,9 +40,9 @@ public class PromptMSG {
 	public String award; //  奖励（配置中不一定正确）
 	public Date addTime; // 快报生成时间
 	/**
-	 * 马车类型 
+	 * 马车类型  当保存邀请加入联盟通知时 保存着lmId
 	 */
-	public int realCondition;
+	public int realCondition; 
 	/**
 	 * 马车价值   用于拼出被安慰的君主所获取的安慰奖
 	 * 也用于 被掠夺拼出的奖励

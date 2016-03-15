@@ -327,67 +327,67 @@ public class JunZhuMgr extends EventProc {
 			case 101:
 				if(k.level == bean.type_101){
 					jz.gongJi += k.value1;
-					log.info("加了：type：{}， level：{}", k.type, k.level);
+//					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 102:
 				if(k.level == bean.type_102){
 					jz.fangYu += k.value1;
-					log.info("加了：type：{}， level：{}", k.type, k.level);
+//					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 103:
 				if(k.level == bean.type_103){
 					jz.shengMingMax += k.value1;
-					log.info("加了：type：{}， level：{}", k.type, k.level);
+//					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 104:
 				if(k.level == bean.type_104){
 					jz.wqSH += k.value1;
-					log.info("加了：type：{}， level：{}", k.type, k.level);
+//					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 105:
 				if(k.level == bean.type_105){
 					jz.wqBJ += k.value1;
-					log.info("加了：type：{}， level：{}", k.type, k.level);
+//					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 106:
 				if(k.level == bean.type_106){
 					jz.jnSH += k.value1;
-					log.info("加了：type：{}， level：{}", k.type, k.level);
+//					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 107:
 				if(k.level == bean.type_107){
 					jz.jnBJ += k.value1;
-					log.info("加了：type：{}， level：{}", k.type, k.level);
+//					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 108:
 				if(k.level == bean.type_108){
 					jz.wqJM += k.value1;
-					log.info("加了：type：{}， level：{}", k.type, k.level);
+//					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 109:
 				if(k.level == bean.type_109){
 					jz.wqRX += k.value1;
-					log.info("加了：type：{}， level：{}", k.type, k.level);
+//					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 110:
 				if(k.level == bean.type_110){
 					jz.jnJM += k.value1;
-					log.info("加了：type：{}， level：{}", k.type, k.level);
+//					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 111:
 				if(k.level == bean.type_111){
 					jz.jnRX += k.value1;
-					log.info("加了：type：{}， level：{}", k.type, k.level);
+//					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			}
@@ -424,6 +424,27 @@ public class JunZhuMgr extends EventProc {
 		calcLianMengKeJi(junzhu);
 	}
 
+	public int getAllMibaoProvideZhanli(JunZhu realJZ) {
+		JunZhu cloneJZ = realJZ.clone();
+		//君主
+		calcJunZhuLevel(cloneJZ);
+		// 武器(包括套装：套装品质、套装强化)
+		Bag<EquipGrid> bag = EquipMgr.inst.loadEquips(cloneJZ.id);
+		calcEquipAtt(cloneJZ, bag);
+		// 添加天赋属性 20150616 by wangZhuan
+		calcTalentAttr(cloneJZ);
+		// 添加符文属性 20150909 by hejincheng
+		calcFuwenAttr(cloneJZ);
+		// 联盟科技
+		calcLianMengKeJi(cloneJZ);
+
+		int addMibaoBefore = getZhanli(cloneJZ);
+		// 秘宝(包括秘宝高等级引起的额外属性加成)
+		calcMiBaoAtt(cloneJZ);
+		int addMibaoAfter = getZhanli(cloneJZ);
+		return addMibaoAfter - addMibaoBefore;
+	}
+	
 	public void calcFuwenAttr(JunZhu jz) {
 		List<String> lanweiList = Redis.getInstance().lgetList(FuwenMgr.CACHE_FUWEN_LANWEI+jz.id);
 		JunzhuAttr.Builder attr = FuwenMgr.inst.getFuwenAttr(lanweiList);

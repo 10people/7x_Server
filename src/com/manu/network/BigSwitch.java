@@ -46,8 +46,10 @@ import com.qx.email.EmailMgr;
 import com.qx.equip.web.UserEquipAction;
 import com.qx.event.EventMgr;
 import com.qx.explore.ExploreMgr;
+import com.qx.explore.treasure.ExploreTreasureMgr;
 import com.qx.fight.FightMgr;
 import com.qx.friends.FriendMgr;
+import com.qx.friends.GreetMgr;
 import com.qx.fuwen.FuwenMgr;
 import com.qx.guojia.GuoJiaMgr;
 import com.qx.hero.HeroMgr;
@@ -167,7 +169,8 @@ public class BigSwitch {
 	public CDKeyMgr cdKeyMgr;
 	// 技能培养
 	public JiNengPeiYangMgr jiNengPeiYangMgr;
-
+	//场景互动
+	public GreetMgr 	greetMgr;
 	public static BigSwitch getInst() {
 		if (inst == null) {
 			new BigSwitch();
@@ -256,6 +259,8 @@ public class BigSwitch {
 		buffMgr.startWork();
 		cdKeyMgr = new CDKeyMgr();
 		jiNengPeiYangMgr = new JiNengPeiYangMgr();
+		greetMgr=new GreetMgr();
+		new ExploreTreasureMgr().makeScene();
 		new YaBiaoRobotProduceMgr();
 		// 添加服务器定时任务
 		new SchedulerMgr().doSchedule();
@@ -415,6 +420,15 @@ public class BigSwitch {
 			case PD.Exit_YBScene:
 				// scene.exec(id, session, builder);
 				scMgr.route(id, session, builder);
+				break;
+			case PD.Enter_TBBXScene:
+				BigSwitch.inst.scMgr.playerExitScene(session);
+				//就是不要break
+			case PD.C_GET_BAO_XIANG:
+				ExploreTreasureMgr.inst.scene.exec(id,session,builder);
+				break;
+			case PD.Exit_TBBXScene:
+				ExploreTreasureMgr.inst.scene.exec(PD.Exit_Scene,session,builder);
 				break;
 			case PD.Battle_Pve_Init_Req:
 				pveMgr.enQueueReq(id, session, builder);
@@ -1044,6 +1058,9 @@ public class BigSwitch {
 			case PD.C_FULIINFO_REQ:
 				xsActivityMgr.getFuLiInfo(id, builder, session);
 				break;
+			case PD.C_HONGBAONFO_REQ:
+				xsActivityMgr.getGanEnHongBao(id, builder, session);
+				break;
 			case PD.C_FULIINFOAWARD_REQ:
 				xsActivityMgr.gainFuLiAward(id, builder, session);
 				break;
@@ -1105,6 +1122,7 @@ public class BigSwitch {
 			case PD.alliance_junQing_req: //联盟军情消息请求
 			case PD.qu_zhu_battle_end_req: //联盟军情之 （掠夺）驱逐
 			case PD.go_qu_zhu_req:
+			case PD.qu_zhu_req:
 				ptmgr.addMission(id, session, builder);
 				break;
 			case PD.C_BUY_REVIVE_TIMES_REQ:
@@ -1118,6 +1136,27 @@ public class BigSwitch {
 				break;
 			case PD.C_GET_ALLIANCEL_LEVEL_AWARD:
 				allianceMgr.getAllianceLevelAward(id, session, builder);
+				break;
+			case PD.C_LMKEJI_JIHUO:
+				JianZhuMgr.inst.jiHuoLMKJ(id, session, builder);
+				break;
+			case PD.C_ALLIANCE_INVITE:
+				allianceMgr.inviteJoinAlliance(id, session, builder);
+				break;
+			case PD.C_ALLIANCE_INVITE_LIST:
+				allianceMgr.seeInviteList(id, session, builder);
+				break;
+			case PD.C_ALLIANCE_INVITE_REFUSE:
+				allianceMgr.refuseInvite(id, session, builder);
+				break;
+			case PD.C_ALLIANCE_INVITE_AGREE:
+				allianceMgr.agreeInvite(id, session, builder);
+				break;
+			case PD.C_GREET_REQ://向某人打招呼请求
+				greetMgr.GreetAndAddFriend(id, session, builder);
+				break;
+			case PD.C_INVITE_REQ://邀请入盟
+				greetMgr.Invite2LM(id, session, builder);
 				break;
 			default:
 				log.error("未处理的协议 {} {}", id, builder);

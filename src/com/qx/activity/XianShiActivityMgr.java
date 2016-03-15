@@ -16,6 +16,7 @@ import qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq;
 import qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp;
 import qxmobile.protobuf.XianShi.FuLiHuoDongResp;
 import qxmobile.protobuf.XianShi.GainAward;
+import qxmobile.protobuf.XianShi.HongBaoResp;
 import qxmobile.protobuf.XianShi.HuoDongInfo;
 import qxmobile.protobuf.XianShi.OpenXianShi;
 import qxmobile.protobuf.XianShi.OpenXianShiResp;
@@ -419,13 +420,13 @@ public class XianShiActivityMgr  extends EventProc{
 					Date nextDay=new Date(year, month, date, hrs, min);
 					int	timeDistance = DateUtils.timeDistanceBySecond(nextDay, now)/1000;
 					yueka.setRemainTime(timeDistance);
-					yueka.setContent("明天4点");
+					yueka.setContent("明天4:00");
 				}else {
 					int date =now.getDate();
 					Date nextDay=new Date(year, month, date, hrs, min);
 					int	timeDistance = DateUtils.timeDistanceBySecond(nextDay, now)/1000;
 					yueka.setRemainTime(timeDistance);
-					yueka.setContent("今天4点");
+					yueka.setContent("今天4:00");
 				};
 			}
 			resp.addXianshi(yueka);
@@ -440,7 +441,99 @@ public class XianShiActivityMgr  extends EventProc{
 		session.write(resp.build());
 	}
 	
-
+	/**
+	 * @Description 为封测红包拆出来的协议   获取封测（感恩）红包信息
+	 */
+	public void getGanEnHongBao(int id, Builder builder,IoSession session) {
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			log.error("请求封测红包信息出错：君主不存在");
+			return;
+		}
+		long jzId=jz.id;
+		FuliInfo info=HibernateUtil.find(FuliInfo.class, jzId);
+		if(info==null){
+			log.info("初始化君主--{}的福利info",jzId);
+			info=new FuliInfo();
+			info.jzId=jzId;
+			HibernateUtil.save(info);
+		}
+		log.info("君主--{}请求获取红包信息",jzId);
+		HongBaoResp.Builder resp=HongBaoResp.newBuilder();
+		if(isOpen4FengceHongBao){
+			getHongBaoInfo(info, new Date(),resp);
+		}else{
+			log.error("{}请求封测红包信息出错：，活动未开启",jzId);
+			resp.setAwardTime("0");
+			resp.setDay(-1);
+			resp.setRemainTime(Integer.MAX_VALUE);
+			resp.setYuanbao(-1);
+		}
+		session.write(resp.build());
+	}
+	/**
+	 * @Description 获取封测红包福利信息 
+	 * 部分参数写死 比如17:30分之类的 如果要变更需求 该配置需一起修改
+	 */
+	public void getHongBaoInfo(FuliInfo info, Date now,HongBaoResp.Builder hongbao) {
+		long jzId=info.jzId;
+		int fengceHongBaoCode=getNowHongBaoFuLiCode();
+		int isGetCode=check4FengCeHongBao(info, now,fengceHongBaoCode);
+		log.info("君主--{}封测红包福利可领取状态--{}",jzId,isGetCode);
+//		isGetCode1 ：
+//		 * 0：将要领明天9：00后 奖励;
+//		 * 10：将要领今天9:00 奖励;
+//		 * 1： 可领9:00 奖励 ; 
+//		 * 20：将要领今天17:30 奖励;
+//		 * 2：可领17:30 奖励;  
+		Date nextDay=null;
+		int timeDistance=0;
+		switch (isGetCode) {
+		case 1:
+			hongbao.setRemainTime(-1);
+			hongbao.setYuanbao(Integer.valueOf(FuliConstant.fengcehongbaoAward1) );
+			break;
+		case 2:
+			hongbao.setRemainTime(-1);
+			hongbao.setYuanbao(Integer.valueOf(FuliConstant.fengcehongbaoAward2));
+			break;
+		case 10:
+			int year1=now.getYear();
+			int month1=now.getMonth();
+			int date1 =now.getDate();
+			int hrs1=9;
+			int min1=0;
+			nextDay=new Date(year1, month1, date1, hrs1, min1);
+			timeDistance = DateUtils.timeDistanceBySecond(nextDay, now)/1000;
+			hongbao.setRemainTime(timeDistance);
+			hongbao.setYuanbao(Integer.valueOf(FuliConstant.fengcehongbaoAward1));
+			break;
+		case 20:
+			int year=now.getYear();
+			int month=now.getMonth();
+			int date =now.getDate();
+			int hrs=17;
+			int min=30;
+			nextDay=new Date(year, month, date, hrs, min);
+			timeDistance = DateUtils.timeDistanceBySecond(nextDay, now)/1000;
+			hongbao.setRemainTime(timeDistance);
+			hongbao.setYuanbao(Integer.valueOf(FuliConstant.fengcehongbaoAward2));
+			break;
+		case 0:
+			//算出明天9点到现在的秒差
+			timeDistance=DateUtils.timeDistanceBySecond()/1000;
+			//加5小时
+			timeDistance+=5*3600;
+			hongbao.setRemainTime(timeDistance);
+			hongbao.setYuanbao(Integer.valueOf(FuliConstant.fengcehongbaoAward1));
+			break;
+		default:
+			break;
+		}
+		//TODO 下面俩参数写死了 根据策划坑的程度修改
+		hongbao.setAwardTime("每天9:00、17:30");
+		hongbao.setDay(30);
+	}
 	//领取封测福利奖励
 	public void gainFuLiAward(int id, Builder builder,IoSession session) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
@@ -621,7 +714,7 @@ public class XianShiActivityMgr  extends EventProc{
 		switch (tiliCode) {
 		case 0:
 			//不可领奖励1
-			tili.setContent("今天12点");
+			tili.setContent("今天12:00");
 			break;
 		case 1:
 			isCan=getDistance4Tili1(info);
@@ -631,13 +724,13 @@ public class XianShiActivityMgr  extends EventProc{
 			}else{
 				hrs=FuliConstant.show_tili_clock_18;
 				//不可领奖励1
-				tili.setContent("今天"+FuliConstant.show_tili_clock_18+"点");
+				tili.setContent("今天"+FuliConstant.show_tili_clock_18+":00");
 			}
 			break;
 		case 11:
 			hrs=FuliConstant.show_tili_clock_18;
 				//不可领奖励1
-			tili.setContent("今天"+FuliConstant.show_tili_clock_18+"点");
+			tili.setContent("今天"+FuliConstant.show_tili_clock_18+":00");
 			break;
 		case 2:
 			isCan=getDistance4Tili2(info);
@@ -647,13 +740,13 @@ public class XianShiActivityMgr  extends EventProc{
 			}else{
 				hrs=FuliConstant.show_tili_clock_21;
 				//不可领奖励1
-				tili.setContent("今天"+FuliConstant.show_tili_clock_21+"点");
+				tili.setContent("今天"+FuliConstant.show_tili_clock_21+":00");
 			}
 			break;
 		case 21:
 			hrs=FuliConstant.show_tili_clock_21;
 			//不可领奖励1
-			tili.setContent("今天"+FuliConstant.show_tili_clock_21+"点");
+			tili.setContent("今天"+FuliConstant.show_tili_clock_21+":00");
 			break;
 		case 3:
 			isCan=getDistance4Tili3(info);
@@ -664,14 +757,14 @@ public class XianShiActivityMgr  extends EventProc{
 				date+=1;
 				hrs=FuliConstant.show_tili_clock_12;
 				//不可领奖励1
-				tili.setContent("明天"+FuliConstant.show_tili_clock_12+"点");
+				tili.setContent("明天"+FuliConstant.show_tili_clock_12+":00");
 			}
 			break;
 		case 4:
 			date+=1;
 			hrs=FuliConstant.show_tili_clock_12;
 			//不可领奖励3
-			tili.setContent("明天"+FuliConstant.show_tili_clock_12+"点");
+			tili.setContent("明天"+FuliConstant.show_tili_clock_12+":00");
 			break;
 		}
 		nextDay=new Date(year, month, date, hrs, min);
@@ -2518,7 +2611,7 @@ public class XianShiActivityMgr  extends EventProc{
 			refreshTanbao4tenTimes(event);
 			break;	
 		case ED.REFRESH_TIME_WORK:
-			//探宝10次
+			//封测福利红点
 			refreshFuLiRedNode(event);
 			break;	
 		}

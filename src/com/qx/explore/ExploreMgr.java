@@ -55,7 +55,7 @@ public class ExploreMgr extends EventProc{
 	public static ExploreMgr inst;
 	public Map<Integer, ItemTemp> itemTempMap;
 	public Map<Integer, Purchase> purchasesMap;
-	public static Logger log = LoggerFactory.getLogger(ExploreMgr.class);
+	public static Logger log = LoggerFactory.getLogger(ExploreMgr.class.getSimpleName());
 	public static final int space = 100;
 	public static int awardNumber = 8;
 	public static int types = 5;
@@ -279,8 +279,13 @@ public class ExploreMgr extends EventProc{
 				}
 				chouCishu = 1;
 				break;
-			case 4:
-				ok = isYuanBaoOk(jz, money, session);
+			case 4://元宝十连抽
+				// 首次十连抽免费
+				if(mine.tenChouClickNumber == 0){
+					ok = true;
+				}else{
+					ok = isYuanBaoOk(jz, money, session);
+				}
 				if(ok){
 					chouType = 23;
 				}else{
@@ -958,6 +963,7 @@ public class ExploreMgr extends EventProc{
 		mine.lastFreeGetTime = null;
 		mine.totalProbability = 0;
 		mine.usedFreeNumber = 0;
+		mine.tenChouClickNumber = 0;
 		HibernateUtil.insert(mine);
 		log.info("君主id:{}, 初始化并且持久化类型是:{}的探宝数据成功", jzI, sqlType);
 		return mine;

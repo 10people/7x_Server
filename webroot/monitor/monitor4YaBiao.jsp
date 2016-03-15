@@ -142,7 +142,6 @@ if("calcDamame".equals(act)) {
 }
 %>
 <br/>
-马车总数:<%=BigSwitch.inst.ybMgr.ybJzId2ScIdMap.size()%><br/>
 马车等级：<%=YaBiaoRobotProduceMgr.produceCartList.toString() %><br/>
 服务器等级：<%=(int) RankingMgr.inst.getTopJunzhuAvgLevel(50) %><br/>
 <%-- 劫镖人数:<%=BigSwitch.inst.ybMgr.jbJz2ScIdMap.size()%> 现在的代码jbJz2ScIdMap废弃 无用，无法快捷的统计劫镖人数 --%>
@@ -167,7 +166,9 @@ if("calcDamame".equals(act)) {
 <br/>
 <table border='1'  style='border-collapse:collapse;'>
 <tr>
-<th>序号</th><th>马车编号</th><th>等级</th><th>userId</th><th>userName</th><th>坐标</th><th>路线</th>
+<th>序号</th><th>马车编号</th><th>等级</th><th>userId</th><th>userName</th>
+<th>jzId</th>
+<th>坐标</th><th>路线</th>
 </tr>
 
 <%
@@ -175,6 +176,7 @@ if("calcDamame".equals(act)) {
     public int compare(Object object1, Object object2) {// 实现接口中的方法  
     	Player p1 = (Player) object1; // 强制转换  
     	Player p2 = (Player) object2;  
+    	if(p1 == null || p2==null)return 0;
     	int result=new Integer(p2.jzlevel).compareTo(new Integer(p1.jzlevel));
     	if(result==0){
     		YaBiaoRobot	tem1=(YaBiaoRobot) BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(p1.jzId);
@@ -188,6 +190,7 @@ class SafeAreaComparator implements Comparator {
     public int compare(Object object1, Object object2) {// 实现接口中的方法  
     	Player p2 = (Player) object1; // 强制转换  
     	Player p1 = (Player) object2;  
+    	if(p1 == null || p2==null)return 0;
         return new Integer(p1.safeArea).compareTo(new Integer(p2.safeArea));  
     }  
 } 
@@ -198,7 +201,6 @@ while(ybkey.hasMoreElements()){
 	Integer ybScId =ybkey.nextElement();
 	Scene sc = BigSwitch.inst.ybMgr.yabiaoScenes.get(ybScId);
 	Iterator<Integer> it2 = sc.players.keySet().iterator();
-	Set<Long> ybSet=BigSwitch.inst.ybMgr.ybJzList2ScIdMap.get(ybScId);
 // 	 out.print("SceneID--"+ybScId+"押镖set--"+ybSet+"<br>");
 // 	if(ybSet!=null){
 // 		Iterator<Long> it = ybSet.iterator();
@@ -208,25 +210,23 @@ while(ybkey.hasMoreElements()){
 // 		    out.print(str+"-"+ybrobot==null?"无":ybrobot.isBattle+";");
 // 		}
 // 	}
-	
+	//sc.players.clear();
 	out("<tr><td colspan='7'>"+sc.name+"场景精灵数(人+马车总数)"+sc.players.size()+"</td></tr>");
 	cnt += sc.players.size();
 	int idx = 0;
 	List<Player> cartList=new ArrayList<Player>();
+	int checkFlag=-1;
+	Player miss = new Player();
+	miss.name = "miss";
 	while(it2.hasNext()){
 		Integer key = it2.next();
 		Player p = sc.players.get(key);
-		if(p.roleId==Scene.YBRobot_RoleId){
-	cartList.add(p);
-	
+		if(p == null){
+			p.userId = key;
 		}
-	}
  
-	Collections.sort(cartList, new LevelComparator());
-	int checkFlag=-1;
-	for(int ii=0;ii<cartList.size();ii++){
+	//Collections.sort(cartList, new LevelComparator());
 		idx++;
-		Player p=cartList.get(ii);
 		YaBiaoRobot	tem=(YaBiaoRobot) BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(p.jzId);
 		out.append("<tr>");
 		String acc = p.getName();
@@ -235,7 +235,10 @@ while(ybkey.hasMoreElements()){
 		out.append(""+idx);
 		out.append("</td>");
 		out.append("<td>");
-		if(checkFlag!=tem.bcNPCNo){
+		if(tem == null){
+			out.append("马车NPC丢失:"+p.jzId);
+			//it2.remove();
+		}else if(checkFlag!=tem.bcNPCNo){
 			checkFlag=tem.bcNPCNo;
 			out.append("<font color='green'>"+tem.bcNPCNo+"</font>");
 		}else{
@@ -250,81 +253,20 @@ while(ybkey.hasMoreElements()){
 		out.append("</td>");
 		out.append("<td>");
 		out.append(acc);
+		out.append(p.roleId == Scene.YBRobot_RoleId ? "-车":"");
 		out.append("</td>");
+		td(p.jzId);
 		out.append("<td>");
 		out.append("x坐标--"+p.getPosX()+"y坐标--"+p.getPosY()+"z坐标--"+p.getPosZ());
 		out.append("</td>");
 		out.append("<td>");
-		out.append(""+tem.pathId);
+		out.append(tem == null ? "" : ""+tem.pathId);
 		out.append("</td>");
 		
 		out.append("<tr>");
 	};
 }
-Enumeration<Integer>  ybkey1 = BigSwitch.inst.ybMgr.yabiaoScenes.keys();
-out("<tr><td colspan='7'>"+"劫镖列表</td></tr>");
-while(ybkey1.hasMoreElements()){
-	Integer ybScId =ybkey1.nextElement();
-	Scene sc = BigSwitch.inst.ybMgr.yabiaoScenes.get(ybScId);
-	Iterator<Integer> it2 = sc.players.keySet().iterator();
-// 	Set<Long> jbSet=BigSwitch.inst.ybMgr.jbJzList2ScIdMap.get(ybScId);
-// 	if(jbSet!=null){
-// 			Iterator<Long> it22 = jbSet.iterator();
-// 			while (it22.hasNext()) {
-// 				Long str = it22.next();
-// 				out.print(str + ";");
-// 			}
-// 		}
-		List<Player> playerList=new ArrayList<Player>();
-		out("<tr><td colspan='7'>" + sc.name + "</td></tr>");
-	
-		while (it2.hasNext()) {
-	Integer key = it2.next();
-	Player p = sc.players.get(key);
-	if (p.roleId != Scene.YBRobot_RoleId) {
-		playerList.add(p);
-	}
-		}
-		int idx2 = 0;
-		int index=0;
-		Collections.sort(playerList, new SafeAreaComparator());
-		for(int i=0;i<playerList.size();i++){
-			Player p = playerList.get(i);
-			if (p.safeArea != index) {
-				out.append("<tr>");
-				out.append("<td colspan='7'>");
-				out.append("安全区" + p.safeArea);
-				out.append("</td>");
-				out.append("<tr>");
-				index=p.safeArea;
-				idx2=0;
-			}
-			idx2++;
-			out.append("<tr>");
-			String acc = p.getName();
-			out.append("<td>");
-			out.append("" + idx2);
-			out.append("</td>");
-			out.append("<td>");
-			out.append("没有");
-			out.append("</td>");
-			out.append("<td>");
-			out.append("" + p.jzlevel);
-			out.append("</td>");
-			out.append("<td>");
-			out.append(String.valueOf(p.userId));
-			out.append("</td>");
-			out.append("<td>");
-			out.append(acc);
-			out.append("</td>");
-			out.append("<td>");
-			out.append("x坐标--" + p.getPosX() + "y坐标--" + p.getPosY()
-					+ "z坐标--" + p.getPosZ());
-			out.append("</td>");
-			out.append("</td>");
-			out.append("<tr>");
-		}
-	}
+
 %>
 </table>
 押镖场景在线玩家数量:<%=cnt %><br/>

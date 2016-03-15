@@ -209,7 +209,7 @@ do{
 	 	td("<input type='text' id='updateJinbiTime' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateJinbiTime\")'/><br/>");
 	 trE();
 	 
-	 trS();td("完璧归赵");td(yxBeanMap.get(2).times);td("<input type='text' id='addCailiao' value='"+input+"'/><input type='button' value='增加' onclick='go(\"addCailiao\")'/><br/>");
+	 trS();td("讨伐山贼");td(yxBeanMap.get(2).times);td("<input type='text' id='addCailiao' value='"+input+"'/><input type='button' value='增加' onclick='go(\"addCailiao\")'/><br/>");
 	 	td(YouXiaMgr.inst.youxiaOpenTimeMap.get(2).OpenDay);td("<input type='text' id='updateCailiao' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateCailiao\")'/><br/>");
 	 	td(yxBeanMap.get(2).lastBattleTime == null ? "从未挑战过" : simpleDateFormat.format(yxBeanMap.get(2).lastBattleTime));
 	 	td("<input type='text' id='updateCailiaoTime' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateCailiaoTime\")'/><br/>");

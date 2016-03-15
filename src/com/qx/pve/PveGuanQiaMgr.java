@@ -665,7 +665,7 @@ public class PveGuanQiaMgr {
 			sendError(session, "请先打通此关卡。");
 			return;
 		}
-		if (cq && r.cqPassTimes >= CanShu.DAYTIMES_LEGENDPVE) {
+		if (cq && (r.cqPassTimes >= CanShu.DAYTIMES_LEGENDPVE || r.cqPassTimes + saoDangTimes > CanShu.DAYTIMES_LEGENDPVE)) {
 			log.info("传奇关:{}今日通关次数已满", guanQiaId);
 			return;
 		}
@@ -687,7 +687,8 @@ public class PveGuanQiaMgr {
 			sd.jySaoDangTimes = 0;
 			sd.saoDangResetTime = today;
 		}else{
-			if (sd.jySaoDangTimes >= vip.saodangFree) {
+			// 今日已扫荡次数是否已经超过最大次数							今日已扫荡次数加上本次扫荡次数是否超过最大次数
+			if (sd.jySaoDangTimes >= vip.saodangFree || sd.jyAllSaoDangTimes + saoDangTimes > vip.saodangFree) {
 				return;
 			}
 		}
@@ -735,7 +736,7 @@ public class PveGuanQiaMgr {
 				} else {
 					fillSaoDangAward(awardBuilder, calcV);
 					AwardMgr.inst.giveReward(session, calcV, junzhu, false);
-					log.info("游侠扫荡命中奖励 awardId:{}, 添加", calcV.getAwardId());
+					log.info("扫荡命中奖励 awardId:{}, 添加", calcV.getAwardId());
 				}
 			}
 			awardBuilder.setExp(getExp);

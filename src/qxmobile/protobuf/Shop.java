@@ -8529,7 +8529,7 @@ public final class Shop {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启， 5： 普通商店物品购买次数已经用完
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启
      * </pre>
      */
     boolean hasMsg();
@@ -8537,7 +8537,7 @@ public final class Shop {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启， 5： 普通商店物品购买次数已经用完
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启
      * </pre>
      */
     int getMsg();
@@ -8559,6 +8559,24 @@ public final class Shop {
      * </pre>
      */
     int getRemianMoney();
+
+    // required bool isChange = 3;
+    /**
+     * <code>required bool isChange = 3;</code>
+     *
+     * <pre>
+     * 1 表示可以兑换 0 表示售罄
+     * </pre>
+     */
+    boolean hasIsChange();
+    /**
+     * <code>required bool isChange = 3;</code>
+     *
+     * <pre>
+     * 1 表示可以兑换 0 表示售罄
+     * </pre>
+     */
+    boolean getIsChange();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.BuyGoodResp}
@@ -8621,6 +8639,11 @@ public final class Shop {
               remianMoney_ = input.readInt32();
               break;
             }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              isChange_ = input.readBool();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -8668,7 +8691,7 @@ public final class Shop {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启， 5： 普通商店物品购买次数已经用完
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启
      * </pre>
      */
     public boolean hasMsg() {
@@ -8678,7 +8701,7 @@ public final class Shop {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启， 5： 普通商店物品购买次数已经用完
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启
      * </pre>
      */
     public int getMsg() {
@@ -8709,9 +8732,34 @@ public final class Shop {
       return remianMoney_;
     }
 
+    // required bool isChange = 3;
+    public static final int ISCHANGE_FIELD_NUMBER = 3;
+    private boolean isChange_;
+    /**
+     * <code>required bool isChange = 3;</code>
+     *
+     * <pre>
+     * 1 表示可以兑换 0 表示售罄
+     * </pre>
+     */
+    public boolean hasIsChange() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required bool isChange = 3;</code>
+     *
+     * <pre>
+     * 1 表示可以兑换 0 表示售罄
+     * </pre>
+     */
+    public boolean getIsChange() {
+      return isChange_;
+    }
+
     private void initFields() {
       msg_ = 0;
       remianMoney_ = 0;
+      isChange_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -8719,6 +8767,10 @@ public final class Shop {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasMsg()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIsChange()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -8734,6 +8786,9 @@ public final class Shop {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(2, remianMoney_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBool(3, isChange_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -8751,6 +8806,10 @@ public final class Shop {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, remianMoney_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, isChange_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -8872,6 +8931,8 @@ public final class Shop {
         bitField0_ = (bitField0_ & ~0x00000001);
         remianMoney_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
+        isChange_ = false;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -8908,6 +8969,10 @@ public final class Shop {
           to_bitField0_ |= 0x00000002;
         }
         result.remianMoney_ = remianMoney_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.isChange_ = isChange_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -8930,12 +8995,19 @@ public final class Shop {
         if (other.hasRemianMoney()) {
           setRemianMoney(other.getRemianMoney());
         }
+        if (other.hasIsChange()) {
+          setIsChange(other.getIsChange());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasMsg()) {
+          
+          return false;
+        }
+        if (!hasIsChange()) {
           
           return false;
         }
@@ -8967,7 +9039,7 @@ public final class Shop {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启， 5： 普通商店物品购买次数已经用完
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启
        * </pre>
        */
       public boolean hasMsg() {
@@ -8977,7 +9049,7 @@ public final class Shop {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启， 5： 普通商店物品购买次数已经用完
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启
        * </pre>
        */
       public int getMsg() {
@@ -8987,7 +9059,7 @@ public final class Shop {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启， 5： 普通商店物品购买次数已经用完
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启
        * </pre>
        */
       public Builder setMsg(int value) {
@@ -9000,7 +9072,7 @@ public final class Shop {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启， 5： 普通商店物品购买次数已经用完
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启
        * </pre>
        */
       public Builder clearMsg() {
@@ -9055,6 +9127,55 @@ public final class Shop {
       public Builder clearRemianMoney() {
         bitField0_ = (bitField0_ & ~0x00000002);
         remianMoney_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required bool isChange = 3;
+      private boolean isChange_ ;
+      /**
+       * <code>required bool isChange = 3;</code>
+       *
+       * <pre>
+       * 1 表示可以兑换 0 表示售罄
+       * </pre>
+       */
+      public boolean hasIsChange() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required bool isChange = 3;</code>
+       *
+       * <pre>
+       * 1 表示可以兑换 0 表示售罄
+       * </pre>
+       */
+      public boolean getIsChange() {
+        return isChange_;
+      }
+      /**
+       * <code>required bool isChange = 3;</code>
+       *
+       * <pre>
+       * 1 表示可以兑换 0 表示售罄
+       * </pre>
+       */
+      public Builder setIsChange(boolean value) {
+        bitField0_ |= 0x00000004;
+        isChange_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool isChange = 3;</code>
+       *
+       * <pre>
+       * 1 表示可以兑换 0 表示售罄
+       * </pre>
+       */
+      public Builder clearIsChange() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        isChange_ = false;
         onChanged();
         return this;
       }
@@ -9166,8 +9287,8 @@ public final class Shop {
       "uiHuanInfo\022\n\n\002id\030\001 \002(\005\022\014\n\004site\030\002 \002(\005\022\020\n\010",
       "isChange\030\003 \002(\010\022\023\n\013remainCount\030\004 \001(\005\"*\n\nB" +
       "uyGoodReq\022\014\n\004type\030\001 \002(\005\022\016\n\006goodId\030\002 \002(\005\"" +
-      "/\n\013BuyGoodResp\022\013\n\003msg\030\001 \002(\005\022\023\n\013remianMon" +
-      "ey\030\002 \001(\005B\006B\004Shop"
+      "A\n\013BuyGoodResp\022\013\n\003msg\030\001 \002(\005\022\023\n\013remianMon" +
+      "ey\030\002 \001(\005\022\020\n\010isChange\030\003 \002(\010B\006B\004Shop"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9251,7 +9372,7 @@ public final class Shop {
           internal_static_qxmobile_protobuf_BuyGoodResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BuyGoodResp_descriptor,
-              new java.lang.String[] { "Msg", "RemianMoney", });
+              new java.lang.String[] { "Msg", "RemianMoney", "IsChange", });
           return null;
         }
       };

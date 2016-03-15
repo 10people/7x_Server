@@ -1,6 +1,7 @@
 package com.qx.world;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -11,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder;
-import qxmobile.protobuf.SMessageProtos.SMessage;
 
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.hero.service.HeroService;
@@ -21,6 +21,9 @@ import com.manu.dynasty.template.Chenghao;
 import com.manu.dynasty.template.MiBao;
 import com.manu.dynasty.template.MibaoStar;
 import com.manu.network.PD;
+import com.manu.network.SessionAttKey;
+import com.manu.network.SessionManager;
+import com.manu.network.SessionUser;
 import com.manu.network.TXSocketMgr;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.account.AccountManager;
@@ -61,6 +64,12 @@ type	完成条件
 	public static Logger log = LoggerFactory.getLogger(BroadcastMgr.class.getSimpleName());
 	public static BroadcastMgr inst = new BroadcastMgr();
 	public void send(String text){
+		ProtobufMsg msg = buildMsg(text);
+		Set<WriteFuture> receivers = TXSocketMgr.inst.acceptor.broadcast(msg);
+		log.info("发送广播 ：{}，目标数量{}", text, receivers.size());
+	}
+
+	public ProtobufMsg buildMsg(String text) {
 		ProtobufMsg msg = new ProtobufMsg();
 		msg.id = PD.S_Broadcast;
 		Builder em = ErrorMessage.newBuilder();
@@ -68,8 +77,24 @@ type	完成条件
 		em.setErrorCode(0);
 		em.setErrorDesc(text);
 		msg.builder = em;
-		Set<WriteFuture> receivers = TXSocketMgr.inst.acceptor.broadcast(msg);
-		log.info("发送广播 ：{}，目标数量{}", text, receivers.size());
+		return msg;
+	}
+	
+	/**
+	 * @Description 给单个君主发送广播
+	 * @param text
+	 * @param targetJzId
+	 */
+	public void send2JunZhu(String text,long targetJzId){
+		ProtobufMsg msg = buildMsg(text);
+		
+		SessionUser su = SessionManager.inst.findByJunZhuId(targetJzId);
+		if(su==null||su.session==null){
+			log.info("取消给君主---{}发送广播 ，目标下线了",targetJzId, text);
+			return;
+		}
+		su.session.write(msg);
+		log.info("给君主---{}发送广播 ",targetJzId, text);
 	}
 	public void check() {
 		List<BroadcastEntry> list = HibernateUtil.list(BroadcastEntry.class, "");
@@ -147,7 +172,7 @@ type	完成条件
 		}
 	}
 	public void checkJiBai(Event param) {
-		//new Object[] {junZhuId, hitO.optInt("id")}
+		//new Object[] {junZhuId, hitO.optInt("id"), hitO.optInt("n",1)}
 		Object[] arr = (Object[]) param.param;
 		//JunZhu jz = (JunZhu) arr[0];
 		Long jzId = (Long) arr[0];
@@ -157,7 +182,7 @@ type	完成条件
 			return;
 		}
 		AnnounceTemp targetConf = null;
-		String strCon = String.valueOf(itemId);
+		String strCon = String.valueOf(itemId)+":"+arr[2];
 		for(AnnounceTemp conf : confList){
 			if(conf.type != 16){//
 				continue;
@@ -175,7 +200,8 @@ type	完成条件
 		JunZhu jz = HibernateUtil.find(JunZhu.class, jzId);
 		if(jz == null)return;
 		template = template.replace("*玩家名字七个字*", jz.name);
-		send(template);
+		template = template.replace("×**", "x"+arr[2]);
+		send(template,targetConf);
 	}
 	public void checkLM_ShopBuy(Event param) {
 		//new Object[]{jz, a, itemName}
@@ -203,8 +229,39 @@ type	完成条件
 		String template = targetConf.announcement;
 		//[ffffff]恭喜[-][dbba8f]*玩家名字七个字*[-][ffffff]在[-]06de34]联盟商店[-][ffffff]兑换获得[-][f5aa29]女娲补天石的碎片[-][ffffff]！[-]
 		template = template.replace("*玩家名字七个字*", jz.name);
-		send(template);
+		send(template,targetConf);
 	}
+	public void send(String template, AnnounceTemp targetConf) {
+		String targets = targetConf.announceObject;
+		if(targets == null || targets.contains("1,2")){
+			send(template);
+		}else if(targets.equals("2")){//发给无联盟
+			ProtobufMsg msg = buildMsg(template);
+			Iterator<IoSession> it = TXSocketMgr.inst.acceptor.getManagedSessions().values().iterator();
+			while(it.hasNext()){
+				IoSession session;
+				session = it.next();
+				Object lmName=session.getAttribute(SessionAttKey.LM_NAME, "***");
+				if("***".equals(lmName)){
+					session.write(msg);
+				}
+			}
+		}else if(targets.equals("1")){//发给有联盟的人
+			ProtobufMsg msg = buildMsg(template);
+			Iterator<IoSession> it = TXSocketMgr.inst.acceptor.getManagedSessions().values().iterator();
+			while(it.hasNext()){
+				IoSession session;
+				session = it.next();
+				Object lmName=session.getAttribute(SessionAttKey.LM_NAME, "***");
+				if(!"***".equals(lmName)){
+					session.write(msg);
+				}
+			}
+		}else{
+			send(template);
+		}
+	}
+
 	public void checkBuyTongBiBoaJi(Event param) {
 		//new Object[]{junZhu, baoJi}
 		Object[] arr = (Object[]) param.param;
@@ -698,5 +755,6 @@ type	完成条件
 		EventMgr.regist(ED.MIBAO_HECHENG_BROADCAST, this);
 		EventMgr.regist(ED.LM_SHOP_BUY, this);
 		EventMgr.regist(ED.jibai, this);
+		EventMgr.regist(ED.BUY_TongBi_BaoJi, this);
 	}
 }

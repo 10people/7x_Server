@@ -5305,6 +5305,42 @@ public final class Prompt {
      * <code>optional int32 friendHorseRoleId = 17;</code>
      */
     int getFriendHorseRoleId();
+
+    // optional float posX = 21;
+    /**
+     * <code>optional float posX = 21;</code>
+     *
+     * <pre>
+     * 镖车的x坐标
+     * </pre>
+     */
+    boolean hasPosX();
+    /**
+     * <code>optional float posX = 21;</code>
+     *
+     * <pre>
+     * 镖车的x坐标
+     * </pre>
+     */
+    float getPosX();
+
+    // optional float posZ = 22;
+    /**
+     * <code>optional float posZ = 22;</code>
+     *
+     * <pre>
+     * 镖车的z坐标
+     * </pre>
+     */
+    boolean hasPosZ();
+    /**
+     * <code>optional float posZ = 22;</code>
+     *
+     * <pre>
+     * 镖车的z坐标
+     * </pre>
+     */
+    float getPosZ();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.HistoryBattleInfo}
@@ -5455,6 +5491,16 @@ public final class Prompt {
             case 160: {
               bitField0_ |= 0x00010000;
               state_ = input.readInt32();
+              break;
+            }
+            case 173: {
+              bitField0_ |= 0x00100000;
+              posX_ = input.readFloat();
+              break;
+            }
+            case 181: {
+              bitField0_ |= 0x00200000;
+              posZ_ = input.readFloat();
               break;
             }
           }
@@ -5946,6 +5992,54 @@ public final class Prompt {
       return friendHorseRoleId_;
     }
 
+    // optional float posX = 21;
+    public static final int POSX_FIELD_NUMBER = 21;
+    private float posX_;
+    /**
+     * <code>optional float posX = 21;</code>
+     *
+     * <pre>
+     * 镖车的x坐标
+     * </pre>
+     */
+    public boolean hasPosX() {
+      return ((bitField0_ & 0x00100000) == 0x00100000);
+    }
+    /**
+     * <code>optional float posX = 21;</code>
+     *
+     * <pre>
+     * 镖车的x坐标
+     * </pre>
+     */
+    public float getPosX() {
+      return posX_;
+    }
+
+    // optional float posZ = 22;
+    public static final int POSZ_FIELD_NUMBER = 22;
+    private float posZ_;
+    /**
+     * <code>optional float posZ = 22;</code>
+     *
+     * <pre>
+     * 镖车的z坐标
+     * </pre>
+     */
+    public boolean hasPosZ() {
+      return ((bitField0_ & 0x00200000) == 0x00200000);
+    }
+    /**
+     * <code>optional float posZ = 22;</code>
+     *
+     * <pre>
+     * 镖车的z坐标
+     * </pre>
+     */
+    public float getPosZ() {
+      return posZ_;
+    }
+
     private void initFields() {
       itemId_ = 0;
       enemyJid_ = 0L;
@@ -5967,6 +6061,8 @@ public final class Prompt {
       friendAllHP_ = 0;
       friendRemainHP_ = 0;
       friendHorseRoleId_ = 0;
+      posX_ = 0F;
+      posZ_ = 0F;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6092,6 +6188,12 @@ public final class Prompt {
       if (((bitField0_ & 0x00010000) == 0x00010000)) {
         output.writeInt32(20, state_);
       }
+      if (((bitField0_ & 0x00100000) == 0x00100000)) {
+        output.writeFloat(21, posX_);
+      }
+      if (((bitField0_ & 0x00200000) == 0x00200000)) {
+        output.writeFloat(22, posZ_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -6180,6 +6282,14 @@ public final class Prompt {
       if (((bitField0_ & 0x00010000) == 0x00010000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(20, state_);
+      }
+      if (((bitField0_ & 0x00100000) == 0x00100000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(21, posX_);
+      }
+      if (((bitField0_ & 0x00200000) == 0x00200000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(22, posZ_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6337,6 +6447,10 @@ public final class Prompt {
         bitField0_ = (bitField0_ & ~0x00040000);
         friendHorseRoleId_ = 0;
         bitField0_ = (bitField0_ & ~0x00080000);
+        posX_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00100000);
+        posZ_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00200000);
         return this;
       }
 
@@ -6445,6 +6559,14 @@ public final class Prompt {
           to_bitField0_ |= 0x00080000;
         }
         result.friendHorseRoleId_ = friendHorseRoleId_;
+        if (((from_bitField0_ & 0x00100000) == 0x00100000)) {
+          to_bitField0_ |= 0x00100000;
+        }
+        result.posX_ = posX_;
+        if (((from_bitField0_ & 0x00200000) == 0x00200000)) {
+          to_bitField0_ |= 0x00200000;
+        }
+        result.posZ_ = posZ_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6526,6 +6648,12 @@ public final class Prompt {
         }
         if (other.hasFriendHorseRoleId()) {
           setFriendHorseRoleId(other.getFriendHorseRoleId());
+        }
+        if (other.hasPosX()) {
+          setPosX(other.getPosX());
+        }
+        if (other.hasPosZ()) {
+          setPosZ(other.getPosZ());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -7485,6 +7613,104 @@ public final class Prompt {
         return this;
       }
 
+      // optional float posX = 21;
+      private float posX_ ;
+      /**
+       * <code>optional float posX = 21;</code>
+       *
+       * <pre>
+       * 镖车的x坐标
+       * </pre>
+       */
+      public boolean hasPosX() {
+        return ((bitField0_ & 0x00100000) == 0x00100000);
+      }
+      /**
+       * <code>optional float posX = 21;</code>
+       *
+       * <pre>
+       * 镖车的x坐标
+       * </pre>
+       */
+      public float getPosX() {
+        return posX_;
+      }
+      /**
+       * <code>optional float posX = 21;</code>
+       *
+       * <pre>
+       * 镖车的x坐标
+       * </pre>
+       */
+      public Builder setPosX(float value) {
+        bitField0_ |= 0x00100000;
+        posX_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float posX = 21;</code>
+       *
+       * <pre>
+       * 镖车的x坐标
+       * </pre>
+       */
+      public Builder clearPosX() {
+        bitField0_ = (bitField0_ & ~0x00100000);
+        posX_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // optional float posZ = 22;
+      private float posZ_ ;
+      /**
+       * <code>optional float posZ = 22;</code>
+       *
+       * <pre>
+       * 镖车的z坐标
+       * </pre>
+       */
+      public boolean hasPosZ() {
+        return ((bitField0_ & 0x00200000) == 0x00200000);
+      }
+      /**
+       * <code>optional float posZ = 22;</code>
+       *
+       * <pre>
+       * 镖车的z坐标
+       * </pre>
+       */
+      public float getPosZ() {
+        return posZ_;
+      }
+      /**
+       * <code>optional float posZ = 22;</code>
+       *
+       * <pre>
+       * 镖车的z坐标
+       * </pre>
+       */
+      public Builder setPosZ(float value) {
+        bitField0_ |= 0x00200000;
+        posZ_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float posZ = 22;</code>
+       *
+       * <pre>
+       * 镖车的z坐标
+       * </pre>
+       */
+      public Builder clearPosZ() {
+        bitField0_ = (bitField0_ & ~0x00200000);
+        posZ_ = 0F;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.HistoryBattleInfo)
     }
 
@@ -7973,7 +8199,7 @@ public final class Prompt {
       "\n\004type\030\001 \002(\005\0223\n\005infos\030\002 \003(\0132$.qxmobile.p" +
       "rotobuf.HistoryBattleInfo\022\027\n\017todayRemain" +
       "Help\030\003 \001(\005\022\024\n\014todayAllHelp\030\004 \001(\005\022\n\n\002cd\030\005" +
-      " \001(\005\"\270\003\n\021HistoryBattleInfo\022\016\n\006itemId\030\023 \002" +
+      " \001(\005\"\324\003\n\021HistoryBattleInfo\022\016\n\006itemId\030\023 \002" +
       "(\005\022\020\n\010enemyJid\030\001 \002(\003\022\021\n\tenemyName\030\002 \002(\t\022" +
       "\026\n\016enemyCountryId\030\003 \002(\005\022\022\n\nenemyAllHP\030\004 " +
       "\002(\005\022\025\n\renemyRemainHP\030\005 \002(\005\022\031\n\021enemyAllia" +
@@ -7984,8 +8210,8 @@ public final class Prompt {
       "\nremainTime\030\r \001(\005\022\025\n\rwillLostBuild\030\016 \001(\005" +
       "\022\r\n\005state\030\024 \001(\005\022\023\n\013friendAllHP\030\017 \001(\005\022\026\n\016" +
       "friendRemainHP\030\020 \001(\005\022\031\n\021friendHorseRoleI" +
-      "d\030\021 \001(\005\"\032\n\010QuZhuReq\022\016\n\006itemId\030\023 \002(\005B\010B\006P" +
-      "rompt"
+      "d\030\021 \001(\005\022\014\n\004posX\030\025 \001(\002\022\014\n\004posZ\030\026 \001(\002\"\032\n\010Q" +
+      "uZhuReq\022\016\n\006itemId\030\023 \002(\005B\010B\006Prompt"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -8033,7 +8259,7 @@ public final class Prompt {
           internal_static_qxmobile_protobuf_HistoryBattleInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_HistoryBattleInfo_descriptor,
-              new java.lang.String[] { "ItemId", "EnemyJid", "EnemyName", "EnemyCountryId", "EnemyAllHP", "EnemyRemainHP", "EnemyAllianceName", "EnemyZhanLi", "EnemyRoleId", "EnemyLevel", "FriendJid", "FriendName", "FriendRoleId", "HappendTime", "RemainTime", "WillLostBuild", "State", "FriendAllHP", "FriendRemainHP", "FriendHorseRoleId", });
+              new java.lang.String[] { "ItemId", "EnemyJid", "EnemyName", "EnemyCountryId", "EnemyAllHP", "EnemyRemainHP", "EnemyAllianceName", "EnemyZhanLi", "EnemyRoleId", "EnemyLevel", "FriendJid", "FriendName", "FriendRoleId", "HappendTime", "RemainTime", "WillLostBuild", "State", "FriendAllHP", "FriendRemainHP", "FriendHorseRoleId", "PosX", "PosZ", });
           internal_static_qxmobile_protobuf_QuZhuReq_descriptor =
             getDescriptor().getMessageTypes().get(7);
           internal_static_qxmobile_protobuf_QuZhuReq_fieldAccessorTable = new

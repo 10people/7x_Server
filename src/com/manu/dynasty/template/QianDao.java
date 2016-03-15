@@ -6,6 +6,7 @@ public class QianDao {
 	private int day;
 	private int awardType;
 	private int awardId;
+	private int bottomColor;
 
 	public int getMonth() {
 		return month;
@@ -62,6 +63,15 @@ public class QianDao {
 	public void setVipDouble(int vipDouble) {
 		this.vipDouble = vipDouble;
 	}
+
+	public int getBottomColor() {
+		return bottomColor;
+	}
+
+	public void setBottomColor(int bottomColor) {
+		this.bottomColor = bottomColor;
+	}
+
 
 	private int awardNum = 1;
 	private int vipDouble = 1;

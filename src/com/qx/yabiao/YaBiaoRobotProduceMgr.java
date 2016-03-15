@@ -6,9 +6,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +13,11 @@ import org.slf4j.LoggerFactory;
 import com.manu.dynasty.template.YunbiaoTemp;
 import com.manu.network.BigSwitch;
 import com.qx.ranking.RankingMgr;
+import com.qx.world.Player;
 import com.qx.world.Scene;
 
 public class YaBiaoRobotProduceMgr  implements Runnable {
-	public static Logger log = LoggerFactory.getLogger(YaBiaoRobotProduceMgr.class);
+	public static Logger log = LoggerFactory.getLogger(YaBiaoRobotProduceMgr.class.getSimpleName());
 	public static YaBiaoRobotProduceMgr inst;
 	public static int interval=YunbiaoTemp.cartAI_appear_interval*1000;
 	//2016年1月20日 xtmcs4Scene修改为存储场景待生产的马车等级列表
@@ -50,34 +48,31 @@ public class YaBiaoRobotProduceMgr  implements Runnable {
 		}
 		log.info("退出YaBiaoRobotProduceMgr");
 	}
-	public boolean isNeedProduce(int ybScId) {
-		int macheSize=0;
-		synchronized (BigSwitch.inst.ybMgr.ybJzList2ScIdMap) {
-			Set<Long> ybSet=BigSwitch.inst.ybMgr.ybJzList2ScIdMap.get(ybScId);
-			List<Integer> produceList=new ArrayList<Integer>();
-			if(ybSet!=null){
-				Iterator<Long> it = ybSet.iterator();  
-				while(it.hasNext()) {  
-					Long ybjzId = (Long) it.next();  
-					if(ybjzId<0){
-						YaBiaoRobot	tem=(YaBiaoRobot) BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(ybjzId);
-						if(tem==null){
-							log.error("产生系统马车出错，YaBiaoRobot=={}为空",ybjzId);
-							continue;
-						}
-						if(!produceList.contains(tem.bcNPCNo)){
-							produceList.add(tem.bcNPCNo);
-						}
-						macheSize++;//场景中的押镖马车数目
-					}
-				}
-			}
-			if(macheSize>=YunbiaoTemp.cartAImax){
-				log.info("场景中有系统马车{}辆，不需要系统马车机器人",macheSize);
-				return false;
-			}
-			return true;
+	public boolean isNeedProduce(int ybScId,Scene ybsc) {
+		if(ybsc==null||ybsc.players==null){
+			return false;
 		}
+		int macheSize=0;
+		List<Integer> produceList=new ArrayList<Integer>();
+		for (Player p :  ybsc.players.values()){
+			long ybjzId=p.jzId;
+			if(ybjzId<0){
+				YaBiaoRobot	tem=(YaBiaoRobot) BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(ybjzId);
+				if(tem==null){
+					log.error("产生系统马车出错，YaBiaoRobot=={}为空",ybjzId);
+					continue;
+				}
+				if(!produceList.contains(tem.bcNPCNo)){
+					produceList.add(tem.bcNPCNo);
+				}
+				macheSize++;//场景中的押镖马车数目
+			}
+		}
+		if(macheSize>=YunbiaoTemp.cartAImax){
+			log.info("场景中有系统马车{}辆，不需要系统马车机器人",macheSize);
+			return false;
+		}
+		return true;
 	}
 	public synchronized void produceCart() {
 		log.info("产生系统马车开始");
@@ -87,7 +82,7 @@ public class YaBiaoRobotProduceMgr  implements Runnable {
 			Map.Entry entry4Sc = (Map.Entry) it4Scene.next();
 			Integer ybScId =(Integer) entry4Sc.getKey();
 			Scene ybsc =(Scene) entry4Sc.getValue();
-			if(!isNeedProduce(ybScId)){
+			if(!isNeedProduce(ybScId, ybsc)){
 				continue;
 			}
 			for(int pathId=1;pathId<5;pathId++) {
@@ -106,64 +101,64 @@ public class YaBiaoRobotProduceMgr  implements Runnable {
 	}
 	
 	public void  doCheck(int ybScId,int pathId,Scene ybsc, List<ProduceCartInfo> futureProducelist) {
+		if(ybsc==null||ybsc.players==null){
+			return ;
+		}
 		log.info("检查并生成场景----{}场景Id----{}路线---{}的马车",ybsc.name,ybScId,pathId);
 		int macheSize=0;
-		synchronized (BigSwitch.inst.ybMgr.ybJzList2ScIdMap) {
-			Set<Long> ybSet=BigSwitch.inst.ybMgr.ybJzList2ScIdMap.get(ybScId);
-			List<Integer> checkedList=new ArrayList<Integer>();
-			for (ProduceCartInfo pcInfo : futureProducelist) {
-				checkedList.add(pcInfo.produceNo);
-			}
-			if(ybSet!=null){
-				Iterator<Long> it = ybSet.iterator();  
-				while(it.hasNext()) {  
-					Long ybjzId = (Long) it.next();  
-					if(ybjzId<0){
-						YaBiaoRobot	tem=(YaBiaoRobot) BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(ybjzId);
-						if(tem==null){
-							log.error("产生系统马车出错，YaBiaoRobot=={}为空",ybjzId);
-							continue;
-						}
-						if(!checkedList.contains(tem.bcNPCNo)){
-							checkedList.add(tem.bcNPCNo);
-						}
-						macheSize++;//场景中的押镖马车数目
-					}
-				}
-			}
-			int checkSize=checkedList.size();
-			if(macheSize>=YunbiaoTemp.cartAImax||checkSize>=YunbiaoTemp.cartAImax){
-				log.info("待检测马车列表大小--{}， 场景中有系统马车{}辆,不需要系统马车机器人",checkSize,macheSize);
-				return;
-			}
-			int limitNO=YaBiaoRobotProduceMgr.produceCartList.size()-1;
-			Collections.sort(checkedList);
-			//得出要生成的最大等级镖车编号
-			int produceNo=0;
-			for (Integer cartNo : checkedList) {
-				if(cartNo==produceNo){
-					if(cartNo<limitNO){
-						produceNo++;
-					}
+		List<Integer> checkedList=new ArrayList<Integer>();
+		//马车生产列表也算进去
+		for (ProduceCartInfo pcInfo : futureProducelist) {
+			checkedList.add(pcInfo.produceNo);
+		}
+		//遍历检查
+		for (Iterator<Player> it = ybsc.players.values().iterator();it.hasNext();){
+			Player p = it.next();
+			long ybjzId=p.jzId;
+			if(ybjzId<0){
+				YaBiaoRobot	tem=(YaBiaoRobot) BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(ybjzId);
+				if(tem==null){
+					log.error("产生系统马车出错，YaBiaoRobot=={}为空",ybjzId);
 					continue;
-				}else{
-					if(produceNo>cartNo){
-						produceNo=cartNo;
-						break;
-					}
+				}
+				if(!checkedList.contains(tem.bcNPCNo)){
+					checkedList.add(tem.bcNPCNo);
+				}
+				macheSize++;//场景中的押镖马车数目
+			}
+		}
+		int checkSize=checkedList.size();
+		if(macheSize>=YunbiaoTemp.cartAImax||checkSize>=YunbiaoTemp.cartAImax){
+			log.info("待检测马车列表大小--{}， 场景中有系统马车{}辆,不需要系统马车机器人",checkSize,macheSize);
+			return;
+		}
+		int limitNO=YaBiaoRobotProduceMgr.produceCartList.size()-1;
+		Collections.sort(checkedList);
+		//得出要生成的最大等级镖车编号
+		int produceNo=0;
+		for (Integer cartNo : checkedList) {
+			if(cartNo==produceNo){
+				if(cartNo<limitNO){
+					produceNo++;
+				}
+				continue;
+			}else{
+				if(produceNo>cartNo){
+					produceNo=cartNo;
+					break;
 				}
 			}
-			Map<Integer, Integer> safeMap=YaBiaoHuoDongMgr.inst.getSafeAreaCount(ybsc);
-			Integer renshu=safeMap.get(pathId);
-			renshu=renshu==null?0:renshu;
-			if(renshu<YunbiaoTemp.saveArea_people_max){
-				log.info("场景中有系统马车{}辆，安全区人数--{}，产生马车NO--{}",macheSize,renshu,produceNo);
-				checkedList.add(produceNo);
-				//安全区内人数不满开始产生马车
-//				produceXiTongMaChe(ybsc, ybScId, pathId,produceNo );
-				ProduceCartInfo produceCartInfo=new ProduceCartInfo(ybsc, ybScId, pathId,produceNo );
-				futureProducelist.add(produceCartInfo);
-			}
+		}
+		Map<Integer, Integer> safeMap=YaBiaoHuoDongMgr.inst.getSafeAreaCount(ybsc);
+		Integer renshu=safeMap.get(pathId);
+		renshu=renshu==null?0:renshu;
+		if(renshu<YunbiaoTemp.saveArea_people_max){
+			log.info("场景中有系统马车{}辆，安全区人数--{}，产生马车NO--{}",macheSize,renshu,produceNo);
+			checkedList.add(produceNo);
+			//安全区内人数不满开始产生马车
+			//				produceXiTongMaChe(ybsc, ybScId, pathId,produceNo );
+			ProduceCartInfo produceCartInfo=new ProduceCartInfo(ybsc, ybScId, pathId,produceNo );
+			futureProducelist.add(produceCartInfo);
 		}
 		log.info("检查并生成场景----{}场景Id----{}路线---{}的马车结束",ybsc.name,ybScId,pathId);
 	}

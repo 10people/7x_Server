@@ -63,6 +63,7 @@ import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.PurchaseConstants;
 import com.qx.purchase.PurchaseMgr;
@@ -503,6 +504,8 @@ public class YouXiaMgr extends EventProc{
 				node.setHpNum(npcTemp.lifebarNum);
 				node.setAppearanceId(npcTemp.modelApID);
 				node.setNuQiZhi(0);
+				node.setMibaoCount(0);
+				node.setMibaoPower(0);
 				GongjiType gongjiType = PveMgr.inst.id2GongjiType.get(npcTemp.gongjiType);
 				PveMgr.inst.fillDataByGongjiType(node, gongjiType);
 				PveMgr.inst.fillGongFangInfo(node, enemyTemp);

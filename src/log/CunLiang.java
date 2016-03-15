@@ -29,4 +29,5 @@ public int ispay;// tinyint(1) NOT NULL,
 public int todaypay;// int(11) NOT NULL,
 public int LoginChannel;// int(11) NOT NULL,
 public String RoleName;// varchar(64) NOT NULL
+public int PlatId = 1  ;// 平台  ios 0 /android 1
 }

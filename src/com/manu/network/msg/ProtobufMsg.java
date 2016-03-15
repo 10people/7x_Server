@@ -10,4 +10,10 @@ public class ProtobufMsg extends AbstractMessage{
 	public String toString() {
 		return "id"+id+" msg : "+(builder == null ? "null" : builder.getClass().getSimpleName());
 	}
+	public ProtobufMsg(){}
+	public ProtobufMsg(short id){this.id = id;}
+	public ProtobufMsg(short id,Builder b){
+		this.id = id;
+		builder = b;
+		}
 }

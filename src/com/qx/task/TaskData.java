@@ -128,6 +128,7 @@ public class TaskData {
 	public static final byte tongbi_tenTimes = 77;//铜币10抽x次
 	public static final byte active_taozhuang = 78;//激活品质套装
 	public static final byte battle_shiLian_II = 79; //攻打试练II难度1次（拿符石）
+	public static final byte buy_lianMeng_shop = 80;
 	// end
 	
 	
@@ -147,6 +148,7 @@ public class TaskData {
 	public static final int tanbao_oneTime = 74;
 	//探宝10连抽
 	public static final int tanbao_tenTime = 75;
+	
 //	/** 对应Zhuxian.xml的doneCond**/
 //	public static int xiLian_itemId = 102001;
 //	public static int jinJie_itemId = 102001;

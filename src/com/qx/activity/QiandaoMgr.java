@@ -159,6 +159,7 @@ public class QiandaoMgr {
 				award.setId(qianDao.getId());
 				award.setMonth(qianDao.getMonth());
 				award.setVipDouble(qianDao.getVipDouble());
+				award.setBottomColor(qianDao.getBottomColor());
 				if (hasAlreadyQiandao(qiandaoInfo)) {// 今天已签到
 					/*
 					 *  20160218  改为 不能补签

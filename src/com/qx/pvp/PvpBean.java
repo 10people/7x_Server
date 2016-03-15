@@ -55,7 +55,7 @@ public class PvpBean{
 	// 结算的威望值
 	public int lastWeiWang;
 	// 总共参加百战的次数
-	public int allBattleTimes;
+	public int allBattleTimes; // 主动战斗历史次数
 
 	/*
 	 * 对手
@@ -80,4 +80,5 @@ public class PvpBean{
 
 //	public int dailyaward;
 	public int rankAward; // 累计的最高排名奖励
+	public int lastHighestRank; // 上一次最高排名
 }

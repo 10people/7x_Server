@@ -7,32 +7,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import log.ActLog;
-import log.OurLog;
-
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import qxmobile.protobuf.BattlePveInit.BattleInit;
-import qxmobile.protobuf.BattlePveInit.BattlePveInitReq;
-import qxmobile.protobuf.BattlePveInit.Hero;
-import qxmobile.protobuf.BattlePveInit.HeroType;
-import qxmobile.protobuf.BattlePveInit.Soldier;
-import qxmobile.protobuf.BattlePveInit.Troop;
-import qxmobile.protobuf.PveLevel.PveBattleOver;
-import qxmobile.protobuf.ZhanDou;
-import qxmobile.protobuf.ZhanDou.DroppenItem;
-import qxmobile.protobuf.ZhanDou.Group;
-import qxmobile.protobuf.ZhanDou.LevelType;
-import qxmobile.protobuf.ZhanDou.Node;
-import qxmobile.protobuf.ZhanDou.NodeProfession;
-import qxmobile.protobuf.ZhanDou.NodeSkill;
-import qxmobile.protobuf.ZhanDou.NodeType;
-import qxmobile.protobuf.ZhanDou.PlayerWeapon;
-import qxmobile.protobuf.ZhanDou.PveZhanDouInitReq;
-import qxmobile.protobuf.ZhanDou.ZhanDouInitError;
-import qxmobile.protobuf.ZhanDou.ZhanDouInitResp;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
@@ -69,7 +46,6 @@ import com.qx.jinengpeiyang.JNBean;
 import com.qx.jinengpeiyang.JiNengPeiYangMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
-import com.qx.mibao.MiBaoDB;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.pvp.PvpMgr;
@@ -79,6 +55,28 @@ import com.qx.task.DailyTaskConstants;
 import com.qx.timeworker.FunctionID;
 import com.qx.util.TableIDCreator;
 import com.qx.world.GameObject;
+
+import log.ActLog;
+import log.OurLog;
+import qxmobile.protobuf.BattlePveInit.BattleInit;
+import qxmobile.protobuf.BattlePveInit.BattlePveInitReq;
+import qxmobile.protobuf.BattlePveInit.Hero;
+import qxmobile.protobuf.BattlePveInit.HeroType;
+import qxmobile.protobuf.BattlePveInit.Soldier;
+import qxmobile.protobuf.BattlePveInit.Troop;
+import qxmobile.protobuf.PveLevel.PveBattleOver;
+import qxmobile.protobuf.ZhanDou;
+import qxmobile.protobuf.ZhanDou.DroppenItem;
+import qxmobile.protobuf.ZhanDou.Group;
+import qxmobile.protobuf.ZhanDou.LevelType;
+import qxmobile.protobuf.ZhanDou.Node;
+import qxmobile.protobuf.ZhanDou.NodeProfession;
+import qxmobile.protobuf.ZhanDou.NodeSkill;
+import qxmobile.protobuf.ZhanDou.NodeType;
+import qxmobile.protobuf.ZhanDou.PlayerWeapon;
+import qxmobile.protobuf.ZhanDou.PveZhanDouInitReq;
+import qxmobile.protobuf.ZhanDou.ZhanDouInitError;
+import qxmobile.protobuf.ZhanDou.ZhanDouInitResp;
 
 /**
  * 目前的目的是测试用。
@@ -608,6 +606,8 @@ public class PveMgr extends EventProc {
 		junzhuNode.setHpNum(1);
 		junzhuNode.setAppearanceId(1);
 		junzhuNode.setNuQiZhi(0);
+		junzhuNode.setMibaoCount(0);
+		junzhuNode.setMibaoPower(0);
 //3.填充己方秘宝列表
 //		List<Integer> mibaoIdList = Arrays.asList(xunHanCheng.getMibao1(), 
 //				xunHanCheng.getMibao2(), xunHanCheng.getMibao3());
@@ -687,6 +687,8 @@ public class PveMgr extends EventProc {
 				node.setHpNum(npcTemp.lifebarNum);
 				node.setAppearanceId(npcTemp.modelApID);
 				node.setNuQiZhi(0);
+				node.setMibaoCount(0);
+				node.setMibaoPower(0);
 				GongjiType gongjiType = id2GongjiType.get(npcTemp.gongjiType);
 				fillDataByGongjiType(node, gongjiType);
 				fillGongFangInfo(node, enemyTemp);
@@ -840,6 +842,9 @@ public class PveMgr extends EventProc {
 		junzhuNode.setHpNum(1);
 		junzhuNode.setAppearanceId(1);
 		junzhuNode.setNuQiZhi(MibaoMgr.inst.getChuShiNuQi(junZhu.id));
+		
+		junzhuNode.setMibaoCount(MibaoMgr.inst.getActivateMiBaoCount(junZhu.id));
+		junzhuNode.setMibaoPower(JunZhuMgr.inst.getAllMibaoProvideZhanli(junZhu));
 		selfs.add(junzhuNode.build());
 	}
 	/**
@@ -874,6 +879,8 @@ public class PveMgr extends EventProc {
 		junzhuNode.setHpNum(1);
 		junzhuNode.setAppearanceId(1);
 		junzhuNode.setNuQiZhi(MibaoMgr.inst.getChuShiNuQi(junZhu.id));
+		junzhuNode.setMibaoCount(MibaoMgr.inst.getActivateMiBaoCount(junZhu.id));
+		junzhuNode.setMibaoPower(JunZhuMgr.inst.getAllMibaoProvideZhanli(junZhu));
 		selfs.add(junzhuNode.build());
 	}
 	public void fillYaBiaoJunZhuDataInfo4YB(ZhanDouInitResp.Builder resp, IoSession session, 
@@ -901,6 +908,8 @@ public class PveMgr extends EventProc {
 		junzhuNode.setHpNum(1);
 		junzhuNode.setAppearanceId(1);
 		junzhuNode.setNuQiZhi(MibaoMgr.inst.getChuShiNuQi(junZhu.id));
+		junzhuNode.setMibaoCount(MibaoMgr.inst.getActivateMiBaoCount(junZhu.id));
+		junzhuNode.setMibaoPower(JunZhuMgr.inst.getAllMibaoProvideZhanli(junZhu));
 		selfs.add(junzhuNode.build());
 	}
 	
@@ -997,6 +1006,8 @@ public class PveMgr extends EventProc {
 	
 	
 	public void fillZhuangbei4Player(Node.Builder junzhuNode, List<Integer> zbIdList, long junzhuId) {
+		// 因为获取新技能列表后就把新技能清空了，所以必须在填充装备数据前面获取出来
+		int[] newSkillIds = JiNengPeiYangMgr.inst.getNewJNIds(junzhuId);
 		for(Integer zbid : zbIdList){
 			ZhuangBei zhuangBei = HeroMgr.id2ZhuangBei.get(zbid);
 			if (zhuangBei == null) {
@@ -1029,7 +1040,6 @@ public class PveMgr extends EventProc {
 				logger.error("战斗填充装备信息错误，找不到skillTemp配置id:{}", py.skillId);
 				continue;
 			}
-			int[] newSkillIds = JiNengPeiYangMgr.inst.getNewJNIds(junzhuId);
 			PlayerWeapon.Builder weaponBuilder = fillPlayerWeapon(zhuangBei, junzhuNode, xiShuCarry);
 			switch(zhuangBei.getBuWei()){
 				case HeroMgr.WEAPON_HEAVY:

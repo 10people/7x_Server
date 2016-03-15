@@ -5,6 +5,7 @@ import java.util.Queue;
 
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.file.FileRegion;
+import org.apache.mina.core.filterchain.IoFilter.NextFilter;
 import org.apache.mina.core.future.DefaultWriteFuture;
 import org.apache.mina.core.future.WriteFuture;
 import org.apache.mina.core.session.AttributeKey;
@@ -145,7 +146,7 @@ public class ProtocolCodecFilterFix extends ProtocolCodecFilter{
                 // Creates an empty writeRequest containing the destination
 //                WriteRequest writeRequest = new DefaultWriteRequest(null, null, destination);
 //                future = DefaultWriteFuture.newNotWrittenFuture(session, new NothingWrittenException(writeRequest));
-            	log.info("ok fix one, sid {}", session.getId());
+//            	log.info("ok fix one, sid {}", session.getId());
             }
 
             return future;
@@ -177,4 +178,17 @@ public class ProtocolCodecFilterFix extends ProtocolCodecFilter{
         }
     }
     private static final IoBuffer EMPTY_BUFFER = IoBuffer.wrap(new byte[0]);
+    @Override
+    public void messageSent(NextFilter nextFilter, IoSession session, WriteRequest writeRequest) throws Exception {
+        if (writeRequest instanceof EncodedWriteRequest) {
+            return;
+        }
+
+        if (writeRequest instanceof MessageWriteRequest) {
+            MessageWriteRequest wrappedRequest = (MessageWriteRequest) writeRequest;
+            nextFilter.messageSent(session, wrappedRequest.getParentRequest());
+        } else {
+            nextFilter.messageSent(session, writeRequest);
+        }
+    }
 }

@@ -3603,7 +3603,7 @@ public final class AllianceProtos {
      *
      * <pre>
      *0-成功，1-失败：联盟需要审批，2-失败，找不到该联盟，3-玩家申请的联盟数量已经满了，4-失败，联盟未开启招募，
-     *5-失败，该联盟人数已经满员，6-失败君主等级不满足，7-失败，军衔等级不满足,8-不是同一个国家，9-间隔时间不到
+     *5-失败，该联盟人数已经满员，6-失败君主等级不满足，7-失败，军衔等级不满足,8-不是同一个国家，9-间隔时间不到24小时
      * </pre>
      */
     boolean hasCode();
@@ -3612,7 +3612,7 @@ public final class AllianceProtos {
      *
      * <pre>
      *0-成功，1-失败：联盟需要审批，2-失败，找不到该联盟，3-玩家申请的联盟数量已经满了，4-失败，联盟未开启招募，
-     *5-失败，该联盟人数已经满员，6-失败君主等级不满足，7-失败，军衔等级不满足,8-不是同一个国家，9-间隔时间不到
+     *5-失败，该联盟人数已经满员，6-失败君主等级不满足，7-失败，军衔等级不满足,8-不是同一个国家，9-间隔时间不到24小时
      * </pre>
      */
     int getCode();
@@ -3642,6 +3642,26 @@ public final class AllianceProtos {
      * </pre>
      */
     qxmobile.protobuf.AllianceProtos.AllianceHaveRespOrBuilder getAlncInfoOrBuilder();
+
+    // required int32 guojiaId = 3;
+    /**
+     * <code>required int32 guojiaId = 3;</code>
+     */
+    boolean hasGuojiaId();
+    /**
+     * <code>required int32 guojiaId = 3;</code>
+     */
+    int getGuojiaId();
+
+    // required int32 lmId = 4;
+    /**
+     * <code>required int32 lmId = 4;</code>
+     */
+    boolean hasLmId();
+    /**
+     * <code>required int32 lmId = 4;</code>
+     */
+    int getLmId();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.immediatelyJoinResp}
@@ -3716,6 +3736,16 @@ public final class AllianceProtos {
               bitField0_ |= 0x00000002;
               break;
             }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              guojiaId_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              lmId_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3764,7 +3794,7 @@ public final class AllianceProtos {
      *
      * <pre>
      *0-成功，1-失败：联盟需要审批，2-失败，找不到该联盟，3-玩家申请的联盟数量已经满了，4-失败，联盟未开启招募，
-     *5-失败，该联盟人数已经满员，6-失败君主等级不满足，7-失败，军衔等级不满足,8-不是同一个国家，9-间隔时间不到
+     *5-失败，该联盟人数已经满员，6-失败君主等级不满足，7-失败，军衔等级不满足,8-不是同一个国家，9-间隔时间不到24小时
      * </pre>
      */
     public boolean hasCode() {
@@ -3775,7 +3805,7 @@ public final class AllianceProtos {
      *
      * <pre>
      *0-成功，1-失败：联盟需要审批，2-失败，找不到该联盟，3-玩家申请的联盟数量已经满了，4-失败，联盟未开启招募，
-     *5-失败，该联盟人数已经满员，6-失败君主等级不满足，7-失败，军衔等级不满足,8-不是同一个国家，9-间隔时间不到
+     *5-失败，该联盟人数已经满员，6-失败君主等级不满足，7-失败，军衔等级不满足,8-不是同一个国家，9-间隔时间不到24小时
      * </pre>
      */
     public int getCode() {
@@ -3816,9 +3846,43 @@ public final class AllianceProtos {
       return alncInfo_;
     }
 
+    // required int32 guojiaId = 3;
+    public static final int GUOJIAID_FIELD_NUMBER = 3;
+    private int guojiaId_;
+    /**
+     * <code>required int32 guojiaId = 3;</code>
+     */
+    public boolean hasGuojiaId() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 guojiaId = 3;</code>
+     */
+    public int getGuojiaId() {
+      return guojiaId_;
+    }
+
+    // required int32 lmId = 4;
+    public static final int LMID_FIELD_NUMBER = 4;
+    private int lmId_;
+    /**
+     * <code>required int32 lmId = 4;</code>
+     */
+    public boolean hasLmId() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 lmId = 4;</code>
+     */
+    public int getLmId() {
+      return lmId_;
+    }
+
     private void initFields() {
       code_ = 0;
       alncInfo_ = qxmobile.protobuf.AllianceProtos.AllianceHaveResp.getDefaultInstance();
+      guojiaId_ = 0;
+      lmId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3826,6 +3890,14 @@ public final class AllianceProtos {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasCode()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGuojiaId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLmId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -3848,6 +3920,12 @@ public final class AllianceProtos {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeMessage(2, alncInfo_);
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, guojiaId_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, lmId_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -3864,6 +3942,14 @@ public final class AllianceProtos {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, alncInfo_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, guojiaId_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, lmId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3994,6 +4080,10 @@ public final class AllianceProtos {
           alncInfoBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000002);
+        guojiaId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        lmId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -4034,6 +4124,14 @@ public final class AllianceProtos {
         } else {
           result.alncInfo_ = alncInfoBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.guojiaId_ = guojiaId_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.lmId_ = lmId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4056,12 +4154,26 @@ public final class AllianceProtos {
         if (other.hasAlncInfo()) {
           mergeAlncInfo(other.getAlncInfo());
         }
+        if (other.hasGuojiaId()) {
+          setGuojiaId(other.getGuojiaId());
+        }
+        if (other.hasLmId()) {
+          setLmId(other.getLmId());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasCode()) {
+          
+          return false;
+        }
+        if (!hasGuojiaId()) {
+          
+          return false;
+        }
+        if (!hasLmId()) {
           
           return false;
         }
@@ -4100,7 +4212,7 @@ public final class AllianceProtos {
        *
        * <pre>
        *0-成功，1-失败：联盟需要审批，2-失败，找不到该联盟，3-玩家申请的联盟数量已经满了，4-失败，联盟未开启招募，
-       *5-失败，该联盟人数已经满员，6-失败君主等级不满足，7-失败，军衔等级不满足,8-不是同一个国家，9-间隔时间不到
+       *5-失败，该联盟人数已经满员，6-失败君主等级不满足，7-失败，军衔等级不满足,8-不是同一个国家，9-间隔时间不到24小时
        * </pre>
        */
       public boolean hasCode() {
@@ -4111,7 +4223,7 @@ public final class AllianceProtos {
        *
        * <pre>
        *0-成功，1-失败：联盟需要审批，2-失败，找不到该联盟，3-玩家申请的联盟数量已经满了，4-失败，联盟未开启招募，
-       *5-失败，该联盟人数已经满员，6-失败君主等级不满足，7-失败，军衔等级不满足,8-不是同一个国家，9-间隔时间不到
+       *5-失败，该联盟人数已经满员，6-失败君主等级不满足，7-失败，军衔等级不满足,8-不是同一个国家，9-间隔时间不到24小时
        * </pre>
        */
       public int getCode() {
@@ -4122,7 +4234,7 @@ public final class AllianceProtos {
        *
        * <pre>
        *0-成功，1-失败：联盟需要审批，2-失败，找不到该联盟，3-玩家申请的联盟数量已经满了，4-失败，联盟未开启招募，
-       *5-失败，该联盟人数已经满员，6-失败君主等级不满足，7-失败，军衔等级不满足,8-不是同一个国家，9-间隔时间不到
+       *5-失败，该联盟人数已经满员，6-失败君主等级不满足，7-失败，军衔等级不满足,8-不是同一个国家，9-间隔时间不到24小时
        * </pre>
        */
       public Builder setCode(int value) {
@@ -4136,7 +4248,7 @@ public final class AllianceProtos {
        *
        * <pre>
        *0-成功，1-失败：联盟需要审批，2-失败，找不到该联盟，3-玩家申请的联盟数量已经满了，4-失败，联盟未开启招募，
-       *5-失败，该联盟人数已经满员，6-失败君主等级不满足，7-失败，军衔等级不满足,8-不是同一个国家，9-间隔时间不到
+       *5-失败，该联盟人数已经满员，6-失败君主等级不满足，7-失败，军衔等级不满足,8-不是同一个国家，9-间隔时间不到24小时
        * </pre>
        */
       public Builder clearCode() {
@@ -4297,6 +4409,72 @@ public final class AllianceProtos {
           alncInfo_ = null;
         }
         return alncInfoBuilder_;
+      }
+
+      // required int32 guojiaId = 3;
+      private int guojiaId_ ;
+      /**
+       * <code>required int32 guojiaId = 3;</code>
+       */
+      public boolean hasGuojiaId() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 guojiaId = 3;</code>
+       */
+      public int getGuojiaId() {
+        return guojiaId_;
+      }
+      /**
+       * <code>required int32 guojiaId = 3;</code>
+       */
+      public Builder setGuojiaId(int value) {
+        bitField0_ |= 0x00000004;
+        guojiaId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 guojiaId = 3;</code>
+       */
+      public Builder clearGuojiaId() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        guojiaId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 lmId = 4;
+      private int lmId_ ;
+      /**
+       * <code>required int32 lmId = 4;</code>
+       */
+      public boolean hasLmId() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 lmId = 4;</code>
+       */
+      public int getLmId() {
+        return lmId_;
+      }
+      /**
+       * <code>required int32 lmId = 4;</code>
+       */
+      public Builder setLmId(int value) {
+        bitField0_ |= 0x00000008;
+        lmId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 lmId = 4;</code>
+       */
+      public Builder clearLmId() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        lmId_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.immediatelyJoinResp)
@@ -40958,6 +41136,4143 @@ public final class AllianceProtos {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.GetAllianceLevelAwardResp)
   }
 
+  public interface AllianceInviteOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int64 junzhuId = 1;
+    /**
+     * <code>required int64 junzhuId = 1;</code>
+     *
+     * <pre>
+     * 邀请的君主id
+     * </pre>
+     */
+    boolean hasJunzhuId();
+    /**
+     * <code>required int64 junzhuId = 1;</code>
+     *
+     * <pre>
+     * 邀请的君主id
+     * </pre>
+     */
+    long getJunzhuId();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.AllianceInvite}
+   *
+   * <pre>
+   * 联盟邀请 		short C_ALLIANCE_INVITE = 30177
+   * </pre>
+   */
+  public static final class AllianceInvite extends
+      com.google.protobuf.GeneratedMessage
+      implements AllianceInviteOrBuilder {
+    // Use AllianceInvite.newBuilder() to construct.
+    private AllianceInvite(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private AllianceInvite(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final AllianceInvite defaultInstance;
+    public static AllianceInvite getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public AllianceInvite getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AllianceInvite(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              junzhuId_ = input.readInt64();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AllianceInvite_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AllianceInvite_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceProtos.AllianceInvite.class, qxmobile.protobuf.AllianceProtos.AllianceInvite.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<AllianceInvite> PARSER =
+        new com.google.protobuf.AbstractParser<AllianceInvite>() {
+      public AllianceInvite parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AllianceInvite(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AllianceInvite> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int64 junzhuId = 1;
+    public static final int JUNZHUID_FIELD_NUMBER = 1;
+    private long junzhuId_;
+    /**
+     * <code>required int64 junzhuId = 1;</code>
+     *
+     * <pre>
+     * 邀请的君主id
+     * </pre>
+     */
+    public boolean hasJunzhuId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int64 junzhuId = 1;</code>
+     *
+     * <pre>
+     * 邀请的君主id
+     * </pre>
+     */
+    public long getJunzhuId() {
+      return junzhuId_;
+    }
+
+    private void initFields() {
+      junzhuId_ = 0L;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasJunzhuId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt64(1, junzhuId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, junzhuId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceProtos.AllianceInvite parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInvite parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInvite parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInvite parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInvite parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInvite parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInvite parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInvite parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInvite parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInvite parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceProtos.AllianceInvite prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.AllianceInvite}
+     *
+     * <pre>
+     * 联盟邀请 		short C_ALLIANCE_INVITE = 30177
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceProtos.AllianceInviteOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AllianceInvite_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AllianceInvite_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceProtos.AllianceInvite.class, qxmobile.protobuf.AllianceProtos.AllianceInvite.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceProtos.AllianceInvite.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        junzhuId_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AllianceInvite_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.AllianceInvite getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceProtos.AllianceInvite.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceProtos.AllianceInvite build() {
+        qxmobile.protobuf.AllianceProtos.AllianceInvite result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.AllianceInvite buildPartial() {
+        qxmobile.protobuf.AllianceProtos.AllianceInvite result = new qxmobile.protobuf.AllianceProtos.AllianceInvite(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.junzhuId_ = junzhuId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceProtos.AllianceInvite) {
+          return mergeFrom((qxmobile.protobuf.AllianceProtos.AllianceInvite)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceProtos.AllianceInvite other) {
+        if (other == qxmobile.protobuf.AllianceProtos.AllianceInvite.getDefaultInstance()) return this;
+        if (other.hasJunzhuId()) {
+          setJunzhuId(other.getJunzhuId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasJunzhuId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceProtos.AllianceInvite parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceProtos.AllianceInvite) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int64 junzhuId = 1;
+      private long junzhuId_ ;
+      /**
+       * <code>required int64 junzhuId = 1;</code>
+       *
+       * <pre>
+       * 邀请的君主id
+       * </pre>
+       */
+      public boolean hasJunzhuId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int64 junzhuId = 1;</code>
+       *
+       * <pre>
+       * 邀请的君主id
+       * </pre>
+       */
+      public long getJunzhuId() {
+        return junzhuId_;
+      }
+      /**
+       * <code>required int64 junzhuId = 1;</code>
+       *
+       * <pre>
+       * 邀请的君主id
+       * </pre>
+       */
+      public Builder setJunzhuId(long value) {
+        bitField0_ |= 0x00000001;
+        junzhuId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 junzhuId = 1;</code>
+       *
+       * <pre>
+       * 邀请的君主id
+       * </pre>
+       */
+      public Builder clearJunzhuId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        junzhuId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.AllianceInvite)
+    }
+
+    static {
+      defaultInstance = new AllianceInvite(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.AllianceInvite)
+  }
+
+  public interface AllianceInviteRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟
+     * </pre>
+     */
+    int getResult();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.AllianceInviteResp}
+   *
+   * <pre>
+   * 联盟邀请结果返回	short S_ALLIANCE_INVITE = 30178;
+   * </pre>
+   */
+  public static final class AllianceInviteResp extends
+      com.google.protobuf.GeneratedMessage
+      implements AllianceInviteRespOrBuilder {
+    // Use AllianceInviteResp.newBuilder() to construct.
+    private AllianceInviteResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private AllianceInviteResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final AllianceInviteResp defaultInstance;
+    public static AllianceInviteResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public AllianceInviteResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AllianceInviteResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AllianceInviteResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AllianceInviteResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceProtos.AllianceInviteResp.class, qxmobile.protobuf.AllianceProtos.AllianceInviteResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<AllianceInviteResp> PARSER =
+        new com.google.protobuf.AbstractParser<AllianceInviteResp>() {
+      public AllianceInviteResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AllianceInviteResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AllianceInviteResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    private void initFields() {
+      result_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceProtos.AllianceInviteResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInviteResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInviteResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInviteResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInviteResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInviteResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInviteResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInviteResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInviteResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AllianceInviteResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceProtos.AllianceInviteResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.AllianceInviteResp}
+     *
+     * <pre>
+     * 联盟邀请结果返回	short S_ALLIANCE_INVITE = 30178;
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceProtos.AllianceInviteRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AllianceInviteResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AllianceInviteResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceProtos.AllianceInviteResp.class, qxmobile.protobuf.AllianceProtos.AllianceInviteResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceProtos.AllianceInviteResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AllianceInviteResp_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.AllianceInviteResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceProtos.AllianceInviteResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceProtos.AllianceInviteResp build() {
+        qxmobile.protobuf.AllianceProtos.AllianceInviteResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.AllianceInviteResp buildPartial() {
+        qxmobile.protobuf.AllianceProtos.AllianceInviteResp result = new qxmobile.protobuf.AllianceProtos.AllianceInviteResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceProtos.AllianceInviteResp) {
+          return mergeFrom((qxmobile.protobuf.AllianceProtos.AllianceInviteResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceProtos.AllianceInviteResp other) {
+        if (other == qxmobile.protobuf.AllianceProtos.AllianceInviteResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceProtos.AllianceInviteResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceProtos.AllianceInviteResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.AllianceInviteResp)
+    }
+
+    static {
+      defaultInstance = new AllianceInviteResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.AllianceInviteResp)
+  }
+
+  public interface InviteListOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;
+    /**
+     * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+     */
+    java.util.List<qxmobile.protobuf.AllianceProtos.InviteAllianceInfo> 
+        getInviteInfoList();
+    /**
+     * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+     */
+    qxmobile.protobuf.AllianceProtos.InviteAllianceInfo getInviteInfo(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+     */
+    int getInviteInfoCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+     */
+    java.util.List<? extends qxmobile.protobuf.AllianceProtos.InviteAllianceInfoOrBuilder> 
+        getInviteInfoOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+     */
+    qxmobile.protobuf.AllianceProtos.InviteAllianceInfoOrBuilder getInviteInfoOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.InviteList}
+   *
+   * <pre>
+   *联盟邀请列表查看  public static final short C_ALLIANCE_INVITE_LIST = 30179
+   * </pre>
+   */
+  public static final class InviteList extends
+      com.google.protobuf.GeneratedMessage
+      implements InviteListOrBuilder {
+    // Use InviteList.newBuilder() to construct.
+    private InviteList(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private InviteList(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final InviteList defaultInstance;
+    public static InviteList getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public InviteList getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private InviteList(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                inviteInfo_ = new java.util.ArrayList<qxmobile.protobuf.AllianceProtos.InviteAllianceInfo>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              inviteInfo_.add(input.readMessage(qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          inviteInfo_ = java.util.Collections.unmodifiableList(inviteInfo_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_InviteList_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_InviteList_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceProtos.InviteList.class, qxmobile.protobuf.AllianceProtos.InviteList.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<InviteList> PARSER =
+        new com.google.protobuf.AbstractParser<InviteList>() {
+      public InviteList parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new InviteList(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<InviteList> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;
+    public static final int INVITEINFO_FIELD_NUMBER = 1;
+    private java.util.List<qxmobile.protobuf.AllianceProtos.InviteAllianceInfo> inviteInfo_;
+    /**
+     * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+     */
+    public java.util.List<qxmobile.protobuf.AllianceProtos.InviteAllianceInfo> getInviteInfoList() {
+      return inviteInfo_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+     */
+    public java.util.List<? extends qxmobile.protobuf.AllianceProtos.InviteAllianceInfoOrBuilder> 
+        getInviteInfoOrBuilderList() {
+      return inviteInfo_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+     */
+    public int getInviteInfoCount() {
+      return inviteInfo_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+     */
+    public qxmobile.protobuf.AllianceProtos.InviteAllianceInfo getInviteInfo(int index) {
+      return inviteInfo_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+     */
+    public qxmobile.protobuf.AllianceProtos.InviteAllianceInfoOrBuilder getInviteInfoOrBuilder(
+        int index) {
+      return inviteInfo_.get(index);
+    }
+
+    private void initFields() {
+      inviteInfo_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getInviteInfoCount(); i++) {
+        if (!getInviteInfo(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < inviteInfo_.size(); i++) {
+        output.writeMessage(1, inviteInfo_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < inviteInfo_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, inviteInfo_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceProtos.InviteList parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteList parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteList parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteList parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteList parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteList parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteList parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteList parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteList parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteList parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceProtos.InviteList prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.InviteList}
+     *
+     * <pre>
+     *联盟邀请列表查看  public static final short C_ALLIANCE_INVITE_LIST = 30179
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceProtos.InviteListOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_InviteList_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_InviteList_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceProtos.InviteList.class, qxmobile.protobuf.AllianceProtos.InviteList.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceProtos.InviteList.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getInviteInfoFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (inviteInfoBuilder_ == null) {
+          inviteInfo_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          inviteInfoBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_InviteList_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.InviteList getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceProtos.InviteList.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceProtos.InviteList build() {
+        qxmobile.protobuf.AllianceProtos.InviteList result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.InviteList buildPartial() {
+        qxmobile.protobuf.AllianceProtos.InviteList result = new qxmobile.protobuf.AllianceProtos.InviteList(this);
+        int from_bitField0_ = bitField0_;
+        if (inviteInfoBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            inviteInfo_ = java.util.Collections.unmodifiableList(inviteInfo_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.inviteInfo_ = inviteInfo_;
+        } else {
+          result.inviteInfo_ = inviteInfoBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceProtos.InviteList) {
+          return mergeFrom((qxmobile.protobuf.AllianceProtos.InviteList)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceProtos.InviteList other) {
+        if (other == qxmobile.protobuf.AllianceProtos.InviteList.getDefaultInstance()) return this;
+        if (inviteInfoBuilder_ == null) {
+          if (!other.inviteInfo_.isEmpty()) {
+            if (inviteInfo_.isEmpty()) {
+              inviteInfo_ = other.inviteInfo_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureInviteInfoIsMutable();
+              inviteInfo_.addAll(other.inviteInfo_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.inviteInfo_.isEmpty()) {
+            if (inviteInfoBuilder_.isEmpty()) {
+              inviteInfoBuilder_.dispose();
+              inviteInfoBuilder_ = null;
+              inviteInfo_ = other.inviteInfo_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              inviteInfoBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getInviteInfoFieldBuilder() : null;
+            } else {
+              inviteInfoBuilder_.addAllMessages(other.inviteInfo_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getInviteInfoCount(); i++) {
+          if (!getInviteInfo(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceProtos.InviteList parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceProtos.InviteList) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;
+      private java.util.List<qxmobile.protobuf.AllianceProtos.InviteAllianceInfo> inviteInfo_ =
+        java.util.Collections.emptyList();
+      private void ensureInviteInfoIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          inviteInfo_ = new java.util.ArrayList<qxmobile.protobuf.AllianceProtos.InviteAllianceInfo>(inviteInfo_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.AllianceProtos.InviteAllianceInfo, qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.Builder, qxmobile.protobuf.AllianceProtos.InviteAllianceInfoOrBuilder> inviteInfoBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.AllianceProtos.InviteAllianceInfo> getInviteInfoList() {
+        if (inviteInfoBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(inviteInfo_);
+        } else {
+          return inviteInfoBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public int getInviteInfoCount() {
+        if (inviteInfoBuilder_ == null) {
+          return inviteInfo_.size();
+        } else {
+          return inviteInfoBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public qxmobile.protobuf.AllianceProtos.InviteAllianceInfo getInviteInfo(int index) {
+        if (inviteInfoBuilder_ == null) {
+          return inviteInfo_.get(index);
+        } else {
+          return inviteInfoBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public Builder setInviteInfo(
+          int index, qxmobile.protobuf.AllianceProtos.InviteAllianceInfo value) {
+        if (inviteInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureInviteInfoIsMutable();
+          inviteInfo_.set(index, value);
+          onChanged();
+        } else {
+          inviteInfoBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public Builder setInviteInfo(
+          int index, qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.Builder builderForValue) {
+        if (inviteInfoBuilder_ == null) {
+          ensureInviteInfoIsMutable();
+          inviteInfo_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          inviteInfoBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public Builder addInviteInfo(qxmobile.protobuf.AllianceProtos.InviteAllianceInfo value) {
+        if (inviteInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureInviteInfoIsMutable();
+          inviteInfo_.add(value);
+          onChanged();
+        } else {
+          inviteInfoBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public Builder addInviteInfo(
+          int index, qxmobile.protobuf.AllianceProtos.InviteAllianceInfo value) {
+        if (inviteInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureInviteInfoIsMutable();
+          inviteInfo_.add(index, value);
+          onChanged();
+        } else {
+          inviteInfoBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public Builder addInviteInfo(
+          qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.Builder builderForValue) {
+        if (inviteInfoBuilder_ == null) {
+          ensureInviteInfoIsMutable();
+          inviteInfo_.add(builderForValue.build());
+          onChanged();
+        } else {
+          inviteInfoBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public Builder addInviteInfo(
+          int index, qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.Builder builderForValue) {
+        if (inviteInfoBuilder_ == null) {
+          ensureInviteInfoIsMutable();
+          inviteInfo_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          inviteInfoBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public Builder addAllInviteInfo(
+          java.lang.Iterable<? extends qxmobile.protobuf.AllianceProtos.InviteAllianceInfo> values) {
+        if (inviteInfoBuilder_ == null) {
+          ensureInviteInfoIsMutable();
+          super.addAll(values, inviteInfo_);
+          onChanged();
+        } else {
+          inviteInfoBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public Builder clearInviteInfo() {
+        if (inviteInfoBuilder_ == null) {
+          inviteInfo_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          inviteInfoBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public Builder removeInviteInfo(int index) {
+        if (inviteInfoBuilder_ == null) {
+          ensureInviteInfoIsMutable();
+          inviteInfo_.remove(index);
+          onChanged();
+        } else {
+          inviteInfoBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.Builder getInviteInfoBuilder(
+          int index) {
+        return getInviteInfoFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public qxmobile.protobuf.AllianceProtos.InviteAllianceInfoOrBuilder getInviteInfoOrBuilder(
+          int index) {
+        if (inviteInfoBuilder_ == null) {
+          return inviteInfo_.get(index);  } else {
+          return inviteInfoBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public java.util.List<? extends qxmobile.protobuf.AllianceProtos.InviteAllianceInfoOrBuilder> 
+           getInviteInfoOrBuilderList() {
+        if (inviteInfoBuilder_ != null) {
+          return inviteInfoBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(inviteInfo_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.Builder addInviteInfoBuilder() {
+        return getInviteInfoFieldBuilder().addBuilder(
+            qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.Builder addInviteInfoBuilder(
+          int index) {
+        return getInviteInfoFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.InviteAllianceInfo inviteInfo = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.Builder> 
+           getInviteInfoBuilderList() {
+        return getInviteInfoFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.AllianceProtos.InviteAllianceInfo, qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.Builder, qxmobile.protobuf.AllianceProtos.InviteAllianceInfoOrBuilder> 
+          getInviteInfoFieldBuilder() {
+        if (inviteInfoBuilder_ == null) {
+          inviteInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.AllianceProtos.InviteAllianceInfo, qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.Builder, qxmobile.protobuf.AllianceProtos.InviteAllianceInfoOrBuilder>(
+                  inviteInfo_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          inviteInfo_ = null;
+        }
+        return inviteInfoBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.InviteList)
+    }
+
+    static {
+      defaultInstance = new InviteList(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.InviteList)
+  }
+
+  public interface InviteAllianceInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 id = 1;
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     * 联盟id
+     * </pre>
+     */
+    boolean hasId();
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     * 联盟id
+     * </pre>
+     */
+    int getId();
+
+    // required string name = 2;
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 联盟名
+     * </pre>
+     */
+    boolean hasName();
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 联盟名
+     * </pre>
+     */
+    java.lang.String getName();
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 联盟名
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+
+    // required int32 level = 3;
+    /**
+     * <code>required int32 level = 3;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
+     */
+    boolean hasLevel();
+    /**
+     * <code>required int32 level = 3;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
+     */
+    int getLevel();
+
+    // required string date = 4;
+    /**
+     * <code>required string date = 4;</code>
+     *
+     * <pre>
+     * 邀请时间
+     * </pre>
+     */
+    boolean hasDate();
+    /**
+     * <code>required string date = 4;</code>
+     *
+     * <pre>
+     * 邀请时间
+     * </pre>
+     */
+    java.lang.String getDate();
+    /**
+     * <code>required string date = 4;</code>
+     *
+     * <pre>
+     * 邀请时间
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getDateBytes();
+
+    // required int32 guiJia = 5;
+    /**
+     * <code>required int32 guiJia = 5;</code>
+     *
+     * <pre>
+     * 国家
+     * </pre>
+     */
+    boolean hasGuiJia();
+    /**
+     * <code>required int32 guiJia = 5;</code>
+     *
+     * <pre>
+     * 国家
+     * </pre>
+     */
+    int getGuiJia();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.InviteAllianceInfo}
+   */
+  public static final class InviteAllianceInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements InviteAllianceInfoOrBuilder {
+    // Use InviteAllianceInfo.newBuilder() to construct.
+    private InviteAllianceInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private InviteAllianceInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final InviteAllianceInfo defaultInstance;
+    public static InviteAllianceInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public InviteAllianceInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private InviteAllianceInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              id_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              name_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              level_ = input.readInt32();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              date_ = input.readBytes();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              guiJia_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_InviteAllianceInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_InviteAllianceInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.class, qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<InviteAllianceInfo> PARSER =
+        new com.google.protobuf.AbstractParser<InviteAllianceInfo>() {
+      public InviteAllianceInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new InviteAllianceInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<InviteAllianceInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 id = 1;
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     * 联盟id
+     * </pre>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     * 联盟id
+     * </pre>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    // required string name = 2;
+    public static final int NAME_FIELD_NUMBER = 2;
+    private java.lang.Object name_;
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 联盟名
+     * </pre>
+     */
+    public boolean hasName() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 联盟名
+     * </pre>
+     */
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          name_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 联盟名
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 level = 3;
+    public static final int LEVEL_FIELD_NUMBER = 3;
+    private int level_;
+    /**
+     * <code>required int32 level = 3;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
+     */
+    public boolean hasLevel() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 level = 3;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
+     */
+    public int getLevel() {
+      return level_;
+    }
+
+    // required string date = 4;
+    public static final int DATE_FIELD_NUMBER = 4;
+    private java.lang.Object date_;
+    /**
+     * <code>required string date = 4;</code>
+     *
+     * <pre>
+     * 邀请时间
+     * </pre>
+     */
+    public boolean hasDate() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required string date = 4;</code>
+     *
+     * <pre>
+     * 邀请时间
+     * </pre>
+     */
+    public java.lang.String getDate() {
+      java.lang.Object ref = date_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          date_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string date = 4;</code>
+     *
+     * <pre>
+     * 邀请时间
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getDateBytes() {
+      java.lang.Object ref = date_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        date_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 guiJia = 5;
+    public static final int GUIJIA_FIELD_NUMBER = 5;
+    private int guiJia_;
+    /**
+     * <code>required int32 guiJia = 5;</code>
+     *
+     * <pre>
+     * 国家
+     * </pre>
+     */
+    public boolean hasGuiJia() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required int32 guiJia = 5;</code>
+     *
+     * <pre>
+     * 国家
+     * </pre>
+     */
+    public int getGuiJia() {
+      return guiJia_;
+    }
+
+    private void initFields() {
+      id_ = 0;
+      name_ = "";
+      level_ = 0;
+      date_ = "";
+      guiJia_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasDate()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGuiJia()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, id_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, level_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, getDateBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, guiJia_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, id_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, level_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getDateBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, guiJia_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceProtos.InviteAllianceInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteAllianceInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteAllianceInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteAllianceInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteAllianceInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteAllianceInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteAllianceInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteAllianceInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteAllianceInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.InviteAllianceInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceProtos.InviteAllianceInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.InviteAllianceInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceProtos.InviteAllianceInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_InviteAllianceInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_InviteAllianceInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.class, qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        id_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        name_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        level_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        date_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        guiJia_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_InviteAllianceInfo_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.InviteAllianceInfo getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceProtos.InviteAllianceInfo build() {
+        qxmobile.protobuf.AllianceProtos.InviteAllianceInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.InviteAllianceInfo buildPartial() {
+        qxmobile.protobuf.AllianceProtos.InviteAllianceInfo result = new qxmobile.protobuf.AllianceProtos.InviteAllianceInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.id_ = id_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.name_ = name_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.level_ = level_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.date_ = date_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.guiJia_ = guiJia_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceProtos.InviteAllianceInfo) {
+          return mergeFrom((qxmobile.protobuf.AllianceProtos.InviteAllianceInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceProtos.InviteAllianceInfo other) {
+        if (other == qxmobile.protobuf.AllianceProtos.InviteAllianceInfo.getDefaultInstance()) return this;
+        if (other.hasId()) {
+          setId(other.getId());
+        }
+        if (other.hasName()) {
+          bitField0_ |= 0x00000002;
+          name_ = other.name_;
+          onChanged();
+        }
+        if (other.hasLevel()) {
+          setLevel(other.getLevel());
+        }
+        if (other.hasDate()) {
+          bitField0_ |= 0x00000008;
+          date_ = other.date_;
+          onChanged();
+        }
+        if (other.hasGuiJia()) {
+          setGuiJia(other.getGuiJia());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasId()) {
+          
+          return false;
+        }
+        if (!hasName()) {
+          
+          return false;
+        }
+        if (!hasLevel()) {
+          
+          return false;
+        }
+        if (!hasDate()) {
+          
+          return false;
+        }
+        if (!hasGuiJia()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceProtos.InviteAllianceInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceProtos.InviteAllianceInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 id = 1;
+      private int id_ ;
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       * 联盟id
+       * </pre>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       * 联盟id
+       * </pre>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       * 联盟id
+       * </pre>
+       */
+      public Builder setId(int value) {
+        bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       * 联盟id
+       * </pre>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string name = 2;
+      private java.lang.Object name_ = "";
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 联盟名
+       * </pre>
+       */
+      public boolean hasName() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 联盟名
+       * </pre>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 联盟名
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 联盟名
+       * </pre>
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 联盟名
+       * </pre>
+       */
+      public Builder clearName() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 联盟名
+       * </pre>
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 level = 3;
+      private int level_ ;
+      /**
+       * <code>required int32 level = 3;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
+       */
+      public boolean hasLevel() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 level = 3;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
+       */
+      public int getLevel() {
+        return level_;
+      }
+      /**
+       * <code>required int32 level = 3;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
+       */
+      public Builder setLevel(int value) {
+        bitField0_ |= 0x00000004;
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 level = 3;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
+       */
+      public Builder clearLevel() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string date = 4;
+      private java.lang.Object date_ = "";
+      /**
+       * <code>required string date = 4;</code>
+       *
+       * <pre>
+       * 邀请时间
+       * </pre>
+       */
+      public boolean hasDate() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required string date = 4;</code>
+       *
+       * <pre>
+       * 邀请时间
+       * </pre>
+       */
+      public java.lang.String getDate() {
+        java.lang.Object ref = date_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          date_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string date = 4;</code>
+       *
+       * <pre>
+       * 邀请时间
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getDateBytes() {
+        java.lang.Object ref = date_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          date_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string date = 4;</code>
+       *
+       * <pre>
+       * 邀请时间
+       * </pre>
+       */
+      public Builder setDate(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        date_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string date = 4;</code>
+       *
+       * <pre>
+       * 邀请时间
+       * </pre>
+       */
+      public Builder clearDate() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        date_ = getDefaultInstance().getDate();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string date = 4;</code>
+       *
+       * <pre>
+       * 邀请时间
+       * </pre>
+       */
+      public Builder setDateBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        date_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 guiJia = 5;
+      private int guiJia_ ;
+      /**
+       * <code>required int32 guiJia = 5;</code>
+       *
+       * <pre>
+       * 国家
+       * </pre>
+       */
+      public boolean hasGuiJia() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required int32 guiJia = 5;</code>
+       *
+       * <pre>
+       * 国家
+       * </pre>
+       */
+      public int getGuiJia() {
+        return guiJia_;
+      }
+      /**
+       * <code>required int32 guiJia = 5;</code>
+       *
+       * <pre>
+       * 国家
+       * </pre>
+       */
+      public Builder setGuiJia(int value) {
+        bitField0_ |= 0x00000010;
+        guiJia_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 guiJia = 5;</code>
+       *
+       * <pre>
+       * 国家
+       * </pre>
+       */
+      public Builder clearGuiJia() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        guiJia_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.InviteAllianceInfo)
+    }
+
+    static {
+      defaultInstance = new InviteAllianceInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.InviteAllianceInfo)
+  }
+
+  public interface RefuseInviteOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 id = 1;
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     * 联盟id
+     * </pre>
+     */
+    boolean hasId();
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     * 联盟id
+     * </pre>
+     */
+    int getId();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.RefuseInvite}
+   *
+   * <pre>
+   * 拒绝联盟邀请		short C_ALLIANCE_INVITE_REFUSE = 30181;
+   * </pre>
+   */
+  public static final class RefuseInvite extends
+      com.google.protobuf.GeneratedMessage
+      implements RefuseInviteOrBuilder {
+    // Use RefuseInvite.newBuilder() to construct.
+    private RefuseInvite(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private RefuseInvite(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final RefuseInvite defaultInstance;
+    public static RefuseInvite getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public RefuseInvite getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RefuseInvite(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              id_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_RefuseInvite_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_RefuseInvite_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceProtos.RefuseInvite.class, qxmobile.protobuf.AllianceProtos.RefuseInvite.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<RefuseInvite> PARSER =
+        new com.google.protobuf.AbstractParser<RefuseInvite>() {
+      public RefuseInvite parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new RefuseInvite(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RefuseInvite> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 id = 1;
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     * 联盟id
+     * </pre>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     * 联盟id
+     * </pre>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    private void initFields() {
+      id_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, id_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, id_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceProtos.RefuseInvite parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInvite parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInvite parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInvite parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInvite parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInvite parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInvite parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInvite parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInvite parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInvite parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceProtos.RefuseInvite prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.RefuseInvite}
+     *
+     * <pre>
+     * 拒绝联盟邀请		short C_ALLIANCE_INVITE_REFUSE = 30181;
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceProtos.RefuseInviteOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_RefuseInvite_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_RefuseInvite_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceProtos.RefuseInvite.class, qxmobile.protobuf.AllianceProtos.RefuseInvite.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceProtos.RefuseInvite.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        id_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_RefuseInvite_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.RefuseInvite getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceProtos.RefuseInvite.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceProtos.RefuseInvite build() {
+        qxmobile.protobuf.AllianceProtos.RefuseInvite result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.RefuseInvite buildPartial() {
+        qxmobile.protobuf.AllianceProtos.RefuseInvite result = new qxmobile.protobuf.AllianceProtos.RefuseInvite(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.id_ = id_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceProtos.RefuseInvite) {
+          return mergeFrom((qxmobile.protobuf.AllianceProtos.RefuseInvite)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceProtos.RefuseInvite other) {
+        if (other == qxmobile.protobuf.AllianceProtos.RefuseInvite.getDefaultInstance()) return this;
+        if (other.hasId()) {
+          setId(other.getId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceProtos.RefuseInvite parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceProtos.RefuseInvite) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 id = 1;
+      private int id_ ;
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       * 联盟id
+       * </pre>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       * 联盟id
+       * </pre>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       * 联盟id
+       * </pre>
+       */
+      public Builder setId(int value) {
+        bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       * 联盟id
+       * </pre>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.RefuseInvite)
+    }
+
+    static {
+      defaultInstance = new RefuseInvite(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.RefuseInvite)
+  }
+
+  public interface RefuseInviteRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功
+     * </pre>
+     */
+    int getResult();
+
+    // required int32 lianMengId = 2;
+    /**
+     * <code>required int32 lianMengId = 2;</code>
+     *
+     * <pre>
+     * 拒绝的联盟id
+     * </pre>
+     */
+    boolean hasLianMengId();
+    /**
+     * <code>required int32 lianMengId = 2;</code>
+     *
+     * <pre>
+     * 拒绝的联盟id
+     * </pre>
+     */
+    int getLianMengId();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.RefuseInviteResp}
+   *
+   * <pre>
+   * 拒绝联盟邀请返回	short S_ALLIANCE_INVITE_REFUSE = 30182;
+   * </pre>
+   */
+  public static final class RefuseInviteResp extends
+      com.google.protobuf.GeneratedMessage
+      implements RefuseInviteRespOrBuilder {
+    // Use RefuseInviteResp.newBuilder() to construct.
+    private RefuseInviteResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private RefuseInviteResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final RefuseInviteResp defaultInstance;
+    public static RefuseInviteResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public RefuseInviteResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RefuseInviteResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              lianMengId_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_RefuseInviteResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_RefuseInviteResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceProtos.RefuseInviteResp.class, qxmobile.protobuf.AllianceProtos.RefuseInviteResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<RefuseInviteResp> PARSER =
+        new com.google.protobuf.AbstractParser<RefuseInviteResp>() {
+      public RefuseInviteResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new RefuseInviteResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RefuseInviteResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    // required int32 lianMengId = 2;
+    public static final int LIANMENGID_FIELD_NUMBER = 2;
+    private int lianMengId_;
+    /**
+     * <code>required int32 lianMengId = 2;</code>
+     *
+     * <pre>
+     * 拒绝的联盟id
+     * </pre>
+     */
+    public boolean hasLianMengId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 lianMengId = 2;</code>
+     *
+     * <pre>
+     * 拒绝的联盟id
+     * </pre>
+     */
+    public int getLianMengId() {
+      return lianMengId_;
+    }
+
+    private void initFields() {
+      result_ = 0;
+      lianMengId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLianMengId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, lianMengId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, lianMengId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceProtos.RefuseInviteResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInviteResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInviteResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInviteResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInviteResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInviteResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInviteResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInviteResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInviteResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.RefuseInviteResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceProtos.RefuseInviteResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.RefuseInviteResp}
+     *
+     * <pre>
+     * 拒绝联盟邀请返回	short S_ALLIANCE_INVITE_REFUSE = 30182;
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceProtos.RefuseInviteRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_RefuseInviteResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_RefuseInviteResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceProtos.RefuseInviteResp.class, qxmobile.protobuf.AllianceProtos.RefuseInviteResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceProtos.RefuseInviteResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        lianMengId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_RefuseInviteResp_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.RefuseInviteResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceProtos.RefuseInviteResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceProtos.RefuseInviteResp build() {
+        qxmobile.protobuf.AllianceProtos.RefuseInviteResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.RefuseInviteResp buildPartial() {
+        qxmobile.protobuf.AllianceProtos.RefuseInviteResp result = new qxmobile.protobuf.AllianceProtos.RefuseInviteResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.lianMengId_ = lianMengId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceProtos.RefuseInviteResp) {
+          return mergeFrom((qxmobile.protobuf.AllianceProtos.RefuseInviteResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceProtos.RefuseInviteResp other) {
+        if (other == qxmobile.protobuf.AllianceProtos.RefuseInviteResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        if (other.hasLianMengId()) {
+          setLianMengId(other.getLianMengId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        if (!hasLianMengId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceProtos.RefuseInviteResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceProtos.RefuseInviteResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 lianMengId = 2;
+      private int lianMengId_ ;
+      /**
+       * <code>required int32 lianMengId = 2;</code>
+       *
+       * <pre>
+       * 拒绝的联盟id
+       * </pre>
+       */
+      public boolean hasLianMengId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 lianMengId = 2;</code>
+       *
+       * <pre>
+       * 拒绝的联盟id
+       * </pre>
+       */
+      public int getLianMengId() {
+        return lianMengId_;
+      }
+      /**
+       * <code>required int32 lianMengId = 2;</code>
+       *
+       * <pre>
+       * 拒绝的联盟id
+       * </pre>
+       */
+      public Builder setLianMengId(int value) {
+        bitField0_ |= 0x00000002;
+        lianMengId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 lianMengId = 2;</code>
+       *
+       * <pre>
+       * 拒绝的联盟id
+       * </pre>
+       */
+      public Builder clearLianMengId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        lianMengId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.RefuseInviteResp)
+    }
+
+    static {
+      defaultInstance = new RefuseInviteResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.RefuseInviteResp)
+  }
+
+  public interface AgreeInviteOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 id = 1;
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     * 联盟id
+     * </pre>
+     */
+    boolean hasId();
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     * 联盟id
+     * </pre>
+     */
+    int getId();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.AgreeInvite}
+   *
+   * <pre>
+   * 同意联盟邀请，short C_ALLIANCE_INVITE_AGREE = 30183;
+   * </pre>
+   */
+  public static final class AgreeInvite extends
+      com.google.protobuf.GeneratedMessage
+      implements AgreeInviteOrBuilder {
+    // Use AgreeInvite.newBuilder() to construct.
+    private AgreeInvite(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private AgreeInvite(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final AgreeInvite defaultInstance;
+    public static AgreeInvite getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public AgreeInvite getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AgreeInvite(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              id_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AgreeInvite_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AgreeInvite_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.AllianceProtos.AgreeInvite.class, qxmobile.protobuf.AllianceProtos.AgreeInvite.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<AgreeInvite> PARSER =
+        new com.google.protobuf.AbstractParser<AgreeInvite>() {
+      public AgreeInvite parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AgreeInvite(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AgreeInvite> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 id = 1;
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     * 联盟id
+     * </pre>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     * 联盟id
+     * </pre>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    private void initFields() {
+      id_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, id_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, id_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.AllianceProtos.AgreeInvite parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AgreeInvite parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AgreeInvite parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AgreeInvite parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AgreeInvite parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AgreeInvite parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AgreeInvite parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AgreeInvite parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AgreeInvite parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.AllianceProtos.AgreeInvite parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.AllianceProtos.AgreeInvite prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.AgreeInvite}
+     *
+     * <pre>
+     * 同意联盟邀请，short C_ALLIANCE_INVITE_AGREE = 30183;
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.AllianceProtos.AgreeInviteOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AgreeInvite_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AgreeInvite_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.AllianceProtos.AgreeInvite.class, qxmobile.protobuf.AllianceProtos.AgreeInvite.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.AllianceProtos.AgreeInvite.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        id_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.AllianceProtos.internal_static_qxmobile_protobuf_AgreeInvite_descriptor;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.AgreeInvite getDefaultInstanceForType() {
+        return qxmobile.protobuf.AllianceProtos.AgreeInvite.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.AllianceProtos.AgreeInvite build() {
+        qxmobile.protobuf.AllianceProtos.AgreeInvite result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.AllianceProtos.AgreeInvite buildPartial() {
+        qxmobile.protobuf.AllianceProtos.AgreeInvite result = new qxmobile.protobuf.AllianceProtos.AgreeInvite(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.id_ = id_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.AllianceProtos.AgreeInvite) {
+          return mergeFrom((qxmobile.protobuf.AllianceProtos.AgreeInvite)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.AllianceProtos.AgreeInvite other) {
+        if (other == qxmobile.protobuf.AllianceProtos.AgreeInvite.getDefaultInstance()) return this;
+        if (other.hasId()) {
+          setId(other.getId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.AllianceProtos.AgreeInvite parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.AllianceProtos.AgreeInvite) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 id = 1;
+      private int id_ ;
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       * 联盟id
+       * </pre>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       * 联盟id
+       * </pre>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       * 联盟id
+       * </pre>
+       */
+      public Builder setId(int value) {
+        bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       * 联盟id
+       * </pre>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.AgreeInvite)
+    }
+
+    static {
+      defaultInstance = new AgreeInvite(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.AgreeInvite)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_AllianceNonResp_descriptor;
   private static
@@ -41243,6 +45558,41 @@ public final class AllianceProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_GetAllianceLevelAwardResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_AllianceInvite_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_AllianceInvite_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_AllianceInviteResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_AllianceInviteResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_InviteList_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_InviteList_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_InviteAllianceInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_InviteAllianceInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_RefuseInvite_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_RefuseInvite_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_RefuseInviteResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_RefuseInviteResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_AgreeInvite_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_AgreeInvite_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -41263,99 +45613,109 @@ public final class AllianceProtos {
       "\t\022\021\n\tisApplied\030\013 \002(\010\022\023\n\013creatorName\030\014 \002(" +
       "\t\022\013\n\003exp\030\r \002(\005\022\020\n\010isShenPi\030\016 \002(\005\022\017\n\007coun",
       "try\030\017 \002(\005\022\022\n\nisCanApply\030\020 \002(\010\"%\n\017immedia" +
-      "telyJoin\022\022\n\nlianMengId\030\001 \002(\005\"Z\n\023immediat" +
+      "telyJoin\022\022\n\nlianMengId\030\001 \002(\005\"z\n\023immediat" +
       "elyJoinResp\022\014\n\004code\030\001 \002(\005\0225\n\010alncInfo\030\002 " +
       "\001(\0132#.qxmobile.protobuf.AllianceHaveResp" +
-      "\"\245\004\n\020AllianceHaveResp\022\014\n\004name\030\001 \002(\t\022\n\n\002i" +
-      "d\030\002 \002(\005\022\r\n\005level\030\003 \002(\005\022\013\n\003exp\030\004 \002(\005\022\017\n\007n" +
-      "eedExp\030\005 \002(\005\022\r\n\005build\030\006 \002(\005\022\017\n\007members\030\007" +
-      " \002(\005\022\021\n\tmemberMax\030\010 \002(\005\022\024\n\014contribution\030" +
-      "\t \002(\005\022\016\n\006notice\030\n \002(\t\022\017\n\007country\030\026 \002(\005\022\021" +
-      "\n\tshengWang\030\027 \002(\005\022\014\n\004icon\030\013 \002(\005\022\020\n\010ident",
-      "ity\030\014 \002(\005\022\017\n\007isAllow\030\r \002(\005\022\022\n\napplyLevel" +
-      "\030\032 \002(\005\022\017\n\007junXian\030\030 \002(\005\022\025\n\rattchCndition" +
-      "\030\031 \002(\t\022\020\n\010isShenPi\030\033 \002(\005\022\023\n\013mengzhuName\030" +
-      "\016 \002(\t\022\016\n\006status\030\017 \002(\005\022\021\n\tisBaoming\030\020 \001(\005" +
-      "\022\017\n\007isVoted\030\021 \001(\005\022\024\n\014voteJunzhuId\030\022 \001(\003\022" +
-      "\024\n\014isVoteDialog\030\023 \001(\003\022\017\n\007gongJin\030\024 \002(\005\0221" +
-      "\n\nmemberInfo\030\025 \003(\0132\035.qxmobile.protobuf.M" +
-      "emberInfo\022\025\n\rlmTargetLevel\030\034 \002(\005\"!\n\021Chec" +
-      "kAllianceName\022\014\n\004name\030\001 \002(\t\"2\n\025CheckAlli" +
-      "anceNameResp\022\014\n\004code\030\001 \002(\005\022\013\n\003msg\030\002 \001(\t\"",
-      ",\n\016CreateAlliance\022\014\n\004name\030\001 \002(\t\022\014\n\004icon\030" +
-      "\002 \002(\005\"j\n\022CreateAllianceResp\022\014\n\004code\030\001 \002(" +
-      "\005\022\013\n\003msg\030\002 \001(\t\0229\n\014allianceInfo\030\003 \001(\0132#.q" +
-      "xmobile.protobuf.AllianceHaveResp\"\032\n\014Fin" +
-      "dAlliance\022\n\n\002id\030\001 \002(\005\"x\n\020FindAllianceRes" +
-      "p\022\014\n\004code\030\001 \002(\005\022\013\n\003msg\030\002 \001(\t\022\017\n\007isAllow\030" +
-      "\003 \001(\005\0228\n\014allianceInfo\030\004 \001(\0132\".qxmobile.p" +
-      "rotobuf.NonAllianceInfo\"\033\n\rApplyAlliance" +
-      "\022\n\n\002id\030\001 \002(\005\":\n\021ApplyAllianceResp\022\014\n\004cod" +
-      "e\030\001 \002(\005\022\n\n\002id\030\002 \001(\005\022\013\n\003msg\030\003 \001(\t\" \n\022Canc",
-      "elJoinAlliance\022\n\n\002id\030\001 \002(\005\"?\n\026CancelJoin" +
-      "AllianceResp\022\n\n\002id\030\001 \002(\005\022\014\n\004code\030\002 \002(\005\022\013" +
-      "\n\003msg\030\003 \001(\t\"\032\n\014ExitAlliance\022\n\n\002id\030\001 \002(\005\"" +
-      " \n\020ExitAllianceResp\022\014\n\004code\030\001 \002(\005\"\031\n\013Loo" +
-      "kMembers\022\n\n\002id\030\001 \002(\005\"D\n\017LookMembersResp\022" +
-      "1\n\nmemberInfo\030\001 \003(\0132\035.qxmobile.protobuf." +
-      "MemberInfo\"\211\002\n\nMemberInfo\022\r\n\005level\030\001 \002(\005" +
-      "\022\014\n\004name\030\002 \002(\t\022\024\n\014contribution\030\003 \002(\005\022\030\n\020" +
-      "curMonthGongXian\030\020 \002(\005\022\017\n\007junXian\030\004 \002(\005\022" +
-      "\020\n\010identity\030\005 \002(\005\022\020\n\010junzhuId\030\006 \002(\003\022\016\n\006r",
-      "oleId\030\013 \001(\005\022\016\n\006zhanLi\030\r \002(\005\022\023\n\013offlineTi" +
-      "me\030\016 \002(\005\022\017\n\007gongJin\030\017 \002(\005\022\021\n\tisBaoming\030\007" +
-      " \001(\005\022\017\n\007isVoted\030\010 \001(\005\022\017\n\007voteNum\030\n \001(\005\"*" +
-      "\n\nFireMember\022\n\n\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002" +
-      "(\003\">\n\016FireMemberResp\022\016\n\006result\030\001 \002(\005\022\n\n\002" +
-      "id\030\002 \002(\005\022\020\n\010junzhuId\030\003 \002(\003\"\'\n\007UpTitle\022\n\n" +
-      "\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\"H\n\013UpTitleRe" +
-      "sp\022\014\n\004code\030\001 \002(\005\022\020\n\010junzhuId\030\003 \002(\003\022\n\n\002id" +
-      "\030\002 \001(\005\022\r\n\005title\030\004 \001(\005\")\n\tDownTitle\022\n\n\002id" +
-      "\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\"J\n\rDownTitleRes",
-      "p\022\014\n\004code\030\001 \002(\005\022\n\n\002id\030\002 \002(\005\022\020\n\010junzhuId\030" +
-      "\003 \002(\003\022\r\n\005title\030\004 \002(\005\"\034\n\016LookApplicants\022\n" +
-      "\n\002id\030\001 \002(\005\"L\n\022LookApplicantsResp\0226\n\014appl" +
-      "icanInfo\030\001 \003(\0132 .qxmobile.protobuf.Appli" +
-      "cantInfo\"}\n\rApplicantInfo\022\020\n\010junzhuId\030\001 " +
-      "\002(\003\022\r\n\005level\030\002 \002(\005\022\014\n\004name\030\003 \002(\t\022\017\n\007junX" +
-      "ian\030\004 \002(\005\022\014\n\004rank\030\005 \002(\005\022\016\n\006roleId\030\006 \001(\005\022" +
-      "\016\n\006zhanLi\030\007 \002(\005\"+\n\013RefuseApply\022\n\n\002id\030\001 \002" +
-      "(\005\022\020\n\010junzhuId\030\002 \002(\003\"?\n\017RefuseApplyResp\022" +
-      "\016\n\006result\030\001 \002(\005\022\n\n\002id\030\002 \001(\005\022\020\n\010junzhuId\030",
-      "\003 \001(\003\"*\n\nAgreeApply\022\n\n\002id\030\001 \002(\005\022\020\n\010junzh" +
-      "uId\030\002 \002(\003\"q\n\016AgreeApplyResp\022\016\n\006result\030\001 " +
-      "\002(\005\022\020\n\010junzhuId\030\002 \002(\003\022\n\n\002id\030\003 \001(\005\0221\n\nmem" +
-      "berInfo\030\004 \001(\0132\035.qxmobile.protobuf.Member" +
-      "Info\"*\n\014UpdateNotice\022\n\n\002id\030\001 \002(\005\022\016\n\006noti" +
-      "ce\030\002 \002(\t\" \n\020UpdateNoticeResp\022\014\n\004code\030\001 \002" +
-      "(\005\"\035\n\017DismissAlliance\022\n\n\002id\030\001 \002(\005\"`\n\tOpe" +
-      "nApply\022\n\n\002id\030\001 \002(\005\022\020\n\010levelMin\030\003 \002(\005\022\022\n\n" +
-      "junXianMin\030\004 \002(\005\022\021\n\tisExamine\030\005 \002(\005\022\016\n\006a" +
-      "ttach\030\006 \001(\t\"\035\n\rOpenApplyResp\022\014\n\004code\030\001 \002",
-      "(\005\"\030\n\nCloseApply\022\n\n\002id\030\001 \002(\005\"0\n\020Transfer" +
-      "Alliance\022\n\n\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\"D" +
-      "\n\024TransferAllianceResp\022\016\n\006result\030\001 \002(\005\022\n" +
-      "\n\002id\030\002 \002(\005\022\020\n\010junzhuId\030\003 \002(\003\" \n\020MengZhuA" +
-      "pplyResp\022\014\n\004code\030\001 \002(\005\"\037\n\013MengZhuVote\022\020\n" +
-      "\010junzhuId\030\001 \002(\003\"4\n\017MengZhuVoteResp\022\020\n\010ju" +
-      "nzhuId\030\001 \002(\003\022\017\n\007voteNum\030\002 \002(\005\"\036\n\016GiveUpV" +
-      "oteResp\022\014\n\004code\030\001 \002(\005\"\033\n\nDonateHuFu\022\r\n\005c" +
-      "ount\030\001 \002(\005\"A\n\016DonateHuFuResp\022\016\n\006result\030\001" +
-      " \002(\005\022\020\n\010gongxian\030\002 \002(\005\022\r\n\005build\030\003 \002(\005\"\034\n",
-      "\014EventListReq\022\014\n\004page\030\001 \002(\005\"*\n\rEventList" +
-      "Resp\022\014\n\004page\030\001 \002(\005\022\013\n\003msg\030\002 \003(\t\"`\n\023Playe" +
-      "rAllianceState\022\020\n\010junzhuId\030\001 \002(\003\022\022\n\nalli" +
-      "anceId\030\002 \002(\005\022\024\n\014allianceName\030\003 \002(\t\022\r\n\005ti" +
-      "tle\030\004 \002(\005\"U\n\020FengShanInfoResp\022/\n\006fsInfo\030" +
-      "\001 \003(\0132\037.qxmobile.protobuf.FengShanInfo\022\020" +
-      "\n\010huoyuedu\030\002 \002(\005\"-\n\014FengShanInfo\022\016\n\006conf" +
-      "Id\030\001 \002(\005\022\r\n\005state\030\002 \002(\005\"\035\n\013FengShanReq\022\016" +
-      "\n\006confId\030\001 \002(\005\".\n\014FengShanResp\022\016\n\006confId" +
-      "\030\001 \002(\005\022\016\n\006result\030\002 \002(\005\"5\n\022AllianceTarget",
-      "Resp\022\r\n\005level\030\001 \002(\005\022\020\n\010getAward\030\002 \002(\010\"&\n" +
-      "\025GetAllianceLevelAward\022\r\n\005level\030\001 \002(\005\">\n" +
-      "\031GetAllianceLevelAwardResp\022\016\n\006result\030\001 \002" +
-      "(\005\022\021\n\tnextLevel\030\002 \002(\005B\020B\016AllianceProtos"
+      "\022\020\n\010guojiaId\030\003 \002(\005\022\014\n\004lmId\030\004 \002(\005\"\245\004\n\020All" +
+      "ianceHaveResp\022\014\n\004name\030\001 \002(\t\022\n\n\002id\030\002 \002(\005\022" +
+      "\r\n\005level\030\003 \002(\005\022\013\n\003exp\030\004 \002(\005\022\017\n\007needExp\030\005" +
+      " \002(\005\022\r\n\005build\030\006 \002(\005\022\017\n\007members\030\007 \002(\005\022\021\n\t" +
+      "memberMax\030\010 \002(\005\022\024\n\014contribution\030\t \002(\005\022\016\n" +
+      "\006notice\030\n \002(\t\022\017\n\007country\030\026 \002(\005\022\021\n\tshengW",
+      "ang\030\027 \002(\005\022\014\n\004icon\030\013 \002(\005\022\020\n\010identity\030\014 \002(" +
+      "\005\022\017\n\007isAllow\030\r \002(\005\022\022\n\napplyLevel\030\032 \002(\005\022\017" +
+      "\n\007junXian\030\030 \002(\005\022\025\n\rattchCndition\030\031 \002(\t\022\020" +
+      "\n\010isShenPi\030\033 \002(\005\022\023\n\013mengzhuName\030\016 \002(\t\022\016\n" +
+      "\006status\030\017 \002(\005\022\021\n\tisBaoming\030\020 \001(\005\022\017\n\007isVo" +
+      "ted\030\021 \001(\005\022\024\n\014voteJunzhuId\030\022 \001(\003\022\024\n\014isVot" +
+      "eDialog\030\023 \001(\003\022\017\n\007gongJin\030\024 \002(\005\0221\n\nmember" +
+      "Info\030\025 \003(\0132\035.qxmobile.protobuf.MemberInf" +
+      "o\022\025\n\rlmTargetLevel\030\034 \002(\005\"!\n\021CheckAllianc" +
+      "eName\022\014\n\004name\030\001 \002(\t\"2\n\025CheckAllianceName",
+      "Resp\022\014\n\004code\030\001 \002(\005\022\013\n\003msg\030\002 \001(\t\",\n\016Creat" +
+      "eAlliance\022\014\n\004name\030\001 \002(\t\022\014\n\004icon\030\002 \002(\005\"j\n" +
+      "\022CreateAllianceResp\022\014\n\004code\030\001 \002(\005\022\013\n\003msg" +
+      "\030\002 \001(\t\0229\n\014allianceInfo\030\003 \001(\0132#.qxmobile." +
+      "protobuf.AllianceHaveResp\"\032\n\014FindAllianc" +
+      "e\022\n\n\002id\030\001 \002(\005\"x\n\020FindAllianceResp\022\014\n\004cod" +
+      "e\030\001 \002(\005\022\013\n\003msg\030\002 \001(\t\022\017\n\007isAllow\030\003 \001(\005\0228\n" +
+      "\014allianceInfo\030\004 \001(\0132\".qxmobile.protobuf." +
+      "NonAllianceInfo\"\033\n\rApplyAlliance\022\n\n\002id\030\001" +
+      " \002(\005\":\n\021ApplyAllianceResp\022\014\n\004code\030\001 \002(\005\022",
+      "\n\n\002id\030\002 \001(\005\022\013\n\003msg\030\003 \001(\t\" \n\022CancelJoinAl" +
+      "liance\022\n\n\002id\030\001 \002(\005\"?\n\026CancelJoinAlliance" +
+      "Resp\022\n\n\002id\030\001 \002(\005\022\014\n\004code\030\002 \002(\005\022\013\n\003msg\030\003 " +
+      "\001(\t\"\032\n\014ExitAlliance\022\n\n\002id\030\001 \002(\005\" \n\020ExitA" +
+      "llianceResp\022\014\n\004code\030\001 \002(\005\"\031\n\013LookMembers" +
+      "\022\n\n\002id\030\001 \002(\005\"D\n\017LookMembersResp\0221\n\nmembe" +
+      "rInfo\030\001 \003(\0132\035.qxmobile.protobuf.MemberIn" +
+      "fo\"\211\002\n\nMemberInfo\022\r\n\005level\030\001 \002(\005\022\014\n\004name" +
+      "\030\002 \002(\t\022\024\n\014contribution\030\003 \002(\005\022\030\n\020curMonth" +
+      "GongXian\030\020 \002(\005\022\017\n\007junXian\030\004 \002(\005\022\020\n\010ident",
+      "ity\030\005 \002(\005\022\020\n\010junzhuId\030\006 \002(\003\022\016\n\006roleId\030\013 " +
+      "\001(\005\022\016\n\006zhanLi\030\r \002(\005\022\023\n\013offlineTime\030\016 \002(\005" +
+      "\022\017\n\007gongJin\030\017 \002(\005\022\021\n\tisBaoming\030\007 \001(\005\022\017\n\007" +
+      "isVoted\030\010 \001(\005\022\017\n\007voteNum\030\n \001(\005\"*\n\nFireMe" +
+      "mber\022\n\n\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\">\n\016Fi" +
+      "reMemberResp\022\016\n\006result\030\001 \002(\005\022\n\n\002id\030\002 \002(\005" +
+      "\022\020\n\010junzhuId\030\003 \002(\003\"\'\n\007UpTitle\022\n\n\002id\030\001 \002(" +
+      "\005\022\020\n\010junzhuId\030\002 \002(\003\"H\n\013UpTitleResp\022\014\n\004co" +
+      "de\030\001 \002(\005\022\020\n\010junzhuId\030\003 \002(\003\022\n\n\002id\030\002 \001(\005\022\r" +
+      "\n\005title\030\004 \001(\005\")\n\tDownTitle\022\n\n\002id\030\001 \002(\005\022\020",
+      "\n\010junzhuId\030\002 \002(\003\"J\n\rDownTitleResp\022\014\n\004cod" +
+      "e\030\001 \002(\005\022\n\n\002id\030\002 \002(\005\022\020\n\010junzhuId\030\003 \002(\003\022\r\n" +
+      "\005title\030\004 \002(\005\"\034\n\016LookApplicants\022\n\n\002id\030\001 \002" +
+      "(\005\"L\n\022LookApplicantsResp\0226\n\014applicanInfo" +
+      "\030\001 \003(\0132 .qxmobile.protobuf.ApplicantInfo" +
+      "\"}\n\rApplicantInfo\022\020\n\010junzhuId\030\001 \002(\003\022\r\n\005l" +
+      "evel\030\002 \002(\005\022\014\n\004name\030\003 \002(\t\022\017\n\007junXian\030\004 \002(" +
+      "\005\022\014\n\004rank\030\005 \002(\005\022\016\n\006roleId\030\006 \001(\005\022\016\n\006zhanL" +
+      "i\030\007 \002(\005\"+\n\013RefuseApply\022\n\n\002id\030\001 \002(\005\022\020\n\010ju" +
+      "nzhuId\030\002 \002(\003\"?\n\017RefuseApplyResp\022\016\n\006resul",
+      "t\030\001 \002(\005\022\n\n\002id\030\002 \001(\005\022\020\n\010junzhuId\030\003 \001(\003\"*\n" +
+      "\nAgreeApply\022\n\n\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(" +
+      "\003\"q\n\016AgreeApplyResp\022\016\n\006result\030\001 \002(\005\022\020\n\010j" +
+      "unzhuId\030\002 \002(\003\022\n\n\002id\030\003 \001(\005\0221\n\nmemberInfo\030" +
+      "\004 \001(\0132\035.qxmobile.protobuf.MemberInfo\"*\n\014" +
+      "UpdateNotice\022\n\n\002id\030\001 \002(\005\022\016\n\006notice\030\002 \002(\t" +
+      "\" \n\020UpdateNoticeResp\022\014\n\004code\030\001 \002(\005\"\035\n\017Di" +
+      "smissAlliance\022\n\n\002id\030\001 \002(\005\"`\n\tOpenApply\022\n" +
+      "\n\002id\030\001 \002(\005\022\020\n\010levelMin\030\003 \002(\005\022\022\n\njunXianM" +
+      "in\030\004 \002(\005\022\021\n\tisExamine\030\005 \002(\005\022\016\n\006attach\030\006 ",
+      "\001(\t\"\035\n\rOpenApplyResp\022\014\n\004code\030\001 \002(\005\"\030\n\nCl" +
+      "oseApply\022\n\n\002id\030\001 \002(\005\"0\n\020TransferAlliance" +
+      "\022\n\n\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\"D\n\024Transf" +
+      "erAllianceResp\022\016\n\006result\030\001 \002(\005\022\n\n\002id\030\002 \002" +
+      "(\005\022\020\n\010junzhuId\030\003 \002(\003\" \n\020MengZhuApplyResp" +
+      "\022\014\n\004code\030\001 \002(\005\"\037\n\013MengZhuVote\022\020\n\010junzhuI" +
+      "d\030\001 \002(\003\"4\n\017MengZhuVoteResp\022\020\n\010junzhuId\030\001" +
+      " \002(\003\022\017\n\007voteNum\030\002 \002(\005\"\036\n\016GiveUpVoteResp\022" +
+      "\014\n\004code\030\001 \002(\005\"\033\n\nDonateHuFu\022\r\n\005count\030\001 \002" +
+      "(\005\"A\n\016DonateHuFuResp\022\016\n\006result\030\001 \002(\005\022\020\n\010",
+      "gongxian\030\002 \002(\005\022\r\n\005build\030\003 \002(\005\"\034\n\014EventLi" +
+      "stReq\022\014\n\004page\030\001 \002(\005\"*\n\rEventListResp\022\014\n\004" +
+      "page\030\001 \002(\005\022\013\n\003msg\030\002 \003(\t\"`\n\023PlayerAllianc" +
+      "eState\022\020\n\010junzhuId\030\001 \002(\003\022\022\n\nallianceId\030\002" +
+      " \002(\005\022\024\n\014allianceName\030\003 \002(\t\022\r\n\005title\030\004 \002(" +
+      "\005\"U\n\020FengShanInfoResp\022/\n\006fsInfo\030\001 \003(\0132\037." +
+      "qxmobile.protobuf.FengShanInfo\022\020\n\010huoyue" +
+      "du\030\002 \002(\005\"-\n\014FengShanInfo\022\016\n\006confId\030\001 \002(\005" +
+      "\022\r\n\005state\030\002 \002(\005\"\035\n\013FengShanReq\022\016\n\006confId" +
+      "\030\001 \002(\005\".\n\014FengShanResp\022\016\n\006confId\030\001 \002(\005\022\016",
+      "\n\006result\030\002 \002(\005\"5\n\022AllianceTargetResp\022\r\n\005" +
+      "level\030\001 \002(\005\022\020\n\010getAward\030\002 \002(\010\"&\n\025GetAlli" +
+      "anceLevelAward\022\r\n\005level\030\001 \002(\005\">\n\031GetAlli" +
+      "anceLevelAwardResp\022\016\n\006result\030\001 \002(\005\022\021\n\tne" +
+      "xtLevel\030\002 \002(\005\"\"\n\016AllianceInvite\022\020\n\010junzh" +
+      "uId\030\001 \002(\003\"$\n\022AllianceInviteResp\022\016\n\006resul" +
+      "t\030\001 \002(\005\"G\n\nInviteList\0229\n\ninviteInfo\030\001 \003(" +
+      "\0132%.qxmobile.protobuf.InviteAllianceInfo" +
+      "\"[\n\022InviteAllianceInfo\022\n\n\002id\030\001 \002(\005\022\014\n\004na" +
+      "me\030\002 \002(\t\022\r\n\005level\030\003 \002(\005\022\014\n\004date\030\004 \002(\t\022\016\n",
+      "\006guiJia\030\005 \002(\005\"\032\n\014RefuseInvite\022\n\n\002id\030\001 \002(" +
+      "\005\"6\n\020RefuseInviteResp\022\016\n\006result\030\001 \002(\005\022\022\n" +
+      "\nlianMengId\030\002 \002(\005\"\031\n\013AgreeInvite\022\n\n\002id\030\001" +
+      " \002(\005B\020B\016AllianceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -41385,7 +45745,7 @@ public final class AllianceProtos {
           internal_static_qxmobile_protobuf_immediatelyJoinResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_immediatelyJoinResp_descriptor,
-              new java.lang.String[] { "Code", "AlncInfo", });
+              new java.lang.String[] { "Code", "AlncInfo", "GuojiaId", "LmId", });
           internal_static_qxmobile_protobuf_AllianceHaveResp_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_AllianceHaveResp_fieldAccessorTable = new
@@ -41704,6 +46064,48 @@ public final class AllianceProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_GetAllianceLevelAwardResp_descriptor,
               new java.lang.String[] { "Result", "NextLevel", });
+          internal_static_qxmobile_protobuf_AllianceInvite_descriptor =
+            getDescriptor().getMessageTypes().get(57);
+          internal_static_qxmobile_protobuf_AllianceInvite_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_AllianceInvite_descriptor,
+              new java.lang.String[] { "JunzhuId", });
+          internal_static_qxmobile_protobuf_AllianceInviteResp_descriptor =
+            getDescriptor().getMessageTypes().get(58);
+          internal_static_qxmobile_protobuf_AllianceInviteResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_AllianceInviteResp_descriptor,
+              new java.lang.String[] { "Result", });
+          internal_static_qxmobile_protobuf_InviteList_descriptor =
+            getDescriptor().getMessageTypes().get(59);
+          internal_static_qxmobile_protobuf_InviteList_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_InviteList_descriptor,
+              new java.lang.String[] { "InviteInfo", });
+          internal_static_qxmobile_protobuf_InviteAllianceInfo_descriptor =
+            getDescriptor().getMessageTypes().get(60);
+          internal_static_qxmobile_protobuf_InviteAllianceInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_InviteAllianceInfo_descriptor,
+              new java.lang.String[] { "Id", "Name", "Level", "Date", "GuiJia", });
+          internal_static_qxmobile_protobuf_RefuseInvite_descriptor =
+            getDescriptor().getMessageTypes().get(61);
+          internal_static_qxmobile_protobuf_RefuseInvite_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_RefuseInvite_descriptor,
+              new java.lang.String[] { "Id", });
+          internal_static_qxmobile_protobuf_RefuseInviteResp_descriptor =
+            getDescriptor().getMessageTypes().get(62);
+          internal_static_qxmobile_protobuf_RefuseInviteResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_RefuseInviteResp_descriptor,
+              new java.lang.String[] { "Result", "LianMengId", });
+          internal_static_qxmobile_protobuf_AgreeInvite_descriptor =
+            getDescriptor().getMessageTypes().get(63);
+          internal_static_qxmobile_protobuf_AgreeInvite_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_AgreeInvite_descriptor,
+              new java.lang.String[] { "Id", });
           return null;
         }
       };

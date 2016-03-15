@@ -511,6 +511,7 @@
 		}
 	%>
 	<hr />
+	<p><b><font color="red">注意：不要进行跨服复制帐号！不要进行跨服复制帐号！不要进行跨服复制帐号！</font></b></p>
 	<form action="" id="createForm" method="get" onsubmit="return checkCreateAccount()">
 		<table>
 			<tr>

@@ -78,7 +78,9 @@ public class FunctionOpenMgr {
 		int maxRenWuId = getMaxRenWuOrderIdx(pid);//注意！这一行和下面一行的顺序不能变！
 		int maxAwardRenWuId = getMaxAwardRenWuOrderIdx(pid);
 		if(maxRenWuId>0 && maxAwardRenWuId==0){//memcached清除后，修正maxAwardRenWuId
+			//如果有当前最大任务id，但没有领奖任务id，则用最大任务id减一（即前一个任务）来作为领奖任务id。
 			maxAwardRenWuId = maxRenWuId-1;
+			MemcachedCRUD.getMemCachedClient().set(awardRenWuOverIdKey+pid, maxAwardRenWuId);
 		}
 		for(int i=0; i<len; i++){
 			//

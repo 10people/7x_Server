@@ -135,7 +135,9 @@ public class JiNengPeiYangMgr extends EventProc{
 		if(nb.ids==null || nb.ids.isEmpty()){
 			nb.ids=""+p.id;
 		}else{
-			nb.ids += "#"+p.id;
+			if(!nb.ids.contains(p.id+"")) {
+				nb.ids += "#"+p.id;
+			}
 		}
 		HibernateUtil.update(nb);
 	}

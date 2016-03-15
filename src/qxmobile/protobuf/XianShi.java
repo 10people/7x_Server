@@ -5940,7 +5940,7 @@ public final class XianShi {
      * <code>optional int32 remainTime = 4;</code>
      *
      * <pre>
-     *剩余等待时间
+     *剩余等待时间 (秒)
      * </pre>
      */
     boolean hasRemainTime();
@@ -5948,7 +5948,7 @@ public final class XianShi {
      * <code>optional int32 remainTime = 4;</code>
      *
      * <pre>
-     *剩余等待时间
+     *剩余等待时间 (秒)
      * </pre>
      */
     int getRemainTime();
@@ -6162,7 +6162,7 @@ public final class XianShi {
      * <code>optional int32 remainTime = 4;</code>
      *
      * <pre>
-     *剩余等待时间
+     *剩余等待时间 (秒)
      * </pre>
      */
     public boolean hasRemainTime() {
@@ -6172,7 +6172,7 @@ public final class XianShi {
      * <code>optional int32 remainTime = 4;</code>
      *
      * <pre>
-     *剩余等待时间
+     *剩余等待时间 (秒)
      * </pre>
      */
     public int getRemainTime() {
@@ -6661,7 +6661,7 @@ public final class XianShi {
        * <code>optional int32 remainTime = 4;</code>
        *
        * <pre>
-       *剩余等待时间
+       *剩余等待时间 (秒)
        * </pre>
        */
       public boolean hasRemainTime() {
@@ -6671,7 +6671,7 @@ public final class XianShi {
        * <code>optional int32 remainTime = 4;</code>
        *
        * <pre>
-       *剩余等待时间
+       *剩余等待时间 (秒)
        * </pre>
        */
       public int getRemainTime() {
@@ -6681,7 +6681,7 @@ public final class XianShi {
        * <code>optional int32 remainTime = 4;</code>
        *
        * <pre>
-       *剩余等待时间
+       *剩余等待时间 (秒)
        * </pre>
        */
       public Builder setRemainTime(int value) {
@@ -6694,7 +6694,7 @@ public final class XianShi {
        * <code>optional int32 remainTime = 4;</code>
        *
        * <pre>
-       *剩余等待时间
+       *剩余等待时间 (秒)
        * </pre>
        */
       public Builder clearRemainTime() {
@@ -7955,6 +7955,906 @@ public final class XianShi {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FuLiHuoDongAwardResp)
   }
 
+  public interface HongBaoRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 yuanbao = 1;
+    /**
+     * <code>required int32 yuanbao = 1;</code>
+     *
+     * <pre>
+     *奖励元宝数目
+     * </pre>
+     */
+    boolean hasYuanbao();
+    /**
+     * <code>required int32 yuanbao = 1;</code>
+     *
+     * <pre>
+     *奖励元宝数目
+     * </pre>
+     */
+    int getYuanbao();
+
+    // required int32 remainTime = 2;
+    /**
+     * <code>required int32 remainTime = 2;</code>
+     *
+     * <pre>
+     *剩余时间
+     * </pre>
+     */
+    boolean hasRemainTime();
+    /**
+     * <code>required int32 remainTime = 2;</code>
+     *
+     * <pre>
+     *剩余时间
+     * </pre>
+     */
+    int getRemainTime();
+
+    // required int32 day = 3;
+    /**
+     * <code>required int32 day = 3;</code>
+     *
+     * <pre>
+     *连送N天的N
+     * </pre>
+     */
+    boolean hasDay();
+    /**
+     * <code>required int32 day = 3;</code>
+     *
+     * <pre>
+     *连送N天的N
+     * </pre>
+     */
+    int getDay();
+
+    // required string awardTime = 4;
+    /**
+     * <code>required string awardTime = 4;</code>
+     *
+     * <pre>
+     *发奖时间 格式为   每天7：00、19：00
+     * </pre>
+     */
+    boolean hasAwardTime();
+    /**
+     * <code>required string awardTime = 4;</code>
+     *
+     * <pre>
+     *发奖时间 格式为   每天7：00、19：00
+     * </pre>
+     */
+    java.lang.String getAwardTime();
+    /**
+     * <code>required string awardTime = 4;</code>
+     *
+     * <pre>
+     *发奖时间 格式为   每天7：00、19：00
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getAwardTimeBytes();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.HongBaoResp}
+   *
+   * <pre>
+   *public static final short C_HONGBAONFO_REQ = 4020;请求红包福利信息
+   *public static final short S_HONGBAONFO_RESP = 4021;//请求红包福利信息返回
+   * </pre>
+   */
+  public static final class HongBaoResp extends
+      com.google.protobuf.GeneratedMessage
+      implements HongBaoRespOrBuilder {
+    // Use HongBaoResp.newBuilder() to construct.
+    private HongBaoResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private HongBaoResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final HongBaoResp defaultInstance;
+    public static HongBaoResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public HongBaoResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private HongBaoResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              yuanbao_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              remainTime_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              day_ = input.readInt32();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              awardTime_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_HongBaoResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_HongBaoResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.XianShi.HongBaoResp.class, qxmobile.protobuf.XianShi.HongBaoResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<HongBaoResp> PARSER =
+        new com.google.protobuf.AbstractParser<HongBaoResp>() {
+      public HongBaoResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new HongBaoResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<HongBaoResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 yuanbao = 1;
+    public static final int YUANBAO_FIELD_NUMBER = 1;
+    private int yuanbao_;
+    /**
+     * <code>required int32 yuanbao = 1;</code>
+     *
+     * <pre>
+     *奖励元宝数目
+     * </pre>
+     */
+    public boolean hasYuanbao() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 yuanbao = 1;</code>
+     *
+     * <pre>
+     *奖励元宝数目
+     * </pre>
+     */
+    public int getYuanbao() {
+      return yuanbao_;
+    }
+
+    // required int32 remainTime = 2;
+    public static final int REMAINTIME_FIELD_NUMBER = 2;
+    private int remainTime_;
+    /**
+     * <code>required int32 remainTime = 2;</code>
+     *
+     * <pre>
+     *剩余时间
+     * </pre>
+     */
+    public boolean hasRemainTime() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 remainTime = 2;</code>
+     *
+     * <pre>
+     *剩余时间
+     * </pre>
+     */
+    public int getRemainTime() {
+      return remainTime_;
+    }
+
+    // required int32 day = 3;
+    public static final int DAY_FIELD_NUMBER = 3;
+    private int day_;
+    /**
+     * <code>required int32 day = 3;</code>
+     *
+     * <pre>
+     *连送N天的N
+     * </pre>
+     */
+    public boolean hasDay() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 day = 3;</code>
+     *
+     * <pre>
+     *连送N天的N
+     * </pre>
+     */
+    public int getDay() {
+      return day_;
+    }
+
+    // required string awardTime = 4;
+    public static final int AWARDTIME_FIELD_NUMBER = 4;
+    private java.lang.Object awardTime_;
+    /**
+     * <code>required string awardTime = 4;</code>
+     *
+     * <pre>
+     *发奖时间 格式为   每天7：00、19：00
+     * </pre>
+     */
+    public boolean hasAwardTime() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required string awardTime = 4;</code>
+     *
+     * <pre>
+     *发奖时间 格式为   每天7：00、19：00
+     * </pre>
+     */
+    public java.lang.String getAwardTime() {
+      java.lang.Object ref = awardTime_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          awardTime_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string awardTime = 4;</code>
+     *
+     * <pre>
+     *发奖时间 格式为   每天7：00、19：00
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getAwardTimeBytes() {
+      java.lang.Object ref = awardTime_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        awardTime_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      yuanbao_ = 0;
+      remainTime_ = 0;
+      day_ = 0;
+      awardTime_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasYuanbao()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRemainTime()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasDay()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasAwardTime()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, yuanbao_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, remainTime_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, day_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, getAwardTimeBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, yuanbao_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, remainTime_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, day_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getAwardTimeBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.XianShi.HongBaoResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.XianShi.HongBaoResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.HongBaoResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.XianShi.HongBaoResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.HongBaoResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.XianShi.HongBaoResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.HongBaoResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.XianShi.HongBaoResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.XianShi.HongBaoResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.XianShi.HongBaoResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.XianShi.HongBaoResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.HongBaoResp}
+     *
+     * <pre>
+     *public static final short C_HONGBAONFO_REQ = 4020;请求红包福利信息
+     *public static final short S_HONGBAONFO_RESP = 4021;//请求红包福利信息返回
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.XianShi.HongBaoRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_HongBaoResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_HongBaoResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.XianShi.HongBaoResp.class, qxmobile.protobuf.XianShi.HongBaoResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.XianShi.HongBaoResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        yuanbao_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        remainTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        day_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        awardTime_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.XianShi.internal_static_qxmobile_protobuf_HongBaoResp_descriptor;
+      }
+
+      public qxmobile.protobuf.XianShi.HongBaoResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.XianShi.HongBaoResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.XianShi.HongBaoResp build() {
+        qxmobile.protobuf.XianShi.HongBaoResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.XianShi.HongBaoResp buildPartial() {
+        qxmobile.protobuf.XianShi.HongBaoResp result = new qxmobile.protobuf.XianShi.HongBaoResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.yuanbao_ = yuanbao_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.remainTime_ = remainTime_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.day_ = day_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.awardTime_ = awardTime_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.XianShi.HongBaoResp) {
+          return mergeFrom((qxmobile.protobuf.XianShi.HongBaoResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.XianShi.HongBaoResp other) {
+        if (other == qxmobile.protobuf.XianShi.HongBaoResp.getDefaultInstance()) return this;
+        if (other.hasYuanbao()) {
+          setYuanbao(other.getYuanbao());
+        }
+        if (other.hasRemainTime()) {
+          setRemainTime(other.getRemainTime());
+        }
+        if (other.hasDay()) {
+          setDay(other.getDay());
+        }
+        if (other.hasAwardTime()) {
+          bitField0_ |= 0x00000008;
+          awardTime_ = other.awardTime_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasYuanbao()) {
+          
+          return false;
+        }
+        if (!hasRemainTime()) {
+          
+          return false;
+        }
+        if (!hasDay()) {
+          
+          return false;
+        }
+        if (!hasAwardTime()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.XianShi.HongBaoResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.XianShi.HongBaoResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 yuanbao = 1;
+      private int yuanbao_ ;
+      /**
+       * <code>required int32 yuanbao = 1;</code>
+       *
+       * <pre>
+       *奖励元宝数目
+       * </pre>
+       */
+      public boolean hasYuanbao() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 yuanbao = 1;</code>
+       *
+       * <pre>
+       *奖励元宝数目
+       * </pre>
+       */
+      public int getYuanbao() {
+        return yuanbao_;
+      }
+      /**
+       * <code>required int32 yuanbao = 1;</code>
+       *
+       * <pre>
+       *奖励元宝数目
+       * </pre>
+       */
+      public Builder setYuanbao(int value) {
+        bitField0_ |= 0x00000001;
+        yuanbao_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 yuanbao = 1;</code>
+       *
+       * <pre>
+       *奖励元宝数目
+       * </pre>
+       */
+      public Builder clearYuanbao() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        yuanbao_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 remainTime = 2;
+      private int remainTime_ ;
+      /**
+       * <code>required int32 remainTime = 2;</code>
+       *
+       * <pre>
+       *剩余时间
+       * </pre>
+       */
+      public boolean hasRemainTime() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 remainTime = 2;</code>
+       *
+       * <pre>
+       *剩余时间
+       * </pre>
+       */
+      public int getRemainTime() {
+        return remainTime_;
+      }
+      /**
+       * <code>required int32 remainTime = 2;</code>
+       *
+       * <pre>
+       *剩余时间
+       * </pre>
+       */
+      public Builder setRemainTime(int value) {
+        bitField0_ |= 0x00000002;
+        remainTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 remainTime = 2;</code>
+       *
+       * <pre>
+       *剩余时间
+       * </pre>
+       */
+      public Builder clearRemainTime() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        remainTime_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 day = 3;
+      private int day_ ;
+      /**
+       * <code>required int32 day = 3;</code>
+       *
+       * <pre>
+       *连送N天的N
+       * </pre>
+       */
+      public boolean hasDay() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 day = 3;</code>
+       *
+       * <pre>
+       *连送N天的N
+       * </pre>
+       */
+      public int getDay() {
+        return day_;
+      }
+      /**
+       * <code>required int32 day = 3;</code>
+       *
+       * <pre>
+       *连送N天的N
+       * </pre>
+       */
+      public Builder setDay(int value) {
+        bitField0_ |= 0x00000004;
+        day_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 day = 3;</code>
+       *
+       * <pre>
+       *连送N天的N
+       * </pre>
+       */
+      public Builder clearDay() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        day_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string awardTime = 4;
+      private java.lang.Object awardTime_ = "";
+      /**
+       * <code>required string awardTime = 4;</code>
+       *
+       * <pre>
+       *发奖时间 格式为   每天7：00、19：00
+       * </pre>
+       */
+      public boolean hasAwardTime() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required string awardTime = 4;</code>
+       *
+       * <pre>
+       *发奖时间 格式为   每天7：00、19：00
+       * </pre>
+       */
+      public java.lang.String getAwardTime() {
+        java.lang.Object ref = awardTime_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          awardTime_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string awardTime = 4;</code>
+       *
+       * <pre>
+       *发奖时间 格式为   每天7：00、19：00
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getAwardTimeBytes() {
+        java.lang.Object ref = awardTime_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          awardTime_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string awardTime = 4;</code>
+       *
+       * <pre>
+       *发奖时间 格式为   每天7：00、19：00
+       * </pre>
+       */
+      public Builder setAwardTime(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        awardTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string awardTime = 4;</code>
+       *
+       * <pre>
+       *发奖时间 格式为   每天7：00、19：00
+       * </pre>
+       */
+      public Builder clearAwardTime() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        awardTime_ = getDefaultInstance().getAwardTime();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string awardTime = 4;</code>
+       *
+       * <pre>
+       *发奖时间 格式为   每天7：00、19：00
+       * </pre>
+       */
+      public Builder setAwardTimeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        awardTime_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.HongBaoResp)
+    }
+
+    static {
+      defaultInstance = new HongBaoResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.HongBaoResp)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_XinShouXSActivity_descriptor;
   private static
@@ -8010,6 +8910,11 @@ public final class XianShi {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_FuLiHuoDongAwardResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_HongBaoResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_HongBaoResp_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -8039,7 +8944,9 @@ public final class XianShi {
       "emainTime\030\004 \001(\005\"\'\n\023FuLiHuoDongAwardReq\022\020" +
       "\n\010fuLiType\030\001 \002(\005\"J\n\024FuLiHuoDongAwardResp" +
       "\022\020\n\010fuLiType\030\001 \002(\005\022\016\n\006result\030\002 \002(\t\022\020\n\010ne",
-      "xtShow\030\003 \001(\tB\tB\007XianShi"
+      "xtShow\030\003 \001(\t\"R\n\013HongBaoResp\022\017\n\007yuanbao\030\001" +
+      " \002(\005\022\022\n\nremainTime\030\002 \002(\005\022\013\n\003day\030\003 \002(\005\022\021\n" +
+      "\tawardTime\030\004 \002(\tB\tB\007XianShi"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -8112,6 +9019,12 @@ public final class XianShi {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_FuLiHuoDongAwardResp_descriptor,
               new java.lang.String[] { "FuLiType", "Result", "NextShow", });
+          internal_static_qxmobile_protobuf_HongBaoResp_descriptor =
+            getDescriptor().getMessageTypes().get(11);
+          internal_static_qxmobile_protobuf_HongBaoResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_HongBaoResp_descriptor,
+              new java.lang.String[] { "Yuanbao", "RemainTime", "Day", "AwardTime", });
           return null;
         }
       };

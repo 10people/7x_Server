@@ -80,6 +80,7 @@
 	 <mapping class="com.qx.yabiao.YaBiaoBean"/>
 	 <mapping class="com.qx.yabiao.YBBattleBean"/>
 	 <mapping class="com.qx.prompt.PromptMSG"/>
+	 <mapping class="com.qx.friends.GongHeBean"/>
 	 <mapping class="com.qx.prompt.YaBiaoJunQing"/>
 	 <mapping class="com.qx.yabiao.YunBiaoHistory"/>
 	 <mapping class="com.qx.yabiao.YunBiaoHistory"/>
@@ -164,7 +165,10 @@
     <mapping class="com.qx.yabiao.LastExitYBInfo"/>
     <mapping class="com.qx.prompt.LveDuoMI"/>
     <mapping class="com.qx.prompt.LveDuoHelp"/>
+    <mapping class="com.qx.alliance.building.LMKJJiHuo"/>
     <mapping class="com.manu.dynasty.chat.ChatInfo"/>
+    <mapping class="com.qx.explore.treasure.BaoXiangBean"/>
+    <mapping class="com.qx.alliance.AllianceInviteBean"/>
    
     
 </session-factory>

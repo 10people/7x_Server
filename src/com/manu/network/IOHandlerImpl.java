@@ -26,7 +26,7 @@ import com.qx.world.Scene;
 public class IOHandlerImpl implements IoHandler  {
 	public static IOHandlerImpl inst = new IOHandlerImpl();
 	public boolean closeIdleSession = true;
-	public static Logger log = LoggerFactory.getLogger(IOHandlerImpl.class);
+	public static Logger log = LoggerFactory.getLogger(IOHandlerImpl.class.getSimpleName());
 	public IOHandlerImpl(){
 		inst = this;
 	}
@@ -50,7 +50,7 @@ public class IOHandlerImpl implements IoHandler  {
 			throws Exception {
 		if(closeIdleSession){
 			log.info("sid {} idle, now close it", session.getId());
-			session.close(true);
+			session.close(false);
 		}
 	}
 	@Override
@@ -106,6 +106,11 @@ public class IOHandlerImpl implements IoHandler  {
 	}
 	
 	public void playerExitScene(IoSession session) {
+		String key = "EXCEPTION_OR_CLOSE";
+		if(session.containsAttribute(key)){
+			return;
+		}
+		session.setAttribute(key);
 		BigSwitch.inst.scMgr.playerExitScene(session);
 		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
 		if (junZhuId != null) {

@@ -5676,410 +5676,6 @@ public final class LveDuo {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.LveConfirmResp)
   }
 
-  public interface LveBattleResultOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 lostGongJin = 1;
-    /**
-     * <code>required int32 lostGongJin = 1;</code>
-     */
-    boolean hasLostGongJin();
-    /**
-     * <code>required int32 lostGongJin = 1;</code>
-     */
-    int getLostGongJin();
-  }
-  /**
-   * Protobuf type {@code qxmobile.protobuf.LveBattleResult}
-   */
-  public static final class LveBattleResult extends
-      com.google.protobuf.GeneratedMessage
-      implements LveBattleResultOrBuilder {
-    // Use LveBattleResult.newBuilder() to construct.
-    private LveBattleResult(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private LveBattleResult(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final LveBattleResult defaultInstance;
-    public static LveBattleResult getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public LveBattleResult getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private LveBattleResult(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              lostGongJin_ = input.readInt32();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return qxmobile.protobuf.LveDuo.internal_static_qxmobile_protobuf_LveBattleResult_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.LveDuo.internal_static_qxmobile_protobuf_LveBattleResult_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.LveDuo.LveBattleResult.class, qxmobile.protobuf.LveDuo.LveBattleResult.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<LveBattleResult> PARSER =
-        new com.google.protobuf.AbstractParser<LveBattleResult>() {
-      public LveBattleResult parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new LveBattleResult(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<LveBattleResult> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 lostGongJin = 1;
-    public static final int LOSTGONGJIN_FIELD_NUMBER = 1;
-    private int lostGongJin_;
-    /**
-     * <code>required int32 lostGongJin = 1;</code>
-     */
-    public boolean hasLostGongJin() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 lostGongJin = 1;</code>
-     */
-    public int getLostGongJin() {
-      return lostGongJin_;
-    }
-
-    private void initFields() {
-      lostGongJin_ = 0;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasLostGongJin()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, lostGongJin_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, lostGongJin_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static qxmobile.protobuf.LveDuo.LveBattleResult parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.LveDuo.LveBattleResult parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.LveDuo.LveBattleResult parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.LveDuo.LveBattleResult parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.LveDuo.LveBattleResult parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.LveDuo.LveBattleResult parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.LveDuo.LveBattleResult parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static qxmobile.protobuf.LveDuo.LveBattleResult parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.LveDuo.LveBattleResult parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.LveDuo.LveBattleResult parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.LveDuo.LveBattleResult prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code qxmobile.protobuf.LveBattleResult}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.LveDuo.LveBattleResultOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return qxmobile.protobuf.LveDuo.internal_static_qxmobile_protobuf_LveBattleResult_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.LveDuo.internal_static_qxmobile_protobuf_LveBattleResult_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.LveDuo.LveBattleResult.class, qxmobile.protobuf.LveDuo.LveBattleResult.Builder.class);
-      }
-
-      // Construct using qxmobile.protobuf.LveDuo.LveBattleResult.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        lostGongJin_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return qxmobile.protobuf.LveDuo.internal_static_qxmobile_protobuf_LveBattleResult_descriptor;
-      }
-
-      public qxmobile.protobuf.LveDuo.LveBattleResult getDefaultInstanceForType() {
-        return qxmobile.protobuf.LveDuo.LveBattleResult.getDefaultInstance();
-      }
-
-      public qxmobile.protobuf.LveDuo.LveBattleResult build() {
-        qxmobile.protobuf.LveDuo.LveBattleResult result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public qxmobile.protobuf.LveDuo.LveBattleResult buildPartial() {
-        qxmobile.protobuf.LveDuo.LveBattleResult result = new qxmobile.protobuf.LveDuo.LveBattleResult(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.lostGongJin_ = lostGongJin_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.LveDuo.LveBattleResult) {
-          return mergeFrom((qxmobile.protobuf.LveDuo.LveBattleResult)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(qxmobile.protobuf.LveDuo.LveBattleResult other) {
-        if (other == qxmobile.protobuf.LveDuo.LveBattleResult.getDefaultInstance()) return this;
-        if (other.hasLostGongJin()) {
-          setLostGongJin(other.getLostGongJin());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasLostGongJin()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        qxmobile.protobuf.LveDuo.LveBattleResult parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.LveDuo.LveBattleResult) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 lostGongJin = 1;
-      private int lostGongJin_ ;
-      /**
-       * <code>required int32 lostGongJin = 1;</code>
-       */
-      public boolean hasLostGongJin() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 lostGongJin = 1;</code>
-       */
-      public int getLostGongJin() {
-        return lostGongJin_;
-      }
-      /**
-       * <code>required int32 lostGongJin = 1;</code>
-       */
-      public Builder setLostGongJin(int value) {
-        bitField0_ |= 0x00000001;
-        lostGongJin_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 lostGongJin = 1;</code>
-       */
-      public Builder clearLostGongJin() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        lostGongJin_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.LveBattleResult)
-    }
-
-    static {
-      defaultInstance = new LveBattleResult(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.LveBattleResult)
-  }
-
   public interface LveGoLveDuoReqOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -10253,15 +9849,59 @@ public final class LveDuo {
   public interface LveBattleEndRespOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 winGongJin = 1;
+    // required int32 jifen = 1;
     /**
-     * <code>required int32 winGongJin = 1;</code>
+     * <code>required int32 jifen = 1;</code>
+     *
+     * <pre>
+     *积分
+     * </pre>
      */
-    boolean hasWinGongJin();
+    boolean hasJifen();
     /**
-     * <code>required int32 winGongJin = 1;</code>
+     * <code>required int32 jifen = 1;</code>
+     *
+     * <pre>
+     *积分
+     * </pre>
      */
-    int getWinGongJin();
+    int getJifen();
+
+    // required int32 build = 2;
+    /**
+     * <code>required int32 build = 2;</code>
+     *
+     * <pre>
+     *联盟建设值
+     * </pre>
+     */
+    boolean hasBuild();
+    /**
+     * <code>required int32 build = 2;</code>
+     *
+     * <pre>
+     *联盟建设值
+     * </pre>
+     */
+    int getBuild();
+
+    // required int32 shengwang = 3;
+    /**
+     * <code>required int32 shengwang = 3;</code>
+     *
+     * <pre>
+     *国家声望值
+     * </pre>
+     */
+    boolean hasShengwang();
+    /**
+     * <code>required int32 shengwang = 3;</code>
+     *
+     * <pre>
+     *国家声望值
+     * </pre>
+     */
+    int getShengwang();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.LveBattleEndResp}
@@ -10316,7 +9956,17 @@ public final class LveDuo {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              winGongJin_ = input.readInt32();
+              jifen_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              build_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              shengwang_ = input.readInt32();
               break;
             }
           }
@@ -10359,31 +10009,97 @@ public final class LveDuo {
     }
 
     private int bitField0_;
-    // required int32 winGongJin = 1;
-    public static final int WINGONGJIN_FIELD_NUMBER = 1;
-    private int winGongJin_;
+    // required int32 jifen = 1;
+    public static final int JIFEN_FIELD_NUMBER = 1;
+    private int jifen_;
     /**
-     * <code>required int32 winGongJin = 1;</code>
+     * <code>required int32 jifen = 1;</code>
+     *
+     * <pre>
+     *积分
+     * </pre>
      */
-    public boolean hasWinGongJin() {
+    public boolean hasJifen() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 winGongJin = 1;</code>
+     * <code>required int32 jifen = 1;</code>
+     *
+     * <pre>
+     *积分
+     * </pre>
      */
-    public int getWinGongJin() {
-      return winGongJin_;
+    public int getJifen() {
+      return jifen_;
+    }
+
+    // required int32 build = 2;
+    public static final int BUILD_FIELD_NUMBER = 2;
+    private int build_;
+    /**
+     * <code>required int32 build = 2;</code>
+     *
+     * <pre>
+     *联盟建设值
+     * </pre>
+     */
+    public boolean hasBuild() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 build = 2;</code>
+     *
+     * <pre>
+     *联盟建设值
+     * </pre>
+     */
+    public int getBuild() {
+      return build_;
+    }
+
+    // required int32 shengwang = 3;
+    public static final int SHENGWANG_FIELD_NUMBER = 3;
+    private int shengwang_;
+    /**
+     * <code>required int32 shengwang = 3;</code>
+     *
+     * <pre>
+     *国家声望值
+     * </pre>
+     */
+    public boolean hasShengwang() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 shengwang = 3;</code>
+     *
+     * <pre>
+     *国家声望值
+     * </pre>
+     */
+    public int getShengwang() {
+      return shengwang_;
     }
 
     private void initFields() {
-      winGongJin_ = 0;
+      jifen_ = 0;
+      build_ = 0;
+      shengwang_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasWinGongJin()) {
+      if (!hasJifen()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasBuild()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasShengwang()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -10395,7 +10111,13 @@ public final class LveDuo {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, winGongJin_);
+        output.writeInt32(1, jifen_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, build_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, shengwang_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -10408,7 +10130,15 @@ public final class LveDuo {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, winGongJin_);
+          .computeInt32Size(1, jifen_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, build_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, shengwang_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -10526,8 +10256,12 @@ public final class LveDuo {
 
       public Builder clear() {
         super.clear();
-        winGongJin_ = 0;
+        jifen_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        build_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        shengwang_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -10559,7 +10293,15 @@ public final class LveDuo {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.winGongJin_ = winGongJin_;
+        result.jifen_ = jifen_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.build_ = build_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.shengwang_ = shengwang_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -10576,15 +10318,29 @@ public final class LveDuo {
 
       public Builder mergeFrom(qxmobile.protobuf.LveDuo.LveBattleEndResp other) {
         if (other == qxmobile.protobuf.LveDuo.LveBattleEndResp.getDefaultInstance()) return this;
-        if (other.hasWinGongJin()) {
-          setWinGongJin(other.getWinGongJin());
+        if (other.hasJifen()) {
+          setJifen(other.getJifen());
+        }
+        if (other.hasBuild()) {
+          setBuild(other.getBuild());
+        }
+        if (other.hasShengwang()) {
+          setShengwang(other.getShengwang());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasWinGongJin()) {
+        if (!hasJifen()) {
+          
+          return false;
+        }
+        if (!hasBuild()) {
+          
+          return false;
+        }
+        if (!hasShengwang()) {
           
           return false;
         }
@@ -10610,35 +10366,149 @@ public final class LveDuo {
       }
       private int bitField0_;
 
-      // required int32 winGongJin = 1;
-      private int winGongJin_ ;
+      // required int32 jifen = 1;
+      private int jifen_ ;
       /**
-       * <code>required int32 winGongJin = 1;</code>
+       * <code>required int32 jifen = 1;</code>
+       *
+       * <pre>
+       *积分
+       * </pre>
        */
-      public boolean hasWinGongJin() {
+      public boolean hasJifen() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int32 winGongJin = 1;</code>
+       * <code>required int32 jifen = 1;</code>
+       *
+       * <pre>
+       *积分
+       * </pre>
        */
-      public int getWinGongJin() {
-        return winGongJin_;
+      public int getJifen() {
+        return jifen_;
       }
       /**
-       * <code>required int32 winGongJin = 1;</code>
+       * <code>required int32 jifen = 1;</code>
+       *
+       * <pre>
+       *积分
+       * </pre>
        */
-      public Builder setWinGongJin(int value) {
+      public Builder setJifen(int value) {
         bitField0_ |= 0x00000001;
-        winGongJin_ = value;
+        jifen_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 winGongJin = 1;</code>
+       * <code>required int32 jifen = 1;</code>
+       *
+       * <pre>
+       *积分
+       * </pre>
        */
-      public Builder clearWinGongJin() {
+      public Builder clearJifen() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        winGongJin_ = 0;
+        jifen_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 build = 2;
+      private int build_ ;
+      /**
+       * <code>required int32 build = 2;</code>
+       *
+       * <pre>
+       *联盟建设值
+       * </pre>
+       */
+      public boolean hasBuild() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 build = 2;</code>
+       *
+       * <pre>
+       *联盟建设值
+       * </pre>
+       */
+      public int getBuild() {
+        return build_;
+      }
+      /**
+       * <code>required int32 build = 2;</code>
+       *
+       * <pre>
+       *联盟建设值
+       * </pre>
+       */
+      public Builder setBuild(int value) {
+        bitField0_ |= 0x00000002;
+        build_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 build = 2;</code>
+       *
+       * <pre>
+       *联盟建设值
+       * </pre>
+       */
+      public Builder clearBuild() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        build_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 shengwang = 3;
+      private int shengwang_ ;
+      /**
+       * <code>required int32 shengwang = 3;</code>
+       *
+       * <pre>
+       *国家声望值
+       * </pre>
+       */
+      public boolean hasShengwang() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 shengwang = 3;</code>
+       *
+       * <pre>
+       *国家声望值
+       * </pre>
+       */
+      public int getShengwang() {
+        return shengwang_;
+      }
+      /**
+       * <code>required int32 shengwang = 3;</code>
+       *
+       * <pre>
+       *国家声望值
+       * </pre>
+       */
+      public Builder setShengwang(int value) {
+        bitField0_ |= 0x00000004;
+        shengwang_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 shengwang = 3;</code>
+       *
+       * <pre>
+       *国家声望值
+       * </pre>
+       */
+      public Builder clearShengwang() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        shengwang_ = 0;
         onChanged();
         return this;
       }
@@ -15590,11 +15460,6 @@ public final class LveDuo {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_LveConfirmResp_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_LveBattleResult_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_LveBattleResult_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_LveGoLveDuoReq_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -15674,38 +15539,38 @@ public final class LveDuo {
       "d\030\005 \001(\005\022\017\n\007gongJin\030\006 \001(\005\022\031\n\021nowMaxBattle" +
       "Count\030\007 \001(\005\022\025\n\rcanClearCdVIP\030\010 \001(\005\022\027\n\017bu",
       "yNextBattleYB\030\t \001(\005\022\032\n\022buyNextBattleCoun" +
-      "t\030\n \001(\005\022\027\n\017remainBuyHuiShi\030\013 \001(\005\"&\n\017LveB" +
-      "attleResult\022\023\n\013lostGongJin\030\001 \002(\005\"!\n\016LveG" +
+      "t\030\n \001(\005\022\027\n\017remainBuyHuiShi\030\013 \001(\005\"!\n\016LveG" +
       "oLveDuoReq\022\017\n\007enemyId\030\001 \002(\003\"\363\002\n\017LveGoLve" +
       "DuoResp\022\023\n\013isCanLveDuo\030\001 \002(\005\022+\n\nmySoldie" +
       "rs\030\002 \003(\0132\027.qxmobile.protobuf.Bing\022\020\n\010myZ" +
       "hanli\030\003 \001(\005\022\026\n\016myGongjiZuheId\030\004 \001(\005\022-\n\014o" +
       "ppoSoldiers\030\005 \003(\0132\027.qxmobile.protobuf.Bi" +
       "ng\022\022\n\noppoZhanli\030\006 \001(\005\022\016\n\006oppoId\030\007 \001(\003\022\022" +
-      "\n\noppoRoleId\030\010 \001(\005\022\031\n\021oppFangShouZuheId\030",
-      "\t \001(\005\022\023\n\013lostGongJin\030\n \001(\005\022\017\n\007gongJin\030\013 " +
+      "\n\noppoRoleId\030\010 \001(\005\022\031\n\021oppFangShouZuheId\030" +
+      "\t \001(\005\022\023\n\013lostGongJin\030\n \001(\005\022\017\n\007gongJin\030\013 ",
       "\001(\005\022\021\n\toppoLevel\030\014 \001(\005\022\036\n\026oppoActivateMi" +
       "BaoCount\030\r \001(\005\022\014\n\004used\030\016 \001(\005\022\013\n\003all\030\017 \001(" +
       "\005\"\036\n\004Bing\022\n\n\002id\030\001 \002(\005\022\n\n\002hp\030\002 \002(\005\"}\n\017Lve" +
       "BattleEndReq\022\017\n\007enemyId\030\001 \002(\003\022\r\n\005winId\030\002" +
       " \002(\003\022\021\n\tzhandouId\030\003 \002(\005\022&\n\005bings\030\004 \003(\0132\027" +
       ".qxmobile.protobuf.Bing\022\017\n\007enemyHp\030\005 \002(\005" +
-      "\"&\n\020LveBattleEndResp\022\022\n\nwinGongJin\030\001 \002(\005" +
-      "\"E\n\023LveBattleRecordResp\022.\n\004info\030\001 \003(\0132 ." +
-      "qxmobile.protobuf.LveBattleItem\"\206\002\n\rLveB",
-      "attleItem\022\021\n\tzhandouId\030\001 \002(\005\022\021\n\tanotherI" +
-      "d\030\002 \002(\003\022\023\n\013anotherName\030\003 \002(\t\022\027\n\017anotherG" +
-      "uoJiaId\030\004 \002(\005\022\025\n\ranotherRoleId\030\005 \002(\005\022\024\n\014" +
-      "anotherLevel\030\006 \002(\005\022\014\n\004time\030\007 \002(\003\022\021\n\tgong" +
-      "Jiwin\030\010 \002(\005\022\025\n\ranotherZhanli\030\t \002(\005\022\027\n\017an" +
-      "otherMengName\030\n \002(\t\022\021\n\tlostXiaYi\030\013 \002(\005\022\020" +
-      "\n\010gongJiId\030\014 \002(\003\"T\n\016LveNextItemReq\022\020\n\010ra" +
-      "nkType\030\001 \002(\005\022\016\n\006mengId\030\002 \001(\005\022\016\n\006pageNo\030\003" +
-      " \001(\005\022\020\n\010guojiaId\030\004 \001(\005\"t\n\017LveNextItemRes" +
-      "p\022.\n\007junList\030\001 \003(\0132\035.qxmobile.protobuf.J",
-      "unZhuInfo\0221\n\010mengList\030\002 \003(\0132\037.qxmobile.p" +
-      "rotobuf.LianMengInfo\"/\n\nLveHelpReq\022\017\n\007en" +
-      "emyId\030\001 \002(\003\022\020\n\010remainHp\030\002 \002(\005B\010B\006LveDuo"
+      "\"C\n\020LveBattleEndResp\022\r\n\005jifen\030\001 \002(\005\022\r\n\005b" +
+      "uild\030\002 \002(\005\022\021\n\tshengwang\030\003 \002(\005\"E\n\023LveBatt" +
+      "leRecordResp\022.\n\004info\030\001 \003(\0132 .qxmobile.pr" +
+      "otobuf.LveBattleItem\"\206\002\n\rLveBattleItem\022\021",
+      "\n\tzhandouId\030\001 \002(\005\022\021\n\tanotherId\030\002 \002(\003\022\023\n\013" +
+      "anotherName\030\003 \002(\t\022\027\n\017anotherGuoJiaId\030\004 \002" +
+      "(\005\022\025\n\ranotherRoleId\030\005 \002(\005\022\024\n\014anotherLeve" +
+      "l\030\006 \002(\005\022\014\n\004time\030\007 \002(\003\022\021\n\tgongJiwin\030\010 \002(\005" +
+      "\022\025\n\ranotherZhanli\030\t \002(\005\022\027\n\017anotherMengNa" +
+      "me\030\n \002(\t\022\021\n\tlostXiaYi\030\013 \002(\005\022\020\n\010gongJiId\030" +
+      "\014 \002(\003\"T\n\016LveNextItemReq\022\020\n\010rankType\030\001 \002(" +
+      "\005\022\016\n\006mengId\030\002 \001(\005\022\016\n\006pageNo\030\003 \001(\005\022\020\n\010guo" +
+      "jiaId\030\004 \001(\005\"t\n\017LveNextItemResp\022.\n\007junLis" +
+      "t\030\001 \003(\0132\035.qxmobile.protobuf.JunZhuInfo\0221",
+      "\n\010mengList\030\002 \003(\0132\037.qxmobile.protobuf.Lia" +
+      "nMengInfo\"/\n\nLveHelpReq\022\017\n\007enemyId\030\001 \002(\003" +
+      "\022\020\n\010remainHp\030\002 \002(\005B\010B\006LveDuo"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -15736,68 +15601,62 @@ public final class LveDuo {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_LveConfirmResp_descriptor,
               new java.lang.String[] { "IsOk", "LeftCD", "All", "NextCDYuanBao", "Used", "GongJin", "NowMaxBattleCount", "CanClearCdVIP", "BuyNextBattleYB", "BuyNextBattleCount", "RemainBuyHuiShi", });
-          internal_static_qxmobile_protobuf_LveBattleResult_descriptor =
-            getDescriptor().getMessageTypes().get(4);
-          internal_static_qxmobile_protobuf_LveBattleResult_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_LveBattleResult_descriptor,
-              new java.lang.String[] { "LostGongJin", });
           internal_static_qxmobile_protobuf_LveGoLveDuoReq_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_LveGoLveDuoReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_LveGoLveDuoReq_descriptor,
               new java.lang.String[] { "EnemyId", });
           internal_static_qxmobile_protobuf_LveGoLveDuoResp_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_qxmobile_protobuf_LveGoLveDuoResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_LveGoLveDuoResp_descriptor,
               new java.lang.String[] { "IsCanLveDuo", "MySoldiers", "MyZhanli", "MyGongjiZuheId", "OppoSoldiers", "OppoZhanli", "OppoId", "OppoRoleId", "OppFangShouZuheId", "LostGongJin", "GongJin", "OppoLevel", "OppoActivateMiBaoCount", "Used", "All", });
           internal_static_qxmobile_protobuf_Bing_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_qxmobile_protobuf_Bing_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_Bing_descriptor,
               new java.lang.String[] { "Id", "Hp", });
           internal_static_qxmobile_protobuf_LveBattleEndReq_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(7);
           internal_static_qxmobile_protobuf_LveBattleEndReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_LveBattleEndReq_descriptor,
               new java.lang.String[] { "EnemyId", "WinId", "ZhandouId", "Bings", "EnemyHp", });
           internal_static_qxmobile_protobuf_LveBattleEndResp_descriptor =
-            getDescriptor().getMessageTypes().get(9);
+            getDescriptor().getMessageTypes().get(8);
           internal_static_qxmobile_protobuf_LveBattleEndResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_LveBattleEndResp_descriptor,
-              new java.lang.String[] { "WinGongJin", });
+              new java.lang.String[] { "Jifen", "Build", "Shengwang", });
           internal_static_qxmobile_protobuf_LveBattleRecordResp_descriptor =
-            getDescriptor().getMessageTypes().get(10);
+            getDescriptor().getMessageTypes().get(9);
           internal_static_qxmobile_protobuf_LveBattleRecordResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_LveBattleRecordResp_descriptor,
               new java.lang.String[] { "Info", });
           internal_static_qxmobile_protobuf_LveBattleItem_descriptor =
-            getDescriptor().getMessageTypes().get(11);
+            getDescriptor().getMessageTypes().get(10);
           internal_static_qxmobile_protobuf_LveBattleItem_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_LveBattleItem_descriptor,
               new java.lang.String[] { "ZhandouId", "AnotherId", "AnotherName", "AnotherGuoJiaId", "AnotherRoleId", "AnotherLevel", "Time", "GongJiwin", "AnotherZhanli", "AnotherMengName", "LostXiaYi", "GongJiId", });
           internal_static_qxmobile_protobuf_LveNextItemReq_descriptor =
-            getDescriptor().getMessageTypes().get(12);
+            getDescriptor().getMessageTypes().get(11);
           internal_static_qxmobile_protobuf_LveNextItemReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_LveNextItemReq_descriptor,
               new java.lang.String[] { "RankType", "MengId", "PageNo", "GuojiaId", });
           internal_static_qxmobile_protobuf_LveNextItemResp_descriptor =
-            getDescriptor().getMessageTypes().get(13);
+            getDescriptor().getMessageTypes().get(12);
           internal_static_qxmobile_protobuf_LveNextItemResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_LveNextItemResp_descriptor,
               new java.lang.String[] { "JunList", "MengList", });
           internal_static_qxmobile_protobuf_LveHelpReq_descriptor =
-            getDescriptor().getMessageTypes().get(14);
+            getDescriptor().getMessageTypes().get(13);
           internal_static_qxmobile_protobuf_LveHelpReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_LveHelpReq_descriptor,

@@ -383,7 +383,7 @@ public class ShopMgr {
 						GoodsInfo ginfo = new GoodsInfo();
 						ginfo.setId(dp.id);
 						// 其他商店默认1
-						ginfo.num = BUY_TIMES;
+						ginfo.num = dp.getMax();
 						goodsList.add(ginfo);
 						break;
 					}
@@ -628,6 +628,7 @@ public class ShopMgr {
 			/* 购买成功 */
 			resp.setMsg(1);
 			resp.setRemianMoney(oldMoney);
+			resp.setIsChange(buyg.num == 0? false: true);
 			logger.info("玩家id{},姓名 {}, 商店类型:{}用货币购买物品[{}]成功 货币{}", jz.id, jz.name,
 					bigType, dh.itemId, money);
 			String itemName = BagMgr.inst.getItemName(dh.itemId);

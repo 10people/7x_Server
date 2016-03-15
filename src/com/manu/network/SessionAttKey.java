@@ -28,4 +28,5 @@ public class SessionAttKey {
 	public static final String RobotType="ROBOT_TYPE";
 	public static final String RobotJZID = "ROBOT_JZID";
 	public static final String SceneID = "SCENE_ID";
+	public static final String LAST_GREETED_KEY = "lastGreetedKey";
 }

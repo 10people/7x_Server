@@ -22,20 +22,23 @@
 <title>protoIdLog</title>
 </head>
 <body>
+<%
+// 查看
+String name = request.getParameter("name");
+String ownerid = request.getParameter("ownerid");
+name = (name == null ? "": name.trim());
+ownerid = (ownerid == null ? "":ownerid.trim());
+if(session.getAttribute("name") != null && name.length()==0 && ownerid.length()==0){
+	name = (String)session.getAttribute("name");
+}
+
+%>
 	<form>
 		<p>
-			账号： <input type="text" name="name"/> 或 君主id： <input type="text" name="ownerid"/> <button type="submit">查看</button>
+			账号： <input type="text" name="name" value="<%=name%>"/> 或 君主id： <input type="text" name="ownerid"/> <button type="submit">查看</button>
 		</p>
 	</form>
 	<%
-	// 查看
-	String name = request.getParameter("name");
-	String ownerid = request.getParameter("ownerid");
-	name = (name == null ? "": name.trim());
-	ownerid = (ownerid == null ? "":ownerid.trim());
-	if(session.getAttribute("name") != null && name.length()==0 && ownerid.length()==0){
-		name = (String)session.getAttribute("name");
-	}
 	
 	Account account = null;
 	if(name != null && name.length()>0){

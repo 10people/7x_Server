@@ -55,7 +55,7 @@ public class FunctionID {
 	public static int LianMengKeZhanDongTai = 600505; //三级-联盟客栈-联盟动态
 	
 	// 联盟商铺和书院不需要红点提示
-//	public static int LianMengShuYuanKiJi =  600600; // 二级联盟书院（科技）
+	public static int LianMengShuYuanKiJi =  600600; // 二级联盟书院（科技）
 //	public static int LianMengShangPu; // 二级-联盟商铺
 //	public static int JiBai = 400018; // 二级-联盟-祭拜（不使用）
 
@@ -81,6 +81,9 @@ public class FunctionID {
 	public static int FengShanShengDian = 400110; // 四级-联盟-图腾-封禅-封禅盛典（99贡献值）
 
 	
+//	public static int lianmengJunQing = 410010; 
+	public static int lianmengJunQingLveDuo = 410012; 
+	public static int lianmengJunQingYabiao = 410015; 
 
 	// 联盟事件
 //	public static final int ALLIANCE_EVENT = 1000001;

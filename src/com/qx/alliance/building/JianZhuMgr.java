@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
-
-import groovy.servlet.TemplateServlet;
 
 import org.apache.mina.core.future.WriteFuture;
 import org.apache.mina.core.session.DummySession;
@@ -16,18 +13,11 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
-import qxmobile.protobuf.Explore.Award;
-import qxmobile.protobuf.Explore.ExploreResp;
-import qxmobile.protobuf.Explore.TypeInfo;
-import qxmobile.protobuf.Explore.TypeInfoOrBuilder;
-import qxmobile.protobuf.JianZhu.JianZhuInfo;
-import qxmobile.protobuf.JianZhu.JianZhuList;
-
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.hero.service.HeroService;
 import com.manu.dynasty.template.AwardTemp;
+import com.manu.dynasty.template.KeJiInfo;
 import com.manu.dynasty.template.LianMengKeJi;
 import com.manu.dynasty.template.LianMengKeZhan;
 import com.manu.dynasty.template.LianMengShangPu;
@@ -42,7 +32,6 @@ import com.qx.account.FunctionOpenMgr;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
-import com.qx.alliance.MoBaiBean;
 import com.qx.award.AwardMgr;
 import com.qx.bag.BagMgr;
 import com.qx.event.ED;
@@ -54,6 +43,16 @@ import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.timeworker.FunctionID;
 import com.qx.util.RandomUtil;
+
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import qxmobile.protobuf.Explore.Award;
+import qxmobile.protobuf.Explore.ExploreResp;
+import qxmobile.protobuf.Explore.TypeInfo;
+import qxmobile.protobuf.JianZhu.JiHuoLMKJReq;
+import qxmobile.protobuf.JianZhu.JiHuoLMKJResp;
+import qxmobile.protobuf.JianZhu.JianZhuInfo;
+import qxmobile.protobuf.JianZhu.JianZhuList;
+import qxmobile.protobuf.JianZhu.KeJiList;
 
 /**
  * 联盟建筑管理器
@@ -300,7 +299,7 @@ public class JianZhuMgr extends EventProc{
 			return;
 		}
 		LMKJBean bean = HibernateUtil.find(LMKJBean.class, member.lianMengId);
-		int curLevel = 1;
+		int curLevel = 0;
 		int type = req.getErrorCode();
 		if(bean != null){
 			curLevel = getKeJiLv(bean, type);
@@ -311,10 +310,16 @@ public class JianZhuMgr extends EventProc{
 		}
 		LianMengKeJi conf = getKeJiConf(type, curLevel);
 		if(conf == null){
-			log.error("没有找到这个科技 type {} level {}",type, curLevel);
 			return;
 		}
-		//
+		
+		int newLv = curLevel+1;
+		LianMengKeJi nextCof = getKeJiConf(type, newLv);
+		if(nextCof == null) {
+			log.error("升级联盟升级失败， 可能已经研究到最高等级或找不到配置type:{} curLevel:{}",type, curLevel);
+			return;
+		}
+		
 		AllianceBean lmBean = HibernateUtil.find(AllianceBean.class, member.lianMengId);
 		if(lmBean == null){
 			log.error("未找到对应的联盟{}",member.lianMengId);
@@ -336,7 +341,7 @@ public class JianZhuMgr extends EventProc{
 		log.info("扣除联盟建设值 {} of lmId {}",conf.lvUpValue, lmBean.id);
 		AllianceMgr.inst.sendAllianceInfo(jz, session, null, lmBean);
 		
-		int newLv = curLevel+1;
+		
 		setLevel(bean, type , newLv);
 		//检查是否正确
 		if(newLv != getKeJiLv(bean, type)){
@@ -361,6 +366,56 @@ public class JianZhuMgr extends EventProc{
 		JunZhuMgr.inst.sendMainInfo(session);
 	}
 	
+	public void jiHuoLMKJ(int id, IoSession session, Builder builder) {
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			return;
+		}
+		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jz.id);
+		if (member == null) {
+			sendError(id, session, "您不在联盟中。");
+			return;
+		} 
+		JiHuoLMKJReq.Builder request = (qxmobile.protobuf.JianZhu.JiHuoLMKJReq.Builder) builder;
+		int type = request.getKeJiType();
+		
+		LMKJBean bean = HibernateUtil.find(LMKJBean.class, member.lianMengId);
+		int kjLevel = 0;
+		if(bean != null){
+			kjLevel = getKeJiLv(bean, type);
+		}
+		
+		LMKJJiHuo lmkjJiHuo = HibernateUtil.find(LMKJJiHuo.class, jz.id);
+		if(lmkjJiHuo == null) {
+			lmkjJiHuo = new LMKJJiHuo();
+			lmkjJiHuo.junzhuId = jz.id;
+			fillDefaultLMKJJiHuo(lmkjJiHuo);
+			HibernateUtil.insert(lmkjJiHuo);
+		}
+		
+		if(kjLevel == 0) {
+			log.error("联盟科技激活失败，该科技type:{}还未研究", type);
+			return;
+		}
+		int jiHuoLevel = getKeJiJiHuoLv(lmkjJiHuo, type);
+		if(jiHuoLevel == 404){
+			log.error("联盟科技激活失败，错误的科技类型{}", type);
+			return;
+		}
+		if(jiHuoLevel >= kjLevel) {
+			log.error("联盟科技激活失败，科技类型{}激活等级:{}超过或者等于了科技等级:{}", type, jiHuoLevel, kjLevel);
+			return;
+		}
+		int newLevel = jiHuoLevel + 1;
+		setKJJHLevel(lmkjJiHuo, type, newLevel);
+		HibernateUtil.save(lmkjJiHuo);
+		log.info("联盟科技激活成功，君主:{}科技类型{}激活等级从{} 到 {}", jz.id, type, jiHuoLevel, newLevel);
+		JiHuoLMKJResp.Builder response = JiHuoLMKJResp.newBuilder();
+		response.setResult(0);
+		response.setJiHuoLv(newLevel);
+		session.write(response.build());
+	}
+	
 	public void setLevel(LMKJBean bean, int type, int lv) {
 		switch(type){
 		case 101:bean.type_101=lv;break;
@@ -381,6 +436,27 @@ public class JianZhuMgr extends EventProc{
 		case 205:bean.type_205=lv;break;
 		}
 	}
+	
+	public void setKJJHLevel(LMKJJiHuo kjJiHuo, int type, int lv) {
+		switch(type){
+		case 101:kjJiHuo.type_101=lv;break;
+		case 102:kjJiHuo.type_102=lv;break;
+		case 103:kjJiHuo.type_103=lv;break;
+		case 104:kjJiHuo.type_104=lv;break;
+		case 105:kjJiHuo.type_105=lv;break;
+		case 106:kjJiHuo.type_106=lv;break;
+		case 107:kjJiHuo.type_107=lv;break;
+		case 108:kjJiHuo.type_108=lv;break;
+		case 109:kjJiHuo.type_109=lv;break;
+		case 110:kjJiHuo.type_110=lv;break;
+		case 111:kjJiHuo.type_111=lv;break;
+//		case 202:bean.type_202=lv;break;
+		//case 203:bean.type_203=lv;break;
+		case 301:kjJiHuo.type_301=lv;break;
+		case 204:kjJiHuo.type_204=lv;break;
+		case 205:kjJiHuo.type_205=lv;break;
+		}
+	}
 
 	public void fillDefaultLevel(LMKJBean bean) {
 		bean.type_101=0;
@@ -399,6 +475,25 @@ public class JianZhuMgr extends EventProc{
 		bean.type_301=0;
 		bean.type_204=0;
 		bean.type_205=0;
+	}
+
+	public void fillDefaultLMKJJiHuo(LMKJJiHuo lmkjJiHuo) {
+		lmkjJiHuo.type_101=0;
+		lmkjJiHuo.type_102=0;
+		lmkjJiHuo.type_103=0;
+		lmkjJiHuo.type_104=0;
+		lmkjJiHuo.type_105=0;
+		lmkjJiHuo.type_106=0;
+		lmkjJiHuo.type_107=0;
+		lmkjJiHuo.type_108=0;
+		lmkjJiHuo.type_109=0;
+		lmkjJiHuo.type_110=0;
+		lmkjJiHuo.type_111=0;
+//		bean.type_202=0;
+//		bean.type_203=0;
+		lmkjJiHuo.type_301=0;
+		lmkjJiHuo.type_204=0;
+		lmkjJiHuo.type_205=0;
 	}
 
 	public LianMengKeJi getKeJiConf(int type, int curLevel) {
@@ -437,6 +532,29 @@ public class JianZhuMgr extends EventProc{
 		}
 		return ret;
 	}
+	
+	public int getKeJiJiHuoLv(LMKJJiHuo kjJiHuo, int type){
+		int ret = 404;//not found
+		switch(type){
+		case 101:ret=kjJiHuo.type_101;break;
+		case 102:ret=kjJiHuo.type_102;break;
+		case 103:ret=kjJiHuo.type_103;break;
+		case 104:ret=kjJiHuo.type_104;break;
+		case 105:ret=kjJiHuo.type_105;break;
+		case 106:ret=kjJiHuo.type_106;break;
+		case 107:ret=kjJiHuo.type_107;break;
+		case 108:ret=kjJiHuo.type_108;break;
+		case 109:ret=kjJiHuo.type_109;break;
+		case 110:ret=kjJiHuo.type_110;break;
+		case 111:ret=kjJiHuo.type_111;break;
+//		case 202:ret=bean.type_202;break;
+		//case 203:ret=bean.type_203;break;
+		case 301:ret=kjJiHuo.type_301;break;
+		case 204:ret=kjJiHuo.type_204;break;
+		case 205:ret=kjJiHuo.type_205;break;
+		}
+		return ret;
+	}
 
 	public void sendLMKJInfo(int id, IoSession session, Builder builder) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
@@ -453,14 +571,20 @@ public class JianZhuMgr extends EventProc{
 			bean = new LMKJBean();
 			fillDefaultLevel(bean);
 		}
-		JianZhuList.Builder ret = JianZhuList.newBuilder();
+		LMKJJiHuo lmkjJiHuo = HibernateUtil.find(LMKJJiHuo.class, jz.id);
+		if(lmkjJiHuo == null){
+			lmkjJiHuo = new LMKJJiHuo();
+			fillDefaultLMKJJiHuo(lmkjJiHuo);
+		}
+		KeJiList.Builder ret = KeJiList.newBuilder();
 		List<LianMengKeJi> list = TempletService.listAll(LianMengKeJi.class.getSimpleName());
 		int preT = 0;
 		for(LianMengKeJi k : list){
 			if(preT != k.type){
 				preT = k.type;
-				JianZhuInfo.Builder b = JianZhuInfo.newBuilder();
+				qxmobile.protobuf.JianZhu.KeJiInfo.Builder b = qxmobile.protobuf.JianZhu.KeJiInfo.newBuilder();
 				b.setLv(getKeJiLv(bean, k.type));
+				b.setJiHuoLv(getKeJiJiHuoLv(lmkjJiHuo, k.type));
 				ret.addList(b);
 			}
 		}
@@ -512,13 +636,20 @@ public class JianZhuMgr extends EventProc{
 		bean.todayUsedTimes+=1;
 		bean.todayLeftTimes -= 1;
 		bean.historyAll += 1;
+		AwardTemp a = new AwardTemp();
+		a.setItemType(hitO.optInt("t"));
+		a.setItemId(hitO.optInt("id"));
+		a.setItemNum(hitO.optInt("n"));
+		JunZhu jz = HibernateUtil.find(JunZhu.class, junZhuId);
+		if(jz == null)return;
+		AwardMgr.inst.giveReward(session, a, jz,false,false);
 		HibernateUtil.update(bean);
 		log.info("{}抽中{},内容{}",junZhuId,hit,hitO.toString());
 		if(session.containsAttribute("don'tSync")==false){
 			JunZhuMgr.inst.sendMainInfo(session);
 			BagMgr.inst.sendBagInfo(0, session, null);
 		}
-		EventMgr.addEvent(ED.jibai , new Object[] {junZhuId, hitO.optInt("id")});
+		EventMgr.addEvent(ED.jibai , new Object[] {junZhuId, hitO.optInt("id"), hitO.optInt("n",1)});
 	}
 
 	public void chouJiang_N(int id, IoSession session, Builder builder) {
@@ -554,11 +685,8 @@ public class JianZhuMgr extends EventProc{
 						sb.append("#");
 						break;
 					default:
-						setAttribute("FAIL", message);
 						break;
 					}
-				}else{
-					setAttribute("FAIL", message);
 				}
 				return null;
 			}
@@ -702,6 +830,14 @@ public class JianZhuMgr extends EventProc{
 			if(!isOpen){
 				break;
 			}
+			AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jz.id);
+			if (member == null || member.lianMengId <= 0) {
+				break;
+			}
+			AllianceBean lmBean = HibernateUtil.find(AllianceBean.class, member.lianMengId);
+			if(lmBean == null){
+				break;
+			}
 			ChouJiangBean bean = HibernateUtil.find(ChouJiangBean.class, jz.id);
 			boolean chou = false;
 			if(bean == null){
@@ -717,6 +853,51 @@ public class JianZhuMgr extends EventProc{
 				// 一键祭拜
 				FunctionID.pushCanShowRed(jz.id, session, FunctionID.YiJianJiBai);
 			}
+
+			LMKJBean bean2 = HibernateUtil.find(LMKJBean.class, member.lianMengId);
+			if(bean2 == null){
+				bean2 = new LMKJBean();
+				bean2.lmId = member.lianMengId;
+				fillDefaultLevel(bean2);
+			}
+			/*
+			 * 成员激活
+			 */
+			if(member.title == AllianceMgr.TITLE_MEMBER){
+				LMKJJiHuo lmkjJiHuo = HibernateUtil.find(LMKJJiHuo.class, jz.id);
+				if(lmkjJiHuo == null) {
+					lmkjJiHuo = new LMKJJiHuo();
+					lmkjJiHuo.junzhuId = jz.id;
+					fillDefaultLMKJJiHuo(lmkjJiHuo);
+				}
+				for(int type= 101; type <=205; type++ ){
+					int lvkeji = getKeJiLv(bean2, type);
+					if (lvkeji == 404 || lvkeji ==0){
+						continue;
+					}
+					int lvjihuo = getKeJiJiHuoLv(lmkjJiHuo, type);
+					if (lvjihuo == 404){
+						continue;
+					}
+					if(lvjihuo < lvkeji){
+						FunctionID.pushCanShowRed(jz.id, session, FunctionID.LianMengShuYuanKiJi);
+						break;
+					}
+				}
+				// 盟主副盟主 研究
+			}else if(member.title == AllianceMgr.TITLE_LEADER || member.title == AllianceMgr.TITLE_DEPUTY_LEADER){
+				for(int type= 101; type <=205; type++ ){
+					int lv = getKeJiLv(bean2, type);
+					if(lv != 404){
+						LianMengKeJi conf = getKeJiConf(type, lv);
+						if(conf != null && lmBean.build >= conf.lvUpValue){
+							FunctionID.pushCanShowRed(jz.id, session, FunctionID.LianMengShuYuanKiJi);
+							break;
+						}
+					}
+				}
+			}
+			break;
 		}
 	}
 

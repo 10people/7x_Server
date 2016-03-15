@@ -110,38 +110,6 @@ public class YBRobotMgr implements Runnable{
 			roadPath.put(node.nodeId,node);
 		}
 		log.info("押镖机器人路线数据加载完成");
-//		HashMap<Integer, RoadNode>	roadPath1=road.get(1);
-//		Iterator iter = roadPath1.entrySet().iterator();
-//		while (iter.hasNext()) {
-//				Map.Entry entry = (Map.Entry) iter.next();
-//				Object key = entry.getKey();
-//				RoadNode val = (RoadNode) entry.getValue();
-//				System.out.println(key+"----"+val.posX+"=="+val.posZ);
-//		}
-//		HashMap<Integer, RoadNode>	roadPath2=road.get(2);
-//		Iterator iter2 = roadPath2.entrySet().iterator();
-//		while (iter2.hasNext()) {
-//			Map.Entry entry = (Map.Entry) iter2.next();
-//			Object key = entry.getKey();
-//			RoadNode val = (RoadNode) entry.getValue();
-//			System.out.println(key+"----"+val.posX+"=="+val.posZ);
-//		}
-//		HashMap<Integer, RoadNode>	roadPath3=road.get(3);
-//		Iterator iter3 = roadPath3.entrySet().iterator();
-//		while (iter3.hasNext()) {
-//			Map.Entry entry = (Map.Entry) iter3.next();
-//			Object key = entry.getKey();
-//			RoadNode val = (RoadNode) entry.getValue();
-//			System.out.println(key+"----"+val.posX+"=="+val.posZ);
-//		}
-//		HashMap<Integer, RoadNode>	roadPath4=road.get(4);
-//		Iterator iter4 = roadPath4.entrySet().iterator();
-//		while (iter4.hasNext()) {
-//			Map.Entry entry = (Map.Entry) iter4.next();
-//			Object key = entry.getKey();
-//			RoadNode val = (RoadNode) entry.getValue();
-//			System.out.println(key+"----"+val.posX+"=="+val.posZ);
-//		}
 	}
 
 	@Override
@@ -161,11 +129,6 @@ public class YBRobotMgr implements Runnable{
 		if(BigSwitch.inst.ybMgr.yabiaoScenes.size()==0){
 			return;
 		}
-		Iterator<?> it= BigSwitch.inst.ybMgr.yabiaoScenes.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry entry = (Map.Entry) it.next();
-			Integer scId =(Integer) entry.getKey();
-//			Scene ybsc =(Scene) entry.getValue();
 			Iterator<?> itrobot=yabiaoRobotMap.entrySet().iterator();
 			while (itrobot.hasNext()) {
 				Map.Entry entryRobot = (Map.Entry) itrobot.next();
@@ -174,14 +137,11 @@ public class YBRobotMgr implements Runnable{
 					log.error("押镖 场景机器人出错,(YaBiaoRobot) entryRobot.getValue()为空");
 					continue;
 				}
-				move(ybr,scId,itrobot);
-				//镖车不会进入战斗了
-
+				move(ybr,itrobot);
 			}
-		}
 	}
 	//移动实际为扣除已走的时间（路程已定，速度恒定，则可按照时间来计算坐标）
-	public void move(YaBiaoRobot ybr,int scId,Iterator<?> itrobot) {
+	public void move(YaBiaoRobot ybr,Iterator<?> itrobot) {
 		long now = System.currentTimeMillis();
 		long usedtime=now-ybr.startTime;
 		if(ybr.protectTime>0&&(ybr.protectTime-usedtime>0)){
@@ -234,10 +194,10 @@ public class YBRobotMgr implements Runnable{
 				ybr.posZ=ybr.nextPosZ;
 				ybr.move.setPosX((float) ybr.posX);
 				ybr.move.setPosZ((float) ybr.posZ);
-				// 移除押镖人的相关信息
-				YaBiaoHuoDongMgr.inst.settleYaBiaoSuccess(ybr.jzId,scId);
-				//移除马车
 				itrobot.remove();
+				// 移除押镖人的相关信息
+				YaBiaoHuoDongMgr.inst.settleYaBiaoSuccess(ybr);
+				//移除马车
 				return;
 			}
 			RoadNode rd=roadPath.get(ybr.nodeId);

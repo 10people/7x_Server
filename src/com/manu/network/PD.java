@@ -19,7 +19,10 @@ import qxmobile.protobuf.AllianceFightProtos.RequestFightInfoResp;
 import qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn;
 import qxmobile.protobuf.AllianceProtos.AgreeApply;
 import qxmobile.protobuf.AllianceProtos.AgreeApplyResp;
+import qxmobile.protobuf.AllianceProtos.AgreeInvite;
 import qxmobile.protobuf.AllianceProtos.AllianceHaveResp;
+import qxmobile.protobuf.AllianceProtos.AllianceInvite;
+import qxmobile.protobuf.AllianceProtos.AllianceInviteResp;
 import qxmobile.protobuf.AllianceProtos.AllianceNonResp;
 import qxmobile.protobuf.AllianceProtos.AllianceTargetResp;
 import qxmobile.protobuf.AllianceProtos.ApplyAlliance;
@@ -49,6 +52,7 @@ import qxmobile.protobuf.AllianceProtos.FireMemberResp;
 import qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward;
 import qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp;
 import qxmobile.protobuf.AllianceProtos.GiveUpVoteResp;
+import qxmobile.protobuf.AllianceProtos.InviteList;
 import qxmobile.protobuf.AllianceProtos.LookApplicants;
 import qxmobile.protobuf.AllianceProtos.LookApplicantsResp;
 import qxmobile.protobuf.AllianceProtos.LookMembers;
@@ -61,6 +65,8 @@ import qxmobile.protobuf.AllianceProtos.OpenApplyResp;
 import qxmobile.protobuf.AllianceProtos.PlayerAllianceState;
 import qxmobile.protobuf.AllianceProtos.RefuseApply;
 import qxmobile.protobuf.AllianceProtos.RefuseApplyResp;
+import qxmobile.protobuf.AllianceProtos.RefuseInvite;
+import qxmobile.protobuf.AllianceProtos.RefuseInviteResp;
 import qxmobile.protobuf.AllianceProtos.TransferAlliance;
 import qxmobile.protobuf.AllianceProtos.TransferAllianceResp;
 import qxmobile.protobuf.AllianceProtos.UpTitle;
@@ -133,6 +139,10 @@ import qxmobile.protobuf.GameTask.GetTaskRwardResult;
 import qxmobile.protobuf.GameTask.TaskList;
 import qxmobile.protobuf.GameTask.TaskProgress;
 import qxmobile.protobuf.GameTask.TaskSync;
+import qxmobile.protobuf.Greet.GreetReq;
+import qxmobile.protobuf.Greet.GreetResp;
+import qxmobile.protobuf.Greet.InviteReq;
+import qxmobile.protobuf.Greet.InviteResp;
 import qxmobile.protobuf.GuoJia.GuoJiaMainInfoResp;
 import qxmobile.protobuf.GuoJia.JuanXianDayAwardResp;
 import qxmobile.protobuf.GuoJia.JuanXianGongJinResp;
@@ -166,6 +176,8 @@ import qxmobile.protobuf.HuangYeProtos.OpenHuangYeTreasureResp;
 import qxmobile.protobuf.JiNengPeiYang.GetJiNengPeiYangQuality;
 import qxmobile.protobuf.JiNengPeiYang.UpgradeJiNengReq;
 import qxmobile.protobuf.JiNengPeiYang.UpgradeJiNengResp;
+import qxmobile.protobuf.JianZhu.JiHuoLMKJReq;
+import qxmobile.protobuf.JianZhu.JiHuoLMKJResp;
 import qxmobile.protobuf.JingMaiProto.JingMaiReq;
 import qxmobile.protobuf.JingMaiProto.JingMaiRet;
 import qxmobile.protobuf.JingMaiProto.XueWeiUpReq;
@@ -371,6 +383,7 @@ import qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq;
 import qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp;
 import qxmobile.protobuf.XianShi.FuLiHuoDongResp;
 import qxmobile.protobuf.XianShi.GainAward;
+import qxmobile.protobuf.XianShi.HongBaoResp;
 import qxmobile.protobuf.XianShi.OpenXianShiResp;
 import qxmobile.protobuf.XianShi.ReturnAward;
 import qxmobile.protobuf.XianShi.XinShouXSActivity;
@@ -618,6 +631,8 @@ public class PD {
 		ProtobufUtils.register(EnterScene.getDefaultInstance(), Enter_Scene);
 		ProtobufUtils.prototypeMap.put((int)Enter_HouseScene, EnterScene.getDefaultInstance());
 		ProtobufUtils.prototypeMap.put((int)Exit_HouseScene,ExitScene.getDefaultInstance());
+		ProtobufUtils.prototypeMap.put((int)Enter_TBBXScene,EnterScene.getDefaultInstance());
+		ProtobufUtils.prototypeMap.put((int)C_GET_BAO_XIANG,ErrorMessage.getDefaultInstance());
 		//押镖进入退出场景
 		ProtobufUtils.prototypeMap.put((int)Enter_YBScene, EnterScene.getDefaultInstance());
 		ProtobufUtils.prototypeMap.put((int)Exit_YBScene,ExitScene.getDefaultInstance());
@@ -986,6 +1001,7 @@ public class PD {
 		ProtobufUtils.register(FuLiHuoDongResp.getDefaultInstance(), S_FULIINFO_RESP);
 		ProtobufUtils.register(FuLiHuoDongAwardReq.getDefaultInstance(), C_FULIINFOAWARD_REQ);
 		ProtobufUtils.register(FuLiHuoDongAwardResp.getDefaultInstance(), S_FULIINFOAWARD_RESP);
+		ProtobufUtils.register(HongBaoResp.getDefaultInstance(), S_HONGBAONFO_RESP);
 		// 公告
 		ProtobufUtils.register(GetVersionNoticeResp.getDefaultInstance(), S_YOUXIA_TIMES_BUY_RESP);
 		ProtobufUtils.register(GuanQiaMaxId.getDefaultInstance(), PVE_MAX_ID_RESP);
@@ -1043,6 +1059,20 @@ public class PD {
 		ProtobufUtils.register(MainSimpleInfoResp.getDefaultInstance(), mainSimpleInfoResp);
 		ProtobufUtils.register(BuyAllLifeReviveTimesReq.getDefaultInstance(), C_BUY_REVIVE_TIMES_REQ);
 		ProtobufUtils.register(BuyAllLifeReviveTimesResp.getDefaultInstance(), S_BUY_REVIVE_TIMES_RESP);
+		ProtobufUtils.register(JiHuoLMKJReq.getDefaultInstance(), C_LMKEJI_JIHUO);
+		ProtobufUtils.register(JiHuoLMKJResp.getDefaultInstance(), S_LMKEJI_JIHUO);
+		ProtobufUtils.register(AllianceInvite.getDefaultInstance(), C_ALLIANCE_INVITE);
+		ProtobufUtils.register(AllianceInviteResp.getDefaultInstance(), S_ALLIANCE_INVITE);
+		ProtobufUtils.register(InviteList.getDefaultInstance(), S_ALLIANCE_INVITE_LIST);
+		ProtobufUtils.register(RefuseInvite.getDefaultInstance(), C_ALLIANCE_INVITE_REFUSE);
+		ProtobufUtils.register(RefuseInviteResp.getDefaultInstance(), S_ALLIANCE_INVITE_REFUSE);
+		ProtobufUtils.register(AgreeInvite.getDefaultInstance(), C_ALLIANCE_INVITE_AGREE);
+		//场景交互
+		ProtobufUtils.register(GreetReq.getDefaultInstance(), C_GREET_REQ);
+		ProtobufUtils.register(GreetResp.getDefaultInstance(), S_GREET_RESP);
+		ProtobufUtils.register(InviteReq.getDefaultInstance(), C_INVITE_REQ);
+		ProtobufUtils.register(InviteResp.getDefaultInstance(), S_INVITE_RESP);
+		
 		
 	}
 	
@@ -1223,6 +1253,8 @@ public class PD {
 	public static final short Exit_HouseScene = 22005;
 	public static final short Enter_YBScene = 22009;
 	public static final short Exit_YBScene = 22010;
+	public static final short Enter_TBBXScene = 22011;
+	public static final short Exit_TBBXScene = 22012;
 	
 	public static final short S_HEAD_STRING = 22101;
 	
@@ -1499,6 +1531,11 @@ public class PD {
 	public static final short S_LM_CHOU_JIANG = 27512;
 	public static final short C_LM_CHOU_JIANG_INFO = 27513;
 	public static final short S_LM_CHOU_JIANG_INFO = 27514;
+	public static final short C_LMKEJI_JIHUO = 27515;
+	public static final short S_LMKEJI_JIHUO = 27516;
+	
+	
+	
 	//
 	//
 	//联盟 28001~28099(预计)
@@ -1834,6 +1871,26 @@ public class PD {
 	public static final short C_GET_ALLIANCEL_LEVEL_AWARD = 30175;
 	/**  领取联盟等级目标奖励结果返回 */
 	public static final short S_GET_ALLIANCEL_LEVEL_AWARD_RESP = 30176;
+	/**  联盟邀请 */
+	public static final short C_ALLIANCE_INVITE = 30177;
+	/**  联盟邀请返回 */
+	public static final short S_ALLIANCE_INVITE = 30178;
+	/**  联盟邀请列表 */
+	public static final short C_ALLIANCE_INVITE_LIST = 30179;
+	/**  联盟邀请列表返回 */
+	public static final short S_ALLIANCE_INVITE_LIST = 30180;
+	/**  拒绝联盟邀请 */
+	public static final short C_ALLIANCE_INVITE_REFUSE = 30181;
+	/**  拒绝联盟邀请返回 */
+	public static final short S_ALLIANCE_INVITE_REFUSE = 30182;
+	/**  同意联盟邀请 */
+	public static final short C_ALLIANCE_INVITE_AGREE = 30183;
+	/**  同意联盟邀请返回 */
+	public static final short S_ALLIANCE_INVITE_AGREE = 30184;
+	/**  通知中同意联盟邀请返回 */
+	public static final short S_ALLIANCE_INVITE_RESP = 30185;
+	
+	
 	
 	public static final short C_SETTINGS_GET = 30201;//客户端获取设置
 	public static final short C_SETTINGS_SAVE = 30203;//客户端请求保存设置
@@ -2106,7 +2163,16 @@ public class PD {
 	public static final short S_FULIINFO_RESP = 4021;//请求福利信息返回
 	public static final short C_FULIINFOAWARD_REQ = 4030;//请求福利奖励
 	public static final short S_FULIINFOAWARD_RESP = 4031;//请求福利奖励返回
+	public static final short C_HONGBAONFO_REQ = 4032;//请求红包福利信息
+	public static final short S_HONGBAONFO_RESP = 4033;//请求红包福利信息返回
+	
+	public static final short OPEN_ShiLian_FuBen = 4101;
+	
+	public static final short FIGHT_ATTACK_REQ = 4103;
+	public static final short FIGHT_ATTACK_RESP = 4104;
 
+	public static final short C_GET_BAO_XIANG = 4113;
+	
 	/**公告**/
 	public static final short C_GET_VERSION_NOTICE_REQ = 5001;//请求版本公告
 	public static final short S_GET_VERSION_NOTICE_RESP = 5002;//请求版本公告返回
@@ -2157,8 +2223,7 @@ public class PD {
 	
 	public static final short ENTER_FIGHT_SCENE = 22007;
 	public static final short ENTER_FIGHT_SCENE_OK = 22008;
-	public static final short FIGHT_ATTACK_REQ = 4103;
-	public static final short FIGHT_ATTACK_RESP = 4104;
+	
 	/** 离开联盟战 */
 	public static final short EXIT_FIGHT_SCENE = 22006;
 	/** 请求联盟战信息 */
@@ -2219,6 +2284,7 @@ public class PD {
 	public static final short alliance_junQing_req = 26075;
 	public static final short alliance_junQing_resq = 26076;
 	public static final short qu_zhu_battle_end_req = 26077; // 驱逐战斗结束
+	public static final short qu_zhu_battle_end_resp = 26080; // 驱逐战斗结束返回
 	public static final short go_qu_zhu_req = 26078; // 驱逐
 	public static final short go_qu_zhu_resp = 26079; // 驱逐返回
 	/**技能培养**/
@@ -2229,5 +2295,13 @@ public class PD {
 	
 	public static final short C_BUY_REVIVE_TIMES_REQ = 4254;
 	public static final short S_BUY_REVIVE_TIMES_RESP = 4255;
-	
+	/**打招呼**/
+	public static final short C_GREET_REQ = 5000;//向某人打招呼请求
+	public static final short S_GREET_RESP = 5011;//向某人打招呼返回
+	public static final short S_GREETEDANSWER_RESP = 5012;//打招呼的人收到的对方反馈信息
+
+	//以下内容待商议
+	public static final short S_GREET_ANSWER_RESP = 5015;//打招呼的人收到的答复
+	public static final short C_INVITE_REQ = 5016;//邀请某人加入联盟请求
+	public static final short S_INVITE_RESP = 5017;//邀请某人加入联盟请求返回
 }

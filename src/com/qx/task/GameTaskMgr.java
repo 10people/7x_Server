@@ -260,6 +260,13 @@ public class GameTaskMgr extends EventProc{
 						b.progress = -1;
 					}
 					break;
+				case TaskData.buy_lianMeng_shop:
+					PublicShop shopb = HibernateUtil.find(PublicShop.class, 
+							junZhuId * ShopMgr.shop_space + ShopMgr.lianMeng_shop_type);
+					if(shopb != null && shopb.buyGoodTimes >= 1){
+						b.progress = -1;
+					}
+					break;
 				case TaskData.active_taozhuang:
 					donCond = Integer.parseInt(zx.getDoneCond());
 					AcitvitedTaoZhuang taozhuang = HibernateUtil.find(AcitvitedTaoZhuang.class, junZhuId);
@@ -870,6 +877,11 @@ public class GameTaskMgr extends EventProc{
 			MemcachedCRUD.getMemCachedClient().set(FunctionOpenMgr.awardRenWuOverIdKey+junZhuId, taskId);
 			log.info("君主：{}AwardRenWuOverId是：{}", junZhuId, taskId);
 		}
+		//添加触发事件，玩家开启了联盟功能
+		if(taskId==100305){
+			EventMgr.addEvent(ED.LM_FUNCTION_OPEN, new Object[] { junZhuId,jz.name});
+		}
+
 	}
 
 	/**
@@ -972,7 +984,17 @@ public class GameTaskMgr extends EventProc{
 	public void proc(Event event) {
 		if (event.param != null && event.param instanceof Object[]){
 		   Object[] obs = (Object[])event.param;
-		   long junZhuId = (Long)obs[0];
+		   if(obs.length == 0){
+			   log.error("主线任务参数有错");
+			   return;
+		   }
+		   long junZhuId = 0;
+		   Object firstParam = obs[0];
+		   if(firstParam instanceof Long){
+			   junZhuId = (Long)firstParam;
+		   }else if(firstParam instanceof JunZhu){
+			   junZhuId = ((JunZhu)firstParam).id;
+		   }
 		   log.info("junzhuId：{}主线任务事件处理调用", junZhuId);
 		   switch (event.id) {
 		   case ED.EQUIP_ADD:
@@ -1204,6 +1226,9 @@ public class GameTaskMgr extends EventProc{
 		   case ED.active_taozhuang:
 			   Integer taozhuangPinZhi = (Integer)obs[1];
 			   recordTaskProcess(junZhuId, TaskData.active_taozhuang, taozhuangPinZhi+"");
+			   break;
+		   case ED.LM_SHOP_BUY:
+			   recordTaskProcess(junZhuId, TaskData.buy_lianMeng_shop, 1+"");
 			   break;
 		   default:
 			   break;
@@ -1492,6 +1517,8 @@ public class GameTaskMgr extends EventProc{
 		ZhuXian task = null;
 		boolean toSend = false;
 		for (WorkTaskBean b: list){
+			//不能用conditionInfo 但前面有重复的任务是会把 conditionInfo值改变后面的应该完成的任务就不能完成了
+			String conditionInfo4Temp=conditionInfo;
 			task = zhuxianTaskMap.get(b.tid);
 			if(task == null){
 				continue;
@@ -1501,10 +1528,10 @@ public class GameTaskMgr extends EventProc{
 			}
 			// 百战名次要求超过x名次，就算完成任务
 			if(type == TaskData.baizhan_rank_n){
-				if(task.getDoneCond() != null && conditionInfo != null &&
-						Integer.parseInt(task.getDoneCond()) >= Integer.parseInt(conditionInfo))
+				if(task.getDoneCond() != null && conditionInfo4Temp != null &&
+						Integer.parseInt(task.getDoneCond()) >= Integer.parseInt(conditionInfo4Temp))
 				{
-					conditionInfo = task.getDoneCond();
+					conditionInfo4Temp = task.getDoneCond();
 				}
 			}
 			// 获得的秘宝个数要求超过x个，就算完成任务
@@ -1515,13 +1542,13 @@ public class GameTaskMgr extends EventProc{
 					type == TaskData.junzhu_level_up ||
 					type == TaskData.mibao_shengStar_x ||
 					type == TaskData.mibao_shengji_x){
-				if(task.getDoneCond() != null && conditionInfo != null &&
-						Integer.parseInt(conditionInfo) >= Integer.parseInt(task.getDoneCond()))
+				if(task.getDoneCond() != null && conditionInfo4Temp != null &&
+						Integer.parseInt(conditionInfo4Temp) >= Integer.parseInt(task.getDoneCond()))
 				{
-					conditionInfo = task.getDoneCond();
+					conditionInfo4Temp = task.getDoneCond();
 				}
 			}
-			if (task.getDoneCond().equals(conditionInfo) && b.progress == 0)
+			if (task.getDoneCond().equals(conditionInfo4Temp) && b.progress == 0)
 			{
 				dealTask(junZhuId, b, type, task);
 				toSend = true;
@@ -1607,6 +1634,7 @@ public class GameTaskMgr extends EventProc{
 		EventMgr.regist(ED.tongbi_oneTimes, this);
 		EventMgr.regist(ED.tongbi_oneTimes, this);
 		EventMgr.regist(ED.active_taozhuang, this);
+		EventMgr.regist(ED.LM_SHOP_BUY, this);
 	}
 	
 	public void zhuangBeiTask(Long junZhuId, String param1, Bag<EquipGrid> equips, int which){

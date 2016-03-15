@@ -120,6 +120,12 @@ do{
 				+expInfo.getMax()
 				+ "'/><br/>");
 		trE();
+		trS();
+		td("存储经验");
+		td("<input type='text'  value='"
+				+hsBean2.cunchuExp
+				+ "'/><br/>");
+		trE();
 		tableEnd();
 	}else{
 		out("当前君主房屋未开启"+jzId);

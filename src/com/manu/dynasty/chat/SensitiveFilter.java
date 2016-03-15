@@ -146,12 +146,28 @@ public class SensitiveFilter {
 	 * @param replaceChar
 	 * @return
 	 */
-	public String replaceSensitiveWord(String txt, int matchType, String replaceChar) {
+	public String replaceSensitiveWord(final String txt, int matchType, String replaceChar) {
 
 		String resultTxt = txt;
 
 		// 获取所有的敏感词
-		Set<String> set = getSensitiveWord(txt, matchType);
+		String withoutSpace = txt;
+		if(txt.contains(" ") || txt.contains("　")){
+			StringBuffer sb = new StringBuffer();
+			int len = txt.length();
+			for(int i=0; i<len; i++){
+				char ch = txt.charAt(i);
+				if(ch == ' ' || ch == '　'){
+					continue;
+				}
+				sb.append(ch);
+			}
+			withoutSpace = sb.toString();
+		}
+		Set<String> set = getSensitiveWord(withoutSpace, matchType);
+		if(!set.isEmpty()){//有敏感字，说明要按去掉空格后的处理
+			resultTxt = withoutSpace;
+		}
 		Iterator<String> iterator = set.iterator();
 		String word = null;
 		String replaceString = null;

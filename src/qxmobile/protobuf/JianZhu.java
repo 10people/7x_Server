@@ -1192,6 +1192,2274 @@ public final class JianZhu {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.JianZhuInfo)
   }
 
+  public interface KeJiListOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .qxmobile.protobuf.KeJiInfo list = 1;
+    /**
+     * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+     */
+    java.util.List<qxmobile.protobuf.JianZhu.KeJiInfo> 
+        getListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+     */
+    qxmobile.protobuf.JianZhu.KeJiInfo getList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+     */
+    int getListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+     */
+    java.util.List<? extends qxmobile.protobuf.JianZhu.KeJiInfoOrBuilder> 
+        getListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+     */
+    qxmobile.protobuf.JianZhu.KeJiInfoOrBuilder getListOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.KeJiList}
+   *
+   * <pre>
+   * short S_LMKJ_INFO = 27508
+   * </pre>
+   */
+  public static final class KeJiList extends
+      com.google.protobuf.GeneratedMessage
+      implements KeJiListOrBuilder {
+    // Use KeJiList.newBuilder() to construct.
+    private KeJiList(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private KeJiList(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final KeJiList defaultInstance;
+    public static KeJiList getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public KeJiList getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private KeJiList(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                list_ = new java.util.ArrayList<qxmobile.protobuf.JianZhu.KeJiInfo>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              list_.add(input.readMessage(qxmobile.protobuf.JianZhu.KeJiInfo.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          list_ = java.util.Collections.unmodifiableList(list_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_KeJiList_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_KeJiList_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.JianZhu.KeJiList.class, qxmobile.protobuf.JianZhu.KeJiList.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<KeJiList> PARSER =
+        new com.google.protobuf.AbstractParser<KeJiList>() {
+      public KeJiList parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new KeJiList(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<KeJiList> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .qxmobile.protobuf.KeJiInfo list = 1;
+    public static final int LIST_FIELD_NUMBER = 1;
+    private java.util.List<qxmobile.protobuf.JianZhu.KeJiInfo> list_;
+    /**
+     * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+     */
+    public java.util.List<qxmobile.protobuf.JianZhu.KeJiInfo> getListList() {
+      return list_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+     */
+    public java.util.List<? extends qxmobile.protobuf.JianZhu.KeJiInfoOrBuilder> 
+        getListOrBuilderList() {
+      return list_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+     */
+    public int getListCount() {
+      return list_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+     */
+    public qxmobile.protobuf.JianZhu.KeJiInfo getList(int index) {
+      return list_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+     */
+    public qxmobile.protobuf.JianZhu.KeJiInfoOrBuilder getListOrBuilder(
+        int index) {
+      return list_.get(index);
+    }
+
+    private void initFields() {
+      list_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getListCount(); i++) {
+        if (!getList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < list_.size(); i++) {
+        output.writeMessage(1, list_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < list_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, list_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.JianZhu.KeJiList parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiList parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiList parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiList parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiList parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiList parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiList parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiList parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiList parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiList parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.JianZhu.KeJiList prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.KeJiList}
+     *
+     * <pre>
+     * short S_LMKJ_INFO = 27508
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.JianZhu.KeJiListOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_KeJiList_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_KeJiList_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.JianZhu.KeJiList.class, qxmobile.protobuf.JianZhu.KeJiList.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.JianZhu.KeJiList.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getListFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (listBuilder_ == null) {
+          list_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          listBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_KeJiList_descriptor;
+      }
+
+      public qxmobile.protobuf.JianZhu.KeJiList getDefaultInstanceForType() {
+        return qxmobile.protobuf.JianZhu.KeJiList.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.JianZhu.KeJiList build() {
+        qxmobile.protobuf.JianZhu.KeJiList result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.JianZhu.KeJiList buildPartial() {
+        qxmobile.protobuf.JianZhu.KeJiList result = new qxmobile.protobuf.JianZhu.KeJiList(this);
+        int from_bitField0_ = bitField0_;
+        if (listBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            list_ = java.util.Collections.unmodifiableList(list_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.list_ = list_;
+        } else {
+          result.list_ = listBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.JianZhu.KeJiList) {
+          return mergeFrom((qxmobile.protobuf.JianZhu.KeJiList)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.JianZhu.KeJiList other) {
+        if (other == qxmobile.protobuf.JianZhu.KeJiList.getDefaultInstance()) return this;
+        if (listBuilder_ == null) {
+          if (!other.list_.isEmpty()) {
+            if (list_.isEmpty()) {
+              list_ = other.list_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureListIsMutable();
+              list_.addAll(other.list_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.list_.isEmpty()) {
+            if (listBuilder_.isEmpty()) {
+              listBuilder_.dispose();
+              listBuilder_ = null;
+              list_ = other.list_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              listBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getListFieldBuilder() : null;
+            } else {
+              listBuilder_.addAllMessages(other.list_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getListCount(); i++) {
+          if (!getList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.JianZhu.KeJiList parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.JianZhu.KeJiList) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .qxmobile.protobuf.KeJiInfo list = 1;
+      private java.util.List<qxmobile.protobuf.JianZhu.KeJiInfo> list_ =
+        java.util.Collections.emptyList();
+      private void ensureListIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          list_ = new java.util.ArrayList<qxmobile.protobuf.JianZhu.KeJiInfo>(list_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.JianZhu.KeJiInfo, qxmobile.protobuf.JianZhu.KeJiInfo.Builder, qxmobile.protobuf.JianZhu.KeJiInfoOrBuilder> listBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.JianZhu.KeJiInfo> getListList() {
+        if (listBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(list_);
+        } else {
+          return listBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public int getListCount() {
+        if (listBuilder_ == null) {
+          return list_.size();
+        } else {
+          return listBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public qxmobile.protobuf.JianZhu.KeJiInfo getList(int index) {
+        if (listBuilder_ == null) {
+          return list_.get(index);
+        } else {
+          return listBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public Builder setList(
+          int index, qxmobile.protobuf.JianZhu.KeJiInfo value) {
+        if (listBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureListIsMutable();
+          list_.set(index, value);
+          onChanged();
+        } else {
+          listBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public Builder setList(
+          int index, qxmobile.protobuf.JianZhu.KeJiInfo.Builder builderForValue) {
+        if (listBuilder_ == null) {
+          ensureListIsMutable();
+          list_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          listBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public Builder addList(qxmobile.protobuf.JianZhu.KeJiInfo value) {
+        if (listBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureListIsMutable();
+          list_.add(value);
+          onChanged();
+        } else {
+          listBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public Builder addList(
+          int index, qxmobile.protobuf.JianZhu.KeJiInfo value) {
+        if (listBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureListIsMutable();
+          list_.add(index, value);
+          onChanged();
+        } else {
+          listBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public Builder addList(
+          qxmobile.protobuf.JianZhu.KeJiInfo.Builder builderForValue) {
+        if (listBuilder_ == null) {
+          ensureListIsMutable();
+          list_.add(builderForValue.build());
+          onChanged();
+        } else {
+          listBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public Builder addList(
+          int index, qxmobile.protobuf.JianZhu.KeJiInfo.Builder builderForValue) {
+        if (listBuilder_ == null) {
+          ensureListIsMutable();
+          list_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          listBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public Builder addAllList(
+          java.lang.Iterable<? extends qxmobile.protobuf.JianZhu.KeJiInfo> values) {
+        if (listBuilder_ == null) {
+          ensureListIsMutable();
+          super.addAll(values, list_);
+          onChanged();
+        } else {
+          listBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public Builder clearList() {
+        if (listBuilder_ == null) {
+          list_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          listBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public Builder removeList(int index) {
+        if (listBuilder_ == null) {
+          ensureListIsMutable();
+          list_.remove(index);
+          onChanged();
+        } else {
+          listBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public qxmobile.protobuf.JianZhu.KeJiInfo.Builder getListBuilder(
+          int index) {
+        return getListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public qxmobile.protobuf.JianZhu.KeJiInfoOrBuilder getListOrBuilder(
+          int index) {
+        if (listBuilder_ == null) {
+          return list_.get(index);  } else {
+          return listBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public java.util.List<? extends qxmobile.protobuf.JianZhu.KeJiInfoOrBuilder> 
+           getListOrBuilderList() {
+        if (listBuilder_ != null) {
+          return listBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(list_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public qxmobile.protobuf.JianZhu.KeJiInfo.Builder addListBuilder() {
+        return getListFieldBuilder().addBuilder(
+            qxmobile.protobuf.JianZhu.KeJiInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public qxmobile.protobuf.JianZhu.KeJiInfo.Builder addListBuilder(
+          int index) {
+        return getListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.JianZhu.KeJiInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.KeJiInfo list = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.JianZhu.KeJiInfo.Builder> 
+           getListBuilderList() {
+        return getListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.JianZhu.KeJiInfo, qxmobile.protobuf.JianZhu.KeJiInfo.Builder, qxmobile.protobuf.JianZhu.KeJiInfoOrBuilder> 
+          getListFieldBuilder() {
+        if (listBuilder_ == null) {
+          listBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.JianZhu.KeJiInfo, qxmobile.protobuf.JianZhu.KeJiInfo.Builder, qxmobile.protobuf.JianZhu.KeJiInfoOrBuilder>(
+                  list_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          list_ = null;
+        }
+        return listBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.KeJiList)
+    }
+
+    static {
+      defaultInstance = new KeJiList(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.KeJiList)
+  }
+
+  public interface KeJiInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 lv = 1;
+    /**
+     * <code>required int32 lv = 1;</code>
+     *
+     * <pre>
+     * 科技等级
+     * </pre>
+     */
+    boolean hasLv();
+    /**
+     * <code>required int32 lv = 1;</code>
+     *
+     * <pre>
+     * 科技等级
+     * </pre>
+     */
+    int getLv();
+
+    // required int32 jiHuoLv = 2;
+    /**
+     * <code>required int32 jiHuoLv = 2;</code>
+     *
+     * <pre>
+     * 该科技激活等级
+     * </pre>
+     */
+    boolean hasJiHuoLv();
+    /**
+     * <code>required int32 jiHuoLv = 2;</code>
+     *
+     * <pre>
+     * 该科技激活等级
+     * </pre>
+     */
+    int getJiHuoLv();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.KeJiInfo}
+   *
+   * <pre>
+   * 联盟科技信息
+   * </pre>
+   */
+  public static final class KeJiInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements KeJiInfoOrBuilder {
+    // Use KeJiInfo.newBuilder() to construct.
+    private KeJiInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private KeJiInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final KeJiInfo defaultInstance;
+    public static KeJiInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public KeJiInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private KeJiInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              lv_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              jiHuoLv_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_KeJiInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_KeJiInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.JianZhu.KeJiInfo.class, qxmobile.protobuf.JianZhu.KeJiInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<KeJiInfo> PARSER =
+        new com.google.protobuf.AbstractParser<KeJiInfo>() {
+      public KeJiInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new KeJiInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<KeJiInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 lv = 1;
+    public static final int LV_FIELD_NUMBER = 1;
+    private int lv_;
+    /**
+     * <code>required int32 lv = 1;</code>
+     *
+     * <pre>
+     * 科技等级
+     * </pre>
+     */
+    public boolean hasLv() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 lv = 1;</code>
+     *
+     * <pre>
+     * 科技等级
+     * </pre>
+     */
+    public int getLv() {
+      return lv_;
+    }
+
+    // required int32 jiHuoLv = 2;
+    public static final int JIHUOLV_FIELD_NUMBER = 2;
+    private int jiHuoLv_;
+    /**
+     * <code>required int32 jiHuoLv = 2;</code>
+     *
+     * <pre>
+     * 该科技激活等级
+     * </pre>
+     */
+    public boolean hasJiHuoLv() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 jiHuoLv = 2;</code>
+     *
+     * <pre>
+     * 该科技激活等级
+     * </pre>
+     */
+    public int getJiHuoLv() {
+      return jiHuoLv_;
+    }
+
+    private void initFields() {
+      lv_ = 0;
+      jiHuoLv_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasLv()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasJiHuoLv()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, lv_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, jiHuoLv_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, lv_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, jiHuoLv_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.JianZhu.KeJiInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.JianZhu.KeJiInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.JianZhu.KeJiInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.KeJiInfo}
+     *
+     * <pre>
+     * 联盟科技信息
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.JianZhu.KeJiInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_KeJiInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_KeJiInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.JianZhu.KeJiInfo.class, qxmobile.protobuf.JianZhu.KeJiInfo.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.JianZhu.KeJiInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        lv_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        jiHuoLv_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_KeJiInfo_descriptor;
+      }
+
+      public qxmobile.protobuf.JianZhu.KeJiInfo getDefaultInstanceForType() {
+        return qxmobile.protobuf.JianZhu.KeJiInfo.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.JianZhu.KeJiInfo build() {
+        qxmobile.protobuf.JianZhu.KeJiInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.JianZhu.KeJiInfo buildPartial() {
+        qxmobile.protobuf.JianZhu.KeJiInfo result = new qxmobile.protobuf.JianZhu.KeJiInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.lv_ = lv_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.jiHuoLv_ = jiHuoLv_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.JianZhu.KeJiInfo) {
+          return mergeFrom((qxmobile.protobuf.JianZhu.KeJiInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.JianZhu.KeJiInfo other) {
+        if (other == qxmobile.protobuf.JianZhu.KeJiInfo.getDefaultInstance()) return this;
+        if (other.hasLv()) {
+          setLv(other.getLv());
+        }
+        if (other.hasJiHuoLv()) {
+          setJiHuoLv(other.getJiHuoLv());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasLv()) {
+          
+          return false;
+        }
+        if (!hasJiHuoLv()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.JianZhu.KeJiInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.JianZhu.KeJiInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 lv = 1;
+      private int lv_ ;
+      /**
+       * <code>required int32 lv = 1;</code>
+       *
+       * <pre>
+       * 科技等级
+       * </pre>
+       */
+      public boolean hasLv() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 lv = 1;</code>
+       *
+       * <pre>
+       * 科技等级
+       * </pre>
+       */
+      public int getLv() {
+        return lv_;
+      }
+      /**
+       * <code>required int32 lv = 1;</code>
+       *
+       * <pre>
+       * 科技等级
+       * </pre>
+       */
+      public Builder setLv(int value) {
+        bitField0_ |= 0x00000001;
+        lv_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 lv = 1;</code>
+       *
+       * <pre>
+       * 科技等级
+       * </pre>
+       */
+      public Builder clearLv() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        lv_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 jiHuoLv = 2;
+      private int jiHuoLv_ ;
+      /**
+       * <code>required int32 jiHuoLv = 2;</code>
+       *
+       * <pre>
+       * 该科技激活等级
+       * </pre>
+       */
+      public boolean hasJiHuoLv() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 jiHuoLv = 2;</code>
+       *
+       * <pre>
+       * 该科技激活等级
+       * </pre>
+       */
+      public int getJiHuoLv() {
+        return jiHuoLv_;
+      }
+      /**
+       * <code>required int32 jiHuoLv = 2;</code>
+       *
+       * <pre>
+       * 该科技激活等级
+       * </pre>
+       */
+      public Builder setJiHuoLv(int value) {
+        bitField0_ |= 0x00000002;
+        jiHuoLv_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 jiHuoLv = 2;</code>
+       *
+       * <pre>
+       * 该科技激活等级
+       * </pre>
+       */
+      public Builder clearJiHuoLv() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        jiHuoLv_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.KeJiInfo)
+    }
+
+    static {
+      defaultInstance = new KeJiInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.KeJiInfo)
+  }
+
+  public interface JiHuoLMKJReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 keJiType = 1;
+    /**
+     * <code>required int32 keJiType = 1;</code>
+     *
+     * <pre>
+     * 科技类型
+     * </pre>
+     */
+    boolean hasKeJiType();
+    /**
+     * <code>required int32 keJiType = 1;</code>
+     *
+     * <pre>
+     * 科技类型
+     * </pre>
+     */
+    int getKeJiType();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.JiHuoLMKJReq}
+   *
+   * <pre>
+   * 激活联盟科技	 short C_LMKEJI_JIHUO = 27515
+   * </pre>
+   */
+  public static final class JiHuoLMKJReq extends
+      com.google.protobuf.GeneratedMessage
+      implements JiHuoLMKJReqOrBuilder {
+    // Use JiHuoLMKJReq.newBuilder() to construct.
+    private JiHuoLMKJReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private JiHuoLMKJReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final JiHuoLMKJReq defaultInstance;
+    public static JiHuoLMKJReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public JiHuoLMKJReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private JiHuoLMKJReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              keJiType_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_JiHuoLMKJReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_JiHuoLMKJReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.JianZhu.JiHuoLMKJReq.class, qxmobile.protobuf.JianZhu.JiHuoLMKJReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<JiHuoLMKJReq> PARSER =
+        new com.google.protobuf.AbstractParser<JiHuoLMKJReq>() {
+      public JiHuoLMKJReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new JiHuoLMKJReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JiHuoLMKJReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 keJiType = 1;
+    public static final int KEJITYPE_FIELD_NUMBER = 1;
+    private int keJiType_;
+    /**
+     * <code>required int32 keJiType = 1;</code>
+     *
+     * <pre>
+     * 科技类型
+     * </pre>
+     */
+    public boolean hasKeJiType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 keJiType = 1;</code>
+     *
+     * <pre>
+     * 科技类型
+     * </pre>
+     */
+    public int getKeJiType() {
+      return keJiType_;
+    }
+
+    private void initFields() {
+      keJiType_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasKeJiType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, keJiType_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, keJiType_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.JianZhu.JiHuoLMKJReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.JiHuoLMKJReq}
+     *
+     * <pre>
+     * 激活联盟科技	 short C_LMKEJI_JIHUO = 27515
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.JianZhu.JiHuoLMKJReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_JiHuoLMKJReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_JiHuoLMKJReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.JianZhu.JiHuoLMKJReq.class, qxmobile.protobuf.JianZhu.JiHuoLMKJReq.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.JianZhu.JiHuoLMKJReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        keJiType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_JiHuoLMKJReq_descriptor;
+      }
+
+      public qxmobile.protobuf.JianZhu.JiHuoLMKJReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.JianZhu.JiHuoLMKJReq.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.JianZhu.JiHuoLMKJReq build() {
+        qxmobile.protobuf.JianZhu.JiHuoLMKJReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.JianZhu.JiHuoLMKJReq buildPartial() {
+        qxmobile.protobuf.JianZhu.JiHuoLMKJReq result = new qxmobile.protobuf.JianZhu.JiHuoLMKJReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.keJiType_ = keJiType_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.JianZhu.JiHuoLMKJReq) {
+          return mergeFrom((qxmobile.protobuf.JianZhu.JiHuoLMKJReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.JianZhu.JiHuoLMKJReq other) {
+        if (other == qxmobile.protobuf.JianZhu.JiHuoLMKJReq.getDefaultInstance()) return this;
+        if (other.hasKeJiType()) {
+          setKeJiType(other.getKeJiType());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasKeJiType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.JianZhu.JiHuoLMKJReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.JianZhu.JiHuoLMKJReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 keJiType = 1;
+      private int keJiType_ ;
+      /**
+       * <code>required int32 keJiType = 1;</code>
+       *
+       * <pre>
+       * 科技类型
+       * </pre>
+       */
+      public boolean hasKeJiType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 keJiType = 1;</code>
+       *
+       * <pre>
+       * 科技类型
+       * </pre>
+       */
+      public int getKeJiType() {
+        return keJiType_;
+      }
+      /**
+       * <code>required int32 keJiType = 1;</code>
+       *
+       * <pre>
+       * 科技类型
+       * </pre>
+       */
+      public Builder setKeJiType(int value) {
+        bitField0_ |= 0x00000001;
+        keJiType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 keJiType = 1;</code>
+       *
+       * <pre>
+       * 科技类型
+       * </pre>
+       */
+      public Builder clearKeJiType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        keJiType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.JiHuoLMKJReq)
+    }
+
+    static {
+      defaultInstance = new JiHuoLMKJReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.JiHuoLMKJReq)
+  }
+
+  public interface JiHuoLMKJRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 返回结果，0-成功
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 返回结果，0-成功
+     * </pre>
+     */
+    int getResult();
+
+    // required int32 jiHuoLv = 2;
+    /**
+     * <code>required int32 jiHuoLv = 2;</code>
+     *
+     * <pre>
+     * 该科技激活等级
+     * </pre>
+     */
+    boolean hasJiHuoLv();
+    /**
+     * <code>required int32 jiHuoLv = 2;</code>
+     *
+     * <pre>
+     * 该科技激活等级
+     * </pre>
+     */
+    int getJiHuoLv();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.JiHuoLMKJResp}
+   *
+   * <pre>
+   * 激活联盟科技返回结果		short S_LMKEJI_JIHUO = 27516
+   * </pre>
+   */
+  public static final class JiHuoLMKJResp extends
+      com.google.protobuf.GeneratedMessage
+      implements JiHuoLMKJRespOrBuilder {
+    // Use JiHuoLMKJResp.newBuilder() to construct.
+    private JiHuoLMKJResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private JiHuoLMKJResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final JiHuoLMKJResp defaultInstance;
+    public static JiHuoLMKJResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public JiHuoLMKJResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private JiHuoLMKJResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              jiHuoLv_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_JiHuoLMKJResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_JiHuoLMKJResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.JianZhu.JiHuoLMKJResp.class, qxmobile.protobuf.JianZhu.JiHuoLMKJResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<JiHuoLMKJResp> PARSER =
+        new com.google.protobuf.AbstractParser<JiHuoLMKJResp>() {
+      public JiHuoLMKJResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new JiHuoLMKJResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JiHuoLMKJResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 返回结果，0-成功
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 返回结果，0-成功
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    // required int32 jiHuoLv = 2;
+    public static final int JIHUOLV_FIELD_NUMBER = 2;
+    private int jiHuoLv_;
+    /**
+     * <code>required int32 jiHuoLv = 2;</code>
+     *
+     * <pre>
+     * 该科技激活等级
+     * </pre>
+     */
+    public boolean hasJiHuoLv() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 jiHuoLv = 2;</code>
+     *
+     * <pre>
+     * 该科技激活等级
+     * </pre>
+     */
+    public int getJiHuoLv() {
+      return jiHuoLv_;
+    }
+
+    private void initFields() {
+      result_ = 0;
+      jiHuoLv_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasJiHuoLv()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, jiHuoLv_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, jiHuoLv_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.JianZhu.JiHuoLMKJResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.JianZhu.JiHuoLMKJResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.JiHuoLMKJResp}
+     *
+     * <pre>
+     * 激活联盟科技返回结果		short S_LMKEJI_JIHUO = 27516
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.JianZhu.JiHuoLMKJRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_JiHuoLMKJResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_JiHuoLMKJResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.JianZhu.JiHuoLMKJResp.class, qxmobile.protobuf.JianZhu.JiHuoLMKJResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.JianZhu.JiHuoLMKJResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        jiHuoLv_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.JianZhu.internal_static_qxmobile_protobuf_JiHuoLMKJResp_descriptor;
+      }
+
+      public qxmobile.protobuf.JianZhu.JiHuoLMKJResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.JianZhu.JiHuoLMKJResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.JianZhu.JiHuoLMKJResp build() {
+        qxmobile.protobuf.JianZhu.JiHuoLMKJResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.JianZhu.JiHuoLMKJResp buildPartial() {
+        qxmobile.protobuf.JianZhu.JiHuoLMKJResp result = new qxmobile.protobuf.JianZhu.JiHuoLMKJResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.jiHuoLv_ = jiHuoLv_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.JianZhu.JiHuoLMKJResp) {
+          return mergeFrom((qxmobile.protobuf.JianZhu.JiHuoLMKJResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.JianZhu.JiHuoLMKJResp other) {
+        if (other == qxmobile.protobuf.JianZhu.JiHuoLMKJResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        if (other.hasJiHuoLv()) {
+          setJiHuoLv(other.getJiHuoLv());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        if (!hasJiHuoLv()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.JianZhu.JiHuoLMKJResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.JianZhu.JiHuoLMKJResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 返回结果，0-成功
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 返回结果，0-成功
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 返回结果，0-成功
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 返回结果，0-成功
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 jiHuoLv = 2;
+      private int jiHuoLv_ ;
+      /**
+       * <code>required int32 jiHuoLv = 2;</code>
+       *
+       * <pre>
+       * 该科技激活等级
+       * </pre>
+       */
+      public boolean hasJiHuoLv() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 jiHuoLv = 2;</code>
+       *
+       * <pre>
+       * 该科技激活等级
+       * </pre>
+       */
+      public int getJiHuoLv() {
+        return jiHuoLv_;
+      }
+      /**
+       * <code>required int32 jiHuoLv = 2;</code>
+       *
+       * <pre>
+       * 该科技激活等级
+       * </pre>
+       */
+      public Builder setJiHuoLv(int value) {
+        bitField0_ |= 0x00000002;
+        jiHuoLv_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 jiHuoLv = 2;</code>
+       *
+       * <pre>
+       * 该科技激活等级
+       * </pre>
+       */
+      public Builder clearJiHuoLv() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        jiHuoLv_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.JiHuoLMKJResp)
+    }
+
+    static {
+      defaultInstance = new JiHuoLMKJResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.JiHuoLMKJResp)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_JianZhuList_descriptor;
   private static
@@ -1202,6 +3470,26 @@ public final class JianZhu {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_JianZhuInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_KeJiList_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_KeJiList_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_KeJiInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_KeJiInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_JiHuoLMKJReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_JiHuoLMKJReq_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_JiHuoLMKJResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_JiHuoLMKJResp_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1214,7 +3502,11 @@ public final class JianZhu {
       "\n\rJianZhu.proto\022\021qxmobile.protobuf\";\n\013Ji" +
       "anZhuList\022,\n\004list\030\001 \003(\0132\036.qxmobile.proto" +
       "buf.JianZhuInfo\"\031\n\013JianZhuInfo\022\n\n\002lv\030\001 \002" +
-      "(\005B\tB\007JianZhu"
+      "(\005\"5\n\010KeJiList\022)\n\004list\030\001 \003(\0132\033.qxmobile." +
+      "protobuf.KeJiInfo\"\'\n\010KeJiInfo\022\n\n\002lv\030\001 \002(" +
+      "\005\022\017\n\007jiHuoLv\030\002 \002(\005\" \n\014JiHuoLMKJReq\022\020\n\010ke" +
+      "JiType\030\001 \002(\005\"0\n\rJiHuoLMKJResp\022\016\n\006result\030" +
+      "\001 \002(\005\022\017\n\007jiHuoLv\030\002 \002(\005B\tB\007JianZhu"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1233,6 +3525,30 @@ public final class JianZhu {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_JianZhuInfo_descriptor,
               new java.lang.String[] { "Lv", });
+          internal_static_qxmobile_protobuf_KeJiList_descriptor =
+            getDescriptor().getMessageTypes().get(2);
+          internal_static_qxmobile_protobuf_KeJiList_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_KeJiList_descriptor,
+              new java.lang.String[] { "List", });
+          internal_static_qxmobile_protobuf_KeJiInfo_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_qxmobile_protobuf_KeJiInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_KeJiInfo_descriptor,
+              new java.lang.String[] { "Lv", "JiHuoLv", });
+          internal_static_qxmobile_protobuf_JiHuoLMKJReq_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_qxmobile_protobuf_JiHuoLMKJReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_JiHuoLMKJReq_descriptor,
+              new java.lang.String[] { "KeJiType", });
+          internal_static_qxmobile_protobuf_JiHuoLMKJResp_descriptor =
+            getDescriptor().getMessageTypes().get(5);
+          internal_static_qxmobile_protobuf_JiHuoLMKJResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_JiHuoLMKJResp_descriptor,
+              new java.lang.String[] { "Result", "JiHuoLv", });
           return null;
         }
       };

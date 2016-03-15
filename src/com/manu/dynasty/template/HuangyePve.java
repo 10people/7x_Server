@@ -39,6 +39,7 @@ public class HuangyePve{
 	public int positionY;
 	public int pveId;
 	public float paraK;
+	public float huangYeBi_scale;
 	
 	public int getId() {
 		return id;

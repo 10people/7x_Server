@@ -10,8 +10,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
@@ -33,6 +31,8 @@ import com.manu.dynasty.template.VipFuncOpen;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
+import com.manu.network.SessionManager;
+import com.manu.network.SessionUser;
 import com.qx.account.FunctionOpenMgr;
 import com.qx.activity.ActivityMgr;
 import com.qx.alliance.AllianceBean;
@@ -210,7 +210,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		int myGongj = 0;
 		if(gj == null){
 			// 开启掠夺初始化贡金
-			myGongj = RankingGongJinMgr.inst.firstSetGongJin(jzid, player.lianMengId);
+			myGongj = RankingGongJinMgr.inst.iniGongJin(jzid, player.lianMengId);
 		}else{
 			myGongj = (int)gj.doubleValue();
 		}
@@ -830,7 +830,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		}
 		prepareLock.remove(enemyId);
 		
-		Integer zhandouId =  (int)TableIDCreator.getTableID(ZhanDouRecord.class, 1L);// 战斗id 后台使用
+		Integer zhandouId =  (int)TableIDCreator.getTableID(LveZhanDouRecord.class, 1L);// 战斗id 后台使用
 		
 		ZhanDouInitResp.Builder resp = ZhanDouInitResp.newBuilder();
 		Group.Builder enemyTroop = Group.newBuilder();
@@ -885,6 +885,8 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			wjNode.setHpNum(bing.lifebarNum);
 			wjNode.setAppearanceId(bing.modelApID);
 			wjNode.setNuQiZhi(0);
+			wjNode.setMibaoCount(0);
+			wjNode.setMibaoPower(0);
 			PveMgr.inst.fillGongFangInfo(wjNode, bing);
 			String skills = bing.skills;
 			if (skills != null && !skills.equals("")) {
@@ -924,6 +926,8 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		enemyNode.setHpNum(1);
 		enemyNode.setAppearanceId(1);
 		enemyNode.setNuQiZhi(MibaoMgr.inst.getChuShiNuQi(enemy.id));
+		enemyNode.setMibaoCount(MibaoMgr.inst.getActivateMiBaoCount(enemy.id));
+		enemyNode.setMibaoPower(JunZhuMgr.inst.getAllMibaoProvideZhanli(enemy));
 		enemys.add(enemyNode.build());
 		
 		
@@ -1258,10 +1262,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 				}
 			}
 		}
-		LveBattleEndResp.Builder resp = LveBattleEndResp.newBuilder();
-		resp.setWinGongJin(willLostGongJin.get(jId) == null? 0: willLostGongJin.get(jId));
-		session.write(resp.build());
-		
+
 		int L = (int)CanShu.LUEDUO_CANSHU_L;
 		
 		LveDuoBean fangshouLve = HibernateUtil.find(LveDuoBean.class, enemyId);
@@ -1340,7 +1341,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 				// <LianmengEvent ID="17" str="%d掠夺d%成功，联盟获得%d建设值！" />
 				LianmengEvent e = AllianceMgr.inst.lianmengEventMap.get(17);
 				String eventStr = e == null? "": e.str;
-				eventStr = AllianceMgr.inst.lianmengEventMap.get(17).str
+				eventStr = eventStr
 						.replaceFirst("%d", junZhu.name)
 						.replaceFirst("%d", enemy.name)
 						.replaceFirst("%d", alliaceJianShe+"");
@@ -1443,7 +1444,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			fangshouLve.lastBattleEndTime =null;
 			
 			// 掠夺别人失败
-			EventMgr.addEvent(ED.Lve_duo_fail , new Object[] {jId, junZhu.name, enemy.name});
+//			EventMgr.addEvent(ED.Lve_duo_fail , new Object[] {jId, junZhu.name, enemy.name});
 		}
 		
 		HibernateUtil.save(fangshouLve);
@@ -1451,6 +1452,11 @@ public class LveDuoMgr extends EventProc implements Runnable{
 
 		fightingLock.remove(enemyId);
 		willLostGongJin.remove(jId);
+		LveBattleEndResp.Builder resp = LveBattleEndResp.newBuilder();
+		resp.setJifen(zhanr.gongJiGetGongjin);
+		resp.setShengwang(zhanr.gongjiGetGuoSW);
+		resp.setBuild(zhanr.gongJiGetMengJianShe);
+		session.write(resp.build());
 		
 //		int anweiJiang = (int) Math.round(CanShu.LUEDUO_COMFORTED_AWARD_K *
 //				fangshouFangSuishi + CanShu.LUEDUO_COMFORTED_AWARD_B);
@@ -1611,18 +1617,29 @@ public class LveDuoMgr extends EventProc implements Runnable{
 	}
 
 	
-	public void addGongJinDailyAward(long jzid, byte sendType){
-		JunZhu junZhu = HibernateUtil.find(JunZhu.class, jzid);
-		if (junZhu == null) {
+	public void addGongJinDailyAward(JunZhu junZhu, byte sendType){
+		long jzid = junZhu.id;
+		int min = 1;
+		int max = 1;
+		long rank = RankingGongJinMgr.DB.zrevrank(RankingGongJinMgr.gongJinPersonalRank, jzid+"");
+		if(rank == -1){
+			log.info("玩家:{}没有贡金数据", jzid);
 			return;
 		}
-		// 看 掠夺功能是否开启
-		boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.lveDuo, jzid, junZhu.level);
-		if(!isOpen){
+		Double g = RankingGongJinMgr.DB.zScoreGongJin(RankingGongJinMgr.gongJinPersonalRank, 
+				jzid+"");
+		if(g == null){
+			log.info("玩家:{}没有贡金数据", jzid);
+			return;
+		}
+		if(g.doubleValue() == -1){
+			log.info("玩家:{}已经退出联盟，贡金值为-1", jzid);
 			return;
 		}
 		LveDuoBean bean = HibernateUtil.find(LveDuoBean.class, jzid);
 		if(bean == null) bean = new LveDuoBean(jzid);
+		long now = System.currentTimeMillis();
+		int i = 0;
 		// 玩家登陆
 		if(bean.getGongJinTime != null){
 			Date last = bean.getGongJinTime;
@@ -1630,9 +1647,12 @@ public class LveDuoMgr extends EventProc implements Runnable{
 				// 今天的奖励已经发出去了, 今日奖励已经给出表明昨天的也已经给出。
 				if(DateUtils.isSameDay(last)){
 					return;
-				}else if(DateUtils.isBeforeDay(System.currentTimeMillis(), last.getTime())){
+				}else if(DateUtils.isBeforeDay(now, last.getTime())){
 					return;
 				}
+				// 计算发送多少邮件
+				int all =  (int)(now - last.getTime() ) /(24 * 60 * 60 * 1000);
+				i = all<=0 ? 1: all; 
 				// 玩家在线发送奖励
 			}else if(sendType == PVPConstant.ONLINE_SEND_EMAIL){
 				// 当日奖励已经领取了
@@ -1641,12 +1661,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 				}
 			}
 		}
-		int min = 1;
-		int max = 1;
-		long rank = RankingGongJinMgr.DB.zrevrank(RankingGongJinMgr.gongJinPersonalRank, jzid+"");
-		if(rank == -1){
-			return;
-		}
+		
 		List<LueduoPersonRank> list = RankingGongJinMgr.persRankList;
 		if(list == null){
 			log.error("LueduoPersonRank.xml 无整个条目配置");
@@ -1672,8 +1687,13 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		String content = mailConfig.content;
 		content = content.replace("***", rank +"");
 		String senderName = mailConfig.sender;
-		boolean suc = EmailMgr.INSTANCE.sendMail(junZhu.name, content,
-				sendr.award, senderName, mailConfig, "");
+		boolean suc = false;
+		for(int k=1; k<= i; k++){
+			suc = EmailMgr.INSTANCE.sendMail(junZhu.name, content,
+					sendr.award, senderName, mailConfig, "");
+		}
+//		boolean suc = EmailMgr.INSTANCE.sendMail(junZhu.name, content,
+//				sendr.award, senderName, mailConfig, "");
 		if (suc) {
 			if (sendType == PVPConstant.LOGIN_SEND_EMAIL) {
 				bean.getGongJinTime = DateUtils.getLast10();
@@ -1789,13 +1809,24 @@ public class LveDuoMgr extends EventProc implements Runnable{
 				if(lianmengid == null ){
 					continue;
 				}
+				int rank = min++;
 				AllianceBean alli = HibernateUtil.find(AllianceBean.class, Long.parseLong(lianmengid));
 				if(alli == null){
 					continue;
 				}
+				// 增加
 				AllianceMgr.inst.changeAlianceBuild(alli, r.award);
-				content = content.replace("***", (min++) +"");
+				AllianceMgr.inst.addAllianceExp(r.LMExp, alli);
+				
+				//事件
+				LianmengEvent e = AllianceMgr.inst.lianmengEventMap.get(26);
+				String eventStr = e == null? "": e.str;
+				eventStr = eventStr.replaceFirst("%d", rank+"")
+						.replaceFirst("%d", r.award+"").replaceFirst("%d", r.LMExp+"");
+				AllianceMgr.inst.addAllianceEvent(alli.id, eventStr);
+				
 				// 发送通知盟主和副盟主邮件 ， 暂且只给盟主发送
+				content = content.replace("***", rank +"");
 				long mengzhuid = alli.creatorId;
 				JunZhu mengZhu = HibernateUtil.find(JunZhu.class, mengzhuid);
 				if(mengZhu == null ){
@@ -1895,6 +1926,19 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		bean.gongJiZuHeId = gongJizuhe;
 		HibernateUtil.save(bean);
 	}
+
+	public void showLveDuoRed(JunZhu junZhu){
+		AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
+		if(p != null && p.lianMengId > 0){
+			String where = " select count(*) from LveDuoMI where lmId = " + p.lianMengId + " "
+					+ " and willLostBuildTime != null and willLostBuildTime <= now()";
+			int c = HibernateUtil.getCount(where);
+			if(c > 0){
+				SessionUser su = SessionManager.inst.findByJunZhuId(junZhu.id);
+				FunctionID.pushCanShowRed(junZhu.id, su.session, FunctionID.lianmengJunQingLveDuo);
+			}
+		}
+	}
 	@Override
 	public void proc(Event e) {
 		switch (e.id) {
@@ -1902,7 +1946,26 @@ public class LveDuoMgr extends EventProc implements Runnable{
 				// 掠夺登陆奖励领取
 				if (e.param != null && e.param instanceof Long) {
 					long jzid = (Long) e.param;
-					addGongJinDailyAward(jzid, PVPConstant.LOGIN_SEND_EMAIL);
+					JunZhu junZhu = HibernateUtil.find(JunZhu.class, jzid);
+					if (junZhu == null) {
+						break;
+					}
+					// 看 掠夺功能是否开启
+					boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.lveDuo, jzid, junZhu.level);
+					if(!isOpen){
+						break;
+					}
+					try{
+						addGongJinDailyAward(junZhu, PVPConstant.LOGIN_SEND_EMAIL);
+					}catch (Exception e2) {
+						e2.printStackTrace();
+					}
+					// 显示掠夺军情的红点
+					try{
+						showLveDuoRed(junZhu);
+					}catch(Exception e3){
+						e3.printStackTrace();
+					}
 				}
 				break;
 			case ED.REFRESH_TIME_WORK:
@@ -1942,6 +2005,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 				break;
 			}
 	}
+	
 	@Override
 	protected void doReg() {
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);

@@ -41,4 +41,6 @@ public class YBType {
 	public static final int YB_DEAD_POS_REVIVE = 131;	//死亡地点复活
 	public static final int YB_All_LIFE_REVIVE = 132;	//满血复活
 	public static final int WORLD_CHAT = 133;	//广播频道聊天
+	public static final int ShiLianBaoXiang = 233;	//广播频道聊天
+	public static final int YB_PVP_RANK_GAIN = 134;				//pvp排名上升
 }

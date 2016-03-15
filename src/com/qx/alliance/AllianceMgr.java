@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import log.ActLog;
 
@@ -18,7 +17,10 @@ import org.slf4j.LoggerFactory;
 import qxmobile.protobuf.AllianceProtos;
 import qxmobile.protobuf.AllianceProtos.AgreeApply;
 import qxmobile.protobuf.AllianceProtos.AgreeApplyResp;
+import qxmobile.protobuf.AllianceProtos.AgreeInvite;
 import qxmobile.protobuf.AllianceProtos.AllianceHaveResp;
+import qxmobile.protobuf.AllianceProtos.AllianceInvite;
+import qxmobile.protobuf.AllianceProtos.AllianceInviteResp;
 import qxmobile.protobuf.AllianceProtos.AllianceNonResp;
 import qxmobile.protobuf.AllianceProtos.AllianceTargetResp;
 import qxmobile.protobuf.AllianceProtos.ApplicantInfo;
@@ -42,6 +44,8 @@ import qxmobile.protobuf.AllianceProtos.FireMember;
 import qxmobile.protobuf.AllianceProtos.FireMemberResp;
 import qxmobile.protobuf.AllianceProtos.GetAllianceLevelAward;
 import qxmobile.protobuf.AllianceProtos.GetAllianceLevelAwardResp;
+import qxmobile.protobuf.AllianceProtos.InviteAllianceInfo;
+import qxmobile.protobuf.AllianceProtos.InviteList;
 import qxmobile.protobuf.AllianceProtos.LookApplicantsResp;
 import qxmobile.protobuf.AllianceProtos.LookMembersResp;
 import qxmobile.protobuf.AllianceProtos.MemberInfo;
@@ -51,6 +55,8 @@ import qxmobile.protobuf.AllianceProtos.OpenApplyResp;
 import qxmobile.protobuf.AllianceProtos.PlayerAllianceState;
 import qxmobile.protobuf.AllianceProtos.RefuseApply;
 import qxmobile.protobuf.AllianceProtos.RefuseApplyResp;
+import qxmobile.protobuf.AllianceProtos.RefuseInvite;
+import qxmobile.protobuf.AllianceProtos.RefuseInviteResp;
 import qxmobile.protobuf.AllianceProtos.TransferAlliance;
 import qxmobile.protobuf.AllianceProtos.TransferAllianceResp;
 import qxmobile.protobuf.AllianceProtos.UpTitle;
@@ -90,10 +96,13 @@ import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
+import com.qx.friends.GreetMgr;
 import com.qx.huangye.HYMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.prompt.PromptMsgMgr;
+import com.qx.prompt.SuBaoConstant;
 import com.qx.pvp.PVPConstant;
 import com.qx.pvp.PvpBean;
 import com.qx.pvp.PvpMgr;
@@ -149,6 +158,7 @@ public class AllianceMgr extends EventProc{
 	/** 退出联盟玩家id前缀*/
 	public static final String ALLIANCE_EXIT = "alliance_exit_";
 	public static final String EXIT_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	public static final String INVITE_TIME_FORMAT = "yyyy-MM-dd HH:mm";
 	/** 联盟事件前缀 */
 	public static final String ALLIANCE_EVENT = "alliance_event_";
 	
@@ -1835,61 +1845,72 @@ public class AllianceMgr extends EventProc{
 		immediatelyJoin.Builder request = (qxmobile.protobuf.AllianceProtos.immediatelyJoin.Builder) builder;
 		int lianMengId = request.getLianMengId();
 
-		AllianceBean alncBean = HibernateUtil.find(AllianceBean.class, lianMengId);
-		if (alncBean == null) {
-			logger.error("立刻加入联盟失败，要加入的联盟:{}不存在!", lianMengId);
-			sendImmediatelyJoinResp(session, 2, null);
-			return;
+		agreeAndImmiJoinAlliance(PD.IMMEDIATELY_JOIN_RESP, session, junZhu, lianMengId);
+	}
+
+	public boolean agreeAndImmiJoinAlliance(int responseCmd, IoSession session, JunZhu junZhu, int lianMengId) {
+		String logHead = "";
+		if(responseCmd == PD.IMMEDIATELY_JOIN_RESP) {
+			logHead = "立刻加入联盟";
+		} else if(responseCmd == PD.S_ALLIANCE_INVITE_AGREE) {
+			logHead = "同意联盟邀请";
 		}
-		
+		AllianceBean alncBean = HibernateUtil.find(AllianceBean.class, lianMengId);
+		int guojia = 1;
+		if (alncBean == null) {
+			logger.error("{}失败，要加入的联盟:{}不存在!", logHead, lianMengId);
+			sendImmediatelyJoinResp(session, 2, null, responseCmd,lianMengId,guojia);
+			return false;
+		}
+		guojia = alncBean.country;
 		if(!checkInterval(junZhu.id, lianMengId)) {
-			sendImmediatelyJoinResp(session, 9, null);
-			logger.error("立刻加入联盟失败，距上次离开该联盟冷却时间未到");
-			return;
+			sendImmediatelyJoinResp(session, 9, null, responseCmd,lianMengId,guojia);
+			logger.error("{}失败，距上次离开该联盟冷却时间未到", logHead);
+			return false;
 		}
 		
 		if (alncBean.country != junZhu.guoJiaId) {
-			sendImmediatelyJoinResp(session, 8, null);
-			logger.error("立刻加入联盟失败，玩家与联盟不是同一个国家，玩家-{}:国家-{}, 联盟-{}:国家-{}", junZhu.id,
+			sendImmediatelyJoinResp(session, 8, null, responseCmd,lianMengId,guojia);
+			logger.error("{}失败，玩家与联盟不是同一个国家，玩家-{}:国家-{}, 联盟-{}:国家-{}", logHead,junZhu.id,
 					junZhu.guoJiaId, alncBean.id, alncBean.country);
-			return;
+			return false;
 		}
 		if (alncBean.isAllow == CLOSE_APPLY) {
-			logger.error("立刻加入联盟失败，要加入的联盟:{}未开启招募!", lianMengId);
-			sendImmediatelyJoinResp(session, 4, null);
-			return;
+			logger.error("{}失败，要加入的联盟:{}未开启招募!", logHead, lianMengId);
+			sendImmediatelyJoinResp(session, 4, null, responseCmd,lianMengId,guojia);
+			return false;
 		}
 		if (alncBean.isShenPi != AllianceConstants.NO_NEED_SHENPI) {
-			logger.error("立刻加入联盟失败，联盟:{}需要审批!", lianMengId);
-			sendImmediatelyJoinResp(session, 1, null);
-			return;
+			logger.error("{}失败，联盟:{}需要审批!", logHead, lianMengId);
+			sendImmediatelyJoinResp(session, 1, null, responseCmd,lianMengId,guojia);
+			return false;
 		}
 		int memberMax = getAllianceMemberMax(alncBean.level);
 		if (alncBean.members >= memberMax) {
-			logger.error("立刻加入联盟失败，联盟:{}人数已满，等级:{}", lianMengId, alncBean.level);
-			sendImmediatelyJoinResp(session, 5, null);
-			return;
+			logger.error("{}失败，联盟:{}人数已满，等级:{}", logHead, lianMengId, alncBean.level);
+			sendImmediatelyJoinResp(session, 5, null, responseCmd,lianMengId,guojia);
+			return false;
 		}
 
 		if (junZhu.level < alncBean.minApplyLevel) {
-			logger.error("立刻加入联盟失败，等级不满足要求，联盟:{}要求君主等级不小于:{}，君主等级:{}", lianMengId, alncBean.minApplyLevel, junZhu.level);
-			sendImmediatelyJoinResp(session, 6, null);
-			return;
+			logger.error("{}失败，等级不满足要求，联盟:{}要求君主等级不小于:{}，君主等级:{}", logHead, lianMengId, alncBean.minApplyLevel, junZhu.level);
+			sendImmediatelyJoinResp(session, 6, null, responseCmd,lianMengId,guojia);
+			return false;
 		}
 
 		PvpBean pvpBean = HibernateUtil.find(PvpBean.class, junZhu.id);
 		int junXianLevel = pvpBean == null ? PVPConstant.XIAO_ZU_JI_BIE
 				: pvpBean.junXianLevel;
 		if (junXianLevel < alncBean.minApplyJunxian) {
-			logger.error("立刻加入联盟失败，等级不满足要求，联盟:{}要求军衔等级不小于:{}，君主等级:{}", lianMengId, alncBean.minApplyJunxian, junXianLevel);
-			sendImmediatelyJoinResp(session, 7, null);
-			return;
+			logger.error("{}失败，等级不满足要求，联盟:{}要求军衔等级不小于:{}，君主等级:{}", logHead, lianMengId, alncBean.minApplyJunxian, junXianLevel);
+			sendImmediatelyJoinResp(session, 7, null, responseCmd,lianMengId,guojia);
+			return false;
 		}
 		AllianceApply applyer = HibernateUtil.find(AllianceApply.class, junZhu.id);
 		if (applyer != null && applyer.getAllianceNum() >= AllianceConstants.APPPLY_NUM_MAX) {
-			logger.error("立刻加入联盟失败，申请的联盟数量已满，申请了{}个， 最大申请{}个",applyer.getAllianceNum(), AllianceConstants.APPPLY_NUM_MAX);
-			sendImmediatelyJoinResp(session, 3, null);
-			return;
+			logger.error("{}失败，申请的联盟数量已满，申请了{}个， 最大申请{}个", logHead,applyer.getAllianceNum(), AllianceConstants.APPPLY_NUM_MAX);
+			sendImmediatelyJoinResp(session, 3, null, responseCmd,lianMengId,guojia);
+			return false;
 		}
 		Date date = new Date();
 		AlliancePlayer alncPlayer = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
@@ -1898,8 +1919,8 @@ public class AllianceMgr extends EventProc{
 			initAlliancePlayerInfo(junZhu.id, alncBean.id, alncPlayer, TITLE_MEMBER);
 			HibernateUtil.insert(alncPlayer);
 		} else if(alncPlayer.lianMengId > 0) {
-			logger.error("立刻加入联盟失败，申请者 jzId:{},已经加入了联盟:{}", junZhu.id, alncPlayer.lianMengId);
-			return;
+			logger.error("{}失败，申请者 jzId:{},已经加入了联盟:{}", logHead,junZhu.id, alncPlayer.lianMengId);
+			return false;
 		}
 		initAllianceGongXianRecord(junZhu.id);
 
@@ -1908,7 +1929,7 @@ public class AllianceMgr extends EventProc{
 		HibernateUtil.save(alncPlayer);
 		Redis.getInstance().sadd(CACHE_MEMBERS_OF_ALLIANCE + alncBean.id,
 				"" + alncPlayer.junzhuId);
-		logger.info("立刻加入联盟成功，junzhu:{}，在时间:{},加入联盟:{}", junZhu.name, date, alncBean.name);
+		logger.info("{}成功，junzhu:{}，在时间:{},加入联盟:{}", logHead, junZhu.name, date, alncBean.name);
 		session.setAttribute(SessionAttKey.LM_NAME, alncBean.name);
 		session.setAttribute(SessionAttKey.LM_ZHIWU, alncPlayer.title);
 		ActLog.log.Guild(junZhu.id, junZhu.name, ActLog.vopenid, "JOIN", alncBean.id, alncBean.name, alncBean.level, "");
@@ -1926,7 +1947,7 @@ public class AllianceMgr extends EventProc{
 		EventMgr.addEvent(ED.REFRESH_TIME_WORK, session);
 		AllianceHaveResp.Builder alncInfo = AllianceHaveResp.newBuilder();
 		fillAllianceResponse(alncBean, alncInfo, alncPlayer);
-		sendImmediatelyJoinResp(session, 0, alncInfo);
+		sendImmediatelyJoinResp(session, 0, alncInfo, responseCmd,lianMengId,guojia);
 		String eventStr = lianmengEventMap.get(2).str.replaceFirst("%d", junZhu.name);
 		addAllianceEvent(alncBean.id, eventStr);
 		// 联盟榜刷新
@@ -1935,16 +1956,22 @@ public class AllianceMgr extends EventProc{
 //		// 加入联盟，重新开始计算贡金  add 20150915
 //		GuoJiaMgr.inst.calculateGongJinJoinAlliance(junZhu.id);
 		RankingGongJinMgr.inst.firstSetGongJin(junZhu.id, alncBean.id);
+		return true;
 	}
 
 	protected void sendImmediatelyJoinResp(IoSession session, int result,
-			AllianceHaveResp.Builder alncInfo) {
+			AllianceHaveResp.Builder alncInfo, int cmd, int lianMengId, int guojia) {
 		immediatelyJoinResp.Builder response = immediatelyJoinResp.newBuilder();
 		response.setCode(result);
 		if (alncInfo != null) {
 			response.setAlncInfo(alncInfo.build());
 		}
-		session.write(response.build());
+		response.setLmId(lianMengId);
+		response.setGuojiaId(guojia);
+		ProtobufMsg msg = new ProtobufMsg();
+		msg.id = cmd;
+		msg.builder = response;
+		session.write(msg);
 	}
 
 	/**
@@ -2534,6 +2561,160 @@ public class AllianceMgr extends EventProc{
 		response.setResult(0);
 		response.setNextLevel(nextLevel);
 		session.write(response.build());
+	}
+
+	public void inviteJoinAlliance(int cmd, IoSession session, Builder builder) {
+		AllianceInvite.Builder request = (qxmobile.protobuf.AllianceProtos.AllianceInvite.Builder) builder;
+		long invitedJzId = request.getJunzhuId();
+		
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junZhu == null) {
+			logger.error("未发现君主，cmd:{}", cmd);
+			return;
+		}
+
+		// 判断君主是否有联盟
+		AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
+		if (player == null || player.lianMengId <= 0) {
+			logger.info("邀请加入联盟失败，玩家:{}没有联盟", junZhu.id);
+			return;
+		}
+		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, player.lianMengId);
+		if (alliance == null) {
+			logger.error("邀请加入联盟失败，联盟{}不存在", player.lianMengId);
+			return;
+		}
+		int maxMembers = getAllianceMemberMax(alliance.level);
+		if(alliance.members >= maxMembers) {
+			logger.error("邀请加入联盟失败，联盟{}人数已满", player.lianMengId);
+			sendAllianceInviteResp(session, 2);
+			return;
+		}
+		boolean isOpen = FunctionOpenMgr.inst.isFunctionOpen(FunctionOpenMgr.TYPE_ALLIANCE, junZhu.id, junZhu.level);
+		if(!isOpen) {
+			logger.error("邀请加入联盟失败-被邀请的玩家联盟功能未开放");
+			sendAllianceInviteResp(session, 3);
+			return;
+		}
+		
+		JunZhu invitedJZ = HibernateUtil.find(JunZhu.class, invitedJzId);
+		if (invitedJZ == null) {
+			sendAllianceInviteResp(session, 1);
+			return;
+		}
+		AlliancePlayer invitedPlayer = HibernateUtil.find(AlliancePlayer.class, invitedJZ.id);
+		if (invitedPlayer != null && invitedPlayer.lianMengId > 0) {
+			logger.info("邀请加入联盟失败，被邀请的玩家:{}已经加入了联盟:{}", invitedJZ.id, invitedPlayer.lianMengId);
+			sendAllianceInviteResp(session, 4);
+			return;
+		}
+		
+		Date date = new Date();
+		AllianceInviteBean inviteBean = HibernateUtil.find(AllianceInviteBean.class,
+				" where junzhuId="+invitedJzId + " and allianceId="+alliance.id);
+		if(inviteBean != null) {
+			inviteBean.date = date;
+			HibernateUtil.save(inviteBean);
+		} else {
+			inviteBean = new AllianceInviteBean();
+			inviteBean.id = TableIDCreator.getTableID(AllianceInviteBean.class, 1);
+			inviteBean.allianceId = alliance.id;
+			inviteBean.junzhuId = invitedJzId;
+			inviteBean.date = date;
+			HibernateUtil.insert(inviteBean);
+		}
+		// 发送通知
+		GreetMgr.inst.sendInvitePrompt(invitedJzId, junZhu.id, junZhu.name, alliance.id, alliance.name);
+		logger.info("邀请加入联盟成功，玩家:{}邀请了玩家:{}加入联盟:{},时间:{}", junZhu.id, invitedJzId, alliance.id, date);
+		sendAllianceInviteResp(session, 0);
+	}
+	
+	private void sendAllianceInviteResp(IoSession session, int result) {
+		AllianceInviteResp.Builder response = AllianceInviteResp.newBuilder();
+		response.setResult(result);
+		session.write(response.build());
+	}
+
+	public void seeInviteList(int cmd, IoSession session, Builder builder) {
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junZhu == null) {
+			logger.error("未发现君主，cmd:{}", cmd);
+			return;
+		}
+		Date nowDate = new Date();
+		InviteList.Builder response = InviteList.newBuilder();
+		List<AllianceInviteBean> list = HibernateUtil.list(AllianceInviteBean.class, " where junzhuId=" + junZhu.id);
+		for(AllianceInviteBean inviteBean : list) {
+			InviteAllianceInfo.Builder inviteInfo = InviteAllianceInfo.newBuilder();
+			AllianceBean alliance = HibernateUtil.find(AllianceBean.class, inviteBean.allianceId);
+			if(alliance == null ||
+					DateUtils.timeDistanceByHour(nowDate, inviteBean.date) >= 48) {
+				HibernateUtil.delete(inviteBean);
+				continue;
+			}
+			inviteInfo.setId(alliance.id);
+			inviteInfo.setName(alliance.name);
+			inviteInfo.setLevel(alliance.level);
+			inviteInfo.setGuiJia(alliance.country);
+			inviteInfo.setDate(DateUtils.date2Text(inviteBean.date, INVITE_TIME_FORMAT));
+			response.addInviteInfo(inviteInfo);
+		}
+		session.write(response.build());
+	}
+
+	public void refuseInvite(int cmd, IoSession session, Builder builder) {
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junZhu == null) {
+			logger.error("未发现君主，cmd:{}", cmd);
+			return;
+		}
+		
+		RefuseInvite.Builder request = (qxmobile.protobuf.AllianceProtos.RefuseInvite.Builder) builder;
+		int allianceId = request.getId();
+		AllianceInviteBean inviteBean = HibernateUtil.find(AllianceInviteBean.class,
+				" where junzhuId="+junZhu.id + " and allianceId=" + allianceId);
+		HibernateUtil.delete(inviteBean);
+		
+		logger.info("拒绝联盟邀请成功，玩家:{}拒绝了联盟:{}的邀请", junZhu.id, allianceId);
+		RefuseInviteResp.Builder response = RefuseInviteResp.newBuilder();
+		response.setResult(0);
+		response.setLianMengId(allianceId);
+		session.write(response.build());
+		PromptMsgMgr.inst.deleteMsgByEventIdAndLmId(junZhu.id, allianceId, SuBaoConstant.invite);
+	}
+
+	public void agreeInvite(int cmd, IoSession session, Builder builder) {
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junZhu == null) {
+			logger.error("未发现君主，cmd:{}", cmd);
+			return;
+		}
+		AgreeInvite.Builder request =  (qxmobile.protobuf.AllianceProtos.AgreeInvite.Builder) builder;
+		int lianMengId = request.getId();
+
+		AllianceInviteBean inviteBean = HibernateUtil.find(AllianceInviteBean.class,
+				" where junzhuId="+junZhu.id + " and allianceId=" + lianMengId);
+		if(inviteBean == null) {
+			return;
+		}
+		boolean succeed = agreeAndImmiJoinAlliance(PD.S_ALLIANCE_INVITE_AGREE, session, junZhu, lianMengId);
+		if(succeed) {
+			logger.info("同意联盟邀请成功，玩家:{}同意了联盟:{}的邀请", junZhu.id, lianMengId);
+			HibernateUtil.delete(inviteBean);
+		}
+	}
+	public void AnswerYes2Invite(int responseCmd, IoSession session, JunZhu junZhu, int lianMengId) {
+		boolean succeed = agreeAndImmiJoinAlliance(PD.S_ALLIANCE_INVITE_AGREE, session, junZhu, lianMengId);
+		if(succeed) {
+			AllianceInviteBean inviteBean = HibernateUtil.find(AllianceInviteBean.class,
+					" where junzhuId="+junZhu.id + " and allianceId=" + lianMengId);
+			if(inviteBean != null) {
+				logger.info("同意联盟邀请成功,删除记录失败，未找到记录，玩家:{}同意了联盟:{}的邀请", junZhu.id, lianMengId);
+			}else{
+				logger.info("同意联盟邀请成功，删除记录成功，玩家:{}同意了联盟:{}的邀请", junZhu.id, lianMengId);
+				HibernateUtil.delete(inviteBean);
+			}
+		}
 	}
 
 }

@@ -89,7 +89,8 @@ function go(act,id){
         	 p2.positionX=  p.positionX; 
         	 p2.positionY=  p.positionY; 
         	 p2.pveId=      100101;     
-        	 p2.paraK=      p.paraK;     
+        	 p2.paraK=      p.paraK;
+        	 p2.huangYeBi_scale = p.huangYeBi_scale;
              dataMap.put(p2.id, p2);
          }
          HYMgr.huangyePveMap = dataMap;

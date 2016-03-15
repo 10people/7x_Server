@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -23,7 +22,6 @@ import org.slf4j.LoggerFactory;
 
 import qxmobile.protobuf.PlayerData.State;
 import qxmobile.protobuf.Prompt.PromptActionResp;
-import qxmobile.protobuf.Prompt.SuBaoMSG;
 import qxmobile.protobuf.Scene.EnterScene;
 import qxmobile.protobuf.Scene.SpriteMove;
 import qxmobile.protobuf.Yabiao.AnswerYaBiaoHelpReq;
@@ -123,12 +121,12 @@ import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
 
 public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
-	public static Logger log = LoggerFactory.getLogger(YaBiaoHuoDongMgr.class);
+	public static Logger log = LoggerFactory.getLogger(YaBiaoHuoDongMgr.class.getSimpleName());
 	public static YaBiaoHuoDongMgr inst;
 	/**押镖君主和场景对应存储，方便君主找到Scid*/ 
-	public ConcurrentHashMap<Long, Integer> ybJzId2ScIdMap= new ConcurrentHashMap<Long, Integer>();
+//	public ConcurrentHashMap<Long, Integer> ybJzId2ScIdMap= new ConcurrentHashMap<Long, Integer>();
 	/**存储每个场景中押镖的君主列表*/
-	public ConcurrentHashMap<Integer, Set<Long>> ybJzList2ScIdMap= new ConcurrentHashMap<Integer, Set<Long>>(); 
+//	public ConcurrentHashMap<Integer, Set<Long>> ybJzList2ScIdMap= new ConcurrentHashMap<Integer, Set<Long>>(); 
 	public ConcurrentHashMap<Integer, Scene> yabiaoScenes= new ConcurrentHashMap<Integer, Scene>();
 	public static Map<Integer, CartTemp> cartMap = new HashMap<Integer, CartTemp>();
 	public static Map<Integer, CartNPCTemp> biaoCheNpcMap= new HashMap<Integer, CartNPCTemp>();
@@ -238,9 +236,6 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 	 * @Description 刷新押镖收益状态
 	 */
 	public void refreshMoreProfitState() {
-		//2016年1月27日 去掉
-//		boolean buff2Profit1=	DateUtils.isInDeadline4Start(YunbiaoTemp.incomeAdd_startTime1, YunbiaoTemp.incomeAdd_endTime1);
-//		boolean buff2Profit2=  DateUtils.isInDeadline4Start(YunbiaoTemp.incomeAdd_startTime2, YunbiaoTemp.incomeAdd_endTime2);
 		int fuliTimeCode=getNowFuliTime();
 		String template=YunbiaoTemp.yunbiao_start_broadcast;
 		if(fuliTimeCode>0){
@@ -250,20 +245,10 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			YaBiaoHuoDongMgr.FULITIME_FLAG=false;
 			BroadcastMgr.inst.send(template);
 		}
-//		if(buff2Profit2){//(buff2Profit1||buff2Profit2){
-//			//YaBiaoHuoDongMgr.SHOUYI_PROFIT=YunbiaoTemp.incomeAddPro;
-//			YaBiaoHuoDongMgr.FULITIME_FLAG=true;
-//			BroadcastMgr.inst.send(template);
-//		}else{
-//			template=YunbiaoTemp.yunbiao_end_broadcast;
-//			//YaBiaoHuoDongMgr.SHOUYI_PROFIT=100;
-//		
-//		}
 		syncBroadExecutor.submit(new Runnable() {
 			@Override
 			public void run() {
 				/**2016年1月25日 需求变更去掉多倍收益时段 改成福利时间*/
-//				while(YaBiaoHuoDongMgr.SHOUYI_PROFIT>100) {
 				while(YaBiaoHuoDongMgr.FULITIME_FLAG) {
 					try {
 						String template=YunbiaoTemp.yunbiao_start_broadcast;
@@ -276,7 +261,6 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 				}
 			}
 		});
-//		log.info("押镖收益比率为{},",YaBiaoHuoDongMgr.SHOUYI_PROFIT);
 		log.info("更新押镖活动--福利时段--状态{}",YaBiaoHuoDongMgr.FULITIME_FLAG);
 	}
 
@@ -465,25 +449,6 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 				log.error("YabiaoMgr-未处理的消息{}", id);
 				break;
 			}
-//		} else {// 活动未开启只处理以下消息
-//			switch (m.code) {
-//			case PD.C_YABIAO_INFO_REQ:
-//				getYabiaoMainInfo(id, builder, session);
-//				break;
-//			case PD.C_BIAOCHE_INFO:
-//				getBiaoCheList(id, builder, session);
-//				break;
-//			case PD.C_YABIAO_ENEMY_RSQ:
-//				getYabiaoEnemyInfo(id, builder, session);
-//				break;
-//			case PD.C_YABIAO_HISTORY_RSQ:
-//				getYabiaoHistoryInfo(id, builder, session);
-//				break;
-//			default:
-//				log.error("未处理的消息{}", id);
-//				break;
-//			}
-//		}
 	}
 	
 	/**
@@ -912,7 +877,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		//保存加入协助成功快报 
 		//给参加协助的人的快报
 		PromptMSG msg2jion=	sendJionSuccessKB2XieZhu(ybjzId, ybr.name, jzId);
-		pushSubao(session, msg2jion);
+		PromptMsgMgr.inst.pushSubao(session, msg2jion);
 		//推送君主协助目标的列表
 		pushHelpList4YB(jz, session);
 		/*******************************通知运镖君主谁加入协助*****************************************************/
@@ -1029,21 +994,6 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			hType = 5;
 		}
 		//2016年1月19日 YunbiaoTemp.cartAILvlMin从20-》14 策划变更算法暂时废弃
-//		int cartAILvlMin=YunbiaoTemp.cartAILvlMin;
-//		int cartAILvlMax=YunbiaoTemp.cartAILvlMax;
-//		int fuwuqilevel=cartAILvlMin;
-//		
-//		fuwuqilevel=(int) RankingMgr.inst.getTopJunzhuAvgLevel(50);
-//		//随机等级上、下限   大于等于YunbiaoTemp.cartAILvlMin  小于等于YunbiaoTemp.cartAILvlMax
-//		int lowLimit=fuwuqilevel-10;
-//		lowLimit=lowLimit>=cartAILvlMin?lowLimit:cartAILvlMin;
-//		lowLimit=lowLimit<=cartAILvlMax?lowLimit:cartAILvlMax;
-//		
-//		int upLimit=fuwuqilevel;
-//		upLimit=upLimit>=cartAILvlMin?upLimit:cartAILvlMin;
-//		upLimit=upLimit<=cartAILvlMax?upLimit:cartAILvlMax;
-//		int bcLevel = MathUtils.getRandomInMax(lowLimit, upLimit);
-	
 		CartNPCTemp cartNpc=null;
 		Iterator iter = biaoCheNpcMap.entrySet().iterator();
 		while (iter.hasNext()) {
@@ -1082,8 +1032,18 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		long jzId = jz.id;
 		int roomId = 0;//req.getRoomId(); FIXME 2015年11月30日 策划改成服务器只有一个押镖场景
 		YabiaoJunZhuList.Builder resp = YabiaoJunZhuList.newBuilder();
-		Set<Long> ybSet = ybJzList2ScIdMap.get(roomId);
-		for (Long junzhuId : ybSet) {
+		Scene sc = (Scene) session.getAttribute(SessionAttKey.Scene);
+		if(sc==null||sc.players==null){
+			log.error("{}请求推送镖车信息出错：未找到押镖场景",jzId);
+			return;
+		}
+//		Set<Long> ybSet = ybJzList2ScIdMap.get(roomId);
+		for(Player p : sc.players.values()){
+			long junzhuId=p.jzId;
+			//不是机器人 跳过
+			if(p.roleId != Scene.YBRobot_RoleId){
+				continue;
+			}
 			YabiaoJunZhuInfo.Builder biaoChe = YabiaoJunZhuInfo.newBuilder();
 			if(junzhuId<0){
 				YaBiaoRobot ybr = (YaBiaoRobot) BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(junzhuId);
@@ -1129,7 +1089,6 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 				biaoChe.setBaohuCD(protectTime > 0 ? protectTime : 0);
 				biaoChe.setTotalTime(ybr.totalTime);
 				biaoChe.setUsedTime(ybr.usedTime);
-//				YaBiaoBean ybBean = HibernateUtil.find(YaBiaoBean.class, ybr.jzId);
 				biaoChe.setHp(ybr.hp);
 				biaoChe.setMaxHp(ybJunZhu.shengMingMax);
 				biaoChe.setWorth(ybr.worth);
@@ -1164,7 +1123,6 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			}
 			remainJB = zdBean.remainJB4Award;
 			gongjiZuheId = zdBean.gongJiZuHeId;
-//			buyCounts = zdBean.todayBuyJBTimes;
 		}
 		resp.setGongjiZuHeId(gongjiZuheId);
 		resp.setLengqueCD(lengqueCD);
@@ -1256,6 +1214,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			log.error("请求押镖主页出错：君主不存在");
 			return;
 		}
+		log.info("请求押镖主要信息：君主--{}",jz.id);
 		YabiaoMainInfoResp.Builder resp = YabiaoMainInfoResp.newBuilder();
 		YunBiaoHistory histo = getYunBiaoHistory(jz.id);
 		boolean isOpen=openFlag?openFlag:histo.historyYB==0?true:false;
@@ -1272,6 +1231,11 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			isNew4Enemy=ybBean.isNew4Enemy;
 			isNew4History=ybBean.isNew4History;
 			todayBuyYBTimes=ybBean.todayBuyYBTimes;
+		}
+		if(histo.historyYB==0&&ybBean.horseType==5){
+			log.info("君主---{}第一次押镖马车随机出最高品质，为了过引导强制降低品质",jz.id);
+			ybBean.horseType=4;
+			HibernateUtil.save(ybBean);
 		}
 		resp.setYaBiaoCiShu(remainYB);
 		resp.setIsNew4Enemy(isNew4Enemy);
@@ -1429,7 +1393,12 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			enemy.setRoleId(enJz.roleId);
 			//2015年8月31日返回仇人的护盾
 			enemy.setHudun(hudun*100/enJz.shengMingMax);
-			Integer scId = ybJzId2ScIdMap.get(enemyId);
+			SessionUser su = SessionManager.inst.findByJunZhuId(enemyId);
+			Integer scId=null;
+			if(su!=null){
+				scId =(Integer)su.session.getAttribute(SessionAttKey.SceneID);
+			}
+//			Integer scId = ybJzId2ScIdMap.get(enemyId);
 			// 不在押镖的时候，ERoomId值为-1
 			// 只有值大于等于0的时候，才能直接进入其押镖犯贱
 			if (scId != null) {
@@ -1461,6 +1430,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			log.error("请求押镖界面出错：君主不存在");
 			return;
 		}
+		log.info("请求押镖界面，随机马车 ，君主--{}",jz.id);
 		Long jzId = jz.id;
 		YabiaoMenuResp.Builder resp = YabiaoMenuResp.newBuilder();
 		YaBiaoBean ybBean = HibernateUtil.find(YaBiaoBean.class, jzId);
@@ -1479,11 +1449,8 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		if(horseType==ybBean.horseType){
 			isNewHorse=false;
 		}
-//		resp.setRemainAskXZ(ybBean.remainAskXZ);
 		resp.setHorse(ybBean.horseType);
 		resp.setIsNewHorse(isNewHorse);
-		// 加载协助君主信息
-//		getXieZhuJZInfo(jzId,jz.shengMingMax, resp);
 		//加载马车道具
 		YBBattleBean zdbean =getYBZhanDouInfo(jz.id, jz.vipLevel);
 		HorseProp.Builder prop=HorseProp.newBuilder();
@@ -1612,7 +1579,6 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			return;
 		}
 		log.info("请求设置马匹,马匹从{}升级到{},需要花费--{}", nowhorseType,targetType,cost);
-		// PurchaseMgr.inst.getNeedYuanBao(UPDATE_HORSE_COST_TYPE, 1);
 		if (jz.yuanBao < cost) {
 			log.info("请求设置马匹出错：君主{}元宝{}不足消耗--{}", jz.id,jz.yuanBao,cost);
 			resp.setResult(40);
@@ -1878,16 +1844,6 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			return;
 		}
 		long jzId=jz.id;
-		// 判断协助者状态
-//		List<Long> returnSet = CheckXieZhuState(jz.id);
-//		if (returnSet.size() > 0) {
-//			resp.setResult(40);
-//			resp.setRoomId(-1);
-//			for (Long jzId : returnSet) {
-//				resp.addJzId(jzId);
-//			}
-//			session.write(resp.build());
-//		}
 		// 移除押镖君主的协助者队列
 		xieZhuCache4YBJZ.remove(jzId);
 		answerHelpCache4YB.remove(jzId);
@@ -1917,9 +1873,6 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			log.error("{}请求开始押镖出错：君主不在押镖场景",jzId);
 			return;
 		}
-//		if(scId!=0){
-//			log.error("{}请求开始押镖出错：君主不在0号押镖场景",jzId);
-//		}
 		Integer uid = (Integer)session.getAttribute(SessionAttKey.playerId_Scene);
 		if(uid == null){
 			resp.setResult(20);
@@ -2036,6 +1989,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			return null;
 		}
 		YaBiaoRobot ybr = new YaBiaoRobot();
+		ybr.sc = sc;
 		ybr.session = new RobotSession();
 		ybr.move = SpriteMove.newBuilder();
 		ybr.jzId = jz.id;
@@ -2077,7 +2031,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		int cartTotalLife = (int) (cartLife + cartLife * (keJiRate / 100));
 		ybr.hp = cartTotalLife;
 		ybr.maxHp = cartTotalLife;
-		log.info("产生系统机器人--{},初始无敌时间为{},初始加速时间为{},血量--{}",jz.id,protectTime,ybr.upSpeedTime,ybr.hp);
+		log.info("产生君主押镖机器人--{},初始无敌时间为{},初始加速时间为{},血量--{}",jz.id,protectTime,ybr.upSpeedTime,ybr.hp);
 		ybr.speed=1;
 		ybr.startTime4short = System.currentTimeMillis();
 		ybr.endBattleTime = System.currentTimeMillis();
@@ -2149,8 +2103,6 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		cartAttr4Fight.jnBJ = (int) (jz.jnBJ * attrRate);
 		cartAttr4Fight.jnRX = (int) (jz.jnRX * attrRate);
 		ybr.cartAttr4Fight = cartAttr4Fight;
-		// 存入押镖Map
-		pushYbJz2Map(jz.id, scId);
 		// 将镖车机器人加入镖车机器人管理线程
 		BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.put(jz.id, ybr);
 		sc.exec(PD.Enter_YBScene, ybr.session, enter);
@@ -2270,6 +2222,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		ybr.endBattleTime = System.currentTimeMillis();
 		ybr.startTime2upSpeed = System.currentTimeMillis();
 		ybr.horseType =biaoCheNPC.quality;
+		ybr.sc = sc;
 		CartTemp cart = cartMap.get(ybr.horseType );
 		if(cart==null){
 			log.error("产生系统机器人--{}出错,未找到CartTemp配置",sysJzId);
@@ -2324,16 +2277,9 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		cartAttr4Fight.jnBJ = biaoCheNPC.jnBJ;
 		cartAttr4Fight.jnRX = biaoCheNPC.jnRX;
 		ybr.cartAttr4Fight = cartAttr4Fight;
-		// 存入押镖Map
-		pushYbJz2Map(sysJzId, scId);
 		// 将镖车机器人加入镖车机器人管理线程
 		BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.put(sysJzId, ybr);
 		sc.exec(PD.Enter_YBScene, ybr.session, enter);
-//		Integer macheshu=YaBiaoHuoDongMgr.xtmcs4Scene.get(scId);
-//		if(macheshu!=null&&macheshu>0){
-//			macheshu--;
-//			YaBiaoHuoDongMgr.xtmcs4Scene.put(scId, macheshu);
-//		}
 		return true;
 	}
 	//随机生产名字
@@ -2345,40 +2291,15 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			int number = random.nextInt(base.length());   
 			sb.append(base.charAt(number));   
 		}   
-//		int roleId=MathUtils.getRandomInMax(1, 4);
-//		ZhuceRenwu role = AccountManager.inst.roleInfoList.get(roleId);
-//		if (role == null) {
-//			log.error("选择的玩家角色不存在");
-//			return sb.toString();  
-//		}
-//		List<NameKu> list = AccountManager.inst.roleNameMap.get(role.getSex());
-//		if (list.size() == 0) {
-//			log.error("nameKu配置信息不正确");
-//			return sb.toString();  
-//		}
-//		int index = RandomUtil.getRandomNum(list.size());
-//		NameKu nameKu = list.get(index);
-//		String roleName = nameKu.getName();
 		return sb.toString();   
 	}  
-
 	
 	/**
 	 * @Description	随机生成系统机器人id,为负数表示系统机器人
 	 * @return sysJzId
 	 */
 	public static long getRobotJzId() { 
-		YaBiaoRobot tem=new YaBiaoRobot();
-		long sysJzId=0;
-		while (tem!=null) {
-			sysJzId=-MathUtils.getRandom(Long.MAX_VALUE);
-			tem=(YaBiaoRobot) BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(sysJzId);
-			if(tem!=null){
-				System.out.println("111");
-			}
-		}
-		log.info("随机生成系统机器人id===《{}》",sysJzId);
-		return sysJzId ;   
+		return -Scene.atomicInteger.incrementAndGet();
 	}  
 	//2015年12月12日 1.1版本 检查协助者是否可以协助废弃
 	/**
@@ -2551,7 +2472,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		}
 		int eventId=SuBaoConstant.zdqz;
 		boolean ret3=false;
-		int horseType=ybBean.horseType;
+		int horseType=ybr.horseType;
 		//2015年12月14日 改完配置  明确只向未协助盟友求助   没有向协助盟友、所有盟友求助操作求助 
 		ret3=PromptMsgMgr.inst.pushKB2WeiXieZhuMengYou(jz, aBean.id, horseType, eventId, "");
 		log.info("镖车出发事件处理结果ret3=={} ，{}请求押镖协助成功",ret3, ybJzId);
@@ -2711,7 +2632,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		pushHelpList4YB(jz, session);
 		//保存加入协助成功快报
 		PromptMSG msg=sendJionSuccessKB2XieZhu(ybjzId, ybr.name, jzId);
-		pushSubao(session, msg);
+		PromptMsgMgr.inst.pushSubao(session, msg);
 		AskYaBiaoHelpResp.Builder resp2Asker = AskYaBiaoHelpResp.newBuilder();
 		resp2Asker.setCode(code);
 		XieZhuJunZhu.Builder xzJz = XieZhuJunZhu.newBuilder();
@@ -2720,9 +2641,6 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		xzJz.setRoleId(jz.roleId);
 		
 		//2015年8月31日返回盟友增加的护盾 2015年12月3日 1.1版本去掉护盾
-//		int hudun=(int) (jz.shengMingMax * CanShu.YUNBIAOASSISTANCE_HPBONUS);
-//		int mubiaoShengMingMax= JunZhuMgr.inst.getJunZhu(su.session).shengMingMax;
-//		int hudunzenyi=hudun*100/mubiaoShengMingMax;
 		int curHp=jz.shengMing;
 		Integer uid=(Integer)session.getAttribute(SessionAttKey.playerId_Scene);
 		if(uid != null){
@@ -2734,7 +2652,6 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		xzJz.setCurHp(curHp);
 		xzJz.setMaxHp(jz.shengMingMax);
 		resp2Asker.setJz(xzJz);
-//		log.info("通知{}协助这变化成功,君主--{}协助君主--{}押镖，护盾增益{}%", ybJzId,jzid,ybJzId,hudunzenyi);
 		SessionUser su = SessionManager.inst.findByJunZhuId(ybjzId);
 		if(su!=null){
 			su.session.write(resp2Asker.build());
@@ -2789,11 +2706,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		resp.setBaohuCD(protectTime > 0 ? protectTime : 0);
 		int jiaSuTime=ybr.upSpeedTime;
 		resp.setJiasuTime(jiaSuTime);
-		Integer scId = ybJzId2ScIdMap.get(ybr.jzId);
-		if (scId == null) {
-			log.error("镖车所在场景未找到{}", ybr.jzId);
-			return;
-		}
+
 		for(Player player : sc.players.values()){
 			//机器人马车不广播 2016年1月29日 状态不在押镖不广播
 			if(player.roleId==Scene.YBRobot_RoleId||player.pState!=State.State_YABIAO){
@@ -2803,43 +2716,15 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		}
 	}
 
-	/**
-	 * @Description: 押镖人加入押镖map
-	 * @param jzId
-	 * @param scId
-	 */
-	public void pushYbJz2Map(Long jzId, int scId) {
-		// 存入押镖Map
-		ybJzId2ScIdMap.put(jzId, scId);
-		Set<Long> ybSet = new HashSet<Long>();
-		if (ybJzList2ScIdMap.get(scId) != null) {
-			ybSet = ybJzList2ScIdMap.get(scId);
-		}
-		ybSet.add(jzId);
-		ybJzList2ScIdMap.put(scId, ybSet);
-	}
+
 	
 	/**
-	 * @Description:移除运镖君主信息
+	 * @Description:移除镖车
 	 */
-	public void removeYBJzInfo(Long jzId,boolean isKilled) {
-		Integer scId = ybJzId2ScIdMap.get(jzId);
-		if (scId == null)
-			return;
-		Set<Long> ybSet = ybJzList2ScIdMap.get(scId);
-		if (ybSet != null) {
-			ybSet.remove(jzId);
-		} else {
-			log.error("从场景-{}移除君主-{}失败,未找到押镖君主List", scId, jzId);
-		}
-		ybJzId2ScIdMap.remove(jzId);
-		Scene sc = yabiaoScenes.get(scId);
-		// 移出镖车
-		if (sc != null) {
-			sc.exit4YaBiaoRobot(jzId,isKilled);
-		}
-		
-		log.info("从场景-{}移除君主镖车信息-{}成功", scId, jzId);
+	public void removeYBJzInfo(YaBiaoRobot ybr) {
+		Scene sc = ybr.sc;
+		sc.exit4YaBiaoRobot(ybr);
+		log.info("从场景-{}移除君主镖车信息-{}成功", ybr.sc.name, ybr.jzId);
 	}
 	
 
@@ -2923,7 +2808,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		}
 		SessionUser su = SessionManager.inst.findByJunZhuId(jzId);
 		if (msg!=null&&su != null){
-			pushSubao(su.session, msg);
+			PromptMsgMgr.inst.pushSubao(su.session, msg);
 		}
 	}
 	//2015年12月12日 1.1版本 发送邮箱给协助者废弃
@@ -3072,7 +2957,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		PromptMSG msg=	PromptMsgMgr.inst.saveLMKBByCondition(jzId, enemyJzId, new String[]{jz.name, enemyName,null,null,null,otherJz.level+""},  eventId, horseType);
 		SessionUser su = SessionManager.inst.findByJunZhuId(jzId);
 		if (msg!=null&&su != null){
-			pushSubao(su.session, msg);
+			PromptMsgMgr.inst.pushSubao(su.session, msg);
 		}
 		String	award=msg!=null?msg.award:"";
 		log.info("{}杀死了仇人{},获得奖励{}",jzId,enemyJzId,award);
@@ -3127,8 +3012,11 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			log.error("{}劫镖出错：目标君主不存在",djJzId);
 			return;
 		}
-		//打劫君主的押镖战斗数据
-//		YBBattleBean jbBattleBean = getYBZhanDouInfo(dajieJz.id, dajieJz.vipLevel);
+		Integer scId =(Integer)session.getAttribute(SessionAttKey.SceneID);
+		if(scId==null){
+			log.error("{}劫镖出错：君主不在押镖场景",djJzId);
+			return;
+		}
 		//押镖君主的押镖战斗数据
 		YBBattleBean ybBattleBean = getYBZhanDouInfo(dajieJz.id, dajieJz.vipLevel);
 		YaBiaoBean ybBean = HibernateUtil.find(YaBiaoBean.class, ybJzId);
@@ -3163,16 +3051,17 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		ybHis.successJB += 1;
 		HibernateUtil.save(ybHis);
 		jbBattleBean.usedJB+=1;
-//		if(jbBattleBean.remainJB4Award>0){
-		jbBattleBean.remainJB4Award-=1;
-//		}
+		jbBattleBean.remainJB4Award-=1;//到这里还能减成负数，前面是怎么进行的
 		HibernateUtil.save(jbBattleBean);
 		log.info("劫镖者{}劫镖成功，仇人加成--{}，收益{},劫镖次数{}，剩余次数{}", dajieJz.id,enemyJiaCheng/100,dajieshouyi,jbBattleBean.usedJB,jbBattleBean.remainJB4Award);
 		ActLog.log.LootDart(dajieJz.id, dajieJz.name, ActLog.vopenid, ActLog.vopenid, ybJzId, "", dajieshouyi, ybHis.successJB);
 		// 劫镖成功，加入劫镖人的记录
 		saveYaBiaoHistory(dajieJz, yabiaoJz, 3, dajieshouyi, ybr.horseType);
+	
+		//发放劫镖成功联盟相关奖励
+		int rob2gongxian=gainAllianceAward4JieBiao(djJzId, cart);
 		//劫镖成功快报
-		sendSuccessKB2JBJZ(djJzId, ybr.name,dajieshouyi,isEmeny);
+		sendSuccessKB2JBJZ(djJzId,ybJzId, ybr.name,dajieshouyi,isEmeny,rob2gongxian);
 		// ===================================以下押镖人结算===================================
 		//押镖结算
 		int shouru=0;
@@ -3192,9 +3081,6 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		final int horseType=ybr.horseType;
 		//			2015年10月8日押镖君主收益应该在邮件领取
 		//更新运镖数据 2016年1月18日挪到运镖开始就扣除次数
-//		ybBean.horseType = -1;
-//		ybBean.usedYB += 1;
-//		ybBean.remainYB -= 1;
 		ybBean.isNew4History=true;
 		ybBean.isNew4Enemy=true;
 		HibernateUtil.save(ybBean);
@@ -3207,13 +3093,13 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		saveJieBiaoEnemy(ybJzId,djJzId);
 		// 劫镖成功，加入被劫镖者的记录
 		saveYaBiaoHistory(yabiaoJz, dajieJz, 4, dajieshouyi, ybr.horseType);
-		// 镖车被杀死 ，移除押镖者
-		removeYBJzInfo(ybJzId,true);
+		// 玩家镖车被杀死 ，移除押镖者
+		removeYBJzInfo(ybr);
 		// 移除本次押镖答复的队列
-//		answerHelpCache4YB.remove(ybJzId);
-		
+		//发放运镖成功镖联盟相关奖励
+		int gongxian=gainAllianceAward4YaBiaoFail(ybJzId, cart);
 		//发送押镖失败快报给押镖人  2015年11月27日改成发快报 不发邮件
-		sendLoseKB2YBJZ(ybJzId, djJzId, dajieJz.name,shouru);
+		sendLoseKB2YBJZ(ybJzId, djJzId, dajieJz.name,shouru,gongxian);
 		//推送新历史记录给押镖者
 		pushYBRecord(ybJzId, true, true);
 		//移除协助者并发送快报
@@ -3221,10 +3107,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		//告诉运镖君主的仇人 他不在运镖
 		refreshYabiaoState2Enemy(ybJzId);
 		//2016年3月7日 策划加入运镖联盟相关数值
-		//发放劫镖成功联盟相关奖励
-		gainAllianceAward4JieBiao(djJzId, cart);
-		 //发放运镖成功镖联盟相关奖励
-		gainAllianceAward4YaBiaoFail(ybJzId, cart);
+	
 		//押镖镖车从场景中移除事件
 		EventMgr.addEvent(ED.BIAOCHE_END, new Object[] { ybJzId,horseType, ybr.startTime});
 		EventMgr.addEvent(ED.BIAOCHE_CUIHUI, new Object[] { yabiaoJz,dajieJz,horseType,ybr.worth+""});
@@ -3232,83 +3115,87 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 	}
 	
 	/**
-	 * @Description 发放劫镖成功联盟相关奖励
+	 * @Description 发放劫镖成功联盟相关奖励  会返回个人得到的联盟贡献
 	 * @param jbJz
 	 * @param cart
 	 */
-	public void gainAllianceAward4JieBiao(long jzId,CartTemp cart) {
+	public int gainAllianceAward4JieBiao(long jzId,CartTemp cart) {
 		log.info("发放  劫镖成功的君主---{} ,联盟相关奖励",jzId);
 		AlliancePlayer  player = HibernateUtil.find(AlliancePlayer.class, jzId);
-		int lmId=player.lianMengId;
-		if (player == null || lmId <= 0) {
+		if (player == null || player.lianMengId <= 0) {
 			log.info("发放  劫镖成功的君主---{} ,联盟相关奖励失败，玩家没有联盟", jzId);
-			return;
+			return 0;
 		}
+		int lmId=player.lianMengId;
 		AllianceBean lmBean = HibernateUtil.find(AllianceBean.class, lmId);
 		if (lmBean == null) {
 			log.error("发放  劫镖成功的君主---{} ,联盟相关奖励失败，联盟{}不存在", jzId, lmId);
-			return;
+			return 0;
 		}
-		//TODO 配置
-		int gongxian=100;
-		player.gongXian += gongxian;
-		log.info("玩家---{}劫镖成功，获得联盟贡献---{}", jzId,gongxian);
-		HibernateUtil.save(player);
-		int jianshe=100;
+		//2016年3月12日 策划要求把贡献发到速报里面
+		int gongxian=cart.rob_Jianshe;
+//		player.gongXian += gongxian;
+//		log.info("玩家---{}劫镖成功，获得联盟贡献---{}", jzId,gongxian);
+//		HibernateUtil.save(player);
+		
+		int jianshe=cart.rob_Jianshe;
 		log.info("玩家---{}劫镖成功，给联盟--{}，增加联盟贡献---{}", jzId,lmId,jianshe);
 		AllianceMgr.inst.changeAlianceBuild(lmBean, jianshe);
+		return gongxian;
 	}
 	
 	/**
-	 * @Description 发放运镖成功镖联盟相关奖励
+	 * @Description 发放运镖成功镖联盟相关奖励  会返回个人得到的联盟贡献
 	 */
-	public void gainAllianceAward4YaBiaoSuccess(long jzId,CartTemp cart) {
+	public int  gainAllianceAward4YaBiaoSuccess(long jzId,CartTemp cart) {
 		log.info("发放运镖成功的君主---{} ,联盟相关奖励",jzId);
 		AlliancePlayer  player = HibernateUtil.find(AlliancePlayer.class, jzId);
-		int lmId=player.lianMengId;
-		if (player == null || lmId <= 0) {
+		if (player == null || player.lianMengId <= 0) {
 			log.info("获取玩家联盟失败，玩家:{}没有联盟", jzId);
-			return;
+			return 0;
 		}
+		int lmId=player.lianMengId;
 		AllianceBean lmBean = HibernateUtil.find(AllianceBean.class, lmId);
 		if (lmBean == null) {
 			log.error("获取玩家联盟失败，联盟{}不存在", lmId);
-			return;
+			return 0;
 		}
-		//TODO 配置
-		int gongxian=100;
-		player.gongXian += gongxian;
-		log.info("玩家---{}运镖成功，获得联盟贡献---{}", jzId,gongxian);
-		HibernateUtil.save(player);
-		int jianshe=100;
-		log.info("玩家---{}运镖成功，给联盟--{}，增加联盟贡献---{}", jzId,lmId,jianshe);
+		//2016年3月12日 策划要求把贡献发到速报里面
+		int gongxian=cart.success_Jianshe;
+//		player.gongXian += gongxian;
+//		log.info("玩家---{}运镖成功，获得联盟贡献---{}", jzId,gongxian);
+//		HibernateUtil.save(player);
+		int jianshe=cart.success_Jianshe;
+		log.info("玩家---{}运镖成功，给联盟--{}，增加联盟建设值---{}", jzId,lmId,jianshe);
 		AllianceMgr.inst.changeAlianceBuild(lmBean, jianshe);
+		return gongxian;
 	}
 	/**
-	 * @Description 发放运镖失败镖联盟相关奖励
+	 * @Description 发放运镖失败镖联盟相关奖励  会返回个人得到的联盟贡献
 	 */
-	public void gainAllianceAward4YaBiaoFail(long jzId,CartTemp cart) {
+	public int gainAllianceAward4YaBiaoFail(long jzId,CartTemp cart) {
 		log.info("发放运镖失败的君主---{} ,联盟相关奖励",jzId);
 		AlliancePlayer  player = HibernateUtil.find(AlliancePlayer.class, jzId);
-		int lmId=player.lianMengId;
-		if (player == null || lmId <= 0) {
+		if (player == null || player.lianMengId <= 0) {
 			log.info("获取玩家联盟失败，玩家:{}没有联盟", jzId);
-			return;
+			return 0;
 		}
+		int lmId=player.lianMengId;
 		AllianceBean lmBean = HibernateUtil.find(AllianceBean.class, lmId);
 		if (lmBean == null) {
 			log.error("获取玩家联盟失败，联盟{}不存在", lmId);
-			return;
+			return 0;
 		}
-		//TODO 配置
-		int gongxian=100;
-		player.gongXian += gongxian;
-		log.info("玩家---{}运镖失败，获得联盟贡献---{}", jzId,gongxian);
-		HibernateUtil.save(player);
-		int jianshe=100;
+		//2016年3月12日 策划要求把贡献发到速报里面
+		int gongxian=cart.fail_Jianshe;
+//		player.gongXian += gongxian;
+//		log.info("玩家---{}运镖失败，获得联盟贡献---{}", jzId,gongxian);
+//		HibernateUtil.save(player);
+		int jianshe=cart.fail_Jianshe;
 		log.info("玩家---{}运镖失败，给联盟--{}，增加联盟建设值---{}", jzId,lmId,jianshe);
 		AllianceMgr.inst.changeAlianceBuild(lmBean, jianshe);
-	}
+		return gongxian;
+	} 
 	/**
 	 * @Description 算出劫镖收益
 	 * @return
@@ -3363,8 +3250,12 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		long djJzId=dajieJz.id;
 		//处理系统镖车机器人
 		log.info("{}打劫系统机器人--{}领奖--开始",djJzId, ybJzId);
+		Integer scId =(Integer)session.getAttribute(SessionAttKey.SceneID);
+		if(scId==null){
+			log.error("{}劫镖出错：君主不在押镖场景",djJzId);
+			return;
+		}
 		//打劫君主的押镖战斗数据
-//		YBBattleBean jbBattleBean = getYBZhanDouInfo(dajieJz.id, dajieJz.vipLevel);
 		YaBiaoRobot ybr = (YaBiaoRobot) BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(ybJzId);
 		if (ybr == null) {
 			log.error("劫镖战斗结束相关处理出错：为找到系统jzid--{}的马车", djJzId);
@@ -3381,7 +3272,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		int dajieshouyi0 = (int) ((ybr.worth * cart.robProfit)*SHOUYI_PROFIT/100);
 		//2016年1月20日 增加“劫镖收益减益”
 		int dajieshouyi=getJieBiaoShouYi(dajieJz,ybjz,ybr,cart,100);
-		//TODO 待删除
+		//TODO 待删除  啥时候验收了再删这个输出吧 ，策划自己都算不对到底给多少奖励
 		log.info("原算法收益---------------------"+dajieshouyi0+"现在算法收益---------------------"+dajieshouyi);
 		//2015年9月1日拆分字段到新表
 		YunBiaoHistory ybHis = getYunBiaoHistory(dajieJz.id);
@@ -3391,14 +3282,14 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		jbBattleBean.remainJB4Award-=1;
 		HibernateUtil.save(jbBattleBean);
 		log.info("劫镖者{}劫镖系统机器人--{}镖车编号--{}等级--{}成功，收益{},劫镖次数{}，剩余次数{}", dajieJz.id,ybr.jzId,ybr.bcNPCNo,ybr.jzLevel, dajieshouyi,jbBattleBean.usedJB,jbBattleBean.remainJB4Award);
-		//劫镖成功快报
-		sendSuccessKB2JBJZ(djJzId,ybr.name, dajieshouyi,false);
+		//劫镖成功快报 打劫系统镖车没有建设值 贡献值
+		int rob2gongxian=0;
+		sendSuccessKB2JBJZ(djJzId,ybJzId,ybr.name, dajieshouyi,false,rob2gongxian);
 		//劫镖成功，加入劫镖人的记录
 		saveYaBiaoHistory2SysCart(dajieJz, ybr, 3, dajieshouyi, ybr.horseType);
 		
-		// 移除运镖君主信息
-		removeYBJzInfo(ybJzId,true);
-//		YaBiaoRobotProduceMgr.inst.produceCart();
+		//系统镖车死亡， 移除运镖君主信息
+		removeYBJzInfo(ybr);
 		ActLog.log.LootDart(dajieJz.id, dajieJz.name, ActLog.vopenid, ActLog.vopenid, ybJzId, "", dajieshouyi, ybHis.successJB);
 
 	}
@@ -3488,51 +3379,31 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			}
 		}
 	}
-	/**
-	 * @Description: 系统镖车押镖成功结算
-	 * @param jzId
-	 * @param roomId
-	 */
-	public void settleYaBiaoSuccess4Sys(Long jzId, int roomId) {
-		//处理系统镖车机器人
-		log.info("系统机器人---《{}》到达终点处理--开始", jzId);
-		removeYBJzInfo(jzId, false);
-		log.info("系统机器人---{}到达终点处理--结束", jzId);
-//		YaBiaoRobotProduceMgr.inst.produceCart();
-	}
+
 
 	/**
 	 * @Description: 君主押镖成功结算
 	 * @param jzId
 	 * @param roomId
 	 */
-	public void settleYaBiaoSuccess4Jz(Long jzId, int roomId) {
+	public void settleYaBiaoSuccess4Jz(YaBiaoRobot ybr) {
+		Long jzId = ybr.jzId;
 		JunZhu jz = HibernateUtil.find(JunZhu.class, jzId);
 		if (jz == null) {
 			log.error("押镖结算出错：押镖君主不存在{}", jzId);
 			return;
 		}
 		SessionUser su = SessionManager.inst.findByJunZhuId(jzId);
-		YaBiaoRobot ybr = (YaBiaoRobot) BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(jz.id);
-		if (ybr == null) {
-			log.error("押镖结算出错：押镖君主--{}镖车机器人未找到", jzId);
-			return;
-		}
 		
 		CartTemp cart = cartMap.get(ybr.horseType);
 		if(cart==null){
 			log.error("押镖结算出错,目标{}镖车马匹类型{}为找到CartTemp配置",jzId,ybr.horseType);
 			return;
 		}
-//		YaBiaoBean ybBean = HibernateUtil.find(YaBiaoBean.class, jzId);
 		// 结算收益
 		int shouru = ybr.worth ;
 		final int horseType = ybr.horseType;
 		//更新数据 2016年1月18日挪到运镖开始就扣除次数
-//		ybBean.horseType = -1;
-//		ybBean.usedYB += 1;
-//		ybBean.remainYB -= 1;
-//		HibernateUtil.save(ybBean);
 		//2015年9月1日拆分字段到新表
 		YunBiaoHistory ybHis =getYunBiaoHistory( jz.id);
 		ybHis.successYB += 1;
@@ -3547,12 +3418,12 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		if (su != null) {
 			JunZhuMgr.inst.sendMainInfo(su.session);// 推送铜币信息
 		} 
+	
+		//2016年3月7日 策划加入运镖联盟相关数值
+		//发放运镖成功镖联盟相关奖励
+		int gongxian=gainAllianceAward4YaBiaoSuccess(jzId, cart);
 		//发送运镖成功快报
-		sendSuccessKB2YBJZ(jzId,shouru);
-		// 镖车到达终点，移除押镖人的相关信息
-		removeYBJzInfo(jzId,false);
-		// 移除本次押镖答复的队列
-//		answerHelpCache4YB.remove(jzId);
+		sendSuccessKB2YBJZ(jzId,shouru,gongxian);
 		//2016年1月7日 移除第一次被攻击记录
 		FightMgr.inst.cartInjuredFirstRecord.remove(jzId);
 		// 移出协助者
@@ -3572,13 +3443,10 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			log.warn("{}已不在联盟中,,不保存《联盟押镖成功》事件", jzId);
 			return;
 		}
-		//少配置 TODO
-		int jianshe=100;
+		int jianshe=cart.success_Jianshe;
 		//保存联盟押镖成功事件
 		saveAllianceEvent(jz.name, jianshe, lmId,27);
-		//2016年3月7日 策划加入运镖联盟相关数值
-		//发放运镖成功镖联盟相关奖励
-		gainAllianceAward4YaBiaoSuccess(jzId, cart);
+
 	}
 	
 	/**
@@ -3599,43 +3467,44 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 	 * @param jzId
 	 * @param roomId
 	 */
-	public  void  settleYaBiaoSuccess(Long jzId, int roomId) {
-		if(jzId<0){
-			settleYaBiaoSuccess4Sys(jzId, roomId);
-			return;
+	public  void  settleYaBiaoSuccess(YaBiaoRobot ybr) {
+		ybr.sc.exitYBSc(ybr.session);
+		if(ybr.jzId<0){
+			log.info("系统镖车---{}走到终点",ybr.jzId);
 		}else {
-			settleYaBiaoSuccess4Jz(jzId, roomId);
+			settleYaBiaoSuccess4Jz(ybr);
 		}
 	}
+
 
 	/**
 	 * @Description: 发送押镖成功快报给押镖人  2015年11月27日改成发快报 不发邮件
 	 * @param jzName
 	 */
-	public void sendSuccessKB2YBJZ(long ybJzId,int shouru) {
+	public void sendSuccessKB2YBJZ(long ybJzId,int shouru,int gongxian) {
 		//押镖成功
 		int eventId=SuBaoConstant.ybcg;
-		PromptMSG msg=	PromptMsgMgr.inst.saveLMKBByCondition(ybJzId, ybJzId, new String[]{"", "",shouru+""},  eventId,  0);
+		PromptMSG msg=	PromptMsgMgr.inst.saveLMKBByCondition(ybJzId, ybJzId, new String[]{"", "",shouru+"#"+gongxian},  eventId,  0);
 		SessionUser su = SessionManager.inst.findByJunZhuId(ybJzId);
 		if (msg!=null&su != null){
-			pushSubao(su.session, msg);
+			PromptMsgMgr.inst.pushSubao(su.session, msg);
 		}
 		log.info("发送押镖成功快报给--{}",  ybJzId);
 	}
 	/**
 	 * @Description: 发送打劫成功快报  2015年11月27日改成发快报 不发邮件
 	 */
-	public void sendSuccessKB2JBJZ(long jbJzId,String ybName,int shouru,boolean isEmeny) {
+	public void sendSuccessKB2JBJZ(long jbJzId,long ybJzId,String ybName,int shouru,boolean isEmeny,int gongxian) {
 		int eventId=0;
 		PromptMSG msg=null;
 		if(isEmeny){
 			//打劫仇人成功给自己
 			eventId=SuBaoConstant.djcr_toSelf;
-			msg=PromptMsgMgr.inst.saveLMKBByCondition(jbJzId, jbJzId, new String[]{ybName,"",shouru+""},  eventId,  -1);
+			msg=PromptMsgMgr.inst.saveLMKBByCondition(jbJzId, ybJzId, new String[]{ybName,"",shouru+"#"+gongxian},  eventId,  -1);
 		}else{
 			//打劫非仇人成功给自己
 			eventId=SuBaoConstant.djfcr_toSelf;
-			msg=PromptMsgMgr.inst.saveLMKBByCondition(jbJzId, jbJzId, new String[]{ybName,"",shouru+""},  eventId,  -1);
+			msg=PromptMsgMgr.inst.saveLMKBByCondition(jbJzId, ybJzId, new String[]{ybName,"",shouru+"#"+gongxian},  eventId,  -1);
 		}
 		SessionUser su = SessionManager.inst.findByJunZhuId(jbJzId);
 		if (msg!=null&&su != null){
@@ -3645,7 +3514,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			}else{
 				log.error("向{}推送劫镖次数失败，君主为空",  jbJzId);
 			}
-			pushSubao(su.session, msg);
+			PromptMsgMgr.inst.pushSubao(su.session, msg);
 		}
 		log.info("发送打劫成功快报给--{}",  jbJzId);
 	}
@@ -3653,32 +3522,21 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 	 * @Description: 发送押镖失败快报给押镖人  2015年11月27日改成发快报 不发邮件
 	 * @param jzName
 	 */
-	public void sendLoseKB2YBJZ(long ybJzId,long jbJzId,String jbJzName,int ybShouyi) {
+	public void sendLoseKB2YBJZ(long ybJzId,long jbJzId,String jbJzName,int ybShouyi,int gongxian) {
 		int eventId=SuBaoConstant.ybsb ;//运镖失败
-		PromptMSG msg =	PromptMsgMgr.inst.saveLMKBByCondition(ybJzId, jbJzId, new String[]{jbJzName,"",ybShouyi+""}, eventId,  -1);
+		PromptMSG msg =	PromptMsgMgr.inst.saveLMKBByCondition(ybJzId, jbJzId, new String[]{jbJzName,"",ybShouyi+"#"+gongxian}, eventId,  -1);
 		SessionUser su = SessionManager.inst.findByJunZhuId(ybJzId);
 		if (msg!=null&&su != null){
-			pushSubao(su.session, msg);
+			PromptMsgMgr.inst.pushSubao(su.session, msg);
 		}
 		log.info("发送押镖失败快报给--{}",  ybJzId);
 	}
-	public void pushSubao(IoSession session,PromptMSG msg) {
-		if(msg==null) return;
-		SuBaoMSG.Builder subao = SuBaoMSG.newBuilder();
-		subao=PromptMsgMgr.inst.makeSuBaoMSG(subao, msg);
-		session.write(subao.build());
-	}	
-	/**
-	 * @Description: 根据vip等级获取押镖次数
+	/** 
+	 * @Description: 获取押镖次数   随机可能变成根据vip等级获得
 	 * @param vipLev
 	 * @return
 	 */
 	public int getYaBiaoCountForVip(int vipLev) {
-		// int value = VipMgr.INSTANCE.getValueByVipLevel(vipLev,
-		// VipData.bugYaBiaoTime);
-		// int times = PVPConstant.YABIAO_TOTAL_TIMES;
-		// times +=PurchaseMgr.inst.getAllUseNumbers(PurchaseConstants.YABIAO,
-		// value);
 		return CanShu.YUNBIAO_MAXNUM;
 	}
 
@@ -3893,7 +3751,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		PromptMSG msg=	PromptMsgMgr.inst.saveLMKBByCondition(ybJzId, ybJzId, null,  eventId,  0);
 		SessionUser su = SessionManager.inst.findByJunZhuId(ybJzId);
 		if (msg!=null&su != null){
-			pushSubao(su.session, msg);
+			PromptMsgMgr.inst.pushSubao(su.session, msg);
 		}
 		log.info("发送发放福利次数速报给--{}",  ybJzId);
 	}
@@ -3943,16 +3801,11 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 
 	
 	/**
-	 * @Description: 根据vip等级获取劫镖次数
+	 * @Description:获取劫镖次数  随机可能变成根据vip等级
 	 * @param vipLev
 	 * @return
 	 */
 	public int getJieBiaoCountForVip(int vipLev) {
-		// int value = VipMgr.INSTANCE.getValueByVipLevel(vipLev,
-		// VipData.bugJieBiaoTime);
-		// int times = PVPConstant.JIEBIAO_TOTAL_TIMES;
-		// times +=PurchaseMgr.inst.getAllUseNumbers(PurchaseConstants.JIEBIAO,
-		// value);
 		return CanShu.JIEBIAO_MAXNUM;
 	}
 	
@@ -4080,7 +3933,6 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 	public void refreshFuLiTimeState(JunZhu jz,YaBiaoBean ybBean ,int fuliTimeCode,IoSession session) {
 		boolean isPush=false;
 		//2016年1月29日 押镖没开启 或者要把开启了并且福利次数没领的人推送
-//		int fuliTimeCode=getNowFuliTime();
 		if(ybBean==null){
 			isPush=true;
 		}else{

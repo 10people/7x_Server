@@ -45,6 +45,7 @@
 <a href="dataConf/dataTemplate.jsp" target='target'>数据配置</a><br/>
 <a href="monitor/monitor.jsp" target='target'>在线数量</a><br/>
 <a href="monitor/monitor4YaBiao.jsp" target='target'>押镖活动查看</a><br/>
+<a href="monitor/monitor4baoXiangFuBen.jsp" target='target'>十连副本</a><br/>
 <a href="gm/classManager.jsp" target='target'>相关类查看</a><br/>
 <a href="gm/huangYe.jsp" target='target'>荒野管理</a><br/>
 <a href="gm/youxia.jsp" target='target'>游侠管理</a><br/>

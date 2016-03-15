@@ -199,6 +199,11 @@ public class CanShu {
 	public static int LUEDUO_AWARDEDCOMFORT_MAXTIMES;
 	public static int YUNBIAO_AWARDEDCOMFORT_MAXTIMES;
 	public static int TILI_JILEI_SHANGXIAN;//体力积累上限" 2016年1月19日
+	
+	public static double CONGRATULATE_AWARD_K;//" desc="恭贺奖励系数K" />
+	public static double CONGRATULATE_AWARD_B;//" desc="恭贺奖励系数B" />
+	public static int BIAOQING_INTERVAL;//"" value="3" desc="表情持续时间（秒）" />
+	public static int GREETED_CD;//"" value="60" desc="被打招呼的CD（秒）" />
 	public String key;
 	public String value;
 	public String getKey() {

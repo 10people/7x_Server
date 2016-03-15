@@ -21,6 +21,7 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.House.AnswerExchange;
 import qxmobile.protobuf.House.Apply;
 import qxmobile.protobuf.House.ApplyInfos;
@@ -575,14 +576,79 @@ public class HouseMgr extends EventProc implements Runnable {
 		// TODO Auto-generated method stub
 
 	}
-
 	/**
-	 * @Description: 获取联盟房屋信息
+	 * 发送错误消息
+	 * 
+	 * @param session
+	 * @param cmd
+	 * @param msg
+	 */
+	private void sendError(IoSession session, int cmd, String msg) {
+		ErrorMessage.Builder test = ErrorMessage.newBuilder();
+		test.setErrorCode(cmd);
+		test.setErrorDesc(msg);
+		session.write(test.build());
+	}
+	/**
+	 * @Description: 获取君主房屋信息
 	 * @param id
 	 * @param session
 	 * @param builder
 	 */
 	public void getBatchInfo(int id, IoSession session, Builder builder) {
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			sendError(session, id, "未发现君主");
+			log.error("cmd:{},未发现君主,获取联盟房屋信息，未找到请求君主id信息", id); 
+		}
+		long jzId=jz.id;
+
+		AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, jzId);
+		if (ap == null) {
+			log.error("获取联盟房屋信息，未找到请求君主的联盟信息{}", jzId);
+			return;
+		}
+		if (ap.lianMengId <= 0) {
+			log.error("获取联盟房屋信息，请求君主的联盟信息有误{}", jzId);
+			return;
+		}
+		HouseBean selfBean = HibernateUtil.find(HouseBean.class, jz.id);
+		if (selfBean == null) {
+			sendError(session, id, "未发现君主的房子信息");
+			log.error("获取联盟房屋信息，未找到君主的小房子信息{}", jz.id);
+			return;
+		}
+		BatchSimpleInfo.Builder ret = BatchSimpleInfo.newBuilder();
+		HouseSimpleInfo.Builder sf = HouseSimpleInfo.newBuilder();
+		sf.setLocationId(selfBean.location);
+		sf.setJzId(selfBean.jzId);
+		sf.setJzName(jz.name);
+		// ???表示为老号需退出联盟重新加入 ???会自动赋值。
+		sf.setFirstOwner(selfBean.firstOwner == null ? "???" : selfBean.firstOwner);
+		String firstHoldTime = selfBean.firstHoldTime == null ? "???"
+				: DateUtils.date2Text(selfBean.firstHoldTime, "yyyy年MM月dd日");
+		sf.setFirstHoldTime(firstHoldTime);
+		sf.setState(selfBean.state);
+		sf.setOpen4My(selfBean.open);
+		ret.addInfos(sf.build());
+
+		HouseExpInfo.Builder expInfo = HouseExpInfo.newBuilder();
+		expInfo = makeHouseExpInfo(selfBean);
+		expInfo.setCurGongxian(ap.gongXian);
+		ret.setExpInfo(expInfo);
+		ProtobufMsg pm = new ProtobufMsg();
+		pm.id = PD.S_LM_HOUSE_INFO;
+		pm.builder = ret;
+		session.write(pm);
+		log.info("君主房屋信息给{}", jzId);
+	}
+	/**
+	 * @Description: 获取联盟房屋信息 1.1版本之前的方法 2016年3月11日
+	 * @param id
+	 * @param session
+	 * @param builder
+	 */
+	public void getBatchInfoBackUp(int id, IoSession session, Builder builder) {
 		Long jzId = (Long) session.getAttribute(SessionAttKey.junZhuId);
 		if (jzId == null) {
 			log.error("获取联盟房屋信息，未找到请求君主id信息");
@@ -620,10 +686,14 @@ public class HouseMgr extends EventProc implements Runnable {
 		}
 		// 初级房子列表
 		for (HouseBean bean : hs) {
+			JunZhu jz = HibernateUtil.find(JunZhu.class, bean.jzId);
+			if(jz == null){
+				continue;
+			}
 			HouseSimpleInfo.Builder sf = HouseSimpleInfo.newBuilder();
 			sf.setLocationId(bean.location);
 			sf.setJzId(bean.jzId);
-			sf.setJzName(HibernateUtil.find(JunZhu.class, bean.jzId).name);
+			sf.setJzName(jz.name);
 			// ???表示为老号需退出联盟重新加入 ???会自动赋值。
 			sf.setFirstOwner(bean.firstOwner == null ? "???" : bean.firstOwner);
 			String firstHoldTime = bean.firstHoldTime == null ? "???"
@@ -743,6 +813,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			bean.jzId = jzId;
 			//2016年3月7日  策划  为了过引导任务 要求加入 房屋初始经验  只有第一次会给
 			bean.cunchuExp=CanShu.FANGWU_INITIAL_EXP;
+			log.info("玩家--{}第一次获得房屋，给初始房屋经验---{}", jzId,bean.cunchuExp);
 		} else if (bean.lmId <= 0) {// 从其他联盟退出了。
 		} else {
 			log.error("该玩家已有房屋，属于联盟{}", bean.lmId);

@@ -47,7 +47,22 @@ public class SuBaoConstant {
 	public static final int lveDuo_fail_event = 201;
 	public static final int been_lveDuo_event = 202;
 	public static final int lveDuo_comfort_event = 203;
+	//交互相关
+	//打招呼 
+	public static final int greet = 401;
+	/**玩家打完第一次百战千军**/
+	public static final int askgh4baizhan = 402;
 	
+	/**第一次打完百战被第一个玩家恭贺*/
+	public static final int firstgh2baizhan = 403;
+	/**第一次打完百战3分钟后结算*/
+	public static final int settle4baizhan = 404;
+	/**玩家开启联盟功能，向盟主&副盟主请求恭贺某人**/
+	public static final int askgh4lm2leader = 301;
+	/**玩家开启联盟功能，向盟主&副盟主之外的人请求恭贺某人*/
+	public static final int askgh4lm2other = 302; 
+	//邀请入盟
+	public static final int invite = 303;
 //	0：无按钮
 //	1：忽略
 //	2：押镖前往
@@ -63,4 +78,16 @@ public class SuBaoConstant {
 	public static final int getAward= 5;
 	public static final int iKnow= 6;
 	public static final int lveDuo_go = 7;
+	//场景互动 TODO 配置！！
+	public static final int gonghe = 8;//恭贺
+	public static final int joinLM = 9;//同意加入联盟
+	public static final int refuseLM = 10;//拒绝加入联盟
+	public static final int hello = 11;//你好
+	public static final int gun = 12;//走开
+	public static final int invite2Lm = 13;//
+
+//	/**第一次打完百战3分钟后结算*/
+//	public static final int settle4lm = 404;
+
+
 }

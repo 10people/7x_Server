@@ -230,6 +230,7 @@ public class ChatMgr implements Runnable {
 		}
 
 		cm.setSenderName(jz.name);
+		cm.setRoleId(jz.roleId);
 		fixSendTime(cm);
 		String msg = cm.getContent();
 

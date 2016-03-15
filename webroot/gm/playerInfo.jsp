@@ -1,3 +1,4 @@
+<%@page import="com.qx.purchase.TongBi"%>
 <%@page import="com.qx.task.DailyTaskMgr"%>
 <%@page import="java.lang.reflect.Field"%>
 <%@page import="com.qx.task.DailyTaskActivity"%>
@@ -62,15 +63,15 @@ function go(act){
 <%
 	setOut(out);
 String name = request.getParameter("account");
-name = name == null ? "": name.trim();
 String accIdStr = request.getParameter("accId");// 用户id
-accIdStr = (accIdStr == null ? "":accIdStr.trim());
-if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()==0){
+if(name == null && accIdStr == null){
 	name = (String)session.getAttribute("name");
 }
+accIdStr = (accIdStr == null ? "":accIdStr.trim());
+name = name == null ? "": name.trim();
 %>
   	<form action="">
-	  	账号<input type="text" name="account" value="${name}">&nbsp;或&nbsp;
+	  	账号<input type="text" name="account" value="<%=name%>">&nbsp;或&nbsp;
 	  	君主ID<input type="text" name="accId" value="<%=accIdStr%>">
 	  	<button type="submit">查询</button>
 	</form>
@@ -113,6 +114,10 @@ do{
 	 }else if("addTiLi".equals(action)){
 		 int v = Integer.parseInt(request.getParameter("v"));
 		 JunZhuMgr.inst.updateTiLi(junzhu, v, "后台修改");
+		 HibernateUtil.save(junzhu);
+	 }else if("updateLevel".equals(action)){
+		 int v = Integer.parseInt(request.getParameter("v"));
+		 junzhu.level = v;
 		 HibernateUtil.save(junzhu);
 	 }else if("addExp".equals(action)){
 		 int v = Integer.parseInt(request.getParameter("v"));
@@ -187,8 +192,14 @@ do{
 		 int num = Integer.parseInt(request.getParameter("v"));
 		  acti.setWeekHuoYue(num);
 		 HibernateUtil.save(acti);
-	 }
-	 else if("updateMianfeiXilianCount".equals(action)){
+	 } else if("updateTongBiTimes".equals(action)){
+		 TongBi tongBi = HibernateUtil.find(TongBi.class, junzhu.id);
+		 if(tongBi != null) {
+			 int v = Integer.parseInt(request.getParameter("v"));
+			 tongBi.setNum(v);
+		 }
+		 HibernateUtil.save(tongBi);
+	 } else if("updateMianfeiXilianCount".equals(action)){
 		 TimeWorker xilianWorker = HibernateUtil.find(TimeWorker.class,junzhu.id);
 	if (xilianWorker == null) {
 		xilianWorker = new TimeWorker();
@@ -218,6 +229,7 @@ do{
 	 YaBiaoBean ybbean = HibernateUtil.find(YaBiaoBean.class, junzhu.id);
 	 YBBattleBean jbBean =YaBiaoHuoDongMgr.inst.getYBZhanDouInfo(junzhu.id, junzhu.vipLevel);
 	 XiLian xilian = PurchaseMgr.inst.getXiLian(junzhu.id);
+	 TongBi tongBi = HibernateUtil.find(TongBi.class, junzhu.id);
 	TimeWorker xilianWorker = HibernateUtil.find(TimeWorker.class, junzhu.id);
 	//2016年1月19日 活跃度
 	DailyTaskActivity acti = HibernateUtil.find(DailyTaskActivity.class, junzhu.id);
@@ -235,6 +247,7 @@ do{
 	 String loginCount= Redis.getInstance().get(XianShiActivityMgr.XIANSHI7DAY_KEY + junzhu.id);
 	 loginCount=loginCount==null?"1":loginCount;
 	 tableStart();
+	 trS();td("等级");td(junzhu.level);td("<input type='text' id='updateLevel' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateLevel\")'/><br/>");trE();
 	 trS();td("经验");td(junzhu.exp+"/"+v);td("<input type='text' id='addExp' value='"+input+"'/><input type='button' value='增加' onclick='go(\"addExp\")'/><br/>");trE();
 	 trS();td("铜币");td(junzhu.tongBi);td("<input type='text' id='addTongBi' value='"+input+"'/><input type='button' value='增加' onclick='go(\"addTongBi\")'/><br/>");trE();
 	 trS();td("元宝");td(junzhu.yuanBao);td("<input type='text' id='addYuanBao' value='"+input+"'/><input type='button' value='增加' onclick='go(\"addYuanBao\")'/><br/>");trE();//out.println("<a href='?action=addYuanBao'>+100</a><br/>");
@@ -251,6 +264,7 @@ do{
 	 trS();td("本日购买血瓶总数");td(jbBean != null ?jbBean.buyblood4Vip : "未开启");trE();
 	 trS();td("本日购买血瓶次数数");td(jbBean != null ?jbBean.bloodTimes4Vip : "未开启");trE();
 	 trS();td("今日已用血瓶数,改完相关数据清零");td(jbBean != null ?jbBean.xueping4uesd : "未开启");td("<input type='text' id='updateBloodCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateBloodCount\")'/><br/>");trE();
+	 trS();td("今日已购买铜币次数");td(tongBi != null ?tongBi.getNum():"还没有购买过");td("<input type='text' id='updateTongBiTimes' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateTongBiTimes\")'/><br/>");trE();
 	 trS();td("当日免费洗练剩余次数");td(xilianWorker.getXilianTimes());td("<input type='text' id='updateMianfeiXilianCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateMianfeiXilianCount\")'/><br/>");trE();
 	 trS();td("当日元宝洗练已使用次数");td(xilian.getNum());td("<input type='text' id='updateXilianCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateXilianCount\")'/><br/>");trE();
 	 trS();td("当日洗练石洗练已使用次数");td(xilian.getXlsCount());td("<input type='text' id='updateXilianShiCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateXilianShiCount\")'/><br/>");trE();

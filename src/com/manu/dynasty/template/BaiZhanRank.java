@@ -10,4 +10,5 @@ public class BaiZhanRank{
 	public int weiwang;
 	public int yuanbao;
 	public int money;
+	public int weiwangLimit;
 }

@@ -30,7 +30,7 @@
 	<table border="1">
 	<tr>
 		<td>
-			<a href="receiveProtoIdLog.jsp">服务器接受客户端协议日志记录</a>
+			<a href="receiveProtoIdLog.jsp">客户端-->服务器协议日志记录</a>
 		</td>
 		<td>
 			后台输出：
@@ -65,7 +65,7 @@
 	</tr>
 	<tr>
 		<td>
-			<a href="sendProtoIdLog.jsp">服务器发送客户端协议日志记录</a>
+			<a href="sendProtoIdLog.jsp">服务器-->客户端协议日志记录</a>
 		</td>
 		<td>
 			后台输出：

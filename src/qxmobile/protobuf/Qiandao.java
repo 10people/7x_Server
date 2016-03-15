@@ -2916,6 +2916,24 @@ public final class Qiandao {
      * </pre>
      */
     int getVipDouble();
+
+    // optional int32 bottomColor = 9;
+    /**
+     * <code>optional int32 bottomColor = 9;</code>
+     *
+     * <pre>
+     *1-是特殊物品
+     * </pre>
+     */
+    boolean hasBottomColor();
+    /**
+     * <code>optional int32 bottomColor = 9;</code>
+     *
+     * <pre>
+     *1-是特殊物品
+     * </pre>
+     */
+    int getBottomColor();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.QiandaoAward}
@@ -3010,6 +3028,11 @@ public final class Qiandao {
             case 64: {
               bitField0_ |= 0x00000080;
               vipDouble_ = input.readInt32();
+              break;
+            }
+            case 72: {
+              bitField0_ |= 0x00000100;
+              bottomColor_ = input.readInt32();
               break;
             }
           }
@@ -3244,6 +3267,30 @@ public final class Qiandao {
       return vipDouble_;
     }
 
+    // optional int32 bottomColor = 9;
+    public static final int BOTTOMCOLOR_FIELD_NUMBER = 9;
+    private int bottomColor_;
+    /**
+     * <code>optional int32 bottomColor = 9;</code>
+     *
+     * <pre>
+     *1-是特殊物品
+     * </pre>
+     */
+    public boolean hasBottomColor() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional int32 bottomColor = 9;</code>
+     *
+     * <pre>
+     *1-是特殊物品
+     * </pre>
+     */
+    public int getBottomColor() {
+      return bottomColor_;
+    }
+
     private void initFields() {
       id_ = 0;
       month_ = 0;
@@ -3253,6 +3300,7 @@ public final class Qiandao {
       awardId_ = 0;
       awardNum_ = 0;
       vipDouble_ = 0;
+      bottomColor_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3302,6 +3350,9 @@ public final class Qiandao {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeInt32(8, vipDouble_);
       }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeInt32(9, bottomColor_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -3342,6 +3393,10 @@ public final class Qiandao {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, vipDouble_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(9, bottomColor_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3479,6 +3534,8 @@ public final class Qiandao {
         bitField0_ = (bitField0_ & ~0x00000040);
         vipDouble_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
+        bottomColor_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
 
@@ -3539,6 +3596,10 @@ public final class Qiandao {
           to_bitField0_ |= 0x00000080;
         }
         result.vipDouble_ = vipDouble_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.bottomColor_ = bottomColor_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3578,6 +3639,9 @@ public final class Qiandao {
         }
         if (other.hasVipDouble()) {
           setVipDouble(other.getVipDouble());
+        }
+        if (other.hasBottomColor()) {
+          setBottomColor(other.getBottomColor());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4006,6 +4070,55 @@ public final class Qiandao {
       public Builder clearVipDouble() {
         bitField0_ = (bitField0_ & ~0x00000080);
         vipDouble_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 bottomColor = 9;
+      private int bottomColor_ ;
+      /**
+       * <code>optional int32 bottomColor = 9;</code>
+       *
+       * <pre>
+       *1-是特殊物品
+       * </pre>
+       */
+      public boolean hasBottomColor() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional int32 bottomColor = 9;</code>
+       *
+       * <pre>
+       *1-是特殊物品
+       * </pre>
+       */
+      public int getBottomColor() {
+        return bottomColor_;
+      }
+      /**
+       * <code>optional int32 bottomColor = 9;</code>
+       *
+       * <pre>
+       *1-是特殊物品
+       * </pre>
+       */
+      public Builder setBottomColor(int value) {
+        bitField0_ |= 0x00000100;
+        bottomColor_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 bottomColor = 9;</code>
+       *
+       * <pre>
+       *1-是特殊物品
+       * </pre>
+       */
+      public Builder clearBottomColor() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        bottomColor_ = 0;
         onChanged();
         return this;
       }
@@ -5023,13 +5136,14 @@ public final class Qiandao {
       "\027\n\017isGetvipPresent\030\006 \003(\010\022\022\n\nallQianNum\030\007" +
       " \002(\005\"_\n\013QiandaoResp\022\016\n\006result\030\001 \002(\005\022\020\n\010v" +
       "ipCount\030\002 \002(\005\022.\n\005award\030\003 \003(\0132\037.qxmobile." +
-      "protobuf.QiandaoAward\"\216\001\n\014QiandaoAward\022\n" +
+      "protobuf.QiandaoAward\"\243\001\n\014QiandaoAward\022\n" +
       "\n\002id\030\001 \002(\005\022\r\n\005month\030\002 \002(\005\022\013\n\003day\030\003 \002(\005\022\r" +
       "\n\005state\030\004 \001(\005\022\021\n\tawardType\030\005 \001(\005\022\017\n\007awar",
       "dId\030\006 \001(\005\022\020\n\010awardNum\030\007 \001(\005\022\021\n\tvipDouble" +
-      "\030\010 \001(\005\"\037\n\020GetVipPresentReq\022\013\n\003vip\030\001 \002(\005\"" +
-      "1\n\021GetVipPresentResp\022\013\n\003vip\030\001 \002(\005\022\017\n\007suc" +
-      "cess\030\002 \002(\005B\tB\007Qiandao"
+      "\030\010 \001(\005\022\023\n\013bottomColor\030\t \001(\005\"\037\n\020GetVipPre" +
+      "sentReq\022\013\n\003vip\030\001 \002(\005\"1\n\021GetVipPresentRes" +
+      "p\022\013\n\003vip\030\001 \002(\005\022\017\n\007success\030\002 \002(\005B\tB\007Qiand" +
+      "ao"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5053,7 +5167,7 @@ public final class Qiandao {
           internal_static_qxmobile_protobuf_QiandaoAward_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_QiandaoAward_descriptor,
-              new java.lang.String[] { "Id", "Month", "Day", "State", "AwardType", "AwardId", "AwardNum", "VipDouble", });
+              new java.lang.String[] { "Id", "Month", "Day", "State", "AwardType", "AwardId", "AwardNum", "VipDouble", "BottomColor", });
           internal_static_qxmobile_protobuf_GetVipPresentReq_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_qxmobile_protobuf_GetVipPresentReq_fieldAccessorTable = new

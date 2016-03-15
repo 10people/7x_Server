@@ -321,6 +321,24 @@ public final class PvpProto {
      * </pre>
      */
     int getNextTimeTo21();
+
+    // optional int32 lastHighestRank = 21;
+    /**
+     * <code>optional int32 lastHighestRank = 21;</code>
+     *
+     * <pre>
+     *required string dailyAward = 20; // 每日奖励内容
+     * </pre>
+     */
+    boolean hasLastHighestRank();
+    /**
+     * <code>optional int32 lastHighestRank = 21;</code>
+     *
+     * <pre>
+     *required string dailyAward = 20; // 每日奖励内容
+     * </pre>
+     */
+    int getLastHighestRank();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.BaiZhanInfoResp}
@@ -481,6 +499,11 @@ public final class PvpProto {
             case 152: {
               bitField0_ |= 0x00020000;
               nextTimeTo21_ = input.readInt32();
+              break;
+            }
+            case 168: {
+              bitField0_ |= 0x00040000;
+              lastHighestRank_ = input.readInt32();
               break;
             }
           }
@@ -1002,6 +1025,30 @@ public final class PvpProto {
       return nextTimeTo21_;
     }
 
+    // optional int32 lastHighestRank = 21;
+    public static final int LASTHIGHESTRANK_FIELD_NUMBER = 21;
+    private int lastHighestRank_;
+    /**
+     * <code>optional int32 lastHighestRank = 21;</code>
+     *
+     * <pre>
+     *required string dailyAward = 20; // 每日奖励内容
+     * </pre>
+     */
+    public boolean hasLastHighestRank() {
+      return ((bitField0_ & 0x00040000) == 0x00040000);
+    }
+    /**
+     * <code>optional int32 lastHighestRank = 21;</code>
+     *
+     * <pre>
+     *required string dailyAward = 20; // 每日奖励内容
+     * </pre>
+     */
+    public int getLastHighestRank() {
+      return lastHighestRank_;
+    }
+
     private void initFields() {
       junZhuId_ = 0L;
       junZhuName_ = "";
@@ -1022,6 +1069,7 @@ public final class PvpProto {
       buyNumber_ = 0;
       rankAward_ = 0;
       nextTimeTo21_ = 0;
+      lastHighestRank_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1162,6 +1210,9 @@ public final class PvpProto {
       if (((bitField0_ & 0x00020000) == 0x00020000)) {
         output.writeInt32(19, nextTimeTo21_);
       }
+      if (((bitField0_ & 0x00040000) == 0x00040000)) {
+        output.writeInt32(21, lastHighestRank_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1246,6 +1297,10 @@ public final class PvpProto {
       if (((bitField0_ & 0x00020000) == 0x00020000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(19, nextTimeTo21_);
+      }
+      if (((bitField0_ & 0x00040000) == 0x00040000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(21, lastHighestRank_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1415,6 +1470,8 @@ public final class PvpProto {
         bitField0_ = (bitField0_ & ~0x00020000);
         nextTimeTo21_ = 0;
         bitField0_ = (bitField0_ & ~0x00040000);
+        lastHighestRank_ = 0;
+        bitField0_ = (bitField0_ & ~0x00080000);
         return this;
       }
 
@@ -1528,6 +1585,10 @@ public final class PvpProto {
           to_bitField0_ |= 0x00020000;
         }
         result.nextTimeTo21_ = nextTimeTo21_;
+        if (((from_bitField0_ & 0x00080000) == 0x00080000)) {
+          to_bitField0_ |= 0x00040000;
+        }
+        result.lastHighestRank_ = lastHighestRank_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1627,6 +1688,9 @@ public final class PvpProto {
         }
         if (other.hasNextTimeTo21()) {
           setNextTimeTo21(other.getNextTimeTo21());
+        }
+        if (other.hasLastHighestRank()) {
+          setLastHighestRank(other.getLastHighestRank());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2937,6 +3001,55 @@ public final class PvpProto {
       public Builder clearNextTimeTo21() {
         bitField0_ = (bitField0_ & ~0x00040000);
         nextTimeTo21_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 lastHighestRank = 21;
+      private int lastHighestRank_ ;
+      /**
+       * <code>optional int32 lastHighestRank = 21;</code>
+       *
+       * <pre>
+       *required string dailyAward = 20; // 每日奖励内容
+       * </pre>
+       */
+      public boolean hasLastHighestRank() {
+        return ((bitField0_ & 0x00080000) == 0x00080000);
+      }
+      /**
+       * <code>optional int32 lastHighestRank = 21;</code>
+       *
+       * <pre>
+       *required string dailyAward = 20; // 每日奖励内容
+       * </pre>
+       */
+      public int getLastHighestRank() {
+        return lastHighestRank_;
+      }
+      /**
+       * <code>optional int32 lastHighestRank = 21;</code>
+       *
+       * <pre>
+       *required string dailyAward = 20; // 每日奖励内容
+       * </pre>
+       */
+      public Builder setLastHighestRank(int value) {
+        bitField0_ |= 0x00080000;
+        lastHighestRank_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 lastHighestRank = 21;</code>
+       *
+       * <pre>
+       *required string dailyAward = 20; // 每日奖励内容
+       * </pre>
+       */
+      public Builder clearLastHighestRank() {
+        bitField0_ = (bitField0_ & ~0x00080000);
+        lastHighestRank_ = 0;
         onChanged();
         return this;
       }
@@ -15976,6 +16089,24 @@ public final class PvpProto {
      * <code>optional int32 newJunXianLevel = 7;</code>
      */
     int getNewJunXianLevel();
+
+    // optional int32 yuanbao = 8;
+    /**
+     * <code>optional int32 yuanbao = 8;</code>
+     *
+     * <pre>
+     *创造新纪录时获得的元宝
+     * </pre>
+     */
+    boolean hasYuanbao();
+    /**
+     * <code>optional int32 yuanbao = 8;</code>
+     *
+     * <pre>
+     *创造新纪录时获得的元宝
+     * </pre>
+     */
+    int getYuanbao();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.BaiZhanResultResp}
@@ -16055,6 +16186,11 @@ public final class PvpProto {
             case 56: {
               bitField0_ |= 0x00000010;
               newJunXianLevel_ = input.readInt32();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000020;
+              yuanbao_ = input.readInt32();
               break;
             }
           }
@@ -16193,12 +16329,37 @@ public final class PvpProto {
       return newJunXianLevel_;
     }
 
+    // optional int32 yuanbao = 8;
+    public static final int YUANBAO_FIELD_NUMBER = 8;
+    private int yuanbao_;
+    /**
+     * <code>optional int32 yuanbao = 8;</code>
+     *
+     * <pre>
+     *创造新纪录时获得的元宝
+     * </pre>
+     */
+    public boolean hasYuanbao() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional int32 yuanbao = 8;</code>
+     *
+     * <pre>
+     *创造新纪录时获得的元宝
+     * </pre>
+     */
+    public int getYuanbao() {
+      return yuanbao_;
+    }
+
     private void initFields() {
       oldRank_ = 0;
       newRank_ = 0;
       highest_ = 0;
       oldJunXianLevel_ = 0;
       newJunXianLevel_ = 0;
+      yuanbao_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -16226,6 +16387,9 @@ public final class PvpProto {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeInt32(7, newJunXianLevel_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(8, yuanbao_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -16255,6 +16419,10 @@ public final class PvpProto {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(7, newJunXianLevel_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, yuanbao_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -16386,6 +16554,8 @@ public final class PvpProto {
         bitField0_ = (bitField0_ & ~0x00000008);
         newJunXianLevel_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
+        yuanbao_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -16434,6 +16604,10 @@ public final class PvpProto {
           to_bitField0_ |= 0x00000010;
         }
         result.newJunXianLevel_ = newJunXianLevel_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.yuanbao_ = yuanbao_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -16464,6 +16638,9 @@ public final class PvpProto {
         }
         if (other.hasNewJunXianLevel()) {
           setNewJunXianLevel(other.getNewJunXianLevel());
+        }
+        if (other.hasYuanbao()) {
+          setYuanbao(other.getYuanbao());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -16685,6 +16862,55 @@ public final class PvpProto {
       public Builder clearNewJunXianLevel() {
         bitField0_ = (bitField0_ & ~0x00000010);
         newJunXianLevel_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 yuanbao = 8;
+      private int yuanbao_ ;
+      /**
+       * <code>optional int32 yuanbao = 8;</code>
+       *
+       * <pre>
+       *创造新纪录时获得的元宝
+       * </pre>
+       */
+      public boolean hasYuanbao() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional int32 yuanbao = 8;</code>
+       *
+       * <pre>
+       *创造新纪录时获得的元宝
+       * </pre>
+       */
+      public int getYuanbao() {
+        return yuanbao_;
+      }
+      /**
+       * <code>optional int32 yuanbao = 8;</code>
+       *
+       * <pre>
+       *创造新纪录时获得的元宝
+       * </pre>
+       */
+      public Builder setYuanbao(int value) {
+        bitField0_ |= 0x00000020;
+        yuanbao_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 yuanbao = 8;</code>
+       *
+       * <pre>
+       *创造新纪录时获得的元宝
+       * </pre>
+       */
+      public Builder clearYuanbao() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        yuanbao_ = 0;
         onChanged();
         return this;
       }
@@ -19952,7 +20178,7 @@ public final class PvpProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\tPVP.proto\022\021qxmobile.protobuf\"\335\003\n\017BaiZh" +
+      "\n\tPVP.proto\022\021qxmobile.protobuf\"\366\003\n\017BaiZh" +
       "anInfoResp\022\020\n\010junZhuId\030\001 \002(\003\022\022\n\njunZhuNa" +
       "me\030\002 \002(\t\022\024\n\014lianMengName\030\003 \002(\t\022+\n\007pvpInf" +
       "o\030\004 \002(\0132\032.qxmobile.protobuf.PVPInfo\022\021\n\tc" +
@@ -19964,62 +20190,63 @@ public final class PvpProto {
       "\002(\005\022\022\n\nhasWeiWang\030\r \002(\005\022\025\n\rcanGetweiWang",
       "\030\016 \002(\005\022\027\n\017leftCanBuyCount\030\017 \002(\005\022\021\n\tbuyNe" +
       "edYB\030\020 \001(\005\022\021\n\tbuyNumber\030\021 \001(\005\022\021\n\trankAwa" +
-      "rd\030\022 \002(\005\022\024\n\014nextTimeTo21\030\023 \002(\005\"\345\001\n\014Oppon" +
-      "entInfo\022\020\n\010junZhuId\030\001 \002(\003\022\022\n\njunZhuName\030" +
-      "\002 \002(\t\022\024\n\014lianMengName\030\003 \002(\t\022\014\n\004rank\030\004 \002(" +
-      "\005\022\016\n\006zhanLi\030\005 \002(\005\022\024\n\014junXianLevel\030\006 \002(\005\022" +
-      "\016\n\006guojia\030\007 \002(\005\022\016\n\006roleId\030\010 \002(\005\022\016\n\006zuheI" +
-      "d\030\t \002(\005\022\021\n\tzuHeLevel\030\n \002(\005\022\r\n\005level\030\013 \002(" +
-      "\005\022\023\n\013historyRank\030\014 \002(\005\"\233\001\n\007PVPInfo\022\014\n\004ra" +
-      "nk\030\001 \002(\005\022\016\n\006zhanLi\030\002 \002(\005\022\021\n\tleftTimes\030\003 ",
-      "\002(\005\022\022\n\ntotalTimes\030\004 \002(\005\022\014\n\004time\030\005 \002(\005\022\024\n" +
-      "\014baizhanXMLId\030\006 \002(\005\022\016\n\006zuheId\030\007 \002(\005\022\027\n\017h" +
-      "istoryHighRank\030\010 \002(\005\"$\n\014ChallengeReq\022\024\n\014" +
-      "oppoJunZhuId\030\001 \002(\003\"\324\002\n\rChallengeResp\0221\n\n" +
-      "mySoldiers\030\001 \003(\0132\035.qxmobile.protobuf.GuY" +
-      "ongBing\022\020\n\010myZhanli\030\002 \002(\005\0223\n\014oppoSoldier" +
-      "s\030\003 \003(\0132\035.qxmobile.protobuf.GuYongBing\022\022" +
-      "\n\noppoZhanli\030\004 \002(\005\022\020\n\010openTime\030\005 \001(\003\022\017\n\007" +
-      "myLevel\030\006 \001(\005\022\021\n\toppoLevel\030\007 \001(\005\022\016\n\006oppo" +
-      "Id\030\010 \002(\003\022\016\n\006myRank\030\t \001(\005\022\020\n\010oppoRank\030\n \002",
-      "(\005\022\022\n\noppoRoleId\030\013 \002(\005\022\020\n\010myZuheId\030\014 \002(\005" +
-      "\022\021\n\toppZuheId\030\r \002(\005\022\024\n\014oppZuHeLevel\030\016 \002(" +
-      "\005\"\030\n\nGuYongBing\022\n\n\002id\030\001 \002(\005\"!\n\021ConfirmEx" +
-      "ecuteReq\022\014\n\004type\030\001 \002(\005\"\350\002\n\022ConfirmExecut" +
-      "eResp\0225\n\014buyCiShuInfo\030\001 \001(\0132\037.qxmobile.p" +
-      "rotobuf.BuyCiShuInfo\0223\n\013cleanCDInfo\030\002 \001(" +
-      "\0132\036.qxmobile.protobuf.CleanCDInfo\0225\n\014get" +
-      "AwardInfo\030\003 \001(\0132\037.qxmobile.protobuf.GetA" +
-      "wardInfo\0227\n\rpayChangeInfo\030\004 \001(\0132 .qxmobi" +
-      "le.protobuf.PayChangeInfo\0227\n\rrefreshMyIn",
-      "fo\030\005 \001(\0132 .qxmobile.protobuf.RefreshMyIn" +
-      "fo\022=\n\020refreshOtherInfo\030\006 \001(\0132#.qxmobile." +
-      "protobuf.RefreshOtherInfo\"F\n\014BuyCiShuInf" +
-      "o\022\017\n\007success\030\001 \002(\005\022\021\n\tleftTimes\030\002 \001(\005\022\022\n" +
-      "\ntotalTimes\030\003 \001(\005\"W\n\013CleanCDInfo\022\017\n\007succ" +
-      "ess\030\001 \002(\005\022\021\n\tleftTimes\030\002 \001(\005\022\022\n\ntotalTim" +
-      "es\030\003 \001(\005\022\020\n\010nextCDYB\030\004 \001(\005\"\037\n\014GetAwardIn" +
-      "fo\022\017\n\007success\030\001 \002(\005\"k\n\rPayChangeInfo\022\017\n\007" +
-      "success\030\001 \002(\005\022\026\n\016nextHuanYiPiYB\030\002 \001(\005\0221\n" +
-      "\010oppoList\030\003 \003(\0132\037.qxmobile.protobuf.Oppo",
-      "nentInfo\"V\n\rRefreshMyInfo\0221\n\010oppoList\030\001 " +
-      "\003(\0132\037.qxmobile.protobuf.OpponentInfo\022\022\n\n" +
-      "junZhuRank\030\002 \002(\005\"E\n\020RefreshOtherInfo\0221\n\010" +
-      "oppoList\030\001 \003(\0132\037.qxmobile.protobuf.Oppon" +
-      "entInfo\"B\n\rBaiZhanResult\022\017\n\007enemyId\030\001 \002(" +
-      "\003\022\r\n\005winId\030\002 \002(\003\022\021\n\tzhandouId\030\003 \002(\005\"x\n\021B" +
-      "aiZhanResultResp\022\017\n\007oldRank\030\001 \001(\005\022\017\n\007new" +
-      "Rank\030\002 \001(\005\022\017\n\007highest\030\003 \001(\005\022\027\n\017oldJunXia" +
-      "nLevel\030\006 \001(\005\022\027\n\017newJunXianLevel\030\007 \001(\005\"@\n" +
-      "\016PlayerStateReq\022\017\n\007enemyId\030\001 \002(\003\022\014\n\004rank",
-      "\030\002 \002(\005\022\017\n\007junRank\030\003 \002(\005\"\037\n\017PlayerStateRe" +
-      "sp\022\014\n\004type\030\001 \002(\005\"A\n\021ZhandouRecordResp\022,\n" +
-      "\004info\030\001 \003(\0132\036.qxmobile.protobuf.ZhandouI" +
-      "tem\"\262\001\n\013ZhandouItem\022\021\n\tzhandouId\030\001 \002(\005\022\017" +
-      "\n\007enemyId\030\002 \002(\003\022\021\n\tenemyName\030\003 \002(\t\022\014\n\004ti" +
-      "me\030\004 \002(\005\022\013\n\003win\030\005 \002(\005\022\026\n\016junRankChangeV\030" +
-      "\006 \002(\005\022\r\n\005level\030\007 \002(\005\022\025\n\renemyGuoJiaId\030\t " +
-      "\002(\005\022\023\n\013enemyRoleId\030\013 \002(\005B\nB\010PvpProto"
+      "rd\030\022 \002(\005\022\024\n\014nextTimeTo21\030\023 \002(\005\022\027\n\017lastHi" +
+      "ghestRank\030\025 \001(\005\"\345\001\n\014OpponentInfo\022\020\n\010junZ" +
+      "huId\030\001 \002(\003\022\022\n\njunZhuName\030\002 \002(\t\022\024\n\014lianMe" +
+      "ngName\030\003 \002(\t\022\014\n\004rank\030\004 \002(\005\022\016\n\006zhanLi\030\005 \002" +
+      "(\005\022\024\n\014junXianLevel\030\006 \002(\005\022\016\n\006guojia\030\007 \002(\005" +
+      "\022\016\n\006roleId\030\010 \002(\005\022\016\n\006zuheId\030\t \002(\005\022\021\n\tzuHe" +
+      "Level\030\n \002(\005\022\r\n\005level\030\013 \002(\005\022\023\n\013historyRan" +
+      "k\030\014 \002(\005\"\233\001\n\007PVPInfo\022\014\n\004rank\030\001 \002(\005\022\016\n\006zha",
+      "nLi\030\002 \002(\005\022\021\n\tleftTimes\030\003 \002(\005\022\022\n\ntotalTim" +
+      "es\030\004 \002(\005\022\014\n\004time\030\005 \002(\005\022\024\n\014baizhanXMLId\030\006" +
+      " \002(\005\022\016\n\006zuheId\030\007 \002(\005\022\027\n\017historyHighRank\030" +
+      "\010 \002(\005\"$\n\014ChallengeReq\022\024\n\014oppoJunZhuId\030\001 " +
+      "\002(\003\"\324\002\n\rChallengeResp\0221\n\nmySoldiers\030\001 \003(" +
+      "\0132\035.qxmobile.protobuf.GuYongBing\022\020\n\010myZh" +
+      "anli\030\002 \002(\005\0223\n\014oppoSoldiers\030\003 \003(\0132\035.qxmob" +
+      "ile.protobuf.GuYongBing\022\022\n\noppoZhanli\030\004 " +
+      "\002(\005\022\020\n\010openTime\030\005 \001(\003\022\017\n\007myLevel\030\006 \001(\005\022\021" +
+      "\n\toppoLevel\030\007 \001(\005\022\016\n\006oppoId\030\010 \002(\003\022\016\n\006myR",
+      "ank\030\t \001(\005\022\020\n\010oppoRank\030\n \002(\005\022\022\n\noppoRoleI" +
+      "d\030\013 \002(\005\022\020\n\010myZuheId\030\014 \002(\005\022\021\n\toppZuheId\030\r" +
+      " \002(\005\022\024\n\014oppZuHeLevel\030\016 \002(\005\"\030\n\nGuYongBing" +
+      "\022\n\n\002id\030\001 \002(\005\"!\n\021ConfirmExecuteReq\022\014\n\004typ" +
+      "e\030\001 \002(\005\"\350\002\n\022ConfirmExecuteResp\0225\n\014buyCiS" +
+      "huInfo\030\001 \001(\0132\037.qxmobile.protobuf.BuyCiSh" +
+      "uInfo\0223\n\013cleanCDInfo\030\002 \001(\0132\036.qxmobile.pr" +
+      "otobuf.CleanCDInfo\0225\n\014getAwardInfo\030\003 \001(\013" +
+      "2\037.qxmobile.protobuf.GetAwardInfo\0227\n\rpay" +
+      "ChangeInfo\030\004 \001(\0132 .qxmobile.protobuf.Pay",
+      "ChangeInfo\0227\n\rrefreshMyInfo\030\005 \001(\0132 .qxmo" +
+      "bile.protobuf.RefreshMyInfo\022=\n\020refreshOt" +
+      "herInfo\030\006 \001(\0132#.qxmobile.protobuf.Refres" +
+      "hOtherInfo\"F\n\014BuyCiShuInfo\022\017\n\007success\030\001 " +
+      "\002(\005\022\021\n\tleftTimes\030\002 \001(\005\022\022\n\ntotalTimes\030\003 \001" +
+      "(\005\"W\n\013CleanCDInfo\022\017\n\007success\030\001 \002(\005\022\021\n\tle" +
+      "ftTimes\030\002 \001(\005\022\022\n\ntotalTimes\030\003 \001(\005\022\020\n\010nex" +
+      "tCDYB\030\004 \001(\005\"\037\n\014GetAwardInfo\022\017\n\007success\030\001" +
+      " \002(\005\"k\n\rPayChangeInfo\022\017\n\007success\030\001 \002(\005\022\026" +
+      "\n\016nextHuanYiPiYB\030\002 \001(\005\0221\n\010oppoList\030\003 \003(\013",
+      "2\037.qxmobile.protobuf.OpponentInfo\"V\n\rRef" +
+      "reshMyInfo\0221\n\010oppoList\030\001 \003(\0132\037.qxmobile." +
+      "protobuf.OpponentInfo\022\022\n\njunZhuRank\030\002 \002(" +
+      "\005\"E\n\020RefreshOtherInfo\0221\n\010oppoList\030\001 \003(\0132" +
+      "\037.qxmobile.protobuf.OpponentInfo\"B\n\rBaiZ" +
+      "hanResult\022\017\n\007enemyId\030\001 \002(\003\022\r\n\005winId\030\002 \002(" +
+      "\003\022\021\n\tzhandouId\030\003 \002(\005\"\211\001\n\021BaiZhanResultRe" +
+      "sp\022\017\n\007oldRank\030\001 \001(\005\022\017\n\007newRank\030\002 \001(\005\022\017\n\007" +
+      "highest\030\003 \001(\005\022\027\n\017oldJunXianLevel\030\006 \001(\005\022\027" +
+      "\n\017newJunXianLevel\030\007 \001(\005\022\017\n\007yuanbao\030\010 \001(\005",
+      "\"@\n\016PlayerStateReq\022\017\n\007enemyId\030\001 \002(\003\022\014\n\004r" +
+      "ank\030\002 \002(\005\022\017\n\007junRank\030\003 \002(\005\"\037\n\017PlayerStat" +
+      "eResp\022\014\n\004type\030\001 \002(\005\"A\n\021ZhandouRecordResp" +
+      "\022,\n\004info\030\001 \003(\0132\036.qxmobile.protobuf.Zhand" +
+      "ouItem\"\262\001\n\013ZhandouItem\022\021\n\tzhandouId\030\001 \002(" +
+      "\005\022\017\n\007enemyId\030\002 \002(\003\022\021\n\tenemyName\030\003 \002(\t\022\014\n" +
+      "\004time\030\004 \002(\005\022\013\n\003win\030\005 \002(\005\022\026\n\016junRankChang" +
+      "eV\030\006 \002(\005\022\r\n\005level\030\007 \002(\005\022\025\n\renemyGuoJiaId" +
+      "\030\t \002(\005\022\023\n\013enemyRoleId\030\013 \002(\005B\nB\010PvpProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -20031,7 +20258,7 @@ public final class PvpProto {
           internal_static_qxmobile_protobuf_BaiZhanInfoResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BaiZhanInfoResp_descriptor,
-              new java.lang.String[] { "JunZhuId", "JunZhuName", "LianMengName", "PvpInfo", "CdYuanBao", "OppoList", "IsShow", "NowMaxBattleCount", "NextMaxBattleCount", "HuanYiPiYB", "CanCleanCDvipLev", "WeiWangHour", "HasWeiWang", "CanGetweiWang", "LeftCanBuyCount", "BuyNeedYB", "BuyNumber", "RankAward", "NextTimeTo21", });
+              new java.lang.String[] { "JunZhuId", "JunZhuName", "LianMengName", "PvpInfo", "CdYuanBao", "OppoList", "IsShow", "NowMaxBattleCount", "NextMaxBattleCount", "HuanYiPiYB", "CanCleanCDvipLev", "WeiWangHour", "HasWeiWang", "CanGetweiWang", "LeftCanBuyCount", "BuyNeedYB", "BuyNumber", "RankAward", "NextTimeTo21", "LastHighestRank", });
           internal_static_qxmobile_protobuf_OpponentInfo_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_OpponentInfo_fieldAccessorTable = new
@@ -20121,7 +20348,7 @@ public final class PvpProto {
           internal_static_qxmobile_protobuf_BaiZhanResultResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BaiZhanResultResp_descriptor,
-              new java.lang.String[] { "OldRank", "NewRank", "Highest", "OldJunXianLevel", "NewJunXianLevel", });
+              new java.lang.String[] { "OldRank", "NewRank", "Highest", "OldJunXianLevel", "NewJunXianLevel", "Yuanbao", });
           internal_static_qxmobile_protobuf_PlayerStateReq_descriptor =
             getDescriptor().getMessageTypes().get(16);
           internal_static_qxmobile_protobuf_PlayerStateReq_fieldAccessorTable = new

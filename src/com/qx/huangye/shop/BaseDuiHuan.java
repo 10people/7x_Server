@@ -14,7 +14,7 @@ public class BaseDuiHuan {
 		return 0;
 	}
 	public int getMax(){
-		return 0;
+		return 1;
 	}
 	public int getVIP(){
 		return -1;

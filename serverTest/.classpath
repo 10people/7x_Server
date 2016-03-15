@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry excluding="com/qx/test/main/Coder.java|com/qx/test/main/RSACoder.java|com/qx/test/main/RSAUtil.java" kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/qxmobile"/>
 	<classpathentry kind="lib" path="/qxmobile/lib/mina-core-2.0.7.jar"/>
 	<classpathentry kind="lib" path="/qxmobile/lib/protobuf-java-2.5.0.jar"/>
+	<classpathentry kind="lib" path="/qxmobile/lib/hibernate-c3p0-4.3.4.Final.jar"/>
+	<classpathentry kind="lib" path="/qxmobile/lib/hibernate-commons-annotations-4.0.4.Final.jar"/>
+	<classpathentry kind="lib" path="/qxmobile/lib/hibernate-core-4.3.4.Final.jar"/>
+	<classpathentry kind="lib" path="/qxmobile/lib/hibernate-jpa-2.1-api-1.0.0.Final.jar"/>
+	<classpathentry kind="lib" path="/qxmobile/webroot/WEB-INF/lib/commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="/qxmobile/lib/commons-collections-3.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

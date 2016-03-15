@@ -16,7 +16,7 @@ import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.LueduoLianmengRank;
 import com.manu.dynasty.template.LueduoPersonRank;
-import com.manu.network.SessionAttKey;
+import com.manu.dynasty.util.MathUtils;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
@@ -61,7 +61,7 @@ public class RankingGongJinMgr {
 			return;
 		}
 		int start = PAGE_SIZE * (pageNo - 1);
-		int end = start + PAGE_SIZE;
+		int end = start + PAGE_SIZE-1;
 		Map<String, Double> gongJinPermap = getPaiHangOfType(start, end, gongJinPersonalRank);
 		long needId = 1; 
 		int needRank = 1;
@@ -71,24 +71,29 @@ public class RankingGongJinMgr {
 				String id = entry.getKey();
 				double value = entry.getValue();
 				needId = Long.parseLong(id == null? "-1" : id);
+				if(value == -1){ // 退出联盟的玩家的贡金是0
+					continue;
+				}
+				JunZhu junzhu = HibernateUtil.find(JunZhu.class, needId);
+				if(junzhu == null){
+					DB.zrem(gongJinPersonalRank, needId+"");
+					continue;
+				}
 				if(needId == jz.id){
 					include = true;
 				}
-				JunZhu junzhu = HibernateUtil.find(JunZhu.class, needId);
-				if(junzhu != null){
-					GongJinInfo.Builder f = GongJinInfo.newBuilder();
-					f.setId(needId);
-					f.setName(junzhu.name);
-					f.setGongJin((int)value);
-					f.setRank(needRank ++);
-					response.addGongInfoList(f);
-				}
+				GongJinInfo.Builder f = GongJinInfo.newBuilder();
+				f.setId(needId);
+				f.setName(junzhu.name);
+				f.setGongJin((int)value);
+				f.setRank(needRank ++);
+				response.addGongInfoList(f);
 			}
 		}else{
 			log.error("获取start:{}, end:{} 贡金个人排行榜出错", start, end);
 		}
 		if(!include){
-			needRank = (int)DB.zrevrank(gongJinPersonalRank, jz.id+"") + 1;
+			needRank = (int)DB.zrevrank(gongJinPersonalRank, jz.id+"");
 			GongJinInfo.Builder f = GongJinInfo.newBuilder();
 			f.setId(jz.id);
 			f.setName(jz.name);
@@ -106,7 +111,7 @@ public class RankingGongJinMgr {
 		}
 		AllianceBean guild = AllianceMgr.inst.getAllianceByJunZid(jz.id);
 		int start = PAGE_SIZE * (pageNo - 1);
-		int end = start + PAGE_SIZE;
+		int end = start + PAGE_SIZE-1;
 		Map<String, Double> gongJinAllamap = getPaiHangOfType(start, end, gongJinAllianceRank);
 		int needId = 1; 
 		int needRank = 1;
@@ -117,14 +122,16 @@ public class RankingGongJinMgr {
 				double value = entry.getValue();
 				needId = Integer.parseInt(id == null? "-1" : id);
 				AllianceBean alncBean = HibernateUtil.find(AllianceBean.class, needId);
-				if(alncBean != null){
-					GongJinInfo.Builder f = GongJinInfo.newBuilder();
-					f.setId(needId);
-					f.setName(alncBean.name);
-					f.setGongJin((int)value);
-					f.setRank(needRank ++);
-					response.addGongInfoList(f);
+				if(alncBean == null){
+					DB.zrem(gongJinAllianceRank, needId+"");
+					continue;
 				}
+				GongJinInfo.Builder f = GongJinInfo.newBuilder();
+				f.setId(needId);
+				f.setName(alncBean.name);
+				f.setGongJin((int)value);
+				f.setRank(needRank ++);
+				response.addGongInfoList(f);
 				if(guild != null && guild.id  == needId){
 					include = true;
 				}
@@ -139,11 +146,13 @@ public class RankingGongJinMgr {
 			int lianmengId = guild.id;
 			try{
 				// 从大到小的排名中占名次
-				needRank = (int)DB.zrevrank(gongJinAllianceRank, lianmengId+"") + 1;
+				needRank = (int)DB.zrevrank(gongJinAllianceRank, lianmengId+"");
 				GongJinInfo.Builder f = GongJinInfo.newBuilder();
 				f.setId(lianmengId);
 				f.setName(guild.name);
-				f.setGongJin(getAllianceGongJin(lianmengId));
+				int gong = getAllianceGongJin(lianmengId);
+				gong = gong <=0 ?0: gong;
+				f.setGongJin(gong);
 				f.setRank(needRank);
 				response.addGongInfoList(f);
 			}catch(Exception e){
@@ -225,7 +234,8 @@ public class RankingGongJinMgr {
 		if(lianMengId != -1){
 			int all = getAllianceGongJin(lianMengId);
 			if(all != -1){
-				DB.zadd(gongJinAllianceRank, (all - g), lianMengId+"");
+				int sc = all - (int)g.doubleValue();
+				DB.zadd(gongJinAllianceRank, sc<0?0:sc, lianMengId+"");
 			}
 		}
 	}
@@ -270,26 +280,28 @@ public class RankingGongJinMgr {
 			for(Map.Entry<String, Double> entry: map.entrySet()){
 				String junzId = entry.getKey();
 				double score = entry.getValue();
-				// 没有联盟的玩家贡金
+				// 没有联盟的玩家贡金==-1
 				if(score == -1){
+					DB.zadd(gongJinPersonalRank, -1, junzId);
 					continue;
 				}
-				if(score == 0){
-					// 仍旧把score==0的数据add进来
-					DB.zadd(gongJinPersonalRank, 0, junzId);
-					continue;
-				}
+//				if(score == 0){//拥有名次的玩家
+//					// 仍旧把score==0的数据add进来
+//					DB.zadd(gongJinPersonalRank, 0, junzId);
+//					continue;
+//				}
 				int newData = 0;
 				// 重新把数据加到贡金排行榜中
 				newData = lpr.updateNum;
 				i++;
-				DB.zadd(gongJinPersonalRank, newData + (0.1 - (i * 0.1 / 10000) -(j * 0.1 / 5000)), junzId);
+				DB.zadd(gongJinPersonalRank, newData + (0.1 - (i * 0.1 / 10000) -(j * 0.1 / 100)), junzId);
 				AlliancePlayer a = HibernateUtil.find(AlliancePlayer.class,
 							Long.parseLong(junzId));
 				if(a!= null && a.lianMengId > 0){
 					int all = getAllianceGongJin(a.lianMengId);
 					if(all != -1){
-						DB.zadd(gongJinAllianceRank, (all - score + newData), a.lianMengId+"");
+						int sco = MathUtils.getMax(0, all - (int)score + newData);
+						DB.zadd(gongJinAllianceRank, sco, a.lianMengId+"");
 					}
 				}
 			}
@@ -298,9 +310,7 @@ public class RankingGongJinMgr {
 		DB.del(oldRank);
 	}
 
-	/*
-	 */
-	public int firstSetGongJin(long junzhuId, int allianceId){
+	public int iniGongJin(long junzhuId, int allianceId){
 		Double g = DB.zScoreGongJin(gongJinPersonalRank, junzhuId+"");
 		// 排行中没有数据，所以应该是首次初始化，首次初始化，会有一个初始值
 		if(g == null){
@@ -309,11 +319,16 @@ public class RankingGongJinMgr {
 			allG = allG < 0? 0: allG;
 			DB.zadd(gongJinAllianceRank, allG + initGongJin, allianceId+"");
 			return initGongJin;
-		}else if(g.doubleValue() == -1){
-			DB.zadd(gongJinPersonalRank, 0, junzhuId+"");
-			return 0;
 		}
 		return (int)g.doubleValue();
+	}
+	/*
+	 */
+	public void firstSetGongJin(long junzhuId, int allianceId){
+		Double g = DB.zScoreGongJin(gongJinPersonalRank, junzhuId+"");
+		if(g != null && g.doubleValue() == -1){
+			DB.zadd(gongJinPersonalRank, 0, junzhuId+""); //加联盟
+		}
 	}
 
 	/*
@@ -414,7 +429,7 @@ public class RankingGongJinMgr {
 //			AllianceBean alncBean = null;
 //			try{
 //				// 从大到小的排名中占名次
-//				mengRank = (int)DB.zrevrank(lianMengLevel, lianmengId+"") + 1;
+//				mengRank = (int)DB.zrevrank(lianMengLevel, lianmengId+"");
 //			}catch(Exception e){
 //				log.error("有可能这个联盟是很早就申请的，所以需要加入到redis中");
 //				alncBean = HibernateUtil.find(AllianceBean.class, lianmengId);

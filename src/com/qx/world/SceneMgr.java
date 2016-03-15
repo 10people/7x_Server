@@ -27,6 +27,7 @@ import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
+import com.qx.explore.treasure.BaoXiangScene;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.junzhu.PlayerTime;
@@ -50,6 +51,12 @@ public class SceneMgr extends EventProc{
 	}
 	
 	public void route(int code, IoSession session, Builder builder){
+		Scene sc1 = (Scene) session.getAttribute(SessionAttKey.Scene);
+		if(sc1 != null && sc1 instanceof BaoXiangScene && code != PD.Enter_Scene){
+			//在十连副本里，则交个十连副本处理。但是退出副本返回主城，不交给副本处理。
+			sc1.exec(code, session, builder);
+			return;
+		}
 		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
 		if(junZhuId == null){
 			return;
@@ -88,6 +95,12 @@ public class SceneMgr extends EventProc{
 			case PD.Exit_YBScene:
 				exitYBScene(code, session, builder, junZhuId);
 				break;
+//			case PD.Enter_TBBXScene:
+//				enterTBBXScene(code, session, builder);
+//				break;
+			case PD.Exit_TBBXScene:
+				exitTBBXScene(code, session, builder, junZhuId);
+				break;
 				
 			default:
 				Scene sc = (Scene) session.getAttribute(SessionAttKey.Scene);
@@ -100,6 +113,24 @@ public class SceneMgr extends EventProc{
 		}
 	}
 	
+	private void exitTBBXScene(int code, IoSession session, Builder builder, Long junZhuId) {
+		
+	}
+
+//	private void enterTBBXScene(int code, IoSession session, Builder builder) {
+//		//离开原来的场景
+//		playerExitScene(session);
+//		// 进入押镖场景进行押镖
+//		int scId = 1;
+//		synchronized (this) {
+//			Scene sc = new Scene("TBBX#" + scId);
+//			sc.startMissionThread();
+//			YaBiaoHuoDongMgr.inst.yabiaoScenes.put(scId, sc);
+//			sc.exec(code, session, builder);
+//		}
+//		session.setAttribute(SessionAttKey.SceneID, scId);
+//	}
+
 	public void exitYBScene(int code, IoSession session, Builder builder,
 			Long junZhuId) {
 		Scene ybSc = (Scene) session.getAttribute(SessionAttKey.Scene);
@@ -354,10 +385,13 @@ public class SceneMgr extends EventProc{
 			} else if(scene.name.contains("YB")){
 				logger.info("君主:{},Uid:{})从押镖场景:{}退出", junZhuId, uid, scene.name);
 				scene.exec(PD.Exit_YBScene, session, exit);
+			} else if(scene.name.contains("TBBX")){
+				logger.info("君主:{},Uid:{})从十连探宝宝箱场景:{}退出", junZhuId, uid, scene.name);
+				scene.exec(PD.Exit_TBBXScene, session, exit);
 			} else{
 				logger.info("君主:{},Uid:{}从场景:{}退出", junZhuId, uid, scene.name);
+				scene.exec(PD.Exit_Scene, session, exit);
 			}	
-			scene.exec(PD.Exit_Scene, session, exit);
 		}
 	}
 	

@@ -2,6 +2,8 @@ package com.qx.yabiao;
 
 import org.apache.mina.core.session.IoSession;
 
+import com.qx.world.Scene;
+
 import qxmobile.protobuf.Scene.SpriteMove;
 
 public class YaBiaoRobot{
@@ -42,5 +44,6 @@ public class YaBiaoRobot{
 	public int zhanli;
 	public int guojiaId;
 	public YBCartAttr4Fight cartAttr4Fight;
+	public Scene sc;
 }
 

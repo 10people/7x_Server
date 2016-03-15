@@ -34,9 +34,12 @@ import com.manu.network.msg.ProtobufMsg;
 import com.qx.account.AccountManager;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.building.JianZhuMgr;
+import com.qx.explore.treasure.BaoXiangBean;
+import com.qx.explore.treasure.ExploreTreasureMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.robot.RobotSession;
 import com.qx.yabiao.LastExitYBInfo;
 import com.qx.yabiao.YaBiaoHuoDongMgr;
 import com.qx.yabiao.YaBiaoRobot;
@@ -117,7 +120,7 @@ public class Scene implements Runnable{
 		Player player = players.get(uid);
 		if (player == null) {
 			Object jzid = session.getAttribute(SessionAttKey.junZhuId);
-			log.warn("player who want to move is null {}, jzId {},场景名称---{}",uid,jzid,this.name);
+			log.warn("player who want to move is null {}, jzId {},场景名称{},{}",uid,jzid,this.name,session);
 			return;
 		}
 		
@@ -163,9 +166,15 @@ public class Scene implements Runnable{
 	}
 
 	public void enterScene(IoSession session, final EnterScene.Builder enterScene) {
-		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
-		if(jz == null) {
-			return;
+		JunZhu jz = null;
+		if(session instanceof RobotSession){
+			
+		}else{
+			jz = JunZhuMgr.inst.getJunZhu(session);
+			if(jz == null) {
+				return;
+			}
+			ExploreTreasureMgr.inst.playerEnter(session);
 		}
 
 		Object uidObject = session.getAttribute(SessionAttKey.playerId_Scene);
@@ -174,7 +183,7 @@ public class Scene implements Runnable{
 		session.setAttribute(SessionAttKey.Scene, this);
 		
 		final int userId = uidObject == null ? getUserId() : (Integer)uidObject;;
-		session.setAttribute(SessionAttKey.playerId, jz.id);
+		session.setAttribute(SessionAttKey.playerId, jz==null?0:jz.id);
 		
 		final Player player = new Player();
 		player.userId = userId;
@@ -188,9 +197,13 @@ public class Scene implements Runnable{
 		player.jzId = (jz == null ? 0 : jz.id);
 		player.allianceId = AllianceMgr.inst.getAllianceId(player.jzId);
 		player.roleId = (jz == null ? 1: jz.roleId);
+		Integer ForceRoleId = (Integer) session.getAttribute("ForceRoleId");
+		if(ForceRoleId != null){
+			player.roleId = ForceRoleId;
+		}
 		player.chengHaoId = (String)session.getAttribute(SessionAttKey.CHENG_HAO_ID, "-1");
 		player.lmName = (String)session.getAttribute(SessionAttKey.LM_NAME, "***");
-		player.vip = jz.vipLevel;
+		player.vip = jz == null ? 0:jz.vipLevel;
 		player.zhiWu = (Integer)session.getAttribute(SessionAttKey.LM_ZHIWU, -1);
 		players.put(userId, player);
 		
@@ -198,7 +211,7 @@ public class Scene implements Runnable{
 		EnterSceneConfirm.Builder ret = EnterSceneConfirm.newBuilder();
 		ret.setUid(userId);
 		session.write(ret.build());
-
+/*2016年3月12日21:01:19 ， 改变状态时再同步 
 		//告诉其他玩家，谁进来了。
 		enterScene.setUid(userId);
 		enterScene.setSenderName(player.getName());
@@ -212,6 +225,7 @@ public class Scene implements Runnable{
 				broadCastEvent(msg, enterScene.getUid());
 			}
 		});
+		*/
 	}
 	public ProtobufMsg makeHeadPct(final Player player) {
 		ErrorMessage.Builder head = ErrorMessage.newBuilder();
@@ -398,7 +412,9 @@ public class Scene implements Runnable{
 		enterSc.setHorseType(p.horseType);
 		enterSc.setJzId(p.jzId);
 		if(this.name.contains("YB")){
-			broadCastEvent4YB(enterSc, p.userId);
+			//2016年3月10日10:44:09 由于需要发送押镖人自己的信息，所以不跳过自己
+			enterSc.setXuePingRemain(p.xuePingRemain);
+			broadCastEvent4YB(enterSc, 0/*p.userId*/);
 		}else{
 			ProtobufMsg pm = new ProtobufMsg();
 			pm.id = msgId;
@@ -429,7 +445,7 @@ public class Scene implements Runnable{
 		ProtobufMsg pm = new ProtobufMsg();
 		pm.id = PD.Enter_YBScene;
 		long ybjzId=enterYBSc.getJzId();
-		log.info(" 广播userId=={} 进/出场景--{}",skip,this.name);
+		log.info(" 广播userId=={} 进场景--{}",skip,this.name);
 		for(Player player : players.values()){
 			if(player.userId == skip)continue;
 			if(ybjzId>0){
@@ -592,7 +608,7 @@ public class Scene implements Runnable{
 		broadCastEvent(pm, player.userId);
 		players.remove(uid);
 		saveExitYBInfo(player);
-		log.info("君主:{}退出联盟战场景:{},剩余玩家个数：{},退出时坐标x--{},z---{}"
+		log.info("君主:{}退出押镖场景:{},剩余玩家个数：{},退出时坐标x--{},z---{}"
 				 ,session.getAttribute(SessionAttKey.junZhuId),this.name, players.size(), player.posX, player.posZ);
 	}
 
@@ -694,12 +710,18 @@ public class Scene implements Runnable{
 					player.posX = lastExitInfo.posX;
 					player.posZ = lastExitInfo.posZ;
 					int addLife = lastExitInfo.getAddLife(player.totalLife);
-					log.info("君主:{}进入场景:{},原来血量:{},增加血量:{},总血量:{}",player.name, this.name, player.currentLife, addLife, addLife + lastExitInfo.remainLife);
+					log.info("君主:{}进入押镖场景:{},原来血量:{},增加血量:{},总血量:{}",player.name, this.name, player.currentLife, addLife, addLife + lastExitInfo.remainLife);
 					player.currentLife = addLife + lastExitInfo.remainLife;
 					player.currentLife = Math.min(player.totalLife, player.currentLife);
 				}
 			}
 			player.allianceId = AllianceMgr.inst.getAllianceId(player.jzId);
+		}
+		
+		if(enterYBSc.getPosX()!=0||enterYBSc.getPosZ()!=0){
+			player.posX=enterYBSc.getPosX();
+			player.posZ=enterYBSc.getPosZ();
+			log.info("客户端指定押镖场景出生坐标---x---{}---z---{}",enterYBSc.getPosX(),enterYBSc.getPosZ());
 		}
 		player.lmName =(String)session.getAttribute(SessionAttKey.LM_NAME, "***");
 		player.chengHaoId = (String)session.getAttribute(SessionAttKey.CHENG_HAO_ID, "-1");
@@ -710,15 +732,19 @@ public class Scene implements Runnable{
 		player.zhiWu = (Integer)zhiWu;
 		players.put(userId, player);
 		
-		log.info("{}进入场景 {},这货是<{}>，血量--<{}/{}>， 坐标:x-{},z-{}", player.getName(),this.name,isBiaoChe?"镖车机器人":"玩家",player.currentLife,player.totalLife,
+		log.info("{}进入押镖场景 {},这货是<{}>，血量--<{}/{}>， 坐标:x-{},z-{}", player.getName(),this.name,isBiaoChe?"镖车机器人":"玩家",player.currentLife,player.totalLife,
 				player.posX,player.posZ);
-		//告诉当前玩家它的信息，确认进入
-		EnterSceneConfirm.Builder ret = EnterSceneConfirm.newBuilder();
-		ret.setUid(userId);
-		ret.setPosX(player.getPosX());
-		ret.setPosY(player.getPosY());
-		ret.setPosZ(player.getPosZ());
-		session.write(ret.build());
+		if(isBiaoChe){
+			broadCastEvent(PD.Enter_YBScene, player);
+		}else{
+			//告诉当前玩家它的信息，确认进入
+			EnterSceneConfirm.Builder ret = EnterSceneConfirm.newBuilder();
+			ret.setUid(userId);
+			ret.setPosX(player.getPosX());
+			ret.setPosY(player.getPosY());
+			ret.setPosZ(player.getPosZ());
+			session.write(ret.build());
+		}
 		/* 2016年3月7日17:25:41 发送状态时会进行玩家可见性同步。
 		//告诉其他玩家，谁进来了。
 		enterYBSc.setUid(userId);
@@ -887,47 +913,26 @@ public class Scene implements Runnable{
 		broadCastEvent(b.build(), b.getUid());
 	}
 	/**
-	 * @Description 移除君主马车
+	 * @Description 移除君主马车，被杀掉的直接移除，不广播
 	 * @param jzId
 	 * @param isKill 是否被杀
 	 */
-	public synchronized void exit4YaBiaoRobot(Long jzId,boolean isKill) {
-		YaBiaoRobot ybrobot=(YaBiaoRobot)BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(jzId);
-		if(ybrobot == null)return;
+	public synchronized void exit4YaBiaoRobot(YaBiaoRobot ybrobot) {
 		IoSession session=ybrobot.session;
-		if(session == null)
+			Integer uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
+			Player player = players.remove(uid);
+		log.info("从场景中移除君主-{}押镖机器人成功", ybrobot.jzId);
+	}
+
+	public void exitYBSc(IoSession session) {
+		Integer uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
+		if(uid == null){
+			log.error("移除君主马车出错：找不到君主{}马车的uid",session);
 			return;
-		if(isKill){
-			Integer uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
-			if(uid == null){
-				log.error("移除君主马车出错：找不到君主{}马车的uid",jzId);
-				return ;
-			}
-			Player player = players.get(uid);
-			if(player != null) {
-				//2016年1月5日 君主马车移除需广播
-				//2016年2月17日 马车被杀死不走Scene 广播
-//				ExitScene.Builder exitYBSc = ExitScene.newBuilder();
-//				exitYBSc.setUid(uid);
-//				ProtobufMsg pm = new ProtobufMsg();
-//				pm.id=PD.Exit_YBScene;
-//				pm.builder = exitYBSc;
-//				broadCastEvent(pm, player.userId);
-				players.remove(uid);
-			}else {
-				log.error("从场景中移除君主-{}押镖机器人错误，未找到对应Player对象", jzId);
-			}
-		}else{
-			ExitScene.Builder exitYBSc = ExitScene.newBuilder();
-			Integer uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
-			if(uid == null){
-				log.error("移除君主马车出错：找不到君主{}马车的uid",jzId);
-				return;
-			}
-			exitYBSc.setUid(uid);
-			exitYBScene( session,exitYBSc);
 		}
-		log.info("从场景中移除君主-{}押镖机器人成功", jzId);
+		ExitScene.Builder exitYBSc = ExitScene.newBuilder();
+		exitYBSc.setUid(uid);
+		exitYBScene( session,exitYBSc);
 	}
 	
 	public Player getPlayerByJunZhuId(long junzhuId) {

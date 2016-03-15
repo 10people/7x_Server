@@ -2,6 +2,7 @@ package com.qx.test.main;
 
 import java.net.InetSocketAddress;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -57,8 +58,10 @@ public class GameClient {
 	public IoSession session;
 	public boolean log = true;
 	public int uid;
+	public static GameClient useWhenSingle;
 	
 	public GameClient(String accountName) {
+		useWhenSingle = this;
 		this.accountName = accountName;
 //		this.accountName = "t1";
 	}
@@ -71,6 +74,7 @@ public class GameClient {
 			public void operationComplete(ConnectFuture future) {
 				if(future.isConnected()==false){
 					Main.conFailCnt.incrementAndGet();
+					System.out.println("连接失败");
 					return;
 				}
 				session = future.getSession();
@@ -155,10 +159,9 @@ public class GameClient {
 	//随机生产名字
 		public static String getRandomString(int length) { 
 		    String base = "abcdefghijklmnopqrstuvwxyz0123456789俞伯牙席潮海丁克曾管正学管虎管谟业管仲陈伟霆王世充李渊杨坚郭树清李鸿忠王穗明刘铁男李登辉彭长健邓鸿王中军景百孚赵永亮陆兆禧严介和郁亮茅于轼王小波冯唐";   
-		    Random random = new Random();   
 		    StringBuffer sb = new StringBuffer();   
 		    for (int i = 0; i < length; i++) {   
-		        int number = random.nextInt(base.length());   
+		        int number = next(base.length());   
 		        sb.append(base.charAt(number));   
 		    }   
 		    return sb.toString();   
@@ -174,12 +177,32 @@ public class GameClient {
 		req.setPosY(4.7422743f);
 		req.setPosZ(-18.933374f);
 		session.write(req.build());
-		if(log)System.out.println("发起进入场景。");
+		ProtobufUtils.prototypeMap.put(Integer.valueOf(PD.OPEN_ShiLian_FuBen), ErrorMessage.getDefaultInstance());
+		if(log)System.out.println("发起进入主城。");
 		//报告状态
 		PlayerState.Builder b = PlayerState.newBuilder();
 		b.setSState(State.State_LEAGUEOFCITY);
 		session.write(b.build());
 		//
+	}
+	public void enterShiLian() {
+		//
+		EnterScene.Builder req = EnterScene.newBuilder();
+		req.setUid(1);
+		req.setSenderName(accountName);
+		req.setJzId(0);
+		req.setPosX(-7.998339f);
+		req.setPosY(4.7422743f);
+		req.setPosZ(-18.933374f);
+//		session.write(req.build());
+		ProtobufUtils.prototypeMap.put(Integer.valueOf(PD.OPEN_ShiLian_FuBen), ErrorMessage.getDefaultInstance());
+		session.write(new ProtobufMsg(PD.Enter_TBBXScene, req));
+		if(log)System.out.println("发起进入十连副本。");
+		//报告状态
+				PlayerState.Builder b = PlayerState.newBuilder();
+				b.setSState(State.State_LEAGUEOFCITY);
+				session.write(b.build());
+				//
 	}
 
 	public void randomNameFromServer() {
@@ -193,17 +216,22 @@ public class GameClient {
 		CreateRoleRequest.Builder req =  CreateRoleRequest.newBuilder();
 		req.setRoleName(name);
 		req.setRoleId(1);
-		req.setGuoJiaId(new Random().nextInt(7)+1);
+		req.setGuoJiaId(next(7)+1);
 		session.write(req.build());
 	}
-	Random rnd = new Random();
+	static Random rnd = new Random();
+	static int next(int v){
+		synchronized (rnd) {
+			return rnd.nextInt(v);
+		}
+	}
 	public long jzId;
 	public void randNameRet(Builder builder) {
 		RoleNameResponse.Builder ret = (qxmobile.protobuf.ZhangHao.RoleNameResponse.Builder) builder;
 		String name = ret.getRoleName();
 		if(log)System.out.println("获得随机角色名:"+name);
 		Main.rndNameCnt.incrementAndGet();
-		createRole(name+rnd.nextInt(9999));
+		createRole(name+next(9999));
 	}
 
 	public void createRoleRet(Builder builder) {
@@ -222,7 +250,7 @@ public class GameClient {
 		Main.enterSceneCnt.incrementAndGet();
 		EnterSceneConfirm.Builder ret = (EnterSceneConfirm.Builder)builder;
 		x = ret.getPosX();
-		y = ret.getPosY();
+		y = 3.405495f;//ret.getPosY();
 		z = ret.getPosZ();
 		if(uid <= 0){
 			uid = ret.getUid();
@@ -233,23 +261,37 @@ public class GameClient {
 			//
 			oper();
 		}else{
-			//报告状态
-			PlayerState.Builder b = PlayerState.newBuilder();
-			b.setSState(State.State_YABIAO);
 			//
-			session.write(b.build());		
-			//move 调整在押镖场景中的位置
-			SpriteMove.Builder move = SpriteMove.newBuilder();
-			move.setDir(0);
-			move.setUid(uid);
-//			move.setPosX(184.29079f+);
-			int diff = (int) (jzId/1000 - 436);
-			diff = 0;
-			move.setPosX(x+diff);
-			move.setPosY(y);
-			move.setPosZ(z);
-			session.write(move.build());
+//			yaBiao();
 		}
+	}
+
+	public void yaBiao() {
+		//报告状态 押镖相关
+		PlayerState.Builder b = PlayerState.newBuilder();
+		b.setSState(State.State_YABIAO);
+		//
+		session.write(b.build());		
+		//move 调整在押镖场景中的位置
+//			x = 211;
+//			z = 135;//强制在一个地方
+		SpriteMove.Builder move = SpriteMove.newBuilder();
+		move.setDir(0);
+		move.setUid(uid);
+//			move.setPosX(184.29079f+);
+		ThreadLocalRandom r = ThreadLocalRandom.current();
+		int diff = r.nextInt(10) - 5;
+		int diffZ = r.nextInt(10) - 5;
+		System.out.println("diff is "+diff);
+		move.setPosX(x+diff);
+		move.setPosY(4);
+		move.setPosZ(z+diffZ);
+		session.write(move.build());
+		session.write(move.build());
+		//
+//			session.write(PD.C_YABIAO_INFO_REQ);
+//			session.write(PD.C_YABIAO_MENU_REQ);//请求押镖界面
+//			session.write(PD.C_YABIAO_REQ);//开始押镖
 	}
 	
 
@@ -265,7 +307,7 @@ public class GameClient {
 //		session.write(PD.C_GET_JINENG_PEIYANG_QUALITY_REQ);
 //		联盟抽奖信息();
 //		session.write(PD.C_CLOSE_TAN_BAO_UI);
-		enterYBScene();
+//		enterYBScene();
 //		useItem();
 //		聊天广播();
 //		getMoBaiInfo();

@@ -7,6 +7,7 @@ import org.apache.mina.core.session.IoSession;
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.network.BigSwitch;
 import com.manu.network.MessageMgr;
+import com.manu.network.PD;
 import com.manu.network.msg.AbstractMessage;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.test.message.MessageDispatcher;
@@ -58,7 +59,8 @@ public class ClientHandler extends IoHandlerAdapter{
 	public void sessionIdle(IoSession session, IdleStatus status)
 			throws Exception {
 		super.sessionIdle(session, status);
-		System.out.println("ClientHandler.sessionIdle()");
+		//System.out.println("ClientHandler.sessionIdle()");
+		session.write(PD.TEST_CONN);
 	}
 
 	@Override

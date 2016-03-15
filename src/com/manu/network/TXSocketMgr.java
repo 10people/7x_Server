@@ -55,7 +55,7 @@ public class TXSocketMgr {
 		//TODO keep alive filter KeepAliveFilter mina提供的心跳接口。
 		acceptor.getSessionConfig().setSoLinger(0);
 		//Sets idle time for the specified type of idleness in seconds.
-		acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, 60*10);//10分钟
+		acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, 60*5);//5分钟
 		acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilterFix(codecFactory.encoder, codecFactory.decoder));
 //		acceptor.getFilterChain().addLast("logger", new LoggingFilter());
 		acceptor.setHandler(handler);

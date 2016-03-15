@@ -2,6 +2,7 @@
 <config>
 <!-- 	<file name="data/PveTemplate.xml" /> -->
 	<file name="data/AnnounceTemp.xml" />
+	<file name="data/ShiLianFuBen.xml" />
 	<file name="data/QiRiLiBao.xml" />
 	<file name="data/ZhuangBeiDiaoluo.xml" />
 	<file name="data/Chenghao.xml" />

@@ -112,6 +112,8 @@ public class ED {
 	public static final int DISMISS_ALLIANCE = 10144;
 	/**上缴侠义值事件*/
 	public static final int SHANGJIAO_XIAYI = 10145;
+	/**邀请某人加入联盟事件*/ 
+	public static final int Invite_LM =10146;
 	
 	/**排行榜刷新事件**/
 	// 君主榜刷新事件
@@ -156,6 +158,8 @@ public class ED {
 	public static final int REFRESH_TIME_WORK = 10164;
 	/**获得军衔事件*/
 	public static final int GET_JUNXIAN =  10165;
+	/****	添加触发事件，玩家开启了联盟功能*/
+	public static final int LM_FUNCTION_OPEN = 10166;
 	/**押镖镖车被攻击事件*/
 	public static final int BIAOCHE_BEIDA = 10170;
 	/**押镖镖车被摧毁*/
@@ -170,7 +174,7 @@ public class ED {
 	/**活跃度变化*/
 	public static final int HUOYUE_CHANGE=10176;
 	/**新的押镖联盟军情*/
-	public static final int NEW_LIANMENG_YB_JUQING = 0;
+	public static final int NEW_LIANMENG_YB_JUQING = 10178;
 	
 	public static final int LM_SHOP_BUY = 10181;
 	
