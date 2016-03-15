@@ -25,7 +25,7 @@
 	</target>
 
 	<target name="compile">
-		<javac srcdir="src" encoding="${encoding}" destdir="webroot/WEB-INF/classes" debug="on" optimize="off" source="1.5" target="1.5" memoryInitialSize="512m" memoryMaximumSize="512m" fork="true">
+		<javac srcdir="src" encoding="${encoding}" destdir="webroot/WEB-INF/classes" debug="on" optimize="off" source="1.8" target="1.8" memoryInitialSize="512m" memoryMaximumSize="512m" fork="true">
 			<classpath>
 				<fileset dir="lib">
 					<include name="*.jar" />
@@ -54,7 +54,7 @@
 			<fileset dir="conf/classes" />
 		</copy>
 		<copy todir="webroot/WEB-INF/classes/data/">
-			<fileset dir="../Design_Doc/data/" excludes="battleFlag/" />
+			<fileset dir="E:\Work\SVNs\Design Doc/data/" excludes="battleFlag/" />
 		</copy>
 	</target>
 

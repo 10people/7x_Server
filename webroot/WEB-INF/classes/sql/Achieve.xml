@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ServerInfo">
+	<typeAlias alias="achieve" type="com.manu.dynasty.achieve.domain.Achieve"/>
+	<typeAlias alias="achieveGoal" type="com.manu.dynasty.achieve.domain.AchieveGoal"/>
+	<typeAlias alias="userAchieve" type="com.manu.dynasty.achieve.domain.UserAchieve"/>
+	
+	
+	
+	<select id="AchieveDao.getAchieves" resultClass="achieve">
+		select * from Achieve;
+	</select>
+	
+	<select id="AchieveDao.getAchieveGoals" resultClass="achieveGoal">
+		select * from AchieveGoal;
+	</select>
+	
+	
+	
+	<insert id="AchieveDao.insertUserAchieve" parameterClass="userAchieve">
+		insert into UserAchieve(userId, achieveId, finishNum, requestNum, stageCount, stageNow, isAward, isFinish, achieveType, achieveValue, addType, achieveAt) values(#userId#, #achieveId#, #finishNum#, #requestNum#, #stageCount#, #stageNow#, #isAward#,#isFinish#, #achieveType#, #achieveValue#, #addType#, #achieveAt#);
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT last_insert_Id() 
+		</selectKey>
+	</insert>
+	
+	<select id="AchieveDao.getUserAchieveIds" resultClass="int" parameterClass="int">
+		select achieveId from UserAchieve where userId = #userId#
+	</select>
+	
+	<select id="AchieveDao.getUserAchieveById" resultClass="userAchieve">
+		select * from UserAchieve where userId = #userId# and achieveId = #achieveId#
+	</select>
+	
+	<update id="AchieveDao.updateUserAchieve" parameterClass="userAchieve">
+		update UserAchieve set finishNum = #finishNum#,  stageNow = #stageNow#, isAward = #isAward#, isFinish = #isFinish#, achieveAt = #achieveAt# where userId = #userId# and achieveId = #achieveId#;
+	</update>
+</sqlMap>

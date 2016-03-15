@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- For assistance related to logback-translator or configuration  -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user             -->
+<!--                                                                -->
+<!-- For professional support please see                            -->
+<!--    http://www.qos.ch/shop/products/professionalSupport         -->
+<!--                                                                -->
+<configuration>
+<!--转移到logback.properties里去了。 
+  <property name="GAME_LOG_PATH" value="/var/log/qxmobile"></property>
+ -->
+  <property resource="logback.properties" />
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  <logger name="org.apache.mina.filter.executor.OrderedThreadPoolExecutor" level="INFO">
+    <appender-ref ref="stdout"/>
+  </logger>
+  <logger name="org.apache.mina.filter.codec.ProtocolCodecFilter.ProtocolCodecFilter" level="INFO">
+    <appender-ref ref="stdout"/>
+  </logger>
+   <appender name="fileout" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${GAME_LOG_PATH}/gameServer.log</File>
+    <encoder>
+      <pattern>%d{MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/gameServer.%d{yyyy-MM-dd}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <root level="INFO">
+    <appender-ref ref="${root_appender}"/>
+  </root>
+<!-- 经分日志配置开始 -->
+<!-- ===GameSvrState===== -->
+	<appender name="GameSvrState" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/GameSvrState.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>${GAME_LOG_PATH}/GameSvrState.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="GameSvrState" level="INFO" additivity="false">
+  	<appender-ref ref="GameSvrState"></appender-ref>
+  </logger>
+  <!-- ===PlayerOnline===== -->
+	<appender name="PlayerOnline" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/PlayerOnline.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>${GAME_LOG_PATH}/PlayerOnline.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="PlayerOnline" level="INFO" additivity="false">
+  	<appender-ref ref="PlayerOnline"></appender-ref>
+  </logger>
+  <!-- ===PlayerRegister===== -->
+	<appender name="PlayerRegister" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/PlayerRegister.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/PlayerRegister.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="PlayerRegister" level="INFO" additivity="false">
+  	<appender-ref ref="PlayerRegister"></appender-ref>
+  </logger>
+  <!-- ===PlayerLogin===== -->
+	<appender name="PlayerLogin" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/PlayerLogin.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>${GAME_LOG_PATH}/PlayerLogin.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="PlayerLogin" level="INFO" additivity="false">
+  	<appender-ref ref="PlayerLogin"></appender-ref>
+  </logger>
+  <!-- ===PlayerLogout===== -->
+	<appender name="PlayerLogout" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/PlayerLogout.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>${GAME_LOG_PATH}/PlayerLogout.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+
+    </rollingPolicy>
+  </appender>
+  <logger name="PlayerLogout" level="INFO" additivity="false">
+  	<appender-ref ref="PlayerLogout"></appender-ref>
+  </logger>
+  <!-- ===MoneyFlow===== -->
+	<appender name="MoneyFlow" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/MoneyFlow.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>${GAME_LOG_PATH}/MoneyFlow.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+
+    </rollingPolicy>
+  </appender>
+  <logger name="MoneyFlow" level="INFO" additivity="false">
+  	<appender-ref ref="MoneyFlow"></appender-ref>
+  </logger>
+  <!-- ===ItemFlow===== -->
+	<appender name="ItemFlow" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/ItemFlow.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>${GAME_LOG_PATH}/ItemFlow.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+
+    </rollingPolicy>
+  </appender>
+  <logger name="ItemFlow" level="INFO" additivity="false">
+  	<appender-ref ref="ItemFlow"></appender-ref>
+  </logger>
+  <!-- ===PlayerExpFlow===== -->
+	<appender name="PlayerExpFlow" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/PlayerExpFlow.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>${GAME_LOG_PATH}/PlayerExpFlow.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+
+    </rollingPolicy>
+  </appender>
+  <logger name="PlayerExpFlow" level="INFO" additivity="false">
+  	<appender-ref ref="PlayerExpFlow"></appender-ref>
+  </logger>
+  <!-- ===SnsFlow===== -->
+	<appender name="SnsFlow" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/SnsFlow.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>${GAME_LOG_PATH}/SnsFlow.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+
+    </rollingPolicy>
+  </appender>
+  <logger name="SnsFlow" level="INFO" additivity="false">
+  	<appender-ref ref="SnsFlow"></appender-ref>
+  </logger>
+  <!-- ===RoundFlow===== -->
+	<appender name="RoundFlow" class="ch.qos.logback.core.rolling.RollingFileAppender" >
+    <file>${GAME_LOG_PATH}/RoundFlow.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>${GAME_LOG_PATH}/RoundFlow.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+
+    </rollingPolicy>
+  </appender>
+  <logger name="RoundFlow" level="INFO"  additivity="false">
+  	<appender-ref ref="RoundFlow"></appender-ref>
+  </logger>
+<!-- 经分日志配置结束 -->
+<!-- 玩家操作流水日志配置开始 -->
+  <!-- ===KingChange===== -->
+	<appender name="KingChange" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/KingChange.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/KingChange.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="KingChange" level="INFO" additivity="false">
+  	<appender-ref ref="KingChange"></appender-ref>
+  </logger>
+  <!-- ===KingLvup===== -->
+	<appender name="KingLvup" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/KingLvup.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/KingLvup.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="KingLvup" level="INFO" additivity="false">
+  	<appender-ref ref="KingLvup"></appender-ref>
+  </logger>
+  <!-- ===GetExp===== -->
+	<appender name="GetExp" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/GetExp.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/GetExp.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="GetExp" level="INFO" additivity="false">
+  	<appender-ref ref="GetExp"></appender-ref>
+  </logger>
+  <!-- ===KingTalent===== -->
+	<appender name="KingTalent" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/KingTalent.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/KingTalent.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="KingTalent" level="INFO" additivity="false">
+  	<appender-ref ref="KingTalent"></appender-ref>
+  </logger>
+  <!-- ===EquipLvup===== -->
+	<appender name="EquipLvup" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/EquipLvup.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/EquipLvup.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="EquipLvup" level="INFO" additivity="false">
+  	<appender-ref ref="EquipLvup"></appender-ref>
+  </logger>
+  <!-- ===EquipStrength===== -->
+	<appender name="EquipStrength" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/EquipStrength.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/EquipStrength.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="EquipStrength" level="INFO" additivity="false">
+  	<appender-ref ref="EquipStrength"></appender-ref>
+  </logger>
+  <!-- ===EquipRefine===== -->
+	<appender name="EquipRefine" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/EquipRefine.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/EquipRefine.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="EquipRefine" level="INFO" additivity="false">
+  	<appender-ref ref="EquipRefine"></appender-ref>
+  </logger>
+  <!-- ===ShopBuy===== -->
+	<appender name="ShopBuy" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/ShopBuy.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/ShopBuy.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="ShopBuy" level="INFO" additivity="false">
+  	<appender-ref ref="ShopBuy"></appender-ref>
+  </logger>
+  <!-- ===Pawn===== -->
+	<appender name="Pawn" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/Pawn.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/Pawn.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="Pawn" level="INFO" additivity="false">
+  	<appender-ref ref="Pawn"></appender-ref>
+  </logger>
+  <!-- ===PhysicalPower===== -->
+	<appender name="PhysicalPower" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/PhysicalPower.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/PhysicalPower.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="PhysicalPower" level="INFO" additivity="false">
+  	<appender-ref ref="PhysicalPower"></appender-ref>
+  </logger>
+  <!-- ===EmailLog===== -->
+	<appender name="EmailLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/EmailLog.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/EmailLog.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="EmailLog" level="INFO" additivity="false">
+  	<appender-ref ref="EmailLog"></appender-ref>
+  </logger>
+  <!-- ===HeroBattle===== -->
+	<appender name="HeroBattle" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/HeroBattle.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/HeroBattle.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="HeroBattle" level="INFO" additivity="false">
+  	<appender-ref ref="HeroBattle"></appender-ref>
+  </logger>
+  <!-- ===Challenge===== -->
+	<appender name="Challenge" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/Challenge.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/Challenge.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="Challenge" level="INFO" additivity="false">
+  	<appender-ref ref="Challenge"></appender-ref>
+  </logger>
+  <!-- ===ChallengeAward===== -->
+	<appender name="ChallengeAward" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/ChallengeAward.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/ChallengeAward.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="ChallengeAward" level="INFO" additivity="false">
+  	<appender-ref ref="ChallengeAward"></appender-ref>
+  </logger>
+  <!-- ===ChallengeExchange===== -->
+	<appender name="ChallengeExchange" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/ChallengeExchange.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/ChallengeExchange.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="ChallengeExchange" level="INFO" additivity="false">
+  	<appender-ref ref="ChallengeExchange"></appender-ref>
+  </logger>
+  <!-- ===Guild===== -->
+	<appender name="Guild" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/Guild.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/Guild.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="Guild" level="INFO" additivity="false">
+  	<appender-ref ref="Guild"></appender-ref>
+  </logger>
+  <!-- ===GuildOut===== -->
+	<appender name="GuildOut" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/GuildOut.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/GuildOut.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="GuildOut" level="INFO" additivity="false">
+  	<appender-ref ref="GuildOut"></appender-ref>
+  </logger>
+  <!-- ===GuildBreak===== -->
+	<appender name="GuildBreak" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/GuildBreak.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/GuildBreak.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="GuildBreak" level="INFO" additivity="false">
+  	<appender-ref ref="GuildBreak"></appender-ref>
+  </logger>
+  <!-- ===GuildTransfer===== -->
+	<appender name="GuildTransfer" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/GuildTransfer.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/GuildTransfer.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="GuildTransfer" level="INFO" additivity="false">
+  	<appender-ref ref="GuildTransfer"></appender-ref>
+  </logger>
+  <!-- ===GuildDonate===== -->
+	<appender name="GuildDonate" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/GuildDonate.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/GuildDonate.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="GuildDonate" level="INFO" additivity="false">
+  	<appender-ref ref="GuildDonate"></appender-ref>
+  </logger>
+  <!-- ===Worship===== -->
+	<appender name="Worship" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/Worship.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/Worship.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="Worship" level="INFO" additivity="false">
+  	<appender-ref ref="Worship"></appender-ref>
+  </logger>
+  <!-- ===DailyTask===== -->
+	<appender name="DailyTask" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/DailyTask.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/DailyTask.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="DailyTask" level="INFO" additivity="false">
+  	<appender-ref ref="DailyTask"></appender-ref>
+  </logger>
+  <!-- ===LootRich===== -->
+	<appender name="LootRich" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/LootRich.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/LootRich.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="LootRich" level="INFO" additivity="false">
+  	<appender-ref ref="LootRich"></appender-ref>
+  </logger>
+  <!-- ===KillRobber===== -->
+	<appender name="KillRobber" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/KillRobber.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/KillRobber.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="KillRobber" level="INFO" additivity="false">
+  	<appender-ref ref="KillRobber"></appender-ref>
+  </logger>
+  <!-- ===KillRebelArmy===== -->
+	<appender name="KillRebelArmy" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/KillRebelArmy.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/KillRebelArmy.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="KillRebelArmy" level="INFO" additivity="false">
+  	<appender-ref ref="KillRebelArmy"></appender-ref>
+  </logger>
+  <!-- ===ConveyDart===== -->
+	<appender name="ConveyDart" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/ConveyDart.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/ConveyDart.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="ConveyDart" level="INFO" additivity="false">
+  	<appender-ref ref="ConveyDart"></appender-ref>
+  </logger>
+  <!-- ===LootDart===== -->
+	<appender name="LootDart" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/LootDart.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/LootDart.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="LootDart" level="INFO" additivity="false">
+  	<appender-ref ref="LootDart"></appender-ref>
+  </logger>
+  <!-- ===FineGem===== -->
+	<appender name="FineGem" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/FineGem.log</file>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/FineGem.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="FineGem" level="INFO" additivity="false">
+  	<appender-ref ref="FineGem"></appender-ref>
+  </logger>
+
+<!-- ===Log2DB===== -->
+	<appender name="Log2DB" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${GAME_LOG_PATH}/Log2DB.log</file>
+    <encoder>
+      <pattern>%d{MM-dd HH:mm:ss.SSS} %logger{36} - %msg%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${GAME_LOG_PATH}/Log2DB.%d{yyyy-MM-dd}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <logger name="Log2DB" level="INFO" additivity="false">
+  	<appender-ref ref="Log2DB"></appender-ref>
+  </logger>
+<!-- 玩家操作流水日志配置结束 -->
+</configuration>

@@ -1,0 +1,98 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xmlns:aop="http://www.springframework.org/schema/aop"
+	     xmlns:tx="http://www.springframework.org/schema/tx"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+       default-autowire="autodetect">
+
+	<!-- bean id="defaultConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+        	<list>
+        		<value>classpath:spring.properties</value>
+        		<value>file:${TX_CONF_PATH}/conf.properties</value>
+        	</list>
+        </property>
+    </bean-->
+ 	<!-- service -->
+	<bean id="serviceLocator" class="com.manu.core.ServiceLocator" factory-method="createInstance" />
+	
+	<!-- Import Part -->
+	<!--import resource="applicationContext_hero.xml"/-->
+	<!--  <import resource="applicationContext_hxh.xml"/>   -->
+	<!--import resource="applicationContext_user.xml"/>
+	<import resource="applicationContext_skill.xml"/>
+	<import resource="applicationContext_item.xml"/>
+	<import resource="applicationContext_base.xml"/>
+	<import resource="applicationContext_function.xml"/>
+	<import resource="applicationContext_friend.xml"/-->
+	
+	
+	<!--bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:spring.properties"/>
+    </bean-->
+    
+	<!-- 数据源 -->
+	<!--bean id="dataSource" class="com.manu.core.TarotBasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://${mysql.dbServer}?zeroDateTimeBehavior=convertToNull"/>
+		<property name="username" value="${mysql.user}"/>
+		<property name="password" value="${mysql.passwd}"/>
+		<property name="defaultAutoCommit" value="true"/>
+		<property name="initialSize" value="10"/>
+		<property name="maxActive" value="225"/>
+		<property name="maxIdle" value="200"/>
+		<property name="minIdle" value="100"/>
+		<property name="maxWait" value="30000"/>
+		<property name="testWhileIdle" value="true"/>
+		<property name="timeBetweenEvictionRunsMillis" value="1800000"/>
+		<property name="validationQuery" value="select 1;"/>
+		<property name="testOnBorrow" value="false"/>
+		<property name="validationQueryTimeout" value="1"/>
+		<property name="minEvictableIdleTimeMillis" value="3600000"/>
+		<property name="numTestsPerEvictionRun" value="200"/>
+		
+		<property name="connectionProperties"> 
+			<props>
+				<prop key="useLocalSessionState">true</prop>
+				<prop key="socketTimeout">30000</prop> 
+				<prop key="noAccessToProcedureBodies">true</prop>
+				<prop key="connectTimeout">30000</prop>
+			</props> 
+		</property> 		
+	</bean-->
+
+	<!-- ibatis
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation" value="classpath:sql/sqlmap-config.xml"/>
+		<property name="dataSource" ref="dataSource"/>
+	</bean>	
+	 <bean id="sqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
+		  <property name="sqlMapClient" ref="sqlMapClient" />
+	  </bean>
+	  -->
+	<!-- transaction 
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<bean id="txManager" class="com.manu.dynasty.core.aop.TransactionInterceptor">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="*WithCommit" propagation="REQUIRED" />
+			<tx:method name="*WithNewCommit" propagation="REQUIRES_NEW" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:advisor pointcut="execution(* com.manu.dynasty..*Service.*WithCommit(..)) || execution(* com.manu.dynasty..*Engine.*WithCommit(..))" advice-ref="txAdvice"/>
+		<aop:advisor pointcut="execution(* com.manu.dynasty..*Service.*WithNewCommit(..)) || execution(* com.manu.dynasty..*Engine.*WithNewCommit(..))" advice-ref="txAdvice"/>
+	</aop:config>
+	-->
+	<!-- quartz -->
+	<!-- threadpool_RAMJob -->
+</beans>

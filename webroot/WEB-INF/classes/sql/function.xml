@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<typeAlias alias="mailContent" type="com.manu.dynasty.mail.domain.MailContent"></typeAlias>
+	<select id="MailDao.getMails" resultClass="mailContent" parameterClass="Map">
+		select * from MailContent$tableIndex$ where userId=#userId# and mailType=#mailType# and mailId > #mailId# order by mailId desc
+	</select>	
+	<select id="MailDao.getMailById" resultClass="mailContent" parameterClass="Map">
+		select * from MailContent$tableIndex$ where userId=#userId# and mailId=#mailId#;
+	</select>
+	<delete id="MailDao.deleteMail" parameterClass="mailContent">
+		delete from MailContent$tableIndex$ where userId=#userId# and mailId=#mailId#;
+	</delete>
+	<insert id="MailDao.insertMail" parameterClass="mailContent">
+		insert into MailContent$tableIndex$(userId,sendUserId,receiveUserId,sendDttm,readDttm,content,title,mailReceiveType,mailType,appendixFlag,entityIds,itemNums) values(#userId#,#sendUserId#,#receiveUserId#,#sendDttm#,#readDttm#,#content#,#title#,#mailReceiveType#,#mailType#,#appendixFlag#,#entityIds#,#itemNums#);
+		<selectKey resultClass="int" keyProperty="mailId">
+			SELECT last_insert_Id() 
+		</selectKey>
+	</insert>
+	<update id="MailDao.updateMail" parameterClass="mailContent">
+		update MailContent$tableIndex$ set readDttm=#readDttm#, mailReceiveType=#mailReceiveType#,entityIds=#entityIds#,itemNums=#itemNums#, appendixFlag=#appendixFlag# where userId=#userId# and mailId=#mailId#
+	</update>
+</sqlMap>
+    
+    

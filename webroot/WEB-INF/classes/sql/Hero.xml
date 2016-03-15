@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ServerInfo">
+    <typeAlias alias="heroTemplet" type="com.manu.dynasty.hero.domain.HeroTemplet"/>
+    <typeAlias alias="heroType" type="com.manu.dynasty.hero.domain.HeroType"/>
+    <typeAlias alias="heroExp" type="com.manu.dynasty.hero.domain.HeroExp"/>
+    <typeAlias alias="userHero" type="com.manu.dynasty.hero.domain.UserHero"/>
+    <typeAlias alias="heroForm" type="com.manu.dynasty.hero.domain.HeroForm"/>
+    <typeAlias alias="heroGrowTemplet" type="com.manu.dynasty.hero.domain.HeroGrowTemplet"/>
+     
+     <select id="HeroDao.getHeroTempList" resultClass="heroTemplet">
+     	select * from HeroTemplet;
+     </select>
+     <select id="HeroDao.getHeroTypes" resultClass="heroType">
+     	select * from HeroType;
+     </select>
+     <select id="HeroDao.getHeroExpsById" resultClass="heroExp" parameterClass="int">
+     	select * from HeroExp where expId=#expId#;
+     </select>
+     <insert id="HeroDao.insertUserHero" parameterClass="userHero">
+     	insert into UserHero(userId, heroTempId, heroName, curExp,level,heroType,atk,def,hp,durability,atkApt,defApt,hpApt,activeSkill,unactiveSkill, characterCode) 
+     	values(#userId#, #heroTempId#, #heroName#, #curExp#,#level#,#heroType#,#atk#,#def#,#hp#,#durability#,#atkApt#,#defApt#,#hpApt#,#activeSkill#,#unactiveSkill#, #characterCode#);
+     	<selectKey resultClass="int" keyProperty="heroId">
+     		select last_insert_Id()
+     	</selectKey>
+     </insert>
+     <update id="HeroDao.updateUserHero" parameterClass="userHero">
+     	update UserHero set curExp=#curExp#,heroTempId=#heroTempId#,heroName=#heroName#,level=#level#,heroType=#heroType#,atk=#atk#,def=#def#,hp=#hp#,durability=#durability#,atkApt=#atkApt#,defApt=#defApt#,
+     	hpApt=#hpApt#,activeSkill=#activeSkill#,unactiveSkill=#unactiveSkill#,growRankId=#growRankId#,characterCode=#characterCode#,isNew=#isNew#  where heroId=#heroId# and userId=#userId#
+     </update>
+     <select id="HeroDao.getUserHeroById" resultClass="userHero" parameterClass="Map">
+     	select * from UserHero where userId=#userId# and heroId=#heroId#
+     </select>
+     <select id="HeroDao.getHeroIds" resultClass="int">
+     	select heroId from UserHero where userId=#userId#
+     </select>
+     <select id="HeroDao.getHeroTempIds" resultClass="int">
+     	select tempId from HeroTemplet where heroType != 6;
+     </select>
+     <select id="HeroDao.getHeroForms" resultClass="heroForm" parameterClass="int">
+     	select * from HeroForm where userId=#userId#;
+     </select>
+     <insert id="HeroDao.insertHeroForm" parameterClass="heroForm">
+     	insert into HeroForm(userId, formId, formDetail) values(#userId#, #formId#, #formDetail#);
+     </insert>
+     <update id="HeroDao.updateHeroForm" parameterClass="heroForm">
+     	update HeroForm set formDetail=#formDetail# where userId=#userId# and formId=#formId#;
+     </update>
+     <select id="HeroDao.getHeroGrowTemplets" resultClass="heroGrowTemplet">
+     	select * from HeroGrowTemplet;
+     </select>
+     <delete id="HeroDao.deleteUserHero">
+     	delete from UserHero where heroId=#heroId# and userId=#userId#
+     </delete>
+     <select id="HeroDao.getHeroExps" resultClass="heroExp">
+     	select * from HeroExp
+     </select>
+     <select id="HeroDao.getUserHeros" resultClass="UserHero" parameterClass="int">
+     	select * from UserHero where userId=#userId#
+     </select>
+     
+</sqlMap>

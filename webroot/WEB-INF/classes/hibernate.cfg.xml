@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+<session-factory>
+
+	<!-- Database connection settings -->
+	<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+	<!-- property name="connection.url">jdbc:hsqldb:hsql://localhost</property -->
+	<!-- 
+	<property name="connection.url">jdbc:mysql://10.182.53.83/qxmobile</property>
+	<property name="connection.url">jdbc:mysql://192.168.3.80/qxmobile</property>
+	<property name="connection.username">devuser</property>
+	<property name="connection.password">devuser</property>
+	-->
+	 <property name="hibernate.connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</property>
+	<property name="hibernate.c3p0.testWhileIdle">true</property>
+	<property name="hibernate.c3p0.testOnBorrow">false</property>
+	<property name="hibernate.c3p0.validationQuery">select 1</property>   
+    <property name="hibernate.c3p0.min_size">3</property>
+	<property name="hibernate.c3p0.max_size">100</property>
+    <property name="hibernate.c3p0.timeout">2000</property>     
+
+	<!-- JDBC connection pool (use the built-in) -->
+	<property name="connection.pool_size">3</property>
+
+	<!-- SQL dialect -->
+	<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+
+	<!-- Enable Hibernate's automatic session context management -->
+	<property name="current_session_context_class">thread</property>
+
+	<!-- Disable the second-level cache  -->
+	<property name="cache.provider_class">
+		org.hibernate.cache.internal.NoCacheProvider
+	</property>
+
+	<!-- Echo all executed SQL to stdout -->
+	<property name="show_sql">true</property>
+
+	<!-- Drop and re-create the database schema on startup -->
+	<property name="hbm2ddl.auto">update</property>			
+	<property name="myeclipse.connection.profile">mysql</property>
+	<property name="javax.persistence.validation.mode">none</property> 
+
+	<mapping class="com.qx.pve.PveRecord" />
+	<mapping class="com.qx.hero.WuJiang" /><!-- MC ok -->
+	<mapping class="com.qx.junzhu.JunZhu" /><!-- MC ok -->
+	<mapping class="com.qx.bag.BagGrid" /><!-- MC ok -->
+	<mapping class="com.qx.bag.EquipGrid" /><!-- MC ok -->
+	<mapping class="com.qx.junzhu.JzKeji" />
+	<mapping class="com.qx.jingmai.JmBean" /><!-- MC 20141013 -->
+	<mapping class="com.qx.equip.domain.UserEquip" /> <!-- MC IS OK -->
+	<mapping class="com.qx.award.DailyAwardBean" /><!-- MC 20141013 -->
+	<mapping class="com.qx.timeworker.TimeWorker" /><!-- MC 20141013 -->
+	<mapping class="com.qx.purchase.TiLi" /><!-- MC 20141013 -->
+	<mapping class="com.qx.purchase.TongBi" /><!-- MC 20141013 -->
+	<mapping class="com.qx.purchase.XiLian" /><!-- MC 20141013 -->
+	<mapping class="com.qx.hero.WjKeJi" /><!-- MC ok -->
+	<mapping class="com.qx.email.Email" />
+	<mapping class="com.qx.achievement.Achievement" /> <!-- MC IS OK -->
+	<mapping class="com.qx.equip.domain.EquipXiLian" />
+	<mapping class="com.qx.equip.domain.XilianFirstRecord" />
+	<mapping class="com.qx.vip.VipRechargeRecord" />
+	<mapping class="com.qx.vip.PlayerVipInfo" />
+	<mapping class="com.qx.task.DailyTaskBean" /><!-- MC 20141013 -->
+	<mapping class="com.qx.task.DailyTaskActivity" />
+	<mapping class="com.qx.purchase.Treasure" />
+	<mapping class="com.manu.dynasty.template.NameKu" />
+	<mapping class="com.qx.task.WorkTaskBean" />
+	<mapping class="com.qx.pve.BuZhenBean" /><!-- MC 20141013 -->
+	<mapping class="com.qx.mibao.MiBaoDB" />
+	<mapping class="com.qx.mibao.MibaoLevelPoint" />
+	<mapping class="com.qx.mibao.MiBaoSkillDB" />
+	 <mapping class="com.qx.pvp.PvpBean"/>
+<!-- 	 <mapping class="com.qx.yabiao.YaBiaoInfo"/> -->
+	 <mapping class="com.qx.yabiao.YaBiaoBean"/>
+	 <mapping class="com.qx.yabiao.YBBattleBean"/>
+	 <mapping class="com.qx.prompt.PromptMSG"/>
+	 <mapping class="com.qx.friends.GongHeBean"/>
+	 <mapping class="com.qx.prompt.YaBiaoJunQing"/>
+	 <mapping class="com.qx.yabiao.YunBiaoHistory"/>
+	 <mapping class="com.qx.yabiao.YunBiaoHistory"/>
+	 <mapping class="com.qx.pvp.ZhanDouRecord"/>
+    <mapping class="com.qx.explore.ExploreMine"/>
+    <mapping class="com.qx.pve.BuZhenMibaoBean"/>
+    <mapping class="com.qx.alliance.AllianceBean"/>
+    <mapping class="com.qx.alliance.AllianceApply"/>
+    <mapping class="com.qx.alliance.AlliancePlayer"/>
+    <mapping class="com.qx.alliance.AllianceGongXianRecord"/>
+    <mapping class="com.qx.junzhu.PlayerTime"/>
+    <mapping class="com.qx.alliance.MoBaiBean"/>
+    <mapping class="com.qx.alliance.LmTuTeng"/>
+    <mapping class="com.qx.account.SettingsBean"/>
+    <mapping class="com.qx.huangye.HYFog"/>
+    <mapping class="com.qx.huangye.HYResource"/>
+    <mapping class="com.qx.huangye.HYTreasureTimes"/>
+    <mapping class="com.qx.huangye.HYResourceTimes"/>
+    <mapping class="com.qx.huangye.HYTreasure"/>
+    <mapping class="com.qx.huangye.HYTreasureNpc"/>
+    <mapping class="com.qx.huangye.HYTreasureDamage"/>
+    <mapping class="com.qx.huangye.HYResourceAlliance"/>
+    <mapping class="com.qx.huangye.HYRewardStore"/>
+    <mapping class="com.qx.huangye.HYResourceNpc"/>
+    <mapping class="com.qx.huangye.HYResourceJZYongbing"/>
+     <mapping class="com.qx.huangye.shop.PublicShop"/>
+    <mapping class="com.qx.huangye.BuZhenHYPvp"/>
+    <mapping class="com.qx.huangye.BuZhenYaBiao"/>
+    <mapping class="com.qx.huangye.BuZhenHYPve"/>
+    <mapping class="com.qx.huangye.HYRewardStore"/>
+    <!--  mapping class="com.qx.huangye.HYTreasureRecord"/-->
+    <mapping class="com.qx.alliance.HouseBean"/>
+    <mapping class="com.qx.alliance.HouseApplyBean"/>
+    <mapping class="com.qx.world.PosInfo"/>
+    <mapping class="com.qx.alliance.HuanWu"/>
+    <mapping class="com.qx.alliance.BigHouse"/>
+    <mapping class="com.qx.alliance.FengshanBean"/>
+    <mapping class="com.qx.alliance.AllianceLevelAward"/>
+    <mapping class="com.qx.alliancefight.AllianceFightRules"/>
+    <mapping class="com.qx.alliancefight.AllianceFightMatch"/>
+    <mapping class="com.qx.alliancefight.AllianceFightApply"/>
+    <mapping class="com.qx.alliancefight.AllianceFightHistory"/>
+    <mapping class="com.qx.yuanbao.YuanBaoInfo"/>
+    <mapping class="com.qx.pve.SaoDangBean"/>
+    <mapping class="com.qx.junzhu.TalentPoint"/>
+    <mapping class="com.qx.junzhu.TalentAttr"/>
+    <mapping class="com.qx.activity.QiandaoInfo"/>
+    <mapping class="com.qx.activity.FuliInfo"/>
+     <mapping class="com.qx.activity.GlobalActivityBean"/>
+     <mapping class="com.qx.activity.QianDaoPresent"/>
+    <mapping class="com.qx.activity.ShouchongInfo"/>
+    <mapping class="com.qx.world.ProblemPlayer"/>
+    <mapping class="com.qx.youxia.YouXiaBean"/>
+    <mapping class="com.qx.youxia.BuZhenYouXia"/>
+    <mapping class="com.qx.youxia.YouXiaRecord"/>
+    <mapping class="com.manu.dynasty.admin.Admin"/>
+    <mapping class="com.qx.activity.XianShiBean"/>
+    <mapping class="com.qx.notice.VersionNotice"/>
+    <mapping class="com.qx.account.Account"/>
+    <mapping class="log.Log2DBBean"/>
+    <mapping class="com.qx.pvp.LveDuoBean"/>
+    <mapping class="com.qx.guojia.ResourceGongJin"/>
+    <mapping class="com.qx.pvp.LveZhanDouRecord"/>
+    <mapping class="com.qx.guojia.GuoJiaBean"/>
+    <mapping class="xg.push.XGTokenBean"/>
+    <mapping class="com.qx.world.BroadcastEntry"/>
+    <mapping class="log.CunLiang"/>
+    <mapping class="com.qx.gm.email.GMEMailInfo"/>
+    <mapping class="com.qx.gm.email.GMEmailSendRecord"/>
+    <mapping class="com.qx.alliancefight.LMZBaoMingBean"/>
+    <mapping class="com.qx.award.DropRateBean"/>
+    <mapping class="log.ReasonBean"/>
+    <mapping class="com.qx.junzhu.ChengHaoBean"/>
+    <mapping class="com.qx.junzhu.AcitvitedTaoZhuang"/>
+    <mapping class="com.qx.cdkey.CDKeyInfo"/>
+    <mapping class="com.qx.jinengpeiyang.JNBean"/>
+    <mapping class="com.qx.alliance.building.JianZhuLvBean"/>
+    <mapping class="com.qx.alliance.building.LMKJBean"/>
+    <mapping class="com.qx.jinengpeiyang.NewJNBean"/>
+    <mapping class="com.qx.alliance.building.ChouJiangBean"/>
+    <mapping class="com.qx.prompt.PromptInfo"/>
+    <mapping class="com.qx.yabiao.LastExitYBInfo"/>
+    <mapping class="com.qx.prompt.LveDuoMI"/>
+    <mapping class="com.qx.prompt.LveDuoHelp"/>
+    <mapping class="com.qx.alliance.building.LMKJJiHuo"/>
+    <mapping class="com.manu.dynasty.chat.ChatInfo"/>
+    <mapping class="com.qx.explore.treasure.BaoXiangBean"/>
+    <mapping class="com.qx.alliance.AllianceInviteBean"/>
+   
+    
+</session-factory>
+
+</hibernate-configuration>

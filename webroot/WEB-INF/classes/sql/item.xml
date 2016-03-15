@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ServerInfo">
+	<typeAlias alias="itemTemplet" type="com.manu.dynasty.item.domain.ItemTemplet"/>
+	<typeAlias alias="userItem" type="com.manu.dynasty.item.domain.UserItem"/>
+	<typeAlias alias="awardTemplet" type="com.manu.dynasty.award.domain.AwardTemplet"/>
+	<select id="ItemDao.getItemTemples" resultClass="itemTemplet">
+		select * from ItemTemplet
+	</select>
+	
+	<insert id="ItemDao.insertUserItem" parameterClass="userItem">
+		insert into UserItem$tableIndex$(userId, itemTempId, itemNum,itemType) values(#userId#, #itemTempId#, #itemNum#,#itemType#)
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT last_insert_Id() 
+		</selectKey>
+	</insert>
+	
+	<select id="ItemDao.getUserItems" parameterClass="java.util.Map" resultClass="userItem">
+		select * from UserItem$tableIndex$ where userId=#userId#
+	</select>
+	
+	<update id="ItemDao.updateUserItem" parameterClass="userItem">
+		update UserItem$tableIndex$ set itemNum=#itemNum# where id=#id#
+	</update>
+	<select id="ItemDao.getUserItemById" parameterClass="java.util.Map" resultClass="userItem">
+		select * from UserItem$tableIndex$ where id=#id# and userId=#userId#
+	</select>
+	
+	<select id="AwardDao.getAwardTemptsByAwardId" resultClass="awardTemplet" parameterClass="int">
+		select * from AwardTemplet where awardId=#awardId#;
+	</select>
+	
+	<select id="ItemDao.getItemIdListByType" resultClass="int" parameterClass="int">
+		select id from 	ItemTemplet where id div 10000 = #type#;
+	</select>
+	<select id="ItemDao.getItemIds" resultClass="int">
+		select id from UserItem$tableIndex$ where userId=#userId#
+	</select>
+	<select id="AwardDao.getAwardIds" resultClass="int">
+		select awardId from AwardTemplet group by awardId;
+	</select>
+	<delete id="ItemDao.deleteUserItem" parameterClass="userItem">
+		delete from UserItem$tableIndex$ where id=#id# and userId=#userId#
+	</delete>
+
+</sqlMap>
