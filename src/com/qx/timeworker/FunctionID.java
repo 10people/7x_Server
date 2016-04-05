@@ -12,7 +12,9 @@ import com.manu.network.msg.ProtobufMsg;
 public class FunctionID {
 	public static Logger log = LoggerFactory.getLogger(FunctionID.class);
 	//国家-上缴
+	public static int guoJia = 212;
 	public static int ShangJiao4Gongjin=500020;
+	public static int guojiaAward = 500022;
 	// 签到
 	public static int Qiandao=140;
 	// 首冲
@@ -25,6 +27,8 @@ public class FunctionID {
 	public static int shiLian = 250; //试练
 	public static int youXia = 300;	// 试练-游侠
 	public static int youXiaStatus = 305;// 试练-游侠-可攻打
+	
+	public static int level_reward = 1430;//运营活动，等级奖励
 	
 	// 百战
 	public static int baizhan = 300100;
@@ -42,6 +46,19 @@ public class FunctionID {
 	public static int MiBaoShengXing = 602; //秘宝升星
 	public static int MiBaoHeCheng = 605; //秘宝合成
 
+	// 荒野商店
+	public static int huangYe_shop = 903;
+	// 联盟商店
+	public static int lianMeng_shop = 600700;
+	// 联盟战商店
+	public static int lianmeng_battle_shop = 902;
+	// 百战商店
+	public static int baizhan_shop=  300107;
+//	// 普通商店
+//	public static int common_shop = 5;
+	// 神秘商店
+	public static int mysterious_shop = 901;
+	
 	
 	public static int PVE_PASS_ZHANGJIE_GET_AWARD = 300001; // 过关斩将 - 通章奖励领取
 	

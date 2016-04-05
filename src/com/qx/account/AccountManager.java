@@ -1,6 +1,10 @@
 package com.qx.account;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,6 +46,7 @@ import com.manu.dynasty.template.Jiangli;
 import com.manu.dynasty.template.NameKu;
 import com.manu.dynasty.template.ZhuceRenwu;
 import com.manu.dynasty.util.DateUtils;
+import com.manu.network.IOHandlerImpl;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
 import com.qx.alliance.AllianceBean;
@@ -60,6 +65,7 @@ import com.qx.http.LoginServ;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.junzhu.PlayerTime;
+import com.qx.junzhu.PrepareJz;
 import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.PurchaseMgr;
 import com.qx.util.RandomUtil;
@@ -74,6 +80,7 @@ import com.qx.world.PosInfo;
 public class AccountManager {
 	public static final int ERR_NAME_EXISTS = -2;
 	public static final int ERR_NAME_WRONG = -2;
+	public static final int NAME_LENGTH_JUNZHU_MAX = 7;
 	public static Logger log = LoggerFactory.getLogger(AccountManager.class);
 	/**
 	 * key->jzId , value IoSession
@@ -82,17 +89,11 @@ public class AccountManager {
 	/** 角色配置信息 **/
 	public Map<Integer, ZhuceRenwu> roleInfoList;
 	public List<String> sensitiveWord;
-	public List<String> illegalityName;
+//	public List<String> illegalityName;
 
 	/** 角色名称库-Map<性别,list> **/
 	public Map<Integer, List<NameKu>> roleNameMap;
 
-	public ExecutorService createRoleExecutor = Executors
-			.newSingleThreadExecutor();
-	public ExecutorService loginExecutor = Executors.newSingleThreadExecutor();
-	public ExecutorService regExecutor = Executors.newSingleThreadExecutor();
-	public ExecutorService rndNameExecutor = Executors
-			.newSingleThreadExecutor();
 	public static AccountManager inst;
 
 	public static int guoJiaFirstId = 1;
@@ -109,10 +110,6 @@ public class AccountManager {
 	}
 
 	public void shutdown() {
-		createRoleExecutor.shutdown();
-		loginExecutor.shutdown();
-		regExecutor.shutdown();
-		rndNameExecutor.shutdown();
 	}
 
 	public void initData() {
@@ -137,10 +134,10 @@ public class AccountManager {
 	}
 
 	public void initSensitiveWordAndIllegalityName() {
-		SAXReader reader = new SAXReader();
-		Document document = null;
 		String headPath = AccountManager.class.getClassLoader()
 				.getResource("/").getPath();
+		/*SAXReader reader = new SAXReader();
+		Document document = null;
 		try {
 			document = reader.read(new File(headPath + "/syspara.xml"));
 			Element rootEle = document.getRootElement();
@@ -164,6 +161,29 @@ public class AccountManager {
 			this.sensitiveWord = sensitiveWord;
 		} catch (DocumentException e) {
 			e.printStackTrace();
+		}*/
+		//2016年3月17日16:01:33 孙晓楠给的文本文件
+		List<String> sensitiveWord = new ArrayList<String>();
+		File f = new File(headPath + "/PingBiCi.txt");
+		try{
+			BufferedInputStream br = 
+					new BufferedInputStream(new FileInputStream(f));
+			BufferedReader r = new BufferedReader(new InputStreamReader(br, "UTF-8"));
+			String line = r.readLine();
+			String[] arr = line.split("[\"“]");
+			for(String s : arr){
+				s = s.trim();
+				if(s.isEmpty())continue;
+				if(s.equals(","))continue;
+//				System.out.println(s);
+				sensitiveWord.add(s);
+			}
+			this.sensitiveWord = sensitiveWord;
+			r.close();
+			br.close();
+//			System.exit(0);
+		}catch(Exception e){
+			log.error("载入屏蔽词出错",e);
 		}
 	}
 
@@ -171,9 +191,9 @@ public class AccountManager {
 		return sensitiveWord;
 	}
 
-	public List<String> getIllegalityName() {
-		return illegalityName;
-	}
+//	public List<String> getIllegalityName() {
+//		return illegalityName;
+//	}
 
 	public void initRoleInfo() {
 		List<ZhuceRenwu> list = TempletService.listAll(ZhuceRenwu.class
@@ -198,13 +218,7 @@ public class AccountManager {
 
 	public void login0(final int id, final IoSession session,
 			final Builder builder) {
-		loginExecutor.submit(new Runnable() {
-
-			@Override
-			public void run() {
 				login(id, session, builder);
-			}
-		});
 	}
 
 	public void login(int id, IoSession session, Builder builder) {
@@ -244,7 +258,12 @@ public class AccountManager {
 		ret.addAllOpenFunctionID(FunctionOpenMgr.initIds);
 //		String ip = getIp(session);
 		if (junZhu == null) {
-			ret.setCode(2);
+			ret.setCode(2);//无君主
+			PrepareJz preJz = HibernateUtil.find(PrepareJz.class, junZhuId);
+			if(preJz != null){
+				log.info("{} 重新进入创建君主",preJz);
+				ret.setCode(2016);//之前已进入创建角色界面
+			}
 			int guojia = GuoJiaMgr.getLeastCountGuoJiaId();
 			ret.setGuoJiaId(guojia);
 			ret.setSerTime((new Date()).getHours());
@@ -311,6 +330,7 @@ public class AccountManager {
 					}
 					previous.close(false);
 					log.error("{} 重复登录，踢掉前一个 {}", junZhuId, previous);
+					IOHandlerImpl.inst.playerExitScene(previous);
 
 				}
 			}).start();
@@ -340,22 +360,16 @@ public class AccountManager {
 
 	public void createRole0(final int id, final IoSession session,
 			final Builder builder) {
-		createRoleExecutor.submit(new Runnable() {
-
-			@Override
-			public void run() {
 				createRole(id, session, builder);
-			}
-		});
 	}
 
 	public void createRole(int id, IoSession session, Builder builder) {
 		CreateRoleRequest.Builder request = (qxmobile.protobuf.ZhangHao.CreateRoleRequest.Builder) builder;
 		int roleId = request.getRoleId();
-		String roleName = request.getRoleName();
+		String roleName = request.getRoleName().trim();
 		int guoJiaId = request.getGuoJiaId();
+		
 		CreateRoleResponse.Builder response = CreateRoleResponse.newBuilder();
-		long time = System.currentTimeMillis();
 		ZhuceRenwu zhuceRenwu = roleInfoList.get(roleId);
 		if (zhuceRenwu == null) {
 			response.setIsSucceed(false);
@@ -363,15 +377,27 @@ public class AccountManager {
 			session.write(response.build());
 			return;
 		}
-		if (roleName.length() > 7) {
+		if (roleName.length() > NAME_LENGTH_JUNZHU_MAX) {
 			response.setIsSucceed(false);
-			response.setMsg("角色名称太长，不能超过7个字符");
+			response.setMsg("输入的名称过长！");
 			session.write(response.build());
 			return;
 		}
-		if (isBadName(roleName)) {
+		if (hasSensitiveWord(roleName)) {
 			response.setIsSucceed(false);
-			response.setMsg("名字中不能有敏感、非法词汇\n点【确定】将随机一个新的名字");
+			response.setMsg("输入的名称包含敏感词！");
+			session.write(response.build());
+			return;
+		}
+		if(roleName.contains("卍") || roleName.contains("卐")){
+			response.setIsSucceed(false);
+			response.setMsg("输入文字中有非法字符！");
+			session.write(response.build());
+			return;
+		}
+		if (hasSpecial(roleName)) {
+			response.setIsSucceed(false);
+			response.setMsg("仅限使用中/英文以及数字！");
 			session.write(response.build());
 			return;
 		}
@@ -381,8 +407,11 @@ public class AccountManager {
 			session.write(response.build());
 			return;
 		}
+		createRoleSync(roleName, response, session, roleId, guoJiaId);
+	}
+	public synchronized void createRoleSync(String roleName,CreateRoleResponse.Builder response,IoSession session, int roleId, int guoJiaId){
 //		log.info("--------1---{}", System.currentTimeMillis() - time);
-		time = System.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		// 名字是否已存在
 		// mysql 记录不区分大小写，所以，若用memcached（区分）查询会出问题 20150826
 		JunZhu junZhu = HibernateUtil.find(JunZhu.class,  " where name='" + roleName +"'", false);
@@ -390,44 +419,40 @@ public class AccountManager {
 //		 " where name='" + roleName +"'");
 //		boolean exists = MemcachedCRUD.getInstance().getMemCachedClient()
 //				.keyExists("JunZhu:" + roleName);
-		// if(junZhu != null) {
-		
 		if (junZhu != null) {
 			response.setIsSucceed(false);
-			response.setMsg("真不巧，这个名字已被他人使用\n点【确定】将随机一个新的名字");
+			response.setMsg("该名称已被其他玩家使用！");
 			session.write(response.build());
 			return;
 		}
 //		log.info("------2-----{}", System.currentTimeMillis() - time);
 		time = System.currentTimeMillis();
-		// 随机角色名字要交给客户端来做了。
-		// NameKu nameKu = HibernateUtil.find(NameKu.class,
-		// " where sex="+zhuceRenwu.getSex()+" and name='"+roleName+"'");
-		// if(nameKu != null) {
-		// nameKu.setIsUse((byte)1);
-		// HibernateUtil.save(nameKu);
-		// ZhuceRenwu role = roleInfoList.get(roleId);
-		// roleNameMap.get(role.getSex()).remove(nameKu);
-		// }
-		// log.info("-----3------{}", System.currentTimeMillis() - time);
-		// time = System.currentTimeMillis();
-		// 创建君主
+		 /*//随机角色名字要交给客户端来做了。
+		 NameKu nameKu = HibernateUtil.find(NameKu.class,
+		 " where sex="+zhuceRenwu.getSex()+" and name='"+roleName+"'");
+		 if(nameKu != null) {
+		 nameKu.setIsUse((byte)1);
+		 HibernateUtil.save(nameKu);
+		 ZhuceRenwu role = roleInfoList.get(roleId);
+		 roleNameMap.get(role.getSex()).remove(nameKu);
+		 }
+		 log.info("-----3------{}", System.currentTimeMillis() - time);
+		 time = System.currentTimeMillis();*/
 		
+		// 创建君主
 		long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
-		JunZhu newJunZhu = JunZhuMgr.inst.fixCreateJunZhu(junZhuId, roleName,
-				roleId, guoJiaId);
+		JunZhu newJunZhu = JunZhuMgr.inst.fixCreateJunZhu(junZhuId, roleName, roleId, guoJiaId);
 		if (newJunZhu == null) {
 			return;
 		}
 		int channel = OurLog.chCode.getChCodeByRoleId(junZhuId);
 		CunLiangLog.inst.add(junZhuId, channel, roleName, roleId);
-		log.info("------fixCreateJunZhu-----{}", System.currentTimeMillis()
-				- time);
+		log.info("------fixCreateJunZhu-----{}", System.currentTimeMillis() - time);
 		time = System.currentTimeMillis();
 		response.setIsSucceed(true);
 		response.setMsg("角色创建成功");
 		session.write(response.build());
-		MemcachedCRUD.getInstance().getMemCachedClient().add("JunZhu:" + roleName, junZhuId);
+		MemcachedCRUD.getMemCachedClient().add("JunZhu:" + roleName, junZhuId);
 
 		// 2015年7月3日 18:27 初始化GM中的角色状态为正常
 		Redis.getInstance().set(GMRoleMgr.CACHE_ROLE_BAN_USER + junZhuId, "0");
@@ -460,25 +485,15 @@ public class AccountManager {
 		s.start();
 	}
 
-	public boolean isBadName(String roleName) {
-		return hasIllegal(illegalityName, roleName)
-				|| hasIllegal(sensitiveWord, roleName) || hasSpecial(roleName);
-	}
-	
-	public boolean isBadString(String str) {
-		return hasIllegal(illegalityName, str)
-				|| hasIllegal(sensitiveWord, str);
-	}
-
-	public boolean hasIllegal(List<String> list, String roleName) {
-		for (String s : list) {
+	public boolean hasSensitiveWord(String roleName) {
+		for (String s : sensitiveWord) {
 			if (roleName != null && roleName.contains(s)) {
 				return true;
 			}
 		}
 		return false;
 	}
-
+	
 	// 名字只能含有汉字英文字母数字
 	public boolean hasSpecial(String roleName) {
 		String regx = "^[a-zA-Z0-9\u4e00-\u9fa5]+$";
@@ -487,13 +502,7 @@ public class AccountManager {
 
 	public void roleNameRequest0(final int id, final IoSession session,
 			final Builder builder) {
-		rndNameExecutor.submit(new Runnable() {
-
-			@Override
-			public void run() {
 				roleNameRequest(id, session, builder);
-			}
-		});
 	}
 
 	public void roleNameRequest(int id, IoSession session, Builder builder) {
@@ -535,5 +544,28 @@ public class AccountManager {
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 已进入选人界面，需要记录，以免再次去打第0关。
+	 * @param id
+	 * @param session
+	 * @param builder
+	 */
+	public void enterCreateRole(int id, IoSession session, Builder builder) {
+		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
+		if(junZhuId==null){
+			log.error("null jz id {}",session);
+			return;
+		}
+		PrepareJz bean = HibernateUtil.find(PrepareJz.class, junZhuId);
+		if(bean != null){
+			return;
+		}
+		bean = new PrepareJz();
+		bean.dt = new Date();
+		bean.jzId = junZhuId;
+		HibernateUtil.insert(bean);
+		log.info("{} enter create role",junZhuId);
 	}
 }

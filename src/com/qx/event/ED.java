@@ -87,6 +87,7 @@ public class ED {
 	public static final int MIBAO_SEHNGXING = 10131;
 //	 主线任务:百战胜利N次，
 	public static final int SUCCESS_BAIZHAN_N = 10132;
+	public static final int first_baiZhan_success = 101321;
 	
 	/*
 	 * 主线任务事件
@@ -179,6 +180,8 @@ public class ED {
 	public static final int LM_SHOP_BUY = 10181;
 	
 	public static final int BUY_TongBi_BaoJi = 10201;
+	
+	public static final int BAI_ZHAN_A_WIN_B = 10301;
 	// 主线任务事件
 	public static final int get_produce_weiWang = 50;
 	public static final int pay_weiWang = 51;
@@ -208,4 +211,5 @@ public class ED {
 	public static final int qiandao_get_v = 70;// 签到领取V特权奖励
 	public static final int get_achieve = 72; // 领取成就奖励（即就是限时活动奖励）
 	public static final int active_taozhuang = 78; //激活品质套装
+	
 }

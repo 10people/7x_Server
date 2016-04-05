@@ -54,6 +54,10 @@ public class Email {
 		return content;
 	}
 	public void setContent(String content) {
+		if(content!=null&&content.length()>250){
+			EmailMgr.log.warn("###呵呵这么长的邮件内容--{}",content);
+			content=content.substring(0, 250);
+		}
 		this.content = content;
 	}
 	public int getIsDelete() {

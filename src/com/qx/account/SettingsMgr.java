@@ -1,21 +1,10 @@
 package com.qx.account;
 
-import log.ActLog;
-
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.Settings.ChangeGuojiaReq;
-import qxmobile.protobuf.Settings.ChangeGuojiaResp;
-import qxmobile.protobuf.Settings.ChangeName;
-import qxmobile.protobuf.Settings.ChangeNameBack;
-import qxmobile.protobuf.Settings.ConfGet;
-import qxmobile.protobuf.Settings.ConfSave;
-import xg.push.XGTagTask;
-
 import com.google.protobuf.MessageLite.Builder;
-import com.manu.dynasty.store.MemcachedCRUD;
 import com.manu.dynasty.template.DangpuCommon;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
@@ -27,14 +16,23 @@ import com.qx.bag.BagGrid;
 import com.qx.bag.BagMgr;
 import com.qx.event.ED;
 import com.qx.event.EventMgr;
-import com.qx.huangye.shop.ShopMgr;
 import com.qx.guojia.GuoJiaMgr;
+import com.qx.huangye.shop.ShopMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.vip.VipData;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
+
+import log.ActLog;
+import qxmobile.protobuf.Settings.ChangeGuojiaReq;
+import qxmobile.protobuf.Settings.ChangeGuojiaResp;
+import qxmobile.protobuf.Settings.ChangeName;
+import qxmobile.protobuf.Settings.ChangeNameBack;
+import qxmobile.protobuf.Settings.ConfGet;
+import qxmobile.protobuf.Settings.ConfSave;
+import xg.push.XGTagTask;
 
 /**
  * 客户端设置管理器
@@ -85,7 +83,7 @@ public class SettingsMgr {
 		new Thread(new XGTagTask(session, bean.str),"XGTAG:"+v).start();
 	}
 
-	public void changeName(int id, IoSession session, Builder builder) {
+	public synchronized void changeName(int id, IoSession session, Builder builder) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 		if (jz == null) {
 			return;
@@ -97,6 +95,7 @@ public class SettingsMgr {
 		if (!open) {
 			ret.setCode(-400);
 			ret.setMsg("VIP等级不足");
+			session.write(ret.build());
 			return;
 		}
 		if (jz.yuanBao < changeNameCost) {
@@ -105,28 +104,38 @@ public class SettingsMgr {
 			session.write(ret.build());
 			return;
 		}
-		if (BigSwitch.inst.accMgr.isBadName(req.getName())) {
-			ret.setCode(-300);
-			ret.setMsg("这个名字不可用");
+		if (BigSwitch.inst.accMgr.hasSensitiveWord(req.getName())) {
+			ret.setCode(-500);
+			ret.setMsg("输入的名称包含敏感词！");
+			session.write(ret.build());
+			return;
+		}
+		if (BigSwitch.inst.accMgr.hasSpecial(req.getName())) {
+			ret.setCode(-200);
+			ret.setMsg("仅限使用中/英文以及数字！");
+			session.write(ret.build());
+			return;
+		}
+		if (req.getName().length() > AccountManager.NAME_LENGTH_JUNZHU_MAX){
+			ret.setCode(-100);
+			ret.setMsg("输入的名称过长！");
 			session.write(ret.build());
 			return;
 		}
 		String oldName = jz.name;
-		boolean mcCheck = MemcachedCRUD.getMemCachedClient().add(
-				"JunZhu:" + req.getName(), jz.id);
-		if (mcCheck == false) {
-			ret.setCode(-200);
-			ret.setMsg("名称已被占用");
+		JunZhu junZhu = HibernateUtil.find(JunZhu.class,  " where name='" + req.getName() +"'", false);
+		if (junZhu != null) {
+			ret.setCode(-300);
+			ret.setMsg("该名称已被其他玩家使用！");
 			session.write(ret.build());
 			return;
 		}
+		
 		jz.name = req.getName();
-		// jz.yuanBao -= changeNameCost;
-		YuanBaoMgr.inst.diff(jz, -changeNameCost, 0, changeNameCost,
-				YBType.YB_MOD_NAME, "修改名字");
+		YuanBaoMgr.inst.diff(jz, -changeNameCost, 0, changeNameCost, YBType.YB_MOD_NAME, "修改名字");
 		HibernateUtil.save(jz);
 		JunZhuMgr.inst.sendMainInfo(session);
-		log.info("{}花费{}元宝将名字从{}改为{}", jz.id, oldName, req.getName());
+		log.info("君主修改名字成功，君主:{}花费{}元宝将名字从{}改为{}", jz.id, oldName, req.getName());
 		ActLog.log.KingChange(jz.id, oldName, jz.name, ActLog.vopenid);
 		ret.setCode(0);
 		ret.setMsg("改名成功");
@@ -200,7 +209,7 @@ public class SettingsMgr {
 		int newGjId = jz.guoJiaId;
 		HibernateUtil.save(jz);
 		// 2015-7-31 9:58 添加排行榜国家榜刷新
-		EventMgr.addEvent(ED.CHANGE_GJ_RANK_REFRESH, new Object[]{jz.id,oldGjId,newGjId});
+		EventMgr.addEvent(ED.CHANGE_GJ_RANK_REFRESH, new Object[]{jz.id,oldGjId,newGjId, jz.level});
 		response.setResult(SUCCESS);
 		writeByProtoMsg(session, PD.S_ZHUANGGUO_RESP, response);
 		JunZhuMgr.inst.sendMainInfo(session);

@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import javax.xml.ws.Response;
-
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,10 +24,9 @@ import qxmobile.protobuf.Ranking.RankingResp;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.boot.GameServer;
-import com.manu.dynasty.hero.service.HeroService;
 import com.manu.dynasty.store.Redis;
-import com.manu.dynasty.template.BaiZhanNpc;
 import com.manu.dynasty.template.CanShu;
+import com.manu.network.BigSwitch;
 import com.manu.network.SessionManager;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
@@ -44,8 +41,8 @@ import com.qx.guojia.GuoJiaMgr;
 import com.qx.huangye.shop.ShopMgr;
 import com.qx.junzhu.ChengHaoBean;
 import com.qx.junzhu.JunZhu;
-import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.pve.PveGuanQiaMgr;
 import com.qx.pve.PveRecord;
 import com.qx.pvp.PvpBean;
 import com.qx.pvp.PvpMgr;
@@ -262,11 +259,11 @@ public class RankingMgr extends EventProc{
 			return;
 		}
 		List<PveRecord> pveList = HibernateUtil.list(PveRecord.class,"where uid="+jz.id+" order by guanQiaId DESC");
-		long starCount = 0;
+		long starCount = BigSwitch.pveGuanQiaMgr.getAllGuanQiaStartSum(pveList);
 		long ptMax=0;
 		long cqMax=0;
 		for(PveRecord pve:pveList){// 计算总星数和最高传奇关卡最高普通关卡
-			starCount=starCount+pve.star+pve.cqStar;
+//			starCount=starCount+pve.star+pve.cqStar;
 			ptMax = Math.max(ptMax, pve.guanQiaId);
 			if(pve.chuanQiPass){
 				cqMax = Math.max(cqMax, pve.guanQiaId);
@@ -617,6 +614,11 @@ public class RankingMgr extends EventProc{
 		int guojiaId = request.getGuojiaId();
 		String name = request.getName();
 		name = (null==name||name.length()==0)?null:name;
+		if(name!=null){
+			log.info("查询排行字符串处理前为---{}",name);
+			name=name.replace("'", "").replace("\"", "");
+			log.info("查询排行字符串处理后结果为---{}",name);
+		}
 		int type = request.getRankType();
 		response.setRankType(type);
 		int rankNum = 0;
@@ -740,8 +742,10 @@ public class RankingMgr extends EventProc{
 			if(jz==null){
 				continue;
 			}
-			int rank = ++start;
-			if(jz.level>=RANK_MINLEVEL&&rank<=RANK_MAXNUM){// 过滤筛选范围
+			int rank =0;
+			// 去掉等级限制，否则会出排行榜数据显示排行和redis中数据不符合的bug
+			if(rank<=RANK_MAXNUM){// 过滤筛选范围
+				rank = ++start;
 				jzBuilder.setJunZhuId(jzId);
 				jzBuilder.setRank(rank);
 				jzBuilder.setGuojiaId(jz.guoJiaId);
@@ -897,8 +901,9 @@ public class RankingMgr extends EventProc{
 			if(jz==null){
 				continue;
 			}
-			int rank = ++start;
-			if(jz.level>=RANK_MINLEVEL&&rank<=RANK_MAXNUM){// 过滤筛选范围
+			int rank = 0;
+			if(rank<=RANK_MAXNUM){// 过滤筛选范围
+				rank = ++start;
 				bzBuilder.setRank(rank);
 				bzBuilder.setGuojiaId(jz.guoJiaId);
 				bzBuilder.setJunZhuId(jzId);
@@ -969,8 +974,9 @@ public class RankingMgr extends EventProc{
 			if(jz==null){
 				continue;
 			}
-			int rank = ++start;
-			if(jz.level>=RANK_MINLEVEL&&rank<=RANK_MAXNUM){// 过滤筛选范围
+			int rank = 0;
+			if(rank<=RANK_MAXNUM){// 过滤筛选范围
+				rank =++start;
 				ggBuilder.setJunZhuId(jzId);
 				ggBuilder.setRank(rank);
 				ggBuilder.setName(jz.name);
@@ -982,8 +988,8 @@ public class RankingMgr extends EventProc{
 				int starCount = 0;
 				long ptMax=0;
 				long cqMax=0;
+				starCount=BigSwitch.inst.pveGuanQiaMgr.getAllGuanQiaStartSum(pveList);
 				for(PveRecord pve:pveList){// 计算总星数和最高传奇关卡最高普通关卡
-					starCount=starCount+pve.star+pve.cqStar;
 					ptMax = Math.max(ptMax, pve.guanQiaId);
 					// 普通关卡
 					if(pve.chuanQiPass){
@@ -1135,12 +1141,7 @@ public class RankingMgr extends EventProc{
 		junBuilder.setJunxian(PvpMgr.inst.getJunxian(jz));
 		int junxianLevel = PvpMgr.getJunxianLevel(jz.id);
 		junBuilder.setJunxianLevel(junxianLevel==-1?1:junxianLevel);
-		if(lianmename.equals("")){
-			junBuilder.setGongjin(-1);
-			log.info("玩家：{}是无联盟玩家，所以gongjin记录不存在", jz.id);
-		}else{
-			junBuilder.setGongjin(RankingGongJinMgr.inst.getJunZhuGongJin(jz.id));
-		}
+		junBuilder.setGongjin(RankingGongJinMgr.inst.getJunZhuGongJin(jz.id));
 //		if(GuoJiaMgr.inst.isCanShangjiao(jz.id)){
 //			GuoJiaMgr.inst.pushCanShangjiao(jz.id);
 //		}
@@ -1162,7 +1163,7 @@ public class RankingMgr extends EventProc{
 		}else{
 			int zhanli = PvpMgr.inst.getZhanli(jz);
 			AllianceBean alli = AllianceMgr.inst.getAllianceByJunZid(jId);
-			String mengName = alli == null?"无联盟":alli.name;
+			String mengName = alli == null?"":alli.name;
 			junInfo.setJunZhuId(jId);
 			junInfo.setName(jz.name);
 			junInfo.setLevel(jz.level); 
@@ -1185,66 +1186,63 @@ public class RankingMgr extends EventProc{
 	 * @return void
 	 * @throws 
 	 */
-	public void jzChangeGuojia(long jzId,int oldGjId,int newGjId){
+	public void jzChangeGuojia(long jzId,int oldGjId,int newGjId, int jLevel){
 		// 君主榜转到相应国家
-		double junScore = DB.zscore(JUNZHU_RANK+"_"+oldGjId, jzId+"");
-		DB.zrem(JUNZHU_RANK+"_"+oldGjId, jzId+"");
-		DB.zadd(JUNZHU_RANK+"_"+newGjId, junScore, jzId+"");
-		// 百战榜转到相应国家
-		double bzScore = DB.zscore(BAIZHAN_RANK+"_"+oldGjId, jzId+"");
-		DB.zrem(BAIZHAN_RANK+"_"+oldGjId, jzId+"");
-		DB.zadd(BAIZHAN_RANK+"_"+newGjId, bzScore, jzId+"");
-		// 过关榜转到相应国家
-		double ggScore = DB.zscore(GUOGUAN_RANK+"_"+oldGjId, jzId+"");
-		DB.zrem(GUOGUAN_RANK+"_"+oldGjId, jzId+"");
-		DB.zadd(GUOGUAN_RANK+"_"+newGjId, ggScore, jzId+"");
-	}
+		// 等级符合条件下，君主榜、百战榜、过关榜转到相应国家,
+		if(jLevel >= RANK_MINLEVEL){
+			double junScore = DB.zscore(JUNZHU_RANK+"_"+oldGjId, jzId+"");
+			DB.zrem(JUNZHU_RANK+"_"+oldGjId, jzId+"");
+			DB.zadd(JUNZHU_RANK+"_"+newGjId, junScore, jzId+"");
 	
-	public boolean addLianMengInfo(RankingResp.Builder resp, int mengRank,
-			int mengId, AllianceBean alncBean){
-		if(alncBean == null){
-			alncBean = HibernateUtil.find(AllianceBean.class, mengId);
-		}
-		LianMengInfo.Builder info = LianMengInfo.newBuilder();
-		if(alncBean != null){
-			info.setMengId(mengId);
-			info.setMengName(alncBean.name);
-			info.setMember(alncBean.members);
-			int memberMax = AllianceMgr.inst.getAllianceMemberMax(alncBean.level);
-			info.setAllMember(memberMax);
-			info.setIcon(alncBean.icon);
-			info.setLevel(alncBean.level);
-			info.setRank(mengRank);
-			info.setGuoJiaId(alncBean.country);
-			resp.addMengList(info);
-			return true;
-		}else{
-			log.info("联盟排行榜出错，没有找到联盟id:{}的联盟", mengId);
-			removeLianmeng(mengId);
-			EventMgr.addEvent(ED.REM_LIANMENG_RANK_REFRESH, mengId);
-			return false;
+			double bzScore = DB.zscore(BAIZHAN_RANK+"_"+oldGjId, jzId+"");
+			DB.zrem(BAIZHAN_RANK+"_"+oldGjId, jzId+"");
+			DB.zadd(BAIZHAN_RANK+"_"+newGjId, bzScore, jzId+"");
+			// 过关榜转到相应国家
+			double ggScore = DB.zscore(GUOGUAN_RANK+"_"+oldGjId, jzId+"");
+			DB.zrem(GUOGUAN_RANK+"_"+oldGjId, jzId+"");
+			DB.zadd(GUOGUAN_RANK+"_"+newGjId, ggScore, jzId+"");
 		}
 	}
 	
-	public void removeLianmeng(int mengId){
-		long resu =  DB.zrem(lianMengLevel, mengId+"");
-		if(resu == -1){
-			log.error("redis中key={},删除联盟:{}数据失败", lianMengLevel, mengId);
-		}else{
-			log.info("redis中key={},删除联盟:{}数据成功，删除的数据的排名是:{}", 
-					lianMengLevel, mengId, resu);
-		}
-		// 联盟榜刷新
-		remLianmeng(mengId);
-	}
+//	public boolean addLianMengInfo(RankingResp.Builder resp, int mengRank,
+//			int mengId, AllianceBean alncBean){
+//		if(alncBean == null){
+//			alncBean = HibernateUtil.find(AllianceBean.class, mengId);
+//		}
+//		LianMengInfo.Builder info = LianMengInfo.newBuilder();
+//		if(alncBean != null){
+//			info.setMengId(mengId);
+//			info.setMengName(alncBean.name);
+//			info.setMember(alncBean.members);
+//			int memberMax = AllianceMgr.inst.getAllianceMemberMax(alncBean.level);
+//			info.setAllMember(memberMax);
+//			info.setIcon(alncBean.icon);
+//			info.setLevel(alncBean.level);
+//			info.setRank(mengRank);
+//			info.setGuoJiaId(alncBean.country);
+//			resp.addMengList(info);
+//			return true;
+//		}else{
+//			log.info("联盟排行榜出错，没有找到联盟id:{}的联盟", mengId);
+//			removeLianmeng(mengId);
+//			EventMgr.addEvent(ED.REM_LIANMENG_RANK_REFRESH, mengId);
+//			return false;
+//		}
+//	}
 	
-	public void remLianmeng(int mengId){
-		AllianceBean lianmeng = HibernateUtil.find(AllianceBean.class, mengId);
-		if(lianmeng==null){
-			log.error("redis中key={},删除联盟:{}数据失败,联盟为null", LIANMENG_RANK+"_0", mengId);
-			return;
-		}
-		int guojiaId = lianmeng.country;
+//	public void removeLianmeng(int mengId){
+//		long resu =  DB.zrem(lianMengLevel, mengId+"");
+//		if(resu == -1){
+//			log.error("redis中key={},删除联盟:{}数据失败", lianMengLevel, mengId);
+//		}else{
+//			log.info("redis中key={},删除联盟:{}数据成功，删除的数据的排名是:{}", 
+//					lianMengLevel, mengId, resu);
+//		}
+//		// 联盟榜刷新
+//		remLianmeng(mengId);
+//	}
+	
+	public void remLianmeng(int mengId, int guojiaId){
 		DB.zrem(LIANMENG_RANK+"_0", mengId+"");
 		DB.zrem(LIANMENG_RANK+"_"+guojiaId, mengId+"");
 		DB.zrem(LIANMENG_SW_DAY_RANK+"_0", mengId+"");
@@ -1283,9 +1281,6 @@ public class RankingMgr extends EventProc{
 			break;
 		case ED.LIANMENG_RANK_REFRESH:
 			resetLianMengRankRedis(id);
-			break;
-		case ED.REM_LIANMENG_RANK_REFRESH:
-			remLianmeng(id);
 			break;
 		case ED.BAIZHAN_RANK_REFRESH:
 			resetBaizhanRankRedis(jz);
@@ -1349,13 +1344,15 @@ public class RankingMgr extends EventProc{
 			lianMengBySWWeekRankReset();
 			break;
 		case ED.CHANGE_GJ_RANK_REFRESH:
+			int jlevel = 0;
 			if(event.param !=null && event.param instanceof Object[]){
 				Object[] obj = (Object[])event.param;
 				jzId = (Long)obj[0];
 				oldGjId = (Integer)obj[1];
 				newGjId = (Integer)obj[2];
+				jlevel = (Integer)obj[3];
 			}
-			jzChangeGuojia(jzId, oldGjId, newGjId);
+			jzChangeGuojia(jzId, oldGjId, newGjId, jlevel);
 			break;
 		case ED.JUNZHU_LEVEL_RANK_REFRESH:
 			resetLevelRankRedis(jz);
@@ -1369,7 +1366,6 @@ public class RankingMgr extends EventProc{
 		EventMgr.regist(ED.LIANMENG_RANK_REFRESH, this);
 		EventMgr.regist(ED.BAIZHAN_RANK_REFRESH, this);
 		EventMgr.regist(ED.GUOGUAN_RANK_REFRESH, this);
-		EventMgr.regist(ED.REM_LIANMENG_RANK_REFRESH, this);
 		EventMgr.regist(ED.GUOJIA_DAY_RANK_REFRESH, this);
 		EventMgr.regist(ED.GUOJIA_WEEK_RANK_REFRESH, this);
 		EventMgr.regist(ED.GUOJIA_DAY_RANK_RESET, this);

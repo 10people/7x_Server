@@ -6,7 +6,9 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.mina.core.session.IoSession;
@@ -30,6 +32,7 @@ import com.manu.dynasty.template.Fuwen;
 import com.manu.dynasty.template.MibaoStar;
 import com.manu.dynasty.template.MibaoSuiPian;
 import com.manu.dynasty.template.QiRiLiBao;
+import com.manu.dynasty.template.Talent;
 import com.manu.dynasty.template.ZhuangBei;
 import com.manu.dynasty.template.ZhuangBeiDiaoluo;
 import com.manu.network.PD;
@@ -136,22 +139,24 @@ public class GrowUpMgr {
 				sumLv += db.getLevel();
 			}
 			if(lvGt0Cnt>0){
-				curLevel = Math.round(sumLv*1.0f/lvGt0Cnt);
+				curLevel = Math.round(sumLv*100.0f/lvGt0Cnt/jz.level);
 			}
+			//前端没有四舍五入，后端来模拟
 			b.setCurLevel(curLevel);// = 1;//当前等级(进度)
-			b.setMaxLevel(jz.level);// = 2;//最大等级(进度)
+			b.setMaxLevel(100/*jz.level*/);// = 2;//最大等级(进度)
 			Collections.sort(mibaoDBList, new Comparator<MiBaoDB>(){
 
 				@Override
 				public int compare(MiBaoDB o1, MiBaoDB o2) {
 					//没有激活的往后排
-					return (o1.getMiBaoId()<=0 ? 900 : o1.getLevel())-o2.getLevel();
+					return o1.getLevel()-o2.getLevel();
 				}
 				
 			});
 			{
 				//mibaoDataId= 3;//每组3个密保的ID
-				for(int i=0;i<3; i++){
+				int tuiJian = 0;
+				for(int i=0;i<mibaoDBList.size(); i++){
 					if(i>=mibaoDBList.size())break;
 					MiBaoDB d = mibaoDBList.get(i);
 					if(d.getLevel() >= jz.level || d.getMiBaoId()<=0){
@@ -160,6 +165,8 @@ public class GrowUpMgr {
 //						continue;
 					}
 					b.addMibaoDataId(d.getMiBaoId());
+					tuiJian++;
+					if(tuiJian>=3)break;
 				}
 				if(mibaoDBList.size() == 0){//没有密保
 					b.addMibaoDataId(301011);
@@ -174,10 +181,11 @@ public class GrowUpMgr {
 			// X/Y
 			int sumStar = 0;
 			for(MiBaoDB db : mibaoDBList){
+				if(db.getMiBaoId()<=0)continue;
 				sumStar += db.getStar();
 			}
 			b.setCurLevel(sumStar);// = 1;//当前等级(进度)
-			b.setMaxLevel(90);// = 2;//最大等级(进度)
+			b.setMaxLevel(105);// = 2;//最大等级(进度)
 			Collections.sort(mibaoDBList, new Comparator<MiBaoDB>(){
 
 				@Override
@@ -201,12 +209,12 @@ public class GrowUpMgr {
 			});
 			{
 				//mibaoDataId= 3;//每组3个密保的ID
-				for(int i=0;i<3; i++){
-					if(i>=mibaoDBList.size())break;
+				for(int i=0;i<mibaoDBList.size(); i++){
 					MiBaoDB d = mibaoDBList.get(i);
-					if(d.getLevel() >= jz.level ){
-						continue;
-					}
+					//星星和等级无关
+//					if(d.getLevel() >= jz.level ){
+//						continue;
+//					}
 					if(d.getStar()>=5){//满了 
 						continue;
 					}
@@ -219,6 +227,9 @@ public class GrowUpMgr {
 					}
 					b.addMibaoDataId(miBaoId);
 					log.info("add mibao {}", miBaoId);
+					if(b.getMibaoDataIdCount()>=3){
+						break;
+					}
 				}
 				if(mibaoDBList.size() == 0){//没有密保
 					b.addMibaoDataId(301011);
@@ -257,7 +268,7 @@ public class GrowUpMgr {
 			}
 			for(ZhuangBeiDiaoluo dl : diaoLuoList){
 				if(dl.zhuangbeiId == bg.itemId){
-					jinJieSort[idx] = dl.id+":"+idx;
+					jinJieSort[idx] = String.format("%02d",dl.id)+":"+idx;
 					break;
 				}
 			}
@@ -309,7 +320,7 @@ public class GrowUpMgr {
 			Page1Data.Builder b = Page1Data.newBuilder();
 			b.clearZhuangbeiData();
 			//进阶
-			//X为当前所有部位品质之和，Y为所有部位装备品质之和（当前版本为99）
+			//X为当前所有部位品质之和，Y为所有部位装备品质之和（当前版本为72）
 			b.setCurLevel(sumPinZhi);
 			b.setMaxLevel(99);
 			{//计算进阶推荐
@@ -362,7 +373,7 @@ public class GrowUpMgr {
 					//把推荐装备补充到三个以上，达到满阶的装备不推荐；
 					//装备掉落的关卡顺序读..\..\数值文档\ZhuangBeiDiaoluo.xlsx
 					for(int i=0; i<9 && size<3; i++){
-						String lv = qhSort[i];
+						String lv = jinJieSort[i];
 						if(lv.startsWith("99999:"))break;//已经排序了，一旦不满足，后面的都不满足
 						int gridIdx = Integer.parseInt(lv.substring(lv.indexOf(":")+1));
 						Page1ZhuangbeiData.Builder zb = Page1ZhuangbeiData.newBuilder();
@@ -389,13 +400,22 @@ public class GrowUpMgr {
 			b.clearZhuangbeiData();
 			{//a)	一件装备的洗练进度= 该装备当前洗练的属性之和/该装备洗练上限属性之和（不包括跟洗练无关的基础属性，洗练可出属性也包括），按目前洗练规则
 			//	b)	总体进度=所有装备洗练进度之和/9 ×100% （四舍五入，无装备部位或不可洗练的装备不参与计算）
-				Field fs[] = UEConstant.class.getDeclaredFields();
+				String names[] = {"wqSH","wqJM","wqBJ","wqRX",
+						"jnSH","jnJM","jnBJ","jnRX"};
+				Field[] fs = new Field[names.length];
 				Method ms[] = new Method[fs.length];
 				Method msUE[] = new Method[fs.length];
-				int fIdx = -1;
-				for(Field f : fs){
-					fIdx ++;
+				
+				for(int fIdx = 0; fIdx<names.length; fIdx++){
+					Field f = null;
+					try {
+						f = UEConstant.class.getDeclaredField(names[fIdx]);
+					} catch (NoSuchFieldException | SecurityException e1) {
+						log.error("反射出错NN", e1);
+						continue;
+					}
 					f.setAccessible(true);
+					fs[fIdx]=f;
 					String name = f.getName();
 					String mName = "get"+name.substring(0,1).toUpperCase()+name.substring(1);
 					Method m = null;
@@ -412,7 +432,7 @@ public class GrowUpMgr {
 				}
 				idx=-1;
 				int sumMaxXiLian = 0;
-				int sumXiLian = 0;
+				float sumXiLian = 0;
 				String[] xlSort = new String[9];
 				Arrays.fill(xlSort, "9999:0");
 				for(EquipGrid bg : equips.grids){
@@ -430,16 +450,19 @@ public class GrowUpMgr {
 							xlSort[idx] = dbUe.getXianlianzhi()+":"+bg.itemId;
 						}
 					}
+					int singleJinDu = 0;
+					int singleMax = 0;//防止除0
 					for(int ff=0; ff<fs.length; ff++){
-						String code;
-						try {
-							code = (String)fs[ff].get(null);
-						} catch (Exception e) {
-							log.error("反射出错B", e);
-							continue;
-						}
+						if(fs[ff]==null)continue;
+//						String code;
+//						try {
+//							code = (String)fs[ff].get(null);
+//						} catch (Exception e) {
+//							log.error("反射出错B", e);
+//							continue;
+//						}
 						//hasEquipTalent(dbUe,zhuangBeiTmp.getId(),UEConstant.jnSH)
-						if(UserEquipAction.instance.hasEquipTalent(dbUe,zhuangBeiTmp.getId(),code)){
+						//if(UserEquipAction.instance.hasEquipTalent(dbUe,zhuangBeiTmp.getId(),code)){
 							Integer v = 0;
 							Integer v2 = 0;
 							try {
@@ -450,15 +473,19 @@ public class GrowUpMgr {
 								continue;
 							}
 							int maxJnSH=UserEquipAction.instance.getXiLianMaxValue(v, zhuangBeiTmp, dbUe == null? 0 :dbUe.getLevel());
-							sumMaxXiLian += maxJnSH > 0 ? maxJnSH : 0;
-							sumXiLian += Math.abs(v2);
+							singleMax += maxJnSH > 0 ? maxJnSH : 0;
+							singleJinDu += Math.abs(v2);
 							log.info("{},{},{}", ms[ff].getName(), maxJnSH, v2);
-						}
+						//}
 					}
+					if(singleMax>0){
+						sumXiLian += singleJinDu*100f/(singleMax/2);//有8条属性，实际之能洗出4条，所以总值除以2
+					}
+					
 				}
 				Arrays.sort(xlSort);
-				b.setCurLevel(sumXiLian);
-				b.setMaxLevel(sumMaxXiLian>0 ? sumMaxXiLian : Integer.MAX_VALUE);
+				b.setCurLevel(Math.round(sumXiLian/9));//四舍五入
+				b.setMaxLevel(100);//sumMaxXiLian>0 ? sumMaxXiLian : Integer.MAX_VALUE);
 				{//推荐洗练装备
 					for(int n=0;n<3; n++){
 						String lv = xlSort[n];
@@ -501,6 +528,30 @@ public class GrowUpMgr {
 		//全点满情况下不做推荐
 		String where = "where junZhuId = " + jz.id;
 		List<TalentPoint> listT = HibernateUtil.list(TalentPoint.class, where);
+		//计算开启了但是没加点的
+		Map<Integer, TalentPoint> dbMap = new HashMap<Integer, TalentPoint>();
+		TalentAttr ta = HibernateUtil.find(TalentAttr.class, jz.id);
+		for(TalentPoint p : listT){
+			if(ta == null)break;
+			if(p.point<200 && ta.jinGongDianShu>0){
+				dbMap.put(p.point, p);
+			}else if(p.point>=200 && ta.fangShouDianShu>0){
+				dbMap.put(p.point, p);
+			}
+		}
+		for(Talent tc : TalentMgr.talentMap.values()){
+			if(dbMap.containsKey(tc.point))continue;
+			String[] ar = tc.frontPoint.split(",");
+			for(String s : ar){
+				TalentPoint pre = dbMap.get(Integer.parseInt(s));
+				if(pre == null)continue;
+				if(pre.level<tc.frontLv)continue;
+				//
+				TalentPoint fakeT = new TalentPoint();
+				fakeT.point = tc.point;
+				listT.add(fakeT);
+			}
+		}
 		TalentPoint min100P = null;
 		TalentPoint min200P = null;
 		for(TalentPoint p : listT){
@@ -514,6 +565,7 @@ public class GrowUpMgr {
 				}
 			}
 		}
+		
 		if(min100P == null){
 			ret.addTianfuId(101);// tianfuId = 5;//每个天赋图标的ID
 		}else if(min100P.point == 106 && min100P.level==1){//已满

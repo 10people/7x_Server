@@ -34,7 +34,8 @@
 <a href="gm/chat.jsp" target='target'>聊天管理</a><br/>
 <!-- <a href="gm/lianmenginfo.jsp" target='target'>联盟信息</a><br/> -->
 <a href="gm/allianceInfo.jsp" target='target'>联盟信息</a><br/>
-<a href="gm/allianceFight.jsp" target='target'>联盟战管理</a><br/>
+<a href="gm/lianmengJibai.jsp" target='target'>联盟祭拜</a><br/>
+<!-- <a href="gm/allianceFight.jsp" target='target'>联盟战管理</a><br/> -->
 <a href="gm/shop.jsp" target='target'>各大商店管理</a><br/>
 <a href="gm/moBai.jsp" target='target'>膜拜</a><br/>
 <a href="gm/baizhan.jsp" target='target'>百战千军</a><br/>
@@ -60,7 +61,7 @@
 <a href="gm/fuwen.jsp" target='target'>符石</a><br/>
 <a href="gm/jinengpeiyang.jsp" target='target'>技能培养</a><br/>
 <a href="gm/cdkey.jsp" target='target'>CDKey</a><br/>
-<a href="gm/setSysTime.jsp1" target='target'>设置系统时间</a><br/>
+<!-- <a href="gm/setSysTime.jsp1" target='target'>设置系统时间</a><br/> -->
 <a href="gm/worldchat.jsp" target='target'>发送世界聊天</a><br/>
 <a href="gm/sendSysChat.jsp" target='target'>发送系统聊天</a><br/>
 <a href="gm/broadcast.jsp" target='target'>发送全服广播</a><br/>

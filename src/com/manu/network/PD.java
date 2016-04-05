@@ -464,6 +464,7 @@ public class PD {
 	 */
 	public static void init(){
 		ParsePD.makeMap();
+		ProtobufUtils.prototypeMap.put(Integer.valueOf(GET_LV_REWARD), ErrorMessage.getDefaultInstance());
 		ProtobufUtils.prototypeMap.put(Integer.valueOf(C_GET_UPACTION_DATA), UpAction_C_getData.getDefaultInstance());
 		ProtobufUtils.prototypeMap.put(Integer.valueOf(C_Pai_big_house), ExchangeHouse.getDefaultInstance());
 		ProtobufUtils.prototypeMap.put(Integer.valueOf(C_zlgdlc), InProgress.getDefaultInstance());
@@ -1103,6 +1104,13 @@ public class PD {
 	public static final short[] C_RND_PROT = {C_klwhy_1,C_klwhy_2,C_klwhy_3,C_klwhy_4,C_klwhy_5,C_klwhy_6,
 		C_klwhy_7,C_klwhy_8,C_klwhy_9,C_klwhy_10};
 	//战斗过程加密协议号
+	
+	public static final short C_OPEN_CREATE_ROLE = 888;
+	
+	public static final short GET_QQ_INFO = 900;
+	public static final short GET_LV_INFO = 910;
+	public static final short GET_REQ_INFO = 920;
+	public static final short GET_LV_REWARD = 930;
 	
 	public static final short TEST_CONN = 10001;
 	public static final short S_Broadcast = 10003;
@@ -2166,6 +2174,7 @@ public class PD {
 	public static final short C_HONGBAONFO_REQ = 4032;//请求红包福利信息
 	public static final short S_HONGBAONFO_RESP = 4033;//请求红包福利信息返回
 	
+	public static final short BAO_XIANG_PICKED_INFO = 4055;
 	public static final short OPEN_ShiLian_FuBen = 4101;
 	
 	public static final short FIGHT_ATTACK_REQ = 4103;
@@ -2304,4 +2313,7 @@ public class PD {
 	public static final short S_GREET_ANSWER_RESP = 5015;//打招呼的人收到的答复
 	public static final short C_INVITE_REQ = 5016;//邀请某人加入联盟请求
 	public static final short S_INVITE_RESP = 5017;//邀请某人加入联盟请求返回
+	
+	public static final short weiWang = 5020;
+	public static final short huangyeBi = 5021;
 }

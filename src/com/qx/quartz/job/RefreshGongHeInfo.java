@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.qx.friends.GongHeBean;
+import com.qx.friends.GreetConstant;
 import com.qx.friends.GreetMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.persistent.HibernateUtil;
@@ -39,7 +40,7 @@ public class RefreshGongHeInfo  implements Job {
 				log.info("结算君主--{}联盟恭贺广播失败，JunZhu未找到",jzId);
 				continue;
 			}
-			int distance2t=(int) (now.getTime()-info.start4firstBZ);
+			long distance2t=(int) (now.getTime()-info.start4firstBZ);
 			if(distance2t>=GreetMgr.SETTLE_GONGHE_TIME){
 				info.start4firstBZ=-info.start4firstBZ;
 				HibernateUtil.save(info);
@@ -49,7 +50,9 @@ public class RefreshGongHeInfo  implements Job {
 					String award="0:900002:"+info.award4firstBZ;
 					int eventId=SuBaoConstant.settle4baizhan;
 					PromptMsgMgr.inst.savePromptMSG4GongHe(jzId, jzId, eventId, new String[]{count+"",null,award});
-					String content=GreetMgr.inst.getBroadString(239);
+
+//					<AnnounceTemp id="241" type="27" condition="-1" announcement="[ffffff]普天同庆！共[-][dbba8f]*N*[-][ffffff]个玩家恭贺你击败了[-][e5e205]竞技[-][ffffff]中的对手。快去领取奖励吧！[-]" announceObject="3" />
+					String content=GreetMgr.inst.getBroadString(GreetConstant.times4BaiZhan);
 					if(content!=null){
 						content=content.replace("*N*",count+"");
 						log.info("向--{} 发送系统广播--{}", jzId,content);
@@ -71,14 +74,15 @@ public class RefreshGongHeInfo  implements Job {
 				log.info("结算君主--{}联盟恭贺广播失败，JunZhu未找到",jzId);
 				continue;
 			}
-			int distance2t=(int) (now.getTime()-info.start4LM);
+			long distance2t=(int) (now.getTime()-info.start4LM);
 			if(distance2t>=GreetMgr.SETTLE_GONGHE_TIME){
 				info.start4LM=-info.start4LM;
 				HibernateUtil.save(info);
 				log.info("结算君主--{}第一次恭贺奖励",jzId);
 				int count=info.times4LM;
 				if(count>0){
-					String content=GreetMgr.inst.getBroadString(238);
+//					<AnnounceTemp id="240" type="26" condition="-1" announcement="[ffffff]普天同庆！共[-][dbba8f]*N*[-][ffffff]个玩家恭贺你开启了[-][00e1c4]联盟[-][ffffff]功能。[-]" announceObject="3" />
+					String content=GreetMgr.inst.getBroadString(GreetConstant.times4LM);
 					if(content!=null){
 						content=content.replace("*N*", count+"");
 						log.info("向--{} 发送系统广播--{}", jzId,content);

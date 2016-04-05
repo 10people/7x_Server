@@ -126,6 +126,7 @@ type	完成条件
 		switch(param.id){
 		case ED.MIBAO_HECHENG_BROADCAST:
 			checkMiBaoActive(param);
+			checkMiBaoCnt(param);
 			break;
 		case ED.TAN_BAO_JIANG_LI:
 			checkTanBao(param);
@@ -169,7 +170,39 @@ type	完成条件
 		case ED.jibai:
 			checkJiBai(param);
 			break;
+		case ED.BIAOCHE_CUIHUI://劫镖成功
+			handleCarDestroy(param);
+			break;
 		}
+	}
+	public  void handleCarDestroy(Event e) {
+		Object[]	oa = (Object[]) e.param;
+		JunZhu	ybjz=(JunZhu)oa[0];
+		JunZhu	jbjz=(JunZhu)oa[1];
+		Integer	horseType = (Integer) oa[2];
+		AnnounceTemp targetConf = null;
+		String strCon = String.valueOf(horseType);
+		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
+		if(confList == null){
+			return;
+		}
+		for(AnnounceTemp conf : confList){
+			if(conf.type != 30){//
+				continue;
+			}
+			if(strCon.equals(conf.condition)){
+				targetConf = conf;
+				break;
+			}
+		}
+		if(targetConf == null){
+			return;
+		}
+		String template = targetConf.announcement;
+		//[dbba8f]*玩家名字七个字*[-][ffffff]成功洗劫了[-][dbba8f]*玩家名字七个字*[-][ffffff]的[-][cb02d8]紫色[-][ffffff]镖马！[-]
+		template = template.replaceFirst("\\*玩家名字七个字\\*", jbjz.name);
+		template = template.replaceFirst("\\*玩家名字七个字\\*", ybjz.name);
+		send(template,targetConf);
 	}
 	public void checkJiBai(Event param) {
 		//new Object[] {junZhuId, hitO.optInt("id"), hitO.optInt("n",1)}
@@ -186,6 +219,16 @@ type	完成条件
 		for(AnnounceTemp conf : confList){
 			if(conf.type != 16){//
 				continue;
+			}
+			String con[] =  conf.condition.split(":");
+			int cnt = 0;
+			if(con.length==2){
+				cnt = Integer.parseInt(con[1]);
+				//2016年4月1日10:21:54有个元宝个数的，大于150的也要广播。
+				if(cnt>1 && (Integer)arr[2]>=cnt && itemId == Integer.parseInt(con[0])){
+					targetConf = conf;
+					break;
+				}
 			}
 			if(strCon.equals(conf.condition)){
 				targetConf = conf;
@@ -756,5 +799,6 @@ type	完成条件
 		EventMgr.regist(ED.LM_SHOP_BUY, this);
 		EventMgr.regist(ED.jibai, this);
 		EventMgr.regist(ED.BUY_TongBi_BaoJi, this);
+		EventMgr.regist(ED.BIAOCHE_CUIHUI, this);
 	}
 }

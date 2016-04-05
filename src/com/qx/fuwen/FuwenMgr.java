@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.collections.bag.HashBag;
 import org.apache.mina.core.session.IoSession;
@@ -22,12 +22,11 @@ import qxmobile.protobuf.FuWen.QueryFuwenResp;
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.store.Redis;
+import com.manu.dynasty.template.Fuwen;
 import com.manu.dynasty.template.FuwenJiacheng;
 import com.manu.dynasty.template.FuwenOpen;
-import com.manu.dynasty.template.Fuwen;
 import com.manu.network.PD;
 import com.manu.network.SessionManager;
-import com.manu.network.msg.ProtobufMsg;
 import com.qx.account.FunctionOpenMgr;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
@@ -52,6 +51,7 @@ public class FuwenMgr extends EventProc {
 	public static int COMBINE_NUM = 4;// 4个符石合成一个高级符石
 	public static String CACHE_FUWEN_LANWEI = "fuwen_position_";// 符石栏位缓存
 	public static String CACHE_FUWEN_LOCK = "fuwen_lock_";// 符石锁定缓存
+	public static int MaxFuwenLevel=11;//2016年3月25日 加入符文最高等级
 	public Redis redis = Redis.getInstance();// Redis
 
 	public FuwenMgr() {
@@ -412,7 +412,7 @@ public class FuwenMgr extends EventProc {
 		// lock
 		if (redis.lexist(CACHE_FUWEN_LOCK + junZhu.id, String.valueOf(itemId))) {
 			logger.info("君主{}的符石{}已锁定，不能合成", junZhu.id, itemId);
-			response.setReason("符石已锁定");
+			response.setReason("符石已锁定。");
 			return false;
 		}
 		// level
@@ -420,7 +420,7 @@ public class FuwenMgr extends EventProc {
 		if (fuwen.getFuwenNext() == -1) {
 			logger.info("君主{}合成符石{}失败，符石已是最高等级{}", junZhu.id, itemId,
 					fuwen.getFuwenLevel());
-			response.setReason("符石已达到最高等级");
+			response.setReason("符石已达到最高等级。");
 			return false;
 		}
 		Fuwen fuwenNext = fuwenMap.get(fuwen.getFuwenNext());
@@ -431,7 +431,7 @@ public class FuwenMgr extends EventProc {
 			if (num < COMBINE_NUM) {
 				logger.info("君主{}要合成的符石{}数量{}不足最低数量{}", junZhu.id, itemId, num,
 						COMBINE_NUM);
-				response.setReason("符石数量不足最低合成数量");
+				response.setReason("符石数量不足最低合成数量。");
 				return false;
 			}
 			BagMgr.inst.removeItem(bag, itemId, COMBINE_NUM, "普通合成消耗"
@@ -446,7 +446,7 @@ public class FuwenMgr extends EventProc {
 			if (num < COMBINE_NUM - 1) {
 				logger.info("君主{}要合成的符石{}数量{}不足最低数量{}", junZhu.id, itemId,
 						num + 1, COMBINE_NUM);
-				response.setReason("符石数量不足最低合成数量");
+				response.setReason("符石数量不足最低合成数量。");
 				return false;
 			}
 			BagMgr.inst.removeItem(bag, itemId, COMBINE_NUM - 1, "普通合成消耗"
@@ -941,7 +941,7 @@ public class FuwenMgr extends EventProc {
 		if(state >= 1000){
 			state -= 1000;
 			session.write(PD.FUSHI_RED_NOTICE);
-			logger.info("有可合成的符石。");
+			logger.info("君主:{}有可合成的符石。", jzId);
 		}
 		switch (state) {
 		case -1:
@@ -991,16 +991,19 @@ public class FuwenMgr extends EventProc {
 			return -1;
 		}
 		HashBag counter = new HashBag();
-		
-		/*
-		*/
+		HashSet<Integer> addedLanWei = new HashSet<Integer>();
 		int ret = 0;
 		for (String lanwei : list) {
 			int lanweiId = Integer.parseInt(lanwei.split("#")[0]);
 			int itemId = Integer.parseInt(lanwei.split("#")[1]);
 			if(itemId>0){
 				//对已装备的符石计数
-				counter.add(itemId,1);
+				Fuwen fuwenEquiped = fuwenMap.get(itemId);
+				if(fuwenEquiped != null && fuwenEquiped.getFuwenLevel() < MaxFuwenLevel
+						&& !addedLanWei.contains(itemId)) {
+					addedLanWei.add(itemId);
+					counter.add(itemId,1);
+				}
 			}
 			List<Integer> shuxingList = new ArrayList<Integer>();
 			List<FuwenOpen> opens = fuwenSuitMap.get(lanweiId / 100);// 获取同一个套装的栏位
@@ -1056,6 +1059,10 @@ public class FuwenMgr extends EventProc {
 			}
 		} else if (itemId > 0) {// 栏位有符石
 			Fuwen fuwenEquiped = fuwenMap.get(itemId);
+			if(fuwenEquiped!=null&&fuwenEquiped.getFuwenLevel()==MaxFuwenLevel){
+				logger.info("@@@@####--栏位有符石itemId--{},等级达到--{}级,返回0",itemId,fuwenEquiped.getFuwenLevel());
+				return 0;
+			}
 			int sameCount = 1;
 			for (FushiInBagInfo fsInBag : fuwens) {// 遍历背包中的符石
 				Fuwen fuwen = fsInBag.fuwen;
@@ -1074,7 +1081,7 @@ public class FuwenMgr extends EventProc {
 		return 0;
 	}
 	
-	private class FushiInBagInfo {
+	public class FushiInBagInfo {
 		private Fuwen fuwen;
 		private int count;
 		public FushiInBagInfo(Fuwen fuwen, int count) {

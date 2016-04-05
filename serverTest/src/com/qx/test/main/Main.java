@@ -46,10 +46,13 @@ public class Main {
 //		InetSocketAddress addr = new InetSocketAddress("192.168.3.80", 8586);
 //		hostname = "127.0.0.1";
 //		hostname = "192.168.3.80";
-		hostname = "192.168.0.83";
+//		hostname ="203.195.204.128";// 
+		hostname ="203.195.230.100";// 
+//		hostname="192.168.1.25";
 		int cnt = 1;
-		head = "8MM2"+new Random().nextInt(99999);
-		addr = new InetSocketAddress(hostname, 8586);
+		head = "test"+new Random().nextInt(99999);
+//		addr = new InetSocketAddress(hostname, 8586);//外网测试服8587
+		addr = new InetSocketAddress(hostname, 8587);//外网测试服8587
 		startTime = System.currentTimeMillis();
 		if(args != null && args.length==1){
 			cnt = Integer.parseInt(args[0]);
@@ -107,10 +110,16 @@ public class Main {
 				it.next().close(false);
 			}
 		}else if(line.equals("mc")){
-			GameClient.useWhenSingle.enterScene();
+//			GameClient.useWhenSingle.enterScene();
 		}else if(line.equals("sl")){
-			GameClient.useWhenSingle.enterShiLian();
-		}else{
+//			GameClient.useWhenSingle.enterShiLian();
+		}else if(line.equals("move")){
+			Iterator<IoSession> it = net.getManagedSessions().values().iterator();
+			while(it.hasNext() ){
+//				it.next().yaBiao();
+			}
+		}
+		else{
 			System.out.println("输入的不是数字");
 		}
 	}

@@ -3,6 +3,7 @@ package com.qx.bag;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import com.manu.dynasty.store.MemcachedCRUD;
 import com.manu.dynasty.template.BaseItem;
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.ExpTemp;
+import com.manu.dynasty.template.JiNengPeiYang;
 import com.manu.dynasty.template.ZhuangBei;
 import com.manu.network.SessionAttKey;
 import com.manu.network.SessionManager;
@@ -30,6 +32,7 @@ import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
+import com.qx.jinengpeiyang.JiNengPeiYangMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
@@ -209,13 +212,13 @@ public class EquipMgr extends EventProc{
 		}
 		BagGrid bg = bag.grids.get(indexInBag);
 		if(bg == null){
-			log.error("grid is null at {}", indexInBag);
-			sendError(session, "空的格子，号码"+indexInBag);
+			log.error("grid is null at {},空的格1", indexInBag);
+//			sendError(session, "空的格子，号码"+indexInBag);
 			return;
 		}
 		if(bg.cnt<=0){
-			log.error("grid is empty cnt {} at {}", bg.cnt, indexInBag);
-			sendError(session, "空的格子，号码"+indexInBag);
+			log.error("grid is empty cnt {} at {},空的格子2", bg.cnt, indexInBag);
+//			sendError(session, "空的格子，号码"+indexInBag);
 			return;
 		}
 		//===========
@@ -233,8 +236,8 @@ public class EquipMgr extends EventProc{
 			return;
 		}
 		if(o.getType() != BaseItem.TYPE_EQUIP){
-			sendError(session, "不是装备："+o.getName());
-			log.info("位置{}不是装备{}", indexInBag, HeroService.getNameById(o.getName()));
+//			sendError(session, "不是装备："+o.getName());
+			log.error("位置{}不是装备{}", indexInBag, HeroService.getNameById(o.getName()));
 			return;
 		}
 		ZhuangBei zb = (ZhuangBei) o;
@@ -251,7 +254,8 @@ public class EquipMgr extends EventProc{
 		case 16:slot=6;break;//鞋子
 		}
 		if(slot<0){
-			sendError(session, "装备部位不对："+o.getName());
+//			sendError(session, "装备部位不对："+o.getName());
+			log.error( "装备部位不对：-{}"+o.getName());
 			return;
 		}
 		List<EquipGrid> list = equips.grids;
@@ -271,9 +275,9 @@ public class EquipMgr extends EventProc{
 			
 			bg.instId = bg.itemId = bg.cnt = 0;
 			HibernateUtil.save(bg);
-			
 			log.info("remove {} {} from {}",eg.itemId, eg.instId, bag.ownerId);
 		}else if(preEg.itemId<=0){
+			第一次得到弓配合刘畅播放语音(junZhu, zb);
 			preEg.instId = bg.instId;
 			preEg.itemId = bg.itemId;
 			
@@ -284,14 +288,16 @@ public class EquipMgr extends EventProc{
 			eg = preEg;
 		}else{// 表示装备替换
 			if(!isChangeEquip(preEg.itemId, bg.itemId)) {
-				sendError(session, "装备替换失败1");
+				log.error( "装备替换失败1：reEg.itemId-{}，bg.itemId--{}" ,preEg.itemId, bg.itemId);
+//				sendError(session, "装备替换失败1");
 				return;
 			}
 			
 			int qhTotalExp = getQiangHuaTotalExp(preEg.itemId, preEg.instId);
 			ZhuangBei targetZb = TempletService.equipMaps.get(bg.itemId);
 			if(targetZb == null) {
-				sendError(session, "装备替换失败2");
+				log.error( "装备替换失败2：targetZb == null,reEg.itemId-{}，bg.itemId--{}" ,preEg.itemId, bg.itemId);
+//				sendError(session, "装备替换失败2");
 				return;
 			}
 			List<ExpTemp> expTemps = TempletService.getInstance().getExpTemps(targetZb.getExpId());
@@ -312,7 +318,8 @@ public class EquipMgr extends EventProc{
 			if(preEg.instId > 0){
 				dbUe = HibernateUtil.find(UserEquip.class, preEg.instId);
 				if(dbUe == null){
-					sendError(session, "已经强化的数据丢失了。");
+					log.error( "已经强化的数据丢失了,preEg.instId-{}" ,preEg.instId);
+//					sendError(session, "已经强化的数据丢失了。");
 					return ;
 				} 
 				dbUe.setTemplateId(targetZb.getId());
@@ -355,6 +362,20 @@ public class EquipMgr extends EventProc{
 		EventMgr.addEvent(ED.EQUIP_ADD, new Object[]{equips.ownerId, zb.getId(), equips});
 		// 刷新君主榜
 		EventMgr.addEvent(ED.JUN_RANK_REFRESH, junZhu);
+	}
+	public void 第一次得到弓配合刘畅播放语音(JunZhu junZhu, ZhuangBei zb) {
+		try{
+			if(zb.getBuWei() == 3) {
+				List<JiNengPeiYang> jiNengPeiYangList = TempletService
+						.listAll(JiNengPeiYang.class.getSimpleName());
+				Optional<JiNengPeiYang> p = jiNengPeiYangList.stream().filter(t->t.id==3100).findFirst();// 3100
+				if(p.isPresent()){
+					JiNengPeiYangMgr.inst.forceAddNewJn(junZhu, p.get());
+				}
+			}
+		}catch(Exception e){
+			log.error("配合出错", e);
+		}
 	}
 	
 	protected boolean isChangeEquip(int curItemId, int targetItemId) {

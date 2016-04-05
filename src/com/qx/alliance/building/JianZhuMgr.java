@@ -17,7 +17,7 @@ import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.hero.service.HeroService;
 import com.manu.dynasty.template.AwardTemp;
-import com.manu.dynasty.template.KeJiInfo;
+import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.LianMengKeJi;
 import com.manu.dynasty.template.LianMengKeZhan;
 import com.manu.dynasty.template.LianMengShangPu;
@@ -62,6 +62,10 @@ import qxmobile.protobuf.JianZhu.KeJiList;
 public class JianZhuMgr extends EventProc{
 	public static JianZhuMgr inst;
 	public static Logger log = LoggerFactory.getLogger(JianZhuMgr.class.getSimpleName());
+	
+	/**	所有的科技类型，要是有新加的类型，请在这里添加上 **/
+	public int[] kejiTypes = new int[]{101, 102, 103, 104, 105, 106, 107, 108, 109, 110,
+										111, 204, 205, 301};
 
 	public void getInfo(int id, IoSession session, Builder builder) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
@@ -75,8 +79,7 @@ public class JianZhuMgr extends EventProc{
 		}
 		JianZhuLvBean bean = HibernateUtil.find(JianZhuLvBean.class, member.lianMengId);
 		if(bean == null){
-			bean = new JianZhuLvBean();
-			bean.keZhanLv=bean.shuYuanLv=bean.shangPuLv=bean.zongMiaoLv=bean.tuTengLv=1;
+			bean = insertJianZhuLvBean(member, bean);
 		}
 		////1客栈；2书院；3图腾；4商铺；5宗庙
 		JianZhuList.Builder ret = JianZhuList.newBuilder();
@@ -110,22 +113,19 @@ public class JianZhuMgr extends EventProc{
 	}
 
 	@SuppressWarnings("unused")
-	public void up(int id, IoSession session, Builder builder) {
+	public synchronized void up(int id, IoSession session, Builder builder) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 		if (jz == null) {
 			return;
 		}
 		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jz.id);
-		if (member == null) {
+		if (member == null || member.lianMengId <= 0) {
 			sendError(id, session, "您不在联盟中。");
 			return;
 		}
 		JianZhuLvBean bean = HibernateUtil.find(JianZhuLvBean.class, member.lianMengId);
-		if(bean == null){
-			bean = new JianZhuLvBean();
-			bean.lmId = member.lianMengId;
-			bean.keZhanLv=bean.shuYuanLv=bean.shangPuLv=bean.zongMiaoLv=bean.tuTengLv=1;
-			HibernateUtil.insert(bean);
+		if(bean == null) {
+			bean = insertJianZhuLvBean(member, bean);
 		}
 		AllianceBean lmBean = HibernateUtil.find(AllianceBean.class, member.lianMengId);
 		if(lmBean == null){
@@ -136,69 +136,121 @@ public class JianZhuMgr extends EventProc{
 		ErrorMessage.Builder req = (qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder) builder;
 		int code = req.getErrorCode();
 		String buildName = "";
+		boolean succeed = false;
 		switch(code){
 		case 1:{
 			//upKeZhan();
 			List<LianMengKeZhan> list = TempletService.listAll(LianMengKeZhan.class.getSimpleName());
 			if(list == null){
 				sendError(10, session, "配置缺失。");
+				log.error("升级联盟客栈失败，找不到联盟客栈配置");
 				return;
 			}
 			if(bean.keZhanLv>=list.size()){
 				sendError(20, session, "已满级");
+				log.error("升级联盟客栈失败，联盟:{}的客栈等级已升级到最高等级:{}", lmBean.id, list.size());
 				return;
 			}
 			if(bean.keZhanLv>=lmBean.level){
 				sendError(30, session, "联盟等级不够");
+				log.error("升级联盟客栈失败，联盟:{}的客栈等级已达到联盟当前的等级:{}", lmBean.id, lmBean.level);
+				return;
 			}
-			LianMengKeZhan conf = list.get(bean.keZhanLv);
-			//FIXME 消耗数值
+			LianMengKeZhan conf = list.get(bean.keZhanLv - 1);
+			if(conf == null) {
+				sendError(40, session, "配置错误");
+				log.error("升级联盟客栈失败，找不到联盟客栈等级为:{}的配置", bean.keZhanLv);
+				return;
+			}
+			if(conf.keZhan_lvUp_value > lmBean.build) {
+				sendError(50, session, "联盟建设值不足");
+				log.error("升级联盟客栈失败，联盟:{}当前建设值:{},不足:{}", lmBean.id, lmBean.build, conf.keZhan_lvUp_value);
+				return;
+			}
 			bean.keZhanLv+=1;
 			HibernateUtil.update(bean);
+			lmBean.build -= conf.keZhan_lvUp_value;
+			HibernateUtil.save(lmBean);
 			sendError(0, session, "升级成功");
 			buildName = HeroService.getNameById(9010+"");
+			log.info("升级联盟客栈成功，联盟:{}客栈等级从{}升级到{}消耗建设值:{}",lmBean.id, bean.keZhanLv, bean.keZhanLv+1, conf.keZhan_lvUp_value);
+			succeed = true;
 			break;
 		}
 		case 2:{
 			List<LianMengShuYuan> list = TempletService.listAll(LianMengShuYuan.class.getSimpleName());
 			if(list == null){
 				sendError(10, session, "配置缺失。");
+				log.error("升级联盟书院失败，找不到联盟书院配置");
 				return;
 			}
 			if(bean.shuYuanLv>=list.size()){
 				sendError(20, session, "已满级");
+				log.error("升级联盟书院失败，联盟:{}的书院等级已升级到最高等级:{}", lmBean.id, list.size());
 				return;
 			}
 			if(bean.shuYuanLv>=lmBean.level){
 				sendError(30, session, "联盟等级不够");
+				log.error("升级联盟书院失败，联盟:{}的书院等级已达到联盟当前的等级:{}", lmBean.id, lmBean.level);
+				return;
 			}
-			LianMengShuYuan conf = list.get(bean.shuYuanLv);
-			//FIXME 消耗数值
+			LianMengShuYuan conf = list.get(bean.shuYuanLv - 1);
+			if(conf == null) {
+				sendError(40, session, "配置错误");
+				log.error("升级联盟书院失败，找不到联盟书院等级为:{}的配置", bean.shuYuanLv);
+				return;
+			}
+			if(conf.shuYuan_lvUp_value > lmBean.build) {
+				sendError(50, session, "联盟建设值不足");
+				log.error("升级联盟书院失败，联盟:{}当前建设值:{},不足:{}", lmBean.id, lmBean.build, conf.shuYuan_lvUp_value);
+				return;
+			}
+			lmBean.build -= conf.shuYuan_lvUp_value;
+			HibernateUtil.save(lmBean);
 			bean.shuYuanLv+=1;
 			HibernateUtil.update(bean);
 			sendError(0, session, "升级成功");
 			buildName = HeroService.getNameById(9020+"");
+			log.info("升级联盟书院成功，联盟:{}书院等级从{}升级到{}消耗建设值:{}",lmBean.id, bean.keZhanLv, bean.keZhanLv+1, conf.shuYuan_lvUp_value);
+			succeed = true;
 			break;
 		}
 		case 4:{ // 商铺
 			List<LianMengShangPu> list = TempletService.listAll(LianMengShangPu.class.getSimpleName());
 			if(list == null){
 				sendError(10, session, "LianMengShangPu配置缺失。");
+				log.error("升级联盟商铺失败，找不到联盟商铺配置");
 				return;
 			}
 			if(bean.shangPuLv>=list.size()){
 				sendError(20, session, "bean.shangPuLv已满级");
+				log.error("升级联盟商铺失败，联盟:{}的商铺等级已升级到最高等级:{}", lmBean.id, list.size());
 				return;
 			}
 			if(bean.shangPuLv>=lmBean.level){
 				sendError(30, session, "联盟等级不够");
+				log.error("升级联盟商铺失败，联盟:{}的商铺等级已达到联盟当前的等级:{}", lmBean.id, lmBean.level);
+				return;
 			}
-			LianMengShangPu conf = list.get(bean.shangPuLv);
-			//FIXME 消耗数值
+			LianMengShangPu conf = list.get(bean.shangPuLv - 1);
+			if(conf == null) {
+				sendError(40, session, "配置错误");
+				log.error("升级联盟商铺失败，联盟:{}当前建设值:{},不足:{}", lmBean.id, lmBean.build, conf.shangPu_lvUp_value);
+				return;
+			}
+			if(conf.shangPu_lvUp_value > lmBean.build) {
+				sendError(50, session, "联盟建设值不足");
+				log.error("升级联盟商铺失败，找不到联盟商铺等级为:{}的配置", bean.shangPuLv);
+				return;
+			}
+			lmBean.build -= conf.shangPu_lvUp_value;
+			HibernateUtil.save(lmBean);
 			bean.shangPuLv+=1;
 			HibernateUtil.update(bean);
 			sendError(0, session, "联盟商铺升级成功");
 			buildName = HeroService.getNameById(9040+"");
+			log.info("升级联盟商铺成功，联盟:{}商铺等级从{}升级到{}消耗建设值:{}",lmBean.id, bean.keZhanLv, bean.keZhanLv+1, conf.shangPu_lvUp_value);
+			succeed = true;
 			break;
 			
 		}
@@ -206,21 +258,38 @@ public class JianZhuMgr extends EventProc{
 			List<LianMengTuTeng> list = TempletService.listAll(LianMengTuTeng.class.getSimpleName());
 			if(list == null){
 				sendError(10, session, "LianMengTuTeng配置缺失。");
+				log.error("升级联盟图腾失败，找不到联盟图腾配置");
 				return;
 			}
 			if(bean.tuTengLv>=list.size()){
 				sendError(20, session, "bean.tuTengLv已满级");
+				log.error("升级联盟图腾失败，联盟:{}的图腾等级已升级到最高等级:{}", lmBean.id, list.size());
 				return;
 			}
 			if(bean.tuTengLv>=lmBean.level){
 				sendError(30, session, "联盟等级不够");
+				log.error("升级联盟图腾失败，联盟:{}的图腾等级已达到联盟当前的等级:{}", lmBean.id, lmBean.level);
+				return;
 			}
-			LianMengTuTeng conf = list.get(bean.tuTengLv);
-			//FIXME 消耗数值
+			LianMengTuTeng conf = list.get(bean.tuTengLv - 1);
+			if(conf == null) {
+				sendError(40, session, "配置错误");
+				log.error("升级联盟图腾失败，联盟:{}当前建设值:{},不足:{}", lmBean.id, lmBean.build, conf.tuTeng_lvUp_value);
+				return;
+			}
+			if(conf.tuTeng_lvUp_value > lmBean.build) {
+				sendError(50, session, "联盟建设值不足");
+				log.error("升级联盟图腾失败，找不到联盟图腾等级为:{}的配置", bean.tuTengLv);
+				return;
+			}
+			lmBean.build -= conf.tuTeng_lvUp_value;
+			HibernateUtil.save(lmBean);
 			bean.tuTengLv+=1;
 			HibernateUtil.update(bean);
 			sendError(0, session, "联盟图腾升级成功");
 			buildName = HeroService.getNameById(9030+"");
+			log.info("升级联盟图腾成功，联盟:{}图腾等级从{}升级到{}消耗建设值:{}",lmBean.id, bean.keZhanLv, bean.keZhanLv+1, conf.tuTeng_lvUp_value);
+			succeed = true;
 			break;
 			
 		}
@@ -228,26 +297,46 @@ public class JianZhuMgr extends EventProc{
 			List<LianMengZongMiao> list = TempletService.listAll(LianMengZongMiao.class.getSimpleName());
 			if(list == null){
 				sendError(10, session, "LianMengZongMiao配置缺失。");
+				log.error("升级联盟宗庙失败，找不到联盟宗庙配置");
 				return;
 			}
 			if(bean.zongMiaoLv>=list.size()){
 				sendError(20, session, "bean.zongMiaoLv已满级");
+				log.error("升级联盟宗庙失败，联盟:{}的宗庙等级已升级到最高等级:{}", lmBean.id, list.size());
 				return;
 			}
 			if(bean.zongMiaoLv>=lmBean.level){
 				sendError(30, session, "联盟等级不够");
+				log.error("升级联盟宗庙失败，联盟:{}的宗庙等级已达到联盟当前的等级:{}", lmBean.id, lmBean.level);
+				return;
 			}
-			LianMengZongMiao conf = list.get(bean.zongMiaoLv);
-			//FIXME 消耗数值
+			LianMengZongMiao conf = list.get(bean.zongMiaoLv - 1);
+			if(conf == null) {
+				sendError(40, session, "配置错误");
+				log.error("升级联盟宗庙失败，联盟:{}当前建设值:{},不足:{}", lmBean.id, lmBean.build, conf.zongMiao_lvUp_value);
+				return;
+			}
+			if(conf.zongMiao_lvUp_value > lmBean.build) {
+				sendError(50, session, "联盟建设值不足");
+				log.error("升级联盟宗庙失败，找不到联盟宗庙等级为:{}的配置", bean.zongMiaoLv);
+				return;
+			}
+			lmBean.build -= conf.zongMiao_lvUp_value;
+			HibernateUtil.save(lmBean);
 			bean.zongMiaoLv+=1;
 			HibernateUtil.update(bean);
 			sendError(0, session, "联盟宗庙升级成功");
 			buildName = HeroService.getNameById(9050+"");
+			log.info("升级联盟宗庙成功，联盟:{}宗庙等级从{}升级到{}消耗建设值:{}",lmBean.id, bean.keZhanLv, bean.keZhanLv+1, conf.zongMiao_lvUp_value);
+			succeed = true;
 			break;
 			
 		}
 		default:
 			return;
+		}
+		if(succeed) {
+			AllianceMgr.inst.processHaveAlliance(jz, PD.ALLIANCE_INFO_REQ, session, member);
 		}
 		String eventStr = "";
 		if(member.title == AllianceMgr.TITLE_LEADER) {
@@ -258,7 +347,16 @@ public class JianZhuMgr extends EventProc{
 		eventStr = eventStr.replaceFirst("%d", jz.name)
 						   .replaceFirst("%d", buildName);
 		AllianceMgr.inst.addAllianceEvent(member.lianMengId, eventStr);
-		
+	}
+
+	public JianZhuLvBean insertJianZhuLvBean(AlliancePlayer member, JianZhuLvBean bean) {
+		if(bean == null){
+			bean = new JianZhuLvBean();
+			bean.lmId = member.lianMengId;
+			bean.keZhanLv=bean.shuYuanLv=bean.shangPuLv=bean.zongMiaoLv=bean.tuTengLv=1;
+			HibernateUtil.insert(bean);
+		}
+		return bean;
 	}
 	/**
 	 * 获取联盟科技的配置，用于押镖
@@ -329,6 +427,16 @@ public class JianZhuMgr extends EventProc{
 			log.info("建设值不足，需要 {} 实有 {}",conf.lvUpValue,lmBean.build);
 			return;
 		}
+		
+		JianZhuLvBean jianZhuBean = HibernateUtil.find(JianZhuLvBean.class, member.lianMengId);
+		if(jianZhuBean == null) {
+			jianZhuBean = insertJianZhuLvBean(member, jianZhuBean);
+		}
+		if(jianZhuBean.shuYuanLv < curLevel) {
+			log.error("升级联盟科技失败，科技研究等级不能超过书院等级");
+			return;
+		}
+		
 		//
 		if(bean == null){
 			bean = new LMKJBean();
@@ -410,6 +518,7 @@ public class JianZhuMgr extends EventProc{
 		setKJJHLevel(lmkjJiHuo, type, newLevel);
 		HibernateUtil.save(lmkjJiHuo);
 		log.info("联盟科技激活成功，君主:{}科技类型{}激活等级从{} 到 {}", jz.id, type, jiHuoLevel, newLevel);
+		JunZhuMgr.inst.sendMainInfo(session);
 		JiHuoLMKJResp.Builder response = JiHuoLMKJResp.newBuilder();
 		response.setResult(0);
 		response.setJiHuoLv(newLevel);
@@ -594,6 +703,27 @@ public class JianZhuMgr extends EventProc{
 		session.write(msg);
 	}
 
+	public void jiBai(int id, IoSession session, Builder builder) {
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			return;
+		}
+		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jz.id);
+		if (member == null || member.lianMengId <= 0) {
+			sendError(id, session, "您不在联盟中。",PD.S_ERROR);
+			return;
+		}
+		int costGongXian = CanShu.LIANMENG_JIBAI_PRICE;
+		if(member.gongXian < costGongXian) {
+			sendError(id, session, "联盟贡献不足。",PD.S_ERROR);
+			return;
+		}
+		chouJiang_1(id, session, builder);
+		member.gongXian -= CanShu.LIANMENG_JIBAI_PRICE;
+		HibernateUtil.save(member);
+		AllianceMgr.inst.processHaveAlliance(jz, PD.ALLIANCE_INFO_REQ, session, member);
+	}
+	
 	public void chouJiang_1(int id, IoSession session, Builder builder) {
 		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
 		if (junZhuId == null) {
@@ -660,7 +790,7 @@ public class JianZhuMgr extends EventProc{
 			return;
 		}
 		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jz.id);
-		if (member == null) {
+		if (member == null || member.lianMengId <= 0) {
 			sendError(id, session, "您不在联盟中。",PD.S_ERROR);
 			return;
 		}
@@ -671,6 +801,12 @@ public class JianZhuMgr extends EventProc{
 			sendError(id, session, "没有剩余次数。",PD.S_ERROR);
 			return;
 		}
+		int costGongXian = CanShu.LIANMENG_JIBAI_PRICE * leftTimes;
+		if(member.gongXian < costGongXian) {
+			sendError(id, session, "联盟贡献不足。",PD.S_ERROR);
+			return;
+		}
+		
 		final StringBuffer sb = new StringBuffer();
 		DummySession fakeS = new DummySession(){
 			@Override
@@ -711,11 +847,14 @@ public class JianZhuMgr extends EventProc{
 		sb.setLength(sb.length()-1);
 		String gain = sb.toString();
 		sendError(0, session, gain, PD.S_LM_CHOU_JIANG);
+		member.gongXian -= costGongXian;
+		HibernateUtil.save(member);
+		AllianceMgr.inst.processHaveAlliance(jz, PD.ALLIANCE_INFO_REQ, session, member);
 		log.info("{}连续祭拜结束，获得{}", jz.id, gain);
 		JunZhuMgr.inst.sendMainInfo(session);
 		BagMgr.inst.sendBagInfo(0, session, null);
 	}
-	public int LIANMENG_JIBAI_PRICE = 20;
+
 	public void sendChouJiangInfo(int id, IoSession session, Builder builder) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 		if (jz == null) {
@@ -739,7 +878,7 @@ public class JianZhuMgr extends EventProc{
 		ExploreResp.Builder ret = ExploreResp.newBuilder();
 		ret.setSuccess(0);//
 		TypeInfo.Builder tb = TypeInfo.newBuilder();
-		tb.setMoney(LIANMENG_JIBAI_PRICE);
+		tb.setMoney(CanShu.LIANMENG_JIBAI_PRICE);
 		tb.setCd(maxJiBaiTimes);
 		int leftTimes = Math.max(0,maxJiBaiTimes - bean.todayUsedTimes);
 		tb.setRemainFreeCount(leftTimes);
@@ -870,7 +1009,7 @@ public class JianZhuMgr extends EventProc{
 					lmkjJiHuo.junzhuId = jz.id;
 					fillDefaultLMKJJiHuo(lmkjJiHuo);
 				}
-				for(int type= 101; type <=205; type++ ){
+				for(int type= 101; type <=301; type++ ){
 					int lvkeji = getKeJiLv(bean2, type);
 					if (lvkeji == 404 || lvkeji ==0){
 						continue;
@@ -886,11 +1025,15 @@ public class JianZhuMgr extends EventProc{
 				}
 				// 盟主副盟主 研究
 			}else if(member.title == AllianceMgr.TITLE_LEADER || member.title == AllianceMgr.TITLE_DEPUTY_LEADER){
-				for(int type= 101; type <=205; type++ ){
+				JianZhuLvBean jianZhuBean = HibernateUtil.find(JianZhuLvBean.class, member.lianMengId);
+				if(jianZhuBean == null) {
+					return;
+				}
+				for(int type : kejiTypes){
 					int lv = getKeJiLv(bean2, type);
 					if(lv != 404){
 						LianMengKeJi conf = getKeJiConf(type, lv);
-						if(conf != null && lmBean.build >= conf.lvUpValue){
+						if(conf != null && lmBean.build >= conf.lvUpValue && jianZhuBean.shuYuanLv > conf.shuYuanlvNeeded){
 							FunctionID.pushCanShowRed(jz.id, session, FunctionID.LianMengShuYuanKiJi);
 							break;
 						}

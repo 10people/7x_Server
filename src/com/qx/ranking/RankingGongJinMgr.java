@@ -17,12 +17,14 @@ import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.LueduoLianmengRank;
 import com.manu.dynasty.template.LueduoPersonRank;
 import com.manu.dynasty.util.MathUtils;
+import com.qx.account.FunctionOpenMgr;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.timeworker.FunctionID;
 
 public class RankingGongJinMgr {
 	
@@ -64,7 +66,7 @@ public class RankingGongJinMgr {
 		int end = start + PAGE_SIZE-1;
 		Map<String, Double> gongJinPermap = getPaiHangOfType(start, end, gongJinPersonalRank);
 		long needId = 1; 
-		int needRank = 1;
+		int needRank = start;
 		boolean include  =  false;
 		if(gongJinPermap != null && gongJinPermap.size() != 0){
 			for(Map.Entry<String, Double> entry: gongJinPermap.entrySet()){
@@ -86,7 +88,7 @@ public class RankingGongJinMgr {
 				f.setId(needId);
 				f.setName(junzhu.name);
 				f.setGongJin((int)value);
-				f.setRank(needRank ++);
+				f.setRank(++needRank);
 				response.addGongInfoList(f);
 			}
 		}else{
@@ -114,7 +116,7 @@ public class RankingGongJinMgr {
 		int end = start + PAGE_SIZE-1;
 		Map<String, Double> gongJinAllamap = getPaiHangOfType(start, end, gongJinAllianceRank);
 		int needId = 1; 
-		int needRank = 1;
+		int needRank = start;
 		boolean include  =  false;
 		if(gongJinAllamap != null && gongJinAllamap.size() != 0){
 			for(Map.Entry<String, Double> entry: gongJinAllamap.entrySet()){
@@ -130,7 +132,7 @@ public class RankingGongJinMgr {
 				f.setId(needId);
 				f.setName(alncBean.name);
 				f.setGongJin((int)value);
-				f.setRank(needRank ++);
+				f.setRank(++needRank);
 				response.addGongInfoList(f);
 				if(guild != null && guild.id  == needId){
 					include = true;
@@ -179,16 +181,15 @@ public class RankingGongJinMgr {
 
 	public int getJunZhuGongJin(long junzhuId){
 		int gongj = (int) DB.zscore(gongJinPersonalRank, junzhuId + "");
-		if(gongj != -1){
+		if(gongj >= 0){
 			return gongj;
 		}
-		log.error("贡金数据不正确，君主id:{}. 没有贡金数据", junzhuId);
 		return 0;
 	}
 
 	public int getAllianceGongJin(int allianceId){
 		double gongj = DB.zscore(gongJinAllianceRank, allianceId + "");
-		if(gongj != -1){
+		if(gongj >= 0){
 			return (int)gongj;
 		}
 		log.error("联盟整体贡金数据不正确，联盟id:{}. 没有贡金数据", allianceId);
@@ -212,8 +213,9 @@ public class RankingGongJinMgr {
 
 		int allG = getAllianceGongJin(a.lianMengId);
 		allG = allG < 0? 0: allG;
-		DB.zadd(gongJinAllianceRank, allG + addValue , a.lianMengId+"");
-		log.info("联盟：{}的贡金增加增加值是：{}，目前是：{}", a.lianMengId, addValue, allG + addValue);
+		int d = (allG+addValue)<0?0: (allG+addValue);
+		DB.zadd(gongJinAllianceRank, d , a.lianMengId+"");
+		log.info("联盟：{}的贡金增加增加值是：{}，目前是：{}", a.lianMengId, addValue, d);
 	}
 
 	/**
@@ -230,7 +232,7 @@ public class RankingGongJinMgr {
 		}
 		// 退出联盟贡金设置为-1
 		DB.zadd(gongJinPersonalRank, -1, junZhuId+"");
-
+		log.info("君主：{}贡金设置为-1成功", junZhuId);
 		if(lianMengId != -1){
 			int all = getAllianceGongJin(lianMengId);
 			if(all != -1){
@@ -245,6 +247,9 @@ public class RankingGongJinMgr {
 	 */
 	public void resetGongJinAt8_clock(){
 		String oldRank = "gongJinOld";
+		if(! DB.exist_(gongJinPersonalRank)){
+			return;
+		}
 		DB.rename(gongJinPersonalRank, oldRank);
 		/*
 		 * 判断是否重命名成功
@@ -315,6 +320,7 @@ public class RankingGongJinMgr {
 		// 排行中没有数据，所以应该是首次初始化，首次初始化，会有一个初始值
 		if(g == null){
 			DB.zadd(gongJinPersonalRank, initGongJin, junzhuId+"");
+			log.info("君主：{}ini贡金成功，贡金是:initGongJin", junzhuId);
 			int allG = getAllianceGongJin(allianceId);
 			allG = allG < 0? 0: allG;
 			DB.zadd(gongJinAllianceRank, allG + initGongJin, allianceId+"");
@@ -328,9 +334,21 @@ public class RankingGongJinMgr {
 		Double g = DB.zScoreGongJin(gongJinPersonalRank, junzhuId+"");
 		if(g != null && g.doubleValue() == -1){
 			DB.zadd(gongJinPersonalRank, 0, junzhuId+""); //加联盟
+			log.info("君主：{}加入联盟，设置贡金为0", junzhuId);
 		}
 	}
 
+	public void firstSetAllianceGongJin(long junzhuId, int jevel, int allianceId){
+		boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.lveDuo, junzhuId, jevel);
+		if(!isOpen){
+			return;
+		}
+		Double g = DB.zScoreGongJin(gongJinAllianceRank, junzhuId+"");
+		if(g == null){
+			DB.zadd(gongJinAllianceRank,0, allianceId+"");
+			log.info("新建一个联盟：{}，设置贡金为0", allianceId);
+		}
+	}
 	/*
 	 * 先保留
 	 */

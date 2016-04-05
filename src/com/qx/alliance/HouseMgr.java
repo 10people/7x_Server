@@ -61,6 +61,7 @@ import com.manu.network.SessionUser;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.account.FunctionOpenMgr;
 import com.qx.alliance.building.JianZhuMgr;
+import com.qx.alliance.building.LMKJJiHuo;
 import com.qx.award.DailyAwardMgr;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
@@ -94,7 +95,7 @@ public class HouseMgr extends EventProc implements Runnable {
 	public static ThreadLocal<Boolean> sentIsComplete = new ThreadLocal<Boolean>();
 	public static int huanFangKa = 900016;
 	public static int huFu = 910000;
-	public static int fangwuSum = 20;// 50个小房子  2015年9月7日 房屋50改为20个
+	public static int fangwuSum = 280;// 2016年3月22日 房子上限数改成280（此时10级联盟最高有140人）  50个小房子  2015年9月7日 房屋50改为20个 
 
 	public HouseMgr() {
 		houseLocations = new HashSet<Integer>();
@@ -390,7 +391,38 @@ public class HouseMgr extends EventProc implements Runnable {
 		session.write(pm);
 		log.info("发送{}房屋信息给{}", jzId, jzId);
 	}
-
+	
+	/**
+	 * @Description 得到房屋的有效房屋科技配置
+	 * @param jzId
+	 * @param lmId
+	 * @return
+	 */
+	public LianMengKeJi getKejiConf2FangWu(long jzId,int lmId) {
+		LianMengKeJi kjConf=JianZhuMgr.inst.getKeJiConfForFangWu(lmId);
+		LianMengKeJi retConf=kjConf;
+		AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jzId);
+		if(player==null){
+			log.error("{}得到房屋的有效房屋科技配置异常，没有找到AlliancePlayer,联盟房屋科技等级--{}，君主激活的房屋科技等级--{}",jzId, kjConf.level);
+			return retConf;
+		}
+		if(player.title==AllianceMgr.TITLE_LEADER||player.title==AllianceMgr.TITLE_DEPUTY_LEADER){
+			log.info("{}这货是盟主，联盟房屋科技等级--{},这货不用激活科技等级",jzId, kjConf.level);
+			return retConf;
+		}
+		LMKJJiHuo lmkjJiHuo = HibernateUtil.find(LMKJJiHuo.class, jzId);
+		int type = 301;
+		int jiHuoLevel = lmkjJiHuo==null?0:lmkjJiHuo.type_301;
+		LianMengKeJi jiHuoconf = JianZhuMgr.inst.getKeJiConf(type, jiHuoLevel);
+		if(kjConf!=null&&jiHuoconf!=null){
+			log.info("联盟房屋科技等级--{}，君主激活的房屋科技等级--{}", kjConf.level,jiHuoconf.level);
+			if(jiHuoconf.level<kjConf.level){
+				log.info("逗逼设定出现了,联盟房屋科技等级--{}，大于君主激活的房屋科技等级--{}，返回君主激活房屋科技等级", kjConf.level,jiHuoconf.level);
+				retConf=jiHuoconf;
+			}
+		}
+		return retConf;
+	}
 	/**
 	 * @Description: 生成小房子信息
 	 * @param hb
@@ -402,9 +434,13 @@ public class HouseMgr extends EventProc implements Runnable {
 		FangWu fwConf = (FangWu) fwList.get(hb.level - 1);
 		HouseExpInfo.Builder expInfo = HouseExpInfo.newBuilder();
 		expInfo.setLevel(hb.level);
-		LianMengKeJi kjConf=JianZhuMgr.inst.getKeJiConfForFangWu(hb.lmId);
-		int addLimit4keji=kjConf.value1;
+		LianMengKeJi kjConf=getKejiConf2FangWu(hb.jzId, hb.lmId);//JianZhuMgr.inst.getKeJiConfForFangWu(hb.lmId);
+		double addSpeedRatio=kjConf.value1;
+		int addLimit4keji=kjConf.value2;
 		int exMax=fwConf.produceLimit +addLimit4keji;
+		double produceSpeed=fwConf.produceSpeed*(100+addSpeedRatio)/100;
+		log.info("联盟科技加成，生成经验速度增加----{}%，经验上限增加---{},原有生成速度--{},加成后速度--{},原来经验上限--{},加成后经验上限---{}",
+				addSpeedRatio,addLimit4keji,fwConf.produceSpeed,produceSpeed,fwConf.produceLimit,exMax); 
 		expInfo.setMax(exMax);
 		Date preGetExpT = hb.preGainExpTime;
 		if (hb.preGainExpTime == null) {
@@ -417,7 +453,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			long t = nowGainExpTime.getTime() - preGetExpT.getTime();// ms
 			t = t / 1000;// second
 			t = t / 60;// minu
-			t = t * fwConf.produceSpeed / 60;// 时速
+			t = (long) (t * produceSpeed / 60);// 时速
 //			t = Math.min(t, fwConf.produceLimit);
 			t = Math.min(t, exMax);
 			expInfo.setCur((int) t);
@@ -467,6 +503,7 @@ public class HouseMgr extends EventProc implements Runnable {
 	 */
 	public HouseExpInfo.Builder makeBigHouseExpInfo(Long jzId, BigHouse bh,
 			HouseBean hb, int alncLevel) {
+		//TODO 策划去掉了 大房子的设定 如果再加回来 这个方法需要修正
 		log.info("生成{}大屋经验", hb.jzId);
 		List<?> fwList = TempletService.listAll(FangWu.class.getSimpleName());
 		FangWu fwConf = (FangWu) fwList.get(hb.level - 1);
@@ -807,6 +844,7 @@ public class HouseMgr extends EventProc implements Runnable {
 	 * @return
 	 */
 	public HouseBean giveDefaultHouse(int lmId, long jzId) {
+		log.info(" 给联盟--{}成员--{}分配默认房屋开始",lmId,jzId);
 		HouseBean bean = HibernateUtil.find(HouseBean.class, jzId);
 		if (bean == null) {
 			bean = new HouseBean();

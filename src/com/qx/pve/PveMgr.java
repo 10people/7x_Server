@@ -1,6 +1,7 @@
 package com.qx.pve;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,6 @@ import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
-import com.qx.pvp.PvpMgr;
 import com.qx.secure.AntiCheatMgr;
 import com.qx.task.DailyTaskCondition;
 import com.qx.task.DailyTaskConstants;
@@ -132,10 +132,10 @@ public class PveMgr extends EventProc {
 			 * 获取章节最大关卡id
 			 */
 			int big = pveTemp.bigId;
+			if(big == 0) {continue;}		// 第0章的不算做章节奖励
 			Integer guanqia = lastGuanQiaOfZhang.get(big);
 			if(guanqia != null){
-				lastGuanQiaOfZhang.put(big,
-						MathUtils.getMax(pveTemp.id, guanqia));
+				lastGuanQiaOfZhang.put(big, MathUtils.getMax(pveTemp.id, guanqia));
 			}else{
 				lastGuanQiaOfZhang.put(big, pveTemp.id);
 			}
@@ -665,9 +665,9 @@ public class PveMgr extends EventProc {
 					return;
 				}
 				if(npcTemp.ifTeammate == 1) {
-					PvpMgr.inst.fillNPCDataInfo(selfs, guanQiaJunZhu, selfFlagId++, npcTemp.modelId,false);
+					PveMgr.inst.fillNPCPlayerDataInfo(selfs, guanQiaJunZhu, selfFlagId++, npcTemp);
 				} else {
-					PvpMgr.inst.fillNPCDataInfo(enemys, guanQiaJunZhu, npcTemp.getPosition(), npcTemp.modelId, false);
+					PveMgr.inst.fillNPCPlayerDataInfo(enemys, guanQiaJunZhu, npcTemp.getPosition(), npcTemp);
 				}
 			} else {
 				EnemyTemp enemyTemp = id2Enemy.get(npcTemp.getEnemyId());
@@ -676,9 +676,6 @@ public class PveMgr extends EventProc {
 					continue;
 				}
 				Node.Builder node = Node.newBuilder();
-				if(npcTemp.position == 109) {
-					System.out.println();
-				}
 				node.setModleId(npcTemp.modelId);//npc模型id
 				node.setNodeType(nodeType);
 				node.setNodeProfession(nodeProfession);
@@ -730,6 +727,37 @@ public class PveMgr extends EventProc {
 		}
 	}
 	
+	public void fillNPCPlayerDataInfo(List<Node> selfs, GuanQiaJunZhu guanQiaJunZhu, int flagIndex, NpcTemp npcTemp) {
+		Node.Builder npcNode = Node.newBuilder();
+		npcNode.addFlagIds(flagIndex);
+		// 君主类型
+		npcNode.setNodeType(NodeType.PLAYER);
+		npcNode.setNodeProfession(NodeProfession.NULL);
+		npcNode.setModleId(npcTemp.modelId);
+		PveMgr.inst.fillDataByGongjiType(npcNode, null);
+		// type
+		npcNode.setNodeType(NodeType.valueOf(guanQiaJunZhu.type));
+		npcNode.setNodeProfession(NodeProfession.valueOf(guanQiaJunZhu.profession));
+		npcNode.setNodeName(npcTemp.name+"");
+		npcNode.setHpNum(npcTemp.lifebarNum);
+		npcNode.setAppearanceId(npcTemp.modelApID);
+		npcNode.setNuQiZhi(0);
+		npcNode.setMibaoCount(0);
+		npcNode.setMibaoPower(0);
+		PveMgr.inst.fillGongFangInfo(npcNode, guanQiaJunZhu);
+		// 添加装备
+		List<Integer> weaps = Arrays.asList(guanQiaJunZhu.weapon1, guanQiaJunZhu.weapon2,
+				guanQiaJunZhu.weapon3);
+		PveMgr.inst.fillZhuangbei4Npc(npcNode, weaps, guanQiaJunZhu);
+		// 添加秘宝信息
+		List<Integer> skillIdList = MibaoMgr.inst.getSkillIdsFromConfig(guanQiaJunZhu.mibaoZuhe, guanQiaJunZhu.mibaoZuheLv);
+		for(Integer skillId : skillIdList) {
+			PveMgr.inst.addNodeSkill(npcNode, skillId);
+		}
+		npcNode.setHp(npcNode.getHpMax() * npcTemp.lifebarNum);
+		selfs.add(npcNode.build());
+	}
+
 	public void fillJZMiBaoDataInfo( Node.Builder junzhuNode, 
 			int skillZuheId, //Group.Builder selfTroop, //List<MiBaoDB> mibaoDBList,
 			long jId){
@@ -843,7 +871,7 @@ public class PveMgr extends EventProc {
 		junzhuNode.setAppearanceId(1);
 		junzhuNode.setNuQiZhi(MibaoMgr.inst.getChuShiNuQi(junZhu.id));
 		
-		junzhuNode.setMibaoCount(MibaoMgr.inst.getActivateMiBaoCount(junZhu.id));
+		junzhuNode.setMibaoCount(0);
 		junzhuNode.setMibaoPower(JunZhuMgr.inst.getAllMibaoProvideZhanli(junZhu));
 		selfs.add(junzhuNode.build());
 	}
@@ -879,7 +907,7 @@ public class PveMgr extends EventProc {
 		junzhuNode.setHpNum(1);
 		junzhuNode.setAppearanceId(1);
 		junzhuNode.setNuQiZhi(MibaoMgr.inst.getChuShiNuQi(junZhu.id));
-		junzhuNode.setMibaoCount(MibaoMgr.inst.getActivateMiBaoCount(junZhu.id));
+		junzhuNode.setMibaoCount(0);
 		junzhuNode.setMibaoPower(JunZhuMgr.inst.getAllMibaoProvideZhanli(junZhu));
 		selfs.add(junzhuNode.build());
 	}
@@ -908,7 +936,7 @@ public class PveMgr extends EventProc {
 		junzhuNode.setHpNum(1);
 		junzhuNode.setAppearanceId(1);
 		junzhuNode.setNuQiZhi(MibaoMgr.inst.getChuShiNuQi(junZhu.id));
-		junzhuNode.setMibaoCount(MibaoMgr.inst.getActivateMiBaoCount(junZhu.id));
+		junzhuNode.setMibaoCount(0);
 		junzhuNode.setMibaoPower(JunZhuMgr.inst.getAllMibaoProvideZhanli(junZhu));
 		selfs.add(junzhuNode.build());
 	}
@@ -1164,7 +1192,7 @@ public class PveMgr extends EventProc {
 				r.chuanQiPass = true;
 				r.cqPassTimes += 1;
 				r.cqWinLevel = Math.max(r.cqWinLevel, request.getStar());
-				r.cqStar = r.achieve | request.getAchievement();
+				r.cqStar = r.cqStar | request.getAchievement();
 				logger.info("{}传奇关卡{}", junZhuId, guanQiaId);
 			} else {
 				r.starLevel = request.getStar();

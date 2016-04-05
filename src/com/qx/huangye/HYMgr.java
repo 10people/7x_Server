@@ -8,11 +8,54 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.protobuf.MessageLite.Builder;
+import com.manu.dynasty.base.TempletService;
+import com.manu.dynasty.hero.service.HeroService;
+import com.manu.dynasty.template.AwardTemp;
+import com.manu.dynasty.template.CanShu;
+import com.manu.dynasty.template.EnemyTemp;
+import com.manu.dynasty.template.GongjiType;
+import com.manu.dynasty.template.HuangYe;
+import com.manu.dynasty.template.HuangYeGuYongBing;
+import com.manu.dynasty.template.HuangyeAward;
+import com.manu.dynasty.template.HuangyeNpc;
+import com.manu.dynasty.template.HuangyePve;
+import com.manu.dynasty.template.HuangyeRank;
+import com.manu.dynasty.template.Mail;
+import com.manu.dynasty.template.VipFuncOpen;
+import com.manu.dynasty.util.DateUtils;
+import com.manu.dynasty.util.MathUtils;
+import com.manu.network.BigSwitch;
+import com.qx.account.FunctionOpenMgr;
+import com.qx.alliance.AllianceBean;
+import com.qx.alliance.AllianceMgr;
+import com.qx.alliance.AlliancePlayer;
+import com.qx.award.AwardMgr;
+import com.qx.email.EmailMgr;
+import com.qx.event.ED;
+import com.qx.event.Event;
+import com.qx.event.EventMgr;
+import com.qx.event.EventProc;
+import com.qx.huangye.shop.ShopMgr;
+import com.qx.junzhu.JunZhu;
+import com.qx.junzhu.JunZhuMgr;
+import com.qx.persistent.HibernateUtil;
+import com.qx.purchase.PurchaseConstants;
+import com.qx.purchase.PurchaseMgr;
+import com.qx.pve.PveMgr;
+import com.qx.pve.PveRecord;
+import com.qx.pvp.PvpMgr;
+import com.qx.task.DailyTaskCondition;
+import com.qx.task.DailyTaskConstants;
+import com.qx.timeworker.FunctionID;
+import com.qx.vip.VipData;
+import com.qx.vip.VipMgr;
+import com.qx.yuanbao.YBType;
 
 import qxmobile.protobuf.BattlePveResult.BattleResult;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
@@ -39,54 +82,6 @@ import qxmobile.protobuf.ZhanDou.Node;
 import qxmobile.protobuf.ZhanDou.NodeProfession;
 import qxmobile.protobuf.ZhanDou.NodeType;
 import qxmobile.protobuf.ZhanDou.ZhanDouInitResp;
-
-import com.google.protobuf.MessageLite.Builder;
-import com.manu.dynasty.base.TempletService;
-import com.manu.dynasty.hero.service.HeroService;
-import com.manu.dynasty.template.AwardTemp;
-import com.manu.dynasty.template.CanShu;
-import com.manu.dynasty.template.EnemyTemp;
-import com.manu.dynasty.template.FunctionOpen;
-import com.manu.dynasty.template.GongjiType;
-import com.manu.dynasty.template.HuangYe;
-import com.manu.dynasty.template.HuangYeGuYongBing;
-import com.manu.dynasty.template.HuangyeAward;
-import com.manu.dynasty.template.HuangyeNpc;
-import com.manu.dynasty.template.HuangyePve;
-import com.manu.dynasty.template.HuangyePvpNpc;
-import com.manu.dynasty.template.HuangyeRank;
-import com.manu.dynasty.template.Mail;
-import com.manu.dynasty.template.VipFuncOpen;
-import com.manu.dynasty.template.YouxiaNpcTemp;
-import com.manu.dynasty.util.DateUtils;
-import com.manu.dynasty.util.MathUtils;
-import com.manu.network.BigSwitch;
-import com.qx.account.FunctionOpenMgr;
-import com.qx.alliance.AllianceBean;
-import com.qx.alliance.AllianceMgr;
-import com.qx.alliance.AlliancePlayer;
-import com.qx.award.AwardMgr;
-import com.qx.email.EmailMgr;
-import com.qx.event.ED;
-import com.qx.event.Event;
-import com.qx.event.EventMgr;
-import com.qx.event.EventProc;
-import com.qx.huangye.shop.ShopMgr;
-import com.qx.junzhu.JunZhu;
-import com.qx.junzhu.JunZhuMgr;
-import com.qx.mibao.MibaoMgr;
-import com.qx.persistent.HibernateUtil;
-import com.qx.purchase.PurchaseConstants;
-import com.qx.purchase.PurchaseMgr;
-import com.qx.pve.PveMgr;
-import com.qx.pve.PveRecord;
-import com.qx.pvp.PvpMgr;
-import com.qx.task.DailyTaskCondition;
-import com.qx.task.DailyTaskConstants;
-import com.qx.timeworker.FunctionID;
-import com.qx.vip.VipData;
-import com.qx.vip.VipMgr;
-import com.qx.yuanbao.YBType;
 
 /**
  * 荒野求生
@@ -2054,6 +2049,7 @@ public class HYMgr extends EventProc{
 		BattleResult.Builder response = BattleResult.newBuilder();
 		//2. 更新npc血量 ， 计算获得铜币，掉落奖励。发现npc剩余血量为0，表示这个怪被打死，则要计算是否掉落物品
 		float getTongbi = 0;
+		float getHyebi = 0;
 		Map<Integer, HYPveNpcInfo>  npcRemainHpMap = new HashMap<Integer, HYPveNpcInfo>();
 		for(HYPveNpcInfo remainHpInfo: npcInfoList){
 			npcRemainHpMap.put(remainHpInfo.getNpcId(), remainHpInfo);
@@ -2069,8 +2065,8 @@ public class HYMgr extends EventProc{
 			logger.info("荒野点：{}被玩家：{}攻打，npc：{}在被打之前血量是：{}，攻打之后血量是：{}",
 					treasureId, junzhu.name, hyNpc.npcId, hyNpc.remainHp, curRemainHp);
 			hurtValue = hurtValue < 0 ? 0 : hurtValue;
-//			getTongbi += hurtValue * CanShu.HUANGYEPVE_AWARD_X;
-			getTongbi += hurtValue;
+			getTongbi += hurtValue * CanShu.HUANGYEPVE_AWARD_X;
+			getHyebi += hurtValue;
 			hyNpc.remainHp = curRemainHp;
 			HibernateUtil.save(hyNpc);
 			if(curRemainHp > 0) {
@@ -2105,15 +2101,17 @@ public class HYMgr extends EventProc{
 		HibernateUtil.save(hyTreasure);
 		
 		//增加荒野币
-		int h = (int)Math.floor(getTongbi * hyPveCfg.huangYeBi_scale); 
+		int h = (int)Math.floor(getHyebi * hyPveCfg.huangYeBi_scale); 
 		if(h > 0){
 			ShopMgr.inst.addMoney(ShopMgr.Money.huangYeBi, 
 					ShopMgr.huangYe_shop_type, junzhu.id, h);
+			ShopMgr.inst.sendHangYebi(session, junzhu.id);
 		}
 		logger.info("玩家:{} , 打完荒野求生获取荒野币：{}", junzhu.id,  h);
-//		junzhu.tongBi += getTongbi;
-//		logger.info("玩家:{} , 打完荒野求生获取铜币：{}", junzhu.id,  getTongbi);
-//		HibernateUtil.save(junzhu);
+
+		junzhu.tongBi += getTongbi;
+		logger.info("玩家:{} , 打完荒野求生获取铜币：{}", junzhu.id,  getTongbi);
+		HibernateUtil.save(junzhu);
 		
 		for(AwardTemp award : getAwardList) {
 			if(award.getItemId() == AwardMgr.ITEM_TONGBI_ID) {
@@ -2123,6 +2121,7 @@ public class HYMgr extends EventProc{
 		}
 		response.setMoney(h);
 		response.setExp(0);
+		response.setTongbi((int)getTongbi);
 		session.write(response.build());
 		for(AwardTemp award : getAwardList) {
 			if(award.getItemId() == AwardMgr.ITEM_TONGBI_ID) {
@@ -2176,7 +2175,12 @@ public class HYMgr extends EventProc{
 			if(isFastPass) { 
 				mailConfig = EmailMgr.INSTANCE.getMailConfig(20003);
 				if(mailConfig != null) {
-					fujian = 0 + ":" + LM_GONGXIAN_ITEMID + ":" + hyPveCfg.fastAward;
+					String[] awardInfo = hyPveCfg.fastAward.split(":");
+					int num = 1;
+					if(awardInfo.length > 2) {
+						num = Integer.parseInt(awardInfo[2]);
+					}
+					fujian = 0 + ":" + LM_GONGXIAN_ITEMID + ":" + num;
 					sendOK = EmailMgr.INSTANCE.sendMail(getJunzhu.name, mailConfig.content, fujian, mailConfig.sender, mailConfig,"");
 					logger.info("藏宝点快速通关奖励，以邮件发送奖励, 结果:{}", sendOK);
 				}
@@ -2550,6 +2554,11 @@ public class HYMgr extends EventProc{
 			info = DamageInfo.newBuilder();
 			JunZhu other = HibernateUtil.find(JunZhu.class, treaDa.junzhuId);
 			if(other == null){
+				continue;
+			}
+			AlliancePlayer otherPlayer = HibernateUtil.find(AlliancePlayer.class, treaDa.junzhuId);
+			if(otherPlayer == null || otherPlayer.lianMengId != member.lianMengId){
+				HibernateUtil.delete(treaDa);
 				continue;
 			}
 			info.setJunZhuName(other.name);

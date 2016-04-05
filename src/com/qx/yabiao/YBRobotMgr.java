@@ -24,7 +24,7 @@ import com.qx.world.Scene;
  */
 public class YBRobotMgr implements Runnable{
 	public static Logger log = LoggerFactory.getLogger(YBRobotMgr.class);
-	public static int INTERVAL = 100;
+	public static int INTERVAL = 500;
 	public static boolean isShowLog = false;
 	public static YBRobotMgr inst;
 	

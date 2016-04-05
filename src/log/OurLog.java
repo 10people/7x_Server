@@ -57,7 +57,9 @@ public class OurLog {
 		GameSvrState.info("{},{}",fmt.format(Calendar.getInstance().getTime()),ip);
 	}
 	public void PlayerOnline(){
-		new Thread(new Log2DBRegAndLogin(),"Log2DBRegAndLogin").start();
+		Thread t = new Thread(new Log2DBRegAndLogin(),"Log2DBRegAndLogin");
+		t.setDaemon(true);
+		t.start();
 	}
 	public void PlayerOnline(long RoleId, String RoleName, String vopenid,int num,int reg,int login,int PlatID,int LoginChannel){
 		//</struct>

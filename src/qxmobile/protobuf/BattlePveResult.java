@@ -771,6 +771,24 @@ public final class BattlePveResult {
      */
     qxmobile.protobuf.BattlePveResult.AwardItemOrBuilder getLmAwardItemsOrBuilder(
         int index);
+
+    // optional int32 tongbi = 5;
+    /**
+     * <code>optional int32 tongbi = 5;</code>
+     *
+     * <pre>
+     *铜币
+     * </pre>
+     */
+    boolean hasTongbi();
+    /**
+     * <code>optional int32 tongbi = 5;</code>
+     *
+     * <pre>
+     *铜币
+     * </pre>
+     */
+    int getTongbi();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.BattleResult}
@@ -847,6 +865,11 @@ public final class BattlePveResult {
                 mutable_bitField0_ |= 0x00000008;
               }
               lmAwardItems_.add(input.readMessage(qxmobile.protobuf.BattlePveResult.AwardItem.PARSER, extensionRegistry));
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000004;
+              tongbi_ = input.readInt32();
               break;
             }
           }
@@ -1019,11 +1042,36 @@ public final class BattlePveResult {
       return lmAwardItems_.get(index);
     }
 
+    // optional int32 tongbi = 5;
+    public static final int TONGBI_FIELD_NUMBER = 5;
+    private int tongbi_;
+    /**
+     * <code>optional int32 tongbi = 5;</code>
+     *
+     * <pre>
+     *铜币
+     * </pre>
+     */
+    public boolean hasTongbi() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 tongbi = 5;</code>
+     *
+     * <pre>
+     *铜币
+     * </pre>
+     */
+    public int getTongbi() {
+      return tongbi_;
+    }
+
     private void initFields() {
       awardItems_ = java.util.Collections.emptyList();
       money_ = 0;
       exp_ = 0;
       lmAwardItems_ = java.util.Collections.emptyList();
+      tongbi_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1069,6 +1117,9 @@ public final class BattlePveResult {
       for (int i = 0; i < lmAwardItems_.size(); i++) {
         output.writeMessage(4, lmAwardItems_.get(i));
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(5, tongbi_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1093,6 +1144,10 @@ public final class BattlePveResult {
       for (int i = 0; i < lmAwardItems_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, lmAwardItems_.get(i));
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, tongbi_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1228,6 +1283,8 @@ public final class BattlePveResult {
         } else {
           lmAwardItemsBuilder_.clear();
         }
+        tongbi_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1282,6 +1339,10 @@ public final class BattlePveResult {
         } else {
           result.lmAwardItems_ = lmAwardItemsBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.tongbi_ = tongbi_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1355,6 +1416,9 @@ public final class BattlePveResult {
               lmAwardItemsBuilder_.addAllMessages(other.lmAwardItems_);
             }
           }
+        }
+        if (other.hasTongbi()) {
+          setTongbi(other.getTongbi());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2019,6 +2083,55 @@ public final class BattlePveResult {
           lmAwardItems_ = null;
         }
         return lmAwardItemsBuilder_;
+      }
+
+      // optional int32 tongbi = 5;
+      private int tongbi_ ;
+      /**
+       * <code>optional int32 tongbi = 5;</code>
+       *
+       * <pre>
+       *铜币
+       * </pre>
+       */
+      public boolean hasTongbi() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 tongbi = 5;</code>
+       *
+       * <pre>
+       *铜币
+       * </pre>
+       */
+      public int getTongbi() {
+        return tongbi_;
+      }
+      /**
+       * <code>optional int32 tongbi = 5;</code>
+       *
+       * <pre>
+       *铜币
+       * </pre>
+       */
+      public Builder setTongbi(int value) {
+        bitField0_ |= 0x00000010;
+        tongbi_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 tongbi = 5;</code>
+       *
+       * <pre>
+       *铜币
+       * </pre>
+       */
+      public Builder clearTongbi() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        tongbi_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.BattleResult)
@@ -3802,16 +3915,17 @@ public final class BattlePveResult {
       "\n\025BattlePveResult.proto\022\021qxmobile.protob" +
       "uf\"Z\n\tAwardItem\022\017\n\007awardId\030\001 \002(\005\022\020\n\010awar" +
       "dNum\030\002 \002(\005\022\023\n\013awardIconId\030\003 \002(\005\022\025\n\raward" +
-      "ItemType\030\004 \002(\005\"\220\001\n\014BattleResult\0220\n\naward" +
+      "ItemType\030\004 \002(\005\"\240\001\n\014BattleResult\0220\n\naward" +
       "Items\030\001 \003(\0132\034.qxmobile.protobuf.AwardIte" +
       "m\022\r\n\005money\030\002 \002(\005\022\013\n\003exp\030\003 \002(\005\0222\n\014lmAward" +
       "Items\030\004 \003(\0132\034.qxmobile.protobuf.AwardIte" +
-      "m\"\\\n\021BattleResultHYPvp\022\013\n\003dkp\030\001 \002(\005\022\021\n\th" +
-      "eroLevel\030\002 \002(\005\022\024\n\014soldierLevel\030\003 \002(\005\022\021\n\t" +
-      "isLevelup\030\004 \002(\005\"o\n\031BattleResultAllianceF",
-      "ight\022\016\n\006result\030\001 \002(\010\022\020\n\010costTime\030\002 \002(\005\0220" +
-      "\n\nawardItems\030\003 \003(\0132\034.qxmobile.protobuf.A" +
-      "wardItemB\021B\017BattlePveResult"
+      "m\022\016\n\006tongbi\030\005 \001(\005\"\\\n\021BattleResultHYPvp\022\013" +
+      "\n\003dkp\030\001 \002(\005\022\021\n\theroLevel\030\002 \002(\005\022\024\n\014soldie" +
+      "rLevel\030\003 \002(\005\022\021\n\tisLevelup\030\004 \002(\005\"o\n\031Battl",
+      "eResultAllianceFight\022\016\n\006result\030\001 \002(\010\022\020\n\010" +
+      "costTime\030\002 \002(\005\0220\n\nawardItems\030\003 \003(\0132\034.qxm" +
+      "obile.protobuf.AwardItemB\021B\017BattlePveRes" +
+      "ult"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3829,7 +3943,7 @@ public final class BattlePveResult {
           internal_static_qxmobile_protobuf_BattleResult_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BattleResult_descriptor,
-              new java.lang.String[] { "AwardItems", "Money", "Exp", "LmAwardItems", });
+              new java.lang.String[] { "AwardItems", "Money", "Exp", "LmAwardItems", "Tongbi", });
           internal_static_qxmobile_protobuf_BattleResultHYPvp_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_BattleResultHYPvp_fieldAccessorTable = new

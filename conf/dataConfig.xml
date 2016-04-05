@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
 <!-- 	<file name="data/PveTemplate.xml" /> -->
+	<file name="data/KaiFuHuoDong.xml" />
 	<file name="data/AnnounceTemp.xml" />
 	<file name="data/ShiLianFuBen.xml" />
 	<file name="data/QiRiLiBao.xml" />

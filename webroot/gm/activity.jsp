@@ -73,6 +73,13 @@ function changeActivityName(id,obj){
 
 			}
 		}
+		//开启关闭封测红包
+		String fchb = request.getParameter("fengceHongBao");
+		if(fchb!=null&&"1".equals(fchb)){
+			XianShiActivityMgr.isOpen4FengceHongBao=true;
+		}else if (fchb!=null&&"0".equals(fchb)){
+			XianShiActivityMgr.isOpen4FengceHongBao=false;
+		}
 	%>
 	<table border="1">
 	<tr>
@@ -238,9 +245,30 @@ function changeActivityName(id,obj){
 		<input type='button' value='修改活动名称' onclick='changeActivityName(<%=id%>,this)'/>
 		</td>
 		</tr>
+<!-- 		以下為了管理封測紅包活動而做的 -->
+	<tr>
+		<td>沒有 </td>
+		<td>沒有</td>
+		<td>封测红包</td>
+		<td>封测红包</td>
+		<td>
+		<%
+	
+		if(!XianShiActivityMgr.isOpen4FengceHongBao){
+			%><a href="activity.jsp?fengceHongBao=1">开启</a>|关闭<%
+		}else{
+			%>开启|<a href="activity.jsp?fengceHongBao=0">关闭</a><%
+		}
+		%>
+		</td>
+		<td>
+		沒有
+		</td>
+		</tr>
 		<%
 	}
 	%>
 	</table>
+	
 </body>
 </html>

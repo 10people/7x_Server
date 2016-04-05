@@ -77,7 +77,8 @@ public class XianShiActivityMgr  extends EventProc{
 	public static final String XIANSHIYILING_KEY = "xianshiyiling_" + GameServer.serverId;//存储已领完奖励的限时活动小条目Id
 	public static final String XIANSHIFINISH_KEY = "xianshifinish_" + GameServer.serverId;//存储已领完奖励的限时活动bigId
 	public static final String XIANSHIKELING_KEY = "xianshikeling_" + GameServer.serverId;//存储可以完成未领奖的限时活动
-	public static final String XIANSHICHAOSHI_KEY = "xianshichaoshi_" + GameServer.serverId;//存储可以完成未领奖的限时活动
+	// 2016年3月28日 没有超时判断了
+//	public static final String XIANSHICHAOSHI_KEY = "xianshichaoshi_" + GameServer.serverId;//存储可以完成未领奖的限时活动
 	public static final String XIANSHI7DAY_KEY = "xianshi7Day_" + GameServer.serverId;//记录登录总天数
 	public static List<Integer> xshdCloseList=new ArrayList<Integer>();
 	public static boolean isShow=false;
@@ -305,16 +306,20 @@ public class XianShiActivityMgr  extends EventProc{
 		}
 		long jzId=jz.id;
 		OpenXianShiResp.Builder resp=OpenXianShiResp.newBuilder();
-		List<XianShiBean> xianShiList=HibernateUtil.list(XianShiBean.class, "where junZhuId="+jzId);
+		/**************************************************************************************/
+		//2016年3月28日 已经废弃判断 
+//		List<XianShiBean> xianShiList=HibernateUtil.list(XianShiBean.class, "where junZhuId="+jzId);
 		//判断当前君主哪些活动超过限时，自动关闭
-		if(xianShiList!=null){
-			for (XianShiBean xsBean : xianShiList) {
-				if((xsBean.finishDate==null)&&(xsBean.bigId!=XianShiConstont.ZAIXIANLIBAO_TYPE)
-						&&(xsBean.bigId!=XianShiConstont.QIRIQIANDAO_TYPE)){
-					checkisFinished(xsBean);
-				}
-			}
-		}
+//		if(xianShiList!=null){
+//			for (XianShiBean xsBean : xianShiList) {
+//				if((xsBean.finishDate==null)&&(xsBean.bigId!=XianShiConstont.ZAIXIANLIBAO_TYPE)
+//						&&(xsBean.bigId!=XianShiConstont.QIRIQIANDAO_TYPE)){
+//					checkisFinished(xsBean);
+//				}
+//			}
+//		}
+		
+		/**************************************************************************************/
 		//“七日签到”奖励是否领取完毕标记
 		boolean isFinish47Day=DB.lexist((XIANSHIFINISH_KEY + jzId), XianShiConstont.QIRIQIANDAO_TYPE + "");
 		//处理首日和七日签到活动
@@ -376,6 +381,7 @@ public class XianShiActivityMgr  extends EventProc{
 		session.write(resp.build());
 	}
 	//获取福利信息
+	@SuppressWarnings("deprecation")
 	public void getFuLiInfo(int id, Builder builder,IoSession session) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 		if (jz == null) {
@@ -475,6 +481,7 @@ public class XianShiActivityMgr  extends EventProc{
 	 * @Description 获取封测红包福利信息 
 	 * 部分参数写死 比如17:30分之类的 如果要变更需求 该配置需一起修改
 	 */
+	@SuppressWarnings("deprecation")
 	public void getHongBaoInfo(FuliInfo info, Date now,HongBaoResp.Builder hongbao) {
 		long jzId=info.jzId;
 		int fengceHongBaoCode=getNowHongBaoFuLiCode();
@@ -701,6 +708,7 @@ public class XianShiActivityMgr  extends EventProc{
 		return tiliCode;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void getTiliFuLiInfo(FuliInfo info, Date now,FuLiHuoDong.Builder tili) {
 		int tiliCode=getNowTiliCode();
 		int year=now.getYear();
@@ -780,6 +788,7 @@ public class XianShiActivityMgr  extends EventProc{
 	 * @param now
 	 * @param fengce
 	 */
+	@SuppressWarnings("deprecation")
 	public void getFengCeHongBaoInfo(FuliInfo info, Date now,FuLiHuoDong.Builder fengce) {
 		long jzId=info.jzId;
 		int fengceHongBaoCode=getNowHongBaoFuLiCode();
@@ -1243,16 +1252,17 @@ public class XianShiActivityMgr  extends EventProc{
 			return;
 		}
 		int remainTime=-1;
-		Date canjiaTime =xianshiBean.startDate;
-		int useDtime= (int) ((System.currentTimeMillis()-canjiaTime.getTime())/1000);
-		if(useDtime>(xsControl.getCloseTime()*3600)){
-			remainTime=(xsControl.getDelayTime()+xsControl.getCloseTime())*3600-useDtime;
-			if(remainTime<0){
-				log.info("玩家{}活动-{}剩余延迟领奖时间为-{},活动超时自动完成",jzId,bigId,remainTime);
-				xianshiBean.finishDate=new Date();
-				HibernateUtil.save(xianshiBean);
-			}
-		}
+		//2016年3月26日修正逻辑 这个时候已经没有超时设定了
+//		Date canjiaTime =xianshiBean.startDate;
+//		int useDtime= (int) ((System.currentTimeMillis()-canjiaTime.getTime())/1000);
+//		if(useDtime>(xsControl.getCloseTime()*3600)){
+//			remainTime=(xsControl.getDelayTime()+xsControl.getCloseTime())*3600-useDtime;
+//			if(remainTime<0){
+//				log.info("玩家{}活动-{}剩余延迟领奖时间为-{},活动超时自动完成",jzId,bigId,remainTime);
+//				xianshiBean.finishDate=new Date();
+//				HibernateUtil.save(xianshiBean);
+//			}
+//		}
 		//返回整个活动剩余领奖时间
 		if(resp!=null){
 			log.info("玩家{}活动-{}剩余延迟领奖时间为-{}",jzId,bigId,remainTime);
@@ -1269,10 +1279,8 @@ public class XianShiActivityMgr  extends EventProc{
 		for (int i = 0; i < hdSize; i++) {
 			HuoDongInfo.Builder hd=HuoDongInfo.newBuilder();
 			XianshiHuodong xshd=xsList.get(i);
-			//判断小活动是否超时 
-			int limitTime=xshd.getLimitTime();
 			int huoDongId=xshd.getId();
-			int shengyu=limitTime>useDtime?(limitTime-useDtime):0;
+			int shengyu=0;////2016年3月26日修正逻辑 这个时候已经没有超时设定了 limitTime>useDtime?(limitTime-useDtime):0;
 			hd.setShengTime(shengyu);
 
 			//达到领奖条件判断
@@ -1336,21 +1344,21 @@ public class XianShiActivityMgr  extends EventProc{
 			}
 			return 10;
 		}
-		//超时判断
-		boolean isChaoShi = DB.lexist((XIANSHICHAOSHI_KEY + jzId), huoDongId + "");
-		if(isChaoShi){
-			if(isShow){
-				log.info("当前君主{}限时活动-{}数据-可领取状态--超时不可领", jzId,huoDongId);
-			}
-			return 30;
-		}
-		if(xshd.getLimitTime()>0&&shengyu<=0){
-			DB.rpush4YaBiao((XIANSHICHAOSHI_KEY+ jzId), huoDongId+ "");
-			if(isShow){
-				log.info("当前君主{}限时活动-{}数据-可领取状态--超时不可领", jzId,huoDongId);
-			}
-			return 30;
-		}
+		//超时判断 没有超时判断了 2016年3月28日
+//		boolean isChaoShi = DB.lexist((XIANSHICHAOSHI_KEY + jzId), huoDongId + "");
+//		if(isChaoShi){
+//			if(isShow){
+//				log.info("当前君主{}限时活动-{}数据-可领取状态--超时不可领", jzId,huoDongId);
+//			}
+//			return 30;
+//		}
+//		if(xshd.getLimitTime()>0&&shengyu<=0){
+//			DB.rpush4YaBiao((XIANSHICHAOSHI_KEY+ jzId), huoDongId+ "");
+//			if(isShow){
+//				log.info("当前君主{}限时活动-{}数据-可领取状态--超时不可领", jzId,huoDongId);
+//			}
+//			return 30;
+//		}
 		//未超时
 		//2016年1月5日 自动触发任务是否完成判断 这里不用进行完成判断
 		if(isShow){
@@ -1719,14 +1727,15 @@ public class XianShiActivityMgr  extends EventProc{
 	 * @return
 	 */
 	public boolean isChaoShi(int bigId,Date canjiaTime){ 
-		XianshiControl	huoDong=xsControlMap.get(bigId);
-		if(huoDong==null){
-			log.error("活动{}是否超过完成时间判断出错，未找到配置",bigId);
-		}else{
-			long closeTime= huoDong.getCloseTime()+huoDong.getDelayTime();
-			long usedTime=(System.currentTimeMillis()-canjiaTime.getTime())/3600000;
-			return ((usedTime-closeTime)>0L);
-		}
+		//2016年3月26日修正逻辑 这个时候已经没有超时设定了
+//		XianshiControl	huoDong=xsControlMap.get(bigId);
+//		if(huoDong==null){
+//			log.error("活动{}是否超过完成时间判断出错，未找到配置",bigId);
+//		}else{
+//			long closeTime= huoDong.getCloseTime()+huoDong.getDelayTime();
+//			long usedTime=(System.currentTimeMillis()-canjiaTime.getTime())/3600000;
+//			return ((usedTime-closeTime)>0L);
+//		}
 		return false;
 	}
 	/**
@@ -1872,9 +1881,15 @@ public class XianShiActivityMgr  extends EventProc{
 		pm.builder=resp;
 		session.write(pm);
 	}
-
+	
+	/**
+	 * @Description 领取七日 首日之外的显示活动的奖励 getOtherXianShiArard拼写错误
+	 * @param id
+	 * @param builder
+	 * @param session
+	 */
 	public void getOtherXianShiArard(int id, Builder builder, IoSession session) {
-		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		JunZhu jz =  JunZhuMgr.inst.getJunZhu(session);
 		if (jz == null) {
 			log.error("请求限时活动奖励出错：君主不存在");
 			return;
@@ -1907,21 +1922,23 @@ public class XianShiActivityMgr  extends EventProc{
 			return;
 		}
 		XianShiBean xsBean=HibernateUtil.find(XianShiBean.class,xshd.getBigId()+jzId*100);
-		if(xsBean==null||(xsBean!=null&&xsBean.finishDate!=null)){
+		if(xsBean==null){
+			log.error("{}请求限时活动{}奖励领取失败，未找到奖励配置",jzId,huodongId);
 			//君主此活动未开启 或活动已过期
 			resp.setHuodongId(huodongId);
 			resp.setResult(40);
 			GainOtherAwardResp(session, resp);
 			return;
 		}
-		boolean isChaoShi = DB.lexist((XIANSHICHAOSHI_KEY + jzId), huodongId + "");
-		if(isChaoShi){
-			log.info("君主{}的活动之{}奖励已超过完成时间",jzId,huodongId);
-			resp.setHuodongId(huodongId);
-			resp.setResult(40);
-			GainOtherAwardResp(session, resp);
-			return;
-		}
+		//没有超时判断了 2016年3月28日
+//		boolean isChaoShi = DB.lexist((XIANSHICHAOSHI_KEY + jzId), huodongId + "");
+//		if(isChaoShi){
+//			log.info("君主{}的活动之{}奖励已超过完成时间",jzId,huodongId);
+//			resp.setHuodongId(huodongId);
+//			resp.setResult(40);
+//			GainOtherAwardResp(session, resp);
+//			return;
+//		}
 		boolean isCan= DB.lexist((XIANSHIKELING_KEY + jzId), xshd.getId() + "");
 		if(isCan){
 			String goods=xshd.getAward();
@@ -1984,10 +2001,11 @@ public class XianShiActivityMgr  extends EventProc{
 					condition=huoDongId;
 					continue;
 				}
-				boolean isChaoShi = DB.lexist((XIANSHICHAOSHI_KEY + jzId), huoDongId + "");
-				if(isChaoShi){
-					continue;
-				}
+				//没有超时判断了 2016年3月28日
+//				boolean isChaoShi = DB.lexist((XIANSHICHAOSHI_KEY + jzId), huoDongId + "");
+//				if(isChaoShi){
+//					continue;
+//				}
 				
 				if(isJinJieCanGet(equips,xshd)){
 						condition=huoDongId;
@@ -2325,18 +2343,22 @@ public class XianShiActivityMgr  extends EventProc{
 	 * @return
 	 */
 	public boolean checkisFinished(XianShiBean xsBean) {
-		if(xsBean.finishDate==null){
-			long jzId=xsBean.junZhuId;
-			Date canjiaTime=xsBean.startDate;
-			if(isChaoShi(xsBean.bigId, canjiaTime)){
-				log.info("{}的活动{}超时，自动完成",jzId,xsBean.bigId);
-				xsBean.finishDate=new Date();
-				HibernateUtil.save(xsBean);
-				DB.rpush4YaBiao((XIANSHIFINISH_KEY + jzId), xsBean.bigId+ "");
-				return true;
-			}
-		}
-		return false;
+		//2016年3月26日修正逻辑 这个时候已经没有超时设定了
+//		if(xsBean.finishDate==null){
+//			long jzId=xsBean.junZhuId;
+//			Date canjiaTime=xsBean.startDate;
+//			if(isChaoShi(xsBean.bigId, canjiaTime)){
+//				log.info("{}的活动{}超时，自动完成",jzId,xsBean.bigId);
+//				xsBean.finishDate=new Date();
+//				HibernateUtil.save(xsBean);
+//				DB.rpush4YaBiao((XIANSHIFINISH_KEY + jzId), xsBean.bigId+ "");
+//				return true;
+//			}
+//		}
+		long jzId=xsBean.junZhuId;
+		boolean isFinish = DB.lexist((XIANSHIFINISH_KEY + jzId), xsBean.bigId+ "");
+		log.info("君主--{}限时活动大Id-{},完成状态--{}", jzId,xsBean.bigId,isFinish);
+		return isFinish;
 	}
 	
 	/**
@@ -2354,10 +2376,11 @@ public class XianShiActivityMgr  extends EventProc{
 		if(isKeling){
 			return 20;
 		}
-		boolean isChaoShi = DB.lexist((XIANSHICHAOSHI_KEY + jzId), huoDongId + "");
-		if(isChaoShi){
-			return 30;
-		}
+		//没有超时判断了 2016年3月28日
+//		boolean isChaoShi = DB.lexist((XIANSHICHAOSHI_KEY + jzId), huoDongId + "");
+//		if(isChaoShi){
+//			return 30;
+//		}
 		return 0;
 	}
 	/**
@@ -2371,7 +2394,7 @@ public class XianShiActivityMgr  extends EventProc{
 			log.error("玩家{}刷新限时活动{}数据出错，XianshiHuodong-List为空",jzId,bigId);
 			return;
 		}
-		int useDtime= (int) ((System.currentTimeMillis()-xsBean.startDate.getTime())/1000);
+		int useDtime=0; //	//2016年3月26日修正逻辑 这个时候已经没有超时设定了(int) ((System.currentTimeMillis()-xsBean.startDate.getTime())/1000);
 		boolean isNewAward =refreshSmallItem(jzId,xsList,useDtime);
 		if(isNewAward){
 			log.info("君主{}限时活动-{} 有新奖励，推送数据", jzId,xsControl.getId());
@@ -2400,7 +2423,8 @@ public class XianShiActivityMgr  extends EventProc{
 			if(limitTime>0){
 				int shengyu=limitTime>useDtime?(limitTime-useDtime):0;
 				if(shengyu<=0){
-					DB.rpush4YaBiao((XIANSHICHAOSHI_KEY+ jzId), huoDongId+ "");
+					//没有超时判断了
+//					DB.rpush4YaBiao((XIANSHICHAOSHI_KEY+ jzId), huoDongId+ "");
 					continue;
 				}
 			}
@@ -2643,10 +2667,15 @@ public class XianShiActivityMgr  extends EventProc{
 		if(isGetCode==1||isGetCode==2){
 			FunctionID.pushCanShowRed(jz.id, session, FunctionID.fengcehongbao);
 		}
-		boolean isGet2=check4YuKaFuLi(info, now);
-		log.info("君主--{}月卡福利可领取状态--{}",jzId,isGet2);
-		if(isGet2){
-			FunctionID.pushCanShowRed(jz.id, session, FunctionID.yuekafuli);
+		boolean isCanGetYueKa=	VipMgr.INSTANCE.hasYueKaAward(jzId);
+		if(isCanGetYueKa){
+			boolean isGet2=check4YuKaFuLi(info, now);
+			log.info("君主--{}月卡福利可领取状态--{}",jzId,isGet2);
+			if(isGet2){
+				FunctionID.pushCanShowRed(jz.id, session, FunctionID.yuekafuli);
+			}
+		}else{
+			log.info("君主--{}月卡福利未开启，无红点推送判断",jzId);
 		}
 		FuLiHuoDong.Builder tili=FuLiHuoDong.newBuilder();
 		tili.setTypeId(FuliConstant.tilifuli);

@@ -90,7 +90,7 @@ public class UserEquipAction  extends EventProc {
 	private final int LOCK_FALG = 1114;//2015年9月8日 1.0不用洗练锁 此数值无具体意义 原来LOCK_FALG=1
 	public UserEquipService userEquipService = UserEquipService.getInstance();
 	public static int xilianshi=910002;//洗练石
-
+	
 	public UserEquipAction() {
 		instance = this;
 		initData();
@@ -173,7 +173,7 @@ public class UserEquipAction  extends EventProc {
 					session.getAttribute(SessionAttKey.junZhuId));
 			return;
 		}
-
+		log.info("君主-- {}进行洗练相关操作req.getAction()---{}",junZhu.id, req.getAction());
 		switch (req.getAction()) {
 		case 0: // 请求洗练装备信息
 			sendXiLianInfo(id, session, req, junZhu);
@@ -258,9 +258,9 @@ public class UserEquipAction  extends EventProc {
 		} else {
 			log.error("cmd:{},没有找到洗练数据：equipId:{},junzhuId:{}~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", id, equipId,
 					junZhu.id);
-			sendError(id, session, "cmd:" + id + ",没有找到洗练数据：equipId:" + equipId
-					+ "junzhuId:" + junZhu.id);
-			return;
+			//找不到洗练数据也返回装备信息不返回错误 2016年3月30日
+//			sendError(id, session, "cmd:" + id + ",没有找到洗练数据：equipId:" + equipId
+//					+ "junzhuId:" + junZhu.id);
 		}
 		sendXiLianInfo(id, session, req, junZhu);
 	}
@@ -1161,14 +1161,15 @@ public class UserEquipAction  extends EventProc {
 	}
 
 	public void sendError(int code, IoSession session, String msg) {
-		if (session == null) {
-			log.warn("session is null: {}", msg);
-			return;
-		}
-		ErrorMessage.Builder test = ErrorMessage.newBuilder();
-		test.setErrorCode(1);
-		test.setErrorDesc(msg);
-		session.write(test.build());
+		log.error("2016年3月30日 取消向客户端返回code---{}，msg---{}",code,msg);
+//		if (session == null) {
+//			log.warn("session is null: {}", msg);
+//			return;
+//		}
+//		ErrorMessage.Builder test = ErrorMessage.newBuilder();
+//		test.setErrorCode(1);
+//		test.setErrorDesc(msg);
+//		session.write(test.build());
 	}
 
 	/**
@@ -1389,6 +1390,7 @@ public class UserEquipAction  extends EventProc {
 		ret.setCount4New(count4New);
 		ret.setZhuangbeiID(zb.getId());
 		session.write(ret.build());
+		
 	}
 	
 	/**

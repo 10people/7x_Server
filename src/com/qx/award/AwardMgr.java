@@ -509,17 +509,20 @@ public class AwardMgr {
 						a.getItemNum());
 				log.info("{} 获得武艺精气{},达到{}", jz.id, a.getItemNum(), all);
 //				TalentMgr.instance.sendTalentInfo(session);
+				JunZhuMgr.inst.sendMainInfo(session);
 				break;
 			} else if (a.getItemId() == 900019) {// 体魄精气
 				int all = TalentMgr.instance.addTiPoJingQi(jz.id,
 						a.getItemNum());
 				log.info("{} 获得体魄精气{},达到{}", jz.id, a.getItemNum(), all);
 //				TalentMgr.instance.sendTalentInfo(session);
+				JunZhuMgr.inst.sendMainInfo(session);
 				break;
 			} else if(a.getItemId() == ITEM_WEI_WANG){ // 添加威望奖励
 				int all = ShopMgr.inst.addMoney(ShopMgr.Money.weiWang,
 						ShopMgr.baizhan_shop_type, jz.id, a.getItemNum());
 				log.info("君主：{}获取奖励，威望，获取数是：{}, 获取后拥有：{}", jz.id, a.getItemNum(), all);
+				ShopMgr.inst.sendWeiWang(session, jz.id);
 			}else if(a.getItemId() == item_gong_jin){ // 添加贡金
 				// 20151127
 				RankingGongJinMgr.inst.addGongJin(jz.id, a.getItemNum());
@@ -538,6 +541,7 @@ public class AwardMgr {
 				int all = ShopMgr.inst.addMoney(ShopMgr.Money.huangYeBi, 
 						ShopMgr.huangYe_shop_type, jz.id, a.getItemNum());
 				log.info("君主：{}获取奖励，荒野币，获取数是：{}, 获取后拥有：{}", jz.id, a.getItemNum(), all);
+				ShopMgr.inst.sendHangYebi(session, jz.id);
 			}else if(a.getItemId() == vip_exp){
 				VipMgr.INSTANCE.addVipExp(jz, a.getItemNum());
 				log.info("君主：{}通过奖励获取vip经验：{}点，完成", jz.id, a.getItemNum());

@@ -57,9 +57,10 @@ public class GMLogMgr {
 		}
 
 		JunZhu junZhu = GMRoleMgr.inst.getJunzhu(request.getZone(),
-				request.getUin(), request.getRolename(), request.getRoleid(),
-				writer);
+				request.getUin(), request.getRolename(), request.getRoleid());
 		if (null == junZhu) {
+			response.setCode(CodeUtil.NONE_JUNZHU);
+			GMServlet.write(response, writer);
 			return;
 		}
 

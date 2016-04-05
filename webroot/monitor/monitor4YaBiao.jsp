@@ -72,6 +72,7 @@ if("switchOpen".equals(act)){
 	int peopleCanshu=Integer.parseInt(saveArea_people_max);
 	if(YunbiaoTemp.saveArea_people_max!=peopleCanshu){
 		YunbiaoTemp.saveArea_people_max=peopleCanshu;
+		YaBiaoHuoDongMgr.MAX_YB_NUM=peopleCanshu*4;
 	}
 	String interval=request.getParameter("interval");
 	interval=interval==null?""+YaBiaoRobotProduceMgr.interval:interval;
@@ -80,6 +81,12 @@ if("switchOpen".equals(act)){
 		YaBiaoRobotProduceMgr.interval=timeInterval;
 	}
 	
+	String moveInterval=request.getParameter("moveInterval");
+	moveInterval=(moveInterval==null)?""+YBRobotMgr.INTERVAL:moveInterval;
+	int timeMoveInterval=Integer.parseInt(moveInterval);
+	if(YBRobotMgr.INTERVAL!=timeMoveInterval){
+		YBRobotMgr.INTERVAL=timeMoveInterval;
+	}
 	String normal=request.getParameter("normal");
 	MaJu mabian4Normal=YaBiaoHuoDongMgr.majuMap.get(910007);
 	normal=normal==null?""+mabian4Normal.value2:normal;
@@ -108,6 +115,10 @@ if("switchOpen".equals(act)){
   	 	系统马车刷新时间(毫秒	)<input type='text' name='interval' id='interval' value='<%=interval%>'/>
 	  	<button type="submit">修改</button>
 	</form>
+	  	<form action="">
+  	 	服务器刷新马车坐标的频率<input type='text' name='moveInterval' id='moveInterval' value='<%=moveInterval%>'/>
+	  	<button type="submit">修改</button>
+	</form>
   	<form action="">
   	 	普通马鞭加速倍率（100%之上再加）<input type='text' name='normal'  value='<%=normal%>'/>
 	  	<button type="submit">修改</button>
@@ -120,6 +131,7 @@ if("switchOpen".equals(act)){
 ，设置为<a href='?act=switchOpen'><%=BigSwitch.inst.ybMgr.openFlag ? "关闭" : "开启"%></a>
 <br/>
 <a href='?act=productMache'>手动生成 机器镖车</a>
+ YaBiaoHuoDongMgr.MAX_YB_NUM:<input type="text" name="maxPerSon"  value='<%= YaBiaoHuoDongMgr.MAX_YB_NUM%>'/>
 <br/>
 <form action="">
 	攻击者君主id:<input type="text" name="attackId" />
@@ -137,7 +149,7 @@ if("calcDamame".equals(act)) {
 	JunZhu attack = HibernateUtil.find(JunZhu.class, attackId);
 	JunZhu target = HibernateUtil.find(JunZhu.class, targetId);
 	Skill skill =  BuffMgr.inst.getSkillById(skillId);
-	int damage = BuffMgr.inst.calcSkillDamage(attack, target, skill, 0);
+	long damage = BuffMgr.inst.calcSkillDamage(attack, target, skill, 0);
 	out.println("造成的伤害值是:"+damage+"<br/>");
 }
 %>
@@ -211,9 +223,11 @@ while(ybkey.hasMoreElements()){
 // 		}
 // 	}
 	//sc.players.clear();
-	out("<tr><td colspan='7'>"+sc.name+"场景精灵数(人+马车总数)"+sc.players.size()+"</td></tr>");
+	out("<tr><td colspan='7'>"+sc.name+"场景精灵数(人+马车总数)"+sc.players.size()+"待处理消息长度"+sc.missions.size()+"</td></tr>");
 	cnt += sc.players.size();
 	int idx = 0;
+	int personCnt=0;
+	int cartCnt=0;
 	List<Player> cartList=new ArrayList<Player>();
 	int checkFlag=-1;
 	Player miss = new Player();
@@ -236,10 +250,12 @@ while(ybkey.hasMoreElements()){
 		out.append("</td>");
 		out.append("<td>");
 		if(tem == null){
-			out.append("马车NPC丢失:"+p.jzId);
+			out.append("马车NPC丢失（这可是能是玩家）:"+p.jzId);
 			//it2.remove();
+			personCnt++;
 		}else if(checkFlag!=tem.bcNPCNo){
 			checkFlag=tem.bcNPCNo;
+			cartCnt++;
 			out.append("<font color='green'>"+tem.bcNPCNo+"</font>");
 		}else{
 			out.append("<font color='red'>"+tem.bcNPCNo+"</font>");
@@ -260,11 +276,12 @@ while(ybkey.hasMoreElements()){
 		out.append("x坐标--"+p.getPosX()+"y坐标--"+p.getPosY()+"z坐标--"+p.getPosZ());
 		out.append("</td>");
 		out.append("<td>");
-		out.append(tem == null ? "" : ""+tem.pathId);
+		out.append(tem == null ? p.safeArea+"" : ""+tem.pathId);
 		out.append("</td>");
 		
 		out.append("<tr>");
 	};
+	out.print("押镖场景在线玩家数量:"+personCnt+"------马车数量："+cartCnt+" <br/>");
 }
 
 %>

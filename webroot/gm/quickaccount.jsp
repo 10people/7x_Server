@@ -1,3 +1,5 @@
+<%@page import="com.qx.bag.EquipGrid"%>
+<%@page import="com.qx.bag.EquipMgr"%>
 <%@page import="com.qx.junzhu.JunZhuMgr"%>
 <%@page import="qxmobile.protobuf.JunZhuProto.JunZhuInfoRet"%>
 <%@page import="com.qx.persistent.MC"%>
@@ -128,7 +130,7 @@
 		if (action != null) {
 			if (action.equals("createAccount")) {
 				Account account = new Account();
-				/* oldJunName = new String(oldJunName.getBytes("ISO-8859-1"),"UTF-8"); */
+				oldJunName = new String(oldJunName.getBytes("ISO-8859-1"),"UTF-8"); 
 				JunZhu junzhu = HibernateUtil.find(JunZhu.class,  " where name='" + oldJunName +"'", false);
 				System.out.println(junzhu);
 				if(junzhu==null){
@@ -229,6 +231,12 @@
 								oldA.title = 0;
 								oldA.junzhuId = newId;
 								HibernateUtil.insert(oldA);
+								
+								AllianceBean alliance = HibernateUtil.find(AllianceBean.class, oldA.lianMengId);
+								if(alliance != null) {
+									alliance.members += 1;
+									HibernateUtil.save(alliance);
+								}
 							}
 							
 							/**复制联盟贡献**/
@@ -467,8 +475,28 @@
 							Bag<BagGrid> oldBag = BagMgr.inst.loadBag(junzhu.id);
 							Bag<BagGrid> newBag = BagMgr.inst.loadBag(newJunZhu.id);
 							for(BagGrid grid : oldBag.grids){
-								BagMgr.inst.addItem(newBag, grid.itemId, grid.cnt, grid.instId, newJunZhu.level, "复制帐号背包信息");
+								if(grid.itemId>0){
+									BagMgr.inst.addItem(newBag, grid.itemId, grid.cnt, grid.instId, newJunZhu.level, "复制帐号背包信息");
+								}
 							}
+							/*装备*/
+							List<EquipGrid> listgird = EquipMgr.inst.loadEquips(junzhu.id).grids;
+							Bag<EquipGrid> bag22 = EquipMgr.inst.initEquip(newJunZhu.id);
+							// Bag<BagGrid> bag2 = BagMgr.inst.loadBag(newJunZhu.id);
+							int i=0;
+							for(EquipGrid grid : listgird){
+								if(grid!=null){
+									   System.out.println("1111##############################grid!=null");
+									   EquipGrid eg =  bag22.grids.get(i);
+		                                eg.instId = grid.instId;
+		                                eg.itemId = grid.itemId;
+		                                System.out.println(eg);
+		                              HibernateUtil.save(eg);
+								}
+								i++;
+                            }
+							
+							
 							/**符文**/
 							List<String> list = Redis.getInstance().lgetList(FuwenMgr.CACHE_FUWEN_LANWEI + junzhu.id);
 							for(String id:list){
@@ -479,6 +507,7 @@
 							RankingGongJinMgr.inst.addGongJin(newId, 1000);
 							%>复制ok<%
 							}catch(Exception e){
+								e.printStackTrace();
 								%>复制出错<%
 							}
 							%>

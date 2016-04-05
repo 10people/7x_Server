@@ -237,4 +237,5 @@
 <AnnounceTemp id="237" type="25" condition="-1" announcement="[dbba8f]*玩家名字七个字*[-][ffffff]恭贺你击败了[-][e5e205]竞技[-][ffffff]中的对手！他是首个恭贺你的玩家！快去领取奖励吧！[-]" announceObject="3" />
 <AnnounceTemp id="238" type="26" condition="-1" announcement="[ffffff]普天同庆！共[-][dbba8f]*N*[-][ffffff]个玩家恭贺你开启了[-][00e1c4]联盟[-][ffffff]功能。[-]" announceObject="3" />
 <AnnounceTemp id="239" type="27" condition="-1" announcement="[ffffff]普天同庆！共[-][dbba8f]*N*[-][ffffff]个玩家恭贺你击败了[-][e5e205]竞技[-][ffffff]中的对手。快去领取奖励吧！[-]" announceObject="3" />
+<AnnounceTemp id="240" type="28" condition="-1" announcement="您的盟友[dbba8f]XXX[-]遭到[d80202]*玩家名字七个字*[-]的掠夺！联盟将在[f5aa29]00:00[-]后损失M建设值！请速去驱逐敌人！" announceObject="5" />
 </dataset>

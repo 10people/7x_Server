@@ -644,9 +644,9 @@ public class GameTaskMgr extends EventProc{
 					 */
 				case TaskData.mibao_shengStar:
 					donCond = Integer.parseInt(zx.getDoneCond());
-					MiBaoDB miBaoDB = HibernateUtil.find(MiBaoDB.class,
-							" where ownerId=" + junZhuId + " and mibaoId=" + donCond);
-					if(miBaoDB != null && miBaoDB.hasShengXing) {
+					List<MiBaoDB> miBaoDBs = HibernateUtil.list(MiBaoDB.class,
+							" where ownerId=" + junZhuId + " and hasShengXing=true");
+					if(miBaoDBs != null && miBaoDBs.size()>0) {
 						b.progress = -1;
 					}
 					break;
@@ -707,6 +707,15 @@ public class GameTaskMgr extends EventProc{
 							b.progress = -1;
 							break;
 						}
+					}
+					break;
+				case TaskData.GET_PVE_AWARD:
+					donCond = Integer.parseInt(zx.getDoneCond());
+					lr = HibernateUtil.list(PveRecord.class,
+							" where uid =" + junZhuId + " and guanQiaId =" + donCond +" and (cqStarRewardState>0 or achieveRewardState>0)");
+					if(lr.size()>0){
+						b.progress = -1;
+						break;
 					}
 					break;
 				case TaskData.finish_youxia_x:
@@ -778,7 +787,6 @@ public class GameTaskMgr extends EventProc{
 						log.info("君主：{}提前完成主线劫镖一次，加载该任务，并设置为完成", junZhuId);
 					}
 					break;
-					
 			}
 		}
 		HibernateUtil.save(b);
@@ -1184,7 +1192,7 @@ public class GameTaskMgr extends EventProc{
 			   break;
 		   case ED.mibao_shengStar:
 			   Integer mbid = (Integer)obs[1];
-			   recordTaskProcess(junZhuId, TaskData.mibao_shengStar, mbid+"");
+			   recordTaskProcess(junZhuId, TaskData.mibao_shengStar, 1+"");
 			   break;
 		   case ED.get_pass_PVE_zhang_award:
 			   recordTaskProcess(junZhuId, TaskData.get_pass_PVE_zhang_award, 1+"");

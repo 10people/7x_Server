@@ -39,6 +39,8 @@ public class PublicShop{
 	public Date lastResetShopTime; // 更新购买刷新货物次数的时间 
 	
 	public int buyGoodTimes = 0; // 累计购买物品的次数
+	@Column(nullable = true)
+	public Date openTime;
 
 	protected int getMoney(){
 		return money;

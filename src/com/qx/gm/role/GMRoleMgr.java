@@ -89,8 +89,10 @@ public class GMRoleMgr {
 		}
 
 		JunZhu junZhu = getJunzhu(request.getZone(), request.getUin(),
-				request.getRolename(), request.getRoleid(), writer);
+				request.getRolename(), request.getRoleid());
 		if (null == junZhu) {
+			response.setCode(CodeUtil.NONE_JUNZHU);
+			GMServlet.write(response, writer);
 			return;
 		}
 
@@ -173,8 +175,10 @@ public class GMRoleMgr {
 		}
 
 		JunZhu junZhu = getJunzhu(request.getZone(), request.getUin(),
-				request.getRolename(), null, writer);
+				request.getRolename(), null);
 		if (null == junZhu) {
+			response.setCode(CodeUtil.NONE_JUNZHU);
+			GMServlet.write(response, writer);
 			return;
 		}
 
@@ -250,7 +254,7 @@ public class GMRoleMgr {
 
 		// 查询君主信息
 		JunZhu junZhu = getJunzhu(request.getZone(), request.getUin(),
-				request.getRolename(), null, writer);
+				request.getRolename(), null);
 		if (null == junZhu) {
 			response.setCode(CodeUtil.NONE_JUNZHU);
 			GMServlet.write(response, writer);
@@ -319,7 +323,7 @@ public class GMRoleMgr {
 
 		// 查询君主信息
 		JunZhu junZhu = getJunzhu(request.getZone(), request.getUin(),
-				request.getRolename(), null, writer);
+				request.getRolename(), null);
 		if (null == junZhu) {
 			response.setCode(CodeUtil.NONE_JUNZHU);
 			GMServlet.write(response, writer);
@@ -383,7 +387,7 @@ public class GMRoleMgr {
 		}
 
 		JunZhu junZhu = getJunzhu(request.getZone(), request.getUin(),
-				request.getRolename(), null, writer);
+				request.getRolename(), null);
 		if (null == junZhu) {
 			response.setCode(CodeUtil.NONE_JUNZHU);
 			GMServlet.write(response, writer);
@@ -427,7 +431,7 @@ public class GMRoleMgr {
 		}
 
 		JunZhu junZhu = getJunzhu(request.getZone(), request.getUin(),
-				request.getRolename(), null, writer);
+				request.getRolename(), null);
 		if (null == junZhu) {
 			response.setCode(CodeUtil.NONE_JUNZHU);
 			GMServlet.write(response, writer);
@@ -473,7 +477,7 @@ public class GMRoleMgr {
 		}
 
 		JunZhu junZhu = getJunzhu(request.getZone(), request.getUin(),
-				request.getRolename(), null, writer);
+				request.getRolename(), null);
 		if (null == junZhu) {
 			response.setCode(CodeUtil.NONE_JUNZHU);
 			GMServlet.write(response, writer);
@@ -508,7 +512,7 @@ public class GMRoleMgr {
 		}
 
 		JunZhu junZhu = getJunzhu(request.getZone(), request.getUin(),
-				request.getRolename(), null, writer);
+				request.getRolename(), null);
 		if (null == junZhu) {
 			response.setCode(CodeUtil.NONE_JUNZHU);
 			GMServlet.write(response, writer);
@@ -542,7 +546,7 @@ public class GMRoleMgr {
 		}
 
 		JunZhu junZhu = getJunzhu(request.getZone(), request.getUin(),
-				request.getRolename(), null, writer);
+				request.getRolename(), null);
 		if (null == junZhu) {
 			response.setCode(CodeUtil.NONE_JUNZHU);
 			GMServlet.write(response, writer);
@@ -724,16 +728,12 @@ public class GMRoleMgr {
 	 * @throws
 	 */
 	public JunZhu getJunzhu(int zone, String uin, String rolename,
-			String roleid, PrintWriter writer) {
+			String roleid) {
 		JunZhu junZhu = null;
 		if (rolename.length() == 0 && uin.length() == 0) {// 没有查询信息
 			if (null == roleid) {
-				GMServlet
-						.write("{\"code\":" + CodeUtil.NONE_INFO + "}", writer);
 				return null;
 			} else if (roleid.length() == 0) {
-				GMServlet
-						.write("{\"code\":" + CodeUtil.NONE_INFO + "}", writer);
 				return null;
 			}
 		}
@@ -749,11 +749,9 @@ public class GMRoleMgr {
 			junZhu = HibernateUtil.find(JunZhu.class, Long.valueOf(roleid));
 		}
 		if (null == junZhu) {// 君主不存在
-			GMServlet.write("{\"code\":" + CodeUtil.NONE_JUNZHU + "}", writer);
 			return null;
 		}
 		if (!String.valueOf(junZhu.id).endsWith(String.valueOf(zone))) {// 角色不属于这个大区
-			GMServlet.write("{\"code\":" + CodeUtil.NONE_JUNZHU + "}", writer);
 			return null;
 		}
 		return junZhu;

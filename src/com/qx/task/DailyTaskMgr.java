@@ -304,6 +304,14 @@ public class DailyTaskMgr extends EventProc {
 //			return;
 //		}
 		DailyTaskBean taskBean = getTaskByTaskId(jzId, rwId);
+		if(taskBean == null){
+			logger.error("玩家：{}，taskProcess执行，taskBean==null没有renwuId:{}",
+					jzId, rwId);
+			return ;
+		}
+		
+		// 重置
+		resetOneTask(jzId, taskBean, rwId);
 		RenWu renWu = renWuMap.get(rwId);
 		if(renWu == null) {
 			logger.error("找不到对应任务的配置信息，renwuId:{}", rwId);
@@ -388,6 +396,14 @@ public class DailyTaskMgr extends EventProc {
 		}
 		DailyTaskRewardResponse.Builder response = DailyTaskRewardResponse.newBuilder();
 		DailyTaskBean taskBean = getTaskByTaskId(jId, dbtaskId);
+		if(taskBean == null){
+			logger.error("玩家：{}，领取每日任务奖励失败：找不到任务配置信息，renwuId:{}",
+					jId, dbtaskId);
+			return;
+		}
+		
+		// 重置任务
+		resetOneTask(jId, taskBean, taskId);
 		int jindu = taskBean.jundu;
 		int condi = renWu.condition;
 		String jiangLi = renWu.award;
@@ -564,12 +580,20 @@ public class DailyTaskMgr extends EventProc {
 		DailyTaskBean task = null;
 		for (Integer id: taskIdArr){
 			task = initTask(jId, id);
+			if(task == null){
+				continue;
+			}
 			tasks.add(task);
 		}
 		return tasks;
 	}
 
 	public DailyTaskBean initTask(long jId, int renWuId){
+		RenWu rw = renWuMap.get(renWuId);
+		if(rw == null){
+			logger.error("初始化任务失败，任务ID为：{}" ,renWuId);
+			return null ;
+		}
 		long dbId = jId * space + renWuId;
 		DailyTaskBean task = new DailyTaskBean(); 
 		task.dbId = dbId;
@@ -591,7 +615,7 @@ public class DailyTaskMgr extends EventProc {
 			task.isFinish = true;
 		}
 		task.isGetReward = false;
-		task.type = renWuMap.get(renWuId).type;
+		task.type = rw.type;
 		task.time = new Date();
 		return task;
 	}
@@ -600,6 +624,9 @@ public class DailyTaskMgr extends EventProc {
 		DailyTaskBean task = HibernateUtil.find(DailyTaskBean.class, dbId);
 		if(task == null){
 			task = initTask(jzId, renWuId);
+			if(task == null){
+				return null ;
+			}
 			// 向缓存中添加
 			MC.add(task, dbId);
 			HibernateUtil.insert(task);
@@ -619,16 +646,33 @@ public class DailyTaskMgr extends EventProc {
 			DailyTaskBean task = map.get(taskId);
 			if(task == null){
 				task = initTask(jzId, taskId);
+				if(task == null){
+					continue;
+				}
 				tasks.add(task);
 			}else if(isTimeToReset(task.time)){
 				tasks.remove(task);
 				task = initTask(jzId, taskId);
+				if(task == null){
+					continue;
+				}
 				tasks.add(task);
 				HibernateUtil.save(task);
 			}
 		}
 	}
 	
+	public void resetOneTask(long jzId, DailyTaskBean task, int renWuId){
+		if(task == null) return;
+		if(task.time != null && isTimeToReset(task.time)){
+			task.jundu = 0;
+			task.isFinish = false;
+			task.isGetReward = false;
+			task.type = renWuMap.get(renWuId).type;
+			task.time = new Date();
+			HibernateUtil.save(task);
+		}
+	}
 	public int[] getTwoGuoJia(long jId){
 		JunZhu jz = HibernateUtil.find(JunZhu.class, jId);
 		if(jz == null){

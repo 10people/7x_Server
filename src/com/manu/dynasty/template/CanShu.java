@@ -173,6 +173,7 @@ public class CanShu {
 	public static int YUNBIAOASSISTANCE_GAIN_FAIL;
 	public static double YUNBIAOASSISTANCE_HPBONUS;
 	public static int MAXTIME_LUEDUO;
+	public static int LIANMENG_JIBAI_PRICE;
 	
 	public static int  REFRESHTIME_PURCHASE;
 	public static int WEIWANG_INIT;

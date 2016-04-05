@@ -142,9 +142,10 @@ function go(act, id, type){
 					if(ss != null)GameTaskMgr.inst.sendTaskList(0, ss, null);
 				} else if("subProg".equals(action)) {
 					WorkTaskBean o = HibernateUtil.find(WorkTaskBean.class, " where dbId="+request.getParameter("dbId"));
-					o.progress = -1;
-					HibernateUtil.save(o);
+					if(o!=null)
 					{
+						o.progress = -1;
+						HibernateUtil.save(o);
 	                    MemcachedCRUD.getMemCachedClient().set("RenWuOverId#"+junzhu.id, o.tid);
 					}
 					IoSession ss = AccountManager.getIoSession(junzhu.id);

@@ -31,15 +31,5 @@ public class DailyTaskJob implements Job {
 			}
 		}
 		log.info("结束刷新每日任务");
-		Date date = new Date();
-		int hour = date.getHours();
-		switch(hour){
-		case DailyTaskConstants.show_tili_clock_12:
-			XG.inst.pushGetTili(10);
-			break;
-		case DailyTaskConstants.show_tili_clock_18:
-			XG.inst.pushGetTili(20);
-			break;
-		}
 	}
 }

@@ -155,6 +155,7 @@ public class MoBaiMgr extends EventProc{
 		if (bean == null) {// 没有膜拜过
 			bean = new MoBaiBean();
 			bean.junZhuId = member.junzhuId;
+			session.setAttribute("MoBaiMgr.firstTime", Boolean.TRUE);
 		}
 		MoBaiReq.Builder req = (qxmobile.protobuf.MoBaiProto.MoBaiReq.Builder) builder;
 		int cmd = req.getCmd();
@@ -163,11 +164,12 @@ public class MoBaiMgr extends EventProc{
 		if (jz == null) {
 			return;
 		}
-		if(jz.tiLi>=JunZhuMgr.TiLiMax){
-			log.error("{}您的体力已满--{}", jz.id,jz.tiLi);
-			sendError(0, session, "您的体力已满999");
-			return;
-		}
+//		2016年3月31日 18:46:30 晓楠说不做体力限制
+//		if(jz.tiLi>=JunZhuMgr.TiLiMax){
+//			log.error("{}您的体力已满--{}", jz.id,jz.tiLi);
+//			sendError(0, session, "您的体力已满999");
+//			return;
+//		}
 		switch (cmd) {// 1 铜币膜拜；2 元宝膜拜； 3 玉膜拜
 		case 1:
 			tongBiDo(jz,session, bean, member, alliance);
@@ -230,7 +232,7 @@ public class MoBaiMgr extends EventProc{
 			BagMgr.inst.removeItem(bag, yuId, 1, "膜拜",jz.level);
 		}
 		Date today = new Date();
-		BagMgr.inst.sendBagInfo(0, session, null);
+		//BagMgr.inst.sendBagInfo(0, session, null);//下面会发
 		bean.yuTime = today;
 		bean.yuTimes += 1;
 
@@ -239,6 +241,11 @@ public class MoBaiMgr extends EventProc{
 		// MemcachedCRUD.getMemCachedClient().addOrIncr(moBaiBuffCnt+member.lianMengId,
 		// conf.buffNum);
 		HibernateUtil.save(bean);
+		
+		//2016年3月30日11:55:13，修改为统一的发奖调用
+		AwardMgr.inst.giveReward(session, conf.award, jz);
+		BagMgr.inst.sendBagInfo(0, session, null);//扣了物品，所以要发
+		/*
 		ExploreResp.Builder list = ExploreResp.newBuilder();
 		{// 计算奖励
 			List<AwardTemp> awardList = PurchaseMgr.inst
@@ -256,6 +263,7 @@ public class MoBaiMgr extends EventProc{
 			}
 			BagMgr.inst.sendBagInfo(0, session, null);
 		}
+		*/
 		log.info("{}玉膜拜", bean.junZhuId);
 		ActLog.log.Worship(jz.id, jz.name, ActLog.vopenid, "3", spend);
 		member.gongXian += conf.gongxian;
@@ -266,9 +274,20 @@ public class MoBaiMgr extends EventProc{
 		HibernateUtil.save(alliance);
 		
 		JunZhuMgr.inst.sendMainInfo(session);
-		sendMoBaiInfo(0, session, null, list);
+		sendMoBaiInfo(0, session, null);
 		AllianceMgr.inst.changeGongXianRecord(jz.id, conf.gongxian);
 		
+		int exp = parseExp(conf);
+		recordMobaiEvent(jz.name, "顶礼", conf.jianshe, member.lianMengId, exp);
+		// 每日任务：膜拜
+		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
+				jz.id, DailyTaskConstants.moBai, 1));
+		// 主线任务: 任意膜拜1次（免费  元宝）的都算完成任务 20190916
+		EventMgr.addEvent(ED.mobai , new Object[] { jz.id});
+		EventMgr.addEvent(ED.YU_MO_BAI, new Object[]{jz});
+	}
+
+	private int parseExp(LianmengMobai conf) {
 		int exp = 0;
 		String[] jiangliArray = conf.award.split("#");
 		for(String award : jiangliArray) {
@@ -278,13 +297,7 @@ public class MoBaiMgr extends EventProc{
 				exp = Integer.parseInt(awardInfo[2]);
 			}
 		}
-		recordMobaiEvent(jz.name, "玉珏", conf.jianshe, member.lianMengId, exp);
-		// 每日任务：膜拜
-		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
-				jz.id, DailyTaskConstants.moBai, 1));
-		// 主线任务: 任意膜拜1次（免费  元宝）的都算完成任务 20190916
-		EventMgr.addEvent(ED.mobai , new Object[] { jz.id});
-		EventMgr.addEvent(ED.YU_MO_BAI, new Object[]{jz});
+		return exp;
 	}
 
 	protected boolean timeFail(IoSession session, Date time) {
@@ -378,16 +391,8 @@ public class MoBaiMgr extends EventProc{
 		//加联盟经验奖励
 		AwardMgr.inst.giveReward(session, conf.award, jz);
 		
-		int exp = 0;
-		String[] jiangliArray = conf.award.split("#");
-		for(String award : jiangliArray) {
-			String[] awardInfo = award.split(":");
-			int itemId = Integer.parseInt(awardInfo[1]);
-			if(itemId == AwardMgr.ITEM_ALLIANCE_EXP) {
-				exp = Integer.parseInt(awardInfo[2]);
-			}
-		}
-		recordMobaiEvent(jz.name, "元宝", conf.jianshe, member.lianMengId, exp);
+		int exp = parseExp(conf);
+		recordMobaiEvent(jz.name, "虔诚", conf.jianshe, member.lianMengId, exp);
 		
 		// 每日任务：膜拜
 		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
@@ -410,18 +415,25 @@ public class MoBaiMgr extends EventProc{
 			log.error("没有找到配置 {}", 1);
 			return;
 		}
-		if (jz.tongBi < conf.needNum || conf.needNum <= 0) {
+		int moneyNeed = conf.needNum;
+		Object att = session.removeAttribute("MoBaiMgr.firstTime");
+		if(att != null){
+			//http://192.168.0.250:81/index.php/bug/41899
+			moneyNeed = 0;
+			log.info("{}首次普通膜拜，不消耗铜币", jz.id);
+		}
+		if (jz.tongBi < moneyNeed && moneyNeed > 0) {
 			sendError(0, session, "您的铜币不足。");
 			return;
 		}
-		jz.tongBi -= conf.needNum;
+		jz.tongBi -= moneyNeed;
 		JunZhuMgr.inst.updateTiLi(jz, conf.tili, "铜币膜拜");
 		HibernateUtil.save(jz);
-		log.info("膜拜扣除{}:{}铜币{}", jz.id, jz.name, conf.needNum);
+		log.info("膜拜扣除{}:{}铜币{}", jz.id, jz.name, moneyNeed);
 		JSONArray spend = new JSONArray();
 		JSONObject jo = new JSONObject();
 		jo.put("name", "铜币");
-		jo.put("num", conf.needNum);
+		jo.put("num", moneyNeed);
 		spend.add(jo);
 		ActLog.log.Worship(jz.id, jz.name, ActLog.vopenid, "1", spend);
 		JunZhuMgr.inst.sendMainInfo(session);
@@ -445,16 +457,8 @@ public class MoBaiMgr extends EventProc{
 		// 加 联盟经验 award
 		AwardMgr.inst.giveReward(session, conf.award, jz);
 		
-		int exp = 0;
-		String[] jiangliArray = conf.award.split("#");
-		for(String award : jiangliArray) {
-			String[] awardInfo = award.split(":");
-			int itemId = Integer.parseInt(awardInfo[1]);
-			if(itemId == AwardMgr.ITEM_ALLIANCE_EXP) {
-				exp = Integer.parseInt(awardInfo[2]);
-			}
-		}
-		recordMobaiEvent(jz.name, "铜币", conf.jianshe, member.lianMengId, exp);
+		int exp = parseExp(conf);
+		recordMobaiEvent(jz.name, "普通", conf.jianshe, member.lianMengId, exp);
 		
 		// 每日任务：膜拜
 		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(

@@ -15,10 +15,10 @@
 <FunctionUnlock id="104" funName="玩家社交公会系统，\n加入或者创建联盟即可拥有自己的房屋。" icon="104" funDesc="[FF0000]向孙膑道贺升迁[-]" rank="19" descID="890001" />
 <FunctionUnlock id="8" funName="包含行镖（实时多人对战）、掠夺等PVP玩法。" icon="8" funDesc="[FF0000]任意秘宝10级[-]" rank="12" descID="890024" />
 <FunctionUnlock id="3000010" funName="已完胜通关的关卡可以一键重复扫荡。" icon="3000010" funDesc="[FF0000]通关3-3[-]" rank="13" descID="890014" />
-<FunctionUnlock id="500010" funName="获取高级符石可以快速提升角色属性和战力。" icon="500010" funDesc="[FF0000]挑战试练II难度[-]" rank="14" descID="890005" />
+<FunctionUnlock id="500010" funName="获取高级符石可以快速提升角色属性和战力。" icon="500010" funDesc="[FF0000]挑战试练-完璧归赵[-]" rank="14" descID="890005" />
 <FunctionUnlock id="109" funName="过关斩将玩法的高难度模式。\n成功挑战后可获取珍贵的秘宝碎片。" icon="109" funDesc="[FF0000]通关3-7[-]" rank="15" descID="890013" />
 <FunctionUnlock id="9" funName="可以使用元宝购买所需的各种物品。" icon="9" funDesc="[FF0000]装备强化至15级[-]" rank="16" descID="890015" />
 <FunctionUnlock id="106" funName="每天都可自由挑战的任务内容，\n完成每日任务可以获取大量经验奖励。" icon="106" funDesc="[FF0000]装备强化至18级[-]" rank="17" descID="890006" />
 <FunctionUnlock id="211" funName="PVP对战玩法，掠夺更多贡金可以兑换丰富奖励。" icon="211" funDesc="[FF0000]等级达到28级[-]" rank="20" descID="890018" />
-<FunctionUnlock id="1210" funName="铁匠功能下的二级功能，\n可随机提升或降低装备的属性。" icon="1210" funDesc="[FF0000]等级达到30级[-]" rank="21" descID="890008" />
+<FunctionUnlock id="1210" funName="铁匠功能下的二级功能，\n可随机提升或降低装备的属性。" icon="1210" funDesc="[FF0000]道别范蠡[-]" rank="21" descID="890008" />
 </dataset>

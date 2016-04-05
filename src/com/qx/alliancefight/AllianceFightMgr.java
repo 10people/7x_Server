@@ -18,23 +18,6 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.AllianceFightProtos.ApplyFightResp;
-import qxmobile.protobuf.AllianceFightProtos.BattleData;
-import qxmobile.protobuf.AllianceFightProtos.BattlefieldInfoResp;
-import qxmobile.protobuf.AllianceFightProtos.CampInfo;
-import qxmobile.protobuf.AllianceFightProtos.FightAttackReq;
-import qxmobile.protobuf.AllianceFightProtos.FightAttackResp;
-import qxmobile.protobuf.AllianceFightProtos.FightHistoryInfo;
-import qxmobile.protobuf.AllianceFightProtos.FightHistoryResp;
-import qxmobile.protobuf.AllianceFightProtos.FightLasttimeRankResp;
-import qxmobile.protobuf.AllianceFightProtos.FightMatchInfo;
-import qxmobile.protobuf.AllianceFightProtos.FightRankInfo;
-import qxmobile.protobuf.AllianceFightProtos.PlayerDeadNotify;
-import qxmobile.protobuf.AllianceFightProtos.PlayerReviveNotify;
-import qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest;
-import qxmobile.protobuf.AllianceFightProtos.RequestFightInfoResp;
-import qxmobile.protobuf.AllianceFightProtos.Result;
-
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.Action;
@@ -65,6 +48,23 @@ import com.qx.yabiao.YaBiaoHuoDongMgr;
 import com.qx.yabiao.YaBiaoRobot;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
+
+import qxmobile.protobuf.AllianceFightProtos.ApplyFightResp;
+import qxmobile.protobuf.AllianceFightProtos.BattleData;
+import qxmobile.protobuf.AllianceFightProtos.BattlefieldInfoResp;
+import qxmobile.protobuf.AllianceFightProtos.CampInfo;
+import qxmobile.protobuf.AllianceFightProtos.FightAttackReq;
+import qxmobile.protobuf.AllianceFightProtos.FightAttackResp;
+import qxmobile.protobuf.AllianceFightProtos.FightHistoryInfo;
+import qxmobile.protobuf.AllianceFightProtos.FightHistoryResp;
+import qxmobile.protobuf.AllianceFightProtos.FightLasttimeRankResp;
+import qxmobile.protobuf.AllianceFightProtos.FightMatchInfo;
+import qxmobile.protobuf.AllianceFightProtos.FightRankInfo;
+import qxmobile.protobuf.AllianceFightProtos.PlayerDeadNotify;
+import qxmobile.protobuf.AllianceFightProtos.PlayerReviveNotify;
+import qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest;
+import qxmobile.protobuf.AllianceFightProtos.RequestFightInfoResp;
+import qxmobile.protobuf.AllianceFightProtos.Result;
 
 public class AllianceFightMgr {
 	public static AllianceFightMgr inst;
@@ -560,7 +560,7 @@ public class AllianceFightMgr {
 			return;
 		}
 		
-		int damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, skill, targetUid);
+		long damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, skill, targetUid);
 		updateSkillCdTime(attacker.id, skill);
 		BigSwitch.inst.buffMgr.processSkillEffect(damageValue, targetPlayer, skill);
 	
@@ -621,7 +621,7 @@ public class AllianceFightMgr {
 			return;
 		}
 		
-		int damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, skill, targetUid);
+		long damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, skill, targetUid);
 		updateSkillCdTime(attacker.id, skill);
 		BigSwitch.inst.buffMgr.processSkillEffect(damageValue, targetPlayer, skill);
 
@@ -659,7 +659,7 @@ public class AllianceFightMgr {
 	protected void processCartBeatBack(JunZhu attacker, Scene scene,
 			Player attackPlayer, int targetUid, int attackUid, JunZhu defender) {
 		Skill beatBackSkill = BuffMgr.inst.getSkillById(101);
-		int beatBackDamage = BigSwitch.inst.buffMgr.calcSkillDamage(defender, attacker, beatBackSkill, attackUid);
+		long beatBackDamage = BigSwitch.inst.buffMgr.calcSkillDamage(defender, attacker, beatBackSkill, attackUid);
 		BigSwitch.inst.buffMgr.processSkillEffect(beatBackDamage, attackPlayer, beatBackSkill);
 		sendAttackResponse(targetUid,attackUid, Result.SUCCESS, 101, scene, beatBackDamage, attackPlayer.currentLife, true);
 	}
@@ -731,7 +731,7 @@ public class AllianceFightMgr {
 	}
 
 	protected void sendAttackResponse(int attackUid, int targetUid, Result result,
-			int skillId, Scene scene, int damageValue, int remainLife, boolean succeed) {
+			int skillId, Scene scene, long damageValue, int remainLife, boolean succeed) {
 		FightAttackResp.Builder response = FightAttackResp.newBuilder();
 		response.setResult(result);
 		response.setAttackUid(attackUid);

@@ -6,25 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import log.ActLog;
-import log.CunLiangLog;
-import log.OurLog;
-
 import org.apache.commons.collections.map.LRUMap;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
-import qxmobile.protobuf.FuWen.JunzhuAttr;
-import qxmobile.protobuf.JunZhuProto.ActivateTaoZhReq;
-import qxmobile.protobuf.JunZhuProto.ActivateTaoZhResp;
-import qxmobile.protobuf.JunZhuProto.JunZhuAddPointReq;
-import qxmobile.protobuf.JunZhuProto.JunZhuAttPointRet;
-import qxmobile.protobuf.JunZhuProto.JunZhuInfoRet;
-import qxmobile.protobuf.JunZhuProto.JunZhuInfoSpecifyReq;
-import qxmobile.protobuf.JunZhuProto.TaoZhuangResp;
-import qxmobile.protobuf.Ranking.JunZhuInfo;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
@@ -59,6 +44,7 @@ import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.alliance.building.JianZhuMgr;
 import com.qx.alliance.building.LMKJBean;
+import com.qx.alliance.building.LMKJJiHuo;
 import com.qx.bag.Bag;
 import com.qx.bag.EquipGrid;
 import com.qx.bag.EquipMgr;
@@ -78,7 +64,6 @@ import com.qx.huangye.HYTreasure;
 import com.qx.jinengpeiyang.JNBean;
 import com.qx.jinengpeiyang.JiNengPeiYangMgr;
 import com.qx.mibao.MiBaoDB;
-import com.qx.mibao.MiBaoSkillDB;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.persistent.MC;
@@ -94,6 +79,20 @@ import com.qx.vip.VipRechargeRecord;
 import com.qx.world.GameObject;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
+
+import log.ActLog;
+import log.CunLiangLog;
+import log.OurLog;
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import qxmobile.protobuf.FuWen.JunzhuAttr;
+import qxmobile.protobuf.JunZhuProto.ActivateTaoZhReq;
+import qxmobile.protobuf.JunZhuProto.ActivateTaoZhResp;
+import qxmobile.protobuf.JunZhuProto.JunZhuAddPointReq;
+import qxmobile.protobuf.JunZhuProto.JunZhuAttPointRet;
+import qxmobile.protobuf.JunZhuProto.JunZhuInfoRet;
+import qxmobile.protobuf.JunZhuProto.JunZhuInfoSpecifyReq;
+import qxmobile.protobuf.JunZhuProto.TaoZhuangResp;
+import qxmobile.protobuf.Ranking.JunZhuInfo;
 
 /**
  * @author 康建虎
@@ -217,6 +216,9 @@ public class JunZhuMgr extends EventProc {
 		b.setVipLv(junzhu.vipLevel);
 		b.setGuoJiaId(junzhu.guoJiaId);
 		b.setNuQiValue(MibaoMgr.inst.getShowChuShiNuQi(junzhu.id));
+		TalentAttr ta = HibernateUtil.find(TalentAttr.class, junzhu.id);
+		b.setWuYiJingQi(ta == null?0: ta.wuYiJingQi);
+		b.setTiPoJingQi(ta == null?0: ta.tiPoJingQi);
 		/*
 		// FIXME 先这样改
 		int zhanLiAddMibaoAttrBefore = 0; //getZhanli(junzhu);
@@ -308,11 +310,17 @@ public class JunZhuMgr extends EventProc {
 //	}
 
 	public void calcLianMengKeJi(JunZhu jz){
-		AllianceBean lianm = AllianceMgr.inst.getAllianceByJunZid(jz.id);
-		if(lianm == null){
+		AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jz.id);
+		if (player == null || player.lianMengId <= 0) {
+			log.info("获取玩家联盟失败，玩家:{}没有联盟", jz.id);
 			return;
 		}
-		int lmId = lianm.id;
+		AllianceBean guild = HibernateUtil.find(AllianceBean.class, player.lianMengId);
+		if (guild == null) {
+			log.error("获取玩家联盟失败，联盟{}不存在", player.lianMengId);
+			return;
+		}
+		int lmId = guild.id;
 		LMKJBean bean = HibernateUtil.find(LMKJBean.class, lmId);
 		if(bean == null){
 			bean = new LMKJBean();
@@ -322,71 +330,97 @@ public class JunZhuMgr extends EventProc {
 		if(list == null){
 			return;
 		}
-		for(LianMengKeJi k : list){
-			switch(k.type){
+		LMKJJiHuo lmkjJiHuo = null;
+		// 联盟科技对于盟主或者副盟主，直接按科技研究的最高等级来进行属性加成计算
+		if(player.title == AllianceMgr.TITLE_LEADER || player.title == AllianceMgr.TITLE_DEPUTY_LEADER) {
+			lmkjJiHuo = new LMKJJiHuo();
+			lmkjJiHuo.type_101 = Integer.MAX_VALUE;
+			lmkjJiHuo.type_102 = Integer.MAX_VALUE;
+			lmkjJiHuo.type_103 = Integer.MAX_VALUE;
+			lmkjJiHuo.type_104 = Integer.MAX_VALUE;
+			lmkjJiHuo.type_105 = Integer.MAX_VALUE;
+			lmkjJiHuo.type_106 = Integer.MAX_VALUE;
+			lmkjJiHuo.type_107 = Integer.MAX_VALUE;
+			lmkjJiHuo.type_108 = Integer.MAX_VALUE;
+			lmkjJiHuo.type_109 = Integer.MAX_VALUE;
+			lmkjJiHuo.type_110 = Integer.MAX_VALUE;
+			lmkjJiHuo.type_111 = Integer.MAX_VALUE;
+			lmkjJiHuo.type_301 = Integer.MAX_VALUE;
+			lmkjJiHuo.type_204 = Integer.MAX_VALUE;
+			lmkjJiHuo.type_205 = Integer.MAX_VALUE;
+		} else if(player.title == AllianceMgr.TITLE_MEMBER) {
+			lmkjJiHuo = HibernateUtil.find(LMKJJiHuo.class, jz.id);
+			if(lmkjJiHuo == null){
+				lmkjJiHuo = new LMKJJiHuo();
+				JianZhuMgr.inst.fillDefaultLMKJJiHuo(lmkjJiHuo);
+			}
+		}
+		
+		for(LianMengKeJi keJiCfg : list){
+			switch(keJiCfg.type){
 			case 101:
-				if(k.level == bean.type_101){
-					jz.gongJi += k.value1;
+				if(keJiCfg.level == Math.min(bean.type_101, lmkjJiHuo.type_101)){
+					jz.gongJi += keJiCfg.value1;
 //					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 102:
-				if(k.level == bean.type_102){
-					jz.fangYu += k.value1;
+				if(keJiCfg.level == Math.min(bean.type_102, lmkjJiHuo.type_102)){
+					jz.fangYu += keJiCfg.value1;
 //					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 103:
-				if(k.level == bean.type_103){
-					jz.shengMingMax += k.value1;
+				if(keJiCfg.level == Math.min(bean.type_103, lmkjJiHuo.type_103)){
+					jz.shengMingMax += keJiCfg.value1;
 //					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 104:
-				if(k.level == bean.type_104){
-					jz.wqSH += k.value1;
+				if(keJiCfg.level == Math.min(bean.type_104, lmkjJiHuo.type_104)){
+					jz.wqSH += keJiCfg.value1;
 //					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 105:
-				if(k.level == bean.type_105){
-					jz.wqBJ += k.value1;
+				if(keJiCfg.level == Math.min(bean.type_105, lmkjJiHuo.type_105)){
+					jz.wqBJ += keJiCfg.value1;
 //					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 106:
-				if(k.level == bean.type_106){
-					jz.jnSH += k.value1;
+				if(keJiCfg.level == Math.min(bean.type_106, lmkjJiHuo.type_106)){
+					jz.jnSH += keJiCfg.value1;
 //					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 107:
-				if(k.level == bean.type_107){
-					jz.jnBJ += k.value1;
+				if(keJiCfg.level == Math.min(bean.type_107, lmkjJiHuo.type_107)){
+					jz.jnBJ += keJiCfg.value1;
 //					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 108:
-				if(k.level == bean.type_108){
-					jz.wqJM += k.value1;
+				if(keJiCfg.level == Math.min(bean.type_108, lmkjJiHuo.type_108)){
+					jz.wqJM += keJiCfg.value1;
 //					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 109:
-				if(k.level == bean.type_109){
-					jz.wqRX += k.value1;
+				if(keJiCfg.level == Math.min(bean.type_109, lmkjJiHuo.type_109)){
+					jz.wqRX += keJiCfg.value1;
 //					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 110:
-				if(k.level == bean.type_110){
-					jz.jnJM += k.value1;
+				if(keJiCfg.level == Math.min(bean.type_110, lmkjJiHuo.type_110)){
+					jz.jnJM += keJiCfg.value1;
 //					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
 			case 111:
-				if(k.level == bean.type_111){
-					jz.jnRX += k.value1;
+				if(keJiCfg.level == Math.min(bean.type_111, lmkjJiHuo.type_111)){
+					jz.jnRX += keJiCfg.value1;
 //					log.info("加了：type：{}， level：{}", k.type, k.level);
 				}
 				break;
@@ -425,7 +459,7 @@ public class JunZhuMgr extends EventProc {
 	}
 
 	public int getAllMibaoProvideZhanli(JunZhu realJZ) {
-		JunZhu cloneJZ = realJZ.clone();
+		/*JunZhu cloneJZ = realJZ.clone();
 		//君主
 		calcJunZhuLevel(cloneJZ);
 		// 武器(包括套装：套装品质、套装强化)
@@ -442,7 +476,8 @@ public class JunZhuMgr extends EventProc {
 		// 秘宝(包括秘宝高等级引起的额外属性加成)
 		calcMiBaoAtt(cloneJZ);
 		int addMibaoAfter = getZhanli(cloneJZ);
-		return addMibaoAfter - addMibaoBefore;
+		return addMibaoAfter - addMibaoBefore;*/
+		return 0;
 	}
 	
 	public void calcFuwenAttr(JunZhu jz) {
@@ -927,6 +962,10 @@ public class JunZhuMgr extends EventProc {
 				TalentMgr.instance.noticeTalentCanLevUp(jz.id);
 				// 君主等级榜刷新
 				EventMgr.addEvent(ED.JUNZHU_LEVEL_RANK_REFRESH, jz);
+				SessionUser user = SessionManager.inst.findByJunZhuId(jz.id);
+				if(user != null){
+					EventMgr.addEvent(ED.REFRESH_TIME_WORK, user.session);
+				}
 			} else {
 				break;
 			}
@@ -1139,6 +1178,12 @@ public class JunZhuMgr extends EventProc {
 			 */
 			initJunZhuVip(junzhu);
 			break;
+		case ED.QIANG_HUA_FINISH: //强化结束
+			Object[] params = (Object[]) evt.param;
+			jzId = (Long)params[0];
+			SessionUser user = SessionManager.inst.findByJunZhuId(jzId);
+			activitedQiangHuaTaoZhuang(jzId, user);
+			break;
 		}
 	}
 
@@ -1297,6 +1342,9 @@ public class JunZhuMgr extends EventProc {
 		EventMgr.regist(ED.JUNZHU_LOGIN, this);
 		// 建立君主角色成功
 		EventMgr.regist(ED.CREATE_JUNZHU_SUCCESS, this);
+		//强化
+		EventMgr.regist(ED.QIANG_HUA_FINISH, this);
+		
 	}
 	public int calcMibaoZhanLi(int gongJi, int fangYu,
 			int shengMing, int mibaoid, int mibaolevel) {
@@ -1571,6 +1619,68 @@ public class JunZhuMgr extends EventProc {
 		session.write(resp.build());
 	}
 	
+	public void activitedQiangHuaTaoZhuang(long jid, SessionUser user){
+		List<TaoZhuang> listt = TempletService.listAll(TaoZhuang.class.getSimpleName());
+		int actId = 0;
+		AcitvitedTaoZhuang taozhuang = HibernateUtil.find(AcitvitedTaoZhuang.class, jid);
+		if(taozhuang == null){
+			taozhuang = new AcitvitedTaoZhuang();
+			taozhuang.jId = jid;
+		}
+		//id 不是从1开始的
+		if(taozhuang.maxActiQiangHuaId == 0){
+			taozhuang.maxActiQiangHuaId = minTaoZhuangQHId-1;
+		}
+		boolean send = false;
+		// 加载身上的装备
+		List<EquipGrid> list = EquipMgr.inst.loadEquips(jid).grids;
+		for(TaoZhuang conf: listt){
+			if(conf.type != taoZhuangQiangHuaType){
+				continue;
+			}
+			actId = conf.id;
+			if(actId <= taozhuang.maxActiQiangHuaId){
+				// 已经激活过了
+				continue;
+			}
+			//一级一级升级
+			if(actId != taozhuang.maxActiQiangHuaId + 1){
+				// 激活过度
+				continue;
+			}
+			/*
+			 * 20160229 之后 ： 9件装备中只要有conf.neededNum件装备pinZhi >= conf.condition, 就可以激活
+			 */
+			if(getNum(jid, conf, list) < conf.neededNum){
+				continue;
+			}
+			// 激活成功
+			taozhuang.maxActiQiangHuaId = actId;
+			HibernateUtil.save(taozhuang);
+			log.info("君主:{}强化套装激活成功，激活id是：{}", jid,taozhuang.maxActiQiangHuaId);
+			send = true;
+		}
+		if(send && user!=null) sendMainInfo(user.session);
+	}
+	public int getNum(long jid, TaoZhuang conf, List<EquipGrid> list){
+		int cnt = list.size();
+		cnt = Math.min(9, cnt);
+		int number = 0;
+		for (int i = 0; i < cnt; i++) {
+			EquipGrid gd = list.get(i);
+			if (gd == null || gd.instId <= 0) {
+				continue;
+			}
+			UserEquip userEquip = HibernateUtil.find(UserEquip.class, gd.instId);
+			if (userEquip == null) {
+				continue;
+			}
+			if(userEquip.getLevel() >= conf.condition){
+				number ++;
+			}
+		}
+		return number;
+	}
 	public void activitedTaoZhuang(int id, IoSession session, Builder builder ){
 		JunZhu junzhu = getJunZhu(session);
 		if (junzhu == null) return;
@@ -1673,6 +1783,7 @@ public class JunZhuMgr extends EventProc {
 			log.info("君主:{}套装激活成功，激活id是：{}", junzhu.id, taozhuang.maxActiId);
 			// 参数： 激活套装的品质
 			EventMgr.addEvent(ED.active_taozhuang, new Object[]{junzhu.id, conf.condition});
+			sendMainInfo(session);
 			return;
 		}
 		case taoZhuangQiangHuaType:
@@ -1762,6 +1873,7 @@ public class JunZhuMgr extends EventProc {
 			resp.setSuccess(0);
 			session.write(resp.build());
 			log.info("君主:{}强化套装激活成功，激活id是：{}", junzhu.id,taozhuang.maxActiQiangHuaId);
+			sendMainInfo(session);
 			return;
 		}
 		}

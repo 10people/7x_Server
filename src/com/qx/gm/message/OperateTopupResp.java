@@ -2,7 +2,7 @@ package com.qx.gm.message;
 
 import java.util.List;
 
-public class OperateTopupResp {
+public class OperateTopupResp extends BaseResp{
 	private String uin;// 账号ID
 	private String rolename;// 角色名称
 	private List<TopupRecords> records;// 充值信息

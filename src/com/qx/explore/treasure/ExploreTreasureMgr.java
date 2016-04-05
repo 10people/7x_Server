@@ -1,6 +1,5 @@
 package com.qx.explore.treasure;
 
-import java.sql.ClientInfoStatus;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -16,10 +15,11 @@ import org.slf4j.LoggerFactory;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.AnnounceTemp;
 import com.manu.dynasty.template.ShiLianFuBen;
-import com.manu.dynasty.util.DateUtils;
 import com.manu.network.PD;
+import com.manu.network.SessionAttKey;
 import com.manu.network.TXSocketMgr;
 import com.manu.network.msg.ProtobufMsg;
+import com.qx.account.AccountManager;
 import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
@@ -35,6 +35,10 @@ import qxmobile.protobuf.PlayerData.PlayerState;
 import qxmobile.protobuf.Scene.EnterScene;
 
 public class ExploreTreasureMgr extends EventProc {
+	public static int staySeconds = 60;//可以捡宝箱的秒数。
+	public static int maxPlayerCnt = 20;
+	public static int playerCntLimit = maxPlayerCnt+10;
+	public static int pickCntLimit = 10;
 	public static float posZ = 0;
 	public static ProtobufMsg lastInfo;
 	public Logger log = LoggerFactory.getLogger(ExploreTreasureMgr.class.getSimpleName()); 
@@ -97,7 +101,16 @@ public class ExploreTreasureMgr extends EventProc {
 
 	public void trigger(Event event) {
 		Object[]	obs = (Object[])event.param;
-		long jzId = (Long)obs[0];	
+		long jzId = (Long)obs[0];
+		IoSession session = AccountManager.sessionMap.get(jzId);
+		if(session == null){
+			return;
+		}
+		Object o = session.removeAttribute("FreeShiLian");
+		if(o != null){
+			////免费十连不触发十连副本
+			return;
+		}
 		JunZhu jz = HibernateUtil.find(JunZhu.class, jzId);
 		BaoXiangBean bean = initTreasure(jz);
 		int preSize = queue.size();
@@ -106,32 +119,45 @@ public class ExploreTreasureMgr extends EventProc {
 		//[ffffff]恭喜[-][dbba8f]*玩家名字七个字*[-][ffffff]十连探宝，[-][dbba8f]5[-][ffffff]分钟后将开启“[-][e5e205]宝藏副本[-][ffffff]”福利，请大家做好准备！[-]
 		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
 		if(confList != null){
-			int confId = 20;
-			if(preSize > 0){
-				//[ffffff]恭喜[-[dbba8f]*玩家名字七个字*[-][ffffff]十连探宝，增加了“[-][e5e205]宝藏副本[-][ffffff]”内的宝箱波数，快去抢宝箱吧！[-]
-				confId = 21;
-			}
 			Optional<AnnounceTemp> conf = confList.stream().filter(t->t.type==20).findFirst();
+			if(preSize > 0 || aliveBaoXiangCnt.get()>0){
+				//[ffffff]恭喜[-[dbba8f]*玩家名字七个字*[-][ffffff]十连探宝，增加了“[-][e5e205]宝藏副本[-][ffffff]”内的宝箱波数，快去抢宝箱吧！[-]
+				conf = confList.stream().filter(t->t.type==21).findFirst();
+			}
 			if(conf.isPresent()){
 				AnnounceTemp t = conf.get();
 				String c = t.announcement.replace("*玩家名字七个字*", jz.name);
 				BroadcastMgr.inst.send(c);
 			}
 		}
+		syncInfo(queue.peek());
 	}
 	public ProtobufMsg buildOpenInfo(BaoXiangBean bean) {
 		ProtobufMsg msg = new ProtobufMsg(PD.OPEN_ShiLian_FuBen);
 		ErrorMessage.Builder b = ErrorMessage.newBuilder();
-		b.setErrorCode(bean.amount);
-		b.setCmd(bean.total);
+		b.setErrorCode(aliveBaoXiangCnt.get());//有多少宝箱存活，客户端能算出来。
+		b.setCmd(queue.size());//还有多少
 		long s = System.currentTimeMillis();
-		long t = bean.openTime.getTime() - s;
+		long t = 10;
+		if(bean != null){
+			t = bean.openTime.getTime() - s; 
+		}
 		t/=1000;
 		t = Math.max(t, delay.get());
 		if(aliveBaoXiangCnt.get()>0){
 			t = 0;
 		}
-		b.setErrorDesc(""+t);
+		/*
+		 */
+		//拼接参数
+		StringBuffer sb = new StringBuffer();
+		sb.append("nextBXSec:");		sb.append(t);		sb.append("#");
+		int st = scene.players.size()>playerCntLimit ? 100 : 0;
+		//100满了，不让进；0可进
+		sb.append("state:"); sb.append(st);sb.append("#");
+		sb.append("staySec:"); sb.append(staySeconds+t);
+		b.setErrorDesc(sb.toString());
+//		b.setErrorDesc(""+t);
 		msg.builder = b;
 		return msg;
 	}
@@ -140,27 +166,41 @@ public class ExploreTreasureMgr extends EventProc {
 		EventMgr.regist(ED.tanbao_tenTimes, this);//探宝10连抽
 	}
 	public void baoXiangPicked(){
-		int left = aliveBaoXiangCnt.decrementAndGet();
-		if(left > 0){
-			return;//仍然有宝箱存活着
-		}
-		if(delay.get()>0){
-			return;
-		}
-		if(queue.size()>0){
-			//10秒后刷下一波
-			delay.set(10);
-			return;
-		}
+		do{
+			int left = aliveBaoXiangCnt.decrementAndGet();
+			if(left > 0){
+				break;//仍然有宝箱存活着
+			}
+			
+			if(delay.get()>0){
+				break;
+			}
+			if(queue.size()>0){
+				//10秒后刷下一波
+				delay.set(10);
+				break;
+			}
+		}while(false);
 		//没有后续宝箱了，通知结束
-		ErrorMessage.Builder b = ErrorMessage.newBuilder();
-		b.setErrorCode(0);
-		b.setCmd(0);
-		ProtobufMsg msg = new ProtobufMsg(PD.OPEN_ShiLian_FuBen, b);
-		TXSocketMgr.inst.acceptor.broadcast(msg);
-		lastInfo = msg;
+		syncInfo(null);
+	}
+	public void dayReset(){
+		do{
+			BaoXiangBean b = queue.poll();
+			if(b == null){
+				break;
+			}
+			b.amount = -1000;
+			HibernateUtil.update(b);
+			log.info("day reset remove {}", b.id);
+		}while(true);
+		delay.set(0);
+		syncInfo(null);
 	}
 	public void checkQueue() {
+		{//////////这个是动态的
+			playerCntLimit = maxPlayerCnt + aliveBaoXiangCnt.get();
+		}
 		//如果有，就每分钟产生1波
 		BaoXiangBean bean = queue.peek();
 		if(bean == null){
@@ -175,27 +215,31 @@ public class ExploreTreasureMgr extends EventProc {
 		if(TXSocketMgr.inst == null || TXSocketMgr.inst.acceptor == null){
 			return;
 		}
+		do{
+			if(delay.get()>0){
+				break;
+			}
+			
+			if(System.currentTimeMillis()<bean.openTime.getTime()){//时间尚未达到
+				break;
+			}
+			
+			bean.amount-=1;
+			HibernateUtil.update(bean);
+			
+			genBaoXiang(bean);
+			if(bean.amount<=0){
+				queue.poll();//移除掉
+				log.info("此宝箱结束 {} of {}",bean.id,bean.jzId);
+			}
+		}while(false);
+		
+		syncInfo(bean);
+	}
+	public void syncInfo(BaoXiangBean bean) {
 		ProtobufMsg msg = buildOpenInfo(bean);
 		TXSocketMgr.inst.acceptor.broadcast(msg);
 		lastInfo = msg;
-		
-		if(delay.get()>0){
-			return;
-		}
-		
-		if(System.currentTimeMillis()<bean.openTime.getTime()){//时间尚未达到
-			return;
-		}
-		
-		bean.amount--;
-		HibernateUtil.update(bean);
-		
-		
-		genBaoXiang(bean);
-		if(bean.amount<=0){
-			queue.poll();//移除掉
-			log.info("此宝箱结束 {} of {}",bean.id,bean.jzId);
-		}
 	}
 	public void genBaoXiang(BaoXiangBean bean) {
 		log.info("开始产生 {}, {}", bean.id,bean.amount+1);
@@ -217,7 +261,7 @@ public class ExploreTreasureMgr extends EventProc {
 			ShiLianFuBen conf = list.get(i);
 			EnterScene.Builder enter = EnterScene.newBuilder();
 			enter.setUid(0);
-			enter.setSenderName(bean.jzName+"的十连宝箱");
+			enter.setSenderName(bean.jzName);
 			enter.setPosX(conf.zuobiaoX);
 			enter.setPosY(conf.zuobiaoY);
 			enter.setPosZ(posZ);
@@ -240,5 +284,54 @@ public class ExploreTreasureMgr extends EventProc {
 			session.write(lastInfo);
 		}		
 	}
+
+	/**
+	 * 发送已经拾取宝箱的信息
+	 * @param session
+	 */
+	public void sendPickedInfo(IoSession session) {
+		Long jzId = (Long) session.getAttribute(SessionAttKey.junZhuId);
+		if(jzId == null){
+			return;
+		}
+		Date now = new Date();
+		BXRecord bean = HibernateUtil.find(BXRecord.class, jzId);
+		if(bean == null){
+			bean = new BXRecord();
+			bean.jzId = jzId;
+			bean.resetTime = now;
+			HibernateUtil.insert(bean);
+		}else{//检查重置
+			checkReset(bean, now);
+		}
+		ErrorMessage.Builder em = ErrorMessage.newBuilder();
+		em.setCmd(pickCntLimit - bean.bxCnt);//可拾取多少个箱子
+		em.setErrorCode(bean.yuanBao);//已拾取多少元宝
+		session.write(new ProtobufMsg(PD.BAO_XIANG_PICKED_INFO, em));
+	}
 	
+	public void checkReset(BXRecord bean, Date now) {
+		//每日4点刷新，连个时间都前移4小时，然后判断是不是同一天
+		int v1 = getDayOfYear(bean.resetTime);
+		int v2 = getDayOfYear(now);
+		if(v1 == v2){
+			return;
+		}
+		log.info("重置 {} 拾取宝箱信息 cnt {}, 元宝 {}",bean.jzId, bean.bxCnt, bean.yuanBao);
+		bean.resetTime = now;
+		bean.bxCnt = 0;
+		bean.yuanBao = 0;
+		HibernateUtil.update(bean);
+	}
+	
+	public int getDayOfYear(Date d){
+		Calendar c1 = Calendar.getInstance();
+		c1.setTime(d);
+		c1.add(Calendar.HOUR_OF_DAY, -4);
+		int v1 = c1.get(Calendar.DAY_OF_YEAR);
+		return v1;
+	}
+	public void palyerCntChange() {
+		syncInfo(queue.peek());
+	}
 }

@@ -110,7 +110,7 @@ public class XG extends EventProc{
 		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
 		if (junZhuId == null) {
 			log.info("sid {} null junZhuId when report token {}",session.getId(),token);
-			session.setAttribute("XGTOKEN0982398", token);//乱写的数字是为了防止巧合
+			session.setAttribute(SessionAttKey.XG_TOKEN, token);//乱写的数字是为了防止巧合
 			return;
 		}
 		saveToken(session, junZhuId, token);
@@ -151,10 +151,21 @@ public class XG extends EventProc{
 		}
 	}
 	public void procTag(IoSession session, String conf){
+		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
+		if (junZhuId == null) {
+			return;
+		}
 		String token = (String) session.getAttribute(SessionAttKey.XG_TOKEN);
+		if(token == null){
+				XGTokenBean bean = HibernateUtil.find(XGTokenBean.class, junZhuId);
+				if(bean != null){
+					token = bean.token;
+					session.setAttribute(SessionAttKey.XG_TOKEN, token);
+				}
+		}
 		String channel = (String) session.getAttribute(SessionAttKey.ACC_CHANNEL);
 		if(token == null || channel == null){
-			log.info("参数不全，token {} channel {}", token, channel);
+			log.info("{} 参数不全，token {} channel {}",junZhuId, token, channel);
 			return;
 		}
 		XGParam xgParam = XGParam.channels.get(channel);
@@ -166,9 +177,11 @@ public class XG extends EventProc{
 		//{"MUSIC":"1", "AUDIO_EFFECT":"1", "POWER_GET":"0", "POWER_FULL":"0", "PAWNSHOP_FRESH":"0", "BIAOJU":"0"}
 		JSONObject json = new JSONObject(conf);
 		checkConf(json, "POWER_GET",push, token,tag1TiLiGive);
+		/* 这三个没做。
 		checkConf(json, "POWER_FULL",push, token,tag2TiLiFull);
 		checkConf(json, "PAWNSHOP_FRESH",push, token,tag4DangPuShuaXin);
 		checkConf(json, "BIAOJU",push, token,tag3BiaoJuYunSong);
+		*/
 	}
 	/*
 	2.1 Android 平台推送消息给单个设备
@@ -182,8 +195,8 @@ public class XG extends EventProc{
 	注：ret_code 为 0 表示成功，其他为失败，具体请查看附录。
 	*/
 	public void checkConf(JSONObject json, String confKey, XingeApp push, String token, String tag) {
-		int on = json.optInt(confKey,1);
-		if(on == 1){
+		int on = json.optInt(confKey,2);
+		if(on == 2){
 			addTag(confKey,push, token, tag);
 		}else{
 			delTag(confKey,push, token,tag);
@@ -247,9 +260,13 @@ public class XG extends EventProc{
 		case ED.ACC_LOGIN:
 			login(param);
 			break;
-		case ED.BAIZHAN_RANK_REFRESH:
-			JunZhu otherJun = (JunZhu) param.param;
-			sendBaiZhanFail(otherJun);
+		case ED.BAI_ZHAN_A_WIN_B:{
+			//ED.BAI_ZHAN_A_WIN_B,new Object[]{jz,otherJun}
+			Object[] arr = (Object[]) param.param;
+			JunZhu win = (JunZhu) arr[0];
+			JunZhu lose = (JunZhu) arr[1];
+			sendBaiZhanFail(win,lose);
+		}
 			break;
 		}
 	}
@@ -264,7 +281,7 @@ public class XG extends EventProc{
 			log.info("null session");
 			return;
 		}
-		String token = (String) session.getAttribute("XGTOKEN0982398");
+		String token = (String) session.getAttribute(SessionAttKey.XG_TOKEN);
 		if(token == null){
 			log.info("null token sid {}",session.getId());
 			return;
@@ -276,14 +293,15 @@ public class XG extends EventProc{
 	@Override
 	protected void doReg() {
 		EventMgr.regist(ED.ACC_LOGIN, this);
-		EventMgr.regist(ED.BAIZHAN_RANK_REFRESH, this);
+		EventMgr.regist(ED.BAI_ZHAN_A_WIN_B, this);
 	}
 	
-	public void sendBaiZhanFail(JunZhu otherJun){
-		if( otherJun == null){
+	public void sendBaiZhanFail(JunZhu win, JunZhu lose){
+		if( win == null || lose == null){
 			return;
 		}
-		final long id = otherJun.id;
+		final String winName = win.name;
+		long loseId = lose.id;
 		new Thread(new Runnable() {
 			
 			@Override
@@ -293,11 +311,11 @@ public class XG extends EventProc{
 					log.error("没有配置数据");
 					return;
 				}
-				XGTokenBean bean = HibernateUtil.find(XGTokenBean.class, id);
+				XGTokenBean bean = HibernateUtil.find(XGTokenBean.class, loseId);
 				if(bean == null){
 					return;
 				}
-				CunLiang cl = HibernateUtil.find(CunLiang.class, id);
+				CunLiang cl = HibernateUtil.find(CunLiang.class, loseId);
 				if(cl == null){
 					return;
 				}
@@ -330,13 +348,14 @@ public class XG extends EventProc{
 				if(cc == null){
 					return;
 				}
+				cc = cc.replace("YYY", win.name);
 				JSONObject ret = null;
 				if(isAndroidServer){
 					ret = XingeApp.pushTokenAndroid(pp.accessId, pp.secretKey, title, cc, bean.token);
 				}else{
 					ret = XingeApp.pushTokenIos(pp.accessId, pp.secretKey, cc, bean.token, pp.env);
 				}
-				log.info("push {} to {} ret {}",cc,id,ret);
+				log.info("push {} to {} ret {}",cc,loseId,ret);
 			}
 		},"sendBaiZhanFail").start();
 	}

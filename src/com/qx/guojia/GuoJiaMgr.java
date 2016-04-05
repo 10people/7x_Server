@@ -31,7 +31,9 @@ import com.manu.dynasty.util.MathUtils;
 import com.manu.network.PD;
 import com.manu.network.SessionManager;
 import com.manu.network.SessionUser;
+import com.qx.account.FunctionOpenMgr;
 import com.qx.alliance.AllianceBean;
+import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.award.AwardMgr;
 import com.qx.email.EmailMgr;
@@ -43,6 +45,7 @@ import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.ranking.RankingMgr;
+import com.qx.timeworker.FunctionID;
 import com.qx.world.Mission;
 
 public class GuoJiaMgr  extends EventProc implements Runnable{
@@ -1180,21 +1183,22 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 //					HibernateUtil.save(gongjinBean);
 //				}
 //				break;
-//			case ED.REFRESH_TIME_WORK:
-//				log.info("定时刷新贡金");
-//				IoSession session=(IoSession) e.param;
-//				if(session==null){
-//					log.error("定时刷新贡金错误，session为null");
-//					break;
-//				}
-//				JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
-//				if(jz==null){
-//					log.error("定时刷新贡金错误，JunZhu为null");
-//					break;
-//				}
-//				isCanShangjiao(jz, session);
-//				log.info("定时刷新完成");
-//				break;
+			case ED.REFRESH_TIME_WORK:
+				log.info("定时刷新贡金");
+				IoSession session=(IoSession) e.param;
+				if(session==null){
+					break;
+				}
+				JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+				if(jz==null){
+					break;
+				}
+				boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.guoJia, jz.id, jz.level);
+				if(!isOpen){
+					break;
+				}
+				isCanGetDailyAward(jz, session);
+				break;
 			default:
 				log.error("错误事件参数",e.id);
 				break;
@@ -1203,6 +1207,21 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 
 	}
 
+	public void isCanGetDailyAward(JunZhu jz, IoSession session){
+		long jzId=jz.id;
+		ResourceGongJin gongjinBean =HibernateUtil.find(ResourceGongJin.class, jzId);
+		if(gongjinBean != null && gongjinBean.getDayAwardTime!=null){
+			boolean isSameDay = DateUtils.isSameDay(gongjinBean.getDayAwardTime);	
+			if(isSameDay){
+				return;
+			}
+		}
+		AllianceBean aBean = AllianceMgr.inst.getAllianceByJunZid(jzId);
+		if (aBean == null) {
+			return;
+		}
+		FunctionID.pushCanShowRed(jz.id, session, FunctionID.guojiaAward);
+	}
 	public boolean verifyGuoJiaExist(byte guoJiaId) {
 		for(byte id : guoJiaIds) {
 			if(id == guoJiaId) {
@@ -1216,7 +1235,7 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 	protected void doReg() {
 //		EventMgr.regist(ED.GET_JUNXIAN, this);
 //		//定时刷新 2015年9月17日
-//		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
+		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 	}
 
 }

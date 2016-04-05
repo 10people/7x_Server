@@ -46,6 +46,7 @@ import com.qx.email.EmailMgr;
 import com.qx.equip.web.UserEquipAction;
 import com.qx.event.EventMgr;
 import com.qx.explore.ExploreMgr;
+import com.qx.explore.treasure.BaoXiangScene;
 import com.qx.explore.treasure.ExploreTreasureMgr;
 import com.qx.fight.FightMgr;
 import com.qx.friends.FriendMgr;
@@ -88,6 +89,7 @@ import com.qx.yabiao.YaBiaoHuoDongMgr;
 import com.qx.yabiao.YaBiaoRobotProduceMgr;
 import com.qx.youxia.YouXiaMgr;
 import com.qx.yuanbao.YuanBaoMgr;
+import com.yy.YYMgr;
 
 /**
  * 网络包分发，适用于可以多线程处理的网络包。
@@ -260,6 +262,7 @@ public class BigSwitch {
 		cdKeyMgr = new CDKeyMgr();
 		jiNengPeiYangMgr = new JiNengPeiYangMgr();
 		greetMgr=new GreetMgr();
+		YYMgr.getInst();
 		new ExploreTreasureMgr().makeScene();
 		new YaBiaoRobotProduceMgr();
 		// 添加服务器定时任务
@@ -332,6 +335,18 @@ public class BigSwitch {
 			// 百战end
 			case PD.C_XG_TOKEN:
 				XG.inst.clientReportToken(id ,session, builder);
+				break;
+			case PD.GET_QQ_INFO:
+				YYMgr.getInst().getQQ(id, session, builder);
+				break;
+			case PD.GET_LV_INFO:
+				YYMgr.getInst().getLv(id, session, builder);
+				break;
+			case PD.GET_REQ_INFO:
+				YYMgr.getInst().getFAQ(id, session, builder);
+				break;
+			case PD.GET_LV_REWARD:
+				YYMgr.getInst().lingQu(id, session, builder);
 				break;
 			// 押镖协议处理
 			case PD.C_YABIAO_INFO_REQ:
@@ -421,9 +436,16 @@ public class BigSwitch {
 				// scene.exec(id, session, builder);
 				scMgr.route(id, session, builder);
 				break;
-			case PD.Enter_TBBXScene:
+			case PD.Enter_TBBXScene:{
+				Scene scene = (Scene) session.getAttribute(SessionAttKey.Scene);
+				//客户端有bug，重复发送了这个协议，所以判断下
+				//http://192.168.0.250:81/index.php/bug/42282
+				if(scene instanceof BaoXiangScene){
+					break;
+				}
 				BigSwitch.inst.scMgr.playerExitScene(session);
 				//就是不要break
+			}
 			case PD.C_GET_BAO_XIANG:
 				ExploreTreasureMgr.inst.scene.exec(id,session,builder);
 				break;
@@ -432,6 +454,9 @@ public class BigSwitch {
 				break;
 			case PD.Battle_Pve_Init_Req:
 				pveMgr.enQueueReq(id, session, builder);
+				break;
+			case PD.C_OPEN_CREATE_ROLE:
+				accMgr.enterCreateRole(id,session,builder);
 				break;
 			case PD.ACC_LOGIN:
 				accMgr.login0(id, session, builder);
@@ -759,7 +784,7 @@ public class BigSwitch {
 				JianZhuMgr.inst.sendLMKJInfo(id,session,builder);
 				break;
 			case PD.C_LM_CHOU_JIANG_1:
-				JianZhuMgr.inst.chouJiang_1(id,session,builder);
+				JianZhuMgr.inst.jiBai(id,session,builder);
 				break;
 			case PD.C_LM_CHOU_JIANG_N:
 				JianZhuMgr.inst.chouJiang_N(id,session,builder);

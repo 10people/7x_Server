@@ -1,3 +1,7 @@
+<%@page import="com.manu.dynasty.template.YunbiaoTemp"%>
+<%@page import="com.qx.yabiao.YBBattleBean"%>
+<%@page import="com.qx.yabiao.YaBiaoHuoDongMgr"%>
+<%@page import="java.util.List"%>
 <%@page import="com.qx.yabiao.YaBiaoBean"%>
 <%@page import="com.qx.junzhu.JunZhu"%>
 <%@page import="com.manu.dynasty.boot.GameServer"%>
@@ -80,6 +84,7 @@ do{
 		HibernateUtil.save(bean);
 	 }
 		YaBiaoBean ybBean2 = HibernateUtil.find(YaBiaoBean.class, jzId);
+		YBBattleBean zdBean = YaBiaoHuoDongMgr.inst.getYBZhanDouInfo(jzId, junzhu.vipLevel);
 		int v = 0;
 		tableStart();
 		trS();
@@ -108,6 +113,26 @@ do{
 				+ybBean2.remainYB
 				+ "'/><br/>");
 		trE();
+		trS();
+		td("押镖已用杀死仇人有奖次数,最大次数为--"+YunbiaoTemp.rewarding_killFoe_max);
+		td("<input type='text' id='upFuli' value='"
+				+zdBean.count4kill
+				+ "'/><br/>");
+		trE();
+		tableEnd();
+		tableStart();
+		List<String> list = YaBiaoHuoDongMgr.DB.lgetList(YaBiaoHuoDongMgr.ENEMY_KEY + jzId);
+		for (String str : list) {
+			Long enemyId = Long.valueOf(str);
+			JunZhu enJz = HibernateUtil.find(JunZhu.class, enemyId);
+			if(enJz==null){
+				continue;
+			}else{
+				trS();
+				td("仇人id-----"+str+"名字---"+enJz.name);
+				trE();
+			}
+		}
 		tableEnd();
 	}else{
 		out("当前君主押镖未开启"+jzId);

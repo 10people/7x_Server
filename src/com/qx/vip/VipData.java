@@ -53,5 +53,5 @@ public class VipData {
 	static public int buy_huangye_times = 18;
 	static public int buy_ybmanxue_times = 19;//购买押镖场景满血复活次数
 	static public final int buy_ybblood_times = 20;//购买押镖场景血瓶次数
-	static public final int buy_revive_times = 21;//购买押镖场景满血次数
+	static public final int buy_revive_times = 21;//购买押镖场景原地复活次数
 }

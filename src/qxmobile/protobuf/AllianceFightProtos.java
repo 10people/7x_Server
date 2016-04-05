@@ -9866,9 +9866,9 @@ public final class AllianceFightProtos {
      */
     int getTargetUid();
 
-    // required int32 damage = 5;
+    // required int64 damage = 5;
     /**
-     * <code>required int32 damage = 5;</code>
+     * <code>required int64 damage = 5;</code>
      *
      * <pre>
      * 造成的伤害值
@@ -9876,13 +9876,13 @@ public final class AllianceFightProtos {
      */
     boolean hasDamage();
     /**
-     * <code>required int32 damage = 5;</code>
+     * <code>required int64 damage = 5;</code>
      *
      * <pre>
      * 造成的伤害值
      * </pre>
      */
-    int getDamage();
+    long getDamage();
 
     // required int32 remainLife = 6;
     /**
@@ -9998,7 +9998,7 @@ public final class AllianceFightProtos {
             }
             case 40: {
               bitField0_ |= 0x00000008;
-              damage_ = input.readInt32();
+              damage_ = input.readInt64();
               break;
             }
             case 48: {
@@ -10123,11 +10123,11 @@ public final class AllianceFightProtos {
       return targetUid_;
     }
 
-    // required int32 damage = 5;
+    // required int64 damage = 5;
     public static final int DAMAGE_FIELD_NUMBER = 5;
-    private int damage_;
+    private long damage_;
     /**
-     * <code>required int32 damage = 5;</code>
+     * <code>required int64 damage = 5;</code>
      *
      * <pre>
      * 造成的伤害值
@@ -10137,13 +10137,13 @@ public final class AllianceFightProtos {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required int32 damage = 5;</code>
+     * <code>required int64 damage = 5;</code>
      *
      * <pre>
      * 造成的伤害值
      * </pre>
      */
-    public int getDamage() {
+    public long getDamage() {
       return damage_;
     }
 
@@ -10199,7 +10199,7 @@ public final class AllianceFightProtos {
       result_ = qxmobile.protobuf.AllianceFightProtos.Result.SUCCESS;
       attackUid_ = 0;
       targetUid_ = 0;
-      damage_ = 0;
+      damage_ = 0L;
       remainLife_ = 0;
       skillId_ = 0;
     }
@@ -10249,7 +10249,7 @@ public final class AllianceFightProtos {
         output.writeInt32(4, targetUid_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(5, damage_);
+        output.writeInt64(5, damage_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeInt32(6, remainLife_);
@@ -10280,7 +10280,7 @@ public final class AllianceFightProtos {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, damage_);
+          .computeInt64Size(5, damage_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
@@ -10416,7 +10416,7 @@ public final class AllianceFightProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         targetUid_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        damage_ = 0;
+        damage_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000008);
         remainLife_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -10709,10 +10709,10 @@ public final class AllianceFightProtos {
         return this;
       }
 
-      // required int32 damage = 5;
-      private int damage_ ;
+      // required int64 damage = 5;
+      private long damage_ ;
       /**
-       * <code>required int32 damage = 5;</code>
+       * <code>required int64 damage = 5;</code>
        *
        * <pre>
        * 造成的伤害值
@@ -10722,30 +10722,30 @@ public final class AllianceFightProtos {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>required int32 damage = 5;</code>
+       * <code>required int64 damage = 5;</code>
        *
        * <pre>
        * 造成的伤害值
        * </pre>
        */
-      public int getDamage() {
+      public long getDamage() {
         return damage_;
       }
       /**
-       * <code>required int32 damage = 5;</code>
+       * <code>required int64 damage = 5;</code>
        *
        * <pre>
        * 造成的伤害值
        * </pre>
        */
-      public Builder setDamage(int value) {
+      public Builder setDamage(long value) {
         bitField0_ |= 0x00000008;
         damage_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 damage = 5;</code>
+       * <code>required int64 damage = 5;</code>
        *
        * <pre>
        * 造成的伤害值
@@ -10753,7 +10753,7 @@ public final class AllianceFightProtos {
        */
       public Builder clearDamage() {
         bitField0_ = (bitField0_ & ~0x00000008);
-        damage_ = 0;
+        damage_ = 0L;
         onChanged();
         return this;
       }
@@ -18130,7 +18130,7 @@ public final class AllianceFightProtos {
       "\002 \002(\005\"\227\001\n\017FightAttackResp\022)\n\006result\030\001 \002(" +
       "\0162\031.qxmobile.protobuf.Result\022\021\n\tattackUi",
       "d\030\002 \002(\005\022\021\n\ttargetUid\030\004 \002(\005\022\016\n\006damage\030\005 \002" +
-      "(\005\022\022\n\nremainLife\030\006 \002(\005\022\017\n\007skillId\030\007 \002(\005\"" +
+      "(\003\022\022\n\nremainLife\030\006 \002(\005\022\017\n\007skillId\030\007 \002(\005\"" +
       "\206\001\n\020PlayerDeadNotify\022\013\n\003uid\030\001 \002(\005\022\021\n\tkil" +
       "lerUid\030\002 \002(\005\022\032\n\022remainAllLifeTimes\030\003 \001(\005" +
       "\022\034\n\024autoReviveRemainTime\030\004 \001(\005\022\030\n\020onSite" +

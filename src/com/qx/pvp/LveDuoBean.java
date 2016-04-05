@@ -24,6 +24,7 @@ public class LveDuoBean  {//implements MCSupport {
 	public int buyBattleHuiShu;
 	/** 今日已购买 清除CD的次数 */
 	public int buyClearCdCount;
+	// 去掉防守秘宝技能 ，改用gongJiZuHeId 20160328
 	public int fangShouZuHeId;
 	public int gongJiZuHeId = -1;
 	public int todayWin;

@@ -30,14 +30,12 @@ import qxmobile.protobuf.Scene.EnterScene;
 import qxmobile.protobuf.Scene.EnterSceneConfirm;
 import qxmobile.protobuf.Scene.ExitScene;
 import qxmobile.protobuf.Scene.SpriteMove;
-import qxmobile.protobuf.UpActionProto.UpAction_C_getData;
 import qxmobile.protobuf.WuJiangProtos.HeroInfoReq;
 import qxmobile.protobuf.ZhanDou.PveZhanDouInitReq;
 import qxmobile.protobuf.ZhangHao.CreateRoleRequest;
 import qxmobile.protobuf.ZhangHao.CreateRoleResponse;
 import qxmobile.protobuf.ZhangHao.LoginReq;
 import qxmobile.protobuf.ZhangHao.LoginRet;
-import qxmobile.protobuf.ZhangHao.RegReq;
 import qxmobile.protobuf.ZhangHao.RegRet;
 import qxmobile.protobuf.ZhangHao.RoleNameRequest;
 import qxmobile.protobuf.ZhangHao.RoleNameResponse;
@@ -92,7 +90,8 @@ public class GameClient {
 //		regReq.setName(accountName);
 //		session.write(regReq.build());
 		HttpClient hc = new HttpClient();
-		GetMethod gm = new GetMethod("http://192.168.3.80:8090/qxrouter/accountReg.jsp?name="+accountName+"&pwd=1");
+//		GetMethod gm = new GetMethod("http://192.168.3.80:8090/qxrouter/accountReg.jsp?name="+accountName+"&pwd=1");
+		GetMethod gm = new GetMethod("http://203.195.230.100:9091/qxrouter/accountReg.jsp?name="+accountName+"&pwd=1");
 		try{
 			hc.executeMethod(gm);
 			String responseMess = gm.getResponseBodyAsString().trim();
@@ -191,9 +190,15 @@ public class GameClient {
 		req.setUid(1);
 		req.setSenderName(accountName);
 		req.setJzId(0);
-		req.setPosX(-7.998339f);
-		req.setPosY(4.7422743f);
-		req.setPosZ(-18.933374f);
+		ThreadLocalRandom r = ThreadLocalRandom.current();
+		double x=-16.230766+r.nextInt(10); 
+		double y=84.86189; 
+		double z=-25.49981+r.nextInt(10); 
+		req.setPosX((float) x);
+//		req.setPosX(-7.998339f);
+		req.setPosY((float) y);
+		req.setPosZ((float) z);
+//		req.setPosZ(-18.933374f);
 //		session.write(req.build());
 		ProtobufUtils.prototypeMap.put(Integer.valueOf(PD.OPEN_ShiLian_FuBen), ErrorMessage.getDefaultInstance());
 		session.write(new ProtobufMsg(PD.Enter_TBBXScene, req));
@@ -238,7 +243,9 @@ public class GameClient {
 		CreateRoleResponse.Builder ret = (qxmobile.protobuf.ZhangHao.CreateRoleResponse.Builder) builder;
 		if(log)System.out.println("创建角色结果:"+ret.getIsSucceed()+":"+ret.getMsg());
 		if(ret.getIsSucceed()){
-			enterScene();
+//			enterScene();
+//			enterShiLian();
+			enterYBScene();
 			Main.createRoleOkCnt.incrementAndGet();
 		}else{
 			createRole(getRandomString(6));
@@ -247,6 +254,7 @@ public class GameClient {
 	float x,y,z; 
 	public void enterSceneRet(Builder builder) {
 		if(log)System.out.println("进入场景OK");
+	
 		Main.enterSceneCnt.incrementAndGet();
 		EnterSceneConfirm.Builder ret = (EnterSceneConfirm.Builder)builder;
 		x = ret.getPosX();
@@ -261,11 +269,37 @@ public class GameClient {
 			//
 			oper();
 		}else{
-			//
-//			yaBiao();
+//			shilianret();
+			yaBiao();
 		}
 	}
-
+	public void shilianret() {
+		//报告状态 押镖相关
+		PlayerState.Builder b = PlayerState.newBuilder();
+		b.setSState(State.State_LEAGUEOFCITY);
+		//
+		session.write(b.build());		
+		//move 调整在押镖场景中的位置
+//			x = 211;
+//			z = 135;//强制在一个地方
+		SpriteMove.Builder move = SpriteMove.newBuilder();
+		move.setDir(0);
+		move.setUid(uid);
+//			move.setPosX(184.29079f+);
+		ThreadLocalRandom r = ThreadLocalRandom.current();
+		double x=-16.230766+r.nextInt(10); 
+		double y=84.86189; 
+		double z=-25.49981+r.nextInt(10); 
+		move.setPosX((float) x);
+		move.setPosY((float) y);
+		move.setPosZ((float) z);
+//		session.write(move.build());
+		session.write(move.build());
+		//
+//			session.write(PD.C_YABIAO_INFO_REQ);
+//			session.write(PD.C_YABIAO_MENU_REQ);//请求押镖界面
+//			session.write(PD.C_YABIAO_REQ);//开始押镖
+	}
 	public void yaBiao() {
 		//报告状态 押镖相关
 		PlayerState.Builder b = PlayerState.newBuilder();
@@ -286,7 +320,7 @@ public class GameClient {
 		move.setPosX(x+diff);
 		move.setPosY(4);
 		move.setPosZ(z+diffZ);
-		session.write(move.build());
+//		session.write(move.build());
 		session.write(move.build());
 		//
 //			session.write(PD.C_YABIAO_INFO_REQ);
@@ -307,7 +341,8 @@ public class GameClient {
 //		session.write(PD.C_GET_JINENG_PEIYANG_QUALITY_REQ);
 //		联盟抽奖信息();
 //		session.write(PD.C_CLOSE_TAN_BAO_UI);
-//		enterYBScene();
+		enterYBScene();
+//		enterShiLian();
 //		useItem();
 //		聊天广播();
 //		getMoBaiInfo();
@@ -316,7 +351,7 @@ public class GameClient {
 
 	public void enterYBScene() {
 		//先退出主城
-		exitMainCity();
+//		exitMainCity();
 //		if(11>1)return;
 		//
 		ProtobufMsg msg = new ProtobufMsg();

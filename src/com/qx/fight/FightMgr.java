@@ -10,16 +10,8 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.AllianceFightProtos.FightAttackReq;
-import qxmobile.protobuf.AllianceFightProtos.FightAttackResp;
-import qxmobile.protobuf.AllianceFightProtos.PlayerDeadNotify;
-import qxmobile.protobuf.AllianceFightProtos.PlayerReviveNotify;
-import qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest;
-import qxmobile.protobuf.AllianceFightProtos.Result;
-
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.template.Action;
-import com.manu.dynasty.template.CartNPCTemp;
 import com.manu.dynasty.template.LianMengKeJi;
 import com.manu.dynasty.template.Purchase;
 import com.manu.dynasty.template.Skill;
@@ -45,10 +37,17 @@ import com.qx.yabiao.YaBiaoRobot;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
 
+import qxmobile.protobuf.AllianceFightProtos.FightAttackReq;
+import qxmobile.protobuf.AllianceFightProtos.FightAttackResp;
+import qxmobile.protobuf.AllianceFightProtos.PlayerDeadNotify;
+import qxmobile.protobuf.AllianceFightProtos.PlayerReviveNotify;
+import qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest;
+import qxmobile.protobuf.AllianceFightProtos.Result;
+
 public class FightMgr {
 	public static FightMgr inst;
 		
-	protected static Logger logger = LoggerFactory.getLogger(FightMgr.class);
+	public static Logger logger = LoggerFactory.getLogger(FightMgr.class);
 	
 	/** 玩家技能冷却map  <junzhuId, map<skillId, endTime>> */
 	public Map<Long, Map<Integer, Long>> skillCDTimeMap = new HashMap<Long, Map<Integer,Long>>();
@@ -63,7 +62,7 @@ public class FightMgr {
 		inst = this;
 	}
 	
-	public void activeFight(int id, IoSession session, Builder builder) {
+	public synchronized void activeFight(int id, IoSession session, Builder builder) {
 		FightAttackReq.Builder request = (qxmobile.protobuf.AllianceFightProtos.FightAttackReq.Builder) builder;
 		int targetUid = request.getTargetUid();			// 被攻击者的uid
 		int skillId = request.getSkillId();				// 使用的技能id
@@ -85,7 +84,7 @@ public class FightMgr {
 			return;
 		}
 		
-		if(targetPlayer.currentLife <= 0) {
+		if(targetPlayer.currentLife <= 0 || attackPlayer.currentLife <= 0) {
 			return;
 		}
 		
@@ -93,6 +92,15 @@ public class FightMgr {
 		if(attacker == null) {
 			logger.error("fight攻击失败，找不到君主");
 			return;
+		}
+		if(skillId != 121 && targetPlayer.safeArea >= 0) {
+			logger.info("攻击失败，被攻击的目标在安全区，safeArea:{}，targetJZId:{}",targetPlayer.safeArea,targetPlayer.jzId);
+			sendAttackError(Result.TARGET_IN_SAFE_AREA, scene, attackUid);
+			return;
+		} else if(skillId == 121){
+			if(YaBiaoHuoDongMgr.inst.getXuePingRemainTimes(targetPlayer.jzId, targetPlayer.vip) <= 0) {
+				return;
+			}
 		}
 		
 		if(targetPlayer.roleId == Scene.YBRobot_RoleId) {
@@ -103,7 +111,7 @@ public class FightMgr {
 	}
 	
 
-	private void processAttackPlayer(JunZhu attacker, IoSession session, Scene scene,
+	public void processAttackPlayer(JunZhu attacker, IoSession session, Scene scene,
 			Player attackPlayer, Player targetPlayer, int skillId) {
 		int targetUid = targetPlayer.userId;
 		int attackUid = attackPlayer.userId;
@@ -113,6 +121,7 @@ public class FightMgr {
 			return;
 		}
 		YBBattleBean ybBattle = YaBiaoHuoDongMgr.inst.getYBZhanDouInfo(defender.id, defender.vipLevel);
+		/* 
 		if(skillId != 121 && targetPlayer.safeArea >= 0) {
 			logger.info("攻击失败，被攻击的目标在安全区，safeArea:{}，targetJZId:{}",targetPlayer.safeArea,targetPlayer.jzId);
 			sendAttackError(Result.TARGET_IN_SAFE_AREA, scene, attackUid);
@@ -121,7 +130,7 @@ public class FightMgr {
 			if(YaBiaoHuoDongMgr.inst.getXuePingRemainTimes(defender.id, defender.vipLevel) <= 0) {
 				return;
 			}
-		}
+		}*/
 		
 		boolean teammate = isTeammate(targetPlayer, attackPlayer); 
 		boolean targetIsSelf = isTargetIsSelf(targetUid, attackUid);
@@ -135,7 +144,7 @@ public class FightMgr {
 			return;
 		}
 		
-		int damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, skill, targetUid);
+		long damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, skill, targetUid);
 		damageValue = fixDamageValue(targetPlayer, skill, damageValue);
 		updateSkillCdTime(attacker.id, skill);
 		BigSwitch.inst.buffMgr.processSkillEffect(damageValue, targetPlayer, skill);
@@ -153,11 +162,13 @@ public class FightMgr {
 		if(targetPlayer.currentLife <= 0) {
 			if(scene.name.contains("YB")) {
 				processYBPlayerDead(scene, defender, targetUid, attackPlayer.userId);
+				JunZhu attackJz = HibernateUtil.find(JunZhu.class, attackPlayer.jzId);
+				YaBiaoHuoDongMgr.inst.isEnemy4Award(attackJz, defender);
 			}
 		}
 	}
 
-	private int fixDamageValue(Player targetPlayer, Skill skill, int damageValue) {
+	public long fixDamageValue(Player targetPlayer, Skill skill, long damageValue) {
 		if(skill != null) {
 			if(101 == skill.SkillId) {
 				damageValue = Math.min(damageValue, (int)(targetPlayer.totalLife * YunbiaoTemp.damage_amend_X));
@@ -168,7 +179,7 @@ public class FightMgr {
 		return damageValue;
 	}
 
-	private void processAttackCart(JunZhu attacker, IoSession session, Scene scene, 
+	public void processAttackCart(JunZhu attacker, IoSession session, Scene scene, 
 			Player attackPlayer, Player targetPlayer, int skillId) {
 		int targetUid = targetPlayer.userId;
 		int attackUid = attackPlayer.userId;
@@ -212,7 +223,7 @@ public class FightMgr {
 			return;
 		}
 		
-		int damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, skill, targetUid);
+		long damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, skill, targetUid);
 		damageValue = fixDamageValue(targetPlayer, skill, damageValue);
 		updateSkillCdTime(attacker.id, skill);
 		BigSwitch.inst.buffMgr.processSkillEffect(damageValue, targetPlayer, skill);
@@ -241,7 +252,7 @@ public class FightMgr {
 		//processCartBeatBack(attacker, scene, attackPlayer, targetPlayer, defender);
 	}
 
-	private boolean isCartOfTeammate(Player targetPlayer, Player attackPlayer) {
+	public boolean isCartOfTeammate(Player targetPlayer, Player attackPlayer) {
 		int attackerLmId = attackPlayer.allianceId;
 		int defenderLmId = targetPlayer.allianceId;
 		if((attackerLmId > 0 && defenderLmId > 0) && attackerLmId == defenderLmId) {
@@ -252,7 +263,7 @@ public class FightMgr {
 		return false;
 	}
 
-	protected void processCartBeatBack(JunZhu attacker, Scene scene,
+	public void processCartBeatBack(JunZhu attacker, Scene scene,
 			Player attackPlayer, Player targetPlayer, JunZhu defender) {
 		int targetUid = targetPlayer.userId;
 		int attackUid = attackPlayer.userId;
@@ -266,7 +277,7 @@ public class FightMgr {
 		}
 		defenderClone.gongJi = (int) (defenderClone.gongJi + defender.gongJi * (keJiRate / 100));
 		
-		int beatBackDamage = BigSwitch.inst.buffMgr.calcSkillDamage(defenderClone, attacker, beatBackSkill, attackUid);
+		long beatBackDamage = BigSwitch.inst.buffMgr.calcSkillDamage(defenderClone, attacker, beatBackSkill, attackUid);
 		BigSwitch.inst.buffMgr.processSkillEffect(beatBackDamage, attackPlayer, beatBackSkill);
 		sendAttackResponse(targetUid,attackUid, Result.SUCCESS, 101, scene, beatBackDamage, attackPlayer.currentLife, true);
 		if(attackPlayer.currentLife <= 0) {
@@ -274,11 +285,11 @@ public class FightMgr {
 		}
 	}
 
-	protected boolean isTargetIsSelf(int targetUid, int attackUid) {
+	public boolean isTargetIsSelf(int targetUid, int attackUid) {
 		return attackUid== targetUid;
 	}
 
-	protected boolean isTeammate(Player targetPlayer, Player attackPlayer) {
+	public boolean isTeammate(Player targetPlayer, Player attackPlayer) {
 		int attackerLmId = attackPlayer.allianceId;
 		int defenderLmId = targetPlayer.allianceId;
 		if((attackerLmId > 0 && defenderLmId > 0) && attackerLmId == defenderLmId) {
@@ -336,12 +347,12 @@ public class FightMgr {
 		return Result.SUCCESS;
 	}
 	
-	protected void sendAttackError(Result result, Scene scene, int attackUid) {
+	public void sendAttackError(Result result, Scene scene, int attackUid) {
 		sendAttackResponse(attackUid, 0, result, 0, scene, 0, 0, false);
 	}
 
-	protected void sendAttackResponse(int attackUid, int targetUid, Result result,
-			int skillId, Scene scene, int damageValue, int remainLife, boolean succeed) {
+	public void sendAttackResponse(int attackUid, int targetUid, Result result,
+			int skillId, Scene scene, long damageValue, int remainLife, boolean succeed) {
 		FightAttackResp.Builder response = FightAttackResp.newBuilder();
 		response.setResult(result);
 		response.setAttackUid(attackUid);
@@ -470,7 +481,7 @@ public class FightMgr {
 			player.currentLife = 1;
 		}
 		reviveNotify.setResult(0);
-		logger.info("junzhu:{}复活坐标x:{},y:{}",junzhu.name, reviveNotify.getPosX(), reviveNotify.getPosZ());
+		logger.info("junzhu:{}复活坐标x:{},y:{},复活后的血量:{}",junzhu.name, reviveNotify.getPosX(), reviveNotify.getPosZ(),player.currentLife);
 		for(Map.Entry<Integer, Player> entry : scene.players.entrySet()) {
 			Player p = entry.getValue();
 			p.session.write(reviveNotify.build());
@@ -480,7 +491,7 @@ public class FightMgr {
 		JunZhuMgr.inst.sendMainInfo(session);
 	}
 
-	private void sendPlayerReviveNotifyError(IoSession session, int result, Player player) {
+	public void sendPlayerReviveNotifyError(IoSession session, int result, Player player) {
 		PlayerReviveNotify.Builder reviveNotify = PlayerReviveNotify.newBuilder();
 		reviveNotify.setUid(player.userId);
 		reviveNotify.setPosX(player.posX);

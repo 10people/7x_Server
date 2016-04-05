@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -17,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.boot.GameServer;
+import com.manu.dynasty.chat.ChatMgr;
+import com.manu.dynasty.template.AnnounceTemp;
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.DescId;
 import com.manu.dynasty.template.GuYongBing;
@@ -53,6 +56,7 @@ import com.qx.pvp.LveDuoMgr;
 import com.qx.pvp.PvpMgr;
 import com.qx.task.DailyTaskMgr;
 import com.qx.timeworker.FunctionID;
+import com.qx.world.BroadcastMgr;
 import com.qx.world.Mission;
 import com.qx.world.Player;
 import com.qx.world.Scene;
@@ -68,6 +72,8 @@ import qxmobile.protobuf.Prompt.PromptMSGResp;
 import qxmobile.protobuf.Prompt.QuZhuReq;
 import qxmobile.protobuf.Prompt.SuBaoMSG;
 import qxmobile.protobuf.ZhanDou;
+import qxmobile.protobuf.Chat.ChatPct;
+import qxmobile.protobuf.Chat.ChatPct.Channel;
 import qxmobile.protobuf.ZhanDou.Group;
 import qxmobile.protobuf.ZhanDou.Node;
 import qxmobile.protobuf.ZhanDou.NodeProfession;
@@ -96,6 +102,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 //	public static Map<Long, Long[]> prepareLock = new HashMap<Long, Long[]>();
 //	public static Map<Integer, GuYongBing> bingMap = new HashMap<Integer, GuYongBing>();
 	private AtomicInteger zhandouIdMgr = new AtomicInteger(1);
+	public static String beanLveContent="";
 	public PromptMsgMgr() {
 		inst = this;
 		initData();
@@ -111,6 +118,11 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			reportMap.put(r.ID, r);
 		}
 		PromptMsgMgr.reportMap=reportMap;
+		
+		DescId desc = ActivityMgr.descMap.get(6000001);
+		if(desc != null){
+			beanLveContent = desc.getDescription();
+		}
 	}
 
 	@Override
@@ -345,7 +357,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 					int moneyXishu=1000;
 					JunzhuShengji ss = JunZhuMgr.inst.getJunzhuShengjiByLevel(level);
 					if(ss!=null){
-						moneyXishu=ss.moneyXishu;
+						moneyXishu=ss.xishu;
 					}else{
 						log.error("保存杀死仇人快报出错,未找到JunzhuShengji配置，jzlevel-{}",level);
 					}
@@ -786,7 +798,8 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		int function=310;
 		ReportTemp rt=getReportTempByCondition( eventId, horseType);
 		if(rt==null){
-			log.error("向联盟---{}的未协助押镖成员 推送盟友速报失败,押镖君主--{},未找到ReportTemp配置,function=={},eventId=={}, horseType=={},receiveObject=={}",
+			//未找到配置说明策划没有配置 此eventId 和 此horseType类型的事件 (2016年4月5日  目前马车触发 只有橙马和紫马有配置（horseType 为4 、5）)
+			log.warn("向联盟---{}的未协助押镖成员 推送盟友速报失败,押镖君主--{},未找到ReportTemp配置,function=={},eventId=={}, horseType=={},receiveObject=={}",
 					lmId,chufaJzId,function, eventId, horseType,5);
 			return false;
 		}
@@ -869,12 +882,13 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 	public void getMengyoukuaibao(int id, Builder builder, IoSession session) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 		if (jz == null) {
-			log.error("答复协助君主不存在");
+			log.error("获取盟友快报失败，君主不存在");
 			return;
 		}
 		Long jzId = jz.id;
 		PromptMSGResp.Builder resp = PromptMSGResp.newBuilder();
-		// 查询出8小时内的盟友速报记录
+		// 查询出8小时内的盟友速报记录  
+//		List<PromptMSG> promptMsgList = HibernateUtil.list(PromptMSG.class, "order by addTime desc" ,50); query.setFirstResult(0);   //从第0条开始	query.setMaxResults(size);//一共取size条
 		String Time_8_age=DateUtils.getNHourAgo(8);
 		List<PromptMSG> promptMsgList = HibernateUtil.list(PromptMSG.class, "where  jzId="+jzId+"and (award<>'' or  addTime>='"+Time_8_age+"')");
 		for (PromptMSG msg: promptMsgList) {
@@ -966,39 +980,63 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			YaBiaoJunQing yq = (YaBiaoJunQing) e.param;
 			Long jzId = yq.ybjzId;
 			Integer lmId = yq.lmId;
-			tellAllMembers(jzId, lmId, true, FunctionID.lianmengJunQingYabiao);
+			tellAllMembers(jzId, lmId, true, FunctionID.lianmengJunQingYabiao, null);
 			break;
-		case ED.REFRESH_TIME_WORK:
-			IoSession session = (IoSession) e.param;
-			if(session == null){
-				break;
-			}
-			JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
-			if(jz == null){
-				break;
-			}
-			boolean allianceMember = false;
-			AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jz.id);
-			if(player != null && player.lianMengId > 0) {
-				allianceMember = true;
-			}
-			// 掠夺开启，联盟军情开启
-			boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.lveDuo, jz.id, jz.level);
-			if(isOpen && allianceMember){
-				List<LveDuoMI> miList = HibernateUtil.list(LveDuoMI.class, " where lmId="+player.lianMengId);
-				if(miList != null && miList.size() > 0) {
-					FunctionID.pushCanShowRed(jz.id, session, FunctionID.lianmengJunQingLveDuo);
+		case ED.ACC_LOGIN:
+			if (e.param != null && e.param instanceof Long) {
+				long jzid = (Long) e.param;
+				JunZhu junZhu = HibernateUtil.find(JunZhu.class, jzid);
+				if (junZhu == null) {
+					break;
 				}
-			}
-			// 押镖开启，军情开启
-			boolean isOpen2=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.yabiao, jz.id, jz.level);
-			if(isOpen2 && allianceMember){
-				List<YaBiaoJunQing> list = HibernateUtil.list(YaBiaoJunQing.class, " where lmId="+player.lianMengId);
-				if(list != null && list.size() > 0) {
-					FunctionID.pushCanShowRed(jz.id, session, FunctionID.lianmengJunQingYabiao);
+				boolean isOpen2 = FunctionOpenMgr.inst.isFunctionOpen(FunctionID.yabiao, jzid, junZhu.level);
+				if(!isOpen2){
+					break;
+				}
+				AlliancePlayer allianceMember = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
+				if(allianceMember != null && allianceMember.lianMengId > 0){
+					List<YaBiaoJunQing> list = HibernateUtil.list(YaBiaoJunQing.class,
+							" where lmId="+allianceMember.lianMengId);
+					if(list != null && list.size() > 0) {
+						SessionUser su = SessionManager.inst.findByJunZhuId(junZhu.id);
+						if(su != null){
+							FunctionID.pushCanShowRed(junZhu.id, su.session, FunctionID.lianmengJunQingYabiao);
+						}
+					}
 				}
 			}
 			break;
+//		case ED.REFRESH_TIME_WORK:
+//			IoSession session = (IoSession) e.param;
+//			if(session == null){
+//				break;
+//			}
+//			JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+//			if(jz == null){
+//				break;
+//			}
+//			boolean allianceMember = false;
+//			AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jz.id);
+//			if(player != null && player.lianMengId > 0) {
+//				allianceMember = true;
+//			}
+//			// 掠夺开启，联盟军情开启
+//			boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.lveDuo, jz.id, jz.level);
+//			if(isOpen && allianceMember){
+//				List<LveDuoMI> miList = HibernateUtil.list(LveDuoMI.class, " where lmId="+player.lianMengId);
+//				if(miList != null && miList.size() > 0) {
+//					FunctionID.pushCanShowRed(jz.id, session, FunctionID.lianmengJunQingLveDuo);
+//				}
+//			}
+//			// 押镖开启，军情开启
+//			boolean isOpen2=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.yabiao, jz.id, jz.level);
+//			if(isOpen2 && allianceMember){
+//				List<YaBiaoJunQing> list = HibernateUtil.list(YaBiaoJunQing.class, " where lmId="+player.lianMengId);
+//				if(list != null && list.size() > 0) {
+//					FunctionID.pushCanShowRed(jz.id, session, FunctionID.lianmengJunQingYabiao);
+//				}
+//			}
+//			break;
 		default:
 			break;
 		}
@@ -1050,21 +1088,61 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 				willLostBuildTime, willLostbuild, now, willLostBuildAllianceId);
 		mi.remainHp = -1; // 初始值，表示没有被打过
 		HibernateUtil.insert(mi);
+		JunZhu jz1 = HibernateUtil.find(JunZhu.class, beanLveDjId);
+		JunZhu jz2 = HibernateUtil.find(JunZhu.class, lveduoJzId);
+		if(jz1 == null || jz2 == null){
+			return;
+		}
 		AllianceBean lmBean = AllianceMgr.inst.getAllianceByJunZid(beanLveDjId);
 		if(lmBean != null){
-			tellAllMembers(beanLveDjId, lmBean.id, true, FunctionID.lianmengJunQingLveDuo);
+			// 红点
+			try{
+				// 广播
+				String c = getBroadCastContent(jz1.name, jz2.name, willLostbuild);
+				ProtobufMsg msg = BroadcastMgr.inst.buildMsg(c);
+				tellAllMembers(beanLveDjId, lmBean.id, true, FunctionID.lianmengJunQingLveDuo, msg);
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+			// 聊天
+			try{
+				SessionUser user = SessionManager.inst.findByJunZhuId(jz1.id);
+				if(user == null) return;
+				String  chatContent = beanLveContent.replace("XXX", jz1.name).
+						replace("*玩家名字七个字*", jz2.name).
+						replace("00:00", "30:00").replace("M", willLostbuild+"");
+				ChatPct.Builder b = ChatPct.newBuilder();
+				Channel value = Channel.valueOf(1);// 联盟频道1
+				b.setChannel(value);
+				b.setContent(chatContent);
+				b.setSenderId(jz1.id);
+				b.setSenderName(jz1.name);
+				ChatMgr.inst.addMission(PD.C_Send_Chat, user.session, b);
+			}catch(Exception e2){
+				e2.printStackTrace();
+				log.error("被掠夺 发送聊天报错",e2);
+			}
+			
 		}
-//		AllianceBean lmBean = AllianceMgr.inst.getAllianceByJunZid(firstJzId);
-//		if (lmBean != null) {
-//			boolean yes = tell(firstJzId, lmBean.id,
-//					eventId,  new String[]{firstName, secondName});
-//			if(yes){
-//				log.info("玩家:{}掠夺玩家：{}失败，"
-//						+ "向玩家：{}所在的联盟的所有联盟成员发送报消息成功", firstName, secondName, firstName);
-//			}
-//		}
 	}
 
+	public String getBroadCastContent(String mengyouName, String name2, int m){
+		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
+		if(confList != null){
+			//"您的盟友[dbba8f]XXX[-]遭到[d80202]*玩家名字七个字*[-]的掠夺！
+			//联盟将在[f5aa29]00:00[-]后损失M建设值！请速去驱逐敌人！
+			Optional<AnnounceTemp> conf = confList.stream().filter(t->t.type==28).findFirst();
+			if(conf.isPresent()){
+				AnnounceTemp t = conf.get();
+				String c = t.announcement.replace("XXX", mengyouName)
+						.replace("*玩家名字七个字*", name2)
+						.replace("00:00", "30:00")
+						.replace("M", m+"");
+				return c;
+			}
+		}
+		return "";
+	}
 	public void handleBeanLveDuoAttack(Event e) {
 		if(e == null || e.param == null){
 			return;
@@ -1174,7 +1252,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			return result4Empty;
 		}
 		Player biaoChe=sc.players.get(msg.ybjzUid);
-		Player jbjz=sc.players.get(msg.jbjzUid);
+		Player jbjz=sc.getPlayerByJunZhuId(msg.jbjzId);
 		if(biaoChe==null||jbjz==null){
 			log.error("联盟军情生成失败 ，镖车--{}未找到",msg.ybjzUid);
 			return result4Empty;
@@ -1218,7 +1296,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		}
 	}
 
-	public void tellAllMembers(long juid, int lmId, boolean isIncludeSelf, int redId){
+	public void tellAllMembers(long juid, int lmId, boolean isIncludeSelf, int redId, ProtobufMsg msg){
 		List<AlliancePlayer> aplayersList = AllianceMgr.inst.getAllianceMembers(lmId);
 		if(aplayersList == null || aplayersList.size() == 0){
 			return;
@@ -1231,6 +1309,11 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			SessionUser su = SessionManager.inst.findByJunZhuId(jzId);
 			if (su != null){
 				FunctionID.pushCanShowRed(jzId, su.session, redId);
+
+				// 在线玩家发送广播
+				if(msg != null){
+					su.session.write(msg);
+				}
 			}
 		}
 	}
@@ -1571,7 +1654,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		PveMgr.inst.fillDataByGongjiType(enemyNode, null);
 		PveMgr.inst.fillGongFangInfo(enemyNode, enemy);
 		LveDuoBean ebean = HibernateUtil.find(LveDuoBean.class, enemyId);
-		int fangshouId = ebean == null ? -1 : ebean.fangShouZuHeId;
+		int fangshouId = ebean == null ? -1 : ebean.gongJiZuHeId;
 		PveMgr.inst.fillJZMiBaoDataInfo(enemyNode, fangshouId, enemy.id);
 		LveDuoMI duoMI = HibernateUtil.find(LveDuoMI.class, zhanDouIdFromLveDuo);
 		int enemyRem = duoMI.remainHp  == -1? enemy.getShengming(): duoMI.remainHp;
@@ -1579,7 +1662,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		enemyNode.setHpNum(1);
 		enemyNode.setAppearanceId(1);
 		enemyNode.setNuQiZhi(MibaoMgr.inst.getChuShiNuQi(enemy.id));
-		enemyNode.setMibaoCount(MibaoMgr.inst.getActivateMiBaoCount(enemy.id));
+		enemyNode.setMibaoCount(0);
 		enemyNode.setMibaoPower(JunZhuMgr.inst.getAllMibaoProvideZhanli(enemy));
 		enemys.add(enemyNode.build());
 		// 敌人雇佣兵
@@ -1669,6 +1752,8 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			long enemyId = lvMI.lveDuoJunId;
 			if(winId == oldZhandouId){
 				// 驱逐失败 不挽回建设值 do nothing
+				lvMI.remainHp = req.getRemainHp();
+				HibernateUtil.save(lvMI);
 			}else if(winId == jId){
 				// 驱逐成功
 				HibernateUtil.delete(lvMI);
@@ -1767,7 +1852,8 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		EventMgr.regist(ED.Join_LM, this);//清理邀请入盟速报
 //		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 		EventMgr.regist(ED.NEW_LIANMENG_YB_JUQING, this);
-		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
+//		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
+		EventMgr.regist(ED.ACC_LOGIN, this);
 	}
 
 	public PromptMSG savePromptMSG4GongHe(long jzId, long otherJzId,

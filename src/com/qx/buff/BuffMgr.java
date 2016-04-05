@@ -246,13 +246,16 @@ public class BuffMgr {
 		return flushable;
 	}
 
-	public Player processSkillEffect(int value, Player player, Skill skill) {
+	public Player processSkillEffect(long value, Player player, Skill skill) {
 		Action action = getActionById(skill.Action1);
 		switch(action.TypeKey) {
 			case 1://1.武器伤害攻击
 			case 2://2.技能伤害攻击
 				player.currentLife -= value;
 				player.currentLife = Math.max(player.currentLife, 0);
+				if(player.currentLife > player.totalLife) {
+					player.currentLife = player.totalLife;
+				}
 				break;
 			case 3://回复血量
 				player.currentLife += value;
@@ -269,8 +272,8 @@ public class BuffMgr {
 		return player;
 	}
 	
-	public int calcSkillDamage(JunZhu attacker, JunZhu defender, Skill skill, int uid) {
-		int damageValue = 0;
+	public long calcSkillDamage(JunZhu attacker, JunZhu defender, Skill skill, int uid) {
+		long damageValue = 0;
 		Action action = getActionById(skill.Action1);
 		if(action == null) {
 			return 0;
@@ -321,8 +324,8 @@ public class BuffMgr {
 		return addLife;
 	}
 
-	public int calcWeaponDamage4Skill(JunZhu attacker, JunZhu defender, Skill skill, Action action) {
-		int damage = 0;
+	public long calcWeaponDamage4Skill(JunZhu attacker, JunZhu defender, Skill skill, Action action) {
+		long damage = 0;
 		//JC = (a*A攻击*(A攻击+k)/(A攻击+B防御+k)*((A生命/c+k)* (B生命/c+k))^0.5/(B防御+k)*H
 		//H=If(A生命>B生命){arctan(A生命/ B生命)*1.083+0.15}  else{1}
 		//浮点型四舍五入，保留2位小数。 a=1; c=20; k=10.
@@ -346,9 +349,9 @@ public class BuffMgr {
 		double X = action.Param1 / 1000;
 		double GD = action.Param2;
 		// 武器未暴击伤害=INT((JC*X+ GD) *WM*SJ)
-		damage = (int) ((JC * X + GD) * WM * SJ); 
+		damage = (long) ((JC * X + GD) * WM * SJ); 
 		damage = Math.max(1, damage);
-//		logger.info("攻击者君主:{},被攻击者:{}",attacker,defender);
+//		logger.info("攻击者君主:{},被攻击者:{}",attacker.id, defender.id);
 //		logger.info("普通攻击,攻击者id:{},被攻击者id:{},未暴击--a:{},c:{},k:{},H:{},jc:{},L:{},WM:{},SJ:{},X:{},GD:{},damage:{},attacker.wqSH:{},defender.wqJM:{}",
 //				attacker.id, defender.id, a,c,k,H,JC,L,WM,SJ,X,GD,damage,attacker.wqSH,defender.wqJM);
 		
@@ -366,7 +369,7 @@ public class BuffMgr {
 			//WB = (M +A武器暴击加深)/( M +B武器暴击减免), M=100
 			double M = 100;
 			double WB = (M + attacker.wqBJ) / (M + defender.wqRX);
-			int addValue = (int) (JC * X * WB * SJ);
+			long addValue = (long) (JC * X * WB * SJ);
 			damage += addValue;
 //			logger.info("普通攻击,攻击者id:{},被攻击者id:{},造成暴击--M:{},WB:{},addValue:{},damage:{},,attacker.wqSH:{},defender.wqJM:{}",
 //					attacker.id, defender.id,M,WB,addValue,damage,attacker.wqSH,defender.wqJM);
@@ -374,8 +377,8 @@ public class BuffMgr {
 		return damage;
 	}
 	
-	public int calcSkillDamage4Skill(JunZhu attacker, JunZhu defender, Skill skill, Action action) {
-		int damage = 0;
+	public long calcSkillDamage4Skill(JunZhu attacker, JunZhu defender, Skill skill, Action action) {
+		long damage = 0;
 		//JC = (a*A攻击*(A攻击+k)/(A攻击+B防御+k)*((A生命/c+k)* (B生命/c+k))^0.5/(B防御+k)*If(A生命>B生命，arctan(A生命/ B生命)*1.083+0.15，1)
 		//浮点型四舍五入，保留2位小数。 a=1; c=20; k=10.
 		double a = 1;
@@ -399,7 +402,7 @@ public class BuffMgr {
 		double Y = action.Param1 / 1000;
 		double GD = action.Param2;
 		// 技能未暴击伤害=INT((JC*Y+ GD) *JM*SJ)
-		damage = (int) ((JC * Y + GD) * JM * SJ); 
+		damage = (long) ((JC * Y + GD) * JM * SJ); 
 		damage = Math.max(1, damage);
 //		logger.info("致命一击，攻击者id:{},被攻击者id:{},未暴击--a:{},c:{},k:{},H:{},jc:{},L:{},JM:{},SJ:{},Y:{},GD:{},damage:{}",
 //				attacker.id, defender.id,a,c,k,H,JC,L,JM	,SJ,Y,GD,damage);
@@ -418,7 +421,7 @@ public class BuffMgr {
 			//JB = (M+A技能暴击加深)/(M+B技能暴击减免), M=100
 			double M = 100;
 			double JB = (M + attacker.jnBJ) / (M + defender.jnRX);
-			int addValue = (int) (JC * Y * JB * SJ);
+			long addValue = (long) (JC * Y * JB * SJ);
 			damage += addValue;
 //			logger.info("致命一击，攻击者id:{},被攻击者id:{},造成暴击--M:{},JB:{},addValue:{},damage:{},",
 //					attacker.id, defender.id,M,JB,addValue,damage);

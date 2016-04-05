@@ -21207,6 +21207,24 @@ public final class ZhanDou {
      * <code>required int64 winId = 2;</code>
      */
     long getWinId();
+
+    // optional int32 remainHp = 3;
+    /**
+     * <code>optional int32 remainHp = 3;</code>
+     *
+     * <pre>
+     *windId == itemId发送
+     * </pre>
+     */
+    boolean hasRemainHp();
+    /**
+     * <code>optional int32 remainHp = 3;</code>
+     *
+     * <pre>
+     *windId == itemId发送
+     * </pre>
+     */
+    int getRemainHp();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.QuZhuBattleEndReq}
@@ -21271,6 +21289,11 @@ public final class ZhanDou {
             case 16: {
               bitField0_ |= 0x00000002;
               winId_ = input.readInt64();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              remainHp_ = input.readInt32();
               break;
             }
           }
@@ -21345,9 +21368,34 @@ public final class ZhanDou {
       return winId_;
     }
 
+    // optional int32 remainHp = 3;
+    public static final int REMAINHP_FIELD_NUMBER = 3;
+    private int remainHp_;
+    /**
+     * <code>optional int32 remainHp = 3;</code>
+     *
+     * <pre>
+     *windId == itemId发送
+     * </pre>
+     */
+    public boolean hasRemainHp() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 remainHp = 3;</code>
+     *
+     * <pre>
+     *windId == itemId发送
+     * </pre>
+     */
+    public int getRemainHp() {
+      return remainHp_;
+    }
+
     private void initFields() {
       itemId_ = 0;
       winId_ = 0L;
+      remainHp_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -21375,6 +21423,9 @@ public final class ZhanDou {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt64(2, winId_);
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, remainHp_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -21391,6 +21442,10 @@ public final class ZhanDou {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(2, winId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, remainHp_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -21516,6 +21571,8 @@ public final class ZhanDou {
         bitField0_ = (bitField0_ & ~0x00000001);
         winId_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000002);
+        remainHp_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -21552,6 +21609,10 @@ public final class ZhanDou {
           to_bitField0_ |= 0x00000002;
         }
         result.winId_ = winId_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.remainHp_ = remainHp_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -21573,6 +21634,9 @@ public final class ZhanDou {
         }
         if (other.hasWinId()) {
           setWinId(other.getWinId());
+        }
+        if (other.hasRemainHp()) {
+          setRemainHp(other.getRemainHp());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -21671,6 +21735,55 @@ public final class ZhanDou {
       public Builder clearWinId() {
         bitField0_ = (bitField0_ & ~0x00000002);
         winId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 remainHp = 3;
+      private int remainHp_ ;
+      /**
+       * <code>optional int32 remainHp = 3;</code>
+       *
+       * <pre>
+       *windId == itemId发送
+       * </pre>
+       */
+      public boolean hasRemainHp() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 remainHp = 3;</code>
+       *
+       * <pre>
+       *windId == itemId发送
+       * </pre>
+       */
+      public int getRemainHp() {
+        return remainHp_;
+      }
+      /**
+       * <code>optional int32 remainHp = 3;</code>
+       *
+       * <pre>
+       *windId == itemId发送
+       * </pre>
+       */
+      public Builder setRemainHp(int value) {
+        bitField0_ |= 0x00000004;
+        remainHp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 remainHp = 3;</code>
+       *
+       * <pre>
+       *windId == itemId发送
+       * </pre>
+       */
+      public Builder clearRemainHp() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        remainHp_ = 0;
         onChanged();
         return this;
       }
@@ -22432,15 +22545,16 @@ public final class ZhanDou {
       "temResult\022\n\n\002id\030\001 \002(\005\022\013\n\003num\030\002 \002(\005\"[\n\025Ba" +
       "ttleYouXiaResultReq\022\n\n\002id\030\001 \002(\005\022\016\n\006resul" +
       "t\030\002 \002(\005\022\027\n\017dropeenItemNpcs\030\003 \003(\005\022\r\n\005scor" +
-      "e\030\004 \002(\005\"2\n\021QuZhuBattleEndReq\022\016\n\006itemId\030\001" +
-      " \002(\005\022\r\n\005winId\030\002 \002(\003\"/\n\022QuZhuBattleEndRes" +
-      "p\022\n\n\002ok\030\001 \002(\005\022\r\n\005build\030\002 \002(\005*S\n\010NodeType",
-      "\022\010\n\004GEAR\020\001\022\013\n\007SOLDIER\020\002\022\010\n\004HERO\020\003\022\010\n\004BOS" +
-      "S\020\004\022\n\n\006PLAYER\020\005\022\007\n\003GOD\020\006\022\007\n\003NPC\020\007*I\n\016Nod" +
-      "eProfession\022\010\n\004NULL\020\000\022\007\n\003DUN\020\001\022\t\n\005QIANG\020" +
-      "\002\022\010\n\004GONG\020\003\022\007\n\003CHE\020\004\022\006\n\002QI\020\005*>\n\tLevelTyp" +
-      "e\022\020\n\014LEVEL_NORMAL\020\001\022\017\n\013LEVEL_ELITE\020\002\022\016\n\n" +
-      "LEVEL_TALE\020\003B\tB\007ZhanDou"
+      "e\030\004 \002(\005\"D\n\021QuZhuBattleEndReq\022\016\n\006itemId\030\001" +
+      " \002(\005\022\r\n\005winId\030\002 \002(\003\022\020\n\010remainHp\030\003 \001(\005\"/\n" +
+      "\022QuZhuBattleEndResp\022\n\n\002ok\030\001 \002(\005\022\r\n\005build",
+      "\030\002 \002(\005*S\n\010NodeType\022\010\n\004GEAR\020\001\022\013\n\007SOLDIER\020" +
+      "\002\022\010\n\004HERO\020\003\022\010\n\004BOSS\020\004\022\n\n\006PLAYER\020\005\022\007\n\003GOD" +
+      "\020\006\022\007\n\003NPC\020\007*I\n\016NodeProfession\022\010\n\004NULL\020\000\022" +
+      "\007\n\003DUN\020\001\022\t\n\005QIANG\020\002\022\010\n\004GONG\020\003\022\007\n\003CHE\020\004\022\006" +
+      "\n\002QI\020\005*>\n\tLevelType\022\020\n\014LEVEL_NORMAL\020\001\022\017\n" +
+      "\013LEVEL_ELITE\020\002\022\016\n\nLEVEL_TALE\020\003B\tB\007ZhanDo" +
+      "u"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -22566,7 +22680,7 @@ public final class ZhanDou {
           internal_static_qxmobile_protobuf_QuZhuBattleEndReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_QuZhuBattleEndReq_descriptor,
-              new java.lang.String[] { "ItemId", "WinId", });
+              new java.lang.String[] { "ItemId", "WinId", "RemainHp", });
           internal_static_qxmobile_protobuf_QuZhuBattleEndResp_descriptor =
             getDescriptor().getMessageTypes().get(20);
           internal_static_qxmobile_protobuf_QuZhuBattleEndResp_fieldAccessorTable = new

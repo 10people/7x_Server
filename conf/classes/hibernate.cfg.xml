@@ -169,6 +169,9 @@
     <mapping class="com.manu.dynasty.chat.ChatInfo"/>
     <mapping class="com.qx.explore.treasure.BaoXiangBean"/>
     <mapping class="com.qx.alliance.AllianceInviteBean"/>
+    <mapping class="com.qx.junzhu.PrepareJz"/>
+    <mapping class="com.yy.YYLvRewardInfo"/>
+    <mapping class="com.qx.explore.treasure.BXRecord"/>
    
     
 </session-factory>

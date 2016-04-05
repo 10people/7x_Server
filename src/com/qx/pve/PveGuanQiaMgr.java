@@ -13,35 +13,6 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.BattlePveInit.BattleReplayData;
-import qxmobile.protobuf.BattlePveInit.BattleReplayReq;
-import qxmobile.protobuf.BattlePveResult.AwardItem;
-import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
-import qxmobile.protobuf.PveLevel.BuZhenReport;
-import qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp;
-import qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq;
-import qxmobile.protobuf.PveLevel.GetPveStarAward;
-import qxmobile.protobuf.PveLevel.GuanQiaInfo;
-import qxmobile.protobuf.PveLevel.GuanQiaInfoRequest;
-import qxmobile.protobuf.PveLevel.GuanQiaMaxId;
-import qxmobile.protobuf.PveLevel.MibaoSelect;
-import qxmobile.protobuf.PveLevel.MibaoSelectResp;
-import qxmobile.protobuf.PveLevel.PvePageReq;
-import qxmobile.protobuf.PveLevel.PveSaoDangAward;
-import qxmobile.protobuf.PveLevel.PveSaoDangReq;
-import qxmobile.protobuf.PveLevel.PveSaoDangRet;
-import qxmobile.protobuf.PveLevel.PveStarAwardItem;
-import qxmobile.protobuf.PveLevel.PveStarAwardSate;
-import qxmobile.protobuf.PveLevel.PveStarAwards;
-import qxmobile.protobuf.PveLevel.PveStarGetSuccess;
-import qxmobile.protobuf.PveLevel.ResetCQTimesBack;
-import qxmobile.protobuf.PveLevel.ResetCQTimesReq;
-import qxmobile.protobuf.PveLevel.SaoDangAwardItem;
-import qxmobile.protobuf.PveLevel.Section;
-import qxmobile.protobuf.PveLevel.StarInfo;
-import qxmobile.protobuf.PveLevel.YuanJun;
-import qxmobile.protobuf.PveLevel.YuanZhuListReturn;
-
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.hero.service.HeroService;
@@ -57,7 +28,6 @@ import com.manu.dynasty.template.PveTemp;
 import com.manu.dynasty.template.VIP;
 import com.manu.dynasty.template.ZhuXian;
 import com.manu.dynasty.util.DateUtils;
-import com.manu.network.BigSwitch;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
 import com.manu.network.msg.ProtobufMsg;
@@ -89,6 +59,34 @@ import com.qx.yabiao.YaBiaoHuoDongMgr;
 import com.qx.youxia.BuZhenYouXia;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
+
+import qxmobile.protobuf.BattlePveInit.BattleReplayData;
+import qxmobile.protobuf.BattlePveInit.BattleReplayReq;
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import qxmobile.protobuf.PveLevel.BuZhenReport;
+import qxmobile.protobuf.PveLevel.GetNotGetAwardZhangJieResp;
+import qxmobile.protobuf.PveLevel.GetPassZhangJieAwardReq;
+import qxmobile.protobuf.PveLevel.GetPveStarAward;
+import qxmobile.protobuf.PveLevel.GuanQiaInfo;
+import qxmobile.protobuf.PveLevel.GuanQiaInfoRequest;
+import qxmobile.protobuf.PveLevel.GuanQiaMaxId;
+import qxmobile.protobuf.PveLevel.MibaoSelect;
+import qxmobile.protobuf.PveLevel.MibaoSelectResp;
+import qxmobile.protobuf.PveLevel.PvePageReq;
+import qxmobile.protobuf.PveLevel.PveSaoDangAward;
+import qxmobile.protobuf.PveLevel.PveSaoDangReq;
+import qxmobile.protobuf.PveLevel.PveSaoDangRet;
+import qxmobile.protobuf.PveLevel.PveStarAwardItem;
+import qxmobile.protobuf.PveLevel.PveStarAwardSate;
+import qxmobile.protobuf.PveLevel.PveStarAwards;
+import qxmobile.protobuf.PveLevel.PveStarGetSuccess;
+import qxmobile.protobuf.PveLevel.ResetCQTimesBack;
+import qxmobile.protobuf.PveLevel.ResetCQTimesReq;
+import qxmobile.protobuf.PveLevel.SaoDangAwardItem;
+import qxmobile.protobuf.PveLevel.Section;
+import qxmobile.protobuf.PveLevel.StarInfo;
+import qxmobile.protobuf.PveLevel.YuanJun;
+import qxmobile.protobuf.PveLevel.YuanZhuListReturn;
 
 /**
  * @author 康建虎
@@ -274,12 +272,14 @@ public class PveGuanQiaMgr {
 			curCqBigId = Math.min(curGuanQiaBigId, curCqBigId);
 			curCqBigId = Math.max(DEFAULT_CAN_FIGHT_CHUANQI, curCqBigId);
 		}
+		
+		int zhangJieIdMax = getZhangJieIdMax(list, rMap);
 		if (rMap.size() == 0) {
 			if (reqSection <= 0) {
 				reqSection = 1;
 			}
 		} else if (reqSection <= 0) {
-			reqSection = getZhangJieIdMax(list, rMap);
+			reqSection = zhangJieIdMax;
 			// 如果有未领取通关奖励的章节id，则发送最小的章节信息
 			int realZhangJieId = reqSection;
 			for(int i = 1; i < reqSection; i++) {
@@ -411,6 +411,7 @@ public class PveGuanQiaMgr {
 		}
 
 		b.setMaxCqPassId(curCqBigId);
+		b.setSectionMax(zhangJieIdMax);
 		session.write(b.build());
 		log.info("{} 请求章节 {}", junZhuId, reqSection);
 	}
@@ -440,7 +441,7 @@ public class PveGuanQiaMgr {
 				break;
 			}
 		}
-		return result;
+		return Math.max(result, 1);
 	}
 
 	public void queryStartRewards(int id, IoSession session, Builder builder) {
@@ -667,6 +668,7 @@ public class PveGuanQiaMgr {
 		}
 		if (cq && (r.cqPassTimes >= CanShu.DAYTIMES_LEGENDPVE || r.cqPassTimes + saoDangTimes > CanShu.DAYTIMES_LEGENDPVE)) {
 			log.info("传奇关:{}今日通关次数已满", guanQiaId);
+			sendPveAndYouxiaSaoDangFail(PD.S_PVE_SAO_DANG, session, 2, guanQiaId, 0, 0);
 			return;
 		}
 		SaoDangBean sd = HibernateUtil.find(SaoDangBean.class, junzhu.id);
@@ -688,7 +690,8 @@ public class PveGuanQiaMgr {
 			sd.saoDangResetTime = today;
 		}else{
 			// 今日已扫荡次数是否已经超过最大次数							今日已扫荡次数加上本次扫荡次数是否超过最大次数
-			if (sd.jySaoDangTimes >= vip.saodangFree || sd.jyAllSaoDangTimes + saoDangTimes > vip.saodangFree) {
+			if (sd.jySaoDangTimes >= vip.saodangFree || sd.jySaoDangTimes + saoDangTimes > vip.saodangFree) {
+				sendPveAndYouxiaSaoDangFail(PD.S_PVE_SAO_DANG,session, 1, guanQiaId, vip.saodangFree, sd.jySaoDangTimes);
 				return;
 			}
 		}
@@ -703,6 +706,7 @@ public class PveGuanQiaMgr {
 		}
 
 		PveSaoDangRet.Builder ret = PveSaoDangRet.newBuilder();
+		ret.setResult(0);
 		ret.setGuanQiaId(guanQiaId);
 		ret.setEndTime(sd.jySaoDangTimes);
 		ret.setAllTime(vip.saodangFree);
@@ -768,6 +772,19 @@ public class PveGuanQiaMgr {
 			// 主线任务: 扫荡1次普通关卡（任意关卡都行） 20190916
 			EventMgr.addEvent(ED.saoDang  , new Object[] {junzhu.id});
 		}
+	}
+	
+	public void sendPveAndYouxiaSaoDangFail(int cmd, IoSession session, int result, 
+			int guanQiaId, int allTimes, int endTimes) {
+		PveSaoDangRet.Builder ret = PveSaoDangRet.newBuilder();
+		ret.setResult(result);
+		ret.setGuanQiaId(guanQiaId);
+		ret.setEndTime(allTimes);
+		ret.setAllTime(endTimes);
+		ProtobufMsg protobufMsg = new ProtobufMsg();
+		protobufMsg.id = cmd;
+		protobufMsg.builder = ret;
+		session.write(protobufMsg);
 	}
 
 	public void fillSaoDangAward(PveSaoDangAward.Builder award, AwardTemp calcV) {
@@ -1195,7 +1212,12 @@ public class PveGuanQiaMgr {
 		}
 		return maxId;
 	}
-	
+
+	/**
+	 * 获取所有 普通关卡星星数
+	 * @param junzhuId
+	 * @return
+	 */
 	public int getGuanQiaSumStart(long junzhuId) {
 		List<PveRecord> list = HibernateUtil.list(PveRecord.class, "where uid=" + junzhuId);
 		int sum = 0;
@@ -1204,25 +1226,50 @@ public class PveGuanQiaMgr {
 		}
 		for (PveRecord record : list) {
 			int start = record.achieve;
-			switch (start) {
-			case 1:
-			case 10:
-			case 100:
-				sum=sum+1;
-				break;
-			case 11:
-			case 101:
-			case 110:
-				sum=sum+2;
-				break;
-			case 111:
-				sum=sum+3;
-				break;
-			default:
-				break;
+			sum +=calcStarNum(start);
+		}
+		return sum;
+	}
+
+	/**
+	 * 获取传奇关卡+普通关卡 总星星数
+	 * @param list
+	 * @return
+	 */
+	public int getAllGuanQiaStartSum(List<PveRecord> list) {
+		int sum = 0;
+		if (list == null || list.size() == 0) {
+			return sum;
+		}
+		for (PveRecord record : list) {
+			sum += calcStarNum(record.achieve);
+			if(record.chuanQiPass){
+				sum += calcStarNum(record.cqStar);
 			}
 		}
 		return sum;
+	}
+
+	private int calcStarNum(int start) {
+		int result = 0;
+		switch (start) {
+		case 1:
+		case 10:
+		case 100:
+			result = 1;
+			break;
+		case 11:
+		case 101:
+		case 110:
+			result = 2;
+			break;
+		case 111:
+			result = 3;
+			break;
+		default:
+			break;
+		}
+		return result;
 	}
 	
 	/**

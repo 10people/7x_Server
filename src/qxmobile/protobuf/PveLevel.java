@@ -563,12 +563,30 @@ public final class PveLevel {
     qxmobile.protobuf.PveLevel.PveStarAwardSateOrBuilder getSStarAwardStateOrBuilder(
         int index);
 
+    // required int32 sectionMax = 4;
+    /**
+     * <code>required int32 sectionMax = 4;</code>
+     *
+     * <pre>
+     *已经打到的最大章节号
+     * </pre>
+     */
+    boolean hasSectionMax();
+    /**
+     * <code>required int32 sectionMax = 4;</code>
+     *
+     * <pre>
+     *已经打到的最大章节号
+     * </pre>
+     */
+    int getSectionMax();
+
     // optional int32 maxCqPassId = 7;
     /**
      * <code>optional int32 maxCqPassId = 7;</code>
      *
      * <pre>
-     *当前可以攻打的传奇关卡章节
+     *当前可以攻打的传奇关卡章节	
      * </pre>
      */
     boolean hasMaxCqPassId();
@@ -576,7 +594,7 @@ public final class PveLevel {
      * <code>optional int32 maxCqPassId = 7;</code>
      *
      * <pre>
-     *当前可以攻打的传奇关卡章节
+     *当前可以攻打的传奇关卡章节	
      * </pre>
      */
     int getMaxCqPassId();
@@ -657,8 +675,13 @@ public final class PveLevel {
               sStarAwardState_.add(input.readMessage(qxmobile.protobuf.PveLevel.PveStarAwardSate.PARSER, extensionRegistry));
               break;
             }
-            case 56: {
+            case 32: {
               bitField0_ |= 0x00000002;
+              sectionMax_ = input.readInt32();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000004;
               maxCqPassId_ = input.readInt32();
               break;
             }
@@ -844,6 +867,30 @@ public final class PveLevel {
       return sStarAwardState_.get(index);
     }
 
+    // required int32 sectionMax = 4;
+    public static final int SECTIONMAX_FIELD_NUMBER = 4;
+    private int sectionMax_;
+    /**
+     * <code>required int32 sectionMax = 4;</code>
+     *
+     * <pre>
+     *已经打到的最大章节号
+     * </pre>
+     */
+    public boolean hasSectionMax() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 sectionMax = 4;</code>
+     *
+     * <pre>
+     *已经打到的最大章节号
+     * </pre>
+     */
+    public int getSectionMax() {
+      return sectionMax_;
+    }
+
     // optional int32 maxCqPassId = 7;
     public static final int MAXCQPASSID_FIELD_NUMBER = 7;
     private int maxCqPassId_;
@@ -851,17 +898,17 @@ public final class PveLevel {
      * <code>optional int32 maxCqPassId = 7;</code>
      *
      * <pre>
-     *当前可以攻打的传奇关卡章节
+     *当前可以攻打的传奇关卡章节	
      * </pre>
      */
     public boolean hasMaxCqPassId() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional int32 maxCqPassId = 7;</code>
      *
      * <pre>
-     *当前可以攻打的传奇关卡章节
+     *当前可以攻打的传奇关卡章节	
      * </pre>
      */
     public int getMaxCqPassId() {
@@ -872,6 +919,7 @@ public final class PveLevel {
       sSection_ = 0;
       sAllLevel_ = java.util.Collections.emptyList();
       sStarAwardState_ = java.util.Collections.emptyList();
+      sectionMax_ = 0;
       maxCqPassId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
@@ -880,6 +928,10 @@ public final class PveLevel {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasSSection()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSectionMax()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -912,6 +964,9 @@ public final class PveLevel {
         output.writeMessage(3, sStarAwardState_.get(i));
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(4, sectionMax_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(7, maxCqPassId_);
       }
       getUnknownFields().writeTo(output);
@@ -936,6 +991,10 @@ public final class PveLevel {
           .computeMessageSize(3, sStarAwardState_.get(i));
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, sectionMax_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(7, maxCqPassId_);
       }
@@ -1075,8 +1134,10 @@ public final class PveLevel {
         } else {
           sStarAwardStateBuilder_.clear();
         }
-        maxCqPassId_ = 0;
+        sectionMax_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
+        maxCqPassId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1129,6 +1190,10 @@ public final class PveLevel {
         }
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000002;
+        }
+        result.sectionMax_ = sectionMax_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000004;
         }
         result.maxCqPassId_ = maxCqPassId_;
         result.bitField0_ = to_bitField0_;
@@ -1202,6 +1267,9 @@ public final class PveLevel {
             }
           }
         }
+        if (other.hasSectionMax()) {
+          setSectionMax(other.getSectionMax());
+        }
         if (other.hasMaxCqPassId()) {
           setMaxCqPassId(other.getMaxCqPassId());
         }
@@ -1211,6 +1279,10 @@ public final class PveLevel {
 
       public final boolean isInitialized() {
         if (!hasSSection()) {
+          
+          return false;
+        }
+        if (!hasSectionMax()) {
           
           return false;
         }
@@ -1921,23 +1993,72 @@ public final class PveLevel {
         return sStarAwardStateBuilder_;
       }
 
+      // required int32 sectionMax = 4;
+      private int sectionMax_ ;
+      /**
+       * <code>required int32 sectionMax = 4;</code>
+       *
+       * <pre>
+       *已经打到的最大章节号
+       * </pre>
+       */
+      public boolean hasSectionMax() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 sectionMax = 4;</code>
+       *
+       * <pre>
+       *已经打到的最大章节号
+       * </pre>
+       */
+      public int getSectionMax() {
+        return sectionMax_;
+      }
+      /**
+       * <code>required int32 sectionMax = 4;</code>
+       *
+       * <pre>
+       *已经打到的最大章节号
+       * </pre>
+       */
+      public Builder setSectionMax(int value) {
+        bitField0_ |= 0x00000008;
+        sectionMax_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 sectionMax = 4;</code>
+       *
+       * <pre>
+       *已经打到的最大章节号
+       * </pre>
+       */
+      public Builder clearSectionMax() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        sectionMax_ = 0;
+        onChanged();
+        return this;
+      }
+
       // optional int32 maxCqPassId = 7;
       private int maxCqPassId_ ;
       /**
        * <code>optional int32 maxCqPassId = 7;</code>
        *
        * <pre>
-       *当前可以攻打的传奇关卡章节
+       *当前可以攻打的传奇关卡章节	
        * </pre>
        */
       public boolean hasMaxCqPassId() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>optional int32 maxCqPassId = 7;</code>
        *
        * <pre>
-       *当前可以攻打的传奇关卡章节
+       *当前可以攻打的传奇关卡章节	
        * </pre>
        */
       public int getMaxCqPassId() {
@@ -1947,11 +2068,11 @@ public final class PveLevel {
        * <code>optional int32 maxCqPassId = 7;</code>
        *
        * <pre>
-       *当前可以攻打的传奇关卡章节
+       *当前可以攻打的传奇关卡章节	
        * </pre>
        */
       public Builder setMaxCqPassId(int value) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         maxCqPassId_ = value;
         onChanged();
         return this;
@@ -1960,11 +2081,11 @@ public final class PveLevel {
        * <code>optional int32 maxCqPassId = 7;</code>
        *
        * <pre>
-       *当前可以攻打的传奇关卡章节
+       *当前可以攻打的传奇关卡章节	
        * </pre>
        */
       public Builder clearMaxCqPassId() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         maxCqPassId_ = 0;
         onChanged();
         return this;
@@ -16955,6 +17076,24 @@ public final class PveLevel {
   public interface PveSaoDangRetOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
+    // required int32 result = 5;
+    /**
+     * <code>required int32 result = 5;</code>
+     *
+     * <pre>
+     *结果：0-成功，1-次数已用完
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 5;</code>
+     *
+     * <pre>
+     *结果：0-成功，1-次数已用完
+     * </pre>
+     */
+    int getResult();
+
     // required int32 guanQiaId = 1;
     /**
      * <code>required int32 guanQiaId = 1;</code>
@@ -17106,26 +17245,31 @@ public final class PveLevel {
               break;
             }
             case 8: {
-              bitField0_ |= 0x00000001;
+              bitField0_ |= 0x00000002;
               guanQiaId_ = input.readInt32();
               break;
             }
             case 16: {
-              bitField0_ |= 0x00000002;
+              bitField0_ |= 0x00000004;
               endTime_ = input.readInt32();
               break;
             }
             case 24: {
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000008;
               allTime_ = input.readInt32();
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
                 awards_ = new java.util.ArrayList<qxmobile.protobuf.PveLevel.PveSaoDangAward>();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000010;
               }
               awards_.add(input.readMessage(qxmobile.protobuf.PveLevel.PveSaoDangAward.PARSER, extensionRegistry));
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
               break;
             }
           }
@@ -17136,7 +17280,7 @@ public final class PveLevel {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
           awards_ = java.util.Collections.unmodifiableList(awards_);
         }
         this.unknownFields = unknownFields.build();
@@ -17171,6 +17315,30 @@ public final class PveLevel {
     }
 
     private int bitField0_;
+    // required int32 result = 5;
+    public static final int RESULT_FIELD_NUMBER = 5;
+    private int result_;
+    /**
+     * <code>required int32 result = 5;</code>
+     *
+     * <pre>
+     *结果：0-成功，1-次数已用完
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 5;</code>
+     *
+     * <pre>
+     *结果：0-成功，1-次数已用完
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
     // required int32 guanQiaId = 1;
     public static final int GUANQIAID_FIELD_NUMBER = 1;
     private int guanQiaId_;
@@ -17182,7 +17350,7 @@ public final class PveLevel {
      * </pre>
      */
     public boolean hasGuanQiaId() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required int32 guanQiaId = 1;</code>
@@ -17206,7 +17374,7 @@ public final class PveLevel {
      * </pre>
      */
     public boolean hasEndTime() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>required int32 endTime = 2;</code>
@@ -17230,7 +17398,7 @@ public final class PveLevel {
      * </pre>
      */
     public boolean hasAllTime() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>required int32 allTime = 3;</code>
@@ -17300,6 +17468,7 @@ public final class PveLevel {
     }
 
     private void initFields() {
+      result_ = 0;
       guanQiaId_ = 0;
       endTime_ = 0;
       allTime_ = 0;
@@ -17310,6 +17479,10 @@ public final class PveLevel {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasGuanQiaId()) {
         memoizedIsInitialized = 0;
         return false;
@@ -17335,17 +17508,20 @@ public final class PveLevel {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(1, guanQiaId_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(2, endTime_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(3, allTime_);
       }
       for (int i = 0; i < awards_.size(); i++) {
         output.writeMessage(4, awards_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(5, result_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -17356,21 +17532,25 @@ public final class PveLevel {
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, guanQiaId_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, endTime_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, allTime_);
       }
       for (int i = 0; i < awards_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, awards_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, result_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -17489,15 +17669,17 @@ public final class PveLevel {
 
       public Builder clear() {
         super.clear();
-        guanQiaId_ = 0;
+        result_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        endTime_ = 0;
+        guanQiaId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        allTime_ = 0;
+        endTime_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
+        allTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         if (awardsBuilder_ == null) {
           awards_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000010);
         } else {
           awardsBuilder_.clear();
         }
@@ -17532,19 +17714,23 @@ public final class PveLevel {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.guanQiaId_ = guanQiaId_;
+        result.result_ = result_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.endTime_ = endTime_;
+        result.guanQiaId_ = guanQiaId_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
+        result.endTime_ = endTime_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
         result.allTime_ = allTime_;
         if (awardsBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          if (((bitField0_ & 0x00000010) == 0x00000010)) {
             awards_ = java.util.Collections.unmodifiableList(awards_);
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000010);
           }
           result.awards_ = awards_;
         } else {
@@ -17566,6 +17752,9 @@ public final class PveLevel {
 
       public Builder mergeFrom(qxmobile.protobuf.PveLevel.PveSaoDangRet other) {
         if (other == qxmobile.protobuf.PveLevel.PveSaoDangRet.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
         if (other.hasGuanQiaId()) {
           setGuanQiaId(other.getGuanQiaId());
         }
@@ -17579,7 +17768,7 @@ public final class PveLevel {
           if (!other.awards_.isEmpty()) {
             if (awards_.isEmpty()) {
               awards_ = other.awards_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000010);
             } else {
               ensureAwardsIsMutable();
               awards_.addAll(other.awards_);
@@ -17592,7 +17781,7 @@ public final class PveLevel {
               awardsBuilder_.dispose();
               awardsBuilder_ = null;
               awards_ = other.awards_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000010);
               awardsBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getAwardsFieldBuilder() : null;
@@ -17606,6 +17795,10 @@ public final class PveLevel {
       }
 
       public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
         if (!hasGuanQiaId()) {
           
           return false;
@@ -17646,6 +17839,55 @@ public final class PveLevel {
       }
       private int bitField0_;
 
+      // required int32 result = 5;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 5;</code>
+       *
+       * <pre>
+       *结果：0-成功，1-次数已用完
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 5;</code>
+       *
+       * <pre>
+       *结果：0-成功，1-次数已用完
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 5;</code>
+       *
+       * <pre>
+       *结果：0-成功，1-次数已用完
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 5;</code>
+       *
+       * <pre>
+       *结果：0-成功，1-次数已用完
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
       // required int32 guanQiaId = 1;
       private int guanQiaId_ ;
       /**
@@ -17656,7 +17898,7 @@ public final class PveLevel {
        * </pre>
        */
       public boolean hasGuanQiaId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required int32 guanQiaId = 1;</code>
@@ -17676,7 +17918,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder setGuanQiaId(int value) {
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         guanQiaId_ = value;
         onChanged();
         return this;
@@ -17689,7 +17931,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder clearGuanQiaId() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         guanQiaId_ = 0;
         onChanged();
         return this;
@@ -17705,7 +17947,7 @@ public final class PveLevel {
        * </pre>
        */
       public boolean hasEndTime() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>required int32 endTime = 2;</code>
@@ -17725,7 +17967,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder setEndTime(int value) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         endTime_ = value;
         onChanged();
         return this;
@@ -17738,7 +17980,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder clearEndTime() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         endTime_ = 0;
         onChanged();
         return this;
@@ -17754,7 +17996,7 @@ public final class PveLevel {
        * </pre>
        */
       public boolean hasAllTime() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>required int32 allTime = 3;</code>
@@ -17774,7 +18016,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder setAllTime(int value) {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         allTime_ = value;
         onChanged();
         return this;
@@ -17787,7 +18029,7 @@ public final class PveLevel {
        * </pre>
        */
       public Builder clearAllTime() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         allTime_ = 0;
         onChanged();
         return this;
@@ -17797,9 +18039,9 @@ public final class PveLevel {
       private java.util.List<qxmobile.protobuf.PveLevel.PveSaoDangAward> awards_ =
         java.util.Collections.emptyList();
       private void ensureAwardsIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
           awards_ = new java.util.ArrayList<qxmobile.protobuf.PveLevel.PveSaoDangAward>(awards_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000010;
          }
       }
 
@@ -17992,7 +18234,7 @@ public final class PveLevel {
       public Builder clearAwards() {
         if (awardsBuilder_ == null) {
           awards_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000010);
           onChanged();
         } else {
           awardsBuilder_.clear();
@@ -18097,7 +18339,7 @@ public final class PveLevel {
           awardsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               qxmobile.protobuf.PveLevel.PveSaoDangAward, qxmobile.protobuf.PveLevel.PveSaoDangAward.Builder, qxmobile.protobuf.PveLevel.PveSaoDangAwardOrBuilder>(
                   awards_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  ((bitField0_ & 0x00000010) == 0x00000010),
                   getParentForChildren(),
                   isClean());
           awards_ = null;
@@ -24789,70 +25031,71 @@ public final class PveLevel {
   static {
     java.lang.String[] descriptorData = {
       "\n\016PveLevel.proto\022\021qxmobile.protobuf\"\037\n\nP" +
-      "vePageReq\022\021\n\ts_section\030\001 \002(\005\"\236\001\n\007Section" +
+      "vePageReq\022\021\n\ts_section\030\001 \002(\005\"\262\001\n\007Section" +
       "\022\021\n\ts_section\030\001 \002(\005\022,\n\ns_allLevel\030\002 \003(\0132" +
       "\030.qxmobile.protobuf.Level\022=\n\020s_starAward" +
       "State\030\003 \003(\0132#.qxmobile.protobuf.PveStarA" +
-      "wardSate\022\023\n\013maxCqPassId\030\007 \001(\005\"6\n\020PveStar" +
-      "AwardSate\022\021\n\ts_starNum\030\001 \002(\005\022\017\n\007s_state\030" +
-      "\002 \002(\010\"\206\002\n\005Level\022\017\n\007s_level\030\001 \002(\005\022\016\n\006s_pa" +
-      "ss\030\002 \002(\010\022\021\n\ts_starNum\030\003 \002(\005\022\021\n\tguanQiaId" +
-      "\030\004 \002(\005\022\014\n\004type\030\005 \002(\005\022\023\n\013chuanQiPass\030\007 \002(",
-      "\010\022\017\n\007pingJia\030\010 \002(\005\022\017\n\007renWuId\030\t \002(\005\022\021\n\tw" +
-      "in_Level\030\014 \001(\005\022-\n\010starInfo\030\n \003(\0132\033.qxmob" +
-      "ile.protobuf.StarInfo\022/\n\ncqStarInfo\030\013 \003(" +
-      "\0132\033.qxmobile.protobuf.StarInfo\"D\n\010StarIn" +
-      "fo\022\016\n\006starId\030\003 \002(\005\022\020\n\010finished\030\001 \002(\010\022\026\n\016" +
-      "getRewardState\030\002 \002(\010\"$\n\017ResetCQTimesReq\022" +
-      "\021\n\tguanQiaId\030\001 \002(\005\"9\n\020ResetCQTimesBack\022\021" +
-      "\n\tguanQiaId\030\001 \002(\005\022\022\n\ncqResetPay\030\002 \002(\005\"5\n" +
-      "\022GuanQiaInfoRequest\022\021\n\tguanQiaId\030\001 \002(\005\022\014" +
-      "\n\004type\030\002 \001(\005\"\276\003\n\013GuanQiaInfo\022\021\n\tguanQiaI",
-      "d\030\001 \002(\005\022,\n\005items\030\002 \003(\0132\035.qxmobile.protob" +
-      "uf.RewardItem\022-\n\007enemies\030\003 \003(\0132\034.qxmobil" +
-      "e.protobuf.EnemyInfo\022\014\n\004desc\030\004 \002(\t\022\014\n\004ti" +
-      "li\030\005 \002(\005\022\020\n\010mibaoIds\030\006 \003(\003\022\016\n\006zuheId\030\021 \001" +
-      "(\005\022\023\n\013cqPassTimes\030\007 \001(\005\022\022\n\ncqDayTimes\030\022 " +
-      "\001(\005\022\022\n\ncqResetPay\030\010 \001(\005\022\024\n\014cqResetTimes\030" +
-      "\t \001(\005\022\023\n\013cqResetLeft\030\n \001(\005\022\032\n\022jySaoDangU" +
-      "sedTimes\030\013 \001(\005\022\031\n\021jySaoDangDayTimes\030\014 \001(" +
-      "\005\022\032\n\022cqSaoDangUsedTimes\030\r \001(\005\022\031\n\021cqSaoDa" +
-      "ngDayTimes\030\016 \001(\005\022\017\n\007acheive\030\017 \002(\005\022\032\n\022ach",
-      "eiveRewardState\030\020 \002(\005\"T\n\tEnemyInfo\022\014\n\004na" +
-      "me\030\001 \002(\t\022\014\n\004icon\030\002 \002(\t\022\014\n\004type\030\003 \002(\005\022\r\n\005" +
-      "level\030\004 \002(\005\022\016\n\006yuansu\030\005 \002(\t\"Z\n\nRewardIte" +
-      "m\022\016\n\006itemId\030\001 \002(\005\022\020\n\010itemType\030\002 \002(\005\022\014\n\004n" +
-      "ame\030\003 \002(\t\022\014\n\004icon\030\004 \002(\t\022\016\n\006pinZhi\030\005 \001(\005\"" +
-      "n\n\rPveBattleOver\022\021\n\ts_section\030\001 \002(\005\022\016\n\006s" +
-      "_pass\030\002 \002(\010\022\014\n\004star\030\003 \002(\005\022\023\n\013achievement" +
-      "\030\004 \001(\005\022\027\n\017dropeenItemNpcs\030\005 \003(\005\"J\n\017GetPv" +
-      "eStarAward\022\021\n\tguanQiaId\030\002 \002(\005\022\021\n\ts_starN" +
-      "um\030\001 \002(\005\022\021\n\tisChuanQi\030\003 \002(\010\"F\n\rPveStarAw",
-      "ards\0225\n\010s_awards\030\001 \003(\0132#.qxmobile.protob" +
-      "uf.PveStarAwardItem\";\n\020PveStarAwardItem\022" +
-      "\023\n\013s_awardName\030\001 \002(\t\022\022\n\ns_awardNum\030\002 \002(\005" +
-      "\"K\n\021PveStarGetSuccess\022\021\n\tguanQiaId\030\003 \002(\005" +
-      "\022\021\n\ts_starNum\030\001 \002(\005\022\020\n\010s_result\030\002 \002(\010\"1\n" +
-      "\rPveSaoDangReq\022\021\n\tguanQiaId\030\001 \002(\005\022\r\n\005tim" +
-      "es\030\002 \002(\005\"x\n\rPveSaoDangRet\022\021\n\tguanQiaId\030\001" +
-      " \002(\005\022\017\n\007endTime\030\002 \002(\005\022\017\n\007allTime\030\003 \002(\005\0222" +
-      "\n\006awards\030\004 \003(\0132\".qxmobile.protobuf.PveSa" +
-      "oDangAward\"f\n\017PveSaoDangAward\022\013\n\003exp\030\001 \002",
-      "(\005\022\r\n\005money\030\002 \002(\005\0227\n\nawardItems\030\003 \003(\0132#." +
-      "qxmobile.protobuf.SaoDangAwardItem\"E\n\020Sa" +
-      "oDangAwardItem\022\020\n\010itemType\030\001 \002(\005\022\016\n\006item" +
-      "Id\030\002 \002(\005\022\017\n\007itemNum\030\003 \002(\005\"=\n\021YuanZhuList" +
-      "Return\022(\n\004list\030\001 \003(\0132\032.qxmobile.protobuf" +
-      ".YuanJun\"2\n\007YuanJun\022\n\n\002id\030\001 \002(\005\022\014\n\004name\030" +
-      "\002 \002(\t\022\r\n\005level\030\003 \002(\005\"\"\n\014BuZhenReport\022\022\n\n" +
-      "wuJiangIds\030\001 \003(\005\"@\n\013MibaoSelect\022\014\n\004type\030" +
-      "\001 \002(\005\022\020\n\010mibaoIds\030\002 \003(\003\022\021\n\tzuheSkill\030\003 \001" +
-      "(\005\"C\n\017MibaoSelectResp\022\017\n\007success\030\001 \002(\005\022\014",
-      "\n\004type\030\002 \002(\005\022\021\n\tzuheSkill\030\003 \001(\005\"3\n\014GuanQ" +
-      "iaMaxId\022\020\n\010commonId\030\001 \002(\005\022\021\n\tchuanQiId\030\002" +
-      " \002(\005\"-\n\027GetPassZhangJieAwardReq\022\022\n\nzhang" +
-      "JieId\030\001 \002(\005\"0\n\032GetNotGetAwardZhangJieRes" +
-      "p\022\022\n\nzhangJiaId\030\001 \003(\005B\nB\010PveLevel"
+      "wardSate\022\022\n\nsectionMax\030\004 \002(\005\022\023\n\013maxCqPas" +
+      "sId\030\007 \001(\005\"6\n\020PveStarAwardSate\022\021\n\ts_starN" +
+      "um\030\001 \002(\005\022\017\n\007s_state\030\002 \002(\010\"\206\002\n\005Level\022\017\n\007s" +
+      "_level\030\001 \002(\005\022\016\n\006s_pass\030\002 \002(\010\022\021\n\ts_starNu" +
+      "m\030\003 \002(\005\022\021\n\tguanQiaId\030\004 \002(\005\022\014\n\004type\030\005 \002(\005",
+      "\022\023\n\013chuanQiPass\030\007 \002(\010\022\017\n\007pingJia\030\010 \002(\005\022\017" +
+      "\n\007renWuId\030\t \002(\005\022\021\n\twin_Level\030\014 \001(\005\022-\n\010st" +
+      "arInfo\030\n \003(\0132\033.qxmobile.protobuf.StarInf" +
+      "o\022/\n\ncqStarInfo\030\013 \003(\0132\033.qxmobile.protobu" +
+      "f.StarInfo\"D\n\010StarInfo\022\016\n\006starId\030\003 \002(\005\022\020" +
+      "\n\010finished\030\001 \002(\010\022\026\n\016getRewardState\030\002 \002(\010" +
+      "\"$\n\017ResetCQTimesReq\022\021\n\tguanQiaId\030\001 \002(\005\"9" +
+      "\n\020ResetCQTimesBack\022\021\n\tguanQiaId\030\001 \002(\005\022\022\n" +
+      "\ncqResetPay\030\002 \002(\005\"5\n\022GuanQiaInfoRequest\022" +
+      "\021\n\tguanQiaId\030\001 \002(\005\022\014\n\004type\030\002 \001(\005\"\276\003\n\013Gua",
+      "nQiaInfo\022\021\n\tguanQiaId\030\001 \002(\005\022,\n\005items\030\002 \003" +
+      "(\0132\035.qxmobile.protobuf.RewardItem\022-\n\007ene" +
+      "mies\030\003 \003(\0132\034.qxmobile.protobuf.EnemyInfo" +
+      "\022\014\n\004desc\030\004 \002(\t\022\014\n\004tili\030\005 \002(\005\022\020\n\010mibaoIds" +
+      "\030\006 \003(\003\022\016\n\006zuheId\030\021 \001(\005\022\023\n\013cqPassTimes\030\007 " +
+      "\001(\005\022\022\n\ncqDayTimes\030\022 \001(\005\022\022\n\ncqResetPay\030\010 " +
+      "\001(\005\022\024\n\014cqResetTimes\030\t \001(\005\022\023\n\013cqResetLeft" +
+      "\030\n \001(\005\022\032\n\022jySaoDangUsedTimes\030\013 \001(\005\022\031\n\021jy" +
+      "SaoDangDayTimes\030\014 \001(\005\022\032\n\022cqSaoDangUsedTi" +
+      "mes\030\r \001(\005\022\031\n\021cqSaoDangDayTimes\030\016 \001(\005\022\017\n\007",
+      "acheive\030\017 \002(\005\022\032\n\022acheiveRewardState\030\020 \002(" +
+      "\005\"T\n\tEnemyInfo\022\014\n\004name\030\001 \002(\t\022\014\n\004icon\030\002 \002" +
+      "(\t\022\014\n\004type\030\003 \002(\005\022\r\n\005level\030\004 \002(\005\022\016\n\006yuans" +
+      "u\030\005 \002(\t\"Z\n\nRewardItem\022\016\n\006itemId\030\001 \002(\005\022\020\n" +
+      "\010itemType\030\002 \002(\005\022\014\n\004name\030\003 \002(\t\022\014\n\004icon\030\004 " +
+      "\002(\t\022\016\n\006pinZhi\030\005 \001(\005\"n\n\rPveBattleOver\022\021\n\t" +
+      "s_section\030\001 \002(\005\022\016\n\006s_pass\030\002 \002(\010\022\014\n\004star\030" +
+      "\003 \002(\005\022\023\n\013achievement\030\004 \001(\005\022\027\n\017dropeenIte" +
+      "mNpcs\030\005 \003(\005\"J\n\017GetPveStarAward\022\021\n\tguanQi" +
+      "aId\030\002 \002(\005\022\021\n\ts_starNum\030\001 \002(\005\022\021\n\tisChuanQ",
+      "i\030\003 \002(\010\"F\n\rPveStarAwards\0225\n\010s_awards\030\001 \003" +
+      "(\0132#.qxmobile.protobuf.PveStarAwardItem\"" +
+      ";\n\020PveStarAwardItem\022\023\n\013s_awardName\030\001 \002(\t" +
+      "\022\022\n\ns_awardNum\030\002 \002(\005\"K\n\021PveStarGetSucces" +
+      "s\022\021\n\tguanQiaId\030\003 \002(\005\022\021\n\ts_starNum\030\001 \002(\005\022" +
+      "\020\n\010s_result\030\002 \002(\010\"1\n\rPveSaoDangReq\022\021\n\tgu" +
+      "anQiaId\030\001 \002(\005\022\r\n\005times\030\002 \002(\005\"\210\001\n\rPveSaoD" +
+      "angRet\022\016\n\006result\030\005 \002(\005\022\021\n\tguanQiaId\030\001 \002(" +
+      "\005\022\017\n\007endTime\030\002 \002(\005\022\017\n\007allTime\030\003 \002(\005\0222\n\006a" +
+      "wards\030\004 \003(\0132\".qxmobile.protobuf.PveSaoDa",
+      "ngAward\"f\n\017PveSaoDangAward\022\013\n\003exp\030\001 \002(\005\022" +
+      "\r\n\005money\030\002 \002(\005\0227\n\nawardItems\030\003 \003(\0132#.qxm" +
+      "obile.protobuf.SaoDangAwardItem\"E\n\020SaoDa" +
+      "ngAwardItem\022\020\n\010itemType\030\001 \002(\005\022\016\n\006itemId\030" +
+      "\002 \002(\005\022\017\n\007itemNum\030\003 \002(\005\"=\n\021YuanZhuListRet" +
+      "urn\022(\n\004list\030\001 \003(\0132\032.qxmobile.protobuf.Yu" +
+      "anJun\"2\n\007YuanJun\022\n\n\002id\030\001 \002(\005\022\014\n\004name\030\002 \002" +
+      "(\t\022\r\n\005level\030\003 \002(\005\"\"\n\014BuZhenReport\022\022\n\nwuJ" +
+      "iangIds\030\001 \003(\005\"@\n\013MibaoSelect\022\014\n\004type\030\001 \002" +
+      "(\005\022\020\n\010mibaoIds\030\002 \003(\003\022\021\n\tzuheSkill\030\003 \001(\005\"",
+      "C\n\017MibaoSelectResp\022\017\n\007success\030\001 \002(\005\022\014\n\004t" +
+      "ype\030\002 \002(\005\022\021\n\tzuheSkill\030\003 \001(\005\"3\n\014GuanQiaM" +
+      "axId\022\020\n\010commonId\030\001 \002(\005\022\021\n\tchuanQiId\030\002 \002(" +
+      "\005\"-\n\027GetPassZhangJieAwardReq\022\022\n\nzhangJie" +
+      "Id\030\001 \002(\005\"0\n\032GetNotGetAwardZhangJieResp\022\022" +
+      "\n\nzhangJiaId\030\001 \003(\005B\nB\010PveLevel"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -24870,7 +25113,7 @@ public final class PveLevel {
           internal_static_qxmobile_protobuf_Section_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_Section_descriptor,
-              new java.lang.String[] { "SSection", "SAllLevel", "SStarAwardState", "MaxCqPassId", });
+              new java.lang.String[] { "SSection", "SAllLevel", "SStarAwardState", "SectionMax", "MaxCqPassId", });
           internal_static_qxmobile_protobuf_PveStarAwardSate_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_PveStarAwardSate_fieldAccessorTable = new
@@ -24966,7 +25209,7 @@ public final class PveLevel {
           internal_static_qxmobile_protobuf_PveSaoDangRet_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_PveSaoDangRet_descriptor,
-              new java.lang.String[] { "GuanQiaId", "EndTime", "AllTime", "Awards", });
+              new java.lang.String[] { "Result", "GuanQiaId", "EndTime", "AllTime", "Awards", });
           internal_static_qxmobile_protobuf_PveSaoDangAward_descriptor =
             getDescriptor().getMessageTypes().get(18);
           internal_static_qxmobile_protobuf_PveSaoDangAward_fieldAccessorTable = new

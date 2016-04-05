@@ -10359,7 +10359,7 @@ public final class AllianceProtos {
      * <code>required int32 code = 1;</code>
      *
      * <pre>
-     *0-成功，1-失败，名字被占用，2-失败，元宝不足,3-失败，有非法字符，4-失败-名字长度超过规定长度，5-失败找不到所选择的icon
+     *0-成功，1-失败，名字被占用，2-失败，元宝不足,3-失败，有非法字符，4-失败-名字长度超过规定长度，5-失败找不到所选择的icon， 6-有敏感字符
      * </pre>
      */
     boolean hasCode();
@@ -10367,7 +10367,7 @@ public final class AllianceProtos {
      * <code>required int32 code = 1;</code>
      *
      * <pre>
-     *0-成功，1-失败，名字被占用，2-失败，元宝不足,3-失败，有非法字符，4-失败-名字长度超过规定长度，5-失败找不到所选择的icon
+     *0-成功，1-失败，名字被占用，2-失败，元宝不足,3-失败，有非法字符，4-失败-名字长度超过规定长度，5-失败找不到所选择的icon， 6-有敏感字符
      * </pre>
      */
     int getCode();
@@ -10538,7 +10538,7 @@ public final class AllianceProtos {
      * <code>required int32 code = 1;</code>
      *
      * <pre>
-     *0-成功，1-失败，名字被占用，2-失败，元宝不足,3-失败，有非法字符，4-失败-名字长度超过规定长度，5-失败找不到所选择的icon
+     *0-成功，1-失败，名字被占用，2-失败，元宝不足,3-失败，有非法字符，4-失败-名字长度超过规定长度，5-失败找不到所选择的icon， 6-有敏感字符
      * </pre>
      */
     public boolean hasCode() {
@@ -10548,7 +10548,7 @@ public final class AllianceProtos {
      * <code>required int32 code = 1;</code>
      *
      * <pre>
-     *0-成功，1-失败，名字被占用，2-失败，元宝不足,3-失败，有非法字符，4-失败-名字长度超过规定长度，5-失败找不到所选择的icon
+     *0-成功，1-失败，名字被占用，2-失败，元宝不足,3-失败，有非法字符，4-失败-名字长度超过规定长度，5-失败找不到所选择的icon， 6-有敏感字符
      * </pre>
      */
     public int getCode() {
@@ -10934,7 +10934,7 @@ public final class AllianceProtos {
        * <code>required int32 code = 1;</code>
        *
        * <pre>
-       *0-成功，1-失败，名字被占用，2-失败，元宝不足,3-失败，有非法字符，4-失败-名字长度超过规定长度，5-失败找不到所选择的icon
+       *0-成功，1-失败，名字被占用，2-失败，元宝不足,3-失败，有非法字符，4-失败-名字长度超过规定长度，5-失败找不到所选择的icon， 6-有敏感字符
        * </pre>
        */
       public boolean hasCode() {
@@ -10944,7 +10944,7 @@ public final class AllianceProtos {
        * <code>required int32 code = 1;</code>
        *
        * <pre>
-       *0-成功，1-失败，名字被占用，2-失败，元宝不足,3-失败，有非法字符，4-失败-名字长度超过规定长度，5-失败找不到所选择的icon
+       *0-成功，1-失败，名字被占用，2-失败，元宝不足,3-失败，有非法字符，4-失败-名字长度超过规定长度，5-失败找不到所选择的icon， 6-有敏感字符
        * </pre>
        */
       public int getCode() {
@@ -10954,7 +10954,7 @@ public final class AllianceProtos {
        * <code>required int32 code = 1;</code>
        *
        * <pre>
-       *0-成功，1-失败，名字被占用，2-失败，元宝不足,3-失败，有非法字符，4-失败-名字长度超过规定长度，5-失败找不到所选择的icon
+       *0-成功，1-失败，名字被占用，2-失败，元宝不足,3-失败，有非法字符，4-失败-名字长度超过规定长度，5-失败找不到所选择的icon， 6-有敏感字符
        * </pre>
        */
       public Builder setCode(int value) {
@@ -10967,7 +10967,7 @@ public final class AllianceProtos {
        * <code>required int32 code = 1;</code>
        *
        * <pre>
-       *0-成功，1-失败，名字被占用，2-失败，元宝不足,3-失败，有非法字符，4-失败-名字长度超过规定长度，5-失败找不到所选择的icon
+       *0-成功，1-失败，名字被占用，2-失败，元宝不足,3-失败，有非法字符，4-失败-名字长度超过规定长度，5-失败找不到所选择的icon， 6-有敏感字符
        * </pre>
        */
       public Builder clearCode() {
@@ -28276,7 +28276,7 @@ public final class AllianceProtos {
      * <code>required int32 code = 1;</code>
      *
      * <pre>
-     *0-成功，1-失败:字数太多，2-有特殊字符
+     *0-成功，1-失败:字数太多
      * </pre>
      */
     boolean hasCode();
@@ -28284,10 +28284,37 @@ public final class AllianceProtos {
      * <code>required int32 code = 1;</code>
      *
      * <pre>
-     *0-成功，1-失败:字数太多，2-有特殊字符
+     *0-成功，1-失败:字数太多
      * </pre>
      */
     int getCode();
+
+    // required string notice = 2;
+    /**
+     * <code>required string notice = 2;</code>
+     *
+     * <pre>
+     * 修改成功后的公告
+     * </pre>
+     */
+    boolean hasNotice();
+    /**
+     * <code>required string notice = 2;</code>
+     *
+     * <pre>
+     * 修改成功后的公告
+     * </pre>
+     */
+    java.lang.String getNotice();
+    /**
+     * <code>required string notice = 2;</code>
+     *
+     * <pre>
+     * 修改成功后的公告
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getNoticeBytes();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.UpdateNoticeResp}
@@ -28345,6 +28372,11 @@ public final class AllianceProtos {
               code_ = input.readInt32();
               break;
             }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              notice_ = input.readBytes();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -28392,7 +28424,7 @@ public final class AllianceProtos {
      * <code>required int32 code = 1;</code>
      *
      * <pre>
-     *0-成功，1-失败:字数太多，2-有特殊字符
+     *0-成功，1-失败:字数太多
      * </pre>
      */
     public boolean hasCode() {
@@ -28402,15 +28434,71 @@ public final class AllianceProtos {
      * <code>required int32 code = 1;</code>
      *
      * <pre>
-     *0-成功，1-失败:字数太多，2-有特殊字符
+     *0-成功，1-失败:字数太多
      * </pre>
      */
     public int getCode() {
       return code_;
     }
 
+    // required string notice = 2;
+    public static final int NOTICE_FIELD_NUMBER = 2;
+    private java.lang.Object notice_;
+    /**
+     * <code>required string notice = 2;</code>
+     *
+     * <pre>
+     * 修改成功后的公告
+     * </pre>
+     */
+    public boolean hasNotice() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string notice = 2;</code>
+     *
+     * <pre>
+     * 修改成功后的公告
+     * </pre>
+     */
+    public java.lang.String getNotice() {
+      java.lang.Object ref = notice_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          notice_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string notice = 2;</code>
+     *
+     * <pre>
+     * 修改成功后的公告
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getNoticeBytes() {
+      java.lang.Object ref = notice_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        notice_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       code_ = 0;
+      notice_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -28418,6 +28506,10 @@ public final class AllianceProtos {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasCode()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasNotice()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -28431,6 +28523,9 @@ public final class AllianceProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(1, code_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getNoticeBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -28443,6 +28538,10 @@ public final class AllianceProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, code_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getNoticeBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -28562,6 +28661,8 @@ public final class AllianceProtos {
         super.clear();
         code_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        notice_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -28594,6 +28695,10 @@ public final class AllianceProtos {
           to_bitField0_ |= 0x00000001;
         }
         result.code_ = code_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.notice_ = notice_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -28613,12 +28718,21 @@ public final class AllianceProtos {
         if (other.hasCode()) {
           setCode(other.getCode());
         }
+        if (other.hasNotice()) {
+          bitField0_ |= 0x00000002;
+          notice_ = other.notice_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasCode()) {
+          
+          return false;
+        }
+        if (!hasNotice()) {
           
           return false;
         }
@@ -28650,7 +28764,7 @@ public final class AllianceProtos {
        * <code>required int32 code = 1;</code>
        *
        * <pre>
-       *0-成功，1-失败:字数太多，2-有特殊字符
+       *0-成功，1-失败:字数太多
        * </pre>
        */
       public boolean hasCode() {
@@ -28660,7 +28774,7 @@ public final class AllianceProtos {
        * <code>required int32 code = 1;</code>
        *
        * <pre>
-       *0-成功，1-失败:字数太多，2-有特殊字符
+       *0-成功，1-失败:字数太多
        * </pre>
        */
       public int getCode() {
@@ -28670,7 +28784,7 @@ public final class AllianceProtos {
        * <code>required int32 code = 1;</code>
        *
        * <pre>
-       *0-成功，1-失败:字数太多，2-有特殊字符
+       *0-成功，1-失败:字数太多
        * </pre>
        */
       public Builder setCode(int value) {
@@ -28683,12 +28797,110 @@ public final class AllianceProtos {
        * <code>required int32 code = 1;</code>
        *
        * <pre>
-       *0-成功，1-失败:字数太多，2-有特殊字符
+       *0-成功，1-失败:字数太多
        * </pre>
        */
       public Builder clearCode() {
         bitField0_ = (bitField0_ & ~0x00000001);
         code_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string notice = 2;
+      private java.lang.Object notice_ = "";
+      /**
+       * <code>required string notice = 2;</code>
+       *
+       * <pre>
+       * 修改成功后的公告
+       * </pre>
+       */
+      public boolean hasNotice() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string notice = 2;</code>
+       *
+       * <pre>
+       * 修改成功后的公告
+       * </pre>
+       */
+      public java.lang.String getNotice() {
+        java.lang.Object ref = notice_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          notice_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string notice = 2;</code>
+       *
+       * <pre>
+       * 修改成功后的公告
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getNoticeBytes() {
+        java.lang.Object ref = notice_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          notice_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string notice = 2;</code>
+       *
+       * <pre>
+       * 修改成功后的公告
+       * </pre>
+       */
+      public Builder setNotice(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        notice_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string notice = 2;</code>
+       *
+       * <pre>
+       * 修改成功后的公告
+       * </pre>
+       */
+      public Builder clearNotice() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        notice_ = getDefaultInstance().getNotice();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string notice = 2;</code>
+       *
+       * <pre>
+       * 修改成功后的公告
+       * </pre>
+       */
+      public Builder setNoticeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        notice_ = value;
         onChanged();
         return this;
       }
@@ -30115,6 +30327,33 @@ public final class AllianceProtos {
      * </pre>
      */
     int getCode();
+
+    // optional string attach = 2;
+    /**
+     * <code>optional string attach = 2;</code>
+     *
+     * <pre>
+     *招募公告，发布成功时返回
+     * </pre>
+     */
+    boolean hasAttach();
+    /**
+     * <code>optional string attach = 2;</code>
+     *
+     * <pre>
+     *招募公告，发布成功时返回
+     * </pre>
+     */
+    java.lang.String getAttach();
+    /**
+     * <code>optional string attach = 2;</code>
+     *
+     * <pre>
+     *招募公告，发布成功时返回
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getAttachBytes();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.OpenApplyResp}
@@ -30170,6 +30409,11 @@ public final class AllianceProtos {
             case 8: {
               bitField0_ |= 0x00000001;
               code_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              attach_ = input.readBytes();
               break;
             }
           }
@@ -30236,8 +30480,64 @@ public final class AllianceProtos {
       return code_;
     }
 
+    // optional string attach = 2;
+    public static final int ATTACH_FIELD_NUMBER = 2;
+    private java.lang.Object attach_;
+    /**
+     * <code>optional string attach = 2;</code>
+     *
+     * <pre>
+     *招募公告，发布成功时返回
+     * </pre>
+     */
+    public boolean hasAttach() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional string attach = 2;</code>
+     *
+     * <pre>
+     *招募公告，发布成功时返回
+     * </pre>
+     */
+    public java.lang.String getAttach() {
+      java.lang.Object ref = attach_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          attach_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string attach = 2;</code>
+     *
+     * <pre>
+     *招募公告，发布成功时返回
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getAttachBytes() {
+      java.lang.Object ref = attach_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        attach_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       code_ = 0;
+      attach_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -30258,6 +30558,9 @@ public final class AllianceProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(1, code_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getAttachBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -30270,6 +30573,10 @@ public final class AllianceProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, code_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getAttachBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -30389,6 +30696,8 @@ public final class AllianceProtos {
         super.clear();
         code_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        attach_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -30421,6 +30730,10 @@ public final class AllianceProtos {
           to_bitField0_ |= 0x00000001;
         }
         result.code_ = code_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.attach_ = attach_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -30439,6 +30752,11 @@ public final class AllianceProtos {
         if (other == qxmobile.protobuf.AllianceProtos.OpenApplyResp.getDefaultInstance()) return this;
         if (other.hasCode()) {
           setCode(other.getCode());
+        }
+        if (other.hasAttach()) {
+          bitField0_ |= 0x00000002;
+          attach_ = other.attach_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -30516,6 +30834,104 @@ public final class AllianceProtos {
       public Builder clearCode() {
         bitField0_ = (bitField0_ & ~0x00000001);
         code_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string attach = 2;
+      private java.lang.Object attach_ = "";
+      /**
+       * <code>optional string attach = 2;</code>
+       *
+       * <pre>
+       *招募公告，发布成功时返回
+       * </pre>
+       */
+      public boolean hasAttach() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string attach = 2;</code>
+       *
+       * <pre>
+       *招募公告，发布成功时返回
+       * </pre>
+       */
+      public java.lang.String getAttach() {
+        java.lang.Object ref = attach_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          attach_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string attach = 2;</code>
+       *
+       * <pre>
+       *招募公告，发布成功时返回
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getAttachBytes() {
+        java.lang.Object ref = attach_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          attach_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string attach = 2;</code>
+       *
+       * <pre>
+       *招募公告，发布成功时返回
+       * </pre>
+       */
+      public Builder setAttach(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        attach_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string attach = 2;</code>
+       *
+       * <pre>
+       *招募公告，发布成功时返回
+       * </pre>
+       */
+      public Builder clearAttach() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        attach_ = getDefaultInstance().getAttach();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string attach = 2;</code>
+       *
+       * <pre>
+       *招募公告，发布成功时返回
+       * </pre>
+       */
+      public Builder setAttachBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        attach_ = value;
         onChanged();
         return this;
       }
@@ -41588,7 +42004,7 @@ public final class AllianceProtos {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟
+     * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟,5-你不是盟主或副盟主
      * </pre>
      */
     boolean hasResult();
@@ -41596,7 +42012,7 @@ public final class AllianceProtos {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟
+     * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟,5-你不是盟主或副盟主
      * </pre>
      */
     int getResult();
@@ -41708,7 +42124,7 @@ public final class AllianceProtos {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟
+     * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟,5-你不是盟主或副盟主
      * </pre>
      */
     public boolean hasResult() {
@@ -41718,7 +42134,7 @@ public final class AllianceProtos {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟
+     * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟,5-你不是盟主或副盟主
      * </pre>
      */
     public int getResult() {
@@ -41970,7 +42386,7 @@ public final class AllianceProtos {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟
+       * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟,5-你不是盟主或副盟主
        * </pre>
        */
       public boolean hasResult() {
@@ -41980,7 +42396,7 @@ public final class AllianceProtos {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟
+       * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟,5-你不是盟主或副盟主
        * </pre>
        */
       public int getResult() {
@@ -41990,7 +42406,7 @@ public final class AllianceProtos {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟
+       * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟,5-你不是盟主或副盟主
        * </pre>
        */
       public Builder setResult(int value) {
@@ -42003,7 +42419,7 @@ public final class AllianceProtos {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟
+       * 结果，0-邀请成功，1-被邀请的君主不存在，2-联盟人数已满，3-被邀请的玩家联盟功能未开放,4-被邀请的玩家已经加入了其他联盟,5-你不是盟主或副盟主
        * </pre>
        */
       public Builder clearResult() {
@@ -45678,44 +46094,45 @@ public final class AllianceProtos {
       "unzhuId\030\002 \002(\003\022\n\n\002id\030\003 \001(\005\0221\n\nmemberInfo\030" +
       "\004 \001(\0132\035.qxmobile.protobuf.MemberInfo\"*\n\014" +
       "UpdateNotice\022\n\n\002id\030\001 \002(\005\022\016\n\006notice\030\002 \002(\t" +
-      "\" \n\020UpdateNoticeResp\022\014\n\004code\030\001 \002(\005\"\035\n\017Di" +
-      "smissAlliance\022\n\n\002id\030\001 \002(\005\"`\n\tOpenApply\022\n" +
-      "\n\002id\030\001 \002(\005\022\020\n\010levelMin\030\003 \002(\005\022\022\n\njunXianM" +
-      "in\030\004 \002(\005\022\021\n\tisExamine\030\005 \002(\005\022\016\n\006attach\030\006 ",
-      "\001(\t\"\035\n\rOpenApplyResp\022\014\n\004code\030\001 \002(\005\"\030\n\nCl" +
-      "oseApply\022\n\n\002id\030\001 \002(\005\"0\n\020TransferAlliance" +
-      "\022\n\n\002id\030\001 \002(\005\022\020\n\010junzhuId\030\002 \002(\003\"D\n\024Transf" +
-      "erAllianceResp\022\016\n\006result\030\001 \002(\005\022\n\n\002id\030\002 \002" +
-      "(\005\022\020\n\010junzhuId\030\003 \002(\003\" \n\020MengZhuApplyResp" +
-      "\022\014\n\004code\030\001 \002(\005\"\037\n\013MengZhuVote\022\020\n\010junzhuI" +
-      "d\030\001 \002(\003\"4\n\017MengZhuVoteResp\022\020\n\010junzhuId\030\001" +
-      " \002(\003\022\017\n\007voteNum\030\002 \002(\005\"\036\n\016GiveUpVoteResp\022" +
-      "\014\n\004code\030\001 \002(\005\"\033\n\nDonateHuFu\022\r\n\005count\030\001 \002" +
-      "(\005\"A\n\016DonateHuFuResp\022\016\n\006result\030\001 \002(\005\022\020\n\010",
-      "gongxian\030\002 \002(\005\022\r\n\005build\030\003 \002(\005\"\034\n\014EventLi" +
-      "stReq\022\014\n\004page\030\001 \002(\005\"*\n\rEventListResp\022\014\n\004" +
-      "page\030\001 \002(\005\022\013\n\003msg\030\002 \003(\t\"`\n\023PlayerAllianc" +
-      "eState\022\020\n\010junzhuId\030\001 \002(\003\022\022\n\nallianceId\030\002" +
-      " \002(\005\022\024\n\014allianceName\030\003 \002(\t\022\r\n\005title\030\004 \002(" +
-      "\005\"U\n\020FengShanInfoResp\022/\n\006fsInfo\030\001 \003(\0132\037." +
-      "qxmobile.protobuf.FengShanInfo\022\020\n\010huoyue" +
-      "du\030\002 \002(\005\"-\n\014FengShanInfo\022\016\n\006confId\030\001 \002(\005" +
-      "\022\r\n\005state\030\002 \002(\005\"\035\n\013FengShanReq\022\016\n\006confId" +
-      "\030\001 \002(\005\".\n\014FengShanResp\022\016\n\006confId\030\001 \002(\005\022\016",
-      "\n\006result\030\002 \002(\005\"5\n\022AllianceTargetResp\022\r\n\005" +
-      "level\030\001 \002(\005\022\020\n\010getAward\030\002 \002(\010\"&\n\025GetAlli" +
-      "anceLevelAward\022\r\n\005level\030\001 \002(\005\">\n\031GetAlli" +
-      "anceLevelAwardResp\022\016\n\006result\030\001 \002(\005\022\021\n\tne" +
-      "xtLevel\030\002 \002(\005\"\"\n\016AllianceInvite\022\020\n\010junzh" +
-      "uId\030\001 \002(\003\"$\n\022AllianceInviteResp\022\016\n\006resul" +
-      "t\030\001 \002(\005\"G\n\nInviteList\0229\n\ninviteInfo\030\001 \003(" +
-      "\0132%.qxmobile.protobuf.InviteAllianceInfo" +
-      "\"[\n\022InviteAllianceInfo\022\n\n\002id\030\001 \002(\005\022\014\n\004na" +
-      "me\030\002 \002(\t\022\r\n\005level\030\003 \002(\005\022\014\n\004date\030\004 \002(\t\022\016\n",
-      "\006guiJia\030\005 \002(\005\"\032\n\014RefuseInvite\022\n\n\002id\030\001 \002(" +
-      "\005\"6\n\020RefuseInviteResp\022\016\n\006result\030\001 \002(\005\022\022\n" +
-      "\nlianMengId\030\002 \002(\005\"\031\n\013AgreeInvite\022\n\n\002id\030\001" +
-      " \002(\005B\020B\016AllianceProtos"
+      "\"0\n\020UpdateNoticeResp\022\014\n\004code\030\001 \002(\005\022\016\n\006no" +
+      "tice\030\002 \002(\t\"\035\n\017DismissAlliance\022\n\n\002id\030\001 \002(" +
+      "\005\"`\n\tOpenApply\022\n\n\002id\030\001 \002(\005\022\020\n\010levelMin\030\003" +
+      " \002(\005\022\022\n\njunXianMin\030\004 \002(\005\022\021\n\tisExamine\030\005 ",
+      "\002(\005\022\016\n\006attach\030\006 \001(\t\"-\n\rOpenApplyResp\022\014\n\004" +
+      "code\030\001 \002(\005\022\016\n\006attach\030\002 \001(\t\"\030\n\nCloseApply" +
+      "\022\n\n\002id\030\001 \002(\005\"0\n\020TransferAlliance\022\n\n\002id\030\001" +
+      " \002(\005\022\020\n\010junzhuId\030\002 \002(\003\"D\n\024TransferAllian" +
+      "ceResp\022\016\n\006result\030\001 \002(\005\022\n\n\002id\030\002 \002(\005\022\020\n\010ju" +
+      "nzhuId\030\003 \002(\003\" \n\020MengZhuApplyResp\022\014\n\004code" +
+      "\030\001 \002(\005\"\037\n\013MengZhuVote\022\020\n\010junzhuId\030\001 \002(\003\"" +
+      "4\n\017MengZhuVoteResp\022\020\n\010junzhuId\030\001 \002(\003\022\017\n\007" +
+      "voteNum\030\002 \002(\005\"\036\n\016GiveUpVoteResp\022\014\n\004code\030" +
+      "\001 \002(\005\"\033\n\nDonateHuFu\022\r\n\005count\030\001 \002(\005\"A\n\016Do",
+      "nateHuFuResp\022\016\n\006result\030\001 \002(\005\022\020\n\010gongxian" +
+      "\030\002 \002(\005\022\r\n\005build\030\003 \002(\005\"\034\n\014EventListReq\022\014\n" +
+      "\004page\030\001 \002(\005\"*\n\rEventListResp\022\014\n\004page\030\001 \002" +
+      "(\005\022\013\n\003msg\030\002 \003(\t\"`\n\023PlayerAllianceState\022\020" +
+      "\n\010junzhuId\030\001 \002(\003\022\022\n\nallianceId\030\002 \002(\005\022\024\n\014" +
+      "allianceName\030\003 \002(\t\022\r\n\005title\030\004 \002(\005\"U\n\020Fen" +
+      "gShanInfoResp\022/\n\006fsInfo\030\001 \003(\0132\037.qxmobile" +
+      ".protobuf.FengShanInfo\022\020\n\010huoyuedu\030\002 \002(\005" +
+      "\"-\n\014FengShanInfo\022\016\n\006confId\030\001 \002(\005\022\r\n\005stat" +
+      "e\030\002 \002(\005\"\035\n\013FengShanReq\022\016\n\006confId\030\001 \002(\005\".",
+      "\n\014FengShanResp\022\016\n\006confId\030\001 \002(\005\022\016\n\006result" +
+      "\030\002 \002(\005\"5\n\022AllianceTargetResp\022\r\n\005level\030\001 " +
+      "\002(\005\022\020\n\010getAward\030\002 \002(\010\"&\n\025GetAllianceLeve" +
+      "lAward\022\r\n\005level\030\001 \002(\005\">\n\031GetAllianceLeve" +
+      "lAwardResp\022\016\n\006result\030\001 \002(\005\022\021\n\tnextLevel\030" +
+      "\002 \002(\005\"\"\n\016AllianceInvite\022\020\n\010junzhuId\030\001 \002(" +
+      "\003\"$\n\022AllianceInviteResp\022\016\n\006result\030\001 \002(\005\"" +
+      "G\n\nInviteList\0229\n\ninviteInfo\030\001 \003(\0132%.qxmo" +
+      "bile.protobuf.InviteAllianceInfo\"[\n\022Invi" +
+      "teAllianceInfo\022\n\n\002id\030\001 \002(\005\022\014\n\004name\030\002 \002(\t",
+      "\022\r\n\005level\030\003 \002(\005\022\014\n\004date\030\004 \002(\t\022\016\n\006guiJia\030" +
+      "\005 \002(\005\"\032\n\014RefuseInvite\022\n\n\002id\030\001 \002(\005\"6\n\020Ref" +
+      "useInviteResp\022\016\n\006result\030\001 \002(\005\022\022\n\nlianMen" +
+      "gId\030\002 \002(\005\"\031\n\013AgreeInvite\022\n\n\002id\030\001 \002(\005B\020B\016" +
+      "AllianceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -45931,7 +46348,7 @@ public final class AllianceProtos {
           internal_static_qxmobile_protobuf_UpdateNoticeResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_UpdateNoticeResp_descriptor,
-              new java.lang.String[] { "Code", });
+              new java.lang.String[] { "Code", "Notice", });
           internal_static_qxmobile_protobuf_DismissAlliance_descriptor =
             getDescriptor().getMessageTypes().get(35);
           internal_static_qxmobile_protobuf_DismissAlliance_fieldAccessorTable = new
@@ -45949,7 +46366,7 @@ public final class AllianceProtos {
           internal_static_qxmobile_protobuf_OpenApplyResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_OpenApplyResp_descriptor,
-              new java.lang.String[] { "Code", });
+              new java.lang.String[] { "Code", "Attach", });
           internal_static_qxmobile_protobuf_CloseApply_descriptor =
             getDescriptor().getMessageTypes().get(38);
           internal_static_qxmobile_protobuf_CloseApply_fieldAccessorTable = new

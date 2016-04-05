@@ -29,7 +29,7 @@ public class HuangyePve{
 	public int rank3Award; 
 	public int rank4Award; 
 	public int rank5Award; 
-	public int fastAward;
+	public String fastAward;
 	public int killAward;
 	public int soundId;
 	public int sceneId;
@@ -63,13 +63,6 @@ public class HuangyePve{
 	}
 	public String getAward() {
 		return award;
-	}
-
-	public int getFastAward() {
-		return fastAward;
-	}
-	public void setFastAward(int fastAward) {
-		this.fastAward = fastAward;
 	}
 
 	public int getKillAward() {

@@ -7,19 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import log.ActLog;
-
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
-import qxmobile.protobuf.PawnShop.PawnShopGoodsSell;
-import qxmobile.protobuf.PawnShop.SellGoodsInfo;
-import qxmobile.protobuf.Shop.BuyGoodReq;
-import qxmobile.protobuf.Shop.BuyGoodResp;
-import qxmobile.protobuf.Shop.ShopReq;
-import qxmobile.protobuf.Shop.ShopResp;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
@@ -35,6 +25,9 @@ import com.manu.dynasty.template.LMGongXianDuihuan;
 import com.manu.dynasty.template.MibaoSuiPian;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.PD;
+import com.manu.network.SessionManager;
+import com.manu.network.SessionUser;
+import com.qx.account.FunctionOpenMgr;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.alliance.building.JianZhuLvBean;
@@ -43,7 +36,9 @@ import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
 import com.qx.bag.BagMgr;
 import com.qx.event.ED;
+import com.qx.event.Event;
 import com.qx.event.EventMgr;
+import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.mibao.MiBaoDB;
@@ -53,12 +48,24 @@ import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.PurchaseConstants;
 import com.qx.purchase.PurchaseMgr;
 import com.qx.pvp.PvpMgr;
+import com.qx.task.DailyTaskMgr;
+import com.qx.timeworker.FunctionID;
 import com.qx.util.JsonUtils;
 import com.qx.util.RandomUtil;
+import com.qx.vip.VipData;
+import com.qx.vip.VipMgr;
 import com.qx.yuanbao.YBType;
-import com.qx.yuanbao.YuanBaoMgr;
 
-public class ShopMgr {
+import log.ActLog;
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import qxmobile.protobuf.PawnShop.PawnShopGoodsSell;
+import qxmobile.protobuf.PawnShop.SellGoodsInfo;
+import qxmobile.protobuf.Shop.BuyGoodReq;
+import qxmobile.protobuf.Shop.BuyGoodResp;
+import qxmobile.protobuf.Shop.ShopReq;
+import qxmobile.protobuf.Shop.ShopResp;
+
+public class ShopMgr extends EventProc {
 	// 荒野商店
 	public static final int huangYe_shop_type = 1;
 	// 联盟商店
@@ -240,6 +247,14 @@ public class ShopMgr {
 		 * type == X1: 花费money刷新商店商品列表
 		 */
 		if (type == 11 || type == 21 || type == 31 || type == 41 || type == 61) {
+			int vipLimitCount = VipMgr.INSTANCE.getValueByVipLevel(jz.vipLevel,
+					VipData.dangpuRefreshLimit);
+			if(bean.buyNumber >= vipLimitCount){
+				resp.setMsg(13);
+				logger.info("玩家id{},姓名 {},商店类型：{}，用货币刷新商品列表失败：刷新次数用完", jz.id, jz.name, bigType);
+				session.write(resp.build());
+				return;
+			}
 			int needYB = getRefreshNeedHYMoney(bean, bigType);
 			if (needYB > money) {
 				// money不足，不能手动刷新
@@ -269,6 +284,7 @@ public class ShopMgr {
 					bigType, needYB);
 			resp.setMsg(12);
 		}else{
+		
 			/*
 			 * type == X0: 请求商品兑换页面
 			 */
@@ -276,7 +292,6 @@ public class ShopMgr {
 			if(type == 50 && s == null){ // 普通商店特殊处理（普通商店没有自动刷新和手动刷新功能）
 				goods = getRandomGoodsList(bigType);
 				bean.goodsInfo = setGoodsInfo(goods);
-				HibernateUtil.save(bean);
 			}else{
 				// 9点或者21点主动刷新
 				if (s == null
@@ -287,9 +302,10 @@ public class ShopMgr {
 					goods = getRandomGoodsList(bigType);
 					bean.goodsInfo = setGoodsInfo(goods);
 					bean.nextAutoRefreshTime = getNextNineTime(new Date());
-					HibernateUtil.save(bean);
 				}
 			}
+			bean.openTime = new Date();
+			HibernateUtil.save(bean);
 			resp.setMsg(0);
 		}
 		fillDuiHuanInfo(bean, resp, goods, bigType);
@@ -442,7 +458,10 @@ public class ShopMgr {
 			duihuan.setId(goods.getId());
  			duihuan.setSite(d.site);
  			duihuan.setIsChange(goods.num == 0? false: true);
-			if(shop_type == common_shop_type){
+			if(shop_type == common_shop_type ){
+				duihuan.setRemainCount(goods.num);
+			}
+			if(shop_type == lianMeng_shop_type){
 				duihuan.setRemainCount(goods.num);
 			}
 			resp.addGoodsInfos(duihuan);
@@ -564,6 +583,15 @@ public class ShopMgr {
 		}else{
 			resetHYShopBean(bean);
 		}
+		/*
+		 * 20160328  首次购买做特殊处理
+		 */
+		if(bigType == mysterious_shop_type && dh.itemType == AwardMgr.type_fuWen 
+				&& bean.buyGoodTimes == 0){
+			money = 0;
+		}else if(bigType == lianMeng_shop_type && bean.buyGoodTimes == 0){
+			money = 0;
+		}//end
 		// 判断是否售罄
 		List<GoodsInfo> goodsL = getGoodsInfo(bean);
 		GoodsInfo buyg = null;
@@ -637,14 +665,16 @@ public class ShopMgr {
 			if(bigType == baizhan_shop_type){
 				// 主线任务: 消耗一次威望（在威望商店里购买1次物品）20190916
 				EventMgr.addEvent(ED.pay_weiWang , new Object[] { jz.id});
+				sendWeiWang(session, jz.id);
 			}
 			// 购买的要是宝石，就判定是否有任务完成
-			if(bigType == mysterious_shop_type && a.getItemType() == AwardMgr.type_fuWen){
+			else if(bigType == mysterious_shop_type && a.getItemType() == AwardMgr.type_fuWen){
 				EventMgr.addEvent(ED.pawnshop_buy, new Object[] { jz.id});
 				logger.info("君主:{}在神秘商铺购买符文,符文id：{}成功, 判定是否有购买符文任务", jz.id, a.getItemId());
-			}
-			if(bigType == lianMeng_shop_type){
+			}else if(bigType == lianMeng_shop_type){
 				EventMgr.addEvent(ED.LM_SHOP_BUY, new Object[]{jz, a, itemName});
+			}else if(bigType == huangYe_shop_type){
+				sendHangYebi(session, jz.id);
 			}
 		} else {
 			/* 0：不足 */
@@ -937,6 +967,128 @@ public class ShopMgr {
 		test.setErrorCode(cmd);
 		test.setErrorDesc(msg);
 		session.write(test.build());
+	}
+
+	public void sendShopRed(JunZhu jz, IoSession session, int funcId){
+		if(funcId == FunctionID.lianMeng_shop || funcId == FunctionID.huangYe_shop){
+			AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, jz.id);
+			if(p ==null || p.lianMengId<=0) {
+				return;
+			}
+		}
+		boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(funcId, 
+				jz.id, jz.level);
+		if(!isOpen){
+			return;
+		}
+		FunctionID.pushCanShowRed(jz.id, session, funcId);
+	}
+
+	@Override
+	public void proc(Event e) {
+		switch(e.id){
+		case ED.ACC_LOGIN:
+			if (e.param != null && e.param instanceof Long) {
+				long jzid = (Long) e.param;
+				JunZhu junZhu = HibernateUtil.find(JunZhu.class, jzid);
+				if (junZhu == null) {
+					break;
+				}
+				SessionUser su = SessionManager.inst.findByJunZhuId(junZhu.id);
+				if(su == null){
+					break;
+				}
+				// 发送红点信息
+				sendRedNotice(jzid, junZhu.level, su.session);
+				// 发送威望值
+				sendWeiWang(su.session, jzid);
+				// 发送荒野币
+				sendHangYebi(su.session, jzid);
+				break;
+			}
+		}
+	}
+
+	public void sendRedNotice(long jzid, int level, IoSession session){
+		long start = jzid * shop_space;
+		long end = start + shop_space;
+		List<PublicShop> list = HibernateUtil.list(PublicShop.class, 
+				"where id>="+start+" and id<"+end);
+		Date now = new Date();
+		for(PublicShop shop: list){
+			int type = (int)shop.id % shop_space;
+			//不具有刷新功能
+			if(type == lianmeng_battle_shop_type || type == common_shop_type){
+				continue;
+			}
+			// 无联盟 不开商店
+			if(type == lianMeng_shop_type || type == huangYe_shop_type){
+				AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, jzid);
+				if(p ==null || p.lianMengId<=0){
+					continue;
+				}
+			}
+			int funcid = getFuncId(type);
+			boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(funcid, jzid, level);
+			if(!isOpen){
+				continue;
+			}
+			if(shop.openTime == null || isSendRed(shop.openTime, now)){
+				FunctionID.pushCanShowRed(jzid, session, funcid);
+			}
+		}
+	}
+
+	public void sendWeiWang(IoSession session, long jzid){
+		int money = getMoney(ShopMgr.Money.weiWang, jzid, null);
+		DailyTaskMgr.INSTANCE.sendError(session, money, PD.weiWang, money);
+	}
+	public void sendHangYebi(IoSession session, long jzid){
+		int money = getMoney(ShopMgr.Money.huangYeBi, jzid, null);
+		DailyTaskMgr.INSTANCE.sendError(session, money, PD.huangyeBi, money);
+	}
+	public boolean isSendRed(Date lastopenTime, Date now){
+		int nowhour = DateUtils.getHourOfDay(now);
+		int lasthour = DateUtils.getHourOfDay(lastopenTime);
+		if(DateUtils.isSameDay(lastopenTime, now)){
+			if(0<=lasthour && lasthour<9 && 0<=nowhour && nowhour<9){
+				return false;
+			}
+			if(9<=lasthour && lasthour<21 && 9<=nowhour && nowhour<21){
+				return false;
+			}
+			if(21<=lasthour && lasthour<=23 && 21<=nowhour && nowhour<=23){
+				return false;
+			}
+			//注意参数顺序第一个参数时间 大于第二个参数
+		}else if(DateUtils.isBeforeDay(now.getTime(), lastopenTime.getTime())){
+			if(lasthour>=21 && nowhour <9){
+				return false;
+			}
+		}
+		return true;
+	}
+	public int getFuncId(int type){
+		int funcid = 0;
+		switch(type){
+		case mysterious_shop_type:
+			funcid = FunctionID.mysterious_shop;
+			break;
+		case baizhan_shop_type:
+			funcid = FunctionID.baizhan_shop;
+			break;
+		case lianMeng_shop_type:
+			funcid = FunctionID.lianMeng_shop;
+			break;
+		case huangYe_shop_type:
+			funcid = FunctionID.huangYe_shop;
+			break;
+		}
+		return funcid;
+	}
+	@Override
+	protected void doReg() {
+		EventMgr.regist(ED.ACC_LOGIN, this);
 	}
 
 //	public void setLMShopOfLevel(int level, long jid){

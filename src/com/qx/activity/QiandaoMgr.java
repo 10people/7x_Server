@@ -194,7 +194,7 @@ public class QiandaoMgr {
 			 */
 			if(qiandaoInfo != null && qiandaoInfo.historyQianDao == 0){
 				qiandaoInfo.historyQianDao = qiandaoInfo.getLeijiQiandao();
-				HibernateUtil.save(leijiQiandao);
+				HibernateUtil.update(qiandaoInfo);
 			}
 			response.setAllQianNum(qiandaoInfo == null? 0: qiandaoInfo.historyQianDao);
 			writeByProtoMsg(session, PD.S_GET_QIANDAO_RESP, response);

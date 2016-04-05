@@ -85,6 +85,9 @@
 					Map<Integer, PveTemp> pveMap = PveMgr.inst.id2Pve;
 					for(Map.Entry<Integer, PveTemp> entry : pveMap.entrySet()) {
 						int key = entry.getKey();
+						if(entry.getValue().bigId == 0) {
+							continue;
+						}
 						if(key < guanqiaId) {
 							PveRecord r = HibernateUtil.find(PveRecord.class, "where guanQiaId=" + key + " and uid=" + pid);
 							if (r == null) {

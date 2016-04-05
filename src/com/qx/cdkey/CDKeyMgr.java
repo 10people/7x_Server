@@ -14,6 +14,7 @@ import qxmobile.protobuf.ShouChong.AwardInfo;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.store.Redis;
+import com.qx.award.AwardMgr;
 import com.qx.bag.BagMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
@@ -36,7 +37,7 @@ public class CDKeyMgr {
 
 	}
 
-	public void getCDKeyAward(int cmd, IoSession session, Builder builder) {
+	public synchronized void getCDKeyAward(int cmd, IoSession session, Builder builder) {
 		GetCDKeyAwardReq.Builder req = (GetCDKeyAwardReq.Builder) builder;
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
 		if (junZhu == null) {
@@ -45,6 +46,8 @@ public class CDKeyMgr {
 		}
 		GetCDKeyAwardResp.Builder resp = GetCDKeyAwardResp.newBuilder();
 		String key = req.getCdkey();
+		key = key.replace(" ", "");
+		key = key.replace("'", "");
 		CDKeyInfo keyInfo = HibernateUtil.find(CDKeyInfo.class, "where cdkey='"
 				+ key + "'");
 		if (null == keyInfo) {
@@ -54,6 +57,7 @@ public class CDKeyMgr {
 			session.write(resp.build());
 			return;
 		}
+		
 		if (keyInfo.getJzId() != 0
 				|| keyInfo.getDeadDate().getTime() < new Date().getTime()) {
 			resp.setResult(1);
@@ -62,7 +66,24 @@ public class CDKeyMgr {
 			session.write(resp.build());
 			return;
 		}
+		if(keyInfo.getChanId()>0){
+			List<CDKeyInfo> size = HibernateUtil.list(CDKeyInfo.class, 
+					"where jzId="+junZhu.id+"and chanId="+keyInfo.getChanId());
+			if(size.size()>0){
+				resp.setResult(2);
+				resp.setErrorMsg("您已领取过此类型礼包。");
+				logger.error("君主{}兑换的礼包码 {} 类型重复 , {}", junZhu.id, key, size.size());
+				session.write(resp.build());
+				return;
+			}
+		}
+		keyInfo.setJzId(junZhu.id);
+		HibernateUtil.save(keyInfo);
+		logger.info("{} 领取礼包 {},{},{}",
+				junZhu.id, keyInfo.getKeyId(),keyInfo.getCdkey(),keyInfo.getAwards());
 		resp.setResult(0);
+		AwardMgr.inst.giveReward(session, keyInfo.getAwards(), junZhu);
+		
 		String[] awards = keyInfo.getAwards().split("#");
 		for (String award : awards) {
 			int awardType = Integer.parseInt(award.split(":")[0]);
@@ -73,11 +94,6 @@ public class CDKeyMgr {
 			awardInfo.setAwardType(awardType);
 			awardInfo.setAwardNum(awardNum);
 			resp.addAwards(awardInfo);
-			// 添加进背包
-			BagMgr.inst.addItem(BagMgr.inst.loadBag(junZhu.id), awardId,
-					awardNum, -1, junZhu.level, "CDKey " + key + " 兑换物品");
-			keyInfo.setJzId(junZhu.id);
-			HibernateUtil.save(keyInfo);
 		}
 		session.write(resp.build());
 	}
@@ -96,7 +112,7 @@ public class CDKeyMgr {
 	 * @throws
 	 */
 	public List<CDKeyInfo> generateCDKey(int chanId, Date deadDate, int num,
-			String awards) {
+			String awards, String prefix) {
 		// 1） 避免大小写和数字的痛苦切换过程，统一为N位小写字母，位数由后台确定；
 		// 2） 礼包码在生成时可根据需求，设定对应的有效期截止日期，过期的礼包码输入后提示礼包码已失效。
 		// 3） 不同渠道的礼包码需要进行标记，以确保研发可追踪到异常情况下的各种礼包码的来源。
@@ -106,7 +122,7 @@ public class CDKeyMgr {
 		for (int i = 1; i <= num; i++) {
 			String tmp = null;
 			do {
-				tmp = getRandomString();
+				tmp = getRandomString(prefix);
 			} while (HibernateUtil.find(CDKeyInfo.class, "where cdkey='" + tmp
 					+ "'") != null);
 			CDKeyInfo keyInfo = new CDKeyInfo();
@@ -117,27 +133,20 @@ public class CDKeyMgr {
 			keyInfo.setCreateDate(now);
 			keyInfo.setAwards(awards);
 			keyList.add(keyInfo);
+			HibernateUtil.insert(keyInfo);
 		}
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				for (CDKeyInfo keyInfo : keyList) {
-					HibernateUtil.insert(keyInfo);
-				}
-			}
-		}).start();
 		return keyList;
 	}
 
-	public static String getRandomString() { // length表示生成字符串的长度
+	public static String getRandomString(String prefix) { // length表示生成字符串的长度
 		String base = "abcdefghijklmnopqrstuvwxyz";
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < KEY_LENGTH; i++) {
+		StringBuffer sb = new StringBuffer(prefix);
+		int len = KEY_LENGTH - prefix.length();
+		for (int i = 0; i < len; i++) {
 			int number = RandomUtil.getRandomNum(base.length());
 			sb.append(base.charAt(number));
 		}
-		return sb.toString();
+		return sb.toString().toUpperCase();
 	}
 
 	/**

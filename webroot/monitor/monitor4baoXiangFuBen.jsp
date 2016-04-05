@@ -1,3 +1,8 @@
+<%@page import="java.util.Date"%>
+<%@page import="com.qx.explore.treasure.BXRecord"%>
+<%@page import="com.qx.junzhu.JunZhu"%>
+<%@page import="com.qx.persistent.HibernateUtil"%>
+<%@page import="com.qx.account.Account"%>
 <%@page import="qxmobile.protobuf.ErrorMessageProtos.ErrorMessage"%>
 <%@page import="com.manu.network.msg.ProtobufMsg"%>
 <%@page import="com.qx.event.ED"%>
@@ -21,14 +26,25 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript">
+function go(act){
+	var v = "";
+	var ele = document.getElementById(act);
+	if(ele) v=ele.value;
+	location.href = '?action='+act+"&v="+v;
+}
+</script>
 <title>监控</title>
 </head>
 <body>
+请求队列：<%=com.qx.explore.treasure.ExploreTreasureMgr.inst.scene.missions.size() %><br/>
+人数：<%=com.qx.explore.treasure.ExploreTreasureMgr.inst.scene.players.size() %><br/>
 <%String act = request.getParameter("act");
+String action = request.getParameter("action");
 if("modSizePerSc".equals(act)){
 	String size = request.getParameter("sizePerSc");
 	SceneMgr.sizePerSc = Integer.parseInt(size);
-}
+} 
 if(request.getParameter("clearQueue")!=null){
 	ExploreTreasureMgr.inst.queue.clear();
 	ExploreTreasureMgr.inst.aliveBaoXiangCnt.set(0);
@@ -125,6 +141,82 @@ while(true){
 
 %>
 </table>
-非战斗玩家数量:<%=cnt %><br/>
+非战斗玩家数量:<%=cnt %><br/><br/><br/>
+
+
+<%
+	out.append("<hr/>");
+	setOut(out);
+	String name = request.getParameter("account");
+	String accIdStr = request.getParameter("accId");// 用户id
+	if(name == null && accIdStr == null){
+		name = (String)session.getAttribute("name");
+	}
+	accIdStr = (accIdStr == null ? "":accIdStr.trim());
+	name = name == null ? "": name.trim();
+%>
+  	<form action="">
+	  	账号<input type="text" name="account" value="<%=name%>">&nbsp;或&nbsp;
+	  	君主ID<input type="text" name="accId" value="<%=accIdStr%>">
+	  	<button type="submit">查询</button>
+	</form>
+<%
+	Account account = null;
+	if(name != null && name.length()>0){
+		account = HibernateUtil.getAccount(name);
+	}else if(accIdStr.length()>0){
+		account = HibernateUtil.find(Account.class, (Long.valueOf(accIdStr) - GameServer.serverId) / 1000);
+		if(account != null)name = account.getAccountName();
+	}
+	do{
+		
+		long junZhuId = 0;
+		if (account != null) {
+			session.setAttribute("name", name);
+			out("账号");
+			out(account.getAccountId());
+			out("：");
+			out(account.getAccountName());
+			out(" - 密码：");
+			out(account.getAccountPwd());
+			junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+		} else if (accIdStr.matches("\\d+")) {
+			junZhuId = Long.parseLong(accIdStr);
+		} else {
+			out("没有找到");
+			break;
+		}
+		JunZhu junzhu = HibernateUtil.find(JunZhu.class, junZhuId);
+		if (junzhu == null) {
+			out.println("没有君主");
+			break;
+		}
+		session.setAttribute("jzId", junZhuId);
+		BXRecord bean = HibernateUtil.find(BXRecord.class, junzhu.id);
+		if(bean == null){
+			out.println("还没有进行过十连抽");
+		}else{//检查重置
+		 	if("resetTimes".equals(action)) {
+				bean.resetTime = new Date();
+				bean.bxCnt = 0;
+				bean.yuanBao = 0;
+				HibernateUtil.update(bean);
+			}
+		}
+		
+		out.append("<br/><br/>");
+		out.append("<input type='button' id='restTimes' value='重置今日十连副本' onclick='go(\"resetTimes\")'/><br/>");
+		out.append("<b>会重置今日十连副本的使用次数和获得元宝数量<b/><br/>");
+		tableStart();
+		trS();
+	 	td("今天使用次数");td(bean.bxCnt);
+	 	trE();
+	 	trS();
+	 	td("今天获得元宝");td(bean.yuanBao); 
+	 	trE();
+	 	tableEnd();
+	} while(false);
+%>
+
 </body>
 </html>

@@ -7,21 +7,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import qxmobile.protobuf.FriendsProtos.AddFriendReq;
 import qxmobile.protobuf.FriendsProtos.FriendIds;
 import qxmobile.protobuf.FriendsProtos.FriendJunzhuInfo;
-import qxmobile.protobuf.FriendsProtos.AddFriendReq;
 import qxmobile.protobuf.FriendsProtos.FriendResp;
 import qxmobile.protobuf.FriendsProtos.GetFriendListReq;
 import qxmobile.protobuf.FriendsProtos.GetFriendListResp;
 import qxmobile.protobuf.FriendsProtos.RemoveFriendReq;
 
 import com.google.protobuf.MessageLite.Builder;
-import com.manu.dynasty.chat.ChatMgr;
-import com.manu.dynasty.hero.service.HeroService;
 import com.manu.dynasty.store.Redis;
-import com.manu.dynasty.template.BaiZhan;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
+import com.manu.network.SessionManager;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AlliancePlayer;
@@ -236,7 +234,14 @@ public class FriendMgr {
 								AllianceBean.class, member.lianMengId);
 						fjz.setLianMengName(alnc == null ? "" : alnc.name);
 					}
-					logger.info("获取到好友的君主id {}，name {}", friend.id, friend.name);
+					//2016年3月25日 加入是否在线 和离线时间显示 但是明确不要按照离线时间相关的排序 只按照加入好友的时间排序 最新的好友在上面
+					if(SessionManager.inst.isOnline(friend.id)) {
+						fjz.setOfflineTime(-1);
+					} else {
+						int offlineTime = SessionManager.inst.getOfflineTime(friend.id);
+						fjz.setOfflineTime(offlineTime);
+					}
+					logger.info("~~###~~~获取到好友的君主id {}，name {}，离线时间---{}", friend.id, friend.name,fjz.getOfflineTime());
 					response.addFriends(fjz.build());
 				}
 			}

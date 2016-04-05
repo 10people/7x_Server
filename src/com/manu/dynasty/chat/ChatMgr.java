@@ -814,13 +814,7 @@ public class ChatMgr implements Runnable {
 	 */
 	public String replaceIllegal2(String chatString) {
 		log.info("处理前发送聊天内容为--{}", chatString);
-		List<String> illNameList = BigSwitch.inst.accMgr.getIllegalityName();
 		List<String> senNameList = BigSwitch.inst.accMgr.getSensitiveWord();
-		for (String s : illNameList) {
-			if (chatString != null && chatString.contains(s)) {
-				chatString = chatString.replace(s, "***");
-			}
-		}
 		for (String s : senNameList) {
 			if (chatString != null && chatString.contains(s)) {
 				chatString = chatString.replace(s, "***");
@@ -830,7 +824,7 @@ public class ChatMgr implements Runnable {
 	}
 
 	/**
-	 * @Description:屏蔽2，当字数比较少的时候（指一两百字）较快； 几十个字两种方法无太大区别，上千字是第一种方法效率高
+	 * @Description:当字数比较少的时候（指一两百字）较快； 几十个字两种方法无太大区别，上千字是第一种方法效率高
 	 * @param txt
 	 * @return
 	 */

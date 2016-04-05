@@ -47,7 +47,7 @@
 <YunbiaoTemp key="cartLifebarNum" desc="马车血条数量" value="1.8" />
 <YunbiaoTemp key="autoResurgenceTime" desc="死亡后自动安全复活时间(秒）" value="10" />
 <YunbiaoTemp key="yunbiao_start_broadcast" desc="运镖开始广播" value="现在可以领取额外运镖次数啦！少侠快去运镖场景领取吧！" />
-<YunbiaoTemp key="yunbiao_start_broadcast_CD" desc="运镖开始广播循环CD（秒）" value="300" />
+<YunbiaoTemp key="yunbiao_start_broadcast_CD" desc="运镖开始广播循环CD（秒）" value="900" />
 <YunbiaoTemp key="yunbiao_end_broadcast" desc="运镖结束广播" value="此次额外运镖次数赠送完毕，少侠下次再来！" />
 <YunbiaoTemp key="yunbiao_comforted_award_k" desc="运镖被安慰奖励系数k" value="0.01" />
 <YunbiaoTemp key="yunbiao_comforted_award_b" desc="运镖被安慰奖励参数b" value="0" />

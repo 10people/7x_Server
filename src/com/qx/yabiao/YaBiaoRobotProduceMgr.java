@@ -152,14 +152,14 @@ public class YaBiaoRobotProduceMgr  implements Runnable {
 		Map<Integer, Integer> safeMap=YaBiaoHuoDongMgr.inst.getSafeAreaCount(ybsc);
 		Integer renshu=safeMap.get(pathId);
 		renshu=renshu==null?0:renshu;
-		if(renshu<YunbiaoTemp.saveArea_people_max){
+//		if(renshu<YunbiaoTemp.saveArea_people_max){ 2016年3月30日 去掉安全区人数满了不刷马车的规则
 			log.info("场景中有系统马车{}辆，安全区人数--{}，产生马车NO--{}",macheSize,renshu,produceNo);
 			checkedList.add(produceNo);
 			//安全区内人数不满开始产生马车
 			//				produceXiTongMaChe(ybsc, ybScId, pathId,produceNo );
 			ProduceCartInfo produceCartInfo=new ProduceCartInfo(ybsc, ybScId, pathId,produceNo );
 			futureProducelist.add(produceCartInfo);
-		}
+//		}
 		log.info("检查并生成场景----{}场景Id----{}路线---{}的马车结束",ybsc.name,ybScId,pathId);
 	}
 	/**

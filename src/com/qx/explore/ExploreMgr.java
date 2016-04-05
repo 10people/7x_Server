@@ -283,6 +283,8 @@ public class ExploreMgr extends EventProc{
 				// 首次十连抽免费
 				if(mine.tenChouClickNumber == 0){
 					ok = true;
+					//免费十连不触发十连副本
+					session.setAttribute("FreeShiLian", Boolean.TRUE);
 				}else{
 					ok = isYuanBaoOk(jz, money, session);
 				}

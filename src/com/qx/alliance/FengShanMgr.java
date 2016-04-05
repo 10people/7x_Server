@@ -222,6 +222,7 @@ public class FengShanMgr extends EventProc{
 		resp.setResult(result);
 		log.info("{}请求封禅结束，结果--{}",jzId,result);
 		session.write(resp.build());
+		BigSwitch.inst.moBaiMgr.sendMoBaiInfo(0, session, null);
 	}
 	//保存封禅联盟事件
 	public void saveAllianceEvent(String jzName,String fengShanName,int jianshe,int lianMengId, int exp) {

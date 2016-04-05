@@ -3028,6 +3028,24 @@ public final class FriendsProtos {
      * </pre>
      */
     int getZhanLi();
+
+    // optional int32 offlineTime = 10;
+    /**
+     * <code>optional int32 offlineTime = 10;</code>
+     *
+     * <pre>
+     * 离线时间 -1表示在线 &gt;0 表示离线时间的多少秒
+     * </pre>
+     */
+    boolean hasOfflineTime();
+    /**
+     * <code>optional int32 offlineTime = 10;</code>
+     *
+     * <pre>
+     * 离线时间 -1表示在线 &gt;0 表示离线时间的多少秒
+     * </pre>
+     */
+    int getOfflineTime();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.FriendJunzhuInfo}
@@ -3123,6 +3141,11 @@ public final class FriendsProtos {
             case 72: {
               bitField0_ |= 0x00000100;
               zhanLi_ = input.readInt32();
+              break;
+            }
+            case 80: {
+              bitField0_ |= 0x00000200;
+              offlineTime_ = input.readInt32();
               break;
             }
           }
@@ -3474,6 +3497,30 @@ public final class FriendsProtos {
       return zhanLi_;
     }
 
+    // optional int32 offlineTime = 10;
+    public static final int OFFLINETIME_FIELD_NUMBER = 10;
+    private int offlineTime_;
+    /**
+     * <code>optional int32 offlineTime = 10;</code>
+     *
+     * <pre>
+     * 离线时间 -1表示在线 &gt;0 表示离线时间的多少秒
+     * </pre>
+     */
+    public boolean hasOfflineTime() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional int32 offlineTime = 10;</code>
+     *
+     * <pre>
+     * 离线时间 -1表示在线 &gt;0 表示离线时间的多少秒
+     * </pre>
+     */
+    public int getOfflineTime() {
+      return offlineTime_;
+    }
+
     private void initFields() {
       ownerid_ = 0L;
       iconId_ = 0;
@@ -3484,6 +3531,7 @@ public final class FriendsProtos {
       junXian_ = "";
       guojia_ = 0;
       zhanLi_ = 0;
+      offlineTime_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3544,6 +3592,9 @@ public final class FriendsProtos {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeInt32(9, zhanLi_);
       }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeInt32(10, offlineTime_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -3588,6 +3639,10 @@ public final class FriendsProtos {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(9, zhanLi_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, offlineTime_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3723,6 +3778,8 @@ public final class FriendsProtos {
         bitField0_ = (bitField0_ & ~0x00000080);
         zhanLi_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
+        offlineTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -3787,6 +3844,10 @@ public final class FriendsProtos {
           to_bitField0_ |= 0x00000100;
         }
         result.zhanLi_ = zhanLi_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.offlineTime_ = offlineTime_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3835,6 +3896,9 @@ public final class FriendsProtos {
         }
         if (other.hasZhanLi()) {
           setZhanLi(other.getZhanLi());
+        }
+        if (other.hasOfflineTime()) {
+          setOfflineTime(other.getOfflineTime());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4471,6 +4535,55 @@ public final class FriendsProtos {
         return this;
       }
 
+      // optional int32 offlineTime = 10;
+      private int offlineTime_ ;
+      /**
+       * <code>optional int32 offlineTime = 10;</code>
+       *
+       * <pre>
+       * 离线时间 -1表示在线 &gt;0 表示离线时间的多少秒
+       * </pre>
+       */
+      public boolean hasOfflineTime() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional int32 offlineTime = 10;</code>
+       *
+       * <pre>
+       * 离线时间 -1表示在线 &gt;0 表示离线时间的多少秒
+       * </pre>
+       */
+      public int getOfflineTime() {
+        return offlineTime_;
+      }
+      /**
+       * <code>optional int32 offlineTime = 10;</code>
+       *
+       * <pre>
+       * 离线时间 -1表示在线 &gt;0 表示离线时间的多少秒
+       * </pre>
+       */
+      public Builder setOfflineTime(int value) {
+        bitField0_ |= 0x00000200;
+        offlineTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 offlineTime = 10;</code>
+       *
+       * <pre>
+       * 离线时间 -1表示在线 &gt;0 表示离线时间的多少秒
+       * </pre>
+       */
+      public Builder clearOfflineTime() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        offlineTime_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FriendJunzhuInfo)
     }
 
@@ -4525,7 +4638,8 @@ public final class FriendsProtos {
    * Protobuf type {@code qxmobile.protobuf.FriendIds}
    *
    * <pre>
-   *public static final short S_FRIEND_REMOVE_RESP = 31006;
+   *public static final short C_GET_FRIEND_IDS = 31011;
+   *public static final short S_GET_FRIEND_IDS = 31012;
    * </pre>
    */
   public static final class FriendIds extends
@@ -4790,7 +4904,8 @@ public final class FriendsProtos {
      * Protobuf type {@code qxmobile.protobuf.FriendIds}
      *
      * <pre>
-     *public static final short S_FRIEND_REMOVE_RESP = 31006;
+     *public static final short C_GET_FRIEND_IDS = 31011;
+     *public static final short S_GET_FRIEND_IDS = 31012;
      * </pre>
      */
     public static final class Builder extends
@@ -5107,12 +5222,12 @@ public final class FriendsProtos {
       "e\030\002 \002(\005\"q\n\021GetFriendListResp\0224\n\007friends\030" +
       "\001 \003(\0132#.qxmobile.protobuf.FriendJunzhuIn" +
       "fo\022\023\n\013friendCount\030\002 \001(\005\022\021\n\tfriendMax\030\003 \001" +
-      "(\005\"\246\001\n\020FriendJunzhuInfo\022\017\n\007ownerid\030\001 \002(\003" +
+      "(\005\"\273\001\n\020FriendJunzhuInfo\022\017\n\007ownerid\030\001 \002(\003" +
       "\022\016\n\006iconId\030\002 \002(\005\022\014\n\004name\030\003 \002(\t\022\024\n\014lianMe",
       "ngName\030\004 \002(\t\022\r\n\005level\030\005 \002(\005\022\r\n\005vipLv\030\006 \001" +
       "(\005\022\017\n\007junXian\030\007 \001(\t\022\016\n\006guojia\030\010 \001(\005\022\016\n\006z" +
-      "hanLi\030\t \001(\005\"\030\n\tFriendIds\022\013\n\003ids\030\001 \003(\tB\017B" +
-      "\rFriendsProtos"
+      "hanLi\030\t \001(\005\022\023\n\013offlineTime\030\n \001(\005\"\030\n\tFrie" +
+      "ndIds\022\013\n\003ids\030\001 \003(\tB\017B\rFriendsProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5154,7 +5269,7 @@ public final class FriendsProtos {
           internal_static_qxmobile_protobuf_FriendJunzhuInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_FriendJunzhuInfo_descriptor,
-              new java.lang.String[] { "Ownerid", "IconId", "Name", "LianMengName", "Level", "VipLv", "JunXian", "Guojia", "ZhanLi", });
+              new java.lang.String[] { "Ownerid", "IconId", "Name", "LianMengName", "Level", "VipLv", "JunXian", "Guojia", "ZhanLi", "OfflineTime", });
           internal_static_qxmobile_protobuf_FriendIds_descriptor =
             getDescriptor().getMessageTypes().get(6);
           internal_static_qxmobile_protobuf_FriendIds_fieldAccessorTable = new

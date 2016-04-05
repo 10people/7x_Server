@@ -351,16 +351,16 @@ public class SceneMgr extends EventProc{
 		}
 	}
 	
-	public void removeFromPreSc(Long jzId, Integer pre) {
-		if(pre == null){
-			return;
-		}
-		Scene sc = lmCities.get(pre);
-		if(sc == null){
-			return;
-		}
-		sc.exitForTrasn(jzId);
-	}
+//	public void removeFromPreSc(Long jzId, Integer pre) {
+//		if(pre == null){
+//			return;
+//		}
+//		Scene sc = lmCities.get(pre);
+//		if(sc == null){
+//			return;
+//		}
+//		sc.exitForTrasn(jzId);
+//	}
 	
 	public void playerExitScene(IoSession session) {
 		Scene scene = (Scene) session.getAttribute(SessionAttKey.Scene);

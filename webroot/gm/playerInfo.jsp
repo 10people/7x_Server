@@ -1,3 +1,4 @@
+<%@page import="com.qx.ranking.RankingGongJinMgr"%>
 <%@page import="com.qx.purchase.TongBi"%>
 <%@page import="com.qx.task.DailyTaskMgr"%>
 <%@page import="java.lang.reflect.Field"%>
@@ -180,6 +181,7 @@ do{
 			 DailyTaskMgr.INSTANCE.resetDailyTaskActivity(acti);
 		 }
 		acti.setTodyHuoYue(num);
+		acti.lastResetDaily = new Date();
 		HibernateUtil.save(acti);
 	 }else if("updateWeekHuoYue".equals(action)){
 		 DailyTaskActivity acti = HibernateUtil.find(DailyTaskActivity.class, junzhu.id);
@@ -191,6 +193,7 @@ do{
 		 }
 		 int num = Integer.parseInt(request.getParameter("v"));
 		  acti.setWeekHuoYue(num);
+		  acti.lastResetWeek = new Date();
 		 HibernateUtil.save(acti);
 	 } else if("updateTongBiTimes".equals(action)){
 		 TongBi tongBi = HibernateUtil.find(TongBi.class, junzhu.id);
@@ -247,7 +250,7 @@ do{
 	 String loginCount= Redis.getInstance().get(XianShiActivityMgr.XIANSHI7DAY_KEY + junzhu.id);
 	 loginCount=loginCount==null?"1":loginCount;
 	 tableStart();
-	 trS();td("等级");td(junzhu.level);td("<input type='text' id='updateLevel' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateLevel\")'/><br/>");trE();
+	 //trS();td("等级");td(junzhu.level);td("<input type='text' id='updateLevel' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateLevel\")'/><br/>");trE();
 	 trS();td("经验");td(junzhu.exp+"/"+v);td("<input type='text' id='addExp' value='"+input+"'/><input type='button' value='增加' onclick='go(\"addExp\")'/><br/>");trE();
 	 trS();td("铜币");td(junzhu.tongBi);td("<input type='text' id='addTongBi' value='"+input+"'/><input type='button' value='增加' onclick='go(\"addTongBi\")'/><br/>");trE();
 	 trS();td("元宝");td(junzhu.yuanBao);td("<input type='text' id='addYuanBao' value='"+input+"'/><input type='button' value='增加' onclick='go(\"addYuanBao\")'/><br/>");trE();//out.println("<a href='?action=addYuanBao'>+100</a><br/>");
@@ -286,6 +289,9 @@ do{
 	 trS();td("周活跃度");td((Integer)weekHuoYue);td("<input type='text' id='updateWeekHuoYue' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateWeekHuoYue\")'/><br/>");trE();
 	 trS();td("国家");td(country);trE();
 	 trS();td("七日奖励登录天数");td(loginCount);trE();
+	 Double gj = RankingGongJinMgr.DB.zScoreGongJin(RankingGongJinMgr.gongJinPersonalRank, 
+				junzhu.id+"");
+	 trS();td("积分:");td(gj);trE();
 	 tableEnd();
 	 br();
 	 tableStart();

@@ -103,7 +103,8 @@ function ff(){
              String v1 = "";
              String v2 = "";
              br();
-             %>任务Id：<input type='text' id='rewu' name='rewu' value='<%=v1%>' /><% 
+             %>任务Id：<input type='text' id='rewu' name='rewu' value='<%=v1%>' />
+              <div style="color: #FF0000">填写上面表格的存在任务id(第一列)</div><br><% 
              br();
              br();
               %>增加的次数：<input type='text' id='jinduA' name='jinduA' value='<%=v2%>'/>

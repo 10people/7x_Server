@@ -2,7 +2,7 @@ package com.qx.gm.message;
 
 import java.util.List;
 
-public class OperateLogResp {
+public class OperateLogResp extends BaseResp{
 	private String uin;// 账号ID
 	private String rolename;// 角色名称
 	private String dttm;// 行为操作时间

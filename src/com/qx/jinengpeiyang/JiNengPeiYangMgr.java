@@ -1,6 +1,5 @@
 package com.qx.jinengpeiyang;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,11 +7,6 @@ import java.util.Map;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import qxmobile.protobuf.JiNengPeiYang.GetJiNengPeiYangQuality;
-import qxmobile.protobuf.JiNengPeiYang.HeroData;
-import qxmobile.protobuf.JiNengPeiYang.UpgradeJiNengReq;
-import qxmobile.protobuf.JiNengPeiYang.UpgradeJiNengResp;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
@@ -26,6 +20,11 @@ import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.timeworker.FunctionID;
+
+import qxmobile.protobuf.JiNengPeiYang.GetJiNengPeiYangQuality;
+import qxmobile.protobuf.JiNengPeiYang.HeroData;
+import qxmobile.protobuf.JiNengPeiYang.UpgradeJiNengReq;
+import qxmobile.protobuf.JiNengPeiYang.UpgradeJiNengResp;
 
 public class JiNengPeiYangMgr extends EventProc{
 	public static JiNengPeiYangMgr inst;
@@ -112,9 +111,8 @@ public class JiNengPeiYangMgr extends EventProc{
 		session.write(resp.build());
 		// 进阶角色技能
 		EventMgr.addEvent(ED.jinJie_jueSe_jiNeng, new Object[]{junZhu.id});
-		//
-		addNewJn(junZhu, p);
-		//
+		// 2016年3月18日 15:13:40  战斗中技能提示，现在只是发送新解锁的，突破的技能暂时不发
+//		addNewJn(junZhu, p);
 		JunZhuMgr.inst.sendMainInfo(session);
 		
 	}
@@ -125,6 +123,12 @@ public class JiNengPeiYangMgr extends EventProc{
 	 * @param p
 	 */
 	public void addNewJn(JunZhu junZhu, JiNengPeiYang p) {
+		if(p.needLv == 1) {
+			return;
+		}
+		forceAddNewJn(junZhu,p);
+	}
+	public void forceAddNewJn(JunZhu junZhu, JiNengPeiYang p) {
 		NewJNBean nb = HibernateUtil.find(NewJNBean.class, junZhu.id);
 		if(nb == null){
 			nb = new NewJNBean();
@@ -139,6 +143,7 @@ public class JiNengPeiYangMgr extends EventProc{
 				nb.ids += "#"+p.id;
 			}
 		}
+		log.info("君主:{},等级:{},新技能:{}解锁", junZhu.id, junZhu.level, p.id);
 		HibernateUtil.update(nb);
 	}
 	public void setIdToBean(JNBean bean, JiNengPeiYang next) {
@@ -306,7 +311,7 @@ public class JiNengPeiYangMgr extends EventProc{
 			checkRedNotice(param);
 			break;
 		case ED.JUNZHU_LEVEL_RANK_REFRESH:
-			checkRedNotice((JunZhu) param.param);
+			checkRedNotice((JunZhu) param.param, false);
 			break;
 		}
 	}
@@ -320,9 +325,9 @@ public class JiNengPeiYangMgr extends EventProc{
 		Object[] arr = (Object[]) param.param;
 //		Integer lv = (Integer) arr[1];
 		JunZhu jz = (JunZhu) arr[2];
-		checkRedNotice(jz);
+		checkRedNotice(jz, true);
 	}
-	public void checkRedNotice(JunZhu jz){
+	public void checkRedNotice(JunZhu jz, boolean levelUp){
 		if(jz == null){
 			return;
 		}
@@ -336,7 +341,7 @@ public class JiNengPeiYangMgr extends EventProc{
 				.listAll(JiNengPeiYang.class.getSimpleName());
 		boolean hit = false;
 		for (JiNengPeiYang p : jiNengPeiYangList) {
-			if(p.getQuality()==0){
+			if(levelUp && p.getQuality()==0){
 				if(p.needLv == jz.level){
 					//品质为0，且等级刚好达到，则是新获得技能
 					addNewJn(jz, p);
@@ -347,7 +352,7 @@ public class JiNengPeiYangMgr extends EventProc{
 				continue;//君主等级未达到，跳过
 			}
 			int curUseId = getCurId(bean, p);
-			if(p.id>curUseId){
+			if(p.id>curUseId && jz.tongBi >= p.needNum){
 				//等级够，且技能id大于当前使用的id，则可进阶。
 				hit = true;
 				break;

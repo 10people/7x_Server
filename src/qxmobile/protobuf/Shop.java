@@ -8560,9 +8560,9 @@ public final class Shop {
      */
     int getRemianMoney();
 
-    // required bool isChange = 3;
+    // optional bool isChange = 3;
     /**
-     * <code>required bool isChange = 3;</code>
+     * <code>optional bool isChange = 3;</code>
      *
      * <pre>
      * 1 表示可以兑换 0 表示售罄
@@ -8570,7 +8570,7 @@ public final class Shop {
      */
     boolean hasIsChange();
     /**
-     * <code>required bool isChange = 3;</code>
+     * <code>optional bool isChange = 3;</code>
      *
      * <pre>
      * 1 表示可以兑换 0 表示售罄
@@ -8732,11 +8732,11 @@ public final class Shop {
       return remianMoney_;
     }
 
-    // required bool isChange = 3;
+    // optional bool isChange = 3;
     public static final int ISCHANGE_FIELD_NUMBER = 3;
     private boolean isChange_;
     /**
-     * <code>required bool isChange = 3;</code>
+     * <code>optional bool isChange = 3;</code>
      *
      * <pre>
      * 1 表示可以兑换 0 表示售罄
@@ -8746,7 +8746,7 @@ public final class Shop {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required bool isChange = 3;</code>
+     * <code>optional bool isChange = 3;</code>
      *
      * <pre>
      * 1 表示可以兑换 0 表示售罄
@@ -8767,10 +8767,6 @@ public final class Shop {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasMsg()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasIsChange()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -9007,10 +9003,6 @@ public final class Shop {
           
           return false;
         }
-        if (!hasIsChange()) {
-          
-          return false;
-        }
         return true;
       }
 
@@ -9131,10 +9123,10 @@ public final class Shop {
         return this;
       }
 
-      // required bool isChange = 3;
+      // optional bool isChange = 3;
       private boolean isChange_ ;
       /**
-       * <code>required bool isChange = 3;</code>
+       * <code>optional bool isChange = 3;</code>
        *
        * <pre>
        * 1 表示可以兑换 0 表示售罄
@@ -9144,7 +9136,7 @@ public final class Shop {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required bool isChange = 3;</code>
+       * <code>optional bool isChange = 3;</code>
        *
        * <pre>
        * 1 表示可以兑换 0 表示售罄
@@ -9154,7 +9146,7 @@ public final class Shop {
         return isChange_;
       }
       /**
-       * <code>required bool isChange = 3;</code>
+       * <code>optional bool isChange = 3;</code>
        *
        * <pre>
        * 1 表示可以兑换 0 表示售罄
@@ -9167,7 +9159,7 @@ public final class Shop {
         return this;
       }
       /**
-       * <code>required bool isChange = 3;</code>
+       * <code>optional bool isChange = 3;</code>
        *
        * <pre>
        * 1 表示可以兑换 0 表示售罄
@@ -9288,7 +9280,7 @@ public final class Shop {
       "isChange\030\003 \002(\010\022\023\n\013remainCount\030\004 \001(\005\"*\n\nB" +
       "uyGoodReq\022\014\n\004type\030\001 \002(\005\022\016\n\006goodId\030\002 \002(\005\"" +
       "A\n\013BuyGoodResp\022\013\n\003msg\030\001 \002(\005\022\023\n\013remianMon" +
-      "ey\030\002 \001(\005\022\020\n\010isChange\030\003 \002(\010B\006B\004Shop"
+      "ey\030\002 \001(\005\022\020\n\010isChange\030\003 \001(\010B\006B\004Shop"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

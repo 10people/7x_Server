@@ -149,11 +149,12 @@ if("item".equals(type)){
 	List<ZhuXian> list = TempletService.listAll(ZhuXian.class.getSimpleName());
 	out.append("<table border='1'>");
 	out.append("<tr>");
-	out.append("<th>ID</th><th>标题</th><th>TriggerType</th><th>TriggerCond</th><th>奖励</th>");
+	out.append("<th>ID</th><th>orderIdx</th><th>标题</th><th>TriggerType</th><th>TriggerCond</th><th>奖励</th>");
 	out.append("</tr>");
 	for(ZhuXian t : list){
 		out.append("<tr>");
 		out.append("<td>");		out.println(t.getId());	out.append("</td>");
+		td(t.orderIdx);
 		out.append("<td>");		out.println(t.getTitle());		out.append("</td>");
 		out.append("<td>");		out.println(t.getTriggerType());		out.append("</td>");
 		out.append("<td>");		out.println(t.getTriggerCond());	out.append("</td>");

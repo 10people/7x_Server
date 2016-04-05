@@ -75,12 +75,16 @@ public class FunctionOpenMgr {
 	}
 	public  void fillOther(qxmobile.protobuf.ZhangHao.LoginRet.Builder ret, int level, long pid) {
 		int len = others.length;
-		int maxRenWuId = getMaxRenWuOrderIdx(pid);//注意！这一行和下面一行的顺序不能变！
-		int maxAwardRenWuId = getMaxAwardRenWuOrderIdx(pid);
-		if(maxRenWuId>0 && maxAwardRenWuId==0){//memcached清除后，修正maxAwardRenWuId
+		int maxRenWuOrderIdx = getMaxRenWuOrderIdx(pid);//注意！这一行和下面一行的顺序不能变！
+		int maxAwardOrderIdx = getMaxAwardRenWuOrderIdx(pid);
+		if(maxRenWuOrderIdx>0 && maxAwardOrderIdx==0){//memcached清除后，修正maxAwardRenWuId
 			//如果有当前最大任务id，但没有领奖任务id，则用最大任务id减一（即前一个任务）来作为领奖任务id。
-			maxAwardRenWuId = maxRenWuId-1;
-			MemcachedCRUD.getMemCachedClient().set(awardRenWuOverIdKey+pid, maxAwardRenWuId);
+			maxAwardOrderIdx = maxRenWuOrderIdx-1;
+			
+			//注意！！取当前任务的前一个任务的orderIdx，并保存其【id】到缓存。
+			List<ZhuXian> list = TempletService.listAll(ZhuXian.class.getSimpleName());
+			ZhuXian conf = list.get(maxRenWuOrderIdx-1);
+			MemcachedCRUD.getMemCachedClient().set(awardRenWuOverIdKey+pid, conf.orderIdx);
 		}
 		for(int i=0; i<len; i++){
 			//
@@ -91,11 +95,11 @@ public class FunctionOpenMgr {
 					continue;
 				}
 			}else if(o.RenWuID > 0){
-				if(o.renWuOrderIdx>maxRenWuId){//要求任务大于当前最大的完成了的任务的序号，不开。
+				if(o.renWuOrderIdx>maxRenWuOrderIdx){//要求任务大于当前最大的完成了的任务的序号，不开。
 					continue;
 				}
 			}else if(o.RenWuIDAward > 0){
-				if(o.awardRenWuOrderIdx>maxAwardRenWuId){
+				if(o.awardRenWuOrderIdx>maxAwardOrderIdx){
 					continue;
 				}
 			}
@@ -148,10 +152,22 @@ public class FunctionOpenMgr {
 			}
 			MemcachedCRUD.getMemCachedClient().set(REN_WU_OVER_ID+pid, maxRenWuId);
 		}
+		if(maxRenWuId==0){
+			return maxRenWuId;
+		}
 		ZhuXian maxRenWuConf = GameTaskMgr.inst.zhuxianTaskMap.get(maxRenWuId);
 		if(maxRenWuConf == null){
 			log.error("没有找到任务配置{} of pid {}",maxRenWuId, pid);
-			maxRenWuId = 0;
+			//如果任务删了，找不到，则找前一个任务
+			List<ZhuXian> list = TempletService.listAll(ZhuXian.class.getSimpleName());
+			int pre = 0;
+			for(ZhuXian z : list){
+				if(z.getId()>=maxRenWuId){
+					break;
+				}
+				pre = z.orderIdx;
+			}
+			maxRenWuId = pre;
 		}else{
 			maxRenWuId = maxRenWuConf.orderIdx;
 		}

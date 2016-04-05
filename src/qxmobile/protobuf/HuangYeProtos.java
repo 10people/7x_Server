@@ -4300,23 +4300,23 @@ public final class HuangYeProtos {
      */
     int getLeftBuyCiShu();
 
-    // required int32 thisBoCi = 14;
+    // optional int32 thisBoCi = 14;
     /**
-     * <code>required int32 thisBoCi = 14;</code>
+     * <code>optional int32 thisBoCi = 14;</code>
      */
     boolean hasThisBoCi();
     /**
-     * <code>required int32 thisBoCi = 14;</code>
+     * <code>optional int32 thisBoCi = 14;</code>
      */
     int getThisBoCi();
 
-    // required int32 allBoCi = 15;
+    // optional int32 allBoCi = 15;
     /**
-     * <code>required int32 allBoCi = 15;</code>
+     * <code>optional int32 allBoCi = 15;</code>
      */
     boolean hasAllBoCi();
     /**
-     * <code>required int32 allBoCi = 15;</code>
+     * <code>optional int32 allBoCi = 15;</code>
      */
     int getAllBoCi();
   }
@@ -4851,33 +4851,33 @@ public final class HuangYeProtos {
       return leftBuyCiShu_;
     }
 
-    // required int32 thisBoCi = 14;
+    // optional int32 thisBoCi = 14;
     public static final int THISBOCI_FIELD_NUMBER = 14;
     private int thisBoCi_;
     /**
-     * <code>required int32 thisBoCi = 14;</code>
+     * <code>optional int32 thisBoCi = 14;</code>
      */
     public boolean hasThisBoCi() {
       return ((bitField0_ & 0x00001000) == 0x00001000);
     }
     /**
-     * <code>required int32 thisBoCi = 14;</code>
+     * <code>optional int32 thisBoCi = 14;</code>
      */
     public int getThisBoCi() {
       return thisBoCi_;
     }
 
-    // required int32 allBoCi = 15;
+    // optional int32 allBoCi = 15;
     public static final int ALLBOCI_FIELD_NUMBER = 15;
     private int allBoCi_;
     /**
-     * <code>required int32 allBoCi = 15;</code>
+     * <code>optional int32 allBoCi = 15;</code>
      */
     public boolean hasAllBoCi() {
       return ((bitField0_ & 0x00002000) == 0x00002000);
     }
     /**
-     * <code>required int32 allBoCi = 15;</code>
+     * <code>optional int32 allBoCi = 15;</code>
      */
     public int getAllBoCi() {
       return allBoCi_;
@@ -4926,14 +4926,6 @@ public final class HuangYeProtos {
         return false;
       }
       if (!hasBuyCiShuInfo()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasThisBoCi()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasAllBoCi()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -5424,14 +5416,6 @@ public final class HuangYeProtos {
           return false;
         }
         if (!hasBuyCiShuInfo()) {
-          
-          return false;
-        }
-        if (!hasThisBoCi()) {
-          
-          return false;
-        }
-        if (!hasAllBoCi()) {
           
           return false;
         }
@@ -6340,22 +6324,22 @@ public final class HuangYeProtos {
         return this;
       }
 
-      // required int32 thisBoCi = 14;
+      // optional int32 thisBoCi = 14;
       private int thisBoCi_ ;
       /**
-       * <code>required int32 thisBoCi = 14;</code>
+       * <code>optional int32 thisBoCi = 14;</code>
        */
       public boolean hasThisBoCi() {
         return ((bitField0_ & 0x00002000) == 0x00002000);
       }
       /**
-       * <code>required int32 thisBoCi = 14;</code>
+       * <code>optional int32 thisBoCi = 14;</code>
        */
       public int getThisBoCi() {
         return thisBoCi_;
       }
       /**
-       * <code>required int32 thisBoCi = 14;</code>
+       * <code>optional int32 thisBoCi = 14;</code>
        */
       public Builder setThisBoCi(int value) {
         bitField0_ |= 0x00002000;
@@ -6364,7 +6348,7 @@ public final class HuangYeProtos {
         return this;
       }
       /**
-       * <code>required int32 thisBoCi = 14;</code>
+       * <code>optional int32 thisBoCi = 14;</code>
        */
       public Builder clearThisBoCi() {
         bitField0_ = (bitField0_ & ~0x00002000);
@@ -6373,22 +6357,22 @@ public final class HuangYeProtos {
         return this;
       }
 
-      // required int32 allBoCi = 15;
+      // optional int32 allBoCi = 15;
       private int allBoCi_ ;
       /**
-       * <code>required int32 allBoCi = 15;</code>
+       * <code>optional int32 allBoCi = 15;</code>
        */
       public boolean hasAllBoCi() {
         return ((bitField0_ & 0x00004000) == 0x00004000);
       }
       /**
-       * <code>required int32 allBoCi = 15;</code>
+       * <code>optional int32 allBoCi = 15;</code>
        */
       public int getAllBoCi() {
         return allBoCi_;
       }
       /**
-       * <code>required int32 allBoCi = 15;</code>
+       * <code>optional int32 allBoCi = 15;</code>
        */
       public Builder setAllBoCi(int value) {
         bitField0_ |= 0x00004000;
@@ -6397,7 +6381,7 @@ public final class HuangYeProtos {
         return this;
       }
       /**
-       * <code>required int32 allBoCi = 15;</code>
+       * <code>optional int32 allBoCi = 15;</code>
        */
       public Builder clearAllBoCi() {
         bitField0_ = (bitField0_ & ~0x00004000);
@@ -17436,7 +17420,7 @@ public final class HuangYeProtos {
       "\030\010 \001(\005\022\016\n\006zuheId\030\t \001(\005\022\024\n\014buyCiShuInfo\030\n" +
       " \002(\005\022\024\n\014buyNextCiShu\030\013 \001(\005\022\024\n\014buyNextMon",
       "ey\030\014 \001(\005\022\024\n\014leftBuyCiShu\030\r \001(\005\022\020\n\010thisBo" +
-      "Ci\030\016 \002(\005\022\017\n\007allBoCi\030\017 \002(\005\"C\n\017TreasureNpc" +
+      "Ci\030\016 \001(\005\022\017\n\007allBoCi\030\017 \001(\005\"C\n\017TreasureNpc" +
       "Info\022\r\n\005npcId\030\001 \002(\005\022\020\n\010remainHP\030\002 \002(\005\022\017\n" +
       "\007totalHP\030\003 \002(\005\"$\n\016ReqRewardStore\022\022\n\nlian" +
       "mengId\030\001 \002(\005\"I\n\022ReqRewardStoreResp\0223\n\010it" +

@@ -193,7 +193,7 @@
 			Date deadDate = new Date(Integer.parseInt(deadDateStr.split("-")[0])-1900,Integer.parseInt(deadDateStr.split("-")[1])-1,Integer.parseInt(deadDateStr.split("-")[2]));
 			int num = Integer.parseInt(numStr);
 			
-			List<CDKeyInfo> keyList = CDKeyMgr.inst.generateCDKey(chanId, deadDate, num, awards);
+			List<CDKeyInfo> keyList = CDKeyMgr.inst.generateCDKey(chanId, deadDate, num, awards,"TK");
 			if(keyList!=null&&keyList.size()>0){
 				out.println("生成的CDKey信息如下：");
 			}

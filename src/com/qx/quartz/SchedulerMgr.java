@@ -18,6 +18,7 @@ import com.manu.dynasty.template.YunbiaoTemp;
 import com.qx.quartz.job.AllianceResouceOutputJob;
 import com.qx.quartz.job.AllianceRewardStoreJob;
 import com.qx.quartz.job.BaiZhanDailyAwardJob;
+import com.qx.quartz.job.BaiZhanNoticeJob;
 import com.qx.quartz.job.BaoXiangQueueJob;
 import com.qx.quartz.job.BigHouseWorthReduceJob;
 import com.qx.quartz.job.BroadcastJob;
@@ -37,9 +38,12 @@ import com.qx.quartz.job.RefreshGlobalActivity;
 import com.qx.quartz.job.RefreshGongHeInfo;
 import com.qx.quartz.job.ResetGongJinJob;
 import com.qx.quartz.job.SendGongJinAwardJob;
+import com.qx.quartz.job.ShopRefreshJob;
 import com.qx.quartz.job.YBrobotRefreshJob;
 import com.qx.quartz.job.YaBiaoJiaChengJob;
 import com.qx.quartz.job.YaBiaoManageJob;
+
+import xg.push.XGJob;
 
 
 public class SchedulerMgr {
@@ -95,7 +99,9 @@ public class SchedulerMgr {
 		/*
 		 * 每日任务 固定时间更新每日任务列表
 		 */
-		addScheduler(DailyTaskJob.class, "0 0 12,14,18,20,21,0 * * ?");
+		addScheduler(DailyTaskJob.class, "0 0 12,14,18,20,21,0,4 * * ?");
+		addScheduler(XGJob.class, "0 54 11,17 * * ?");
+		addScheduler(XGJob.class, "0 40 20 * * ?");
 		
 		//开启押镖活动
 		StringBuffer openYBTime=new StringBuffer();
@@ -172,6 +178,7 @@ public class SchedulerMgr {
 		addScheduler(LogPerHourJob.class,"0 30 * * * ?");
 		addScheduler(BaoXiangQueueJob.class,"* * * * * ?");//1秒检查一次
 		addScheduler(BroadcastJob.class,"1 * * * * ?");//定时广播，没分钟检查
+		addScheduler(BaiZhanNoticeJob.class,"1 * * * * ?");//定时广播，没分钟检查
 		// 每周一0点，向前窜着记录上一期仇恨值
 		addScheduler(GuojiaChouhenJieSuanJob.class,"0 0 0 ? * 2");
 		// 每天00:05，刷新国家敌对国
@@ -186,8 +193,9 @@ public class SchedulerMgr {
 		addScheduler(RefreshGlobalActivity.class, "0 0 4 * * ?");
 		addScheduler(LveDuoJunQingJob.class, "0 */1 * * * ?");
 		addScheduler(RefreshGongHeInfo.class, "*/20 * * * * ?");
+		addScheduler(ShopRefreshJob.class, "0 0 9,21 * * ?");
+		
 	}
-
 	/**
 	 * 任务列表
 	 * @Title: addScheduler 
