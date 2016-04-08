@@ -29,7 +29,7 @@ import com.qx.world.Player;
 import com.qx.world.Scene;
 
 public class BuffMgr {
-	private Logger logger = LoggerFactory.getLogger(BuffMgr.class); 
+	public Logger logger = LoggerFactory.getLogger(BuffMgr.class); 
 	
 	public static BuffMgr inst;
 	
@@ -51,7 +51,7 @@ public class BuffMgr {
 		initData();
 	}
 
-	private void initData() {
+	public void initData() {
 		List<Buff> list = TempletService.listAll(Buff.class.getSimpleName());
 		Map<Integer, Buff> buffConfigMap = new HashMap<Integer, Buff>();
 		for(Buff buff : list) {
@@ -120,7 +120,7 @@ public class BuffMgr {
 	 * 
 	 * @return 
 	 */
-	private Runnable createWorkerThread() {
+	public Runnable createWorkerThread() {
 		return new Runnable() {
 			public void run() {
 				while(buffProcess) {
@@ -159,7 +159,7 @@ public class BuffMgr {
 	 * 处理BUFF
 	 * 
 	 */
-	private boolean processPlayerBuffer(final Buffer buffer) {
+	public boolean processPlayerBuffer(final Buffer buffer) {
 		if(buffer == null) {
 			return true;
 		}
@@ -317,7 +317,7 @@ public class BuffMgr {
 		BigSwitch.inst.buffMgr.addBuffer(defender.id, buffer);
 	}
 	
-	private int calcSkillTreatLife(JunZhu attacker, JunZhu defender, Skill skill, Action action) {
+	public int calcSkillTreatLife(JunZhu attacker, JunZhu defender, Skill skill, Action action) {
 		double j = action.Param2;
 		double k = action.Param1 / 1000;
 		int addLife = (int) (k * defender.shengMingMax + j);

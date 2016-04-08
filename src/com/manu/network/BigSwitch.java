@@ -86,6 +86,7 @@ import com.qx.world.Scene;
 import com.qx.world.SceneMgr;
 import com.qx.yabiao.YBRobotMgr;
 import com.qx.yabiao.YaBiaoHuoDongMgr;
+import com.qx.yabiao.YaBiaoRestoreMgr;
 import com.qx.yabiao.YaBiaoRobotProduceMgr;
 import com.qx.youxia.YouXiaMgr;
 import com.qx.yuanbao.YuanBaoMgr;
@@ -185,7 +186,7 @@ public class BigSwitch {
 		initProxy();
 	}
 
-	private void initProxy() {
+	protected void initProxy() {
 		new ReasonMgr();
 		yuanbaoMgr = new YuanBaoMgr();
 		eventMgr = new EventMgr();
@@ -267,6 +268,8 @@ public class BigSwitch {
 		new YaBiaoRobotProduceMgr();
 		// 添加服务器定时任务
 		new SchedulerMgr().doSchedule();
+		//	 恢复押镖场景的玩家马车
+		YaBiaoRestoreMgr.getInstance().backUpYaBiaoData();
 	}
 
 	public void loadModuleData() {
@@ -1180,8 +1183,11 @@ public class BigSwitch {
 			case PD.C_GREET_REQ://向某人打招呼请求
 				greetMgr.GreetAndAddFriend(id, session, builder);
 				break;
-			case PD.C_INVITE_REQ://邀请入盟
-				greetMgr.Invite2LM(id, session, builder);
+			case PD.C_CHOOSE_SCENE://登陆前选择主城副本
+				scMgr.choseScene(id, session, builder);
+				break;
+			case PD.C_SCENE_GETALL://登陆前选择主城副本
+				scMgr.getAllScene(id, session, builder);
 				break;
 			default:
 				log.error("未处理的协议 {} {}", id, builder);

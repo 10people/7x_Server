@@ -31,12 +31,12 @@ import com.qx.persistent.HibernateUtil;
 import com.qx.timeworker.FunctionID;
 
 public class ActivityMgr extends EventProc{
-	private Logger logger = LoggerFactory.getLogger(ActivityMgr.class);
+	public Logger logger = LoggerFactory.getLogger(ActivityMgr.class);
 	public static ActivityMgr instance;
 	public static Map<Integer, HuoDong> activityMap = new HashMap<Integer, HuoDong>();
 	public static Map<Integer, DescId> descMap = new HashMap<Integer, DescId>();
-	private static final int ACTIVITY_NOT_FINISH = 0;// 活动未完成
-	private static final int ACTIVITY_FINISH = 1;// 活动已完成
+	public static final int ACTIVITY_NOT_FINISH = 0;// 活动未完成
+	public static final int ACTIVITY_FINISH = 1;// 活动已完成
 	public static final int ACT_QIANDAO = 1;// 签到活动
 	public static final int ACT_SHOUCHONG = 2;// 首冲活动
 	public static final int ACT_XIANSHI = 3;// 限时活动
@@ -196,7 +196,7 @@ public class ActivityMgr extends EventProc{
 	 * @param response
 	 * @return
 	 */
-	private void writeByProtoMsg(IoSession session, int prototype,
+	public void writeByProtoMsg(IoSession session, int prototype,
 			Builder response) {
 		ProtobufMsg msg = new ProtobufMsg();
 		msg.id = prototype;
@@ -212,7 +212,7 @@ public class ActivityMgr extends EventProc{
 	 * @param cmd
 	 * @param msg
 	 */
-	private void sendError(IoSession session, int cmd, String msg) {
+	public void sendError(IoSession session, int cmd, String msg) {
 		ErrorMessage.Builder test = ErrorMessage.newBuilder();
 		test.setErrorCode(cmd);
 		test.setErrorDesc(msg);

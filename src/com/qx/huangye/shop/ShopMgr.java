@@ -327,7 +327,7 @@ public class ShopMgr extends EventProc {
 		session.write(resp.build());
 	}
 
-	private int getRefreshNeedHYMoney(PublicShop bean, int shop_type) {
+	public int getRefreshNeedHYMoney(PublicShop bean, int shop_type) {
 		int number = bean.buyNumber;
 		number += 1;
 		int money = PurchaseMgr.inst.getNeedYuanBao(getPurchaseType(shop_type),

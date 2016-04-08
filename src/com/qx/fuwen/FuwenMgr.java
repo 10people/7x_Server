@@ -1082,8 +1082,8 @@ public class FuwenMgr extends EventProc {
 	}
 	
 	public class FushiInBagInfo {
-		private Fuwen fuwen;
-		private int count;
+		public Fuwen fuwen;
+		public int count;
 		public FushiInBagInfo(Fuwen fuwen, int count) {
 			this.fuwen = fuwen;
 			this.count = count;

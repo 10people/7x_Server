@@ -25,10 +25,10 @@ public class CdTimeMgr implements Runnable {
 	
 	public Logger logger = LoggerFactory.getLogger(CdTimeMgr.class); 
 	
-	private ConcurrentLinkedQueue<CdTime> cdQueue = new ConcurrentLinkedQueue<CdTime>();
-	private ConcurrentHashSet<FightScene> fightSceneSet = new ConcurrentHashSet<FightScene>();
+	public ConcurrentLinkedQueue<CdTime> cdQueue = new ConcurrentLinkedQueue<CdTime>();
+	public ConcurrentHashSet<FightScene> fightSceneSet = new ConcurrentHashSet<FightScene>();
 	
-	private boolean openCdTimeMgr = true;
+	public boolean openCdTimeMgr = true;
 	
 	public CdTimeMgr() {
 		inst = this;
@@ -47,7 +47,7 @@ public class CdTimeMgr implements Runnable {
 		}
 	}
 
-	private void checkSceneQueue() {
+	public void checkSceneQueue() {
 		for(FightScene scene : fightSceneSet) {
 			scene.updateScore();
 			scene.computeBattleData();

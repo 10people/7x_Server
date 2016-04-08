@@ -1098,7 +1098,7 @@ public class PveMgr extends EventProc {
 		}
 	}
 	
-	private void addWeaponSkillFirstActive(PlayerWeapon.Builder weaponBuilder, int[] newSkillIds) {
+	public void addWeaponSkillFirstActive(PlayerWeapon.Builder weaponBuilder, int[] newSkillIds) {
 		List<Integer> skillLevelList = weaponBuilder.getSkillLevelList();
 		for(int i = 0; i < newSkillIds.length; i++) {
 			int index = skillLevelList.indexOf(newSkillIds[i]);

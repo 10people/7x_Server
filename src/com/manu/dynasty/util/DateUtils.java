@@ -157,6 +157,22 @@ public class DateUtils {
 		return datetime2Text(nextDay);
 	}
 	/**
+	 * 得到n秒之前日期的字符串
+	 * @return 
+	 */
+	public static String getNSecondsAgo(int n) {
+		Date now =new Date();
+		int year=now.getYear();
+		int month=now.getMonth();
+		int date =now.getDate();
+		int hrs=now.getHours();
+		int min=now.getMinutes();
+		int ss=now.getSeconds()-n;
+		Date nextDay=new Date(year, month, date, hrs, min,ss);
+		datetime2Text(nextDay);
+		return datetime2Text(nextDay);
+	}
+	/**
 	 * Return a Timestamp for right now
 	 * 
 	 * @return Timestamp for right now

@@ -15,6 +15,7 @@ import com.manu.network.BigSwitch;
 import com.qx.ranking.RankingMgr;
 import com.qx.world.Player;
 import com.qx.world.Scene;
+import com.qx.world.YaBiaoScene;
 
 public class YaBiaoRobotProduceMgr  implements Runnable {
 	public static Logger log = LoggerFactory.getLogger(YaBiaoRobotProduceMgr.class.getSimpleName());
@@ -81,7 +82,7 @@ public class YaBiaoRobotProduceMgr  implements Runnable {
 		while (it4Scene.hasNext()) {
 			Map.Entry entry4Sc = (Map.Entry) it4Scene.next();
 			Integer ybScId =(Integer) entry4Sc.getKey();
-			Scene ybsc =(Scene) entry4Sc.getValue();
+			YaBiaoScene ybsc =(YaBiaoScene) entry4Sc.getValue();
 			if(!isNeedProduce(ybScId, ybsc)){
 				continue;
 			}
@@ -100,7 +101,7 @@ public class YaBiaoRobotProduceMgr  implements Runnable {
 		}
 	}
 	
-	public void  doCheck(int ybScId,int pathId,Scene ybsc, List<ProduceCartInfo> futureProducelist) {
+	public void  doCheck(int ybScId,int pathId,YaBiaoScene ybsc, List<ProduceCartInfo> futureProducelist) {
 		if(ybsc==null||ybsc.players==null){
 			return ;
 		}
@@ -169,7 +170,7 @@ public class YaBiaoRobotProduceMgr  implements Runnable {
 	 * @param pathId 安全区编号/路线编号
 	 * @param cartNo  产生马车编号 0-19
 	 */
-	protected void produceXiTongMaChe(Scene ybsc,int ybScId,int pathId,int cartNo) {
+	protected void produceXiTongMaChe(YaBiaoScene ybsc,int ybScId,int pathId,int cartNo) {
 		boolean res=YaBiaoHuoDongMgr.inst.initSysYBRobots(ybsc, pathId,ybScId,cartNo);
 		log.info("产生编号--{}系统马车结果isOK?==={}",cartNo,res);
 	}

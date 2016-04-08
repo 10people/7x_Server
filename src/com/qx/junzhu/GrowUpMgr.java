@@ -196,7 +196,7 @@ public class GrowUpMgr {
 					return v1-v2;
 				}
 
-				private int get(MiBaoDB o1) {
+				public int get(MiBaoDB o1) {
 					if(o1.getMiBaoId()<=0){
 						MibaoSuiPian mibaoSuiPian1 = MibaoMgr.inst.mibaoSuipianMap.get(o1.getTempId());
 						return mibaoSuiPian1.getHechengNum() - o1.getSuiPianNum();

@@ -105,9 +105,9 @@ public class HYMgr extends EventProc{
 //	public Map<Integer, HuangyePvpNpc> huangyePvpNpcMap;
 	public Map<Integer, HuangyeAward> huangyeAwardMap;
 	public Map<Integer, HuangYeGuYongBing> huangyeGuYongBingMap;
-	private Object treasureBattleLock = new Object();
-//	private Object resourceBattleLock = new Object();
-	private Object openTreasureLock = new Object(); // 藏宝点激活或者打开锁
+	public Object treasureBattleLock = new Object();
+//	public Object resourceBattleLock = new Object();
+	public Object openTreasureLock = new Object(); // 藏宝点激活或者打开锁
 
 	public static final int STATUS_NPC = 0;
 	public static final int OPEN = 1;
@@ -210,7 +210,7 @@ public class HYMgr extends EventProc{
 	}
 	
 
-	private void sendError(IoSession session, int cmd, String msg) {
+	public void sendError(IoSession session, int cmd, String msg) {
 		ErrorMessage.Builder test = ErrorMessage.newBuilder();
 		test.setErrorCode(cmd);
 		test.setErrorDesc(msg);
@@ -346,7 +346,7 @@ public class HYMgr extends EventProc{
 //		}
 	}
 
-/*	private void initHuangye(IoSession session, int lianMengId, long junzhuId) {
+/*	public void initHuangye(IoSession session, int lianMengId, long junzhuId) {
 		List<HYResource> initHyRes = new ArrayList<HYResource>();
 		List<HYTreasure> initHyTrea = new ArrayList<HYTreasure>();
 		HYTreasureRecord record = HibernateUtil.find(HYTreasureRecord.class, lianMengId);
@@ -392,7 +392,7 @@ public class HYMgr extends EventProc{
 		sendHuangYeInfo(session, initHyTrea, lianMengId);
 	}*/
 	
-/*	private HYTreasure insertHYTreasure(int fileId, int lianMengId) {
+/*	public HYTreasure insertHYTreasure(int fileId, int lianMengId) {
 		HuangyePve hyPveCfg = huangyePveMap.get(fileId);
 		if (hyPveCfg == null) {
 			logger.error("huangyePve未找到匹配类型：id:{}", fileId);
@@ -404,7 +404,7 @@ public class HYMgr extends EventProc{
 		return null;
 	}*/
 	
-/*	private HYResource insertHYResource(int fileId, int lianMengId) {
+/*	public HYResource insertHYResource(int fileId, int lianMengId) {
 		HuangyePvp huangyePvp = huangyePvpMap.get(fileId);
 		if (huangyePvp == null) {
 			logger.error("huangyePvp未找到匹配类型：id:{}", fileId);
@@ -437,7 +437,7 @@ public class HYMgr extends EventProc{
 	 * @param levelMax		高等级，小于0则表示不进行该条件查询
 	 * @return
 	 *//*
-	private HYResource matchHYResource(int lianMengId, int levelMin, int levelMax) {
+	public HYResource matchHYResource(int lianMengId, int levelMin, int levelMax) {
 		List<HYResourceAlliance> hyResIds = HibernateUtil.list(
 				HYResourceAlliance.class, " where lianMengId = " + lianMengId);
 		int size = hyResIds.size();
@@ -480,7 +480,7 @@ public class HYMgr extends EventProc{
 		return null;
 	}
 */
-/*	private void sendHuangYeInfo(IoSession session, //HYFog hyFog, List<HYResource> hyResList, 
+/*	public void sendHuangYeInfo(IoSession session, //HYFog hyFog, List<HYResource> hyResList, 
 			List<HYTreasure> hyTreaList,
 			int lianMengId) {
 		OpenHuangYeResp.Builder response = OpenHuangYeResp.newBuilder();
@@ -593,7 +593,7 @@ public class HYMgr extends EventProc{
 		session.write(response.build());
 	}*/
 /*
-	private HuangYeResource.Builder getHYResourceBuilder(HYResource hyRes, int lianmengId) {
+	public HuangYeResource.Builder getHYResourceBuilder(HYResource hyRes, int lianmengId) {
 		HuangYeResource.Builder resResp = HuangYeResource.newBuilder();
 		resResp.setId(hyRes.id);
 		HYResourceAlliance resAlnc = HibernateUtil.find(HYResourceAlliance.class, 
@@ -616,7 +616,7 @@ public class HYMgr extends EventProc{
 		return resResp;
 	}*/
 
-/*	private HuangYeTreasure.Builder getHYTreasureBuilder(HYTreasure hyTrea) {
+/*	public HuangYeTreasure.Builder getHYTreasureBuilder(HYTreasure hyTrea) {
 		HuangYeTreasure.Builder treaResp = HuangYeTreasure.newBuilder();
 		treaResp.setId(hyTrea.id);
 		treaResp.setFileId(hyTrea.idOfFile);
@@ -678,7 +678,7 @@ public class HYMgr extends EventProc{
 		session.write(response.build());
 	}
 */
-/*	private HYRewardStore matchHYRewardStore(List<HYRewardStore> storeList,
+/*	public HYRewardStore matchHYRewardStore(List<HYRewardStore> storeList,
 			int site) {
 		for (HYRewardStore hyrs : storeList) {
 			if (hyrs.site == site) {
@@ -977,7 +977,7 @@ public class HYMgr extends EventProc{
 		session.write(response.build());
 	}
 	*/
-/*	private List<HuangyePvpNpc> getPvpNpcList(int level) {
+/*	public List<HuangyePvpNpc> getPvpNpcList(int level) {
 		List<HuangyePvpNpc> npcList = new ArrayList<HuangyePvpNpc>();
 		for(Map.Entry<Integer, HuangyePvpNpc> entry : huangyePvpNpcMap.entrySet()) {
 			HuangyePvpNpc npcCfg = entry.getValue();
@@ -1943,7 +1943,7 @@ public class HYMgr extends EventProc{
 		}
 	}
 	
-/*	private HYResourceTimes getResourceTimes(long junzhuId) {
+/*	public HYResourceTimes getResourceTimes(long junzhuId) {
 		HYResourceTimes resTimes = HibernateUtil.find(HYResourceTimes.class, junzhuId);
 		Date curDate = new Date();
 		if(resTimes == null) {
@@ -1978,7 +1978,7 @@ public class HYMgr extends EventProc{
 		return treasureNpcList;
 	}
 	
-	private List<HuangyeNpc> findHuangyeNpcFromConfig(int npcId) {
+	public List<HuangyeNpc> findHuangyeNpcFromConfig(int npcId) {
 		List<HuangyeNpc> npcCfgList = new ArrayList<HuangyeNpc>();
 		for(Map.Entry<Integer, HuangyeNpc> entry : huangYeNpcMap.entrySet()) {
 			HuangyeNpc npcCfg = entry.getValue();
@@ -2133,7 +2133,7 @@ public class HYMgr extends EventProc{
 		dropAwardMapBefore.remove(junzhu.id);
 	}
 
-	private void pveBattleSuccessProcess(IoSession session, JunZhu junzhu, 
+	public void pveBattleSuccessProcess(IoSession session, JunZhu junzhu, 
 			BattleResult.Builder response,
 			AlliancePlayer member,
 			HYTreasure hyTreasure, HuangyePve hyPveCfg) {
@@ -2218,7 +2218,7 @@ public class HYMgr extends EventProc{
 		return -1;
 	}
 
-	private void refreshHYTreasureNpcData(List<HYTreasureNpc> treasureNpcList) {
+	public void refreshHYTreasureNpcData(List<HYTreasureNpc> treasureNpcList) {
 		for(HYTreasureNpc treaNpc : treasureNpcList) {
 			HuangyeNpc hyNpcCfg = huangYeNpcMap.get(treaNpc.npcId);
 			if(hyNpcCfg == null) {
@@ -2235,7 +2235,7 @@ public class HYMgr extends EventProc{
 		}
 	}
 
-/*	private List<HYTreasureDamage> getTopThreeDamage(long id) {
+/*	public List<HYTreasureDamage> getTopThreeDamage(long id) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session s = sessionFactory.getCurrentSession();
 		Transaction tr = s.beginTransaction();
@@ -2258,7 +2258,7 @@ public class HYMgr extends EventProc{
 		return list;
 	}*/
 
-/*	private void putAward2Store(int lianmengId, AwardTemp calcV) {
+/*	public void putAward2Store(int lianmengId, AwardTemp calcV) {
 		for(Map.Entry<Integer, HuangyeAward> entry : huangyeAwardMap.entrySet()) {
 			HuangyeAward awardCfg = entry.getValue();
 			if(calcV.getItemId() == awardCfg.itemId) {
@@ -2274,7 +2274,7 @@ public class HYMgr extends EventProc{
 		}
 	}*/
 
-	private int getTreasureProgress(List<HYTreasureNpc> treasureNpcList) {
+	public int getTreasureProgress(List<HYTreasureNpc> treasureNpcList) {
 		int totalHP = 0;
 		int remainHPTotal = 0;
 		for(HYTreasureNpc npc : treasureNpcList) {
@@ -2454,7 +2454,7 @@ public class HYMgr extends EventProc{
 		sendResourceChangeResp(session, hyResource, junzhu.id, lianmengId, RESOURCE_DAY_TIMES);
 	}*/
 	
-	/*private void sendResourceChangeResp(IoSession session, HYResource hyResource, 
+	/*public void sendResourceChangeResp(IoSession session, HYResource hyResource, 
 			long junzhuId, int lianmengId, int times) {
 		ResourceChangeResp.Builder response = ResourceChangeResp.newBuilder();
 		response.setResult(0);

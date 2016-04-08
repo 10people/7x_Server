@@ -15,8 +15,8 @@ import com.manu.dynasty.template.CartPath;
 import com.manu.dynasty.template.YunbiaoTemp;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
-import com.manu.network.SessionAttKey;
-import com.qx.world.Scene;
+import com.qx.persistent.HibernateUtil;
+import com.qx.world.YaBiaoScene;
 /**
  * 
  * @author yuquanshui 
@@ -24,7 +24,18 @@ import com.qx.world.Scene;
  */
 public class YBRobotMgr implements Runnable{
 	public static Logger log = LoggerFactory.getLogger(YBRobotMgr.class);
+	
+	
+	/**
+	 * //马车刷新坐标的频率
+	 */
 	public static int INTERVAL = 500;
+
+	
+	/**
+	 * 	//备份马车数据的频率
+	 */
+	public static int backupInterval = 20*1000;
 	public static boolean isShowLog = false;
 	public static YBRobotMgr inst;
 	
@@ -124,7 +135,11 @@ public class YBRobotMgr implements Runnable{
 		}
 		log.info("退出押镖机器人线程");
 	}
-	//移动所有镖车
+
+	
+	/**
+	 * @Description 	//移动所有镖车
+	 */
 	public void robotsMove() {
 		if(BigSwitch.inst.ybMgr.yabiaoScenes.size()==0){
 			return;
@@ -140,7 +155,11 @@ public class YBRobotMgr implements Runnable{
 				move(ybr,itrobot);
 			}
 	}
-	//移动实际为扣除已走的时间（路程已定，速度恒定，则可按照时间来计算坐标）
+
+	
+	/**
+	 * @Description 	//移动实际为扣除已走的时间（路程已定，速度恒定，则可按照时间来计算坐标）
+	 */
 	public void move(YaBiaoRobot ybr,Iterator<?> itrobot) {
 		long now = System.currentTimeMillis();
 		long usedtime=now-ybr.startTime;
@@ -236,8 +255,18 @@ public class YBRobotMgr implements Runnable{
 //			dir=(ybr.nextPosZ-ybr.startPosZ)/ (ybr.nextPosX-ybr.startPosX);
 //		}
 //		ybr.move.setDir(dir);
+		//玩家的马车运行时间每间隔backupInterval毫秒保存一次
+		if(ybr.jzId>0){
+			if(ybr.usedTime>0&&ybr.backup!=null){
+				if((ybr.usedTime-ybr.backup.usedTime)>backupInterval){
+					ybr.backup.usedTime=ybr.usedTime;
+					ybr.backup.node=ybr.nodeId;
+					HibernateUtil.update(ybr.backup);
+				}
+			}
+		}
 		ybr.startTime4short=System.currentTimeMillis();
-		Scene sc = (Scene) ybr.session.getAttribute(SessionAttKey.Scene);
+		YaBiaoScene sc = ybr.sc;
 		if(sc==null){
 			log.info("未找到镖车=={}所在的场景",ybr.jzId);
 			return;

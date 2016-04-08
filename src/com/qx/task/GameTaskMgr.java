@@ -1569,7 +1569,7 @@ public class GameTaskMgr extends EventProc{
 	/**
 	 *  攻打关卡任务事件完成进行记录并且将下一步任务记录到数据库
 	 */
-	private void pveGuanQiaRecord(Long junZhuId, byte type, Integer gqId){
+	public void pveGuanQiaRecord(Long junZhuId, byte type, Integer gqId){
 		recordTaskProcess(junZhuId, type, gqId + "");
 	}
 

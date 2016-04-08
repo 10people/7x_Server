@@ -19,14 +19,14 @@ import com.qx.util.TableIDCreator;
  */
 public class YuanBaoMgr {
 	public static YuanBaoMgr inst;
-	private Logger logger = LoggerFactory.getLogger(YuanBaoMgr.class);
+	public Logger logger = LoggerFactory.getLogger(YuanBaoMgr.class);
 
 	public YuanBaoMgr() {
 		inst = this;
 		initData();
 	}
 
-	private void initData() {
+	public void initData() {
 
 	}
 

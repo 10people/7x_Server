@@ -133,7 +133,7 @@ public class PvpMgr extends EventProc implements Runnable {
 	public static Map<Long, int[]> bingsCache = new HashMap<Long, int[]>();
 	public static Map<Long, int[]> bingsCache4YB = new HashMap<Long, int[]>();
 	public LinkedBlockingQueue<Mission> missions = new LinkedBlockingQueue<Mission>();
-	private static Mission exit = new Mission(0, null, null);
+	public static Mission exit = new Mission(0, null, null);
 
 	public PvpMgr() {
 		inst = this;
@@ -228,7 +228,7 @@ public class PvpMgr extends EventProc implements Runnable {
 		log.info("redis的zset中id是5000的元素的排名是: {}", rank);
 	}
 
-	private void initRedisList(BaiZhanNpc npc) {
+	public void initRedisList(BaiZhanNpc npc) {
 		int minRank = npc.minRank;
 		int maxRank = npc.maxRank;
 		for (int i = minRank; i <= maxRank; i++) {
@@ -237,7 +237,7 @@ public class PvpMgr extends EventProc implements Runnable {
 		}
 	}
 
-	private void initNPC(Map<Integer, BaiZhanNpc> npcs, BaiZhanNpc npc) {
+	public void initNPC(Map<Integer, BaiZhanNpc> npcs, BaiZhanNpc npc) {
 		int minRank = npc.minRank;
 		int maxRank = npc.maxRank;
 		for (int i = minRank; i <= maxRank; i++) {
@@ -745,7 +745,7 @@ public class PvpMgr extends EventProc implements Runnable {
 		return baiZhanMap.get(1);
 	}
 
-	private int[] getSoldiers(long jId) {
+	public int[] getSoldiers(long jId) {
 		long time = getTimeOfLeft(jId);
 		if (time == -1) {
 			return null;
@@ -1026,7 +1026,7 @@ public class PvpMgr extends EventProc implements Runnable {
 //		session.write(resp.build());
 //	}
 
-	private int[] getAccAward(Date now, Date lastCalculate, int rank,
+	public int[] getAccAward(Date now, Date lastCalculate, int rank,
 			int vipLevel, Date lastGet) {
 		if (lastGet == null)
 			return new int[2];
@@ -1062,7 +1062,7 @@ public class PvpMgr extends EventProc implements Runnable {
 	 * @param last
 	 * @return
 	 */
-	private int getMinutes(Date now, Date lastCalculate, Date lastget) {
+	public int getMinutes(Date now, Date lastCalculate, Date lastget) {
 		if (lastCalculate == null || lastget == null)
 			return 0;
 		long nowL = now.getTime();
@@ -1394,7 +1394,7 @@ public class PvpMgr extends EventProc implements Runnable {
 		session.write(resp.build());
 	}
 
-	private void buyChallengeCount(JunZhu jz, IoSession session, PvpBean bean) {
+	public void buyChallengeCount(JunZhu jz, IoSession session, PvpBean bean) {
 		ConfirmExecuteResp.Builder resp = ConfirmExecuteResp.newBuilder();
 		/* int[]{can,count, yuanbao,allHuishu}; */
 		int[] info = getBuyADDChanceData(jz.vipLevel, bean.buyCount, 
@@ -1440,7 +1440,7 @@ public class PvpMgr extends EventProc implements Runnable {
 	 * @param jz
 	 * @param session
 	 */
-	private void cleanChallengeTime(JunZhu jz, IoSession session) {
+	public void cleanChallengeTime(JunZhu jz, IoSession session) {
 		PvpBean bean = HibernateUtil.find(PvpBean.class, jz.id);
 		if (bean == null) {
 			log.error("玩家{}清除挑战冷却时间：百战没有开启", jz.id);
@@ -2036,7 +2036,7 @@ public class PvpMgr extends EventProc implements Runnable {
 		session.write(resq.build());
 	}
 
-	private int getYuanBao(int buyCount, int type) {
+	public int getYuanBao(int buyCount, int type) {
 		return PurchaseMgr.inst.getNeedYuanBao(type, buyCount);
 	}
 
@@ -2095,7 +2095,7 @@ public class PvpMgr extends EventProc implements Runnable {
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 	}
 
-	private PvpBean initJunZhuPVPInfo(long jzId, int rank, int jzLevel) {
+	public PvpBean initJunZhuPVPInfo(long jzId, int rank, int jzLevel) {
 		// 获取数据库中是否有此记录，有的话什么也不做
 		PvpBean bean = new PvpBean();
 		bean.junZhuId = jzId;
@@ -2134,7 +2134,7 @@ public class PvpMgr extends EventProc implements Runnable {
 	 * @param pvb
 	 * @return
 	 */
-	private int getCountDown(PvpBean pvb) {
+	public int getCountDown(PvpBean pvb) {
 		if (pvb.lastDate == null) {
 			return 0;
 		}

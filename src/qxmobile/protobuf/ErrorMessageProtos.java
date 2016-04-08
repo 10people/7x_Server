@@ -14,10 +14,18 @@ public final class ErrorMessageProtos {
     // required int32 errorCode = 1;
     /**
      * <code>required int32 errorCode = 1;</code>
+     *
+     * <pre>
+     *1000001-联盟事件。1000002-联盟新申请
+     * </pre>
      */
     boolean hasErrorCode();
     /**
      * <code>required int32 errorCode = 1;</code>
+     *
+     * <pre>
+     *1000001-联盟事件。1000002-联盟新申请
+     * </pre>
      */
     int getErrorCode();
 
@@ -56,6 +64,11 @@ public final class ErrorMessageProtos {
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ErrorMessage}
+   *
+   * <pre>
+   * 红点通知协议号：	public static final short RED_NOTICE = 4220;
+   *  也作为红点通知协议体，errorCode == functionId(详细见 FunctionOpenId.xml 的id),在FunctionOpenId.xml找不到的errorCode需另作处理
+   * </pre>
    */
   public static final class ErrorMessage extends
       com.google.protobuf.GeneratedMessage
@@ -165,12 +178,20 @@ public final class ErrorMessageProtos {
     private int errorCode_;
     /**
      * <code>required int32 errorCode = 1;</code>
+     *
+     * <pre>
+     *1000001-联盟事件。1000002-联盟新申请
+     * </pre>
      */
     public boolean hasErrorCode() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int32 errorCode = 1;</code>
+     *
+     * <pre>
+     *1000001-联盟事件。1000002-联盟新申请
+     * </pre>
      */
     public int getErrorCode() {
       return errorCode_;
@@ -374,6 +395,11 @@ public final class ErrorMessageProtos {
     }
     /**
      * Protobuf type {@code qxmobile.protobuf.ErrorMessage}
+     *
+     * <pre>
+     * 红点通知协议号：	public static final short RED_NOTICE = 4220;
+     *  也作为红点通知协议体，errorCode == functionId(详细见 FunctionOpenId.xml 的id),在FunctionOpenId.xml找不到的errorCode需另作处理
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -518,18 +544,30 @@ public final class ErrorMessageProtos {
       private int errorCode_ ;
       /**
        * <code>required int32 errorCode = 1;</code>
+       *
+       * <pre>
+       *1000001-联盟事件。1000002-联盟新申请
+       * </pre>
        */
       public boolean hasErrorCode() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int32 errorCode = 1;</code>
+       *
+       * <pre>
+       *1000001-联盟事件。1000002-联盟新申请
+       * </pre>
        */
       public int getErrorCode() {
         return errorCode_;
       }
       /**
        * <code>required int32 errorCode = 1;</code>
+       *
+       * <pre>
+       *1000001-联盟事件。1000002-联盟新申请
+       * </pre>
        */
       public Builder setErrorCode(int value) {
         bitField0_ |= 0x00000001;
@@ -539,6 +577,10 @@ public final class ErrorMessageProtos {
       }
       /**
        * <code>required int32 errorCode = 1;</code>
+       *
+       * <pre>
+       *1000001-联盟事件。1000002-联盟新申请
+       * </pre>
        */
       public Builder clearErrorCode() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -681,11 +723,702 @@ public final class ErrorMessageProtos {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ErrorMessage)
   }
 
+  public interface DataListOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .qxmobile.protobuf.ErrorMessage data = 1;
+    /**
+     * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+     */
+    java.util.List<qxmobile.protobuf.ErrorMessageProtos.ErrorMessage> 
+        getDataList();
+    /**
+     * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+     */
+    qxmobile.protobuf.ErrorMessageProtos.ErrorMessage getData(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+     */
+    int getDataCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+     */
+    java.util.List<? extends qxmobile.protobuf.ErrorMessageProtos.ErrorMessageOrBuilder> 
+        getDataOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+     */
+    qxmobile.protobuf.ErrorMessageProtos.ErrorMessageOrBuilder getDataOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.DataList}
+   */
+  public static final class DataList extends
+      com.google.protobuf.GeneratedMessage
+      implements DataListOrBuilder {
+    // Use DataList.newBuilder() to construct.
+    private DataList(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private DataList(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final DataList defaultInstance;
+    public static DataList getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public DataList getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DataList(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                data_ = new java.util.ArrayList<qxmobile.protobuf.ErrorMessageProtos.ErrorMessage>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              data_.add(input.readMessage(qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          data_ = java.util.Collections.unmodifiableList(data_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.ErrorMessageProtos.internal_static_qxmobile_protobuf_DataList_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.ErrorMessageProtos.internal_static_qxmobile_protobuf_DataList_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.ErrorMessageProtos.DataList.class, qxmobile.protobuf.ErrorMessageProtos.DataList.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<DataList> PARSER =
+        new com.google.protobuf.AbstractParser<DataList>() {
+      public DataList parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new DataList(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DataList> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .qxmobile.protobuf.ErrorMessage data = 1;
+    public static final int DATA_FIELD_NUMBER = 1;
+    private java.util.List<qxmobile.protobuf.ErrorMessageProtos.ErrorMessage> data_;
+    /**
+     * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+     */
+    public java.util.List<qxmobile.protobuf.ErrorMessageProtos.ErrorMessage> getDataList() {
+      return data_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+     */
+    public java.util.List<? extends qxmobile.protobuf.ErrorMessageProtos.ErrorMessageOrBuilder> 
+        getDataOrBuilderList() {
+      return data_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+     */
+    public int getDataCount() {
+      return data_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+     */
+    public qxmobile.protobuf.ErrorMessageProtos.ErrorMessage getData(int index) {
+      return data_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+     */
+    public qxmobile.protobuf.ErrorMessageProtos.ErrorMessageOrBuilder getDataOrBuilder(
+        int index) {
+      return data_.get(index);
+    }
+
+    private void initFields() {
+      data_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getDataCount(); i++) {
+        if (!getData(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < data_.size(); i++) {
+        output.writeMessage(1, data_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < data_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, data_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.ErrorMessageProtos.DataList parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.ErrorMessageProtos.DataList parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.ErrorMessageProtos.DataList parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.ErrorMessageProtos.DataList parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.ErrorMessageProtos.DataList parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.ErrorMessageProtos.DataList parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.ErrorMessageProtos.DataList parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.ErrorMessageProtos.DataList parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.ErrorMessageProtos.DataList parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.ErrorMessageProtos.DataList parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.ErrorMessageProtos.DataList prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.DataList}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.ErrorMessageProtos.DataListOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.ErrorMessageProtos.internal_static_qxmobile_protobuf_DataList_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.ErrorMessageProtos.internal_static_qxmobile_protobuf_DataList_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.ErrorMessageProtos.DataList.class, qxmobile.protobuf.ErrorMessageProtos.DataList.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.ErrorMessageProtos.DataList.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getDataFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (dataBuilder_ == null) {
+          data_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          dataBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.ErrorMessageProtos.internal_static_qxmobile_protobuf_DataList_descriptor;
+      }
+
+      public qxmobile.protobuf.ErrorMessageProtos.DataList getDefaultInstanceForType() {
+        return qxmobile.protobuf.ErrorMessageProtos.DataList.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.ErrorMessageProtos.DataList build() {
+        qxmobile.protobuf.ErrorMessageProtos.DataList result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.ErrorMessageProtos.DataList buildPartial() {
+        qxmobile.protobuf.ErrorMessageProtos.DataList result = new qxmobile.protobuf.ErrorMessageProtos.DataList(this);
+        int from_bitField0_ = bitField0_;
+        if (dataBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            data_ = java.util.Collections.unmodifiableList(data_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.data_ = data_;
+        } else {
+          result.data_ = dataBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.ErrorMessageProtos.DataList) {
+          return mergeFrom((qxmobile.protobuf.ErrorMessageProtos.DataList)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.ErrorMessageProtos.DataList other) {
+        if (other == qxmobile.protobuf.ErrorMessageProtos.DataList.getDefaultInstance()) return this;
+        if (dataBuilder_ == null) {
+          if (!other.data_.isEmpty()) {
+            if (data_.isEmpty()) {
+              data_ = other.data_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureDataIsMutable();
+              data_.addAll(other.data_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.data_.isEmpty()) {
+            if (dataBuilder_.isEmpty()) {
+              dataBuilder_.dispose();
+              dataBuilder_ = null;
+              data_ = other.data_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              dataBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getDataFieldBuilder() : null;
+            } else {
+              dataBuilder_.addAllMessages(other.data_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getDataCount(); i++) {
+          if (!getData(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.ErrorMessageProtos.DataList parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.ErrorMessageProtos.DataList) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .qxmobile.protobuf.ErrorMessage data = 1;
+      private java.util.List<qxmobile.protobuf.ErrorMessageProtos.ErrorMessage> data_ =
+        java.util.Collections.emptyList();
+      private void ensureDataIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          data_ = new java.util.ArrayList<qxmobile.protobuf.ErrorMessageProtos.ErrorMessage>(data_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.ErrorMessageProtos.ErrorMessage, qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder, qxmobile.protobuf.ErrorMessageProtos.ErrorMessageOrBuilder> dataBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.ErrorMessageProtos.ErrorMessage> getDataList() {
+        if (dataBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(data_);
+        } else {
+          return dataBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public int getDataCount() {
+        if (dataBuilder_ == null) {
+          return data_.size();
+        } else {
+          return dataBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public qxmobile.protobuf.ErrorMessageProtos.ErrorMessage getData(int index) {
+        if (dataBuilder_ == null) {
+          return data_.get(index);
+        } else {
+          return dataBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public Builder setData(
+          int index, qxmobile.protobuf.ErrorMessageProtos.ErrorMessage value) {
+        if (dataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDataIsMutable();
+          data_.set(index, value);
+          onChanged();
+        } else {
+          dataBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public Builder setData(
+          int index, qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder builderForValue) {
+        if (dataBuilder_ == null) {
+          ensureDataIsMutable();
+          data_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          dataBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public Builder addData(qxmobile.protobuf.ErrorMessageProtos.ErrorMessage value) {
+        if (dataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDataIsMutable();
+          data_.add(value);
+          onChanged();
+        } else {
+          dataBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public Builder addData(
+          int index, qxmobile.protobuf.ErrorMessageProtos.ErrorMessage value) {
+        if (dataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDataIsMutable();
+          data_.add(index, value);
+          onChanged();
+        } else {
+          dataBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public Builder addData(
+          qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder builderForValue) {
+        if (dataBuilder_ == null) {
+          ensureDataIsMutable();
+          data_.add(builderForValue.build());
+          onChanged();
+        } else {
+          dataBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public Builder addData(
+          int index, qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder builderForValue) {
+        if (dataBuilder_ == null) {
+          ensureDataIsMutable();
+          data_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          dataBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public Builder addAllData(
+          java.lang.Iterable<? extends qxmobile.protobuf.ErrorMessageProtos.ErrorMessage> values) {
+        if (dataBuilder_ == null) {
+          ensureDataIsMutable();
+          super.addAll(values, data_);
+          onChanged();
+        } else {
+          dataBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public Builder clearData() {
+        if (dataBuilder_ == null) {
+          data_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          dataBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public Builder removeData(int index) {
+        if (dataBuilder_ == null) {
+          ensureDataIsMutable();
+          data_.remove(index);
+          onChanged();
+        } else {
+          dataBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder getDataBuilder(
+          int index) {
+        return getDataFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public qxmobile.protobuf.ErrorMessageProtos.ErrorMessageOrBuilder getDataOrBuilder(
+          int index) {
+        if (dataBuilder_ == null) {
+          return data_.get(index);  } else {
+          return dataBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public java.util.List<? extends qxmobile.protobuf.ErrorMessageProtos.ErrorMessageOrBuilder> 
+           getDataOrBuilderList() {
+        if (dataBuilder_ != null) {
+          return dataBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(data_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder addDataBuilder() {
+        return getDataFieldBuilder().addBuilder(
+            qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder addDataBuilder(
+          int index) {
+        return getDataFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ErrorMessage data = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder> 
+           getDataBuilderList() {
+        return getDataFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.ErrorMessageProtos.ErrorMessage, qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder, qxmobile.protobuf.ErrorMessageProtos.ErrorMessageOrBuilder> 
+          getDataFieldBuilder() {
+        if (dataBuilder_ == null) {
+          dataBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.ErrorMessageProtos.ErrorMessage, qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder, qxmobile.protobuf.ErrorMessageProtos.ErrorMessageOrBuilder>(
+                  data_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          data_ = null;
+        }
+        return dataBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.DataList)
+    }
+
+    static {
+      defaultInstance = new DataList(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.DataList)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_ErrorMessage_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_ErrorMessage_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_DataList_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_DataList_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -697,8 +1430,9 @@ public final class ErrorMessageProtos {
     java.lang.String[] descriptorData = {
       "\n\013Error.proto\022\021qxmobile.protobuf\"A\n\014Erro" +
       "rMessage\022\021\n\terrorCode\030\001 \002(\005\022\021\n\terrorDesc" +
-      "\030\002 \001(\t\022\013\n\003cmd\030\003 \001(\005B\024B\022ErrorMessageProto" +
-      "s"
+      "\030\002 \001(\t\022\013\n\003cmd\030\003 \001(\005\"9\n\010DataList\022-\n\004data\030" +
+      "\001 \003(\0132\037.qxmobile.protobuf.ErrorMessageB\024" +
+      "B\022ErrorMessageProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -711,6 +1445,12 @@ public final class ErrorMessageProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ErrorMessage_descriptor,
               new java.lang.String[] { "ErrorCode", "ErrorDesc", "Cmd", });
+          internal_static_qxmobile_protobuf_DataList_descriptor =
+            getDescriptor().getMessageTypes().get(1);
+          internal_static_qxmobile_protobuf_DataList_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_DataList_descriptor,
+              new java.lang.String[] { "Data", });
           return null;
         }
       };

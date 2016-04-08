@@ -51,7 +51,10 @@ public class UserEquipService {
 	public static UserEquipService getInstance() {
 		return instance;
 	}
-
+	
+	/** 
+	 * @Description 强化装备
+	 */
 	public void doUpgradeEquip(IoSession session, EquipStrengthReq.Builder req) {
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
 		if(junZhu == null) {
@@ -656,7 +659,10 @@ public class UserEquipService {
 		log.info("向君主{}发送一键强化结果",junZhuId);
 		session.write(allResp.build());
 	}
-
+	
+	/**
+	 * @Description 根据isWuQi 区分 来 一键强化武器或者装备
+	 */
 	public void doUpAll(JunZhu junZhu, Bag<EquipGrid> equips,
 			Bag<BagGrid> bag, boolean isWuQi) {
 		long junZhuId = junZhu.id;
@@ -712,7 +718,11 @@ public class UserEquipService {
 		}
 		log.info("君主-{}一键强化---{}结束，循环次数剩余--{},循环次数为---{}", junZhuId,isWuQi?"武器":"防具",safeTick,100-safeTick);
 	}
-	//得到身上装备部位 --品质对应map	
+	
+	
+	/**
+	 * @Description 得到身上装备部位 --品质对应map	
+	 */
 	public Map<Integer, Integer> getBuWeiMap(Bag<EquipGrid> equips) {
 		Map<Integer, Integer> buweiMap=new HashMap<Integer, Integer>();
 		List<EquipGrid> list = equips.grids;
@@ -726,13 +736,7 @@ public class UserEquipService {
 	}
 
 	/**
-	 * 计算这个装备升级需要的经验
-	 * @Description
-	 * @param equips
-	 * @param dbUe 
-	 * @param lowIdx
-	 * @param junzhulevel 
-	 * @return
+	 *@Description  计算这个装备升级需要的经验
 	 */
 	public int calcNeedExp(Bag<EquipGrid> equips, UserEquip dbUe, int lowIdx, int junzhulevel) {
 		int ret=Integer.MAX_VALUE;
@@ -772,11 +776,7 @@ public class UserEquipService {
 	
 	
 	/**
-	 * @Description强化一件装备
-	 * @param junZhu
-	 * @param equips
-	 * @param bag
-	 * @param param
+	 * @Description 强化一件装备
 	 */
 	public UserEquip doUpOneEquip(JunZhu junZhu, Bag<EquipGrid> equips,
 			Bag<BagGrid> bag, Object[] param) {
@@ -951,7 +951,10 @@ public class UserEquipService {
 		//TODO 强化日志
 		return dbUe;
 	}
-
+	
+	/**
+	 * @Description 判断 物品是否能用于当前强化
+	 */
 	public boolean isCanUse(BagGrid bagGrid,long junZhuId,boolean isWuQi) {
 		//以下需要判断区分武器和防具的进阶材料
 		if(bagGrid == null || bagGrid.cnt<=0){
@@ -997,7 +1000,10 @@ public class UserEquipService {
 		}
 		return true;
 	}
-
+	
+	/**
+	 * @Description 找到身上强化等级最低的装备/武器
+	 */
 	public int findLow(Bag<EquipGrid> equips, JunZhu junZhu, boolean isWuQi) {
 		if(equips == null){
 			return -1;
@@ -1068,7 +1074,9 @@ public class UserEquipService {
 		return ret;
 	}
 
-	//获得背包中的可用材料
+	/**
+	 * @Description 获得背包中的可用材料
+	 */
 	public List<BagGrid> getMaterialsFromBagEquips(Bag<BagGrid> bag,long junZhuId,boolean isWuQi, 
 			int curPinzhi,HashMap<Integer,Integer> buweiMap){
 		List<BagGrid> list = bag.grids;	
@@ -1151,7 +1159,10 @@ public class UserEquipService {
 		}
 		return materials;
 	}
-	//模拟消耗所有材料变成强化经验
+	
+	/**
+	 * @Description 模拟消耗所有材料变成强化经验
+	 */
 	public int	getExpfromUsedEquipIds(List<BagGrid> materials,long junZhuId){
 		int produceExp=0;//消耗所有装备可得到的强化经验
 		for (BagGrid bagGrid : materials) {
@@ -1232,7 +1243,7 @@ public class UserEquipService {
 
 
 	/**
-	 * 取得装备的攻击/防御/生命/统力/武力/谋力效果信息
+	 * @Description 取得装备的攻击/防御/生命/统力/武力/谋力效果信息
 	 * 
 	 * @param userEquip
 	 * @return 一维数组,6个元素,0=攻击,1=防御,2=生命,3=统力,4=武力,5=谋力,

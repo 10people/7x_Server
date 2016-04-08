@@ -31,7 +31,7 @@ import com.qx.pvp.PvpMgr;
 
 public class FriendMgr {
 	public static FriendMgr inst;
-	private Logger logger = LoggerFactory.getLogger(FriendMgr.class);
+	public Logger logger = LoggerFactory.getLogger(FriendMgr.class);
 	public static String CACHE_FRIEDNLIST_OF_JUNZHU = "FriendsList:id:";
 	public static int MAX_FRIEND_NUM = 100;// 最大好友数量
 	public static final int SUCCESS = 0;// 关注的好友成功
@@ -262,7 +262,7 @@ public class FriendMgr {
 	 * @param response
 	 * @return
 	 */
-	private void writeByProtoMsg(IoSession session, int prototype,
+	public void writeByProtoMsg(IoSession session, int prototype,
 			Builder response) {
 		ProtobufMsg msg = new ProtobufMsg();
 		msg.id = prototype;
@@ -278,7 +278,7 @@ public class FriendMgr {
 	 * @param cmd
 	 * @param msg
 	 */
-	private void sendError(IoSession session, int cmd, String msg) {
+	public void sendError(IoSession session, int cmd, String msg) {
 		ErrorMessage.Builder test = ErrorMessage.newBuilder();
 		test.setErrorCode(cmd);
 		test.setErrorDesc(msg);

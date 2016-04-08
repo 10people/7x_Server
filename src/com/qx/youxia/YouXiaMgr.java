@@ -76,7 +76,7 @@ import qxmobile.protobuf.ZhanDou.ZhanDouInitResp;
 
 public class YouXiaMgr extends EventProc {
 	public static YouXiaMgr inst;
-	private Logger logger = LoggerFactory.getLogger(YouXiaMgr.class);
+	public Logger logger = LoggerFactory.getLogger(YouXiaMgr.class);
 
 	public Map<Integer, YouxiaPveTemp> youxiaPveTempMap = new HashMap<Integer, YouxiaPveTemp>();
 	public Map<Integer, List<YouxiaPveTemp>> youxiaPveTempListByType = new HashMap<Integer, List<YouxiaPveTemp>>();
@@ -321,7 +321,7 @@ public class YouXiaMgr extends EventProc {
 	 *            该npc是否是重复掉落
 	 * @return
 	 */
-	private List<AwardTemp> getNpcDropAward(List<AwardTemp> npcAwardList, int deadTimes, int dropType) {
+	public List<AwardTemp> getNpcDropAward(List<AwardTemp> npcAwardList, int deadTimes, int dropType) {
 		List<AwardTemp> awardList = new ArrayList<AwardTemp>();
 		int size = npcAwardList.size();
 		if (npcAwardList == null || size == 0) {
@@ -339,7 +339,7 @@ public class YouXiaMgr extends EventProc {
 		}
 	}
 
-	private YouxiaNpcTemp getNpcTempByNpcidAndPosition(int npcId, Integer npcPos) {
+	public YouxiaNpcTemp getNpcTempByNpcidAndPosition(int npcId, Integer npcPos) {
 		YouxiaNpcTemp npcTemp = null;
 		List<YouxiaNpcTemp> npcList = youxiaNpcMapByNpcId.get(npcId);
 		for (YouxiaNpcTemp cfg : npcList) {
@@ -553,7 +553,7 @@ public class YouXiaMgr extends EventProc {
 		EventMgr.addEvent(ED.go_youxia, new Object[] { junZhu.id, allBattle, pveTemp.bigId });
 	}
 
-	private int getSaveMibaoZuheId(long junzhuId, int type) {
+	public int getSaveMibaoZuheId(long junzhuId, int type) {
 		int zuheId = 0;
 		BuZhenYouXia buzhen = HibernateUtil.find(BuZhenYouXia.class, junzhuId);
 		if (buzhen == null) {
@@ -642,7 +642,7 @@ public class YouXiaMgr extends EventProc {
 		session.write(response.build());
 	}
 
-	private void refreshTimes(YouxiaOpenTime openTimeCfg, YouXiaBean beanInfo) {
+	public void refreshTimes(YouxiaOpenTime openTimeCfg, YouXiaBean beanInfo) {
 		// 取得配置的小时数、分钟数
 		String[] time = openTimeCfg.OpenTime.split(":");
 		if (time.length != 2) {
@@ -667,7 +667,7 @@ public class YouXiaMgr extends EventProc {
 		}
 	}
 
-	private boolean isOpen(YouxiaOpenTime openTimeCfg, YouXiaBean beanInfo) {
+	public boolean isOpen(YouxiaOpenTime openTimeCfg, YouXiaBean beanInfo) {
 		String openDay = openTimeCfg.OpenDay;
 		String openTime = openTimeCfg.OpenTime;
 		if (openDay == null || openDay.equals("")) {
@@ -734,7 +734,7 @@ public class YouXiaMgr extends EventProc {
 	 *            1-7之间 1-7分别表示星期一...星期日
 	 * @return 返回前一天，如果是-1表示输入有误
 	 */
-	private int getPreWeekday(int nowDay) {
+	public int getPreWeekday(int nowDay) {
 		if (nowDay < 1 || nowDay > 7) {
 			logger.error("输入的日期有错误， nowDay:{}", nowDay);
 			return -1;

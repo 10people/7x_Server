@@ -14,7 +14,6 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.UserEquipProtos.EquipJinJie;
 import qxmobile.protobuf.UserEquipProtos.EquipJinJieResp;
 import qxmobile.protobuf.UserEquipProtos.EquipStrengthReq;
@@ -87,7 +86,7 @@ public class UserEquipAction  extends EventProc {
 	public List<XilianzhiQujian> xlziqujianList;
 
 	/** 装备、或装备属性锁定标识 **/
-	private final int LOCK_FALG = 1114;//2015年9月8日 1.0不用洗练锁 此数值无具体意义 原来LOCK_FALG=1
+	public final int LOCK_FALG = 1114;//2015年9月8日 1.0不用洗练锁 此数值无具体意义 原来LOCK_FALG=1
 	public UserEquipService userEquipService = UserEquipService.getInstance();
 	public static int xilianshi=910002;//洗练石
 	
@@ -160,6 +159,11 @@ public class UserEquipAction  extends EventProc {
 		EquipStrengthReq.Builder req = (EquipStrengthReq.Builder) builder;
 		userEquipService.doUpgradeEquip(session, req);
 	}
+	
+	
+	/**
+	 * @Description 一键强化
+	 */
 	public void doUpAllgradeEquips(int cmd, IoSession session, Builder builder) {
 		EquipStrengthReq.Builder req = (EquipStrengthReq.Builder) builder;
 		userEquipService.doUpAllEquips(session, req);
@@ -234,20 +238,16 @@ public class UserEquipAction  extends EventProc {
 		}
 	}
 
-	private void sendXilianErrorResp(IoSession session, int result) {
+	public void sendXilianErrorResp(IoSession session, int result) {
 		XilianError.Builder errorResp = XilianError.newBuilder();
 		errorResp.setResult(1);
 		session.write(errorResp.build());
 	}
 
 	/**
-	 * 取消洗练
-	 * 
-	 * @param id
-	 * @param session
-	 * @param req
+	 *  @Description 取消洗练
 	 */
-	private void cancelXiLian(int id, IoSession session,
+	public void cancelXiLian(int id, IoSession session,
 			qxmobile.protobuf.UserEquipProtos.XiLianReq.Builder req,
 			JunZhu junZhu) {
 		long equipId = req.getEquipId();
@@ -266,12 +266,9 @@ public class UserEquipAction  extends EventProc {
 	}
 
 	/**
-	 * 确认洗练
-	 * 
-	 * @param session
-	 * @param req
+	 * @Description 确认洗练
 	 */
-	private void confirmXiLian(int id, IoSession session,
+	public void confirmXiLian(int id, IoSession session,
 			qxmobile.protobuf.UserEquipProtos.XiLianReq.Builder req,
 			JunZhu junZhu) {
 		long equipId = req.getEquipId();
@@ -848,7 +845,6 @@ public class UserEquipAction  extends EventProc {
 				TimeWorkerMgr.instance.getXilianCountDown(junZhu.id),
 				equipXiLian);
 		// 发送战力数据
-//		JunZhuMgr.inst.sendPveMibaoZhanli(junZhu, session);
 		JunZhuMgr.inst.sendMainInfo(session);
 		// 主线任务：洗练一次弓
 		EventMgr.addEvent(ED.XILIAN_ONE_GONG, new Object[] { junZhu.id });
@@ -861,9 +857,12 @@ public class UserEquipAction  extends EventProc {
 		EventMgr.addEvent(ED.JUN_RANK_REFRESH,junZhu);
 		log.info("君主:{}进行洗练结束", junZhu.id);
 	}
-	//洗出新属性保存洗练结果
+	
+	
+	/**
+	 * @Description 洗出新属性保存洗练结果
+	 */
 	public void saveXilian4NewShuxing(UserEquip dbUe, ZhuangBei zhuangBei, EquipXiLian equipXiLian) {
-		// TODO 以下1.0版本改变洗练逻辑 改完待确认
 		log.info("君主{}洗练装备(dbUe-EquipId)--{}洗出新属性,自动保存洗练结果开始",dbUe.getUserId(),dbUe.getEquipId());
 		if (equipXiLian.getWqSHAdd()!=0){//hasEquipTalent(dbUe,zhuangBei.getId(),UEConstant.wqSH)) {
 			int curWqSH = dbUe.getWqSH(); // （武器伤害加深）属性洗练值
@@ -964,8 +963,7 @@ public class UserEquipAction  extends EventProc {
 	}
 
 	/**
-	 * @Description: 删除物品后推送背包信息给玩家
-	 * @param jzId
+	 * @Description  删除物品后推送背包信息给玩家
 	 */
 	public void sendBagAgain(long jzId) {
 		SessionUser su = SessionManager.inst.findByJunZhuId(jzId);
@@ -990,7 +988,7 @@ public class UserEquipAction  extends EventProc {
 	}
 
 	/**
-	 * 获取本次洗练增加值
+	 *@Description  获取本次洗练增加值
 	 * 
 	 * @param action
 	 *            洗练类型：1-免费洗练、2-元宝洗练
@@ -1033,7 +1031,7 @@ public class UserEquipAction  extends EventProc {
 	}
 	/**
 	
-	 * 根据洗练值获取下一条属性是否出现(洗练值用于下一条属性出现概率的计算)
+	 * @Description 根据洗练值获取下一条属性是否出现(洗练值用于下一条属性出现概率的计算)
 	 * ，出现并保存到数据库，返回装备已有洗练属性   即---刷新装备属性条数
 	 * @param ue 装备 
 	 * @param	  action 洗练类型：1-免费洗练、2-元宝洗练
@@ -1062,7 +1060,7 @@ public class UserEquipAction  extends EventProc {
 		String hasXilian=ue.getHasXilian();
 		//根据洗练值获取此区间的属性最少条数    最大条数为xlzCount+1
 		XilianzhiQujian xlzqj=getXilianzhiQuJianByXilianzhi(xilianzhi);
-		//TODO 以后属性条目增加则修改4
+		//FIXME 以后属性条目增加则修改4
 		int xlzCount=xlzqj==null?4:xlzqj.ID;
 		int hasXLlength=hasXilian==null?0:hasXilian.length();
 		
@@ -1111,8 +1109,6 @@ public class UserEquipAction  extends EventProc {
 	
 	/**
 	 * @Description 获取洗练值区间配置
-	 * @param xilianzhi
-	 * @return
 	 */
 	public XilianzhiQujian getXilianzhiQuJianByXilianzhi(int xilianzhi) {
 		for (XilianzhiQujian xlzqj : xlziqujianList) {
@@ -1125,9 +1121,8 @@ public class UserEquipAction  extends EventProc {
 	
 	
 	/**
-	 * @Description //根据洗练类型获取增加的洗练值的增加量的配置
+	 * @Description 根据洗练类型获取增加的洗练值的增加量的配置
 	 * @param templateId 装备配置ID
-	 * @return
 	 */
 	public StringBuffer getMaxShuxing(int templateId) {
 		XilianShuxing shuxing=xilianShuxingMap.get(templateId);
@@ -1147,7 +1142,7 @@ public class UserEquipAction  extends EventProc {
 	}
 	
 	/**
-	 * @Description //根据洗练类型获取增加的洗练值的增加量
+	 * @Description  根据洗练类型获取增加的洗练值的增加量
 	 * @param action 洗练类型：1-免费洗练、2-元宝洗练
 	 * @return
 	 */
@@ -1173,10 +1168,8 @@ public class UserEquipAction  extends EventProc {
 	}
 
 	/**
-	 * 请求洗练装备信息
+	 *  @Description 发送洗练装备信息
 	 * 
-	 * @param session
-	 * @param req
 	 */
 	public void sendXiLianInfo(int id, IoSession session,
 			qxmobile.protobuf.UserEquipProtos.XiLianReq.Builder req,
@@ -1239,7 +1232,10 @@ public class UserEquipAction  extends EventProc {
 				TimeWorkerMgr.instance.getXilianCountDown(junZhu.id),
 				equipXiLian);
 	}
-
+	/**
+	 *  @Description 发送洗练装备信息
+	 * 
+	 */
 	protected void sendXiLianInfo(JunZhu junZhu, IoSession session,
 			ZhuangBei zb, UserEquip dbUe, long equipId, int freeXilianTimes,
 			int time, EquipXiLian equipXiLian) {
@@ -1394,9 +1390,7 @@ public class UserEquipAction  extends EventProc {
 	}
 	
 	/**
-	 * @Description 	//此方法只在jsp后台页面调用
-	 * @param dbId
-	 * @return
+	 * @Description  获取装备信息	此方法只在jsp后台页面调用 
 	 */
 	public XiLianRes.Builder getXiLianInfoByInstId(long dbId) {
 		XiLianRes.Builder ret = XiLianRes.newBuilder();
@@ -1511,7 +1505,7 @@ public class UserEquipAction  extends EventProc {
 		return ret;
 	}
 	/**
-	 * 计算洗练累计值
+	 *  @Description 计算洗练累计值
 	 * 
 	 * @param baseValue
 	 *            装备基础属性值
@@ -1521,7 +1515,7 @@ public class UserEquipAction  extends EventProc {
 	 *            允许最大洗练值(1 <= baseValue+curValue <= maxValue)
 	 * @return
 	 */
-	private int getXilianFinalValue(int baseValue, int curValue, int maxValue) {
+	public int getXilianFinalValue(int baseValue, int curValue, int maxValue) {
 		int totalValue = baseValue + curValue;
 		if (totalValue <= 0) {
 			return (-baseValue + 1);
@@ -1533,7 +1527,7 @@ public class UserEquipAction  extends EventProc {
 	}
 
 	/**
-	 * 获取装备属性（武艺、智谋、神佑）所能达到的最大值
+	 * @Description 获取装备属性（武艺、智谋、神佑）所能达到的最大值
 	 * 
 	 * @param baseValue
 	 *            装备属性（武艺、智谋、神佑）的基础值
@@ -1575,7 +1569,7 @@ public class UserEquipAction  extends EventProc {
 	}
 
 	/**
-	 * 装备进阶操作
+	 * @Description  装备进阶操作
 	 */
 	public void equipJinJie(int cmd, IoSession session, Builder builder) {
 		EquipJinJie.Builder request = (qxmobile.protobuf.UserEquipProtos.EquipJinJie.Builder) builder;
@@ -1766,10 +1760,8 @@ public class UserEquipAction  extends EventProc {
 		
 	}
 	/**
-	 * @Description 	//判断所有装备是否有可以进阶
-	 * @param junZhu
+	 * @Description 	 判断所有装备是否有可以进阶
 	 * @param equipId=>  equipGrid.dbId
-	 * @return
 	 */
 	public boolean isCanJinJie4All(JunZhu junZhu) {
 		long jzId=	junZhu.id;
@@ -1794,9 +1786,7 @@ public class UserEquipAction  extends EventProc {
 	}
 	/**
 	 * @Description 	//判断装备是否可以进阶,推送红点
-	 * @param junZhu
 	 * @param equipId=>  equipGrid.dbId
-	 * @return
 	 */
 	public boolean isCanJinJie(JunZhu junZhu,EquipGrid target) {
 		if (junZhu == null) {
@@ -1848,7 +1838,6 @@ public class UserEquipAction  extends EventProc {
 	 * @Description 获取装备是否有此洗练属性
 	 * @param dbUe 
 	 * @param code 洗练属性编码
-	 * @return
 	 */
 	public boolean hasEquipTalent(UserEquip	dbUe,int templateId,String code) {
 		if(dbUe==null||dbUe.getHasXilian()==null){
@@ -1897,10 +1886,9 @@ public class UserEquipAction  extends EventProc {
 			FunctionID.pushCanShowRed(jzId, session, FunctionID.XiLian);
 		}
 	}
-	//判断君主身上所有装备是否洗满
 	
 	/**
-	 * @Description
+	 * @Description 判断君主身上所有装备是否洗满
 	 * @param jzId
 	 * @return 洗满返回true 没洗满返回false
 	 */

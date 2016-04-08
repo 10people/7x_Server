@@ -45,12 +45,12 @@ public class CardMgr implements Runnable{
 	}
 
 	public void startMissionThread() {
-		new Thread(this, "CardMgr No.1").start();
+//		new Thread(this, "CardMgr No.1").start();
 	}
 
 	public void enqueue(int code, IoSession session, Builder builder) {
-		Mission mission = new Mission(code,session,builder);
-		missions.add(mission);
+//		Mission mission = new Mission(code,session,builder);
+//		missions.add(mission);
 	}
 	public void shutdown(){
 		missions.add(exit);

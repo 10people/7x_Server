@@ -287,7 +287,7 @@ public class MoBaiMgr extends EventProc{
 		EventMgr.addEvent(ED.YU_MO_BAI, new Object[]{jz});
 	}
 
-	private int parseExp(LianmengMobai conf) {
+	public int parseExp(LianmengMobai conf) {
 		int exp = 0;
 		String[] jiangliArray = conf.award.split("#");
 		for(String award : jiangliArray) {
@@ -323,6 +323,7 @@ public class MoBaiMgr extends EventProc{
 			if(tt == null){
 				tt = new LmTuTeng();
 				tt.lmId = lmId;
+				tt.times += buffNum ; //新建联盟无记录时，创建的同时需增加虔诚度
 				tt.dTime = time;
 				HibernateUtil.insert(tt);
 			}else{
@@ -467,7 +468,7 @@ public class MoBaiMgr extends EventProc{
 		EventMgr.addEvent(ED.mobai , new Object[] { jz.id});
 	}
 
-	private void recordMobaiEvent(String jzName, String mobaiType, int getBuildValue, int allianceId, int getExp) {
+	public void recordMobaiEvent(String jzName, String mobaiType, int getBuildValue, int allianceId, int getExp) {
 		String eventStr = AllianceMgr.inst.lianmengEventMap.get(18).str
 				.replaceFirst("%d", jzName)
 				.replaceFirst("%d", mobaiType)

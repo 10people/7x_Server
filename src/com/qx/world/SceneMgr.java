@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.collections.map.LRUMap;
@@ -11,16 +12,18 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.Scene.ExitFightScene;
 import qxmobile.protobuf.Scene.ExitScene;
+import qxmobile.protobuf.ErrorMessageProtos.DataList;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
+import com.manu.network.msg.ProtobufMsg;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
-import com.qx.alliance.AlliancePlayer;
 import com.qx.alliancefight.AllianceFightMatch;
 import com.qx.alliancefight.AllianceFightMgr;
 import com.qx.event.ED;
@@ -33,6 +36,7 @@ import com.qx.junzhu.JunZhuMgr;
 import com.qx.junzhu.PlayerTime;
 import com.qx.persistent.HibernateUtil;
 import com.qx.yabiao.YaBiaoHuoDongMgr;
+import com.qx.yabiao.YaBiaoRobot;
 
 public class SceneMgr extends EventProc{
 	public static int sizePerSc = 20;
@@ -57,11 +61,17 @@ public class SceneMgr extends EventProc{
 			sc1.exec(code, session, builder);
 			return;
 		}
+
 		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
 		if(junZhuId == null){
 			return;
 		}
-		Integer lmId = locateFakeLmId(junZhuId);
+		
+		Integer lmId = (Integer) session.getAttribute(SessionAttKey.Chosed_Scene);//session中尝试获取玩家指定场景ID
+		if(lmId == null ){
+			//玩家指定场景ID为空，调用自动分配ID方法
+			lmId = locateFakeLmId(junZhuId);//lmId即为场景ID
+		}
 //		Integer lmId = jzId2lmId.get(junZhuId);
 //		if(lmId == null){//之前没存过
 //			AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, junZhuId);
@@ -113,7 +123,7 @@ public class SceneMgr extends EventProc{
 		}
 	}
 	
-	private void exitTBBXScene(int code, IoSession session, Builder builder, Long junZhuId) {
+	public void exitTBBXScene(int code, IoSession session, Builder builder, Long junZhuId) {
 		
 	}
 
@@ -134,32 +144,45 @@ public class SceneMgr extends EventProc{
 	public void exitYBScene(int code, IoSession session, Builder builder,
 			Long junZhuId) {
 		Scene ybSc = (Scene) session.getAttribute(SessionAttKey.Scene);
-		ExitScene.Builder exitYBSc = ExitScene.newBuilder();
-		Integer uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
-		if(uid == null){
-			logger.error("离开押镖场景处理出错，未找到君主---{}的uid",junZhuId);
-			return;
-		}
-		exitYBSc.setUid(uid);
-		if (ybSc != null) {
+		if(ybSc != null && ybSc instanceof YaBiaoScene){
+			ExitScene.Builder exitYBSc = ExitScene.newBuilder();
+			Integer uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
+			if(uid == null){
+				logger.error("离开押镖场景处理出错，未找到君主---{}的uid",junZhuId);
+				return;
+			}
+			exitYBSc.setUid(uid);
 			ybSc.exec(code, session, exitYBSc);
 		}else{
-			logger.info("用户{}不在押镖场景中，退出押镖场景失败",junZhuId);
+			logger.info("用户{}不在押镖场景中，退出押镖场景失败,Scene --{}",junZhuId,ybSc);
 		}
 	}
 
 	public void enterYBScene(int code, IoSession session, Builder builder) {
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			logger.error("请求进入押镖场景出错：君主不存在");
+			return;
+		}
 		//离开原来的场景
 		playerExitScene(session);
+		//判断是否已经在运镖
+		YaBiaoRobot ybr = (YaBiaoRobot) BigSwitch.inst.ybrobotMgr.yabiaoRobotMap.get(jz.id);
+		if (ybr != null) {
+			logger.info("请求进入押镖场景,已经有马车在运镖，进入马车场景");
+			YaBiaoScene  sc=ybr.sc;
+			sc.exec(code, session, builder);
+			return;
+		}
 		// 进入押镖场景进行押镖
 		int scId = YaBiaoHuoDongMgr.inst.locateFakeSceneId();
 		synchronized (YaBiaoHuoDongMgr.inst.yabiaoScenes) {
-			Scene  sc = YaBiaoHuoDongMgr.inst.yabiaoScenes.get(scId);
+			YaBiaoScene  sc = YaBiaoHuoDongMgr.inst.yabiaoScenes.get(scId);
 			if (sc == null) {// 没有场景
 				synchronized (YaBiaoHuoDongMgr.inst.yabiaoScenes) {// 防止多次创建
 					sc = YaBiaoHuoDongMgr.inst.yabiaoScenes.get(scId);
 					if (sc == null) {
-						sc = new Scene("YB#" + scId);
+						sc = new YaBiaoScene("YB#" + scId);
 						sc.startMissionThread();
 						YaBiaoHuoDongMgr.inst.yabiaoScenes.put(scId, sc);
 					}
@@ -167,10 +190,9 @@ public class SceneMgr extends EventProc{
 			}
 			sc.exec(code, session, builder);
 		}
-		session.setAttribute(SessionAttKey.SceneID,scId);
 	}
 
-	private void exitFight(int code, IoSession session, Builder builder,
+	public void exitFight(int code, IoSession session, Builder builder,
 			Long junZhuId) {
 		Scene scene = (Scene) session.getAttribute(SessionAttKey.Scene);
 		if (scene != null) {
@@ -399,5 +421,57 @@ public class SceneMgr extends EventProc{
 	protected void doReg() {
 		EventMgr.regist(ED.Join_LM, this);
 		EventMgr.regist(ED.Leave_LM, this);
+	}
+	
+	//玩家指定进入主城副本ID方法，调用之后获取玩家指定id存入session中
+	public void choseScene(int id, IoSession session, Builder builder){
+		ErrorMessage.Builder get = (ErrorMessage.Builder)builder ;//收到的协议强制转换为方法对应协议，方法协议使用ErrorMessage的协议格式
+		ErrorMessage.Builder ret = ErrorMessage.newBuilder() ;// 创建返回协议
+		ProtobufMsg msg = new ProtobufMsg();
+		Integer lmid = (Integer)get.getErrorCode();//获取协议中的场景ID
+		if(lmid != null ){
+			if(lmid > 0){
+				//场景ID大于0，非法，返回错误消息，结束方法				
+				ret.setErrorCode(1);
+				ret.setErrorDesc("指定进入场景失败:场景ID大于0");			
+				msg.builder = ret ;
+				msg.id =PD.S_CHOOSE_SCENE ;
+				session.write(msg);
+				return;
+			}
+			//写入session “setlmid”—>指定场景ID，键值对
+			session.setAttribute(SessionAttKey.Chosed_Scene, lmid);
+			//验证全部通过，返回消息
+			ret.setErrorCode(lmid) ;
+			msg.builder = ret ;
+			msg.id =PD.S_CHOOSE_SCENE ;
+			session.write(msg);
+			logger.info("玩家:{}选择跳转指定场景副本id:{}",session.getAttribute(SessionAttKey.junZhuId),lmid);
+		}else {
+			//协议ID中无法获取场景ID，可能客户端篡改协议，日志记录，结束方法
+			logger.error("选择登录场景：收到错误的协议内容,id:{}，无法获取指定场景ID",id);
+			return;
+		}
+	}
+	
+	//获取服务器所有已开启场景返回客户端消息
+	public void getAllScene(int id, IoSession session, Builder builder){
+		Set<Integer> set = null;
+		if(!lmCities.isEmpty()){
+			set =  lmCities.keySet(); //获取场景map的所有key值的set
+		}
+		if(set != null && set.size() > 0){
+			DataList.Builder ret = DataList.newBuilder();//创建返回消息
+			ErrorMessage.Builder value = ErrorMessage.newBuilder();//创建返回消息
+			for(Integer i :set){//遍历场景id，获取ID和人数写入返回消息中
+				value.setErrorCode(i);
+				value.setCmd(lmCities.get(i).players.size());
+				ret.addData(value);
+			}
+			ProtobufMsg msg = new ProtobufMsg();//完成返回消息，发送
+			msg.builder =ret ;
+			msg.id = PD.S_SCENE_GETALL;
+			session.write(msg);
+		}
 	}
 }

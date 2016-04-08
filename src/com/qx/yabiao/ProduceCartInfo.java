@@ -1,9 +1,9 @@
 package com.qx.yabiao;
 
-import com.qx.world.Scene;
+import com.qx.world.YaBiaoScene;
 
 public class ProduceCartInfo {
-	public Scene ybsc;
+	public YaBiaoScene ybsc;
 	public int ybScId;
 	public int pathId;
 	public int produceNo;
@@ -12,7 +12,7 @@ public class ProduceCartInfo {
 		super();
 	}
 
-	public ProduceCartInfo(Scene ybsc, int ybScId, int pathId, int produceNo) {
+	public ProduceCartInfo(YaBiaoScene ybsc, int ybScId, int pathId, int produceNo) {
 		super();
 		this.ybsc = ybsc;
 		this.ybScId = ybScId;

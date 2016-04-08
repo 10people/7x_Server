@@ -33689,6 +33689,1268 @@ public final class Yabiao {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.GainFuLiResp)
   }
 
+  public interface YaBiaoEnemyRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;
+    /**
+     * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+     */
+    java.util.List<qxmobile.protobuf.Yabiao.YaBiaoEnemy> 
+        getEnemyList();
+    /**
+     * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+     */
+    qxmobile.protobuf.Yabiao.YaBiaoEnemy getEnemy(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+     */
+    int getEnemyCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+     */
+    java.util.List<? extends qxmobile.protobuf.Yabiao.YaBiaoEnemyOrBuilder> 
+        getEnemyOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+     */
+    qxmobile.protobuf.Yabiao.YaBiaoEnemyOrBuilder getEnemyOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.YaBiaoEnemyResp}
+   *
+   * <pre>
+   *public static final short S_YABIAO_ENEMY_4_SIGN_RESP = 3453;//请求仇人信息返回（给客户端进行仇人标记用）
+   * </pre>
+   */
+  public static final class YaBiaoEnemyResp extends
+      com.google.protobuf.GeneratedMessage
+      implements YaBiaoEnemyRespOrBuilder {
+    // Use YaBiaoEnemyResp.newBuilder() to construct.
+    private YaBiaoEnemyResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private YaBiaoEnemyResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final YaBiaoEnemyResp defaultInstance;
+    public static YaBiaoEnemyResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public YaBiaoEnemyResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private YaBiaoEnemyResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                enemy_ = new java.util.ArrayList<qxmobile.protobuf.Yabiao.YaBiaoEnemy>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              enemy_.add(input.readMessage(qxmobile.protobuf.Yabiao.YaBiaoEnemy.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          enemy_ = java.util.Collections.unmodifiableList(enemy_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_YaBiaoEnemyResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_YaBiaoEnemyResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Yabiao.YaBiaoEnemyResp.class, qxmobile.protobuf.Yabiao.YaBiaoEnemyResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<YaBiaoEnemyResp> PARSER =
+        new com.google.protobuf.AbstractParser<YaBiaoEnemyResp>() {
+      public YaBiaoEnemyResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new YaBiaoEnemyResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<YaBiaoEnemyResp> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;
+    public static final int ENEMY_FIELD_NUMBER = 1;
+    private java.util.List<qxmobile.protobuf.Yabiao.YaBiaoEnemy> enemy_;
+    /**
+     * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+     */
+    public java.util.List<qxmobile.protobuf.Yabiao.YaBiaoEnemy> getEnemyList() {
+      return enemy_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Yabiao.YaBiaoEnemyOrBuilder> 
+        getEnemyOrBuilderList() {
+      return enemy_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+     */
+    public int getEnemyCount() {
+      return enemy_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+     */
+    public qxmobile.protobuf.Yabiao.YaBiaoEnemy getEnemy(int index) {
+      return enemy_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+     */
+    public qxmobile.protobuf.Yabiao.YaBiaoEnemyOrBuilder getEnemyOrBuilder(
+        int index) {
+      return enemy_.get(index);
+    }
+
+    private void initFields() {
+      enemy_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getEnemyCount(); i++) {
+        if (!getEnemy(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < enemy_.size(); i++) {
+        output.writeMessage(1, enemy_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < enemy_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, enemy_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemyResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemyResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemyResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemyResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemyResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemyResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemyResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemyResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemyResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemyResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Yabiao.YaBiaoEnemyResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.YaBiaoEnemyResp}
+     *
+     * <pre>
+     *public static final short S_YABIAO_ENEMY_4_SIGN_RESP = 3453;//请求仇人信息返回（给客户端进行仇人标记用）
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Yabiao.YaBiaoEnemyRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_YaBiaoEnemyResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_YaBiaoEnemyResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Yabiao.YaBiaoEnemyResp.class, qxmobile.protobuf.Yabiao.YaBiaoEnemyResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Yabiao.YaBiaoEnemyResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getEnemyFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (enemyBuilder_ == null) {
+          enemy_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          enemyBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_YaBiaoEnemyResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Yabiao.YaBiaoEnemyResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Yabiao.YaBiaoEnemyResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Yabiao.YaBiaoEnemyResp build() {
+        qxmobile.protobuf.Yabiao.YaBiaoEnemyResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Yabiao.YaBiaoEnemyResp buildPartial() {
+        qxmobile.protobuf.Yabiao.YaBiaoEnemyResp result = new qxmobile.protobuf.Yabiao.YaBiaoEnemyResp(this);
+        int from_bitField0_ = bitField0_;
+        if (enemyBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            enemy_ = java.util.Collections.unmodifiableList(enemy_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.enemy_ = enemy_;
+        } else {
+          result.enemy_ = enemyBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Yabiao.YaBiaoEnemyResp) {
+          return mergeFrom((qxmobile.protobuf.Yabiao.YaBiaoEnemyResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Yabiao.YaBiaoEnemyResp other) {
+        if (other == qxmobile.protobuf.Yabiao.YaBiaoEnemyResp.getDefaultInstance()) return this;
+        if (enemyBuilder_ == null) {
+          if (!other.enemy_.isEmpty()) {
+            if (enemy_.isEmpty()) {
+              enemy_ = other.enemy_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureEnemyIsMutable();
+              enemy_.addAll(other.enemy_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.enemy_.isEmpty()) {
+            if (enemyBuilder_.isEmpty()) {
+              enemyBuilder_.dispose();
+              enemyBuilder_ = null;
+              enemy_ = other.enemy_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              enemyBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getEnemyFieldBuilder() : null;
+            } else {
+              enemyBuilder_.addAllMessages(other.enemy_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getEnemyCount(); i++) {
+          if (!getEnemy(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Yabiao.YaBiaoEnemyResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Yabiao.YaBiaoEnemyResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;
+      private java.util.List<qxmobile.protobuf.Yabiao.YaBiaoEnemy> enemy_ =
+        java.util.Collections.emptyList();
+      private void ensureEnemyIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          enemy_ = new java.util.ArrayList<qxmobile.protobuf.Yabiao.YaBiaoEnemy>(enemy_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Yabiao.YaBiaoEnemy, qxmobile.protobuf.Yabiao.YaBiaoEnemy.Builder, qxmobile.protobuf.Yabiao.YaBiaoEnemyOrBuilder> enemyBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Yabiao.YaBiaoEnemy> getEnemyList() {
+        if (enemyBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(enemy_);
+        } else {
+          return enemyBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public int getEnemyCount() {
+        if (enemyBuilder_ == null) {
+          return enemy_.size();
+        } else {
+          return enemyBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public qxmobile.protobuf.Yabiao.YaBiaoEnemy getEnemy(int index) {
+        if (enemyBuilder_ == null) {
+          return enemy_.get(index);
+        } else {
+          return enemyBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public Builder setEnemy(
+          int index, qxmobile.protobuf.Yabiao.YaBiaoEnemy value) {
+        if (enemyBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureEnemyIsMutable();
+          enemy_.set(index, value);
+          onChanged();
+        } else {
+          enemyBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public Builder setEnemy(
+          int index, qxmobile.protobuf.Yabiao.YaBiaoEnemy.Builder builderForValue) {
+        if (enemyBuilder_ == null) {
+          ensureEnemyIsMutable();
+          enemy_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          enemyBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public Builder addEnemy(qxmobile.protobuf.Yabiao.YaBiaoEnemy value) {
+        if (enemyBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureEnemyIsMutable();
+          enemy_.add(value);
+          onChanged();
+        } else {
+          enemyBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public Builder addEnemy(
+          int index, qxmobile.protobuf.Yabiao.YaBiaoEnemy value) {
+        if (enemyBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureEnemyIsMutable();
+          enemy_.add(index, value);
+          onChanged();
+        } else {
+          enemyBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public Builder addEnemy(
+          qxmobile.protobuf.Yabiao.YaBiaoEnemy.Builder builderForValue) {
+        if (enemyBuilder_ == null) {
+          ensureEnemyIsMutable();
+          enemy_.add(builderForValue.build());
+          onChanged();
+        } else {
+          enemyBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public Builder addEnemy(
+          int index, qxmobile.protobuf.Yabiao.YaBiaoEnemy.Builder builderForValue) {
+        if (enemyBuilder_ == null) {
+          ensureEnemyIsMutable();
+          enemy_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          enemyBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public Builder addAllEnemy(
+          java.lang.Iterable<? extends qxmobile.protobuf.Yabiao.YaBiaoEnemy> values) {
+        if (enemyBuilder_ == null) {
+          ensureEnemyIsMutable();
+          super.addAll(values, enemy_);
+          onChanged();
+        } else {
+          enemyBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public Builder clearEnemy() {
+        if (enemyBuilder_ == null) {
+          enemy_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          enemyBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public Builder removeEnemy(int index) {
+        if (enemyBuilder_ == null) {
+          ensureEnemyIsMutable();
+          enemy_.remove(index);
+          onChanged();
+        } else {
+          enemyBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public qxmobile.protobuf.Yabiao.YaBiaoEnemy.Builder getEnemyBuilder(
+          int index) {
+        return getEnemyFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public qxmobile.protobuf.Yabiao.YaBiaoEnemyOrBuilder getEnemyOrBuilder(
+          int index) {
+        if (enemyBuilder_ == null) {
+          return enemy_.get(index);  } else {
+          return enemyBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Yabiao.YaBiaoEnemyOrBuilder> 
+           getEnemyOrBuilderList() {
+        if (enemyBuilder_ != null) {
+          return enemyBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(enemy_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public qxmobile.protobuf.Yabiao.YaBiaoEnemy.Builder addEnemyBuilder() {
+        return getEnemyFieldBuilder().addBuilder(
+            qxmobile.protobuf.Yabiao.YaBiaoEnemy.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public qxmobile.protobuf.Yabiao.YaBiaoEnemy.Builder addEnemyBuilder(
+          int index) {
+        return getEnemyFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Yabiao.YaBiaoEnemy.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.YaBiaoEnemy enemy = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Yabiao.YaBiaoEnemy.Builder> 
+           getEnemyBuilderList() {
+        return getEnemyFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Yabiao.YaBiaoEnemy, qxmobile.protobuf.Yabiao.YaBiaoEnemy.Builder, qxmobile.protobuf.Yabiao.YaBiaoEnemyOrBuilder> 
+          getEnemyFieldBuilder() {
+        if (enemyBuilder_ == null) {
+          enemyBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Yabiao.YaBiaoEnemy, qxmobile.protobuf.Yabiao.YaBiaoEnemy.Builder, qxmobile.protobuf.Yabiao.YaBiaoEnemyOrBuilder>(
+                  enemy_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          enemy_ = null;
+        }
+        return enemyBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.YaBiaoEnemyResp)
+    }
+
+    static {
+      defaultInstance = new YaBiaoEnemyResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.YaBiaoEnemyResp)
+  }
+
+  public interface YaBiaoEnemyOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int64 enemyJzId = 1;
+    /**
+     * <code>required int64 enemyJzId = 1;</code>
+     */
+    boolean hasEnemyJzId();
+    /**
+     * <code>required int64 enemyJzId = 1;</code>
+     */
+    long getEnemyJzId();
+
+    // required string enemyName = 2;
+    /**
+     * <code>required string enemyName = 2;</code>
+     */
+    boolean hasEnemyName();
+    /**
+     * <code>required string enemyName = 2;</code>
+     */
+    java.lang.String getEnemyName();
+    /**
+     * <code>required string enemyName = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getEnemyNameBytes();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.YaBiaoEnemy}
+   */
+  public static final class YaBiaoEnemy extends
+      com.google.protobuf.GeneratedMessage
+      implements YaBiaoEnemyOrBuilder {
+    // Use YaBiaoEnemy.newBuilder() to construct.
+    private YaBiaoEnemy(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private YaBiaoEnemy(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final YaBiaoEnemy defaultInstance;
+    public static YaBiaoEnemy getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public YaBiaoEnemy getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private YaBiaoEnemy(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              enemyJzId_ = input.readInt64();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              enemyName_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_YaBiaoEnemy_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_YaBiaoEnemy_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Yabiao.YaBiaoEnemy.class, qxmobile.protobuf.Yabiao.YaBiaoEnemy.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<YaBiaoEnemy> PARSER =
+        new com.google.protobuf.AbstractParser<YaBiaoEnemy>() {
+      public YaBiaoEnemy parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new YaBiaoEnemy(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<YaBiaoEnemy> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int64 enemyJzId = 1;
+    public static final int ENEMYJZID_FIELD_NUMBER = 1;
+    private long enemyJzId_;
+    /**
+     * <code>required int64 enemyJzId = 1;</code>
+     */
+    public boolean hasEnemyJzId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int64 enemyJzId = 1;</code>
+     */
+    public long getEnemyJzId() {
+      return enemyJzId_;
+    }
+
+    // required string enemyName = 2;
+    public static final int ENEMYNAME_FIELD_NUMBER = 2;
+    private java.lang.Object enemyName_;
+    /**
+     * <code>required string enemyName = 2;</code>
+     */
+    public boolean hasEnemyName() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string enemyName = 2;</code>
+     */
+    public java.lang.String getEnemyName() {
+      java.lang.Object ref = enemyName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          enemyName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string enemyName = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getEnemyNameBytes() {
+      java.lang.Object ref = enemyName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        enemyName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      enemyJzId_ = 0L;
+      enemyName_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasEnemyJzId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasEnemyName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt64(1, enemyJzId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getEnemyNameBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, enemyJzId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getEnemyNameBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemy parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemy parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemy parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemy parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemy parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemy parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemy parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemy parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemy parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Yabiao.YaBiaoEnemy parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Yabiao.YaBiaoEnemy prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.YaBiaoEnemy}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Yabiao.YaBiaoEnemyOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_YaBiaoEnemy_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_YaBiaoEnemy_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Yabiao.YaBiaoEnemy.class, qxmobile.protobuf.Yabiao.YaBiaoEnemy.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Yabiao.YaBiaoEnemy.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        enemyJzId_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        enemyName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Yabiao.internal_static_qxmobile_protobuf_YaBiaoEnemy_descriptor;
+      }
+
+      public qxmobile.protobuf.Yabiao.YaBiaoEnemy getDefaultInstanceForType() {
+        return qxmobile.protobuf.Yabiao.YaBiaoEnemy.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Yabiao.YaBiaoEnemy build() {
+        qxmobile.protobuf.Yabiao.YaBiaoEnemy result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Yabiao.YaBiaoEnemy buildPartial() {
+        qxmobile.protobuf.Yabiao.YaBiaoEnemy result = new qxmobile.protobuf.Yabiao.YaBiaoEnemy(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.enemyJzId_ = enemyJzId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.enemyName_ = enemyName_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Yabiao.YaBiaoEnemy) {
+          return mergeFrom((qxmobile.protobuf.Yabiao.YaBiaoEnemy)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Yabiao.YaBiaoEnemy other) {
+        if (other == qxmobile.protobuf.Yabiao.YaBiaoEnemy.getDefaultInstance()) return this;
+        if (other.hasEnemyJzId()) {
+          setEnemyJzId(other.getEnemyJzId());
+        }
+        if (other.hasEnemyName()) {
+          bitField0_ |= 0x00000002;
+          enemyName_ = other.enemyName_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasEnemyJzId()) {
+          
+          return false;
+        }
+        if (!hasEnemyName()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Yabiao.YaBiaoEnemy parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Yabiao.YaBiaoEnemy) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int64 enemyJzId = 1;
+      private long enemyJzId_ ;
+      /**
+       * <code>required int64 enemyJzId = 1;</code>
+       */
+      public boolean hasEnemyJzId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int64 enemyJzId = 1;</code>
+       */
+      public long getEnemyJzId() {
+        return enemyJzId_;
+      }
+      /**
+       * <code>required int64 enemyJzId = 1;</code>
+       */
+      public Builder setEnemyJzId(long value) {
+        bitField0_ |= 0x00000001;
+        enemyJzId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 enemyJzId = 1;</code>
+       */
+      public Builder clearEnemyJzId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        enemyJzId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // required string enemyName = 2;
+      private java.lang.Object enemyName_ = "";
+      /**
+       * <code>required string enemyName = 2;</code>
+       */
+      public boolean hasEnemyName() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string enemyName = 2;</code>
+       */
+      public java.lang.String getEnemyName() {
+        java.lang.Object ref = enemyName_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          enemyName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string enemyName = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getEnemyNameBytes() {
+        java.lang.Object ref = enemyName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          enemyName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string enemyName = 2;</code>
+       */
+      public Builder setEnemyName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        enemyName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string enemyName = 2;</code>
+       */
+      public Builder clearEnemyName() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        enemyName_ = getDefaultInstance().getEnemyName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string enemyName = 2;</code>
+       */
+      public Builder setEnemyNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        enemyName_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.YaBiaoEnemy)
+    }
+
+    static {
+      defaultInstance = new YaBiaoEnemy(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.YaBiaoEnemy)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_YabiaoMainInfoResp_descriptor;
   private static
@@ -33919,6 +35181,16 @@ public final class Yabiao {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_GainFuLiResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_YaBiaoEnemyResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_YaBiaoEnemyResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_YaBiaoEnemy_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_YaBiaoEnemy_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -34017,7 +35289,10 @@ public final class Yabiao {
       "\005count\030\002 \002(\005\"%\n\023CheckYabiaoHelpResp\022\016\n\006y" +
       "bjzId\030\001 \003(\003\"F\n\014GainFuLiResp\022\016\n\006result\030\001 " +
       "\002(\005\022\023\n\013leftYBTimes\030\002 \002(\005\022\021\n\tfuliTimes\030\003 " +
-      "\002(\005B\010B\006Yabiao"
+      "\002(\005\"@\n\017YaBiaoEnemyResp\022-\n\005enemy\030\001 \003(\0132\036.",
+      "qxmobile.protobuf.YaBiaoEnemy\"3\n\013YaBiaoE" +
+      "nemy\022\021\n\tenemyJzId\030\001 \002(\003\022\021\n\tenemyName\030\002 \002" +
+      "(\tB\010B\006Yabiao"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -34300,6 +35575,18 @@ public final class Yabiao {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_GainFuLiResp_descriptor,
               new java.lang.String[] { "Result", "LeftYBTimes", "FuliTimes", });
+          internal_static_qxmobile_protobuf_YaBiaoEnemyResp_descriptor =
+            getDescriptor().getMessageTypes().get(46);
+          internal_static_qxmobile_protobuf_YaBiaoEnemyResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_YaBiaoEnemyResp_descriptor,
+              new java.lang.String[] { "Enemy", });
+          internal_static_qxmobile_protobuf_YaBiaoEnemy_descriptor =
+            getDescriptor().getMessageTypes().get(47);
+          internal_static_qxmobile_protobuf_YaBiaoEnemy_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_YaBiaoEnemy_descriptor,
+              new java.lang.String[] { "EnemyJzId", "EnemyName", });
           return null;
         }
       };

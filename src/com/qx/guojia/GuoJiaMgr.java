@@ -51,7 +51,7 @@ import com.qx.world.Mission;
 public class GuoJiaMgr  extends EventProc implements Runnable{
 	public static Logger log = LoggerFactory.getLogger(GuoJiaMgr.class);
 	public static int serverId = GameServer.serverId;
-	private static Mission exit = new Mission(0, null, null);
+	public static Mission exit = new Mission(0, null, null);
 	public LinkedBlockingQueue<Mission> missions = new LinkedBlockingQueue<Mission>();
 	public static GuoJiaMgr inst;
 	public static Object gongJinLock = new Object();

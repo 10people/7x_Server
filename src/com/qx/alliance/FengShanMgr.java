@@ -125,7 +125,11 @@ public class FengShanMgr extends EventProc{
 			HibernateUtil.save(fsBean);
 		}
 	}
-	//请求封禅信息
+
+	
+	/**
+	 * @Description 	//请求封禅信息
+	 */
 	public void  getFengShanInfo(int id, Builder builder, IoSession session) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 		if (jz == null) {
@@ -163,6 +167,10 @@ public class FengShanMgr extends EventProc{
 //		rep2Builder.setConfId(1);
 //		doFengShan(id, rep2Builder,session);
 	}
+	
+	/**
+	 * @Description 得到封禅状态 State状态 1未达到条件 2可封禅 3 已封禅
+	 */
 	public int getFengShanState(FengshanBean fsBean,int huoyue,int confId) {
 		if(confId==1&&fsBean.isGetFengShan1){
 			return 3;
@@ -176,7 +184,11 @@ public class FengShanMgr extends EventProc{
 		}
 		return 1;
 	}
-	//请求进行封禅 10成功 其他失败
+	
+	
+	/** 
+	 * @Description //请求进行封禅 10成功 其他失败
+	 */
 	public void  doFengShan(int id, Builder builder, IoSession session) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 		if (jz == null) {
@@ -224,7 +236,11 @@ public class FengShanMgr extends EventProc{
 		session.write(resp.build());
 		BigSwitch.inst.moBaiMgr.sendMoBaiInfo(0, session, null);
 	}
-	//保存封禅联盟事件
+
+	
+	/**
+	 * @Description 	//保存封禅联盟事件
+	 */
 	public void saveAllianceEvent(String jzName,String fengShanName,int jianshe,int lianMengId, int exp) {
 		String eventStr = AllianceMgr.inst.lianmengEventMap.get(19).str.replaceFirst("%d", jzName)
 				.replaceFirst("%d",fengShanName).replaceFirst("%d",jianshe+"").replaceFirst("%d", exp+"");
@@ -240,7 +256,11 @@ public class FengShanMgr extends EventProc{
 		test.setErrorDesc(msg);
 		session.write(test.build());
 	}
-	//进行封禅
+
+	
+	/**
+	 * @Description 	进行封禅
+	 */
 	public int doFengShan(int confId,JunZhu jz, IoSession session){
 		long jzId=jz.id;
 		LianmengFengshan fsConf=LianmengFengshanMap.get(confId);
@@ -280,7 +300,10 @@ public class FengShanMgr extends EventProc{
 	}
 
 
-	//刷新封禅是否出现红点
+	
+	/**
+	 * @Description 刷新封禅是否出现红点
+	 */
 	public void refreshFengShanInfo(Event event) {
 		Object[]	obs = (Object[])event.param;
 		long jzId = (Long)obs[0];

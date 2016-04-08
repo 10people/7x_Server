@@ -53,12 +53,12 @@ import com.qx.vip.VipMgr;
  */
 public class DailyTaskMgr extends EventProc {
 	public static DailyTaskMgr INSTANCE;
-	private Logger logger = LoggerFactory.getLogger(DailyTaskMgr.class);
+	public Logger logger = LoggerFactory.getLogger(DailyTaskMgr.class);
 	/** <类型，列表> **/
 	public static Map<Integer, RenWu> renWuMap = new HashMap<Integer, RenWu>();
 	public static Map<Integer, RenWu> shangjiaoRenwuMap = new HashMap<Integer, RenWu>();
 	public static final int space = 100;
-	private static int maxTaskId = -1;
+	public static int maxTaskId = -1;
 	public static List<Integer> taskIdArr;
 	public static int dailyTaskOpenRowId = 106;
 	public final  static int allGongJinNum = 8;
@@ -280,7 +280,7 @@ public class DailyTaskMgr extends EventProc {
 	 * 检查是否需要重置每日任务
 	 * @param taskBean
 	 */
-	private boolean isTimeToReset(Date lastDate) {
+	public boolean isTimeToReset(Date lastDate) {
 		if(lastDate == null){
 			return false;
 		}
@@ -314,7 +314,7 @@ public class DailyTaskMgr extends EventProc {
 		resetOneTask(jzId, taskBean, rwId);
 		RenWu renWu = renWuMap.get(rwId);
 		if(renWu == null) {
-			logger.error("找不到对应任务的配置信息，renwuId:{}", rwId);
+			logger.error("taskProcess执行，找不到对应任务的配置信息，renwuId:{}", rwId);
 			return;
 		}
 		taskBean.jundu += taskCondition.jinduAdd;
@@ -397,7 +397,7 @@ public class DailyTaskMgr extends EventProc {
 		DailyTaskRewardResponse.Builder response = DailyTaskRewardResponse.newBuilder();
 		DailyTaskBean taskBean = getTaskByTaskId(jId, dbtaskId);
 		if(taskBean == null){
-			logger.error("玩家：{}，领取每日任务奖励失败：找不到任务配置信息，renwuId:{}",
+			logger.error("玩家：{}，领取每日任务奖励失败：taskBean不存在，renwuId:{}",
 					jId, dbtaskId);
 			return;
 		}

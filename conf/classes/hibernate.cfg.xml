@@ -79,6 +79,7 @@
 <!-- 	 <mapping class="com.qx.yabiao.YaBiaoInfo"/> -->
 	 <mapping class="com.qx.yabiao.YaBiaoBean"/>
 	 <mapping class="com.qx.yabiao.YBBattleBean"/>
+	 <mapping class="com.qx.yabiao.YaBiaoBackUp"/>
 	 <mapping class="com.qx.prompt.PromptMSG"/>
 	 <mapping class="com.qx.friends.GongHeBean"/>
 	 <mapping class="com.qx.prompt.YaBiaoJunQing"/>

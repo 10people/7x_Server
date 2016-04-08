@@ -168,7 +168,7 @@ public class AllianceMgr extends EventProc{
 	public static final Object reputationLock  = new Object();
 	
 	/** 联盟等级奖励默认开始等级 **/
-	private static final int LEVEL_AWARD_DEFAULT = 2;
+	public static final int LEVEL_AWARD_DEFAULT = 2;
 
 	public AllianceMgr() {
 		inst = this;
@@ -2052,12 +2052,9 @@ public class AllianceMgr extends EventProc{
 				addAllianceEvent(alliance.id, eventStr);
 				List<AlliancePlayer> memberList = getAllianceMembers(alliance.id);
 				for (AlliancePlayer member : memberList) {
-					boolean isOnline = SessionManager.inst.isOnline(member.junzhuId);
-					if(isOnline) {
-						SessionUser su = SessionManager.inst.findByJunZhuId(member.junzhuId);
-						if (su != null && su.session != null) {
-							su.session.write(PD.ALLIANCE_LEVEL_UP_NOTIFY);
-						}
+					SessionUser su = SessionManager.inst.findByJunZhuId(member.junzhuId);
+					if (su != null && su.session != null) {
+						su.session.write(PD.ALLIANCE_LEVEL_UP_NOTIFY);
 					}
 				}
 				// 联盟等级排行提升
@@ -2283,16 +2280,13 @@ public class AllianceMgr extends EventProc{
 		Date date = new Date();
 		eventStr = DateUtils.date2Text(date, "yyyy-MM-dd HH:mm") + "#" + eventStr;
 		Redis.getInstance().lpush_(ALLIANCE_EVENT + lianMengId, eventStr);
-		
+		logger.info("添加联盟事件，联盟id:{},事件:{}", lianMengId, eventStr);
 		List<AlliancePlayer> memberList = getAllianceMembers(lianMengId);
 		for (AlliancePlayer member : memberList) {
-			boolean isOnline = SessionManager.inst.isOnline(member.junzhuId);
-			if(isOnline) {
-				SessionUser su = SessionManager.inst.findByJunZhuId(member.junzhuId);
-				if (su != null && su.session != null) {
-					//联盟客栈动态
-					FunctionID.pushCanShowRed(member.junzhuId, su.session, FunctionID.LianMengKeZhanDongTai);
-				}
+			SessionUser su = SessionManager.inst.findByJunZhuId(member.junzhuId);
+			if (su != null && su.session != null) {
+				//联盟客栈动态
+				FunctionID.pushCanShowRed(member.junzhuId, su.session, FunctionID.LianMengKeZhanDongTai);
 			}
 		}
 	}
@@ -2319,7 +2313,7 @@ public class AllianceMgr extends EventProc{
 		}
 	}
 	
-	private void playerAllianceStateChangeNotify(Event event, String reason) {
+	public void playerAllianceStateChangeNotify(Event event, String reason) {
 		Object[] params = (Object[]) event.param;
 		Long junzhuId = (Long) params[0];
 		Integer allianceId = (Integer) params[1];
@@ -2354,7 +2348,7 @@ public class AllianceMgr extends EventProc{
 		}
 	}
 
-	private void pushRedPoint(Event event) {
+	public void pushRedPoint(Event event) {
 		IoSession session=(IoSession) event.param;
 		if(session==null){
 			return;
@@ -2498,7 +2492,7 @@ public class AllianceMgr extends EventProc{
 		session.write(response.build());
 	}
 
-	private AllianceLevelAward getAllianceLevelAward(long junzhuId) {
+	public AllianceLevelAward getAllianceLevelAward(long junzhuId) {
 		AllianceLevelAward levelAward = HibernateUtil.find(AllianceLevelAward.class, junzhuId);
 		if(levelAward == null) {
 			levelAward = new AllianceLevelAward();
@@ -2665,7 +2659,7 @@ public class AllianceMgr extends EventProc{
 		sendAllianceInviteResp(session, 0);
 	}
 	
-	private void sendAllianceInviteResp(IoSession session, int result) {
+	public void sendAllianceInviteResp(IoSession session, int result) {
 		AllianceInviteResp.Builder response = AllianceInviteResp.newBuilder();
 		response.setResult(result);
 		session.write(response.build());

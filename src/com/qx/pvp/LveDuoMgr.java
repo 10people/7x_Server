@@ -102,7 +102,7 @@ import qxmobile.protobuf.ZhanDou.ZhanDouInitResp;
 public class LveDuoMgr extends EventProc implements Runnable{
 	public static LveDuoMgr inst;
 	public static Logger log = LoggerFactory.getLogger(LveDuoMgr.class);
-	private static Mission exit = new Mission(0, null, null);
+	public static Mission exit = new Mission(0, null, null);
 	public LinkedBlockingQueue<Mission> missions = new LinkedBlockingQueue<Mission>();
 	
 	public static Map<Long, Long> fightingLock = new HashMap<Long, Long>();
@@ -121,7 +121,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			new ConcurrentHashMap<Long, Long>();
 			
 	/* 战斗id */
-//	private AtomicInteger zhandouIdMgr = new AtomicInteger(1);
+//	public AtomicInteger zhandouIdMgr = new AtomicInteger(1);
 	public static Map<Long, int[]> gongJiBingMap = new HashMap<Long,int[]>();
 	public static Map<Long, Integer> willLostGongJin = new HashMap<Long, Integer>(); 
 	public static String helpContent="";

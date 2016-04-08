@@ -88,6 +88,12 @@ public class SuBaoConstant {
 
 //	/**第一次打完百战3分钟后结算*/
 //	public static final int settle4lm = 404;
-
+	//目前没有配置
+	//8小时过时的通知参数
+	public static int clearShortDistance = 8;
+	//48小时过时的通知参数
+	public static int clearLongDistance = 48;
+	//3分钟过时的通知参数
+	public static int clearSecondsDistance = 3*60;
 
 }

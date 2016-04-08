@@ -124,6 +124,7 @@ import qxmobile.protobuf.EmailProtos.ReadEmail;
 import qxmobile.protobuf.EmailProtos.ReadEmailResp;
 import qxmobile.protobuf.EmailProtos.SendEmail;
 import qxmobile.protobuf.EmailProtos.SendEmailResp;
+import qxmobile.protobuf.ErrorMessageProtos.DataList;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.Explore.ExploreInfoResp;
 import qxmobile.protobuf.Explore.ExploreReq;
@@ -416,6 +417,7 @@ import qxmobile.protobuf.Yabiao.TiChuXieZhuResp;
 import qxmobile.protobuf.Yabiao.TiChuYBHelpRsq;
 import qxmobile.protobuf.Yabiao.XieZhuJunZhuResp;
 import qxmobile.protobuf.Yabiao.YBHistoryResp;
+import qxmobile.protobuf.Yabiao.YaBiaoEnemyResp;
 import qxmobile.protobuf.Yabiao.YaBiaoHelpResp;
 import qxmobile.protobuf.Yabiao.YaBiaoMoreInfoReq;
 import qxmobile.protobuf.Yabiao.YaBiaoMoreInfoResp;
@@ -490,6 +492,14 @@ public class PD {
 		ProtobufUtils.prototypeMap.put(Integer.valueOf(get_passZhangJie_award_resp), ErrorMessage.getDefaultInstance());
 		ProtobufUtils.prototypeMap.put(Integer.valueOf(dailyTask_get_huoYue_award_req), ErrorMessage.getDefaultInstance());
 		ProtobufUtils.prototypeMap.put(Integer.valueOf(dailyTask_get_huoYue_award_resp), ErrorMessage.getDefaultInstance());
+		//选择场景协议
+		ProtobufUtils.prototypeMap.put(Integer.valueOf(C_CHOOSE_SCENE), ErrorMessage.getDefaultInstance());
+		ProtobufUtils.prototypeMap.put(Integer.valueOf(S_CHOOSE_SCENE), ErrorMessage.getDefaultInstance());
+		
+		ProtobufUtils.prototypeMap.put(Integer.valueOf(S_SCENE_GETALL), DataList.getDefaultInstance());
+		
+//		ProtobufUtils.register(ErrorMessage.getDefaultInstance(), C_CHOSE_SCENE);
+//		ProtobufUtils.register(ErrorMessage.getDefaultInstance(), S_CHOSE_SCENE);
 		
 		ProtobufUtils.register(GetNotGetAwardZhangJieResp.getDefaultInstance(), S_NOT_GET_AWART_ZHANGJIE_RESP);
 		ProtobufUtils.register(ExCanJuanJiangLi.getDefaultInstance(), C_ExCanJuanJiangLi);
@@ -948,6 +958,7 @@ public class PD {
 		ProtobufUtils.register(HorseType.getDefaultInstance(), C_SETHORSE_REQ);
 		ProtobufUtils.register(YabiaoJunZhuInfo.getDefaultInstance(), S_YABIAO_ENTER_RESP);
 		ProtobufUtils.register(EnemiesResp.getDefaultInstance(), S_YABIAO_ENEMY_RESP);
+		ProtobufUtils.register(YaBiaoEnemyResp.getDefaultInstance(), S_YABIAO_ENEMY_4_SIGN_RESP);
 		ProtobufUtils.register(BuyCountsReq.getDefaultInstance(), C_YABIAO_BUY_RSQ);
 		ProtobufUtils.register(BuyCountsResp.getDefaultInstance(), S_YABIAO_BUY_RESP);
 		ProtobufUtils.register(YBHistoryResp.getDefaultInstance(), S_YABIAO_HISTORY_RESP);
@@ -1071,9 +1082,8 @@ public class PD {
 		//场景交互
 		ProtobufUtils.register(GreetReq.getDefaultInstance(), C_GREET_REQ);
 		ProtobufUtils.register(GreetResp.getDefaultInstance(), S_GREET_RESP);
-		ProtobufUtils.register(InviteReq.getDefaultInstance(), C_INVITE_REQ);
 		ProtobufUtils.register(InviteResp.getDefaultInstance(), S_INVITE_RESP);
-		
+		//选择场景
 		
 	}
 	
@@ -1266,6 +1276,10 @@ public class PD {
 	
 	public static final short S_HEAD_STRING = 22101;
 	
+	public static final short C_CHOOSE_SCENE = 22301 ;
+	public static final short S_CHOOSE_SCENE = 22302 ;
+	public static final short C_SCENE_GETALL = 22303 ;
+	public static final short S_SCENE_GETALL = 22304 ;
 	/**
 	 * pve相关协议号
 	 */
@@ -2067,9 +2081,6 @@ public class PD {
 	public static final short C_ENTER_YABIAOSCENE = 3411;//请求进入押镖场景
 	public static final short C_ENTER_JBBATTLE_REQ = 3412;//请求劫镖返回
 	public static final short S_BIAOCHE_INFO_RESP = 3413;//推送镖车信息
-//	public static final short C_ENDYABIAO_REQ = 3414;//测试用
-//	public static final short S_ENDYABIAO_RESP = 3415;//测试用
-	public static final short S_BIAOCHE_MOVE = 3416;//推送镖车移动	
 	public static final short S_BIAOCHE_STATE = 3417;//推送镖车战斗状态
 	public static final short C_BIAOCHE_INFO = 3418;//请求镖车信息
 	public static final short C_ZHANDOU_INIT_YB_REQ = 3419;//请求战斗配置
@@ -2106,6 +2117,7 @@ public class PD {
 	public static final short S_CHECK_YABIAOHELP_RESP = 3450;//请求是否可以显示协助返回 
 	public static final short S_GAIN_YABIAO_FULI_RESP = 3451;//请求领取押镖 福利次数返回
 	public static final short C_MOVE2BIAOCHE_REQ = 3452;//请求移动到镖车
+	public static final short S_YABIAO_ENEMY_4_SIGN_RESP = 3453;//请求仇人信息返回（给客户端进行仇人标记用）
 	/*========== 游侠战斗 ================*/ 
 	/**
 	 * 游侠战斗请求
@@ -2309,11 +2321,11 @@ public class PD {
 	public static final short S_GREET_RESP = 5011;//向某人打招呼返回
 	public static final short S_GREETEDANSWER_RESP = 5012;//打招呼的人收到的对方反馈信息
 
-	//以下内容待商议
 	public static final short S_GREET_ANSWER_RESP = 5015;//打招呼的人收到的答复
-	public static final short C_INVITE_REQ = 5016;//邀请某人加入联盟请求
 	public static final short S_INVITE_RESP = 5017;//邀请某人加入联盟请求返回
 	
 	public static final short weiWang = 5020;
 	public static final short huangyeBi = 5021;
+	
+	
 }

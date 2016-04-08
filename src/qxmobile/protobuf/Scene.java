@@ -326,24 +326,6 @@ public final class Scene {
      * </pre>
      */
     long getJzId();
-
-    // optional bool isEnemy = 20;
-    /**
-     * <code>optional bool isEnemy = 20;</code>
-     *
-     * <pre>
-     *是否是仇人
-     * </pre>
-     */
-    boolean hasIsEnemy();
-    /**
-     * <code>optional bool isEnemy = 20;</code>
-     *
-     * <pre>
-     *是否是仇人
-     * </pre>
-     */
-    boolean getIsEnemy();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.EnterScene}
@@ -489,11 +471,6 @@ public final class Scene {
             case 152: {
               bitField0_ |= 0x00040000;
               jzId_ = input.readInt64();
-              break;
-            }
-            case 160: {
-              bitField0_ |= 0x00080000;
-              isEnemy_ = input.readBool();
               break;
             }
           }
@@ -1010,30 +987,6 @@ public final class Scene {
       return jzId_;
     }
 
-    // optional bool isEnemy = 20;
-    public static final int ISENEMY_FIELD_NUMBER = 20;
-    private boolean isEnemy_;
-    /**
-     * <code>optional bool isEnemy = 20;</code>
-     *
-     * <pre>
-     *是否是仇人
-     * </pre>
-     */
-    public boolean hasIsEnemy() {
-      return ((bitField0_ & 0x00080000) == 0x00080000);
-    }
-    /**
-     * <code>optional bool isEnemy = 20;</code>
-     *
-     * <pre>
-     *是否是仇人
-     * </pre>
-     */
-    public boolean getIsEnemy() {
-      return isEnemy_;
-    }
-
     private void initFields() {
       uid_ = 0;
       senderName_ = "";
@@ -1054,7 +1007,6 @@ public final class Scene {
       horseType_ = 0;
       xuePingRemain_ = 0;
       jzId_ = 0L;
-      isEnemy_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1136,9 +1088,6 @@ public final class Scene {
       }
       if (((bitField0_ & 0x00040000) == 0x00040000)) {
         output.writeInt64(19, jzId_);
-      }
-      if (((bitField0_ & 0x00080000) == 0x00080000)) {
-        output.writeBool(20, isEnemy_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1224,10 +1173,6 @@ public final class Scene {
       if (((bitField0_ & 0x00040000) == 0x00040000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(19, jzId_);
-      }
-      if (((bitField0_ & 0x00080000) == 0x00080000)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(20, isEnemy_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1383,8 +1328,6 @@ public final class Scene {
         bitField0_ = (bitField0_ & ~0x00020000);
         jzId_ = 0L;
         bitField0_ = (bitField0_ & ~0x00040000);
-        isEnemy_ = false;
-        bitField0_ = (bitField0_ & ~0x00080000);
         return this;
       }
 
@@ -1489,10 +1432,6 @@ public final class Scene {
           to_bitField0_ |= 0x00040000;
         }
         result.jzId_ = jzId_;
-        if (((from_bitField0_ & 0x00080000) == 0x00080000)) {
-          to_bitField0_ |= 0x00080000;
-        }
-        result.isEnemy_ = isEnemy_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1569,9 +1508,6 @@ public final class Scene {
         }
         if (other.hasJzId()) {
           setJzId(other.getJzId());
-        }
-        if (other.hasIsEnemy()) {
-          setIsEnemy(other.getIsEnemy());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2549,55 +2485,6 @@ public final class Scene {
       public Builder clearJzId() {
         bitField0_ = (bitField0_ & ~0x00040000);
         jzId_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      // optional bool isEnemy = 20;
-      private boolean isEnemy_ ;
-      /**
-       * <code>optional bool isEnemy = 20;</code>
-       *
-       * <pre>
-       *是否是仇人
-       * </pre>
-       */
-      public boolean hasIsEnemy() {
-        return ((bitField0_ & 0x00080000) == 0x00080000);
-      }
-      /**
-       * <code>optional bool isEnemy = 20;</code>
-       *
-       * <pre>
-       *是否是仇人
-       * </pre>
-       */
-      public boolean getIsEnemy() {
-        return isEnemy_;
-      }
-      /**
-       * <code>optional bool isEnemy = 20;</code>
-       *
-       * <pre>
-       *是否是仇人
-       * </pre>
-       */
-      public Builder setIsEnemy(boolean value) {
-        bitField0_ |= 0x00080000;
-        isEnemy_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bool isEnemy = 20;</code>
-       *
-       * <pre>
-       *是否是仇人
-       * </pre>
-       */
-      public Builder clearIsEnemy() {
-        bitField0_ = (bitField0_ & ~0x00080000);
-        isEnemy_ = false;
         onChanged();
         return this;
       }
@@ -6390,7 +6277,7 @@ public final class Scene {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017sceneSync.proto\022\021qxmobile.protobuf\"\337\002\n" +
+      "\n\017sceneSync.proto\022\021qxmobile.protobuf\"\316\002\n" +
       "\nEnterScene\022\013\n\003uid\030\001 \002(\005\022\022\n\nsenderName\030\002" +
       " \002(\t\022\014\n\004posX\030\003 \001(\002\022\014\n\004posY\030\004 \001(\002\022\014\n\004posZ" +
       "\030\005 \001(\002\022\016\n\006roleId\030\006 \001(\005\022\020\n\010chengHao\030\007 \001(\005" +
@@ -6399,18 +6286,17 @@ public final class Scene {
       "\022\r\n\005zhiWu\030\014 \001(\005\022\r\n\005level\030\r \001(\005\022\016\n\006zhanli" +
       "\030\016 \001(\005\022\016\n\006guojia\030\017 \001(\005\022\r\n\005worth\030\020 \001(\005\022\021\n" +
       "\thorseType\030\021 \001(\005\022\025\n\rxuePingRemain\030\022 \001(\005\022" +
-      "\014\n\004jzId\030\023 \002(\003\022\017\n\007isEnemy\030\024 \001(\010\"J\n\021EnterS",
-      "ceneConfirm\022\013\n\003uid\030\001 \002(\005\022\014\n\004posX\030\002 \001(\002\022\014" +
-      "\n\004posY\030\003 \001(\002\022\014\n\004posZ\030\004 \001(\002\"\030\n\tExitScene\022" +
-      "\013\n\003uid\030\001 \002(\005\"P\n\nSpriteMove\022\013\n\003uid\030\001 \002(\005\022" +
-      "\014\n\004posX\030\002 \001(\002\022\014\n\004posY\030\003 \001(\002\022\014\n\004posZ\030\004 \001(" +
-      "\002\022\013\n\003dir\030\005 \002(\002\"\273\001\n\017EnterFightScene\022\013\n\003ui" +
-      "d\030\001 \002(\005\022\020\n\010junZhuId\030\002 \002(\003\022\022\n\nsenderName\030" +
-      "\003 \002(\t\022\014\n\004posX\030\004 \001(\002\022\014\n\004posY\030\005 \001(\002\022\014\n\004pos" +
-      "Z\030\006 \001(\002\022\016\n\006roleId\030\007 \001(\005\022\022\n\nremainLife\030\010 " +
-      "\002(\005\022\021\n\ttotalLife\030\t \002(\005\022\024\n\014allianceName\030\n" +
-      " \002(\t\"\035\n\016ExitFightScene\022\013\n\003uid\030\001 \002(\005B\007B\005S",
-      "cene"
+      "\014\n\004jzId\030\023 \002(\003\"J\n\021EnterSceneConfirm\022\013\n\003ui",
+      "d\030\001 \002(\005\022\014\n\004posX\030\002 \001(\002\022\014\n\004posY\030\003 \001(\002\022\014\n\004p" +
+      "osZ\030\004 \001(\002\"\030\n\tExitScene\022\013\n\003uid\030\001 \002(\005\"P\n\nS" +
+      "priteMove\022\013\n\003uid\030\001 \002(\005\022\014\n\004posX\030\002 \001(\002\022\014\n\004" +
+      "posY\030\003 \001(\002\022\014\n\004posZ\030\004 \001(\002\022\013\n\003dir\030\005 \002(\002\"\273\001" +
+      "\n\017EnterFightScene\022\013\n\003uid\030\001 \002(\005\022\020\n\010junZhu" +
+      "Id\030\002 \002(\003\022\022\n\nsenderName\030\003 \002(\t\022\014\n\004posX\030\004 \001" +
+      "(\002\022\014\n\004posY\030\005 \001(\002\022\014\n\004posZ\030\006 \001(\002\022\016\n\006roleId" +
+      "\030\007 \001(\005\022\022\n\nremainLife\030\010 \002(\005\022\021\n\ttotalLife\030" +
+      "\t \002(\005\022\024\n\014allianceName\030\n \002(\t\"\035\n\016ExitFight" +
+      "Scene\022\013\n\003uid\030\001 \002(\005B\007B\005Scene"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6422,7 +6308,7 @@ public final class Scene {
           internal_static_qxmobile_protobuf_EnterScene_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_EnterScene_descriptor,
-              new java.lang.String[] { "Uid", "SenderName", "PosX", "PosY", "PosZ", "RoleId", "ChengHao", "CurrentLife", "TotalLife", "AllianceName", "VipLevel", "ZhiWu", "Level", "Zhanli", "Guojia", "Worth", "HorseType", "XuePingRemain", "JzId", "IsEnemy", });
+              new java.lang.String[] { "Uid", "SenderName", "PosX", "PosY", "PosZ", "RoleId", "ChengHao", "CurrentLife", "TotalLife", "AllianceName", "VipLevel", "ZhiWu", "Level", "Zhanli", "Guojia", "Worth", "HorseType", "XuePingRemain", "JzId", });
           internal_static_qxmobile_protobuf_EnterSceneConfirm_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_EnterSceneConfirm_fieldAccessorTable = new

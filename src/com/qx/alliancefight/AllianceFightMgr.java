@@ -187,7 +187,7 @@ public class AllianceFightMgr {
 		session.write(response.build());
 	}
 	
-	private List<AllianceFightMatch> getAllianceFightMatchList(int fightProgress) {
+	public List<AllianceFightMatch> getAllianceFightMatchList(int fightProgress) {
 		List<AllianceFightMatch> list = new ArrayList<AllianceFightMatch>();
 		if(fightProgress != FightProgress.NONE.getCode() &&
 				fightProgress != FightProgress.APPLY.getCode()) {
@@ -197,7 +197,7 @@ public class AllianceFightMgr {
 	}
 
 	// FIXME 考虑的还不太全面	
-	private int getFightingState(int state) {
+	public int getFightingState(int state) {
 		try {
 			int[] battleNum = {1, 2, 3,4,5,6,7};
 			if(ArrayUtils.contains(battleNum, state)) {
@@ -238,7 +238,7 @@ public class AllianceFightMgr {
 	 * @param allianceId
 	 * @return
 	 */
-	private boolean isApply(int allianceId) {
+	public boolean isApply(int allianceId) {
 		LMZBaoMingBean baoMingBean = HibernateUtil.find(LMZBaoMingBean.class, " where lmId=" + allianceId);
 		if(baoMingBean == null) {
 			return false;
@@ -289,7 +289,7 @@ public class AllianceFightMgr {
 		return remainSet;
 	}
 
-	private long getApplyRemainTime() {
+	public long getApplyRemainTime() {
 		long remainTime = -1;
 		if(isApplyTime()) {
 			Calendar calendar = Calendar.getInstance();
@@ -317,7 +317,7 @@ public class AllianceFightMgr {
 	 * @param alliance
 	 * @return
 	 */
-	private boolean isCanFight(AllianceBean alliance) {
+	public boolean isCanFight(AllianceBean alliance) {
 		long rank = RankingMgr.inst.getRankById(RankingMgr.LIANMENG_RANK, alliance.id);
 		// 表示排名在最大允许参赛个数之后  TODO 有问题暂时先这样
 		if(rank > lmzConfig.lianmengNumMax) { 
@@ -331,7 +331,7 @@ public class AllianceFightMgr {
 	 * @param alliance
 	 * @return
 	 */
-	private boolean isCanApply(AllianceBean alliance) {
+	public boolean isCanApply(AllianceBean alliance) {
 		if(alliance == null) {
 			return false;
 		}
@@ -418,7 +418,7 @@ public class AllianceFightMgr {
 		
 	}
 	
-	private void sendApplyFightResult(IoSession session, int result) {
+	public void sendApplyFightResult(IoSession session, int result) {
 		ApplyFightResp.Builder response = ApplyFightResp.newBuilder();
 		response.setResult(result);
 		session.write(response.build());
@@ -528,7 +528,7 @@ public class AllianceFightMgr {
 	}
 	
 
-	private void processAttackPlayer(JunZhu attacker, IoSession session, Scene scene,
+	public void processAttackPlayer(JunZhu attacker, IoSession session, Scene scene,
 			Player attackPlayer, Player targetPlayer, int skillId) {
 		int targetUid = targetPlayer.userId;
 		int attackUid = attackPlayer.userId;
@@ -581,7 +581,7 @@ public class AllianceFightMgr {
 		}
 	}
 
-	private void processAttackCart(JunZhu attacker, IoSession session, Scene scene, 
+	public void processAttackCart(JunZhu attacker, IoSession session, Scene scene, 
 			Player attackPlayer, Player targetPlayer, int skillId) {
 		int targetUid = targetPlayer.userId;
 		int attackUid = attackPlayer.userId;
@@ -645,7 +645,7 @@ public class AllianceFightMgr {
 		processCartBeatBack(attacker, scene, attackPlayer, targetUid, attackUid, defender);
 	}
 
-	private boolean isCartOfTeammate(Player targetPlayer, Player attackPlayer) {
+	public boolean isCartOfTeammate(Player targetPlayer, Player attackPlayer) {
 		int attackerLmId = attackPlayer.allianceId;
 		int defenderLmId = targetPlayer.allianceId;
 		if((attackerLmId > 0 && defenderLmId > 0) && attackerLmId == defenderLmId) {

@@ -1,15 +1,10 @@
 package com.qx.persistent;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.persistence.Table;
 
 import net.sf.json.JSONObject;
 
@@ -28,10 +23,8 @@ import org.slf4j.LoggerFactory;
 import com.manu.dynasty.util.BaseException;
 import com.qx.account.Account;
 import com.qx.alliance.AllianceBean;
-import com.qx.alliancefight.AllianceFightMatch;
 import com.qx.http.LoginServ;
 import com.qx.robot.RobotSession;
-import com.qx.util.TableIDCreator;
 
 public class HibernateUtil {
 	public static boolean showMCHitLog = false;
@@ -280,6 +273,19 @@ public class HibernateUtil {
     		tr.rollback();
     		log.error("setAllAllianceReputation faild ", AllianceBean.class, hql);
     		log.error("setAllAllianceReputation fail", e);
+    	}
+	}
+	public static void executeSql(String sql){
+		Session session = sessionFactory.getCurrentSession();
+    	Transaction tr = session.beginTransaction();
+    	try{
+	    	Query query = session.createSQLQuery(sql);
+	    	query.executeUpdate();
+	    	tr.commit();
+    	}catch(Exception e){
+    		tr.rollback();
+    		log.error("executeSql--{} 失败 ", AllianceBean.class, sql);
+    		log.error("executeSql 失败 ", e);
     	}
 	}
 	

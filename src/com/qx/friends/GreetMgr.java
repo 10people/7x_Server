@@ -48,13 +48,18 @@ import com.qx.world.Player;
 import com.qx.world.Scene;
 
 public class GreetMgr extends EventProc{
+	
+	/**
+	 * 被打招呼冷却时间
+	 */
 	public static  int GREETED_COOL_TIME = 60000;
+	/**表情展示时间*/
 	public static  int FACE_COOL_TIME = 3000;
 	/**恭贺结算的时间*/
 	public static  int SETTLE_GONGHE_TIME = 3*60*1000;
 	public static GreetMgr inst;
 	public static Map<Integer, AnnounceTemp> annnounceMap;
-	private Logger log = LoggerFactory.getLogger(GreetMgr.class);
+	public Logger log = LoggerFactory.getLogger(GreetMgr.class);
 	public GreetMgr() {
 		inst = this;
 		initData();
@@ -326,33 +331,13 @@ public class GreetMgr extends EventProc{
 	 * @param cmd
 	 * @param msg
 	 */
-	private void sendError(IoSession session, int cmd, String msg) {
+	public void sendError(IoSession session, int cmd, String msg) {
 		ErrorMessage.Builder test = ErrorMessage.newBuilder();
 		test.setErrorCode(cmd);
 		test.setErrorDesc(msg);
 		session.write(test.build());
 	}
 	
-	/**
-	 * @Description  邀请入盟
-	 * @param id
-	 * @param session
-	 * @param builder
-	 */
-	 
-	//返回 结果 1成功 2 联盟已满 3对方未开启联盟功能 4对方已加入别的联盟 5 你没有权限邀请别人加入联盟 （具体描述根据策划文档来） 
-	// -1 目标不存在  负数逻辑异常 一般不可能出现
-	public void Invite2LM(int id, IoSession session, Builder builder) {
-		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
-		if (jz == null) {
-			log.error(" 邀请入盟失败,未发现君主"); 
-			return;
-		}
-		long jzId=jz.id;
-		InviteReq.Builder req=(	InviteReq.Builder)builder;
-		long targetjzId=req.getJzId();
-		Invite2LM(jzId,jz.name, targetjzId,session);
-	}
 	/**
 	 * @Description  邀请入盟
 	 * @param id
@@ -492,14 +477,22 @@ public class GreetMgr extends EventProc{
 		log.info("君主--{}响应---{}的邀请加入联盟--{}通知完成 ，删除通知--{}内容---《{}》",jzId,greetJzId,lmId,msg.id,msg.content);
 		HibernateUtil.delete(msg);
 	}
-	//拒绝邀请
+	
+	
+	/**
+	 * @Description //拒绝邀请
+	 */
 	public void AnswerNo2InviteLM(PromptMSG msg, JunZhu jz, IoSession session) {
 		long jzId=jz.id;
 		long greetJzId=msg.otherJzId;
 		int lmId=msg.realCondition;
 		log.info("君主--{}拒绝---{}的邀请加入联盟--{}",jzId,greetJzId,lmId);
 	}
-	//同意邀请
+
+	
+	/**
+	 * @Description 	//同意邀请
+	 */
 	public void AnswerYes2InviteLM(PromptMSG msg, JunZhu jz, IoSession session) {
 		long jzId=jz.id;
 		long greetJzId=msg.otherJzId;
@@ -559,7 +552,11 @@ public class GreetMgr extends EventProc{
 		}
 	}
 	
-	private void saveGongHeBean(JunZhu jz) {
+	
+	/**
+	 * @Description //打完第一次百战千军,邀请恭贺新信息保存
+	 */
+	public void saveGongHeBean(JunZhu jz) {
 		long jzId =jz.id;
 		log.info("玩家--{}打完第一次百战千军,邀请恭贺新信息保存",jzId); 
 		GongHeBean gongheInfo=HibernateUtil.find(GongHeBean.class, jzId);
@@ -577,7 +574,12 @@ public class GreetMgr extends EventProc{
 		}
 		HibernateUtil.save(gongheInfo);
 	}
-	private void saveGongHeBean4LM(long jzId) {
+	
+	
+	/**
+	 * @Description jzId开启联盟,邀请恭贺新信息保存
+	 */
+	public void saveGongHeBean4LM(long jzId) {
 		log.info("玩家--{}开启联盟,邀请恭贺新信息保存",jzId); 
 		GongHeBean gongheInfo=HibernateUtil.find(GongHeBean.class, jzId);
 		if(gongheInfo!=null){
@@ -594,7 +596,10 @@ public class GreetMgr extends EventProc{
 		}
 		HibernateUtil.save(gongheInfo);
 	}
-	//刷新恭贺计数
+	
+	/**
+	 * @Description 刷新恭贺计数
+	 */
 	public void refreshGongheTimes2JunZhu(long subaoId, JunZhu jz) {
 		PromptMSG msg = HibernateUtil.find(PromptMSG.class,subaoId);
 		if(msg==null){
@@ -613,7 +618,10 @@ public class GreetMgr extends EventProc{
 			
 		}
 	}
-	//刷新玩家  --联盟功能开启 恭贺计数
+	
+	/**
+	 * @Description //刷新玩家  --联盟功能开启 恭贺计数
+	 */
 	public void refreshGongHeInfo4LMOpen(JunZhu jz, long targetJzId) {
 		GongHeBean gongheInfo=HibernateUtil.find(GongHeBean.class, targetJzId);
 		Date date = new Date();
@@ -820,7 +828,10 @@ public class GreetMgr extends EventProc{
 		}
 		 log.info("生成并发送邀请---{}恭贺---{}通知  ，eventId=={}完成",jzId, targertId,eventId);
 	}
-
+	
+	/**
+	 * @Description //处理从速报过来的邀请入盟
+	 */
 	public void Invite2LM4GongHe(JunZhu jz,long subaoId, int type,IoSession session) {
 		long jzId=jz.id;
 		String jzName=jz.name;

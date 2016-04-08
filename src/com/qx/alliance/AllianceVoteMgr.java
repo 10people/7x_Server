@@ -22,7 +22,7 @@ import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 
 public class AllianceVoteMgr {
-	private Logger logger = LoggerFactory.getLogger(AllianceMgr.class);
+	public Logger logger = LoggerFactory.getLogger(AllianceMgr.class);
 	public static AllianceVoteMgr inst;
 
 	public AllianceVoteMgr() {

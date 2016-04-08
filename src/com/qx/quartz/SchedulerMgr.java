@@ -13,6 +13,8 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import xg.push.XGJob;
+
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.YunbiaoTemp;
 import com.qx.quartz.job.AllianceResouceOutputJob;
@@ -24,6 +26,7 @@ import com.qx.quartz.job.BigHouseWorthReduceJob;
 import com.qx.quartz.job.BroadcastJob;
 import com.qx.quartz.job.CheckHouseDealJob;
 import com.qx.quartz.job.CleanLMSBJob;
+import com.qx.quartz.job.ClearPromptJob;
 import com.qx.quartz.job.DailyTaskJob;
 import com.qx.quartz.job.GuojiaChouhenJieSuanJob;
 import com.qx.quartz.job.GuojiaDayRankResetJob;
@@ -43,13 +46,11 @@ import com.qx.quartz.job.YBrobotRefreshJob;
 import com.qx.quartz.job.YaBiaoJiaChengJob;
 import com.qx.quartz.job.YaBiaoManageJob;
 
-import xg.push.XGJob;
-
 
 public class SchedulerMgr {
-	private static Scheduler scheduler;
+	public static Scheduler scheduler;
 	public static SchedulerMgr inst;
-	private static Logger log = LoggerFactory.getLogger(SchedulerMgr.class);
+	public static Logger log = LoggerFactory.getLogger(SchedulerMgr.class);
 
 	public SchedulerMgr(){
 		inst = this;
@@ -194,6 +195,7 @@ public class SchedulerMgr {
 		addScheduler(LveDuoJunQingJob.class, "0 */1 * * * ?");
 		addScheduler(RefreshGongHeInfo.class, "*/20 * * * * ?");
 		addScheduler(ShopRefreshJob.class, "0 0 9,21 * * ?");
+		addScheduler(ClearPromptJob.class, "*/20 * * * * ?");
 		
 	}
 	/**
@@ -203,7 +205,7 @@ public class SchedulerMgr {
 	 * @param jobClass
 	 * @param time 时间通配符
 	 */
-	private void addScheduler(Class<? extends Job> jobClass, String time){
+	public void addScheduler(Class<? extends Job> jobClass, String time){
 		JobDetail job = JobBuilder.newJob(jobClass).build();
 		CronTrigger trigger =
 				TriggerBuilder.newTrigger()

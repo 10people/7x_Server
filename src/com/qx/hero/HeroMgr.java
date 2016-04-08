@@ -64,7 +64,7 @@ import com.qx.world.Mission;
  *
  */
 public class HeroMgr implements Runnable{
-	private static Logger log = LoggerFactory.getLogger(HeroMgr.class);
+	public static Logger log = LoggerFactory.getLogger(HeroMgr.class);
 	public static int maxGridCount = 200;//目前的配置有不到100个武将
 	public static int spaceFactor = 1000;
 	public static final int ATTACK = 1; 
@@ -87,12 +87,12 @@ public class HeroMgr implements Runnable{
 	public static final int WEAPON_RANGED	= 3;
 	
 	//策划说的，分为百分比和数值.最好统一一下，方便之后数据的使用。
-	private static final int VALUE = 1;
-	private static final int PERCENT = 2;
-	private static HeroWeapon.Builder nullZiTai;
+	public static final int VALUE = 1;
+	public static final int PERCENT = 2;
+	public static HeroWeapon.Builder nullZiTai;
 	
 	public LinkedBlockingQueue<Mission> missions = new LinkedBlockingQueue<Mission>();
-	private static Mission exit = new Mission(0,null,null);
+	public static Mission exit = new Mission(0,null,null);
 	
 	
 	public static HeroMgr inst;
@@ -152,12 +152,12 @@ public class HeroMgr implements Runnable{
 	
 	public void startMissionThread(){
 		//线程的命名规则待定
-		new Thread(this, "HeroMgr No.1").start();
+//		new Thread(this, "HeroMgr No.1").start();
 	}
 	
 	public void exec(int code, IoSession session, Builder builder) {
-		Mission mission = new Mission(code,session,builder);
-		missions.add(mission);
+//		Mission mission = new Mission(code,session,builder);
+//		missions.add(mission);
 	}
 	
 	public void initData() {
@@ -328,7 +328,7 @@ public class HeroMgr implements Runnable{
 		return true;
 	}
 	
-	private HeroWeapon.Builder initLordZiTai(int growId, ZhuangBei weapon) {
+	public HeroWeapon.Builder initLordZiTai(int growId, ZhuangBei weapon) {
 		HeroWeapon.Builder ziTai = HeroWeapon.newBuilder();
 		log.info("初始化君主的不同姿态。。。。{}", weapon.getBuWei());
 		HeroGrow grow = id2HeroGrow.get(growId);
@@ -496,7 +496,7 @@ public class HeroMgr implements Runnable{
 	 * @param type
 	 * @return
 	 */
-	private int getAttr(HeroGrow heroGrow, int type, WjKeJi techs, int wujiangQuality) {
+	public int getAttr(HeroGrow heroGrow, int type, WjKeJi techs, int wujiangQuality) {
 		
 		ShuXingXiShu shuXingXiShu = heroId2ShuXingXiShu.get(heroGrow.getHeroId());
 		if (shuXingXiShu == null) {
@@ -552,7 +552,7 @@ public class HeroMgr implements Runnable{
 	 * @param tech
 	 * @return
 	 */
-	private int getTmpAttr(HeroGrow heroGrow,int type, WjKeJi tech) {
+	public int getTmpAttr(HeroGrow heroGrow,int type, WjKeJi tech) {
 		int tmpAttr = -1;
 		Keji keji = null;
 		switch (type) {
@@ -595,7 +595,7 @@ public class HeroMgr implements Runnable{
 	 * @param session
 	 * @return
 	 */
-	private long getJunZhuId(IoSession session) {
+	public long getJunZhuId(IoSession session) {
 		Long junZhuId = (Long)session.getAttribute(SessionAttKey.junZhuId);
 		if (junZhuId == null || junZhuId < 0) {
 			return -1;
@@ -627,7 +627,7 @@ public class HeroMgr implements Runnable{
 		}
 	}
 
-	private void completeMission(Mission mission) {
+	public void completeMission(Mission mission) {
 		if (mission == null) {
 			log.error("mission is null...");
 			return;
@@ -652,7 +652,7 @@ public class HeroMgr implements Runnable{
 	 * @param session
 	 * @param builder
 	 */
-	private void wuJiangLevelUp(int code, IoSession session, Builder builder) {
+	public void wuJiangLevelUp(int code, IoSession session, Builder builder) {
 		HeroGrowReq.Builder req = (HeroGrowReq.Builder)builder;
 		long junZhuId = getJunZhuId(session);
 		int heroGrowId = req.getHeroGrowId();
@@ -750,7 +750,7 @@ public class HeroMgr implements Runnable{
 	 * 武将升星带来的数据变化。
 	 * @param wuJiang
 	 */
-	private boolean WuJiangShengXing(int code, IoSession session, WuJiang wuJiang, HeroGrow grow, HeroStar star, JmBean jm) {
+	public boolean WuJiangShengXing(int code, IoSession session, WuJiang wuJiang, HeroGrow grow, HeroStar star, JmBean jm) {
 		HeroProtoType type = id2Hero.get(grow.getHeroId());
 		if (type == null) {
 			log.error("没有对应的herotype数据，heroId为{}", grow.getHeroId());
@@ -774,7 +774,7 @@ public class HeroMgr implements Runnable{
 		return true;
 	}
 
-	private HeroDate.Builder getHeroDataByWuJiang(WuJiang ret, WuJiang wuJiang) {
+	public HeroDate.Builder getHeroDataByWuJiang(WuJiang ret, WuJiang wuJiang) {
 		HeroDate.Builder hero  = HeroDate.newBuilder();
 		
 		hero.setHeroGrowId(ret.getHeroGrowId());
@@ -822,7 +822,7 @@ public class HeroMgr implements Runnable{
 	 * @param code
 	 * @param msg
 	 */
-	private void error(IoSession session,int code,String msg) {
+	public void error(IoSession session,int code,String msg) {
 		ErrorMessage.Builder test = ErrorMessage.newBuilder();
 		test.setErrorCode(code);
 		test.setErrorDesc(msg);
@@ -944,7 +944,7 @@ public class HeroMgr implements Runnable{
 		return wuJiangs;
 	}
 
-	private void fillWuJiangList(List<WuJiang> wuJiangs, long junZhuId) {
+	public void fillWuJiangList(List<WuJiang> wuJiangs, long junZhuId) {
 		WjKeJi keJi = HibernateUtil.find(WjKeJi.class, junZhuId);
 		if (keJi == null) {
 			keJi = WuJiangKeJiMgr.inst.createDefaultBean(junZhuId);
@@ -1019,7 +1019,7 @@ public class HeroMgr implements Runnable{
 		addAcheJindu(junZhuId, id2Hero.get(heroId).getQuality());
 	}
 	
-	private void addAcheJindu(long junzhuId, int quality) {
+	public void addAcheJindu(long junzhuId, int quality) {
 		int acheType = -1;//白绿蓝紫橙,12345
 		switch (quality) {
 		case 1:
@@ -1076,7 +1076,7 @@ public class HeroMgr implements Runnable{
 	 * @param level			武将当前科技等级
 	 * @return
 	 */
-	private float getAttachChengzhang(int quality, int level){
+	public float getAttachChengzhang(int quality, int level){
 		float attachChengzhang = 0;
 		List<KejiChengzhang> kjczList = qualityToKejiChengzhang.get(quality);
 		for(KejiChengzhang kjcz : kjczList){

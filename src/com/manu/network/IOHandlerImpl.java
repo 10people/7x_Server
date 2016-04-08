@@ -22,6 +22,7 @@ import com.qx.junzhu.JunZhu;
 import com.qx.log.LogMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.world.Scene;
+import com.qx.world.YaBiaoScene;
 
 public class IOHandlerImpl implements IoHandler  {
 	public static IOHandlerImpl inst = new IOHandlerImpl();
@@ -136,8 +137,8 @@ public class IOHandlerImpl implements IoHandler  {
 			}
 			
 			Scene scene = (Scene) session.getAttribute(SessionAttKey.Scene);
-			if(scene != null && scene.name.contains("YB")) {
-				scene.saveExitYBInfo(junzhu.id);
+			if(scene != null && scene instanceof YaBiaoScene) {
+				((YaBiaoScene)scene).saveExitYBInfo(junzhu.id);
 			}
 		}
 	}

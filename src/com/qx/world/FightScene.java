@@ -173,14 +173,14 @@ public class FightScene extends Scene {
 		session.write(ret.build());
 		
 		//告诉场景内其他玩家，谁进来了。
-		final EnterFightScene.Builder enterResponse = getEnterFightSceneResponse(jz, player);
+//		final EnterFightScene.Builder enterResponse = getEnterFightSceneResponse(jz, player);
 		
-		syncSceneExecutor.submit(new Runnable() {
-			@Override
-			public void run() {
-				broadCastEvent(enterResponse.build(), enterResponse.getUid());
-			}
-		});
+//		syncSceneExecutor.submit(new Runnable() {
+//			@Override
+//			public void run() {
+//				broadCastEvent(enterResponse.build(), enterResponse.getUid());
+//			}
+//		});
 	}
 	
 	public EnterFightScene.Builder getEnterFightSceneResponse(JunZhu jz, Player player) {

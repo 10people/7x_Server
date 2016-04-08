@@ -126,7 +126,7 @@ public class PveGuanQiaMgr {
 		}
 	}
 
-	private void addAcheEvent(long pid, int star, Integer guanQiaId) {
+	public void addAcheEvent(long pid, int star, Integer guanQiaId) {
 		PveTemp pveTemp = PveMgr.inst.getId2Pve().get(guanQiaId);
 		int zhangjie = pveTemp.getBigId();
 		int acheType = -1;
@@ -1049,7 +1049,7 @@ public class PveGuanQiaMgr {
 		sendMibaoSelectResp(1, battleType, session, zuheId);
 	}
 
-	private void saveMibao4YouXia(int battleType, long junzhuId, int zuheId) {
+	public void saveMibao4YouXia(int battleType, long junzhuId, int zuheId) {
 		BuZhenYouXia buzhen = HibernateUtil.find(BuZhenYouXia.class, junzhuId);
 		if (buzhen == null) {
 			buzhen = new BuZhenYouXia();
@@ -1078,7 +1078,7 @@ public class PveGuanQiaMgr {
 		HibernateUtil.save(buzhen);
 	}
 
-	private void saveMibao4HYPve(IoSession session, List<Long> mibaoIds,
+	public void saveMibao4HYPve(IoSession session, List<Long> mibaoIds,
 			long junzhuId, int zuheId) {
 		BuZhenHYPve buzhenHYpve = HibernateUtil.find(BuZhenHYPve.class,
 				junzhuId);
@@ -1092,7 +1092,7 @@ public class PveGuanQiaMgr {
 
 	}
 
-	private void saveMibao4HYPvp(IoSession session, List<Long> mibaoIds,
+	public void saveMibao4HYPvp(IoSession session, List<Long> mibaoIds,
 			long junzhuId, int zuheId) {
 		BuZhenHYPvp buzhenHYpvp = HibernateUtil.find(BuZhenHYPvp.class,
 				junzhuId);
@@ -1105,7 +1105,7 @@ public class PveGuanQiaMgr {
 		log.info("君主id:{}设置了荒野资源点秘宝选择", junzhuId);
 	}
 
-	private void sendMibaoSelectResp(int result, int type, IoSession session,
+	public void sendMibaoSelectResp(int result, int type, IoSession session,
 			int zuheId) {
 		MibaoSelectResp.Builder response = MibaoSelectResp.newBuilder();
 		response.setSuccess(result);
@@ -1114,7 +1114,7 @@ public class PveGuanQiaMgr {
 		session.write(response.build());
 	}
 
-	private void saveMibao4Pve(IoSession session, List<Long> list, JunZhu jz,
+	public void saveMibao4Pve(IoSession session, List<Long> list, JunZhu jz,
 			int zuheId) {
 		session.setAttribute(SessionAttKey.buZhenMibaoIds, list);
 		BuZhenMibaoBean bean = HibernateUtil.find(BuZhenMibaoBean.class, jz.id);
@@ -1250,7 +1250,7 @@ public class PveGuanQiaMgr {
 		return sum;
 	}
 
-	private int calcStarNum(int start) {
+	public int calcStarNum(int start) {
 		int result = 0;
 		switch (start) {
 		case 1:

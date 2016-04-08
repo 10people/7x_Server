@@ -24,7 +24,7 @@ public class EventMgr implements Runnable{
 	public static BlockingQueue<Event> queue = new LinkedBlockingQueue<Event>();
 	public volatile boolean work;
 	public static EventMgr inst;
-	private static Event exit = new Event();
+	public static Event exit = new Event();
 	public EventMgr(){
 		inst = this;
 		procs = new HashMap<Integer, List<EventProc>>();
