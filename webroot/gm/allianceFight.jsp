@@ -1,3 +1,7 @@
+<%@page import="java.util.Collection"%>
+<%@page import="com.qx.alliancefight.CampsiteInfo"%>
+<%@page import="com.qx.world.FightScene"%>
+<%@page import="com.qx.world.SceneMgr"%>
 <%@page import="qxmobile.protobuf.AllianceFightProtos.FightAttackReq"%>
 <%@page import="com.manu.network.SessionManager"%>
 <%@page import="com.qx.junzhu.JunZhuMgr"%>
@@ -25,47 +29,72 @@
 </head>
 <body>
 联盟战复活管理：状态-<%=BigSwitch.inst.cdTimeMgr.isOpenCdTimeMgr()%>__<a href="?act=openCdtime">开启</a><br/>
-<a href="?act=castSkill&skillId=101">释放技能101</a>
-<a href="?act=castSkill&skillId=102">释放技能102</a>
+<a href="?act=broadcastBattleInfo&scId=0">广播阵地信息</a>
+<a href="?act=castSkill&skillId=102">广播积分信息</a>
 <a href="?act=castSkill&skillId=103">释放技能103</a>
 <br/>
-联盟战匹配：<a href="?act=fightMatch">开始匹配</a>
+阵地信息:1 是复活点；2 是外层营地；3 是内层营地；4 是基地；5 是光墙。
+占领  1时守方； 2是攻方。
 <%
-	String act = request.getParameter("act");
+String act = request.getParameter("act");
+String scId = request.getParameter("scId");
+do{
+	if(scId == null){
+		break;
+	}
+	out("<a href='?scId="+scId+"'>刷新</a>");
+	FightScene fs = BigSwitch.inst.scMgr.fightScenes.get(Integer.valueOf(scId));
+	if(fs == null){
+		out("not found:"+scId);
+		break;
+	}
+	if("clearPrepareTime".equals(act)) {
+		fs.prepareMS = 0;
+	}
+	br();
+	out("状态：(-1准备；10比赛中;500结束;)"+fs.step);br();
+	out("倒计时秒："+(fs.fightEndTime-System.currentTimeMillis())/1000);br();
+	out("胜负：1守；2攻;0比赛中--"+fs.winSide);
+	Collection<CampsiteInfo> list = fs.campsiteInfoList.values();
+	tableStart();
+	ths("id,攻占值,调整数值,临界值,占领方");
+	String dir = request.getParameter("v");
+	String sIdStr = request.getParameter("sId");
+	int sId = sIdStr == null ? 0 : Integer.parseInt(sIdStr);
+	for(CampsiteInfo info : list){
+		if("moveCusor".equals(act) && info.id==sId) {
+			if("L".equals(dir)){
+				info.cursorPos-=1;
+				info.cursorDir=1;
+				//info.cursorDir-=1;
+			}else{
+				info.cursorPos+=1;
+				info.cursorDir=2;
+				//info.cursorDir+=1;
+			}
+		}
+		trS();
+		td(info.id);
+		td(info.cursorPos);
+		td("<a href='?scId="+scId+"&act=moveCusor&v=L&sId="+info.id+"'>左</a>-<a href='?scId="+scId+"&act=moveCusor&v=R&sId="+info.id+"'>右</a>");
+		td(info.zhanlingzhiMax);
+		td(info.curHoldValue);
+		trE();
+	}
+	tableEnd();
+}while(false);
+%>
+<br/>
+<%
 	if("openCdtime".equals(act)) {
 		BigSwitch.inst.cdTimeMgr.setOpenCdTimeMgr(true);
 		BigSwitch.inst.cdTimeMgr.start();
-	} else if("fightMatch".equals(act)) {
-		boolean isClear = HibernateUtil.clearTable(AllianceFightMatch.class);
-		if(!isClear) {
-			out.print("战斗匹配失败");
-		} else{
-			BigSwitch.inst.allianceFightMgr.matchFight();
-			out.print("战斗匹配成功！");
-		}
+	} else if("fixTakeTowerSpeed".equals(act)) {
+		FightScene.fixTakeTowerSpeed = Integer.parseInt(request.getParameter("v"));
 	} else if("updateState".equals(act)) {
-		String curState = request.getParameter("curState");
-		if(curState == null || curState.equals("")) {
-			return;			
-		}
-		BigSwitch.inst.allianceFightMgr.fightState = Integer.parseInt(curState); 
 	} else if("updateDayState".equals(act)) {
-		String curState = request.getParameter("dayState");
-		if(curState == null || curState.equals("")) {
-			return;			
-		}
-		BigSwitch.inst.allianceFightMgr.dayFightState = Integer.parseInt(curState); 
-	} else if("castSkill".equals(act)) {
-		String skillIdStr = request.getParameter("skillId");
-		int skillId = Integer.parseInt(skillIdStr);
-		IoSession cliSession = SessionManager.inst.getIoSession(27002L);
-		FightAttackReq.Builder cliRequest = FightAttackReq.newBuilder();
-		if(skillId == 101) {
-	   	} else if(skillId == 102) {
-	   	}
-		cliRequest.setSkillId(skillId);
-		BigSwitch.inst.allianceFightMgr.activeFight(1, cliSession, cliRequest);
-		
+	} else if("broadcastBattleInfo".equals(act)) {
+		BigSwitch.inst.scMgr.fightScenes.get(0).broadcastBattleInfo();
 	}
 %>
 
@@ -83,20 +112,13 @@ tableEnd();
 %>
 <br/>
 <br/>
-联盟战状态（赛程，0-无，1-32强，2-16强，3-8强，4-4强，5-半决赛，6-三四名比赛，7-决赛，8-报名）：<br/>
-当前状态：<%=BigSwitch.inst.allianceFightMgr.fightState %>
-<form action="allianceFight.jsp">
-		<input type="text" name="curState"/>
-		<input type="hidden" name="act" value="updateState"/>
-		<input type="submit" value="修改"/>
-</form>
+<a href='?scId=<%=scId %>&act=clearPrepareTime'>结束准备时间</a>
 <br/>
 <br/>
-今日联盟战状态（是指今日有赛程，0-未开始，1-正在进行中，2-已经结束）：<br/>
-当前状态：<%=BigSwitch.inst.allianceFightMgr.dayFightState %>
 <form action="allianceFight.jsp">
-		<input type="text" name="dayState"/>
-		<input type="hidden" name="act" value="updateDayState"/>
+		额外增加占塔速度<input type="text" name="v" value="<%=FightScene.fixTakeTowerSpeed%>"/>
+		<input type="hidden" name="act" value="fixTakeTowerSpeed"/>
+		<input type="hidden" name="scId" value="<%=scId%>"/>
 		<input type="submit" value="修改"/>
 </form>
 <br/>

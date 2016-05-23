@@ -39,5 +39,11 @@ public class TanBaoData {
 
 	public static int yuanBao_pay_sigle = 40001;
 	public static int yuanBao_pay_ten = 40002;
+	
+	/*
+	 * 探宝额外获得物品 20160411
+	 */
+	public static int tongBi_920001 = 920001;
+	public static int yuanBao_920002 = 920002;
 
 }

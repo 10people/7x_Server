@@ -349,10 +349,10 @@ public class WuJiangKeJiMgr {
 		log.info("{}升级低级武将科技{}到{} 消耗铜币: {}", wjKeJi.getJunZhuId(), kejiCfg.id,
 				kejiCfg.posId, needTongbi);
 		junZhu.tongBi = junZhu.tongBi - needTongbi;
-		HibernateUtil.save(junZhu);
+		HibernateUtil.update(junZhu);
 		EventMgr.addEvent(ED.ACHIEVEMENT_PROCESS, new AchievementCondition(
 				junZhu.id, AchievementConstants.type_keji_low, 1));
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		return true;
 	}
 
@@ -540,7 +540,6 @@ public class WuJiangKeJiMgr {
 			log.error("加速武将科技cd时间失败，剩余元宝不足");
 			return;
 		}
-		// junZhu.yuanBao = junZhu.yuanBao - needYuanBao;
 		YuanBaoMgr.inst.diff(junZhu, -needYuanBao, 0, needYuanBao,
 				YBType.YB_JIASU_WJGKEJI_CD, "加速武将科技CD时间");
 		wjKeJi.setCD(System.currentTimeMillis());

@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.protobuf.MessageLite.Builder;
+import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.DangpuCommon;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
@@ -22,10 +23,13 @@ import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.vip.VipData;
+import com.qx.world.Player;
+import com.qx.world.Scene;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
 
 import log.ActLog;
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.Settings.ChangeGuojiaReq;
 import qxmobile.protobuf.Settings.ChangeGuojiaResp;
 import qxmobile.protobuf.Settings.ChangeName;
@@ -41,6 +45,8 @@ import xg.push.XGTagTask;
  * 
  */
 public class SettingsMgr {
+	public static int buyModelPrice = 500;
+	public static long changeModelCD = 3600*24*1000;
 	public static Logger log = LoggerFactory.getLogger(SettingsMgr.class);
 	public static int changeNameCost = 100;
 	public static int ZHUANGUOLING = 910001;
@@ -133,15 +139,65 @@ public class SettingsMgr {
 		
 		jz.name = req.getName();
 		YuanBaoMgr.inst.diff(jz, -changeNameCost, 0, changeNameCost, YBType.YB_MOD_NAME, "修改名字");
-		HibernateUtil.save(jz);
-		JunZhuMgr.inst.sendMainInfo(session);
+		HibernateUtil.update(jz);
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 		log.info("君主修改名字成功，君主:{}花费{}元宝将名字从{}改为{}", jz.id, oldName, req.getName());
 		ActLog.log.KingChange(jz.id, oldName, jz.name, ActLog.vopenid);
 		ret.setCode(0);
 		ret.setMsg("改名成功");
 		session.write(ret.build());
+		//同步玩家名字
+		do{
+			Scene scene = (Scene) session.getAttribute(SessionAttKey.Scene);
+			if(scene == null) {
+				break;
+			}
+			Player player = scene.getPlayerByJunZhuId(jz.id);
+			if(player == null) {
+				break;
+			}
+			player.name = jz.name;
+			qxmobile.protobuf.Scene.EnterScene.Builder info = scene.buildEnterInfo(player);
+			ProtobufMsg msg = new ProtobufMsg(PD.S_HEAD_INFO, info);
+			scene.broadCastEvent(msg, 0/*player.userId*/);
+		}while(false);
 	}
 
+	public void getModelInfo(int id, IoSession session, Builder builder) {
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			return;
+		}
+		UnlockModel bean = HibernateUtil.find(UnlockModel.class, jz.id);
+		if(bean == null){
+			bean = new UnlockModel();
+			bean.jzId = jz.id;
+			bean.ids = String.valueOf(jz.roleId);
+			HibernateUtil.insert(bean);
+		}
+		long cd = calcChangeModelCD(jz.id)/1000;
+		ErrorMessage.Builder ret = ErrorMessage.newBuilder();
+		ret.setCmd(0);//需要铜币
+		ret.setErrorCode(buyModelPrice);//需要元宝
+		String str = cd+"#"+bean.ids;//CD时间（秒）#已解锁形象
+		ret.setErrorDesc(str);
+		ProtobufMsg m = new ProtobufMsg(PD.MODEL_INFO, ret);
+		session.write(m);
+	}
+
+	public long calcChangeModelCD(long jzId) {
+		String preChangeTime = Redis.getInstance().get("ChangeModeTime:"+jzId);
+		long cd = 0;
+		if(preChangeTime != null){
+			long l = Long.parseLong(preChangeTime);
+			cd = l + changeModelCD - System.currentTimeMillis();
+			if(cd<0){
+				cd=0;
+			}
+		}
+		return cd;
+	}
+	
 	/**
 	 * 转换国家
 	 * 
@@ -207,12 +263,12 @@ public class SettingsMgr {
 		int oldGjId = jz.guoJiaId;
 		jz.guoJiaId = guojiaId;
 		int newGjId = jz.guoJiaId;
-		HibernateUtil.save(jz);
+		HibernateUtil.update(jz);
 		// 2015-7-31 9:58 添加排行榜国家榜刷新
 		EventMgr.addEvent(ED.CHANGE_GJ_RANK_REFRESH, new Object[]{jz.id,oldGjId,newGjId, jz.level});
 		response.setResult(SUCCESS);
 		writeByProtoMsg(session, PD.S_ZHUANGGUO_RESP, response);
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 		return;
 	}
 
@@ -231,5 +287,85 @@ public class SettingsMgr {
 		msg.builder = response;
 		log.info("发送协议号为：{}", prototype);
 		session.write(msg);
+	}
+
+	public void changeModel(int id, IoSession session, Builder builder) {
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			return;
+		}
+		UnlockModel bean = HibernateUtil.find(UnlockModel.class, jz.id);
+		if(bean == null){
+			//获取信息时应该创建了。 
+			return;
+		}		
+		ErrorMessage.Builder req = (qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder) builder;
+		int targetId = req.getErrorCode();
+		String v = String.valueOf(targetId);
+		if(bean.ids.contains(v)==false){
+			log.error("未解锁");
+			return;
+		}
+		if(targetId<1 || targetId>4){
+			log.error("id错误 {}", targetId);
+			return;
+		}
+		long cd = calcChangeModelCD(jz.id);
+		if(cd>0){
+			log.error("CD中");
+//			return;
+		}
+		final int preId = jz.roleId;
+		jz.roleId = targetId;
+		HibernateUtil.update(jz);
+		Redis.getInstance().set("ChangeModeTime:"+jz.id,String.valueOf(System.currentTimeMillis()));
+		log.info("{} change model from {} to {}", jz.id, preId, targetId);
+		ErrorMessage.Builder ret = ErrorMessage.newBuilder();
+		ret.setErrorCode(targetId);//
+		ret.setErrorDesc(String.valueOf(jz.id));
+		Scene sc = (Scene) session.getAttribute(SessionAttKey.Scene);
+		Player p = sc.getPlayerByJunZhuId(jz.id);
+		if(sc != null && p != null){
+			ret.setCmd(p.userId);
+			ProtobufMsg m = new ProtobufMsg(PD.BD_CHANGE_MODEL, ret);
+			sc.broadCastEvent(m, 0);
+		}
+		JunZhuMgr.inst.sendMainInfo(session, jz);
+	}
+
+	public void unlockModel(int id, IoSession session, Builder builder) {
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			return;
+		}
+		UnlockModel bean = HibernateUtil.find(UnlockModel.class, jz.id);
+		if(bean == null){
+			//获取信息时应该创建了。 
+			return;
+		}
+		ErrorMessage.Builder req = (qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder) builder;
+		int targetId = req.getErrorCode();
+		String v = String.valueOf(targetId);
+		if(bean.ids.contains(v)){
+			log.error("之前已解锁");
+			return;
+		}
+		int tongBi = 1234;
+		int yuanBao = buyModelPrice;
+		/*if(jz.tongBi>=tongBi){
+			jz.tongBi -= tongBi;
+			log.info("扣除 {} 铜币 {} 解锁  {}",jz.id,tongBi,targetId);
+		}else */if(jz.yuanBao>=yuanBao){
+			YuanBaoMgr.inst.diff(jz, -yuanBao, 0, 0, 0, "解锁模型");
+			log.info("扣除 {} 元宝 {} 解锁  {}",jz.id,yuanBao,targetId);
+		}else{
+			log.error("{}铜币元宝都不足",jz.id);
+			return;
+		}
+		HibernateUtil.update(jz);
+		bean.ids+=","+targetId;
+		HibernateUtil.update(bean);
+		session.write(PD.UNLOCK_MODEL);//解锁成功
+		getModelInfo(0, session, null);
 	}
 }

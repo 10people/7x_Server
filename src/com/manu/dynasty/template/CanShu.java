@@ -64,6 +64,7 @@ public class CanShu {
 	public static int BAIZHAN_NPC_WEIWANG;
 	public static int BAIZHAN_WEIWANG_ADDLIMIT;
 	public static int BAIZHAN_FIRSTWIN_YUANBAO;
+	public static int BAIZHAN_FREE_TIMES;
 	
 	public static int MAXTIME_PVE;
 	public static int MAXTIME_BAIZHAN;
@@ -72,7 +73,11 @@ public class CanShu {
 	public static int DAYTIMES_LEGENDPVE;
 	
 	
-	public static int CHAT_INTERVAL_TIME;
+	public static int CHAT_WORLD_INTERVAL_TIME;			//世界聊天最短间隔时间（秒）" 
+	public static int CHAT_ALLIANCE_INTERVAL_TIME;		//联盟最短间隔时间（秒）" 
+	public static int CHAT_BROADCAST_INTERVAL_TIME;		//广播频道最短间隔时间（秒）"
+	public static int CHAT_SECRET_INTERVAL_TIME;		//私聊频道最短时间间隔（秒）" 
+	public static int CHAT_MAX_WORDS;					//聊天输入最大字数（个） 
 	
 	public static double HUANGYEPVE_AWARD_X;
 	public static double HUANGYEPVP_PRODUCE_P;
@@ -205,6 +210,22 @@ public class CanShu {
 	public static double CONGRATULATE_AWARD_B;//" desc="恭贺奖励系数B" />
 	public static int BIAOQING_INTERVAL;//"" value="3" desc="表情持续时间（秒）" />
 	public static int GREETED_CD;//"" value="60" desc="被打招呼的CD（秒）" />
+	public static int LIANMENG_LVLUP_REDUCE;
+	public static int EQUIPMENT_FREETIMES;
+	public static int BAOSHI_FREETIMES;
+	public static int QIANGHUA_FREETIMES;
+	public static int JINGQI_FREETIMES;
+	
+	public static String LIEFU_FREETIMES_REFRESH;
+	public static int CHANGE_COUNTRY_COST; 
+	public static int YUEKA_YUANBAO; //月卡每日领取元宝数
+	public static int ZHONGSHENKA_YUANBAO; //终身卡每日领取元宝数
+	public static int MEIRI_DINGSHIZENGSONG_TILI; //每天定时送体力数
+	public static int CHENGZHANGJIJIN_VIP; //购买成长基金VIP
+	public static int CHENGZHANGJIJIN_COST; //购买成长基金花费元宝数
+	public static int CHENGZHANGJIJIN_REBATE; //购买成长基金返还元宝数
+	public static double LIANMXIAOWU_EXP; 
+	public static String LIEFU_BLUE_FIRSTAWARD; 
 	public String key;
 	public String value;
 	public String getKey() {

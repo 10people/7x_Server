@@ -36,15 +36,15 @@ public final class Chat {
     com.google.protobuf.ByteString
         getSenderNameBytes();
 
-    // optional int32 receiverId = 3;
+    // optional int64 receiverId = 3;
     /**
-     * <code>optional int32 receiverId = 3;</code>
+     * <code>optional int64 receiverId = 3;</code>
      */
     boolean hasReceiverId();
     /**
-     * <code>optional int32 receiverId = 3;</code>
+     * <code>optional int64 receiverId = 3;</code>
      */
-    int getReceiverId();
+    long getReceiverId();
 
     // optional string receiverName = 4;
     /**
@@ -146,7 +146,7 @@ public final class Chat {
      * <code>optional int32 guoJia = 9;</code>
      *
      * <pre>
-     *发言者的国家，新增 2014年1月14日11:20:33
+     *周国 = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7; 100-系统
      * </pre>
      */
     boolean hasGuoJia();
@@ -154,43 +154,44 @@ public final class Chat {
      * <code>optional int32 guoJia = 9;</code>
      *
      * <pre>
-     *发言者的国家，新增 2014年1月14日11:20:33
+     *周国 = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7; 100-系统
      * </pre>
      */
     int getGuoJia();
 
-    // repeated float soundData = 10;
+    // optional string soundData = 10;
     /**
-     * <code>repeated float soundData = 10;</code>
+     * <code>optional string soundData = 10;</code>
      *
      * <pre>
-     *NEUTRAL = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7;
+     *语音
      * </pre>
      */
-    java.util.List<java.lang.Float> getSoundDataList();
+    boolean hasSoundData();
     /**
-     * <code>repeated float soundData = 10;</code>
+     * <code>optional string soundData = 10;</code>
      *
      * <pre>
-     *NEUTRAL = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7;
+     *语音
      * </pre>
      */
-    int getSoundDataCount();
+    java.lang.String getSoundData();
     /**
-     * <code>repeated float soundData = 10;</code>
+     * <code>optional string soundData = 10;</code>
      *
      * <pre>
-     *NEUTRAL = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7;
+     *语音
      * </pre>
      */
-    float getSoundData(int index);
+    com.google.protobuf.ByteString
+        getSoundDataBytes();
 
     // optional int32 soundLen = 11;
     /**
      * <code>optional int32 soundLen = 11;</code>
      *
      * <pre>
-     *用于标记此条信息是否含有语音。
+     *用于标记语音时间长度0为正常对话。
      * </pre>
      */
     boolean hasSoundLen();
@@ -198,7 +199,7 @@ public final class Chat {
      * <code>optional int32 soundLen = 11;</code>
      *
      * <pre>
-     *用于标记此条信息是否含有语音。
+     *用于标记语音时间长度0为正常对话。
      * </pre>
      */
     int getSoundLen();
@@ -434,7 +435,7 @@ public final class Chat {
             }
             case 24: {
               bitField0_ |= 0x00000004;
-              receiverId_ = input.readInt32();
+              receiverId_ = input.readInt64();
               break;
             }
             case 34: {
@@ -473,69 +474,53 @@ public final class Chat {
               guoJia_ = input.readInt32();
               break;
             }
-            case 85: {
-              if (!((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
-                soundData_ = new java.util.ArrayList<java.lang.Float>();
-                mutable_bitField0_ |= 0x00000400;
-              }
-              soundData_.add(input.readFloat());
-              break;
-            }
             case 82: {
-              int length = input.readRawVarint32();
-              int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000400) == 0x00000400) && input.getBytesUntilLimit() > 0) {
-                soundData_ = new java.util.ArrayList<java.lang.Float>();
-                mutable_bitField0_ |= 0x00000400;
-              }
-              while (input.getBytesUntilLimit() > 0) {
-                soundData_.add(input.readFloat());
-              }
-              input.popLimit(limit);
+              bitField0_ |= 0x00000400;
+              soundData_ = input.readBytes();
               break;
             }
             case 88: {
-              bitField0_ |= 0x00000400;
+              bitField0_ |= 0x00000800;
               soundLen_ = input.readInt32();
               break;
             }
             case 96: {
-              bitField0_ |= 0x00000800;
+              bitField0_ |= 0x00001000;
               isLink_ = input.readBool();
               break;
             }
             case 104: {
-              bitField0_ |= 0x00001000;
+              bitField0_ |= 0x00002000;
               type_ = input.readInt32();
               break;
             }
             case 114: {
-              bitField0_ |= 0x00002000;
+              bitField0_ |= 0x00004000;
               param_ = input.readBytes();
               break;
             }
             case 120: {
-              bitField0_ |= 0x00004000;
+              bitField0_ |= 0x00008000;
               isYBHelp_ = input.readBool();
               break;
             }
             case 128: {
-              bitField0_ |= 0x00008000;
+              bitField0_ |= 0x00010000;
               isLveDuoHelp_ = input.readBool();
               break;
             }
             case 138: {
-              bitField0_ |= 0x00010000;
+              bitField0_ |= 0x00020000;
               lianmengName_ = input.readBytes();
               break;
             }
             case 144: {
-              bitField0_ |= 0x00040000;
+              bitField0_ |= 0x00080000;
               vipLevel_ = input.readInt32();
               break;
             }
             case 152: {
-              bitField0_ |= 0x00020000;
+              bitField0_ |= 0x00040000;
               lianmengId_ = input.readInt32();
               break;
             }
@@ -552,9 +537,6 @@ public final class Chat {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
-          soundData_ = java.util.Collections.unmodifiableList(soundData_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -773,19 +755,19 @@ public final class Chat {
       }
     }
 
-    // optional int32 receiverId = 3;
+    // optional int64 receiverId = 3;
     public static final int RECEIVERID_FIELD_NUMBER = 3;
-    private int receiverId_;
+    private long receiverId_;
     /**
-     * <code>optional int32 receiverId = 3;</code>
+     * <code>optional int64 receiverId = 3;</code>
      */
     public boolean hasReceiverId() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional int32 receiverId = 3;</code>
+     * <code>optional int64 receiverId = 3;</code>
      */
-    public int getReceiverId() {
+    public long getReceiverId() {
       return receiverId_;
     }
 
@@ -993,7 +975,7 @@ public final class Chat {
      * <code>optional int32 guoJia = 9;</code>
      *
      * <pre>
-     *发言者的国家，新增 2014年1月14日11:20:33
+     *周国 = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7; 100-系统
      * </pre>
      */
     public boolean hasGuoJia() {
@@ -1003,46 +985,66 @@ public final class Chat {
      * <code>optional int32 guoJia = 9;</code>
      *
      * <pre>
-     *发言者的国家，新增 2014年1月14日11:20:33
+     *周国 = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7; 100-系统
      * </pre>
      */
     public int getGuoJia() {
       return guoJia_;
     }
 
-    // repeated float soundData = 10;
+    // optional string soundData = 10;
     public static final int SOUNDDATA_FIELD_NUMBER = 10;
-    private java.util.List<java.lang.Float> soundData_;
+    private java.lang.Object soundData_;
     /**
-     * <code>repeated float soundData = 10;</code>
+     * <code>optional string soundData = 10;</code>
      *
      * <pre>
-     *NEUTRAL = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7;
+     *语音
      * </pre>
      */
-    public java.util.List<java.lang.Float>
-        getSoundDataList() {
-      return soundData_;
+    public boolean hasSoundData() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
     }
     /**
-     * <code>repeated float soundData = 10;</code>
+     * <code>optional string soundData = 10;</code>
      *
      * <pre>
-     *NEUTRAL = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7;
+     *语音
      * </pre>
      */
-    public int getSoundDataCount() {
-      return soundData_.size();
+    public java.lang.String getSoundData() {
+      java.lang.Object ref = soundData_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          soundData_ = s;
+        }
+        return s;
+      }
     }
     /**
-     * <code>repeated float soundData = 10;</code>
+     * <code>optional string soundData = 10;</code>
      *
      * <pre>
-     *NEUTRAL = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7;
+     *语音
      * </pre>
      */
-    public float getSoundData(int index) {
-      return soundData_.get(index);
+    public com.google.protobuf.ByteString
+        getSoundDataBytes() {
+      java.lang.Object ref = soundData_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        soundData_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     // optional int32 soundLen = 11;
@@ -1052,17 +1054,17 @@ public final class Chat {
      * <code>optional int32 soundLen = 11;</code>
      *
      * <pre>
-     *用于标记此条信息是否含有语音。
+     *用于标记语音时间长度0为正常对话。
      * </pre>
      */
     public boolean hasSoundLen() {
-      return ((bitField0_ & 0x00000400) == 0x00000400);
+      return ((bitField0_ & 0x00000800) == 0x00000800);
     }
     /**
      * <code>optional int32 soundLen = 11;</code>
      *
      * <pre>
-     *用于标记此条信息是否含有语音。
+     *用于标记语音时间长度0为正常对话。
      * </pre>
      */
     public int getSoundLen() {
@@ -1080,7 +1082,7 @@ public final class Chat {
      * </pre>
      */
     public boolean hasIsLink() {
-      return ((bitField0_ & 0x00000800) == 0x00000800);
+      return ((bitField0_ & 0x00001000) == 0x00001000);
     }
     /**
      * <code>optional bool isLink = 12;</code>
@@ -1104,7 +1106,7 @@ public final class Chat {
      * </pre>
      */
     public boolean hasType() {
-      return ((bitField0_ & 0x00001000) == 0x00001000);
+      return ((bitField0_ & 0x00002000) == 0x00002000);
     }
     /**
      * <code>optional int32 type = 13;</code>
@@ -1128,7 +1130,7 @@ public final class Chat {
      * </pre>
      */
     public boolean hasParam() {
-      return ((bitField0_ & 0x00002000) == 0x00002000);
+      return ((bitField0_ & 0x00004000) == 0x00004000);
     }
     /**
      * <code>optional string param = 14;</code>
@@ -1183,7 +1185,7 @@ public final class Chat {
      * </pre>
      */
     public boolean hasIsYBHelp() {
-      return ((bitField0_ & 0x00004000) == 0x00004000);
+      return ((bitField0_ & 0x00008000) == 0x00008000);
     }
     /**
      * <code>optional bool isYBHelp = 15;</code>
@@ -1207,7 +1209,7 @@ public final class Chat {
      * </pre>
      */
     public boolean hasIsLveDuoHelp() {
-      return ((bitField0_ & 0x00008000) == 0x00008000);
+      return ((bitField0_ & 0x00010000) == 0x00010000);
     }
     /**
      * <code>optional bool isLveDuoHelp = 16;</code>
@@ -1231,7 +1233,7 @@ public final class Chat {
      * </pre>
      */
     public boolean hasLianmengName() {
-      return ((bitField0_ & 0x00010000) == 0x00010000);
+      return ((bitField0_ & 0x00020000) == 0x00020000);
     }
     /**
      * <code>optional string lianmengName = 17;</code>
@@ -1286,7 +1288,7 @@ public final class Chat {
      * </pre>
      */
     public boolean hasLianmengId() {
-      return ((bitField0_ & 0x00020000) == 0x00020000);
+      return ((bitField0_ & 0x00040000) == 0x00040000);
     }
     /**
      * <code>optional int32 lianmengId = 19;</code>
@@ -1310,7 +1312,7 @@ public final class Chat {
      * </pre>
      */
     public boolean hasVipLevel() {
-      return ((bitField0_ & 0x00040000) == 0x00040000);
+      return ((bitField0_ & 0x00080000) == 0x00080000);
     }
     /**
      * <code>optional int32 vipLevel = 18;</code>
@@ -1326,7 +1328,7 @@ public final class Chat {
     private void initFields() {
       senderId_ = 0L;
       senderName_ = "";
-      receiverId_ = 0;
+      receiverId_ = 0L;
       receiverName_ = "";
       roleId_ = 0;
       channel_ = qxmobile.protobuf.Chat.ChatPct.Channel.SILIAO;
@@ -1334,7 +1336,7 @@ public final class Chat {
       dateTime_ = "";
       seq_ = 0;
       guoJia_ = 0;
-      soundData_ = java.util.Collections.emptyList();
+      soundData_ = "";
       soundLen_ = 0;
       isLink_ = false;
       type_ = 0;
@@ -1380,7 +1382,7 @@ public final class Chat {
         output.writeBytes(2, getSenderNameBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, receiverId_);
+        output.writeInt64(3, receiverId_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBytes(4, getReceiverNameBytes());
@@ -1400,34 +1402,34 @@ public final class Chat {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeInt32(9, guoJia_);
       }
-      for (int i = 0; i < soundData_.size(); i++) {
-        output.writeFloat(10, soundData_.get(i));
-      }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
-        output.writeInt32(11, soundLen_);
+        output.writeBytes(10, getSoundDataBytes());
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
-        output.writeBool(12, isLink_);
+        output.writeInt32(11, soundLen_);
       }
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
-        output.writeInt32(13, type_);
+        output.writeBool(12, isLink_);
       }
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
-        output.writeBytes(14, getParamBytes());
+        output.writeInt32(13, type_);
       }
       if (((bitField0_ & 0x00004000) == 0x00004000)) {
-        output.writeBool(15, isYBHelp_);
+        output.writeBytes(14, getParamBytes());
       }
       if (((bitField0_ & 0x00008000) == 0x00008000)) {
-        output.writeBool(16, isLveDuoHelp_);
+        output.writeBool(15, isYBHelp_);
       }
       if (((bitField0_ & 0x00010000) == 0x00010000)) {
-        output.writeBytes(17, getLianmengNameBytes());
-      }
-      if (((bitField0_ & 0x00040000) == 0x00040000)) {
-        output.writeInt32(18, vipLevel_);
+        output.writeBool(16, isLveDuoHelp_);
       }
       if (((bitField0_ & 0x00020000) == 0x00020000)) {
+        output.writeBytes(17, getLianmengNameBytes());
+      }
+      if (((bitField0_ & 0x00080000) == 0x00080000)) {
+        output.writeInt32(18, vipLevel_);
+      }
+      if (((bitField0_ & 0x00040000) == 0x00040000)) {
         output.writeInt32(19, lianmengId_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
@@ -1452,7 +1454,7 @@ public final class Chat {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, receiverId_);
+          .computeInt64Size(3, receiverId_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
@@ -1478,45 +1480,43 @@ public final class Chat {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(9, guoJia_);
       }
-      {
-        int dataSize = 0;
-        dataSize = 4 * getSoundDataList().size();
-        size += dataSize;
-        size += 1 * getSoundDataList().size();
-      }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(11, soundLen_);
+          .computeBytesSize(10, getSoundDataBytes());
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(12, isLink_);
+          .computeInt32Size(11, soundLen_);
       }
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(13, type_);
+          .computeBoolSize(12, isLink_);
       }
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(14, getParamBytes());
+          .computeInt32Size(13, type_);
       }
       if (((bitField0_ & 0x00004000) == 0x00004000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(15, isYBHelp_);
+          .computeBytesSize(14, getParamBytes());
       }
       if (((bitField0_ & 0x00008000) == 0x00008000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(16, isLveDuoHelp_);
+          .computeBoolSize(15, isYBHelp_);
       }
       if (((bitField0_ & 0x00010000) == 0x00010000)) {
         size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(16, isLveDuoHelp_);
+      }
+      if (((bitField0_ & 0x00020000) == 0x00020000)) {
+        size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(17, getLianmengNameBytes());
       }
-      if (((bitField0_ & 0x00040000) == 0x00040000)) {
+      if (((bitField0_ & 0x00080000) == 0x00080000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(18, vipLevel_);
       }
-      if (((bitField0_ & 0x00020000) == 0x00020000)) {
+      if (((bitField0_ & 0x00040000) == 0x00040000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(19, lianmengId_);
       }
@@ -1650,7 +1650,7 @@ public final class Chat {
         bitField0_ = (bitField0_ & ~0x00000001);
         senderName_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        receiverId_ = 0;
+        receiverId_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000004);
         receiverName_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -1666,7 +1666,7 @@ public final class Chat {
         bitField0_ = (bitField0_ & ~0x00000100);
         guoJia_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
-        soundData_ = java.util.Collections.emptyList();
+        soundData_ = "";
         bitField0_ = (bitField0_ & ~0x00000400);
         soundLen_ = 0;
         bitField0_ = (bitField0_ & ~0x00000800);
@@ -1754,45 +1754,44 @@ public final class Chat {
           to_bitField0_ |= 0x00000200;
         }
         result.guoJia_ = guoJia_;
-        if (((bitField0_ & 0x00000400) == 0x00000400)) {
-          soundData_ = java.util.Collections.unmodifiableList(soundData_);
-          bitField0_ = (bitField0_ & ~0x00000400);
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
         }
         result.soundData_ = soundData_;
         if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
-          to_bitField0_ |= 0x00000400;
+          to_bitField0_ |= 0x00000800;
         }
         result.soundLen_ = soundLen_;
         if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
-          to_bitField0_ |= 0x00000800;
+          to_bitField0_ |= 0x00001000;
         }
         result.isLink_ = isLink_;
         if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
-          to_bitField0_ |= 0x00001000;
+          to_bitField0_ |= 0x00002000;
         }
         result.type_ = type_;
         if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
-          to_bitField0_ |= 0x00002000;
+          to_bitField0_ |= 0x00004000;
         }
         result.param_ = param_;
         if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
-          to_bitField0_ |= 0x00004000;
+          to_bitField0_ |= 0x00008000;
         }
         result.isYBHelp_ = isYBHelp_;
         if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
-          to_bitField0_ |= 0x00008000;
+          to_bitField0_ |= 0x00010000;
         }
         result.isLveDuoHelp_ = isLveDuoHelp_;
         if (((from_bitField0_ & 0x00020000) == 0x00020000)) {
-          to_bitField0_ |= 0x00010000;
+          to_bitField0_ |= 0x00020000;
         }
         result.lianmengName_ = lianmengName_;
         if (((from_bitField0_ & 0x00040000) == 0x00040000)) {
-          to_bitField0_ |= 0x00020000;
+          to_bitField0_ |= 0x00040000;
         }
         result.lianmengId_ = lianmengId_;
         if (((from_bitField0_ & 0x00080000) == 0x00080000)) {
-          to_bitField0_ |= 0x00040000;
+          to_bitField0_ |= 0x00080000;
         }
         result.vipLevel_ = vipLevel_;
         result.bitField0_ = to_bitField0_;
@@ -1849,14 +1848,9 @@ public final class Chat {
         if (other.hasGuoJia()) {
           setGuoJia(other.getGuoJia());
         }
-        if (!other.soundData_.isEmpty()) {
-          if (soundData_.isEmpty()) {
-            soundData_ = other.soundData_;
-            bitField0_ = (bitField0_ & ~0x00000400);
-          } else {
-            ensureSoundDataIsMutable();
-            soundData_.addAll(other.soundData_);
-          }
+        if (other.hasSoundData()) {
+          bitField0_ |= 0x00000400;
+          soundData_ = other.soundData_;
           onChanged();
         }
         if (other.hasSoundLen()) {
@@ -2040,35 +2034,35 @@ public final class Chat {
         return this;
       }
 
-      // optional int32 receiverId = 3;
-      private int receiverId_ ;
+      // optional int64 receiverId = 3;
+      private long receiverId_ ;
       /**
-       * <code>optional int32 receiverId = 3;</code>
+       * <code>optional int64 receiverId = 3;</code>
        */
       public boolean hasReceiverId() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional int32 receiverId = 3;</code>
+       * <code>optional int64 receiverId = 3;</code>
        */
-      public int getReceiverId() {
+      public long getReceiverId() {
         return receiverId_;
       }
       /**
-       * <code>optional int32 receiverId = 3;</code>
+       * <code>optional int64 receiverId = 3;</code>
        */
-      public Builder setReceiverId(int value) {
+      public Builder setReceiverId(long value) {
         bitField0_ |= 0x00000004;
         receiverId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 receiverId = 3;</code>
+       * <code>optional int64 receiverId = 3;</code>
        */
       public Builder clearReceiverId() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        receiverId_ = 0;
+        receiverId_ = 0L;
         onChanged();
         return this;
       }
@@ -2443,7 +2437,7 @@ public final class Chat {
        * <code>optional int32 guoJia = 9;</code>
        *
        * <pre>
-       *发言者的国家，新增 2014年1月14日11:20:33
+       *周国 = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7; 100-系统
        * </pre>
        */
       public boolean hasGuoJia() {
@@ -2453,7 +2447,7 @@ public final class Chat {
        * <code>optional int32 guoJia = 9;</code>
        *
        * <pre>
-       *发言者的国家，新增 2014年1月14日11:20:33
+       *周国 = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7; 100-系统
        * </pre>
        */
       public int getGuoJia() {
@@ -2463,7 +2457,7 @@ public final class Chat {
        * <code>optional int32 guoJia = 9;</code>
        *
        * <pre>
-       *发言者的国家，新增 2014年1月14日11:20:33
+       *周国 = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7; 100-系统
        * </pre>
        */
       public Builder setGuoJia(int value) {
@@ -2476,7 +2470,7 @@ public final class Chat {
        * <code>optional int32 guoJia = 9;</code>
        *
        * <pre>
-       *发言者的国家，新增 2014年1月14日11:20:33
+       *周国 = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7; 100-系统
        * </pre>
        */
       public Builder clearGuoJia() {
@@ -2486,96 +2480,100 @@ public final class Chat {
         return this;
       }
 
-      // repeated float soundData = 10;
-      private java.util.List<java.lang.Float> soundData_ = java.util.Collections.emptyList();
-      private void ensureSoundDataIsMutable() {
-        if (!((bitField0_ & 0x00000400) == 0x00000400)) {
-          soundData_ = new java.util.ArrayList<java.lang.Float>(soundData_);
-          bitField0_ |= 0x00000400;
-         }
-      }
+      // optional string soundData = 10;
+      private java.lang.Object soundData_ = "";
       /**
-       * <code>repeated float soundData = 10;</code>
+       * <code>optional string soundData = 10;</code>
        *
        * <pre>
-       *NEUTRAL = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7;
+       *语音
        * </pre>
        */
-      public java.util.List<java.lang.Float>
-          getSoundDataList() {
-        return java.util.Collections.unmodifiableList(soundData_);
+      public boolean hasSoundData() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
       }
       /**
-       * <code>repeated float soundData = 10;</code>
+       * <code>optional string soundData = 10;</code>
        *
        * <pre>
-       *NEUTRAL = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7;
+       *语音
        * </pre>
        */
-      public int getSoundDataCount() {
-        return soundData_.size();
+      public java.lang.String getSoundData() {
+        java.lang.Object ref = soundData_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          soundData_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>repeated float soundData = 10;</code>
+       * <code>optional string soundData = 10;</code>
        *
        * <pre>
-       *NEUTRAL = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7;
+       *语音
        * </pre>
        */
-      public float getSoundData(int index) {
-        return soundData_.get(index);
+      public com.google.protobuf.ByteString
+          getSoundDataBytes() {
+        java.lang.Object ref = soundData_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          soundData_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
       }
       /**
-       * <code>repeated float soundData = 10;</code>
+       * <code>optional string soundData = 10;</code>
        *
        * <pre>
-       *NEUTRAL = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7;
+       *语音
        * </pre>
        */
       public Builder setSoundData(
-          int index, float value) {
-        ensureSoundDataIsMutable();
-        soundData_.set(index, value);
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        soundData_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>repeated float soundData = 10;</code>
+       * <code>optional string soundData = 10;</code>
        *
        * <pre>
-       *NEUTRAL = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7;
-       * </pre>
-       */
-      public Builder addSoundData(float value) {
-        ensureSoundDataIsMutable();
-        soundData_.add(value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated float soundData = 10;</code>
-       *
-       * <pre>
-       *NEUTRAL = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7;
-       * </pre>
-       */
-      public Builder addAllSoundData(
-          java.lang.Iterable<? extends java.lang.Float> values) {
-        ensureSoundDataIsMutable();
-        super.addAll(values, soundData_);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated float soundData = 10;</code>
-       *
-       * <pre>
-       *NEUTRAL = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7;
+       *语音
        * </pre>
        */
       public Builder clearSoundData() {
-        soundData_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000400);
+        soundData_ = getDefaultInstance().getSoundData();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string soundData = 10;</code>
+       *
+       * <pre>
+       *语音
+       * </pre>
+       */
+      public Builder setSoundDataBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        soundData_ = value;
         onChanged();
         return this;
       }
@@ -2586,7 +2584,7 @@ public final class Chat {
        * <code>optional int32 soundLen = 11;</code>
        *
        * <pre>
-       *用于标记此条信息是否含有语音。
+       *用于标记语音时间长度0为正常对话。
        * </pre>
        */
       public boolean hasSoundLen() {
@@ -2596,7 +2594,7 @@ public final class Chat {
        * <code>optional int32 soundLen = 11;</code>
        *
        * <pre>
-       *用于标记此条信息是否含有语音。
+       *用于标记语音时间长度0为正常对话。
        * </pre>
        */
       public int getSoundLen() {
@@ -2606,7 +2604,7 @@ public final class Chat {
        * <code>optional int32 soundLen = 11;</code>
        *
        * <pre>
-       *用于标记此条信息是否含有语音。
+       *用于标记语音时间长度0为正常对话。
        * </pre>
        */
       public Builder setSoundLen(int value) {
@@ -2619,7 +2617,7 @@ public final class Chat {
        * <code>optional int32 soundLen = 11;</code>
        *
        * <pre>
-       *用于标记此条信息是否含有语音。
+       *用于标记语音时间长度0为正常对话。
        * </pre>
        */
       public Builder clearSoundLen() {
@@ -3133,9 +3131,27 @@ public final class Chat {
   public interface CGetYuYingOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 seq = 1;
+    // required .qxmobile.protobuf.ChatPct.Channel channel = 1;
     /**
-     * <code>required int32 seq = 1;</code>
+     * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
+     *
+     * <pre>
+     *聊天频道
+     * </pre>
+     */
+    boolean hasChannel();
+    /**
+     * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
+     *
+     * <pre>
+     *聊天频道
+     * </pre>
+     */
+    qxmobile.protobuf.Chat.ChatPct.Channel getChannel();
+
+    // required int32 seq = 2;
+    /**
+     * <code>required int32 seq = 2;</code>
      *
      * <pre>
      *聊天内容的序号，ChatPct里发给客户端了。 
@@ -3143,7 +3159,7 @@ public final class Chat {
      */
     boolean hasSeq();
     /**
-     * <code>required int32 seq = 1;</code>
+     * <code>required int32 seq = 2;</code>
      *
      * <pre>
      *聊天内容的序号，ChatPct里发给客户端了。 
@@ -3155,7 +3171,7 @@ public final class Chat {
    * Protobuf type {@code qxmobile.protobuf.CGetYuYing}
    *
    * <pre>
-   *服务器返回时给客户端发送 PlayerSound（proto）
+   *客户端请求语音信息，C_get_sound = 23505
    * </pre>
    */
   public static final class CGetYuYing extends
@@ -3207,7 +3223,18 @@ public final class Chat {
               break;
             }
             case 8: {
-              bitField0_ |= 0x00000001;
+              int rawValue = input.readEnum();
+              qxmobile.protobuf.Chat.ChatPct.Channel value = qxmobile.protobuf.Chat.ChatPct.Channel.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                channel_ = value;
+              }
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
               seq_ = input.readInt32();
               break;
             }
@@ -3251,21 +3278,45 @@ public final class Chat {
     }
 
     private int bitField0_;
-    // required int32 seq = 1;
-    public static final int SEQ_FIELD_NUMBER = 1;
+    // required .qxmobile.protobuf.ChatPct.Channel channel = 1;
+    public static final int CHANNEL_FIELD_NUMBER = 1;
+    private qxmobile.protobuf.Chat.ChatPct.Channel channel_;
+    /**
+     * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
+     *
+     * <pre>
+     *聊天频道
+     * </pre>
+     */
+    public boolean hasChannel() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
+     *
+     * <pre>
+     *聊天频道
+     * </pre>
+     */
+    public qxmobile.protobuf.Chat.ChatPct.Channel getChannel() {
+      return channel_;
+    }
+
+    // required int32 seq = 2;
+    public static final int SEQ_FIELD_NUMBER = 2;
     private int seq_;
     /**
-     * <code>required int32 seq = 1;</code>
+     * <code>required int32 seq = 2;</code>
      *
      * <pre>
      *聊天内容的序号，ChatPct里发给客户端了。 
      * </pre>
      */
     public boolean hasSeq() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int32 seq = 1;</code>
+     * <code>required int32 seq = 2;</code>
      *
      * <pre>
      *聊天内容的序号，ChatPct里发给客户端了。 
@@ -3276,6 +3327,7 @@ public final class Chat {
     }
 
     private void initFields() {
+      channel_ = qxmobile.protobuf.Chat.ChatPct.Channel.SILIAO;
       seq_ = 0;
     }
     private byte memoizedIsInitialized = -1;
@@ -3283,6 +3335,10 @@ public final class Chat {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasChannel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasSeq()) {
         memoizedIsInitialized = 0;
         return false;
@@ -3295,7 +3351,10 @@ public final class Chat {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, seq_);
+        output.writeEnum(1, channel_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, seq_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3308,7 +3367,11 @@ public final class Chat {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, seq_);
+          .computeEnumSize(1, channel_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, seq_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3392,7 +3455,7 @@ public final class Chat {
      * Protobuf type {@code qxmobile.protobuf.CGetYuYing}
      *
      * <pre>
-     *服务器返回时给客户端发送 PlayerSound（proto）
+     *客户端请求语音信息，C_get_sound = 23505
      * </pre>
      */
     public static final class Builder extends
@@ -3430,8 +3493,10 @@ public final class Chat {
 
       public Builder clear() {
         super.clear();
-        seq_ = 0;
+        channel_ = qxmobile.protobuf.Chat.ChatPct.Channel.SILIAO;
         bitField0_ = (bitField0_ & ~0x00000001);
+        seq_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -3463,6 +3528,10 @@ public final class Chat {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
+        result.channel_ = channel_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
         result.seq_ = seq_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -3480,6 +3549,9 @@ public final class Chat {
 
       public Builder mergeFrom(qxmobile.protobuf.Chat.CGetYuYing other) {
         if (other == qxmobile.protobuf.Chat.CGetYuYing.getDefaultInstance()) return this;
+        if (other.hasChannel()) {
+          setChannel(other.getChannel());
+        }
         if (other.hasSeq()) {
           setSeq(other.getSeq());
         }
@@ -3488,6 +3560,10 @@ public final class Chat {
       }
 
       public final boolean isInitialized() {
+        if (!hasChannel()) {
+          
+          return false;
+        }
         if (!hasSeq()) {
           
           return false;
@@ -3514,20 +3590,72 @@ public final class Chat {
       }
       private int bitField0_;
 
-      // required int32 seq = 1;
+      // required .qxmobile.protobuf.ChatPct.Channel channel = 1;
+      private qxmobile.protobuf.Chat.ChatPct.Channel channel_ = qxmobile.protobuf.Chat.ChatPct.Channel.SILIAO;
+      /**
+       * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
+       *
+       * <pre>
+       *聊天频道
+       * </pre>
+       */
+      public boolean hasChannel() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
+       *
+       * <pre>
+       *聊天频道
+       * </pre>
+       */
+      public qxmobile.protobuf.Chat.ChatPct.Channel getChannel() {
+        return channel_;
+      }
+      /**
+       * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
+       *
+       * <pre>
+       *聊天频道
+       * </pre>
+       */
+      public Builder setChannel(qxmobile.protobuf.Chat.ChatPct.Channel value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        channel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
+       *
+       * <pre>
+       *聊天频道
+       * </pre>
+       */
+      public Builder clearChannel() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        channel_ = qxmobile.protobuf.Chat.ChatPct.Channel.SILIAO;
+        onChanged();
+        return this;
+      }
+
+      // required int32 seq = 2;
       private int seq_ ;
       /**
-       * <code>required int32 seq = 1;</code>
+       * <code>required int32 seq = 2;</code>
        *
        * <pre>
        *聊天内容的序号，ChatPct里发给客户端了。 
        * </pre>
        */
       public boolean hasSeq() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int32 seq = 1;</code>
+       * <code>required int32 seq = 2;</code>
        *
        * <pre>
        *聊天内容的序号，ChatPct里发给客户端了。 
@@ -3537,27 +3665,27 @@ public final class Chat {
         return seq_;
       }
       /**
-       * <code>required int32 seq = 1;</code>
+       * <code>required int32 seq = 2;</code>
        *
        * <pre>
        *聊天内容的序号，ChatPct里发给客户端了。 
        * </pre>
        */
       public Builder setSeq(int value) {
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         seq_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 seq = 1;</code>
+       * <code>required int32 seq = 2;</code>
        *
        * <pre>
        *聊天内容的序号，ChatPct里发给客户端了。 
        * </pre>
        */
       public Builder clearSeq() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         seq_ = 0;
         onChanged();
         return this;
@@ -3572,6 +3700,792 @@ public final class Chat {
     }
 
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.CGetYuYing)
+  }
+
+  public interface SGetYuYingOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .qxmobile.protobuf.ChatPct.Channel channel = 1;
+    /**
+     * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
+     *
+     * <pre>
+     *聊天频道
+     * </pre>
+     */
+    boolean hasChannel();
+    /**
+     * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
+     *
+     * <pre>
+     *聊天频道
+     * </pre>
+     */
+    qxmobile.protobuf.Chat.ChatPct.Channel getChannel();
+
+    // required int32 seq = 2;
+    /**
+     * <code>required int32 seq = 2;</code>
+     *
+     * <pre>
+     *聊天内容的序号，ChatPct里发给客户端了。 
+     * </pre>
+     */
+    boolean hasSeq();
+    /**
+     * <code>required int32 seq = 2;</code>
+     *
+     * <pre>
+     *聊天内容的序号，ChatPct里发给客户端了。 
+     * </pre>
+     */
+    int getSeq();
+
+    // required string soundData = 3;
+    /**
+     * <code>required string soundData = 3;</code>
+     *
+     * <pre>
+     *语音
+     * </pre>
+     */
+    boolean hasSoundData();
+    /**
+     * <code>required string soundData = 3;</code>
+     *
+     * <pre>
+     *语音
+     * </pre>
+     */
+    java.lang.String getSoundData();
+    /**
+     * <code>required string soundData = 3;</code>
+     *
+     * <pre>
+     *语音
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getSoundDataBytes();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.SGetYuYing}
+   *
+   * <pre>
+   * 服务器返回给客户端的消息，S_get_sound = 23507
+   * </pre>
+   */
+  public static final class SGetYuYing extends
+      com.google.protobuf.GeneratedMessage
+      implements SGetYuYingOrBuilder {
+    // Use SGetYuYing.newBuilder() to construct.
+    private SGetYuYing(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private SGetYuYing(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final SGetYuYing defaultInstance;
+    public static SGetYuYing getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public SGetYuYing getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SGetYuYing(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              qxmobile.protobuf.Chat.ChatPct.Channel value = qxmobile.protobuf.Chat.ChatPct.Channel.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                channel_ = value;
+              }
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              seq_ = input.readInt32();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              soundData_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_SGetYuYing_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_SGetYuYing_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Chat.SGetYuYing.class, qxmobile.protobuf.Chat.SGetYuYing.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<SGetYuYing> PARSER =
+        new com.google.protobuf.AbstractParser<SGetYuYing>() {
+      public SGetYuYing parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SGetYuYing(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SGetYuYing> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .qxmobile.protobuf.ChatPct.Channel channel = 1;
+    public static final int CHANNEL_FIELD_NUMBER = 1;
+    private qxmobile.protobuf.Chat.ChatPct.Channel channel_;
+    /**
+     * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
+     *
+     * <pre>
+     *聊天频道
+     * </pre>
+     */
+    public boolean hasChannel() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
+     *
+     * <pre>
+     *聊天频道
+     * </pre>
+     */
+    public qxmobile.protobuf.Chat.ChatPct.Channel getChannel() {
+      return channel_;
+    }
+
+    // required int32 seq = 2;
+    public static final int SEQ_FIELD_NUMBER = 2;
+    private int seq_;
+    /**
+     * <code>required int32 seq = 2;</code>
+     *
+     * <pre>
+     *聊天内容的序号，ChatPct里发给客户端了。 
+     * </pre>
+     */
+    public boolean hasSeq() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 seq = 2;</code>
+     *
+     * <pre>
+     *聊天内容的序号，ChatPct里发给客户端了。 
+     * </pre>
+     */
+    public int getSeq() {
+      return seq_;
+    }
+
+    // required string soundData = 3;
+    public static final int SOUNDDATA_FIELD_NUMBER = 3;
+    private java.lang.Object soundData_;
+    /**
+     * <code>required string soundData = 3;</code>
+     *
+     * <pre>
+     *语音
+     * </pre>
+     */
+    public boolean hasSoundData() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required string soundData = 3;</code>
+     *
+     * <pre>
+     *语音
+     * </pre>
+     */
+    public java.lang.String getSoundData() {
+      java.lang.Object ref = soundData_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          soundData_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string soundData = 3;</code>
+     *
+     * <pre>
+     *语音
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getSoundDataBytes() {
+      java.lang.Object ref = soundData_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        soundData_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      channel_ = qxmobile.protobuf.Chat.ChatPct.Channel.SILIAO;
+      seq_ = 0;
+      soundData_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasChannel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSeq()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSoundData()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, channel_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, seq_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getSoundDataBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, channel_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, seq_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getSoundDataBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Chat.SGetYuYing parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Chat.SGetYuYing parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Chat.SGetYuYing parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Chat.SGetYuYing parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Chat.SGetYuYing parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Chat.SGetYuYing parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Chat.SGetYuYing parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Chat.SGetYuYing parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Chat.SGetYuYing parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Chat.SGetYuYing parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Chat.SGetYuYing prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.SGetYuYing}
+     *
+     * <pre>
+     * 服务器返回给客户端的消息，S_get_sound = 23507
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Chat.SGetYuYingOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_SGetYuYing_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_SGetYuYing_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Chat.SGetYuYing.class, qxmobile.protobuf.Chat.SGetYuYing.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Chat.SGetYuYing.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        channel_ = qxmobile.protobuf.Chat.ChatPct.Channel.SILIAO;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        seq_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        soundData_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_SGetYuYing_descriptor;
+      }
+
+      public qxmobile.protobuf.Chat.SGetYuYing getDefaultInstanceForType() {
+        return qxmobile.protobuf.Chat.SGetYuYing.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Chat.SGetYuYing build() {
+        qxmobile.protobuf.Chat.SGetYuYing result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Chat.SGetYuYing buildPartial() {
+        qxmobile.protobuf.Chat.SGetYuYing result = new qxmobile.protobuf.Chat.SGetYuYing(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.channel_ = channel_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.seq_ = seq_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.soundData_ = soundData_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Chat.SGetYuYing) {
+          return mergeFrom((qxmobile.protobuf.Chat.SGetYuYing)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Chat.SGetYuYing other) {
+        if (other == qxmobile.protobuf.Chat.SGetYuYing.getDefaultInstance()) return this;
+        if (other.hasChannel()) {
+          setChannel(other.getChannel());
+        }
+        if (other.hasSeq()) {
+          setSeq(other.getSeq());
+        }
+        if (other.hasSoundData()) {
+          bitField0_ |= 0x00000004;
+          soundData_ = other.soundData_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasChannel()) {
+          
+          return false;
+        }
+        if (!hasSeq()) {
+          
+          return false;
+        }
+        if (!hasSoundData()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Chat.SGetYuYing parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Chat.SGetYuYing) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .qxmobile.protobuf.ChatPct.Channel channel = 1;
+      private qxmobile.protobuf.Chat.ChatPct.Channel channel_ = qxmobile.protobuf.Chat.ChatPct.Channel.SILIAO;
+      /**
+       * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
+       *
+       * <pre>
+       *聊天频道
+       * </pre>
+       */
+      public boolean hasChannel() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
+       *
+       * <pre>
+       *聊天频道
+       * </pre>
+       */
+      public qxmobile.protobuf.Chat.ChatPct.Channel getChannel() {
+        return channel_;
+      }
+      /**
+       * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
+       *
+       * <pre>
+       *聊天频道
+       * </pre>
+       */
+      public Builder setChannel(qxmobile.protobuf.Chat.ChatPct.Channel value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        channel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
+       *
+       * <pre>
+       *聊天频道
+       * </pre>
+       */
+      public Builder clearChannel() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        channel_ = qxmobile.protobuf.Chat.ChatPct.Channel.SILIAO;
+        onChanged();
+        return this;
+      }
+
+      // required int32 seq = 2;
+      private int seq_ ;
+      /**
+       * <code>required int32 seq = 2;</code>
+       *
+       * <pre>
+       *聊天内容的序号，ChatPct里发给客户端了。 
+       * </pre>
+       */
+      public boolean hasSeq() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 seq = 2;</code>
+       *
+       * <pre>
+       *聊天内容的序号，ChatPct里发给客户端了。 
+       * </pre>
+       */
+      public int getSeq() {
+        return seq_;
+      }
+      /**
+       * <code>required int32 seq = 2;</code>
+       *
+       * <pre>
+       *聊天内容的序号，ChatPct里发给客户端了。 
+       * </pre>
+       */
+      public Builder setSeq(int value) {
+        bitField0_ |= 0x00000002;
+        seq_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 seq = 2;</code>
+       *
+       * <pre>
+       *聊天内容的序号，ChatPct里发给客户端了。 
+       * </pre>
+       */
+      public Builder clearSeq() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        seq_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string soundData = 3;
+      private java.lang.Object soundData_ = "";
+      /**
+       * <code>required string soundData = 3;</code>
+       *
+       * <pre>
+       *语音
+       * </pre>
+       */
+      public boolean hasSoundData() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required string soundData = 3;</code>
+       *
+       * <pre>
+       *语音
+       * </pre>
+       */
+      public java.lang.String getSoundData() {
+        java.lang.Object ref = soundData_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          soundData_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string soundData = 3;</code>
+       *
+       * <pre>
+       *语音
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getSoundDataBytes() {
+        java.lang.Object ref = soundData_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          soundData_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string soundData = 3;</code>
+       *
+       * <pre>
+       *语音
+       * </pre>
+       */
+      public Builder setSoundData(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        soundData_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string soundData = 3;</code>
+       *
+       * <pre>
+       *语音
+       * </pre>
+       */
+      public Builder clearSoundData() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        soundData_ = getDefaultInstance().getSoundData();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string soundData = 3;</code>
+       *
+       * <pre>
+       *语音
+       * </pre>
+       */
+      public Builder setSoundDataBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        soundData_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.SGetYuYing)
+    }
+
+    static {
+      defaultInstance = new SGetYuYing(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.SGetYuYing)
   }
 
   public interface CGetChatOrBuilder
@@ -8938,6 +9852,2405 @@ public final class Chat {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.CancelBlack)
   }
 
+  public interface RecentContactsOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;
+    /**
+     * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+     */
+    java.util.List<qxmobile.protobuf.Chat.ContactsJunzhuInfo> 
+        getJunzhuInfoList();
+    /**
+     * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+     */
+    qxmobile.protobuf.Chat.ContactsJunzhuInfo getJunzhuInfo(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+     */
+    int getJunzhuInfoCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+     */
+    java.util.List<? extends qxmobile.protobuf.Chat.ContactsJunzhuInfoOrBuilder> 
+        getJunzhuInfoOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+     */
+    qxmobile.protobuf.Chat.ContactsJunzhuInfoOrBuilder getJunzhuInfoOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.RecentContacts}
+   *
+   * <pre>
+   * 获取最近联系人C_GET_RECENT_CONTACTS = 20107
+   * </pre>
+   */
+  public static final class RecentContacts extends
+      com.google.protobuf.GeneratedMessage
+      implements RecentContactsOrBuilder {
+    // Use RecentContacts.newBuilder() to construct.
+    private RecentContacts(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private RecentContacts(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final RecentContacts defaultInstance;
+    public static RecentContacts getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public RecentContacts getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RecentContacts(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                junzhuInfo_ = new java.util.ArrayList<qxmobile.protobuf.Chat.ContactsJunzhuInfo>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              junzhuInfo_.add(input.readMessage(qxmobile.protobuf.Chat.ContactsJunzhuInfo.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          junzhuInfo_ = java.util.Collections.unmodifiableList(junzhuInfo_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_RecentContacts_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_RecentContacts_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Chat.RecentContacts.class, qxmobile.protobuf.Chat.RecentContacts.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<RecentContacts> PARSER =
+        new com.google.protobuf.AbstractParser<RecentContacts>() {
+      public RecentContacts parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new RecentContacts(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RecentContacts> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;
+    public static final int JUNZHUINFO_FIELD_NUMBER = 1;
+    private java.util.List<qxmobile.protobuf.Chat.ContactsJunzhuInfo> junzhuInfo_;
+    /**
+     * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+     */
+    public java.util.List<qxmobile.protobuf.Chat.ContactsJunzhuInfo> getJunzhuInfoList() {
+      return junzhuInfo_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Chat.ContactsJunzhuInfoOrBuilder> 
+        getJunzhuInfoOrBuilderList() {
+      return junzhuInfo_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+     */
+    public int getJunzhuInfoCount() {
+      return junzhuInfo_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+     */
+    public qxmobile.protobuf.Chat.ContactsJunzhuInfo getJunzhuInfo(int index) {
+      return junzhuInfo_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+     */
+    public qxmobile.protobuf.Chat.ContactsJunzhuInfoOrBuilder getJunzhuInfoOrBuilder(
+        int index) {
+      return junzhuInfo_.get(index);
+    }
+
+    private void initFields() {
+      junzhuInfo_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getJunzhuInfoCount(); i++) {
+        if (!getJunzhuInfo(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < junzhuInfo_.size(); i++) {
+        output.writeMessage(1, junzhuInfo_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < junzhuInfo_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, junzhuInfo_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Chat.RecentContacts parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Chat.RecentContacts parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Chat.RecentContacts parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Chat.RecentContacts parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Chat.RecentContacts parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Chat.RecentContacts parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Chat.RecentContacts parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Chat.RecentContacts parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Chat.RecentContacts parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Chat.RecentContacts parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Chat.RecentContacts prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.RecentContacts}
+     *
+     * <pre>
+     * 获取最近联系人C_GET_RECENT_CONTACTS = 20107
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Chat.RecentContactsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_RecentContacts_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_RecentContacts_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Chat.RecentContacts.class, qxmobile.protobuf.Chat.RecentContacts.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Chat.RecentContacts.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getJunzhuInfoFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (junzhuInfoBuilder_ == null) {
+          junzhuInfo_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          junzhuInfoBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_RecentContacts_descriptor;
+      }
+
+      public qxmobile.protobuf.Chat.RecentContacts getDefaultInstanceForType() {
+        return qxmobile.protobuf.Chat.RecentContacts.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Chat.RecentContacts build() {
+        qxmobile.protobuf.Chat.RecentContacts result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Chat.RecentContacts buildPartial() {
+        qxmobile.protobuf.Chat.RecentContacts result = new qxmobile.protobuf.Chat.RecentContacts(this);
+        int from_bitField0_ = bitField0_;
+        if (junzhuInfoBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            junzhuInfo_ = java.util.Collections.unmodifiableList(junzhuInfo_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.junzhuInfo_ = junzhuInfo_;
+        } else {
+          result.junzhuInfo_ = junzhuInfoBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Chat.RecentContacts) {
+          return mergeFrom((qxmobile.protobuf.Chat.RecentContacts)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Chat.RecentContacts other) {
+        if (other == qxmobile.protobuf.Chat.RecentContacts.getDefaultInstance()) return this;
+        if (junzhuInfoBuilder_ == null) {
+          if (!other.junzhuInfo_.isEmpty()) {
+            if (junzhuInfo_.isEmpty()) {
+              junzhuInfo_ = other.junzhuInfo_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureJunzhuInfoIsMutable();
+              junzhuInfo_.addAll(other.junzhuInfo_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.junzhuInfo_.isEmpty()) {
+            if (junzhuInfoBuilder_.isEmpty()) {
+              junzhuInfoBuilder_.dispose();
+              junzhuInfoBuilder_ = null;
+              junzhuInfo_ = other.junzhuInfo_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              junzhuInfoBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getJunzhuInfoFieldBuilder() : null;
+            } else {
+              junzhuInfoBuilder_.addAllMessages(other.junzhuInfo_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getJunzhuInfoCount(); i++) {
+          if (!getJunzhuInfo(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Chat.RecentContacts parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Chat.RecentContacts) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;
+      private java.util.List<qxmobile.protobuf.Chat.ContactsJunzhuInfo> junzhuInfo_ =
+        java.util.Collections.emptyList();
+      private void ensureJunzhuInfoIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          junzhuInfo_ = new java.util.ArrayList<qxmobile.protobuf.Chat.ContactsJunzhuInfo>(junzhuInfo_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Chat.ContactsJunzhuInfo, qxmobile.protobuf.Chat.ContactsJunzhuInfo.Builder, qxmobile.protobuf.Chat.ContactsJunzhuInfoOrBuilder> junzhuInfoBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Chat.ContactsJunzhuInfo> getJunzhuInfoList() {
+        if (junzhuInfoBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(junzhuInfo_);
+        } else {
+          return junzhuInfoBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public int getJunzhuInfoCount() {
+        if (junzhuInfoBuilder_ == null) {
+          return junzhuInfo_.size();
+        } else {
+          return junzhuInfoBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public qxmobile.protobuf.Chat.ContactsJunzhuInfo getJunzhuInfo(int index) {
+        if (junzhuInfoBuilder_ == null) {
+          return junzhuInfo_.get(index);
+        } else {
+          return junzhuInfoBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public Builder setJunzhuInfo(
+          int index, qxmobile.protobuf.Chat.ContactsJunzhuInfo value) {
+        if (junzhuInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureJunzhuInfoIsMutable();
+          junzhuInfo_.set(index, value);
+          onChanged();
+        } else {
+          junzhuInfoBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public Builder setJunzhuInfo(
+          int index, qxmobile.protobuf.Chat.ContactsJunzhuInfo.Builder builderForValue) {
+        if (junzhuInfoBuilder_ == null) {
+          ensureJunzhuInfoIsMutable();
+          junzhuInfo_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          junzhuInfoBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public Builder addJunzhuInfo(qxmobile.protobuf.Chat.ContactsJunzhuInfo value) {
+        if (junzhuInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureJunzhuInfoIsMutable();
+          junzhuInfo_.add(value);
+          onChanged();
+        } else {
+          junzhuInfoBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public Builder addJunzhuInfo(
+          int index, qxmobile.protobuf.Chat.ContactsJunzhuInfo value) {
+        if (junzhuInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureJunzhuInfoIsMutable();
+          junzhuInfo_.add(index, value);
+          onChanged();
+        } else {
+          junzhuInfoBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public Builder addJunzhuInfo(
+          qxmobile.protobuf.Chat.ContactsJunzhuInfo.Builder builderForValue) {
+        if (junzhuInfoBuilder_ == null) {
+          ensureJunzhuInfoIsMutable();
+          junzhuInfo_.add(builderForValue.build());
+          onChanged();
+        } else {
+          junzhuInfoBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public Builder addJunzhuInfo(
+          int index, qxmobile.protobuf.Chat.ContactsJunzhuInfo.Builder builderForValue) {
+        if (junzhuInfoBuilder_ == null) {
+          ensureJunzhuInfoIsMutable();
+          junzhuInfo_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          junzhuInfoBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public Builder addAllJunzhuInfo(
+          java.lang.Iterable<? extends qxmobile.protobuf.Chat.ContactsJunzhuInfo> values) {
+        if (junzhuInfoBuilder_ == null) {
+          ensureJunzhuInfoIsMutable();
+          super.addAll(values, junzhuInfo_);
+          onChanged();
+        } else {
+          junzhuInfoBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public Builder clearJunzhuInfo() {
+        if (junzhuInfoBuilder_ == null) {
+          junzhuInfo_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          junzhuInfoBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public Builder removeJunzhuInfo(int index) {
+        if (junzhuInfoBuilder_ == null) {
+          ensureJunzhuInfoIsMutable();
+          junzhuInfo_.remove(index);
+          onChanged();
+        } else {
+          junzhuInfoBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public qxmobile.protobuf.Chat.ContactsJunzhuInfo.Builder getJunzhuInfoBuilder(
+          int index) {
+        return getJunzhuInfoFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public qxmobile.protobuf.Chat.ContactsJunzhuInfoOrBuilder getJunzhuInfoOrBuilder(
+          int index) {
+        if (junzhuInfoBuilder_ == null) {
+          return junzhuInfo_.get(index);  } else {
+          return junzhuInfoBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Chat.ContactsJunzhuInfoOrBuilder> 
+           getJunzhuInfoOrBuilderList() {
+        if (junzhuInfoBuilder_ != null) {
+          return junzhuInfoBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(junzhuInfo_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public qxmobile.protobuf.Chat.ContactsJunzhuInfo.Builder addJunzhuInfoBuilder() {
+        return getJunzhuInfoFieldBuilder().addBuilder(
+            qxmobile.protobuf.Chat.ContactsJunzhuInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public qxmobile.protobuf.Chat.ContactsJunzhuInfo.Builder addJunzhuInfoBuilder(
+          int index) {
+        return getJunzhuInfoFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Chat.ContactsJunzhuInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ContactsJunzhuInfo junzhuInfo = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Chat.ContactsJunzhuInfo.Builder> 
+           getJunzhuInfoBuilderList() {
+        return getJunzhuInfoFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Chat.ContactsJunzhuInfo, qxmobile.protobuf.Chat.ContactsJunzhuInfo.Builder, qxmobile.protobuf.Chat.ContactsJunzhuInfoOrBuilder> 
+          getJunzhuInfoFieldBuilder() {
+        if (junzhuInfoBuilder_ == null) {
+          junzhuInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Chat.ContactsJunzhuInfo, qxmobile.protobuf.Chat.ContactsJunzhuInfo.Builder, qxmobile.protobuf.Chat.ContactsJunzhuInfoOrBuilder>(
+                  junzhuInfo_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          junzhuInfo_ = null;
+        }
+        return junzhuInfoBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.RecentContacts)
+    }
+
+    static {
+      defaultInstance = new RecentContacts(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.RecentContacts)
+  }
+
+  public interface ContactsJunzhuInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int64 junzhuId = 1;
+    /**
+     * <code>required int64 junzhuId = 1;</code>
+     *
+     * <pre>
+     * 君主id
+     * </pre>
+     */
+    boolean hasJunzhuId();
+    /**
+     * <code>required int64 junzhuId = 1;</code>
+     *
+     * <pre>
+     * 君主id
+     * </pre>
+     */
+    long getJunzhuId();
+
+    // required string name = 2;
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 君主名字
+     * </pre>
+     */
+    boolean hasName();
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 君主名字
+     * </pre>
+     */
+    java.lang.String getName();
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 君主名字
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+
+    // required int32 iconId = 4;
+    /**
+     * <code>required int32 iconId = 4;</code>
+     *
+     * <pre>
+     * 玩家头像
+     * </pre>
+     */
+    boolean hasIconId();
+    /**
+     * <code>required int32 iconId = 4;</code>
+     *
+     * <pre>
+     * 玩家头像
+     * </pre>
+     */
+    int getIconId();
+
+    // required int32 level = 5;
+    /**
+     * <code>required int32 level = 5;</code>
+     *
+     * <pre>
+     *君主等级
+     * </pre>
+     */
+    boolean hasLevel();
+    /**
+     * <code>required int32 level = 5;</code>
+     *
+     * <pre>
+     *君主等级
+     * </pre>
+     */
+    int getLevel();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ContactsJunzhuInfo}
+   *
+   * <pre>
+   * 最近联系人信息
+   * </pre>
+   */
+  public static final class ContactsJunzhuInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements ContactsJunzhuInfoOrBuilder {
+    // Use ContactsJunzhuInfo.newBuilder() to construct.
+    private ContactsJunzhuInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ContactsJunzhuInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ContactsJunzhuInfo defaultInstance;
+    public static ContactsJunzhuInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ContactsJunzhuInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ContactsJunzhuInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              junzhuId_ = input.readInt64();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              name_ = input.readBytes();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000004;
+              iconId_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000008;
+              level_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_ContactsJunzhuInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_ContactsJunzhuInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Chat.ContactsJunzhuInfo.class, qxmobile.protobuf.Chat.ContactsJunzhuInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ContactsJunzhuInfo> PARSER =
+        new com.google.protobuf.AbstractParser<ContactsJunzhuInfo>() {
+      public ContactsJunzhuInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ContactsJunzhuInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ContactsJunzhuInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int64 junzhuId = 1;
+    public static final int JUNZHUID_FIELD_NUMBER = 1;
+    private long junzhuId_;
+    /**
+     * <code>required int64 junzhuId = 1;</code>
+     *
+     * <pre>
+     * 君主id
+     * </pre>
+     */
+    public boolean hasJunzhuId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int64 junzhuId = 1;</code>
+     *
+     * <pre>
+     * 君主id
+     * </pre>
+     */
+    public long getJunzhuId() {
+      return junzhuId_;
+    }
+
+    // required string name = 2;
+    public static final int NAME_FIELD_NUMBER = 2;
+    private java.lang.Object name_;
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 君主名字
+     * </pre>
+     */
+    public boolean hasName() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 君主名字
+     * </pre>
+     */
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          name_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 君主名字
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 iconId = 4;
+    public static final int ICONID_FIELD_NUMBER = 4;
+    private int iconId_;
+    /**
+     * <code>required int32 iconId = 4;</code>
+     *
+     * <pre>
+     * 玩家头像
+     * </pre>
+     */
+    public boolean hasIconId() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 iconId = 4;</code>
+     *
+     * <pre>
+     * 玩家头像
+     * </pre>
+     */
+    public int getIconId() {
+      return iconId_;
+    }
+
+    // required int32 level = 5;
+    public static final int LEVEL_FIELD_NUMBER = 5;
+    private int level_;
+    /**
+     * <code>required int32 level = 5;</code>
+     *
+     * <pre>
+     *君主等级
+     * </pre>
+     */
+    public boolean hasLevel() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 level = 5;</code>
+     *
+     * <pre>
+     *君主等级
+     * </pre>
+     */
+    public int getLevel() {
+      return level_;
+    }
+
+    private void initFields() {
+      junzhuId_ = 0L;
+      name_ = "";
+      iconId_ = 0;
+      level_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasJunzhuId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIconId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt64(1, junzhuId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(4, iconId_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(5, level_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, junzhuId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, iconId_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, level_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Chat.ContactsJunzhuInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Chat.ContactsJunzhuInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Chat.ContactsJunzhuInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Chat.ContactsJunzhuInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Chat.ContactsJunzhuInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Chat.ContactsJunzhuInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Chat.ContactsJunzhuInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Chat.ContactsJunzhuInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Chat.ContactsJunzhuInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Chat.ContactsJunzhuInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Chat.ContactsJunzhuInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ContactsJunzhuInfo}
+     *
+     * <pre>
+     * 最近联系人信息
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Chat.ContactsJunzhuInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_ContactsJunzhuInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_ContactsJunzhuInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Chat.ContactsJunzhuInfo.class, qxmobile.protobuf.Chat.ContactsJunzhuInfo.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Chat.ContactsJunzhuInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        junzhuId_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        name_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        iconId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        level_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_ContactsJunzhuInfo_descriptor;
+      }
+
+      public qxmobile.protobuf.Chat.ContactsJunzhuInfo getDefaultInstanceForType() {
+        return qxmobile.protobuf.Chat.ContactsJunzhuInfo.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Chat.ContactsJunzhuInfo build() {
+        qxmobile.protobuf.Chat.ContactsJunzhuInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Chat.ContactsJunzhuInfo buildPartial() {
+        qxmobile.protobuf.Chat.ContactsJunzhuInfo result = new qxmobile.protobuf.Chat.ContactsJunzhuInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.junzhuId_ = junzhuId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.name_ = name_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.iconId_ = iconId_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.level_ = level_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Chat.ContactsJunzhuInfo) {
+          return mergeFrom((qxmobile.protobuf.Chat.ContactsJunzhuInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Chat.ContactsJunzhuInfo other) {
+        if (other == qxmobile.protobuf.Chat.ContactsJunzhuInfo.getDefaultInstance()) return this;
+        if (other.hasJunzhuId()) {
+          setJunzhuId(other.getJunzhuId());
+        }
+        if (other.hasName()) {
+          bitField0_ |= 0x00000002;
+          name_ = other.name_;
+          onChanged();
+        }
+        if (other.hasIconId()) {
+          setIconId(other.getIconId());
+        }
+        if (other.hasLevel()) {
+          setLevel(other.getLevel());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasJunzhuId()) {
+          
+          return false;
+        }
+        if (!hasName()) {
+          
+          return false;
+        }
+        if (!hasIconId()) {
+          
+          return false;
+        }
+        if (!hasLevel()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Chat.ContactsJunzhuInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Chat.ContactsJunzhuInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int64 junzhuId = 1;
+      private long junzhuId_ ;
+      /**
+       * <code>required int64 junzhuId = 1;</code>
+       *
+       * <pre>
+       * 君主id
+       * </pre>
+       */
+      public boolean hasJunzhuId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int64 junzhuId = 1;</code>
+       *
+       * <pre>
+       * 君主id
+       * </pre>
+       */
+      public long getJunzhuId() {
+        return junzhuId_;
+      }
+      /**
+       * <code>required int64 junzhuId = 1;</code>
+       *
+       * <pre>
+       * 君主id
+       * </pre>
+       */
+      public Builder setJunzhuId(long value) {
+        bitField0_ |= 0x00000001;
+        junzhuId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 junzhuId = 1;</code>
+       *
+       * <pre>
+       * 君主id
+       * </pre>
+       */
+      public Builder clearJunzhuId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        junzhuId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // required string name = 2;
+      private java.lang.Object name_ = "";
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 君主名字
+       * </pre>
+       */
+      public boolean hasName() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 君主名字
+       * </pre>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 君主名字
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 君主名字
+       * </pre>
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 君主名字
+       * </pre>
+       */
+      public Builder clearName() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 君主名字
+       * </pre>
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 iconId = 4;
+      private int iconId_ ;
+      /**
+       * <code>required int32 iconId = 4;</code>
+       *
+       * <pre>
+       * 玩家头像
+       * </pre>
+       */
+      public boolean hasIconId() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 iconId = 4;</code>
+       *
+       * <pre>
+       * 玩家头像
+       * </pre>
+       */
+      public int getIconId() {
+        return iconId_;
+      }
+      /**
+       * <code>required int32 iconId = 4;</code>
+       *
+       * <pre>
+       * 玩家头像
+       * </pre>
+       */
+      public Builder setIconId(int value) {
+        bitField0_ |= 0x00000004;
+        iconId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 iconId = 4;</code>
+       *
+       * <pre>
+       * 玩家头像
+       * </pre>
+       */
+      public Builder clearIconId() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        iconId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 level = 5;
+      private int level_ ;
+      /**
+       * <code>required int32 level = 5;</code>
+       *
+       * <pre>
+       *君主等级
+       * </pre>
+       */
+      public boolean hasLevel() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 level = 5;</code>
+       *
+       * <pre>
+       *君主等级
+       * </pre>
+       */
+      public int getLevel() {
+        return level_;
+      }
+      /**
+       * <code>required int32 level = 5;</code>
+       *
+       * <pre>
+       *君主等级
+       * </pre>
+       */
+      public Builder setLevel(int value) {
+        bitField0_ |= 0x00000008;
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 level = 5;</code>
+       *
+       * <pre>
+       *君主等级
+       * </pre>
+       */
+      public Builder clearLevel() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ContactsJunzhuInfo)
+    }
+
+    static {
+      defaultInstance = new ContactsJunzhuInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ContactsJunzhuInfo)
+  }
+
+  public interface ChatSettingsOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required bool world = 1;
+    /**
+     * <code>required bool world = 1;</code>
+     *
+     * <pre>
+     * true-开，false-关
+     * </pre>
+     */
+    boolean hasWorld();
+    /**
+     * <code>required bool world = 1;</code>
+     *
+     * <pre>
+     * true-开，false-关
+     * </pre>
+     */
+    boolean getWorld();
+
+    // required bool lianMeng = 2;
+    /**
+     * <code>required bool lianMeng = 2;</code>
+     *
+     * <pre>
+     * true-开，false-关
+     * </pre>
+     */
+    boolean hasLianMeng();
+    /**
+     * <code>required bool lianMeng = 2;</code>
+     *
+     * <pre>
+     * true-开，false-关
+     * </pre>
+     */
+    boolean getLianMeng();
+
+    // required bool siLiao = 3;
+    /**
+     * <code>required bool siLiao = 3;</code>
+     *
+     * <pre>
+     * true-开，false-关
+     * </pre>
+     */
+    boolean hasSiLiao();
+    /**
+     * <code>required bool siLiao = 3;</code>
+     *
+     * <pre>
+     * true-开，false-关
+     * </pre>
+     */
+    boolean getSiLiao();
+
+    // required bool wifiAutoPlay = 4;
+    /**
+     * <code>required bool wifiAutoPlay = 4;</code>
+     *
+     * <pre>
+     * true-开，false-关
+     * </pre>
+     */
+    boolean hasWifiAutoPlay();
+    /**
+     * <code>required bool wifiAutoPlay = 4;</code>
+     *
+     * <pre>
+     * true-开，false-关
+     * </pre>
+     */
+    boolean getWifiAutoPlay();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ChatSettings}
+   *
+   * <pre>
+   * 设置聊天设置：C_SETTING_CHAT = 20109, 请求聊天设置：C_CHAT_SETTING_REQ = 20111
+   * </pre>
+   */
+  public static final class ChatSettings extends
+      com.google.protobuf.GeneratedMessage
+      implements ChatSettingsOrBuilder {
+    // Use ChatSettings.newBuilder() to construct.
+    private ChatSettings(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ChatSettings(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ChatSettings defaultInstance;
+    public static ChatSettings getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ChatSettings getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ChatSettings(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              world_ = input.readBool();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              lianMeng_ = input.readBool();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              siLiao_ = input.readBool();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              wifiAutoPlay_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_ChatSettings_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_ChatSettings_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Chat.ChatSettings.class, qxmobile.protobuf.Chat.ChatSettings.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ChatSettings> PARSER =
+        new com.google.protobuf.AbstractParser<ChatSettings>() {
+      public ChatSettings parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ChatSettings(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ChatSettings> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required bool world = 1;
+    public static final int WORLD_FIELD_NUMBER = 1;
+    private boolean world_;
+    /**
+     * <code>required bool world = 1;</code>
+     *
+     * <pre>
+     * true-开，false-关
+     * </pre>
+     */
+    public boolean hasWorld() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required bool world = 1;</code>
+     *
+     * <pre>
+     * true-开，false-关
+     * </pre>
+     */
+    public boolean getWorld() {
+      return world_;
+    }
+
+    // required bool lianMeng = 2;
+    public static final int LIANMENG_FIELD_NUMBER = 2;
+    private boolean lianMeng_;
+    /**
+     * <code>required bool lianMeng = 2;</code>
+     *
+     * <pre>
+     * true-开，false-关
+     * </pre>
+     */
+    public boolean hasLianMeng() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required bool lianMeng = 2;</code>
+     *
+     * <pre>
+     * true-开，false-关
+     * </pre>
+     */
+    public boolean getLianMeng() {
+      return lianMeng_;
+    }
+
+    // required bool siLiao = 3;
+    public static final int SILIAO_FIELD_NUMBER = 3;
+    private boolean siLiao_;
+    /**
+     * <code>required bool siLiao = 3;</code>
+     *
+     * <pre>
+     * true-开，false-关
+     * </pre>
+     */
+    public boolean hasSiLiao() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required bool siLiao = 3;</code>
+     *
+     * <pre>
+     * true-开，false-关
+     * </pre>
+     */
+    public boolean getSiLiao() {
+      return siLiao_;
+    }
+
+    // required bool wifiAutoPlay = 4;
+    public static final int WIFIAUTOPLAY_FIELD_NUMBER = 4;
+    private boolean wifiAutoPlay_;
+    /**
+     * <code>required bool wifiAutoPlay = 4;</code>
+     *
+     * <pre>
+     * true-开，false-关
+     * </pre>
+     */
+    public boolean hasWifiAutoPlay() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required bool wifiAutoPlay = 4;</code>
+     *
+     * <pre>
+     * true-开，false-关
+     * </pre>
+     */
+    public boolean getWifiAutoPlay() {
+      return wifiAutoPlay_;
+    }
+
+    private void initFields() {
+      world_ = false;
+      lianMeng_ = false;
+      siLiao_ = false;
+      wifiAutoPlay_ = false;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasWorld()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLianMeng()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSiLiao()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasWifiAutoPlay()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBool(1, world_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBool(2, lianMeng_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBool(3, siLiao_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBool(4, wifiAutoPlay_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, world_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(2, lianMeng_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, siLiao_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, wifiAutoPlay_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Chat.ChatSettings parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Chat.ChatSettings parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Chat.ChatSettings parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Chat.ChatSettings parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Chat.ChatSettings parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Chat.ChatSettings parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Chat.ChatSettings parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Chat.ChatSettings parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Chat.ChatSettings parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Chat.ChatSettings parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Chat.ChatSettings prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ChatSettings}
+     *
+     * <pre>
+     * 设置聊天设置：C_SETTING_CHAT = 20109, 请求聊天设置：C_CHAT_SETTING_REQ = 20111
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Chat.ChatSettingsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_ChatSettings_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_ChatSettings_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Chat.ChatSettings.class, qxmobile.protobuf.Chat.ChatSettings.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Chat.ChatSettings.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        world_ = false;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        lianMeng_ = false;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        siLiao_ = false;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        wifiAutoPlay_ = false;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Chat.internal_static_qxmobile_protobuf_ChatSettings_descriptor;
+      }
+
+      public qxmobile.protobuf.Chat.ChatSettings getDefaultInstanceForType() {
+        return qxmobile.protobuf.Chat.ChatSettings.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Chat.ChatSettings build() {
+        qxmobile.protobuf.Chat.ChatSettings result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Chat.ChatSettings buildPartial() {
+        qxmobile.protobuf.Chat.ChatSettings result = new qxmobile.protobuf.Chat.ChatSettings(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.world_ = world_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.lianMeng_ = lianMeng_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.siLiao_ = siLiao_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.wifiAutoPlay_ = wifiAutoPlay_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Chat.ChatSettings) {
+          return mergeFrom((qxmobile.protobuf.Chat.ChatSettings)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Chat.ChatSettings other) {
+        if (other == qxmobile.protobuf.Chat.ChatSettings.getDefaultInstance()) return this;
+        if (other.hasWorld()) {
+          setWorld(other.getWorld());
+        }
+        if (other.hasLianMeng()) {
+          setLianMeng(other.getLianMeng());
+        }
+        if (other.hasSiLiao()) {
+          setSiLiao(other.getSiLiao());
+        }
+        if (other.hasWifiAutoPlay()) {
+          setWifiAutoPlay(other.getWifiAutoPlay());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasWorld()) {
+          
+          return false;
+        }
+        if (!hasLianMeng()) {
+          
+          return false;
+        }
+        if (!hasSiLiao()) {
+          
+          return false;
+        }
+        if (!hasWifiAutoPlay()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Chat.ChatSettings parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Chat.ChatSettings) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required bool world = 1;
+      private boolean world_ ;
+      /**
+       * <code>required bool world = 1;</code>
+       *
+       * <pre>
+       * true-开，false-关
+       * </pre>
+       */
+      public boolean hasWorld() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required bool world = 1;</code>
+       *
+       * <pre>
+       * true-开，false-关
+       * </pre>
+       */
+      public boolean getWorld() {
+        return world_;
+      }
+      /**
+       * <code>required bool world = 1;</code>
+       *
+       * <pre>
+       * true-开，false-关
+       * </pre>
+       */
+      public Builder setWorld(boolean value) {
+        bitField0_ |= 0x00000001;
+        world_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool world = 1;</code>
+       *
+       * <pre>
+       * true-开，false-关
+       * </pre>
+       */
+      public Builder clearWorld() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        world_ = false;
+        onChanged();
+        return this;
+      }
+
+      // required bool lianMeng = 2;
+      private boolean lianMeng_ ;
+      /**
+       * <code>required bool lianMeng = 2;</code>
+       *
+       * <pre>
+       * true-开，false-关
+       * </pre>
+       */
+      public boolean hasLianMeng() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required bool lianMeng = 2;</code>
+       *
+       * <pre>
+       * true-开，false-关
+       * </pre>
+       */
+      public boolean getLianMeng() {
+        return lianMeng_;
+      }
+      /**
+       * <code>required bool lianMeng = 2;</code>
+       *
+       * <pre>
+       * true-开，false-关
+       * </pre>
+       */
+      public Builder setLianMeng(boolean value) {
+        bitField0_ |= 0x00000002;
+        lianMeng_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool lianMeng = 2;</code>
+       *
+       * <pre>
+       * true-开，false-关
+       * </pre>
+       */
+      public Builder clearLianMeng() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        lianMeng_ = false;
+        onChanged();
+        return this;
+      }
+
+      // required bool siLiao = 3;
+      private boolean siLiao_ ;
+      /**
+       * <code>required bool siLiao = 3;</code>
+       *
+       * <pre>
+       * true-开，false-关
+       * </pre>
+       */
+      public boolean hasSiLiao() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required bool siLiao = 3;</code>
+       *
+       * <pre>
+       * true-开，false-关
+       * </pre>
+       */
+      public boolean getSiLiao() {
+        return siLiao_;
+      }
+      /**
+       * <code>required bool siLiao = 3;</code>
+       *
+       * <pre>
+       * true-开，false-关
+       * </pre>
+       */
+      public Builder setSiLiao(boolean value) {
+        bitField0_ |= 0x00000004;
+        siLiao_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool siLiao = 3;</code>
+       *
+       * <pre>
+       * true-开，false-关
+       * </pre>
+       */
+      public Builder clearSiLiao() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        siLiao_ = false;
+        onChanged();
+        return this;
+      }
+
+      // required bool wifiAutoPlay = 4;
+      private boolean wifiAutoPlay_ ;
+      /**
+       * <code>required bool wifiAutoPlay = 4;</code>
+       *
+       * <pre>
+       * true-开，false-关
+       * </pre>
+       */
+      public boolean hasWifiAutoPlay() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required bool wifiAutoPlay = 4;</code>
+       *
+       * <pre>
+       * true-开，false-关
+       * </pre>
+       */
+      public boolean getWifiAutoPlay() {
+        return wifiAutoPlay_;
+      }
+      /**
+       * <code>required bool wifiAutoPlay = 4;</code>
+       *
+       * <pre>
+       * true-开，false-关
+       * </pre>
+       */
+      public Builder setWifiAutoPlay(boolean value) {
+        bitField0_ |= 0x00000008;
+        wifiAutoPlay_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool wifiAutoPlay = 4;</code>
+       *
+       * <pre>
+       * true-开，false-关
+       * </pre>
+       */
+      public Builder clearWifiAutoPlay() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        wifiAutoPlay_ = false;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ChatSettings)
+    }
+
+    static {
+      defaultInstance = new ChatSettings(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ChatSettings)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_ChatPct_descriptor;
   private static
@@ -8948,6 +12261,11 @@ public final class Chat {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_CGetYuYing_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_SGetYuYing_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_SGetYuYing_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_CGetChat_descriptor;
   private static
@@ -8983,6 +12301,21 @@ public final class Chat {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_CancelBlack_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_RecentContacts_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_RecentContacts_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ContactsJunzhuInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ContactsJunzhuInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ChatSettings_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ChatSettings_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -8994,33 +12327,43 @@ public final class Chat {
     java.lang.String[] descriptorData = {
       "\n\rchatMsg.proto\022\021qxmobile.protobuf\"\200\004\n\007C" +
       "hatPct\022\020\n\010senderId\030\001 \002(\003\022\022\n\nsenderName\030\002" +
-      " \002(\t\022\022\n\nreceiverId\030\003 \001(\005\022\024\n\014receiverName" +
+      " \002(\t\022\022\n\nreceiverId\030\003 \001(\003\022\024\n\014receiverName" +
       "\030\004 \001(\t\022\016\n\006roleId\030\024 \001(\005\022;\n\007channel\030\005 \002(\0162" +
       "\".qxmobile.protobuf.ChatPct.Channel:\006SIL" +
       "IAO\022\017\n\007content\030\006 \002(\t\022\020\n\010dateTime\030\007 \001(\t\022\013" +
       "\n\003seq\030\010 \001(\005\022\016\n\006guoJia\030\t \001(\005\022\021\n\tsoundData" +
-      "\030\n \003(\002\022\020\n\010soundLen\030\013 \001(\005\022\016\n\006isLink\030\014 \001(\010" +
+      "\030\n \001(\t\022\020\n\010soundLen\030\013 \001(\005\022\016\n\006isLink\030\014 \001(\010" +
       "\022\014\n\004type\030\r \001(\005\022\r\n\005param\030\016 \001(\t\022\020\n\010isYBHel" +
       "p\030\017 \001(\010\022\024\n\014isLveDuoHelp\030\020 \001(\010\022\024\n\014lianmen",
       "gName\030\021 \001(\t\022\022\n\nlianmengId\030\023 \001(\005\022\020\n\010vipLe" +
       "vel\030\022 \001(\005\"b\n\007Channel\022\n\n\006SILIAO\020\000\022\014\n\010LIAN" +
       "MENG\020\001\022\n\n\006GUOJIA\020\002\022\n\n\006SHIJIE\020\003\022\n\n\006SYSTEM" +
-      "\020\004\022\n\n\006XiaoWu\020\005\022\r\n\tBroadcast\020\006\"\031\n\nCGetYuY" +
-      "ing\022\013\n\003seq\030\001 \002(\005\";\n\010CGetChat\022\r\n\005start\030\001 " +
-      "\002(\005\022\013\n\003end\030\002 \002(\005\022\023\n\013channelCode\030\003 \001(\005\"8\n" +
-      "\014SChatLogList\022(\n\004logs\030\001 \003(\0132\032.qxmobile.p" +
-      "rotobuf.ChatPct\"#\n\017JoinToBlacklist\022\020\n\010ju" +
-      "nzhuId\030\001 \002(\003\"i\n\rBlacklistResp\022\016\n\006result\030" +
-      "\001 \002(\005\0226\n\njunzhuInfo\030\002 \001(\0132\".qxmobile.pro",
-      "tobuf.BlackJunzhuInfo\022\020\n\010junzhuId\030\003 \001(\003\"" +
-      "\246\001\n\017BlackJunzhuInfo\022\020\n\010junzhuId\030\001 \002(\003\022\014\n" +
-      "\004name\030\002 \002(\t\022\024\n\014lianMengName\030\003 \002(\t\022\016\n\006ico" +
-      "nId\030\004 \002(\005\022\r\n\005level\030\005 \002(\005\022\r\n\005vipLv\030\006 \001(\005\022" +
-      "\017\n\007junXian\030\007 \001(\t\022\016\n\006guojia\030\010 \001(\005\022\016\n\006zhan" +
-      "Li\030\t \001(\005\"\\\n\020GetBlacklistResp\0226\n\njunzhuIn" +
-      "fo\030\001 \003(\0132\".qxmobile.protobuf.BlackJunzhu" +
-      "Info\022\020\n\010blackMax\030\003 \001(\005\"\037\n\013CancelBlack\022\020\n" +
-      "\010junzhuId\030\001 \002(\003B\006B\004Chat"
+      "\020\004\022\n\n\006XiaoWu\020\005\022\r\n\tBroadcast\020\006\"N\n\nCGetYuY" +
+      "ing\0223\n\007channel\030\001 \002(\0162\".qxmobile.protobuf" +
+      ".ChatPct.Channel\022\013\n\003seq\030\002 \002(\005\"a\n\nSGetYuY" +
+      "ing\0223\n\007channel\030\001 \002(\0162\".qxmobile.protobuf" +
+      ".ChatPct.Channel\022\013\n\003seq\030\002 \002(\005\022\021\n\tsoundDa" +
+      "ta\030\003 \002(\t\";\n\010CGetChat\022\r\n\005start\030\001 \002(\005\022\013\n\003e" +
+      "nd\030\002 \002(\005\022\023\n\013channelCode\030\003 \001(\005\"8\n\014SChatLo",
+      "gList\022(\n\004logs\030\001 \003(\0132\032.qxmobile.protobuf." +
+      "ChatPct\"#\n\017JoinToBlacklist\022\020\n\010junzhuId\030\001" +
+      " \002(\003\"i\n\rBlacklistResp\022\016\n\006result\030\001 \002(\005\0226\n" +
+      "\njunzhuInfo\030\002 \001(\0132\".qxmobile.protobuf.Bl" +
+      "ackJunzhuInfo\022\020\n\010junzhuId\030\003 \001(\003\"\246\001\n\017Blac" +
+      "kJunzhuInfo\022\020\n\010junzhuId\030\001 \002(\003\022\014\n\004name\030\002 " +
+      "\002(\t\022\024\n\014lianMengName\030\003 \002(\t\022\016\n\006iconId\030\004 \002(" +
+      "\005\022\r\n\005level\030\005 \002(\005\022\r\n\005vipLv\030\006 \001(\005\022\017\n\007junXi" +
+      "an\030\007 \001(\t\022\016\n\006guojia\030\010 \001(\005\022\016\n\006zhanLi\030\t \001(\005" +
+      "\"\\\n\020GetBlacklistResp\0226\n\njunzhuInfo\030\001 \003(\013",
+      "2\".qxmobile.protobuf.BlackJunzhuInfo\022\020\n\010" +
+      "blackMax\030\003 \001(\005\"\037\n\013CancelBlack\022\020\n\010junzhuI" +
+      "d\030\001 \002(\003\"K\n\016RecentContacts\0229\n\njunzhuInfo\030" +
+      "\001 \003(\0132%.qxmobile.protobuf.ContactsJunzhu" +
+      "Info\"S\n\022ContactsJunzhuInfo\022\020\n\010junzhuId\030\001" +
+      " \002(\003\022\014\n\004name\030\002 \002(\t\022\016\n\006iconId\030\004 \002(\005\022\r\n\005le" +
+      "vel\030\005 \002(\005\"U\n\014ChatSettings\022\r\n\005world\030\001 \002(\010" +
+      "\022\020\n\010lianMeng\030\002 \002(\010\022\016\n\006siLiao\030\003 \002(\010\022\024\n\014wi" +
+      "fiAutoPlay\030\004 \002(\010B\006B\004Chat"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9038,49 +12381,73 @@ public final class Chat {
           internal_static_qxmobile_protobuf_CGetYuYing_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_CGetYuYing_descriptor,
-              new java.lang.String[] { "Seq", });
-          internal_static_qxmobile_protobuf_CGetChat_descriptor =
+              new java.lang.String[] { "Channel", "Seq", });
+          internal_static_qxmobile_protobuf_SGetYuYing_descriptor =
             getDescriptor().getMessageTypes().get(2);
+          internal_static_qxmobile_protobuf_SGetYuYing_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_SGetYuYing_descriptor,
+              new java.lang.String[] { "Channel", "Seq", "SoundData", });
+          internal_static_qxmobile_protobuf_CGetChat_descriptor =
+            getDescriptor().getMessageTypes().get(3);
           internal_static_qxmobile_protobuf_CGetChat_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_CGetChat_descriptor,
               new java.lang.String[] { "Start", "End", "ChannelCode", });
           internal_static_qxmobile_protobuf_SChatLogList_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_SChatLogList_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_SChatLogList_descriptor,
               new java.lang.String[] { "Logs", });
           internal_static_qxmobile_protobuf_JoinToBlacklist_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_qxmobile_protobuf_JoinToBlacklist_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_JoinToBlacklist_descriptor,
               new java.lang.String[] { "JunzhuId", });
           internal_static_qxmobile_protobuf_BlacklistResp_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_qxmobile_protobuf_BlacklistResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BlacklistResp_descriptor,
               new java.lang.String[] { "Result", "JunzhuInfo", "JunzhuId", });
           internal_static_qxmobile_protobuf_BlackJunzhuInfo_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(7);
           internal_static_qxmobile_protobuf_BlackJunzhuInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BlackJunzhuInfo_descriptor,
               new java.lang.String[] { "JunzhuId", "Name", "LianMengName", "IconId", "Level", "VipLv", "JunXian", "Guojia", "ZhanLi", });
           internal_static_qxmobile_protobuf_GetBlacklistResp_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(8);
           internal_static_qxmobile_protobuf_GetBlacklistResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_GetBlacklistResp_descriptor,
               new java.lang.String[] { "JunzhuInfo", "BlackMax", });
           internal_static_qxmobile_protobuf_CancelBlack_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(9);
           internal_static_qxmobile_protobuf_CancelBlack_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_CancelBlack_descriptor,
               new java.lang.String[] { "JunzhuId", });
+          internal_static_qxmobile_protobuf_RecentContacts_descriptor =
+            getDescriptor().getMessageTypes().get(10);
+          internal_static_qxmobile_protobuf_RecentContacts_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_RecentContacts_descriptor,
+              new java.lang.String[] { "JunzhuInfo", });
+          internal_static_qxmobile_protobuf_ContactsJunzhuInfo_descriptor =
+            getDescriptor().getMessageTypes().get(11);
+          internal_static_qxmobile_protobuf_ContactsJunzhuInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ContactsJunzhuInfo_descriptor,
+              new java.lang.String[] { "JunzhuId", "Name", "IconId", "Level", });
+          internal_static_qxmobile_protobuf_ChatSettings_descriptor =
+            getDescriptor().getMessageTypes().get(12);
+          internal_static_qxmobile_protobuf_ChatSettings_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ChatSettings_descriptor,
+              new java.lang.String[] { "World", "LianMeng", "SiLiao", "WifiAutoPlay", });
           return null;
         }
       };

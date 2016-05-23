@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.hero.service.HeroService;
+import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.EnemyTemp;
@@ -26,6 +27,8 @@ import com.manu.dynasty.template.HuangyeAward;
 import com.manu.dynasty.template.HuangyeNpc;
 import com.manu.dynasty.template.HuangyePve;
 import com.manu.dynasty.template.HuangyeRank;
+import com.manu.dynasty.template.HuangyeRankAward;
+import com.manu.dynasty.template.LianmengEvent;
 import com.manu.dynasty.template.Mail;
 import com.manu.dynasty.template.VipFuncOpen;
 import com.manu.dynasty.util.DateUtils;
@@ -129,6 +132,7 @@ public class HYMgr extends EventProc{
 	public static int huangYePve_first_pointId = 100001;  // hangyepve.xml第一个藏宝点id
 
 	public static Map<Integer, HuangyeRank> huangyeRankMap = new HashMap<Integer, HuangyeRank>();
+	public Map<Integer, HuangyeRankAward> huangyeRankAwardMap = new HashMap<Integer, HuangyeRankAward>();
 	public Map<Long, Map<Integer, List<AwardTemp>>> dropAwardMapBefore = new HashMap<Long, Map<Integer,List<AwardTemp>>>();
 
 	public HYMgr() {
@@ -207,6 +211,13 @@ public class HYMgr extends EventProc{
 				huangyeRankMap.put(rank, r);
 			}
 		}
+		
+		Map<Integer, HuangyeRankAward> huangyeRankAwardMap = new HashMap<Integer, HuangyeRankAward>();
+		List<HuangyeRankAward> huangyeRankAwardList =  TempletService.listAll(HuangyeRankAward.class.getSimpleName());
+		for(HuangyeRankAward cfg: huangyeRankAwardList){
+			huangyeRankAwardMap.put(cfg.rank, cfg);
+		}
+		this.huangyeRankAwardMap = huangyeRankAwardMap;
 	}
 	
 
@@ -250,57 +261,45 @@ public class HYMgr extends EventProc{
 //			return;
 //		}
 	
-		List<HYTreasure> hyTreaList = HibernateUtil.list(HYTreasure.class,
-				" where lianMengId=" + lianMengId);
-		Map<Integer, HYTreasure> map = new HashMap<Integer, HYTreasure>();
-		for(HYTreasure t: hyTreaList){
-			map.put(t.idOfFile, t);
+		
+		HYTreasureRecord record = HibernateUtil.find(HYTreasureRecord.class, lianMengId);
+		if(record == null) {
+			record = new HYTreasureRecord();
+			record.lianMengId = lianMengId;
+			record.curGuanQiaId = huangYePve_first_pointId;
+			HibernateUtil.insert(record);
+		}
+		
+		HYTreasure hyTreasure = HibernateUtil.find(HYTreasure.class, 
+				" where lianMengId=" + alliance.id +" and guanQiaId=" + record.curGuanQiaId
+				, false);
+		if(hyTreasure == null) {
+			hyTreasure = initHYTreasure(alliance.id, record.curGuanQiaId);
 		}
 	
 		OpenHuangYeResp.Builder response = OpenHuangYeResp.newBuilder();
-		HuangYeTreasure.Builder treaResp = null;
-		for(HuangyePve hy: huangyePveList){
-			treaResp = HuangYeTreasure.newBuilder();
-			int idOfFile = hy.id;
-			treaResp.setFileId(idOfFile);
-			HYTreasure trDB = map.get(idOfFile);
-			if(trDB != null){
-				//1-可以被激活（没有激活状态）; 0-不可以被激活（没有激活状态），2-已经激活过了
-				treaResp.setIsActive(2);
-				treaResp.setIsOpen(trDB.isOpen() ? OPEN : CLOSE);
-				treaResp.setJindu(trDB.progress);
-				treaResp.setId(trDB.id);
-			}else{
-				if(idOfFile == huangYePve_first_pointId){
-					treaResp.setIsActive(1);
-				}else{
-					HYTreasure trDBlast = map.get(idOfFile -1);
-					// 上一关没有被激活或者没有通关过，下一关不可以被激活
-					if(trDBlast == null || trDBlast.passTimes <= 0){
-						treaResp.setIsActive(0);
-					}else{
-						// 可以被激活
-						treaResp.setIsActive(1);
-					}
-				}
-			}
-			response.addTreasure(treaResp);
-		}
-		response.setHYMoney(ShopMgr.inst.getMoney(ShopMgr.Money.huangYeBi, junzhu.id, null));
+		HuangYeTreasure.Builder treaResp = HuangYeTreasure.newBuilder();
+		treaResp.setGuanQiaId(hyTreasure.guanQiaId);
+		treaResp.setIsOpen(hyTreasure.isOpen() ? OPEN : CLOSE);
+		treaResp.setJindu(hyTreasure.progress);
+		treaResp.setId(hyTreasure.id);
+		response.setTreasure(treaResp);
 		response.setAllianceBuild(alliance.build);
 
 		HYTreasureTimes times = HibernateUtil.find(HYTreasureTimes.class, junzhu.id);
 		if(times == null){
 			times = new HYTreasureTimes();
 			times.times = TREASURE_DAY_TIMES;
+			HibernateUtil.insert(times);
 		}else{
-			// 重置
 			resetHYTreasureTimes(times, lianMengId);
 		}
 		response.setRemianTimes(times.times - times.used);
-//		response.setAllTimes(times.times);
 		response.setAllTimes(TREASURE_DAY_TIMES);
-
+		response.setBuyCiShuInfo(3);
+		session.write(response.build());
+		
+		/*
 		VipFuncOpen vipData = VipMgr.vipFuncOpenTemp.get(VipData.can_buy_huagnye_times);
 		int vipL = vipData == null? Integer.MAX_VALUE: vipData.needlv;
 		if(junzhu.vipLevel < vipL){
@@ -322,779 +321,15 @@ public class HYMgr extends EventProc{
 			}
 		}
 		session.write(response.build());
-
-		/*
-		 * 新荒野功能暂时不会用这些代码（这个方法） 20150902
-		 */
-//		HYFog huangyeFog = HibernateUtil.find(HYFog.class, lianMengId);
-//		// 为null 表示还没初始化
-//		if (huangyeFog == null) {
-//			initHuangye(session, lianMengId, junzhu.id);
-//		} else {
-//			List<HYResourceAlliance> hyResIds = HibernateUtil.list(
-//					HYResourceAlliance.class, " where lianMengId = " + lianMengId);
-//			List<HYResource> hyResList = new ArrayList<HYResource>();
-//			for (HYResourceAlliance ra : hyResIds) {
-//				HYResource hyRes = HibernateUtil.find(HYResource.class, ra.resourceId);
-//				if (hyRes != null) {
-//					hyResList.add(hyRes);
-//				}
-//			}
-//			List<HYTreasure> hyTreaList = HibernateUtil.list(HYTreasure.class,
-//					" where lianMengId=" + lianMengId);
-//			sendHuangYeInfo(session, huangyeFog, hyResList, hyTreaList, lianMengId);
-//		}
+		*/
 	}
 
-/*	public void initHuangye(IoSession session, int lianMengId, long junzhuId) {
-		List<HYResource> initHyRes = new ArrayList<HYResource>();
-		List<HYTreasure> initHyTrea = new ArrayList<HYTreasure>();
-		HYTreasureRecord record = HibernateUtil.find(HYTreasureRecord.class, lianMengId);
-		if(record == null) {
-			record = new HYTreasureRecord();
-			record.setLianMengId(lianMengId);
-			record.setMaxLevel(0);
-			HibernateUtil.insert(record);
-		}
-		int level = record.getMaxLevel();
-		// 初始化荒野 云雾
-		HYFog dbFog = new HYFog();
-		dbFog.lianMengId = lianMengId;
-		dbFog.addOpenFogId(FOG_OPEN_DEFAULT_ID);
-		for(Map.Entry<Integer, HuangyeFog> entry : huangyeFogMap.entrySet()) {
-			HuangyeFog fogCfg = entry.getValue();
-			if(fogCfg.cangbaoLv <= level) {
-				dbFog.addHaveFogId(fogCfg.fogId);
-			}
-		}
-		HibernateUtil.insert(dbFog);
-
-		for (Map.Entry<Integer, HuangYe> entry : huangYeMap.entrySet()) {
-			HuangYe hyCfg = entry.getValue();
-			if(hyCfg.fogId != FOG_OPEN_DEFAULT_ID) {	// fogId为0表示是默认开启的荒野点
-				continue;
-			}
-			if (hyCfg.type == TYPE_TREASURE) {//藏宝点
-				HYTreasure hyTreasure = insertHYTreasure(hyCfg.id, lianMengId);
-				if(hyTreasure != null) {
-					initHyTrea.add(hyTreasure);
-				}
-			} else if (hyCfg.type == TYPE_RESOURCE) {//资源点
-				HYResource hyResource = insertHYResource(hyCfg.id, lianMengId);;
-				if(hyResource != null) {
-					initHyRes.add(hyResource);
-				}
-			} else {
-				logger.error("荒野点类型不匹配，type:{}", hyCfg.type);
-			}
-		}
-//		sendHuangYeInfo(session, dbFog, initHyRes, initHyTrea, lianMengId);
-		sendHuangYeInfo(session, initHyTrea, lianMengId);
-	}*/
-	
-/*	public HYTreasure insertHYTreasure(int fileId, int lianMengId) {
-		HuangyePve hyPveCfg = huangyePveMap.get(fileId);
-		if (hyPveCfg == null) {
-			logger.error("huangyePve未找到匹配类型：id:{}", fileId);
-			return null;
-		}
-		HYTreasure hyTreasure = new HYTreasure(lianMengId, fileId, hyPveCfg.maxTime);
+	public HYTreasure initHYTreasure(int lianMengId, int guanQiaId) {
+		HYTreasure hyTreasure = new HYTreasure(lianMengId, guanQiaId);
 		HibernateUtil.insert(hyTreasure);
 		return hyTreasure;
-		return null;
-	}*/
-	
-/*	public HYResource insertHYResource(int fileId, int lianMengId) {
-		HuangyePvp huangyePvp = huangyePvpMap.get(fileId);
-		if (huangyePvp == null) {
-			logger.error("huangyePvp未找到匹配类型：id:{}", fileId);
-			return null;
-		}
-		HYResource hyResource = null;
-		// 需要匹配联盟资源点
-		if (huangyePvp.match == 1) {
-			hyResource = matchHYResource(lianMengId, huangyePvp.npc, -1);
-			if (hyResource != null) {
-				hyResource.multiNums += 1;
-				HibernateUtil.save(hyResource);
-			}
-		}
-		// 匹配不成功生成新的资源点
-		if (hyResource == null) {
-			hyResource = new HYResource(huangyePvp.npc, 1);
-			HibernateUtil.insert(hyResource);
-		}
-
-		HYResourceAlliance resAlnc = new HYResourceAlliance(hyResource.id, lianMengId, fileId);
-		HibernateUtil.insert(resAlnc);
-		return hyResource;
-	}*/
-	
-/*	*//**
-	 * 匹配资源点
-	 * @param lianMengId
-	 * @param levelMin		低等级，小于0则表示不进行该条件查询
-	 * @param levelMax		高等级，小于0则表示不进行该条件查询
-	 * @return
-	 *//*
-	public HYResource matchHYResource(int lianMengId, int levelMin, int levelMax) {
-		List<HYResourceAlliance> hyResIds = HibernateUtil.list(
-				HYResourceAlliance.class, " where lianMengId = " + lianMengId);
-		int size = hyResIds.size();
-		if(size == 0) {
-			return null;
-		}
-		Object[] ids = new Object[size];
-		for(int i = 0; i < size; i++) {
-			ids[i] = hyResIds.get(i).resourceId; 
-		}
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-		Session s = sessionFactory.getCurrentSession();
-		Transaction tr = s.beginTransaction();
-		List<HYResource> list = new ArrayList<HYResource>();
-		try {
-			Criteria c = s.createCriteria(HYResource.class)
-					.add(Restrictions.gt("curHoldId", 0))
-					.add(Restrictions.eq("multiNums", 1))
-					.add(Restrictions.not(Restrictions.in("id", ids)));
-			if(levelMin >= 0) {
-				c.add(Restrictions.ge("npcLevel", levelMin));
-			}
-			if(levelMax >= 0 && (levelMax > levelMin)) {
-				c.add(Restrictions.le("npcLevel", levelMax));
-			}
-			if(levelMin >=0 || levelMax >= 0) {
-				c.addOrder(Order.asc("npcLevel"));
-			}
-			c.setFirstResult(0);
-			c.setMaxResults(1);
-			list = c.list();
-			tr.commit();
-		} catch (Exception e) {
-			tr.rollback();
-			e.printStackTrace();
-		}
-		if (list.size() != 0) {
-			return list.get(0);
-		}
-		return null;
 	}
-*/
-/*	public void sendHuangYeInfo(IoSession session, //HYFog hyFog, List<HYResource> hyResList, 
-			List<HYTreasure> hyTreaList,
-			int lianMengId) {
-		OpenHuangYeResp.Builder response = OpenHuangYeResp.newBuilder();
-		for (Integer id : hyFog.getHaveFogIdSet()) {
-			FogInfo.Builder fogInfo = FogInfo.newBuilder();
-			fogInfo.setFileId(id);
-			fogInfo.setStatus(hyFog.isFogOpen(id) ? 1 : 0);
-			response.addFogInfo(fogInfo);
-		}
-		for (HYResource hyRes : hyResList) {
-			response.addResource(getHYResourceBuilder(hyRes, hyFog.lianMengId));
-		}
 
-		for (HYTreasure hyTrea : hyTreaList) {
-			response.addTreasure(getHYTreasureBuilder(hyTrea));
-		}
-		
-		session.write(response.build());
-	}*/
-/*
-	public void openFog(int cmd, IoSession session, Builder builder) {
-		OpenFog.Builder request = (qxmobile.protobuf.HuangYeProtos.OpenFog.Builder) builder;
-		int fogFileId = request.getFileId();
-
-		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
-		if (junzhu == null) {
-			logger.error("未找到君主，cmd:{}", cmd);
-			return;
-		}
-
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
-		if(member == null) {
-			logger.error("未加入联盟，不能进行荒野求生1");
-			return;
-		}
-		int lianmengId = member.lianMengId;
-		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, lianmengId);
-		if (alliance == null) {
-			sendError(session, cmd, "请求信息有误");
-			logger.error("找不到联盟信息，不能进行荒野求生2，联盟Id:{}", lianmengId);
-			return;
-		}
-		OpenFogResp.Builder response = OpenFogResp.newBuilder();
-		int title = member.title;
-		if(title != AllianceMgr.TITLE_LEADER && title != AllianceMgr.TITLE_DEPUTY_LEADER){
-			response.setResult(2);
-			session.write(response.build());
-			logger.error("没有权限，不能打开云雾遮挡");
-			return;
-		}
-
-		List<HuangYe> templateList = huangYeMapByFogId.get(fogFileId);
-		if (templateList == null || templateList.size() == 0) {
-			sendError(session, cmd, "操作失败，请稍候重试");
-			logger.error("找不到对应的迷雾信息，fogId:{}", fogFileId);
-			return;
-		}
-
-		HYFog hyFog = HibernateUtil.find(HYFog.class, lianmengId);
-		if (hyFog == null || !hyFog.getHaveFogIdSet().contains(fogFileId)
-				|| hyFog.getOpenFogIdSet().contains(fogFileId)) {
-			response.setResult(3);
-			session.write(response.build());
-			logger.error("已经打开该迷雾。lianmengId:{},fogId:{}", lianmengId,
-					fogFileId);
-			return;
-		}
-		int openCost = huangyeFogMap.get(fogFileId).openCost;
-		if (alliance.build < openCost) {
-			response.setResult(1);
-			session.write(response.build());
-			logger.error("联盟建设值不足，不能开启迷雾,fogId:{}", fogFileId);
-			return;
-		}
-
-		List<HYTreasure> openTreaList = new ArrayList<HYTreasure>();
-		List<HYResource> openResList = new ArrayList<HYResource>();
-
-		for (HuangYe hyCfg : templateList) {
-			if (hyCfg.type == TYPE_TREASURE) {
-				HYTreasure hyTreasure = insertHYTreasure(hyCfg.id, lianmengId);
-				if(hyTreasure != null) {
-					openTreaList.add(hyTreasure);
-				}
-			}
-			// 资源点
-			if (hyCfg.type == TYPE_RESOURCE) {
-				HYResource hyResource = insertHYResource(hyCfg.id, lianmengId);
-				if(hyResource != null) {
-					openResList.add(hyResource);
-				}
-			}
-		}
-		hyFog.addOpenFogId(fogFileId);
-		HibernateUtil.save(hyFog);
-
-		response.setResult(0);
-		response.setFileId(fogFileId);
-		for (HYResource hyRes : openResList) {
-			response.addResource(getHYResourceBuilder(hyRes, alliance.id));
-		}
-
-		for (HYTreasure hyTrea : openTreaList) {
-			response.addTreasure(getHYTreasureBuilder(hyTrea));
-		}
-		alliance.build -= openCost;
-		HibernateUtil.save(alliance);
-		logger.info("君主:{}打开了联盟:{}迷雾:{},消耗建设值:{}", junzhu.name, alliance.name,
-				fogFileId, openCost);
-		session.write(response.build());
-	}*/
-/*
-	public HuangYeResource.Builder getHYResourceBuilder(HYResource hyRes, int lianmengId) {
-		HuangYeResource.Builder resResp = HuangYeResource.newBuilder();
-		resResp.setId(hyRes.id);
-		HYResourceAlliance resAlnc = HibernateUtil.find(HYResourceAlliance.class, 
-				" where resourceId=" + hyRes.id + " and lianMengId =" + lianmengId);
-		resResp.setFileId(resAlnc.idOfFile);
-		if(hyRes.curHoldId == 0) {
-			resResp.setStatus(0);
-		} else if(hyRes.curHoldId == lianmengId) {
-			resResp.setStatus(1);
-		} else {
-			resResp.setStatus(2);
-		}
-		String name = "";
-		if(hyRes.curHoldId != 0) {
-			AllianceBean alnc = HibernateUtil.find(AllianceBean.class, hyRes.curHoldId);
-			name = alnc != null ? alnc.name : "";
-		}
-		resResp.setName(name);
-		resResp.setLevel(hyRes.npcLevel);
-		return resResp;
-	}*/
-
-/*	public HuangYeTreasure.Builder getHYTreasureBuilder(HYTreasure hyTrea) {
-		HuangYeTreasure.Builder treaResp = HuangYeTreasure.newBuilder();
-		treaResp.setId(hyTrea.id);
-		treaResp.setFileId(hyTrea.idOfFile);
-		treaResp.setIsOpen(hyTrea.isOpen() ? OPEN : CLOSE);
-		treaResp.setJindu(hyTrea.progress);
-		return treaResp;
-	}*/
-	
-/*	
-	public void reqRewardStore(int cmd, IoSession session, Builder builder) {
-		ReqRewardStore.Builder request = (qxmobile.protobuf.HuangYeProtos.ReqRewardStore.Builder) builder;
-		long lianmengId = request.getLianmengId();
-
-		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
-		if (junzhu == null) {
-			logger.error("未找到君主，cmd:{}", cmd);
-			return;
-		}
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
-		if (member == null) {
-			sendError(session, cmd, "你还没有加入联盟");
-			logger.error("君主:{} 未加入联盟，不能打开仓库1", junzhu.name);
-			return;
-		}
-		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, lianmengId);
-		if (alliance == null || member.lianMengId != lianmengId) {
-			sendError(session, cmd, "请求信息有误");
-			logger.error("找不到联盟信息，不能打开仓库2，联盟Id:{}", member.lianMengId);
-			return;
-		}
-
-		ReqRewardStoreResp.Builder response = ReqRewardStoreResp.newBuilder();
-
-		List<HYRewardStore> storeList = HibernateUtil.list(HYRewardStore.class," where lianmengId =" + lianmengId);
-		List<HuangyeAward> templeHYAwardList = TempletService.listAll(HuangyeAward.class.getSimpleName());
-		for (HuangyeAward tepHYAward : templeHYAwardList) {
-			HYRewardStore dbhyStore = matchHYRewardStore(storeList, tepHYAward.site);
-			RewardItemInfo.Builder itemInfo = RewardItemInfo.newBuilder();
-			itemInfo.setSite(tepHYAward.site);
-			if (dbhyStore == null) {
-				itemInfo.setNums(0);
-			} else {
-				itemInfo.setNums(dbhyStore.amount);
-			}
-			List<String> applyIdList = Redis.getInstance().lgetList(CACHE_HYSTORE_APPLY + lianmengId + "_" + tepHYAward.site);
-			for (String id : applyIdList) {
-				Long junzhuId = Long.parseLong(id);
-				JunZhu jz = HibernateUtil.find(JunZhu.class, junzhuId.longValue());
-				AlliancePlayer tempMember = HibernateUtil.find(AlliancePlayer.class, jz.id);
-				ApplyerInfo.Builder applyInfo = ApplyerInfo.newBuilder();
-				applyInfo.setJunzhuId(jz.id);
-				applyInfo.setName(jz.name);
-				applyInfo.setIconId(jz.roleId);
-				applyInfo.setGongXian(tempMember.gongXian);
-				itemInfo.addApplyerInfo(applyInfo.build());
-			}
-			response.addItemInfo(itemInfo.build());
-		}
-		session.write(response.build());
-	}
-*/
-/*	public HYRewardStore matchHYRewardStore(List<HYRewardStore> storeList,
-			int site) {
-		for (HYRewardStore hyrs : storeList) {
-			if (hyrs.site == site) {
-				return hyrs;
-			}
-		}
-		return null;
-	}
-*/
-/*	public void applyReward(int cmd, IoSession session, Builder builder) {
-		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
-		if (junzhu == null) {
-			logger.error("未找到君主，cmd:{}", cmd);
-			return;
-		}
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class,
-				junzhu.id);
-		if (member == null) {
-			sendError(session, cmd, "你还没有加入联盟");
-			logger.error("君主:{} 未加入联盟，不能申请仓库奖励1", junzhu.name);
-			return;
-		}
-		AllianceBean alliance = HibernateUtil.find(AllianceBean.class,
-				member.lianMengId);
-		if (alliance == null) {
-			sendError(session, cmd, "请求信息有误");
-			logger.error("找不到联盟信息，不能申请仓库奖励2，联盟Id:{}", member.lianMengId);
-			return;
-		}
-
-		ApplyReward.Builder request = (qxmobile.protobuf.HuangYeProtos.ApplyReward.Builder) builder;
-		int site = request.getSite();
-		HYRewardStore rewardStore = HibernateUtil.find(HYRewardStore.class,
-			 " where lianmengId =" + member.lianMengId + " and site=" + site);
-		if (rewardStore == null) {
-			rewardStore = new HYRewardStore(member.lianMengId, site, 0, new Date());
-			HibernateUtil.save(rewardStore);
-		}
-		
-		String siteCacheKey = CACHE_HYSTORE_APPLY + member.lianMengId + "_" + site;
-		String jzCacheKey = CACHE_HYSTORE_APPLY + member.lianMengId + "_" + junzhu.id;
-		Redis.getInstance().rpush_(siteCacheKey, ""+junzhu.id);
-		logger.info("君主:{}申请联盟:{}奖励库site:{}的物品", junzhu.name, alliance.name, site);
-		ApplyRewardResp.Builder response = ApplyRewardResp.newBuilder();
-		ApplyerInfo.Builder applyerInfo = ApplyerInfo.newBuilder();
-		applyerInfo.setGongXian(member.gongXian);
-		applyerInfo.setIconId(junzhu.roleId);
-		applyerInfo.setJunzhuId(junzhu.id);
-		applyerInfo.setName(junzhu.name);
-		response.setResult(0);
-		response.setApplyerInfo(applyerInfo.build());
-		response.setCurSite(site);
-		// 移除之前申请的物品
-		if(Redis.getInstance().exist_(jzCacheKey)) {
-			int preSite = Integer.parseInt(Redis.getInstance().get(jzCacheKey));
-			Redis.getInstance().lrem(CACHE_HYSTORE_APPLY + member.lianMengId + "_" + preSite, 0, junzhu.id+"");
-			response.setPreSite(preSite);
-		}
-		session.write(response.build());
-		Redis.getInstance().set(jzCacheKey, "" + site);
-	}
-*/
-/*	public void cancelApplyReward(int cmd, IoSession session, Builder builder) {
-		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
-		if (junzhu == null) {
-			logger.error("未找到君主，cmd:{}", cmd);
-			return;
-		}
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class,
-				junzhu.id);
-		if (member == null) {
-			sendError(session, cmd, "你还没有加入联盟");
-			logger.error("君主:{} 未加入联盟，不能申请仓库奖励1", junzhu.name);
-			return;
-		}
-		AllianceBean alliance = HibernateUtil.find(AllianceBean.class,
-				member.lianMengId);
-		if (alliance == null) {
-			sendError(session, cmd, "请求信息有误");
-			logger.error("找不到联盟信息，不能申请仓库奖励2，联盟Id:{}", member.lianMengId);
-			return;
-		}
-
-		CancelApplyReward.Builder request = (qxmobile.protobuf.HuangYeProtos.CancelApplyReward.Builder) builder;
-		int site = request.getSite();
-//		HYRewardStore rewardStore = HibernateUtil
-//				.find(HYRewardStore.class, " where lianmengId ="
-//						+ member.lianMengId + " and site=" + site);
-//		if (rewardStore == null) {
-//			sendError(session, cmd, "奖励库中没有该物品");
-//			return;
-//		}
-		Redis.getInstance().lrem(
-				CACHE_HYSTORE_APPLY + member.lianMengId + "_" + site, 0,
-				"" + junzhu.id);
-		String jzCacheKey = CACHE_HYSTORE_APPLY + member.lianMengId + "_" + junzhu.id;
-		Redis.getInstance().del(jzCacheKey);
-		logger.info("君主:{}取消申请联盟:{}奖励库site:{}的物品", junzhu.name, alliance.name,
-				site);
-		CancelApplyRewardResp.Builder response = CancelApplyRewardResp.newBuilder();
-		response.setResult(0);
-		response.setJunzhuId(junzhu.id);
-		response.setSite(site);
-		session.write(response.build());
-	}
-	
-	public void giveReward(int cmd, IoSession session, Builder builder) {
-		GiveReward.Builder request = (qxmobile.protobuf.HuangYeProtos.GiveReward.Builder) builder;
-		long reqJzId = request.getJunzhuId();
-		int site = request.getSite();
-		JunZhu reqJunzhu = HibernateUtil.find(JunZhu.class, reqJzId);
-		if (reqJunzhu == null) {
-			logger.error("未找到君主，cmd:{}", cmd);
-			return;
-		}
-		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
-		if (junzhu == null) {
-			logger.error("未找到君主，cmd:{}", cmd);
-			return;
-		}
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class,
-				junzhu.id);
-		if (member == null) {
-			sendError(session, cmd, "你还没有加入联盟");
-			logger.error("君主:{} 未加入联盟，不能执行奖励分配1", junzhu.name);
-			return;
-		}
-		AllianceBean alliance = HibernateUtil.find(AllianceBean.class,
-				member.lianMengId);
-		if (alliance == null) {
-			sendError(session, cmd, "请求信息有误");
-			logger.error("找不到联盟信息，不能执行奖励分配2，联盟Id:{}", member.lianMengId);
-			return;
-		}
-
-		GiveRewardResp.Builder response = GiveRewardResp.newBuilder();
-		if (member.title != AllianceMgr.TITLE_LEADER) {
-			response.setResult(1);
-			session.write(response.build());
-			logger.error("不是盟主，不能进行奖励分配操作，jinzhu:{},联盟:{}", junzhu.name,
-					alliance.name);
-			return;
-		}
-
-//		// 判断是否申请该物品		
-//		String siteCacheKey = CACHE_HYSTORE_APPLY + member.lianMengId + "_" + site;
-//		if(!Redis.getInstance().lexist(siteCacheKey, String.valueOf(reqJzId))) {
-//			response.setResult(1);
-//			session.write(response.build());
-//			logger.error("君主:{}没有申请奖励库中的site:{}的物品", reqJunzhu.name, site);
-//			return;
-//		}
-
-		HYRewardStore rewardStore = HibernateUtil.find(HYRewardStore.class, " where lianmengId ="
-						+ member.lianMengId + " and site=" + site);
-		if (rewardStore == null) {
-			return;
-		}
-		if (rewardStore.amount < 1) {
-			return;
-		}
-		HuangyeAward hyAward = huangyeAwardMap.get(site);
-		if (hyAward == null) {
-			logger.error("huangyeAward配置错误。找不到site:{}", site);
-			return;
-		}
-		rewardStore.amount -= 1;
-		HibernateUtil.save(rewardStore);
-		
-		Mail mailConfig = EmailMgr.INSTANCE.getMailConfig(20001);
-		boolean sendOK = false;
-		if(mailConfig != null) {
-			String fujian = hyAward.itemType + ":" + hyAward.itemId + ":" + 1;
-			sendOK = EmailMgr.INSTANCE.sendMail(reqJunzhu.name, mailConfig.content, fujian, mailConfig.sender, mailConfig,"");
-		}
-		logger.info("奖励分配成功，并以邮件发送奖励, 结果:{}", sendOK);
-		
-		Redis.getInstance().lrem(
-				CACHE_HYSTORE_APPLY + member.lianMengId + "_" + site, 0,
-				"" + junzhu.id);
-		response.setResult(0);
-		response.setJunzhuId(reqJzId);
-		response.setSite(site);
-		response.setNums(rewardStore.amount);
-		session.write(response.build());
-
-	}
-	*/
-	
-/*		 			资源点操作			
-	
-	*//**
-	 * 资源点战前信息请求
-	 * @param id
-	 * @param session
-	 * @param builder
-	 *//*
-	public void battleResouceReq(int id, IoSession session, Builder builder) {
-		BattleResouceReq.Builder request = (qxmobile.protobuf.HuangYeProtos.BattleResouceReq.Builder) builder;
-		long resourceId = request.getId();
-		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
-		if(junzhu == null) {
-			logger.error("找不到君主");
-			return;
-		}
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
-		if(member == null) {
-			logger.error("不是联盟成员");
-			return;
-		}
-		HYResource hyResource= HibernateUtil.find(HYResource.class, resourceId);
-		if(hyResource == null) {
-			logger.error("请求的资源点不存在hyResourceId:{}", resourceId);
-			return;
-		}
-		
-		HYResourceTimes resTimes = getResourceTimes(junzhu.id);
-		BattleResouceResp.Builder response = BattleResouceResp.newBuilder();
-		response.setResourceId(hyResource.id);
-		response.setTimesOfDay(resTimes.times);
-		response.setTotalTimes(RESOURCE_DAY_TIMES);
-		int produce = (int) (CanShu.HUANGYEPVP_PRODUCE_P);
-		response.setProduce(produce);
-		
-		int isChange = 0;//是否可以更换：0-不可以，1-可以;
-		int changeRemainTime = 0;
-		if(hyResource.curHoldId != 0 && hyResource.curHoldId != member.lianMengId) {
-			Date date = new Date();
-			if(hyResource.holdStartTime != null) {
-				Date changeDate =
-						org.apache.commons.lang.time.DateUtils.addDays(hyResource.holdStartTime, 3);
-				if(!changeDate.after(date)) {
-					isChange = 1;
-				} else {
-					changeRemainTime = (int) ((changeDate.getTime() - date.getTime()) / 1000);
-				}
-			}
-		}
-		response.setIsChange(isChange);
-		response.setRemainTime(changeRemainTime);
-		//我方秘宝id，MiBao配置文件中的id
-		BuZhenHYPvp mibaoList = HibernateUtil.find(BuZhenHYPvp.class, junzhu.id);
-		int zuheId = mibaoList == null ? -1 : mibaoList.zuheId;
-		response.setZuheId(zuheId);
-		
-		//我方雇佣兵列表
-		HYResourceJZYongbing jzYongbing = HibernateUtil.find(HYResourceJZYongbing.class, 
-				" where junzhuId="+junzhu.id + " and resourceId=" + hyResource.id);
-		if(jzYongbing == null) {
-			int[] bingArray = getSoldiers(hyResource.npcLevel);
-			if(bingArray.length != 4) {
-				logger.error("获取的雇佣兵数量不为4");
-				return;
-			}
-			jzYongbing = new HYResourceJZYongbing(member.lianMengId, resourceId, junzhu.id, 
-					bingArray[0], bingArray[1], bingArray[2], bingArray[3]);
-			HibernateUtil.insert(jzYongbing);
-		}
-		response.addYongBingList(jzYongbing.bing1);
-		response.addYongBingList(jzYongbing.bing2);
-		response.addYongBingList(jzYongbing.bing3);
-		response.addYongBingList(jzYongbing.bing4);
-		//npc信息
-		List<HYResourceNpc> resourceNpcList = HibernateUtil.list(HYResourceNpc.class, " where resourceId=" + hyResource.id);
-		if(resourceNpcList.size() == 0) {
-			List<HuangyePvpNpc> npcList = getPvpNpcList(hyResource.npcLevel);
-			for(HuangyePvpNpc npcCfg : npcList) {
-				int[] bingArray = getSoldiers(npcCfg.level);
-				HYResourceNpc resourceNpc = new HYResourceNpc(member.lianMengId, resourceId, npcCfg.id,
-						0, bingArray[0], bingArray[1], bingArray[2], bingArray[3]);
-				resourceNpcList.add(resourceNpc);
-				HibernateUtil.save(resourceNpc);
-			}
-		}
-		for(HYResourceNpc npc : resourceNpcList) {
-			ResourceNpcInfo.Builder npcResp = ResourceNpcInfo.newBuilder();
-			npcResp.setBossId(npc.bossId);
-			npcResp.setBattleSuccess(npc.battleSuccess);
-			npcResp.addYongBingId(npc.bing1);
-			npcResp.addYongBingId(npc.bing2);
-			npcResp.addYongBingId(npc.bing3);
-			npcResp.addYongBingId(npc.bing4);
-			String battleName = "";
-			if(npc.battleJZId > 0) {
-				JunZhu battleJZ = HibernateUtil.find(JunZhu.class, npc.battleJZId);
-				if(AccountManager.getIoSession(npc.battleJZId) == null) {
-					npc.battleJZId = 0;
-					HibernateUtil.save(npc);
-				} else {
-					battleName = battleJZ.name;
-				}
-			} 
-			npcResp.setBattleName(battleName);
-			response.addResNpcInfo(npcResp.build());
-		}
-		session.write(response.build());
-	}
-	*/
-/*	public List<HuangyePvpNpc> getPvpNpcList(int level) {
-		List<HuangyePvpNpc> npcList = new ArrayList<HuangyePvpNpc>();
-		for(Map.Entry<Integer, HuangyePvpNpc> entry : huangyePvpNpcMap.entrySet()) {
-			HuangyePvpNpc npcCfg = entry.getValue();
-			if(npcCfg.level == level) {
-				npcList.add(npcCfg);
-			}
-		}
-		return npcList;
-	}*/
-/*	
-	public void pvpDataInfoReq(int id, IoSession session, Builder builder) {
-		HuangYePvpReq.Builder request = (qxmobile.protobuf.ZhanDou.HuangYePvpReq.Builder) builder;
-		long resourceId = request.getId();
-		int bossId = request.getBossId();
-		
-		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
-		if(junzhu == null) {
-			logger.error("找不到君主");
-			PveMgr.inst.sendZhanDouInitError(session, "找不到君主");
-			return;
-		}
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
-		if(member == null || member.lianMengId <= 0) {
-			logger.error("junzhu:{}还没有加入联盟", junzhu.name);
-			PveMgr.inst.sendZhanDouInitError(session, "您还未加入联盟");
-			return;
-		}
-		AllianceBean alncBean = HibernateUtil.find(AllianceBean.class, member.lianMengId);
-		if(alncBean == null) {
-			logger.error("DB中找不到id为:{}的联盟", member.lianMengId);
-			PveMgr.inst.sendZhanDouInitError(session, "联盟信息有误");
-			return;
-		}
-		int lianmengId = alncBean.id;
-		HYResource hyResource = HibernateUtil.find(HYResource.class, resourceId);
-		if(hyResource == null) {
-			logger.error("请求的资源点不存在，hyResourceID:{}", resourceId);
-			PveMgr.inst.sendZhanDouInitError(session, "请求的资源点信息有误1");
-			return;
-		}
-		HYResourceTimes resTimes = getResourceTimes(junzhu.id);
-		if(resTimes.times <= 0) { 
-			logger.warn("今日资源点挑战次数已用完，resourceId:{}", hyResource.id);
-			PveMgr.inst.sendZhanDouInitError(session, "今日资源点挑战次数已用完");
-			return;
-		}
-		
-		HYResourceAlliance resAlnc = HibernateUtil.find(HYResourceAlliance.class, 
-				" where resourceId=" + resourceId + " and lianMengId =" + lianmengId);
-		HuangyePvp hyPvpCfg = huangyePvpMap.get(resAlnc.idOfFile);
-		if(hyPvpCfg == null) {
-			logger.error("huangyePvp配置信息有误， huangyePvPiD:{}", resAlnc.idOfFile);
-			PveMgr.inst.sendZhanDouInitError(session, "数据配置有误");
-			return;
-		}
-		
-		HYResourceNpc resourceNpc = null;
-		synchronized(resourceBattleLock) {
-			resourceNpc = HibernateUtil.find(HYResourceNpc.class, " where resourceId="+resourceId +" and bossId="+bossId);
-			if(resourceNpc == null) {
-				logger.error("找不到资源点npc信息。资源点id:{}", resourceId);
-				PveMgr.inst.sendZhanDouInitError(session, "请求的资源点信息有误2");
-				return;
-			}
-			if(resourceNpc.battleJZId > 0) {
-				logger.info("资源点有人在挑战");
-				PveMgr.inst.sendZhanDouInitError(session, "资源点有人在挑战，请稍后");
-				return;
-			} else {
-				resourceNpc.battleJZId = junzhu.id;
-				HibernateUtil.save(resourceNpc);
-			}
-		}
-		if(resourceNpc.battleSuccess == 1) {
-			logger.info("该boss已经被挑战成功");
-			PveMgr.inst.sendZhanDouInitError(session, "该boss已经被挑战成功");
-			return;
-		}
-		
-		int zhandouId = PveMgr.battleIdMgr.incrementAndGet();    //战斗id 后台使用
-		ZhanDouInitResp.Builder response = ZhanDouInitResp.newBuilder();
-		response.setZhandouId(zhandouId);
-		response.setMapId(hyPvpCfg.sceneId);
-		response.setLimitTime(CanShu.MAXTIME_HUANGYE_PVP);
-		//敌方数据
-		List<HuangYeGuYongBing> npcBingList = getGuYongBingList(new int[]{resourceNpc.bing1, resourceNpc.bing2,
-				resourceNpc.bing3, resourceNpc.bing4});
-		int enemyFlag = 101;
-		Group.Builder enemyTroop = Group.newBuilder();
-		List<ZhanDou.Node> enemys = new ArrayList<ZhanDou.Node>();
-		HuangyePvpNpc pvpNpc = huangyePvpNpcMap.get(resourceNpc.bossId);
-		fillNpcJZDataInfo(response, enemys, enemyFlag, pvpNpc, enemyTroop);
-		fillGuYongBingDataInfo(enemys, enemyFlag+1, npcBingList);
-		enemyTroop.addAllNodes(enemys);
-		enemyTroop.setMaxLevel(999);
-		response.setEnemyTroop(enemyTroop);
-		//我方数据
-		HYResourceJZYongbing jzYongBing = HibernateUtil.find(HYResourceJZYongbing.class, " where resourceId="+resourceId +" and junzhuId="+junzhu.id);
-		if(jzYongBing == null) {
-			logger.error("找不到君主的荒野雇佣兵信息，resourceId:{},jzId:{}", resourceId, junzhu.id);
-			return;
-		}
-		List<HuangYeGuYongBing> jzBingList = getGuYongBingList(new int[]{jzYongBing.bing1, jzYongBing.bing2,
-				jzYongBing.bing3, jzYongBing.bing4});
-		Group.Builder selfTroop = Group.newBuilder();
-		List<Node> selfs = new ArrayList<Node>();
-		BuZhenHYPvp buZhenHYPvp = HibernateUtil.find(BuZhenHYPvp.class, junzhu.id);
-		int zuheId = buZhenHYPvp == null ? -1 : buZhenHYPvp.zuheId;
-		PveMgr.inst.fillJunZhuDataInfo(response, session, selfs, junzhu, 1, zuheId, selfTroop);
-		fillGuYongBingDataInfo(selfs, 2, jzBingList);
-		selfTroop.setMaxLevel(BigSwitch.pveGuanQiaMgr.getGuanQiaMaxId(junzhu.id));
-		selfTroop.addAllNodes(selfs);
-		response.setSelfTroop(selfTroop);
-		session.write(response.build());
-	}
-	
-	*/
 	public void fillGuYongBingDataInfo(List<Node> selfs, int flagIndex, List<HuangYeGuYongBing> bingList){ 
 		Node.Builder wjNode = null;
 		for(HuangYeGuYongBing bing : bingList){
@@ -1162,174 +397,6 @@ public class HYMgr extends EventProc{
 		return bings;
 	}
 	
-//	public void fillNpcJZDataInfo(ZhanDouInitResp.Builder resp, 
-//			List<Node> selfs, int flagIndex, HuangyePvpNpc pvpNpc,
-//			Group.Builder enemyTroop){
-//		// 1 添加装备
-//		List<Integer> zbIdList = Arrays.asList(pvpNpc.weapon1, pvpNpc.weapon2, pvpNpc.weapon3);
-//		Node.Builder junzhuNode = Node.newBuilder();
-//		PveMgr.inst.fillZhuangbei(junzhuNode, zbIdList);
-//		// 添加flag
-//		junzhuNode.addFlagIds(flagIndex);
-//		// 添加君主基本信息（暴击、类型、读表类型、视野）
-//		junzhuNode.setNodeType(NodeType.PLAYER);
-//		junzhuNode.setNodeProfession(NodeProfession.NULL);
-//		junzhuNode.setModleId(pvpNpc.model);// 君主ModelId
-//		junzhuNode.setNodeName(pvpNpc.name+"");
-//		PveMgr.inst.fillDataByGongjiType(junzhuNode, null);
-//		PveMgr.inst.fillGongFangInfo(junzhuNode, pvpNpc);
-//		// 添加秘宝信息
-////		List<Integer> mibaoCfgIdList = Arrays.asList(pvpNpc.mibao1, pvpNpc.mibao2, pvpNpc.mibao3);
-//		PveMgr.inst.fillNpcMibaoDataInfo();mibaoCfgIdList, junzhuNode, enemyTroop);
-//		junzhuNode.setHp(junzhuNode.getHpMax());
-//		selfs.add(junzhuNode.build());
-//	}
-	
-/*	*//**
-	 * 资源点战斗结束处理
-	 * @param id
-	 * @param session
-	 * @param builder
-	 *//*
-	public void pvpOverProcess(int id, IoSession session, Builder builder) {
-		HuangYePvpOver.Builder request = (qxmobile.protobuf.ZhanDou.HuangYePvpOver.Builder) builder;
-		long resourceId = request.getId();
-		int bossId = request.getBossId();
-		int isPass = request.getIsPass();
-		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
-		if(junzhu == null) {
-			logger.error("找不到君主");
-			return;
-		}
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
-		if(member == null) {
-			logger.error("未加入联盟，不能进行荒野求生1");
-			return;
-		}
-		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, member.lianMengId);
-		if(alliance == null) {
-			logger.error("找不到联盟:{}", member.lianMengId);
-			return;
-		}
-	
-		HYResource hyResource = HibernateUtil.find(HYResource.class, resourceId);
-		if(hyResource == null) {
-			logger.error("请求的资源点不存在，hyResourceID:{}", resourceId);
-			return;
-		}
-		
-
-		HYResourceAlliance resAlnc = HibernateUtil.find(HYResourceAlliance.class, 
-				" where resourceId=" + resourceId + " and lianMengId =" + member.lianMengId);
-		HuangyePvp hyPvpCfg = huangyePvpMap.get(resAlnc.idOfFile);
-		if(hyPvpCfg == null) {
-			logger.error("huangyePvp配置信息有误， huangyePvPId:{}", resAlnc.idOfFile);
-			return;
-		}
-		
-		//是否全部挑战成功
-		boolean isAllSuccess = true;
-		int totalGongxian = 0;
-		int npcLevelFinal = hyResource.npcLevel;
-		int levelChange = 0;
-		List<HYResourceNpc> npcList = HibernateUtil.list(HYResourceNpc.class, " where resourceId="+resourceId);
-		for(HYResourceNpc npc : npcList) {
-			if(npc.bossId == bossId ) {
-				if(isPass == 1) {//胜利
-					npc.battleSuccess = 1;
-					int getGongxian = (int) (CanShu.HUANGYEPVP_KILL_K);
-					member.gongXian += getGongxian;
-					totalGongxian += getGongxian;
-					HibernateUtil.save(member);
-					AllianceMgr.inst.changeGongXianRecord(junzhu.id, getGongxian);
-				}
-				npc.battleJZId = 0;
-				HibernateUtil.save(npc);
-			}
-			if(npc.battleSuccess == 0) {
-				isAllSuccess = false;
-			}
-		}
-		Date date = new Date();
-		if(isAllSuccess) {
-			//  需要判断是否是挑战其他联盟占领的资源点  & 资源点产出计时
-			if(hyResource.curHoldId > 0 && hyResource.curHoldId != member.lianMengId) {
-				String name = "";
-				HuangYe hyCfg = huangYeMap.get(hyPvpCfg.id);
-				if(hyCfg == null) {
-					logger.error("在huangye文件中找不到id:{}的配置", hyPvpCfg.id);
-				}
-				if(hyCfg != null) {
-					name = HeroService.getNameById(String.valueOf(hyCfg.nameId));
-				}
-				Date lastAllotTime = hyResource.lastAllotTime;
-				if(lastAllotTime == null) {
-					lastAllotTime = hyResource.holdStartTime;
-				}
-				int hours = com.manu.dynasty.util.DateUtils.timeDistanceByHour(date, lastAllotTime);
-				int getTongbi = (int) (hours * CanShu.HUANGYEPVP_PRODUCE_P);
-				List<AlliancePlayer> memberAll = HibernateUtil.list(AlliancePlayer.class, " where lianMengId="+member.lianMengId);
-				Mail mailConfig = null;
-				String fujian = "";
-				String content = "";
-				boolean sendOK = false;
-				if(getTongbi > 0) {
-					mailConfig = EmailMgr.INSTANCE.getMailConfig(21002);
-					fujian = 0 + ":" + 900001 + ":" + getTongbi;
-					content = mailConfig.content.replace("XX", name);
-				} else {
-					mailConfig = EmailMgr.INSTANCE.getMailConfig(21003);
-					content = mailConfig.content.replace("XX", name);
-				}
-				for(AlliancePlayer ap : memberAll) {
-					JunZhu getJunzhu = HibernateUtil.find(JunZhu.class, ap.junzhuId);
-					sendOK = EmailMgr.INSTANCE.sendMail(getJunzhu.name, content, fujian, mailConfig.sender, mailConfig,"");
-					logger.info("资源点奖励，以邮件发送奖励, 结果:{}", sendOK);
-				}
-				
-				String eventStr = AllianceMgr.inst.lianmengEventMap.get(13).str
-						.replaceFirst("%d", name)
-						.replaceFirst("%d", alliance.name);
-				AllianceMgr.inst.addAllianceEvent(member.lianMengId, eventStr);
-			}
-			
-			hyResource.holdStartTime = date;
-			hyResource.curHoldId = member.lianMengId;
-			hyResource.npcLevel += 1;
-			npcLevelFinal += 1;
-			levelChange = 1;
-			List<HuangyePvpNpc> npcCfgList = getPvpNpcList(hyResource.npcLevel);
-			int size = npcCfgList.size();
-			for(int i = 0; i < size; i++) {
-				HYResourceNpc resNpc = npcList.get(i);
-				HuangyePvpNpc npcCfg = npcCfgList.get(i);
-				int[] bingArray = getSoldiers(npcCfg.level);
-				resNpc.battleSuccess = 0;
-				resNpc.bossId = npcCfg.id;
-				resNpc.bing1 = bingArray[0];
-				resNpc.bing2 = bingArray[1];
-				resNpc.bing3 = bingArray[2];
-				resNpc.bing4 = bingArray[3];
-				HibernateUtil.save(resNpc);
-			}
-		}
-		
-		HYResourceTimes resTimes = getResourceTimes(junzhu.id);
-		resTimes.times -= 1;
-		resTimes.lastChallengeTime = date;
-		HibernateUtil.save(resTimes);
-		HibernateUtil.save(hyResource);
-		
-		BattleResultHYPvp.Builder response = BattleResultHYPvp.newBuilder();
-		response.setDkp(totalGongxian);
-		response.setHeroLevel(npcLevelFinal);
-		response.setSoldierLevel(npcLevelFinal);
-		response.setIsLevelup(levelChange);
-		session.write(response.build());
-	}
-	
-	*/
-	
 	//************************ 藏宝点操作 **********************//
 	/*
 	 * 藏宝点被 盟主或者副盟主 打开（只有激活过以后 且 关闭状态下才能打开 ） 20150910
@@ -1378,19 +445,19 @@ public class HYMgr extends EventProc{
 				logger.error("开启状态下的藏宝点，不能再被开启，Id:{}", id);
 				return;
 			}
-			HuangyePve hyPveCfg = huangyePveMap.get(hyTrea.idOfFile);
+			HuangyePve hyPveCfg = huangyePveMap.get(hyTrea.guanQiaId);
 			if(hyPveCfg == null){
 				response.setResult(1);
 				session.write(response.build());
-				logger.error("找不到huangyepve的数值配置,idOfFile:{}", hyTrea.idOfFile);
+				logger.error("找不到huangyepve的数值配置,guanQiaId:{}", hyTrea.guanQiaId);
 				return;
 			}
 			int openCost = hyPveCfg.openCost;
 			if (alliance.build < openCost) {
 				response.setResult(1);
 				session.write(response.build());
-				logger.error("联盟：{}，建设值：{} 不足，不能打开藏宝点, idOfFile:{}",
-						alliance.id, alliance.build, hyTrea.idOfFile);
+				logger.error("联盟：{}，建设值：{} 不足，不能打开藏宝点, guanQiaId:{}",
+						alliance.id, alliance.build, hyTrea.guanQiaId);
 				return;
 			}
 //			if(treasureNpcList == null || treasureNpcList.size() == 0) {
@@ -1446,11 +513,6 @@ public class HYMgr extends EventProc{
 			}
 			HuangyePve hyCfg = huangyePveMap.get(hyPveCfg.id);
 			String treaName = HeroService.getNameById(hyCfg == null ? "" : hyCfg.nameId+"");
-			String eventStr = AllianceMgr.inst.lianmengEventMap.get(11).str
-					.replaceFirst("%d", zhiWei)
-					.replaceFirst("%d", junzhu.name)
-					.replaceFirst("%d", treaName);
-			AllianceMgr.inst.addAllianceEvent(alliance.id, eventStr);
 		}
 	}
 
@@ -1463,7 +525,7 @@ public class HYMgr extends EventProc{
 	 */
 	public void activeTreasurePoint(int cmd, IoSession session, Builder builder){
 		ActiveTreasureReq.Builder request = (ActiveTreasureReq.Builder) builder;
-		int idOfFile = request.getIdOfFile();
+		int guanQiaId = request.getIdOfFile();
 		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
 		if (junzhu == null) {
 			logger.error("未找到君主，cmd:{}", cmd);
@@ -1493,56 +555,46 @@ public class HYMgr extends EventProc{
 			/*
 			 * 判断上一关卡是否通关，否则不能激活 
 			 */
-			if(idOfFile > huangYePve_first_pointId){
+			if(guanQiaId > huangYePve_first_pointId){
 				String where = "where lianMengId = " + member.lianMengId + 
-						" and idOfFile = " + (idOfFile -1);
+						" and guanQiaId = " + (guanQiaId -1);
 				HYTreasure lastTr = HibernateUtil.find(HYTreasure.class, where, false);
 				if (lastTr == null || lastTr.passTimes <= 0) {
 					//0-成功，1-建设值不足, 2-上一关没有通关，3-已经处于激活状态
 					response.setResult(2);
 					session.write(response.build());
 					logger.error("上一关：{}从未通关过，所以不能激活本关卡，junzhuID{}， 联盟id：{}", 
-							idOfFile -1, junzhu.id, member.lianMengId);
+							guanQiaId -1, junzhu.id, member.lianMengId);
 					return;
 				}
 			}
 			String where = "where lianMengId = " + member.lianMengId + 
-					" and idOfFile = " + idOfFile;
+					" and guanQiaId = " + guanQiaId;
 			hyTrea = HibernateUtil.find(HYTreasure.class, where, false);
 			if (hyTrea != null) {
 				response.setResult(3);
 				session.write(response.build());
-				logger.error("藏宝点已经处于激活状态，无需再次激活，junzhuid:{},idOfFile:{}, 联盟id：{}", 
-						junzhu.id, idOfFile, member.lianMengId);
+				logger.error("藏宝点已经处于激活状态，无需再次激活，junzhuid:{},guanQiaId:{}, 联盟id：{}", 
+						junzhu.id, guanQiaId, member.lianMengId);
 				return;
 			}
-			HuangyePve hyPveCfg = huangyePveMap.get(idOfFile);
+			HuangyePve hyPveCfg = huangyePveMap.get(guanQiaId);
 			if(hyPveCfg == null){
 				response.setResult(1);
 				session.write(response.build());
-				logger.error("找不到huangyepve的数值配置, 请程序员速速查看，idOfFile:{}", idOfFile);
+				logger.error("找不到huangyepve的数值配置, 请程序员速速查看，guanQiaId:{}", guanQiaId);
 				return;
 			}
 			if (alliance.build < hyPveCfg.openCost) {
 				response.setResult(1);
 				session.write(response.build());
-				logger.error("联盟建设值不足，不能激活藏宝点,junzhuid:{},idOfFile:{}, 联盟id：{}", 
-						junzhu.id, idOfFile, member.lianMengId);
+				logger.error("联盟建设值不足，不能激活藏宝点,junzhuid:{},guanQiaId:{}, 联盟id：{}", 
+						junzhu.id, guanQiaId, member.lianMengId);
 				return;
 			}
 			int openCost = hyPveCfg.openCost;
-			hyTrea = new HYTreasure(member.lianMengId, idOfFile);
+			hyTrea = new HYTreasure(member.lianMengId, guanQiaId);
 			HibernateUtil.insert(hyTrea);
-			/*
-			 *  不用初始化藏宝点npc
-			 */
-//			//打开藏宝点初始化npc
-//			List<HYTreasureNpc> treasureNpcList = HibernateUtil.list(HYTreasureNpc.class, " where treasureId=" + hyTrea.id);
-//			if(treasureNpcList == null || treasureNpcList.size() == 0) {
-//				treasureNpcList = initTreasureNpc(hyTrea, hyPveCfg);
-//			} else {
-//				refreshHYTreasureNpcData(treasureNpcList);
-//			}
 			// 应该不会死锁
 			AllianceMgr.inst.changeAlianceBuild(alliance, -openCost);
 	
@@ -1555,11 +607,6 @@ public class HYMgr extends EventProc{
 			String zhiWei = member.title == AllianceMgr.TITLE_LEADER ? "盟主": "副盟主";
 			HuangyePve hyCfg = huangyePveMap.get(hyPveCfg.id);
 			String treaName = HeroService.getNameById(hyCfg == null ? "" : hyCfg.nameId+"");
-			String eventStr = AllianceMgr.inst.lianmengEventMap.get(11).str
-					.replaceFirst("%d", zhiWei)
-					.replaceFirst("%d", junzhu.name)
-					.replaceFirst("%d", treaName);
-			AllianceMgr.inst.addAllianceEvent(alliance.id, eventStr);
 		}
 		
 	}
@@ -1594,6 +641,13 @@ public class HYMgr extends EventProc{
 				PveMgr.inst.sendZhanDouInitError(session, "藏宝点已通关");
 				return;
 			}
+			HYTreasureRecord record = HibernateUtil.find(HYTreasureRecord.class, hyTreasure.lianMengId);
+			if(record == null || record.curGuanQiaId != hyTreasure.guanQiaId) {
+				logger.info("藏宝点已关闭1,hyTreasureID：{}", treasureId);
+				PveMgr.inst.sendZhanDouInitError(session, "请求的关卡未开启");
+				return;
+			}
+			
 			// 是否有人正在挑战
 			boolean has = hasSomeOneInBattle(hyTreasure);
 			if(has) {
@@ -1602,7 +656,7 @@ public class HYMgr extends EventProc{
 				return;
 			}
 			// 配置是否有问题
-			huangyePveCfg = huangyePveMap.get(hyTreasure.idOfFile);
+			huangyePveCfg = huangyePveMap.get(hyTreasure.guanQiaId);
 			if(huangyePveCfg == null) {
 				logger.error("huangyePve配置信息有误");
 				PveMgr.inst.sendZhanDouInitError(session, "数据配置有误1");
@@ -1679,6 +733,9 @@ public class HYMgr extends EventProc{
 			node.setNuQiZhi(0);
 			node.setMibaoCount(0);
 			node.setMibaoPower(0);
+			node.setArmor(hyNpcCfg.armor);
+			node.setArmorMax(hyNpcCfg.armorMax);
+			node.setArmorRatio(hyNpcCfg.armorRatio);
 			GongjiType gongjiType = PveMgr.inst.id2GongjiType.get(hyNpcCfg.gongjiType);
 			PveMgr.inst.fillDataByGongjiType(node, gongjiType);
 			PveMgr.inst.fillGongFangInfo(node, enemyTemp);
@@ -1770,13 +827,20 @@ public class HYMgr extends EventProc{
 			logger.error("请求的藏宝点不存在hyTreasureID:{}", treasureId);
 			return;
 		}
-		HuangyePve hyPveCfg = huangyePveMap.get(hyTreasure.idOfFile);
+		HuangyePve hyPveCfg = huangyePveMap.get(hyTreasure.guanQiaId);
 		if (hyPveCfg == null) {
-			logger.error("huangyePve未找到匹配类型：id:{}", hyTreasure.idOfFile);
+			logger.error("huangyePve未找到匹配类型：id:{}", hyTreasure.guanQiaId);
 			return;
 		}
-		if(hyTreasure.progress <= 0){
-			logger.error("藏宝点已经通关hyTreasureID:{}", treasureId);
+		
+		HYTreasureRecord record = HibernateUtil.find(HYTreasureRecord.class, member.lianMengId);
+		if(record == null) {
+			logger.error("找不到联盟:{}的荒野记录", member.lianMengId);
+			return;
+		}
+		if(hyTreasure.progress <= 0 || record.curGuanQiaId != hyTreasure.guanQiaId){
+			logger.error("请求荒野关卡信息失败，已经通关hyTreasureID:{}，当前关卡进度:{},请求的关卡ID:{}", treasureId,
+					record.curGuanQiaId, hyTreasure.guanQiaId);
 			return;
 		}
 		HYTreasureBattleResp.Builder response = HYTreasureBattleResp.newBuilder();
@@ -1819,8 +883,10 @@ public class HYMgr extends EventProc{
 			resetHYTreasureTimes(hyTimes, member.lianMengId);
 		}
 		response.setTimesOfDay(hyTimes.times - hyTimes.used);
-//		response.setTotalTimes(hyTimes.times);
 		response.setTotalTimes(TREASURE_DAY_TIMES);
+		response.setBuyCiShuInfo(3);
+		session.write(response.build());
+		/*
 		VipFuncOpen vipData = VipMgr.vipFuncOpenTemp.get(VipData.can_buy_huagnye_times);
 		int vipL = vipData == null? Integer.MAX_VALUE: vipData.needlv;
 		if(junzhu.vipLevel < vipL){
@@ -1841,6 +907,7 @@ public class HYMgr extends EventProc{
 			}
 		}
 		session.write(response.build());
+		*/
 	}
 
 	/**
@@ -1920,19 +987,15 @@ public class HYMgr extends EventProc{
 
 	public void resetHYTreasureTimes(HYTreasureTimes hyTimes, int nowLianmengId) {
 		if(hyTimes == null) {
-			return ;
+			return;
 		}
 		// 判断君主是否换过联盟，更新数据
 		if(hyTimes.lianmengId != nowLianmengId){
 			logger.info("君主：{}，换联盟，旧联盟id：{}，新联盟id：{}，因此HYTreasureTimes字段联盟id更新",
 					hyTimes.junzhuId, hyTimes.lianmengId, nowLianmengId);
-			HibernateUtil.delete(hyTimes);
-			hyTimes =
-					new HYTreasureTimes(hyTimes.junzhuId, TREASURE_DAY_TIMES, nowLianmengId);
+			hyTimes.lianmengId = nowLianmengId;
 			HibernateUtil.save(hyTimes);
-			logger.info("君主：{}更换联盟，因此荒野挑战次数信息数据delete旧数据，并重新new数据", hyTimes.junzhuId);
 		}
-		// change 20150901
 		if(DateUtils.isTimeToReset(hyTimes.lastResetTime, CanShu.REFRESHTIME_PURCHASE)){
 			hyTimes.times = TREASURE_DAY_TIMES;
 			hyTimes.lastResetTime = new Date();
@@ -1943,22 +1006,6 @@ public class HYMgr extends EventProc{
 		}
 	}
 	
-/*	public HYResourceTimes getResourceTimes(long junzhuId) {
-		HYResourceTimes resTimes = HibernateUtil.find(HYResourceTimes.class, junzhuId);
-		Date curDate = new Date();
-		if(resTimes == null) {
-			resTimes = new HYResourceTimes(junzhuId, RESOURCE_DAY_TIMES, curDate);
-			HibernateUtil.insert(resTimes);
-		} else {
-			// change 20150901
-			if(DateUtils.isTimeToReset(resTimes.lastChallengeTime, CanShu.REFRESHTIME_PURCHASE)){
-				resTimes.times = RESOURCE_DAY_TIMES;
-				HibernateUtil.save(resTimes);
-			}
-		}
-		return resTimes;
-	}*/
-
 	public List<HYTreasureNpc> initTreasureNpc(HYTreasure hyTreasure,
 			HuangyePve hyPveCfg) {
 		List<HYTreasureNpc> treasureNpcList = new ArrayList<HYTreasureNpc>();
@@ -2005,7 +1052,7 @@ public class HYMgr extends EventProc{
 			logger.error("请求的藏宝点不存在hyTreasureID:{}", treasureId);
 			return;
 		}
-		HuangyePve hyPveCfg = huangyePveMap.get(hyTreasure.idOfFile);
+		HuangyePve hyPveCfg = huangyePveMap.get(hyTreasure.guanQiaId);
 		if(hyPveCfg == null){
 			logger.error("HuangyePve配置不存在{}", treasureId);
 			return;
@@ -2089,6 +1136,7 @@ public class HYMgr extends EventProc{
 		//判断是否挑战成功（必须联盟存在）
 		if(isPass == 1 && hasLianmeng && lianmengOk) {//成功
 			pveBattleSuccessProcess(session, junzhu, response, member, hyTreasure, hyPveCfg);
+			refreshHYTreasureNpcData(treasureNpcList);
 		} else {
 			if(lianmengOk){
 				hyTreasure.progress = getTreasureProgress(treasureNpcList);
@@ -2105,8 +1153,9 @@ public class HYMgr extends EventProc{
 		if(h > 0){
 			ShopMgr.inst.addMoney(ShopMgr.Money.huangYeBi, 
 					ShopMgr.huangYe_shop_type, junzhu.id, h);
-			ShopMgr.inst.sendHangYebi(session, junzhu.id);
+			ShopMgr.inst.sendMainIfo(session,junzhu.id,ShopMgr.Money.huangYeBi);
 		}
+		
 		logger.info("玩家:{} , 打完荒野求生获取荒野币：{}", junzhu.id,  h);
 
 		junzhu.tongBi += getTongbi;
@@ -2129,7 +1178,7 @@ public class HYMgr extends EventProc{
 			}
 			AwardMgr.inst.giveReward(session, award, junzhu, false);
 		}
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,junzhu);
 		dropAwardMapBefore.remove(junzhu.id);
 	}
 
@@ -2137,15 +1186,9 @@ public class HYMgr extends EventProc{
 			BattleResult.Builder response,
 			AlliancePlayer member,
 			HYTreasure hyTreasure, HuangyePve hyPveCfg) {
-		//最后击杀奖励
-		Mail mailConfig = EmailMgr.INSTANCE.getMailConfig(20004);
+		Mail mailConfig = null;
 		String fujian = "";
 		boolean sendOK = false;
-		if(mailConfig != null) {
-			fujian = 0 + ":" + LM_GONGXIAN_ITEMID + ":" + hyPveCfg.killAward;
-			sendOK = EmailMgr.INSTANCE.sendMail(junzhu.name, mailConfig.content, fujian, mailConfig.sender, mailConfig,"");
-			logger.info("藏宝点最后击杀奖励，以邮件发送奖励, 结果:{}", sendOK);
-		}
 		// 快速通关
 		boolean isFastPass = false;
 		if(hyTreasure.openTime != null){
@@ -2156,7 +1199,7 @@ public class HYMgr extends EventProc{
 			}
 		}
 		//通关奖，有伤害记录均获得奖励
-		String where = " where treasureId=" + hyTreasure.id;
+		String where = " where treasureId=" + hyTreasure.id + " ORDER BY damage DESC";
 		List<HYTreasureDamage> list = HibernateUtil.list(HYTreasureDamage.class, where);
 		Collections.sort(list);
 		int rank = 1;
@@ -2164,9 +1207,9 @@ public class HYMgr extends EventProc{
 			JunZhu getJunzhu = HibernateUtil.find(JunZhu.class, d.junzhuId);
 			mailConfig = EmailMgr.INSTANCE.getMailConfig(20002);
 			if(mailConfig != null) {
-				int awardId = getPassGuanQiaAward(rank++, hyTreasure.idOfFile);
-				if(awardId != -1){
-					fujian = 0 + ":" + LM_GONGXIAN_ITEMID + ":" + awardId;
+				String awardStr = getPassGuanQiaAward(rank++, hyTreasure.guanQiaId);
+				if(awardStr != null){
+					fujian = awardStr;
 					sendOK = EmailMgr.INSTANCE.sendMail(getJunzhu.name, mailConfig.content, fujian, mailConfig.sender, mailConfig,"");
 					logger.info("藏宝点通关奖励，以邮件发送奖励, 结果:{}", sendOK);
 				}
@@ -2186,36 +1229,53 @@ public class HYMgr extends EventProc{
 				}
 			}
 		}
+		for(HYTreasureDamage damage : list) {
+			logger.info("荒野关卡:{}已经通关，则删除该关卡的伤害排行", hyTreasure.id);
+			HibernateUtil.delete(damage);
+		}
+		
 		logger.info("藏宝点id:{}挑战成功，分配奖励，并重置藏宝点信息");
 
 		// 通关设置
 		hyTreasure.openTime = null;
-		hyTreasure.progress = 0;
+		hyTreasure.progress = 100;
 		hyTreasure.passTimes += 1;
+		HibernateUtil.save(hyTreasure);
+		// 开启下一个关卡
+		HYTreasure nextGuanQia = HibernateUtil.find(HYTreasure.class,
+				" where lianMengId="+ member.lianMengId + " and guanQiaId=" + hyPveCfg.nextGuanqiaID);
+		if(nextGuanQia == null) {
+			nextGuanQia = new HYTreasure(member.lianMengId, hyPveCfg.nextGuanqiaID);
+			HibernateUtil.insert(nextGuanQia);
+		} else {
+			nextGuanQia.openTime = new Date();
+			nextGuanQia.progress = 100;
+			HibernateUtil.save(nextGuanQia);
+		}
+		// 更新关卡进度记录
+		HYTreasureRecord record = HibernateUtil.find(HYTreasureRecord.class, member.lianMengId);
+		record.curGuanQiaId = hyPveCfg.nextGuanqiaID;
+		HibernateUtil.save(record);
 		
 		HuangyePve hyCfg = huangyePveMap.get(hyPveCfg.id);
 		String treaName = HeroService.getNameById(hyCfg == null ? "" : hyCfg.nameId+"");
 		String eventStr = AllianceMgr.inst.lianmengEventMap.get(12).str
 				.replaceFirst("%d", treaName);
 		AllianceMgr.inst.addAllianceEvent(member.lianMengId, eventStr);
+		EventMgr.addEvent(ED.HY_PASS_GUAN_QIA, new Object[]{member.lianMengId, hyPveCfg.nextGuanqiaID});
 	}
-	public int getPassGuanQiaAward(int rank, int pointId){
+	
+	public String getPassGuanQiaAward(int rank, int pointId){
 		HuangyePve hy = huangyePveMap.get(pointId);
 		if(hy == null){
-			return -1;
+			return null;
 		}
-		HuangyeRank r = huangyeRankMap.get(rank);
+		HuangyeRankAward r = huangyeRankAwardMap.get(rank);
 		if(r == null){
-			return -1;
+			logger.error("获得荒野排行奖励错误，找不到排行为:{}的奖励配置", rank);
+			return null;
 		}
-		switch(r.id){
-			case 1: return hy.rank1Award;
-			case 2: return hy.rank2Award;
-			case 3: return hy.rank3Award;
-			case 4: return hy.rank4Award;
-			case 5: return hy.rank5Award;
-		}
-		return -1;
+		return r.award;
 	}
 
 	public void refreshHYTreasureNpcData(List<HYTreasureNpc> treasureNpcList) {
@@ -2303,20 +1363,6 @@ public class HYMgr extends EventProc{
 		return (int) progress;
 	}
 	
-/*	public void changeHYFogNum(int lianmengId, int treasureBattleLevel) {
-		HYFog huangyeFog = HibernateUtil.find(HYFog.class, lianmengId);
-		if(huangyeFog == null) {
-			return;
-		}
-		for (Map.Entry<Integer, HuangyeFog> entry : huangyeFogMap.entrySet()) {
-			HuangyeFog fogCfg = entry.getValue();
-			if(fogCfg.cangbaoLv <= treasureBattleLevel) {
-				huangyeFog.addHaveFogId(fogCfg.fogId);
-			}
-		}
-		HibernateUtil.save(huangyeFog);
-	}*/
-
 	public void delHYInfo(int lianmengId) {
 		HYFog huangyeFog = HibernateUtil.find(HYFog.class, lianmengId);
 		List<HYTreasure> hyTreasureList = HibernateUtil.list(HYTreasure.class, " where lianMengId="+lianmengId);
@@ -2339,190 +1385,8 @@ public class HYMgr extends EventProc{
 		for(HYTreasureTimes hyTimes : hyTreasureTimesList) {
 			HibernateUtil.delete(hyTimes);
 		}
-		// 资源点删除 (需要看是否是匹配到的，修改资源点mutilNum)
-//		List<HYResource> deleteResoureList = new ArrayList<HYResource>();
-//		for(HYResourceAlliance hyra : hyResAlncList) {
-//			HYResource hyRes = HibernateUtil.find(HYResource.class, " where id="+hyra.resourceId);
-//			if(hyRes.multiNums == 1) {	//当前资源点只有该联盟一个看到
-//				deleteResoureList.add(hyRes);
-//				continue;
-//			} 
-//			HYResourceAlliance otherRa = HibernateUtil.find(HYResourceAlliance.class, 
-//					" where lianMengId <>"+lianmengId + " and resourceId="+hyRes.id);
-//			hyRes.multiNums -= 1;
-//			hyRes.curHoldId = otherRa.lianMengId;
-//			HibernateUtil.save(hyRes);
-//			HibernateUtil.delete(hyra);
-//		}
-//		for(HYResource hyRes : deleteResoureList) {
-//			HibernateUtil.delete(hyRes);
-//			List<HYResourceJZYongbing> ybList = HibernateUtil.list(HYResourceJZYongbing.class,
-//					" where resourceId=" + hyRes.id);
-//			for(HYResourceJZYongbing yb : ybList) {
-//				HibernateUtil.delete(yb);
-//			}
-//			List<HYResourceNpc> npcList = HibernateUtil.list(HYResourceNpc.class,
-//					" where resourceId=" + hyRes.id);
-//			for(HYResourceNpc npc : npcList) {
-//				HibernateUtil.delete(npc);
-//			}
-//		}
-//		List<HYRewardStore> storeList = HibernateUtil.list(HYRewardStore.class,
-//				" where lianmengId=" + lianmengId);
-//		for(HYRewardStore store : storeList) {
-//			Redis.getInstance().del(CACHE_HYSTORE_APPLY + lianmengId + "_" + store.site);
-//			HibernateUtil.delete(store);
-//		}
-		// 藏宝点 的开启和最大等级记录无关 20150909
-//		HYTreasureRecord tRecord = HibernateUtil.find(HYTreasureRecord.class, lianmengId);
-//		if(tRecord != null) {
-//			HibernateUtil.delete(tRecord);
-//		}
 	}
 
-
-/*	public void resourceChangeReq(int cmd, IoSession session, Builder builder) {
-		ResourceChange.Builder request = (qxmobile.protobuf.HuangYeProtos.ResourceChange.Builder) builder;
-		long resourceId = request.getId();
-		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
-		if (junzhu == null) {
-			logger.error("未找到君主，cmd:{}", cmd);
-			return;
-		}
-
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
-		if(member == null) {
-			logger.error("未加入联盟，不能进行荒野求生1");
-			return;
-		}
-		int lianmengId = member.lianMengId;
-		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, lianmengId);
-		if (alliance == null) {
-			sendError(session, cmd, "请求信息有误");
-			logger.error("找不到联盟信息，不能进行荒野求生2，联盟Id:{}", lianmengId);
-			return;
-		}
-		ResourceChangeResp.Builder response = ResourceChangeResp.newBuilder();
-		int title = member.title;
-		if(title != AllianceMgr.TITLE_LEADER && title != AllianceMgr.TITLE_DEPUTY_LEADER){
-			logger.error("没有权限，不能更换资源点");
-			response.setResult(2);
-			session.write(response.build());
-			return;
-		}
-		HYResource hyResource = HibernateUtil.find(HYResource.class, resourceId);
-		if(hyResource == null) {
-			logger.error("更换的资源点不存在，id:{}", resourceId);
-			return;
-		}
-		
-		HYResourceAlliance resAlnc = HibernateUtil.find(HYResourceAlliance.class, " where resourceId="+resourceId +" and lianMengId="+member.lianMengId);
-		if(resAlnc == null) {
-			logger.error("没有找到所属该联盟的资源点，resourceId:{},allianceId:{}", resourceId, member.lianMengId);
-			return;
-		}
-		HuangyePvp pvpCfg = huangyePvpMap.get(resAlnc.idOfFile);
-		if(alliance.build < pvpCfg.refreshCost) {
-			logger.error("建设值不足，不能更换资源点");
-			response.setResult(1);
-			session.write(response.build());
-			return;
-		}
-		
-		HYResource matchResource = matchHYResource(member.lianMengId, hyResource.npcLevel - 5,hyResource.npcLevel - 1);
-		if(matchResource != null) {
-			resAlnc.resourceId = matchResource.id;
-			hyResource.multiNums -= 1;
-			matchResource.multiNums += 1;
-			HibernateUtil.save(hyResource);
-			HibernateUtil.save(resAlnc);
-			HibernateUtil.save(matchResource);
-		} else {
-			int level = (hyResource.npcLevel - 5) <= 0 ? 1 : (hyResource.npcLevel - 5);
-			matchResource = new HYResource(level, 1);
-			HibernateUtil.insert(matchResource);
-		}
-		List<HYTreasureTimes> hyTimesList = HibernateUtil.list(HYTreasureTimes.class,
-				" where lianmengId = " + alliance.id + " and pointId=" + hyResource.id
-				+ " and type=" + TYPE_RESOURCE);
-		for(HYTreasureTimes times : hyTimesList) {
-//			times.pointId = matchResource.id;
-			times.times = RESOURCE_DAY_TIMES;
-			HibernateUtil.save(times);
-		}
-		
-		sendResourceChangeResp(session, hyResource, junzhu.id, lianmengId, RESOURCE_DAY_TIMES);
-	}*/
-	
-	/*public void sendResourceChangeResp(IoSession session, HYResource hyResource, 
-			long junzhuId, int lianmengId, int times) {
-		ResourceChangeResp.Builder response = ResourceChangeResp.newBuilder();
-		response.setResult(0);
-		BattleResouceResp.Builder battleResResp = BattleResouceResp.newBuilder();
-		battleResResp.setResourceId(hyResource.id);
-		battleResResp.setTimesOfDay(times);
-		battleResResp.setTotalTimes(RESOURCE_DAY_TIMES);
-		int produce = (int) (CanShu.HUANGYEPVP_PRODUCE_P);
-		battleResResp.setProduce(produce);
-		if(hyResource.curHoldId != 0 && hyResource.curHoldId != lianmengId) {
-			Date date = new Date();
-			if(com.manu.dynasty.util.DateUtils.daysBetween(hyResource.holdStartTime, date) >= 3) {
-				battleResResp.setIsChange(1);
-			}
-		} else {
-			battleResResp.setIsChange(0);
-		}
-		
-		//我方秘宝id，MiBao配置文件中的id
-		BuZhenHYPvp mibaoList = HibernateUtil.find(BuZhenHYPvp.class, junzhuId);
-		battleResResp.setZuheId(mibaoList.zuheId);
-		//我方雇佣兵列表
-		HYResourceJZYongbing jzYongbing = HibernateUtil.find(HYResourceJZYongbing.class, 
-				" where junzhuId="+junzhuId + " and resourceId=" + hyResource.id);
-		if(jzYongbing == null) {
-			int[] bingArray = getSoldiers(hyResource.npcLevel);
-			if(bingArray.length != 4) {
-				logger.error("获取的雇佣兵数量不为4");
-				return;
-			}
-			jzYongbing = new HYResourceJZYongbing(lianmengId, hyResource.id, junzhuId, 
-					bingArray[0], bingArray[1], bingArray[2], bingArray[3]);
-		}
-		battleResResp.addYongBingList(jzYongbing.bing1);
-		battleResResp.addYongBingList(jzYongbing.bing2);
-		battleResResp.addYongBingList(jzYongbing.bing3);
-		battleResResp.addYongBingList(jzYongbing.bing4);
-		//npc信息
-		List<HYResourceNpc> resourceNpcList = HibernateUtil.list(HYResourceNpc.class, " where resourceId=" + hyResource.id);
-		if(resourceNpcList.size() == 0) {
-			List<HuangyePvpNpc> npcList = getPvpNpcList(hyResource.npcLevel);
-			for(HuangyePvpNpc npcCfg : npcList) {
-				int[] bingArray = getSoldiers(npcCfg.level);
-				HYResourceNpc resourceNpc = new HYResourceNpc(lianmengId, hyResource.id, npcCfg.id,
-						0, bingArray[0], bingArray[1], bingArray[2], bingArray[3]);
-				resourceNpcList.add(resourceNpc);
-				HibernateUtil.save(resourceNpc);
-			}
-		}
-		for(HYResourceNpc npc : resourceNpcList) {
-			ResourceNpcInfo.Builder npcResp = ResourceNpcInfo.newBuilder();
-			npcResp.setBossId(npc.bossId);
-			npcResp.setBattleSuccess(npc.battleSuccess);
-			npcResp.addYongBingId(npc.bing1);
-			npcResp.addYongBingId(npc.bing2);
-			npcResp.addYongBingId(npc.bing3);
-			npcResp.addYongBingId(npc.bing4);
-			if(npc.battleJZId > 0) {
-				JunZhu battleJZ = HibernateUtil.find(JunZhu.class, npc.battleJZId);
-				npcResp.setBattleName(battleJZ.name);
-			} else {
-				npcResp.setBattleName("");
-			}
-			battleResResp.addResNpcInfo(npcResp.build());
-		}
-		response.setResResp(battleResResp);
-		session.write(response.build());
-	}*/
 
 	/**
 	 * 荒野藏宝点，每个藏宝点，历史伤害输出最大值
@@ -2563,7 +1427,7 @@ public class HYMgr extends EventProc{
 			}
 			info.setJunZhuName(other.name);
 			info.setRank(rank++);
-			info.setDamage(treaDa.historyMaxDamage);
+			info.setDamage(treaDa.damage);
 			resp.addDamageInfo(info);
 		}
 		session.write(resp.build());
@@ -2708,7 +1572,7 @@ public class HYMgr extends EventProc{
 						if(has) {
 							continue;
 						}
-						HuangyePve huangyePveCfg = huangyePveMap.get(t.idOfFile);
+						HuangyePve huangyePveCfg = huangyePveMap.get(t.guanQiaId);
 						if(huangyePveCfg == null) {
 							continue;
 						}
@@ -2736,6 +1600,54 @@ public class HYMgr extends EventProc{
 						}
 					}
 					break;
+				case ED.LIANMENG_UPGRADE_LEVEL:
+					Integer allianceId = (Integer) param.param;
+					if(allianceId == null) {
+						return;
+					}
+					AllianceBean bean = HibernateUtil.find(AllianceBean.class, allianceId);
+					if (bean.level < open_HY_lianMeng_level) {
+						return;
+					}
+					String where = "where lianMengId = " + allianceId + 
+							" and guanQiaId = " + huangYePve_first_pointId;
+					HYTreasure treasure = HibernateUtil.find(HYTreasure.class, where, false);
+					if(treasure == null) {
+						treasure = new HYTreasure(allianceId, huangYePve_first_pointId);
+						HibernateUtil.insert(treasure);
+					}
+					if (bean.level == open_HY_lianMeng_level) {
+						EventMgr.addEvent(ED.HY_PASS_GUAN_QIA, new Object[]{bean.id, huangYePve_first_pointId});
+					}
+					break;
+				case ED.HY_PASS_GUAN_QIA:
+					Object[] objs = (Object[]) param.param;
+					Integer lmId = (Integer) objs[0];
+					Integer guanQiaId = (Integer) objs[1];
+					HuangyePve pveCfg = huangyePveMap.get(guanQiaId);
+					if(pveCfg == null) {
+						return;
+					}
+					String guanQiaName = HeroService.getNameById(pveCfg.nameId+"");
+					Mail mailCfg = EmailMgr.INSTANCE.getMailConfig(21005);
+					if(mailCfg != null){
+						String content = mailCfg.content.replace("***", guanQiaName);
+						List<AlliancePlayer> memberList = AllianceMgr.inst.getAllianceMembers(lmId);
+						for(AlliancePlayer pla: memberList){
+							JunZhu junzhu = HibernateUtil.find(JunZhu.class, pla.junzhuId);
+							boolean sendOK = EmailMgr.INSTANCE.sendMail(junzhu.name, content,
+										"", junzhu.name, mailCfg ,"");
+							logger.info("荒野求生通关邮件通知，发送给玩家：{}, 结果:{}", junzhu.id, sendOK);
+						}
+					}
+					// 添加联盟事件
+					LianmengEvent lmEvent = AllianceMgr.inst.lianmengEventMap.get(11);
+					if(lmEvent != null) {
+						String eventStr = lmEvent.str == null ? "" : lmEvent.str;
+						eventStr = eventStr.replaceFirst("%d", guanQiaName);
+						AllianceMgr.inst.addAllianceEvent(lmId, eventStr);
+					}
+					break;
 			}
 		
 	}
@@ -2743,5 +1655,7 @@ public class HYMgr extends EventProc{
 	@Override
 	protected void doReg() {
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
+		EventMgr.regist(ED.LIANMENG_UPGRADE_LEVEL, this);
+		EventMgr.regist(ED.HY_PASS_GUAN_QIA, this);
 	}
 }

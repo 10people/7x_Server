@@ -10,6 +10,8 @@ public class LianMeng {
 	private int mobaiAward;
 	private int buffNum;
 	public String targetAward;
+	public int lvlupTime;
+	public int cost;
 	public int getId() {
 		return id;
 	}

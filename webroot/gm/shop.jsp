@@ -1,3 +1,4 @@
+<%@page import="com.qx.huangye.shop.WuBeiFangBean"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.qx.pvp.PvpMgr"%>
 <%@page import="com.qx.huangye.shop.ShopMgr"%>
@@ -29,8 +30,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript">
 function go(act,myid){
-	var v = document.getElementById(act).value;
-	location.href = '?action='+act+"&v="+v+"&myid="+myid;
+	var node = document.getElementById(act);
+	if(node != null) {
+		var v = node.value;
+		location.href = '?action='+act+"&v="+v+"&myid="+myid;
+	}else {
+		location.href = '?action='+act;
+	}
 }
 
 </script>
@@ -69,7 +75,7 @@ function go(act,myid){
          if(junzhu == null){
             out.println("没有君主");
          }else{
-            %><br> 君主id是：<%=junzhu.id%> <br>君主姓名是：<%=junzhu.name%>
+            %><br> 君主id是：<%=junzhu.id%> <br>君主姓名是：<%=junzhu.name%><br/><br/>
           <%
            if(action != null && action.equals("updateMoneyrrr")){
         	   int v = Integer.parseInt(request.getParameter("v"));
@@ -80,13 +86,13 @@ function go(act,myid){
               ShopMgr.inst.setMoney(1, junzhu.id, shop, v);
              // out("id is "+ 1 + "save1  v is " + v );
            }
-          if(action != null && action.equals("updateMoneyxxx")){
+           else if(action != null && action.equals("updateMoneyxxx")){
         	  int v = Integer.parseInt(request.getParameter("v"));
               ShopMgr.inst.setMoney(2, junzhu.id, null, v);
             //  out("save2  v is " +v );
              // out("id is "+ 2 + "save1  v is " + v );
           }
-          if(action != null && action.equals("updateMoneyccc")){
+           else if(action != null && action.equals("updateMoneyccc")){
               int v = Integer.parseInt(request.getParameter("v"));
               PublicShop shop = HibernateUtil.find(PublicShop.class, junzhu.id * ShopMgr.shop_space + 3);
               if(shop == null){
@@ -95,15 +101,55 @@ function go(act,myid){
             ShopMgr.inst.setMoney(3, junzhu.id, shop, v);
         //  out("id is "+ 3 + "save1  v is " + v );
           }
-          if(action != null && action.equals("updateMoneyddd")){
+           else if(action != null && action.equals("updateMoneyddd")){
         	   int v = Integer.parseInt(request.getParameter("v"));
                PublicShop shop = HibernateUtil.find(PublicShop.class, junzhu.id * ShopMgr.shop_space + 4);
                if(shop == null){
                    shop = ShopMgr.inst.initShopInfo(junzhu.id, 4);
               }
               ShopMgr.inst.setMoney(4, junzhu.id, shop, v);
+          } else if("resetWubeifang".equals(action)) {
+        	  WuBeiFangBean wuBeiFang = ShopMgr.inst.getWuBeiFangBean(junzhu.id);
+        	  wuBeiFang.type1UseTimes = 0;
+  			wuBeiFang.type2UseTimes = 0;
+  			wuBeiFang.type3UseTimes = 0;
+  			wuBeiFang.type4UseTimes = 0;
+  			HibernateUtil.save(wuBeiFang);
           }
-
+          
+          tableStart();
+          trS();
+          	td("");td("今日免费次数");td("今日花费元宝可购买次数");
+          trE();
+          WuBeiFangBean wuBeiFang = ShopMgr.inst.getWuBeiFangBean(junzhu.id);
+          //type类型(与配置文件必须一样):1：装备铺,2：珍宝行,3：石料店,4：益精堂
+          for(int i = 1; i <= 4; i++) {
+        	  trS();
+        	  switch(i) {
+        	  case 1:
+        		  td("装备铺");
+        		  break;
+        	  case 2:
+        		  td("珍宝行");
+        		  break;
+        	  case 3:
+        		  td("石料店");
+        		  break;
+        	  case 4:
+        		  td("益精堂(精气)");
+        		  break;
+        	  }
+        	  int freeTimes = ShopMgr.inst.getRemainFreeTimes(i, wuBeiFang);
+    		  td(freeTimes);
+    		  td(ShopMgr.inst.getRamainYuanBaoTimes(i, wuBeiFang, junzhu, freeTimes));
+    		  trE();
+          }
+          trE();
+          tableEnd();
+          out.println("<input type='button' value='重置祭祀所有次数' onclick='go(\"resetWubeifang\")'/><br/>");
+          
+          out.println("<br/><br/>");
+          
           String mo1 =  "0";
           String mo2 = "0";
           String mo3 = "0";
@@ -137,7 +183,6 @@ function go(act,myid){
 					 case 1:s = "荒野商店";
 					 sM = "荒野币"; 
 					 mo1 = ShopMgr.inst.getMoney(index, junzhu, shop) + "";
-					 out("mo111111111 is " + mo1);
 					 break;
 					 case 2:s = "联盟商店";sM = "联盟贡献";
 					 mo2 = ShopMgr.inst.getMoney(index, junzhu, shop) + "";

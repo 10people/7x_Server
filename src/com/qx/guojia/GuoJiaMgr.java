@@ -277,9 +277,11 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 		//上一日联盟在国家中的声望排行
 		Integer lianMengRank=(int)RankingMgr.inst.getRankByGjIdAndId(RankingMgr.LIANMENG_SW_LAST_DAY_RANK, aBean.country, aBean.id);
 		if(guojiRank<1){
+			// 策划要求必须有奖励，所以赋值为最后一名
 			guojiRank=7;
 		}
 		if(lianMengRank<1){
+			// 策划要求必须有奖励，所以赋值为最后一名
 			lianMengRank=10000;
 		}
 		log.info("{}请求领取每日国家声望排行奖励,上一日国家排名--{}，上一日联盟在国家中的声望排行--{}", jzId,guojiRank,lianMengRank);

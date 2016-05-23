@@ -21,11 +21,13 @@ import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.Explore.ExploreResp;
 import qxmobile.protobuf.GameTask.TaskInfo;
 import qxmobile.protobuf.GameTask.TaskProgress;
+import qxmobile.protobuf.JewelProtos.EquipOperationReq;
 import qxmobile.protobuf.MoBaiProto.MoBaiInfo;
 import qxmobile.protobuf.MoBaiProto.MoBaiReq;
 import qxmobile.protobuf.PlayerData.PlayerState;
 import qxmobile.protobuf.PlayerData.State;
 import qxmobile.protobuf.PveLevel.GuanQiaInfoRequest;
+import qxmobile.protobuf.PvpProto.ConfirmExecuteReq;
 import qxmobile.protobuf.Scene.EnterScene;
 import qxmobile.protobuf.Scene.EnterSceneConfirm;
 import qxmobile.protobuf.Scene.ExitScene;
@@ -44,6 +46,7 @@ import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.util.ProtobufUtils;
 import com.manu.network.PD;
 import com.manu.network.msg.ProtobufMsg;
+import com.qx.pvp.PVPConstant;
 import com.qx.test.message.MessageDispatcher;
 
 /**
@@ -53,6 +56,8 @@ import com.qx.test.message.MessageDispatcher;
  */
 public class GameClient {
 	public String accountName;
+	public long lastMoveTime;
+	public int masterUid;
 	public IoSession session;
 	public boolean log = true;
 	public int uid;
@@ -83,15 +88,15 @@ public class GameClient {
 			}
 		});
 	}
-
+	public static String routerIP;
 	private void regOrLogin() {
 //		if(log)System.out.println("尝试注册:"+accountName);
 //		RegReq.Builder regReq = RegReq.newBuilder();
 //		regReq.setName(accountName);
 //		session.write(regReq.build());
 		HttpClient hc = new HttpClient();
-//		GetMethod gm = new GetMethod("http://192.168.3.80:8090/qxrouter/accountReg.jsp?name="+accountName+"&pwd=1");
-		GetMethod gm = new GetMethod("http://203.195.230.100:9091/qxrouter/accountReg.jsp?name="+accountName+"&pwd=1");
+		GetMethod gm = new GetMethod("http://"+routerIP+"/qxrouter/accountReg.jsp?name="+accountName+"&pwd=1");
+//		GetMethod gm = new GetMethod("http://203.195.230.100:9091/qxrouter/accountReg.jsp?name="+accountName+"&pwd=1");
 		try{
 			hc.executeMethod(gm);
 			String responseMess = gm.getResponseBodyAsString().trim();
@@ -140,6 +145,7 @@ public class GameClient {
 		switch(code){
 		case 100:
 		case 1:
+			ChoseScene(Main.sceneid);
 			enterScene();
 			break;
 		case 2:
@@ -167,7 +173,7 @@ public class GameClient {
 		 }
 
 	public void enterScene() {
-		//
+		//		
 		EnterScene.Builder req = EnterScene.newBuilder();
 		req.setUid(1);
 		req.setSenderName(accountName);
@@ -243,9 +249,11 @@ public class GameClient {
 		CreateRoleResponse.Builder ret = (qxmobile.protobuf.ZhangHao.CreateRoleResponse.Builder) builder;
 		if(log)System.out.println("创建角色结果:"+ret.getIsSucceed()+":"+ret.getMsg());
 		if(ret.getIsSucceed()){
+			ChoseScene(Main.sceneid);
 //			enterScene();
 //			enterShiLian();
-			enterYBScene();
+//			enterYBScene();
+			enterLMZ();
 			Main.createRoleOkCnt.incrementAndGet();
 		}else{
 			createRole(getRandomString(6));
@@ -270,7 +278,7 @@ public class GameClient {
 			oper();
 		}else{
 //			shilianret();
-			yaBiao();
+//			yaBiao();
 		}
 	}
 	public void shilianret() {
@@ -306,26 +314,53 @@ public class GameClient {
 		b.setSState(State.State_YABIAO);
 		//
 		session.write(b.build());		
-		//move 调整在押镖场景中的位置
-//			x = 211;
-//			z = 135;//强制在一个地方
-		SpriteMove.Builder move = SpriteMove.newBuilder();
-		move.setDir(0);
-		move.setUid(uid);
-//			move.setPosX(184.29079f+);
-		ThreadLocalRandom r = ThreadLocalRandom.current();
-		int diff = r.nextInt(10) - 5;
-		int diffZ = r.nextInt(10) - 5;
-		System.out.println("diff is "+diff);
-		move.setPosX(x+diff);
-		move.setPosY(4);
-		move.setPosZ(z+diffZ);
-//		session.write(move.build());
-		session.write(move.build());
+//		move();
 		//
 //			session.write(PD.C_YABIAO_INFO_REQ);
 //			session.write(PD.C_YABIAO_MENU_REQ);//请求押镖界面
 //			session.write(PD.C_YABIAO_REQ);//开始押镖
+	}
+
+	public void move() {
+		//move 调整在押镖场景中的位置
+//			x = 211;
+//			z = 135;//强制在一个地方
+		ThreadLocalRandom r = ThreadLocalRandom.current();
+		SpriteMove.Builder move = SpriteMove.newBuilder();
+		move.setDir(r.nextInt(360));
+		move.setUid(uid);
+//			move.setPosX(184.29079f+);
+//		int diff = r.nextInt(8) - 4;
+//		int diffZ = r.nextInt(8) - 4;
+////		System.out.println("diff is "+diff);
+//		move.setPosX(x+diff/8f+(uid%10) * (r.nextInt(1) == 0 ? 1 : -1)  );
+//		move.setPosY(4);
+//		move.setPosZ(z+diffZ/5f+ (uid%10) * (r.nextInt(1) == 0 ? 1 : -1) );
+		Integer dir = (Integer) session.getAttribute("dirX", 1);
+		if(dir == 1){
+			x+=0.5f;
+			if(x>255)session.setAttribute("dirX", -1);
+		}else{
+			x -=0.5f;
+			if(x<150)session.setAttribute("dirX", 1);
+		}
+		if( ((int)x) % 20 == 0 ){dir = -dir; session.setAttribute("dirX", dir);}
+		//
+		dir = (Integer) session.getAttribute("dirX", null);
+		if(dir == null || ((int)z) % 20 == 0){dir = -dir; session.setAttribute("dirZ", dir);}
+		if(dir == 1){
+			z+=0.5f;
+			if(z>131)session.setAttribute("dirZ", -1);
+		}else{
+			z -=0.5f;
+			if(z<-1)session.setAttribute("dirZ", 1);
+		}
+		move.setPosX(x);
+		move.setPosY(4);
+		move.setPosZ(z);
+		
+		session.write(move.build());
+//		session.write(move.build());
 	}
 	
 
@@ -341,14 +376,21 @@ public class GameClient {
 //		session.write(PD.C_GET_JINENG_PEIYANG_QUALITY_REQ);
 //		联盟抽奖信息();
 //		session.write(PD.C_CLOSE_TAN_BAO_UI);
-		enterYBScene();
+//		enterYBScene();
 //		enterShiLian();
 //		useItem();
 //		聊天广播();
 //		getMoBaiInfo();
 //		getMoBaiAward();
 	}
-
+	public void enterLMZ() {
+		session.write(PD.C_ENTER_LMZ);
+		//报告状态
+		PlayerState.Builder b = PlayerState.newBuilder();
+		b.setSState(State.State_LEAGUEOFCITY);
+		session.write(b.build());
+		//
+	}
 	public void enterYBScene() {
 		//先退出主城
 //		exitMainCity();
@@ -366,6 +408,7 @@ public class GameClient {
 		msg.builder = req;
 		session.write(msg);
 		if(log)System.out.println("发起进入场景。");
+		yaBiao();
 	}
 
 	public void exitMainCity() {
@@ -495,5 +538,69 @@ public class GameClient {
 		}else{
 			session.write(msg);			
 		}
+	}
+	
+	
+	
+	
+	//跳转至指定ID的主城副本
+	public void JumpN(String string){
+		String idstr = string.substring("jump".length());//截取字符串形式的场景ID
+		Integer id = Integer.parseInt(idstr) ;//转化为int 对象
+		if(id != null ){
+			if(id<= 0){
+				//场景ID不为空则发送协议到服务器，指定玩家再次进入主城时的副本ID
+				ErrorMessage.Builder send = ErrorMessage.newBuilder() ;
+				send.setErrorCode(id);
+				ProtobufMsg msg = new ProtobufMsg();
+				msg.builder = send ;
+				msg.id =PD.C_CHOOSE_SCENE ;
+				session.write(msg);
+			}else{
+				//场景ID大于零，不符合主城副本ID设计
+				System.out.println("跳转场景必须为负数，格式为：jump+id 中间无空格");
+				return ;	
+			}
+		}else{
+			//id为空，输入非法
+			System.out.println("跳转场景必须为负数，格式为：jump+id 中间无空格");
+			return ;	
+		}
+		enterScene(); //调用进入主城方法发送进入主城协议
+	}
+	
+	//选择进入ID为secneid的主城副本，如果senceid大于0，不符合主城副本ID设计
+	public void ChoseScene(int sceneid){
+		if(sceneid <= 0){
+			ErrorMessage.Builder send = ErrorMessage.newBuilder() ;
+			send.setErrorCode(sceneid);
+			ProtobufMsg msg = new ProtobufMsg();
+			msg.builder = send ;
+			msg.id =PD.C_CHOOSE_SCENE ;
+			session.write(msg);
+		}
+	}
+	
+	public void ReqBaiZhanMain(){
+		session.write(PD.BAIZHAN_INFO_REQ);
+	}
+	
+	public void ReqForEnemyList(){
+		
+		ConfirmExecuteReq.Builder req = ConfirmExecuteReq.newBuilder();
+		req.setType(PVPConstant.get_junxian_enemys);
+		req.setJunxianid(101);
+		session.write(req.build());
+	}
+	
+	public void AskForAllScene(){
+		session.write(PD.C_SCENE_GETALL);
+	}
+	
+	public void AskForBaoShi(){
+		EquipOperationReq.Builder req = EquipOperationReq.newBuilder();
+		req.setType(1) ;
+		req.setEqulpId(290400903);
+		session.write(req.build());
 	}
 }

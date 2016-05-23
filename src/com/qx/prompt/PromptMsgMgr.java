@@ -85,11 +85,8 @@ import qxmobile.protobuf.ZhanDou.QuZhuBattleEndReq;
 import qxmobile.protobuf.ZhanDou.QuZhuBattleEndResp;
 import qxmobile.protobuf.ZhanDou.ZhanDouInitError;
 import qxmobile.protobuf.ZhanDou.ZhanDouInitResp;
-//盟友快报Mgr
 /**
- * 联盟军情，速报（已删）
- * 包括掠夺驱逐
- * @author myg
+ * @Description 通知管理
  *
  */
 public class PromptMsgMgr extends EventProc implements Runnable {
@@ -655,9 +652,6 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 	
 	/**
 	 * @Description 领取速报的奖励
-	 * @param id
-	 * @param builder
-	 * @param session
 	 */
 	public void gainJiangli2SuBao(long subaoId, 
 			IoSession session, 
@@ -847,12 +841,9 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		log.info("推送联盟快报给自己--{}结束",jzId);
 	}
 
-	
-	
-
 
 	/**
-	 * @Description: 获取盟友快报
+	 *@Description   获取盟友快报
 	 * @param id
 	 * @param builder
 	 * @param session
@@ -879,9 +870,6 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 	
 	/**
 	 * @Description jzId是不是 押镖君主ybJzId的协助者
-	 * @param ybJzId
-	 * @param jzId
-	 * @return
 	 */
 	public boolean isXieZhu(long ybJzId,long jzId) {
 		if(ybJzId==jzId){

@@ -40,10 +40,13 @@ import com.manu.dynasty.template.QiangHua;
 import com.manu.dynasty.template.ZhuangBei;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
+import com.manu.network.SessionManager;
+import com.manu.network.SessionUser;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.award.AwardMgr;
 import com.qx.award.DailyAwardMgr;
 import com.qx.equip.domain.UserEquip;
+import com.qx.equip.jewel.JewelMgr;
 import com.qx.equip.web.UEConstant;
 import com.qx.equip.web.UserEquipAction;
 import com.qx.event.ED;
@@ -164,7 +167,8 @@ public class BagMgr {
 		}
 		BaseItem bi = TempletService.itemMap.get(itemId);
 		if(bi == null){
-			throw new IllegalArgumentException("没有这个道具，id："+itemId);
+			log.error("没有这个道具，id："+itemId);
+			return;
 		}
 		if(bi.getRepeatNum()<=0){
 			log.error("不属于背包的物品， itemId {} ,cnt {},ownerid {}",itemId,cnt,bag.ownerId);
@@ -181,6 +185,11 @@ public class BagMgr {
 				for(BagGrid gg : bag.grids){
 					slot = Math.max(slot, gg.dbId);
 					if(gg.itemId >0 && gg.itemId == itemId){
+						if(gg.type == JewelMgr.Jewel_Type_Id || gg.type == 8){
+							if (gg.instId != instId){
+								continue ;
+							}
+						}
 						int total = gg.cnt + remainNum;
 						if(total <= bi.getRepeatNum()) {
 							gg.cnt += remainNum;
@@ -264,9 +273,14 @@ public class BagMgr {
 		OurLog.log.ItemFlow(jzLevel, iGoodsType, itemId, cnt, AfterCount, Reason, SubReason, iMoney, MONEYTYPE_pay1_free0, 1,
 				String.valueOf(bag.ownerId));
 		// 添加符石推送检测 2015-9-22
-		if(bi.getType() == AwardMgr.type_fuWen || bi.getType()==AwardMgr.type_baoShi){
+		if(bi.getType() == AwardMgr.type_fuWen){
 			JunZhu jz = HibernateUtil.find(JunZhu.class, bag.ownerId);
 			EventMgr.addEvent(ED.FUSHI_PUSH, jz);
+		}
+		//添加宝石镶嵌推送检测 2016-05-19
+		if(bi.getType() == JewelMgr.Jewel_Type_Id){
+			JunZhu jz = HibernateUtil.find(JunZhu.class, bag.ownerId);
+			EventMgr.addEvent(ED.get_BaoShi, jz);
 		}
 	}
 	public String getItemName(int id){
@@ -329,6 +343,7 @@ public class BagMgr {
 						if(gd.instId>0){
 							ue = HibernateUtil.find(UserEquip.class, gd.instId);
 							item.setQiangHuaLv(ue == null ? 0 : ue.getLevel());
+							item.setJinJieExp(ue == null ? 0 :ue.JinJieExp);
 						}else{
 							item.setQiangHuaLv(0);
 						}
@@ -338,6 +353,9 @@ public class BagMgr {
 						item.setQianghuaHighestLv(zb.getQianghuaMaxLv());
 					//}else if(o instanceof ItemTemp){
 						//item.setDesc(HeroService.getNameById(((ItemTemp)o).funDesc));
+					}
+					if(item.getItemType() == JewelMgr.Jewel_Type_Id){
+						item.setQiangHuaExp((int)(gd.instId<0 ? 0 : gd.instId));
 					}
 				}
 			}
@@ -352,13 +370,16 @@ public class BagMgr {
 			log.error("null acc id");
 			return;
 		}
-		EquipInfo.Builder b = getEquipInfo(junZhuId);
+		Bag<EquipGrid> bag = EquipMgr.inst.loadEquips(junZhuId);
+		sendEquipInfo(session, bag);
+	}
+	public void sendEquipInfo(IoSession session,Bag<EquipGrid> bag){
+		EquipInfo.Builder b = getEquipInfo(bag);
 		session.write(b.build());
 		log.debug("send equip info");		
 	}
 
-	public EquipInfo.Builder getEquipInfo(Long junZhuId) {
-		Bag<EquipGrid> bag = EquipMgr.inst.loadEquips(junZhuId);
+	public EquipInfo.Builder getEquipInfo(Bag<EquipGrid> bag) {
 		EquipInfo.Builder b = EquipInfo.newBuilder();
 		List<EquipGrid> list = bag.grids;
 		TempletService template = TempletService.getInstance();
@@ -433,9 +454,11 @@ public class BagMgr {
 									item.setShengMing(item.getShengMing() + qianghua.getShengming());
 								}
 							}
+							item.setJinJieExp( ue.JinJieExp);
 						}
 					}else{
 						item.setQiangHuaLv(0);
+						item.setJinJieExp(0);
 					}
 					
 					item.setDesc(HeroService.getNameById(zb.getFunDesc()));
@@ -537,9 +560,11 @@ public class BagMgr {
 										item.setShengMing(item.getShengMing() + qianghua.getShengming());
 									}
 								}
+								item.setJinJieExp(ue.JinJieExp);
 							}
 						}else{
 							item.setQiangHuaLv(0);
+							item.setJinJieExp(0);
 						}
 						item.setDesc(HeroService.getNameById(zb.getFunDesc()));
 						item.setQianghuaHighestLv(zb.getQianghuaMaxLv());
@@ -662,7 +687,7 @@ public class BagMgr {
 			bi.setDbId(0);
 			ret.addItems(bi);
 		}
-		sendBagInfo(id, session, builder);
+		sendBagInfo(session, bag);
 		session.write(ret.build());
 	}
 	/**
@@ -677,6 +702,11 @@ public class BagMgr {
 			if(grid.itemId == itemId) {
 				if(grid.cnt >= subNum){
 					grid.cnt -= subNum;
+					if(grid.cnt <= 0) {
+						grid.itemId = -1;
+						grid.cnt = 0;
+						grid.instId = 0;
+					}
 					HibernateUtil.save(grid);
 					log.info("从{}移除物品{}x{} 原因[{}]",
 							bag.ownerId,itemId,subNum,reason);
@@ -689,6 +719,7 @@ public class BagMgr {
 					subNum -= grid.cnt;
 					grid.itemId = -1;
 					grid.cnt = 0;
+					grid.instId = 0;
 					HibernateUtil.save(grid);
 					log.info("从{}移除物品{}x{} 原因{}",
 							bag.ownerId,itemId,curCnt,reason);
@@ -698,10 +729,41 @@ public class BagMgr {
 				}
 			}
 		}
-		// 添加符石推送检测 2015-9-22
-//		JunZhu jz = HibernateUtil.find(JunZhu.class, bag.ownerId);
-//		EventMgr.addEvent(ED.FUSHI_PUSH, jz);
 	}
+	
+	/**
+	 * 通过背包id来扣除物品
+	 * @param bag
+	 * @param dbId
+	 * @param subNum
+	 * @param reason
+	 * @param jzLevel
+	 */
+	public boolean removeItemByBagdbId(Bag<BagGrid> bag, String reason, long dbId, int subNum, int jzLevel){
+		int Reason=ReasonMgr.inst.getId(reason);
+		for(BagGrid grid : bag.grids){
+			if(grid.dbId == dbId) {
+				if(grid.cnt < subNum) {
+					log.error("扣除背包物品失败，dbId:{}的物品数量不足:{}", dbId, subNum);
+					return false;
+				}
+				grid.cnt -= subNum;
+				if(grid.cnt <= 0) {
+					grid.itemId = -1;
+					grid.cnt = 0;
+					grid.instId = 0;
+				}
+				HibernateUtil.save(grid);
+				log.info("从{}移除物品{}x{} 原因[{}]", bag.ownerId,grid.itemId,subNum,reason);
+				int SubReason=0;
+				OurLog.log.ItemFlow(jzLevel, grid.type, grid.itemId, subNum, grid.cnt, Reason, SubReason, 0, 0, 1,
+						String.valueOf(bag.ownerId));
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void sendError(IoSession session, String msg) {
 		if(session == null){
 			log.warn("session is null: {}",msg);
@@ -791,8 +853,8 @@ public class BagMgr {
 		msg.builder = ret;
 		session.write(msg);
 		//
-		sendBagInfo(0,session,null);
-		JunZhuMgr.inst.sendMainInfo(session);//同步铜币
+		sendBagInfo(session,bag);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);//同步铜币
 	}
 
 	public void awards2message(List<AwardTemp> hits,
@@ -884,6 +946,18 @@ public class BagMgr {
 		if(showedThisTime.size()>0){
 			String[] arr = new String[showedThisTime.size()];
 			Redis.getInstance().sadd(key, showedThisTime.toArray(arr));
+		}
+	}
+	
+	/**
+	 * @Description: 删除物品后推送背包信息给玩家
+	 * @param jzId
+	 */
+	public  void sendBagAgain(Bag<BagGrid> bag) {
+		SessionUser su = SessionManager.inst.findByJunZhuId(bag.ownerId);
+		if (su != null) {
+			log.info("从{}移除物品，推送背包信息给玩家", bag.ownerId);
+			BagMgr.inst.sendBagInfo(su.session, bag);
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package com.qx.activity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,19 +11,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import qxmobile.protobuf.XianShi.FuLiHuoDong;
-import qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq;
-import qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp;
-import qxmobile.protobuf.XianShi.FuLiHuoDongResp;
-import qxmobile.protobuf.XianShi.GainAward;
-import qxmobile.protobuf.XianShi.HongBaoResp;
-import qxmobile.protobuf.XianShi.HuoDongInfo;
-import qxmobile.protobuf.XianShi.OpenXianShi;
-import qxmobile.protobuf.XianShi.OpenXianShiResp;
-import qxmobile.protobuf.XianShi.ReturnAward;
-import qxmobile.protobuf.XianShi.XinShouXSActivity;
-import qxmobile.protobuf.XianShi.XinShouXianShiInfo;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
@@ -34,6 +22,7 @@ import com.manu.dynasty.template.PveTemp;
 import com.manu.dynasty.template.QiriQiandaoControl;
 import com.manu.dynasty.template.XianshiControl;
 import com.manu.dynasty.template.XianshiHuodong;
+import com.manu.dynasty.template.ZhuangBei;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
@@ -59,12 +48,35 @@ import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.persistent.MC;
 import com.qx.pve.PveMgr;
+import com.qx.pve.PveRecord;
 import com.qx.task.GameTaskMgr;
 import com.qx.task.TaskData;
 import com.qx.timeworker.FunctionID;
 import com.qx.vip.VipMgr;
 import com.qx.world.Mission;
 
+import qxmobile.protobuf.Activity.ActivityAchievementResp;
+import qxmobile.protobuf.Activity.ActivityGetRewardResp;
+import qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp;
+import qxmobile.protobuf.Activity.GrowLevel;
+import qxmobile.protobuf.Explore.Award;
+import qxmobile.protobuf.Explore.ExploreResp;
+import qxmobile.protobuf.XianShi.FuLiHuoDong;
+import qxmobile.protobuf.XianShi.FuLiHuoDongAwardReq;
+import qxmobile.protobuf.XianShi.FuLiHuoDongAwardResp;
+import qxmobile.protobuf.XianShi.FuLiHuoDongResp;
+import qxmobile.protobuf.XianShi.GainAward;
+import qxmobile.protobuf.XianShi.HongBaoResp;
+import qxmobile.protobuf.XianShi.HuoDongInfo;
+import qxmobile.protobuf.XianShi.OpenXianShi;
+import qxmobile.protobuf.XianShi.OpenXianShiResp;
+import qxmobile.protobuf.XianShi.ReturnAward;
+import qxmobile.protobuf.XianShi.XinShouXSActivity;
+import qxmobile.protobuf.XianShi.XinShouXianShiInfo;
+/**
+ * @Description 限时活动/成就管理 (其他限时活动已经改名叫成就了)
+ *
+ */
 public class XianShiActivityMgr  extends EventProc{
 	public Logger log = LoggerFactory.getLogger(XianShiActivityMgr.class.getSimpleName());
 	public static XianShiActivityMgr instance;
@@ -76,7 +88,7 @@ public class XianShiActivityMgr  extends EventProc{
 	public static final Redis DB = Redis.getInstance();
 	public static final String XIANSHIYILING_KEY = "xianshiyiling_" + GameServer.serverId;//存储已领完奖励的限时活动小条目Id
 	public static final String XIANSHIFINISH_KEY = "xianshifinish_" + GameServer.serverId;//存储已领完奖励的限时活动bigId
-	public static final String XIANSHIKELING_KEY = "xianshikeling_" + GameServer.serverId;//存储可以完成未领奖的限时活动
+	public static final String XIANSHIKELING_KEY = "xianshikeling_" + GameServer.serverId;//存储可以完成未领奖的限时活动 小条目I
 	// 2016年3月28日 没有超时判断了
 //	public static final String XIANSHICHAOSHI_KEY = "xianshichaoshi_" + GameServer.serverId;//存储可以完成未领奖的限时活动
 	public static final String XIANSHI7DAY_KEY = "xianshi7Day_" + GameServer.serverId;//记录登录总天数
@@ -93,7 +105,7 @@ public class XianShiActivityMgr  extends EventProc{
 	public void initData() {
 		//加载限时活动小条目所有配置
 		Map<Integer, XianshiHuodong> activityMap = new HashMap<Integer, XianshiHuodong>();
-		Map<Integer, List<XianshiHuodong>>		bigActivityMap = new HashMap<Integer, List<XianshiHuodong>>();
+		Map<Integer, List<XianshiHuodong>> bigActivityMap = new HashMap<Integer, List<XianshiHuodong>>();
 		// 加载活动列表
 		List<XianshiHuodong> xianshiActivityList =TempletService.listAll(XianshiHuodong.class.getSimpleName());
 		int tmpId=0;
@@ -296,7 +308,7 @@ public class XianShiActivityMgr  extends EventProc{
 		}
 	}
 	/**
-	 * @Description: 获取可开启活动
+	 * @Description   获取可开启活动 （ 包括首日、7日和成就）
 	 * @param id
 	 * @param builder
 	 * @param session
@@ -1003,7 +1015,7 @@ public class XianShiActivityMgr  extends EventProc{
 		return result;
 	}
 	/**
-	 * @Description: 根据小活动id判断大活动是否关闭
+	 * @Description   根据小活动id判断大活动是否关闭
 	 * @param huodongId
 	 * @return
 	 */
@@ -1014,7 +1026,7 @@ public class XianShiActivityMgr  extends EventProc{
 	}
 
 	/**
-	 * @Description: 请求新手首日/七日签到活动信息
+	 * @Description   请求新手首日/七日签到活动信息
 	 */
 	public void getXinShouXianShiInfo(int id, Builder builder,IoSession session) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
@@ -1042,7 +1054,7 @@ public class XianShiActivityMgr  extends EventProc{
 	}
 
 	/**
-	 * @Description: 获取首日在线活动数据
+	 * @Description   获取首日在线活动数据
 	 */
 	public void getShouRiInfo(JunZhu jz, Builder builder,IoSession session) {
 		long jzId=jz.id;
@@ -1227,7 +1239,7 @@ public class XianShiActivityMgr  extends EventProc{
 		return false;
 	}
 	/**
-	 * @Description: 初始化活动数据
+	 * @Description   初始化活动数据
 	 * @param jzId
 	 * @param bigId
 	 * @return
@@ -1255,7 +1267,7 @@ public class XianShiActivityMgr  extends EventProc{
 		return bean;
 	}
 	/**
-	 * @Description: 获取其他限时活动数据
+	 * @Description   获取其他限时活动数据
 	 */
 	public void getOtherXianShiInfo(long jzId,int jzLevel,	XianshiControl	xsControl,XianShiBean xianshiBean,XinShouXianShiInfo.Builder resp) {
 		int bigId=xsControl.getId();
@@ -1287,7 +1299,6 @@ public class XianShiActivityMgr  extends EventProc{
 		int condition=0;
 		int beizhu=0;
 		int doneType=xsControl.getDoneType();
-		beizhu=condition=getOtherXianShiCondition(jzId,jzLevel, doneType,bigId);
 		//每一小条活动信息
 		//HuoDongInfo -State 奖励状态10：可领取 20：已领取 30：（超时未完成）不能领取 40:（未达到条件）不可领取
 		for (int i = 0; i < hdSize; i++) {
@@ -1296,7 +1307,7 @@ public class XianShiActivityMgr  extends EventProc{
 			int huoDongId=xshd.getId();
 			int shengyu=0;////2016年3月26日修正逻辑 这个时候已经没有超时设定了 limitTime>useDtime?(limitTime-useDtime):0;
 			hd.setShengTime(shengyu);
-
+			beizhu=condition=getOtherXianShiCondition(jzId,jzLevel,doneType,bigId,huoDongId);
 			//达到领奖条件判断
 			int code=getOtherXianShiState(jzId, huoDongId, shengyu, condition, xshd);
 			hd.setState(code);
@@ -1304,6 +1315,9 @@ public class XianShiActivityMgr  extends EventProc{
 			hd.setHuodongId(huoDongId);
 			if(resp!=null){
 				resp.addHuodong(hd);
+			}
+			if(code == 10 || code == 40){ //优化点击成就显示慢，显示一条即可(可领取或未达成)
+				break;
 			}
 		}
 		if(resp!=null){
@@ -1396,7 +1410,7 @@ public class XianShiActivityMgr  extends EventProc{
 	
 
 	/**
-	 * @Description: 判断首日 七日活动领奖条件是否达成
+	 * @Description   判断首日 七日活动领奖条件是否达成
 	 */
 	public int getShengyuTime4ShouRi(long jzId,int huoDongId,int doneCondition,int useDTime) {
 		int result=0;
@@ -1410,7 +1424,7 @@ public class XianShiActivityMgr  extends EventProc{
 		return result;
 	}
 	/**
-	 * @Description: 判断首日 七日活动领奖条件是否达成
+	 * @Description   判断首日 七日活动领奖条件是否达成
 	 */
 	public boolean isCompleted47Days(long jzId,XianshiHuodong xshd) {
 		boolean result=false;
@@ -1429,11 +1443,7 @@ public class XianShiActivityMgr  extends EventProc{
 		return result;
 	}
 	/**
-	 * @Description: 判断活动领奖条件是否达成
-	 * @param jzId
-	 * @param bean
-	 * @param xshd
-	 * @return
+	 * @Description   判断活动领奖条件是否达成
 	 */
 	public boolean isCompleted(long jzId,int condition,XianshiHuodong xshd) {
 		boolean result=false;
@@ -1496,7 +1506,7 @@ public class XianShiActivityMgr  extends EventProc{
 
 	
 	/**
-	 * @Description: 《进阶达人》是否可领
+	 * @Description   《进阶达人》是否可领
 	 */
 	public boolean isJinJieCanGet(Bag<EquipGrid> equips,XianshiHuodong xshd) {
 		String condition=xshd.getDoneCondition();
@@ -1528,8 +1538,30 @@ public class XianShiActivityMgr  extends EventProc{
 		}
 		return true;
 	}
+	
+	public int jinJieProcess(String condition, Bag<EquipGrid> equips){
+		String[] conditionsArr = condition.split(":");
+		int minPinzhi = Integer.parseInt(conditionsArr[1]);
+		List<EquipGrid> list = equips.grids;
+		int count = 0;
+		for(EquipGrid eg: list){
+			if(eg == null){
+				continue;
+			}
+			ZhuangBei zb = (ZhuangBei)TempletService.itemMap.get(eg.itemId);
+			if(zb == null){
+				continue;
+			}
+			// x件装备x品质以上
+			if(zb.color >= minPinzhi){
+				count ++;
+			}
+		}
+		return count;
+	}
+	
 	/**
-	 * @Description: 判断活动奖励是否可领取
+	 * @Description   判断活动奖励是否可领取
 	 */
 	public int getAwardState(long jzId,int huoDongId) {
 		boolean isUseD = DB.lexist((XIANSHIYILING_KEY + jzId), huoDongId+ "");
@@ -1540,7 +1572,7 @@ public class XianShiActivityMgr  extends EventProc{
 
 
 	/**
-	 * @Description:请求领取新手首日/七日签到活动奖励
+	 * @Description  请求领取新手首日/七日签到活动奖励
 	 */
 	public void gainXinShouXianShiAward(int id, Builder builder,IoSession session) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
@@ -1670,6 +1702,8 @@ public class XianShiActivityMgr  extends EventProc{
 	public void giveAward(String goods,IoSession session,JunZhu jz){
 		String[] goodsArray = goods.split("#");
 		//增加物品
+		ExploreResp.Builder awardresp = ExploreResp.newBuilder(); //奖励弹窗
+		awardresp.setSuccess(0);
 		for (String g : goodsArray) {
 			String[] ginfo = g.split(":");
 			AwardTemp award = new AwardTemp();
@@ -1677,9 +1711,20 @@ public class XianShiActivityMgr  extends EventProc{
 			award.setItemId(Integer.parseInt(ginfo[1]));
 			award.setItemNum(Integer.parseInt(ginfo[2]));
 			AwardMgr.inst.giveReward(session, award, jz);
+			//奖励弹窗
+			Award.Builder awardInfo = Award.newBuilder();
+			awardInfo.setItemType(Integer.parseInt(ginfo[0]));
+			awardInfo.setItemId(Integer.parseInt(ginfo[1]));
+			awardInfo.setItemNumber(Integer.parseInt(ginfo[2]));
+			awardresp.addAwardsList(awardInfo);
 		}
-
+		ProtobufMsg pm = new ProtobufMsg();
+		pm.id=PD.S_USE_ITEM;
+		pm.builder=awardresp;
+		session.write(pm);
 	}
+	
+	
 
 	/**
 	 * @Description 判断是否有可领奖励 
@@ -1712,7 +1757,7 @@ public class XianShiActivityMgr  extends EventProc{
 	}
 
 	/**
-	 * @Description: 获取七日在线活动数据
+	 * @Description   获取七日在线活动数据
 	 */
 	public void get7DaysInfo(JunZhu jz, Builder builder, IoSession session) {
 		long jzId=jz.id;
@@ -1764,7 +1809,7 @@ public class XianShiActivityMgr  extends EventProc{
 	}
 
 	/**
-	 * @Description: 领取七日活动奖励
+	 * @Description   领取七日活动奖励
 	 */
 	public void get7DaysAward(JunZhu jz, GainAward.Builder req, IoSession session) {
 		long jzId=jz.id;
@@ -1814,7 +1859,7 @@ public class XianShiActivityMgr  extends EventProc{
 	}
 
 	/**
-	 * @Description: 获取其他限时活动信息
+	 * @Description   获取成就（其他限时活动）信息 
 	 */
 	public void getOtherXianShiInfo(int id, Builder builder, IoSession session) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
@@ -1847,9 +1892,9 @@ public class XianShiActivityMgr  extends EventProc{
 	}
 	
 	/**
-	 * @Description 领取七日 首日之外的显示活动的奖励 getOtherXianShiArard拼写错误
+	 * @Description 领取成就奖励（七日 首日之外的显示活动的奖励 getOtherXianShiArard拼写错误）
 	 */
-	public void getOtherXianShiArard(int id, Builder builder, IoSession session) {
+	public void getOtherXianShiAward(int id, Builder builder, IoSession session) {
 		JunZhu jz =  JunZhuMgr.inst.getJunZhu(session);
 		if (jz == null) {
 			log.error("请求限时活动奖励出错：君主不存在");
@@ -1931,7 +1976,7 @@ public class XianShiActivityMgr  extends EventProc{
 	/**
 	 * @Description 根据doneType类型获取jzId的君主限时活动达到的进度
 	 */
-	public int getOtherXianShiCondition(long jzId,int jzlevel,int doneType,int bigId){
+	public int getOtherXianShiCondition(long jzId,int jzlevel,int doneType,int bigId,int hdId){
 		int condition=0;
 		switch (doneType) {
 		case  TaskData.junzhu_level_up:
@@ -1956,7 +2001,8 @@ public class XianShiActivityMgr  extends EventProc{
 				int huoDongId=xshd.getId();
 				boolean isKeling = DB.lexist((XIANSHIKELING_KEY + jzId), huoDongId + "");
 				if(isKeling){
-					condition=huoDongId;
+//					condition=huoDongId;
+					condition = jinJieProcess(xshd.getDoneCondition(),equips);
 					continue;
 				}
 				//没有超时判断了 2016年3月28日
@@ -1966,10 +2012,11 @@ public class XianShiActivityMgr  extends EventProc{
 //				}
 				
 				if(isJinJieCanGet(equips,xshd)){
-						condition=huoDongId;
-						DB.rpush4YaBiao((XIANSHIKELING_KEY + jzId), huoDongId+ "");
-						log.info("君主-{}的《进阶达人》限时活动-{}状态变为可领取",jzId,huoDongId);
-						continue;
+//					condition=huoDongId;
+				    condition = jinJieProcess(xshd.getDoneCondition(),equips);
+					DB.rpush4YaBiao((XIANSHIKELING_KEY + jzId), huoDongId+ "");
+					log.info("君主-{}的《进阶达人》限时活动-{}状态变为可领取",jzId,huoDongId);
+					continue;
 				}else{
 					//跳出循环
 					i=xsSize+1;
@@ -1991,7 +2038,7 @@ public class XianShiActivityMgr  extends EventProc{
 			//对应操作
 			break;
 		case TaskData.get_x_mibao://19
-			//对应操作
+			condition = MibaoMgr.inst.getActivateMiBaoCount(jzId);
 			break;
 		case TaskData.mibao_shengji_x://20
 			condition=MibaoMgr.inst.getMaxMibaoLevel(jzId);
@@ -2014,6 +2061,24 @@ public class XianShiActivityMgr  extends EventProc{
 		case TaskData.tanbaocishu://45
 			//对应操作
 			break;
+
+		case TaskData.miabao_x_star_n://68
+			String conditionStr = activityMap.get(hdId).getDoneCondition();
+			String[] conditionStrArr = conditionStr.split(":");
+			condition = MibaoMgr.inst.getMibaoStarNum(jzId, Integer.parseInt(conditionStrArr[0]),Integer.parseInt(conditionStrArr[1]));
+			break;
+		case TaskData.tanbao_oneTime://74
+			ExploreMine mine = ExploreMgr.inst.getMineByType(jzId, TanBaoData.yuanBao_type);
+			if(mine != null){
+				condition = mine.danChouClickNumber;
+			}
+			break;
+		case TaskData.tanbao_tenTime://75
+			ExploreMine mine2 = ExploreMgr.inst.getMineByType(jzId, TanBaoData.yuanBao_type);
+			if(mine2 != null){
+				condition = mine2.tenChouClickNumber;
+			}
+			break;
 		default:
 			break;
 		}
@@ -2035,7 +2100,7 @@ public class XianShiActivityMgr  extends EventProc{
 	}
 
 	/**
-	 * @Description:请求其他限时活动的推送消息操作
+	 * @Description  请求其他限时活动的推送消息操作
 	 */
 	public void  GainOtherAwardResp( IoSession session,ReturnAward.Builder resp) {
 		ProtobufMsg pm = new ProtobufMsg();
@@ -2317,7 +2382,7 @@ public class XianShiActivityMgr  extends EventProc{
 		return 0;
 	}
 	/**
-	 * @Description: 刷新除首日 七日外的限时活动数据
+	 * @Description   刷新除首日 七日外的限时活动数据
 	 */
 	public void refreshNormalXianShiInfo(long jzId,	XianshiControl	xsControl,XianShiBean xsBean) {
 		int bigId=xsControl.getId();
@@ -2492,8 +2557,9 @@ public class XianShiActivityMgr  extends EventProc{
 	 * @Description 	检查冲关卡集星小活动是否完成
 	 */
 	protected boolean checkStar4GuanQia(long jzId,XianshiHuodong xshd) {
+		List<PveRecord> pveList = HibernateUtil.list(PveRecord.class,"where uid="+jzId);
 		boolean	result=false;
-		int	countStar=BigSwitch.pveGuanQiaMgr.getGuanQiaSumStart(jzId);
+		int	countStar=BigSwitch.pveGuanQiaMgr.getAllGuanQiaStartSum(pveList);
 		Integer star4Guanqia=Integer.valueOf(xshd.getDoneCondition());
 		result= countStar>=star4Guanqia;
 		return  result;
@@ -2733,7 +2799,7 @@ public class XianShiActivityMgr  extends EventProc{
 	}
 
 	/**
-	 * @Description: 保存登录天数
+	 * @Description   保存登录天数 调用这个方法后必须刷新PlayerTime 的loginTime
 	 * @param jzId
 	 */
 	public void updateLoginDate(long jzId) {
@@ -2759,5 +2825,194 @@ public class XianShiActivityMgr  extends EventProc{
 			log.info("君主{} 登录--第{}天",jzId,dayCount);
 		}
 		log.info("君主{} 登录第{}天 ,更新完成",jzId,DB.get(XIANSHI7DAY_KEY + jzId));
+	}
+	
+	public void getAchievementList(int id,IoSession session,Builder builder){
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			log.error("请求限时活动出错：君主不存在");
+			return;
+		}
+//		XinShouXSActivity.Builder req=(XinShouXSActivity.Builder)builder;
+//		if(req==null){
+//			log.error("{}请求限时活动出错：请求参数错误",jz.id);
+//			return;
+//		}
+		// 加载活动列表
+		List<XianshiControl> XianshiControlList =TempletService.listAll(XianshiControl.class.getSimpleName());
+		ActivityAchievementResp.Builder respNew = ActivityAchievementResp.newBuilder();
+		for (XianshiControl xianshiControl : XianshiControlList) {
+			if(xianshiControl.getDoneType() == 1) continue; //冲级送礼
+			int typeId=xianshiControl.getId();
+			long jzId=jz.id;
+			XianShiBean xsBean=HibernateUtil.find(XianShiBean.class, typeId+jzId*100);
+			if(xsBean==null){
+				xsBean=initXianShiInfo(jzId,typeId);
+			}
+			XinShouXianShiInfo.Builder resp=XinShouXianShiInfo.newBuilder();
+			XianshiControl	xControl=xsControlMap.get(typeId);
+			getOtherXianShiInfo(jzId,jz.level,xControl,xsBean,resp);
+			GrowLevel.Builder oneach = GrowLevel.newBuilder();
+			List<HuoDongInfo> huoDongInfoList = resp.getHuodongList();
+			for (HuoDongInfo huoDongInfo : huoDongInfoList) {
+				if(huoDongInfo.getState() == 10 || huoDongInfo.getState() == 40){
+					oneach.setId(huoDongInfo.getHuodongId());
+					oneach.setDes(activityMap.get(huoDongInfo.getHuodongId()).getDesc());
+					oneach.setFunctionid(activityMap.get(huoDongInfo.getHuodongId()).getDoneType());
+					String[] awardsArr = huoDongInfo.getJiangli().split("#");
+					List<String> awardList = Arrays.asList(awardsArr);
+					for (String awardStr : awardList) {
+						//0:900018:2000
+						String[] awardarr = awardStr.split(":");
+						Award.Builder award = Award.newBuilder();
+						award.setItemType(Integer.parseInt(awardarr[0]));
+						award.setItemId(Integer.parseInt(awardarr[1]));
+						award.setItemNumber(Integer.parseInt(awardarr[2]));
+						oneach.addAwardList(award);
+					}
+					int maxPro = getDoneCondition(activityMap.get(huoDongInfo.getHuodongId()).getDoneType(),huoDongInfo.getHuodongId());
+					oneach.setProcess(Math.min(resp.getBeizhu(),maxPro));
+					oneach.setMaxProcess(maxPro);
+					respNew.addLeveList(oneach);
+					break;
+				}
+			}
+		}
+		ProtobufMsg pm = new ProtobufMsg();
+		pm.id=PD.S_ACTIVITY_ACHIEVEMENT_INFO_RESP;
+		pm.builder=respNew;
+		session.write(pm);
+	}
+	
+	/**
+	 * @Description 领取成就奖励
+	 */
+	public void getAchievementAward(int id, IoSession session, Builder builder) {
+		JunZhu jz =  JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			log.error("请求限时活动奖励出错：君主不存在");
+			return;
+		}
+		ActivityGrowthFundRewardResp.Builder req = (ActivityGrowthFundRewardResp.Builder) builder;
+		if(req==null){
+			log.error("{}请求限时活动奖励出错：请求参数错误",jz.id);
+			return;
+		}
+		long jzId=jz.id;
+		int huodongId=req.getLevel();
+		int bigId = activityMap.get(huodongId).getBigId();
+		ActivityGetRewardResp.Builder resp = ActivityGetRewardResp.newBuilder();
+		//判断活动是否关闭
+		if(isClosedById(huodongId)){
+			log.info("{}---{}活动暂时关闭",jzId,huodongId);
+//			resp.setHuodongId(huodongId);
+//			resp.setResult(30);
+//			GainOtherAwardResp(session, resp);
+			return;
+		}
+		XianshiHuodong xshd=activityMap.get(huodongId);
+		if(xshd==null){
+			log.error("{}请求限时活动{}奖励领取失败，未找到奖励配置",jzId,huodongId);
+			return;
+		}
+		XianShiBean xsBean=HibernateUtil.find(XianShiBean.class,xshd.getBigId()+jzId*100);
+//		if(xsBean==null){
+//			log.error("{}请求限时活动{}奖励领取失败，未找到奖励配置",jzId,huodongId);
+//			//君主此活动未开启 或活动已过期
+//			resp.setHuodongId(huodongId);
+//			resp.setResult(40);
+//			GainOtherAwardResp(session, resp);
+//			return;
+//		}
+		boolean isCan= DB.lexist((XIANSHIKELING_KEY + jzId), xshd.getId() + "");
+		ProtobufMsg pm = new ProtobufMsg();
+		if(isCan){
+			String goods=xshd.getAward();
+			giveAward(goods, session, jz);
+			//存储已领取奖励
+			DB.rpush4YaBiao((XIANSHIYILING_KEY + jzId),huodongId+ "");
+			//移除可领
+			DB.lrem(XIANSHIKELING_KEY + jzId,0,huodongId+ "");
+			resp.setResult(0);
+			log.info("君主{}的其他限时活动之{}奖励， 领取成功",jzId,huodongId);
+			// 领取【探宝】
+			if(bigId == XianShiConstont.TANBAO_ONETIMES){
+				EventMgr.addEvent(ED.get_achieve , new Object[] {jzId});
+			}
+			//判断限时活动是否可以完成关闭
+			finishXianShiActivity(bigId, jzId, xsBean,session);
+		}else{ 
+			//条件未达成
+			resp.setResult(1);
+		}
+		pm.id=PD.S_ACTIVITY_ACHIEVEMENT_GET_RESP;
+		pm.builder=resp;
+		resp.build();
+		session.write(pm);
+	}
+	
+	public int getDoneCondition(int doneType,int achId){
+		String conditionStr = activityMap.get(achId).getDoneCondition();
+		String[] conditionStrArr = conditionStr.split(":");
+		int condition = 0;
+		switch (doneType) {
+		case TaskData.get_x_mibao:
+			condition = Integer.parseInt(conditionStr);
+			break;
+		case TaskData.mibao_shengji_x:
+			condition = Integer.parseInt(conditionStrArr[1]);
+			break;
+		case TaskData.N_quality_ok:
+			condition = Integer.parseInt(conditionStrArr[0]);
+			break;
+		case TaskData.jingyingjixing:
+			condition = Integer.parseInt(conditionStr);
+			break;
+		case TaskData.zhuangBei_x_qiangHua_N:
+			condition = Integer.parseInt(conditionStrArr[1]);
+			break;
+		case TaskData.miabao_x_star_n:
+			condition = Integer.parseInt(conditionStrArr[0]);
+			break;
+		case TaskData.tanbao_oneTimes:
+			condition = Integer.parseInt(conditionStr);
+			break;
+		case TaskData.tanbao_tenTimes:
+			condition = Integer.parseInt(conditionStr);
+			break;
+		default:
+			break;
+		}
+		return condition;
+	}
+	
+	/**
+	 * 是否在活动页显示
+	 * @param jz
+	 * @return
+	 */
+	public boolean isShow(JunZhu jz){
+		boolean isShow = false;
+		List<XianshiControl> XianshiControlList =TempletService.listAll(XianshiControl.class.getSimpleName());
+		for (XianshiControl xianshiControl : XianshiControlList) {
+			if(xianshiControl.getDoneType() == 1) continue; //冲级送礼
+			int typeId=xianshiControl.getId();
+			long jzId=jz.id;
+			XianShiBean xsBean=HibernateUtil.find(XianShiBean.class, typeId+jzId*100);
+			if(xsBean==null){
+				xsBean=initXianShiInfo(jzId,typeId);
+			}
+			XinShouXianShiInfo.Builder resp=XinShouXianShiInfo.newBuilder();
+			XianshiControl	xControl=xsControlMap.get(typeId);
+			getOtherXianShiInfo(jzId,jz.level,xControl,xsBean,resp);
+			List<HuoDongInfo> huoDongInfoList = resp.getHuodongList();
+			for (HuoDongInfo huoDongInfo : huoDongInfoList) {
+				if(huoDongInfo.getState() == 10 || huoDongInfo.getState() == 40){
+					isShow = true;
+					break;
+				}
+			}
+		}
+		return isShow;
 	}
 }

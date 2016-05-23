@@ -133,7 +133,6 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		 JunZhuMgr.inst.addExp(junzhu, v);
 	 }else if("addYuanBao".equals(action)){
 		 int v = Integer.parseInt(request.getParameter("v"));
-		 //junzhu.yuanBao += v;
 		YuanBaoMgr.inst.diff(junzhu,  v, 0,0,YBType.YB_GM_ADDYB,"后台膜拜添加元宝");
 		 HibernateUtil.save(junzhu);
 	 }else if("setGod".equals(action)){

@@ -1,3 +1,4 @@
+<%@page import="com.qx.account.SettingsMgr"%>
 <%@page import="org.apache.commons.pool.impl.GenericObjectPool"%>
 <%@page import="redis.clients.jedis.JedisPool"%>
 <%@page import="java.lang.reflect.Field"%>
@@ -70,6 +71,20 @@ try{
 out.append("服务器编号："+GameServer.cfg.get("serverId")+"<br/>");
 AwardMgr.cheatHit = true;
 out.println("<br/> 已开启PVE cheat");
+//
+
+String act = request.getParameter("act");
+if("changeModelCD".equals(act)){
+	String size = request.getParameter("sizePerSc");
+	SettingsMgr.changeModelCD = Long.parseLong(size)*1000;
+}
  %>
+ <br/>
+
+ <form action='' method="post">
+<input type="hidden" name="act" value="changeModelCD">
+ 切换形象CD时间（秒）：:<input  type='number' name='sizePerSc' value='<%=SettingsMgr.changeModelCD/1000 %>'/>
+<button type='submit' >修改</button>
+</form>
 </body>
 </html>

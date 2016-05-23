@@ -264,20 +264,23 @@ public class AccountManager {
 				log.info("{} 重新进入创建君主",preJz);
 				ret.setCode(2016);//之前已进入创建角色界面
 			}
-			int guojia = GuoJiaMgr.getLeastCountGuoJiaId();
+			int guojia = 1;//GuoJiaMgr.getLeastCountGuoJiaId();
 			ret.setGuoJiaId(guojia);
 			ret.setSerTime((new Date()).getHours());
 			session.setAttribute(SessionAttKey.NEW_PLAYER_GUOJIA_TUIJIAN, guojia);
 			log.info("{} ,登录成功，并进入创建角色", accName);
 		} else {
-			AllianceBean alliance = AllianceMgr.inst.getAllianceByJunZid(junZhu.id);
-			if(alliance != null) {
-				AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
-				session.setAttribute(SessionAttKey.LM_ZHIWU, member == null ? 0 : member.title);
-				session.setAttribute(SessionAttKey.LM_NAME, alliance.name);
-				ret.setCode(100);	//表示有联盟
+			ret.setCode(1);
+			AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
+			if(member != null && member.lianMengId > 0) {
+				AllianceBean alliance = HibernateUtil.find(AllianceBean.class, member.lianMengId);
+				if(alliance != null){
+					session.setAttribute(SessionAttKey.LM_ZHIWU, member == null ? 0 : member.title);
+					session.setAttribute(SessionAttKey.LM_NAME, alliance.name);
+					ret.setCode(100);	//表示有联盟
+				}
 			} else {
-				ret.setCode(1);
+				//ret.setCode(1);
 			}
 			ret.setRoleId(junZhu.roleId);
 			// 所属国家

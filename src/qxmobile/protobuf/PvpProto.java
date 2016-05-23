@@ -11,226 +11,185 @@ public final class PvpProto {
   public interface BaiZhanInfoRespOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int64 junZhuId = 1;
+    // required int32 rank = 1;
     /**
-     * <code>required int64 junZhuId = 1;</code>
+     * <code>required int32 rank = 1;</code>
+     *
+     * <pre>
+     * 排名
+     * </pre>
      */
-    boolean hasJunZhuId();
+    boolean hasRank();
     /**
-     * <code>required int64 junZhuId = 1;</code>
+     * <code>required int32 rank = 1;</code>
+     *
+     * <pre>
+     * 排名
+     * </pre>
      */
-    long getJunZhuId();
+    int getRank();
 
-    // required string junZhuName = 2;
+    // required int32 leftTimes = 2;
     /**
-     * <code>required string junZhuName = 2;</code>
+     * <code>required int32 leftTimes = 2;</code>
+     *
+     * <pre>
+     * 今日剩余次数
+     * </pre>
      */
-    boolean hasJunZhuName();
+    boolean hasLeftTimes();
     /**
-     * <code>required string junZhuName = 2;</code>
+     * <code>required int32 leftTimes = 2;</code>
+     *
+     * <pre>
+     * 今日剩余次数
+     * </pre>
      */
-    java.lang.String getJunZhuName();
-    /**
-     * <code>required string junZhuName = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getJunZhuNameBytes();
+    int getLeftTimes();
 
-    // required string lianMengName = 3;
+    // required int32 totalTimes = 3;
     /**
-     * <code>required string lianMengName = 3;</code>
+     * <code>required int32 totalTimes = 3;</code>
+     *
+     * <pre>
+     * 今日总次数
+     * </pre>
      */
-    boolean hasLianMengName();
+    boolean hasTotalTimes();
     /**
-     * <code>required string lianMengName = 3;</code>
+     * <code>required int32 totalTimes = 3;</code>
+     *
+     * <pre>
+     * 今日总次数
+     * </pre>
      */
-    java.lang.String getLianMengName();
-    /**
-     * <code>required string lianMengName = 3;</code>
-     */
-    com.google.protobuf.ByteString
-        getLianMengNameBytes();
+    int getTotalTimes();
 
-    // required .qxmobile.protobuf.PVPInfo pvpInfo = 4;
+    // required int32 time = 4;
     /**
-     * <code>required .qxmobile.protobuf.PVPInfo pvpInfo = 4;</code>
+     * <code>required int32 time = 4;</code>
+     *
+     * <pre>
+     * 距离下次挑战剩余时间
+     * </pre>
      */
-    boolean hasPvpInfo();
+    boolean hasTime();
     /**
-     * <code>required .qxmobile.protobuf.PVPInfo pvpInfo = 4;</code>
+     * <code>required int32 time = 4;</code>
+     *
+     * <pre>
+     * 距离下次挑战剩余时间
+     * </pre>
      */
-    qxmobile.protobuf.PvpProto.PVPInfo getPvpInfo();
-    /**
-     * <code>required .qxmobile.protobuf.PVPInfo pvpInfo = 4;</code>
-     */
-    qxmobile.protobuf.PvpProto.PVPInfoOrBuilder getPvpInfoOrBuilder();
+    int getTime();
 
-    // optional int32 cdYuanBao = 5;
+    // required int32 historyHighRank = 5;
     /**
-     * <code>optional int32 cdYuanBao = 5;</code>
+     * <code>required int32 historyHighRank = 5;</code>
+     *
+     * <pre>
+     * 历史最高排名
+     * </pre>
+     */
+    boolean hasHistoryHighRank();
+    /**
+     * <code>required int32 historyHighRank = 5;</code>
+     *
+     * <pre>
+     * 历史最高排名
+     * </pre>
+     */
+    int getHistoryHighRank();
+
+    // optional int32 cdYuanBao = 6;
+    /**
+     * <code>optional int32 cdYuanBao = 6;</code>
+     *
+     * <pre>
+     *清除CD所需元宝
+     * </pre>
      */
     boolean hasCdYuanBao();
     /**
-     * <code>optional int32 cdYuanBao = 5;</code>
+     * <code>optional int32 cdYuanBao = 6;</code>
+     *
+     * <pre>
+     *清除CD所需元宝
+     * </pre>
      */
     int getCdYuanBao();
 
-    // repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;
+    // required int32 huanYiPiYB = 7;
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
+     * <code>required int32 huanYiPiYB = 7;</code>
      *
      * <pre>
-     * 对手信息
-     * </pre>
-     */
-    java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> 
-        getOppoListList();
-    /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-     *
-     * <pre>
-     * 对手信息
-     * </pre>
-     */
-    qxmobile.protobuf.PvpProto.OpponentInfo getOppoList(int index);
-    /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-     *
-     * <pre>
-     * 对手信息
-     * </pre>
-     */
-    int getOppoListCount();
-    /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-     *
-     * <pre>
-     * 对手信息
-     * </pre>
-     */
-    java.util.List<? extends qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> 
-        getOppoListOrBuilderList();
-    /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-     *
-     * <pre>
-     * 对手信息
-     * </pre>
-     */
-    qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder getOppoListOrBuilder(
-        int index);
-
-    // required bool isShow = 7;
-    /**
-     * <code>required bool isShow = 7;</code>
-     *
-     * <pre>
-     * isShow 表示显示感叹号，否则不显示
-     * </pre>
-     */
-    boolean hasIsShow();
-    /**
-     * <code>required bool isShow = 7;</code>
-     *
-     * <pre>
-     * isShow 表示显示感叹号，否则不显示
-     * </pre>
-     */
-    boolean getIsShow();
-
-    // required int32 nowMaxBattleCount = 8;
-    /**
-     * <code>required int32 nowMaxBattleCount = 8;</code>
-     *
-     * <pre>
-     * 当前vip可战斗的次数
-     * </pre>
-     */
-    boolean hasNowMaxBattleCount();
-    /**
-     * <code>required int32 nowMaxBattleCount = 8;</code>
-     *
-     * <pre>
-     * 当前vip可战斗的次数
-     * </pre>
-     */
-    int getNowMaxBattleCount();
-
-    // required int32 nextMaxBattleCount = 9;
-    /**
-     * <code>required int32 nextMaxBattleCount = 9;</code>
-     *
-     * <pre>
-     * 下一个vip可以战斗的次数
-     * </pre>
-     */
-    boolean hasNextMaxBattleCount();
-    /**
-     * <code>required int32 nextMaxBattleCount = 9;</code>
-     *
-     * <pre>
-     * 下一个vip可以战斗的次数
-     * </pre>
-     */
-    int getNextMaxBattleCount();
-
-    // required int32 huanYiPiYB = 10;
-    /**
-     * <code>required int32 huanYiPiYB = 10;</code>
-     *
-     * <pre>
-     *确定换一批需要花的元宝
+     *换一批所需元宝
      * </pre>
      */
     boolean hasHuanYiPiYB();
     /**
-     * <code>required int32 huanYiPiYB = 10;</code>
+     * <code>required int32 huanYiPiYB = 7;</code>
      *
      * <pre>
-     *确定换一批需要花的元宝
+     *换一批所需元宝
      * </pre>
      */
     int getHuanYiPiYB();
 
-    // required int32 canCleanCDvipLev = 11;
+    // required int32 weiWangHour = 8;
     /**
-     * <code>required int32 canCleanCDvipLev = 11;</code>
-     */
-    boolean hasCanCleanCDvipLev();
-    /**
-     * <code>required int32 canCleanCDvipLev = 11;</code>
-     */
-    int getCanCleanCDvipLev();
-
-    // required int32 weiWangHour = 12;
-    /**
-     * <code>required int32 weiWangHour = 12;</code>
+     * <code>required int32 weiWangHour = 8;</code>
+     *
+     * <pre>
+     *每小时威望收益
+     * </pre>
      */
     boolean hasWeiWangHour();
     /**
-     * <code>required int32 weiWangHour = 12;</code>
+     * <code>required int32 weiWangHour = 8;</code>
+     *
+     * <pre>
+     *每小时威望收益
+     * </pre>
      */
     int getWeiWangHour();
 
-    // required int32 hasWeiWang = 13;
+    // required int32 hasWeiWang = 9;
     /**
-     * <code>required int32 hasWeiWang = 13;</code>
+     * <code>required int32 hasWeiWang = 9;</code>
+     *
+     * <pre>
+     *已拥有威望数量
+     * </pre>
      */
     boolean hasHasWeiWang();
     /**
-     * <code>required int32 hasWeiWang = 13;</code>
+     * <code>required int32 hasWeiWang = 9;</code>
+     *
+     * <pre>
+     *已拥有威望数量
+     * </pre>
      */
     int getHasWeiWang();
 
-    // required int32 canGetweiWang = 14;
+    // required int32 lasthistoryHighRank = 10;
     /**
-     * <code>required int32 canGetweiWang = 14;</code>
+     * <code>required int32 lasthistoryHighRank = 10;</code>
+     *
+     * <pre>
+     *上一次历史最高排名
+     * </pre>
      */
-    boolean hasCanGetweiWang();
+    boolean hasLasthistoryHighRank();
     /**
-     * <code>required int32 canGetweiWang = 14;</code>
+     * <code>required int32 lasthistoryHighRank = 10;</code>
+     *
+     * <pre>
+     *上一次历史最高排名
+     * </pre>
      */
-    int getCanGetweiWang();
+    int getLasthistoryHighRank();
 
     // required int32 leftCanBuyCount = 15;
     /**
@@ -255,7 +214,7 @@ public final class PvpProto {
      * <code>optional int32 buyNeedYB = 16;</code>
      *
      * <pre>
-     * 元宝数
+     * 购买下次所需元宝数	
      * </pre>
      */
     boolean hasBuyNeedYB();
@@ -263,7 +222,7 @@ public final class PvpProto {
      * <code>optional int32 buyNeedYB = 16;</code>
      *
      * <pre>
-     * 元宝数
+     * 购买下次所需元宝数	
      * </pre>
      */
     int getBuyNeedYB();
@@ -321,24 +280,6 @@ public final class PvpProto {
      * </pre>
      */
     int getNextTimeTo21();
-
-    // optional int32 lastHighestRank = 21;
-    /**
-     * <code>optional int32 lastHighestRank = 21;</code>
-     *
-     * <pre>
-     *required string dailyAward = 20; // 每日奖励内容
-     * </pre>
-     */
-    boolean hasLastHighestRank();
-    /**
-     * <code>optional int32 lastHighestRank = 21;</code>
-     *
-     * <pre>
-     *required string dailyAward = 20; // 每日奖励内容
-     * </pre>
-     */
-    int getLastHighestRank();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.BaiZhanInfoResp}
@@ -397,113 +338,77 @@ public final class PvpProto {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              junZhuId_ = input.readInt64();
+              rank_ = input.readInt32();
               break;
             }
-            case 18: {
+            case 16: {
               bitField0_ |= 0x00000002;
-              junZhuName_ = input.readBytes();
+              leftTimes_ = input.readInt32();
               break;
             }
-            case 26: {
+            case 24: {
               bitField0_ |= 0x00000004;
-              lianMengName_ = input.readBytes();
+              totalTimes_ = input.readInt32();
               break;
             }
-            case 34: {
-              qxmobile.protobuf.PvpProto.PVPInfo.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000008) == 0x00000008)) {
-                subBuilder = pvpInfo_.toBuilder();
-              }
-              pvpInfo_ = input.readMessage(qxmobile.protobuf.PvpProto.PVPInfo.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(pvpInfo_);
-                pvpInfo_ = subBuilder.buildPartial();
-              }
+            case 32: {
               bitField0_ |= 0x00000008;
+              time_ = input.readInt32();
               break;
             }
             case 40: {
               bitField0_ |= 0x00000010;
+              historyHighRank_ = input.readInt32();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000020;
               cdYuanBao_ = input.readInt32();
               break;
             }
-            case 50: {
-              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
-                oppoList_ = new java.util.ArrayList<qxmobile.protobuf.PvpProto.OpponentInfo>();
-                mutable_bitField0_ |= 0x00000020;
-              }
-              oppoList_.add(input.readMessage(qxmobile.protobuf.PvpProto.OpponentInfo.PARSER, extensionRegistry));
-              break;
-            }
             case 56: {
-              bitField0_ |= 0x00000020;
-              isShow_ = input.readBool();
-              break;
-            }
-            case 64: {
               bitField0_ |= 0x00000040;
-              nowMaxBattleCount_ = input.readInt32();
-              break;
-            }
-            case 72: {
-              bitField0_ |= 0x00000080;
-              nextMaxBattleCount_ = input.readInt32();
-              break;
-            }
-            case 80: {
-              bitField0_ |= 0x00000100;
               huanYiPiYB_ = input.readInt32();
               break;
             }
-            case 88: {
-              bitField0_ |= 0x00000200;
-              canCleanCDvipLev_ = input.readInt32();
-              break;
-            }
-            case 96: {
-              bitField0_ |= 0x00000400;
+            case 64: {
+              bitField0_ |= 0x00000080;
               weiWangHour_ = input.readInt32();
               break;
             }
-            case 104: {
-              bitField0_ |= 0x00000800;
+            case 72: {
+              bitField0_ |= 0x00000100;
               hasWeiWang_ = input.readInt32();
               break;
             }
-            case 112: {
-              bitField0_ |= 0x00001000;
-              canGetweiWang_ = input.readInt32();
+            case 80: {
+              bitField0_ |= 0x00000200;
+              lasthistoryHighRank_ = input.readInt32();
               break;
             }
             case 120: {
-              bitField0_ |= 0x00002000;
+              bitField0_ |= 0x00000400;
               leftCanBuyCount_ = input.readInt32();
               break;
             }
             case 128: {
-              bitField0_ |= 0x00004000;
+              bitField0_ |= 0x00000800;
               buyNeedYB_ = input.readInt32();
               break;
             }
             case 136: {
-              bitField0_ |= 0x00008000;
+              bitField0_ |= 0x00001000;
               buyNumber_ = input.readInt32();
               break;
             }
             case 144: {
-              bitField0_ |= 0x00010000;
+              bitField0_ |= 0x00002000;
               rankAward_ = input.readInt32();
               break;
             }
             case 152: {
-              bitField0_ |= 0x00020000;
+              bitField0_ |= 0x00004000;
               nextTimeTo21_ = input.readInt32();
-              break;
-            }
-            case 168: {
-              bitField0_ |= 0x00040000;
-              lastHighestRank_ = input.readInt32();
               break;
             }
           }
@@ -514,9 +419,6 @@ public final class PvpProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
-          oppoList_ = java.util.Collections.unmodifiableList(oppoList_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -549,360 +451,244 @@ public final class PvpProto {
     }
 
     private int bitField0_;
-    // required int64 junZhuId = 1;
-    public static final int JUNZHUID_FIELD_NUMBER = 1;
-    private long junZhuId_;
+    // required int32 rank = 1;
+    public static final int RANK_FIELD_NUMBER = 1;
+    private int rank_;
     /**
-     * <code>required int64 junZhuId = 1;</code>
+     * <code>required int32 rank = 1;</code>
+     *
+     * <pre>
+     * 排名
+     * </pre>
      */
-    public boolean hasJunZhuId() {
+    public boolean hasRank() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int64 junZhuId = 1;</code>
+     * <code>required int32 rank = 1;</code>
+     *
+     * <pre>
+     * 排名
+     * </pre>
      */
-    public long getJunZhuId() {
-      return junZhuId_;
+    public int getRank() {
+      return rank_;
     }
 
-    // required string junZhuName = 2;
-    public static final int JUNZHUNAME_FIELD_NUMBER = 2;
-    private java.lang.Object junZhuName_;
+    // required int32 leftTimes = 2;
+    public static final int LEFTTIMES_FIELD_NUMBER = 2;
+    private int leftTimes_;
     /**
-     * <code>required string junZhuName = 2;</code>
+     * <code>required int32 leftTimes = 2;</code>
+     *
+     * <pre>
+     * 今日剩余次数
+     * </pre>
      */
-    public boolean hasJunZhuName() {
+    public boolean hasLeftTimes() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string junZhuName = 2;</code>
+     * <code>required int32 leftTimes = 2;</code>
+     *
+     * <pre>
+     * 今日剩余次数
+     * </pre>
      */
-    public java.lang.String getJunZhuName() {
-      java.lang.Object ref = junZhuName_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          junZhuName_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string junZhuName = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getJunZhuNameBytes() {
-      java.lang.Object ref = junZhuName_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        junZhuName_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getLeftTimes() {
+      return leftTimes_;
     }
 
-    // required string lianMengName = 3;
-    public static final int LIANMENGNAME_FIELD_NUMBER = 3;
-    private java.lang.Object lianMengName_;
+    // required int32 totalTimes = 3;
+    public static final int TOTALTIMES_FIELD_NUMBER = 3;
+    private int totalTimes_;
     /**
-     * <code>required string lianMengName = 3;</code>
+     * <code>required int32 totalTimes = 3;</code>
+     *
+     * <pre>
+     * 今日总次数
+     * </pre>
      */
-    public boolean hasLianMengName() {
+    public boolean hasTotalTimes() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required string lianMengName = 3;</code>
+     * <code>required int32 totalTimes = 3;</code>
+     *
+     * <pre>
+     * 今日总次数
+     * </pre>
      */
-    public java.lang.String getLianMengName() {
-      java.lang.Object ref = lianMengName_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          lianMengName_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string lianMengName = 3;</code>
-     */
-    public com.google.protobuf.ByteString
-        getLianMengNameBytes() {
-      java.lang.Object ref = lianMengName_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        lianMengName_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getTotalTimes() {
+      return totalTimes_;
     }
 
-    // required .qxmobile.protobuf.PVPInfo pvpInfo = 4;
-    public static final int PVPINFO_FIELD_NUMBER = 4;
-    private qxmobile.protobuf.PvpProto.PVPInfo pvpInfo_;
+    // required int32 time = 4;
+    public static final int TIME_FIELD_NUMBER = 4;
+    private int time_;
     /**
-     * <code>required .qxmobile.protobuf.PVPInfo pvpInfo = 4;</code>
+     * <code>required int32 time = 4;</code>
+     *
+     * <pre>
+     * 距离下次挑战剩余时间
+     * </pre>
      */
-    public boolean hasPvpInfo() {
+    public boolean hasTime() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required .qxmobile.protobuf.PVPInfo pvpInfo = 4;</code>
+     * <code>required int32 time = 4;</code>
+     *
+     * <pre>
+     * 距离下次挑战剩余时间
+     * </pre>
      */
-    public qxmobile.protobuf.PvpProto.PVPInfo getPvpInfo() {
-      return pvpInfo_;
-    }
-    /**
-     * <code>required .qxmobile.protobuf.PVPInfo pvpInfo = 4;</code>
-     */
-    public qxmobile.protobuf.PvpProto.PVPInfoOrBuilder getPvpInfoOrBuilder() {
-      return pvpInfo_;
+    public int getTime() {
+      return time_;
     }
 
-    // optional int32 cdYuanBao = 5;
-    public static final int CDYUANBAO_FIELD_NUMBER = 5;
-    private int cdYuanBao_;
+    // required int32 historyHighRank = 5;
+    public static final int HISTORYHIGHRANK_FIELD_NUMBER = 5;
+    private int historyHighRank_;
     /**
-     * <code>optional int32 cdYuanBao = 5;</code>
+     * <code>required int32 historyHighRank = 5;</code>
+     *
+     * <pre>
+     * 历史最高排名
+     * </pre>
      */
-    public boolean hasCdYuanBao() {
+    public boolean hasHistoryHighRank() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional int32 cdYuanBao = 5;</code>
+     * <code>required int32 historyHighRank = 5;</code>
+     *
+     * <pre>
+     * 历史最高排名
+     * </pre>
+     */
+    public int getHistoryHighRank() {
+      return historyHighRank_;
+    }
+
+    // optional int32 cdYuanBao = 6;
+    public static final int CDYUANBAO_FIELD_NUMBER = 6;
+    private int cdYuanBao_;
+    /**
+     * <code>optional int32 cdYuanBao = 6;</code>
+     *
+     * <pre>
+     *清除CD所需元宝
+     * </pre>
+     */
+    public boolean hasCdYuanBao() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional int32 cdYuanBao = 6;</code>
+     *
+     * <pre>
+     *清除CD所需元宝
+     * </pre>
      */
     public int getCdYuanBao() {
       return cdYuanBao_;
     }
 
-    // repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;
-    public static final int OPPOLIST_FIELD_NUMBER = 6;
-    private java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> oppoList_;
-    /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-     *
-     * <pre>
-     * 对手信息
-     * </pre>
-     */
-    public java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> getOppoListList() {
-      return oppoList_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-     *
-     * <pre>
-     * 对手信息
-     * </pre>
-     */
-    public java.util.List<? extends qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> 
-        getOppoListOrBuilderList() {
-      return oppoList_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-     *
-     * <pre>
-     * 对手信息
-     * </pre>
-     */
-    public int getOppoListCount() {
-      return oppoList_.size();
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-     *
-     * <pre>
-     * 对手信息
-     * </pre>
-     */
-    public qxmobile.protobuf.PvpProto.OpponentInfo getOppoList(int index) {
-      return oppoList_.get(index);
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-     *
-     * <pre>
-     * 对手信息
-     * </pre>
-     */
-    public qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder getOppoListOrBuilder(
-        int index) {
-      return oppoList_.get(index);
-    }
-
-    // required bool isShow = 7;
-    public static final int ISSHOW_FIELD_NUMBER = 7;
-    private boolean isShow_;
-    /**
-     * <code>required bool isShow = 7;</code>
-     *
-     * <pre>
-     * isShow 表示显示感叹号，否则不显示
-     * </pre>
-     */
-    public boolean hasIsShow() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
-    }
-    /**
-     * <code>required bool isShow = 7;</code>
-     *
-     * <pre>
-     * isShow 表示显示感叹号，否则不显示
-     * </pre>
-     */
-    public boolean getIsShow() {
-      return isShow_;
-    }
-
-    // required int32 nowMaxBattleCount = 8;
-    public static final int NOWMAXBATTLECOUNT_FIELD_NUMBER = 8;
-    private int nowMaxBattleCount_;
-    /**
-     * <code>required int32 nowMaxBattleCount = 8;</code>
-     *
-     * <pre>
-     * 当前vip可战斗的次数
-     * </pre>
-     */
-    public boolean hasNowMaxBattleCount() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
-    }
-    /**
-     * <code>required int32 nowMaxBattleCount = 8;</code>
-     *
-     * <pre>
-     * 当前vip可战斗的次数
-     * </pre>
-     */
-    public int getNowMaxBattleCount() {
-      return nowMaxBattleCount_;
-    }
-
-    // required int32 nextMaxBattleCount = 9;
-    public static final int NEXTMAXBATTLECOUNT_FIELD_NUMBER = 9;
-    private int nextMaxBattleCount_;
-    /**
-     * <code>required int32 nextMaxBattleCount = 9;</code>
-     *
-     * <pre>
-     * 下一个vip可以战斗的次数
-     * </pre>
-     */
-    public boolean hasNextMaxBattleCount() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
-    }
-    /**
-     * <code>required int32 nextMaxBattleCount = 9;</code>
-     *
-     * <pre>
-     * 下一个vip可以战斗的次数
-     * </pre>
-     */
-    public int getNextMaxBattleCount() {
-      return nextMaxBattleCount_;
-    }
-
-    // required int32 huanYiPiYB = 10;
-    public static final int HUANYIPIYB_FIELD_NUMBER = 10;
+    // required int32 huanYiPiYB = 7;
+    public static final int HUANYIPIYB_FIELD_NUMBER = 7;
     private int huanYiPiYB_;
     /**
-     * <code>required int32 huanYiPiYB = 10;</code>
+     * <code>required int32 huanYiPiYB = 7;</code>
      *
      * <pre>
-     *确定换一批需要花的元宝
+     *换一批所需元宝
      * </pre>
      */
     public boolean hasHuanYiPiYB() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>required int32 huanYiPiYB = 10;</code>
+     * <code>required int32 huanYiPiYB = 7;</code>
      *
      * <pre>
-     *确定换一批需要花的元宝
+     *换一批所需元宝
      * </pre>
      */
     public int getHuanYiPiYB() {
       return huanYiPiYB_;
     }
 
-    // required int32 canCleanCDvipLev = 11;
-    public static final int CANCLEANCDVIPLEV_FIELD_NUMBER = 11;
-    private int canCleanCDvipLev_;
-    /**
-     * <code>required int32 canCleanCDvipLev = 11;</code>
-     */
-    public boolean hasCanCleanCDvipLev() {
-      return ((bitField0_ & 0x00000200) == 0x00000200);
-    }
-    /**
-     * <code>required int32 canCleanCDvipLev = 11;</code>
-     */
-    public int getCanCleanCDvipLev() {
-      return canCleanCDvipLev_;
-    }
-
-    // required int32 weiWangHour = 12;
-    public static final int WEIWANGHOUR_FIELD_NUMBER = 12;
+    // required int32 weiWangHour = 8;
+    public static final int WEIWANGHOUR_FIELD_NUMBER = 8;
     private int weiWangHour_;
     /**
-     * <code>required int32 weiWangHour = 12;</code>
+     * <code>required int32 weiWangHour = 8;</code>
+     *
+     * <pre>
+     *每小时威望收益
+     * </pre>
      */
     public boolean hasWeiWangHour() {
-      return ((bitField0_ & 0x00000400) == 0x00000400);
+      return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
-     * <code>required int32 weiWangHour = 12;</code>
+     * <code>required int32 weiWangHour = 8;</code>
+     *
+     * <pre>
+     *每小时威望收益
+     * </pre>
      */
     public int getWeiWangHour() {
       return weiWangHour_;
     }
 
-    // required int32 hasWeiWang = 13;
-    public static final int HASWEIWANG_FIELD_NUMBER = 13;
+    // required int32 hasWeiWang = 9;
+    public static final int HASWEIWANG_FIELD_NUMBER = 9;
     private int hasWeiWang_;
     /**
-     * <code>required int32 hasWeiWang = 13;</code>
+     * <code>required int32 hasWeiWang = 9;</code>
+     *
+     * <pre>
+     *已拥有威望数量
+     * </pre>
      */
     public boolean hasHasWeiWang() {
-      return ((bitField0_ & 0x00000800) == 0x00000800);
+      return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
-     * <code>required int32 hasWeiWang = 13;</code>
+     * <code>required int32 hasWeiWang = 9;</code>
+     *
+     * <pre>
+     *已拥有威望数量
+     * </pre>
      */
     public int getHasWeiWang() {
       return hasWeiWang_;
     }
 
-    // required int32 canGetweiWang = 14;
-    public static final int CANGETWEIWANG_FIELD_NUMBER = 14;
-    private int canGetweiWang_;
+    // required int32 lasthistoryHighRank = 10;
+    public static final int LASTHISTORYHIGHRANK_FIELD_NUMBER = 10;
+    private int lasthistoryHighRank_;
     /**
-     * <code>required int32 canGetweiWang = 14;</code>
+     * <code>required int32 lasthistoryHighRank = 10;</code>
+     *
+     * <pre>
+     *上一次历史最高排名
+     * </pre>
      */
-    public boolean hasCanGetweiWang() {
-      return ((bitField0_ & 0x00001000) == 0x00001000);
+    public boolean hasLasthistoryHighRank() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
-     * <code>required int32 canGetweiWang = 14;</code>
+     * <code>required int32 lasthistoryHighRank = 10;</code>
+     *
+     * <pre>
+     *上一次历史最高排名
+     * </pre>
      */
-    public int getCanGetweiWang() {
-      return canGetweiWang_;
+    public int getLasthistoryHighRank() {
+      return lasthistoryHighRank_;
     }
 
     // required int32 leftCanBuyCount = 15;
@@ -916,7 +702,7 @@ public final class PvpProto {
      * </pre>
      */
     public boolean hasLeftCanBuyCount() {
-      return ((bitField0_ & 0x00002000) == 0x00002000);
+      return ((bitField0_ & 0x00000400) == 0x00000400);
     }
     /**
      * <code>required int32 leftCanBuyCount = 15;</code>
@@ -936,17 +722,17 @@ public final class PvpProto {
      * <code>optional int32 buyNeedYB = 16;</code>
      *
      * <pre>
-     * 元宝数
+     * 购买下次所需元宝数	
      * </pre>
      */
     public boolean hasBuyNeedYB() {
-      return ((bitField0_ & 0x00004000) == 0x00004000);
+      return ((bitField0_ & 0x00000800) == 0x00000800);
     }
     /**
      * <code>optional int32 buyNeedYB = 16;</code>
      *
      * <pre>
-     * 元宝数
+     * 购买下次所需元宝数	
      * </pre>
      */
     public int getBuyNeedYB() {
@@ -964,7 +750,7 @@ public final class PvpProto {
      * </pre>
      */
     public boolean hasBuyNumber() {
-      return ((bitField0_ & 0x00008000) == 0x00008000);
+      return ((bitField0_ & 0x00001000) == 0x00001000);
     }
     /**
      * <code>optional int32 buyNumber = 17;</code>
@@ -988,7 +774,7 @@ public final class PvpProto {
      * </pre>
      */
     public boolean hasRankAward() {
-      return ((bitField0_ & 0x00010000) == 0x00010000);
+      return ((bitField0_ & 0x00002000) == 0x00002000);
     }
     /**
      * <code>required int32 rankAward = 18;</code>
@@ -1012,7 +798,7 @@ public final class PvpProto {
      * </pre>
      */
     public boolean hasNextTimeTo21() {
-      return ((bitField0_ & 0x00020000) == 0x00020000);
+      return ((bitField0_ & 0x00004000) == 0x00004000);
     }
     /**
      * <code>required int32 nextTimeTo21 = 19;</code>
@@ -1025,90 +811,49 @@ public final class PvpProto {
       return nextTimeTo21_;
     }
 
-    // optional int32 lastHighestRank = 21;
-    public static final int LASTHIGHESTRANK_FIELD_NUMBER = 21;
-    private int lastHighestRank_;
-    /**
-     * <code>optional int32 lastHighestRank = 21;</code>
-     *
-     * <pre>
-     *required string dailyAward = 20; // 每日奖励内容
-     * </pre>
-     */
-    public boolean hasLastHighestRank() {
-      return ((bitField0_ & 0x00040000) == 0x00040000);
-    }
-    /**
-     * <code>optional int32 lastHighestRank = 21;</code>
-     *
-     * <pre>
-     *required string dailyAward = 20; // 每日奖励内容
-     * </pre>
-     */
-    public int getLastHighestRank() {
-      return lastHighestRank_;
-    }
-
     private void initFields() {
-      junZhuId_ = 0L;
-      junZhuName_ = "";
-      lianMengName_ = "";
-      pvpInfo_ = qxmobile.protobuf.PvpProto.PVPInfo.getDefaultInstance();
+      rank_ = 0;
+      leftTimes_ = 0;
+      totalTimes_ = 0;
+      time_ = 0;
+      historyHighRank_ = 0;
       cdYuanBao_ = 0;
-      oppoList_ = java.util.Collections.emptyList();
-      isShow_ = false;
-      nowMaxBattleCount_ = 0;
-      nextMaxBattleCount_ = 0;
       huanYiPiYB_ = 0;
-      canCleanCDvipLev_ = 0;
       weiWangHour_ = 0;
       hasWeiWang_ = 0;
-      canGetweiWang_ = 0;
+      lasthistoryHighRank_ = 0;
       leftCanBuyCount_ = 0;
       buyNeedYB_ = 0;
       buyNumber_ = 0;
       rankAward_ = 0;
       nextTimeTo21_ = 0;
-      lastHighestRank_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasJunZhuId()) {
+      if (!hasRank()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasJunZhuName()) {
+      if (!hasLeftTimes()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasLianMengName()) {
+      if (!hasTotalTimes()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasPvpInfo()) {
+      if (!hasTime()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasIsShow()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasNowMaxBattleCount()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasNextMaxBattleCount()) {
+      if (!hasHistoryHighRank()) {
         memoizedIsInitialized = 0;
         return false;
       }
       if (!hasHuanYiPiYB()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasCanCleanCDvipLev()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1120,7 +865,7 @@ public final class PvpProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasCanGetweiWang()) {
+      if (!hasLasthistoryHighRank()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1136,16 +881,6 @@ public final class PvpProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!getPvpInfo().isInitialized()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      for (int i = 0; i < getOppoListCount(); i++) {
-        if (!getOppoList(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1154,64 +889,49 @@ public final class PvpProto {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt64(1, junZhuId_);
+        output.writeInt32(1, rank_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getJunZhuNameBytes());
+        output.writeInt32(2, leftTimes_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, getLianMengNameBytes());
+        output.writeInt32(3, totalTimes_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeMessage(4, pvpInfo_);
+        output.writeInt32(4, time_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeInt32(5, cdYuanBao_);
-      }
-      for (int i = 0; i < oppoList_.size(); i++) {
-        output.writeMessage(6, oppoList_.get(i));
+        output.writeInt32(5, historyHighRank_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeBool(7, isShow_);
+        output.writeInt32(6, cdYuanBao_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeInt32(8, nowMaxBattleCount_);
+        output.writeInt32(7, huanYiPiYB_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        output.writeInt32(9, nextMaxBattleCount_);
+        output.writeInt32(8, weiWangHour_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        output.writeInt32(10, huanYiPiYB_);
+        output.writeInt32(9, hasWeiWang_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
-        output.writeInt32(11, canCleanCDvipLev_);
+        output.writeInt32(10, lasthistoryHighRank_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
-        output.writeInt32(12, weiWangHour_);
-      }
-      if (((bitField0_ & 0x00000800) == 0x00000800)) {
-        output.writeInt32(13, hasWeiWang_);
-      }
-      if (((bitField0_ & 0x00001000) == 0x00001000)) {
-        output.writeInt32(14, canGetweiWang_);
-      }
-      if (((bitField0_ & 0x00002000) == 0x00002000)) {
         output.writeInt32(15, leftCanBuyCount_);
       }
-      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
         output.writeInt32(16, buyNeedYB_);
       }
-      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
         output.writeInt32(17, buyNumber_);
       }
-      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
         output.writeInt32(18, rankAward_);
       }
-      if (((bitField0_ & 0x00020000) == 0x00020000)) {
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
         output.writeInt32(19, nextTimeTo21_);
-      }
-      if (((bitField0_ & 0x00040000) == 0x00040000)) {
-        output.writeInt32(21, lastHighestRank_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1224,83 +944,63 @@ public final class PvpProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(1, junZhuId_);
+          .computeInt32Size(1, rank_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getJunZhuNameBytes());
+          .computeInt32Size(2, leftTimes_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, getLianMengNameBytes());
+          .computeInt32Size(3, totalTimes_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, pvpInfo_);
+          .computeInt32Size(4, time_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, cdYuanBao_);
-      }
-      for (int i = 0; i < oppoList_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, oppoList_.get(i));
+          .computeInt32Size(5, historyHighRank_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(7, isShow_);
+          .computeInt32Size(6, cdYuanBao_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(8, nowMaxBattleCount_);
+          .computeInt32Size(7, huanYiPiYB_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(9, nextMaxBattleCount_);
+          .computeInt32Size(8, weiWangHour_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(10, huanYiPiYB_);
+          .computeInt32Size(9, hasWeiWang_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(11, canCleanCDvipLev_);
+          .computeInt32Size(10, lasthistoryHighRank_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(12, weiWangHour_);
+          .computeInt32Size(15, leftCanBuyCount_);
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(13, hasWeiWang_);
+          .computeInt32Size(16, buyNeedYB_);
       }
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(14, canGetweiWang_);
+          .computeInt32Size(17, buyNumber_);
       }
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(15, leftCanBuyCount_);
+          .computeInt32Size(18, rankAward_);
       }
       if (((bitField0_ & 0x00004000) == 0x00004000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(16, buyNeedYB_);
-      }
-      if (((bitField0_ & 0x00008000) == 0x00008000)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(17, buyNumber_);
-      }
-      if (((bitField0_ & 0x00010000) == 0x00010000)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(18, rankAward_);
-      }
-      if (((bitField0_ & 0x00020000) == 0x00020000)) {
-        size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(19, nextTimeTo21_);
-      }
-      if (((bitField0_ & 0x00040000) == 0x00040000)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(21, lastHighestRank_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1414,8 +1114,6 @@ public final class PvpProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getPvpInfoFieldBuilder();
-          getOppoListFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1424,54 +1122,36 @@ public final class PvpProto {
 
       public Builder clear() {
         super.clear();
-        junZhuId_ = 0L;
+        rank_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        junZhuName_ = "";
+        leftTimes_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        lianMengName_ = "";
+        totalTimes_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        if (pvpInfoBuilder_ == null) {
-          pvpInfo_ = qxmobile.protobuf.PvpProto.PVPInfo.getDefaultInstance();
-        } else {
-          pvpInfoBuilder_.clear();
-        }
+        time_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
-        cdYuanBao_ = 0;
+        historyHighRank_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
-        if (oppoListBuilder_ == null) {
-          oppoList_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
-        } else {
-          oppoListBuilder_.clear();
-        }
-        isShow_ = false;
-        bitField0_ = (bitField0_ & ~0x00000040);
-        nowMaxBattleCount_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000080);
-        nextMaxBattleCount_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000100);
+        cdYuanBao_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
         huanYiPiYB_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000200);
-        canCleanCDvipLev_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000040);
         weiWangHour_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00000080);
         hasWeiWang_ = 0;
-        bitField0_ = (bitField0_ & ~0x00001000);
-        canGetweiWang_ = 0;
-        bitField0_ = (bitField0_ & ~0x00002000);
+        bitField0_ = (bitField0_ & ~0x00000100);
+        lasthistoryHighRank_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
         leftCanBuyCount_ = 0;
-        bitField0_ = (bitField0_ & ~0x00004000);
+        bitField0_ = (bitField0_ & ~0x00000400);
         buyNeedYB_ = 0;
-        bitField0_ = (bitField0_ & ~0x00008000);
+        bitField0_ = (bitField0_ & ~0x00000800);
         buyNumber_ = 0;
-        bitField0_ = (bitField0_ & ~0x00010000);
+        bitField0_ = (bitField0_ & ~0x00001000);
         rankAward_ = 0;
-        bitField0_ = (bitField0_ & ~0x00020000);
+        bitField0_ = (bitField0_ & ~0x00002000);
         nextTimeTo21_ = 0;
-        bitField0_ = (bitField0_ & ~0x00040000);
-        lastHighestRank_ = 0;
-        bitField0_ = (bitField0_ & ~0x00080000);
+        bitField0_ = (bitField0_ & ~0x00004000);
         return this;
       }
 
@@ -1503,92 +1183,63 @@ public final class PvpProto {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.junZhuId_ = junZhuId_;
+        result.rank_ = rank_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.junZhuName_ = junZhuName_;
+        result.leftTimes_ = leftTimes_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.lianMengName_ = lianMengName_;
+        result.totalTimes_ = totalTimes_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        if (pvpInfoBuilder_ == null) {
-          result.pvpInfo_ = pvpInfo_;
-        } else {
-          result.pvpInfo_ = pvpInfoBuilder_.build();
-        }
+        result.time_ = time_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.cdYuanBao_ = cdYuanBao_;
-        if (oppoListBuilder_ == null) {
-          if (((bitField0_ & 0x00000020) == 0x00000020)) {
-            oppoList_ = java.util.Collections.unmodifiableList(oppoList_);
-            bitField0_ = (bitField0_ & ~0x00000020);
-          }
-          result.oppoList_ = oppoList_;
-        } else {
-          result.oppoList_ = oppoListBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        result.historyHighRank_ = historyHighRank_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000020;
         }
-        result.isShow_ = isShow_;
-        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+        result.cdYuanBao_ = cdYuanBao_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000040;
         }
-        result.nowMaxBattleCount_ = nowMaxBattleCount_;
-        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+        result.huanYiPiYB_ = huanYiPiYB_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000080;
         }
-        result.nextMaxBattleCount_ = nextMaxBattleCount_;
-        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+        result.weiWangHour_ = weiWangHour_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000100;
         }
-        result.huanYiPiYB_ = huanYiPiYB_;
-        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+        result.hasWeiWang_ = hasWeiWang_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
           to_bitField0_ |= 0x00000200;
         }
-        result.canCleanCDvipLev_ = canCleanCDvipLev_;
-        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+        result.lasthistoryHighRank_ = lasthistoryHighRank_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
           to_bitField0_ |= 0x00000400;
         }
-        result.weiWangHour_ = weiWangHour_;
-        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+        result.leftCanBuyCount_ = leftCanBuyCount_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
           to_bitField0_ |= 0x00000800;
         }
-        result.hasWeiWang_ = hasWeiWang_;
-        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+        result.buyNeedYB_ = buyNeedYB_;
+        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
           to_bitField0_ |= 0x00001000;
         }
-        result.canGetweiWang_ = canGetweiWang_;
-        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+        result.buyNumber_ = buyNumber_;
+        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
           to_bitField0_ |= 0x00002000;
         }
-        result.leftCanBuyCount_ = leftCanBuyCount_;
-        if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
+        result.rankAward_ = rankAward_;
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
           to_bitField0_ |= 0x00004000;
         }
-        result.buyNeedYB_ = buyNeedYB_;
-        if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
-          to_bitField0_ |= 0x00008000;
-        }
-        result.buyNumber_ = buyNumber_;
-        if (((from_bitField0_ & 0x00020000) == 0x00020000)) {
-          to_bitField0_ |= 0x00010000;
-        }
-        result.rankAward_ = rankAward_;
-        if (((from_bitField0_ & 0x00040000) == 0x00040000)) {
-          to_bitField0_ |= 0x00020000;
-        }
         result.nextTimeTo21_ = nextTimeTo21_;
-        if (((from_bitField0_ & 0x00080000) == 0x00080000)) {
-          to_bitField0_ |= 0x00040000;
-        }
-        result.lastHighestRank_ = lastHighestRank_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1605,65 +1256,26 @@ public final class PvpProto {
 
       public Builder mergeFrom(qxmobile.protobuf.PvpProto.BaiZhanInfoResp other) {
         if (other == qxmobile.protobuf.PvpProto.BaiZhanInfoResp.getDefaultInstance()) return this;
-        if (other.hasJunZhuId()) {
-          setJunZhuId(other.getJunZhuId());
+        if (other.hasRank()) {
+          setRank(other.getRank());
         }
-        if (other.hasJunZhuName()) {
-          bitField0_ |= 0x00000002;
-          junZhuName_ = other.junZhuName_;
-          onChanged();
+        if (other.hasLeftTimes()) {
+          setLeftTimes(other.getLeftTimes());
         }
-        if (other.hasLianMengName()) {
-          bitField0_ |= 0x00000004;
-          lianMengName_ = other.lianMengName_;
-          onChanged();
+        if (other.hasTotalTimes()) {
+          setTotalTimes(other.getTotalTimes());
         }
-        if (other.hasPvpInfo()) {
-          mergePvpInfo(other.getPvpInfo());
+        if (other.hasTime()) {
+          setTime(other.getTime());
+        }
+        if (other.hasHistoryHighRank()) {
+          setHistoryHighRank(other.getHistoryHighRank());
         }
         if (other.hasCdYuanBao()) {
           setCdYuanBao(other.getCdYuanBao());
         }
-        if (oppoListBuilder_ == null) {
-          if (!other.oppoList_.isEmpty()) {
-            if (oppoList_.isEmpty()) {
-              oppoList_ = other.oppoList_;
-              bitField0_ = (bitField0_ & ~0x00000020);
-            } else {
-              ensureOppoListIsMutable();
-              oppoList_.addAll(other.oppoList_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.oppoList_.isEmpty()) {
-            if (oppoListBuilder_.isEmpty()) {
-              oppoListBuilder_.dispose();
-              oppoListBuilder_ = null;
-              oppoList_ = other.oppoList_;
-              bitField0_ = (bitField0_ & ~0x00000020);
-              oppoListBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getOppoListFieldBuilder() : null;
-            } else {
-              oppoListBuilder_.addAllMessages(other.oppoList_);
-            }
-          }
-        }
-        if (other.hasIsShow()) {
-          setIsShow(other.getIsShow());
-        }
-        if (other.hasNowMaxBattleCount()) {
-          setNowMaxBattleCount(other.getNowMaxBattleCount());
-        }
-        if (other.hasNextMaxBattleCount()) {
-          setNextMaxBattleCount(other.getNextMaxBattleCount());
-        }
         if (other.hasHuanYiPiYB()) {
           setHuanYiPiYB(other.getHuanYiPiYB());
-        }
-        if (other.hasCanCleanCDvipLev()) {
-          setCanCleanCDvipLev(other.getCanCleanCDvipLev());
         }
         if (other.hasWeiWangHour()) {
           setWeiWangHour(other.getWeiWangHour());
@@ -1671,8 +1283,8 @@ public final class PvpProto {
         if (other.hasHasWeiWang()) {
           setHasWeiWang(other.getHasWeiWang());
         }
-        if (other.hasCanGetweiWang()) {
-          setCanGetweiWang(other.getCanGetweiWang());
+        if (other.hasLasthistoryHighRank()) {
+          setLasthistoryHighRank(other.getLasthistoryHighRank());
         }
         if (other.hasLeftCanBuyCount()) {
           setLeftCanBuyCount(other.getLeftCanBuyCount());
@@ -1689,47 +1301,32 @@ public final class PvpProto {
         if (other.hasNextTimeTo21()) {
           setNextTimeTo21(other.getNextTimeTo21());
         }
-        if (other.hasLastHighestRank()) {
-          setLastHighestRank(other.getLastHighestRank());
-        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasJunZhuId()) {
+        if (!hasRank()) {
           
           return false;
         }
-        if (!hasJunZhuName()) {
+        if (!hasLeftTimes()) {
           
           return false;
         }
-        if (!hasLianMengName()) {
+        if (!hasTotalTimes()) {
           
           return false;
         }
-        if (!hasPvpInfo()) {
+        if (!hasTime()) {
           
           return false;
         }
-        if (!hasIsShow()) {
-          
-          return false;
-        }
-        if (!hasNowMaxBattleCount()) {
-          
-          return false;
-        }
-        if (!hasNextMaxBattleCount()) {
+        if (!hasHistoryHighRank()) {
           
           return false;
         }
         if (!hasHuanYiPiYB()) {
-          
-          return false;
-        }
-        if (!hasCanCleanCDvipLev()) {
           
           return false;
         }
@@ -1741,7 +1338,7 @@ public final class PvpProto {
           
           return false;
         }
-        if (!hasCanGetweiWang()) {
+        if (!hasLasthistoryHighRank()) {
           
           return false;
         }
@@ -1756,16 +1353,6 @@ public final class PvpProto {
         if (!hasNextTimeTo21()) {
           
           return false;
-        }
-        if (!getPvpInfo().isInitialized()) {
-          
-          return false;
-        }
-        for (int i = 0; i < getOppoListCount(); i++) {
-          if (!getOppoList(i).isInitialized()) {
-            
-            return false;
-          }
         }
         return true;
       }
@@ -1789,973 +1376,492 @@ public final class PvpProto {
       }
       private int bitField0_;
 
-      // required int64 junZhuId = 1;
-      private long junZhuId_ ;
+      // required int32 rank = 1;
+      private int rank_ ;
       /**
-       * <code>required int64 junZhuId = 1;</code>
+       * <code>required int32 rank = 1;</code>
+       *
+       * <pre>
+       * 排名
+       * </pre>
        */
-      public boolean hasJunZhuId() {
+      public boolean hasRank() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int64 junZhuId = 1;</code>
+       * <code>required int32 rank = 1;</code>
+       *
+       * <pre>
+       * 排名
+       * </pre>
        */
-      public long getJunZhuId() {
-        return junZhuId_;
+      public int getRank() {
+        return rank_;
       }
       /**
-       * <code>required int64 junZhuId = 1;</code>
+       * <code>required int32 rank = 1;</code>
+       *
+       * <pre>
+       * 排名
+       * </pre>
        */
-      public Builder setJunZhuId(long value) {
+      public Builder setRank(int value) {
         bitField0_ |= 0x00000001;
-        junZhuId_ = value;
+        rank_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int64 junZhuId = 1;</code>
+       * <code>required int32 rank = 1;</code>
+       *
+       * <pre>
+       * 排名
+       * </pre>
        */
-      public Builder clearJunZhuId() {
+      public Builder clearRank() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        junZhuId_ = 0L;
+        rank_ = 0;
         onChanged();
         return this;
       }
 
-      // required string junZhuName = 2;
-      private java.lang.Object junZhuName_ = "";
+      // required int32 leftTimes = 2;
+      private int leftTimes_ ;
       /**
-       * <code>required string junZhuName = 2;</code>
+       * <code>required int32 leftTimes = 2;</code>
+       *
+       * <pre>
+       * 今日剩余次数
+       * </pre>
        */
-      public boolean hasJunZhuName() {
+      public boolean hasLeftTimes() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string junZhuName = 2;</code>
+       * <code>required int32 leftTimes = 2;</code>
+       *
+       * <pre>
+       * 今日剩余次数
+       * </pre>
        */
-      public java.lang.String getJunZhuName() {
-        java.lang.Object ref = junZhuName_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          junZhuName_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public int getLeftTimes() {
+        return leftTimes_;
       }
       /**
-       * <code>required string junZhuName = 2;</code>
+       * <code>required int32 leftTimes = 2;</code>
+       *
+       * <pre>
+       * 今日剩余次数
+       * </pre>
        */
-      public com.google.protobuf.ByteString
-          getJunZhuNameBytes() {
-        java.lang.Object ref = junZhuName_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          junZhuName_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string junZhuName = 2;</code>
-       */
-      public Builder setJunZhuName(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        junZhuName_ = value;
+      public Builder setLeftTimes(int value) {
+        bitField0_ |= 0x00000002;
+        leftTimes_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string junZhuName = 2;</code>
+       * <code>required int32 leftTimes = 2;</code>
+       *
+       * <pre>
+       * 今日剩余次数
+       * </pre>
        */
-      public Builder clearJunZhuName() {
+      public Builder clearLeftTimes() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        junZhuName_ = getDefaultInstance().getJunZhuName();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string junZhuName = 2;</code>
-       */
-      public Builder setJunZhuNameBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        junZhuName_ = value;
+        leftTimes_ = 0;
         onChanged();
         return this;
       }
 
-      // required string lianMengName = 3;
-      private java.lang.Object lianMengName_ = "";
+      // required int32 totalTimes = 3;
+      private int totalTimes_ ;
       /**
-       * <code>required string lianMengName = 3;</code>
+       * <code>required int32 totalTimes = 3;</code>
+       *
+       * <pre>
+       * 今日总次数
+       * </pre>
        */
-      public boolean hasLianMengName() {
+      public boolean hasTotalTimes() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required string lianMengName = 3;</code>
+       * <code>required int32 totalTimes = 3;</code>
+       *
+       * <pre>
+       * 今日总次数
+       * </pre>
        */
-      public java.lang.String getLianMengName() {
-        java.lang.Object ref = lianMengName_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          lianMengName_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public int getTotalTimes() {
+        return totalTimes_;
       }
       /**
-       * <code>required string lianMengName = 3;</code>
+       * <code>required int32 totalTimes = 3;</code>
+       *
+       * <pre>
+       * 今日总次数
+       * </pre>
        */
-      public com.google.protobuf.ByteString
-          getLianMengNameBytes() {
-        java.lang.Object ref = lianMengName_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          lianMengName_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string lianMengName = 3;</code>
-       */
-      public Builder setLianMengName(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        lianMengName_ = value;
+      public Builder setTotalTimes(int value) {
+        bitField0_ |= 0x00000004;
+        totalTimes_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string lianMengName = 3;</code>
+       * <code>required int32 totalTimes = 3;</code>
+       *
+       * <pre>
+       * 今日总次数
+       * </pre>
        */
-      public Builder clearLianMengName() {
+      public Builder clearTotalTimes() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        lianMengName_ = getDefaultInstance().getLianMengName();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string lianMengName = 3;</code>
-       */
-      public Builder setLianMengNameBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        lianMengName_ = value;
+        totalTimes_ = 0;
         onChanged();
         return this;
       }
 
-      // required .qxmobile.protobuf.PVPInfo pvpInfo = 4;
-      private qxmobile.protobuf.PvpProto.PVPInfo pvpInfo_ = qxmobile.protobuf.PvpProto.PVPInfo.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          qxmobile.protobuf.PvpProto.PVPInfo, qxmobile.protobuf.PvpProto.PVPInfo.Builder, qxmobile.protobuf.PvpProto.PVPInfoOrBuilder> pvpInfoBuilder_;
+      // required int32 time = 4;
+      private int time_ ;
       /**
-       * <code>required .qxmobile.protobuf.PVPInfo pvpInfo = 4;</code>
+       * <code>required int32 time = 4;</code>
+       *
+       * <pre>
+       * 距离下次挑战剩余时间
+       * </pre>
        */
-      public boolean hasPvpInfo() {
+      public boolean hasTime() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>required .qxmobile.protobuf.PVPInfo pvpInfo = 4;</code>
+       * <code>required int32 time = 4;</code>
+       *
+       * <pre>
+       * 距离下次挑战剩余时间
+       * </pre>
        */
-      public qxmobile.protobuf.PvpProto.PVPInfo getPvpInfo() {
-        if (pvpInfoBuilder_ == null) {
-          return pvpInfo_;
-        } else {
-          return pvpInfoBuilder_.getMessage();
-        }
+      public int getTime() {
+        return time_;
       }
       /**
-       * <code>required .qxmobile.protobuf.PVPInfo pvpInfo = 4;</code>
+       * <code>required int32 time = 4;</code>
+       *
+       * <pre>
+       * 距离下次挑战剩余时间
+       * </pre>
        */
-      public Builder setPvpInfo(qxmobile.protobuf.PvpProto.PVPInfo value) {
-        if (pvpInfoBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          pvpInfo_ = value;
-          onChanged();
-        } else {
-          pvpInfoBuilder_.setMessage(value);
-        }
+      public Builder setTime(int value) {
         bitField0_ |= 0x00000008;
-        return this;
-      }
-      /**
-       * <code>required .qxmobile.protobuf.PVPInfo pvpInfo = 4;</code>
-       */
-      public Builder setPvpInfo(
-          qxmobile.protobuf.PvpProto.PVPInfo.Builder builderForValue) {
-        if (pvpInfoBuilder_ == null) {
-          pvpInfo_ = builderForValue.build();
-          onChanged();
-        } else {
-          pvpInfoBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000008;
-        return this;
-      }
-      /**
-       * <code>required .qxmobile.protobuf.PVPInfo pvpInfo = 4;</code>
-       */
-      public Builder mergePvpInfo(qxmobile.protobuf.PvpProto.PVPInfo value) {
-        if (pvpInfoBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008) &&
-              pvpInfo_ != qxmobile.protobuf.PvpProto.PVPInfo.getDefaultInstance()) {
-            pvpInfo_ =
-              qxmobile.protobuf.PvpProto.PVPInfo.newBuilder(pvpInfo_).mergeFrom(value).buildPartial();
-          } else {
-            pvpInfo_ = value;
-          }
-          onChanged();
-        } else {
-          pvpInfoBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000008;
-        return this;
-      }
-      /**
-       * <code>required .qxmobile.protobuf.PVPInfo pvpInfo = 4;</code>
-       */
-      public Builder clearPvpInfo() {
-        if (pvpInfoBuilder_ == null) {
-          pvpInfo_ = qxmobile.protobuf.PvpProto.PVPInfo.getDefaultInstance();
-          onChanged();
-        } else {
-          pvpInfoBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000008);
-        return this;
-      }
-      /**
-       * <code>required .qxmobile.protobuf.PVPInfo pvpInfo = 4;</code>
-       */
-      public qxmobile.protobuf.PvpProto.PVPInfo.Builder getPvpInfoBuilder() {
-        bitField0_ |= 0x00000008;
+        time_ = value;
         onChanged();
-        return getPvpInfoFieldBuilder().getBuilder();
+        return this;
       }
       /**
-       * <code>required .qxmobile.protobuf.PVPInfo pvpInfo = 4;</code>
+       * <code>required int32 time = 4;</code>
+       *
+       * <pre>
+       * 距离下次挑战剩余时间
+       * </pre>
        */
-      public qxmobile.protobuf.PvpProto.PVPInfoOrBuilder getPvpInfoOrBuilder() {
-        if (pvpInfoBuilder_ != null) {
-          return pvpInfoBuilder_.getMessageOrBuilder();
-        } else {
-          return pvpInfo_;
-        }
-      }
-      /**
-       * <code>required .qxmobile.protobuf.PVPInfo pvpInfo = 4;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          qxmobile.protobuf.PvpProto.PVPInfo, qxmobile.protobuf.PvpProto.PVPInfo.Builder, qxmobile.protobuf.PvpProto.PVPInfoOrBuilder> 
-          getPvpInfoFieldBuilder() {
-        if (pvpInfoBuilder_ == null) {
-          pvpInfoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              qxmobile.protobuf.PvpProto.PVPInfo, qxmobile.protobuf.PvpProto.PVPInfo.Builder, qxmobile.protobuf.PvpProto.PVPInfoOrBuilder>(
-                  pvpInfo_,
-                  getParentForChildren(),
-                  isClean());
-          pvpInfo_ = null;
-        }
-        return pvpInfoBuilder_;
+      public Builder clearTime() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        time_ = 0;
+        onChanged();
+        return this;
       }
 
-      // optional int32 cdYuanBao = 5;
-      private int cdYuanBao_ ;
+      // required int32 historyHighRank = 5;
+      private int historyHighRank_ ;
       /**
-       * <code>optional int32 cdYuanBao = 5;</code>
+       * <code>required int32 historyHighRank = 5;</code>
+       *
+       * <pre>
+       * 历史最高排名
+       * </pre>
        */
-      public boolean hasCdYuanBao() {
+      public boolean hasHistoryHighRank() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional int32 cdYuanBao = 5;</code>
+       * <code>required int32 historyHighRank = 5;</code>
+       *
+       * <pre>
+       * 历史最高排名
+       * </pre>
+       */
+      public int getHistoryHighRank() {
+        return historyHighRank_;
+      }
+      /**
+       * <code>required int32 historyHighRank = 5;</code>
+       *
+       * <pre>
+       * 历史最高排名
+       * </pre>
+       */
+      public Builder setHistoryHighRank(int value) {
+        bitField0_ |= 0x00000010;
+        historyHighRank_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 historyHighRank = 5;</code>
+       *
+       * <pre>
+       * 历史最高排名
+       * </pre>
+       */
+      public Builder clearHistoryHighRank() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        historyHighRank_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 cdYuanBao = 6;
+      private int cdYuanBao_ ;
+      /**
+       * <code>optional int32 cdYuanBao = 6;</code>
+       *
+       * <pre>
+       *清除CD所需元宝
+       * </pre>
+       */
+      public boolean hasCdYuanBao() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional int32 cdYuanBao = 6;</code>
+       *
+       * <pre>
+       *清除CD所需元宝
+       * </pre>
        */
       public int getCdYuanBao() {
         return cdYuanBao_;
       }
       /**
-       * <code>optional int32 cdYuanBao = 5;</code>
+       * <code>optional int32 cdYuanBao = 6;</code>
+       *
+       * <pre>
+       *清除CD所需元宝
+       * </pre>
        */
       public Builder setCdYuanBao(int value) {
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000020;
         cdYuanBao_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 cdYuanBao = 5;</code>
+       * <code>optional int32 cdYuanBao = 6;</code>
+       *
+       * <pre>
+       *清除CD所需元宝
+       * </pre>
        */
       public Builder clearCdYuanBao() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000020);
         cdYuanBao_ = 0;
         onChanged();
         return this;
       }
 
-      // repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;
-      private java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> oppoList_ =
-        java.util.Collections.emptyList();
-      private void ensureOppoListIsMutable() {
-        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
-          oppoList_ = new java.util.ArrayList<qxmobile.protobuf.PvpProto.OpponentInfo>(oppoList_);
-          bitField0_ |= 0x00000020;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.PvpProto.OpponentInfo, qxmobile.protobuf.PvpProto.OpponentInfo.Builder, qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> oppoListBuilder_;
-
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> getOppoListList() {
-        if (oppoListBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(oppoList_);
-        } else {
-          return oppoListBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public int getOppoListCount() {
-        if (oppoListBuilder_ == null) {
-          return oppoList_.size();
-        } else {
-          return oppoListBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public qxmobile.protobuf.PvpProto.OpponentInfo getOppoList(int index) {
-        if (oppoListBuilder_ == null) {
-          return oppoList_.get(index);
-        } else {
-          return oppoListBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public Builder setOppoList(
-          int index, qxmobile.protobuf.PvpProto.OpponentInfo value) {
-        if (oppoListBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureOppoListIsMutable();
-          oppoList_.set(index, value);
-          onChanged();
-        } else {
-          oppoListBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public Builder setOppoList(
-          int index, qxmobile.protobuf.PvpProto.OpponentInfo.Builder builderForValue) {
-        if (oppoListBuilder_ == null) {
-          ensureOppoListIsMutable();
-          oppoList_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          oppoListBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public Builder addOppoList(qxmobile.protobuf.PvpProto.OpponentInfo value) {
-        if (oppoListBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureOppoListIsMutable();
-          oppoList_.add(value);
-          onChanged();
-        } else {
-          oppoListBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public Builder addOppoList(
-          int index, qxmobile.protobuf.PvpProto.OpponentInfo value) {
-        if (oppoListBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureOppoListIsMutable();
-          oppoList_.add(index, value);
-          onChanged();
-        } else {
-          oppoListBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public Builder addOppoList(
-          qxmobile.protobuf.PvpProto.OpponentInfo.Builder builderForValue) {
-        if (oppoListBuilder_ == null) {
-          ensureOppoListIsMutable();
-          oppoList_.add(builderForValue.build());
-          onChanged();
-        } else {
-          oppoListBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public Builder addOppoList(
-          int index, qxmobile.protobuf.PvpProto.OpponentInfo.Builder builderForValue) {
-        if (oppoListBuilder_ == null) {
-          ensureOppoListIsMutable();
-          oppoList_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          oppoListBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public Builder addAllOppoList(
-          java.lang.Iterable<? extends qxmobile.protobuf.PvpProto.OpponentInfo> values) {
-        if (oppoListBuilder_ == null) {
-          ensureOppoListIsMutable();
-          super.addAll(values, oppoList_);
-          onChanged();
-        } else {
-          oppoListBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public Builder clearOppoList() {
-        if (oppoListBuilder_ == null) {
-          oppoList_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
-          onChanged();
-        } else {
-          oppoListBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public Builder removeOppoList(int index) {
-        if (oppoListBuilder_ == null) {
-          ensureOppoListIsMutable();
-          oppoList_.remove(index);
-          onChanged();
-        } else {
-          oppoListBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public qxmobile.protobuf.PvpProto.OpponentInfo.Builder getOppoListBuilder(
-          int index) {
-        return getOppoListFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder getOppoListOrBuilder(
-          int index) {
-        if (oppoListBuilder_ == null) {
-          return oppoList_.get(index);  } else {
-          return oppoListBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public java.util.List<? extends qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> 
-           getOppoListOrBuilderList() {
-        if (oppoListBuilder_ != null) {
-          return oppoListBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(oppoList_);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public qxmobile.protobuf.PvpProto.OpponentInfo.Builder addOppoListBuilder() {
-        return getOppoListFieldBuilder().addBuilder(
-            qxmobile.protobuf.PvpProto.OpponentInfo.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public qxmobile.protobuf.PvpProto.OpponentInfo.Builder addOppoListBuilder(
-          int index) {
-        return getOppoListFieldBuilder().addBuilder(
-            index, qxmobile.protobuf.PvpProto.OpponentInfo.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 6;</code>
-       *
-       * <pre>
-       * 对手信息
-       * </pre>
-       */
-      public java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo.Builder> 
-           getOppoListBuilderList() {
-        return getOppoListFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.PvpProto.OpponentInfo, qxmobile.protobuf.PvpProto.OpponentInfo.Builder, qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> 
-          getOppoListFieldBuilder() {
-        if (oppoListBuilder_ == null) {
-          oppoListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              qxmobile.protobuf.PvpProto.OpponentInfo, qxmobile.protobuf.PvpProto.OpponentInfo.Builder, qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder>(
-                  oppoList_,
-                  ((bitField0_ & 0x00000020) == 0x00000020),
-                  getParentForChildren(),
-                  isClean());
-          oppoList_ = null;
-        }
-        return oppoListBuilder_;
-      }
-
-      // required bool isShow = 7;
-      private boolean isShow_ ;
-      /**
-       * <code>required bool isShow = 7;</code>
-       *
-       * <pre>
-       * isShow 表示显示感叹号，否则不显示
-       * </pre>
-       */
-      public boolean hasIsShow() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
-      }
-      /**
-       * <code>required bool isShow = 7;</code>
-       *
-       * <pre>
-       * isShow 表示显示感叹号，否则不显示
-       * </pre>
-       */
-      public boolean getIsShow() {
-        return isShow_;
-      }
-      /**
-       * <code>required bool isShow = 7;</code>
-       *
-       * <pre>
-       * isShow 表示显示感叹号，否则不显示
-       * </pre>
-       */
-      public Builder setIsShow(boolean value) {
-        bitField0_ |= 0x00000040;
-        isShow_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required bool isShow = 7;</code>
-       *
-       * <pre>
-       * isShow 表示显示感叹号，否则不显示
-       * </pre>
-       */
-      public Builder clearIsShow() {
-        bitField0_ = (bitField0_ & ~0x00000040);
-        isShow_ = false;
-        onChanged();
-        return this;
-      }
-
-      // required int32 nowMaxBattleCount = 8;
-      private int nowMaxBattleCount_ ;
-      /**
-       * <code>required int32 nowMaxBattleCount = 8;</code>
-       *
-       * <pre>
-       * 当前vip可战斗的次数
-       * </pre>
-       */
-      public boolean hasNowMaxBattleCount() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
-      }
-      /**
-       * <code>required int32 nowMaxBattleCount = 8;</code>
-       *
-       * <pre>
-       * 当前vip可战斗的次数
-       * </pre>
-       */
-      public int getNowMaxBattleCount() {
-        return nowMaxBattleCount_;
-      }
-      /**
-       * <code>required int32 nowMaxBattleCount = 8;</code>
-       *
-       * <pre>
-       * 当前vip可战斗的次数
-       * </pre>
-       */
-      public Builder setNowMaxBattleCount(int value) {
-        bitField0_ |= 0x00000080;
-        nowMaxBattleCount_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 nowMaxBattleCount = 8;</code>
-       *
-       * <pre>
-       * 当前vip可战斗的次数
-       * </pre>
-       */
-      public Builder clearNowMaxBattleCount() {
-        bitField0_ = (bitField0_ & ~0x00000080);
-        nowMaxBattleCount_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 nextMaxBattleCount = 9;
-      private int nextMaxBattleCount_ ;
-      /**
-       * <code>required int32 nextMaxBattleCount = 9;</code>
-       *
-       * <pre>
-       * 下一个vip可以战斗的次数
-       * </pre>
-       */
-      public boolean hasNextMaxBattleCount() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
-      }
-      /**
-       * <code>required int32 nextMaxBattleCount = 9;</code>
-       *
-       * <pre>
-       * 下一个vip可以战斗的次数
-       * </pre>
-       */
-      public int getNextMaxBattleCount() {
-        return nextMaxBattleCount_;
-      }
-      /**
-       * <code>required int32 nextMaxBattleCount = 9;</code>
-       *
-       * <pre>
-       * 下一个vip可以战斗的次数
-       * </pre>
-       */
-      public Builder setNextMaxBattleCount(int value) {
-        bitField0_ |= 0x00000100;
-        nextMaxBattleCount_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 nextMaxBattleCount = 9;</code>
-       *
-       * <pre>
-       * 下一个vip可以战斗的次数
-       * </pre>
-       */
-      public Builder clearNextMaxBattleCount() {
-        bitField0_ = (bitField0_ & ~0x00000100);
-        nextMaxBattleCount_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 huanYiPiYB = 10;
+      // required int32 huanYiPiYB = 7;
       private int huanYiPiYB_ ;
       /**
-       * <code>required int32 huanYiPiYB = 10;</code>
+       * <code>required int32 huanYiPiYB = 7;</code>
        *
        * <pre>
-       *确定换一批需要花的元宝
+       *换一批所需元宝
        * </pre>
        */
       public boolean hasHuanYiPiYB() {
-        return ((bitField0_ & 0x00000200) == 0x00000200);
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>required int32 huanYiPiYB = 10;</code>
+       * <code>required int32 huanYiPiYB = 7;</code>
        *
        * <pre>
-       *确定换一批需要花的元宝
+       *换一批所需元宝
        * </pre>
        */
       public int getHuanYiPiYB() {
         return huanYiPiYB_;
       }
       /**
-       * <code>required int32 huanYiPiYB = 10;</code>
+       * <code>required int32 huanYiPiYB = 7;</code>
        *
        * <pre>
-       *确定换一批需要花的元宝
+       *换一批所需元宝
        * </pre>
        */
       public Builder setHuanYiPiYB(int value) {
-        bitField0_ |= 0x00000200;
+        bitField0_ |= 0x00000040;
         huanYiPiYB_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 huanYiPiYB = 10;</code>
+       * <code>required int32 huanYiPiYB = 7;</code>
        *
        * <pre>
-       *确定换一批需要花的元宝
+       *换一批所需元宝
        * </pre>
        */
       public Builder clearHuanYiPiYB() {
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000040);
         huanYiPiYB_ = 0;
         onChanged();
         return this;
       }
 
-      // required int32 canCleanCDvipLev = 11;
-      private int canCleanCDvipLev_ ;
-      /**
-       * <code>required int32 canCleanCDvipLev = 11;</code>
-       */
-      public boolean hasCanCleanCDvipLev() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
-      }
-      /**
-       * <code>required int32 canCleanCDvipLev = 11;</code>
-       */
-      public int getCanCleanCDvipLev() {
-        return canCleanCDvipLev_;
-      }
-      /**
-       * <code>required int32 canCleanCDvipLev = 11;</code>
-       */
-      public Builder setCanCleanCDvipLev(int value) {
-        bitField0_ |= 0x00000400;
-        canCleanCDvipLev_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 canCleanCDvipLev = 11;</code>
-       */
-      public Builder clearCanCleanCDvipLev() {
-        bitField0_ = (bitField0_ & ~0x00000400);
-        canCleanCDvipLev_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 weiWangHour = 12;
+      // required int32 weiWangHour = 8;
       private int weiWangHour_ ;
       /**
-       * <code>required int32 weiWangHour = 12;</code>
+       * <code>required int32 weiWangHour = 8;</code>
+       *
+       * <pre>
+       *每小时威望收益
+       * </pre>
        */
       public boolean hasWeiWangHour() {
-        return ((bitField0_ & 0x00000800) == 0x00000800);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
-       * <code>required int32 weiWangHour = 12;</code>
+       * <code>required int32 weiWangHour = 8;</code>
+       *
+       * <pre>
+       *每小时威望收益
+       * </pre>
        */
       public int getWeiWangHour() {
         return weiWangHour_;
       }
       /**
-       * <code>required int32 weiWangHour = 12;</code>
+       * <code>required int32 weiWangHour = 8;</code>
+       *
+       * <pre>
+       *每小时威望收益
+       * </pre>
        */
       public Builder setWeiWangHour(int value) {
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00000080;
         weiWangHour_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 weiWangHour = 12;</code>
+       * <code>required int32 weiWangHour = 8;</code>
+       *
+       * <pre>
+       *每小时威望收益
+       * </pre>
        */
       public Builder clearWeiWangHour() {
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00000080);
         weiWangHour_ = 0;
         onChanged();
         return this;
       }
 
-      // required int32 hasWeiWang = 13;
+      // required int32 hasWeiWang = 9;
       private int hasWeiWang_ ;
       /**
-       * <code>required int32 hasWeiWang = 13;</code>
+       * <code>required int32 hasWeiWang = 9;</code>
+       *
+       * <pre>
+       *已拥有威望数量
+       * </pre>
        */
       public boolean hasHasWeiWang() {
-        return ((bitField0_ & 0x00001000) == 0x00001000);
+        return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
-       * <code>required int32 hasWeiWang = 13;</code>
+       * <code>required int32 hasWeiWang = 9;</code>
+       *
+       * <pre>
+       *已拥有威望数量
+       * </pre>
        */
       public int getHasWeiWang() {
         return hasWeiWang_;
       }
       /**
-       * <code>required int32 hasWeiWang = 13;</code>
+       * <code>required int32 hasWeiWang = 9;</code>
+       *
+       * <pre>
+       *已拥有威望数量
+       * </pre>
        */
       public Builder setHasWeiWang(int value) {
-        bitField0_ |= 0x00001000;
+        bitField0_ |= 0x00000100;
         hasWeiWang_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 hasWeiWang = 13;</code>
+       * <code>required int32 hasWeiWang = 9;</code>
+       *
+       * <pre>
+       *已拥有威望数量
+       * </pre>
        */
       public Builder clearHasWeiWang() {
-        bitField0_ = (bitField0_ & ~0x00001000);
+        bitField0_ = (bitField0_ & ~0x00000100);
         hasWeiWang_ = 0;
         onChanged();
         return this;
       }
 
-      // required int32 canGetweiWang = 14;
-      private int canGetweiWang_ ;
+      // required int32 lasthistoryHighRank = 10;
+      private int lasthistoryHighRank_ ;
       /**
-       * <code>required int32 canGetweiWang = 14;</code>
+       * <code>required int32 lasthistoryHighRank = 10;</code>
+       *
+       * <pre>
+       *上一次历史最高排名
+       * </pre>
        */
-      public boolean hasCanGetweiWang() {
-        return ((bitField0_ & 0x00002000) == 0x00002000);
+      public boolean hasLasthistoryHighRank() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>required int32 canGetweiWang = 14;</code>
+       * <code>required int32 lasthistoryHighRank = 10;</code>
+       *
+       * <pre>
+       *上一次历史最高排名
+       * </pre>
        */
-      public int getCanGetweiWang() {
-        return canGetweiWang_;
+      public int getLasthistoryHighRank() {
+        return lasthistoryHighRank_;
       }
       /**
-       * <code>required int32 canGetweiWang = 14;</code>
+       * <code>required int32 lasthistoryHighRank = 10;</code>
+       *
+       * <pre>
+       *上一次历史最高排名
+       * </pre>
        */
-      public Builder setCanGetweiWang(int value) {
-        bitField0_ |= 0x00002000;
-        canGetweiWang_ = value;
+      public Builder setLasthistoryHighRank(int value) {
+        bitField0_ |= 0x00000200;
+        lasthistoryHighRank_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 canGetweiWang = 14;</code>
+       * <code>required int32 lasthistoryHighRank = 10;</code>
+       *
+       * <pre>
+       *上一次历史最高排名
+       * </pre>
        */
-      public Builder clearCanGetweiWang() {
-        bitField0_ = (bitField0_ & ~0x00002000);
-        canGetweiWang_ = 0;
+      public Builder clearLasthistoryHighRank() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        lasthistoryHighRank_ = 0;
         onChanged();
         return this;
       }
@@ -2770,7 +1876,7 @@ public final class PvpProto {
        * </pre>
        */
       public boolean hasLeftCanBuyCount() {
-        return ((bitField0_ & 0x00004000) == 0x00004000);
+        return ((bitField0_ & 0x00000400) == 0x00000400);
       }
       /**
        * <code>required int32 leftCanBuyCount = 15;</code>
@@ -2790,7 +1896,7 @@ public final class PvpProto {
        * </pre>
        */
       public Builder setLeftCanBuyCount(int value) {
-        bitField0_ |= 0x00004000;
+        bitField0_ |= 0x00000400;
         leftCanBuyCount_ = value;
         onChanged();
         return this;
@@ -2803,7 +1909,7 @@ public final class PvpProto {
        * </pre>
        */
       public Builder clearLeftCanBuyCount() {
-        bitField0_ = (bitField0_ & ~0x00004000);
+        bitField0_ = (bitField0_ & ~0x00000400);
         leftCanBuyCount_ = 0;
         onChanged();
         return this;
@@ -2815,17 +1921,17 @@ public final class PvpProto {
        * <code>optional int32 buyNeedYB = 16;</code>
        *
        * <pre>
-       * 元宝数
+       * 购买下次所需元宝数	
        * </pre>
        */
       public boolean hasBuyNeedYB() {
-        return ((bitField0_ & 0x00008000) == 0x00008000);
+        return ((bitField0_ & 0x00000800) == 0x00000800);
       }
       /**
        * <code>optional int32 buyNeedYB = 16;</code>
        *
        * <pre>
-       * 元宝数
+       * 购买下次所需元宝数	
        * </pre>
        */
       public int getBuyNeedYB() {
@@ -2835,11 +1941,11 @@ public final class PvpProto {
        * <code>optional int32 buyNeedYB = 16;</code>
        *
        * <pre>
-       * 元宝数
+       * 购买下次所需元宝数	
        * </pre>
        */
       public Builder setBuyNeedYB(int value) {
-        bitField0_ |= 0x00008000;
+        bitField0_ |= 0x00000800;
         buyNeedYB_ = value;
         onChanged();
         return this;
@@ -2848,11 +1954,11 @@ public final class PvpProto {
        * <code>optional int32 buyNeedYB = 16;</code>
        *
        * <pre>
-       * 元宝数
+       * 购买下次所需元宝数	
        * </pre>
        */
       public Builder clearBuyNeedYB() {
-        bitField0_ = (bitField0_ & ~0x00008000);
+        bitField0_ = (bitField0_ & ~0x00000800);
         buyNeedYB_ = 0;
         onChanged();
         return this;
@@ -2868,7 +1974,7 @@ public final class PvpProto {
        * </pre>
        */
       public boolean hasBuyNumber() {
-        return ((bitField0_ & 0x00010000) == 0x00010000);
+        return ((bitField0_ & 0x00001000) == 0x00001000);
       }
       /**
        * <code>optional int32 buyNumber = 17;</code>
@@ -2888,7 +1994,7 @@ public final class PvpProto {
        * </pre>
        */
       public Builder setBuyNumber(int value) {
-        bitField0_ |= 0x00010000;
+        bitField0_ |= 0x00001000;
         buyNumber_ = value;
         onChanged();
         return this;
@@ -2901,7 +2007,7 @@ public final class PvpProto {
        * </pre>
        */
       public Builder clearBuyNumber() {
-        bitField0_ = (bitField0_ & ~0x00010000);
+        bitField0_ = (bitField0_ & ~0x00001000);
         buyNumber_ = 0;
         onChanged();
         return this;
@@ -2917,7 +2023,7 @@ public final class PvpProto {
        * </pre>
        */
       public boolean hasRankAward() {
-        return ((bitField0_ & 0x00020000) == 0x00020000);
+        return ((bitField0_ & 0x00002000) == 0x00002000);
       }
       /**
        * <code>required int32 rankAward = 18;</code>
@@ -2937,7 +2043,7 @@ public final class PvpProto {
        * </pre>
        */
       public Builder setRankAward(int value) {
-        bitField0_ |= 0x00020000;
+        bitField0_ |= 0x00002000;
         rankAward_ = value;
         onChanged();
         return this;
@@ -2950,7 +2056,7 @@ public final class PvpProto {
        * </pre>
        */
       public Builder clearRankAward() {
-        bitField0_ = (bitField0_ & ~0x00020000);
+        bitField0_ = (bitField0_ & ~0x00002000);
         rankAward_ = 0;
         onChanged();
         return this;
@@ -2966,7 +2072,7 @@ public final class PvpProto {
        * </pre>
        */
       public boolean hasNextTimeTo21() {
-        return ((bitField0_ & 0x00040000) == 0x00040000);
+        return ((bitField0_ & 0x00004000) == 0x00004000);
       }
       /**
        * <code>required int32 nextTimeTo21 = 19;</code>
@@ -2986,7 +2092,7 @@ public final class PvpProto {
        * </pre>
        */
       public Builder setNextTimeTo21(int value) {
-        bitField0_ |= 0x00040000;
+        bitField0_ |= 0x00004000;
         nextTimeTo21_ = value;
         onChanged();
         return this;
@@ -2999,57 +2105,8 @@ public final class PvpProto {
        * </pre>
        */
       public Builder clearNextTimeTo21() {
-        bitField0_ = (bitField0_ & ~0x00040000);
+        bitField0_ = (bitField0_ & ~0x00004000);
         nextTimeTo21_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional int32 lastHighestRank = 21;
-      private int lastHighestRank_ ;
-      /**
-       * <code>optional int32 lastHighestRank = 21;</code>
-       *
-       * <pre>
-       *required string dailyAward = 20; // 每日奖励内容
-       * </pre>
-       */
-      public boolean hasLastHighestRank() {
-        return ((bitField0_ & 0x00080000) == 0x00080000);
-      }
-      /**
-       * <code>optional int32 lastHighestRank = 21;</code>
-       *
-       * <pre>
-       *required string dailyAward = 20; // 每日奖励内容
-       * </pre>
-       */
-      public int getLastHighestRank() {
-        return lastHighestRank_;
-      }
-      /**
-       * <code>optional int32 lastHighestRank = 21;</code>
-       *
-       * <pre>
-       *required string dailyAward = 20; // 每日奖励内容
-       * </pre>
-       */
-      public Builder setLastHighestRank(int value) {
-        bitField0_ |= 0x00080000;
-        lastHighestRank_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 lastHighestRank = 21;</code>
-       *
-       * <pre>
-       *required string dailyAward = 20; // 每日奖励内容
-       * </pre>
-       */
-      public Builder clearLastHighestRank() {
-        bitField0_ = (bitField0_ & ~0x00080000);
-        lastHighestRank_ = 0;
         onChanged();
         return this;
       }
@@ -3071,24 +2128,44 @@ public final class PvpProto {
     // required int64 junZhuId = 1;
     /**
      * <code>required int64 junZhuId = 1;</code>
+     *
+     * <pre>
+     *对手ID
+     * </pre>
      */
     boolean hasJunZhuId();
     /**
      * <code>required int64 junZhuId = 1;</code>
+     *
+     * <pre>
+     *对手ID
+     * </pre>
      */
     long getJunZhuId();
 
     // required string junZhuName = 2;
     /**
      * <code>required string junZhuName = 2;</code>
+     *
+     * <pre>
+     *对手名字
+     * </pre>
      */
     boolean hasJunZhuName();
     /**
      * <code>required string junZhuName = 2;</code>
+     *
+     * <pre>
+     *对手名字
+     * </pre>
      */
     java.lang.String getJunZhuName();
     /**
      * <code>required string junZhuName = 2;</code>
+     *
+     * <pre>
+     *对手名字
+     * </pre>
      */
     com.google.protobuf.ByteString
         getJunZhuNameBytes();
@@ -3096,14 +2173,26 @@ public final class PvpProto {
     // required string lianMengName = 3;
     /**
      * <code>required string lianMengName = 3;</code>
+     *
+     * <pre>
+     *对手联盟
+     * </pre>
      */
     boolean hasLianMengName();
     /**
      * <code>required string lianMengName = 3;</code>
+     *
+     * <pre>
+     *对手联盟
+     * </pre>
      */
     java.lang.String getLianMengName();
     /**
      * <code>required string lianMengName = 3;</code>
+     *
+     * <pre>
+     *对手联盟
+     * </pre>
      */
     com.google.protobuf.ByteString
         getLianMengNameBytes();
@@ -3111,50 +2200,90 @@ public final class PvpProto {
     // required int32 rank = 4;
     /**
      * <code>required int32 rank = 4;</code>
+     *
+     * <pre>
+     *对手排名
+     * </pre>
      */
     boolean hasRank();
     /**
      * <code>required int32 rank = 4;</code>
+     *
+     * <pre>
+     *对手排名
+     * </pre>
      */
     int getRank();
 
     // required int32 zhanLi = 5;
     /**
      * <code>required int32 zhanLi = 5;</code>
+     *
+     * <pre>
+     *对手战力
+     * </pre>
      */
     boolean hasZhanLi();
     /**
      * <code>required int32 zhanLi = 5;</code>
+     *
+     * <pre>
+     *对手战力
+     * </pre>
      */
     int getZhanLi();
 
     // required int32 junXianLevel = 6;
     /**
      * <code>required int32 junXianLevel = 6;</code>
+     *
+     * <pre>
+     *对手军衔
+     * </pre>
      */
     boolean hasJunXianLevel();
     /**
      * <code>required int32 junXianLevel = 6;</code>
+     *
+     * <pre>
+     *对手军衔
+     * </pre>
      */
     int getJunXianLevel();
 
     // required int32 guojia = 7;
     /**
      * <code>required int32 guojia = 7;</code>
+     *
+     * <pre>
+     *对手国家
+     * </pre>
      */
     boolean hasGuojia();
     /**
      * <code>required int32 guojia = 7;</code>
+     *
+     * <pre>
+     *对手国家
+     * </pre>
      */
     int getGuojia();
 
     // required int32 roleId = 8;
     /**
      * <code>required int32 roleId = 8;</code>
+     *
+     * <pre>
+     *对手职业ID
+     * </pre>
      */
     boolean hasRoleId();
     /**
      * <code>required int32 roleId = 8;</code>
+     *
+     * <pre>
+     *对手职业ID
+     * </pre>
      */
     int getRoleId();
 
@@ -3176,38 +2305,30 @@ public final class PvpProto {
      */
     int getZuheId();
 
-    // required int32 zuHeLevel = 10;
+    // required int32 level = 10;
     /**
-     * <code>required int32 zuHeLevel = 10;</code>
-     */
-    boolean hasZuHeLevel();
-    /**
-     * <code>required int32 zuHeLevel = 10;</code>
-     */
-    int getZuHeLevel();
-
-    // required int32 level = 11;
-    /**
-     * <code>required int32 level = 11;</code>
+     * <code>required int32 level = 10;</code>
+     *
+     * <pre>
+     *玩家等级
+     * </pre>
      */
     boolean hasLevel();
     /**
-     * <code>required int32 level = 11;</code>
+     * <code>required int32 level = 10;</code>
+     *
+     * <pre>
+     *玩家等级
+     * </pre>
      */
     int getLevel();
-
-    // required int32 historyRank = 12;
-    /**
-     * <code>required int32 historyRank = 12;</code>
-     */
-    boolean hasHistoryRank();
-    /**
-     * <code>required int32 historyRank = 12;</code>
-     */
-    int getHistoryRank();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.OpponentInfo}
+   *
+   * <pre>
+   *S to C:对手信息
+   * </pre>
    */
   public static final class OpponentInfo extends
       com.google.protobuf.GeneratedMessage
@@ -3304,17 +2425,7 @@ public final class PvpProto {
             }
             case 80: {
               bitField0_ |= 0x00000200;
-              zuHeLevel_ = input.readInt32();
-              break;
-            }
-            case 88: {
-              bitField0_ |= 0x00000400;
               level_ = input.readInt32();
-              break;
-            }
-            case 96: {
-              bitField0_ |= 0x00000800;
-              historyRank_ = input.readInt32();
               break;
             }
           }
@@ -3362,12 +2473,20 @@ public final class PvpProto {
     private long junZhuId_;
     /**
      * <code>required int64 junZhuId = 1;</code>
+     *
+     * <pre>
+     *对手ID
+     * </pre>
      */
     public boolean hasJunZhuId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int64 junZhuId = 1;</code>
+     *
+     * <pre>
+     *对手ID
+     * </pre>
      */
     public long getJunZhuId() {
       return junZhuId_;
@@ -3378,12 +2497,20 @@ public final class PvpProto {
     private java.lang.Object junZhuName_;
     /**
      * <code>required string junZhuName = 2;</code>
+     *
+     * <pre>
+     *对手名字
+     * </pre>
      */
     public boolean hasJunZhuName() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required string junZhuName = 2;</code>
+     *
+     * <pre>
+     *对手名字
+     * </pre>
      */
     public java.lang.String getJunZhuName() {
       java.lang.Object ref = junZhuName_;
@@ -3401,6 +2528,10 @@ public final class PvpProto {
     }
     /**
      * <code>required string junZhuName = 2;</code>
+     *
+     * <pre>
+     *对手名字
+     * </pre>
      */
     public com.google.protobuf.ByteString
         getJunZhuNameBytes() {
@@ -3421,12 +2552,20 @@ public final class PvpProto {
     private java.lang.Object lianMengName_;
     /**
      * <code>required string lianMengName = 3;</code>
+     *
+     * <pre>
+     *对手联盟
+     * </pre>
      */
     public boolean hasLianMengName() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>required string lianMengName = 3;</code>
+     *
+     * <pre>
+     *对手联盟
+     * </pre>
      */
     public java.lang.String getLianMengName() {
       java.lang.Object ref = lianMengName_;
@@ -3444,6 +2583,10 @@ public final class PvpProto {
     }
     /**
      * <code>required string lianMengName = 3;</code>
+     *
+     * <pre>
+     *对手联盟
+     * </pre>
      */
     public com.google.protobuf.ByteString
         getLianMengNameBytes() {
@@ -3464,12 +2607,20 @@ public final class PvpProto {
     private int rank_;
     /**
      * <code>required int32 rank = 4;</code>
+     *
+     * <pre>
+     *对手排名
+     * </pre>
      */
     public boolean hasRank() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>required int32 rank = 4;</code>
+     *
+     * <pre>
+     *对手排名
+     * </pre>
      */
     public int getRank() {
       return rank_;
@@ -3480,12 +2631,20 @@ public final class PvpProto {
     private int zhanLi_;
     /**
      * <code>required int32 zhanLi = 5;</code>
+     *
+     * <pre>
+     *对手战力
+     * </pre>
      */
     public boolean hasZhanLi() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <code>required int32 zhanLi = 5;</code>
+     *
+     * <pre>
+     *对手战力
+     * </pre>
      */
     public int getZhanLi() {
       return zhanLi_;
@@ -3496,12 +2655,20 @@ public final class PvpProto {
     private int junXianLevel_;
     /**
      * <code>required int32 junXianLevel = 6;</code>
+     *
+     * <pre>
+     *对手军衔
+     * </pre>
      */
     public boolean hasJunXianLevel() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
      * <code>required int32 junXianLevel = 6;</code>
+     *
+     * <pre>
+     *对手军衔
+     * </pre>
      */
     public int getJunXianLevel() {
       return junXianLevel_;
@@ -3512,12 +2679,20 @@ public final class PvpProto {
     private int guojia_;
     /**
      * <code>required int32 guojia = 7;</code>
+     *
+     * <pre>
+     *对手国家
+     * </pre>
      */
     public boolean hasGuojia() {
       return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
      * <code>required int32 guojia = 7;</code>
+     *
+     * <pre>
+     *对手国家
+     * </pre>
      */
     public int getGuojia() {
       return guojia_;
@@ -3528,12 +2703,20 @@ public final class PvpProto {
     private int roleId_;
     /**
      * <code>required int32 roleId = 8;</code>
+     *
+     * <pre>
+     *对手职业ID
+     * </pre>
      */
     public boolean hasRoleId() {
       return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
      * <code>required int32 roleId = 8;</code>
+     *
+     * <pre>
+     *对手职业ID
+     * </pre>
      */
     public int getRoleId() {
       return roleId_;
@@ -3563,52 +2746,28 @@ public final class PvpProto {
       return zuheId_;
     }
 
-    // required int32 zuHeLevel = 10;
-    public static final int ZUHELEVEL_FIELD_NUMBER = 10;
-    private int zuHeLevel_;
+    // required int32 level = 10;
+    public static final int LEVEL_FIELD_NUMBER = 10;
+    private int level_;
     /**
-     * <code>required int32 zuHeLevel = 10;</code>
+     * <code>required int32 level = 10;</code>
+     *
+     * <pre>
+     *玩家等级
+     * </pre>
      */
-    public boolean hasZuHeLevel() {
+    public boolean hasLevel() {
       return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
-     * <code>required int32 zuHeLevel = 10;</code>
-     */
-    public int getZuHeLevel() {
-      return zuHeLevel_;
-    }
-
-    // required int32 level = 11;
-    public static final int LEVEL_FIELD_NUMBER = 11;
-    private int level_;
-    /**
-     * <code>required int32 level = 11;</code>
-     */
-    public boolean hasLevel() {
-      return ((bitField0_ & 0x00000400) == 0x00000400);
-    }
-    /**
-     * <code>required int32 level = 11;</code>
+     * <code>required int32 level = 10;</code>
+     *
+     * <pre>
+     *玩家等级
+     * </pre>
      */
     public int getLevel() {
       return level_;
-    }
-
-    // required int32 historyRank = 12;
-    public static final int HISTORYRANK_FIELD_NUMBER = 12;
-    private int historyRank_;
-    /**
-     * <code>required int32 historyRank = 12;</code>
-     */
-    public boolean hasHistoryRank() {
-      return ((bitField0_ & 0x00000800) == 0x00000800);
-    }
-    /**
-     * <code>required int32 historyRank = 12;</code>
-     */
-    public int getHistoryRank() {
-      return historyRank_;
     }
 
     private void initFields() {
@@ -3621,9 +2780,7 @@ public final class PvpProto {
       guojia_ = 0;
       roleId_ = 0;
       zuheId_ = 0;
-      zuHeLevel_ = 0;
       level_ = 0;
-      historyRank_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3666,15 +2823,7 @@ public final class PvpProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasZuHeLevel()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       if (!hasLevel()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasHistoryRank()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -3713,13 +2862,7 @@ public final class PvpProto {
         output.writeInt32(9, zuheId_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
-        output.writeInt32(10, zuHeLevel_);
-      }
-      if (((bitField0_ & 0x00000400) == 0x00000400)) {
-        output.writeInt32(11, level_);
-      }
-      if (((bitField0_ & 0x00000800) == 0x00000800)) {
-        output.writeInt32(12, historyRank_);
+        output.writeInt32(10, level_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3768,15 +2911,7 @@ public final class PvpProto {
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(10, zuHeLevel_);
-      }
-      if (((bitField0_ & 0x00000400) == 0x00000400)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(11, level_);
-      }
-      if (((bitField0_ & 0x00000800) == 0x00000800)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(12, historyRank_);
+          .computeInt32Size(10, level_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3858,6 +2993,10 @@ public final class PvpProto {
     }
     /**
      * Protobuf type {@code qxmobile.protobuf.OpponentInfo}
+     *
+     * <pre>
+     *S to C:对手信息
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -3912,12 +3051,8 @@ public final class PvpProto {
         bitField0_ = (bitField0_ & ~0x00000080);
         zuheId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
-        zuHeLevel_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000200);
         level_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000400);
-        historyRank_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -3985,15 +3120,7 @@ public final class PvpProto {
         if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
           to_bitField0_ |= 0x00000200;
         }
-        result.zuHeLevel_ = zuHeLevel_;
-        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
-          to_bitField0_ |= 0x00000400;
-        }
         result.level_ = level_;
-        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
-          to_bitField0_ |= 0x00000800;
-        }
-        result.historyRank_ = historyRank_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4041,14 +3168,8 @@ public final class PvpProto {
         if (other.hasZuheId()) {
           setZuheId(other.getZuheId());
         }
-        if (other.hasZuHeLevel()) {
-          setZuHeLevel(other.getZuHeLevel());
-        }
         if (other.hasLevel()) {
           setLevel(other.getLevel());
-        }
-        if (other.hasHistoryRank()) {
-          setHistoryRank(other.getHistoryRank());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4091,15 +3212,7 @@ public final class PvpProto {
           
           return false;
         }
-        if (!hasZuHeLevel()) {
-          
-          return false;
-        }
         if (!hasLevel()) {
-          
-          return false;
-        }
-        if (!hasHistoryRank()) {
           
           return false;
         }
@@ -4129,18 +3242,30 @@ public final class PvpProto {
       private long junZhuId_ ;
       /**
        * <code>required int64 junZhuId = 1;</code>
+       *
+       * <pre>
+       *对手ID
+       * </pre>
        */
       public boolean hasJunZhuId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int64 junZhuId = 1;</code>
+       *
+       * <pre>
+       *对手ID
+       * </pre>
        */
       public long getJunZhuId() {
         return junZhuId_;
       }
       /**
        * <code>required int64 junZhuId = 1;</code>
+       *
+       * <pre>
+       *对手ID
+       * </pre>
        */
       public Builder setJunZhuId(long value) {
         bitField0_ |= 0x00000001;
@@ -4150,6 +3275,10 @@ public final class PvpProto {
       }
       /**
        * <code>required int64 junZhuId = 1;</code>
+       *
+       * <pre>
+       *对手ID
+       * </pre>
        */
       public Builder clearJunZhuId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -4162,12 +3291,20 @@ public final class PvpProto {
       private java.lang.Object junZhuName_ = "";
       /**
        * <code>required string junZhuName = 2;</code>
+       *
+       * <pre>
+       *对手名字
+       * </pre>
        */
       public boolean hasJunZhuName() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required string junZhuName = 2;</code>
+       *
+       * <pre>
+       *对手名字
+       * </pre>
        */
       public java.lang.String getJunZhuName() {
         java.lang.Object ref = junZhuName_;
@@ -4182,6 +3319,10 @@ public final class PvpProto {
       }
       /**
        * <code>required string junZhuName = 2;</code>
+       *
+       * <pre>
+       *对手名字
+       * </pre>
        */
       public com.google.protobuf.ByteString
           getJunZhuNameBytes() {
@@ -4198,6 +3339,10 @@ public final class PvpProto {
       }
       /**
        * <code>required string junZhuName = 2;</code>
+       *
+       * <pre>
+       *对手名字
+       * </pre>
        */
       public Builder setJunZhuName(
           java.lang.String value) {
@@ -4211,6 +3356,10 @@ public final class PvpProto {
       }
       /**
        * <code>required string junZhuName = 2;</code>
+       *
+       * <pre>
+       *对手名字
+       * </pre>
        */
       public Builder clearJunZhuName() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -4220,6 +3369,10 @@ public final class PvpProto {
       }
       /**
        * <code>required string junZhuName = 2;</code>
+       *
+       * <pre>
+       *对手名字
+       * </pre>
        */
       public Builder setJunZhuNameBytes(
           com.google.protobuf.ByteString value) {
@@ -4236,12 +3389,20 @@ public final class PvpProto {
       private java.lang.Object lianMengName_ = "";
       /**
        * <code>required string lianMengName = 3;</code>
+       *
+       * <pre>
+       *对手联盟
+       * </pre>
        */
       public boolean hasLianMengName() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>required string lianMengName = 3;</code>
+       *
+       * <pre>
+       *对手联盟
+       * </pre>
        */
       public java.lang.String getLianMengName() {
         java.lang.Object ref = lianMengName_;
@@ -4256,6 +3417,10 @@ public final class PvpProto {
       }
       /**
        * <code>required string lianMengName = 3;</code>
+       *
+       * <pre>
+       *对手联盟
+       * </pre>
        */
       public com.google.protobuf.ByteString
           getLianMengNameBytes() {
@@ -4272,6 +3437,10 @@ public final class PvpProto {
       }
       /**
        * <code>required string lianMengName = 3;</code>
+       *
+       * <pre>
+       *对手联盟
+       * </pre>
        */
       public Builder setLianMengName(
           java.lang.String value) {
@@ -4285,6 +3454,10 @@ public final class PvpProto {
       }
       /**
        * <code>required string lianMengName = 3;</code>
+       *
+       * <pre>
+       *对手联盟
+       * </pre>
        */
       public Builder clearLianMengName() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -4294,6 +3467,10 @@ public final class PvpProto {
       }
       /**
        * <code>required string lianMengName = 3;</code>
+       *
+       * <pre>
+       *对手联盟
+       * </pre>
        */
       public Builder setLianMengNameBytes(
           com.google.protobuf.ByteString value) {
@@ -4310,18 +3487,30 @@ public final class PvpProto {
       private int rank_ ;
       /**
        * <code>required int32 rank = 4;</code>
+       *
+       * <pre>
+       *对手排名
+       * </pre>
        */
       public boolean hasRank() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>required int32 rank = 4;</code>
+       *
+       * <pre>
+       *对手排名
+       * </pre>
        */
       public int getRank() {
         return rank_;
       }
       /**
        * <code>required int32 rank = 4;</code>
+       *
+       * <pre>
+       *对手排名
+       * </pre>
        */
       public Builder setRank(int value) {
         bitField0_ |= 0x00000008;
@@ -4331,6 +3520,10 @@ public final class PvpProto {
       }
       /**
        * <code>required int32 rank = 4;</code>
+       *
+       * <pre>
+       *对手排名
+       * </pre>
        */
       public Builder clearRank() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -4343,18 +3536,30 @@ public final class PvpProto {
       private int zhanLi_ ;
       /**
        * <code>required int32 zhanLi = 5;</code>
+       *
+       * <pre>
+       *对手战力
+       * </pre>
        */
       public boolean hasZhanLi() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>required int32 zhanLi = 5;</code>
+       *
+       * <pre>
+       *对手战力
+       * </pre>
        */
       public int getZhanLi() {
         return zhanLi_;
       }
       /**
        * <code>required int32 zhanLi = 5;</code>
+       *
+       * <pre>
+       *对手战力
+       * </pre>
        */
       public Builder setZhanLi(int value) {
         bitField0_ |= 0x00000010;
@@ -4364,6 +3569,10 @@ public final class PvpProto {
       }
       /**
        * <code>required int32 zhanLi = 5;</code>
+       *
+       * <pre>
+       *对手战力
+       * </pre>
        */
       public Builder clearZhanLi() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -4376,18 +3585,30 @@ public final class PvpProto {
       private int junXianLevel_ ;
       /**
        * <code>required int32 junXianLevel = 6;</code>
+       *
+       * <pre>
+       *对手军衔
+       * </pre>
        */
       public boolean hasJunXianLevel() {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
        * <code>required int32 junXianLevel = 6;</code>
+       *
+       * <pre>
+       *对手军衔
+       * </pre>
        */
       public int getJunXianLevel() {
         return junXianLevel_;
       }
       /**
        * <code>required int32 junXianLevel = 6;</code>
+       *
+       * <pre>
+       *对手军衔
+       * </pre>
        */
       public Builder setJunXianLevel(int value) {
         bitField0_ |= 0x00000020;
@@ -4397,6 +3618,10 @@ public final class PvpProto {
       }
       /**
        * <code>required int32 junXianLevel = 6;</code>
+       *
+       * <pre>
+       *对手军衔
+       * </pre>
        */
       public Builder clearJunXianLevel() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -4409,18 +3634,30 @@ public final class PvpProto {
       private int guojia_ ;
       /**
        * <code>required int32 guojia = 7;</code>
+       *
+       * <pre>
+       *对手国家
+       * </pre>
        */
       public boolean hasGuojia() {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
        * <code>required int32 guojia = 7;</code>
+       *
+       * <pre>
+       *对手国家
+       * </pre>
        */
       public int getGuojia() {
         return guojia_;
       }
       /**
        * <code>required int32 guojia = 7;</code>
+       *
+       * <pre>
+       *对手国家
+       * </pre>
        */
       public Builder setGuojia(int value) {
         bitField0_ |= 0x00000040;
@@ -4430,6 +3667,10 @@ public final class PvpProto {
       }
       /**
        * <code>required int32 guojia = 7;</code>
+       *
+       * <pre>
+       *对手国家
+       * </pre>
        */
       public Builder clearGuojia() {
         bitField0_ = (bitField0_ & ~0x00000040);
@@ -4442,18 +3683,30 @@ public final class PvpProto {
       private int roleId_ ;
       /**
        * <code>required int32 roleId = 8;</code>
+       *
+       * <pre>
+       *对手职业ID
+       * </pre>
        */
       public boolean hasRoleId() {
         return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
        * <code>required int32 roleId = 8;</code>
+       *
+       * <pre>
+       *对手职业ID
+       * </pre>
        */
       public int getRoleId() {
         return roleId_;
       }
       /**
        * <code>required int32 roleId = 8;</code>
+       *
+       * <pre>
+       *对手职业ID
+       * </pre>
        */
       public Builder setRoleId(int value) {
         bitField0_ |= 0x00000080;
@@ -4463,6 +3716,10 @@ public final class PvpProto {
       }
       /**
        * <code>required int32 roleId = 8;</code>
+       *
+       * <pre>
+       *对手职业ID
+       * </pre>
        */
       public Builder clearRoleId() {
         bitField0_ = (bitField0_ & ~0x00000080);
@@ -4520,101 +3777,51 @@ public final class PvpProto {
         return this;
       }
 
-      // required int32 zuHeLevel = 10;
-      private int zuHeLevel_ ;
+      // required int32 level = 10;
+      private int level_ ;
       /**
-       * <code>required int32 zuHeLevel = 10;</code>
+       * <code>required int32 level = 10;</code>
+       *
+       * <pre>
+       *玩家等级
+       * </pre>
        */
-      public boolean hasZuHeLevel() {
+      public boolean hasLevel() {
         return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>required int32 zuHeLevel = 10;</code>
-       */
-      public int getZuHeLevel() {
-        return zuHeLevel_;
-      }
-      /**
-       * <code>required int32 zuHeLevel = 10;</code>
-       */
-      public Builder setZuHeLevel(int value) {
-        bitField0_ |= 0x00000200;
-        zuHeLevel_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 zuHeLevel = 10;</code>
-       */
-      public Builder clearZuHeLevel() {
-        bitField0_ = (bitField0_ & ~0x00000200);
-        zuHeLevel_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 level = 11;
-      private int level_ ;
-      /**
-       * <code>required int32 level = 11;</code>
-       */
-      public boolean hasLevel() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
-      }
-      /**
-       * <code>required int32 level = 11;</code>
+       * <code>required int32 level = 10;</code>
+       *
+       * <pre>
+       *玩家等级
+       * </pre>
        */
       public int getLevel() {
         return level_;
       }
       /**
-       * <code>required int32 level = 11;</code>
+       * <code>required int32 level = 10;</code>
+       *
+       * <pre>
+       *玩家等级
+       * </pre>
        */
       public Builder setLevel(int value) {
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000200;
         level_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 level = 11;</code>
+       * <code>required int32 level = 10;</code>
+       *
+       * <pre>
+       *玩家等级
+       * </pre>
        */
       public Builder clearLevel() {
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000200);
         level_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 historyRank = 12;
-      private int historyRank_ ;
-      /**
-       * <code>required int32 historyRank = 12;</code>
-       */
-      public boolean hasHistoryRank() {
-        return ((bitField0_ & 0x00000800) == 0x00000800);
-      }
-      /**
-       * <code>required int32 historyRank = 12;</code>
-       */
-      public int getHistoryRank() {
-        return historyRank_;
-      }
-      /**
-       * <code>required int32 historyRank = 12;</code>
-       */
-      public Builder setHistoryRank(int value) {
-        bitField0_ |= 0x00000800;
-        historyRank_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 historyRank = 12;</code>
-       */
-      public Builder clearHistoryRank() {
-        bitField0_ = (bitField0_ & ~0x00000800);
-        historyRank_ = 0;
         onChanged();
         return this;
       }
@@ -4630,1225 +3837,6 @@ public final class PvpProto {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.OpponentInfo)
   }
 
-  public interface PVPInfoOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 rank = 1;
-    /**
-     * <code>required int32 rank = 1;</code>
-     *
-     * <pre>
-     * 排名
-     * </pre>
-     */
-    boolean hasRank();
-    /**
-     * <code>required int32 rank = 1;</code>
-     *
-     * <pre>
-     * 排名
-     * </pre>
-     */
-    int getRank();
-
-    // required int32 zhanLi = 2;
-    /**
-     * <code>required int32 zhanLi = 2;</code>
-     *
-     * <pre>
-     *  防守阵型战力
-     * </pre>
-     */
-    boolean hasZhanLi();
-    /**
-     * <code>required int32 zhanLi = 2;</code>
-     *
-     * <pre>
-     *  防守阵型战力
-     * </pre>
-     */
-    int getZhanLi();
-
-    // required int32 leftTimes = 3;
-    /**
-     * <code>required int32 leftTimes = 3;</code>
-     *
-     * <pre>
-     * 今日剩余次数
-     * </pre>
-     */
-    boolean hasLeftTimes();
-    /**
-     * <code>required int32 leftTimes = 3;</code>
-     *
-     * <pre>
-     * 今日剩余次数
-     * </pre>
-     */
-    int getLeftTimes();
-
-    // required int32 totalTimes = 4;
-    /**
-     * <code>required int32 totalTimes = 4;</code>
-     *
-     * <pre>
-     * 今日总次数
-     * </pre>
-     */
-    boolean hasTotalTimes();
-    /**
-     * <code>required int32 totalTimes = 4;</code>
-     *
-     * <pre>
-     * 今日总次数
-     * </pre>
-     */
-    int getTotalTimes();
-
-    // required int32 time = 5;
-    /**
-     * <code>required int32 time = 5;</code>
-     *
-     * <pre>
-     * 距离下次挑战剩余时间
-     * </pre>
-     */
-    boolean hasTime();
-    /**
-     * <code>required int32 time = 5;</code>
-     *
-     * <pre>
-     * 距离下次挑战剩余时间
-     * </pre>
-     */
-    int getTime();
-
-    // required int32 baizhanXMLId = 6;
-    /**
-     * <code>required int32 baizhanXMLId = 6;</code>
-     *
-     * <pre>
-     * baizhan.xml的id
-     * </pre>
-     */
-    boolean hasBaizhanXMLId();
-    /**
-     * <code>required int32 baizhanXMLId = 6;</code>
-     *
-     * <pre>
-     * baizhan.xml的id
-     * </pre>
-     */
-    int getBaizhanXMLId();
-
-    // required int32 zuheId = 7;
-    /**
-     * <code>required int32 zuheId = 7;</code>
-     */
-    boolean hasZuheId();
-    /**
-     * <code>required int32 zuheId = 7;</code>
-     */
-    int getZuheId();
-
-    // required int32 historyHighRank = 8;
-    /**
-     * <code>required int32 historyHighRank = 8;</code>
-     */
-    boolean hasHistoryHighRank();
-    /**
-     * <code>required int32 historyHighRank = 8;</code>
-     */
-    int getHistoryHighRank();
-  }
-  /**
-   * Protobuf type {@code qxmobile.protobuf.PVPInfo}
-   */
-  public static final class PVPInfo extends
-      com.google.protobuf.GeneratedMessage
-      implements PVPInfoOrBuilder {
-    // Use PVPInfo.newBuilder() to construct.
-    private PVPInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private PVPInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final PVPInfo defaultInstance;
-    public static PVPInfo getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public PVPInfo getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private PVPInfo(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              rank_ = input.readInt32();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              zhanLi_ = input.readInt32();
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000004;
-              leftTimes_ = input.readInt32();
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000008;
-              totalTimes_ = input.readInt32();
-              break;
-            }
-            case 40: {
-              bitField0_ |= 0x00000010;
-              time_ = input.readInt32();
-              break;
-            }
-            case 48: {
-              bitField0_ |= 0x00000020;
-              baizhanXMLId_ = input.readInt32();
-              break;
-            }
-            case 56: {
-              bitField0_ |= 0x00000040;
-              zuheId_ = input.readInt32();
-              break;
-            }
-            case 64: {
-              bitField0_ |= 0x00000080;
-              historyHighRank_ = input.readInt32();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return qxmobile.protobuf.PvpProto.internal_static_qxmobile_protobuf_PVPInfo_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.PvpProto.internal_static_qxmobile_protobuf_PVPInfo_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.PvpProto.PVPInfo.class, qxmobile.protobuf.PvpProto.PVPInfo.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<PVPInfo> PARSER =
-        new com.google.protobuf.AbstractParser<PVPInfo>() {
-      public PVPInfo parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PVPInfo(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<PVPInfo> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 rank = 1;
-    public static final int RANK_FIELD_NUMBER = 1;
-    private int rank_;
-    /**
-     * <code>required int32 rank = 1;</code>
-     *
-     * <pre>
-     * 排名
-     * </pre>
-     */
-    public boolean hasRank() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 rank = 1;</code>
-     *
-     * <pre>
-     * 排名
-     * </pre>
-     */
-    public int getRank() {
-      return rank_;
-    }
-
-    // required int32 zhanLi = 2;
-    public static final int ZHANLI_FIELD_NUMBER = 2;
-    private int zhanLi_;
-    /**
-     * <code>required int32 zhanLi = 2;</code>
-     *
-     * <pre>
-     *  防守阵型战力
-     * </pre>
-     */
-    public boolean hasZhanLi() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required int32 zhanLi = 2;</code>
-     *
-     * <pre>
-     *  防守阵型战力
-     * </pre>
-     */
-    public int getZhanLi() {
-      return zhanLi_;
-    }
-
-    // required int32 leftTimes = 3;
-    public static final int LEFTTIMES_FIELD_NUMBER = 3;
-    private int leftTimes_;
-    /**
-     * <code>required int32 leftTimes = 3;</code>
-     *
-     * <pre>
-     * 今日剩余次数
-     * </pre>
-     */
-    public boolean hasLeftTimes() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>required int32 leftTimes = 3;</code>
-     *
-     * <pre>
-     * 今日剩余次数
-     * </pre>
-     */
-    public int getLeftTimes() {
-      return leftTimes_;
-    }
-
-    // required int32 totalTimes = 4;
-    public static final int TOTALTIMES_FIELD_NUMBER = 4;
-    private int totalTimes_;
-    /**
-     * <code>required int32 totalTimes = 4;</code>
-     *
-     * <pre>
-     * 今日总次数
-     * </pre>
-     */
-    public boolean hasTotalTimes() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>required int32 totalTimes = 4;</code>
-     *
-     * <pre>
-     * 今日总次数
-     * </pre>
-     */
-    public int getTotalTimes() {
-      return totalTimes_;
-    }
-
-    // required int32 time = 5;
-    public static final int TIME_FIELD_NUMBER = 5;
-    private int time_;
-    /**
-     * <code>required int32 time = 5;</code>
-     *
-     * <pre>
-     * 距离下次挑战剩余时间
-     * </pre>
-     */
-    public boolean hasTime() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
-    }
-    /**
-     * <code>required int32 time = 5;</code>
-     *
-     * <pre>
-     * 距离下次挑战剩余时间
-     * </pre>
-     */
-    public int getTime() {
-      return time_;
-    }
-
-    // required int32 baizhanXMLId = 6;
-    public static final int BAIZHANXMLID_FIELD_NUMBER = 6;
-    private int baizhanXMLId_;
-    /**
-     * <code>required int32 baizhanXMLId = 6;</code>
-     *
-     * <pre>
-     * baizhan.xml的id
-     * </pre>
-     */
-    public boolean hasBaizhanXMLId() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
-    }
-    /**
-     * <code>required int32 baizhanXMLId = 6;</code>
-     *
-     * <pre>
-     * baizhan.xml的id
-     * </pre>
-     */
-    public int getBaizhanXMLId() {
-      return baizhanXMLId_;
-    }
-
-    // required int32 zuheId = 7;
-    public static final int ZUHEID_FIELD_NUMBER = 7;
-    private int zuheId_;
-    /**
-     * <code>required int32 zuheId = 7;</code>
-     */
-    public boolean hasZuheId() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
-    }
-    /**
-     * <code>required int32 zuheId = 7;</code>
-     */
-    public int getZuheId() {
-      return zuheId_;
-    }
-
-    // required int32 historyHighRank = 8;
-    public static final int HISTORYHIGHRANK_FIELD_NUMBER = 8;
-    private int historyHighRank_;
-    /**
-     * <code>required int32 historyHighRank = 8;</code>
-     */
-    public boolean hasHistoryHighRank() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
-    }
-    /**
-     * <code>required int32 historyHighRank = 8;</code>
-     */
-    public int getHistoryHighRank() {
-      return historyHighRank_;
-    }
-
-    private void initFields() {
-      rank_ = 0;
-      zhanLi_ = 0;
-      leftTimes_ = 0;
-      totalTimes_ = 0;
-      time_ = 0;
-      baizhanXMLId_ = 0;
-      zuheId_ = 0;
-      historyHighRank_ = 0;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasRank()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasZhanLi()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasLeftTimes()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasTotalTimes()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasTime()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasBaizhanXMLId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasZuheId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasHistoryHighRank()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, rank_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, zhanLi_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, leftTimes_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(4, totalTimes_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeInt32(5, time_);
-      }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeInt32(6, baizhanXMLId_);
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeInt32(7, zuheId_);
-      }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        output.writeInt32(8, historyHighRank_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, rank_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, zhanLi_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, leftTimes_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, totalTimes_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, time_);
-      }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(6, baizhanXMLId_);
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(7, zuheId_);
-      }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(8, historyHighRank_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static qxmobile.protobuf.PvpProto.PVPInfo parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.PvpProto.PVPInfo parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.PvpProto.PVPInfo parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.PvpProto.PVPInfo parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.PvpProto.PVPInfo parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.PvpProto.PVPInfo parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.PvpProto.PVPInfo parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static qxmobile.protobuf.PvpProto.PVPInfo parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.PvpProto.PVPInfo parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.PvpProto.PVPInfo parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.PvpProto.PVPInfo prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code qxmobile.protobuf.PVPInfo}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.PvpProto.PVPInfoOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return qxmobile.protobuf.PvpProto.internal_static_qxmobile_protobuf_PVPInfo_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.PvpProto.internal_static_qxmobile_protobuf_PVPInfo_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.PvpProto.PVPInfo.class, qxmobile.protobuf.PvpProto.PVPInfo.Builder.class);
-      }
-
-      // Construct using qxmobile.protobuf.PvpProto.PVPInfo.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        rank_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        zhanLi_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        leftTimes_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        totalTimes_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        time_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000010);
-        baizhanXMLId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000020);
-        zuheId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000040);
-        historyHighRank_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000080);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return qxmobile.protobuf.PvpProto.internal_static_qxmobile_protobuf_PVPInfo_descriptor;
-      }
-
-      public qxmobile.protobuf.PvpProto.PVPInfo getDefaultInstanceForType() {
-        return qxmobile.protobuf.PvpProto.PVPInfo.getDefaultInstance();
-      }
-
-      public qxmobile.protobuf.PvpProto.PVPInfo build() {
-        qxmobile.protobuf.PvpProto.PVPInfo result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public qxmobile.protobuf.PvpProto.PVPInfo buildPartial() {
-        qxmobile.protobuf.PvpProto.PVPInfo result = new qxmobile.protobuf.PvpProto.PVPInfo(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.rank_ = rank_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.zhanLi_ = zhanLi_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.leftTimes_ = leftTimes_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.totalTimes_ = totalTimes_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000010;
-        }
-        result.time_ = time_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
-          to_bitField0_ |= 0x00000020;
-        }
-        result.baizhanXMLId_ = baizhanXMLId_;
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
-          to_bitField0_ |= 0x00000040;
-        }
-        result.zuheId_ = zuheId_;
-        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
-          to_bitField0_ |= 0x00000080;
-        }
-        result.historyHighRank_ = historyHighRank_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.PvpProto.PVPInfo) {
-          return mergeFrom((qxmobile.protobuf.PvpProto.PVPInfo)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(qxmobile.protobuf.PvpProto.PVPInfo other) {
-        if (other == qxmobile.protobuf.PvpProto.PVPInfo.getDefaultInstance()) return this;
-        if (other.hasRank()) {
-          setRank(other.getRank());
-        }
-        if (other.hasZhanLi()) {
-          setZhanLi(other.getZhanLi());
-        }
-        if (other.hasLeftTimes()) {
-          setLeftTimes(other.getLeftTimes());
-        }
-        if (other.hasTotalTimes()) {
-          setTotalTimes(other.getTotalTimes());
-        }
-        if (other.hasTime()) {
-          setTime(other.getTime());
-        }
-        if (other.hasBaizhanXMLId()) {
-          setBaizhanXMLId(other.getBaizhanXMLId());
-        }
-        if (other.hasZuheId()) {
-          setZuheId(other.getZuheId());
-        }
-        if (other.hasHistoryHighRank()) {
-          setHistoryHighRank(other.getHistoryHighRank());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasRank()) {
-          
-          return false;
-        }
-        if (!hasZhanLi()) {
-          
-          return false;
-        }
-        if (!hasLeftTimes()) {
-          
-          return false;
-        }
-        if (!hasTotalTimes()) {
-          
-          return false;
-        }
-        if (!hasTime()) {
-          
-          return false;
-        }
-        if (!hasBaizhanXMLId()) {
-          
-          return false;
-        }
-        if (!hasZuheId()) {
-          
-          return false;
-        }
-        if (!hasHistoryHighRank()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        qxmobile.protobuf.PvpProto.PVPInfo parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.PvpProto.PVPInfo) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 rank = 1;
-      private int rank_ ;
-      /**
-       * <code>required int32 rank = 1;</code>
-       *
-       * <pre>
-       * 排名
-       * </pre>
-       */
-      public boolean hasRank() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 rank = 1;</code>
-       *
-       * <pre>
-       * 排名
-       * </pre>
-       */
-      public int getRank() {
-        return rank_;
-      }
-      /**
-       * <code>required int32 rank = 1;</code>
-       *
-       * <pre>
-       * 排名
-       * </pre>
-       */
-      public Builder setRank(int value) {
-        bitField0_ |= 0x00000001;
-        rank_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 rank = 1;</code>
-       *
-       * <pre>
-       * 排名
-       * </pre>
-       */
-      public Builder clearRank() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        rank_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 zhanLi = 2;
-      private int zhanLi_ ;
-      /**
-       * <code>required int32 zhanLi = 2;</code>
-       *
-       * <pre>
-       *  防守阵型战力
-       * </pre>
-       */
-      public boolean hasZhanLi() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required int32 zhanLi = 2;</code>
-       *
-       * <pre>
-       *  防守阵型战力
-       * </pre>
-       */
-      public int getZhanLi() {
-        return zhanLi_;
-      }
-      /**
-       * <code>required int32 zhanLi = 2;</code>
-       *
-       * <pre>
-       *  防守阵型战力
-       * </pre>
-       */
-      public Builder setZhanLi(int value) {
-        bitField0_ |= 0x00000002;
-        zhanLi_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 zhanLi = 2;</code>
-       *
-       * <pre>
-       *  防守阵型战力
-       * </pre>
-       */
-      public Builder clearZhanLi() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        zhanLi_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 leftTimes = 3;
-      private int leftTimes_ ;
-      /**
-       * <code>required int32 leftTimes = 3;</code>
-       *
-       * <pre>
-       * 今日剩余次数
-       * </pre>
-       */
-      public boolean hasLeftTimes() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>required int32 leftTimes = 3;</code>
-       *
-       * <pre>
-       * 今日剩余次数
-       * </pre>
-       */
-      public int getLeftTimes() {
-        return leftTimes_;
-      }
-      /**
-       * <code>required int32 leftTimes = 3;</code>
-       *
-       * <pre>
-       * 今日剩余次数
-       * </pre>
-       */
-      public Builder setLeftTimes(int value) {
-        bitField0_ |= 0x00000004;
-        leftTimes_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 leftTimes = 3;</code>
-       *
-       * <pre>
-       * 今日剩余次数
-       * </pre>
-       */
-      public Builder clearLeftTimes() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        leftTimes_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 totalTimes = 4;
-      private int totalTimes_ ;
-      /**
-       * <code>required int32 totalTimes = 4;</code>
-       *
-       * <pre>
-       * 今日总次数
-       * </pre>
-       */
-      public boolean hasTotalTimes() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>required int32 totalTimes = 4;</code>
-       *
-       * <pre>
-       * 今日总次数
-       * </pre>
-       */
-      public int getTotalTimes() {
-        return totalTimes_;
-      }
-      /**
-       * <code>required int32 totalTimes = 4;</code>
-       *
-       * <pre>
-       * 今日总次数
-       * </pre>
-       */
-      public Builder setTotalTimes(int value) {
-        bitField0_ |= 0x00000008;
-        totalTimes_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 totalTimes = 4;</code>
-       *
-       * <pre>
-       * 今日总次数
-       * </pre>
-       */
-      public Builder clearTotalTimes() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        totalTimes_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 time = 5;
-      private int time_ ;
-      /**
-       * <code>required int32 time = 5;</code>
-       *
-       * <pre>
-       * 距离下次挑战剩余时间
-       * </pre>
-       */
-      public boolean hasTime() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>required int32 time = 5;</code>
-       *
-       * <pre>
-       * 距离下次挑战剩余时间
-       * </pre>
-       */
-      public int getTime() {
-        return time_;
-      }
-      /**
-       * <code>required int32 time = 5;</code>
-       *
-       * <pre>
-       * 距离下次挑战剩余时间
-       * </pre>
-       */
-      public Builder setTime(int value) {
-        bitField0_ |= 0x00000010;
-        time_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 time = 5;</code>
-       *
-       * <pre>
-       * 距离下次挑战剩余时间
-       * </pre>
-       */
-      public Builder clearTime() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        time_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 baizhanXMLId = 6;
-      private int baizhanXMLId_ ;
-      /**
-       * <code>required int32 baizhanXMLId = 6;</code>
-       *
-       * <pre>
-       * baizhan.xml的id
-       * </pre>
-       */
-      public boolean hasBaizhanXMLId() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
-      }
-      /**
-       * <code>required int32 baizhanXMLId = 6;</code>
-       *
-       * <pre>
-       * baizhan.xml的id
-       * </pre>
-       */
-      public int getBaizhanXMLId() {
-        return baizhanXMLId_;
-      }
-      /**
-       * <code>required int32 baizhanXMLId = 6;</code>
-       *
-       * <pre>
-       * baizhan.xml的id
-       * </pre>
-       */
-      public Builder setBaizhanXMLId(int value) {
-        bitField0_ |= 0x00000020;
-        baizhanXMLId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 baizhanXMLId = 6;</code>
-       *
-       * <pre>
-       * baizhan.xml的id
-       * </pre>
-       */
-      public Builder clearBaizhanXMLId() {
-        bitField0_ = (bitField0_ & ~0x00000020);
-        baizhanXMLId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 zuheId = 7;
-      private int zuheId_ ;
-      /**
-       * <code>required int32 zuheId = 7;</code>
-       */
-      public boolean hasZuheId() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
-      }
-      /**
-       * <code>required int32 zuheId = 7;</code>
-       */
-      public int getZuheId() {
-        return zuheId_;
-      }
-      /**
-       * <code>required int32 zuheId = 7;</code>
-       */
-      public Builder setZuheId(int value) {
-        bitField0_ |= 0x00000040;
-        zuheId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 zuheId = 7;</code>
-       */
-      public Builder clearZuheId() {
-        bitField0_ = (bitField0_ & ~0x00000040);
-        zuheId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 historyHighRank = 8;
-      private int historyHighRank_ ;
-      /**
-       * <code>required int32 historyHighRank = 8;</code>
-       */
-      public boolean hasHistoryHighRank() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
-      }
-      /**
-       * <code>required int32 historyHighRank = 8;</code>
-       */
-      public int getHistoryHighRank() {
-        return historyHighRank_;
-      }
-      /**
-       * <code>required int32 historyHighRank = 8;</code>
-       */
-      public Builder setHistoryHighRank(int value) {
-        bitField0_ |= 0x00000080;
-        historyHighRank_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 historyHighRank = 8;</code>
-       */
-      public Builder clearHistoryHighRank() {
-        bitField0_ = (bitField0_ & ~0x00000080);
-        historyHighRank_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.PVPInfo)
-    }
-
-    static {
-      defaultInstance = new PVPInfo(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.PVPInfo)
-  }
-
   public interface ChallengeReqOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -5857,7 +3845,7 @@ public final class PvpProto {
      * <code>required int64 oppoJunZhuId = 1;</code>
      *
      * <pre>
-     * 挑战对方的君主id
+     * 挑战目标君主id
      * </pre>
      */
     boolean hasOppoJunZhuId();
@@ -5865,16 +3853,52 @@ public final class PvpProto {
      * <code>required int64 oppoJunZhuId = 1;</code>
      *
      * <pre>
-     * 挑战对方的君主id
+     * 挑战目标君主id
      * </pre>
      */
     long getOppoJunZhuId();
+
+    // required int32 oppoJunzhuRank = 2;
+    /**
+     * <code>required int32 oppoJunzhuRank = 2;</code>
+     *
+     * <pre>
+     *挑战目标君主排名
+     * </pre>
+     */
+    boolean hasOppoJunzhuRank();
+    /**
+     * <code>required int32 oppoJunzhuRank = 2;</code>
+     *
+     * <pre>
+     *挑战目标君主排名
+     * </pre>
+     */
+    int getOppoJunzhuRank();
+
+    // required int32 type = 3;
+    /**
+     * <code>required int32 type = 3;</code>
+     *
+     * <pre>
+     *挑战类型,请求对战列表为1，请求进入战斗为2
+     * </pre>
+     */
+    boolean hasType();
+    /**
+     * <code>required int32 type = 3;</code>
+     *
+     * <pre>
+     *挑战类型,请求对战列表为1，请求进入战斗为2
+     * </pre>
+     */
+    int getType();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ChallengeReq}
    *
    * <pre>
-   *	请求 挑战
+   *C to S	请求 挑战
    * </pre>
    */
   public static final class ChallengeReq extends
@@ -5930,6 +3954,16 @@ public final class PvpProto {
               oppoJunZhuId_ = input.readInt64();
               break;
             }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              oppoJunzhuRank_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              type_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -5977,7 +4011,7 @@ public final class PvpProto {
      * <code>required int64 oppoJunZhuId = 1;</code>
      *
      * <pre>
-     * 挑战对方的君主id
+     * 挑战目标君主id
      * </pre>
      */
     public boolean hasOppoJunZhuId() {
@@ -5987,15 +4021,65 @@ public final class PvpProto {
      * <code>required int64 oppoJunZhuId = 1;</code>
      *
      * <pre>
-     * 挑战对方的君主id
+     * 挑战目标君主id
      * </pre>
      */
     public long getOppoJunZhuId() {
       return oppoJunZhuId_;
     }
 
+    // required int32 oppoJunzhuRank = 2;
+    public static final int OPPOJUNZHURANK_FIELD_NUMBER = 2;
+    private int oppoJunzhuRank_;
+    /**
+     * <code>required int32 oppoJunzhuRank = 2;</code>
+     *
+     * <pre>
+     *挑战目标君主排名
+     * </pre>
+     */
+    public boolean hasOppoJunzhuRank() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 oppoJunzhuRank = 2;</code>
+     *
+     * <pre>
+     *挑战目标君主排名
+     * </pre>
+     */
+    public int getOppoJunzhuRank() {
+      return oppoJunzhuRank_;
+    }
+
+    // required int32 type = 3;
+    public static final int TYPE_FIELD_NUMBER = 3;
+    private int type_;
+    /**
+     * <code>required int32 type = 3;</code>
+     *
+     * <pre>
+     *挑战类型,请求对战列表为1，请求进入战斗为2
+     * </pre>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 type = 3;</code>
+     *
+     * <pre>
+     *挑战类型,请求对战列表为1，请求进入战斗为2
+     * </pre>
+     */
+    public int getType() {
+      return type_;
+    }
+
     private void initFields() {
       oppoJunZhuId_ = 0L;
+      oppoJunzhuRank_ = 0;
+      type_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6003,6 +4087,14 @@ public final class PvpProto {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasOppoJunZhuId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasOppoJunzhuRank()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasType()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -6016,6 +4108,12 @@ public final class PvpProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt64(1, oppoJunZhuId_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, oppoJunzhuRank_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, type_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -6028,6 +4126,14 @@ public final class PvpProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, oppoJunZhuId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, oppoJunzhuRank_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, type_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6111,7 +4217,7 @@ public final class PvpProto {
      * Protobuf type {@code qxmobile.protobuf.ChallengeReq}
      *
      * <pre>
-     *	请求 挑战
+     *C to S	请求 挑战
      * </pre>
      */
     public static final class Builder extends
@@ -6151,6 +4257,10 @@ public final class PvpProto {
         super.clear();
         oppoJunZhuId_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000001);
+        oppoJunzhuRank_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        type_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -6183,6 +4293,14 @@ public final class PvpProto {
           to_bitField0_ |= 0x00000001;
         }
         result.oppoJunZhuId_ = oppoJunZhuId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.oppoJunzhuRank_ = oppoJunzhuRank_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.type_ = type_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6202,12 +4320,26 @@ public final class PvpProto {
         if (other.hasOppoJunZhuId()) {
           setOppoJunZhuId(other.getOppoJunZhuId());
         }
+        if (other.hasOppoJunzhuRank()) {
+          setOppoJunzhuRank(other.getOppoJunzhuRank());
+        }
+        if (other.hasType()) {
+          setType(other.getType());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasOppoJunZhuId()) {
+          
+          return false;
+        }
+        if (!hasOppoJunzhuRank()) {
+          
+          return false;
+        }
+        if (!hasType()) {
           
           return false;
         }
@@ -6239,7 +4371,7 @@ public final class PvpProto {
        * <code>required int64 oppoJunZhuId = 1;</code>
        *
        * <pre>
-       * 挑战对方的君主id
+       * 挑战目标君主id
        * </pre>
        */
       public boolean hasOppoJunZhuId() {
@@ -6249,7 +4381,7 @@ public final class PvpProto {
        * <code>required int64 oppoJunZhuId = 1;</code>
        *
        * <pre>
-       * 挑战对方的君主id
+       * 挑战目标君主id
        * </pre>
        */
       public long getOppoJunZhuId() {
@@ -6259,7 +4391,7 @@ public final class PvpProto {
        * <code>required int64 oppoJunZhuId = 1;</code>
        *
        * <pre>
-       * 挑战对方的君主id
+       * 挑战目标君主id
        * </pre>
        */
       public Builder setOppoJunZhuId(long value) {
@@ -6272,12 +4404,110 @@ public final class PvpProto {
        * <code>required int64 oppoJunZhuId = 1;</code>
        *
        * <pre>
-       * 挑战对方的君主id
+       * 挑战目标君主id
        * </pre>
        */
       public Builder clearOppoJunZhuId() {
         bitField0_ = (bitField0_ & ~0x00000001);
         oppoJunZhuId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // required int32 oppoJunzhuRank = 2;
+      private int oppoJunzhuRank_ ;
+      /**
+       * <code>required int32 oppoJunzhuRank = 2;</code>
+       *
+       * <pre>
+       *挑战目标君主排名
+       * </pre>
+       */
+      public boolean hasOppoJunzhuRank() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 oppoJunzhuRank = 2;</code>
+       *
+       * <pre>
+       *挑战目标君主排名
+       * </pre>
+       */
+      public int getOppoJunzhuRank() {
+        return oppoJunzhuRank_;
+      }
+      /**
+       * <code>required int32 oppoJunzhuRank = 2;</code>
+       *
+       * <pre>
+       *挑战目标君主排名
+       * </pre>
+       */
+      public Builder setOppoJunzhuRank(int value) {
+        bitField0_ |= 0x00000002;
+        oppoJunzhuRank_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 oppoJunzhuRank = 2;</code>
+       *
+       * <pre>
+       *挑战目标君主排名
+       * </pre>
+       */
+      public Builder clearOppoJunzhuRank() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        oppoJunzhuRank_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 type = 3;
+      private int type_ ;
+      /**
+       * <code>required int32 type = 3;</code>
+       *
+       * <pre>
+       *挑战类型,请求对战列表为1，请求进入战斗为2
+       * </pre>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 type = 3;</code>
+       *
+       * <pre>
+       *挑战类型,请求对战列表为1，请求进入战斗为2
+       * </pre>
+       */
+      public int getType() {
+        return type_;
+      }
+      /**
+       * <code>required int32 type = 3;</code>
+       *
+       * <pre>
+       *挑战类型,请求对战列表为1，请求进入战斗为2
+       * </pre>
+       */
+      public Builder setType(int value) {
+        bitField0_ |= 0x00000004;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 type = 3;</code>
+       *
+       * <pre>
+       *挑战类型,请求对战列表为1，请求进入战斗为2
+       * </pre>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        type_ = 0;
         onChanged();
         return this;
       }
@@ -6296,9 +4526,43 @@ public final class PvpProto {
   public interface ChallengeRespOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;
+    // required int32 type = 1;
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *type = 1 可以挑战
+     *type = 2 挑战中
+     *type = 3 君主等级不足，
+     *type = 4 今日挑战机会已经用完 
+     *type = 5 挑战CD没有结束 
+     *type = 6 数据出错
+     *type = 7 对手名次已经变；
+     *type = 8自己的名次变了 ;
+     *type = 9玩家排名不足以挑战目标
+     * </pre>
+     */
+    boolean hasType();
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *type = 1 可以挑战
+     *type = 2 挑战中
+     *type = 3 君主等级不足，
+     *type = 4 今日挑战机会已经用完 
+     *type = 5 挑战CD没有结束 
+     *type = 6 数据出错
+     *type = 7 对手名次已经变；
+     *type = 8自己的名次变了 ;
+     *type = 9玩家排名不足以挑战目标
+     * </pre>
+     */
+    int getType();
+
+    // repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;
+    /**
+     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
      *
      * <pre>
      * 己方佣兵队列
@@ -6307,7 +4571,7 @@ public final class PvpProto {
     java.util.List<qxmobile.protobuf.PvpProto.GuYongBing> 
         getMySoldiersList();
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
      *
      * <pre>
      * 己方佣兵队列
@@ -6315,7 +4579,7 @@ public final class PvpProto {
      */
     qxmobile.protobuf.PvpProto.GuYongBing getMySoldiers(int index);
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
      *
      * <pre>
      * 己方佣兵队列
@@ -6323,7 +4587,7 @@ public final class PvpProto {
      */
     int getMySoldiersCount();
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
      *
      * <pre>
      * 己方佣兵队列
@@ -6332,7 +4596,7 @@ public final class PvpProto {
     java.util.List<? extends qxmobile.protobuf.PvpProto.GuYongBingOrBuilder> 
         getMySoldiersOrBuilderList();
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
      *
      * <pre>
      * 己方佣兵队列
@@ -6341,9 +4605,9 @@ public final class PvpProto {
     qxmobile.protobuf.PvpProto.GuYongBingOrBuilder getMySoldiersOrBuilder(
         int index);
 
-    // required int32 myZhanli = 2;
+    // optional int32 myZhanli = 3;
     /**
-     * <code>required int32 myZhanli = 2;</code>
+     * <code>optional int32 myZhanli = 3;</code>
      *
      * <pre>
      * 己方战力
@@ -6351,7 +4615,7 @@ public final class PvpProto {
      */
     boolean hasMyZhanli();
     /**
-     * <code>required int32 myZhanli = 2;</code>
+     * <code>optional int32 myZhanli = 3;</code>
      *
      * <pre>
      * 己方战力
@@ -6359,9 +4623,9 @@ public final class PvpProto {
      */
     int getMyZhanli();
 
-    // repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;
+    // repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
      *
      * <pre>
      * 对方佣兵队列
@@ -6370,7 +4634,7 @@ public final class PvpProto {
     java.util.List<qxmobile.protobuf.PvpProto.GuYongBing> 
         getOppoSoldiersList();
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
      *
      * <pre>
      * 对方佣兵队列
@@ -6378,7 +4642,7 @@ public final class PvpProto {
      */
     qxmobile.protobuf.PvpProto.GuYongBing getOppoSoldiers(int index);
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
      *
      * <pre>
      * 对方佣兵队列
@@ -6386,7 +4650,7 @@ public final class PvpProto {
      */
     int getOppoSoldiersCount();
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
      *
      * <pre>
      * 对方佣兵队列
@@ -6395,7 +4659,7 @@ public final class PvpProto {
     java.util.List<? extends qxmobile.protobuf.PvpProto.GuYongBingOrBuilder> 
         getOppoSoldiersOrBuilderList();
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
      *
      * <pre>
      * 对方佣兵队列
@@ -6404,9 +4668,9 @@ public final class PvpProto {
     qxmobile.protobuf.PvpProto.GuYongBingOrBuilder getOppoSoldiersOrBuilder(
         int index);
 
-    // required int32 oppoZhanli = 4;
+    // optional int32 oppoZhanli = 5;
     /**
-     * <code>required int32 oppoZhanli = 4;</code>
+     * <code>optional int32 oppoZhanli = 5;</code>
      *
      * <pre>
      * 对方战力
@@ -6414,7 +4678,7 @@ public final class PvpProto {
      */
     boolean hasOppoZhanli();
     /**
-     * <code>required int32 oppoZhanli = 4;</code>
+     * <code>optional int32 oppoZhanli = 5;</code>
      *
      * <pre>
      * 对方战力
@@ -6422,121 +4686,218 @@ public final class PvpProto {
      */
     int getOppoZhanli();
 
-    // optional int64 openTime = 5;
-    /**
-     * <code>optional int64 openTime = 5;</code>
-     *
-     * <pre>
-     *以下六个个字段一般的只为服务器记录战斗记录所用
-     * 挑战时间
-     * </pre>
-     */
-    boolean hasOpenTime();
-    /**
-     * <code>optional int64 openTime = 5;</code>
-     *
-     * <pre>
-     *以下六个个字段一般的只为服务器记录战斗记录所用
-     * 挑战时间
-     * </pre>
-     */
-    long getOpenTime();
-
     // optional int32 myLevel = 6;
     /**
      * <code>optional int32 myLevel = 6;</code>
+     *
+     * <pre>
+     *己方等级
+     * </pre>
      */
     boolean hasMyLevel();
     /**
      * <code>optional int32 myLevel = 6;</code>
+     *
+     * <pre>
+     *己方等级
+     * </pre>
      */
     int getMyLevel();
 
     // optional int32 oppoLevel = 7;
     /**
      * <code>optional int32 oppoLevel = 7;</code>
+     *
+     * <pre>
+     *对方等级
+     * </pre>
      */
     boolean hasOppoLevel();
     /**
      * <code>optional int32 oppoLevel = 7;</code>
+     *
+     * <pre>
+     *对方等级
+     * </pre>
      */
     int getOppoLevel();
 
-    // required int64 oppoId = 8;
+    // optional int32 oppoRoleId = 8;
     /**
-     * <code>required int64 oppoId = 8;</code>
-     */
-    boolean hasOppoId();
-    /**
-     * <code>required int64 oppoId = 8;</code>
-     */
-    long getOppoId();
-
-    // optional int32 myRank = 9;
-    /**
-     * <code>optional int32 myRank = 9;</code>
-     */
-    boolean hasMyRank();
-    /**
-     * <code>optional int32 myRank = 9;</code>
-     */
-    int getMyRank();
-
-    // required int32 oppoRank = 10;
-    /**
-     * <code>required int32 oppoRank = 10;</code>
-     */
-    boolean hasOppoRank();
-    /**
-     * <code>required int32 oppoRank = 10;</code>
-     */
-    int getOppoRank();
-
-    // required int32 oppoRoleId = 11;
-    /**
-     * <code>required int32 oppoRoleId = 11;</code>
+     * <code>optional int32 oppoRoleId = 8;</code>
+     *
+     * <pre>
+     *对方职业id
+     * </pre>
      */
     boolean hasOppoRoleId();
     /**
-     * <code>required int32 oppoRoleId = 11;</code>
+     * <code>optional int32 oppoRoleId = 8;</code>
+     *
+     * <pre>
+     *对方职业id
+     * </pre>
      */
     int getOppoRoleId();
 
-    // required int32 myZuheId = 12;
+    // optional int32 myZuheId = 9;
     /**
-     * <code>required int32 myZuheId = 12;</code>
+     * <code>optional int32 myZuheId = 9;</code>
+     *
+     * <pre>
+     *我的秘宝技能
+     * </pre>
      */
     boolean hasMyZuheId();
     /**
-     * <code>required int32 myZuheId = 12;</code>
+     * <code>optional int32 myZuheId = 9;</code>
+     *
+     * <pre>
+     *我的秘宝技能
+     * </pre>
      */
     int getMyZuheId();
 
-    // required int32 oppZuheId = 13;
+    // optional int32 oppZuheId = 10;
     /**
-     * <code>required int32 oppZuheId = 13;</code>
+     * <code>optional int32 oppZuheId = 10;</code>
+     *
+     * <pre>
+     *对方秘宝技能
+     * </pre>
      */
     boolean hasOppZuheId();
     /**
-     * <code>required int32 oppZuheId = 13;</code>
+     * <code>optional int32 oppZuheId = 10;</code>
+     *
+     * <pre>
+     *对方秘宝技能
+     * </pre>
      */
     int getOppZuheId();
 
-    // required int32 oppZuHeLevel = 14;
+    // optional int64 openTime = 14;
     /**
-     * <code>required int32 oppZuHeLevel = 14;</code>
+     * <code>optional int64 openTime = 14;</code>
+     *
+     * <pre>
+     * 挑战时间
+     * </pre>
      */
-    boolean hasOppZuHeLevel();
+    boolean hasOpenTime();
     /**
-     * <code>required int32 oppZuHeLevel = 14;</code>
+     * <code>optional int64 openTime = 14;</code>
+     *
+     * <pre>
+     * 挑战时间
+     * </pre>
      */
-    int getOppZuHeLevel();
+    long getOpenTime();
+
+    // optional int64 oppoId = 11;
+    /**
+     * <code>optional int64 oppoId = 11;</code>
+     *
+     * <pre>
+     *战斗结算用消息	
+     * </pre>
+     */
+    boolean hasOppoId();
+    /**
+     * <code>optional int64 oppoId = 11;</code>
+     *
+     * <pre>
+     *战斗结算用消息	
+     * </pre>
+     */
+    long getOppoId();
+
+    // optional int32 myRank = 12;
+    /**
+     * <code>optional int32 myRank = 12;</code>
+     *
+     * <pre>
+     *我的排名，用于战斗结束后客户端发送结算消息
+     * </pre>
+     */
+    boolean hasMyRank();
+    /**
+     * <code>optional int32 myRank = 12;</code>
+     *
+     * <pre>
+     *我的排名，用于战斗结束后客户端发送结算消息
+     * </pre>
+     */
+    int getMyRank();
+
+    // optional int32 oppoRank = 13;
+    /**
+     * <code>optional int32 oppoRank = 13;</code>
+     *
+     * <pre>
+     *敌方排名,用于战斗结客户端束后发送结算消息
+     * </pre>
+     */
+    boolean hasOppoRank();
+    /**
+     * <code>optional int32 oppoRank = 13;</code>
+     *
+     * <pre>
+     *敌方排名,用于战斗结客户端束后发送结算消息
+     * </pre>
+     */
+    int getOppoRank();
+
+    // repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;
+    /**
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+     *
+     * <pre>
+     *当type为7时发送刷新列表
+     * </pre>
+     */
+    java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> 
+        getOppoListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+     *
+     * <pre>
+     *当type为7时发送刷新列表
+     * </pre>
+     */
+    qxmobile.protobuf.PvpProto.OpponentInfo getOppoList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+     *
+     * <pre>
+     *当type为7时发送刷新列表
+     * </pre>
+     */
+    int getOppoListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+     *
+     * <pre>
+     *当type为7时发送刷新列表
+     * </pre>
+     */
+    java.util.List<? extends qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> 
+        getOppoListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+     *
+     * <pre>
+     *当type为7时发送刷新列表
+     * </pre>
+     */
+    qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder getOppoListOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ChallengeResp}
    *
    * <pre>
-   * 响应 挑战
+   *S to C	响应 挑战
    * </pre>
    */
   public static final class ChallengeResp extends
@@ -6587,35 +4948,35 @@ public final class PvpProto {
               }
               break;
             }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+            case 8: {
+              bitField0_ |= 0x00000001;
+              type_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
                 mySoldiers_ = new java.util.ArrayList<qxmobile.protobuf.PvpProto.GuYongBing>();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000002;
               }
               mySoldiers_.add(input.readMessage(qxmobile.protobuf.PvpProto.GuYongBing.PARSER, extensionRegistry));
               break;
             }
-            case 16: {
-              bitField0_ |= 0x00000001;
+            case 24: {
+              bitField0_ |= 0x00000002;
               myZhanli_ = input.readInt32();
               break;
             }
-            case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
                 oppoSoldiers_ = new java.util.ArrayList<qxmobile.protobuf.PvpProto.GuYongBing>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000008;
               }
               oppoSoldiers_.add(input.readMessage(qxmobile.protobuf.PvpProto.GuYongBing.PARSER, extensionRegistry));
               break;
             }
-            case 32: {
-              bitField0_ |= 0x00000002;
-              oppoZhanli_ = input.readInt32();
-              break;
-            }
             case 40: {
               bitField0_ |= 0x00000004;
-              openTime_ = input.readInt64();
+              oppoZhanli_ = input.readInt32();
               break;
             }
             case 48: {
@@ -6630,37 +4991,45 @@ public final class PvpProto {
             }
             case 64: {
               bitField0_ |= 0x00000020;
-              oppoId_ = input.readInt64();
+              oppoRoleId_ = input.readInt32();
               break;
             }
             case 72: {
               bitField0_ |= 0x00000040;
-              myRank_ = input.readInt32();
+              myZuheId_ = input.readInt32();
               break;
             }
             case 80: {
               bitField0_ |= 0x00000080;
-              oppoRank_ = input.readInt32();
-              break;
-            }
-            case 88: {
-              bitField0_ |= 0x00000100;
-              oppoRoleId_ = input.readInt32();
-              break;
-            }
-            case 96: {
-              bitField0_ |= 0x00000200;
-              myZuheId_ = input.readInt32();
-              break;
-            }
-            case 104: {
-              bitField0_ |= 0x00000400;
               oppZuheId_ = input.readInt32();
               break;
             }
-            case 112: {
+            case 88: {
+              bitField0_ |= 0x00000200;
+              oppoId_ = input.readInt64();
+              break;
+            }
+            case 96: {
+              bitField0_ |= 0x00000400;
+              myRank_ = input.readInt32();
+              break;
+            }
+            case 104: {
               bitField0_ |= 0x00000800;
-              oppZuHeLevel_ = input.readInt32();
+              oppoRank_ = input.readInt32();
+              break;
+            }
+            case 112: {
+              bitField0_ |= 0x00000100;
+              openTime_ = input.readInt64();
+              break;
+            }
+            case 122: {
+              if (!((mutable_bitField0_ & 0x00004000) == 0x00004000)) {
+                oppoList_ = new java.util.ArrayList<qxmobile.protobuf.PvpProto.OpponentInfo>();
+                mutable_bitField0_ |= 0x00004000;
+              }
+              oppoList_.add(input.readMessage(qxmobile.protobuf.PvpProto.OpponentInfo.PARSER, extensionRegistry));
               break;
             }
           }
@@ -6671,11 +5040,14 @@ public final class PvpProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           mySoldiers_ = java.util.Collections.unmodifiableList(mySoldiers_);
         }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
           oppoSoldiers_ = java.util.Collections.unmodifiableList(oppoSoldiers_);
+        }
+        if (((mutable_bitField0_ & 0x00004000) == 0x00004000)) {
+          oppoList_ = java.util.Collections.unmodifiableList(oppoList_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -6709,11 +5081,51 @@ public final class PvpProto {
     }
 
     private int bitField0_;
-    // repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;
-    public static final int MYSOLDIERS_FIELD_NUMBER = 1;
+    // required int32 type = 1;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private int type_;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *type = 1 可以挑战
+     *type = 2 挑战中
+     *type = 3 君主等级不足，
+     *type = 4 今日挑战机会已经用完 
+     *type = 5 挑战CD没有结束 
+     *type = 6 数据出错
+     *type = 7 对手名次已经变；
+     *type = 8自己的名次变了 ;
+     *type = 9玩家排名不足以挑战目标
+     * </pre>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *type = 1 可以挑战
+     *type = 2 挑战中
+     *type = 3 君主等级不足，
+     *type = 4 今日挑战机会已经用完 
+     *type = 5 挑战CD没有结束 
+     *type = 6 数据出错
+     *type = 7 对手名次已经变；
+     *type = 8自己的名次变了 ;
+     *type = 9玩家排名不足以挑战目标
+     * </pre>
+     */
+    public int getType() {
+      return type_;
+    }
+
+    // repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;
+    public static final int MYSOLDIERS_FIELD_NUMBER = 2;
     private java.util.List<qxmobile.protobuf.PvpProto.GuYongBing> mySoldiers_;
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
      *
      * <pre>
      * 己方佣兵队列
@@ -6723,7 +5135,7 @@ public final class PvpProto {
       return mySoldiers_;
     }
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
      *
      * <pre>
      * 己方佣兵队列
@@ -6734,7 +5146,7 @@ public final class PvpProto {
       return mySoldiers_;
     }
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
      *
      * <pre>
      * 己方佣兵队列
@@ -6744,7 +5156,7 @@ public final class PvpProto {
       return mySoldiers_.size();
     }
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
      *
      * <pre>
      * 己方佣兵队列
@@ -6754,7 +5166,7 @@ public final class PvpProto {
       return mySoldiers_.get(index);
     }
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
      *
      * <pre>
      * 己方佣兵队列
@@ -6765,21 +5177,21 @@ public final class PvpProto {
       return mySoldiers_.get(index);
     }
 
-    // required int32 myZhanli = 2;
-    public static final int MYZHANLI_FIELD_NUMBER = 2;
+    // optional int32 myZhanli = 3;
+    public static final int MYZHANLI_FIELD_NUMBER = 3;
     private int myZhanli_;
     /**
-     * <code>required int32 myZhanli = 2;</code>
+     * <code>optional int32 myZhanli = 3;</code>
      *
      * <pre>
      * 己方战力
      * </pre>
      */
     public boolean hasMyZhanli() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int32 myZhanli = 2;</code>
+     * <code>optional int32 myZhanli = 3;</code>
      *
      * <pre>
      * 己方战力
@@ -6789,11 +5201,11 @@ public final class PvpProto {
       return myZhanli_;
     }
 
-    // repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;
-    public static final int OPPOSOLDIERS_FIELD_NUMBER = 3;
+    // repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;
+    public static final int OPPOSOLDIERS_FIELD_NUMBER = 4;
     private java.util.List<qxmobile.protobuf.PvpProto.GuYongBing> oppoSoldiers_;
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
      *
      * <pre>
      * 对方佣兵队列
@@ -6803,7 +5215,7 @@ public final class PvpProto {
       return oppoSoldiers_;
     }
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
      *
      * <pre>
      * 对方佣兵队列
@@ -6814,7 +5226,7 @@ public final class PvpProto {
       return oppoSoldiers_;
     }
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
      *
      * <pre>
      * 对方佣兵队列
@@ -6824,7 +5236,7 @@ public final class PvpProto {
       return oppoSoldiers_.size();
     }
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
      *
      * <pre>
      * 对方佣兵队列
@@ -6834,7 +5246,7 @@ public final class PvpProto {
       return oppoSoldiers_.get(index);
     }
     /**
-     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+     * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
      *
      * <pre>
      * 对方佣兵队列
@@ -6845,21 +5257,21 @@ public final class PvpProto {
       return oppoSoldiers_.get(index);
     }
 
-    // required int32 oppoZhanli = 4;
-    public static final int OPPOZHANLI_FIELD_NUMBER = 4;
+    // optional int32 oppoZhanli = 5;
+    public static final int OPPOZHANLI_FIELD_NUMBER = 5;
     private int oppoZhanli_;
     /**
-     * <code>required int32 oppoZhanli = 4;</code>
+     * <code>optional int32 oppoZhanli = 5;</code>
      *
      * <pre>
      * 对方战力
      * </pre>
      */
     public boolean hasOppoZhanli() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required int32 oppoZhanli = 4;</code>
+     * <code>optional int32 oppoZhanli = 5;</code>
      *
      * <pre>
      * 对方战力
@@ -6869,43 +5281,25 @@ public final class PvpProto {
       return oppoZhanli_;
     }
 
-    // optional int64 openTime = 5;
-    public static final int OPENTIME_FIELD_NUMBER = 5;
-    private long openTime_;
-    /**
-     * <code>optional int64 openTime = 5;</code>
-     *
-     * <pre>
-     *以下六个个字段一般的只为服务器记录战斗记录所用
-     * 挑战时间
-     * </pre>
-     */
-    public boolean hasOpenTime() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>optional int64 openTime = 5;</code>
-     *
-     * <pre>
-     *以下六个个字段一般的只为服务器记录战斗记录所用
-     * 挑战时间
-     * </pre>
-     */
-    public long getOpenTime() {
-      return openTime_;
-    }
-
     // optional int32 myLevel = 6;
     public static final int MYLEVEL_FIELD_NUMBER = 6;
     private int myLevel_;
     /**
      * <code>optional int32 myLevel = 6;</code>
+     *
+     * <pre>
+     *己方等级
+     * </pre>
      */
     public boolean hasMyLevel() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>optional int32 myLevel = 6;</code>
+     *
+     * <pre>
+     *己方等级
+     * </pre>
      */
     public int getMyLevel() {
       return myLevel_;
@@ -6916,179 +5310,272 @@ public final class PvpProto {
     private int oppoLevel_;
     /**
      * <code>optional int32 oppoLevel = 7;</code>
+     *
+     * <pre>
+     *对方等级
+     * </pre>
      */
     public boolean hasOppoLevel() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <code>optional int32 oppoLevel = 7;</code>
+     *
+     * <pre>
+     *对方等级
+     * </pre>
      */
     public int getOppoLevel() {
       return oppoLevel_;
     }
 
-    // required int64 oppoId = 8;
-    public static final int OPPOID_FIELD_NUMBER = 8;
-    private long oppoId_;
+    // optional int32 oppoRoleId = 8;
+    public static final int OPPOROLEID_FIELD_NUMBER = 8;
+    private int oppoRoleId_;
     /**
-     * <code>required int64 oppoId = 8;</code>
+     * <code>optional int32 oppoRoleId = 8;</code>
+     *
+     * <pre>
+     *对方职业id
+     * </pre>
      */
-    public boolean hasOppoId() {
+    public boolean hasOppoRoleId() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>required int64 oppoId = 8;</code>
-     */
-    public long getOppoId() {
-      return oppoId_;
-    }
-
-    // optional int32 myRank = 9;
-    public static final int MYRANK_FIELD_NUMBER = 9;
-    private int myRank_;
-    /**
-     * <code>optional int32 myRank = 9;</code>
-     */
-    public boolean hasMyRank() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
-    }
-    /**
-     * <code>optional int32 myRank = 9;</code>
-     */
-    public int getMyRank() {
-      return myRank_;
-    }
-
-    // required int32 oppoRank = 10;
-    public static final int OPPORANK_FIELD_NUMBER = 10;
-    private int oppoRank_;
-    /**
-     * <code>required int32 oppoRank = 10;</code>
-     */
-    public boolean hasOppoRank() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
-    }
-    /**
-     * <code>required int32 oppoRank = 10;</code>
-     */
-    public int getOppoRank() {
-      return oppoRank_;
-    }
-
-    // required int32 oppoRoleId = 11;
-    public static final int OPPOROLEID_FIELD_NUMBER = 11;
-    private int oppoRoleId_;
-    /**
-     * <code>required int32 oppoRoleId = 11;</code>
-     */
-    public boolean hasOppoRoleId() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
-    }
-    /**
-     * <code>required int32 oppoRoleId = 11;</code>
+     * <code>optional int32 oppoRoleId = 8;</code>
+     *
+     * <pre>
+     *对方职业id
+     * </pre>
      */
     public int getOppoRoleId() {
       return oppoRoleId_;
     }
 
-    // required int32 myZuheId = 12;
-    public static final int MYZUHEID_FIELD_NUMBER = 12;
+    // optional int32 myZuheId = 9;
+    public static final int MYZUHEID_FIELD_NUMBER = 9;
     private int myZuheId_;
     /**
-     * <code>required int32 myZuheId = 12;</code>
+     * <code>optional int32 myZuheId = 9;</code>
+     *
+     * <pre>
+     *我的秘宝技能
+     * </pre>
      */
     public boolean hasMyZuheId() {
-      return ((bitField0_ & 0x00000200) == 0x00000200);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>required int32 myZuheId = 12;</code>
+     * <code>optional int32 myZuheId = 9;</code>
+     *
+     * <pre>
+     *我的秘宝技能
+     * </pre>
      */
     public int getMyZuheId() {
       return myZuheId_;
     }
 
-    // required int32 oppZuheId = 13;
-    public static final int OPPZUHEID_FIELD_NUMBER = 13;
+    // optional int32 oppZuheId = 10;
+    public static final int OPPZUHEID_FIELD_NUMBER = 10;
     private int oppZuheId_;
     /**
-     * <code>required int32 oppZuheId = 13;</code>
+     * <code>optional int32 oppZuheId = 10;</code>
+     *
+     * <pre>
+     *对方秘宝技能
+     * </pre>
      */
     public boolean hasOppZuheId() {
-      return ((bitField0_ & 0x00000400) == 0x00000400);
+      return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
-     * <code>required int32 oppZuheId = 13;</code>
+     * <code>optional int32 oppZuheId = 10;</code>
+     *
+     * <pre>
+     *对方秘宝技能
+     * </pre>
      */
     public int getOppZuheId() {
       return oppZuheId_;
     }
 
-    // required int32 oppZuHeLevel = 14;
-    public static final int OPPZUHELEVEL_FIELD_NUMBER = 14;
-    private int oppZuHeLevel_;
+    // optional int64 openTime = 14;
+    public static final int OPENTIME_FIELD_NUMBER = 14;
+    private long openTime_;
     /**
-     * <code>required int32 oppZuHeLevel = 14;</code>
+     * <code>optional int64 openTime = 14;</code>
+     *
+     * <pre>
+     * 挑战时间
+     * </pre>
      */
-    public boolean hasOppZuHeLevel() {
+    public boolean hasOpenTime() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional int64 openTime = 14;</code>
+     *
+     * <pre>
+     * 挑战时间
+     * </pre>
+     */
+    public long getOpenTime() {
+      return openTime_;
+    }
+
+    // optional int64 oppoId = 11;
+    public static final int OPPOID_FIELD_NUMBER = 11;
+    private long oppoId_;
+    /**
+     * <code>optional int64 oppoId = 11;</code>
+     *
+     * <pre>
+     *战斗结算用消息	
+     * </pre>
+     */
+    public boolean hasOppoId() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional int64 oppoId = 11;</code>
+     *
+     * <pre>
+     *战斗结算用消息	
+     * </pre>
+     */
+    public long getOppoId() {
+      return oppoId_;
+    }
+
+    // optional int32 myRank = 12;
+    public static final int MYRANK_FIELD_NUMBER = 12;
+    private int myRank_;
+    /**
+     * <code>optional int32 myRank = 12;</code>
+     *
+     * <pre>
+     *我的排名，用于战斗结束后客户端发送结算消息
+     * </pre>
+     */
+    public boolean hasMyRank() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional int32 myRank = 12;</code>
+     *
+     * <pre>
+     *我的排名，用于战斗结束后客户端发送结算消息
+     * </pre>
+     */
+    public int getMyRank() {
+      return myRank_;
+    }
+
+    // optional int32 oppoRank = 13;
+    public static final int OPPORANK_FIELD_NUMBER = 13;
+    private int oppoRank_;
+    /**
+     * <code>optional int32 oppoRank = 13;</code>
+     *
+     * <pre>
+     *敌方排名,用于战斗结客户端束后发送结算消息
+     * </pre>
+     */
+    public boolean hasOppoRank() {
       return ((bitField0_ & 0x00000800) == 0x00000800);
     }
     /**
-     * <code>required int32 oppZuHeLevel = 14;</code>
+     * <code>optional int32 oppoRank = 13;</code>
+     *
+     * <pre>
+     *敌方排名,用于战斗结客户端束后发送结算消息
+     * </pre>
      */
-    public int getOppZuHeLevel() {
-      return oppZuHeLevel_;
+    public int getOppoRank() {
+      return oppoRank_;
+    }
+
+    // repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;
+    public static final int OPPOLIST_FIELD_NUMBER = 15;
+    private java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> oppoList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+     *
+     * <pre>
+     *当type为7时发送刷新列表
+     * </pre>
+     */
+    public java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> getOppoListList() {
+      return oppoList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+     *
+     * <pre>
+     *当type为7时发送刷新列表
+     * </pre>
+     */
+    public java.util.List<? extends qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> 
+        getOppoListOrBuilderList() {
+      return oppoList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+     *
+     * <pre>
+     *当type为7时发送刷新列表
+     * </pre>
+     */
+    public int getOppoListCount() {
+      return oppoList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+     *
+     * <pre>
+     *当type为7时发送刷新列表
+     * </pre>
+     */
+    public qxmobile.protobuf.PvpProto.OpponentInfo getOppoList(int index) {
+      return oppoList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+     *
+     * <pre>
+     *当type为7时发送刷新列表
+     * </pre>
+     */
+    public qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder getOppoListOrBuilder(
+        int index) {
+      return oppoList_.get(index);
     }
 
     private void initFields() {
+      type_ = 0;
       mySoldiers_ = java.util.Collections.emptyList();
       myZhanli_ = 0;
       oppoSoldiers_ = java.util.Collections.emptyList();
       oppoZhanli_ = 0;
-      openTime_ = 0L;
       myLevel_ = 0;
       oppoLevel_ = 0;
-      oppoId_ = 0L;
-      myRank_ = 0;
-      oppoRank_ = 0;
       oppoRoleId_ = 0;
       myZuheId_ = 0;
       oppZuheId_ = 0;
-      oppZuHeLevel_ = 0;
+      openTime_ = 0L;
+      oppoId_ = 0L;
+      myRank_ = 0;
+      oppoRank_ = 0;
+      oppoList_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasMyZhanli()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasOppoZhanli()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasOppoId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasOppoRank()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasOppoRoleId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasMyZuheId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasOppZuheId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasOppZuHeLevel()) {
+      if (!hasType()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -7104,6 +5591,12 @@ public final class PvpProto {
           return false;
         }
       }
+      for (int i = 0; i < getOppoListCount(); i++) {
+        if (!getOppoList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -7111,20 +5604,20 @@ public final class PvpProto {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      for (int i = 0; i < mySoldiers_.size(); i++) {
-        output.writeMessage(1, mySoldiers_.get(i));
-      }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(2, myZhanli_);
+        output.writeInt32(1, type_);
       }
-      for (int i = 0; i < oppoSoldiers_.size(); i++) {
-        output.writeMessage(3, oppoSoldiers_.get(i));
+      for (int i = 0; i < mySoldiers_.size(); i++) {
+        output.writeMessage(2, mySoldiers_.get(i));
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(4, oppoZhanli_);
+        output.writeInt32(3, myZhanli_);
+      }
+      for (int i = 0; i < oppoSoldiers_.size(); i++) {
+        output.writeMessage(4, oppoSoldiers_.get(i));
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt64(5, openTime_);
+        output.writeInt32(5, oppoZhanli_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(6, myLevel_);
@@ -7133,25 +5626,28 @@ public final class PvpProto {
         output.writeInt32(7, oppoLevel_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeInt64(8, oppoId_);
+        output.writeInt32(8, oppoRoleId_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeInt32(9, myRank_);
+        output.writeInt32(9, myZuheId_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        output.writeInt32(10, oppoRank_);
-      }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        output.writeInt32(11, oppoRoleId_);
+        output.writeInt32(10, oppZuheId_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
-        output.writeInt32(12, myZuheId_);
+        output.writeInt64(11, oppoId_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
-        output.writeInt32(13, oppZuheId_);
+        output.writeInt32(12, myRank_);
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
-        output.writeInt32(14, oppZuHeLevel_);
+        output.writeInt32(13, oppoRank_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeInt64(14, openTime_);
+      }
+      for (int i = 0; i < oppoList_.size(); i++) {
+        output.writeMessage(15, oppoList_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -7162,25 +5658,25 @@ public final class PvpProto {
       if (size != -1) return size;
 
       size = 0;
-      for (int i = 0; i < mySoldiers_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, mySoldiers_.get(i));
-      }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, myZhanli_);
+          .computeInt32Size(1, type_);
       }
-      for (int i = 0; i < oppoSoldiers_.size(); i++) {
+      for (int i = 0; i < mySoldiers_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, oppoSoldiers_.get(i));
+          .computeMessageSize(2, mySoldiers_.get(i));
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, oppoZhanli_);
+          .computeInt32Size(3, myZhanli_);
+      }
+      for (int i = 0; i < oppoSoldiers_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, oppoSoldiers_.get(i));
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(5, openTime_);
+          .computeInt32Size(5, oppoZhanli_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
@@ -7192,31 +5688,35 @@ public final class PvpProto {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(8, oppoId_);
+          .computeInt32Size(8, oppoRoleId_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(9, myRank_);
+          .computeInt32Size(9, myZuheId_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(10, oppoRank_);
-      }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(11, oppoRoleId_);
+          .computeInt32Size(10, oppZuheId_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(12, myZuheId_);
+          .computeInt64Size(11, oppoId_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(13, oppZuheId_);
+          .computeInt32Size(12, myRank_);
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(14, oppZuHeLevel_);
+          .computeInt32Size(13, oppoRank_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(14, openTime_);
+      }
+      for (int i = 0; i < oppoList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(15, oppoList_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -7300,7 +5800,7 @@ public final class PvpProto {
      * Protobuf type {@code qxmobile.protobuf.ChallengeResp}
      *
      * <pre>
-     * 响应 挑战
+     *S to C	响应 挑战
      * </pre>
      */
     public static final class Builder extends
@@ -7332,6 +5832,7 @@ public final class PvpProto {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getMySoldiersFieldBuilder();
           getOppoSoldiersFieldBuilder();
+          getOppoListFieldBuilder();
         }
       }
       private static Builder create() {
@@ -7340,42 +5841,48 @@ public final class PvpProto {
 
       public Builder clear() {
         super.clear();
+        type_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
         if (mySoldiersBuilder_ == null) {
           mySoldiers_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           mySoldiersBuilder_.clear();
         }
         myZhanli_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         if (oppoSoldiersBuilder_ == null) {
           oppoSoldiers_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000008);
         } else {
           oppoSoldiersBuilder_.clear();
         }
         oppoZhanli_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        openTime_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000010);
         myLevel_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
         oppoLevel_ = 0;
         bitField0_ = (bitField0_ & ~0x00000040);
-        oppoId_ = 0L;
-        bitField0_ = (bitField0_ & ~0x00000080);
-        myRank_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000100);
-        oppoRank_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000200);
         oppoRoleId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000080);
         myZuheId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00000100);
         oppZuheId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
+        openTime_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000400);
+        oppoId_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000800);
+        myRank_ = 0;
         bitField0_ = (bitField0_ & ~0x00001000);
-        oppZuHeLevel_ = 0;
+        oppoRank_ = 0;
         bitField0_ = (bitField0_ & ~0x00002000);
+        if (oppoListBuilder_ == null) {
+          oppoList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00004000);
+        } else {
+          oppoListBuilder_.clear();
+        }
         return this;
       }
 
@@ -7404,36 +5911,36 @@ public final class PvpProto {
         qxmobile.protobuf.PvpProto.ChallengeResp result = new qxmobile.protobuf.PvpProto.ChallengeResp(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
         if (mySoldiersBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
             mySoldiers_ = java.util.Collections.unmodifiableList(mySoldiers_);
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.mySoldiers_ = mySoldiers_;
         } else {
           result.mySoldiers_ = mySoldiersBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000001;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
         }
         result.myZhanli_ = myZhanli_;
         if (oppoSoldiersBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
             oppoSoldiers_ = java.util.Collections.unmodifiableList(oppoSoldiers_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000008);
           }
           result.oppoSoldiers_ = oppoSoldiers_;
         } else {
           result.oppoSoldiers_ = oppoSoldiersBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.oppoZhanli_ = oppoZhanli_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.openTime_ = openTime_;
+        result.oppoZhanli_ = oppoZhanli_;
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000008;
         }
@@ -7445,31 +5952,40 @@ public final class PvpProto {
         if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000020;
         }
-        result.oppoId_ = oppoId_;
+        result.oppoRoleId_ = oppoRoleId_;
         if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000040;
         }
-        result.myRank_ = myRank_;
+        result.myZuheId_ = myZuheId_;
         if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
           to_bitField0_ |= 0x00000080;
         }
-        result.oppoRank_ = oppoRank_;
+        result.oppZuheId_ = oppZuheId_;
         if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
           to_bitField0_ |= 0x00000100;
         }
-        result.oppoRoleId_ = oppoRoleId_;
+        result.openTime_ = openTime_;
         if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
           to_bitField0_ |= 0x00000200;
         }
-        result.myZuheId_ = myZuheId_;
+        result.oppoId_ = oppoId_;
         if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
           to_bitField0_ |= 0x00000400;
         }
-        result.oppZuheId_ = oppZuheId_;
+        result.myRank_ = myRank_;
         if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
           to_bitField0_ |= 0x00000800;
         }
-        result.oppZuHeLevel_ = oppZuHeLevel_;
+        result.oppoRank_ = oppoRank_;
+        if (oppoListBuilder_ == null) {
+          if (((bitField0_ & 0x00004000) == 0x00004000)) {
+            oppoList_ = java.util.Collections.unmodifiableList(oppoList_);
+            bitField0_ = (bitField0_ & ~0x00004000);
+          }
+          result.oppoList_ = oppoList_;
+        } else {
+          result.oppoList_ = oppoListBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -7486,11 +6002,14 @@ public final class PvpProto {
 
       public Builder mergeFrom(qxmobile.protobuf.PvpProto.ChallengeResp other) {
         if (other == qxmobile.protobuf.PvpProto.ChallengeResp.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
         if (mySoldiersBuilder_ == null) {
           if (!other.mySoldiers_.isEmpty()) {
             if (mySoldiers_.isEmpty()) {
               mySoldiers_ = other.mySoldiers_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureMySoldiersIsMutable();
               mySoldiers_.addAll(other.mySoldiers_);
@@ -7503,7 +6022,7 @@ public final class PvpProto {
               mySoldiersBuilder_.dispose();
               mySoldiersBuilder_ = null;
               mySoldiers_ = other.mySoldiers_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000002);
               mySoldiersBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getMySoldiersFieldBuilder() : null;
@@ -7519,7 +6038,7 @@ public final class PvpProto {
           if (!other.oppoSoldiers_.isEmpty()) {
             if (oppoSoldiers_.isEmpty()) {
               oppoSoldiers_ = other.oppoSoldiers_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000008);
             } else {
               ensureOppoSoldiersIsMutable();
               oppoSoldiers_.addAll(other.oppoSoldiers_);
@@ -7532,7 +6051,7 @@ public final class PvpProto {
               oppoSoldiersBuilder_.dispose();
               oppoSoldiersBuilder_ = null;
               oppoSoldiers_ = other.oppoSoldiers_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000008);
               oppoSoldiersBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getOppoSoldiersFieldBuilder() : null;
@@ -7544,23 +6063,11 @@ public final class PvpProto {
         if (other.hasOppoZhanli()) {
           setOppoZhanli(other.getOppoZhanli());
         }
-        if (other.hasOpenTime()) {
-          setOpenTime(other.getOpenTime());
-        }
         if (other.hasMyLevel()) {
           setMyLevel(other.getMyLevel());
         }
         if (other.hasOppoLevel()) {
           setOppoLevel(other.getOppoLevel());
-        }
-        if (other.hasOppoId()) {
-          setOppoId(other.getOppoId());
-        }
-        if (other.hasMyRank()) {
-          setMyRank(other.getMyRank());
-        }
-        if (other.hasOppoRank()) {
-          setOppoRank(other.getOppoRank());
         }
         if (other.hasOppoRoleId()) {
           setOppoRoleId(other.getOppoRoleId());
@@ -7571,43 +6078,50 @@ public final class PvpProto {
         if (other.hasOppZuheId()) {
           setOppZuheId(other.getOppZuheId());
         }
-        if (other.hasOppZuHeLevel()) {
-          setOppZuHeLevel(other.getOppZuHeLevel());
+        if (other.hasOpenTime()) {
+          setOpenTime(other.getOpenTime());
+        }
+        if (other.hasOppoId()) {
+          setOppoId(other.getOppoId());
+        }
+        if (other.hasMyRank()) {
+          setMyRank(other.getMyRank());
+        }
+        if (other.hasOppoRank()) {
+          setOppoRank(other.getOppoRank());
+        }
+        if (oppoListBuilder_ == null) {
+          if (!other.oppoList_.isEmpty()) {
+            if (oppoList_.isEmpty()) {
+              oppoList_ = other.oppoList_;
+              bitField0_ = (bitField0_ & ~0x00004000);
+            } else {
+              ensureOppoListIsMutable();
+              oppoList_.addAll(other.oppoList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.oppoList_.isEmpty()) {
+            if (oppoListBuilder_.isEmpty()) {
+              oppoListBuilder_.dispose();
+              oppoListBuilder_ = null;
+              oppoList_ = other.oppoList_;
+              bitField0_ = (bitField0_ & ~0x00004000);
+              oppoListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getOppoListFieldBuilder() : null;
+            } else {
+              oppoListBuilder_.addAllMessages(other.oppoList_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasMyZhanli()) {
-          
-          return false;
-        }
-        if (!hasOppoZhanli()) {
-          
-          return false;
-        }
-        if (!hasOppoId()) {
-          
-          return false;
-        }
-        if (!hasOppoRank()) {
-          
-          return false;
-        }
-        if (!hasOppoRoleId()) {
-          
-          return false;
-        }
-        if (!hasMyZuheId()) {
-          
-          return false;
-        }
-        if (!hasOppZuheId()) {
-          
-          return false;
-        }
-        if (!hasOppZuHeLevel()) {
+        if (!hasType()) {
           
           return false;
         }
@@ -7619,6 +6133,12 @@ public final class PvpProto {
         }
         for (int i = 0; i < getOppoSoldiersCount(); i++) {
           if (!getOppoSoldiers(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getOppoListCount(); i++) {
+          if (!getOppoList(i).isInitialized()) {
             
             return false;
           }
@@ -7645,13 +6165,94 @@ public final class PvpProto {
       }
       private int bitField0_;
 
-      // repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;
+      // required int32 type = 1;
+      private int type_ ;
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *type = 1 可以挑战
+       *type = 2 挑战中
+       *type = 3 君主等级不足，
+       *type = 4 今日挑战机会已经用完 
+       *type = 5 挑战CD没有结束 
+       *type = 6 数据出错
+       *type = 7 对手名次已经变；
+       *type = 8自己的名次变了 ;
+       *type = 9玩家排名不足以挑战目标
+       * </pre>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *type = 1 可以挑战
+       *type = 2 挑战中
+       *type = 3 君主等级不足，
+       *type = 4 今日挑战机会已经用完 
+       *type = 5 挑战CD没有结束 
+       *type = 6 数据出错
+       *type = 7 对手名次已经变；
+       *type = 8自己的名次变了 ;
+       *type = 9玩家排名不足以挑战目标
+       * </pre>
+       */
+      public int getType() {
+        return type_;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *type = 1 可以挑战
+       *type = 2 挑战中
+       *type = 3 君主等级不足，
+       *type = 4 今日挑战机会已经用完 
+       *type = 5 挑战CD没有结束 
+       *type = 6 数据出错
+       *type = 7 对手名次已经变；
+       *type = 8自己的名次变了 ;
+       *type = 9玩家排名不足以挑战目标
+       * </pre>
+       */
+      public Builder setType(int value) {
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *type = 1 可以挑战
+       *type = 2 挑战中
+       *type = 3 君主等级不足，
+       *type = 4 今日挑战机会已经用完 
+       *type = 5 挑战CD没有结束 
+       *type = 6 数据出错
+       *type = 7 对手名次已经变；
+       *type = 8自己的名次变了 ;
+       *type = 9玩家排名不足以挑战目标
+       * </pre>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;
       private java.util.List<qxmobile.protobuf.PvpProto.GuYongBing> mySoldiers_ =
         java.util.Collections.emptyList();
       private void ensureMySoldiersIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
           mySoldiers_ = new java.util.ArrayList<qxmobile.protobuf.PvpProto.GuYongBing>(mySoldiers_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
          }
       }
 
@@ -7659,7 +6260,7 @@ public final class PvpProto {
           qxmobile.protobuf.PvpProto.GuYongBing, qxmobile.protobuf.PvpProto.GuYongBing.Builder, qxmobile.protobuf.PvpProto.GuYongBingOrBuilder> mySoldiersBuilder_;
 
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7673,7 +6274,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7687,7 +6288,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7701,7 +6302,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7722,7 +6323,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7740,7 +6341,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7760,7 +6361,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7781,7 +6382,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7799,7 +6400,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7817,7 +6418,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7835,7 +6436,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7844,7 +6445,7 @@ public final class PvpProto {
       public Builder clearMySoldiers() {
         if (mySoldiersBuilder_ == null) {
           mySoldiers_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           mySoldiersBuilder_.clear();
@@ -7852,7 +6453,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7869,7 +6470,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7880,7 +6481,7 @@ public final class PvpProto {
         return getMySoldiersFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7894,7 +6495,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7909,7 +6510,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7920,7 +6521,7 @@ public final class PvpProto {
             qxmobile.protobuf.PvpProto.GuYongBing.getDefaultInstance());
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7932,7 +6533,7 @@ public final class PvpProto {
             index, qxmobile.protobuf.PvpProto.GuYongBing.getDefaultInstance());
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 1;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing mySoldiers = 2;</code>
        *
        * <pre>
        * 己方佣兵队列
@@ -7949,7 +6550,7 @@ public final class PvpProto {
           mySoldiersBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               qxmobile.protobuf.PvpProto.GuYongBing, qxmobile.protobuf.PvpProto.GuYongBing.Builder, qxmobile.protobuf.PvpProto.GuYongBingOrBuilder>(
                   mySoldiers_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000002) == 0x00000002),
                   getParentForChildren(),
                   isClean());
           mySoldiers_ = null;
@@ -7957,20 +6558,20 @@ public final class PvpProto {
         return mySoldiersBuilder_;
       }
 
-      // required int32 myZhanli = 2;
+      // optional int32 myZhanli = 3;
       private int myZhanli_ ;
       /**
-       * <code>required int32 myZhanli = 2;</code>
+       * <code>optional int32 myZhanli = 3;</code>
        *
        * <pre>
        * 己方战力
        * </pre>
        */
       public boolean hasMyZhanli() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required int32 myZhanli = 2;</code>
+       * <code>optional int32 myZhanli = 3;</code>
        *
        * <pre>
        * 己方战力
@@ -7980,39 +6581,39 @@ public final class PvpProto {
         return myZhanli_;
       }
       /**
-       * <code>required int32 myZhanli = 2;</code>
+       * <code>optional int32 myZhanli = 3;</code>
        *
        * <pre>
        * 己方战力
        * </pre>
        */
       public Builder setMyZhanli(int value) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         myZhanli_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 myZhanli = 2;</code>
+       * <code>optional int32 myZhanli = 3;</code>
        *
        * <pre>
        * 己方战力
        * </pre>
        */
       public Builder clearMyZhanli() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         myZhanli_ = 0;
         onChanged();
         return this;
       }
 
-      // repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;
+      // repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;
       private java.util.List<qxmobile.protobuf.PvpProto.GuYongBing> oppoSoldiers_ =
         java.util.Collections.emptyList();
       private void ensureOppoSoldiersIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
           oppoSoldiers_ = new java.util.ArrayList<qxmobile.protobuf.PvpProto.GuYongBing>(oppoSoldiers_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000008;
          }
       }
 
@@ -8020,7 +6621,7 @@ public final class PvpProto {
           qxmobile.protobuf.PvpProto.GuYongBing, qxmobile.protobuf.PvpProto.GuYongBing.Builder, qxmobile.protobuf.PvpProto.GuYongBingOrBuilder> oppoSoldiersBuilder_;
 
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8034,7 +6635,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8048,7 +6649,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8062,7 +6663,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8083,7 +6684,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8101,7 +6702,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8121,7 +6722,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8142,7 +6743,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8160,7 +6761,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8178,7 +6779,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8196,7 +6797,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8205,7 +6806,7 @@ public final class PvpProto {
       public Builder clearOppoSoldiers() {
         if (oppoSoldiersBuilder_ == null) {
           oppoSoldiers_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000008);
           onChanged();
         } else {
           oppoSoldiersBuilder_.clear();
@@ -8213,7 +6814,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8230,7 +6831,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8241,7 +6842,7 @@ public final class PvpProto {
         return getOppoSoldiersFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8255,7 +6856,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8270,7 +6871,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8281,7 +6882,7 @@ public final class PvpProto {
             qxmobile.protobuf.PvpProto.GuYongBing.getDefaultInstance());
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8293,7 +6894,7 @@ public final class PvpProto {
             index, qxmobile.protobuf.PvpProto.GuYongBing.getDefaultInstance());
       }
       /**
-       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 3;</code>
+       * <code>repeated .qxmobile.protobuf.GuYongBing oppoSoldiers = 4;</code>
        *
        * <pre>
        * 对方佣兵队列
@@ -8310,7 +6911,7 @@ public final class PvpProto {
           oppoSoldiersBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               qxmobile.protobuf.PvpProto.GuYongBing, qxmobile.protobuf.PvpProto.GuYongBing.Builder, qxmobile.protobuf.PvpProto.GuYongBingOrBuilder>(
                   oppoSoldiers_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000008) == 0x00000008),
                   getParentForChildren(),
                   isClean());
           oppoSoldiers_ = null;
@@ -8318,20 +6919,20 @@ public final class PvpProto {
         return oppoSoldiersBuilder_;
       }
 
-      // required int32 oppoZhanli = 4;
+      // optional int32 oppoZhanli = 5;
       private int oppoZhanli_ ;
       /**
-       * <code>required int32 oppoZhanli = 4;</code>
+       * <code>optional int32 oppoZhanli = 5;</code>
        *
        * <pre>
        * 对方战力
        * </pre>
        */
       public boolean hasOppoZhanli() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>required int32 oppoZhanli = 4;</code>
+       * <code>optional int32 oppoZhanli = 5;</code>
        *
        * <pre>
        * 对方战力
@@ -8341,81 +6942,28 @@ public final class PvpProto {
         return oppoZhanli_;
       }
       /**
-       * <code>required int32 oppoZhanli = 4;</code>
+       * <code>optional int32 oppoZhanli = 5;</code>
        *
        * <pre>
        * 对方战力
        * </pre>
        */
       public Builder setOppoZhanli(int value) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         oppoZhanli_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 oppoZhanli = 4;</code>
+       * <code>optional int32 oppoZhanli = 5;</code>
        *
        * <pre>
        * 对方战力
        * </pre>
        */
       public Builder clearOppoZhanli() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        oppoZhanli_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional int64 openTime = 5;
-      private long openTime_ ;
-      /**
-       * <code>optional int64 openTime = 5;</code>
-       *
-       * <pre>
-       *以下六个个字段一般的只为服务器记录战斗记录所用
-       * 挑战时间
-       * </pre>
-       */
-      public boolean hasOpenTime() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>optional int64 openTime = 5;</code>
-       *
-       * <pre>
-       *以下六个个字段一般的只为服务器记录战斗记录所用
-       * 挑战时间
-       * </pre>
-       */
-      public long getOpenTime() {
-        return openTime_;
-      }
-      /**
-       * <code>optional int64 openTime = 5;</code>
-       *
-       * <pre>
-       *以下六个个字段一般的只为服务器记录战斗记录所用
-       * 挑战时间
-       * </pre>
-       */
-      public Builder setOpenTime(long value) {
-        bitField0_ |= 0x00000010;
-        openTime_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int64 openTime = 5;</code>
-       *
-       * <pre>
-       *以下六个个字段一般的只为服务器记录战斗记录所用
-       * 挑战时间
-       * </pre>
-       */
-      public Builder clearOpenTime() {
         bitField0_ = (bitField0_ & ~0x00000010);
-        openTime_ = 0L;
+        oppoZhanli_ = 0;
         onChanged();
         return this;
       }
@@ -8424,18 +6972,30 @@ public final class PvpProto {
       private int myLevel_ ;
       /**
        * <code>optional int32 myLevel = 6;</code>
+       *
+       * <pre>
+       *己方等级
+       * </pre>
        */
       public boolean hasMyLevel() {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
        * <code>optional int32 myLevel = 6;</code>
+       *
+       * <pre>
+       *己方等级
+       * </pre>
        */
       public int getMyLevel() {
         return myLevel_;
       }
       /**
        * <code>optional int32 myLevel = 6;</code>
+       *
+       * <pre>
+       *己方等级
+       * </pre>
        */
       public Builder setMyLevel(int value) {
         bitField0_ |= 0x00000020;
@@ -8445,6 +7005,10 @@ public final class PvpProto {
       }
       /**
        * <code>optional int32 myLevel = 6;</code>
+       *
+       * <pre>
+       *己方等级
+       * </pre>
        */
       public Builder clearMyLevel() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -8457,18 +7021,30 @@ public final class PvpProto {
       private int oppoLevel_ ;
       /**
        * <code>optional int32 oppoLevel = 7;</code>
+       *
+       * <pre>
+       *对方等级
+       * </pre>
        */
       public boolean hasOppoLevel() {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
        * <code>optional int32 oppoLevel = 7;</code>
+       *
+       * <pre>
+       *对方等级
+       * </pre>
        */
       public int getOppoLevel() {
         return oppoLevel_;
       }
       /**
        * <code>optional int32 oppoLevel = 7;</code>
+       *
+       * <pre>
+       *对方等级
+       * </pre>
        */
       public Builder setOppoLevel(int value) {
         bitField0_ |= 0x00000040;
@@ -8478,6 +7054,10 @@ public final class PvpProto {
       }
       /**
        * <code>optional int32 oppoLevel = 7;</code>
+       *
+       * <pre>
+       *对方等级
+       * </pre>
        */
       public Builder clearOppoLevel() {
         bitField0_ = (bitField0_ & ~0x00000040);
@@ -8486,235 +7066,659 @@ public final class PvpProto {
         return this;
       }
 
-      // required int64 oppoId = 8;
-      private long oppoId_ ;
+      // optional int32 oppoRoleId = 8;
+      private int oppoRoleId_ ;
       /**
-       * <code>required int64 oppoId = 8;</code>
+       * <code>optional int32 oppoRoleId = 8;</code>
+       *
+       * <pre>
+       *对方职业id
+       * </pre>
        */
-      public boolean hasOppoId() {
+      public boolean hasOppoRoleId() {
         return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
-       * <code>required int64 oppoId = 8;</code>
-       */
-      public long getOppoId() {
-        return oppoId_;
-      }
-      /**
-       * <code>required int64 oppoId = 8;</code>
-       */
-      public Builder setOppoId(long value) {
-        bitField0_ |= 0x00000080;
-        oppoId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int64 oppoId = 8;</code>
-       */
-      public Builder clearOppoId() {
-        bitField0_ = (bitField0_ & ~0x00000080);
-        oppoId_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      // optional int32 myRank = 9;
-      private int myRank_ ;
-      /**
-       * <code>optional int32 myRank = 9;</code>
-       */
-      public boolean hasMyRank() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
-      }
-      /**
-       * <code>optional int32 myRank = 9;</code>
-       */
-      public int getMyRank() {
-        return myRank_;
-      }
-      /**
-       * <code>optional int32 myRank = 9;</code>
-       */
-      public Builder setMyRank(int value) {
-        bitField0_ |= 0x00000100;
-        myRank_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 myRank = 9;</code>
-       */
-      public Builder clearMyRank() {
-        bitField0_ = (bitField0_ & ~0x00000100);
-        myRank_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 oppoRank = 10;
-      private int oppoRank_ ;
-      /**
-       * <code>required int32 oppoRank = 10;</code>
-       */
-      public boolean hasOppoRank() {
-        return ((bitField0_ & 0x00000200) == 0x00000200);
-      }
-      /**
-       * <code>required int32 oppoRank = 10;</code>
-       */
-      public int getOppoRank() {
-        return oppoRank_;
-      }
-      /**
-       * <code>required int32 oppoRank = 10;</code>
-       */
-      public Builder setOppoRank(int value) {
-        bitField0_ |= 0x00000200;
-        oppoRank_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 oppoRank = 10;</code>
-       */
-      public Builder clearOppoRank() {
-        bitField0_ = (bitField0_ & ~0x00000200);
-        oppoRank_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 oppoRoleId = 11;
-      private int oppoRoleId_ ;
-      /**
-       * <code>required int32 oppoRoleId = 11;</code>
-       */
-      public boolean hasOppoRoleId() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
-      }
-      /**
-       * <code>required int32 oppoRoleId = 11;</code>
+       * <code>optional int32 oppoRoleId = 8;</code>
+       *
+       * <pre>
+       *对方职业id
+       * </pre>
        */
       public int getOppoRoleId() {
         return oppoRoleId_;
       }
       /**
-       * <code>required int32 oppoRoleId = 11;</code>
+       * <code>optional int32 oppoRoleId = 8;</code>
+       *
+       * <pre>
+       *对方职业id
+       * </pre>
        */
       public Builder setOppoRoleId(int value) {
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000080;
         oppoRoleId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 oppoRoleId = 11;</code>
+       * <code>optional int32 oppoRoleId = 8;</code>
+       *
+       * <pre>
+       *对方职业id
+       * </pre>
        */
       public Builder clearOppoRoleId() {
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000080);
         oppoRoleId_ = 0;
         onChanged();
         return this;
       }
 
-      // required int32 myZuheId = 12;
+      // optional int32 myZuheId = 9;
       private int myZuheId_ ;
       /**
-       * <code>required int32 myZuheId = 12;</code>
+       * <code>optional int32 myZuheId = 9;</code>
+       *
+       * <pre>
+       *我的秘宝技能
+       * </pre>
        */
       public boolean hasMyZuheId() {
-        return ((bitField0_ & 0x00000800) == 0x00000800);
+        return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
-       * <code>required int32 myZuheId = 12;</code>
+       * <code>optional int32 myZuheId = 9;</code>
+       *
+       * <pre>
+       *我的秘宝技能
+       * </pre>
        */
       public int getMyZuheId() {
         return myZuheId_;
       }
       /**
-       * <code>required int32 myZuheId = 12;</code>
+       * <code>optional int32 myZuheId = 9;</code>
+       *
+       * <pre>
+       *我的秘宝技能
+       * </pre>
        */
       public Builder setMyZuheId(int value) {
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00000100;
         myZuheId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 myZuheId = 12;</code>
+       * <code>optional int32 myZuheId = 9;</code>
+       *
+       * <pre>
+       *我的秘宝技能
+       * </pre>
        */
       public Builder clearMyZuheId() {
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00000100);
         myZuheId_ = 0;
         onChanged();
         return this;
       }
 
-      // required int32 oppZuheId = 13;
+      // optional int32 oppZuheId = 10;
       private int oppZuheId_ ;
       /**
-       * <code>required int32 oppZuheId = 13;</code>
+       * <code>optional int32 oppZuheId = 10;</code>
+       *
+       * <pre>
+       *对方秘宝技能
+       * </pre>
        */
       public boolean hasOppZuheId() {
-        return ((bitField0_ & 0x00001000) == 0x00001000);
+        return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>required int32 oppZuheId = 13;</code>
+       * <code>optional int32 oppZuheId = 10;</code>
+       *
+       * <pre>
+       *对方秘宝技能
+       * </pre>
        */
       public int getOppZuheId() {
         return oppZuheId_;
       }
       /**
-       * <code>required int32 oppZuheId = 13;</code>
+       * <code>optional int32 oppZuheId = 10;</code>
+       *
+       * <pre>
+       *对方秘宝技能
+       * </pre>
        */
       public Builder setOppZuheId(int value) {
-        bitField0_ |= 0x00001000;
+        bitField0_ |= 0x00000200;
         oppZuheId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 oppZuheId = 13;</code>
+       * <code>optional int32 oppZuheId = 10;</code>
+       *
+       * <pre>
+       *对方秘宝技能
+       * </pre>
        */
       public Builder clearOppZuheId() {
-        bitField0_ = (bitField0_ & ~0x00001000);
+        bitField0_ = (bitField0_ & ~0x00000200);
         oppZuheId_ = 0;
         onChanged();
         return this;
       }
 
-      // required int32 oppZuHeLevel = 14;
-      private int oppZuHeLevel_ ;
+      // optional int64 openTime = 14;
+      private long openTime_ ;
       /**
-       * <code>required int32 oppZuHeLevel = 14;</code>
+       * <code>optional int64 openTime = 14;</code>
+       *
+       * <pre>
+       * 挑战时间
+       * </pre>
        */
-      public boolean hasOppZuHeLevel() {
+      public boolean hasOpenTime() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional int64 openTime = 14;</code>
+       *
+       * <pre>
+       * 挑战时间
+       * </pre>
+       */
+      public long getOpenTime() {
+        return openTime_;
+      }
+      /**
+       * <code>optional int64 openTime = 14;</code>
+       *
+       * <pre>
+       * 挑战时间
+       * </pre>
+       */
+      public Builder setOpenTime(long value) {
+        bitField0_ |= 0x00000400;
+        openTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 openTime = 14;</code>
+       *
+       * <pre>
+       * 挑战时间
+       * </pre>
+       */
+      public Builder clearOpenTime() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        openTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 oppoId = 11;
+      private long oppoId_ ;
+      /**
+       * <code>optional int64 oppoId = 11;</code>
+       *
+       * <pre>
+       *战斗结算用消息	
+       * </pre>
+       */
+      public boolean hasOppoId() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional int64 oppoId = 11;</code>
+       *
+       * <pre>
+       *战斗结算用消息	
+       * </pre>
+       */
+      public long getOppoId() {
+        return oppoId_;
+      }
+      /**
+       * <code>optional int64 oppoId = 11;</code>
+       *
+       * <pre>
+       *战斗结算用消息	
+       * </pre>
+       */
+      public Builder setOppoId(long value) {
+        bitField0_ |= 0x00000800;
+        oppoId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 oppoId = 11;</code>
+       *
+       * <pre>
+       *战斗结算用消息	
+       * </pre>
+       */
+      public Builder clearOppoId() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        oppoId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 myRank = 12;
+      private int myRank_ ;
+      /**
+       * <code>optional int32 myRank = 12;</code>
+       *
+       * <pre>
+       *我的排名，用于战斗结束后客户端发送结算消息
+       * </pre>
+       */
+      public boolean hasMyRank() {
+        return ((bitField0_ & 0x00001000) == 0x00001000);
+      }
+      /**
+       * <code>optional int32 myRank = 12;</code>
+       *
+       * <pre>
+       *我的排名，用于战斗结束后客户端发送结算消息
+       * </pre>
+       */
+      public int getMyRank() {
+        return myRank_;
+      }
+      /**
+       * <code>optional int32 myRank = 12;</code>
+       *
+       * <pre>
+       *我的排名，用于战斗结束后客户端发送结算消息
+       * </pre>
+       */
+      public Builder setMyRank(int value) {
+        bitField0_ |= 0x00001000;
+        myRank_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 myRank = 12;</code>
+       *
+       * <pre>
+       *我的排名，用于战斗结束后客户端发送结算消息
+       * </pre>
+       */
+      public Builder clearMyRank() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        myRank_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 oppoRank = 13;
+      private int oppoRank_ ;
+      /**
+       * <code>optional int32 oppoRank = 13;</code>
+       *
+       * <pre>
+       *敌方排名,用于战斗结客户端束后发送结算消息
+       * </pre>
+       */
+      public boolean hasOppoRank() {
         return ((bitField0_ & 0x00002000) == 0x00002000);
       }
       /**
-       * <code>required int32 oppZuHeLevel = 14;</code>
+       * <code>optional int32 oppoRank = 13;</code>
+       *
+       * <pre>
+       *敌方排名,用于战斗结客户端束后发送结算消息
+       * </pre>
        */
-      public int getOppZuHeLevel() {
-        return oppZuHeLevel_;
+      public int getOppoRank() {
+        return oppoRank_;
       }
       /**
-       * <code>required int32 oppZuHeLevel = 14;</code>
+       * <code>optional int32 oppoRank = 13;</code>
+       *
+       * <pre>
+       *敌方排名,用于战斗结客户端束后发送结算消息
+       * </pre>
        */
-      public Builder setOppZuHeLevel(int value) {
+      public Builder setOppoRank(int value) {
         bitField0_ |= 0x00002000;
-        oppZuHeLevel_ = value;
+        oppoRank_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 oppZuHeLevel = 14;</code>
+       * <code>optional int32 oppoRank = 13;</code>
+       *
+       * <pre>
+       *敌方排名,用于战斗结客户端束后发送结算消息
+       * </pre>
        */
-      public Builder clearOppZuHeLevel() {
+      public Builder clearOppoRank() {
         bitField0_ = (bitField0_ & ~0x00002000);
-        oppZuHeLevel_ = 0;
+        oppoRank_ = 0;
         onChanged();
         return this;
+      }
+
+      // repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;
+      private java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> oppoList_ =
+        java.util.Collections.emptyList();
+      private void ensureOppoListIsMutable() {
+        if (!((bitField0_ & 0x00004000) == 0x00004000)) {
+          oppoList_ = new java.util.ArrayList<qxmobile.protobuf.PvpProto.OpponentInfo>(oppoList_);
+          bitField0_ |= 0x00004000;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.PvpProto.OpponentInfo, qxmobile.protobuf.PvpProto.OpponentInfo.Builder, qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> oppoListBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> getOppoListList() {
+        if (oppoListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(oppoList_);
+        } else {
+          return oppoListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public int getOppoListCount() {
+        if (oppoListBuilder_ == null) {
+          return oppoList_.size();
+        } else {
+          return oppoListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public qxmobile.protobuf.PvpProto.OpponentInfo getOppoList(int index) {
+        if (oppoListBuilder_ == null) {
+          return oppoList_.get(index);
+        } else {
+          return oppoListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public Builder setOppoList(
+          int index, qxmobile.protobuf.PvpProto.OpponentInfo value) {
+        if (oppoListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureOppoListIsMutable();
+          oppoList_.set(index, value);
+          onChanged();
+        } else {
+          oppoListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public Builder setOppoList(
+          int index, qxmobile.protobuf.PvpProto.OpponentInfo.Builder builderForValue) {
+        if (oppoListBuilder_ == null) {
+          ensureOppoListIsMutable();
+          oppoList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          oppoListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public Builder addOppoList(qxmobile.protobuf.PvpProto.OpponentInfo value) {
+        if (oppoListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureOppoListIsMutable();
+          oppoList_.add(value);
+          onChanged();
+        } else {
+          oppoListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public Builder addOppoList(
+          int index, qxmobile.protobuf.PvpProto.OpponentInfo value) {
+        if (oppoListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureOppoListIsMutable();
+          oppoList_.add(index, value);
+          onChanged();
+        } else {
+          oppoListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public Builder addOppoList(
+          qxmobile.protobuf.PvpProto.OpponentInfo.Builder builderForValue) {
+        if (oppoListBuilder_ == null) {
+          ensureOppoListIsMutable();
+          oppoList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          oppoListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public Builder addOppoList(
+          int index, qxmobile.protobuf.PvpProto.OpponentInfo.Builder builderForValue) {
+        if (oppoListBuilder_ == null) {
+          ensureOppoListIsMutable();
+          oppoList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          oppoListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public Builder addAllOppoList(
+          java.lang.Iterable<? extends qxmobile.protobuf.PvpProto.OpponentInfo> values) {
+        if (oppoListBuilder_ == null) {
+          ensureOppoListIsMutable();
+          super.addAll(values, oppoList_);
+          onChanged();
+        } else {
+          oppoListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public Builder clearOppoList() {
+        if (oppoListBuilder_ == null) {
+          oppoList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00004000);
+          onChanged();
+        } else {
+          oppoListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public Builder removeOppoList(int index) {
+        if (oppoListBuilder_ == null) {
+          ensureOppoListIsMutable();
+          oppoList_.remove(index);
+          onChanged();
+        } else {
+          oppoListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public qxmobile.protobuf.PvpProto.OpponentInfo.Builder getOppoListBuilder(
+          int index) {
+        return getOppoListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder getOppoListOrBuilder(
+          int index) {
+        if (oppoListBuilder_ == null) {
+          return oppoList_.get(index);  } else {
+          return oppoListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public java.util.List<? extends qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> 
+           getOppoListOrBuilderList() {
+        if (oppoListBuilder_ != null) {
+          return oppoListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(oppoList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public qxmobile.protobuf.PvpProto.OpponentInfo.Builder addOppoListBuilder() {
+        return getOppoListFieldBuilder().addBuilder(
+            qxmobile.protobuf.PvpProto.OpponentInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public qxmobile.protobuf.PvpProto.OpponentInfo.Builder addOppoListBuilder(
+          int index) {
+        return getOppoListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.PvpProto.OpponentInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 15;</code>
+       *
+       * <pre>
+       *当type为7时发送刷新列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo.Builder> 
+           getOppoListBuilderList() {
+        return getOppoListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.PvpProto.OpponentInfo, qxmobile.protobuf.PvpProto.OpponentInfo.Builder, qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> 
+          getOppoListFieldBuilder() {
+        if (oppoListBuilder_ == null) {
+          oppoListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.PvpProto.OpponentInfo, qxmobile.protobuf.PvpProto.OpponentInfo.Builder, qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder>(
+                  oppoList_,
+                  ((bitField0_ & 0x00004000) == 0x00004000),
+                  getParentForChildren(),
+                  isClean());
+          oppoList_ = null;
+        }
+        return oppoListBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ChallengeResp)
@@ -9140,8 +8144,12 @@ public final class PvpProto {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
+     * 0 元宝购买挑战次数
+     * 1 元宝清除下次挑战的冷却时间，
+     * 3 确定花费元宝更新玩家对手
      * 6 领取排名奖励: 对应返回： GetAwardInfo
      * 7 领取日奖励： 对应返回： GetAwardInfo
+     * 8请求指定军衔的敌人列表
      * </pre>
      */
     boolean hasType();
@@ -9149,17 +8157,39 @@ public final class PvpProto {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
+     * 0 元宝购买挑战次数
+     * 1 元宝清除下次挑战的冷却时间，
+     * 3 确定花费元宝更新玩家对手
      * 6 领取排名奖励: 对应返回： GetAwardInfo
      * 7 领取日奖励： 对应返回： GetAwardInfo
+     * 8请求指定军衔的敌人列表
      * </pre>
      */
     int getType();
+
+    // optional int32 junxianid = 2;
+    /**
+     * <code>optional int32 junxianid = 2;</code>
+     *
+     * <pre>
+     *仅当type=8是时发送
+     * </pre>
+     */
+    boolean hasJunxianid();
+    /**
+     * <code>optional int32 junxianid = 2;</code>
+     *
+     * <pre>
+     *仅当type=8是时发送
+     * </pre>
+     */
+    int getJunxianid();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ConfirmExecuteReq}
    *
    * <pre>
-   * 请求 百战千军中确定做某种事情
+   *C to S 请求 百战千军中确定做某种事情
    * </pre>
    */
   public static final class ConfirmExecuteReq extends
@@ -9215,6 +8245,11 @@ public final class PvpProto {
               type_ = input.readInt32();
               break;
             }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              junxianid_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -9262,8 +8297,12 @@ public final class PvpProto {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
+     * 0 元宝购买挑战次数
+     * 1 元宝清除下次挑战的冷却时间，
+     * 3 确定花费元宝更新玩家对手
      * 6 领取排名奖励: 对应返回： GetAwardInfo
      * 7 领取日奖励： 对应返回： GetAwardInfo
+     * 8请求指定军衔的敌人列表
      * </pre>
      */
     public boolean hasType() {
@@ -9273,16 +8312,45 @@ public final class PvpProto {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
+     * 0 元宝购买挑战次数
+     * 1 元宝清除下次挑战的冷却时间，
+     * 3 确定花费元宝更新玩家对手
      * 6 领取排名奖励: 对应返回： GetAwardInfo
      * 7 领取日奖励： 对应返回： GetAwardInfo
+     * 8请求指定军衔的敌人列表
      * </pre>
      */
     public int getType() {
       return type_;
     }
 
+    // optional int32 junxianid = 2;
+    public static final int JUNXIANID_FIELD_NUMBER = 2;
+    private int junxianid_;
+    /**
+     * <code>optional int32 junxianid = 2;</code>
+     *
+     * <pre>
+     *仅当type=8是时发送
+     * </pre>
+     */
+    public boolean hasJunxianid() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 junxianid = 2;</code>
+     *
+     * <pre>
+     *仅当type=8是时发送
+     * </pre>
+     */
+    public int getJunxianid() {
+      return junxianid_;
+    }
+
     private void initFields() {
       type_ = 0;
+      junxianid_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -9303,6 +8371,9 @@ public final class PvpProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(1, type_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, junxianid_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -9315,6 +8386,10 @@ public final class PvpProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, type_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, junxianid_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -9398,7 +8473,7 @@ public final class PvpProto {
      * Protobuf type {@code qxmobile.protobuf.ConfirmExecuteReq}
      *
      * <pre>
-     * 请求 百战千军中确定做某种事情
+     *C to S 请求 百战千军中确定做某种事情
      * </pre>
      */
     public static final class Builder extends
@@ -9438,6 +8513,8 @@ public final class PvpProto {
         super.clear();
         type_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        junxianid_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -9470,6 +8547,10 @@ public final class PvpProto {
           to_bitField0_ |= 0x00000001;
         }
         result.type_ = type_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.junxianid_ = junxianid_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -9488,6 +8569,9 @@ public final class PvpProto {
         if (other == qxmobile.protobuf.PvpProto.ConfirmExecuteReq.getDefaultInstance()) return this;
         if (other.hasType()) {
           setType(other.getType());
+        }
+        if (other.hasJunxianid()) {
+          setJunxianid(other.getJunxianid());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -9526,8 +8610,12 @@ public final class PvpProto {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
+       * 0 元宝购买挑战次数
+       * 1 元宝清除下次挑战的冷却时间，
+       * 3 确定花费元宝更新玩家对手
        * 6 领取排名奖励: 对应返回： GetAwardInfo
        * 7 领取日奖励： 对应返回： GetAwardInfo
+       * 8请求指定军衔的敌人列表
        * </pre>
        */
       public boolean hasType() {
@@ -9537,8 +8625,12 @@ public final class PvpProto {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
+       * 0 元宝购买挑战次数
+       * 1 元宝清除下次挑战的冷却时间，
+       * 3 确定花费元宝更新玩家对手
        * 6 领取排名奖励: 对应返回： GetAwardInfo
        * 7 领取日奖励： 对应返回： GetAwardInfo
+       * 8请求指定军衔的敌人列表
        * </pre>
        */
       public int getType() {
@@ -9548,8 +8640,12 @@ public final class PvpProto {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
+       * 0 元宝购买挑战次数
+       * 1 元宝清除下次挑战的冷却时间，
+       * 3 确定花费元宝更新玩家对手
        * 6 领取排名奖励: 对应返回： GetAwardInfo
        * 7 领取日奖励： 对应返回： GetAwardInfo
+       * 8请求指定军衔的敌人列表
        * </pre>
        */
       public Builder setType(int value) {
@@ -9562,13 +8658,66 @@ public final class PvpProto {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
+       * 0 元宝购买挑战次数
+       * 1 元宝清除下次挑战的冷却时间，
+       * 3 确定花费元宝更新玩家对手
        * 6 领取排名奖励: 对应返回： GetAwardInfo
        * 7 领取日奖励： 对应返回： GetAwardInfo
+       * 8请求指定军衔的敌人列表
        * </pre>
        */
       public Builder clearType() {
         bitField0_ = (bitField0_ & ~0x00000001);
         type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 junxianid = 2;
+      private int junxianid_ ;
+      /**
+       * <code>optional int32 junxianid = 2;</code>
+       *
+       * <pre>
+       *仅当type=8是时发送
+       * </pre>
+       */
+      public boolean hasJunxianid() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 junxianid = 2;</code>
+       *
+       * <pre>
+       *仅当type=8是时发送
+       * </pre>
+       */
+      public int getJunxianid() {
+        return junxianid_;
+      }
+      /**
+       * <code>optional int32 junxianid = 2;</code>
+       *
+       * <pre>
+       *仅当type=8是时发送
+       * </pre>
+       */
+      public Builder setJunxianid(int value) {
+        bitField0_ |= 0x00000002;
+        junxianid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 junxianid = 2;</code>
+       *
+       * <pre>
+       *仅当type=8是时发送
+       * </pre>
+       */
+      public Builder clearJunxianid() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        junxianid_ = 0;
         onChanged();
         return this;
       }
@@ -9673,10 +8822,6 @@ public final class PvpProto {
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ConfirmExecuteResp}
-   *
-   * <pre>
-   * 响应 百战千军中确定做某种事情
-   * </pre>
    */
   public static final class ConfirmExecuteResp extends
       com.google.protobuf.GeneratedMessage
@@ -10163,10 +9308,6 @@ public final class PvpProto {
     }
     /**
      * Protobuf type {@code qxmobile.protobuf.ConfirmExecuteResp}
-     *
-     * <pre>
-     * 响应 百战千军中确定做某种事情
-     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -11137,18 +10278,10 @@ public final class PvpProto {
     // required int32 success = 1;
     /**
      * <code>required int32 success = 1;</code>
-     *
-     * <pre>
-     * 0 表示元宝不足 1表示成功  2表示数据错误  3今日够买次数已经用尽
-     * </pre>
      */
     boolean hasSuccess();
     /**
      * <code>required int32 success = 1;</code>
-     *
-     * <pre>
-     * 0 表示元宝不足 1表示成功  2表示数据错误  3今日够买次数已经用尽
-     * </pre>
      */
     int getSuccess();
 
@@ -11190,6 +10323,10 @@ public final class PvpProto {
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.BuyCiShuInfo}
+   *
+   * <pre>
+   * 0 表示元宝不足 1表示成功  2表示数据错误  3今日够买次数已经用尽
+   * </pre>
    */
   public static final class BuyCiShuInfo extends
       com.google.protobuf.GeneratedMessage
@@ -11299,20 +10436,12 @@ public final class PvpProto {
     private int success_;
     /**
      * <code>required int32 success = 1;</code>
-     *
-     * <pre>
-     * 0 表示元宝不足 1表示成功  2表示数据错误  3今日够买次数已经用尽
-     * </pre>
      */
     public boolean hasSuccess() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int32 success = 1;</code>
-     *
-     * <pre>
-     * 0 表示元宝不足 1表示成功  2表示数据错误  3今日够买次数已经用尽
-     * </pre>
      */
     public int getSuccess() {
       return success_;
@@ -11497,6 +10626,10 @@ public final class PvpProto {
     }
     /**
      * Protobuf type {@code qxmobile.protobuf.BuyCiShuInfo}
+     *
+     * <pre>
+     * 0 表示元宝不足 1表示成功  2表示数据错误  3今日够买次数已经用尽
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -11639,30 +10772,18 @@ public final class PvpProto {
       private int success_ ;
       /**
        * <code>required int32 success = 1;</code>
-       *
-       * <pre>
-       * 0 表示元宝不足 1表示成功  2表示数据错误  3今日够买次数已经用尽
-       * </pre>
        */
       public boolean hasSuccess() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int32 success = 1;</code>
-       *
-       * <pre>
-       * 0 表示元宝不足 1表示成功  2表示数据错误  3今日够买次数已经用尽
-       * </pre>
        */
       public int getSuccess() {
         return success_;
       }
       /**
        * <code>required int32 success = 1;</code>
-       *
-       * <pre>
-       * 0 表示元宝不足 1表示成功  2表示数据错误  3今日够买次数已经用尽
-       * </pre>
        */
       public Builder setSuccess(int value) {
         bitField0_ |= 0x00000001;
@@ -11672,10 +10793,6 @@ public final class PvpProto {
       }
       /**
        * <code>required int32 success = 1;</code>
-       *
-       * <pre>
-       * 0 表示元宝不足 1表示成功  2表示数据错误  3今日够买次数已经用尽
-       * </pre>
        */
       public Builder clearSuccess() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -13011,27 +12128,37 @@ public final class PvpProto {
      */
     int getNextHuanYiPiYB();
 
-    // repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;
+    // optional int32 changejunxian = 3;
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+     * <code>optional int32 changejunxian = 3;</code>
+     */
+    boolean hasChangejunxian();
+    /**
+     * <code>optional int32 changejunxian = 3;</code>
+     */
+    int getChangejunxian();
+
+    // repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;
+    /**
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
      */
     java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> 
         getOppoListList();
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
      */
     qxmobile.protobuf.PvpProto.OpponentInfo getOppoList(int index);
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
      */
     int getOppoListCount();
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
      */
     java.util.List<? extends qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> 
         getOppoListOrBuilderList();
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
      */
     qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder getOppoListOrBuilder(
         int index);
@@ -13097,10 +12224,15 @@ public final class PvpProto {
               nextHuanYiPiYB_ = input.readInt32();
               break;
             }
-            case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+            case 24: {
+              bitField0_ |= 0x00000004;
+              changejunxian_ = input.readInt32();
+              break;
+            }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
                 oppoList_ = new java.util.ArrayList<qxmobile.protobuf.PvpProto.OpponentInfo>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000008;
               }
               oppoList_.add(input.readMessage(qxmobile.protobuf.PvpProto.OpponentInfo.PARSER, extensionRegistry));
               break;
@@ -13113,7 +12245,7 @@ public final class PvpProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
           oppoList_ = java.util.Collections.unmodifiableList(oppoList_);
         }
         this.unknownFields = unknownFields.build();
@@ -13188,36 +12320,52 @@ public final class PvpProto {
       return nextHuanYiPiYB_;
     }
 
-    // repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;
-    public static final int OPPOLIST_FIELD_NUMBER = 3;
+    // optional int32 changejunxian = 3;
+    public static final int CHANGEJUNXIAN_FIELD_NUMBER = 3;
+    private int changejunxian_;
+    /**
+     * <code>optional int32 changejunxian = 3;</code>
+     */
+    public boolean hasChangejunxian() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 changejunxian = 3;</code>
+     */
+    public int getChangejunxian() {
+      return changejunxian_;
+    }
+
+    // repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;
+    public static final int OPPOLIST_FIELD_NUMBER = 4;
     private java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> oppoList_;
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
      */
     public java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> getOppoListList() {
       return oppoList_;
     }
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
      */
     public java.util.List<? extends qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> 
         getOppoListOrBuilderList() {
       return oppoList_;
     }
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
      */
     public int getOppoListCount() {
       return oppoList_.size();
     }
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
      */
     public qxmobile.protobuf.PvpProto.OpponentInfo getOppoList(int index) {
       return oppoList_.get(index);
     }
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
      */
     public qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder getOppoListOrBuilder(
         int index) {
@@ -13227,6 +12375,7 @@ public final class PvpProto {
     private void initFields() {
       success_ = 0;
       nextHuanYiPiYB_ = 0;
+      changejunxian_ = 0;
       oppoList_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
@@ -13257,8 +12406,11 @@ public final class PvpProto {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(2, nextHuanYiPiYB_);
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, changejunxian_);
+      }
       for (int i = 0; i < oppoList_.size(); i++) {
-        output.writeMessage(3, oppoList_.get(i));
+        output.writeMessage(4, oppoList_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -13277,9 +12429,13 @@ public final class PvpProto {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, nextHuanYiPiYB_);
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, changejunxian_);
+      }
       for (int i = 0; i < oppoList_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, oppoList_.get(i));
+          .computeMessageSize(4, oppoList_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -13402,9 +12558,11 @@ public final class PvpProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         nextHuanYiPiYB_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
+        changejunxian_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
         if (oppoListBuilder_ == null) {
           oppoList_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000008);
         } else {
           oppoListBuilder_.clear();
         }
@@ -13444,10 +12602,14 @@ public final class PvpProto {
           to_bitField0_ |= 0x00000002;
         }
         result.nextHuanYiPiYB_ = nextHuanYiPiYB_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.changejunxian_ = changejunxian_;
         if (oppoListBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
             oppoList_ = java.util.Collections.unmodifiableList(oppoList_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000008);
           }
           result.oppoList_ = oppoList_;
         } else {
@@ -13475,11 +12637,14 @@ public final class PvpProto {
         if (other.hasNextHuanYiPiYB()) {
           setNextHuanYiPiYB(other.getNextHuanYiPiYB());
         }
+        if (other.hasChangejunxian()) {
+          setChangejunxian(other.getChangejunxian());
+        }
         if (oppoListBuilder_ == null) {
           if (!other.oppoList_.isEmpty()) {
             if (oppoList_.isEmpty()) {
               oppoList_ = other.oppoList_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000008);
             } else {
               ensureOppoListIsMutable();
               oppoList_.addAll(other.oppoList_);
@@ -13492,7 +12657,7 @@ public final class PvpProto {
               oppoListBuilder_.dispose();
               oppoListBuilder_ = null;
               oppoList_ = other.oppoList_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000008);
               oppoListBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getOppoListFieldBuilder() : null;
@@ -13620,13 +12785,46 @@ public final class PvpProto {
         return this;
       }
 
-      // repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;
+      // optional int32 changejunxian = 3;
+      private int changejunxian_ ;
+      /**
+       * <code>optional int32 changejunxian = 3;</code>
+       */
+      public boolean hasChangejunxian() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 changejunxian = 3;</code>
+       */
+      public int getChangejunxian() {
+        return changejunxian_;
+      }
+      /**
+       * <code>optional int32 changejunxian = 3;</code>
+       */
+      public Builder setChangejunxian(int value) {
+        bitField0_ |= 0x00000004;
+        changejunxian_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 changejunxian = 3;</code>
+       */
+      public Builder clearChangejunxian() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        changejunxian_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;
       private java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> oppoList_ =
         java.util.Collections.emptyList();
       private void ensureOppoListIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
           oppoList_ = new java.util.ArrayList<qxmobile.protobuf.PvpProto.OpponentInfo>(oppoList_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000008;
          }
       }
 
@@ -13634,7 +12832,7 @@ public final class PvpProto {
           qxmobile.protobuf.PvpProto.OpponentInfo, qxmobile.protobuf.PvpProto.OpponentInfo.Builder, qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> oppoListBuilder_;
 
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> getOppoListList() {
         if (oppoListBuilder_ == null) {
@@ -13644,7 +12842,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public int getOppoListCount() {
         if (oppoListBuilder_ == null) {
@@ -13654,7 +12852,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public qxmobile.protobuf.PvpProto.OpponentInfo getOppoList(int index) {
         if (oppoListBuilder_ == null) {
@@ -13664,7 +12862,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public Builder setOppoList(
           int index, qxmobile.protobuf.PvpProto.OpponentInfo value) {
@@ -13681,7 +12879,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public Builder setOppoList(
           int index, qxmobile.protobuf.PvpProto.OpponentInfo.Builder builderForValue) {
@@ -13695,7 +12893,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public Builder addOppoList(qxmobile.protobuf.PvpProto.OpponentInfo value) {
         if (oppoListBuilder_ == null) {
@@ -13711,7 +12909,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public Builder addOppoList(
           int index, qxmobile.protobuf.PvpProto.OpponentInfo value) {
@@ -13728,7 +12926,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public Builder addOppoList(
           qxmobile.protobuf.PvpProto.OpponentInfo.Builder builderForValue) {
@@ -13742,7 +12940,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public Builder addOppoList(
           int index, qxmobile.protobuf.PvpProto.OpponentInfo.Builder builderForValue) {
@@ -13756,7 +12954,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public Builder addAllOppoList(
           java.lang.Iterable<? extends qxmobile.protobuf.PvpProto.OpponentInfo> values) {
@@ -13770,12 +12968,12 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public Builder clearOppoList() {
         if (oppoListBuilder_ == null) {
           oppoList_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000008);
           onChanged();
         } else {
           oppoListBuilder_.clear();
@@ -13783,7 +12981,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public Builder removeOppoList(int index) {
         if (oppoListBuilder_ == null) {
@@ -13796,14 +12994,14 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public qxmobile.protobuf.PvpProto.OpponentInfo.Builder getOppoListBuilder(
           int index) {
         return getOppoListFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder getOppoListOrBuilder(
           int index) {
@@ -13813,7 +13011,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public java.util.List<? extends qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> 
            getOppoListOrBuilderList() {
@@ -13824,14 +13022,14 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public qxmobile.protobuf.PvpProto.OpponentInfo.Builder addOppoListBuilder() {
         return getOppoListFieldBuilder().addBuilder(
             qxmobile.protobuf.PvpProto.OpponentInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public qxmobile.protobuf.PvpProto.OpponentInfo.Builder addOppoListBuilder(
           int index) {
@@ -13839,7 +13037,7 @@ public final class PvpProto {
             index, qxmobile.protobuf.PvpProto.OpponentInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 3;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 4;</code>
        */
       public java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo.Builder> 
            getOppoListBuilderList() {
@@ -13852,7 +13050,7 @@ public final class PvpProto {
           oppoListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               qxmobile.protobuf.PvpProto.OpponentInfo, qxmobile.protobuf.PvpProto.OpponentInfo.Builder, qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder>(
                   oppoList_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000008) == 0x00000008),
                   getParentForChildren(),
                   isClean());
           oppoList_ = null;
@@ -14652,27 +13850,37 @@ public final class PvpProto {
   public interface RefreshOtherInfoOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;
+    // required int32 junxianid = 1;
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+     * <code>required int32 junxianid = 1;</code>
+     */
+    boolean hasJunxianid();
+    /**
+     * <code>required int32 junxianid = 1;</code>
+     */
+    int getJunxianid();
+
+    // repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;
+    /**
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
      */
     java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> 
         getOppoListList();
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
      */
     qxmobile.protobuf.PvpProto.OpponentInfo getOppoList(int index);
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
      */
     int getOppoListCount();
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
      */
     java.util.List<? extends qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> 
         getOppoListOrBuilderList();
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
      */
     qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder getOppoListOrBuilder(
         int index);
@@ -14728,10 +13936,15 @@ public final class PvpProto {
               }
               break;
             }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+            case 8: {
+              bitField0_ |= 0x00000001;
+              junxianid_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
                 oppoList_ = new java.util.ArrayList<qxmobile.protobuf.PvpProto.OpponentInfo>();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000002;
               }
               oppoList_.add(input.readMessage(qxmobile.protobuf.PvpProto.OpponentInfo.PARSER, extensionRegistry));
               break;
@@ -14744,7 +13957,7 @@ public final class PvpProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           oppoList_ = java.util.Collections.unmodifiableList(oppoList_);
         }
         this.unknownFields = unknownFields.build();
@@ -14778,36 +13991,53 @@ public final class PvpProto {
       return PARSER;
     }
 
-    // repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;
-    public static final int OPPOLIST_FIELD_NUMBER = 1;
+    private int bitField0_;
+    // required int32 junxianid = 1;
+    public static final int JUNXIANID_FIELD_NUMBER = 1;
+    private int junxianid_;
+    /**
+     * <code>required int32 junxianid = 1;</code>
+     */
+    public boolean hasJunxianid() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 junxianid = 1;</code>
+     */
+    public int getJunxianid() {
+      return junxianid_;
+    }
+
+    // repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;
+    public static final int OPPOLIST_FIELD_NUMBER = 2;
     private java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> oppoList_;
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
      */
     public java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> getOppoListList() {
       return oppoList_;
     }
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
      */
     public java.util.List<? extends qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> 
         getOppoListOrBuilderList() {
       return oppoList_;
     }
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
      */
     public int getOppoListCount() {
       return oppoList_.size();
     }
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
      */
     public qxmobile.protobuf.PvpProto.OpponentInfo getOppoList(int index) {
       return oppoList_.get(index);
     }
     /**
-     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+     * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
      */
     public qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder getOppoListOrBuilder(
         int index) {
@@ -14815,6 +14045,7 @@ public final class PvpProto {
     }
 
     private void initFields() {
+      junxianid_ = 0;
       oppoList_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
@@ -14822,6 +14053,10 @@ public final class PvpProto {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasJunxianid()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       for (int i = 0; i < getOppoListCount(); i++) {
         if (!getOppoList(i).isInitialized()) {
           memoizedIsInitialized = 0;
@@ -14835,8 +14070,11 @@ public final class PvpProto {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, junxianid_);
+      }
       for (int i = 0; i < oppoList_.size(); i++) {
-        output.writeMessage(1, oppoList_.get(i));
+        output.writeMessage(2, oppoList_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -14847,9 +14085,13 @@ public final class PvpProto {
       if (size != -1) return size;
 
       size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, junxianid_);
+      }
       for (int i = 0; i < oppoList_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, oppoList_.get(i));
+          .computeMessageSize(2, oppoList_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -14968,9 +14210,11 @@ public final class PvpProto {
 
       public Builder clear() {
         super.clear();
+        junxianid_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
         if (oppoListBuilder_ == null) {
           oppoList_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           oppoListBuilder_.clear();
         }
@@ -15001,15 +14245,21 @@ public final class PvpProto {
       public qxmobile.protobuf.PvpProto.RefreshOtherInfo buildPartial() {
         qxmobile.protobuf.PvpProto.RefreshOtherInfo result = new qxmobile.protobuf.PvpProto.RefreshOtherInfo(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.junxianid_ = junxianid_;
         if (oppoListBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
             oppoList_ = java.util.Collections.unmodifiableList(oppoList_);
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.oppoList_ = oppoList_;
         } else {
           result.oppoList_ = oppoListBuilder_.build();
         }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -15025,11 +14275,14 @@ public final class PvpProto {
 
       public Builder mergeFrom(qxmobile.protobuf.PvpProto.RefreshOtherInfo other) {
         if (other == qxmobile.protobuf.PvpProto.RefreshOtherInfo.getDefaultInstance()) return this;
+        if (other.hasJunxianid()) {
+          setJunxianid(other.getJunxianid());
+        }
         if (oppoListBuilder_ == null) {
           if (!other.oppoList_.isEmpty()) {
             if (oppoList_.isEmpty()) {
               oppoList_ = other.oppoList_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureOppoListIsMutable();
               oppoList_.addAll(other.oppoList_);
@@ -15042,7 +14295,7 @@ public final class PvpProto {
               oppoListBuilder_.dispose();
               oppoListBuilder_ = null;
               oppoList_ = other.oppoList_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000002);
               oppoListBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getOppoListFieldBuilder() : null;
@@ -15056,6 +14309,10 @@ public final class PvpProto {
       }
 
       public final boolean isInitialized() {
+        if (!hasJunxianid()) {
+          
+          return false;
+        }
         for (int i = 0; i < getOppoListCount(); i++) {
           if (!getOppoList(i).isInitialized()) {
             
@@ -15084,13 +14341,46 @@ public final class PvpProto {
       }
       private int bitField0_;
 
-      // repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;
+      // required int32 junxianid = 1;
+      private int junxianid_ ;
+      /**
+       * <code>required int32 junxianid = 1;</code>
+       */
+      public boolean hasJunxianid() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 junxianid = 1;</code>
+       */
+      public int getJunxianid() {
+        return junxianid_;
+      }
+      /**
+       * <code>required int32 junxianid = 1;</code>
+       */
+      public Builder setJunxianid(int value) {
+        bitField0_ |= 0x00000001;
+        junxianid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 junxianid = 1;</code>
+       */
+      public Builder clearJunxianid() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        junxianid_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;
       private java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> oppoList_ =
         java.util.Collections.emptyList();
       private void ensureOppoListIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
           oppoList_ = new java.util.ArrayList<qxmobile.protobuf.PvpProto.OpponentInfo>(oppoList_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
          }
       }
 
@@ -15098,7 +14388,7 @@ public final class PvpProto {
           qxmobile.protobuf.PvpProto.OpponentInfo, qxmobile.protobuf.PvpProto.OpponentInfo.Builder, qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> oppoListBuilder_;
 
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo> getOppoListList() {
         if (oppoListBuilder_ == null) {
@@ -15108,7 +14398,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public int getOppoListCount() {
         if (oppoListBuilder_ == null) {
@@ -15118,7 +14408,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public qxmobile.protobuf.PvpProto.OpponentInfo getOppoList(int index) {
         if (oppoListBuilder_ == null) {
@@ -15128,7 +14418,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public Builder setOppoList(
           int index, qxmobile.protobuf.PvpProto.OpponentInfo value) {
@@ -15145,7 +14435,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public Builder setOppoList(
           int index, qxmobile.protobuf.PvpProto.OpponentInfo.Builder builderForValue) {
@@ -15159,7 +14449,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public Builder addOppoList(qxmobile.protobuf.PvpProto.OpponentInfo value) {
         if (oppoListBuilder_ == null) {
@@ -15175,7 +14465,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public Builder addOppoList(
           int index, qxmobile.protobuf.PvpProto.OpponentInfo value) {
@@ -15192,7 +14482,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public Builder addOppoList(
           qxmobile.protobuf.PvpProto.OpponentInfo.Builder builderForValue) {
@@ -15206,7 +14496,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public Builder addOppoList(
           int index, qxmobile.protobuf.PvpProto.OpponentInfo.Builder builderForValue) {
@@ -15220,7 +14510,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public Builder addAllOppoList(
           java.lang.Iterable<? extends qxmobile.protobuf.PvpProto.OpponentInfo> values) {
@@ -15234,12 +14524,12 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public Builder clearOppoList() {
         if (oppoListBuilder_ == null) {
           oppoList_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           oppoListBuilder_.clear();
@@ -15247,7 +14537,7 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public Builder removeOppoList(int index) {
         if (oppoListBuilder_ == null) {
@@ -15260,14 +14550,14 @@ public final class PvpProto {
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public qxmobile.protobuf.PvpProto.OpponentInfo.Builder getOppoListBuilder(
           int index) {
         return getOppoListFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder getOppoListOrBuilder(
           int index) {
@@ -15277,7 +14567,7 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public java.util.List<? extends qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder> 
            getOppoListOrBuilderList() {
@@ -15288,14 +14578,14 @@ public final class PvpProto {
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public qxmobile.protobuf.PvpProto.OpponentInfo.Builder addOppoListBuilder() {
         return getOppoListFieldBuilder().addBuilder(
             qxmobile.protobuf.PvpProto.OpponentInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public qxmobile.protobuf.PvpProto.OpponentInfo.Builder addOppoListBuilder(
           int index) {
@@ -15303,7 +14593,7 @@ public final class PvpProto {
             index, qxmobile.protobuf.PvpProto.OpponentInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 1;</code>
+       * <code>repeated .qxmobile.protobuf.OpponentInfo oppoList = 2;</code>
        */
       public java.util.List<qxmobile.protobuf.PvpProto.OpponentInfo.Builder> 
            getOppoListBuilderList() {
@@ -15316,7 +14606,7 @@ public final class PvpProto {
           oppoListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               qxmobile.protobuf.PvpProto.OpponentInfo, qxmobile.protobuf.PvpProto.OpponentInfo.Builder, qxmobile.protobuf.PvpProto.OpponentInfoOrBuilder>(
                   oppoList_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000002) == 0x00000002),
                   getParentForChildren(),
                   isClean());
           oppoList_ = null;
@@ -16924,1136 +16214,6 @@ public final class PvpProto {
     }
 
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.BaiZhanResultResp)
-  }
-
-  public interface PlayerStateReqOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int64 enemyId = 1;
-    /**
-     * <code>required int64 enemyId = 1;</code>
-     *
-     * <pre>
-     * 被挑战者id
-     * </pre>
-     */
-    boolean hasEnemyId();
-    /**
-     * <code>required int64 enemyId = 1;</code>
-     *
-     * <pre>
-     * 被挑战者id
-     * </pre>
-     */
-    long getEnemyId();
-
-    // required int32 rank = 2;
-    /**
-     * <code>required int32 rank = 2;</code>
-     *
-     * <pre>
-     * 被挑战者名次
-     * </pre>
-     */
-    boolean hasRank();
-    /**
-     * <code>required int32 rank = 2;</code>
-     *
-     * <pre>
-     * 被挑战者名次
-     * </pre>
-     */
-    int getRank();
-
-    // required int32 junRank = 3;
-    /**
-     * <code>required int32 junRank = 3;</code>
-     *
-     * <pre>
-     * 君主的名次
-     * </pre>
-     */
-    boolean hasJunRank();
-    /**
-     * <code>required int32 junRank = 3;</code>
-     *
-     * <pre>
-     * 君主的名次
-     * </pre>
-     */
-    int getJunRank();
-  }
-  /**
-   * Protobuf type {@code qxmobile.protobuf.PlayerStateReq}
-   */
-  public static final class PlayerStateReq extends
-      com.google.protobuf.GeneratedMessage
-      implements PlayerStateReqOrBuilder {
-    // Use PlayerStateReq.newBuilder() to construct.
-    private PlayerStateReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private PlayerStateReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final PlayerStateReq defaultInstance;
-    public static PlayerStateReq getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public PlayerStateReq getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private PlayerStateReq(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              enemyId_ = input.readInt64();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              rank_ = input.readInt32();
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000004;
-              junRank_ = input.readInt32();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return qxmobile.protobuf.PvpProto.internal_static_qxmobile_protobuf_PlayerStateReq_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.PvpProto.internal_static_qxmobile_protobuf_PlayerStateReq_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.PvpProto.PlayerStateReq.class, qxmobile.protobuf.PvpProto.PlayerStateReq.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<PlayerStateReq> PARSER =
-        new com.google.protobuf.AbstractParser<PlayerStateReq>() {
-      public PlayerStateReq parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PlayerStateReq(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<PlayerStateReq> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int64 enemyId = 1;
-    public static final int ENEMYID_FIELD_NUMBER = 1;
-    private long enemyId_;
-    /**
-     * <code>required int64 enemyId = 1;</code>
-     *
-     * <pre>
-     * 被挑战者id
-     * </pre>
-     */
-    public boolean hasEnemyId() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int64 enemyId = 1;</code>
-     *
-     * <pre>
-     * 被挑战者id
-     * </pre>
-     */
-    public long getEnemyId() {
-      return enemyId_;
-    }
-
-    // required int32 rank = 2;
-    public static final int RANK_FIELD_NUMBER = 2;
-    private int rank_;
-    /**
-     * <code>required int32 rank = 2;</code>
-     *
-     * <pre>
-     * 被挑战者名次
-     * </pre>
-     */
-    public boolean hasRank() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required int32 rank = 2;</code>
-     *
-     * <pre>
-     * 被挑战者名次
-     * </pre>
-     */
-    public int getRank() {
-      return rank_;
-    }
-
-    // required int32 junRank = 3;
-    public static final int JUNRANK_FIELD_NUMBER = 3;
-    private int junRank_;
-    /**
-     * <code>required int32 junRank = 3;</code>
-     *
-     * <pre>
-     * 君主的名次
-     * </pre>
-     */
-    public boolean hasJunRank() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>required int32 junRank = 3;</code>
-     *
-     * <pre>
-     * 君主的名次
-     * </pre>
-     */
-    public int getJunRank() {
-      return junRank_;
-    }
-
-    private void initFields() {
-      enemyId_ = 0L;
-      rank_ = 0;
-      junRank_ = 0;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasEnemyId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasRank()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasJunRank()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt64(1, enemyId_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, rank_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, junRank_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(1, enemyId_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, rank_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, junRank_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static qxmobile.protobuf.PvpProto.PlayerStateReq parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateReq parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateReq parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateReq parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateReq parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateReq parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateReq parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateReq parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateReq parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateReq parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.PvpProto.PlayerStateReq prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code qxmobile.protobuf.PlayerStateReq}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.PvpProto.PlayerStateReqOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return qxmobile.protobuf.PvpProto.internal_static_qxmobile_protobuf_PlayerStateReq_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.PvpProto.internal_static_qxmobile_protobuf_PlayerStateReq_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.PvpProto.PlayerStateReq.class, qxmobile.protobuf.PvpProto.PlayerStateReq.Builder.class);
-      }
-
-      // Construct using qxmobile.protobuf.PvpProto.PlayerStateReq.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        enemyId_ = 0L;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        rank_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        junRank_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return qxmobile.protobuf.PvpProto.internal_static_qxmobile_protobuf_PlayerStateReq_descriptor;
-      }
-
-      public qxmobile.protobuf.PvpProto.PlayerStateReq getDefaultInstanceForType() {
-        return qxmobile.protobuf.PvpProto.PlayerStateReq.getDefaultInstance();
-      }
-
-      public qxmobile.protobuf.PvpProto.PlayerStateReq build() {
-        qxmobile.protobuf.PvpProto.PlayerStateReq result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public qxmobile.protobuf.PvpProto.PlayerStateReq buildPartial() {
-        qxmobile.protobuf.PvpProto.PlayerStateReq result = new qxmobile.protobuf.PvpProto.PlayerStateReq(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.enemyId_ = enemyId_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.rank_ = rank_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.junRank_ = junRank_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.PvpProto.PlayerStateReq) {
-          return mergeFrom((qxmobile.protobuf.PvpProto.PlayerStateReq)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(qxmobile.protobuf.PvpProto.PlayerStateReq other) {
-        if (other == qxmobile.protobuf.PvpProto.PlayerStateReq.getDefaultInstance()) return this;
-        if (other.hasEnemyId()) {
-          setEnemyId(other.getEnemyId());
-        }
-        if (other.hasRank()) {
-          setRank(other.getRank());
-        }
-        if (other.hasJunRank()) {
-          setJunRank(other.getJunRank());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasEnemyId()) {
-          
-          return false;
-        }
-        if (!hasRank()) {
-          
-          return false;
-        }
-        if (!hasJunRank()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        qxmobile.protobuf.PvpProto.PlayerStateReq parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.PvpProto.PlayerStateReq) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int64 enemyId = 1;
-      private long enemyId_ ;
-      /**
-       * <code>required int64 enemyId = 1;</code>
-       *
-       * <pre>
-       * 被挑战者id
-       * </pre>
-       */
-      public boolean hasEnemyId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int64 enemyId = 1;</code>
-       *
-       * <pre>
-       * 被挑战者id
-       * </pre>
-       */
-      public long getEnemyId() {
-        return enemyId_;
-      }
-      /**
-       * <code>required int64 enemyId = 1;</code>
-       *
-       * <pre>
-       * 被挑战者id
-       * </pre>
-       */
-      public Builder setEnemyId(long value) {
-        bitField0_ |= 0x00000001;
-        enemyId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int64 enemyId = 1;</code>
-       *
-       * <pre>
-       * 被挑战者id
-       * </pre>
-       */
-      public Builder clearEnemyId() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        enemyId_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      // required int32 rank = 2;
-      private int rank_ ;
-      /**
-       * <code>required int32 rank = 2;</code>
-       *
-       * <pre>
-       * 被挑战者名次
-       * </pre>
-       */
-      public boolean hasRank() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required int32 rank = 2;</code>
-       *
-       * <pre>
-       * 被挑战者名次
-       * </pre>
-       */
-      public int getRank() {
-        return rank_;
-      }
-      /**
-       * <code>required int32 rank = 2;</code>
-       *
-       * <pre>
-       * 被挑战者名次
-       * </pre>
-       */
-      public Builder setRank(int value) {
-        bitField0_ |= 0x00000002;
-        rank_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 rank = 2;</code>
-       *
-       * <pre>
-       * 被挑战者名次
-       * </pre>
-       */
-      public Builder clearRank() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        rank_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 junRank = 3;
-      private int junRank_ ;
-      /**
-       * <code>required int32 junRank = 3;</code>
-       *
-       * <pre>
-       * 君主的名次
-       * </pre>
-       */
-      public boolean hasJunRank() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>required int32 junRank = 3;</code>
-       *
-       * <pre>
-       * 君主的名次
-       * </pre>
-       */
-      public int getJunRank() {
-        return junRank_;
-      }
-      /**
-       * <code>required int32 junRank = 3;</code>
-       *
-       * <pre>
-       * 君主的名次
-       * </pre>
-       */
-      public Builder setJunRank(int value) {
-        bitField0_ |= 0x00000004;
-        junRank_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 junRank = 3;</code>
-       *
-       * <pre>
-       * 君主的名次
-       * </pre>
-       */
-      public Builder clearJunRank() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        junRank_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.PlayerStateReq)
-    }
-
-    static {
-      defaultInstance = new PlayerStateReq(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.PlayerStateReq)
-  }
-
-  public interface PlayerStateRespOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 type = 1;
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * type = 2 挑战中, 1 可以挑战
-     * 3 君主等级不足，4 ： 今日挑战机会已经用完  5 挑战CD没有结束 6 数据出错
-     * 7 对手名次已经变； 8：自己的名次变了
-     * </pre>
-     */
-    boolean hasType();
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * type = 2 挑战中, 1 可以挑战
-     * 3 君主等级不足，4 ： 今日挑战机会已经用完  5 挑战CD没有结束 6 数据出错
-     * 7 对手名次已经变； 8：自己的名次变了
-     * </pre>
-     */
-    int getType();
-  }
-  /**
-   * Protobuf type {@code qxmobile.protobuf.PlayerStateResp}
-   */
-  public static final class PlayerStateResp extends
-      com.google.protobuf.GeneratedMessage
-      implements PlayerStateRespOrBuilder {
-    // Use PlayerStateResp.newBuilder() to construct.
-    private PlayerStateResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private PlayerStateResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final PlayerStateResp defaultInstance;
-    public static PlayerStateResp getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public PlayerStateResp getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private PlayerStateResp(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              type_ = input.readInt32();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return qxmobile.protobuf.PvpProto.internal_static_qxmobile_protobuf_PlayerStateResp_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.PvpProto.internal_static_qxmobile_protobuf_PlayerStateResp_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.PvpProto.PlayerStateResp.class, qxmobile.protobuf.PvpProto.PlayerStateResp.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<PlayerStateResp> PARSER =
-        new com.google.protobuf.AbstractParser<PlayerStateResp>() {
-      public PlayerStateResp parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PlayerStateResp(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<PlayerStateResp> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 type = 1;
-    public static final int TYPE_FIELD_NUMBER = 1;
-    private int type_;
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * type = 2 挑战中, 1 可以挑战
-     * 3 君主等级不足，4 ： 今日挑战机会已经用完  5 挑战CD没有结束 6 数据出错
-     * 7 对手名次已经变； 8：自己的名次变了
-     * </pre>
-     */
-    public boolean hasType() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 type = 1;</code>
-     *
-     * <pre>
-     * type = 2 挑战中, 1 可以挑战
-     * 3 君主等级不足，4 ： 今日挑战机会已经用完  5 挑战CD没有结束 6 数据出错
-     * 7 对手名次已经变； 8：自己的名次变了
-     * </pre>
-     */
-    public int getType() {
-      return type_;
-    }
-
-    private void initFields() {
-      type_ = 0;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasType()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, type_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, type_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static qxmobile.protobuf.PvpProto.PlayerStateResp parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateResp parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateResp parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateResp parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateResp parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateResp parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateResp parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateResp parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateResp parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static qxmobile.protobuf.PvpProto.PlayerStateResp parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.PvpProto.PlayerStateResp prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code qxmobile.protobuf.PlayerStateResp}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.PvpProto.PlayerStateRespOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return qxmobile.protobuf.PvpProto.internal_static_qxmobile_protobuf_PlayerStateResp_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.PvpProto.internal_static_qxmobile_protobuf_PlayerStateResp_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.PvpProto.PlayerStateResp.class, qxmobile.protobuf.PvpProto.PlayerStateResp.Builder.class);
-      }
-
-      // Construct using qxmobile.protobuf.PvpProto.PlayerStateResp.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        type_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return qxmobile.protobuf.PvpProto.internal_static_qxmobile_protobuf_PlayerStateResp_descriptor;
-      }
-
-      public qxmobile.protobuf.PvpProto.PlayerStateResp getDefaultInstanceForType() {
-        return qxmobile.protobuf.PvpProto.PlayerStateResp.getDefaultInstance();
-      }
-
-      public qxmobile.protobuf.PvpProto.PlayerStateResp build() {
-        qxmobile.protobuf.PvpProto.PlayerStateResp result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public qxmobile.protobuf.PvpProto.PlayerStateResp buildPartial() {
-        qxmobile.protobuf.PvpProto.PlayerStateResp result = new qxmobile.protobuf.PvpProto.PlayerStateResp(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.type_ = type_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.PvpProto.PlayerStateResp) {
-          return mergeFrom((qxmobile.protobuf.PvpProto.PlayerStateResp)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(qxmobile.protobuf.PvpProto.PlayerStateResp other) {
-        if (other == qxmobile.protobuf.PvpProto.PlayerStateResp.getDefaultInstance()) return this;
-        if (other.hasType()) {
-          setType(other.getType());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasType()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        qxmobile.protobuf.PvpProto.PlayerStateResp parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.PvpProto.PlayerStateResp) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 type = 1;
-      private int type_ ;
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * type = 2 挑战中, 1 可以挑战
-       * 3 君主等级不足，4 ： 今日挑战机会已经用完  5 挑战CD没有结束 6 数据出错
-       * 7 对手名次已经变； 8：自己的名次变了
-       * </pre>
-       */
-      public boolean hasType() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * type = 2 挑战中, 1 可以挑战
-       * 3 君主等级不足，4 ： 今日挑战机会已经用完  5 挑战CD没有结束 6 数据出错
-       * 7 对手名次已经变； 8：自己的名次变了
-       * </pre>
-       */
-      public int getType() {
-        return type_;
-      }
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * type = 2 挑战中, 1 可以挑战
-       * 3 君主等级不足，4 ： 今日挑战机会已经用完  5 挑战CD没有结束 6 数据出错
-       * 7 对手名次已经变； 8：自己的名次变了
-       * </pre>
-       */
-      public Builder setType(int value) {
-        bitField0_ |= 0x00000001;
-        type_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 type = 1;</code>
-       *
-       * <pre>
-       * type = 2 挑战中, 1 可以挑战
-       * 3 君主等级不足，4 ： 今日挑战机会已经用完  5 挑战CD没有结束 6 数据出错
-       * 7 对手名次已经变； 8：自己的名次变了
-       * </pre>
-       */
-      public Builder clearType() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        type_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.PlayerStateResp)
-    }
-
-    static {
-      defaultInstance = new PlayerStateResp(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.PlayerStateResp)
   }
 
   public interface ZhandouRecordRespOrBuilder
@@ -20080,11 +18240,6 @@ public final class PvpProto {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_OpponentInfo_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_PVPInfo_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_PVPInfo_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_ChallengeReq_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -20150,16 +18305,6 @@ public final class PvpProto {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_BaiZhanResultResp_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_PlayerStateReq_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_PlayerStateReq_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_PlayerStateResp_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_PlayerStateResp_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_ZhandouRecordResp_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -20178,75 +18323,67 @@ public final class PvpProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\tPVP.proto\022\021qxmobile.protobuf\"\366\003\n\017BaiZh" +
-      "anInfoResp\022\020\n\010junZhuId\030\001 \002(\003\022\022\n\njunZhuNa" +
-      "me\030\002 \002(\t\022\024\n\014lianMengName\030\003 \002(\t\022+\n\007pvpInf" +
-      "o\030\004 \002(\0132\032.qxmobile.protobuf.PVPInfo\022\021\n\tc" +
-      "dYuanBao\030\005 \001(\005\0221\n\010oppoList\030\006 \003(\0132\037.qxmob" +
-      "ile.protobuf.OpponentInfo\022\016\n\006isShow\030\007 \002(" +
-      "\010\022\031\n\021nowMaxBattleCount\030\010 \002(\005\022\032\n\022nextMaxB" +
-      "attleCount\030\t \002(\005\022\022\n\nhuanYiPiYB\030\n \002(\005\022\030\n\020" +
-      "canCleanCDvipLev\030\013 \002(\005\022\023\n\013weiWangHour\030\014 " +
-      "\002(\005\022\022\n\nhasWeiWang\030\r \002(\005\022\025\n\rcanGetweiWang",
-      "\030\016 \002(\005\022\027\n\017leftCanBuyCount\030\017 \002(\005\022\021\n\tbuyNe" +
-      "edYB\030\020 \001(\005\022\021\n\tbuyNumber\030\021 \001(\005\022\021\n\trankAwa" +
-      "rd\030\022 \002(\005\022\024\n\014nextTimeTo21\030\023 \002(\005\022\027\n\017lastHi" +
-      "ghestRank\030\025 \001(\005\"\345\001\n\014OpponentInfo\022\020\n\010junZ" +
-      "huId\030\001 \002(\003\022\022\n\njunZhuName\030\002 \002(\t\022\024\n\014lianMe" +
-      "ngName\030\003 \002(\t\022\014\n\004rank\030\004 \002(\005\022\016\n\006zhanLi\030\005 \002" +
-      "(\005\022\024\n\014junXianLevel\030\006 \002(\005\022\016\n\006guojia\030\007 \002(\005" +
-      "\022\016\n\006roleId\030\010 \002(\005\022\016\n\006zuheId\030\t \002(\005\022\021\n\tzuHe" +
-      "Level\030\n \002(\005\022\r\n\005level\030\013 \002(\005\022\023\n\013historyRan" +
-      "k\030\014 \002(\005\"\233\001\n\007PVPInfo\022\014\n\004rank\030\001 \002(\005\022\016\n\006zha",
-      "nLi\030\002 \002(\005\022\021\n\tleftTimes\030\003 \002(\005\022\022\n\ntotalTim" +
-      "es\030\004 \002(\005\022\014\n\004time\030\005 \002(\005\022\024\n\014baizhanXMLId\030\006" +
-      " \002(\005\022\016\n\006zuheId\030\007 \002(\005\022\027\n\017historyHighRank\030" +
-      "\010 \002(\005\"$\n\014ChallengeReq\022\024\n\014oppoJunZhuId\030\001 " +
-      "\002(\003\"\324\002\n\rChallengeResp\0221\n\nmySoldiers\030\001 \003(" +
-      "\0132\035.qxmobile.protobuf.GuYongBing\022\020\n\010myZh" +
-      "anli\030\002 \002(\005\0223\n\014oppoSoldiers\030\003 \003(\0132\035.qxmob" +
-      "ile.protobuf.GuYongBing\022\022\n\noppoZhanli\030\004 " +
-      "\002(\005\022\020\n\010openTime\030\005 \001(\003\022\017\n\007myLevel\030\006 \001(\005\022\021" +
-      "\n\toppoLevel\030\007 \001(\005\022\016\n\006oppoId\030\010 \002(\003\022\016\n\006myR",
-      "ank\030\t \001(\005\022\020\n\010oppoRank\030\n \002(\005\022\022\n\noppoRoleI" +
-      "d\030\013 \002(\005\022\020\n\010myZuheId\030\014 \002(\005\022\021\n\toppZuheId\030\r" +
-      " \002(\005\022\024\n\014oppZuHeLevel\030\016 \002(\005\"\030\n\nGuYongBing" +
-      "\022\n\n\002id\030\001 \002(\005\"!\n\021ConfirmExecuteReq\022\014\n\004typ" +
-      "e\030\001 \002(\005\"\350\002\n\022ConfirmExecuteResp\0225\n\014buyCiS" +
-      "huInfo\030\001 \001(\0132\037.qxmobile.protobuf.BuyCiSh" +
-      "uInfo\0223\n\013cleanCDInfo\030\002 \001(\0132\036.qxmobile.pr" +
-      "otobuf.CleanCDInfo\0225\n\014getAwardInfo\030\003 \001(\013" +
-      "2\037.qxmobile.protobuf.GetAwardInfo\0227\n\rpay" +
-      "ChangeInfo\030\004 \001(\0132 .qxmobile.protobuf.Pay",
-      "ChangeInfo\0227\n\rrefreshMyInfo\030\005 \001(\0132 .qxmo" +
-      "bile.protobuf.RefreshMyInfo\022=\n\020refreshOt" +
-      "herInfo\030\006 \001(\0132#.qxmobile.protobuf.Refres" +
-      "hOtherInfo\"F\n\014BuyCiShuInfo\022\017\n\007success\030\001 " +
-      "\002(\005\022\021\n\tleftTimes\030\002 \001(\005\022\022\n\ntotalTimes\030\003 \001" +
-      "(\005\"W\n\013CleanCDInfo\022\017\n\007success\030\001 \002(\005\022\021\n\tle" +
-      "ftTimes\030\002 \001(\005\022\022\n\ntotalTimes\030\003 \001(\005\022\020\n\010nex" +
-      "tCDYB\030\004 \001(\005\"\037\n\014GetAwardInfo\022\017\n\007success\030\001" +
-      " \002(\005\"k\n\rPayChangeInfo\022\017\n\007success\030\001 \002(\005\022\026" +
-      "\n\016nextHuanYiPiYB\030\002 \001(\005\0221\n\010oppoList\030\003 \003(\013",
-      "2\037.qxmobile.protobuf.OpponentInfo\"V\n\rRef" +
-      "reshMyInfo\0221\n\010oppoList\030\001 \003(\0132\037.qxmobile." +
-      "protobuf.OpponentInfo\022\022\n\njunZhuRank\030\002 \002(" +
-      "\005\"E\n\020RefreshOtherInfo\0221\n\010oppoList\030\001 \003(\0132" +
-      "\037.qxmobile.protobuf.OpponentInfo\"B\n\rBaiZ" +
-      "hanResult\022\017\n\007enemyId\030\001 \002(\003\022\r\n\005winId\030\002 \002(" +
-      "\003\022\021\n\tzhandouId\030\003 \002(\005\"\211\001\n\021BaiZhanResultRe" +
-      "sp\022\017\n\007oldRank\030\001 \001(\005\022\017\n\007newRank\030\002 \001(\005\022\017\n\007" +
-      "highest\030\003 \001(\005\022\027\n\017oldJunXianLevel\030\006 \001(\005\022\027" +
-      "\n\017newJunXianLevel\030\007 \001(\005\022\017\n\007yuanbao\030\010 \001(\005",
-      "\"@\n\016PlayerStateReq\022\017\n\007enemyId\030\001 \002(\003\022\014\n\004r" +
-      "ank\030\002 \002(\005\022\017\n\007junRank\030\003 \002(\005\"\037\n\017PlayerStat" +
-      "eResp\022\014\n\004type\030\001 \002(\005\"A\n\021ZhandouRecordResp" +
-      "\022,\n\004info\030\001 \003(\0132\036.qxmobile.protobuf.Zhand" +
-      "ouItem\"\262\001\n\013ZhandouItem\022\021\n\tzhandouId\030\001 \002(" +
-      "\005\022\017\n\007enemyId\030\002 \002(\003\022\021\n\tenemyName\030\003 \002(\t\022\014\n" +
-      "\004time\030\004 \002(\005\022\013\n\003win\030\005 \002(\005\022\026\n\016junRankChang" +
-      "eV\030\006 \002(\005\022\r\n\005level\030\007 \002(\005\022\025\n\renemyGuoJiaId" +
-      "\030\t \002(\005\022\023\n\013enemyRoleId\030\013 \002(\005B\nB\010PvpProto"
+      "\n\tPVP.proto\022\021qxmobile.protobuf\"\302\002\n\017BaiZh" +
+      "anInfoResp\022\014\n\004rank\030\001 \002(\005\022\021\n\tleftTimes\030\002 " +
+      "\002(\005\022\022\n\ntotalTimes\030\003 \002(\005\022\014\n\004time\030\004 \002(\005\022\027\n" +
+      "\017historyHighRank\030\005 \002(\005\022\021\n\tcdYuanBao\030\006 \001(" +
+      "\005\022\022\n\nhuanYiPiYB\030\007 \002(\005\022\023\n\013weiWangHour\030\010 \002" +
+      "(\005\022\022\n\nhasWeiWang\030\t \002(\005\022\033\n\023lasthistoryHig" +
+      "hRank\030\n \002(\005\022\027\n\017leftCanBuyCount\030\017 \002(\005\022\021\n\t" +
+      "buyNeedYB\030\020 \001(\005\022\021\n\tbuyNumber\030\021 \001(\005\022\021\n\tra" +
+      "nkAward\030\022 \002(\005\022\024\n\014nextTimeTo21\030\023 \002(\005\"\275\001\n\014" +
+      "OpponentInfo\022\020\n\010junZhuId\030\001 \002(\003\022\022\n\njunZhu",
+      "Name\030\002 \002(\t\022\024\n\014lianMengName\030\003 \002(\t\022\014\n\004rank" +
+      "\030\004 \002(\005\022\016\n\006zhanLi\030\005 \002(\005\022\024\n\014junXianLevel\030\006" +
+      " \002(\005\022\016\n\006guojia\030\007 \002(\005\022\016\n\006roleId\030\010 \002(\005\022\016\n\006" +
+      "zuheId\030\t \002(\005\022\r\n\005level\030\n \002(\005\"J\n\014Challenge" +
+      "Req\022\024\n\014oppoJunZhuId\030\001 \002(\003\022\026\n\016oppoJunzhuR" +
+      "ank\030\002 \002(\005\022\014\n\004type\030\003 \002(\005\"\377\002\n\rChallengeRes" +
+      "p\022\014\n\004type\030\001 \002(\005\0221\n\nmySoldiers\030\002 \003(\0132\035.qx" +
+      "mobile.protobuf.GuYongBing\022\020\n\010myZhanli\030\003" +
+      " \001(\005\0223\n\014oppoSoldiers\030\004 \003(\0132\035.qxmobile.pr" +
+      "otobuf.GuYongBing\022\022\n\noppoZhanli\030\005 \001(\005\022\017\n",
+      "\007myLevel\030\006 \001(\005\022\021\n\toppoLevel\030\007 \001(\005\022\022\n\nopp" +
+      "oRoleId\030\010 \001(\005\022\020\n\010myZuheId\030\t \001(\005\022\021\n\toppZu" +
+      "heId\030\n \001(\005\022\020\n\010openTime\030\016 \001(\003\022\016\n\006oppoId\030\013" +
+      " \001(\003\022\016\n\006myRank\030\014 \001(\005\022\020\n\010oppoRank\030\r \001(\005\0221" +
+      "\n\010oppoList\030\017 \003(\0132\037.qxmobile.protobuf.Opp" +
+      "onentInfo\"\030\n\nGuYongBing\022\n\n\002id\030\001 \002(\005\"4\n\021C" +
+      "onfirmExecuteReq\022\014\n\004type\030\001 \002(\005\022\021\n\tjunxia" +
+      "nid\030\002 \001(\005\"\350\002\n\022ConfirmExecuteResp\0225\n\014buyC" +
+      "iShuInfo\030\001 \001(\0132\037.qxmobile.protobuf.BuyCi" +
+      "ShuInfo\0223\n\013cleanCDInfo\030\002 \001(\0132\036.qxmobile.",
+      "protobuf.CleanCDInfo\0225\n\014getAwardInfo\030\003 \001" +
+      "(\0132\037.qxmobile.protobuf.GetAwardInfo\0227\n\rp" +
+      "ayChangeInfo\030\004 \001(\0132 .qxmobile.protobuf.P" +
+      "ayChangeInfo\0227\n\rrefreshMyInfo\030\005 \001(\0132 .qx" +
+      "mobile.protobuf.RefreshMyInfo\022=\n\020refresh" +
+      "OtherInfo\030\006 \001(\0132#.qxmobile.protobuf.Refr" +
+      "eshOtherInfo\"F\n\014BuyCiShuInfo\022\017\n\007success\030" +
+      "\001 \002(\005\022\021\n\tleftTimes\030\002 \001(\005\022\022\n\ntotalTimes\030\003" +
+      " \001(\005\"W\n\013CleanCDInfo\022\017\n\007success\030\001 \002(\005\022\021\n\t" +
+      "leftTimes\030\002 \001(\005\022\022\n\ntotalTimes\030\003 \001(\005\022\020\n\010n",
+      "extCDYB\030\004 \001(\005\"\037\n\014GetAwardInfo\022\017\n\007success" +
+      "\030\001 \002(\005\"\202\001\n\rPayChangeInfo\022\017\n\007success\030\001 \002(" +
+      "\005\022\026\n\016nextHuanYiPiYB\030\002 \001(\005\022\025\n\rchangejunxi" +
+      "an\030\003 \001(\005\0221\n\010oppoList\030\004 \003(\0132\037.qxmobile.pr" +
+      "otobuf.OpponentInfo\"V\n\rRefreshMyInfo\0221\n\010" +
+      "oppoList\030\001 \003(\0132\037.qxmobile.protobuf.Oppon" +
+      "entInfo\022\022\n\njunZhuRank\030\002 \002(\005\"X\n\020RefreshOt" +
+      "herInfo\022\021\n\tjunxianid\030\001 \002(\005\0221\n\010oppoList\030\002" +
+      " \003(\0132\037.qxmobile.protobuf.OpponentInfo\"B\n" +
+      "\rBaiZhanResult\022\017\n\007enemyId\030\001 \002(\003\022\r\n\005winId",
+      "\030\002 \002(\003\022\021\n\tzhandouId\030\003 \002(\005\"\211\001\n\021BaiZhanRes" +
+      "ultResp\022\017\n\007oldRank\030\001 \001(\005\022\017\n\007newRank\030\002 \001(" +
+      "\005\022\017\n\007highest\030\003 \001(\005\022\027\n\017oldJunXianLevel\030\006 " +
+      "\001(\005\022\027\n\017newJunXianLevel\030\007 \001(\005\022\017\n\007yuanbao\030" +
+      "\010 \001(\005\"A\n\021ZhandouRecordResp\022,\n\004info\030\001 \003(\013" +
+      "2\036.qxmobile.protobuf.ZhandouItem\"\262\001\n\013Zha" +
+      "ndouItem\022\021\n\tzhandouId\030\001 \002(\005\022\017\n\007enemyId\030\002" +
+      " \002(\003\022\021\n\tenemyName\030\003 \002(\t\022\014\n\004time\030\004 \002(\005\022\013\n" +
+      "\003win\030\005 \002(\005\022\026\n\016junRankChangeV\030\006 \002(\005\022\r\n\005le" +
+      "vel\030\007 \002(\005\022\025\n\renemyGuoJiaId\030\t \002(\005\022\023\n\013enem",
+      "yRoleId\030\013 \002(\005B\nB\010PvpProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -20258,117 +18395,99 @@ public final class PvpProto {
           internal_static_qxmobile_protobuf_BaiZhanInfoResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BaiZhanInfoResp_descriptor,
-              new java.lang.String[] { "JunZhuId", "JunZhuName", "LianMengName", "PvpInfo", "CdYuanBao", "OppoList", "IsShow", "NowMaxBattleCount", "NextMaxBattleCount", "HuanYiPiYB", "CanCleanCDvipLev", "WeiWangHour", "HasWeiWang", "CanGetweiWang", "LeftCanBuyCount", "BuyNeedYB", "BuyNumber", "RankAward", "NextTimeTo21", "LastHighestRank", });
+              new java.lang.String[] { "Rank", "LeftTimes", "TotalTimes", "Time", "HistoryHighRank", "CdYuanBao", "HuanYiPiYB", "WeiWangHour", "HasWeiWang", "LasthistoryHighRank", "LeftCanBuyCount", "BuyNeedYB", "BuyNumber", "RankAward", "NextTimeTo21", });
           internal_static_qxmobile_protobuf_OpponentInfo_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_OpponentInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_OpponentInfo_descriptor,
-              new java.lang.String[] { "JunZhuId", "JunZhuName", "LianMengName", "Rank", "ZhanLi", "JunXianLevel", "Guojia", "RoleId", "ZuheId", "ZuHeLevel", "Level", "HistoryRank", });
-          internal_static_qxmobile_protobuf_PVPInfo_descriptor =
-            getDescriptor().getMessageTypes().get(2);
-          internal_static_qxmobile_protobuf_PVPInfo_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_PVPInfo_descriptor,
-              new java.lang.String[] { "Rank", "ZhanLi", "LeftTimes", "TotalTimes", "Time", "BaizhanXMLId", "ZuheId", "HistoryHighRank", });
+              new java.lang.String[] { "JunZhuId", "JunZhuName", "LianMengName", "Rank", "ZhanLi", "JunXianLevel", "Guojia", "RoleId", "ZuheId", "Level", });
           internal_static_qxmobile_protobuf_ChallengeReq_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_ChallengeReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ChallengeReq_descriptor,
-              new java.lang.String[] { "OppoJunZhuId", });
+              new java.lang.String[] { "OppoJunZhuId", "OppoJunzhuRank", "Type", });
           internal_static_qxmobile_protobuf_ChallengeResp_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(3);
           internal_static_qxmobile_protobuf_ChallengeResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ChallengeResp_descriptor,
-              new java.lang.String[] { "MySoldiers", "MyZhanli", "OppoSoldiers", "OppoZhanli", "OpenTime", "MyLevel", "OppoLevel", "OppoId", "MyRank", "OppoRank", "OppoRoleId", "MyZuheId", "OppZuheId", "OppZuHeLevel", });
+              new java.lang.String[] { "Type", "MySoldiers", "MyZhanli", "OppoSoldiers", "OppoZhanli", "MyLevel", "OppoLevel", "OppoRoleId", "MyZuheId", "OppZuheId", "OpenTime", "OppoId", "MyRank", "OppoRank", "OppoList", });
           internal_static_qxmobile_protobuf_GuYongBing_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_GuYongBing_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_GuYongBing_descriptor,
               new java.lang.String[] { "Id", });
           internal_static_qxmobile_protobuf_ConfirmExecuteReq_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_qxmobile_protobuf_ConfirmExecuteReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ConfirmExecuteReq_descriptor,
-              new java.lang.String[] { "Type", });
+              new java.lang.String[] { "Type", "Junxianid", });
           internal_static_qxmobile_protobuf_ConfirmExecuteResp_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_qxmobile_protobuf_ConfirmExecuteResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ConfirmExecuteResp_descriptor,
               new java.lang.String[] { "BuyCiShuInfo", "CleanCDInfo", "GetAwardInfo", "PayChangeInfo", "RefreshMyInfo", "RefreshOtherInfo", });
           internal_static_qxmobile_protobuf_BuyCiShuInfo_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(7);
           internal_static_qxmobile_protobuf_BuyCiShuInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BuyCiShuInfo_descriptor,
               new java.lang.String[] { "Success", "LeftTimes", "TotalTimes", });
           internal_static_qxmobile_protobuf_CleanCDInfo_descriptor =
-            getDescriptor().getMessageTypes().get(9);
+            getDescriptor().getMessageTypes().get(8);
           internal_static_qxmobile_protobuf_CleanCDInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_CleanCDInfo_descriptor,
               new java.lang.String[] { "Success", "LeftTimes", "TotalTimes", "NextCDYB", });
           internal_static_qxmobile_protobuf_GetAwardInfo_descriptor =
-            getDescriptor().getMessageTypes().get(10);
+            getDescriptor().getMessageTypes().get(9);
           internal_static_qxmobile_protobuf_GetAwardInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_GetAwardInfo_descriptor,
               new java.lang.String[] { "Success", });
           internal_static_qxmobile_protobuf_PayChangeInfo_descriptor =
-            getDescriptor().getMessageTypes().get(11);
+            getDescriptor().getMessageTypes().get(10);
           internal_static_qxmobile_protobuf_PayChangeInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_PayChangeInfo_descriptor,
-              new java.lang.String[] { "Success", "NextHuanYiPiYB", "OppoList", });
+              new java.lang.String[] { "Success", "NextHuanYiPiYB", "Changejunxian", "OppoList", });
           internal_static_qxmobile_protobuf_RefreshMyInfo_descriptor =
-            getDescriptor().getMessageTypes().get(12);
+            getDescriptor().getMessageTypes().get(11);
           internal_static_qxmobile_protobuf_RefreshMyInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_RefreshMyInfo_descriptor,
               new java.lang.String[] { "OppoList", "JunZhuRank", });
           internal_static_qxmobile_protobuf_RefreshOtherInfo_descriptor =
-            getDescriptor().getMessageTypes().get(13);
+            getDescriptor().getMessageTypes().get(12);
           internal_static_qxmobile_protobuf_RefreshOtherInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_RefreshOtherInfo_descriptor,
-              new java.lang.String[] { "OppoList", });
+              new java.lang.String[] { "Junxianid", "OppoList", });
           internal_static_qxmobile_protobuf_BaiZhanResult_descriptor =
-            getDescriptor().getMessageTypes().get(14);
+            getDescriptor().getMessageTypes().get(13);
           internal_static_qxmobile_protobuf_BaiZhanResult_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BaiZhanResult_descriptor,
               new java.lang.String[] { "EnemyId", "WinId", "ZhandouId", });
           internal_static_qxmobile_protobuf_BaiZhanResultResp_descriptor =
-            getDescriptor().getMessageTypes().get(15);
+            getDescriptor().getMessageTypes().get(14);
           internal_static_qxmobile_protobuf_BaiZhanResultResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BaiZhanResultResp_descriptor,
               new java.lang.String[] { "OldRank", "NewRank", "Highest", "OldJunXianLevel", "NewJunXianLevel", "Yuanbao", });
-          internal_static_qxmobile_protobuf_PlayerStateReq_descriptor =
-            getDescriptor().getMessageTypes().get(16);
-          internal_static_qxmobile_protobuf_PlayerStateReq_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_PlayerStateReq_descriptor,
-              new java.lang.String[] { "EnemyId", "Rank", "JunRank", });
-          internal_static_qxmobile_protobuf_PlayerStateResp_descriptor =
-            getDescriptor().getMessageTypes().get(17);
-          internal_static_qxmobile_protobuf_PlayerStateResp_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_PlayerStateResp_descriptor,
-              new java.lang.String[] { "Type", });
           internal_static_qxmobile_protobuf_ZhandouRecordResp_descriptor =
-            getDescriptor().getMessageTypes().get(18);
+            getDescriptor().getMessageTypes().get(15);
           internal_static_qxmobile_protobuf_ZhandouRecordResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ZhandouRecordResp_descriptor,
               new java.lang.String[] { "Info", });
           internal_static_qxmobile_protobuf_ZhandouItem_descriptor =
-            getDescriptor().getMessageTypes().get(19);
+            getDescriptor().getMessageTypes().get(16);
           internal_static_qxmobile_protobuf_ZhandouItem_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ZhandouItem_descriptor,

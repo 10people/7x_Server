@@ -4360,7 +4360,7 @@ public final class UserEquipProtos {
      * <code>optional int32 wqRX = 17;</code>
      *
      * <pre>
-     *（武器暴击加深）属性值
+     *（武器暴击减免）属性值
      * </pre>
      */
     boolean hasWqRX();
@@ -4368,7 +4368,7 @@ public final class UserEquipProtos {
      * <code>optional int32 wqRX = 17;</code>
      *
      * <pre>
-     *（武器暴击加深）属性值
+     *（武器暴击减免）属性值
      * </pre>
      */
     int getWqRX();
@@ -4552,6 +4552,24 @@ public final class UserEquipProtos {
      * </pre>
      */
     int getZhuangbeiID();
+
+    // optional int32 jinJieExp = 28;
+    /**
+     * <code>optional int32 jinJieExp = 28;</code>
+     *
+     * <pre>
+     *装备进阶经验
+     * </pre>
+     */
+    boolean hasJinJieExp();
+    /**
+     * <code>optional int32 jinJieExp = 28;</code>
+     *
+     * <pre>
+     *装备进阶经验
+     * </pre>
+     */
+    int getJinJieExp();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.EquipStrengthResp}
@@ -4737,6 +4755,11 @@ public final class UserEquipProtos {
             case 216: {
               bitField0_ |= 0x04000000;
               zhuangbeiID_ = input.readInt32();
+              break;
+            }
+            case 224: {
+              bitField0_ |= 0x08000000;
+              jinJieExp_ = input.readInt32();
               break;
             }
           }
@@ -5130,7 +5153,7 @@ public final class UserEquipProtos {
      * <code>optional int32 wqRX = 17;</code>
      *
      * <pre>
-     *（武器暴击加深）属性值
+     *（武器暴击减免）属性值
      * </pre>
      */
     public boolean hasWqRX() {
@@ -5140,7 +5163,7 @@ public final class UserEquipProtos {
      * <code>optional int32 wqRX = 17;</code>
      *
      * <pre>
-     *（武器暴击加深）属性值
+     *（武器暴击减免）属性值
      * </pre>
      */
     public int getWqRX() {
@@ -5387,6 +5410,30 @@ public final class UserEquipProtos {
       return zhuangbeiID_;
     }
 
+    // optional int32 jinJieExp = 28;
+    public static final int JINJIEEXP_FIELD_NUMBER = 28;
+    private int jinJieExp_;
+    /**
+     * <code>optional int32 jinJieExp = 28;</code>
+     *
+     * <pre>
+     *装备进阶经验
+     * </pre>
+     */
+    public boolean hasJinJieExp() {
+      return ((bitField0_ & 0x08000000) == 0x08000000);
+    }
+    /**
+     * <code>optional int32 jinJieExp = 28;</code>
+     *
+     * <pre>
+     *装备进阶经验
+     * </pre>
+     */
+    public int getJinJieExp() {
+      return jinJieExp_;
+    }
+
     private void initFields() {
       equipId_ = 0L;
       exp_ = 0;
@@ -5415,6 +5462,7 @@ public final class UserEquipProtos {
       jnMBL_ = 0F;
       jnCDReduce_ = 0F;
       zhuangbeiID_ = 0;
+      jinJieExp_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5541,6 +5589,9 @@ public final class UserEquipProtos {
       if (((bitField0_ & 0x04000000) == 0x04000000)) {
         output.writeInt32(27, zhuangbeiID_);
       }
+      if (((bitField0_ & 0x08000000) == 0x08000000)) {
+        output.writeInt32(28, jinJieExp_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -5657,6 +5708,10 @@ public final class UserEquipProtos {
       if (((bitField0_ & 0x04000000) == 0x04000000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(27, zhuangbeiID_);
+      }
+      if (((bitField0_ & 0x08000000) == 0x08000000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(28, jinJieExp_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5828,6 +5883,8 @@ public final class UserEquipProtos {
         bitField0_ = (bitField0_ & ~0x02000000);
         zhuangbeiID_ = 0;
         bitField0_ = (bitField0_ & ~0x04000000);
+        jinJieExp_ = 0;
+        bitField0_ = (bitField0_ & ~0x08000000);
         return this;
       }
 
@@ -5964,6 +6021,10 @@ public final class UserEquipProtos {
           to_bitField0_ |= 0x04000000;
         }
         result.zhuangbeiID_ = zhuangbeiID_;
+        if (((from_bitField0_ & 0x08000000) == 0x08000000)) {
+          to_bitField0_ |= 0x08000000;
+        }
+        result.jinJieExp_ = jinJieExp_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6060,6 +6121,9 @@ public final class UserEquipProtos {
         }
         if (other.hasZhuangbeiID()) {
           setZhuangbeiID(other.getZhuangbeiID());
+        }
+        if (other.hasJinJieExp()) {
+          setJinJieExp(other.getJinJieExp());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -6830,7 +6894,7 @@ public final class UserEquipProtos {
        * <code>optional int32 wqRX = 17;</code>
        *
        * <pre>
-       *（武器暴击加深）属性值
+       *（武器暴击减免）属性值
        * </pre>
        */
       public boolean hasWqRX() {
@@ -6840,7 +6904,7 @@ public final class UserEquipProtos {
        * <code>optional int32 wqRX = 17;</code>
        *
        * <pre>
-       *（武器暴击加深）属性值
+       *（武器暴击减免）属性值
        * </pre>
        */
       public int getWqRX() {
@@ -6850,7 +6914,7 @@ public final class UserEquipProtos {
        * <code>optional int32 wqRX = 17;</code>
        *
        * <pre>
-       *（武器暴击加深）属性值
+       *（武器暴击减免）属性值
        * </pre>
        */
       public Builder setWqRX(int value) {
@@ -6863,7 +6927,7 @@ public final class UserEquipProtos {
        * <code>optional int32 wqRX = 17;</code>
        *
        * <pre>
-       *（武器暴击加深）属性值
+       *（武器暴击减免）属性值
        * </pre>
        */
       public Builder clearWqRX() {
@@ -7359,6 +7423,55 @@ public final class UserEquipProtos {
       public Builder clearZhuangbeiID() {
         bitField0_ = (bitField0_ & ~0x04000000);
         zhuangbeiID_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 jinJieExp = 28;
+      private int jinJieExp_ ;
+      /**
+       * <code>optional int32 jinJieExp = 28;</code>
+       *
+       * <pre>
+       *装备进阶经验
+       * </pre>
+       */
+      public boolean hasJinJieExp() {
+        return ((bitField0_ & 0x08000000) == 0x08000000);
+      }
+      /**
+       * <code>optional int32 jinJieExp = 28;</code>
+       *
+       * <pre>
+       *装备进阶经验
+       * </pre>
+       */
+      public int getJinJieExp() {
+        return jinJieExp_;
+      }
+      /**
+       * <code>optional int32 jinJieExp = 28;</code>
+       *
+       * <pre>
+       *装备进阶经验
+       * </pre>
+       */
+      public Builder setJinJieExp(int value) {
+        bitField0_ |= 0x08000000;
+        jinJieExp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 jinJieExp = 28;</code>
+       *
+       * <pre>
+       *装备进阶经验
+       * </pre>
+       */
+      public Builder clearJinJieExp() {
+        bitField0_ = (bitField0_ & ~0x08000000);
+        jinJieExp_ = 0;
         onChanged();
         return this;
       }
@@ -14892,6 +15005,32 @@ public final class UserEquipProtos {
      * </pre>
      */
     long getEquipId();
+
+    // repeated int64 cailiaoList = 2;
+    /**
+     * <code>repeated int64 cailiaoList = 2;</code>
+     *
+     * <pre>
+     *进阶的材料
+     * </pre>
+     */
+    java.util.List<java.lang.Long> getCailiaoListList();
+    /**
+     * <code>repeated int64 cailiaoList = 2;</code>
+     *
+     * <pre>
+     *进阶的材料
+     * </pre>
+     */
+    int getCailiaoListCount();
+    /**
+     * <code>repeated int64 cailiaoList = 2;</code>
+     *
+     * <pre>
+     *进阶的材料
+     * </pre>
+     */
+    long getCailiaoList(int index);
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.EquipJinJie}
@@ -14949,6 +15088,27 @@ public final class UserEquipProtos {
               equipId_ = input.readInt64();
               break;
             }
+            case 16: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                cailiaoList_ = new java.util.ArrayList<java.lang.Long>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              cailiaoList_.add(input.readInt64());
+              break;
+            }
+            case 18: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
+                cailiaoList_ = new java.util.ArrayList<java.lang.Long>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                cailiaoList_.add(input.readInt64());
+              }
+              input.popLimit(limit);
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -14957,6 +15117,9 @@ public final class UserEquipProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          cailiaoList_ = java.util.Collections.unmodifiableList(cailiaoList_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -15013,8 +15176,44 @@ public final class UserEquipProtos {
       return equipId_;
     }
 
+    // repeated int64 cailiaoList = 2;
+    public static final int CAILIAOLIST_FIELD_NUMBER = 2;
+    private java.util.List<java.lang.Long> cailiaoList_;
+    /**
+     * <code>repeated int64 cailiaoList = 2;</code>
+     *
+     * <pre>
+     *进阶的材料
+     * </pre>
+     */
+    public java.util.List<java.lang.Long>
+        getCailiaoListList() {
+      return cailiaoList_;
+    }
+    /**
+     * <code>repeated int64 cailiaoList = 2;</code>
+     *
+     * <pre>
+     *进阶的材料
+     * </pre>
+     */
+    public int getCailiaoListCount() {
+      return cailiaoList_.size();
+    }
+    /**
+     * <code>repeated int64 cailiaoList = 2;</code>
+     *
+     * <pre>
+     *进阶的材料
+     * </pre>
+     */
+    public long getCailiaoList(int index) {
+      return cailiaoList_.get(index);
+    }
+
     private void initFields() {
       equipId_ = 0L;
+      cailiaoList_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -15035,6 +15234,9 @@ public final class UserEquipProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt64(1, equipId_);
       }
+      for (int i = 0; i < cailiaoList_.size(); i++) {
+        output.writeInt64(2, cailiaoList_.get(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -15047,6 +15249,15 @@ public final class UserEquipProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, equipId_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < cailiaoList_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt64SizeNoTag(cailiaoList_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getCailiaoListList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -15166,6 +15377,8 @@ public final class UserEquipProtos {
         super.clear();
         equipId_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000001);
+        cailiaoList_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -15198,6 +15411,11 @@ public final class UserEquipProtos {
           to_bitField0_ |= 0x00000001;
         }
         result.equipId_ = equipId_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          cailiaoList_ = java.util.Collections.unmodifiableList(cailiaoList_);
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.cailiaoList_ = cailiaoList_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -15216,6 +15434,16 @@ public final class UserEquipProtos {
         if (other == qxmobile.protobuf.UserEquipProtos.EquipJinJie.getDefaultInstance()) return this;
         if (other.hasEquipId()) {
           setEquipId(other.getEquipId());
+        }
+        if (!other.cailiaoList_.isEmpty()) {
+          if (cailiaoList_.isEmpty()) {
+            cailiaoList_ = other.cailiaoList_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureCailiaoListIsMutable();
+            cailiaoList_.addAll(other.cailiaoList_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -15293,6 +15521,100 @@ public final class UserEquipProtos {
       public Builder clearEquipId() {
         bitField0_ = (bitField0_ & ~0x00000001);
         equipId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // repeated int64 cailiaoList = 2;
+      private java.util.List<java.lang.Long> cailiaoList_ = java.util.Collections.emptyList();
+      private void ensureCailiaoListIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          cailiaoList_ = new java.util.ArrayList<java.lang.Long>(cailiaoList_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated int64 cailiaoList = 2;</code>
+       *
+       * <pre>
+       *进阶的材料
+       * </pre>
+       */
+      public java.util.List<java.lang.Long>
+          getCailiaoListList() {
+        return java.util.Collections.unmodifiableList(cailiaoList_);
+      }
+      /**
+       * <code>repeated int64 cailiaoList = 2;</code>
+       *
+       * <pre>
+       *进阶的材料
+       * </pre>
+       */
+      public int getCailiaoListCount() {
+        return cailiaoList_.size();
+      }
+      /**
+       * <code>repeated int64 cailiaoList = 2;</code>
+       *
+       * <pre>
+       *进阶的材料
+       * </pre>
+       */
+      public long getCailiaoList(int index) {
+        return cailiaoList_.get(index);
+      }
+      /**
+       * <code>repeated int64 cailiaoList = 2;</code>
+       *
+       * <pre>
+       *进阶的材料
+       * </pre>
+       */
+      public Builder setCailiaoList(
+          int index, long value) {
+        ensureCailiaoListIsMutable();
+        cailiaoList_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int64 cailiaoList = 2;</code>
+       *
+       * <pre>
+       *进阶的材料
+       * </pre>
+       */
+      public Builder addCailiaoList(long value) {
+        ensureCailiaoListIsMutable();
+        cailiaoList_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int64 cailiaoList = 2;</code>
+       *
+       * <pre>
+       *进阶的材料
+       * </pre>
+       */
+      public Builder addAllCailiaoList(
+          java.lang.Iterable<? extends java.lang.Long> values) {
+        ensureCailiaoListIsMutable();
+        super.addAll(values, cailiaoList_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int64 cailiaoList = 2;</code>
+       *
+       * <pre>
+       *进阶的材料
+       * </pre>
+       */
+      public Builder clearCailiaoList() {
+        cailiaoList_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -16821,7 +17143,7 @@ public final class UserEquipProtos {
       "type\030\003 \002(\005\"\035\n\013XilianError\022\016\n\006result\030\001 \002(" +
       "\005\"N\n\025EquipStrength4AllResp\0225\n\007allResp\030\001 ",
       "\003(\0132$.qxmobile.protobuf.EquipStrengthRes" +
-      "p\"\320\003\n\021EquipStrengthResp\022\017\n\007equipId\030\001 \002(\003" +
+      "p\"\343\003\n\021EquipStrengthResp\022\017\n\007equipId\030\001 \002(\003" +
       "\022\013\n\003exp\030\002 \002(\005\022\r\n\005level\030\003 \002(\005\022\016\n\006gongJi\030\004" +
       " \001(\005\022\016\n\006fangYu\030\005 \001(\005\022\021\n\tshengMing\030\006 \001(\005\022" +
       "\021\n\tgongJiAdd\030\007 \001(\005\022\021\n\tfangYuAdd\030\010 \001(\005\022\024\n" +
@@ -16832,35 +17154,36 @@ public final class UserEquipProtos {
       "\022 \001(\005\022\014\n\004jnJM\030\023 \001(\005\022\014\n\004jnBJ\030\024 \001(\005\022\014\n\004jnR",
       "X\030\025 \001(\005\022\r\n\005wqBJL\030\026 \001(\002\022\r\n\005jnBJL\030\027 \001(\002\022\r\n" +
       "\005wqMBL\030\030 \001(\002\022\r\n\005jnMBL\030\031 \001(\002\022\022\n\njnCDReduc" +
-      "e\030\032 \001(\002\022\023\n\013zhuangbeiID\030\033 \002(\005\"\203\002\n\tXiLianR" +
-      "eq\022\017\n\007equipId\030\001 \002(\003\022\016\n\006action\030\002 \002(\005\022\022\n\nl" +
-      "ockTongli\030\003 \001(\005\022\020\n\010lockWuli\030\004 \001(\005\022\021\n\tloc" +
-      "kMouli\030\005 \001(\005\022\014\n\004type\030\006 \002(\005\022\020\n\010wqSHLock\030\007" +
-      " \001(\005\022\020\n\010wqJMLock\030\010 \001(\005\022\020\n\010wqBJLock\030\t \001(\005" +
-      "\022\020\n\010wqRXLock\030\n \001(\005\022\020\n\010jnSHLock\030\013 \001(\005\022\020\n\010" +
-      "jnJMLock\030\014 \001(\005\022\020\n\010jnBJLock\030\r \001(\005\022\020\n\010jnRX" +
-      "Lock\030\016 \001(\005\"\277\006\n\tXiLianRes\022\017\n\007equipId\030\001 \002(",
-      "\003\022\021\n\ttongShuai\030\002 \002(\005\022\014\n\004wuYi\030\003 \002(\005\022\016\n\006zh" +
-      "iMou\030\004 \002(\005\022\017\n\007yuanBao\030\005 \002(\005\022\024\n\014yuanBaoTi" +
-      "mes\030& \002(\005\022\024\n\014tongShuaiAdd\030\006 \001(\005\022\017\n\007wuYiA" +
-      "dd\030\007 \001(\005\022\021\n\tzhiMouAdd\030\010 \001(\005\022\027\n\017freeXilia" +
-      "nTimes\030\t \002(\005\022\014\n\004time\030\n \002(\005\022\024\n\014tongShuaiM" +
-      "ax\030\013 \002(\005\022\017\n\007wuYiMax\030\014 \002(\005\022\021\n\tzhiMouMax\030\r" +
-      " \002(\005\022\014\n\004wqSH\030\016 \001(\005\022\014\n\004wqJM\030\017 \001(\005\022\014\n\004wqBJ" +
-      "\030\020 \001(\005\022\014\n\004wqRX\030\021 \001(\005\022\014\n\004jnSH\030\022 \001(\005\022\014\n\004jn" +
-      "JM\030\023 \001(\005\022\014\n\004jnBJ\030\024 \001(\005\022\014\n\004jnRX\030\025 \001(\005\022\017\n\007" +
-      "wqSHAdd\030\026 \001(\005\022\017\n\007wqJMAdd\030\027 \001(\005\022\017\n\007wqBJAd",
-      "d\030\030 \001(\005\022\017\n\007wqRXAdd\030\031 \001(\005\022\017\n\007jnSHAdd\030\032 \001(" +
-      "\005\022\017\n\007jnJMAdd\030\033 \001(\005\022\017\n\007jnBJAdd\030\034 \001(\005\022\017\n\007j" +
-      "nRXAdd\030\035 \001(\005\022\017\n\007wqSHMax\030\036 \001(\005\022\017\n\007wqJMMax" +
-      "\030\037 \001(\005\022\017\n\007wqBJMax\030  \001(\005\022\017\n\007wqRXMax\030! \001(\005" +
-      "\022\017\n\007jnSHMax\030\" \001(\005\022\017\n\007jnJMMax\030# \001(\005\022\017\n\007jn" +
-      "BJMax\030$ \001(\005\022\017\n\007jnRXMax\030% \001(\005\022\016\n\006addMin\030\'" +
-      " \001(\005\022\016\n\006addMax\030( \001(\005\022\r\n\005wqBJL\030) \001(\002\022\r\n\005j" +
-      "nBJL\030* \001(\002\022\r\n\005wqMBL\030+ \001(\002\022\r\n\005jnMBL\030, \001(\002" +
-      "\022\022\n\njnCDReduce\030- \001(\002\022\023\n\013zhuangbeiID\030. \002(" +
-      "\005\022\026\n\016xilianshiTimes\030/ \001(\005\022\021\n\tcount4New\0300",
-      " \001(\005\"\036\n\013EquipJinJie\022\017\n\007equipId\030\001 \002(\003\"\317\001\n" +
+      "e\030\032 \001(\002\022\023\n\013zhuangbeiID\030\033 \002(\005\022\021\n\tjinJieEx" +
+      "p\030\034 \001(\005\"\203\002\n\tXiLianReq\022\017\n\007equipId\030\001 \002(\003\022\016" +
+      "\n\006action\030\002 \002(\005\022\022\n\nlockTongli\030\003 \001(\005\022\020\n\010lo" +
+      "ckWuli\030\004 \001(\005\022\021\n\tlockMouli\030\005 \001(\005\022\014\n\004type\030" +
+      "\006 \002(\005\022\020\n\010wqSHLock\030\007 \001(\005\022\020\n\010wqJMLock\030\010 \001(" +
+      "\005\022\020\n\010wqBJLock\030\t \001(\005\022\020\n\010wqRXLock\030\n \001(\005\022\020\n" +
+      "\010jnSHLock\030\013 \001(\005\022\020\n\010jnJMLock\030\014 \001(\005\022\020\n\010jnB" +
+      "JLock\030\r \001(\005\022\020\n\010jnRXLock\030\016 \001(\005\"\277\006\n\tXiLian",
+      "Res\022\017\n\007equipId\030\001 \002(\003\022\021\n\ttongShuai\030\002 \002(\005\022" +
+      "\014\n\004wuYi\030\003 \002(\005\022\016\n\006zhiMou\030\004 \002(\005\022\017\n\007yuanBao" +
+      "\030\005 \002(\005\022\024\n\014yuanBaoTimes\030& \002(\005\022\024\n\014tongShua" +
+      "iAdd\030\006 \001(\005\022\017\n\007wuYiAdd\030\007 \001(\005\022\021\n\tzhiMouAdd" +
+      "\030\010 \001(\005\022\027\n\017freeXilianTimes\030\t \002(\005\022\014\n\004time\030" +
+      "\n \002(\005\022\024\n\014tongShuaiMax\030\013 \002(\005\022\017\n\007wuYiMax\030\014" +
+      " \002(\005\022\021\n\tzhiMouMax\030\r \002(\005\022\014\n\004wqSH\030\016 \001(\005\022\014\n" +
+      "\004wqJM\030\017 \001(\005\022\014\n\004wqBJ\030\020 \001(\005\022\014\n\004wqRX\030\021 \001(\005\022" +
+      "\014\n\004jnSH\030\022 \001(\005\022\014\n\004jnJM\030\023 \001(\005\022\014\n\004jnBJ\030\024 \001(" +
+      "\005\022\014\n\004jnRX\030\025 \001(\005\022\017\n\007wqSHAdd\030\026 \001(\005\022\017\n\007wqJM",
+      "Add\030\027 \001(\005\022\017\n\007wqBJAdd\030\030 \001(\005\022\017\n\007wqRXAdd\030\031 " +
+      "\001(\005\022\017\n\007jnSHAdd\030\032 \001(\005\022\017\n\007jnJMAdd\030\033 \001(\005\022\017\n" +
+      "\007jnBJAdd\030\034 \001(\005\022\017\n\007jnRXAdd\030\035 \001(\005\022\017\n\007wqSHM" +
+      "ax\030\036 \001(\005\022\017\n\007wqJMMax\030\037 \001(\005\022\017\n\007wqBJMax\030  \001" +
+      "(\005\022\017\n\007wqRXMax\030! \001(\005\022\017\n\007jnSHMax\030\" \001(\005\022\017\n\007" +
+      "jnJMMax\030# \001(\005\022\017\n\007jnBJMax\030$ \001(\005\022\017\n\007jnRXMa" +
+      "x\030% \001(\005\022\016\n\006addMin\030\' \001(\005\022\016\n\006addMax\030( \001(\005\022" +
+      "\r\n\005wqBJL\030) \001(\002\022\r\n\005jnBJL\030* \001(\002\022\r\n\005wqMBL\030+" +
+      " \001(\002\022\r\n\005jnMBL\030, \001(\002\022\022\n\njnCDReduce\030- \001(\002\022" +
+      "\023\n\013zhuangbeiID\030. \002(\005\022\026\n\016xilianshiTimes\030/",
+      " \001(\005\022\021\n\tcount4New\0300 \001(\005\"3\n\013EquipJinJie\022\017" +
+      "\n\007equipId\030\001 \002(\003\022\023\n\013cailiaoList\030\002 \003(\003\"\317\001\n" +
       "\017EquipJinJieResp\022\017\n\007equipId\030\001 \002(\003\022\020\n\010zbI" +
       "temId\030\013 \002(\005\022\013\n\003exp\030\002 \002(\005\022\r\n\005level\030\003 \002(\005\022" +
       "\016\n\006gongJi\030\004 \001(\005\022\016\n\006fangYu\030\005 \001(\005\022\021\n\tsheng" +
@@ -16914,7 +17237,7 @@ public final class UserEquipProtos {
           internal_static_qxmobile_protobuf_EquipStrengthResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_EquipStrengthResp_descriptor,
-              new java.lang.String[] { "EquipId", "Exp", "Level", "GongJi", "FangYu", "ShengMing", "GongJiAdd", "FangYuAdd", "ShengMingAdd", "ExpMax", "GongJiMax", "FangYuMax", "ShengMingMax", "WqSH", "WqJM", "WqBJ", "WqRX", "JnSH", "JnJM", "JnBJ", "JnRX", "WqBJL", "JnBJL", "WqMBL", "JnMBL", "JnCDReduce", "ZhuangbeiID", });
+              new java.lang.String[] { "EquipId", "Exp", "Level", "GongJi", "FangYu", "ShengMing", "GongJiAdd", "FangYuAdd", "ShengMingAdd", "ExpMax", "GongJiMax", "FangYuMax", "ShengMingMax", "WqSH", "WqJM", "WqBJ", "WqRX", "JnSH", "JnJM", "JnBJ", "JnRX", "WqBJL", "JnBJL", "WqMBL", "JnMBL", "JnCDReduce", "ZhuangbeiID", "JinJieExp", });
           internal_static_qxmobile_protobuf_XiLianReq_descriptor =
             getDescriptor().getMessageTypes().get(7);
           internal_static_qxmobile_protobuf_XiLianReq_fieldAccessorTable = new
@@ -16932,7 +17255,7 @@ public final class UserEquipProtos {
           internal_static_qxmobile_protobuf_EquipJinJie_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_EquipJinJie_descriptor,
-              new java.lang.String[] { "EquipId", });
+              new java.lang.String[] { "EquipId", "CailiaoList", });
           internal_static_qxmobile_protobuf_EquipJinJieResp_descriptor =
             getDescriptor().getMessageTypes().get(10);
           internal_static_qxmobile_protobuf_EquipJinJieResp_fieldAccessorTable = new

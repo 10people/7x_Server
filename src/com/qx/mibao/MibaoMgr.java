@@ -288,8 +288,8 @@ public class MibaoMgr extends EventProc{
 		session.write(resp.build());
 
 		junZhu.tongBi -= mibaoSuiPian.getMoney();
-		HibernateUtil.save(junZhu);
-		JunZhuMgr.inst.sendMainInfo(session);
+		HibernateUtil.update(junZhu);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		EventMgr.addEvent(ED.MIBAO_HECHENG_BROADCAST, new Object[]{junZhu,session,miBaoCfg});
 		// 主线任务：秘宝合成完成一次
 		EventMgr.addEvent(ED.MIBAO_HECHENG, new Object[]{junZhu.id, miBaoCfg.getId()});
@@ -567,8 +567,8 @@ public class MibaoMgr extends EventProc{
 		resp.setMibaoInfo(mibaoInfo);
 		session.write(resp.build());
 		junZhu.tongBi = junZhu.tongBi - curStarCfg.getNeedMoney();
-		HibernateUtil.save(junZhu);
-		JunZhuMgr.inst.sendMainInfo(session);
+		HibernateUtil.update(junZhu);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		
 		// 主线任务：秘宝升级星级完成一次
 //		if(miBao.getId() == TaskData.shengXing_mibao){
@@ -670,7 +670,7 @@ public class MibaoMgr extends EventProc{
 			
 			// 主线任务：秘宝升级完成一次
 	//		if(conf.getId() == TaskData.shengJi_mibao){
-				GameTaskMgr.inst.recordTaskProcess(junZhu.id, TaskData.MIBAO_SHENGJI, miBaoCfg.getId()+"");
+	//			GameTaskMgr.inst.recordTaskProcess(junZhu.id, TaskData.MIBAO_SHENGJI, miBaoCfg.getId()+"");
 	//		}
 				// 主线任务：任意秘宝升级到x等级
 	//		if(newLevel == TaskData.mibao_level_x_1 ||
@@ -685,7 +685,7 @@ public class MibaoMgr extends EventProc{
 		session.write(resp.build());
 		junZhu.tongBi = junZhu.tongBi - expTemp.getNeedExp();
 		HibernateUtil.save(junZhu);
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		logger.info("junzhuId:{},秘宝升级成功。mibaoId:{},消耗铜币:{}", junZhu.id, mibaoId, expTemp.getNeedExp());
 		// 每日任务中记录完成秘宝升级1次
 		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(junZhu.id, DailyTaskConstants.mibao_shengji_id, 1));
@@ -899,6 +899,14 @@ public class MibaoMgr extends EventProc{
 				"where ownerId = " + junzhuId + " and star >= " + star +  " and miBaoId > 0");
 		return mibaoDBList.size() >= x_number;
 	}
+	
+	//有几个
+	public int getMibaoStarNum(long junzhuId, int x_number, int star){
+		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB.class,
+				"where ownerId = " + junzhuId + " and star >= " + star +  " and miBaoId > 0");
+		return mibaoDBList.size();
+	}
+	
 	public boolean isMibaoCountOk(long junzhuId, int x_number){
 		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB.class,
 				"where ownerId = " + junzhuId +  " and miBaoId > 0");
@@ -1000,7 +1008,7 @@ public class MibaoMgr extends EventProc{
 //		return true;
 //	}
 
-////////20150914： 手动激活秘宝，手动进阶秘宝////////////////////
+////////20150914： 手动激活秘宝技能，手动进阶秘宝技能////////////////////
 
 	public void doMiBaoDealSkillReq(IoSession session, Builder builder){
 		Long junzhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);

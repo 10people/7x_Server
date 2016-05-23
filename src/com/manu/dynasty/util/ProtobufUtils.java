@@ -9,9 +9,10 @@ import org.slf4j.LoggerFactory;
 
 import com.google.protobuf.MessageLite;
 import com.google.protobuf.MessageLite.Builder;
+import com.manu.network.PD2Proto;
 
 public class ProtobufUtils {
-	private static Logger eLogger = LoggerFactory.getLogger("exception");
+	private static Logger eLogger = LoggerFactory.getLogger(ProtobufUtils.class.getSimpleName());
 	public static Map<Integer, MessageLite> prototypeMap = new HashMap<Integer, MessageLite>();
 
 	@SuppressWarnings("unchecked")
@@ -33,26 +34,16 @@ public class ProtobufUtils {
 	}
 
 	public static Builder parseProto(int protoId, byte[] data) {
-		MessageLite tmpLite = prototypeMap.get(protoId);
-		Builder ret = null;
-		if (tmpLite != null) {
-			try {
-				MessageLite.Builder builder = tmpLite.newBuilderForType();
-				ret = builder.mergeFrom(data);
-			} catch (Exception e) {
-				eLogger.error("解析协议出错", e);
-				e.printStackTrace();
-			}
-		} else {
-			eLogger.error("A没有找到协议类型 {}", protoId);
-		}
-		return ret;
+		return parseProto(protoId, data,0,data.length);
 	}
 
 	public static Builder parseProto(int protoId, byte[] data, int offset,
 			int len) {
 		MessageLite tmpLite = prototypeMap.get(protoId);
 		Builder ret = null;
+		if(tmpLite == null){
+			tmpLite = PD2Proto.inst.map(protoId);
+		}
 		if (tmpLite != null) {
 			try {
 				MessageLite.Builder builder = tmpLite.newBuilderForType();

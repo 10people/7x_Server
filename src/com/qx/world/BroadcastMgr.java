@@ -10,14 +10,12 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
-import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder;
-
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.hero.service.HeroService;
 import com.manu.dynasty.template.AnnounceTemp;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.Chenghao;
+import com.manu.dynasty.template.Fuwen;
 import com.manu.dynasty.template.MiBao;
 import com.manu.dynasty.template.MibaoStar;
 import com.manu.network.PD;
@@ -33,10 +31,14 @@ import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
+import com.qx.fuwen.FuwenMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
+
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder;
 
 public class BroadcastMgr extends EventProc{
 	/*
@@ -173,8 +175,61 @@ type	完成条件
 		case ED.BIAOCHE_CUIHUI://劫镖成功
 			handleCarDestroy(param);
 			break;
+		case ED.LIEFU_GET_FUWEN:
+			checkLieFu(param);
+			break;
+		case ED.JIAPIAN_DUIHUAN_FUWEN:
+			checkDuiHuanFuwen(param);
+			break;
 		}
 	}
+	
+	public void checkLieFu(Event event) {
+		broadLiefuAndDuihuan(event, 31);
+	}
+
+	public void checkDuiHuanFuwen(Event event) {
+		broadLiefuAndDuihuan(event, 32);
+	}
+	
+	public void broadLiefuAndDuihuan(Event event, int type) {
+		Object[] obj = (Object[]) event.param;
+		String junzhuName = (String) obj[0];
+		List<Integer> getItemId = (List<Integer>) obj[1];
+		
+		for(Integer itemId : getItemId) {
+			Fuwen fuwenCfg = FuwenMgr.inst.fuwenMap.get(itemId);
+			if(fuwenCfg == null) {
+				log.error("找不到id为:{}的符文配置", itemId);
+				return;
+			}
+			AnnounceTemp targetConf = null;
+			String strCon = String.valueOf(fuwenCfg.getColor());
+			List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
+			if(confList == null){
+				return;
+			}
+			for(AnnounceTemp conf : confList){
+				if(conf.type != type){//
+					continue;
+				}
+				if(strCon.equals(conf.condition)){
+					targetConf = conf;
+					break;
+				}
+			}
+			if(targetConf == null){
+				return;
+			}
+			String fuwenName = HeroService.getNameById(fuwenCfg.getName()+"");
+			String template = targetConf.announcement;
+			//[dbba8f]*玩家名字七个字*[-][ffffff]获得了[-][e15a00]橙色[-][ffffff]符文[-][e15a00]*符文名字*[-][ffffff]，运气超群！[-]
+			template = template.replaceFirst("\\*玩家名字七个字\\*", junzhuName);
+			template = template.replaceFirst("\\*符文名字\\*", fuwenName);
+			send(template,targetConf);
+		}
+	}
+
 	public  void handleCarDestroy(Event e) {
 		Object[]	oa = (Object[]) e.param;
 		JunZhu	ybjz=(JunZhu)oa[0];
@@ -204,6 +259,7 @@ type	完成条件
 		template = template.replaceFirst("\\*玩家名字七个字\\*", ybjz.name);
 		send(template,targetConf);
 	}
+	
 	public void checkJiBai(Event param) {
 		//new Object[] {junZhuId, hitO.optInt("id"), hitO.optInt("n",1)}
 		Object[] arr = (Object[]) param.param;
@@ -800,5 +856,7 @@ type	完成条件
 		EventMgr.regist(ED.jibai, this);
 		EventMgr.regist(ED.BUY_TongBi_BaoJi, this);
 		EventMgr.regist(ED.BIAOCHE_CUIHUI, this);
+		EventMgr.regist(ED.LIEFU_GET_FUWEN, this);
+		EventMgr.regist(ED.JIAPIAN_DUIHUAN_FUWEN, this);
 	}
 }

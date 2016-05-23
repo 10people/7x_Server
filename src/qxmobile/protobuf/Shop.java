@@ -5854,8 +5854,8 @@ public final class Shop {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * type == X0的时候发送：msg=0：正常请求商店，optional都发送
-     * type == X1的时候发送：msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送
+     * msg=0：操作正确，optional都发送, 2-请求的操作类型错误，不在以上的操作类型中
+     * msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送,msg=13，刷新次数用完
      * </pre>
      */
     boolean hasMsg();
@@ -5863,8 +5863,8 @@ public final class Shop {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * type == X0的时候发送：msg=0：正常请求商店，optional都发送
-     * type == X1的时候发送：msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送
+     * msg=0：操作正确，optional都发送, 2-请求的操作类型错误，不在以上的操作类型中
+     * msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送,msg=13，刷新次数用完
      * </pre>
      */
     int getMsg();
@@ -6123,8 +6123,8 @@ public final class Shop {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * type == X0的时候发送：msg=0：正常请求商店，optional都发送
-     * type == X1的时候发送：msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送
+     * msg=0：操作正确，optional都发送, 2-请求的操作类型错误，不在以上的操作类型中
+     * msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送,msg=13，刷新次数用完
      * </pre>
      */
     public boolean hasMsg() {
@@ -6134,8 +6134,8 @@ public final class Shop {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * type == X0的时候发送：msg=0：正常请求商店，optional都发送
-     * type == X1的时候发送：msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送
+     * msg=0：操作正确，optional都发送, 2-请求的操作类型错误，不在以上的操作类型中
+     * msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送,msg=13，刷新次数用完
      * </pre>
      */
     public int getMsg() {
@@ -6686,8 +6686,8 @@ public final class Shop {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * type == X0的时候发送：msg=0：正常请求商店，optional都发送
-       * type == X1的时候发送：msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送
+       * msg=0：操作正确，optional都发送, 2-请求的操作类型错误，不在以上的操作类型中
+       * msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送,msg=13，刷新次数用完
        * </pre>
        */
       public boolean hasMsg() {
@@ -6697,8 +6697,8 @@ public final class Shop {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * type == X0的时候发送：msg=0：正常请求商店，optional都发送
-       * type == X1的时候发送：msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送
+       * msg=0：操作正确，optional都发送, 2-请求的操作类型错误，不在以上的操作类型中
+       * msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送,msg=13，刷新次数用完
        * </pre>
        */
       public int getMsg() {
@@ -6708,8 +6708,8 @@ public final class Shop {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * type == X0的时候发送：msg=0：正常请求商店，optional都发送
-       * type == X1的时候发送：msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送
+       * msg=0：操作正确，optional都发送, 2-请求的操作类型错误，不在以上的操作类型中
+       * msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送,msg=13，刷新次数用完
        * </pre>
        */
       public Builder setMsg(int value) {
@@ -6722,8 +6722,8 @@ public final class Shop {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * type == X0的时候发送：msg=0：正常请求商店，optional都发送
-       * type == X1的时候发送：msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送
+       * msg=0：操作正确，optional都发送, 2-请求的操作类型错误，不在以上的操作类型中
+       * msg=11：对应货币不足，optional不发送； 或者 msg=12，对应货币刷新成功，optional都发送,msg=13，刷新次数用完
        * </pre>
        */
       public Builder clearMsg() {
@@ -8529,7 +8529,7 @@ public final class Shop {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启,5:请求的商店类型错误，6：vip等级不足
      * </pre>
      */
     boolean hasMsg();
@@ -8537,7 +8537,7 @@ public final class Shop {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启,5:请求的商店类型错误，6：vip等级不足
      * </pre>
      */
     int getMsg();
@@ -8691,7 +8691,7 @@ public final class Shop {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启,5:请求的商店类型错误，6：vip等级不足
      * </pre>
      */
     public boolean hasMsg() {
@@ -8701,7 +8701,7 @@ public final class Shop {
      * <code>required int32 msg = 1;</code>
      *
      * <pre>
-     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启
+     * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启,5:请求的商店类型错误，6：vip等级不足
      * </pre>
      */
     public int getMsg() {
@@ -9031,7 +9031,7 @@ public final class Shop {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启,5:请求的商店类型错误，6：vip等级不足
        * </pre>
        */
       public boolean hasMsg() {
@@ -9041,7 +9041,7 @@ public final class Shop {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启,5:请求的商店类型错误，6：vip等级不足
        * </pre>
        */
       public int getMsg() {
@@ -9051,7 +9051,7 @@ public final class Shop {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启,5:请求的商店类型错误，6：vip等级不足
        * </pre>
        */
       public Builder setMsg(int value) {
@@ -9064,7 +9064,7 @@ public final class Shop {
        * <code>required int32 msg = 1;</code>
        *
        * <pre>
-       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启
+       * msg ==1: 购买成功, 0:金钱不足， 2 ：已经售罄 3：购买商品不存在， 4：联盟商店物品没有开启,5:请求的商店类型错误，6：vip等级不足
        * </pre>
        */
       public Builder clearMsg() {
@@ -9183,6 +9183,3704 @@ public final class Shop {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.BuyGoodResp)
   }
 
+  public interface WubeiFangInfoRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+     */
+    java.util.List<qxmobile.protobuf.Shop.WubeiFangInfo> 
+        getWubeiFangInfoListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+     */
+    qxmobile.protobuf.Shop.WubeiFangInfo getWubeiFangInfoList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+     */
+    int getWubeiFangInfoListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+     */
+    java.util.List<? extends qxmobile.protobuf.Shop.WubeiFangInfoOrBuilder> 
+        getWubeiFangInfoListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+     */
+    qxmobile.protobuf.Shop.WubeiFangInfoOrBuilder getWubeiFangInfoListOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.WubeiFangInfoResp}
+   *
+   * <pre>
+   *请求协议：C_WUBEIFANG_INFO = 30421
+   * </pre>
+   */
+  public static final class WubeiFangInfoResp extends
+      com.google.protobuf.GeneratedMessage
+      implements WubeiFangInfoRespOrBuilder {
+    // Use WubeiFangInfoResp.newBuilder() to construct.
+    private WubeiFangInfoResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private WubeiFangInfoResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final WubeiFangInfoResp defaultInstance;
+    public static WubeiFangInfoResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public WubeiFangInfoResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private WubeiFangInfoResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                wubeiFangInfoList_ = new java.util.ArrayList<qxmobile.protobuf.Shop.WubeiFangInfo>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              wubeiFangInfoList_.add(input.readMessage(qxmobile.protobuf.Shop.WubeiFangInfo.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          wubeiFangInfoList_ = java.util.Collections.unmodifiableList(wubeiFangInfoList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangInfoResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangInfoResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Shop.WubeiFangInfoResp.class, qxmobile.protobuf.Shop.WubeiFangInfoResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<WubeiFangInfoResp> PARSER =
+        new com.google.protobuf.AbstractParser<WubeiFangInfoResp>() {
+      public WubeiFangInfoResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new WubeiFangInfoResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<WubeiFangInfoResp> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;
+    public static final int WUBEIFANGINFOLIST_FIELD_NUMBER = 1;
+    private java.util.List<qxmobile.protobuf.Shop.WubeiFangInfo> wubeiFangInfoList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+     */
+    public java.util.List<qxmobile.protobuf.Shop.WubeiFangInfo> getWubeiFangInfoListList() {
+      return wubeiFangInfoList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Shop.WubeiFangInfoOrBuilder> 
+        getWubeiFangInfoListOrBuilderList() {
+      return wubeiFangInfoList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+     */
+    public int getWubeiFangInfoListCount() {
+      return wubeiFangInfoList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+     */
+    public qxmobile.protobuf.Shop.WubeiFangInfo getWubeiFangInfoList(int index) {
+      return wubeiFangInfoList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+     */
+    public qxmobile.protobuf.Shop.WubeiFangInfoOrBuilder getWubeiFangInfoListOrBuilder(
+        int index) {
+      return wubeiFangInfoList_.get(index);
+    }
+
+    private void initFields() {
+      wubeiFangInfoList_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getWubeiFangInfoListCount(); i++) {
+        if (!getWubeiFangInfoList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < wubeiFangInfoList_.size(); i++) {
+        output.writeMessage(1, wubeiFangInfoList_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < wubeiFangInfoList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, wubeiFangInfoList_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Shop.WubeiFangInfoResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfoResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfoResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfoResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfoResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfoResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfoResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfoResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfoResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfoResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Shop.WubeiFangInfoResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.WubeiFangInfoResp}
+     *
+     * <pre>
+     *请求协议：C_WUBEIFANG_INFO = 30421
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Shop.WubeiFangInfoRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangInfoResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangInfoResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Shop.WubeiFangInfoResp.class, qxmobile.protobuf.Shop.WubeiFangInfoResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Shop.WubeiFangInfoResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getWubeiFangInfoListFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (wubeiFangInfoListBuilder_ == null) {
+          wubeiFangInfoList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          wubeiFangInfoListBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangInfoResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Shop.WubeiFangInfoResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Shop.WubeiFangInfoResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Shop.WubeiFangInfoResp build() {
+        qxmobile.protobuf.Shop.WubeiFangInfoResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Shop.WubeiFangInfoResp buildPartial() {
+        qxmobile.protobuf.Shop.WubeiFangInfoResp result = new qxmobile.protobuf.Shop.WubeiFangInfoResp(this);
+        int from_bitField0_ = bitField0_;
+        if (wubeiFangInfoListBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            wubeiFangInfoList_ = java.util.Collections.unmodifiableList(wubeiFangInfoList_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.wubeiFangInfoList_ = wubeiFangInfoList_;
+        } else {
+          result.wubeiFangInfoList_ = wubeiFangInfoListBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Shop.WubeiFangInfoResp) {
+          return mergeFrom((qxmobile.protobuf.Shop.WubeiFangInfoResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Shop.WubeiFangInfoResp other) {
+        if (other == qxmobile.protobuf.Shop.WubeiFangInfoResp.getDefaultInstance()) return this;
+        if (wubeiFangInfoListBuilder_ == null) {
+          if (!other.wubeiFangInfoList_.isEmpty()) {
+            if (wubeiFangInfoList_.isEmpty()) {
+              wubeiFangInfoList_ = other.wubeiFangInfoList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureWubeiFangInfoListIsMutable();
+              wubeiFangInfoList_.addAll(other.wubeiFangInfoList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.wubeiFangInfoList_.isEmpty()) {
+            if (wubeiFangInfoListBuilder_.isEmpty()) {
+              wubeiFangInfoListBuilder_.dispose();
+              wubeiFangInfoListBuilder_ = null;
+              wubeiFangInfoList_ = other.wubeiFangInfoList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              wubeiFangInfoListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getWubeiFangInfoListFieldBuilder() : null;
+            } else {
+              wubeiFangInfoListBuilder_.addAllMessages(other.wubeiFangInfoList_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getWubeiFangInfoListCount(); i++) {
+          if (!getWubeiFangInfoList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Shop.WubeiFangInfoResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Shop.WubeiFangInfoResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;
+      private java.util.List<qxmobile.protobuf.Shop.WubeiFangInfo> wubeiFangInfoList_ =
+        java.util.Collections.emptyList();
+      private void ensureWubeiFangInfoListIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          wubeiFangInfoList_ = new java.util.ArrayList<qxmobile.protobuf.Shop.WubeiFangInfo>(wubeiFangInfoList_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Shop.WubeiFangInfo, qxmobile.protobuf.Shop.WubeiFangInfo.Builder, qxmobile.protobuf.Shop.WubeiFangInfoOrBuilder> wubeiFangInfoListBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Shop.WubeiFangInfo> getWubeiFangInfoListList() {
+        if (wubeiFangInfoListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(wubeiFangInfoList_);
+        } else {
+          return wubeiFangInfoListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public int getWubeiFangInfoListCount() {
+        if (wubeiFangInfoListBuilder_ == null) {
+          return wubeiFangInfoList_.size();
+        } else {
+          return wubeiFangInfoListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public qxmobile.protobuf.Shop.WubeiFangInfo getWubeiFangInfoList(int index) {
+        if (wubeiFangInfoListBuilder_ == null) {
+          return wubeiFangInfoList_.get(index);
+        } else {
+          return wubeiFangInfoListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public Builder setWubeiFangInfoList(
+          int index, qxmobile.protobuf.Shop.WubeiFangInfo value) {
+        if (wubeiFangInfoListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureWubeiFangInfoListIsMutable();
+          wubeiFangInfoList_.set(index, value);
+          onChanged();
+        } else {
+          wubeiFangInfoListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public Builder setWubeiFangInfoList(
+          int index, qxmobile.protobuf.Shop.WubeiFangInfo.Builder builderForValue) {
+        if (wubeiFangInfoListBuilder_ == null) {
+          ensureWubeiFangInfoListIsMutable();
+          wubeiFangInfoList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          wubeiFangInfoListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public Builder addWubeiFangInfoList(qxmobile.protobuf.Shop.WubeiFangInfo value) {
+        if (wubeiFangInfoListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureWubeiFangInfoListIsMutable();
+          wubeiFangInfoList_.add(value);
+          onChanged();
+        } else {
+          wubeiFangInfoListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public Builder addWubeiFangInfoList(
+          int index, qxmobile.protobuf.Shop.WubeiFangInfo value) {
+        if (wubeiFangInfoListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureWubeiFangInfoListIsMutable();
+          wubeiFangInfoList_.add(index, value);
+          onChanged();
+        } else {
+          wubeiFangInfoListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public Builder addWubeiFangInfoList(
+          qxmobile.protobuf.Shop.WubeiFangInfo.Builder builderForValue) {
+        if (wubeiFangInfoListBuilder_ == null) {
+          ensureWubeiFangInfoListIsMutable();
+          wubeiFangInfoList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          wubeiFangInfoListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public Builder addWubeiFangInfoList(
+          int index, qxmobile.protobuf.Shop.WubeiFangInfo.Builder builderForValue) {
+        if (wubeiFangInfoListBuilder_ == null) {
+          ensureWubeiFangInfoListIsMutable();
+          wubeiFangInfoList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          wubeiFangInfoListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public Builder addAllWubeiFangInfoList(
+          java.lang.Iterable<? extends qxmobile.protobuf.Shop.WubeiFangInfo> values) {
+        if (wubeiFangInfoListBuilder_ == null) {
+          ensureWubeiFangInfoListIsMutable();
+          super.addAll(values, wubeiFangInfoList_);
+          onChanged();
+        } else {
+          wubeiFangInfoListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public Builder clearWubeiFangInfoList() {
+        if (wubeiFangInfoListBuilder_ == null) {
+          wubeiFangInfoList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          wubeiFangInfoListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public Builder removeWubeiFangInfoList(int index) {
+        if (wubeiFangInfoListBuilder_ == null) {
+          ensureWubeiFangInfoListIsMutable();
+          wubeiFangInfoList_.remove(index);
+          onChanged();
+        } else {
+          wubeiFangInfoListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public qxmobile.protobuf.Shop.WubeiFangInfo.Builder getWubeiFangInfoListBuilder(
+          int index) {
+        return getWubeiFangInfoListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public qxmobile.protobuf.Shop.WubeiFangInfoOrBuilder getWubeiFangInfoListOrBuilder(
+          int index) {
+        if (wubeiFangInfoListBuilder_ == null) {
+          return wubeiFangInfoList_.get(index);  } else {
+          return wubeiFangInfoListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Shop.WubeiFangInfoOrBuilder> 
+           getWubeiFangInfoListOrBuilderList() {
+        if (wubeiFangInfoListBuilder_ != null) {
+          return wubeiFangInfoListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(wubeiFangInfoList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public qxmobile.protobuf.Shop.WubeiFangInfo.Builder addWubeiFangInfoListBuilder() {
+        return getWubeiFangInfoListFieldBuilder().addBuilder(
+            qxmobile.protobuf.Shop.WubeiFangInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public qxmobile.protobuf.Shop.WubeiFangInfo.Builder addWubeiFangInfoListBuilder(
+          int index) {
+        return getWubeiFangInfoListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Shop.WubeiFangInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangInfo wubeiFangInfoList = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Shop.WubeiFangInfo.Builder> 
+           getWubeiFangInfoListBuilderList() {
+        return getWubeiFangInfoListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Shop.WubeiFangInfo, qxmobile.protobuf.Shop.WubeiFangInfo.Builder, qxmobile.protobuf.Shop.WubeiFangInfoOrBuilder> 
+          getWubeiFangInfoListFieldBuilder() {
+        if (wubeiFangInfoListBuilder_ == null) {
+          wubeiFangInfoListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Shop.WubeiFangInfo, qxmobile.protobuf.Shop.WubeiFangInfo.Builder, qxmobile.protobuf.Shop.WubeiFangInfoOrBuilder>(
+                  wubeiFangInfoList_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          wubeiFangInfoList_ = null;
+        }
+        return wubeiFangInfoListBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.WubeiFangInfoResp)
+    }
+
+    static {
+      defaultInstance = new WubeiFangInfoResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.WubeiFangInfoResp)
+  }
+
+  public interface WubeiFangInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 type = 1;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 类型:1：装备铺,2：珍宝行,3：石料店,4：益精堂
+     * </pre>
+     */
+    boolean hasType();
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 类型:1：装备铺,2：珍宝行,3：石料店,4：益精堂
+     * </pre>
+     */
+    int getType();
+
+    // required int32 freeTimes = 2;
+    /**
+     * <code>required int32 freeTimes = 2;</code>
+     *
+     * <pre>
+     * 剩余免费次数
+     * </pre>
+     */
+    boolean hasFreeTimes();
+    /**
+     * <code>required int32 freeTimes = 2;</code>
+     *
+     * <pre>
+     * 剩余免费次数
+     * </pre>
+     */
+    int getFreeTimes();
+
+    // required int32 costYuanbao = 3;
+    /**
+     * <code>required int32 costYuanbao = 3;</code>
+     *
+     * <pre>
+     * 本次购买花费元宝数
+     * </pre>
+     */
+    boolean hasCostYuanbao();
+    /**
+     * <code>required int32 costYuanbao = 3;</code>
+     *
+     * <pre>
+     * 本次购买花费元宝数
+     * </pre>
+     */
+    int getCostYuanbao();
+
+    // required int32 remainYuanbaoBuyTimes = 4;
+    /**
+     * <code>required int32 remainYuanbaoBuyTimes = 4;</code>
+     *
+     * <pre>
+     * 今日剩余元宝购买次数
+     * </pre>
+     */
+    boolean hasRemainYuanbaoBuyTimes();
+    /**
+     * <code>required int32 remainYuanbaoBuyTimes = 4;</code>
+     *
+     * <pre>
+     * 今日剩余元宝购买次数
+     * </pre>
+     */
+    int getRemainYuanbaoBuyTimes();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.WubeiFangInfo}
+   */
+  public static final class WubeiFangInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements WubeiFangInfoOrBuilder {
+    // Use WubeiFangInfo.newBuilder() to construct.
+    private WubeiFangInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private WubeiFangInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final WubeiFangInfo defaultInstance;
+    public static WubeiFangInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public WubeiFangInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private WubeiFangInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              type_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              freeTimes_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              costYuanbao_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              remainYuanbaoBuyTimes_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Shop.WubeiFangInfo.class, qxmobile.protobuf.Shop.WubeiFangInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<WubeiFangInfo> PARSER =
+        new com.google.protobuf.AbstractParser<WubeiFangInfo>() {
+      public WubeiFangInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new WubeiFangInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<WubeiFangInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 type = 1;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private int type_;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 类型:1：装备铺,2：珍宝行,3：石料店,4：益精堂
+     * </pre>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 类型:1：装备铺,2：珍宝行,3：石料店,4：益精堂
+     * </pre>
+     */
+    public int getType() {
+      return type_;
+    }
+
+    // required int32 freeTimes = 2;
+    public static final int FREETIMES_FIELD_NUMBER = 2;
+    private int freeTimes_;
+    /**
+     * <code>required int32 freeTimes = 2;</code>
+     *
+     * <pre>
+     * 剩余免费次数
+     * </pre>
+     */
+    public boolean hasFreeTimes() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 freeTimes = 2;</code>
+     *
+     * <pre>
+     * 剩余免费次数
+     * </pre>
+     */
+    public int getFreeTimes() {
+      return freeTimes_;
+    }
+
+    // required int32 costYuanbao = 3;
+    public static final int COSTYUANBAO_FIELD_NUMBER = 3;
+    private int costYuanbao_;
+    /**
+     * <code>required int32 costYuanbao = 3;</code>
+     *
+     * <pre>
+     * 本次购买花费元宝数
+     * </pre>
+     */
+    public boolean hasCostYuanbao() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 costYuanbao = 3;</code>
+     *
+     * <pre>
+     * 本次购买花费元宝数
+     * </pre>
+     */
+    public int getCostYuanbao() {
+      return costYuanbao_;
+    }
+
+    // required int32 remainYuanbaoBuyTimes = 4;
+    public static final int REMAINYUANBAOBUYTIMES_FIELD_NUMBER = 4;
+    private int remainYuanbaoBuyTimes_;
+    /**
+     * <code>required int32 remainYuanbaoBuyTimes = 4;</code>
+     *
+     * <pre>
+     * 今日剩余元宝购买次数
+     * </pre>
+     */
+    public boolean hasRemainYuanbaoBuyTimes() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 remainYuanbaoBuyTimes = 4;</code>
+     *
+     * <pre>
+     * 今日剩余元宝购买次数
+     * </pre>
+     */
+    public int getRemainYuanbaoBuyTimes() {
+      return remainYuanbaoBuyTimes_;
+    }
+
+    private void initFields() {
+      type_ = 0;
+      freeTimes_ = 0;
+      costYuanbao_ = 0;
+      remainYuanbaoBuyTimes_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasFreeTimes()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCostYuanbao()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRemainYuanbaoBuyTimes()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, type_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, freeTimes_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, costYuanbao_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, remainYuanbaoBuyTimes_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, type_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, freeTimes_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, costYuanbao_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, remainYuanbaoBuyTimes_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Shop.WubeiFangInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Shop.WubeiFangInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.WubeiFangInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Shop.WubeiFangInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Shop.WubeiFangInfo.class, qxmobile.protobuf.Shop.WubeiFangInfo.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Shop.WubeiFangInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        type_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        freeTimes_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        costYuanbao_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        remainYuanbaoBuyTimes_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangInfo_descriptor;
+      }
+
+      public qxmobile.protobuf.Shop.WubeiFangInfo getDefaultInstanceForType() {
+        return qxmobile.protobuf.Shop.WubeiFangInfo.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Shop.WubeiFangInfo build() {
+        qxmobile.protobuf.Shop.WubeiFangInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Shop.WubeiFangInfo buildPartial() {
+        qxmobile.protobuf.Shop.WubeiFangInfo result = new qxmobile.protobuf.Shop.WubeiFangInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.freeTimes_ = freeTimes_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.costYuanbao_ = costYuanbao_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.remainYuanbaoBuyTimes_ = remainYuanbaoBuyTimes_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Shop.WubeiFangInfo) {
+          return mergeFrom((qxmobile.protobuf.Shop.WubeiFangInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Shop.WubeiFangInfo other) {
+        if (other == qxmobile.protobuf.Shop.WubeiFangInfo.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        if (other.hasFreeTimes()) {
+          setFreeTimes(other.getFreeTimes());
+        }
+        if (other.hasCostYuanbao()) {
+          setCostYuanbao(other.getCostYuanbao());
+        }
+        if (other.hasRemainYuanbaoBuyTimes()) {
+          setRemainYuanbaoBuyTimes(other.getRemainYuanbaoBuyTimes());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasType()) {
+          
+          return false;
+        }
+        if (!hasFreeTimes()) {
+          
+          return false;
+        }
+        if (!hasCostYuanbao()) {
+          
+          return false;
+        }
+        if (!hasRemainYuanbaoBuyTimes()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Shop.WubeiFangInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Shop.WubeiFangInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 type = 1;
+      private int type_ ;
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 类型:1：装备铺,2：珍宝行,3：石料店,4：益精堂
+       * </pre>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 类型:1：装备铺,2：珍宝行,3：石料店,4：益精堂
+       * </pre>
+       */
+      public int getType() {
+        return type_;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 类型:1：装备铺,2：珍宝行,3：石料店,4：益精堂
+       * </pre>
+       */
+      public Builder setType(int value) {
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 类型:1：装备铺,2：珍宝行,3：石料店,4：益精堂
+       * </pre>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 freeTimes = 2;
+      private int freeTimes_ ;
+      /**
+       * <code>required int32 freeTimes = 2;</code>
+       *
+       * <pre>
+       * 剩余免费次数
+       * </pre>
+       */
+      public boolean hasFreeTimes() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 freeTimes = 2;</code>
+       *
+       * <pre>
+       * 剩余免费次数
+       * </pre>
+       */
+      public int getFreeTimes() {
+        return freeTimes_;
+      }
+      /**
+       * <code>required int32 freeTimes = 2;</code>
+       *
+       * <pre>
+       * 剩余免费次数
+       * </pre>
+       */
+      public Builder setFreeTimes(int value) {
+        bitField0_ |= 0x00000002;
+        freeTimes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 freeTimes = 2;</code>
+       *
+       * <pre>
+       * 剩余免费次数
+       * </pre>
+       */
+      public Builder clearFreeTimes() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        freeTimes_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 costYuanbao = 3;
+      private int costYuanbao_ ;
+      /**
+       * <code>required int32 costYuanbao = 3;</code>
+       *
+       * <pre>
+       * 本次购买花费元宝数
+       * </pre>
+       */
+      public boolean hasCostYuanbao() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 costYuanbao = 3;</code>
+       *
+       * <pre>
+       * 本次购买花费元宝数
+       * </pre>
+       */
+      public int getCostYuanbao() {
+        return costYuanbao_;
+      }
+      /**
+       * <code>required int32 costYuanbao = 3;</code>
+       *
+       * <pre>
+       * 本次购买花费元宝数
+       * </pre>
+       */
+      public Builder setCostYuanbao(int value) {
+        bitField0_ |= 0x00000004;
+        costYuanbao_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 costYuanbao = 3;</code>
+       *
+       * <pre>
+       * 本次购买花费元宝数
+       * </pre>
+       */
+      public Builder clearCostYuanbao() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        costYuanbao_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 remainYuanbaoBuyTimes = 4;
+      private int remainYuanbaoBuyTimes_ ;
+      /**
+       * <code>required int32 remainYuanbaoBuyTimes = 4;</code>
+       *
+       * <pre>
+       * 今日剩余元宝购买次数
+       * </pre>
+       */
+      public boolean hasRemainYuanbaoBuyTimes() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 remainYuanbaoBuyTimes = 4;</code>
+       *
+       * <pre>
+       * 今日剩余元宝购买次数
+       * </pre>
+       */
+      public int getRemainYuanbaoBuyTimes() {
+        return remainYuanbaoBuyTimes_;
+      }
+      /**
+       * <code>required int32 remainYuanbaoBuyTimes = 4;</code>
+       *
+       * <pre>
+       * 今日剩余元宝购买次数
+       * </pre>
+       */
+      public Builder setRemainYuanbaoBuyTimes(int value) {
+        bitField0_ |= 0x00000008;
+        remainYuanbaoBuyTimes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 remainYuanbaoBuyTimes = 4;</code>
+       *
+       * <pre>
+       * 今日剩余元宝购买次数
+       * </pre>
+       */
+      public Builder clearRemainYuanbaoBuyTimes() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        remainYuanbaoBuyTimes_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.WubeiFangInfo)
+    }
+
+    static {
+      defaultInstance = new WubeiFangInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.WubeiFangInfo)
+  }
+
+  public interface WubeiFangBuyOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 type = 1;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 类型:1：装备铺,2：珍宝行,3：石料店,4：益精堂
+     * </pre>
+     */
+    boolean hasType();
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 类型:1：装备铺,2：珍宝行,3：石料店,4：益精堂
+     * </pre>
+     */
+    int getType();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.WubeiFangBuy}
+   *
+   * <pre>
+   * 武备坊购买，C_WUBEIFANG_BUY = 30423
+   * </pre>
+   */
+  public static final class WubeiFangBuy extends
+      com.google.protobuf.GeneratedMessage
+      implements WubeiFangBuyOrBuilder {
+    // Use WubeiFangBuy.newBuilder() to construct.
+    private WubeiFangBuy(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private WubeiFangBuy(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final WubeiFangBuy defaultInstance;
+    public static WubeiFangBuy getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public WubeiFangBuy getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private WubeiFangBuy(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              type_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangBuy_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangBuy_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Shop.WubeiFangBuy.class, qxmobile.protobuf.Shop.WubeiFangBuy.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<WubeiFangBuy> PARSER =
+        new com.google.protobuf.AbstractParser<WubeiFangBuy>() {
+      public WubeiFangBuy parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new WubeiFangBuy(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<WubeiFangBuy> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 type = 1;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private int type_;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 类型:1：装备铺,2：珍宝行,3：石料店,4：益精堂
+     * </pre>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     * 类型:1：装备铺,2：珍宝行,3：石料店,4：益精堂
+     * </pre>
+     */
+    public int getType() {
+      return type_;
+    }
+
+    private void initFields() {
+      type_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, type_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, type_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Shop.WubeiFangBuy parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuy parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuy parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuy parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuy parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuy parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuy parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuy parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuy parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuy parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Shop.WubeiFangBuy prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.WubeiFangBuy}
+     *
+     * <pre>
+     * 武备坊购买，C_WUBEIFANG_BUY = 30423
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Shop.WubeiFangBuyOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangBuy_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangBuy_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Shop.WubeiFangBuy.class, qxmobile.protobuf.Shop.WubeiFangBuy.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Shop.WubeiFangBuy.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        type_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangBuy_descriptor;
+      }
+
+      public qxmobile.protobuf.Shop.WubeiFangBuy getDefaultInstanceForType() {
+        return qxmobile.protobuf.Shop.WubeiFangBuy.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Shop.WubeiFangBuy build() {
+        qxmobile.protobuf.Shop.WubeiFangBuy result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Shop.WubeiFangBuy buildPartial() {
+        qxmobile.protobuf.Shop.WubeiFangBuy result = new qxmobile.protobuf.Shop.WubeiFangBuy(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Shop.WubeiFangBuy) {
+          return mergeFrom((qxmobile.protobuf.Shop.WubeiFangBuy)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Shop.WubeiFangBuy other) {
+        if (other == qxmobile.protobuf.Shop.WubeiFangBuy.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Shop.WubeiFangBuy parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Shop.WubeiFangBuy) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 type = 1;
+      private int type_ ;
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 类型:1：装备铺,2：珍宝行,3：石料店,4：益精堂
+       * </pre>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 类型:1：装备铺,2：珍宝行,3：石料店,4：益精堂
+       * </pre>
+       */
+      public int getType() {
+        return type_;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 类型:1：装备铺,2：珍宝行,3：石料店,4：益精堂
+       * </pre>
+       */
+      public Builder setType(int value) {
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       * 类型:1：装备铺,2：珍宝行,3：石料店,4：益精堂
+       * </pre>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.WubeiFangBuy)
+    }
+
+    static {
+      defaultInstance = new WubeiFangBuy(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.WubeiFangBuy)
+  }
+
+  public interface WubeiFangBuyRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-元宝不足，2-今日购买次数用完,3-请求类型错误
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-元宝不足，2-今日购买次数用完,3-请求类型错误
+     * </pre>
+     */
+    int getResult();
+
+    // repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+     *
+     * <pre>
+     * 获得的物品信息
+     * </pre>
+     */
+    java.util.List<qxmobile.protobuf.Shop.WubeiFangAwardInfo> 
+        getAwardListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+     *
+     * <pre>
+     * 获得的物品信息
+     * </pre>
+     */
+    qxmobile.protobuf.Shop.WubeiFangAwardInfo getAwardList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+     *
+     * <pre>
+     * 获得的物品信息
+     * </pre>
+     */
+    int getAwardListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+     *
+     * <pre>
+     * 获得的物品信息
+     * </pre>
+     */
+    java.util.List<? extends qxmobile.protobuf.Shop.WubeiFangAwardInfoOrBuilder> 
+        getAwardListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+     *
+     * <pre>
+     * 获得的物品信息
+     * </pre>
+     */
+    qxmobile.protobuf.Shop.WubeiFangAwardInfoOrBuilder getAwardListOrBuilder(
+        int index);
+
+    // optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;
+    /**
+     * <code>optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    boolean hasWubeiFangInfo();
+    /**
+     * <code>optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    qxmobile.protobuf.Shop.WubeiFangInfo getWubeiFangInfo();
+    /**
+     * <code>optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    qxmobile.protobuf.Shop.WubeiFangInfoOrBuilder getWubeiFangInfoOrBuilder();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.WubeiFangBuyResp}
+   *
+   * <pre>
+   * S_WUBEIFANG_BUY_RESP = 30424
+   * </pre>
+   */
+  public static final class WubeiFangBuyResp extends
+      com.google.protobuf.GeneratedMessage
+      implements WubeiFangBuyRespOrBuilder {
+    // Use WubeiFangBuyResp.newBuilder() to construct.
+    private WubeiFangBuyResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private WubeiFangBuyResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final WubeiFangBuyResp defaultInstance;
+    public static WubeiFangBuyResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public WubeiFangBuyResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private WubeiFangBuyResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                awardList_ = new java.util.ArrayList<qxmobile.protobuf.Shop.WubeiFangAwardInfo>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              awardList_.add(input.readMessage(qxmobile.protobuf.Shop.WubeiFangAwardInfo.PARSER, extensionRegistry));
+              break;
+            }
+            case 26: {
+              qxmobile.protobuf.Shop.WubeiFangInfo.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = wubeiFangInfo_.toBuilder();
+              }
+              wubeiFangInfo_ = input.readMessage(qxmobile.protobuf.Shop.WubeiFangInfo.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(wubeiFangInfo_);
+                wubeiFangInfo_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          awardList_ = java.util.Collections.unmodifiableList(awardList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangBuyResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangBuyResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Shop.WubeiFangBuyResp.class, qxmobile.protobuf.Shop.WubeiFangBuyResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<WubeiFangBuyResp> PARSER =
+        new com.google.protobuf.AbstractParser<WubeiFangBuyResp>() {
+      public WubeiFangBuyResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new WubeiFangBuyResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<WubeiFangBuyResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-元宝不足，2-今日购买次数用完,3-请求类型错误
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-元宝不足，2-今日购买次数用完,3-请求类型错误
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    // repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;
+    public static final int AWARDLIST_FIELD_NUMBER = 2;
+    private java.util.List<qxmobile.protobuf.Shop.WubeiFangAwardInfo> awardList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+     *
+     * <pre>
+     * 获得的物品信息
+     * </pre>
+     */
+    public java.util.List<qxmobile.protobuf.Shop.WubeiFangAwardInfo> getAwardListList() {
+      return awardList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+     *
+     * <pre>
+     * 获得的物品信息
+     * </pre>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Shop.WubeiFangAwardInfoOrBuilder> 
+        getAwardListOrBuilderList() {
+      return awardList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+     *
+     * <pre>
+     * 获得的物品信息
+     * </pre>
+     */
+    public int getAwardListCount() {
+      return awardList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+     *
+     * <pre>
+     * 获得的物品信息
+     * </pre>
+     */
+    public qxmobile.protobuf.Shop.WubeiFangAwardInfo getAwardList(int index) {
+      return awardList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+     *
+     * <pre>
+     * 获得的物品信息
+     * </pre>
+     */
+    public qxmobile.protobuf.Shop.WubeiFangAwardInfoOrBuilder getAwardListOrBuilder(
+        int index) {
+      return awardList_.get(index);
+    }
+
+    // optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;
+    public static final int WUBEIFANGINFO_FIELD_NUMBER = 3;
+    private qxmobile.protobuf.Shop.WubeiFangInfo wubeiFangInfo_;
+    /**
+     * <code>optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    public boolean hasWubeiFangInfo() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    public qxmobile.protobuf.Shop.WubeiFangInfo getWubeiFangInfo() {
+      return wubeiFangInfo_;
+    }
+    /**
+     * <code>optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    public qxmobile.protobuf.Shop.WubeiFangInfoOrBuilder getWubeiFangInfoOrBuilder() {
+      return wubeiFangInfo_;
+    }
+
+    private void initFields() {
+      result_ = 0;
+      awardList_ = java.util.Collections.emptyList();
+      wubeiFangInfo_ = qxmobile.protobuf.Shop.WubeiFangInfo.getDefaultInstance();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getAwardListCount(); i++) {
+        if (!getAwardList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasWubeiFangInfo()) {
+        if (!getWubeiFangInfo().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      for (int i = 0; i < awardList_.size(); i++) {
+        output.writeMessage(2, awardList_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(3, wubeiFangInfo_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      for (int i = 0; i < awardList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, awardList_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, wubeiFangInfo_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Shop.WubeiFangBuyResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuyResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuyResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuyResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuyResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuyResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuyResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuyResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuyResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangBuyResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Shop.WubeiFangBuyResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.WubeiFangBuyResp}
+     *
+     * <pre>
+     * S_WUBEIFANG_BUY_RESP = 30424
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Shop.WubeiFangBuyRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangBuyResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangBuyResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Shop.WubeiFangBuyResp.class, qxmobile.protobuf.Shop.WubeiFangBuyResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Shop.WubeiFangBuyResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getAwardListFieldBuilder();
+          getWubeiFangInfoFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (awardListBuilder_ == null) {
+          awardList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          awardListBuilder_.clear();
+        }
+        if (wubeiFangInfoBuilder_ == null) {
+          wubeiFangInfo_ = qxmobile.protobuf.Shop.WubeiFangInfo.getDefaultInstance();
+        } else {
+          wubeiFangInfoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangBuyResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Shop.WubeiFangBuyResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Shop.WubeiFangBuyResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Shop.WubeiFangBuyResp build() {
+        qxmobile.protobuf.Shop.WubeiFangBuyResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Shop.WubeiFangBuyResp buildPartial() {
+        qxmobile.protobuf.Shop.WubeiFangBuyResp result = new qxmobile.protobuf.Shop.WubeiFangBuyResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        if (awardListBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            awardList_ = java.util.Collections.unmodifiableList(awardList_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.awardList_ = awardList_;
+        } else {
+          result.awardList_ = awardListBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        if (wubeiFangInfoBuilder_ == null) {
+          result.wubeiFangInfo_ = wubeiFangInfo_;
+        } else {
+          result.wubeiFangInfo_ = wubeiFangInfoBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Shop.WubeiFangBuyResp) {
+          return mergeFrom((qxmobile.protobuf.Shop.WubeiFangBuyResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Shop.WubeiFangBuyResp other) {
+        if (other == qxmobile.protobuf.Shop.WubeiFangBuyResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        if (awardListBuilder_ == null) {
+          if (!other.awardList_.isEmpty()) {
+            if (awardList_.isEmpty()) {
+              awardList_ = other.awardList_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureAwardListIsMutable();
+              awardList_.addAll(other.awardList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.awardList_.isEmpty()) {
+            if (awardListBuilder_.isEmpty()) {
+              awardListBuilder_.dispose();
+              awardListBuilder_ = null;
+              awardList_ = other.awardList_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              awardListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getAwardListFieldBuilder() : null;
+            } else {
+              awardListBuilder_.addAllMessages(other.awardList_);
+            }
+          }
+        }
+        if (other.hasWubeiFangInfo()) {
+          mergeWubeiFangInfo(other.getWubeiFangInfo());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getAwardListCount(); i++) {
+          if (!getAwardList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasWubeiFangInfo()) {
+          if (!getWubeiFangInfo().isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Shop.WubeiFangBuyResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Shop.WubeiFangBuyResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-元宝不足，2-今日购买次数用完,3-请求类型错误
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-元宝不足，2-今日购买次数用完,3-请求类型错误
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-元宝不足，2-今日购买次数用完,3-请求类型错误
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-元宝不足，2-今日购买次数用完,3-请求类型错误
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;
+      private java.util.List<qxmobile.protobuf.Shop.WubeiFangAwardInfo> awardList_ =
+        java.util.Collections.emptyList();
+      private void ensureAwardListIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          awardList_ = new java.util.ArrayList<qxmobile.protobuf.Shop.WubeiFangAwardInfo>(awardList_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Shop.WubeiFangAwardInfo, qxmobile.protobuf.Shop.WubeiFangAwardInfo.Builder, qxmobile.protobuf.Shop.WubeiFangAwardInfoOrBuilder> awardListBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Shop.WubeiFangAwardInfo> getAwardListList() {
+        if (awardListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(awardList_);
+        } else {
+          return awardListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public int getAwardListCount() {
+        if (awardListBuilder_ == null) {
+          return awardList_.size();
+        } else {
+          return awardListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public qxmobile.protobuf.Shop.WubeiFangAwardInfo getAwardList(int index) {
+        if (awardListBuilder_ == null) {
+          return awardList_.get(index);
+        } else {
+          return awardListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public Builder setAwardList(
+          int index, qxmobile.protobuf.Shop.WubeiFangAwardInfo value) {
+        if (awardListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAwardListIsMutable();
+          awardList_.set(index, value);
+          onChanged();
+        } else {
+          awardListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public Builder setAwardList(
+          int index, qxmobile.protobuf.Shop.WubeiFangAwardInfo.Builder builderForValue) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          awardList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          awardListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public Builder addAwardList(qxmobile.protobuf.Shop.WubeiFangAwardInfo value) {
+        if (awardListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAwardListIsMutable();
+          awardList_.add(value);
+          onChanged();
+        } else {
+          awardListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public Builder addAwardList(
+          int index, qxmobile.protobuf.Shop.WubeiFangAwardInfo value) {
+        if (awardListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAwardListIsMutable();
+          awardList_.add(index, value);
+          onChanged();
+        } else {
+          awardListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public Builder addAwardList(
+          qxmobile.protobuf.Shop.WubeiFangAwardInfo.Builder builderForValue) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          awardList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          awardListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public Builder addAwardList(
+          int index, qxmobile.protobuf.Shop.WubeiFangAwardInfo.Builder builderForValue) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          awardList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          awardListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public Builder addAllAwardList(
+          java.lang.Iterable<? extends qxmobile.protobuf.Shop.WubeiFangAwardInfo> values) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          super.addAll(values, awardList_);
+          onChanged();
+        } else {
+          awardListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public Builder clearAwardList() {
+        if (awardListBuilder_ == null) {
+          awardList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          awardListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public Builder removeAwardList(int index) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          awardList_.remove(index);
+          onChanged();
+        } else {
+          awardListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public qxmobile.protobuf.Shop.WubeiFangAwardInfo.Builder getAwardListBuilder(
+          int index) {
+        return getAwardListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public qxmobile.protobuf.Shop.WubeiFangAwardInfoOrBuilder getAwardListOrBuilder(
+          int index) {
+        if (awardListBuilder_ == null) {
+          return awardList_.get(index);  } else {
+          return awardListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Shop.WubeiFangAwardInfoOrBuilder> 
+           getAwardListOrBuilderList() {
+        if (awardListBuilder_ != null) {
+          return awardListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(awardList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public qxmobile.protobuf.Shop.WubeiFangAwardInfo.Builder addAwardListBuilder() {
+        return getAwardListFieldBuilder().addBuilder(
+            qxmobile.protobuf.Shop.WubeiFangAwardInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public qxmobile.protobuf.Shop.WubeiFangAwardInfo.Builder addAwardListBuilder(
+          int index) {
+        return getAwardListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Shop.WubeiFangAwardInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.WubeiFangAwardInfo awardList = 2;</code>
+       *
+       * <pre>
+       * 获得的物品信息
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Shop.WubeiFangAwardInfo.Builder> 
+           getAwardListBuilderList() {
+        return getAwardListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Shop.WubeiFangAwardInfo, qxmobile.protobuf.Shop.WubeiFangAwardInfo.Builder, qxmobile.protobuf.Shop.WubeiFangAwardInfoOrBuilder> 
+          getAwardListFieldBuilder() {
+        if (awardListBuilder_ == null) {
+          awardListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Shop.WubeiFangAwardInfo, qxmobile.protobuf.Shop.WubeiFangAwardInfo.Builder, qxmobile.protobuf.Shop.WubeiFangAwardInfoOrBuilder>(
+                  awardList_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          awardList_ = null;
+        }
+        return awardListBuilder_;
+      }
+
+      // optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;
+      private qxmobile.protobuf.Shop.WubeiFangInfo wubeiFangInfo_ = qxmobile.protobuf.Shop.WubeiFangInfo.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          qxmobile.protobuf.Shop.WubeiFangInfo, qxmobile.protobuf.Shop.WubeiFangInfo.Builder, qxmobile.protobuf.Shop.WubeiFangInfoOrBuilder> wubeiFangInfoBuilder_;
+      /**
+       * <code>optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public boolean hasWubeiFangInfo() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public qxmobile.protobuf.Shop.WubeiFangInfo getWubeiFangInfo() {
+        if (wubeiFangInfoBuilder_ == null) {
+          return wubeiFangInfo_;
+        } else {
+          return wubeiFangInfoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public Builder setWubeiFangInfo(qxmobile.protobuf.Shop.WubeiFangInfo value) {
+        if (wubeiFangInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          wubeiFangInfo_ = value;
+          onChanged();
+        } else {
+          wubeiFangInfoBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public Builder setWubeiFangInfo(
+          qxmobile.protobuf.Shop.WubeiFangInfo.Builder builderForValue) {
+        if (wubeiFangInfoBuilder_ == null) {
+          wubeiFangInfo_ = builderForValue.build();
+          onChanged();
+        } else {
+          wubeiFangInfoBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public Builder mergeWubeiFangInfo(qxmobile.protobuf.Shop.WubeiFangInfo value) {
+        if (wubeiFangInfoBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              wubeiFangInfo_ != qxmobile.protobuf.Shop.WubeiFangInfo.getDefaultInstance()) {
+            wubeiFangInfo_ =
+              qxmobile.protobuf.Shop.WubeiFangInfo.newBuilder(wubeiFangInfo_).mergeFrom(value).buildPartial();
+          } else {
+            wubeiFangInfo_ = value;
+          }
+          onChanged();
+        } else {
+          wubeiFangInfoBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public Builder clearWubeiFangInfo() {
+        if (wubeiFangInfoBuilder_ == null) {
+          wubeiFangInfo_ = qxmobile.protobuf.Shop.WubeiFangInfo.getDefaultInstance();
+          onChanged();
+        } else {
+          wubeiFangInfoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public qxmobile.protobuf.Shop.WubeiFangInfo.Builder getWubeiFangInfoBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getWubeiFangInfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public qxmobile.protobuf.Shop.WubeiFangInfoOrBuilder getWubeiFangInfoOrBuilder() {
+        if (wubeiFangInfoBuilder_ != null) {
+          return wubeiFangInfoBuilder_.getMessageOrBuilder();
+        } else {
+          return wubeiFangInfo_;
+        }
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.WubeiFangInfo wubeiFangInfo = 3;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          qxmobile.protobuf.Shop.WubeiFangInfo, qxmobile.protobuf.Shop.WubeiFangInfo.Builder, qxmobile.protobuf.Shop.WubeiFangInfoOrBuilder> 
+          getWubeiFangInfoFieldBuilder() {
+        if (wubeiFangInfoBuilder_ == null) {
+          wubeiFangInfoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              qxmobile.protobuf.Shop.WubeiFangInfo, qxmobile.protobuf.Shop.WubeiFangInfo.Builder, qxmobile.protobuf.Shop.WubeiFangInfoOrBuilder>(
+                  wubeiFangInfo_,
+                  getParentForChildren(),
+                  isClean());
+          wubeiFangInfo_ = null;
+        }
+        return wubeiFangInfoBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.WubeiFangBuyResp)
+    }
+
+    static {
+      defaultInstance = new WubeiFangBuyResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.WubeiFangBuyResp)
+  }
+
+  public interface WubeiFangAwardInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 itemType = 1;
+    /**
+     * <code>required int32 itemType = 1;</code>
+     */
+    boolean hasItemType();
+    /**
+     * <code>required int32 itemType = 1;</code>
+     */
+    int getItemType();
+
+    // required int32 itemId = 2;
+    /**
+     * <code>required int32 itemId = 2;</code>
+     */
+    boolean hasItemId();
+    /**
+     * <code>required int32 itemId = 2;</code>
+     */
+    int getItemId();
+
+    // required int32 itemNum = 3;
+    /**
+     * <code>required int32 itemNum = 3;</code>
+     */
+    boolean hasItemNum();
+    /**
+     * <code>required int32 itemNum = 3;</code>
+     */
+    int getItemNum();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.WubeiFangAwardInfo}
+   */
+  public static final class WubeiFangAwardInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements WubeiFangAwardInfoOrBuilder {
+    // Use WubeiFangAwardInfo.newBuilder() to construct.
+    private WubeiFangAwardInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private WubeiFangAwardInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final WubeiFangAwardInfo defaultInstance;
+    public static WubeiFangAwardInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public WubeiFangAwardInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private WubeiFangAwardInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              itemType_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              itemId_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              itemNum_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangAwardInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangAwardInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Shop.WubeiFangAwardInfo.class, qxmobile.protobuf.Shop.WubeiFangAwardInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<WubeiFangAwardInfo> PARSER =
+        new com.google.protobuf.AbstractParser<WubeiFangAwardInfo>() {
+      public WubeiFangAwardInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new WubeiFangAwardInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<WubeiFangAwardInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 itemType = 1;
+    public static final int ITEMTYPE_FIELD_NUMBER = 1;
+    private int itemType_;
+    /**
+     * <code>required int32 itemType = 1;</code>
+     */
+    public boolean hasItemType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 itemType = 1;</code>
+     */
+    public int getItemType() {
+      return itemType_;
+    }
+
+    // required int32 itemId = 2;
+    public static final int ITEMID_FIELD_NUMBER = 2;
+    private int itemId_;
+    /**
+     * <code>required int32 itemId = 2;</code>
+     */
+    public boolean hasItemId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 itemId = 2;</code>
+     */
+    public int getItemId() {
+      return itemId_;
+    }
+
+    // required int32 itemNum = 3;
+    public static final int ITEMNUM_FIELD_NUMBER = 3;
+    private int itemNum_;
+    /**
+     * <code>required int32 itemNum = 3;</code>
+     */
+    public boolean hasItemNum() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 itemNum = 3;</code>
+     */
+    public int getItemNum() {
+      return itemNum_;
+    }
+
+    private void initFields() {
+      itemType_ = 0;
+      itemId_ = 0;
+      itemNum_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasItemType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasItemId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasItemNum()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, itemType_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, itemId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, itemNum_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, itemType_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, itemId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, itemNum_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Shop.WubeiFangAwardInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangAwardInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangAwardInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangAwardInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangAwardInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangAwardInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangAwardInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangAwardInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangAwardInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Shop.WubeiFangAwardInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Shop.WubeiFangAwardInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.WubeiFangAwardInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Shop.WubeiFangAwardInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangAwardInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangAwardInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Shop.WubeiFangAwardInfo.class, qxmobile.protobuf.Shop.WubeiFangAwardInfo.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Shop.WubeiFangAwardInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        itemType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        itemId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        itemNum_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Shop.internal_static_qxmobile_protobuf_WubeiFangAwardInfo_descriptor;
+      }
+
+      public qxmobile.protobuf.Shop.WubeiFangAwardInfo getDefaultInstanceForType() {
+        return qxmobile.protobuf.Shop.WubeiFangAwardInfo.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Shop.WubeiFangAwardInfo build() {
+        qxmobile.protobuf.Shop.WubeiFangAwardInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Shop.WubeiFangAwardInfo buildPartial() {
+        qxmobile.protobuf.Shop.WubeiFangAwardInfo result = new qxmobile.protobuf.Shop.WubeiFangAwardInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.itemType_ = itemType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.itemId_ = itemId_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.itemNum_ = itemNum_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Shop.WubeiFangAwardInfo) {
+          return mergeFrom((qxmobile.protobuf.Shop.WubeiFangAwardInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Shop.WubeiFangAwardInfo other) {
+        if (other == qxmobile.protobuf.Shop.WubeiFangAwardInfo.getDefaultInstance()) return this;
+        if (other.hasItemType()) {
+          setItemType(other.getItemType());
+        }
+        if (other.hasItemId()) {
+          setItemId(other.getItemId());
+        }
+        if (other.hasItemNum()) {
+          setItemNum(other.getItemNum());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasItemType()) {
+          
+          return false;
+        }
+        if (!hasItemId()) {
+          
+          return false;
+        }
+        if (!hasItemNum()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Shop.WubeiFangAwardInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Shop.WubeiFangAwardInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 itemType = 1;
+      private int itemType_ ;
+      /**
+       * <code>required int32 itemType = 1;</code>
+       */
+      public boolean hasItemType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 itemType = 1;</code>
+       */
+      public int getItemType() {
+        return itemType_;
+      }
+      /**
+       * <code>required int32 itemType = 1;</code>
+       */
+      public Builder setItemType(int value) {
+        bitField0_ |= 0x00000001;
+        itemType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 itemType = 1;</code>
+       */
+      public Builder clearItemType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        itemType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 itemId = 2;
+      private int itemId_ ;
+      /**
+       * <code>required int32 itemId = 2;</code>
+       */
+      public boolean hasItemId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 itemId = 2;</code>
+       */
+      public int getItemId() {
+        return itemId_;
+      }
+      /**
+       * <code>required int32 itemId = 2;</code>
+       */
+      public Builder setItemId(int value) {
+        bitField0_ |= 0x00000002;
+        itemId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 itemId = 2;</code>
+       */
+      public Builder clearItemId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        itemId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 itemNum = 3;
+      private int itemNum_ ;
+      /**
+       * <code>required int32 itemNum = 3;</code>
+       */
+      public boolean hasItemNum() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 itemNum = 3;</code>
+       */
+      public int getItemNum() {
+        return itemNum_;
+      }
+      /**
+       * <code>required int32 itemNum = 3;</code>
+       */
+      public Builder setItemNum(int value) {
+        bitField0_ |= 0x00000004;
+        itemNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 itemNum = 3;</code>
+       */
+      public Builder clearItemNum() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        itemNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.WubeiFangAwardInfo)
+    }
+
+    static {
+      defaultInstance = new WubeiFangAwardInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.WubeiFangAwardInfo)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_PurchaseFail_descriptor;
   private static
@@ -9248,6 +12946,31 @@ public final class Shop {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_BuyGoodResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_WubeiFangInfoResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_WubeiFangInfoResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_WubeiFangInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_WubeiFangInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_WubeiFangBuy_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_WubeiFangBuy_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_WubeiFangBuyResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_WubeiFangBuyResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_WubeiFangAwardInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_WubeiFangAwardInfo_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -9280,7 +13003,18 @@ public final class Shop {
       "isChange\030\003 \002(\010\022\023\n\013remainCount\030\004 \001(\005\"*\n\nB" +
       "uyGoodReq\022\014\n\004type\030\001 \002(\005\022\016\n\006goodId\030\002 \002(\005\"" +
       "A\n\013BuyGoodResp\022\013\n\003msg\030\001 \002(\005\022\023\n\013remianMon" +
-      "ey\030\002 \001(\005\022\020\n\010isChange\030\003 \001(\010B\006B\004Shop"
+      "ey\030\002 \001(\005\022\020\n\010isChange\030\003 \001(\010\"P\n\021WubeiFangI" +
+      "nfoResp\022;\n\021wubeiFangInfoList\030\001 \003(\0132 .qxm" +
+      "obile.protobuf.WubeiFangInfo\"d\n\rWubeiFan" +
+      "gInfo\022\014\n\004type\030\001 \002(\005\022\021\n\tfreeTimes\030\002 \002(\005\022\023" +
+      "\n\013costYuanbao\030\003 \002(\005\022\035\n\025remainYuanbaoBuyT" +
+      "imes\030\004 \002(\005\"\034\n\014WubeiFangBuy\022\014\n\004type\030\001 \002(\005" +
+      "\"\225\001\n\020WubeiFangBuyResp\022\016\n\006result\030\001 \002(\005\0228\n",
+      "\tawardList\030\002 \003(\0132%.qxmobile.protobuf.Wub" +
+      "eiFangAwardInfo\0227\n\rwubeiFangInfo\030\003 \001(\0132 " +
+      ".qxmobile.protobuf.WubeiFangInfo\"G\n\022Wube" +
+      "iFangAwardInfo\022\020\n\010itemType\030\001 \002(\005\022\016\n\006item" +
+      "Id\030\002 \002(\005\022\017\n\007itemNum\030\003 \002(\005B\006B\004Shop"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9365,6 +13099,36 @@ public final class Shop {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BuyGoodResp_descriptor,
               new java.lang.String[] { "Msg", "RemianMoney", "IsChange", });
+          internal_static_qxmobile_protobuf_WubeiFangInfoResp_descriptor =
+            getDescriptor().getMessageTypes().get(13);
+          internal_static_qxmobile_protobuf_WubeiFangInfoResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_WubeiFangInfoResp_descriptor,
+              new java.lang.String[] { "WubeiFangInfoList", });
+          internal_static_qxmobile_protobuf_WubeiFangInfo_descriptor =
+            getDescriptor().getMessageTypes().get(14);
+          internal_static_qxmobile_protobuf_WubeiFangInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_WubeiFangInfo_descriptor,
+              new java.lang.String[] { "Type", "FreeTimes", "CostYuanbao", "RemainYuanbaoBuyTimes", });
+          internal_static_qxmobile_protobuf_WubeiFangBuy_descriptor =
+            getDescriptor().getMessageTypes().get(15);
+          internal_static_qxmobile_protobuf_WubeiFangBuy_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_WubeiFangBuy_descriptor,
+              new java.lang.String[] { "Type", });
+          internal_static_qxmobile_protobuf_WubeiFangBuyResp_descriptor =
+            getDescriptor().getMessageTypes().get(16);
+          internal_static_qxmobile_protobuf_WubeiFangBuyResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_WubeiFangBuyResp_descriptor,
+              new java.lang.String[] { "Result", "AwardList", "WubeiFangInfo", });
+          internal_static_qxmobile_protobuf_WubeiFangAwardInfo_descriptor =
+            getDescriptor().getMessageTypes().get(17);
+          internal_static_qxmobile_protobuf_WubeiFangAwardInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_WubeiFangAwardInfo_descriptor,
+              new java.lang.String[] { "ItemType", "ItemId", "ItemNum", });
           return null;
         }
       };

@@ -12,7 +12,7 @@ public class ZhuXian {
 	private String desc;		//string	任务主UI，展示该条目时，作为对任务的详细描述
 	private byte triggerType;	//byte		范围：0-255。类型0：需要前置任务A+B+C；类型1：需要君主等级N；类型2：攻打到制定章节-关卡
 	private String triggerCond;	//string	Type为0时，将前置任务ID用+号连接，如1或1+2或1+2+3；Type为1时，则填写需要等级，如18；Type为2时，填写章节号+关卡，如3+2表示第3章第2
-	private byte doneType;		//byte		范围0-255。类型0：君主达到等级N；类型1：通过制定章节-关卡；类型2：收集到N个指定物品；类型3：消灭N个制定敌人。
+	private short doneType;		//byte		范围0-255。类型0：君主达到等级N；类型1：通过制定章节-关卡；类型2：收集到N个指定物品；类型3：消灭N个制定敌人。
 	private String doneCond;	//string	Type为0事，填写需要等级，如18；Type为1，填写章节号+关卡，如3+2；Type为2，物品类型.物品id=物品数量，如1.3124=10+2.9767=5；Type为3，同2。
 	private String yindaoId;		//byte		每个ID对应一个引导逻辑，由程序根据备注单独制作
 	private String award;		//string	奖励内容，格式为  道具类型(0道具;2装备;7武将)：道具ID：数目#道具类型(0道具;2装备;7武将)：道具ID：数目（#代表分隔符）
@@ -81,10 +81,10 @@ public class ZhuXian {
 	public void setTriggerCond(String triggerCond) {
 		this.triggerCond = triggerCond;
 	}
-	public byte getDoneType() {
+	public short getDoneType() {
 		return doneType;
 	}
-	public void setDoneType(byte doneType) {
+	public void setDoneType(short doneType) {
 		this.doneType = doneType;
 	}
 	public String getDoneCond() {

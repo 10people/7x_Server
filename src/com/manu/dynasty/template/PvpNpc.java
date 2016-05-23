@@ -67,6 +67,10 @@ public class PvpNpc extends GameObject {
 	public int skill1Range;
 	public int skill2Range;
 	
+	public int armor;
+	public int armorMax;
+	public float armorRatio;
+	
 	@Override
 	public int getPugongHeavy() {
 		return pugongHeavy;

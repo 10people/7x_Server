@@ -13,10 +13,9 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import xg.push.XGJob;
-
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.YunbiaoTemp;
+import com.qx.alliancefight.BidMgr;
 import com.qx.quartz.job.AllianceResouceOutputJob;
 import com.qx.quartz.job.AllianceRewardStoreJob;
 import com.qx.quartz.job.BaiZhanDailyAwardJob;
@@ -25,6 +24,9 @@ import com.qx.quartz.job.BaoXiangQueueJob;
 import com.qx.quartz.job.BigHouseWorthReduceJob;
 import com.qx.quartz.job.BroadcastJob;
 import com.qx.quartz.job.CheckHouseDealJob;
+import com.qx.quartz.job.CityBidBillingJob;
+import com.qx.quartz.job.CityBidPriceRefreshJob;
+import com.qx.quartz.job.CityWarBidClearData;
 import com.qx.quartz.job.CleanLMSBJob;
 import com.qx.quartz.job.ClearPromptJob;
 import com.qx.quartz.job.DailyTaskJob;
@@ -39,12 +41,14 @@ import com.qx.quartz.job.LogPerMinuteJob;
 import com.qx.quartz.job.LveDuoJunQingJob;
 import com.qx.quartz.job.RefreshGlobalActivity;
 import com.qx.quartz.job.RefreshGongHeInfo;
+import com.qx.quartz.job.RefreshLoginCountJob;
 import com.qx.quartz.job.ResetGongJinJob;
 import com.qx.quartz.job.SendGongJinAwardJob;
 import com.qx.quartz.job.ShopRefreshJob;
-import com.qx.quartz.job.YBrobotRefreshJob;
 import com.qx.quartz.job.YaBiaoJiaChengJob;
 import com.qx.quartz.job.YaBiaoManageJob;
+
+import xg.push.XGJob;
 
 
 public class SchedulerMgr {
@@ -163,11 +167,6 @@ public class SchedulerMgr {
 		closeYBMORETime3.append("0 ").append(closeMMORE3).append(" ").append(closeHMORE3).append(" * * ?");
 		addScheduler(YaBiaoJiaChengJob.class, closeYBMORETime3.toString());//0 0 11 * * ?
 		
-		StringBuffer cartRefreshTime=new StringBuffer();
-		cartRefreshTime.append("0 */").append(YunbiaoTemp.cartAI_refresh_interval).append(" * * * ?");
-		//2016年1月20日 需求变更 只刷新维护20辆马车的等级列表 //30分钟产生一次机器人镖车 "0 */30 * * * ?"
-		addScheduler(YBrobotRefreshJob.class, cartRefreshTime.toString());
-		
 		String time = CanShu.HUANGYEPVP_AWARDTIME;
 		String[] timeArray = time.split(":");
 		StringBuilder resOutputJobTime = new StringBuilder();
@@ -192,11 +191,21 @@ public class SchedulerMgr {
 		addScheduler(SendGongJinAwardJob.class, "0 0 22 * * ?");
 		// 每天4:00  重置服务器时间为准的活动状态
 		addScheduler(RefreshGlobalActivity.class, "0 0 4 * * ?");
+		// 每天4:00 所有在线人数的登录天数+1
+		addScheduler(RefreshLoginCountJob.class, "0 0 4 * * ?");
 		addScheduler(LveDuoJunQingJob.class, "0 */1 * * * ?");
 		addScheduler(RefreshGongHeInfo.class, "*/20 * * * * ?");
 		addScheduler(ShopRefreshJob.class, "0 0 9,21 * * ?");
 		addScheduler(ClearPromptJob.class, "*/20 * * * * ?");
-		
+		//宣战竞拍缓存更新
+		addScheduler(CityBidPriceRefreshJob.class ,"0 0 * * * ?");
+		//每天 4:00 定时清理过期竞拍记录
+		addScheduler(CityWarBidClearData.class, "0 0 4 * * ?");
+		//每天 18:00 定时竞拍结算
+		String[] bidTimeArr = BidMgr.city_war_preparation_startTime.split(":");
+		StringBuilder bidJobTime = new StringBuilder();
+		bidJobTime.append("0 ").append(bidTimeArr[1]).append(" ").append(bidTimeArr[0]).append(" * * ?");
+		addScheduler(CityBidBillingJob.class,bidJobTime.toString());
 	}
 	/**
 	 * 任务列表

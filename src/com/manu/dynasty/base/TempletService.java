@@ -216,6 +216,7 @@ public class TempletService {
 		//2016年1月25日
 //		YunbiaoTemp.cartTimesAdd1=Integer.parseInt(map.get("cartTimesAdd1").value);
 		YunbiaoTemp.cartTimesAdd2=Integer.parseInt(map.get("cartTimesAdd2").value);
+		YunbiaoTemp.assistant_application_CD = Integer.parseInt(map.get("assistant_application_CD").value);
 	}
 	//加载封测活动配置
 	public void loadFengcefuli() {
@@ -293,6 +294,7 @@ public class TempletService {
 		CanShu.BAIZHAN_NPC_WEIWANG = Integer.parseInt(map.get("BAIZHAN_NPC_WEIWANG").value);
 		CanShu.BAIZHAN_WEIWANG_ADDLIMIT = Integer.parseInt(map.get("BAIZHAN_WEIWANG_ADDLIMIT").value);
 		CanShu.BAIZHAN_FIRSTWIN_YUANBAO = Integer.parseInt(map.get("BAIZHAN_FIRSTWIN_YUANBAO").value);
+		CanShu.BAIZHAN_FREE_TIMES = Integer.parseInt(map.get("BAIZHAN_FREE_TIMES").value);
 
 		CanShu.MAXTIME_BAIZHAN = Integer.parseInt(map.get("MAXTIME_BAIZHAN").value);
 		CanShu.CHUSHIHUA_CHUANDAIZHUANGBEI_1 = Double.parseDouble(map.get("CHUSHIHUA_CHUANDAIZHUANGBEI_1").value);
@@ -306,7 +308,13 @@ public class TempletService {
 		
 		CanShu.REFRESHTIME_DANGPU = map.get("REFRESHTIME_DANGPU").value;
 		CanShu.LIANMENG_CREATE_COST = Integer.parseInt(map.get("LIANMENG_CREATE_COST").value);
-		CanShu.CHAT_INTERVAL_TIME = Integer.parseInt(map.get("CHAT_INTERVAL_TIME").value);
+		
+		CanShu.CHAT_WORLD_INTERVAL_TIME = Integer.parseInt(map.get("CHAT_WORLD_INTERVAL_TIME").value);
+		CanShu.CHAT_ALLIANCE_INTERVAL_TIME = Integer.parseInt(map.get("CHAT_ALLIANCE_INTERVAL_TIME").value);
+		CanShu.CHAT_BROADCAST_INTERVAL_TIME = Integer.parseInt(map.get("CHAT_BROADCAST_INTERVAL_TIME").value);
+		CanShu.CHAT_SECRET_INTERVAL_TIME = Integer.parseInt(map.get("CHAT_SECRET_INTERVAL_TIME").value);
+		CanShu.CHAT_MAX_WORDS = Integer.parseInt(map.get("CHAT_MAX_WORDS").value);
+		
 		
 		CanShu.YUEKA_TIME = Integer.parseInt(map.get("YUEKA_TIME").value);
 		CanShu.VIPLV_ININT = Integer.parseInt(map.get("VIPLV_ININT").value);
@@ -420,6 +428,21 @@ public class TempletService {
 		CanShu.CONGRATULATE_AWARD_B =  Double.parseDouble(map.get("CONGRATULATE_AWARD_B").value);
 		CanShu.BIAOQING_INTERVAL =  Integer.parseInt(map.get("BIAOQING_INTERVAL").value);
 		CanShu.GREETED_CD =  Integer.parseInt(map.get("GREETED_CD").value);
+		CanShu.LIEFU_FREETIMES_REFRESH = map.get("LIEFU_FREETIMES_REFRESH").value;
+		CanShu.CHANGE_COUNTRY_COST = Integer.parseInt(map.get("CHANGE_COUNTRY_COST").value);
+		CanShu.LIANMENG_LVLUP_REDUCE = Integer.parseInt(map.get("LIANMENG_LVLUP_REDUCE").value);
+		CanShu.EQUIPMENT_FREETIMES = Integer.parseInt(map.get("EQUIPMENT_FREETIMES").value);
+		CanShu.BAOSHI_FREETIMES = Integer.parseInt(map.get("BAOSHI_FREETIMES").value);
+		CanShu.QIANGHUA_FREETIMES = Integer.parseInt(map.get("QIANGHUA_FREETIMES").value);
+		CanShu.JINGQI_FREETIMES = Integer.parseInt(map.get("JINGQI_FREETIMES").value);
+		CanShu.YUEKA_YUANBAO = Integer.parseInt(map.get("YUEKA_YUANBAO").value);
+		CanShu.ZHONGSHENKA_YUANBAO = Integer.parseInt(map.get("ZHONGSHENKA_YUANBAO").value);
+		CanShu.MEIRI_DINGSHIZENGSONG_TILI = Integer.parseInt(map.get("MEIRI_DINGSHIZENGSONG_TILI").value);
+		CanShu.CHENGZHANGJIJIN_VIP = Integer.parseInt(map.get("CHENGZHANGJIJIN_VIP").value);
+		CanShu.CHENGZHANGJIJIN_COST = Integer.parseInt(map.get("CHENGZHANGJIJIN_COST").value);
+		CanShu.CHENGZHANGJIJIN_REBATE = Integer.parseInt(map.get("CHENGZHANGJIJIN_REBATE").value);
+		CanShu.LIANMXIAOWU_EXP = Double.parseDouble(map.get("LIANMXIAOWU_EXP").value);
+		CanShu.LIEFU_BLUE_FIRSTAWARD = map.get("LIEFU_BLUE_FIRSTAWARD").value;
 	}
 
 	public ZhuangBei getZhuangBei(int id) {

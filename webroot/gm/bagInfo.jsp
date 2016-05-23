@@ -1,3 +1,6 @@
+<%@page import="qxmobile.protobuf.UserEquipProtos.EquipJinJie"%>
+<%@page import="com.qx.fuwen.FuwenMgr"%>
+<%@page import="com.manu.dynasty.template.Fuwen"%>
 <%@page import="com.qx.junzhu.JunZhuMgr"%>
 <%@page import="com.qx.equip.web.UserEquipAction"%>
 <%@page import="com.manu.dynasty.template.XilianShuxing"%>
@@ -41,8 +44,17 @@
 		String itemNum = request.getParameter("itemNum");
 		itemNum = null==itemNum?"0":itemNum;
 		String jzId = request.getParameter("jzId");
+		String equipStr = request.getParameter("equipId");
+		String qianghuaStr = request.getParameter("qiangHuaExp");
+		String jinJieStr = request.getParameter("jinJieExp");
+		String cailiaoStr = request.getParameter("cailiao");
 		if(jzId == null){
-			jzId = session.getAttribute("jzId").toString();
+			Object jzObj = session.getAttribute("jzId");
+			if(jzObj == null) {
+				out.println("请先登录帐号！");
+			}else {
+				jzId = jzObj.toString();
+			}
 		}
 		jzId = jzId == null ? "" : jzId;
 		jzId=jzId.trim();
@@ -73,6 +85,19 @@
 		<input type="hidden" name="jzId" value="<%=jzId%>"> 
 		<input type="hidden" name="action" value="pushBagsInfo"> 
 		<button type="submit">推送背包信息</button>
+	</form>
+	<form action="">
+		目标装备instID：<input type="text" name="equipId" value="<%%>">
+		强化经验：<input type="text" name="qiangHuaExp" value="<%%>">
+		进阶经验：<input type="text" name="jinJieExp" value="<%%>"> 
+		<input type="hidden" name="action" value="addExp"> 
+		<button type="submit">增加装备经验</button>
+	</form>
+	<form action="">
+		目标装备instID：<input type="text" name="equipId" value="<%%>">
+		进阶材料：<input type="text" name="cailiao" value="<%%>"> 
+		<input type="hidden" name="action" value="jinjie"> 
+		<button type="submit">装备进阶</button>
 	</form>
 	<%
 		if (jzId.matches("\\d+")) {
@@ -122,6 +147,36 @@
 						BagMgr.inst.sendEquipInfo(0, su.session, null);
 						JunZhuMgr.inst.sendMainInfo(su.session);
 					}
+		   		}else if("addExp".equals(action)){
+		   			if(equipStr!=null && equipStr.length()> 0){
+		   				long equipId= Long.parseLong(equipStr);
+		   				UserEquip ue = HibernateUtil.find(UserEquip.class, equipId);
+			   			if(ue != null){
+			   				if(qianghuaStr!=null &&qianghuaStr.length()>0){
+			   					int addExp = Integer.parseInt(qianghuaStr);
+			   					int totalExp = ue.getExp()+addExp;
+			   					ue.setExp(totalExp);
+			   				}
+			   				if(jinJieStr != null&& jinJieStr.length()>0){
+			   					int addExp = Integer.parseInt(jinJieStr);
+			   					ue.JinJieExp += addExp;
+			   				}
+			   				HibernateUtil.save(ue);
+			   			}
+		   			}
+		   		}else if("jinjie".equals(action)){
+		   			if(cailiaoStr != null && cailiaoStr.length()>0){
+		   				EquipJinJie.Builder builder = EquipJinJie.newBuilder();
+		   				String[] cailiaos = cailiaoStr.split(",");
+		   				builder.setEquipId(Long.parseLong(equipStr));
+		   				for(String s : cailiaos){
+		   					builder.addCailiaoList(Long.parseLong(s));
+		   				}
+		   				IoSession su = SessionManager.inst.getIoSession(junzhuId);
+		   				if(su != null){
+		   					UserEquipAction.instance.newEquipJinJie(0, su, builder);
+		   				}
+		   			}
 		   		}
 				List<EquipGrid> list0 = equips.grids;
 				int cnt0 = list0.size();
@@ -132,7 +187,7 @@
 			<th>名称</th>
 			<th>op</th>
 			<th>instId</th>
-			<th>进阶材料</th>
+			<th>进阶经验</th>
 			<th>强化等级</th>
 			<th>当前强化等级经验</th>
 			<th>洗练获得的属性</th>
@@ -147,6 +202,7 @@
 						int targetItemId=bg.itemId;
 						UserEquip ue =bg.instId>0? HibernateUtil.find(UserEquip.class, bg.instId):null;
 						String xilianStr="无装备";
+						int jinJieExp = 0;
 						if(bg.dbId!=0){
 							xilianStr = ue == null ? "没洗练信息" : ue
 									.getHasXilian() == null ? "" : ue
@@ -160,6 +216,7 @@
 									xilianStr = shuxing.Shuxing1;
 								}
 							}
+							jinJieExp = ue==null?0:ue.JinJieExp;
 						}
 						xilianStr=	xilianStr.replace("A", "武器伤害加深；");
 						xilianStr=	xilianStr.replace("B", "武器伤害抵抗；");
@@ -192,11 +249,7 @@
 				   <%
 			   }
 			%>
-			<td><%=bg.itemId<=0 ? "-" :
-				(TempletService.itemMap.get(bg.itemId)==null)?
-						"没有找到配置":
-							((ZhuangBei)TempletService.itemMap.get(bg.itemId)).getJinjieItem()
-							%> </td>
+			<td><%=jinJieExp%></td>
 			<td><%=ue==null?"没强化信息":ue.getLevel()%> </td>
 			<td><%=ue==null?"没强化信息":ue.getExp()%> </td>
 		<%

@@ -49,6 +49,7 @@ public class YunbiaoTemp {
 	public static float cartLifebarNum;//君主马车生命倍数
 	public static float damage_amend_X;
 	public static float damage_amend_Y;
+	public static int assistant_application_CD;
 	
 	/*押镖相关参数--结束*/
 

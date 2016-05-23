@@ -25,6 +25,8 @@ public class ED {
 	public static final int YOU_XIA_SUCCESS = 117;
 	public static final int BAI_ZHAN_RANK_UP = 118;
 	public static final int MIBAO_HECHENG_BROADCAST = 119;
+	public static final int LIEFU_GET_FUWEN = 120;
+	public static final int JIAPIAN_DUIHUAN_FUWEN = 121;
 	
 	public static final int ACC_LOGIN = 10010;
 	/** 成就事件 **/
@@ -147,6 +149,8 @@ public class ED {
 	public static final int CHANGE_GJ_RANK_REFRESH = 10160;
 	// 君主等级榜刷新
 	public static final int JUNZHU_LEVEL_RANK_REFRESH = 101601;
+	// 君主等级榜刷新
+	public static final int CHONGLOU_RANK_REFRESH = 101602;
 	/**GM事件**/
 	public static final int CHECK_EMAIL = 10161;
 	//限时活动精英集星
@@ -182,34 +186,51 @@ public class ED {
 	public static final int BUY_TongBi_BaoJi = 10201;
 	
 	public static final int BAI_ZHAN_A_WIN_B = 10301;
-	// 主线任务事件
-	public static final int get_produce_weiWang = 50;
-	public static final int pay_weiWang = 51;
-	public static final int active_mibao_skill = 52;
-	public static final int saoDang = 53;
-	public static final int wear_fushi = 54;
-	public static final int mobai = 55;
-	public static final int jibai =71;
-	public static final int fix_house = 57;
-	public static final int get_house_exp = 58;
-	public static final int have_total_guJuan = 59;
-	public static final int battle_huang_ye = 60;
-	public static final int lve_duo = 61;
-	public static final int pawnshop_buy = 62;
-	/**任意N件装备强化到N级*/
-	public static final int zhuangBei_x_qiangHua_N = 63;
-	/**领取通章奖励**/
-	public static final int get_pass_PVE_zhang_award = 64;
-	/**进阶任意角色技能1次*/
-	public static final int jinJie_jueSe_jiNeng = 65;
-	/**指定秘宝升星一次： 指定秘宝id*/
-	public static final int mibao_shengStar = 66;
-	/**记录一次游侠*/
-	public static final int go_youxia = 30;
-	public static final int miabao_x_star_n = 68;
-	public static final int qiandao = 69; // 签到一次
-	public static final int qiandao_get_v = 70;// 签到领取V特权奖励
-	public static final int get_achieve = 72; // 领取成就奖励（即就是限时活动奖励）
-	public static final int active_taozhuang = 78; //激活品质套装
+	/** 联盟升级事件 **/
+	public static final int LIANMENG_UPGRADE_LEVEL = 10302;
 	
+	// 主线任务事件
+	public static final int get_produce_weiWang = 3050;
+	public static final int pay_weiWang = 3051;
+	public static final int active_mibao_skill = 3052;
+	public static final int saoDang = 3053;
+	public static final int wear_fushi = 3054;
+	public static final int mobai = 3055;
+	public static final int jibai =3071;
+	public static final int fix_house = 3057;
+	public static final int get_house_exp = 3058;
+	public static final int have_total_guJuan = 3059;
+	public static final int battle_huang_ye = 3060;
+	public static final int lve_duo = 3061;
+	public static final int pawnshop_buy = 3062;
+	/**任意N件装备强化到N级*/
+	public static final int zhuangBei_x_qiangHua_N = 3063;
+	/**领取通章奖励**/
+	public static final int get_pass_PVE_zhang_award = 3064;
+	/**进阶任意角色技能1次*/
+	public static final int jinJie_jueSe_jiNeng = 3065;
+	/**指定秘宝升星一次： 指定秘宝id*/
+	public static final int mibao_shengStar = 3066;
+	/**记录一次游侠*/
+	public static final int go_youxia = 3030;
+	public static final int miabao_x_star_n = 3068;
+	public static final int qiandao = 3069; // 签到一次
+	public static final int qiandao_get_v = 3070;// 签到领取V特权奖励
+	public static final int get_achieve = 3072; // 领取成就奖励（即就是限时活动奖励）
+	public static final int active_taozhuang = 3078; //激活品质套装
+	public static final int get_miBao_x_pinZhi_y = 3100; // 获取X个品质Y的秘宝
+	public static final int get_mbSuiPian_x_y = 3103; //获取X个秘宝碎片Y
+	public static final int get_miShu_pinZhi_y = 3105; //获得一个品质Y的秘术
+	public static final int done_qianChongLou= 3110;//千重楼触发事件
+	public static final int use_baoshi = 3115;//镶嵌宝石触发事件
+	public static final int done_wuBeiChouJiang = 3120;//武备坊抽奖一次
+	public static final int done_lieFu_x = 3125;//猎符次数触发事件
+	public static final int done_junChengZhan_x =3130;//联盟战X次
+	
+	public static final int get_BaoShi = 12001;//获取宝石事件，用于镶嵌推送检测
+
+	
+	public static final int HY_PASS_GUAN_QIA = 4000; //荒野通过关卡事件
+	public static final int LIAN_MENG_CHANGE_GUOJIA = 4001; //联盟转国成功事件
+
 }

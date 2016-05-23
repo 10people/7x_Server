@@ -15,6 +15,8 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import qxmobile.protobuf.MibaoProtos.MibaoInfo;
+import qxmobile.protobuf.MibaoProtos.MibaoInfoResp;
 import qxmobile.protobuf.UpActionProto.Page1Data;
 import qxmobile.protobuf.UpActionProto.Page1ZhuangbeiData;
 import qxmobile.protobuf.UpActionProto.Page2Data;
@@ -29,6 +31,7 @@ import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.BaseItem;
 import com.manu.dynasty.template.Fuwen;
+import com.manu.dynasty.template.MiBaoNew;
 import com.manu.dynasty.template.MibaoStar;
 import com.manu.dynasty.template.MibaoSuiPian;
 import com.manu.dynasty.template.QiRiLiBao;
@@ -44,11 +47,14 @@ import com.qx.bag.BagMgr;
 import com.qx.bag.EquipGrid;
 import com.qx.bag.EquipMgr;
 import com.qx.equip.domain.UserEquip;
+import com.qx.equip.jewel.JewelMgr;
 import com.qx.equip.web.UEConstant;
 import com.qx.equip.web.UserEquipAction;
 import com.qx.fuwen.FuwenMgr;
 import com.qx.mibao.MiBaoDB;
 import com.qx.mibao.MibaoMgr;
+import com.qx.mibao.v2.MiBaoV2Bean;
+import com.qx.mibao.v2.MiBaoV2Mgr;
 import com.qx.persistent.HibernateUtil;
 
 /**
@@ -94,11 +100,11 @@ public class GrowUpMgr {
 			Page3Data.Builder b = Page3Data.newBuilder();
 			b.setCurLevel(FuwenMgr.inst.getFushiCurLevel(jz.id, 2));
 			b.setMaxLevel(FuwenMgr.inst.getFushiMaxLevel(jz.id, 2));
-			{
-				List<Fuwen> list = FuwenMgr.inst.getFuShiTuijian(jz.id, 2);
-				for(Fuwen fw : list){
-					b.addFuwenDataId(fw.getFuwenID());
-				}
+			{//2016年5月12日20:36:02 不要宝石了
+//				List<Fuwen> list = FuwenMgr.inst.getFuShiTuijian(jz.id, 2);
+//				for(Fuwen fw : list){
+//					b.addFuwenDataId(fw.getFuwenID());
+//				}
 			}
 			ret.addPageData(b.build());
 			
@@ -107,10 +113,11 @@ public class GrowUpMgr {
 			Page3Data.Builder b = Page3Data.newBuilder();
 			b.setCurLevel(FuwenMgr.inst.getFushiCurLevel(jz.id, 1));
 			b.setMaxLevel(FuwenMgr.inst.getFushiMaxLevel(jz.id, 1));
-			List<Fuwen> list = FuwenMgr.inst.getFuShiTuijian(jz.id, 1);
-			for(Fuwen fw : list){
-				b.addFuwenDataId(fw.getFuwenID());
-			}
+//			2016年5月12日20:37:11 报空指针，先关闭
+//			List<Fuwen> list = FuwenMgr.inst.getFuShiTuijian(jz.id, 1);
+//			for(Fuwen fw : list){
+//				b.addFuwenDataId(fw.getFuwenID());
+//			}
 			ret.addPageData(b.build());
 		}
 		
@@ -502,6 +509,26 @@ public class GrowUpMgr {
 			}
 			ret.addPageData(b.build());
 		}
+		{//镶嵌
+			Object[] arr = JewelMgr.inst.getXiangQianTuiJian(jz.id);
+			int[] prog = (int[]) arr[0];
+			Page1Data.Builder b = Page1Data.newBuilder();
+			b.setCurLevel(prog[0]);
+			b.setMaxLevel(100);
+			//
+			int[] eIds = (int[]) arr[1];
+			for(int i:eIds){
+				if(i>0){
+					Page1ZhuangbeiData.Builder zb = Page1ZhuangbeiData.newBuilder();
+					int itemId = i;
+					zb.setId(itemId);
+					zb.setText("身上装备");
+					zb.setType(0);
+					b.addZhuangbeiData(zb.build());	
+				}
+			}
+			ret.addPageData(b.build());
+		}
 		
 		ProtobufMsg msg = new ProtobufMsg();
 		msg.id = PD.S_UPACTION_DATA_1;
@@ -579,7 +606,37 @@ public class GrowUpMgr {
 		}else{
 			ret.addTianfuId(min200P.point);
 		}
-		//
+		{//计算新秘宝
+			session.setAttribute("Calc4Grow", 1);
+			MiBaoV2Mgr.inst.sendMainInfo(0, session, null);
+			MibaoInfoResp.Builder resp = (MibaoInfoResp.Builder)session.removeAttribute("Calc4GrowRet");
+			int curProg = 0;
+			int maxProg = 9;
+			if(resp == null){
+			}else{
+				curProg = resp.getLevelPoint();
+			}
+			Page2Data.Builder mb = Page2Data.newBuilder();
+			mb.setCurLevel(curProg);
+			mb.setMaxLevel(maxProg);
+			int[] ids = new int[9];
+			for(int i=0;i<9;i++){
+				MibaoInfo m = resp.getMiBaoList(i);
+				if(m.getStar()>0){
+					ids[i] = 99999999;//已激活
+				}else{
+					ids[i] = m.getMiBaoId();
+				}
+			}
+			Arrays.sort(ids);
+			for(int i=0;i<3;i++){
+				int id = ids[i];
+				if(id<99999999){
+					mb.addMibaoDataId(id);
+				}
+			}
+			ret.setMibaoNew(mb);
+		}//
 		ProtobufMsg msg = new ProtobufMsg();
 		msg.id = PD.S_UPACTION_DATA_0;
 		msg.builder = ret;

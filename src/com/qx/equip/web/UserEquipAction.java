@@ -39,6 +39,7 @@ import com.manu.network.SessionUser;
 import com.qx.account.FunctionOpenMgr;
 import com.qx.achievement.AchievementCondition;
 import com.qx.achievement.AchievementConstants;
+import com.qx.alliance.HouseMgr;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
 import com.qx.bag.BagMgr;
@@ -77,14 +78,14 @@ import com.qx.yuanbao.YuanBaoMgr;
 public class UserEquipAction  extends EventProc {
 	public static Logger log = LoggerFactory.getLogger(UserEquipAction.class.getSimpleName());
 	public static UserEquipAction instance;
-	/** 洗练增加值表 <洗练类型typeID:元宝|免费, 洗练列表> **/
+	/** 洗练增加值表  洗练类型typeID:元宝|免费, 洗练列表  **/
 	public Map<Integer, List<Xilian>> xilianMap;
 	/** type:list **/
 	public Map<Integer, List<XilianQujian>> xilianQujianMap;
 	public Map<Integer,XilianShuxing> xilianShuxingMap;
 //	public Map<Integer,Xilianzhi> xilianzhiMap;需求变更 废弃
 	public List<XilianzhiQujian> xlziqujianList;
-
+	
 	/** 装备、或装备属性锁定标识 **/
 	public final int LOCK_FALG = 1114;//2015年9月8日 1.0不用洗练锁 此数值无具体意义 原来LOCK_FALG=1
 	public UserEquipService userEquipService = UserEquipService.getInstance();
@@ -148,7 +149,7 @@ public class UserEquipAction  extends EventProc {
 	}
 
 	/**
-	 * 强化装备 public static final short C_EQUIP_UPGRADE = 24003; public static
+	 * @Description 强化装备 public static final short C_EQUIP_UPGRADE = 24003; public static
 	 * final short S_EQUIP_UPGRADE = 24004;
 	 * 
 	 * @param cmd
@@ -454,7 +455,7 @@ public class UserEquipAction  extends EventProc {
 				TimeWorkerMgr.instance.getXilianTimes(junZhu),
 				TimeWorkerMgr.instance.getXilianCountDown(junZhu.id),
 				equipXiLian);
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 	}
 
 	public void xiLian(int id, IoSession session,
@@ -804,7 +805,7 @@ public class UserEquipAction  extends EventProc {
 			if (cnt >0&&xiLian.getXlsCount()<CanShu.XILIANSHI_MAXTIMES) {
 				BagMgr.inst.removeItem(bag, xilianshi, 1, "高级洗练", junZhu.level);
 				// 删除物品后推送背包信息给玩家
-				sendBagAgain(bag.ownerId);
+				BagMgr.inst.sendBagAgain(bag);
 				//洗练石每日使用个数限制  CanShu.XILIANSHI_MAXTIMES
 				xiLian.setXlsCount(xiLian.getXlsCount()+1);
 				log.info("君主:{},进行高级洗练---洗练石洗练次数:{},花费洗练石一个", junZhu.id,xiLian.getXlsCount());
@@ -812,7 +813,6 @@ public class UserEquipAction  extends EventProc {
 				int needYuanBao = PurchaseMgr.inst.getNeedYuanBao(
 						PurchaseConstants.XILIAN, xiLian.getNum() + 1);
 				payYuanBao = needYuanBao;
-				// junZhu.yuanBao -= needYuanBao;
 				// 计算洗练
 				YuanBaoMgr.inst.diff(junZhu, -needYuanBao, 0, needYuanBao,
 						YBType.YB_XILIAN_ZHUANGBEI, "洗练装备");
@@ -845,7 +845,7 @@ public class UserEquipAction  extends EventProc {
 				TimeWorkerMgr.instance.getXilianCountDown(junZhu.id),
 				equipXiLian);
 		// 发送战力数据
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		// 主线任务：洗练一次弓
 		EventMgr.addEvent(ED.XILIAN_ONE_GONG, new Object[] { junZhu.id });
 		EventMgr.addEvent(ED.ACHIEVEMENT_PROCESS, new AchievementCondition(
@@ -961,17 +961,7 @@ public class UserEquipAction  extends EventProc {
 		HibernateUtil.delete(equipXiLian);
 		log.info("君主{}洗练装备(dbUe-EquipId)--{}洗出新属性,自动保存洗练结果结束",dbUe.getUserId(),dbUe.getEquipId());
 	}
-
-	/**
-	 * @Description  删除物品后推送背包信息给玩家
-	 */
-	public void sendBagAgain(long jzId) {
-		SessionUser su = SessionManager.inst.findByJunZhuId(jzId);
-		if (su != null) {
-			log.info("从{}移除物品，推送背包信息给玩家", jzId);
-			BagMgr.inst.sendBagInfo(0, su.session, null);
-		}
-	}
+	
 	protected BagGrid findEquip(long equipId, long pid) {
 		Bag<BagGrid> equips = BagMgr.inst.loadBag(pid);
 		BagGrid source = null;
@@ -1512,7 +1502,7 @@ public class UserEquipAction  extends EventProc {
 	 * @param curValue
 	 *            当前记录洗练累计值
 	 * @param maxValue
-	 *            允许最大洗练值(1 <= baseValue+curValue <= maxValue)
+	 *            允许最大洗练值(1 小于等于 baseValue+curValue 小于等于maxValue)
 	 * @return
 	 */
 	public int getXilianFinalValue(int baseValue, int curValue, int maxValue) {
@@ -1579,7 +1569,7 @@ public class UserEquipAction  extends EventProc {
 			return;
 		}
 		long equipId = request.getEquipId();
-
+		//获取请求进阶目标装备信息
 		EquipGrid target = null;
 		Bag<EquipGrid> equipBag = EquipMgr.inst.loadEquips(junZhu.id);
 		for (EquipGrid equipGrid : equipBag.grids) {
@@ -1594,28 +1584,29 @@ public class UserEquipAction  extends EventProc {
 			log.error("请求进阶操作的装备equipId:{}不再装备栏里", equipId);
 			return;
 		}
-
-		int targetItemId = target.itemId;
+		
+//		int targetItemId = target.itemId;
 		long targetInstId = target.instId;
+		//获取目标装备配置
 		TempletService template = TempletService.getInstance();
-		ZhuangBei zhuangBeiTmp = template.getZhuangBei(targetItemId);
+		ZhuangBei zhuangBeiTmp = template.getZhuangBei(target.itemId);
 		if (zhuangBeiTmp == null) {
-			log.error("没有找到对应的装备,zhuangBeiId:", targetItemId);
-			sendError(cmd, session, "没有找到对应的装备,zhuangBeiId:" + targetItemId);
+			log.error("没有找到对应的装备,zhuangBeiId:", target.itemId);
+			sendError(cmd, session, "没有找到对应的装备,zhuangBeiId:" + target.itemId);
 			return;
 		}
 
 		int jinJieLV = zhuangBeiTmp.getJinjieLv();
 		if (junZhu.level < jinJieLV) {
 			log.error("装备进阶失败，君主等级不够:{}级,zhuangBeiId:{}", jinJieLV,
-					targetItemId);
+					target.itemId);
 			sendError(cmd, session, "君主等级未达到进阶要求");
 			return;
 		}
 
 		int jinJieZbId = zhuangBeiTmp.getJiejieId();
 		if (jinJieZbId <= 0) {
-			log.error("装备品质已达最高，无法进阶,zhuangBeiId:{}", jinJieLV, targetItemId);
+			log.error("装备品质已达最高，无法进阶,zhuangBeiId:{}", jinJieLV, target.itemId);
 			sendError(cmd, session, "装备品阶已达最高");
 			return;
 		}
@@ -1632,7 +1623,7 @@ public class UserEquipAction  extends EventProc {
 		}
 		if (haveNum < jinJieNum) {
 			log.error("装备进阶失败，进阶材料数量不足:{},zhuangBeiId:{}", jinJieNum,
-					targetItemId);
+					target.itemId);
 			sendError(cmd, session, "进阶材料数量不足");
 			return;
 		}
@@ -1718,9 +1709,9 @@ public class UserEquipAction  extends EventProc {
 		HibernateUtil.save(dbUe);
 		HibernateUtil.save(target);
 
-		log.info("{}将装备{}成功进阶为{}", junZhu.id, targetItemId, jinJieZb.getId());
+		log.info("{}将装备{}成功进阶为{}", junZhu.id, target.itemId, jinJieZb.getId());
 		EventMgr.addEvent(ED.GAIN_ITEM, new Object[]{junZhu.id, jinJieZb.getId()});
-		ActLog.log.EquipLvup(junZhu.id, junZhu.name, ActLog.vopenid, jinJieZb.getId(), jinJieZb.getName(), targetItemId, zhuangBeiTmp.getName(), 
+		ActLog.log.EquipLvup(junZhu.id, junZhu.name, ActLog.vopenid, jinJieZb.getId(), jinJieZb.getName(), target.itemId, zhuangBeiTmp.getName(), 
 				jinJieItemId + "", jinJieNum);
 
 		// 发送进阶后的装备信息
@@ -1747,8 +1738,8 @@ public class UserEquipAction  extends EventProc {
 		response.setShengMingAdd(Math.max(shengMingAfter - shengMingBefore, 0));
 		//2015年10月9日优化    先返进阶回结果再推送其他信息
 		session.write(response.build());
-		BagMgr.inst.sendBagInfo(0, session, null);
-		BagMgr.inst.sendEquipInfo(0, session, null);
+		BagMgr.inst.sendBagInfo(session, bag);
+		BagMgr.inst.sendEquipInfo(session, equipBag);
 		// 主线任务：完成特定的武器进阶一次
 		EventMgr.addEvent(ED.JINJIE_ONE_GONG, new Object[] { junZhu.id,
 				jinJieZb.getId(), equipBag});
@@ -1756,14 +1747,240 @@ public class UserEquipAction  extends EventProc {
 		EventMgr.addEvent(ED.JUN_RANK_REFRESH,junZhu);
 		// 发送战力信息
 //		JunZhuMgr.inst.sendPveMibaoZhanli(junZhu, session);
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		
 	}
+	public void newEquipJinJie(int cmd, IoSession session, Builder builder){
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if(junZhu == null){
+			log.error("装备进阶请求失败，未找到君主信息");
+			return ;
+		}
+		//TODO 策划暂时未定功能开启等级，如果有需求，改这里校验
+		if(junZhu.level  < 1){
+			log.error("君主{}尝试装备进阶失败，等级{}尚未开启装备进阶功能",junZhu.id , junZhu.level);
+			return ;
+		}
+		
+		EquipJinJie.Builder req = (EquipJinJie.Builder) builder;
+		
+		long equipId = req.getEquipId();
+	
+		EquipGrid equip = null;
+		Bag<EquipGrid> equipBag = EquipMgr.inst.loadEquips(junZhu.id);
+		for (EquipGrid equipGrid : equipBag.grids) {
+			if (equipGrid == null)
+				continue;
+			if (equipGrid.dbId == equipId) {
+				equip = equipGrid;
+				break;
+			}
+		}
+		if (equip == null) {
+			log.error("请求进阶操作的装备equipId:{}不在装备栏里", equipId);
+			return;
+		}
+		//加载目标装备配置
+		ZhuangBei equipPeiZhi = getEquipPeiZhi(equip.itemId);
+		if(equipPeiZhi == null){
+			log.error("请求进阶失败，无法获取装备配置信息，装备id:{}" , equip.itemId);
+			return ;
+		}
+		
+		//获取请求材料列表
+		List<Long> reqCailiaoList = req.getCailiaoListList();
+		log.info("获取到的材料列表长度为：{}",reqCailiaoList.size());
+		//加载玩家背包，遍历请求材料列表，转换为id+数量的map
+		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
+		Map<Long,Integer> reqCailiaoMap = new HashMap<Long,Integer>() ;
+		for(long reqid : reqCailiaoList){
+			Integer cnt = reqCailiaoMap.put(reqid,1);
+			if( cnt != null ){
+				cnt ++ ;
+				reqCailiaoMap.put(reqid, cnt);
+			}
+		}
+		//检查请求材料的合法性，获取合法材料列表
+		List<BagGrid> legalCailiaoList = jinJieCaiLiaoCheck(reqCailiaoMap, bag, equip.itemId);
+		log.info("装备进阶材料检查完成，列表长度为：{}",legalCailiaoList.size());
+		
+		//获取目标装备的强化信息
+		UserEquip equipInfo = getUserEquipInfo(equip, junZhu.id);
+		
+		//记录初始的装备攻击、防御、生命
+		QiangHua qhPeiZhiBefore = TempletService.getInstance().getQiangHua(equipPeiZhi.qianghuaId, equipInfo.getLevel());
+		int gongJiBefore = equipPeiZhi.getGongji() + qhPeiZhiBefore.getGongji() ;
+		int fangYuBefore = equipPeiZhi.getFangyu() + qhPeiZhiBefore.getFangyu() ;
+		int shengMingBefore = equipPeiZhi.getShengming() + qhPeiZhiBefore.getShengming() ;
+		
+		//根据经验配置记录装备进阶之前的总强化经验
+		//不同装备的强化经验配置不同，所以需要记录总经验在进阶之后重新计算强化等级
+		int qhExpBefore = equipInfo.getExp();
+		List<ExpTemp> qhExpPeiZhi  = TempletService.getInstance().getExpTemps(equipPeiZhi.expId);
+		for(ExpTemp et : qhExpPeiZhi){
+			if(et.getLevel() < equipInfo.getLevel()){
+				qhExpBefore += et.getNeedExp();
+			}
+		}
+		
+		//旧装备的新信息记录完成，开始准备进阶，计算合法材料的总经验，并扣除材料
+		int totalExp = 0 ;//总经验
+		for(BagGrid bg : legalCailiaoList ){
+			int addExp = 0 ;//一格道具的经验
+			int perExp = TempletService.getInstance().getZhuangBei(bg.itemId).exp; //一个道具的经验
+			if(perExp <= 0 ){
+				log.error("道具{}的进阶经验为0，找策划确认配置", bg.itemId);
+				continue;
+			}
+			int cailiaoNum = reqCailiaoMap.get(bg.dbId);
+			addExp = perExp * cailiaoNum ;
+			totalExp += addExp;
+			BagMgr.inst.removeItemByBagdbId(bag, "装备进阶，吞噬材料", bg.dbId, cailiaoNum, junZhu.level);
+		}
+		log.info("玩家：{}请求进阶装备，请求材料总经验：{}",junZhu.id,totalExp);
+		
+		//开始进阶
+		equipInfo.JinJieExp += totalExp;
+		while(equipInfo.JinJieExp >= equipPeiZhi.lvlupExp){
+			equipInfo.setTemplateId(equipPeiZhi.jiejieId);//经验足够进阶，道具ID更新至下一阶装备，jiejieId属于拼写错误
+			equip.itemId = equipInfo.getTemplateId();//装备格子的道具ID同步更新
+			equipInfo.JinJieExp -= equipPeiZhi.lvlupExp;//扣除进阶所需经验
+			equipPeiZhi = TempletService.getInstance().getZhuangBei(equip.itemId);//配置信息指向新一级配置
+			if(equipPeiZhi == null ||equipPeiZhi.lvlupExp <=0){
+				//装备配置信息找不到，或者进阶到最高了，跳出循环
+				break;
+			}
+		}
+		//进阶完成，根据原有总强化经验设定新的强化等级
+		int qhLevelNew = 1;
+		 int expNeed = TempletService.getInstance().getExpTemp(equipPeiZhi.expId, qhLevelNew).getNeedExp();
+		 while(qhExpBefore >= expNeed){
+			 qhLevelNew ++ ;
+			 qhExpBefore -= expNeed;
+			 expNeed = TempletService.getInstance().getExpTemp(equipPeiZhi.expId, qhLevelNew).getNeedExp();
+		}
+		equipInfo.setLevel(qhLevelNew);
+		equipInfo.setExp(qhExpBefore);
+		//强化修改完成，存储信息，返回协议
+		HibernateUtil.save(equipInfo) ;
+		HibernateUtil.save(equip) ;
+		
+		//获取装备的当前攻击、防御、生命、强化配置信息、强化等级
+		int qianghuaId = equipPeiZhi.getQianghuaId();
+		int qianghuaLevel = equipInfo.getLevel();
+		QiangHua qhPeiZhi = TempletService.getInstance().getQiangHua(qianghuaId, qianghuaLevel);
+		
+		int gongJiAfter = equipPeiZhi.getGongji() + qhPeiZhi.getGongji();
+		int fangYuAfter = equipPeiZhi.getFangyu() + qhPeiZhi.getFangyu();
+		int shengMingAfter = equipPeiZhi.getShengming() + qhPeiZhi.getShengming();
+		
+		log.info("玩家进阶装备成功，装备ID：{}，装备经验：{}",equip.itemId,equipInfo.JinJieExp);
+		EquipJinJieResp.Builder response = EquipJinJieResp.newBuilder();
+		response.setEquipId(equipId);
+		response.setZbItemId(equip.itemId);
+		response.setExp(equipInfo.JinJieExp);
+		
+		response.setLevel(equipInfo.getLevel());
+		response.setExpMax(equipPeiZhi.lvlupExp);
+		response.setGongJi(gongJiAfter);
+		response.setFangYu(fangYuAfter);
+		response.setShengMing(shengMingAfter);
+		response.setGongJiAdd(Math.max(gongJiAfter - gongJiBefore, 0));
+		response.setFangYuAdd(Math.max(fangYuAfter - fangYuBefore, 0));
+		response.setShengMingAdd(Math.max(shengMingAfter - shengMingBefore, 0));
+		BagMgr.inst.sendBagInfo(session, bag);
+		BagMgr.inst.sendEquipInfo(session, equipBag);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
+		session.write(response.build());
+		//获取道具事件
+		EventMgr.addEvent(ED.GAIN_ITEM, new Object[]{junZhu.id, equip.itemId});		
+		// 主线任务：完成特定的武器进阶一次
+		EventMgr.addEvent(ED.JINJIE_ONE_GONG, 
+				new Object[] { junZhu.id,equip.itemId, equipBag});
+		// 2015-7-22 14:46 君主榜刷新
+		EventMgr.addEvent(ED.JUN_RANK_REFRESH,junZhu);
+		
+	}
+	/**检查进阶材料的合法性，返回合法的格子*/
+	public List<BagGrid> jinJieCaiLiaoCheck(Map<Long, Integer> cailiaoMap , Bag<BagGrid> bag , int itemId ){
+		List<BagGrid> res = new ArrayList<BagGrid>();
+		for(long reqid : cailiaoMap.keySet()){
+			BagGrid bg = findByDBId(bag, reqid);
+			if(bg == null ){
+				//如果背包格子没有信息，跳过
+				log.info("装备进阶材料背包信息为空");
+				continue;
+			}
+			if(bg.instId > 0){
+				//如果合成材料装备有强化信息，，跳过
+				//FIXME 策划没有提这个需求，目前背包里的装备不可强化，如果后续需求有变更，处理一下2016-04-28
+				log.info("装备进阶材料有强化信息");
+				continue;
+			}
+			if(bg.cnt  < cailiaoMap.get(reqid)){
+				//道具数量不够，跳过
+				log.info("装备进阶材料数量不足");
+				continue;
+			}
+			ZhuangBei cailiaoPeiZhi = TempletService.getInstance().getZhuangBei(bg.itemId) ;
+			ZhuangBei targetPeiZhi =  TempletService.getInstance().getZhuangBei(itemId) ;
+			if(cailiaoPeiZhi == null){
+				//材料不是装备，跳过
+				log.info("装备进阶材料不是装备");
+				continue;
+			}
+			if(cailiaoPeiZhi.buWei != targetPeiZhi.buWei){
+				//装备部位不同，跳过
+				log.info("装备进阶材料与目标装备部位不同");
+				continue;
+			}
+			if(cailiaoPeiZhi.pinZhi > targetPeiZhi.pinZhi){
+				//材料品质高于目标品质，跳过
+				log.info("装备进阶材料材料品质高于目标品质");
+				continue;
+			}
+			res.add(bg);
+		}
+		
+		return res ;
+	}
+	/**从背包中获取指定位置的背包格子信息*/
+	public BagGrid findByDBId(Bag<BagGrid> bag, long dbid) {
+		for(BagGrid bg:bag.grids){
+			if(bg == null){
+				continue;
+			}
+			if(bg.dbId == dbid){
+				return bg;
+			}
+		}
+		return null;
+	}
+	
+	/**获取玩家装备的强化信息，如果没有，就创建一个返回*/
+	public UserEquip getUserEquipInfo( EquipGrid equip , long junZhuId){
+		UserEquip res = null ;
+		if(equip.instId > 0){
+			res = HibernateUtil.find(UserEquip.class, equip.instId) ;
+		}
+		//不安全，equip.instId大于0却无法找到装备强化信息时，会导致玩家装备强化信息丢失
+		if(res == null ){
+			res = new UserEquip();
+			res.setUserId(junZhuId);
+			res.setTemplateId(equip.itemId);
+			HibernateUtil.insert(res);
+			equip.instId = res.getEquipId();
+		}
+		return res ;
+	}
+	
+	
 	/**
-	 * @Description 	 判断所有装备是否有可以进阶
-	 * @param equipId=>  equipGrid.dbId
+	* @Description 	 判断所有装备是否有可以进阶
+	 * 功能改动，此方法对应需求取消
 	 */
 	public boolean isCanJinJie4All(JunZhu junZhu) {
+		//equipId 表示  equipGrid.dbId
 		long jzId=	junZhu.id;
 		int level= junZhu.level;
 		boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.jinJie, jzId, level);
@@ -1772,11 +1989,12 @@ public class UserEquipAction  extends EventProc {
 			return false;
 		}
 		Bag<EquipGrid> equipBag = EquipMgr.inst.loadEquips(jzId);
+		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
 		for (EquipGrid equipGrid : equipBag.grids) {
 			if (equipGrid == null){
 				continue;
 			}else{
-				if(isCanJinJie(junZhu, equipGrid)){
+				if(isCanJinJie(junZhu, equipGrid ,bag)){
 					log.info("君主{}有可以进阶的装备equipGrid.dbId--{}",jzId,equipGrid.dbId);
 					return true;
 				}
@@ -1785,10 +2003,11 @@ public class UserEquipAction  extends EventProc {
 		return false;
 	}
 	/**
+	 * @param bag 
 	 * @Description 	//判断装备是否可以进阶,推送红点
-	 * @param equipId=>  equipGrid.dbId
 	 */
-	public boolean isCanJinJie(JunZhu junZhu,EquipGrid target) {
+	public boolean isCanJinJie(JunZhu junZhu,EquipGrid target, Bag<BagGrid> bag) {
+		//equipId表示  equipGrid.dbId
 		if (junZhu == null) {
 			log.error("未发现君主");
 			return false;
@@ -1819,7 +2038,6 @@ public class UserEquipAction  extends EventProc {
 
 		int jinJieItemId = zhuangBeiTmp.getJinjieItem();
 		int jinJieNum = zhuangBeiTmp.getJinjieNum();
-		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
 		List<BagGrid> gridList = bag.grids;
 		int haveNum = 0;
 		for (BagGrid grid : gridList) {
@@ -1906,6 +2124,11 @@ public class UserEquipAction  extends EventProc {
 		return true;
 	}
 	
+	public ZhuangBei getEquipPeiZhi( int itemId ){
+		ZhuangBei res = null;
+		res = TempletService.getInstance().getZhuangBei(itemId);
+		return res ;
+	}
 	
 	/**
 	 * @Description 判断一件装备是否洗满

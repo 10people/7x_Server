@@ -1319,6 +1319,21 @@ public class DateUtils {
 		}
 		return false;
 	}
+	/**param format is hour:minute */
+	public static Date parseHourMinute(String begin){
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.SECOND, 0);
+		String[] startTimeArr = begin.split(":");
+		if(startTimeArr.length == 2){
+			if(startTimeArr[0] != null && !("").equals(startTimeArr[0])){
+				calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(startTimeArr[0]));
+			}
+			if(startTimeArr[1] != null && !("").equals(startTimeArr[1])){
+				calendar.set(Calendar.MINUTE, Integer.parseInt(startTimeArr[1]));
+			}
+		}
+		return calendar.getTime();
+	}
 	/**
 	 * @Description 判断是否在[begin,end)的时间内
 	 * @param begin
@@ -1331,28 +1346,10 @@ public class DateUtils {
 		Date startTime = calendar.getTime();
 		Date endTime = calendar.getTime();
 		if(begin != null){
-			String[] startTimeArr = begin.split(":");
-			if(startTimeArr.length == 2){
-				if(startTimeArr[0] != null && !("").equals(startTimeArr[0])){
-					calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(startTimeArr[0]));
-				}
-				if(startTimeArr[1] != null && !("").equals(startTimeArr[1])){
-					calendar.set(Calendar.MINUTE, Integer.parseInt(startTimeArr[1]));
-				}
-				startTime = calendar.getTime();
-			}
+			startTime = parseHourMinute(begin);
 		}
 		if(end != null){
-			String[] endTimeArr = end.split(":");
-			if(endTimeArr.length == 2){
-				if(endTimeArr[0] != null){
-					calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(endTimeArr[0]));
-				}
-				if(endTimeArr[1] != null){
-					calendar.set(Calendar.MINUTE, Integer.parseInt(endTimeArr[1]));
-				}
-				endTime = calendar.getTime();
-			}
+			endTime =  parseHourMinute(end);
 		}
 		if((date.after(startTime) && date.before(endTime))
 				||date.equals(startTime)) {

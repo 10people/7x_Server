@@ -46,7 +46,7 @@ public class RefreshGongHeInfo  implements Job {
 				HibernateUtil.save(info);
 				log.info("结算君主--{}第一次恭贺奖励",jzId);
 				int count=info.times4firstBZ;
-				if(count>0){
+				if(count>1){
 					String award="0:900002:"+info.award4firstBZ;
 					int eventId=SuBaoConstant.settle4baizhan;
 					PromptMsgMgr.inst.savePromptMSG4GongHe(jzId, jzId, eventId, new String[]{count+"",null,award});

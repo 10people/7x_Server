@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.Greet.GreetReq;
 import qxmobile.protobuf.Greet.GreetResp;
-import qxmobile.protobuf.Greet.InviteReq;
 import qxmobile.protobuf.Greet.InviteResp;
 import qxmobile.protobuf.Prompt.PromptActionResp;
 
@@ -46,7 +45,10 @@ import com.qx.timeworker.FunctionID;
 import com.qx.world.BroadcastMgr;
 import com.qx.world.Player;
 import com.qx.world.Scene;
-
+/**
+ * @Description 打招呼恭贺管理
+ *
+ */
 public class GreetMgr extends EventProc{
 	
 	/**
@@ -119,7 +121,7 @@ public class GreetMgr extends EventProc{
 	
 		//添加好友
 	
-		int resCode=addFriend(jz, targetjzId);
+		int resCode=1;//addFriend(jz, targetjzId);
 		resp.setResCode(resCode);
 		session.write(resp.build());
 		if(resCode==1){
@@ -136,6 +138,10 @@ public class GreetMgr extends EventProc{
 			BroadcastMgr.inst.send2JunZhu(msg, targetjzId);
 		}
 		//生成并发送通知
+		Boolean isBlack = Redis.getInstance().sexist(ChatMgr.inst.CACHE_BLACKLIST_OF_JUNZHU + jzId, "" + targetjzId);
+		if(isBlack){
+			return;
+		}
 		sendGreetPrompt(targetSession, jzId, jz.name, targetjzId);
 	}
 
@@ -274,7 +280,7 @@ public class GreetMgr extends EventProc{
 		long greetJzId=msg.otherJzId;
 		log.info("君主--{}响应---{}的招呼并添加好友开始",jzId,greetJzId);
 		//添加好友
-		int resCode=addFriend(jz, greetJzId);
+		int resCode=1;//addFriend(jz, greetJzId);
 		GreetResp.Builder resp2=GreetResp.newBuilder();
 		resp2.setResCode(resCode);
 		session.write(resp2.build());
@@ -340,9 +346,6 @@ public class GreetMgr extends EventProc{
 	
 	/**
 	 * @Description  邀请入盟
-	 * @param id
-	 * @param session
-	 * @param builder
 	 */
 	 
 	//返回 结果 1成功 2 联盟已满 3对方未开启联盟功能 4对方已加入别的联盟 5 你没有权限邀请别人加入联盟 （具体描述根据策划文档来） 
@@ -813,11 +816,6 @@ public class GreetMgr extends EventProc{
 	}
 	/**
 	 * @Description 生成邀请恭贺通知
-	 * @param jzId
-	 * @param session 
-	 * @param invitejzId
-	 * @param  invitejzName 
-	 * @param lmId
 	 */
 	public void sendGongHePrompt(long jzId, long targertId, String  targetjzName, int eventId, IoSession session) { 
 		 log.info("生成并发送邀请---{}恭贺---{}通知  ，eventId=={}",jzId, targertId,eventId);
@@ -830,7 +828,7 @@ public class GreetMgr extends EventProc{
 	}
 	
 	/**
-	 * @Description //处理从速报过来的邀请入盟
+	 * @Description 处理从速报过来的邀请入盟
 	 */
 	public void Invite2LM4GongHe(JunZhu jz,long subaoId, int type,IoSession session) {
 		long jzId=jz.id;

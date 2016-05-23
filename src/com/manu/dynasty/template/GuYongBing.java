@@ -52,6 +52,10 @@ public class GuYongBing extends GameObject{
 	public int zhanweiLve ;
 	public int lifebarNum = 1;
 	public int modelApID;
+	public int armor;
+	public int armorMax;
+	public float armorRatio;
+	
 	@Override
 	public String getName() {
 		return name;

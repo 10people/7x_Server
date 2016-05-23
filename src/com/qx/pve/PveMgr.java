@@ -517,8 +517,8 @@ public class PveMgr extends EventProc {
 		if(pveTemp.useHp > 0) {
 			//进入战斗扣1点体力
 			JunZhuMgr.inst.updateTiLi(junZhu, -1, "PVE");
-			HibernateUtil.save(junZhu);
-			JunZhuMgr.inst.sendMainInfo(session);
+			HibernateUtil.update(junZhu);
+			JunZhuMgr.inst.sendMainInfo(session,junZhu);
 			logger.info("junzhu:{}进入战斗，扣除1点体力，关卡类型{}", junZhu.name,req.getLevelType());
 		}
 		
@@ -608,6 +608,9 @@ public class PveMgr extends EventProc {
 		junzhuNode.setNuQiZhi(0);
 		junzhuNode.setMibaoCount(0);
 		junzhuNode.setMibaoPower(0);
+		junzhuNode.setArmor(0);
+		junzhuNode.setArmorMax(0);
+		junzhuNode.setArmorRatio(0);
 //3.填充己方秘宝列表
 //		List<Integer> mibaoIdList = Arrays.asList(xunHanCheng.getMibao1(), 
 //				xunHanCheng.getMibao2(), xunHanCheng.getMibao3());
@@ -686,6 +689,9 @@ public class PveMgr extends EventProc {
 				node.setNuQiZhi(0);
 				node.setMibaoCount(0);
 				node.setMibaoPower(0);
+				node.setArmor(npcTemp.armor);
+				node.setArmorMax(npcTemp.armorMax);
+				node.setArmorRatio(npcTemp.armorRatio);
 				GongjiType gongjiType = id2GongjiType.get(npcTemp.gongjiType);
 				fillDataByGongjiType(node, gongjiType);
 				fillGongFangInfo(node, enemyTemp);
@@ -744,6 +750,9 @@ public class PveMgr extends EventProc {
 		npcNode.setNuQiZhi(0);
 		npcNode.setMibaoCount(0);
 		npcNode.setMibaoPower(0);
+		npcNode.setArmor(npcTemp.armor);
+		npcNode.setArmorMax(npcTemp.armorMax);
+		npcNode.setArmorRatio(npcTemp.armorRatio);
 		PveMgr.inst.fillGongFangInfo(npcNode, guanQiaJunZhu);
 		// 添加装备
 		List<Integer> weaps = Arrays.asList(guanQiaJunZhu.weapon1, guanQiaJunZhu.weapon2,
@@ -870,9 +879,11 @@ public class PveMgr extends EventProc {
 		junzhuNode.setHpNum(1);
 		junzhuNode.setAppearanceId(1);
 		junzhuNode.setNuQiZhi(MibaoMgr.inst.getChuShiNuQi(junZhu.id));
-		
-		junzhuNode.setMibaoCount(0);
+		junzhuNode.setArmor(0);
+		junzhuNode.setArmorMax(0);
+		junzhuNode.setArmorRatio(0);
 		junzhuNode.setMibaoPower(JunZhuMgr.inst.getAllMibaoProvideZhanli(junZhu));
+		junzhuNode.setMibaoCount(0);
 		selfs.add(junzhuNode.build());
 	}
 	/**
@@ -909,6 +920,9 @@ public class PveMgr extends EventProc {
 		junzhuNode.setNuQiZhi(MibaoMgr.inst.getChuShiNuQi(junZhu.id));
 		junzhuNode.setMibaoCount(0);
 		junzhuNode.setMibaoPower(JunZhuMgr.inst.getAllMibaoProvideZhanli(junZhu));
+		junzhuNode.setArmor(0);
+		junzhuNode.setArmorMax(0);
+		junzhuNode.setArmorRatio(0);
 		selfs.add(junzhuNode.build());
 	}
 	public void fillYaBiaoJunZhuDataInfo4YB(ZhanDouInitResp.Builder resp, IoSession session, 
@@ -938,6 +952,9 @@ public class PveMgr extends EventProc {
 		junzhuNode.setNuQiZhi(MibaoMgr.inst.getChuShiNuQi(junZhu.id));
 		junzhuNode.setMibaoCount(0);
 		junzhuNode.setMibaoPower(JunZhuMgr.inst.getAllMibaoProvideZhanli(junZhu));
+		junzhuNode.setArmor(0);
+		junzhuNode.setArmorMax(0);
+		junzhuNode.setArmorRatio(0);
 		selfs.add(junzhuNode.build());
 	}
 	
@@ -1222,7 +1239,7 @@ public class PveMgr extends EventProc {
 			useTili -= 1;
 			JunZhuMgr.inst.updateTiLi(junZhu, -useTili, "关卡胜利");
 			HibernateUtil.save(junZhu);
-			JunZhuMgr.inst.sendMainInfo(session);
+			JunZhuMgr.inst.sendMainInfo(session,junZhu);
 			logger.info("junzhu:{}在关卡zhangjieId:{}战斗胜利扣除体力:{}", junZhu.name,
 					guanQiaId, useTili);
 		} else {

@@ -41,7 +41,7 @@ public final class ChengHaoProto {
      * <code>required int32 state = 3;</code>
      *
      * <pre>
-     *'U' 表示当前使用
+     *'U' 表示当前使用; 0表示未获得， 'G'表示已获得但未使用
      * </pre>
      */
     boolean hasState();
@@ -49,10 +49,94 @@ public final class ChengHaoProto {
      * <code>required int32 state = 3;</code>
      *
      * <pre>
-     *'U' 表示当前使用
+     *'U' 表示当前使用; 0表示未获得， 'G'表示已获得但未使用
      * </pre>
      */
     int getState();
+
+    // required int64 leftSec = 4;
+    /**
+     * <code>required int64 leftSec = 4;</code>
+     *
+     * <pre>
+     *剩余时间（秒），-1表示永久有效
+     * </pre>
+     */
+    boolean hasLeftSec();
+    /**
+     * <code>required int64 leftSec = 4;</code>
+     *
+     * <pre>
+     *剩余时间（秒），-1表示永久有效
+     * </pre>
+     */
+    long getLeftSec();
+
+    // required int32 price = 5;
+    /**
+     * <code>required int32 price = 5;</code>
+     *
+     * <pre>
+     *兑换需要值
+     * </pre>
+     */
+    boolean hasPrice();
+    /**
+     * <code>required int32 price = 5;</code>
+     *
+     * <pre>
+     *兑换需要值
+     * </pre>
+     */
+    int getPrice();
+
+    // required int32 gongJi = 6;
+    /**
+     * <code>required int32 gongJi = 6;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    boolean hasGongJi();
+    /**
+     * <code>required int32 gongJi = 6;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    int getGongJi();
+
+    // required int32 fangYu = 7;
+    /**
+     * <code>required int32 fangYu = 7;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    boolean hasFangYu();
+    /**
+     * <code>required int32 fangYu = 7;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    int getFangYu();
+
+    // required int32 shengMing = 8;
+    /**
+     * <code>required int32 shengMing = 8;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    boolean hasShengMing();
+    /**
+     * <code>required int32 shengMing = 8;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    int getShengMing();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ChengHaoData}
@@ -118,6 +202,31 @@ public final class ChengHaoProto {
             case 24: {
               bitField0_ |= 0x00000004;
               state_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              leftSec_ = input.readInt64();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              price_ = input.readInt32();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000020;
+              gongJi_ = input.readInt32();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000040;
+              fangYu_ = input.readInt32();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000080;
+              shengMing_ = input.readInt32();
               break;
             }
           }
@@ -226,7 +335,7 @@ public final class ChengHaoProto {
      * <code>required int32 state = 3;</code>
      *
      * <pre>
-     *'U' 表示当前使用
+     *'U' 表示当前使用; 0表示未获得， 'G'表示已获得但未使用
      * </pre>
      */
     public boolean hasState() {
@@ -236,17 +345,136 @@ public final class ChengHaoProto {
      * <code>required int32 state = 3;</code>
      *
      * <pre>
-     *'U' 表示当前使用
+     *'U' 表示当前使用; 0表示未获得， 'G'表示已获得但未使用
      * </pre>
      */
     public int getState() {
       return state_;
     }
 
+    // required int64 leftSec = 4;
+    public static final int LEFTSEC_FIELD_NUMBER = 4;
+    private long leftSec_;
+    /**
+     * <code>required int64 leftSec = 4;</code>
+     *
+     * <pre>
+     *剩余时间（秒），-1表示永久有效
+     * </pre>
+     */
+    public boolean hasLeftSec() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int64 leftSec = 4;</code>
+     *
+     * <pre>
+     *剩余时间（秒），-1表示永久有效
+     * </pre>
+     */
+    public long getLeftSec() {
+      return leftSec_;
+    }
+
+    // required int32 price = 5;
+    public static final int PRICE_FIELD_NUMBER = 5;
+    private int price_;
+    /**
+     * <code>required int32 price = 5;</code>
+     *
+     * <pre>
+     *兑换需要值
+     * </pre>
+     */
+    public boolean hasPrice() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required int32 price = 5;</code>
+     *
+     * <pre>
+     *兑换需要值
+     * </pre>
+     */
+    public int getPrice() {
+      return price_;
+    }
+
+    // required int32 gongJi = 6;
+    public static final int GONGJI_FIELD_NUMBER = 6;
+    private int gongJi_;
+    /**
+     * <code>required int32 gongJi = 6;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    public boolean hasGongJi() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required int32 gongJi = 6;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    public int getGongJi() {
+      return gongJi_;
+    }
+
+    // required int32 fangYu = 7;
+    public static final int FANGYU_FIELD_NUMBER = 7;
+    private int fangYu_;
+    /**
+     * <code>required int32 fangYu = 7;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    public boolean hasFangYu() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>required int32 fangYu = 7;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    public int getFangYu() {
+      return fangYu_;
+    }
+
+    // required int32 shengMing = 8;
+    public static final int SHENGMING_FIELD_NUMBER = 8;
+    private int shengMing_;
+    /**
+     * <code>required int32 shengMing = 8;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    public boolean hasShengMing() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>required int32 shengMing = 8;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    public int getShengMing() {
+      return shengMing_;
+    }
+
     private void initFields() {
       id_ = 0;
       name_ = "";
       state_ = 0;
+      leftSec_ = 0L;
+      price_ = 0;
+      gongJi_ = 0;
+      fangYu_ = 0;
+      shengMing_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -265,6 +493,26 @@ public final class ChengHaoProto {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasLeftSec()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasPrice()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGongJi()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasFangYu()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasShengMing()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -280,6 +528,21 @@ public final class ChengHaoProto {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(3, state_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt64(4, leftSec_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, price_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(6, gongJi_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt32(7, fangYu_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeInt32(8, shengMing_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -301,6 +564,26 @@ public final class ChengHaoProto {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, state_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(4, leftSec_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, price_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, gongJi_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, fangYu_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, shengMing_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -424,6 +707,16 @@ public final class ChengHaoProto {
         bitField0_ = (bitField0_ & ~0x00000002);
         state_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
+        leftSec_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        price_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        gongJi_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        fangYu_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000040);
+        shengMing_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -464,6 +757,26 @@ public final class ChengHaoProto {
           to_bitField0_ |= 0x00000004;
         }
         result.state_ = state_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.leftSec_ = leftSec_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.price_ = price_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.gongJi_ = gongJi_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.fangYu_ = fangYu_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.shengMing_ = shengMing_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -491,6 +804,21 @@ public final class ChengHaoProto {
         if (other.hasState()) {
           setState(other.getState());
         }
+        if (other.hasLeftSec()) {
+          setLeftSec(other.getLeftSec());
+        }
+        if (other.hasPrice()) {
+          setPrice(other.getPrice());
+        }
+        if (other.hasGongJi()) {
+          setGongJi(other.getGongJi());
+        }
+        if (other.hasFangYu()) {
+          setFangYu(other.getFangYu());
+        }
+        if (other.hasShengMing()) {
+          setShengMing(other.getShengMing());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -505,6 +833,26 @@ public final class ChengHaoProto {
           return false;
         }
         if (!hasState()) {
+          
+          return false;
+        }
+        if (!hasLeftSec()) {
+          
+          return false;
+        }
+        if (!hasPrice()) {
+          
+          return false;
+        }
+        if (!hasGongJi()) {
+          
+          return false;
+        }
+        if (!hasFangYu()) {
+          
+          return false;
+        }
+        if (!hasShengMing()) {
           
           return false;
         }
@@ -643,7 +991,7 @@ public final class ChengHaoProto {
        * <code>required int32 state = 3;</code>
        *
        * <pre>
-       *'U' 表示当前使用
+       *'U' 表示当前使用; 0表示未获得， 'G'表示已获得但未使用
        * </pre>
        */
       public boolean hasState() {
@@ -653,7 +1001,7 @@ public final class ChengHaoProto {
        * <code>required int32 state = 3;</code>
        *
        * <pre>
-       *'U' 表示当前使用
+       *'U' 表示当前使用; 0表示未获得， 'G'表示已获得但未使用
        * </pre>
        */
       public int getState() {
@@ -663,7 +1011,7 @@ public final class ChengHaoProto {
        * <code>required int32 state = 3;</code>
        *
        * <pre>
-       *'U' 表示当前使用
+       *'U' 表示当前使用; 0表示未获得， 'G'表示已获得但未使用
        * </pre>
        */
       public Builder setState(int value) {
@@ -676,12 +1024,245 @@ public final class ChengHaoProto {
        * <code>required int32 state = 3;</code>
        *
        * <pre>
-       *'U' 表示当前使用
+       *'U' 表示当前使用; 0表示未获得， 'G'表示已获得但未使用
        * </pre>
        */
       public Builder clearState() {
         bitField0_ = (bitField0_ & ~0x00000004);
         state_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int64 leftSec = 4;
+      private long leftSec_ ;
+      /**
+       * <code>required int64 leftSec = 4;</code>
+       *
+       * <pre>
+       *剩余时间（秒），-1表示永久有效
+       * </pre>
+       */
+      public boolean hasLeftSec() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int64 leftSec = 4;</code>
+       *
+       * <pre>
+       *剩余时间（秒），-1表示永久有效
+       * </pre>
+       */
+      public long getLeftSec() {
+        return leftSec_;
+      }
+      /**
+       * <code>required int64 leftSec = 4;</code>
+       *
+       * <pre>
+       *剩余时间（秒），-1表示永久有效
+       * </pre>
+       */
+      public Builder setLeftSec(long value) {
+        bitField0_ |= 0x00000008;
+        leftSec_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 leftSec = 4;</code>
+       *
+       * <pre>
+       *剩余时间（秒），-1表示永久有效
+       * </pre>
+       */
+      public Builder clearLeftSec() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        leftSec_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // required int32 price = 5;
+      private int price_ ;
+      /**
+       * <code>required int32 price = 5;</code>
+       *
+       * <pre>
+       *兑换需要值
+       * </pre>
+       */
+      public boolean hasPrice() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required int32 price = 5;</code>
+       *
+       * <pre>
+       *兑换需要值
+       * </pre>
+       */
+      public int getPrice() {
+        return price_;
+      }
+      /**
+       * <code>required int32 price = 5;</code>
+       *
+       * <pre>
+       *兑换需要值
+       * </pre>
+       */
+      public Builder setPrice(int value) {
+        bitField0_ |= 0x00000010;
+        price_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 price = 5;</code>
+       *
+       * <pre>
+       *兑换需要值
+       * </pre>
+       */
+      public Builder clearPrice() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        price_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 gongJi = 6;
+      private int gongJi_ ;
+      /**
+       * <code>required int32 gongJi = 6;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public boolean hasGongJi() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required int32 gongJi = 6;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public int getGongJi() {
+        return gongJi_;
+      }
+      /**
+       * <code>required int32 gongJi = 6;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public Builder setGongJi(int value) {
+        bitField0_ |= 0x00000020;
+        gongJi_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 gongJi = 6;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public Builder clearGongJi() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        gongJi_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 fangYu = 7;
+      private int fangYu_ ;
+      /**
+       * <code>required int32 fangYu = 7;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public boolean hasFangYu() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>required int32 fangYu = 7;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public int getFangYu() {
+        return fangYu_;
+      }
+      /**
+       * <code>required int32 fangYu = 7;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public Builder setFangYu(int value) {
+        bitField0_ |= 0x00000040;
+        fangYu_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 fangYu = 7;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public Builder clearFangYu() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        fangYu_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 shengMing = 8;
+      private int shengMing_ ;
+      /**
+       * <code>required int32 shengMing = 8;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public boolean hasShengMing() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>required int32 shengMing = 8;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public int getShengMing() {
+        return shengMing_;
+      }
+      /**
+       * <code>required int32 shengMing = 8;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public Builder setShengMing(int value) {
+        bitField0_ |= 0x00000080;
+        shengMing_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 shengMing = 8;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public Builder clearShengMing() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        shengMing_ = 0;
         onChanged();
         return this;
       }
@@ -724,6 +1305,24 @@ public final class ChengHaoProto {
      */
     qxmobile.protobuf.ChengHaoProto.ChengHaoDataOrBuilder getListOrBuilder(
         int index);
+
+    // required int32 myPoint = 2;
+    /**
+     * <code>required int32 myPoint = 2;</code>
+     *
+     * <pre>
+     *拥有的值（点数）
+     * </pre>
+     */
+    boolean hasMyPoint();
+    /**
+     * <code>required int32 myPoint = 2;</code>
+     *
+     * <pre>
+     *拥有的值（点数）
+     * </pre>
+     */
+    int getMyPoint();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ChengHaoList}
@@ -789,6 +1388,11 @@ public final class ChengHaoProto {
               list_.add(input.readMessage(qxmobile.protobuf.ChengHaoProto.ChengHaoData.PARSER, extensionRegistry));
               break;
             }
+            case 16: {
+              bitField0_ |= 0x00000001;
+              myPoint_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -831,6 +1435,7 @@ public final class ChengHaoProto {
       return PARSER;
     }
 
+    private int bitField0_;
     // repeated .qxmobile.protobuf.ChengHaoData list = 1;
     public static final int LIST_FIELD_NUMBER = 1;
     private java.util.List<qxmobile.protobuf.ChengHaoProto.ChengHaoData> list_;
@@ -867,14 +1472,43 @@ public final class ChengHaoProto {
       return list_.get(index);
     }
 
+    // required int32 myPoint = 2;
+    public static final int MYPOINT_FIELD_NUMBER = 2;
+    private int myPoint_;
+    /**
+     * <code>required int32 myPoint = 2;</code>
+     *
+     * <pre>
+     *拥有的值（点数）
+     * </pre>
+     */
+    public boolean hasMyPoint() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 myPoint = 2;</code>
+     *
+     * <pre>
+     *拥有的值（点数）
+     * </pre>
+     */
+    public int getMyPoint() {
+      return myPoint_;
+    }
+
     private void initFields() {
       list_ = java.util.Collections.emptyList();
+      myPoint_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasMyPoint()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       for (int i = 0; i < getListCount(); i++) {
         if (!getList(i).isInitialized()) {
           memoizedIsInitialized = 0;
@@ -891,6 +1525,9 @@ public final class ChengHaoProto {
       for (int i = 0; i < list_.size(); i++) {
         output.writeMessage(1, list_.get(i));
       }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(2, myPoint_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -903,6 +1540,10 @@ public final class ChengHaoProto {
       for (int i = 0; i < list_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, list_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, myPoint_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1032,6 +1673,8 @@ public final class ChengHaoProto {
         } else {
           listBuilder_.clear();
         }
+        myPoint_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -1059,6 +1702,7 @@ public final class ChengHaoProto {
       public qxmobile.protobuf.ChengHaoProto.ChengHaoList buildPartial() {
         qxmobile.protobuf.ChengHaoProto.ChengHaoList result = new qxmobile.protobuf.ChengHaoProto.ChengHaoList(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (listBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             list_ = java.util.Collections.unmodifiableList(list_);
@@ -1068,6 +1712,11 @@ public final class ChengHaoProto {
         } else {
           result.list_ = listBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.myPoint_ = myPoint_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -1109,11 +1758,18 @@ public final class ChengHaoProto {
             }
           }
         }
+        if (other.hasMyPoint()) {
+          setMyPoint(other.getMyPoint());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        if (!hasMyPoint()) {
+          
+          return false;
+        }
         for (int i = 0; i < getListCount(); i++) {
           if (!getList(i).isInitialized()) {
             
@@ -1382,6 +2038,55 @@ public final class ChengHaoProto {
         return listBuilder_;
       }
 
+      // required int32 myPoint = 2;
+      private int myPoint_ ;
+      /**
+       * <code>required int32 myPoint = 2;</code>
+       *
+       * <pre>
+       *拥有的值（点数）
+       * </pre>
+       */
+      public boolean hasMyPoint() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 myPoint = 2;</code>
+       *
+       * <pre>
+       *拥有的值（点数）
+       * </pre>
+       */
+      public int getMyPoint() {
+        return myPoint_;
+      }
+      /**
+       * <code>required int32 myPoint = 2;</code>
+       *
+       * <pre>
+       *拥有的值（点数）
+       * </pre>
+       */
+      public Builder setMyPoint(int value) {
+        bitField0_ |= 0x00000002;
+        myPoint_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 myPoint = 2;</code>
+       *
+       * <pre>
+       *拥有的值（点数）
+       * </pre>
+       */
+      public Builder clearMyPoint() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        myPoint_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ChengHaoList)
     }
 
@@ -1412,11 +2117,13 @@ public final class ChengHaoProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\016ChengHao.proto\022\021qxmobile.protobuf\"7\n\014C" +
-      "hengHaoData\022\n\n\002id\030\001 \002(\005\022\014\n\004name\030\002 \002(\t\022\r\n" +
-      "\005state\030\003 \002(\005\"=\n\014ChengHaoList\022-\n\004list\030\001 \003" +
-      "(\0132\037.qxmobile.protobuf.ChengHaoDataB\017B\rC" +
-      "hengHaoProto"
+      "\n\016ChengHao.proto\022\021qxmobile.protobuf\"\212\001\n\014" +
+      "ChengHaoData\022\n\n\002id\030\001 \002(\005\022\014\n\004name\030\002 \002(\t\022\r" +
+      "\n\005state\030\003 \002(\005\022\017\n\007leftSec\030\004 \002(\003\022\r\n\005price\030" +
+      "\005 \002(\005\022\016\n\006gongJi\030\006 \002(\005\022\016\n\006fangYu\030\007 \002(\005\022\021\n" +
+      "\tshengMing\030\010 \002(\005\"N\n\014ChengHaoList\022-\n\004list" +
+      "\030\001 \003(\0132\037.qxmobile.protobuf.ChengHaoData\022" +
+      "\017\n\007myPoint\030\002 \002(\005B\017B\rChengHaoProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1428,13 +2135,13 @@ public final class ChengHaoProto {
           internal_static_qxmobile_protobuf_ChengHaoData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ChengHaoData_descriptor,
-              new java.lang.String[] { "Id", "Name", "State", });
+              new java.lang.String[] { "Id", "Name", "State", "LeftSec", "Price", "GongJi", "FangYu", "ShengMing", });
           internal_static_qxmobile_protobuf_ChengHaoList_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_ChengHaoList_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ChengHaoList_descriptor,
-              new java.lang.String[] { "List", });
+              new java.lang.String[] { "List", "MyPoint", });
           return null;
         }
       };

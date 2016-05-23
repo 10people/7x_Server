@@ -24,6 +24,7 @@ import com.manu.dynasty.template.LianMengShangPu;
 import com.manu.dynasty.template.LianMengShuYuan;
 import com.manu.dynasty.template.LianMengTuTeng;
 import com.manu.dynasty.template.LianMengZongMiao;
+import com.manu.dynasty.template.LianmengEvent;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
@@ -121,6 +122,10 @@ public class JianZhuMgr extends EventProc{
 		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jz.id);
 		if (member == null || member.lianMengId <= 0) {
 			sendError(id, session, "您不在联盟中。");
+			return;
+		}
+		if(member.title != AllianceMgr.TITLE_LEADER) {
+			log.error("升级联盟建筑失败，君主:{}没有权限，title:{}", jz.id, member.title);
 			return;
 		}
 		JianZhuLvBean bean = HibernateUtil.find(JianZhuLvBean.class, member.lianMengId);
@@ -337,16 +342,15 @@ public class JianZhuMgr extends EventProc{
 		}
 		if(succeed) {
 			AllianceMgr.inst.processHaveAlliance(jz, PD.ALLIANCE_INFO_REQ, session, member);
+			LianmengEvent lmEvent = AllianceMgr.inst.lianmengEventMap.get(20);
+			if(lmEvent != null) {
+				String eventStr = lmEvent.str == null ? "" : lmEvent.str;
+				eventStr = eventStr.replaceFirst("%d", jz.name)
+								   .replaceFirst("%d", buildName);
+				AllianceMgr.inst.addAllianceEvent(member.lianMengId, eventStr);
+			}
 		}
-		String eventStr = "";
-		if(member.title == AllianceMgr.TITLE_LEADER) {
-			eventStr = AllianceMgr.inst.lianmengEventMap.get(20).str;
-		} else if(member.title == AllianceMgr.TITLE_DEPUTY_LEADER) {
-			eventStr = AllianceMgr.inst.lianmengEventMap.get(21).str;
-		}
-		eventStr = eventStr.replaceFirst("%d", jz.name)
-						   .replaceFirst("%d", buildName);
-		AllianceMgr.inst.addAllianceEvent(member.lianMengId, eventStr);
+
 	}
 
 	public JianZhuLvBean insertJianZhuLvBean(AlliancePlayer member, JianZhuLvBean bean) {
@@ -368,12 +372,12 @@ public class JianZhuMgr extends EventProc{
 
 	public LianMengKeJi getKeJiConfByType(int lmId, int type) {
 		LMKJBean bean = HibernateUtil.find(LMKJBean.class, lmId);
-		int curLevel = 1;
+		int curLevel = 0;
 		if(bean != null){
 			curLevel = getKeJiLv(bean, type);
 		}
 		if(curLevel == 404){
-			curLevel = 1;
+			curLevel = 0;
 		}
 		LianMengKeJi conf = getKeJiConf(type, curLevel);
 		return conf;
@@ -390,6 +394,10 @@ public class JianZhuMgr extends EventProc{
 		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jz.id);
 		if (member == null) {
 			sendError(id, session, "您不在联盟中。");
+			return;
+		}
+		if(member.title != AllianceMgr.TITLE_LEADER) {
+			log.error("升级联盟科技失败，君主:{}没有权限，title:{}", jz.id, member.title);
 			return;
 		}
 		ErrorMessage.Builder req = (qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder) builder;
@@ -459,19 +467,14 @@ public class JianZhuMgr extends EventProc{
 		HibernateUtil.update(bean);
 		log.info("{} 升级联盟科技 type {} to lv {}",jz.id,type,newLv);
 		sendError(0, session, "升级成功", PD.S_LMKJ_UP); 
-		
-		String eventStr = "";
-		if(member.title == AllianceMgr.TITLE_LEADER) {
-			eventStr = AllianceMgr.inst.lianmengEventMap.get(22).str;
-		} else if(member.title == AllianceMgr.TITLE_DEPUTY_LEADER) {
-			eventStr = AllianceMgr.inst.lianmengEventMap.get(23).str;
+		JunZhuMgr.inst.sendMainInfo(session,jz);
+		LianmengEvent lmEvent = AllianceMgr.inst.lianmengEventMap.get(22);
+		if(lmEvent != null) {
+			String eventStr = lmEvent.str == null ? "" : lmEvent.str;			
+			eventStr.replaceFirst("%d", jz.name)
+					.replaceFirst("%d", conf.name);
+			AllianceMgr.inst.addAllianceEvent(member.lianMengId, eventStr);
 		}
-		eventStr = eventStr
-						.replaceFirst("%d", jz.name)
-						.replaceFirst("%d", conf.name);
-		AllianceMgr.inst.addAllianceEvent(member.lianMengId, eventStr);
-		
-		JunZhuMgr.inst.sendMainInfo(session);
 	}
 	
 	public void jiHuoLMKJ(int id, IoSession session, Builder builder) {
@@ -518,7 +521,7 @@ public class JianZhuMgr extends EventProc{
 		setKJJHLevel(lmkjJiHuo, type, newLevel);
 		HibernateUtil.save(lmkjJiHuo);
 		log.info("联盟科技激活成功，君主:{}科技类型{}激活等级从{} 到 {}", jz.id, type, jiHuoLevel, newLevel);
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 		JiHuoLMKJResp.Builder response = JiHuoLMKJResp.newBuilder();
 		response.setResult(0);
 		response.setJiHuoLv(newLevel);
@@ -776,7 +779,7 @@ public class JianZhuMgr extends EventProc{
 		HibernateUtil.update(bean);
 		log.info("{}抽中{},内容{}",junZhuId,hit,hitO.toString());
 		if(session.containsAttribute("don'tSync")==false){
-			JunZhuMgr.inst.sendMainInfo(session);
+			JunZhuMgr.inst.sendMainInfo(session,jz);
 			BagMgr.inst.sendBagInfo(0, session, null);
 		}
 		EventMgr.addEvent(ED.jibai , new Object[] {junZhuId, hitO.optInt("id"), hitO.optInt("n",1)});
@@ -851,7 +854,7 @@ public class JianZhuMgr extends EventProc{
 		HibernateUtil.save(member);
 		AllianceMgr.inst.processHaveAlliance(jz, PD.ALLIANCE_INFO_REQ, session, member);
 		log.info("{}连续祭拜结束，获得{}", jz.id, gain);
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 		BagMgr.inst.sendBagInfo(0, session, null);
 	}
 
@@ -939,12 +942,14 @@ public class JianZhuMgr extends EventProc{
 		for(int i=0; i<3; i++){
 			for(int t=0;t<times[i];t++){
 				AwardTemp a = AwardMgr.inst.calcAwardTemp(ids[i]);
-				JSONObject o = new JSONObject();
-				o.put("t", a.getItemType());
-				o.put("id", a.getItemId());
-				o.put("n", a.getItemNum());
-				o.put("w", ws[i]);
-				list.add(o);
+				if(a != null) {
+					JSONObject o = new JSONObject();
+					o.put("t", a.getItemType());
+					o.put("id", a.getItemId());
+					o.put("n", a.getItemNum());
+					o.put("w", ws[i]);
+					list.add(o);
+				}
 			}
 		}
 		Collections.shuffle(list);

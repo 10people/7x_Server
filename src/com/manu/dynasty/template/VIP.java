@@ -34,4 +34,10 @@ public class VIP {
 	public int resurgenceTimes;
 	public int BloodVialTimes;
 	public int resOnSiteTimes;
+	public int buyEquipment;
+	public int buyBaoshi;
+	public int buyQianghua;
+	public int buyJingqi;
+	public int buyJianshezhi;
+	public int buyHufu;
 }

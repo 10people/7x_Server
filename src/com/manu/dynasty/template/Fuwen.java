@@ -1,6 +1,7 @@
 package com.manu.dynasty.template;
 
 public class Fuwen {
+	
 	private int fuwenID;
 	private int name;
 	private int desc;
@@ -14,6 +15,11 @@ public class Fuwen {
 	private int fuwenFront;
 	private int fuwenNext;
 	public int inlayColor;
+	public int exp;
+	public int lvlupExp;
+	public int levelMax ;
+	public int suipianID;
+	public int suipianNum;
 
 	public int getShuxingName() {
 		return shuxingName;
@@ -109,5 +115,37 @@ public class Fuwen {
 
 	public void setFuwenNext(int fuwenNext) {
 		this.fuwenNext = fuwenNext;
+	}
+	
+	public int getInlayColor() {
+		return inlayColor;
+	}
+
+	public void setInlayColor(int inlayColor) {
+		this.inlayColor = inlayColor;
+	}
+
+	public int getExp() {
+		return exp;
+	}
+
+	public void setExp(int exp) {
+		this.exp = exp;
+	}
+
+	public int getLvlupExp() {
+		return lvlupExp;
+	}
+
+	public void setLvlupExp(int lvlupExp) {
+		this.lvlupExp = lvlupExp;
+	}
+
+	public int getLevelMax() {
+		return levelMax;
+	}
+
+	public void setLevelMax(int levelMax) {
+		this.levelMax = levelMax;
 	}
 }

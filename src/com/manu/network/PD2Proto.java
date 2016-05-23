@@ -1,0 +1,127 @@
+package com.manu.network;
+
+import com.google.protobuf.MessageLite;
+
+import qxmobile.protobuf.Activity.ActivitLevelGiftResp;
+import qxmobile.protobuf.Activity.ActivityAchievementResp;
+import qxmobile.protobuf.Activity.ActivityCardGetRewardReq;
+import qxmobile.protobuf.Activity.ActivityCardResp;
+import qxmobile.protobuf.Activity.ActivityFunctionResp;
+import qxmobile.protobuf.Activity.ActivityGetRewardResp;
+import qxmobile.protobuf.Activity.ActivityGetStrengthResp;
+import qxmobile.protobuf.Activity.ActivityGrowthFundResp;
+import qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp;
+import qxmobile.protobuf.AllianceFightProtos.CityFightInfoReq;
+import qxmobile.protobuf.AllianceFightProtos.CityFightInfoResp;
+import qxmobile.protobuf.AllianceFightProtos.CityWarBidReq;
+import qxmobile.protobuf.AllianceFightProtos.CityWarBidResp;
+import qxmobile.protobuf.AllianceFightProtos.CityWarGrandResp;
+import qxmobile.protobuf.AllianceFightProtos.CityWarOperateReq;
+import qxmobile.protobuf.AllianceFightProtos.CityWarOperateResp;
+import qxmobile.protobuf.AllianceFightProtos.CityWarRewardReq;
+import qxmobile.protobuf.AllianceFightProtos.CityWarRewardResp;
+import qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest;
+import qxmobile.protobuf.BattlePveResult.BattleResult;
+import qxmobile.protobuf.Chat.ChatSettings;
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import qxmobile.protobuf.Explore.ExploreResp;
+import qxmobile.protobuf.JunZhuProto.TalentUpLevelReq;
+import qxmobile.protobuf.Qiandao.GetVipDoubleReq;
+import qxmobile.protobuf.Qiandao.QiandaoResp;
+import qxmobile.protobuf.Yabiao.BuyXuePingReq;
+
+public class PD2Proto extends PD{
+	public static PD2Proto inst = new PD2Proto();
+	public MessageLite map(int pd){
+		switch(pd){
+		case C_CHECK_CHARGE:
+			return ErrorMessage.getDefaultInstance();
+		case LMZ_BUY_ZhaoHuan:
+		case LMZ_BUY_XueP:
+			return BuyXuePingReq.getDefaultInstance();
+		case DuiHuan_CHENGHAO:
+			return TalentUpLevelReq.getDefaultInstance();
+		case LMZ_CMD_ONE:
+		case NEW_MIBAO_JIHUO:
+		case NEW_MISHU_JIHUO:
+			return ErrorMessage.getDefaultInstance();
+		case LMZ_FuHuo:
+			return PlayerReviveRequest.getDefaultInstance();
+		case CHONG_LOU_BATTLE_REPORT_REQP: 
+			return BattleResult.getDefaultInstance();
+		case PD.C_ALLIANCE_CITYFIGHTINFO_REQ:
+			return CityFightInfoReq.getDefaultInstance();
+		case PD.S_ALLIANCE_CITYFIGHTINFO_RESP:
+			return CityFightInfoResp.getDefaultInstance();
+		case PD.C_CITYWAR_REWARD_REQ:
+			return CityWarRewardReq.getDefaultInstance();
+		case PD.S_CITYWAR_REWARD_RESP:
+			return CityWarRewardResp.getDefaultInstance();
+		case PD.S_CITYWAR_GRAND_RESP:
+			return CityWarGrandResp.getDefaultInstance();
+		case PD.C_CITYWAR_OPERATE_REQ:
+			return CityWarOperateReq.getDefaultInstance();
+		case PD.S_CITYWAR_OPERATE_RESP:
+			return CityWarOperateResp.getDefaultInstance();
+		case PD.C_CITYWAR_BID_REQ:
+			return CityWarBidReq.getDefaultInstance();
+		case PD.S_CITYWAR_BID_RESP:
+			return CityWarBidResp.getDefaultInstance();
+		case PD.C_SETTING_CHAT:
+		case PD.S_CHAT_SETTING_RESP:
+			return ChatSettings.getDefaultInstance();
+		case PD.ACTIVITY_FIRST_CHARGE_REWARD_REQ:
+		case PD.ACTIVITY_FIRST_CHARGE_REWARD_RESP:
+			return ExploreResp.getDefaultInstance();
+		case PD.ACTIVITY_FIRST_CHARGE_GETREWARD_REQ:
+		case PD.ACTIVITY_FIRST_CHARGE_GETREWARD_RESP:
+			return ActivityGetRewardResp.getDefaultInstance();
+		case PD.S_USE_ITEM:
+			return ExploreResp.getDefaultInstance();
+		case PD.ACTIVITY_MONTH_CARD_INFO_REQ:
+		case PD.ACTIVITY_MONTH_CARD_INFO_RESP:
+			return ActivityCardResp.getDefaultInstance();
+		case PD.ACTIVITY_MONTH_CARD_REWARD_REQ:
+			return ActivityCardGetRewardReq.getDefaultInstance();
+		case PD.ACTIVITY_MONTH_CARD_REWARD_RESP:
+			return ActivityGetRewardResp.getDefaultInstance();
+		case PD.ACTIVITY_GROWTHFUND_BUY_RESP:
+			return ActivityGetRewardResp.getDefaultInstance();
+		case PD.ACTIVITY_GROWTHFUND_GETREWARD_RESP:
+			return ActivityGetRewardResp.getDefaultInstance();
+		case PD.ACTIVITY_GROWTHFUND_GETREWARD_REQ:
+			return ActivityGrowthFundRewardResp.getDefaultInstance();
+		case PD.ACTIVITY_GROWTHFUND_INFO_RESP:
+			return ActivityGrowthFundResp.getDefaultInstance();
+		case PD.ACTIVITY_STRENGTH_GET_REQ:
+			return ActivityCardGetRewardReq.getDefaultInstance();
+		case PD.ACTIVITY_STRENGTH_GET_RESP:
+			return ActivityGetRewardResp.getDefaultInstance();
+		case PD.ACTIVITY_STRENGTH_INFO_RESP:
+			return ActivityGetStrengthResp.getDefaultInstance();
+		case PD.ACTIVITY_LEVEL_GET_REQ:
+			return ActivityGrowthFundRewardResp.getDefaultInstance();
+		case PD.ACTIVITY_LEVEL_GET_RESP:
+			return ActivityGetRewardResp.getDefaultInstance();
+		case PD.ACTIVITY_LEVEL_INFO_RESP:
+			return ActivitLevelGiftResp.getDefaultInstance();
+		case PD.ACTIVITY_FUNCTIONLIST_INFO_RESP:
+			return ActivityFunctionResp.getDefaultInstance();
+		case PD.S_ACTIVITY_ACHIEVEMENT_INFO_RESP:
+			return ActivityAchievementResp.getDefaultInstance();
+		case PD.C_ACTIVITY_ACHIEVEMENT_GET_REQ:
+			return ActivityGrowthFundRewardResp.getDefaultInstance();
+		case PD.S_ACTIVITY_ACHIEVEMENT_GET_RESP:
+			return ActivityGetRewardResp.getDefaultInstance();
+		case PD.C_GET_QIANDAO_DOUBLE_REQ:
+			return GetVipDoubleReq.getDefaultInstance();
+		case PD.S_GET_QIANDAO_DOUBLE_RESP:
+			return QiandaoResp.getDefaultInstance();
+		case PD.gongxun:
+			return ErrorMessage.getDefaultInstance();
+		case PD.C_CITYWAR_GRAND_REQ:
+			return CityWarRewardReq.getDefaultInstance();
+		}
+		return null;
+	}
+}

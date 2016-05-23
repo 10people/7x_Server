@@ -96,7 +96,7 @@ public class CardMgr implements Runnable{
 		}
 	}
 
-	private void openCardBag(int code, IoSession session, Builder builder) {
+	public void openCardBag(int code, IoSession session, Builder builder) {
 		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
 		if(junZhuId == null){
 			log.error("null junZhu id");
@@ -154,7 +154,7 @@ public class CardMgr implements Runnable{
 			}
 			ret.addItems(item);
 		}
-		BagMgr.inst.sendBagInfo(0, session, null);
+		BagMgr.inst.sendBagInfo(session, bag);
 		session.write(ret.build());
 	}
 	public void sendError(IoSession session, String msg) {
@@ -167,7 +167,7 @@ public class CardMgr implements Runnable{
 		test.setErrorDesc(msg);
 		session.write(test.build());		
 	}
-	private void buyCardBag(int code, IoSession session, Builder builder) {
+	public void buyCardBag(int code, IoSession session, Builder builder) {
 		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
 		if(junZhuId == null){
 			log.error("null junZhu id");
@@ -181,7 +181,7 @@ public class CardMgr implements Runnable{
 		BuyCardBagResp.Builder ret = BuyCardBagResp.newBuilder();
 		ret.setRet(1);
 		ret.setMsg("购买成功");
-		BagMgr.inst.sendBagInfo(0, session, null);
+		BagMgr.inst.sendBagInfo(session, bag);
 		session.write(ret.build());
 	}
 }

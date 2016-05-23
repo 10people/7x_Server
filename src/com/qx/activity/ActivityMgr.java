@@ -10,6 +10,7 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import qxmobile.protobuf.Activity.ActivityFunctionResp;
 import qxmobile.protobuf.Activity.ActivityInfo;
 import qxmobile.protobuf.Activity.GetActivityListResp;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
@@ -17,6 +18,7 @@ import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.DescId;
+import com.manu.dynasty.template.FunctionOpen;
 import com.manu.dynasty.template.HuoDong;
 import com.manu.dynasty.template.QianDaoDesc;
 import com.manu.network.PD;
@@ -29,6 +31,7 @@ import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.timeworker.FunctionID;
+import com.qx.yuanbao.BillHist;
 
 public class ActivityMgr extends EventProc{
 	public Logger logger = LoggerFactory.getLogger(ActivityMgr.class);
@@ -76,82 +79,95 @@ public class ActivityMgr extends EventProc{
 			logger.error("cmd:{},未发现君主", cmd);
 			return;
 		}
-		GetActivityListResp.Builder response = GetActivityListResp.newBuilder();
-		for (int key : activityMap.keySet()) {
-			HuoDong huoDong = activityMap.get(key);
-			if (huoDong.getHuoDongStatus() == 1) {// 活动处于开启状态
-				ActivityInfo.Builder ac = ActivityInfo.newBuilder();
-				ac.setId(huoDong.getId());
-				switch (huoDong.getId()) {
-				case ACT_QIANDAO:// 每日登录奖励
-					QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,	 junZhu.id );
-					if (QiandaoMgr.instance.hasAlreadyQiandao(qiandaoInfo)) {
-						if (QiandaoMgr.instance.canBuQian(junZhu.id,qiandaoInfo)) {// 今天是否可以补签
-							ac.setState(ACTIVITY_NOT_FINISH);
-						} else {
-							ac.setState(ACTIVITY_FINISH);
-						}
-					} else {
-						ac.setState(ACTIVITY_NOT_FINISH);
-					}
-					Calendar calendar = Calendar.getInstance();
-					Date tmpDate = calendar.getTime();
-					if(QiandaoMgr.DATE_DEBUG){
-						tmpDate = new Date(QiandaoMgr.debugDate.getTime());
-					}
-					if(tmpDate.getHours()<QiandaoMgr.RESET_TIME){
-						tmpDate.setDate(tmpDate.getDate()-1);
-					}
-					int month = tmpDate.getMonth() + 1;
-					QianDaoDesc qdDesc = QiandaoMgr.instance.qianDaoDescMap.get(month);
-					if(qdDesc == null) {
-						ac.setAwardDesc(huoDong.getAwardDesc());
-						ac.setDesc(huoDong.getDesc());
-						logger.error("未找到月份为:{}的签到活动描述配置", month);
-					} else {
-						ac.setAwardDesc(qdDesc.getAwardDesc());
-						ac.setDesc(qdDesc.getDesc());
-					}
-					response.addActivityList(ac);
-					
-					break;
-				case ACT_SHOUCHONG:// 首冲
-					ac.setDesc(huoDong.getDesc());
-					ac.setAwardDesc(huoDong.getAwardDesc());
-					ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class,"where junzhuId=" + junZhu.id + "");
-					if (ShouchongMgr.instance.getShouChongState(info) == ShouchongMgr.STATE_AWARD) {
-						ac.setState(ACTIVITY_FINISH); // 前台显示领取
-						response.addActivityList(ac);
-					} else if (ShouchongMgr.instance.getShouChongState(info) == ShouchongMgr.STATE_NULL) {
-						ac.setState(ACTIVITY_NOT_FINISH);// 前台显示查看
-						response.addActivityList(ac);
-					}
-					break;
-				case ACT_XIANSHI:// 敬请期待
-					ac.setDesc(huoDong.getDesc());
-					ac.setAwardDesc(huoDong.getAwardDesc());
-					ac.setState(ACTIVITY_NOT_FINISH);
-					response.addActivityList(ac);
-					break;
-				case ACT_OTHER:// 敬请期待
-					break;
-				default:
-					response.addActivityList(ac);
-					break;
-				}
+		List<FunctionOpen> list = TempletService.getInstance().listAll(FunctionOpen.class.getSimpleName());
+		ActivityFunctionResp.Builder resp = ActivityFunctionResp.newBuilder();
+		for (FunctionOpen functionOpen : list) {
+			if(functionOpen.MenuID != 14) continue; 
+			//校验活动是否开启
+			if(isActivityShow(junZhu,functionOpen.id)){
+				resp.addFunctionList(functionOpen.id);
 			}
 		}
-		// 当现在开放的活动数量为1个或2个时，敬请期待面板出现；多于等于3个时，面板隐藏
-		if (response.getActivityListCount() < 3) {
-			HuoDong huoDong = activityMap.get(ACT_OTHER);
-			ActivityInfo.Builder ac = ActivityInfo.newBuilder();
-			ac.setId(huoDong.getId());
-			ac.setDesc(huoDong.getDesc());
-			ac.setAwardDesc(huoDong.getAwardDesc());
-			ac.setState(ACTIVITY_NOT_FINISH);
-			response.addActivityList(ac);
-		}
-		writeByProtoMsg(session, PD.S_GET_ACTIVITYLIST_RESP, response);
+		ProtobufMsg msg = new ProtobufMsg();
+		msg.id = PD.ACTIVITY_FUNCTIONLIST_INFO_RESP;
+		msg.builder = resp;
+		session.write(msg);
+//		GetActivityListResp.Builder response = GetActivityListResp.newBuilder();
+//		for (int key : activityMap.keySet()) {
+//			HuoDong huoDong = activityMap.get(key);
+//			if (huoDong.getHuoDongStatus() == 1) {// 活动处于开启状态
+//				ActivityInfo.Builder ac = ActivityInfo.newBuilder();
+//				ac.setId(huoDong.getId());
+//				switch (huoDong.getId()) {
+//				case ACT_QIANDAO:// 每日登录奖励
+//					QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,	 junZhu.id );
+//					if (QiandaoMgr.instance.hasAlreadyQiandao(qiandaoInfo)) {
+//						if (QiandaoMgr.instance.canBuQian(junZhu.id,qiandaoInfo)) {// 今天是否可以补签
+//							ac.setState(ACTIVITY_NOT_FINISH);
+//						} else {
+//							ac.setState(ACTIVITY_FINISH);
+//						}
+//					} else {
+//						ac.setState(ACTIVITY_NOT_FINISH);
+//					}
+//					Calendar calendar = Calendar.getInstance();
+//					Date tmpDate = calendar.getTime();
+//					if(QiandaoMgr.DATE_DEBUG){
+//						tmpDate = new Date(QiandaoMgr.debugDate.getTime());
+//					}
+//					if(tmpDate.getHours()<QiandaoMgr.RESET_TIME){
+//						tmpDate.setDate(tmpDate.getDate()-1);
+//					}
+//					int month = tmpDate.getMonth() + 1;
+//					QianDaoDesc qdDesc = QiandaoMgr.instance.qianDaoDescMap.get(month);
+//					if(qdDesc == null) {
+//						ac.setAwardDesc(huoDong.getAwardDesc());
+//						ac.setDesc(huoDong.getDesc());
+//						logger.error("未找到月份为:{}的签到活动描述配置", month);
+//					} else {
+//						ac.setAwardDesc(qdDesc.getAwardDesc());
+//						ac.setDesc(qdDesc.getDesc());
+//					}
+//					response.addActivityList(ac);
+//					
+//					break;
+//				case ACT_SHOUCHONG:// 首冲
+//					ac.setDesc(huoDong.getDesc());
+//					ac.setAwardDesc(huoDong.getAwardDesc());
+//					ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class,"where junzhuId=" + junZhu.id + "");
+//					if (ShouchongMgr.instance.getShouChongState(info) == ShouchongMgr.STATE_AWARD) {
+//						ac.setState(ACTIVITY_FINISH); // 前台显示领取
+//						response.addActivityList(ac);
+//					} else if (ShouchongMgr.instance.getShouChongState(info) == ShouchongMgr.STATE_NULL) {
+//						ac.setState(ACTIVITY_NOT_FINISH);// 前台显示查看
+//						response.addActivityList(ac);
+//					}
+//					break;
+//				case ACT_XIANSHI:// 敬请期待
+//					ac.setDesc(huoDong.getDesc());
+//					ac.setAwardDesc(huoDong.getAwardDesc());
+//					ac.setState(ACTIVITY_NOT_FINISH);
+//					response.addActivityList(ac);
+//					break;
+//				case ACT_OTHER:// 敬请期待
+//					break;
+//				default:
+//					response.addActivityList(ac);
+//					break;
+//				}
+//			}
+//		}
+//		// 当现在开放的活动数量为1个或2个时，敬请期待面板出现；多于等于3个时，面板隐藏
+//		if (response.getActivityListCount() < 3) {
+//			HuoDong huoDong = activityMap.get(ACT_OTHER);
+//			ActivityInfo.Builder ac = ActivityInfo.newBuilder();
+//			ac.setId(huoDong.getId());
+//			ac.setDesc(huoDong.getDesc());
+//			ac.setAwardDesc(huoDong.getAwardDesc());
+//			ac.setState(ACTIVITY_NOT_FINISH);
+//			response.addActivityList(ac);
+//		}
+//		writeByProtoMsg(session, PD.S_GET_ACTIVITYLIST_RESP, response);
 	}
 
 	/** 
@@ -182,8 +198,8 @@ public class ActivityMgr extends EventProc{
 	 * @throws 
 	 */
 	public void pushShouchongAvailable(long junZhuId,IoSession session){
-		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class,"where junzhuId=" + junZhuId + "");
-		if (ShouchongMgr.instance.getShouChongState(info) == ShouchongMgr.STATE_AWARD) {
+		int count = HibernateUtil.getColumnValueMaxOnWhere(BillHist.class, "save_amt", "where jzId="+junZhuId);
+		if (count <= 0) {
 			FunctionID.pushCanShowRed(junZhuId, session, FunctionID.Shouchong);
 		}
 	}
@@ -245,6 +261,31 @@ public class ActivityMgr extends EventProc{
 	@Override
 	protected void doReg() {
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
+	}
+	
+	/**
+	 * 活动是否显示，部分活动领取完关闭
+	 * @param id 活动ID（functionOpen.xml id）
+	 * @return
+	 */
+	public boolean isActivityShow(JunZhu jz,int id){
+		boolean isShow = true;
+		switch (id) {
+		case 1422://首冲大礼
+			isShow = ShouchongMgr.instance.isShow(jz);
+			break;
+		case 1394: //成长基金
+			isShow = GrowthFundMgr.inst.isShow(jz);
+			break;
+		case 600200: //等级奖励
+			isShow = LevelUpGiftMgr.inst.isShow(jz);
+			break;
+		case 144: //成就
+			isShow = XianShiActivityMgr.instance.isShow(jz);
+		default:
+			break;
+		}
+		return isShow;
 	}
 
 }

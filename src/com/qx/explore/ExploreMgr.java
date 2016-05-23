@@ -281,7 +281,9 @@ public class ExploreMgr extends EventProc{
 				break;
 			case 4://元宝十连抽
 				// 首次十连抽免费
-				if(mine.tenChouClickNumber == 0){
+				if(mine.tenChouClickNumber == 0 && false){
+					//无双小秘书(3270162390)  17:42:46
+//					首次十连抽免费这个程序是不是还没去掉，1.2版本十连抽没有免费一说
 					ok = true;
 					//免费十连不触发十连副本
 					session.setAttribute("FreeShiLian", Boolean.TRUE);
@@ -320,6 +322,11 @@ public class ExploreMgr extends EventProc{
 			AwardMgr.inst.giveReward(session, awa, jz, false);
 			log.info("{}探宝奖励{}:{}:{}",jz.id,awa.getItemType(),awa.getItemId(),awa.getItemNum());
 		}
+		/*
+		 *  增加探宝额外奖励 20160411
+		 */
+		addExtraAward(reqType, session, jz);
+		// end
 		session.removeAttribute("inTanBaoGiveReward");
 		ExploreResp.Builder resp = ExploreResp.newBuilder();
 		resp.setSuccess(0);
@@ -366,6 +373,42 @@ public class ExploreMgr extends EventProc{
 	}
 
 
+	/**
+	 * @param type
+	 * @param session
+	 * @param jz
+	 */
+	public void addExtraAward(int type, IoSession session, JunZhu jz){
+		int all = 1;
+		int itemid = 0;
+		switch(type){
+		case 1:
+			all = 1;
+			itemid = TanBaoData.tongBi_920001;
+			break;
+		case 2:
+			all = 10;
+			itemid = TanBaoData.tongBi_920001;
+			break;
+		case 3:
+			all = 1;
+			itemid = TanBaoData.yuanBao_920002;
+			break;
+		case 4:
+			all = 10;
+			itemid = TanBaoData.yuanBao_920002;
+			break;
+		}
+		AwardTemp award = new AwardTemp();
+		ItemTemp certainItem = itemTempMap.get(itemid);
+		award.setAwardId(11111);
+		award.setItemId(certainItem.getId());
+		award.setItemType(AwardMgr.TYPE_QIANG_HUA);
+		award.setItemNum(all);
+		AwardMgr.inst.giveReward(session, award, jz, false);
+		log.info("{}探宝额外奖励{}:{}:{}",jz.id,
+				award.getItemType(),award.getItemId(),award.getItemNum());
+	}
 	
 	/**
 	 * 元宝抽：
@@ -422,6 +465,7 @@ public class ExploreMgr extends EventProc{
 			tenToEx.totalProbability = 0;
 			for(int i=0; i<10; i++){
 				list.add(getTongNormalAwardId(tenToEx));
+				m.historyFree += 1;
 			}
 			m.tenChouClickNumber += 1;
 			break;
@@ -448,7 +492,7 @@ public class ExploreMgr extends EventProc{
 			break;
 		case 23: //元宝十连抽
 			/*
-			 * 元宝 十连抽 不走 同意概率
+			 * 元宝 十连抽 不走 统一概率
 			 * 每一次 10连抽行为都重新从 totalProbability==0 开始算起。
 			 */
 			if(m.historyPay == 0){
@@ -766,7 +810,7 @@ public class ExploreMgr extends EventProc{
 		log.info("玩家id{},姓名 {}, 购买 探宝, 花费铜币{}个", jz.id, jz.name,
 				 money);
 		// 同步君主元宝信息
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 		return true;
 	}
 	
@@ -776,11 +820,11 @@ public class ExploreMgr extends EventProc{
 		}
 		YuanBaoMgr.inst.diff(jz, -money, 0, money,
 				YBType.YB_BUY_TANBAO_CISHU, "购买探宝次数");
-		HibernateUtil.save(jz);
+		HibernateUtil.update(jz);
 		log.info("玩家id{},姓名 {}, 购买 探宝, 花费元宝{}个", jz.id, jz.name,
 				 money);
 		// 同步君主元宝信息
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 		return true;
 	}
 //	public byte isBuySuccess(JunZhu jz, int type, IoSession session) {

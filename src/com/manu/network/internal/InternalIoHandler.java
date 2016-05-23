@@ -34,6 +34,5 @@ public class InternalIoHandler  extends IoHandlerAdapter {
 	@Override
 	public void sessionCreated(IoSession session) throws Exception {
 		super.sessionCreated(session);
-		session.setAttribute(SessionAttKey.sessionId, Long.valueOf(SessionManager.getInst().genSessionId()));
 	}
 }

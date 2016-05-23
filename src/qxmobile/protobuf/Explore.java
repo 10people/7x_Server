@@ -2471,7 +2471,7 @@ public final class Explore {
      * <code>optional int32 remainFreeCount = 3;</code>
      *
      * <pre>
-     *只有type==1的时候发送
+     *只有(1-铜币单抽)的时候返回
      * </pre>
      */
     boolean hasRemainFreeCount();
@@ -2479,7 +2479,7 @@ public final class Explore {
      * <code>optional int32 remainFreeCount = 3;</code>
      *
      * <pre>
-     *只有type==1的时候发送
+     *只有(1-铜币单抽)的时候返回
      * </pre>
      */
     int getRemainFreeCount();
@@ -2629,7 +2629,7 @@ public final class Explore {
      * <code>optional int32 remainFreeCount = 3;</code>
      *
      * <pre>
-     *只有type==1的时候发送
+     *只有(1-铜币单抽)的时候返回
      * </pre>
      */
     public boolean hasRemainFreeCount() {
@@ -2639,7 +2639,7 @@ public final class Explore {
      * <code>optional int32 remainFreeCount = 3;</code>
      *
      * <pre>
-     *只有type==1的时候发送
+     *只有(1-铜币单抽)的时候返回
      * </pre>
      */
     public int getRemainFreeCount() {
@@ -2995,7 +2995,7 @@ public final class Explore {
        * <code>optional int32 remainFreeCount = 3;</code>
        *
        * <pre>
-       *只有type==1的时候发送
+       *只有(1-铜币单抽)的时候返回
        * </pre>
        */
       public boolean hasRemainFreeCount() {
@@ -3005,7 +3005,7 @@ public final class Explore {
        * <code>optional int32 remainFreeCount = 3;</code>
        *
        * <pre>
-       *只有type==1的时候发送
+       *只有(1-铜币单抽)的时候返回
        * </pre>
        */
       public int getRemainFreeCount() {
@@ -3015,7 +3015,7 @@ public final class Explore {
        * <code>optional int32 remainFreeCount = 3;</code>
        *
        * <pre>
-       *只有type==1的时候发送
+       *只有(1-铜币单抽)的时候返回
        * </pre>
        */
       public Builder setRemainFreeCount(int value) {
@@ -3028,7 +3028,7 @@ public final class Explore {
        * <code>optional int32 remainFreeCount = 3;</code>
        *
        * <pre>
-       *只有type==1的时候发送
+       *只有(1-铜币单抽)的时候返回
        * </pre>
        */
       public Builder clearRemainFreeCount() {

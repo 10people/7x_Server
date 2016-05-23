@@ -1,5 +1,6 @@
 package com.manu.network;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.protobuf.GeneratedMessage.Builder;
+import com.google.protobuf.CodedOutputStream;
 import com.google.protobuf.Message;
 import com.google.protobuf.MessageLite;
 import com.google.protobuf.MessageOrBuilder;
@@ -80,13 +82,17 @@ public class ProtoBuffEncoder implements ProtocolEncoder {
 	}
 
 	protected void encode(ProtocolEncoderOutput out,
-			MessageLite lite, Integer protoId) {
+			MessageLite lite, int protoId) {
+		/*
 		byte[] body = lite.toByteArray();
 		IoBuffer buf = IoBuffer.allocate(body.length + 4 + 2);
 		buf.putInt(body.length + 2);//数据（协议号和逻辑数据）长度
 		buf.putShort(protoId.shortValue());
 		buf.put(body);
 		buf.flip();
+		*/
+		byte[] arr = toByteArray(lite, (short)protoId);
+		IoBuffer buf = IoBuffer.wrap(arr);
 		synchronized (out) {//防止flush里的bug
 			 // Creates an empty writeRequest containing the destination
             //WriteRequest writeRequest = new DefaultWriteRequest(null, null, destination);
@@ -94,19 +100,19 @@ public class ProtoBuffEncoder implements ProtocolEncoder {
 			out.write(buf);
 			out.flush();
 		}
-		if (protoId != PD.Spirite_Move )
-			log.debug("发送数据：协议号 {} 数据长度 {} {}",  protoId,
-					body.length, lite.getClass().getSimpleName() );
+//		if (protoId != PD.Spirite_Move )
+//			log.debug("发送数据：协议号 {} 数据长度 {} {}",  protoId,
+//					body.length, lite.getClass().getSimpleName() );
 		if(battleInfoRecord) {
-			switch(protoId.intValue()) {
-			case PD.ZHANDOU_INIT_RESP:
-				Map<Integer, Integer> map = new HashMap<Integer, Integer>(1);
-				map.put(protoId, body.length);
-				battleInfoList.add(map);
-				break;
-			default:
-				break;
-			}
+//			switch(protoId) {
+//			case PD.ZHANDOU_INIT_RESP:
+//				Map<Integer, Integer> map = new HashMap<Integer, Integer>(1);
+//				map.put(protoId, body.length);
+//				battleInfoList.add(map);
+//				break;
+//			default:
+//				break;
+//			}
 		}
 	}
 
@@ -121,5 +127,27 @@ public class ProtoBuffEncoder implements ProtocolEncoder {
 	public static List<Map<Integer, Integer>> getBattleInfoList() {
 		return battleInfoList;
 	}
-	
+
+	public static byte[] toByteArray(MessageLite m, short id) {
+	    try {
+	    	int lenAll = m.getSerializedSize() + 4 + 2;
+	      final byte[] result = new byte[lenAll];
+	      lenAll -= 4;
+	      result[0]=(byte)((lenAll >> 24) & 0xFF);
+	      result[1]=(byte)((lenAll >> 16) & 0xFF);
+	      result[2]=(byte)((lenAll >>  8) & 0xFF);
+	      result[3]=(byte)((lenAll      ) & 0xFF);
+	      result[4]=(byte)((id >>  8) & 0xFF);
+	      result[5]=(byte)((id		) & 0xFF);
+	      lenAll += 4;
+	      final CodedOutputStream output = CodedOutputStream.newInstance(result,6,lenAll-6);
+	      m.writeTo(output);
+	      output.checkNoSpaceLeft();
+	      return result;
+	    } catch (IOException e) {
+	      throw new RuntimeException(
+	        "Serializing to a byte array threw an IOException " +
+	        "(should never happen).", e);
+	    }
+	  }
 }

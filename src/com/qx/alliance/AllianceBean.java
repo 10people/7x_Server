@@ -42,6 +42,14 @@ public class AllianceBean{// implements MCSupport {
 	public Date voteStartTime;// 投票开始时间
 	public Date applyStartTime;// 盟主申请开始时间
 
+	/** 升级时间，当前时间大于等于该时间，表示该升级，为null表示升级完毕 **/
+	public Date upgradeTime;
+	public Date lastTimesUpgradeSpeedTime;
+	@Column(columnDefinition = "INT default 0")
+	public int todayUpgradeSpeedTimes;
+	@Column(columnDefinition = "INT default 0")
+	public int hufuNum;
+	
 //	@Override
 //	public long getIdentifier() {
 //		return id;

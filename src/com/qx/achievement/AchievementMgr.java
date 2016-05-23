@@ -323,7 +323,6 @@ public class AchievementMgr extends EventProc {
 			return;
 		}
 		int getYuanBao = chengjiu.getYuanbao();
-		// junzhu.yuanBao += getYuanBao;
 		YuanBaoMgr.inst.diff(junzhu, getYuanBao, 0, 0, YBType.YB_GET_REWARD,
 				"领取成就奖励");
 		achievement.setGetReward(true);

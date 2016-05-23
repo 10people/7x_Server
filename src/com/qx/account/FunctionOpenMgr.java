@@ -24,6 +24,8 @@ import com.manu.network.SessionAttKey;
 import com.qx.persistent.HibernateUtil;
 import com.qx.pvp.LveDuoBean;
 import com.qx.pvp.LveStaticData;
+import com.qx.pvp.PvpBean;
+import com.qx.pvp.PvpMgr;
 import com.qx.task.GameTaskMgr;
 import com.qx.task.WorkTaskBean;
 import com.qx.timeworker.FunctionID;
@@ -257,6 +259,24 @@ public class FunctionOpenMgr {
 			infob.setNum2(all);
 			infob.setFunctionId(FunctionID.lveDuo); // 掠夺
 	
+			resp.addInfo(infob);
+			
+			//江源：加入百战信息，2016-05-06
+			PvpBean pvpb = HibernateUtil.find(PvpBean.class, jId);
+			//先设置总次数为配置默认免费次数，剩余次数等于总次数
+			all = CanShu.BAIZHAN_FREE_TIMES;
+			remain = all;
+			if(pvpb != null){
+				//如果玩家的百战信息有记录，先刷新下信息
+				PvpMgr.inst.resetPvpBean(pvpb);
+				//总次数=以已用次数+剩余次数
+				all = pvpb.usedTimes + pvpb.remain;
+				remain = pvpb.remain;
+			}
+			infob = SimpleInfo.newBuilder();
+			infob.setNum1(remain);
+			infob.setNum2(all);
+			infob.setFunctionId(FunctionID.baizhan); 
 			resp.addInfo(infob);
 
 			session.write(resp.build());

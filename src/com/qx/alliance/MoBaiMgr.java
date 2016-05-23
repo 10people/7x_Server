@@ -48,9 +48,9 @@ import com.qx.yuanbao.YuanBaoMgr;
 
 public class MoBaiMgr extends EventProc{
 	public static Logger log = LoggerFactory.getLogger(MoBaiMgr.class);
-
+	public static MoBaiMgr inst ;
 	public MoBaiMgr() {
-
+		inst = this;
 	}
 
 	public void sendMoBaiInfo(int id, IoSession session, Builder builder) {
@@ -244,7 +244,7 @@ public class MoBaiMgr extends EventProc{
 		
 		//2016年3月30日11:55:13，修改为统一的发奖调用
 		AwardMgr.inst.giveReward(session, conf.award, jz);
-		BagMgr.inst.sendBagInfo(0, session, null);//扣了物品，所以要发
+		BagMgr.inst.sendBagInfo(session, bag);//扣了物品，所以要发
 		/*
 		ExploreResp.Builder list = ExploreResp.newBuilder();
 		{// 计算奖励
@@ -269,11 +269,11 @@ public class MoBaiMgr extends EventProc{
 		member.gongXian += conf.gongxian;
 		HibernateUtil.save(member);
 		JunZhuMgr.inst.updateTiLi(jz, conf.tili, "玉膜拜");
-		HibernateUtil.save(jz);
+		HibernateUtil.update(jz);
 		alliance.build += conf.jianshe;
 		HibernateUtil.save(alliance);
 		
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 		sendMoBaiInfo(0, session, null);
 		AllianceMgr.inst.changeGongXianRecord(jz.id, conf.gongxian);
 		
@@ -317,7 +317,7 @@ public class MoBaiMgr extends EventProc{
 	 *            增加的buff层数
 	 * @param time
 	 */
-	protected synchronized void updateMobaiLevel(int lmId, int buffNum, Date time) {
+	protected synchronized int updateMobaiLevel(int lmId, int buffNum, Date time) {
 		{//增加联盟累计膜拜次数
 			LmTuTeng tt = HibernateUtil.find(LmTuTeng.class, lmId);
 			if(tt == null){
@@ -330,6 +330,7 @@ public class MoBaiMgr extends EventProc{
 				tt.times+=buffNum;
 				HibernateUtil.update(tt);
 			}
+			return tt.times;
 		}
 	}
 
@@ -359,13 +360,12 @@ public class MoBaiMgr extends EventProc{
 			sendError(0, session, "您的元宝不足。");
 			return;
 		}
-		// jz.yuanBao-=conf.needNum;
 		YuanBaoMgr.inst.diff(jz, -conf.needNum, 0, conf.needNum,
 				YBType.YB_LIANMENG_MOBAI, "联盟膜拜");
 		JunZhuMgr.inst.updateTiLi(jz, conf.tili, "联盟膜拜");
-		HibernateUtil.save(jz);
+		HibernateUtil.update(jz);
 		log.info("膜拜扣除{}:{}元宝{}", jz.id, jz.name, conf.needNum);
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 
 		Date today = new Date();
 		bean.yuanBaoTime = today;
@@ -429,7 +429,7 @@ public class MoBaiMgr extends EventProc{
 		}
 		jz.tongBi -= moneyNeed;
 		JunZhuMgr.inst.updateTiLi(jz, conf.tili, "铜币膜拜");
-		HibernateUtil.save(jz);
+		HibernateUtil.update(jz);
 		log.info("膜拜扣除{}:{}铜币{}", jz.id, jz.name, moneyNeed);
 		JSONArray spend = new JSONArray();
 		JSONObject jo = new JSONObject();
@@ -437,7 +437,7 @@ public class MoBaiMgr extends EventProc{
 		jo.put("num", moneyNeed);
 		spend.add(jo);
 		ActLog.log.Worship(jz.id, jz.name, ActLog.vopenid, "1", spend);
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 
 		Date today = new Date();
 		bean.tongBiTime = today;
@@ -472,8 +472,7 @@ public class MoBaiMgr extends EventProc{
 		String eventStr = AllianceMgr.inst.lianmengEventMap.get(18).str
 				.replaceFirst("%d", jzName)
 				.replaceFirst("%d", mobaiType)
-				.replaceFirst("%d", getBuildValue+"")
-				.replaceFirst("%d", getExp+"");
+				.replaceFirst("%d", getBuildValue+"");
 		AllianceMgr.inst.addAllianceEvent(allianceId, eventStr);
 	}
 

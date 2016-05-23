@@ -8,8 +8,488 @@ public final class FuWen {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
+  public interface QueryFuwenOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 tab = 1;
+    /**
+     * <code>required int32 tab = 1;</code>
+     *
+     * <pre>
+     * 请求的符文页签
+     * </pre>
+     */
+    boolean hasTab();
+    /**
+     * <code>required int32 tab = 1;</code>
+     *
+     * <pre>
+     * 请求的符文页签
+     * </pre>
+     */
+    int getTab();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.QueryFuwen}
+   *
+   * <pre>
+   * 符文页请求8001
+   * </pre>
+   */
+  public static final class QueryFuwen extends
+      com.google.protobuf.GeneratedMessage
+      implements QueryFuwenOrBuilder {
+    // Use QueryFuwen.newBuilder() to construct.
+    private QueryFuwen(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private QueryFuwen(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final QueryFuwen defaultInstance;
+    public static QueryFuwen getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public QueryFuwen getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private QueryFuwen(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              tab_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_QueryFuwen_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_QueryFuwen_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.FuWen.QueryFuwen.class, qxmobile.protobuf.FuWen.QueryFuwen.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<QueryFuwen> PARSER =
+        new com.google.protobuf.AbstractParser<QueryFuwen>() {
+      public QueryFuwen parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new QueryFuwen(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<QueryFuwen> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 tab = 1;
+    public static final int TAB_FIELD_NUMBER = 1;
+    private int tab_;
+    /**
+     * <code>required int32 tab = 1;</code>
+     *
+     * <pre>
+     * 请求的符文页签
+     * </pre>
+     */
+    public boolean hasTab() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 tab = 1;</code>
+     *
+     * <pre>
+     * 请求的符文页签
+     * </pre>
+     */
+    public int getTab() {
+      return tab_;
+    }
+
+    private void initFields() {
+      tab_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasTab()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, tab_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, tab_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.FuWen.QueryFuwen parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.QueryFuwen parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.QueryFuwen parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.QueryFuwen parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.QueryFuwen parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.QueryFuwen parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.QueryFuwen parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.QueryFuwen parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.QueryFuwen parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.QueryFuwen parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.FuWen.QueryFuwen prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.QueryFuwen}
+     *
+     * <pre>
+     * 符文页请求8001
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.FuWen.QueryFuwenOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_QueryFuwen_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_QueryFuwen_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.FuWen.QueryFuwen.class, qxmobile.protobuf.FuWen.QueryFuwen.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.FuWen.QueryFuwen.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        tab_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_QueryFuwen_descriptor;
+      }
+
+      public qxmobile.protobuf.FuWen.QueryFuwen getDefaultInstanceForType() {
+        return qxmobile.protobuf.FuWen.QueryFuwen.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.FuWen.QueryFuwen build() {
+        qxmobile.protobuf.FuWen.QueryFuwen result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.FuWen.QueryFuwen buildPartial() {
+        qxmobile.protobuf.FuWen.QueryFuwen result = new qxmobile.protobuf.FuWen.QueryFuwen(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.tab_ = tab_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.FuWen.QueryFuwen) {
+          return mergeFrom((qxmobile.protobuf.FuWen.QueryFuwen)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.FuWen.QueryFuwen other) {
+        if (other == qxmobile.protobuf.FuWen.QueryFuwen.getDefaultInstance()) return this;
+        if (other.hasTab()) {
+          setTab(other.getTab());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasTab()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.FuWen.QueryFuwen parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.FuWen.QueryFuwen) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 tab = 1;
+      private int tab_ ;
+      /**
+       * <code>required int32 tab = 1;</code>
+       *
+       * <pre>
+       * 请求的符文页签
+       * </pre>
+       */
+      public boolean hasTab() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 tab = 1;</code>
+       *
+       * <pre>
+       * 请求的符文页签
+       * </pre>
+       */
+      public int getTab() {
+        return tab_;
+      }
+      /**
+       * <code>required int32 tab = 1;</code>
+       *
+       * <pre>
+       * 请求的符文页签
+       * </pre>
+       */
+      public Builder setTab(int value) {
+        bitField0_ |= 0x00000001;
+        tab_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 tab = 1;</code>
+       *
+       * <pre>
+       * 请求的符文页签
+       * </pre>
+       */
+      public Builder clearTab() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        tab_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.QueryFuwen)
+    }
+
+    static {
+      defaultInstance = new QueryFuwen(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.QueryFuwen)
+  }
+
   public interface QueryFuwenRespOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 6;
+    /**
+     * <code>required int32 result = 6;</code>
+     *
+     * <pre>
+     * 结果返回，0-请求成功，1-页签未解锁
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 6;</code>
+     *
+     * <pre>
+     * 结果返回，0-请求成功，1-页签未解锁
+     * </pre>
+     */
+    int getResult();
+
+    // required int32 tab = 5;
+    /**
+     * <code>required int32 tab = 5;</code>
+     *
+     * <pre>
+     * 符文页签
+     * </pre>
+     */
+    boolean hasTab();
+    /**
+     * <code>required int32 tab = 5;</code>
+     *
+     * <pre>
+     * 符文页签
+     * </pre>
+     */
+    int getTab();
 
     // required int64 zhanli = 1;
     /**
@@ -26,7 +506,7 @@ public final class FuWen {
      * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
      *
      * <pre>
-     * 符文页（3个）
+     * 符文页上的镶嵌孔
      * </pre>
      */
     java.util.List<qxmobile.protobuf.FuWen.FuwenLanwei> 
@@ -35,7 +515,7 @@ public final class FuWen {
      * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
      *
      * <pre>
-     * 符文页（3个）
+     * 符文页上的镶嵌孔
      * </pre>
      */
     qxmobile.protobuf.FuWen.FuwenLanwei getLanwei(int index);
@@ -43,7 +523,7 @@ public final class FuWen {
      * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
      *
      * <pre>
-     * 符文页（3个）
+     * 符文页上的镶嵌孔
      * </pre>
      */
     int getLanweiCount();
@@ -51,7 +531,7 @@ public final class FuWen {
      * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
      *
      * <pre>
-     * 符文页（3个）
+     * 符文页上的镶嵌孔
      * </pre>
      */
     java.util.List<? extends qxmobile.protobuf.FuWen.FuwenLanweiOrBuilder> 
@@ -60,7 +540,7 @@ public final class FuWen {
      * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
      *
      * <pre>
-     * 符文页（3个）
+     * 符文页上的镶嵌孔
      * </pre>
      */
     qxmobile.protobuf.FuWen.FuwenLanweiOrBuilder getLanweiOrBuilder(
@@ -110,57 +590,12 @@ public final class FuWen {
      */
     qxmobile.protobuf.FuWen.JunzhuAttrOrBuilder getAttrOrBuilder(
         int index);
-
-    // repeated .qxmobile.protobuf.Fuwen fuwens = 4;
-    /**
-     * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-     *
-     * <pre>
-     * 背包符文
-     * </pre>
-     */
-    java.util.List<qxmobile.protobuf.FuWen.Fuwen> 
-        getFuwensList();
-    /**
-     * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-     *
-     * <pre>
-     * 背包符文
-     * </pre>
-     */
-    qxmobile.protobuf.FuWen.Fuwen getFuwens(int index);
-    /**
-     * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-     *
-     * <pre>
-     * 背包符文
-     * </pre>
-     */
-    int getFuwensCount();
-    /**
-     * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-     *
-     * <pre>
-     * 背包符文
-     * </pre>
-     */
-    java.util.List<? extends qxmobile.protobuf.FuWen.FuwenOrBuilder> 
-        getFuwensOrBuilderList();
-    /**
-     * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-     *
-     * <pre>
-     * 背包符文
-     * </pre>
-     */
-    qxmobile.protobuf.FuWen.FuwenOrBuilder getFuwensOrBuilder(
-        int index);
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.QueryFuwenResp}
    *
    * <pre>
-   * 符文页请求8001,返回8002
+   * 符文页请求返回,8002									
    * </pre>
    */
   public static final class QueryFuwenResp extends
@@ -212,32 +647,34 @@ public final class FuWen {
               break;
             }
             case 8: {
-              bitField0_ |= 0x00000001;
+              bitField0_ |= 0x00000004;
               zhanli_ = input.readInt64();
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
                 lanwei_ = new java.util.ArrayList<qxmobile.protobuf.FuWen.FuwenLanwei>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000008;
               }
               lanwei_.add(input.readMessage(qxmobile.protobuf.FuWen.FuwenLanwei.PARSER, extensionRegistry));
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
                 attr_ = new java.util.ArrayList<qxmobile.protobuf.FuWen.JunzhuAttr>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000010;
               }
               attr_.add(input.readMessage(qxmobile.protobuf.FuWen.JunzhuAttr.PARSER, extensionRegistry));
               break;
             }
-            case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-                fuwens_ = new java.util.ArrayList<qxmobile.protobuf.FuWen.Fuwen>();
-                mutable_bitField0_ |= 0x00000008;
-              }
-              fuwens_.add(input.readMessage(qxmobile.protobuf.FuWen.Fuwen.PARSER, extensionRegistry));
+            case 40: {
+              bitField0_ |= 0x00000002;
+              tab_ = input.readInt32();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
               break;
             }
           }
@@ -248,14 +685,11 @@ public final class FuWen {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
           lanwei_ = java.util.Collections.unmodifiableList(lanwei_);
         }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
           attr_ = java.util.Collections.unmodifiableList(attr_);
-        }
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-          fuwens_ = java.util.Collections.unmodifiableList(fuwens_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -289,6 +723,54 @@ public final class FuWen {
     }
 
     private int bitField0_;
+    // required int32 result = 6;
+    public static final int RESULT_FIELD_NUMBER = 6;
+    private int result_;
+    /**
+     * <code>required int32 result = 6;</code>
+     *
+     * <pre>
+     * 结果返回，0-请求成功，1-页签未解锁
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 6;</code>
+     *
+     * <pre>
+     * 结果返回，0-请求成功，1-页签未解锁
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    // required int32 tab = 5;
+    public static final int TAB_FIELD_NUMBER = 5;
+    private int tab_;
+    /**
+     * <code>required int32 tab = 5;</code>
+     *
+     * <pre>
+     * 符文页签
+     * </pre>
+     */
+    public boolean hasTab() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 tab = 5;</code>
+     *
+     * <pre>
+     * 符文页签
+     * </pre>
+     */
+    public int getTab() {
+      return tab_;
+    }
+
     // required int64 zhanli = 1;
     public static final int ZHANLI_FIELD_NUMBER = 1;
     private long zhanli_;
@@ -296,7 +778,7 @@ public final class FuWen {
      * <code>required int64 zhanli = 1;</code>
      */
     public boolean hasZhanli() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>required int64 zhanli = 1;</code>
@@ -312,7 +794,7 @@ public final class FuWen {
      * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
      *
      * <pre>
-     * 符文页（3个）
+     * 符文页上的镶嵌孔
      * </pre>
      */
     public java.util.List<qxmobile.protobuf.FuWen.FuwenLanwei> getLanweiList() {
@@ -322,7 +804,7 @@ public final class FuWen {
      * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
      *
      * <pre>
-     * 符文页（3个）
+     * 符文页上的镶嵌孔
      * </pre>
      */
     public java.util.List<? extends qxmobile.protobuf.FuWen.FuwenLanweiOrBuilder> 
@@ -333,7 +815,7 @@ public final class FuWen {
      * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
      *
      * <pre>
-     * 符文页（3个）
+     * 符文页上的镶嵌孔
      * </pre>
      */
     public int getLanweiCount() {
@@ -343,7 +825,7 @@ public final class FuWen {
      * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
      *
      * <pre>
-     * 符文页（3个）
+     * 符文页上的镶嵌孔
      * </pre>
      */
     public qxmobile.protobuf.FuWen.FuwenLanwei getLanwei(int index) {
@@ -353,7 +835,7 @@ public final class FuWen {
      * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
      *
      * <pre>
-     * 符文页（3个）
+     * 符文页上的镶嵌孔
      * </pre>
      */
     public qxmobile.protobuf.FuWen.FuwenLanweiOrBuilder getLanweiOrBuilder(
@@ -417,73 +899,26 @@ public final class FuWen {
       return attr_.get(index);
     }
 
-    // repeated .qxmobile.protobuf.Fuwen fuwens = 4;
-    public static final int FUWENS_FIELD_NUMBER = 4;
-    private java.util.List<qxmobile.protobuf.FuWen.Fuwen> fuwens_;
-    /**
-     * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-     *
-     * <pre>
-     * 背包符文
-     * </pre>
-     */
-    public java.util.List<qxmobile.protobuf.FuWen.Fuwen> getFuwensList() {
-      return fuwens_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-     *
-     * <pre>
-     * 背包符文
-     * </pre>
-     */
-    public java.util.List<? extends qxmobile.protobuf.FuWen.FuwenOrBuilder> 
-        getFuwensOrBuilderList() {
-      return fuwens_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-     *
-     * <pre>
-     * 背包符文
-     * </pre>
-     */
-    public int getFuwensCount() {
-      return fuwens_.size();
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-     *
-     * <pre>
-     * 背包符文
-     * </pre>
-     */
-    public qxmobile.protobuf.FuWen.Fuwen getFuwens(int index) {
-      return fuwens_.get(index);
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-     *
-     * <pre>
-     * 背包符文
-     * </pre>
-     */
-    public qxmobile.protobuf.FuWen.FuwenOrBuilder getFuwensOrBuilder(
-        int index) {
-      return fuwens_.get(index);
-    }
-
     private void initFields() {
+      result_ = 0;
+      tab_ = 0;
       zhanli_ = 0L;
       lanwei_ = java.util.Collections.emptyList();
       attr_ = java.util.Collections.emptyList();
-      fuwens_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTab()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasZhanli()) {
         memoizedIsInitialized = 0;
         return false;
@@ -500,12 +935,6 @@ public final class FuWen {
           return false;
         }
       }
-      for (int i = 0; i < getFuwensCount(); i++) {
-        if (!getFuwens(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -513,7 +942,7 @@ public final class FuWen {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt64(1, zhanli_);
       }
       for (int i = 0; i < lanwei_.size(); i++) {
@@ -522,8 +951,11 @@ public final class FuWen {
       for (int i = 0; i < attr_.size(); i++) {
         output.writeMessage(3, attr_.get(i));
       }
-      for (int i = 0; i < fuwens_.size(); i++) {
-        output.writeMessage(4, fuwens_.get(i));
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(5, tab_);
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(6, result_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -534,7 +966,7 @@ public final class FuWen {
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, zhanli_);
       }
@@ -546,9 +978,13 @@ public final class FuWen {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, attr_.get(i));
       }
-      for (int i = 0; i < fuwens_.size(); i++) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, fuwens_.get(i));
+          .computeInt32Size(5, tab_);
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, result_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -632,7 +1068,7 @@ public final class FuWen {
      * Protobuf type {@code qxmobile.protobuf.QueryFuwenResp}
      *
      * <pre>
-     * 符文页请求8001,返回8002
+     * 符文页请求返回,8002									
      * </pre>
      */
     public static final class Builder extends
@@ -664,7 +1100,6 @@ public final class FuWen {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getLanweiFieldBuilder();
           getAttrFieldBuilder();
-          getFuwensFieldBuilder();
         }
       }
       private static Builder create() {
@@ -673,25 +1108,23 @@ public final class FuWen {
 
       public Builder clear() {
         super.clear();
-        zhanli_ = 0L;
+        result_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        tab_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        zhanli_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000004);
         if (lanweiBuilder_ == null) {
           lanwei_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000008);
         } else {
           lanweiBuilder_.clear();
         }
         if (attrBuilder_ == null) {
           attr_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000010);
         } else {
           attrBuilder_.clear();
-        }
-        if (fuwensBuilder_ == null) {
-          fuwens_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
-        } else {
-          fuwensBuilder_.clear();
         }
         return this;
       }
@@ -724,33 +1157,32 @@ public final class FuWen {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
+        result.result_ = result_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.tab_ = tab_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
         result.zhanli_ = zhanli_;
         if (lanweiBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
             lanwei_ = java.util.Collections.unmodifiableList(lanwei_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000008);
           }
           result.lanwei_ = lanwei_;
         } else {
           result.lanwei_ = lanweiBuilder_.build();
         }
         if (attrBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000010) == 0x00000010)) {
             attr_ = java.util.Collections.unmodifiableList(attr_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000010);
           }
           result.attr_ = attr_;
         } else {
           result.attr_ = attrBuilder_.build();
-        }
-        if (fuwensBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
-            fuwens_ = java.util.Collections.unmodifiableList(fuwens_);
-            bitField0_ = (bitField0_ & ~0x00000008);
-          }
-          result.fuwens_ = fuwens_;
-        } else {
-          result.fuwens_ = fuwensBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -768,6 +1200,12 @@ public final class FuWen {
 
       public Builder mergeFrom(qxmobile.protobuf.FuWen.QueryFuwenResp other) {
         if (other == qxmobile.protobuf.FuWen.QueryFuwenResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        if (other.hasTab()) {
+          setTab(other.getTab());
+        }
         if (other.hasZhanli()) {
           setZhanli(other.getZhanli());
         }
@@ -775,7 +1213,7 @@ public final class FuWen {
           if (!other.lanwei_.isEmpty()) {
             if (lanwei_.isEmpty()) {
               lanwei_ = other.lanwei_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000008);
             } else {
               ensureLanweiIsMutable();
               lanwei_.addAll(other.lanwei_);
@@ -788,7 +1226,7 @@ public final class FuWen {
               lanweiBuilder_.dispose();
               lanweiBuilder_ = null;
               lanwei_ = other.lanwei_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000008);
               lanweiBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getLanweiFieldBuilder() : null;
@@ -801,7 +1239,7 @@ public final class FuWen {
           if (!other.attr_.isEmpty()) {
             if (attr_.isEmpty()) {
               attr_ = other.attr_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000010);
             } else {
               ensureAttrIsMutable();
               attr_.addAll(other.attr_);
@@ -814,7 +1252,7 @@ public final class FuWen {
               attrBuilder_.dispose();
               attrBuilder_ = null;
               attr_ = other.attr_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000010);
               attrBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getAttrFieldBuilder() : null;
@@ -823,37 +1261,19 @@ public final class FuWen {
             }
           }
         }
-        if (fuwensBuilder_ == null) {
-          if (!other.fuwens_.isEmpty()) {
-            if (fuwens_.isEmpty()) {
-              fuwens_ = other.fuwens_;
-              bitField0_ = (bitField0_ & ~0x00000008);
-            } else {
-              ensureFuwensIsMutable();
-              fuwens_.addAll(other.fuwens_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.fuwens_.isEmpty()) {
-            if (fuwensBuilder_.isEmpty()) {
-              fuwensBuilder_.dispose();
-              fuwensBuilder_ = null;
-              fuwens_ = other.fuwens_;
-              bitField0_ = (bitField0_ & ~0x00000008);
-              fuwensBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getFuwensFieldBuilder() : null;
-            } else {
-              fuwensBuilder_.addAllMessages(other.fuwens_);
-            }
-          }
-        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        if (!hasTab()) {
+          
+          return false;
+        }
         if (!hasZhanli()) {
           
           return false;
@@ -866,12 +1286,6 @@ public final class FuWen {
         }
         for (int i = 0; i < getAttrCount(); i++) {
           if (!getAttr(i).isInitialized()) {
-            
-            return false;
-          }
-        }
-        for (int i = 0; i < getFuwensCount(); i++) {
-          if (!getFuwens(i).isInitialized()) {
             
             return false;
           }
@@ -898,13 +1312,111 @@ public final class FuWen {
       }
       private int bitField0_;
 
+      // required int32 result = 6;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 6;</code>
+       *
+       * <pre>
+       * 结果返回，0-请求成功，1-页签未解锁
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 6;</code>
+       *
+       * <pre>
+       * 结果返回，0-请求成功，1-页签未解锁
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 6;</code>
+       *
+       * <pre>
+       * 结果返回，0-请求成功，1-页签未解锁
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 6;</code>
+       *
+       * <pre>
+       * 结果返回，0-请求成功，1-页签未解锁
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 tab = 5;
+      private int tab_ ;
+      /**
+       * <code>required int32 tab = 5;</code>
+       *
+       * <pre>
+       * 符文页签
+       * </pre>
+       */
+      public boolean hasTab() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 tab = 5;</code>
+       *
+       * <pre>
+       * 符文页签
+       * </pre>
+       */
+      public int getTab() {
+        return tab_;
+      }
+      /**
+       * <code>required int32 tab = 5;</code>
+       *
+       * <pre>
+       * 符文页签
+       * </pre>
+       */
+      public Builder setTab(int value) {
+        bitField0_ |= 0x00000002;
+        tab_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 tab = 5;</code>
+       *
+       * <pre>
+       * 符文页签
+       * </pre>
+       */
+      public Builder clearTab() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        tab_ = 0;
+        onChanged();
+        return this;
+      }
+
       // required int64 zhanli = 1;
       private long zhanli_ ;
       /**
        * <code>required int64 zhanli = 1;</code>
        */
       public boolean hasZhanli() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>required int64 zhanli = 1;</code>
@@ -916,7 +1428,7 @@ public final class FuWen {
        * <code>required int64 zhanli = 1;</code>
        */
       public Builder setZhanli(long value) {
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000004;
         zhanli_ = value;
         onChanged();
         return this;
@@ -925,7 +1437,7 @@ public final class FuWen {
        * <code>required int64 zhanli = 1;</code>
        */
       public Builder clearZhanli() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000004);
         zhanli_ = 0L;
         onChanged();
         return this;
@@ -935,9 +1447,9 @@ public final class FuWen {
       private java.util.List<qxmobile.protobuf.FuWen.FuwenLanwei> lanwei_ =
         java.util.Collections.emptyList();
       private void ensureLanweiIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
           lanwei_ = new java.util.ArrayList<qxmobile.protobuf.FuWen.FuwenLanwei>(lanwei_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000008;
          }
       }
 
@@ -948,7 +1460,7 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public java.util.List<qxmobile.protobuf.FuWen.FuwenLanwei> getLanweiList() {
@@ -962,7 +1474,7 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public int getLanweiCount() {
@@ -976,7 +1488,7 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public qxmobile.protobuf.FuWen.FuwenLanwei getLanwei(int index) {
@@ -990,7 +1502,7 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public Builder setLanwei(
@@ -1011,7 +1523,7 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public Builder setLanwei(
@@ -1029,7 +1541,7 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public Builder addLanwei(qxmobile.protobuf.FuWen.FuwenLanwei value) {
@@ -1049,7 +1561,7 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public Builder addLanwei(
@@ -1070,7 +1582,7 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public Builder addLanwei(
@@ -1088,7 +1600,7 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public Builder addLanwei(
@@ -1106,7 +1618,7 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public Builder addAllLanwei(
@@ -1124,13 +1636,13 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public Builder clearLanwei() {
         if (lanweiBuilder_ == null) {
           lanwei_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000008);
           onChanged();
         } else {
           lanweiBuilder_.clear();
@@ -1141,7 +1653,7 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public Builder removeLanwei(int index) {
@@ -1158,7 +1670,7 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public qxmobile.protobuf.FuWen.FuwenLanwei.Builder getLanweiBuilder(
@@ -1169,7 +1681,7 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public qxmobile.protobuf.FuWen.FuwenLanweiOrBuilder getLanweiOrBuilder(
@@ -1183,7 +1695,7 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public java.util.List<? extends qxmobile.protobuf.FuWen.FuwenLanweiOrBuilder> 
@@ -1198,7 +1710,7 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public qxmobile.protobuf.FuWen.FuwenLanwei.Builder addLanweiBuilder() {
@@ -1209,7 +1721,7 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public qxmobile.protobuf.FuWen.FuwenLanwei.Builder addLanweiBuilder(
@@ -1221,7 +1733,7 @@ public final class FuWen {
        * <code>repeated .qxmobile.protobuf.FuwenLanwei lanwei = 2;</code>
        *
        * <pre>
-       * 符文页（3个）
+       * 符文页上的镶嵌孔
        * </pre>
        */
       public java.util.List<qxmobile.protobuf.FuWen.FuwenLanwei.Builder> 
@@ -1235,7 +1747,7 @@ public final class FuWen {
           lanweiBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               qxmobile.protobuf.FuWen.FuwenLanwei, qxmobile.protobuf.FuWen.FuwenLanwei.Builder, qxmobile.protobuf.FuWen.FuwenLanweiOrBuilder>(
                   lanwei_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000008) == 0x00000008),
                   getParentForChildren(),
                   isClean());
           lanwei_ = null;
@@ -1247,9 +1759,9 @@ public final class FuWen {
       private java.util.List<qxmobile.protobuf.FuWen.JunzhuAttr> attr_ =
         java.util.Collections.emptyList();
       private void ensureAttrIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
           attr_ = new java.util.ArrayList<qxmobile.protobuf.FuWen.JunzhuAttr>(attr_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000010;
          }
       }
 
@@ -1442,7 +1954,7 @@ public final class FuWen {
       public Builder clearAttr() {
         if (attrBuilder_ == null) {
           attr_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000010);
           onChanged();
         } else {
           attrBuilder_.clear();
@@ -1547,324 +2059,12 @@ public final class FuWen {
           attrBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               qxmobile.protobuf.FuWen.JunzhuAttr, qxmobile.protobuf.FuWen.JunzhuAttr.Builder, qxmobile.protobuf.FuWen.JunzhuAttrOrBuilder>(
                   attr_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000010) == 0x00000010),
                   getParentForChildren(),
                   isClean());
           attr_ = null;
         }
         return attrBuilder_;
-      }
-
-      // repeated .qxmobile.protobuf.Fuwen fuwens = 4;
-      private java.util.List<qxmobile.protobuf.FuWen.Fuwen> fuwens_ =
-        java.util.Collections.emptyList();
-      private void ensureFuwensIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-          fuwens_ = new java.util.ArrayList<qxmobile.protobuf.FuWen.Fuwen>(fuwens_);
-          bitField0_ |= 0x00000008;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.FuWen.Fuwen, qxmobile.protobuf.FuWen.Fuwen.Builder, qxmobile.protobuf.FuWen.FuwenOrBuilder> fuwensBuilder_;
-
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public java.util.List<qxmobile.protobuf.FuWen.Fuwen> getFuwensList() {
-        if (fuwensBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(fuwens_);
-        } else {
-          return fuwensBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public int getFuwensCount() {
-        if (fuwensBuilder_ == null) {
-          return fuwens_.size();
-        } else {
-          return fuwensBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public qxmobile.protobuf.FuWen.Fuwen getFuwens(int index) {
-        if (fuwensBuilder_ == null) {
-          return fuwens_.get(index);
-        } else {
-          return fuwensBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public Builder setFuwens(
-          int index, qxmobile.protobuf.FuWen.Fuwen value) {
-        if (fuwensBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureFuwensIsMutable();
-          fuwens_.set(index, value);
-          onChanged();
-        } else {
-          fuwensBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public Builder setFuwens(
-          int index, qxmobile.protobuf.FuWen.Fuwen.Builder builderForValue) {
-        if (fuwensBuilder_ == null) {
-          ensureFuwensIsMutable();
-          fuwens_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          fuwensBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public Builder addFuwens(qxmobile.protobuf.FuWen.Fuwen value) {
-        if (fuwensBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureFuwensIsMutable();
-          fuwens_.add(value);
-          onChanged();
-        } else {
-          fuwensBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public Builder addFuwens(
-          int index, qxmobile.protobuf.FuWen.Fuwen value) {
-        if (fuwensBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureFuwensIsMutable();
-          fuwens_.add(index, value);
-          onChanged();
-        } else {
-          fuwensBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public Builder addFuwens(
-          qxmobile.protobuf.FuWen.Fuwen.Builder builderForValue) {
-        if (fuwensBuilder_ == null) {
-          ensureFuwensIsMutable();
-          fuwens_.add(builderForValue.build());
-          onChanged();
-        } else {
-          fuwensBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public Builder addFuwens(
-          int index, qxmobile.protobuf.FuWen.Fuwen.Builder builderForValue) {
-        if (fuwensBuilder_ == null) {
-          ensureFuwensIsMutable();
-          fuwens_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          fuwensBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public Builder addAllFuwens(
-          java.lang.Iterable<? extends qxmobile.protobuf.FuWen.Fuwen> values) {
-        if (fuwensBuilder_ == null) {
-          ensureFuwensIsMutable();
-          super.addAll(values, fuwens_);
-          onChanged();
-        } else {
-          fuwensBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public Builder clearFuwens() {
-        if (fuwensBuilder_ == null) {
-          fuwens_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
-          onChanged();
-        } else {
-          fuwensBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public Builder removeFuwens(int index) {
-        if (fuwensBuilder_ == null) {
-          ensureFuwensIsMutable();
-          fuwens_.remove(index);
-          onChanged();
-        } else {
-          fuwensBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public qxmobile.protobuf.FuWen.Fuwen.Builder getFuwensBuilder(
-          int index) {
-        return getFuwensFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public qxmobile.protobuf.FuWen.FuwenOrBuilder getFuwensOrBuilder(
-          int index) {
-        if (fuwensBuilder_ == null) {
-          return fuwens_.get(index);  } else {
-          return fuwensBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public java.util.List<? extends qxmobile.protobuf.FuWen.FuwenOrBuilder> 
-           getFuwensOrBuilderList() {
-        if (fuwensBuilder_ != null) {
-          return fuwensBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(fuwens_);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public qxmobile.protobuf.FuWen.Fuwen.Builder addFuwensBuilder() {
-        return getFuwensFieldBuilder().addBuilder(
-            qxmobile.protobuf.FuWen.Fuwen.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public qxmobile.protobuf.FuWen.Fuwen.Builder addFuwensBuilder(
-          int index) {
-        return getFuwensFieldBuilder().addBuilder(
-            index, qxmobile.protobuf.FuWen.Fuwen.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.Fuwen fuwens = 4;</code>
-       *
-       * <pre>
-       * 背包符文
-       * </pre>
-       */
-      public java.util.List<qxmobile.protobuf.FuWen.Fuwen.Builder> 
-           getFuwensBuilderList() {
-        return getFuwensFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          qxmobile.protobuf.FuWen.Fuwen, qxmobile.protobuf.FuWen.Fuwen.Builder, qxmobile.protobuf.FuWen.FuwenOrBuilder> 
-          getFuwensFieldBuilder() {
-        if (fuwensBuilder_ == null) {
-          fuwensBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              qxmobile.protobuf.FuWen.Fuwen, qxmobile.protobuf.FuWen.Fuwen.Builder, qxmobile.protobuf.FuWen.FuwenOrBuilder>(
-                  fuwens_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
-                  getParentForChildren(),
-                  isClean());
-          fuwens_ = null;
-        }
-        return fuwensBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.QueryFuwenResp)
@@ -1878,8 +2078,746 @@ public final class FuWen {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.QueryFuwenResp)
   }
 
-  public interface FuwenOrBuilder
+  public interface FuwenInBagRespOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+     */
+    java.util.List<qxmobile.protobuf.FuWen.FuwenInBag> 
+        getFuwenListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+     */
+    qxmobile.protobuf.FuWen.FuwenInBag getFuwenList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+     */
+    int getFuwenListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+     */
+    java.util.List<? extends qxmobile.protobuf.FuWen.FuwenInBagOrBuilder> 
+        getFuwenListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+     */
+    qxmobile.protobuf.FuWen.FuwenInBagOrBuilder getFuwenListOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.FuwenInBagResp}
+   *
+   * <pre>
+   * 符文消息体
+   * 符文类型
+   * 1-破甲符文：增加攻击属性
+   * 2-铁壁符文：增加防御属性
+   * 3-生命符文：增加生命属性
+   * 4-穿刺符文——武器伤害加深符文：增加武器伤害加深属性
+   * 5-嗜血符文——武器暴击加深符文：增加武器暴击加深属性
+   * 6-技击符文——技能伤害加深符文：增加技能伤害加深属性
+   * 7-狂战符文——技能暴击加深符文：增加技能暴击加深属性
+   * 8-护盾符文——武器伤害抵抗符文：增加武器伤害抵抗属性
+   * 9-坚韧符文——武器暴击抵抗符文：增加武器暴击抵抗属性
+   * 10-格挡符文——技能伤害抵抗符文：增加技能伤害抵抗属性
+   * 11-悍勇符文——技能暴击抵抗符文：增加技能暴击抵抗属性
+   *  请求C_LOAD_FUWEN_IN_BAG = 8005
+   * </pre>
+   */
+  public static final class FuwenInBagResp extends
+      com.google.protobuf.GeneratedMessage
+      implements FuwenInBagRespOrBuilder {
+    // Use FuwenInBagResp.newBuilder() to construct.
+    private FuwenInBagResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FuwenInBagResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FuwenInBagResp defaultInstance;
+    public static FuwenInBagResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FuwenInBagResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FuwenInBagResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                fuwenList_ = new java.util.ArrayList<qxmobile.protobuf.FuWen.FuwenInBag>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              fuwenList_.add(input.readMessage(qxmobile.protobuf.FuWen.FuwenInBag.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          fuwenList_ = java.util.Collections.unmodifiableList(fuwenList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenInBagResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenInBagResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.FuWen.FuwenInBagResp.class, qxmobile.protobuf.FuWen.FuwenInBagResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FuwenInBagResp> PARSER =
+        new com.google.protobuf.AbstractParser<FuwenInBagResp>() {
+      public FuwenInBagResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FuwenInBagResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FuwenInBagResp> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;
+    public static final int FUWENLIST_FIELD_NUMBER = 1;
+    private java.util.List<qxmobile.protobuf.FuWen.FuwenInBag> fuwenList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+     */
+    public java.util.List<qxmobile.protobuf.FuWen.FuwenInBag> getFuwenListList() {
+      return fuwenList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+     */
+    public java.util.List<? extends qxmobile.protobuf.FuWen.FuwenInBagOrBuilder> 
+        getFuwenListOrBuilderList() {
+      return fuwenList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+     */
+    public int getFuwenListCount() {
+      return fuwenList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+     */
+    public qxmobile.protobuf.FuWen.FuwenInBag getFuwenList(int index) {
+      return fuwenList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+     */
+    public qxmobile.protobuf.FuWen.FuwenInBagOrBuilder getFuwenListOrBuilder(
+        int index) {
+      return fuwenList_.get(index);
+    }
+
+    private void initFields() {
+      fuwenList_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getFuwenListCount(); i++) {
+        if (!getFuwenList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < fuwenList_.size(); i++) {
+        output.writeMessage(1, fuwenList_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < fuwenList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, fuwenList_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.FuWen.FuwenInBagResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenInBagResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenInBagResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenInBagResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenInBagResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenInBagResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenInBagResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenInBagResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenInBagResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenInBagResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.FuWen.FuwenInBagResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.FuwenInBagResp}
+     *
+     * <pre>
+     * 符文消息体
+     * 符文类型
+     * 1-破甲符文：增加攻击属性
+     * 2-铁壁符文：增加防御属性
+     * 3-生命符文：增加生命属性
+     * 4-穿刺符文——武器伤害加深符文：增加武器伤害加深属性
+     * 5-嗜血符文——武器暴击加深符文：增加武器暴击加深属性
+     * 6-技击符文——技能伤害加深符文：增加技能伤害加深属性
+     * 7-狂战符文——技能暴击加深符文：增加技能暴击加深属性
+     * 8-护盾符文——武器伤害抵抗符文：增加武器伤害抵抗属性
+     * 9-坚韧符文——武器暴击抵抗符文：增加武器暴击抵抗属性
+     * 10-格挡符文——技能伤害抵抗符文：增加技能伤害抵抗属性
+     * 11-悍勇符文——技能暴击抵抗符文：增加技能暴击抵抗属性
+     *  请求C_LOAD_FUWEN_IN_BAG = 8005
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.FuWen.FuwenInBagRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenInBagResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenInBagResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.FuWen.FuwenInBagResp.class, qxmobile.protobuf.FuWen.FuwenInBagResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.FuWen.FuwenInBagResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getFuwenListFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (fuwenListBuilder_ == null) {
+          fuwenList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          fuwenListBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenInBagResp_descriptor;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenInBagResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.FuWen.FuwenInBagResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenInBagResp build() {
+        qxmobile.protobuf.FuWen.FuwenInBagResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenInBagResp buildPartial() {
+        qxmobile.protobuf.FuWen.FuwenInBagResp result = new qxmobile.protobuf.FuWen.FuwenInBagResp(this);
+        int from_bitField0_ = bitField0_;
+        if (fuwenListBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            fuwenList_ = java.util.Collections.unmodifiableList(fuwenList_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.fuwenList_ = fuwenList_;
+        } else {
+          result.fuwenList_ = fuwenListBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.FuWen.FuwenInBagResp) {
+          return mergeFrom((qxmobile.protobuf.FuWen.FuwenInBagResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.FuWen.FuwenInBagResp other) {
+        if (other == qxmobile.protobuf.FuWen.FuwenInBagResp.getDefaultInstance()) return this;
+        if (fuwenListBuilder_ == null) {
+          if (!other.fuwenList_.isEmpty()) {
+            if (fuwenList_.isEmpty()) {
+              fuwenList_ = other.fuwenList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureFuwenListIsMutable();
+              fuwenList_.addAll(other.fuwenList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.fuwenList_.isEmpty()) {
+            if (fuwenListBuilder_.isEmpty()) {
+              fuwenListBuilder_.dispose();
+              fuwenListBuilder_ = null;
+              fuwenList_ = other.fuwenList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              fuwenListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getFuwenListFieldBuilder() : null;
+            } else {
+              fuwenListBuilder_.addAllMessages(other.fuwenList_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getFuwenListCount(); i++) {
+          if (!getFuwenList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.FuWen.FuwenInBagResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.FuWen.FuwenInBagResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;
+      private java.util.List<qxmobile.protobuf.FuWen.FuwenInBag> fuwenList_ =
+        java.util.Collections.emptyList();
+      private void ensureFuwenListIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          fuwenList_ = new java.util.ArrayList<qxmobile.protobuf.FuWen.FuwenInBag>(fuwenList_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.FuWen.FuwenInBag, qxmobile.protobuf.FuWen.FuwenInBag.Builder, qxmobile.protobuf.FuWen.FuwenInBagOrBuilder> fuwenListBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.FuWen.FuwenInBag> getFuwenListList() {
+        if (fuwenListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(fuwenList_);
+        } else {
+          return fuwenListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public int getFuwenListCount() {
+        if (fuwenListBuilder_ == null) {
+          return fuwenList_.size();
+        } else {
+          return fuwenListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public qxmobile.protobuf.FuWen.FuwenInBag getFuwenList(int index) {
+        if (fuwenListBuilder_ == null) {
+          return fuwenList_.get(index);
+        } else {
+          return fuwenListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public Builder setFuwenList(
+          int index, qxmobile.protobuf.FuWen.FuwenInBag value) {
+        if (fuwenListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFuwenListIsMutable();
+          fuwenList_.set(index, value);
+          onChanged();
+        } else {
+          fuwenListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public Builder setFuwenList(
+          int index, qxmobile.protobuf.FuWen.FuwenInBag.Builder builderForValue) {
+        if (fuwenListBuilder_ == null) {
+          ensureFuwenListIsMutable();
+          fuwenList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          fuwenListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public Builder addFuwenList(qxmobile.protobuf.FuWen.FuwenInBag value) {
+        if (fuwenListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFuwenListIsMutable();
+          fuwenList_.add(value);
+          onChanged();
+        } else {
+          fuwenListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public Builder addFuwenList(
+          int index, qxmobile.protobuf.FuWen.FuwenInBag value) {
+        if (fuwenListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFuwenListIsMutable();
+          fuwenList_.add(index, value);
+          onChanged();
+        } else {
+          fuwenListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public Builder addFuwenList(
+          qxmobile.protobuf.FuWen.FuwenInBag.Builder builderForValue) {
+        if (fuwenListBuilder_ == null) {
+          ensureFuwenListIsMutable();
+          fuwenList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          fuwenListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public Builder addFuwenList(
+          int index, qxmobile.protobuf.FuWen.FuwenInBag.Builder builderForValue) {
+        if (fuwenListBuilder_ == null) {
+          ensureFuwenListIsMutable();
+          fuwenList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          fuwenListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public Builder addAllFuwenList(
+          java.lang.Iterable<? extends qxmobile.protobuf.FuWen.FuwenInBag> values) {
+        if (fuwenListBuilder_ == null) {
+          ensureFuwenListIsMutable();
+          super.addAll(values, fuwenList_);
+          onChanged();
+        } else {
+          fuwenListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public Builder clearFuwenList() {
+        if (fuwenListBuilder_ == null) {
+          fuwenList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          fuwenListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public Builder removeFuwenList(int index) {
+        if (fuwenListBuilder_ == null) {
+          ensureFuwenListIsMutable();
+          fuwenList_.remove(index);
+          onChanged();
+        } else {
+          fuwenListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public qxmobile.protobuf.FuWen.FuwenInBag.Builder getFuwenListBuilder(
+          int index) {
+        return getFuwenListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public qxmobile.protobuf.FuWen.FuwenInBagOrBuilder getFuwenListOrBuilder(
+          int index) {
+        if (fuwenListBuilder_ == null) {
+          return fuwenList_.get(index);  } else {
+          return fuwenListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public java.util.List<? extends qxmobile.protobuf.FuWen.FuwenInBagOrBuilder> 
+           getFuwenListOrBuilderList() {
+        if (fuwenListBuilder_ != null) {
+          return fuwenListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(fuwenList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public qxmobile.protobuf.FuWen.FuwenInBag.Builder addFuwenListBuilder() {
+        return getFuwenListFieldBuilder().addBuilder(
+            qxmobile.protobuf.FuWen.FuwenInBag.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public qxmobile.protobuf.FuWen.FuwenInBag.Builder addFuwenListBuilder(
+          int index) {
+        return getFuwenListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.FuWen.FuwenInBag.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag fuwenList = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.FuWen.FuwenInBag.Builder> 
+           getFuwenListBuilderList() {
+        return getFuwenListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.FuWen.FuwenInBag, qxmobile.protobuf.FuWen.FuwenInBag.Builder, qxmobile.protobuf.FuWen.FuwenInBagOrBuilder> 
+          getFuwenListFieldBuilder() {
+        if (fuwenListBuilder_ == null) {
+          fuwenListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.FuWen.FuwenInBag, qxmobile.protobuf.FuWen.FuwenInBag.Builder, qxmobile.protobuf.FuWen.FuwenInBagOrBuilder>(
+                  fuwenList_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          fuwenList_ = null;
+        }
+        return fuwenListBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FuwenInBagResp)
+    }
+
+    static {
+      defaultInstance = new FuwenInBagResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FuwenInBagResp)
+  }
+
+  public interface FuwenInBagOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int64 bagId = 2;
+    /**
+     * <code>required int64 bagId = 2;</code>
+     *
+     * <pre>
+     * 背包的dbId
+     * </pre>
+     */
+    boolean hasBagId();
+    /**
+     * <code>required int64 bagId = 2;</code>
+     *
+     * <pre>
+     * 背包的dbId
+     * </pre>
+     */
+    long getBagId();
 
     // required int32 itemId = 1;
     /**
@@ -1899,24 +2837,6 @@ public final class FuWen {
      */
     int getItemId();
 
-    // required int32 isLock = 2;
-    /**
-     * <code>required int32 isLock = 2;</code>
-     *
-     * <pre>
-     * 1-锁定，2-未锁定
-     * </pre>
-     */
-    boolean hasIsLock();
-    /**
-     * <code>required int32 isLock = 2;</code>
-     *
-     * <pre>
-     * 1-锁定，2-未锁定
-     * </pre>
-     */
-    int getIsLock();
-
     // required int32 cnt = 3;
     /**
      * <code>required int32 cnt = 3;</code>
@@ -1934,42 +2854,44 @@ public final class FuWen {
      * </pre>
      */
     int getCnt();
+
+    // required int32 exp = 4;
+    /**
+     * <code>required int32 exp = 4;</code>
+     *
+     * <pre>
+     * 拥有的经验
+     * </pre>
+     */
+    boolean hasExp();
+    /**
+     * <code>required int32 exp = 4;</code>
+     *
+     * <pre>
+     * 拥有的经验
+     * </pre>
+     */
+    int getExp();
   }
   /**
-   * Protobuf type {@code qxmobile.protobuf.Fuwen}
-   *
-   * <pre>
-   * 符文消息体
-   * 符文类型
-   * 1-破甲符文：增加攻击属性
-   * 2-铁壁符文：增加防御属性
-   * 3-生命符文：增加生命属性
-   * 4-穿刺符文——武器伤害加深符文：增加武器伤害加深属性
-   * 5-嗜血符文——武器暴击加深符文：增加武器暴击加深属性
-   * 6-技击符文——技能伤害加深符文：增加技能伤害加深属性
-   * 7-狂战符文——技能暴击加深符文：增加技能暴击加深属性
-   * 8-护盾符文——武器伤害抵抗符文：增加武器伤害抵抗属性
-   * 9-坚韧符文——武器暴击抵抗符文：增加武器暴击抵抗属性
-   * 10-格挡符文——技能伤害抵抗符文：增加技能伤害抵抗属性
-   * 11-悍勇符文——技能暴击抵抗符文：增加技能暴击抵抗属性
-   * </pre>
+   * Protobuf type {@code qxmobile.protobuf.FuwenInBag}
    */
-  public static final class Fuwen extends
+  public static final class FuwenInBag extends
       com.google.protobuf.GeneratedMessage
-      implements FuwenOrBuilder {
-    // Use Fuwen.newBuilder() to construct.
-    private Fuwen(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements FuwenInBagOrBuilder {
+    // Use FuwenInBag.newBuilder() to construct.
+    private FuwenInBag(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private Fuwen(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private FuwenInBag(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final Fuwen defaultInstance;
-    public static Fuwen getDefaultInstance() {
+    private static final FuwenInBag defaultInstance;
+    public static FuwenInBag getDefaultInstance() {
       return defaultInstance;
     }
 
-    public Fuwen getDefaultInstanceForType() {
+    public FuwenInBag getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -1979,7 +2901,7 @@ public final class FuWen {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private Fuwen(
+    private FuwenInBag(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2003,18 +2925,23 @@ public final class FuWen {
               break;
             }
             case 8: {
-              bitField0_ |= 0x00000001;
+              bitField0_ |= 0x00000002;
               itemId_ = input.readInt32();
               break;
             }
             case 16: {
-              bitField0_ |= 0x00000002;
-              isLock_ = input.readInt32();
+              bitField0_ |= 0x00000001;
+              bagId_ = input.readInt64();
               break;
             }
             case 24: {
               bitField0_ |= 0x00000004;
               cnt_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              exp_ = input.readInt32();
               break;
             }
           }
@@ -2031,32 +2958,56 @@ public final class FuWen {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_Fuwen_descriptor;
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenInBag_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_Fuwen_fieldAccessorTable
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenInBag_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              qxmobile.protobuf.FuWen.Fuwen.class, qxmobile.protobuf.FuWen.Fuwen.Builder.class);
+              qxmobile.protobuf.FuWen.FuwenInBag.class, qxmobile.protobuf.FuWen.FuwenInBag.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<Fuwen> PARSER =
-        new com.google.protobuf.AbstractParser<Fuwen>() {
-      public Fuwen parsePartialFrom(
+    public static com.google.protobuf.Parser<FuwenInBag> PARSER =
+        new com.google.protobuf.AbstractParser<FuwenInBag>() {
+      public FuwenInBag parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Fuwen(input, extensionRegistry);
+        return new FuwenInBag(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<Fuwen> getParserForType() {
+    public com.google.protobuf.Parser<FuwenInBag> getParserForType() {
       return PARSER;
     }
 
     private int bitField0_;
+    // required int64 bagId = 2;
+    public static final int BAGID_FIELD_NUMBER = 2;
+    private long bagId_;
+    /**
+     * <code>required int64 bagId = 2;</code>
+     *
+     * <pre>
+     * 背包的dbId
+     * </pre>
+     */
+    public boolean hasBagId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int64 bagId = 2;</code>
+     *
+     * <pre>
+     * 背包的dbId
+     * </pre>
+     */
+    public long getBagId() {
+      return bagId_;
+    }
+
     // required int32 itemId = 1;
     public static final int ITEMID_FIELD_NUMBER = 1;
     private int itemId_;
@@ -2068,7 +3019,7 @@ public final class FuWen {
      * </pre>
      */
     public boolean hasItemId() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required int32 itemId = 1;</code>
@@ -2079,30 +3030,6 @@ public final class FuWen {
      */
     public int getItemId() {
       return itemId_;
-    }
-
-    // required int32 isLock = 2;
-    public static final int ISLOCK_FIELD_NUMBER = 2;
-    private int isLock_;
-    /**
-     * <code>required int32 isLock = 2;</code>
-     *
-     * <pre>
-     * 1-锁定，2-未锁定
-     * </pre>
-     */
-    public boolean hasIsLock() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required int32 isLock = 2;</code>
-     *
-     * <pre>
-     * 1-锁定，2-未锁定
-     * </pre>
-     */
-    public int getIsLock() {
-      return isLock_;
     }
 
     // required int32 cnt = 3;
@@ -2129,25 +3056,54 @@ public final class FuWen {
       return cnt_;
     }
 
+    // required int32 exp = 4;
+    public static final int EXP_FIELD_NUMBER = 4;
+    private int exp_;
+    /**
+     * <code>required int32 exp = 4;</code>
+     *
+     * <pre>
+     * 拥有的经验
+     * </pre>
+     */
+    public boolean hasExp() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 exp = 4;</code>
+     *
+     * <pre>
+     * 拥有的经验
+     * </pre>
+     */
+    public int getExp() {
+      return exp_;
+    }
+
     private void initFields() {
+      bagId_ = 0L;
       itemId_ = 0;
-      isLock_ = 0;
       cnt_ = 0;
+      exp_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasBagId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasItemId()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasIsLock()) {
+      if (!hasCnt()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasCnt()) {
+      if (!hasExp()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -2158,14 +3114,17 @@ public final class FuWen {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(1, itemId_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, isLock_);
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt64(2, bagId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(3, cnt_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, exp_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2176,17 +3135,21 @@ public final class FuWen {
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, itemId_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, isLock_);
+          .computeInt64Size(2, bagId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, cnt_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, exp_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2200,53 +3163,53 @@ public final class FuWen {
       return super.writeReplace();
     }
 
-    public static qxmobile.protobuf.FuWen.Fuwen parseFrom(
+    public static qxmobile.protobuf.FuWen.FuwenInBag parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static qxmobile.protobuf.FuWen.Fuwen parseFrom(
+    public static qxmobile.protobuf.FuWen.FuwenInBag parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static qxmobile.protobuf.FuWen.Fuwen parseFrom(byte[] data)
+    public static qxmobile.protobuf.FuWen.FuwenInBag parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static qxmobile.protobuf.FuWen.Fuwen parseFrom(
+    public static qxmobile.protobuf.FuWen.FuwenInBag parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static qxmobile.protobuf.FuWen.Fuwen parseFrom(java.io.InputStream input)
+    public static qxmobile.protobuf.FuWen.FuwenInBag parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static qxmobile.protobuf.FuWen.Fuwen parseFrom(
+    public static qxmobile.protobuf.FuWen.FuwenInBag parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static qxmobile.protobuf.FuWen.Fuwen parseDelimitedFrom(java.io.InputStream input)
+    public static qxmobile.protobuf.FuWen.FuwenInBag parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static qxmobile.protobuf.FuWen.Fuwen parseDelimitedFrom(
+    public static qxmobile.protobuf.FuWen.FuwenInBag parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static qxmobile.protobuf.FuWen.Fuwen parseFrom(
+    public static qxmobile.protobuf.FuWen.FuwenInBag parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static qxmobile.protobuf.FuWen.Fuwen parseFrom(
+    public static qxmobile.protobuf.FuWen.FuwenInBag parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -2255,7 +3218,7 @@ public final class FuWen {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(qxmobile.protobuf.FuWen.Fuwen prototype) {
+    public static Builder newBuilder(qxmobile.protobuf.FuWen.FuwenInBag prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -2267,40 +3230,24 @@ public final class FuWen {
       return builder;
     }
     /**
-     * Protobuf type {@code qxmobile.protobuf.Fuwen}
-     *
-     * <pre>
-     * 符文消息体
-     * 符文类型
-     * 1-破甲符文：增加攻击属性
-     * 2-铁壁符文：增加防御属性
-     * 3-生命符文：增加生命属性
-     * 4-穿刺符文——武器伤害加深符文：增加武器伤害加深属性
-     * 5-嗜血符文——武器暴击加深符文：增加武器暴击加深属性
-     * 6-技击符文——技能伤害加深符文：增加技能伤害加深属性
-     * 7-狂战符文——技能暴击加深符文：增加技能暴击加深属性
-     * 8-护盾符文——武器伤害抵抗符文：增加武器伤害抵抗属性
-     * 9-坚韧符文——武器暴击抵抗符文：增加武器暴击抵抗属性
-     * 10-格挡符文——技能伤害抵抗符文：增加技能伤害抵抗属性
-     * 11-悍勇符文——技能暴击抵抗符文：增加技能暴击抵抗属性
-     * </pre>
+     * Protobuf type {@code qxmobile.protobuf.FuwenInBag}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements qxmobile.protobuf.FuWen.FuwenOrBuilder {
+       implements qxmobile.protobuf.FuWen.FuwenInBagOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_Fuwen_descriptor;
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenInBag_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_Fuwen_fieldAccessorTable
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenInBag_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                qxmobile.protobuf.FuWen.Fuwen.class, qxmobile.protobuf.FuWen.Fuwen.Builder.class);
+                qxmobile.protobuf.FuWen.FuwenInBag.class, qxmobile.protobuf.FuWen.FuwenInBag.Builder.class);
       }
 
-      // Construct using qxmobile.protobuf.FuWen.Fuwen.newBuilder()
+      // Construct using qxmobile.protobuf.FuWen.FuwenInBag.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2320,12 +3267,14 @@ public final class FuWen {
 
       public Builder clear() {
         super.clear();
-        itemId_ = 0;
+        bagId_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000001);
-        isLock_ = 0;
+        itemId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
         cnt_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
+        exp_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -2335,76 +3284,87 @@ public final class FuWen {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_Fuwen_descriptor;
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenInBag_descriptor;
       }
 
-      public qxmobile.protobuf.FuWen.Fuwen getDefaultInstanceForType() {
-        return qxmobile.protobuf.FuWen.Fuwen.getDefaultInstance();
+      public qxmobile.protobuf.FuWen.FuwenInBag getDefaultInstanceForType() {
+        return qxmobile.protobuf.FuWen.FuwenInBag.getDefaultInstance();
       }
 
-      public qxmobile.protobuf.FuWen.Fuwen build() {
-        qxmobile.protobuf.FuWen.Fuwen result = buildPartial();
+      public qxmobile.protobuf.FuWen.FuwenInBag build() {
+        qxmobile.protobuf.FuWen.FuwenInBag result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public qxmobile.protobuf.FuWen.Fuwen buildPartial() {
-        qxmobile.protobuf.FuWen.Fuwen result = new qxmobile.protobuf.FuWen.Fuwen(this);
+      public qxmobile.protobuf.FuWen.FuwenInBag buildPartial() {
+        qxmobile.protobuf.FuWen.FuwenInBag result = new qxmobile.protobuf.FuWen.FuwenInBag(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.itemId_ = itemId_;
+        result.bagId_ = bagId_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.isLock_ = isLock_;
+        result.itemId_ = itemId_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
         result.cnt_ = cnt_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.exp_ = exp_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof qxmobile.protobuf.FuWen.Fuwen) {
-          return mergeFrom((qxmobile.protobuf.FuWen.Fuwen)other);
+        if (other instanceof qxmobile.protobuf.FuWen.FuwenInBag) {
+          return mergeFrom((qxmobile.protobuf.FuWen.FuwenInBag)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(qxmobile.protobuf.FuWen.Fuwen other) {
-        if (other == qxmobile.protobuf.FuWen.Fuwen.getDefaultInstance()) return this;
+      public Builder mergeFrom(qxmobile.protobuf.FuWen.FuwenInBag other) {
+        if (other == qxmobile.protobuf.FuWen.FuwenInBag.getDefaultInstance()) return this;
+        if (other.hasBagId()) {
+          setBagId(other.getBagId());
+        }
         if (other.hasItemId()) {
           setItemId(other.getItemId());
         }
-        if (other.hasIsLock()) {
-          setIsLock(other.getIsLock());
-        }
         if (other.hasCnt()) {
           setCnt(other.getCnt());
+        }
+        if (other.hasExp()) {
+          setExp(other.getExp());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        if (!hasBagId()) {
+          
+          return false;
+        }
         if (!hasItemId()) {
           
           return false;
         }
-        if (!hasIsLock()) {
+        if (!hasCnt()) {
           
           return false;
         }
-        if (!hasCnt()) {
+        if (!hasExp()) {
           
           return false;
         }
@@ -2415,11 +3375,11 @@ public final class FuWen {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        qxmobile.protobuf.FuWen.Fuwen parsedMessage = null;
+        qxmobile.protobuf.FuWen.FuwenInBag parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (qxmobile.protobuf.FuWen.Fuwen) e.getUnfinishedMessage();
+          parsedMessage = (qxmobile.protobuf.FuWen.FuwenInBag) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -2429,6 +3389,55 @@ public final class FuWen {
         return this;
       }
       private int bitField0_;
+
+      // required int64 bagId = 2;
+      private long bagId_ ;
+      /**
+       * <code>required int64 bagId = 2;</code>
+       *
+       * <pre>
+       * 背包的dbId
+       * </pre>
+       */
+      public boolean hasBagId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int64 bagId = 2;</code>
+       *
+       * <pre>
+       * 背包的dbId
+       * </pre>
+       */
+      public long getBagId() {
+        return bagId_;
+      }
+      /**
+       * <code>required int64 bagId = 2;</code>
+       *
+       * <pre>
+       * 背包的dbId
+       * </pre>
+       */
+      public Builder setBagId(long value) {
+        bitField0_ |= 0x00000001;
+        bagId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 bagId = 2;</code>
+       *
+       * <pre>
+       * 背包的dbId
+       * </pre>
+       */
+      public Builder clearBagId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        bagId_ = 0L;
+        onChanged();
+        return this;
+      }
 
       // required int32 itemId = 1;
       private int itemId_ ;
@@ -2440,7 +3449,7 @@ public final class FuWen {
        * </pre>
        */
       public boolean hasItemId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required int32 itemId = 1;</code>
@@ -2460,7 +3469,7 @@ public final class FuWen {
        * </pre>
        */
       public Builder setItemId(int value) {
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         itemId_ = value;
         onChanged();
         return this;
@@ -2473,57 +3482,8 @@ public final class FuWen {
        * </pre>
        */
       public Builder clearItemId() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        itemId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 isLock = 2;
-      private int isLock_ ;
-      /**
-       * <code>required int32 isLock = 2;</code>
-       *
-       * <pre>
-       * 1-锁定，2-未锁定
-       * </pre>
-       */
-      public boolean hasIsLock() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required int32 isLock = 2;</code>
-       *
-       * <pre>
-       * 1-锁定，2-未锁定
-       * </pre>
-       */
-      public int getIsLock() {
-        return isLock_;
-      }
-      /**
-       * <code>required int32 isLock = 2;</code>
-       *
-       * <pre>
-       * 1-锁定，2-未锁定
-       * </pre>
-       */
-      public Builder setIsLock(int value) {
-        bitField0_ |= 0x00000002;
-        isLock_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 isLock = 2;</code>
-       *
-       * <pre>
-       * 1-锁定，2-未锁定
-       * </pre>
-       */
-      public Builder clearIsLock() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        isLock_ = 0;
+        itemId_ = 0;
         onChanged();
         return this;
       }
@@ -2577,15 +3537,64 @@ public final class FuWen {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.Fuwen)
+      // required int32 exp = 4;
+      private int exp_ ;
+      /**
+       * <code>required int32 exp = 4;</code>
+       *
+       * <pre>
+       * 拥有的经验
+       * </pre>
+       */
+      public boolean hasExp() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 exp = 4;</code>
+       *
+       * <pre>
+       * 拥有的经验
+       * </pre>
+       */
+      public int getExp() {
+        return exp_;
+      }
+      /**
+       * <code>required int32 exp = 4;</code>
+       *
+       * <pre>
+       * 拥有的经验
+       * </pre>
+       */
+      public Builder setExp(int value) {
+        bitField0_ |= 0x00000008;
+        exp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 exp = 4;</code>
+       *
+       * <pre>
+       * 拥有的经验
+       * </pre>
+       */
+      public Builder clearExp() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        exp_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FuwenInBag)
     }
 
     static {
-      defaultInstance = new Fuwen(true);
+      defaultInstance = new FuwenInBag(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.Fuwen)
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FuwenInBag)
   }
 
   public interface JunzhuAttrOrBuilder
@@ -2596,7 +3605,7 @@ public final class FuWen {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     * 1-总属性值，2-属性加成值
+     * 1-君主的总属性值，2-当前页签里所有符文的属性加成值
      * </pre>
      */
     boolean hasType();
@@ -2604,7 +3613,7 @@ public final class FuWen {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     * 1-总属性值，2-属性加成值
+     * 1-君主的总属性值，2-当前页签里所有符文的属性加成值
      * </pre>
      */
     int getType();
@@ -2809,10 +3818,6 @@ public final class FuWen {
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.JunzhuAttr}
-   *
-   * <pre>
-   * 属性
-   * </pre>
    */
   public static final class JunzhuAttr extends
       com.google.protobuf.GeneratedMessage
@@ -2969,7 +3974,7 @@ public final class FuWen {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     * 1-总属性值，2-属性加成值
+     * 1-君主的总属性值，2-当前页签里所有符文的属性加成值
      * </pre>
      */
     public boolean hasType() {
@@ -2979,7 +3984,7 @@ public final class FuWen {
      * <code>required int32 type = 1;</code>
      *
      * <pre>
-     * 1-总属性值，2-属性加成值
+     * 1-君主的总属性值，2-当前页签里所有符文的属性加成值
      * </pre>
      */
     public int getType() {
@@ -3497,10 +4502,6 @@ public final class FuWen {
     }
     /**
      * Protobuf type {@code qxmobile.protobuf.JunzhuAttr}
-     *
-     * <pre>
-     * 属性
-     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -3770,7 +4771,7 @@ public final class FuWen {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       * 1-总属性值，2-属性加成值
+       * 1-君主的总属性值，2-当前页签里所有符文的属性加成值
        * </pre>
        */
       public boolean hasType() {
@@ -3780,7 +4781,7 @@ public final class FuWen {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       * 1-总属性值，2-属性加成值
+       * 1-君主的总属性值，2-当前页签里所有符文的属性加成值
        * </pre>
        */
       public int getType() {
@@ -3790,7 +4791,7 @@ public final class FuWen {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       * 1-总属性值，2-属性加成值
+       * 1-君主的总属性值，2-当前页签里所有符文的属性加成值
        * </pre>
        */
       public Builder setType(int value) {
@@ -3803,7 +4804,7 @@ public final class FuWen {
        * <code>required int32 type = 1;</code>
        *
        * <pre>
-       * 1-总属性值，2-属性加成值
+       * 1-君主的总属性值，2-当前页签里所有符文的属性加成值
        * </pre>
        */
       public Builder clearType() {
@@ -4369,38 +5370,80 @@ public final class FuWen {
     // required int32 lanweiId = 1;
     /**
      * <code>required int32 lanweiId = 1;</code>
+     *
+     * <pre>
+     * 对应fuwenopen表的id
+     * </pre>
      */
     boolean hasLanweiId();
     /**
      * <code>required int32 lanweiId = 1;</code>
+     *
+     * <pre>
+     * 对应fuwenopen表的id
+     * </pre>
      */
     int getLanweiId();
 
     // required int32 itemId = 2;
     /**
      * <code>required int32 itemId = 2;</code>
+     *
+     * <pre>
+     * -1-未解锁，0-未镶嵌符文， &gt;0-为符文的itemId
+     * </pre>
      */
     boolean hasItemId();
     /**
      * <code>required int32 itemId = 2;</code>
+     *
+     * <pre>
+     * -1-未解锁，0-未镶嵌符文， &gt;0-为符文的itemId
+     * </pre>
      */
     int getItemId();
 
     // optional bool flag = 3;
     /**
      * <code>optional bool flag = 3;</code>
+     *
+     * <pre>
+     * true-有红点，false-没有红点
+     * </pre>
      */
     boolean hasFlag();
     /**
      * <code>optional bool flag = 3;</code>
+     *
+     * <pre>
+     * true-有红点，false-没有红点
+     * </pre>
      */
     boolean getFlag();
+
+    // required int32 exp = 4;
+    /**
+     * <code>required int32 exp = 4;</code>
+     *
+     * <pre>
+     * 经验
+     * </pre>
+     */
+    boolean hasExp();
+    /**
+     * <code>required int32 exp = 4;</code>
+     *
+     * <pre>
+     * 经验
+     * </pre>
+     */
+    int getExp();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.FuwenLanwei}
    *
    * <pre>
-   * 符文页消息体，11个栏位，有符文为itemId，没有为0，未解锁为-1
+   * 符文页消息体，8个栏位，
    * </pre>
    */
   public static final class FuwenLanwei extends
@@ -4466,6 +5509,11 @@ public final class FuWen {
               flag_ = input.readBool();
               break;
             }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              exp_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4511,12 +5559,20 @@ public final class FuWen {
     private int lanweiId_;
     /**
      * <code>required int32 lanweiId = 1;</code>
+     *
+     * <pre>
+     * 对应fuwenopen表的id
+     * </pre>
      */
     public boolean hasLanweiId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int32 lanweiId = 1;</code>
+     *
+     * <pre>
+     * 对应fuwenopen表的id
+     * </pre>
      */
     public int getLanweiId() {
       return lanweiId_;
@@ -4527,12 +5583,20 @@ public final class FuWen {
     private int itemId_;
     /**
      * <code>required int32 itemId = 2;</code>
+     *
+     * <pre>
+     * -1-未解锁，0-未镶嵌符文， &gt;0-为符文的itemId
+     * </pre>
      */
     public boolean hasItemId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required int32 itemId = 2;</code>
+     *
+     * <pre>
+     * -1-未解锁，0-未镶嵌符文， &gt;0-为符文的itemId
+     * </pre>
      */
     public int getItemId() {
       return itemId_;
@@ -4543,21 +5607,54 @@ public final class FuWen {
     private boolean flag_;
     /**
      * <code>optional bool flag = 3;</code>
+     *
+     * <pre>
+     * true-有红点，false-没有红点
+     * </pre>
      */
     public boolean hasFlag() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional bool flag = 3;</code>
+     *
+     * <pre>
+     * true-有红点，false-没有红点
+     * </pre>
      */
     public boolean getFlag() {
       return flag_;
+    }
+
+    // required int32 exp = 4;
+    public static final int EXP_FIELD_NUMBER = 4;
+    private int exp_;
+    /**
+     * <code>required int32 exp = 4;</code>
+     *
+     * <pre>
+     * 经验
+     * </pre>
+     */
+    public boolean hasExp() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 exp = 4;</code>
+     *
+     * <pre>
+     * 经验
+     * </pre>
+     */
+    public int getExp() {
+      return exp_;
     }
 
     private void initFields() {
       lanweiId_ = 0;
       itemId_ = 0;
       flag_ = false;
+      exp_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4569,6 +5666,10 @@ public final class FuWen {
         return false;
       }
       if (!hasItemId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasExp()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -4587,6 +5688,9 @@ public final class FuWen {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBool(3, flag_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, exp_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4608,6 +5712,10 @@ public final class FuWen {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, flag_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, exp_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4691,7 +5799,7 @@ public final class FuWen {
      * Protobuf type {@code qxmobile.protobuf.FuwenLanwei}
      *
      * <pre>
-     * 符文页消息体，11个栏位，有符文为itemId，没有为0，未解锁为-1
+     * 符文页消息体，8个栏位，
      * </pre>
      */
     public static final class Builder extends
@@ -4735,6 +5843,8 @@ public final class FuWen {
         bitField0_ = (bitField0_ & ~0x00000002);
         flag_ = false;
         bitField0_ = (bitField0_ & ~0x00000004);
+        exp_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -4775,6 +5885,10 @@ public final class FuWen {
           to_bitField0_ |= 0x00000004;
         }
         result.flag_ = flag_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.exp_ = exp_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4800,6 +5914,9 @@ public final class FuWen {
         if (other.hasFlag()) {
           setFlag(other.getFlag());
         }
+        if (other.hasExp()) {
+          setExp(other.getExp());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -4810,6 +5927,10 @@ public final class FuWen {
           return false;
         }
         if (!hasItemId()) {
+          
+          return false;
+        }
+        if (!hasExp()) {
           
           return false;
         }
@@ -4839,18 +5960,30 @@ public final class FuWen {
       private int lanweiId_ ;
       /**
        * <code>required int32 lanweiId = 1;</code>
+       *
+       * <pre>
+       * 对应fuwenopen表的id
+       * </pre>
        */
       public boolean hasLanweiId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int32 lanweiId = 1;</code>
+       *
+       * <pre>
+       * 对应fuwenopen表的id
+       * </pre>
        */
       public int getLanweiId() {
         return lanweiId_;
       }
       /**
        * <code>required int32 lanweiId = 1;</code>
+       *
+       * <pre>
+       * 对应fuwenopen表的id
+       * </pre>
        */
       public Builder setLanweiId(int value) {
         bitField0_ |= 0x00000001;
@@ -4860,6 +5993,10 @@ public final class FuWen {
       }
       /**
        * <code>required int32 lanweiId = 1;</code>
+       *
+       * <pre>
+       * 对应fuwenopen表的id
+       * </pre>
        */
       public Builder clearLanweiId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -4872,18 +6009,30 @@ public final class FuWen {
       private int itemId_ ;
       /**
        * <code>required int32 itemId = 2;</code>
+       *
+       * <pre>
+       * -1-未解锁，0-未镶嵌符文， &gt;0-为符文的itemId
+       * </pre>
        */
       public boolean hasItemId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required int32 itemId = 2;</code>
+       *
+       * <pre>
+       * -1-未解锁，0-未镶嵌符文， &gt;0-为符文的itemId
+       * </pre>
        */
       public int getItemId() {
         return itemId_;
       }
       /**
        * <code>required int32 itemId = 2;</code>
+       *
+       * <pre>
+       * -1-未解锁，0-未镶嵌符文， &gt;0-为符文的itemId
+       * </pre>
        */
       public Builder setItemId(int value) {
         bitField0_ |= 0x00000002;
@@ -4893,6 +6042,10 @@ public final class FuWen {
       }
       /**
        * <code>required int32 itemId = 2;</code>
+       *
+       * <pre>
+       * -1-未解锁，0-未镶嵌符文， &gt;0-为符文的itemId
+       * </pre>
        */
       public Builder clearItemId() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -4905,18 +6058,30 @@ public final class FuWen {
       private boolean flag_ ;
       /**
        * <code>optional bool flag = 3;</code>
+       *
+       * <pre>
+       * true-有红点，false-没有红点
+       * </pre>
        */
       public boolean hasFlag() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional bool flag = 3;</code>
+       *
+       * <pre>
+       * true-有红点，false-没有红点
+       * </pre>
        */
       public boolean getFlag() {
         return flag_;
       }
       /**
        * <code>optional bool flag = 3;</code>
+       *
+       * <pre>
+       * true-有红点，false-没有红点
+       * </pre>
        */
       public Builder setFlag(boolean value) {
         bitField0_ |= 0x00000004;
@@ -4926,10 +6091,63 @@ public final class FuWen {
       }
       /**
        * <code>optional bool flag = 3;</code>
+       *
+       * <pre>
+       * true-有红点，false-没有红点
+       * </pre>
        */
       public Builder clearFlag() {
         bitField0_ = (bitField0_ & ~0x00000004);
         flag_ = false;
+        onChanged();
+        return this;
+      }
+
+      // required int32 exp = 4;
+      private int exp_ ;
+      /**
+       * <code>required int32 exp = 4;</code>
+       *
+       * <pre>
+       * 经验
+       * </pre>
+       */
+      public boolean hasExp() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 exp = 4;</code>
+       *
+       * <pre>
+       * 经验
+       * </pre>
+       */
+      public int getExp() {
+        return exp_;
+      }
+      /**
+       * <code>required int32 exp = 4;</code>
+       *
+       * <pre>
+       * 经验
+       * </pre>
+       */
+      public Builder setExp(int value) {
+        bitField0_ |= 0x00000008;
+        exp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 exp = 4;</code>
+       *
+       * <pre>
+       * 经验
+       * </pre>
+       */
+      public Builder clearExp() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        exp_ = 0;
         onChanged();
         return this;
       }
@@ -4948,48 +6166,48 @@ public final class FuWen {
   public interface OperateFuwenReqOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 type = 1;
+    // required int32 action = 1;
     /**
-     * <code>required int32 type = 1;</code>
+     * <code>required int32 action = 1;</code>
      *
      * <pre>
-     * 1-锁定，2-解锁,3-普通合成，4-一键合成,5-装备符文，6-卸下符文
+     * 5-装备符文，6-卸下符文
      * </pre>
      */
-    boolean hasType();
+    boolean hasAction();
     /**
-     * <code>required int32 type = 1;</code>
+     * <code>required int32 action = 1;</code>
      *
      * <pre>
-     * 1-锁定，2-解锁,3-普通合成，4-一键合成,5-装备符文，6-卸下符文
+     * 5-装备符文，6-卸下符文
      * </pre>
      */
-    int getType();
+    int getAction();
 
-    // optional int32 itemId = 2;
+    // required int32 tab = 2;
     /**
-     * <code>optional int32 itemId = 2;</code>
+     * <code>required int32 tab = 2;</code>
      *
      * <pre>
-     * 物品id
+     * 页签id
      * </pre>
      */
-    boolean hasItemId();
+    boolean hasTab();
     /**
-     * <code>optional int32 itemId = 2;</code>
+     * <code>required int32 tab = 2;</code>
      *
      * <pre>
-     * 物品id
+     * 页签id
      * </pre>
      */
-    int getItemId();
+    int getTab();
 
     // optional int32 lanweiId = 3;
     /**
      * <code>optional int32 lanweiId = 3;</code>
      *
      * <pre>
-     * 栏位id
+     * 栏位id，对应fuwenopen表的id
      * </pre>
      */
     boolean hasLanweiId();
@@ -4997,10 +6215,28 @@ public final class FuWen {
      * <code>optional int32 lanweiId = 3;</code>
      *
      * <pre>
-     * 栏位id
+     * 栏位id，对应fuwenopen表的id
      * </pre>
      */
     int getLanweiId();
+
+    // optional int64 bagId = 4;
+    /**
+     * <code>optional int64 bagId = 4;</code>
+     *
+     * <pre>
+     * 背包id，只在镶嵌的时候发
+     * </pre>
+     */
+    boolean hasBagId();
+    /**
+     * <code>optional int64 bagId = 4;</code>
+     *
+     * <pre>
+     * 背包id，只在镶嵌的时候发
+     * </pre>
+     */
+    long getBagId();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.OperateFuwenReq}
@@ -5059,17 +6295,22 @@ public final class FuWen {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              type_ = input.readInt32();
+              action_ = input.readInt32();
               break;
             }
             case 16: {
               bitField0_ |= 0x00000002;
-              itemId_ = input.readInt32();
+              tab_ = input.readInt32();
               break;
             }
             case 24: {
               bitField0_ |= 0x00000004;
               lanweiId_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              bagId_ = input.readInt64();
               break;
             }
           }
@@ -5112,52 +6353,52 @@ public final class FuWen {
     }
 
     private int bitField0_;
-    // required int32 type = 1;
-    public static final int TYPE_FIELD_NUMBER = 1;
-    private int type_;
+    // required int32 action = 1;
+    public static final int ACTION_FIELD_NUMBER = 1;
+    private int action_;
     /**
-     * <code>required int32 type = 1;</code>
+     * <code>required int32 action = 1;</code>
      *
      * <pre>
-     * 1-锁定，2-解锁,3-普通合成，4-一键合成,5-装备符文，6-卸下符文
+     * 5-装备符文，6-卸下符文
      * </pre>
      */
-    public boolean hasType() {
+    public boolean hasAction() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 type = 1;</code>
+     * <code>required int32 action = 1;</code>
      *
      * <pre>
-     * 1-锁定，2-解锁,3-普通合成，4-一键合成,5-装备符文，6-卸下符文
+     * 5-装备符文，6-卸下符文
      * </pre>
      */
-    public int getType() {
-      return type_;
+    public int getAction() {
+      return action_;
     }
 
-    // optional int32 itemId = 2;
-    public static final int ITEMID_FIELD_NUMBER = 2;
-    private int itemId_;
+    // required int32 tab = 2;
+    public static final int TAB_FIELD_NUMBER = 2;
+    private int tab_;
     /**
-     * <code>optional int32 itemId = 2;</code>
+     * <code>required int32 tab = 2;</code>
      *
      * <pre>
-     * 物品id
+     * 页签id
      * </pre>
      */
-    public boolean hasItemId() {
+    public boolean hasTab() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional int32 itemId = 2;</code>
+     * <code>required int32 tab = 2;</code>
      *
      * <pre>
-     * 物品id
+     * 页签id
      * </pre>
      */
-    public int getItemId() {
-      return itemId_;
+    public int getTab() {
+      return tab_;
     }
 
     // optional int32 lanweiId = 3;
@@ -5167,7 +6408,7 @@ public final class FuWen {
      * <code>optional int32 lanweiId = 3;</code>
      *
      * <pre>
-     * 栏位id
+     * 栏位id，对应fuwenopen表的id
      * </pre>
      */
     public boolean hasLanweiId() {
@@ -5177,24 +6418,53 @@ public final class FuWen {
      * <code>optional int32 lanweiId = 3;</code>
      *
      * <pre>
-     * 栏位id
+     * 栏位id，对应fuwenopen表的id
      * </pre>
      */
     public int getLanweiId() {
       return lanweiId_;
     }
 
+    // optional int64 bagId = 4;
+    public static final int BAGID_FIELD_NUMBER = 4;
+    private long bagId_;
+    /**
+     * <code>optional int64 bagId = 4;</code>
+     *
+     * <pre>
+     * 背包id，只在镶嵌的时候发
+     * </pre>
+     */
+    public boolean hasBagId() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int64 bagId = 4;</code>
+     *
+     * <pre>
+     * 背包id，只在镶嵌的时候发
+     * </pre>
+     */
+    public long getBagId() {
+      return bagId_;
+    }
+
     private void initFields() {
-      type_ = 0;
-      itemId_ = 0;
+      action_ = 0;
+      tab_ = 0;
       lanweiId_ = 0;
+      bagId_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasType()) {
+      if (!hasAction()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTab()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -5206,13 +6476,16 @@ public final class FuWen {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, type_);
+        output.writeInt32(1, action_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, itemId_);
+        output.writeInt32(2, tab_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(3, lanweiId_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt64(4, bagId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -5225,15 +6498,19 @@ public final class FuWen {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, type_);
+          .computeInt32Size(1, action_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, itemId_);
+          .computeInt32Size(2, tab_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, lanweiId_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(4, bagId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5355,12 +6632,14 @@ public final class FuWen {
 
       public Builder clear() {
         super.clear();
-        type_ = 0;
+        action_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        itemId_ = 0;
+        tab_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
         lanweiId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
+        bagId_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -5392,15 +6671,19 @@ public final class FuWen {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.type_ = type_;
+        result.action_ = action_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.itemId_ = itemId_;
+        result.tab_ = tab_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
         result.lanweiId_ = lanweiId_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.bagId_ = bagId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5417,21 +6700,28 @@ public final class FuWen {
 
       public Builder mergeFrom(qxmobile.protobuf.FuWen.OperateFuwenReq other) {
         if (other == qxmobile.protobuf.FuWen.OperateFuwenReq.getDefaultInstance()) return this;
-        if (other.hasType()) {
-          setType(other.getType());
+        if (other.hasAction()) {
+          setAction(other.getAction());
         }
-        if (other.hasItemId()) {
-          setItemId(other.getItemId());
+        if (other.hasTab()) {
+          setTab(other.getTab());
         }
         if (other.hasLanweiId()) {
           setLanweiId(other.getLanweiId());
+        }
+        if (other.hasBagId()) {
+          setBagId(other.getBagId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasType()) {
+        if (!hasAction()) {
+          
+          return false;
+        }
+        if (!hasTab()) {
           
           return false;
         }
@@ -5457,100 +6747,100 @@ public final class FuWen {
       }
       private int bitField0_;
 
-      // required int32 type = 1;
-      private int type_ ;
+      // required int32 action = 1;
+      private int action_ ;
       /**
-       * <code>required int32 type = 1;</code>
+       * <code>required int32 action = 1;</code>
        *
        * <pre>
-       * 1-锁定，2-解锁,3-普通合成，4-一键合成,5-装备符文，6-卸下符文
+       * 5-装备符文，6-卸下符文
        * </pre>
        */
-      public boolean hasType() {
+      public boolean hasAction() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int32 type = 1;</code>
+       * <code>required int32 action = 1;</code>
        *
        * <pre>
-       * 1-锁定，2-解锁,3-普通合成，4-一键合成,5-装备符文，6-卸下符文
+       * 5-装备符文，6-卸下符文
        * </pre>
        */
-      public int getType() {
-        return type_;
+      public int getAction() {
+        return action_;
       }
       /**
-       * <code>required int32 type = 1;</code>
+       * <code>required int32 action = 1;</code>
        *
        * <pre>
-       * 1-锁定，2-解锁,3-普通合成，4-一键合成,5-装备符文，6-卸下符文
+       * 5-装备符文，6-卸下符文
        * </pre>
        */
-      public Builder setType(int value) {
+      public Builder setAction(int value) {
         bitField0_ |= 0x00000001;
-        type_ = value;
+        action_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 type = 1;</code>
+       * <code>required int32 action = 1;</code>
        *
        * <pre>
-       * 1-锁定，2-解锁,3-普通合成，4-一键合成,5-装备符文，6-卸下符文
+       * 5-装备符文，6-卸下符文
        * </pre>
        */
-      public Builder clearType() {
+      public Builder clearAction() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        type_ = 0;
+        action_ = 0;
         onChanged();
         return this;
       }
 
-      // optional int32 itemId = 2;
-      private int itemId_ ;
+      // required int32 tab = 2;
+      private int tab_ ;
       /**
-       * <code>optional int32 itemId = 2;</code>
+       * <code>required int32 tab = 2;</code>
        *
        * <pre>
-       * 物品id
+       * 页签id
        * </pre>
        */
-      public boolean hasItemId() {
+      public boolean hasTab() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional int32 itemId = 2;</code>
+       * <code>required int32 tab = 2;</code>
        *
        * <pre>
-       * 物品id
+       * 页签id
        * </pre>
        */
-      public int getItemId() {
-        return itemId_;
+      public int getTab() {
+        return tab_;
       }
       /**
-       * <code>optional int32 itemId = 2;</code>
+       * <code>required int32 tab = 2;</code>
        *
        * <pre>
-       * 物品id
+       * 页签id
        * </pre>
        */
-      public Builder setItemId(int value) {
+      public Builder setTab(int value) {
         bitField0_ |= 0x00000002;
-        itemId_ = value;
+        tab_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 itemId = 2;</code>
+       * <code>required int32 tab = 2;</code>
        *
        * <pre>
-       * 物品id
+       * 页签id
        * </pre>
        */
-      public Builder clearItemId() {
+      public Builder clearTab() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        itemId_ = 0;
+        tab_ = 0;
         onChanged();
         return this;
       }
@@ -5561,7 +6851,7 @@ public final class FuWen {
        * <code>optional int32 lanweiId = 3;</code>
        *
        * <pre>
-       * 栏位id
+       * 栏位id，对应fuwenopen表的id
        * </pre>
        */
       public boolean hasLanweiId() {
@@ -5571,7 +6861,7 @@ public final class FuWen {
        * <code>optional int32 lanweiId = 3;</code>
        *
        * <pre>
-       * 栏位id
+       * 栏位id，对应fuwenopen表的id
        * </pre>
        */
       public int getLanweiId() {
@@ -5581,7 +6871,7 @@ public final class FuWen {
        * <code>optional int32 lanweiId = 3;</code>
        *
        * <pre>
-       * 栏位id
+       * 栏位id，对应fuwenopen表的id
        * </pre>
        */
       public Builder setLanweiId(int value) {
@@ -5594,12 +6884,61 @@ public final class FuWen {
        * <code>optional int32 lanweiId = 3;</code>
        *
        * <pre>
-       * 栏位id
+       * 栏位id，对应fuwenopen表的id
        * </pre>
        */
       public Builder clearLanweiId() {
         bitField0_ = (bitField0_ & ~0x00000004);
         lanweiId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 bagId = 4;
+      private long bagId_ ;
+      /**
+       * <code>optional int64 bagId = 4;</code>
+       *
+       * <pre>
+       * 背包id，只在镶嵌的时候发
+       * </pre>
+       */
+      public boolean hasBagId() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int64 bagId = 4;</code>
+       *
+       * <pre>
+       * 背包id，只在镶嵌的时候发
+       * </pre>
+       */
+      public long getBagId() {
+        return bagId_;
+      }
+      /**
+       * <code>optional int64 bagId = 4;</code>
+       *
+       * <pre>
+       * 背包id，只在镶嵌的时候发
+       * </pre>
+       */
+      public Builder setBagId(long value) {
+        bitField0_ |= 0x00000008;
+        bagId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 bagId = 4;</code>
+       *
+       * <pre>
+       * 背包id，只在镶嵌的时候发
+       * </pre>
+       */
+      public Builder clearBagId() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        bagId_ = 0L;
         onChanged();
         return this;
       }
@@ -5623,7 +6962,7 @@ public final class FuWen {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 0-成功,1-失败
+     * 0-镶嵌成功,1拆卸成功 ，2失败
      * </pre>
      */
     boolean hasResult();
@@ -5631,7 +6970,7 @@ public final class FuWen {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 0-成功,1-失败
+     * 0-镶嵌成功,1拆卸成功 ，2失败
      * </pre>
      */
     int getResult();
@@ -5798,7 +7137,7 @@ public final class FuWen {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 0-成功,1-失败
+     * 0-镶嵌成功,1拆卸成功 ，2失败
      * </pre>
      */
     public boolean hasResult() {
@@ -5808,7 +7147,7 @@ public final class FuWen {
      * <code>required int32 result = 1;</code>
      *
      * <pre>
-     * 0-成功,1-失败
+     * 0-镶嵌成功,1拆卸成功 ，2失败
      * </pre>
      */
     public int getResult() {
@@ -6175,7 +7514,7 @@ public final class FuWen {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 0-成功,1-失败
+       * 0-镶嵌成功,1拆卸成功 ，2失败
        * </pre>
        */
       public boolean hasResult() {
@@ -6185,7 +7524,7 @@ public final class FuWen {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 0-成功,1-失败
+       * 0-镶嵌成功,1拆卸成功 ，2失败
        * </pre>
        */
       public int getResult() {
@@ -6195,7 +7534,7 @@ public final class FuWen {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 0-成功,1-失败
+       * 0-镶嵌成功,1拆卸成功 ，2失败
        * </pre>
        */
       public Builder setResult(int value) {
@@ -6208,7 +7547,7 @@ public final class FuWen {
        * <code>required int32 result = 1;</code>
        *
        * <pre>
-       * 0-成功,1-失败
+       * 0-镶嵌成功,1拆卸成功 ，2失败
        * </pre>
        */
       public Builder clearResult() {
@@ -6376,16 +7715,4445 @@ public final class FuWen {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FuwenResp)
   }
 
+  public interface FuwenRongHeReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 tab = 1;
+    /**
+     * <code>required int32 tab = 1;</code>
+     *
+     * <pre>
+     * 页签id
+     * </pre>
+     */
+    boolean hasTab();
+    /**
+     * <code>required int32 tab = 1;</code>
+     *
+     * <pre>
+     * 页签id
+     * </pre>
+     */
+    int getTab();
+
+    // required int32 lanweiId = 2;
+    /**
+     * <code>required int32 lanweiId = 2;</code>
+     *
+     * <pre>
+     * 符文的栏位id
+     * </pre>
+     */
+    boolean hasLanweiId();
+    /**
+     * <code>required int32 lanweiId = 2;</code>
+     *
+     * <pre>
+     * 符文的栏位id
+     * </pre>
+     */
+    int getLanweiId();
+
+    // repeated .qxmobile.protobuf.FuwenInBag bagList = 3;
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+     */
+    java.util.List<qxmobile.protobuf.FuWen.FuwenInBag> 
+        getBagListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+     */
+    qxmobile.protobuf.FuWen.FuwenInBag getBagList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+     */
+    int getBagListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+     */
+    java.util.List<? extends qxmobile.protobuf.FuWen.FuwenInBagOrBuilder> 
+        getBagListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+     */
+    qxmobile.protobuf.FuWen.FuwenInBagOrBuilder getBagListOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.FuwenRongHeReq}
+   *
+   * <pre>
+   * 符文融合，C_FUWEN_RONG_HE = 8007
+   * </pre>
+   */
+  public static final class FuwenRongHeReq extends
+      com.google.protobuf.GeneratedMessage
+      implements FuwenRongHeReqOrBuilder {
+    // Use FuwenRongHeReq.newBuilder() to construct.
+    private FuwenRongHeReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FuwenRongHeReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FuwenRongHeReq defaultInstance;
+    public static FuwenRongHeReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FuwenRongHeReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FuwenRongHeReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              tab_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              lanweiId_ = input.readInt32();
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                bagList_ = new java.util.ArrayList<qxmobile.protobuf.FuWen.FuwenInBag>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              bagList_.add(input.readMessage(qxmobile.protobuf.FuWen.FuwenInBag.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          bagList_ = java.util.Collections.unmodifiableList(bagList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenRongHeReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenRongHeReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.FuWen.FuwenRongHeReq.class, qxmobile.protobuf.FuWen.FuwenRongHeReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FuwenRongHeReq> PARSER =
+        new com.google.protobuf.AbstractParser<FuwenRongHeReq>() {
+      public FuwenRongHeReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FuwenRongHeReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FuwenRongHeReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 tab = 1;
+    public static final int TAB_FIELD_NUMBER = 1;
+    private int tab_;
+    /**
+     * <code>required int32 tab = 1;</code>
+     *
+     * <pre>
+     * 页签id
+     * </pre>
+     */
+    public boolean hasTab() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 tab = 1;</code>
+     *
+     * <pre>
+     * 页签id
+     * </pre>
+     */
+    public int getTab() {
+      return tab_;
+    }
+
+    // required int32 lanweiId = 2;
+    public static final int LANWEIID_FIELD_NUMBER = 2;
+    private int lanweiId_;
+    /**
+     * <code>required int32 lanweiId = 2;</code>
+     *
+     * <pre>
+     * 符文的栏位id
+     * </pre>
+     */
+    public boolean hasLanweiId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 lanweiId = 2;</code>
+     *
+     * <pre>
+     * 符文的栏位id
+     * </pre>
+     */
+    public int getLanweiId() {
+      return lanweiId_;
+    }
+
+    // repeated .qxmobile.protobuf.FuwenInBag bagList = 3;
+    public static final int BAGLIST_FIELD_NUMBER = 3;
+    private java.util.List<qxmobile.protobuf.FuWen.FuwenInBag> bagList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+     */
+    public java.util.List<qxmobile.protobuf.FuWen.FuwenInBag> getBagListList() {
+      return bagList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+     */
+    public java.util.List<? extends qxmobile.protobuf.FuWen.FuwenInBagOrBuilder> 
+        getBagListOrBuilderList() {
+      return bagList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+     */
+    public int getBagListCount() {
+      return bagList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+     */
+    public qxmobile.protobuf.FuWen.FuwenInBag getBagList(int index) {
+      return bagList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+     */
+    public qxmobile.protobuf.FuWen.FuwenInBagOrBuilder getBagListOrBuilder(
+        int index) {
+      return bagList_.get(index);
+    }
+
+    private void initFields() {
+      tab_ = 0;
+      lanweiId_ = 0;
+      bagList_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasTab()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLanweiId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getBagListCount(); i++) {
+        if (!getBagList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, tab_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, lanweiId_);
+      }
+      for (int i = 0; i < bagList_.size(); i++) {
+        output.writeMessage(3, bagList_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, tab_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, lanweiId_);
+      }
+      for (int i = 0; i < bagList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, bagList_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.FuWen.FuwenRongHeReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.FuWen.FuwenRongHeReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.FuwenRongHeReq}
+     *
+     * <pre>
+     * 符文融合，C_FUWEN_RONG_HE = 8007
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.FuWen.FuwenRongHeReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenRongHeReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenRongHeReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.FuWen.FuwenRongHeReq.class, qxmobile.protobuf.FuWen.FuwenRongHeReq.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.FuWen.FuwenRongHeReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getBagListFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        tab_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        lanweiId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        if (bagListBuilder_ == null) {
+          bagList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          bagListBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenRongHeReq_descriptor;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenRongHeReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.FuWen.FuwenRongHeReq.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenRongHeReq build() {
+        qxmobile.protobuf.FuWen.FuwenRongHeReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenRongHeReq buildPartial() {
+        qxmobile.protobuf.FuWen.FuwenRongHeReq result = new qxmobile.protobuf.FuWen.FuwenRongHeReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.tab_ = tab_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.lanweiId_ = lanweiId_;
+        if (bagListBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            bagList_ = java.util.Collections.unmodifiableList(bagList_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.bagList_ = bagList_;
+        } else {
+          result.bagList_ = bagListBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.FuWen.FuwenRongHeReq) {
+          return mergeFrom((qxmobile.protobuf.FuWen.FuwenRongHeReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.FuWen.FuwenRongHeReq other) {
+        if (other == qxmobile.protobuf.FuWen.FuwenRongHeReq.getDefaultInstance()) return this;
+        if (other.hasTab()) {
+          setTab(other.getTab());
+        }
+        if (other.hasLanweiId()) {
+          setLanweiId(other.getLanweiId());
+        }
+        if (bagListBuilder_ == null) {
+          if (!other.bagList_.isEmpty()) {
+            if (bagList_.isEmpty()) {
+              bagList_ = other.bagList_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureBagListIsMutable();
+              bagList_.addAll(other.bagList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.bagList_.isEmpty()) {
+            if (bagListBuilder_.isEmpty()) {
+              bagListBuilder_.dispose();
+              bagListBuilder_ = null;
+              bagList_ = other.bagList_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              bagListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getBagListFieldBuilder() : null;
+            } else {
+              bagListBuilder_.addAllMessages(other.bagList_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasTab()) {
+          
+          return false;
+        }
+        if (!hasLanweiId()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getBagListCount(); i++) {
+          if (!getBagList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.FuWen.FuwenRongHeReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.FuWen.FuwenRongHeReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 tab = 1;
+      private int tab_ ;
+      /**
+       * <code>required int32 tab = 1;</code>
+       *
+       * <pre>
+       * 页签id
+       * </pre>
+       */
+      public boolean hasTab() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 tab = 1;</code>
+       *
+       * <pre>
+       * 页签id
+       * </pre>
+       */
+      public int getTab() {
+        return tab_;
+      }
+      /**
+       * <code>required int32 tab = 1;</code>
+       *
+       * <pre>
+       * 页签id
+       * </pre>
+       */
+      public Builder setTab(int value) {
+        bitField0_ |= 0x00000001;
+        tab_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 tab = 1;</code>
+       *
+       * <pre>
+       * 页签id
+       * </pre>
+       */
+      public Builder clearTab() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        tab_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 lanweiId = 2;
+      private int lanweiId_ ;
+      /**
+       * <code>required int32 lanweiId = 2;</code>
+       *
+       * <pre>
+       * 符文的栏位id
+       * </pre>
+       */
+      public boolean hasLanweiId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 lanweiId = 2;</code>
+       *
+       * <pre>
+       * 符文的栏位id
+       * </pre>
+       */
+      public int getLanweiId() {
+        return lanweiId_;
+      }
+      /**
+       * <code>required int32 lanweiId = 2;</code>
+       *
+       * <pre>
+       * 符文的栏位id
+       * </pre>
+       */
+      public Builder setLanweiId(int value) {
+        bitField0_ |= 0x00000002;
+        lanweiId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 lanweiId = 2;</code>
+       *
+       * <pre>
+       * 符文的栏位id
+       * </pre>
+       */
+      public Builder clearLanweiId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        lanweiId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .qxmobile.protobuf.FuwenInBag bagList = 3;
+      private java.util.List<qxmobile.protobuf.FuWen.FuwenInBag> bagList_ =
+        java.util.Collections.emptyList();
+      private void ensureBagListIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          bagList_ = new java.util.ArrayList<qxmobile.protobuf.FuWen.FuwenInBag>(bagList_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.FuWen.FuwenInBag, qxmobile.protobuf.FuWen.FuwenInBag.Builder, qxmobile.protobuf.FuWen.FuwenInBagOrBuilder> bagListBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public java.util.List<qxmobile.protobuf.FuWen.FuwenInBag> getBagListList() {
+        if (bagListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(bagList_);
+        } else {
+          return bagListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public int getBagListCount() {
+        if (bagListBuilder_ == null) {
+          return bagList_.size();
+        } else {
+          return bagListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public qxmobile.protobuf.FuWen.FuwenInBag getBagList(int index) {
+        if (bagListBuilder_ == null) {
+          return bagList_.get(index);
+        } else {
+          return bagListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public Builder setBagList(
+          int index, qxmobile.protobuf.FuWen.FuwenInBag value) {
+        if (bagListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBagListIsMutable();
+          bagList_.set(index, value);
+          onChanged();
+        } else {
+          bagListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public Builder setBagList(
+          int index, qxmobile.protobuf.FuWen.FuwenInBag.Builder builderForValue) {
+        if (bagListBuilder_ == null) {
+          ensureBagListIsMutable();
+          bagList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          bagListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public Builder addBagList(qxmobile.protobuf.FuWen.FuwenInBag value) {
+        if (bagListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBagListIsMutable();
+          bagList_.add(value);
+          onChanged();
+        } else {
+          bagListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public Builder addBagList(
+          int index, qxmobile.protobuf.FuWen.FuwenInBag value) {
+        if (bagListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBagListIsMutable();
+          bagList_.add(index, value);
+          onChanged();
+        } else {
+          bagListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public Builder addBagList(
+          qxmobile.protobuf.FuWen.FuwenInBag.Builder builderForValue) {
+        if (bagListBuilder_ == null) {
+          ensureBagListIsMutable();
+          bagList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          bagListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public Builder addBagList(
+          int index, qxmobile.protobuf.FuWen.FuwenInBag.Builder builderForValue) {
+        if (bagListBuilder_ == null) {
+          ensureBagListIsMutable();
+          bagList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          bagListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public Builder addAllBagList(
+          java.lang.Iterable<? extends qxmobile.protobuf.FuWen.FuwenInBag> values) {
+        if (bagListBuilder_ == null) {
+          ensureBagListIsMutable();
+          super.addAll(values, bagList_);
+          onChanged();
+        } else {
+          bagListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public Builder clearBagList() {
+        if (bagListBuilder_ == null) {
+          bagList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          bagListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public Builder removeBagList(int index) {
+        if (bagListBuilder_ == null) {
+          ensureBagListIsMutable();
+          bagList_.remove(index);
+          onChanged();
+        } else {
+          bagListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public qxmobile.protobuf.FuWen.FuwenInBag.Builder getBagListBuilder(
+          int index) {
+        return getBagListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public qxmobile.protobuf.FuWen.FuwenInBagOrBuilder getBagListOrBuilder(
+          int index) {
+        if (bagListBuilder_ == null) {
+          return bagList_.get(index);  } else {
+          return bagListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public java.util.List<? extends qxmobile.protobuf.FuWen.FuwenInBagOrBuilder> 
+           getBagListOrBuilderList() {
+        if (bagListBuilder_ != null) {
+          return bagListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(bagList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public qxmobile.protobuf.FuWen.FuwenInBag.Builder addBagListBuilder() {
+        return getBagListFieldBuilder().addBuilder(
+            qxmobile.protobuf.FuWen.FuwenInBag.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public qxmobile.protobuf.FuWen.FuwenInBag.Builder addBagListBuilder(
+          int index) {
+        return getBagListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.FuWen.FuwenInBag.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.FuwenInBag bagList = 3;</code>
+       */
+      public java.util.List<qxmobile.protobuf.FuWen.FuwenInBag.Builder> 
+           getBagListBuilderList() {
+        return getBagListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.FuWen.FuwenInBag, qxmobile.protobuf.FuWen.FuwenInBag.Builder, qxmobile.protobuf.FuWen.FuwenInBagOrBuilder> 
+          getBagListFieldBuilder() {
+        if (bagListBuilder_ == null) {
+          bagListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.FuWen.FuwenInBag, qxmobile.protobuf.FuWen.FuwenInBag.Builder, qxmobile.protobuf.FuWen.FuwenInBagOrBuilder>(
+                  bagList_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          bagList_ = null;
+        }
+        return bagListBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FuwenRongHeReq)
+    }
+
+    static {
+      defaultInstance = new FuwenRongHeReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FuwenRongHeReq)
+  }
+
+  public interface FuwenRongHeRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-找不到主动融合的符文，2-找不到被动融合的符文，3-数量不足
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-找不到主动融合的符文，2-找不到被动融合的符文，3-数量不足
+     * </pre>
+     */
+    int getResult();
+
+    // required int32 tab = 2;
+    /**
+     * <code>required int32 tab = 2;</code>
+     */
+    boolean hasTab();
+    /**
+     * <code>required int32 tab = 2;</code>
+     */
+    int getTab();
+
+    // required int64 lanweiId = 3;
+    /**
+     * <code>required int64 lanweiId = 3;</code>
+     *
+     * <pre>
+     * 符文的栏位id
+     * </pre>
+     */
+    boolean hasLanweiId();
+    /**
+     * <code>required int64 lanweiId = 3;</code>
+     *
+     * <pre>
+     * 符文的栏位id
+     * </pre>
+     */
+    long getLanweiId();
+
+    // optional int32 itemId = 4;
+    /**
+     * <code>optional int32 itemId = 4;</code>
+     *
+     * <pre>
+     * 融合后的符文itemId
+     * </pre>
+     */
+    boolean hasItemId();
+    /**
+     * <code>optional int32 itemId = 4;</code>
+     *
+     * <pre>
+     * 融合后的符文itemId
+     * </pre>
+     */
+    int getItemId();
+
+    // optional int32 exp = 5;
+    /**
+     * <code>optional int32 exp = 5;</code>
+     *
+     * <pre>
+     * 融合后的符文经验
+     * </pre>
+     */
+    boolean hasExp();
+    /**
+     * <code>optional int32 exp = 5;</code>
+     *
+     * <pre>
+     * 融合后的符文经验
+     * </pre>
+     */
+    int getExp();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.FuwenRongHeResp}
+   *
+   * <pre>
+   * 符文融合返回，S_FUWEN_RONG_HE_RESP = 8008
+   * </pre>
+   */
+  public static final class FuwenRongHeResp extends
+      com.google.protobuf.GeneratedMessage
+      implements FuwenRongHeRespOrBuilder {
+    // Use FuwenRongHeResp.newBuilder() to construct.
+    private FuwenRongHeResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FuwenRongHeResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FuwenRongHeResp defaultInstance;
+    public static FuwenRongHeResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FuwenRongHeResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FuwenRongHeResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              tab_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              lanweiId_ = input.readInt64();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              itemId_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              exp_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenRongHeResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenRongHeResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.FuWen.FuwenRongHeResp.class, qxmobile.protobuf.FuWen.FuwenRongHeResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FuwenRongHeResp> PARSER =
+        new com.google.protobuf.AbstractParser<FuwenRongHeResp>() {
+      public FuwenRongHeResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FuwenRongHeResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FuwenRongHeResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-找不到主动融合的符文，2-找不到被动融合的符文，3-数量不足
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-找不到主动融合的符文，2-找不到被动融合的符文，3-数量不足
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    // required int32 tab = 2;
+    public static final int TAB_FIELD_NUMBER = 2;
+    private int tab_;
+    /**
+     * <code>required int32 tab = 2;</code>
+     */
+    public boolean hasTab() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 tab = 2;</code>
+     */
+    public int getTab() {
+      return tab_;
+    }
+
+    // required int64 lanweiId = 3;
+    public static final int LANWEIID_FIELD_NUMBER = 3;
+    private long lanweiId_;
+    /**
+     * <code>required int64 lanweiId = 3;</code>
+     *
+     * <pre>
+     * 符文的栏位id
+     * </pre>
+     */
+    public boolean hasLanweiId() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int64 lanweiId = 3;</code>
+     *
+     * <pre>
+     * 符文的栏位id
+     * </pre>
+     */
+    public long getLanweiId() {
+      return lanweiId_;
+    }
+
+    // optional int32 itemId = 4;
+    public static final int ITEMID_FIELD_NUMBER = 4;
+    private int itemId_;
+    /**
+     * <code>optional int32 itemId = 4;</code>
+     *
+     * <pre>
+     * 融合后的符文itemId
+     * </pre>
+     */
+    public boolean hasItemId() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 itemId = 4;</code>
+     *
+     * <pre>
+     * 融合后的符文itemId
+     * </pre>
+     */
+    public int getItemId() {
+      return itemId_;
+    }
+
+    // optional int32 exp = 5;
+    public static final int EXP_FIELD_NUMBER = 5;
+    private int exp_;
+    /**
+     * <code>optional int32 exp = 5;</code>
+     *
+     * <pre>
+     * 融合后的符文经验
+     * </pre>
+     */
+    public boolean hasExp() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int32 exp = 5;</code>
+     *
+     * <pre>
+     * 融合后的符文经验
+     * </pre>
+     */
+    public int getExp() {
+      return exp_;
+    }
+
+    private void initFields() {
+      result_ = 0;
+      tab_ = 0;
+      lanweiId_ = 0L;
+      itemId_ = 0;
+      exp_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTab()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLanweiId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, tab_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt64(3, lanweiId_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, itemId_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, exp_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, tab_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(3, lanweiId_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, itemId_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, exp_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.FuWen.FuwenRongHeResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenRongHeResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.FuWen.FuwenRongHeResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.FuwenRongHeResp}
+     *
+     * <pre>
+     * 符文融合返回，S_FUWEN_RONG_HE_RESP = 8008
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.FuWen.FuwenRongHeRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenRongHeResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenRongHeResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.FuWen.FuwenRongHeResp.class, qxmobile.protobuf.FuWen.FuwenRongHeResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.FuWen.FuwenRongHeResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        tab_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        lanweiId_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        itemId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        exp_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenRongHeResp_descriptor;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenRongHeResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.FuWen.FuwenRongHeResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenRongHeResp build() {
+        qxmobile.protobuf.FuWen.FuwenRongHeResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenRongHeResp buildPartial() {
+        qxmobile.protobuf.FuWen.FuwenRongHeResp result = new qxmobile.protobuf.FuWen.FuwenRongHeResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.tab_ = tab_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.lanweiId_ = lanweiId_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.itemId_ = itemId_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.exp_ = exp_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.FuWen.FuwenRongHeResp) {
+          return mergeFrom((qxmobile.protobuf.FuWen.FuwenRongHeResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.FuWen.FuwenRongHeResp other) {
+        if (other == qxmobile.protobuf.FuWen.FuwenRongHeResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        if (other.hasTab()) {
+          setTab(other.getTab());
+        }
+        if (other.hasLanweiId()) {
+          setLanweiId(other.getLanweiId());
+        }
+        if (other.hasItemId()) {
+          setItemId(other.getItemId());
+        }
+        if (other.hasExp()) {
+          setExp(other.getExp());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        if (!hasTab()) {
+          
+          return false;
+        }
+        if (!hasLanweiId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.FuWen.FuwenRongHeResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.FuWen.FuwenRongHeResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-找不到主动融合的符文，2-找不到被动融合的符文，3-数量不足
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-找不到主动融合的符文，2-找不到被动融合的符文，3-数量不足
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-找不到主动融合的符文，2-找不到被动融合的符文，3-数量不足
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-找不到主动融合的符文，2-找不到被动融合的符文，3-数量不足
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 tab = 2;
+      private int tab_ ;
+      /**
+       * <code>required int32 tab = 2;</code>
+       */
+      public boolean hasTab() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 tab = 2;</code>
+       */
+      public int getTab() {
+        return tab_;
+      }
+      /**
+       * <code>required int32 tab = 2;</code>
+       */
+      public Builder setTab(int value) {
+        bitField0_ |= 0x00000002;
+        tab_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 tab = 2;</code>
+       */
+      public Builder clearTab() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        tab_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int64 lanweiId = 3;
+      private long lanweiId_ ;
+      /**
+       * <code>required int64 lanweiId = 3;</code>
+       *
+       * <pre>
+       * 符文的栏位id
+       * </pre>
+       */
+      public boolean hasLanweiId() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int64 lanweiId = 3;</code>
+       *
+       * <pre>
+       * 符文的栏位id
+       * </pre>
+       */
+      public long getLanweiId() {
+        return lanweiId_;
+      }
+      /**
+       * <code>required int64 lanweiId = 3;</code>
+       *
+       * <pre>
+       * 符文的栏位id
+       * </pre>
+       */
+      public Builder setLanweiId(long value) {
+        bitField0_ |= 0x00000004;
+        lanweiId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 lanweiId = 3;</code>
+       *
+       * <pre>
+       * 符文的栏位id
+       * </pre>
+       */
+      public Builder clearLanweiId() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        lanweiId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 itemId = 4;
+      private int itemId_ ;
+      /**
+       * <code>optional int32 itemId = 4;</code>
+       *
+       * <pre>
+       * 融合后的符文itemId
+       * </pre>
+       */
+      public boolean hasItemId() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 itemId = 4;</code>
+       *
+       * <pre>
+       * 融合后的符文itemId
+       * </pre>
+       */
+      public int getItemId() {
+        return itemId_;
+      }
+      /**
+       * <code>optional int32 itemId = 4;</code>
+       *
+       * <pre>
+       * 融合后的符文itemId
+       * </pre>
+       */
+      public Builder setItemId(int value) {
+        bitField0_ |= 0x00000008;
+        itemId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 itemId = 4;</code>
+       *
+       * <pre>
+       * 融合后的符文itemId
+       * </pre>
+       */
+      public Builder clearItemId() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        itemId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 exp = 5;
+      private int exp_ ;
+      /**
+       * <code>optional int32 exp = 5;</code>
+       *
+       * <pre>
+       * 融合后的符文经验
+       * </pre>
+       */
+      public boolean hasExp() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 exp = 5;</code>
+       *
+       * <pre>
+       * 融合后的符文经验
+       * </pre>
+       */
+      public int getExp() {
+        return exp_;
+      }
+      /**
+       * <code>optional int32 exp = 5;</code>
+       *
+       * <pre>
+       * 融合后的符文经验
+       * </pre>
+       */
+      public Builder setExp(int value) {
+        bitField0_ |= 0x00000010;
+        exp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 exp = 5;</code>
+       *
+       * <pre>
+       * 融合后的符文经验
+       * </pre>
+       */
+      public Builder clearExp() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        exp_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FuwenRongHeResp)
+    }
+
+    static {
+      defaultInstance = new FuwenRongHeResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FuwenRongHeResp)
+  }
+
+  public interface FuwenDuiHuanOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 fuwenItemId = 1;
+    /**
+     * <code>required int32 fuwenItemId = 1;</code>
+     *
+     * <pre>
+     * 符文id，对应FuwenDuihuan表的ID
+     * </pre>
+     */
+    boolean hasFuwenItemId();
+    /**
+     * <code>required int32 fuwenItemId = 1;</code>
+     *
+     * <pre>
+     * 符文id，对应FuwenDuihuan表的ID
+     * </pre>
+     */
+    int getFuwenItemId();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.FuwenDuiHuan}
+   *
+   * <pre>
+   * 符文兑换，C_FUWEN_DUI_HUAN = 8009
+   * </pre>
+   */
+  public static final class FuwenDuiHuan extends
+      com.google.protobuf.GeneratedMessage
+      implements FuwenDuiHuanOrBuilder {
+    // Use FuwenDuiHuan.newBuilder() to construct.
+    private FuwenDuiHuan(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FuwenDuiHuan(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FuwenDuiHuan defaultInstance;
+    public static FuwenDuiHuan getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FuwenDuiHuan getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FuwenDuiHuan(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              fuwenItemId_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenDuiHuan_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenDuiHuan_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.FuWen.FuwenDuiHuan.class, qxmobile.protobuf.FuWen.FuwenDuiHuan.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FuwenDuiHuan> PARSER =
+        new com.google.protobuf.AbstractParser<FuwenDuiHuan>() {
+      public FuwenDuiHuan parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FuwenDuiHuan(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FuwenDuiHuan> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 fuwenItemId = 1;
+    public static final int FUWENITEMID_FIELD_NUMBER = 1;
+    private int fuwenItemId_;
+    /**
+     * <code>required int32 fuwenItemId = 1;</code>
+     *
+     * <pre>
+     * 符文id，对应FuwenDuihuan表的ID
+     * </pre>
+     */
+    public boolean hasFuwenItemId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 fuwenItemId = 1;</code>
+     *
+     * <pre>
+     * 符文id，对应FuwenDuihuan表的ID
+     * </pre>
+     */
+    public int getFuwenItemId() {
+      return fuwenItemId_;
+    }
+
+    private void initFields() {
+      fuwenItemId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasFuwenItemId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, fuwenItemId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, fuwenItemId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuan parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuan parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuan parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuan parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuan parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuan parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuan parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuan parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuan parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuan parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.FuWen.FuwenDuiHuan prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.FuwenDuiHuan}
+     *
+     * <pre>
+     * 符文兑换，C_FUWEN_DUI_HUAN = 8009
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.FuWen.FuwenDuiHuanOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenDuiHuan_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenDuiHuan_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.FuWen.FuwenDuiHuan.class, qxmobile.protobuf.FuWen.FuwenDuiHuan.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.FuWen.FuwenDuiHuan.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        fuwenItemId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenDuiHuan_descriptor;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenDuiHuan getDefaultInstanceForType() {
+        return qxmobile.protobuf.FuWen.FuwenDuiHuan.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenDuiHuan build() {
+        qxmobile.protobuf.FuWen.FuwenDuiHuan result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenDuiHuan buildPartial() {
+        qxmobile.protobuf.FuWen.FuwenDuiHuan result = new qxmobile.protobuf.FuWen.FuwenDuiHuan(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.fuwenItemId_ = fuwenItemId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.FuWen.FuwenDuiHuan) {
+          return mergeFrom((qxmobile.protobuf.FuWen.FuwenDuiHuan)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.FuWen.FuwenDuiHuan other) {
+        if (other == qxmobile.protobuf.FuWen.FuwenDuiHuan.getDefaultInstance()) return this;
+        if (other.hasFuwenItemId()) {
+          setFuwenItemId(other.getFuwenItemId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasFuwenItemId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.FuWen.FuwenDuiHuan parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.FuWen.FuwenDuiHuan) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 fuwenItemId = 1;
+      private int fuwenItemId_ ;
+      /**
+       * <code>required int32 fuwenItemId = 1;</code>
+       *
+       * <pre>
+       * 符文id，对应FuwenDuihuan表的ID
+       * </pre>
+       */
+      public boolean hasFuwenItemId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 fuwenItemId = 1;</code>
+       *
+       * <pre>
+       * 符文id，对应FuwenDuihuan表的ID
+       * </pre>
+       */
+      public int getFuwenItemId() {
+        return fuwenItemId_;
+      }
+      /**
+       * <code>required int32 fuwenItemId = 1;</code>
+       *
+       * <pre>
+       * 符文id，对应FuwenDuihuan表的ID
+       * </pre>
+       */
+      public Builder setFuwenItemId(int value) {
+        bitField0_ |= 0x00000001;
+        fuwenItemId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 fuwenItemId = 1;</code>
+       *
+       * <pre>
+       * 符文id，对应FuwenDuihuan表的ID
+       * </pre>
+       */
+      public Builder clearFuwenItemId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        fuwenItemId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FuwenDuiHuan)
+    }
+
+    static {
+      defaultInstance = new FuwenDuiHuan(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FuwenDuiHuan)
+  }
+
+  public interface FuwenDuiHuanRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-甲片数量不足,2-要兑换的符文不存在
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-甲片数量不足,2-要兑换的符文不存在
+     * </pre>
+     */
+    int getResult();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.FuwenDuiHuanResp}
+   *
+   * <pre>
+   * S_FUWEN_DUI_HUAN_RESP = 8010
+   * </pre>
+   */
+  public static final class FuwenDuiHuanResp extends
+      com.google.protobuf.GeneratedMessage
+      implements FuwenDuiHuanRespOrBuilder {
+    // Use FuwenDuiHuanResp.newBuilder() to construct.
+    private FuwenDuiHuanResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FuwenDuiHuanResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FuwenDuiHuanResp defaultInstance;
+    public static FuwenDuiHuanResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FuwenDuiHuanResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FuwenDuiHuanResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenDuiHuanResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenDuiHuanResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.FuWen.FuwenDuiHuanResp.class, qxmobile.protobuf.FuWen.FuwenDuiHuanResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FuwenDuiHuanResp> PARSER =
+        new com.google.protobuf.AbstractParser<FuwenDuiHuanResp>() {
+      public FuwenDuiHuanResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FuwenDuiHuanResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FuwenDuiHuanResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-甲片数量不足,2-要兑换的符文不存在
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-甲片数量不足,2-要兑换的符文不存在
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    private void initFields() {
+      result_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuanResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuanResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuanResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuanResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuanResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuanResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuanResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuanResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuanResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenDuiHuanResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.FuWen.FuwenDuiHuanResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.FuwenDuiHuanResp}
+     *
+     * <pre>
+     * S_FUWEN_DUI_HUAN_RESP = 8010
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.FuWen.FuwenDuiHuanRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenDuiHuanResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenDuiHuanResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.FuWen.FuwenDuiHuanResp.class, qxmobile.protobuf.FuWen.FuwenDuiHuanResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.FuWen.FuwenDuiHuanResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenDuiHuanResp_descriptor;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenDuiHuanResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.FuWen.FuwenDuiHuanResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenDuiHuanResp build() {
+        qxmobile.protobuf.FuWen.FuwenDuiHuanResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenDuiHuanResp buildPartial() {
+        qxmobile.protobuf.FuWen.FuwenDuiHuanResp result = new qxmobile.protobuf.FuWen.FuwenDuiHuanResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.FuWen.FuwenDuiHuanResp) {
+          return mergeFrom((qxmobile.protobuf.FuWen.FuwenDuiHuanResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.FuWen.FuwenDuiHuanResp other) {
+        if (other == qxmobile.protobuf.FuWen.FuwenDuiHuanResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.FuWen.FuwenDuiHuanResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.FuWen.FuwenDuiHuanResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-甲片数量不足,2-要兑换的符文不存在
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-甲片数量不足,2-要兑换的符文不存在
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-甲片数量不足,2-要兑换的符文不存在
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-甲片数量不足,2-要兑换的符文不存在
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FuwenDuiHuanResp)
+    }
+
+    static {
+      defaultInstance = new FuwenDuiHuanResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FuwenDuiHuanResp)
+  }
+
+  public interface FuwenEquipAllOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 tab = 1;
+    /**
+     * <code>required int32 tab = 1;</code>
+     */
+    boolean hasTab();
+    /**
+     * <code>required int32 tab = 1;</code>
+     */
+    int getTab();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.FuwenEquipAll}
+   *
+   * <pre>
+   * 一键穿戴符文请求协议 C_FUWEN_EQUIP_ALL = 8011
+   * </pre>
+   */
+  public static final class FuwenEquipAll extends
+      com.google.protobuf.GeneratedMessage
+      implements FuwenEquipAllOrBuilder {
+    // Use FuwenEquipAll.newBuilder() to construct.
+    private FuwenEquipAll(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FuwenEquipAll(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FuwenEquipAll defaultInstance;
+    public static FuwenEquipAll getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FuwenEquipAll getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FuwenEquipAll(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              tab_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenEquipAll_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenEquipAll_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.FuWen.FuwenEquipAll.class, qxmobile.protobuf.FuWen.FuwenEquipAll.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FuwenEquipAll> PARSER =
+        new com.google.protobuf.AbstractParser<FuwenEquipAll>() {
+      public FuwenEquipAll parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FuwenEquipAll(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FuwenEquipAll> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 tab = 1;
+    public static final int TAB_FIELD_NUMBER = 1;
+    private int tab_;
+    /**
+     * <code>required int32 tab = 1;</code>
+     */
+    public boolean hasTab() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 tab = 1;</code>
+     */
+    public int getTab() {
+      return tab_;
+    }
+
+    private void initFields() {
+      tab_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasTab()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, tab_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, tab_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.FuWen.FuwenEquipAll parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAll parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAll parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAll parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAll parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAll parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAll parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAll parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAll parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAll parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.FuWen.FuwenEquipAll prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.FuwenEquipAll}
+     *
+     * <pre>
+     * 一键穿戴符文请求协议 C_FUWEN_EQUIP_ALL = 8011
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.FuWen.FuwenEquipAllOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenEquipAll_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenEquipAll_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.FuWen.FuwenEquipAll.class, qxmobile.protobuf.FuWen.FuwenEquipAll.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.FuWen.FuwenEquipAll.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        tab_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenEquipAll_descriptor;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenEquipAll getDefaultInstanceForType() {
+        return qxmobile.protobuf.FuWen.FuwenEquipAll.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenEquipAll build() {
+        qxmobile.protobuf.FuWen.FuwenEquipAll result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenEquipAll buildPartial() {
+        qxmobile.protobuf.FuWen.FuwenEquipAll result = new qxmobile.protobuf.FuWen.FuwenEquipAll(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.tab_ = tab_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.FuWen.FuwenEquipAll) {
+          return mergeFrom((qxmobile.protobuf.FuWen.FuwenEquipAll)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.FuWen.FuwenEquipAll other) {
+        if (other == qxmobile.protobuf.FuWen.FuwenEquipAll.getDefaultInstance()) return this;
+        if (other.hasTab()) {
+          setTab(other.getTab());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasTab()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.FuWen.FuwenEquipAll parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.FuWen.FuwenEquipAll) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 tab = 1;
+      private int tab_ ;
+      /**
+       * <code>required int32 tab = 1;</code>
+       */
+      public boolean hasTab() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 tab = 1;</code>
+       */
+      public int getTab() {
+        return tab_;
+      }
+      /**
+       * <code>required int32 tab = 1;</code>
+       */
+      public Builder setTab(int value) {
+        bitField0_ |= 0x00000001;
+        tab_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 tab = 1;</code>
+       */
+      public Builder clearTab() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        tab_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FuwenEquipAll)
+    }
+
+    static {
+      defaultInstance = new FuwenEquipAll(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FuwenEquipAll)
+  }
+
+  public interface FuwenEquipAllRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-失败，没有可穿戴的符文， 2-页签未解锁
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-失败，没有可穿戴的符文， 2-页签未解锁
+     * </pre>
+     */
+    int getResult();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.FuwenEquipAllResp}
+   *
+   * <pre>
+   * 一键穿戴符文结果返回，S_FUWEN_EQUIP_ALL_RESP = 8012
+   * </pre>
+   */
+  public static final class FuwenEquipAllResp extends
+      com.google.protobuf.GeneratedMessage
+      implements FuwenEquipAllRespOrBuilder {
+    // Use FuwenEquipAllResp.newBuilder() to construct.
+    private FuwenEquipAllResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FuwenEquipAllResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FuwenEquipAllResp defaultInstance;
+    public static FuwenEquipAllResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FuwenEquipAllResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FuwenEquipAllResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenEquipAllResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenEquipAllResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.FuWen.FuwenEquipAllResp.class, qxmobile.protobuf.FuWen.FuwenEquipAllResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FuwenEquipAllResp> PARSER =
+        new com.google.protobuf.AbstractParser<FuwenEquipAllResp>() {
+      public FuwenEquipAllResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FuwenEquipAllResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FuwenEquipAllResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-失败，没有可穿戴的符文， 2-页签未解锁
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-失败，没有可穿戴的符文， 2-页签未解锁
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    private void initFields() {
+      result_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.FuWen.FuwenEquipAllResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAllResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAllResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAllResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAllResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAllResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAllResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAllResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAllResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenEquipAllResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.FuWen.FuwenEquipAllResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.FuwenEquipAllResp}
+     *
+     * <pre>
+     * 一键穿戴符文结果返回，S_FUWEN_EQUIP_ALL_RESP = 8012
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.FuWen.FuwenEquipAllRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenEquipAllResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenEquipAllResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.FuWen.FuwenEquipAllResp.class, qxmobile.protobuf.FuWen.FuwenEquipAllResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.FuWen.FuwenEquipAllResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenEquipAllResp_descriptor;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenEquipAllResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.FuWen.FuwenEquipAllResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenEquipAllResp build() {
+        qxmobile.protobuf.FuWen.FuwenEquipAllResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenEquipAllResp buildPartial() {
+        qxmobile.protobuf.FuWen.FuwenEquipAllResp result = new qxmobile.protobuf.FuWen.FuwenEquipAllResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.FuWen.FuwenEquipAllResp) {
+          return mergeFrom((qxmobile.protobuf.FuWen.FuwenEquipAllResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.FuWen.FuwenEquipAllResp other) {
+        if (other == qxmobile.protobuf.FuWen.FuwenEquipAllResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.FuWen.FuwenEquipAllResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.FuWen.FuwenEquipAllResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-失败，没有可穿戴的符文， 2-页签未解锁
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-失败，没有可穿戴的符文， 2-页签未解锁
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-失败，没有可穿戴的符文， 2-页签未解锁
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-失败，没有可穿戴的符文， 2-页签未解锁
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FuwenEquipAllResp)
+    }
+
+    static {
+      defaultInstance = new FuwenEquipAllResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FuwenEquipAllResp)
+  }
+
+  public interface FuwenUnloadAllOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 tab = 1;
+    /**
+     * <code>required int32 tab = 1;</code>
+     */
+    boolean hasTab();
+    /**
+     * <code>required int32 tab = 1;</code>
+     */
+    int getTab();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.FuwenUnloadAll}
+   *
+   * <pre>
+   * 一键拆卸符文请求协议:C_FUWEN_UNLOAD_ALL = 8013
+   * </pre>
+   */
+  public static final class FuwenUnloadAll extends
+      com.google.protobuf.GeneratedMessage
+      implements FuwenUnloadAllOrBuilder {
+    // Use FuwenUnloadAll.newBuilder() to construct.
+    private FuwenUnloadAll(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FuwenUnloadAll(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FuwenUnloadAll defaultInstance;
+    public static FuwenUnloadAll getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FuwenUnloadAll getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FuwenUnloadAll(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              tab_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenUnloadAll_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenUnloadAll_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.FuWen.FuwenUnloadAll.class, qxmobile.protobuf.FuWen.FuwenUnloadAll.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FuwenUnloadAll> PARSER =
+        new com.google.protobuf.AbstractParser<FuwenUnloadAll>() {
+      public FuwenUnloadAll parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FuwenUnloadAll(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FuwenUnloadAll> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 tab = 1;
+    public static final int TAB_FIELD_NUMBER = 1;
+    private int tab_;
+    /**
+     * <code>required int32 tab = 1;</code>
+     */
+    public boolean hasTab() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 tab = 1;</code>
+     */
+    public int getTab() {
+      return tab_;
+    }
+
+    private void initFields() {
+      tab_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasTab()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, tab_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, tab_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAll parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAll parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAll parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAll parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAll parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAll parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAll parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAll parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAll parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAll parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.FuWen.FuwenUnloadAll prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.FuwenUnloadAll}
+     *
+     * <pre>
+     * 一键拆卸符文请求协议:C_FUWEN_UNLOAD_ALL = 8013
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.FuWen.FuwenUnloadAllOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenUnloadAll_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenUnloadAll_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.FuWen.FuwenUnloadAll.class, qxmobile.protobuf.FuWen.FuwenUnloadAll.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.FuWen.FuwenUnloadAll.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        tab_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenUnloadAll_descriptor;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenUnloadAll getDefaultInstanceForType() {
+        return qxmobile.protobuf.FuWen.FuwenUnloadAll.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenUnloadAll build() {
+        qxmobile.protobuf.FuWen.FuwenUnloadAll result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenUnloadAll buildPartial() {
+        qxmobile.protobuf.FuWen.FuwenUnloadAll result = new qxmobile.protobuf.FuWen.FuwenUnloadAll(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.tab_ = tab_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.FuWen.FuwenUnloadAll) {
+          return mergeFrom((qxmobile.protobuf.FuWen.FuwenUnloadAll)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.FuWen.FuwenUnloadAll other) {
+        if (other == qxmobile.protobuf.FuWen.FuwenUnloadAll.getDefaultInstance()) return this;
+        if (other.hasTab()) {
+          setTab(other.getTab());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasTab()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.FuWen.FuwenUnloadAll parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.FuWen.FuwenUnloadAll) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 tab = 1;
+      private int tab_ ;
+      /**
+       * <code>required int32 tab = 1;</code>
+       */
+      public boolean hasTab() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 tab = 1;</code>
+       */
+      public int getTab() {
+        return tab_;
+      }
+      /**
+       * <code>required int32 tab = 1;</code>
+       */
+      public Builder setTab(int value) {
+        bitField0_ |= 0x00000001;
+        tab_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 tab = 1;</code>
+       */
+      public Builder clearTab() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        tab_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FuwenUnloadAll)
+    }
+
+    static {
+      defaultInstance = new FuwenUnloadAll(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FuwenUnloadAll)
+  }
+
+  public interface FuwenUnloadAllRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-失败，没有可拆卸的符文，2-页签未解锁
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-失败，没有可拆卸的符文，2-页签未解锁
+     * </pre>
+     */
+    int getResult();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.FuwenUnloadAllResp}
+   *
+   * <pre>
+   * 一键拆卸符文结果返回,S_FUWEN_UNLOAD_ALL_RESP = 8014
+   * </pre>
+   */
+  public static final class FuwenUnloadAllResp extends
+      com.google.protobuf.GeneratedMessage
+      implements FuwenUnloadAllRespOrBuilder {
+    // Use FuwenUnloadAllResp.newBuilder() to construct.
+    private FuwenUnloadAllResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FuwenUnloadAllResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FuwenUnloadAllResp defaultInstance;
+    public static FuwenUnloadAllResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FuwenUnloadAllResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FuwenUnloadAllResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenUnloadAllResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenUnloadAllResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.FuWen.FuwenUnloadAllResp.class, qxmobile.protobuf.FuWen.FuwenUnloadAllResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FuwenUnloadAllResp> PARSER =
+        new com.google.protobuf.AbstractParser<FuwenUnloadAllResp>() {
+      public FuwenUnloadAllResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FuwenUnloadAllResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FuwenUnloadAllResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-失败，没有可拆卸的符文，2-页签未解锁
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-成功，1-失败，没有可拆卸的符文，2-页签未解锁
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    private void initFields() {
+      result_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAllResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAllResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAllResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAllResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAllResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAllResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAllResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAllResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAllResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.FuWen.FuwenUnloadAllResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.FuWen.FuwenUnloadAllResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.FuwenUnloadAllResp}
+     *
+     * <pre>
+     * 一键拆卸符文结果返回,S_FUWEN_UNLOAD_ALL_RESP = 8014
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.FuWen.FuwenUnloadAllRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenUnloadAllResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenUnloadAllResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.FuWen.FuwenUnloadAllResp.class, qxmobile.protobuf.FuWen.FuwenUnloadAllResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.FuWen.FuwenUnloadAllResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.FuWen.internal_static_qxmobile_protobuf_FuwenUnloadAllResp_descriptor;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenUnloadAllResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.FuWen.FuwenUnloadAllResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenUnloadAllResp build() {
+        qxmobile.protobuf.FuWen.FuwenUnloadAllResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.FuWen.FuwenUnloadAllResp buildPartial() {
+        qxmobile.protobuf.FuWen.FuwenUnloadAllResp result = new qxmobile.protobuf.FuWen.FuwenUnloadAllResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.FuWen.FuwenUnloadAllResp) {
+          return mergeFrom((qxmobile.protobuf.FuWen.FuwenUnloadAllResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.FuWen.FuwenUnloadAllResp other) {
+        if (other == qxmobile.protobuf.FuWen.FuwenUnloadAllResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.FuWen.FuwenUnloadAllResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.FuWen.FuwenUnloadAllResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-失败，没有可拆卸的符文，2-页签未解锁
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-失败，没有可拆卸的符文，2-页签未解锁
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-失败，没有可拆卸的符文，2-页签未解锁
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-成功，1-失败，没有可拆卸的符文，2-页签未解锁
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.FuwenUnloadAllResp)
+    }
+
+    static {
+      defaultInstance = new FuwenUnloadAllResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.FuwenUnloadAllResp)
+  }
+
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_QueryFuwen_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_QueryFuwen_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_QueryFuwenResp_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_QueryFuwenResp_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_qxmobile_protobuf_Fuwen_descriptor;
+    internal_static_qxmobile_protobuf_FuwenInBagResp_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_qxmobile_protobuf_Fuwen_fieldAccessorTable;
+      internal_static_qxmobile_protobuf_FuwenInBagResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_FuwenInBag_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_FuwenInBag_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_JunzhuAttr_descriptor;
   private static
@@ -6406,6 +12174,46 @@ public final class FuWen {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_FuwenResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_FuwenRongHeReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_FuwenRongHeReq_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_FuwenRongHeResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_FuwenRongHeResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_FuwenDuiHuan_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_FuwenDuiHuan_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_FuwenDuiHuanResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_FuwenDuiHuanResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_FuwenEquipAll_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_FuwenEquipAll_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_FuwenEquipAllResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_FuwenEquipAllResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_FuwenUnloadAll_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_FuwenUnloadAll_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_FuwenUnloadAllResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_FuwenUnloadAllResp_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -6415,65 +12223,138 @@ public final class FuWen {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\013Fuwen.proto\022\021qxmobile.protobuf\"\247\001\n\016Que" +
-      "ryFuwenResp\022\016\n\006zhanli\030\001 \002(\003\022.\n\006lanwei\030\002 " +
-      "\003(\0132\036.qxmobile.protobuf.FuwenLanwei\022+\n\004a" +
-      "ttr\030\003 \003(\0132\035.qxmobile.protobuf.JunzhuAttr" +
-      "\022(\n\006fuwens\030\004 \003(\0132\030.qxmobile.protobuf.Fuw" +
-      "en\"4\n\005Fuwen\022\016\n\006itemId\030\001 \002(\005\022\016\n\006isLock\030\002 " +
-      "\002(\005\022\013\n\003cnt\030\003 \002(\005\"\275\001\n\nJunzhuAttr\022\014\n\004type\030" +
-      "\001 \002(\005\022\016\n\006gongji\030\002 \002(\005\022\016\n\006fangyu\030\003 \002(\005\022\021\n" +
-      "\tshengming\030\004 \002(\005\022\014\n\004wqSH\030\005 \002(\005\022\014\n\004wqJM\030\006" +
-      " \002(\005\022\014\n\004wqBJ\030\007 \002(\005\022\014\n\004wqRX\030\010 \002(\005\022\014\n\004jnSH",
-      "\030\t \002(\005\022\014\n\004jnJM\030\n \002(\005\022\014\n\004jnBJ\030\013 \002(\005\022\014\n\004jn" +
-      "RX\030\014 \002(\005\"=\n\013FuwenLanwei\022\020\n\010lanweiId\030\001 \002(" +
-      "\005\022\016\n\006itemId\030\002 \002(\005\022\014\n\004flag\030\003 \001(\010\"A\n\017Opera" +
-      "teFuwenReq\022\014\n\004type\030\001 \002(\005\022\016\n\006itemId\030\002 \001(\005" +
-      "\022\020\n\010lanweiId\030\003 \001(\005\";\n\tFuwenResp\022\016\n\006resul" +
-      "t\030\001 \002(\005\022\016\n\006reason\030\002 \001(\t\022\016\n\006zhanli\030\003 \001(\003B" +
-      "\007B\005FuWen"
+      "\n\013Fuwen.proto\022\021qxmobile.protobuf\"\031\n\nQuer" +
+      "yFuwen\022\013\n\003tab\030\001 \002(\005\"\232\001\n\016QueryFuwenResp\022\016" +
+      "\n\006result\030\006 \002(\005\022\013\n\003tab\030\005 \002(\005\022\016\n\006zhanli\030\001 " +
+      "\002(\003\022.\n\006lanwei\030\002 \003(\0132\036.qxmobile.protobuf." +
+      "FuwenLanwei\022+\n\004attr\030\003 \003(\0132\035.qxmobile.pro" +
+      "tobuf.JunzhuAttr\"B\n\016FuwenInBagResp\0220\n\tfu" +
+      "wenList\030\001 \003(\0132\035.qxmobile.protobuf.FuwenI" +
+      "nBag\"E\n\nFuwenInBag\022\r\n\005bagId\030\002 \002(\003\022\016\n\006ite" +
+      "mId\030\001 \002(\005\022\013\n\003cnt\030\003 \002(\005\022\013\n\003exp\030\004 \002(\005\"\275\001\n\n" +
+      "JunzhuAttr\022\014\n\004type\030\001 \002(\005\022\016\n\006gongji\030\002 \002(\005",
+      "\022\016\n\006fangyu\030\003 \002(\005\022\021\n\tshengming\030\004 \002(\005\022\014\n\004w" +
+      "qSH\030\005 \002(\005\022\014\n\004wqJM\030\006 \002(\005\022\014\n\004wqBJ\030\007 \002(\005\022\014\n" +
+      "\004wqRX\030\010 \002(\005\022\014\n\004jnSH\030\t \002(\005\022\014\n\004jnJM\030\n \002(\005\022" +
+      "\014\n\004jnBJ\030\013 \002(\005\022\014\n\004jnRX\030\014 \002(\005\"J\n\013FuwenLanw" +
+      "ei\022\020\n\010lanweiId\030\001 \002(\005\022\016\n\006itemId\030\002 \002(\005\022\014\n\004" +
+      "flag\030\003 \001(\010\022\013\n\003exp\030\004 \002(\005\"O\n\017OperateFuwenR" +
+      "eq\022\016\n\006action\030\001 \002(\005\022\013\n\003tab\030\002 \002(\005\022\020\n\010lanwe" +
+      "iId\030\003 \001(\005\022\r\n\005bagId\030\004 \001(\003\";\n\tFuwenResp\022\016\n" +
+      "\006result\030\001 \002(\005\022\016\n\006reason\030\002 \001(\t\022\016\n\006zhanli\030" +
+      "\003 \001(\003\"_\n\016FuwenRongHeReq\022\013\n\003tab\030\001 \002(\005\022\020\n\010",
+      "lanweiId\030\002 \002(\005\022.\n\007bagList\030\003 \003(\0132\035.qxmobi" +
+      "le.protobuf.FuwenInBag\"]\n\017FuwenRongHeRes" +
+      "p\022\016\n\006result\030\001 \002(\005\022\013\n\003tab\030\002 \002(\005\022\020\n\010lanwei" +
+      "Id\030\003 \002(\003\022\016\n\006itemId\030\004 \001(\005\022\013\n\003exp\030\005 \001(\005\"#\n" +
+      "\014FuwenDuiHuan\022\023\n\013fuwenItemId\030\001 \002(\005\"\"\n\020Fu" +
+      "wenDuiHuanResp\022\016\n\006result\030\001 \002(\005\"\034\n\rFuwenE" +
+      "quipAll\022\013\n\003tab\030\001 \002(\005\"#\n\021FuwenEquipAllRes" +
+      "p\022\016\n\006result\030\001 \002(\005\"\035\n\016FuwenUnloadAll\022\013\n\003t" +
+      "ab\030\001 \002(\005\"$\n\022FuwenUnloadAllResp\022\016\n\006result" +
+      "\030\001 \002(\005B\007B\005FuWen"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_qxmobile_protobuf_QueryFuwenResp_descriptor =
+          internal_static_qxmobile_protobuf_QueryFuwen_descriptor =
             getDescriptor().getMessageTypes().get(0);
+          internal_static_qxmobile_protobuf_QueryFuwen_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_QueryFuwen_descriptor,
+              new java.lang.String[] { "Tab", });
+          internal_static_qxmobile_protobuf_QueryFuwenResp_descriptor =
+            getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_QueryFuwenResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_QueryFuwenResp_descriptor,
-              new java.lang.String[] { "Zhanli", "Lanwei", "Attr", "Fuwens", });
-          internal_static_qxmobile_protobuf_Fuwen_descriptor =
-            getDescriptor().getMessageTypes().get(1);
-          internal_static_qxmobile_protobuf_Fuwen_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_qxmobile_protobuf_Fuwen_descriptor,
-              new java.lang.String[] { "ItemId", "IsLock", "Cnt", });
-          internal_static_qxmobile_protobuf_JunzhuAttr_descriptor =
+              new java.lang.String[] { "Result", "Tab", "Zhanli", "Lanwei", "Attr", });
+          internal_static_qxmobile_protobuf_FuwenInBagResp_descriptor =
             getDescriptor().getMessageTypes().get(2);
+          internal_static_qxmobile_protobuf_FuwenInBagResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FuwenInBagResp_descriptor,
+              new java.lang.String[] { "FuwenList", });
+          internal_static_qxmobile_protobuf_FuwenInBag_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_qxmobile_protobuf_FuwenInBag_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FuwenInBag_descriptor,
+              new java.lang.String[] { "BagId", "ItemId", "Cnt", "Exp", });
+          internal_static_qxmobile_protobuf_JunzhuAttr_descriptor =
+            getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_JunzhuAttr_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_JunzhuAttr_descriptor,
               new java.lang.String[] { "Type", "Gongji", "Fangyu", "Shengming", "WqSH", "WqJM", "WqBJ", "WqRX", "JnSH", "JnJM", "JnBJ", "JnRX", });
           internal_static_qxmobile_protobuf_FuwenLanwei_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_qxmobile_protobuf_FuwenLanwei_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_FuwenLanwei_descriptor,
-              new java.lang.String[] { "LanweiId", "ItemId", "Flag", });
+              new java.lang.String[] { "LanweiId", "ItemId", "Flag", "Exp", });
           internal_static_qxmobile_protobuf_OperateFuwenReq_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_qxmobile_protobuf_OperateFuwenReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_OperateFuwenReq_descriptor,
-              new java.lang.String[] { "Type", "ItemId", "LanweiId", });
+              new java.lang.String[] { "Action", "Tab", "LanweiId", "BagId", });
           internal_static_qxmobile_protobuf_FuwenResp_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(7);
           internal_static_qxmobile_protobuf_FuwenResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_FuwenResp_descriptor,
               new java.lang.String[] { "Result", "Reason", "Zhanli", });
+          internal_static_qxmobile_protobuf_FuwenRongHeReq_descriptor =
+            getDescriptor().getMessageTypes().get(8);
+          internal_static_qxmobile_protobuf_FuwenRongHeReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FuwenRongHeReq_descriptor,
+              new java.lang.String[] { "Tab", "LanweiId", "BagList", });
+          internal_static_qxmobile_protobuf_FuwenRongHeResp_descriptor =
+            getDescriptor().getMessageTypes().get(9);
+          internal_static_qxmobile_protobuf_FuwenRongHeResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FuwenRongHeResp_descriptor,
+              new java.lang.String[] { "Result", "Tab", "LanweiId", "ItemId", "Exp", });
+          internal_static_qxmobile_protobuf_FuwenDuiHuan_descriptor =
+            getDescriptor().getMessageTypes().get(10);
+          internal_static_qxmobile_protobuf_FuwenDuiHuan_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FuwenDuiHuan_descriptor,
+              new java.lang.String[] { "FuwenItemId", });
+          internal_static_qxmobile_protobuf_FuwenDuiHuanResp_descriptor =
+            getDescriptor().getMessageTypes().get(11);
+          internal_static_qxmobile_protobuf_FuwenDuiHuanResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FuwenDuiHuanResp_descriptor,
+              new java.lang.String[] { "Result", });
+          internal_static_qxmobile_protobuf_FuwenEquipAll_descriptor =
+            getDescriptor().getMessageTypes().get(12);
+          internal_static_qxmobile_protobuf_FuwenEquipAll_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FuwenEquipAll_descriptor,
+              new java.lang.String[] { "Tab", });
+          internal_static_qxmobile_protobuf_FuwenEquipAllResp_descriptor =
+            getDescriptor().getMessageTypes().get(13);
+          internal_static_qxmobile_protobuf_FuwenEquipAllResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FuwenEquipAllResp_descriptor,
+              new java.lang.String[] { "Result", });
+          internal_static_qxmobile_protobuf_FuwenUnloadAll_descriptor =
+            getDescriptor().getMessageTypes().get(14);
+          internal_static_qxmobile_protobuf_FuwenUnloadAll_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FuwenUnloadAll_descriptor,
+              new java.lang.String[] { "Tab", });
+          internal_static_qxmobile_protobuf_FuwenUnloadAllResp_descriptor =
+            getDescriptor().getMessageTypes().get(15);
+          internal_static_qxmobile_protobuf_FuwenUnloadAllResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_FuwenUnloadAllResp_descriptor,
+              new java.lang.String[] { "Result", });
           return null;
         }
       };

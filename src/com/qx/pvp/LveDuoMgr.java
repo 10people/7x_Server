@@ -891,6 +891,9 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			wjNode.setNuQiZhi(0);
 			wjNode.setMibaoCount(0);
 			wjNode.setMibaoPower(0);
+			wjNode.setArmor(bing.armor);
+			wjNode.setArmorMax(bing.armorMax);
+			wjNode.setArmorRatio(bing.armorRatio);
 			PveMgr.inst.fillGongFangInfo(wjNode, bing);
 			String skills = bing.skills;
 			if (skills != null && !skills.equals("")) {
@@ -1811,41 +1814,46 @@ public class LveDuoMgr extends EventProc implements Runnable{
 				if(score <= 0){
 					continue;
 				}
-				String lianmengid = entry.getKey();
-				if(lianmengid == null ){
+				String lmIdStr = entry.getKey();
+				if(lmIdStr == null ){
 					continue;
 				}
-				AllianceBean alli = HibernateUtil.find(AllianceBean.class, Long.parseLong(lianmengid));
+				int lmId = Integer.parseInt(lmIdStr);
+				AllianceBean alli = HibernateUtil.find(AllianceBean.class, lmId);
 				if(alli == null){
 					continue;
 				}
 				int rank = min++;
 				// 增加
 				AllianceMgr.inst.changeAlianceBuild(alli, r.award);
-				AllianceMgr.inst.addAllianceExp(r.LMExp, alli);
+				//AllianceMgr.inst.addAllianceExp(r.LMExp, alli);
 				
 				//事件
 				LianmengEvent e = AllianceMgr.inst.lianmengEventMap.get(26);
 				String eventStr = e == null? "": e.str;
 				eventStr = eventStr.replaceFirst("%d", rank+"")
-						.replaceFirst("%d", r.award+"").replaceFirst("%d", r.LMExp+"");
+						.replaceFirst("%d", r.award+"");
 				AllianceMgr.inst.addAllianceEvent(alli.id, eventStr);
 				
-				// 发送通知盟主和副盟主邮件 ， 暂且只给盟主发送
 				content = mailConfig.content;
-				content = content.replace("***", rank +"");
+				content = content.replace("***a", rank +"")
+							     .replace("***b", r.award+"");
+				
 				long mengzhuid = alli.creatorId;
-				JunZhu mengZhu = HibernateUtil.find(JunZhu.class, mengzhuid);
-				if(mengZhu == null ){
-					continue;
-				}
-				boolean suc = EmailMgr.INSTANCE.sendMail(mengZhu.name, content, 
-						"", senderName, mailConfig, "");
-				if (suc) {
-					log.info("发送贡金联盟排行奖励发送了，发送通知：{}邮件成功，发送时间是：{}", 
-							mengzhuid, r.award, new Date());
-				} else {
-					log.error("发送贡金联盟排行奖励发送了，发送通知：{}邮件失败，", mengZhu.name);
+				List<AlliancePlayer> memberList = AllianceMgr.inst.getAllianceMembers(lmId);
+				for(AlliancePlayer member : memberList) {
+					JunZhu mengZhu = HibernateUtil.find(JunZhu.class, member.junzhuId);
+					if(mengZhu == null ){
+						continue;
+					}
+					boolean suc = EmailMgr.INSTANCE.sendMail(mengZhu.name, content, 
+							"", senderName, mailConfig, "");
+					if (suc) {
+						log.info("掠夺积分联盟排行奖励发送了，发送通知：{}邮件成功，发送时间是：{}", 
+								mengzhuid, r.award, new Date());
+					} else {
+						log.error("掠夺积分排行奖励发送了，发送通知：{}邮件失败，", mengZhu.name);
+					}
 				}
 			}
 		}

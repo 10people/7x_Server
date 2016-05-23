@@ -23,6 +23,7 @@
 	<file name="data/HuangyePvp.xml" />	
 	<file name="data/HuangyePvpNpc.xml" />	
 	<file name="data/HuangyeAward.xml" />	
+	<file name="data/HuangyeRankAward.xml" />	
 	<file name="data/HuangYeGuYongBing.xml" />
 	<file name="data/HuangYeDuihuan.xml" />
 	<file name="data/LMGongXianDuihuan.xml" />
@@ -105,6 +106,7 @@
 	<file name="data/Talent.xml"/>
 	<file name="data/TalentAttribute.xml"/>
 	<file name="data/VipFuncOpen.xml"/>
+	<file name="data/VIPGift.xml"/>
 	<file name="data/BaizhanPipei.xml"/>
 	<file name="data/ZhuangbeiPinzhi.xml"/>
 	<file name="data/DescId.xml"/>
@@ -145,4 +147,25 @@
 	
 	<file name="data/LianmengFengshan.xml"/>
 	<file name="data/ChuShiNuQi.xml"/>
+	<file name="data/ChonglouPveTemp.xml"/>
+	<file name="data/ChonglouNpcTemp.xml"/>
+	<file name="data/LieFuTemp.xml"/>
+
+	<file name="data/MiBaoNew.xml"/>
+	<file name="data/MiBaoNewSuiPian.xml"/>
+
+	<file name="data/FuwenTab.xml"/>
+	<file name="data/FuwenDuihuan.xml"/>
+	
+	<file name="data/JCZCity.xml"/>
+	<file name="data/JCZNPCTemp.xml"/>
+	<file name="data/JCZCommand.xml"/>
+	<file name="data/JCZChenghao.xml"/>
+	<file name="data/ShouChong.xml"/>
+	<file name="data/ChengZhangJiJin.xml"/>
+	<file name="data/TiLi.xml"/>
+	<file name="data/WuBeiFang.xml"/>
+	<file name="data/JCZPersonalAward.xml"/>
+	<file name="data/LianmengJuanxian.xml"/>
+	
 </config>

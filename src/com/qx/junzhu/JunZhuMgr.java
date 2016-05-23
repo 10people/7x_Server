@@ -3,9 +3,11 @@ package com.qx.junzhu;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.bag.HashBag;
 import org.apache.commons.collections.map.LRUMap;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
@@ -18,6 +20,8 @@ import com.manu.dynasty.template.BaseItem;
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.ChongZhi;
 import com.manu.dynasty.template.ExpTemp;
+import com.manu.dynasty.template.Fuwen;
+import com.manu.dynasty.template.FuwenTab;
 import com.manu.dynasty.template.HeroGrow;
 import com.manu.dynasty.template.JiNengPeiYang;
 import com.manu.dynasty.template.JunzhuShengji;
@@ -46,6 +50,8 @@ import com.qx.alliance.building.JianZhuMgr;
 import com.qx.alliance.building.LMKJBean;
 import com.qx.alliance.building.LMKJJiHuo;
 import com.qx.bag.Bag;
+import com.qx.bag.BagGrid;
+import com.qx.bag.BagMgr;
 import com.qx.bag.EquipGrid;
 import com.qx.bag.EquipMgr;
 import com.qx.equip.domain.UserEquip;
@@ -55,7 +61,9 @@ import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
+import com.qx.fuwen.FuWenBean;
 import com.qx.fuwen.FuwenMgr;
+import com.qx.fuwen.FuwenMgr.FushiInBagInfo;
 import com.qx.guojia.GuoJiaMgr;
 import com.qx.hero.HeroMgr;
 import com.qx.hero.WuJiang;
@@ -147,23 +155,26 @@ public class JunZhuMgr extends EventProc {
 				return;
 			}
 		}
-		sendMainInfo(session);
+		JunZhu jz = HibernateUtil.find(JunZhu.class, junZhuId.longValue());
+		sendMainInfo(session,jz);
 		// 天赋的显示通知
 		TalentMgr.instance.noticeTalentCanLevUp(Long.valueOf(junZhuId));
 		// 符文的显示通知
-		JunZhu jz = HibernateUtil.find(JunZhu.class, junZhuId.longValue());
 		EventMgr.addEvent(ED.FUSHI_PUSH, jz);
 	}
 
 	public void sendMainInfo(IoSession session) {
 		JunZhu junzhu = getJunZhu(session);
+		sendMainInfo(session, junzhu);
+	}
+	public void sendMainInfo(IoSession session, JunZhu junzhu) {
 		if (junzhu == null)
 			return;
 		JunZhuInfoRet.Builder b = buildMainInfo(junzhu,session);
 		session.write(b.build());
 		jzInfoCache.put(junzhu.id, b);
 		log.info("send junzhu info {} hp {}", junzhu.name, b.getShengMing());
-		HibernateUtil.save(junzhu);
+		HibernateUtil.update(junzhu);
 	}
 
 	public JunZhuInfoRet.Builder buildMainInfo(JunZhu junzhu, IoSession session) {
@@ -481,19 +492,24 @@ public class JunZhuMgr extends EventProc {
 	}
 	
 	public void calcFuwenAttr(JunZhu jz) {
-		List<String> lanweiList = Redis.getInstance().lgetList(FuwenMgr.CACHE_FUWEN_LANWEI+jz.id);
-		JunzhuAttr.Builder attr = FuwenMgr.inst.getFuwenAttr(lanweiList);
-		jz.gongJi += attr.getGongji();
-		jz.fangYu += attr.getFangyu();
-		jz.shengMingMax += attr.getShengming();
-		jz.wqSH += attr.getWqSH();
-		jz.wqJM += attr.getWqJM();
-		jz.wqBJ += attr.getWqBJ();
-		jz.wqRX += attr.getWqRX();
-		jz.jnSH += attr.getJnSH();
-		jz.jnJM += attr.getJnJM();
-		jz.jnBJ += attr.getJnBJ();
-		jz.jnRX += attr.getJnRX();
+		for(Map.Entry<Integer, FuwenTab> entry : FuwenMgr.inst.fuwenTabMap.entrySet()) {
+			if(jz.level < entry.getValue().level) {
+				continue;
+			}
+			List<FuWenBean> fuWenBeanList = FuwenMgr.inst.getFuWenBeanInTab(jz.id, entry.getKey());
+			JunzhuAttr.Builder attr = FuwenMgr.inst.getFuwenAttr(fuWenBeanList);
+			jz.gongJi += attr.getGongji();
+			jz.fangYu += attr.getFangyu();
+			jz.shengMingMax += attr.getShengming();
+			jz.wqSH += attr.getWqSH();
+			jz.wqJM += attr.getWqJM();
+			jz.wqBJ += attr.getWqBJ();
+			jz.wqRX += attr.getWqRX();
+			jz.jnSH += attr.getJnSH();
+			jz.jnJM += attr.getJnJM();
+			jz.jnBJ += attr.getJnBJ();
+			jz.jnRX += attr.getJnRX();
+		}
 	}
 
 	public void calcTalentAttr(JunZhu junzhu) {
@@ -976,7 +992,7 @@ public class JunZhuMgr extends EventProc {
 		HibernateUtil.save(jz);
 		SessionUser su = SessionManager.inst.findByJunZhuId(jz.id);
 		if (su != null) {
-			sendMainInfo(su.session);
+			sendMainInfo(su.session,jz);
 		}
 		int Time = 0;//升级所用时间
 		int Reason = 0;
@@ -1273,7 +1289,7 @@ public class JunZhuMgr extends EventProc {
 			junzhu.tiLi = conf.addTili;
 		}
 		junzhu.roleId = roleId;
-		junzhu.guoJiaId = guoJiaId;
+		junzhu.guoJiaId = 0;//guoJiaId;
 		Bag<EquipGrid> equips = EquipMgr.inst.initEquip(junZhuId);
 		log.info("------init equip-----{}", System.currentTimeMillis() - time);
 		time = System.currentTimeMillis();
@@ -1783,7 +1799,7 @@ public class JunZhuMgr extends EventProc {
 			log.info("君主:{}套装激活成功，激活id是：{}", junzhu.id, taozhuang.maxActiId);
 			// 参数： 激活套装的品质
 			EventMgr.addEvent(ED.active_taozhuang, new Object[]{junzhu.id, conf.condition});
-			sendMainInfo(session);
+			sendMainInfo(session, junzhu);
 			return;
 		}
 		case taoZhuangQiangHuaType:
@@ -1873,7 +1889,7 @@ public class JunZhuMgr extends EventProc {
 			resp.setSuccess(0);
 			session.write(resp.build());
 			log.info("君主:{}强化套装激活成功，激活id是：{}", junzhu.id,taozhuang.maxActiQiangHuaId);
-			sendMainInfo(session);
+			sendMainInfo(session,junzhu);
 			return;
 		}
 		}

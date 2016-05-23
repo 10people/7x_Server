@@ -23,6 +23,8 @@ import com.manu.dynasty.template.HuangYeDuihuan;
 import com.manu.dynasty.template.ItemTemp;
 import com.manu.dynasty.template.LMGongXianDuihuan;
 import com.manu.dynasty.template.MibaoSuiPian;
+import com.manu.dynasty.template.VIP;
+import com.manu.dynasty.template.WuBeiFang;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.PD;
 import com.manu.network.SessionManager;
@@ -55,6 +57,8 @@ import com.qx.util.RandomUtil;
 import com.qx.vip.VipData;
 import com.qx.vip.VipMgr;
 import com.qx.yuanbao.YBType;
+import com.qx.yuanbao.YuanBaoInfo;
+import com.qx.yuanbao.YuanBaoMgr;
 
 import log.ActLog;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
@@ -64,6 +68,11 @@ import qxmobile.protobuf.Shop.BuyGoodReq;
 import qxmobile.protobuf.Shop.BuyGoodResp;
 import qxmobile.protobuf.Shop.ShopReq;
 import qxmobile.protobuf.Shop.ShopResp;
+import qxmobile.protobuf.Shop.WubeiFangAwardInfo;
+import qxmobile.protobuf.Shop.WubeiFangBuy;
+import qxmobile.protobuf.Shop.WubeiFangBuyResp;
+import qxmobile.protobuf.Shop.WubeiFangInfo;
+import qxmobile.protobuf.Shop.WubeiFangInfoResp;
 
 public class ShopMgr extends EventProc {
 	// 荒野商店
@@ -78,6 +87,9 @@ public class ShopMgr extends EventProc {
 	public static final int common_shop_type = 5;
 	// 神秘商店
 	public static final int mysterious_shop_type = 6;
+	
+	public int[] shopTypes = {lianMeng_shop_type, lianmeng_battle_shop_type, baizhan_shop_type,
+								common_shop_type, mysterious_shop_type};
 	
 	public Map<Integer, List<BaseDuiHuan>> hyShopListMap = new HashMap<Integer, List<BaseDuiHuan>>();
 	public Map<Integer, BaseDuiHuan> hyShopMap = new HashMap<Integer, BaseDuiHuan>();
@@ -95,6 +107,7 @@ public class ShopMgr extends EventProc {
 //	public Map<Integer, List<BaseDuiHuan>>  commonShopListMap= new HashMap<Integer, List<BaseDuiHuan>>();
 	public Map<Integer, BaseDuiHuan> commonShopMap = new HashMap<Integer, BaseDuiHuan>();
 	public List<DangpuCommon> commonDangPuList;
+	public Map<Integer, List<WuBeiFang>> wuBeiFangMapById;
 	
 	// 神秘商店
 	public Map<Integer, List<BaseDuiHuan>>  mysteriousShopListMap= new HashMap<Integer, List<BaseDuiHuan>>();
@@ -130,6 +143,7 @@ public class ShopMgr extends EventProc {
 		 */
 		List<HuangYeDuihuan> yhShopList = TempletService
 				.listAll(HuangYeDuihuan.class.getSimpleName());
+		Map<Integer, BaseDuiHuan> hyShopMap = new HashMap<Integer, BaseDuiHuan>();
 		for (HuangYeDuihuan dh : yhShopList) {
 			int site = dh.site;
 			List<BaseDuiHuan> dList = hyShopListMap.get(site);
@@ -142,9 +156,11 @@ public class ShopMgr extends EventProc {
 			}
 			hyShopMap.put(dh.id, dh);
 		}
+		this.hyShopMap = hyShopMap;
 		
 		List<LMGongXianDuihuan> list = TempletService
 				.listAll(LMGongXianDuihuan.class.getSimpleName());
+		Map<Integer, BaseDuiHuan> lmShopMap = new HashMap<Integer, BaseDuiHuan>();
 		for (LMGongXianDuihuan dh : list) {
 			int site = dh.site;
 			List<BaseDuiHuan> dList = lmShopListMap.get(site);
@@ -157,9 +173,11 @@ public class ShopMgr extends EventProc {
 			}
 			lmShopMap.put(dh.id, dh);
 		}
+		this.lmShopMap = lmShopMap;
 		
 		List<GongXunDuihuan> list2 = TempletService
 				.listAll(GongXunDuihuan.class.getSimpleName());
+		Map<Integer, BaseDuiHuan> gongxunShopMap = new HashMap<Integer, BaseDuiHuan>();
 		for (GongXunDuihuan dh : list2) {
 			int site = dh.site;
 			List<BaseDuiHuan> dList = gongxunShopListMap.get(site);
@@ -172,9 +190,11 @@ public class ShopMgr extends EventProc {
 			}
 			gongxunShopMap.put(dh.id, dh);
 		}
+		this.gongxunShopMap = gongxunShopMap;
 		
 		List<Duihuan> list3 = TempletService
 				.listAll(Duihuan.class.getSimpleName());
+		Map<Integer, BaseDuiHuan> baiZhanShopMap = new HashMap<Integer, BaseDuiHuan>();
 		for (Duihuan dh : list3) {
 			int site = dh.site;
 			List<BaseDuiHuan> dList = baiZhanShopListMap.get(site);
@@ -187,8 +207,10 @@ public class ShopMgr extends EventProc {
 			}
 			baiZhanShopMap.put(dh.id, dh);
 		}
+		this.baiZhanShopMap = baiZhanShopMap;
 		commonDangPuList = TempletService
 				.listAll(DangpuCommon.class.getSimpleName());
+		Map<Integer, BaseDuiHuan> commonShopMap = new HashMap<Integer, BaseDuiHuan>();
 		for (DangpuCommon dh : commonDangPuList) {
 //			int site = dh.site;
 //			List<BaseDuiHuan> dList = commonShopListMap.get(site);
@@ -201,9 +223,11 @@ public class ShopMgr extends EventProc {
 //			}
 			commonShopMap.put(dh.id, dh);
 		}
+		this.commonShopMap = commonShopMap;
 	
 		List<Dangpu> list5 = TempletService
 				.listAll(Dangpu.class.getSimpleName());
+		Map<Integer, BaseDuiHuan> mysteriousShopMap = new HashMap<Integer, BaseDuiHuan>();
 		for (Dangpu dh : list5) {
 			int site = dh.site;
 			List<BaseDuiHuan> dList = mysteriousShopListMap.get(site);
@@ -216,6 +240,19 @@ public class ShopMgr extends EventProc {
 			}
 			mysteriousShopMap.put(dh.id, dh);
 		}
+		this.mysteriousShopMap = mysteriousShopMap;
+		
+		List<WuBeiFang> wuBeiFangList = TempletService.listAll(WuBeiFang.class.getSimpleName());
+		Map<Integer, List<WuBeiFang>> wuBeiFangMapById = new HashMap<>();
+		for(WuBeiFang wbf : wuBeiFangList) {
+			List<WuBeiFang> wbfList = wuBeiFangMapById.get(wbf.id);
+			if(wbfList == null) {
+				wbfList = new ArrayList<>();
+				wuBeiFangMapById.put(wbf.id, wbfList);
+			}
+			wbfList.add(wbf);
+		}
+		this.wuBeiFangMapById = wuBeiFangMapById;
 	}
 
 	/*
@@ -230,6 +267,32 @@ public class ShopMgr extends EventProc {
 		ShopReq.Builder req = (ShopReq.Builder) builder;
 		int type = req.getType();
 		int bigType = type / shop_space;
+		
+		// 协议里的操作
+		int[] rightType = { 10, 20, 30, 40, 50, 60,
+							11, 21, 31, 41, 61};
+		boolean correctType = false;
+		for(int tt : rightType) {
+			if(tt == type) {
+				correctType = true;
+				break;
+			}
+		}
+		ShopResp.Builder resp = ShopResp.newBuilder();
+		if(!correctType) {
+			logger.error("商店操作请求失败，请求的操作类型:{}不存在", type);
+			resp.setMsg(2);
+			session.write(resp.build());
+			return;
+		}
+		boolean correctShopType = verifyShopType(bigType);
+		if(!correctShopType) {
+			logger.error("商店操作请求失败，请求的商店类型:{}不存在", bigType);
+			resp.setMsg(2);
+			session.write(resp.build());
+			return;
+		}
+		
 		PublicShop bean = HibernateUtil.find(PublicShop.class, jz.id * shop_space + bigType);
 		if (bean == null) {
 			bean = initShopInfo(jz.id, bigType);
@@ -237,7 +300,6 @@ public class ShopMgr extends EventProc {
 			// 检查是否更新
 			resetHYShopBean(bean);
 		}
-		ShopResp.Builder resp = ShopResp.newBuilder();
 		List<GoodsInfo> goods = getGoodsInfo(bean);
 		int money = getMoney(bigType, jz, bean);
 		/*
@@ -458,12 +520,7 @@ public class ShopMgr extends EventProc {
 			duihuan.setId(goods.getId());
  			duihuan.setSite(d.site);
  			duihuan.setIsChange(goods.num == 0? false: true);
-			if(shop_type == common_shop_type ){
-				duihuan.setRemainCount(goods.num);
-			}
-			if(shop_type == lianMeng_shop_type){
-				duihuan.setRemainCount(goods.num);
-			}
+ 			duihuan.setRemainCount(goods.num);
 			resp.addGoodsInfos(duihuan);
 		}
 	}
@@ -511,6 +568,15 @@ public class ShopMgr extends EventProc {
 		BuyGoodReq.Builder req = (BuyGoodReq.Builder) builder;
 		int goodId = req.getGoodId();
 		int bigType = req.getType();
+		
+		BuyGoodResp.Builder resp = BuyGoodResp.newBuilder();
+		boolean correctShopType = verifyShopType(bigType);
+		if(!correctShopType) {
+			logger.error("商店购买物品失败，请求的商店类型:{}不存在", bigType);
+			resp.setMsg(5);
+			session.write(resp.build());
+			return;
+		}
 
 		BaseDuiHuan dh = getShopGoodsMap(bigType).get(goodId);
 		if (dh == null) {
@@ -518,7 +584,6 @@ public class ShopMgr extends EventProc {
 					bigType, goodId);
 			return;
 		}
-		BuyGoodResp.Builder resp = BuyGoodResp.newBuilder();
 
 		int money = dh.needNum;
 		/*
@@ -527,13 +592,17 @@ public class ShopMgr extends EventProc {
 		if(bigType == lianMeng_shop_type){
 			int levle = 0;
 			AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jz.id);
+			if(player == null || player.lianMengId <= 0) {
+				logger.error("联盟商店购买失败，君主:{}还没有加入联盟", jz.id);
+				return;
+			}
 			if (player != null && player.lianMengId > 0) {
 				JianZhuLvBean jianzhu = HibernateUtil.find(JianZhuLvBean.class, player.lianMengId);
 				levle = jianzhu == null ? 1: jianzhu.shangPuLv;
 			}
 			if(levle < dh.getNeedLv()){
-				resp.setMsg(4);
 				logger.info("玩家id{}, 购买联盟商店物品失败，联盟商店物品：{}没有开启", jz.id, goodId);
+				resp.setMsg(4);
 				session.write(resp.build());
 				return;
 			}
@@ -541,7 +610,7 @@ public class ShopMgr extends EventProc {
 		
 		// 判断vip是否能买
 		if(jz.vipLevel < dh.getVIP()){
-			resp.setMsg(5);
+			resp.setMsg(6);
 			logger.info("玩家id{}, 购买商店物品：{}失败，vip等级不够，需要vip等级：{}", 
 					jz.id, goodId, dh.getVIP());
 			session.write(resp.build());
@@ -624,8 +693,8 @@ public class ShopMgr extends EventProc {
 			// 神秘商店的铜币购买
 			if(bigType == mysterious_shop_type && dh.type == tongBi_buy){
 				jz.tongBi -= money;
-				HibernateUtil.save(jz);
-				JunZhuMgr.inst.sendMainInfo(session);
+				HibernateUtil.update(jz);
+				JunZhuMgr.inst.sendMainInfo(session,jz);
 				oldMoney = jz.tongBi;
 			}else if(bigType == mysterious_shop_type && dh.type == yuanBao_buy){
 				// 普通商店元宝购买或者神秘商店元宝购买
@@ -665,7 +734,7 @@ public class ShopMgr extends EventProc {
 			if(bigType == baizhan_shop_type){
 				// 主线任务: 消耗一次威望（在威望商店里购买1次物品）20190916
 				EventMgr.addEvent(ED.pay_weiWang , new Object[] { jz.id});
-				sendWeiWang(session, jz.id);
+				sendMainIfo(session, jz.id, ShopMgr.Money.weiWang);
 			}
 			// 购买的要是宝石，就判定是否有任务完成
 			else if(bigType == mysterious_shop_type && a.getItemType() == AwardMgr.type_fuWen){
@@ -674,7 +743,7 @@ public class ShopMgr extends EventProc {
 			}else if(bigType == lianMeng_shop_type){
 				EventMgr.addEvent(ED.LM_SHOP_BUY, new Object[]{jz, a, itemName});
 			}else if(bigType == huangYe_shop_type){
-				sendHangYebi(session, jz.id);
+				sendMainIfo(session, jz.id, ShopMgr.Money.huangYeBi);
 			}
 		} else {
 			/* 0：不足 */
@@ -683,6 +752,17 @@ public class ShopMgr extends EventProc {
 					jz.id, jz.name, bigType, goodId);
 		}
 		session.write(resp.build());
+	}
+
+	public boolean verifyShopType(int bigType) {
+		boolean correctShopType = false;
+		for(int type : shopTypes) {
+			if(type == bigType) {
+				correctShopType = true;
+				break;
+			}
+		}
+		return correctShopType;
 	}
 
 /**
@@ -853,21 +933,21 @@ public class ShopMgr extends EventProc {
 						if (item == null) {
 							logger.error("itemTemp表获取不到该物品，传过来的itemId:{}",
 									bg.itemId);
-							sendError(cmd, session, "典当物品操作失败");
+							//sendError(cmd, session, "典当物品操作失败");
 							return;
 						}
 
 						int itemType = item.getItemType();
 						if (itemType != SELL_TYPE) {
 							logger.error("当铺出售的物品类型错误，itemType:{}", itemType);
-							sendError(cmd, session, "当铺只能出售玉诀");
+							//sendError(cmd, session, "当铺只能出售玉诀");
 							return;
 						}
 		
 						if (bg.cnt < sellCount) {
-							logger.error("背包里没有足够的物品itemId:{},数量:{}出售", bg.itemId,
-									sellCount);
-							sendError(cmd, session, "典当物品操作失败");
+							logger.error("背包里没有足够的物品itemId:{},拥有数量:{},出售数量:{}",
+									bg.itemId,bg.cnt,sellCount);
+							//sendError(cmd, session, "典当物品操作失败");
 							return;
 						}
 						rightData.put(bagId, bg);
@@ -876,27 +956,30 @@ public class ShopMgr extends EventProc {
 				}
 				if (!has) {
 					logger.error("没有找到bag数据，bagDBid:{}", bagId);
-					sendError(cmd, session, "典当物品操作失败");
+					//sendError(cmd, session, "典当物品操作失败");
 					return;
 				}
 			}else if(goodsType == 2){ // 秘宝碎片
 				MiBaoDB m = HibernateUtil.find(MiBaoDB.class, bagId);
 				if(m == null){
-					sendError(cmd, session, "指定典当秘宝碎片不存在");
+					logger.error("指定典当秘宝碎片不存在dbId:{}", bagId);
+					//sendError(cmd, session, "指定典当秘宝碎片不存在");
 					return;
 				}
 				if(m.getSuiPianNum() < sellCount){
-					sendError(cmd, session, "指定典当秘宝碎片数量不足");
+					logger.error("指定典当秘宝碎片数量不足,数量有:{},出售数量:{}", m.getSuiPianNum(), sellCount);
+					//sendError(cmd, session, "指定典当秘宝碎片数量不足");
 					return;
 				}
 				if(m.getStar() < MibaoMgr.mibao_first_full_star){
-					sendError(cmd, session, "指定典当秘宝碎片星级不足");
+					logger.error("指定典当秘宝碎片星级不足,碎片星级:{},需要达到星级{}", m.getStar(), MibaoMgr.mibao_first_full_star);
+					//sendError(cmd, session, "指定典当秘宝碎片星级不足");
 					return;
 				}
 				mibaoData.put(bagId, m);
 			}else{
-				logger.error("没有找到卖出物品数据，bagDBid:{}", bagId);
-				sendError(cmd, session, "典当物品操作失败");
+				logger.error("出售的物品类型错误，goodsType:{}", goodsType);
+				//sendError(cmd, session, "典当物品操作失败");
 				return;
 			}
 		}
@@ -950,11 +1033,11 @@ public class ShopMgr extends EventProc {
 				sellMibaoS = true;
 			}
 		}
-		HibernateUtil.save(junZhu);
-		JunZhuMgr.inst.sendMainInfo(session);
+		HibernateUtil.update(junZhu);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		session.write(PD.PAWN_SHOP_GOODS_SELL_OK);
 
-		if(selBagGoods) BagMgr.inst.sendBagInfo(cmd, session, builder);
+		if(selBagGoods) BagMgr.inst.sendBagInfo(session, bag);
 		if(sellMibaoS) MibaoMgr.inst.mibaoInfosRequest(PD.C_MIBAO_INFO_REQ, session);
 	}
 
@@ -1001,9 +1084,9 @@ public class ShopMgr extends EventProc {
 				// 发送红点信息
 				sendRedNotice(jzid, junZhu.level, su.session);
 				// 发送威望值
-				sendWeiWang(su.session, jzid);
+				sendMainIfo(su.session,jzid,ShopMgr.Money.weiWang);
 				// 发送荒野币
-				sendHangYebi(su.session, jzid);
+				sendMainIfo(su.session,jzid,ShopMgr.Money.huangYeBi);
 				break;
 			}
 		}
@@ -1038,15 +1121,33 @@ public class ShopMgr extends EventProc {
 			}
 		}
 	}
-
+	
+	public void sendMainIfo(IoSession session, long jzid , ShopMgr.Money m){
+		int money = getMoney(m, jzid, null);
+		switch(m){
+		case huangYeBi:
+			DailyTaskMgr.INSTANCE.sendError(session, money, PD.huangyeBi, money);
+			break;
+		case gongXun:
+			DailyTaskMgr.INSTANCE.sendError(session, money, PD.gongxun, money);
+			break;
+		case weiWang:
+			DailyTaskMgr.INSTANCE.sendError(session, money, PD.weiWang, money);
+		default:
+			break;
+		}
+	}
+	
 	public void sendWeiWang(IoSession session, long jzid){
 		int money = getMoney(ShopMgr.Money.weiWang, jzid, null);
 		DailyTaskMgr.INSTANCE.sendError(session, money, PD.weiWang, money);
 	}
+	
 	public void sendHangYebi(IoSession session, long jzid){
 		int money = getMoney(ShopMgr.Money.huangYeBi, jzid, null);
 		DailyTaskMgr.INSTANCE.sendError(session, money, PD.huangyeBi, money);
 	}
+	
 	public boolean isSendRed(Date lastopenTime, Date now){
 		int nowhour = DateUtils.getHourOfDay(now);
 		int lasthour = DateUtils.getHourOfDay(lastopenTime);
@@ -1091,24 +1192,270 @@ public class ShopMgr extends EventProc {
 		EventMgr.regist(ED.ACC_LOGIN, this);
 	}
 
-//	public void setLMShopOfLevel(int level, long jid){
-//		if(level < 0){
-//			return;
-//		}
-//		PublicShop bean = HibernateUtil.find(PublicShop.class,
-//				jid * shop_space + lianMeng_shop_type);
-//		if (bean == null) {
-//			bean = initShopInfo(jid, lianMeng_shop_type);
-//		}
-//		List<GoodsInfo> goodsL = getGoodsInfo(bean);
-//		List<GoodsInfo> addG = new ArrayList<GoodsInfo>();
-//		for(GoodsInfo  g: goodsL){
-//			BaseDuiHuan d = lmShopMap.get(g.getId());
-//			if(level >= d.needLv){
-//				addG.add(g);
-//			}
-//		}
-//		bean.goodsInfo = setGoodsInfo(addG);
-//		HibernateUtil.save(bean);
-//	}
+	public void requestWuBeiFangInfo(int cmd, Builder builder, IoSession session) {
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junZhu == null) {
+			logger.error("未发现君主，cmd:{}", cmd);
+			return;
+		}
+		WuBeiFangBean wuBeiFang = getWuBeiFangBean(junZhu.id);
+		if(DateUtils.isTimeToReset(wuBeiFang.lastBuyTime, CanShu.REFRESHTIME)) {
+			wuBeiFang.type1UseTimes = 0;
+			wuBeiFang.type2UseTimes = 0;
+			wuBeiFang.type3UseTimes = 0;
+			wuBeiFang.type4UseTimes = 0;
+			HibernateUtil.save(wuBeiFang);
+		}
+		WubeiFangInfoResp.Builder response = WubeiFangInfoResp.newBuilder();
+		
+		for(Integer type : wuBeiFangMapById.keySet()) {
+			WubeiFangInfo.Builder wubeiFangBuilder = WubeiFangInfo.newBuilder();
+			wubeiFangBuilder.setType(type);
+			int remainFreeTimes = getRemainFreeTimes(type, wuBeiFang);
+			wubeiFangBuilder.setFreeTimes(remainFreeTimes);
+			wubeiFangBuilder.setCostYuanbao(getCostYuanBao(type, wuBeiFang));
+			wubeiFangBuilder.setRemainYuanbaoBuyTimes(getRamainYuanBaoTimes(type, wuBeiFang, junZhu, remainFreeTimes));
+			response.addWubeiFangInfoList(wubeiFangBuilder);
+		}
+		session.write(response.build());
+	}
+
+	public int getCostYuanBao(Integer type, WuBeiFangBean wuBeiFang) {
+		//type类型(与配置文件必须一样):1：装备铺,2：珍宝行,3：石料店,4：益精堂
+		int totalTimes = getWuBeiFangTypeUseTimesToday(wuBeiFang, type);
+		WuBeiFang beiFang = getWuBeiFangConfig(type, totalTimes + 1);
+		if(beiFang == null) {
+			logger.error("配置文件查找错误，返回一个较大的元宝数量");
+			return 10000;
+		}
+		return beiFang.cost;
+	}
+
+	public WuBeiFang getWuBeiFangConfig(Integer type, int totalTimes) {
+		List<WuBeiFang> wbfList = wuBeiFangMapById.get(type);
+		if(wbfList == null || wbfList.size() == 0) {
+			logger.error("获取武备坊花费元宝失败，类型:{}", type);
+			return null;
+		}
+		WuBeiFang beiFang = null;
+		for(WuBeiFang wbf : wbfList) {
+			if(wbf.times == totalTimes) {
+				beiFang = wbf;
+				break;
+			}
+		}
+		if(beiFang == null) {
+			logger.error("获取武备坊花费元宝失败，类型:{}，次数:{}", type, totalTimes);
+			return null;
+		}
+		return beiFang;
+	}
+
+	public int getRamainYuanBaoTimes(Integer type, WuBeiFangBean wuBeiFang, JunZhu junZhu, int remainFreeTimes) {
+		VIP vipCfg = VipMgr.INSTANCE.getVIPByVipLevel(junZhu.vipLevel);
+		if(vipCfg == null) {
+			logger.error("获取武备坊剩余次数失败，找不到vip等级为:{}的配置文件", junZhu.vipLevel);
+			return 0;
+		}
+		int times = 0;
+		//type类型(与配置文件必须一样):1：装备铺,2：珍宝行,3：石料店,4：益精堂
+		switch(type) {
+			case 1:
+				if(wuBeiFang.type1UseTimes - CanShu.EQUIPMENT_FREETIMES >= 0) {
+					times = vipCfg.buyEquipment - (wuBeiFang.type1UseTimes - CanShu.EQUIPMENT_FREETIMES);
+				} else {
+					times = vipCfg.buyEquipment;
+				}
+				break;
+			case 2:
+				if(wuBeiFang.type2UseTimes - CanShu.BAOSHI_FREETIMES >= 0) {
+					times = vipCfg.buyBaoshi - (wuBeiFang.type2UseTimes - CanShu.BAOSHI_FREETIMES);
+				} else {
+					times = vipCfg.buyBaoshi;
+				}
+				break;
+			case 3:
+				if(wuBeiFang.type3UseTimes - CanShu.QIANGHUA_FREETIMES >= 0) {
+					times = vipCfg.buyQianghua - (wuBeiFang.type3UseTimes - CanShu.QIANGHUA_FREETIMES);
+				} else {
+					times = vipCfg.buyQianghua;
+				}
+				break;
+			case 4:
+				if(wuBeiFang.type4UseTimes - CanShu.JINGQI_FREETIMES >= 0) {
+					times = vipCfg.buyJingqi - (wuBeiFang.type4UseTimes - CanShu.JINGQI_FREETIMES);
+				} else {
+					times = vipCfg.buyJingqi;
+				}
+				break;
+			default:
+				logger.error("获取武备坊今日免费剩余次数失败，找不到type:{}", type);
+				break;
+		}
+		times = times < 0 ? 0 : times;
+		return times;
+	}
+
+	public int getRemainFreeTimes(Integer type, WuBeiFangBean wuBeiFang) {
+		int freeTimesRemain = 0;
+		int todayUseTimes = getWuBeiFangTypeUseTimesToday(wuBeiFang, type);
+		if(todayUseTimes == -1) {
+			return 0;
+		}
+		//type类型(与配置文件必须一样):1：装备铺,2：珍宝行,3：石料店,4：益精堂
+		switch(type) {
+			case 1:
+				freeTimesRemain = CanShu.EQUIPMENT_FREETIMES - wuBeiFang.type1UseTimes;
+				break;
+			case 2:
+				freeTimesRemain = CanShu.BAOSHI_FREETIMES - wuBeiFang.type2UseTimes;
+				break;
+			case 3:
+				freeTimesRemain = CanShu.QIANGHUA_FREETIMES - wuBeiFang.type3UseTimes;
+				break;
+			case 4:
+				freeTimesRemain = CanShu.JINGQI_FREETIMES - wuBeiFang.type4UseTimes;
+				break;
+			default:
+				logger.error("获取武备坊今日免费剩余次数失败，找不到type:{}", type);
+				break;
+		}
+		freeTimesRemain = freeTimesRemain < 0 ? 0 : freeTimesRemain;
+		return freeTimesRemain;
+	}
+
+	public int getWuBeiFangTypeUseTimesToday(WuBeiFangBean wuBeiFang, Integer type) {
+		int todayUseTimes = -1;
+		//type类型(与配置文件必须一样):1：装备铺,2：珍宝行,3：石料店,4：益精堂
+		switch(type) {
+			case 1:
+				todayUseTimes = wuBeiFang.type1UseTimes;
+				break;
+			case 2:
+				todayUseTimes = wuBeiFang.type2UseTimes;
+				break;
+			case 3:
+				todayUseTimes = wuBeiFang.type3UseTimes;
+				break;
+			case 4:
+				todayUseTimes = wuBeiFang.type4UseTimes;
+				break;
+			default:
+				logger.error("获取武备坊今日使用次数失败，找不到type:{}", type);
+				break;
+		}
+		return todayUseTimes;
+	}
+
+	public WuBeiFangBean getWuBeiFangBean(long junZhuId) {
+		WuBeiFangBean wuBeiFang = HibernateUtil.find(WuBeiFangBean.class, junZhuId);
+		if(wuBeiFang == null) {
+			wuBeiFang = new WuBeiFangBean();
+			wuBeiFang.junzhuId = junZhuId;
+			HibernateUtil.insert(wuBeiFang);
+		}
+		return wuBeiFang;
+	}
+
+	public void buyWuBeiFang(int cmd, Builder builder, IoSession session) {
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junZhu == null) {
+			logger.error("未发现君主，cmd:{}", cmd);
+			return;
+		}
+		WubeiFangBuy.Builder request = (qxmobile.protobuf.Shop.WubeiFangBuy.Builder) builder;
+		int type = request.getType();
+		
+		WuBeiFangBean wuBeiFang = getWuBeiFangBean(junZhu.id);
+		int remainFreeTimes = getRemainFreeTimes(type, wuBeiFang);
+		boolean free = false;
+		if(remainFreeTimes > 0) {
+			free = true;
+		} 
+		
+		WubeiFangBuyResp.Builder response = WubeiFangBuyResp.newBuilder();
+		int totalTimes = getWuBeiFangTypeUseTimesToday(wuBeiFang, type);
+		WuBeiFang beiFang = getWuBeiFangConfig(type, totalTimes + 1);
+		if(beiFang == null) {
+			response.setResult(3);
+			session.write(response.build());
+			logger.error("配置文件查找错误，返回一个较大的元宝数量");
+			return;
+		}
+		
+		int needCost = getCostYuanBao(type, wuBeiFang);
+		if(!free) {
+			int remainYuanBaoTimes = getRamainYuanBaoTimes(type, wuBeiFang, junZhu, remainFreeTimes);
+			if(remainYuanBaoTimes <= 0) {
+				response.setResult(2);
+				session.write(response.build());
+				logger.error("武备坊购买失败，今日次数用完，vip等级:{} 今日所用次数:{}", junZhu.vipLevel, totalTimes);
+				return;
+			}
+			if(junZhu.yuanBao < needCost) {
+				response.setResult(1);
+				session.write(response.build());
+				logger.error("武备坊购买失败，元宝不足vip等级:{} 今日所用次数:{},有元宝:{}",junZhu.vipLevel, totalTimes, junZhu.yuanBao);
+				return;
+			}
+		}
+		wuBeiFang.lastBuyTime = new Date();
+		changeTimes(wuBeiFang, type, 1);
+		HibernateUtil.save(wuBeiFang);
+		
+		List<AwardTemp> awardList = AwardMgr.inst.getHitAwardList(beiFang.awardID, ",", "=");
+		logger.info("武备坊购买成功，君主:{}购买的type:{},获得:{}", junZhu.id, type, awardList);
+		for(AwardTemp award : awardList) {
+			WubeiFangAwardInfo.Builder awardBuilder = WubeiFangAwardInfo.newBuilder();
+			awardBuilder.setItemType(award.getItemType());
+			awardBuilder.setItemId(award.getItemId());
+			awardBuilder.setItemNum(award.getItemNum());
+			response.addAwardList(awardBuilder);
+		}
+		
+		WubeiFangInfo.Builder wubeiFangBuilder = WubeiFangInfo.newBuilder();
+		wubeiFangBuilder.setType(type);
+		int newFreeTimes = getRemainFreeTimes(type, wuBeiFang);
+		wubeiFangBuilder.setFreeTimes(newFreeTimes);
+		wubeiFangBuilder.setCostYuanbao(getCostYuanBao(type, wuBeiFang));
+		wubeiFangBuilder.setRemainYuanbaoBuyTimes(getRamainYuanBaoTimes(type, wuBeiFang, junZhu, newFreeTimes));
+		response.setWubeiFangInfo(wubeiFangBuilder);
+		
+		response.setResult(0);
+		session.write(response.build());
+		for(AwardTemp award : awardList) {
+			AwardMgr.inst.giveReward(session, award, junZhu, false, false);
+		}
+		if(!free) {
+			YuanBaoMgr.inst.diff(junZhu, -needCost, 0, 0, 0, "进行武备坊购买");
+		}
+		JunZhuMgr.inst.sendMainInfo(session);
+		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
+		BagMgr.inst.sendBagInfo(session, bag);
+		
+		EventMgr.addEvent(ED.done_wuBeiChouJiang, new Object[]{junZhu.id});
+	}
+
+	public void changeTimes(WuBeiFangBean wuBeiFang, int type, int times) {
+		//type类型(与配置文件必须一样):1：装备铺,2：珍宝行,3：石料店,4：益精堂
+		switch(type) {
+			case 1:
+				wuBeiFang.type1UseTimes += times;
+				break;
+			case 2:
+				wuBeiFang.type2UseTimes += times;
+				break;
+			case 3:
+				wuBeiFang.type3UseTimes += times;
+				break;
+			case 4:
+				wuBeiFang.type4UseTimes += times;
+				break;
+			default:
+				logger.error("修改武备坊今日使用次数失败，找不到type:{}", type);
+				break;
+		}
+	}
+	
+
 }

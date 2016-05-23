@@ -8,6 +8,7 @@ package com.qx.yuanbao;
  * 
  */
 public class YBType {
+	public static final int YB_YSDK = 8;// ysdk充值
 	public static final int YB_VIP_CHONGZHI = 101;// vip充值
 	public static final int YB_CHUANGJIAN_LIANGMENG = 102;// 创建联盟
 	public static final int YB_PAWN_BUY_SHANGPIN = 103;// 当铺购买商品
@@ -42,5 +43,7 @@ public class YBType {
 	public static final int YB_All_LIFE_REVIVE = 132;	//满血复活
 	public static final int WORLD_CHAT = 133;	//广播频道聊天
 	public static final int ShiLianBaoXiang = 233;	//广播频道聊天
-	public static final int YB_PVP_RANK_GAIN = 134;				//pvp排名上升
+	public static final int YB_PVP_RANK_GAIN = 334;				//pvp排名上升
+	public static final int LMZ_FUHUO = 335;				//联盟战复活
+	public static final int LIAN_MENG_JUAN_XIAN = 336;//联盟捐献基础建设或者军政建设
 }

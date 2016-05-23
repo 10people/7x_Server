@@ -2,7 +2,6 @@ package com.manu.network;
 
 public class SessionAttKey {
 	public static final String socketHeadReceived = "socketHeadReceived";
-	public static final String sessionId = "sessionId";
 	public static final String sessionAccount = "sAccount";
 	public static final String playerId_Scene = "playerIdScene";
 	public static final String Scene = "Scene";
@@ -14,7 +13,10 @@ public class SessionAttKey {
 	public static final String firstQuanQiaId = "firstQuanQiaId";
 	public static final String buZhenWuJiangIds = "buZhenWuJiangIds";
 	public static final String buZhenMibaoIds = "buZhenMibaoIds";
-	public static final String LAST_CHAT_KEY = "lastChatKey";
+	public static final String LAST_SILIAO_CHAT_KEY = "lastSiliaoChatKey";
+	public static final String LAST_WORLD_CHAT_KEY = "lastWorldChatKey";
+	public static final String LAST_LIANMENG_CHAT_KEY = "lastLianmengChatKey";
+	public static final String LAST_BROADCAST_CHAT_KEY = "lastGuangboChatKey";
 	public static final String LAST_ASKYBHLEP_KEY = "lastAskybHlepKey";
 	public static final String LAST_SEND_EMAIL_KEY = "lastSendEmailKey";
 	public static final String LAST_ANSWER_YBHELP_KEY = "lastAnswerYbhelpKey";

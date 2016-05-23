@@ -113,7 +113,7 @@ public class BaoXiangScene extends Scene{
 //		session.write(info);
 		broadCastEvent(info, 0);
 		log.info("{}拾取{}成功，移除 {}，元宝{}",jz.id,bx.name,uid,cnt);
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 //		BXRecord pickedBean = HibernateUtil.find(BXRecord.class, jz.id);
 		if(pickedBean != null){//进入场景时就应该发送过信息了，那里会创建bean
 			pickedBean.bxCnt +=1 ;

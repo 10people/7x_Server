@@ -40,6 +40,7 @@ public class HuangyePve{
 	public int pveId;
 	public float paraK;
 	public float huangYeBi_scale;
+	public int nextGuanqiaID;
 	
 	public int getId() {
 		return id;

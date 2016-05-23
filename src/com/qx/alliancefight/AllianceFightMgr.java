@@ -27,6 +27,7 @@ import com.manu.dynasty.template.Lianmengzhan;
 import com.manu.dynasty.template.Skill;
 import com.manu.dynasty.template.YunBiaoSafe;
 import com.manu.dynasty.template.YunbiaoTemp;
+import com.manu.dynasty.util.DateUtils;
 import com.manu.network.BigSwitch;
 import com.manu.network.SessionAttKey;
 import com.qx.alliance.AllianceBean;
@@ -737,7 +738,7 @@ public class AllianceFightMgr {
 		response.setAttackUid(attackUid);
 		response.setTargetUid(targetUid);
 		response.setSkillId(skillId);
-		response.setDamage(damageValue);		
+//		response.setDamage(damageValue);		
 		response.setRemainLife(remainLife);
 		
 		if(succeed) {
@@ -882,12 +883,12 @@ public class AllianceFightMgr {
 			response.addBattleDatas(battleData);
 		}
 		
-		for(CampsiteInfo siteInfo : scene.campsiteInfoList) {
+		for(CampsiteInfo siteInfo : scene.campsiteInfoList.values()) {
 			CampInfo.Builder campInfo = CampInfo.newBuilder();
 			campInfo.setId(siteInfo.id);
 			campInfo.setCursorPos(siteInfo.cursorPos);
 			campInfo.setCursorDir(siteInfo.cursorDir);
-			campInfo.setPerSecondsHoldValue(siteInfo.perSecondsHoldValue);
+			campInfo.setPerSecondsHoldValue(siteInfo.zhanlingzhiMax);
 			campInfo.setCurHoldValue(Math.abs(siteInfo.curHoldValue));
 			response.addCampInfos(campInfo);
 		}
@@ -924,7 +925,8 @@ public class AllianceFightMgr {
 	}
 	
 	public static long getFightEndTime() {
-		return System.currentTimeMillis() + lmzConfig.countDown * 60 * 1000;
+		Date d = DateUtils.parseHourMinute(BidMgr.city_war_fighting_startTime);
+		return d.getTime() + lmzConfig.countDown * 60 * 1000;
 	}
 	
 	/**
@@ -1025,6 +1027,6 @@ public class AllianceFightMgr {
 		}
 		
 		YaBiaoHuoDongMgr.inst.kouchuFuhuoTimes(junzhu);
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,junzhu);
 	}
 }

@@ -1,5 +1,9 @@
 package com.qx.activity;
 
+/**
+ * @Description 首日、七日活动以及成就用到的活动编码常量
+ *
+ */
 public class XianShiConstont {
 	public static final int ZAIXIANLIBAO_TYPE =1542000;
 	public static final int QIRIQIANDAO_TYPE =1543000;

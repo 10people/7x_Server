@@ -68,6 +68,7 @@ public class LoginServ implements Runnable{
 			}
 			String channel = o.optString("channel","null");
 			session.setAttribute(SessionAttKey.ACC_CHANNEL, channel);
+			session.setAttribute("TXClientInfo", o.optString("clientInfo",null));
 			accId2channelCode.put(accId, getChannelCode(channel));
 			log.info("sid {} , accId {} 登录成功",session.getId(), accId);
 			BigSwitch.inst.accMgr.loginBackFromRouter(name, session, accId);

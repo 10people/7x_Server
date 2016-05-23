@@ -43,13 +43,16 @@ import com.qx.alliance.AlliancePlayer;
 import com.qx.alliance.HouseBean;
 import com.qx.alliance.MoBaiBean;
 import com.qx.alliance.building.ChouJiangBean;
+import com.qx.alliancefight.LMZAwardBean;
 import com.qx.award.AwardMgr;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
 import com.qx.bag.BagMgr;
 import com.qx.bag.EquipGrid;
 import com.qx.bag.EquipMgr;
+import com.qx.chonglou.ChongLouRecord;
 import com.qx.equip.domain.UserEquip;
+import com.qx.equip.jewel.JewelMgr;
 import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
@@ -61,15 +64,18 @@ import com.qx.fuwen.FuwenMgr;
 import com.qx.huangye.HYTreasureTimes;
 import com.qx.huangye.shop.PublicShop;
 import com.qx.huangye.shop.ShopMgr;
+import com.qx.huangye.shop.WuBeiFangBean;
 import com.qx.jinengpeiyang.JNBean;
 import com.qx.jinengpeiyang.JiNengPeiYangMgr;
 import com.qx.junzhu.AcitvitedTaoZhuang;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.junzhu.TalentPoint;
+import com.qx.liefu.LieFuBean;
 import com.qx.mibao.MiBaoDB;
 import com.qx.mibao.MiBaoSkillDB;
 import com.qx.mibao.MibaoMgr;
+import com.qx.mibao.v2.MiBaoV2Mgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.TiLi;
 import com.qx.purchase.TongBi;
@@ -110,6 +116,7 @@ public class GameTaskMgr extends EventProc{
 	}
 	
 	public void initData() {
+		@SuppressWarnings("unchecked")
 		List<ZhuXian> list = TempletService.listAll(ZhuXian.class.getSimpleName());
 		Map<Integer, ZhuXian> zhuxianTaskMap = new HashMap<Integer, ZhuXian>();
 		if(list == null || list.size() == 0){
@@ -137,11 +144,19 @@ public class GameTaskMgr extends EventProc{
 	 * @return
 	 */
 	public WorkTaskBean getTask(long pid, int tid){
+		/*
 		long start = pid * spaceFactor;
 		long end = start + spaceFactor;
 		List<WorkTaskBean> list = HibernateUtil.list(WorkTaskBean.class, 
 				"where dbId>="+start+" and dbId<"+end
 				+" and tid="+tid);
+		*/
+		//TODO，数据库重修改后方法
+		
+		List<WorkTaskBean> list = HibernateUtil.list(WorkTaskBean.class, 
+				"where jzid="+pid+" and tid="+tid);
+		
+		
 		if(list.size()>1){
 			log.error("{}有两个以上的任务 {}", pid, tid);
 			return list.get(0);
@@ -152,9 +167,15 @@ public class GameTaskMgr extends EventProc{
 		}
 	}
 	public List<WorkTaskBean> getTaskList(long pid){
+		/*
 		long start = pid * spaceFactor;
 		long end = start + spaceFactor;
 		List<WorkTaskBean> list = HibernateUtil.list(WorkTaskBean.class, "where dbId>="+start+" and dbId<"+end);
+		*/
+		//TODO 数据库修改之后使用
+		
+		List<WorkTaskBean> list = HibernateUtil.list(WorkTaskBean.class, "where jzid="+pid);
+		
 		return list;
 	}
 
@@ -202,69 +223,53 @@ public class GameTaskMgr extends EventProc{
 		session.write(ret.build());
 	}
 
-	public WorkTaskBean addTask(Long junZhuId, int firstTaskId, ZhuXian zx) {
+	public WorkTaskBean addTask(Long junZhuId, int taskId, ZhuXian zx) {
 		WorkTaskBean b = new WorkTaskBean();
-		b.dbId = junZhuId * spaceFactor;
-		long end = b.dbId+spaceFactor;
-
-		long id = HibernateUtil.getColumnValueMaxOnWhere(WorkTaskBean.class, "dbId",
-				" where dbId>="+b.dbId+" and dbId<"+end);
-		if(id >= b.dbId){
-			b.dbId = id+1;
-		}
-		/*
-		List<WorkTaskBean> list = getTaskList(junZhuId);
-		if (list != null && list.size() != 0){
-			for (WorkTaskBean task: list){
-				if (task.dbId > id){
-					id = task.dbId;
-				}
-			}
-			b.dbId = id + 1;
-		}
-		*/
-		b.tid = firstTaskId;
+	
+		b.tid = taskId;
+		b.jzid=junZhuId;
 		b.progress = 0;
+		
 		// 首个任务默认完成
-		if(firstTaskId == first_task_id){
+		if(taskId == first_task_id){
 			b.progress = -1;
 		}
 		if(zx != null && zx.getDoneCond() != null){
-			byte type = zx.getDoneType();
+			short type = zx.getDoneType();
 			switch(type){
 				case TaskData.tanbao_oneTimes:
 					int donCond = Integer.parseInt(zx.getDoneCond());
 					ExploreMine mine = ExploreMgr.inst.getMineByType(junZhuId, TanBaoData.yuanBao_type);
 					if(mine != null && mine.danChouClickNumber >= donCond){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 				case TaskData.tanbao_tenTimes:
 					donCond = Integer.parseInt(zx.getDoneCond());
 					mine = ExploreMgr.inst.getMineByType(junZhuId, TanBaoData.yuanBao_type);
 					if(mine != null && mine.tenChouClickNumber >= donCond){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 				case TaskData.tongbi_oneTimes:
 					donCond = Integer.parseInt(zx.getDoneCond());
 					mine = ExploreMgr.inst.getMineByType(junZhuId, TanBaoData.tongBi_type);
 					if(mine != null && mine.danChouClickNumber >= donCond){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 				case TaskData.tongbi_tenTimes:
 					donCond = Integer.parseInt(zx.getDoneCond());
 					mine = ExploreMgr.inst.getMineByType(junZhuId,  TanBaoData.tongBi_type);
 					if(mine != null && mine.tenChouClickNumber >= donCond){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 				case TaskData.buy_lianMeng_shop:
 					PublicShop shopb = HibernateUtil.find(PublicShop.class, 
 							junZhuId * ShopMgr.shop_space + ShopMgr.lianMeng_shop_type);
 					if(shopb != null && shopb.buyGoodTimes >= 1){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 				case TaskData.active_taozhuang:
@@ -273,7 +278,7 @@ public class GameTaskMgr extends EventProc{
 					if(taozhuang != null){
 						TaoZhuang conf = JunZhuMgr.taoZhuangMap.get(taozhuang.maxActiId);
 						if(conf != null && conf.condition >= donCond){
-							b.progress = -1;
+							dealTask(junZhuId, b, type, zx);
 							log.info("君主：{}提前完成主线激活套装的任务，加载该任务，并设置为完成", junZhuId);
 						}
 					}
@@ -285,7 +290,7 @@ public class GameTaskMgr extends EventProc{
 							boolean isExist = Redis.getInstance().lexist(
 									(XianShiActivityMgr.XIANSHIYILING_KEY + junZhuId), d.getId()+"");
 							if(isExist){
-								b.progress = -1;
+								dealTask(junZhuId, b, type, zx);
 								break;
 							}
 						}
@@ -294,7 +299,7 @@ public class GameTaskMgr extends EventProc{
 				case TaskData.jibai:
 					ChouJiangBean cb = HibernateUtil.find(ChouJiangBean.class, junZhuId);
 					if(cb != null && cb.historyAll > 0){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 				/*
@@ -304,7 +309,7 @@ public class GameTaskMgr extends EventProc{
 					donCond = Integer.parseInt(zx.getDoneCond());
 					JunZhu jz = HibernateUtil.find(JunZhu.class, junZhuId);
 					if(jz != null && jz.level >= donCond){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 				/*
@@ -315,7 +320,7 @@ public class GameTaskMgr extends EventProc{
 					List<MiBaoDB> lm = MibaoMgr.inst.getActiveMibaosFromDB(junZhuId);
 					for(MiBaoDB d: lm){
 						if( d.getMiBaoId() == donCond){
-							b.progress = -1;
+							dealTask(junZhuId, b, type, zx);
 							break;
 						}
 					}
@@ -327,7 +332,7 @@ public class GameTaskMgr extends EventProc{
 					donCond = Integer.parseInt(zx.getDoneCond());
 					int number =  MibaoMgr.inst.getActivateMiBaoCount(junZhuId);
 					if (number >= donCond) {
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 				/*
@@ -338,7 +343,7 @@ public class GameTaskMgr extends EventProc{
 					List<MiBaoDB> listmibao = MibaoMgr.inst.getActiveMibaosFromDB(junZhuId);
 					for(MiBaoDB d: listmibao){
 						if(d.getStar() >= donCond){
-								b.progress = -1;
+								dealTask(junZhuId, b, type, zx);
 								break;
 						}
 					}
@@ -351,7 +356,7 @@ public class GameTaskMgr extends EventProc{
 					listmibao = MibaoMgr.inst.getActiveMibaosFromDB(junZhuId);
 					for(MiBaoDB d: listmibao){
 						if(d.getLevel() >= donCond){
-								b.progress = -1;
+								dealTask(junZhuId, b, type, zx);
 								break;
 						}
 					}
@@ -365,7 +370,7 @@ public class GameTaskMgr extends EventProc{
 						PveRecord r = HibernateUtil.find(PveRecord.class,
 								"where guanQiaId=" + donCond + " and uid=" + junZhuId);
 						if(r != null){
-							b.progress = -1;
+							dealTask(junZhuId, b, type, zx);
 						}
 					}
 					break;
@@ -377,7 +382,7 @@ public class GameTaskMgr extends EventProc{
 					PveRecord r = HibernateUtil.find(PveRecord.class,
 							"where guanQiaId=" + donCond + " and uid=" + junZhuId);
 					if(r != null && r.cqPassTimes >= 1){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 				/*
@@ -386,7 +391,7 @@ public class GameTaskMgr extends EventProc{
 				case TaskData.buy_tongbi_1_times:
 					TongBi tongBi = HibernateUtil.find(TongBi.class, junZhuId);
 					if(tongBi != null){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 				/*
@@ -395,7 +400,7 @@ public class GameTaskMgr extends EventProc{
 				case TaskData.buy_tili_1_times:
 					TiLi tiLi = HibernateUtil.find(TiLi.class, junZhuId);
 					if(tiLi != null){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 				/*
@@ -405,7 +410,7 @@ public class GameTaskMgr extends EventProc{
 					donCond = Integer.parseInt(zx.getDoneCond());
 					PvpBean bean = HibernateUtil.find(PvpBean.class, junZhuId);
 					if(bean != null && bean.allBattleTimes >= donCond){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 				/*
@@ -415,7 +420,7 @@ public class GameTaskMgr extends EventProc{
 					donCond = Integer.parseInt(zx.getDoneCond());
 					bean = HibernateUtil.find(PvpBean.class, junZhuId);
 					if(bean != null && bean.allWin >= donCond){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 				/*
@@ -425,7 +430,7 @@ public class GameTaskMgr extends EventProc{
 					donCond = Integer.parseInt(zx.getDoneCond());
 					int rank = PvpMgr.inst.getPvpRankById(junZhuId);
 					if(rank != -1 && rank <= donCond){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 					/*
@@ -437,7 +442,7 @@ public class GameTaskMgr extends EventProc{
 					List<TalentPoint> listT = HibernateUtil.list(TalentPoint.class, where);
 					for(TalentPoint t: listT){
 						if(t.level >= donCond){
-							b.progress = -1;
+							dealTask(junZhuId, b, type, zx);
 							break;
 						}
 					}
@@ -451,7 +456,7 @@ public class GameTaskMgr extends EventProc{
 					List<UserEquip> equipList = HibernateUtil.list(UserEquip.class, where);
 					for(UserEquip e: equipList){
 						if(e.getLevel() >= donCond){
-							b.progress = -1;
+							dealTask(junZhuId, b, type, zx);
 							break;
 						}
 					}
@@ -464,7 +469,7 @@ public class GameTaskMgr extends EventProc{
 						boolean yes = isFinishTask40(equipBag, Integer.parseInt(condis[0]),
 								Integer.parseInt(condis[1]));
 						if(yes){
-							b.progress = -1;
+							dealTask(junZhuId, b, type, zx);
 						}
 					}
 					break;
@@ -476,7 +481,7 @@ public class GameTaskMgr extends EventProc{
 						boolean yes = isFinishTask41(equipBag, Integer.parseInt(condis[0]), 
 								Integer.parseInt(condis[1]));
 						if(yes){
-							b.progress = -1;
+							dealTask(junZhuId, b, type, zx);
 						}
 					}
 					break;
@@ -492,7 +497,7 @@ public class GameTaskMgr extends EventProc{
 						}
 						ZhuangBei zb = (ZhuangBei)TempletService.itemMap.get(e.getTemplateId());
 						if(zb != null && zb.buWei == EquipMgr.EQUIP_HEAD){ //头盔(部位)
-							b.progress = -1;
+							dealTask(junZhuId, b, type, zx);
 							break;
 						}
 					}
@@ -503,7 +508,7 @@ public class GameTaskMgr extends EventProc{
 				case TaskData.join_lianmeng:
 					AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, junZhuId);
 					if (player != null && player.lianMengId > 0) {
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 						break;
 					}
 					break;
@@ -514,12 +519,12 @@ public class GameTaskMgr extends EventProc{
 				case TaskData.active_mibao_skill:
 					List<MiBaoSkillDB> skillD = MibaoMgr.inst.getSkillDBList(junZhuId);
 					if(skillD != null && skillD.size() != 0){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 //					for(MiBaoSkillDB d: skillD){
 //						if(d.hasClear){
-//							b.progress = -1;
+//							dealTask(junZhuId, b, type, zx);
 //							break;
 //						}
 //					}
@@ -529,7 +534,7 @@ public class GameTaskMgr extends EventProc{
 				case TaskData.mobai:
 					MoBaiBean mo = HibernateUtil.find(MoBaiBean.class, junZhuId);
 					if(mo != null){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 //				/*
@@ -538,7 +543,7 @@ public class GameTaskMgr extends EventProc{
 //				case TaskData.give_gongjin:
 //					ResourceGongJin gongjinBean = HibernateUtil.find(ResourceGongJin.class, junZhuId);
 //					if(gongjinBean != null && gongjinBean.juanXianTime != null){
-//						b.progress = -1;
+//						dealTask(junZhuId, b, type, zx);
 //					}
 //					break;
 				/*
@@ -547,7 +552,7 @@ public class GameTaskMgr extends EventProc{
 				case TaskData.lve_duo:
 					LveDuoBean lve = HibernateUtil.find(LveDuoBean.class, junZhuId);
 					if(lve != null && lve.lastBattleTime != null){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 					/*
@@ -556,7 +561,7 @@ public class GameTaskMgr extends EventProc{
 				case TaskData.get_produce_weiWang:
 					PvpBean d = HibernateUtil.find(PvpBean.class, junZhuId);
 					if(d!= null && d.getProduceWeiWangTimes >= 1){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 					/*
@@ -566,7 +571,7 @@ public class GameTaskMgr extends EventProc{
 					PublicShop s = HibernateUtil.find(PublicShop.class, 
 							junZhuId * ShopMgr.shop_space + ShopMgr.baizhan_shop_type);
 					if(s!=null && s.buyGoodTimes >= 1){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 					/*
@@ -575,7 +580,7 @@ public class GameTaskMgr extends EventProc{
 				case TaskData.saoDang :
 					SaoDangBean sd = HibernateUtil.find(SaoDangBean.class, junZhuId);
 					if(sd != null && sd.jyAllSaoDangTimes >= 1){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 					/*
@@ -584,7 +589,7 @@ public class GameTaskMgr extends EventProc{
 				case TaskData.wear_fushi:
 					List<Fuwen> listF = FuwenMgr.inst.getFushiEquiped(junZhuId);
 					if(listF != null && listF.size() >= 1){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 						log.info("玩家：{}装备符石任务提前完成", junZhuId);
 					}
 					break;
@@ -594,7 +599,7 @@ public class GameTaskMgr extends EventProc{
 				case TaskData.fix_house:
 					HouseBean selfBean = HibernateUtil.find(HouseBean.class, junZhuId);
 					if (selfBean != null && selfBean.preUpTime != null){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 					/*
@@ -603,7 +608,7 @@ public class GameTaskMgr extends EventProc{
 				case TaskData.get_house_exp:
 					selfBean = HibernateUtil.find(HouseBean.class, junZhuId);
 					if (selfBean != null && selfBean.preGainExpTime != null){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 					/*
@@ -624,7 +629,7 @@ public class GameTaskMgr extends EventProc{
 							}
 						}
 						if(count >= BagMgr.a_suit_of_gu_juan){
-							b.progress = -1;
+							dealTask(junZhuId, b, type, zx);
 							log.info("君主：{}，提前完成收集古卷的任务", junZhuId);
 							break;
 						}
@@ -636,7 +641,7 @@ public class GameTaskMgr extends EventProc{
 				case TaskData.battle_huang_ye:
 					HYTreasureTimes hyTimes = HibernateUtil.find(HYTreasureTimes.class, junZhuId);
 					if(hyTimes != null && hyTimes.allBattleTimes >= 1){
-							b.progress = -1;
+							dealTask(junZhuId, b, type, zx);
 					}
 					break;
 					/*
@@ -647,7 +652,7 @@ public class GameTaskMgr extends EventProc{
 					List<MiBaoDB> miBaoDBs = HibernateUtil.list(MiBaoDB.class,
 							" where ownerId=" + junZhuId + " and hasShengXing=true");
 					if(miBaoDBs != null && miBaoDBs.size()>0) {
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 				case TaskData.zhuangBei_x_qiangHua_N:
@@ -657,7 +662,7 @@ public class GameTaskMgr extends EventProc{
 								Integer.parseInt(condis[0]),
 								Integer.parseInt(condis[1]));
 						if(yes){
-							b.progress = -1;
+							dealTask(junZhuId, b, type, zx);
 						}
 					}
 					break;
@@ -668,7 +673,7 @@ public class GameTaskMgr extends EventProc{
 								Integer.parseInt(condis[0]),
 								Integer.parseInt(condis[1]));
 						if(yes){
-							b.progress = -1;
+							dealTask(junZhuId, b, type, zx);
 						}
 					}
 					break;
@@ -678,7 +683,7 @@ public class GameTaskMgr extends EventProc{
 				case TaskData.jinJie_jueSe_jiNeng:
 					JNBean jn = HibernateUtil.find(JNBean.class, junZhuId);
 					if(jn != null){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 					/*
@@ -692,7 +697,7 @@ public class GameTaskMgr extends EventProc{
 								Integer.parseInt(condis[0]),
 								Integer.parseInt(condis[1]));
 						if(yes){
-							b.progress = -1;
+							dealTask(junZhuId, b, type, zx);
 						}
 					}
 					break;
@@ -704,7 +709,7 @@ public class GameTaskMgr extends EventProc{
 							" where uid =" + junZhuId);
 					for(PveRecord re: lr){
 						if(re.isGetAward){
-							b.progress = -1;
+							dealTask(junZhuId, b, type, zx);
 							break;
 						}
 					}
@@ -714,7 +719,7 @@ public class GameTaskMgr extends EventProc{
 					lr = HibernateUtil.list(PveRecord.class,
 							" where uid =" + junZhuId + " and guanQiaId =" + donCond +" and (cqStarRewardState>0 or achieveRewardState>0)");
 					if(lr.size()>0){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 						break;
 					}
 					break;
@@ -727,7 +732,7 @@ public class GameTaskMgr extends EventProc{
 						allwin += you.allWinTimes;
 					}
 					if(allwin >= donCond){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 				case TaskData.go_youxia:
@@ -739,7 +744,7 @@ public class GameTaskMgr extends EventProc{
 						allBattle += you.allBattleTimes;
 					}
 					if(allBattle >= donCond){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 					}
 					break;
 				case TaskData.battle_shiLian_II:
@@ -747,14 +752,14 @@ public class GameTaskMgr extends EventProc{
 					YouXiaBean yxBean = HibernateUtil.find(YouXiaBean.class,
 					" where junzhuId=" + junZhuId + " and type =" + donCondstring);
 					if(yxBean != null && yxBean.lastBattleTime != null){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 						log.info("君主：{}提前完成攻打试练II难度1次（拿符石），加载任务，并设置为完成", junZhuId);
 					}
 					break;
 				case TaskData.qiandao:
 					QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,junZhuId);
 					if(qiandaoInfo != null && qiandaoInfo.historyQianDao > 0){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 						log.info("君主：{}提前完成主线签到任务，加载签到任务，并设置为完成", junZhuId);
 					}
 					break;
@@ -763,7 +768,7 @@ public class GameTaskMgr extends EventProc{
 					if(pre != null &&
 							(pre.isGet1 || pre.isGet2|| pre.isGet3 ||
 									pre.isGet4|| pre.isGet5 || pre.isGet6 || pre.isGet7)){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 						log.info("君主：{}提前完成主线领取签到v特权奖励，加载该任务，并设置为完成", junZhuId);
 					}
 					break;
@@ -773,7 +778,7 @@ public class GameTaskMgr extends EventProc{
 				case TaskData.finish_yunbiao_x:
 					YunBiaoHistory histo = HibernateUtil.find(YunBiaoHistory.class, junZhuId);
 					if(histo != null && histo.historyYB > 0){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 						log.info("君主：{}提前完成主线运镖一次，加载该任务，并设置为完成", junZhuId);
 					}
 					break;
@@ -783,13 +788,94 @@ public class GameTaskMgr extends EventProc{
 				case TaskData.finish_jiebiao_x:
 					YunBiaoHistory histo2 = HibernateUtil.find(YunBiaoHistory.class, junZhuId);
 					if(histo2 != null && histo2.historyJB > 0){
-						b.progress = -1;
+						dealTask(junZhuId, b, type, zx);
 						log.info("君主：{}提前完成主线劫镖一次，加载该任务，并设置为完成", junZhuId);
 					}
 					break;
+				case TaskData.use_baoShi_x:{
+					int [] baoShiInfo = JewelMgr.inst.getJewelEvent(junZhuId);
+					int needJewelNum = Integer.parseInt(zx.getDoneCond());
+					if( baoShiInfo[0] >= needJewelNum){
+						dealTask(junZhuId, b, type, zx);
+						log.info("君主：{}提前完成镶嵌{}颗宝石，加载该任务，并设置为完成", junZhuId,needJewelNum);
+					}
+				}
+					break;
+				case TaskData.use_baoShi_one_pinZhi_y:{
+					int [] baoShiInfo = JewelMgr.inst.getJewelEvent(junZhuId);
+					int needJewellv = Integer.parseInt(zx.getDoneCond());
+					if( baoShiInfo[0] >= needJewellv){
+						dealTask(junZhuId, b, type, zx);
+						log.info("君主：{}提前完成镶嵌{}品质宝石，加载该任务，并设置为完成", junZhuId,needJewellv);
+					}
+				}
+				break;
+				case TaskData.done_lieFu_x:{
+					LieFuBean lfb = HibernateUtil.find(LieFuBean.class, junZhuId);
+					int needLfTimes = Integer.parseInt(zx.getDoneCond());
+					if( lfb != null && lfb.totalTimes > needLfTimes){
+						dealTask(junZhuId, b, type, zx);
+						log.info("君主：{}提前完成猎符{}次，加载该任务，并设置为完成", junZhuId,needLfTimes);
+					}
+				}
+				break;
+				case TaskData.done_qianChongLou:{
+					ChongLouRecord clr = HibernateUtil.find(ChongLouRecord.class, junZhuId);
+					if(clr != null && clr.lastBattleTime != null ){
+						dealTask(junZhuId, b, type, zx);
+						log.info("君主：{}提前完成参加千重楼，加载该任务，并设置为完成", junZhuId);
+					}
+				}
+				break;
+				case TaskData.get_miBao_x_pinZhi_y:{
+					String[] DoneCond =  zx.getDoneCond().split(":");
+					int pinZhi = Integer.parseInt(DoneCond[1]);
+					int num = MiBaoV2Mgr.inst.getMiBaoNum(pinZhi, junZhuId);
+					if(num >= Integer.parseInt(DoneCond[0])){
+						dealTask(junZhuId, b, type, zx);
+						log.info("君主：{}提前完成获取{}个{}品质的秘宝，加载该任务，并设置为完成", junZhuId,Integer.parseInt(DoneCond[0]),pinZhi);
+					}
+				}
+				break;
+				case TaskData.get_miShu_pinZhi_y:{
+					int pinZhi = MiBaoV2Mgr.inst.getMaxMiShu(junZhuId);
+					if( pinZhi >= Integer.parseInt( zx.getDoneCond() ) ){
+						dealTask(junZhuId, b, type, zx);
+						log.info("君主：{}提前完成获取{}品质的秘术，加载该任务，并设置为完成", junZhuId ,Integer.parseInt(zx.getDoneCond()) );
+					}
+				}
+				break;
+				case TaskData.done_junChengZhan_x:{
+					List<LMZAwardBean> list = HibernateUtil.list(LMZAwardBean.class, 
+							"where jzId = "+ junZhuId );
+					if( list!= null &&list.size()>0 ){
+						dealTask(junZhuId, b, type, zx);
+						log.info("君主：{}提前完成参加联盟战，加载该任务，并设置为完成", junZhuId );
+					}
+				}
+				break;
+				case TaskData.done_wuBeiChouJiang:{
+					WuBeiFangBean wbfb = HibernateUtil.find(WuBeiFangBean.class, junZhuId);{
+						if(wbfb != null && wbfb.lastBuyTime!= null ){
+							dealTask(junZhuId, b, type, zx);
+							log.info("君主：{}提前完成武备坊抽奖一次，加载该任务，并设置为完成", junZhuId );
+						}
+					}
+				}
+				break;
+				case TaskData.get_mbSuiPian_x_y:{
+					String cond[] = zx.getDoneCond().split(":");
+					int needNum = Integer.parseInt(cond[0]);
+					int miBaoId = Integer.parseInt(cond[1]);
+					int hasNum = MiBaoV2Mgr.inst.getMiBaoSuiPianNum(junZhuId, miBaoId);
+					if(hasNum >= needNum){
+						dealTask(junZhuId, b, type, zx);
+						log.info("君主：{}提前完成获取{}个秘宝{}的碎片，加载该任务，并设置为完成", junZhuId , needNum , miBaoId);
+					}
+				}
 			}
 		}
-		HibernateUtil.save(b);
+		HibernateUtil.insert(b);
 		log.info("{}增加任务:{}, dbid:{}, progress:{}",junZhuId,b.tid, b.dbId, b.progress);
 		OurLog.log.RoundFlow(ActLog.vopenid, b.tid, 1, 0, 0, 1, String.valueOf(junZhuId));
 		if(b.progress == -1){
@@ -869,8 +955,8 @@ public class GameTaskMgr extends EventProc{
 			response.setMsg(allSucc?"success":"fail");
 			log.info("{},完成主线任务id:{},并且成功领取奖励： {}" ,junZhuId, taskId, mess);
 		}else {
-			response.setMsg("fail");
-			log.error("{} 主线任务id:{},但是领取奖励失败", junZhuId, taskId);
+			response.setMsg("success");
+			log.error("{} 主线任务id:{},领奖失败，配置中没有奖励", junZhuId, taskId);
 		}
 		
 		/*
@@ -1238,6 +1324,29 @@ public class GameTaskMgr extends EventProc{
 		   case ED.LM_SHOP_BUY:
 			   recordTaskProcess(junZhuId, TaskData.buy_lianMeng_shop, 1+"");
 			   break;
+		   case ED.use_baoshi:
+			   recordTaskProcess(junZhuId, TaskData.use_baoShi_x, (int)obs[1]+"");
+			   recordTaskProcess(junZhuId, TaskData.use_baoShi_one_pinZhi_y, (int)obs[2]+"");
+			   break;
+		   case ED.done_lieFu_x:
+			   recordTaskProcess(junZhuId, TaskData.done_lieFu_x, (int)obs[1]+"");
+			   break;
+		   case ED.get_miBao_x_pinZhi_y:
+		   case ED.get_mbSuiPian_x_y:
+			   miBaoTask(junZhuId);
+			   break;
+		   case ED.done_qianChongLou:
+			   recordTaskProcess(junZhuId, TaskData.done_qianChongLou, 1+"");
+			   break;
+		   case ED.get_miShu_pinZhi_y:
+			   recordTaskProcess(junZhuId, TaskData.get_miShu_pinZhi_y, (int)obs[1]+"");
+			   break;
+		   case ED.done_junChengZhan_x:
+			   recordTaskProcess(junZhuId, TaskData.done_junChengZhan_x, 1+"");
+			   break;
+		   case ED.done_wuBeiChouJiang:
+			   recordTaskProcess(junZhuId, TaskData.done_wuBeiChouJiang, 1+"");
+			   break;
 		   default:
 			   break;
 		   }
@@ -1263,7 +1372,7 @@ public class GameTaskMgr extends EventProc{
 			if(condi == null){
 				continue;
 			}
-			byte type = task.getDoneType();
+			short type = task.getDoneType();
 			if(type == TaskData.go_youxia){
 				if(allBattleTimes >= Integer.parseInt(condi)){
 					dealTask(junZhuId, b, type, task);
@@ -1297,7 +1406,7 @@ public class GameTaskMgr extends EventProc{
 			if(b.progress != 0){
 				continue;
 			}
-			byte type = task.getDoneType();
+			short type = task.getDoneType();
 			if(type == TaskData.miabao_x_star_n){
 				String[] condis = task.getDoneCond().split(":");
 				if(condis != null && condis.length == 2){
@@ -1330,7 +1439,7 @@ public class GameTaskMgr extends EventProc{
 			if(b.progress != 0){
 				continue;
 			}
-			byte type = task.getDoneType();
+			short type = task.getDoneType();
 			switch(type){
 				case TaskData.jinJie_jueSe_jiNeng:
 					dealTask(junZhuId, b, type, task);
@@ -1407,7 +1516,7 @@ public class GameTaskMgr extends EventProc{
 			if(b.progress != 0){
 				continue;
 			}
-			byte type = task.getDoneType();
+			short type = task.getDoneType();
 			switch(type){
 				case TaskData.tianfu_level_up:
 					dealTask(junZhuId, b, type, task);
@@ -1442,7 +1551,7 @@ public class GameTaskMgr extends EventProc{
 			if(b.progress != 0){
 				continue;
 			}
-			byte type = task.getDoneType();
+			short type = task.getDoneType();
 			switch(type){
 				case TaskData.ONE_QIANG_HAU:
 					dealTask(junZhuId, b, type, task);
@@ -1493,7 +1602,7 @@ public class GameTaskMgr extends EventProc{
 		}
 	}
 	
-	public void dealTask(long junZhuId, WorkTaskBean b, byte type, ZhuXian task){
+	public void dealTask(long junZhuId, WorkTaskBean b, short type, ZhuXian task){
 		b.progress = -1;
 		HibernateUtil.save(b);
 		log.info("君主：{}完成type：{}的主线(支线)任务id:{}， progress被赋值为-1(完成)", junZhuId, type, b.tid);
@@ -1515,7 +1624,7 @@ public class GameTaskMgr extends EventProc{
 	 * @throws  
 	 * @author wangZhuan
 	 */
-	public void recordTaskProcess(Long junZhuId, byte type, String conditionInfo){
+	public void recordTaskProcess(Long junZhuId, short type, String conditionInfo){
 		log.info("recordTaskProcess被调用,参数是：junZhuId:{}, 和type:{}, condittionInfo:{}",
 				junZhuId, type, conditionInfo);
 		List<WorkTaskBean> list = getTaskList(junZhuId);
@@ -1546,10 +1655,15 @@ public class GameTaskMgr extends EventProc{
 			// 君主等级升级大于等于x级,就算任务完成
 			// 秘宝星级大于等于x级，就算完成任务
 			// 秘宝等级大于等于X级，就算完成任务
+			// 宝石数量多于X个，就算完成任务
+			// 宝石品质高于X级，就算完成任务
 			if(type == TaskData.get_x_mibao || 
 					type == TaskData.junzhu_level_up ||
 					type == TaskData.mibao_shengStar_x ||
-					type == TaskData.mibao_shengji_x){
+					type == TaskData.mibao_shengji_x||
+					type == TaskData.use_baoShi_x ||
+					type == TaskData.use_baoShi_one_pinZhi_y||
+					type == TaskData.get_miShu_pinZhi_y){
 				if(task.getDoneCond() != null && conditionInfo4Temp != null &&
 						Integer.parseInt(conditionInfo4Temp) >= Integer.parseInt(task.getDoneCond()))
 				{
@@ -1569,7 +1683,7 @@ public class GameTaskMgr extends EventProc{
 	/**
 	 *  攻打关卡任务事件完成进行记录并且将下一步任务记录到数据库
 	 */
-	public void pveGuanQiaRecord(Long junZhuId, byte type, Integer gqId){
+	public void pveGuanQiaRecord(Long junZhuId, short type, Integer gqId){
 		recordTaskProcess(junZhuId, type, gqId + "");
 	}
 
@@ -1643,6 +1757,14 @@ public class GameTaskMgr extends EventProc{
 		EventMgr.regist(ED.tongbi_oneTimes, this);
 		EventMgr.regist(ED.active_taozhuang, this);
 		EventMgr.regist(ED.LM_SHOP_BUY, this);
+		EventMgr.regist(ED.use_baoshi, this);
+		EventMgr.regist(ED.done_qianChongLou, this);
+		EventMgr.regist(ED.done_lieFu_x, this);
+		EventMgr.regist(ED.get_miBao_x_pinZhi_y, this);
+		EventMgr.regist(ED.get_mbSuiPian_x_y, this);
+		EventMgr.regist(ED.get_miShu_pinZhi_y, this);
+		EventMgr.regist(ED.done_junChengZhan_x, this);
+		EventMgr.regist(ED.done_wuBeiChouJiang, this);
 	}
 	
 	public void zhuangBeiTask(Long junZhuId, String param1, Bag<EquipGrid> equips, int which){
@@ -1657,7 +1779,7 @@ public class GameTaskMgr extends EventProc{
 			if(task == null){
 				continue;
 			}
-			byte type = task.getDoneType();
+			short type = task.getDoneType();
 			boolean yes = false;
 			if(type == TaskData.EQUIP_ADD && which == 1){
 				yes = task.getDoneCond().equals(param1);
@@ -1675,7 +1797,7 @@ public class GameTaskMgr extends EventProc{
 		toSendTask(toSend, junZhuId);
 	}
 
-	public boolean isPinZhiOk(byte type, String doneCond, Bag<EquipGrid> equips){
+	public boolean isPinZhiOk(short type, String doneCond, Bag<EquipGrid> equips){
 		boolean yes = false;
 		String[] condis = doneCond.split(":");
 		if(condis == null){
@@ -1752,5 +1874,44 @@ public class GameTaskMgr extends EventProc{
 			return true;
 		}
 		return false;
+	}
+	
+	public void miBaoTask( long junZhuId){	
+		List<WorkTaskBean> list = getTaskList(junZhuId);
+		if(list == null){
+			return;
+		}
+		ZhuXian task = null;
+		boolean toSend = false;
+		for (WorkTaskBean b: list){
+			task = zhuxianTaskMap.get(b.tid);
+			if(task == null){
+				continue;
+			}
+			short type = task.getDoneType();
+			boolean yes = false;
+			if(type == TaskData.get_miBao_x_pinZhi_y){
+				String[] DoneCond =  task.getDoneCond().split(":");
+				int pinZhi = Integer.parseInt(DoneCond[1]);
+				int num = MiBaoV2Mgr.inst.getMiBaoNum(pinZhi, junZhuId);
+				if(num >= Integer.parseInt(DoneCond[0])){
+					yes = true;
+				}
+			}
+			if(type == TaskData.get_mbSuiPian_x_y){
+				String[] DoneCond =  task.getDoneCond().split(":");
+				int needNum = Integer.parseInt(DoneCond[0]);
+				int miBaoId = Integer.parseInt(DoneCond[1]);
+				int hasNum = MiBaoV2Mgr.inst.getMiBaoSuiPianNum(junZhuId, miBaoId);
+				if(hasNum >= needNum){
+					yes = true;
+				}
+			}
+			if(yes && b.progress == 0){
+				dealTask(junZhuId, b, type, task);
+				toSend = true;
+			}
+		}
+		toSendTask(toSend, junZhuId);
 	}
 }

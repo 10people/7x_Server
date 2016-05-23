@@ -80,7 +80,7 @@ while(fightki.hasMoreElements()){
 	Integer fightId = fightki.nextElement();
 	Scene sc = BigSwitch.inst.scMgr.fightScenes.get(fightId);
 	Iterator<Integer> it2 = sc.players.keySet().iterator();
-	out("<tr><td colspan='5'>"+sc.name+"</td></tr>");
+	out("<tr><td colspan='5'>"+sc.name+"</td><td><a href='../gm/allianceFight.jsp?scId="+fightId+"'>详情</a></td></tr>");
 	cnt += sc.players.size();
 	int idx = 0;
 	while(it2.hasNext()){
@@ -95,6 +95,7 @@ while(fightki.hasMoreElements()){
 		out.append("<td>");		out.append(acc);		out.append("</td>");
 		out.append("<td>");		out.append(p.pState.name());		out.append("</td>");
 		td(p.getPosX()+","+p.getPosY()+","+p.getPosZ());
+		td("HP:"+p.currentLife);
 		out.append("<tr>");
 	}
 }

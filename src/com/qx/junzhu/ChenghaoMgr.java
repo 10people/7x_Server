@@ -1,9 +1,11 @@
 package com.qx.junzhu;
 
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
@@ -46,6 +48,9 @@ public class ChenghaoMgr extends EventProc{
 	}
 	public void sendCur(IoSession session, ChengHaoBean bean) {
 		ChengHaoData.Builder b = ChengHaoData.newBuilder();
+		List<Chenghao> confList = TempletService.listAll(Chenghao.class.getSimpleName());
+		Chenghao fakeOne = confList.get(0);
+		fillConf(b,fakeOne);//只是为了匹配协议
 		if(bean == null){
 			b.setId(-1);
 			b.setName("");
@@ -79,21 +84,40 @@ public class ChenghaoMgr extends EventProc{
 			log.error("配置为空");
 		}
 		ChengHaoData.Builder b = ChengHaoData.newBuilder();
+		long curMs = System.currentTimeMillis();
 		for(Chenghao conf : confList){
 			b.setId(conf.id);
 			b.setName(conf.name);
 			int ss = 0;
 			ChengHaoBean bean = m.get(conf.id);
+			fillConf(b, conf);
 			if(bean != null){
 				ss = bean.state;
+				long endMs = bean.expireTime.getTime();
+				long leftMs = endMs - curMs;
+				if(leftMs<0){
+					log.info("{} 称号过期 {}",junZhuId, bean.tid);
+					HibernateUtil.delete(bean);
+				}else{
+					leftMs /= 1000;
+					b.setLeftSec(leftMs);
+				}
 			}
 			b.setState(ss);
 			ret.addList(b.build());
 		}
+		ret.setMyPoint(999);
 		ProtobufMsg msg = new ProtobufMsg();
 		msg.builder = ret;
 		msg.id = PD.S_LIST_CHENG_HAO;
 		session.write(msg);
+	}
+	public void fillConf(ChengHaoData.Builder b, Chenghao conf) {
+		b.setLeftSec(conf.validityPeriod*3600*24);
+		b.setGongJi(conf.id+1);
+		b.setFangYu(conf.id+2);
+		b.setShengMing(conf.id+3);
+		b.setPrice(conf.id%1000);
 	}
 	public void use(int id, IoSession session, Builder builder) {
 		TalentUpLevelReq.Builder req = (TalentUpLevelReq.Builder) builder;
@@ -132,14 +156,15 @@ public class ChenghaoMgr extends EventProc{
 	}
 	@Override
 	public void proc(Event param) {
-		switch(param.id){
-		case ED.PVE_GUANQIA:
-			Object[] data = (Object[]) param.param;
-			checkGet(data);
-			break;
-		}		
+//		switch(param.id){
+//		case ED.PVE_GUANQIA:
+//			Object[] data = (Object[]) param.param;
+//			checkGet(data);
+//			break;
+//		}		
 	}
 	protected void checkGet(Object[] data) {
+		/* 老称号不要了
 		Integer guanQiaId = (Integer) data[1];
 		Long pid = (Long) data[0];
 		List<Chenghao> confList = TempletService.listAll(Chenghao.class.getSimpleName());
@@ -162,16 +187,10 @@ public class ChenghaoMgr extends EventProc{
 		if(want != null){
 			return;
 		}
-		want = new ChengHaoBean();
-		want.jzId = pid;
-		want.tid = conf.id;
-		want.state = 'G';
-		HibernateUtil.insert(want);
-		log.info("{}获得称号{} {}",pid,conf.id,conf.name);
-		EventMgr.addEvent(ED.GAIN_CHENG_HAO, new Object[]{pid, conf});
-		IoSession ss = AccountManager.sessionMap.get(pid);
+		IoSession ss = add(pid, conf);
 		if(ss != null && ss.isConnected()){
 			ChengHaoData.Builder note = ChengHaoData.newBuilder();
+			fillConf(note, conf);
 			note.setId(conf.id);
 			note.setName("");
 			note.setState('N');
@@ -180,9 +199,46 @@ public class ChenghaoMgr extends EventProc{
 			msg.builder = note;
 			ss.write(msg);//通知获得新称号
 		}
+		*/
+	}
+	public IoSession add(Long pid, Chenghao conf) {
+		ChengHaoBean want;
+		want = new ChengHaoBean();
+		want.jzId = pid;
+		want.tid = conf.id;
+		want.state = 'G';
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.DAY_OF_MONTH, conf.validityPeriod);
+		want.expireTime = c.getTime();
+		HibernateUtil.insert(want);
+		log.info("{}获得称号{} {}",pid,conf.id,conf.name);
+		EventMgr.addEvent(ED.GAIN_CHENG_HAO, new Object[]{pid, conf});
+		IoSession ss = AccountManager.sessionMap.get(pid);
+		return ss;
 	}
 	@Override
 	protected void doReg() {
-		EventMgr.regist(ED.PVE_GUANQIA, this);
+//		EventMgr.regist(ED.PVE_GUANQIA, this);
+	}
+	public void duiHuan(int id, IoSession session, Builder builder) {
+		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
+		if (junZhuId == null) {
+			return;
+		}
+		TalentUpLevelReq.Builder req = (TalentUpLevelReq.Builder)builder;
+		int which = req.getPointId();
+		List<Chenghao> confList = TempletService.listAll(Chenghao.class.getSimpleName());
+		List<ChengHaoBean> list = HibernateUtil.list(ChengHaoBean.class,
+				"where jzId="+junZhuId+" and tid="+which);
+		if(list.size()>0){
+			return;
+		}
+		Optional<Chenghao> op = confList.stream().filter(c->c.id==which).findAny();
+		if(op.isPresent()==false){
+			return;
+		}
+		add(junZhuId, op.get());
+		log.info("{}兑换{}OK",junZhuId,which);
+		sendList(0, session, null);
 	}
 }

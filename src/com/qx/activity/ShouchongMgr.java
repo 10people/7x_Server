@@ -8,16 +8,8 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
-import qxmobile.protobuf.ShouChong.AwardInfo;
-import qxmobile.protobuf.ShouChong.GetShouchong;
-import qxmobile.protobuf.ShouChong.ShouChongAward;
-
 import com.google.protobuf.MessageLite.Builder;
-import com.manu.dynasty.template.AwardTemp;
-import com.manu.dynasty.template.DescId;
-import com.manu.dynasty.template.HuoDong;
-import com.manu.dynasty.template.Jiangli;
+import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.ShouChong;
 import com.manu.network.PD;
 import com.manu.network.msg.ProtobufMsg;
@@ -25,7 +17,11 @@ import com.qx.award.AwardMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
-import com.qx.purchase.PurchaseMgr;
+
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import qxmobile.protobuf.Activity.ActivityGetRewardResp;
+import qxmobile.protobuf.Explore.Award;
+import qxmobile.protobuf.Explore.ExploreResp;
 
 /**
  * @author hejincheng
@@ -35,30 +31,25 @@ public class ShouchongMgr {
 	public Logger logger = LoggerFactory.getLogger(ShouchongMgr.class);
 	public static ShouchongMgr instance;
 	public static final short SUCCESS = 0;// 领取奖励成功
-	public static final short FAILED = 1;// 领取奖励失败
+	public static final short FAILED_1 = 1;// 领取奖励失败,未充值
+	public static final short FAILED_2 = 2;// 领取奖励失败，已经领取
 	public static final short STATE_NULL = 0;// 没有首冲
 	public static final short STATE_AWARD = 1;// 未领取奖励
 	public static final short STATE_FINISHED = 2;// 完成首冲并领取奖励
-	public static List<ShouChong> awardList = new ArrayList<ShouChong>();
-	public static Date date = null;
-
+	public static List<String> awardList = new ArrayList<String>();
 	public ShouchongMgr() {
 		instance = this;
 		initData();
 	}
-
 	public void initData() {
-		// 加载首冲奖励配置文件
-		Jiangli jiangli = PurchaseMgr.inst.jiangliMap.get(20);
-		String[] items = jiangli.getItem().split("#");
-		for (String item : items) {
-			String[] award = item.split(":");
-			ShouChong shouChong = new ShouChong();
-			shouChong.setAwardId(Integer.parseInt(award[1]));
-			shouChong.setAwardNum(Integer.parseInt(award[2]));
-			shouChong.setAwardType(Integer.parseInt(award[0]));
-			awardList.add(shouChong);
+		List<ShouChong> shouChongSetting = TempletService.getInstance().listAll(ShouChong.class.getSimpleName());
+		if(shouChongSetting == null){
+			logger.error("cmd:{},没有首冲配置");
 		}
+		ShouChong shouChong = shouChongSetting.get(0);
+		awardList.add(shouChong.getAward1());
+		awardList.add(shouChong.getAward2());
+		awardList.add(shouChong.getAward3());
 	}
 
 	/**
@@ -75,21 +66,25 @@ public class ShouchongMgr {
 			logger.error("cmd:{},未发现君主", cmd);
 			return;
 		}
-		// 添加首冲奖励描述
-		DescId desc = ActivityMgr.descMap
-				.get(Integer.parseInt(PurchaseMgr.inst.jiangliMap.get(20)
-						.getDescription()));
-		GetShouchong.Builder response = GetShouchong.newBuilder();
-		response.setDesc(null == desc ? "" : desc.getDescription());// 不存在描述传空串
-		// 添加首冲奖励列表
-		for (ShouChong shouChong : awardList) {
-			AwardInfo.Builder award = AwardInfo.newBuilder();
-			award.setAwardNum(shouChong.getAwardNum());
-			award.setAwardType(shouChong.getAwardType());
-			award.setAwardId(shouChong.getAwardId());
-			response.addAward(award);
+		//充值成功，判断首冲
+		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class, " where junzhuId=" + junZhu.id);
+		ExploreResp.Builder resp = ExploreResp.newBuilder();
+		if (ShouchongMgr.instance.getShouChongState(info) == 0) {// 未完成首冲
+			resp.setSuccess(STATE_NULL);
+		}else if(ShouchongMgr.instance.getShouChongState(info) == 1){ //为领奖
+			resp.setSuccess(STATE_AWARD);
+		}else if(ShouchongMgr.instance.getShouChongState(info) == 2){ //完成领奖
+			resp.setSuccess(STATE_FINISHED);
 		}
-		writeByProtoMsg(session, PD.S_GET_SHOUCHONG_RESP, response);
+		for(String awardStr : awardList){
+			Award.Builder awardInfo = Award.newBuilder();
+			String[] awardArr = awardStr.split(":");
+			awardInfo.setItemType(Integer.parseInt(awardArr[0]));
+			awardInfo.setItemId(Integer.parseInt(awardArr[1]));
+			awardInfo.setItemNumber(Integer.parseInt(awardArr[2]));
+			resp.addAwardsList(awardInfo);
+		} 
+		writeByProtoMsg(session, PD.ACTIVITY_FIRST_CHARGE_REWARD_RESP,resp);
 	}
 
 	/**
@@ -106,32 +101,37 @@ public class ShouchongMgr {
 			logger.error("cmd:{},未发现君主", cmd);
 			return;
 		}
-		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class,
-				"where junzhuId=" + junZhu.id + "");
-		if (getShouChongState(info) == 2) {
-			logger.info("君主{}已经领取奖励，不要重复领取",junZhu.id);
+		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class,"where junzhuId=" + junZhu.id + "");
+		ActivityGetRewardResp.Builder resp = ActivityGetRewardResp.newBuilder();
+		if (getShouChongState(info) == 0) {
+			logger.info("君主{}没有首冲",junZhu.id);
+			resp.setResult(FAILED_1); 
+			writeByProtoMsg(session, PD.ACTIVITY_FIRST_CHARGE_GETREWARD_RESP,resp);
 			return;
 		}
-		for (ShouChong award : awardList) {
-			// 添加奖励到账户
-			AwardTemp tmp = new AwardTemp();
-			tmp.setItemType(award.getAwardType());
-			tmp.setItemId(award.getAwardId());
-			tmp.setItemNum(award.getAwardNum());
-			AwardMgr.inst.giveReward(session, tmp, junZhu);// 添加到账户
-			logger.info("{}领取到奖励 type {}, itemId {}, itemNum {}", junZhu.id,
-					award.getAwardType(), award.getAwardId(),
-					award.getAwardNum());
+		if (getShouChongState(info) == 2){
+			logger.info("君主{}已经领取奖励，不要重复领取",junZhu.id);
+			resp.setResult(FAILED_2); 
+			writeByProtoMsg(session, PD.ACTIVITY_FIRST_CHARGE_GETREWARD_RESP,resp);
+			return;
 		}
+		resp.setResult(SUCCESS);
+		ExploreResp.Builder awardresp = ExploreResp.newBuilder();
+		awardresp.setSuccess(0);
+		for(String awardStr : awardList){
+			Award.Builder awardInfo = Award.newBuilder();
+			String[] awardArr = awardStr.split(":");
+			awardInfo.setItemType(Integer.parseInt(awardArr[0]));
+			awardInfo.setItemId(Integer.parseInt(awardArr[1]));
+			awardInfo.setItemNumber(Integer.parseInt(awardArr[2]));
+			awardresp.addAwardsList(awardInfo);
+			AwardMgr.inst.giveReward(session,awardStr,junZhu);
+		} 
+		writeByProtoMsg(session, PD.S_USE_ITEM,awardresp);
 		// 更改领取首冲奖励状态
-//		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class,
-//				"where junzhuId=" + junZhu.id + "");
 		info.setHasAward(1);
 		HibernateUtil.save(info);
-		// 返回客户端
-		ShouChongAward.Builder response = ShouChongAward.newBuilder();
-		response.setResult(SUCCESS);
-		writeByProtoMsg(session, PD.S_SHOUCHONG_AWARD_RESP, response);
+		writeByProtoMsg(session, PD.ACTIVITY_FIRST_CHARGE_GETREWARD_RESP,resp);
 	}
 
 	/**
@@ -196,5 +196,14 @@ public class ShouchongMgr {
 		test.setErrorCode(cmd);
 		test.setErrorDesc(msg);
 		session.write(test.build());
+	}
+	
+	public boolean isShow(JunZhu jz){
+		boolean result = true;
+		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class, " where junzhuId=" + jz.id);
+		if(getShouChongState(info)== 2){ //领取后消失
+			result = false;
+		}
+		return result;
 	}
 }

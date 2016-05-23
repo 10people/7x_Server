@@ -3,7 +3,9 @@ package com.qx.world;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,14 +20,18 @@ import qxmobile.protobuf.Scene.ExitScene;
 import qxmobile.protobuf.ErrorMessageProtos.DataList;
 
 import com.google.protobuf.MessageLite.Builder;
+import com.manu.dynasty.base.TempletService;
+import com.manu.dynasty.template.JCZCity;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
+import com.qx.alliance.AlliancePlayer;
 import com.qx.alliancefight.AllianceFightMatch;
 import com.qx.alliancefight.AllianceFightMgr;
+import com.qx.alliancefight.CityBean;
 import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
@@ -46,12 +52,12 @@ public class SceneMgr extends EventProc{
 	public Map<Long, Long> jzId2houseId = Collections.synchronizedMap(new LRUMap(50));
 	public ConcurrentHashMap<Integer, Scene> lmCities;
 	public ConcurrentHashMap<Long, Scene> houseScenes;
-	public ConcurrentHashMap<Integer, Scene> fightScenes;
+	public ConcurrentHashMap<Integer, FightScene> fightScenes;
 	
 	public SceneMgr(){
 		lmCities = new ConcurrentHashMap<Integer, Scene>();
 		houseScenes = new ConcurrentHashMap<Long, Scene>();
-		fightScenes = new ConcurrentHashMap<Integer, Scene>();
+		fightScenes = new ConcurrentHashMap<Integer, FightScene>();
 	}
 	
 	public void route(int code, IoSession session, Builder builder){
@@ -69,9 +75,11 @@ public class SceneMgr extends EventProc{
 		
 		Integer lmId = (Integer) session.getAttribute(SessionAttKey.Chosed_Scene);//session中尝试获取玩家指定场景ID
 		if(lmId == null ){
-			//玩家指定场景ID为空，调用自动分配ID方法
-			lmId = locateFakeLmId(junZhuId);//lmId即为场景ID
+			//玩家指定场景ID为空，调用自动分配ID方法，分配ID之后写入session（需求不明，暂时注销）；
+			lmId = locateFakeLmId(junZhuId);
+//			session.setAttribute(SessionAttKey.Chosed_Scene, lmId);
 		}
+		
 //		Integer lmId = jzId2lmId.get(junZhuId);
 //		if(lmId == null){//之前没存过
 //			AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, junZhuId);
@@ -202,10 +210,11 @@ public class SceneMgr extends EventProc{
 		}
 	}
 	
-	protected void enterFight(int code, IoSession session, Builder builder) {
+	public synchronized void enterFight(int code, IoSession session, Builder builder) {
 		//离开原来的场景
 		playerExitScene(session);
 		
+		/*  临时关闭 2016年4月22日15:11:04
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
 		AllianceBean alliance = AllianceMgr.inst.getAllianceByJunZid(junZhu.id);
 		if(alliance == null) {
@@ -216,19 +225,72 @@ public class SceneMgr extends EventProc{
 		if(fightMatch == null) {
 			return;
 		}
-		
-		Scene fightScene = fightScenes.get(fightMatch.id);
-		if(fightScene == null) {
-			synchronized (fightScenes) {
-				fightScene = fightScenes.get(fightMatch.id);
-				if(fightScene == null){
-					long fightEndTime = AllianceFightMgr.getFightEndTime();
-					fightScene = new FightScene("Fight#"+fightMatch.id, fightEndTime, fightMatch.id);
-					BigSwitch.inst.cdTimeMgr.addFightScene((FightScene) fightScene);
-					fightScene.startMissionThread();
-					fightScenes.put(fightMatch.id, fightScene);
+		int scId = fightMatch.id;
+		 */
+		ErrorMessage.Builder req = (ErrorMessage.Builder)builder;
+		int cityId = req.getErrorCode();
+		List<JCZCity> cityList = TempletService.listAll(JCZCity.class.getSimpleName());
+		Optional<JCZCity> op = cityList.stream().filter(c->c.id==cityId).findAny();
+		if(op.isPresent()==false){
+			logger.error("没有找到城池配置 {}",cityId);
+			return;
+		}
+		FightScene fightScene = null;
+		JCZCity city = op.get();
+		int scId;
+		Long jzId = (Long) session.getAttribute(SessionAttKey.junZhuId);
+		if (jzId == null) {
+			return;
+		}
+		AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jzId);
+		if(player == null || player.lianMengId<=0){
+			return;
+		}
+		int redLmId=-100;//守方
+		int blueLmId=0;
+		if(city.type == 2){//野城
+			blueLmId = player.lianMengId;
+			scId = -Scene.atomicInteger.incrementAndGet();
+			for(FightScene fs : fightScenes.values()){
+				if(fs.cityId == cityId && fs.blueLmId == player.lianMengId){
+					fightScene = fs;
+					break;
 				}
 			}
+		}else{
+			CityBean cityBean = HibernateUtil.find(CityBean.class,cityId);
+			if(cityBean == null){
+				logger.warn("no city bean for {}", cityId);
+				return;
+			}
+			if(cityBean.lmId>0){
+				redLmId = cityBean.lmId;
+			}
+			blueLmId = cityBean.atckLmId;
+			scId = cityId;
+			fightScene = fightScenes.get(cityId);		
+		}
+//		fightScenes.clear();
+//		scId = 510102;
+		if(fightScene == null) {
+					long fightEndTime = AllianceFightMgr.getFightEndTime();
+					if(redLmId==-100){
+						redLmId = FightScene.TEAM_RED;
+						fightScene = new FightNPCScene("Fight#"+scId, fightEndTime, scId);
+					}else{
+						fightScene = new FightScene("Fight#"+scId, fightEndTime, scId);
+					}
+					fightScene.redLmId = redLmId;
+					fightScene.blueLmId = blueLmId;
+					BigSwitch.inst.cdTimeMgr.addFightScene((FightScene) fightScene);
+					fightScene.startMissionThread();
+					fightScene.cityId = cityId;
+					fightScene.bornAllNPC();
+					fightScenes.put(scId, fightScene);
+		}else if(fightScene.step == 500){//已结束
+			return;
+		}else{
+			fightScene.blueLmId = blueLmId;
 		}
 		fightScene.exec(code, session, builder);
 	}
@@ -331,7 +393,7 @@ public class SceneMgr extends EventProc{
 	}
 	
 	public void shutdown() {
-		Iterator<Scene> it = lmCities.values().iterator();
+		Iterator<? extends Scene> it = lmCities.values().iterator();
 		while(it.hasNext()){
 			Scene scene = it.next();
 			scene.shutdown();		
@@ -392,11 +454,11 @@ public class SceneMgr extends EventProc{
 			if(uid == null)return;
 			
 			if(scene.name.contains("Fight")) {
-				ExitFightScene.Builder exitFight = ExitFightScene.newBuilder();
-				exitFight.setUid(uid);
-				logger.info("君主:{},Uid:{})从战斗场景:{}中退出", junZhuId, uid, scene.name);
-				scene.exec(PD.EXIT_FIGHT_SCENE, session, exitFight);
-				return;
+//				ExitFightScene.Builder exitFight = ExitFightScene.newBuilder();
+//				exitFight.setUid(uid);
+//				logger.info("君主:{},Uid:{})从战斗场景:{}中退出", junZhuId, uid, scene.name);
+//				scene.exec(PD.EXIT_FIGHT_SCENE, session, exitFight);
+//				return;
 			}
 			
 			ExitScene.Builder exit = ExitScene.newBuilder();
@@ -423,10 +485,11 @@ public class SceneMgr extends EventProc{
 		EventMgr.regist(ED.Leave_LM, this);
 	}
 	
-	//玩家指定进入主城副本ID方法，调用之后获取玩家指定id存入session中
+	/**玩家指定进入主城副本ID方法，调用之后获取玩家指定id存入session中*/
 	public void choseScene(int id, IoSession session, Builder builder){
 		ErrorMessage.Builder get = (ErrorMessage.Builder)builder ;//收到的协议强制转换为方法对应协议，方法协议使用ErrorMessage的协议格式
 		ErrorMessage.Builder ret = ErrorMessage.newBuilder() ;// 创建返回协议
+		//因为Errormessage协议格式多处复用，所以不能与协议号双向绑定，不同功能之间区分，所以使用msg传递协议号
 		ProtobufMsg msg = new ProtobufMsg();
 		Integer lmid = (Integer)get.getErrorCode();//获取协议中的场景ID
 		if(lmid != null ){
@@ -439,22 +502,31 @@ public class SceneMgr extends EventProc{
 				session.write(msg);
 				return;
 			}
-			//写入session “setlmid”—>指定场景ID，键值对
+			//判断指定场景人满，如果满，返回错误消息，结束
+			if(lmCities.get(lmid).players.size() >= sizePerSc){
+				ret.setErrorCode(1);
+				ret.setErrorDesc("指定进入场景失败:场景人数已满");			
+				msg.builder = ret ;
+				msg.id =PD.S_CHOOSE_SCENE ;
+				session.write(msg);
+				return;
+			}
+			//验证全部通过，写入session “setlmid”—>指定场景ID，键值对
 			session.setAttribute(SessionAttKey.Chosed_Scene, lmid);
-			//验证全部通过，返回消息
+			//返回消息，顺便打印日志
 			ret.setErrorCode(lmid) ;
 			msg.builder = ret ;
 			msg.id =PD.S_CHOOSE_SCENE ;
 			session.write(msg);
 			logger.info("玩家:{}选择跳转指定场景副本id:{}",session.getAttribute(SessionAttKey.junZhuId),lmid);
 		}else {
-			//协议ID中无法获取场景ID，可能客户端篡改协议，日志记录，结束方法
+			//协议中无法获取场景ID，可能客户端篡改协议，日志记录，结束方法
 			logger.error("选择登录场景：收到错误的协议内容,id:{}，无法获取指定场景ID",id);
 			return;
 		}
 	}
 	
-	//获取服务器所有已开启场景返回客户端消息
+	/**获取服务器所有已开启场景id及人数返回客户端*/
 	public void getAllScene(int id, IoSession session, Builder builder){
 		Set<Integer> set = null;
 		if(!lmCities.isEmpty()){

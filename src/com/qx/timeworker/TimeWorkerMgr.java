@@ -145,7 +145,7 @@ public class TimeWorkerMgr extends EventProc {
 		tiLiWorker.setLastAddTiliTime(date);
 		HibernateUtil.save(junZhu);
 		HibernateUtil.save(tiLiWorker);
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		logger.info("君主（" + junZhu.name + "）自动增加体力值:{}, 时间:{}", addTili, date);
 		return fillTimeWorkerResponse(TYPE_ADD_TILI, junZhu.tiLi, OPR_SUCCEED,
 				"增加体力成功", needTime / 1000);

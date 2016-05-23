@@ -76,6 +76,20 @@ void showStackTrace(Exception e)throws IOException{
         out("\t"+element+"\n");
     }
 }
+void atag(Object s,String href) throws IOException{
+	if(s == null)s="null";
+	out.append("<a href="+href+">");
+	out.append(s.toString());
+	out.append("</a>");
+}
+void alert(Object s) throws IOException{
+	if(s == null) return;
+	out.append("<script>alert('"+s.toString()+"');</script>");
+}
+void redirect(Object s) throws IOException{
+	if(s == null) return;
+	out.append("<script>window.location='"+s.toString()+"'</script>");
+}
 %>
 <%
 setOut(out);

@@ -8,6 +8,10 @@ import javax.persistence.Table;
 
 import com.qx.persistent.MCSupport;
 
+/**
+ * @Description 首日、七日活动以及成就大活动数据对用的数据库实体
+ *
+ */
 @Entity
 @Table(name = "XianShiBean")
 public class XianShiBean implements MCSupport {

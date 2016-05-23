@@ -1,4 +1,5 @@
 package com.qx.world;
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,12 +21,16 @@ import qxmobile.protobuf.Scene.ExitScene;
 import qxmobile.protobuf.Scene.SpriteMove;
 import qxmobile.protobuf.SoundData.PlayerSound;
 
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.CodedOutputStream;
 import com.google.protobuf.MessageLite;
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.util.ProtobufUtils;
 import com.manu.network.PD;
+import com.manu.network.ProtoBuffEncoder;
 import com.manu.network.SessionAttKey;
 import com.manu.network.msg.ProtobufMsg;
+import com.qx.account.AccountManager;
 import com.qx.alliance.AllianceMgr;
 import com.qx.explore.treasure.ExploreTreasureMgr;
 import com.qx.junzhu.JunZhu;
@@ -121,6 +126,8 @@ public class Scene implements Runnable{
 		player.setPosZ(move.getPosZ());
 		move.setUid(player.userId);
 		move.setDir(move.getDir());
+		player.fullCache=null;
+//		log.info("{} move to {},{}",player.userId,move.getPosX(),player.posZ);
 		
 		SpriteMove lite = move.build();
 		short id = PD.Spirite_Move;
@@ -130,14 +137,22 @@ public class Scene implements Runnable{
 	}
 
 	public IoBuffer pack(MessageLite s, short id) {
-		byte[] body = s.toByteArray();
-		IoBuffer buf = IoBuffer.allocate(body.length + 4 + 2);
-		buf.putInt(body.length + 2);//数据（协议号和逻辑数据）长度
-		buf.putShort(id);
-		buf.put(body);
-		buf.flip();
-		return buf;
+//		byte[] body = s.toByteArray();
+//		int len = body.length;
+//		IoBuffer buf = IoBuffer.allocate(body.length + 4 + 2);
+//		buf.putInt(body.length + 2);//数据（协议号和逻辑数据）长度
+//		buf.putShort(id);
+//		buf.put(body);
+//		buf.flip();
+//		return 
+		IoBuffer buf2 = IoBuffer.wrap(ProtoBuffEncoder.toByteArray(s, id));
+//		if(buf2.remaining() != buf.remaining()){
+//			len = 0;
+//		}
+		return buf2;
 	}
+	
+	
 
 	public void broadCastEvent(int uid0, Object build) {
 		try {
@@ -147,9 +162,9 @@ public class Scene implements Runnable{
 			}
 			Player cur = players.get(uid0);
 			for(Player player : players.values()){
-//				if (player.userId == uid) {
-//					continue;
-//				}
+				if (player.userId == uid0) {
+					continue;
+				}
 				//FIXME 在小屋、联盟城、主城、押镖场景、战斗场景才给广播
 				if(player.pState != State.State_LEAGUEOFCITY
 						&&player.pState != State.State_HOUSE
@@ -226,6 +241,7 @@ public class Scene implements Runnable{
 		EnterSceneConfirm.Builder ret = EnterSceneConfirm.newBuilder();
 		ret.setUid(userId);
 		session.write(ret.build());
+		postEnter(player);
 /*2016年3月12日21:01:19 ， 改变状态时再同步 
 		//告诉其他玩家，谁进来了。
 		enterScene.setUid(userId);
@@ -242,20 +258,25 @@ public class Scene implements Runnable{
 		});
 		*/
 	}
-	public ProtobufMsg makeHeadPct(final Player player) {
-		ErrorMessage.Builder head = ErrorMessage.newBuilder();
-		head.setCmd(0);
-		head.setErrorCode(player.userId);
-		head.setErrorDesc("chengHao:"+player.chengHaoId
-				+"#$#LM:"+player.lmName
-				+"#$#VIP:"+(player.vip)
-				+"#$#ZhiWu:"+(player.zhiWu)
-				);
-		ProtobufMsg msg = new ProtobufMsg();
-		msg.id = PD.S_HEAD_STRING;
-		msg.builder = head;
-		return msg;
+	public void postEnter(Player player) {
+		// TODO Auto-generated method stub
+		
 	}
+
+//	public ProtobufMsg makeHeadPct(final Player player) {
+//		ErrorMessage.Builder head = ErrorMessage.newBuilder();
+//		head.setCmd(0);
+//		head.setErrorCode(player.userId);
+//		head.setErrorDesc("chengHao:"+player.chengHaoId
+//				+"#$#LM:"+player.lmName
+//				+"#$#VIP:"+(player.vip)
+//				+"#$#ZhiWu:"+(player.zhiWu)
+//				);
+//		ProtobufMsg msg = new ProtobufMsg();
+//		msg.id = PD.S_HEAD_STRING;
+//		msg.builder = head;
+//		return msg;
+//	}
 	//进入房子 2015年11月27日策划废弃联盟城 没房子废弃
 	public void enterHouseScene(IoSession session, final EnterScene.Builder enterScene) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
@@ -316,19 +337,12 @@ public class Scene implements Runnable{
 			if(player.equals(skip)){
 				continue;
 			}
-			EnterScene.Builder playerInfo = EnterScene.newBuilder();
+			EnterScene.Builder playerInfo = buildEnterInfo(player);
 			
-			playerInfo.setSenderName(player.getName());
-			playerInfo.setUid(player.userId);
-			playerInfo.setPosX(player.getPosX());
-			playerInfo.setPosY(player.getPosY());
-			playerInfo.setPosZ(player.getPosZ());
-			playerInfo.setRoleId(player.roleId);
-			playerInfo.setJzId(player.jzId);
 			session.write(playerInfo.build());
-			//更新脑门上的称号
-			ProtobufMsg msg = makeHeadPct(player);
-			session.write(msg);
+//			//更新脑门上的称号
+//			ProtobufMsg msg = makeHeadPct(player);
+//			session.write(msg);
 		}
 	}
 
@@ -337,6 +351,24 @@ public class Scene implements Runnable{
 	
 	
 	
+	public EnterScene.Builder buildEnterInfo(Player player) {
+		EnterScene.Builder playerInfo = EnterScene.newBuilder();
+		
+		playerInfo.setSenderName(player.getName());
+		playerInfo.setUid(player.userId);
+		playerInfo.setPosX(player.getPosX());
+		playerInfo.setPosY(player.getPosY());
+		playerInfo.setPosZ(player.getPosZ());
+		playerInfo.setRoleId(player.roleId);
+		playerInfo.setJzId(player.jzId);
+		int chenghaId=Integer.valueOf(player.chengHaoId==null?"0":player.chengHaoId);
+		playerInfo.setChengHao(chenghaId);
+		playerInfo.setAllianceName(player.lmName);
+		playerInfo.setVipLevel(player.vip);
+		playerInfo.setZhiWu(player.zhiWu);
+		return playerInfo;
+	}
+
 	/**
 	 * @Description 向场景中的人广播某人进来了
 	 * @param build
@@ -353,6 +385,7 @@ public class Scene implements Runnable{
 			}
 			IoBuffer dup = io.asReadOnlyBuffer();
 			dup.position(0);
+			if(player.session!=null)
 			player.session.write(dup);
 		}
 	}
@@ -376,6 +409,7 @@ public class Scene implements Runnable{
 			}
 			IoBuffer dup = io.asReadOnlyBuffer();
 			dup.position(0);
+			if(player.session!=null)
 			player.session.write(dup);
 		}
 	}
@@ -412,8 +446,9 @@ public class Scene implements Runnable{
 				spriteMove(session,move);
 				break;
 			case PD.EXIT_FIGHT_SCENE:
-				ExitFightScene.Builder exitFight = (ExitFightScene.Builder) builder;
-				exitFightScene(exitFight, session);
+				//not used
+//				ExitFightScene.Builder exitFight = (ExitFightScene.Builder) builder;
+//				exitFightScene(exitFight, session);
 				break;
 			case PD.Exit_HouseScene:
 				ExitScene.Builder exitHouse = (ExitScene.Builder) builder;
@@ -470,21 +505,21 @@ public class Scene implements Runnable{
 
 
 
-	protected void exitFightScene(ExitFightScene.Builder exitFight, IoSession session) {
-		Integer uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
-		Player player = players.get(uid);
-		if(player == null) {
-			return;
-		}
-		ProtobufMsg pm = new ProtobufMsg();
-		pm.id=PD.EXIT_FIGHT_SCENE;
-		pm.builder = exitFight;
-		exitFight.setUid(uid);
-		broadCastEvent(pm, player.userId);
-		players.remove(uid);
-		log.info("退出联盟战场景成功，君主:{}退出联盟战场景:{},剩余玩家个数：{}" ,session.getAttribute(SessionAttKey.junZhuId),
-				this.name, players.size());
-	}
+//	protected void exitFightScene(ExitFightScene.Builder exitFight, IoSession session) {
+//		Integer uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
+//		Player player = players.get(uid);
+//		if(player == null) {
+//			return;
+//		}
+//		ProtobufMsg pm = new ProtobufMsg();
+//		pm.id=PD.EXIT_FIGHT_SCENE;
+//		pm.builder = exitFight;
+//		exitFight.setUid(uid);
+//		broadCastEvent(pm, player.userId);
+//		players.remove(uid);
+//		log.info("退出联盟战场景成功，君主:{}退出联盟战场景:{},剩余玩家个数：{}" ,session.getAttribute(SessionAttKey.junZhuId),
+//				this.name, players.size());
+//	}
 
 	public void sendSound(qxmobile.protobuf.SoundData.PlayerSound.Builder psdb) {
 		broadCastEvent(psdb.build(), -1);
@@ -527,21 +562,11 @@ public class Scene implements Runnable{
 				pm.builder = enterHouseInfo;
 				broadCastEvent(pm, enterPlayer.userId);
 				break;
+			case State_YABIAO:
 			case State_LEAGUEOFCITY: //22015年11月27日 策划删除联盟城 废弃
 				informComerOtherPlayers(session, enterPlayer);
 				log.info("同步在线玩家信息给 {}",enterPlayer.getName());
-				EnterScene.Builder enterCity = EnterScene.newBuilder();
-				enterCity.setSenderName(enterPlayer.getName());
-				enterCity.setUid(enterPlayer.userId);
-				enterCity.setPosX(enterPlayer.getPosX());
-				enterCity.setPosY(enterPlayer.getPosY());
-				enterCity.setPosZ(enterPlayer.getPosZ());
-				enterCity.setRoleId(enterPlayer.roleId);
-				enterCity.setJzId(enterPlayer.jzId);
-				broadCastEvent(enterCity.build(), enterPlayer.userId);
-				//刷头顶信息给其他玩家
-				ProtobufMsg msg = makeHeadPct(enterPlayer);
-				broadCastEvent(msg, enterPlayer.userId);
+				bdEnterInfo(enterPlayer);
 				break;
 			case State_LOADINGSCENE:
 				break;
@@ -555,10 +580,15 @@ public class Scene implements Runnable{
 		}
 		
 	}
-	//2015年11月27日 策划删除联盟城 废弃
-	public void ExitScene(ExitScene.Builder exit, IoSession session) {
+
+	public void bdEnterInfo(Player enterPlayer) {
+		EnterScene.Builder enterCity = buildEnterInfo(enterPlayer);
+		broadCastEvent(enterCity.build(), enterPlayer.userId);
+	}
+	
+	public Player ExitScene(ExitScene.Builder exit, IoSession session) {
 		if (exit == null) {
-			return;
+			return null;
 		}
 		log.warn("退出 {}" ,session.getAttribute(SessionAttKey.junZhuId));
 		Integer uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
@@ -566,6 +596,7 @@ public class Scene implements Runnable{
 		log.warn("{}场景剩余玩家个数：{}" ,this.name, players.size());
 		broadCastEvent(exit.build(), exit.getUid());
 		savePosInfo(ep);
+		return ep;
 	}
 
 	public void savePosInfo(Player ep) {
@@ -612,12 +643,28 @@ public class Scene implements Runnable{
 
 	
 	public Player getPlayerByJunZhuId(long junzhuId) {
-		for(Map.Entry<Integer, Player> entry : players.entrySet()) {
-			Player player = entry.getValue();
-			if(player.jzId == junzhuId && player.roleId != Scene.YBRobot_RoleId) {
-				return player;
+		do{
+			IoSession ss = AccountManager.sessionMap.get(junzhuId);
+			if(ss == null){
+				break;
 			}
-		}
+			{//test code
+//				Scene sc = (Scene) ss.getAttribute(SessionAttKey.Scene);
+//				log.info("sc is "+sc.name);
+			}
+			Integer uidObject = (Integer) ss.getAttribute(SessionAttKey.playerId_Scene);
+			if(uidObject==null){
+				break;
+			}
+			Player p = players.get(uidObject);
+			if(p==null){
+				break;
+			}
+			
+			return p;
+			
+		}while(false);
+		
 		return null;
 	}
 	
@@ -643,5 +690,13 @@ public class Scene implements Runnable{
 	
 	protected void processStateOnFight(IoSession session, Player p) {
 		// sub class implement
+	}
+	
+	public void playerDie(JunZhu defender, int uid, int killerUid){
+		// sub class implement
+	}
+	
+	public boolean checkSkill(JunZhu attacker, Player attackPlayer, Player targetPlayer, int skillId){
+		return true;
 	}
 }

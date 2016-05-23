@@ -153,8 +153,8 @@ public class PurchaseMgr {
 			tiLi.setNum(tiLi.getNum() + 1);
 			log.info("玩家{}第{}次购买体力成功", junZhuId, tiLi.getNum());
 			HibernateUtil.save(tiLi);
-			HibernateUtil.save(junZhu);
-			JunZhuMgr.inst.sendMainInfo(session);
+			HibernateUtil.update(junZhu);
+			JunZhuMgr.inst.sendMainInfo(session,junZhu);
 			// 主线任务：购买1次体力
 			EventMgr.addEvent(ED.buy_tili_1_times, new Object[] { junZhu.id });
 			// 每日任务中记录完成一次购买体力
@@ -235,7 +235,7 @@ public class PurchaseMgr {
 		tongBi.setNum(tongBi.getNum() + 1);
 		log.info("玩家{}第{}次购买铜币成功 ", junZhuId, tongBi.getNum());
 		HibernateUtil.save(tongBi);
-		HibernateUtil.save(junZhu);
+		HibernateUtil.update(junZhu);
 		//推送
 		TongbiResp.Builder tbResp=TongbiResp.newBuilder();
 		tbResp.setBaoji(baoJi);
@@ -243,7 +243,7 @@ public class PurchaseMgr {
 		tbResp.setShumu(getTongbi);
 		sendBuyTongbiResp(session, 0, tbResp);
 		sendTongBiData(0, session, null);
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		// 主线任务：购买1次铜币
 		EventMgr.addEvent(ED.buy_tongbi_1_times, new Object[] { junZhu.id });
 		// 每日任务中记录完成一次购买铜币
@@ -359,12 +359,12 @@ public class PurchaseMgr {
 		tongBi.setDate(today);
 		tongBi.setNum(tongBi.getNum() + buyCount);
 		HibernateUtil.save(tongBi);
-		HibernateUtil.save(junZhu);
+		HibernateUtil.update(junZhu);
 		//推送
 		resp.setResult(0);
 		session.write(resp.build());
 		sendTongBiData(0, session, null);
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		log.info("玩家{}连续--{}次购买铜币成功,花费--{}，收益--{}", junZhu.id, buyCount,cost4all,shouyi);
 		// 主线任务：购买1次铜币
 		EventMgr.addEvent(ED.buy_tongbi_1_times, new Object[] { junZhu.id });
@@ -797,7 +797,6 @@ public class PurchaseMgr {
 //			return;
 //		}
 //		getTreasureAward(null, session, jiangliId, junZhu);
-//		// junZhu.yuanBao -= needYuanbao;
 //		YuanBaoMgr.inst.diff(junZhu, -needYuanbao, 0,
 //				getPrice(PurchaseConstants.TREASURE_BIG_20),
 //				YBType.YB_BUY_WUPIN, "购买大袋宝箱");
@@ -857,7 +856,6 @@ public class PurchaseMgr {
 //				return;
 //			}
 //			getTreasureAward(null, session, 202, junZhu);
-//			// junZhu.yuanBao -= needYuanbao;
 //			YuanBaoMgr.inst.diff(junZhu, -needYuanbao, 0,
 //					getPrice(PurchaseConstants.TREASURE_MIDDLE),
 //					YBType.YB_BUY_WUPIN, "购买中袋宝箱");
@@ -967,10 +965,11 @@ public class PurchaseMgr {
 		awardTemp.setItemNum(Integer.parseInt(gInfo[2]));
 		switch (type) {
 		case 10:// type为10时，ginfo[1]表示的是AwardTemp表的awardId
-			AwardTemp temp = AwardMgr.inst.calcAwardTemp(Integer
-					.parseInt(gInfo[1]));
-			awardTemp.setItemId(temp.getItemId());
-			awardTemp.setItemType(temp.getItemType());
+			AwardTemp temp = AwardMgr.inst.calcAwardTemp(Integer.parseInt(gInfo[1]));
+			if(temp != null) {
+				awardTemp.setItemId(temp.getItemId());
+				awardTemp.setItemType(temp.getItemType());
+			}
 			break;
 		default:
 			awardTemp.setItemId(Integer.parseInt(gInfo[1]));
@@ -1125,8 +1124,8 @@ public class PurchaseMgr {
 		YuanBaoMgr.inst
 				.diff(junZhu, -costYuanBao, 0, getPriceConf(MIBAO_POINT_CODE),
 						YBType.YB_BUY_WUPIN, "购买秘宝升级点数");
-		HibernateUtil.save(junZhu);
-		JunZhuMgr.inst.sendMainInfo(session);
+		HibernateUtil.update(junZhu);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 
 		log.info("秘宝升级点数购买成功，玩家{}第{}次购买秘宝升级点数，花费:{}元宝,得到{}点,舍去{}点", junZhu.id,
 				levelPoint.dayTimes, costYuanBao, getValue, subValue);

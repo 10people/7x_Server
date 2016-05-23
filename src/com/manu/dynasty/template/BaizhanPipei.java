@@ -1,17 +1,20 @@
 package com.manu.dynasty.template;
 /**
  * 
- * This class is used for ...   
+ * 用于配置百战千军对手列表分区信息
  * @author wangZhuan
  * @version   
  *       9.0, 2015年3月16日 下午4:54:35
  */
 public class BaizhanPipei{
 	public int id;
-	public double param1;
-	public double param2;
-	public int paramX;
-	public int paramY;
-	public int paramZ;
-	public int paramQ;
+	public int roomNum;
+	public int row ;
+	public double param1 ;
+	public double param2 ;
+	public double param3 ;
+	public double param4 ;
+	public double param5 ;
+	
+
 }

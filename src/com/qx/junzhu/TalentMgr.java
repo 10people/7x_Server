@@ -350,7 +350,7 @@ public class TalentMgr {
 		ActLog.log.KingTalent(jz.id, jz.name, ActLog.vopenid, pointId, talentData.name, talentBean.level, talentData.type, 1);
 		sendTalentInfo(session);
 		// update君主属性列表
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 		// 主线任务完成: 升级天赋
 		EventMgr.addEvent(ED.tianfu_level_up_x, new Object[]{jId, talentBean.level});
 		// 每日任务

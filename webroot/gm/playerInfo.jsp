@@ -125,7 +125,6 @@ do{
 		 JunZhuMgr.inst.addExp(junzhu, v);
 	 }else if("addYuanBao".equals(action)){
 		 int v = Integer.parseInt(request.getParameter("v"));
-		 //junzhu.yuanBao += v;
 		 YuanBaoMgr.inst.diff(junzhu,  v, 0,0,YBType.YB_GM_ADDYB,"后台玩家信息添加元宝");
 		 HibernateUtil.save(junzhu);
 	 }else if("setGod".equals(action)){

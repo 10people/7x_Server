@@ -221,6 +221,32 @@ public class HibernateUtil {
     	return list;
     }
     
+    /**
+     * @param t
+     * @param where 例子： where uid>100
+     * @param start 从第几条开始取，下标0开始
+     * @param num 结果显示条数 
+     * @return
+     */
+    public static <T>  List<T> list(Class<T> t, String where,int start,int num){
+    	Session session = sessionFactory.getCurrentSession();
+    	Transaction tr = session.beginTransaction();
+    	List<T> list = Collections.EMPTY_LIST;
+    	try{
+	    	String hql = "from "+t.getSimpleName()+" "+ where;
+	    	Query query = session.createQuery(hql);
+	    	query.setFirstResult(start);
+	    	query.setMaxResults(num);
+	    	list = query.list();
+	    	tr.commit();
+    	}catch(Exception e){
+    		tr.rollback();
+    		log.error("list fail for {} {}", t, where);
+    		log.error("list fail", e);
+    	}
+    	return list;
+    }
+    
     public static SessionFactory buildSessionFactory() {
     	log.info("开始构建hibernate");
         try {
@@ -345,15 +371,15 @@ public class HibernateUtil {
 		Integer id = null;
 		Session session = sessionFactory.getCurrentSession();
     	Transaction tr = session.beginTransaction();
-    	String hql = "select max("+column+") from "+ t.getSimpleName() + where;
+    	String hql = "select max("+column+") from "+ t.getSimpleName() + " "+where;
     	try{
 	    	Query query = session.createQuery(hql);
 	    	Object uniqueResult = query.uniqueResult();
 	    	if(uniqueResult == null){
-	    		id = 1;
+	    		id = 0;
 	    	}else{
 	    		id = Integer.parseInt(uniqueResult +"");
-	    		id = Math.max(1, id);
+	    		id = Math.max(0, id);
 	    	}
 	    	tr.commit();
     	}catch(Exception e){

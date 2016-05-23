@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
 import org.apache.mina.core.session.IoSession;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import qxmobile.protobuf.Ranking.AlliancePlayerReq;
 import qxmobile.protobuf.Ranking.AlliancePlayerResp;
 import qxmobile.protobuf.Ranking.BaiZhanInfo;
+import qxmobile.protobuf.Ranking.ChongLouInfo;
 import qxmobile.protobuf.Ranking.GetRankReq;
 import qxmobile.protobuf.Ranking.GetRankResp;
 import qxmobile.protobuf.Ranking.GuoGuanInfo;
@@ -21,17 +23,25 @@ import qxmobile.protobuf.Ranking.JunZhuInfo;
 import qxmobile.protobuf.Ranking.LianMengInfo;
 import qxmobile.protobuf.Ranking.RankingReq;
 import qxmobile.protobuf.Ranking.RankingResp;
+import redis.clients.jedis.Tuple;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.boot.GameServer;
 import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.CanShu;
+import com.manu.dynasty.template.ChonglouNpcTemp;
+import com.manu.dynasty.util.DateUtils;
 import com.manu.network.BigSwitch;
 import com.manu.network.SessionManager;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
+import com.qx.bag.Bag;
 import com.qx.bag.BagMgr;
+import com.qx.bag.EquipGrid;
+import com.qx.bag.EquipMgr;
+import com.qx.chonglou.ChongLouMgr;
+import com.qx.chonglou.ChongLouRecord;
 import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
@@ -41,6 +51,7 @@ import com.qx.guojia.GuoJiaMgr;
 import com.qx.huangye.shop.ShopMgr;
 import com.qx.junzhu.ChengHaoBean;
 import com.qx.junzhu.JunZhu;
+import com.qx.mibao.v2.MiBaoV2Mgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.pve.PveGuanQiaMgr;
 import com.qx.pve.PveRecord;
@@ -54,9 +65,10 @@ import com.qx.pvp.PvpMgr;
  * @version 9.0, 2015年2月4日 下午3:12:07
  */
 public class RankingMgr extends EventProc{
-	public static Logger log = LoggerFactory.getLogger(RankingMgr.class);
+	public static Logger log = LoggerFactory.getLogger(RankingMgr.class.getSimpleName());
 	public static final Redis DB = Redis.getInstance();
 	public static String JUNZHU_RANK = "junzhu_" + GameServer.serverId;// Redis君主榜
+	public static String CHONGLOU_RANK = "chonglou_" + GameServer.serverId;// Redis重楼榜
 	public static String LIANMENG_RANK = "lianmeng_" + GameServer.serverId;// Redis联盟榜
 	public static String BAIZHAN_RANK = "baizhan_" + GameServer.serverId;// Redis百战榜
 	public static String GUOGUAN_RANK = "guoguan_" + GameServer.serverId;// Redis过关榜
@@ -172,6 +184,23 @@ public class RankingMgr extends EventProc{
 		int gjSize = (int) DB.zcard_(JUNZHU_RANK+"_"+guojiaId);
 		log.info("国家{}君主排行榜的size是： {}", guojiaId,gjSize);
 	}
+	
+	public void resetChongLouRank(JunZhu jz, int chongLouLayer) {
+		if (jz == null) {
+			log.error("resetJunzhuRankRedis 参数为null");
+			return;
+		}
+		int guojiaId = jz.guoJiaId;
+		DB.zadd(CHONGLOU_RANK+"_0", chongLouLayer, jz.id + "");// 添加到全部排名
+		DB.zadd(CHONGLOU_RANK+"_"+guojiaId, chongLouLayer, jz.id + "");// 添加在相应国家排名
+		log.info("重楼榜==>君主：{} 重楼挑战层数：{} 添加到周国排名中,key={}", jz.name, chongLouLayer, CHONGLOU_RANK+"_0");
+		log.info("重楼榜==>君主：{} 重楼挑战层数：{} 添加到国家{}排名中,key={}", jz.name, chongLouLayer, guojiaId,CHONGLOU_RANK+"_"+guojiaId);
+		int allSize = (int) DB.zcard_(CHONGLOU_RANK+"_0");
+		log.info("周国重楼排行榜的size是： {}", allSize);
+		int gjSize = (int) DB.zcard_(CHONGLOU_RANK+"_"+guojiaId);
+		log.info("国家{}重楼排行榜的size是： {}", guojiaId,gjSize);
+	}
+	
 
 	/** 
 	 * @Title: resetLianMengLevelRedis 
@@ -548,7 +577,8 @@ public class RankingMgr extends EventProc{
 			jzBuilder.setJob(player.title);
 			jzBuilder.setLevel(jz.level);
 			jzBuilder.setGongxian(player.gongXian);
-			jzBuilder.setZhanli(PvpMgr.inst.getZhanli(jz));
+			jzBuilder.setChongLouLayer(ChongLouMgr.inst.getChongLouHighestLayer(jz));
+			jzBuilder.setZhanli(getZhanliInRedis(jz));
 			jzBuilder.setGongjin(RankingGongJinMgr.inst.getJunZhuGongJin(jz.id));
 //			if(GuoJiaMgr.inst.isCanShangjiao(jz.id)){
 //				GuoJiaMgr.inst.pushCanShangjiao(jz.id);
@@ -592,6 +622,9 @@ public class RankingMgr extends EventProc{
 			break;
 		case 4:// 过关榜
 			rank = (int)getRankByGjIdAndId(GUOGUAN_RANK, guojiaId, queryId);
+			break;
+		case 7:// 重楼榜
+			rank = (int)getRankByGjIdAndId(CHONGLOU_RANK, guojiaId, queryId);
 			break;
 		}
 		response.setRank(rank);
@@ -683,6 +716,20 @@ public class RankingMgr extends EventProc{
 		case 6://贡金联盟排行榜
 			RankingGongJinMgr.inst.sendAllianceGongJinRank(pageNo, response, session);
 			rankNum = (int)DB.zcard_(RankingGongJinMgr.gongJinAllianceRank);
+			break;
+		case 7://重楼排行榜
+			List<ChongLouInfo.Builder> chonglouList = getChongLouRank(pageNo, guojiaId, name, type);
+			if(chonglouList!=null && chonglouList.size()!=0){
+				for(ChongLouInfo.Builder guoguan:chonglouList){
+					response.addChongLouList(guoguan);
+				}
+				if(name!=null){// 如果是按名字搜索，计算当前页码
+					int rank = chonglouList.get(0).getRank();
+					response.setPageNo(rank%PAGE_SIZE==0?rank/PAGE_SIZE:rank/PAGE_SIZE+1);
+				}
+			}
+			rankNum = (int)DB.zcard_(CHONGLOU_RANK+"_"+guojiaId);
+			break;
 		default:
 			break;
 		}
@@ -765,6 +812,64 @@ public class RankingMgr extends EventProc{
 		return junList;
 	}
 	
+	public List<ChongLouInfo.Builder> getChongLouRank(int pageNo,int guojiaId,String jzName,int type){
+		int start = PAGE_SIZE * (pageNo - 1);
+		if(jzName!=null){
+			guojiaId=0;// 按全服榜搜索
+		}
+		if(jzName!=null){
+			JunZhu jz = HibernateUtil.findByName(JunZhu.class, jzName, " where name='"+jzName+"'");
+			if(jz==null){
+				return null;
+			}
+			long rank = getRankByGjIdAndId(CHONGLOU_RANK, guojiaId, (int)jz.id);
+			if(rank==-1){
+				log.info("君主不存在君主榜中");
+				return null;
+			}
+			start = (int)(rank%PAGE_SIZE==0?((rank-1)-(rank-1)%PAGE_SIZE):rank-rank%PAGE_SIZE);
+		}
+		int end = start + PAGE_SIZE;
+		Set<String> junSet = DB.ztop(CHONGLOU_RANK+"_"+guojiaId, start, end);
+		if(null==junSet||junSet.size()==0){
+			List<ChongLouRecord> recordList = HibernateUtil.list(ChongLouRecord.class, " where highestLevel>0");
+			for(ChongLouRecord record : recordList) {
+				if(record.junzhuId % 1000 != GameServer.serverId) {
+					continue;
+				}
+				JunZhu jz = HibernateUtil.find(JunZhu.class, record.junzhuId);
+				resetChongLouRank(jz, record.highestLevel);
+			}
+			junSet = DB.ztop(CHONGLOU_RANK+"_"+guojiaId, start, end);
+		}
+		List<ChongLouInfo.Builder> chonglouList = new ArrayList<ChongLouInfo.Builder>();
+		for(String jzIdStr:junSet){
+			long jzId = Long.parseLong(jzIdStr);
+			ChongLouInfo.Builder chonglouBuilder = ChongLouInfo.newBuilder();
+			JunZhu jz = HibernateUtil.find(JunZhu.class, jzId);
+			if(jz==null){
+				continue;
+			}
+			ChongLouRecord chongLouRecord = ChongLouMgr.inst.getChongLouRecord(jz); 
+			int rank =0;
+			// 去掉等级限制，否则会出排行榜数据显示排行和redis中数据不符合的bug
+			if(rank<=RANK_MAXNUM){// 过滤筛选范围
+				rank = ++start;
+				chonglouBuilder.setJunZhuId(jzId);
+				chonglouBuilder.setRank(rank);
+				chonglouBuilder.setGuojiaId(jz.guoJiaId);
+				chonglouBuilder.setName(jz.name);
+				chonglouBuilder.setLevel(jz.level);
+				chonglouBuilder.setLianMeng(AllianceMgr.inst.getAlliance(jz));
+				chonglouBuilder.setLayer(chongLouRecord.highestLevel);
+				chonglouBuilder.setTime(DateUtils.date2Text(chongLouRecord.highestLevelFirstTime, "yyyy-MM-dd"));
+				chonglouList.add(chonglouBuilder);
+			}
+		}
+		return chonglouList;
+	}
+	
+	
 	public int getZhanliInRedis(JunZhu jz){
 		double score = DB.zscore(JUNZHU_RANK+"_"+jz.guoJiaId,String.valueOf(jz.id));
 		int zhanli = (int)(score/100000d);
@@ -836,8 +941,7 @@ public class RankingMgr extends EventProc{
 				mengBuilder.setGuoJiaId(alliance.country);
 				mengBuilder.setMengName(alliance.name);
 				mengBuilder.setLevel(alliance.level);
-				long shengwang = getShengwangInRedis(alliance);
-				mengBuilder.setShengWang((int)shengwang);
+				mengBuilder.setShengWang(AllianceMgr.inst.getCaptureCityCount(alliance.id));//代表占领的城市数量
 				mengBuilder.setMember(alliance.members);
 				mengBuilder.setAllMember(AllianceMgr.inst.getAllianceMemberMax(alliance.level));
 				mengList.add(mengBuilder);
@@ -1072,40 +1176,6 @@ public class RankingMgr extends EventProc{
 	}
 	
 	/** 
-	 * @Title: getJunzhuLevelRank 
-	 * @Description: 获取等级排行前num位君主
-	 * @param num
-	 * @return
-	 * @return List<JunZhu>
-	 * @throws 
-	 */
-	public List<JunZhu> getJunzhuLevelRank(int num){
-		List<JunZhu> junList = new ArrayList<JunZhu>();
-		Set<String> ids = DB.ztop(JUNZHU_LEVEL_RANK, num);
-		if(ids==null||ids.size()==0){
-			return null;
-		}
-		for(String id:ids){
-			JunZhu junzhu = HibernateUtil.find(JunZhu.class, Long.parseLong(id));
-			if(junzhu!=null){
-				junList.add(junzhu);
-			}
-		}
-		return junList;
-	}
-	
-	public double calAvgLevel(List<JunZhu> junzhus){
-		if(junzhus.size()==0){
-			return 0;
-		}
-		int sum = 0;
-		for (JunZhu junZhu : junzhus) {
-			sum += junZhu.level;
-		}
-		return sum/junzhus.size();
-	}
-	
-	/** 
 	 * @Title: getTopJunzhuAvgLevel 
 	 * @Description: 获取等级排行前num位君主平均等级
 	 * @param num
@@ -1114,8 +1184,15 @@ public class RankingMgr extends EventProc{
 	 * @throws 
 	 */
 	public double getTopJunzhuAvgLevel(int num){
-		List<JunZhu> junzhus = getJunzhuLevelRank(num);
-		return junzhus == null?0:calAvgLevel(junzhus);
+		Set<Tuple> tops = DB.ztopWithScore(JUNZHU_LEVEL_RANK, num);
+		if(tops == null || tops.size()==0){
+			return 1;
+		}
+		double sumLv = 0;
+		for(Tuple t : tops){
+			sumLv += t.getScore();
+		}
+		return sumLv / tops.size();
 	}
 	
 	/** 
@@ -1150,7 +1227,9 @@ public class RankingMgr extends EventProc{
 			junBuilder.setChenghao(cur.tid);
 		}		
 		junBuilder.setRoleId(jz.roleId);
-		junBuilder.setEquip(BagMgr.inst.getEquipInfo(jz.id));
+		Bag<EquipGrid> bag = EquipMgr.inst.loadEquips(jz.id);
+		junBuilder.setEquip(BagMgr.inst.getEquipInfo(bag));
+		junBuilder.setMibaoInfoResp(MiBaoV2Mgr.inst.getMibaoInfoResp(jz, new AtomicBoolean()));
 		return junBuilder;
 	}
 	
@@ -1201,6 +1280,10 @@ public class RankingMgr extends EventProc{
 			double ggScore = DB.zscore(GUOGUAN_RANK+"_"+oldGjId, jzId+"");
 			DB.zrem(GUOGUAN_RANK+"_"+oldGjId, jzId+"");
 			DB.zadd(GUOGUAN_RANK+"_"+newGjId, ggScore, jzId+"");
+			// 重楼榜
+			double chonglouScore = DB.zscore(CHONGLOU_RANK+"_"+oldGjId, jzId+"");
+			DB.zrem(CHONGLOU_RANK+"_"+oldGjId, jzId+"");
+			DB.zadd(CHONGLOU_RANK+"_"+newGjId, chonglouScore, jzId+"");
 		}
 	}
 	
@@ -1357,6 +1440,17 @@ public class RankingMgr extends EventProc{
 		case ED.JUNZHU_LEVEL_RANK_REFRESH:
 			resetLevelRankRedis(jz);
 			break;
+		case ED.CHONGLOU_RANK_REFRESH:
+			if(event.param != null && event.param instanceof Object[]){
+				Object[] obj = (Object[])event.param;
+				JunZhu junZhu = (JunZhu)obj[0];
+				Integer layer = (Integer)obj[1];
+				if(layer == null) {
+					return;
+				}
+				resetChongLouRank(junZhu, layer);
+			}
+			break;
 		}
 	}
 
@@ -1376,5 +1470,6 @@ public class RankingMgr extends EventProc{
 		EventMgr.regist(ED.LIANMENG_WEEK_RANK_RESET, this);
 		EventMgr.regist(ED.LIANMENG_WEEK_RANK_REFRESH, this);
 		EventMgr.regist(ED.JUNZHU_LEVEL_RANK_REFRESH, this);
+		EventMgr.regist(ED.CHONGLOU_RANK_REFRESH, this);
 	}
 }

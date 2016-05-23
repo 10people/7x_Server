@@ -43,9 +43,12 @@ import com.qx.persistent.HibernateUtil;
 import com.qx.persistent.MC;
 import com.qx.task.DailyTaskCondition;
 import com.qx.task.DailyTaskConstants;
-
+/**
+ * @Description 强化
+ *
+ */
 public class UserEquipService {
-	public static Logger log = LoggerFactory.getLogger(UserEquipService.class);
+	public static Logger log = LoggerFactory.getLogger(UserEquipService.class.getSimpleName());
 	private static UserEquipService instance = new UserEquipService();
 	public TempletService template = TempletService.getInstance();
 	public static UserEquipService getInstance() {
@@ -74,8 +77,9 @@ public class UserEquipService {
 		long targetInstId = -1;
 		int targetItemId = -1;
 		Object target = null;
+		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
 		if(equipWhere == 1){//背包内装备
-			BagGrid source = HibernateUtil.find(BagGrid.class, equipId);
+			BagGrid source = findByDBId(bag, equipId);
 			if (source == null) {
 				throw new BaseException("强化装备不存在 1");
 			}
@@ -137,9 +141,9 @@ public class UserEquipService {
 		// 过滤所选强化材料的合法性
 		List<BagGrid> materials = new ArrayList<BagGrid>(caiLiaoList.size());
 		boolean isWuQi = HeroMgr.inst.isWuQi(zhuangbeiCfg.getBuWei());
-		log.info("请求中的材料个数{}", caiLiaoList.size());
+		if(doIt)log.info("请求中的材料个数{}", caiLiaoList.size());
 		for (Long bagId : caiLiaoIds.keySet()) {
-				BagGrid bagGrid = HibernateUtil.find(BagGrid.class, bagId);
+				BagGrid bagGrid = findByDBId(bag, bagId);
 				if(bagGrid == null || bagGrid.cnt<=0){
 					log.error("背包里找不到材料,bagId:{},材料id:{}", bagId, bagGrid==null?" bagGrid==null":bagGrid.itemId);
 					continue;
@@ -156,14 +160,34 @@ public class UserEquipService {
 					log.error("不能用武器材料强化防具,bagId:{},材料id:{}", bagId, bagGrid.itemId);
 					return ;
 				}
-				// FIXME 上面需要判断区分武器和防具的进阶材料
+				//功能修改，不再可以使用装备、装备进阶材料等进行强化
 				if(bagGrid.type == BaseItem.TYPE_FangJu_CaiLiao 
-						|| bagGrid.type == BaseItem.TYPE_WuQi_CaiLiao
-						|| bagGrid.type == BaseItem.TYPE_JinJie_CaiLiao){
+						|| bagGrid.type == BaseItem.TYPE_WuQi_CaiLiao){
 					BaseItem bi = TempletService.itemMap.get(bagGrid.itemId);
 					if(bi == null){
 						continue;
 					}
+//					ItemTemp it = (ItemTemp) bi;//进阶材料检测，
+//					//进阶材料的(品质)  小于  对应（部位it.id%100） 穿戴的装备品质，可以吃 (itemType==6)表示进阶材料 
+//					if (it.itemType==BaseItem.TYPE_JinJie_CaiLiao) {
+//						int buwei=-1;
+//						buwei=TempletService.itemMap4Buwei.get(it.id);
+//						if(buwei<=0){
+//							log.error("进阶材料--{} 的部位获取错误",it.id);
+//							continue;
+//						}
+//						//TODO，装备部位增加新位置时，修改此处判断
+//						//材料部位判断，1、2、3为武器，10以上为装备
+//						if( buwei > 0 && buwei <= 3 && !isWuQi ){//材料对应部位是武器，强化目标不是武器
+//							log.error("不能用武器进阶材料强化防具,bagId:{},材料id:{}", bagId, bagGrid.itemId);
+//							continue;
+//						}
+//						if(buwei >= 10 && isWuQi ){//材料对应部位是装备，强化目标不是武器
+//							log.error("不能用防具进阶材料强化武器,bagId:{},材料id:{}", bagId, bagGrid.itemId);
+//							continue;
+//						}
+//					}
+					
 					int cnt = caiLiaoIds.get(bagGrid.dbId);
 					if(cnt>bagGrid.cnt){
 						log.error("材料个数错误，bagId:{}-itemId:{},实际有{}，请求个数{}",
@@ -171,28 +195,28 @@ public class UserEquipService {
 						continue;
 					}
 				}else{
-					ZhuangBei t = template.getZhuangBei(bagGrid.itemId);
-					if(t == null){
-						continue;
-					}
-					if(isWuQi){
-						if (!HeroMgr.inst.isWuQi(t.getBuWei())) {
-							log.error("不能用防具强化武器");
-							return ;
-						}
-					}else{
-						if (HeroMgr.inst.isWuQi(t.getBuWei())) {
-							log.error("不能用武器强化防具");
-							return ;
-						}
-					}
+					continue;
+//					ZhuangBei t = template.getZhuangBei(bagGrid.itemId);//2016-05-10不再可以使用低级装备进行强化
+//					if(t == null){
+//						continue;
+//					}
+//					if(isWuQi){
+//						if (!HeroMgr.inst.isWuQi(t.getBuWei())) {
+//							log.error("不能用防具强化武器");
+//							return ;
+//						}
+//					}else{
+//						if (HeroMgr.inst.isWuQi(t.getBuWei())) {
+//							log.error("不能用武器强化防具");
+//							return ;
+//						}
+//					}
 				}
 				materials.add(bagGrid);
 		}
 		
-		log.info("装备原有经验为 {}", curExp);
 		int expId = zhuangbeiCfg.getExpId();
-		log.info("使用经验ID {}", expId);
+		if(doIt)log.info("装备原有经验为 {},使用经验ID {}",curExp, expId);
 		List<ExpTemp> expTemps = template.getExpTemps(expId);
 		if(expTemps == null){
 			sendError(session, "没有经验配置。");
@@ -213,12 +237,11 @@ public class UserEquipService {
 		}
 		toEqJzLevelNeedExp -= curExp;
 		
-		log.info("当前君主等级为{}，装备当前强化等级为{}，升级装备到与君主等级相同需要经验为{}",junzhulevel, currLv, toEqJzLevelNeedExp);
+		if(doIt)log.info("当前君主等级为{}，装备当前强化等级为{}，升级装备到与君主等级相同需要经验为{}",junzhulevel, currLv, toEqJzLevelNeedExp);
 		JSONArray logCaiLiao = new JSONArray();
 		for (BagGrid bagGrid : materials) {
 			if(bagGrid.type == BaseItem.TYPE_FangJu_CaiLiao 
-					|| bagGrid.type == BaseItem.TYPE_WuQi_CaiLiao
-					|| bagGrid.type == BaseItem.TYPE_JinJie_CaiLiao){
+					|| bagGrid.type == BaseItem.TYPE_WuQi_CaiLiao){//2016-05-12修改不再可以使用装备进阶材料强化
 				BaseItem bi = TempletService.itemMap.get(bagGrid.itemId);
 				if(bi == null || !(bi instanceof ItemTemp)){
 					continue;
@@ -243,33 +266,33 @@ public class UserEquipService {
 				continue;
 			}
 			// 使用的武器强化，可获得的经验数
-			ZhuangBei t = template.getZhuangBei(bagGrid.itemId);
-			if(t == null){
-				log.error("模板没有找到:"+bagGrid.itemId);
-				continue;
-			}
-			log.info("获得模板经验{}",t.getExp());
-			curExp += t.getExp();
-			if(bagGrid.instId > 0) {// FIXME 武器是否强化过，计算数值不对，应把之前等级所耗掉的经验都加上
-				UserEquip mUe = HibernateUtil.find(UserEquip.class, bagGrid.instId);
-				if(mUe != null){
-					curExp += mUe.getExp();
-					// TODO 洗练继承操作 （还要考虑有损继承）
-					curTongli += mUe.getTongli();
-					curMouli += mUe.getMouli();
-					curWuli += mUe.getWuli();
-					
-					log.info("材料之前强化经验{}，洗练统力{}，谋力{}，武力{}",mUe.getExp(),mUe.getTongli(), mUe.getMouli(), mUe.getWuli());
-					HibernateUtil.delete(mUe);
-				}else{
-					log.warn("之前强化信息未找到{}",bagGrid.instId);
-				}
-			}
-			
-			bagGrid.instId = bagGrid.itemId = bagGrid.cnt = 0;
-			HibernateUtil.save(bagGrid);
-			log.info("强化材料使用成功-装备，删除背包物品 {} from pid {}",bagGrid.itemId, junZhuId);
-			addLogJsonCaiLiao(logCaiLiao, bagGrid.itemId, 1);
+//			ZhuangBei t = template.getZhuangBei(bagGrid.itemId);//2016-05-12修改，不再可以使用背包中的武器强化
+//			if(t == null){
+//				log.error("模板没有找到:"+bagGrid.itemId);
+//				continue;
+//			}
+//			log.info("获得模板经验{}",t.getExp());
+//			curExp += t.getExp();
+//			if(bagGrid.instId > 0) {// FIXME 武器是否强化过，计算数值不对，应把之前等级所耗掉的经验都加上
+//				UserEquip mUe = HibernateUtil.find(UserEquip.class, bagGrid.instId);
+//				if(mUe != null){
+//					curExp += mUe.getExp();
+//					// TODO 洗练继承操作 （还要考虑有损继承）
+//					curTongli += mUe.getTongli();
+//					curMouli += mUe.getMouli();
+//					curWuli += mUe.getWuli();
+//					
+//					log.info("材料之前强化经验{}，洗练统力{}，谋力{}，武力{}",mUe.getExp(),mUe.getTongli(), mUe.getMouli(), mUe.getWuli());
+//					HibernateUtil.delete(mUe);
+//				}else{
+//					log.warn("之前强化信息未找到{}",bagGrid.instId);
+//				}
+//			}
+//			
+//			bagGrid.instId = bagGrid.itemId = bagGrid.cnt = 0;
+//			HibernateUtil.save(bagGrid);
+//			log.info("强化材料使用成功-装备，删除背包物品 {} from pid {}",bagGrid.itemId, junZhuId);
+//			addLogJsonCaiLiao(logCaiLiao, bagGrid.itemId, 1);
 		}
 
 
@@ -370,8 +393,7 @@ public class UserEquipService {
 			resp.setFangYuAdd(qianghua.getFangyu());
 			resp.setShengMingAdd(qianghua.getShengming());
 		}
-		BagMgr.inst.sendBagInfo(0, session, null);
-		BagMgr.inst.sendEquipInfo(0, session, null);
+		
 		
 		//以下1.0版本改变洗练逻辑
 		if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.wqSH)) {
@@ -447,13 +469,32 @@ public class UserEquipService {
 //			resp.setSxJiaCheng(0);
 //		}
 		resp.setZhuangbeiID(zhuangbeiCfg.getId());
+		resp.setJinJieExp(dbUe.JinJieExp);
 		//以上1.0版本改变洗练逻辑
 		session.write(resp.build());
 		// 发送君主信息 2015年9月24日
-		JunZhuMgr.inst.sendMainInfo(session);
+		if(doIt){
+			JunZhuMgr.inst.sendMainInfo(session,junZhu);
+		}
+		if(doIt){
+			BagMgr.inst.sendBagInfo(session, bag);
+			BagMgr.inst.sendEquipInfo(0, session, null);
+		}
 	}
 	
 	
+	public BagGrid findByDBId(Bag<BagGrid> bag, long equipId) {
+		for(BagGrid bg:bag.grids){
+			if(bg == null){
+				continue;
+			}
+			if(bg.dbId == equipId){
+				return bg;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * @Description 一键强化
 	 * @param session
@@ -473,16 +514,21 @@ public class UserEquipService {
 				return;
 			}
 			Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhuId);
-			doUpAll(junZhu,equips, bag, true);//武器
-			doUpAll(junZhu,equips, bag, false);//防具
+			int upWuQiTimes = doUpAll(junZhu,equips, bag, true);//武器
+			int upZhuangBeiTimes = doUpAll(junZhu,equips, bag, false);//防具
+			if((upWuQiTimes+upZhuangBeiTimes)<=0){
+				log.info("玩家{}一键强化中没有任何装备信息发生变动，怀疑修改协议",junZhu.id);
+				return;
+			}
 		//}
 		log.info("君主{}结束==============《一键强化》",junZhuId);
-		//返回一键强化信息
-		sendQianhuaInfo4YiJian(junZhuId,session);
+		
 		// 发送君主信息 2015年9月24日
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		BagMgr.inst.sendBagInfo(session, bag);
-		BagMgr.inst.sendEquipInfo(0, session, null);
+		BagMgr.inst.sendEquipInfo(session, equips);
+		//返回一键强化信息
+		sendQianhuaInfo4YiJian(junZhuId,session,equips);
 		//主线任务：完成一次强化, 参数定为-1， 在GameTaskMgr中获取一个最大的newLevel作为条件判断
 		EventMgr.addEvent(ED.QIANG_HUA_FINISH, new Object[]{junZhuId, -1});
 		// 每日任务中记录完成强化装备1次
@@ -497,8 +543,7 @@ public class UserEquipService {
 	 * @param junZhuId
 	 * @param session
 	 */
-	public void sendQianhuaInfo4YiJian(long junZhuId, IoSession session) {
-		Bag<EquipGrid> equips = EquipMgr.inst.loadEquips(junZhuId);
+	public void sendQianhuaInfo4YiJian(long junZhuId, IoSession session,Bag<EquipGrid> equips) {
 		List<EquipGrid> list = equips.grids;
 		int elistSize=list.size();
 		EquipStrength4AllResp.Builder allResp=EquipStrength4AllResp.newBuilder();
@@ -578,8 +623,6 @@ public class UserEquipService {
 				resp.setFangYuAdd(qianghua.getFangyu());
 				resp.setShengMingAdd(qianghua.getShengming());
 			}
-			BagMgr.inst.sendBagInfo(0, session, null);
-			BagMgr.inst.sendEquipInfo(0, session, null);
 			
 			//以下1.0版本改变洗练逻辑
 			if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.wqSH)) {
@@ -654,6 +697,7 @@ public class UserEquipService {
 //				resp.setSxJiaCheng(0);
 //			}
 			resp.setZhuangbeiID(zhuangbeiCfg.getId());
+			resp.setJinJieExp(dbUe.JinJieExp);
 			allResp.addAllResp(resp);
 		}
 		log.info("向君主{}发送一键强化结果",junZhuId);
@@ -663,10 +707,11 @@ public class UserEquipService {
 	/**
 	 * @Description 根据isWuQi 区分 来 一键强化武器或者装备
 	 */
-	public void doUpAll(JunZhu junZhu, Bag<EquipGrid> equips,
+	public int doUpAll(JunZhu junZhu, Bag<EquipGrid> equips,
 			Bag<BagGrid> bag, boolean isWuQi) {
 		long junZhuId = junZhu.id;
 		int safeTick = 100;
+		int res = 0;
 		do{
 			//获得背包中的材料可产生的经验 2015年9月19日 材料是否够用进入每件装备时判断
 //			List<BagGrid> materials=getMaterialsFromBag(bag,junZhuId,isWuQi);
@@ -710,6 +755,8 @@ public class UserEquipService {
 			if(curLevel==dbUeResult.getLevel()&&curExp==dbUeResult.getExp()){
 				log.info("君主{}一键强化结束，材料耗光，循环次数--{}", junZhuId,100-safeTick);
 				break;
+			}else{
+				res++;
 			}
 			safeTick --;//防止死循环
 		}while(safeTick>0);
@@ -717,6 +764,7 @@ public class UserEquipService {
 			log.error("死循环风险{}", junZhuId);
 		}
 		log.info("君主-{}一键强化---{}结束，循环次数剩余--{},循环次数为---{}", junZhuId,isWuQi?"武器":"防具",safeTick,100-safeTick);
+		return res;
 	}
 	
 	
@@ -1101,59 +1149,67 @@ public class UserEquipService {
 //				log.info("不能用武器材料强化防具,bagId:{},材料id:{}", bagGrid.dbId, bagGrid.itemId);
 				continue ;
 			}
-			// FIXME 上面需要判断区分武器和防具的进阶材料
+			//2016-05-10需求变更，进阶材料和装备不再用于强化
 			if(bagGrid.type == BaseItem.TYPE_FangJu_CaiLiao 
-					|| bagGrid.type == BaseItem.TYPE_WuQi_CaiLiao
-					|| bagGrid.type == BaseItem.TYPE_JinJie_CaiLiao){
+					|| bagGrid.type == BaseItem.TYPE_WuQi_CaiLiao){
 				BaseItem bi = TempletService.itemMap.get(bagGrid.itemId);
 				if(bi == null){
 					continue;
 				}
-				ItemTemp it = (ItemTemp) bi;//武器吃1 装备吃2
-				//进阶材料的(品质)  小于  对应（部位it.id%100） 穿戴的装备品质，可以吃 (itemType==6)表示进阶材料 
-				if (it.itemType==6) { //&&it.quality>curPinzhi
-					int buwei=-1;
-					buwei=TempletService.itemMap4Buwei.get(it.id);
-					if(buwei<=0){
-						log.error("进阶材料--{} 的部位获取错误",it.id);
-						continue;
-					}
-					Integer duiyingPinZhi=buweiMap.get(buwei);
-					if(duiyingPinZhi==null){
-//						log.error("进阶材料--{} 的获取对应部位品质错误",it.id);
-						duiyingPinZhi=0;
-					}
-					if(it.quality>=duiyingPinZhi){
-//						log.info("进阶材料的(品质)--{}  >=  对应（部位） 穿戴的装备品质--{}，不可用于强化 ",it.quality,duiyingPinZhi);
-						continue;
-					}
-				}
+				//2016-05-10需求变更，进阶材料不再用于强化
+//				ItemTemp it = (ItemTemp) bi;//武器吃1 装备吃2
+//				//进阶材料的(品质)  小于  对应（部位it.id%100） 穿戴的装备品质，可以吃 (itemType==6)表示进阶材料 
+//				if (it.itemType==BaseItem.TYPE_JinJie_CaiLiao) { //&&it.quality>curPinzhi
+//					int buwei=-1;
+//					buwei=TempletService.itemMap4Buwei.get(it.id);
+//					if(buwei<=0){
+//						log.error("进阶材料--{} 的部位获取错误",it.id);
+//						continue;
+//					}
+//					//材料部位判断，1、2、3为武器，10以上为装备
+//					if( buwei > 0 && buwei <= 3 && !isWuQi ){//材料对应部位是武器，强化目标不是武器
+//						continue;
+//					}
+//					if(buwei >= 10 && isWuQi ){//材料对应部位是装备，强化目标不是武器
+//						continue;
+//					}
+//					Integer duiyingPinZhi=buweiMap.get(buwei);
+//					if(duiyingPinZhi==null){
+////						log.error("进阶材料--{} 的获取对应部位品质错误",it.id);
+//						duiyingPinZhi=0;
+//					}
+//					if(it.quality>=duiyingPinZhi){
+////						log.info("进阶材料的(品质)--{}  >=  对应（部位） 穿戴的装备品质--{}，不可用于强化 ",it.quality,duiyingPinZhi);
+//						continue;
+//					}
+//				}
 			}else{
-				ZhuangBei t = template.getZhuangBei(bagGrid.itemId);
-				if(t == null){
-					continue;
-				}
-				if(isWuQi){
-					if (!HeroMgr.inst.isWuQi(t.getBuWei())) {
-//						log.info("不能用防具强化武器");
-						continue ;
-					}
-				}else{
-					if (HeroMgr.inst.isWuQi(t.getBuWei())) {
-//						log.info("不能用武器强化防具");
-						continue ;
-					}
-				}
-//				if (t.pinZhi>curPinzhi) { 
-//					log.info("装备=={}品质--{}高于现在装备==》{}的品质=={}，用不了",t.id,t.pinZhi,curPinzhi);
+				continue;
+//				ZhuangBei t = template.getZhuangBei(bagGrid.itemId);
+//				if(t == null){
 //					continue;
 //				}
-				int buwei=t.buWei;
-				Integer duiyingPinZhi=buweiMap.get(buwei);
-				if(duiyingPinZhi==null||t.pinZhi>duiyingPinZhi){
-					log.info("装备=={}品质--{}高于现在身上部位===>{}的装备的品质=={}，用不了",t.id,t.pinZhi,buwei,curPinzhi);
-					continue;
-				}
+//				if(isWuQi){
+//					if (!HeroMgr.inst.isWuQi(t.getBuWei())) {
+////						log.info("不能用防具强化武器");
+//						continue ;
+//					}
+//				}else{
+//					if (HeroMgr.inst.isWuQi(t.getBuWei())) {
+////						log.info("不能用武器强化防具");
+//						continue ;
+//					}
+//				}
+////				if (t.pinZhi>curPinzhi) { 
+////					log.info("装备=={}品质--{}高于现在装备==》{}的品质=={}，用不了",t.id,t.pinZhi,curPinzhi);
+////					continue;
+////				}
+//				int buwei=t.buWei;
+//				Integer duiyingPinZhi=buweiMap.get(buwei);
+//				if(duiyingPinZhi==null||t.pinZhi>duiyingPinZhi){
+//					log.info("装备=={}品质--{}高于现在身上部位===>{}的装备的品质=={}，用不了",t.id,t.pinZhi,buwei,curPinzhi);
+//					continue;
+//				}
 			}
 			materials.add(bagGrid);
 		}

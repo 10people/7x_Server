@@ -5390,6 +5390,60 @@ public final class ZhanDou {
      * </pre>
      */
     int getMibaoPower();
+
+    // required int32 armor = 39;
+    /**
+     * <code>required int32 armor = 39;</code>
+     *
+     * <pre>
+     *当前霸体值
+     * </pre>
+     */
+    boolean hasArmor();
+    /**
+     * <code>required int32 armor = 39;</code>
+     *
+     * <pre>
+     *当前霸体值
+     * </pre>
+     */
+    int getArmor();
+
+    // required int32 armorMax = 40;
+    /**
+     * <code>required int32 armorMax = 40;</code>
+     *
+     * <pre>
+     *霸体值上限
+     * </pre>
+     */
+    boolean hasArmorMax();
+    /**
+     * <code>required int32 armorMax = 40;</code>
+     *
+     * <pre>
+     *霸体值上限
+     * </pre>
+     */
+    int getArmorMax();
+
+    // required float armorRatio = 41;
+    /**
+     * <code>required float armorRatio = 41;</code>
+     *
+     * <pre>
+     *霸体系数，计算每一击减少的霸体值使用
+     * </pre>
+     */
+    boolean hasArmorRatio();
+    /**
+     * <code>required float armorRatio = 41;</code>
+     *
+     * <pre>
+     *霸体系数，计算每一击减少的霸体值使用
+     * </pre>
+     */
+    float getArmorRatio();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.Node}
@@ -5689,6 +5743,21 @@ public final class ZhanDou {
             case 304: {
               bitField1_ |= 0x00000004;
               mibaoPower_ = input.readInt32();
+              break;
+            }
+            case 312: {
+              bitField1_ |= 0x00000008;
+              armor_ = input.readInt32();
+              break;
+            }
+            case 320: {
+              bitField1_ |= 0x00000010;
+              armorMax_ = input.readInt32();
+              break;
+            }
+            case 333: {
+              bitField1_ |= 0x00000020;
+              armorRatio_ = input.readFloat();
               break;
             }
           }
@@ -6741,6 +6810,78 @@ public final class ZhanDou {
       return mibaoPower_;
     }
 
+    // required int32 armor = 39;
+    public static final int ARMOR_FIELD_NUMBER = 39;
+    private int armor_;
+    /**
+     * <code>required int32 armor = 39;</code>
+     *
+     * <pre>
+     *当前霸体值
+     * </pre>
+     */
+    public boolean hasArmor() {
+      return ((bitField1_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 armor = 39;</code>
+     *
+     * <pre>
+     *当前霸体值
+     * </pre>
+     */
+    public int getArmor() {
+      return armor_;
+    }
+
+    // required int32 armorMax = 40;
+    public static final int ARMORMAX_FIELD_NUMBER = 40;
+    private int armorMax_;
+    /**
+     * <code>required int32 armorMax = 40;</code>
+     *
+     * <pre>
+     *霸体值上限
+     * </pre>
+     */
+    public boolean hasArmorMax() {
+      return ((bitField1_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required int32 armorMax = 40;</code>
+     *
+     * <pre>
+     *霸体值上限
+     * </pre>
+     */
+    public int getArmorMax() {
+      return armorMax_;
+    }
+
+    // required float armorRatio = 41;
+    public static final int ARMORRATIO_FIELD_NUMBER = 41;
+    private float armorRatio_;
+    /**
+     * <code>required float armorRatio = 41;</code>
+     *
+     * <pre>
+     *霸体系数，计算每一击减少的霸体值使用
+     * </pre>
+     */
+    public boolean hasArmorRatio() {
+      return ((bitField1_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required float armorRatio = 41;</code>
+     *
+     * <pre>
+     *霸体系数，计算每一击减少的霸体值使用
+     * </pre>
+     */
+    public float getArmorRatio() {
+      return armorRatio_;
+    }
+
     private void initFields() {
       flagIds_ = java.util.Collections.emptyList();
       modleId_ = 0;
@@ -6780,6 +6921,9 @@ public final class ZhanDou {
       nuQiZhi_ = 0;
       mibaoCount_ = 0;
       mibaoPower_ = 0;
+      armor_ = 0;
+      armorMax_ = 0;
+      armorRatio_ = 0F;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6899,6 +7043,18 @@ public final class ZhanDou {
         return false;
       }
       if (!hasMibaoPower()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasArmor()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasArmorMax()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasArmorRatio()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -7052,6 +7208,15 @@ public final class ZhanDou {
       }
       if (((bitField1_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(38, mibaoPower_);
+      }
+      if (((bitField1_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(39, armor_);
+      }
+      if (((bitField1_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(40, armorMax_);
+      }
+      if (((bitField1_ & 0x00000020) == 0x00000020)) {
+        output.writeFloat(41, armorRatio_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -7218,6 +7383,18 @@ public final class ZhanDou {
       if (((bitField1_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(38, mibaoPower_);
+      }
+      if (((bitField1_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(39, armor_);
+      }
+      if (((bitField1_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(40, armorMax_);
+      }
+      if (((bitField1_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(41, armorRatio_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -7436,6 +7613,12 @@ public final class ZhanDou {
         bitField1_ = (bitField1_ & ~0x00000010);
         mibaoPower_ = 0;
         bitField1_ = (bitField1_ & ~0x00000020);
+        armor_ = 0;
+        bitField1_ = (bitField1_ & ~0x00000040);
+        armorMax_ = 0;
+        bitField1_ = (bitField1_ & ~0x00000080);
+        armorRatio_ = 0F;
+        bitField1_ = (bitField1_ & ~0x00000100);
         return this;
       }
 
@@ -7641,6 +7824,18 @@ public final class ZhanDou {
           to_bitField1_ |= 0x00000004;
         }
         result.mibaoPower_ = mibaoPower_;
+        if (((from_bitField1_ & 0x00000040) == 0x00000040)) {
+          to_bitField1_ |= 0x00000008;
+        }
+        result.armor_ = armor_;
+        if (((from_bitField1_ & 0x00000080) == 0x00000080)) {
+          to_bitField1_ |= 0x00000010;
+        }
+        result.armorMax_ = armorMax_;
+        if (((from_bitField1_ & 0x00000100) == 0x00000100)) {
+          to_bitField1_ |= 0x00000020;
+        }
+        result.armorRatio_ = armorRatio_;
         result.bitField0_ = to_bitField0_;
         result.bitField1_ = to_bitField1_;
         onBuilt();
@@ -7827,6 +8022,15 @@ public final class ZhanDou {
         if (other.hasMibaoPower()) {
           setMibaoPower(other.getMibaoPower());
         }
+        if (other.hasArmor()) {
+          setArmor(other.getArmor());
+        }
+        if (other.hasArmorMax()) {
+          setArmorMax(other.getArmorMax());
+        }
+        if (other.hasArmorRatio()) {
+          setArmorRatio(other.getArmorRatio());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -7945,6 +8149,18 @@ public final class ZhanDou {
           return false;
         }
         if (!hasMibaoPower()) {
+          
+          return false;
+        }
+        if (!hasArmor()) {
+          
+          return false;
+        }
+        if (!hasArmorMax()) {
+          
+          return false;
+        }
+        if (!hasArmorRatio()) {
           
           return false;
         }
@@ -10669,6 +10885,153 @@ public final class ZhanDou {
       public Builder clearMibaoPower() {
         bitField1_ = (bitField1_ & ~0x00000020);
         mibaoPower_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 armor = 39;
+      private int armor_ ;
+      /**
+       * <code>required int32 armor = 39;</code>
+       *
+       * <pre>
+       *当前霸体值
+       * </pre>
+       */
+      public boolean hasArmor() {
+        return ((bitField1_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>required int32 armor = 39;</code>
+       *
+       * <pre>
+       *当前霸体值
+       * </pre>
+       */
+      public int getArmor() {
+        return armor_;
+      }
+      /**
+       * <code>required int32 armor = 39;</code>
+       *
+       * <pre>
+       *当前霸体值
+       * </pre>
+       */
+      public Builder setArmor(int value) {
+        bitField1_ |= 0x00000040;
+        armor_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 armor = 39;</code>
+       *
+       * <pre>
+       *当前霸体值
+       * </pre>
+       */
+      public Builder clearArmor() {
+        bitField1_ = (bitField1_ & ~0x00000040);
+        armor_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 armorMax = 40;
+      private int armorMax_ ;
+      /**
+       * <code>required int32 armorMax = 40;</code>
+       *
+       * <pre>
+       *霸体值上限
+       * </pre>
+       */
+      public boolean hasArmorMax() {
+        return ((bitField1_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>required int32 armorMax = 40;</code>
+       *
+       * <pre>
+       *霸体值上限
+       * </pre>
+       */
+      public int getArmorMax() {
+        return armorMax_;
+      }
+      /**
+       * <code>required int32 armorMax = 40;</code>
+       *
+       * <pre>
+       *霸体值上限
+       * </pre>
+       */
+      public Builder setArmorMax(int value) {
+        bitField1_ |= 0x00000080;
+        armorMax_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 armorMax = 40;</code>
+       *
+       * <pre>
+       *霸体值上限
+       * </pre>
+       */
+      public Builder clearArmorMax() {
+        bitField1_ = (bitField1_ & ~0x00000080);
+        armorMax_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required float armorRatio = 41;
+      private float armorRatio_ ;
+      /**
+       * <code>required float armorRatio = 41;</code>
+       *
+       * <pre>
+       *霸体系数，计算每一击减少的霸体值使用
+       * </pre>
+       */
+      public boolean hasArmorRatio() {
+        return ((bitField1_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>required float armorRatio = 41;</code>
+       *
+       * <pre>
+       *霸体系数，计算每一击减少的霸体值使用
+       * </pre>
+       */
+      public float getArmorRatio() {
+        return armorRatio_;
+      }
+      /**
+       * <code>required float armorRatio = 41;</code>
+       *
+       * <pre>
+       *霸体系数，计算每一击减少的霸体值使用
+       * </pre>
+       */
+      public Builder setArmorRatio(float value) {
+        bitField1_ |= 0x00000100;
+        armorRatio_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required float armorRatio = 41;</code>
+       *
+       * <pre>
+       *霸体系数，计算每一击减少的霸体值使用
+       * </pre>
+       */
+      public Builder clearArmorRatio() {
+        bitField1_ = (bitField1_ & ~0x00000100);
+        armorRatio_ = 0F;
         onChanged();
         return this;
       }
@@ -22492,7 +22855,7 @@ public final class ZhanDou {
       "\022\021\n\tcriSkillX\030\010 \002(\005\022\021\n\tcriSkillY\030\t \002(\005\022\022" +
       "\n\nskillLevel\030\n \003(\005\022\030\n\020skillFirstActive\030\013" +
       " \003(\005\"<\n\013DroppenItem\022\n\n\002id\030\001 \002(\005\022\024\n\014commo" +
-      "nItemId\030\002 \002(\005\022\013\n\003num\030\003 \002(\005\"\342\007\n\004Node\022\017\n\007f" +
+      "nItemId\030\002 \002(\005\022\013\n\003num\030\003 \002(\005\"\227\010\n\004Node\022\017\n\007f" +
       "lagIds\030\001 \003(\005\022\017\n\007modleId\030\002 \002(\005\022-\n\010nodeTyp" +
       "e\030\003 \002(\0162\033.qxmobile.protobuf.NodeType\0229\n\016" +
       "nodeProfession\030\004 \002(\0162!.qxmobile.protobuf" +
@@ -22517,44 +22880,45 @@ public final class ZhanDou {
       "roppenType\030\037 \001(\005\022\r\n\005hudun\030  \001(\005\022\020\n\010hudun" +
       "Max\030! \001(\005\022\r\n\005hpNum\030\" \002(\005\022\024\n\014appearanceId" +
       "\030# \002(\005\022\017\n\007nuQiZhi\030$ \002(\005\022\022\n\nmibaoCount\030% " +
-      "\002(\005\022\022\n\nmibaoPower\030& \002(\005\"U\n\005Group\022&\n\005node",
-      "s\030\001 \003(\0132\027.qxmobile.protobuf.Node\022\022\n\nmiba" +
-      "oIcons\030\002 \003(\005\022\020\n\010maxLevel\030\003 \002(\005\"W\n\021PveZha" +
-      "nDouInitReq\022\021\n\tchapterId\030\001 \002(\005\022/\n\tlevelT" +
-      "ype\030\002 \002(\0162\034.qxmobile.protobuf.LevelType\"" +
-      "#\n\021PvpZhanDouInitReq\022\016\n\006userId\030\001 \002(\003\"\324\001\n" +
-      "\017ZhanDouInitResp\022\021\n\tzhandouId\030\001 \002(\005\022\r\n\005m" +
-      "apId\030\002 \002(\005\022\021\n\tlimitTime\030\003 \002(\005\022,\n\nenemyTr" +
-      "oop\030\004 \002(\0132\030.qxmobile.protobuf.Group\022+\n\ts" +
-      "elfTroop\030\005 \002(\0132\030.qxmobile.protobuf.Group" +
-      "\022\020\n\010starTemp\030\006 \003(\005\022\022\n\nstarArrive\030\007 \001(\005\022\013",
-      "\n\003HYK\030\010 \001(\002\"\"\n\020ZhanDouInitError\022\016\n\006resul" +
-      "t\030\001 \002(\t\"%\n\020ZhanDouReplayReq\022\021\n\tzhandouId" +
-      "\030\001 \002(\005\"_\n\021ZhanDouReplayResp\0224\n\010initInfo\030" +
-      "\001 \002(\0132\".qxmobile.protobuf.ZhanDouInitRes" +
-      "p\022\024\n\014playerAction\030\002 \002(\t\"\033\n\rHuangYePveReq" +
-      "\022\n\n\002id\030\001 \002(\003\"\206\001\n\016HuangYePveOver\022\n\n\002id\030\001 " +
-      "\002(\003\022\016\n\006isPass\030\002 \002(\005\022\023\n\013damageValue\030\003 \002(\005" +
-      "\0221\n\010npcInfos\030\004 \003(\0132\037.qxmobile.protobuf.H" +
-      "YPveNpcInfo\022\020\n\010costTime\030\005 \002(\005\"/\n\014HYPveNp" +
-      "cInfo\022\r\n\005npcId\030\001 \002(\005\022\020\n\010remainHP\030\002 \002(\005\"+",
-      "\n\rHuangYePvpReq\022\n\n\002id\030\001 \002(\003\022\016\n\006bossId\030\002 " +
-      "\002(\005\"<\n\016HuangYePvpOver\022\n\n\002id\030\001 \002(\003\022\016\n\006isP" +
-      "ass\030\002 \002(\005\022\016\n\006bossId\030\003 \002(\005\")\n\024YouXiaZhanD" +
-      "ouInitReq\022\021\n\tchapterId\030\001 \002(\005\",\n\021DroppenI" +
-      "temResult\022\n\n\002id\030\001 \002(\005\022\013\n\003num\030\002 \002(\005\"[\n\025Ba" +
-      "ttleYouXiaResultReq\022\n\n\002id\030\001 \002(\005\022\016\n\006resul" +
-      "t\030\002 \002(\005\022\027\n\017dropeenItemNpcs\030\003 \003(\005\022\r\n\005scor" +
-      "e\030\004 \002(\005\"D\n\021QuZhuBattleEndReq\022\016\n\006itemId\030\001" +
-      " \002(\005\022\r\n\005winId\030\002 \002(\003\022\020\n\010remainHp\030\003 \001(\005\"/\n" +
-      "\022QuZhuBattleEndResp\022\n\n\002ok\030\001 \002(\005\022\r\n\005build",
-      "\030\002 \002(\005*S\n\010NodeType\022\010\n\004GEAR\020\001\022\013\n\007SOLDIER\020" +
-      "\002\022\010\n\004HERO\020\003\022\010\n\004BOSS\020\004\022\n\n\006PLAYER\020\005\022\007\n\003GOD" +
-      "\020\006\022\007\n\003NPC\020\007*I\n\016NodeProfession\022\010\n\004NULL\020\000\022" +
-      "\007\n\003DUN\020\001\022\t\n\005QIANG\020\002\022\010\n\004GONG\020\003\022\007\n\003CHE\020\004\022\006" +
-      "\n\002QI\020\005*>\n\tLevelType\022\020\n\014LEVEL_NORMAL\020\001\022\017\n" +
-      "\013LEVEL_ELITE\020\002\022\016\n\nLEVEL_TALE\020\003B\tB\007ZhanDo" +
-      "u"
+      "\002(\005\022\022\n\nmibaoPower\030& \002(\005\022\r\n\005armor\030\' \002(\005\022\020",
+      "\n\010armorMax\030( \002(\005\022\022\n\narmorRatio\030) \002(\002\"U\n\005" +
+      "Group\022&\n\005nodes\030\001 \003(\0132\027.qxmobile.protobuf" +
+      ".Node\022\022\n\nmibaoIcons\030\002 \003(\005\022\020\n\010maxLevel\030\003 " +
+      "\002(\005\"W\n\021PveZhanDouInitReq\022\021\n\tchapterId\030\001 " +
+      "\002(\005\022/\n\tlevelType\030\002 \002(\0162\034.qxmobile.protob" +
+      "uf.LevelType\"#\n\021PvpZhanDouInitReq\022\016\n\006use" +
+      "rId\030\001 \002(\003\"\324\001\n\017ZhanDouInitResp\022\021\n\tzhandou" +
+      "Id\030\001 \002(\005\022\r\n\005mapId\030\002 \002(\005\022\021\n\tlimitTime\030\003 \002" +
+      "(\005\022,\n\nenemyTroop\030\004 \002(\0132\030.qxmobile.protob" +
+      "uf.Group\022+\n\tselfTroop\030\005 \002(\0132\030.qxmobile.p",
+      "rotobuf.Group\022\020\n\010starTemp\030\006 \003(\005\022\022\n\nstarA" +
+      "rrive\030\007 \001(\005\022\013\n\003HYK\030\010 \001(\002\"\"\n\020ZhanDouInitE" +
+      "rror\022\016\n\006result\030\001 \002(\t\"%\n\020ZhanDouReplayReq" +
+      "\022\021\n\tzhandouId\030\001 \002(\005\"_\n\021ZhanDouReplayResp" +
+      "\0224\n\010initInfo\030\001 \002(\0132\".qxmobile.protobuf.Z" +
+      "hanDouInitResp\022\024\n\014playerAction\030\002 \002(\t\"\033\n\r" +
+      "HuangYePveReq\022\n\n\002id\030\001 \002(\003\"\206\001\n\016HuangYePve" +
+      "Over\022\n\n\002id\030\001 \002(\003\022\016\n\006isPass\030\002 \002(\005\022\023\n\013dama" +
+      "geValue\030\003 \002(\005\0221\n\010npcInfos\030\004 \003(\0132\037.qxmobi" +
+      "le.protobuf.HYPveNpcInfo\022\020\n\010costTime\030\005 \002",
+      "(\005\"/\n\014HYPveNpcInfo\022\r\n\005npcId\030\001 \002(\005\022\020\n\010rem" +
+      "ainHP\030\002 \002(\005\"+\n\rHuangYePvpReq\022\n\n\002id\030\001 \002(\003" +
+      "\022\016\n\006bossId\030\002 \002(\005\"<\n\016HuangYePvpOver\022\n\n\002id" +
+      "\030\001 \002(\003\022\016\n\006isPass\030\002 \002(\005\022\016\n\006bossId\030\003 \002(\005\")" +
+      "\n\024YouXiaZhanDouInitReq\022\021\n\tchapterId\030\001 \002(" +
+      "\005\",\n\021DroppenItemResult\022\n\n\002id\030\001 \002(\005\022\013\n\003nu" +
+      "m\030\002 \002(\005\"[\n\025BattleYouXiaResultReq\022\n\n\002id\030\001" +
+      " \002(\005\022\016\n\006result\030\002 \002(\005\022\027\n\017dropeenItemNpcs\030" +
+      "\003 \003(\005\022\r\n\005score\030\004 \002(\005\"D\n\021QuZhuBattleEndRe" +
+      "q\022\016\n\006itemId\030\001 \002(\005\022\r\n\005winId\030\002 \002(\003\022\020\n\010rema",
+      "inHp\030\003 \001(\005\"/\n\022QuZhuBattleEndResp\022\n\n\002ok\030\001" +
+      " \002(\005\022\r\n\005build\030\002 \002(\005*S\n\010NodeType\022\010\n\004GEAR\020" +
+      "\001\022\013\n\007SOLDIER\020\002\022\010\n\004HERO\020\003\022\010\n\004BOSS\020\004\022\n\n\006PL" +
+      "AYER\020\005\022\007\n\003GOD\020\006\022\007\n\003NPC\020\007*I\n\016NodeProfessi" +
+      "on\022\010\n\004NULL\020\000\022\007\n\003DUN\020\001\022\t\n\005QIANG\020\002\022\010\n\004GONG" +
+      "\020\003\022\007\n\003CHE\020\004\022\006\n\002QI\020\005*>\n\tLevelType\022\020\n\014LEVE" +
+      "L_NORMAL\020\001\022\017\n\013LEVEL_ELITE\020\002\022\016\n\nLEVEL_TAL" +
+      "E\020\003B\tB\007ZhanDou"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -22584,7 +22948,7 @@ public final class ZhanDou {
           internal_static_qxmobile_protobuf_Node_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_Node_descriptor,
-              new java.lang.String[] { "FlagIds", "ModleId", "NodeType", "NodeProfession", "NodeName", "MoveSpeed", "AttackSpeed", "AttackRange", "EyeRange", "AttackValue", "DefenceValue", "Hp", "HpMax", "AttackAmplify", "AttackReduction", "AttackAmplifyCri", "AttackReductionCri", "SkillAmplify", "SkillReduction", "SkillAmplifyCri", "SkillReductionCri", "CriX", "CriY", "CriSkillX", "CriSkillY", "Skills", "WeaponHeavy", "WeaponLight", "WeaponRanged", "DroppenItems", "DroppenType", "Hudun", "HudunMax", "HpNum", "AppearanceId", "NuQiZhi", "MibaoCount", "MibaoPower", });
+              new java.lang.String[] { "FlagIds", "ModleId", "NodeType", "NodeProfession", "NodeName", "MoveSpeed", "AttackSpeed", "AttackRange", "EyeRange", "AttackValue", "DefenceValue", "Hp", "HpMax", "AttackAmplify", "AttackReduction", "AttackAmplifyCri", "AttackReductionCri", "SkillAmplify", "SkillReduction", "SkillAmplifyCri", "SkillReductionCri", "CriX", "CriY", "CriSkillX", "CriSkillY", "Skills", "WeaponHeavy", "WeaponLight", "WeaponRanged", "DroppenItems", "DroppenType", "Hudun", "HudunMax", "HpNum", "AppearanceId", "NuQiZhi", "MibaoCount", "MibaoPower", "Armor", "ArmorMax", "ArmorRatio", });
           internal_static_qxmobile_protobuf_Group_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_Group_fieldAccessorTable = new

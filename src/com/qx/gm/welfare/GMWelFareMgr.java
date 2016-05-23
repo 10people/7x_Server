@@ -112,7 +112,6 @@ public class GMWelFareMgr {
 		int addYB = gamegole;
 		int nowYB = jz.yuanBao + addYB;
 		logger.info("玩家：{}，充值之前的元宝：{}， 充值之后的元宝：{}", junZhuId, jz.yuanBao, nowYB);
-		// jz.yuanBao = nowYB;
 		YuanBaoMgr.inst.diff(jz, addYB, 0, 0, YBType.YB_VIP_CHONGZHI, "vip充值");
 
 		// TODO 玩家充值vip经验和vip等级

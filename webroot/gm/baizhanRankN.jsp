@@ -1,3 +1,4 @@
+<%@page import="com.manu.dynasty.base.TempletService"%>
 <%@page import="com.qx.alliance.AllianceBean"%>
 <%@page import="com.qx.ranking.RankingGongJinMgr"%>
 <%@page import="com.manu.dynasty.template.BaiZhanNpc"%>
@@ -32,9 +33,14 @@
   <body>
 
 
-<%String rankmin ="";
+<%
+String rankmin ="";
 String rankmax ="";
+String deleteId = "";
+
 %>
+
+	
     <form action="">
     <br/>
      (请输出大于等于1的数字)<div style="color: #FF0000">(但是如果想获取倒数x（x>=1）个名次玩家，请分别输入:-x 、 0)</div>
@@ -65,11 +71,16 @@ String rankmax ="";
       
     <button type="submit" name="action" value ="lianmenggongjin">联盟贡金排行查询</button>
     </form>
-    
+    =========================================================================================
+    <form action="">
+	<b>当redis被清之后，重新生成排行榜用</b>
+	<button type="submit" name="action" value ="makenew">重新生成排行榜</button>
+	</form>
 
 <% 
 rankmin = request.getParameter("rankmin");
 rankmax = request.getParameter("rankmax");
+deleteId = request.getParameter("playerId");
 String action = request.getParameter("action");
     if(rankmin != null && rankmin.length()>0 && rankmax != null && rankmax.length()>0){
         long rmin = Long.parseLong(rankmin);
@@ -117,6 +128,14 @@ String action = request.getParameter("action");
 	               }
 	               trS();
 	               td((int)playerId);td(name);td(rankkk);td(guojiaId);td(roldId);
+	               %>
+	               	<td>
+	               	<form action="">
+					<button type="submit" name="action" value="delete">删除</button>
+					<input type="hidden" name="playerId" value="<%=playerId%>">
+					</form>
+					</td>
+	               <%
 	               trE();
 	    	   }
 	    	   tableEnd();
@@ -185,6 +204,18 @@ String action = request.getParameter("action");
             }
         }
     }
+    if(action != null && action.equals("makenew")){
+   		PvpMgr.inst.makeRank(TempletService.listAll(BaiZhanNpc.class.getSimpleName()));
+   	}
+    if(action != null && action.equals("delete")){
+    	if(deleteId!=null && deleteId.length()>0){
+    		Long jId = Long.parseLong(deleteId);
+    		if(jId != null){
+    			PvpMgr.inst.removePvpRedisData(jId);
+    		}	
+    	}
+   		
+   	}
 %>
   </body>
 </html>

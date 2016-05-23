@@ -2391,7 +2391,7 @@ public final class BagOperProtos {
      * <code>optional float jnCDReduce = 32;</code>
      *
      * <pre>
-     *技能冷却缩减      
+     *技能冷却缩减
      * </pre>
      */
     boolean hasJnCDReduce();
@@ -2399,10 +2399,28 @@ public final class BagOperProtos {
      * <code>optional float jnCDReduce = 32;</code>
      *
      * <pre>
-     *技能冷却缩减      
+     *技能冷却缩减
      * </pre>
      */
     float getJnCDReduce();
+
+    // optional int32 jinJieExp = 33;
+    /**
+     * <code>optional int32 jinJieExp = 33;</code>
+     *
+     * <pre>
+     *进阶经验
+     * </pre>
+     */
+    boolean hasJinJieExp();
+    /**
+     * <code>optional int32 jinJieExp = 33;</code>
+     *
+     * <pre>
+     *进阶经验
+     * </pre>
+     */
+    int getJinJieExp();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.BagItem}
@@ -2438,6 +2456,7 @@ public final class BagOperProtos {
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
+      int mutable_bitField1_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2615,6 +2634,11 @@ public final class BagOperProtos {
               jnCDReduce_ = input.readFloat();
               break;
             }
+            case 264: {
+              bitField1_ |= 0x00000001;
+              jinJieExp_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2655,6 +2679,7 @@ public final class BagOperProtos {
     }
 
     private int bitField0_;
+    private int bitField1_;
     // required int32 itemId = 1;
     public static final int ITEMID_FIELD_NUMBER = 1;
     private int itemId_;
@@ -3342,7 +3367,7 @@ public final class BagOperProtos {
      * <code>optional float jnCDReduce = 32;</code>
      *
      * <pre>
-     *技能冷却缩减      
+     *技能冷却缩减
      * </pre>
      */
     public boolean hasJnCDReduce() {
@@ -3352,11 +3377,35 @@ public final class BagOperProtos {
      * <code>optional float jnCDReduce = 32;</code>
      *
      * <pre>
-     *技能冷却缩减      
+     *技能冷却缩减
      * </pre>
      */
     public float getJnCDReduce() {
       return jnCDReduce_;
+    }
+
+    // optional int32 jinJieExp = 33;
+    public static final int JINJIEEXP_FIELD_NUMBER = 33;
+    private int jinJieExp_;
+    /**
+     * <code>optional int32 jinJieExp = 33;</code>
+     *
+     * <pre>
+     *进阶经验
+     * </pre>
+     */
+    public boolean hasJinJieExp() {
+      return ((bitField1_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int32 jinJieExp = 33;</code>
+     *
+     * <pre>
+     *进阶经验
+     * </pre>
+     */
+    public int getJinJieExp() {
+      return jinJieExp_;
     }
 
     private void initFields() {
@@ -3392,6 +3441,7 @@ public final class BagOperProtos {
       wqMBL_ = 0F;
       jnMBL_ = 0F;
       jnCDReduce_ = 0F;
+      jinJieExp_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3508,6 +3558,9 @@ public final class BagOperProtos {
       }
       if (((bitField0_ & 0x80000000) == 0x80000000)) {
         output.writeFloat(32, jnCDReduce_);
+      }
+      if (((bitField1_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(33, jinJieExp_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3645,6 +3698,10 @@ public final class BagOperProtos {
       if (((bitField0_ & 0x80000000) == 0x80000000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(32, jnCDReduce_);
+      }
+      if (((bitField1_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(33, jinJieExp_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3826,6 +3883,8 @@ public final class BagOperProtos {
         bitField0_ = (bitField0_ & ~0x40000000);
         jnCDReduce_ = 0F;
         bitField0_ = (bitField0_ & ~0x80000000);
+        jinJieExp_ = 0;
+        bitField1_ = (bitField1_ & ~0x00000001);
         return this;
       }
 
@@ -3853,7 +3912,9 @@ public final class BagOperProtos {
       public qxmobile.protobuf.BagOperProtos.BagItem buildPartial() {
         qxmobile.protobuf.BagOperProtos.BagItem result = new qxmobile.protobuf.BagOperProtos.BagItem(this);
         int from_bitField0_ = bitField0_;
+        int from_bitField1_ = bitField1_;
         int to_bitField0_ = 0;
+        int to_bitField1_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
@@ -3982,7 +4043,12 @@ public final class BagOperProtos {
           to_bitField0_ |= 0x80000000;
         }
         result.jnCDReduce_ = jnCDReduce_;
+        if (((from_bitField1_ & 0x00000001) == 0x00000001)) {
+          to_bitField1_ |= 0x00000001;
+        }
+        result.jinJieExp_ = jinJieExp_;
         result.bitField0_ = to_bitField0_;
+        result.bitField1_ = to_bitField1_;
         onBuilt();
         return result;
       }
@@ -4098,6 +4164,9 @@ public final class BagOperProtos {
         if (other.hasJnCDReduce()) {
           setJnCDReduce(other.getJnCDReduce());
         }
+        if (other.hasJinJieExp()) {
+          setJinJieExp(other.getJinJieExp());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -4132,6 +4201,7 @@ public final class BagOperProtos {
         return this;
       }
       private int bitField0_;
+      private int bitField1_;
 
       // required int32 itemId = 1;
       private int itemId_ ;
@@ -5504,7 +5574,7 @@ public final class BagOperProtos {
        * <code>optional float jnCDReduce = 32;</code>
        *
        * <pre>
-       *技能冷却缩减      
+       *技能冷却缩减
        * </pre>
        */
       public boolean hasJnCDReduce() {
@@ -5514,7 +5584,7 @@ public final class BagOperProtos {
        * <code>optional float jnCDReduce = 32;</code>
        *
        * <pre>
-       *技能冷却缩减      
+       *技能冷却缩减
        * </pre>
        */
       public float getJnCDReduce() {
@@ -5524,7 +5594,7 @@ public final class BagOperProtos {
        * <code>optional float jnCDReduce = 32;</code>
        *
        * <pre>
-       *技能冷却缩减      
+       *技能冷却缩减
        * </pre>
        */
       public Builder setJnCDReduce(float value) {
@@ -5537,12 +5607,61 @@ public final class BagOperProtos {
        * <code>optional float jnCDReduce = 32;</code>
        *
        * <pre>
-       *技能冷却缩减      
+       *技能冷却缩减
        * </pre>
        */
       public Builder clearJnCDReduce() {
         bitField0_ = (bitField0_ & ~0x80000000);
         jnCDReduce_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 jinJieExp = 33;
+      private int jinJieExp_ ;
+      /**
+       * <code>optional int32 jinJieExp = 33;</code>
+       *
+       * <pre>
+       *进阶经验
+       * </pre>
+       */
+      public boolean hasJinJieExp() {
+        return ((bitField1_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int32 jinJieExp = 33;</code>
+       *
+       * <pre>
+       *进阶经验
+       * </pre>
+       */
+      public int getJinJieExp() {
+        return jinJieExp_;
+      }
+      /**
+       * <code>optional int32 jinJieExp = 33;</code>
+       *
+       * <pre>
+       *进阶经验
+       * </pre>
+       */
+      public Builder setJinJieExp(int value) {
+        bitField1_ |= 0x00000001;
+        jinJieExp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 jinJieExp = 33;</code>
+       *
+       * <pre>
+       *进阶经验
+       * </pre>
+       */
+      public Builder clearJinJieExp() {
+        bitField1_ = (bitField1_ & ~0x00000001);
+        jinJieExp_ = 0;
         onChanged();
         return this;
       }
@@ -9465,7 +9584,7 @@ public final class BagOperProtos {
       "gInfo\022)\n\005items\030\001 \003(\0132\032.qxmobile.protobuf" +
       ".BagItem\"6\n\tEquipInfo\022)\n\005items\030\001 \003(\0132\032.q" +
       "xmobile.protobuf.BagItem\"$\n\021EquipInfoOth" +
-      "erReq\022\017\n\007ownerid\030\001 \002(\003\"\212\004\n\007BagItem\022\016\n\006it" +
+      "erReq\022\017\n\007ownerid\030\001 \002(\003\"\235\004\n\007BagItem\022\016\n\006it" +
       "emId\030\001 \002(\005\022\020\n\010itemType\030\002 \001(\005\022\014\n\004name\030\003 \001" +
       "(\t\022\016\n\006instId\030\004 \001(\003\022\013\n\003cnt\030\005 \001(\005\022\016\n\006gongJ" +
       "i\030\006 \001(\005\022\016\n\006fangYu\030\007 \001(\005\022\021\n\tshengMing\030\010 \001" +
@@ -9478,21 +9597,21 @@ public final class BagOperProtos {
       "\004wqRX\030\026 \001(\005\022\r\n\005wqBJL\030\027 \001(\005\022\014\n\004jnSH\030\030 \001(\005" +
       "\022\014\n\004jnJM\030\031 \001(\005\022\014\n\004jnBJ\030\032 \001(\005\022\014\n\004jnRX\030\033 \001" +
       "(\005\022\r\n\005jnBJL\030\034 \001(\005\022\r\n\005wqMBL\030\036 \001(\002\022\r\n\005jnMB" +
-      "L\030\037 \001(\002\022\022\n\njnCDReduce\030  \001(\002\" \n\013EquipAddR" +
-      "eq\022\021\n\tgridIndex\030\001 \002(\005\"#\n\016EquipRemoveReq\022" +
-      "\021\n\tgridIndex\030\001 \002(\005\"0\n\016EquipDetailReq\022\016\n\006",
-      "itemId\030\001 \002(\005\022\016\n\006instId\030\002 \002(\003\"\340\001\n\013EquipDe" +
-      "tail\022\016\n\006itemId\030\001 \002(\005\022\016\n\006instId\030\002 \002(\003\022\014\n\004" +
-      "name\030\003 \001(\t\022\014\n\004desc\030\004 \001(\t\022\016\n\006gongJi\030\005 \001(\005" +
-      "\022\016\n\006fangYu\030\006 \001(\005\022\021\n\tshengMing\030\007 \001(\005\022\021\n\tt" +
-      "ongShuai\030\010 \001(\005\022\014\n\004wuYi\030\t \001(\005\022\016\n\006needLv\030\n" +
-      " \001(\005\022\022\n\nqiangHuaLv\030\013 \001(\005\022\016\n\006pinZhi\030\014 \001(\005" +
-      "\022\r\n\005mouLi\030\r \001(\005\"?\n\022YuJueHeChengResult\022)\n" +
-      "\005items\030\001 \003(\0132\032.qxmobile.protobuf.BagItem" +
-      "*f\n\017EnumItemQuality\022\017\n\013Quality_Bai\020\001\022\016\n\n" +
-      "Quality_Lv\020\002\022\017\n\013Quality_Lan\020\003\022\016\n\nQuality",
-      "_Zi\020\004\022\021\n\rQuality_Cheng\020\005B\017B\rBagOperProto" +
-      "s"
+      "L\030\037 \001(\002\022\022\n\njnCDReduce\030  \001(\002\022\021\n\tjinJieExp" +
+      "\030! \001(\005\" \n\013EquipAddReq\022\021\n\tgridIndex\030\001 \002(\005" +
+      "\"#\n\016EquipRemoveReq\022\021\n\tgridIndex\030\001 \002(\005\"0\n",
+      "\016EquipDetailReq\022\016\n\006itemId\030\001 \002(\005\022\016\n\006instI" +
+      "d\030\002 \002(\003\"\340\001\n\013EquipDetail\022\016\n\006itemId\030\001 \002(\005\022" +
+      "\016\n\006instId\030\002 \002(\003\022\014\n\004name\030\003 \001(\t\022\014\n\004desc\030\004 " +
+      "\001(\t\022\016\n\006gongJi\030\005 \001(\005\022\016\n\006fangYu\030\006 \001(\005\022\021\n\ts" +
+      "hengMing\030\007 \001(\005\022\021\n\ttongShuai\030\010 \001(\005\022\014\n\004wuY" +
+      "i\030\t \001(\005\022\016\n\006needLv\030\n \001(\005\022\022\n\nqiangHuaLv\030\013 " +
+      "\001(\005\022\016\n\006pinZhi\030\014 \001(\005\022\r\n\005mouLi\030\r \001(\005\"?\n\022Yu" +
+      "JueHeChengResult\022)\n\005items\030\001 \003(\0132\032.qxmobi" +
+      "le.protobuf.BagItem*f\n\017EnumItemQuality\022\017" +
+      "\n\013Quality_Bai\020\001\022\016\n\nQuality_Lv\020\002\022\017\n\013Quali",
+      "ty_Lan\020\003\022\016\n\nQuality_Zi\020\004\022\021\n\rQuality_Chen" +
+      "g\020\005B\017B\rBagOperProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9522,7 +9641,7 @@ public final class BagOperProtos {
           internal_static_qxmobile_protobuf_BagItem_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BagItem_descriptor,
-              new java.lang.String[] { "ItemId", "ItemType", "Name", "InstId", "Cnt", "GongJi", "FangYu", "ShengMing", "BuWei", "PinZhi", "DbId", "BagIndex", "TongShuai", "WuYi", "MouLi", "QiangHuaLv", "QiangHuaExp", "Desc", "QianghuaHighestLv", "WqSH", "WqJM", "WqBJ", "WqRX", "WqBJL", "JnSH", "JnJM", "JnBJ", "JnRX", "JnBJL", "WqMBL", "JnMBL", "JnCDReduce", });
+              new java.lang.String[] { "ItemId", "ItemType", "Name", "InstId", "Cnt", "GongJi", "FangYu", "ShengMing", "BuWei", "PinZhi", "DbId", "BagIndex", "TongShuai", "WuYi", "MouLi", "QiangHuaLv", "QiangHuaExp", "Desc", "QianghuaHighestLv", "WqSH", "WqJM", "WqBJ", "WqRX", "WqBJL", "JnSH", "JnJM", "JnBJ", "JnRX", "JnBJL", "WqMBL", "JnMBL", "JnCDReduce", "JinJieExp", });
           internal_static_qxmobile_protobuf_EquipAddReq_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_EquipAddReq_fieldAccessorTable = new

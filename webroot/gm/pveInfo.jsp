@@ -99,7 +99,11 @@
 								r.starLevel = 1;
 								r.uid = pid;
 								r.achieve = 0;
-								r.chuanQiPass = true;
+								if(entry.getValue().getChapType() == 1) {
+									r.chuanQiPass = true;
+								} else {
+									r.chuanQiPass = false;
+								}
 								HibernateUtil.save(r);
 							}
 						}

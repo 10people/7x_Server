@@ -16,7 +16,9 @@ import com.qx.ranking.RankingMgr;
 import com.qx.world.Player;
 import com.qx.world.Scene;
 import com.qx.world.YaBiaoScene;
-
+/**
+ *	@Description 押镖系统马车生成
+ */
 public class YaBiaoRobotProduceMgr  implements Runnable {
 	public static Logger log = LoggerFactory.getLogger(YaBiaoRobotProduceMgr.class.getSimpleName());
 	public static YaBiaoRobotProduceMgr inst;
@@ -49,6 +51,10 @@ public class YaBiaoRobotProduceMgr  implements Runnable {
 		}
 		log.info("退出YaBiaoRobotProduceMgr");
 	}
+	
+	/**
+	 * @Description 检查是否需要生成系统马车
+	 */
 	public boolean isNeedProduce(int ybScId,Scene ybsc) {
 		if(ybsc==null||ybsc.players==null){
 			return false;
@@ -75,6 +81,10 @@ public class YaBiaoRobotProduceMgr  implements Runnable {
 		}
 		return true;
 	}
+	
+	/**
+	 * @Description 检查所有押镖场景并产生系统马车
+	 */
 	public synchronized void produceCart() {
 		log.info("产生系统马车开始");
 		Iterator<?> it4Scene= BigSwitch.inst.ybMgr.yabiaoScenes.entrySet().iterator();
@@ -93,14 +103,19 @@ public class YaBiaoRobotProduceMgr  implements Runnable {
 		doProduce(futureProducelist);
 		log.info("产生系统马车结束");
 	}
+	/**
+	 * @Description 产生系统马车
+	 */
 	public void doProduce(List<ProduceCartInfo> futureProducelist) {
 		for (ProduceCartInfo pInfo : futureProducelist) {
-			log.info("产生参数-----------------------------------------------------------------------------{}",pInfo);
+			log.info("产生参数{}",pInfo);
 			//安全区内人数不满开始产生马车
 			produceXiTongMaChe(pInfo.ybsc, pInfo.ybScId, pInfo.pathId,pInfo.produceNo );
 		}
 	}
-	
+	/**
+	 * @Description 检查场景并把要生成的马车加入 futureProducelist中
+	 */
 	public void  doCheck(int ybScId,int pathId,YaBiaoScene ybsc, List<ProduceCartInfo> futureProducelist) {
 		if(ybsc==null||ybsc.players==null){
 			return ;

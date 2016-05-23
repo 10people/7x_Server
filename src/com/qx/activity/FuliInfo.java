@@ -6,8 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ *  @Description 福利的数据库实体类
+ *
+ */
 @Entity
 @Table(name = "FuliInfo")
+
 public class FuliInfo  {
 	@Id
 	public long jzId;//用作君主id
@@ -17,4 +22,5 @@ public class FuliInfo  {
 	public Date getFengCeHongBaoTime1;// 上次获取封测红包时间1
 	public Date getFengCeHongBaoTime2;// 上次获取封测红包时间2
 	public Date getYuKaFuLiTime;// 上次获取月卡时间
+	public Date getZhongShenKaTime;// 上次获取月卡时间
 }

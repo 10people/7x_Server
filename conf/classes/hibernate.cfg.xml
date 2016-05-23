@@ -65,6 +65,7 @@
 	<mapping class="com.qx.equip.domain.EquipXiLian" />
 	<mapping class="com.qx.equip.domain.XilianFirstRecord" />
 	<mapping class="com.qx.vip.VipRechargeRecord" />
+	<mapping class="com.qx.vip.VipGiftbag" />
 	<mapping class="com.qx.vip.PlayerVipInfo" />
 	<mapping class="com.qx.task.DailyTaskBean" /><!-- MC 20141013 -->
 	<mapping class="com.qx.task.DailyTaskActivity" />
@@ -107,12 +108,13 @@
     <mapping class="com.qx.huangye.HYRewardStore"/>
     <mapping class="com.qx.huangye.HYResourceNpc"/>
     <mapping class="com.qx.huangye.HYResourceJZYongbing"/>
-     <mapping class="com.qx.huangye.shop.PublicShop"/>
+    <mapping class="com.qx.huangye.shop.PublicShop"/>
+    <mapping class="com.qx.huangye.shop.WuBeiFangBean"/>
     <mapping class="com.qx.huangye.BuZhenHYPvp"/>
     <mapping class="com.qx.huangye.BuZhenYaBiao"/>
     <mapping class="com.qx.huangye.BuZhenHYPve"/>
     <mapping class="com.qx.huangye.HYRewardStore"/>
-    <!--  mapping class="com.qx.huangye.HYTreasureRecord"/-->
+    <mapping class="com.qx.huangye.HYTreasureRecord"/>
     <mapping class="com.qx.alliance.HouseBean"/>
     <mapping class="com.qx.alliance.HouseApplyBean"/>
     <mapping class="com.qx.world.PosInfo"/>
@@ -168,13 +170,30 @@
     <mapping class="com.qx.prompt.LveDuoHelp"/>
     <mapping class="com.qx.alliance.building.LMKJJiHuo"/>
     <mapping class="com.manu.dynasty.chat.ChatInfo"/>
+    <mapping class="com.manu.dynasty.chat.ChatSetting"/>
     <mapping class="com.qx.explore.treasure.BaoXiangBean"/>
     <mapping class="com.qx.alliance.AllianceInviteBean"/>
     <mapping class="com.qx.junzhu.PrepareJz"/>
     <mapping class="com.yy.YYLvRewardInfo"/>
     <mapping class="com.qx.explore.treasure.BXRecord"/>
-   
-    
+    <mapping class="com.qx.account.UnlockModel"/>
+    <mapping class="com.qx.pvp.JunXianEnemys"/>
+    <mapping class="com.qx.chonglou.ChongLouRecord"/>
+    <mapping class="com.qx.liefu.LieFuBean"/>
+    <mapping class="com.qx.fuwen.FuWenBean"/>
+    <mapping class="com.qx.alliancefight.BidBean"/>
+    <mapping class="com.qx.mibao.v2.MiBaoV2Bean"/>
+    <mapping class="com.qx.alliancefight.CityBean"/>
+    <mapping class="com.qx.alliancefight.LMZAwardBean"/>
+    <mapping class="com.qx.alliancefight.EnterWarTimeBean"/>
+    <mapping class="com.qx.alliancefight.CWLogBean"/>
+    <mapping class="com.qx.activity.GrowthFundBuyBean"/>
+    <mapping class="com.qx.activity.GrowthFundBean"/>
+    <mapping class="com.qx.activity.StrengthGetBean"/>
+    <mapping class="com.qx.activity.LevelUpGiftBean"/>
+    <mapping class="com.qx.alliancefight.WildCityBean"/>
+    <mapping class="com.qx.alliance.JuanXianBean"/>
+    <mapping class="com.qx.yuanbao.BillHist"/>
 </session-factory>
 
 </hibernate-configuration>

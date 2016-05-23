@@ -4,12 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.mina.core.session.IoSession;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import qxmobile.protobuf.Ranking.GongJinInfo;
-import qxmobile.protobuf.Ranking.RankingResp;
 
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.store.Redis;
@@ -26,6 +22,14 @@ import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.timeworker.FunctionID;
 
+import qxmobile.protobuf.Ranking.GongJinInfo;
+import qxmobile.protobuf.Ranking.RankingResp;
+
+/**
+ * version 1.2 : 原来的贡金改名为积分
+ * @author lzw
+ *
+ */
 public class RankingGongJinMgr {
 	
 	public static RankingGongJinMgr inst;
@@ -298,6 +302,14 @@ public class RankingGongJinMgr {
 				int newData = 0;
 				// 重新把数据加到贡金排行榜中
 				newData = lpr.updateNum;
+				/*
+				 * 之所以add贡金的时候，没有直接set为newData，而是多加了一些小数，
+				 * 是因为想实现:基于名次不变，而重新设置贡金值.
+				 * 但是redis中规定，相同score的情况下，根据member的字典顺序排列，
+				 * 这就导致即使是根据名次逐一取出设置newData，但是在newData相同的情况下，名次会发生变化，
+				 * 不符合需求，所以在score上多加小数来进行【确定】的排序
+				 * 而 getJunZhuGongJin()等get贡金的时候，都 转型为int了，所以是准确值。
+				 */
 				i++;
 				DB.zadd(gongJinPersonalRank, newData + (0.1 - (i * 0.1 / 10000) -(j * 0.1 / 100)), junzId);
 				AlliancePlayer a = HibernateUtil.find(AlliancePlayer.class,
@@ -315,6 +327,13 @@ public class RankingGongJinMgr {
 		DB.del(oldRank);
 	}
 
+	/**
+	 * 首次init君主贡金数据，并且增加对应玩家联盟贡金值
+	 * 
+	 * @param junzhuId
+	 * @param allianceId
+	 * @return
+	 */
 	public int iniGongJin(long junzhuId, int allianceId){
 		Double g = DB.zScoreGongJin(gongJinPersonalRank, junzhuId+"");
 		// 排行中没有数据，所以应该是首次初始化，首次初始化，会有一个初始值
@@ -328,7 +347,11 @@ public class RankingGongJinMgr {
 		}
 		return (int)g.doubleValue();
 	}
-	/*
+
+	/**
+	 * 将玩家贡金数据从-1设置为0
+	 * @param junzhuId
+	 * @param allianceId
 	 */
 	public void firstSetGongJin(long junzhuId, int allianceId){
 		Double g = DB.zScoreGongJin(gongJinPersonalRank, junzhuId+"");
@@ -338,6 +361,12 @@ public class RankingGongJinMgr {
 		}
 	}
 
+	/**
+	 * 君主新建联盟时被调用，检查是否开启了掠夺，从而设置联盟贡金排行
+	 * @param junzhuId
+	 * @param jevel
+	 * @param allianceId
+	 */
 	public void firstSetAllianceGongJin(long junzhuId, int jevel, int allianceId){
 		boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.lveDuo, junzhuId, jevel);
 		if(!isOpen){

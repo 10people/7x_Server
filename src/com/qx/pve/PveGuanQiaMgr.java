@@ -36,6 +36,7 @@ import com.qx.achievement.AchievementCondition;
 import com.qx.achievement.AchievementConstants;
 import com.qx.award.AwardMgr;
 import com.qx.bag.BagMgr;
+import com.qx.chonglou.ChongLouMgr;
 import com.qx.event.ED;
 import com.qx.event.EventMgr;
 import com.qx.huangye.BuZhenHYPve;
@@ -593,10 +594,11 @@ public class PveGuanQiaMgr {
 		awardTemp.setItemNum(Integer.parseInt(gInfo[2]));
 		switch (type) {
 		case 10:// type为10时，ginfo[1]表示的是AwardTemp表的awardId
-			AwardTemp temp = AwardMgr.inst.calcAwardTemp(Integer
-					.parseInt(gInfo[1]));
-			awardTemp.setItemId(temp.getItemId());
-			awardTemp.setItemType(temp.getItemType());
+			AwardTemp temp = AwardMgr.inst.calcAwardTemp(Integer.parseInt(gInfo[1]));
+			if(temp != null) {
+				awardTemp.setItemId(temp.getItemId());
+				awardTemp.setItemType(temp.getItemType());
+			}
 			break;
 		default:
 			awardTemp.setItemId(Integer.parseInt(gInfo[1]));
@@ -731,6 +733,9 @@ public class PveGuanQiaMgr {
 			List<Integer> hitAwardIdList = AwardMgr.inst.getHitAwardId(arr, junzhu.id);
 			for (Integer awardId : hitAwardIdList) {
 				AwardTemp calcV = AwardMgr.inst.calcAwardTemp(awardId);
+				if(calcV == null) {
+					continue;
+				}
 				if (calcV.getItemId() == AwardMgr.ITEM_TONGBI_ID) {// 铜币
 					getTongbi += calcV.getItemNum();
 					getTongBiTotal += calcV.getItemNum();
@@ -751,8 +756,8 @@ public class PveGuanQiaMgr {
 		junzhu.tongBi += getTongBiTotal;
 		JunZhuMgr.inst.addExp(junzhu, getExpTotal);
 		JunZhuMgr.inst.updateTiLi(junzhu, -costTiLi, "扫荡");
-		HibernateUtil.save(junzhu);
-		JunZhuMgr.inst.sendMainInfo(session);
+		HibernateUtil.update(junzhu);
+		JunZhuMgr.inst.sendMainInfo(session,junzhu);
 		BagMgr.inst.sendBagInfo(0, session, null);
 		session.write(ret.build());
 		log.info("{}扫荡[{}]关卡{}次数{}", junzhu.id, cq ? "传奇" : "精英", guanQiaId,
@@ -1041,6 +1046,9 @@ public class PveGuanQiaMgr {
 		case 12:
 			LveDuoMgr.inst.saveLveDuoGJZuheId(zuheId, junzhu.id);
 			break;
+		case 15:
+			ChongLouMgr.inst.saveMibao4ChongLou(zuheId, junzhu);
+			break;
 		default:
 			log.error("战斗前秘宝保存请求类型错误！未发现type:{}的战斗类型", battleType);
 			sendMibaoSelectResp(0, battleType, session, zuheId);
@@ -1179,8 +1187,8 @@ public class PveGuanQiaMgr {
 		}
 		YuanBaoMgr.inst.diff(jz, -needYuanBao, 0, needYuanBao,
 				YBType.YB_CHUANQI_RESET, "进行第" + (r.cqResetTimes + 1) + "次传奇关卡次数重置");
-		HibernateUtil.save(jz);
-		JunZhuMgr.inst.sendMainInfo(session);
+		HibernateUtil.update(jz);
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 
 		r.cqPassTimes = 0;
 		r.cqResetTimes += 1;
@@ -1388,7 +1396,7 @@ public class PveGuanQiaMgr {
 		}
 		r.isGetAward = true;
 		HibernateUtil.save(r);
-		log.error("玩家：{}领取章节：{}，通章奖励：{},领取成功", junzhu.id, zhangjieId, p.award);
+		log.info("玩家：{}领取章节：{}，通章奖励：{},领取成功", junzhu.id, zhangjieId, p.award);
 		sendError(session, "领奖成功", PD.get_passZhangJie_award_resp, 0);
 		// 通章奖励时间
 		EventMgr.addEvent(ED.get_pass_PVE_zhang_award, new Object[] {junzhu.id});

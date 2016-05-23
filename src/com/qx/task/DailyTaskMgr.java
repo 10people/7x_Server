@@ -205,6 +205,9 @@ public class DailyTaskMgr extends EventProc {
 				continue;
 			}
 			/*
+			 * 每日任务中已经去掉（1.1版本）：领取体力、领取月卡、缴纳贡金，但是代码中没有去掉！20160411
+			 */
+			/*
 			 * 判断是不是要显示领取体力
 			 */
 			taskId = getRenWuIdBydbId(task.dbId);
@@ -312,6 +315,10 @@ public class DailyTaskMgr extends EventProc {
 		
 		// 重置
 		resetOneTask(jzId, taskBean, rwId);
+		if(taskBean.isFinish){
+			//任务已经是完成状态，不再处理
+			return;
+		}
 		RenWu renWu = renWuMap.get(rwId);
 		if(renWu == null) {
 			logger.error("taskProcess执行，找不到对应任务的配置信息，renwuId:{}", rwId);

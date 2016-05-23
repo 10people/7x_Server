@@ -18,14 +18,15 @@ public class PvpBean{
 	public int usedTimes;
 	/*当日剩余参加百战的次数*/
 	public int remain; 
-	/*军衔等级*/
+	/*军衔等级，对应baizhan.xml的jibie字段*/
 	public int junXianLevel = -1;
 
 //	@Column(nullable = false, columnDefinition = "int default -1")
 //	public int zuheId; //防守技能
 	@Column(nullable = false, columnDefinition = "int default -1")
 	public int gongJiZuHeId; //攻击技能
-	public int highestRank;
+	public int highestRank;//当前最高排名
+	public int lastHighestRank; // 上一次最高排名
 	public int winToday; 
 	@Column(columnDefinition = "INT default 0")
 	public int allWin;
@@ -80,5 +81,5 @@ public class PvpBean{
 
 //	public int dailyaward;
 	public int rankAward; // 累计的最高排名奖励
-	public int lastHighestRank; // 上一次最高排名
+	
 }

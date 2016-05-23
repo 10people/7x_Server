@@ -1779,6 +1779,13788 @@ public final class Activity {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ActivityInfo)
   }
 
+  public interface ActivityGetRewardRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-领奖成功，1-失败，需要充值，2-失败，已经领取
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-领奖成功，1-失败，需要充值，2-失败，已经领取
+     * </pre>
+     */
+    int getResult();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ActivityGetRewardResp}
+   *
+   * <pre>
+   *领取奖励请求返回
+   * </pre>
+   */
+  public static final class ActivityGetRewardResp extends
+      com.google.protobuf.GeneratedMessage
+      implements ActivityGetRewardRespOrBuilder {
+    // Use ActivityGetRewardResp.newBuilder() to construct.
+    private ActivityGetRewardResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ActivityGetRewardResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ActivityGetRewardResp defaultInstance;
+    public static ActivityGetRewardResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ActivityGetRewardResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ActivityGetRewardResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGetRewardResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGetRewardResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Activity.ActivityGetRewardResp.class, qxmobile.protobuf.Activity.ActivityGetRewardResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ActivityGetRewardResp> PARSER =
+        new com.google.protobuf.AbstractParser<ActivityGetRewardResp>() {
+      public ActivityGetRewardResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ActivityGetRewardResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ActivityGetRewardResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-领奖成功，1-失败，需要充值，2-失败，已经领取
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-领奖成功，1-失败，需要充值，2-失败，已经领取
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    private void initFields() {
+      result_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Activity.ActivityGetRewardResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetRewardResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetRewardResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetRewardResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetRewardResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetRewardResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetRewardResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetRewardResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetRewardResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetRewardResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Activity.ActivityGetRewardResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ActivityGetRewardResp}
+     *
+     * <pre>
+     *领取奖励请求返回
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Activity.ActivityGetRewardRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGetRewardResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGetRewardResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Activity.ActivityGetRewardResp.class, qxmobile.protobuf.Activity.ActivityGetRewardResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Activity.ActivityGetRewardResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGetRewardResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityGetRewardResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Activity.ActivityGetRewardResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Activity.ActivityGetRewardResp build() {
+        qxmobile.protobuf.Activity.ActivityGetRewardResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityGetRewardResp buildPartial() {
+        qxmobile.protobuf.Activity.ActivityGetRewardResp result = new qxmobile.protobuf.Activity.ActivityGetRewardResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Activity.ActivityGetRewardResp) {
+          return mergeFrom((qxmobile.protobuf.Activity.ActivityGetRewardResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Activity.ActivityGetRewardResp other) {
+        if (other == qxmobile.protobuf.Activity.ActivityGetRewardResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Activity.ActivityGetRewardResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Activity.ActivityGetRewardResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-领奖成功，1-失败，需要充值，2-失败，已经领取
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-领奖成功，1-失败，需要充值，2-失败，已经领取
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-领奖成功，1-失败，需要充值，2-失败，已经领取
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-领奖成功，1-失败，需要充值，2-失败，已经领取
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ActivityGetRewardResp)
+    }
+
+    static {
+      defaultInstance = new ActivityGetRewardResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ActivityGetRewardResp)
+  }
+
+  public interface ActivityCardRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;
+    /**
+     * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+     *
+     * <pre>
+     *顺序 ：月卡 ，终身卡
+     * </pre>
+     */
+    java.util.List<qxmobile.protobuf.Activity.MonthCardInfo> 
+        getMonthCardList();
+    /**
+     * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+     *
+     * <pre>
+     *顺序 ：月卡 ，终身卡
+     * </pre>
+     */
+    qxmobile.protobuf.Activity.MonthCardInfo getMonthCard(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+     *
+     * <pre>
+     *顺序 ：月卡 ，终身卡
+     * </pre>
+     */
+    int getMonthCardCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+     *
+     * <pre>
+     *顺序 ：月卡 ，终身卡
+     * </pre>
+     */
+    java.util.List<? extends qxmobile.protobuf.Activity.MonthCardInfoOrBuilder> 
+        getMonthCardOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+     *
+     * <pre>
+     *顺序 ：月卡 ，终身卡
+     * </pre>
+     */
+    qxmobile.protobuf.Activity.MonthCardInfoOrBuilder getMonthCardOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ActivityCardResp}
+   *
+   * <pre>
+   *public static final short ACTIVITY_MONTH_CARD_REQ= 7015;
+   *public static final short ACTIVITY_MONTH_CARD_RESP = 7016;
+   *月卡请求返回
+   * </pre>
+   */
+  public static final class ActivityCardResp extends
+      com.google.protobuf.GeneratedMessage
+      implements ActivityCardRespOrBuilder {
+    // Use ActivityCardResp.newBuilder() to construct.
+    private ActivityCardResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ActivityCardResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ActivityCardResp defaultInstance;
+    public static ActivityCardResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ActivityCardResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ActivityCardResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                monthCard_ = new java.util.ArrayList<qxmobile.protobuf.Activity.MonthCardInfo>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              monthCard_.add(input.readMessage(qxmobile.protobuf.Activity.MonthCardInfo.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          monthCard_ = java.util.Collections.unmodifiableList(monthCard_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityCardResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityCardResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Activity.ActivityCardResp.class, qxmobile.protobuf.Activity.ActivityCardResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ActivityCardResp> PARSER =
+        new com.google.protobuf.AbstractParser<ActivityCardResp>() {
+      public ActivityCardResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ActivityCardResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ActivityCardResp> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;
+    public static final int MONTHCARD_FIELD_NUMBER = 1;
+    private java.util.List<qxmobile.protobuf.Activity.MonthCardInfo> monthCard_;
+    /**
+     * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+     *
+     * <pre>
+     *顺序 ：月卡 ，终身卡
+     * </pre>
+     */
+    public java.util.List<qxmobile.protobuf.Activity.MonthCardInfo> getMonthCardList() {
+      return monthCard_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+     *
+     * <pre>
+     *顺序 ：月卡 ，终身卡
+     * </pre>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Activity.MonthCardInfoOrBuilder> 
+        getMonthCardOrBuilderList() {
+      return monthCard_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+     *
+     * <pre>
+     *顺序 ：月卡 ，终身卡
+     * </pre>
+     */
+    public int getMonthCardCount() {
+      return monthCard_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+     *
+     * <pre>
+     *顺序 ：月卡 ，终身卡
+     * </pre>
+     */
+    public qxmobile.protobuf.Activity.MonthCardInfo getMonthCard(int index) {
+      return monthCard_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+     *
+     * <pre>
+     *顺序 ：月卡 ，终身卡
+     * </pre>
+     */
+    public qxmobile.protobuf.Activity.MonthCardInfoOrBuilder getMonthCardOrBuilder(
+        int index) {
+      return monthCard_.get(index);
+    }
+
+    private void initFields() {
+      monthCard_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getMonthCardCount(); i++) {
+        if (!getMonthCard(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < monthCard_.size(); i++) {
+        output.writeMessage(1, monthCard_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < monthCard_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, monthCard_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Activity.ActivityCardResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Activity.ActivityCardResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ActivityCardResp}
+     *
+     * <pre>
+     *public static final short ACTIVITY_MONTH_CARD_REQ= 7015;
+     *public static final short ACTIVITY_MONTH_CARD_RESP = 7016;
+     *月卡请求返回
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Activity.ActivityCardRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityCardResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityCardResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Activity.ActivityCardResp.class, qxmobile.protobuf.Activity.ActivityCardResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Activity.ActivityCardResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getMonthCardFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (monthCardBuilder_ == null) {
+          monthCard_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          monthCardBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityCardResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityCardResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Activity.ActivityCardResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Activity.ActivityCardResp build() {
+        qxmobile.protobuf.Activity.ActivityCardResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityCardResp buildPartial() {
+        qxmobile.protobuf.Activity.ActivityCardResp result = new qxmobile.protobuf.Activity.ActivityCardResp(this);
+        int from_bitField0_ = bitField0_;
+        if (monthCardBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            monthCard_ = java.util.Collections.unmodifiableList(monthCard_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.monthCard_ = monthCard_;
+        } else {
+          result.monthCard_ = monthCardBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Activity.ActivityCardResp) {
+          return mergeFrom((qxmobile.protobuf.Activity.ActivityCardResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Activity.ActivityCardResp other) {
+        if (other == qxmobile.protobuf.Activity.ActivityCardResp.getDefaultInstance()) return this;
+        if (monthCardBuilder_ == null) {
+          if (!other.monthCard_.isEmpty()) {
+            if (monthCard_.isEmpty()) {
+              monthCard_ = other.monthCard_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureMonthCardIsMutable();
+              monthCard_.addAll(other.monthCard_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.monthCard_.isEmpty()) {
+            if (monthCardBuilder_.isEmpty()) {
+              monthCardBuilder_.dispose();
+              monthCardBuilder_ = null;
+              monthCard_ = other.monthCard_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              monthCardBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getMonthCardFieldBuilder() : null;
+            } else {
+              monthCardBuilder_.addAllMessages(other.monthCard_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getMonthCardCount(); i++) {
+          if (!getMonthCard(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Activity.ActivityCardResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Activity.ActivityCardResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;
+      private java.util.List<qxmobile.protobuf.Activity.MonthCardInfo> monthCard_ =
+        java.util.Collections.emptyList();
+      private void ensureMonthCardIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          monthCard_ = new java.util.ArrayList<qxmobile.protobuf.Activity.MonthCardInfo>(monthCard_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Activity.MonthCardInfo, qxmobile.protobuf.Activity.MonthCardInfo.Builder, qxmobile.protobuf.Activity.MonthCardInfoOrBuilder> monthCardBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Activity.MonthCardInfo> getMonthCardList() {
+        if (monthCardBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(monthCard_);
+        } else {
+          return monthCardBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public int getMonthCardCount() {
+        if (monthCardBuilder_ == null) {
+          return monthCard_.size();
+        } else {
+          return monthCardBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.MonthCardInfo getMonthCard(int index) {
+        if (monthCardBuilder_ == null) {
+          return monthCard_.get(index);
+        } else {
+          return monthCardBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public Builder setMonthCard(
+          int index, qxmobile.protobuf.Activity.MonthCardInfo value) {
+        if (monthCardBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMonthCardIsMutable();
+          monthCard_.set(index, value);
+          onChanged();
+        } else {
+          monthCardBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public Builder setMonthCard(
+          int index, qxmobile.protobuf.Activity.MonthCardInfo.Builder builderForValue) {
+        if (monthCardBuilder_ == null) {
+          ensureMonthCardIsMutable();
+          monthCard_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          monthCardBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public Builder addMonthCard(qxmobile.protobuf.Activity.MonthCardInfo value) {
+        if (monthCardBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMonthCardIsMutable();
+          monthCard_.add(value);
+          onChanged();
+        } else {
+          monthCardBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public Builder addMonthCard(
+          int index, qxmobile.protobuf.Activity.MonthCardInfo value) {
+        if (monthCardBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMonthCardIsMutable();
+          monthCard_.add(index, value);
+          onChanged();
+        } else {
+          monthCardBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public Builder addMonthCard(
+          qxmobile.protobuf.Activity.MonthCardInfo.Builder builderForValue) {
+        if (monthCardBuilder_ == null) {
+          ensureMonthCardIsMutable();
+          monthCard_.add(builderForValue.build());
+          onChanged();
+        } else {
+          monthCardBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public Builder addMonthCard(
+          int index, qxmobile.protobuf.Activity.MonthCardInfo.Builder builderForValue) {
+        if (monthCardBuilder_ == null) {
+          ensureMonthCardIsMutable();
+          monthCard_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          monthCardBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public Builder addAllMonthCard(
+          java.lang.Iterable<? extends qxmobile.protobuf.Activity.MonthCardInfo> values) {
+        if (monthCardBuilder_ == null) {
+          ensureMonthCardIsMutable();
+          super.addAll(values, monthCard_);
+          onChanged();
+        } else {
+          monthCardBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public Builder clearMonthCard() {
+        if (monthCardBuilder_ == null) {
+          monthCard_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          monthCardBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public Builder removeMonthCard(int index) {
+        if (monthCardBuilder_ == null) {
+          ensureMonthCardIsMutable();
+          monthCard_.remove(index);
+          onChanged();
+        } else {
+          monthCardBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.MonthCardInfo.Builder getMonthCardBuilder(
+          int index) {
+        return getMonthCardFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.MonthCardInfoOrBuilder getMonthCardOrBuilder(
+          int index) {
+        if (monthCardBuilder_ == null) {
+          return monthCard_.get(index);  } else {
+          return monthCardBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Activity.MonthCardInfoOrBuilder> 
+           getMonthCardOrBuilderList() {
+        if (monthCardBuilder_ != null) {
+          return monthCardBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(monthCard_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.MonthCardInfo.Builder addMonthCardBuilder() {
+        return getMonthCardFieldBuilder().addBuilder(
+            qxmobile.protobuf.Activity.MonthCardInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.MonthCardInfo.Builder addMonthCardBuilder(
+          int index) {
+        return getMonthCardFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Activity.MonthCardInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.MonthCardInfo monthCard = 1;</code>
+       *
+       * <pre>
+       *顺序 ：月卡 ，终身卡
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Activity.MonthCardInfo.Builder> 
+           getMonthCardBuilderList() {
+        return getMonthCardFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Activity.MonthCardInfo, qxmobile.protobuf.Activity.MonthCardInfo.Builder, qxmobile.protobuf.Activity.MonthCardInfoOrBuilder> 
+          getMonthCardFieldBuilder() {
+        if (monthCardBuilder_ == null) {
+          monthCardBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Activity.MonthCardInfo, qxmobile.protobuf.Activity.MonthCardInfo.Builder, qxmobile.protobuf.Activity.MonthCardInfoOrBuilder>(
+                  monthCard_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          monthCard_ = null;
+        }
+        return monthCardBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ActivityCardResp)
+    }
+
+    static {
+      defaultInstance = new ActivityCardResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ActivityCardResp)
+  }
+
+  public interface MonthCardInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-需要充值，1-已经充值未领取，2-已经领取
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-需要充值，1-已经充值未领取，2-已经领取
+     * </pre>
+     */
+    int getResult();
+
+    // required int32 giveNum = 2;
+    /**
+     * <code>required int32 giveNum = 2;</code>
+     *
+     * <pre>
+     *赠送数量
+     * </pre>
+     */
+    boolean hasGiveNum();
+    /**
+     * <code>required int32 giveNum = 2;</code>
+     *
+     * <pre>
+     *赠送数量
+     * </pre>
+     */
+    int getGiveNum();
+
+    // optional int32 rmDays = 3;
+    /**
+     * <code>optional int32 rmDays = 3;</code>
+     *
+     * <pre>
+     *剩余天数
+     * </pre>
+     */
+    boolean hasRmDays();
+    /**
+     * <code>optional int32 rmDays = 3;</code>
+     *
+     * <pre>
+     *剩余天数
+     * </pre>
+     */
+    int getRmDays();
+
+    // optional int32 cd = 4;
+    /**
+     * <code>optional int32 cd = 4;</code>
+     *
+     * <pre>
+     *倒计时
+     * </pre>
+     */
+    boolean hasCd();
+    /**
+     * <code>optional int32 cd = 4;</code>
+     *
+     * <pre>
+     *倒计时
+     * </pre>
+     */
+    int getCd();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.MonthCardInfo}
+   */
+  public static final class MonthCardInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements MonthCardInfoOrBuilder {
+    // Use MonthCardInfo.newBuilder() to construct.
+    private MonthCardInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private MonthCardInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final MonthCardInfo defaultInstance;
+    public static MonthCardInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public MonthCardInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private MonthCardInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              giveNum_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              rmDays_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              cd_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_MonthCardInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_MonthCardInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Activity.MonthCardInfo.class, qxmobile.protobuf.Activity.MonthCardInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<MonthCardInfo> PARSER =
+        new com.google.protobuf.AbstractParser<MonthCardInfo>() {
+      public MonthCardInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new MonthCardInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<MonthCardInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-需要充值，1-已经充值未领取，2-已经领取
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     * 0-需要充值，1-已经充值未领取，2-已经领取
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    // required int32 giveNum = 2;
+    public static final int GIVENUM_FIELD_NUMBER = 2;
+    private int giveNum_;
+    /**
+     * <code>required int32 giveNum = 2;</code>
+     *
+     * <pre>
+     *赠送数量
+     * </pre>
+     */
+    public boolean hasGiveNum() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 giveNum = 2;</code>
+     *
+     * <pre>
+     *赠送数量
+     * </pre>
+     */
+    public int getGiveNum() {
+      return giveNum_;
+    }
+
+    // optional int32 rmDays = 3;
+    public static final int RMDAYS_FIELD_NUMBER = 3;
+    private int rmDays_;
+    /**
+     * <code>optional int32 rmDays = 3;</code>
+     *
+     * <pre>
+     *剩余天数
+     * </pre>
+     */
+    public boolean hasRmDays() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 rmDays = 3;</code>
+     *
+     * <pre>
+     *剩余天数
+     * </pre>
+     */
+    public int getRmDays() {
+      return rmDays_;
+    }
+
+    // optional int32 cd = 4;
+    public static final int CD_FIELD_NUMBER = 4;
+    private int cd_;
+    /**
+     * <code>optional int32 cd = 4;</code>
+     *
+     * <pre>
+     *倒计时
+     * </pre>
+     */
+    public boolean hasCd() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 cd = 4;</code>
+     *
+     * <pre>
+     *倒计时
+     * </pre>
+     */
+    public int getCd() {
+      return cd_;
+    }
+
+    private void initFields() {
+      result_ = 0;
+      giveNum_ = 0;
+      rmDays_ = 0;
+      cd_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGiveNum()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, giveNum_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, rmDays_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, cd_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, giveNum_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, rmDays_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, cd_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Activity.MonthCardInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.MonthCardInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.MonthCardInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.MonthCardInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.MonthCardInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.MonthCardInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.MonthCardInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.MonthCardInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.MonthCardInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.MonthCardInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Activity.MonthCardInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.MonthCardInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Activity.MonthCardInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_MonthCardInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_MonthCardInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Activity.MonthCardInfo.class, qxmobile.protobuf.Activity.MonthCardInfo.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Activity.MonthCardInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        giveNum_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        rmDays_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        cd_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_MonthCardInfo_descriptor;
+      }
+
+      public qxmobile.protobuf.Activity.MonthCardInfo getDefaultInstanceForType() {
+        return qxmobile.protobuf.Activity.MonthCardInfo.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Activity.MonthCardInfo build() {
+        qxmobile.protobuf.Activity.MonthCardInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Activity.MonthCardInfo buildPartial() {
+        qxmobile.protobuf.Activity.MonthCardInfo result = new qxmobile.protobuf.Activity.MonthCardInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.giveNum_ = giveNum_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.rmDays_ = rmDays_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.cd_ = cd_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Activity.MonthCardInfo) {
+          return mergeFrom((qxmobile.protobuf.Activity.MonthCardInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Activity.MonthCardInfo other) {
+        if (other == qxmobile.protobuf.Activity.MonthCardInfo.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        if (other.hasGiveNum()) {
+          setGiveNum(other.getGiveNum());
+        }
+        if (other.hasRmDays()) {
+          setRmDays(other.getRmDays());
+        }
+        if (other.hasCd()) {
+          setCd(other.getCd());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        if (!hasGiveNum()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Activity.MonthCardInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Activity.MonthCardInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-需要充值，1-已经充值未领取，2-已经领取
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-需要充值，1-已经充值未领取，2-已经领取
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-需要充值，1-已经充值未领取，2-已经领取
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       * 0-需要充值，1-已经充值未领取，2-已经领取
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 giveNum = 2;
+      private int giveNum_ ;
+      /**
+       * <code>required int32 giveNum = 2;</code>
+       *
+       * <pre>
+       *赠送数量
+       * </pre>
+       */
+      public boolean hasGiveNum() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 giveNum = 2;</code>
+       *
+       * <pre>
+       *赠送数量
+       * </pre>
+       */
+      public int getGiveNum() {
+        return giveNum_;
+      }
+      /**
+       * <code>required int32 giveNum = 2;</code>
+       *
+       * <pre>
+       *赠送数量
+       * </pre>
+       */
+      public Builder setGiveNum(int value) {
+        bitField0_ |= 0x00000002;
+        giveNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 giveNum = 2;</code>
+       *
+       * <pre>
+       *赠送数量
+       * </pre>
+       */
+      public Builder clearGiveNum() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        giveNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 rmDays = 3;
+      private int rmDays_ ;
+      /**
+       * <code>optional int32 rmDays = 3;</code>
+       *
+       * <pre>
+       *剩余天数
+       * </pre>
+       */
+      public boolean hasRmDays() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 rmDays = 3;</code>
+       *
+       * <pre>
+       *剩余天数
+       * </pre>
+       */
+      public int getRmDays() {
+        return rmDays_;
+      }
+      /**
+       * <code>optional int32 rmDays = 3;</code>
+       *
+       * <pre>
+       *剩余天数
+       * </pre>
+       */
+      public Builder setRmDays(int value) {
+        bitField0_ |= 0x00000004;
+        rmDays_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 rmDays = 3;</code>
+       *
+       * <pre>
+       *剩余天数
+       * </pre>
+       */
+      public Builder clearRmDays() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        rmDays_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 cd = 4;
+      private int cd_ ;
+      /**
+       * <code>optional int32 cd = 4;</code>
+       *
+       * <pre>
+       *倒计时
+       * </pre>
+       */
+      public boolean hasCd() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 cd = 4;</code>
+       *
+       * <pre>
+       *倒计时
+       * </pre>
+       */
+      public int getCd() {
+        return cd_;
+      }
+      /**
+       * <code>optional int32 cd = 4;</code>
+       *
+       * <pre>
+       *倒计时
+       * </pre>
+       */
+      public Builder setCd(int value) {
+        bitField0_ |= 0x00000008;
+        cd_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 cd = 4;</code>
+       *
+       * <pre>
+       *倒计时
+       * </pre>
+       */
+      public Builder clearCd() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        cd_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.MonthCardInfo)
+    }
+
+    static {
+      defaultInstance = new MonthCardInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.MonthCardInfo)
+  }
+
+  public interface ActivityCardGetRewardReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 type = 1;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *0月卡 1
+     * </pre>
+     */
+    boolean hasType();
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *0月卡 1
+     * </pre>
+     */
+    int getType();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ActivityCardGetRewardReq}
+   *
+   * <pre>
+   *public static final short ACTIVITY_MONTH_CARD_REWARD_REQ = 7017; //月卡领奖
+   *public static final short ACTIVITY_MONTH_CARD_REWARD_RESP = 7018; //月卡领奖返回
+   *月卡领取奖励请求（体力领奖请求）
+   * </pre>
+   */
+  public static final class ActivityCardGetRewardReq extends
+      com.google.protobuf.GeneratedMessage
+      implements ActivityCardGetRewardReqOrBuilder {
+    // Use ActivityCardGetRewardReq.newBuilder() to construct.
+    private ActivityCardGetRewardReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ActivityCardGetRewardReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ActivityCardGetRewardReq defaultInstance;
+    public static ActivityCardGetRewardReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ActivityCardGetRewardReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ActivityCardGetRewardReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              type_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityCardGetRewardReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityCardGetRewardReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Activity.ActivityCardGetRewardReq.class, qxmobile.protobuf.Activity.ActivityCardGetRewardReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ActivityCardGetRewardReq> PARSER =
+        new com.google.protobuf.AbstractParser<ActivityCardGetRewardReq>() {
+      public ActivityCardGetRewardReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ActivityCardGetRewardReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ActivityCardGetRewardReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 type = 1;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private int type_;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *0月卡 1
+     * </pre>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *0月卡 1
+     * </pre>
+     */
+    public int getType() {
+      return type_;
+    }
+
+    private void initFields() {
+      type_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, type_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, type_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Activity.ActivityCardGetRewardReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardGetRewardReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardGetRewardReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardGetRewardReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardGetRewardReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardGetRewardReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardGetRewardReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardGetRewardReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardGetRewardReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityCardGetRewardReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Activity.ActivityCardGetRewardReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ActivityCardGetRewardReq}
+     *
+     * <pre>
+     *public static final short ACTIVITY_MONTH_CARD_REWARD_REQ = 7017; //月卡领奖
+     *public static final short ACTIVITY_MONTH_CARD_REWARD_RESP = 7018; //月卡领奖返回
+     *月卡领取奖励请求（体力领奖请求）
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Activity.ActivityCardGetRewardReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityCardGetRewardReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityCardGetRewardReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Activity.ActivityCardGetRewardReq.class, qxmobile.protobuf.Activity.ActivityCardGetRewardReq.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Activity.ActivityCardGetRewardReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        type_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityCardGetRewardReq_descriptor;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityCardGetRewardReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.Activity.ActivityCardGetRewardReq.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Activity.ActivityCardGetRewardReq build() {
+        qxmobile.protobuf.Activity.ActivityCardGetRewardReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityCardGetRewardReq buildPartial() {
+        qxmobile.protobuf.Activity.ActivityCardGetRewardReq result = new qxmobile.protobuf.Activity.ActivityCardGetRewardReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Activity.ActivityCardGetRewardReq) {
+          return mergeFrom((qxmobile.protobuf.Activity.ActivityCardGetRewardReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Activity.ActivityCardGetRewardReq other) {
+        if (other == qxmobile.protobuf.Activity.ActivityCardGetRewardReq.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Activity.ActivityCardGetRewardReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Activity.ActivityCardGetRewardReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 type = 1;
+      private int type_ ;
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *0月卡 1
+       * </pre>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *0月卡 1
+       * </pre>
+       */
+      public int getType() {
+        return type_;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *0月卡 1
+       * </pre>
+       */
+      public Builder setType(int value) {
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *0月卡 1
+       * </pre>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ActivityCardGetRewardReq)
+    }
+
+    static {
+      defaultInstance = new ActivityCardGetRewardReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ActivityCardGetRewardReq)
+  }
+
+  public interface ActivitySignInRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .qxmobile.protobuf.SignInDay siginList = 1;
+    /**
+     * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+     */
+    java.util.List<qxmobile.protobuf.Activity.SignInDay> 
+        getSiginListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+     */
+    qxmobile.protobuf.Activity.SignInDay getSiginList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+     */
+    int getSiginListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+     */
+    java.util.List<? extends qxmobile.protobuf.Activity.SignInDayOrBuilder> 
+        getSiginListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+     */
+    qxmobile.protobuf.Activity.SignInDayOrBuilder getSiginListOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ActivitySignInResp}
+   *
+   * <pre>
+   *签到
+   * </pre>
+   */
+  public static final class ActivitySignInResp extends
+      com.google.protobuf.GeneratedMessage
+      implements ActivitySignInRespOrBuilder {
+    // Use ActivitySignInResp.newBuilder() to construct.
+    private ActivitySignInResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ActivitySignInResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ActivitySignInResp defaultInstance;
+    public static ActivitySignInResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ActivitySignInResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ActivitySignInResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                siginList_ = new java.util.ArrayList<qxmobile.protobuf.Activity.SignInDay>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              siginList_.add(input.readMessage(qxmobile.protobuf.Activity.SignInDay.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          siginList_ = java.util.Collections.unmodifiableList(siginList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivitySignInResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivitySignInResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Activity.ActivitySignInResp.class, qxmobile.protobuf.Activity.ActivitySignInResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ActivitySignInResp> PARSER =
+        new com.google.protobuf.AbstractParser<ActivitySignInResp>() {
+      public ActivitySignInResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ActivitySignInResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ActivitySignInResp> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .qxmobile.protobuf.SignInDay siginList = 1;
+    public static final int SIGINLIST_FIELD_NUMBER = 1;
+    private java.util.List<qxmobile.protobuf.Activity.SignInDay> siginList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+     */
+    public java.util.List<qxmobile.protobuf.Activity.SignInDay> getSiginListList() {
+      return siginList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Activity.SignInDayOrBuilder> 
+        getSiginListOrBuilderList() {
+      return siginList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+     */
+    public int getSiginListCount() {
+      return siginList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+     */
+    public qxmobile.protobuf.Activity.SignInDay getSiginList(int index) {
+      return siginList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+     */
+    public qxmobile.protobuf.Activity.SignInDayOrBuilder getSiginListOrBuilder(
+        int index) {
+      return siginList_.get(index);
+    }
+
+    private void initFields() {
+      siginList_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getSiginListCount(); i++) {
+        if (!getSiginList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < siginList_.size(); i++) {
+        output.writeMessage(1, siginList_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < siginList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, siginList_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Activity.ActivitySignInResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySignInResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySignInResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySignInResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySignInResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySignInResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySignInResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySignInResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySignInResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySignInResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Activity.ActivitySignInResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ActivitySignInResp}
+     *
+     * <pre>
+     *签到
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Activity.ActivitySignInRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivitySignInResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivitySignInResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Activity.ActivitySignInResp.class, qxmobile.protobuf.Activity.ActivitySignInResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Activity.ActivitySignInResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getSiginListFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (siginListBuilder_ == null) {
+          siginList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          siginListBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivitySignInResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Activity.ActivitySignInResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Activity.ActivitySignInResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Activity.ActivitySignInResp build() {
+        qxmobile.protobuf.Activity.ActivitySignInResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Activity.ActivitySignInResp buildPartial() {
+        qxmobile.protobuf.Activity.ActivitySignInResp result = new qxmobile.protobuf.Activity.ActivitySignInResp(this);
+        int from_bitField0_ = bitField0_;
+        if (siginListBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            siginList_ = java.util.Collections.unmodifiableList(siginList_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.siginList_ = siginList_;
+        } else {
+          result.siginList_ = siginListBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Activity.ActivitySignInResp) {
+          return mergeFrom((qxmobile.protobuf.Activity.ActivitySignInResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Activity.ActivitySignInResp other) {
+        if (other == qxmobile.protobuf.Activity.ActivitySignInResp.getDefaultInstance()) return this;
+        if (siginListBuilder_ == null) {
+          if (!other.siginList_.isEmpty()) {
+            if (siginList_.isEmpty()) {
+              siginList_ = other.siginList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureSiginListIsMutable();
+              siginList_.addAll(other.siginList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.siginList_.isEmpty()) {
+            if (siginListBuilder_.isEmpty()) {
+              siginListBuilder_.dispose();
+              siginListBuilder_ = null;
+              siginList_ = other.siginList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              siginListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getSiginListFieldBuilder() : null;
+            } else {
+              siginListBuilder_.addAllMessages(other.siginList_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getSiginListCount(); i++) {
+          if (!getSiginList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Activity.ActivitySignInResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Activity.ActivitySignInResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .qxmobile.protobuf.SignInDay siginList = 1;
+      private java.util.List<qxmobile.protobuf.Activity.SignInDay> siginList_ =
+        java.util.Collections.emptyList();
+      private void ensureSiginListIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          siginList_ = new java.util.ArrayList<qxmobile.protobuf.Activity.SignInDay>(siginList_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Activity.SignInDay, qxmobile.protobuf.Activity.SignInDay.Builder, qxmobile.protobuf.Activity.SignInDayOrBuilder> siginListBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Activity.SignInDay> getSiginListList() {
+        if (siginListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(siginList_);
+        } else {
+          return siginListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public int getSiginListCount() {
+        if (siginListBuilder_ == null) {
+          return siginList_.size();
+        } else {
+          return siginListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public qxmobile.protobuf.Activity.SignInDay getSiginList(int index) {
+        if (siginListBuilder_ == null) {
+          return siginList_.get(index);
+        } else {
+          return siginListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public Builder setSiginList(
+          int index, qxmobile.protobuf.Activity.SignInDay value) {
+        if (siginListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSiginListIsMutable();
+          siginList_.set(index, value);
+          onChanged();
+        } else {
+          siginListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public Builder setSiginList(
+          int index, qxmobile.protobuf.Activity.SignInDay.Builder builderForValue) {
+        if (siginListBuilder_ == null) {
+          ensureSiginListIsMutable();
+          siginList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          siginListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public Builder addSiginList(qxmobile.protobuf.Activity.SignInDay value) {
+        if (siginListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSiginListIsMutable();
+          siginList_.add(value);
+          onChanged();
+        } else {
+          siginListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public Builder addSiginList(
+          int index, qxmobile.protobuf.Activity.SignInDay value) {
+        if (siginListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSiginListIsMutable();
+          siginList_.add(index, value);
+          onChanged();
+        } else {
+          siginListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public Builder addSiginList(
+          qxmobile.protobuf.Activity.SignInDay.Builder builderForValue) {
+        if (siginListBuilder_ == null) {
+          ensureSiginListIsMutable();
+          siginList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          siginListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public Builder addSiginList(
+          int index, qxmobile.protobuf.Activity.SignInDay.Builder builderForValue) {
+        if (siginListBuilder_ == null) {
+          ensureSiginListIsMutable();
+          siginList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          siginListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public Builder addAllSiginList(
+          java.lang.Iterable<? extends qxmobile.protobuf.Activity.SignInDay> values) {
+        if (siginListBuilder_ == null) {
+          ensureSiginListIsMutable();
+          super.addAll(values, siginList_);
+          onChanged();
+        } else {
+          siginListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public Builder clearSiginList() {
+        if (siginListBuilder_ == null) {
+          siginList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          siginListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public Builder removeSiginList(int index) {
+        if (siginListBuilder_ == null) {
+          ensureSiginListIsMutable();
+          siginList_.remove(index);
+          onChanged();
+        } else {
+          siginListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public qxmobile.protobuf.Activity.SignInDay.Builder getSiginListBuilder(
+          int index) {
+        return getSiginListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public qxmobile.protobuf.Activity.SignInDayOrBuilder getSiginListOrBuilder(
+          int index) {
+        if (siginListBuilder_ == null) {
+          return siginList_.get(index);  } else {
+          return siginListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Activity.SignInDayOrBuilder> 
+           getSiginListOrBuilderList() {
+        if (siginListBuilder_ != null) {
+          return siginListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(siginList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public qxmobile.protobuf.Activity.SignInDay.Builder addSiginListBuilder() {
+        return getSiginListFieldBuilder().addBuilder(
+            qxmobile.protobuf.Activity.SignInDay.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public qxmobile.protobuf.Activity.SignInDay.Builder addSiginListBuilder(
+          int index) {
+        return getSiginListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Activity.SignInDay.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.SignInDay siginList = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Activity.SignInDay.Builder> 
+           getSiginListBuilderList() {
+        return getSiginListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Activity.SignInDay, qxmobile.protobuf.Activity.SignInDay.Builder, qxmobile.protobuf.Activity.SignInDayOrBuilder> 
+          getSiginListFieldBuilder() {
+        if (siginListBuilder_ == null) {
+          siginListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Activity.SignInDay, qxmobile.protobuf.Activity.SignInDay.Builder, qxmobile.protobuf.Activity.SignInDayOrBuilder>(
+                  siginList_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          siginList_ = null;
+        }
+        return siginListBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ActivitySignInResp)
+    }
+
+    static {
+      defaultInstance = new ActivitySignInResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ActivitySignInResp)
+  }
+
+  public interface SignInDayOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 index = 1;
+    /**
+     * <code>required int32 index = 1;</code>
+     *
+     * <pre>
+     *签到累计第几天
+     * </pre>
+     */
+    boolean hasIndex();
+    /**
+     * <code>required int32 index = 1;</code>
+     *
+     * <pre>
+     *签到累计第几天
+     * </pre>
+     */
+    int getIndex();
+
+    // required int32 status = 2;
+    /**
+     * <code>required int32 status = 2;</code>
+     *
+     * <pre>
+     *奖励领取状态，1-普通领取，2-领取了双倍
+     * </pre>
+     */
+    boolean hasStatus();
+    /**
+     * <code>required int32 status = 2;</code>
+     *
+     * <pre>
+     *奖励领取状态，1-普通领取，2-领取了双倍
+     * </pre>
+     */
+    int getStatus();
+
+    // required int64 date = 3;
+    /**
+     * <code>required int64 date = 3;</code>
+     *
+     * <pre>
+     *签到时间
+     * </pre>
+     */
+    boolean hasDate();
+    /**
+     * <code>required int64 date = 3;</code>
+     *
+     * <pre>
+     *签到时间
+     * </pre>
+     */
+    long getDate();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.SignInDay}
+   */
+  public static final class SignInDay extends
+      com.google.protobuf.GeneratedMessage
+      implements SignInDayOrBuilder {
+    // Use SignInDay.newBuilder() to construct.
+    private SignInDay(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private SignInDay(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final SignInDay defaultInstance;
+    public static SignInDay getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public SignInDay getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SignInDay(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              index_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              status_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              date_ = input.readInt64();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_SignInDay_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_SignInDay_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Activity.SignInDay.class, qxmobile.protobuf.Activity.SignInDay.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<SignInDay> PARSER =
+        new com.google.protobuf.AbstractParser<SignInDay>() {
+      public SignInDay parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SignInDay(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SignInDay> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 index = 1;
+    public static final int INDEX_FIELD_NUMBER = 1;
+    private int index_;
+    /**
+     * <code>required int32 index = 1;</code>
+     *
+     * <pre>
+     *签到累计第几天
+     * </pre>
+     */
+    public boolean hasIndex() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 index = 1;</code>
+     *
+     * <pre>
+     *签到累计第几天
+     * </pre>
+     */
+    public int getIndex() {
+      return index_;
+    }
+
+    // required int32 status = 2;
+    public static final int STATUS_FIELD_NUMBER = 2;
+    private int status_;
+    /**
+     * <code>required int32 status = 2;</code>
+     *
+     * <pre>
+     *奖励领取状态，1-普通领取，2-领取了双倍
+     * </pre>
+     */
+    public boolean hasStatus() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 status = 2;</code>
+     *
+     * <pre>
+     *奖励领取状态，1-普通领取，2-领取了双倍
+     * </pre>
+     */
+    public int getStatus() {
+      return status_;
+    }
+
+    // required int64 date = 3;
+    public static final int DATE_FIELD_NUMBER = 3;
+    private long date_;
+    /**
+     * <code>required int64 date = 3;</code>
+     *
+     * <pre>
+     *签到时间
+     * </pre>
+     */
+    public boolean hasDate() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int64 date = 3;</code>
+     *
+     * <pre>
+     *签到时间
+     * </pre>
+     */
+    public long getDate() {
+      return date_;
+    }
+
+    private void initFields() {
+      index_ = 0;
+      status_ = 0;
+      date_ = 0L;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasIndex()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasStatus()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasDate()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, index_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, status_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt64(3, date_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, index_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, status_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(3, date_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Activity.SignInDay parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.SignInDay parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.SignInDay parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.SignInDay parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.SignInDay parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.SignInDay parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.SignInDay parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.SignInDay parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.SignInDay parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.SignInDay parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Activity.SignInDay prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.SignInDay}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Activity.SignInDayOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_SignInDay_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_SignInDay_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Activity.SignInDay.class, qxmobile.protobuf.Activity.SignInDay.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Activity.SignInDay.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        index_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        status_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        date_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_SignInDay_descriptor;
+      }
+
+      public qxmobile.protobuf.Activity.SignInDay getDefaultInstanceForType() {
+        return qxmobile.protobuf.Activity.SignInDay.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Activity.SignInDay build() {
+        qxmobile.protobuf.Activity.SignInDay result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Activity.SignInDay buildPartial() {
+        qxmobile.protobuf.Activity.SignInDay result = new qxmobile.protobuf.Activity.SignInDay(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.index_ = index_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.status_ = status_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.date_ = date_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Activity.SignInDay) {
+          return mergeFrom((qxmobile.protobuf.Activity.SignInDay)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Activity.SignInDay other) {
+        if (other == qxmobile.protobuf.Activity.SignInDay.getDefaultInstance()) return this;
+        if (other.hasIndex()) {
+          setIndex(other.getIndex());
+        }
+        if (other.hasStatus()) {
+          setStatus(other.getStatus());
+        }
+        if (other.hasDate()) {
+          setDate(other.getDate());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasIndex()) {
+          
+          return false;
+        }
+        if (!hasStatus()) {
+          
+          return false;
+        }
+        if (!hasDate()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Activity.SignInDay parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Activity.SignInDay) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 index = 1;
+      private int index_ ;
+      /**
+       * <code>required int32 index = 1;</code>
+       *
+       * <pre>
+       *签到累计第几天
+       * </pre>
+       */
+      public boolean hasIndex() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 index = 1;</code>
+       *
+       * <pre>
+       *签到累计第几天
+       * </pre>
+       */
+      public int getIndex() {
+        return index_;
+      }
+      /**
+       * <code>required int32 index = 1;</code>
+       *
+       * <pre>
+       *签到累计第几天
+       * </pre>
+       */
+      public Builder setIndex(int value) {
+        bitField0_ |= 0x00000001;
+        index_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 index = 1;</code>
+       *
+       * <pre>
+       *签到累计第几天
+       * </pre>
+       */
+      public Builder clearIndex() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        index_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 status = 2;
+      private int status_ ;
+      /**
+       * <code>required int32 status = 2;</code>
+       *
+       * <pre>
+       *奖励领取状态，1-普通领取，2-领取了双倍
+       * </pre>
+       */
+      public boolean hasStatus() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 status = 2;</code>
+       *
+       * <pre>
+       *奖励领取状态，1-普通领取，2-领取了双倍
+       * </pre>
+       */
+      public int getStatus() {
+        return status_;
+      }
+      /**
+       * <code>required int32 status = 2;</code>
+       *
+       * <pre>
+       *奖励领取状态，1-普通领取，2-领取了双倍
+       * </pre>
+       */
+      public Builder setStatus(int value) {
+        bitField0_ |= 0x00000002;
+        status_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 status = 2;</code>
+       *
+       * <pre>
+       *奖励领取状态，1-普通领取，2-领取了双倍
+       * </pre>
+       */
+      public Builder clearStatus() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        status_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int64 date = 3;
+      private long date_ ;
+      /**
+       * <code>required int64 date = 3;</code>
+       *
+       * <pre>
+       *签到时间
+       * </pre>
+       */
+      public boolean hasDate() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int64 date = 3;</code>
+       *
+       * <pre>
+       *签到时间
+       * </pre>
+       */
+      public long getDate() {
+        return date_;
+      }
+      /**
+       * <code>required int64 date = 3;</code>
+       *
+       * <pre>
+       *签到时间
+       * </pre>
+       */
+      public Builder setDate(long value) {
+        bitField0_ |= 0x00000004;
+        date_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 date = 3;</code>
+       *
+       * <pre>
+       *签到时间
+       * </pre>
+       */
+      public Builder clearDate() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        date_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.SignInDay)
+    }
+
+    static {
+      defaultInstance = new SignInDay(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.SignInDay)
+  }
+
+  public interface ActivityNewGuieGiftRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-在线时间未达成，2-达成未领取，3-已经领取
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-在线时间未达成，2-达成未领取，3-已经领取
+     * </pre>
+     */
+    int getResult();
+
+    // repeated .qxmobile.protobuf.Award awardList = 2;
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    java.util.List<qxmobile.protobuf.Explore.Award> 
+        getAwardListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    qxmobile.protobuf.Explore.Award getAwardList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    int getAwardListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+        getAwardListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    qxmobile.protobuf.Explore.AwardOrBuilder getAwardListOrBuilder(
+        int index);
+
+    // optional int32 cd = 3;
+    /**
+     * <code>optional int32 cd = 3;</code>
+     *
+     * <pre>
+     *倒计时
+     * </pre>
+     */
+    boolean hasCd();
+    /**
+     * <code>optional int32 cd = 3;</code>
+     *
+     * <pre>
+     *倒计时
+     * </pre>
+     */
+    int getCd();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ActivityNewGuieGiftResp}
+   *
+   * <pre>
+   *新手礼包
+   * </pre>
+   */
+  public static final class ActivityNewGuieGiftResp extends
+      com.google.protobuf.GeneratedMessage
+      implements ActivityNewGuieGiftRespOrBuilder {
+    // Use ActivityNewGuieGiftResp.newBuilder() to construct.
+    private ActivityNewGuieGiftResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ActivityNewGuieGiftResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ActivityNewGuieGiftResp defaultInstance;
+    public static ActivityNewGuieGiftResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ActivityNewGuieGiftResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ActivityNewGuieGiftResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                awardList_ = new java.util.ArrayList<qxmobile.protobuf.Explore.Award>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              awardList_.add(input.readMessage(qxmobile.protobuf.Explore.Award.PARSER, extensionRegistry));
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000002;
+              cd_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          awardList_ = java.util.Collections.unmodifiableList(awardList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityNewGuieGiftResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityNewGuieGiftResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Activity.ActivityNewGuieGiftResp.class, qxmobile.protobuf.Activity.ActivityNewGuieGiftResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ActivityNewGuieGiftResp> PARSER =
+        new com.google.protobuf.AbstractParser<ActivityNewGuieGiftResp>() {
+      public ActivityNewGuieGiftResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ActivityNewGuieGiftResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ActivityNewGuieGiftResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-在线时间未达成，2-达成未领取，3-已经领取
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-在线时间未达成，2-达成未领取，3-已经领取
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    // repeated .qxmobile.protobuf.Award awardList = 2;
+    public static final int AWARDLIST_FIELD_NUMBER = 2;
+    private java.util.List<qxmobile.protobuf.Explore.Award> awardList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    public java.util.List<qxmobile.protobuf.Explore.Award> getAwardListList() {
+      return awardList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+        getAwardListOrBuilderList() {
+      return awardList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    public int getAwardListCount() {
+      return awardList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    public qxmobile.protobuf.Explore.Award getAwardList(int index) {
+      return awardList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    public qxmobile.protobuf.Explore.AwardOrBuilder getAwardListOrBuilder(
+        int index) {
+      return awardList_.get(index);
+    }
+
+    // optional int32 cd = 3;
+    public static final int CD_FIELD_NUMBER = 3;
+    private int cd_;
+    /**
+     * <code>optional int32 cd = 3;</code>
+     *
+     * <pre>
+     *倒计时
+     * </pre>
+     */
+    public boolean hasCd() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 cd = 3;</code>
+     *
+     * <pre>
+     *倒计时
+     * </pre>
+     */
+    public int getCd() {
+      return cd_;
+    }
+
+    private void initFields() {
+      result_ = 0;
+      awardList_ = java.util.Collections.emptyList();
+      cd_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getAwardListCount(); i++) {
+        if (!getAwardList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      for (int i = 0; i < awardList_.size(); i++) {
+        output.writeMessage(2, awardList_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(3, cd_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      for (int i = 0; i < awardList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, awardList_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, cd_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Activity.ActivityNewGuieGiftResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityNewGuieGiftResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityNewGuieGiftResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityNewGuieGiftResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityNewGuieGiftResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityNewGuieGiftResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityNewGuieGiftResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityNewGuieGiftResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityNewGuieGiftResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityNewGuieGiftResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Activity.ActivityNewGuieGiftResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ActivityNewGuieGiftResp}
+     *
+     * <pre>
+     *新手礼包
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Activity.ActivityNewGuieGiftRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityNewGuieGiftResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityNewGuieGiftResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Activity.ActivityNewGuieGiftResp.class, qxmobile.protobuf.Activity.ActivityNewGuieGiftResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Activity.ActivityNewGuieGiftResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getAwardListFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (awardListBuilder_ == null) {
+          awardList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          awardListBuilder_.clear();
+        }
+        cd_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityNewGuieGiftResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityNewGuieGiftResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Activity.ActivityNewGuieGiftResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Activity.ActivityNewGuieGiftResp build() {
+        qxmobile.protobuf.Activity.ActivityNewGuieGiftResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityNewGuieGiftResp buildPartial() {
+        qxmobile.protobuf.Activity.ActivityNewGuieGiftResp result = new qxmobile.protobuf.Activity.ActivityNewGuieGiftResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        if (awardListBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            awardList_ = java.util.Collections.unmodifiableList(awardList_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.awardList_ = awardList_;
+        } else {
+          result.awardList_ = awardListBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.cd_ = cd_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Activity.ActivityNewGuieGiftResp) {
+          return mergeFrom((qxmobile.protobuf.Activity.ActivityNewGuieGiftResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Activity.ActivityNewGuieGiftResp other) {
+        if (other == qxmobile.protobuf.Activity.ActivityNewGuieGiftResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        if (awardListBuilder_ == null) {
+          if (!other.awardList_.isEmpty()) {
+            if (awardList_.isEmpty()) {
+              awardList_ = other.awardList_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureAwardListIsMutable();
+              awardList_.addAll(other.awardList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.awardList_.isEmpty()) {
+            if (awardListBuilder_.isEmpty()) {
+              awardListBuilder_.dispose();
+              awardListBuilder_ = null;
+              awardList_ = other.awardList_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              awardListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getAwardListFieldBuilder() : null;
+            } else {
+              awardListBuilder_.addAllMessages(other.awardList_);
+            }
+          }
+        }
+        if (other.hasCd()) {
+          setCd(other.getCd());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getAwardListCount(); i++) {
+          if (!getAwardList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Activity.ActivityNewGuieGiftResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Activity.ActivityNewGuieGiftResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-在线时间未达成，2-达成未领取，3-已经领取
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-在线时间未达成，2-达成未领取，3-已经领取
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-在线时间未达成，2-达成未领取，3-已经领取
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-在线时间未达成，2-达成未领取，3-已经领取
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .qxmobile.protobuf.Award awardList = 2;
+      private java.util.List<qxmobile.protobuf.Explore.Award> awardList_ =
+        java.util.Collections.emptyList();
+      private void ensureAwardListIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          awardList_ = new java.util.ArrayList<qxmobile.protobuf.Explore.Award>(awardList_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder> awardListBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Explore.Award> getAwardListList() {
+        if (awardListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(awardList_);
+        } else {
+          return awardListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public int getAwardListCount() {
+        if (awardListBuilder_ == null) {
+          return awardList_.size();
+        } else {
+          return awardListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award getAwardList(int index) {
+        if (awardListBuilder_ == null) {
+          return awardList_.get(index);
+        } else {
+          return awardListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder setAwardList(
+          int index, qxmobile.protobuf.Explore.Award value) {
+        if (awardListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAwardListIsMutable();
+          awardList_.set(index, value);
+          onChanged();
+        } else {
+          awardListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder setAwardList(
+          int index, qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          awardList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          awardListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder addAwardList(qxmobile.protobuf.Explore.Award value) {
+        if (awardListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAwardListIsMutable();
+          awardList_.add(value);
+          onChanged();
+        } else {
+          awardListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder addAwardList(
+          int index, qxmobile.protobuf.Explore.Award value) {
+        if (awardListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAwardListIsMutable();
+          awardList_.add(index, value);
+          onChanged();
+        } else {
+          awardListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder addAwardList(
+          qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          awardList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          awardListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder addAwardList(
+          int index, qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          awardList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          awardListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder addAllAwardList(
+          java.lang.Iterable<? extends qxmobile.protobuf.Explore.Award> values) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          super.addAll(values, awardList_);
+          onChanged();
+        } else {
+          awardListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder clearAwardList() {
+        if (awardListBuilder_ == null) {
+          awardList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          awardListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder removeAwardList(int index) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          awardList_.remove(index);
+          onChanged();
+        } else {
+          awardListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder getAwardListBuilder(
+          int index) {
+        return getAwardListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.AwardOrBuilder getAwardListOrBuilder(
+          int index) {
+        if (awardListBuilder_ == null) {
+          return awardList_.get(index);  } else {
+          return awardListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+           getAwardListOrBuilderList() {
+        if (awardListBuilder_ != null) {
+          return awardListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(awardList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder addAwardListBuilder() {
+        return getAwardListFieldBuilder().addBuilder(
+            qxmobile.protobuf.Explore.Award.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder addAwardListBuilder(
+          int index) {
+        return getAwardListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Explore.Award.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Explore.Award.Builder> 
+           getAwardListBuilderList() {
+        return getAwardListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder> 
+          getAwardListFieldBuilder() {
+        if (awardListBuilder_ == null) {
+          awardListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder>(
+                  awardList_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          awardList_ = null;
+        }
+        return awardListBuilder_;
+      }
+
+      // optional int32 cd = 3;
+      private int cd_ ;
+      /**
+       * <code>optional int32 cd = 3;</code>
+       *
+       * <pre>
+       *倒计时
+       * </pre>
+       */
+      public boolean hasCd() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 cd = 3;</code>
+       *
+       * <pre>
+       *倒计时
+       * </pre>
+       */
+      public int getCd() {
+        return cd_;
+      }
+      /**
+       * <code>optional int32 cd = 3;</code>
+       *
+       * <pre>
+       *倒计时
+       * </pre>
+       */
+      public Builder setCd(int value) {
+        bitField0_ |= 0x00000004;
+        cd_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 cd = 3;</code>
+       *
+       * <pre>
+       *倒计时
+       * </pre>
+       */
+      public Builder clearCd() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        cd_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ActivityNewGuieGiftResp)
+    }
+
+    static {
+      defaultInstance = new ActivityNewGuieGiftResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ActivityNewGuieGiftResp)
+  }
+
+  public interface ActivitySevenDaysGiftRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-未领取，1-已经领取，2-全部领完（消失）
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-未领取，1-已经领取，2-全部领完（消失）
+     * </pre>
+     */
+    int getResult();
+
+    // repeated .qxmobile.protobuf.Award todayList = 2;
+    /**
+     * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+     *
+     * <pre>
+     *今日奖励列表
+     * </pre>
+     */
+    java.util.List<qxmobile.protobuf.Explore.Award> 
+        getTodayListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+     *
+     * <pre>
+     *今日奖励列表
+     * </pre>
+     */
+    qxmobile.protobuf.Explore.Award getTodayList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+     *
+     * <pre>
+     *今日奖励列表
+     * </pre>
+     */
+    int getTodayListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+     *
+     * <pre>
+     *今日奖励列表
+     * </pre>
+     */
+    java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+        getTodayListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+     *
+     * <pre>
+     *今日奖励列表
+     * </pre>
+     */
+    qxmobile.protobuf.Explore.AwardOrBuilder getTodayListOrBuilder(
+        int index);
+
+    // repeated .qxmobile.protobuf.Award tomoList = 3;
+    /**
+     * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    java.util.List<qxmobile.protobuf.Explore.Award> 
+        getTomoListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    qxmobile.protobuf.Explore.Award getTomoList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    int getTomoListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+        getTomoListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    qxmobile.protobuf.Explore.AwardOrBuilder getTomoListOrBuilder(
+        int index);
+
+    // repeated .qxmobile.protobuf.Award sevenList = 4;
+    /**
+     * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    java.util.List<qxmobile.protobuf.Explore.Award> 
+        getSevenListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    qxmobile.protobuf.Explore.Award getSevenList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    int getSevenListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+        getSevenListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    qxmobile.protobuf.Explore.AwardOrBuilder getSevenListOrBuilder(
+        int index);
+
+    // optional int32 cd = 5;
+    /**
+     * <code>optional int32 cd = 5;</code>
+     *
+     * <pre>
+     *倒计时
+     * </pre>
+     */
+    boolean hasCd();
+    /**
+     * <code>optional int32 cd = 5;</code>
+     *
+     * <pre>
+     *倒计时
+     * </pre>
+     */
+    int getCd();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ActivitySevenDaysGiftResp}
+   *
+   * <pre>
+   *七天礼包
+   * </pre>
+   */
+  public static final class ActivitySevenDaysGiftResp extends
+      com.google.protobuf.GeneratedMessage
+      implements ActivitySevenDaysGiftRespOrBuilder {
+    // Use ActivitySevenDaysGiftResp.newBuilder() to construct.
+    private ActivitySevenDaysGiftResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ActivitySevenDaysGiftResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ActivitySevenDaysGiftResp defaultInstance;
+    public static ActivitySevenDaysGiftResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ActivitySevenDaysGiftResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ActivitySevenDaysGiftResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                todayList_ = new java.util.ArrayList<qxmobile.protobuf.Explore.Award>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              todayList_.add(input.readMessage(qxmobile.protobuf.Explore.Award.PARSER, extensionRegistry));
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                tomoList_ = new java.util.ArrayList<qxmobile.protobuf.Explore.Award>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              tomoList_.add(input.readMessage(qxmobile.protobuf.Explore.Award.PARSER, extensionRegistry));
+              break;
+            }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                sevenList_ = new java.util.ArrayList<qxmobile.protobuf.Explore.Award>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              sevenList_.add(input.readMessage(qxmobile.protobuf.Explore.Award.PARSER, extensionRegistry));
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000002;
+              cd_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          todayList_ = java.util.Collections.unmodifiableList(todayList_);
+        }
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          tomoList_ = java.util.Collections.unmodifiableList(tomoList_);
+        }
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          sevenList_ = java.util.Collections.unmodifiableList(sevenList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivitySevenDaysGiftResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivitySevenDaysGiftResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp.class, qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ActivitySevenDaysGiftResp> PARSER =
+        new com.google.protobuf.AbstractParser<ActivitySevenDaysGiftResp>() {
+      public ActivitySevenDaysGiftResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ActivitySevenDaysGiftResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ActivitySevenDaysGiftResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-未领取，1-已经领取，2-全部领完（消失）
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-未领取，1-已经领取，2-全部领完（消失）
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    // repeated .qxmobile.protobuf.Award todayList = 2;
+    public static final int TODAYLIST_FIELD_NUMBER = 2;
+    private java.util.List<qxmobile.protobuf.Explore.Award> todayList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+     *
+     * <pre>
+     *今日奖励列表
+     * </pre>
+     */
+    public java.util.List<qxmobile.protobuf.Explore.Award> getTodayListList() {
+      return todayList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+     *
+     * <pre>
+     *今日奖励列表
+     * </pre>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+        getTodayListOrBuilderList() {
+      return todayList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+     *
+     * <pre>
+     *今日奖励列表
+     * </pre>
+     */
+    public int getTodayListCount() {
+      return todayList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+     *
+     * <pre>
+     *今日奖励列表
+     * </pre>
+     */
+    public qxmobile.protobuf.Explore.Award getTodayList(int index) {
+      return todayList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+     *
+     * <pre>
+     *今日奖励列表
+     * </pre>
+     */
+    public qxmobile.protobuf.Explore.AwardOrBuilder getTodayListOrBuilder(
+        int index) {
+      return todayList_.get(index);
+    }
+
+    // repeated .qxmobile.protobuf.Award tomoList = 3;
+    public static final int TOMOLIST_FIELD_NUMBER = 3;
+    private java.util.List<qxmobile.protobuf.Explore.Award> tomoList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    public java.util.List<qxmobile.protobuf.Explore.Award> getTomoListList() {
+      return tomoList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+        getTomoListOrBuilderList() {
+      return tomoList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    public int getTomoListCount() {
+      return tomoList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    public qxmobile.protobuf.Explore.Award getTomoList(int index) {
+      return tomoList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    public qxmobile.protobuf.Explore.AwardOrBuilder getTomoListOrBuilder(
+        int index) {
+      return tomoList_.get(index);
+    }
+
+    // repeated .qxmobile.protobuf.Award sevenList = 4;
+    public static final int SEVENLIST_FIELD_NUMBER = 4;
+    private java.util.List<qxmobile.protobuf.Explore.Award> sevenList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    public java.util.List<qxmobile.protobuf.Explore.Award> getSevenListList() {
+      return sevenList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+        getSevenListOrBuilderList() {
+      return sevenList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    public int getSevenListCount() {
+      return sevenList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    public qxmobile.protobuf.Explore.Award getSevenList(int index) {
+      return sevenList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+     *
+     * <pre>
+     *明日奖励列表
+     * </pre>
+     */
+    public qxmobile.protobuf.Explore.AwardOrBuilder getSevenListOrBuilder(
+        int index) {
+      return sevenList_.get(index);
+    }
+
+    // optional int32 cd = 5;
+    public static final int CD_FIELD_NUMBER = 5;
+    private int cd_;
+    /**
+     * <code>optional int32 cd = 5;</code>
+     *
+     * <pre>
+     *倒计时
+     * </pre>
+     */
+    public boolean hasCd() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 cd = 5;</code>
+     *
+     * <pre>
+     *倒计时
+     * </pre>
+     */
+    public int getCd() {
+      return cd_;
+    }
+
+    private void initFields() {
+      result_ = 0;
+      todayList_ = java.util.Collections.emptyList();
+      tomoList_ = java.util.Collections.emptyList();
+      sevenList_ = java.util.Collections.emptyList();
+      cd_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getTodayListCount(); i++) {
+        if (!getTodayList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getTomoListCount(); i++) {
+        if (!getTomoList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getSevenListCount(); i++) {
+        if (!getSevenList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      for (int i = 0; i < todayList_.size(); i++) {
+        output.writeMessage(2, todayList_.get(i));
+      }
+      for (int i = 0; i < tomoList_.size(); i++) {
+        output.writeMessage(3, tomoList_.get(i));
+      }
+      for (int i = 0; i < sevenList_.size(); i++) {
+        output.writeMessage(4, sevenList_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(5, cd_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      for (int i = 0; i < todayList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, todayList_.get(i));
+      }
+      for (int i = 0; i < tomoList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, tomoList_.get(i));
+      }
+      for (int i = 0; i < sevenList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, sevenList_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, cd_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ActivitySevenDaysGiftResp}
+     *
+     * <pre>
+     *七天礼包
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Activity.ActivitySevenDaysGiftRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivitySevenDaysGiftResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivitySevenDaysGiftResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp.class, qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getTodayListFieldBuilder();
+          getTomoListFieldBuilder();
+          getSevenListFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (todayListBuilder_ == null) {
+          todayList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          todayListBuilder_.clear();
+        }
+        if (tomoListBuilder_ == null) {
+          tomoList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          tomoListBuilder_.clear();
+        }
+        if (sevenListBuilder_ == null) {
+          sevenList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        } else {
+          sevenListBuilder_.clear();
+        }
+        cd_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivitySevenDaysGiftResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp build() {
+        qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp buildPartial() {
+        qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp result = new qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        if (todayListBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            todayList_ = java.util.Collections.unmodifiableList(todayList_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.todayList_ = todayList_;
+        } else {
+          result.todayList_ = todayListBuilder_.build();
+        }
+        if (tomoListBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            tomoList_ = java.util.Collections.unmodifiableList(tomoList_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.tomoList_ = tomoList_;
+        } else {
+          result.tomoList_ = tomoListBuilder_.build();
+        }
+        if (sevenListBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+            sevenList_ = java.util.Collections.unmodifiableList(sevenList_);
+            bitField0_ = (bitField0_ & ~0x00000008);
+          }
+          result.sevenList_ = sevenList_;
+        } else {
+          result.sevenList_ = sevenListBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.cd_ = cd_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp) {
+          return mergeFrom((qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp other) {
+        if (other == qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        if (todayListBuilder_ == null) {
+          if (!other.todayList_.isEmpty()) {
+            if (todayList_.isEmpty()) {
+              todayList_ = other.todayList_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureTodayListIsMutable();
+              todayList_.addAll(other.todayList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.todayList_.isEmpty()) {
+            if (todayListBuilder_.isEmpty()) {
+              todayListBuilder_.dispose();
+              todayListBuilder_ = null;
+              todayList_ = other.todayList_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              todayListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getTodayListFieldBuilder() : null;
+            } else {
+              todayListBuilder_.addAllMessages(other.todayList_);
+            }
+          }
+        }
+        if (tomoListBuilder_ == null) {
+          if (!other.tomoList_.isEmpty()) {
+            if (tomoList_.isEmpty()) {
+              tomoList_ = other.tomoList_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureTomoListIsMutable();
+              tomoList_.addAll(other.tomoList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.tomoList_.isEmpty()) {
+            if (tomoListBuilder_.isEmpty()) {
+              tomoListBuilder_.dispose();
+              tomoListBuilder_ = null;
+              tomoList_ = other.tomoList_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              tomoListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getTomoListFieldBuilder() : null;
+            } else {
+              tomoListBuilder_.addAllMessages(other.tomoList_);
+            }
+          }
+        }
+        if (sevenListBuilder_ == null) {
+          if (!other.sevenList_.isEmpty()) {
+            if (sevenList_.isEmpty()) {
+              sevenList_ = other.sevenList_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+            } else {
+              ensureSevenListIsMutable();
+              sevenList_.addAll(other.sevenList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.sevenList_.isEmpty()) {
+            if (sevenListBuilder_.isEmpty()) {
+              sevenListBuilder_.dispose();
+              sevenListBuilder_ = null;
+              sevenList_ = other.sevenList_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+              sevenListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getSevenListFieldBuilder() : null;
+            } else {
+              sevenListBuilder_.addAllMessages(other.sevenList_);
+            }
+          }
+        }
+        if (other.hasCd()) {
+          setCd(other.getCd());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getTodayListCount(); i++) {
+          if (!getTodayList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getTomoListCount(); i++) {
+          if (!getTomoList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getSevenListCount(); i++) {
+          if (!getSevenList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Activity.ActivitySevenDaysGiftResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-未领取，1-已经领取，2-全部领完（消失）
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-未领取，1-已经领取，2-全部领完（消失）
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-未领取，1-已经领取，2-全部领完（消失）
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-未领取，1-已经领取，2-全部领完（消失）
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .qxmobile.protobuf.Award todayList = 2;
+      private java.util.List<qxmobile.protobuf.Explore.Award> todayList_ =
+        java.util.Collections.emptyList();
+      private void ensureTodayListIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          todayList_ = new java.util.ArrayList<qxmobile.protobuf.Explore.Award>(todayList_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder> todayListBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Explore.Award> getTodayListList() {
+        if (todayListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(todayList_);
+        } else {
+          return todayListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public int getTodayListCount() {
+        if (todayListBuilder_ == null) {
+          return todayList_.size();
+        } else {
+          return todayListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award getTodayList(int index) {
+        if (todayListBuilder_ == null) {
+          return todayList_.get(index);
+        } else {
+          return todayListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public Builder setTodayList(
+          int index, qxmobile.protobuf.Explore.Award value) {
+        if (todayListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTodayListIsMutable();
+          todayList_.set(index, value);
+          onChanged();
+        } else {
+          todayListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public Builder setTodayList(
+          int index, qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (todayListBuilder_ == null) {
+          ensureTodayListIsMutable();
+          todayList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          todayListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public Builder addTodayList(qxmobile.protobuf.Explore.Award value) {
+        if (todayListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTodayListIsMutable();
+          todayList_.add(value);
+          onChanged();
+        } else {
+          todayListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public Builder addTodayList(
+          int index, qxmobile.protobuf.Explore.Award value) {
+        if (todayListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTodayListIsMutable();
+          todayList_.add(index, value);
+          onChanged();
+        } else {
+          todayListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public Builder addTodayList(
+          qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (todayListBuilder_ == null) {
+          ensureTodayListIsMutable();
+          todayList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          todayListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public Builder addTodayList(
+          int index, qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (todayListBuilder_ == null) {
+          ensureTodayListIsMutable();
+          todayList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          todayListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public Builder addAllTodayList(
+          java.lang.Iterable<? extends qxmobile.protobuf.Explore.Award> values) {
+        if (todayListBuilder_ == null) {
+          ensureTodayListIsMutable();
+          super.addAll(values, todayList_);
+          onChanged();
+        } else {
+          todayListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public Builder clearTodayList() {
+        if (todayListBuilder_ == null) {
+          todayList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          todayListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public Builder removeTodayList(int index) {
+        if (todayListBuilder_ == null) {
+          ensureTodayListIsMutable();
+          todayList_.remove(index);
+          onChanged();
+        } else {
+          todayListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder getTodayListBuilder(
+          int index) {
+        return getTodayListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.AwardOrBuilder getTodayListOrBuilder(
+          int index) {
+        if (todayListBuilder_ == null) {
+          return todayList_.get(index);  } else {
+          return todayListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+           getTodayListOrBuilderList() {
+        if (todayListBuilder_ != null) {
+          return todayListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(todayList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder addTodayListBuilder() {
+        return getTodayListFieldBuilder().addBuilder(
+            qxmobile.protobuf.Explore.Award.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder addTodayListBuilder(
+          int index) {
+        return getTodayListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Explore.Award.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award todayList = 2;</code>
+       *
+       * <pre>
+       *今日奖励列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Explore.Award.Builder> 
+           getTodayListBuilderList() {
+        return getTodayListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder> 
+          getTodayListFieldBuilder() {
+        if (todayListBuilder_ == null) {
+          todayListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder>(
+                  todayList_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          todayList_ = null;
+        }
+        return todayListBuilder_;
+      }
+
+      // repeated .qxmobile.protobuf.Award tomoList = 3;
+      private java.util.List<qxmobile.protobuf.Explore.Award> tomoList_ =
+        java.util.Collections.emptyList();
+      private void ensureTomoListIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          tomoList_ = new java.util.ArrayList<qxmobile.protobuf.Explore.Award>(tomoList_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder> tomoListBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Explore.Award> getTomoListList() {
+        if (tomoListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(tomoList_);
+        } else {
+          return tomoListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public int getTomoListCount() {
+        if (tomoListBuilder_ == null) {
+          return tomoList_.size();
+        } else {
+          return tomoListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award getTomoList(int index) {
+        if (tomoListBuilder_ == null) {
+          return tomoList_.get(index);
+        } else {
+          return tomoListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder setTomoList(
+          int index, qxmobile.protobuf.Explore.Award value) {
+        if (tomoListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTomoListIsMutable();
+          tomoList_.set(index, value);
+          onChanged();
+        } else {
+          tomoListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder setTomoList(
+          int index, qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (tomoListBuilder_ == null) {
+          ensureTomoListIsMutable();
+          tomoList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          tomoListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder addTomoList(qxmobile.protobuf.Explore.Award value) {
+        if (tomoListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTomoListIsMutable();
+          tomoList_.add(value);
+          onChanged();
+        } else {
+          tomoListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder addTomoList(
+          int index, qxmobile.protobuf.Explore.Award value) {
+        if (tomoListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTomoListIsMutable();
+          tomoList_.add(index, value);
+          onChanged();
+        } else {
+          tomoListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder addTomoList(
+          qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (tomoListBuilder_ == null) {
+          ensureTomoListIsMutable();
+          tomoList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          tomoListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder addTomoList(
+          int index, qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (tomoListBuilder_ == null) {
+          ensureTomoListIsMutable();
+          tomoList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          tomoListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder addAllTomoList(
+          java.lang.Iterable<? extends qxmobile.protobuf.Explore.Award> values) {
+        if (tomoListBuilder_ == null) {
+          ensureTomoListIsMutable();
+          super.addAll(values, tomoList_);
+          onChanged();
+        } else {
+          tomoListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder clearTomoList() {
+        if (tomoListBuilder_ == null) {
+          tomoList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          tomoListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder removeTomoList(int index) {
+        if (tomoListBuilder_ == null) {
+          ensureTomoListIsMutable();
+          tomoList_.remove(index);
+          onChanged();
+        } else {
+          tomoListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder getTomoListBuilder(
+          int index) {
+        return getTomoListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.AwardOrBuilder getTomoListOrBuilder(
+          int index) {
+        if (tomoListBuilder_ == null) {
+          return tomoList_.get(index);  } else {
+          return tomoListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+           getTomoListOrBuilderList() {
+        if (tomoListBuilder_ != null) {
+          return tomoListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(tomoList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder addTomoListBuilder() {
+        return getTomoListFieldBuilder().addBuilder(
+            qxmobile.protobuf.Explore.Award.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder addTomoListBuilder(
+          int index) {
+        return getTomoListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Explore.Award.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award tomoList = 3;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Explore.Award.Builder> 
+           getTomoListBuilderList() {
+        return getTomoListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder> 
+          getTomoListFieldBuilder() {
+        if (tomoListBuilder_ == null) {
+          tomoListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder>(
+                  tomoList_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          tomoList_ = null;
+        }
+        return tomoListBuilder_;
+      }
+
+      // repeated .qxmobile.protobuf.Award sevenList = 4;
+      private java.util.List<qxmobile.protobuf.Explore.Award> sevenList_ =
+        java.util.Collections.emptyList();
+      private void ensureSevenListIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          sevenList_ = new java.util.ArrayList<qxmobile.protobuf.Explore.Award>(sevenList_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder> sevenListBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Explore.Award> getSevenListList() {
+        if (sevenListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(sevenList_);
+        } else {
+          return sevenListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public int getSevenListCount() {
+        if (sevenListBuilder_ == null) {
+          return sevenList_.size();
+        } else {
+          return sevenListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award getSevenList(int index) {
+        if (sevenListBuilder_ == null) {
+          return sevenList_.get(index);
+        } else {
+          return sevenListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder setSevenList(
+          int index, qxmobile.protobuf.Explore.Award value) {
+        if (sevenListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSevenListIsMutable();
+          sevenList_.set(index, value);
+          onChanged();
+        } else {
+          sevenListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder setSevenList(
+          int index, qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (sevenListBuilder_ == null) {
+          ensureSevenListIsMutable();
+          sevenList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          sevenListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder addSevenList(qxmobile.protobuf.Explore.Award value) {
+        if (sevenListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSevenListIsMutable();
+          sevenList_.add(value);
+          onChanged();
+        } else {
+          sevenListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder addSevenList(
+          int index, qxmobile.protobuf.Explore.Award value) {
+        if (sevenListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSevenListIsMutable();
+          sevenList_.add(index, value);
+          onChanged();
+        } else {
+          sevenListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder addSevenList(
+          qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (sevenListBuilder_ == null) {
+          ensureSevenListIsMutable();
+          sevenList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          sevenListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder addSevenList(
+          int index, qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (sevenListBuilder_ == null) {
+          ensureSevenListIsMutable();
+          sevenList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          sevenListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder addAllSevenList(
+          java.lang.Iterable<? extends qxmobile.protobuf.Explore.Award> values) {
+        if (sevenListBuilder_ == null) {
+          ensureSevenListIsMutable();
+          super.addAll(values, sevenList_);
+          onChanged();
+        } else {
+          sevenListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder clearSevenList() {
+        if (sevenListBuilder_ == null) {
+          sevenList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+          onChanged();
+        } else {
+          sevenListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public Builder removeSevenList(int index) {
+        if (sevenListBuilder_ == null) {
+          ensureSevenListIsMutable();
+          sevenList_.remove(index);
+          onChanged();
+        } else {
+          sevenListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder getSevenListBuilder(
+          int index) {
+        return getSevenListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.AwardOrBuilder getSevenListOrBuilder(
+          int index) {
+        if (sevenListBuilder_ == null) {
+          return sevenList_.get(index);  } else {
+          return sevenListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+           getSevenListOrBuilderList() {
+        if (sevenListBuilder_ != null) {
+          return sevenListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(sevenList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder addSevenListBuilder() {
+        return getSevenListFieldBuilder().addBuilder(
+            qxmobile.protobuf.Explore.Award.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder addSevenListBuilder(
+          int index) {
+        return getSevenListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Explore.Award.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award sevenList = 4;</code>
+       *
+       * <pre>
+       *明日奖励列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Explore.Award.Builder> 
+           getSevenListBuilderList() {
+        return getSevenListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder> 
+          getSevenListFieldBuilder() {
+        if (sevenListBuilder_ == null) {
+          sevenListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder>(
+                  sevenList_,
+                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  getParentForChildren(),
+                  isClean());
+          sevenList_ = null;
+        }
+        return sevenListBuilder_;
+      }
+
+      // optional int32 cd = 5;
+      private int cd_ ;
+      /**
+       * <code>optional int32 cd = 5;</code>
+       *
+       * <pre>
+       *倒计时
+       * </pre>
+       */
+      public boolean hasCd() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 cd = 5;</code>
+       *
+       * <pre>
+       *倒计时
+       * </pre>
+       */
+      public int getCd() {
+        return cd_;
+      }
+      /**
+       * <code>optional int32 cd = 5;</code>
+       *
+       * <pre>
+       *倒计时
+       * </pre>
+       */
+      public Builder setCd(int value) {
+        bitField0_ |= 0x00000010;
+        cd_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 cd = 5;</code>
+       *
+       * <pre>
+       *倒计时
+       * </pre>
+       */
+      public Builder clearCd() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        cd_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ActivitySevenDaysGiftResp)
+    }
+
+    static {
+      defaultInstance = new ActivitySevenDaysGiftResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ActivitySevenDaysGiftResp)
+  }
+
+  public interface ActivityGrowthFundRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-VIP等级不足未购买，1-VIP等级达到未购买，2-已购买
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-VIP等级不足未购买，1-VIP等级达到未购买，2-已购买
+     * </pre>
+     */
+    int getResult();
+
+    // repeated .qxmobile.protobuf.GrowLevel leveList = 2;
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    java.util.List<qxmobile.protobuf.Activity.GrowLevel> 
+        getLeveListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    qxmobile.protobuf.Activity.GrowLevel getLeveList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    int getLeveListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    java.util.List<? extends qxmobile.protobuf.Activity.GrowLevelOrBuilder> 
+        getLeveListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    qxmobile.protobuf.Activity.GrowLevelOrBuilder getLeveListOrBuilder(
+        int index);
+
+    // optional int32 vipLvNeed = 3;
+    /**
+     * <code>optional int32 vipLvNeed = 3;</code>
+     *
+     * <pre>
+     *购买成长基金需要VIP等级
+     * </pre>
+     */
+    boolean hasVipLvNeed();
+    /**
+     * <code>optional int32 vipLvNeed = 3;</code>
+     *
+     * <pre>
+     *购买成长基金需要VIP等级
+     * </pre>
+     */
+    int getVipLvNeed();
+
+    // optional int32 costNum = 4;
+    /**
+     * <code>optional int32 costNum = 4;</code>
+     *
+     * <pre>
+     *花费元宝
+     * </pre>
+     */
+    boolean hasCostNum();
+    /**
+     * <code>optional int32 costNum = 4;</code>
+     *
+     * <pre>
+     *花费元宝
+     * </pre>
+     */
+    int getCostNum();
+
+    // optional int32 getNum = 5;
+    /**
+     * <code>optional int32 getNum = 5;</code>
+     *
+     * <pre>
+     *可获得元宝
+     * </pre>
+     */
+    boolean hasGetNum();
+    /**
+     * <code>optional int32 getNum = 5;</code>
+     *
+     * <pre>
+     *可获得元宝
+     * </pre>
+     */
+    int getGetNum();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ActivityGrowthFundResp}
+   *
+   * <pre>
+   *public static final short ACTIVITY_GROWTHFUND_INFO_REQ = 7019; //成长基金请求
+   *public static final short ACTIVITY_GROWTHFUND_INFO_RESP = 7020; //成长基金请求返回
+   *成长基金详情返回
+   * </pre>
+   */
+  public static final class ActivityGrowthFundResp extends
+      com.google.protobuf.GeneratedMessage
+      implements ActivityGrowthFundRespOrBuilder {
+    // Use ActivityGrowthFundResp.newBuilder() to construct.
+    private ActivityGrowthFundResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ActivityGrowthFundResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ActivityGrowthFundResp defaultInstance;
+    public static ActivityGrowthFundResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ActivityGrowthFundResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ActivityGrowthFundResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                leveList_ = new java.util.ArrayList<qxmobile.protobuf.Activity.GrowLevel>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              leveList_.add(input.readMessage(qxmobile.protobuf.Activity.GrowLevel.PARSER, extensionRegistry));
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000002;
+              vipLvNeed_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000004;
+              costNum_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000008;
+              getNum_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          leveList_ = java.util.Collections.unmodifiableList(leveList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGrowthFundResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGrowthFundResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Activity.ActivityGrowthFundResp.class, qxmobile.protobuf.Activity.ActivityGrowthFundResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ActivityGrowthFundResp> PARSER =
+        new com.google.protobuf.AbstractParser<ActivityGrowthFundResp>() {
+      public ActivityGrowthFundResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ActivityGrowthFundResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ActivityGrowthFundResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-VIP等级不足未购买，1-VIP等级达到未购买，2-已购买
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-VIP等级不足未购买，1-VIP等级达到未购买，2-已购买
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    // repeated .qxmobile.protobuf.GrowLevel leveList = 2;
+    public static final int LEVELIST_FIELD_NUMBER = 2;
+    private java.util.List<qxmobile.protobuf.Activity.GrowLevel> leveList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    public java.util.List<qxmobile.protobuf.Activity.GrowLevel> getLeveListList() {
+      return leveList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Activity.GrowLevelOrBuilder> 
+        getLeveListOrBuilderList() {
+      return leveList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    public int getLeveListCount() {
+      return leveList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    public qxmobile.protobuf.Activity.GrowLevel getLeveList(int index) {
+      return leveList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    public qxmobile.protobuf.Activity.GrowLevelOrBuilder getLeveListOrBuilder(
+        int index) {
+      return leveList_.get(index);
+    }
+
+    // optional int32 vipLvNeed = 3;
+    public static final int VIPLVNEED_FIELD_NUMBER = 3;
+    private int vipLvNeed_;
+    /**
+     * <code>optional int32 vipLvNeed = 3;</code>
+     *
+     * <pre>
+     *购买成长基金需要VIP等级
+     * </pre>
+     */
+    public boolean hasVipLvNeed() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 vipLvNeed = 3;</code>
+     *
+     * <pre>
+     *购买成长基金需要VIP等级
+     * </pre>
+     */
+    public int getVipLvNeed() {
+      return vipLvNeed_;
+    }
+
+    // optional int32 costNum = 4;
+    public static final int COSTNUM_FIELD_NUMBER = 4;
+    private int costNum_;
+    /**
+     * <code>optional int32 costNum = 4;</code>
+     *
+     * <pre>
+     *花费元宝
+     * </pre>
+     */
+    public boolean hasCostNum() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 costNum = 4;</code>
+     *
+     * <pre>
+     *花费元宝
+     * </pre>
+     */
+    public int getCostNum() {
+      return costNum_;
+    }
+
+    // optional int32 getNum = 5;
+    public static final int GETNUM_FIELD_NUMBER = 5;
+    private int getNum_;
+    /**
+     * <code>optional int32 getNum = 5;</code>
+     *
+     * <pre>
+     *可获得元宝
+     * </pre>
+     */
+    public boolean hasGetNum() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 getNum = 5;</code>
+     *
+     * <pre>
+     *可获得元宝
+     * </pre>
+     */
+    public int getGetNum() {
+      return getNum_;
+    }
+
+    private void initFields() {
+      result_ = 0;
+      leveList_ = java.util.Collections.emptyList();
+      vipLvNeed_ = 0;
+      costNum_ = 0;
+      getNum_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getLeveListCount(); i++) {
+        if (!getLeveList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      for (int i = 0; i < leveList_.size(); i++) {
+        output.writeMessage(2, leveList_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(3, vipLvNeed_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(4, costNum_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(5, getNum_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      for (int i = 0; i < leveList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, leveList_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, vipLvNeed_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, costNum_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, getNum_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Activity.ActivityGrowthFundResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ActivityGrowthFundResp}
+     *
+     * <pre>
+     *public static final short ACTIVITY_GROWTHFUND_INFO_REQ = 7019; //成长基金请求
+     *public static final short ACTIVITY_GROWTHFUND_INFO_RESP = 7020; //成长基金请求返回
+     *成长基金详情返回
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Activity.ActivityGrowthFundRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGrowthFundResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGrowthFundResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Activity.ActivityGrowthFundResp.class, qxmobile.protobuf.Activity.ActivityGrowthFundResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Activity.ActivityGrowthFundResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getLeveListFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (leveListBuilder_ == null) {
+          leveList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          leveListBuilder_.clear();
+        }
+        vipLvNeed_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        costNum_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        getNum_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGrowthFundResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityGrowthFundResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Activity.ActivityGrowthFundResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Activity.ActivityGrowthFundResp build() {
+        qxmobile.protobuf.Activity.ActivityGrowthFundResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityGrowthFundResp buildPartial() {
+        qxmobile.protobuf.Activity.ActivityGrowthFundResp result = new qxmobile.protobuf.Activity.ActivityGrowthFundResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        if (leveListBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            leveList_ = java.util.Collections.unmodifiableList(leveList_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.leveList_ = leveList_;
+        } else {
+          result.leveList_ = leveListBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.vipLvNeed_ = vipLvNeed_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.costNum_ = costNum_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.getNum_ = getNum_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Activity.ActivityGrowthFundResp) {
+          return mergeFrom((qxmobile.protobuf.Activity.ActivityGrowthFundResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Activity.ActivityGrowthFundResp other) {
+        if (other == qxmobile.protobuf.Activity.ActivityGrowthFundResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        if (leveListBuilder_ == null) {
+          if (!other.leveList_.isEmpty()) {
+            if (leveList_.isEmpty()) {
+              leveList_ = other.leveList_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureLeveListIsMutable();
+              leveList_.addAll(other.leveList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.leveList_.isEmpty()) {
+            if (leveListBuilder_.isEmpty()) {
+              leveListBuilder_.dispose();
+              leveListBuilder_ = null;
+              leveList_ = other.leveList_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              leveListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getLeveListFieldBuilder() : null;
+            } else {
+              leveListBuilder_.addAllMessages(other.leveList_);
+            }
+          }
+        }
+        if (other.hasVipLvNeed()) {
+          setVipLvNeed(other.getVipLvNeed());
+        }
+        if (other.hasCostNum()) {
+          setCostNum(other.getCostNum());
+        }
+        if (other.hasGetNum()) {
+          setGetNum(other.getGetNum());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getLeveListCount(); i++) {
+          if (!getLeveList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Activity.ActivityGrowthFundResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Activity.ActivityGrowthFundResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-VIP等级不足未购买，1-VIP等级达到未购买，2-已购买
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-VIP等级不足未购买，1-VIP等级达到未购买，2-已购买
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-VIP等级不足未购买，1-VIP等级达到未购买，2-已购买
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-VIP等级不足未购买，1-VIP等级达到未购买，2-已购买
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .qxmobile.protobuf.GrowLevel leveList = 2;
+      private java.util.List<qxmobile.protobuf.Activity.GrowLevel> leveList_ =
+        java.util.Collections.emptyList();
+      private void ensureLeveListIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          leveList_ = new java.util.ArrayList<qxmobile.protobuf.Activity.GrowLevel>(leveList_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Activity.GrowLevel, qxmobile.protobuf.Activity.GrowLevel.Builder, qxmobile.protobuf.Activity.GrowLevelOrBuilder> leveListBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Activity.GrowLevel> getLeveListList() {
+        if (leveListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(leveList_);
+        } else {
+          return leveListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public int getLeveListCount() {
+        if (leveListBuilder_ == null) {
+          return leveList_.size();
+        } else {
+          return leveListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.GrowLevel getLeveList(int index) {
+        if (leveListBuilder_ == null) {
+          return leveList_.get(index);
+        } else {
+          return leveListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder setLeveList(
+          int index, qxmobile.protobuf.Activity.GrowLevel value) {
+        if (leveListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLeveListIsMutable();
+          leveList_.set(index, value);
+          onChanged();
+        } else {
+          leveListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder setLeveList(
+          int index, qxmobile.protobuf.Activity.GrowLevel.Builder builderForValue) {
+        if (leveListBuilder_ == null) {
+          ensureLeveListIsMutable();
+          leveList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          leveListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder addLeveList(qxmobile.protobuf.Activity.GrowLevel value) {
+        if (leveListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLeveListIsMutable();
+          leveList_.add(value);
+          onChanged();
+        } else {
+          leveListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder addLeveList(
+          int index, qxmobile.protobuf.Activity.GrowLevel value) {
+        if (leveListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLeveListIsMutable();
+          leveList_.add(index, value);
+          onChanged();
+        } else {
+          leveListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder addLeveList(
+          qxmobile.protobuf.Activity.GrowLevel.Builder builderForValue) {
+        if (leveListBuilder_ == null) {
+          ensureLeveListIsMutable();
+          leveList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          leveListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder addLeveList(
+          int index, qxmobile.protobuf.Activity.GrowLevel.Builder builderForValue) {
+        if (leveListBuilder_ == null) {
+          ensureLeveListIsMutable();
+          leveList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          leveListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder addAllLeveList(
+          java.lang.Iterable<? extends qxmobile.protobuf.Activity.GrowLevel> values) {
+        if (leveListBuilder_ == null) {
+          ensureLeveListIsMutable();
+          super.addAll(values, leveList_);
+          onChanged();
+        } else {
+          leveListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder clearLeveList() {
+        if (leveListBuilder_ == null) {
+          leveList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          leveListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder removeLeveList(int index) {
+        if (leveListBuilder_ == null) {
+          ensureLeveListIsMutable();
+          leveList_.remove(index);
+          onChanged();
+        } else {
+          leveListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.GrowLevel.Builder getLeveListBuilder(
+          int index) {
+        return getLeveListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.GrowLevelOrBuilder getLeveListOrBuilder(
+          int index) {
+        if (leveListBuilder_ == null) {
+          return leveList_.get(index);  } else {
+          return leveListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Activity.GrowLevelOrBuilder> 
+           getLeveListOrBuilderList() {
+        if (leveListBuilder_ != null) {
+          return leveListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(leveList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.GrowLevel.Builder addLeveListBuilder() {
+        return getLeveListFieldBuilder().addBuilder(
+            qxmobile.protobuf.Activity.GrowLevel.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.GrowLevel.Builder addLeveListBuilder(
+          int index) {
+        return getLeveListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Activity.GrowLevel.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 2;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Activity.GrowLevel.Builder> 
+           getLeveListBuilderList() {
+        return getLeveListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Activity.GrowLevel, qxmobile.protobuf.Activity.GrowLevel.Builder, qxmobile.protobuf.Activity.GrowLevelOrBuilder> 
+          getLeveListFieldBuilder() {
+        if (leveListBuilder_ == null) {
+          leveListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Activity.GrowLevel, qxmobile.protobuf.Activity.GrowLevel.Builder, qxmobile.protobuf.Activity.GrowLevelOrBuilder>(
+                  leveList_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          leveList_ = null;
+        }
+        return leveListBuilder_;
+      }
+
+      // optional int32 vipLvNeed = 3;
+      private int vipLvNeed_ ;
+      /**
+       * <code>optional int32 vipLvNeed = 3;</code>
+       *
+       * <pre>
+       *购买成长基金需要VIP等级
+       * </pre>
+       */
+      public boolean hasVipLvNeed() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 vipLvNeed = 3;</code>
+       *
+       * <pre>
+       *购买成长基金需要VIP等级
+       * </pre>
+       */
+      public int getVipLvNeed() {
+        return vipLvNeed_;
+      }
+      /**
+       * <code>optional int32 vipLvNeed = 3;</code>
+       *
+       * <pre>
+       *购买成长基金需要VIP等级
+       * </pre>
+       */
+      public Builder setVipLvNeed(int value) {
+        bitField0_ |= 0x00000004;
+        vipLvNeed_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 vipLvNeed = 3;</code>
+       *
+       * <pre>
+       *购买成长基金需要VIP等级
+       * </pre>
+       */
+      public Builder clearVipLvNeed() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        vipLvNeed_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 costNum = 4;
+      private int costNum_ ;
+      /**
+       * <code>optional int32 costNum = 4;</code>
+       *
+       * <pre>
+       *花费元宝
+       * </pre>
+       */
+      public boolean hasCostNum() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 costNum = 4;</code>
+       *
+       * <pre>
+       *花费元宝
+       * </pre>
+       */
+      public int getCostNum() {
+        return costNum_;
+      }
+      /**
+       * <code>optional int32 costNum = 4;</code>
+       *
+       * <pre>
+       *花费元宝
+       * </pre>
+       */
+      public Builder setCostNum(int value) {
+        bitField0_ |= 0x00000008;
+        costNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 costNum = 4;</code>
+       *
+       * <pre>
+       *花费元宝
+       * </pre>
+       */
+      public Builder clearCostNum() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        costNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 getNum = 5;
+      private int getNum_ ;
+      /**
+       * <code>optional int32 getNum = 5;</code>
+       *
+       * <pre>
+       *可获得元宝
+       * </pre>
+       */
+      public boolean hasGetNum() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 getNum = 5;</code>
+       *
+       * <pre>
+       *可获得元宝
+       * </pre>
+       */
+      public int getGetNum() {
+        return getNum_;
+      }
+      /**
+       * <code>optional int32 getNum = 5;</code>
+       *
+       * <pre>
+       *可获得元宝
+       * </pre>
+       */
+      public Builder setGetNum(int value) {
+        bitField0_ |= 0x00000010;
+        getNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 getNum = 5;</code>
+       *
+       * <pre>
+       *可获得元宝
+       * </pre>
+       */
+      public Builder clearGetNum() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        getNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ActivityGrowthFundResp)
+    }
+
+    static {
+      defaultInstance = new ActivityGrowthFundResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ActivityGrowthFundResp)
+  }
+
+  public interface GrowLevelOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 id = 1;
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     *奖励ID（等级 或 成就 等唯一id）
+     * </pre>
+     */
+    boolean hasId();
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     *奖励ID（等级 或 成就 等唯一id）
+     * </pre>
+     */
+    int getId();
+
+    // required string des = 2;
+    /**
+     * <code>required string des = 2;</code>
+     *
+     * <pre>
+     *描述
+     * </pre>
+     */
+    boolean hasDes();
+    /**
+     * <code>required string des = 2;</code>
+     *
+     * <pre>
+     *描述
+     * </pre>
+     */
+    java.lang.String getDes();
+    /**
+     * <code>required string des = 2;</code>
+     *
+     * <pre>
+     *描述
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getDesBytes();
+
+    // required int32 functionid = 3;
+    /**
+     * <code>required int32 functionid = 3;</code>
+     */
+    boolean hasFunctionid();
+    /**
+     * <code>required int32 functionid = 3;</code>
+     */
+    int getFunctionid();
+
+    // repeated .qxmobile.protobuf.Award awardList = 4;
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    java.util.List<qxmobile.protobuf.Explore.Award> 
+        getAwardListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    qxmobile.protobuf.Explore.Award getAwardList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    int getAwardListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+        getAwardListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    qxmobile.protobuf.Explore.AwardOrBuilder getAwardListOrBuilder(
+        int index);
+
+    // optional int32 process = 5;
+    /**
+     * <code>optional int32 process = 5;</code>
+     *
+     * <pre>
+     *任务完成进度
+     * </pre>
+     */
+    boolean hasProcess();
+    /**
+     * <code>optional int32 process = 5;</code>
+     *
+     * <pre>
+     *任务完成进度
+     * </pre>
+     */
+    int getProcess();
+
+    // optional int32 maxProcess = 6;
+    /**
+     * <code>optional int32 maxProcess = 6;</code>
+     *
+     * <pre>
+     *任务完成最大进度
+     * </pre>
+     */
+    boolean hasMaxProcess();
+    /**
+     * <code>optional int32 maxProcess = 6;</code>
+     *
+     * <pre>
+     *任务完成最大进度
+     * </pre>
+     */
+    int getMaxProcess();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.GrowLevel}
+   */
+  public static final class GrowLevel extends
+      com.google.protobuf.GeneratedMessage
+      implements GrowLevelOrBuilder {
+    // Use GrowLevel.newBuilder() to construct.
+    private GrowLevel(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GrowLevel(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GrowLevel defaultInstance;
+    public static GrowLevel getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GrowLevel getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GrowLevel(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              id_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              des_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              functionid_ = input.readInt32();
+              break;
+            }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                awardList_ = new java.util.ArrayList<qxmobile.protobuf.Explore.Award>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              awardList_.add(input.readMessage(qxmobile.protobuf.Explore.Award.PARSER, extensionRegistry));
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000008;
+              process_ = input.readInt32();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000010;
+              maxProcess_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          awardList_ = java.util.Collections.unmodifiableList(awardList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_GrowLevel_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_GrowLevel_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Activity.GrowLevel.class, qxmobile.protobuf.Activity.GrowLevel.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GrowLevel> PARSER =
+        new com.google.protobuf.AbstractParser<GrowLevel>() {
+      public GrowLevel parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GrowLevel(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GrowLevel> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 id = 1;
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     *奖励ID（等级 或 成就 等唯一id）
+     * </pre>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     *奖励ID（等级 或 成就 等唯一id）
+     * </pre>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    // required string des = 2;
+    public static final int DES_FIELD_NUMBER = 2;
+    private java.lang.Object des_;
+    /**
+     * <code>required string des = 2;</code>
+     *
+     * <pre>
+     *描述
+     * </pre>
+     */
+    public boolean hasDes() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string des = 2;</code>
+     *
+     * <pre>
+     *描述
+     * </pre>
+     */
+    public java.lang.String getDes() {
+      java.lang.Object ref = des_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          des_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string des = 2;</code>
+     *
+     * <pre>
+     *描述
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getDesBytes() {
+      java.lang.Object ref = des_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        des_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 functionid = 3;
+    public static final int FUNCTIONID_FIELD_NUMBER = 3;
+    private int functionid_;
+    /**
+     * <code>required int32 functionid = 3;</code>
+     */
+    public boolean hasFunctionid() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 functionid = 3;</code>
+     */
+    public int getFunctionid() {
+      return functionid_;
+    }
+
+    // repeated .qxmobile.protobuf.Award awardList = 4;
+    public static final int AWARDLIST_FIELD_NUMBER = 4;
+    private java.util.List<qxmobile.protobuf.Explore.Award> awardList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    public java.util.List<qxmobile.protobuf.Explore.Award> getAwardListList() {
+      return awardList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+        getAwardListOrBuilderList() {
+      return awardList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    public int getAwardListCount() {
+      return awardList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    public qxmobile.protobuf.Explore.Award getAwardList(int index) {
+      return awardList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+     *
+     * <pre>
+     *奖励列表
+     * </pre>
+     */
+    public qxmobile.protobuf.Explore.AwardOrBuilder getAwardListOrBuilder(
+        int index) {
+      return awardList_.get(index);
+    }
+
+    // optional int32 process = 5;
+    public static final int PROCESS_FIELD_NUMBER = 5;
+    private int process_;
+    /**
+     * <code>optional int32 process = 5;</code>
+     *
+     * <pre>
+     *任务完成进度
+     * </pre>
+     */
+    public boolean hasProcess() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 process = 5;</code>
+     *
+     * <pre>
+     *任务完成进度
+     * </pre>
+     */
+    public int getProcess() {
+      return process_;
+    }
+
+    // optional int32 maxProcess = 6;
+    public static final int MAXPROCESS_FIELD_NUMBER = 6;
+    private int maxProcess_;
+    /**
+     * <code>optional int32 maxProcess = 6;</code>
+     *
+     * <pre>
+     *任务完成最大进度
+     * </pre>
+     */
+    public boolean hasMaxProcess() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int32 maxProcess = 6;</code>
+     *
+     * <pre>
+     *任务完成最大进度
+     * </pre>
+     */
+    public int getMaxProcess() {
+      return maxProcess_;
+    }
+
+    private void initFields() {
+      id_ = 0;
+      des_ = "";
+      functionid_ = 0;
+      awardList_ = java.util.Collections.emptyList();
+      process_ = 0;
+      maxProcess_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasDes()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasFunctionid()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getAwardListCount(); i++) {
+        if (!getAwardList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, id_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getDesBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, functionid_);
+      }
+      for (int i = 0; i < awardList_.size(); i++) {
+        output.writeMessage(4, awardList_.get(i));
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(5, process_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(6, maxProcess_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, id_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getDesBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, functionid_);
+      }
+      for (int i = 0; i < awardList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, awardList_.get(i));
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, process_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, maxProcess_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Activity.GrowLevel parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.GrowLevel parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.GrowLevel parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.GrowLevel parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.GrowLevel parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.GrowLevel parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.GrowLevel parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.GrowLevel parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.GrowLevel parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.GrowLevel parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Activity.GrowLevel prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.GrowLevel}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Activity.GrowLevelOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_GrowLevel_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_GrowLevel_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Activity.GrowLevel.class, qxmobile.protobuf.Activity.GrowLevel.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Activity.GrowLevel.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getAwardListFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        id_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        des_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        functionid_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        if (awardListBuilder_ == null) {
+          awardList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        } else {
+          awardListBuilder_.clear();
+        }
+        process_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        maxProcess_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_GrowLevel_descriptor;
+      }
+
+      public qxmobile.protobuf.Activity.GrowLevel getDefaultInstanceForType() {
+        return qxmobile.protobuf.Activity.GrowLevel.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Activity.GrowLevel build() {
+        qxmobile.protobuf.Activity.GrowLevel result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Activity.GrowLevel buildPartial() {
+        qxmobile.protobuf.Activity.GrowLevel result = new qxmobile.protobuf.Activity.GrowLevel(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.id_ = id_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.des_ = des_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.functionid_ = functionid_;
+        if (awardListBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+            awardList_ = java.util.Collections.unmodifiableList(awardList_);
+            bitField0_ = (bitField0_ & ~0x00000008);
+          }
+          result.awardList_ = awardList_;
+        } else {
+          result.awardList_ = awardListBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.process_ = process_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.maxProcess_ = maxProcess_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Activity.GrowLevel) {
+          return mergeFrom((qxmobile.protobuf.Activity.GrowLevel)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Activity.GrowLevel other) {
+        if (other == qxmobile.protobuf.Activity.GrowLevel.getDefaultInstance()) return this;
+        if (other.hasId()) {
+          setId(other.getId());
+        }
+        if (other.hasDes()) {
+          bitField0_ |= 0x00000002;
+          des_ = other.des_;
+          onChanged();
+        }
+        if (other.hasFunctionid()) {
+          setFunctionid(other.getFunctionid());
+        }
+        if (awardListBuilder_ == null) {
+          if (!other.awardList_.isEmpty()) {
+            if (awardList_.isEmpty()) {
+              awardList_ = other.awardList_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+            } else {
+              ensureAwardListIsMutable();
+              awardList_.addAll(other.awardList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.awardList_.isEmpty()) {
+            if (awardListBuilder_.isEmpty()) {
+              awardListBuilder_.dispose();
+              awardListBuilder_ = null;
+              awardList_ = other.awardList_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+              awardListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getAwardListFieldBuilder() : null;
+            } else {
+              awardListBuilder_.addAllMessages(other.awardList_);
+            }
+          }
+        }
+        if (other.hasProcess()) {
+          setProcess(other.getProcess());
+        }
+        if (other.hasMaxProcess()) {
+          setMaxProcess(other.getMaxProcess());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasId()) {
+          
+          return false;
+        }
+        if (!hasDes()) {
+          
+          return false;
+        }
+        if (!hasFunctionid()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getAwardListCount(); i++) {
+          if (!getAwardList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Activity.GrowLevel parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Activity.GrowLevel) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 id = 1;
+      private int id_ ;
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       *奖励ID（等级 或 成就 等唯一id）
+       * </pre>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       *奖励ID（等级 或 成就 等唯一id）
+       * </pre>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       *奖励ID（等级 或 成就 等唯一id）
+       * </pre>
+       */
+      public Builder setId(int value) {
+        bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       *奖励ID（等级 或 成就 等唯一id）
+       * </pre>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string des = 2;
+      private java.lang.Object des_ = "";
+      /**
+       * <code>required string des = 2;</code>
+       *
+       * <pre>
+       *描述
+       * </pre>
+       */
+      public boolean hasDes() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string des = 2;</code>
+       *
+       * <pre>
+       *描述
+       * </pre>
+       */
+      public java.lang.String getDes() {
+        java.lang.Object ref = des_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          des_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string des = 2;</code>
+       *
+       * <pre>
+       *描述
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getDesBytes() {
+        java.lang.Object ref = des_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          des_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string des = 2;</code>
+       *
+       * <pre>
+       *描述
+       * </pre>
+       */
+      public Builder setDes(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        des_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string des = 2;</code>
+       *
+       * <pre>
+       *描述
+       * </pre>
+       */
+      public Builder clearDes() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        des_ = getDefaultInstance().getDes();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string des = 2;</code>
+       *
+       * <pre>
+       *描述
+       * </pre>
+       */
+      public Builder setDesBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        des_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 functionid = 3;
+      private int functionid_ ;
+      /**
+       * <code>required int32 functionid = 3;</code>
+       */
+      public boolean hasFunctionid() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 functionid = 3;</code>
+       */
+      public int getFunctionid() {
+        return functionid_;
+      }
+      /**
+       * <code>required int32 functionid = 3;</code>
+       */
+      public Builder setFunctionid(int value) {
+        bitField0_ |= 0x00000004;
+        functionid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 functionid = 3;</code>
+       */
+      public Builder clearFunctionid() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        functionid_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .qxmobile.protobuf.Award awardList = 4;
+      private java.util.List<qxmobile.protobuf.Explore.Award> awardList_ =
+        java.util.Collections.emptyList();
+      private void ensureAwardListIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          awardList_ = new java.util.ArrayList<qxmobile.protobuf.Explore.Award>(awardList_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder> awardListBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Explore.Award> getAwardListList() {
+        if (awardListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(awardList_);
+        } else {
+          return awardListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public int getAwardListCount() {
+        if (awardListBuilder_ == null) {
+          return awardList_.size();
+        } else {
+          return awardListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award getAwardList(int index) {
+        if (awardListBuilder_ == null) {
+          return awardList_.get(index);
+        } else {
+          return awardListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder setAwardList(
+          int index, qxmobile.protobuf.Explore.Award value) {
+        if (awardListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAwardListIsMutable();
+          awardList_.set(index, value);
+          onChanged();
+        } else {
+          awardListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder setAwardList(
+          int index, qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          awardList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          awardListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder addAwardList(qxmobile.protobuf.Explore.Award value) {
+        if (awardListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAwardListIsMutable();
+          awardList_.add(value);
+          onChanged();
+        } else {
+          awardListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder addAwardList(
+          int index, qxmobile.protobuf.Explore.Award value) {
+        if (awardListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAwardListIsMutable();
+          awardList_.add(index, value);
+          onChanged();
+        } else {
+          awardListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder addAwardList(
+          qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          awardList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          awardListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder addAwardList(
+          int index, qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          awardList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          awardListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder addAllAwardList(
+          java.lang.Iterable<? extends qxmobile.protobuf.Explore.Award> values) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          super.addAll(values, awardList_);
+          onChanged();
+        } else {
+          awardListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder clearAwardList() {
+        if (awardListBuilder_ == null) {
+          awardList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+          onChanged();
+        } else {
+          awardListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public Builder removeAwardList(int index) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          awardList_.remove(index);
+          onChanged();
+        } else {
+          awardListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder getAwardListBuilder(
+          int index) {
+        return getAwardListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.AwardOrBuilder getAwardListOrBuilder(
+          int index) {
+        if (awardListBuilder_ == null) {
+          return awardList_.get(index);  } else {
+          return awardListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+           getAwardListOrBuilderList() {
+        if (awardListBuilder_ != null) {
+          return awardListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(awardList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder addAwardListBuilder() {
+        return getAwardListFieldBuilder().addBuilder(
+            qxmobile.protobuf.Explore.Award.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder addAwardListBuilder(
+          int index) {
+        return getAwardListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Explore.Award.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 4;</code>
+       *
+       * <pre>
+       *奖励列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Explore.Award.Builder> 
+           getAwardListBuilderList() {
+        return getAwardListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder> 
+          getAwardListFieldBuilder() {
+        if (awardListBuilder_ == null) {
+          awardListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder>(
+                  awardList_,
+                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  getParentForChildren(),
+                  isClean());
+          awardList_ = null;
+        }
+        return awardListBuilder_;
+      }
+
+      // optional int32 process = 5;
+      private int process_ ;
+      /**
+       * <code>optional int32 process = 5;</code>
+       *
+       * <pre>
+       *任务完成进度
+       * </pre>
+       */
+      public boolean hasProcess() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 process = 5;</code>
+       *
+       * <pre>
+       *任务完成进度
+       * </pre>
+       */
+      public int getProcess() {
+        return process_;
+      }
+      /**
+       * <code>optional int32 process = 5;</code>
+       *
+       * <pre>
+       *任务完成进度
+       * </pre>
+       */
+      public Builder setProcess(int value) {
+        bitField0_ |= 0x00000010;
+        process_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 process = 5;</code>
+       *
+       * <pre>
+       *任务完成进度
+       * </pre>
+       */
+      public Builder clearProcess() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        process_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 maxProcess = 6;
+      private int maxProcess_ ;
+      /**
+       * <code>optional int32 maxProcess = 6;</code>
+       *
+       * <pre>
+       *任务完成最大进度
+       * </pre>
+       */
+      public boolean hasMaxProcess() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional int32 maxProcess = 6;</code>
+       *
+       * <pre>
+       *任务完成最大进度
+       * </pre>
+       */
+      public int getMaxProcess() {
+        return maxProcess_;
+      }
+      /**
+       * <code>optional int32 maxProcess = 6;</code>
+       *
+       * <pre>
+       *任务完成最大进度
+       * </pre>
+       */
+      public Builder setMaxProcess(int value) {
+        bitField0_ |= 0x00000020;
+        maxProcess_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 maxProcess = 6;</code>
+       *
+       * <pre>
+       *任务完成最大进度
+       * </pre>
+       */
+      public Builder clearMaxProcess() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        maxProcess_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.GrowLevel)
+    }
+
+    static {
+      defaultInstance = new GrowLevel(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.GrowLevel)
+  }
+
+  public interface ActivityGrowthFundRewardRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 level = 1;
+    /**
+     * <code>required int32 level = 1;</code>
+     */
+    boolean hasLevel();
+    /**
+     * <code>required int32 level = 1;</code>
+     */
+    int getLevel();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ActivityGrowthFundRewardResp}
+   *
+   * <pre>
+   *public static final short ACTIVITY_GROWTHFUND_GETREWARD_REQ = 7021; //成长基金领奖请求
+   *public static final short ACTIVITY_GROWTHFUND_GETREWARD_RESP = 7022; //成长基金领奖请求返回
+   *成长基金领奖请求
+   * </pre>
+   */
+  public static final class ActivityGrowthFundRewardResp extends
+      com.google.protobuf.GeneratedMessage
+      implements ActivityGrowthFundRewardRespOrBuilder {
+    // Use ActivityGrowthFundRewardResp.newBuilder() to construct.
+    private ActivityGrowthFundRewardResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ActivityGrowthFundRewardResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ActivityGrowthFundRewardResp defaultInstance;
+    public static ActivityGrowthFundRewardResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ActivityGrowthFundRewardResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ActivityGrowthFundRewardResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              level_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGrowthFundRewardResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGrowthFundRewardResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp.class, qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ActivityGrowthFundRewardResp> PARSER =
+        new com.google.protobuf.AbstractParser<ActivityGrowthFundRewardResp>() {
+      public ActivityGrowthFundRewardResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ActivityGrowthFundRewardResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ActivityGrowthFundRewardResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 level = 1;
+    public static final int LEVEL_FIELD_NUMBER = 1;
+    private int level_;
+    /**
+     * <code>required int32 level = 1;</code>
+     */
+    public boolean hasLevel() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 level = 1;</code>
+     */
+    public int getLevel() {
+      return level_;
+    }
+
+    private void initFields() {
+      level_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, level_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, level_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ActivityGrowthFundRewardResp}
+     *
+     * <pre>
+     *public static final short ACTIVITY_GROWTHFUND_GETREWARD_REQ = 7021; //成长基金领奖请求
+     *public static final short ACTIVITY_GROWTHFUND_GETREWARD_RESP = 7022; //成长基金领奖请求返回
+     *成长基金领奖请求
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Activity.ActivityGrowthFundRewardRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGrowthFundRewardResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGrowthFundRewardResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp.class, qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        level_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGrowthFundRewardResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp build() {
+        qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp buildPartial() {
+        qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp result = new qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.level_ = level_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp) {
+          return mergeFrom((qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp other) {
+        if (other == qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp.getDefaultInstance()) return this;
+        if (other.hasLevel()) {
+          setLevel(other.getLevel());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasLevel()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 level = 1;
+      private int level_ ;
+      /**
+       * <code>required int32 level = 1;</code>
+       */
+      public boolean hasLevel() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 level = 1;</code>
+       */
+      public int getLevel() {
+        return level_;
+      }
+      /**
+       * <code>required int32 level = 1;</code>
+       */
+      public Builder setLevel(int value) {
+        bitField0_ |= 0x00000001;
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 level = 1;</code>
+       */
+      public Builder clearLevel() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ActivityGrowthFundRewardResp)
+    }
+
+    static {
+      defaultInstance = new ActivityGrowthFundRewardResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ActivityGrowthFundRewardResp)
+  }
+
+  public interface ActivityGetStrengthRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .qxmobile.protobuf.PeriodInfo periodList = 1;
+    /**
+     * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+     */
+    java.util.List<qxmobile.protobuf.Activity.PeriodInfo> 
+        getPeriodListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+     */
+    qxmobile.protobuf.Activity.PeriodInfo getPeriodList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+     */
+    int getPeriodListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+     */
+    java.util.List<? extends qxmobile.protobuf.Activity.PeriodInfoOrBuilder> 
+        getPeriodListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+     */
+    qxmobile.protobuf.Activity.PeriodInfoOrBuilder getPeriodListOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ActivityGetStrengthResp}
+   *
+   * <pre>
+   *	public static final short ACTIVITY_STRENGTH_INFO_REQ = 7025; //体力详情请求
+   *	public static final short ACTIVITY_STRENGTH_INFO_RESP= 7026; //体力详情请求返回
+   *体力详情请求返回
+   * </pre>
+   */
+  public static final class ActivityGetStrengthResp extends
+      com.google.protobuf.GeneratedMessage
+      implements ActivityGetStrengthRespOrBuilder {
+    // Use ActivityGetStrengthResp.newBuilder() to construct.
+    private ActivityGetStrengthResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ActivityGetStrengthResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ActivityGetStrengthResp defaultInstance;
+    public static ActivityGetStrengthResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ActivityGetStrengthResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ActivityGetStrengthResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                periodList_ = new java.util.ArrayList<qxmobile.protobuf.Activity.PeriodInfo>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              periodList_.add(input.readMessage(qxmobile.protobuf.Activity.PeriodInfo.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          periodList_ = java.util.Collections.unmodifiableList(periodList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGetStrengthResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGetStrengthResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Activity.ActivityGetStrengthResp.class, qxmobile.protobuf.Activity.ActivityGetStrengthResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ActivityGetStrengthResp> PARSER =
+        new com.google.protobuf.AbstractParser<ActivityGetStrengthResp>() {
+      public ActivityGetStrengthResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ActivityGetStrengthResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ActivityGetStrengthResp> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .qxmobile.protobuf.PeriodInfo periodList = 1;
+    public static final int PERIODLIST_FIELD_NUMBER = 1;
+    private java.util.List<qxmobile.protobuf.Activity.PeriodInfo> periodList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+     */
+    public java.util.List<qxmobile.protobuf.Activity.PeriodInfo> getPeriodListList() {
+      return periodList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Activity.PeriodInfoOrBuilder> 
+        getPeriodListOrBuilderList() {
+      return periodList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+     */
+    public int getPeriodListCount() {
+      return periodList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+     */
+    public qxmobile.protobuf.Activity.PeriodInfo getPeriodList(int index) {
+      return periodList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+     */
+    public qxmobile.protobuf.Activity.PeriodInfoOrBuilder getPeriodListOrBuilder(
+        int index) {
+      return periodList_.get(index);
+    }
+
+    private void initFields() {
+      periodList_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getPeriodListCount(); i++) {
+        if (!getPeriodList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < periodList_.size(); i++) {
+        output.writeMessage(1, periodList_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < periodList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, periodList_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Activity.ActivityGetStrengthResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetStrengthResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetStrengthResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetStrengthResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetStrengthResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetStrengthResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetStrengthResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetStrengthResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetStrengthResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityGetStrengthResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Activity.ActivityGetStrengthResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ActivityGetStrengthResp}
+     *
+     * <pre>
+     *	public static final short ACTIVITY_STRENGTH_INFO_REQ = 7025; //体力详情请求
+     *	public static final short ACTIVITY_STRENGTH_INFO_RESP= 7026; //体力详情请求返回
+     *体力详情请求返回
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Activity.ActivityGetStrengthRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGetStrengthResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGetStrengthResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Activity.ActivityGetStrengthResp.class, qxmobile.protobuf.Activity.ActivityGetStrengthResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Activity.ActivityGetStrengthResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getPeriodListFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (periodListBuilder_ == null) {
+          periodList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          periodListBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityGetStrengthResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityGetStrengthResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Activity.ActivityGetStrengthResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Activity.ActivityGetStrengthResp build() {
+        qxmobile.protobuf.Activity.ActivityGetStrengthResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityGetStrengthResp buildPartial() {
+        qxmobile.protobuf.Activity.ActivityGetStrengthResp result = new qxmobile.protobuf.Activity.ActivityGetStrengthResp(this);
+        int from_bitField0_ = bitField0_;
+        if (periodListBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            periodList_ = java.util.Collections.unmodifiableList(periodList_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.periodList_ = periodList_;
+        } else {
+          result.periodList_ = periodListBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Activity.ActivityGetStrengthResp) {
+          return mergeFrom((qxmobile.protobuf.Activity.ActivityGetStrengthResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Activity.ActivityGetStrengthResp other) {
+        if (other == qxmobile.protobuf.Activity.ActivityGetStrengthResp.getDefaultInstance()) return this;
+        if (periodListBuilder_ == null) {
+          if (!other.periodList_.isEmpty()) {
+            if (periodList_.isEmpty()) {
+              periodList_ = other.periodList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensurePeriodListIsMutable();
+              periodList_.addAll(other.periodList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.periodList_.isEmpty()) {
+            if (periodListBuilder_.isEmpty()) {
+              periodListBuilder_.dispose();
+              periodListBuilder_ = null;
+              periodList_ = other.periodList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              periodListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getPeriodListFieldBuilder() : null;
+            } else {
+              periodListBuilder_.addAllMessages(other.periodList_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getPeriodListCount(); i++) {
+          if (!getPeriodList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Activity.ActivityGetStrengthResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Activity.ActivityGetStrengthResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .qxmobile.protobuf.PeriodInfo periodList = 1;
+      private java.util.List<qxmobile.protobuf.Activity.PeriodInfo> periodList_ =
+        java.util.Collections.emptyList();
+      private void ensurePeriodListIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          periodList_ = new java.util.ArrayList<qxmobile.protobuf.Activity.PeriodInfo>(periodList_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Activity.PeriodInfo, qxmobile.protobuf.Activity.PeriodInfo.Builder, qxmobile.protobuf.Activity.PeriodInfoOrBuilder> periodListBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Activity.PeriodInfo> getPeriodListList() {
+        if (periodListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(periodList_);
+        } else {
+          return periodListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public int getPeriodListCount() {
+        if (periodListBuilder_ == null) {
+          return periodList_.size();
+        } else {
+          return periodListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public qxmobile.protobuf.Activity.PeriodInfo getPeriodList(int index) {
+        if (periodListBuilder_ == null) {
+          return periodList_.get(index);
+        } else {
+          return periodListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public Builder setPeriodList(
+          int index, qxmobile.protobuf.Activity.PeriodInfo value) {
+        if (periodListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePeriodListIsMutable();
+          periodList_.set(index, value);
+          onChanged();
+        } else {
+          periodListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public Builder setPeriodList(
+          int index, qxmobile.protobuf.Activity.PeriodInfo.Builder builderForValue) {
+        if (periodListBuilder_ == null) {
+          ensurePeriodListIsMutable();
+          periodList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          periodListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public Builder addPeriodList(qxmobile.protobuf.Activity.PeriodInfo value) {
+        if (periodListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePeriodListIsMutable();
+          periodList_.add(value);
+          onChanged();
+        } else {
+          periodListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public Builder addPeriodList(
+          int index, qxmobile.protobuf.Activity.PeriodInfo value) {
+        if (periodListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePeriodListIsMutable();
+          periodList_.add(index, value);
+          onChanged();
+        } else {
+          periodListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public Builder addPeriodList(
+          qxmobile.protobuf.Activity.PeriodInfo.Builder builderForValue) {
+        if (periodListBuilder_ == null) {
+          ensurePeriodListIsMutable();
+          periodList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          periodListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public Builder addPeriodList(
+          int index, qxmobile.protobuf.Activity.PeriodInfo.Builder builderForValue) {
+        if (periodListBuilder_ == null) {
+          ensurePeriodListIsMutable();
+          periodList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          periodListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public Builder addAllPeriodList(
+          java.lang.Iterable<? extends qxmobile.protobuf.Activity.PeriodInfo> values) {
+        if (periodListBuilder_ == null) {
+          ensurePeriodListIsMutable();
+          super.addAll(values, periodList_);
+          onChanged();
+        } else {
+          periodListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public Builder clearPeriodList() {
+        if (periodListBuilder_ == null) {
+          periodList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          periodListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public Builder removePeriodList(int index) {
+        if (periodListBuilder_ == null) {
+          ensurePeriodListIsMutable();
+          periodList_.remove(index);
+          onChanged();
+        } else {
+          periodListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public qxmobile.protobuf.Activity.PeriodInfo.Builder getPeriodListBuilder(
+          int index) {
+        return getPeriodListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public qxmobile.protobuf.Activity.PeriodInfoOrBuilder getPeriodListOrBuilder(
+          int index) {
+        if (periodListBuilder_ == null) {
+          return periodList_.get(index);  } else {
+          return periodListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Activity.PeriodInfoOrBuilder> 
+           getPeriodListOrBuilderList() {
+        if (periodListBuilder_ != null) {
+          return periodListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(periodList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public qxmobile.protobuf.Activity.PeriodInfo.Builder addPeriodListBuilder() {
+        return getPeriodListFieldBuilder().addBuilder(
+            qxmobile.protobuf.Activity.PeriodInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public qxmobile.protobuf.Activity.PeriodInfo.Builder addPeriodListBuilder(
+          int index) {
+        return getPeriodListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Activity.PeriodInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.PeriodInfo periodList = 1;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Activity.PeriodInfo.Builder> 
+           getPeriodListBuilderList() {
+        return getPeriodListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Activity.PeriodInfo, qxmobile.protobuf.Activity.PeriodInfo.Builder, qxmobile.protobuf.Activity.PeriodInfoOrBuilder> 
+          getPeriodListFieldBuilder() {
+        if (periodListBuilder_ == null) {
+          periodListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Activity.PeriodInfo, qxmobile.protobuf.Activity.PeriodInfo.Builder, qxmobile.protobuf.Activity.PeriodInfoOrBuilder>(
+                  periodList_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          periodList_ = null;
+        }
+        return periodListBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ActivityGetStrengthResp)
+    }
+
+    static {
+      defaultInstance = new ActivityGetStrengthResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ActivityGetStrengthResp)
+  }
+
+  public interface PeriodInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 id = 1;
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     *1，2，3对应三个时间
+     * </pre>
+     */
+    boolean hasId();
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     *1，2，3对应三个时间
+     * </pre>
+     */
+    int getId();
+
+    // required string time = 2;
+    /**
+     * <code>required string time = 2;</code>
+     *
+     * <pre>
+     *时间字符串
+     * </pre>
+     */
+    boolean hasTime();
+    /**
+     * <code>required string time = 2;</code>
+     *
+     * <pre>
+     *时间字符串
+     * </pre>
+     */
+    java.lang.String getTime();
+    /**
+     * <code>required string time = 2;</code>
+     *
+     * <pre>
+     *时间字符串
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTimeBytes();
+
+    // required int32 number = 3;
+    /**
+     * <code>required int32 number = 3;</code>
+     *
+     * <pre>
+     *加多少体力
+     * </pre>
+     */
+    boolean hasNumber();
+    /**
+     * <code>required int32 number = 3;</code>
+     *
+     * <pre>
+     *加多少体力
+     * </pre>
+     */
+    int getNumber();
+
+    // required int32 status = 4;
+    /**
+     * <code>required int32 status = 4;</code>
+     *
+     * <pre>
+     *1-可领取，2-已经领取，3-未领取
+     * </pre>
+     */
+    boolean hasStatus();
+    /**
+     * <code>required int32 status = 4;</code>
+     *
+     * <pre>
+     *1-可领取，2-已经领取，3-未领取
+     * </pre>
+     */
+    int getStatus();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.PeriodInfo}
+   */
+  public static final class PeriodInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements PeriodInfoOrBuilder {
+    // Use PeriodInfo.newBuilder() to construct.
+    private PeriodInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private PeriodInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final PeriodInfo defaultInstance;
+    public static PeriodInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public PeriodInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PeriodInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              id_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              time_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              number_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              status_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_PeriodInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_PeriodInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Activity.PeriodInfo.class, qxmobile.protobuf.Activity.PeriodInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<PeriodInfo> PARSER =
+        new com.google.protobuf.AbstractParser<PeriodInfo>() {
+      public PeriodInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PeriodInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PeriodInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 id = 1;
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     *1，2，3对应三个时间
+     * </pre>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     *1，2，3对应三个时间
+     * </pre>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    // required string time = 2;
+    public static final int TIME_FIELD_NUMBER = 2;
+    private java.lang.Object time_;
+    /**
+     * <code>required string time = 2;</code>
+     *
+     * <pre>
+     *时间字符串
+     * </pre>
+     */
+    public boolean hasTime() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string time = 2;</code>
+     *
+     * <pre>
+     *时间字符串
+     * </pre>
+     */
+    public java.lang.String getTime() {
+      java.lang.Object ref = time_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          time_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string time = 2;</code>
+     *
+     * <pre>
+     *时间字符串
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTimeBytes() {
+      java.lang.Object ref = time_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        time_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 number = 3;
+    public static final int NUMBER_FIELD_NUMBER = 3;
+    private int number_;
+    /**
+     * <code>required int32 number = 3;</code>
+     *
+     * <pre>
+     *加多少体力
+     * </pre>
+     */
+    public boolean hasNumber() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 number = 3;</code>
+     *
+     * <pre>
+     *加多少体力
+     * </pre>
+     */
+    public int getNumber() {
+      return number_;
+    }
+
+    // required int32 status = 4;
+    public static final int STATUS_FIELD_NUMBER = 4;
+    private int status_;
+    /**
+     * <code>required int32 status = 4;</code>
+     *
+     * <pre>
+     *1-可领取，2-已经领取，3-未领取
+     * </pre>
+     */
+    public boolean hasStatus() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 status = 4;</code>
+     *
+     * <pre>
+     *1-可领取，2-已经领取，3-未领取
+     * </pre>
+     */
+    public int getStatus() {
+      return status_;
+    }
+
+    private void initFields() {
+      id_ = 0;
+      time_ = "";
+      number_ = 0;
+      status_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTime()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasNumber()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasStatus()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, id_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getTimeBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, number_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, status_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, id_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getTimeBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, number_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, status_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Activity.PeriodInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.PeriodInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.PeriodInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.PeriodInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.PeriodInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.PeriodInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.PeriodInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.PeriodInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.PeriodInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.PeriodInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Activity.PeriodInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.PeriodInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Activity.PeriodInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_PeriodInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_PeriodInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Activity.PeriodInfo.class, qxmobile.protobuf.Activity.PeriodInfo.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Activity.PeriodInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        id_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        time_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        number_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        status_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_PeriodInfo_descriptor;
+      }
+
+      public qxmobile.protobuf.Activity.PeriodInfo getDefaultInstanceForType() {
+        return qxmobile.protobuf.Activity.PeriodInfo.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Activity.PeriodInfo build() {
+        qxmobile.protobuf.Activity.PeriodInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Activity.PeriodInfo buildPartial() {
+        qxmobile.protobuf.Activity.PeriodInfo result = new qxmobile.protobuf.Activity.PeriodInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.id_ = id_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.time_ = time_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.number_ = number_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.status_ = status_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Activity.PeriodInfo) {
+          return mergeFrom((qxmobile.protobuf.Activity.PeriodInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Activity.PeriodInfo other) {
+        if (other == qxmobile.protobuf.Activity.PeriodInfo.getDefaultInstance()) return this;
+        if (other.hasId()) {
+          setId(other.getId());
+        }
+        if (other.hasTime()) {
+          bitField0_ |= 0x00000002;
+          time_ = other.time_;
+          onChanged();
+        }
+        if (other.hasNumber()) {
+          setNumber(other.getNumber());
+        }
+        if (other.hasStatus()) {
+          setStatus(other.getStatus());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasId()) {
+          
+          return false;
+        }
+        if (!hasTime()) {
+          
+          return false;
+        }
+        if (!hasNumber()) {
+          
+          return false;
+        }
+        if (!hasStatus()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Activity.PeriodInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Activity.PeriodInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 id = 1;
+      private int id_ ;
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       *1，2，3对应三个时间
+       * </pre>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       *1，2，3对应三个时间
+       * </pre>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       *1，2，3对应三个时间
+       * </pre>
+       */
+      public Builder setId(int value) {
+        bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       *1，2，3对应三个时间
+       * </pre>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string time = 2;
+      private java.lang.Object time_ = "";
+      /**
+       * <code>required string time = 2;</code>
+       *
+       * <pre>
+       *时间字符串
+       * </pre>
+       */
+      public boolean hasTime() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string time = 2;</code>
+       *
+       * <pre>
+       *时间字符串
+       * </pre>
+       */
+      public java.lang.String getTime() {
+        java.lang.Object ref = time_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          time_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string time = 2;</code>
+       *
+       * <pre>
+       *时间字符串
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTimeBytes() {
+        java.lang.Object ref = time_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          time_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string time = 2;</code>
+       *
+       * <pre>
+       *时间字符串
+       * </pre>
+       */
+      public Builder setTime(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        time_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string time = 2;</code>
+       *
+       * <pre>
+       *时间字符串
+       * </pre>
+       */
+      public Builder clearTime() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        time_ = getDefaultInstance().getTime();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string time = 2;</code>
+       *
+       * <pre>
+       *时间字符串
+       * </pre>
+       */
+      public Builder setTimeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        time_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 number = 3;
+      private int number_ ;
+      /**
+       * <code>required int32 number = 3;</code>
+       *
+       * <pre>
+       *加多少体力
+       * </pre>
+       */
+      public boolean hasNumber() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 number = 3;</code>
+       *
+       * <pre>
+       *加多少体力
+       * </pre>
+       */
+      public int getNumber() {
+        return number_;
+      }
+      /**
+       * <code>required int32 number = 3;</code>
+       *
+       * <pre>
+       *加多少体力
+       * </pre>
+       */
+      public Builder setNumber(int value) {
+        bitField0_ |= 0x00000004;
+        number_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 number = 3;</code>
+       *
+       * <pre>
+       *加多少体力
+       * </pre>
+       */
+      public Builder clearNumber() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        number_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 status = 4;
+      private int status_ ;
+      /**
+       * <code>required int32 status = 4;</code>
+       *
+       * <pre>
+       *1-可领取，2-已经领取，3-未领取
+       * </pre>
+       */
+      public boolean hasStatus() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 status = 4;</code>
+       *
+       * <pre>
+       *1-可领取，2-已经领取，3-未领取
+       * </pre>
+       */
+      public int getStatus() {
+        return status_;
+      }
+      /**
+       * <code>required int32 status = 4;</code>
+       *
+       * <pre>
+       *1-可领取，2-已经领取，3-未领取
+       * </pre>
+       */
+      public Builder setStatus(int value) {
+        bitField0_ |= 0x00000008;
+        status_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 status = 4;</code>
+       *
+       * <pre>
+       *1-可领取，2-已经领取，3-未领取
+       * </pre>
+       */
+      public Builder clearStatus() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        status_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.PeriodInfo)
+    }
+
+    static {
+      defaultInstance = new PeriodInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.PeriodInfo)
+  }
+
+  public interface ActivitLevelGiftRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .qxmobile.protobuf.GrowLevel leveList = 1;
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *等级奖励列表
+     * </pre>
+     */
+    java.util.List<qxmobile.protobuf.Activity.GrowLevel> 
+        getLeveListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *等级奖励列表
+     * </pre>
+     */
+    qxmobile.protobuf.Activity.GrowLevel getLeveList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *等级奖励列表
+     * </pre>
+     */
+    int getLeveListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *等级奖励列表
+     * </pre>
+     */
+    java.util.List<? extends qxmobile.protobuf.Activity.GrowLevelOrBuilder> 
+        getLeveListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *等级奖励列表
+     * </pre>
+     */
+    qxmobile.protobuf.Activity.GrowLevelOrBuilder getLeveListOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ActivitLevelGiftResp}
+   *
+   * <pre>
+   *冲级返礼
+   * </pre>
+   */
+  public static final class ActivitLevelGiftResp extends
+      com.google.protobuf.GeneratedMessage
+      implements ActivitLevelGiftRespOrBuilder {
+    // Use ActivitLevelGiftResp.newBuilder() to construct.
+    private ActivitLevelGiftResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ActivitLevelGiftResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ActivitLevelGiftResp defaultInstance;
+    public static ActivitLevelGiftResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ActivitLevelGiftResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ActivitLevelGiftResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                leveList_ = new java.util.ArrayList<qxmobile.protobuf.Activity.GrowLevel>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              leveList_.add(input.readMessage(qxmobile.protobuf.Activity.GrowLevel.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          leveList_ = java.util.Collections.unmodifiableList(leveList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivitLevelGiftResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivitLevelGiftResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Activity.ActivitLevelGiftResp.class, qxmobile.protobuf.Activity.ActivitLevelGiftResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ActivitLevelGiftResp> PARSER =
+        new com.google.protobuf.AbstractParser<ActivitLevelGiftResp>() {
+      public ActivitLevelGiftResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ActivitLevelGiftResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ActivitLevelGiftResp> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .qxmobile.protobuf.GrowLevel leveList = 1;
+    public static final int LEVELIST_FIELD_NUMBER = 1;
+    private java.util.List<qxmobile.protobuf.Activity.GrowLevel> leveList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *等级奖励列表
+     * </pre>
+     */
+    public java.util.List<qxmobile.protobuf.Activity.GrowLevel> getLeveListList() {
+      return leveList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *等级奖励列表
+     * </pre>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Activity.GrowLevelOrBuilder> 
+        getLeveListOrBuilderList() {
+      return leveList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *等级奖励列表
+     * </pre>
+     */
+    public int getLeveListCount() {
+      return leveList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *等级奖励列表
+     * </pre>
+     */
+    public qxmobile.protobuf.Activity.GrowLevel getLeveList(int index) {
+      return leveList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *等级奖励列表
+     * </pre>
+     */
+    public qxmobile.protobuf.Activity.GrowLevelOrBuilder getLeveListOrBuilder(
+        int index) {
+      return leveList_.get(index);
+    }
+
+    private void initFields() {
+      leveList_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getLeveListCount(); i++) {
+        if (!getLeveList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < leveList_.size(); i++) {
+        output.writeMessage(1, leveList_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < leveList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, leveList_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Activity.ActivitLevelGiftResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivitLevelGiftResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivitLevelGiftResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivitLevelGiftResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivitLevelGiftResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivitLevelGiftResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivitLevelGiftResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivitLevelGiftResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivitLevelGiftResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivitLevelGiftResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Activity.ActivitLevelGiftResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ActivitLevelGiftResp}
+     *
+     * <pre>
+     *冲级返礼
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Activity.ActivitLevelGiftRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivitLevelGiftResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivitLevelGiftResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Activity.ActivitLevelGiftResp.class, qxmobile.protobuf.Activity.ActivitLevelGiftResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Activity.ActivitLevelGiftResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getLeveListFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (leveListBuilder_ == null) {
+          leveList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          leveListBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivitLevelGiftResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Activity.ActivitLevelGiftResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Activity.ActivitLevelGiftResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Activity.ActivitLevelGiftResp build() {
+        qxmobile.protobuf.Activity.ActivitLevelGiftResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Activity.ActivitLevelGiftResp buildPartial() {
+        qxmobile.protobuf.Activity.ActivitLevelGiftResp result = new qxmobile.protobuf.Activity.ActivitLevelGiftResp(this);
+        int from_bitField0_ = bitField0_;
+        if (leveListBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            leveList_ = java.util.Collections.unmodifiableList(leveList_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.leveList_ = leveList_;
+        } else {
+          result.leveList_ = leveListBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Activity.ActivitLevelGiftResp) {
+          return mergeFrom((qxmobile.protobuf.Activity.ActivitLevelGiftResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Activity.ActivitLevelGiftResp other) {
+        if (other == qxmobile.protobuf.Activity.ActivitLevelGiftResp.getDefaultInstance()) return this;
+        if (leveListBuilder_ == null) {
+          if (!other.leveList_.isEmpty()) {
+            if (leveList_.isEmpty()) {
+              leveList_ = other.leveList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureLeveListIsMutable();
+              leveList_.addAll(other.leveList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.leveList_.isEmpty()) {
+            if (leveListBuilder_.isEmpty()) {
+              leveListBuilder_.dispose();
+              leveListBuilder_ = null;
+              leveList_ = other.leveList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              leveListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getLeveListFieldBuilder() : null;
+            } else {
+              leveListBuilder_.addAllMessages(other.leveList_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getLeveListCount(); i++) {
+          if (!getLeveList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Activity.ActivitLevelGiftResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Activity.ActivitLevelGiftResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .qxmobile.protobuf.GrowLevel leveList = 1;
+      private java.util.List<qxmobile.protobuf.Activity.GrowLevel> leveList_ =
+        java.util.Collections.emptyList();
+      private void ensureLeveListIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          leveList_ = new java.util.ArrayList<qxmobile.protobuf.Activity.GrowLevel>(leveList_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Activity.GrowLevel, qxmobile.protobuf.Activity.GrowLevel.Builder, qxmobile.protobuf.Activity.GrowLevelOrBuilder> leveListBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Activity.GrowLevel> getLeveListList() {
+        if (leveListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(leveList_);
+        } else {
+          return leveListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public int getLeveListCount() {
+        if (leveListBuilder_ == null) {
+          return leveList_.size();
+        } else {
+          return leveListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.GrowLevel getLeveList(int index) {
+        if (leveListBuilder_ == null) {
+          return leveList_.get(index);
+        } else {
+          return leveListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public Builder setLeveList(
+          int index, qxmobile.protobuf.Activity.GrowLevel value) {
+        if (leveListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLeveListIsMutable();
+          leveList_.set(index, value);
+          onChanged();
+        } else {
+          leveListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public Builder setLeveList(
+          int index, qxmobile.protobuf.Activity.GrowLevel.Builder builderForValue) {
+        if (leveListBuilder_ == null) {
+          ensureLeveListIsMutable();
+          leveList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          leveListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public Builder addLeveList(qxmobile.protobuf.Activity.GrowLevel value) {
+        if (leveListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLeveListIsMutable();
+          leveList_.add(value);
+          onChanged();
+        } else {
+          leveListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public Builder addLeveList(
+          int index, qxmobile.protobuf.Activity.GrowLevel value) {
+        if (leveListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLeveListIsMutable();
+          leveList_.add(index, value);
+          onChanged();
+        } else {
+          leveListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public Builder addLeveList(
+          qxmobile.protobuf.Activity.GrowLevel.Builder builderForValue) {
+        if (leveListBuilder_ == null) {
+          ensureLeveListIsMutable();
+          leveList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          leveListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public Builder addLeveList(
+          int index, qxmobile.protobuf.Activity.GrowLevel.Builder builderForValue) {
+        if (leveListBuilder_ == null) {
+          ensureLeveListIsMutable();
+          leveList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          leveListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public Builder addAllLeveList(
+          java.lang.Iterable<? extends qxmobile.protobuf.Activity.GrowLevel> values) {
+        if (leveListBuilder_ == null) {
+          ensureLeveListIsMutable();
+          super.addAll(values, leveList_);
+          onChanged();
+        } else {
+          leveListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public Builder clearLeveList() {
+        if (leveListBuilder_ == null) {
+          leveList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          leveListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public Builder removeLeveList(int index) {
+        if (leveListBuilder_ == null) {
+          ensureLeveListIsMutable();
+          leveList_.remove(index);
+          onChanged();
+        } else {
+          leveListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.GrowLevel.Builder getLeveListBuilder(
+          int index) {
+        return getLeveListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.GrowLevelOrBuilder getLeveListOrBuilder(
+          int index) {
+        if (leveListBuilder_ == null) {
+          return leveList_.get(index);  } else {
+          return leveListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Activity.GrowLevelOrBuilder> 
+           getLeveListOrBuilderList() {
+        if (leveListBuilder_ != null) {
+          return leveListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(leveList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.GrowLevel.Builder addLeveListBuilder() {
+        return getLeveListFieldBuilder().addBuilder(
+            qxmobile.protobuf.Activity.GrowLevel.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.GrowLevel.Builder addLeveListBuilder(
+          int index) {
+        return getLeveListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Activity.GrowLevel.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *等级奖励列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Activity.GrowLevel.Builder> 
+           getLeveListBuilderList() {
+        return getLeveListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Activity.GrowLevel, qxmobile.protobuf.Activity.GrowLevel.Builder, qxmobile.protobuf.Activity.GrowLevelOrBuilder> 
+          getLeveListFieldBuilder() {
+        if (leveListBuilder_ == null) {
+          leveListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Activity.GrowLevel, qxmobile.protobuf.Activity.GrowLevel.Builder, qxmobile.protobuf.Activity.GrowLevelOrBuilder>(
+                  leveList_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          leveList_ = null;
+        }
+        return leveListBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ActivitLevelGiftResp)
+    }
+
+    static {
+      defaultInstance = new ActivitLevelGiftResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ActivitLevelGiftResp)
+  }
+
+  public interface ActivityAchievementRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .qxmobile.protobuf.GrowLevel leveList = 1;
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *成就奖励列表
+     * </pre>
+     */
+    java.util.List<qxmobile.protobuf.Activity.GrowLevel> 
+        getLeveListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *成就奖励列表
+     * </pre>
+     */
+    qxmobile.protobuf.Activity.GrowLevel getLeveList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *成就奖励列表
+     * </pre>
+     */
+    int getLeveListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *成就奖励列表
+     * </pre>
+     */
+    java.util.List<? extends qxmobile.protobuf.Activity.GrowLevelOrBuilder> 
+        getLeveListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *成就奖励列表
+     * </pre>
+     */
+    qxmobile.protobuf.Activity.GrowLevelOrBuilder getLeveListOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ActivityAchievementResp}
+   *
+   * <pre>
+   *成就
+   * </pre>
+   */
+  public static final class ActivityAchievementResp extends
+      com.google.protobuf.GeneratedMessage
+      implements ActivityAchievementRespOrBuilder {
+    // Use ActivityAchievementResp.newBuilder() to construct.
+    private ActivityAchievementResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ActivityAchievementResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ActivityAchievementResp defaultInstance;
+    public static ActivityAchievementResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ActivityAchievementResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ActivityAchievementResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                leveList_ = new java.util.ArrayList<qxmobile.protobuf.Activity.GrowLevel>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              leveList_.add(input.readMessage(qxmobile.protobuf.Activity.GrowLevel.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          leveList_ = java.util.Collections.unmodifiableList(leveList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityAchievementResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityAchievementResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Activity.ActivityAchievementResp.class, qxmobile.protobuf.Activity.ActivityAchievementResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ActivityAchievementResp> PARSER =
+        new com.google.protobuf.AbstractParser<ActivityAchievementResp>() {
+      public ActivityAchievementResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ActivityAchievementResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ActivityAchievementResp> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .qxmobile.protobuf.GrowLevel leveList = 1;
+    public static final int LEVELIST_FIELD_NUMBER = 1;
+    private java.util.List<qxmobile.protobuf.Activity.GrowLevel> leveList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *成就奖励列表
+     * </pre>
+     */
+    public java.util.List<qxmobile.protobuf.Activity.GrowLevel> getLeveListList() {
+      return leveList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *成就奖励列表
+     * </pre>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Activity.GrowLevelOrBuilder> 
+        getLeveListOrBuilderList() {
+      return leveList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *成就奖励列表
+     * </pre>
+     */
+    public int getLeveListCount() {
+      return leveList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *成就奖励列表
+     * </pre>
+     */
+    public qxmobile.protobuf.Activity.GrowLevel getLeveList(int index) {
+      return leveList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+     *
+     * <pre>
+     *成就奖励列表
+     * </pre>
+     */
+    public qxmobile.protobuf.Activity.GrowLevelOrBuilder getLeveListOrBuilder(
+        int index) {
+      return leveList_.get(index);
+    }
+
+    private void initFields() {
+      leveList_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getLeveListCount(); i++) {
+        if (!getLeveList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < leveList_.size(); i++) {
+        output.writeMessage(1, leveList_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < leveList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, leveList_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Activity.ActivityAchievementResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityAchievementResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityAchievementResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityAchievementResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityAchievementResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityAchievementResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityAchievementResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityAchievementResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityAchievementResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityAchievementResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Activity.ActivityAchievementResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ActivityAchievementResp}
+     *
+     * <pre>
+     *成就
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Activity.ActivityAchievementRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityAchievementResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityAchievementResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Activity.ActivityAchievementResp.class, qxmobile.protobuf.Activity.ActivityAchievementResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Activity.ActivityAchievementResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getLeveListFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (leveListBuilder_ == null) {
+          leveList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          leveListBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityAchievementResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityAchievementResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Activity.ActivityAchievementResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Activity.ActivityAchievementResp build() {
+        qxmobile.protobuf.Activity.ActivityAchievementResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityAchievementResp buildPartial() {
+        qxmobile.protobuf.Activity.ActivityAchievementResp result = new qxmobile.protobuf.Activity.ActivityAchievementResp(this);
+        int from_bitField0_ = bitField0_;
+        if (leveListBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            leveList_ = java.util.Collections.unmodifiableList(leveList_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.leveList_ = leveList_;
+        } else {
+          result.leveList_ = leveListBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Activity.ActivityAchievementResp) {
+          return mergeFrom((qxmobile.protobuf.Activity.ActivityAchievementResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Activity.ActivityAchievementResp other) {
+        if (other == qxmobile.protobuf.Activity.ActivityAchievementResp.getDefaultInstance()) return this;
+        if (leveListBuilder_ == null) {
+          if (!other.leveList_.isEmpty()) {
+            if (leveList_.isEmpty()) {
+              leveList_ = other.leveList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureLeveListIsMutable();
+              leveList_.addAll(other.leveList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.leveList_.isEmpty()) {
+            if (leveListBuilder_.isEmpty()) {
+              leveListBuilder_.dispose();
+              leveListBuilder_ = null;
+              leveList_ = other.leveList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              leveListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getLeveListFieldBuilder() : null;
+            } else {
+              leveListBuilder_.addAllMessages(other.leveList_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getLeveListCount(); i++) {
+          if (!getLeveList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Activity.ActivityAchievementResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Activity.ActivityAchievementResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .qxmobile.protobuf.GrowLevel leveList = 1;
+      private java.util.List<qxmobile.protobuf.Activity.GrowLevel> leveList_ =
+        java.util.Collections.emptyList();
+      private void ensureLeveListIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          leveList_ = new java.util.ArrayList<qxmobile.protobuf.Activity.GrowLevel>(leveList_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Activity.GrowLevel, qxmobile.protobuf.Activity.GrowLevel.Builder, qxmobile.protobuf.Activity.GrowLevelOrBuilder> leveListBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Activity.GrowLevel> getLeveListList() {
+        if (leveListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(leveList_);
+        } else {
+          return leveListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public int getLeveListCount() {
+        if (leveListBuilder_ == null) {
+          return leveList_.size();
+        } else {
+          return leveListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.GrowLevel getLeveList(int index) {
+        if (leveListBuilder_ == null) {
+          return leveList_.get(index);
+        } else {
+          return leveListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public Builder setLeveList(
+          int index, qxmobile.protobuf.Activity.GrowLevel value) {
+        if (leveListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLeveListIsMutable();
+          leveList_.set(index, value);
+          onChanged();
+        } else {
+          leveListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public Builder setLeveList(
+          int index, qxmobile.protobuf.Activity.GrowLevel.Builder builderForValue) {
+        if (leveListBuilder_ == null) {
+          ensureLeveListIsMutable();
+          leveList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          leveListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public Builder addLeveList(qxmobile.protobuf.Activity.GrowLevel value) {
+        if (leveListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLeveListIsMutable();
+          leveList_.add(value);
+          onChanged();
+        } else {
+          leveListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public Builder addLeveList(
+          int index, qxmobile.protobuf.Activity.GrowLevel value) {
+        if (leveListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLeveListIsMutable();
+          leveList_.add(index, value);
+          onChanged();
+        } else {
+          leveListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public Builder addLeveList(
+          qxmobile.protobuf.Activity.GrowLevel.Builder builderForValue) {
+        if (leveListBuilder_ == null) {
+          ensureLeveListIsMutable();
+          leveList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          leveListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public Builder addLeveList(
+          int index, qxmobile.protobuf.Activity.GrowLevel.Builder builderForValue) {
+        if (leveListBuilder_ == null) {
+          ensureLeveListIsMutable();
+          leveList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          leveListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public Builder addAllLeveList(
+          java.lang.Iterable<? extends qxmobile.protobuf.Activity.GrowLevel> values) {
+        if (leveListBuilder_ == null) {
+          ensureLeveListIsMutable();
+          super.addAll(values, leveList_);
+          onChanged();
+        } else {
+          leveListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public Builder clearLeveList() {
+        if (leveListBuilder_ == null) {
+          leveList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          leveListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public Builder removeLeveList(int index) {
+        if (leveListBuilder_ == null) {
+          ensureLeveListIsMutable();
+          leveList_.remove(index);
+          onChanged();
+        } else {
+          leveListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.GrowLevel.Builder getLeveListBuilder(
+          int index) {
+        return getLeveListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.GrowLevelOrBuilder getLeveListOrBuilder(
+          int index) {
+        if (leveListBuilder_ == null) {
+          return leveList_.get(index);  } else {
+          return leveListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Activity.GrowLevelOrBuilder> 
+           getLeveListOrBuilderList() {
+        if (leveListBuilder_ != null) {
+          return leveListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(leveList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.GrowLevel.Builder addLeveListBuilder() {
+        return getLeveListFieldBuilder().addBuilder(
+            qxmobile.protobuf.Activity.GrowLevel.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public qxmobile.protobuf.Activity.GrowLevel.Builder addLeveListBuilder(
+          int index) {
+        return getLeveListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Activity.GrowLevel.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.GrowLevel leveList = 1;</code>
+       *
+       * <pre>
+       *成就奖励列表
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Activity.GrowLevel.Builder> 
+           getLeveListBuilderList() {
+        return getLeveListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Activity.GrowLevel, qxmobile.protobuf.Activity.GrowLevel.Builder, qxmobile.protobuf.Activity.GrowLevelOrBuilder> 
+          getLeveListFieldBuilder() {
+        if (leveListBuilder_ == null) {
+          leveListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Activity.GrowLevel, qxmobile.protobuf.Activity.GrowLevel.Builder, qxmobile.protobuf.Activity.GrowLevelOrBuilder>(
+                  leveList_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          leveList_ = null;
+        }
+        return leveListBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ActivityAchievementResp)
+    }
+
+    static {
+      defaultInstance = new ActivityAchievementResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ActivityAchievementResp)
+  }
+
+  public interface ActivityFunctionRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated int32 functionList = 1;
+    /**
+     * <code>repeated int32 functionList = 1;</code>
+     *
+     * <pre>
+     *功能列表0首冲1月卡2成长基金3体力4成长奖励5成就奖励
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getFunctionListList();
+    /**
+     * <code>repeated int32 functionList = 1;</code>
+     *
+     * <pre>
+     *功能列表0首冲1月卡2成长基金3体力4成长奖励5成就奖励
+     * </pre>
+     */
+    int getFunctionListCount();
+    /**
+     * <code>repeated int32 functionList = 1;</code>
+     *
+     * <pre>
+     *功能列表0首冲1月卡2成长基金3体力4成长奖励5成就奖励
+     * </pre>
+     */
+    int getFunctionList(int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ActivityFunctionResp}
+   *
+   * <pre>
+   *功能列表
+   * </pre>
+   */
+  public static final class ActivityFunctionResp extends
+      com.google.protobuf.GeneratedMessage
+      implements ActivityFunctionRespOrBuilder {
+    // Use ActivityFunctionResp.newBuilder() to construct.
+    private ActivityFunctionResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ActivityFunctionResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ActivityFunctionResp defaultInstance;
+    public static ActivityFunctionResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ActivityFunctionResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ActivityFunctionResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                functionList_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              functionList_.add(input.readInt32());
+              break;
+            }
+            case 10: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
+                functionList_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                functionList_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          functionList_ = java.util.Collections.unmodifiableList(functionList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityFunctionResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityFunctionResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Activity.ActivityFunctionResp.class, qxmobile.protobuf.Activity.ActivityFunctionResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ActivityFunctionResp> PARSER =
+        new com.google.protobuf.AbstractParser<ActivityFunctionResp>() {
+      public ActivityFunctionResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ActivityFunctionResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ActivityFunctionResp> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated int32 functionList = 1;
+    public static final int FUNCTIONLIST_FIELD_NUMBER = 1;
+    private java.util.List<java.lang.Integer> functionList_;
+    /**
+     * <code>repeated int32 functionList = 1;</code>
+     *
+     * <pre>
+     *功能列表0首冲1月卡2成长基金3体力4成长奖励5成就奖励
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getFunctionListList() {
+      return functionList_;
+    }
+    /**
+     * <code>repeated int32 functionList = 1;</code>
+     *
+     * <pre>
+     *功能列表0首冲1月卡2成长基金3体力4成长奖励5成就奖励
+     * </pre>
+     */
+    public int getFunctionListCount() {
+      return functionList_.size();
+    }
+    /**
+     * <code>repeated int32 functionList = 1;</code>
+     *
+     * <pre>
+     *功能列表0首冲1月卡2成长基金3体力4成长奖励5成就奖励
+     * </pre>
+     */
+    public int getFunctionList(int index) {
+      return functionList_.get(index);
+    }
+
+    private void initFields() {
+      functionList_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < functionList_.size(); i++) {
+        output.writeInt32(1, functionList_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < functionList_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(functionList_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getFunctionListList().size();
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Activity.ActivityFunctionResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityFunctionResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityFunctionResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Activity.ActivityFunctionResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityFunctionResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityFunctionResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityFunctionResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityFunctionResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Activity.ActivityFunctionResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Activity.ActivityFunctionResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Activity.ActivityFunctionResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ActivityFunctionResp}
+     *
+     * <pre>
+     *功能列表
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Activity.ActivityFunctionRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityFunctionResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityFunctionResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Activity.ActivityFunctionResp.class, qxmobile.protobuf.Activity.ActivityFunctionResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Activity.ActivityFunctionResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        functionList_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Activity.internal_static_qxmobile_protobuf_ActivityFunctionResp_descriptor;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityFunctionResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.Activity.ActivityFunctionResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Activity.ActivityFunctionResp build() {
+        qxmobile.protobuf.Activity.ActivityFunctionResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Activity.ActivityFunctionResp buildPartial() {
+        qxmobile.protobuf.Activity.ActivityFunctionResp result = new qxmobile.protobuf.Activity.ActivityFunctionResp(this);
+        int from_bitField0_ = bitField0_;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          functionList_ = java.util.Collections.unmodifiableList(functionList_);
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.functionList_ = functionList_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Activity.ActivityFunctionResp) {
+          return mergeFrom((qxmobile.protobuf.Activity.ActivityFunctionResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Activity.ActivityFunctionResp other) {
+        if (other == qxmobile.protobuf.Activity.ActivityFunctionResp.getDefaultInstance()) return this;
+        if (!other.functionList_.isEmpty()) {
+          if (functionList_.isEmpty()) {
+            functionList_ = other.functionList_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureFunctionListIsMutable();
+            functionList_.addAll(other.functionList_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Activity.ActivityFunctionResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Activity.ActivityFunctionResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated int32 functionList = 1;
+      private java.util.List<java.lang.Integer> functionList_ = java.util.Collections.emptyList();
+      private void ensureFunctionListIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          functionList_ = new java.util.ArrayList<java.lang.Integer>(functionList_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      /**
+       * <code>repeated int32 functionList = 1;</code>
+       *
+       * <pre>
+       *功能列表0首冲1月卡2成长基金3体力4成长奖励5成就奖励
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getFunctionListList() {
+        return java.util.Collections.unmodifiableList(functionList_);
+      }
+      /**
+       * <code>repeated int32 functionList = 1;</code>
+       *
+       * <pre>
+       *功能列表0首冲1月卡2成长基金3体力4成长奖励5成就奖励
+       * </pre>
+       */
+      public int getFunctionListCount() {
+        return functionList_.size();
+      }
+      /**
+       * <code>repeated int32 functionList = 1;</code>
+       *
+       * <pre>
+       *功能列表0首冲1月卡2成长基金3体力4成长奖励5成就奖励
+       * </pre>
+       */
+      public int getFunctionList(int index) {
+        return functionList_.get(index);
+      }
+      /**
+       * <code>repeated int32 functionList = 1;</code>
+       *
+       * <pre>
+       *功能列表0首冲1月卡2成长基金3体力4成长奖励5成就奖励
+       * </pre>
+       */
+      public Builder setFunctionList(
+          int index, int value) {
+        ensureFunctionListIsMutable();
+        functionList_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 functionList = 1;</code>
+       *
+       * <pre>
+       *功能列表0首冲1月卡2成长基金3体力4成长奖励5成就奖励
+       * </pre>
+       */
+      public Builder addFunctionList(int value) {
+        ensureFunctionListIsMutable();
+        functionList_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 functionList = 1;</code>
+       *
+       * <pre>
+       *功能列表0首冲1月卡2成长基金3体力4成长奖励5成就奖励
+       * </pre>
+       */
+      public Builder addAllFunctionList(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureFunctionListIsMutable();
+        super.addAll(values, functionList_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 functionList = 1;</code>
+       *
+       * <pre>
+       *功能列表0首冲1月卡2成长基金3体力4成长奖励5成就奖励
+       * </pre>
+       */
+      public Builder clearFunctionList() {
+        functionList_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ActivityFunctionResp)
+    }
+
+    static {
+      defaultInstance = new ActivityFunctionResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ActivityFunctionResp)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_GetActivityListResp_descriptor;
   private static
@@ -1789,6 +15571,86 @@ public final class Activity {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_ActivityInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ActivityGetRewardResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ActivityGetRewardResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ActivityCardResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ActivityCardResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_MonthCardInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_MonthCardInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ActivityCardGetRewardReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ActivityCardGetRewardReq_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ActivitySignInResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ActivitySignInResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_SignInDay_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_SignInDay_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ActivityNewGuieGiftResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ActivityNewGuieGiftResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ActivitySevenDaysGiftResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ActivitySevenDaysGiftResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ActivityGrowthFundResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ActivityGrowthFundResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_GrowLevel_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_GrowLevel_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ActivityGrowthFundRewardResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ActivityGrowthFundRewardResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ActivityGetStrengthResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ActivityGetStrengthResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_PeriodInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_PeriodInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ActivitLevelGiftResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ActivitLevelGiftResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ActivityAchievementResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ActivityAchievementResp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ActivityFunctionResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ActivityFunctionResp_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1798,12 +15660,45 @@ public final class Activity {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\016Activity.proto\022\021qxmobile.protobuf\"L\n\023G" +
-      "etActivityListResp\0225\n\014activityList\030\001 \003(\013" +
-      "2\037.qxmobile.protobuf.ActivityInfo\"J\n\014Act" +
-      "ivityInfo\022\n\n\002id\030\001 \002(\005\022\r\n\005state\030\002 \001(\005\022\014\n\004" +
-      "desc\030\003 \001(\t\022\021\n\tawardDesc\030\004 \001(\tB\nB\010Activit" +
-      "y"
+      "\n\016Activity.proto\022\021qxmobile.protobuf\032\rExp" +
+      "lore.proto\"L\n\023GetActivityListResp\0225\n\014act" +
+      "ivityList\030\001 \003(\0132\037.qxmobile.protobuf.Acti" +
+      "vityInfo\"J\n\014ActivityInfo\022\n\n\002id\030\001 \002(\005\022\r\n\005" +
+      "state\030\002 \001(\005\022\014\n\004desc\030\003 \001(\t\022\021\n\tawardDesc\030\004" +
+      " \001(\t\"\'\n\025ActivityGetRewardResp\022\016\n\006result\030" +
+      "\001 \002(\005\"G\n\020ActivityCardResp\0223\n\tmonthCard\030\001" +
+      " \003(\0132 .qxmobile.protobuf.MonthCardInfo\"L" +
+      "\n\rMonthCardInfo\022\016\n\006result\030\001 \002(\005\022\017\n\007giveN" +
+      "um\030\002 \002(\005\022\016\n\006rmDays\030\003 \001(\005\022\n\n\002cd\030\004 \001(\005\"(\n\030",
+      "ActivityCardGetRewardReq\022\014\n\004type\030\001 \002(\005\"E" +
+      "\n\022ActivitySignInResp\022/\n\tsiginList\030\001 \003(\0132" +
+      "\034.qxmobile.protobuf.SignInDay\"8\n\tSignInD" +
+      "ay\022\r\n\005index\030\001 \002(\005\022\016\n\006status\030\002 \002(\005\022\014\n\004dat" +
+      "e\030\003 \002(\003\"b\n\027ActivityNewGuieGiftResp\022\016\n\006re" +
+      "sult\030\001 \002(\005\022+\n\tawardList\030\002 \003(\0132\030.qxmobile" +
+      ".protobuf.Award\022\n\n\002cd\030\003 \001(\005\"\275\001\n\031Activity" +
+      "SevenDaysGiftResp\022\016\n\006result\030\001 \002(\005\022+\n\ttod" +
+      "ayList\030\002 \003(\0132\030.qxmobile.protobuf.Award\022*" +
+      "\n\010tomoList\030\003 \003(\0132\030.qxmobile.protobuf.Awa",
+      "rd\022+\n\tsevenList\030\004 \003(\0132\030.qxmobile.protobu" +
+      "f.Award\022\n\n\002cd\030\005 \001(\005\"\214\001\n\026ActivityGrowthFu" +
+      "ndResp\022\016\n\006result\030\001 \002(\005\022.\n\010leveList\030\002 \003(\013" +
+      "2\034.qxmobile.protobuf.GrowLevel\022\021\n\tvipLvN" +
+      "eed\030\003 \001(\005\022\017\n\007costNum\030\004 \001(\005\022\016\n\006getNum\030\005 \001" +
+      "(\005\"\212\001\n\tGrowLevel\022\n\n\002id\030\001 \002(\005\022\013\n\003des\030\002 \002(" +
+      "\t\022\022\n\nfunctionid\030\003 \002(\005\022+\n\tawardList\030\004 \003(\013" +
+      "2\030.qxmobile.protobuf.Award\022\017\n\007process\030\005 " +
+      "\001(\005\022\022\n\nmaxProcess\030\006 \001(\005\"-\n\034ActivityGrowt" +
+      "hFundRewardResp\022\r\n\005level\030\001 \002(\005\"L\n\027Activi",
+      "tyGetStrengthResp\0221\n\nperiodList\030\001 \003(\0132\035." +
+      "qxmobile.protobuf.PeriodInfo\"F\n\nPeriodIn" +
+      "fo\022\n\n\002id\030\001 \002(\005\022\014\n\004time\030\002 \002(\t\022\016\n\006number\030\003" +
+      " \002(\005\022\016\n\006status\030\004 \002(\005\"F\n\024ActivitLevelGift" +
+      "Resp\022.\n\010leveList\030\001 \003(\0132\034.qxmobile.protob" +
+      "uf.GrowLevel\"I\n\027ActivityAchievementResp\022" +
+      ".\n\010leveList\030\001 \003(\0132\034.qxmobile.protobuf.Gr" +
+      "owLevel\",\n\024ActivityFunctionResp\022\024\n\014funct" +
+      "ionList\030\001 \003(\005B\nB\010Activity"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1822,12 +15717,109 @@ public final class Activity {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ActivityInfo_descriptor,
               new java.lang.String[] { "Id", "State", "Desc", "AwardDesc", });
+          internal_static_qxmobile_protobuf_ActivityGetRewardResp_descriptor =
+            getDescriptor().getMessageTypes().get(2);
+          internal_static_qxmobile_protobuf_ActivityGetRewardResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ActivityGetRewardResp_descriptor,
+              new java.lang.String[] { "Result", });
+          internal_static_qxmobile_protobuf_ActivityCardResp_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_qxmobile_protobuf_ActivityCardResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ActivityCardResp_descriptor,
+              new java.lang.String[] { "MonthCard", });
+          internal_static_qxmobile_protobuf_MonthCardInfo_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_qxmobile_protobuf_MonthCardInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_MonthCardInfo_descriptor,
+              new java.lang.String[] { "Result", "GiveNum", "RmDays", "Cd", });
+          internal_static_qxmobile_protobuf_ActivityCardGetRewardReq_descriptor =
+            getDescriptor().getMessageTypes().get(5);
+          internal_static_qxmobile_protobuf_ActivityCardGetRewardReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ActivityCardGetRewardReq_descriptor,
+              new java.lang.String[] { "Type", });
+          internal_static_qxmobile_protobuf_ActivitySignInResp_descriptor =
+            getDescriptor().getMessageTypes().get(6);
+          internal_static_qxmobile_protobuf_ActivitySignInResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ActivitySignInResp_descriptor,
+              new java.lang.String[] { "SiginList", });
+          internal_static_qxmobile_protobuf_SignInDay_descriptor =
+            getDescriptor().getMessageTypes().get(7);
+          internal_static_qxmobile_protobuf_SignInDay_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_SignInDay_descriptor,
+              new java.lang.String[] { "Index", "Status", "Date", });
+          internal_static_qxmobile_protobuf_ActivityNewGuieGiftResp_descriptor =
+            getDescriptor().getMessageTypes().get(8);
+          internal_static_qxmobile_protobuf_ActivityNewGuieGiftResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ActivityNewGuieGiftResp_descriptor,
+              new java.lang.String[] { "Result", "AwardList", "Cd", });
+          internal_static_qxmobile_protobuf_ActivitySevenDaysGiftResp_descriptor =
+            getDescriptor().getMessageTypes().get(9);
+          internal_static_qxmobile_protobuf_ActivitySevenDaysGiftResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ActivitySevenDaysGiftResp_descriptor,
+              new java.lang.String[] { "Result", "TodayList", "TomoList", "SevenList", "Cd", });
+          internal_static_qxmobile_protobuf_ActivityGrowthFundResp_descriptor =
+            getDescriptor().getMessageTypes().get(10);
+          internal_static_qxmobile_protobuf_ActivityGrowthFundResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ActivityGrowthFundResp_descriptor,
+              new java.lang.String[] { "Result", "LeveList", "VipLvNeed", "CostNum", "GetNum", });
+          internal_static_qxmobile_protobuf_GrowLevel_descriptor =
+            getDescriptor().getMessageTypes().get(11);
+          internal_static_qxmobile_protobuf_GrowLevel_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_GrowLevel_descriptor,
+              new java.lang.String[] { "Id", "Des", "Functionid", "AwardList", "Process", "MaxProcess", });
+          internal_static_qxmobile_protobuf_ActivityGrowthFundRewardResp_descriptor =
+            getDescriptor().getMessageTypes().get(12);
+          internal_static_qxmobile_protobuf_ActivityGrowthFundRewardResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ActivityGrowthFundRewardResp_descriptor,
+              new java.lang.String[] { "Level", });
+          internal_static_qxmobile_protobuf_ActivityGetStrengthResp_descriptor =
+            getDescriptor().getMessageTypes().get(13);
+          internal_static_qxmobile_protobuf_ActivityGetStrengthResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ActivityGetStrengthResp_descriptor,
+              new java.lang.String[] { "PeriodList", });
+          internal_static_qxmobile_protobuf_PeriodInfo_descriptor =
+            getDescriptor().getMessageTypes().get(14);
+          internal_static_qxmobile_protobuf_PeriodInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_PeriodInfo_descriptor,
+              new java.lang.String[] { "Id", "Time", "Number", "Status", });
+          internal_static_qxmobile_protobuf_ActivitLevelGiftResp_descriptor =
+            getDescriptor().getMessageTypes().get(15);
+          internal_static_qxmobile_protobuf_ActivitLevelGiftResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ActivitLevelGiftResp_descriptor,
+              new java.lang.String[] { "LeveList", });
+          internal_static_qxmobile_protobuf_ActivityAchievementResp_descriptor =
+            getDescriptor().getMessageTypes().get(16);
+          internal_static_qxmobile_protobuf_ActivityAchievementResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ActivityAchievementResp_descriptor,
+              new java.lang.String[] { "LeveList", });
+          internal_static_qxmobile_protobuf_ActivityFunctionResp_descriptor =
+            getDescriptor().getMessageTypes().get(17);
+          internal_static_qxmobile_protobuf_ActivityFunctionResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ActivityFunctionResp_descriptor,
+              new java.lang.String[] { "FunctionList", });
           return null;
         }
       };
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          qxmobile.protobuf.Explore.getDescriptor(),
         }, assigner);
   }
 

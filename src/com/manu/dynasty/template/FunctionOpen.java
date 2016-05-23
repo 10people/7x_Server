@@ -16,6 +16,7 @@ public class FunctionOpen{
 	public int RenWuIDAward;
 	public int awardRenWuOrderIdx;
 	public int doneCond;
+	public int MenuID;
 }
 /**
  * <FunctionOpen id="2" key="SheZhi" desc="设置" ResName="l50" npcid="-1" 

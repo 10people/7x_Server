@@ -1,6 +1,7 @@
 package com.qx.activity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.Qiandao.GetQiandaoResp;
+import qxmobile.protobuf.Qiandao.GetVipDoubleReq;
 import qxmobile.protobuf.Qiandao.GetVipPresentReq;
 import qxmobile.protobuf.Qiandao.GetVipPresentResp;
 import qxmobile.protobuf.Qiandao.QiandaoAward;
@@ -34,6 +36,7 @@ import com.qx.event.ED;
 import com.qx.event.EventMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.junzhu.JzKeji;
 import com.qx.persistent.HibernateUtil;
 
 /**
@@ -46,6 +49,12 @@ public class QiandaoMgr {
 	public static final short SUCCESS = 0;// 签到成功并领取一份奖励
 	public static final short ERROR_EXIST = 101;// 今日已签过
 	public static final short ERROR_NULL = 102;// 奖励不存在
+	/**0-不能领取*/
+	public static final short GET_DOUBLE_STATUS_0 = 0;
+	/**1-可以领取*/
+	public static final short GET_DOUBLE_STATUS_1 = 1;
+	/**2，已经领取*/
+	public static final short GET_DOUBLE_STATUS_2 = 2;
 	// public static final short STATE_Y = 1;// 已签过
 	// public static final short STATE_N = 0;// 没签过
 	public static Map<Integer, List<QianDao>> awardMap = new HashMap<Integer, List<QianDao>>();
@@ -149,7 +158,10 @@ public class QiandaoMgr {
 				leijiQiandao = qiandaoInfo.getLeijiQiandao();
 			}
 			response.setCnt(leijiQiandao);
+			String[] qiandaoDayArr = qiandaoInfo ==null || qiandaoInfo.qiandaoDate == null ? null : qiandaoInfo.qiandaoDate.split("#");
+			String[] buqianDateArr = qiandaoInfo ==null || qiandaoInfo.getDoubleDate == null ? null : qiandaoInfo.getDoubleDate.split("#");
 			// 获取所有的奖励
+			int index = 0;
 			for (QianDao qianDao : awardList) {
 				QiandaoAward.Builder award = QiandaoAward.newBuilder();
 				award.setAwardId(qianDao.getAwardId());
@@ -176,6 +188,26 @@ public class QiandaoMgr {
 						award.setState(0);
 					}
 				}
+				//计算是否领取双倍
+				if(qianDao.getVipDouble() > 0){ //有双倍奖励
+					if(junZhu.vipLevel < qianDao.getVipDouble()){ //vip等级不足一定没有双倍奖励
+						award.setIsDouble(GET_DOUBLE_STATUS_0);
+					}else if(qiandaoDayArr != null && qiandaoDayArr.length > index){
+						if(buqianDateArr != null && buqianDateArr.length > index){
+							String[] dateArr1 = qiandaoDayArr[index].split(":"); 
+							if(isGetDoubleByDate(qiandaoInfo,Integer.parseInt(dateArr1[0]),Integer.parseInt(dateArr1[1]))){
+								award.setIsDouble(GET_DOUBLE_STATUS_2); //已经领取
+							}else{
+								award.setIsDouble(GET_DOUBLE_STATUS_1); //可以领取
+							}
+						}else{
+							award.setIsDouble(GET_DOUBLE_STATUS_1);
+						}
+					}else{
+						award.setIsDouble(GET_DOUBLE_STATUS_0);
+					}
+				}
+				index++;
 				response.addAward(award);
 			}
 			response.setIcon(this.qianDaoMonthMap.get(getMonth(tmpDate)).getIcon());
@@ -291,13 +323,13 @@ public class QiandaoMgr {
 				}
 				if (null == qiandaoInfo.getGetDoubleDate()
 						|| "".equals(qiandaoInfo.getGetDoubleDate())) {
-					qiandaoInfo.setGetDoubleDate(qianDao.getMonth() + ":"
-							+ qianDao.getDay());
+					qiandaoInfo.setGetDoubleDate(getMonth(tmpDate) + ":"
+							+ getDate(tmpDate));
 				} else {
 					qiandaoInfo
 							.setGetDoubleDate(qiandaoInfo.getGetDoubleDate()
-									+ "#" + qianDao.getMonth() + ":"
-									+ qianDao.getDay());
+									+ "#" + getMonth(tmpDate) + ":"
+									+ getDate(tmpDate));
 				}
 				HibernateUtil.save(qiandaoInfo);
 			}
@@ -332,6 +364,101 @@ public class QiandaoMgr {
 			// 签到任务
 			EventMgr.addEvent(ED.qiandao, new Object[]{junZhu.id});
 		}
+	}
+	
+	/**
+	 * 补签VIP双倍
+	 * @param id
+	 * @param session
+	 * @param builder
+	 *  2016-5-18 新增 可以领取之前签到天的双倍奖励，不只是当天(补签VIP保存的日期改为真实日期，签到方法有修改qiandao)
+	 */
+	public void getVipDouble(int id,IoSession session,Builder builder){
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if (jz == null) {
+			sendError(session, id, "未发现君主");
+			logger.error("cmd:{},未发现君主", id);
+			return;
+		}
+		Date date = null;
+		if (DATE_DEBUG) {
+			date = debugDate;
+		} else {
+			date = new Date();
+		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		if(calendar.get(Calendar.HOUR_OF_DAY)<RESET_TIME){
+			calendar.add(Calendar.DATE,-1);
+		}
+		GetVipDoubleReq.Builder req = (GetVipDoubleReq.Builder)builder;
+		int index = req.getId();
+		List<QianDao> awardList = awardMap.get(getMonth(calendar.getTime()));
+		QiandaoResp.Builder resp = QiandaoResp.newBuilder();
+		if (null == awardList || awardList.get(index) == null) {
+			resp.setResult(ERROR_NULL);
+			writeByProtoMsg(session, PD.S_QIANDAO_RESP,resp);
+			return;
+		}
+		QianDao qianDao = awardList.get(index);
+		QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,jz.id);
+		if (null != qiandaoInfo) {
+			// 进入到了第二个月
+			if (isNextMonth(qiandaoInfo.getPreQiandao(), date)) {
+				qiandaoInfo.setLeijiQiandao(0);// 累计天数归0
+				qiandaoInfo.setQiandaoDate(""); // 签到日期清空
+				qiandaoInfo.setGetDoubleDate("");// 领取双倍奖励日期清空
+				HibernateUtil.save(qiandaoInfo);
+			}
+		}
+		String[] qiandaoDayArr = qiandaoInfo.qiandaoDate == null ? null : qiandaoInfo.qiandaoDate.split("#");
+		//计算是否领取双倍
+		int result = 0; //成功
+		if(qianDao.getVipDouble() > 0){ //有双倍奖励
+			if(jz.vipLevel < qianDao.getVipDouble()){ //VIP等级不足一定没有双倍奖励
+				result = 1;
+			}else if(qiandaoDayArr != null && qiandaoDayArr.length > index){
+				String[] dateArr1 = qiandaoDayArr[index].split(":"); 
+				if(isGetDoubleByDate(qiandaoInfo,Integer.parseInt(dateArr1[0]),Integer.parseInt(dateArr1[1]))){
+					result = 2;//已领取
+				}
+			}else{
+				result = 3;//先签到
+			}
+		}else{
+			result = 4;//没有双倍奖励
+		}
+		resp.setResult(result);
+		resp.setVipCount(1);
+		if(result == 0){ //领双倍
+			String[] dayArr = qiandaoDayArr[index].split(":");
+			//更新数据库
+			if(qiandaoInfo.getGetDoubleDate() == null || "".equals(qiandaoInfo.getDoubleDate)){
+				qiandaoInfo.setGetDoubleDate(dayArr[0] + ":"+ dayArr[1]);
+			}else{
+				qiandaoInfo.setGetDoubleDate(qiandaoInfo.getGetDoubleDate()+ "#" + dayArr[0] + ":"+ dayArr[1]);
+			}
+			HibernateUtil.update(qiandaoInfo);
+			QiandaoAward.Builder award = QiandaoAward.newBuilder();
+			//奖励返回
+			award.setId(index);
+			award.setMonth(Integer.parseInt(dayArr[0]));
+			award.setDay(Integer.parseInt(dayArr[1]));
+			award.setAwardType(awardList.get(index).getAwardType());
+			award.setAwardNum(awardList.get(index).getAwardNum());
+			award.setAwardId(awardList.get(index).getAwardId());
+			award.setBottomColor(awardList.get(index).getBottomColor());
+			// 添加奖励到账户
+			AwardTemp tmp = new AwardTemp();
+			tmp.setItemType(award.getAwardType());
+			tmp.setItemId(award.getAwardId());
+			tmp.setItemNum(award.getAwardNum());
+			resp.addAward(award);// 添加到消息体
+			AwardMgr.inst.giveReward(session, tmp, jz);// 添加到账户
+			logger.info("{}领取到奖励 type {}, itemId {}, itemNum {}",jz.id, award.getAwardType(), award.getAwardId(),award.getAwardNum());
+			logger.info("{}补签VIP双倍成功，获取到{}份{}奖励", jz.id, 1,award.getAwardId());
+		}
+		writeByProtoMsg(session,PD.S_GET_QIANDAO_DOUBLE_RESP, resp);
 	}
 
 	/**

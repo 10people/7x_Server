@@ -145,7 +145,7 @@
 			<p>领取首冲奖励成功</p>
 			<%
 			break;
-		case ShouchongMgr.FAILED:
+		case ShouchongMgr.FAILED_1:
 			%>
 			<p>领取首冲奖励失败</p>
 			<%

@@ -1,3 +1,5 @@
+<%@page import="com.manu.dynasty.util.DateUtils"%>
+<%@page import="com.qx.junzhu.ChenghaoMgr"%>
 <%@page import="com.manu.dynasty.template.Chenghao"%>
 <%@page import="java.util.List"%>
 <%@page import="com.qx.junzhu.ChengHaoBean"%>
@@ -64,13 +66,18 @@ String act = request.getParameter("act");
 if("add".equals(act)){
 	String chIdStr = request.getParameter("chId");
 	if(chIdStr != null){
+		List<Chenghao> confList = TempletService.listAll(Chenghao.class.getSimpleName());
+		Chenghao cc = null;
+		for(Chenghao conf : confList){
+			if((conf.id+"").equals(chIdStr)){
+				cc = conf;
+				break;
+			}
+		}
 		ChengHaoBean bean = HibernateUtil.find(ChengHaoBean.class, "where jzId="+idStr+" and tid="+chIdStr);
-		if(bean == null){
-			bean = new ChengHaoBean();
-			bean.jzId = Long.parseLong(idStr);
-			bean.tid = Integer.parseInt(chIdStr);
-			bean.state='G';
-			HibernateUtil.insert(bean);
+		if(bean == null && cc != null){
+			long jzId = Long.parseLong(idStr);
+			ChenghaoMgr.inst.add(jzId, cc);
 			out("添加成功");
 		}
 	}
@@ -90,12 +97,31 @@ List<ChengHaoBean> list = HibernateUtil.list(ChengHaoBean.class, "where jzId="+i
 out("数量:"+list.size());br();
 out("状态说明:G 已获得；U使用中");br();
 tableStart();
-ths("dbId,模板id,状态");
+ths("dbId,模板id,状态,失效时间");
+
 for(ChengHaoBean bean : list){
+	String dbId = request.getParameter("dbId");
+	if("modExpire".equals(act) && String.valueOf(bean.dbId).equals(dbId)){
+		String v = request.getParameter("v");
+		bean.expireTime = DateUtils.text2Datetime(v);
+		HibernateUtil.update(bean);
+	}
 	trS();
 	td(bean.dbId);
 	td(bean.tid);
 	td(bean.state);
+	String t = DateUtils.datetime2Text(bean.expireTime);
+	tdS();
+	%>
+	<form>
+	<input type='text' name='v' value='<%=t %>'/>
+	<input type='hidden' value='<%=bean.dbId %>' name='dbId'/>
+	<input type='hidden' value='modExpire' name='act'/>
+	<input type='hidden' value='<%=idStr%>' name='jzId'/>
+	<input type="submit" value="修改"/>
+	</form>
+	<%
+	tdE();
 	trE();
 }
 tableEnd();
@@ -103,10 +129,10 @@ tableEnd();
 br();
 List<Chenghao> confList = TempletService.listAll(Chenghao.class.getSimpleName());
 tableStart();
-ths("id,name,需完成关卡");
+ths("id,name,价格");
 for(Chenghao ch : confList){
 	trS();
-	td(ch.id);td(ch.name); td(ch.condition);
+	td(ch.id);td(ch.name); td(ch.price);
 	trE();
 }
 tableEnd();

@@ -13,21 +13,17 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.FuWen.FuwenLanwei;
-import qxmobile.protobuf.FuWen.FuwenResp;
-import qxmobile.protobuf.FuWen.JunzhuAttr;
-import qxmobile.protobuf.FuWen.OperateFuwenReq;
-import qxmobile.protobuf.FuWen.QueryFuwenResp;
-
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.Fuwen;
-import com.manu.dynasty.template.FuwenJiacheng;
+import com.manu.dynasty.template.FuwenDuihuan;
 import com.manu.dynasty.template.FuwenOpen;
+import com.manu.dynasty.template.FuwenTab;
 import com.manu.network.PD;
 import com.manu.network.SessionManager;
 import com.qx.account.FunctionOpenMgr;
+import com.qx.award.AwardMgr;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
 import com.qx.bag.BagMgr;
@@ -41,17 +37,39 @@ import com.qx.persistent.HibernateUtil;
 import com.qx.pvp.PvpMgr;
 import com.qx.timeworker.FunctionID;
 
+import qxmobile.protobuf.FuWen.FuwenDuiHuan;
+import qxmobile.protobuf.FuWen.FuwenDuiHuanResp;
+import qxmobile.protobuf.FuWen.FuwenEquipAll;
+import qxmobile.protobuf.FuWen.FuwenEquipAllResp;
+import qxmobile.protobuf.FuWen.FuwenInBag;
+import qxmobile.protobuf.FuWen.FuwenInBagResp;
+import qxmobile.protobuf.FuWen.FuwenLanwei;
+import qxmobile.protobuf.FuWen.FuwenResp;
+import qxmobile.protobuf.FuWen.FuwenRongHeReq;
+import qxmobile.protobuf.FuWen.FuwenRongHeResp;
+import qxmobile.protobuf.FuWen.FuwenUnloadAll;
+import qxmobile.protobuf.FuWen.FuwenUnloadAllResp;
+import qxmobile.protobuf.FuWen.JunzhuAttr;
+import qxmobile.protobuf.FuWen.OperateFuwenReq;
+import qxmobile.protobuf.FuWen.QueryFuwen;
+import qxmobile.protobuf.FuWen.QueryFuwenResp;
+
 public class FuwenMgr extends EventProc {
 	public static FuwenMgr inst;
 	public Logger logger = LoggerFactory.getLogger(FuwenMgr.class);
-	public Map<Integer, Fuwen> fuwenMap = new HashMap<Integer, Fuwen>();
-	public Map<Integer, FuwenOpen> fuwenOpenMap = new HashMap<Integer, FuwenOpen>();
-	public Map<Integer, FuwenJiacheng> fuwenJiachengMap = new HashMap<Integer, FuwenJiacheng>();
-	public Map<Integer, List<FuwenOpen>> fuwenSuitMap = new HashMap<Integer, List<FuwenOpen>>();
-	public static int COMBINE_NUM = 4;// 4个符石合成一个高级符石
-	public static String CACHE_FUWEN_LANWEI = "fuwen_position_";// 符石栏位缓存
-	public static String CACHE_FUWEN_LOCK = "fuwen_lock_";// 符石锁定缓存
-	public static int MaxFuwenLevel=11;//2016年3月25日 加入符文最高等级
+	public Map<Integer, Fuwen> fuwenMap;
+	public Map<Integer, FuwenOpen> fuwenOpenMap;
+	
+	/** 符文镶嵌孔，<tabId, FuwenOpen> **/
+	public Map<Integer, List<FuwenOpen>> fuwenOpenMapByTab;
+	/*public Map<Integer, FuwenJiacheng> fuwenJiachengMap;
+	public Map<Integer, List<FuwenOpen>> fuwenSuitMap;*/
+	public Map<Integer, FuwenTab> fuwenTabMap;
+	public Map<Integer, FuwenDuihuan> fuwenDuihuanMap;
+	public static int COMBINE_NUM = 4;// 4个符文合成一个高级符文
+	public static String CACHE_FUWEN_LANWEI = "fuwen_position_";// 符文栏位缓存
+	public static String CACHE_FUWEN_LOCK = "fuwen_lock_";// 符文锁定缓存
+	public static int MaxFuwenLevel = 9;
 	public Redis redis = Redis.getInstance();// Redis
 
 	public FuwenMgr() {
@@ -60,40 +78,64 @@ public class FuwenMgr extends EventProc {
 	}
 
 	public void initData() {
-		List<Fuwen> fuwenList = TempletService.listAll(Fuwen.class
-				.getSimpleName());
-		List<FuwenOpen> fuwenOpenList = TempletService.listAll(FuwenOpen.class
-				.getSimpleName());
-		List<FuwenJiacheng> fuwenJiachengList = TempletService
-				.listAll(FuwenJiacheng.class.getSimpleName());
-		Map<Integer, Fuwen> fuwenMap = new HashMap<Integer, Fuwen>();
-		Map<Integer, FuwenOpen> fuwenOpenMap = new HashMap<Integer, FuwenOpen>();
-		Map<Integer, FuwenJiacheng> fuwenJiachengMap = new HashMap<Integer, FuwenJiacheng>();
-		Map<Integer, List<FuwenOpen>> fuwenSuitMap = new HashMap<Integer, List<FuwenOpen>>();
+		List<Fuwen> fuwenList = TempletService.listAll(Fuwen.class .getSimpleName());
+		Map<Integer, Fuwen> fuwenMap = new HashMap<Integer, Fuwen>(fuwenList.size());
 		for (Fuwen fuwen : fuwenList) {
 			fuwenMap.put(fuwen.getFuwenID(), fuwen);
 		}
+		this.fuwenMap = fuwenMap;
+		
+		List<FuwenOpen> fuwenOpenList = TempletService.listAll(FuwenOpen.class.getSimpleName());
+		Map<Integer, FuwenOpen> fuwenOpenMap = new HashMap<Integer, FuwenOpen>(fuwenOpenList.size());
+		Map<Integer, List<FuwenOpen>> fuwenOpenMapByTab = new HashMap<Integer, List<FuwenOpen>>(fuwenOpenList.size());
+//		Map<Integer, List<FuwenOpen>> fuwenSuitMap = new HashMap<Integer, List<FuwenOpen>>();
 		for (FuwenOpen fuwenOpen : fuwenOpenList) {
-			fuwenOpenMap.put(fuwenOpen.getLanweiID(), fuwenOpen);
-			// suitMap
-			int suitIndex = fuwenOpen.getLanweiID() / 100;
+			fuwenOpenMap.put(fuwenOpen.id, fuwenOpen);
+			
+			/*int suitIndex = fuwenOpen.id / 100;
 			List<FuwenOpen> tmp = fuwenSuitMap.get(suitIndex);
 			tmp = (null == tmp) ? new ArrayList<FuwenOpen>() : tmp;
 			tmp.add(fuwenOpen);
-			fuwenSuitMap.put(suitIndex, tmp);
+			fuwenSuitMap.put(suitIndex, tmp);*/
+			
+			List<FuwenOpen> openList = fuwenOpenMapByTab.get(fuwenOpen.tab);
+			if(openList == null) {
+				openList = new ArrayList<>();
+				fuwenOpenMapByTab.put(fuwenOpen.tab, openList);
+			}
+			openList.add(fuwenOpen);
 		}
+		this.fuwenOpenMap = fuwenOpenMap;
+		this.fuwenOpenMapByTab = fuwenOpenMapByTab;
+//		this.fuwenSuitMap = fuwenSuitMap;
+		
+		/*List<FuwenJiacheng> fuwenJiachengList = TempletService .listAll(FuwenJiacheng.class.getSimpleName());
+		Map<Integer, FuwenJiacheng> fuwenJiachengMap = new HashMap<Integer, FuwenJiacheng>(fuwenJiachengList.size());
 		for (FuwenJiacheng fuwenJiacheng : fuwenJiachengList) {
 			fuwenJiachengMap.put(fuwenJiacheng.getLevelMin(), fuwenJiacheng);
 		}
-		this.fuwenMap = fuwenMap;
-		this.fuwenOpenMap = fuwenOpenMap;
-		this.fuwenJiachengMap = fuwenJiachengMap;
-		this.fuwenSuitMap = fuwenSuitMap;
+		this.fuwenJiachengMap = fuwenJiachengMap;*/
+
+		List<FuwenTab> fuwenTabList = TempletService .listAll(FuwenTab.class.getSimpleName());
+		Map<Integer, FuwenTab> fuwenTabMap = new HashMap<Integer, FuwenTab>(fuwenTabList.size());
+		for (FuwenTab fuwenTab : fuwenTabList) {
+			fuwenTabMap.put(fuwenTab.tab, fuwenTab);
+		}
+		this.fuwenTabMap = fuwenTabMap;
+
+		List<FuwenDuihuan> fuwenDuihuanList = TempletService .listAll(FuwenDuihuan.class.getSimpleName());
+		Map<Integer, FuwenDuihuan> fuwenDuihuanMap = new HashMap<Integer, FuwenDuihuan>(fuwenDuihuanList.size());
+		for (FuwenDuihuan duihuan : fuwenDuihuanList) {
+			fuwenDuihuanMap.put(duihuan.ID, duihuan);
+		}
+		this.fuwenDuihuanMap = fuwenDuihuanMap;
+		
+		
 	}
 
 	/**
 	 * @Title: queryFuwen
-	 * @Description: 查询符石
+	 * @Description: 查询符文
 	 * @param cmd
 	 * @param session
 	 * @param builder
@@ -103,17 +145,44 @@ public class FuwenMgr extends EventProc {
 	public void queryFuwen(int cmd, IoSession session, Builder builder) {
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
 		if (junZhu == null) {
-			logger.info("君主不存在");
+			logger.info("查询符文页签信息失败，君主不存在");
 			return;
 		}
+		QueryFuwen.Builder request = (qxmobile.protobuf.FuWen.QueryFuwen.Builder) builder;
+		int tab = request.getTab();
+		
 		QueryFuwenResp.Builder response = QueryFuwenResp.newBuilder();
-		queryFuwen(junZhu, response);
+		
+		//TODO 符文页签等级开放
+		
+		FuwenTab fuwenTab = fuwenTabMap.get(tab);
+		if(fuwenTab == null) {
+			logger.error("查询符文页签信息失败，找不到fuwentab为:{}的配置", tab);
+			return;
+		}
+		if(junZhu.level < fuwenTab.level) { 
+			logger.error("查询符文页签信息失败，君主:{} 等级:{} 不满足符文页面:{}的等级:{}条件",junZhu.id, junZhu.level,tab,fuwenTab.level);
+			response.setResult(1);
+			response.setTab(tab);
+			response.setZhanli(0);
+			session.write(response.build());
+			return;
+		}
+		
+		sendQueryFuwenResp(session, junZhu, tab);
+	}
+
+	public void sendQueryFuwenResp(IoSession session, JunZhu junZhu, int tab) {
+		QueryFuwenResp.Builder response = QueryFuwenResp.newBuilder();
+		queryFuwen(junZhu, response, tab);
+		response.setResult(0);
+		response.setTab(tab);
 		session.write(response.build());
 	}
 
 	/**
 	 * @Title: operateFuwen
-	 * @Description: 操作符石
+	 * @Description: 操作符文
 	 * @param cmd
 	 * @param session
 	 * @param builder
@@ -128,88 +197,77 @@ public class FuwenMgr extends EventProc {
 		}
 		OperateFuwenReq.Builder request = (OperateFuwenReq.Builder) builder;
 		FuwenResp.Builder response = FuwenResp.newBuilder();
-		int type = request.getType();
-		boolean flag = false;
-		int itemId = request.getItemId();
+		int action = request.getAction();
+		long bagId = request.getBagId();
+		int tab = request.getTab();
 		int lanweiId = request.getLanweiId();
-		switch (type) {
-		// 1-锁定，2-解锁,3-普通合成，4-一键合成,5-装备符石，6-卸下符石
-		case 1:
-			flag = lockFuwen(junZhu, itemId, response);
-			break;
-		case 2:
-			flag = unlockFuwen(junZhu, itemId, response);
-			break;
-		case 3:
-			flag = combineFuwen(junZhu, itemId, lanweiId, response);
-			break;
-		case 4:
-			flag = yijianCombineFuwen(junZhu, itemId, response);
-			break;
+		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
+		boolean actionSucceed = false;
+		switch (action) {
+		// 5-装备符文，6-卸下符文
+//		case 1:
+//			actionSucceed = lockFuwen(junZhu, bagId, response,bag);
+//			break;
+//		case 2:
+//			actionSucceed = unlockFuwen(junZhu, bagId, response, bag);
+//			break;
+//		case 3:
+//			actionSucceed = combineFuwen(junZhu, bagId, lanweiId, response, bag);
+//			break;
+//		case 4:
+//			actionSucceed = yijianCombineFuwen(junZhu, bagId, response,bag);
+//			break;
 		case 5:
-			flag = loadFuwen(junZhu, itemId, lanweiId, response);
+			actionSucceed = equipFuwen(session, junZhu, bagId, tab, lanweiId, response,bag);
 			break;
 		case 6:
-			flag = unloadFuwen(junZhu, lanweiId, response);
+			actionSucceed = unloadFuwen(session, junZhu, tab, lanweiId, response,bag);
 			break;
 		default:
 			break;
 		}
-		HibernateUtil.save(junZhu);
-		JunZhuMgr.inst.sendMainInfo(session);
-		BagMgr.inst.sendBagInfo(0, session, null);
-		// 刷新君主榜
-		EventMgr.addEvent(ED.JUN_RANK_REFRESH, junZhu);
-		response.setZhanli(PvpMgr.inst.getZhanli(junZhu));
-		if (flag) {
-			response.setResult(0);
+		if (actionSucceed) {
+			HibernateUtil.update(junZhu);
+			JunZhuMgr.inst.sendMainInfo(session,junZhu);
+			BagMgr.inst.sendBagInfo(session, bag);
+			// 刷新君主榜
+			EventMgr.addEvent(ED.JUN_RANK_REFRESH, junZhu);
+			response.setZhanli(PvpMgr.inst.getZhanli(junZhu));
 		} else {
-			response.setResult(1);
+			response.setResult(2);
 		}
 		session.write(response.build());
 	}
 
-	// 查询符石
-	public void queryFuwen(JunZhu jz, QueryFuwenResp.Builder response) {
-		// 　战力
+	// 查询符文
+	public void queryFuwen(JunZhu jz, QueryFuwenResp.Builder response, int tab) {
+		// 战力
 		long zhanli = PvpMgr.inst.getZhanli(jz);
 		response.setZhanli(zhanli);
-		// 符石栏位
-		List<String> list = redis.lgetList(CACHE_FUWEN_LANWEI + jz.id);
-		if (list == null || list.size() == 0) {// 符文栏位初始化
-			initFuwenLanwei(jz);
-			list = redis.lgetList(CACHE_FUWEN_LANWEI + jz.id);
+		// 对应符文页签上的栏位
+		List<FuWenBean> fuWenBeanList = getFuWenBeanInTab(jz.id, tab);
+		if (fuWenBeanList == null || fuWenBeanList.size() == 0) {// 符文栏位初始化
+			fuWenBeanList = initFuwenLanwei(jz, tab);
 		}
+		
 		Bag<BagGrid> bag = BagMgr.inst.loadBag(jz.id);
-		List<FushiInBagInfo> fuwens = getFushiInBag(bag);
-		for (int lanweiId : fuwenOpenMap.keySet()) {
-			Integer itemId = getItemIdByLanweiId(lanweiId, list);
-			if (itemId != null) {
-				FuwenLanwei.Builder lanweiBuilder = FuwenLanwei.newBuilder();
-				lanweiBuilder.setLanweiId(lanweiId);
-				lanweiBuilder.setItemId(itemId);
-				// 判断符石红点推送
-				List<Integer> shuxingList = new ArrayList<Integer>();
-				List<FuwenOpen> opens = fuwenSuitMap.get(lanweiId / 100);// 获取同一个套装的栏位
-				for (FuwenOpen open : opens) {
-					int openItemId = getItemIdByLanweiId(open.getLanweiID(),
-							list);
-					if (openItemId > 0) {
-						Fuwen openFuwen = fuwenMap.get(openItemId);
-						shuxingList.add(openFuwen.getShuxing());
-					}
-				}
-				int state = getLanweiPushState(lanweiId, itemId, fuwens,
-						shuxingList);
-				if (state == 1 || state == 2) {
-					lanweiBuilder.setFlag(true);
-				} else {
-					lanweiBuilder.setFlag(false);
-				}
-				response.addLanwei(lanweiBuilder);
+		List<FushiInBagInfo> fuwensInBag = getFushiInBag(bag);
+		for (FuWenBean fwBean : fuWenBeanList) {
+			FuwenLanwei.Builder lanweiBuilder = FuwenLanwei.newBuilder();
+			lanweiBuilder.setLanweiId(fwBean.lanWeiId);
+			lanweiBuilder.setItemId(fwBean.itemId);
+			lanweiBuilder.setExp(fwBean.exp);
+			// 判断符文红点推送
+			int state = getLanweiPushState(fwBean.lanWeiId, fwBean.itemId, fuwensInBag);
+			if (state == 1 || state == 2) {
+				lanweiBuilder.setFlag(true);
+			} else {
+				lanweiBuilder.setFlag(false);
 			}
+			response.addLanwei(lanweiBuilder);
 		}
-		// 总属性值
+		/* 2016年4月28日 10:52:34 不需要发送君主的总属性值
+		// 君主的总属性值
 		JunzhuAttr.Builder attr = JunzhuAttr.newBuilder();
 		attr.setType(1);
 		attr.setGongji(jz.gongJi);
@@ -223,41 +281,52 @@ public class FuwenMgr extends EventProc {
 		attr.setJnJM(jz.getJnJM());
 		attr.setJnBJ(jz.getJnBJ());
 		attr.setJnRX(jz.getJnRX());
-		response.addAttr(attr);
-		// 加成属性值
-		JunzhuAttr.Builder jcAttr = getFuwenAttr(list);
+		response.addAttr(attr);*/
+		// 所有符文的加成属性值
+		JunzhuAttr.Builder jcAttr = getFuwenAttr(fuWenBeanList);
 		jcAttr.setType(2);
 		response.addAttr(jcAttr);
-		// 符石背包
-		List<BagGrid> itemList = bag.grids;
-		if (itemList != null && itemList.size() != 0) {
-			for (BagGrid item : itemList) {
-				if ((item.type == 7 || item.type == 8) && item.cnt > 0) {// TODO
-																			// 宝石和符文的类型会有改变
-					Fuwen fuwen = fuwenMap.get(item.itemId);
-					int isLock = redis.lexist(CACHE_FUWEN_LOCK + jz.id,
-							String.valueOf(item.itemId)) ? 1 : 2;
-					qxmobile.protobuf.FuWen.Fuwen.Builder fuwenBuilder = qxmobile.protobuf.FuWen.Fuwen
-							.newBuilder();
-					fuwenBuilder.setItemId(fuwen.getFuwenID());
-					fuwenBuilder.setIsLock(isLock);
-					fuwenBuilder.setCnt(item.cnt);
-					qxmobile.protobuf.FuWen.Fuwen.Builder tmpBuilder = isFuwenInList(
-							response.getFuwensBuilderList(), fuwen.getFuwenID());
-					if (tmpBuilder != null) {
-						tmpBuilder.setCnt(tmpBuilder.getCnt()
-								+ fuwenBuilder.getCnt());
-					} else {
-						response.addFuwens(fuwenBuilder);
+	}
+
+	public void loadFuwenInBag(int cmd, IoSession session, Builder builder) {
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junZhu == null) {
+			logger.info("君主不存在");
+			return;
+		}
+		sendFuwenInBagInfo(session, junZhu);
+	}
+
+	public void sendFuwenInBagInfo(IoSession session, JunZhu junZhu) {
+		FuwenInBagResp.Builder response = FuwenInBagResp.newBuilder();
+		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
+		List<BagGrid> bagItemList = bag.grids;
+		if (bagItemList != null && bagItemList.size() > 0) {
+			for (BagGrid bagItem : bagItemList) {
+				if (bagItem.type == 8 && bagItem.cnt > 0) {
+					Fuwen fuwen = fuwenMap.get(bagItem.itemId);
+					if(fuwen == null) {
+						logger.error("查找背包的符文错误，找不到符文id为:{}的配置", bagItem.itemId);
+						continue;
 					}
+					FuwenInBag.Builder fuwenBuilder = FuwenInBag.newBuilder();
+					fuwenBuilder.setBagId(bagItem.dbId);
+					fuwenBuilder.setItemId(fuwen.getFuwenID());
+					fuwenBuilder.setExp((int) bagItem.instId);
+					fuwenBuilder.setCnt(bagItem.cnt);
+					response.addFuwenList(fuwenBuilder);
 				}
 			}
 		}
+		session.write(response.build());
 	}
 
-	protected qxmobile.protobuf.FuWen.Fuwen.Builder isFuwenInList(
-			List<qxmobile.protobuf.FuWen.Fuwen.Builder> list, int itemId) {
-		for (qxmobile.protobuf.FuWen.Fuwen.Builder fuwen : list) {
+	public List<FuWenBean> getFuWenBeanInTab(long id, int tab) {
+		return HibernateUtil.list(FuWenBean.class, " where junzhuId=" + id + " and tab=" + tab);
+	}
+
+	protected FuwenInBag.Builder isFuwenInList(List<FuwenInBag.Builder> list, int itemId) {
+		for (FuwenInBag.Builder fuwen : list) {
 			if (fuwen.getItemId() == itemId) {
 				return fuwen;
 			}
@@ -265,197 +334,361 @@ public class FuwenMgr extends EventProc {
 		return null;
 	}
 
-	// 锁定符石
+	// 锁定符文
 	public boolean lockFuwen(JunZhu junZhu, int itemId,
-			FuwenResp.Builder response) {
-		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
+			FuwenResp.Builder response, Bag<BagGrid> bag) {
 		int itemCount = BagMgr.inst.getItemCount(bag, itemId);
 		if (itemCount == 0) {
-			logger.info("锁定符石，背包中不存在符石{}", itemId);
-			response.setReason("背包中不存在此符石");
+			logger.info("锁定符文，背包中不存在符文{}", itemId);
+			response.setReason("背包中不存在此符文");
 			return false;
 		}
 		if (redis.lexist(CACHE_FUWEN_LOCK + junZhu.id, String.valueOf(itemId))) {
-			response.setReason("符石已经被锁定");
+			response.setReason("符文已经被锁定");
 			return false;
 		}
 		redis.lpush_(CACHE_FUWEN_LOCK + junZhu.id, String.valueOf(itemId));// 添加
-		logger.info("君主{}锁定符石{}", junZhu.id, itemId);
+		logger.info("君主{}锁定符文{}", junZhu.id, itemId);
 		return true;
 	}
 
-	// 解锁符石
+	// 解锁符文
 	public boolean unlockFuwen(JunZhu junZhu, int itemId,
-			FuwenResp.Builder response) {
-		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
+			FuwenResp.Builder response,Bag<BagGrid> bag) {
 		int itemCount = BagMgr.inst.getItemCount(bag, itemId);
 		if (itemCount == 0) {
-			logger.info("解锁符石，背包中不存在符石{}", itemId);
-			response.setReason("背包中不存在此符石");
+			logger.info("解锁符文，背包中不存在符文{}", itemId);
+			response.setReason("背包中不存在此符文");
 			return false;
 		}
 		if (!redis.lexist(CACHE_FUWEN_LOCK + junZhu.id, String.valueOf(itemId))) {
-			logger.info("解锁符石，符石{}没有锁定", itemId);
+			logger.info("解锁符文，符文{}没有锁定", itemId);
 			return false;
 		}
 		redis.lrem(CACHE_FUWEN_LOCK + junZhu.id, 0, String.valueOf(itemId));// 移除
-		logger.info("君主{}解锁符石{}", junZhu.id, itemId);
+		logger.info("君主{}解锁符文{}", junZhu.id, itemId);
 		return true;
 	}
 
-	// 装备符石
-	public boolean loadFuwen(JunZhu junZhu, int itemId, int lanweiId,
-			FuwenResp.Builder response) {
-		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
-		int itemCount = BagMgr.inst.getItemCount(bag, itemId);
+	// 装备符文
+	public boolean equipFuwen(IoSession session, JunZhu junZhu, long bagId, int tab, int lanweiId,
+			FuwenResp.Builder response, Bag<BagGrid> bag) {
+		int itemCount = 0;
+		int itemId = 0;
+		int itemExp = 0;
+		List<BagGrid> gridList = bag.grids;
+		for(BagGrid grid : gridList){
+			if(grid.dbId == bagId){
+				itemCount = grid.cnt;
+				itemId = grid.itemId;
+				itemExp = (int) grid.instId;
+				break;
+			}
+		}
+		
 		if (itemCount == 0) {
-			logger.info("镶嵌符石失败，背包中不存在符石{}", itemId);
-			response.setReason("背包中不存在此符石");
+			logger.info("镶嵌符文失败，背包中不存在符文bag的dbId:{}, itemId:{}", bagId, itemId);
+			response.setResult(2);
 			return false;
 		}
 		Fuwen fuwen = fuwenMap.get(itemId);
-		FuwenOpen lanwei = fuwenOpenMap.get(lanweiId);
-		// redis 记录
-		List<String> list = redis.lgetList(CACHE_FUWEN_LANWEI + junZhu.id);
-		if (null == list || list.size() == 0) {
-			logger.info("君主{}未开启符石系统", junZhu.id);
-			response.setReason("符石系统未开启");
+		if(fuwen == null) {
+			logger.error("镶嵌符文失败，找不到fuwen表id为:{}的配置", itemId);
 			return false;
 		}
-		Integer tmpItemId = getItemIdByLanweiId(lanweiId, list);
-		if (tmpItemId != null) {
-			if (tmpItemId.intValue() == -1) {
-				logger.info("镶嵌符石失败，符石栏位{}未解锁", lanweiId);
-				response.setReason("符石栏位未解锁");
+		FuwenOpen lanweiCfg = fuwenOpenMap.get(lanweiId);
+		if(lanweiCfg == null) {
+			logger.error("镶嵌符文失败，找不到FuwenOpen表id为:{}的配置", lanweiId);
+			return false;
+		}
+
+		List<FuWenBean> fuWenBeanList = getFuWenBeanInTab(junZhu.id, tab);
+		if (fuWenBeanList == null || fuWenBeanList.size() == 0) {
+			logger.error("镶嵌符文失败，君主{}未开启符文页签:{}", junZhu.id,tab);
+			response.setResult(3);
+			return false;
+		}
+		
+		// 判断同属性栏位
+		if (fuwen.inlayColor != lanweiCfg.inlayColor) {
+			logger.info("镶嵌符文失败，符文栏位{}属性与符文属性不一致，不能镶嵌", lanweiId, fuwen.getFuwenID());
+			response.setResult(4);
+			return false;
+		}
+		
+		boolean replace = false;
+		FuWenBean fwBean = getFuwenBeanByLanweiId(lanweiId, fuWenBeanList);
+		if (fwBean != null && fwBean.itemId > 0) {
+			logger.info("镶嵌符文操作，符文栏位{}已经有符文，本次为替换符文", lanweiId);
+			replace = true;
+		}
+		if(replace) {
+			Fuwen equipedFuwenCfg = fuwenMap.get(fwBean.itemId);
+			if(equipedFuwenCfg == null) {
+				logger.error("镶嵌符文失败，找不到fuwen表id为:{}的配置2", itemId);
 				return false;
 			}
-			if (tmpItemId.intValue() != 0) {
-				logger.info("镶嵌符石失败，符石栏位{}已镶嵌其他符石", lanweiId);
-				response.setReason("符石栏位已镶嵌其他符石");
+			if(equipedFuwenCfg.getShuxingValue() >= fuwen.getShuxingValue()) {
+				logger.error("镶嵌符文失败，被替换的符文的等级或者经验值大于要镶嵌的符文");
+				response.setResult(4);
 				return false;
 			}
-			// 判断同属性栏位
-			if ((fuwen.getShuxing() <= 3 && lanwei.getLanweiType() > 10)
-					|| (fuwen.getShuxing() > 3 && lanwei.getLanweiType() < 10)) {
-				logger.info("镶嵌符石{}失败，符石栏位{}属性与符石属性不一致，不能镶嵌",
-						fuwen.getFuwenID(), lanwei.getLanweiID());
-				response.setReason("符石栏位属性与符石属性不一致");
-				return false;
+		}
+		
+		response.setResult(0);
+		session.write(response.build());
+		
+		int beforeItemId = fwBean.itemId;
+		int beforeExp = fwBean.exp;
+		fwBean.itemId = fuwen.getFuwenID();
+		fwBean.exp = itemExp;
+		HibernateUtil.save(fwBean);
+		logger.info("君主{}镶嵌符文{}到栏位{}", junZhu.id, itemId, lanweiId);
+		// 从背包消耗一个符文
+		BagMgr.inst.removeItemByBagdbId(bag, "镶嵌消耗一个符文", bagId, 1, junZhu.level);
+		if(replace) {
+			BagMgr.inst.addItem(bag, beforeItemId, 1, beforeExp, junZhu.level, "镶嵌符文替换下的");
+		}
+		sendFuwenInBagInfo(session, junZhu);
+		// 主线任务: 装备任意一个符文 20190916
+		EventMgr.addEvent(ED.wear_fushi, new Object[] { junZhu.id });
+		return true;
+	}
+
+	public void equipFuwenAll(int cmd, IoSession session, Builder builder) {
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junZhu == null) {
+			logger.info("君主不存在");
+			return;
+		}
+		
+		FuwenEquipAll.Builder request = (qxmobile.protobuf.FuWen.FuwenEquipAll.Builder) builder;
+		int tab = request.getTab();
+		
+		FuwenEquipAllResp.Builder response = FuwenEquipAllResp.newBuilder();
+		FuwenTab fuwenTab = fuwenTabMap.get(tab);
+		if(fuwenTab == null) {
+			logger.error("一键镶嵌符文失败，找不到fuwentab为:{}的配置", tab);
+			return;
+		}
+		if(junZhu.level < fuwenTab.level) { 
+			logger.error("一键镶嵌符文失败，君主:{} 等级:{} 不满足符文页面:{}的等级:{}条件",junZhu.id, junZhu.level,tab,fuwenTab.level);
+			response.setResult(2);
+			session.write(response.build());
+			return;
+		}
+		
+		boolean performed = false;
+		// 获取背包物品是符文的格子
+		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
+		List<BagGrid> fuwenGridList = new ArrayList<>();
+		List<BagGrid> gridList = bag.grids;
+		for(BagGrid grid : gridList){
+			if(grid.type == AwardMgr.type_fuWen){
+				fuwenGridList.add(grid);
 			}
-			// 判断栏位是否有符石
-			List<FuwenOpen> lanweiList = fuwenSuitMap.get(lanweiId / 100);
-			for (FuwenOpen fuwenOpen : lanweiList) {
-				Integer tmpId = getItemIdByLanweiId(fuwenOpen.getLanweiID(),
-						list);
-				if (tmpId != null && tmpId.intValue() > 0) {
-					Fuwen tmpFuwen = fuwenMap.get(tmpId);
-					if (fuwen.getShuxing() == tmpFuwen.getShuxing()) {
-						logger.info("镶嵌符石{}失败，符石栏位{}已存在相同属性符石{}",
-								fuwen.getFuwenID(), fuwenOpen.getLanweiID(),
-								tmpFuwen.getFuwenID());
-						response.setReason("同属性其他栏位已镶嵌相同属性符石");
-						return false;
+		}
+		
+		List<FuWenBean> fuWenBeanList = getFuWenBeanInTab(junZhu.id, tab);
+		for(FuWenBean fwBean : fuWenBeanList) {
+			FuwenOpen fuwenOpenCfg = fuwenOpenMap.get(fwBean.lanWeiId);
+			if(fuwenOpenCfg == null) {
+				logger.error("一键镶嵌符文失败，找不到fuwenOpen表id为:{}的配置", fwBean.lanWeiId);
+				continue;
+			}
+			
+			if(fwBean.itemId > 0) {					// 表示原来已经镶嵌了符文，接下来做替换操作
+				for(BagGrid grid : fuwenGridList){
+					if(grid.instId <= fwBean.exp){
+						continue;
+					}
+					Fuwen fuwenCfg = fuwenMap.get(grid.itemId);
+					if(fuwenCfg == null) {
+						logger.error("一键镶嵌符文失败，找不到fuwen表id为:{}的配置", grid.itemId);
+						continue;
+					}
+					if(fuwenCfg.inlayColor != fuwenOpenCfg.inlayColor) {
+						continue;
+					}
+					int beforeItemId = fwBean.itemId;
+					int beforeExp = fwBean.exp;
+					fwBean.itemId = grid.itemId;
+					fwBean.exp = (int) grid.instId;
+					HibernateUtil.save(fwBean);
+					BagMgr.inst.removeItemByBagdbId(bag, "镶嵌消耗一个符文", grid.dbId, 1, junZhu.level);
+					BagMgr.inst.addItem(bag, beforeItemId, 1, beforeExp, junZhu.level, "镶嵌符文替换下的");
+					performed = true;
+				}		
+			} else {								// 表示当前位置还没有镶嵌符文
+				BagGrid maxExpGrid = null;			// 当前符文经验最大的
+				for(BagGrid grid : fuwenGridList){
+					Fuwen fuwenCfg = fuwenMap.get(grid.itemId);
+					if(fuwenCfg == null) {
+						logger.error("一键镶嵌符文失败，找不到fuwen表id为:{}的配置", grid.itemId);
+						continue;
+					}
+					if(fuwenCfg.inlayColor != fuwenOpenCfg.inlayColor) {
+						continue;
+					}
+					if(maxExpGrid == null) {
+						maxExpGrid = grid;
+					}
+					if(grid.instId > maxExpGrid.instId) {
+						maxExpGrid = grid;
 					}
 				}
+				if(maxExpGrid != null){				// 为null表示没有此类型的符文
+					fwBean.itemId = maxExpGrid.itemId;
+					fwBean.exp = (int) maxExpGrid.instId;
+					HibernateUtil.save(fwBean);
+					BagMgr.inst.removeItemByBagdbId(bag, "镶嵌消耗一个符文", maxExpGrid.dbId, 1, junZhu.level);
+					performed = true;
+				}
 			}
-			redis.lrem(CACHE_FUWEN_LANWEI + junZhu.id, 0, lanweiId + "#"
-					+ tmpItemId);
-			redis.lpush_(CACHE_FUWEN_LANWEI + junZhu.id, lanweiId + "#"
-					+ itemId);
-			HibernateUtil.save(junZhu);
-			logger.info("君主{}镶嵌符石{}到栏位{}", junZhu.id, itemId, lanweiId);
-			// 从背包消耗一个符石
-			BagMgr.inst.removeItem(bag, itemId, 1, "镶嵌消耗一个符石", junZhu.level);
-			// 主线任务: 装备任意一个符石 20190916
-			EventMgr.addEvent(ED.wear_fushi, new Object[] { junZhu.id });
-			return true;
 		}
-		return false;
+		
+		sendFuwenInBagInfo(session, junZhu);
+		sendQueryFuwenResp(session, junZhu, tab);
+		if(performed) {
+			response.setResult(0);
+		} else {
+			response.setResult(1);
+		}
+		JunZhuMgr.inst.sendMainInfo(session);
+		session.write(response.build());
 	}
-
-	// 卸下符石
-	public boolean unloadFuwen(JunZhu junZhu, int lanweiId,
-			FuwenResp.Builder response) {
-		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
-		// redis 记录
-		List<String> list = redis.lgetList(CACHE_FUWEN_LANWEI + junZhu.id);
-		if (null == list || list.size() == 0) {
-			logger.info("君主{}未开启符石系统", junZhu.id);
-			response.setReason("符石系统未开启");
+	
+	// 卸下符文
+	public boolean unloadFuwen(IoSession session, JunZhu junZhu, int tab, int lanweiId,
+			FuwenResp.Builder response,Bag<BagGrid> bag) {
+		List<FuWenBean> fuWenBeanList = getFuWenBeanInTab(junZhu.id, tab);
+		if (fuWenBeanList == null || fuWenBeanList.size() == 0) {
+			logger.info("君主{}未开启符文系统", junZhu.id);
+			response.setResult(6);
 			return false;
 		}
-		Integer itemId = getItemIdByLanweiId(lanweiId, list);
-		if (itemId != null) {
-			if (itemId.intValue() == -1) {
-				logger.info("卸下符石，符石栏位{}未解锁", lanweiId);
-				response.setReason("符石栏位未解锁");
-				return false;
-			}
-			if (itemId.intValue() == 0) {
-				logger.info("卸下符石，符石栏位{}没有镶嵌符石", lanweiId);
-				response.setReason("符石栏位没有镶嵌符石");
-				return false;
-			}
-			redis.lrem(CACHE_FUWEN_LANWEI + junZhu.id, 0, lanweiId + "#"
-					+ itemId);
-			redis.lpush_(CACHE_FUWEN_LANWEI + junZhu.id, lanweiId + "#0");// 栏位符石置空
-			BagMgr.inst.addItem(bag, itemId, 1, -1, junZhu.level, "卸下符石");// 符石返回给背包
-			logger.info("君主{}卸下{}栏位的符石{}", junZhu.id, lanweiId, itemId);
-			return true;
+		FuWenBean fwBean = getFuwenBeanByLanweiId(lanweiId, fuWenBeanList);
+		if (fwBean == null) {
+			logger.info("卸下符文，符文栏位{}没有镶嵌符文", lanweiId);
+			response.setResult(7);
+			return false;
 		}
-		return false;
+		response.setResult(1);
+		session.write(response.build());
+		int itemExp = fwBean.exp; 
+		BagMgr.inst.addItem(bag, fwBean.itemId, 1, itemExp, junZhu.level, "卸下符文");
+		fwBean.itemId = 0;
+		fwBean.exp = 0;
+		HibernateUtil.save(fwBean);
+		sendFuwenInBagInfo(session, junZhu);
+		logger.info("君主{}卸下{}栏位的符文{}", junZhu.id, lanweiId, fwBean.itemId);
+		return true;
+	}
+	
+	// 卸下符文
+	public void unloadFuwenAll(int cmd, IoSession session, Builder builder) {
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junZhu == null) {
+			logger.info("君主不存在");
+			return;
+		}
+		
+		FuwenUnloadAll.Builder request = (qxmobile.protobuf.FuWen.FuwenUnloadAll.Builder) builder;
+		int tab = request.getTab();
+		
+		FuwenUnloadAllResp.Builder response = FuwenUnloadAllResp.newBuilder();
+		FuwenTab fuwenTab = fuwenTabMap.get(tab);
+		if(fuwenTab == null) {
+			logger.error("一键拆卸符文失败，找不到fuwentab为:{}的配置", tab);
+			return;
+		}
+		if(junZhu.level < fuwenTab.level) { 
+			logger.error("一键拆卸符文失败，君主:{} 等级:{} 不满足符文页面:{}的等级:{}条件",junZhu.id, junZhu.level,tab,fuwenTab.level);
+			response.setResult(2);
+			session.write(response.build());
+			return;
+		}
+		
+		List<FuWenBean> fuWenBeanList = getFuWenBeanInTab(junZhu.id, tab);
+		if (fuWenBeanList == null || fuWenBeanList.size() == 0) {
+			logger.info("君主{}未开启符文系统", junZhu.id);
+			return;
+		}
+		
+		boolean performed = false;
+		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
+		for (FuWenBean fwBean : fuWenBeanList) {// 遍历君主所有符文栏位
+			if(fwBean.itemId <= 0) {
+				continue;
+			}
+			BagMgr.inst.addItem(bag, fwBean.itemId, 1, fwBean.exp, junZhu.level, "卸下符文");
+			fwBean.itemId = 0;
+			fwBean.exp = 0;
+			HibernateUtil.save(fwBean);
+			performed = true;
+		}
+		if(performed){
+			response.setResult(0); 
+		} else {
+			response.setResult(1); 
+		}
+		sendFuwenInBagInfo(session, junZhu);
+		sendQueryFuwenResp(session, junZhu, tab);
+		JunZhuMgr.inst.sendMainInfo(session);
+		session.write(response.build());
+		logger.info("一键拆卸符文成功，君主{}卸下了页签:{}的所有符文", junZhu.id, tab);
+		return;
 	}
 
-	// 合成符石
+	// 合成符文
 	public boolean combineFuwen(JunZhu junZhu, int itemId, int lanweiId,
-			FuwenResp.Builder response) {
+			FuwenResp.Builder response,Bag<BagGrid> bag) {
 		// lock
 		if (redis.lexist(CACHE_FUWEN_LOCK + junZhu.id, String.valueOf(itemId))) {
-			logger.info("君主{}的符石{}已锁定，不能合成", junZhu.id, itemId);
-			response.setReason("符石已锁定。");
+			logger.info("君主{}的符文{}已锁定，不能合成", junZhu.id, itemId);
+			response.setReason("符文已锁定。");
 			return false;
 		}
 		// level
 		Fuwen fuwen = fuwenMap.get(itemId);
 		if (fuwen.getFuwenNext() == -1) {
-			logger.info("君主{}合成符石{}失败，符石已是最高等级{}", junZhu.id, itemId,
+			logger.info("君主{}合成符文{}失败，符文已是最高等级{}", junZhu.id, itemId,
 					fuwen.getFuwenLevel());
-			response.setReason("符石已达到最高等级。");
+			response.setReason("符文已达到最高等级。");
 			return false;
 		}
 		Fuwen fuwenNext = fuwenMap.get(fuwen.getFuwenNext());
 		// Bag
-		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
 		int num = BagMgr.inst.getItemCount(bag, itemId);
 		if (lanweiId == 0) {// 从背包合成
 			if (num < COMBINE_NUM) {
-				logger.info("君主{}要合成的符石{}数量{}不足最低数量{}", junZhu.id, itemId, num,
+				logger.info("君主{}要合成的符文{}数量{}不足最低数量{}", junZhu.id, itemId, num,
 						COMBINE_NUM);
-				response.setReason("符石数量不足最低合成数量。");
+				response.setReason("符文数量不足最低合成数量。");
 				return false;
 			}
 			BagMgr.inst.removeItem(bag, itemId, COMBINE_NUM, "普通合成消耗"
-					+ COMBINE_NUM + "个符石", junZhu.level);
+					+ COMBINE_NUM + "个符文", junZhu.level);
 			BagMgr.inst.addItem(bag, fuwenNext.getFuwenID(), 1, -1,
-					junZhu.level, "合成符石");
-			logger.info("君主{}成功消耗{}个符石{}合成一个高级符石{}", junZhu.id, COMBINE_NUM,
+					junZhu.level, "合成符文");
+			logger.info("君主{}成功消耗{}个符文{}合成一个高级符文{}", junZhu.id, COMBINE_NUM,
 					itemId, fuwenNext.getFuwenID());
 			EventMgr.addEvent(ED.GAIN_ITEM,
 					new Object[] { junZhu.id, fuwenNext.getFuwenID() });
 		} else {// 从装备的栏位直接合成
 			if (num < COMBINE_NUM - 1) {
-				logger.info("君主{}要合成的符石{}数量{}不足最低数量{}", junZhu.id, itemId,
+				logger.info("君主{}要合成的符文{}数量{}不足最低数量{}", junZhu.id, itemId,
 						num + 1, COMBINE_NUM);
-				response.setReason("符石数量不足最低合成数量。");
+				response.setReason("符文数量不足最低合成数量。");
 				return false;
 			}
 			BagMgr.inst.removeItem(bag, itemId, COMBINE_NUM - 1, "普通合成消耗"
-					+ (COMBINE_NUM - 1) + "个符石", junZhu.level);
+					+ (COMBINE_NUM - 1) + "个符文", junZhu.level);
 			redis.lrem(CACHE_FUWEN_LANWEI + junZhu.id, 0, lanweiId + "#"
 					+ itemId);
 			redis.lpush_(CACHE_FUWEN_LANWEI + junZhu.id, lanweiId + "#"
 					+ fuwenNext.getFuwenID());
-			logger.info("君主{}成功消耗{}个符石{}合成一个高级符石{}", junZhu.id,
+			logger.info("君主{}成功消耗{}个符文{}合成一个高级符文{}", junZhu.id,
 					COMBINE_NUM - 1, itemId, fuwenNext.getFuwenID());
 			EventMgr.addEvent(ED.GAIN_ITEM,
 					new Object[] { junZhu.id, fuwenNext.getFuwenID() });
@@ -463,87 +696,94 @@ public class FuwenMgr extends EventProc {
 		return true;
 	}
 
-	// 一键合成符石
+	// 一键合成符文
 	public boolean yijianCombineFuwen(JunZhu junZhu, int itemId,
-			FuwenResp.Builder response) {
+			FuwenResp.Builder response,Bag<BagGrid> bag) {
 		// lock
 		if (redis.lexist(CACHE_FUWEN_LOCK + junZhu.id, String.valueOf(itemId))) {
-			logger.info("君主{}的符石{}已锁定，不能合成", junZhu.id, itemId);
-			response.setReason("符石已锁定");
+			logger.info("君主{}的符文{}已锁定，不能合成", junZhu.id, itemId);
+			response.setReason("符文已锁定");
 			return false;
 		}
 		// level
 		Fuwen fuwen = fuwenMap.get(itemId);
 		if (fuwen.getFuwenNext() == -1) {
-			logger.info("君主{}合成符石{}失败，符石已是最高等级{}", junZhu.id, itemId,
+			logger.info("君主{}合成符文{}失败，符文已是最高等级{}", junZhu.id, itemId,
 					fuwen.getFuwenLevel());
-			response.setReason("符石已达到最高等级");
+			response.setReason("符文已达到最高等级");
 			return false;
 		}
 		Fuwen fuwenNext = fuwenMap.get(fuwen.getFuwenNext());
 		// Bag
-		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
 		int num = BagMgr.inst.getItemCount(bag, itemId);
-		if (num < COMBINE_NUM * 2) {// 背包没有符石
-			logger.info("一键合成失败，君主{}背包符石{}数量不足一键合成最低要求数量{}", junZhu.id, itemId,
+		if (num < COMBINE_NUM * 2) {// 背包没有符文
+			logger.info("一键合成失败，君主{}背包符文{}数量不足一键合成最低要求数量{}", junZhu.id, itemId,
 					COMBINE_NUM * 2);
-			response.setReason("符石数量不足最低合成数量");
+			response.setReason("符文数量不足最低合成数量");
 			return false;
 		}
 		int combineNum = num / COMBINE_NUM;
 		int costNum = num - num % COMBINE_NUM;
 		BagMgr.inst.removeItem(bag, itemId, costNum,
-				"一键合成消耗" + costNum + "个符石", junZhu.level);
+				"一键合成消耗" + costNum + "个符文", junZhu.level);
 		BagMgr.inst.addItem(bag, fuwenNext.getFuwenID(), combineNum, -1,
-				junZhu.level, "一键合成符石");
-		logger.info("君主{}成功消耗{}个符石{}合成{}个高级符石{}", junZhu.id, costNum, itemId,
+				junZhu.level, "一键合成符文");
+		logger.info("君主{}成功消耗{}个符文{}合成{}个高级符文{}", junZhu.id, costNum, itemId,
 				combineNum, fuwenNext.getFuwenID());
 		EventMgr.addEvent(ED.GAIN_ITEM,
 				new Object[] { junZhu.id, fuwenNext.getFuwenID() });
 		return true;
 	}
 
-	// 初始化符石栏位
-	public void initFuwenLanwei(JunZhu jz) {
-		long jzId = jz.id;
-		for (int key : fuwenOpenMap.keySet()) {
-			FuwenOpen lanwei = fuwenOpenMap.get(key);
-			if (lanwei.getLevel() <= jz.level) {
-				redis.lpush_(CACHE_FUWEN_LANWEI + jzId, lanwei.getLanweiID() + "#0");
-			}else {
-				redis.lpush_(CACHE_FUWEN_LANWEI + jzId, lanwei.getLanweiID() + "#-1");
-			}
+	// 初始化符文栏位
+	public List<FuWenBean> initFuwenLanwei(JunZhu jz, int tab) {
+		List<FuWenBean> fuWenBeanList = new ArrayList<>();
+		FuwenTab fuwenTab = fuwenTabMap.get(tab);
+		if(fuwenTab == null) {
+			logger.error("初始化符文信息失败，找不到fuwentab为:{}的配置", tab);
+			return fuWenBeanList;
 		}
-		logger.info("君主{}初始化所有符石栏位", jz.id);
+		if(jz.level < fuwenTab.level) {
+			logger.error("初始化符文信息失败，君主:{}等级不满足符文页签:{}等级条件", jz.id, tab);
+			return fuWenBeanList;
+		}
+		List<FuwenOpen> fuwenOpenList = fuwenOpenMapByTab.get(tab);
+		for(FuwenOpen openCfg : fuwenOpenList) {
+			FuWenBean fuWenBean = new FuWenBean();
+			fuWenBean.junzhuId = jz.id;
+			fuWenBean.tab = openCfg.tab;
+			fuWenBean.itemId = 0;
+			fuWenBean.lanWeiId = openCfg.id;
+			fuWenBean.exp = 0;
+			HibernateUtil.insert(fuWenBean);
+			fuWenBeanList.add(fuWenBean);
+		}
+		logger.info("初始化君主:{}所有符文栏位", jz.id);
+		return fuWenBeanList;
 	}
 
-	// 检查符石栏位解锁
+	// 检查符文栏位解锁
 	public void checkFuwenUnlock(JunZhu jz) {
 		if (jz == null) {
-			logger.error("事件：检查符石解锁，参数不正确");
+			logger.error("事件：检查符文解锁，参数不正确");
 			return;
 		}
-		for (int key : fuwenOpenMap.keySet()) {
+		
+		//TODO 红点
+		/*for (int key : fuwenOpenMap.keySet()) {
 			FuwenOpen fuwenOpen = fuwenOpenMap.get(key);
 			if (fuwenOpen.getLevel() <= jz.level) {
 				List<String> list = redis.lgetList(CACHE_FUWEN_LANWEI + jz.id);
 				if (null == list || list.size() == 0) {
-					initFuwenLanwei(jz);
 					list = redis.lgetList(CACHE_FUWEN_LANWEI + jz.id);
-					// logger.error("君主{}符石系统未开启", jz.id);
-				}
-				Integer itemId = getItemIdByLanweiId(fuwenOpen.getLanweiID(), list);
-				if (itemId != null && itemId.intValue() == -1) {
-					redis.lrem(CACHE_FUWEN_LANWEI + jz.id, 0, fuwenOpen.getLanweiID() + "#-1");
-					redis.lpush_(CACHE_FUWEN_LANWEI + jz.id, fuwenOpen.getLanweiID() + "#0");
-					logger.info("君主{}符石栏位{}解锁", jz.id, fuwenOpen.getLanweiID());
+					// logger.error("君主{}符文系统未开启", jz.id);
 				}
 			}
-		}
+		}*/
 	}
 
-	// 获取符石加成属性
-	public JunzhuAttr.Builder getFuwenAttr(List<String> lanweiList) {
+	// 获取符文加成属性
+	public JunzhuAttr.Builder getFuwenAttr(List<FuWenBean> fuWenBeanList) {
 		JunzhuAttr.Builder attrBuilder = JunzhuAttr.newBuilder();
 		int gongji = 0;
 		int fangyu = 0;
@@ -556,56 +796,48 @@ public class FuwenMgr extends EventProc {
 		int jnJM = 0;
 		int jnBJ = 0;
 		int jnRX = 0;
-		Map<Integer, Double> pageSuitMap = getFuwenSuitMap(lanweiList);
-		for (String lanwei : lanweiList) {// 遍历君主所有符石栏位
-			int lanweiId = Integer.parseInt(lanwei.split("#")[0]);
-			int itemId = Integer.parseInt(lanwei.split("#")[1]);
+		for (FuWenBean fwBean : fuWenBeanList) {// 遍历君主所有符文栏位
+			int itemId = fwBean.itemId;
 			if (itemId > 0) {
 				Fuwen fuwen = fuwenMap.get(itemId);
+				if(fuwen == null) {
+					logger.error("找不到符文id为:{}的配置", itemId);
+					continue;
+				}
+				double addValue = fuwen.getShuxingValue();
 				switch (fuwen.getShuxing()) {
 				case 1:
-					gongji += Math.rint(fuwen.getShuxingValue()
-							* (1 + pageSuitMap.get(lanweiId / 100)));
+					gongji += addValue;
 					break;
 				case 2:
-					fangyu += Math.rint(fuwen.getShuxingValue()
-							* (1 + pageSuitMap.get(lanweiId / 100)));
+					fangyu += addValue;
 					break;
 				case 3:
-					shengming += Math.rint(fuwen.getShuxingValue()
-							* (1 + pageSuitMap.get(lanweiId / 100)));
+					shengming += addValue;
 					break;
 				case 4:
-					wqSH += Math.rint(fuwen.getShuxingValue()
-							* (1 + pageSuitMap.get(lanweiId / 100)));
+					wqSH += addValue;
 					break;
 				case 5:
-					wqJM += Math.rint(fuwen.getShuxingValue()
-							* (1 + pageSuitMap.get(lanweiId / 100)));
+					wqJM += addValue;
 					break;
 				case 6:
-					wqBJ += Math.rint(fuwen.getShuxingValue()
-							* (1 + pageSuitMap.get(lanweiId / 100)));
+					wqBJ += addValue;
 					break;
 				case 7:
-					wqRX += Math.rint(fuwen.getShuxingValue()
-							* (1 + pageSuitMap.get(lanweiId / 100)));
+					wqRX += addValue;
 					break;
 				case 8:
-					jnSH += Math.rint(fuwen.getShuxingValue()
-							* (1 + pageSuitMap.get(lanweiId / 100)));
+					jnSH += addValue;
 					break;
 				case 9:
-					jnJM += Math.rint(fuwen.getShuxingValue()
-							* (1 + pageSuitMap.get(lanweiId / 100)));
+					jnJM += addValue;
 					break;
 				case 10:
-					jnBJ += Math.rint(fuwen.getShuxingValue()
-							* (1 + pageSuitMap.get(lanweiId / 100)));
+					jnBJ += addValue;
 					break;
 				case 11:
-					jnRX += Math.rint(fuwen.getShuxingValue()
-							* (1 + pageSuitMap.get(lanweiId / 100)));
+					jnRX += addValue;
 					break;
 				default:
 					break;
@@ -626,22 +858,26 @@ public class FuwenMgr extends EventProc {
 		return attrBuilder;
 	}
 
-	// 获取符石套装效果
-	public Map<Integer, Double> getFuwenSuitMap(List<String> lanweiList) {
-		Map<Integer, Double> suitMap = new HashMap<Integer, Double>();// 符石页套装效果
+	/*  2016年4月28日 10:05:47，取消的符文套装效果
+	// 获取符文套装效果
+	public Map<Integer, Double> getFuwenSuitMap(List<FuWenBean> fuWenBeanList) {
+		Map<Integer, Double> suitMap = new HashMap<Integer, Double>();// 符文页套装效果
 		for (int suitIndex : fuwenSuitMap.keySet()) {
 			List<FuwenOpen> suitLanweiList = fuwenSuitMap.get(suitIndex);
 			boolean flag = true;
 			int minLevel = 11;
 			for (FuwenOpen fuwenOpen : suitLanweiList) {
-				Integer itemiId = getItemIdByLanweiId(fuwenOpen.getLanweiID(),
-						lanweiList);
+				Integer itemiId = getItemIdByLanweiId(fuwenOpen.id, fuWenBeanList);
 				if (itemiId != null) {
 					if (itemiId.intValue() <= 0) {
 						flag = false;
 						break;
 					}
 					Fuwen fuwen = fuwenMap.get(itemiId);
+					if(fuwen == null) {
+						logger.error("找不到符文id为:{}的配置", itemiId);
+						continue;
+					}
 					minLevel = fuwen.getFuwenLevel() <= minLevel ? fuwen
 							.getFuwenLevel() : minLevel;
 				}
@@ -654,23 +890,21 @@ public class FuwenMgr extends EventProc {
 			}
 		}
 		return suitMap;
-	}
+	}*/
 
-	// 获取符石栏位上的符石id
-	public Integer getItemIdByLanweiId(int lanweiId, List<String> lanweiList) {
-		for (String lanwei : lanweiList) {// 遍历君主所有符石栏位
-			int tmpLanweiId = Integer.parseInt(lanwei.split("#")[0]);
-			int itemId = Integer.parseInt(lanwei.split("#")[1]);
-			if (tmpLanweiId == lanweiId) {
-				return itemId;
+	// 获取符文栏位上的符文id
+	public FuWenBean getFuwenBeanByLanweiId(int lanweiId, List<FuWenBean> fuWenBeanList) {
+		for (FuWenBean fwBean : fuWenBeanList) {// 遍历君主所有符文栏位
+			if (fwBean.lanWeiId == lanweiId) {
+				return fwBean;
 			}
 		}
 		return null;
 	}
 
-	// 获取符石所在的栏位id
+	// 获取符文所在的栏位id
 	public Integer getLanweiIdByItemId(int itemId, List<String> lanweiList) {
-		for (String lanwei : lanweiList) {// 遍历君主所有符石栏位
+		for (String lanwei : lanweiList) {// 遍历君主所有符文栏位
 			int lanweiId = Integer.parseInt(lanwei.split("#")[0]);
 			int tmpItemId = Integer.parseInt(lanwei.split("#")[1]);
 			if (tmpItemId == itemId) {
@@ -683,7 +917,7 @@ public class FuwenMgr extends EventProc {
 
 	/**
 	 * @Title: getFuShiProgress
-	 * @Description: 获取符石养成进度
+	 * @Description: 获取符文养成进度
 	 * @param jzId
 	 *            君主id
 	 * @param type
@@ -701,7 +935,7 @@ public class FuwenMgr extends EventProc {
 
 	/**
 	 * @Title: getFushiCurLevel
-	 * @Description: 获取符石当前进度
+	 * @Description: 获取符文当前进度
 	 * @param jzId
 	 *            君主id
 	 * @param type
@@ -716,30 +950,34 @@ public class FuwenMgr extends EventProc {
 			logger.info("君主不存在");
 			return 0;
 		}
-		List<String> list = redis.lgetList(CACHE_FUWEN_LANWEI + jzId);
-		if (list == null || list.size() == 0) {
-			logger.info("君主{}未开启符石系统", junZhu.id);
-			return 0;
-		}
-		int levelSum = 0;
-		for (String lanwei : list) {
-			int lanweiId = Integer.parseInt(lanwei.split("#")[0]);
-			int itemId = Integer.parseInt(lanwei.split("#")[1]);
-			FuwenOpen fuwenOpen = fuwenOpenMap.get(lanweiId);
-			Fuwen fuwen = fuwenMap.get(itemId);
-			int index = fuwenOpen.getLanweiID() / 100 % 10;
-			if (index == type) {
-				if (itemId > 0) {
-					levelSum += fuwen.getFuwenLevel();
+		
+		float totalProgress = 0;
+		for(Map.Entry<Integer, List<FuwenOpen>> entry : fuwenOpenMapByTab.entrySet()) {
+			List<FuWenBean> fuWenBeanList = getFuWenBeanInTab(junZhu.id, entry.getKey());
+			if (fuWenBeanList == null || fuWenBeanList.size() == 0) {
+				continue;
+			}
+			
+			for(FuWenBean fwBean : fuWenBeanList) {
+				Fuwen fuwenCfg = null;
+				if(fwBean.itemId <= 0) {
+					continue;
+				} 
+				fuwenCfg = fuwenMap.get(fwBean.itemId);
+				if(fuwenCfg == null) {
+					continue;
 				}
+				float curProgress = fuwenCfg.getFuwenLevel() *  fuwenCfg.getColor() / 36F;
+				totalProgress += curProgress;
 			}
 		}
-		return levelSum;
+		totalProgress = totalProgress / 24;
+		return (int) totalProgress;
 	}
 
 	/**
 	 * @Title: getFushiMaxLevel
-	 * @Description: 获取符石总进度
+	 * @Description: 获取符文总进度
 	 * @param jzId
 	 *            君主id
 	 * @param type
@@ -756,7 +994,7 @@ public class FuwenMgr extends EventProc {
 		}
 		List<String> list = redis.lgetList(CACHE_FUWEN_LANWEI + jzId);
 		if (list == null || list.size() == 0) {
-			logger.info("君主{}未开启符石系统", junZhu.id);
+			logger.info("君主{}未开启符文系统", junZhu.id);
 			return 0;
 		}
 		int availableSum = 0;
@@ -764,11 +1002,8 @@ public class FuwenMgr extends EventProc {
 			int lanweiId = Integer.parseInt(lanwei.split("#")[0]);
 			int itemId = Integer.parseInt(lanwei.split("#")[1]);
 			FuwenOpen fuwenOpen = fuwenOpenMap.get(lanweiId);
-			int index = fuwenOpen.getLanweiID() / 100 % 10;
-			if (index == type) {
-				if (itemId >= 0) {
-					availableSum++;
-				}
+			if (itemId >= 0) {
+				availableSum++;
 			}
 		}
 		return availableSum * 11;
@@ -776,7 +1011,7 @@ public class FuwenMgr extends EventProc {
 
 	/**
 	 * @Title: getFuShiTuijian
-	 * @Description: 获取符石推荐
+	 * @Description: 获取符文推荐
 	 * @param jzId
 	 *            君主id
 	 * @param type
@@ -793,10 +1028,10 @@ public class FuwenMgr extends EventProc {
 		}
 		List<String> list = redis.lgetList(CACHE_FUWEN_LANWEI + jzId);
 		if (list == null || list.size() == 0) {
-			logger.info("君主{}未开启符石系统", junZhu.id);
+			logger.info("君主{}未开启符文系统", junZhu.id);
 			return null;
 		}
-		// 添加装备上的符石
+		// 添加装备上的符文
 		List<Fuwen> fuwenList = new ArrayList<Fuwen>();
 		for (String lanwei : list) {
 			int itemId = Integer.parseInt(lanwei.split("#")[1]);
@@ -811,7 +1046,7 @@ public class FuwenMgr extends EventProc {
 				}
 			}
 		}
-		// 添加背包中的符石
+		// 添加背包中的符文
 		/*List<Fuwen> fushiBag = getFushiInBag(jzId);
 		for (Fuwen fuwen : fushiBag) {
 			if (type == 1 && fuwen.getShuxing() > 3
@@ -846,7 +1081,7 @@ public class FuwenMgr extends EventProc {
 
 	/**
 	 * @Title: getEquipedFushi
-	 * @Description: 获取已装备的符石
+	 * @Description: 获取已装备的符文
 	 * @param jzId
 	 * @return
 	 * @return List<Fuwen>
@@ -860,7 +1095,7 @@ public class FuwenMgr extends EventProc {
 		}
 		List<String> list = redis.lgetList(CACHE_FUWEN_LANWEI + jzId);
 		if (list == null || list.size() == 0) {
-			logger.info("君主{}未开启符石系统", jzId);
+			logger.info("君主{}未开启符文系统", jzId);
 			return null;
 		}
 		List<Fuwen> fuwenList = new ArrayList<Fuwen>();
@@ -876,18 +1111,20 @@ public class FuwenMgr extends EventProc {
 
 	/**
 	 * @Title: getFushiInBag
-	 * @Description: 获取背包的符石
-	 * @param jzId
-	 * @return
-	 * @return List<Fuwen>
+	 * @Description: 获取背包的符文
+	 * @param bag
+	 * @return List<FushiInBagInfo>
 	 * @throws
 	 */
 	public List<FushiInBagInfo> getFushiInBag(Bag<BagGrid> bag) {
 		List<FushiInBagInfo> fuwenInBagList = new ArrayList<FushiInBagInfo>();
 		List<BagGrid> list = bag.grids;
 		for (BagGrid item : list) {
-			if ((item.type == 7 || item.type == 8) && item.cnt > 0) {
+			if (item.type == 8 && item.cnt > 0) {
 				Fuwen fuwen = fuwenMap.get(item.itemId);
+				if(fuwen == null){
+					continue;
+				}
 				FushiInBagInfo fsInBag = new FushiInBagInfo(fuwen, item.cnt);
 				fuwenInBagList.add(fsInBag);
 			}
@@ -897,14 +1134,14 @@ public class FuwenMgr extends EventProc {
 
 	/**
 	 * @Title: getFushi  
-	 * @Description: 获取所有的符石
+	 * @Description: 获取所有的符文
 	 * @param jzId
 	 * @return
 	 * @return List<Fuwen>
 	 * @throws
 	 */
 	public List<Fuwen> getFushi(long jzId) {
-		// FIXME 暂时没用到，方法意思也不明确，问题：获取背包的符石是否需要数量？
+		// FIXME 暂时没用到，方法意思也不明确，问题：获取背包的符文是否需要数量？
 		Bag<BagGrid> bag = BagMgr.inst.loadBag(jzId);
 		List<Fuwen> fuwenList = new ArrayList<Fuwen>();
 		List<Fuwen> equipList = getFushiEquiped(jzId);
@@ -927,36 +1164,36 @@ public class FuwenMgr extends EventProc {
 		long jzId = jz.id;
 		IoSession session = SessionManager.inst.getIoSession(jzId);
 		if (null == session) {
-			logger.info("君主{}符石推送异常,session为null", jzId);
+			logger.info("君主{}符文推送异常,session为null", jzId);
 			return;
 		}
 		boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.FuShi, jz.id, jz.level);
 		if(!isOpen){
 			return;
 		}
-		// 当前有未镶嵌符石的栏位且有可镶嵌的符石
-		// 当前栏位有更高级的符石可以替换
-		logger.info("向君主{}推送符石红点", jzId);
+		// 当前有未镶嵌符文的栏位且有可镶嵌的符文
+		// 当前栏位有更高级的符文可以替换
+		logger.info("向君主{}推送符文红点", jzId);
 		int state = getTuisongState(jzId);
 		if(state >= 1000){
 			state -= 1000;
 			session.write(PD.FUSHI_RED_NOTICE);
-			logger.info("君主:{}有可合成的符石。", jzId);
+			logger.info("君主:{}有可合成的符文。", jzId);
 		}
 		switch (state) {
 		case -1:
-			logger.info("君主{}符石系统推送参数错误", jzId);
+			logger.info("君主{}符文系统推送参数错误", jzId);
 			break;
 		case 0:
-			logger.info("君主{}符石系统不需红点推送", jzId);
+			logger.info("君主{}符文系统不需红点推送", jzId);
 			break;
 		case 1:
 			session.write(PD.FUSHI_RED_NOTICE);
-			logger.info("符石推送红点==>君主{}有未镶嵌符石的栏位且有可镶嵌的符石", jzId);
+			logger.info("符文推送红点==>君主{}有未镶嵌符文的栏位且有可镶嵌的符文", jzId);
 			break;
 		case 2:
 			session.write(PD.FUSHI_RED_NOTICE);
-			logger.info("符石推送红点==>君主{}栏位有更高级的符石可以替换", jzId);
+			logger.info("符文推送红点==>君主{}栏位有更高级的符文可以替换", jzId);
 			break;
 		default:
 			break;
@@ -966,9 +1203,9 @@ public class FuwenMgr extends EventProc {
 
 	/**
 	 * @Title: getTuisongState
-	 * @Description: 获取符石推送红点状态
+	 * @Description: 获取符文推送红点状态
 	 * @param jzId
-	 * @return -1-参数错误 0-不需推送 1-当前有未镶嵌符石的栏位且有可镶嵌的符石 2-当前栏位有更高级的符石可以替换
+	 * @return -1-参数错误 0-不需推送 1-当前有未镶嵌符文的栏位且有可镶嵌的符文 2-当前栏位有更高级的符文可以替换
 	 * @return int
 	 * @throws
 	 */
@@ -979,63 +1216,46 @@ public class FuwenMgr extends EventProc {
 			logger.error("君主{}不存在", jzId);
 			return -1;
 		}
-		List<String> list = redis.lgetList(CACHE_FUWEN_LANWEI + jzId);
-		if (list == null || list.size() == 0) {
-			logger.info("君主{}未开启符石系统", jzId);
-			return -1;
-		}
-		Bag<BagGrid> bag = BagMgr.inst.loadBag(jzId);
-		List<FushiInBagInfo> fuwens = getFushiInBag(bag);// 背包中的符石
-		if (fuwens == null || fuwens.size() == 0) {
-			logger.info("君主{}背包中没有符石", jzId);
-			return -1;
-		}
-		HashBag counter = new HashBag();
-		HashSet<Integer> addedLanWei = new HashSet<Integer>();
+		
 		int ret = 0;
-		for (String lanwei : list) {
-			int lanweiId = Integer.parseInt(lanwei.split("#")[0]);
-			int itemId = Integer.parseInt(lanwei.split("#")[1]);
-			if(itemId>0){
-				//对已装备的符石计数
-				Fuwen fuwenEquiped = fuwenMap.get(itemId);
-				if(fuwenEquiped != null && fuwenEquiped.getFuwenLevel() < MaxFuwenLevel
-						&& !addedLanWei.contains(itemId)) {
-					addedLanWei.add(itemId);
-					counter.add(itemId,1);
+		for(Map.Entry<Integer, FuwenTab> entry : fuwenTabMap.entrySet()) {
+			List<FuWenBean> fuWenBeanList = getFuWenBeanInTab(junZhu.id, entry.getKey());
+			if (fuWenBeanList == null || fuWenBeanList.size() == 0) {
+				logger.info("君主{}未开启符文系统", jzId);
+				return -1;
+			}
+			Bag<BagGrid> bag = BagMgr.inst.loadBag(jzId);
+			List<FushiInBagInfo> fuwens = getFushiInBag(bag);// 背包中的符文
+			if (fuwens == null || fuwens.size() == 0) {
+				logger.info("君主{}背包中没有符文", jzId);
+				return -1;
+			}
+			HashBag counter = new HashBag();
+			HashSet<Integer> addedLanWei = new HashSet<Integer>();
+			for (FuWenBean fwBean : fuWenBeanList) {
+				int lanweiId = fwBean.lanWeiId;
+				int itemId = fwBean.itemId;
+				if(itemId>0){
+					//对已装备的符文计数
+					Fuwen fuwenEquiped = fuwenMap.get(itemId);
+					if(fuwenEquiped != null && fuwenEquiped.getFuwenLevel() < MaxFuwenLevel
+							&& !addedLanWei.contains(itemId)) {
+						addedLanWei.add(itemId);
+						counter.add(itemId,1);
+					}
+				}
+				ret = getLanweiPushState(lanweiId, itemId, fuwens);
+				if (ret != 0) {
+					return ret;
 				}
 			}
-			List<Integer> shuxingList = new ArrayList<Integer>();
-			List<FuwenOpen> opens = fuwenSuitMap.get(lanweiId / 100);// 获取同一个套装的栏位
-			for (FuwenOpen open : opens) {
-				int openItemId = getItemIdByLanweiId(open.getLanweiID(), list);
-				if (openItemId > 0) {
-					Fuwen openFuwen = fuwenMap.get(openItemId);
-					shuxingList.add(openFuwen.getShuxing());
-				}
-			}
-			ret = getLanweiPushState(lanweiId, itemId, fuwens,
-					shuxingList);
-			if (ret != 0) {
-				break;
-			}
-		}
-		//对只有在符石栏位的背包中的符石进行计数
-		bag.grids.stream()
-			.filter(item-> item != null && (item.type == 7 || item.type == 8) 
-										&& item.cnt > 0 && counter.contains(item.itemId))
-			.forEach(item->counter.add(item.itemId,item.cnt));
-		//计数背包和已镶嵌符石的计数是否满足合成条件
-		boolean hasCombine = counter.stream().anyMatch(id->counter.getCount(id)>=COMBINE_NUM);
-		if(hasCombine){
-			ret += 1000;
 		}
 		return ret;
 	}
 
 	/**
 	 * @Title: getLanweiPushState
-	 * @Description: 获取栏位推送状态 0-不需推送 1-背包中有可镶嵌此栏位的符石 2-背包中有相同属性更高级的符石
+	 * @Description: 获取栏位推送状态 0-不需推送 1-背包中有可镶嵌此栏位的符文 2-背包中有相同属性更高级的符文
 	 * @param lanweiId
 	 * @param itemId
 	 * @param fuwens
@@ -1043,39 +1263,40 @@ public class FuwenMgr extends EventProc {
 	 * @return int
 	 * @throws
 	 */
-	public int getLanweiPushState(int lanweiId, int itemId, List<FushiInBagInfo> fuwens,
-			List<Integer> shuxingList) {
+	public int getLanweiPushState(int lanweiId, int itemId, List<FushiInBagInfo> fuwensInBag) {
 		FuwenOpen fuwenOpen = fuwenOpenMap.get(lanweiId);
-		if (itemId == 0) {// 栏位解锁且没有符石
-			for (FushiInBagInfo fsInBag : fuwens) {// 遍历背包中的符石
+		if (itemId == 0) {// 栏位解锁且没有符文
+			for (FushiInBagInfo fsInBag : fuwensInBag) {// 遍历背包中的符文
 				Fuwen fuwen = fsInBag.fuwen;
-				boolean sameColor = fuwen.inlayColor == fuwenOpen.inlayColor;
+				if(fuwen == null) {
+					logger.error("获取栏位推送状态错误，找不到符文id为:{}的配置", itemId);
+					continue;
+				}
 				// 判断同属性栏位 
-				if (((fuwen.getShuxing() <= 3 && fuwenOpen.getLanweiType() < 10 && sameColor) || (fuwen
-						.getShuxing() > 3 && fuwenOpen.getLanweiType() > 10 && sameColor))
-						&& !shuxingList.contains(fuwen.getShuxing())) {// 背包中有可镶嵌此栏位的符石
+				if (fuwen.inlayColor == fuwenOpen.inlayColor) {// 背包中有可镶嵌此栏位的符文
 					return 1;
 				}
 			}
-		} else if (itemId > 0) {// 栏位有符石
+		} else if (itemId > 0) {// 栏位有符文
 			Fuwen fuwenEquiped = fuwenMap.get(itemId);
-			if(fuwenEquiped!=null&&fuwenEquiped.getFuwenLevel()==MaxFuwenLevel){
-				logger.info("@@@@####--栏位有符石itemId--{},等级达到--{}级,返回0",itemId,fuwenEquiped.getFuwenLevel());
+			if(fuwenEquiped == null) {
+				logger.error("获取栏位推送状态错误，找不到符文id为:{}的配置", itemId);
 				return 0;
 			}
-			int sameCount = 1;
-			for (FushiInBagInfo fsInBag : fuwens) {// 遍历背包中的符石
+			if(fuwenEquiped.getFuwenLevel() == MaxFuwenLevel){
+				logger.info("栏位有符文itemId--{},等级达到--{}级,返回0",itemId,fuwenEquiped.getFuwenLevel());
+				return 0;
+			}
+			for (FushiInBagInfo fsInBag : fuwensInBag) {// 遍历背包中的符文
 				Fuwen fuwen = fsInBag.fuwen;
-				if(fuwen.getFuwenID() == fuwenEquiped.getFuwenID()) {
-					sameCount += fsInBag.count;
+				if(fuwen == null) {
+					logger.error("获取栏位推送状态错误，找不到符文id为:{}的配置", itemId);
+					continue;
 				}
-				if (fuwen.getShuxing() == fuwenEquiped.getShuxing()
-						&& fuwen.getFuwenLevel() > fuwenEquiped.getFuwenLevel()) {// 背包中有相同属性更高级的符石
+				if (fuwen.inlayColor == fuwenEquiped.inlayColor
+						&& fuwen.getFuwenLevel() > fuwenEquiped.getFuwenLevel()) {// 背包中有相同属性更高级的符文
 					return 2;
 				}
-			}
-			if(sameCount >= COMBINE_NUM) {
-				return 2;
 			}
 		}
 		return 0;
@@ -1112,5 +1333,140 @@ public class FuwenMgr extends EventProc {
 	protected void doReg() {
 		EventMgr.regist(ED.CHECK_FUWEN_UOLOCK, this);
 		EventMgr.regist(ED.FUSHI_PUSH, this);
+	}
+
+	public void rongHeFuwen(int id, IoSession session, Builder builder) {
+		FuwenRongHeReq.Builder request = (qxmobile.protobuf.FuWen.FuwenRongHeReq.Builder) builder;
+		int tab = request.getTab();
+		int lanweiId = request.getLanweiId();
+		List<FuwenInBag> bagList = request.getBagListList();
+		
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (null == junZhu) {
+			logger.error("符文兑换错误，君主不存在");
+			return;
+		}
+		
+		FuWenBean fwBean = null;
+		List<FuWenBean> fuWenBeanList = getFuWenBeanInTab(junZhu.id, tab);
+		for(FuWenBean fwb : fuWenBeanList) {
+			if(fwb.lanWeiId == lanweiId) {
+				fwBean = fwb;
+				break;
+			}
+		}
+		FuwenRongHeResp.Builder response = FuwenRongHeResp.newBuilder();
+		response.setTab(tab);
+		response.setLanweiId(lanweiId);
+		if(fwBean == null) {
+			logger.error("符文融合失败，找不到要融合的符文bean，tab:{},lanweiId:{},junzhuId:{}", tab, lanweiId, junZhu.id);
+			response.setResult(1);
+			session.write(response.build());
+			return;
+		}
+		Fuwen zhudongFuwen = fuwenMap.get(fwBean.itemId);
+		if(zhudongFuwen == null) {
+			logger.error("符文融合失败，找不到itemId为{}的符文配置1", fwBean.itemId);
+			return;
+		}
+		
+		int expTotal = 0;
+		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
+		List<BagGrid> bagItemList = bag.grids;
+		if (bagItemList != null && bagItemList.size() > 0) {
+			for(FuwenInBag fuwenInBag : bagList) {
+				BagGrid xiaoHaoGrid = null;
+				for (BagGrid bagItem : bagItemList) {
+					if (bagItem.type != AwardMgr.type_fuWen) {
+						continue;
+					}
+					if(bagItem.dbId == fuwenInBag.getBagId()) {
+						xiaoHaoGrid = bagItem;
+						break;
+					}
+				}
+				if(xiaoHaoGrid == null) {
+					logger.error("符文融合失败，找不到背包dbId为:{}的被消耗的符文", fuwenInBag.getBagId());
+					response.setResult(2);
+					session.write(response.build());
+					return;
+				}
+				if(xiaoHaoGrid.cnt < fuwenInBag.getCnt()) {
+					logger.error("符文融合失败，背包dbId为:{}的数量:{}不足:{}", fuwenInBag.getBagId(), xiaoHaoGrid.cnt, fuwenInBag.getCnt());
+					response.setResult(3);
+					session.write(response.build());
+					return;
+				}
+				Fuwen xiaoHaoFuwen = fuwenMap.get(xiaoHaoGrid.itemId);
+				if(xiaoHaoFuwen == null) {
+					logger.error("符文融合失败，找不到itemId为{}的符文配置2", xiaoHaoGrid.itemId);
+					return;
+				}
+				expTotal += xiaoHaoGrid.instId * fuwenInBag.getCnt();
+				BagMgr.inst.removeItemByBagdbId(bag, "符文融合被消耗", xiaoHaoGrid.dbId, fuwenInBag.getCnt(), junZhu.level);
+			}
+		}
+		
+		fwBean.exp += expTotal;
+		Fuwen zhudongFWTemp = zhudongFuwen;
+		while(fwBean.exp > zhudongFWTemp.lvlupExp && 
+				zhudongFWTemp.getFuwenLevel() < zhudongFWTemp.levelMax) {
+			fwBean.itemId = zhudongFWTemp.getFuwenNext();
+			fwBean.exp -= zhudongFWTemp.lvlupExp;
+			zhudongFuwen = fuwenMap.get(zhudongFWTemp.getFuwenNext());
+			if(zhudongFuwen == null) {
+				logger.error("符文融合操作，找不到itemId为{}的符文配置3");
+				break;
+			}
+		}
+		HibernateUtil.save(fwBean);
+		logger.info("符文融合成功，符文tab:{},lanweiId:{}获得经验{}，等级变为:{}", tab, lanweiId, expTotal, zhudongFWTemp.getFuwenLevel());
+		BagMgr.inst.sendBagInfo(session, bag);
+		sendFuwenInBagInfo(session, junZhu);
+		response.setResult(0);
+		response.setItemId(fwBean.itemId);
+		response.setExp(fwBean.exp);
+		session.write(response.build());
+	}
+
+	public void duiHuanFuwen(int id, IoSession session, Builder builder) {
+		FuwenDuiHuan.Builder request = (qxmobile.protobuf.FuWen.FuwenDuiHuan.Builder) builder;
+		int fuwenItemId = request.getFuwenItemId();
+		
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if (null == junZhu) {
+			logger.error("符文兑换错误，君主不存在");
+			return;
+		}
+		FuwenDuiHuanResp.Builder response = FuwenDuiHuanResp.newBuilder();
+		FuwenDuihuan fuwenDuihuan = fuwenDuihuanMap.get(fuwenItemId);
+		if(fuwenDuihuan == null) {
+			response.setResult(2);
+			session.write(response.build());
+			logger.error("兑换符文失败，找不到要兑换的符文碎片id:{}", fuwenItemId);
+			return;
+		}
+		
+		Fuwen fuwenCfg = fuwenMap.get(fuwenItemId);
+		if(fuwenCfg == null) {
+			logger.error("兑换符文失败，找不到要兑换的符文配置，itemId:{}", fuwenItemId);
+			return;
+		}
+		
+		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
+		int haveNum = BagMgr.inst.getItemCount(bag, fuwenDuihuan.itemID);
+		if(haveNum < fuwenDuihuan.cost) {
+			logger.error("兑换符文失败，碎片不足，要兑换的符文itemId:{} 需要:{},拥有:{}", fuwenItemId, fuwenDuihuan.cost, haveNum);
+			response.setResult(1);
+			session.write(response.build());
+			return;
+		}
+		
+		BagMgr.inst.removeItem(bag, fuwenDuihuan.itemID, fuwenDuihuan.cost, "符文甲片兑换了符文", junZhu.level);
+		BagMgr.inst.addItem(bag, fuwenCfg.getFuwenID(), fuwenDuihuan.num, fuwenCfg.exp, junZhu.level, "符文甲片兑换的符文");
+		BagMgr.inst.sendBagInfo(session, bag);
+		sendFuwenInBagInfo(session, junZhu);
+		response.setResult(0);
+		session.write(response.build());
 	}
 }

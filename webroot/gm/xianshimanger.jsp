@@ -162,41 +162,63 @@ do{
 		String dayCount=	XianShiActivityMgr.DB.get(XianShiActivityMgr.XIANSHI7DAY_KEY + junZhuId);
 // 	boolean	isExist =XianShiActivityMgr.DB.lexist((XianShiActivityMgr.XIANSHIFINISH_KEY + junZhuId), XianShiConstont.QIRIQIANDAO_TYPE + "");
 		if(lastLogInTime!=null){
-				trS();
-				td("连续登陆天数"+dayCount+"；上次登录时间");
-				td("<input type='text' id='upLoginTime' value='"
-					+ sdf.format(lastLogInTime)
-					+ "'/><input type='button' value='修改' onclick='goday(\"upLoginTime\")'/><br/>");
-				trE();
+// 				trS();
+// 				td("连续登陆天数"+dayCount+"；上次登录时间");
+// 				td("<input type='text' id='upLoginTime' value='"
+// 					+ sdf.format(lastLogInTime)
+// 					+ "'/><input type='button' value='修改' onclick='goday(\"upLoginTime\")'/><br/>");
+// 				trE();
 			}
 		}
 		for(XianShiBean xs : xianShiList){
 			XianshiControl huoDong = XianShiActivityMgr.xsControlMap.get(xs.bigId);
 			if(huoDong!=null){
-			trS();
-			td(huoDong.getName());
-			td("活动参加时间");
-			td("<input type='hidden' readonly='readonly'  value='"+xs.bigId+"'/>"+
-			"<input type='text' id='upTime' value='"
-					+ sdf.format(xs.startDate)
-					+ "'/><input type='button' value='修改' onclick='go(this)'/><br/>");
-			trE();
+// 			trS();
+// 			td(huoDong.getName());
+// 			td("活动参加时间");
+// 			td("<input type='hidden' readonly='readonly'  value='"+xs.bigId+"'/>"+
+// 			"<input type='text' id='upTime' value='"
+// 					+ sdf.format(xs.startDate)
+// 					+ "'/><input type='button' value='修改' onclick='go(this)'/><br/>");
+// 			trE();
 			}else{
-				out("没有找到活动Id为"+xs.bigId+"的活动<br>");
+// 				out("没有找到活动Id为"+xs.bigId+"的活动<br>");
 			}
 		}
 		
+	       
+// 		1574000
+// 		1575000
+// 		1501000
+// 		1544000
+// 		1540000
+// 		1563000
+// 		1520000
+// 		1521000
+// 		1519000
+		       
+		
 		out("<br><br>");
-		List<XianshiHuodong> xsList=XianShiActivityMgr.instance.bigActivityMap.get(1501000);
-		for(XianshiHuodong xs : xsList){
-			if(xs!=null){
-				boolean	isYiling=false;
-			boolean isKeling =XianShiActivityMgr.instance.DB.lexist((XianShiActivityMgr.XIANSHIKELING_KEY + junzhu.id), xs.getId()+ "");
-// 			boolean isYiling =XianShiActivityMgr.instance.DB.lexist((XianShiActivityMgr.XIANSHIYILING_KEY + junzhu.id), xs.getId()+ "");
+		List<XianshiControl> xsControlList = TempletService.listAll(XianshiControl.class.getSimpleName());
+		for (XianshiControl xianshiControl : xsControlList) {
+			if(xianshiControl.getDoneType() == 1) continue;
 			trS();
-			td(xs.getDesc());
-			td(isYiling?"已领":(isKeling?"可领":"不可领"+ xs.getId()+"---"+XianShiActivityMgr.XIANSHIKELING_KEY + junzhu.id));
+			td("<strong>" + xianshiControl.getDesc() + "↓</strong>");
+			td("");
+			td("");
 			trE();
+			List<XianshiHuodong> xsList=XianShiActivityMgr.instance.bigActivityMap.get(xianshiControl.getId());
+			for(XianshiHuodong xs : xsList){
+				if(xs!=null){
+				boolean	isYiling=false;
+				boolean isKeling = XianShiActivityMgr.instance.DB.lexist((XianShiActivityMgr.XIANSHIKELING_KEY + junzhu.id), xs.getId()+ "");
+	 			isYiling = XianShiActivityMgr.instance.DB.lexist((XianShiActivityMgr.XIANSHIYILING_KEY + junzhu.id), xs.getId()+ "");
+				trS();
+				td(xs.getDesc());
+				td(xs.getDoneCondition());
+				td(isYiling?"已领":(isKeling?"可领":"不可领"+ xs.getId()+"---"+XianShiActivityMgr.XIANSHIKELING_KEY + junzhu.id));
+				trE();
+				}
 			}
 		}
 		tableEnd();

@@ -338,6 +338,12 @@
 			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
 		</antcall>
 	</target>
+	<target name='GenChongLouPve'>
+		<antcall target="protoHandle">
+			<param name="proto" value="ChongLouPve.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
 	<target name='GenPawnShop'>
 		<antcall target="protoHandle">
 			<param name="proto" value="Pawnshop.proto" />
@@ -461,6 +467,12 @@
 	<target name='GenGuoJia'>
 		<antcall target="protoHandle">
 			<param name="proto" value="GuoJia.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+	<target name='GenLieFu'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Liefu.proto" />
 			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
 		</antcall>
 	</target>
@@ -614,6 +626,24 @@
 			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
 		</antcall>
 	</target>
+		<target name='GenPlayerNum'>
+		<antcall target="protoHandle">
+			<param name="proto" value="PlayerNum.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
+		<target name='GenJewel'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Jewel.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>		
+	</target>
+	<target name='GenError'>
+		<antcall target="protoHandle">
+			<param name="proto" value="Error.proto" />
+			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+		</antcall>
+	</target>
 	<target name="protoHandle">
 		<echo message="${proto}">
 		</echo>
@@ -644,6 +674,7 @@
 			</batchtest>
 		</junit>
 	</target>
+
 </project>
 
 

@@ -284,7 +284,7 @@ public class YouXiaMgr extends EventProc {
 					award.getItemType(), award.getItemId(), award.getItemNum());
 			AwardMgr.inst.giveReward(session, award, junZhu, false);
 		}
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		dropAwardMapBefore.remove(junZhu.id);
 	}
 
@@ -498,6 +498,9 @@ public class YouXiaMgr extends EventProc {
 				node.setNuQiZhi(0);
 				node.setMibaoCount(0);
 				node.setMibaoPower(0);
+				node.setArmor(npcTemp.armor);
+				node.setArmorMax(npcTemp.armorMax);
+				node.setArmorRatio(npcTemp.armorRatio);
 				GongjiType gongjiType = PveMgr.inst.id2GongjiType.get(npcTemp.gongjiType);
 				PveMgr.inst.fillDataByGongjiType(node, gongjiType);
 				PveMgr.inst.fillGongFangInfo(node, enemyTemp);
@@ -596,6 +599,9 @@ public class YouXiaMgr extends EventProc {
 		Date date = new Date();
 
 		for (Map.Entry<Integer, YouxiaOpenTime> entry : youxiaOpenTimeMap.entrySet()) {
+			if(entry.getKey() == 101) {//表示是千重楼 ，不发
+				continue;
+			}
 			YouxiaOpenTime openTimeCfg = entry.getValue();
 			YouXiaInfo.Builder youxiaInfo = YouXiaInfo.newBuilder();
 			youxiaInfo.setId(openTimeCfg.id);
@@ -823,8 +829,8 @@ public class YouXiaMgr extends EventProc {
 		HibernateUtil.save(yxBean);
 
 		YuanBaoMgr.inst.diff(junZhu, -needMoney, 0, needMoney, YBType.YB_BUY_YOUXIA_CISHU, "购买游侠玩法次数");
-		HibernateUtil.save(junZhu);
-		JunZhuMgr.inst.sendMainInfo(session);
+		HibernateUtil.update(junZhu);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 
 		response.setResult(0);
 		response.setType(type);
@@ -932,8 +938,8 @@ public class YouXiaMgr extends EventProc {
 		logger.info("游侠扫荡成功，君主:{}扫荡章节:{}成功，剩余次数:{}", junZhu.id, guanQiaId, yxBean.times);
 		junZhu.tongBi += getTongbi;
 		JunZhuMgr.inst.addExp(junZhu, getExp);
-		HibernateUtil.save(junZhu);
-		JunZhuMgr.inst.sendMainInfo(session);
+		HibernateUtil.update(junZhu);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		response.setAllTime(0);
 		response.setEndTime(0);
 		response.setResult(0);

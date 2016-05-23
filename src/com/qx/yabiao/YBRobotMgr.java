@@ -16,10 +16,10 @@ import com.manu.dynasty.template.YunbiaoTemp;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
 import com.qx.persistent.HibernateUtil;
-import com.qx.world.YaBiaoScene;
+import com.qx.world.VisionScene;
 /**
  * 
- * @author yuquanshui 
+ * @Description 押镖马车移动管理
  *
  */
 public class YBRobotMgr implements Runnable{
@@ -266,7 +266,7 @@ public class YBRobotMgr implements Runnable{
 			}
 		}
 		ybr.startTime4short=System.currentTimeMillis();
-		YaBiaoScene sc = ybr.sc;
+		VisionScene sc = ybr.sc;
 		if(sc==null){
 			log.info("未找到镖车=={}所在的场景",ybr.jzId);
 			return;

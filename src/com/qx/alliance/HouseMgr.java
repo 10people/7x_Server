@@ -21,6 +21,47 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.protobuf.MessageLite.Builder;
+import com.manu.dynasty.base.TempletService;
+import com.manu.dynasty.boot.GameServer;
+import com.manu.dynasty.template.CanShu;
+import com.manu.dynasty.template.FangWu;
+import com.manu.dynasty.template.FangWuInformation;
+import com.manu.dynasty.template.Jiangli;
+import com.manu.dynasty.template.LianMengKeJi;
+import com.manu.dynasty.template.Mail;
+import com.manu.dynasty.util.DateUtils;
+import com.manu.network.BigSwitch;
+import com.manu.network.PD;
+import com.manu.network.SessionAttKey;
+import com.manu.network.SessionManager;
+import com.manu.network.SessionUser;
+import com.manu.network.msg.ProtobufMsg;
+import com.qx.account.FunctionOpenMgr;
+import com.qx.alliance.building.JianZhuMgr;
+import com.qx.alliance.building.LMKJJiHuo;
+import com.qx.award.AwardMgr;
+import com.qx.award.DailyAwardMgr;
+import com.qx.bag.Bag;
+import com.qx.bag.BagGrid;
+import com.qx.bag.BagMgr;
+import com.qx.email.Email;
+import com.qx.email.EmailMgr;
+import com.qx.event.ED;
+import com.qx.event.Event;
+import com.qx.event.EventMgr;
+import com.qx.event.EventProc;
+import com.qx.junzhu.JunZhu;
+import com.qx.junzhu.JunZhuMgr;
+import com.qx.junzhu.PlayerTime;
+import com.qx.persistent.HibernateUtil;
+import com.qx.purchase.PurchaseMgr;
+import com.qx.pvp.PvpBean;
+import com.qx.timeworker.FunctionID;
+import com.qx.vip.VipData;
+import com.qx.vip.VipMgr;
+import com.qx.world.Mission;
+
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.House.AnswerExchange;
 import qxmobile.protobuf.House.Apply;
@@ -43,46 +84,6 @@ import qxmobile.protobuf.House.OffVisitorInfo;
 import qxmobile.protobuf.House.SetHouseState;
 import qxmobile.protobuf.House.VisitorInfo;
 
-import com.google.protobuf.MessageLite.Builder;
-import com.manu.dynasty.base.TempletService;
-import com.manu.dynasty.boot.GameServer;
-import com.manu.dynasty.template.CanShu;
-import com.manu.dynasty.template.FangWu;
-import com.manu.dynasty.template.FangWuInformation;
-import com.manu.dynasty.template.Jiangli;
-import com.manu.dynasty.template.LianMengKeJi;
-import com.manu.dynasty.template.Mail;
-import com.manu.dynasty.util.DateUtils;
-import com.manu.network.BigSwitch;
-import com.manu.network.PD;
-import com.manu.network.SessionAttKey;
-import com.manu.network.SessionManager;
-import com.manu.network.SessionUser;
-import com.manu.network.msg.ProtobufMsg;
-import com.qx.account.FunctionOpenMgr;
-import com.qx.alliance.building.JianZhuMgr;
-import com.qx.alliance.building.LMKJJiHuo;
-import com.qx.award.DailyAwardMgr;
-import com.qx.bag.Bag;
-import com.qx.bag.BagGrid;
-import com.qx.bag.BagMgr;
-import com.qx.email.Email;
-import com.qx.email.EmailMgr;
-import com.qx.event.ED;
-import com.qx.event.Event;
-import com.qx.event.EventMgr;
-import com.qx.event.EventProc;
-import com.qx.junzhu.JunZhu;
-import com.qx.junzhu.JunZhuMgr;
-import com.qx.junzhu.PlayerTime;
-import com.qx.persistent.HibernateUtil;
-import com.qx.purchase.PurchaseMgr;
-import com.qx.pvp.PvpBean;
-import com.qx.timeworker.FunctionID;
-import com.qx.vip.VipData;
-import com.qx.vip.VipMgr;
-import com.qx.world.Mission;
-
 public class HouseMgr extends EventProc implements Runnable {
 	public static Logger log = LoggerFactory.getLogger(HouseMgr.class
 			.getSimpleName());
@@ -94,7 +95,6 @@ public class HouseMgr extends EventProc implements Runnable {
 	private static Mission exit = new Mission(0, null, null);
 	public static ThreadLocal<Boolean> sentIsComplete = new ThreadLocal<Boolean>();
 	public static int huanFangKa = 900016;
-	public static int huFu = 910000;
 	public static int fangwuSum = 280;// 2016年3月22日 房子上限数改成280（此时10级联盟最高有140人）  50个小房子  2015年9月7日 房屋50改为20个 
 
 	public HouseMgr() {
@@ -837,7 +837,7 @@ public class HouseMgr extends EventProc implements Runnable {
 	}
 
 	/**
-	 * 给联盟成员分配默认房屋。如果该玩家之前有房屋信息，则会重建。
+	 * 给联盟成员分配默认房屋。如果该玩家之前有房屋信息，则更新至新的联盟。
 	 * 
 	 * @param lmId
 	 * @param jzId
@@ -853,9 +853,15 @@ public class HouseMgr extends EventProc implements Runnable {
 			bean.cunchuExp=CanShu.FANGWU_INITIAL_EXP;
 			log.info("玩家--{}第一次获得房屋，给初始房屋经验---{}", jzId,bean.cunchuExp);
 		} else if (bean.lmId <= 0) {// 从其他联盟退出了。
+			log.info("玩家{}更换联盟，已有房屋，由旧联盟{}，更新至新联盟", bean.lmId , lmId );
+			bean.lmId = lmId ;
+			HibernateUtil.save(bean);
+			return bean ;
 		} else {
-			log.error("该玩家已有房屋，属于联盟{}", bean.lmId);
-			return null;
+			log.info("玩家{}已有房屋，由旧联盟{}，更新至新联盟", bean.lmId , lmId );
+			bean.lmId = lmId ;
+			HibernateUtil.save(bean);
+			return bean ;
 		}
 		bean.lmId = lmId;
 		bean.state = HouseBean.ForUse;
@@ -990,7 +996,7 @@ public class HouseMgr extends EventProc implements Runnable {
 
 		// 离开联盟时把君主未领取的经验存起来
 		hb.cunchuExp = expInfo.getCur();
-		hb.lmId = 0;
+		hb.lmId = -1;
 		HibernateUtil.save(hb);
 		// 给玩家发邮件
 		if (bh == null) {
@@ -1058,6 +1064,8 @@ public class HouseMgr extends EventProc implements Runnable {
 			log.error("{}加入{}联盟，更新所有的联盟成员的房屋信息失败", jzId, lmId);
 		} else {
 			resetHuanWu(lmId, jzId);
+			hb.preGainExpTime = new Date();
+			HibernateUtil.save(hb);		// 加入联盟后，更新上次领取房屋经验的时间，以便计算的时候，把离开联盟的那段时间除去
 			// 加入联盟，更新房屋信息
 			updateHouseInfoForLianMeng(lmId, 100, hb, null);
 			log.info("{}加入{}联盟，更新所有的联盟成员的房屋信息成功", jzId, lmId);
@@ -1211,7 +1219,7 @@ public class HouseMgr extends EventProc implements Runnable {
 		// 扣除购买者的换房卡
 		BagMgr.inst.removeItem(bag, huanFangKa, 1, "换房", buyer.level);
 		// 删除物品后推送背包信息给玩家
-		sendBagAgain(bag.ownerId);
+		BagMgr.inst.sendBagAgain(bag);
 		// ======================================
 		{// 给空房子买家发邮件
 			// 恭喜主人换取无主的房屋aaa，快去新房子看一看吧！
@@ -1417,7 +1425,7 @@ public class HouseMgr extends EventProc implements Runnable {
 		// 扣除购买者的换房卡
 		BagMgr.inst.removeItem(bag, huanFangKa, 1, "换房", curJz.level);
 		// 删除物品后推送背包信息给玩家
-		BagMgr.inst.sendBagInfo(0, session, null);
+		BagMgr.inst.sendBagInfo(session, bag);
 		// ======================================
 		{// 给买家发邮件
 			// 恭喜主人与xxx成功交换被荒废已久的房屋aaa，快去大肆修葺一番吧！
@@ -1435,7 +1443,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			Mail cfg = EmailMgr.INSTANCE.getMailConfig(10023);
 			String content = cfg.content.replace("xxx", curJz.name);
 			content = content.replace("aaa", getFWName(buyerLoc, 101));
-			String fuJian = "30:" + huFu + ":1";
+			String fuJian = "30:" + AwardMgr.ITEM_HU_FU_ID + ":1";
 			boolean ok = EmailMgr.INSTANCE.sendMail(targetJz.name, content,
 					fuJian, cfg.sender, cfg, "");
 			log.info("发送同意换房邮件给{}成功? {} ", targetJz.name, ok);
@@ -1482,7 +1490,7 @@ public class HouseMgr extends EventProc implements Runnable {
 		// 扣除购买者的换房卡
 		BagMgr.inst.removeItem(bag, huanFangKa, 1, "换房", curJz.level);
 		// 删除物品后推送背包信息给玩家
-		BagMgr.inst.sendBagInfo(0, session, null);
+		BagMgr.inst.sendBagInfo(session, bag);
 		{// 给盟主发邮件
 			// 恭喜主人与xxx换房成功，我们快去新家看看吧！
 			Mail cfg = EmailMgr.INSTANCE.getMailConfig(10002);
@@ -1504,7 +1512,7 @@ public class HouseMgr extends EventProc implements Runnable {
 									targetHb.location - 100));
 			content = content.replace("yyy",
 					getFWName(buyerHb.location - 100, buyerHb.location - 100));
-			String fuJian = "30:" + huFu + ":1";
+			String fuJian = "30:" + AwardMgr.ITEM_HU_FU_ID + ":1";
 			boolean ok = EmailMgr.INSTANCE.sendMail(targetJz.name, content,
 					fuJian, cfg.sender, cfg, "");
 
@@ -2000,7 +2008,8 @@ public class HouseMgr extends EventProc implements Runnable {
 		// 主线任务: 成功装修1次房屋算完成任务（房屋升级） 20190916
 		EventMgr.addEvent(ED.fix_house , new Object[] {curJzId});
 	}
-
+	
+	/** 残卷交换奖励操作*/
 	public void exCanJuan(IoSession session, Builder builder) {
 		ExCanJuanJiangLi.Builder req = (qxmobile.protobuf.House.ExCanJuanJiangLi.Builder) builder;
 		if (req == null)
@@ -2043,9 +2052,10 @@ public class HouseMgr extends EventProc implements Runnable {
 		pm.builder = msg;
 		session.write(pm);
 		// 删除物品后推送背包信息给玩家
-		BagMgr.inst.sendBagInfo(0, session, null);
+		BagMgr.inst.sendBagInfo(session, bag);
 	}
 
+	
 	public void exchangeBox(IoSession session, Builder builder) {
 		ExchangeItem.Builder req = (qxmobile.protobuf.House.ExchangeItem.Builder) builder;
 		long targetJzId = req.getTargetJzId();
@@ -2062,8 +2072,9 @@ public class HouseMgr extends EventProc implements Runnable {
 		}
 		HuanWu selfBean = HibernateUtil.find(HuanWu.class, curJzId);
 		HuanWu targetBean = HibernateUtil.find(HuanWu.class, targetJzId);
-		if (selfBean == null || targetBean == null)
+		if (selfBean == null || targetBean == null){
 			return;
+		}			
 		String targetItemId = req.getTargetItemId();
 		String selfItemId = req.getSelfItemId();
 		if (targetItemId.equals(selfItemId))
@@ -2191,7 +2202,7 @@ public class HouseMgr extends EventProc implements Runnable {
 							preItemId);
 				}
 			}
-			BagMgr.inst.sendBagInfo(0, session, null);
+			BagMgr.inst.sendBagInfo(session, bag);
 			sendHuanWu(0, session, null);
 		}
 			break;
@@ -2227,7 +2238,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			}
 			HibernateUtil.save(bean);
 			log.info("{}将换物箱位置{}的{}取下", curJzId, boxIdx, itemId);
-			BagMgr.inst.sendBagInfo(0, session, null);
+			BagMgr.inst.sendBagInfo(session, bag);
 			sendHuanWu(0, session, null);
 			break;
 		}
@@ -2744,7 +2755,7 @@ public class HouseMgr extends EventProc implements Runnable {
 
 		BagMgr.inst.removeItem(bag, huanFangKa, 1, "换房", buyer.level);
 		// 删除物品后推送背包信息给玩家
-		sendBagAgain(bag.ownerId);
+		BagMgr.inst.sendBagAgain(bag);
 		// ======================================
 		{// 给买家发邮件
 			// 您的房屋交换申请已经被玩家xxx接受，恭喜主人获得新房屋，我们快去看一看新家吧！
@@ -2761,7 +2772,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			String content = cfg.content.replace("xxx", buyer.name);
 			content = content.replace("aaa", getFWName(targetHb.location, 101));
 			content = content.replace("bbb", getFWName(buyerHb.location, 101));
-			String fuJian = "30:" + huFu + ":1";
+			String fuJian = "30:" + AwardMgr.ITEM_HU_FU_ID + ":1";
 			boolean ok = EmailMgr.INSTANCE.sendMail(buyer.name, content,
 					fuJian, cfg.sender, cfg, "");
 			log.info("发送同意换房邮件给{}成功? {}", buyer.name, ok);
@@ -2856,7 +2867,7 @@ public class HouseMgr extends EventProc implements Runnable {
 		Bag<BagGrid> bag = BagMgr.inst.loadBag(buyerId);
 		BagMgr.inst.removeItem(bag, huanFangKa, 1, "换房", buyer.level);
 		// 删除物品后推送背包信息给玩家
-		sendBagAgain(bag.ownerId);
+		BagMgr.inst.sendBagAgain(bag);
 		// ======================================
 		{// 给买家发邮件
 			// 恭喜主人获得盟主大人的批准，成功与xxx交换了房屋，我们快去新家看看吧！
@@ -2874,7 +2885,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			String content = cfg.content.replace("aaa",
 					getFWName(targetHb.location, 101));
 			content = content.replace("xxx", buyer.name);
-			String fuJian = "30:" + huFu + ":1";
+			String fuJian = "30:" + AwardMgr.ITEM_HU_FU_ID + ":1";
 			boolean ok = EmailMgr.INSTANCE.sendMail(targetJz.name, content,
 					fuJian, cfg.sender, cfg, "");
 			log.info("发送同意换房邮件给{}成功? {}", targetJz.name, ok);
@@ -3128,17 +3139,6 @@ public class HouseMgr extends EventProc implements Runnable {
 	}
 
 	/**
-	 * @Description: 删除物品后推送背包信息给玩家
-	 * @param jzId
-	 */
-	public  void sendBagAgain(long jzId) {
-		SessionUser su = SessionManager.inst.findByJunZhuId(jzId);
-		if (su != null) {
-			log.info("从{}移除物品，推送背包信息给玩家", jzId);
-			BagMgr.inst.sendBagInfo(0, su.session, null);
-		}
-	}
-	/**
 	 * @Description: 推送房屋经验可领
 	 * @param jzId
 	 */
@@ -3184,8 +3184,8 @@ public class HouseMgr extends EventProc implements Runnable {
 			expInfo = makeBigHouseExpInfo(jzId, bh, hb, 1);
 		}
 		int exp = expInfo.getCur();
-		int expMax=expInfo.getMax();
-		if(exp>=expMax){
+		int expMax = (int) (expInfo.getMax() * (CanShu.LIANMXIAOWU_EXP / 100));
+		if(exp >= expMax){
 			log.info("君主{}房屋经验已满，可以领取", jzId);
 			return true;
 		}

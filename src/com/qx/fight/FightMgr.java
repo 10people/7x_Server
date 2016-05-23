@@ -29,6 +29,7 @@ import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.PurchaseConstants;
 import com.qx.purchase.PurchaseMgr;
+import com.qx.world.FightNPC;
 import com.qx.world.Player;
 import com.qx.world.Scene;
 import com.qx.yabiao.YBBattleBean;
@@ -66,6 +67,7 @@ public class FightMgr {
 		FightAttackReq.Builder request = (qxmobile.protobuf.AllianceFightProtos.FightAttackReq.Builder) builder;
 		int targetUid = request.getTargetUid();			// 被攻击者的uid
 		int skillId = request.getSkillId();				// 使用的技能id
+		//skillId = 171;
 		
 		int attackUid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
 		Scene scene = (Scene) session.getAttribute(SessionAttKey.Scene);
@@ -83,8 +85,11 @@ public class FightMgr {
 			sendAttackResponse(attackUid, -1, Result.SUCCESS, skillId, scene, 0, targetPlayer.currentLife, true);
 			return;
 		}
-		
+		//if(targetPlayer.currentLife <= 0 && skillId == 171){
+			//targetPlayer.currentLife = 9999999;//DELETE THIS CODE
+		//}
 		if(targetPlayer.currentLife <= 0 || attackPlayer.currentLife <= 0) {
+			logger.warn("参与者已死 src {}, dst {}",attackPlayer.currentLife,targetPlayer.currentLife);
 			return;
 		}
 		
@@ -92,15 +97,6 @@ public class FightMgr {
 		if(attacker == null) {
 			logger.error("fight攻击失败，找不到君主");
 			return;
-		}
-		if(skillId != 121 && targetPlayer.safeArea >= 0) {
-			logger.info("攻击失败，被攻击的目标在安全区，safeArea:{}，targetJZId:{}",targetPlayer.safeArea,targetPlayer.jzId);
-			sendAttackError(Result.TARGET_IN_SAFE_AREA, scene, attackUid);
-			return;
-		} else if(skillId == 121){
-			if(YaBiaoHuoDongMgr.inst.getXuePingRemainTimes(targetPlayer.jzId, targetPlayer.vip) <= 0) {
-				return;
-			}
 		}
 		
 		if(targetPlayer.roleId == Scene.YBRobot_RoleId) {
@@ -115,22 +111,20 @@ public class FightMgr {
 			Player attackPlayer, Player targetPlayer, int skillId) {
 		int targetUid = targetPlayer.userId;
 		int attackUid = attackPlayer.userId;
-		JunZhu defender = HibernateUtil.find(JunZhu.class, targetPlayer.jzId);
-		if(defender == null) {
-			logger.error("攻击失败，找不到被攻击的君主，id:{}", targetPlayer.jzId);
-			return;
-		}
-		YBBattleBean ybBattle = YaBiaoHuoDongMgr.inst.getYBZhanDouInfo(defender.id, defender.vipLevel);
-		/* 
-		if(skillId != 121 && targetPlayer.safeArea >= 0) {
-			logger.info("攻击失败，被攻击的目标在安全区，safeArea:{}，targetJZId:{}",targetPlayer.safeArea,targetPlayer.jzId);
-			sendAttackError(Result.TARGET_IN_SAFE_AREA, scene, attackUid);
-			return;
-		} else if(skillId == 121){
-			if(YaBiaoHuoDongMgr.inst.getXuePingRemainTimes(defender.id, defender.vipLevel) <= 0) {
+		JunZhu defender = null;
+		if(targetPlayer instanceof FightNPC){
+			FightNPC fp = (FightNPC)targetPlayer;
+			defender = fp.fakeJz;
+		}else{
+			defender = HibernateUtil.find(JunZhu.class, targetPlayer.jzId);
+			if(defender == null) {
+				logger.error("攻击失败，找不到被攻击的君主，id:{}", targetPlayer.jzId);
 				return;
 			}
-		}*/
+		}
+		if(scene.checkSkill(attacker,attackPlayer,targetPlayer,skillId)==false){
+			return;
+		}
 		
 		boolean teammate = isTeammate(targetPlayer, attackPlayer); 
 		boolean targetIsSelf = isTargetIsSelf(targetUid, attackUid);
@@ -138,30 +132,23 @@ public class FightMgr {
 		float distance = scene.getPlayerDistance(attackPlayer.userId, targetPlayer.userId) * 100;
 		Result result = verifySkill(skill, targetIsSelf, distance, teammate, attacker.id);
 		if(result != Result.SUCCESS) {
-			logger.error("攻击失败-技能使用失败，attackJzId:{},targetJzId:{}，skillId:{},result:{}",
-					attacker.id, defender.id, skillId, result);
+			logger.error("uid{}技能使用失败，attackJzId:{},targetJzId:{}，skillId:{},result:{}",
+					attackUid,attacker.id, defender.id, skillId, result);
 			sendAttackError(result, scene, attackUid);
 			return;
 		}
 		
 		long damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, skill, targetUid);
 		damageValue = fixDamageValue(targetPlayer, skill, damageValue);
+//		damageValue+=8888;
 		updateSkillCdTime(attacker.id, skill);
 		BigSwitch.inst.buffMgr.processSkillEffect(damageValue, targetPlayer, skill);
 	
-		if(skillId == 121) {
-			attackPlayer.xuePingRemain -= 1;
-			if(ybBattle != null) {
-				ybBattle.xueping4uesd += 1;
-				HibernateUtil.save(ybBattle);
-			}
-		}
-
-		logger.info("发生打架事件：jz:{}攻击了jz:{},使用技能:{},造成伤害值:{}", attacker.id, defender.id, skillId, damageValue);
+		logger.info("uid{},jz:{}攻击了jz:{},使用技能:{},造成伤害值:{}",attackUid, attacker.id, defender.id, skillId, damageValue);
 		sendAttackResponse(attackUid, targetUid, Result.SUCCESS, skillId, scene, damageValue, targetPlayer.currentLife, true);
 		if(targetPlayer.currentLife <= 0) {
+			scene.playerDie(defender, targetUid, attackPlayer.userId);
 			if(scene.name.contains("YB")) {
-				processYBPlayerDead(scene, defender, targetUid, attackPlayer.userId);
 				JunZhu attackJz = HibernateUtil.find(JunZhu.class, attackPlayer.jzId);
 				YaBiaoHuoDongMgr.inst.isEnemy4Award(attackJz, defender);
 			}
@@ -244,7 +231,7 @@ public class FightMgr {
 		}
 
 		if(targetPlayer.currentLife <= 0) {
-			processYBPlayerDead(scene, defender, targetUid, attackPlayer.userId);
+			scene.playerDie(defender, targetUid, attackPlayer.userId);
 			cartInjuredFirstRecord.remove(defender.id);
 			YaBiaoHuoDongMgr.inst.settleJieBiaoResult(targetPlayer.jzId, session);
 		}
@@ -281,7 +268,7 @@ public class FightMgr {
 		BigSwitch.inst.buffMgr.processSkillEffect(beatBackDamage, attackPlayer, beatBackSkill);
 		sendAttackResponse(targetUid,attackUid, Result.SUCCESS, 101, scene, beatBackDamage, attackPlayer.currentLife, true);
 		if(attackPlayer.currentLife <= 0) {
-			processYBPlayerDead(scene, attacker, attackUid, targetUid);
+			scene.playerDie(attacker, attackUid, targetUid);
 		}
 	}
 
@@ -362,10 +349,7 @@ public class FightMgr {
 		response.setRemainLife(remainLife);
 		
 		if(succeed) {
-			for(Map.Entry<Integer, Player> entry : scene.players.entrySet()) {
-				Player p = entry.getValue();
-				p.session.write(response.build());
-			}
+			scene.broadCastEvent(response.build(), 0);
 		} else {
 			Player p = scene.players.get(attackUid);
 			p.session.write(response.build());
@@ -391,33 +375,6 @@ public class FightMgr {
 		skillCDMap.put(skill.SkillId, System.currentTimeMillis() + skill.BaseCD);
 		if(skill.IsInGCD == 1) {
 			skillGroupEndTime = System.currentTimeMillis() + skill.CDGroup;
-		}
-	}
-
-	public void processYBPlayerDead(Scene scene, JunZhu defender, int uid, int killerUid) {
-		BuffMgr.inst.removeBuff(defender.id);
-		int onSiteReviveCost = 20;//默认20，为了假如找不到配置能够继续执行
-		int remainReviveTimes = 0;
-		if(defender.id > 0) {// 表示是真实玩家
-			int reviveOnDeadPosTimes = YaBiaoHuoDongMgr.inst.getReviveOnDeadPosTimes(defender);
-			Purchase purchase = PurchaseMgr.inst.getPurchaseCfg(PurchaseConstants.YB_REVIVE_DEAD_POS, reviveOnDeadPosTimes+1);
-			if(purchase == null) {
-				logger.error("找不到类型为:{}的purchase配置", PurchaseConstants.YB_REVIVE_DEAD_POS);
-			} else {
-				onSiteReviveCost = purchase.getYuanbao();
-			}
-			remainReviveTimes = YaBiaoHuoDongMgr.inst.getFuhuoTimes(defender);
-		}
-		
-		PlayerDeadNotify.Builder deadNotify = PlayerDeadNotify.newBuilder();
-		deadNotify.setUid(uid);
-		deadNotify.setKillerUid(killerUid);
-		deadNotify.setAutoReviveRemainTime(YunbiaoTemp.autoResurgenceTime);
-		deadNotify.setRemainAllLifeTimes(remainReviveTimes);
-		deadNotify.setOnSiteReviveCost(onSiteReviveCost);
-		for(Map.Entry<Integer, Player> entry : scene.players.entrySet()) {
-			Player p = entry.getValue();
-			p.session.write(deadNotify.build());
 		}
 	}
 	
@@ -482,13 +439,10 @@ public class FightMgr {
 		}
 		reviveNotify.setResult(0);
 		logger.info("junzhu:{}复活坐标x:{},y:{},复活后的血量:{}",junzhu.name, reviveNotify.getPosX(), reviveNotify.getPosZ(),player.currentLife);
-		for(Map.Entry<Integer, Player> entry : scene.players.entrySet()) {
-			Player p = entry.getValue();
-			p.session.write(reviveNotify.build());
-		}
+		scene.broadCastEvent(reviveNotify.build(), 0);
 		
 		YaBiaoHuoDongMgr.inst.kouchuFuhuoTimes(junzhu);
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,junzhu);
 	}
 
 	public void sendPlayerReviveNotifyError(IoSession session, int result, Player player) {

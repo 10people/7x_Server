@@ -4,8 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.qx.persistent.MCSupport;
-
 @Entity
 @Table(name = "YunBiaoHistory123")
 public class YunBiaoHistory{

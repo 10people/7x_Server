@@ -1523,6 +1523,50 @@ public final class VIP {
      */
     qxmobile.protobuf.VIP.ChongTimesOrBuilder getInfosOrBuilder(
         int index);
+
+    // repeated int32 getRewardVipList = 6;
+    /**
+     * <code>repeated int32 getRewardVipList = 6;</code>
+     *
+     * <pre>
+     *已领的vip专属礼包 idlist
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getGetRewardVipListList();
+    /**
+     * <code>repeated int32 getRewardVipList = 6;</code>
+     *
+     * <pre>
+     *已领的vip专属礼包 idlist
+     * </pre>
+     */
+    int getGetRewardVipListCount();
+    /**
+     * <code>repeated int32 getRewardVipList = 6;</code>
+     *
+     * <pre>
+     *已领的vip专属礼包 idlist
+     * </pre>
+     */
+    int getGetRewardVipList(int index);
+
+    // required int32 yueKaLeftDays = 7;
+    /**
+     * <code>required int32 yueKaLeftDays = 7;</code>
+     *
+     * <pre>
+     *月卡剩余天数
+     * </pre>
+     */
+    boolean hasYueKaLeftDays();
+    /**
+     * <code>required int32 yueKaLeftDays = 7;</code>
+     *
+     * <pre>
+     *月卡剩余天数
+     * </pre>
+     */
+    int getYueKaLeftDays();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.VipInfoResp}
@@ -1607,6 +1651,32 @@ public final class VIP {
               infos_.add(input.readMessage(qxmobile.protobuf.VIP.ChongTimes.PARSER, extensionRegistry));
               break;
             }
+            case 48: {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+                getRewardVipList_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              getRewardVipList_.add(input.readInt32());
+              break;
+            }
+            case 50: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020) && input.getBytesUntilLimit() > 0) {
+                getRewardVipList_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                getRewardVipList_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000010;
+              yueKaLeftDays_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1617,6 +1687,9 @@ public final class VIP {
       } finally {
         if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
           infos_ = java.util.Collections.unmodifiableList(infos_);
+        }
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+          getRewardVipList_ = java.util.Collections.unmodifiableList(getRewardVipList_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -1758,12 +1831,73 @@ public final class VIP {
       return infos_.get(index);
     }
 
+    // repeated int32 getRewardVipList = 6;
+    public static final int GETREWARDVIPLIST_FIELD_NUMBER = 6;
+    private java.util.List<java.lang.Integer> getRewardVipList_;
+    /**
+     * <code>repeated int32 getRewardVipList = 6;</code>
+     *
+     * <pre>
+     *已领的vip专属礼包 idlist
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getGetRewardVipListList() {
+      return getRewardVipList_;
+    }
+    /**
+     * <code>repeated int32 getRewardVipList = 6;</code>
+     *
+     * <pre>
+     *已领的vip专属礼包 idlist
+     * </pre>
+     */
+    public int getGetRewardVipListCount() {
+      return getRewardVipList_.size();
+    }
+    /**
+     * <code>repeated int32 getRewardVipList = 6;</code>
+     *
+     * <pre>
+     *已领的vip专属礼包 idlist
+     * </pre>
+     */
+    public int getGetRewardVipList(int index) {
+      return getRewardVipList_.get(index);
+    }
+
+    // required int32 yueKaLeftDays = 7;
+    public static final int YUEKALEFTDAYS_FIELD_NUMBER = 7;
+    private int yueKaLeftDays_;
+    /**
+     * <code>required int32 yueKaLeftDays = 7;</code>
+     *
+     * <pre>
+     *月卡剩余天数
+     * </pre>
+     */
+    public boolean hasYueKaLeftDays() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required int32 yueKaLeftDays = 7;</code>
+     *
+     * <pre>
+     *月卡剩余天数
+     * </pre>
+     */
+    public int getYueKaLeftDays() {
+      return yueKaLeftDays_;
+    }
+
     private void initFields() {
       vipLevel_ = 0;
       needYb_ = 0;
       hasYb_ = 0;
       isMax_ = false;
       infos_ = java.util.Collections.emptyList();
+      getRewardVipList_ = java.util.Collections.emptyList();
+      yueKaLeftDays_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1783,6 +1917,10 @@ public final class VIP {
         return false;
       }
       if (!hasIsMax()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasYueKaLeftDays()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1814,6 +1952,12 @@ public final class VIP {
       for (int i = 0; i < infos_.size(); i++) {
         output.writeMessage(5, infos_.get(i));
       }
+      for (int i = 0; i < getRewardVipList_.size(); i++) {
+        output.writeInt32(6, getRewardVipList_.get(i));
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(7, yueKaLeftDays_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1842,6 +1986,19 @@ public final class VIP {
       for (int i = 0; i < infos_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, infos_.get(i));
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < getRewardVipList_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(getRewardVipList_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getGetRewardVipListList().size();
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, yueKaLeftDays_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1978,6 +2135,10 @@ public final class VIP {
         } else {
           infosBuilder_.clear();
         }
+        getRewardVipList_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
+        yueKaLeftDays_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -2031,6 +2192,15 @@ public final class VIP {
         } else {
           result.infos_ = infosBuilder_.build();
         }
+        if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          getRewardVipList_ = java.util.Collections.unmodifiableList(getRewardVipList_);
+          bitField0_ = (bitField0_ & ~0x00000020);
+        }
+        result.getRewardVipList_ = getRewardVipList_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.yueKaLeftDays_ = yueKaLeftDays_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2085,6 +2255,19 @@ public final class VIP {
             }
           }
         }
+        if (!other.getRewardVipList_.isEmpty()) {
+          if (getRewardVipList_.isEmpty()) {
+            getRewardVipList_ = other.getRewardVipList_;
+            bitField0_ = (bitField0_ & ~0x00000020);
+          } else {
+            ensureGetRewardVipListIsMutable();
+            getRewardVipList_.addAll(other.getRewardVipList_);
+          }
+          onChanged();
+        }
+        if (other.hasYueKaLeftDays()) {
+          setYueKaLeftDays(other.getYueKaLeftDays());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -2103,6 +2286,10 @@ public final class VIP {
           return false;
         }
         if (!hasIsMax()) {
+          
+          return false;
+        }
+        if (!hasYueKaLeftDays()) {
           
           return false;
         }
@@ -2520,6 +2707,149 @@ public final class VIP {
           infos_ = null;
         }
         return infosBuilder_;
+      }
+
+      // repeated int32 getRewardVipList = 6;
+      private java.util.List<java.lang.Integer> getRewardVipList_ = java.util.Collections.emptyList();
+      private void ensureGetRewardVipListIsMutable() {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+          getRewardVipList_ = new java.util.ArrayList<java.lang.Integer>(getRewardVipList_);
+          bitField0_ |= 0x00000020;
+         }
+      }
+      /**
+       * <code>repeated int32 getRewardVipList = 6;</code>
+       *
+       * <pre>
+       *已领的vip专属礼包 idlist
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getGetRewardVipListList() {
+        return java.util.Collections.unmodifiableList(getRewardVipList_);
+      }
+      /**
+       * <code>repeated int32 getRewardVipList = 6;</code>
+       *
+       * <pre>
+       *已领的vip专属礼包 idlist
+       * </pre>
+       */
+      public int getGetRewardVipListCount() {
+        return getRewardVipList_.size();
+      }
+      /**
+       * <code>repeated int32 getRewardVipList = 6;</code>
+       *
+       * <pre>
+       *已领的vip专属礼包 idlist
+       * </pre>
+       */
+      public int getGetRewardVipList(int index) {
+        return getRewardVipList_.get(index);
+      }
+      /**
+       * <code>repeated int32 getRewardVipList = 6;</code>
+       *
+       * <pre>
+       *已领的vip专属礼包 idlist
+       * </pre>
+       */
+      public Builder setGetRewardVipList(
+          int index, int value) {
+        ensureGetRewardVipListIsMutable();
+        getRewardVipList_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 getRewardVipList = 6;</code>
+       *
+       * <pre>
+       *已领的vip专属礼包 idlist
+       * </pre>
+       */
+      public Builder addGetRewardVipList(int value) {
+        ensureGetRewardVipListIsMutable();
+        getRewardVipList_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 getRewardVipList = 6;</code>
+       *
+       * <pre>
+       *已领的vip专属礼包 idlist
+       * </pre>
+       */
+      public Builder addAllGetRewardVipList(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureGetRewardVipListIsMutable();
+        super.addAll(values, getRewardVipList_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 getRewardVipList = 6;</code>
+       *
+       * <pre>
+       *已领的vip专属礼包 idlist
+       * </pre>
+       */
+      public Builder clearGetRewardVipList() {
+        getRewardVipList_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
+        onChanged();
+        return this;
+      }
+
+      // required int32 yueKaLeftDays = 7;
+      private int yueKaLeftDays_ ;
+      /**
+       * <code>required int32 yueKaLeftDays = 7;</code>
+       *
+       * <pre>
+       *月卡剩余天数
+       * </pre>
+       */
+      public boolean hasYueKaLeftDays() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>required int32 yueKaLeftDays = 7;</code>
+       *
+       * <pre>
+       *月卡剩余天数
+       * </pre>
+       */
+      public int getYueKaLeftDays() {
+        return yueKaLeftDays_;
+      }
+      /**
+       * <code>required int32 yueKaLeftDays = 7;</code>
+       *
+       * <pre>
+       *月卡剩余天数
+       * </pre>
+       */
+      public Builder setYueKaLeftDays(int value) {
+        bitField0_ |= 0x00000040;
+        yueKaLeftDays_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 yueKaLeftDays = 7;</code>
+       *
+       * <pre>
+       *月卡剩余天数
+       * </pre>
+       */
+      public Builder clearYueKaLeftDays() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        yueKaLeftDays_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.VipInfoResp)
@@ -3058,6 +3388,862 @@ public final class VIP {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ChongTimes)
   }
 
+  public interface GetVipRewardReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 vipLevel = 1;
+    /**
+     * <code>required int32 vipLevel = 1;</code>
+     */
+    boolean hasVipLevel();
+    /**
+     * <code>required int32 vipLevel = 1;</code>
+     */
+    int getVipLevel();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.GetVipRewardReq}
+   *
+   * <pre>
+   *领取专属礼包
+   * </pre>
+   */
+  public static final class GetVipRewardReq extends
+      com.google.protobuf.GeneratedMessage
+      implements GetVipRewardReqOrBuilder {
+    // Use GetVipRewardReq.newBuilder() to construct.
+    private GetVipRewardReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GetVipRewardReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GetVipRewardReq defaultInstance;
+    public static GetVipRewardReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GetVipRewardReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetVipRewardReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              vipLevel_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.VIP.internal_static_qxmobile_protobuf_GetVipRewardReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.VIP.internal_static_qxmobile_protobuf_GetVipRewardReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.VIP.GetVipRewardReq.class, qxmobile.protobuf.VIP.GetVipRewardReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GetVipRewardReq> PARSER =
+        new com.google.protobuf.AbstractParser<GetVipRewardReq>() {
+      public GetVipRewardReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetVipRewardReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetVipRewardReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 vipLevel = 1;
+    public static final int VIPLEVEL_FIELD_NUMBER = 1;
+    private int vipLevel_;
+    /**
+     * <code>required int32 vipLevel = 1;</code>
+     */
+    public boolean hasVipLevel() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 vipLevel = 1;</code>
+     */
+    public int getVipLevel() {
+      return vipLevel_;
+    }
+
+    private void initFields() {
+      vipLevel_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasVipLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, vipLevel_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, vipLevel_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.VIP.GetVipRewardReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.VIP.GetVipRewardReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.GetVipRewardReq}
+     *
+     * <pre>
+     *领取专属礼包
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.VIP.GetVipRewardReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.VIP.internal_static_qxmobile_protobuf_GetVipRewardReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.VIP.internal_static_qxmobile_protobuf_GetVipRewardReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.VIP.GetVipRewardReq.class, qxmobile.protobuf.VIP.GetVipRewardReq.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.VIP.GetVipRewardReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        vipLevel_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.VIP.internal_static_qxmobile_protobuf_GetVipRewardReq_descriptor;
+      }
+
+      public qxmobile.protobuf.VIP.GetVipRewardReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.VIP.GetVipRewardReq.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.VIP.GetVipRewardReq build() {
+        qxmobile.protobuf.VIP.GetVipRewardReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.VIP.GetVipRewardReq buildPartial() {
+        qxmobile.protobuf.VIP.GetVipRewardReq result = new qxmobile.protobuf.VIP.GetVipRewardReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.vipLevel_ = vipLevel_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.VIP.GetVipRewardReq) {
+          return mergeFrom((qxmobile.protobuf.VIP.GetVipRewardReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.VIP.GetVipRewardReq other) {
+        if (other == qxmobile.protobuf.VIP.GetVipRewardReq.getDefaultInstance()) return this;
+        if (other.hasVipLevel()) {
+          setVipLevel(other.getVipLevel());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasVipLevel()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.VIP.GetVipRewardReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.VIP.GetVipRewardReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 vipLevel = 1;
+      private int vipLevel_ ;
+      /**
+       * <code>required int32 vipLevel = 1;</code>
+       */
+      public boolean hasVipLevel() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 vipLevel = 1;</code>
+       */
+      public int getVipLevel() {
+        return vipLevel_;
+      }
+      /**
+       * <code>required int32 vipLevel = 1;</code>
+       */
+      public Builder setVipLevel(int value) {
+        bitField0_ |= 0x00000001;
+        vipLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 vipLevel = 1;</code>
+       */
+      public Builder clearVipLevel() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        vipLevel_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.GetVipRewardReq)
+    }
+
+    static {
+      defaultInstance = new GetVipRewardReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.GetVipRewardReq)
+  }
+
+  public interface GetVipRewardRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-成功 1-奖励已领取 2-vip等级不足
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-成功 1-奖励已领取 2-vip等级不足
+     * </pre>
+     */
+    int getResult();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.GetVipRewardResp}
+   *
+   * <pre>
+   *S_VIP_GET_GIFTBAG_RESP = 30440
+   * </pre>
+   */
+  public static final class GetVipRewardResp extends
+      com.google.protobuf.GeneratedMessage
+      implements GetVipRewardRespOrBuilder {
+    // Use GetVipRewardResp.newBuilder() to construct.
+    private GetVipRewardResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GetVipRewardResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GetVipRewardResp defaultInstance;
+    public static GetVipRewardResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GetVipRewardResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetVipRewardResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.VIP.internal_static_qxmobile_protobuf_GetVipRewardResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.VIP.internal_static_qxmobile_protobuf_GetVipRewardResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.VIP.GetVipRewardResp.class, qxmobile.protobuf.VIP.GetVipRewardResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GetVipRewardResp> PARSER =
+        new com.google.protobuf.AbstractParser<GetVipRewardResp>() {
+      public GetVipRewardResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetVipRewardResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetVipRewardResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-成功 1-奖励已领取 2-vip等级不足
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-成功 1-奖励已领取 2-vip等级不足
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    private void initFields() {
+      result_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.VIP.GetVipRewardResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.VIP.GetVipRewardResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.VIP.GetVipRewardResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.GetVipRewardResp}
+     *
+     * <pre>
+     *S_VIP_GET_GIFTBAG_RESP = 30440
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.VIP.GetVipRewardRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.VIP.internal_static_qxmobile_protobuf_GetVipRewardResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.VIP.internal_static_qxmobile_protobuf_GetVipRewardResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.VIP.GetVipRewardResp.class, qxmobile.protobuf.VIP.GetVipRewardResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.VIP.GetVipRewardResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.VIP.internal_static_qxmobile_protobuf_GetVipRewardResp_descriptor;
+      }
+
+      public qxmobile.protobuf.VIP.GetVipRewardResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.VIP.GetVipRewardResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.VIP.GetVipRewardResp build() {
+        qxmobile.protobuf.VIP.GetVipRewardResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.VIP.GetVipRewardResp buildPartial() {
+        qxmobile.protobuf.VIP.GetVipRewardResp result = new qxmobile.protobuf.VIP.GetVipRewardResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.VIP.GetVipRewardResp) {
+          return mergeFrom((qxmobile.protobuf.VIP.GetVipRewardResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.VIP.GetVipRewardResp other) {
+        if (other == qxmobile.protobuf.VIP.GetVipRewardResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.VIP.GetVipRewardResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.VIP.GetVipRewardResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-成功 1-奖励已领取 2-vip等级不足
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-成功 1-奖励已领取 2-vip等级不足
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-成功 1-奖励已领取 2-vip等级不足
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-成功 1-奖励已领取 2-vip等级不足
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.GetVipRewardResp)
+    }
+
+    static {
+      defaultInstance = new GetVipRewardResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.GetVipRewardResp)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_RechargeReq_descriptor;
   private static
@@ -3078,6 +4264,16 @@ public final class VIP {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_ChongTimes_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_GetVipRewardReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_GetVipRewardReq_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_GetVipRewardResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_GetVipRewardResp_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3091,11 +4287,14 @@ public final class VIP {
       "geReq\022\014\n\004type\030\001 \002(\005\022\016\n\006amount\030\002 \002(\005\"j\n\014R" +
       "echargeResp\022\021\n\tisSuccess\030\001 \002(\010\022\021\n\tsumAou" +
       "mnt\030\002 \002(\005\022\020\n\010vipLevel\030\003 \002(\005\022\025\n\ryueKaLeft" +
-      "Days\030\004 \001(\005\022\013\n\003msg\030\005 \001(\t\"{\n\013VipInfoResp\022\020" +
-      "\n\010vipLevel\030\001 \002(\005\022\016\n\006needYb\030\002 \002(\005\022\r\n\005hasY" +
-      "b\030\003 \002(\005\022\r\n\005isMax\030\004 \002(\010\022,\n\005infos\030\005 \003(\0132\035." +
-      "qxmobile.protobuf.ChongTimes\"\'\n\nChongTim" +
-      "es\022\n\n\002id\030\001 \002(\005\022\r\n\005times\030\002 \002(\005B\005B\003VIP"
+      "Days\030\004 \001(\005\022\013\n\003msg\030\005 \001(\t\"\254\001\n\013VipInfoResp\022" +
+      "\020\n\010vipLevel\030\001 \002(\005\022\016\n\006needYb\030\002 \002(\005\022\r\n\005has" +
+      "Yb\030\003 \002(\005\022\r\n\005isMax\030\004 \002(\010\022,\n\005infos\030\005 \003(\0132\035" +
+      ".qxmobile.protobuf.ChongTimes\022\030\n\020getRewa" +
+      "rdVipList\030\006 \003(\005\022\025\n\ryueKaLeftDays\030\007 \002(\005\"\'" +
+      "\n\nChongTimes\022\n\n\002id\030\001 \002(\005\022\r\n\005times\030\002 \002(\005\"",
+      "#\n\017GetVipRewardReq\022\020\n\010vipLevel\030\001 \002(\005\"\"\n\020" +
+      "GetVipRewardResp\022\016\n\006result\030\001 \002(\005B\005B\003VIP"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3119,13 +4318,25 @@ public final class VIP {
           internal_static_qxmobile_protobuf_VipInfoResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_VipInfoResp_descriptor,
-              new java.lang.String[] { "VipLevel", "NeedYb", "HasYb", "IsMax", "Infos", });
+              new java.lang.String[] { "VipLevel", "NeedYb", "HasYb", "IsMax", "Infos", "GetRewardVipList", "YueKaLeftDays", });
           internal_static_qxmobile_protobuf_ChongTimes_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_qxmobile_protobuf_ChongTimes_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ChongTimes_descriptor,
               new java.lang.String[] { "Id", "Times", });
+          internal_static_qxmobile_protobuf_GetVipRewardReq_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_qxmobile_protobuf_GetVipRewardReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_GetVipRewardReq_descriptor,
+              new java.lang.String[] { "VipLevel", });
+          internal_static_qxmobile_protobuf_GetVipRewardResp_descriptor =
+            getDescriptor().getMessageTypes().get(5);
+          internal_static_qxmobile_protobuf_GetVipRewardResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_GetVipRewardResp_descriptor,
+              new java.lang.String[] { "Result", });
           return null;
         }
       };

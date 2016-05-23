@@ -39,7 +39,7 @@
 	<a href="rank4junlevel.jsp?refresh=1">刷新君主等级榜</a>
 	<hr />
 	<%
-		List<JunZhu> junzhus = RankingMgr.inst.getJunzhuLevelRank(num);
+		List<JunZhu> junzhus = null;//RankingMgr.inst.getJunzhuLevelRank(num);
 		if (junzhus == null) {
 	%>暂无君主等级排行信息<%
 		} else {

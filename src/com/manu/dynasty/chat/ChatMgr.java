@@ -24,6 +24,7 @@ import com.manu.dynasty.util.DateUtils;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
+import com.manu.network.SessionManager;
 import com.manu.network.SessionUser;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.alliance.AllianceBean;
@@ -48,9 +49,13 @@ import qxmobile.protobuf.Chat.CGetYuYing;
 import qxmobile.protobuf.Chat.CancelBlack;
 import qxmobile.protobuf.Chat.ChatPct;
 import qxmobile.protobuf.Chat.ChatPct.Channel;
+import qxmobile.protobuf.Chat.ChatSettings;
+import qxmobile.protobuf.Chat.ContactsJunzhuInfo;
 import qxmobile.protobuf.Chat.GetBlacklistResp;
 import qxmobile.protobuf.Chat.JoinToBlacklist;
+import qxmobile.protobuf.Chat.RecentContacts;
 import qxmobile.protobuf.Chat.SChatLogList;
+import qxmobile.protobuf.Chat.SGetYuYing;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 
 //FIXME 需要使用单独的线程来处理聊天。
@@ -64,7 +69,6 @@ public class ChatMgr implements Runnable {
 	public LinkedBlockingQueue<Mission> missions = new LinkedBlockingQueue<Mission>();
 	private static Mission exit = new Mission(0, null, null);
 	public static ChatMgr inst;
-	public static int MAX_CHAT_INFO_LENTH = 200;
 	public static int MAX_BlACK_NUM = 100;// 屏蔽玩家数量上限
 	public static final int SUCCESS = 0;// 屏蔽玩家成功
 	public static final int ERROR_EXIST = 101;// 屏蔽的好友已存在
@@ -76,13 +80,15 @@ public class ChatMgr implements Runnable {
 	public static int CHAT_WORLD_COST_TYPE = 102;
 	public static SensitiveFilter sFilter;
 
-	/** 冷却时间，单位毫秒 **/
-	public static int CHAT_COOL_TIME=0 ;
-
 	public static String CACHE_BLACKLIST_OF_JUNZHU = "ChatBlackList:id:";
+	public static String CACHE_RECENT_CONTACTS = "ChatRecentContacts:id:";
+	public int saveRecentContactCount = 6;
 	// ConcurrentHashMap迭代时不会出并发修改异常，它是弱一致的。
 	public ConcurrentHashMap<Long, SessionUser> allUser;
 	public ChatChWorld chWorld;
+	public ChatChSiLiao chSiLiao;
+	public ChatChBroadcast chBroadcast;
+	public ChatChLianMeng chLianMeng;
 	public ChatChSys chSys;
 	// public ChatChGuoJia[] chGuoJiaArr;
 	/**
@@ -105,7 +111,9 @@ public class ChatMgr implements Runnable {
 		//
 		chWorld = new ChatChWorld("ChatChWorld");
 		chSys = new ChatChSys("ChatChSys");
-		CHAT_COOL_TIME = CanShu.CHAT_INTERVAL_TIME * 1000;
+		chSiLiao = new ChatChSiLiao("ChatChSiLiao");
+		chLianMeng = new ChatChLianMeng("ChatChLianMeng");
+		chBroadcast = new ChatChBroadcast("ChatChBroadcast");
 		// chGuoJiaArr = new ChatChGuoJia[7];
 		// chGuoJiaArr[NationalWarConstants.NATION_ID_QIN-1] = new
 		// ChatChGuoJia(NationalWarConstants.NATION_ID_QIN);
@@ -219,21 +227,10 @@ public class ChatMgr implements Runnable {
 			return;
 		}
 
-		Long cdTime = (Long) session.getAttribute(SessionAttKey.LAST_CHAT_KEY);
-		long currentMillis = System.currentTimeMillis();
-		if (cdTime == null || cdTime <= currentMillis) {
-			session.setAttribute(SessionAttKey.LAST_CHAT_KEY, currentMillis
-					+ CHAT_COOL_TIME);
-		} else {
-			log.warn("发送速度过快{}", jz.id);
-			return;
-		}
-
 		cm.setSenderName(jz.name);
 		cm.setRoleId(jz.roleId);
 		fixSendTime(cm);
 		String msg = cm.getContent();
-
 		if (log.isDebugEnabled()) {
 			log.debug(
 					"发起聊天 senderId {} senderName {} channel {} content {}",
@@ -255,6 +252,10 @@ public class ChatMgr implements Runnable {
 		} else {
 			log.error("重置君主--{}的聊天内容--{}失败", jz.id, msg);
 		}
+		if(isCooltime(cm, session)) {
+			log.error("发送聊天失败，频道:{}的cd时间还未到", cm.getChannel());
+			return;
+		}
 		switch (cm.getChannel()) {
 		case SILIAO:
 			siLiao(cm, session);
@@ -266,7 +267,7 @@ public class ChatMgr implements Runnable {
 			sendGuoJia(cm);
 			break;
 		case SHIJIE:
-			sendWorldChat(session, cm, jz);
+			sendWorldChat(id, session, cm, jz);
 			break;
 		case XiaoWu:
 			xiaoWu(session, cm);
@@ -280,11 +281,23 @@ public class ChatMgr implements Runnable {
 		}
 	}
 
-	private void sendWorldChat(IoSession session, ChatPct.Builder cm, JunZhu jz) {
+	public void sendWorldChat(int cmd, IoSession session, ChatPct.Builder cm, JunZhu jz) {
 		boolean open = BigSwitch.inst.vipMgr.isVipPermit(VipData.world_chat, jz.vipLevel);
 		if (!open) {
 			log.info("{}未满足世界聊天VIP要求", jz.name);
 			return;
+		}
+		if(cm.getType() == 2) {// 表示联盟招募
+			AlliancePlayer mgrMember = HibernateUtil.find(AlliancePlayer.class, jz.id);
+			if (mgrMember == null || mgrMember.lianMengId <= 0) {
+				log.error("发送联盟招募聊天信息失败-君主:{}还未加入联盟", jz.id);
+				return;
+			}
+			AllianceBean alncBean = HibernateUtil.find(AllianceBean.class, mgrMember.lianMengId);
+			if (alncBean == null) {
+				log.error("发送联盟招募聊天信息失败-联盟:{}未找到", mgrMember.lianMengId);
+				return;
+			}
 		}
 		
 		boolean sendFree = false;
@@ -310,12 +323,14 @@ public class ChatMgr implements Runnable {
 		
 		if(!sendFree) {
 			YuanBaoMgr.inst.diff(jz, -worldPrice, 0, worldPrice, YBType.YB_CHAT_WORLD, "世界聊天");
-			HibernateUtil.save(jz);
+			HibernateUtil.update(jz);
 			if(worldPrice > 0){
-				JunZhuMgr.inst.sendMainInfo(session);// 推送元宝信息
+				JunZhuMgr.inst.sendMainInfo(session,jz);// 推送元宝信息
 			}
 			log.info("junzhu:{}世界聊天,花费元宝:{}", jz.name, worldPrice);
 		}
+		session.setAttribute(SessionAttKey.LAST_WORLD_CHAT_KEY, System.currentTimeMillis());
+		// guojia :周国 = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7; 100-系统
 		chWorld.saveChatRecord(cm);
 		cm.clearSoundData();// 去除声音信息。
 		broadcast(cm, allUser);
@@ -332,10 +347,12 @@ public class ChatMgr implements Runnable {
 			log.info("{}元宝不足，不能发广播", jz.yuanBao);
 			return;
 		}
+		session.setAttribute(SessionAttKey.LAST_BROADCAST_CHAT_KEY, System.currentTimeMillis());
 		YuanBaoMgr.inst.diff(jz, -CanShu.BROADCAST_PRICE, CanShu.BROADCAST_PRICE, 0, YBType.WORLD_CHAT, "广播频道聊天");
-		HibernateUtil.save(jz);
-		JunZhuMgr.inst.sendMainInfo(session);
+		HibernateUtil.update(jz);
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 		broadcast(cm, allUser);
+		chBroadcast.saveChatRecord(cm);
 	}
 
 	public void xiaoWu(IoSession session,
@@ -371,6 +388,7 @@ public class ChatMgr implements Runnable {
 		if (jzId == null) {
 			return;
 		}
+		
 		AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, jzId);
 		if (ap == null) {
 			log.error("联盟成员信息没有找到：{}", jzId);
@@ -381,6 +399,7 @@ public class ChatMgr implements Runnable {
 			log.warn("{}已不在联盟中", jzId);
 			return;
 		}
+		session.setAttribute(SessionAttKey.LAST_LIANMENG_CHAT_KEY, System.currentTimeMillis());
 		// 联盟成员的君主id
 		Set<String> jzIds = Redis.getInstance().sget(
 				AllianceMgr.inst.CACHE_MEMBERS_OF_ALLIANCE + lmId);
@@ -399,6 +418,7 @@ public class ChatMgr implements Runnable {
 			}
 			u.session.write(pct);
 		}
+		chLianMeng.saveChatRecord(cm);
 	}
 
 	public void sendGuoJia(qxmobile.protobuf.Chat.ChatPct.Builder cm) {
@@ -407,6 +427,9 @@ public class ChatMgr implements Runnable {
 
 	protected void fixSendTime(ChatPct.Builder cm) {
 		cm.setDateTime(dateFormat.format(Calendar.getInstance().getTime()));
+		if(cm.getContent().length() > CanShu.CHAT_MAX_WORDS) {
+			cm.setContent(cm.getContent().substring(0, CanShu.CHAT_MAX_WORDS));
+		}
 	}
 
 	public void siLiao(qxmobile.protobuf.Chat.ChatPct.Builder cm,
@@ -416,16 +439,58 @@ public class ChatMgr implements Runnable {
 			return;
 		}
 		if (isSenderBlack(cm.getReceiverId(), cm.getSenderName())) {// 如果发送人在屏蔽列表内
-			return;// 不添加此封邮件到列表
+			return;
 		}
-		// int recvId = cm.getReceiverId();
-		// 还没用制作好友功能，无法发起私聊。
-		session.write(cm.build());
+		long count = Redis.getInstance().llen(CACHE_RECENT_CONTACTS + cm.getSenderId());
+		if(count > saveRecentContactCount) {
+			Redis.getInstance().rpop(CACHE_RECENT_CONTACTS + cm.getSenderId());
+		} 
+		Redis.getInstance().lpush_(CACHE_RECENT_CONTACTS + cm.getSenderId(), cm.getReceiverId()+"");
+		long recvId = cm.getReceiverId();
+		IoSession recvSession = SessionManager.getInst().getIoSession(recvId);
+		if(recvSession != null) {
+			session.setAttribute(SessionAttKey.LAST_SILIAO_CHAT_KEY, System.currentTimeMillis());
+			recvSession.write(cm.build());
+			session.write(cm.build());
+		}
+		chSiLiao.saveChatRecord(cm);
+	}
+
+	public boolean isCooltime(qxmobile.protobuf.Chat.ChatPct.Builder cm, IoSession session) {
+		long currentMillis = System.currentTimeMillis();
+		Long lastTime = currentMillis;
+		int interval = 0;
+		switch (cm.getChannel()) {
+		case SILIAO:
+			lastTime = (Long) session.getAttribute(SessionAttKey.LAST_SILIAO_CHAT_KEY);
+			interval = CanShu.CHAT_SECRET_INTERVAL_TIME * 1000;
+			break;
+		case LIANMENG:
+			lastTime = (Long) session.getAttribute(SessionAttKey.LAST_LIANMENG_CHAT_KEY);
+			interval = CanShu.CHAT_ALLIANCE_INTERVAL_TIME * 1000;
+			break;
+		case SHIJIE:
+			lastTime = (Long) session.getAttribute(SessionAttKey.LAST_WORLD_CHAT_KEY);
+			interval = CanShu.CHAT_WORLD_INTERVAL_TIME * 1000;
+			break;
+		case Broadcast:
+			lastTime = (Long) session.getAttribute(SessionAttKey.LAST_BROADCAST_CHAT_KEY);
+			interval = CanShu.CHAT_BROADCAST_INTERVAL_TIME * 1000;
+			break;
+		default:
+			log.error("未处理的频道类型 {}", cm.getChannel());
+			break;
+		}
+			
+		if (lastTime != null && currentMillis - lastTime < interval) {
+			log.warn("发送速度过快{}", cm.getSenderId());
+			return true;
+		}
+		return false;
 	}
 
 	public synchronized void addUser(SessionUser u) {
-		Long key = u.sessoinId;
-		allUser.put(key, u);
+		allUser.put(u.session.getId(), u);
 	}
 
 	public synchronized void sendSysChat(String msg) {
@@ -435,6 +500,7 @@ public class ChatMgr implements Runnable {
 		cm.setContent(msg);
 		cm.setSenderId(-1);
 		cm.setSenderName("系统");
+		cm.setGuoJia(100);//系统的国家
 		chSys.saveChatRecord(cm);
 		broadcast(cm, allUser);
 		log.info("系统消息 {}", msg);
@@ -465,8 +531,7 @@ public class ChatMgr implements Runnable {
 	}
 
 	public synchronized void removeUser(SessionUser u) {
-		Long key = u.sessoinId;
-		allUser.remove(key);
+		allUser.remove(u.session.getId());
 	}
 
 	public List<?> getChatLog(Builder builder) {
@@ -529,10 +594,28 @@ public class ChatMgr implements Runnable {
 	public void getSound(int id, IoSession session, Builder builder) {
 		CGetYuYing.Builder req = (qxmobile.protobuf.Chat.CGetYuYing.Builder) builder;
 		int seq = req.getSeq();
-		//
-		String key = chWorld.key;
-		Redis rds = Redis.getInstance();
-		ChatPct.Builder head = (ChatPct.Builder) rds.lindex(key,
+		Channel channel = req.getChannel();
+		ChatChLog chatChLog = null;
+		
+		switch (channel) {
+			case SILIAO:
+				chatChLog = ChatMgr.inst.chSiLiao;
+				break;
+			case SHIJIE:
+				chatChLog = ChatMgr.inst.chWorld;
+				break;
+			case Broadcast:
+				chatChLog = ChatMgr.inst.chBroadcast;
+				break;
+			case LIANMENG:
+				chatChLog = ChatMgr.inst.chLianMeng;
+				break;
+			default:
+				break;
+		}
+
+		String key = chatChLog.key;
+		ChatPct.Builder head = (ChatPct.Builder) Redis.getInstance().lindex(key,
 				ChatPct.getDefaultInstance(), 0);
 		int headIdx = 0;
 		if (head != null) {
@@ -544,24 +627,22 @@ public class ChatMgr implements Runnable {
 			return;
 		}
 		int startIndex = seq - headIdx;
-		ChatPct.Builder v = (qxmobile.protobuf.Chat.ChatPct.Builder) rds
+		ChatPct.Builder chatPct = (qxmobile.protobuf.Chat.ChatPct.Builder) Redis.getInstance()
 				.lindex(key, ChatPct.getDefaultInstance(), startIndex);
+		if(chatPct == null) {
+			log.error("请求的语音信息丢失，key:{},seq:{}", key, seq);
+			return;
+		}
+		SGetYuYing.Builder response = SGetYuYing.newBuilder();
+		response.setChannel(channel);
+		response.setSeq(seq);
+		response.setSoundData(chatPct.getSoundData());
+		
 		ProtobufMsg msg = new ProtobufMsg();
 		msg.id = PD.S_get_sound;
-		msg.builder = v;
+		msg.builder = response;
 		session.write(msg);
-		log.info("发送语音数据，长度{}", v.getSoundDataCount());
-	}
-
-	/**
-	 * 验证聊天信息出长度
-	 * 
-	 * @param chatInfo
-	 *            聊天信息
-	 * @return {@link Boolean} 是否可以聊天
-	 */
-	public boolean validateChatInfo(String chatInfo) {
-		return chatInfo == null || chatInfo.length() < MAX_CHAT_INFO_LENTH;
+		log.info("发送语音数据，长度{}", chatPct.getSoundLen());
 	}
 
 	/**
@@ -806,6 +887,31 @@ public class ChatMgr implements Runnable {
 		session.write(msg);
 	}
 
+	public void getRecentContacts(int cmd, IoSession session, Builder builder) {
+		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junzhu == null) {
+			log.error("找不到君主");
+			return;
+		}
+		RecentContacts.Builder response = RecentContacts.newBuilder();
+		List<String> recentContactList = Redis.getInstance().lgetList(CACHE_RECENT_CONTACTS + junzhu.id);
+		for(String jzIdStr : recentContactList) {
+			long jzId = Long.parseLong(jzIdStr);
+			JunZhu contact = HibernateUtil.find(JunZhu.class, jzId);
+			if(contact == null) {
+				log.error("获取最近联系人错误，找不到君主id为:{}的君主", jzId);
+				continue;
+			}
+			ContactsJunzhuInfo.Builder contactInfo = ContactsJunzhuInfo.newBuilder();
+			contactInfo.setJunzhuId(contact.id);
+			contactInfo.setName(contact.name);
+			contactInfo.setLevel(contact.level);
+			contactInfo.setIconId(contact.roleId);
+			response.addJunzhuInfo(contactInfo);
+		}
+		session.write(response.build());
+	}
+	
 	/**
 	 * @Description: 屏蔽
 	 * @param list
@@ -834,5 +940,50 @@ public class ChatMgr implements Runnable {
 		chatString = SensitiveFilter.instance.replaceSensitiveWord(chatString,
 				2, "*");
 		return chatString;
+	}
+
+	public void setChatSettings(int id, Builder builder, IoSession session) {
+		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junzhu == null) {
+			log.error("设置聊天设置出错，找不到君主");
+			return;
+		}
+		ChatSetting chatSetting = getChatSetting(junzhu.id);
+		ChatSettings.Builder request = (qxmobile.protobuf.Chat.ChatSettings.Builder) builder;
+		chatSetting.wolrd = request.getWorld();
+		chatSetting.lianMeng = request.getLianMeng();
+		chatSetting.siLiao = request.getSiLiao();
+		chatSetting.wifiAutoPlayer = request.getWifiAutoPlay();
+		HibernateUtil.save(chatSetting);
+		session.write(request.build());
+	}
+
+	private ChatSetting getChatSetting(long junzhuId) {
+		ChatSetting chatSetting = HibernateUtil.find(ChatSetting.class, junzhuId);
+		if(chatSetting == null) {
+			chatSetting = new ChatSetting();
+			chatSetting.junZhuId = junzhuId;
+			chatSetting.wolrd = true;
+			chatSetting.lianMeng = true;
+			chatSetting.siLiao = true;
+			chatSetting.wifiAutoPlayer = true;
+			HibernateUtil.insert(chatSetting);
+		}
+		return chatSetting;
+	}
+
+	public void getChatSettings(int id, Builder builder, IoSession session) {
+		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
+		if (junzhu == null) {
+			log.error("设置聊天设置出错，找不到君主");
+			return;
+		}
+		ChatSetting chatSetting = getChatSetting(junzhu.id);
+		ChatSettings.Builder response = ChatSettings.newBuilder();
+		response.setWorld(chatSetting.wolrd);
+		response.setSiLiao(chatSetting.siLiao);
+		response.setLianMeng(chatSetting.lianMeng);
+		response.setWifiAutoPlay(chatSetting.wifiAutoPlayer);
+		session.write(response.build());
 	}
 }

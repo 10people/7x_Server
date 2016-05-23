@@ -1,3 +1,4 @@
+<%@page import="com.qx.alliance.JuanXianBean"%>
 <%@page import="org.json.JSONArray"%>
 <%@page import="com.manu.network.PD"%>
 <%@page import="com.qx.alliance.building.JianZhuMgr"%>
@@ -102,19 +103,19 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		session.setAttribute("name", name);
 %>账号<%=account.getAccountId()%>:<%=account.getAccountName()%><%
 	long junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
-		JunZhu junzhu = HibernateUtil.find(JunZhu.class, junZhuId);
-		 AlliancePlayer member = null;
-		 member = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
-		 if(member == null || member.lianMengId<=0){
-			 out("没有加入联盟");
-			 return;
-		 }
-		 int bufferLevel = 0;
-		 LmTuTeng tt = HibernateUtil.find(LmTuTeng.class, member.lianMengId);
-		 if(tt!=null){
-			 bufferLevel = tt.times;
-		 }
-		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, member.lianMengId);
+	JunZhu junzhu = HibernateUtil.find(JunZhu.class, junZhuId);
+	 AlliancePlayer member = null;
+	 member = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
+	 if(member == null || member.lianMengId<=0){
+		 out("没有加入联盟");
+		 return;
+	 }
+	 int bufferLevel = 0;
+	 LmTuTeng tt = HibernateUtil.find(LmTuTeng.class, member.lianMengId);
+	 if(tt!=null){
+		 bufferLevel = tt.times;
+	 }
+	 AllianceBean alliance = HibernateUtil.find(AllianceBean.class, member.lianMengId);
 	 if(junzhu == null){
  		out.println("没有君主");
 	 }else{
@@ -144,7 +145,6 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		 JunZhuMgr.inst.addExp(junzhu, v);
 	 }else if("addYuanBao".equals(action)){
 		 int v = Integer.parseInt(request.getParameter("v"));
-		 //junzhu.yuanBao += v;
 		YuanBaoMgr.inst.diff(junzhu,  v, 0,0,YBType.YB_GM_ADDYB,"后台膜拜添加元宝");
 		 HibernateUtil.save(junzhu);
 	 }else if("setGod".equals(action)){
@@ -152,6 +152,14 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 	 }else if("addBufferLevel".equals(action)) {
 		 int v = Integer.parseInt(request.getParameter("v"));
 		 bufferLevel = updateMobaiLevel(member.lianMengId, v, new Date());
+	 }else if("chongzhi".equals(action)) {
+		 JuanXianBean jxb =  HibernateUtil.find(JuanXianBean.class, junZhuId);
+		 if(jxb!= null){
+			 jxb.huFuTimes = 0;
+			 jxb.jianSheTimes = 0;
+			 jxb.lastResetTime = new Date();
+			 HibernateUtil.save(jxb);
+		 }
 	 }else{
 		 sendInfo = false;
 	 }
@@ -215,10 +223,43 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		 
 		 br();
 	 }
-		 }
+	 %>
+		<br><h2>============================捐献信息==================================</h2>
+		<% JuanXianBean jxb =  HibernateUtil.find(JuanXianBean.class, junZhuId);
+		if(jxb == null){
+			%>玩家没有捐献信息<%
+		}else{
+			%>
+			<br>
+			<table border='1'>
+				<tr>
+				<th>君主id</th>
+				<th>基础建设已用次数</th>
+				<th>军政建设已用次数</th>
+				<th>上次重置时间</th>
+				</tr>
+				<tr>
+				<th><%= jxb.jzId %></th>
+				<th><%= jxb.jianSheTimes %></th>
+				<th><%= jxb.huFuTimes %></th>
+				<th><%= jxb.lastResetTime %></th>
+				</tr>
+			</table>
+			<br>
+			<form action="">
+			<input type="hidden" name="action" value="chongzhi">
+			<button type="submit">重置已用次数</button>
+			</form>
+			<%
+		}
 	}
+	 
+	}
+	
 }
 	
-%>
+	%>
+
+
 </body>
 </html>

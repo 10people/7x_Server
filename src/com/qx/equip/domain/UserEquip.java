@@ -109,6 +109,21 @@ public class UserEquip implements MCSupport{
 	@Column(name = "jnCDReduce", nullable = false, columnDefinition = "float(16) default 0")
 	private float jnCDReduce;//技能冷却缩减   
 	//以上1.0版本改变洗练增加
+	
+	//对应装备上的5个宝石的孔
+	@Column(columnDefinition = "INT default -1")
+	public long Jewel0;
+	@Column(columnDefinition = "INT default -1")
+	public long Jewel1;
+	@Column(columnDefinition = "INT default -1")
+	public long Jewel2;
+	@Column(columnDefinition = "INT default -1")
+	public long Jewel3;
+	@Column(columnDefinition = "INT default -1")
+	public long Jewel4;
+	@Column(columnDefinition = "INT default 0")
+	public int JinJieExp;
+	
 	public int getEquipId() {
 		return equipId;
 	}

@@ -113,7 +113,7 @@ public class JiNengPeiYangMgr extends EventProc{
 		EventMgr.addEvent(ED.jinJie_jueSe_jiNeng, new Object[]{junZhu.id});
 		// 2016年3月18日 15:13:40  战斗中技能提示，现在只是发送新解锁的，突破的技能暂时不发
 //		addNewJn(junZhu, p);
-		JunZhuMgr.inst.sendMainInfo(session);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		
 	}
 

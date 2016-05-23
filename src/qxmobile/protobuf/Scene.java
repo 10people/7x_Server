@@ -8,6 +8,666 @@ public final class Scene {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
+  public interface EnterSceneCacheOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required bytes body = 1;
+    /**
+     * <code>required bytes body = 1;</code>
+     */
+    boolean hasBody();
+    /**
+     * <code>required bytes body = 1;</code>
+     */
+    com.google.protobuf.ByteString getBody();
+
+    // optional float posX = 2;
+    /**
+     * <code>optional float posX = 2;</code>
+     */
+    boolean hasPosX();
+    /**
+     * <code>optional float posX = 2;</code>
+     */
+    float getPosX();
+
+    // optional float posY = 3;
+    /**
+     * <code>optional float posY = 3;</code>
+     */
+    boolean hasPosY();
+    /**
+     * <code>optional float posY = 3;</code>
+     */
+    float getPosY();
+
+    // optional float posZ = 4;
+    /**
+     * <code>optional float posZ = 4;</code>
+     */
+    boolean hasPosZ();
+    /**
+     * <code>optional float posZ = 4;</code>
+     */
+    float getPosZ();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.EnterSceneCache}
+   *
+   * <pre>
+   *public static final short Enter_HouseScene = 22004; 进入房屋
+   *public static final short Exit_HouseScene = 22005;//离开房屋
+   * </pre>
+   */
+  public static final class EnterSceneCache extends
+      com.google.protobuf.GeneratedMessage
+      implements EnterSceneCacheOrBuilder {
+    // Use EnterSceneCache.newBuilder() to construct.
+    private EnterSceneCache(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private EnterSceneCache(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final EnterSceneCache defaultInstance;
+    public static EnterSceneCache getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public EnterSceneCache getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private EnterSceneCache(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              body_ = input.readBytes();
+              break;
+            }
+            case 21: {
+              bitField0_ |= 0x00000002;
+              posX_ = input.readFloat();
+              break;
+            }
+            case 29: {
+              bitField0_ |= 0x00000004;
+              posY_ = input.readFloat();
+              break;
+            }
+            case 37: {
+              bitField0_ |= 0x00000008;
+              posZ_ = input.readFloat();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Scene.internal_static_qxmobile_protobuf_EnterSceneCache_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Scene.internal_static_qxmobile_protobuf_EnterSceneCache_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Scene.EnterSceneCache.class, qxmobile.protobuf.Scene.EnterSceneCache.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<EnterSceneCache> PARSER =
+        new com.google.protobuf.AbstractParser<EnterSceneCache>() {
+      public EnterSceneCache parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new EnterSceneCache(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<EnterSceneCache> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required bytes body = 1;
+    public static final int BODY_FIELD_NUMBER = 1;
+    private com.google.protobuf.ByteString body_;
+    /**
+     * <code>required bytes body = 1;</code>
+     */
+    public boolean hasBody() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required bytes body = 1;</code>
+     */
+    public com.google.protobuf.ByteString getBody() {
+      return body_;
+    }
+
+    // optional float posX = 2;
+    public static final int POSX_FIELD_NUMBER = 2;
+    private float posX_;
+    /**
+     * <code>optional float posX = 2;</code>
+     */
+    public boolean hasPosX() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional float posX = 2;</code>
+     */
+    public float getPosX() {
+      return posX_;
+    }
+
+    // optional float posY = 3;
+    public static final int POSY_FIELD_NUMBER = 3;
+    private float posY_;
+    /**
+     * <code>optional float posY = 3;</code>
+     */
+    public boolean hasPosY() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional float posY = 3;</code>
+     */
+    public float getPosY() {
+      return posY_;
+    }
+
+    // optional float posZ = 4;
+    public static final int POSZ_FIELD_NUMBER = 4;
+    private float posZ_;
+    /**
+     * <code>optional float posZ = 4;</code>
+     */
+    public boolean hasPosZ() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional float posZ = 4;</code>
+     */
+    public float getPosZ() {
+      return posZ_;
+    }
+
+    private void initFields() {
+      body_ = com.google.protobuf.ByteString.EMPTY;
+      posX_ = 0F;
+      posY_ = 0F;
+      posZ_ = 0F;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasBody()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, body_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeFloat(2, posX_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeFloat(3, posY_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeFloat(4, posZ_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, body_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(2, posX_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(3, posY_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(4, posZ_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Scene.EnterSceneCache parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Scene.EnterSceneCache parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Scene.EnterSceneCache parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Scene.EnterSceneCache parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Scene.EnterSceneCache parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Scene.EnterSceneCache parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Scene.EnterSceneCache parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Scene.EnterSceneCache parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Scene.EnterSceneCache parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Scene.EnterSceneCache parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Scene.EnterSceneCache prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.EnterSceneCache}
+     *
+     * <pre>
+     *public static final short Enter_HouseScene = 22004; 进入房屋
+     *public static final short Exit_HouseScene = 22005;//离开房屋
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Scene.EnterSceneCacheOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Scene.internal_static_qxmobile_protobuf_EnterSceneCache_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Scene.internal_static_qxmobile_protobuf_EnterSceneCache_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Scene.EnterSceneCache.class, qxmobile.protobuf.Scene.EnterSceneCache.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Scene.EnterSceneCache.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        body_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        posX_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        posY_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        posZ_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Scene.internal_static_qxmobile_protobuf_EnterSceneCache_descriptor;
+      }
+
+      public qxmobile.protobuf.Scene.EnterSceneCache getDefaultInstanceForType() {
+        return qxmobile.protobuf.Scene.EnterSceneCache.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Scene.EnterSceneCache build() {
+        qxmobile.protobuf.Scene.EnterSceneCache result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Scene.EnterSceneCache buildPartial() {
+        qxmobile.protobuf.Scene.EnterSceneCache result = new qxmobile.protobuf.Scene.EnterSceneCache(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.body_ = body_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.posX_ = posX_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.posY_ = posY_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.posZ_ = posZ_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Scene.EnterSceneCache) {
+          return mergeFrom((qxmobile.protobuf.Scene.EnterSceneCache)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Scene.EnterSceneCache other) {
+        if (other == qxmobile.protobuf.Scene.EnterSceneCache.getDefaultInstance()) return this;
+        if (other.hasBody()) {
+          setBody(other.getBody());
+        }
+        if (other.hasPosX()) {
+          setPosX(other.getPosX());
+        }
+        if (other.hasPosY()) {
+          setPosY(other.getPosY());
+        }
+        if (other.hasPosZ()) {
+          setPosZ(other.getPosZ());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasBody()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Scene.EnterSceneCache parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Scene.EnterSceneCache) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required bytes body = 1;
+      private com.google.protobuf.ByteString body_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes body = 1;</code>
+       */
+      public boolean hasBody() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required bytes body = 1;</code>
+       */
+      public com.google.protobuf.ByteString getBody() {
+        return body_;
+      }
+      /**
+       * <code>required bytes body = 1;</code>
+       */
+      public Builder setBody(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        body_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes body = 1;</code>
+       */
+      public Builder clearBody() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        body_ = getDefaultInstance().getBody();
+        onChanged();
+        return this;
+      }
+
+      // optional float posX = 2;
+      private float posX_ ;
+      /**
+       * <code>optional float posX = 2;</code>
+       */
+      public boolean hasPosX() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional float posX = 2;</code>
+       */
+      public float getPosX() {
+        return posX_;
+      }
+      /**
+       * <code>optional float posX = 2;</code>
+       */
+      public Builder setPosX(float value) {
+        bitField0_ |= 0x00000002;
+        posX_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float posX = 2;</code>
+       */
+      public Builder clearPosX() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        posX_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // optional float posY = 3;
+      private float posY_ ;
+      /**
+       * <code>optional float posY = 3;</code>
+       */
+      public boolean hasPosY() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional float posY = 3;</code>
+       */
+      public float getPosY() {
+        return posY_;
+      }
+      /**
+       * <code>optional float posY = 3;</code>
+       */
+      public Builder setPosY(float value) {
+        bitField0_ |= 0x00000004;
+        posY_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float posY = 3;</code>
+       */
+      public Builder clearPosY() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        posY_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // optional float posZ = 4;
+      private float posZ_ ;
+      /**
+       * <code>optional float posZ = 4;</code>
+       */
+      public boolean hasPosZ() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional float posZ = 4;</code>
+       */
+      public float getPosZ() {
+        return posZ_;
+      }
+      /**
+       * <code>optional float posZ = 4;</code>
+       */
+      public Builder setPosZ(float value) {
+        bitField0_ |= 0x00000008;
+        posZ_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float posZ = 4;</code>
+       */
+      public Builder clearPosZ() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        posZ_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.EnterSceneCache)
+    }
+
+    static {
+      defaultInstance = new EnterSceneCache(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.EnterSceneCache)
+  }
+
   public interface EnterSceneOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -6239,6 +6899,11 @@ public final class Scene {
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_EnterSceneCache_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_EnterSceneCache_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_EnterScene_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -6277,64 +6942,72 @@ public final class Scene {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017sceneSync.proto\022\021qxmobile.protobuf\"\316\002\n" +
-      "\nEnterScene\022\013\n\003uid\030\001 \002(\005\022\022\n\nsenderName\030\002" +
-      " \002(\t\022\014\n\004posX\030\003 \001(\002\022\014\n\004posY\030\004 \001(\002\022\014\n\004posZ" +
-      "\030\005 \001(\002\022\016\n\006roleId\030\006 \001(\005\022\020\n\010chengHao\030\007 \001(\005" +
-      "\022\023\n\013currentLife\030\010 \001(\005\022\021\n\ttotalLife\030\t \001(\005" +
-      "\022\024\n\014allianceName\030\n \001(\t\022\020\n\010vipLevel\030\013 \001(\005" +
-      "\022\r\n\005zhiWu\030\014 \001(\005\022\r\n\005level\030\r \001(\005\022\016\n\006zhanli" +
-      "\030\016 \001(\005\022\016\n\006guojia\030\017 \001(\005\022\r\n\005worth\030\020 \001(\005\022\021\n" +
-      "\thorseType\030\021 \001(\005\022\025\n\rxuePingRemain\030\022 \001(\005\022" +
-      "\014\n\004jzId\030\023 \002(\003\"J\n\021EnterSceneConfirm\022\013\n\003ui",
-      "d\030\001 \002(\005\022\014\n\004posX\030\002 \001(\002\022\014\n\004posY\030\003 \001(\002\022\014\n\004p" +
-      "osZ\030\004 \001(\002\"\030\n\tExitScene\022\013\n\003uid\030\001 \002(\005\"P\n\nS" +
-      "priteMove\022\013\n\003uid\030\001 \002(\005\022\014\n\004posX\030\002 \001(\002\022\014\n\004" +
-      "posY\030\003 \001(\002\022\014\n\004posZ\030\004 \001(\002\022\013\n\003dir\030\005 \002(\002\"\273\001" +
-      "\n\017EnterFightScene\022\013\n\003uid\030\001 \002(\005\022\020\n\010junZhu" +
-      "Id\030\002 \002(\003\022\022\n\nsenderName\030\003 \002(\t\022\014\n\004posX\030\004 \001" +
-      "(\002\022\014\n\004posY\030\005 \001(\002\022\014\n\004posZ\030\006 \001(\002\022\016\n\006roleId" +
-      "\030\007 \001(\005\022\022\n\nremainLife\030\010 \002(\005\022\021\n\ttotalLife\030" +
-      "\t \002(\005\022\024\n\014allianceName\030\n \002(\t\"\035\n\016ExitFight" +
-      "Scene\022\013\n\003uid\030\001 \002(\005B\007B\005Scene"
+      "\n\017sceneSync.proto\022\021qxmobile.protobuf\"I\n\017" +
+      "EnterSceneCache\022\014\n\004body\030\001 \002(\014\022\014\n\004posX\030\002 " +
+      "\001(\002\022\014\n\004posY\030\003 \001(\002\022\014\n\004posZ\030\004 \001(\002\"\316\002\n\nEnte" +
+      "rScene\022\013\n\003uid\030\001 \002(\005\022\022\n\nsenderName\030\002 \002(\t\022" +
+      "\014\n\004posX\030\003 \001(\002\022\014\n\004posY\030\004 \001(\002\022\014\n\004posZ\030\005 \001(" +
+      "\002\022\016\n\006roleId\030\006 \001(\005\022\020\n\010chengHao\030\007 \001(\005\022\023\n\013c" +
+      "urrentLife\030\010 \001(\005\022\021\n\ttotalLife\030\t \001(\005\022\024\n\014a" +
+      "llianceName\030\n \001(\t\022\020\n\010vipLevel\030\013 \001(\005\022\r\n\005z" +
+      "hiWu\030\014 \001(\005\022\r\n\005level\030\r \001(\005\022\016\n\006zhanli\030\016 \001(" +
+      "\005\022\016\n\006guojia\030\017 \001(\005\022\r\n\005worth\030\020 \001(\005\022\021\n\thors",
+      "eType\030\021 \001(\005\022\025\n\rxuePingRemain\030\022 \001(\005\022\014\n\004jz" +
+      "Id\030\023 \002(\003\"J\n\021EnterSceneConfirm\022\013\n\003uid\030\001 \002" +
+      "(\005\022\014\n\004posX\030\002 \001(\002\022\014\n\004posY\030\003 \001(\002\022\014\n\004posZ\030\004" +
+      " \001(\002\"\030\n\tExitScene\022\013\n\003uid\030\001 \002(\005\"P\n\nSprite" +
+      "Move\022\013\n\003uid\030\001 \002(\005\022\014\n\004posX\030\002 \001(\002\022\014\n\004posY\030" +
+      "\003 \001(\002\022\014\n\004posZ\030\004 \001(\002\022\013\n\003dir\030\005 \002(\002\"\273\001\n\017Ent" +
+      "erFightScene\022\013\n\003uid\030\001 \002(\005\022\020\n\010junZhuId\030\002 " +
+      "\002(\003\022\022\n\nsenderName\030\003 \002(\t\022\014\n\004posX\030\004 \001(\002\022\014\n" +
+      "\004posY\030\005 \001(\002\022\014\n\004posZ\030\006 \001(\002\022\016\n\006roleId\030\007 \001(" +
+      "\005\022\022\n\nremainLife\030\010 \002(\005\022\021\n\ttotalLife\030\t \002(\005",
+      "\022\024\n\014allianceName\030\n \002(\t\"\035\n\016ExitFightScene" +
+      "\022\013\n\003uid\030\001 \002(\005B\007B\005Scene"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_qxmobile_protobuf_EnterScene_descriptor =
+          internal_static_qxmobile_protobuf_EnterSceneCache_descriptor =
             getDescriptor().getMessageTypes().get(0);
+          internal_static_qxmobile_protobuf_EnterSceneCache_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_EnterSceneCache_descriptor,
+              new java.lang.String[] { "Body", "PosX", "PosY", "PosZ", });
+          internal_static_qxmobile_protobuf_EnterScene_descriptor =
+            getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_EnterScene_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_EnterScene_descriptor,
               new java.lang.String[] { "Uid", "SenderName", "PosX", "PosY", "PosZ", "RoleId", "ChengHao", "CurrentLife", "TotalLife", "AllianceName", "VipLevel", "ZhiWu", "Level", "Zhanli", "Guojia", "Worth", "HorseType", "XuePingRemain", "JzId", });
           internal_static_qxmobile_protobuf_EnterSceneConfirm_descriptor =
-            getDescriptor().getMessageTypes().get(1);
+            getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_EnterSceneConfirm_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_EnterSceneConfirm_descriptor,
               new java.lang.String[] { "Uid", "PosX", "PosY", "PosZ", });
           internal_static_qxmobile_protobuf_ExitScene_descriptor =
-            getDescriptor().getMessageTypes().get(2);
+            getDescriptor().getMessageTypes().get(3);
           internal_static_qxmobile_protobuf_ExitScene_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ExitScene_descriptor,
               new java.lang.String[] { "Uid", });
           internal_static_qxmobile_protobuf_SpriteMove_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_SpriteMove_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_SpriteMove_descriptor,
               new java.lang.String[] { "Uid", "PosX", "PosY", "PosZ", "Dir", });
           internal_static_qxmobile_protobuf_EnterFightScene_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_qxmobile_protobuf_EnterFightScene_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_EnterFightScene_descriptor,
               new java.lang.String[] { "Uid", "JunZhuId", "SenderName", "PosX", "PosY", "PosZ", "RoleId", "RemainLife", "TotalLife", "AllianceName", });
           internal_static_qxmobile_protobuf_ExitFightScene_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_qxmobile_protobuf_ExitFightScene_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ExitFightScene_descriptor,

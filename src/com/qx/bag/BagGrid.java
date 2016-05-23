@@ -29,6 +29,10 @@ public class BagGrid implements MCSupport{
 	 */
 	public int type;
 	public int cnt;
+	
+	/**
+	 * type=8，代表符文经验
+	 */
 	public long instId;
 	@Override
 	public long getIdentifier() {

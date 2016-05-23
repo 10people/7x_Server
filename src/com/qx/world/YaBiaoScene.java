@@ -1,21 +1,25 @@
 package com.qx.world;
-import java.util.HashSet;
-
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import qxmobile.protobuf.AllianceFightProtos.PlayerDeadNotify;
+import qxmobile.protobuf.AllianceFightProtos.Result;
 import qxmobile.protobuf.AllianceFightProtos.SafeAreaBloodReturn;
 import qxmobile.protobuf.PlayerData;
 import qxmobile.protobuf.PlayerData.State;
 import qxmobile.protobuf.Scene.EnterScene;
+import qxmobile.protobuf.Scene.EnterSceneCache;
 import qxmobile.protobuf.Scene.EnterSceneConfirm;
 import qxmobile.protobuf.Scene.ExitScene;
 import qxmobile.protobuf.Scene.SpriteMove;
 
+import com.google.protobuf.ByteString;
+import com.google.protobuf.DirectBytes;
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.template.LianMengKeJi;
+import com.manu.dynasty.template.Purchase;
 import com.manu.dynasty.template.YunBiaoSafe;
 import com.manu.dynasty.template.YunbiaoTemp;
 import com.manu.network.BigSwitch;
@@ -24,22 +28,25 @@ import com.manu.network.SessionAttKey;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.building.JianZhuMgr;
+import com.qx.buff.BuffMgr;
+import com.qx.fight.FightMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.purchase.PurchaseConstants;
+import com.qx.purchase.PurchaseMgr;
 import com.qx.yabiao.LastExitYBInfo;
+import com.qx.yabiao.YBBattleBean;
 import com.qx.yabiao.YaBiaoHuoDongMgr;
 import com.qx.yabiao.YaBiaoRobot;
 
 
 /** 
- * 押镖场景Scene
+ * @Description 押镖场景Scene
  *
  */
-public class YaBiaoScene  extends Scene{
+public class YaBiaoScene  extends VisionScene{
 	public static Logger log = LoggerFactory.getLogger(YaBiaoScene.class.getSimpleName());
-	public static float visibleDist = 20;
-
 	public YaBiaoScene(String key){
 		super(key);
 	}
@@ -80,7 +87,9 @@ public class YaBiaoScene  extends Scene{
 				break;
 		}
 	}
-
+	/**
+	 * @Description 移动
+	 */
 	public Player spriteMove(IoSession session, SpriteMove.Builder move) {
 		Player player=	super.spriteMove(session, move);
 		//刷新所在的安全区位置
@@ -90,6 +99,10 @@ public class YaBiaoScene  extends Scene{
 		}
 		return player;
 	}
+	
+	/**
+	 * @Description 安全区回血
+	 */
 	private void bloodReturnInSafeArea() {
 		for(Player player : players.values()) {
 			if(player.jzId <= 0 || player.roleId == Scene.YBRobot_RoleId) {
@@ -115,86 +128,7 @@ public class YaBiaoScene  extends Scene{
 			}
 		}
 	}
-	public void clientStateChange(
-			qxmobile.protobuf.PlayerData.PlayerState.Builder psd, IoSession session) {
-		State state = psd.getSState();
-		Integer uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
-		if(uid == null){
-			log.error("报告玩家状态发生错误，押镖场景:{},状态:{},pid is null {}", name, state, session);
-			return;
-		}
-		Player enterPlayer = players.get(uid);
-		if(enterPlayer == null){
-			log.error("报告玩家状态发生错误，押镖场景:{},状态:{}，player not find with uid {}",name,state, uid);
-			return;
-		}
-		enterPlayer.pState = state;
-		log.info("player {} change state to {}", enterPlayer.getName(), enterPlayer.pState);
-		//发送其他玩家信息给当前玩家。
-		switch(enterPlayer.pState) {
-		case State_YABIAO:
-			//告诉他场景里有谁
-			informComerOtherPlayers(session, PD.Enter_YBScene, enterPlayer);
-			//告诉场景里的别人，他进来了
-			broadCastEvent(PD.Enter_YBScene, enterPlayer);
-			break;
-		default:
-//			log.warn("YaBiaoScene场景处理不了的状态变化， code: {}" , enterPlayer.pState);
-			super.clientStateChange(psd, session); 
-			break;
-		}
-		
-	}
-	/**
-	 * @Description
-	 * @param session 	告诉进入某个场景的人当前场景中都有谁
-	 * @param msgId 进入场景的协议ID
-	 * @param enterPlayer 进入的人的 Player对象
-	 */
-	public void informComerOtherPlayers(IoSession session,int msgId, Player enterPlayer) {
-		log.info("告诉进入某个场景的--{}当前场景--{}中都有谁，人数--{}", enterPlayer.name,this.name, players.size());
-		checkVisibleSet(enterPlayer);
-		for(Player p : players.values()){
-			if(p == enterPlayer){
-				continue;//跳过自己。
-			}
-			if(enterPlayer.roleId !=YBRobot_RoleId && p.roleId !=YBRobot_RoleId){
-				if(inRange(enterPlayer, p)==false){
-					continue;
-				}
-				//对方的visbileUids的改变在下一步【告知在线玩家谁进来了】里面。
-				enterPlayer.visbileUids.add(p.userId);
-			}
-			
-			EnterScene.Builder enterSc = EnterScene.newBuilder();
-			enterSc.setSenderName(p.getName());
-			enterSc.setUid(p.userId);
-			enterSc.setPosX(p.getPosX());
-			enterSc.setPosY(p.getPosY());
-			enterSc.setPosZ(p.getPosZ());
-			enterSc.setRoleId(p.roleId);
-			int chenghaId=Integer.valueOf(p.chengHaoId==null?"0":p.chengHaoId);
-			enterSc.setChengHao(chenghaId);
-			enterSc.setCurrentLife(p.currentLife);
-			enterSc.setTotalLife(p.totalLife);    
-			enterSc.setAllianceName(p.lmName);
-			enterSc.setVipLevel(p.vip);
-			enterSc.setZhiWu(p.zhiWu);     
-			//2015年12月9日 梁霄说策划加上国家，等级，战力
-			enterSc.setLevel(p.jzlevel);
-			enterSc.setZhanli(p.zhanli);
-			enterSc.setGuojia(p.guojia);
-			//2015年12月12日 加入马车价值 马车类型
-			enterSc.setWorth(p.worth);
-			enterSc.setHorseType(p.horseType);
-			enterSc.setXuePingRemain(p.xuePingRemain);
-			enterSc.setJzId(p.jzId);
-			ProtobufMsg pm = new ProtobufMsg();
-			pm.id = msgId;
-			pm.builder = enterSc;
-			session.write(pm);
-		}
-	}
+	
 	public void exitYBScene(IoSession session,ExitScene.Builder exitYBSc) {
 		if (exitYBSc == null) {
 			return;
@@ -214,7 +148,10 @@ public class YaBiaoScene  extends Scene{
 				 ,session.getAttribute(SessionAttKey.junZhuId),this.name, players.size(), player.posX, player.posZ);
 	}
 
-
+	
+	/**
+	 * @Description 退出押镖场景保存玩家坐标
+	 */
 	public void saveExitYBInfo(long junzhuId) {
 		Player player = getPlayerByJunZhuId(junzhuId);
 		if(player != null) {
@@ -240,7 +177,10 @@ public class YaBiaoScene  extends Scene{
 			log.info("君主:{}离开押镖场景，坐标x,z:{},{},剩余血量:{},处于安全区id:{}",player.name,player.posX, player.posZ,player.currentLife,player.safeArea);
 		}
 	}
-
+	
+	/**
+	 * @Description 进入押镖场景
+	 */
 	public void enterYBScene(IoSession session,final EnterScene.Builder enterYBSc) {
 		//镖车机器人没有JunZhu对象
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
@@ -343,7 +283,7 @@ public class YaBiaoScene  extends Scene{
 		log.info("{}进入押镖场景 {},这货是<{}>，血量--<{}/{}>， 坐标:x-{},z-{}", player.getName(),this.name,isBiaoChe?"镖车机器人":"玩家",player.currentLife,player.totalLife,
 				player.posX,player.posZ);
 		if(isBiaoChe){
-			broadCastEvent(PD.Enter_YBScene, player);
+			bdEnterInfo(player);
 		}else{
 			//告诉当前玩家它的信息，确认进入
 			EnterSceneConfirm.Builder ret = EnterSceneConfirm.newBuilder();
@@ -355,23 +295,33 @@ public class YaBiaoScene  extends Scene{
 		}
 	}
 	
-	/**
-	 * @Description 广播某人进入某个场景给场景里的其他人
-	 * @param protobufMsgId ProtobufMsg的协议ID
-	 * @param p 进入场景的Player对象
-	 */
-	public void broadCastEvent(int msgId ,Player p){
-		log.info(" 广播name=={} 进入押镖场景--{}",p.name,this.name);
-		
-		EnterScene.Builder enterSc = buildEnterInfo(p);
-//		if(this.name.contains("YB")){
-			//2016年3月10日10:44:09 由于需要发送押镖人自己的信息，所以不跳过自己
-			broadCastEvent4YB(enterSc, 0/*p.userId*/);
-//		}else{
-//			log.error(" 广播name=={} 进入押镖场景--{}异常，这不是押镖 场景",p.name,this.name);
-//		}
+	public IoBuffer buildEnterInfoCache(Player p) {
+		ByteString bs = p.infoCache;
+		if(bs == null){
+			qxmobile.protobuf.Scene.EnterScene.Builder es = buildEnterInfo(p);
+			es.clearPosX();
+			es.clearPosY();
+			es.clearPosZ();
+			byte[] me = es.build().toByteArray();
+			bs = new DirectBytes(me);
+			p.infoCache = bs;
+		}
+		if(p.fullCache == null){
+			EnterSceneCache.Builder b = EnterSceneCache.newBuilder();
+			b.setBody(bs);
+			b.setPosX(p.posX);
+			b.setPosY(p.posY);
+			b.setPosZ(p.posZ);
+	//		return b;
+			IoBuffer io = pack(b.build(), PD.Enter_YBScene);
+			p.fullCache = io;
+		}else{
+			//log.info("hit cache "+hitCnt++);
+		}
+		IoBuffer ret = p.fullCache.asReadOnlyBuffer();
+		ret.position(0);
+		return ret;
 	}
-
 	public EnterScene.Builder buildEnterInfo(Player p) {
 		EnterScene.Builder enterSc = EnterScene.newBuilder();
 		enterSc.setSenderName(p.getName());
@@ -399,42 +349,9 @@ public class YaBiaoScene  extends Scene{
 		return enterSc;
 	}
 	
-	/**
-	 * @Description 广播某人 进/出场景
-	 * @param pmsg
-	 * @param skip 某人userId
-	 */
-	public void broadCastEvent4YB(EnterScene.Builder enterYBSc, int skip) {
-		IoBuffer io = pack(enterYBSc.build(), PD.Enter_YBScene);
-		log.info(" 广播userId=={} 进场景--{}",skip,this.name);
-		Player enterPlayer = players.get(enterYBSc.getUid());
-		for(Player player : players.values()){
-			if(player.userId == skip)continue;
-			//镖车机器人 跳过
-			if(player.roleId==YBRobot_RoleId){
-				continue;
-			}
-			
-			if(enterPlayer.roleId !=YBRobot_RoleId && player.roleId !=YBRobot_RoleId
-					&& player != enterPlayer){
-				if(inRange(enterPlayer, player)==false){
-					continue;
-				}
-				checkVisibleSet(player);
-				//对方的visbileUids的改变在上一步一步【告知当前玩家场景里有谁】里面。
-				player.visbileUids.add(enterPlayer.userId);
-			}
-			
-			//TODO 等梁霄做成客户端请求仇人列表
-			IoBuffer dup = io.asReadOnlyBuffer();
-			dup.position(0);
-			player.session.write(dup);
-		}
-	}
+	
 	/**
 	 * @Description 移除君主马车，被杀掉的直接移除，不广播
-	 * @param jzId
-	 * @param isKill 是否被杀
 	 */
 	public synchronized void exit4YaBiaoRobot(YaBiaoRobot ybrobot) {
 		IoSession session=ybrobot.session;
@@ -442,7 +359,11 @@ public class YaBiaoScene  extends Scene{
 		Player player = players.remove(uid);
 		log.info("从场景中移除君主-{}押镖机器人成功", ybrobot.jzId);
 	}
-
+	
+	
+	/**
+	 * @Description 移除君主马车
+	 */
 	public void exitYBSc(IoSession session) {
 		Integer uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
 		if(uid == null){
@@ -453,110 +374,62 @@ public class YaBiaoScene  extends Scene{
 		exitYBSc.setUid(uid);
 		exitYBScene( session,exitYBSc);
 	}
-	public boolean inRange(Player cur, Player p2){
-		if(cur==null ||p2==null){
-			return false;
-		}
-		if(cur==p2){
+	public boolean isBiaoChe(IoSession session) {
+		Integer uid = (Integer) session.getAttribute(SessionAttKey.RobotType);
+		if(uid!=null&&uid.intValue() == Scene.YBRobot_RoleId){
 			return true;
 		}
-		if(cur.roleId ==YBRobot_RoleId || p2.roleId ==YBRobot_RoleId){
-			return true;
-		}
-//		visibleDist=20;
-		float dx = Math.abs(cur.posX - p2.posX);
-		float dz = Math.abs(cur.posZ - p2.posZ);
-		boolean visible = false;
-		if(dx>visibleDist || dz>visibleDist){
-			
-		}else{
-			visible = true;
-		}
-		return visible;
-	}
-	public boolean checkVisibility(Player cur, Player p2){
-		boolean v = inRange(cur, p2);
-		if(cur.roleId ==YBRobot_RoleId || p2.roleId ==YBRobot_RoleId){
-			//有马车参与，不做show、hidden的处理
-			return v;
-		}
-		if(v){
-			checkNeedShow(cur,p2);
-		}else{
-			//不在视野
-			checkNeedHidden(cur,p2);
-		}
-		return v;
+		return false;
 	}
 	
-	public void checkNeedShow(Player cur, Player p2) {
-		if(cur == p2){
-			return;
+	@Override
+	public void playerDie(JunZhu defender, int uid, int killerUid) {
+		BuffMgr.inst.removeBuff(defender.id);
+		int onSiteReviveCost = 20;//默认20，为了假如找不到配置能够继续执行
+		int remainReviveTimes = 0;
+		if(defender.id > 0) {// 表示是真实玩家
+			int reviveOnDeadPosTimes = YaBiaoHuoDongMgr.inst.getReviveOnDeadPosTimes(defender);
+			Purchase purchase = PurchaseMgr.inst.getPurchaseCfg(PurchaseConstants.YB_REVIVE_DEAD_POS, reviveOnDeadPosTimes+1);
+			if(purchase == null) {
+				log.error("找不到类型为:{}的purchase配置", PurchaseConstants.YB_REVIVE_DEAD_POS);
+			} else {
+				onSiteReviveCost = purchase.getYuanbao();
+			}
+			remainReviveTimes = YaBiaoHuoDongMgr.inst.getFuhuoTimes(defender);
 		}
-		// 原先不可见，现在可见了，则需要给客户端发送进入场景
-		checkVisibleSet(cur);
-		checkVisibleSet(p2);
-		if(cur.visbileUids.contains(p2.userId)){
-			//之前就可见
-			return;
-		}
-		//添加为互相可见。
-		boolean a1 = cur.visbileUids.add(p2.userId);
-		boolean a2 = p2.visbileUids.add(cur.userId);
-		if(a1==false || a2 == false){//false就是之前添加过
-			//log.warn("why?");
-		}
-		show(cur,p2);
-		show(p2,cur);
-		//cur的移动要回发给p2，p2的坐标要同步给cur
-		/*发进入场景了，就不要这个了。
-		SpriteMove.Builder move = SpriteMove.newBuilder();
-		move.setDir(p2.userId%360);
-		move.setUid(p2.userId);
-		move.setPosX(p2.posX);
-		move.setPosY(p2.posY);
-		move.setPosZ(p2.posZ);
-		SpriteMove build = move.build();
-		cur.session.write(build);
-		cur.session.write(build);
-		*/
+		
+		PlayerDeadNotify.Builder deadNotify = PlayerDeadNotify.newBuilder();
+		deadNotify.setUid(uid);
+		deadNotify.setKillerUid(killerUid);
+		deadNotify.setAutoReviveRemainTime(YunbiaoTemp.autoResurgenceTime);
+		deadNotify.setRemainAllLifeTimes(remainReviveTimes);
+		deadNotify.setOnSiteReviveCost(onSiteReviveCost);
+		broadCastEvent(deadNotify.build(), 0);
 	}
-
-	/**
-	 * 给对方发送进入场景
-	 * @param p2
-	 * @param p1
-	 */
-	public void show(Player p2, Player p1) {
-		qxmobile.protobuf.Scene.EnterScene.Builder msg = buildEnterInfo(p2);
-		p1.session.write(new ProtobufMsg(PD.Enter_YBScene, msg));
-	}
-
-	public void checkVisibleSet(Player p1) {
-		if(p1.visbileUids == null){
-			p1.visbileUids = new HashSet<>();//打算在单线程里处理
+	@Override
+	public boolean checkSkill(JunZhu attacker, Player attackPlayer, Player targetPlayer, int skillId) {
+		int attackUid = attackPlayer.userId;
+		YBBattleBean ybBattle = YaBiaoHuoDongMgr.inst.getYBZhanDouInfo(attacker.id, attacker.vipLevel);
+		if(skillId != 121 && targetPlayer.safeArea >= 0) {
+			log.info("攻击失败，被攻击的目标在安全区，safeArea:{}，targetJZId:{}",targetPlayer.safeArea,targetPlayer.jzId);
+			FightMgr.inst.sendAttackError(Result.TARGET_IN_SAFE_AREA, this, attackUid);
+			return false;
+		} else if(skillId == 121){
+			if(YaBiaoHuoDongMgr.inst.getXuePingRemainTimes(attacker.id, attacker.vipLevel) <= 0) {
+				return false;
+			}
 		}
-	}
-
-	public void checkNeedHidden(Player p1, Player p2) {
-		// 原先可见，现在不可见了，则需要给客户端发送离开场景。
-		if(p1.visbileUids == null || p2.visbileUids == null){
-			//以前不可见
-			return;
+		
+		if(skillId == 121) {
+			attackPlayer.xuePingRemain -= 1;
+			if(ybBattle != null) {
+				ybBattle.xueping4uesd += 1;
+				HibernateUtil.save(ybBattle);
+			}
 		}
-		if(p1.visbileUids.contains(p2.userId) == false){
-			//以前不可见
-			return;
-		}
-		hidden(p1,p2);
-		hidden(p2,p1);
+		return true;
 	}
-
-	/**
-	 * 给对方发送离开场景消息
-	 * @param p2
-	 * @param p1
-	 */
+	
 	public void hidden(Player p2, Player p1) {
 		p1.visbileUids.remove(p2.userId);
 		ExitScene.Builder exitYBSc = ExitScene.newBuilder();
@@ -566,14 +439,9 @@ public class YaBiaoScene  extends Scene{
 		pm.builder = exitYBSc;
 		p1.session.write(pm);
 	}
-
-	public boolean isBiaoChe(IoSession session) {
-		Integer uid = (Integer) session.getAttribute(SessionAttKey.RobotType);
-		if(uid!=null&&uid.intValue() == Scene.YBRobot_RoleId){
-			return true;
-		}
-		return false;
+	
+	public void show(Player p2, Player p1) {
+		Object msg = buildEnterInfoCache(p2);
+		p1.session.write(msg);
 	}
-	
-	
 }

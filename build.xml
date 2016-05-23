@@ -25,7 +25,9 @@
 	</target>
 
 	<target name="compile">
-		<javac srcdir="src" encoding="${encoding}" destdir="webroot/WEB-INF/classes" debug="on" optimize="off" source="1.8" target="1.8" memoryInitialSize="512m" memoryMaximumSize="512m" fork="true">
+		<javac encoding="${encoding}" destdir="webroot/WEB-INF/classes" debug="on" optimize="off" memoryInitialSize="512m" memoryMaximumSize="512m" fork="true">
+			<src path="src"></src>
+			<src path="txSrc"></src>
 			<classpath>
 				<fileset dir="lib">
 					<include name="*.jar" />

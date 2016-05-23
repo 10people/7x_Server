@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@page import="com.manu.dynasty.template.LianMeng"%>
 <%@page import="com.qx.ranking.RankingMgr"%>
 <%@page import="com.qx.util.TableIDCreator"%>
@@ -90,11 +91,11 @@ function changeAlncName(obj){
 				</form>
 			</td>
 			<td>
-				<b>修改联盟状态</b>
+				<b>修改联盟升级时间</b>
 				<form action="" name="create" method="post">
 					联盟id:<input type="text" name="lmId">	<br/>
-					状态:<input type="text" name="status"><br/>(只能为0，1，2：联盟状态：0-正常，1-选举报名，2-投票)	<br/>
-					<input type="submit"  value="修改状态">
+					状态:<input type="text" name="status"><br/>单位-秒	<br/>
+					<input type="submit"  value="修改">
 					<input type="hidden" name="action" value="updateStatus"/>
 				</form>
 			</td>
@@ -117,6 +118,16 @@ function changeAlncName(obj){
 					添加经验值:<input type="text" name="exp">	<br/>
 					<input type="submit"  value="添加经验">
 					<input type="hidden" name="action" value="addExp"/>
+				</form>
+			</td>
+			<td>
+				<hr/>
+				<b>修改虎符数量</b>
+				<form action="" name="updateHufu" method="post">
+					联盟Id:<input type="text" name="lmId">	<br/>
+					虎符数量:<input type="text" name="hufu">	<br/>
+					<input type="submit"  value="修改虎符数量">
+					<input type="hidden" name="action" value="updateHufu"/>
 				</form>
 			</td>
 		</tr>
@@ -177,12 +188,12 @@ function changeAlncName(obj){
  			trS();td("清除联盟所有事件，联盟id:");td("<input type='text' id='clearEvent' ");td("<input type='button' id='clearEvent' value='清除' onclick='go(\"clearEvent\")'/>");trE();
 	 	tableEnd();
 		
-			out.append("备注：联盟状态：0-正常，1-选举报名，2-投票<br/><br/>");
+			out.append("备注：升级剩余时间<=0表示已经升级完毕，大于0表示剩余时间<br/><br/>");
 			out.append("<table border='1'>");
 			out.append("<tr>");
 			out.append("<th>联盟ID</th><th>联盟名称</th><th>IconId</th><th>盟主ID</th>");
 			out.append("<th>声望</th><th>现有成员</th><th>公告</th><th>建设值</th><th>最大成员</th>");
-			out.append("<th>等级</th><th>exp</th><th>联盟状态</th><th>所属国家</th><th>成员详情</th><th>申请列表</th><th>招募状态</th>");
+			out.append("<th>等级</th><th>exp</th><th>虎符数量</th><th>升级剩余时间-秒</th><th>所属国家</th><th>成员详情</th><th>申请列表</th><th>招募状态</th>");
 			out.append("</tr>");
 			AllianceBean lianmeng = null;
 			request.setCharacterEncoding("utf-8"); 
@@ -227,7 +238,23 @@ function changeAlncName(obj){
 				}
 				AllianceBean allianceBean = HibernateUtil.find(AllianceBean.class, Long.parseLong(lmId));
 				AllianceMgr.inst.addAllianceExp(Integer.parseInt(exp), allianceBean);
-			} else if("create".equals(action)) {
+			}else if("updateHufu".equals(action)) {
+				String lmId = request.getParameter("lmId");
+				String hufuNum = request.getParameter("hufu");
+				if(lmId == null || "".equals(lmId)) {
+					return;
+				}
+				if(hufuNum == null || "".equals(hufuNum)) {
+					return;
+				}
+				AllianceBean allianceBean = HibernateUtil.find(AllianceBean.class, Long.parseLong(lmId));
+				if(allianceBean == null) {
+					out.println("找不到联盟，id:"+lmId);
+					return;
+				}
+				allianceBean.hufuNum = Integer.parseInt(hufuNum);
+				HibernateUtil.save(allianceBean);
+			}  else if("create".equals(action)) {
 				String name = request.getParameter("name");
 				String icon = request.getParameter("icon");
 				String jzId = request.getParameter("jzId");
@@ -262,16 +289,24 @@ function changeAlncName(obj){
 				HibernateUtil.save(lianmeng);
 			} else if("updateStatus".equals(action)) {
 				String lmId = request.getParameter("lmId");
-				String status = request.getParameter("status");
+				String time = request.getParameter("status");
 				if(lmId == null || lmId.equals("") 
-						|| status == null || status.equals("")) {
+						|| time == null || time.equals("")) {
 					return;
 				}
 				lianmeng = HibernateUtil.find(AllianceBean.class, Integer.parseInt(lmId));
 				if(lianmeng == null) {
 					return;
 				}
-				lianmeng.status = Integer.parseInt(status);
+				
+				if(lianmeng.upgradeTime != null) {
+					out.println("time ：" +time);
+					long setTime = lianmeng.upgradeTime.getTime() + Integer.parseInt(time)*1000;
+					out.println("setTime ：" +setTime);
+					lianmeng.upgradeTime.setTime(setTime);
+				}else {
+					out.print("联盟< " + lianmeng.name + " >还未处在升级状态中");
+				}
 				HibernateUtil.save(lianmeng);
 			} else if("updateLevel".equals(action)) {
 				String lmId = request.getParameter("lmId");
@@ -341,6 +376,9 @@ function changeAlncName(obj){
 			if (lianmeng != null) {
 				int memberMax = AllianceMgr.inst.getAllianceMemberMax(lianmeng.level);
 				String country = HeroService.getNameById(lianmeng.country+"");
+				Date date = new Date();
+				int remainTime = lianmeng.upgradeTime == null ? -1 : (int)((lianmeng.upgradeTime.getTime() - date.getTime()) / 1000);
+				out.append("" + remainTime);
 		%>
 				
 			<tr>
@@ -355,7 +393,8 @@ function changeAlncName(obj){
 				<td><%=memberMax%></td>
 				<td><%=lianmeng.level%></td>
 				<td><%=lianmeng.exp%></td>
-				<td><%=lianmeng.status%></td>
+				<td><%=lianmeng.hufuNum%></td>
+				<td><%=remainTime%></td>
 				<td><%=country%></td>
 				<!-- 超链接传递参数 &两边不能加空格 -->
 				<td>
@@ -375,7 +414,7 @@ function changeAlncName(obj){
 								out.append("" + alnc.id);
 								out.append("</td>");
 								out.append("<td>");
-								out.append("<input type='text'value='" +alnc.name+"'/>");
+								out.append("" + alnc.name);
 								out.append("</td>");
 								out.append("<td>");
 								out.append("" + alnc.icon);
@@ -406,7 +445,12 @@ function changeAlncName(obj){
 								out.append("" + alnc.exp);
 								out.append("</td>");
 								out.append("<td>");
-								out.append("" + alnc.status);
+								out.append("" + alnc.hufuNum);
+								out.append("</td>");
+								out.append("<td>");
+								Date date = new Date();
+								int remainTime = alnc.upgradeTime == null ? -1 : (int)((alnc.upgradeTime.getTime() - date.getTime()) / 1000);
+								out.append("" + remainTime);
 								out.append("</td>");
 								out.append("<td>");
 								String country = HeroService.getNameById(alnc.country+"");

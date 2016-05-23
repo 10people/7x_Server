@@ -70,8 +70,6 @@ public class MC {
 //		cachedClass.add(YaBiaoBean.class);
 		//限时活动
 		cachedClass.add(XianShiBean.class);
-		// 荒野藏宝点
-		cachedClass.add(HYTreasure.class);
 	}
 	public static <T> T get(Class<T> t, long id){
 		if(!cachedClass.contains(t)){

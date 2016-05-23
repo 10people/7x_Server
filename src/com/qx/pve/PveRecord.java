@@ -5,10 +5,11 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PveRecord")
+@Table(name = "PveRecord",indexes={@Index(name="uid",columnList="uid")})
 public class PveRecord {
 	@Id
 //	@GeneratedValue(strategy=GenerationType.AUTO)

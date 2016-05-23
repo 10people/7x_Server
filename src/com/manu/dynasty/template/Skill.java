@@ -4,6 +4,7 @@ public class Skill {
 	public int SkillId;
 	public int SkillTarget;
 	public int EffectTarget;
+	public int ET_P1;
 	public int ST_TypeRejectU;
 	public int CRRejectU;
 	public int Range_Min;

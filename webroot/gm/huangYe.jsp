@@ -150,11 +150,15 @@ function go(act,id){
 			out("联盟id错误，没有这个联盟");
 			return;
 		}
+		/*
 		List<HYTreasure> treasureList = HibernateUtil.list(HYTreasure.class, " where lianMengId="+lmId);
 		Map<Integer, HYTreasure> mappp = new HashMap<Integer, HYTreasure>();
         for(HYTreasure t: treasureList){
-        	mappp.put(t.idOfFile, t);
+        	mappp.put(t.guanQiaId, t);
         }
+        */
+        HYTreasure treasure = HibernateUtil.find(HYTreasure.class, " where lianMengId=" + lmId);
+        int openId = treasure == null ? HYMgr.huangYePve_first_pointId : treasure.guanQiaId;
 		String input = request.getParameter("v");
 		if(input == null) {
 			input = "";
@@ -163,41 +167,27 @@ function go(act,id){
 		br();
 		tableStart();
 	 	trS();
-	 	td("配置文件id");td("激活状态");td("dbId");td("历史通关次数");td("藏宝点本次开启的时间");td("进度");
+	 	td("配置文件id");td("开启状态");td("dbId");td("历史通关次数");td("藏宝点本次开启的时间");td("进度");
 	 	td("快速通关剩余时间(单位:秒)");td("正在挑战的君主Id");td("本次开始挑战的时间");
 	 	trE();
 	 	for(HuangyePve hy: HYMgr.huangyePveList){
 	 		trS();
-            int idOfFile = hy.id;
-            td(idOfFile);
-            HYTreasure trDB = mappp.get(idOfFile);
-            if(trDB != null){
-            	Date openTime = trDB.openTime;
+            td(hy.id);
+            if(openId == hy.id){
+            	Date openTime = treasure.openTime;
                 //1-可以被激活（没有激活状态）; 0-不可以被激活（没有激活状态），2-已经激活过了
-            	td("已经激活");
-            	td(trDB.id);
-            	td(trDB.passTimes);
+            	td("开启");
+            	td(treasure.id);
+            	td(treasure.passTimes);
                 td(openTime==null?"没有开启":openTime);
-                td(openTime==null?"已经通关":trDB.progress);
-                td(openTime==null?"无":HYMgr.inst.getKuaiSuPassRemainTime(trDB));
-                td(trDB.battleJunzhuId<=0?"无人在挑战": trDB.battleJunzhuId);
-                td(trDB.battleJunzhuId<=0?"无":trDB.battleBeginTime);
+                td(openTime==null?"已经通关":treasure.progress);
+                td(openTime==null?"无":HYMgr.inst.getKuaiSuPassRemainTime(treasure));
+                td(treasure.battleJunzhuId<=0?"无人在挑战": treasure.battleJunzhuId);
+                td(treasure.battleJunzhuId<=0?"无":treasure.battleBeginTime);
             }else{
-                if(idOfFile == HYMgr.huangYePve_first_pointId){
-                    td("没有激活, 但是是第一关，可以被激活");
-                    td("-");td("-");td("-");td("-");td("-");td("-");td("-");
-                }else{
-                    HYTreasure trDBlast = mappp.get(idOfFile -1);
-                    // 上一关没有被激活或者没有通关过，下一关不可以被激活
-                    if(trDBlast == null || trDBlast.passTimes <= 0){
-                       td("没有激活，且不可激活");
-                       td("-");td("-");td("-");td("-");td("-");td("-");td("-");
-                    }else{
-                        // 可以被激活
-                    	td("没有激活，但上一关已通关，本关可以被激活");
-                    	td("-");td("-");td("-");td("-");td("-");td("-");td("-");
-                    }
-                }
+                 td("关闭");
+                 td("-");td("-");td("-");td("-");td("-");td("-");td("-");
+                
             }
          trE();
 	 }
@@ -251,7 +241,7 @@ function go(act,id){
               if(tr == null) return;
               List<HYTreasureNpc> npcList = HibernateUtil.list(HYTreasureNpc.class, 
                         "where treasureId = " + trid);
-              HuangyePve hyPveCfg = HYMgr.huangyePveMap.get(tr.idOfFile);
+              HuangyePve hyPveCfg = HYMgr.huangyePveMap.get(tr.guanQiaId);
               if(npcList == null || npcList.size() == 0) {
             	  npcList = HYMgr.inst.initTreasureNpc(tr, hyPveCfg);
               }else{

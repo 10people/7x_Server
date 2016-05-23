@@ -1,16 +1,23 @@
 package com.qx.test.message;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.mina.core.session.IoSession;
 
 import pct.TestBase;
 import pct.TestJiNengPeiYang;
+import qxmobile.protobuf.ErrorMessageProtos.DataList;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import qxmobile.protobuf.JewelProtos.EquipOperationResp;
+import qxmobile.protobuf.JewelProtos.JewelInfo;
+import qxmobile.protobuf.JewelProtos.JewelList;
 import qxmobile.protobuf.JunZhuProto.JunZhuInfoRet;
 import qxmobile.protobuf.Scene.EnterScene;
+import qxmobile.protobuf.Scene.EnterSceneCache;
 import qxmobile.protobuf.Scene.ExitScene;
+import qxmobile.protobuf.Scene.SpriteMove;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.util.BaseException;
@@ -18,6 +25,7 @@ import com.manu.network.PD;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.hero.WuJiang;
 import com.qx.test.main.GameClient;
+import com.qx.test.main.Main;
 import com.qx.test.main.WuJiangTest;
 
 
@@ -57,18 +65,24 @@ public class MessageDispatcher {
 			case PD.Enter_Scene_Confirm:
 				client.enterSceneRet(builder);
 				break;
-			case PD.Spirite_Move:
-				System.out.println("move");
+			case PD.Spirite_Move:{
+				fakeMove(client,builder);
+			}
+//				System.out.println("move");
 				break;
 			case PD.Enter_Scene:{
-				EnterScene.Builder enterSc = (EnterScene.Builder )builder;
-				System.out.printf("A收到进入场景通知 - %s uid %d\n",
-						enterSc.getSenderName(),enterSc.getUid());
+//				EnterScene.Builder enterSc = (EnterScene.Builder )builder;
+//				System.out.printf("A收到进入场景通知 - %s uid %d\n",
+//						enterSc.getSenderName(),enterSc.getUid());
 			}
 				break;
+			case PD.Exit_YBScene:
 			case PD.Exit_Scene:{
 				ExitScene.Builder b = (ExitScene.Builder)builder;
-				System.out.printf("退出%s\n", b.getUid());
+				//System.out.printf("退出%s\n", b.getUid());
+				if(client.masterUid == b.getUid()){
+					client.masterUid = 0;
+				}
 			}
 				break;
 			case PD.HERO_INFO:
@@ -91,11 +105,16 @@ public class MessageDispatcher {
 				//TODO
 				break;
 			case PD.Enter_YBScene:{
-				EnterScene.Builder enterSc = (EnterScene.Builder )builder;
-				System.out.printf("B收到进入场景通知 - %s uid %d\n",
-						enterSc.getSenderName(),enterSc.getUid());
+				EnterSceneCache.Builder ss = (EnterSceneCache.Builder )builder;
+				EnterScene cc = EnterScene.parseFrom(ss.getBody().toByteArray());
+				if(cc.getRoleId()<5){
+					client.masterUid = cc.getUid();
+				}
+//				System.out.printf("B收到进入场景通知 - %s uid %d\n",
+//						ss.getSenderName(),ss.getUid());
 				break;
 			}
+			case 10003:break;
 			case PD.C_GET_BAO_XIANG	:{
 				ErrorMessage.Builder info = (ErrorMessage.Builder)builder	;
 				System.out.printf("拾取宝箱成功，获得%d元宝\n",info.getErrorCode());
@@ -103,9 +122,44 @@ public class MessageDispatcher {
 			}
 			case PD.OPEN_ShiLian_FuBen:
 			{
-				ErrorMessage.Builder info = (ErrorMessage.Builder)builder	;
-				System.out.printf("十连副本信息:%d/%d,%sS\n",
-						info.getErrorCode(),info.getCmd(), info.getErrorDesc());
+//				ErrorMessage.Builder info = (ErrorMessage.Builder)builder	;
+//				System.out.printf("十连副本信息:%d/%d,%sS\n",
+//						info.getErrorCode(),info.getCmd(), info.getErrorDesc());
+			}
+				break;
+			case PD.S_CHOOSE_SCENE:
+			{
+				ErrorMessage.Builder ret = (ErrorMessage.Builder)builder ;
+				System.out.println("已指定进入副本id:"+ret.getErrorCode());
+				break;
+			}
+			case PD.S_SCENE_GETALL:
+			{
+				System.out.print("场景ID列表为：");
+				DataList.Builder ret = (DataList.Builder)builder ;
+				List<ErrorMessage.Builder> list = ret.getDataBuilderList();
+				
+				if(list != null){
+					for(ErrorMessage.Builder value : list){
+						System.out.print(value.getErrorCode()+", 人数为："+ value.getCmd() +"。");
+					}
+				}
+				System.out.println("");
+			}				
+				break;
+			case PD.S_EQUIP_BAOSHI_RESP:
+			{
+				EquipOperationResp.Builder resp = (EquipOperationResp.Builder) builder;
+				JewelList jb = resp.getJewelList();
+				System.out.print(jb.getEqulpId()+"    ");
+				System.out.println(jb.getJewelNum()+"    ");
+				List <JewelInfo> jl = jb.getListList();
+				for( JewelInfo j : jl ){
+					System.out.print(j.getItemId()+"    ");
+					System.out.print(j.getEqulpId()+"    ");
+					System.out.print(j.getPossionId()+"    ");
+					System.out.println("");
+				}
 			}
 				break;
 			default:
@@ -114,15 +168,45 @@ public class MessageDispatcher {
 					tb.handle(id, session, builder);
 					break;
 				}
-				if(client.log)System.out.println("未处理的消息:"+id+"->"+(builder == null ? "" : 
-					builder.getDefaultInstanceForType().getClass().getSimpleName())
-					);
+//				if(client.log)System.out.println("未处理的消息:"+id+"->"+(builder == null ? "" : 
+//					builder.getDefaultInstanceForType().getClass().getSimpleName())
+//					);
 //				System.out.println(builder.toString());
 				break;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	public void fakeMove(GameClient c, Builder builder) {
+		if(11>1){
+//			c.move();
+//			return;
+		}
+		SpriteMove.Builder move = (SpriteMove.Builder)builder;
+		int moverUid = move.getUid();
+		if(c.masterUid < moverUid){
+			c.masterUid = moverUid;
+		}
+//		c.masterUid = 5401;
+		//跟着固定的主人走。
+		if(c.masterUid != move.getUid()){
+//			return;
+		}
+		long m = System.currentTimeMillis();
+		if(m - c.lastMoveTime<200){
+			return;
+		}else{
+			c.lastMoveTime = m;
+			c.move();
+			return;
+		}
+//		move.setPosX(move.getPosX()-(c.uid-c.masterUid)/80f);
+//		c.lastMoveTime = m;
+//		c.session.write(builder.build());
+//		c.session.write(builder.build());
+		
+		//System.out.println(c.accountName+" fake move:"+move.getPosX()+" -->"+c.masterUid);
 	}
 
 }

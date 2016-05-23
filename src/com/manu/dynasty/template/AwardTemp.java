@@ -1,6 +1,8 @@
 package com.manu.dynasty.template;
 
-public class AwardTemp {
+import com.qx.junzhu.JunZhu;
+
+public class AwardTemp implements Cloneable {
 	private int id;
 	private int awardId;
 	private int itemId;
@@ -49,5 +51,17 @@ public class AwardTemp {
 				+ itemId + ", itemType=" + itemType + ", itemNum=" + itemNum
 				+ ", weight=" + weight + "]";
 	}
+	@Override
+	public AwardTemp clone() {
+		AwardTemp o = null;
+		try {
+			o = (AwardTemp) super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return o;
+	}
+	
+	
 	
 }

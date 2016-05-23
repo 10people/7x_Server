@@ -34,6 +34,7 @@ public final class UpActionProto {
    *
    * <pre>
    *&#47;//////这里是我要变强
+   *public static final short C_GET_UPACTION_DATA = 5131;
    * </pre>
    */
   public static final class UpAction_C_getData extends
@@ -271,6 +272,7 @@ public final class UpActionProto {
      *
      * <pre>
      *&#47;//////这里是我要变强
+     *public static final short C_GET_UPACTION_DATA = 5131;
      * </pre>
      */
     public static final class Builder extends
@@ -552,12 +554,27 @@ public final class UpActionProto {
      * </pre>
      */
     int getTianfuId(int index);
+
+    // optional .qxmobile.protobuf.Page2Data mibaoNew = 6;
+    /**
+     * <code>optional .qxmobile.protobuf.Page2Data mibaoNew = 6;</code>
+     */
+    boolean hasMibaoNew();
+    /**
+     * <code>optional .qxmobile.protobuf.Page2Data mibaoNew = 6;</code>
+     */
+    qxmobile.protobuf.UpActionProto.Page2Data getMibaoNew();
+    /**
+     * <code>optional .qxmobile.protobuf.Page2Data mibaoNew = 6;</code>
+     */
+    qxmobile.protobuf.UpActionProto.Page2DataOrBuilder getMibaoNewOrBuilder();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.UpAction_S_getData0}
    *
    * <pre>
    *收到UpAction_C_getData信息page==0时服务器回复此信息
+   *public static final short S_UPACTION_DATA_0 = 5132;
    * </pre>
    */
   public static final class UpAction_S_getData0 extends
@@ -647,6 +664,19 @@ public final class UpActionProto {
                 tianfuId_.add(input.readInt32());
               }
               input.popLimit(limit);
+              break;
+            }
+            case 50: {
+              qxmobile.protobuf.UpActionProto.Page2Data.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+                subBuilder = mibaoNew_.toBuilder();
+              }
+              mibaoNew_ = input.readMessage(qxmobile.protobuf.UpActionProto.Page2Data.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(mibaoNew_);
+                mibaoNew_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000010;
               break;
             }
           }
@@ -823,12 +853,35 @@ public final class UpActionProto {
       return tianfuId_.get(index);
     }
 
+    // optional .qxmobile.protobuf.Page2Data mibaoNew = 6;
+    public static final int MIBAONEW_FIELD_NUMBER = 6;
+    private qxmobile.protobuf.UpActionProto.Page2Data mibaoNew_;
+    /**
+     * <code>optional .qxmobile.protobuf.Page2Data mibaoNew = 6;</code>
+     */
+    public boolean hasMibaoNew() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .qxmobile.protobuf.Page2Data mibaoNew = 6;</code>
+     */
+    public qxmobile.protobuf.UpActionProto.Page2Data getMibaoNew() {
+      return mibaoNew_;
+    }
+    /**
+     * <code>optional .qxmobile.protobuf.Page2Data mibaoNew = 6;</code>
+     */
+    public qxmobile.protobuf.UpActionProto.Page2DataOrBuilder getMibaoNewOrBuilder() {
+      return mibaoNew_;
+    }
+
     private void initFields() {
       curHeroLevel_ = 0;
       maxHeroLevel_ = 0;
       curTanfuLevel_ = 0;
       maxTanfuLevel_ = 0;
       tianfuId_ = java.util.Collections.emptyList();
+      mibaoNew_ = qxmobile.protobuf.UpActionProto.Page2Data.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -851,6 +904,12 @@ public final class UpActionProto {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (hasMibaoNew()) {
+        if (!getMibaoNew().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -872,6 +931,9 @@ public final class UpActionProto {
       }
       for (int i = 0; i < tianfuId_.size(); i++) {
         output.writeInt32(5, tianfuId_.get(i));
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeMessage(6, mibaoNew_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -906,6 +968,10 @@ public final class UpActionProto {
         }
         size += dataSize;
         size += 1 * getTianfuIdList().size();
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, mibaoNew_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -990,6 +1056,7 @@ public final class UpActionProto {
      *
      * <pre>
      *收到UpAction_C_getData信息page==0时服务器回复此信息
+     *public static final short S_UPACTION_DATA_0 = 5132;
      * </pre>
      */
     public static final class Builder extends
@@ -1019,6 +1086,7 @@ public final class UpActionProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getMibaoNewFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1037,6 +1105,12 @@ public final class UpActionProto {
         bitField0_ = (bitField0_ & ~0x00000008);
         tianfuId_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000010);
+        if (mibaoNewBuilder_ == null) {
+          mibaoNew_ = qxmobile.protobuf.UpActionProto.Page2Data.getDefaultInstance();
+        } else {
+          mibaoNewBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -1086,6 +1160,14 @@ public final class UpActionProto {
           bitField0_ = (bitField0_ & ~0x00000010);
         }
         result.tianfuId_ = tianfuId_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        if (mibaoNewBuilder_ == null) {
+          result.mibaoNew_ = mibaoNew_;
+        } else {
+          result.mibaoNew_ = mibaoNewBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1124,6 +1206,9 @@ public final class UpActionProto {
           }
           onChanged();
         }
+        if (other.hasMibaoNew()) {
+          mergeMibaoNew(other.getMibaoNew());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -1144,6 +1229,12 @@ public final class UpActionProto {
         if (!hasMaxTanfuLevel()) {
           
           return false;
+        }
+        if (hasMibaoNew()) {
+          if (!getMibaoNew().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -1457,6 +1548,123 @@ public final class UpActionProto {
         return this;
       }
 
+      // optional .qxmobile.protobuf.Page2Data mibaoNew = 6;
+      private qxmobile.protobuf.UpActionProto.Page2Data mibaoNew_ = qxmobile.protobuf.UpActionProto.Page2Data.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          qxmobile.protobuf.UpActionProto.Page2Data, qxmobile.protobuf.UpActionProto.Page2Data.Builder, qxmobile.protobuf.UpActionProto.Page2DataOrBuilder> mibaoNewBuilder_;
+      /**
+       * <code>optional .qxmobile.protobuf.Page2Data mibaoNew = 6;</code>
+       */
+      public boolean hasMibaoNew() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.Page2Data mibaoNew = 6;</code>
+       */
+      public qxmobile.protobuf.UpActionProto.Page2Data getMibaoNew() {
+        if (mibaoNewBuilder_ == null) {
+          return mibaoNew_;
+        } else {
+          return mibaoNewBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.Page2Data mibaoNew = 6;</code>
+       */
+      public Builder setMibaoNew(qxmobile.protobuf.UpActionProto.Page2Data value) {
+        if (mibaoNewBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          mibaoNew_ = value;
+          onChanged();
+        } else {
+          mibaoNewBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.Page2Data mibaoNew = 6;</code>
+       */
+      public Builder setMibaoNew(
+          qxmobile.protobuf.UpActionProto.Page2Data.Builder builderForValue) {
+        if (mibaoNewBuilder_ == null) {
+          mibaoNew_ = builderForValue.build();
+          onChanged();
+        } else {
+          mibaoNewBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.Page2Data mibaoNew = 6;</code>
+       */
+      public Builder mergeMibaoNew(qxmobile.protobuf.UpActionProto.Page2Data value) {
+        if (mibaoNewBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+              mibaoNew_ != qxmobile.protobuf.UpActionProto.Page2Data.getDefaultInstance()) {
+            mibaoNew_ =
+              qxmobile.protobuf.UpActionProto.Page2Data.newBuilder(mibaoNew_).mergeFrom(value).buildPartial();
+          } else {
+            mibaoNew_ = value;
+          }
+          onChanged();
+        } else {
+          mibaoNewBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.Page2Data mibaoNew = 6;</code>
+       */
+      public Builder clearMibaoNew() {
+        if (mibaoNewBuilder_ == null) {
+          mibaoNew_ = qxmobile.protobuf.UpActionProto.Page2Data.getDefaultInstance();
+          onChanged();
+        } else {
+          mibaoNewBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.Page2Data mibaoNew = 6;</code>
+       */
+      public qxmobile.protobuf.UpActionProto.Page2Data.Builder getMibaoNewBuilder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getMibaoNewFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.Page2Data mibaoNew = 6;</code>
+       */
+      public qxmobile.protobuf.UpActionProto.Page2DataOrBuilder getMibaoNewOrBuilder() {
+        if (mibaoNewBuilder_ != null) {
+          return mibaoNewBuilder_.getMessageOrBuilder();
+        } else {
+          return mibaoNew_;
+        }
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.Page2Data mibaoNew = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          qxmobile.protobuf.UpActionProto.Page2Data, qxmobile.protobuf.UpActionProto.Page2Data.Builder, qxmobile.protobuf.UpActionProto.Page2DataOrBuilder> 
+          getMibaoNewFieldBuilder() {
+        if (mibaoNewBuilder_ == null) {
+          mibaoNewBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              qxmobile.protobuf.UpActionProto.Page2Data, qxmobile.protobuf.UpActionProto.Page2Data.Builder, qxmobile.protobuf.UpActionProto.Page2DataOrBuilder>(
+                  mibaoNew_,
+                  getParentForChildren(),
+                  isClean());
+          mibaoNew_ = null;
+        }
+        return mibaoNewBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.UpAction_S_getData0)
     }
 
@@ -1474,24 +1682,44 @@ public final class UpActionProto {
     // repeated .qxmobile.protobuf.Page1Data pageData = 1;
     /**
      * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 强化 进阶 洗练
+     * </pre>
      */
     java.util.List<qxmobile.protobuf.UpActionProto.Page1Data> 
         getPageDataList();
     /**
      * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 强化 进阶 洗练
+     * </pre>
      */
     qxmobile.protobuf.UpActionProto.Page1Data getPageData(int index);
     /**
      * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 强化 进阶 洗练
+     * </pre>
      */
     int getPageDataCount();
     /**
      * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 强化 进阶 洗练
+     * </pre>
      */
     java.util.List<? extends qxmobile.protobuf.UpActionProto.Page1DataOrBuilder> 
         getPageDataOrBuilderList();
     /**
      * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 强化 进阶 洗练
+     * </pre>
      */
     qxmobile.protobuf.UpActionProto.Page1DataOrBuilder getPageDataOrBuilder(
         int index);
@@ -1501,6 +1729,7 @@ public final class UpActionProto {
    *
    * <pre>
    *收到UpAction_C_getData信息page==1时服务器回复此信息
+   *public static final short S_UPACTION_DATA_1 = 5133;
    * </pre>
    */
   public static final class UpAction_S_getData1 extends
@@ -1606,12 +1835,20 @@ public final class UpActionProto {
     private java.util.List<qxmobile.protobuf.UpActionProto.Page1Data> pageData_;
     /**
      * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 强化 进阶 洗练
+     * </pre>
      */
     public java.util.List<qxmobile.protobuf.UpActionProto.Page1Data> getPageDataList() {
       return pageData_;
     }
     /**
      * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 强化 进阶 洗练
+     * </pre>
      */
     public java.util.List<? extends qxmobile.protobuf.UpActionProto.Page1DataOrBuilder> 
         getPageDataOrBuilderList() {
@@ -1619,18 +1856,30 @@ public final class UpActionProto {
     }
     /**
      * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 强化 进阶 洗练
+     * </pre>
      */
     public int getPageDataCount() {
       return pageData_.size();
     }
     /**
      * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 强化 进阶 洗练
+     * </pre>
      */
     public qxmobile.protobuf.UpActionProto.Page1Data getPageData(int index) {
       return pageData_.get(index);
     }
     /**
      * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 强化 进阶 洗练
+     * </pre>
      */
     public qxmobile.protobuf.UpActionProto.Page1DataOrBuilder getPageDataOrBuilder(
         int index) {
@@ -1757,6 +2006,7 @@ public final class UpActionProto {
      *
      * <pre>
      *收到UpAction_C_getData信息page==1时服务器回复此信息
+     *public static final short S_UPACTION_DATA_1 = 5133;
      * </pre>
      */
     public static final class Builder extends
@@ -1926,6 +2176,10 @@ public final class UpActionProto {
 
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public java.util.List<qxmobile.protobuf.UpActionProto.Page1Data> getPageDataList() {
         if (pageDataBuilder_ == null) {
@@ -1936,6 +2190,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public int getPageDataCount() {
         if (pageDataBuilder_ == null) {
@@ -1946,6 +2204,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public qxmobile.protobuf.UpActionProto.Page1Data getPageData(int index) {
         if (pageDataBuilder_ == null) {
@@ -1956,6 +2218,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public Builder setPageData(
           int index, qxmobile.protobuf.UpActionProto.Page1Data value) {
@@ -1973,6 +2239,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public Builder setPageData(
           int index, qxmobile.protobuf.UpActionProto.Page1Data.Builder builderForValue) {
@@ -1987,6 +2257,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public Builder addPageData(qxmobile.protobuf.UpActionProto.Page1Data value) {
         if (pageDataBuilder_ == null) {
@@ -2003,6 +2277,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public Builder addPageData(
           int index, qxmobile.protobuf.UpActionProto.Page1Data value) {
@@ -2020,6 +2298,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public Builder addPageData(
           qxmobile.protobuf.UpActionProto.Page1Data.Builder builderForValue) {
@@ -2034,6 +2316,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public Builder addPageData(
           int index, qxmobile.protobuf.UpActionProto.Page1Data.Builder builderForValue) {
@@ -2048,6 +2334,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public Builder addAllPageData(
           java.lang.Iterable<? extends qxmobile.protobuf.UpActionProto.Page1Data> values) {
@@ -2062,6 +2352,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public Builder clearPageData() {
         if (pageDataBuilder_ == null) {
@@ -2075,6 +2369,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public Builder removePageData(int index) {
         if (pageDataBuilder_ == null) {
@@ -2088,6 +2386,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public qxmobile.protobuf.UpActionProto.Page1Data.Builder getPageDataBuilder(
           int index) {
@@ -2095,6 +2397,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public qxmobile.protobuf.UpActionProto.Page1DataOrBuilder getPageDataOrBuilder(
           int index) {
@@ -2105,6 +2411,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public java.util.List<? extends qxmobile.protobuf.UpActionProto.Page1DataOrBuilder> 
            getPageDataOrBuilderList() {
@@ -2116,6 +2426,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public qxmobile.protobuf.UpActionProto.Page1Data.Builder addPageDataBuilder() {
         return getPageDataFieldBuilder().addBuilder(
@@ -2123,6 +2437,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public qxmobile.protobuf.UpActionProto.Page1Data.Builder addPageDataBuilder(
           int index) {
@@ -2131,6 +2449,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page1Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 强化 进阶 洗练
+       * </pre>
        */
       public java.util.List<qxmobile.protobuf.UpActionProto.Page1Data.Builder> 
            getPageDataBuilderList() {
@@ -3868,24 +4190,44 @@ public final class UpActionProto {
     // repeated .qxmobile.protobuf.Page2Data pageData = 1;
     /**
      * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     java.util.List<qxmobile.protobuf.UpActionProto.Page2Data> 
         getPageDataList();
     /**
      * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     qxmobile.protobuf.UpActionProto.Page2Data getPageData(int index);
     /**
      * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     int getPageDataCount();
     /**
      * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     java.util.List<? extends qxmobile.protobuf.UpActionProto.Page2DataOrBuilder> 
         getPageDataOrBuilderList();
     /**
      * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     qxmobile.protobuf.UpActionProto.Page2DataOrBuilder getPageDataOrBuilder(
         int index);
@@ -3895,6 +4237,7 @@ public final class UpActionProto {
    *
    * <pre>
    *收到UpAction_C_getData信息page==2时服务器回复此信息
+   *public static final short S_UPACTION_DATA_2 = 5134;
    * </pre>
    */
   public static final class UpAction_S_getData2 extends
@@ -4000,12 +4343,20 @@ public final class UpActionProto {
     private java.util.List<qxmobile.protobuf.UpActionProto.Page2Data> pageData_;
     /**
      * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     public java.util.List<qxmobile.protobuf.UpActionProto.Page2Data> getPageDataList() {
       return pageData_;
     }
     /**
      * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     public java.util.List<? extends qxmobile.protobuf.UpActionProto.Page2DataOrBuilder> 
         getPageDataOrBuilderList() {
@@ -4013,18 +4364,30 @@ public final class UpActionProto {
     }
     /**
      * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     public int getPageDataCount() {
       return pageData_.size();
     }
     /**
      * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     public qxmobile.protobuf.UpActionProto.Page2Data getPageData(int index) {
       return pageData_.get(index);
     }
     /**
      * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     public qxmobile.protobuf.UpActionProto.Page2DataOrBuilder getPageDataOrBuilder(
         int index) {
@@ -4151,6 +4514,7 @@ public final class UpActionProto {
      *
      * <pre>
      *收到UpAction_C_getData信息page==2时服务器回复此信息
+     *public static final short S_UPACTION_DATA_2 = 5134;
      * </pre>
      */
     public static final class Builder extends
@@ -4320,6 +4684,10 @@ public final class UpActionProto {
 
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public java.util.List<qxmobile.protobuf.UpActionProto.Page2Data> getPageDataList() {
         if (pageDataBuilder_ == null) {
@@ -4330,6 +4698,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public int getPageDataCount() {
         if (pageDataBuilder_ == null) {
@@ -4340,6 +4712,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public qxmobile.protobuf.UpActionProto.Page2Data getPageData(int index) {
         if (pageDataBuilder_ == null) {
@@ -4350,6 +4726,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder setPageData(
           int index, qxmobile.protobuf.UpActionProto.Page2Data value) {
@@ -4367,6 +4747,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder setPageData(
           int index, qxmobile.protobuf.UpActionProto.Page2Data.Builder builderForValue) {
@@ -4381,6 +4765,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder addPageData(qxmobile.protobuf.UpActionProto.Page2Data value) {
         if (pageDataBuilder_ == null) {
@@ -4397,6 +4785,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder addPageData(
           int index, qxmobile.protobuf.UpActionProto.Page2Data value) {
@@ -4414,6 +4806,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder addPageData(
           qxmobile.protobuf.UpActionProto.Page2Data.Builder builderForValue) {
@@ -4428,6 +4824,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder addPageData(
           int index, qxmobile.protobuf.UpActionProto.Page2Data.Builder builderForValue) {
@@ -4442,6 +4842,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder addAllPageData(
           java.lang.Iterable<? extends qxmobile.protobuf.UpActionProto.Page2Data> values) {
@@ -4456,6 +4860,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder clearPageData() {
         if (pageDataBuilder_ == null) {
@@ -4469,6 +4877,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder removePageData(int index) {
         if (pageDataBuilder_ == null) {
@@ -4482,6 +4894,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public qxmobile.protobuf.UpActionProto.Page2Data.Builder getPageDataBuilder(
           int index) {
@@ -4489,6 +4905,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public qxmobile.protobuf.UpActionProto.Page2DataOrBuilder getPageDataOrBuilder(
           int index) {
@@ -4499,6 +4919,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public java.util.List<? extends qxmobile.protobuf.UpActionProto.Page2DataOrBuilder> 
            getPageDataOrBuilderList() {
@@ -4510,6 +4934,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public qxmobile.protobuf.UpActionProto.Page2Data.Builder addPageDataBuilder() {
         return getPageDataFieldBuilder().addBuilder(
@@ -4517,6 +4945,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public qxmobile.protobuf.UpActionProto.Page2Data.Builder addPageDataBuilder(
           int index) {
@@ -4525,6 +4957,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page2Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public java.util.List<qxmobile.protobuf.UpActionProto.Page2Data.Builder> 
            getPageDataBuilderList() {
@@ -5328,24 +5764,44 @@ public final class UpActionProto {
     // repeated .qxmobile.protobuf.Page3Data pageData = 1;
     /**
      * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     java.util.List<qxmobile.protobuf.UpActionProto.Page3Data> 
         getPageDataList();
     /**
      * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     qxmobile.protobuf.UpActionProto.Page3Data getPageData(int index);
     /**
      * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     int getPageDataCount();
     /**
      * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     java.util.List<? extends qxmobile.protobuf.UpActionProto.Page3DataOrBuilder> 
         getPageDataOrBuilderList();
     /**
      * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     qxmobile.protobuf.UpActionProto.Page3DataOrBuilder getPageDataOrBuilder(
         int index);
@@ -5355,6 +5811,7 @@ public final class UpActionProto {
    *
    * <pre>
    *收到UpAction_C_getData信息page==3时服务器回复此信息
+   *public static final short S_UPACTION_DATA_3 = 5135;
    * </pre>
    */
   public static final class UpAction_S_getData3 extends
@@ -5460,12 +5917,20 @@ public final class UpActionProto {
     private java.util.List<qxmobile.protobuf.UpActionProto.Page3Data> pageData_;
     /**
      * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     public java.util.List<qxmobile.protobuf.UpActionProto.Page3Data> getPageDataList() {
       return pageData_;
     }
     /**
      * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     public java.util.List<? extends qxmobile.protobuf.UpActionProto.Page3DataOrBuilder> 
         getPageDataOrBuilderList() {
@@ -5473,18 +5938,30 @@ public final class UpActionProto {
     }
     /**
      * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     public int getPageDataCount() {
       return pageData_.size();
     }
     /**
      * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     public qxmobile.protobuf.UpActionProto.Page3Data getPageData(int index) {
       return pageData_.get(index);
     }
     /**
      * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+     *
+     * <pre>
+     *顺序分别为 秘宝升级 升星
+     * </pre>
      */
     public qxmobile.protobuf.UpActionProto.Page3DataOrBuilder getPageDataOrBuilder(
         int index) {
@@ -5611,6 +6088,7 @@ public final class UpActionProto {
      *
      * <pre>
      *收到UpAction_C_getData信息page==3时服务器回复此信息
+     *public static final short S_UPACTION_DATA_3 = 5135;
      * </pre>
      */
     public static final class Builder extends
@@ -5780,6 +6258,10 @@ public final class UpActionProto {
 
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public java.util.List<qxmobile.protobuf.UpActionProto.Page3Data> getPageDataList() {
         if (pageDataBuilder_ == null) {
@@ -5790,6 +6272,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public int getPageDataCount() {
         if (pageDataBuilder_ == null) {
@@ -5800,6 +6286,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public qxmobile.protobuf.UpActionProto.Page3Data getPageData(int index) {
         if (pageDataBuilder_ == null) {
@@ -5810,6 +6300,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder setPageData(
           int index, qxmobile.protobuf.UpActionProto.Page3Data value) {
@@ -5827,6 +6321,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder setPageData(
           int index, qxmobile.protobuf.UpActionProto.Page3Data.Builder builderForValue) {
@@ -5841,6 +6339,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder addPageData(qxmobile.protobuf.UpActionProto.Page3Data value) {
         if (pageDataBuilder_ == null) {
@@ -5857,6 +6359,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder addPageData(
           int index, qxmobile.protobuf.UpActionProto.Page3Data value) {
@@ -5874,6 +6380,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder addPageData(
           qxmobile.protobuf.UpActionProto.Page3Data.Builder builderForValue) {
@@ -5888,6 +6398,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder addPageData(
           int index, qxmobile.protobuf.UpActionProto.Page3Data.Builder builderForValue) {
@@ -5902,6 +6416,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder addAllPageData(
           java.lang.Iterable<? extends qxmobile.protobuf.UpActionProto.Page3Data> values) {
@@ -5916,6 +6434,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder clearPageData() {
         if (pageDataBuilder_ == null) {
@@ -5929,6 +6451,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public Builder removePageData(int index) {
         if (pageDataBuilder_ == null) {
@@ -5942,6 +6468,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public qxmobile.protobuf.UpActionProto.Page3Data.Builder getPageDataBuilder(
           int index) {
@@ -5949,6 +6479,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public qxmobile.protobuf.UpActionProto.Page3DataOrBuilder getPageDataOrBuilder(
           int index) {
@@ -5959,6 +6493,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public java.util.List<? extends qxmobile.protobuf.UpActionProto.Page3DataOrBuilder> 
            getPageDataOrBuilderList() {
@@ -5970,6 +6508,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public qxmobile.protobuf.UpActionProto.Page3Data.Builder addPageDataBuilder() {
         return getPageDataFieldBuilder().addBuilder(
@@ -5977,6 +6519,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public qxmobile.protobuf.UpActionProto.Page3Data.Builder addPageDataBuilder(
           int index) {
@@ -5985,6 +6531,10 @@ public final class UpActionProto {
       }
       /**
        * <code>repeated .qxmobile.protobuf.Page3Data pageData = 1;</code>
+       *
+       * <pre>
+       *顺序分别为 秘宝升级 升星
+       * </pre>
        */
       public java.util.List<qxmobile.protobuf.UpActionProto.Page3Data.Builder> 
            getPageDataBuilderList() {
@@ -6837,24 +7387,25 @@ public final class UpActionProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\016UpAction.proto\022\021qxmobile.protobuf\"\"\n\022U" +
-      "pAction_C_getData\022\014\n\004page\030\001 \002(\005\"\201\001\n\023UpAc" +
+      "pAction_C_getData\022\014\n\004page\030\001 \002(\005\"\261\001\n\023UpAc" +
       "tion_S_getData0\022\024\n\014curHeroLevel\030\001 \002(\005\022\024\n" +
       "\014maxHeroLevel\030\002 \002(\005\022\025\n\rcurTanfuLevel\030\003 \002" +
       "(\005\022\025\n\rmaxTanfuLevel\030\004 \002(\005\022\020\n\010tianfuId\030\005 " +
-      "\003(\005\"E\n\023UpAction_S_getData1\022.\n\010pageData\030\001" +
-      " \003(\0132\034.qxmobile.protobuf.Page1Data\"m\n\tPa" +
-      "ge1Data\022\020\n\010curLevel\030\001 \002(\005\022\020\n\010maxLevel\030\002 " +
-      "\002(\005\022<\n\rzhuangbeiData\030\003 \003(\0132%.qxmobile.pr" +
-      "otobuf.Page1ZhuangbeiData\"<\n\022Page1Zhuang",
-      "beiData\022\n\n\002id\030\001 \002(\005\022\014\n\004type\030\002 \002(\005\022\014\n\004tex" +
-      "t\030\003 \002(\t\"E\n\023UpAction_S_getData2\022.\n\010pageDa" +
-      "ta\030\001 \003(\0132\034.qxmobile.protobuf.Page2Data\"D" +
-      "\n\tPage2Data\022\020\n\010curLevel\030\001 \002(\005\022\020\n\010maxLeve" +
-      "l\030\002 \002(\005\022\023\n\013mibaoDataId\030\003 \003(\005\"E\n\023UpAction" +
-      "_S_getData3\022.\n\010pageData\030\001 \003(\0132\034.qxmobile" +
-      ".protobuf.Page3Data\"D\n\tPage3Data\022\020\n\010curL" +
-      "evel\030\001 \002(\005\022\020\n\010maxLevel\030\002 \002(\005\022\023\n\013fuwenDat" +
-      "aId\030\003 \003(\005B\017B\rUpActionProto"
+      "\003(\005\022.\n\010mibaoNew\030\006 \001(\0132\034.qxmobile.protobu" +
+      "f.Page2Data\"E\n\023UpAction_S_getData1\022.\n\010pa" +
+      "geData\030\001 \003(\0132\034.qxmobile.protobuf.Page1Da" +
+      "ta\"m\n\tPage1Data\022\020\n\010curLevel\030\001 \002(\005\022\020\n\010max" +
+      "Level\030\002 \002(\005\022<\n\rzhuangbeiData\030\003 \003(\0132%.qxm",
+      "obile.protobuf.Page1ZhuangbeiData\"<\n\022Pag" +
+      "e1ZhuangbeiData\022\n\n\002id\030\001 \002(\005\022\014\n\004type\030\002 \002(" +
+      "\005\022\014\n\004text\030\003 \002(\t\"E\n\023UpAction_S_getData2\022." +
+      "\n\010pageData\030\001 \003(\0132\034.qxmobile.protobuf.Pag" +
+      "e2Data\"D\n\tPage2Data\022\020\n\010curLevel\030\001 \002(\005\022\020\n" +
+      "\010maxLevel\030\002 \002(\005\022\023\n\013mibaoDataId\030\003 \003(\005\"E\n\023" +
+      "UpAction_S_getData3\022.\n\010pageData\030\001 \003(\0132\034." +
+      "qxmobile.protobuf.Page3Data\"D\n\tPage3Data" +
+      "\022\020\n\010curLevel\030\001 \002(\005\022\020\n\010maxLevel\030\002 \002(\005\022\023\n\013" +
+      "fuwenDataId\030\003 \003(\005B\017B\rUpActionProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6872,7 +7423,7 @@ public final class UpActionProto {
           internal_static_qxmobile_protobuf_UpAction_S_getData0_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_UpAction_S_getData0_descriptor,
-              new java.lang.String[] { "CurHeroLevel", "MaxHeroLevel", "CurTanfuLevel", "MaxTanfuLevel", "TianfuId", });
+              new java.lang.String[] { "CurHeroLevel", "MaxHeroLevel", "CurTanfuLevel", "MaxTanfuLevel", "TianfuId", "MibaoNew", });
           internal_static_qxmobile_protobuf_UpAction_S_getData1_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_UpAction_S_getData1_fieldAccessorTable = new

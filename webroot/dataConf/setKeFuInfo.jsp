@@ -37,9 +37,9 @@ String faq = YYMgr.faq;
 %>
 <form action="" method="post">
 <table>
-<tr><td>客服信息：</td><td><textarea name="info"><%=info%></textarea></td><td></td></tr>
-<tr><td>客服QQ：</td><td><input type="text" name="qq" value="<%=qq%>"/></td><td>只输入QQ号，会显示在界面【官方QQ群：】后面</td></tr>
-<tr><td>常见问题：</td><td><textarea name="faq"><%=faq%></textarea></td><td></td></tr>
+<tr><td>客服信息：</td><td><textarea name="info" cols="50" rows="5"><%=info%></textarea></td><td></td></tr>
+<tr><td>客服QQ：</td><td><input type="text" name="qq" value="<%=qq%>" size="49"/>只输入QQ号，会显示在界面【官方QQ群：】后面</td><td></td></tr>
+<tr><td>常见问题：</td><td><textarea name="faq" cols="50" rows="10"><%=faq%></textarea></td><td></td></tr>
 <tr><td></td><td><input type="submit" value="设置"/></td><td></td></tr>
 </table>
 </form>

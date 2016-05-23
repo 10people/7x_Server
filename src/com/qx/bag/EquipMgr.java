@@ -185,9 +185,9 @@ public class EquipMgr extends EventProc{
 		log.info("remove equip {} instId {} from {}",preTid,instId, bag.ownerId);
 		BagMgr.inst.addItem(bag, preTid, 1, instId,jz.level,"脱下装备");
 		log.info("add  {} instId {} to bag {}",preTid, instId, equips.ownerId);
-		BagMgr.inst.sendBagInfo(0, session, null);
-		BagMgr.inst.sendEquipInfo(0, session, null);
-		JunZhuMgr.inst.sendMainInfo(session);
+		BagMgr.inst.sendBagInfo(session, bag);
+		BagMgr.inst.sendEquipInfo(session, equips);
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 		// 刷新君主榜
 		EventMgr.addEvent(ED.JUN_RANK_REFRESH, jz);
 	}
@@ -322,16 +322,21 @@ public class EquipMgr extends EventProc{
 //					sendError(session, "已经强化的数据丢失了。");
 					return ;
 				} 
+				//记录旧的进阶经验，并且加上被替换的装备的进阶经验
+				int jinjieExp = dbUe.JinJieExp+TempletService.getInstance().getZhuangBei(preEg.itemId).exp;
 				dbUe.setTemplateId(targetZb.getId());
 				dbUe.setLevel(afterLevel);	
 				dbUe.setExp(afterExp);
+				dbUe.JinJieExp = jinjieExp ;
 				HibernateUtil.save(dbUe);
 			}else{
 				dbUe = new UserEquip();
+				int jinjieExp = TempletService.getInstance().getZhuangBei(preEg.itemId).exp;
 				dbUe.setUserId(junZhu.id);
 				dbUe.setTemplateId(targetZb.getId());
 				dbUe.setLevel(afterLevel);	
 				dbUe.setExp(afterExp);
+				dbUe.JinJieExp = jinjieExp ;
 				HibernateUtil.insert(dbUe);
 				MC.add(dbUe, dbUe.getIdentifier());
 			}
@@ -355,9 +360,9 @@ public class EquipMgr extends EventProc{
 		}
 		HibernateUtil.save(eg);
 		log.info("add equip {} {} to {}",eg.itemId, eg.instId, equips.ownerId);
-		BagMgr.inst.sendBagInfo(0, session, null);
-		BagMgr.inst.sendEquipInfo(0, session, null);
-		JunZhuMgr.inst.sendMainInfo(session);
+		BagMgr.inst.sendBagInfo(session, bag);
+		BagMgr.inst.sendEquipInfo(session, equips);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		// 事件管理中添加穿装备事件
 		EventMgr.addEvent(ED.EQUIP_ADD, new Object[]{equips.ownerId, zb.getId(), equips});
 		// 刷新君主榜

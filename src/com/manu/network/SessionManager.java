@@ -1,5 +1,6 @@
 package com.manu.network;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.manu.dynasty.chat.ChatMgr;
+import com.qx.account.AccountManager;
 import com.qx.event.ED;
 import com.qx.event.EventMgr;
 import com.qx.junzhu.PlayerTime;
@@ -25,7 +27,6 @@ import com.qx.persistent.HibernateUtil;
  */
 public class SessionManager {
 	public static Logger log = LoggerFactory.getLogger(SessionManager.class);
-	private AtomicLong sessionIdGen;
 	public static SessionManager inst;
 
 	public static SessionManager getInst() {
@@ -38,18 +39,14 @@ public class SessionManager {
 		inst = this;
 		PD.init();
 		sessionMap = new ConcurrentHashMap<Long, SessionUser>();
-		sessionIdGen = new AtomicLong(0);
 		log.info("启动SessionManager");
 	}
 
 	public SessionUser addSession(IoSession ses) {
-		Long sessionId = Long.valueOf(SessionManager.getInst().genSessionId());
-		ses.setAttribute(SessionAttKey.sessionId, sessionId);
 		SessionUser ret = new SessionUser();
 		ret.session = ses;
-		ret.sessoinId = sessionId;
 		synchronized (sessionMap) {
-			sessionMap.put(sessionId, ret);
+			sessionMap.put(ses.getId(), ret);
 		}
 		ChatMgr.getInst().addUser(ret);
 		return ret;
@@ -64,21 +61,12 @@ public class SessionManager {
 	}
 
 	public SessionUser findByJunZhuId(Long junZhuId) {
-		synchronized (sessionMap) {
-			Iterator<SessionUser> it = sessionMap.values().iterator();
-			while (it.hasNext()) {
-				SessionUser u = it.next();
-				Long v = (Long) u.session.getAttribute(SessionAttKey.junZhuId);
-				if (v != null && v.longValue() == junZhuId.longValue()) {
-					return u;
-				}
-			}
+		IoSession ss = AccountManager.sessionMap.get(junZhuId);
+		SessionUser su=null;
+		if(ss != null){
+			su = sessionMap.get(ss.getId());
 		}
-		return null;
-	}
-
-	public long genSessionId() {
-		return sessionIdGen.getAndIncrement();
+		return su;
 	}
 	
 	/**
@@ -92,7 +80,7 @@ public class SessionManager {
 	}
 	
 	public void removeSession(IoSession ses) {
-		Long sid = (Long) ses.getAttribute(SessionAttKey.sessionId);
+		Long sid = ses.getId();
 		SessionUser ret = null;
 		synchronized (sessionMap) {
 			ret = sessionMap.remove(sid);
@@ -137,35 +125,21 @@ public class SessionManager {
 	}
 
 	public void closeAll() {
-		synchronized (sessionMap) {
-			Iterator<SessionUser> it = sessionMap.values().iterator();
-			while (it.hasNext()) {
-				SessionUser u = it.next();
-				it.remove();
-				u.session.close(true);
-			}
-		}
+		TXSocketMgr.inst.acceptor.getManagedSessions().values().stream().forEach(s->s.close(true));
 		log.info("关闭所有session");
 	}
 
 	public List<Long> getAllOnlineJunZhuId() {
-		List<Long> list = new LinkedList();
-		synchronized (sessionMap) {
-			for (SessionUser user : sessionMap.values()) {
-				list.add((Long) user.session
-						.getAttribute(SessionAttKey.junZhuId));
-			}
+		synchronized (AccountManager.sessionMap) {
+			List<Long> list = new LinkedList(AccountManager.sessionMap.keySet());
+			return list;
 		}
-		return list;
 	}
 
 	public List<SessionUser> getAllSessions() {
-		List<SessionUser> list = new LinkedList<SessionUser>();
 		synchronized (sessionMap) {
-			for (SessionUser user : sessionMap.values()) {
-				list.add(user);
-			}
+			List<SessionUser> list = new ArrayList<SessionUser>(sessionMap.values());
+			return list;
 		}
-		return list;
 	}
 }

@@ -38,19 +38,11 @@ public class CdTimeMgr implements Runnable {
 	public void run() {
 		while(openCdTimeMgr) {
 			checkQueue();
-			checkSceneQueue();
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}
-	}
-
-	public void checkSceneQueue() {
-		for(FightScene scene : fightSceneSet) {
-			scene.updateScore();
-			scene.computeBattleData();
 		}
 	}
 

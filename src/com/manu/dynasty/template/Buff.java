@@ -15,8 +15,14 @@ public class Buff {
 	 public int BuffDisplay;
 	 public int BuffDuration; 
 	 public int SkillId;
-	 public int EffectTime;
-	 public int EffectCycle;
+	 /**
+	 * 获得该buff后延迟多久开始生效。
+	 */
+	public int EffectTime;
+	 /**
+	 * 周期；每多少时间执行一次。
+	 */
+	public int EffectCycle;
 	 public int Caster;
 	 public int SkillTarget;
 

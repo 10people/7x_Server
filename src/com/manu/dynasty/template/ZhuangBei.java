@@ -53,6 +53,11 @@ public class ZhuangBei extends BaseItem implements SelfBuilder{
 	public String skill;
 	public int modelId;
 	
+	public int holeNum;//装备孔数量
+	public int inlayColor; //装备孔颜色
+	
+	public int lvlupExp ;//装备进阶所需经验
+	
 	public String getXishu() {
 		return xishu;
 	}

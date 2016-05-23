@@ -16,7 +16,7 @@ public final class Ranking {
      * <code>required int32 rankType = 1;</code>
      *
      * <pre>
-     * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）
+     * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）,7-重楼榜
      * </pre>
      */
     boolean hasRankType();
@@ -24,7 +24,7 @@ public final class Ranking {
      * <code>required int32 rankType = 1;</code>
      *
      * <pre>
-     * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）
+     * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）,7-重楼榜
      * </pre>
      */
     int getRankType();
@@ -254,6 +254,51 @@ public final class Ranking {
     qxmobile.protobuf.Ranking.GongJinInfoOrBuilder getGongInfoListOrBuilder(
         int index);
 
+    // repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;
+    /**
+     * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+     *
+     * <pre>
+     *重楼榜
+     * </pre>
+     */
+    java.util.List<qxmobile.protobuf.Ranking.ChongLouInfo> 
+        getChongLouListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+     *
+     * <pre>
+     *重楼榜
+     * </pre>
+     */
+    qxmobile.protobuf.Ranking.ChongLouInfo getChongLouList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+     *
+     * <pre>
+     *重楼榜
+     * </pre>
+     */
+    int getChongLouListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+     *
+     * <pre>
+     *重楼榜
+     * </pre>
+     */
+    java.util.List<? extends qxmobile.protobuf.Ranking.ChongLouInfoOrBuilder> 
+        getChongLouListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+     *
+     * <pre>
+     *重楼榜
+     * </pre>
+     */
+    qxmobile.protobuf.Ranking.ChongLouInfoOrBuilder getChongLouListOrBuilder(
+        int index);
+
     // optional int32 pageNo = 7;
     /**
      * <code>optional int32 pageNo = 7;</code>
@@ -400,6 +445,14 @@ public final class Ranking {
               pageCount_ = input.readInt32();
               break;
             }
+            case 74: {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+                chongLouList_ = new java.util.ArrayList<qxmobile.protobuf.Ranking.ChongLouInfo>();
+                mutable_bitField0_ |= 0x00000040;
+              }
+              chongLouList_.add(input.readMessage(qxmobile.protobuf.Ranking.ChongLouInfo.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -422,6 +475,9 @@ public final class Ranking {
         }
         if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
           gongInfoList_ = java.util.Collections.unmodifiableList(gongInfoList_);
+        }
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+          chongLouList_ = java.util.Collections.unmodifiableList(chongLouList_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -462,7 +518,7 @@ public final class Ranking {
      * <code>required int32 rankType = 1;</code>
      *
      * <pre>
-     * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）
+     * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）,7-重楼榜
      * </pre>
      */
     public boolean hasRankType() {
@@ -472,7 +528,7 @@ public final class Ranking {
      * <code>required int32 rankType = 1;</code>
      *
      * <pre>
-     * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）
+     * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）,7-重楼榜
      * </pre>
      */
     public int getRankType() {
@@ -759,6 +815,62 @@ public final class Ranking {
       return gongInfoList_.get(index);
     }
 
+    // repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;
+    public static final int CHONGLOULIST_FIELD_NUMBER = 9;
+    private java.util.List<qxmobile.protobuf.Ranking.ChongLouInfo> chongLouList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+     *
+     * <pre>
+     *重楼榜
+     * </pre>
+     */
+    public java.util.List<qxmobile.protobuf.Ranking.ChongLouInfo> getChongLouListList() {
+      return chongLouList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+     *
+     * <pre>
+     *重楼榜
+     * </pre>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Ranking.ChongLouInfoOrBuilder> 
+        getChongLouListOrBuilderList() {
+      return chongLouList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+     *
+     * <pre>
+     *重楼榜
+     * </pre>
+     */
+    public int getChongLouListCount() {
+      return chongLouList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+     *
+     * <pre>
+     *重楼榜
+     * </pre>
+     */
+    public qxmobile.protobuf.Ranking.ChongLouInfo getChongLouList(int index) {
+      return chongLouList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+     *
+     * <pre>
+     *重楼榜
+     * </pre>
+     */
+    public qxmobile.protobuf.Ranking.ChongLouInfoOrBuilder getChongLouListOrBuilder(
+        int index) {
+      return chongLouList_.get(index);
+    }
+
     // optional int32 pageNo = 7;
     public static final int PAGENO_FIELD_NUMBER = 7;
     private int pageNo_;
@@ -814,6 +926,7 @@ public final class Ranking {
       baizhanList_ = java.util.Collections.emptyList();
       guoguanList_ = java.util.Collections.emptyList();
       gongInfoList_ = java.util.Collections.emptyList();
+      chongLouList_ = java.util.Collections.emptyList();
       pageNo_ = 0;
       pageCount_ = 0;
     }
@@ -856,6 +969,12 @@ public final class Ranking {
           return false;
         }
       }
+      for (int i = 0; i < getChongLouListCount(); i++) {
+        if (!getChongLouList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -886,6 +1005,9 @@ public final class Ranking {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(8, pageCount_);
+      }
+      for (int i = 0; i < chongLouList_.size(); i++) {
+        output.writeMessage(9, chongLouList_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -927,6 +1049,10 @@ public final class Ranking {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, pageCount_);
+      }
+      for (int i = 0; i < chongLouList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(9, chongLouList_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1045,6 +1171,7 @@ public final class Ranking {
           getBaizhanListFieldBuilder();
           getGuoguanListFieldBuilder();
           getGongInfoListFieldBuilder();
+          getChongLouListFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1085,10 +1212,16 @@ public final class Ranking {
         } else {
           gongInfoListBuilder_.clear();
         }
+        if (chongLouListBuilder_ == null) {
+          chongLouList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+        } else {
+          chongLouListBuilder_.clear();
+        }
         pageNo_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000040);
-        pageCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
+        pageCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
 
@@ -1166,11 +1299,20 @@ public final class Ranking {
         } else {
           result.gongInfoList_ = gongInfoListBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (chongLouListBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+            chongLouList_ = java.util.Collections.unmodifiableList(chongLouList_);
+            bitField0_ = (bitField0_ & ~0x00000040);
+          }
+          result.chongLouList_ = chongLouList_;
+        } else {
+          result.chongLouList_ = chongLouListBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000002;
         }
         result.pageNo_ = pageNo_;
-        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000004;
         }
         result.pageCount_ = pageCount_;
@@ -1323,6 +1465,32 @@ public final class Ranking {
             }
           }
         }
+        if (chongLouListBuilder_ == null) {
+          if (!other.chongLouList_.isEmpty()) {
+            if (chongLouList_.isEmpty()) {
+              chongLouList_ = other.chongLouList_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+            } else {
+              ensureChongLouListIsMutable();
+              chongLouList_.addAll(other.chongLouList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.chongLouList_.isEmpty()) {
+            if (chongLouListBuilder_.isEmpty()) {
+              chongLouListBuilder_.dispose();
+              chongLouListBuilder_ = null;
+              chongLouList_ = other.chongLouList_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+              chongLouListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getChongLouListFieldBuilder() : null;
+            } else {
+              chongLouListBuilder_.addAllMessages(other.chongLouList_);
+            }
+          }
+        }
         if (other.hasPageNo()) {
           setPageNo(other.getPageNo());
         }
@@ -1368,6 +1536,12 @@ public final class Ranking {
             return false;
           }
         }
+        for (int i = 0; i < getChongLouListCount(); i++) {
+          if (!getChongLouList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
         return true;
       }
 
@@ -1396,7 +1570,7 @@ public final class Ranking {
        * <code>required int32 rankType = 1;</code>
        *
        * <pre>
-       * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）
+       * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）,7-重楼榜
        * </pre>
        */
       public boolean hasRankType() {
@@ -1406,7 +1580,7 @@ public final class Ranking {
        * <code>required int32 rankType = 1;</code>
        *
        * <pre>
-       * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）
+       * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）,7-重楼榜
        * </pre>
        */
       public int getRankType() {
@@ -1416,7 +1590,7 @@ public final class Ranking {
        * <code>required int32 rankType = 1;</code>
        *
        * <pre>
-       * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）
+       * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）,7-重楼榜
        * </pre>
        */
       public Builder setRankType(int value) {
@@ -1429,7 +1603,7 @@ public final class Ranking {
        * <code>required int32 rankType = 1;</code>
        *
        * <pre>
-       * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）
+       * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）,7-重楼榜
        * </pre>
        */
       public Builder clearRankType() {
@@ -2999,6 +3173,318 @@ public final class Ranking {
         return gongInfoListBuilder_;
       }
 
+      // repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;
+      private java.util.List<qxmobile.protobuf.Ranking.ChongLouInfo> chongLouList_ =
+        java.util.Collections.emptyList();
+      private void ensureChongLouListIsMutable() {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+          chongLouList_ = new java.util.ArrayList<qxmobile.protobuf.Ranking.ChongLouInfo>(chongLouList_);
+          bitField0_ |= 0x00000040;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Ranking.ChongLouInfo, qxmobile.protobuf.Ranking.ChongLouInfo.Builder, qxmobile.protobuf.Ranking.ChongLouInfoOrBuilder> chongLouListBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Ranking.ChongLouInfo> getChongLouListList() {
+        if (chongLouListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(chongLouList_);
+        } else {
+          return chongLouListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public int getChongLouListCount() {
+        if (chongLouListBuilder_ == null) {
+          return chongLouList_.size();
+        } else {
+          return chongLouListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public qxmobile.protobuf.Ranking.ChongLouInfo getChongLouList(int index) {
+        if (chongLouListBuilder_ == null) {
+          return chongLouList_.get(index);
+        } else {
+          return chongLouListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public Builder setChongLouList(
+          int index, qxmobile.protobuf.Ranking.ChongLouInfo value) {
+        if (chongLouListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureChongLouListIsMutable();
+          chongLouList_.set(index, value);
+          onChanged();
+        } else {
+          chongLouListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public Builder setChongLouList(
+          int index, qxmobile.protobuf.Ranking.ChongLouInfo.Builder builderForValue) {
+        if (chongLouListBuilder_ == null) {
+          ensureChongLouListIsMutable();
+          chongLouList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          chongLouListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public Builder addChongLouList(qxmobile.protobuf.Ranking.ChongLouInfo value) {
+        if (chongLouListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureChongLouListIsMutable();
+          chongLouList_.add(value);
+          onChanged();
+        } else {
+          chongLouListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public Builder addChongLouList(
+          int index, qxmobile.protobuf.Ranking.ChongLouInfo value) {
+        if (chongLouListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureChongLouListIsMutable();
+          chongLouList_.add(index, value);
+          onChanged();
+        } else {
+          chongLouListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public Builder addChongLouList(
+          qxmobile.protobuf.Ranking.ChongLouInfo.Builder builderForValue) {
+        if (chongLouListBuilder_ == null) {
+          ensureChongLouListIsMutable();
+          chongLouList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          chongLouListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public Builder addChongLouList(
+          int index, qxmobile.protobuf.Ranking.ChongLouInfo.Builder builderForValue) {
+        if (chongLouListBuilder_ == null) {
+          ensureChongLouListIsMutable();
+          chongLouList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          chongLouListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public Builder addAllChongLouList(
+          java.lang.Iterable<? extends qxmobile.protobuf.Ranking.ChongLouInfo> values) {
+        if (chongLouListBuilder_ == null) {
+          ensureChongLouListIsMutable();
+          super.addAll(values, chongLouList_);
+          onChanged();
+        } else {
+          chongLouListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public Builder clearChongLouList() {
+        if (chongLouListBuilder_ == null) {
+          chongLouList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+          onChanged();
+        } else {
+          chongLouListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public Builder removeChongLouList(int index) {
+        if (chongLouListBuilder_ == null) {
+          ensureChongLouListIsMutable();
+          chongLouList_.remove(index);
+          onChanged();
+        } else {
+          chongLouListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public qxmobile.protobuf.Ranking.ChongLouInfo.Builder getChongLouListBuilder(
+          int index) {
+        return getChongLouListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public qxmobile.protobuf.Ranking.ChongLouInfoOrBuilder getChongLouListOrBuilder(
+          int index) {
+        if (chongLouListBuilder_ == null) {
+          return chongLouList_.get(index);  } else {
+          return chongLouListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Ranking.ChongLouInfoOrBuilder> 
+           getChongLouListOrBuilderList() {
+        if (chongLouListBuilder_ != null) {
+          return chongLouListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(chongLouList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public qxmobile.protobuf.Ranking.ChongLouInfo.Builder addChongLouListBuilder() {
+        return getChongLouListFieldBuilder().addBuilder(
+            qxmobile.protobuf.Ranking.ChongLouInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public qxmobile.protobuf.Ranking.ChongLouInfo.Builder addChongLouListBuilder(
+          int index) {
+        return getChongLouListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Ranking.ChongLouInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.ChongLouInfo chongLouList = 9;</code>
+       *
+       * <pre>
+       *重楼榜
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.Ranking.ChongLouInfo.Builder> 
+           getChongLouListBuilderList() {
+        return getChongLouListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Ranking.ChongLouInfo, qxmobile.protobuf.Ranking.ChongLouInfo.Builder, qxmobile.protobuf.Ranking.ChongLouInfoOrBuilder> 
+          getChongLouListFieldBuilder() {
+        if (chongLouListBuilder_ == null) {
+          chongLouListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Ranking.ChongLouInfo, qxmobile.protobuf.Ranking.ChongLouInfo.Builder, qxmobile.protobuf.Ranking.ChongLouInfoOrBuilder>(
+                  chongLouList_,
+                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  getParentForChildren(),
+                  isClean());
+          chongLouList_ = null;
+        }
+        return chongLouListBuilder_;
+      }
+
       // optional int32 pageNo = 7;
       private int pageNo_ ;
       /**
@@ -3009,7 +3495,7 @@ public final class Ranking {
        * </pre>
        */
       public boolean hasPageNo() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
        * <code>optional int32 pageNo = 7;</code>
@@ -3029,7 +3515,7 @@ public final class Ranking {
        * </pre>
        */
       public Builder setPageNo(int value) {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
         pageNo_ = value;
         onChanged();
         return this;
@@ -3042,7 +3528,7 @@ public final class Ranking {
        * </pre>
        */
       public Builder clearPageNo() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         pageNo_ = 0;
         onChanged();
         return this;
@@ -3058,7 +3544,7 @@ public final class Ranking {
        * </pre>
        */
       public boolean hasPageCount() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
        * <code>optional int32 pageCount = 8;</code>
@@ -3078,7 +3564,7 @@ public final class Ranking {
        * </pre>
        */
       public Builder setPageCount(int value) {
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000100;
         pageCount_ = value;
         onChanged();
         return this;
@@ -3091,7 +3577,7 @@ public final class Ranking {
        * </pre>
        */
       public Builder clearPageCount() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000100);
         pageCount_ = 0;
         onChanged();
         return this;
@@ -3122,6 +3608,7 @@ public final class Ranking {
      *3-百战榜（默认排序） 4-过关榜（默认排序）
      *5-贡金个人排行（参数只需要pageNo）
      *6-贡金联盟排行（参数只需要pageNo）
+     *7-重楼排行榜
      * </pre>
      */
     boolean hasRankType();
@@ -3135,6 +3622,7 @@ public final class Ranking {
      *3-百战榜（默认排序） 4-过关榜（默认排序）
      *5-贡金个人排行（参数只需要pageNo）
      *6-贡金联盟排行（参数只需要pageNo）
+     *7-重楼排行榜
      * </pre>
      */
     int getRankType();
@@ -3353,6 +3841,7 @@ public final class Ranking {
      *3-百战榜（默认排序） 4-过关榜（默认排序）
      *5-贡金个人排行（参数只需要pageNo）
      *6-贡金联盟排行（参数只需要pageNo）
+     *7-重楼排行榜
      * </pre>
      */
     public boolean hasRankType() {
@@ -3368,6 +3857,7 @@ public final class Ranking {
      *3-百战榜（默认排序） 4-过关榜（默认排序）
      *5-贡金个人排行（参数只需要pageNo）
      *6-贡金联盟排行（参数只需要pageNo）
+     *7-重楼排行榜
      * </pre>
      */
     public int getRankType() {
@@ -3822,6 +4312,7 @@ public final class Ranking {
        *3-百战榜（默认排序） 4-过关榜（默认排序）
        *5-贡金个人排行（参数只需要pageNo）
        *6-贡金联盟排行（参数只需要pageNo）
+       *7-重楼排行榜
        * </pre>
        */
       public boolean hasRankType() {
@@ -3837,6 +4328,7 @@ public final class Ranking {
        *3-百战榜（默认排序） 4-过关榜（默认排序）
        *5-贡金个人排行（参数只需要pageNo）
        *6-贡金联盟排行（参数只需要pageNo）
+       *7-重楼排行榜
        * </pre>
        */
       public int getRankType() {
@@ -3852,6 +4344,7 @@ public final class Ranking {
        *3-百战榜（默认排序） 4-过关榜（默认排序）
        *5-贡金个人排行（参数只需要pageNo）
        *6-贡金联盟排行（参数只需要pageNo）
+       *7-重楼排行榜
        * </pre>
        */
       public Builder setRankType(int value) {
@@ -3870,6 +4363,7 @@ public final class Ranking {
        *3-百战榜（默认排序） 4-过关榜（默认排序）
        *5-贡金个人排行（参数只需要pageNo）
        *6-贡金联盟排行（参数只需要pageNo）
+       *7-重楼排行榜
        * </pre>
        */
       public Builder clearRankType() {
@@ -4143,7 +4637,7 @@ public final class Ranking {
      * <code>required int32 rankType = 1;</code>
      *
      * <pre>
-     * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）
+     * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序），7-重楼榜
      * </pre>
      */
     boolean hasRankType();
@@ -4151,7 +4645,7 @@ public final class Ranking {
      * <code>required int32 rankType = 1;</code>
      *
      * <pre>
-     * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）
+     * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序），7-重楼榜
      * </pre>
      */
     int getRankType();
@@ -4309,7 +4803,7 @@ public final class Ranking {
      * <code>required int32 rankType = 1;</code>
      *
      * <pre>
-     * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）
+     * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序），7-重楼榜
      * </pre>
      */
     public boolean hasRankType() {
@@ -4319,7 +4813,7 @@ public final class Ranking {
      * <code>required int32 rankType = 1;</code>
      *
      * <pre>
-     * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）
+     * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序），7-重楼榜
      * </pre>
      */
     public int getRankType() {
@@ -4669,7 +5163,7 @@ public final class Ranking {
        * <code>required int32 rankType = 1;</code>
        *
        * <pre>
-       * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）
+       * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序），7-重楼榜
        * </pre>
        */
       public boolean hasRankType() {
@@ -4679,7 +5173,7 @@ public final class Ranking {
        * <code>required int32 rankType = 1;</code>
        *
        * <pre>
-       * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）
+       * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序），7-重楼榜
        * </pre>
        */
       public int getRankType() {
@@ -4689,7 +5183,7 @@ public final class Ranking {
        * <code>required int32 rankType = 1;</code>
        *
        * <pre>
-       * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）
+       * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序），7-重楼榜
        * </pre>
        */
       public Builder setRankType(int value) {
@@ -4702,7 +5196,7 @@ public final class Ranking {
        * <code>required int32 rankType = 1;</code>
        *
        * <pre>
-       * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序）
+       * 1-君主榜（默认排序） 2-联盟榜（默认排序） 201-联盟榜（按声望） 3-百战榜（默认排序） 4-过关榜（默认排序），7-重楼榜
        * </pre>
        */
       public Builder clearRankType() {
@@ -6960,6 +7454,50 @@ public final class Ranking {
      * <code>optional int32 chenghao = 24;</code>
      */
     int getChenghao();
+
+    // optional int32 chongLouLayer = 25;
+    /**
+     * <code>optional int32 chongLouLayer = 25;</code>
+     *
+     * <pre>
+     *重楼层数
+     * </pre>
+     */
+    boolean hasChongLouLayer();
+    /**
+     * <code>optional int32 chongLouLayer = 25;</code>
+     *
+     * <pre>
+     *重楼层数
+     * </pre>
+     */
+    int getChongLouLayer();
+
+    // optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;
+    /**
+     * <code>optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;</code>
+     *
+     * <pre>
+     *秘宝信息
+     * </pre>
+     */
+    boolean hasMibaoInfoResp();
+    /**
+     * <code>optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;</code>
+     *
+     * <pre>
+     *秘宝信息
+     * </pre>
+     */
+    qxmobile.protobuf.MibaoProtos.MibaoInfoResp getMibaoInfoResp();
+    /**
+     * <code>optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;</code>
+     *
+     * <pre>
+     *秘宝信息
+     * </pre>
+     */
+    qxmobile.protobuf.MibaoProtos.MibaoInfoRespOrBuilder getMibaoInfoRespOrBuilder();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.JunZhuInfo}
@@ -7142,6 +7680,24 @@ public final class Ranking {
             case 192: {
               bitField0_ |= 0x00800000;
               chenghao_ = input.readInt32();
+              break;
+            }
+            case 200: {
+              bitField0_ |= 0x01000000;
+              chongLouLayer_ = input.readInt32();
+              break;
+            }
+            case 210: {
+              qxmobile.protobuf.MibaoProtos.MibaoInfoResp.Builder subBuilder = null;
+              if (((bitField0_ & 0x02000000) == 0x02000000)) {
+                subBuilder = mibaoInfoResp_.toBuilder();
+              }
+              mibaoInfoResp_ = input.readMessage(qxmobile.protobuf.MibaoProtos.MibaoInfoResp.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(mibaoInfoResp_);
+                mibaoInfoResp_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x02000000;
               break;
             }
           }
@@ -7839,6 +8395,64 @@ public final class Ranking {
       return chenghao_;
     }
 
+    // optional int32 chongLouLayer = 25;
+    public static final int CHONGLOULAYER_FIELD_NUMBER = 25;
+    private int chongLouLayer_;
+    /**
+     * <code>optional int32 chongLouLayer = 25;</code>
+     *
+     * <pre>
+     *重楼层数
+     * </pre>
+     */
+    public boolean hasChongLouLayer() {
+      return ((bitField0_ & 0x01000000) == 0x01000000);
+    }
+    /**
+     * <code>optional int32 chongLouLayer = 25;</code>
+     *
+     * <pre>
+     *重楼层数
+     * </pre>
+     */
+    public int getChongLouLayer() {
+      return chongLouLayer_;
+    }
+
+    // optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;
+    public static final int MIBAOINFORESP_FIELD_NUMBER = 26;
+    private qxmobile.protobuf.MibaoProtos.MibaoInfoResp mibaoInfoResp_;
+    /**
+     * <code>optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;</code>
+     *
+     * <pre>
+     *秘宝信息
+     * </pre>
+     */
+    public boolean hasMibaoInfoResp() {
+      return ((bitField0_ & 0x02000000) == 0x02000000);
+    }
+    /**
+     * <code>optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;</code>
+     *
+     * <pre>
+     *秘宝信息
+     * </pre>
+     */
+    public qxmobile.protobuf.MibaoProtos.MibaoInfoResp getMibaoInfoResp() {
+      return mibaoInfoResp_;
+    }
+    /**
+     * <code>optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;</code>
+     *
+     * <pre>
+     *秘宝信息
+     * </pre>
+     */
+    public qxmobile.protobuf.MibaoProtos.MibaoInfoRespOrBuilder getMibaoInfoRespOrBuilder() {
+      return mibaoInfoResp_;
+    }
+
     private void initFields() {
       junZhuId_ = 0L;
       name_ = "";
@@ -7864,6 +8478,8 @@ public final class Ranking {
       leftProtectTime_ = 0;
       shengMingMax_ = 0;
       chenghao_ = 0;
+      chongLouLayer_ = 0;
+      mibaoInfoResp_ = qxmobile.protobuf.MibaoProtos.MibaoInfoResp.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -7888,6 +8504,12 @@ public final class Ranking {
       }
       if (hasEquip()) {
         if (!getEquip().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasMibaoInfoResp()) {
+        if (!getMibaoInfoResp().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -7970,6 +8592,12 @@ public final class Ranking {
       }
       if (((bitField0_ & 0x00800000) == 0x00800000)) {
         output.writeInt32(24, chenghao_);
+      }
+      if (((bitField0_ & 0x01000000) == 0x01000000)) {
+        output.writeInt32(25, chongLouLayer_);
+      }
+      if (((bitField0_ & 0x02000000) == 0x02000000)) {
+        output.writeMessage(26, mibaoInfoResp_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -8075,6 +8703,14 @@ public final class Ranking {
       if (((bitField0_ & 0x00800000) == 0x00800000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(24, chenghao_);
+      }
+      if (((bitField0_ & 0x01000000) == 0x01000000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(25, chongLouLayer_);
+      }
+      if (((bitField0_ & 0x02000000) == 0x02000000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(26, mibaoInfoResp_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -8189,6 +8825,7 @@ public final class Ranking {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getEquipFieldBuilder();
+          getMibaoInfoRespFieldBuilder();
         }
       }
       private static Builder create() {
@@ -8249,6 +8886,14 @@ public final class Ranking {
         bitField0_ = (bitField0_ & ~0x00400000);
         chenghao_ = 0;
         bitField0_ = (bitField0_ & ~0x00800000);
+        chongLouLayer_ = 0;
+        bitField0_ = (bitField0_ & ~0x01000000);
+        if (mibaoInfoRespBuilder_ == null) {
+          mibaoInfoResp_ = qxmobile.protobuf.MibaoProtos.MibaoInfoResp.getDefaultInstance();
+        } else {
+          mibaoInfoRespBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x02000000);
         return this;
       }
 
@@ -8377,6 +9022,18 @@ public final class Ranking {
           to_bitField0_ |= 0x00800000;
         }
         result.chenghao_ = chenghao_;
+        if (((from_bitField0_ & 0x01000000) == 0x01000000)) {
+          to_bitField0_ |= 0x01000000;
+        }
+        result.chongLouLayer_ = chongLouLayer_;
+        if (((from_bitField0_ & 0x02000000) == 0x02000000)) {
+          to_bitField0_ |= 0x02000000;
+        }
+        if (mibaoInfoRespBuilder_ == null) {
+          result.mibaoInfoResp_ = mibaoInfoResp_;
+        } else {
+          result.mibaoInfoResp_ = mibaoInfoRespBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -8471,6 +9128,12 @@ public final class Ranking {
         if (other.hasChenghao()) {
           setChenghao(other.getChenghao());
         }
+        if (other.hasChongLouLayer()) {
+          setChongLouLayer(other.getChongLouLayer());
+        }
+        if (other.hasMibaoInfoResp()) {
+          mergeMibaoInfoResp(other.getMibaoInfoResp());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -8494,6 +9157,12 @@ public final class Ranking {
         }
         if (hasEquip()) {
           if (!getEquip().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasMibaoInfoResp()) {
+          if (!getMibaoInfoResp().isInitialized()) {
             
             return false;
           }
@@ -9899,6 +10568,208 @@ public final class Ranking {
         return this;
       }
 
+      // optional int32 chongLouLayer = 25;
+      private int chongLouLayer_ ;
+      /**
+       * <code>optional int32 chongLouLayer = 25;</code>
+       *
+       * <pre>
+       *重楼层数
+       * </pre>
+       */
+      public boolean hasChongLouLayer() {
+        return ((bitField0_ & 0x01000000) == 0x01000000);
+      }
+      /**
+       * <code>optional int32 chongLouLayer = 25;</code>
+       *
+       * <pre>
+       *重楼层数
+       * </pre>
+       */
+      public int getChongLouLayer() {
+        return chongLouLayer_;
+      }
+      /**
+       * <code>optional int32 chongLouLayer = 25;</code>
+       *
+       * <pre>
+       *重楼层数
+       * </pre>
+       */
+      public Builder setChongLouLayer(int value) {
+        bitField0_ |= 0x01000000;
+        chongLouLayer_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 chongLouLayer = 25;</code>
+       *
+       * <pre>
+       *重楼层数
+       * </pre>
+       */
+      public Builder clearChongLouLayer() {
+        bitField0_ = (bitField0_ & ~0x01000000);
+        chongLouLayer_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;
+      private qxmobile.protobuf.MibaoProtos.MibaoInfoResp mibaoInfoResp_ = qxmobile.protobuf.MibaoProtos.MibaoInfoResp.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          qxmobile.protobuf.MibaoProtos.MibaoInfoResp, qxmobile.protobuf.MibaoProtos.MibaoInfoResp.Builder, qxmobile.protobuf.MibaoProtos.MibaoInfoRespOrBuilder> mibaoInfoRespBuilder_;
+      /**
+       * <code>optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;</code>
+       *
+       * <pre>
+       *秘宝信息
+       * </pre>
+       */
+      public boolean hasMibaoInfoResp() {
+        return ((bitField0_ & 0x02000000) == 0x02000000);
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;</code>
+       *
+       * <pre>
+       *秘宝信息
+       * </pre>
+       */
+      public qxmobile.protobuf.MibaoProtos.MibaoInfoResp getMibaoInfoResp() {
+        if (mibaoInfoRespBuilder_ == null) {
+          return mibaoInfoResp_;
+        } else {
+          return mibaoInfoRespBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;</code>
+       *
+       * <pre>
+       *秘宝信息
+       * </pre>
+       */
+      public Builder setMibaoInfoResp(qxmobile.protobuf.MibaoProtos.MibaoInfoResp value) {
+        if (mibaoInfoRespBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          mibaoInfoResp_ = value;
+          onChanged();
+        } else {
+          mibaoInfoRespBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x02000000;
+        return this;
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;</code>
+       *
+       * <pre>
+       *秘宝信息
+       * </pre>
+       */
+      public Builder setMibaoInfoResp(
+          qxmobile.protobuf.MibaoProtos.MibaoInfoResp.Builder builderForValue) {
+        if (mibaoInfoRespBuilder_ == null) {
+          mibaoInfoResp_ = builderForValue.build();
+          onChanged();
+        } else {
+          mibaoInfoRespBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x02000000;
+        return this;
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;</code>
+       *
+       * <pre>
+       *秘宝信息
+       * </pre>
+       */
+      public Builder mergeMibaoInfoResp(qxmobile.protobuf.MibaoProtos.MibaoInfoResp value) {
+        if (mibaoInfoRespBuilder_ == null) {
+          if (((bitField0_ & 0x02000000) == 0x02000000) &&
+              mibaoInfoResp_ != qxmobile.protobuf.MibaoProtos.MibaoInfoResp.getDefaultInstance()) {
+            mibaoInfoResp_ =
+              qxmobile.protobuf.MibaoProtos.MibaoInfoResp.newBuilder(mibaoInfoResp_).mergeFrom(value).buildPartial();
+          } else {
+            mibaoInfoResp_ = value;
+          }
+          onChanged();
+        } else {
+          mibaoInfoRespBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x02000000;
+        return this;
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;</code>
+       *
+       * <pre>
+       *秘宝信息
+       * </pre>
+       */
+      public Builder clearMibaoInfoResp() {
+        if (mibaoInfoRespBuilder_ == null) {
+          mibaoInfoResp_ = qxmobile.protobuf.MibaoProtos.MibaoInfoResp.getDefaultInstance();
+          onChanged();
+        } else {
+          mibaoInfoRespBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x02000000);
+        return this;
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;</code>
+       *
+       * <pre>
+       *秘宝信息
+       * </pre>
+       */
+      public qxmobile.protobuf.MibaoProtos.MibaoInfoResp.Builder getMibaoInfoRespBuilder() {
+        bitField0_ |= 0x02000000;
+        onChanged();
+        return getMibaoInfoRespFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;</code>
+       *
+       * <pre>
+       *秘宝信息
+       * </pre>
+       */
+      public qxmobile.protobuf.MibaoProtos.MibaoInfoRespOrBuilder getMibaoInfoRespOrBuilder() {
+        if (mibaoInfoRespBuilder_ != null) {
+          return mibaoInfoRespBuilder_.getMessageOrBuilder();
+        } else {
+          return mibaoInfoResp_;
+        }
+      }
+      /**
+       * <code>optional .qxmobile.protobuf.MibaoInfoResp mibaoInfoResp = 26;</code>
+       *
+       * <pre>
+       *秘宝信息
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          qxmobile.protobuf.MibaoProtos.MibaoInfoResp, qxmobile.protobuf.MibaoProtos.MibaoInfoResp.Builder, qxmobile.protobuf.MibaoProtos.MibaoInfoRespOrBuilder> 
+          getMibaoInfoRespFieldBuilder() {
+        if (mibaoInfoRespBuilder_ == null) {
+          mibaoInfoRespBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              qxmobile.protobuf.MibaoProtos.MibaoInfoResp, qxmobile.protobuf.MibaoProtos.MibaoInfoResp.Builder, qxmobile.protobuf.MibaoProtos.MibaoInfoRespOrBuilder>(
+                  mibaoInfoResp_,
+                  getParentForChildren(),
+                  isClean());
+          mibaoInfoResp_ = null;
+        }
+        return mibaoInfoRespBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.JunZhuInfo)
     }
 
@@ -9908,6 +10779,1562 @@ public final class Ranking {
     }
 
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.JunZhuInfo)
+  }
+
+  public interface ChongLouInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int64 junZhuId = 1;
+    /**
+     * <code>required int64 junZhuId = 1;</code>
+     *
+     * <pre>
+     * id
+     * </pre>
+     */
+    boolean hasJunZhuId();
+    /**
+     * <code>required int64 junZhuId = 1;</code>
+     *
+     * <pre>
+     * id
+     * </pre>
+     */
+    long getJunZhuId();
+
+    // required string name = 2;
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    boolean hasName();
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    java.lang.String getName();
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+
+    // required int32 level = 3;
+    /**
+     * <code>required int32 level = 3;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
+     */
+    boolean hasLevel();
+    /**
+     * <code>required int32 level = 3;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
+     */
+    int getLevel();
+
+    // required int32 layer = 4;
+    /**
+     * <code>required int32 layer = 4;</code>
+     *
+     * <pre>
+     * 战力
+     * </pre>
+     */
+    boolean hasLayer();
+    /**
+     * <code>required int32 layer = 4;</code>
+     *
+     * <pre>
+     * 战力
+     * </pre>
+     */
+    int getLayer();
+
+    // required string time = 5;
+    /**
+     * <code>required string time = 5;</code>
+     *
+     * <pre>
+     * 时间
+     * </pre>
+     */
+    boolean hasTime();
+    /**
+     * <code>required string time = 5;</code>
+     *
+     * <pre>
+     * 时间
+     * </pre>
+     */
+    java.lang.String getTime();
+    /**
+     * <code>required string time = 5;</code>
+     *
+     * <pre>
+     * 时间
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTimeBytes();
+
+    // required int32 rank = 6;
+    /**
+     * <code>required int32 rank = 6;</code>
+     *
+     * <pre>
+     * 排名
+     * </pre>
+     */
+    boolean hasRank();
+    /**
+     * <code>required int32 rank = 6;</code>
+     *
+     * <pre>
+     * 排名
+     * </pre>
+     */
+    int getRank();
+
+    // required int32 guojiaId = 7;
+    /**
+     * <code>required int32 guojiaId = 7;</code>
+     *
+     * <pre>
+     * 国家id
+     * </pre>
+     */
+    boolean hasGuojiaId();
+    /**
+     * <code>required int32 guojiaId = 7;</code>
+     *
+     * <pre>
+     * 国家id
+     * </pre>
+     */
+    int getGuojiaId();
+
+    // required string lianMeng = 8;
+    /**
+     * <code>required string lianMeng = 8;</code>
+     *
+     * <pre>
+     * 联盟
+     * </pre>
+     */
+    boolean hasLianMeng();
+    /**
+     * <code>required string lianMeng = 8;</code>
+     *
+     * <pre>
+     * 联盟
+     * </pre>
+     */
+    java.lang.String getLianMeng();
+    /**
+     * <code>required string lianMeng = 8;</code>
+     *
+     * <pre>
+     * 联盟
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getLianMengBytes();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ChongLouInfo}
+   */
+  public static final class ChongLouInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements ChongLouInfoOrBuilder {
+    // Use ChongLouInfo.newBuilder() to construct.
+    private ChongLouInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ChongLouInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ChongLouInfo defaultInstance;
+    public static ChongLouInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ChongLouInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ChongLouInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              junZhuId_ = input.readInt64();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              name_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              level_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              layer_ = input.readInt32();
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000010;
+              time_ = input.readBytes();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000020;
+              rank_ = input.readInt32();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000040;
+              guojiaId_ = input.readInt32();
+              break;
+            }
+            case 66: {
+              bitField0_ |= 0x00000080;
+              lianMeng_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.Ranking.internal_static_qxmobile_protobuf_ChongLouInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.Ranking.internal_static_qxmobile_protobuf_ChongLouInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.Ranking.ChongLouInfo.class, qxmobile.protobuf.Ranking.ChongLouInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ChongLouInfo> PARSER =
+        new com.google.protobuf.AbstractParser<ChongLouInfo>() {
+      public ChongLouInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ChongLouInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ChongLouInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int64 junZhuId = 1;
+    public static final int JUNZHUID_FIELD_NUMBER = 1;
+    private long junZhuId_;
+    /**
+     * <code>required int64 junZhuId = 1;</code>
+     *
+     * <pre>
+     * id
+     * </pre>
+     */
+    public boolean hasJunZhuId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int64 junZhuId = 1;</code>
+     *
+     * <pre>
+     * id
+     * </pre>
+     */
+    public long getJunZhuId() {
+      return junZhuId_;
+    }
+
+    // required string name = 2;
+    public static final int NAME_FIELD_NUMBER = 2;
+    private java.lang.Object name_;
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    public boolean hasName() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          name_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 level = 3;
+    public static final int LEVEL_FIELD_NUMBER = 3;
+    private int level_;
+    /**
+     * <code>required int32 level = 3;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
+     */
+    public boolean hasLevel() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 level = 3;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
+     */
+    public int getLevel() {
+      return level_;
+    }
+
+    // required int32 layer = 4;
+    public static final int LAYER_FIELD_NUMBER = 4;
+    private int layer_;
+    /**
+     * <code>required int32 layer = 4;</code>
+     *
+     * <pre>
+     * 战力
+     * </pre>
+     */
+    public boolean hasLayer() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 layer = 4;</code>
+     *
+     * <pre>
+     * 战力
+     * </pre>
+     */
+    public int getLayer() {
+      return layer_;
+    }
+
+    // required string time = 5;
+    public static final int TIME_FIELD_NUMBER = 5;
+    private java.lang.Object time_;
+    /**
+     * <code>required string time = 5;</code>
+     *
+     * <pre>
+     * 时间
+     * </pre>
+     */
+    public boolean hasTime() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required string time = 5;</code>
+     *
+     * <pre>
+     * 时间
+     * </pre>
+     */
+    public java.lang.String getTime() {
+      java.lang.Object ref = time_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          time_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string time = 5;</code>
+     *
+     * <pre>
+     * 时间
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTimeBytes() {
+      java.lang.Object ref = time_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        time_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 rank = 6;
+    public static final int RANK_FIELD_NUMBER = 6;
+    private int rank_;
+    /**
+     * <code>required int32 rank = 6;</code>
+     *
+     * <pre>
+     * 排名
+     * </pre>
+     */
+    public boolean hasRank() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required int32 rank = 6;</code>
+     *
+     * <pre>
+     * 排名
+     * </pre>
+     */
+    public int getRank() {
+      return rank_;
+    }
+
+    // required int32 guojiaId = 7;
+    public static final int GUOJIAID_FIELD_NUMBER = 7;
+    private int guojiaId_;
+    /**
+     * <code>required int32 guojiaId = 7;</code>
+     *
+     * <pre>
+     * 国家id
+     * </pre>
+     */
+    public boolean hasGuojiaId() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>required int32 guojiaId = 7;</code>
+     *
+     * <pre>
+     * 国家id
+     * </pre>
+     */
+    public int getGuojiaId() {
+      return guojiaId_;
+    }
+
+    // required string lianMeng = 8;
+    public static final int LIANMENG_FIELD_NUMBER = 8;
+    private java.lang.Object lianMeng_;
+    /**
+     * <code>required string lianMeng = 8;</code>
+     *
+     * <pre>
+     * 联盟
+     * </pre>
+     */
+    public boolean hasLianMeng() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>required string lianMeng = 8;</code>
+     *
+     * <pre>
+     * 联盟
+     * </pre>
+     */
+    public java.lang.String getLianMeng() {
+      java.lang.Object ref = lianMeng_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          lianMeng_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string lianMeng = 8;</code>
+     *
+     * <pre>
+     * 联盟
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getLianMengBytes() {
+      java.lang.Object ref = lianMeng_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        lianMeng_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      junZhuId_ = 0L;
+      name_ = "";
+      level_ = 0;
+      layer_ = 0;
+      time_ = "";
+      rank_ = 0;
+      guojiaId_ = 0;
+      lianMeng_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasJunZhuId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLayer()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTime()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRank()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGuojiaId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLianMeng()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt64(1, junZhuId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, level_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, layer_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, getTimeBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(6, rank_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt32(7, guojiaId_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeBytes(8, getLianMengBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, junZhuId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, level_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, layer_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getTimeBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, rank_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, guojiaId_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(8, getLianMengBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.Ranking.ChongLouInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Ranking.ChongLouInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Ranking.ChongLouInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.Ranking.ChongLouInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Ranking.ChongLouInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Ranking.ChongLouInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Ranking.ChongLouInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.Ranking.ChongLouInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.Ranking.ChongLouInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.Ranking.ChongLouInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.Ranking.ChongLouInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ChongLouInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.Ranking.ChongLouInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.Ranking.internal_static_qxmobile_protobuf_ChongLouInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.Ranking.internal_static_qxmobile_protobuf_ChongLouInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.Ranking.ChongLouInfo.class, qxmobile.protobuf.Ranking.ChongLouInfo.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.Ranking.ChongLouInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        junZhuId_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        name_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        level_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        layer_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        time_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
+        rank_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        guojiaId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000040);
+        lianMeng_ = "";
+        bitField0_ = (bitField0_ & ~0x00000080);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.Ranking.internal_static_qxmobile_protobuf_ChongLouInfo_descriptor;
+      }
+
+      public qxmobile.protobuf.Ranking.ChongLouInfo getDefaultInstanceForType() {
+        return qxmobile.protobuf.Ranking.ChongLouInfo.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.Ranking.ChongLouInfo build() {
+        qxmobile.protobuf.Ranking.ChongLouInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.Ranking.ChongLouInfo buildPartial() {
+        qxmobile.protobuf.Ranking.ChongLouInfo result = new qxmobile.protobuf.Ranking.ChongLouInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.junZhuId_ = junZhuId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.name_ = name_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.level_ = level_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.layer_ = layer_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.time_ = time_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.rank_ = rank_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.guojiaId_ = guojiaId_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.lianMeng_ = lianMeng_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.Ranking.ChongLouInfo) {
+          return mergeFrom((qxmobile.protobuf.Ranking.ChongLouInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.Ranking.ChongLouInfo other) {
+        if (other == qxmobile.protobuf.Ranking.ChongLouInfo.getDefaultInstance()) return this;
+        if (other.hasJunZhuId()) {
+          setJunZhuId(other.getJunZhuId());
+        }
+        if (other.hasName()) {
+          bitField0_ |= 0x00000002;
+          name_ = other.name_;
+          onChanged();
+        }
+        if (other.hasLevel()) {
+          setLevel(other.getLevel());
+        }
+        if (other.hasLayer()) {
+          setLayer(other.getLayer());
+        }
+        if (other.hasTime()) {
+          bitField0_ |= 0x00000010;
+          time_ = other.time_;
+          onChanged();
+        }
+        if (other.hasRank()) {
+          setRank(other.getRank());
+        }
+        if (other.hasGuojiaId()) {
+          setGuojiaId(other.getGuojiaId());
+        }
+        if (other.hasLianMeng()) {
+          bitField0_ |= 0x00000080;
+          lianMeng_ = other.lianMeng_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasJunZhuId()) {
+          
+          return false;
+        }
+        if (!hasName()) {
+          
+          return false;
+        }
+        if (!hasLevel()) {
+          
+          return false;
+        }
+        if (!hasLayer()) {
+          
+          return false;
+        }
+        if (!hasTime()) {
+          
+          return false;
+        }
+        if (!hasRank()) {
+          
+          return false;
+        }
+        if (!hasGuojiaId()) {
+          
+          return false;
+        }
+        if (!hasLianMeng()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.Ranking.ChongLouInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.Ranking.ChongLouInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int64 junZhuId = 1;
+      private long junZhuId_ ;
+      /**
+       * <code>required int64 junZhuId = 1;</code>
+       *
+       * <pre>
+       * id
+       * </pre>
+       */
+      public boolean hasJunZhuId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int64 junZhuId = 1;</code>
+       *
+       * <pre>
+       * id
+       * </pre>
+       */
+      public long getJunZhuId() {
+        return junZhuId_;
+      }
+      /**
+       * <code>required int64 junZhuId = 1;</code>
+       *
+       * <pre>
+       * id
+       * </pre>
+       */
+      public Builder setJunZhuId(long value) {
+        bitField0_ |= 0x00000001;
+        junZhuId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 junZhuId = 1;</code>
+       *
+       * <pre>
+       * id
+       * </pre>
+       */
+      public Builder clearJunZhuId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        junZhuId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // required string name = 2;
+      private java.lang.Object name_ = "";
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public boolean hasName() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public Builder clearName() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 level = 3;
+      private int level_ ;
+      /**
+       * <code>required int32 level = 3;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
+       */
+      public boolean hasLevel() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 level = 3;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
+       */
+      public int getLevel() {
+        return level_;
+      }
+      /**
+       * <code>required int32 level = 3;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
+       */
+      public Builder setLevel(int value) {
+        bitField0_ |= 0x00000004;
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 level = 3;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
+       */
+      public Builder clearLevel() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 layer = 4;
+      private int layer_ ;
+      /**
+       * <code>required int32 layer = 4;</code>
+       *
+       * <pre>
+       * 战力
+       * </pre>
+       */
+      public boolean hasLayer() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 layer = 4;</code>
+       *
+       * <pre>
+       * 战力
+       * </pre>
+       */
+      public int getLayer() {
+        return layer_;
+      }
+      /**
+       * <code>required int32 layer = 4;</code>
+       *
+       * <pre>
+       * 战力
+       * </pre>
+       */
+      public Builder setLayer(int value) {
+        bitField0_ |= 0x00000008;
+        layer_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 layer = 4;</code>
+       *
+       * <pre>
+       * 战力
+       * </pre>
+       */
+      public Builder clearLayer() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        layer_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string time = 5;
+      private java.lang.Object time_ = "";
+      /**
+       * <code>required string time = 5;</code>
+       *
+       * <pre>
+       * 时间
+       * </pre>
+       */
+      public boolean hasTime() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required string time = 5;</code>
+       *
+       * <pre>
+       * 时间
+       * </pre>
+       */
+      public java.lang.String getTime() {
+        java.lang.Object ref = time_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          time_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string time = 5;</code>
+       *
+       * <pre>
+       * 时间
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTimeBytes() {
+        java.lang.Object ref = time_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          time_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string time = 5;</code>
+       *
+       * <pre>
+       * 时间
+       * </pre>
+       */
+      public Builder setTime(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        time_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string time = 5;</code>
+       *
+       * <pre>
+       * 时间
+       * </pre>
+       */
+      public Builder clearTime() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        time_ = getDefaultInstance().getTime();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string time = 5;</code>
+       *
+       * <pre>
+       * 时间
+       * </pre>
+       */
+      public Builder setTimeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        time_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 rank = 6;
+      private int rank_ ;
+      /**
+       * <code>required int32 rank = 6;</code>
+       *
+       * <pre>
+       * 排名
+       * </pre>
+       */
+      public boolean hasRank() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required int32 rank = 6;</code>
+       *
+       * <pre>
+       * 排名
+       * </pre>
+       */
+      public int getRank() {
+        return rank_;
+      }
+      /**
+       * <code>required int32 rank = 6;</code>
+       *
+       * <pre>
+       * 排名
+       * </pre>
+       */
+      public Builder setRank(int value) {
+        bitField0_ |= 0x00000020;
+        rank_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 rank = 6;</code>
+       *
+       * <pre>
+       * 排名
+       * </pre>
+       */
+      public Builder clearRank() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        rank_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 guojiaId = 7;
+      private int guojiaId_ ;
+      /**
+       * <code>required int32 guojiaId = 7;</code>
+       *
+       * <pre>
+       * 国家id
+       * </pre>
+       */
+      public boolean hasGuojiaId() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>required int32 guojiaId = 7;</code>
+       *
+       * <pre>
+       * 国家id
+       * </pre>
+       */
+      public int getGuojiaId() {
+        return guojiaId_;
+      }
+      /**
+       * <code>required int32 guojiaId = 7;</code>
+       *
+       * <pre>
+       * 国家id
+       * </pre>
+       */
+      public Builder setGuojiaId(int value) {
+        bitField0_ |= 0x00000040;
+        guojiaId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 guojiaId = 7;</code>
+       *
+       * <pre>
+       * 国家id
+       * </pre>
+       */
+      public Builder clearGuojiaId() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        guojiaId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string lianMeng = 8;
+      private java.lang.Object lianMeng_ = "";
+      /**
+       * <code>required string lianMeng = 8;</code>
+       *
+       * <pre>
+       * 联盟
+       * </pre>
+       */
+      public boolean hasLianMeng() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>required string lianMeng = 8;</code>
+       *
+       * <pre>
+       * 联盟
+       * </pre>
+       */
+      public java.lang.String getLianMeng() {
+        java.lang.Object ref = lianMeng_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          lianMeng_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string lianMeng = 8;</code>
+       *
+       * <pre>
+       * 联盟
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getLianMengBytes() {
+        java.lang.Object ref = lianMeng_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          lianMeng_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string lianMeng = 8;</code>
+       *
+       * <pre>
+       * 联盟
+       * </pre>
+       */
+      public Builder setLianMeng(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        lianMeng_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string lianMeng = 8;</code>
+       *
+       * <pre>
+       * 联盟
+       * </pre>
+       */
+      public Builder clearLianMeng() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        lianMeng_ = getDefaultInstance().getLianMeng();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string lianMeng = 8;</code>
+       *
+       * <pre>
+       * 联盟
+       * </pre>
+       */
+      public Builder setLianMengBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        lianMeng_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ChongLouInfo)
+    }
+
+    static {
+      defaultInstance = new ChongLouInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ChongLouInfo)
   }
 
   public interface LianMengInfoOrBuilder
@@ -15328,6 +17755,11 @@ public final class Ranking {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_JunZhuInfo_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ChongLouInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ChongLouInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_LianMengInfo_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -15357,49 +17789,56 @@ public final class Ranking {
   static {
     java.lang.String[] descriptorData = {
       "\n\rRanking.proto\022\021qxmobile.protobuf\032\rBagO" +
-      "per.proto\"\305\002\n\013RankingResp\022\020\n\010rankType\030\001 " +
-      "\002(\005\022.\n\007junList\030\002 \003(\0132\035.qxmobile.protobuf" +
-      ".JunZhuInfo\0221\n\010mengList\030\003 \003(\0132\037.qxmobile" +
-      ".protobuf.LianMengInfo\0223\n\013baizhanList\030\004 " +
-      "\003(\0132\036.qxmobile.protobuf.BaiZhanInfo\0223\n\013g" +
-      "uoguanList\030\005 \003(\0132\036.qxmobile.protobuf.Guo" +
-      "GuanInfo\0224\n\014gongInfoList\030\006 \003(\0132\036.qxmobil" +
-      "e.protobuf.GongJinInfo\022\016\n\006pageNo\030\007 \001(\005\022\021" +
-      "\n\tpageCount\030\010 \001(\005\"^\n\nRankingReq\022\020\n\010rankT",
-      "ype\030\001 \002(\005\022\016\n\006mengId\030\002 \001(\005\022\016\n\006pageNo\030\003 \001(" +
-      "\005\022\020\n\010guojiaId\030\004 \001(\005\022\014\n\004name\030\005 \001(\t\"<\n\nGet" +
-      "RankReq\022\020\n\010rankType\030\001 \002(\005\022\n\n\002id\030\002 \002(\005\022\020\n" +
-      "\010guojiaId\030\003 \002(\005\"\033\n\013GetRankResp\022\014\n\004rank\030\001" +
-      " \002(\005\"#\n\021AlliancePlayerReq\022\016\n\006mengId\030\001 \002(" +
-      "\005\"C\n\022AlliancePlayerResp\022-\n\006player\030\001 \003(\0132" +
-      "\035.qxmobile.protobuf.JunZhuInfo\"\313\003\n\nJunZh" +
-      "uInfo\022\020\n\010junZhuId\030\001 \002(\003\022\014\n\004name\030\002 \002(\t\022\r\n" +
-      "\005level\030\003 \002(\005\022\016\n\006zhanli\030\004 \002(\005\022\016\n\006roleId\030\005" +
-      " \001(\005\022\014\n\004rank\030\006 \001(\005\022\020\n\010guojiaId\030\007 \001(\005\022\017\n\007",
-      "junxian\030\010 \001(\t\022\024\n\014junxianLevel\030\t \001(\005\022\023\n\013j" +
-      "unxianRank\030\n \001(\005\022\020\n\010lianMeng\030\013 \001(\t\022\017\n\007go" +
-      "ngjin\030\014 \001(\005\022\016\n\006youxia\030\r \001(\005\022\020\n\010remainHp\030" +
-      "\016 \001(\005\022\016\n\006gongji\030\017 \001(\005\022\016\n\006fangyu\030\020 \001(\005\022\016\n" +
-      "\006zuheId\030\021 \001(\005\022\020\n\010winCount\030\022 \001(\005\022\013\n\003job\030\023" +
-      " \001(\005\022\020\n\010gongxian\030\024 \001(\005\022+\n\005equip\030\025 \001(\0132\034." +
-      "qxmobile.protobuf.EquipInfo\022\027\n\017leftProte" +
-      "ctTime\030\026 \001(\005\022\024\n\014shengMingMax\030\027 \001(\005\022\020\n\010ch" +
-      "enghao\030\030 \001(\005\"\243\001\n\014LianMengInfo\022\016\n\006mengId\030" +
-      "\001 \002(\005\022\020\n\010mengName\030\002 \002(\t\022\014\n\004rank\030\003 \002(\005\022\r\n",
-      "\005level\030\004 \001(\005\022\014\n\004icon\030\005 \001(\005\022\016\n\006member\030\006 \001" +
-      "(\005\022\021\n\tallMember\030\007 \001(\005\022\020\n\010guoJiaId\030\010 \001(\005\022" +
-      "\021\n\tshengWang\030\t \001(\005\"\276\001\n\013BaiZhanInfo\022\020\n\010ju" +
-      "nZhuId\030\001 \002(\003\022\014\n\004rank\030\002 \002(\005\022\014\n\004name\030\003 \002(\t" +
-      "\022\020\n\010lianmeng\030\004 \002(\t\022\020\n\010guojiaId\030\005 \002(\005\022\017\n\007" +
-      "junxian\030\006 \001(\t\022\024\n\014junxianLevel\030\007 \001(\005\022\023\n\013j" +
-      "unxianRank\030\010 \001(\005\022\020\n\010winCount\030\t \001(\005\022\017\n\007we" +
-      "iwang\030\n \001(\005\"\223\001\n\013GuoGuanInfo\022\020\n\010junZhuId\030" +
-      "\001 \002(\003\022\014\n\004rank\030\002 \002(\005\022\014\n\004name\030\003 \002(\t\022\020\n\010lia" +
-      "nmeng\030\004 \002(\t\022\020\n\010guojiaId\030\005 \002(\005\022\016\n\006putong\030",
-      "\006 \001(\t\022\017\n\007chuanqi\030\007 \001(\t\022\021\n\tstarCount\030\010 \001(" +
-      "\005\"F\n\013GongJinInfo\022\n\n\002id\030\001 \002(\003\022\014\n\004name\030\002 \002" +
-      "(\t\022\014\n\004rank\030\003 \002(\005\022\017\n\007gongJin\030\004 \002(\005B\tB\007Ran" +
-      "king"
+      "per.proto\032\013MiBao.proto\"\374\002\n\013RankingResp\022\020" +
+      "\n\010rankType\030\001 \002(\005\022.\n\007junList\030\002 \003(\0132\035.qxmo" +
+      "bile.protobuf.JunZhuInfo\0221\n\010mengList\030\003 \003" +
+      "(\0132\037.qxmobile.protobuf.LianMengInfo\0223\n\013b" +
+      "aizhanList\030\004 \003(\0132\036.qxmobile.protobuf.Bai" +
+      "ZhanInfo\0223\n\013guoguanList\030\005 \003(\0132\036.qxmobile" +
+      ".protobuf.GuoGuanInfo\0224\n\014gongInfoList\030\006 " +
+      "\003(\0132\036.qxmobile.protobuf.GongJinInfo\0225\n\014c" +
+      "hongLouList\030\t \003(\0132\037.qxmobile.protobuf.Ch",
+      "ongLouInfo\022\016\n\006pageNo\030\007 \001(\005\022\021\n\tpageCount\030" +
+      "\010 \001(\005\"^\n\nRankingReq\022\020\n\010rankType\030\001 \002(\005\022\016\n" +
+      "\006mengId\030\002 \001(\005\022\016\n\006pageNo\030\003 \001(\005\022\020\n\010guojiaI" +
+      "d\030\004 \001(\005\022\014\n\004name\030\005 \001(\t\"<\n\nGetRankReq\022\020\n\010r" +
+      "ankType\030\001 \002(\005\022\n\n\002id\030\002 \002(\005\022\020\n\010guojiaId\030\003 " +
+      "\002(\005\"\033\n\013GetRankResp\022\014\n\004rank\030\001 \002(\005\"#\n\021Alli" +
+      "ancePlayerReq\022\016\n\006mengId\030\001 \002(\005\"C\n\022Allianc" +
+      "ePlayerResp\022-\n\006player\030\001 \003(\0132\035.qxmobile.p" +
+      "rotobuf.JunZhuInfo\"\233\004\n\nJunZhuInfo\022\020\n\010jun" +
+      "ZhuId\030\001 \002(\003\022\014\n\004name\030\002 \002(\t\022\r\n\005level\030\003 \002(\005",
+      "\022\016\n\006zhanli\030\004 \002(\005\022\016\n\006roleId\030\005 \001(\005\022\014\n\004rank" +
+      "\030\006 \001(\005\022\020\n\010guojiaId\030\007 \001(\005\022\017\n\007junxian\030\010 \001(" +
+      "\t\022\024\n\014junxianLevel\030\t \001(\005\022\023\n\013junxianRank\030\n" +
+      " \001(\005\022\020\n\010lianMeng\030\013 \001(\t\022\017\n\007gongjin\030\014 \001(\005\022" +
+      "\016\n\006youxia\030\r \001(\005\022\020\n\010remainHp\030\016 \001(\005\022\016\n\006gon" +
+      "gji\030\017 \001(\005\022\016\n\006fangyu\030\020 \001(\005\022\016\n\006zuheId\030\021 \001(" +
+      "\005\022\020\n\010winCount\030\022 \001(\005\022\013\n\003job\030\023 \001(\005\022\020\n\010gong" +
+      "xian\030\024 \001(\005\022+\n\005equip\030\025 \001(\0132\034.qxmobile.pro" +
+      "tobuf.EquipInfo\022\027\n\017leftProtectTime\030\026 \001(\005" +
+      "\022\024\n\014shengMingMax\030\027 \001(\005\022\020\n\010chenghao\030\030 \001(\005",
+      "\022\025\n\rchongLouLayer\030\031 \001(\005\0227\n\rmibaoInfoResp" +
+      "\030\032 \001(\0132 .qxmobile.protobuf.MibaoInfoResp" +
+      "\"\214\001\n\014ChongLouInfo\022\020\n\010junZhuId\030\001 \002(\003\022\014\n\004n" +
+      "ame\030\002 \002(\t\022\r\n\005level\030\003 \002(\005\022\r\n\005layer\030\004 \002(\005\022" +
+      "\014\n\004time\030\005 \002(\t\022\014\n\004rank\030\006 \002(\005\022\020\n\010guojiaId\030" +
+      "\007 \002(\005\022\020\n\010lianMeng\030\010 \002(\t\"\243\001\n\014LianMengInfo" +
+      "\022\016\n\006mengId\030\001 \002(\005\022\020\n\010mengName\030\002 \002(\t\022\014\n\004ra" +
+      "nk\030\003 \002(\005\022\r\n\005level\030\004 \001(\005\022\014\n\004icon\030\005 \001(\005\022\016\n" +
+      "\006member\030\006 \001(\005\022\021\n\tallMember\030\007 \001(\005\022\020\n\010guoJ" +
+      "iaId\030\010 \001(\005\022\021\n\tshengWang\030\t \001(\005\"\276\001\n\013BaiZha",
+      "nInfo\022\020\n\010junZhuId\030\001 \002(\003\022\014\n\004rank\030\002 \002(\005\022\014\n" +
+      "\004name\030\003 \002(\t\022\020\n\010lianmeng\030\004 \002(\t\022\020\n\010guojiaI" +
+      "d\030\005 \002(\005\022\017\n\007junxian\030\006 \001(\t\022\024\n\014junxianLevel" +
+      "\030\007 \001(\005\022\023\n\013junxianRank\030\010 \001(\005\022\020\n\010winCount\030" +
+      "\t \001(\005\022\017\n\007weiwang\030\n \001(\005\"\223\001\n\013GuoGuanInfo\022\020" +
+      "\n\010junZhuId\030\001 \002(\003\022\014\n\004rank\030\002 \002(\005\022\014\n\004name\030\003" +
+      " \002(\t\022\020\n\010lianmeng\030\004 \002(\t\022\020\n\010guojiaId\030\005 \002(\005" +
+      "\022\016\n\006putong\030\006 \001(\t\022\017\n\007chuanqi\030\007 \001(\t\022\021\n\tsta" +
+      "rCount\030\010 \001(\005\"F\n\013GongJinInfo\022\n\n\002id\030\001 \002(\003\022" +
+      "\014\n\004name\030\002 \002(\t\022\014\n\004rank\030\003 \002(\005\022\017\n\007gongJin\030\004",
+      " \002(\005B\tB\007Ranking"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -15411,7 +17850,7 @@ public final class Ranking {
           internal_static_qxmobile_protobuf_RankingResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_RankingResp_descriptor,
-              new java.lang.String[] { "RankType", "JunList", "MengList", "BaizhanList", "GuoguanList", "GongInfoList", "PageNo", "PageCount", });
+              new java.lang.String[] { "RankType", "JunList", "MengList", "BaizhanList", "GuoguanList", "GongInfoList", "ChongLouList", "PageNo", "PageCount", });
           internal_static_qxmobile_protobuf_RankingReq_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_RankingReq_fieldAccessorTable = new
@@ -15447,27 +17886,33 @@ public final class Ranking {
           internal_static_qxmobile_protobuf_JunZhuInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_JunZhuInfo_descriptor,
-              new java.lang.String[] { "JunZhuId", "Name", "Level", "Zhanli", "RoleId", "Rank", "GuojiaId", "Junxian", "JunxianLevel", "JunxianRank", "LianMeng", "Gongjin", "Youxia", "RemainHp", "Gongji", "Fangyu", "ZuheId", "WinCount", "Job", "Gongxian", "Equip", "LeftProtectTime", "ShengMingMax", "Chenghao", });
-          internal_static_qxmobile_protobuf_LianMengInfo_descriptor =
+              new java.lang.String[] { "JunZhuId", "Name", "Level", "Zhanli", "RoleId", "Rank", "GuojiaId", "Junxian", "JunxianLevel", "JunxianRank", "LianMeng", "Gongjin", "Youxia", "RemainHp", "Gongji", "Fangyu", "ZuheId", "WinCount", "Job", "Gongxian", "Equip", "LeftProtectTime", "ShengMingMax", "Chenghao", "ChongLouLayer", "MibaoInfoResp", });
+          internal_static_qxmobile_protobuf_ChongLouInfo_descriptor =
             getDescriptor().getMessageTypes().get(7);
+          internal_static_qxmobile_protobuf_ChongLouInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ChongLouInfo_descriptor,
+              new java.lang.String[] { "JunZhuId", "Name", "Level", "Layer", "Time", "Rank", "GuojiaId", "LianMeng", });
+          internal_static_qxmobile_protobuf_LianMengInfo_descriptor =
+            getDescriptor().getMessageTypes().get(8);
           internal_static_qxmobile_protobuf_LianMengInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_LianMengInfo_descriptor,
               new java.lang.String[] { "MengId", "MengName", "Rank", "Level", "Icon", "Member", "AllMember", "GuoJiaId", "ShengWang", });
           internal_static_qxmobile_protobuf_BaiZhanInfo_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(9);
           internal_static_qxmobile_protobuf_BaiZhanInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BaiZhanInfo_descriptor,
               new java.lang.String[] { "JunZhuId", "Rank", "Name", "Lianmeng", "GuojiaId", "Junxian", "JunxianLevel", "JunxianRank", "WinCount", "Weiwang", });
           internal_static_qxmobile_protobuf_GuoGuanInfo_descriptor =
-            getDescriptor().getMessageTypes().get(9);
+            getDescriptor().getMessageTypes().get(10);
           internal_static_qxmobile_protobuf_GuoGuanInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_GuoGuanInfo_descriptor,
               new java.lang.String[] { "JunZhuId", "Rank", "Name", "Lianmeng", "GuojiaId", "Putong", "Chuanqi", "StarCount", });
           internal_static_qxmobile_protobuf_GongJinInfo_descriptor =
-            getDescriptor().getMessageTypes().get(10);
+            getDescriptor().getMessageTypes().get(11);
           internal_static_qxmobile_protobuf_GongJinInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_GongJinInfo_descriptor,
@@ -15479,6 +17924,7 @@ public final class Ranking {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           qxmobile.protobuf.BagOperProtos.getDescriptor(),
+          qxmobile.protobuf.MibaoProtos.getDescriptor(),
         }, assigner);
   }
 

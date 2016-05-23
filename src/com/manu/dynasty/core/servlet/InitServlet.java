@@ -30,6 +30,7 @@ import com.qx.prompt.PromptMsgMgr;
 import com.qx.pvp.LveDuoMgr;
 import com.qx.quartz.SchedulerMgr;
 import com.qx.util.TableIDCreator;
+import com.qx.yuanbao.TXQueryMgr;
 
 /**
  * 服务器启动、停止时须执行的东西
@@ -38,7 +39,7 @@ public class InitServlet implements Servlet{
 	public static Logger log = LoggerFactory.getLogger(InitServlet.class);
 
 	public void init(ServletConfig config) throws ServletException {
-		log.info("============server start begin");
+		log.info("server start begin at {}",config.getServletContext().getRealPath("/"));
 		CommonService.getInstance().init();
 		log.info("初始化国家数据");
 		GuoJiaMgr.inst.initGuoJiaBeanInfo();
@@ -65,6 +66,7 @@ public class InitServlet implements Servlet{
 		BigSwitch.inst.gjMgr.shutdown();
 		BigSwitch.inst.heroMgr.shutdown();
 		BigSwitch.inst.cardMgr.shutdown();
+		TXQueryMgr.inst.q.add(TXQueryMgr.stop);
 		BigSwitch.inst.scMgr.shutdown();
 		BigSwitch.inst.accMgr.shutdown();
 		BigSwitch.inst.pvpMgr.shutdown();

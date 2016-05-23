@@ -35,6 +35,10 @@ import com.qx.persistent.HibernateUtil;
 import com.qx.task.DailyTaskMgr;
 import com.qx.timeworker.FunctionID;
 
+/**
+ * @Description 封禅管理类
+ *
+ */
 public class FengShanMgr extends EventProc{
 	public Logger log = LoggerFactory.getLogger(FengShanMgr.class);
 
@@ -94,7 +98,10 @@ public class FengShanMgr extends EventProc{
 			}
 		}
 	}
-
+	/**
+	 * @Description 获取玩家封禅信息  
+	 *
+	 */
 	public FengshanBean getFengShanBean(long jzId){
 		FengshanBean fsBean = HibernateUtil.find(FengshanBean.class, jzId);
 		if(fsBean == null){
@@ -103,6 +110,10 @@ public class FengShanMgr extends EventProc{
 		resetFengShanInfo(fsBean);
 		return fsBean;
 	}
+	/**
+	 * @Description 初始化玩家封禅信息  
+	 *
+	 */
 	public FengshanBean initFengShanBean(long jzId){
 		log.info("初始化君主--{}封禅信息",jzId);
 		FengshanBean fsBean = new FengshanBean();
@@ -111,13 +122,17 @@ public class FengShanMgr extends EventProc{
 		HibernateUtil.save(fsBean);
 		return fsBean;
 	}
+	/**
+	 * @Description 重置玩家封禅信息  
+	 *
+	 */
 	public void resetFengShanInfo(FengshanBean fsBean){
 		if(fsBean == null){
 			return;
 		}
 		Date now = new Date();
 		Date  lastResetTime=fsBean.lastResetTime;
-		if(lastResetTime != null && DateUtils.isTimeToReset(lastResetTime,CanShu.REFRESHTIME_PURCHASE)) {
+		if(lastResetTime != null && DateUtils.isTimeToReset(lastResetTime,CanShu.REFRESHTIME)) {
 			log.info("reset君主--{}封禅信息",fsBean.jzId);
 			fsBean.lastResetTime = now;
 			fsBean.isGetFengShan1 = false;
@@ -152,13 +167,13 @@ public class FengShanMgr extends EventProc{
 		fsInfo1.setConfId(1);
 		// State状态 1未达到条件 2可封禅 3 已封禅
 		int state1=getFengShanState(fsBean, huoyue, 1);
-		fsInfo1.setState(state1);
+//		fsInfo1.setState(state1);
 		resp.addFsInfo(fsInfo1);
 		
 		FengShanInfo.Builder fsInfo2=FengShanInfo.newBuilder();
 		fsInfo2.setConfId(2);
 		int state2=getFengShanState(fsBean, huoyue, 2);
-		fsInfo2.setState(state2);
+//		fsInfo2.setState(state2);
 		resp.addFsInfo(fsInfo2);
 		
 		log.info("{}请求封禅信息结束，活跃度--{}，封禅1状态---{}，封禅2状态---{}",jzId,huoyue,state1,state2);

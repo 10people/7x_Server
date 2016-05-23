@@ -3,6 +3,10 @@ package com.qx.activity;
 import com.manu.dynasty.template.Fengcefuli;
 
 
+/**
+ * @Description 月卡福利、体力福利、封测红包福利用到的常量
+ *
+ */
 public class FuliConstant{
 	public static final int yuekafuli=1392;//月卡福利
 	public static String yuekafuliAward="120";//"0:900002:120";//月卡福利

@@ -11,16 +11,6 @@ public final class HuangYeProtos {
   public interface OpenHuangYeRespOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 hYMoney = 1;
-    /**
-     * <code>required int32 hYMoney = 1;</code>
-     */
-    boolean hasHYMoney();
-    /**
-     * <code>required int32 hYMoney = 1;</code>
-     */
-    int getHYMoney();
-
     // required int32 allianceBuild = 2;
     /**
      * <code>required int32 allianceBuild = 2;</code>
@@ -31,37 +21,38 @@ public final class HuangYeProtos {
      */
     int getAllianceBuild();
 
-    // repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;
+    // required .qxmobile.protobuf.HuangYeTreasure treasure = 3;
     /**
-     * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+     * <code>required .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+     *
+     * <pre>
+     * 当前挑战的关卡信息，之前的算是都通关了
+     * </pre>
      */
-    java.util.List<qxmobile.protobuf.HuangYeProtos.HuangYeTreasure> 
-        getTreasureList();
+    boolean hasTreasure();
     /**
-     * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+     * <code>required .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+     *
+     * <pre>
+     * 当前挑战的关卡信息，之前的算是都通关了
+     * </pre>
      */
-    qxmobile.protobuf.HuangYeProtos.HuangYeTreasure getTreasure(int index);
+    qxmobile.protobuf.HuangYeProtos.HuangYeTreasure getTreasure();
     /**
-     * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+     * <code>required .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+     *
+     * <pre>
+     * 当前挑战的关卡信息，之前的算是都通关了
+     * </pre>
      */
-    int getTreasureCount();
-    /**
-     * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
-     */
-    java.util.List<? extends qxmobile.protobuf.HuangYeProtos.HuangYeTreasureOrBuilder> 
-        getTreasureOrBuilderList();
-    /**
-     * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
-     */
-    qxmobile.protobuf.HuangYeProtos.HuangYeTreasureOrBuilder getTreasureOrBuilder(
-        int index);
+    qxmobile.protobuf.HuangYeProtos.HuangYeTreasureOrBuilder getTreasureOrBuilder();
 
     // required int32 allTimes = 4;
     /**
      * <code>required int32 allTimes = 4;</code>
      *
      * <pre>
-     *总共挑战次数
+     * 总共挑战次数
      * </pre>
      */
     boolean hasAllTimes();
@@ -69,7 +60,7 @@ public final class HuangYeProtos {
      * <code>required int32 allTimes = 4;</code>
      *
      * <pre>
-     *总共挑战次数
+     * 总共挑战次数
      * </pre>
      */
     int getAllTimes();
@@ -133,7 +124,7 @@ public final class HuangYeProtos {
      * <code>optional int32 buyNextMoney = 8;</code>
      *
      * <pre>
-     *下一回购买需要多少money
+     * 下一回购买需要多少money
      * </pre>
      */
     boolean hasBuyNextMoney();
@@ -141,7 +132,7 @@ public final class HuangYeProtos {
      * <code>optional int32 buyNextMoney = 8;</code>
      *
      * <pre>
-     *下一回购买需要多少money
+     * 下一回购买需要多少money
      * </pre>
      */
     int getBuyNextMoney();
@@ -219,22 +210,22 @@ public final class HuangYeProtos {
               }
               break;
             }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              hYMoney_ = input.readInt32();
-              break;
-            }
             case 16: {
-              bitField0_ |= 0x00000002;
+              bitField0_ |= 0x00000001;
               allianceBuild_ = input.readInt32();
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                treasure_ = new java.util.ArrayList<qxmobile.protobuf.HuangYeProtos.HuangYeTreasure>();
-                mutable_bitField0_ |= 0x00000004;
+              qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = treasure_.toBuilder();
               }
-              treasure_.add(input.readMessage(qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.PARSER, extensionRegistry));
+              treasure_ = input.readMessage(qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(treasure_);
+                treasure_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
               break;
             }
             case 32: {
@@ -275,9 +266,6 @@ public final class HuangYeProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          treasure_ = java.util.Collections.unmodifiableList(treasure_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -310,22 +298,6 @@ public final class HuangYeProtos {
     }
 
     private int bitField0_;
-    // required int32 hYMoney = 1;
-    public static final int HYMONEY_FIELD_NUMBER = 1;
-    private int hYMoney_;
-    /**
-     * <code>required int32 hYMoney = 1;</code>
-     */
-    public boolean hasHYMoney() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 hYMoney = 1;</code>
-     */
-    public int getHYMoney() {
-      return hYMoney_;
-    }
-
     // required int32 allianceBuild = 2;
     public static final int ALLIANCEBUILD_FIELD_NUMBER = 2;
     private int allianceBuild_;
@@ -333,7 +305,7 @@ public final class HuangYeProtos {
      * <code>required int32 allianceBuild = 2;</code>
      */
     public boolean hasAllianceBuild() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int32 allianceBuild = 2;</code>
@@ -342,40 +314,38 @@ public final class HuangYeProtos {
       return allianceBuild_;
     }
 
-    // repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;
+    // required .qxmobile.protobuf.HuangYeTreasure treasure = 3;
     public static final int TREASURE_FIELD_NUMBER = 3;
-    private java.util.List<qxmobile.protobuf.HuangYeProtos.HuangYeTreasure> treasure_;
+    private qxmobile.protobuf.HuangYeProtos.HuangYeTreasure treasure_;
     /**
-     * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+     * <code>required .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+     *
+     * <pre>
+     * 当前挑战的关卡信息，之前的算是都通关了
+     * </pre>
      */
-    public java.util.List<qxmobile.protobuf.HuangYeProtos.HuangYeTreasure> getTreasureList() {
+    public boolean hasTreasure() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+     *
+     * <pre>
+     * 当前挑战的关卡信息，之前的算是都通关了
+     * </pre>
+     */
+    public qxmobile.protobuf.HuangYeProtos.HuangYeTreasure getTreasure() {
       return treasure_;
     }
     /**
-     * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+     * <code>required .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+     *
+     * <pre>
+     * 当前挑战的关卡信息，之前的算是都通关了
+     * </pre>
      */
-    public java.util.List<? extends qxmobile.protobuf.HuangYeProtos.HuangYeTreasureOrBuilder> 
-        getTreasureOrBuilderList() {
+    public qxmobile.protobuf.HuangYeProtos.HuangYeTreasureOrBuilder getTreasureOrBuilder() {
       return treasure_;
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
-     */
-    public int getTreasureCount() {
-      return treasure_.size();
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
-     */
-    public qxmobile.protobuf.HuangYeProtos.HuangYeTreasure getTreasure(int index) {
-      return treasure_.get(index);
-    }
-    /**
-     * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
-     */
-    public qxmobile.protobuf.HuangYeProtos.HuangYeTreasureOrBuilder getTreasureOrBuilder(
-        int index) {
-      return treasure_.get(index);
     }
 
     // required int32 allTimes = 4;
@@ -385,7 +355,7 @@ public final class HuangYeProtos {
      * <code>required int32 allTimes = 4;</code>
      *
      * <pre>
-     *总共挑战次数
+     * 总共挑战次数
      * </pre>
      */
     public boolean hasAllTimes() {
@@ -395,7 +365,7 @@ public final class HuangYeProtos {
      * <code>required int32 allTimes = 4;</code>
      *
      * <pre>
-     *总共挑战次数
+     * 总共挑战次数
      * </pre>
      */
     public int getAllTimes() {
@@ -481,7 +451,7 @@ public final class HuangYeProtos {
      * <code>optional int32 buyNextMoney = 8;</code>
      *
      * <pre>
-     *下一回购买需要多少money
+     * 下一回购买需要多少money
      * </pre>
      */
     public boolean hasBuyNextMoney() {
@@ -491,7 +461,7 @@ public final class HuangYeProtos {
      * <code>optional int32 buyNextMoney = 8;</code>
      *
      * <pre>
-     *下一回购买需要多少money
+     * 下一回购买需要多少money
      * </pre>
      */
     public int getBuyNextMoney() {
@@ -523,9 +493,8 @@ public final class HuangYeProtos {
     }
 
     private void initFields() {
-      hYMoney_ = 0;
       allianceBuild_ = 0;
-      treasure_ = java.util.Collections.emptyList();
+      treasure_ = qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.getDefaultInstance();
       allTimes_ = 0;
       remianTimes_ = 0;
       buyCiShuInfo_ = 0;
@@ -538,11 +507,11 @@ public final class HuangYeProtos {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasHYMoney()) {
+      if (!hasAllianceBuild()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasAllianceBuild()) {
+      if (!hasTreasure()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -558,11 +527,9 @@ public final class HuangYeProtos {
         memoizedIsInitialized = 0;
         return false;
       }
-      for (int i = 0; i < getTreasureCount(); i++) {
-        if (!getTreasure(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
+      if (!getTreasure().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
       }
       memoizedIsInitialized = 1;
       return true;
@@ -572,13 +539,10 @@ public final class HuangYeProtos {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, hYMoney_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(2, allianceBuild_);
       }
-      for (int i = 0; i < treasure_.size(); i++) {
-        output.writeMessage(3, treasure_.get(i));
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(3, treasure_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(4, allTimes_);
@@ -609,15 +573,11 @@ public final class HuangYeProtos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, hYMoney_);
+          .computeInt32Size(2, allianceBuild_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, allianceBuild_);
-      }
-      for (int i = 0; i < treasure_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, treasure_.get(i));
+          .computeMessageSize(3, treasure_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
@@ -764,28 +724,26 @@ public final class HuangYeProtos {
 
       public Builder clear() {
         super.clear();
-        hYMoney_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
         allianceBuild_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         if (treasureBuilder_ == null) {
-          treasure_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          treasure_ = qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.getDefaultInstance();
         } else {
           treasureBuilder_.clear();
         }
+        bitField0_ = (bitField0_ & ~0x00000002);
         allTimes_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000004);
         remianTimes_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000008);
         buyCiShuInfo_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000010);
         buyNextCiShu_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000020);
         buyNextMoney_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000040);
         leftBuyCiShu_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -817,41 +775,36 @@ public final class HuangYeProtos {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.hYMoney_ = hYMoney_;
+        result.allianceBuild_ = allianceBuild_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.allianceBuild_ = allianceBuild_;
         if (treasureBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
-            treasure_ = java.util.Collections.unmodifiableList(treasure_);
-            bitField0_ = (bitField0_ & ~0x00000004);
-          }
           result.treasure_ = treasure_;
         } else {
           result.treasure_ = treasureBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
         result.allTimes_ = allTimes_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
         result.remianTimes_ = remianTimes_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
         result.buyCiShuInfo_ = buyCiShuInfo_;
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000020;
         }
         result.buyNextCiShu_ = buyNextCiShu_;
-        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000040;
         }
         result.buyNextMoney_ = buyNextMoney_;
-        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000080;
         }
         result.leftBuyCiShu_ = leftBuyCiShu_;
@@ -871,37 +824,11 @@ public final class HuangYeProtos {
 
       public Builder mergeFrom(qxmobile.protobuf.HuangYeProtos.OpenHuangYeResp other) {
         if (other == qxmobile.protobuf.HuangYeProtos.OpenHuangYeResp.getDefaultInstance()) return this;
-        if (other.hasHYMoney()) {
-          setHYMoney(other.getHYMoney());
-        }
         if (other.hasAllianceBuild()) {
           setAllianceBuild(other.getAllianceBuild());
         }
-        if (treasureBuilder_ == null) {
-          if (!other.treasure_.isEmpty()) {
-            if (treasure_.isEmpty()) {
-              treasure_ = other.treasure_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-            } else {
-              ensureTreasureIsMutable();
-              treasure_.addAll(other.treasure_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.treasure_.isEmpty()) {
-            if (treasureBuilder_.isEmpty()) {
-              treasureBuilder_.dispose();
-              treasureBuilder_ = null;
-              treasure_ = other.treasure_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-              treasureBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getTreasureFieldBuilder() : null;
-            } else {
-              treasureBuilder_.addAllMessages(other.treasure_);
-            }
-          }
+        if (other.hasTreasure()) {
+          mergeTreasure(other.getTreasure());
         }
         if (other.hasAllTimes()) {
           setAllTimes(other.getAllTimes());
@@ -926,11 +853,11 @@ public final class HuangYeProtos {
       }
 
       public final boolean isInitialized() {
-        if (!hasHYMoney()) {
+        if (!hasAllianceBuild()) {
           
           return false;
         }
-        if (!hasAllianceBuild()) {
+        if (!hasTreasure()) {
           
           return false;
         }
@@ -946,11 +873,9 @@ public final class HuangYeProtos {
           
           return false;
         }
-        for (int i = 0; i < getTreasureCount(); i++) {
-          if (!getTreasure(i).isInitialized()) {
-            
-            return false;
-          }
+        if (!getTreasure().isInitialized()) {
+          
+          return false;
         }
         return true;
       }
@@ -974,46 +899,13 @@ public final class HuangYeProtos {
       }
       private int bitField0_;
 
-      // required int32 hYMoney = 1;
-      private int hYMoney_ ;
-      /**
-       * <code>required int32 hYMoney = 1;</code>
-       */
-      public boolean hasHYMoney() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 hYMoney = 1;</code>
-       */
-      public int getHYMoney() {
-        return hYMoney_;
-      }
-      /**
-       * <code>required int32 hYMoney = 1;</code>
-       */
-      public Builder setHYMoney(int value) {
-        bitField0_ |= 0x00000001;
-        hYMoney_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 hYMoney = 1;</code>
-       */
-      public Builder clearHYMoney() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        hYMoney_ = 0;
-        onChanged();
-        return this;
-      }
-
       // required int32 allianceBuild = 2;
       private int allianceBuild_ ;
       /**
        * <code>required int32 allianceBuild = 2;</code>
        */
       public boolean hasAllianceBuild() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int32 allianceBuild = 2;</code>
@@ -1025,7 +917,7 @@ public final class HuangYeProtos {
        * <code>required int32 allianceBuild = 2;</code>
        */
       public Builder setAllianceBuild(int value) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000001;
         allianceBuild_ = value;
         onChanged();
         return this;
@@ -1034,245 +926,158 @@ public final class HuangYeProtos {
        * <code>required int32 allianceBuild = 2;</code>
        */
       public Builder clearAllianceBuild() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         allianceBuild_ = 0;
         onChanged();
         return this;
       }
 
-      // repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;
-      private java.util.List<qxmobile.protobuf.HuangYeProtos.HuangYeTreasure> treasure_ =
-        java.util.Collections.emptyList();
-      private void ensureTreasureIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          treasure_ = new java.util.ArrayList<qxmobile.protobuf.HuangYeProtos.HuangYeTreasure>(treasure_);
-          bitField0_ |= 0x00000004;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
+      // required .qxmobile.protobuf.HuangYeTreasure treasure = 3;
+      private qxmobile.protobuf.HuangYeProtos.HuangYeTreasure treasure_ = qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
           qxmobile.protobuf.HuangYeProtos.HuangYeTreasure, qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.Builder, qxmobile.protobuf.HuangYeProtos.HuangYeTreasureOrBuilder> treasureBuilder_;
-
       /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+       * <code>required .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+       *
+       * <pre>
+       * 当前挑战的关卡信息，之前的算是都通关了
+       * </pre>
        */
-      public java.util.List<qxmobile.protobuf.HuangYeProtos.HuangYeTreasure> getTreasureList() {
+      public boolean hasTreasure() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+       *
+       * <pre>
+       * 当前挑战的关卡信息，之前的算是都通关了
+       * </pre>
+       */
+      public qxmobile.protobuf.HuangYeProtos.HuangYeTreasure getTreasure() {
         if (treasureBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(treasure_);
+          return treasure_;
         } else {
-          return treasureBuilder_.getMessageList();
+          return treasureBuilder_.getMessage();
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+       * <code>required .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+       *
+       * <pre>
+       * 当前挑战的关卡信息，之前的算是都通关了
+       * </pre>
        */
-      public int getTreasureCount() {
+      public Builder setTreasure(qxmobile.protobuf.HuangYeProtos.HuangYeTreasure value) {
         if (treasureBuilder_ == null) {
-          return treasure_.size();
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          treasure_ = value;
+          onChanged();
         } else {
-          return treasureBuilder_.getCount();
+          treasureBuilder_.setMessage(value);
         }
+        bitField0_ |= 0x00000002;
+        return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
-       */
-      public qxmobile.protobuf.HuangYeProtos.HuangYeTreasure getTreasure(int index) {
-        if (treasureBuilder_ == null) {
-          return treasure_.get(index);
-        } else {
-          return treasureBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+       * <code>required .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+       *
+       * <pre>
+       * 当前挑战的关卡信息，之前的算是都通关了
+       * </pre>
        */
       public Builder setTreasure(
-          int index, qxmobile.protobuf.HuangYeProtos.HuangYeTreasure value) {
-        if (treasureBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTreasureIsMutable();
-          treasure_.set(index, value);
-          onChanged();
-        } else {
-          treasureBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
-       */
-      public Builder setTreasure(
-          int index, qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.Builder builderForValue) {
-        if (treasureBuilder_ == null) {
-          ensureTreasureIsMutable();
-          treasure_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          treasureBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
-       */
-      public Builder addTreasure(qxmobile.protobuf.HuangYeProtos.HuangYeTreasure value) {
-        if (treasureBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTreasureIsMutable();
-          treasure_.add(value);
-          onChanged();
-        } else {
-          treasureBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
-       */
-      public Builder addTreasure(
-          int index, qxmobile.protobuf.HuangYeProtos.HuangYeTreasure value) {
-        if (treasureBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTreasureIsMutable();
-          treasure_.add(index, value);
-          onChanged();
-        } else {
-          treasureBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
-       */
-      public Builder addTreasure(
           qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.Builder builderForValue) {
         if (treasureBuilder_ == null) {
-          ensureTreasureIsMutable();
-          treasure_.add(builderForValue.build());
+          treasure_ = builderForValue.build();
           onChanged();
         } else {
-          treasureBuilder_.addMessage(builderForValue.build());
+          treasureBuilder_.setMessage(builderForValue.build());
         }
+        bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+       * <code>required .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+       *
+       * <pre>
+       * 当前挑战的关卡信息，之前的算是都通关了
+       * </pre>
        */
-      public Builder addTreasure(
-          int index, qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.Builder builderForValue) {
+      public Builder mergeTreasure(qxmobile.protobuf.HuangYeProtos.HuangYeTreasure value) {
         if (treasureBuilder_ == null) {
-          ensureTreasureIsMutable();
-          treasure_.add(index, builderForValue.build());
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              treasure_ != qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.getDefaultInstance()) {
+            treasure_ =
+              qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.newBuilder(treasure_).mergeFrom(value).buildPartial();
+          } else {
+            treasure_ = value;
+          }
           onChanged();
         } else {
-          treasureBuilder_.addMessage(index, builderForValue.build());
+          treasureBuilder_.mergeFrom(value);
         }
+        bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
-       */
-      public Builder addAllTreasure(
-          java.lang.Iterable<? extends qxmobile.protobuf.HuangYeProtos.HuangYeTreasure> values) {
-        if (treasureBuilder_ == null) {
-          ensureTreasureIsMutable();
-          super.addAll(values, treasure_);
-          onChanged();
-        } else {
-          treasureBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+       * <code>required .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+       *
+       * <pre>
+       * 当前挑战的关卡信息，之前的算是都通关了
+       * </pre>
        */
       public Builder clearTreasure() {
         if (treasureBuilder_ == null) {
-          treasure_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          treasure_ = qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.getDefaultInstance();
           onChanged();
         } else {
           treasureBuilder_.clear();
         }
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
       /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+       * <code>required .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+       *
+       * <pre>
+       * 当前挑战的关卡信息，之前的算是都通关了
+       * </pre>
        */
-      public Builder removeTreasure(int index) {
-        if (treasureBuilder_ == null) {
-          ensureTreasureIsMutable();
-          treasure_.remove(index);
-          onChanged();
-        } else {
-          treasureBuilder_.remove(index);
-        }
-        return this;
+      public qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.Builder getTreasureBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getTreasureFieldBuilder().getBuilder();
       }
       /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+       * <code>required .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+       *
+       * <pre>
+       * 当前挑战的关卡信息，之前的算是都通关了
+       * </pre>
        */
-      public qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.Builder getTreasureBuilder(
-          int index) {
-        return getTreasureFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
-       */
-      public qxmobile.protobuf.HuangYeProtos.HuangYeTreasureOrBuilder getTreasureOrBuilder(
-          int index) {
-        if (treasureBuilder_ == null) {
-          return treasure_.get(index);  } else {
-          return treasureBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
-       */
-      public java.util.List<? extends qxmobile.protobuf.HuangYeProtos.HuangYeTreasureOrBuilder> 
-           getTreasureOrBuilderList() {
+      public qxmobile.protobuf.HuangYeProtos.HuangYeTreasureOrBuilder getTreasureOrBuilder() {
         if (treasureBuilder_ != null) {
-          return treasureBuilder_.getMessageOrBuilderList();
+          return treasureBuilder_.getMessageOrBuilder();
         } else {
-          return java.util.Collections.unmodifiableList(treasure_);
+          return treasure_;
         }
       }
       /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+       * <code>required .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
+       *
+       * <pre>
+       * 当前挑战的关卡信息，之前的算是都通关了
+       * </pre>
        */
-      public qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.Builder addTreasureBuilder() {
-        return getTreasureFieldBuilder().addBuilder(
-            qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
-       */
-      public qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.Builder addTreasureBuilder(
-          int index) {
-        return getTreasureFieldBuilder().addBuilder(
-            index, qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .qxmobile.protobuf.HuangYeTreasure treasure = 3;</code>
-       */
-      public java.util.List<qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.Builder> 
-           getTreasureBuilderList() {
-        return getTreasureFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
+      private com.google.protobuf.SingleFieldBuilder<
           qxmobile.protobuf.HuangYeProtos.HuangYeTreasure, qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.Builder, qxmobile.protobuf.HuangYeProtos.HuangYeTreasureOrBuilder> 
           getTreasureFieldBuilder() {
         if (treasureBuilder_ == null) {
-          treasureBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+          treasureBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               qxmobile.protobuf.HuangYeProtos.HuangYeTreasure, qxmobile.protobuf.HuangYeProtos.HuangYeTreasure.Builder, qxmobile.protobuf.HuangYeProtos.HuangYeTreasureOrBuilder>(
                   treasure_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
                   getParentForChildren(),
                   isClean());
           treasure_ = null;
@@ -1286,17 +1091,17 @@ public final class HuangYeProtos {
        * <code>required int32 allTimes = 4;</code>
        *
        * <pre>
-       *总共挑战次数
+       * 总共挑战次数
        * </pre>
        */
       public boolean hasAllTimes() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>required int32 allTimes = 4;</code>
        *
        * <pre>
-       *总共挑战次数
+       * 总共挑战次数
        * </pre>
        */
       public int getAllTimes() {
@@ -1306,11 +1111,11 @@ public final class HuangYeProtos {
        * <code>required int32 allTimes = 4;</code>
        *
        * <pre>
-       *总共挑战次数
+       * 总共挑战次数
        * </pre>
        */
       public Builder setAllTimes(int value) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000004;
         allTimes_ = value;
         onChanged();
         return this;
@@ -1319,11 +1124,11 @@ public final class HuangYeProtos {
        * <code>required int32 allTimes = 4;</code>
        *
        * <pre>
-       *总共挑战次数
+       * 总共挑战次数
        * </pre>
        */
       public Builder clearAllTimes() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000004);
         allTimes_ = 0;
         onChanged();
         return this;
@@ -1339,7 +1144,7 @@ public final class HuangYeProtos {
        * </pre>
        */
       public boolean hasRemianTimes() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>required int32 remianTimes = 5;</code>
@@ -1359,7 +1164,7 @@ public final class HuangYeProtos {
        * </pre>
        */
       public Builder setRemianTimes(int value) {
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000008;
         remianTimes_ = value;
         onChanged();
         return this;
@@ -1372,7 +1177,7 @@ public final class HuangYeProtos {
        * </pre>
        */
       public Builder clearRemianTimes() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000008);
         remianTimes_ = 0;
         onChanged();
         return this;
@@ -1388,7 +1193,7 @@ public final class HuangYeProtos {
        * </pre>
        */
       public boolean hasBuyCiShuInfo() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>required int32 buyCiShuInfo = 6;</code>
@@ -1408,7 +1213,7 @@ public final class HuangYeProtos {
        * </pre>
        */
       public Builder setBuyCiShuInfo(int value) {
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000010;
         buyCiShuInfo_ = value;
         onChanged();
         return this;
@@ -1421,7 +1226,7 @@ public final class HuangYeProtos {
        * </pre>
        */
       public Builder clearBuyCiShuInfo() {
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000010);
         buyCiShuInfo_ = 0;
         onChanged();
         return this;
@@ -1437,7 +1242,7 @@ public final class HuangYeProtos {
        * </pre>
        */
       public boolean hasBuyNextCiShu() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
        * <code>optional int32 buyNextCiShu = 7;</code>
@@ -1457,7 +1262,7 @@ public final class HuangYeProtos {
        * </pre>
        */
       public Builder setBuyNextCiShu(int value) {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000020;
         buyNextCiShu_ = value;
         onChanged();
         return this;
@@ -1470,7 +1275,7 @@ public final class HuangYeProtos {
        * </pre>
        */
       public Builder clearBuyNextCiShu() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000020);
         buyNextCiShu_ = 0;
         onChanged();
         return this;
@@ -1482,17 +1287,17 @@ public final class HuangYeProtos {
        * <code>optional int32 buyNextMoney = 8;</code>
        *
        * <pre>
-       *下一回购买需要多少money
+       * 下一回购买需要多少money
        * </pre>
        */
       public boolean hasBuyNextMoney() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
        * <code>optional int32 buyNextMoney = 8;</code>
        *
        * <pre>
-       *下一回购买需要多少money
+       * 下一回购买需要多少money
        * </pre>
        */
       public int getBuyNextMoney() {
@@ -1502,11 +1307,11 @@ public final class HuangYeProtos {
        * <code>optional int32 buyNextMoney = 8;</code>
        *
        * <pre>
-       *下一回购买需要多少money
+       * 下一回购买需要多少money
        * </pre>
        */
       public Builder setBuyNextMoney(int value) {
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000040;
         buyNextMoney_ = value;
         onChanged();
         return this;
@@ -1515,11 +1320,11 @@ public final class HuangYeProtos {
        * <code>optional int32 buyNextMoney = 8;</code>
        *
        * <pre>
-       *下一回购买需要多少money
+       * 下一回购买需要多少money
        * </pre>
        */
       public Builder clearBuyNextMoney() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000040);
         buyNextMoney_ = 0;
         onChanged();
         return this;
@@ -1535,7 +1340,7 @@ public final class HuangYeProtos {
        * </pre>
        */
       public boolean hasLeftBuyCiShu() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
        * <code>optional int32 leftBuyCiShu = 9;</code>
@@ -1555,7 +1360,7 @@ public final class HuangYeProtos {
        * </pre>
        */
       public Builder setLeftBuyCiShu(int value) {
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000080;
         leftBuyCiShu_ = value;
         onChanged();
         return this;
@@ -1568,7 +1373,7 @@ public final class HuangYeProtos {
        * </pre>
        */
       public Builder clearLeftBuyCiShu() {
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000080);
         leftBuyCiShu_ = 0;
         onChanged();
         return this;
@@ -1588,92 +1393,74 @@ public final class HuangYeProtos {
   public interface HuangYeTreasureOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // optional int64 id = 1;
+    // required int64 id = 1;
     /**
-     * <code>optional int64 id = 1;</code>
+     * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *2015年4月17日16:57:30int32改为int64
+     * dbid
      * </pre>
      */
     boolean hasId();
     /**
-     * <code>optional int64 id = 1;</code>
+     * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *2015年4月17日16:57:30int32改为int64
+     * dbid
      * </pre>
      */
     long getId();
 
-    // required int32 fileId = 2;
+    // required int32 guanQiaId = 2;
     /**
-     * <code>required int32 fileId = 2;</code>
+     * <code>required int32 guanQiaId = 2;</code>
      *
      * <pre>
-     * 藏宝点xmlid
+     * huangyePve.xml的id
      * </pre>
      */
-    boolean hasFileId();
+    boolean hasGuanQiaId();
     /**
-     * <code>required int32 fileId = 2;</code>
+     * <code>required int32 guanQiaId = 2;</code>
      *
      * <pre>
-     * 藏宝点xmlid
+     * huangyePve.xml的id
      * </pre>
      */
-    int getFileId();
+    int getGuanQiaId();
 
-    // required int32 isActive = 3;
+    // required int32 isOpen = 3;
     /**
-     * <code>required int32 isActive = 3;</code>
+     * <code>required int32 isOpen = 3;</code>
      *
      * <pre>
-     *藏宝：：1-可以被激活（没有激活状态）; 0-不可以被激活（没有激活状态），2-已经激活过了
-     * </pre>
-     */
-    boolean hasIsActive();
-    /**
-     * <code>required int32 isActive = 3;</code>
-     *
-     * <pre>
-     *藏宝：：1-可以被激活（没有激活状态）; 0-不可以被激活（没有激活状态），2-已经激活过了
-     * </pre>
-     */
-    int getIsActive();
-
-    // optional int32 isOpen = 4;
-    /**
-     * <code>optional int32 isOpen = 4;</code>
-     *
-     * <pre>
-     *藏宝：isActive==2发送：0-没有开启，1-开启，
+     * 0-没有开启，1-开启，
      * </pre>
      */
     boolean hasIsOpen();
     /**
-     * <code>optional int32 isOpen = 4;</code>
+     * <code>required int32 isOpen = 3;</code>
      *
      * <pre>
-     *藏宝：isActive==2发送：0-没有开启，1-开启，
+     * 0-没有开启，1-开启，
      * </pre>
      */
     int getIsOpen();
 
-    // optional int32 jindu = 5;
+    // required int32 jindu = 4;
     /**
-     * <code>optional int32 jindu = 5;</code>
+     * <code>required int32 jindu = 4;</code>
      *
      * <pre>
-     *挑战进度：isActive==2发送
+     * 挑战进度
      * </pre>
      */
     boolean hasJindu();
     /**
-     * <code>optional int32 jindu = 5;</code>
+     * <code>required int32 jindu = 4;</code>
      *
      * <pre>
-     *挑战进度：isActive==2发送
+     * 挑战进度
      * </pre>
      */
     int getJindu();
@@ -1682,7 +1469,7 @@ public final class HuangYeProtos {
    * Protobuf type {@code qxmobile.protobuf.HuangYeTreasure}
    *
    * <pre>
-   *藏宝点信息
+   * 关卡信息
    * </pre>
    */
   public static final class HuangYeTreasure extends
@@ -1740,21 +1527,16 @@ public final class HuangYeProtos {
             }
             case 16: {
               bitField0_ |= 0x00000002;
-              fileId_ = input.readInt32();
+              guanQiaId_ = input.readInt32();
               break;
             }
             case 24: {
               bitField0_ |= 0x00000004;
-              isActive_ = input.readInt32();
+              isOpen_ = input.readInt32();
               break;
             }
             case 32: {
               bitField0_ |= 0x00000008;
-              isOpen_ = input.readInt32();
-              break;
-            }
-            case 40: {
-              bitField0_ |= 0x00000010;
               jindu_ = input.readInt32();
               break;
             }
@@ -1798,120 +1580,96 @@ public final class HuangYeProtos {
     }
 
     private int bitField0_;
-    // optional int64 id = 1;
+    // required int64 id = 1;
     public static final int ID_FIELD_NUMBER = 1;
     private long id_;
     /**
-     * <code>optional int64 id = 1;</code>
+     * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *2015年4月17日16:57:30int32改为int64
+     * dbid
      * </pre>
      */
     public boolean hasId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional int64 id = 1;</code>
+     * <code>required int64 id = 1;</code>
      *
      * <pre>
-     *2015年4月17日16:57:30int32改为int64
+     * dbid
      * </pre>
      */
     public long getId() {
       return id_;
     }
 
-    // required int32 fileId = 2;
-    public static final int FILEID_FIELD_NUMBER = 2;
-    private int fileId_;
+    // required int32 guanQiaId = 2;
+    public static final int GUANQIAID_FIELD_NUMBER = 2;
+    private int guanQiaId_;
     /**
-     * <code>required int32 fileId = 2;</code>
+     * <code>required int32 guanQiaId = 2;</code>
      *
      * <pre>
-     * 藏宝点xmlid
+     * huangyePve.xml的id
      * </pre>
      */
-    public boolean hasFileId() {
+    public boolean hasGuanQiaId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int32 fileId = 2;</code>
+     * <code>required int32 guanQiaId = 2;</code>
      *
      * <pre>
-     * 藏宝点xmlid
+     * huangyePve.xml的id
      * </pre>
      */
-    public int getFileId() {
-      return fileId_;
+    public int getGuanQiaId() {
+      return guanQiaId_;
     }
 
-    // required int32 isActive = 3;
-    public static final int ISACTIVE_FIELD_NUMBER = 3;
-    private int isActive_;
-    /**
-     * <code>required int32 isActive = 3;</code>
-     *
-     * <pre>
-     *藏宝：：1-可以被激活（没有激活状态）; 0-不可以被激活（没有激活状态），2-已经激活过了
-     * </pre>
-     */
-    public boolean hasIsActive() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>required int32 isActive = 3;</code>
-     *
-     * <pre>
-     *藏宝：：1-可以被激活（没有激活状态）; 0-不可以被激活（没有激活状态），2-已经激活过了
-     * </pre>
-     */
-    public int getIsActive() {
-      return isActive_;
-    }
-
-    // optional int32 isOpen = 4;
-    public static final int ISOPEN_FIELD_NUMBER = 4;
+    // required int32 isOpen = 3;
+    public static final int ISOPEN_FIELD_NUMBER = 3;
     private int isOpen_;
     /**
-     * <code>optional int32 isOpen = 4;</code>
+     * <code>required int32 isOpen = 3;</code>
      *
      * <pre>
-     *藏宝：isActive==2发送：0-没有开启，1-开启，
+     * 0-没有开启，1-开启，
      * </pre>
      */
     public boolean hasIsOpen() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional int32 isOpen = 4;</code>
+     * <code>required int32 isOpen = 3;</code>
      *
      * <pre>
-     *藏宝：isActive==2发送：0-没有开启，1-开启，
+     * 0-没有开启，1-开启，
      * </pre>
      */
     public int getIsOpen() {
       return isOpen_;
     }
 
-    // optional int32 jindu = 5;
-    public static final int JINDU_FIELD_NUMBER = 5;
+    // required int32 jindu = 4;
+    public static final int JINDU_FIELD_NUMBER = 4;
     private int jindu_;
     /**
-     * <code>optional int32 jindu = 5;</code>
+     * <code>required int32 jindu = 4;</code>
      *
      * <pre>
-     *挑战进度：isActive==2发送
+     * 挑战进度
      * </pre>
      */
     public boolean hasJindu() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional int32 jindu = 5;</code>
+     * <code>required int32 jindu = 4;</code>
      *
      * <pre>
-     *挑战进度：isActive==2发送
+     * 挑战进度
      * </pre>
      */
     public int getJindu() {
@@ -1920,8 +1678,7 @@ public final class HuangYeProtos {
 
     private void initFields() {
       id_ = 0L;
-      fileId_ = 0;
-      isActive_ = 0;
+      guanQiaId_ = 0;
       isOpen_ = 0;
       jindu_ = 0;
     }
@@ -1930,11 +1687,19 @@ public final class HuangYeProtos {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasFileId()) {
+      if (!hasId()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasIsActive()) {
+      if (!hasGuanQiaId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIsOpen()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasJindu()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1949,16 +1714,13 @@ public final class HuangYeProtos {
         output.writeInt64(1, id_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, fileId_);
+        output.writeInt32(2, guanQiaId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, isActive_);
+        output.writeInt32(3, isOpen_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(4, isOpen_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeInt32(5, jindu_);
+        output.writeInt32(4, jindu_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1975,19 +1737,15 @@ public final class HuangYeProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, fileId_);
+          .computeInt32Size(2, guanQiaId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, isActive_);
+          .computeInt32Size(3, isOpen_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, isOpen_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, jindu_);
+          .computeInt32Size(4, jindu_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2071,7 +1829,7 @@ public final class HuangYeProtos {
      * Protobuf type {@code qxmobile.protobuf.HuangYeTreasure}
      *
      * <pre>
-     *藏宝点信息
+     * 关卡信息
      * </pre>
      */
     public static final class Builder extends
@@ -2111,14 +1869,12 @@ public final class HuangYeProtos {
         super.clear();
         id_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000001);
-        fileId_ = 0;
+        guanQiaId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        isActive_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
         isOpen_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000004);
         jindu_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -2154,17 +1910,13 @@ public final class HuangYeProtos {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.fileId_ = fileId_;
+        result.guanQiaId_ = guanQiaId_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.isActive_ = isActive_;
+        result.isOpen_ = isOpen_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
-        }
-        result.isOpen_ = isOpen_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000010;
         }
         result.jindu_ = jindu_;
         result.bitField0_ = to_bitField0_;
@@ -2186,11 +1938,8 @@ public final class HuangYeProtos {
         if (other.hasId()) {
           setId(other.getId());
         }
-        if (other.hasFileId()) {
-          setFileId(other.getFileId());
-        }
-        if (other.hasIsActive()) {
-          setIsActive(other.getIsActive());
+        if (other.hasGuanQiaId()) {
+          setGuanQiaId(other.getGuanQiaId());
         }
         if (other.hasIsOpen()) {
           setIsOpen(other.getIsOpen());
@@ -2203,11 +1952,19 @@ public final class HuangYeProtos {
       }
 
       public final boolean isInitialized() {
-        if (!hasFileId()) {
+        if (!hasId()) {
           
           return false;
         }
-        if (!hasIsActive()) {
+        if (!hasGuanQiaId()) {
+          
+          return false;
+        }
+        if (!hasIsOpen()) {
+          
+          return false;
+        }
+        if (!hasJindu()) {
           
           return false;
         }
@@ -2233,33 +1990,33 @@ public final class HuangYeProtos {
       }
       private int bitField0_;
 
-      // optional int64 id = 1;
+      // required int64 id = 1;
       private long id_ ;
       /**
-       * <code>optional int64 id = 1;</code>
+       * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *2015年4月17日16:57:30int32改为int64
+       * dbid
        * </pre>
        */
       public boolean hasId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional int64 id = 1;</code>
+       * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *2015年4月17日16:57:30int32改为int64
+       * dbid
        * </pre>
        */
       public long getId() {
         return id_;
       }
       /**
-       * <code>optional int64 id = 1;</code>
+       * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *2015年4月17日16:57:30int32改为int64
+       * dbid
        * </pre>
        */
       public Builder setId(long value) {
@@ -2269,10 +2026,10 @@ public final class HuangYeProtos {
         return this;
       }
       /**
-       * <code>optional int64 id = 1;</code>
+       * <code>required int64 id = 1;</code>
        *
        * <pre>
-       *2015年4月17日16:57:30int32改为int64
+       * dbid
        * </pre>
        */
       public Builder clearId() {
@@ -2282,197 +2039,148 @@ public final class HuangYeProtos {
         return this;
       }
 
-      // required int32 fileId = 2;
-      private int fileId_ ;
+      // required int32 guanQiaId = 2;
+      private int guanQiaId_ ;
       /**
-       * <code>required int32 fileId = 2;</code>
+       * <code>required int32 guanQiaId = 2;</code>
        *
        * <pre>
-       * 藏宝点xmlid
+       * huangyePve.xml的id
        * </pre>
        */
-      public boolean hasFileId() {
+      public boolean hasGuanQiaId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int32 fileId = 2;</code>
+       * <code>required int32 guanQiaId = 2;</code>
        *
        * <pre>
-       * 藏宝点xmlid
+       * huangyePve.xml的id
        * </pre>
        */
-      public int getFileId() {
-        return fileId_;
+      public int getGuanQiaId() {
+        return guanQiaId_;
       }
       /**
-       * <code>required int32 fileId = 2;</code>
+       * <code>required int32 guanQiaId = 2;</code>
        *
        * <pre>
-       * 藏宝点xmlid
+       * huangyePve.xml的id
        * </pre>
        */
-      public Builder setFileId(int value) {
+      public Builder setGuanQiaId(int value) {
         bitField0_ |= 0x00000002;
-        fileId_ = value;
+        guanQiaId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 fileId = 2;</code>
+       * <code>required int32 guanQiaId = 2;</code>
        *
        * <pre>
-       * 藏宝点xmlid
+       * huangyePve.xml的id
        * </pre>
        */
-      public Builder clearFileId() {
+      public Builder clearGuanQiaId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        fileId_ = 0;
+        guanQiaId_ = 0;
         onChanged();
         return this;
       }
 
-      // required int32 isActive = 3;
-      private int isActive_ ;
-      /**
-       * <code>required int32 isActive = 3;</code>
-       *
-       * <pre>
-       *藏宝：：1-可以被激活（没有激活状态）; 0-不可以被激活（没有激活状态），2-已经激活过了
-       * </pre>
-       */
-      public boolean hasIsActive() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>required int32 isActive = 3;</code>
-       *
-       * <pre>
-       *藏宝：：1-可以被激活（没有激活状态）; 0-不可以被激活（没有激活状态），2-已经激活过了
-       * </pre>
-       */
-      public int getIsActive() {
-        return isActive_;
-      }
-      /**
-       * <code>required int32 isActive = 3;</code>
-       *
-       * <pre>
-       *藏宝：：1-可以被激活（没有激活状态）; 0-不可以被激活（没有激活状态），2-已经激活过了
-       * </pre>
-       */
-      public Builder setIsActive(int value) {
-        bitField0_ |= 0x00000004;
-        isActive_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 isActive = 3;</code>
-       *
-       * <pre>
-       *藏宝：：1-可以被激活（没有激活状态）; 0-不可以被激活（没有激活状态），2-已经激活过了
-       * </pre>
-       */
-      public Builder clearIsActive() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        isActive_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional int32 isOpen = 4;
+      // required int32 isOpen = 3;
       private int isOpen_ ;
       /**
-       * <code>optional int32 isOpen = 4;</code>
+       * <code>required int32 isOpen = 3;</code>
        *
        * <pre>
-       *藏宝：isActive==2发送：0-没有开启，1-开启，
+       * 0-没有开启，1-开启，
        * </pre>
        */
       public boolean hasIsOpen() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional int32 isOpen = 4;</code>
+       * <code>required int32 isOpen = 3;</code>
        *
        * <pre>
-       *藏宝：isActive==2发送：0-没有开启，1-开启，
+       * 0-没有开启，1-开启，
        * </pre>
        */
       public int getIsOpen() {
         return isOpen_;
       }
       /**
-       * <code>optional int32 isOpen = 4;</code>
+       * <code>required int32 isOpen = 3;</code>
        *
        * <pre>
-       *藏宝：isActive==2发送：0-没有开启，1-开启，
+       * 0-没有开启，1-开启，
        * </pre>
        */
       public Builder setIsOpen(int value) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000004;
         isOpen_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 isOpen = 4;</code>
+       * <code>required int32 isOpen = 3;</code>
        *
        * <pre>
-       *藏宝：isActive==2发送：0-没有开启，1-开启，
+       * 0-没有开启，1-开启，
        * </pre>
        */
       public Builder clearIsOpen() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000004);
         isOpen_ = 0;
         onChanged();
         return this;
       }
 
-      // optional int32 jindu = 5;
+      // required int32 jindu = 4;
       private int jindu_ ;
       /**
-       * <code>optional int32 jindu = 5;</code>
+       * <code>required int32 jindu = 4;</code>
        *
        * <pre>
-       *挑战进度：isActive==2发送
+       * 挑战进度
        * </pre>
        */
       public boolean hasJindu() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional int32 jindu = 5;</code>
+       * <code>required int32 jindu = 4;</code>
        *
        * <pre>
-       *挑战进度：isActive==2发送
+       * 挑战进度
        * </pre>
        */
       public int getJindu() {
         return jindu_;
       }
       /**
-       * <code>optional int32 jindu = 5;</code>
+       * <code>required int32 jindu = 4;</code>
        *
        * <pre>
-       *挑战进度：isActive==2发送
+       * 挑战进度
        * </pre>
        */
       public Builder setJindu(int value) {
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000008;
         jindu_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 jindu = 5;</code>
+       * <code>required int32 jindu = 4;</code>
        *
        * <pre>
-       *挑战进度：isActive==2发送
+       * 挑战进度
        * </pre>
        */
       public Builder clearJindu() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000008);
         jindu_ = 0;
         onChanged();
         return this;
@@ -2957,18 +2665,10 @@ public final class HuangYeProtos {
     // optional int64 id = 2;
     /**
      * <code>optional int64 id = 2;</code>
-     *
-     * <pre>
-     *2015年4月17日16:57:30int32改为int64
-     * </pre>
      */
     boolean hasId();
     /**
      * <code>optional int64 id = 2;</code>
-     *
-     * <pre>
-     *2015年4月17日16:57:30int32改为int64
-     * </pre>
      */
     long getId();
 
@@ -3129,20 +2829,12 @@ public final class HuangYeProtos {
     private long id_;
     /**
      * <code>optional int64 id = 2;</code>
-     *
-     * <pre>
-     *2015年4月17日16:57:30int32改为int64
-     * </pre>
      */
     public boolean hasId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>optional int64 id = 2;</code>
-     *
-     * <pre>
-     *2015年4月17日16:57:30int32改为int64
-     * </pre>
      */
     public long getId() {
       return id_;
@@ -3498,30 +3190,18 @@ public final class HuangYeProtos {
       private long id_ ;
       /**
        * <code>optional int64 id = 2;</code>
-       *
-       * <pre>
-       *2015年4月17日16:57:30int32改为int64
-       * </pre>
        */
       public boolean hasId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>optional int64 id = 2;</code>
-       *
-       * <pre>
-       *2015年4月17日16:57:30int32改为int64
-       * </pre>
        */
       public long getId() {
         return id_;
       }
       /**
        * <code>optional int64 id = 2;</code>
-       *
-       * <pre>
-       *2015年4月17日16:57:30int32改为int64
-       * </pre>
        */
       public Builder setId(long value) {
         bitField0_ |= 0x00000002;
@@ -3531,10 +3211,6 @@ public final class HuangYeProtos {
       }
       /**
        * <code>optional int64 id = 2;</code>
-       *
-       * <pre>
-       *2015年4月17日16:57:30int32改为int64
-       * </pre>
        */
       public Builder clearId() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -4228,9 +3904,9 @@ public final class HuangYeProtos {
      */
     int getZuheId();
 
-    // required int32 buyCiShuInfo = 10;
+    // optional int32 buyCiShuInfo = 10;
     /**
-     * <code>required int32 buyCiShuInfo = 10;</code>
+     * <code>optional int32 buyCiShuInfo = 10;</code>
      *
      * <pre>
      * 1-可买，发送下面信息，2-vip等级不够，不发送下面信息，3-购买次数已经用尽，不发送下面信息
@@ -4238,7 +3914,7 @@ public final class HuangYeProtos {
      */
     boolean hasBuyCiShuInfo();
     /**
-     * <code>required int32 buyCiShuInfo = 10;</code>
+     * <code>optional int32 buyCiShuInfo = 10;</code>
      *
      * <pre>
      * 1-可买，发送下面信息，2-vip等级不够，不发送下面信息，3-购买次数已经用尽，不发送下面信息
@@ -4755,11 +4431,11 @@ public final class HuangYeProtos {
       return zuheId_;
     }
 
-    // required int32 buyCiShuInfo = 10;
+    // optional int32 buyCiShuInfo = 10;
     public static final int BUYCISHUINFO_FIELD_NUMBER = 10;
     private int buyCiShuInfo_;
     /**
-     * <code>required int32 buyCiShuInfo = 10;</code>
+     * <code>optional int32 buyCiShuInfo = 10;</code>
      *
      * <pre>
      * 1-可买，发送下面信息，2-vip等级不够，不发送下面信息，3-购买次数已经用尽，不发送下面信息
@@ -4769,7 +4445,7 @@ public final class HuangYeProtos {
       return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
-     * <code>required int32 buyCiShuInfo = 10;</code>
+     * <code>optional int32 buyCiShuInfo = 10;</code>
      *
      * <pre>
      * 1-可买，发送下面信息，2-vip等级不够，不发送下面信息，3-购买次数已经用尽，不发送下面信息
@@ -4922,10 +4598,6 @@ public final class HuangYeProtos {
         return false;
       }
       if (!hasConditionIsOk()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasBuyCiShuInfo()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -5412,10 +5084,6 @@ public final class HuangYeProtos {
           return false;
         }
         if (!hasConditionIsOk()) {
-          
-          return false;
-        }
-        if (!hasBuyCiShuInfo()) {
           
           return false;
         }
@@ -6128,10 +5796,10 @@ public final class HuangYeProtos {
         return this;
       }
 
-      // required int32 buyCiShuInfo = 10;
+      // optional int32 buyCiShuInfo = 10;
       private int buyCiShuInfo_ ;
       /**
-       * <code>required int32 buyCiShuInfo = 10;</code>
+       * <code>optional int32 buyCiShuInfo = 10;</code>
        *
        * <pre>
        * 1-可买，发送下面信息，2-vip等级不够，不发送下面信息，3-购买次数已经用尽，不发送下面信息
@@ -6141,7 +5809,7 @@ public final class HuangYeProtos {
         return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>required int32 buyCiShuInfo = 10;</code>
+       * <code>optional int32 buyCiShuInfo = 10;</code>
        *
        * <pre>
        * 1-可买，发送下面信息，2-vip等级不够，不发送下面信息，3-购买次数已经用尽，不发送下面信息
@@ -6151,7 +5819,7 @@ public final class HuangYeProtos {
         return buyCiShuInfo_;
       }
       /**
-       * <code>required int32 buyCiShuInfo = 10;</code>
+       * <code>optional int32 buyCiShuInfo = 10;</code>
        *
        * <pre>
        * 1-可买，发送下面信息，2-vip等级不够，不发送下面信息，3-购买次数已经用尽，不发送下面信息
@@ -6164,7 +5832,7 @@ public final class HuangYeProtos {
         return this;
       }
       /**
-       * <code>required int32 buyCiShuInfo = 10;</code>
+       * <code>optional int32 buyCiShuInfo = 10;</code>
        *
        * <pre>
        * 1-可买，发送下面信息，2-vip等级不够，不发送下面信息，3-购买次数已经用尽，不发送下面信息
@@ -17399,58 +17067,58 @@ public final class HuangYeProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rHuangYe.proto\022\021qxmobile.protobuf\"\356\001\n\017O" +
-      "penHuangYeResp\022\017\n\007hYMoney\030\001 \002(\005\022\025\n\rallia" +
-      "nceBuild\030\002 \002(\005\0224\n\010treasure\030\003 \003(\0132\".qxmob" +
-      "ile.protobuf.HuangYeTreasure\022\020\n\010allTimes" +
-      "\030\004 \002(\005\022\023\n\013remianTimes\030\005 \002(\005\022\024\n\014buyCiShuI" +
-      "nfo\030\006 \002(\005\022\024\n\014buyNextCiShu\030\007 \001(\005\022\024\n\014buyNe" +
-      "xtMoney\030\010 \001(\005\022\024\n\014leftBuyCiShu\030\t \001(\005\"^\n\017H" +
-      "uangYeTreasure\022\n\n\002id\030\001 \001(\003\022\016\n\006fileId\030\002 \002" +
-      "(\005\022\020\n\010isActive\030\003 \002(\005\022\016\n\006isOpen\030\004 \001(\005\022\r\n\005" +
-      "jindu\030\005 \001(\005\"!\n\023OpenHuangYeTreasure\022\n\n\002id",
-      "\030\001 \002(\003\"I\n\027OpenHuangYeTreasureResp\022\016\n\006res" +
-      "ult\030\001 \002(\005\022\n\n\002id\030\002 \001(\003\022\022\n\nbuildValue\030\003 \001(" +
-      "\005\"\036\n\020HYTreasureBattle\022\n\n\002id\030\001 \002(\003\"\335\002\n\024HY" +
-      "TreasureBattleResp\022\016\n\006status\030\001 \002(\005\022\022\n\nba" +
-      "ttleName\030\002 \001(\t\0224\n\010npcInfos\030\003 \003(\0132\".qxmob" +
-      "ile.protobuf.TreasureNpcInfo\022\022\n\ntimesOfD" +
-      "ay\030\004 \002(\005\022\022\n\ntotalTimes\030\005 \002(\005\022\r\n\005jindu\030\006 " +
-      "\002(\005\022\025\n\rconditionIsOk\030\007 \002(\010\022\022\n\nremainTime" +
-      "\030\010 \001(\005\022\016\n\006zuheId\030\t \001(\005\022\024\n\014buyCiShuInfo\030\n" +
-      " \002(\005\022\024\n\014buyNextCiShu\030\013 \001(\005\022\024\n\014buyNextMon",
-      "ey\030\014 \001(\005\022\024\n\014leftBuyCiShu\030\r \001(\005\022\020\n\010thisBo" +
-      "Ci\030\016 \001(\005\022\017\n\007allBoCi\030\017 \001(\005\"C\n\017TreasureNpc" +
-      "Info\022\r\n\005npcId\030\001 \002(\005\022\020\n\010remainHP\030\002 \002(\005\022\017\n" +
-      "\007totalHP\030\003 \002(\005\"$\n\016ReqRewardStore\022\022\n\nlian" +
-      "mengId\030\001 \002(\005\"I\n\022ReqRewardStoreResp\0223\n\010it" +
-      "emInfo\030\001 \003(\0132!.qxmobile.protobuf.RewardI" +
-      "temInfo\"a\n\016RewardItemInfo\022\014\n\004site\030\001 \002(\005\022" +
-      "\014\n\004nums\030\002 \002(\005\0223\n\013applyerInfo\030\003 \003(\0132\036.qxm" +
-      "obile.protobuf.ApplyerInfo\"O\n\013ApplyerInf" +
-      "o\022\020\n\010junzhuId\030\001 \002(\003\022\016\n\006iconId\030\002 \002(\005\022\020\n\010g",
-      "ongXian\030\003 \002(\005\022\014\n\004name\030\004 \002(\t\"\033\n\013ApplyRewa" +
-      "rd\022\014\n\004site\030\001 \002(\005\"x\n\017ApplyRewardResp\022\016\n\006r" +
-      "esult\030\001 \002(\005\022\017\n\007curSite\030\002 \001(\005\022\017\n\007preSite\030" +
-      "\003 \001(\005\0223\n\013applyerInfo\030\004 \001(\0132\036.qxmobile.pr" +
-      "otobuf.ApplyerInfo\"!\n\021CancelApplyReward\022" +
-      "\014\n\004site\030\001 \002(\005\"G\n\025CancelApplyRewardResp\022\016" +
-      "\n\006result\030\001 \002(\005\022\014\n\004site\030\002 \001(\005\022\020\n\010junzhuId" +
-      "\030\003 \001(\003\",\n\nGiveReward\022\020\n\010junzhuId\030\001 \002(\003\022\014" +
-      "\n\004site\030\002 \002(\005\"N\n\016GiveRewardResp\022\016\n\006result" +
-      "\030\001 \002(\005\022\014\n\004site\030\002 \001(\005\022\014\n\004nums\030\003 \001(\005\022\020\n\010ju",
-      "nzhuId\030\004 \001(\003\"%\n\021ActiveTreasureReq\022\020\n\010idO" +
-      "fFile\030\001 \002(\005\"D\n\022ActiveTreasureResp\022\016\n\006res" +
-      "ult\030\001 \002(\005\022\n\n\002id\030\002 \001(\003\022\022\n\nbuildValue\030\003 \001(" +
-      "\005\"\036\n\020MaxDamageRankReq\022\n\n\002id\030\001 \002(\003\"F\n\021Max" +
-      "DamageRankResp\0221\n\ndamageInfo\030\001 \003(\0132\035.qxm" +
-      "obile.protobuf.DamageInfo\">\n\nDamageInfo\022" +
-      "\014\n\004rank\030\001 \002(\005\022\016\n\006damage\030\002 \002(\005\022\022\n\njunZhuN" +
-      "ame\030\003 \002(\t\"\251\001\n\024HyBuyBattleTimesResp\022\021\n\tis" +
-      "Success\030\001 \002(\005\022\022\n\ntimesOfDay\030\002 \001(\005\022\022\n\ntot" +
-      "alTimes\030\003 \001(\005\022\024\n\014buyCiShuInfo\030\004 \002(\005\022\024\n\014b",
-      "uyNextCiShu\030\005 \001(\005\022\024\n\014buyNextMoney\030\006 \001(\005\022" +
-      "\024\n\014leftBuyCiShu\030\007 \001(\005B\017B\rHuangYeProtos"
+      "\n\rHuangYe.proto\022\021qxmobile.protobuf\"\335\001\n\017O" +
+      "penHuangYeResp\022\025\n\rallianceBuild\030\002 \002(\005\0224\n" +
+      "\010treasure\030\003 \002(\0132\".qxmobile.protobuf.Huan" +
+      "gYeTreasure\022\020\n\010allTimes\030\004 \002(\005\022\023\n\013remianT" +
+      "imes\030\005 \002(\005\022\024\n\014buyCiShuInfo\030\006 \002(\005\022\024\n\014buyN" +
+      "extCiShu\030\007 \001(\005\022\024\n\014buyNextMoney\030\010 \001(\005\022\024\n\014" +
+      "leftBuyCiShu\030\t \001(\005\"O\n\017HuangYeTreasure\022\n\n" +
+      "\002id\030\001 \002(\003\022\021\n\tguanQiaId\030\002 \002(\005\022\016\n\006isOpen\030\003" +
+      " \002(\005\022\r\n\005jindu\030\004 \002(\005\"!\n\023OpenHuangYeTreasu" +
+      "re\022\n\n\002id\030\001 \002(\003\"I\n\027OpenHuangYeTreasureRes",
+      "p\022\016\n\006result\030\001 \002(\005\022\n\n\002id\030\002 \001(\003\022\022\n\nbuildVa" +
+      "lue\030\003 \001(\005\"\036\n\020HYTreasureBattle\022\n\n\002id\030\001 \002(" +
+      "\003\"\335\002\n\024HYTreasureBattleResp\022\016\n\006status\030\001 \002" +
+      "(\005\022\022\n\nbattleName\030\002 \001(\t\0224\n\010npcInfos\030\003 \003(\013" +
+      "2\".qxmobile.protobuf.TreasureNpcInfo\022\022\n\n" +
+      "timesOfDay\030\004 \002(\005\022\022\n\ntotalTimes\030\005 \002(\005\022\r\n\005" +
+      "jindu\030\006 \002(\005\022\025\n\rconditionIsOk\030\007 \002(\010\022\022\n\nre" +
+      "mainTime\030\010 \001(\005\022\016\n\006zuheId\030\t \001(\005\022\024\n\014buyCiS" +
+      "huInfo\030\n \001(\005\022\024\n\014buyNextCiShu\030\013 \001(\005\022\024\n\014bu" +
+      "yNextMoney\030\014 \001(\005\022\024\n\014leftBuyCiShu\030\r \001(\005\022\020",
+      "\n\010thisBoCi\030\016 \001(\005\022\017\n\007allBoCi\030\017 \001(\005\"C\n\017Tre" +
+      "asureNpcInfo\022\r\n\005npcId\030\001 \002(\005\022\020\n\010remainHP\030" +
+      "\002 \002(\005\022\017\n\007totalHP\030\003 \002(\005\"$\n\016ReqRewardStore" +
+      "\022\022\n\nlianmengId\030\001 \002(\005\"I\n\022ReqRewardStoreRe" +
+      "sp\0223\n\010itemInfo\030\001 \003(\0132!.qxmobile.protobuf" +
+      ".RewardItemInfo\"a\n\016RewardItemInfo\022\014\n\004sit" +
+      "e\030\001 \002(\005\022\014\n\004nums\030\002 \002(\005\0223\n\013applyerInfo\030\003 \003" +
+      "(\0132\036.qxmobile.protobuf.ApplyerInfo\"O\n\013Ap" +
+      "plyerInfo\022\020\n\010junzhuId\030\001 \002(\003\022\016\n\006iconId\030\002 " +
+      "\002(\005\022\020\n\010gongXian\030\003 \002(\005\022\014\n\004name\030\004 \002(\t\"\033\n\013A",
+      "pplyReward\022\014\n\004site\030\001 \002(\005\"x\n\017ApplyRewardR" +
+      "esp\022\016\n\006result\030\001 \002(\005\022\017\n\007curSite\030\002 \001(\005\022\017\n\007" +
+      "preSite\030\003 \001(\005\0223\n\013applyerInfo\030\004 \001(\0132\036.qxm" +
+      "obile.protobuf.ApplyerInfo\"!\n\021CancelAppl" +
+      "yReward\022\014\n\004site\030\001 \002(\005\"G\n\025CancelApplyRewa" +
+      "rdResp\022\016\n\006result\030\001 \002(\005\022\014\n\004site\030\002 \001(\005\022\020\n\010" +
+      "junzhuId\030\003 \001(\003\",\n\nGiveReward\022\020\n\010junzhuId" +
+      "\030\001 \002(\003\022\014\n\004site\030\002 \002(\005\"N\n\016GiveRewardResp\022\016" +
+      "\n\006result\030\001 \002(\005\022\014\n\004site\030\002 \001(\005\022\014\n\004nums\030\003 \001" +
+      "(\005\022\020\n\010junzhuId\030\004 \001(\003\"%\n\021ActiveTreasureRe",
+      "q\022\020\n\010idOfFile\030\001 \002(\005\"D\n\022ActiveTreasureRes" +
+      "p\022\016\n\006result\030\001 \002(\005\022\n\n\002id\030\002 \001(\003\022\022\n\nbuildVa" +
+      "lue\030\003 \001(\005\"\036\n\020MaxDamageRankReq\022\n\n\002id\030\001 \002(" +
+      "\003\"F\n\021MaxDamageRankResp\0221\n\ndamageInfo\030\001 \003" +
+      "(\0132\035.qxmobile.protobuf.DamageInfo\">\n\nDam" +
+      "ageInfo\022\014\n\004rank\030\001 \002(\005\022\016\n\006damage\030\002 \002(\005\022\022\n" +
+      "\njunZhuName\030\003 \002(\t\"\251\001\n\024HyBuyBattleTimesRe" +
+      "sp\022\021\n\tisSuccess\030\001 \002(\005\022\022\n\ntimesOfDay\030\002 \001(" +
+      "\005\022\022\n\ntotalTimes\030\003 \001(\005\022\024\n\014buyCiShuInfo\030\004 " +
+      "\002(\005\022\024\n\014buyNextCiShu\030\005 \001(\005\022\024\n\014buyNextMone",
+      "y\030\006 \001(\005\022\024\n\014leftBuyCiShu\030\007 \001(\005B\017B\rHuangYe" +
+      "Protos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -17462,13 +17130,13 @@ public final class HuangYeProtos {
           internal_static_qxmobile_protobuf_OpenHuangYeResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_OpenHuangYeResp_descriptor,
-              new java.lang.String[] { "HYMoney", "AllianceBuild", "Treasure", "AllTimes", "RemianTimes", "BuyCiShuInfo", "BuyNextCiShu", "BuyNextMoney", "LeftBuyCiShu", });
+              new java.lang.String[] { "AllianceBuild", "Treasure", "AllTimes", "RemianTimes", "BuyCiShuInfo", "BuyNextCiShu", "BuyNextMoney", "LeftBuyCiShu", });
           internal_static_qxmobile_protobuf_HuangYeTreasure_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_qxmobile_protobuf_HuangYeTreasure_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_HuangYeTreasure_descriptor,
-              new java.lang.String[] { "Id", "FileId", "IsActive", "IsOpen", "Jindu", });
+              new java.lang.String[] { "Id", "GuanQiaId", "IsOpen", "Jindu", });
           internal_static_qxmobile_protobuf_OpenHuangYeTreasure_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_OpenHuangYeTreasure_fieldAccessorTable = new

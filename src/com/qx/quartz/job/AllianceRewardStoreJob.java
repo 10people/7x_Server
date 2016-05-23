@@ -1,6 +1,7 @@
 package com.qx.quartz.job;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.quartz.Job;
@@ -27,10 +28,12 @@ public class AllianceRewardStoreJob implements Job {
 		logger.info("AllianceRewardStoreJob 开始");
 		List<AllianceBean> alncList = HibernateUtil.list(AllianceBean.class, "");
 		Date nowDate = new Date();
+		List<HYRewardStore> rewardStoreListAll = HibernateUtil.list(HYRewardStore.class,
+				" where amount > 0");
 		for(AllianceBean alliance : alncList) {
-			List<HYRewardStore> rewardStoreList = HibernateUtil.list(HYRewardStore.class,
-					" where lianmengId="+ alliance.id +" and amount > 0");
-			for(HYRewardStore rewardStore : rewardStoreList) {
+			Iterator<HYRewardStore> rewardStoreIt = rewardStoreListAll.stream().filter(b->b.lianmengId==alliance.id).iterator();
+			while(rewardStoreIt.hasNext()) {
+				HYRewardStore rewardStore = rewardStoreIt.next();
 				int site = rewardStore.site;
 				String siteCacheKey = HYMgr.CACHE_HYSTORE_APPLY + alliance.id + "_"  + site;
 				List<String> jzIdList = Redis.getInstance().lrange4String(siteCacheKey, 0, -1);

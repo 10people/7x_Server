@@ -1,5 +1,7 @@
 package com.qx.vip;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,4 +20,12 @@ public class PlayerVipInfo {
 	// vip经验
 	@Column(columnDefinition = "INT default 0")
 	public int vipExp;
+	
+	@Column(columnDefinition = "INT default 0")
+	public int yueKaRemianDay;
+	public Date lastUpdateYuekaTime;
+	
+	@Column(columnDefinition = "INT default 0")
+	/** 是否购买了终身卡：0-没有，1-购买了 **/
+	public int haveZhongShenKa;
 }

@@ -20,6 +20,9 @@ public class NpcTemp {
 	public String award;
 	public int lifebarNum = 1;
 	public int modelApID;
+	public int armor;
+	public int armorMax;
+	public float armorRatio;
 	
 	public int getId() {
 		return id;

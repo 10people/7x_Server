@@ -1,3 +1,5 @@
+<%@page import="java.util.Date"%>
+<%@page import="com.manu.dynasty.util.DateUtils"%>
 <%@page import="com.manu.dynasty.template.VIP"%>
 <%@page import="qxmobile.protobuf.VIP.RechargeReq"%>
 <%@page import="com.manu.dynasty.boot.GameServer"%>
@@ -99,6 +101,14 @@ if(session.getAttribute("name") != null && name.length()==0){
 	            }
             	junzhu.vipLevel = v;
                 HibernateUtil.save(junzhu);
+			 }else if("yuekaday".equals(action)){
+				    int v = Integer.parseInt(request.getParameter("v")); 
+				    VipRechargeRecord r = VipMgr.INSTANCE.getLatestYuaKaRecord(junzhu.id);
+				    if(r != null){
+				    	int day = DateUtils.daysBetween(r.time, new Date());
+			    		r.yueKaValid = v + day;
+			    		HibernateUtil.save(r);
+				    }
 			 }
 
 			playerVipInfo = HibernateUtil.find(PlayerVipInfo.class, junzhu.id);
@@ -116,13 +126,19 @@ if(session.getAttribute("name") != null && name.length()==0){
  			只能选择::6， 28， 68， 98， 198， 328， 648::<br>
  			充值（单位：rmb）：（将会模仿游戏中的充值接口给予充值）</div><%
  			br();
- 			out.println("<input type='text' id='vipRecharge' value='"+input+"'/><input type='button' value='充值' onclick='go(\"vipRecharge\")'/><br/><br/<hr/>>");
+ 			out.println("<input type='text' id='vipRecharge' value='"+input+"'/><input type='button' value='充值' onclick='go(\"vipRecharge\")'/><br/><br/<hr/>");
  			%><div style="color: #FF0000">修改VIP等级:</br>可以修改到1~xxx(看配置最大值),任意VIP等级，仅仅修改的是VIP等级和对应的VIP经验，君主元宝数不会发生任何变化</div><%
  			input = request.getParameter("value");
             if(input == null){
                 input = junzhu.vipLevel +"";
             }
- 			out.println("<input type='text' id='jiangji' value='"+input+"'/><input type='button' value='修改VIP等级' onclick='go(\"jiangji\")'/><br/><br/<hr/>>");
+ 			out.println("<input type='text' id='jiangji' value='"+input+"'/><input type='button' value='修改VIP等级' onclick='go(\"jiangji\")'/><br/><br/<hr/>");
+ 			input = request.getParameter("value");
+ 			if(input == null){
+ 				 VipRechargeRecord r = VipMgr.INSTANCE.getLatestYuaKaRecord(junzhu.id);
+ 				input = r== null?(0+""): ""+(r.yueKaValid - DateUtils.daysBetween(r.time, new Date()));;
+ 			}
+ 			out.println("<input type='text' id='yuekaday' value='"+input+"'/><input type='button' value='修改月卡剩余领奖天数' onclick='go(\"yuekaday\")'/><br/><br/<hr/>");
  			
  			List<VipRechargeRecord> recordList = HibernateUtil.list(VipRechargeRecord.class, "  where accId= " + junzhu.id);
  			out.append("充值记录：");

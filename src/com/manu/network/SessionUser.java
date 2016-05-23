@@ -8,7 +8,6 @@ import org.apache.mina.core.session.IoSession;
  *
  */
 public class SessionUser {
-	public Long sessoinId;
 	public String account;
 	public IoSession session;
 }

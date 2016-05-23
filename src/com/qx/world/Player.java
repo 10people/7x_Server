@@ -2,7 +2,10 @@ package com.qx.world;
 
 import java.util.Set;
 
+import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
+
+import com.google.protobuf.ByteString;
 
 import qxmobile.protobuf.PlayerData;
 import qxmobile.protobuf.PlayerData.State;
@@ -26,6 +29,8 @@ public class Player extends Sprite{
 	public int horseType;//马车类型
 	public int xuePingRemain;
 	public Set<Integer> visbileUids;
+	public ByteString infoCache;
+	public IoBuffer fullCache;
 	public Player(){
 		pState = PlayerData.State.State_LOADINGSCENE;
 	}

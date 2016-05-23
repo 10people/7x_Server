@@ -36,7 +36,7 @@ public class UserBuffer {
 	public void addBuffer(Buffer buffer) {
 		Buffer existBuff = null;
 		for(Buffer buff : bufferList) {
-			if(buff.getId() == buffer.getId()) {
+			if(buff.buffConf == buffer.buffConf) {
 				existBuff = buff;
 			}
 		}

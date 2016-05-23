@@ -10,7 +10,7 @@ import com.manu.network.PD;
 import com.manu.network.msg.ProtobufMsg;
 
 public class FunctionID {
-	public static Logger log = LoggerFactory.getLogger(FunctionID.class);
+	public static Logger log = LoggerFactory.getLogger(FunctionID.class.getSimpleName());
 	//国家-上缴
 	public static int guoJia = 212;
 	public static int ShangJiao4Gongjin=500020;
@@ -23,6 +23,8 @@ public class FunctionID {
 	public static int tieJiang = 12; // 铁匠
 	public static int XiLian=1210; //铁匠-洗练
 	public static int QiangHua = 1212; //铁匠-强化
+	public static int XiangQian = 1213;//铁匠-镶嵌
+	
 	
 	public static int shiLian = 250; //试练
 	public static int youXia = 300;	// 试练-游侠
@@ -34,6 +36,8 @@ public class FunctionID {
 	public static int baizhan = 300100;
 	public static int baizhanCount = 300103;
 	public static int baiZhanRecord = 300105;
+	public static int baiLingJiang = 300108;
+	
 
 	public static int junZhu = 200; // 角色
 	public static int JiNengJinJie = 500007; //角色-技能进阶
@@ -135,12 +139,12 @@ public class FunctionID {
 	public static int youxiang_person = 10; // 邮箱 -私信
 
 	//福利
-	public static final int yuekafuli=1392;//月卡福利
+	public static final int yuekafuli=1393;//月卡福利
 	public static final int tilifuli=1391;//体力福利
 	public static final int fengcehongbao=1390;//封测红包福利
 	//推送某功能红点可以出现 和前段约定code为负数时红点消失
 	public static void pushCanShowRed(long jzId,IoSession session,int Code){
-		log.info("向君主{}推送--<{}>可以出现提示红点",jzId,Code);
+//		log.info("向君主{}推送--<{}>可以出现提示红点",jzId,Code);
 		ErrorMessage.Builder resp=ErrorMessage.newBuilder();
 		resp.setErrorCode(Code);
 		ProtobufMsg pm = new ProtobufMsg();

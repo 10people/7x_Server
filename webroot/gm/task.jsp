@@ -92,9 +92,10 @@ function go(act, id, type){
 					String v = request.getParameter("tid");
 					if(v != null & v.length()>0){
 						List<WorkTaskBean> list = HibernateUtil.list(WorkTaskBean.class, 
-								"where dbId>="+start+" and dbId<"+end);
+								"where jzId>="+junzhu.id);
 						WorkTaskBean b = new WorkTaskBean();
-						b.dbId = junzhu.id*100 + list.size();
+						//b.dbId = junzhu.id*100 + list.size();
+						b.jzid = junzhu.id;
 						b.tid = Integer.valueOf(v);
 						b.progress = 0;
 						HibernateUtil.save(b);
@@ -182,7 +183,7 @@ function go(act, id, type){
 				int lastHeroId = 0;
 				
 				List<WorkTaskBean> list = HibernateUtil.list(WorkTaskBean.class, 
-						"where dbId>="+start+" and dbId<"+end);
+						"where jzid="+junzhu.id);
 				for(WorkTaskBean bean : list){
 					out.append("<tr>");
 					out.append("<td>"+bean.dbId+"</td>");		
