@@ -12,11 +12,12 @@ package com.manu.dynasty.template;
  *
  */
 public class LMZBuildingTemp {
+	public String name;
 	public int id;
 	public int type;
 	public int side;
-	public int x;
-	public int y;
+	public float x;
+	public float y;
 	public int zhanlingzhiMax;
 	public int criticalValue;
 	public int zhanlingzhiAdd;

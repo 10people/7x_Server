@@ -1,5 +1,6 @@
 package com.manu.network;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import log.parser.ReasonMgr;
@@ -31,10 +32,10 @@ import com.qx.activity.QiandaoMgr;
 import com.qx.activity.ShouchongMgr;
 import com.qx.activity.StrengthGetMgr;
 import com.qx.activity.XianShiActivityMgr;
-import com.qx.alliance.AlianceJuanXianMgr;
+import com.qx.alliance.AllianceJuanXianMgr;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AllianceVoteMgr;
-import com.qx.alliance.FengShanMgr;
+//import com.qx.alliance.FengShanMgr;
 import com.qx.alliance.HouseMgr;
 import com.qx.alliance.MoBaiMgr;
 import com.qx.alliance.building.JianZhuMgr;
@@ -149,7 +150,7 @@ public class BigSwitch {
 	public ExploreMgr exploreMgr;
 //	public PawnshopMgr pawnshopMgr;
 	public AllianceMgr allianceMgr;
-	public FengShanMgr fengshanMgr;
+//	public FengShanMgr fengshanMgr;
 	public AllianceVoteMgr allianceVoteMgr;
 	public UserEquipAction userEquipAction;
 	public HYMgr hyMgr;
@@ -192,7 +193,10 @@ public class BigSwitch {
 	public GrowthFundMgr growthFundMgr;
 	public StrengthGetMgr strengthGetMgr;
 	public LevelUpGiftMgr levelUpGiftMgr;
-	public AlianceJuanXianMgr juanXianMgr;
+	public AllianceJuanXianMgr juanXianMgr;
+	public ChatMgr chatMgr;
+	public ChenghaoMgr chenghaoMgr;
+	public BidMgr bidMgr;
 	public static BigSwitch getInst() {
 		if (inst == null) {
 			new BigSwitch();
@@ -207,15 +211,15 @@ public class BigSwitch {
 
 	protected void initProxy() {
 		new ReasonMgr();
-		new BidMgr();
 		new MiBaoV2Mgr();
 		new TXQueryMgr().start();
-		yuanbaoMgr = new YuanBaoMgr();
 		eventMgr = new EventMgr();
+		yuanbaoMgr = new YuanBaoMgr();
 		settingsMgr = new SettingsMgr();
 		gameTaskMgr = new GameTaskMgr();
 		dailyAwardMgr = new DailyAwardMgr();
 		pvpMgr = new PvpMgr();
+		chatMgr = new ChatMgr();
 
 		jmMgr = new JmMgr();
 		equipMgr = new EquipMgr();
@@ -252,7 +256,7 @@ public class BigSwitch {
 		exploreMgr = new ExploreMgr();
 //		pawnshopMgr = new PawnshopMgr();
 		allianceMgr = new AllianceMgr();
-		fengshanMgr=new FengShanMgr();
+//		fengshanMgr=new FengShanMgr();
 		allianceVoteMgr = new AllianceVoteMgr();
 		moBaiMgr = new MoBaiMgr();
 		JianZhuMgr.inst = new JianZhuMgr();
@@ -273,7 +277,7 @@ public class BigSwitch {
 		xsActivityMgr=new XianShiActivityMgr();
 		noticeMgr = new NoticeMgr();
 		lveDuoMgr = new LveDuoMgr(); // 掠夺管理类实例化
-		new ChenghaoMgr();
+		chenghaoMgr = new ChenghaoMgr();
 		new GrowUpMgr();
 		fuwenMgr = new FuwenMgr();
 		allianceFightMgr = new AllianceFightMgr();
@@ -299,12 +303,13 @@ public class BigSwitch {
 		growthFundMgr = new GrowthFundMgr();
 		strengthGetMgr = new StrengthGetMgr();
 		levelUpGiftMgr = new LevelUpGiftMgr();
-		juanXianMgr = new AlianceJuanXianMgr();
+		juanXianMgr = new AllianceJuanXianMgr();
+		bidMgr = new BidMgr();
 	}
 
 	public void loadModuleData() {
 		allianceMgr.inst.initData();
-		fengshanMgr.inst.initData();
+//		fengshanMgr.inst.initData();
 		mibaoMgr.inst.initData();
 //		pawnshopMgr.inst.initData();
 		exploreMgr.inst.initData();
@@ -334,6 +339,11 @@ public class BigSwitch {
 		allianceFightMgr.initData();
 		chongLouMgr.initData();
 		lieFuMgr.initData();
+		chenghaoMgr.init();
+		bidMgr.init();
+		growthFundMgr.init();
+		levelUpGiftMgr.init();
+		strengthGetMgr.init();
 	}
 
 	protected void setInst() {
@@ -439,6 +449,10 @@ public class BigSwitch {
 				session.write(PD.DEBUG_PROTO_WITHOUT_CONTENT_RET);
 				break;
 			case PD.C_TEST_DELAY:
+				if(builder==null){
+					log.error("builder is null when test delay");
+					break;
+				}
 				ProtobufMsg msg4delay = new ProtobufMsg();
 				msg4delay.id = PD.S_TEST_DELAY;
 				msg4delay.builder = builder;
@@ -475,6 +489,7 @@ public class BigSwitch {
 			case PD.EXIT_FIGHT_SCENE:
 			case PD.Enter_YBScene:
 			case PD.Exit_YBScene:
+			case PD.FIGHT_ATTACK_REQ:
 				// scene.exec(id, session, builder);
 				scMgr.route(id, session, builder);
 				break;
@@ -493,6 +508,9 @@ public class BigSwitch {
 			case PD.C_CITYWAR_BID_REQ:
 				BidMgr.inst.cityWarBidPageInfo(id,session,builder);
 				break;
+			case PD.C_CITYWAR_SCORE_RESULT_REQ:
+				BidMgr.inst.getScoreResult(id,session,builder);
+				break;
 			case PD.SKILL_PREPARE:
 			case PD.POS_JUMP:
 			case PD.AOE_SKILL:
@@ -505,6 +523,7 @@ public class BigSwitch {
 			case PD.LMZ_SCORE_LIST:
 			case PD.LMZ_FuHuo:
 			case PD.LMZ_CMD_ONE:
+			case PD.LMZ_fenShen:
 				scMgr.route(id, session, builder);
 				break;
 			case PD.C_ENTER_LMZ:
@@ -806,9 +825,14 @@ public class BigSwitch {
 //				mibaoMgr.getAwardWhenFullStar(session, id);
 //				break;
 			case PD.C_CLOSE_TAN_BAO_UI:{
-				String template = (String) session.getAttribute("MiBaoBDCache");//, template);
-				if(template != null){
-					BroadcastMgr.inst.send(template);
+				List<String> broadList = (List<String>) session.getAttribute("MiBaoBDCache");
+				if(broadList != null){
+					for( String template : broadList ){
+						if(template != null){
+							BroadcastMgr.inst.send(template);
+						}
+					}
+					broadList.removeAll(broadList);
 				}
 			}
 				break;
@@ -1243,9 +1267,11 @@ public class BigSwitch {
 			case PD.ALLIANCE_FIGHT_APPLY:
 				allianceFightMgr.applyFight(session);
 				break;
+				/* 挪到场景里去处理
 			case PD.FIGHT_ATTACK_REQ:
 				fightMgr.activeFight(id, session, builder);
 				break;
+				*/
 			case PD.ALLIANCE_BATTLE_FIELD_REQ:
 				allianceFightMgr.requestBattlefieldInfo(session);
 				break;
@@ -1350,6 +1376,9 @@ public class BigSwitch {
 			case PD.NEW_MISHU_JIHUO:
 				MiBaoV2Mgr.inst.miShuJiHuo(id,session,builder);
 				break;
+			case PD.S_SEND_MIBAO_INFO:
+				MiBaoV2Mgr.inst.sendMiBaoInfo(id,session,builder);
+				break;
 			case PD.ACTIVITY_MONTH_CARD_INFO_REQ:
 				MonthCardMgr.inst.monthCardInfo(id,session,builder);
 				break;
@@ -1376,6 +1405,9 @@ public class BigSwitch {
 				break;
 			case PD.ACTIVITY_LEVEL_INFO_REQ:
 				LevelUpGiftMgr.inst.getLevelUpGiftInfo(id,session,builder);
+				break;
+			case PD.C_YOUXIA_CLEAR_COOLTIME:
+				youXiaMgr.clearCooltime(id,session,builder);
 				break;
 			default:
 				log.error("未处理的协议 {} {}", id, builder);

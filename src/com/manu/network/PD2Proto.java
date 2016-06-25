@@ -20,12 +20,17 @@ import qxmobile.protobuf.AllianceFightProtos.CityWarOperateReq;
 import qxmobile.protobuf.AllianceFightProtos.CityWarOperateResp;
 import qxmobile.protobuf.AllianceFightProtos.CityWarRewardReq;
 import qxmobile.protobuf.AllianceFightProtos.CityWarRewardResp;
+import qxmobile.protobuf.AllianceFightProtos.CityWarScoreResultReq;
+import qxmobile.protobuf.AllianceFightProtos.CityWarScoreResultResp;
 import qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest;
 import qxmobile.protobuf.BattlePveResult.BattleResult;
 import qxmobile.protobuf.Chat.ChatSettings;
+import qxmobile.protobuf.ChengHaoProto.ChengHaoList;
+import qxmobile.protobuf.ChengHaoProto.ChengHaoListReq;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.Explore.ExploreResp;
 import qxmobile.protobuf.JunZhuProto.TalentUpLevelReq;
+import qxmobile.protobuf.MibaoProtos.MibaoInfoResp;
 import qxmobile.protobuf.Qiandao.GetVipDoubleReq;
 import qxmobile.protobuf.Qiandao.QiandaoResp;
 import qxmobile.protobuf.Yabiao.BuyXuePingReq;
@@ -35,6 +40,7 @@ public class PD2Proto extends PD{
 	public MessageLite map(int pd){
 		switch(pd){
 		case C_CHECK_CHARGE:
+		case S_SEND_CHAT_ERROR:
 			return ErrorMessage.getDefaultInstance();
 		case LMZ_BUY_ZhaoHuan:
 		case LMZ_BUY_XueP:
@@ -121,6 +127,18 @@ public class PD2Proto extends PD{
 			return ErrorMessage.getDefaultInstance();
 		case PD.C_CITYWAR_GRAND_REQ:
 			return CityWarRewardReq.getDefaultInstance();
+		case PD.C_LIST_CHENG_HAO:
+			return ChengHaoListReq.getDefaultInstance();
+		case PD.S_LIST_CHENG_HAO:
+			return ChengHaoList.getDefaultInstance();
+		case PD.C_CITYWAR_SCORE_RESULT_REQ:
+			return CityWarScoreResultReq.getDefaultInstance();
+		case PD.S_CITYWAR_SCORE_RESULT_RESP:
+			return CityWarScoreResultResp.getDefaultInstance();
+		case PD.LMZ_fenShen:
+			return ErrorMessage.getDefaultInstance();
+		case PD.S_SEND_MIBAO_INFO:
+			return MibaoInfoResp.getDefaultInstance();
 		}
 		return null;
 	}

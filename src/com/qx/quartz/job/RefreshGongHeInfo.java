@@ -22,6 +22,7 @@ public class RefreshGongHeInfo  implements Job {
 	private Logger log = LoggerFactory.getLogger(RefreshGongHeInfo.class);
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
+		if(ClearPromptJob.doIt==false)return;
 		log.info("开始刷新恭贺信息");
 		refresh4FirsBZ();
 		refresh4FirsLMOpen();

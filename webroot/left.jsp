@@ -42,7 +42,6 @@
 <!-- <a href="gm/lianmenginfo.jsp" target='target'>联盟信息</a><br/> -->
 <a href="gm/allianceInfo.jsp" target='target'>联盟信息</a><br/>
 <a href="gm/lianmengJibai.jsp" target='target'>联盟祭拜</a><br/>
-<a href="gm/allianceFight.jsp" target='target'>联盟战管理</a><br/>
 <a href="gm/cityWar.jsp" target='target'>城池信息管理</a><br/>
 <a href="gm/shop.jsp" target='target'>各大商店管理</a><br/>
 <a href="gm/moBai.jsp" target='target'>膜拜</a><br/>

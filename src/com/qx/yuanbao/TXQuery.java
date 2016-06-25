@@ -7,14 +7,15 @@ import com.manu.dynasty.util.DateUtils;
 public class TXQuery {
 	public Date dt=new Date();
 	public String params;
-	public long optime;
 	public long jzId;
 	public int pre_save_amt;
 	public int new_save_amt;
 	public int balance;
+	public int buyItemId;
 	
 	//扣款用/赠送，其他情况请勿使用
 	public int diff;
+	public int retry;//重试次数
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();

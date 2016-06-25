@@ -9,12 +9,6 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.BagOperProtos.EquipAddReq;
-import qxmobile.protobuf.BagOperProtos.EquipDetail;
-import qxmobile.protobuf.BagOperProtos.EquipDetailReq;
-import qxmobile.protobuf.BagOperProtos.EquipRemoveReq;
-import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
-
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.hero.service.HeroService;
@@ -32,12 +26,18 @@ import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
+import com.qx.hero.HeroMgr;
 import com.qx.jinengpeiyang.JiNengPeiYangMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
-import com.qx.persistent.LRUCache;
 import com.qx.persistent.MC;
+
+import qxmobile.protobuf.BagOperProtos.EquipAddReq;
+import qxmobile.protobuf.BagOperProtos.EquipDetail;
+import qxmobile.protobuf.BagOperProtos.EquipDetailReq;
+import qxmobile.protobuf.BagOperProtos.EquipRemoveReq;
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 
 /**
  * 管理武器的穿上，卸下。
@@ -360,8 +360,8 @@ public class EquipMgr extends EventProc{
 		}
 		HibernateUtil.save(eg);
 		log.info("add equip {} {} to {}",eg.itemId, eg.instId, equips.ownerId);
-		BagMgr.inst.sendBagInfo(session, bag);
 		BagMgr.inst.sendEquipInfo(session, equips);
+		BagMgr.inst.sendBagInfo(session, bag);
 		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		// 事件管理中添加穿装备事件
 		EventMgr.addEvent(ED.EQUIP_ADD, new Object[]{equips.ownerId, zb.getId(), equips});
@@ -527,6 +527,21 @@ public class EquipMgr extends EventProc{
 			zbIdList.add(eg.itemId);
 		}
 		return zbIdList;
+	}
+	
+	public boolean isEquipGongJian(JunZhu junzhu) {
+		List<Integer> zbIdList = EquipMgr.inst.getEquipCfgIdList(junzhu);
+		for(Integer zbid : zbIdList){
+			ZhuangBei zhuangBei = HeroMgr.id2ZhuangBei.get(zbid);
+			if (zhuangBei == null) {
+				log.error("装备不存在，id是: " + String.valueOf(zbid));
+				continue;
+			}
+			if(zhuangBei.getBuWei() == HeroMgr.WEAPON_RANGED) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	@Override

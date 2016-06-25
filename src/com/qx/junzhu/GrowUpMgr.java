@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -96,6 +97,7 @@ public class GrowUpMgr {
 			return;
 		}
 		UpAction_S_getData3.Builder ret = UpAction_S_getData3.newBuilder();
+		/*
 		{//宝石
 			Page3Data.Builder b = Page3Data.newBuilder();
 			b.setCurLevel(FuwenMgr.inst.getFushiCurLevel(jz.id, 2));
@@ -109,10 +111,11 @@ public class GrowUpMgr {
 			ret.addPageData(b.build());
 			
 		}
+		*/
 		{//符文
 			Page3Data.Builder b = Page3Data.newBuilder();
 			b.setCurLevel(FuwenMgr.inst.getFushiCurLevel(jz.id, 1));
-			b.setMaxLevel(FuwenMgr.inst.getFushiMaxLevel(jz.id, 1));
+			b.setMaxLevel(24 * 36/*FuwenMgr.inst.getFushiMaxLevel(jz.id, 1)*/);
 //			2016年5月12日20:37:11 报空指针，先关闭
 //			List<Fuwen> list = FuwenMgr.inst.getFuShiTuijian(jz.id, 1);
 //			for(Fuwen fw : list){
@@ -263,42 +266,40 @@ public class GrowUpMgr {
 		int sumPinZhi = 0;
 		UserEquip ues[] = new UserEquip[9];
 		String qhSort[] = new String[9];
-		String jinJieSort[] = new String[9];
+		
 		//龌龊的排序方法，前面是排序的值，后面是格子的下标
-		Arrays.fill(qhSort, "99999:8888");
-		Arrays.fill(jinJieSort, "99999:8888");
+		Arrays.fill(qhSort, "99999:99999:99:8888");
+
 		int idx = -1;
 		for(EquipGrid bg : equips.grids){
 			idx++;
 			if(bg == null || bg.itemId<=0){
 				continue;
 			}
-			for(ZhuangBeiDiaoluo dl : diaoLuoList){
-				if(dl.zhuangbeiId == bg.itemId){
-					jinJieSort[idx] = String.format("%02d",dl.id)+":"+idx;
-					break;
-				}
-			}
+			ZhuangBei equipTemp = TempletService.getInstance().getZhuangBei(bg.itemId);
+			if(equipTemp == null) continue;
 			BaseItem bi = TempletService.itemMap.get(bg.itemId);
 			sumPinZhi += bi == null ? 0 : bi.getPinZhi();
 			if(bg.instId<=0){
-				qhSort[idx] = "0:"+idx;
+				qhSort[idx] = "00000:00000:"+equipTemp.buWei+":"+idx;
 				continue;
 			}
 			UserEquip ue = HibernateUtil.find(UserEquip.class, bg.instId);
 			if(ue == null){
-				qhSort[idx] = "0:"+idx;
+				qhSort[idx] = "00000:00000:"+equipTemp.buWei+":"+idx;
 				continue;
 			}
 			ues[idx] = ue;
 			int ue_level = ue.getLevel();
 			sumQHlv+=ue_level;
 			if(ue_level<jz.level){
-				qhSort[idx] = ue.getLevel()+":"+idx;
+				qhSort[idx] = String.format("%05d",ue.getLevel() )+":"
+									+ String.format("%05d",ue.getExp() )+":"
+									+ String.format("%05d",equipTemp.buWei)+":"
+									+ idx;
 			}
 		}
 		Arrays.sort(qhSort);
-		Arrays.sort(jinJieSort);
 		//a)	等级成长进度=（（装备当前等级之和/9）/当前强化上限）*100%（四舍五入取整显示）
 		int maxQH = jz.level;
 		int qhLv = Math.round(sumQHlv / 9.0f );
@@ -312,7 +313,7 @@ public class GrowUpMgr {
 			for(int i=0; i<9; i++){
 				String lv = qhSort[i];
 				if(lv.startsWith("99999:"))break;//已经排序了，一旦不满足，后面的都不满足
-				int gridIdx = Integer.parseInt(lv.substring(lv.indexOf(":")+1));
+				int gridIdx = Integer.parseInt(lv.split(":")[3]);
 				Page1ZhuangbeiData.Builder zb = Page1ZhuangbeiData.newBuilder();
 				zb.setId(equips.grids.get(gridIdx).itemId);
 				zb.setText("身上装备");
@@ -322,82 +323,29 @@ public class GrowUpMgr {
 			ret.addPageData(b.build());
 			///////////////////////////////////强化处理结束
 		}
+		Map<Integer,UserEquip> ueMap = new HashMap<Integer,UserEquip>();
+		Arrays.asList(ues).stream().filter(u -> u != null )
+		.forEach(u -> ueMap.put(u.getEquipId(), u));
 		TempletService template = TempletService.getInstance();
 		{
 			Page1Data.Builder b = Page1Data.newBuilder();
 			b.clearZhuangbeiData();
 			//进阶
-			//X为当前所有部位品质之和，Y为所有部位装备品质之和（当前版本为72）
+			//X为当前所有部位品质之和，Y为所有部位装备品质之和（当前版本为63）
 			b.setCurLevel(sumPinZhi);
-			b.setMaxLevel(99);
-			{//计算进阶推荐
-				//a)	进阶材料足够但玩家没点进阶的装备优先级最高
-				idx = -1;
-				int daoId = 0;
-				for(EquipGrid bg : equips.grids){
-					idx++;
-					if(bg == null || bg.itemId<=0){
-						continue;
-					}
-					if(idx == 3)daoId = bg.itemId;
-					ZhuangBei zhuangBeiTmp = template.getZhuangBei(bg.itemId);
-					if(zhuangBeiTmp == null)continue;
-					int jinJieLV = zhuangBeiTmp.getJinjieLv();
-					if (jz.level < jinJieLV) continue;
-					int jinJieZbId = zhuangBeiTmp.getJiejieId();
-					if (jinJieZbId <= 0) continue;
-					int jinJieItemId = zhuangBeiTmp.getJinjieItem();
-					int jinJieNum = zhuangBeiTmp.getJinjieNum();
-					int haveNum = BagMgr.inst.getItemCount(bag, jinJieItemId);
-					if(haveNum<jinJieNum)continue;
-					//
-					Page1ZhuangbeiData.Builder zb = Page1ZhuangbeiData.newBuilder();
-					zb.setId(bg.itemId);
-					zb.setText("身上装备");
+			b.setMaxLevel(63);
+			Map<Integer, String> jinJieTuiJian = UserEquipAction.instance.getJinJieTuiJian(jz, ueMap);
+			for(int key : jinJieTuiJian.keySet()){
+				Page1ZhuangbeiData.Builder zb = Page1ZhuangbeiData.newBuilder();
+				zb.setId(key);
+				zb.setText(jinJieTuiJian.get(key));
+				if(zb.getText().equals("身上装备")){
 					zb.setType(0);
-					b.addZhuangbeiData(zb.build());	
+				}else{
+					zb.setType(1);
 				}
-				boolean 已推荐刀 = false;
-				if(b.getZhuangbeiDataCount()<3){
-					//b)	若当前装备中存在七日礼包奖励进阶的装备，将最快获得的装备推荐出来
-					//峻宇说只计算大刀就可以了。
-					List<QiRiLiBao> daoList = TempletService.listAll(QiRiLiBao.class.getSimpleName());
-					for(QiRiLiBao dao : daoList){
-						if(dao.zhuangbeiId>daoId){
-							Page1ZhuangbeiData.Builder zb = Page1ZhuangbeiData.newBuilder();
-							zb.setId(dao.zhuangbeiId);
-							zb.setText("七日礼包中第XX天获得".replace("XX", String.valueOf(dao.day)));
-							zb.setType(1);
-							b.addZhuangbeiData(zb.build());	
-							已推荐刀 = true;
-							break;
-						}
-					}
-				}
-				int size = b.getZhuangbeiDataCount();
-				{
-					//c)	依据进阶材料掉落的精英关卡从先到后的顺序将当前装备排序，
-					//把推荐装备补充到三个以上，达到满阶的装备不推荐；
-					//装备掉落的关卡顺序读..\..\数值文档\ZhuangBeiDiaoluo.xlsx
-					for(int i=0; i<9 && size<3; i++){
-						String lv = jinJieSort[i];
-						if(lv.startsWith("99999:"))break;//已经排序了，一旦不满足，后面的都不满足
-						int gridIdx = Integer.parseInt(lv.substring(lv.indexOf(":")+1));
-						Page1ZhuangbeiData.Builder zb = Page1ZhuangbeiData.newBuilder();
-						int itemId = equips.grids.get(gridIdx).itemId;
-						if(已推荐刀  && itemId == daoId){
-							continue;
-						}
-						ZhuangBei zhuangBeiTmp = template.getZhuangBei(itemId);
-						if(zhuangBeiTmp==null)continue;
-						if(zhuangBeiTmp.getJiejieId()<=0)continue;
-						zb.setId(itemId);
-						zb.setText("身上装备");
-						zb.setType(0);
-						b.addZhuangbeiData(zb.build());	
-						size++;
-					}
-				}
+				b.addZhuangbeiData(zb.build());	
+				log.info("装备{}加入推荐",zb.getId());
 			}
 			ret.addPageData(b.build());
 		}
@@ -452,9 +400,7 @@ public class GrowUpMgr {
 					UserEquip dbUe = ues[idx];
 					if(zhuangBeiTmp.getPinZhi()>1){//可洗练
 						if(dbUe == null){
-							xlSort[idx] = "0:"+bg.itemId;
-						}else{
-							xlSort[idx] = dbUe.getXianlianzhi()+":"+bg.itemId;
+							xlSort[idx] = "0000:"+bg.itemId;
 						}
 					}
 					int singleJinDu = 0;
@@ -475,6 +421,9 @@ public class GrowUpMgr {
 							try {
 								v = (Integer) ms[ff].invoke(zhuangBeiTmp);
 								v2 = dbUe == null ? 0 : (Integer) msUE[ff].invoke(dbUe);
+								if(UserEquipAction.instance.hasEquipTalent(dbUe, zhuangBeiTmp.id, (String)fs[ff].get(null)) ){
+									v2+=v;
+								}
 							} catch (Exception e) {
 								log.error("反射出错C", e);
 								continue;
@@ -482,11 +431,17 @@ public class GrowUpMgr {
 							int maxJnSH=UserEquipAction.instance.getXiLianMaxValue(v, zhuangBeiTmp, dbUe == null? 0 :dbUe.getLevel());
 							singleMax += maxJnSH > 0 ? maxJnSH : 0;
 							singleJinDu += Math.abs(v2);
-							log.info("{},{},{}", ms[ff].getName(), maxJnSH, v2);
+							log.info("{},{},{}", ms[ff].getName(), maxJnSH, v2 );
 						//}
 					}
 					if(singleMax>0){
 						sumXiLian += singleJinDu*100f/(singleMax/2);//有8条属性，实际之能洗出4条，所以总值除以2
+						int jinDuOne = singleJinDu*100/(singleMax/2);
+						if(jinDuOne >= 100 ){//洗满了
+							xlSort[idx] = "9999:"+bg.itemId;
+						}else{
+							xlSort[idx] = String.format("%04d", jinDuOne )+":"+bg.itemId;
+						}
 					}
 					
 				}
@@ -505,7 +460,7 @@ public class GrowUpMgr {
 						b.addZhuangbeiData(zb.build());	
 					}
 				}
-				log.info("洗练 {},{}", sumXiLian, sumMaxXiLian);
+				log.info("洗练 {},{},百分比{}", sumXiLian, sumMaxXiLian,b.getCurLevel());
 			}
 			ret.addPageData(b.build());
 		}
@@ -611,29 +566,36 @@ public class GrowUpMgr {
 			MiBaoV2Mgr.inst.sendMainInfo(0, session, null);
 			MibaoInfoResp.Builder resp = (MibaoInfoResp.Builder)session.removeAttribute("Calc4GrowRet");
 			int curProg = 0;
-			int maxProg = 9;
+			//随时注意文档变更，修改此处最大值
+			int maxProg = 54;
 			if(resp == null){
 			}else{
-				curProg = resp.getLevelPoint();
+				curProg = resp.getLevelPoint()*9;
 			}
 			Page2Data.Builder mb = Page2Data.newBuilder();
-			mb.setCurLevel(curProg);
 			mb.setMaxLevel(maxProg);
-			int[] ids = new int[9];
+//			int[] ids = new int[9];
+			String[] ids = new String[9];
+			Arrays.fill(ids, "0000,0");
 			for(int i=0;i<9;i++){
 				MibaoInfo m = resp.getMiBaoList(i);
 				if(m.getStar()>0){
-					ids[i] = 99999999;//已激活
+					ids[i] = "####,"+m.getMiBaoId();//已激活
+					curProg++;
 				}else{
-					ids[i] = m.getMiBaoId();
+					//投机：同一级别的秘宝所需碎片数量相同，所以碎片越多的需要碎片越少
+					ids[i] = String.format("%04d", m.getSuiPianNum())+","+m.getMiBaoId();
 				}
 			}
-			Arrays.sort(ids);
+			mb.setCurLevel(curProg);
+			Arrays.sort(ids,Collections.reverseOrder());
 			for(int i=0;i<3;i++){
-				int id = ids[i];
-				if(id<99999999){
-					mb.addMibaoDataId(id);
+				if(ids[i].startsWith("####,")){
+					break;
 				}
+				String idStr = ids[i].split(",")[1];
+				int id = Integer.parseInt(idStr);
+				mb.addMibaoDataId(id);
 			}
 			ret.setMibaoNew(mb);
 		}//

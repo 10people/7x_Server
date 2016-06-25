@@ -17,6 +17,8 @@ public class JCZCity {
 	public int sceneId;
 	public int soundId;
 	public int recZhanli;
+	public String NPCname;
+	
 	public int getId() {
 		return id;
 	}
@@ -112,5 +114,11 @@ public class JCZCity {
 	}
 	public void setRecZhanli(int recZhanli) {
 		this.recZhanli = recZhanli;
+	}
+	public String getNPCname() {
+		return NPCname;
+	}
+	public void setNPCname(String nPCname) {
+		NPCname = nPCname;
 	}
 }

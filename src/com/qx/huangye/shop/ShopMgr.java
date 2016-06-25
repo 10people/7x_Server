@@ -50,6 +50,8 @@ import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.PurchaseConstants;
 import com.qx.purchase.PurchaseMgr;
 import com.qx.pvp.PvpMgr;
+import com.qx.task.DailyTaskCondition;
+import com.qx.task.DailyTaskConstants;
 import com.qx.task.DailyTaskMgr;
 import com.qx.timeworker.FunctionID;
 import com.qx.util.JsonUtils;
@@ -57,7 +59,6 @@ import com.qx.util.RandomUtil;
 import com.qx.vip.VipData;
 import com.qx.vip.VipMgr;
 import com.qx.yuanbao.YBType;
-import com.qx.yuanbao.YuanBaoInfo;
 import com.qx.yuanbao.YuanBaoMgr;
 
 import log.ActLog;
@@ -1093,6 +1094,8 @@ public class ShopMgr extends EventProc {
 	}
 
 	public void sendRedNotice(long jzid, int level, IoSession session){
+		// 2016年6月13日 15:33:34需求变更，除了武备坊，其他都不要红点
+		/*
 		long start = jzid * shop_space;
 		long end = start + shop_space;
 		List<PublicShop> list = HibernateUtil.list(PublicShop.class, 
@@ -1118,6 +1121,15 @@ public class ShopMgr extends EventProc {
 			}
 			if(shop.openTime == null || isSendRed(shop.openTime, now)){
 				FunctionID.pushCanShowRed(jzid, session, funcid);
+			}
+		}
+		*/
+		WuBeiFangBean wuBeiFang = getWuBeiFangBean(jzid);
+		for(Integer type : wuBeiFangMapById.keySet()) {
+			int remainFreeTimes = getRemainFreeTimes(type, wuBeiFang);
+			if(remainFreeTimes > 1) {
+				FunctionID.pushCanShowRed(jzid, session, 900);
+				break;
 			}
 		}
 	}
@@ -1225,7 +1237,7 @@ public class ShopMgr extends EventProc {
 		int totalTimes = getWuBeiFangTypeUseTimesToday(wuBeiFang, type);
 		WuBeiFang beiFang = getWuBeiFangConfig(type, totalTimes + 1);
 		if(beiFang == null) {
-			logger.error("配置文件查找错误，返回一个较大的元宝数量");
+			logger.info("wubeiFang配置文件查找错误，返回一个较大的元宝数量");
 			return 10000;
 		}
 		return beiFang.cost;
@@ -1245,7 +1257,7 @@ public class ShopMgr extends EventProc {
 			}
 		}
 		if(beiFang == null) {
-			logger.error("获取武备坊花费元宝失败，类型:{}，次数:{}", type, totalTimes);
+			logger.error("获取武备坊花费元宝失败，类型:{}，次数:{},要么是今日够买次数已达到最高，要么是真没有这么配置", type, totalTimes);
 			return null;
 		}
 		return beiFang;
@@ -1262,30 +1274,34 @@ public class ShopMgr extends EventProc {
 		switch(type) {
 			case 1:
 				if(wuBeiFang.type1UseTimes - CanShu.EQUIPMENT_FREETIMES >= 0) {
-					times = vipCfg.buyEquipment - (wuBeiFang.type1UseTimes - CanShu.EQUIPMENT_FREETIMES);
+					int useTimes =  remainFreeTimes > 0 ? 0 : wuBeiFang.type1UseTimes - CanShu.EQUIPMENT_FREETIMES;
+					times = vipCfg.buyEquipment - CanShu.EQUIPMENT_FREETIMES - useTimes;
 				} else {
-					times = vipCfg.buyEquipment;
+					times = vipCfg.buyEquipment - CanShu.EQUIPMENT_FREETIMES;
 				}
 				break;
 			case 2:
 				if(wuBeiFang.type2UseTimes - CanShu.BAOSHI_FREETIMES >= 0) {
-					times = vipCfg.buyBaoshi - (wuBeiFang.type2UseTimes - CanShu.BAOSHI_FREETIMES);
+					int useTimes = remainFreeTimes > 0 ? 0 : wuBeiFang.type2UseTimes - CanShu.BAOSHI_FREETIMES;
+					times = vipCfg.buyBaoshi - CanShu.BAOSHI_FREETIMES - useTimes;
 				} else {
-					times = vipCfg.buyBaoshi;
+					times = vipCfg.buyBaoshi - CanShu.BAOSHI_FREETIMES;
 				}
 				break;
 			case 3:
 				if(wuBeiFang.type3UseTimes - CanShu.QIANGHUA_FREETIMES >= 0) {
-					times = vipCfg.buyQianghua - (wuBeiFang.type3UseTimes - CanShu.QIANGHUA_FREETIMES);
+					int useTimes = remainFreeTimes > 0 ? 0 : wuBeiFang.type3UseTimes - CanShu.QIANGHUA_FREETIMES;
+					times = vipCfg.buyQianghua - CanShu.QIANGHUA_FREETIMES - useTimes;
 				} else {
-					times = vipCfg.buyQianghua;
+					times = vipCfg.buyQianghua - CanShu.QIANGHUA_FREETIMES;
 				}
 				break;
 			case 4:
 				if(wuBeiFang.type4UseTimes - CanShu.JINGQI_FREETIMES >= 0) {
-					times = vipCfg.buyJingqi - (wuBeiFang.type4UseTimes - CanShu.JINGQI_FREETIMES);
+					int useTimes = remainFreeTimes > 0 ? 0 : wuBeiFang.type4UseTimes - CanShu.JINGQI_FREETIMES;
+					times = vipCfg.buyJingqi - CanShu.JINGQI_FREETIMES - useTimes;
 				} else {
-					times = vipCfg.buyJingqi;
+					times = vipCfg.buyJingqi - CanShu.JINGQI_FREETIMES;
 				}
 				break;
 			default:
@@ -1399,11 +1415,16 @@ public class ShopMgr extends EventProc {
 				return;
 			}
 		}
+		List<AwardTemp> awardList = new ArrayList<>(0);
+		if(type == 1 && wuBeiFang.type1TotalTimes <=0) {// 装备铺第一次购买特殊处理
+			awardList = AwardMgr.inst.getHitAwardList(CanShu.ZHUANGBEI_FIRSTAWARD, ",", "=");
+		} else {
+			awardList = AwardMgr.inst.getHitAwardList(beiFang.awardID, ",", "=");
+		}
 		wuBeiFang.lastBuyTime = new Date();
 		changeTimes(wuBeiFang, type, 1);
 		HibernateUtil.save(wuBeiFang);
 		
-		List<AwardTemp> awardList = AwardMgr.inst.getHitAwardList(beiFang.awardID, ",", "=");
 		logger.info("武备坊购买成功，君主:{}购买的type:{},获得:{}", junZhu.id, type, awardList);
 		for(AwardTemp award : awardList) {
 			WubeiFangAwardInfo.Builder awardBuilder = WubeiFangAwardInfo.newBuilder();
@@ -1428,12 +1449,14 @@ public class ShopMgr extends EventProc {
 		}
 		if(!free) {
 			YuanBaoMgr.inst.diff(junZhu, -needCost, 0, 0, 0, "进行武备坊购买");
+			HibernateUtil.save(junZhu);
 		}
 		JunZhuMgr.inst.sendMainInfo(session);
 		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
 		BagMgr.inst.sendBagInfo(session, bag);
 		
 		EventMgr.addEvent(ED.done_wuBeiChouJiang, new Object[]{junZhu.id});
+		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(junZhu.id , DailyTaskConstants.wuBeiFang, 1));
 	}
 
 	public void changeTimes(WuBeiFangBean wuBeiFang, int type, int times) {
@@ -1441,6 +1464,7 @@ public class ShopMgr extends EventProc {
 		switch(type) {
 			case 1:
 				wuBeiFang.type1UseTimes += times;
+				wuBeiFang.type1TotalTimes += times;
 				break;
 			case 2:
 				wuBeiFang.type2UseTimes += times;
@@ -1457,5 +1481,37 @@ public class ShopMgr extends EventProc {
 		}
 	}
 	
-
+	/**
+	 * 消耗威望，功勋，荒野
+	 * @param session
+	 * @param jz
+	 * @param m
+	 * @param diff
+	 */
+	public void diffMoney(IoSession session,JunZhu jz,ShopMgr.Money m,int diff){
+		int type = -1;
+		switch(m){
+		case huangYeBi:
+			type = huangYe_shop_type;
+			break;
+		case gongXun:
+			type= lianmeng_battle_shop_type;
+			EventMgr.addEvent(ED.CHANGE_GONGXUN,new Object[]{session,jz});
+			break;
+		case weiWang:
+			type = baizhan_shop_type;
+			EventMgr.addEvent(ED.CHANGE_WEIWANG,new Object[]{session,jz});
+			break;
+		default:
+			break;
+		}
+		if(type != -1){
+			int hava = getMoney(m, jz.id, null);
+			if(hava >= diff){
+				hava -= diff;
+				setMoney(type, jz.id , null, hava);
+			}
+			ShopMgr.inst.sendMainIfo(session,jz.id,m);
+		}
+	}
 }

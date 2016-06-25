@@ -5,6 +5,10 @@ public class MibaoStar {
 	private int needNum;
 	private int needMoney;
 	private float chengzhang;
+	public int gongji;
+	public int fangyu;
+	public int shengming;
+	
 	public int getStar() {
 		return star;
 	}

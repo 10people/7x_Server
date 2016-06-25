@@ -42,13 +42,15 @@ public class FunctionID {
 	public static int junZhu = 200; // 角色
 	public static int JiNengJinJie = 500007; //角色-技能进阶
 	public static int jinJie = 1211; //角色-装备进阶
-	public static int FuShi = 500010; //角色-符石；开启条件有配置
+	public static int FuWen = 500010; //符文系统；开启条件有配置
 	
 	public static int mibao = 6; //秘宝
 	public static int miBaoShengJi = 600; //秘宝升级
 	public static int miBaoJiNeng = 610; // 秘宝技能激活
 	public static int MiBaoShengXing = 602; //秘宝升星
 	public static int MiBaoHeCheng = 605; //秘宝合成
+
+	public static int MiBaoNEW = 701; //新秘宝
 
 	// 荒野商店
 	public static int huangYe_shop = 903;
@@ -81,7 +83,8 @@ public class FunctionID {
 //	public static int JiBai = 400018; // 二级-联盟-祭拜（不使用）
 
 	public static int LianMengXiaoWu = 600750; // 二级-联盟-小屋
-	public static int LianMengHouse = 600800; // 三级-联盟-小屋-领经验和换卡
+	public static int LianMengHouse = 600800; // 三级-联盟-小屋-领经验
+	public static int LianMengHuanKa = 500050; // 三级-联盟-小屋-领经验
 
 	public static int LianMengZongMiao = 600850; // 二级- 联盟宗庙
 	public static int LianMengJiBai = 600900; // 三级- 联盟宗庙-联盟祭拜（抽奖，使用中）
@@ -137,11 +140,32 @@ public class FunctionID {
 
 	public static int youxiang_system = 41;	// 邮箱-系统
 	public static int youxiang_person = 10; // 邮箱 -私信
+	public static int FU_WEN_EQUIP = 500014; // 符文红点（可穿戴）
+	public static int FU_WEN_UPGRADE = 500016; // 符文红点（可升级）
+	public static int FU_WEN_TIHUAN = 500017; // 符文红点（可替换）
 
 	//福利
 	public static final int yuekafuli=1393;//月卡福利
 	public static final int tilifuli=1391;//体力福利
 	public static final int fengcehongbao=1390;//封测红包福利
+	
+	//活动
+	public static final int activity_shouchong = 1422; //首冲
+	public static final int activity_yueka = 1393; //月卡
+	public static final int activity_chengzhangjijin = 1394; //成长基金
+	public static final int activity_tili = 1391; // 体力
+	public static final int activity_levelAward = 600200; //等级奖励
+ 	public static final int activity_chengjiu = 144; //成就
+ 	
+ 	//称号
+ 	public static final int chenghao_junchengzhan = 510015;
+ 	public static final int chenghao_baizhan = 520015;
+ 	
+ 	//郡城战
+ 	public static final int city_war_can_enter = 300500; //有战场可进入
+ 	public static final int city_war_lianmeng_award = 310410; //联盟奖励
+ 	public static final int city_war_personal_award = 310420; //个人奖励
+ 	
 	//推送某功能红点可以出现 和前段约定code为负数时红点消失
 	public static void pushCanShowRed(long jzId,IoSession session,int Code){
 //		log.info("向君主{}推送--<{}>可以出现提示红点",jzId,Code);

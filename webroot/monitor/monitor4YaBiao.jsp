@@ -149,8 +149,8 @@ if("calcDamame".equals(act)) {
 	JunZhu attack = HibernateUtil.find(JunZhu.class, attackId);
 	JunZhu target = HibernateUtil.find(JunZhu.class, targetId);
 	Skill skill =  BuffMgr.inst.getSkillById(skillId);
-	long damage = BuffMgr.inst.calcSkillDamage(attack, target, skill, 0);
-	out.println("造成的伤害值是:"+damage+"<br/>");
+	//long damage = BuffMgr.inst.calcSkillDamage(attack, target, skill, 0);
+	//out.println("造成的伤害值是:"+damage+"<br/>");
 }
 %>
 <br/>
@@ -179,8 +179,8 @@ if("calcDamame".equals(act)) {
 <table border='1'  style='border-collapse:collapse;'>
 <tr>
 <th>序号</th><th>马车编号</th><th>等级</th><th>userId</th><th>userName</th>
-<th>jzId</th>
-<th>坐标</th><th>路线</th>
+<th>jzId</th><th>血量</th>
+<th>坐标</th><th>路线</th><th>国家Id</th>
 </tr>
 
 <%
@@ -273,12 +273,17 @@ while(ybkey.hasMoreElements()){
 		out.append("</td>");
 		td(p.jzId);
 		out.append("<td>");
+		out.append(p.currentLife+"/"+p.totalLife);
+		out.append("</td>");
+		out.append("<td>");
 		out.append("x坐标--"+p.getPosX()+"y坐标--"+p.getPosY()+"z坐标--"+p.getPosZ());
 		out.append("</td>");
 		out.append("<td>");
 		out.append(tem == null ? p.safeArea+"" : ""+tem.pathId);
 		out.append("</td>");
-		
+		out.append("<td>");
+		out.append(tem == null ? p.guojia+"" : ""+tem.guojiaId);
+		out.append("</td>");
 		out.append("<tr>");
 	};
 	out.print("押镖场景在线玩家数量:"+personCnt+"------马车数量："+cartCnt+" <br/>");

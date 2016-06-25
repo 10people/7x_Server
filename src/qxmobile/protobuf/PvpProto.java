@@ -10320,6 +10320,24 @@ public final class PvpProto {
      * </pre>
      */
     int getTotalTimes();
+
+    // optional int32 cdTime = 4;
+    /**
+     * <code>optional int32 cdTime = 4;</code>
+     *
+     * <pre>
+     *剩余冷却时间
+     * </pre>
+     */
+    boolean hasCdTime();
+    /**
+     * <code>optional int32 cdTime = 4;</code>
+     *
+     * <pre>
+     *剩余冷却时间
+     * </pre>
+     */
+    int getCdTime();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.BuyCiShuInfo}
@@ -10389,6 +10407,11 @@ public final class PvpProto {
             case 24: {
               bitField0_ |= 0x00000004;
               totalTimes_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              cdTime_ = input.readInt32();
               break;
             }
           }
@@ -10495,10 +10518,35 @@ public final class PvpProto {
       return totalTimes_;
     }
 
+    // optional int32 cdTime = 4;
+    public static final int CDTIME_FIELD_NUMBER = 4;
+    private int cdTime_;
+    /**
+     * <code>optional int32 cdTime = 4;</code>
+     *
+     * <pre>
+     *剩余冷却时间
+     * </pre>
+     */
+    public boolean hasCdTime() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 cdTime = 4;</code>
+     *
+     * <pre>
+     *剩余冷却时间
+     * </pre>
+     */
+    public int getCdTime() {
+      return cdTime_;
+    }
+
     private void initFields() {
       success_ = 0;
       leftTimes_ = 0;
       totalTimes_ = 0;
+      cdTime_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -10525,6 +10573,9 @@ public final class PvpProto {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(3, totalTimes_);
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, cdTime_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -10545,6 +10596,10 @@ public final class PvpProto {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, totalTimes_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, cdTime_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -10672,6 +10727,8 @@ public final class PvpProto {
         bitField0_ = (bitField0_ & ~0x00000002);
         totalTimes_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
+        cdTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -10712,6 +10769,10 @@ public final class PvpProto {
           to_bitField0_ |= 0x00000004;
         }
         result.totalTimes_ = totalTimes_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.cdTime_ = cdTime_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -10736,6 +10797,9 @@ public final class PvpProto {
         }
         if (other.hasTotalTimes()) {
           setTotalTimes(other.getTotalTimes());
+        }
+        if (other.hasCdTime()) {
+          setCdTime(other.getCdTime());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -10895,6 +10959,55 @@ public final class PvpProto {
       public Builder clearTotalTimes() {
         bitField0_ = (bitField0_ & ~0x00000004);
         totalTimes_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 cdTime = 4;
+      private int cdTime_ ;
+      /**
+       * <code>optional int32 cdTime = 4;</code>
+       *
+       * <pre>
+       *剩余冷却时间
+       * </pre>
+       */
+      public boolean hasCdTime() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 cdTime = 4;</code>
+       *
+       * <pre>
+       *剩余冷却时间
+       * </pre>
+       */
+      public int getCdTime() {
+        return cdTime_;
+      }
+      /**
+       * <code>optional int32 cdTime = 4;</code>
+       *
+       * <pre>
+       *剩余冷却时间
+       * </pre>
+       */
+      public Builder setCdTime(int value) {
+        bitField0_ |= 0x00000008;
+        cdTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 cdTime = 4;</code>
+       *
+       * <pre>
+       *剩余冷却时间
+       * </pre>
+       */
+      public Builder clearCdTime() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        cdTime_ = 0;
         onChanged();
         return this;
       }
@@ -18359,31 +18472,32 @@ public final class PvpProto {
       "ayChangeInfo\0227\n\rrefreshMyInfo\030\005 \001(\0132 .qx" +
       "mobile.protobuf.RefreshMyInfo\022=\n\020refresh" +
       "OtherInfo\030\006 \001(\0132#.qxmobile.protobuf.Refr" +
-      "eshOtherInfo\"F\n\014BuyCiShuInfo\022\017\n\007success\030" +
+      "eshOtherInfo\"V\n\014BuyCiShuInfo\022\017\n\007success\030" +
       "\001 \002(\005\022\021\n\tleftTimes\030\002 \001(\005\022\022\n\ntotalTimes\030\003" +
-      " \001(\005\"W\n\013CleanCDInfo\022\017\n\007success\030\001 \002(\005\022\021\n\t" +
-      "leftTimes\030\002 \001(\005\022\022\n\ntotalTimes\030\003 \001(\005\022\020\n\010n",
-      "extCDYB\030\004 \001(\005\"\037\n\014GetAwardInfo\022\017\n\007success" +
-      "\030\001 \002(\005\"\202\001\n\rPayChangeInfo\022\017\n\007success\030\001 \002(" +
-      "\005\022\026\n\016nextHuanYiPiYB\030\002 \001(\005\022\025\n\rchangejunxi" +
-      "an\030\003 \001(\005\0221\n\010oppoList\030\004 \003(\0132\037.qxmobile.pr" +
-      "otobuf.OpponentInfo\"V\n\rRefreshMyInfo\0221\n\010" +
-      "oppoList\030\001 \003(\0132\037.qxmobile.protobuf.Oppon" +
-      "entInfo\022\022\n\njunZhuRank\030\002 \002(\005\"X\n\020RefreshOt" +
-      "herInfo\022\021\n\tjunxianid\030\001 \002(\005\0221\n\010oppoList\030\002" +
-      " \003(\0132\037.qxmobile.protobuf.OpponentInfo\"B\n" +
-      "\rBaiZhanResult\022\017\n\007enemyId\030\001 \002(\003\022\r\n\005winId",
-      "\030\002 \002(\003\022\021\n\tzhandouId\030\003 \002(\005\"\211\001\n\021BaiZhanRes" +
-      "ultResp\022\017\n\007oldRank\030\001 \001(\005\022\017\n\007newRank\030\002 \001(" +
-      "\005\022\017\n\007highest\030\003 \001(\005\022\027\n\017oldJunXianLevel\030\006 " +
-      "\001(\005\022\027\n\017newJunXianLevel\030\007 \001(\005\022\017\n\007yuanbao\030" +
-      "\010 \001(\005\"A\n\021ZhandouRecordResp\022,\n\004info\030\001 \003(\013" +
-      "2\036.qxmobile.protobuf.ZhandouItem\"\262\001\n\013Zha" +
-      "ndouItem\022\021\n\tzhandouId\030\001 \002(\005\022\017\n\007enemyId\030\002" +
-      " \002(\003\022\021\n\tenemyName\030\003 \002(\t\022\014\n\004time\030\004 \002(\005\022\013\n" +
-      "\003win\030\005 \002(\005\022\026\n\016junRankChangeV\030\006 \002(\005\022\r\n\005le" +
-      "vel\030\007 \002(\005\022\025\n\renemyGuoJiaId\030\t \002(\005\022\023\n\013enem",
-      "yRoleId\030\013 \002(\005B\nB\010PvpProto"
+      " \001(\005\022\016\n\006cdTime\030\004 \001(\005\"W\n\013CleanCDInfo\022\017\n\007s" +
+      "uccess\030\001 \002(\005\022\021\n\tleftTimes\030\002 \001(\005\022\022\n\ntotal",
+      "Times\030\003 \001(\005\022\020\n\010nextCDYB\030\004 \001(\005\"\037\n\014GetAwar" +
+      "dInfo\022\017\n\007success\030\001 \002(\005\"\202\001\n\rPayChangeInfo" +
+      "\022\017\n\007success\030\001 \002(\005\022\026\n\016nextHuanYiPiYB\030\002 \001(" +
+      "\005\022\025\n\rchangejunxian\030\003 \001(\005\0221\n\010oppoList\030\004 \003" +
+      "(\0132\037.qxmobile.protobuf.OpponentInfo\"V\n\rR" +
+      "efreshMyInfo\0221\n\010oppoList\030\001 \003(\0132\037.qxmobil" +
+      "e.protobuf.OpponentInfo\022\022\n\njunZhuRank\030\002 " +
+      "\002(\005\"X\n\020RefreshOtherInfo\022\021\n\tjunxianid\030\001 \002" +
+      "(\005\0221\n\010oppoList\030\002 \003(\0132\037.qxmobile.protobuf" +
+      ".OpponentInfo\"B\n\rBaiZhanResult\022\017\n\007enemyI",
+      "d\030\001 \002(\003\022\r\n\005winId\030\002 \002(\003\022\021\n\tzhandouId\030\003 \002(" +
+      "\005\"\211\001\n\021BaiZhanResultResp\022\017\n\007oldRank\030\001 \001(\005" +
+      "\022\017\n\007newRank\030\002 \001(\005\022\017\n\007highest\030\003 \001(\005\022\027\n\017ol" +
+      "dJunXianLevel\030\006 \001(\005\022\027\n\017newJunXianLevel\030\007" +
+      " \001(\005\022\017\n\007yuanbao\030\010 \001(\005\"A\n\021ZhandouRecordRe" +
+      "sp\022,\n\004info\030\001 \003(\0132\036.qxmobile.protobuf.Zha" +
+      "ndouItem\"\262\001\n\013ZhandouItem\022\021\n\tzhandouId\030\001 " +
+      "\002(\005\022\017\n\007enemyId\030\002 \002(\003\022\021\n\tenemyName\030\003 \002(\t\022" +
+      "\014\n\004time\030\004 \002(\005\022\013\n\003win\030\005 \002(\005\022\026\n\016junRankCha" +
+      "ngeV\030\006 \002(\005\022\r\n\005level\030\007 \002(\005\022\025\n\renemyGuoJia",
+      "Id\030\t \002(\005\022\023\n\013enemyRoleId\030\013 \002(\005B\nB\010PvpProt" +
+      "o"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -18437,7 +18551,7 @@ public final class PvpProto {
           internal_static_qxmobile_protobuf_BuyCiShuInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BuyCiShuInfo_descriptor,
-              new java.lang.String[] { "Success", "LeftTimes", "TotalTimes", });
+              new java.lang.String[] { "Success", "LeftTimes", "TotalTimes", "CdTime", });
           internal_static_qxmobile_protobuf_CleanCDInfo_descriptor =
             getDescriptor().getMessageTypes().get(8);
           internal_static_qxmobile_protobuf_CleanCDInfo_fieldAccessorTable = new

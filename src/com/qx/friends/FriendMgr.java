@@ -207,19 +207,12 @@ public class FriendMgr {
 							.newBuilder();
 					fjz.setGuojia(friend.guoJiaId);
 					fjz.setIconId(friend.roleId);
-					fjz.setJunXian("1");
-					{
-						PvpBean bean = HibernateUtil.find(PvpBean.class,
-								friend.id);
-						if (bean != null) {
-							// BaiZhan bz = PvpMgr.inst.baiZhanMap
-							// .get(bean.junXianLevel);
-							// String jxStr = bz == null ? "???" : HeroService
-							// .getNameById(bz.name);
-							// fjz.setJunXian(jxStr);
-							fjz.setJunXian(String.valueOf(bean.junXianLevel));
-						}
-					}
+					// BaiZhan bz = PvpMgr.inst.baiZhanMap
+					// .get(bean.junXianLevel);
+					// String jxStr = bz == null ? "???" : HeroService
+					// .getNameById(bz.name);
+					// fjz.setJunXian(jxStr);
+					fjz.setJunXian(String.valueOf(PvpMgr.getJunxianLevel(friend.id)));
 					fjz.setName(friend.name);
 					fjz.setLevel(friend.level);
 					fjz.setOwnerid(friend.id);

@@ -107,6 +107,9 @@
 		<tr>
 			<td>血瓶数目 :<%=p.xuePingRemain%></td>
 		</tr>
+		<tr>
+			<td>visibleIDs :<%=p.visbileUids%></td>
+		</tr>
 
 
 	</table>

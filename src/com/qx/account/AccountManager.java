@@ -179,6 +179,7 @@ public class AccountManager {
 				sensitiveWord.add(s);
 			}
 			this.sensitiveWord = sensitiveWord;
+			log.info("size {}", sensitiveWord.size());
 			r.close();
 			br.close();
 //			System.exit(0);
@@ -223,6 +224,10 @@ public class AccountManager {
 
 	public void login(int id, IoSession session, Builder builder) {
 		LoginReq.Builder b = (qxmobile.protobuf.ZhangHao.LoginReq.Builder) builder;
+		if(b==null){
+			log.error("login消息是null");
+			return;
+		}
 		String name = b.getName();
 		//从router那里检查该账户是否已登录。
 		session.setAttribute("needSendChengHao", Boolean.TRUE);

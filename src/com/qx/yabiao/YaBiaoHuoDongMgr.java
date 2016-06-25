@@ -329,7 +329,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 						try {
 							String template=YunbiaoTemp.yunbiao_start_broadcast;
 							BroadcastMgr.inst.send(template);
-							log.info("连续广播现在是多倍收益时间");
+//							log.info("连续广播现在是多倍收益时间");
 							Thread.sleep(YunbiaoTemp.yunbiao_start_broadcast_CD*1000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
@@ -360,7 +360,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 						try {
 							String template=YunbiaoTemp.yunbiao_start_broadcast;
 							BroadcastMgr.inst.send(template);
-							log.info("连续广播现在是福利时间");
+//							log.info("连续广播现在是福利时间");
 							YaBiaoHuoDongMgr.inst.pushFuLiTimeState();
 							Thread.sleep(YunbiaoTemp.yunbiao_start_broadcast_CD*1000);
 						} catch (InterruptedException e) {
@@ -1174,6 +1174,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		resp.setIsNew4History(isNew4History);
 		resp.setBuyCiShu(todayBuyYBTimes);
 		resp.setIsOpen(isOpen);
+		log.info("请求押镖主要信息，君主{}，活动状态{}",jz.id,isOpen);
 		session.write(resp.build());
 	}
 
@@ -1204,8 +1205,14 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			history.setTime(hisBean.battleTime.getTime());
 			history.setResult(hisBean.result);
 			JunZhu enemyJz=HibernateUtil.find(JunZhu.class, hisBean.enemyId);
-			int guojia =enemyJz==null?1:enemyJz.guoJiaId;
-			history.setEnemyGuojia(guojia);
+			int guojiaId =0;
+			if(null != enemyJz){
+				guojiaId = enemyJz.guoJiaId;
+			}
+			else{
+				guojiaId = hisBean.enemyGuojiaId;
+			}
+			history.setEnemyGuojia(guojiaId);
 			int type = -1;
 			if (hisBean.result == 1 || hisBean.result == 3) {
 				type = hisBean.horseType;
@@ -1380,6 +1387,11 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		Long jzId = jz.id;
 		YabiaoMenuResp.Builder resp = YabiaoMenuResp.newBuilder();
 		YunBiaoHistory histo = getYunBiaoHistory(jz.id);
+		boolean isOpen=openFlag?openFlag:histo.historyYB==0?true:false;
+		if(!isOpen){
+			log.error("君主{}请求押镖失败，活动未开启", jzId);
+			return;
+		}
 		YaBiaoBean ybBean = HibernateUtil.find(YaBiaoBean.class, jzId);
 		int horseType=0;
 		if (ybBean == null) {
@@ -2248,7 +2260,13 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		CartNPCName cartNPCName=cartNpcNameMap.get(cartNo+1);
 		String robotName=cartNPCName==null?getRandomString(5):cartNPCName.name;
 		log.info(" 产生系统机器人,编号:{},等级:{},配置ID:{},名字:-{},",cartNo,bcLevel,bcNPCId,robotName);
+		
 		YaBiaoRobot ybr=new YaBiaoRobot();
+		Random rdm = new Random();
+		int guojiaId = rdm.nextInt(8);
+		ybr.guojiaId = guojiaId;
+		
+		
 		ybr.session = new RobotSession();
 		ybr.move = SpriteMove.newBuilder();
 		long sysJzId=getRobotJzId() ;
@@ -2314,6 +2332,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		enter.setPosZ(ybr.posZ);
 		ybr.session.setAttribute(SessionAttKey.RobotType, Scene.YBRobot_RoleId);
 		ybr.session.setAttribute(SessionAttKey.RobotJZID, ybr.jzId);
+		
 		YBCartAttr4Fight cartAttr4Fight = new YBCartAttr4Fight();
 		cartAttr4Fight.id = ybr.jzId;
 		cartAttr4Fight.shengMing = biaoCheNPC.shengming;
@@ -3422,6 +3441,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		int roleId=cnt==null?1:cnt.roleId;
 		yaBiaoH.enemyRoleId = roleId;
 		yaBiaoH.horseType = horseType;
+		yaBiaoH.enemyGuojiaId = ybr.guojiaId;
 		Long sizeAfterAdd = DB.rpush4JieBiao((HISTORY_KEY + jz.id).getBytes(),
 				SerializeUtil.serialize(yaBiaoH));
 		if (sizeAfterAdd > historySize) {
@@ -3693,7 +3713,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			isNow1=YunbiaoTemp.time1_switch==1?true:false;
 		}
 		if(isNow1){
-			log.info("现在为第一个福利时段，{}:{}", YunbiaoTemp.incomeAdd_startTime1, YunbiaoTemp.incomeAdd_endTime1);
+//			log.info("现在为第一个福利时段，{}:{}", YunbiaoTemp.incomeAdd_startTime1, YunbiaoTemp.incomeAdd_endTime1);
 			return 1;
 		}
 		boolean isNow2=	DateUtils.isInDeadline4Start(YunbiaoTemp.incomeAdd_startTime2, YunbiaoTemp.incomeAdd_endTime2);
@@ -3701,7 +3721,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			isNow2=YunbiaoTemp.time2_switch==1?true:false;
 		}
 		if(isNow2){
-			log.info("现在为第二个福利时段，{}:{}", YunbiaoTemp.incomeAdd_startTime2, YunbiaoTemp.incomeAdd_endTime2);
+//			log.info("现在为第二个福利时段，{}:{}", YunbiaoTemp.incomeAdd_startTime2, YunbiaoTemp.incomeAdd_endTime2);
 			return 2;
 		}
 		boolean isNow3=	DateUtils.isInDeadline4Start(YunbiaoTemp.incomeAdd_startTime3, YunbiaoTemp.incomeAdd_endTime3);
@@ -3709,10 +3729,10 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			isNow3=YunbiaoTemp.time3_switch==1?true:false;
 		}
 		if(isNow3){
-			log.info("现在为第三个福利时段，{}:{}", YunbiaoTemp.incomeAdd_startTime3, YunbiaoTemp.incomeAdd_endTime3);
+//			log.info("现在为第三个福利时段，{}:{}", YunbiaoTemp.incomeAdd_startTime3, YunbiaoTemp.incomeAdd_endTime3);
 			return 3;
 		}
-		log.info("现在不是福利时段");
+//		log.info("现在不是福利时段");
 		return 0;
 	}
 	

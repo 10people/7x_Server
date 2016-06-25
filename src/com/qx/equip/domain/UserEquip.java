@@ -111,18 +111,14 @@ public class UserEquip implements MCSupport{
 	//以上1.0版本改变洗练增加
 	
 	//对应装备上的5个宝石的孔
-	@Column(columnDefinition = "INT default -1")
-	public long Jewel0;
-	@Column(columnDefinition = "INT default -1")
-	public long Jewel1;
-	@Column(columnDefinition = "INT default -1")
-	public long Jewel2;
-	@Column(columnDefinition = "INT default -1")
-	public long Jewel3;
-	@Column(columnDefinition = "INT default -1")
-	public long Jewel4;
-	@Column(columnDefinition = "INT default 0")
-	public int JinJieExp;
+	public long Jewel0 = -1;
+	public long Jewel1 = -1;
+	public long Jewel2 = -1;
+	public long Jewel3 = -1;
+	public long Jewel4 = -1;
+	
+	//装备的进阶经验
+	public int JinJieExp = 0;
 	
 	public int getEquipId() {
 		return equipId;

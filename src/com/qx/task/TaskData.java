@@ -157,6 +157,9 @@ public class TaskData {
 	public static final int tanbao_oneTime = 74;
 	//探宝10连抽
 	public static final int tanbao_tenTime = 75;
+	//挑战重楼指定层
+	public static final int chonglou_tiaozhan = 111;
+	
 	
 //	/** 对应Zhuxian.xml的doneCond**/
 //	public static int xiLian_itemId = 102001;

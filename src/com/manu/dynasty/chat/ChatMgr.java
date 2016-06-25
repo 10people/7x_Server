@@ -15,6 +15,7 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.boot.GameServer;
 //import com.manu.dynasty.pvp.domain.NationalWarConstants;
@@ -35,7 +36,6 @@ import com.qx.gm.role.GMRoleMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
-import com.qx.pvp.PvpBean;
 import com.qx.pvp.PvpMgr;
 import com.qx.vip.VipData;
 import com.qx.world.Mission;
@@ -105,6 +105,7 @@ public class ChatMgr implements Runnable {
 	}
 
 	public ChatMgr() {
+		inst = this;
 		allUser = new ConcurrentHashMap<Long, SessionUser>();
 		setInst();
 		dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -210,7 +211,7 @@ public class ChatMgr implements Runnable {
 		session.write(msg);
 	}
 
-	public void clientSendChat(int id, Builder builder, IoSession session) {
+	public void clientSendChat(int cmd, Builder builder, IoSession session) {
 		if ((builder instanceof ChatPct.Builder) == false) {
 			log.error("不是聊天消息类 {}", builder.getClass().getSimpleName());
 			return;
@@ -258,22 +259,22 @@ public class ChatMgr implements Runnable {
 		}
 		switch (cm.getChannel()) {
 		case SILIAO:
-			siLiao(cm, session);
+			siLiao(cm, session, cmd);
 			break;
 		case LIANMENG:
-			lianMeng(session, cm, allUser);
+			lianMeng(session, cm, allUser, cmd);
 			break;
 		case GUOJIA:
 			sendGuoJia(cm);
 			break;
 		case SHIJIE:
-			sendWorldChat(id, session, cm, jz);
+			sendWorldChat(cmd, session, cm, jz);
 			break;
 		case XiaoWu:
 			xiaoWu(session, cm);
 			break;
 		case Broadcast:
-			userBroadcast(session,cm, jz);
+			userBroadcast(session,cm, jz, cmd);
 			break;
 		default:
 			log.error("未处理的频道类型 {}", cm.getChannel());
@@ -285,6 +286,7 @@ public class ChatMgr implements Runnable {
 		boolean open = BigSwitch.inst.vipMgr.isVipPermit(VipData.world_chat, jz.vipLevel);
 		if (!open) {
 			log.info("{}未满足世界聊天VIP要求", jz.name);
+			sendChatError(session, cmd, 5, "世界聊天功能未开启");
 			return;
 		}
 		if(cm.getType() == 2) {// 表示联盟招募
@@ -312,22 +314,26 @@ public class ChatMgr implements Runnable {
 			info.lastTime = new Date();
 			info.useTimes = 1;
 			HibernateUtil.update(info);
-		}else if(info.useTimes < worldFreeTimesOfDay){ //有免费次数
+		}
+		if(info.useTimes < worldFreeTimesOfDay){ //有免费次数
 			sendFree = true;
-			info.useTimes += 1;
-			HibernateUtil.update(info);
-		}else if(jz.yuanBao < worldPrice){
-			log.info("{}元宝不足，不能发广播", jz.yuanBao);
-			return;
 		}
 		
 		if(!sendFree) {
+			if(jz.yuanBao < worldPrice){
+				sendChatError(session, cmd, 4, "元宝不足");
+				log.info("{}元宝不足，不能发广播", jz.yuanBao);
+				return;
+			}
 			YuanBaoMgr.inst.diff(jz, -worldPrice, 0, worldPrice, YBType.YB_CHAT_WORLD, "世界聊天");
 			HibernateUtil.update(jz);
 			if(worldPrice > 0){
 				JunZhuMgr.inst.sendMainInfo(session,jz);// 推送元宝信息
 			}
 			log.info("junzhu:{}世界聊天,花费元宝:{}", jz.name, worldPrice);
+		} else {
+			info.useTimes += 1;
+			HibernateUtil.update(info);
 		}
 		session.setAttribute(SessionAttKey.LAST_WORLD_CHAT_KEY, System.currentTimeMillis());
 		// guojia :周国 = 0; QIN = 1; YAN = 2; ZHAO = 3; WEI = 4; HAN = 5; QI = 6; CHU = 7; 100-系统
@@ -342,9 +348,10 @@ public class ChatMgr implements Runnable {
 	 * @param cm
 	 */
 	public void userBroadcast(IoSession session,
-			qxmobile.protobuf.Chat.ChatPct.Builder cm, JunZhu jz) {
+			qxmobile.protobuf.Chat.ChatPct.Builder cm, JunZhu jz, int cmd) {
 		if(jz.yuanBao < CanShu.BROADCAST_PRICE){
 			log.info("{}元宝不足，不能发广播", jz.yuanBao);
+			sendChatError(session, cmd, 6, "元宝不足");
 			return;
 		}
 		session.setAttribute(SessionAttKey.LAST_BROADCAST_CHAT_KEY, System.currentTimeMillis());
@@ -383,7 +390,7 @@ public class ChatMgr implements Runnable {
 	// FIXME 这个方法的效率有待考核
 	protected void lianMeng(IoSession session,
 			qxmobile.protobuf.Chat.ChatPct.Builder cm,
-			ConcurrentHashMap<Long, SessionUser> allUser2) {
+			ConcurrentHashMap<Long, SessionUser> allUser2, int cmd) {
 		Long jzId = (Long) session.getAttribute(SessionAttKey.junZhuId);
 		if (jzId == null) {
 			return;
@@ -391,34 +398,34 @@ public class ChatMgr implements Runnable {
 		
 		AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, jzId);
 		if (ap == null) {
+			sendChatError(session, cmd, 3, "还不是联盟成员");
 			log.error("联盟成员信息没有找到：{}", jzId);
 			return;
 		}
 		long lmId = ap.lianMengId;
 		if (lmId <= 0) {
+			sendChatError(session, cmd, 3, "还不是联盟成员");
 			log.warn("{}已不在联盟中", jzId);
 			return;
 		}
-		session.setAttribute(SessionAttKey.LAST_LIANMENG_CHAT_KEY, System.currentTimeMillis());
-		// 联盟成员的君主id
-		Set<String> jzIds = Redis.getInstance().sget(
-				AllianceMgr.inst.CACHE_MEMBERS_OF_ALLIANCE + lmId);
-		Iterator<SessionUser> it = allUser.values().iterator();
-		ChatPct pct = cm.build();
-		while (it.hasNext()) {
-			SessionUser u = it.next();
-			Long junzhuId = (Long) u.session
-					.getAttribute(SessionAttKey.junZhuId);
-			if (junzhuId == null) {
-				continue;
-			}
-			String v = junzhuId.toString();
-			if (!jzIds.contains(v)) {
-				continue;
-			}
-			u.session.write(pct);
+		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, lmId);
+		if(alliance == null) {
+			sendChatError(session, cmd, 3, "还不是联盟成员");
+			log.error("找不到君主:{}所在的联盟:{}",jzId, lmId);
+			return;
 		}
+		
+		session.setAttribute(SessionAttKey.LAST_LIANMENG_CHAT_KEY, System.currentTimeMillis());
 		chLianMeng.saveChatRecord(cm);
+		cm.clearSoundData();
+		ChatPct pct = cm.build();
+		List<AlliancePlayer> memberList = AllianceMgr.inst.getAllianceMembers(alliance.id);
+		for (AlliancePlayer member : memberList) {
+			SessionUser su = SessionManager.inst.findByJunZhuId(member.junzhuId);
+			if (su != null && su.session != null) {
+				su.session.write(pct);
+			}
+		}
 	}
 
 	public void sendGuoJia(qxmobile.protobuf.Chat.ChatPct.Builder cm) {
@@ -433,12 +440,17 @@ public class ChatMgr implements Runnable {
 	}
 
 	public void siLiao(qxmobile.protobuf.Chat.ChatPct.Builder cm,
-			IoSession session) {
+			IoSession session, int cmd) {
 		if (cm.hasReceiverId() == false) {
 			log.warn("私聊时为发来接受者id,senderName {}", cm.getSenderName());
 			return;
 		}
+		if(!SessionManager.inst.isOnline(cm.getReceiverId())) {
+			sendChatError(session, cmd, 1, "对方不在线");
+			return;
+		}
 		if (isSenderBlack(cm.getReceiverId(), cm.getSenderName())) {// 如果发送人在屏蔽列表内
+			sendChatError(session, cmd, 2, "对方把你屏蔽了");
 			return;
 		}
 		long count = Redis.getInstance().llen(CACHE_RECENT_CONTACTS + cm.getSenderId());
@@ -447,13 +459,14 @@ public class ChatMgr implements Runnable {
 		} 
 		Redis.getInstance().lpush_(CACHE_RECENT_CONTACTS + cm.getSenderId(), cm.getReceiverId()+"");
 		long recvId = cm.getReceiverId();
+		chSiLiao.saveChatRecord(cm);
+		cm.clearSoundData();
 		IoSession recvSession = SessionManager.getInst().getIoSession(recvId);
 		if(recvSession != null) {
 			session.setAttribute(SessionAttKey.LAST_SILIAO_CHAT_KEY, System.currentTimeMillis());
 			recvSession.write(cm.build());
 			session.write(cm.build());
 		}
-		chSiLiao.saveChatRecord(cm);
 	}
 
 	public boolean isCooltime(qxmobile.protobuf.Chat.ChatPct.Builder cm, IoSession session) {
@@ -487,6 +500,16 @@ public class ChatMgr implements Runnable {
 			return true;
 		}
 		return false;
+	}
+	
+	public void sendChatError(IoSession session, int cmd, int code, String msg) {
+		ErrorMessage.Builder response = ErrorMessage.newBuilder();
+		response.setCmd(cmd);
+		response.setErrorCode(code);
+		response.setErrorDesc(msg);
+		
+		ProtobufMsg m = new ProtobufMsg(PD.S_SEND_CHAT_ERROR, response);
+		session.write(m);
 	}
 
 	public synchronized void addUser(SessionUser u) {
@@ -615,7 +638,7 @@ public class ChatMgr implements Runnable {
 		}
 
 		String key = chatChLog.key;
-		ChatPct.Builder head = (ChatPct.Builder) Redis.getInstance().lindex(key,
+		/*ChatPct.Builder head = (ChatPct.Builder) Redis.getInstance().lindex(key,
 				ChatPct.getDefaultInstance(), 0);
 		int headIdx = 0;
 		if (head != null) {
@@ -633,16 +656,34 @@ public class ChatMgr implements Runnable {
 			log.error("请求的语音信息丢失，key:{},seq:{}", key, seq);
 			return;
 		}
+		*/
+		int result = 0;
+		byte[] soundBytes = Redis.getInstance().hget(key.getBytes(), String.valueOf(seq).getBytes());
+		String soundData = "";
+		ChatPct.Builder chatPct = ChatPct.newBuilder();
+		if(soundBytes != null) {
+			try {
+				chatPct.mergeFrom(soundBytes);
+				soundData = chatPct.getSoundData();
+			} catch (InvalidProtocolBufferException e) {
+				e.printStackTrace();
+				result = 2;
+			} 
+		} else {
+			result = 1;
+		}
+		
 		SGetYuYing.Builder response = SGetYuYing.newBuilder();
+		response.setResult(result);
 		response.setChannel(channel);
 		response.setSeq(seq);
-		response.setSoundData(chatPct.getSoundData());
+		response.setSoundData(soundData);
 		
 		ProtobufMsg msg = new ProtobufMsg();
 		msg.id = PD.S_get_sound;
 		msg.builder = response;
 		session.write(msg);
-		log.info("发送语音数据，长度{}", chatPct.getSoundLen());
+		log.info("发送语音数据，内容:{},语音长度:{}", chatPct.getContent(), soundData.length());
 	}
 
 	/**
@@ -718,16 +759,7 @@ public class ChatMgr implements Runnable {
 					member.lianMengId);
 			blackInfo.setLianMengName(alnc == null ? "" : alnc.name);
 		}
-		blackInfo.setJunXian("1");
-		{
-			PvpBean bean = HibernateUtil.find(PvpBean.class, blackJunzhu.id);
-			if (bean != null) {
-//				BaiZhan bz = PvpMgr.inst.baiZhanMap.get(bean.junXianLevel);
-//				String jxStr = bz == null ? "???" : HeroService
-//						.getNameById(bz.name);
-				blackInfo.setJunXian(String.valueOf(bean.junXianLevel));
-			}
-		}
+		blackInfo.setJunXian(String.valueOf(PvpMgr.getJunxianLevel(blackJunzhu.id)));
 		blackInfo.setVipLv(blackJunzhu.vipLevel);
 		blackInfo.setZhanLi(PvpMgr.inst.getZhanli(blackJunzhu));
 		// FIXME 之前跟陈雷庆约定国家为0-6，需要前台统一为1-7
@@ -785,18 +817,7 @@ public class ChatMgr implements Runnable {
 							member.lianMengId);
 					bjz.setLianMengName(alnc == null ? "" : alnc.name);
 				}
-				bjz.setJunXian("1");
-				{
-					PvpBean bean = HibernateUtil
-							.find(PvpBean.class, blacker.id);
-					if (bean != null) {
-//						BaiZhan bz = PvpMgr.inst.baiZhanMap
-//								.get(bean.junXianLevel);
-//						String jxStr = bz == null ? "???" : HeroService
-//								.getNameById(bz.name);
-						bjz.setJunXian(String.valueOf(bean.junXianLevel));
-					}
-				}
+				bjz.setJunXian(PvpMgr.getJunxianLevel(blacker.id)+"");
 				bjz.setVipLv(blacker.vipLevel);
 				bjz.setZhanLi(PvpMgr.inst.getZhanli(blacker));
 				// FIXME 之前跟陈雷庆约定国家为0-6，需要前台统一为1-7

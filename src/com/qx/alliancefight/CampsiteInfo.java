@@ -12,8 +12,8 @@ public class CampsiteInfo {
 	public int cursorDir;							// 移动方向 1左   2右：1-红方，2-蓝方，3-静止
 	public int perSecondsHoldValue;					// 临界值
 	public int curHoldValue;						// 占领方,大于0代表红方，小于0代表蓝方值
-	public int x;
-	public int z;
+	public float x;
+	public float z;
 	public int radius;								// 营地所见区域半径
 	public int zhanlingzhiMax;						// 占领值最大值
 	public int criticalValue;						// 占领值临界值，达到则算被占领

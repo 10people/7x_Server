@@ -30,7 +30,7 @@ public class HuangyePve{
 	public int rank4Award; 
 	public int rank5Award; 
 	public String fastAward;
-	public int killAward;
+	public String killAward;
 	public int soundId;
 	public int sceneId;
 	public int power;
@@ -41,6 +41,9 @@ public class HuangyePve{
 	public float paraK;
 	public float huangYeBi_scale;
 	public int nextGuanqiaID;
+	public String perFastAward;
+	public int fastTimeLimit; 
+	public String fightAward;
 	
 	public int getId() {
 		return id;
@@ -66,12 +69,6 @@ public class HuangyePve{
 		return award;
 	}
 
-	public int getKillAward() {
-		return killAward;
-	}
-	public void setKillAward(int killAward) {
-		this.killAward = killAward;
-	}
 	public int getSceneId() {
 		return sceneId;
 	}

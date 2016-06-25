@@ -11,14 +11,6 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.VIP.ChongTimes;
-import qxmobile.protobuf.VIP.GetVipRewardReq;
-import qxmobile.protobuf.VIP.GetVipRewardResp;
-import qxmobile.protobuf.VIP.RechargeReq;
-import qxmobile.protobuf.VIP.RechargeResp;
-import qxmobile.protobuf.VIP.VipInfoResp;
-import qxmobile.protobuf.ZhangHao.RegRet;
-
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.AwardTemp;
@@ -32,13 +24,22 @@ import com.manu.network.PD;
 import com.qx.activity.ShouchongInfo;
 import com.qx.activity.ShouchongMgr;
 import com.qx.award.AwardMgr;
+import com.qx.event.ED;
+import com.qx.event.EventMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.task.DailyTaskMgr;
-import com.qx.yuanbao.BillHist;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
+
+import qxmobile.protobuf.VIP.ChongTimes;
+import qxmobile.protobuf.VIP.GetVipRewardReq;
+import qxmobile.protobuf.VIP.GetVipRewardResp;
+import qxmobile.protobuf.VIP.RechargeReq;
+import qxmobile.protobuf.VIP.RechargeResp;
+import qxmobile.protobuf.VIP.VipInfoResp;
+import qxmobile.protobuf.ZhangHao.RegRet;
 
 public class VipMgr {
 
@@ -51,12 +52,14 @@ public class VipMgr {
 	public static Logger log = LoggerFactory.getLogger(VipMgr.class);
 
 	public static ChongZhi yueka;
-	public static int yuekaid = 0;
-	public int zhongShenKa = 1;
+	public static int yuekaid = 1;
+	public static int zhoukaid = 2;
+	public static int zhongShenKa = 199999;//不存在
 	public static int maxVip = 1;
 	/** 第一次购买额外赠送元宝类型 **/
 	public static int TYPE_ADD_EXTRA_FIRST = 2;
 	public static int buy_yueka_limit_days = 5;
+	public static int tili_buling = 29; //补领体力
 
 	public static ThreadLocal<VipRechargeRecord> yueKaRecord = new ThreadLocal<VipRechargeRecord>();
 
@@ -151,6 +154,7 @@ public class VipMgr {
 		resp.setNeedYb(needVipExp);
 		resp.setHasYb(playerVipInfo.vipExp);
 		resp.setYueKaLeftDays(playerVipInfo.yueKaRemianDay);
+		resp.setZhouKaLeftDays(playerVipInfo.zhouKaRemianDay);
 		
 		fillVIPinfo(resp, jz.id);
 		List<VipGiftbag> giftbagList = HibernateUtil.list(VipGiftbag.class, " where junzhuId="+jz.id);
@@ -186,68 +190,59 @@ public class VipMgr {
 		}
 		RechargeReq.Builder req = (RechargeReq.Builder) builder;
 		int chongZhiId = req.getType();
-		log.info("服务器收到的君主id是:{}, 本次的充值类型是:{}", jz.id, chongZhiId);
-		RechargeResp.Builder resp = RechargeResp.newBuilder();
-		PlayerVipInfo playerVipInfo = getPlayerVipInfo(jz.id);
-		int yueKaValid = 0;
+		log.info("收到的君主id是:{}, 本次的充值id是:{}", jz.id, chongZhiId);
+		
 		ChongZhi data = chongZhiTemp.get(chongZhiId);
 		if (data == null) {
 			log.error("ChongZhi配置中未找到相关数据条目:{}", chongZhiId);
-			YuanBaoMgr.inst.diff(jz, 0, req.getAmount(), 0,
-					YBType.YB_VIP_CHONGZHI, "充值失败，ChongZhi配置中未找到相关数据条目:"+chongZhiId+"");
 			return;
 		}
-		int amount = req.getAmount();
-		if (amount <= 0) {
-			log.error("充值金额不能为0或者小于0");
-			sendError(session, cmd, "充值金额不能为0或者小于0");
-			YuanBaoMgr.inst.diff(jz, 0, req.getAmount(), 0,
-					YBType.YB_VIP_CHONGZHI, "充值失败，充值金额不能为0或者小于0");
+		if (data.addNum <= 0) {
+			log.error("充值金额不能为0或者小于0,{},{}",jz.id,chongZhiId);
 			return;
 		}
-		
-		if (chongZhiId == yuekaid) {
-			// 月卡充值进行不一样的处理
-			if(playerVipInfo.yueKaRemianDay > buy_yueka_limit_days) {
-				resp.setSumAoumnt(0);
-				resp.setVipLevel(playerVipInfo.level);
-				resp.setYueKaLeftDays(playerVipInfo.yueKaRemianDay);
-				resp.setIsSuccess(false);
-				resp.setMsg("月卡充值还有余额，对玩家进行确认");
-				session.write(resp.build());
-				YuanBaoMgr.inst.diff(jz, 0, req.getAmount(), 0,
-						YBType.YB_VIP_CHONGZHI, "充值失败，月卡还有余额"+playerVipInfo.yueKaRemianDay+"天");
-				return;
+		recharge(session, jz, data,true);
+	}
+
+	public void recharge(IoSession session, JunZhu jz, ChongZhi data, boolean doAdd) {
+		RechargeResp.Builder resp = RechargeResp.newBuilder();
+		int remainTotalDays = 0;
+		PlayerVipInfo playerVipInfo = getPlayerVipInfo(jz.id);
+				
+		int addYB = data.addNum;
+		Date date = new Date();
+		String reason = "??";
+		//各种卡是扣钱去买，其他则是充值，配合真正的充值调用。首冲和赠送在真实的充值中处理，这里不计算
+		if (data.id == yuekaid) {
+			remainTotalDays = CanShu.YUEKA_TIME + playerVipInfo.yueKaRemianDay;
+			playerVipInfo.yueKaRemianDay += CanShu.YUEKA_TIME;
+			if(playerVipInfo.lastUpdateYuekaTime == null) {
+				playerVipInfo.lastUpdateYuekaTime = date;
 			}
-			yueKaValid = CanShu.YUEKA_TIME + playerVipInfo.yueKaRemianDay;
-		} else if(chongZhiId == zhongShenKa){
+			reason = "购买月卡";
+		} else if(data.id == zhongShenKa){
 			if(playerVipInfo.haveZhongShenKa == 1) {
 				resp.setIsSuccess(false);
 				resp.setSumAoumnt(0);
 				resp.setVipLevel(playerVipInfo.level);
 				session.write(resp.build());
-				YuanBaoMgr.inst.diff(jz, 0, req.getAmount(), 0,
-						YBType.YB_VIP_CHONGZHI, "充值失败，君主:"+jz.id+"已经购买过终身卡了");
+				log.error("充值失败，君主:"+jz.id+"已经购买过终身卡了");
 				return;
 			}
+			playerVipInfo.haveZhongShenKa = 1;
+			reason = "购买终身卡";
+		} else if(data.id == zhoukaid){
+			remainTotalDays = CanShu.ZHOUKA_TIME + playerVipInfo.zhouKaRemianDay;
+			playerVipInfo.zhouKaRemianDay += CanShu.ZHOUKA_TIME;
+			if(playerVipInfo.lastUpdateZhoukaTime == null) {
+				playerVipInfo.lastUpdateZhoukaTime = date;
+			}
+			reason = "购买周卡";
+		}else{
+			reason = "vip充值";
 		}
-		
-		int addYB = 0;
-		// 对于限购特殊处理
-		if (data.type == TYPE_ADD_EXTRA_FIRST && getBuyCount(data.id, jz.id) == 0) {
-			addYB = getAddyuanbao(data, true);
-			log.info("玩家：{}， 限购类型:{}, 首次进行本类型充值，共增加元宝：{}", jz.id, data.id, addYB);
-		} else {
-			addYB = getAddyuanbao(data, false);
-		}
-		int nowYB = jz.yuanBao + addYB;
-		log.info("玩家：{}，充值之前的元宝：{}， 充值之后的元宝：{}", jz.id, jz.yuanBao, nowYB);
-		if (chongZhiId == yuekaid) {
-			YuanBaoMgr.inst.diff(jz, addYB, req.getAmount(), 0, YBType.YB_VIP_CHONGZHI, "购买月卡");
-		} else if(chongZhiId == zhongShenKa){
-			YuanBaoMgr.inst.diff(jz, addYB, req.getAmount(), 0, YBType.YB_VIP_CHONGZHI, "购买终身卡");
-		} else {
-			YuanBaoMgr.inst.diff(jz, addYB, req.getAmount(), 0, YBType.YB_VIP_CHONGZHI, "vip充值");
+		if(doAdd){
+			YuanBaoMgr.inst.diff(jz, addYB, data.addNum, 0, YBType.YB_VIP_CHONGZHI, reason);
 		}
 		int vipExp = playerVipInfo.vipExp + data.addVipExp;
 		log.info("玩家：{}，充值之前的vipExp：{}， 充值之后的vipExp：{}", jz.id, playerVipInfo.vipExp, vipExp);
@@ -262,18 +257,18 @@ public class VipMgr {
 		 * 说明： PlayerVipInfo,VipRechargeRecord,JunZhu 三张表中的vipLeve的值都表示vip等级 ,
 		 * 三者保持时时同步。
 		 */
-		int sumRmb = playerVipInfo.sumAmount + amount;
+		int sumRmb = playerVipInfo.sumAmount + data.addNum;
 		log.info("玩家：{}充值RMB，before：{}， after：{}", playerVipInfo.sumAmount, sumRmb);
 		playerVipInfo.sumAmount = sumRmb;
 		playerVipInfo.level = vip;
 		playerVipInfo.vipExp = vipExp;
 		HibernateUtil.save(playerVipInfo);
 
-		VipRechargeRecord r = new VipRechargeRecord(jz.id, amount, new Date(),
-				sumRmb, vip, chongZhiId, addYB, yueKaValid);
+		VipRechargeRecord r = new VipRechargeRecord(jz.id, data.addNum, date,
+				sumRmb, vip, data.id, addYB, remainTotalDays);
 		HibernateUtil.save(r);
-		log.info("玩家:{},充值人民币:{},成功，一次性增加了元宝:{}，现在玩家的元宝数:{}", jz.id, amount,
-				addYB, nowYB);
+		log.info("玩家:{},充值人民币:{},成功，元宝数量:{}，现在玩家的元宝数:{}", jz.id, data.addNum,
+				addYB, jz.yuanBao);
 		// 充值成功，判断首冲 TODO int count = HibernateUtil.getColumnValueMaxOnWhere(BillHist.class, "save_amt", "where jzId="+junZhuId);>0
 		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class, " where junzhuId=" + jz.id);
 		if (ShouchongMgr.instance.getShouChongState(info) == 0) {// 未完成首冲
@@ -284,8 +279,11 @@ public class VipMgr {
 		resp.setVipLevel(vip);
 		session.write(resp.build());
 		// 每日任务列表中添加可以领取月卡奖励的条目
-		if (chongZhiId == yuekaid) {
+		if (data.id == yuekaid) {
 			DailyTaskMgr.INSTANCE.taskListRequest(PD.C_DAILY_TASK_LIST_REQ, session);
+		}
+		if(data.id== yuekaid || data.id == zhoukaid){ //月卡周卡
+			EventMgr.addEvent(ED.ACTIVITY_MONTHCARD_REFRESH,session);//刷新月卡活动
 		}
 	}
 
@@ -311,6 +309,20 @@ public class VipMgr {
 					vipInfo.lastUpdateYuekaTime = date;
 					HibernateUtil.save(vipInfo);
 					log.info("君主:{}的月卡在时间:{}扣除了{}天", jzId, date, diffDays);
+				}
+			}
+			// 更新周卡信息
+			if(DateUtils.isTimeToReset(vipInfo.lastUpdateZhoukaTime, CanShu.REFRESHTIME)) {
+				Date date = new Date();
+				Calendar calendar = Calendar.getInstance();
+				calendar.set(Calendar.HOUR_OF_DAY, CanShu.REFRESHTIME);
+				int diffDays = DateUtils.daysBetween(vipInfo.lastUpdateZhoukaTime, calendar.getTime());
+				if(diffDays > 0 && vipInfo.zhouKaRemianDay > 0) {
+					vipInfo.zhouKaRemianDay -= diffDays;
+					vipInfo.zhouKaRemianDay = vipInfo.zhouKaRemianDay <= 0 ? 0 : vipInfo.zhouKaRemianDay;
+					vipInfo.lastUpdateZhoukaTime = date;
+					HibernateUtil.save(vipInfo);
+					log.info("君主:{}的周卡在时间:{}扣除了{}天", jzId, date, diffDays);
 				}
 			}
 		}
@@ -340,13 +352,6 @@ public class VipMgr {
 		HibernateUtil.save(jz);
 	}
 
-	public int getAddyuanbao(ChongZhi data, boolean isFirstRecharge) {
-		if (isFirstRecharge) {
-			return data.addNum + data.extraFirst;
-		}
-		return data.addNum + data.extraYuanbao;
-	}
-
 	public int getVipLevel(int vipLevel, int vipExp) {
 		if (maxVip == vipLevel) {
 			log.info("已经是最高vip等级");
@@ -370,27 +375,14 @@ public class VipMgr {
 	}
 
 	public VipRechargeRecord getLatestYuaKaRecord(long jid) {
-		String where = " WHERE accId = " + jid + " AND type = " + yuekaid;
+		String where = " WHERE accId = " + jid + " AND type = " + yuekaid +" order by id desc";
 		List<VipRechargeRecord> datas = HibernateUtil.list(
-				VipRechargeRecord.class, where);
+				VipRechargeRecord.class, where,0,1);
 		if (datas == null || datas.size() == 0) {
 			return null;
 		}
 		long time = 0;
-		VipRechargeRecord record = null;
-		for (VipRechargeRecord r : datas) {
-			if (r == null) {
-				continue;
-			}
-			if (r.time == null) {
-				continue;
-			}
-			long rTime = r.time.getTime();
-			if (rTime > time) {
-				time = rTime;
-				record = r;
-			}
-		}
+		VipRechargeRecord record = datas.get(0);
 		return record;
 	}
 
@@ -498,6 +490,8 @@ public class VipMgr {
 			return vip.buyJianshezhi;
 		case VipData.buy_Hufu_times:
 			return vip.buyHufu;
+		case VipData.chong_lou_exp_scale:
+			return vip.chonglou_ExpScale;
 		}
 		return 0;
 	}

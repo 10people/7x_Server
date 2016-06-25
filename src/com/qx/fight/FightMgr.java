@@ -30,8 +30,11 @@ import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.PurchaseConstants;
 import com.qx.purchase.PurchaseMgr;
 import com.qx.world.FightNPC;
+import com.qx.world.FightScene;
 import com.qx.world.Player;
 import com.qx.world.Scene;
+import com.qx.world.TowerNPC;
+import com.qx.world.YaBiaoScene;
 import com.qx.yabiao.YBBattleBean;
 import com.qx.yabiao.YaBiaoHuoDongMgr;
 import com.qx.yabiao.YaBiaoRobot;
@@ -40,22 +43,20 @@ import com.qx.yuanbao.YuanBaoMgr;
 
 import qxmobile.protobuf.AllianceFightProtos.FightAttackReq;
 import qxmobile.protobuf.AllianceFightProtos.FightAttackResp;
-import qxmobile.protobuf.AllianceFightProtos.PlayerDeadNotify;
 import qxmobile.protobuf.AllianceFightProtos.PlayerReviveNotify;
 import qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest;
 import qxmobile.protobuf.AllianceFightProtos.Result;
 
 public class FightMgr {
+	//用这个来控制是否检测距离。
+	public static int extrSkillDist = 200;
 	public static FightMgr inst;
 		
-	public static Logger logger = LoggerFactory.getLogger(FightMgr.class);
+	public static Logger logger = LoggerFactory.getLogger(FightMgr.class.getSimpleName());
 	
 	/** 玩家技能冷却map  <junzhuId, map<skillId, endTime>> */
 	public Map<Long, Map<Integer, Long>> skillCDTimeMap = new HashMap<Long, Map<Integer,Long>>();
 
-	/** 玩家技能公共冷却结束时间 */
-	public long skillGroupEndTime = System.currentTimeMillis();
-	
 	/** 玩家马车第一次被攻击记录<君主id, 第一次被攻击时间> */
 	public Map<Long, Set<Long>> cartInjuredFirstRecord = new HashMap<Long, Set<Long>>();
 	
@@ -67,7 +68,7 @@ public class FightMgr {
 		FightAttackReq.Builder request = (qxmobile.protobuf.AllianceFightProtos.FightAttackReq.Builder) builder;
 		int targetUid = request.getTargetUid();			// 被攻击者的uid
 		int skillId = request.getSkillId();				// 使用的技能id
-		//skillId = 171;
+//		skillId = 121;
 		
 		int attackUid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
 		Scene scene = (Scene) session.getAttribute(SessionAttKey.Scene);
@@ -93,7 +94,10 @@ public class FightMgr {
 			return;
 		}
 		
-		JunZhu attacker = JunZhuMgr.inst.getJunZhu(session);
+		JunZhu attacker = attackPlayer.jz;
+		if(attacker == null){
+			attacker = attackPlayer.jz = JunZhuMgr.inst.getJunZhu(session);
+		}
 		if(attacker == null) {
 			logger.error("fight攻击失败，找不到君主");
 			return;
@@ -115,40 +119,66 @@ public class FightMgr {
 		if(targetPlayer instanceof FightNPC){
 			FightNPC fp = (FightNPC)targetPlayer;
 			defender = fp.fakeJz;
+		//}else if(targetPlayer.roleId == Scene.TOWER_RoleId){
+		}else if(targetPlayer instanceof TowerNPC){
+			//此时defender是null
+			if(skillId != 101){
+				return;
+			}
 		}else{
-			defender = HibernateUtil.find(JunZhu.class, targetPlayer.jzId);
+			defender = targetPlayer.jz;
+			if(defender == null){
+				defender = targetPlayer.jz = HibernateUtil.find(JunZhu.class, targetPlayer.jzId);
+			}
 			if(defender == null) {
 				logger.error("攻击失败，找不到被攻击的君主，id:{}", targetPlayer.jzId);
 				return;
 			}
-		}
-		if(scene.checkSkill(attacker,attackPlayer,targetPlayer,skillId)==false){
-			return;
 		}
 		
 		boolean teammate = isTeammate(targetPlayer, attackPlayer); 
 		boolean targetIsSelf = isTargetIsSelf(targetUid, attackUid);
 		Skill skill = BuffMgr.inst.getSkillById(skillId);
 		float distance = scene.getPlayerDistance(attackPlayer.userId, targetPlayer.userId) * 100;
-		Result result = verifySkill(skill, targetIsSelf, distance, teammate, attacker.id);
+		Result result = verifySkill(skill, targetIsSelf, distance, teammate, attackPlayer.jzId);
 		if(result != Result.SUCCESS) {
 			logger.error("uid{}技能使用失败，attackJzId:{},targetJzId:{}，skillId:{},result:{}",
-					attackUid,attacker.id, defender.id, skillId, result);
+					attackUid,attacker.id, targetPlayer.jzId, skillId, result);
 			sendAttackError(result, scene, attackUid);
 			return;
 		}
+		//CD没问题才检查这个，否则扣了血瓶，CD又不足，就浪费血瓶了。 
+		if(scene.checkSkill(attacker,attackPlayer,targetPlayer,skillId)==false){
+			return;
+		}
 		
-		long damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, skill, targetUid);
-		damageValue = fixDamageValue(targetPlayer, skill, damageValue);
+		long damageValue = 0;
+		//if(targetPlayer.roleId == Scene.TOWER_RoleId){
+		if(targetPlayer instanceof TowerNPC){
+			TowerNPC t = (TowerNPC)targetPlayer;
+			FightScene fs = (FightScene) scene;
+			if(fs.preTowerDie(t) == false){
+			}else{
+				long ms = System.currentTimeMillis();
+				if(t.preHurtMS + FightScene.damage_CD<=ms){
+					damageValue = t.conf.zhanlingzhiAdd;
+					damageValue = Math.max(damageValue, FightScene.fixTakeTowerSpeed);
+					t.preHurtMS = ms;
+				}
+			}
+		}else{
+			damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, attackPlayer, targetPlayer, skill, targetUid, scene);
+			damageValue = fixDamageValue(targetPlayer, skill, damageValue);
+		}
 //		damageValue+=8888;
-		updateSkillCdTime(attacker.id, skill);
+		updateSkillCdTime(attackPlayer.jzId, skill);
 		BigSwitch.inst.buffMgr.processSkillEffect(damageValue, targetPlayer, skill);
 	
-		logger.info("uid{},jz:{}攻击了jz:{},使用技能:{},造成伤害值:{}",attackUid, attacker.id, defender.id, skillId, damageValue);
+		logger.info("uid{},jz:{}攻击了jz:{},使用技能:{},造成伤害值:{}",attackUid, attacker.id, targetPlayer.jzId, skillId, damageValue);
 		sendAttackResponse(attackUid, targetUid, Result.SUCCESS, skillId, scene, damageValue, targetPlayer.currentLife, true);
 		if(targetPlayer.currentLife <= 0) {
-			scene.playerDie(defender, targetUid, attackPlayer.userId);
-			if(scene.name.contains("YB")) {
+			scene.playerDie(targetPlayer,  attackPlayer.userId);
+			if(scene instanceof YaBiaoScene) {
 				JunZhu attackJz = HibernateUtil.find(JunZhu.class, attackPlayer.jzId);
 				YaBiaoHuoDongMgr.inst.isEnemy4Award(attackJz, defender);
 			}
@@ -210,7 +240,7 @@ public class FightMgr {
 			return;
 		}
 		
-		long damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, skill, targetUid);
+		long damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, attackPlayer, targetPlayer, skill, targetUid,scene);
 		damageValue = fixDamageValue(targetPlayer, skill, damageValue);
 		updateSkillCdTime(attacker.id, skill);
 		BigSwitch.inst.buffMgr.processSkillEffect(damageValue, targetPlayer, skill);
@@ -231,7 +261,7 @@ public class FightMgr {
 		}
 
 		if(targetPlayer.currentLife <= 0) {
-			scene.playerDie(defender, targetUid, attackPlayer.userId);
+			scene.playerDie(targetPlayer,  attackPlayer.userId);
 			cartInjuredFirstRecord.remove(defender.id);
 			YaBiaoHuoDongMgr.inst.settleJieBiaoResult(targetPlayer.jzId, session);
 		}
@@ -264,11 +294,11 @@ public class FightMgr {
 		}
 		defenderClone.gongJi = (int) (defenderClone.gongJi + defender.gongJi * (keJiRate / 100));
 		
-		long beatBackDamage = BigSwitch.inst.buffMgr.calcSkillDamage(defenderClone, attacker, beatBackSkill, attackUid);
+		long beatBackDamage = BigSwitch.inst.buffMgr.calcSkillDamage(defenderClone, attacker, attackPlayer, targetPlayer,beatBackSkill, attackUid,scene);
 		BigSwitch.inst.buffMgr.processSkillEffect(beatBackDamage, attackPlayer, beatBackSkill);
 		sendAttackResponse(targetUid,attackUid, Result.SUCCESS, 101, scene, beatBackDamage, attackPlayer.currentLife, true);
 		if(attackPlayer.currentLife <= 0) {
-			scene.playerDie(attacker, attackUid, targetUid);
+			scene.playerDie(attackPlayer,  targetUid);
 		}
 	}
 
@@ -305,20 +335,23 @@ public class FightMgr {
 			return Result.SKILL_TARGET_NOT_SELF;
 		}
 		// 判断距离 2016年2月1日 18:20:25 最大距离要加100
-		if(distance > skill.Range_Max + 100 || distance < skill.Range_Min) {
+		if(distance > skill.Range_Max + skill.Range_Max/2 + extrSkillDist) {
 			return Result.SKILL_DISTANCE_ERROR;
 		}
 		
 		long currentTime = System.currentTimeMillis();
-		// 判断是否受公共cd影响 
-		if(skill.IsInGCD == 1 && currentTime < skillGroupEndTime) {
-			return Result.SKILL_COOL_TIME;
-		}
 		// 判断cd时间
 		Map<Integer, Long> skillCDMap = skillCDTimeMap.get(attackerId);
 		if(skillCDMap != null) {
+			// 判断是否受公共cd影响 
+			Long gcd = skillCDMap.get(0);
+			if(gcd != null && currentTime < gcd) {
+				return Result.SKILL_COOL_TIME;
+			}
+			//
 			Long endTime = skillCDMap.get(skill.SkillId);
-			if(endTime != null && endTime >= currentTime) {
+			if(endTime != null && endTime > currentTime) {
+//				logger.info("end {} BBB {}",skill.SkillId, endTime);
 				return Result.SKILL_COOL_TIME;
 			}
 		}
@@ -374,7 +407,7 @@ public class FightMgr {
 		}
 		skillCDMap.put(skill.SkillId, System.currentTimeMillis() + skill.BaseCD);
 		if(skill.IsInGCD == 1) {
-			skillGroupEndTime = System.currentTimeMillis() + skill.CDGroup;
+			skillCDMap.put(0, System.currentTimeMillis() + skill.CDGroup);
 		}
 	}
 	

@@ -15,12 +15,19 @@ import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.ChengZhangJiJin;
 import com.manu.network.PD;
 import com.manu.network.msg.ProtobufMsg;
+import com.qx.account.AccountManager;
 import com.qx.award.AwardMgr;
+import com.qx.event.ED;
+import com.qx.event.Event;
+import com.qx.event.EventMgr;
+import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.timeworker.FunctionID;
 import com.qx.yuanbao.YuanBaoMgr;
 
+import EDU.oswego.cs.dl.util.concurrent.Executor;
 import qxmobile.protobuf.Activity.ActivityGetRewardResp;
 import qxmobile.protobuf.Activity.ActivityGrowthFundResp;
 import qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp;
@@ -28,7 +35,7 @@ import qxmobile.protobuf.Activity.GrowLevel;
 import qxmobile.protobuf.Explore.Award;
 import qxmobile.protobuf.Explore.ExploreResp;
 
-public class GrowthFundMgr {
+public class GrowthFundMgr extends EventProc{
 	public Logger logger = LoggerFactory.getLogger(GrowthFundMgr.class);
 	public static GrowthFundMgr inst;
 	public Map<Integer,ChengZhangJiJin> czMap = null;
@@ -88,6 +95,8 @@ public class GrowthFundMgr {
 		gBuyBean.buyTime = new Date();
 		gBuyBean.jzId = jz.id;
 		HibernateUtil.insert(gBuyBean);
+		//刷新红点
+		EventMgr.addEvent(ED.activity_chengzhangjijin, new Object[]{session,jz});
 		//成功返回
 		resp.setResult(0);//返回  0-成功
 		msgSend(PD.ACTIVITY_GROWTHFUND_BUY_RESP,session,resp);
@@ -206,6 +215,8 @@ public class GrowthFundMgr {
 		//道具加到身上
 		String[] itemArr = czMap.get(level).award.split(":");
 		AwardMgr.inst.giveReward(session,czMap.get(level).award,jz);
+		//刷新红点
+		EventMgr.addEvent(ED.activity_chengzhangjijin, new Object[]{session,jz});
 		//奖励弹窗消息
 		ExploreResp.Builder awardresp = ExploreResp.newBuilder();
 		awardresp.setSuccess(0);
@@ -251,5 +262,77 @@ public class GrowthFundMgr {
 			isShow =true;
 		}
 		return isShow;
+	}
+	@Override
+	public void proc(Event event) {
+		switch (event.id) {
+		case ED.JUNZHU_LOGIN:{
+			long jzId = (long)event.param;
+			IoSession session = AccountManager.sessionMap.get(jzId);
+			if(session == null){
+				return;
+			}
+			JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+			isShowRed(session,jz);
+		}
+		break;
+		case ED.junzhu_level_up:{
+			Object[] objs = (Object[])event.param;
+			long jzId = (long)objs[0];
+			IoSession session = AccountManager.sessionMap.get(jzId);
+			if(session == null){
+				return;
+			}
+			JunZhu jz = (JunZhu)objs[2];
+			isShowRed(session,jz);
+		}
+		break;
+		case ED.activity_chengzhangjijin:{
+			Object[] objects = (Object[]) event.param;
+			IoSession session = (IoSession)objects[0];
+			if(session == null){
+				return;
+			}
+			JunZhu jz = (JunZhu) objects[1];
+			isShowRed(session,jz);
+		}
+		break;
+		default:
+			break;
+		}
+	}
+	@Override
+	protected void doReg() {
+		EventMgr.regist(ED.JUNZHU_LOGIN,this);
+		EventMgr.regist(ED.junzhu_level_up,this);
+		EventMgr.regist(ED.activity_chengzhangjijin, this);
+	}
+	
+	public void isShowRed(IoSession session,JunZhu jz){
+		if(session == null){
+			return;
+		}
+		if (jz == null) {
+			logger.error("未找到君主信息");
+			return;
+		}
+		//购买状态
+		GrowthFundBuyBean gBuyBean = HibernateUtil.find(GrowthFundBuyBean.class,jz.id);
+		if(gBuyBean == null){ //没有购买基金
+			return;
+		}
+		List<GrowthFundBean> growthFundList = HibernateUtil.list(GrowthFundBean.class,"where jzId=" + jz.id + " and getState=1");
+		Map<Integer,GrowthFundBean> searchMap = new HashMap<Integer,GrowthFundBean>();
+		for (GrowthFundBean growthFundBean : growthFundList) {
+			searchMap.put(growthFundBean.level,growthFundBean);
+		}
+		List<ChengZhangJiJin> list = TempletService.getInstance().listAll(ChengZhangJiJin.class.getSimpleName());
+		for (ChengZhangJiJin chengZhangJiJin : list) {
+			if(searchMap.containsKey(chengZhangJiJin.getLevel())) continue; //领取不显示
+			if(jz.level >= chengZhangJiJin.getLevel()){
+				FunctionID.pushCanShowRed(jz.id,session,FunctionID.activity_chengzhangjijin);
+				break;
+			}
+		}
 	}
 }

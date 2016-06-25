@@ -372,6 +372,8 @@ public final class Chat {
    * <pre>
    *public static final short C_Send_Chat = 20001;//客户端发送聊天
    *public static final short S_Send_Chat = 20002;//服务器通知收到其他人的聊天。
+   *public static final short S_SEND_CHAT_ERROR = 20005;//各聊天频道发送聊天信息失败的返回协议，消息体是Error.proto的ErrorMessage
+   * 1-对方不在线，2-对方把自己屏蔽了，3-不是联盟成员了，4-元宝不足不能发送世界聊天，5-世界聊天vip不够，6-元宝不足不能发送广播聊天
    *客户端发给服务器这个消息体，服务器广播给目标客户端也是这个消息体。
    * </pre>
    */
@@ -1608,6 +1610,8 @@ public final class Chat {
      * <pre>
      *public static final short C_Send_Chat = 20001;//客户端发送聊天
      *public static final short S_Send_Chat = 20002;//服务器通知收到其他人的聊天。
+     *public static final short S_SEND_CHAT_ERROR = 20005;//各聊天频道发送聊天信息失败的返回协议，消息体是Error.proto的ErrorMessage
+     * 1-对方不在线，2-对方把自己屏蔽了，3-不是联盟成员了，4-元宝不足不能发送世界聊天，5-世界聊天vip不够，6-元宝不足不能发送广播聊天
      *客户端发给服务器这个消息体，服务器广播给目标客户端也是这个消息体。
      * </pre>
      */
@@ -3705,6 +3709,24 @@ public final class Chat {
   public interface SGetYuYingOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
+    // required int32 result = 4;
+    /**
+     * <code>required int32 result = 4;</code>
+     *
+     * <pre>
+     * 0-返回成功，1-请求的数据不存在,2-数据解析错误				
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 4;</code>
+     *
+     * <pre>
+     * 0-返回成功，1-请求的数据不存在,2-数据解析错误				
+     * </pre>
+     */
+    int getResult();
+
     // required .qxmobile.protobuf.ChatPct.Channel channel = 1;
     /**
      * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
@@ -3829,19 +3851,24 @@ public final class Chat {
               if (value == null) {
                 unknownFields.mergeVarintField(1, rawValue);
               } else {
-                bitField0_ |= 0x00000001;
+                bitField0_ |= 0x00000002;
                 channel_ = value;
               }
               break;
             }
             case 16: {
-              bitField0_ |= 0x00000002;
+              bitField0_ |= 0x00000004;
               seq_ = input.readInt32();
               break;
             }
             case 26: {
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000008;
               soundData_ = input.readBytes();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
               break;
             }
           }
@@ -3884,6 +3911,30 @@ public final class Chat {
     }
 
     private int bitField0_;
+    // required int32 result = 4;
+    public static final int RESULT_FIELD_NUMBER = 4;
+    private int result_;
+    /**
+     * <code>required int32 result = 4;</code>
+     *
+     * <pre>
+     * 0-返回成功，1-请求的数据不存在,2-数据解析错误				
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 4;</code>
+     *
+     * <pre>
+     * 0-返回成功，1-请求的数据不存在,2-数据解析错误				
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
     // required .qxmobile.protobuf.ChatPct.Channel channel = 1;
     public static final int CHANNEL_FIELD_NUMBER = 1;
     private qxmobile.protobuf.Chat.ChatPct.Channel channel_;
@@ -3895,7 +3946,7 @@ public final class Chat {
      * </pre>
      */
     public boolean hasChannel() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
@@ -3919,7 +3970,7 @@ public final class Chat {
      * </pre>
      */
     public boolean hasSeq() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>required int32 seq = 2;</code>
@@ -3943,7 +3994,7 @@ public final class Chat {
      * </pre>
      */
     public boolean hasSoundData() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>required string soundData = 3;</code>
@@ -3988,6 +4039,7 @@ public final class Chat {
     }
 
     private void initFields() {
+      result_ = 0;
       channel_ = qxmobile.protobuf.Chat.ChatPct.Channel.SILIAO;
       seq_ = 0;
       soundData_ = "";
@@ -3997,6 +4049,10 @@ public final class Chat {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasChannel()) {
         memoizedIsInitialized = 0;
         return false;
@@ -4016,14 +4072,17 @@ public final class Chat {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeEnum(1, channel_.getNumber());
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(2, seq_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBytes(3, getSoundDataBytes());
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(4, result_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4034,17 +4093,21 @@ public final class Chat {
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, channel_.getNumber());
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, seq_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, getSoundDataBytes());
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, result_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4166,12 +4229,14 @@ public final class Chat {
 
       public Builder clear() {
         super.clear();
-        channel_ = qxmobile.protobuf.Chat.ChatPct.Channel.SILIAO;
+        result_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        seq_ = 0;
+        channel_ = qxmobile.protobuf.Chat.ChatPct.Channel.SILIAO;
         bitField0_ = (bitField0_ & ~0x00000002);
-        soundData_ = "";
+        seq_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
+        soundData_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -4203,13 +4268,17 @@ public final class Chat {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.channel_ = channel_;
+        result.result_ = result_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.seq_ = seq_;
+        result.channel_ = channel_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
+        }
+        result.seq_ = seq_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
         }
         result.soundData_ = soundData_;
         result.bitField0_ = to_bitField0_;
@@ -4228,6 +4297,9 @@ public final class Chat {
 
       public Builder mergeFrom(qxmobile.protobuf.Chat.SGetYuYing other) {
         if (other == qxmobile.protobuf.Chat.SGetYuYing.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
         if (other.hasChannel()) {
           setChannel(other.getChannel());
         }
@@ -4235,7 +4307,7 @@ public final class Chat {
           setSeq(other.getSeq());
         }
         if (other.hasSoundData()) {
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000008;
           soundData_ = other.soundData_;
           onChanged();
         }
@@ -4244,6 +4316,10 @@ public final class Chat {
       }
 
       public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
         if (!hasChannel()) {
           
           return false;
@@ -4278,6 +4354,55 @@ public final class Chat {
       }
       private int bitField0_;
 
+      // required int32 result = 4;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 4;</code>
+       *
+       * <pre>
+       * 0-返回成功，1-请求的数据不存在,2-数据解析错误				
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 4;</code>
+       *
+       * <pre>
+       * 0-返回成功，1-请求的数据不存在,2-数据解析错误				
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 4;</code>
+       *
+       * <pre>
+       * 0-返回成功，1-请求的数据不存在,2-数据解析错误				
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 4;</code>
+       *
+       * <pre>
+       * 0-返回成功，1-请求的数据不存在,2-数据解析错误				
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
       // required .qxmobile.protobuf.ChatPct.Channel channel = 1;
       private qxmobile.protobuf.Chat.ChatPct.Channel channel_ = qxmobile.protobuf.Chat.ChatPct.Channel.SILIAO;
       /**
@@ -4288,7 +4413,7 @@ public final class Chat {
        * </pre>
        */
       public boolean hasChannel() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required .qxmobile.protobuf.ChatPct.Channel channel = 1;</code>
@@ -4311,7 +4436,7 @@ public final class Chat {
         if (value == null) {
           throw new NullPointerException();
         }
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         channel_ = value;
         onChanged();
         return this;
@@ -4324,7 +4449,7 @@ public final class Chat {
        * </pre>
        */
       public Builder clearChannel() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         channel_ = qxmobile.protobuf.Chat.ChatPct.Channel.SILIAO;
         onChanged();
         return this;
@@ -4340,7 +4465,7 @@ public final class Chat {
        * </pre>
        */
       public boolean hasSeq() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>required int32 seq = 2;</code>
@@ -4360,7 +4485,7 @@ public final class Chat {
        * </pre>
        */
       public Builder setSeq(int value) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         seq_ = value;
         onChanged();
         return this;
@@ -4373,7 +4498,7 @@ public final class Chat {
        * </pre>
        */
       public Builder clearSeq() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         seq_ = 0;
         onChanged();
         return this;
@@ -4389,7 +4514,7 @@ public final class Chat {
        * </pre>
        */
       public boolean hasSoundData() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>required string soundData = 3;</code>
@@ -4441,7 +4566,7 @@ public final class Chat {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         soundData_ = value;
         onChanged();
         return this;
@@ -4454,7 +4579,7 @@ public final class Chat {
        * </pre>
        */
       public Builder clearSoundData() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         soundData_ = getDefaultInstance().getSoundData();
         onChanged();
         return this;
@@ -4471,7 +4596,7 @@ public final class Chat {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         soundData_ = value;
         onChanged();
         return this;
@@ -12340,30 +12465,30 @@ public final class Chat {
       "MENG\020\001\022\n\n\006GUOJIA\020\002\022\n\n\006SHIJIE\020\003\022\n\n\006SYSTEM" +
       "\020\004\022\n\n\006XiaoWu\020\005\022\r\n\tBroadcast\020\006\"N\n\nCGetYuY" +
       "ing\0223\n\007channel\030\001 \002(\0162\".qxmobile.protobuf" +
-      ".ChatPct.Channel\022\013\n\003seq\030\002 \002(\005\"a\n\nSGetYuY" +
-      "ing\0223\n\007channel\030\001 \002(\0162\".qxmobile.protobuf" +
-      ".ChatPct.Channel\022\013\n\003seq\030\002 \002(\005\022\021\n\tsoundDa" +
-      "ta\030\003 \002(\t\";\n\010CGetChat\022\r\n\005start\030\001 \002(\005\022\013\n\003e" +
-      "nd\030\002 \002(\005\022\023\n\013channelCode\030\003 \001(\005\"8\n\014SChatLo",
-      "gList\022(\n\004logs\030\001 \003(\0132\032.qxmobile.protobuf." +
-      "ChatPct\"#\n\017JoinToBlacklist\022\020\n\010junzhuId\030\001" +
-      " \002(\003\"i\n\rBlacklistResp\022\016\n\006result\030\001 \002(\005\0226\n" +
-      "\njunzhuInfo\030\002 \001(\0132\".qxmobile.protobuf.Bl" +
-      "ackJunzhuInfo\022\020\n\010junzhuId\030\003 \001(\003\"\246\001\n\017Blac" +
-      "kJunzhuInfo\022\020\n\010junzhuId\030\001 \002(\003\022\014\n\004name\030\002 " +
-      "\002(\t\022\024\n\014lianMengName\030\003 \002(\t\022\016\n\006iconId\030\004 \002(" +
-      "\005\022\r\n\005level\030\005 \002(\005\022\r\n\005vipLv\030\006 \001(\005\022\017\n\007junXi" +
-      "an\030\007 \001(\t\022\016\n\006guojia\030\010 \001(\005\022\016\n\006zhanLi\030\t \001(\005" +
-      "\"\\\n\020GetBlacklistResp\0226\n\njunzhuInfo\030\001 \003(\013",
-      "2\".qxmobile.protobuf.BlackJunzhuInfo\022\020\n\010" +
-      "blackMax\030\003 \001(\005\"\037\n\013CancelBlack\022\020\n\010junzhuI" +
-      "d\030\001 \002(\003\"K\n\016RecentContacts\0229\n\njunzhuInfo\030" +
-      "\001 \003(\0132%.qxmobile.protobuf.ContactsJunzhu" +
-      "Info\"S\n\022ContactsJunzhuInfo\022\020\n\010junzhuId\030\001" +
-      " \002(\003\022\014\n\004name\030\002 \002(\t\022\016\n\006iconId\030\004 \002(\005\022\r\n\005le" +
-      "vel\030\005 \002(\005\"U\n\014ChatSettings\022\r\n\005world\030\001 \002(\010" +
-      "\022\020\n\010lianMeng\030\002 \002(\010\022\016\n\006siLiao\030\003 \002(\010\022\024\n\014wi" +
-      "fiAutoPlay\030\004 \002(\010B\006B\004Chat"
+      ".ChatPct.Channel\022\013\n\003seq\030\002 \002(\005\"q\n\nSGetYuY" +
+      "ing\022\016\n\006result\030\004 \002(\005\0223\n\007channel\030\001 \002(\0162\".q" +
+      "xmobile.protobuf.ChatPct.Channel\022\013\n\003seq\030" +
+      "\002 \002(\005\022\021\n\tsoundData\030\003 \002(\t\";\n\010CGetChat\022\r\n\005" +
+      "start\030\001 \002(\005\022\013\n\003end\030\002 \002(\005\022\023\n\013channelCode\030",
+      "\003 \001(\005\"8\n\014SChatLogList\022(\n\004logs\030\001 \003(\0132\032.qx" +
+      "mobile.protobuf.ChatPct\"#\n\017JoinToBlackli" +
+      "st\022\020\n\010junzhuId\030\001 \002(\003\"i\n\rBlacklistResp\022\016\n" +
+      "\006result\030\001 \002(\005\0226\n\njunzhuInfo\030\002 \001(\0132\".qxmo" +
+      "bile.protobuf.BlackJunzhuInfo\022\020\n\010junzhuI" +
+      "d\030\003 \001(\003\"\246\001\n\017BlackJunzhuInfo\022\020\n\010junzhuId\030" +
+      "\001 \002(\003\022\014\n\004name\030\002 \002(\t\022\024\n\014lianMengName\030\003 \002(" +
+      "\t\022\016\n\006iconId\030\004 \002(\005\022\r\n\005level\030\005 \002(\005\022\r\n\005vipL" +
+      "v\030\006 \001(\005\022\017\n\007junXian\030\007 \001(\t\022\016\n\006guojia\030\010 \001(\005" +
+      "\022\016\n\006zhanLi\030\t \001(\005\"\\\n\020GetBlacklistResp\0226\n\n",
+      "junzhuInfo\030\001 \003(\0132\".qxmobile.protobuf.Bla" +
+      "ckJunzhuInfo\022\020\n\010blackMax\030\003 \001(\005\"\037\n\013Cancel" +
+      "Black\022\020\n\010junzhuId\030\001 \002(\003\"K\n\016RecentContact" +
+      "s\0229\n\njunzhuInfo\030\001 \003(\0132%.qxmobile.protobu" +
+      "f.ContactsJunzhuInfo\"S\n\022ContactsJunzhuIn" +
+      "fo\022\020\n\010junzhuId\030\001 \002(\003\022\014\n\004name\030\002 \002(\t\022\016\n\006ic" +
+      "onId\030\004 \002(\005\022\r\n\005level\030\005 \002(\005\"U\n\014ChatSetting" +
+      "s\022\r\n\005world\030\001 \002(\010\022\020\n\010lianMeng\030\002 \002(\010\022\016\n\006si" +
+      "Liao\030\003 \002(\010\022\024\n\014wifiAutoPlay\030\004 \002(\010B\006B\004Chat"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -12387,7 +12512,7 @@ public final class Chat {
           internal_static_qxmobile_protobuf_SGetYuYing_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_SGetYuYing_descriptor,
-              new java.lang.String[] { "Channel", "Seq", "SoundData", });
+              new java.lang.String[] { "Result", "Channel", "Seq", "SoundData", });
           internal_static_qxmobile_protobuf_CGetChat_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_qxmobile_protobuf_CGetChat_fieldAccessorTable = new

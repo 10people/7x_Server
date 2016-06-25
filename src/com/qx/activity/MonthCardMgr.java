@@ -13,10 +13,17 @@ import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.PD;
 import com.manu.network.msg.ProtobufMsg;
+import com.qx.account.FunctionOpenMgr;
 import com.qx.award.AwardMgr;
+import com.qx.event.ED;
+import com.qx.event.Event;
+import com.qx.event.EventMgr;
+import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.timeworker.FunctionID;
 import com.qx.vip.PlayerVipInfo;
 import com.qx.vip.VipMgr;
 
@@ -27,7 +34,7 @@ import qxmobile.protobuf.Activity.MonthCardInfo;
 import qxmobile.protobuf.Explore.Award;
 import qxmobile.protobuf.Explore.ExploreResp;
 
-public class MonthCardMgr {
+public class MonthCardMgr extends EventProc{
 	public Logger logger = LoggerFactory.getLogger(ShouchongMgr.class);
 	public static MonthCardMgr inst;
 	public static int minth_card1_status = 0; // 0-需要充值，1-已经充值未领取，2-已经领取 测试用
@@ -70,7 +77,7 @@ public class MonthCardMgr {
 			info.setResult(RESP_0);
 		}else{
 			//校验时间
-			if(!isMonthCardReward(fuliInfo,0)){ 
+			if(!isMonthCardReward(fuliInfo,1)){ 
 				info.setResult(RESP_2);//已经领取
 				info.setCd(getRewardCd());
 			}else{
@@ -79,23 +86,24 @@ public class MonthCardMgr {
 		}
 		info.setGiveNum(CanShu.YUEKA_YUANBAO); //领取元宝数
 		info.setRmDays(rmDays); //剩余天数
-		resp.addMonthCard(info);
-		//终身卡
+		//周卡
 		MonthCardInfo.Builder info2 = MonthCardInfo.newBuilder();
-		if(playerVipInfo.haveZhongShenKa <= 0){ //没有购买终身卡
+		if(playerVipInfo.zhouKaRemianDay <= 0){ //没有购买周卡
 			info2.setResult(RESP_0);
 		}else{
 			//校验时间
-			if(!isMonthCardReward(fuliInfo,1)){ 
+			if(!isMonthCardReward(fuliInfo,0)){ 
 				info2.setResult(RESP_2);//已经领取
 				info2.setCd(getRewardCd());
 			}else{
 				info2.setResult(RESP_1);//可以领取
 			}
 		}
-		info2.setGiveNum(CanShu.ZHONGSHENKA_YUANBAO);
-		info2.setRmDays(-1);
-		resp.addMonthCard(info2);
+		info2.setGiveNum(CanShu.ZHOUKA_YUANBAO);
+		info2.setRmDays(playerVipInfo.zhouKaRemianDay);
+		//周卡在前面
+		resp.addMonthCard(info2); 
+		resp.addMonthCard(info);
 		ProtobufMsg msg = new ProtobufMsg();
 		msg.id = PD.ACTIVITY_MONTH_CARD_INFO_RESP;
 		msg.builder = resp;
@@ -121,7 +129,30 @@ public class MonthCardMgr {
 		ActivityGetRewardResp.Builder resp = ActivityGetRewardResp.newBuilder();
 		int give = 0; //元宝数
 		boolean success = false;
-		if(type == 0){ //月卡
+		if(type == 0){ //周卡
+			if(playerVipInfo.zhouKaRemianDay <= 0){ //没有购买周卡
+				resp.setResult(RESP_1); //需要充值
+			}else{
+				//校验是否已经领取过
+				if(!isMonthCardReward(fuliInfo,type)){ 
+					resp.setResult(RESP_2); //已经领取
+				}else{
+					success = true;
+					resp.setResult(RESP_0); //成功
+					//更新领取状态
+					if(fuliInfo == null){
+						fuliInfo = new FuliInfo();
+						fuliInfo.jzId = jz.id;
+						fuliInfo.getZhouKaTime = new Date();
+						HibernateUtil.insert(fuliInfo);
+					}else{
+						fuliInfo.getZhouKaTime = new Date();
+						HibernateUtil.update(fuliInfo);
+					}
+				}
+			}
+			give = CanShu.ZHOUKA_YUANBAO;
+		}else if(type == 1){ //月卡
 			if(playerVipInfo.yueKaRemianDay <= 0){ //没有购买月卡
 				resp.setResult(RESP_1); //需要充值
 			}else{
@@ -144,7 +175,7 @@ public class MonthCardMgr {
 				}
 			}
 			give = CanShu.YUEKA_YUANBAO;
-		}else if(type == 1){ //终身卡
+		}else if(type == 2){ //终身卡
 			if(playerVipInfo.haveZhongShenKa <= 0){ //没有购买终身卡
 				resp.setResult(RESP_1); //需要充值
 			}else{
@@ -202,15 +233,19 @@ public class MonthCardMgr {
 	
 	/**
 	 * @Description 校验月卡、终身卡是否领取
-	 * @param type 0 月卡，1终身卡
+	 * @param type 0 周卡，1月卡，2终身卡
 	 */
 	public boolean isMonthCardReward(FuliInfo info,int type) {
 		boolean result = true;
 		if(type == 0){
+			if(info != null&&info.getZhouKaTime != null){
+				result = DateUtils.isTimeToReset(info.getZhouKaTime,CanShu.REFRESHTIME_PURCHASE);
+			}
+		}else if(type == 1){
 			if(info != null&&info.getYuKaFuLiTime != null){
 				result = DateUtils.isTimeToReset(info.getYuKaFuLiTime,CanShu.REFRESHTIME_PURCHASE);
 			}
-		}else if(type == 1){
+		}else if(type == 2){
 			if(info != null&&info.getZhongShenKaTime != null){
 				result = DateUtils.isTimeToReset(info.getZhongShenKaTime,CanShu.REFRESHTIME_PURCHASE);
 			}
@@ -235,5 +270,23 @@ public class MonthCardMgr {
 		}else{
 			return (int)(now - calendar.getTimeInMillis() / 1000);
 		}
+	}
+	@Override
+	public void proc(Event param) {
+		switch (param.id) {
+		case ED.ACTIVITY_MONTHCARD_REFRESH:
+			IoSession session=(IoSession)param.param;
+			if(session == null){
+				break;
+			}
+			monthCardInfo(PD.ACTIVITY_MONTH_CARD_INFO_REQ, session,null);
+			break;
+		default:
+			break;
+		}
+	}
+	@Override
+	protected void doReg() {
+		EventMgr.regist(ED.ACTIVITY_MONTHCARD_REFRESH, this);
 	}
 }

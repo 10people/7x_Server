@@ -326,6 +326,8 @@ public class ExploreMgr extends EventProc{
 		 *  增加探宝额外奖励 20160411
 		 */
 		addExtraAward(reqType, session, jz);
+		// 同步君主元宝/战力信息
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 		// end
 		session.removeAttribute("inTanBaoGiveReward");
 		ExploreResp.Builder resp = ExploreResp.newBuilder();
@@ -348,12 +350,12 @@ public class ExploreMgr extends EventProc{
 		ActLog.log.FineGem(jz.id, jz.name, ActLog.vopenid, reqType, 0, "0", 0, "0", 0);
 
 		// 一次探宝任务完成
-		for (AwardTemp a : awards) {
-			if (a.getItemId() == TaskData.tanbao_itemId_1){
-				EventMgr.addEvent(ED.get_item_finish, new Object[] { jz.id,
-						a.getItemId() });
-			}
-		}
+//		for (AwardTemp a : awards) {
+//			if (a.getItemId() == TaskData.tanbao_itemId_1){
+//				EventMgr.addEvent(ED.get_item_finish, new Object[] { jz.id,
+//						a.getItemId() });
+//			}
+//		}
 		// 每日任务中记录探宝成功chouCishu次
 		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
 				jz.id, DailyTaskConstants.tanbao_5_id, chouCishu));
@@ -823,8 +825,6 @@ public class ExploreMgr extends EventProc{
 		HibernateUtil.update(jz);
 		log.info("玩家id{},姓名 {}, 购买 探宝, 花费元宝{}个", jz.id, jz.name,
 				 money);
-		// 同步君主元宝信息
-		JunZhuMgr.inst.sendMainInfo(session,jz);
 		return true;
 	}
 //	public byte isBuySuccess(JunZhu jz, int type, IoSession session) {

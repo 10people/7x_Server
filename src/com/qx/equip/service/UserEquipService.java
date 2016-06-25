@@ -26,6 +26,7 @@ import com.manu.dynasty.template.ItemTemp;
 import com.manu.dynasty.template.QiangHua;
 import com.manu.dynasty.template.ZhuangBei;
 import com.manu.dynasty.util.BaseException;
+import com.qx.account.FunctionOpenMgr;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
 import com.qx.bag.BagMgr;
@@ -63,7 +64,11 @@ public class UserEquipService {
 		if(junZhu == null) {
 			log.error("未发现君主");
 			return;
-		}		
+		}
+		if(!FunctionOpenMgr.inst.isFunctionOpen(UserEquipAction.qiangHuaFunctionId, junZhu.id, junZhu.level)){
+			log.error("君主{}尝试装备强化失败，等级{}尚未开启装备强化功能",junZhu.id , junZhu.level);
+			return ;
+		}
 		int junzhulevel=junZhu.level;
 		Long junZhuId = junZhu.id;
 		long equipId = req.getEquipId();
@@ -471,7 +476,6 @@ public class UserEquipService {
 		resp.setZhuangbeiID(zhuangbeiCfg.getId());
 		resp.setJinJieExp(dbUe.JinJieExp);
 		//以上1.0版本改变洗练逻辑
-		session.write(resp.build());
 		// 发送君主信息 2015年9月24日
 		if(doIt){
 			JunZhuMgr.inst.sendMainInfo(session,junZhu);
@@ -480,6 +484,7 @@ public class UserEquipService {
 			BagMgr.inst.sendBagInfo(session, bag);
 			BagMgr.inst.sendEquipInfo(0, session, null);
 		}
+		session.write(resp.build());
 	}
 	
 	
@@ -506,6 +511,10 @@ public class UserEquipService {
 			log.error("未发现君主");
 			return;
 		}	
+		if(!FunctionOpenMgr.inst.isFunctionOpen(UserEquipAction.qiangHuaFunctionId, junZhu.id, junZhu.level)){
+			log.error("君主{}尝试一键强化失败，等级{}尚未开启装备强化功能",junZhu.id , junZhu.level);
+			return ;
+		}
 		long junZhuId = junZhu.id;
 		log.info("君主{}开始==============《一键强化》",junZhuId);
 		//{//let me show you
@@ -1062,8 +1071,10 @@ public class UserEquipService {
 		}
 		int cnt = list.size();
 		int ret = -1;
+		int minBuWei = 16;
 		int lowLevel = Integer.MAX_VALUE;
 		int lowNeedExp= Integer.MAX_VALUE;
+		log.error("强化目标是武器：{}",isWuQi);
 		for(int i=0;i<cnt; i++){
 			EquipGrid eg = list.get(i);
 			if(eg == null){
@@ -1085,9 +1096,22 @@ public class UserEquipService {
 					continue ;
 				}
 			}
-			if(eg.instId<0){//没强化，就先强化
-				ret = i;
-				break;
+			if(eg.instId<0){//没强化，等级必然是最低的，直接判断经验
+				lowLevel = 0;
+				ExpTemp qhExp = TempletService.getInstance().getExpTemp(t.expId, 0);
+				if(qhExp == null)continue;
+				int needExp = qhExp.getNeedExp();
+				if(needExp < lowNeedExp){
+					ret = i;
+					lowNeedExp = needExp ;
+					minBuWei = t.buWei;
+				}else if(needExp == lowNeedExp){//需要经验相同，就判断部位
+					if(t.buWei < minBuWei ){
+						ret = i;
+						minBuWei = t.buWei;
+					}
+				}
+				continue ;
 			}
 			UserEquip ue = HibernateUtil.find(UserEquip.class, eg.instId);
 			if(ue == null){
@@ -1097,25 +1121,25 @@ public class UserEquipService {
 			if(ue.getLevel()>=junZhu.level){
 				continue;
 			}
-			//等级同样低 
-			if(ue.getLevel()==lowLevel){
-				//保存经验更低的
-				if(t.getExp()<lowNeedExp){
-					lowLevel = ue.getLevel();
-					ret = i;
-				}else{
-					continue;
-				}
-			}
 			//判断等级最低
+			ExpTemp qhExp = TempletService.getInstance().getExpTemp(t.expId, ue.getLevel());
+			if(qhExp == null)continue ;
+			int needExp = qhExp.getNeedExp() - ue.getExp();
 			if(ue.getLevel()<lowLevel){
-				//等级同样低 保存经验更低的
-				if(ue.getLevel()==lowLevel&&t.getExp()<lowNeedExp){
-					lowLevel = ue.getLevel();
+				ret = i;
+				lowLevel = ue.getLevel();
+				lowNeedExp = needExp ;
+				minBuWei = t.buWei;
+			}else if(ue.getLevel()==lowLevel){//强化等级相同，判断经验
+				if( needExp < lowNeedExp){
 					ret = i;
-				}else{
-					lowLevel = ue.getLevel();
-					ret = i;
+					lowNeedExp = needExp ;
+					minBuWei = t.buWei;
+				}else if(needExp == lowNeedExp){
+					if(t.buWei < minBuWei ){
+						ret = i;
+						minBuWei = t.buWei;
+					}
 				}
 			}
 		}

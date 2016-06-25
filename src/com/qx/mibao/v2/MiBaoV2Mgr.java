@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.AwardTemp;
-import com.manu.dynasty.template.MiBao;
 import com.manu.dynasty.template.MiBaoNew;
 import com.manu.dynasty.template.MiBaoNewSuiPian;
 import com.manu.network.PD;
+import com.manu.network.SessionManager;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.event.ED;
 import com.qx.event.EventMgr;
@@ -166,14 +166,14 @@ public class MiBaoV2Mgr {
 					a.getItemNum(), jz.id);
 			return;
 		}
-		a.setItemId(op.get().mibaoID);
+		int mibaoID = op.get().mibaoID;
 		
 		MiBaoV2Bean bean = HibernateUtil.find(MiBaoV2Bean.class, "where ownerId="+jz.id
-				+" and miBaoId="+a.getItemId());
+				+" and miBaoId="+mibaoID);
 		if(bean == null){
 			bean = new MiBaoV2Bean();
 			bean.ownerId = jz.id;
-			bean.miBaoId = a.getItemId();
+			bean.miBaoId = mibaoID;
 			bean.suiPianNum=a.getItemNum();
 			bean.main = ( (bean.miBaoId / 100) % 10 ) == 1;//等级1的设置为主线.
 			HibernateUtil.insert(bean);
@@ -182,7 +182,13 @@ public class MiBaoV2Mgr {
 			bean.suiPianNum+=a.getItemNum();
 			HibernateUtil.update(bean);
 		}
+		IoSession session = SessionManager.inst.getIoSession(jz.id);
+		if(session != null) {
+			sendMainInfo(0, session, null);
+		}
 		EventMgr.addEvent(ED.get_mbSuiPian_x_y, new Object[]{jz.id});
+		//实际是检查红点
+		JunZhuMgr.inst.calcNewMiBao(jz);
 	}
 	public void jiHuo(int id, IoSession session, Builder builder) {
 		ErrorMessage.Builder req = (ErrorMessage.Builder)builder;
@@ -215,6 +221,7 @@ public class MiBaoV2Mgr {
 		//这里有问题，如有有提前已获得的高级秘宝
 		HibernateUtil.update(bean);
 		EventMgr.addEvent(ED.get_miBao_x_pinZhi_y, new Object[]{jz.id});
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 	}
 	public void miShuJiHuo(int id, IoSession session, Builder builder) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
@@ -239,8 +246,10 @@ public class MiBaoV2Mgr {
 			}
 			MiBaoNew conf = confMap.get(bean.miBaoId);
 			//查下一等级的是否已经有了
+			String hql = "where ownerId="+jz.id+" and miBaoId="+(bean.miBaoId+100) ;
+			log.error(hql);
 			MiBaoV2Bean nextBean = HibernateUtil.find(MiBaoV2Bean.class, 
-					"where ownerId="+jz.id+" and miBaoId="+bean.miBaoId+1);
+					hql );
 			if(nextBean == null){
 				nextBean = new MiBaoV2Bean();
 				nextBean.ownerId = jz.id;
@@ -254,6 +263,7 @@ public class MiBaoV2Mgr {
 			bean.main = false;
 			HibernateUtil.update(bean);
 		}
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 	}
 	/**传入玩家ID和秘宝品质，返回不低于秘宝品质的秘宝数量*/
 	public int getMiBaoNum(int pinZhi , long junZhuId){
@@ -295,5 +305,20 @@ public class MiBaoV2Mgr {
 			}
 		}
 		return res ;
+	}
+	/**推送秘宝信息，主要是当前秘宝的碎片数量*/
+	public void sendMiBaoInfo(int id, IoSession session, Builder builder){
+		if(session == null ){
+			return ;
+		}
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if(junZhu == null){
+			return;
+		}
+		ProtobufMsg msg = new ProtobufMsg();
+		msg.id = PD.S_SEND_MIBAO_INFO;
+		AtomicBoolean optional = new AtomicBoolean(false);
+		msg.builder = MiBaoV2Mgr.inst.getMibaoInfoResp(junZhu, optional);
+		session.write(msg);
 	}
 }

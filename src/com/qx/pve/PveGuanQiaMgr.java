@@ -1412,7 +1412,7 @@ public class PveGuanQiaMgr {
 		List<PveTemp> list = TempletService.listAll(PveTemp.class.getSimpleName());
 		Map<Integer, PveRecord> rMap = recordMgr.getRecords(junzhu.id);
 		int zhangJieIdMax = getZhangJieIdMax(list, rMap);
-		for(int i = 1; i < zhangJieIdMax; i++) {
+		for(int i = 1; i <= zhangJieIdMax; i++) {
 			Integer lastGuanQiaId = PveMgr.lastGuanQiaOfZhang.get(i);
 			for(Map.Entry<Integer, PveRecord> entry : rMap.entrySet()) {
 				Integer zhangJieId = entry.getKey();

@@ -1,3 +1,4 @@
+<%@page import="com.qx.mibao.v2.MiBaoV2Bean"%>
 <%@page import="qxmobile.protobuf.ErrorMessageProtos.ErrorMessage"%>
 <%@page import="com.manu.dynasty.template.MiBaoNew"%>
 <%@page import="qxmobile.protobuf.MibaoProtos.MibaoInfo"%>
@@ -35,9 +36,11 @@
 <body>
 	<%
 	String name = request.getParameter("account");
-name = name == null ? "": name.trim();
-String accIdStr = request.getParameter("accId");// 用户id
-accIdStr = (accIdStr == null ? "":accIdStr.trim());
+	name = name == null ? "": name.trim();
+	String accIdStr = request.getParameter("accId");// 用户id
+	accIdStr = (accIdStr == null ? "":accIdStr.trim());
+	String mbIdStr = request.getParameter("mbId");
+	String mbNumStr = request.getParameter("mbNum");
 if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()==0){
 	name = (String)session.getAttribute("name");
 }
@@ -47,6 +50,7 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		账号ID<input type="text" name="accId" value="<%=accIdStr%>">
 		<button type="submit">查询</button>
 	</form>
+	
 	<br>
 	<%
 	Account account = null;
@@ -72,6 +76,7 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		<%
 		//--------------------------------------
 		long junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+		%>君主id:<%= junZhuId%><% 
 		JunZhu jz= HibernateUtil.find(JunZhu.class, junZhuId);
 		if(jz != null){
 			String action = request.getParameter("action");
@@ -82,7 +87,7 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 				a.setAwardId(0);
 				a.setItemId(mibaoId);
 				a.setItemNum(1);
-				a.setItemType(AwardMgr.TYPE_MI_BAO);
+				a.setItemType(AwardMgr.TYPE_NEW_MI_BAO);
 				SessionUser su = SessionManager.inst.findByJunZhuId(junZhuId);
                 if(su!=null){
                     AwardMgr.inst.giveReward(su.session, a, jz, false, false);
@@ -104,6 +109,27 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
                 }else{
                     AwardMgr.inst.giveReward(null, a, jz, false, false);
                 }
+			}else if("pltianjia".equals(action)){
+				
+				if( mbIdStr != null && mbNumStr != null ){
+					int mbId = Integer.parseInt(mbIdStr);
+	                int num = Integer.parseInt(mbNumStr);
+	                MiBaoNew mbTemp = MiBaoV2Mgr.inst.confMap.get(mbId);
+	                if(mbTemp != null ){
+	                	AwardTemp a = new AwardTemp();
+		                a.setAwardId(0);
+		                a.setItemId(mbId+10000);
+		                a.setItemNum(num);
+		                a.setItemType(AwardMgr.TYPE_NEW_MOBAI_SUIPIAN);
+		                SessionUser su = SessionManager.inst.findByJunZhuId(junZhuId);
+		                if(su!=null){
+		                    AwardMgr.inst.giveReward(su.session, a, jz, false, false);
+		                }else{
+		                    AwardMgr.inst.giveReward(null, a, jz, false, false);
+		                }
+	                }
+				}
+                
 			} else if("update".equals(action)) {
 				int tempId = Integer.parseInt(request.getParameter("tempId"));
 				int mibaoId = Integer.parseInt(request.getParameter("mibaoId"));
@@ -123,6 +149,18 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 				long dbId = Long.parseLong(request.getParameter("dbId"));
 				MiBaoDB miBaoDB = HibernateUtil.find(MiBaoDB.class, dbId);
 				HibernateUtil.delete(miBaoDB);
+			} else if("check".equals(action)){
+			//	long jzId= Long.parseLong(request.getParameter("jzId".trim()));
+				int mbId= Integer.parseInt(request.getParameter("mbId".trim()));
+				long dbId= Long.parseLong(request.getParameter("dbId".trim()));
+				
+				List<MiBaoV2Bean> list = HibernateUtil.list(MiBaoV2Bean.class, "where ownerId = "+junZhuId+" and miBaoId = "+ mbId);
+				for(int i= 0 ; i < list.size() ; i++){
+					if(list.get(i).dbId != dbId && !list.get(i).main){
+						HibernateUtil.delete(list.get(i));
+					}
+				}
+				out("啦啦啦啦啦，清理成功！！！"+mbId +""+dbId);
 			}
 		}
 		IoSession ss = createSession(jz.id);
@@ -161,12 +199,42 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 			<td><% out.append("<a href=mibaoV2.jsp?dbId=" + bean.getDbId() + "&action=delMibao>删除</a>"); %>-
 			<% out.append("<a href=mibaoV2.jsp?spId=" + (bean.getMiBaoId()+10000) + "&action=addSuipian>加碎片</a>"); %>
 			<% out.append("<a href=mibaoV2.jsp?dbId=" + (bean.getDbId()) + "&action=jiHuo>激活</a>"); %>
+			<% out.append("<a href=mibaoV2.jsp?dbId=" + (bean.getDbId()) + "&mbId="+bean.getMiBaoId()+"&action=check>清理</a>"); %>
 			</td>
 			</tr>
 			<%
 		}
 		%>
+		
 		</table>
+		<%
+		List<MiBaoV2Bean> mbList = HibernateUtil.list(MiBaoV2Bean.class, "where ownerId = " + jz.id + "order by miBaoId");
+		if(mbList != null && mbList.size() >0){
+			%>
+			<table border='1'>
+			<tr><th>数据库id</th><th>秘宝ID</th><th>碎片数量</th><th>已激活</th><th>当前收集中</th></tr>
+			<% 
+			for( MiBaoV2Bean mbBean : mbList){
+				%>
+				<tr>
+				<td><%= mbBean.dbId %></td>
+				<td><%= mbBean.miBaoId %></td>
+				<td><%= mbBean.suiPianNum %></td>
+				<td><%= mbBean.active ? "是":"否" %></td>
+				<td><%= mbBean.main ? "是":"否"  %></td>
+				<%
+			}
+		}
+		%>
+		<br>
+		<form action="">
+		<input type="hidden" name="action" value="pltianjia">
+		秘宝id<input type="text" name="mbId" value=<%=mbIdStr == null ?"": mbIdStr%>>
+		碎片数量<input type="text" name="mbNum" value=<%=mbNumStr == null ?"": mbNumStr%>>
+		<button type="submit">添加</button>
+		</form>
+		<br>
+		
 		<%
 	}
 	%>

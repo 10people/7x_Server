@@ -10208,6 +10208,24 @@ public final class UserEquipProtos {
      * </pre>
      */
     int getCount4New();
+
+    // optional bool closeRedPoint = 49;
+    /**
+     * <code>optional bool closeRedPoint = 49;</code>
+     *
+     * <pre>
+     *可以关闭红点提醒
+     * </pre>
+     */
+    boolean hasCloseRedPoint();
+    /**
+     * <code>optional bool closeRedPoint = 49;</code>
+     *
+     * <pre>
+     *可以关闭红点提醒
+     * </pre>
+     */
+    boolean getCloseRedPoint();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.XiLianRes}
@@ -10499,6 +10517,11 @@ public final class UserEquipProtos {
             case 384: {
               bitField1_ |= 0x00008000;
               count4New_ = input.readInt32();
+              break;
+            }
+            case 392: {
+              bitField1_ |= 0x00010000;
+              closeRedPoint_ = input.readBool();
               break;
             }
           }
@@ -11628,6 +11651,30 @@ public final class UserEquipProtos {
       return count4New_;
     }
 
+    // optional bool closeRedPoint = 49;
+    public static final int CLOSEREDPOINT_FIELD_NUMBER = 49;
+    private boolean closeRedPoint_;
+    /**
+     * <code>optional bool closeRedPoint = 49;</code>
+     *
+     * <pre>
+     *可以关闭红点提醒
+     * </pre>
+     */
+    public boolean hasCloseRedPoint() {
+      return ((bitField1_ & 0x00010000) == 0x00010000);
+    }
+    /**
+     * <code>optional bool closeRedPoint = 49;</code>
+     *
+     * <pre>
+     *可以关闭红点提醒
+     * </pre>
+     */
+    public boolean getCloseRedPoint() {
+      return closeRedPoint_;
+    }
+
     private void initFields() {
       equipId_ = 0L;
       tongShuai_ = 0;
@@ -11677,6 +11724,7 @@ public final class UserEquipProtos {
       zhuangbeiID_ = 0;
       xilianshiTimes_ = 0;
       count4New_ = 0;
+      closeRedPoint_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -11882,6 +11930,9 @@ public final class UserEquipProtos {
       if (((bitField1_ & 0x00008000) == 0x00008000)) {
         output.writeInt32(48, count4New_);
       }
+      if (((bitField1_ & 0x00010000) == 0x00010000)) {
+        output.writeBool(49, closeRedPoint_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -12082,6 +12133,10 @@ public final class UserEquipProtos {
       if (((bitField1_ & 0x00008000) == 0x00008000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(48, count4New_);
+      }
+      if (((bitField1_ & 0x00010000) == 0x00010000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(49, closeRedPoint_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -12295,6 +12350,8 @@ public final class UserEquipProtos {
         bitField1_ = (bitField1_ & ~0x00004000);
         count4New_ = 0;
         bitField1_ = (bitField1_ & ~0x00008000);
+        closeRedPoint_ = false;
+        bitField1_ = (bitField1_ & ~0x00010000);
         return this;
       }
 
@@ -12517,6 +12574,10 @@ public final class UserEquipProtos {
           to_bitField1_ |= 0x00008000;
         }
         result.count4New_ = count4New_;
+        if (((from_bitField1_ & 0x00010000) == 0x00010000)) {
+          to_bitField1_ |= 0x00010000;
+        }
+        result.closeRedPoint_ = closeRedPoint_;
         result.bitField0_ = to_bitField0_;
         result.bitField1_ = to_bitField1_;
         onBuilt();
@@ -12677,6 +12738,9 @@ public final class UserEquipProtos {
         }
         if (other.hasCount4New()) {
           setCount4New(other.getCount4New());
+        }
+        if (other.hasCloseRedPoint()) {
+          setCloseRedPoint(other.getCloseRedPoint());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -14974,6 +15038,55 @@ public final class UserEquipProtos {
         return this;
       }
 
+      // optional bool closeRedPoint = 49;
+      private boolean closeRedPoint_ ;
+      /**
+       * <code>optional bool closeRedPoint = 49;</code>
+       *
+       * <pre>
+       *可以关闭红点提醒
+       * </pre>
+       */
+      public boolean hasCloseRedPoint() {
+        return ((bitField1_ & 0x00010000) == 0x00010000);
+      }
+      /**
+       * <code>optional bool closeRedPoint = 49;</code>
+       *
+       * <pre>
+       *可以关闭红点提醒
+       * </pre>
+       */
+      public boolean getCloseRedPoint() {
+        return closeRedPoint_;
+      }
+      /**
+       * <code>optional bool closeRedPoint = 49;</code>
+       *
+       * <pre>
+       *可以关闭红点提醒
+       * </pre>
+       */
+      public Builder setCloseRedPoint(boolean value) {
+        bitField1_ |= 0x00010000;
+        closeRedPoint_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool closeRedPoint = 49;</code>
+       *
+       * <pre>
+       *可以关闭红点提醒
+       * </pre>
+       */
+      public Builder clearCloseRedPoint() {
+        bitField1_ = (bitField1_ & ~0x00010000);
+        closeRedPoint_ = false;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.XiLianRes)
     }
 
@@ -15674,7 +15787,7 @@ public final class UserEquipProtos {
      * <code>required int32 exp = 2;</code>
      *
      * <pre>
-     *强化获得的总经验
+     *目前装备进阶经验
      * </pre>
      */
     boolean hasExp();
@@ -15682,7 +15795,7 @@ public final class UserEquipProtos {
      * <code>required int32 exp = 2;</code>
      *
      * <pre>
-     *强化获得的总经验
+     *目前装备进阶经验
      * </pre>
      */
     int getExp();
@@ -15708,30 +15821,54 @@ public final class UserEquipProtos {
     // optional int32 gongJi = 4;
     /**
      * <code>optional int32 gongJi = 4;</code>
+     *
+     * <pre>
+     *进阶后的装备攻击
+     * </pre>
      */
     boolean hasGongJi();
     /**
      * <code>optional int32 gongJi = 4;</code>
+     *
+     * <pre>
+     *进阶后的装备攻击
+     * </pre>
      */
     int getGongJi();
 
     // optional int32 fangYu = 5;
     /**
      * <code>optional int32 fangYu = 5;</code>
+     *
+     * <pre>
+     *进阶后的装备防御
+     * </pre>
      */
     boolean hasFangYu();
     /**
      * <code>optional int32 fangYu = 5;</code>
+     *
+     * <pre>
+     *进阶后的装备防御
+     * </pre>
      */
     int getFangYu();
 
     // optional int32 shengMing = 6;
     /**
      * <code>optional int32 shengMing = 6;</code>
+     *
+     * <pre>
+     *进阶后的装备生命
+     * </pre>
      */
     boolean hasShengMing();
     /**
      * <code>optional int32 shengMing = 6;</code>
+     *
+     * <pre>
+     *进阶后的装备生命
+     * </pre>
      */
     int getShengMing();
 
@@ -15740,7 +15877,7 @@ public final class UserEquipProtos {
      * <code>optional int32 gongJiAdd = 7;</code>
      *
      * <pre>
-     *界面上绿色的数值。
+     *装备进阶操作增加的攻击
      * </pre>
      */
     boolean hasGongJiAdd();
@@ -15748,7 +15885,7 @@ public final class UserEquipProtos {
      * <code>optional int32 gongJiAdd = 7;</code>
      *
      * <pre>
-     *界面上绿色的数值。
+     *装备进阶操作增加的攻击
      * </pre>
      */
     int getGongJiAdd();
@@ -15756,20 +15893,36 @@ public final class UserEquipProtos {
     // optional int32 fangYuAdd = 8;
     /**
      * <code>optional int32 fangYuAdd = 8;</code>
+     *
+     * <pre>
+     *装备进阶操作增加的防御
+     * </pre>
      */
     boolean hasFangYuAdd();
     /**
      * <code>optional int32 fangYuAdd = 8;</code>
+     *
+     * <pre>
+     *装备进阶操作增加的防御
+     * </pre>
      */
     int getFangYuAdd();
 
     // optional int32 shengMingAdd = 9;
     /**
      * <code>optional int32 shengMingAdd = 9;</code>
+     *
+     * <pre>
+     *装备进阶操作增加的生命
+     * </pre>
      */
     boolean hasShengMingAdd();
     /**
      * <code>optional int32 shengMingAdd = 9;</code>
+     *
+     * <pre>
+     *装备进阶操作增加的生命
+     * </pre>
      */
     int getShengMingAdd();
 
@@ -15778,7 +15931,7 @@ public final class UserEquipProtos {
      * <code>required int32 expMax = 10;</code>
      *
      * <pre>
-     *升级所需经验，-1表示已达到最大级别，没有下一级。
+     *进阶到下一级所需经验，-1表示已达到最大级别，没有下一级。
      * </pre>
      */
     boolean hasExpMax();
@@ -15786,7 +15939,7 @@ public final class UserEquipProtos {
      * <code>required int32 expMax = 10;</code>
      *
      * <pre>
-     *升级所需经验，-1表示已达到最大级别，没有下一级。
+     *进阶到下一级所需经验，-1表示已达到最大级别，没有下一级。
      * </pre>
      */
     int getExpMax();
@@ -15992,7 +16145,7 @@ public final class UserEquipProtos {
      * <code>required int32 exp = 2;</code>
      *
      * <pre>
-     *强化获得的总经验
+     *目前装备进阶经验
      * </pre>
      */
     public boolean hasExp() {
@@ -16002,7 +16155,7 @@ public final class UserEquipProtos {
      * <code>required int32 exp = 2;</code>
      *
      * <pre>
-     *强化获得的总经验
+     *目前装备进阶经验
      * </pre>
      */
     public int getExp() {
@@ -16038,12 +16191,20 @@ public final class UserEquipProtos {
     private int gongJi_;
     /**
      * <code>optional int32 gongJi = 4;</code>
+     *
+     * <pre>
+     *进阶后的装备攻击
+     * </pre>
      */
     public boolean hasGongJi() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <code>optional int32 gongJi = 4;</code>
+     *
+     * <pre>
+     *进阶后的装备攻击
+     * </pre>
      */
     public int getGongJi() {
       return gongJi_;
@@ -16054,12 +16215,20 @@ public final class UserEquipProtos {
     private int fangYu_;
     /**
      * <code>optional int32 fangYu = 5;</code>
+     *
+     * <pre>
+     *进阶后的装备防御
+     * </pre>
      */
     public boolean hasFangYu() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
      * <code>optional int32 fangYu = 5;</code>
+     *
+     * <pre>
+     *进阶后的装备防御
+     * </pre>
      */
     public int getFangYu() {
       return fangYu_;
@@ -16070,12 +16239,20 @@ public final class UserEquipProtos {
     private int shengMing_;
     /**
      * <code>optional int32 shengMing = 6;</code>
+     *
+     * <pre>
+     *进阶后的装备生命
+     * </pre>
      */
     public boolean hasShengMing() {
       return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
      * <code>optional int32 shengMing = 6;</code>
+     *
+     * <pre>
+     *进阶后的装备生命
+     * </pre>
      */
     public int getShengMing() {
       return shengMing_;
@@ -16088,7 +16265,7 @@ public final class UserEquipProtos {
      * <code>optional int32 gongJiAdd = 7;</code>
      *
      * <pre>
-     *界面上绿色的数值。
+     *装备进阶操作增加的攻击
      * </pre>
      */
     public boolean hasGongJiAdd() {
@@ -16098,7 +16275,7 @@ public final class UserEquipProtos {
      * <code>optional int32 gongJiAdd = 7;</code>
      *
      * <pre>
-     *界面上绿色的数值。
+     *装备进阶操作增加的攻击
      * </pre>
      */
     public int getGongJiAdd() {
@@ -16110,12 +16287,20 @@ public final class UserEquipProtos {
     private int fangYuAdd_;
     /**
      * <code>optional int32 fangYuAdd = 8;</code>
+     *
+     * <pre>
+     *装备进阶操作增加的防御
+     * </pre>
      */
     public boolean hasFangYuAdd() {
       return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
      * <code>optional int32 fangYuAdd = 8;</code>
+     *
+     * <pre>
+     *装备进阶操作增加的防御
+     * </pre>
      */
     public int getFangYuAdd() {
       return fangYuAdd_;
@@ -16126,12 +16311,20 @@ public final class UserEquipProtos {
     private int shengMingAdd_;
     /**
      * <code>optional int32 shengMingAdd = 9;</code>
+     *
+     * <pre>
+     *装备进阶操作增加的生命
+     * </pre>
      */
     public boolean hasShengMingAdd() {
       return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
      * <code>optional int32 shengMingAdd = 9;</code>
+     *
+     * <pre>
+     *装备进阶操作增加的生命
+     * </pre>
      */
     public int getShengMingAdd() {
       return shengMingAdd_;
@@ -16144,7 +16337,7 @@ public final class UserEquipProtos {
      * <code>required int32 expMax = 10;</code>
      *
      * <pre>
-     *升级所需经验，-1表示已达到最大级别，没有下一级。
+     *进阶到下一级所需经验，-1表示已达到最大级别，没有下一级。
      * </pre>
      */
     public boolean hasExpMax() {
@@ -16154,7 +16347,7 @@ public final class UserEquipProtos {
      * <code>required int32 expMax = 10;</code>
      *
      * <pre>
-     *升级所需经验，-1表示已达到最大级别，没有下一级。
+     *进阶到下一级所需经验，-1表示已达到最大级别，没有下一级。
      * </pre>
      */
     public int getExpMax() {
@@ -16702,7 +16895,7 @@ public final class UserEquipProtos {
        * <code>required int32 exp = 2;</code>
        *
        * <pre>
-       *强化获得的总经验
+       *目前装备进阶经验
        * </pre>
        */
       public boolean hasExp() {
@@ -16712,7 +16905,7 @@ public final class UserEquipProtos {
        * <code>required int32 exp = 2;</code>
        *
        * <pre>
-       *强化获得的总经验
+       *目前装备进阶经验
        * </pre>
        */
       public int getExp() {
@@ -16722,7 +16915,7 @@ public final class UserEquipProtos {
        * <code>required int32 exp = 2;</code>
        *
        * <pre>
-       *强化获得的总经验
+       *目前装备进阶经验
        * </pre>
        */
       public Builder setExp(int value) {
@@ -16735,7 +16928,7 @@ public final class UserEquipProtos {
        * <code>required int32 exp = 2;</code>
        *
        * <pre>
-       *强化获得的总经验
+       *目前装备进阶经验
        * </pre>
        */
       public Builder clearExp() {
@@ -16798,18 +16991,30 @@ public final class UserEquipProtos {
       private int gongJi_ ;
       /**
        * <code>optional int32 gongJi = 4;</code>
+       *
+       * <pre>
+       *进阶后的装备攻击
+       * </pre>
        */
       public boolean hasGongJi() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>optional int32 gongJi = 4;</code>
+       *
+       * <pre>
+       *进阶后的装备攻击
+       * </pre>
        */
       public int getGongJi() {
         return gongJi_;
       }
       /**
        * <code>optional int32 gongJi = 4;</code>
+       *
+       * <pre>
+       *进阶后的装备攻击
+       * </pre>
        */
       public Builder setGongJi(int value) {
         bitField0_ |= 0x00000010;
@@ -16819,6 +17024,10 @@ public final class UserEquipProtos {
       }
       /**
        * <code>optional int32 gongJi = 4;</code>
+       *
+       * <pre>
+       *进阶后的装备攻击
+       * </pre>
        */
       public Builder clearGongJi() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -16831,18 +17040,30 @@ public final class UserEquipProtos {
       private int fangYu_ ;
       /**
        * <code>optional int32 fangYu = 5;</code>
+       *
+       * <pre>
+       *进阶后的装备防御
+       * </pre>
        */
       public boolean hasFangYu() {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
        * <code>optional int32 fangYu = 5;</code>
+       *
+       * <pre>
+       *进阶后的装备防御
+       * </pre>
        */
       public int getFangYu() {
         return fangYu_;
       }
       /**
        * <code>optional int32 fangYu = 5;</code>
+       *
+       * <pre>
+       *进阶后的装备防御
+       * </pre>
        */
       public Builder setFangYu(int value) {
         bitField0_ |= 0x00000020;
@@ -16852,6 +17073,10 @@ public final class UserEquipProtos {
       }
       /**
        * <code>optional int32 fangYu = 5;</code>
+       *
+       * <pre>
+       *进阶后的装备防御
+       * </pre>
        */
       public Builder clearFangYu() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -16864,18 +17089,30 @@ public final class UserEquipProtos {
       private int shengMing_ ;
       /**
        * <code>optional int32 shengMing = 6;</code>
+       *
+       * <pre>
+       *进阶后的装备生命
+       * </pre>
        */
       public boolean hasShengMing() {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
        * <code>optional int32 shengMing = 6;</code>
+       *
+       * <pre>
+       *进阶后的装备生命
+       * </pre>
        */
       public int getShengMing() {
         return shengMing_;
       }
       /**
        * <code>optional int32 shengMing = 6;</code>
+       *
+       * <pre>
+       *进阶后的装备生命
+       * </pre>
        */
       public Builder setShengMing(int value) {
         bitField0_ |= 0x00000040;
@@ -16885,6 +17122,10 @@ public final class UserEquipProtos {
       }
       /**
        * <code>optional int32 shengMing = 6;</code>
+       *
+       * <pre>
+       *进阶后的装备生命
+       * </pre>
        */
       public Builder clearShengMing() {
         bitField0_ = (bitField0_ & ~0x00000040);
@@ -16899,7 +17140,7 @@ public final class UserEquipProtos {
        * <code>optional int32 gongJiAdd = 7;</code>
        *
        * <pre>
-       *界面上绿色的数值。
+       *装备进阶操作增加的攻击
        * </pre>
        */
       public boolean hasGongJiAdd() {
@@ -16909,7 +17150,7 @@ public final class UserEquipProtos {
        * <code>optional int32 gongJiAdd = 7;</code>
        *
        * <pre>
-       *界面上绿色的数值。
+       *装备进阶操作增加的攻击
        * </pre>
        */
       public int getGongJiAdd() {
@@ -16919,7 +17160,7 @@ public final class UserEquipProtos {
        * <code>optional int32 gongJiAdd = 7;</code>
        *
        * <pre>
-       *界面上绿色的数值。
+       *装备进阶操作增加的攻击
        * </pre>
        */
       public Builder setGongJiAdd(int value) {
@@ -16932,7 +17173,7 @@ public final class UserEquipProtos {
        * <code>optional int32 gongJiAdd = 7;</code>
        *
        * <pre>
-       *界面上绿色的数值。
+       *装备进阶操作增加的攻击
        * </pre>
        */
       public Builder clearGongJiAdd() {
@@ -16946,18 +17187,30 @@ public final class UserEquipProtos {
       private int fangYuAdd_ ;
       /**
        * <code>optional int32 fangYuAdd = 8;</code>
+       *
+       * <pre>
+       *装备进阶操作增加的防御
+       * </pre>
        */
       public boolean hasFangYuAdd() {
         return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
        * <code>optional int32 fangYuAdd = 8;</code>
+       *
+       * <pre>
+       *装备进阶操作增加的防御
+       * </pre>
        */
       public int getFangYuAdd() {
         return fangYuAdd_;
       }
       /**
        * <code>optional int32 fangYuAdd = 8;</code>
+       *
+       * <pre>
+       *装备进阶操作增加的防御
+       * </pre>
        */
       public Builder setFangYuAdd(int value) {
         bitField0_ |= 0x00000100;
@@ -16967,6 +17220,10 @@ public final class UserEquipProtos {
       }
       /**
        * <code>optional int32 fangYuAdd = 8;</code>
+       *
+       * <pre>
+       *装备进阶操作增加的防御
+       * </pre>
        */
       public Builder clearFangYuAdd() {
         bitField0_ = (bitField0_ & ~0x00000100);
@@ -16979,18 +17236,30 @@ public final class UserEquipProtos {
       private int shengMingAdd_ ;
       /**
        * <code>optional int32 shengMingAdd = 9;</code>
+       *
+       * <pre>
+       *装备进阶操作增加的生命
+       * </pre>
        */
       public boolean hasShengMingAdd() {
         return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
        * <code>optional int32 shengMingAdd = 9;</code>
+       *
+       * <pre>
+       *装备进阶操作增加的生命
+       * </pre>
        */
       public int getShengMingAdd() {
         return shengMingAdd_;
       }
       /**
        * <code>optional int32 shengMingAdd = 9;</code>
+       *
+       * <pre>
+       *装备进阶操作增加的生命
+       * </pre>
        */
       public Builder setShengMingAdd(int value) {
         bitField0_ |= 0x00000200;
@@ -17000,6 +17269,10 @@ public final class UserEquipProtos {
       }
       /**
        * <code>optional int32 shengMingAdd = 9;</code>
+       *
+       * <pre>
+       *装备进阶操作增加的生命
+       * </pre>
        */
       public Builder clearShengMingAdd() {
         bitField0_ = (bitField0_ & ~0x00000200);
@@ -17014,7 +17287,7 @@ public final class UserEquipProtos {
        * <code>required int32 expMax = 10;</code>
        *
        * <pre>
-       *升级所需经验，-1表示已达到最大级别，没有下一级。
+       *进阶到下一级所需经验，-1表示已达到最大级别，没有下一级。
        * </pre>
        */
       public boolean hasExpMax() {
@@ -17024,7 +17297,7 @@ public final class UserEquipProtos {
        * <code>required int32 expMax = 10;</code>
        *
        * <pre>
-       *升级所需经验，-1表示已达到最大级别，没有下一级。
+       *进阶到下一级所需经验，-1表示已达到最大级别，没有下一级。
        * </pre>
        */
       public int getExpMax() {
@@ -17034,7 +17307,7 @@ public final class UserEquipProtos {
        * <code>required int32 expMax = 10;</code>
        *
        * <pre>
-       *升级所需经验，-1表示已达到最大级别，没有下一级。
+       *进阶到下一级所需经验，-1表示已达到最大级别，没有下一级。
        * </pre>
        */
       public Builder setExpMax(int value) {
@@ -17047,7 +17320,7 @@ public final class UserEquipProtos {
        * <code>required int32 expMax = 10;</code>
        *
        * <pre>
-       *升级所需经验，-1表示已达到最大级别，没有下一级。
+       *进阶到下一级所需经验，-1表示已达到最大级别，没有下一级。
        * </pre>
        */
       public Builder clearExpMax() {
@@ -17161,7 +17434,7 @@ public final class UserEquipProtos {
       "\006 \002(\005\022\020\n\010wqSHLock\030\007 \001(\005\022\020\n\010wqJMLock\030\010 \001(" +
       "\005\022\020\n\010wqBJLock\030\t \001(\005\022\020\n\010wqRXLock\030\n \001(\005\022\020\n" +
       "\010jnSHLock\030\013 \001(\005\022\020\n\010jnJMLock\030\014 \001(\005\022\020\n\010jnB" +
-      "JLock\030\r \001(\005\022\020\n\010jnRXLock\030\016 \001(\005\"\277\006\n\tXiLian",
+      "JLock\030\r \001(\005\022\020\n\010jnRXLock\030\016 \001(\005\"\326\006\n\tXiLian",
       "Res\022\017\n\007equipId\030\001 \002(\003\022\021\n\ttongShuai\030\002 \002(\005\022" +
       "\014\n\004wuYi\030\003 \002(\005\022\016\n\006zhiMou\030\004 \002(\005\022\017\n\007yuanBao" +
       "\030\005 \002(\005\022\024\n\014yuanBaoTimes\030& \002(\005\022\024\n\014tongShua" +
@@ -17182,14 +17455,15 @@ public final class UserEquipProtos {
       "\r\n\005wqBJL\030) \001(\002\022\r\n\005jnBJL\030* \001(\002\022\r\n\005wqMBL\030+" +
       " \001(\002\022\r\n\005jnMBL\030, \001(\002\022\022\n\njnCDReduce\030- \001(\002\022" +
       "\023\n\013zhuangbeiID\030. \002(\005\022\026\n\016xilianshiTimes\030/",
-      " \001(\005\022\021\n\tcount4New\0300 \001(\005\"3\n\013EquipJinJie\022\017" +
-      "\n\007equipId\030\001 \002(\003\022\023\n\013cailiaoList\030\002 \003(\003\"\317\001\n" +
-      "\017EquipJinJieResp\022\017\n\007equipId\030\001 \002(\003\022\020\n\010zbI" +
-      "temId\030\013 \002(\005\022\013\n\003exp\030\002 \002(\005\022\r\n\005level\030\003 \002(\005\022" +
-      "\016\n\006gongJi\030\004 \001(\005\022\016\n\006fangYu\030\005 \001(\005\022\021\n\tsheng" +
-      "Ming\030\006 \001(\005\022\021\n\tgongJiAdd\030\007 \001(\005\022\021\n\tfangYuA" +
-      "dd\030\010 \001(\005\022\024\n\014shengMingAdd\030\t \001(\005\022\016\n\006expMax" +
-      "\030\n \002(\005B\021B\017UserEquipProtos"
+      " \001(\005\022\021\n\tcount4New\0300 \001(\005\022\025\n\rcloseRedPoint" +
+      "\0301 \001(\010\"3\n\013EquipJinJie\022\017\n\007equipId\030\001 \002(\003\022\023" +
+      "\n\013cailiaoList\030\002 \003(\003\"\317\001\n\017EquipJinJieResp\022" +
+      "\017\n\007equipId\030\001 \002(\003\022\020\n\010zbItemId\030\013 \002(\005\022\013\n\003ex" +
+      "p\030\002 \002(\005\022\r\n\005level\030\003 \002(\005\022\016\n\006gongJi\030\004 \001(\005\022\016" +
+      "\n\006fangYu\030\005 \001(\005\022\021\n\tshengMing\030\006 \001(\005\022\021\n\tgon" +
+      "gJiAdd\030\007 \001(\005\022\021\n\tfangYuAdd\030\010 \001(\005\022\024\n\014sheng" +
+      "MingAdd\030\t \001(\005\022\016\n\006expMax\030\n \002(\005B\021B\017UserEqu" +
+      "ipProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -17249,7 +17523,7 @@ public final class UserEquipProtos {
           internal_static_qxmobile_protobuf_XiLianRes_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_XiLianRes_descriptor,
-              new java.lang.String[] { "EquipId", "TongShuai", "WuYi", "ZhiMou", "YuanBao", "YuanBaoTimes", "TongShuaiAdd", "WuYiAdd", "ZhiMouAdd", "FreeXilianTimes", "Time", "TongShuaiMax", "WuYiMax", "ZhiMouMax", "WqSH", "WqJM", "WqBJ", "WqRX", "JnSH", "JnJM", "JnBJ", "JnRX", "WqSHAdd", "WqJMAdd", "WqBJAdd", "WqRXAdd", "JnSHAdd", "JnJMAdd", "JnBJAdd", "JnRXAdd", "WqSHMax", "WqJMMax", "WqBJMax", "WqRXMax", "JnSHMax", "JnJMMax", "JnBJMax", "JnRXMax", "AddMin", "AddMax", "WqBJL", "JnBJL", "WqMBL", "JnMBL", "JnCDReduce", "ZhuangbeiID", "XilianshiTimes", "Count4New", });
+              new java.lang.String[] { "EquipId", "TongShuai", "WuYi", "ZhiMou", "YuanBao", "YuanBaoTimes", "TongShuaiAdd", "WuYiAdd", "ZhiMouAdd", "FreeXilianTimes", "Time", "TongShuaiMax", "WuYiMax", "ZhiMouMax", "WqSH", "WqJM", "WqBJ", "WqRX", "JnSH", "JnJM", "JnBJ", "JnRX", "WqSHAdd", "WqJMAdd", "WqBJAdd", "WqRXAdd", "JnSHAdd", "JnJMAdd", "JnBJAdd", "JnRXAdd", "WqSHMax", "WqJMMax", "WqBJMax", "WqRXMax", "JnSHMax", "JnJMMax", "JnBJMax", "JnRXMax", "AddMin", "AddMax", "WqBJL", "JnBJL", "WqMBL", "JnMBL", "JnCDReduce", "ZhuangbeiID", "XilianshiTimes", "Count4New", "CloseRedPoint", });
           internal_static_qxmobile_protobuf_EquipJinJie_descriptor =
             getDescriptor().getMessageTypes().get(9);
           internal_static_qxmobile_protobuf_EquipJinJie_fieldAccessorTable = new

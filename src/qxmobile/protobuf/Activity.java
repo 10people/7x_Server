@@ -12601,7 +12601,7 @@ public final class Activity {
      * <code>required int32 status = 4;</code>
      *
      * <pre>
-     *1-可领取，2-已经领取，3-未领取
+     *1-可领取，2-已经领取，3-可以补领
      * </pre>
      */
     boolean hasStatus();
@@ -12609,10 +12609,28 @@ public final class Activity {
      * <code>required int32 status = 4;</code>
      *
      * <pre>
-     *1-可领取，2-已经领取，3-未领取
+     *1-可领取，2-已经领取，3-可以补领
      * </pre>
      */
     int getStatus();
+
+    // required int32 cost = 5;
+    /**
+     * <code>required int32 cost = 5;</code>
+     *
+     * <pre>
+     *补领奖励花费元宝
+     * </pre>
+     */
+    boolean hasCost();
+    /**
+     * <code>required int32 cost = 5;</code>
+     *
+     * <pre>
+     *补领奖励花费元宝
+     * </pre>
+     */
+    int getCost();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.PeriodInfo}
@@ -12683,6 +12701,11 @@ public final class Activity {
             case 32: {
               bitField0_ |= 0x00000008;
               status_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              cost_ = input.readInt32();
               break;
             }
           }
@@ -12835,7 +12858,7 @@ public final class Activity {
      * <code>required int32 status = 4;</code>
      *
      * <pre>
-     *1-可领取，2-已经领取，3-未领取
+     *1-可领取，2-已经领取，3-可以补领
      * </pre>
      */
     public boolean hasStatus() {
@@ -12845,11 +12868,35 @@ public final class Activity {
      * <code>required int32 status = 4;</code>
      *
      * <pre>
-     *1-可领取，2-已经领取，3-未领取
+     *1-可领取，2-已经领取，3-可以补领
      * </pre>
      */
     public int getStatus() {
       return status_;
+    }
+
+    // required int32 cost = 5;
+    public static final int COST_FIELD_NUMBER = 5;
+    private int cost_;
+    /**
+     * <code>required int32 cost = 5;</code>
+     *
+     * <pre>
+     *补领奖励花费元宝
+     * </pre>
+     */
+    public boolean hasCost() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required int32 cost = 5;</code>
+     *
+     * <pre>
+     *补领奖励花费元宝
+     * </pre>
+     */
+    public int getCost() {
+      return cost_;
     }
 
     private void initFields() {
@@ -12857,6 +12904,7 @@ public final class Activity {
       time_ = "";
       number_ = 0;
       status_ = 0;
+      cost_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -12879,6 +12927,10 @@ public final class Activity {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasCost()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -12897,6 +12949,9 @@ public final class Activity {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(4, status_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, cost_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -12922,6 +12977,10 @@ public final class Activity {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, status_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, cost_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -13047,6 +13106,8 @@ public final class Activity {
         bitField0_ = (bitField0_ & ~0x00000004);
         status_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
+        cost_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -13091,6 +13152,10 @@ public final class Activity {
           to_bitField0_ |= 0x00000008;
         }
         result.status_ = status_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.cost_ = cost_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -13121,6 +13186,9 @@ public final class Activity {
         if (other.hasStatus()) {
           setStatus(other.getStatus());
         }
+        if (other.hasCost()) {
+          setCost(other.getCost());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -13139,6 +13207,10 @@ public final class Activity {
           return false;
         }
         if (!hasStatus()) {
+          
+          return false;
+        }
+        if (!hasCost()) {
           
           return false;
         }
@@ -13366,7 +13438,7 @@ public final class Activity {
        * <code>required int32 status = 4;</code>
        *
        * <pre>
-       *1-可领取，2-已经领取，3-未领取
+       *1-可领取，2-已经领取，3-可以补领
        * </pre>
        */
       public boolean hasStatus() {
@@ -13376,7 +13448,7 @@ public final class Activity {
        * <code>required int32 status = 4;</code>
        *
        * <pre>
-       *1-可领取，2-已经领取，3-未领取
+       *1-可领取，2-已经领取，3-可以补领
        * </pre>
        */
       public int getStatus() {
@@ -13386,7 +13458,7 @@ public final class Activity {
        * <code>required int32 status = 4;</code>
        *
        * <pre>
-       *1-可领取，2-已经领取，3-未领取
+       *1-可领取，2-已经领取，3-可以补领
        * </pre>
        */
       public Builder setStatus(int value) {
@@ -13399,12 +13471,61 @@ public final class Activity {
        * <code>required int32 status = 4;</code>
        *
        * <pre>
-       *1-可领取，2-已经领取，3-未领取
+       *1-可领取，2-已经领取，3-可以补领
        * </pre>
        */
       public Builder clearStatus() {
         bitField0_ = (bitField0_ & ~0x00000008);
         status_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 cost = 5;
+      private int cost_ ;
+      /**
+       * <code>required int32 cost = 5;</code>
+       *
+       * <pre>
+       *补领奖励花费元宝
+       * </pre>
+       */
+      public boolean hasCost() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required int32 cost = 5;</code>
+       *
+       * <pre>
+       *补领奖励花费元宝
+       * </pre>
+       */
+      public int getCost() {
+        return cost_;
+      }
+      /**
+       * <code>required int32 cost = 5;</code>
+       *
+       * <pre>
+       *补领奖励花费元宝
+       * </pre>
+       */
+      public Builder setCost(int value) {
+        bitField0_ |= 0x00000010;
+        cost_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 cost = 5;</code>
+       *
+       * <pre>
+       *补领奖励花费元宝
+       * </pre>
+       */
+      public Builder clearCost() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        cost_ = 0;
         onChanged();
         return this;
       }
@@ -15691,14 +15812,14 @@ public final class Activity {
       "\001(\005\022\022\n\nmaxProcess\030\006 \001(\005\"-\n\034ActivityGrowt" +
       "hFundRewardResp\022\r\n\005level\030\001 \002(\005\"L\n\027Activi",
       "tyGetStrengthResp\0221\n\nperiodList\030\001 \003(\0132\035." +
-      "qxmobile.protobuf.PeriodInfo\"F\n\nPeriodIn" +
+      "qxmobile.protobuf.PeriodInfo\"T\n\nPeriodIn" +
       "fo\022\n\n\002id\030\001 \002(\005\022\014\n\004time\030\002 \002(\t\022\016\n\006number\030\003" +
-      " \002(\005\022\016\n\006status\030\004 \002(\005\"F\n\024ActivitLevelGift" +
-      "Resp\022.\n\010leveList\030\001 \003(\0132\034.qxmobile.protob" +
-      "uf.GrowLevel\"I\n\027ActivityAchievementResp\022" +
-      ".\n\010leveList\030\001 \003(\0132\034.qxmobile.protobuf.Gr" +
-      "owLevel\",\n\024ActivityFunctionResp\022\024\n\014funct" +
-      "ionList\030\001 \003(\005B\nB\010Activity"
+      " \002(\005\022\016\n\006status\030\004 \002(\005\022\014\n\004cost\030\005 \002(\005\"F\n\024Ac" +
+      "tivitLevelGiftResp\022.\n\010leveList\030\001 \003(\0132\034.q" +
+      "xmobile.protobuf.GrowLevel\"I\n\027ActivityAc" +
+      "hievementResp\022.\n\010leveList\030\001 \003(\0132\034.qxmobi" +
+      "le.protobuf.GrowLevel\",\n\024ActivityFunctio" +
+      "nResp\022\024\n\014functionList\030\001 \003(\005B\nB\010Activity"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -15794,7 +15915,7 @@ public final class Activity {
           internal_static_qxmobile_protobuf_PeriodInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_PeriodInfo_descriptor,
-              new java.lang.String[] { "Id", "Time", "Number", "Status", });
+              new java.lang.String[] { "Id", "Time", "Number", "Status", "Cost", });
           internal_static_qxmobile_protobuf_ActivitLevelGiftResp_descriptor =
             getDescriptor().getMessageTypes().get(15);
           internal_static_qxmobile_protobuf_ActivitLevelGiftResp_fieldAccessorTable = new

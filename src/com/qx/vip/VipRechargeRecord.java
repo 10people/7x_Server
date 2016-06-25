@@ -30,7 +30,7 @@ public class VipRechargeRecord {
 	public int sumAmount;
 	// VIP级别
 	public int level;
-	// 充值类型: 对应ChongZhi.xml的id值
+	/* 充值类型: 对应ChongZhi.xml的id值 */
 	public int type;
 	// 本次所加元宝
 	public int addYB;

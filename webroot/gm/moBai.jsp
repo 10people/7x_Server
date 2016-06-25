@@ -1,4 +1,4 @@
-<%@page import="com.qx.alliance.FengShanMgr"%>
+
 <%@page import="com.qx.alliance.FengshanBean"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.qx.alliance.LmTuTeng"%>
@@ -182,7 +182,6 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		 
 	 }
 	 MoBaiBean bean = HibernateUtil.find(MoBaiBean.class, junzhu.id);
-	 FengshanBean fb = FengShanMgr.inst.getFengShanBean(junzhu.id);
 	 if(bean == null){
 		 out("尚无膜拜信息");
 	 }else{
@@ -193,11 +192,10 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 			 bean.yuanBaoTime = null;
 			 HibernateUtil.save(bean);
 		 }else if("clearFS1".equals(action)){
-			 fb.isGetFengShan1=false;
-			 HibernateUtil.update(fb);
+
+
 		 }else if("clearFS2".equals(action)){
-			 fb.isGetFengShan2=false;
-			 HibernateUtil.update(fb);
+
 		 }else if("clearYu".equals(action)){
 			 bean.yuTime = null;
 			 HibernateUtil.save(bean);
@@ -215,10 +213,6 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		 trE();
 		 trS();
 		 td("玉膜拜已用次数");td(bean.yuTimes); td("<input type='button' value='清除' onclick='go(\"clearYuTimes\")'/><br/>");
-		 trE();
-		 trS();
-		 td("封禅1");td(fb.isGetFengShan1); td(button("清除","go('clearFS1')"));
-		 td("封禅2");td(fb.isGetFengShan2); td(button("清除","go('clearFS2')"));
 		 trE();
 		 trS();
 		 int vipAddTimes = VipMgr.INSTANCE.getValueByVipLevel(junzhu.vipLevel, VipData.yujueDuihuan);

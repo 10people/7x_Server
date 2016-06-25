@@ -9,6 +9,7 @@ public class JiNengPeiYang {
 	public int needLv;
 	public int needNum;
 	public int skillId;
+	public int isPuGong;
 
 	public int getId() {
 		return id;

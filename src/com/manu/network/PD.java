@@ -41,6 +41,7 @@ public class PD {
 		C_klwhy_7,C_klwhy_8,C_klwhy_9,C_klwhy_10};
 	//战斗过程加密协议号
 	
+	public static final short CHARGE_OK = 808;
 	public static final short C_OPEN_CREATE_ROLE = 888;
 	
 	public static final short GET_QQ_INFO = 900;
@@ -73,6 +74,9 @@ public class PD {
 	 */
 	public static final short C_Get_Chat_Log = 20003;
 	public static final short S_Send_Chat_Log = 20004;
+	
+	/** 各聊天频道发送聊天信息未成功的错误返回 **/
+	public static final short S_SEND_CHAT_ERROR = 20005;
 	
 	public static final short C_GET_CHAT_CONF = 20104;
 	public static final short S_GET_CHAT_CONF = 20105;
@@ -205,6 +209,7 @@ public class PD {
 	public static final short LMZ_CMD_LIST = 21792;
 	public static final short LMZ_CMD_ONE = 21793;
 	public static final short LMZ_ZhaoHuan = 21794;
+	public static final short LMZ_fenShen = 21796;
 	public static final short C_ENTER_LMZ = 21801;
 	public static final short AOE_SKILL = 21803;
 	public static final short SKILL_PREPARE = 21804;
@@ -461,7 +466,7 @@ public class PD {
 	public static final short S_HOUSE_APPLY_LIST = 27314;
 	public static final short C_AnswerExchange = 27321;
 	
-	public static final short C_Set_House_state = 27303;
+	public static final short C_Set_House_state = 27304;
 	public static final short C_EnterOrExitHouse = 27305;
 	public static final short C_GetHouseVInfo = 27306;//请求访客列表
 	public static final short C_get_house_exp = 27307;//获取小房子经验
@@ -659,6 +664,7 @@ public class PD {
 	public static final short NEW_MIBAO_INFO = 29551; 
 	public static final short NEW_MIBAO_JIHUO = 29552; 
 	public static final short NEW_MISHU_JIHUO = 29553; 
+	public static final short S_SEND_MIBAO_INFO = 29554;
 	//秘宝协议
 	/** 秘宝激活请求 **/
 	public static final short C_MIBAO_ACTIVATE_REQ = 29601;
@@ -897,6 +903,11 @@ public class PD {
 	public static final short S_CITYWAR_BID_RESP = 30210;
 	/**竞拍页面操作请求*/
 	public static final short C_CITYWAR_OPERATE_REQ = 30211;
+	
+	/**积分战报页面操作请求*/
+	public static final short C_CITYWAR_SCORE_RESULT_REQ = 30212;
+	/**积分战报页面请求返回*/
+	public static final short S_CITYWAR_SCORE_RESULT_RESP = 30213;
 	
 	public static final short C_SETTINGS_GET = 30201;//客户端获取设置
 	public static final short C_SETTINGS_SAVE = 30203;//客户端请求保存设置
@@ -1157,6 +1168,8 @@ public class PD {
 	public static final short C_YOUXIA_TYPE_INFO_REQ = 615;
 
 	public static final short S_YOUXIA_TYPE_INFO_RESP = 616;
+	public static final short C_YOUXIA_CLEAR_COOLTIME = 617;
+	public static final short S_YOUXIA_CLEAR_COOLTIME_RESP = 618;
 	/**限时活动**/
 	public static final short C_XINSHOU_XIANSHI_INFO_REQ = 4001;//请求新手限时活动界面
 	public static final short S_XINSHOU_XIANSHI_INFO_RESP = 4002;//请求新手限时活动界面返回
@@ -1167,7 +1180,7 @@ public class PD {
 	public static final short C_XIANSHI_AWARD_REQ = 4007;//请求领取限时活动奖励
 	public static final short S_XIANSHI_AWARD_RESP = 4008;//请求领取限时活动奖励返回	
 	public static final short C_XIANSHI_REQ = 4009;//请求可开启的限时活动(首日/七日)
-	public static final short S_XIANSHI_RESP = 4010;//请求可开启的限时活动(首日/七日)返回
+	public static final short S_XIANSHI_RESP = 4034;//请求可开启的限时活动(首日/七日)返回
 	public static final short C_FULIINFO_REQ = 4020;//请求福利信息
 	public static final short S_FULIINFO_RESP = 4021;//请求福利信息返回
 	public static final short C_FULIINFOAWARD_REQ = 4030;//请求福利奖励

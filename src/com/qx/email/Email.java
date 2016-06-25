@@ -12,23 +12,23 @@ import javax.persistence.Table;
 public class Email {
 	@Id
 //	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;//2015年4月17日16:57:30int改为long
+	public long id;//2015年4月17日16:57:30int改为long
 	@Column(columnDefinition="int default 0")
 	public long senderJzId;
 	public int type;
-	private String senderName;
-	private String title;
+	public String senderName;
+	public String title;
 	public String taitou;
-	private String content;
+	public String content;
 	public Date sendTime;
 	public Date expireTime;
 	// 附件 组成形式  type:itemId:count#type:itemId:count(类型，id,数量#类型，id,数量)
-	private String goods;
+	public String goods;
 	/** 是否删除，1没有删除，2已经删除 **/
-	private int isDelete;
+	public int isDelete;
 	public int isReaded;
 	public int isGetReward;
-	private long receiverId;
+	public long receiverId;
 	public String param = "";//参数
 	
 	//2015年4月17日16:57:30int改为long

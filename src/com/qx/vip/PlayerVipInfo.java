@@ -26,6 +26,10 @@ public class PlayerVipInfo {
 	public Date lastUpdateYuekaTime;
 	
 	@Column(columnDefinition = "INT default 0")
+	public int zhouKaRemianDay;
+	public Date lastUpdateZhoukaTime;
+	
+	@Column(columnDefinition = "INT default 0")
 	/** 是否购买了终身卡：0-没有，1-购买了 **/
 	public int haveZhongShenKa;
 }

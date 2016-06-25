@@ -12,6 +12,7 @@ import com.qx.yuanbao.TXQueryMgr;
 
 import org.json.JSONObject;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.json.JSONException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
@@ -34,7 +35,7 @@ import org.apache.commons.httpclient.methods.multipart.FilePart;
  
 public class OpenApiV3
 {
-	public static Logger log = TXQueryMgr.log;
+	public static Logger log = LoggerFactory.getLogger(OpenApiV3.class.getSimpleName());
 
     /**
      * 构造函数
@@ -141,7 +142,8 @@ public class OpenApiV3
         int rc = jo.optInt("ret", 0);
 
 		//通过调用以下方法，可以打印出调用openapi请求的返回码以及错误信息，默认注释
-		printRespond(resp);
+		log.info("openid {}, {}",params.get("openid"), scriptName);
+        printRespond(resp);
 		
         return resp;
     }

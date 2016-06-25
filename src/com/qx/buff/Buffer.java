@@ -3,6 +3,7 @@ package com.qx.buff;
 import com.manu.dynasty.template.Buff;
 import com.qx.junzhu.JunZhu;
 import com.qx.world.Player;
+import com.qx.world.Scene;
 
 
 /**
@@ -11,6 +12,7 @@ import com.qx.world.Player;
  * @author lzw
  */
 public class Buffer {
+	public Scene sc;
 	public Buff buffConf;
 	
 	

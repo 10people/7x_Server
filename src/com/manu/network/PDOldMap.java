@@ -460,6 +460,8 @@ import qxmobile.protobuf.Yabiao.YabiaoMainInfoResp;
 import qxmobile.protobuf.Yabiao.YabiaoMenuResp;
 import qxmobile.protobuf.Yabiao.YabiaoResult;
 import qxmobile.protobuf.Yabiao.isNew4RecordResp;
+import qxmobile.protobuf.YouXiaProtos.ClearCooltime;
+import qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp;
 import qxmobile.protobuf.YouXiaProtos.YouXiaGuanQiaInfoReq;
 import qxmobile.protobuf.YouXiaProtos.YouXiaGuanQiaInfoResp;
 import qxmobile.protobuf.YouXiaProtos.YouXiaInfoResp;
@@ -1025,6 +1027,8 @@ public class PDOldMap extends PD{
 		ProtobufUtils.register(YouXiaGuanQiaInfoResp.getDefaultInstance(), S_YOUXIA_GUANQIA_RESP);
 		ProtobufUtils.register(YouXiaTypeInfoReq.getDefaultInstance(), C_YOUXIA_TYPE_INFO_REQ);
 		ProtobufUtils.register(YouXiaTypeInfoResp.getDefaultInstance(), S_YOUXIA_TYPE_INFO_RESP);
+		ProtobufUtils.register(ClearCooltime.getDefaultInstance(), C_YOUXIA_CLEAR_COOLTIME);
+		ProtobufUtils.register(ClearCooltimeResp.getDefaultInstance(), S_YOUXIA_CLEAR_COOLTIME_RESP);
 		
 		//限时活动
 		ProtobufUtils.register(OpenXianShiResp.getDefaultInstance(), S_XIANSHI_RESP);

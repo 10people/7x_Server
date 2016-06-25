@@ -195,7 +195,7 @@ public class SchedulerMgr {
 		addScheduler(RefreshLoginCountJob.class, "0 0 4 * * ?");
 		addScheduler(LveDuoJunQingJob.class, "0 */1 * * * ?");
 		addScheduler(RefreshGongHeInfo.class, "*/20 * * * * ?");
-		addScheduler(ShopRefreshJob.class, "0 0 9,21 * * ?");
+		//addScheduler(ShopRefreshJob.class, "0 0 9,21 * * ?");
 		addScheduler(ClearPromptJob.class, "*/20 * * * * ?");
 		//宣战竞拍缓存更新
 		addScheduler(CityBidPriceRefreshJob.class ,"0 0 * * * ?");

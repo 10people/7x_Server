@@ -143,8 +143,9 @@ public class YaBiaoScene  extends VisionScene{
 		pm.builder = exitYBSc;
 		broadCastEvent(pm, player.userId);
 		players.remove(uid);
+		removeVisibleIds(player);
 		saveExitYBInfo(player);
-		log.info("君主:{}退出押镖场景:{},剩余玩家个数：{},退出时坐标x--{},z---{}"
+		log.info("君主:{}退出押镖场景:{},剩余玩家个数：{},退出时坐标x:{},z:{}"
 				 ,session.getAttribute(SessionAttKey.junZhuId),this.name, players.size(), player.posX, player.posZ);
 	}
 
@@ -383,23 +384,23 @@ public class YaBiaoScene  extends VisionScene{
 	}
 	
 	@Override
-	public void playerDie(JunZhu defender, int uid, int killerUid) {
-		BuffMgr.inst.removeBuff(defender.id);
+	public void playerDie(Player defender,  int killerUid) {
+		BuffMgr.inst.removeBuff(defender.jzId);
 		int onSiteReviveCost = 20;//默认20，为了假如找不到配置能够继续执行
 		int remainReviveTimes = 0;
-		if(defender.id > 0) {// 表示是真实玩家
-			int reviveOnDeadPosTimes = YaBiaoHuoDongMgr.inst.getReviveOnDeadPosTimes(defender);
+		if(defender.jzId > 0 && defender.roleId != YBRobot_RoleId) {// 表示是真实玩家
+			int reviveOnDeadPosTimes = YaBiaoHuoDongMgr.inst.getReviveOnDeadPosTimes(defender.jz);
 			Purchase purchase = PurchaseMgr.inst.getPurchaseCfg(PurchaseConstants.YB_REVIVE_DEAD_POS, reviveOnDeadPosTimes+1);
 			if(purchase == null) {
 				log.error("找不到类型为:{}的purchase配置", PurchaseConstants.YB_REVIVE_DEAD_POS);
 			} else {
 				onSiteReviveCost = purchase.getYuanbao();
 			}
-			remainReviveTimes = YaBiaoHuoDongMgr.inst.getFuhuoTimes(defender);
+			remainReviveTimes = YaBiaoHuoDongMgr.inst.getFuhuoTimes(defender.jz);
 		}
 		
 		PlayerDeadNotify.Builder deadNotify = PlayerDeadNotify.newBuilder();
-		deadNotify.setUid(uid);
+		deadNotify.setUid(defender.userId);
 		deadNotify.setKillerUid(killerUid);
 		deadNotify.setAutoReviveRemainTime(YunbiaoTemp.autoResurgenceTime);
 		deadNotify.setRemainAllLifeTimes(remainReviveTimes);

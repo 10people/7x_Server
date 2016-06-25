@@ -180,6 +180,7 @@
 			liefuBean.type2UseTimes = 0;
 			liefuBean.type3UseTimes = 0;
 			liefuBean.type4UseTimes = 0;
+			liefuBean.dayUseTimes = 0;
 			HibernateUtil.save(liefuBean);
 		}
 	%>

@@ -5,6 +5,7 @@ public class TiLi {
 	public String start;
 	public String end;
 	public int tili;
+	public int cost;
 	public int getID() {
 		return ID;
 	}
@@ -28,5 +29,11 @@ public class TiLi {
 	}
 	public void setTili(int tili) {
 		this.tili = tili;
+	}
+	public int getCost() {
+		return cost;
+	}
+	public void setCost(int cost) {
+		this.cost = cost;
 	}
 }

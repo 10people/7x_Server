@@ -27,4 +27,5 @@ public class YaBiaoHistory implements Serializable{
 	public int shouyi;
 	public int horseType;
 	public Date battleTime;
+	public int enemyGuojiaId;
 }

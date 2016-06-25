@@ -12,10 +12,6 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.GuoJia.GuoJiaMainInfoResp;
-import qxmobile.protobuf.GuoJia.GuojiaRankInfo;
-import qxmobile.protobuf.GuoJia.JuanXianDayAwardResp;
-
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.boot.GameServer;
@@ -29,8 +25,6 @@ import com.manu.dynasty.template.ShangJiaoTemp;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.dynasty.util.MathUtils;
 import com.manu.network.PD;
-import com.manu.network.SessionManager;
-import com.manu.network.SessionUser;
 import com.qx.account.FunctionOpenMgr;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
@@ -47,6 +41,10 @@ import com.qx.persistent.HibernateUtil;
 import com.qx.ranking.RankingMgr;
 import com.qx.timeworker.FunctionID;
 import com.qx.world.Mission;
+
+import qxmobile.protobuf.GuoJia.GuoJiaMainInfoResp;
+import qxmobile.protobuf.GuoJia.GuojiaRankInfo;
+import qxmobile.protobuf.GuoJia.JuanXianDayAwardResp;
 
 public class GuoJiaMgr  extends EventProc implements Runnable{
 	public static Logger log = LoggerFactory.getLogger(GuoJiaMgr.class);
@@ -188,7 +186,19 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 		}
 		long jzId=jz.id;
 		log.info("君主{}获取国家主页信息",jzId);
+		int result = 0;
+		AlliancePlayer alliancePlayer = HibernateUtil.find(AlliancePlayer.class, jzId);
+		if(alliancePlayer == null || alliancePlayer.lianMengId <= 0) {
+			result = 1;
+		} else {
+			AllianceBean alliance = HibernateUtil.find(AllianceBean.class, alliancePlayer.lianMengId);
+			if(alliance == null) {
+				result = 1;
+			}
+		}
+		
 		GuoJiaMainInfoResp.Builder resp=GuoJiaMainInfoResp.newBuilder();
+		resp.setResult(result);
 		ResourceGongJin gongjinBean =HibernateUtil.find(ResourceGongJin.class, jzId);
 		if(gongjinBean==null){
 			gongjinBean = new ResourceGongJin();
@@ -1186,7 +1196,7 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 //				}
 //				break;
 			case ED.REFRESH_TIME_WORK:
-				log.info("定时刷新贡金");
+//				log.info("定时刷新贡金");
 				IoSession session=(IoSession) e.param;
 				if(session==null){
 					break;

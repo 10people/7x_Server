@@ -18,6 +18,7 @@ import qxmobile.protobuf.DailyTaskProtos.DailyTaskListResponse;
 import qxmobile.protobuf.DailyTaskProtos.DailyTaskRewardRequest;
 import qxmobile.protobuf.DailyTaskProtos.DailyTaskRewardResponse;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import qxmobile.protobuf.Explore.ExploreResp;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
@@ -35,6 +36,7 @@ import com.manu.network.msg.ProtobufMsg;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
 import com.qx.award.AwardMgr;
+import com.qx.bag.BagMgr;
 import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
@@ -506,7 +508,7 @@ public class DailyTaskMgr extends EventProc {
 		HibernateUtil.save(acti);
 		
 		// TODO @ you 添加改变活跃度事件
-		EventMgr.addEvent(ED.HUOYUE_CHANGE, new Object[] { jId,acti.todyHuoYue, junzhu.level});
+//		EventMgr.addEvent(ED.HUOYUE_CHANGE, new Object[] { jId,acti.todyHuoYue, junzhu.level});
 		/*
 		 * 是否是缴纳贡金任务
 		 */
@@ -751,11 +753,25 @@ public class DailyTaskMgr extends EventProc {
 			}
 		}
 		// 领奖
-		AwardMgr.inst.giveReward(session, t.award, junzhu);
+		List<AwardTemp> getAwardList = AwardMgr.inst.parseAwardConf(t.award);
+		sendGetAward4Common(session, junzhu, getAwardList);
 		// 记录已领奖
 		setGet(acti, huodongid, true);
 		HibernateUtil.save(acti);
 		sendError(session,huodongid, PD.dailyTask_get_huoYue_award_resp, 0);
+	}
+
+	public void sendGetAward4Common(IoSession session, JunZhu junzhu, List<AwardTemp> getAwardList) {
+		ExploreResp.Builder ret = ExploreResp.newBuilder();
+		ret.setSuccess(0);
+		for(AwardTemp award : getAwardList) {
+			AwardMgr.inst.giveReward(session, award, junzhu, false, false);
+			BagMgr.inst.award2msg(ret,award);
+		}
+		ProtobufMsg msg = new ProtobufMsg();
+		msg.id = PD.S_USE_ITEM;
+		msg.builder = ret;
+		session.write(msg);
 	}
 	public void sendError(IoSession session,int xiangZiid, short PDid, int errorCode) {
 		if (session == null) {

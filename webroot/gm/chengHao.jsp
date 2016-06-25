@@ -1,3 +1,4 @@
+<%@page import="com.qx.award.AwardMgr"%>
 <%@page import="com.manu.dynasty.util.DateUtils"%>
 <%@page import="com.qx.junzhu.ChenghaoMgr"%>
 <%@page import="com.manu.dynasty.template.Chenghao"%>
@@ -129,10 +130,11 @@ tableEnd();
 br();
 List<Chenghao> confList = TempletService.listAll(Chenghao.class.getSimpleName());
 tableStart();
-ths("id,name,价格");
+ths("id,name,价格,货币类型");
 for(Chenghao ch : confList){
 	trS();
 	td(ch.id);td(ch.name); td(ch.price);
+	td(ch.daibi == AwardMgr.ITEM_GONG_XUN ? "功勋" : "威望");
 	trE();
 }
 tableEnd();

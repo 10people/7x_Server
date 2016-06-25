@@ -46,6 +46,9 @@ public class AllianceBean{// implements MCSupport {
 	public Date upgradeTime;
 	public Date lastTimesUpgradeSpeedTime;
 	@Column(columnDefinition = "INT default 0")
+	public int upgradeUsedTimes;	//加速升级次数，只对应本级升级
+	
+	@Column(columnDefinition = "INT default 0")
 	public int todayUpgradeSpeedTimes;
 	@Column(columnDefinition = "INT default 0")
 	public int hufuNum;

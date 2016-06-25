@@ -126,6 +126,7 @@ public class JianZhuMgr extends EventProc{
 		}
 		if(member.title != AllianceMgr.TITLE_LEADER) {
 			log.error("升级联盟建筑失败，君主:{}没有权限，title:{}", jz.id, member.title);
+			sendError(1,session,"没有联盟数据");
 			return;
 		}
 		JianZhuLvBean bean = HibernateUtil.find(JianZhuLvBean.class, member.lianMengId);
@@ -310,20 +311,20 @@ public class JianZhuMgr extends EventProc{
 				log.error("升级联盟宗庙失败，联盟:{}的宗庙等级已升级到最高等级:{}", lmBean.id, list.size());
 				return;
 			}
-			if(bean.zongMiaoLv>=lmBean.level){
-				sendError(30, session, "联盟等级不够");
-				log.error("升级联盟宗庙失败，联盟:{}的宗庙等级已达到联盟当前的等级:{}", lmBean.id, lmBean.level);
+			LianMengZongMiao conf = getLianMengZongMiaoCfgByLevel(bean.zongMiaoLv);
+			if(conf == null) {
+				sendError(50, session, "配置错误");
+				log.error("升级联盟宗庙失败，找不到联盟宗庙等级为:{}的配置", bean.zongMiaoLv);
 				return;
 			}
-			LianMengZongMiao conf = list.get(bean.zongMiaoLv - 1);
-			if(conf == null) {
-				sendError(40, session, "配置错误");
-				log.error("升级联盟宗庙失败，联盟:{}当前建设值:{},不足:{}", lmBean.id, lmBean.build, conf.zongMiao_lvUp_value);
+			if(lmBean.level < conf.alliance_lv_needed){
+				sendError(60, session, "联盟等级不够");
+				log.error("升级联盟宗庙失败，联盟:{}的等级不足以升级宗庙", lmBean.id, lmBean.level);
 				return;
 			}
 			if(conf.zongMiao_lvUp_value > lmBean.build) {
-				sendError(50, session, "联盟建设值不足");
-				log.error("升级联盟宗庙失败，找不到联盟宗庙等级为:{}的配置", bean.zongMiaoLv);
+				sendError(40, session, "联盟建设值不足");
+				log.error("升级联盟宗庙失败，联盟:{}当前建设值:{},不足:{}", lmBean.id, lmBean.build, conf.zongMiao_lvUp_value);
 				return;
 			}
 			lmBean.build -= conf.zongMiao_lvUp_value;
@@ -471,7 +472,7 @@ public class JianZhuMgr extends EventProc{
 		LianmengEvent lmEvent = AllianceMgr.inst.lianmengEventMap.get(22);
 		if(lmEvent != null) {
 			String eventStr = lmEvent.str == null ? "" : lmEvent.str;			
-			eventStr.replaceFirst("%d", jz.name)
+			eventStr = eventStr.replaceFirst("%d", jz.name)
 					.replaceFirst("%d", conf.name);
 			AllianceMgr.inst.addAllianceEvent(member.lianMengId, eventStr);
 		}
@@ -907,10 +908,27 @@ public class JianZhuMgr extends EventProc{
 		if(jianZhuBean != null && jianZhuBean.zongMiaoLv>0){
 			zongMiaoLv = jianZhuBean.zongMiaoLv;
 		}
-		List<LianMengZongMiao> confList = TempletService.listAll(LianMengZongMiao.class.getSimpleName());
-		LianMengZongMiao conf = confList.get(zongMiaoLv-1);
-		int maxJiBaiTimes = conf.jiBaiMaxTimes;
+		int maxJiBaiTimes = 0;
+		LianMengZongMiao conf = getLianMengZongMiaoCfgByLevel(zongMiaoLv);
+		if(conf != null) {
+			maxJiBaiTimes = conf.jiBaiMaxTimes;
+		}
 		return maxJiBaiTimes;
+	}
+	
+	public LianMengZongMiao getLianMengZongMiaoCfgByLevel(int zongMiaoLevel) {
+		List<LianMengZongMiao> confList = TempletService.listAll(LianMengZongMiao.class.getSimpleName());
+		LianMengZongMiao lianMengZongMiao = null;
+		for(LianMengZongMiao lmzm : confList) {
+			if(lmzm.zongMiaoLevel == zongMiaoLevel) {
+				lianMengZongMiao = lmzm;
+				break;
+			}
+		}
+		if(lianMengZongMiao == null) {
+			log.error("找不到等级为:{}的联盟宗庙配置", zongMiaoLevel);
+		}
+		return lianMengZongMiao;
 	}
 
 	public ChouJiangBean getChouJiangBean(JunZhu jz, int maxJiBaiTimes) {
@@ -935,8 +953,8 @@ public class JianZhuMgr extends EventProc{
 	}
 	
 	int[] ids = {201,202,203};
-	int[] times = {1,3,   6};
-	int[] ws = {10,30,   60};
+	int[] times = {1,9,   0};
+	int[] ws = {10,50,   0};
 	public JSONArray fillChouJiangBean(){
 		List<JSONObject> list = new ArrayList<JSONObject>(10);
 		for(int i=0; i<3; i++){

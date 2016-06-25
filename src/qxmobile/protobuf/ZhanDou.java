@@ -5444,6 +5444,60 @@ public final class ZhanDou {
      * </pre>
      */
     float getArmorRatio();
+
+    // optional float finalAmplify = 42 [default = 0];
+    /**
+     * <code>optional float finalAmplify = 42 [default = 0];</code>
+     *
+     * <pre>
+     *最终伤害加深
+     * </pre>
+     */
+    boolean hasFinalAmplify();
+    /**
+     * <code>optional float finalAmplify = 42 [default = 0];</code>
+     *
+     * <pre>
+     *最终伤害加深
+     * </pre>
+     */
+    float getFinalAmplify();
+
+    // optional float finalReduction = 43 [default = 0];
+    /**
+     * <code>optional float finalReduction = 43 [default = 0];</code>
+     *
+     * <pre>
+     *最终伤害减免
+     * </pre>
+     */
+    boolean hasFinalReduction();
+    /**
+     * <code>optional float finalReduction = 43 [default = 0];</code>
+     *
+     * <pre>
+     *最终伤害减免
+     * </pre>
+     */
+    float getFinalReduction();
+
+    // optional float HYK = 44 [default = 0];
+    /**
+     * <code>optional float HYK = 44 [default = 0];</code>
+     *
+     * <pre>
+     *荒野生存系数
+     * </pre>
+     */
+    boolean hasHYK();
+    /**
+     * <code>optional float HYK = 44 [default = 0];</code>
+     *
+     * <pre>
+     *荒野生存系数
+     * </pre>
+     */
+    float getHYK();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.Node}
@@ -5758,6 +5812,21 @@ public final class ZhanDou {
             case 333: {
               bitField1_ |= 0x00000020;
               armorRatio_ = input.readFloat();
+              break;
+            }
+            case 341: {
+              bitField1_ |= 0x00000040;
+              finalAmplify_ = input.readFloat();
+              break;
+            }
+            case 349: {
+              bitField1_ |= 0x00000080;
+              finalReduction_ = input.readFloat();
+              break;
+            }
+            case 357: {
+              bitField1_ |= 0x00000100;
+              hYK_ = input.readFloat();
               break;
             }
           }
@@ -6882,6 +6951,78 @@ public final class ZhanDou {
       return armorRatio_;
     }
 
+    // optional float finalAmplify = 42 [default = 0];
+    public static final int FINALAMPLIFY_FIELD_NUMBER = 42;
+    private float finalAmplify_;
+    /**
+     * <code>optional float finalAmplify = 42 [default = 0];</code>
+     *
+     * <pre>
+     *最终伤害加深
+     * </pre>
+     */
+    public boolean hasFinalAmplify() {
+      return ((bitField1_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional float finalAmplify = 42 [default = 0];</code>
+     *
+     * <pre>
+     *最终伤害加深
+     * </pre>
+     */
+    public float getFinalAmplify() {
+      return finalAmplify_;
+    }
+
+    // optional float finalReduction = 43 [default = 0];
+    public static final int FINALREDUCTION_FIELD_NUMBER = 43;
+    private float finalReduction_;
+    /**
+     * <code>optional float finalReduction = 43 [default = 0];</code>
+     *
+     * <pre>
+     *最终伤害减免
+     * </pre>
+     */
+    public boolean hasFinalReduction() {
+      return ((bitField1_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional float finalReduction = 43 [default = 0];</code>
+     *
+     * <pre>
+     *最终伤害减免
+     * </pre>
+     */
+    public float getFinalReduction() {
+      return finalReduction_;
+    }
+
+    // optional float HYK = 44 [default = 0];
+    public static final int HYK_FIELD_NUMBER = 44;
+    private float hYK_;
+    /**
+     * <code>optional float HYK = 44 [default = 0];</code>
+     *
+     * <pre>
+     *荒野生存系数
+     * </pre>
+     */
+    public boolean hasHYK() {
+      return ((bitField1_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional float HYK = 44 [default = 0];</code>
+     *
+     * <pre>
+     *荒野生存系数
+     * </pre>
+     */
+    public float getHYK() {
+      return hYK_;
+    }
+
     private void initFields() {
       flagIds_ = java.util.Collections.emptyList();
       modleId_ = 0;
@@ -6924,6 +7065,9 @@ public final class ZhanDou {
       armor_ = 0;
       armorMax_ = 0;
       armorRatio_ = 0F;
+      finalAmplify_ = 0F;
+      finalReduction_ = 0F;
+      hYK_ = 0F;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -7218,6 +7362,15 @@ public final class ZhanDou {
       if (((bitField1_ & 0x00000020) == 0x00000020)) {
         output.writeFloat(41, armorRatio_);
       }
+      if (((bitField1_ & 0x00000040) == 0x00000040)) {
+        output.writeFloat(42, finalAmplify_);
+      }
+      if (((bitField1_ & 0x00000080) == 0x00000080)) {
+        output.writeFloat(43, finalReduction_);
+      }
+      if (((bitField1_ & 0x00000100) == 0x00000100)) {
+        output.writeFloat(44, hYK_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -7395,6 +7548,18 @@ public final class ZhanDou {
       if (((bitField1_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(41, armorRatio_);
+      }
+      if (((bitField1_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(42, finalAmplify_);
+      }
+      if (((bitField1_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(43, finalReduction_);
+      }
+      if (((bitField1_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(44, hYK_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -7619,6 +7784,12 @@ public final class ZhanDou {
         bitField1_ = (bitField1_ & ~0x00000080);
         armorRatio_ = 0F;
         bitField1_ = (bitField1_ & ~0x00000100);
+        finalAmplify_ = 0F;
+        bitField1_ = (bitField1_ & ~0x00000200);
+        finalReduction_ = 0F;
+        bitField1_ = (bitField1_ & ~0x00000400);
+        hYK_ = 0F;
+        bitField1_ = (bitField1_ & ~0x00000800);
         return this;
       }
 
@@ -7836,6 +8007,18 @@ public final class ZhanDou {
           to_bitField1_ |= 0x00000020;
         }
         result.armorRatio_ = armorRatio_;
+        if (((from_bitField1_ & 0x00000200) == 0x00000200)) {
+          to_bitField1_ |= 0x00000040;
+        }
+        result.finalAmplify_ = finalAmplify_;
+        if (((from_bitField1_ & 0x00000400) == 0x00000400)) {
+          to_bitField1_ |= 0x00000080;
+        }
+        result.finalReduction_ = finalReduction_;
+        if (((from_bitField1_ & 0x00000800) == 0x00000800)) {
+          to_bitField1_ |= 0x00000100;
+        }
+        result.hYK_ = hYK_;
         result.bitField0_ = to_bitField0_;
         result.bitField1_ = to_bitField1_;
         onBuilt();
@@ -8030,6 +8213,15 @@ public final class ZhanDou {
         }
         if (other.hasArmorRatio()) {
           setArmorRatio(other.getArmorRatio());
+        }
+        if (other.hasFinalAmplify()) {
+          setFinalAmplify(other.getFinalAmplify());
+        }
+        if (other.hasFinalReduction()) {
+          setFinalReduction(other.getFinalReduction());
+        }
+        if (other.hasHYK()) {
+          setHYK(other.getHYK());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -11036,6 +11228,153 @@ public final class ZhanDou {
         return this;
       }
 
+      // optional float finalAmplify = 42 [default = 0];
+      private float finalAmplify_ ;
+      /**
+       * <code>optional float finalAmplify = 42 [default = 0];</code>
+       *
+       * <pre>
+       *最终伤害加深
+       * </pre>
+       */
+      public boolean hasFinalAmplify() {
+        return ((bitField1_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional float finalAmplify = 42 [default = 0];</code>
+       *
+       * <pre>
+       *最终伤害加深
+       * </pre>
+       */
+      public float getFinalAmplify() {
+        return finalAmplify_;
+      }
+      /**
+       * <code>optional float finalAmplify = 42 [default = 0];</code>
+       *
+       * <pre>
+       *最终伤害加深
+       * </pre>
+       */
+      public Builder setFinalAmplify(float value) {
+        bitField1_ |= 0x00000200;
+        finalAmplify_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float finalAmplify = 42 [default = 0];</code>
+       *
+       * <pre>
+       *最终伤害加深
+       * </pre>
+       */
+      public Builder clearFinalAmplify() {
+        bitField1_ = (bitField1_ & ~0x00000200);
+        finalAmplify_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // optional float finalReduction = 43 [default = 0];
+      private float finalReduction_ ;
+      /**
+       * <code>optional float finalReduction = 43 [default = 0];</code>
+       *
+       * <pre>
+       *最终伤害减免
+       * </pre>
+       */
+      public boolean hasFinalReduction() {
+        return ((bitField1_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional float finalReduction = 43 [default = 0];</code>
+       *
+       * <pre>
+       *最终伤害减免
+       * </pre>
+       */
+      public float getFinalReduction() {
+        return finalReduction_;
+      }
+      /**
+       * <code>optional float finalReduction = 43 [default = 0];</code>
+       *
+       * <pre>
+       *最终伤害减免
+       * </pre>
+       */
+      public Builder setFinalReduction(float value) {
+        bitField1_ |= 0x00000400;
+        finalReduction_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float finalReduction = 43 [default = 0];</code>
+       *
+       * <pre>
+       *最终伤害减免
+       * </pre>
+       */
+      public Builder clearFinalReduction() {
+        bitField1_ = (bitField1_ & ~0x00000400);
+        finalReduction_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // optional float HYK = 44 [default = 0];
+      private float hYK_ ;
+      /**
+       * <code>optional float HYK = 44 [default = 0];</code>
+       *
+       * <pre>
+       *荒野生存系数
+       * </pre>
+       */
+      public boolean hasHYK() {
+        return ((bitField1_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional float HYK = 44 [default = 0];</code>
+       *
+       * <pre>
+       *荒野生存系数
+       * </pre>
+       */
+      public float getHYK() {
+        return hYK_;
+      }
+      /**
+       * <code>optional float HYK = 44 [default = 0];</code>
+       *
+       * <pre>
+       *荒野生存系数
+       * </pre>
+       */
+      public Builder setHYK(float value) {
+        bitField1_ |= 0x00000800;
+        hYK_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float HYK = 44 [default = 0];</code>
+       *
+       * <pre>
+       *荒野生存系数
+       * </pre>
+       */
+      public Builder clearHYK() {
+        bitField1_ = (bitField1_ & ~0x00000800);
+        hYK_ = 0F;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.Node)
     }
 
@@ -13204,24 +13543,6 @@ public final class ZhanDou {
      * </pre>
      */
     int getStarArrive();
-
-    // optional float HYK = 8;
-    /**
-     * <code>optional float HYK = 8;</code>
-     *
-     * <pre>
-     *荒野战斗的伤害计算系数K
-     * </pre>
-     */
-    boolean hasHYK();
-    /**
-     * <code>optional float HYK = 8;</code>
-     *
-     * <pre>
-     *荒野战斗的伤害计算系数K
-     * </pre>
-     */
-    float getHYK();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ZhanDouInitResp}
@@ -13339,11 +13660,6 @@ public final class ZhanDou {
             case 56: {
               bitField0_ |= 0x00000020;
               starArrive_ = input.readInt32();
-              break;
-            }
-            case 69: {
-              bitField0_ |= 0x00000040;
-              hYK_ = input.readFloat();
               break;
             }
           }
@@ -13556,30 +13872,6 @@ public final class ZhanDou {
       return starArrive_;
     }
 
-    // optional float HYK = 8;
-    public static final int HYK_FIELD_NUMBER = 8;
-    private float hYK_;
-    /**
-     * <code>optional float HYK = 8;</code>
-     *
-     * <pre>
-     *荒野战斗的伤害计算系数K
-     * </pre>
-     */
-    public boolean hasHYK() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
-    }
-    /**
-     * <code>optional float HYK = 8;</code>
-     *
-     * <pre>
-     *荒野战斗的伤害计算系数K
-     * </pre>
-     */
-    public float getHYK() {
-      return hYK_;
-    }
-
     private void initFields() {
       zhandouId_ = 0;
       mapId_ = 0;
@@ -13588,7 +13880,6 @@ public final class ZhanDou {
       selfTroop_ = qxmobile.protobuf.ZhanDou.Group.getDefaultInstance();
       starTemp_ = java.util.Collections.emptyList();
       starArrive_ = 0;
-      hYK_ = 0F;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -13651,9 +13942,6 @@ public final class ZhanDou {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeInt32(7, starArrive_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeFloat(8, hYK_);
-      }
       getUnknownFields().writeTo(output);
     }
 
@@ -13695,10 +13983,6 @@ public final class ZhanDou {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(7, starArrive_);
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(8, hYK_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -13840,8 +14124,6 @@ public final class ZhanDou {
         bitField0_ = (bitField0_ & ~0x00000020);
         starArrive_ = 0;
         bitField0_ = (bitField0_ & ~0x00000040);
-        hYK_ = 0F;
-        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -13907,10 +14189,6 @@ public final class ZhanDou {
           to_bitField0_ |= 0x00000020;
         }
         result.starArrive_ = starArrive_;
-        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
-          to_bitField0_ |= 0x00000040;
-        }
-        result.hYK_ = hYK_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -13954,9 +14232,6 @@ public final class ZhanDou {
         }
         if (other.hasStarArrive()) {
           setStarArrive(other.getStarArrive());
-        }
-        if (other.hasHYK()) {
-          setHYK(other.getHYK());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -14517,55 +14792,6 @@ public final class ZhanDou {
       public Builder clearStarArrive() {
         bitField0_ = (bitField0_ & ~0x00000040);
         starArrive_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional float HYK = 8;
-      private float hYK_ ;
-      /**
-       * <code>optional float HYK = 8;</code>
-       *
-       * <pre>
-       *荒野战斗的伤害计算系数K
-       * </pre>
-       */
-      public boolean hasHYK() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
-      }
-      /**
-       * <code>optional float HYK = 8;</code>
-       *
-       * <pre>
-       *荒野战斗的伤害计算系数K
-       * </pre>
-       */
-      public float getHYK() {
-        return hYK_;
-      }
-      /**
-       * <code>optional float HYK = 8;</code>
-       *
-       * <pre>
-       *荒野战斗的伤害计算系数K
-       * </pre>
-       */
-      public Builder setHYK(float value) {
-        bitField0_ |= 0x00000080;
-        hYK_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional float HYK = 8;</code>
-       *
-       * <pre>
-       *荒野战斗的伤害计算系数K
-       * </pre>
-       */
-      public Builder clearHYK() {
-        bitField0_ = (bitField0_ & ~0x00000080);
-        hYK_ = 0F;
         onChanged();
         return this;
       }
@@ -22855,7 +23081,7 @@ public final class ZhanDou {
       "\022\021\n\tcriSkillX\030\010 \002(\005\022\021\n\tcriSkillY\030\t \002(\005\022\022" +
       "\n\nskillLevel\030\n \003(\005\022\030\n\020skillFirstActive\030\013" +
       " \003(\005\"<\n\013DroppenItem\022\n\n\002id\030\001 \002(\005\022\024\n\014commo" +
-      "nItemId\030\002 \002(\005\022\013\n\003num\030\003 \002(\005\"\227\010\n\004Node\022\017\n\007f" +
+      "nItemId\030\002 \002(\005\022\013\n\003num\030\003 \002(\005\"\333\010\n\004Node\022\017\n\007f" +
       "lagIds\030\001 \003(\005\022\017\n\007modleId\030\002 \002(\005\022-\n\010nodeTyp" +
       "e\030\003 \002(\0162\033.qxmobile.protobuf.NodeType\0229\n\016" +
       "nodeProfession\030\004 \002(\0162!.qxmobile.protobuf" +
@@ -22881,44 +23107,45 @@ public final class ZhanDou {
       "Max\030! \001(\005\022\r\n\005hpNum\030\" \002(\005\022\024\n\014appearanceId" +
       "\030# \002(\005\022\017\n\007nuQiZhi\030$ \002(\005\022\022\n\nmibaoCount\030% " +
       "\002(\005\022\022\n\nmibaoPower\030& \002(\005\022\r\n\005armor\030\' \002(\005\022\020",
-      "\n\010armorMax\030( \002(\005\022\022\n\narmorRatio\030) \002(\002\"U\n\005" +
-      "Group\022&\n\005nodes\030\001 \003(\0132\027.qxmobile.protobuf" +
-      ".Node\022\022\n\nmibaoIcons\030\002 \003(\005\022\020\n\010maxLevel\030\003 " +
-      "\002(\005\"W\n\021PveZhanDouInitReq\022\021\n\tchapterId\030\001 " +
-      "\002(\005\022/\n\tlevelType\030\002 \002(\0162\034.qxmobile.protob" +
-      "uf.LevelType\"#\n\021PvpZhanDouInitReq\022\016\n\006use" +
-      "rId\030\001 \002(\003\"\324\001\n\017ZhanDouInitResp\022\021\n\tzhandou" +
-      "Id\030\001 \002(\005\022\r\n\005mapId\030\002 \002(\005\022\021\n\tlimitTime\030\003 \002" +
-      "(\005\022,\n\nenemyTroop\030\004 \002(\0132\030.qxmobile.protob" +
-      "uf.Group\022+\n\tselfTroop\030\005 \002(\0132\030.qxmobile.p",
-      "rotobuf.Group\022\020\n\010starTemp\030\006 \003(\005\022\022\n\nstarA" +
-      "rrive\030\007 \001(\005\022\013\n\003HYK\030\010 \001(\002\"\"\n\020ZhanDouInitE" +
-      "rror\022\016\n\006result\030\001 \002(\t\"%\n\020ZhanDouReplayReq" +
-      "\022\021\n\tzhandouId\030\001 \002(\005\"_\n\021ZhanDouReplayResp" +
-      "\0224\n\010initInfo\030\001 \002(\0132\".qxmobile.protobuf.Z" +
-      "hanDouInitResp\022\024\n\014playerAction\030\002 \002(\t\"\033\n\r" +
-      "HuangYePveReq\022\n\n\002id\030\001 \002(\003\"\206\001\n\016HuangYePve" +
-      "Over\022\n\n\002id\030\001 \002(\003\022\016\n\006isPass\030\002 \002(\005\022\023\n\013dama" +
-      "geValue\030\003 \002(\005\0221\n\010npcInfos\030\004 \003(\0132\037.qxmobi" +
-      "le.protobuf.HYPveNpcInfo\022\020\n\010costTime\030\005 \002",
-      "(\005\"/\n\014HYPveNpcInfo\022\r\n\005npcId\030\001 \002(\005\022\020\n\010rem" +
-      "ainHP\030\002 \002(\005\"+\n\rHuangYePvpReq\022\n\n\002id\030\001 \002(\003" +
-      "\022\016\n\006bossId\030\002 \002(\005\"<\n\016HuangYePvpOver\022\n\n\002id" +
-      "\030\001 \002(\003\022\016\n\006isPass\030\002 \002(\005\022\016\n\006bossId\030\003 \002(\005\")" +
-      "\n\024YouXiaZhanDouInitReq\022\021\n\tchapterId\030\001 \002(" +
-      "\005\",\n\021DroppenItemResult\022\n\n\002id\030\001 \002(\005\022\013\n\003nu" +
-      "m\030\002 \002(\005\"[\n\025BattleYouXiaResultReq\022\n\n\002id\030\001" +
-      " \002(\005\022\016\n\006result\030\002 \002(\005\022\027\n\017dropeenItemNpcs\030" +
-      "\003 \003(\005\022\r\n\005score\030\004 \002(\005\"D\n\021QuZhuBattleEndRe" +
-      "q\022\016\n\006itemId\030\001 \002(\005\022\r\n\005winId\030\002 \002(\003\022\020\n\010rema",
-      "inHp\030\003 \001(\005\"/\n\022QuZhuBattleEndResp\022\n\n\002ok\030\001" +
-      " \002(\005\022\r\n\005build\030\002 \002(\005*S\n\010NodeType\022\010\n\004GEAR\020" +
-      "\001\022\013\n\007SOLDIER\020\002\022\010\n\004HERO\020\003\022\010\n\004BOSS\020\004\022\n\n\006PL" +
-      "AYER\020\005\022\007\n\003GOD\020\006\022\007\n\003NPC\020\007*I\n\016NodeProfessi" +
-      "on\022\010\n\004NULL\020\000\022\007\n\003DUN\020\001\022\t\n\005QIANG\020\002\022\010\n\004GONG" +
-      "\020\003\022\007\n\003CHE\020\004\022\006\n\002QI\020\005*>\n\tLevelType\022\020\n\014LEVE" +
-      "L_NORMAL\020\001\022\017\n\013LEVEL_ELITE\020\002\022\016\n\nLEVEL_TAL" +
-      "E\020\003B\tB\007ZhanDou"
+      "\n\010armorMax\030( \002(\005\022\022\n\narmorRatio\030) \002(\002\022\027\n\014" +
+      "finalAmplify\030* \001(\002:\0010\022\031\n\016finalReduction\030" +
+      "+ \001(\002:\0010\022\016\n\003HYK\030, \001(\002:\0010\"U\n\005Group\022&\n\005nod" +
+      "es\030\001 \003(\0132\027.qxmobile.protobuf.Node\022\022\n\nmib" +
+      "aoIcons\030\002 \003(\005\022\020\n\010maxLevel\030\003 \002(\005\"W\n\021PveZh" +
+      "anDouInitReq\022\021\n\tchapterId\030\001 \002(\005\022/\n\tlevel" +
+      "Type\030\002 \002(\0162\034.qxmobile.protobuf.LevelType" +
+      "\"#\n\021PvpZhanDouInitReq\022\016\n\006userId\030\001 \002(\003\"\307\001" +
+      "\n\017ZhanDouInitResp\022\021\n\tzhandouId\030\001 \002(\005\022\r\n\005" +
+      "mapId\030\002 \002(\005\022\021\n\tlimitTime\030\003 \002(\005\022,\n\nenemyT",
+      "roop\030\004 \002(\0132\030.qxmobile.protobuf.Group\022+\n\t" +
+      "selfTroop\030\005 \002(\0132\030.qxmobile.protobuf.Grou" +
+      "p\022\020\n\010starTemp\030\006 \003(\005\022\022\n\nstarArrive\030\007 \001(\005\"" +
+      "\"\n\020ZhanDouInitError\022\016\n\006result\030\001 \002(\t\"%\n\020Z" +
+      "hanDouReplayReq\022\021\n\tzhandouId\030\001 \002(\005\"_\n\021Zh" +
+      "anDouReplayResp\0224\n\010initInfo\030\001 \002(\0132\".qxmo" +
+      "bile.protobuf.ZhanDouInitResp\022\024\n\014playerA" +
+      "ction\030\002 \002(\t\"\033\n\rHuangYePveReq\022\n\n\002id\030\001 \002(\003" +
+      "\"\206\001\n\016HuangYePveOver\022\n\n\002id\030\001 \002(\003\022\016\n\006isPas" +
+      "s\030\002 \002(\005\022\023\n\013damageValue\030\003 \002(\005\0221\n\010npcInfos",
+      "\030\004 \003(\0132\037.qxmobile.protobuf.HYPveNpcInfo\022" +
+      "\020\n\010costTime\030\005 \002(\005\"/\n\014HYPveNpcInfo\022\r\n\005npc" +
+      "Id\030\001 \002(\005\022\020\n\010remainHP\030\002 \002(\005\"+\n\rHuangYePvp" +
+      "Req\022\n\n\002id\030\001 \002(\003\022\016\n\006bossId\030\002 \002(\005\"<\n\016Huang" +
+      "YePvpOver\022\n\n\002id\030\001 \002(\003\022\016\n\006isPass\030\002 \002(\005\022\016\n" +
+      "\006bossId\030\003 \002(\005\")\n\024YouXiaZhanDouInitReq\022\021\n" +
+      "\tchapterId\030\001 \002(\005\",\n\021DroppenItemResult\022\n\n" +
+      "\002id\030\001 \002(\005\022\013\n\003num\030\002 \002(\005\"[\n\025BattleYouXiaRe" +
+      "sultReq\022\n\n\002id\030\001 \002(\005\022\016\n\006result\030\002 \002(\005\022\027\n\017d" +
+      "ropeenItemNpcs\030\003 \003(\005\022\r\n\005score\030\004 \002(\005\"D\n\021Q",
+      "uZhuBattleEndReq\022\016\n\006itemId\030\001 \002(\005\022\r\n\005winI" +
+      "d\030\002 \002(\003\022\020\n\010remainHp\030\003 \001(\005\"/\n\022QuZhuBattle" +
+      "EndResp\022\n\n\002ok\030\001 \002(\005\022\r\n\005build\030\002 \002(\005*S\n\010No" +
+      "deType\022\010\n\004GEAR\020\001\022\013\n\007SOLDIER\020\002\022\010\n\004HERO\020\003\022" +
+      "\010\n\004BOSS\020\004\022\n\n\006PLAYER\020\005\022\007\n\003GOD\020\006\022\007\n\003NPC\020\007*" +
+      "I\n\016NodeProfession\022\010\n\004NULL\020\000\022\007\n\003DUN\020\001\022\t\n\005" +
+      "QIANG\020\002\022\010\n\004GONG\020\003\022\007\n\003CHE\020\004\022\006\n\002QI\020\005*>\n\tLe" +
+      "velType\022\020\n\014LEVEL_NORMAL\020\001\022\017\n\013LEVEL_ELITE" +
+      "\020\002\022\016\n\nLEVEL_TALE\020\003B\tB\007ZhanDou"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -22948,7 +23175,7 @@ public final class ZhanDou {
           internal_static_qxmobile_protobuf_Node_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_Node_descriptor,
-              new java.lang.String[] { "FlagIds", "ModleId", "NodeType", "NodeProfession", "NodeName", "MoveSpeed", "AttackSpeed", "AttackRange", "EyeRange", "AttackValue", "DefenceValue", "Hp", "HpMax", "AttackAmplify", "AttackReduction", "AttackAmplifyCri", "AttackReductionCri", "SkillAmplify", "SkillReduction", "SkillAmplifyCri", "SkillReductionCri", "CriX", "CriY", "CriSkillX", "CriSkillY", "Skills", "WeaponHeavy", "WeaponLight", "WeaponRanged", "DroppenItems", "DroppenType", "Hudun", "HudunMax", "HpNum", "AppearanceId", "NuQiZhi", "MibaoCount", "MibaoPower", "Armor", "ArmorMax", "ArmorRatio", });
+              new java.lang.String[] { "FlagIds", "ModleId", "NodeType", "NodeProfession", "NodeName", "MoveSpeed", "AttackSpeed", "AttackRange", "EyeRange", "AttackValue", "DefenceValue", "Hp", "HpMax", "AttackAmplify", "AttackReduction", "AttackAmplifyCri", "AttackReductionCri", "SkillAmplify", "SkillReduction", "SkillAmplifyCri", "SkillReductionCri", "CriX", "CriY", "CriSkillX", "CriSkillY", "Skills", "WeaponHeavy", "WeaponLight", "WeaponRanged", "DroppenItems", "DroppenType", "Hudun", "HudunMax", "HpNum", "AppearanceId", "NuQiZhi", "MibaoCount", "MibaoPower", "Armor", "ArmorMax", "ArmorRatio", "FinalAmplify", "FinalReduction", "HYK", });
           internal_static_qxmobile_protobuf_Group_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_Group_fieldAccessorTable = new
@@ -22972,7 +23199,7 @@ public final class ZhanDou {
           internal_static_qxmobile_protobuf_ZhanDouInitResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ZhanDouInitResp_descriptor,
-              new java.lang.String[] { "ZhandouId", "MapId", "LimitTime", "EnemyTroop", "SelfTroop", "StarTemp", "StarArrive", "HYK", });
+              new java.lang.String[] { "ZhandouId", "MapId", "LimitTime", "EnemyTroop", "SelfTroop", "StarTemp", "StarArrive", });
           internal_static_qxmobile_protobuf_ZhanDouInitError_descriptor =
             getDescriptor().getMessageTypes().get(8);
           internal_static_qxmobile_protobuf_ZhanDouInitError_fieldAccessorTable = new

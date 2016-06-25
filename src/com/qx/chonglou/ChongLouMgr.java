@@ -33,14 +33,17 @@ import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.pve.PveMgr;
+import com.qx.ranking.RankingMgr;
+import com.qx.task.DailyTaskCondition;
+import com.qx.task.DailyTaskConstants;
+import com.qx.vip.VipData;
+import com.qx.vip.VipMgr;
 import com.qx.youxia.YouXiaMgr;
 
-import qxmobile.protobuf.BattlePveResult;
 import qxmobile.protobuf.BattlePveResult.AwardItem;
 import qxmobile.protobuf.BattlePveResult.BattleResult;
 import qxmobile.protobuf.ChongLouPve.ChongLouBattleInit;
 import qxmobile.protobuf.ChongLouPve.ChongLouBattleResult;
-import qxmobile.protobuf.ChongLouPve.ChongLouBattleResultResp;
 import qxmobile.protobuf.ChongLouPve.ChongLouSaoDangAward;
 import qxmobile.protobuf.ChongLouPve.ChongLouSaoDangResp;
 import qxmobile.protobuf.ChongLouPve.MainInfoResp;
@@ -168,16 +171,25 @@ public class ChongLouMgr {
 		record.lastBattleTime = new Date();
 		HibernateUtil.save(record);
 		
+		int scale = VipMgr.INSTANCE.getValueByVipLevel(junZhu.vipLevel, VipData.chong_lou_exp_scale);  
+		scale = scale <= 0 ? 1 : scale;
 		response.setResult(0);
 		for(AwardTemp award : getAwardList) {
 			ChongLouSaoDangAward.Builder awardBuilder = ChongLouSaoDangAward.newBuilder();
+			if (award.getItemId() == AwardMgr.ITEM_EXP_ID) {
+				award.setItemNum(award.getItemNum() * scale);
+			} 
 			awardBuilder.setItemType(award.getItemType());
 			awardBuilder.setItemId(award.getItemId());
 			awardBuilder.setItemNum(award.getItemNum());
 			response.addAwards(awardBuilder.build());
+			AwardMgr.inst.giveReward(session, award, junZhu, false);
 		}
+		logger.info("重楼扫荡成功，君主:{} 扫荡千重楼，start:{},end:{}", junZhu.id, start, end);
 		sendChongLouSaoDangResp(session, response);
+		JunZhuMgr.inst.sendMainInfo(session);
 		EventMgr.addEvent(ED.done_qianChongLou, new Object[]{junZhu.id});
+		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(junZhu.id , DailyTaskConstants.qianChongLou, 1));
 	}
 
 	public void sendChongLouSaoDangResp(IoSession session, ChongLouSaoDangResp.Builder response) {
@@ -371,7 +383,10 @@ public class ChongLouMgr {
 				record.highestLevel = layer;
 				record.highestLevelFirstTime = new Date();
 				Redis.getInstance().set(CACHE_CHONGLOU_HIGHEST_LAYER + junZhu.id, String.valueOf(record.highestLevel));
-				EventMgr.addEvent(ED.CHONGLOU_RANK_REFRESH, new Object[]{junZhu, layer});
+				if(junZhu.level >= RankingMgr.CHONGLOU_JUNZHU_MIN_LEVEL) {
+					EventMgr.addEvent(ED.CHONGLOU_RANK_REFRESH, new Object[]{junZhu, junZhu.guoJiaId});
+				}
+				EventMgr.addEvent(ED.CHONGLOU_BROADCAST, new Object[]{junZhu, layer});
 			}
 			List<Integer> droppenList = request.getDropeenItemNpcsList();
 			Map<Integer, List<AwardTemp>> npcDropAwardMap = dropAwardMapBefore.get(junZhu.id);
@@ -381,14 +396,16 @@ public class ChongLouMgr {
 					AwardMgr.inst.battleAwardCounting(getAwardList, posNpcDropAward);
 				}
 			}
-			
+			int scale = VipMgr.INSTANCE.getValueByVipLevel(junZhu.vipLevel, VipData.chong_lou_exp_scale);  
+			scale = scale <= 0 ? 1 : scale;
 			List<AwardTemp> guanQiaAwardList = AwardMgr.inst.getHitAwardList(pveTemp.awardId, ",", "=");
 			AwardMgr.inst.battleAwardCounting(getAwardList, guanQiaAwardList);
 			for (AwardTemp award : getAwardList) {
 				if (award.getItemId() == AwardMgr.ITEM_TONGBI_ID) {
 					getTongbi += award.getItemNum();
 				} else if (award.getItemId() == AwardMgr.ITEM_EXP_ID) {
-					getExp += award.getItemNum();
+					getExp += award.getItemNum() * scale;
+					award.setItemNum(award.getItemNum() * scale);
 				} else {
 					AwardItem.Builder awardBuilder = AwardItem.newBuilder();
 					awardBuilder.setAwardItemType(award.getItemType());
@@ -421,6 +438,7 @@ public class ChongLouMgr {
 		session.write(protobufMsg);
 		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		EventMgr.addEvent(ED.done_qianChongLou, new Object[]{junZhu.id});
+		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(junZhu.id , DailyTaskConstants.qianChongLou, 1));
 	}
 
 	public ChongLouRecord getChongLouRecord(JunZhu jz) {

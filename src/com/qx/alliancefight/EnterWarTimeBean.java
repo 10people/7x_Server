@@ -14,5 +14,7 @@ public class EnterWarTimeBean {
 	public int dbId;
 	public long jzId;
 	public int cityId;
+	public int lmId;
+	public int isIn; //1 代表在战场，0不在在战场
 	public Date enterTime;
 }

@@ -25,14 +25,18 @@ import com.google.protobuf.AbstractMessageLite;
 import com.google.protobuf.CodedOutputStream;
 import com.google.protobuf.MessageLite;
 import com.google.protobuf.MessageLite.Builder;
+import com.manu.dynasty.template.Mail;
 import com.manu.dynasty.util.ProtobufUtils;
+import com.manu.network.BigSwitch;
 import com.manu.network.PD;
 import com.manu.network.ProtoBuffEncoder;
 import com.manu.network.SessionAttKey;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.account.AccountManager;
 import com.qx.alliance.AllianceMgr;
+import com.qx.email.EmailMgr;
 import com.qx.explore.treasure.ExploreTreasureMgr;
+import com.qx.junzhu.ChenghaoMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
@@ -58,6 +62,7 @@ public class Scene implements Runnable{
 	public static Mission exit = new Mission(0,null,null);
 	public String name;
 	public static int YBRobot_RoleId= 50000;//镖车机器人的roleId 很大的数 区分Player是玩家还是玩家的镖车
+	public static int TOWER_RoleId= 20160524;
 	
 	public Scene(String key){
 		players  = new ConcurrentHashMap<Integer, Player>();
@@ -173,7 +178,7 @@ public class Scene implements Runnable{
 					continue;
 				}
 				//镖车机器人 跳过
-				if(player.roleId==YBRobot_RoleId){
+				if(player.roleId==YBRobot_RoleId || player.roleId==TOWER_RoleId){
 					continue;
 				}
 				boolean isVisible = checkVisibility(cur, player);
@@ -231,7 +236,10 @@ public class Scene implements Runnable{
 		if(ForceRoleId != null){
 			player.roleId = ForceRoleId;
 		}
-		player.chengHaoId = (String)session.getAttribute(SessionAttKey.CHENG_HAO_ID, "-1");
+		String chenghaoId = (String)session.getAttribute(SessionAttKey.CHENG_HAO_ID, "-1");
+		//校验称号是否，过期发邮件
+		player.chengHaoId = ChenghaoMgr.inst.updateChengHao(chenghaoId, jz);
+		
 		player.lmName = (String)session.getAttribute(SessionAttKey.LM_NAME, "***");
 		player.vip = jz == null ? 0:jz.vipLevel;
 		player.zhiWu = (Integer)session.getAttribute(SessionAttKey.LM_ZHIWU, -1);
@@ -332,7 +340,7 @@ public class Scene implements Runnable{
 	 * @param skip 进入的人的 Player对象
 	 */
 	public void informComerOtherPlayers(IoSession session, Player skip) {
-		log.warn("告知刚登陆玩家当前在线玩家个数： " + players.size());
+//		log.warn("告知刚登陆玩家当前在线玩家个数： " + players.size());
 		for(Player player : players.values()){
 			if(player.equals(skip)){
 				continue;
@@ -366,6 +374,7 @@ public class Scene implements Runnable{
 		playerInfo.setAllianceName(player.lmName);
 		playerInfo.setVipLevel(player.vip);
 		playerInfo.setZhiWu(player.zhiWu);
+		playerInfo.setLevel(playerInfo.getLevel());
 		return playerInfo;
 	}
 
@@ -476,6 +485,9 @@ public class Scene implements Runnable{
 				EnterScene.Builder enterFightScene = (EnterScene.Builder)builder;
 				enterFightScene(session, enterFightScene);
 				break;
+			case PD.FIGHT_ATTACK_REQ:
+				BigSwitch.inst.fightMgr.activeFight(code, session, builder);
+				break;
 			default:
 				log.warn("Scene场景处理不了的协议unkown code: {}" , code);
 				break;
@@ -540,32 +552,13 @@ public class Scene implements Runnable{
 			return;
 		}
 		enterPlayer.pState = state;
-		log.info("player {} change state to {}", enterPlayer.getName(), enterPlayer.pState);
+//		log.info("player {} change state to {}", enterPlayer.getName(), enterPlayer.pState);
 		//发送其他玩家信息给当前玩家。
 		switch(enterPlayer.pState) {
-			case State_FIGHT_SCENE:
-				processStateOnFight(session, enterPlayer);
-				break;
-			case State_HOUSE: //2015年11月27日 策划删除联盟城 房屋废弃
-				informComerOtherPlayers(session, enterPlayer);
-				log.info("同步小屋玩家信息给 {}",enterPlayer.getName());
-				EnterScene.Builder enterHouseInfo = EnterScene.newBuilder();
-				enterHouseInfo.setSenderName(enterPlayer.getName());
-				enterHouseInfo.setUid(enterPlayer.userId);
-				enterHouseInfo.setPosX(enterPlayer.getPosX());
-				enterHouseInfo.setPosY(enterPlayer.getPosY());
-				enterHouseInfo.setPosZ(enterPlayer.getPosZ());
-				enterHouseInfo.setRoleId(enterPlayer.roleId);
-				enterHouseInfo.setJzId(enterPlayer.jzId);
-				ProtobufMsg pm = new ProtobufMsg();
-				pm.id = PD.Enter_HouseScene;
-				pm.builder = enterHouseInfo;
-				broadCastEvent(pm, enterPlayer.userId);
-				break;
 			case State_YABIAO:
 			case State_LEAGUEOFCITY: //22015年11月27日 策划删除联盟城 废弃
 				informComerOtherPlayers(session, enterPlayer);
-				log.info("同步在线玩家信息给 {}",enterPlayer.getName());
+//				log.info("同步在线玩家信息给 {}",enterPlayer.getName());
 				bdEnterInfo(enterPlayer);
 				break;
 			case State_LOADINGSCENE:
@@ -688,11 +681,7 @@ public class Scene implements Runnable{
 		// sub class implement
 	}
 	
-	protected void processStateOnFight(IoSession session, Player p) {
-		// sub class implement
-	}
-	
-	public void playerDie(JunZhu defender, int uid, int killerUid){
+	public void playerDie(Player defender, int killerUid){
 		// sub class implement
 	}
 	

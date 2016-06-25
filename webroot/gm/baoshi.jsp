@@ -190,11 +190,11 @@
 	<table border='1'>
 		<tr>
 		<th> 装备ID </th>
-		<th> 宝石孔0 </th><th>颜色</th>
-		<th> 宝石孔1 </th><th>颜色</th>
-		<th> 宝石孔2 </th><th>颜色</th>
-		<th> 宝石孔3 </th><th>颜色</th>
-		<th> 宝石孔4 </th><th>颜色</th>
+		<th> 宝石孔0 </th><th>孔颜色</th>
+		<th> 宝石孔1 </th><th>孔颜色</th>
+		<th> 宝石孔2 </th><th>孔颜色</th>
+		<th> 宝石孔3 </th><th>孔颜色</th>
+		<th> 宝石孔4 </th><th>孔颜色</th>
 		</tr>
 		<%
 		if(equips != null){
@@ -202,29 +202,21 @@
 				if(eg == null){
 					continue;
 				}
-				if(eg.instId > 0){
-					UserEquip ue = HibernateUtil.find(UserEquip.class, eg.instId);
-					if(ue == null){
-						continue;
-					}
-				
-				
-				int[] holesInfo = JewelMgr.inst.equipMap.get(ue.getTemplateId());
+				if(eg.itemId <= 0 ){
+					continue;
+				}
+				UserEquip ue = HibernateUtil.find(UserEquip.class, eg.instId);
+				int[] holesInfo = JewelMgr.inst.equipMap.get(eg.itemId);
+				List<Long> jewelInfo = JewelMgr.inst.getJewelOnEquip(ue);
 				%>
 				<tr>
-					<td><%=eg.dbId %></td>
-					<td align="left"><%=ue.Jewel0 ==-1?"未镶嵌":(int)(ue.Jewel0>>32)+" exp:"+(int)(ue.Jewel0&Integer.MAX_VALUE) %></td>
-					<td><%=holesInfo[0] == 1?"红":holesInfo[0]==2 ?"黄":holesInfo[0]==3?"绿":"无"%></td>
-					<td align="left"><%=ue.Jewel1 ==-1?"未镶嵌":(int)(ue.Jewel1>>32)+" exp:"+(int)(ue.Jewel1&Integer.MAX_VALUE)%></td>
-					<td><%=holesInfo[1] == 1?"红":holesInfo[1]==2 ?"黄":holesInfo[1]==3?"绿":"无"%></td>
-					<td align="left"><%=ue.Jewel2 ==-1?"未镶嵌":(int)(ue.Jewel2>>32)+" exp:"+(int)(ue.Jewel2&Integer.MAX_VALUE)%></td>
-					<td><%=holesInfo[2] == 1?"红":holesInfo[2]==2 ?"黄":holesInfo[2]==3?"绿":"无"%></td>
-					<td align="left"><%=ue.Jewel3 ==-1?"未镶嵌":(int)(ue.Jewel3>>32)+" exp:"+(int)(ue.Jewel3&Integer.MAX_VALUE)%></td>
-					<td><%=holesInfo[3] == 1?"红":holesInfo[3]==2 ?"黄":holesInfo[3]==3?"绿":"无"%></td>
-					<td align="left"><%=ue.Jewel4 ==-1?"未镶嵌":(int)(ue.Jewel4>>32)+" exp:"+(int)(ue.Jewel4&Integer.MAX_VALUE)%></td>
-					<td><%=holesInfo[4] == 1?"红":holesInfo[4]==2 ?"黄":holesInfo[4]==3?"绿":"无"%></td>
-				</tr>
+				<td><%=eg.dbId %></td>
 				<%
+				for(int i = 0 ; i < JewelMgr.inst.Max_Jewel_Num_One_Equip ; i++){
+					%>
+					<td align="left"><%=jewelInfo.get(i)<= 0?"未镶嵌":(int)(jewelInfo.get(i)>>32)+" exp:"+(int)(jewelInfo.get(i)&Integer.MAX_VALUE) %></td>
+					<td align="center"><%=holesInfo[i] == 1?"红":holesInfo[i]==2 ?"黄":holesInfo[i]==3?"绿":""%></td>
+					<%
 				}
 			}
 		}

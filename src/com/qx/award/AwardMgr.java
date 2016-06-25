@@ -1,6 +1,7 @@
 package com.qx.award;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,16 +11,13 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.BattlePveResult.AwardItem;
-import qxmobile.protobuf.BattlePveResult.BattleResult;
-import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
-
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.BaseItem;
 import com.manu.dynasty.template.Fuwen;
 import com.manu.dynasty.template.HeroProtoType;
 import com.manu.dynasty.template.MiBao;
+import com.manu.dynasty.template.MiBaoNew;
 import com.manu.dynasty.template.MibaoSuiPian;
 import com.manu.dynasty.template.PveTemp;
 import com.manu.network.PD;
@@ -49,6 +47,10 @@ import com.qx.vip.VipMgr;
 import com.qx.yabiao.YaBiaoHuoDongMgr;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
+
+import qxmobile.protobuf.BattlePveResult.AwardItem;
+import qxmobile.protobuf.BattlePveResult.BattleResult;
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 
 public class AwardMgr {
 	public static AwardMgr inst;
@@ -459,12 +461,25 @@ public class AwardMgr {
 			iconId = sp.getIcon();
 			break;
 		}
+		case TYPE_NEW_MOBAI_SUIPIAN:
+			Map<Integer, MiBaoNew> mbNewMap = MiBaoV2Mgr.inst.confMap;
+			if(mbNewMap == null || mbNewMap.size() == 0) {
+				break;
+			}
+			Collection<MiBaoNew> mbNewList = mbNewMap.values();
+			for(MiBaoNew mbn : mbNewList) {
+				if(mbn.suipianId == itemId) {
+					iconId = mbn.icon;
+					break;
+				}
+			}
+			break;
 		default:
 			log.error("A未知奖励类型 {}, awardId{}", itemType, itemId);
 			break;
 		}
 		if (iconId == 0) {
-			log.error("iconId=0，itemType={},itemId={}", itemType, itemId);
+			log.error("获取物品icon错误，iconId=0，itemType={},itemId={}", itemType, itemId);
 		}
 		return iconId;
 	}
@@ -510,6 +525,11 @@ public class AwardMgr {
 		Bag<BagGrid> bag;
 		switch (a.getItemType()) {
 		case 21://玉玦
+		case 11://小屋换卡材料
+		case 12://小屋换卡材料
+		case 13://小屋换卡材料
+		case 14://小屋换卡材料
+		case 15://小屋换卡材料
 		case TYPE_ITEM:// 物品
 			if (a.getItemId() == 900009) {// 卡包积分
 				jz.cardJiFen += a.getItemNum();
@@ -579,25 +599,31 @@ public class AwardMgr {
 						a.getItemNum());
 				log.info("{} 获得武艺精气{},达到{}", jz.id, a.getItemNum(), all);
 //				TalentMgr.instance.sendTalentInfo(session);
-				JunZhuMgr.inst.sendMainInfo(session,jz);
+				if(sendMainInfo)JunZhuMgr.inst.sendMainInfo(session,jz);
 				break;
 			} else if (a.getItemId() == 900019) {// 体魄精气
 				int all = TalentMgr.instance.addTiPoJingQi(jz.id,
 						a.getItemNum());
 				log.info("{} 获得体魄精气{},达到{}", jz.id, a.getItemNum(), all);
 //				TalentMgr.instance.sendTalentInfo(session);
-				JunZhuMgr.inst.sendMainInfo(session,jz);
+				if(sendMainInfo)JunZhuMgr.inst.sendMainInfo(session,jz);
 				break;
 			} else if(a.getItemId() == ITEM_WEI_WANG){ // 添加威望奖励
 				int all = ShopMgr.inst.addMoney(ShopMgr.Money.weiWang,
 						ShopMgr.baizhan_shop_type, jz.id, a.getItemNum());
 				log.info("君主：{}获取奖励，威望，获取数是：{}, 获取后拥有：{}", jz.id, a.getItemNum(), all);
 				ShopMgr.inst.sendMainIfo(session, jz.id ,ShopMgr.Money.weiWang);
+				EventMgr.addEvent(ED.CHANGE_WEIWANG, new Object[] { session, jz });
 			} else if(a.getItemId() == ITEM_GONG_XUN){ // 添加功勋奖励
 				int all = ShopMgr.inst.addMoney(ShopMgr.Money.gongXun,
 						ShopMgr.lianmeng_battle_shop_type, jz.id, a.getItemNum());
 				log.info("君主：{}获取奖励，功勋，获取数是：{}, 获取后拥有：{}", jz.id, a.getItemNum(), all);
 				ShopMgr.inst.sendMainIfo(session,jz.id,ShopMgr.Money.gongXun);
+				AllianceBean alliance = AllianceMgr.inst.getAllianceByJunZid(jz.id);
+				if(alliance != null) {
+					AllianceMgr.inst.sendAllianceInfo(jz, session, null, alliance);
+				}
+				EventMgr.addEvent(ED.CHANGE_GONGXUN, new Object[] { session, jz });
 			} else if(a.getItemId() == item_gong_jin){ // 添加贡金
 				// 20151127
 				RankingGongJinMgr.inst.addGongJin(jz.id, a.getItemNum());
@@ -627,8 +653,7 @@ public class AwardMgr {
 					log.info("联盟：{}通过奖励获取联盟经验：{}点，完成", ac.id, a.getItemNum());
 					AllianceMgr.inst.sendAllianceInfo(jz, session, null, ac);
 				}
-			}
-				else{
+			}else{
 				BaseItem bi = TempletService.itemMap.get(a.getItemId());
 				if (bi != null) {// 如果属于背包物品
 					bag = BagMgr.inst.loadBag(junZhuId);
@@ -654,7 +679,7 @@ public class AwardMgr {
 				return false;
 			}
 			bag = BagMgr.inst.loadBag(junZhuId);
-			BagMgr.inst.addItem(bag, a.getItemId(), a.getItemNum(), fuwen.exp, jz.level, "发奖:"+a.getId());
+			BagMgr.inst.addItem(bag, a.getItemId(), a.getItemNum(), 0, jz.level, "发奖:"+a.getId());
 			if(sendBagInfo)BagMgr.inst.sendBagInfo(0, session, null);
 			break;
 		case TYPE_ZHUANG_BEI:		// 装备 装进背包
@@ -675,6 +700,7 @@ public class AwardMgr {
 //			break;
 		case TYPE_NEW_MOBAI_SUIPIAN:
 			MiBaoV2Mgr.inst.addMiBaoSuiPian(jz,a);
+			MiBaoV2Mgr.inst.sendMiBaoInfo(0, session, null);
 			break;
 		case TYPE_MI_BAO: 			// 秘宝
 		case TYPE_MOBAI_SUIPIAN:	// 秘宝碎片
@@ -766,7 +792,9 @@ public class AwardMgr {
 			 *  判断秘宝相关任务是否有完成
 			 */
 			if (isGetMibao) {
-				EventMgr.addEvent(ED.GAIN_MIBAO, new Object[]{jz,session});
+				String hql1 = "select count(1) from MiBaoDB where ownerId="+jz.id+" and level>=1";
+				int cnt = HibernateUtil.getCount(hql1);
+				EventMgr.addEvent(ED.GAIN_MIBAO, new Object[]{jz,session,cnt});
 				// 写在后面，怕有异常导致后面代码无法执行
 				doRenWuForMiBao(mibaoDB, jz, session);
 			}
@@ -837,6 +865,8 @@ public class AwardMgr {
 			log.error("未知奖励类型 {}, awardId{}", a.getItemType(), a.getId());
 			return false;
 		}
+		EventMgr.addEvent(ED.get_item_finish, new Object[] { junZhuId,
+				a.getItemId() });
 		return true;
 	}
 

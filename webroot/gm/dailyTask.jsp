@@ -1,3 +1,4 @@
+<%@page import="com.manu.network.SessionManager"%>
 <%@page import="com.qx.activity.ActivityMgr"%>
 <%@page import="com.manu.dynasty.template.DescId"%>
 <%@page import="java.util.Map"%>
@@ -57,6 +58,104 @@ function ff(){
 		账号<input type="text" name="account" value="<%=name%>"><br>
 		<button type="submit">查询</button>
 	<%
+	Account account = null;
+	if(name != null && name.length()>0){
+		account = HibernateUtil.getAccount(name);
+	}
+	if(account == null){
+	    %>没有找到<%
+    }else{
+        session.setAttribute("name", name);
+        %><br>注册账号：<%=account.getAccountName()%>
+        <%
+         long junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+         JunZhu junzhu = HibernateUtil.find(JunZhu.class, junZhuId);
+         if(junzhu == null){
+            out("没有君主");
+         }else{
+	        %>
+	        <br>
+	        	君主id是：<%=junzhu.id%>
+	        <br>
+	        	君主姓名是：<%=junzhu.name%>
+	        <%
+	        String action = request.getParameter("action");
+	        if(action != null){
+	        	if("done".equals(action)){
+	        		String dbIdStr = request.getParameter("taskId");
+	        		if(dbIdStr != null){
+	        			long dbId = Long.parseLong(dbIdStr);
+	        			int renwuID = (int) dbId%100;
+	        			RenWu renwu = DailyTaskMgr.renWuMap.get(renwuID);
+	        			DailyTaskBean bean = HibernateUtil.find(DailyTaskBean.class, dbId);
+	        			bean.jundu = renwu == null ? 1 :renwu.condition;
+	        			bean.isFinish = true;
+	        			bean.time = new Date();
+	        			HibernateUtil.update(bean);
+	        			IoSession su = SessionManager.inst.getIoSession(junZhuId);
+	        			if(su != null ){
+	        				DailyTaskMgr.INSTANCE.taskListRequest(1, su);
+	        			}
+	        		}
+	        	}else if("reset".equals(action)){
+	        		
+	        		String dbIdStr = request.getParameter("taskId");
+	        		if(dbIdStr != null){
+	        			long dbId = Long.parseLong(dbIdStr);
+	        			DailyTaskBean bean = HibernateUtil.find(DailyTaskBean.class, dbId);
+	        			bean.isFinish = false;
+	        			bean.isGetReward = false;
+	        			bean.jundu = 0;
+	        			bean.time = new Date();
+	        			HibernateUtil.update(bean);
+	        		}
+	        	}
+	        	
+	        }
+	        long start = junZhuId * DailyTaskMgr.space ;
+	        long end = start + DailyTaskMgr.space - 1;
+	        List<DailyTaskBean> taskList = DailyTaskMgr.INSTANCE.getDailyTasks(junZhuId);
+	        %>
+	        <table border="1">
+	        <%
+	        if(taskList != null && taskList.size() > 0){
+	        %>
+	        <tr><th>dbId</th><th>任务id</th><th>任务进度</th><th>任务描述</th><th>是否完成</th><th>是否领奖</th><th>操作</th></tr>
+	        <%
+				for(DailyTaskBean dtBean : taskList){
+					RenWu r = DailyTaskMgr.renWuMap.get((int)dtBean.dbId % 100);
+					DescId desc = null ;
+					if(r != null){
+						desc = ActivityMgr.descMap.get(r.funDesc);
+					}
+				%>
+				 <tr>
+				 <td><%= dtBean.dbId %></td>
+				 <td><%= dtBean.dbId % 100 %></td>
+				 <td><%= dtBean.jundu %></td>
+				 <td><%= desc == null ?"":desc.getDescription() %></td>
+				 <td><%= dtBean.isFinish ?"已完成":"未完成" %></td>
+				 <td><%= dtBean.isGetReward ?"已领奖":"未领奖" %></td>
+				 <td>
+				 <a href="?action=done&taskId=<%=dtBean.dbId%>">完成</a>
+				 <a href="?action=reset&taskId=<%=dtBean.dbId%>">重置</a>
+				 </td>
+				 </tr>
+				 <%
+				}
+	        }
+	        %>
+	        </table>
+	        <%
+      	}
+         
+	}
+	
+	
+	
+	
+	br();
+	out("---------------------------------------------");
 	tableStart();
 	trS();
 	td("任务id");td("名称");td("描述");//td("类型");
@@ -79,87 +178,6 @@ function ff(){
 		}
 	}
 	tableEnd();
-	br();
-	out("---------------------------------------------");
-	    Account account = null;
-	    if(name != null && name.length()>0){
-	        account = HibernateUtil.getAccount(name);
-	    }
-	    if(account == null){
-    %>没有找到
-    <%
-    }else{
-
-        session.setAttribute("name", name);
-        %><br>注册账号：<%=account.getAccountName()%><br> 账号id：<%=account.getAccountId()%><%
-         long junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
-         JunZhu junzhu = HibernateUtil.find(JunZhu.class, junZhuId);
-         if(junzhu == null){
-            out("没有君主");
-         }else{
-             %><br> 君主id是：<%=junzhu.id%> <br>君主姓名是：<%=junzhu.name%><%
-			String action = request.getParameter("action");
-             br();br();
-             String v1 = "";
-             String v2 = "";
-             br();
-             %>任务Id：<input type='text' id='rewu' name='rewu' value='<%=v1%>' />
-              <div style="color: #FF0000">填写上面表格的存在任务id(第一列)</div><br><% 
-             br();
-             br();
-              %>增加的次数：<input type='text' id='jinduA' name='jinduA' value='<%=v2%>'/>
-          <% 
-             br();
-             //out("<input type='button' value='增加' onclick='go(\"addJindu\")' />");
-           //  out("<input type='button' value='增加' onclick='go(\"addJindu\")' />");
-            %> <input type="Submit" value="增加"> <%
-       %></form>
-       <form action="">
-       <%
-             br();
-       String vs = request.getParameter("rewu");
-       String vm = request.getParameter("jinduA");
-             if(vs != null && !vs.equals(""))
-             {
-            	int vv = Integer.parseInt(vs);
-            	int vn = Integer.parseInt(vm);
-            	try{
-		             EventMgr.addEvent(ED.DAILY_TASK_PROCESS, 
-		                     new DailyTaskCondition(junZhuId, vv, vn));
-	                 out("<script language=\"javascript\" type=\"text/javascript\">ss()</script>");
-            	}catch(Exception e){
-            		out("<script language=\"javascript\" type=\"text/javascript\">ff()</script>");
-            	}
-	             
-             }
-             List<DailyTaskBean> tasks  = DailyTaskMgr.INSTANCE.getDailyTasks(junZhuId);
-             if(tasks == null || tasks.size() == 0){
-                 // 减小压力不存数据库
-                 tasks = DailyTaskMgr.INSTANCE.initTaskList(junZhuId);
-             }else{
-                 // 重置 task
-                 DailyTaskMgr.INSTANCE.resetOrAddTaskList(junZhuId, tasks);
-             }
-			tableStart();
-			trS();
-               td("dbId");//td("任务描述");
-               td("进度");td("是否完成");td("是否领奖");td("类型");td("上次进本条任务的时间");
-               trE();
-			for(DailyTaskBean task: tasks){
-                RenWu rr = DailyTaskMgr.INSTANCE.renWuMap.get((int)(task.dbId%100));
-                 trS();
-                 td(task.dbId);
-               //  td(rr.funDesc);
-                 td(task.jundu);
-                 td(task.isFinish);
-                 td(task.isGetReward);
-                 td(task.type);
-                 td(task.time);
-                 trE();
-			}
-			tableEnd();
-			}
-		}
 	%>
 	</form>
 </body>

@@ -17,6 +17,8 @@ public class XianShiConstont {
 	public static final int MIBAO_GET=1519000;//获得秘宝    2015年12月23日
 	public static final int TANBAO_ONETIMES=1574000;//元宝单抽
 	public static final int TANBAO_TENTIMES=1575000 ;//元宝十连
+	public static final int MISHU_JIHUO=1605000 ;//激活秘术
+	public static final int CHONGLOU_TIAOZHAN=1611000;//挑战重楼
 //	public static final int ZAIXIANLIBAO_DONE_TYPE =42;
 //	public static final int QIRIQIANDAO_DONE_TYPE =43;
 //	public static final int CHONGJISONGLI_DONE_TYPE =1;

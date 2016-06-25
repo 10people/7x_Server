@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -17,6 +18,7 @@ import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.hero.service.HeroService;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.CanShu;
+import com.manu.dynasty.template.Chenghao;
 import com.manu.dynasty.template.EnemyTemp;
 import com.manu.dynasty.template.GongjiType;
 import com.manu.dynasty.template.GuanQiaJunZhu;
@@ -26,6 +28,7 @@ import com.manu.dynasty.template.JiNengPeiYang;
 import com.manu.dynasty.template.LegendNpcTemp;
 import com.manu.dynasty.template.LegendPveTemp;
 import com.manu.dynasty.template.NpcTemp;
+import com.manu.dynasty.template.PuGong;
 import com.manu.dynasty.template.PveBigAward;
 import com.manu.dynasty.template.PveTemp;
 import com.manu.dynasty.template.ShiBing;
@@ -45,6 +48,7 @@ import com.qx.hero.HeroMgr;
 import com.qx.hero.WuJiang;
 import com.qx.jinengpeiyang.JNBean;
 import com.qx.jinengpeiyang.JiNengPeiYangMgr;
+import com.qx.junzhu.ChenghaoMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.mibao.MibaoMgr;
@@ -650,6 +654,9 @@ public class PveMgr extends EventProc {
 		Map<Integer, List<AwardTemp>> npcDropAward = new HashMap<Integer, List<AwardTemp>>();
 		int index = 0;
 		for (NpcTemp npcTemp : npcList) {
+			if(310 == npcTemp.position) {
+				System.out.println();
+			}
 			NodeType nodeType = NodeType.valueOf(npcTemp.type);
 			if(nodeType == null){
 				logger.error("nodeType与npcTemp的type值不一致，npcTemp.type:{}", npcTemp.type);
@@ -864,7 +871,7 @@ public class PveMgr extends EventProc {
 		Node.Builder junzhuNode = Node.newBuilder();
 		// 添加装备
 		List<Integer> zbIdList = EquipMgr.inst.getEquipCfgIdList(junZhu);
-		fillZhuangbei4Player(junzhuNode, zbIdList, junZhu.id);
+		fillZhuangbei4Player(junzhuNode, zbIdList, junZhu);
 		// 添加flag,添加君主基本信息（暴击、类型、读表类型、视野）
 		junzhuNode.addFlagIds(flagIndex);
 		junzhuNode.setNodeType(NodeType.PLAYER);
@@ -882,6 +889,14 @@ public class PveMgr extends EventProc {
 		junzhuNode.setArmor(0);
 		junzhuNode.setArmorMax(0);
 		junzhuNode.setArmorRatio(0);
+		Chenghao curChengHao = ChenghaoMgr.inst.getCurEquipCfg(junZhu.id);
+		if(curChengHao == null) {
+			junzhuNode.setFinalAmplify(0);
+			junzhuNode.setFinalReduction(0);
+		} else {
+			junzhuNode.setFinalAmplify(curChengHao.add_injury_scale / 100);
+			junzhuNode.setFinalReduction(curChengHao.reduce_injury_scale / 100);
+		}
 		junzhuNode.setMibaoPower(JunZhuMgr.inst.getAllMibaoProvideZhanli(junZhu));
 		junzhuNode.setMibaoCount(0);
 		selfs.add(junzhuNode.build());
@@ -903,7 +918,7 @@ public class PveMgr extends EventProc {
 		Node.Builder junzhuNode = Node.newBuilder();
 		// 添加装备
 		List<Integer> zbIdList = EquipMgr.inst.getEquipCfgIdList(junZhu);
-		fillZhuangbei4Player(junzhuNode, zbIdList, junZhu.id);
+		fillZhuangbei4Player(junzhuNode, zbIdList, junZhu);
 		// 添加flag,添加君主基本信息（暴击、类型、读表类型、视野）
 		junzhuNode.addFlagIds(flagIndex);
 		junzhuNode.setNodeType(NodeType.PLAYER);
@@ -932,7 +947,7 @@ public class PveMgr extends EventProc {
 		Node.Builder junzhuNode = Node.newBuilder();
 		// 添加装备
 		List<Integer> zbIdList = EquipMgr.inst.getEquipCfgIdList(junZhu);
-		fillZhuangbei4Player(junzhuNode, zbIdList, junZhu.id);
+		fillZhuangbei4Player(junzhuNode, zbIdList, junZhu);
 		// 添加flag,添加君主基本信息（暴击、类型、读表类型、视野）
 		junzhuNode.addFlagIds(flagIndex);
 		junzhuNode.setNodeType(NodeType.PLAYER);
@@ -994,29 +1009,42 @@ public class PveMgr extends EventProc {
 				continue;
 			}
 			SkillTemplate xiShuCarry = null;
+			JiNengPeiYang py = null;
 			switch(zhuangBei.getBuWei()){
 			case HeroMgr.WEAPON_HEAVY:
 				{
-					JiNengPeiYang py = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(gb.getPugongHeavy());
-					xiShuCarry = id2SkillTemplate.get(py.skillId);
+					py = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(gb.getPugongHeavy());
 				}
 				break;
 			case HeroMgr.WEAPON_LIGHT:
 				{
-					JiNengPeiYang py = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(gb.getPugongLight());
-					xiShuCarry = id2SkillTemplate.get(py.skillId);
+					py = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(gb.getPugongLight());
 				}
 				break;
 			case HeroMgr.WEAPON_RANGED:
 				{
-					JiNengPeiYang py = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(gb.getPugongRange());
-					xiShuCarry = id2SkillTemplate.get(py.skillId);
+					py = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(gb.getPugongRange());
 				}
 				break;
 			default:
 				logger.error("填充装备数据出错，没有该部位id:{}的装备", zhuangBei.getBuWei());
 				continue;
 			}
+			int skillId = py.skillId;
+			if(py.isPuGong == 1) {//表示是普攻，伤害系数读的配置需要从PuGong表里读技能
+				final int jiNengId = py.id;
+				List<PuGong> pgList = TempletService.listAll(PuGong.class.getName());
+				if(pgList != null) {
+					Optional<PuGong> optional = pgList.stream()
+							.filter(pg -> (pg.modelID == gb.getRoleId((int) gb.getId()) && pg.id == jiNengId))
+							.findFirst();
+					PuGong puGong = optional.get();
+					if(puGong != null) {
+						skillId = puGong.skillId;
+					}
+				}
+			}
+			xiShuCarry = id2SkillTemplate.get(skillId);
 			if(xiShuCarry == null) {
 				logger.error("填充装备数据出错，skillTemplete未找到");
 				continue;
@@ -1050,9 +1078,9 @@ public class PveMgr extends EventProc {
 	}
 	
 	
-	public void fillZhuangbei4Player(Node.Builder junzhuNode, List<Integer> zbIdList, long junzhuId) {
+	public void fillZhuangbei4Player(Node.Builder junzhuNode, List<Integer> zbIdList, JunZhu junzhu) {
 		// 因为获取新技能列表后就把新技能清空了，所以必须在填充装备数据前面获取出来
-		int[] newSkillIds = JiNengPeiYangMgr.inst.getNewJNIds(junzhuId);
+		int[] newSkillIds = JiNengPeiYangMgr.inst.getNewJNIds(junzhu.id);
 		for(Integer zbid : zbIdList){
 			ZhuangBei zhuangBei = HeroMgr.id2ZhuangBei.get(zbid);
 			if (zhuangBei == null) {
@@ -1060,13 +1088,12 @@ public class PveMgr extends EventProc {
 				continue;
 			}
 			
-			JNBean bean = HibernateUtil.find(JNBean.class, junzhuId);
+			JNBean bean = HibernateUtil.find(JNBean.class, junzhu.id);
 			if(bean == null){
 				bean = JiNengPeiYangMgr.inst.getDefaultBean();
 			}
-			JiNengPeiYangMgr.inst.fixOpenByLevel(bean, junzhuId);
+			JiNengPeiYangMgr.inst.fixOpenByLevel(bean, junzhu.id);
 			JiNengPeiYang py = null;
-			SkillTemplate xiShuCarry = null;
 			switch(zhuangBei.getBuWei()){
 				case HeroMgr.WEAPON_HEAVY:
 					py = JiNengPeiYangMgr.inst.jiNengPeiYangMap.get(bean.wq1_1);
@@ -1080,9 +1107,25 @@ public class PveMgr extends EventProc {
 				default:
 					continue;
 			}
-			xiShuCarry = id2SkillTemplate.get(py.skillId);
+			int skillId = py.skillId;
+			if(py.isPuGong == 1) {//表示是普攻，伤害系数读的配置需要从PuGong表里读技能
+				final int jiNengId = py.id;
+				List<PuGong> pgList = TempletService.listAll(PuGong.class.getName());
+				if(pgList != null) {
+					Optional<PuGong> optional = pgList.stream()
+							.filter(pg -> (pg.modelID == junzhu.roleId && pg.id == jiNengId))
+							.findFirst();
+					PuGong puGong = optional.get();
+					if(puGong != null) {
+						skillId = puGong.skillId;
+					}
+				}
+			}
+
+			SkillTemplate xiShuCarry = null;
+			xiShuCarry = id2SkillTemplate.get(skillId);
 			if(xiShuCarry == null) {
-				logger.error("战斗填充装备信息错误，找不到skillTemp配置id:{}", py.skillId);
+				logger.error("战斗填充装备信息错误，找不到skillTemp配置id:{}", skillId);
 				continue;
 			}
 			PlayerWeapon.Builder weaponBuilder = fillPlayerWeapon(zhuangBei, junzhuNode, xiShuCarry);
@@ -1242,6 +1285,12 @@ public class PveMgr extends EventProc {
 			JunZhuMgr.inst.sendMainInfo(session,junZhu);
 			logger.info("junzhu:{}在关卡zhangjieId:{}战斗胜利扣除体力:{}", junZhu.name,
 					guanQiaId, useTili);
+			Integer bigLastGuanQiaId = lastGuanQiaOfZhang.get(pveTemp.bigId);
+			if(bigLastGuanQiaId != null) {
+				if(!r.isGetAward && bigLastGuanQiaId != guanQiaId){
+					FunctionID.pushCanShowRed(junZhuId, session, FunctionID.PVE_PASS_ZHANGJIE_GET_AWARD);
+				}
+			}
 		} else {
 			logger.info("{} pve fail at {}", junZhuId, guanQiaId);
 			resultForLog = 0;
@@ -1268,7 +1317,7 @@ public class PveMgr extends EventProc {
 					junZhuId, DailyTaskConstants.guoguan_5_id, 1));
 		}
 		// 2015-7-22 15:46 过关榜刷新
-		EventMgr.addEvent(ED.GUOGUAN_RANK_REFRESH, junZhu);
+		EventMgr.addEvent(ED.GUOGUAN_RANK_REFRESH, new Object[]{junZhu, junZhu.guoJiaId});
 	}
 	
 	/**

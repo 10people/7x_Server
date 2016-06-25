@@ -17,11 +17,18 @@ import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.XianshiHuodong;
 import com.manu.network.PD;
 import com.manu.network.msg.ProtobufMsg;
+import com.qx.account.AccountManager;
 import com.qx.award.AwardMgr;
+import com.qx.event.ED;
+import com.qx.event.Event;
+import com.qx.event.EventMgr;
+import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.timeworker.FunctionID;
 
+import EDU.oswego.cs.dl.util.concurrent.Executor;
 import qxmobile.protobuf.Activity.ActivitLevelGiftResp;
 import qxmobile.protobuf.Activity.ActivityGetRewardResp;
 import qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp;
@@ -29,7 +36,7 @@ import qxmobile.protobuf.Activity.GrowLevel;
 import qxmobile.protobuf.Explore.Award;
 import qxmobile.protobuf.Explore.ExploreResp;
 
-public class LevelUpGiftMgr {
+public class LevelUpGiftMgr extends EventProc{
 	public Logger logger = LoggerFactory.getLogger(LevelUpGiftMgr.class);
 	public static LevelUpGiftMgr inst;
 	public Map<Integer,XianshiHuodong> chongjiMap = null;
@@ -182,4 +189,59 @@ public class LevelUpGiftMgr {
 		}
 		return isShow;
 	}
+	@Override
+	public void proc(Event event) {
+		switch (event.id) {
+		case ED.JUNZHU_LOGIN:{
+			long jzId = (long)event.param;
+			IoSession session = AccountManager.sessionMap.get(jzId);
+			if(session == null){
+				return;
+			}
+			JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+			isShowRed(session,jz);
+		}
+		break;
+		case ED.junzhu_level_up:{
+			Object[] objs = (Object[])event.param;
+			long jzId = (long)objs[0];
+			IoSession session = AccountManager.sessionMap.get(jzId);
+			if(session == null){
+				return;
+			}
+			JunZhu jz = (JunZhu)objs[2];
+			isShowRed(session,jz);
+		}
+		break;
+		default:
+			break;
+		}
+		
+	}
+	@Override
+	protected void doReg() {
+		EventMgr.regist(ED.JUNZHU_LOGIN, this);
+		EventMgr.regist(ED.junzhu_level_up, this);
+	}
+	
+	public void isShowRed(IoSession session,JunZhu jz){
+		if(jz == null){
+			return;
+		}
+		List<LevelUpGiftBean> chongjiList = HibernateUtil.list(LevelUpGiftBean.class,"where jzId=" + jz.id + " and getState=1");
+		Map<Integer,LevelUpGiftBean> searchMap = new HashMap<Integer,LevelUpGiftBean>();
+		for (LevelUpGiftBean levelUpGiftBean : chongjiList) {
+			searchMap.put(levelUpGiftBean.level,levelUpGiftBean);
+		}
+		List<XianshiHuodong> settings = TempletService.getInstance().listAll(XianshiHuodong.class.getSimpleName());
+		for (XianshiHuodong xianshiHuodong : settings) {
+			if(xianshiHuodong.getDoneType() != 1) continue; //过滤掉其他配置
+			if(searchMap.containsKey(Integer.parseInt(xianshiHuodong.getDoneCondition()))) continue; //领取不显示
+			if(jz.level >= Integer.parseInt(xianshiHuodong.getDoneCondition())){
+				FunctionID.pushCanShowRed(jz.id,session,FunctionID.activity_levelAward);
+				break;
+			}
+		}
+	}
+	
 }

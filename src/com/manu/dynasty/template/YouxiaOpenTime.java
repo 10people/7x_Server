@@ -7,4 +7,6 @@ public class YouxiaOpenTime {
 	public int maxTimes;
 	public int CD;
 	public int openLevel;
+	public int funcID;
+	
 }

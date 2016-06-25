@@ -6,7 +6,7 @@ public class PVPConstant {
 	/** 开服时初始npc的个数 **/
 	public static final int TOTAL_NPC_COUNT = 5000;
 	/**小卒的级别id, 是BaiZhan.xlsx中的id**/
-	public static final int XIAO_ZU_JI_BIE = 1;
+	public static final int XIAO_ZU_JI_BIE = 101;
 	/** 每天百战的总次数 **/
 	public static int ZHAN_TOTAL_TIMES = CanShu.BAIZHAN_FREE_TIMES;
 	/** 百战挑战的间隔时间  单位是秒**/

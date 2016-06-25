@@ -37,6 +37,7 @@ public class YunbiaoTemp {
 	public static String	yunbiao_end_broadcast;//运镖结束广播
 	public static double yunbiao_comforted_award_k;//运镖被安慰奖励系数k
 	public static int yunbiao_comforted_award_b;//运镖被安慰奖励参数b
+	public static int yunbiao_comforted_award_Num;//
 	public static int cartAI_appear_interval;//机器人镖马出现时间间隔（s）
 	public static double killFoeAward_k;//杀死单个仇人奖励系数k
 	public static double killFoeAward_b;//杀死单个仇人奖励系数b

@@ -23,6 +23,8 @@ import qxmobile.protobuf.Qiandao.QiandaoResp;
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.AwardTemp;
+import com.manu.dynasty.template.MiBao;
+import com.manu.dynasty.template.MibaoSuiPian;
 import com.manu.dynasty.template.QianDao;
 import com.manu.dynasty.template.QianDaoDesc;
 import com.manu.dynasty.template.QianDaoMonth;
@@ -37,6 +39,8 @@ import com.qx.event.EventMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.junzhu.JzKeji;
+import com.qx.mibao.MiBaoDB;
+import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
 
 /**
@@ -158,8 +162,7 @@ public class QiandaoMgr {
 				leijiQiandao = qiandaoInfo.getLeijiQiandao();
 			}
 			response.setCnt(leijiQiandao);
-			String[] qiandaoDayArr = qiandaoInfo ==null || qiandaoInfo.qiandaoDate == null ? null : qiandaoInfo.qiandaoDate.split("#");
-			String[] buqianDateArr = qiandaoInfo ==null || qiandaoInfo.getDoubleDate == null ? null : qiandaoInfo.getDoubleDate.split("#");
+			String[] qiandaoDayArr = qiandaoInfo ==null || qiandaoInfo.qiandaoDate == null || "".equals(qiandaoInfo.qiandaoDate) ? null : qiandaoInfo.qiandaoDate.split("#");
 			// 获取所有的奖励
 			int index = 0;
 			for (QianDao qianDao : awardList) {
@@ -193,19 +196,17 @@ public class QiandaoMgr {
 					if(junZhu.vipLevel < qianDao.getVipDouble()){ //vip等级不足一定没有双倍奖励
 						award.setIsDouble(GET_DOUBLE_STATUS_0);
 					}else if(qiandaoDayArr != null && qiandaoDayArr.length > index){
-						if(buqianDateArr != null && buqianDateArr.length > index){
-							String[] dateArr1 = qiandaoDayArr[index].split(":"); 
-							if(isGetDoubleByDate(qiandaoInfo,Integer.parseInt(dateArr1[0]),Integer.parseInt(dateArr1[1]))){
-								award.setIsDouble(GET_DOUBLE_STATUS_2); //已经领取
-							}else{
-								award.setIsDouble(GET_DOUBLE_STATUS_1); //可以领取
-							}
+						String[] dateArr1 = qiandaoDayArr[index].split(":"); 
+						if(isGetDoubleByDate(qiandaoInfo,Integer.parseInt(dateArr1[0]),Integer.parseInt(dateArr1[1]))){
+							award.setIsDouble(GET_DOUBLE_STATUS_2); //已经领取
 						}else{
-							award.setIsDouble(GET_DOUBLE_STATUS_1);
+							award.setIsDouble(GET_DOUBLE_STATUS_1); //可以领取
 						}
 					}else{
 						award.setIsDouble(GET_DOUBLE_STATUS_0);
 					}
+				}else{ //没有双倍奖励
+					award.setIsDouble(GET_DOUBLE_STATUS_0);
 				}
 				index++;
 				response.addAward(award);
@@ -343,6 +344,7 @@ public class QiandaoMgr {
 			award.setId(qianDao.getId());
 			award.setMonth(qianDao.getMonth());
 			award.setVipDouble(qianDao.getVipDouble());
+			setReturnAwardPieceNum(junZhu,award,qianDao);
 			// award.setState(isQiandaoByDate(qiandaoInfo, junZhu.id,
 			// qianDao.getMonth(), qianDao.getDay()));
 			// 添加奖励到账户
@@ -448,6 +450,7 @@ public class QiandaoMgr {
 			award.setAwardNum(awardList.get(index).getAwardNum());
 			award.setAwardId(awardList.get(index).getAwardId());
 			award.setBottomColor(awardList.get(index).getBottomColor());
+			setReturnAwardPieceNum(jz,award,qianDao);
 			// 添加奖励到账户
 			AwardTemp tmp = new AwardTemp();
 			tmp.setItemType(award.getAwardType());
@@ -823,6 +826,21 @@ public class QiandaoMgr {
 			default:
 				logger.error("setGetVipAwardInfo,vip=={}的set失败", vip);
 				break;
+		}
+	}
+	
+	public void setReturnAwardPieceNum(JunZhu jz,QiandaoAward.Builder resp,QianDao qianDao){
+		if(qianDao.getAwardType() == 4){ //将魂
+			MiBao mibao = MibaoMgr.mibaoMap.get(qianDao.getAwardId()); 
+			MibaoSuiPian suipian = MibaoMgr.inst.mibaoSuipianMap_2.get(mibao.getSuipianId());
+			String hql = "where ownerId = " + jz.id + " and tempId="+ mibao.getTempId() + " and level>0 and miBaoId>0";
+			MiBaoDB mibaoDB = HibernateUtil.find(MiBaoDB.class, hql);
+			//判断将魂
+			if(qianDao.getAwardType() == 4){
+				if(mibaoDB != null){ //存在秘宝转为碎片
+					resp.setPieceNum(suipian.getFenjieNum());
+				}
+			}
 		}
 	}
 }

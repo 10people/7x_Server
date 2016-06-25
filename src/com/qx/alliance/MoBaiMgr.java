@@ -3,23 +3,12 @@ package com.qx.alliance;
 import java.util.Date;
 import java.util.List;
 
-import log.ActLog;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
-import qxmobile.protobuf.Explore.Award;
-import qxmobile.protobuf.Explore.ExploreResp;
-import qxmobile.protobuf.MoBaiProto.MoBaiInfo;
-import qxmobile.protobuf.MoBaiProto.MoBaiReq;
-
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
-import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.LianMengTuTeng;
 import com.manu.dynasty.template.LianmengMobai;
@@ -37,7 +26,6 @@ import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
-import com.qx.purchase.PurchaseMgr;
 import com.qx.task.DailyTaskCondition;
 import com.qx.task.DailyTaskConstants;
 import com.qx.timeworker.FunctionID;
@@ -45,6 +33,13 @@ import com.qx.vip.VipData;
 import com.qx.vip.VipMgr;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
+
+import log.ActLog;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import qxmobile.protobuf.MoBaiProto.MoBaiInfo;
+import qxmobile.protobuf.MoBaiProto.MoBaiReq;
 
 public class MoBaiMgr extends EventProc{
 	public static Logger log = LoggerFactory.getLogger(MoBaiMgr.class);
@@ -277,8 +272,7 @@ public class MoBaiMgr extends EventProc{
 		sendMoBaiInfo(0, session, null);
 		AllianceMgr.inst.changeGongXianRecord(jz.id, conf.gongxian);
 		
-		int exp = parseExp(conf);
-		recordMobaiEvent(jz.name, "顶礼", conf.jianshe, member.lianMengId, exp);
+		recordMobaiEvent(jz.name, "顶礼", conf.jianshe, member.lianMengId);
 		// 每日任务：膜拜
 		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
 				jz.id, DailyTaskConstants.moBai, 1));
@@ -305,7 +299,7 @@ public class MoBaiMgr extends EventProc{
 		if (DateUtils.isTimeToReset(time, CanShu.REFRESHTIME_PURCHASE)) {
 			return false;
 		}else{
-			sendError(0, session, "今日已膜拜！");
+//			sendError(0, session, "今日已膜拜！");
 			return true;
 		}
 	}
@@ -392,8 +386,8 @@ public class MoBaiMgr extends EventProc{
 		//加联盟经验奖励
 		AwardMgr.inst.giveReward(session, conf.award, jz);
 		
-		int exp = parseExp(conf);
-		recordMobaiEvent(jz.name, "虔诚", conf.jianshe, member.lianMengId, exp);
+		
+		recordMobaiEvent(jz.name, "虔诚", conf.jianshe, member.lianMengId );
 		
 		// 每日任务：膜拜
 		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
@@ -405,6 +399,7 @@ public class MoBaiMgr extends EventProc{
 	protected void tongBiDo(JunZhu jz,IoSession session, MoBaiBean bean,
 			AlliancePlayer member, AllianceBean alliance) {
 		if (timeFail(session, bean.tongBiTime)) {
+			log.error("君主{}尝试膜拜失败，原因：次数不足",bean.junZhuId);
 			return;
 		}
 //		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
@@ -458,8 +453,8 @@ public class MoBaiMgr extends EventProc{
 		// 加 联盟经验 award
 		AwardMgr.inst.giveReward(session, conf.award, jz);
 		
-		int exp = parseExp(conf);
-		recordMobaiEvent(jz.name, "普通", conf.jianshe, member.lianMengId, exp);
+		
+		recordMobaiEvent(jz.name, "普通", conf.jianshe, member.lianMengId);
 		
 		// 每日任务：膜拜
 		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
@@ -468,7 +463,7 @@ public class MoBaiMgr extends EventProc{
 		EventMgr.addEvent(ED.mobai , new Object[] { jz.id});
 	}
 
-	public void recordMobaiEvent(String jzName, String mobaiType, int getBuildValue, int allianceId, int getExp) {
+	public void recordMobaiEvent(String jzName, String mobaiType, int getBuildValue, int allianceId ) {
 		String eventStr = AllianceMgr.inst.lianmengEventMap.get(18).str
 				.replaceFirst("%d", jzName)
 				.replaceFirst("%d", mobaiType)
@@ -592,7 +587,7 @@ public class MoBaiMgr extends EventProc{
 			// 检查联盟是否开启，而不是铜币膜拜
 			boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.LianMeng, jz.id, jz.level);
 			if(!isOpen){
-				log.info("君主：{}--铜币膜拜：{}的功能---未开启,不推送",jz.id,FunctionID.LianMeng);
+//				log.info("君主：{}--铜币膜拜：{}的功能---未开启,不推送",jz.id,FunctionID.LianMeng);
 				break;
 			}
 			AlliancePlayer alliancePlayer = HibernateUtil.find(AlliancePlayer.class, jz.id);
@@ -685,7 +680,7 @@ public class MoBaiMgr extends EventProc{
 		}
 		if(preTime != null && DateUtils.isSameDay(preTime)){
 			log.info("{} 已经领取过 {}", jz.id, wantStep);
-			sendError(0, session, "该奖励已领。");
+			//sendError(0, session, "该奖励已领。");
 			return;//已经领取过了。
 		}
 		//

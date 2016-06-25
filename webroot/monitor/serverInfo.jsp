@@ -1,3 +1,4 @@
+<%@page import="com.qx.account.AccountManager"%>
 <%@page import="com.qx.account.SettingsMgr"%>
 <%@page import="org.apache.commons.pool.impl.GenericObjectPool"%>
 <%@page import="redis.clients.jedis.JedisPool"%>
@@ -88,3 +89,6 @@ if("changeModelCD".equals(act)){
 </form>
 </body>
 </html>
+<%
+//AccountManager.inst.initSensitiveWordAndIllegalityName();
+%>

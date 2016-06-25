@@ -1,6 +1,6 @@
 package com.manu.dynasty.template;
 
-public class MiShu {
+public class Mishu {
 	public int id;
 	public String pinzhiName;//="绿色一阶" 
 	public String name;//="秘术1" 

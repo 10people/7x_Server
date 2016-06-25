@@ -34,10 +34,13 @@ public class VIP {
 	public int resurgenceTimes;
 	public int BloodVialTimes;
 	public int resOnSiteTimes;
+	public int JCZresTimes;
+	public int JCZBloodVial;
 	public int buyEquipment;
 	public int buyBaoshi;
 	public int buyQianghua;
 	public int buyJingqi;
 	public int buyJianshezhi;
 	public int buyHufu;
+	public int chonglou_ExpScale;
 }

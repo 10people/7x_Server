@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@page import="java.util.Set"%>
 <%@page import="com.qx.ranking.RankingMgr"%>
 <%@page import="com.qx.huangye.shop.ShopMgr"%>
@@ -97,8 +98,10 @@
 	结果：0-成功，1-扫荡次数已用完,2-不需要扫荡，当前层数大于历史最高层数，3-还未打通任何楼层<br/><br/>
 	填写当前层数：<input type="text" id="updateCurLevel">
 	<input type="button" onclick="go('updateCurLevel')" value="修改当前挑战层数"/><br/>
+	
+	<font color="red">注意：修改历史最高层数会影响重楼排名</font><br/>
 	填写历史最高层数：<input type="text"  id="updateHighLevel">
-	<input type="button" onclick="go('updateHighLevel')" value="修改历史最高挑战层数"/><br/><br/>
+	<input type="button" onclick="go('updateHighLevel')" value="修改历史最高挑战层数"/> <br/><br/>
 	
 	<%	
 	
@@ -145,6 +148,7 @@
 				return;
 			}
 			record.currentLevel = Integer.parseInt(value);
+			record.lastBattleTime = new Date();
 			HibernateUtil.save(record);
 		} else if("updateHighLevel".equals(action)) {
 			String value = request.getParameter("value");
@@ -153,8 +157,10 @@
 				return;
 			}
 			record.highestLevel = Integer.parseInt(value);
+			record.highestLevelFirstTime = new Date();
 			Redis.getInstance().set(ChongLouMgr.inst.CACHE_CHONGLOU_HIGHEST_LAYER + junZhu.id, String.valueOf(record.highestLevel));
 			HibernateUtil.save(record);
+			RankingMgr.inst.resetChongLouRank(junzhu, record, junzhu.guoJiaId);
 		}
 		
 		out.println("<br/><br/>");

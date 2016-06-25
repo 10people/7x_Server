@@ -1,3 +1,13 @@
+<%@page import="com.qx.util.TableIDCreator"%>
+<%@page import="qxmobile.protobuf.Explore.Award"%>
+<%@page import="com.qx.equip.web.UEConstant"%>
+<%@page import="java.lang.reflect.Method"%>
+<%@page import="java.lang.reflect.Field"%>
+<%@page import="com.manu.dynasty.template.ZhuangbeiPinzhi"%>
+<%@page import="com.qx.equip.domain.EquipXiLian"%>
+<%@page import="com.qx.equip.jewel.JewelMgr"%>
+<%@page import="com.qx.award.AwardMgr"%>
+<%@page import="com.manu.dynasty.template.AwardTemp"%>
 <%@page import="qxmobile.protobuf.UserEquipProtos.EquipJinJie"%>
 <%@page import="com.qx.fuwen.FuwenMgr"%>
 <%@page import="com.manu.dynasty.template.Fuwen"%>
@@ -99,6 +109,10 @@
 		<input type="hidden" name="action" value="jinjie"> 
 		<button type="submit">装备进阶</button>
 	</form>
+	<form action="">
+		<input type="hidden" name="action" value="addFuWen"> 
+		<button type="submit">添加符文</button>不要乱点！！！会很卡！！！
+	</form>
 	<%
 		if (jzId.matches("\\d+")) {
 			{
@@ -177,6 +191,102 @@
 		   					UserEquipAction.instance.newEquipJinJie(0, su, builder);
 		   				}
 		   			}
+		   		}else if("addFuWen".equals(action)){
+		   			List<Fuwen> fuWenList = TempletService.getInstance().listAll(Fuwen.class.getSimpleName());
+		   			for(Fuwen f : fuWenList){
+		   				if(f.getType() == 8){
+		   					AwardTemp a = new AwardTemp();
+			   				a.setAwardId(0);
+			   				a.setItemId(f.getFuwenID());
+			   				a.setItemNum(1);
+			   				a.setItemType(8);
+			   				AwardMgr.inst.giveReward(null, a, junzhu, false, false);
+		   				}
+		   			}
+		   		}else if("xilian".equals(action)){
+		   			String junZhuIdstr = request.getParameter("xljzId");
+		   			String equipIdstr = request.getParameter("xlequipId");
+		   			String itemIdstr = request.getParameter("xlitemId");
+		   			String instIdstr = request.getParameter("xlinstId");
+		   			long xlJzId = Long.parseLong(junZhuIdstr);
+		   			long xlEquipDbId = Long.parseLong(equipIdstr);
+		   			int xlEquipId = Integer.parseInt(itemIdstr);
+		   			int xlInstId = Integer.parseInt(instIdstr);
+		   			EquipXiLian xilian = HibernateUtil.find(EquipXiLian.class, "where junZhuId= " + xlJzId );
+		   			if(xilian == null ){
+		   				xilian = new EquipXiLian();
+		   				xilian.setEquipId(xlEquipDbId);
+		   				xilian.setJunZhuId(xlJzId);
+		   				ZhuangBei equipTemp = TempletService.getInstance().getZhuangBei(xlEquipId);
+		   				UserEquip xlUe = HibernateUtil.find(UserEquip.class, xlInstId);
+		   				List<ZhuangbeiPinzhi> pinZhiList = TempletService.listAll(ZhuangbeiPinzhi.class.getSimpleName());
+		   				ZhuangbeiPinzhi pinZhiTemp = null ;
+		   				for(ZhuangbeiPinzhi zbpz : pinZhiList){
+		   					if(zbpz.pinzhi == equipTemp.pinZhi ){
+		   						pinZhiTemp = zbpz;
+		   						break ;
+		   					}
+		   				}
+		   				if(pinZhiTemp != null && xlUe != null && xlUe.getHasXilian() != null ){
+		   					int maxXiLianZhi = new Double(pinZhiTemp.paraX).intValue();
+			   				
+			   				String xilianStr = xlUe.getHasXilian();
+			   				String names[] = {"wqSH","wqJM","wqBJ","wqRX",
+									"jnSH","jnJM","jnBJ","jnRX"};
+			   				Field[] fs = new Field[names.length];
+			   				Method[] getPeiZhi = new Method[names.length];
+			   				Method[] getUe = new Method[names.length];
+			   				Method[] setXiLian = new Method[names.length];
+			   				for(int i = 0 ; i< fs.length ; i++ ){
+			   					Field f = null;
+								try {
+									f = UEConstant.class.getDeclaredField(names[i]);
+								} catch (Exception e) {
+									continue;
+								}
+								f.setAccessible(true);
+								fs[i]=f;
+								String name = f.getName();
+								String mName = "get"+name.substring(0,1).toUpperCase()+name.substring(1);
+								String setName = "set"+name.substring(0,1).toUpperCase()+name.substring(1)+"Add";
+								
+								Method m = null;
+								Method mUE = null;
+								Method mXL = null ;
+								try {
+									m = ZhuangBei.class.getDeclaredMethod(mName);
+									mUE = UserEquip.class.getDeclaredMethod(mName);
+									mXL = EquipXiLian.class.getDeclaredMethod(setName,int.class);
+								} catch (Exception e) {
+									continue;
+								}
+								getPeiZhi[i] = m;
+								getUe[i] = mUE;
+								setXiLian[i] = mXL;
+			   				}
+			   				for(int i = 0 ;i < fs.length ; i++){
+			   					if(fs[i] == null ) continue;
+			   					
+			   					if(xilianStr.contains((String)fs[i].get(null))){
+			   						try{
+			   							
+			   							int v1 = (Integer)getPeiZhi[i].invoke(equipTemp);
+			   							int v2 = (Integer)getUe[i].invoke(xlUe);
+			   							int needxiLian = maxXiLianZhi - v1 - v2 ;
+			   							setXiLian[i].invoke(xilian, needxiLian);
+			   						}catch(Exception e){
+			   							continue;
+			   						}
+			   						
+				   				}
+			   				}
+			   				long equipXiLianId = (TableIDCreator.getTableID(EquipXiLian.class, 1L));
+			   				xilian.setId(equipXiLianId);
+			   				HibernateUtil.insert(xilian);
+		   				}
+		   			}else{
+		   				HibernateUtil.delete(xilian);
+		   			}
 		   		}
 				List<EquipGrid> list0 = equips.grids;
 				int cnt0 = list0.size();
@@ -205,16 +315,10 @@
 						int jinJieExp = 0;
 						if(bg.dbId!=0){
 							xilianStr = ue == null ? "没洗练信息" : ue
-									.getHasXilian() == null ? "" : ue
+									.getHasXilian() == null ? "没洗练信息" : ue
 									.getHasXilian();
 							if ("".equals(xilianStr)) {
-								XilianShuxing shuxing = UserEquipAction.instance.xilianShuxingMap
-										.get(targetItemId);
-								if (shuxing == null) {
-									xilianStr = "没找到配置";
-								} else {
-									xilianStr = shuxing.Shuxing1;
-								}
+								xilianStr = "没洗练信息";
 							}
 							jinJieExp = ue==null?0:ue.JinJieExp;
 						}
@@ -262,6 +366,7 @@
 				   <td><%=xilianStr%> </td>
 				   <%
 			   }%>
+			<td><a href="?action=xilian&xljzId=<%=jzId%>&xlequipId=<%=bg.dbId%>&xlitemId=<%=bg.itemId%>&xlinstId=<%=bg.instId%>">洗满</a></td>
 		</tr>
 		<%
 			}
@@ -276,14 +381,22 @@
 					long instId = -1;
 					int iid = Integer.parseInt(itemId);
 					BaseItem it = TempletService.itemMap.get(iid);
+					if(it == null){
+						out.print("没有这个道具，itemId："+itemId);
+						return;
+					}
 					if(cnt>888){
 						out.println("<br/>数量太大，最大888<bar/>");
 					}else if (it != null) {
+						Fuwen fuwen = FuwenMgr.inst.fuwenMap.get(iid);
+						if(fuwen != null && fuwen.getType() != JewelMgr.Jewel_Type_Id) {
+							instId = 0;
+						}
 						BigSwitch.inst.bagMgr
 								.addItem(bag, iid, cnt, instId,  junzhu.level, "jsp页面添加");
 								//addItem(bag, iid, cnt, instId, junzhu.level);
 						SessionUser su = SessionManager.inst.findByJunZhuId(bag.ownerId);
-						if(su!=null){
+						if(su!=null && su.session != null){
 							BigSwitch.inst.bagMgr.sendBagInfo(0, su.session, null);
 							JunZhuMgr.inst.sendMainInfo(su.session);
 						}

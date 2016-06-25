@@ -16,7 +16,12 @@ import com.manu.dynasty.template.LianmengJuanxian;
 import com.manu.dynasty.template.Purchase;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.BigSwitch;
+import com.manu.network.SessionManager;
 import com.qx.award.AwardMgr;
+import com.qx.event.ED;
+import com.qx.event.Event;
+import com.qx.event.EventMgr;
+import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
@@ -30,21 +35,22 @@ import qxmobile.protobuf.AllianceProtos.FengShanInfo;
 import qxmobile.protobuf.AllianceProtos.FengShanInfoResp;
 import qxmobile.protobuf.AllianceProtos.FengShanReq;
 
-public class AlianceJuanXianMgr {
-	public Logger log = LoggerFactory.getLogger(AlianceJuanXianMgr.class);
-	public static AlianceJuanXianMgr inst;
-	public Map<Integer, LianmengJuanxian> juanXianConf = new HashMap<Integer, LianmengJuanxian>();
-	public Map<Integer, Purchase> jiansheConf = new HashMap<Integer, Purchase>();
-	public Map<Integer, Purchase> hufuConf = new HashMap<Integer, Purchase>();
+public class AllianceJuanXianMgr extends EventProc {
+	public Logger log = LoggerFactory.getLogger(AllianceJuanXianMgr.class);
+	public static AllianceJuanXianMgr inst;
+	public Map<Integer, LianmengJuanxian> juanXianConf = new HashMap<Integer, LianmengJuanxian>(); //联盟捐献配置
+	public Map<Integer, Purchase> jiansheConf = new HashMap<Integer, Purchase>();//基础建设配置
+	public Map<Integer, Purchase> hufuConf = new HashMap<Integer, Purchase>();//军政建设配置
 	
 	public static int  jianSheEventId = 32; //对应LianmengEvent.xml中的事件id，如果策划改了，这里要修改
 	public static int  hufuEventId = 33; //对应LianmengEvent.xml中的事件id，如果策划改了，这里要修改
 
-	public AlianceJuanXianMgr(){
+	public AllianceJuanXianMgr(){
 		inst = this;
 		inst.init();
 	}
 	
+	//初始化功能相关配置
 	public void init(){
 		List<LianmengJuanxian> juanXianList = TempletService.getInstance().listAll(LianmengJuanxian.class.getSimpleName());
 		List<Purchase> jiansheList = TempletService.getInstance().listAll(Purchase.class.getSimpleName());
@@ -61,7 +67,7 @@ public class AlianceJuanXianMgr {
 			}
 		}
 	}
-	
+	/**响应客户端获取捐献信息请求*/
 	public void getJuanXianInfo(int id, IoSession session, Builder builder){
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
 		if( junZhu == null ){
@@ -72,35 +78,42 @@ public class AlianceJuanXianMgr {
 		if(ap == null | ap.lianMengId <= 0){
 			log.error("捐献信息查询失败，君主不在联盟中");
 		}
-		
+		//根据联盟ID获取联盟虔诚度信息
 		LmTuTeng tt = HibernateUtil.find(LmTuTeng.class, ap.lianMengId);
-		
+		//获取捐献信息
 		JuanXianBean bean = getJuanXianBean(junZhu.id) ;
 		
+		//根据VIP的功能获取两种建设的总次数
 		int jsTotalTimes = VipMgr.INSTANCE.getValueByVipLevel(junZhu.vipLevel 
 				, VipData.buy_jianShezhi_times);  
 		int hfTotalTimes = VipMgr.INSTANCE.getValueByVipLevel(junZhu.vipLevel 
 				, VipData.buy_Hufu_times);  
+		
+		//构建返回协议
 		FengShanInfoResp.Builder resp  = FengShanInfoResp.newBuilder();
 		FengShanInfo.Builder jianshe = FengShanInfo.newBuilder();
 		FengShanInfo.Builder hufu = FengShanInfo.newBuilder();
 		
+		//基础建设信息
 		jianshe.setConfId(1);
 		jianshe.setUsedTimes(bean.jianSheTimes);
 		jianshe.setTotalTimes(jsTotalTimes);
 		jianshe.setNeedYuanBao(jiansheConf.get(bean.jianSheTimes+1).getYuanbao());
-		
+	
+		//军政建设信息
 		hufu.setConfId(2);
 		hufu.setUsedTimes(bean.huFuTimes);
 		hufu.setTotalTimes(hfTotalTimes);
 		hufu.setNeedYuanBao(hufuConf.get(bean.huFuTimes+1).getYuanbao());
 		
+		//添加联盟虔诚度信息，之前的huoyue字段不再需要，所以用于发送虔诚度信息
 		resp.addFsInfo(jianshe);
 		resp.addFsInfo(hufu);
 		resp.setHuoyuedu( tt == null? 0 : tt.times);
 		session.write(resp.build());
 	}
 	
+	/**响应客户端的捐献请求*/
 	public void doJuanXian(int id, IoSession session, Builder builder){
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
 		if( junZhu == null ){
@@ -111,22 +124,23 @@ public class AlianceJuanXianMgr {
 		if(ap == null | ap.lianMengId <= 0){
 			log.error("捐献失败，君主不在联盟中");
 		}
+		//获取请求捐献类型
 		FengShanReq.Builder req = (FengShanReq.Builder)builder;
 		int confId = req.getConfId();
+		
+		//因为需要switch分别填写返回信息，所以提前创建返回协议
 		FengShanInfoResp.Builder resp  = FengShanInfoResp.newBuilder();
 		FengShanInfo.Builder info = FengShanInfo.newBuilder();
 		
+		//获取玩家的捐献信息
 		JuanXianBean bean = getJuanXianBean(junZhu.id) ;
 		
-		int jsTotalTimes = VipMgr.INSTANCE.getValueByVipLevel(junZhu.vipLevel 
-				, VipData.buy_jianShezhi_times);  
-		int hfTotalTimes = VipMgr.INSTANCE.getValueByVipLevel(junZhu.vipLevel 
-				, VipData.buy_Hufu_times);  
-		
-		
+		//根据请求类型分别处理
 		switch (confId) {
 		case 1:{
 			//检查捐献次数是否足够
+			int jsTotalTimes = VipMgr.INSTANCE.getValueByVipLevel(junZhu.vipLevel 
+					, VipData.buy_jianShezhi_times);  
 			if(bean.jianSheTimes >= jsTotalTimes ){
 				log.error("基础建设捐献次数超过最大次数");
 				return ;
@@ -142,6 +156,7 @@ public class AlianceJuanXianMgr {
 			if( junZhu.yuanBao >= needYb ){
 				YuanBaoMgr.inst.diff(junZhu, -1*needYb , 0 , 0 , YBType.LIAN_MENG_JUAN_XIAN, "基础建设");
 			}else{
+				log.error("君主{}请求基础建设失败：元宝不足",junZhu.id);
 				return ;
 			}
 			//成功扣除元宝，发奖
@@ -166,6 +181,8 @@ public class AlianceJuanXianMgr {
 		break;
 		case 2:{			
 			//检查捐献次数是否足够
+			int hfTotalTimes = VipMgr.INSTANCE.getValueByVipLevel(junZhu.vipLevel 
+					, VipData.buy_Hufu_times);  
 			if(bean.huFuTimes >= hfTotalTimes ){
 				log.error("军政建设捐献次数超过最大次数");
 				return ;
@@ -181,6 +198,7 @@ public class AlianceJuanXianMgr {
 			if( junZhu.yuanBao >= needYb ){
 				YuanBaoMgr.inst.diff(junZhu, -1*needYb , 0 , 0 , YBType.LIAN_MENG_JUAN_XIAN, "军政建设");
 			}else{
+				log.error("君主{}请求军政建设失败：元宝不足",junZhu.id);
 				return ;
 			}
 			//成功扣除元宝，发奖
@@ -216,6 +234,7 @@ public class AlianceJuanXianMgr {
 		session.write(resp.build());
 	}
 	
+	/**获取玩家的捐献信息，如果没有，就初始化一个*/
 	public JuanXianBean getJuanXianBean(long junZhuId){
 		JuanXianBean res = HibernateUtil.find(JuanXianBean.class, junZhuId);
 		if(res == null ){
@@ -230,7 +249,7 @@ public class AlianceJuanXianMgr {
 		return res ;
 	}
 	
-	
+	/**判断是否跨天，如果是，刷新玩家的捐献信息*/
 	public void refreshJuanXianBean(JuanXianBean bean){
 		Date now = new Date();
 		if(bean.lastResetTime != null && DateUtils.isTimeToReset(bean.lastResetTime,CanShu.REFRESHTIME)) {
@@ -242,15 +261,70 @@ public class AlianceJuanXianMgr {
 		}
 	}
 	
-	
-	public void pushRedPoint(long junZhuId, IoSession session ){
-		FunctionID.pushCanShowRed(junZhuId , session, FunctionID.FengShanDaDian);
-		FunctionID.pushCanShowRed(junZhuId, session, FunctionID.FengShanShengDian);
+	/**联盟捐献的红点推送*/
+	public void pushRedPoint( IoSession session ){
+		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
+		//获取捐献信息
+		JuanXianBean bean = getJuanXianBean(junZhu.id) ;
+		
+		//根据VIP的功能获取两种建设的总次数
+		int jsTotalTimes = VipMgr.INSTANCE.getValueByVipLevel(junZhu.vipLevel 
+				, VipData.buy_jianShezhi_times);  
+		int hfTotalTimes = VipMgr.INSTANCE.getValueByVipLevel(junZhu.vipLevel 
+				, VipData.buy_Hufu_times);  
+		//基础建设红点：有次数，元宝够
+		if(bean.jianSheTimes < jsTotalTimes ){
+			Purchase yuanBaoConf = jiansheConf.get(bean.jianSheTimes+1);
+			if(yuanBaoConf != null){
+				if(yuanBaoConf.getYuanbao() <= junZhu.yuanBao){
+					log.info("君主{}基础建设满足红点推送，发送推送消息",junZhu.id);
+					FunctionID.pushCanShowRed(junZhu.id , session, FunctionID.FengShanDaDian);
+				}
+			}
+		}
+		//军政建设红点：有次数，元宝够
+		if(bean.huFuTimes < hfTotalTimes ){
+			Purchase yuanBaoConf = hufuConf.get(bean.huFuTimes+1);
+			if(yuanBaoConf != null ){
+				if(yuanBaoConf.getYuanbao() <= junZhu.yuanBao){
+					log.info("君主{}军政建设满足红点推送，发送推送消息",junZhu.id);
+					FunctionID.pushCanShowRed(junZhu.id, session, FunctionID.FengShanShengDian);
+				}
+			}
+		}
+		
+		
 	}
 	
 	public void saveAllianceEvent( int lianMengId , int id , String jzName, int awardNum) {
 		String eventStr = AllianceMgr.inst.lianmengEventMap.get(id).str.replace("%a", jzName)
 				.replace("%b", awardNum+"");
 		AllianceMgr.inst.addAllianceEvent(lianMengId, eventStr);
+	}
+
+	@Override
+	public void proc(Event event) {
+		// TODO Auto-generated method stub
+		switch (event.id) {
+		case ED.ACC_LOGIN:{
+			IoSession session = SessionManager.inst.getIoSession((long)event.param);
+			pushRedPoint(session);
+		}
+		break;
+		case ED.REFRESH_TIME_WORK:{
+			pushRedPoint((IoSession)event.param);
+		}
+		break;
+		default:
+			log.error("注册了错误的事件ID{}",event.id);
+		break;
+		}
+	}
+
+	@Override
+	protected void doReg() {
+//		// TODO Auto-generated method stub
+//		EventMgr.regist(ED.ACC_LOGIN, this);
+//		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 	}
 }

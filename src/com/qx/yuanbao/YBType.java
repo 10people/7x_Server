@@ -42,8 +42,12 @@ public class YBType {
 	public static final int YB_DEAD_POS_REVIVE = 131;	//死亡地点复活
 	public static final int YB_All_LIFE_REVIVE = 132;	//满血复活
 	public static final int WORLD_CHAT = 133;	//广播频道聊天
+	public static final int CLEAR_SHILIAN_CD = 134;	//广播频道聊天
 	public static final int ShiLianBaoXiang = 233;	//广播频道聊天
 	public static final int YB_PVP_RANK_GAIN = 334;				//pvp排名上升
 	public static final int LMZ_FUHUO = 335;				//联盟战复活
 	public static final int LIAN_MENG_JUAN_XIAN = 336;//联盟捐献基础建设或者军政建设
+	public static final int LMZ_zhaoHuan = 435;				//联盟战召唤
+	public static final int LMZ_XueP = 436;				//联盟血瓶
+	public static final int LMZ_FenShen = 438;				//联盟血瓶
 }

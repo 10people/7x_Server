@@ -26,6 +26,10 @@ import com.qx.event.EventMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.task.DailyTaskCondition;
+import com.qx.task.DailyTaskConstants;
+import com.qx.task.GameTaskMgr;
+import com.qx.task.WorkTaskBean;
 import com.qx.util.RandomUtil;
 
 import qxmobile.protobuf.LieFuProto.LieFuActionInfo;
@@ -79,6 +83,7 @@ public class LieFuMgr {
 				lieFuBean.type2UseTimes = 0;
 				lieFuBean.type3UseTimes = 0;
 				lieFuBean.type4UseTimes = 0;
+				lieFuBean.dayUseTimes = 0;
 				HibernateUtil.save(lieFuBean);
 			}
 		}
@@ -98,21 +103,12 @@ public class LieFuMgr {
 		session.write(response.build());
 	}
 	
-	private int getFreeTimes(int type, LieFuBean lieFuBean) {
+	public int getFreeTimes(int type, LieFuBean lieFuBean) {
 		int freeTimes = 0;
 		switch(type) {
 		case 1:								
-			freeTimes = lieFuBean.type1UseTimes > 0 ? 0 : 1;
+			freeTimes = lieFuBean.dayUseTimes > 0 ? 0 : 1;
 			break;
-//		case 2:
-//			freeTimes = lieFuBean.type2UseTimes > 0 ? 0 : 1;
-//			break;
-//		case 3:
-//			freeTimes = lieFuBean.type3UseTimes > 0 ? 0 : 1;
-//			break;
-//		case 4:
-//			freeTimes = lieFuBean.type4UseTimes > 0 ? 0 : 1;
-//			break;
 //		default:
 //			logger.error("获取猎符免费次数失败，猎符类型:{}错误", type);
 //			break;
@@ -199,9 +195,8 @@ public class LieFuMgr {
 			return;
 		}
 				
-		int dayUseTimes = getDayUseTimes(type, lieFuBean);
 		boolean free = false;
-		if(dayUseTimes <= 0) {
+		if(lieFuBean.dayUseTimes <= 0) {
 			free = true;
 		}
 		
@@ -217,14 +212,22 @@ public class LieFuMgr {
 			logger.info("猎符操作成功，君主:{}花费了铜币:{}进行的type:{}的猎符操作", junZhu.id, lieFuTemp.cost, type);
 		}
 		
-		List<AwardTemp> getAwardList = AwardMgr.inst.getHitAwardList(lieFuTemp.awardID, ",", "=");
-		if(type == 2) {
-			// 蓝色猎符类型第一次，获得特定的符文
-			int type2First = getTotalTimes(2, lieFuBean);
-			if(type2First <= 0) {
+		List<AwardTemp> getAwardList = new ArrayList<>(0);
+		if(type == 2 /*&& getTotalTimes(2, lieFuBean) <= 0*/) {// 蓝色猎符类型第一次，获得特定的符文
+			WorkTaskBean taskBean = GameTaskMgr.inst.getTask(junZhu.id, 200065); 
+			if(taskBean != null) {
 				getAwardList = AwardMgr.inst.getHitAwardList(CanShu.LIEFU_BLUE_FIRSTAWARD, ",", "=");
+				logger.info("君主:{}第一次猎符蓝色操作，获得奖励:{}", junZhu.id, getAwardList);
 			}
-		} 
+		} else if(type == 1 /*&& getTotalTimes(1, lieFuBean) <= 0*/) {// 绿色猎符类型第一次，获得特定的符文
+			WorkTaskBean taskBean = GameTaskMgr.inst.getTask(junZhu.id, 200060); 
+			if(taskBean != null) {
+				getAwardList = AwardMgr.inst.getHitAwardList(CanShu.LIEFU_GREEN_FIRSTAWARD, ",", "=");
+				logger.info("君主:{}第一次猎符绿色 操作，获得奖励:{}", junZhu.id, getAwardList);
+			}
+		} else {
+			getAwardList = AwardMgr.inst.getHitAwardList(lieFuTemp.awardID, ",", "=");
+		}
 		
 		// 是否会触发下一个
 		int nextType = -1;
@@ -242,9 +245,10 @@ public class LieFuMgr {
 		}
 		
 		changeTypeState(lieFuBean, type, STATE_NOT_USE);
-		changeTypeUseTimes(lieFuBean, 1, 1);
+		changeTypeUseTimes(lieFuBean, type, 1);
 		addTotalTimes(type, lieFuBean, 1);
 		lieFuBean.totalTimes += 1;
+		lieFuBean.dayUseTimes += 1;
 		HibernateUtil.save(lieFuBean);
 		List<Integer> fuwenIdList = new ArrayList<>();		// 用于检测是否发送广播
 		for(AwardTemp getAward : getAwardList) {
@@ -271,6 +275,7 @@ public class LieFuMgr {
 		session.write(response.build());		
 		EventMgr.addEvent(ED.done_lieFu_x, new Object[]{junZhu.id , lieFuBean.totalTimes});
 		EventMgr.addEvent(ED.LIEFU_GET_FUWEN, new Object[]{junZhu.name , fuwenIdList});
+		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(junZhu.id , DailyTaskConstants.lieFu, 1));
 	}
 
 	public void changeTypeUseTimes(LieFuBean lieFuBean, int type, int times) {
@@ -278,17 +283,17 @@ public class LieFuMgr {
 		case 1:
 			lieFuBean.type1UseTimes += times;
 			break;
-//		case 2:
-//			lieFuBean.type2UseTimes += times;
-//			break;
-//		case 3:
-//			lieFuBean.type3UseTimes += times;
-//			break;
-//		case 4:
-//			lieFuBean.type4UseTimes += times;
-//			break;
-//		default:
-//			break;
+		case 2:
+			lieFuBean.type2UseTimes += times;
+			break;
+		case 3:
+			lieFuBean.type3UseTimes += times;
+			break;
+		case 4:
+			lieFuBean.type4UseTimes += times;
+			break;
+		default:
+			break;
 		}
 	}
 

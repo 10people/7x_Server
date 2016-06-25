@@ -34,7 +34,6 @@ import com.manu.network.SessionUser;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.account.AccountManager;
 import com.qx.account.FunctionOpenMgr;
-import com.qx.alliancefight.BidMgr;
 import com.qx.award.AwardMgr;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
@@ -54,13 +53,11 @@ import com.qx.persistent.HibernateUtil;
 import com.qx.prompt.PromptMsgMgr;
 import com.qx.prompt.SuBaoConstant;
 import com.qx.purchase.PurchaseMgr;
-import com.qx.pvp.PVPConstant;
 import com.qx.pvp.PvpBean;
 import com.qx.pvp.PvpMgr;
 import com.qx.ranking.RankingGongJinMgr;
 import com.qx.ranking.RankingMgr;
 import com.qx.timeworker.FunctionID;
-import com.qx.util.RandomUtil;
 import com.qx.util.TableIDCreator;
 import com.qx.world.FightScene;
 import com.qx.world.Player;
@@ -170,6 +167,7 @@ public class AllianceMgr extends EventProc{
 	public static final String ALLIANCE_NAMES = "ALLIANCE_NAMES";
 	/** 退出联盟玩家id前缀*/
 	public static final String ALLIANCE_EXIT = "alliance_exit_";
+	public static final String ALLIANCE_CHANGE_GUOJIA = "alliance_change_guojia_";
 	public static final String EXIT_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	public static final String INVITE_TIME_FORMAT = "yyyy-MM-dd HH:mm";
 	/** 联盟事件前缀 */
@@ -382,7 +380,7 @@ public class AllianceMgr extends EventProc{
 		CreateAlliance.Builder request = (qxmobile.protobuf.AllianceProtos.CreateAlliance.Builder) builder;
 		String allianceName = request.getName();
 		int icon = request.getIcon();
-		int guoJia = RandomUtil.getRandomNum(7) + 1;//request.getGuoJia();
+		int guoJia = request.getGuoJia();
 		
 		boolean guoJiaExist = GuoJiaMgr.inst.verifyGuoJiaExist((byte) guoJia);
 		if(!guoJiaExist) {
@@ -630,6 +628,7 @@ public class AllianceMgr extends EventProc{
 			if(!nowDate.before(alncBean.upgradeTime)) {
 				alncBean.level += 1;
 				alncBean.upgradeTime = null;
+				alncBean.upgradeUsedTimes = 0;
 				HibernateUtil.save(alncBean);
 				logger.info("联盟:{}升级成功，等级从:{}升级到:{}",alncBean.id, alncBean.level-1, alncBean.level);
 				EventMgr.addEvent(ED.LIANMENG_UPGRADE_LEVEL, new Integer(alncBean.id));
@@ -692,6 +691,8 @@ public class AllianceMgr extends EventProc{
 		AllianceLevelAward levelAward = getAllianceLevelAward(alncPlayer.junzhuId);
 		alncInfo.setLmTargetLevel(levelAward.curLevel);
 		alncInfo.setHufuNum(alncBean.hufuNum);
+		int remainSpeedUpTimes = lmCfg.speedUpTimes - alncBean.upgradeUsedTimes;
+		alncInfo.setSpeedUpRemainTimes(remainSpeedUpTimes <= 0 ? 0 : remainSpeedUpTimes);
 	}
 
 	public void findAlliance(int cmd, IoSession session, Builder builder) {
@@ -749,12 +750,12 @@ public class AllianceMgr extends EventProc{
 			return;
 		}
 		
-		if (alncBean.country != junZhu.guoJiaId) {
+		/*if (alncBean.country != junZhu.guoJiaId) {
 			sendApplyAllianceResponse(session, 8, lianmengId, "不能申请其他国家的联盟", remainTime);
 			logger.error("联盟申请失败，玩家-{}:国家-{}, 联盟-{}:国家-{}", junZhu.id,
 					junZhu.guoJiaId, alncBean.id, alncBean.country);
 			return;
-		}
+		}*/
 		
 		if (alncBean.isAllow == CLOSE_APPLY) {
 			logger.error("联盟申请失败，要加入的联盟:{}未开启招募!", lianmengId);
@@ -775,9 +776,7 @@ public class AllianceMgr extends EventProc{
 			return;
 		}
 		
-		PvpBean pvpBean = HibernateUtil.find(PvpBean.class, junZhu.id);
-		int junXianLevel = pvpBean == null ? PVPConstant.XIAO_ZU_JI_BIE
-				: pvpBean.junXianLevel;
+		int junXianLevel = PvpMgr.getJunxianLevel(junZhu.id);
 		if (junXianLevel < alncBean.minApplyJunxian) {
 			sendApplyAllianceResponse(session, 4, lianmengId, "", remainTime);
 			logger.error("联盟申请失败，君主:{}军衔等级:{}不符合入盟要求军衔等级:{}", junZhu.name,junXianLevel, alncBean.minApplyJunxian);
@@ -941,6 +940,7 @@ public class AllianceMgr extends EventProc{
 		session.removeAttribute(SessionAttKey.LM_ZHIWU);
 		ActLog.log.Guild(junZhu.id, junZhu.name, ActLog.vopenid, "OUT", alncBean.id, alncBean.name, alncBean.level, "自主退出");
 		sendExitAllianceResp(session, 0);
+		int breforeGuoJia = junZhu.guoJiaId;
 		junZhu.guoJiaId = 0;
 		HibernateUtil.save(junZhu);
 		JunZhuMgr.inst.sendMainInfo(session,junZhu);
@@ -959,6 +959,7 @@ public class AllianceMgr extends EventProc{
 				"***", alncBean.level, exitMember.title });
 		// 2015-7-22 16:13 刷新联盟榜
 		EventMgr.addEvent(ED.LIANMENG_RANK_REFRESH, new Integer(alncBean.id));
+		refreshJunZhuPerRank(junZhu, breforeGuoJia);
 	}
 
 	protected void sendExitAllianceResp(IoSession session, int code) {
@@ -1039,8 +1040,7 @@ public class AllianceMgr extends EventProc{
 		memberInfo.setLevel(jz.level);
 		memberInfo.setName(jz.name);
 		memberInfo.setContribution(member.gongXian);
-		memberInfo.setJunXian(pvpBean == null ? PVPConstant.XIAO_ZU_JI_BIE
-				: pvpBean.junXianLevel);
+		memberInfo.setJunXian(PvpMgr.getJunxianLevel(jz.id));
 		memberInfo.setIdentity(member.title);
 		memberInfo.setJunzhuId(jz.id);
 		memberInfo.setIsBaoming(member.isBaoming);
@@ -1131,6 +1131,7 @@ public class AllianceMgr extends EventProc{
 		
 		// 向被开除并在线的玩家发送通知
 		SessionUser su = SessionManager.inst.findByJunZhuId(target.junzhuId);
+		int beforeGuojia = firedJunzhu.guoJiaId;
 		firedJunzhu.guoJiaId = 0;
 		if (su != null && su.session != null) {
 			su.session.write(PD.ALLIANCE_FIRE_NOTIFY);
@@ -1144,6 +1145,7 @@ public class AllianceMgr extends EventProc{
 				alncBean.id, "***", alncBean.level, target.title });
 		// 联盟榜刷新
 		EventMgr.addEvent(ED.LIANMENG_RANK_REFRESH, alncBean.id);
+		refreshJunZhuPerRank(firedJunzhu, beforeGuojia);
 	}
 
 	protected void sendFireMemberResp(IoSession session, int result,
@@ -1217,11 +1219,17 @@ public class AllianceMgr extends EventProc{
 		int title = target.title;
 		if (title == TITLE_DEPUTY_LEADER) {
 			logger.error("联盟成员升职失败，成员:{}不能再升职1，职位:{}", memberId, target.title);
-			sendError(cmd, session, "副盟主不能再升职");
+			//sendError(cmd, session, "副盟主不能再升职");
 			return;
 		} else if (title != TITLE_MEMBER) {
 			logger.error("联盟成员升职失败，成员:{}不能再升职2，职位:{}", memberId, target.title);
-			sendError(cmd, session, "非法操作");
+			//sendError(cmd, session, "非法操作");
+			return;
+		}
+		
+		if(isAllianceInFight(alncBean.id)) {
+			logger.error("联盟成员升职失败，有盟员正在参加联盟战");
+			sendUpTitleResp(session, 3, mgrMember.lianMengId, memberId, -1);
 			return;
 		}
 		// 验证副盟主数量
@@ -1249,6 +1257,10 @@ public class AllianceMgr extends EventProc{
 		String eventStr = lianmengEventMap.get(6).str.replaceFirst("%d", targetJz.name)
 				.replaceFirst("%d", "成员").replaceFirst("%d", "副盟主");
 		addAllianceEvent(alncBean.id, eventStr);
+		IoSession targetSession = SessionManager.getInst().getIoSession(targetJz.id);
+		if(targetSession != null) {
+			sendAllianceInfo(targetJz, targetSession, target, alncBean);
+		}
 		EventMgr.addEvent(ED.LM_TITLE_CHANGE, new Object[] {targetJz.id, alncBean.id, alncBean.name, target.title});
 	}
 
@@ -1299,14 +1311,17 @@ public class AllianceMgr extends EventProc{
 		
 		if (target.title == TITLE_MEMBER) {
 			logger.error("联盟成员降职失败，成员id:{}不能再降职1，职位:{}", memberId, target.title);
-			sendError(cmd, session, "成员不能再降职");
 			return;
 		} else if (target.title != TITLE_DEPUTY_LEADER) {
 			logger.error("联盟成员降职失败，成员id:{}不能再降职2，职位:{}", memberId, target.title);
-			sendError(cmd, session, "操作异常");
 			return;
 		}
-
+		
+		if(isAllianceInFight(alncBean.id)) {
+			logger.error("联盟成员降职失败，有盟员正在参加联盟战");
+			sendDownTitleResp(session, 2, mgrMember.lianMengId, memberId, -1);
+			return;
+		}
 		target.title = TITLE_MEMBER;
 		target.getTitleTime = new Date();
 		HibernateUtil.save(target);
@@ -1320,6 +1335,10 @@ public class AllianceMgr extends EventProc{
 		String eventStr = lianmengEventMap.get(7).str.replaceFirst("%d", targetJz.name)
 				.replaceFirst("%d", "副盟主").replaceFirst("%d", "成员");
 		addAllianceEvent(alncBean.id, eventStr);
+		IoSession targetSession = SessionManager.getInst().getIoSession(targetJz.id);
+		if(targetSession != null) {
+			sendAllianceInfo(targetJz, targetSession, target, alncBean);
+		}
 		EventMgr.addEvent(ED.LM_TITLE_CHANGE, new Object[] {targetJz.id, alncBean.id, alncBean.name, target.title});
 	}
 
@@ -1384,19 +1403,18 @@ public class AllianceMgr extends EventProc{
 			ApplicantInfo.Builder info = ApplicantInfo.newBuilder();
 			long jzId = alncApply.junzhuId;
 			JunZhu jz = HibernateUtil.find(JunZhu.class, jzId);
-			PvpBean pvpBean = HibernateUtil.find(PvpBean.class, jzId);
 			info.setJunzhuId(jzId);
 			info.setLevel(jz.level);
 			info.setName(jz.name);
 			info.setRoleId(jz.roleId);
 			int zhanLi = JunZhuMgr.inst.getZhanli(jz);
 			info.setZhanLi(zhanLi);
-			if (pvpBean == null) {
-				info.setJunXian(PVPConstant.XIAO_ZU_JI_BIE);
+			int junxianLevel = PvpMgr.getJunxianLevel(jz.id);
+			info.setJunXian(junxianLevel);
+			if (junxianLevel == -1) {
 				info.setRank(Short.MAX_VALUE);// FIXME 默认rank
 			} else {
-				info.setJunXian(pvpBean.junXianLevel);
-				info.setRank(PvpMgr.inst.getPvpRankById(pvpBean.junZhuId));
+				info.setRank(PvpMgr.inst.getPvpRankById(jz.id));
 			}
 			response.addApplicanInfo(info.build());
 		}
@@ -1523,7 +1541,6 @@ public class AllianceMgr extends EventProc{
 		
 //		// 加入联盟，重新开始计算贡金  add 20150915
 //		GuoJiaMgr.inst.calculateGongJinJoinAlliance(applyJzId);
-		RankingGongJinMgr.inst.firstSetGongJin(junZhu.id, alncBean.id);
 
 		// 批准成功操作，删除申请的其他联盟
 		clearApplyAllianceCache(applyer);
@@ -1557,17 +1574,21 @@ public class AllianceMgr extends EventProc{
 					mailConfig.sender, mailConfig, "");
 		}
 		// 向被批准并在线的玩家发送通知
+		RankingGongJinMgr.inst.firstSetGongJin(memberJunzhu.id, alncBean.id);
 		SessionUser su = SessionManager.inst.findByJunZhuId(applyJzId);
-		junZhu.guoJiaId = alncBean.country;
-		HibernateUtil.update(junZhu);
+		int beforeGuoJia = memberJunzhu.guoJiaId;
+		memberJunzhu.guoJiaId = alncBean.country;
+		HibernateUtil.update(memberJunzhu);
 		if (su != null && su.session != null) {
-			JunZhuMgr.inst.sendMainInfo(su.session,junZhu);
+			JunZhuMgr.inst.sendMainInfo(su.session,memberJunzhu);
 			su.session.write(PD.ALLIANCE_ALLOW_NOTIFY);
 			su.session.setAttribute(SessionAttKey.LM_NAME, alncBean.name);
 			su.session.setAttribute(SessionAttKey.LM_ZHIWU, alncPlayer.title);
+			sendAllianceInfo(memberJunzhu, su.session, alncPlayer, alncBean);
 			//刷新相关红点
 			EventMgr.addEvent(ED.REFRESH_TIME_WORK, su.session);
 		}
+		refreshJunZhuPerRank(memberJunzhu, beforeGuoJia);
 	}
 
 	protected void sendAgreeApplyResp(IoSession session, int result, long jzId,
@@ -1676,45 +1697,33 @@ public class AllianceMgr extends EventProc{
 			return;
 		}
 		int lianmengId = mgrMember.lianMengId;
-		List<AlliancePlayer> memberList = getAllianceMembers(lianmengId);
-		for (AlliancePlayer member : memberList) {
-			SessionUser su = SessionManager.inst.findByJunZhuId(member.junzhuId);
-			if (su != null && su.session != null) {
-				Object scene = su.session.getAttribute(SessionAttKey.Scene);
-				if(scene instanceof FightScene) {
-					logger.error("解散联盟失败，有盟员:{}正在参加联盟战", junZhu.id);
-					sendDismissAllianceResp(session, alncBean.id, 1);
-					return;
-				}
-			}
-		}
-		//郡城战战期间不能解散
-		if(!BidMgr.inst.isLmCanDismiss()){
-			logger.error("解散联盟失败，联盟正在参加郡城战");
-			sendDismissAllianceResp(session, alncBean.id, 4);
+		if(isAllianceInFight(lianmengId)) {
+			logger.error("解散联盟失败，有盟员正在参加联盟战");
+			sendDismissAllianceResp(session, alncBean.id, 1);
 			return;
 		}
-		
+		List<AlliancePlayer> memberList = getAllianceMembers(lianmengId);
 		logger.info("解散联盟成功，[{}:{}]解散了联盟:{},id:{},时间:{}", junZhu.id, junZhu.name,
 				alncBean.name, alncBean.id, new Date());
 		ActLog.log.GuildBreak(junZhu.id, junZhu.name, ActLog.vopenid, alncBean.id, alncBean.name, alncBean.level, alncBean.exp, alncBean.build);
 		for (AlliancePlayer member : memberList) {
 			resetAlliancePlayer(alncBean, member);
 			HibernateUtil.save(member);
+			changeGongXianRecord(junZhu.id, 0);
 			logger.info("解散联盟成功，联盟{}解散，删除成员 {}", alncBean.id, member.junzhuId);
 			ActLog.log.Guild(member.junzhuId, "", ActLog.vopenid, "OUT", alncBean.id, alncBean.name, alncBean.level, "解散");
 			String jzCacheKey = HYMgr.CACHE_HYSTORE_APPLY + member.lianMengId + "_" + member.junzhuId;
 			Redis.getInstance().del(jzCacheKey);
 			JunZhu jz = HibernateUtil.find(JunZhu.class, member.junzhuId);
+			int beforeGuojia = jz.guoJiaId;
 			jz.guoJiaId = 0;
+			HibernateUtil.update(jz);
 			SessionUser su = SessionManager.inst.findByJunZhuId(member.junzhuId);
 			if (su != null && su.session != null) {
 				su.session.write(PD.ALLIANCE_DISMISS_NOTIFY);
 				su.session.removeAttribute(SessionAttKey.LM_NAME);
 				su.session.removeAttribute(SessionAttKey.LM_ZHIWU);
 				JunZhuMgr.inst.sendMainInfo(su.session);
-			}else{
-				HibernateUtil.update(jz);
 			}
 			// 触发事件，房屋管理用到。增加传送联盟等级
 			EventMgr.addEvent(ED.Leave_LM, new Object[] { member.junzhuId,
@@ -1722,6 +1731,7 @@ public class AllianceMgr extends EventProc{
 
 			// 联盟解散，贡金被设置为-1
 			RankingGongJinMgr.inst.setGongJinTo0(member.junzhuId, -1);
+			refreshJunZhuPerRank(jz, beforeGuojia);
 		}
 		HibernateUtil.delete(alncBean);
 		Redis.getInstance().del(CACHE_MEMBERS_OF_ALLIANCE + lianmengId);
@@ -1731,7 +1741,6 @@ public class AllianceMgr extends EventProc{
 		session.write(PD.DISMISS_ALLIANCE_OK);
 		JunZhuMgr.inst.sendMainInfo(session);
 
-		
 		//TODO 发给盟主的邮件
 		// 发送联盟解散邮件通知(除盟主)
 		for (AlliancePlayer member : memberList) {
@@ -1831,7 +1840,7 @@ public class AllianceMgr extends EventProc{
 		} else {
 			attach = ChatMgr.inst.replaceIllegal(attach);
 		}
-		if(mgrMember.title != TITLE_LEADER && 
+		if((mgrMember.title != TITLE_LEADER && mgrMember.title != TITLE_DEPUTY_LEADER)&& 
 				(alncBean.minApplyLevel != levelMin || alncBean.minApplyJunxian != junXianMin ||
 				alncBean.isShenPi != isExamine|| !alncBean.attach.equals(attach))) {
 			logger.error("打开联盟招募失败，开启招募的成员:{}不是盟主，却修改了招募信息", junZhu.id);
@@ -1903,10 +1912,14 @@ public class AllianceMgr extends EventProc{
 
 		if (mengZhu.title != TITLE_LEADER) {
 			logger.error("转让联盟失败-君主:{}没有权限2，职位:{}", junZhu.id, mengZhu.title);
-			sendError(cmd, session, "非法操作");
+			//sendError(cmd, session, "非法操作");
 			return;
 		}
-
+		if(isAllianceInFight(alncBean.id)) {
+			logger.error("转让联盟失败，有盟员正在参加联盟战");
+			sendTransferAllianceResp(session, mengZhu.lianMengId, mengZhu.junzhuId, 2);
+			return;
+		}
 		AlliancePlayer fuMengZhu = HibernateUtil.find(AlliancePlayer.class, fuMengzhuId);
 		if (fuMengZhu == null || fuMengZhu.lianMengId != mengZhu.lianMengId) {
 			sendTransferAllianceResp(session, mengZhu.lianMengId, mengZhu.junzhuId, 1);
@@ -1915,7 +1928,7 @@ public class AllianceMgr extends EventProc{
 		}
 		if (fuMengZhu.title != TITLE_DEPUTY_LEADER) {
 			logger.error("转让联盟失败-将要降职的君主id:{}职位:{}", fuMengzhuId, fuMengZhu.title);
-			sendError(cmd, session, "要转让的对象职位太低");
+			//sendError(cmd, session, "要转让的对象职位太低");
 			return;
 		}
 
@@ -1959,11 +1972,20 @@ public class AllianceMgr extends EventProc{
 				.replace("***", targetJz.name);
 		EmailMgr.INSTANCE.sendMail(junZhu.name, content, "", mailConfig.sender,
 				mailConfig, "");
+		JunZhuMgr.inst.sendMainInfo(session);
+		sendAllianceInfo(junZhu, session, mengZhu, alncBean);
 		// 发给要转给的副盟主
+		IoSession fuMengZhuSession = SessionManager.inst.getIoSession(targetJz.id);
+		if(fuMengZhuSession != null){
+			JunZhuMgr.inst.sendMainInfo(fuMengZhuSession);
+			sendAllianceInfo(targetJz, fuMengZhuSession, fuMengZhu, alncBean);
+		}
 		mailConfig = EmailMgr.INSTANCE.getMailConfig(30015);
 		content = mailConfig.content.replace("***", junZhu.name);
 		EmailMgr.INSTANCE.sendMail(targetJz.name, content, "",
 				mailConfig.sender, mailConfig, "");
+		EventMgr.addEvent(ED.LM_TITLE_CHANGE, new Object[] {targetJz.id, alncBean.id, alncBean.name, fuMengZhu.title});
+		EventMgr.addEvent(ED.LM_TITLE_CHANGE, new Object[] {junZhu.id, alncBean.id, alncBean.name, mengZhu.title});
 	}
 	
 	public void sendTransferAllianceResp(IoSession session, int lianMengId, 
@@ -1974,7 +1996,21 @@ public class AllianceMgr extends EventProc{
 		response.setJunzhuId(mengZhuId);
 		session.write(response.build());
 	}
-
+	
+	public boolean isAllianceInFight(int lianMengId) {
+		List<AlliancePlayer> memberList = getAllianceMembers(lianMengId);
+		for (AlliancePlayer member : memberList) {
+			SessionUser su = SessionManager.inst.findByJunZhuId(member.junzhuId);
+			if (su != null && su.session != null) {
+				Object scene = su.session.getAttribute(SessionAttKey.Scene);
+				if(scene instanceof FightScene) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	public synchronized void immidiatelyJoin(int cmd, IoSession session, Builder builder) {
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
 		if (junZhu == null) {
@@ -1984,10 +2020,10 @@ public class AllianceMgr extends EventProc{
 		immediatelyJoin.Builder request = (qxmobile.protobuf.AllianceProtos.immediatelyJoin.Builder) builder;
 		int lianMengId = request.getLianMengId();
 
-		agreeAndImmiJoinAlliance(PD.IMMEDIATELY_JOIN_RESP, session, junZhu, lianMengId);
+		agreeInviteAndImmiJoinAlliance(PD.IMMEDIATELY_JOIN_RESP, session, junZhu, lianMengId);
 	}
 
-	public boolean agreeAndImmiJoinAlliance(int responseCmd, IoSession session, JunZhu junZhu, int lianMengId) {
+	public boolean agreeInviteAndImmiJoinAlliance(int responseCmd, IoSession session, JunZhu junZhu, int lianMengId) {
 		String logHead = "";
 		if(responseCmd == PD.IMMEDIATELY_JOIN_RESP) {
 			logHead = "立刻加入联盟";
@@ -2001,6 +2037,11 @@ public class AllianceMgr extends EventProc{
 		if (alncBean == null) {
 			logger.error("{}失败，要加入的联盟:{}不存在!", logHead, lianMengId);
 			sendImmediatelyJoinResp(session, 2, null, responseCmd,lianMengId,guojia, remainTime);
+			if(responseCmd == PD.S_ALLIANCE_INVITE_AGREE) {
+				AllianceInviteBean inviteBean = HibernateUtil.find(AllianceInviteBean.class,
+						" where junzhuId="+junZhu.id + " and allianceId=" + lianMengId);
+				HibernateUtil.delete(inviteBean);
+			}
 			return false;
 		}
 		guojia = alncBean.country;
@@ -2020,15 +2061,29 @@ public class AllianceMgr extends EventProc{
 			return false;
 		}
 		*/
-		if (alncBean.isAllow == CLOSE_APPLY) {
-			logger.error("{}失败，要加入的联盟:{}未开启招募!", logHead, lianMengId);
-			sendImmediatelyJoinResp(session, 4, null, responseCmd,lianMengId,guojia,remainTime);
-			return false;
-		}
-		if (alncBean.isShenPi != AllianceConstants.NO_NEED_SHENPI) {
-			logger.error("{}失败，联盟:{}需要审批!", logHead, lianMengId);
-			sendImmediatelyJoinResp(session, 1, null, responseCmd,lianMengId,guojia,remainTime);
-			return false;
+		if(responseCmd == PD.IMMEDIATELY_JOIN_RESP){
+			if (alncBean.isAllow == CLOSE_APPLY) {
+				logger.error("{}失败，要加入的联盟:{}未开启招募!", logHead, lianMengId);
+				sendImmediatelyJoinResp(session, 4, null, responseCmd,lianMengId,guojia,remainTime);
+				return false;
+			}
+			if (alncBean.isShenPi != AllianceConstants.NO_NEED_SHENPI) {
+				logger.error("{}失败，联盟:{}需要审批!", logHead, lianMengId);
+				sendImmediatelyJoinResp(session, 1, null, responseCmd,lianMengId,guojia,remainTime);
+				return false;
+			}
+			if (junZhu.level < alncBean.minApplyLevel) {
+				logger.error("{}失败，等级不满足要求，联盟:{}要求君主等级不小于:{}，君主等级:{}", logHead, lianMengId, alncBean.minApplyLevel, junZhu.level);
+				sendImmediatelyJoinResp(session, 6, null, responseCmd,lianMengId,guojia,remainTime);
+				return false;
+			}
+			int junXianLevel = PvpMgr.getJunxianLevel(junZhu.id);
+			if (junXianLevel < alncBean.minApplyJunxian) {
+				logger.error("{}失败，等级不满足要求，联盟:{}要求军衔等级不小于:{}，君主等级:{}", logHead, lianMengId, alncBean.minApplyJunxian, junXianLevel);
+				sendImmediatelyJoinResp(session, 7, null, responseCmd,lianMengId,guojia,remainTime);
+				return false;
+			}
+			
 		}
 		int memberMax = getAllianceMemberMax(alncBean.level);
 		if (alncBean.members >= memberMax) {
@@ -2037,20 +2092,6 @@ public class AllianceMgr extends EventProc{
 			return false;
 		}
 
-		if (junZhu.level < alncBean.minApplyLevel) {
-			logger.error("{}失败，等级不满足要求，联盟:{}要求君主等级不小于:{}，君主等级:{}", logHead, lianMengId, alncBean.minApplyLevel, junZhu.level);
-			sendImmediatelyJoinResp(session, 6, null, responseCmd,lianMengId,guojia,remainTime);
-			return false;
-		}
-
-		PvpBean pvpBean = HibernateUtil.find(PvpBean.class, junZhu.id);
-		int junXianLevel = pvpBean == null ? PVPConstant.XIAO_ZU_JI_BIE
-				: pvpBean.junXianLevel;
-		if (junXianLevel < alncBean.minApplyJunxian) {
-			logger.error("{}失败，等级不满足要求，联盟:{}要求军衔等级不小于:{}，君主等级:{}", logHead, lianMengId, alncBean.minApplyJunxian, junXianLevel);
-			sendImmediatelyJoinResp(session, 7, null, responseCmd,lianMengId,guojia,remainTime);
-			return false;
-		}
 		AllianceApply applyer = HibernateUtil.find(AllianceApply.class, junZhu.id);
 		if (applyer != null && applyer.getAllianceNum() >= AllianceConstants.APPPLY_NUM_MAX) {
 			logger.error("{}失败，申请的联盟数量已满，申请了{}个， 最大申请{}个", logHead,applyer.getAllianceNum(), AllianceConstants.APPPLY_NUM_MAX);
@@ -2085,6 +2126,7 @@ public class AllianceMgr extends EventProc{
 			clearApplyAllianceCache(applyer);
 			HibernateUtil.save(applyer);
 		}
+		int breforeGuoJia = junZhu.guoJiaId;
 		junZhu.guoJiaId = alncBean.country;
 		JunZhuMgr.inst.sendMainInfo(session, junZhu);
 		// 触发事件，房屋管理用到。
@@ -2102,6 +2144,7 @@ public class AllianceMgr extends EventProc{
 //		// 加入联盟，重新开始计算贡金  add 20150915
 //		GuoJiaMgr.inst.calculateGongJinJoinAlliance(junZhu.id);
 		RankingGongJinMgr.inst.firstSetGongJin(junZhu.id, alncBean.id);
+		refreshJunZhuPerRank(junZhu, breforeGuoJia);
 		return true;
 	}
 
@@ -2403,7 +2446,7 @@ public class AllianceMgr extends EventProc{
 		// 判断君主是否有联盟
 		AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jzId);
 		if (player == null || player.lianMengId <= 0) {
-			logger.info("获取玩家联盟失败，玩家:{}没有联盟", jzId);
+//			logger.info("获取玩家联盟失败，玩家:{}没有联盟", jzId);
 			return null;
 		}
 		AllianceBean guild = HibernateUtil.find(AllianceBean.class, player.lianMengId);
@@ -2513,64 +2556,114 @@ public class AllianceMgr extends EventProc{
 				pushRedPoint(event);
 				break;
 			case ED.LIANMENG_UPGRADE_LEVEL:
-				Integer allianceId = (Integer) event.param;
-				if(allianceId == null) {
-					return;
-				}
-				AllianceBean bean = HibernateUtil.find(AllianceBean.class, allianceId);
-				if (bean == null) {
-					logger.error("找不到联盟id为:{}", allianceId);
-					return;
-				}
-				Mail mailConfig = EmailMgr.INSTANCE.getMailConfig(30022);
-				if (mailConfig != null) {
-					List<AlliancePlayer> members = getAllianceMembers(allianceId);
-					for(AlliancePlayer player : members) {
-						JunZhu junZhu = HibernateUtil.find(JunZhu.class, player.junzhuId);
-						if(junZhu != null) {
-							EmailMgr.INSTANCE.sendMail(junZhu.name, mailConfig.content, "",
-									mailConfig.sender, mailConfig, "");
-						}
-					}
-				}
-				
-				LianmengEvent lmEvent = lianmengEventMap.get(10);
-				if(lmEvent != null) {
-					String eventStr = lmEvent.str.replaceFirst("%d", String.valueOf(bean.level));
-					addAllianceEvent(allianceId, eventStr);
-				}
+				processUpgradeEvent(event);
 				break;
 			case ED.LIAN_MENG_CHANGE_GUOJIA:
+				processChangeCountryEvent(event);
+				break;
+			case ED.JUNZHU_CHANGE_NAME:
 				Object[] objs = (Object[]) event.param;
-				Integer lmId = (Integer) objs[0];
-				Long mengZhuId = (Long) objs[1];
-				AllianceBean alliance = HibernateUtil.find(AllianceBean.class, lmId);
-				String guoJiaNam = HeroService.getNameById(alliance.country+"");
-				
-				Mail send2MengZhu = EmailMgr.INSTANCE.getMailConfig(30023);
-				if(send2MengZhu != null) {
-					String content = send2MengZhu.content.replace("*", guoJiaNam);
-					JunZhu junzhu = HibernateUtil.find(JunZhu.class, mengZhuId);
-					boolean sendOK = EmailMgr.INSTANCE.sendMail(junzhu.name, content,
-							"", junzhu.name, send2MengZhu ,"");
-					logger.info("联盟转国成功邮件通知，发送给盟主玩家：{}, 结果:{}", junzhu.id, sendOK);
+				String oldName = (String) objs[0];
+				Long junzhuId = (Long) objs[1];
+				JunZhu junzhu = HibernateUtil.find(JunZhu.class, junzhuId);
+				if(junzhu == null) {
+					return;
 				}
-				
-				Mail mailCfg = EmailMgr.INSTANCE.getMailConfig(30021);
-				if(mailCfg != null){
-					String content = mailCfg.content.replace("*", guoJiaNam);
-					List<AlliancePlayer> memberList = AllianceMgr.inst.getAllianceMembers(lmId);
-					for(AlliancePlayer pla: memberList){
-						if(pla.junzhuId == mengZhuId) {
-							continue;
-						}
-						JunZhu junzhu = HibernateUtil.find(JunZhu.class, pla.junzhuId);
-						boolean sendOK = EmailMgr.INSTANCE.sendMail(junzhu.name, content,
-									"", junzhu.name, mailCfg ,"");
-						logger.info("联盟转国成功邮件通知，发送给玩家：{}, 结果:{}", junzhu.id, sendOK);
-					}
+				AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, junzhuId);
+				if(member == null || member.lianMengId <= 0) {
+					return;
+				}
+				AllianceBean bean = HibernateUtil.find(AllianceBean.class, member.lianMengId);
+				if (bean == null) {
+					logger.error("找不到联盟id为:{}", junzhuId);
+					return;
+				}
+				LianmengEvent lmEvent = lianmengEventMap.get(34);
+				if(lmEvent != null) {
+					String eventStr = lmEvent.str.replace("%a", oldName)
+											      .replace("%b", junzhu.name);
+					addAllianceEvent(bean.id, eventStr);
 				}
 				break;
+		}
+	}
+
+	public void processChangeCountryEvent(Event event) {
+		Object[] objs = (Object[]) event.param;
+		Integer lmId = (Integer) objs[0];
+		Long mengZhuId = (Long) objs[1];
+		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, lmId);
+		String guoJiaNam = HeroService.getNameById(alliance.country+"");
+		
+		Mail send2MengZhu = EmailMgr.INSTANCE.getMailConfig(30023);
+		if(send2MengZhu != null) {
+			String content = send2MengZhu.content.replace("*", guoJiaNam);
+			JunZhu junzhu = HibernateUtil.find(JunZhu.class, mengZhuId);
+			boolean sendOK = EmailMgr.INSTANCE.sendMail(junzhu.name, content,
+					"", send2MengZhu.sender, send2MengZhu ,"");
+			logger.info("联盟转国成功邮件通知，发送给盟主玩家：{}, 结果:{}", junzhu.id, sendOK);
+		}
+		
+		Mail mailCfg = EmailMgr.INSTANCE.getMailConfig(30021);
+		if(mailCfg != null){
+			String content = mailCfg.content.replace("*", guoJiaNam);
+			List<AlliancePlayer> memberList = AllianceMgr.inst.getAllianceMembers(lmId);
+			for(AlliancePlayer pla: memberList){
+				if(pla.junzhuId == mengZhuId) {
+					continue;
+				}
+				JunZhu junzhu = HibernateUtil.find(JunZhu.class, pla.junzhuId);
+				boolean sendOK = EmailMgr.INSTANCE.sendMail(junzhu.name, content,
+							"", mailCfg.sender, mailCfg ,"");
+				logger.info("联盟转国成功邮件通知，发送给玩家：{}, 结果:{}", junzhu.id, sendOK);
+			}
+		}
+	}
+
+	public void processUpgradeEvent(Event event) {
+		Integer allianceId = (Integer) event.param;
+		if(allianceId == null) {
+			return;
+		}
+		AllianceBean bean = HibernateUtil.find(AllianceBean.class, allianceId);
+		if (bean == null) {
+			logger.error("找不到联盟id为:{}", allianceId);
+			return;
+		}
+		int mailCfgId = 0;
+		switch(bean.level) {
+			case 2:		mailCfgId = 30022;	break;
+			case 3:		mailCfgId = 30024;	break;
+			case 4:		mailCfgId = 30025;	break;
+			case 5:		mailCfgId = 30026;	break;
+			case 6:		mailCfgId = 30027;	break;
+			case 7:		mailCfgId = 30028;	break;
+			case 8:		mailCfgId = 30029;	break;
+			case 9:		mailCfgId = 30030;	break;
+			case 10:	mailCfgId = 30031;	break;
+		}
+		LianMeng lmCfg = lianMengMap.get(bean.level);
+		if(lmCfg == null) {
+			logger.error("找不到联盟等级为:{}的配置", bean.level);
+			return;
+		}
+		Mail mailConfig = EmailMgr.INSTANCE.getMailConfig(mailCfgId);
+		if (mailConfig != null) {
+			String content = mailConfig.content.replace("**", lmCfg.getRenshuMax()+"");
+			List<AlliancePlayer> members = getAllianceMembers(allianceId);
+			for(AlliancePlayer player : members) {
+				JunZhu junZhu = HibernateUtil.find(JunZhu.class, player.junzhuId);
+				if(junZhu != null) {
+					EmailMgr.INSTANCE.sendMail(junZhu.name, content, "",
+							mailConfig.sender, mailConfig, "");
+				}
+			}
+		}
+		
+		LianmengEvent lmEvent = lianmengEventMap.get(10);
+		if(lmEvent != null) {
+			String eventStr = lmEvent.str.replaceFirst("%d", String.valueOf(bean.level));
+			addAllianceEvent(allianceId, eventStr);
 		}
 	}
 	
@@ -2622,7 +2715,7 @@ public class AllianceMgr extends EventProc{
 		}
 		boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionOpenMgr.TYPE_ALLIANCE, jz.id, jz.level);
 		if(!isOpen){
-			logger.info("君主：{}--联盟的功能---未开启,不推送",jz.id);
+//			logger.info("君主：{}--联盟的功能---未开启,不推送",jz.id);
 			return;
 		}
 		AlliancePlayer alliancePlayer = HibernateUtil.find(AlliancePlayer.class, jz.id);
@@ -2677,6 +2770,7 @@ public class AllianceMgr extends EventProc{
 		EventMgr.regist(ED.LM_TITLE_CHANGE, this);
 		EventMgr.regist(ED.LIANMENG_UPGRADE_LEVEL, this);
 		EventMgr.regist(ED.LIAN_MENG_CHANGE_GUOJIA, this);
+		EventMgr.regist(ED.JUNZHU_CHANGE_NAME, this);
 	}
 
 	public void eventListRequest(int cmd, IoSession session, Builder builder) {
@@ -2846,7 +2940,13 @@ public class AllianceMgr extends EventProc{
 		response.setNextLevel(nextLevel);
 		session.write(response.build());
 	}
-
+    /**
+     * 邀请进入联盟(被邀请方 需开启联盟 且无联盟)
+     * @param cmd
+     * @param session
+     * @param builder
+     */
+	
 	public void inviteJoinAlliance(int cmd, IoSession session, Builder builder) {
 		AllianceInvite.Builder request = (qxmobile.protobuf.AllianceProtos.AllianceInvite.Builder) builder;
 		long invitedJzId = request.getJunzhuId();
@@ -2899,9 +2999,15 @@ public class AllianceMgr extends EventProc{
 		}
 		AlliancePlayer invitedPlayer = HibernateUtil.find(AlliancePlayer.class, invitedJZ.id);
 		if (invitedPlayer != null && invitedPlayer.lianMengId > 0) {
-			logger.info("邀请加入联盟失败，被邀请的玩家:{}已经加入了联盟:{}", invitedJZ.id, invitedPlayer.lianMengId);
-			sendAllianceInviteResp(session, 4);
-			return;
+			if(invitedPlayer.lianMengId == alliance.id) {
+				logger.info("邀请加入联盟失败，被邀请的玩家:{}已经加入了联盟:{}", invitedJZ.id, invitedPlayer.lianMengId);
+				sendAllianceInviteResp(session, 6);
+				return;
+			} else {
+				logger.info("邀请加入联盟失败，被邀请的玩家:{}已经加入了你的联盟:{}", invitedJZ.id, invitedPlayer.lianMengId);
+				sendAllianceInviteResp(session, 4);
+				return;
+			}
 		}
 		
 		Date date = new Date();
@@ -2996,7 +3102,7 @@ public class AllianceMgr extends EventProc{
 		if(inviteBean == null) {
 			return;
 		}
-		boolean succeed = agreeAndImmiJoinAlliance(responseCmd, session, junZhu, lianMengId);
+		boolean succeed = agreeInviteAndImmiJoinAlliance(responseCmd, session, junZhu, lianMengId);
 		if(succeed) {
 			logger.info("同意联盟邀请成功，玩家:{}同意了联盟:{}的邀请", junZhu.id, lianMengId);
 			HibernateUtil.delete(inviteBean);
@@ -3038,6 +3144,11 @@ public class AllianceMgr extends EventProc{
 			sendUpgradeLevelSpeedUpResp(session, 3, remainTime);
 			return;
 		}
+		if(alncBean.upgradeUsedTimes >= lianMengCfg.speedUpTimes){
+			logger.error("联盟升级加速操作失败，联盟:{}升级加速次数用完", alncBean.id);
+			sendUpgradeLevelSpeedUpResp(session, 5, remainTime);
+			return;
+		}
 		int cost = PurchaseMgr.inst.getNeedYuanBao(29, alncBean.todayUpgradeSpeedTimes + 1);
 		if(alncBean.build < cost) {
 			sendUpgradeLevelSpeedUpResp(session, 1, remainTime);
@@ -3050,6 +3161,7 @@ public class AllianceMgr extends EventProc{
 		alncBean.build -= cost;
 		alncBean.todayUpgradeSpeedTimes += 1;
 		alncBean.lastTimesUpgradeSpeedTime = nowDate;
+		alncBean.upgradeUsedTimes += 1;
 		HibernateUtil.save(alncBean);
 		remainTime = (int) (((alncBean.upgradeTime.getTime() - nowDate.getTime()) / 1000));
 		sendUpgradeLevelSpeedUpResp(session, 0, remainTime);
@@ -3095,7 +3207,7 @@ public class AllianceMgr extends EventProc{
 			logger.error("联盟升级信息请求失败，lianmeng.xml找不到等级为:{}的配置信息", alncBean.level);
 			return;
 		}
-		int cost = PurchaseMgr.inst.getNeedYuanBao(29, alncBean.todayUpgradeSpeedTimes + 1);
+		int cost = PurchaseMgr.inst.getNeedYuanBao(29, alncBean.upgradeUsedTimes + 1);
 		UpgradeLevelInfoResp.Builder response = UpgradeLevelInfoResp.newBuilder();
 		response.setMTime((int) (CanShu.LIANMENG_LVLUP_REDUCE * 60L * 60));
 		response.setMBuild(cost);
@@ -3130,6 +3242,18 @@ public class AllianceMgr extends EventProc{
 			sendChangeCountryResp(session, 4);
 			return;
 		}
+		// 记录玩家离开联盟的时间
+		long curTime = System.currentTimeMillis();
+		String lastChangeTime = Redis.getInstance().get(ALLIANCE_CHANGE_GUOJIA + alncBean.id);
+		if(lastChangeTime != null) {
+			long intreval = curTime - Long.parseLong(lastChangeTime);
+			if(intreval < CanShu.CHANGE_COUNTRY_CD * 60L * 60 * 1000) {
+				int remainTime = (int) ((CanShu.CHANGE_COUNTRY_CD * 60L * 60 * 1000 - intreval)/1000);
+				sendChangeCountryResp(session, -remainTime);
+				logger.error("联盟转国请求失败，现在处于cd时间，还需等待{}秒", remainTime);
+				return;
+			}
+		}
 		
 		ChangeAllianceCountry.Builder request = (qxmobile.protobuf.AllianceProtos.ChangeAllianceCountry.Builder) builder;
 		int country = request.getCountry();
@@ -3140,12 +3264,13 @@ public class AllianceMgr extends EventProc{
 			return;
 		}
 		int beforeCountry = alncBean.country;
+		changeAlianceHufu(alncBean, -CanShu.CHANGE_COUNTRY_COST);
 		alncBean.country = country;
 		HibernateUtil.save(alncBean);
 		logger.info("联盟转国请求成功，君主:{}将联盟国家从{} 转为{}", junZhu.id, beforeCountry, country);
+		Redis.getInstance().set(ALLIANCE_CHANGE_GUOJIA + alncBean.id, curTime+"");
 		sendChangeCountryResp(session, 0);
-		EventMgr.addEvent(ED.LIAN_MENG_CHANGE_GUOJIA, new Object[]{alncBean.id, junZhu.id});
-		
+
 		LianmengEvent lmEvent = lianmengEventMap.get(31);
 		if(lmEvent != null) {
 			String guojiaName = HeroService.getNameById(alncBean.country+"");
@@ -3166,7 +3291,17 @@ public class AllianceMgr extends EventProc{
 			HibernateUtil.save(memberJz);
 			JunZhuMgr.inst.sendMainInfo(su.session);
 			sendAllianceInfo(junZhu, session, member, alncBean);
+			refreshJunZhuPerRank(memberJz, beforeCountry);
 		}
+
+		EventMgr.addEvent(ED.LIAN_MENG_CHANGE_GUOJIA, new Object[]{alncBean.id, junZhu.id});
+		EventMgr.addEvent(ED.LIANMENG_RANK_REFRESH, new Object[]{alncBean.id, beforeCountry});
+	}
+
+	public void refreshJunZhuPerRank(JunZhu junZhu, int beforeCountry) {
+		EventMgr.addEvent(ED.BAIZHAN_RANK_REFRESH, new Object[]{junZhu, beforeCountry});
+		EventMgr.addEvent(ED.CHONGLOU_RANK_REFRESH, new Object[]{junZhu, beforeCountry});
+		EventMgr.addEvent(ED.GUOGUAN_RANK_REFRESH, new Object[]{junZhu, beforeCountry});
 	}
 
 	public void sendChangeCountryResp(IoSession session, int result) {

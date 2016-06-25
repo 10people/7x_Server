@@ -20,6 +20,7 @@ public class Fuwen {
 	public int levelMax ;
 	public int suipianID;
 	public int suipianNum;
+	public int pinzhi;
 
 	public int getShuxingName() {
 		return shuxingName;

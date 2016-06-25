@@ -27,6 +27,7 @@ public class ED {
 	public static final int MIBAO_HECHENG_BROADCAST = 119;
 	public static final int LIEFU_GET_FUWEN = 120;
 	public static final int JIAPIAN_DUIHUAN_FUWEN = 121;
+	public static final int JUNZHU_CHANGE_NAME = 122;
 	
 	public static final int ACC_LOGIN = 10010;
 	/** 成就事件 **/
@@ -151,6 +152,8 @@ public class ED {
 	public static final int JUNZHU_LEVEL_RANK_REFRESH = 101601;
 	// 君主等级榜刷新
 	public static final int CHONGLOU_RANK_REFRESH = 101602;
+	//重楼广播事件
+	public static final int CHONGLOU_BROADCAST = 101603;
 	/**GM事件**/
 	public static final int CHECK_EMAIL = 10161;
 	//限时活动精英集星
@@ -232,5 +235,14 @@ public class ED {
 	
 	public static final int HY_PASS_GUAN_QIA = 4000; //荒野通过关卡事件
 	public static final int LIAN_MENG_CHANGE_GUOJIA = 4001; //联盟转国成功事件
-
+	public static final int CITY_WAR_ZHAN_LING = 4002; //郡城战成功占领城池
+	public static final int ACTIVITY_MONTHCARD_REFRESH = 4003; //充值月卡更新活动
+	public static final int activity_shouchong = 4004; //首冲触发事件
+	public static final int activity_chengzhangjijin = 4005; //成长基金触发事件
+	public static final int PLAYER_CHENHAO_DUIHUAN = 4006; //玩家称号兑换事件
+	public static final int CHANGE_WEIWANG = 4007; //或的功勋事件
+	public static final int CHANGE_GONGXUN = 4008; //获得威望事件
+	public static final int CITY_WAR_FIGHT_JIESUAN = 4009; //郡城战战斗结算发奖励时间
+	public static final int CITY_WAR_BID = 4010; //郡城战宣战事件
+	public static final int PLAYER_CHENGHAO_USE= 4011; //玩家称号兑换事件
 }

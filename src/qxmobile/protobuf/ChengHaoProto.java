@@ -90,37 +90,37 @@ public final class ChengHaoProto {
      */
     int getPrice();
 
-    // required int32 gongJi = 6;
+    // required float gongJi = 6;
     /**
-     * <code>required int32 gongJi = 6;</code>
+     * <code>required float gongJi = 6;</code>
      *
      * <pre>
      * </pre>
      */
     boolean hasGongJi();
     /**
-     * <code>required int32 gongJi = 6;</code>
+     * <code>required float gongJi = 6;</code>
      *
      * <pre>
      * </pre>
      */
-    int getGongJi();
+    float getGongJi();
 
-    // required int32 fangYu = 7;
+    // required float fangYu = 7;
     /**
-     * <code>required int32 fangYu = 7;</code>
+     * <code>required float fangYu = 7;</code>
      *
      * <pre>
      * </pre>
      */
     boolean hasFangYu();
     /**
-     * <code>required int32 fangYu = 7;</code>
+     * <code>required float fangYu = 7;</code>
      *
      * <pre>
      * </pre>
      */
-    int getFangYu();
+    float getFangYu();
 
     // required int32 shengMing = 8;
     /**
@@ -214,14 +214,14 @@ public final class ChengHaoProto {
               price_ = input.readInt32();
               break;
             }
-            case 48: {
+            case 53: {
               bitField0_ |= 0x00000020;
-              gongJi_ = input.readInt32();
+              gongJi_ = input.readFloat();
               break;
             }
-            case 56: {
+            case 61: {
               bitField0_ |= 0x00000040;
-              fangYu_ = input.readInt32();
+              fangYu_ = input.readFloat();
               break;
             }
             case 64: {
@@ -400,11 +400,11 @@ public final class ChengHaoProto {
       return price_;
     }
 
-    // required int32 gongJi = 6;
+    // required float gongJi = 6;
     public static final int GONGJI_FIELD_NUMBER = 6;
-    private int gongJi_;
+    private float gongJi_;
     /**
-     * <code>required int32 gongJi = 6;</code>
+     * <code>required float gongJi = 6;</code>
      *
      * <pre>
      * </pre>
@@ -413,20 +413,20 @@ public final class ChengHaoProto {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>required int32 gongJi = 6;</code>
+     * <code>required float gongJi = 6;</code>
      *
      * <pre>
      * </pre>
      */
-    public int getGongJi() {
+    public float getGongJi() {
       return gongJi_;
     }
 
-    // required int32 fangYu = 7;
+    // required float fangYu = 7;
     public static final int FANGYU_FIELD_NUMBER = 7;
-    private int fangYu_;
+    private float fangYu_;
     /**
-     * <code>required int32 fangYu = 7;</code>
+     * <code>required float fangYu = 7;</code>
      *
      * <pre>
      * </pre>
@@ -435,12 +435,12 @@ public final class ChengHaoProto {
       return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>required int32 fangYu = 7;</code>
+     * <code>required float fangYu = 7;</code>
      *
      * <pre>
      * </pre>
      */
-    public int getFangYu() {
+    public float getFangYu() {
       return fangYu_;
     }
 
@@ -472,8 +472,8 @@ public final class ChengHaoProto {
       state_ = 0;
       leftSec_ = 0L;
       price_ = 0;
-      gongJi_ = 0;
-      fangYu_ = 0;
+      gongJi_ = 0F;
+      fangYu_ = 0F;
       shengMing_ = 0;
     }
     private byte memoizedIsInitialized = -1;
@@ -536,10 +536,10 @@ public final class ChengHaoProto {
         output.writeInt32(5, price_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeInt32(6, gongJi_);
+        output.writeFloat(6, gongJi_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeInt32(7, fangYu_);
+        output.writeFloat(7, fangYu_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeInt32(8, shengMing_);
@@ -575,11 +575,11 @@ public final class ChengHaoProto {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(6, gongJi_);
+          .computeFloatSize(6, gongJi_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(7, fangYu_);
+          .computeFloatSize(7, fangYu_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
@@ -711,9 +711,9 @@ public final class ChengHaoProto {
         bitField0_ = (bitField0_ & ~0x00000008);
         price_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
-        gongJi_ = 0;
+        gongJi_ = 0F;
         bitField0_ = (bitField0_ & ~0x00000020);
-        fangYu_ = 0;
+        fangYu_ = 0F;
         bitField0_ = (bitField0_ & ~0x00000040);
         shengMing_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
@@ -1132,10 +1132,10 @@ public final class ChengHaoProto {
         return this;
       }
 
-      // required int32 gongJi = 6;
-      private int gongJi_ ;
+      // required float gongJi = 6;
+      private float gongJi_ ;
       /**
-       * <code>required int32 gongJi = 6;</code>
+       * <code>required float gongJi = 6;</code>
        *
        * <pre>
        * </pre>
@@ -1144,43 +1144,43 @@ public final class ChengHaoProto {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>required int32 gongJi = 6;</code>
+       * <code>required float gongJi = 6;</code>
        *
        * <pre>
        * </pre>
        */
-      public int getGongJi() {
+      public float getGongJi() {
         return gongJi_;
       }
       /**
-       * <code>required int32 gongJi = 6;</code>
+       * <code>required float gongJi = 6;</code>
        *
        * <pre>
        * </pre>
        */
-      public Builder setGongJi(int value) {
+      public Builder setGongJi(float value) {
         bitField0_ |= 0x00000020;
         gongJi_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 gongJi = 6;</code>
+       * <code>required float gongJi = 6;</code>
        *
        * <pre>
        * </pre>
        */
       public Builder clearGongJi() {
         bitField0_ = (bitField0_ & ~0x00000020);
-        gongJi_ = 0;
+        gongJi_ = 0F;
         onChanged();
         return this;
       }
 
-      // required int32 fangYu = 7;
-      private int fangYu_ ;
+      // required float fangYu = 7;
+      private float fangYu_ ;
       /**
-       * <code>required int32 fangYu = 7;</code>
+       * <code>required float fangYu = 7;</code>
        *
        * <pre>
        * </pre>
@@ -1189,35 +1189,35 @@ public final class ChengHaoProto {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>required int32 fangYu = 7;</code>
+       * <code>required float fangYu = 7;</code>
        *
        * <pre>
        * </pre>
        */
-      public int getFangYu() {
+      public float getFangYu() {
         return fangYu_;
       }
       /**
-       * <code>required int32 fangYu = 7;</code>
+       * <code>required float fangYu = 7;</code>
        *
        * <pre>
        * </pre>
        */
-      public Builder setFangYu(int value) {
+      public Builder setFangYu(float value) {
         bitField0_ |= 0x00000040;
         fangYu_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 fangYu = 7;</code>
+       * <code>required float fangYu = 7;</code>
        *
        * <pre>
        * </pre>
        */
       public Builder clearFangYu() {
         bitField0_ = (bitField0_ & ~0x00000040);
-        fangYu_ = 0;
+        fangYu_ = 0F;
         onChanged();
         return this;
       }
@@ -1278,6 +1278,452 @@ public final class ChengHaoProto {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ChengHaoData)
   }
 
+  public interface ChengHaoListReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 type = 1;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *0-请求功勋称号列表，1-请求威望称号列表
+     * </pre>
+     */
+    boolean hasType();
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *0-请求功勋称号列表，1-请求威望称号列表
+     * </pre>
+     */
+    int getType();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ChengHaoListReq}
+   *
+   * <pre>
+   *	public static final short C_LIST_CHENG_HAO = 5111;//获取称号列表
+   *	public static final short S_LIST_CHENG_HAO = 5112;//服务器返回称号列表，消息体ChengHaoList
+   * </pre>
+   */
+  public static final class ChengHaoListReq extends
+      com.google.protobuf.GeneratedMessage
+      implements ChengHaoListReqOrBuilder {
+    // Use ChengHaoListReq.newBuilder() to construct.
+    private ChengHaoListReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ChengHaoListReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ChengHaoListReq defaultInstance;
+    public static ChengHaoListReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ChengHaoListReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ChengHaoListReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              type_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.ChengHaoProto.internal_static_qxmobile_protobuf_ChengHaoListReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.ChengHaoProto.internal_static_qxmobile_protobuf_ChengHaoListReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.ChengHaoProto.ChengHaoListReq.class, qxmobile.protobuf.ChengHaoProto.ChengHaoListReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ChengHaoListReq> PARSER =
+        new com.google.protobuf.AbstractParser<ChengHaoListReq>() {
+      public ChengHaoListReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ChengHaoListReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ChengHaoListReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 type = 1;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private int type_;
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *0-请求功勋称号列表，1-请求威望称号列表
+     * </pre>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 type = 1;</code>
+     *
+     * <pre>
+     *0-请求功勋称号列表，1-请求威望称号列表
+     * </pre>
+     */
+    public int getType() {
+      return type_;
+    }
+
+    private void initFields() {
+      type_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, type_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, type_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.ChengHaoProto.ChengHaoListReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.ChengHaoProto.ChengHaoListReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.ChengHaoProto.ChengHaoListReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.ChengHaoProto.ChengHaoListReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.ChengHaoProto.ChengHaoListReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.ChengHaoProto.ChengHaoListReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.ChengHaoProto.ChengHaoListReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.ChengHaoProto.ChengHaoListReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.ChengHaoProto.ChengHaoListReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.ChengHaoProto.ChengHaoListReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.ChengHaoProto.ChengHaoListReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ChengHaoListReq}
+     *
+     * <pre>
+     *	public static final short C_LIST_CHENG_HAO = 5111;//获取称号列表
+     *	public static final short S_LIST_CHENG_HAO = 5112;//服务器返回称号列表，消息体ChengHaoList
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.ChengHaoProto.ChengHaoListReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.ChengHaoProto.internal_static_qxmobile_protobuf_ChengHaoListReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.ChengHaoProto.internal_static_qxmobile_protobuf_ChengHaoListReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.ChengHaoProto.ChengHaoListReq.class, qxmobile.protobuf.ChengHaoProto.ChengHaoListReq.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.ChengHaoProto.ChengHaoListReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        type_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.ChengHaoProto.internal_static_qxmobile_protobuf_ChengHaoListReq_descriptor;
+      }
+
+      public qxmobile.protobuf.ChengHaoProto.ChengHaoListReq getDefaultInstanceForType() {
+        return qxmobile.protobuf.ChengHaoProto.ChengHaoListReq.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.ChengHaoProto.ChengHaoListReq build() {
+        qxmobile.protobuf.ChengHaoProto.ChengHaoListReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.ChengHaoProto.ChengHaoListReq buildPartial() {
+        qxmobile.protobuf.ChengHaoProto.ChengHaoListReq result = new qxmobile.protobuf.ChengHaoProto.ChengHaoListReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.ChengHaoProto.ChengHaoListReq) {
+          return mergeFrom((qxmobile.protobuf.ChengHaoProto.ChengHaoListReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.ChengHaoProto.ChengHaoListReq other) {
+        if (other == qxmobile.protobuf.ChengHaoProto.ChengHaoListReq.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.ChengHaoProto.ChengHaoListReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.ChengHaoProto.ChengHaoListReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 type = 1;
+      private int type_ ;
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *0-请求功勋称号列表，1-请求威望称号列表
+       * </pre>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *0-请求功勋称号列表，1-请求威望称号列表
+       * </pre>
+       */
+      public int getType() {
+        return type_;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *0-请求功勋称号列表，1-请求威望称号列表
+       * </pre>
+       */
+      public Builder setType(int value) {
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       *
+       * <pre>
+       *0-请求功勋称号列表，1-请求威望称号列表
+       * </pre>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ChengHaoListReq)
+    }
+
+    static {
+      defaultInstance = new ChengHaoListReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ChengHaoListReq)
+  }
+
   public interface ChengHaoListOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -1323,14 +1769,27 @@ public final class ChengHaoProto {
      * </pre>
      */
     int getMyPoint();
+
+    // required int32 weiWang = 3;
+    /**
+     * <code>required int32 weiWang = 3;</code>
+     *
+     * <pre>
+     *拥有威望值
+     * </pre>
+     */
+    boolean hasWeiWang();
+    /**
+     * <code>required int32 weiWang = 3;</code>
+     *
+     * <pre>
+     *拥有威望值
+     * </pre>
+     */
+    int getWeiWang();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ChengHaoList}
-   *
-   * <pre>
-   *	public static final short C_LIST_CHENG_HAO = 5111;//获取称号列表
-   *	public static final short S_LIST_CHENG_HAO = 5112;//服务器返回称号列表，消息体ChengHaoList
-   * </pre>
    */
   public static final class ChengHaoList extends
       com.google.protobuf.GeneratedMessage
@@ -1391,6 +1850,11 @@ public final class ChengHaoProto {
             case 16: {
               bitField0_ |= 0x00000001;
               myPoint_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000002;
+              weiWang_ = input.readInt32();
               break;
             }
           }
@@ -1496,9 +1960,34 @@ public final class ChengHaoProto {
       return myPoint_;
     }
 
+    // required int32 weiWang = 3;
+    public static final int WEIWANG_FIELD_NUMBER = 3;
+    private int weiWang_;
+    /**
+     * <code>required int32 weiWang = 3;</code>
+     *
+     * <pre>
+     *拥有威望值
+     * </pre>
+     */
+    public boolean hasWeiWang() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 weiWang = 3;</code>
+     *
+     * <pre>
+     *拥有威望值
+     * </pre>
+     */
+    public int getWeiWang() {
+      return weiWang_;
+    }
+
     private void initFields() {
       list_ = java.util.Collections.emptyList();
       myPoint_ = 0;
+      weiWang_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1506,6 +1995,10 @@ public final class ChengHaoProto {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasMyPoint()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasWeiWang()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1528,6 +2021,9 @@ public final class ChengHaoProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(2, myPoint_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(3, weiWang_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1544,6 +2040,10 @@ public final class ChengHaoProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, myPoint_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, weiWang_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1625,11 +2125,6 @@ public final class ChengHaoProto {
     }
     /**
      * Protobuf type {@code qxmobile.protobuf.ChengHaoList}
-     *
-     * <pre>
-     *	public static final short C_LIST_CHENG_HAO = 5111;//获取称号列表
-     *	public static final short S_LIST_CHENG_HAO = 5112;//服务器返回称号列表，消息体ChengHaoList
-     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -1675,6 +2170,8 @@ public final class ChengHaoProto {
         }
         myPoint_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
+        weiWang_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -1716,6 +2213,10 @@ public final class ChengHaoProto {
           to_bitField0_ |= 0x00000001;
         }
         result.myPoint_ = myPoint_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.weiWang_ = weiWang_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1761,12 +2262,19 @@ public final class ChengHaoProto {
         if (other.hasMyPoint()) {
           setMyPoint(other.getMyPoint());
         }
+        if (other.hasWeiWang()) {
+          setWeiWang(other.getWeiWang());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasMyPoint()) {
+          
+          return false;
+        }
+        if (!hasWeiWang()) {
           
           return false;
         }
@@ -2087,6 +2595,55 @@ public final class ChengHaoProto {
         return this;
       }
 
+      // required int32 weiWang = 3;
+      private int weiWang_ ;
+      /**
+       * <code>required int32 weiWang = 3;</code>
+       *
+       * <pre>
+       *拥有威望值
+       * </pre>
+       */
+      public boolean hasWeiWang() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 weiWang = 3;</code>
+       *
+       * <pre>
+       *拥有威望值
+       * </pre>
+       */
+      public int getWeiWang() {
+        return weiWang_;
+      }
+      /**
+       * <code>required int32 weiWang = 3;</code>
+       *
+       * <pre>
+       *拥有威望值
+       * </pre>
+       */
+      public Builder setWeiWang(int value) {
+        bitField0_ |= 0x00000004;
+        weiWang_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 weiWang = 3;</code>
+       *
+       * <pre>
+       *拥有威望值
+       * </pre>
+       */
+      public Builder clearWeiWang() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        weiWang_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ChengHaoList)
     }
 
@@ -2104,6 +2661,11 @@ public final class ChengHaoProto {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_ChengHaoData_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ChengHaoListReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ChengHaoListReq_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_ChengHaoList_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -2120,10 +2682,12 @@ public final class ChengHaoProto {
       "\n\016ChengHao.proto\022\021qxmobile.protobuf\"\212\001\n\014" +
       "ChengHaoData\022\n\n\002id\030\001 \002(\005\022\014\n\004name\030\002 \002(\t\022\r" +
       "\n\005state\030\003 \002(\005\022\017\n\007leftSec\030\004 \002(\003\022\r\n\005price\030" +
-      "\005 \002(\005\022\016\n\006gongJi\030\006 \002(\005\022\016\n\006fangYu\030\007 \002(\005\022\021\n" +
-      "\tshengMing\030\010 \002(\005\"N\n\014ChengHaoList\022-\n\004list" +
-      "\030\001 \003(\0132\037.qxmobile.protobuf.ChengHaoData\022" +
-      "\017\n\007myPoint\030\002 \002(\005B\017B\rChengHaoProto"
+      "\005 \002(\005\022\016\n\006gongJi\030\006 \002(\002\022\016\n\006fangYu\030\007 \002(\002\022\021\n" +
+      "\tshengMing\030\010 \002(\005\"\037\n\017ChengHaoListReq\022\014\n\004t" +
+      "ype\030\001 \002(\005\"_\n\014ChengHaoList\022-\n\004list\030\001 \003(\0132" +
+      "\037.qxmobile.protobuf.ChengHaoData\022\017\n\007myPo" +
+      "int\030\002 \002(\005\022\017\n\007weiWang\030\003 \002(\005B\017B\rChengHaoPr" +
+      "oto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2136,12 +2700,18 @@ public final class ChengHaoProto {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ChengHaoData_descriptor,
               new java.lang.String[] { "Id", "Name", "State", "LeftSec", "Price", "GongJi", "FangYu", "ShengMing", });
-          internal_static_qxmobile_protobuf_ChengHaoList_descriptor =
+          internal_static_qxmobile_protobuf_ChengHaoListReq_descriptor =
             getDescriptor().getMessageTypes().get(1);
+          internal_static_qxmobile_protobuf_ChengHaoListReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ChengHaoListReq_descriptor,
+              new java.lang.String[] { "Type", });
+          internal_static_qxmobile_protobuf_ChengHaoList_descriptor =
+            getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_ChengHaoList_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ChengHaoList_descriptor,
-              new java.lang.String[] { "List", "MyPoint", });
+              new java.lang.String[] { "List", "MyPoint", "WeiWang", });
           return null;
         }
       };

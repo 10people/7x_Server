@@ -12,6 +12,8 @@ public class LianMeng {
 	public String targetAward;
 	public int lvlupTime;
 	public int cost;
+	public int speedUpTimes;
+	
 	public int getId() {
 		return id;
 	}

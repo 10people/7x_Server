@@ -1454,30 +1454,54 @@ public final class VIP {
     // required int32 vipLevel = 1;
     /**
      * <code>required int32 vipLevel = 1;</code>
+     *
+     * <pre>
+     * vip等级
+     * </pre>
      */
     boolean hasVipLevel();
     /**
      * <code>required int32 vipLevel = 1;</code>
+     *
+     * <pre>
+     * vip等级
+     * </pre>
      */
     int getVipLevel();
 
     // required int32 needYb = 2;
     /**
      * <code>required int32 needYb = 2;</code>
+     *
+     * <pre>
+     * vip升到下一级所需购买元宝数
+     * </pre>
      */
     boolean hasNeedYb();
     /**
      * <code>required int32 needYb = 2;</code>
+     *
+     * <pre>
+     * vip升到下一级所需购买元宝数
+     * </pre>
      */
     int getNeedYb();
 
     // required int32 hasYb = 3;
     /**
      * <code>required int32 hasYb = 3;</code>
+     *
+     * <pre>
+     * 已经购买的元包数
+     * </pre>
      */
     boolean hasHasYb();
     /**
      * <code>required int32 hasYb = 3;</code>
+     *
+     * <pre>
+     * 已经购买的元包数
+     * </pre>
      */
     int getHasYb();
 
@@ -1567,6 +1591,24 @@ public final class VIP {
      * </pre>
      */
     int getYueKaLeftDays();
+
+    // required int32 zhouKaLeftDays = 8;
+    /**
+     * <code>required int32 zhouKaLeftDays = 8;</code>
+     *
+     * <pre>
+     *周卡剩余天数
+     * </pre>
+     */
+    boolean hasZhouKaLeftDays();
+    /**
+     * <code>required int32 zhouKaLeftDays = 8;</code>
+     *
+     * <pre>
+     *周卡剩余天数
+     * </pre>
+     */
+    int getZhouKaLeftDays();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.VipInfoResp}
@@ -1677,6 +1719,11 @@ public final class VIP {
               yueKaLeftDays_ = input.readInt32();
               break;
             }
+            case 64: {
+              bitField0_ |= 0x00000020;
+              zhouKaLeftDays_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1728,12 +1775,20 @@ public final class VIP {
     private int vipLevel_;
     /**
      * <code>required int32 vipLevel = 1;</code>
+     *
+     * <pre>
+     * vip等级
+     * </pre>
      */
     public boolean hasVipLevel() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required int32 vipLevel = 1;</code>
+     *
+     * <pre>
+     * vip等级
+     * </pre>
      */
     public int getVipLevel() {
       return vipLevel_;
@@ -1744,12 +1799,20 @@ public final class VIP {
     private int needYb_;
     /**
      * <code>required int32 needYb = 2;</code>
+     *
+     * <pre>
+     * vip升到下一级所需购买元宝数
+     * </pre>
      */
     public boolean hasNeedYb() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required int32 needYb = 2;</code>
+     *
+     * <pre>
+     * vip升到下一级所需购买元宝数
+     * </pre>
      */
     public int getNeedYb() {
       return needYb_;
@@ -1760,12 +1823,20 @@ public final class VIP {
     private int hasYb_;
     /**
      * <code>required int32 hasYb = 3;</code>
+     *
+     * <pre>
+     * 已经购买的元包数
+     * </pre>
      */
     public boolean hasHasYb() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>required int32 hasYb = 3;</code>
+     *
+     * <pre>
+     * 已经购买的元包数
+     * </pre>
      */
     public int getHasYb() {
       return hasYb_;
@@ -1890,6 +1961,30 @@ public final class VIP {
       return yueKaLeftDays_;
     }
 
+    // required int32 zhouKaLeftDays = 8;
+    public static final int ZHOUKALEFTDAYS_FIELD_NUMBER = 8;
+    private int zhouKaLeftDays_;
+    /**
+     * <code>required int32 zhouKaLeftDays = 8;</code>
+     *
+     * <pre>
+     *周卡剩余天数
+     * </pre>
+     */
+    public boolean hasZhouKaLeftDays() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required int32 zhouKaLeftDays = 8;</code>
+     *
+     * <pre>
+     *周卡剩余天数
+     * </pre>
+     */
+    public int getZhouKaLeftDays() {
+      return zhouKaLeftDays_;
+    }
+
     private void initFields() {
       vipLevel_ = 0;
       needYb_ = 0;
@@ -1898,6 +1993,7 @@ public final class VIP {
       infos_ = java.util.Collections.emptyList();
       getRewardVipList_ = java.util.Collections.emptyList();
       yueKaLeftDays_ = 0;
+      zhouKaLeftDays_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1921,6 +2017,10 @@ public final class VIP {
         return false;
       }
       if (!hasYueKaLeftDays()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasZhouKaLeftDays()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1957,6 +2057,9 @@ public final class VIP {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeInt32(7, yueKaLeftDays_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(8, zhouKaLeftDays_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1999,6 +2102,10 @@ public final class VIP {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(7, yueKaLeftDays_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, zhouKaLeftDays_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2139,6 +2246,8 @@ public final class VIP {
         bitField0_ = (bitField0_ & ~0x00000020);
         yueKaLeftDays_ = 0;
         bitField0_ = (bitField0_ & ~0x00000040);
+        zhouKaLeftDays_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -2201,6 +2310,10 @@ public final class VIP {
           to_bitField0_ |= 0x00000010;
         }
         result.yueKaLeftDays_ = yueKaLeftDays_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.zhouKaLeftDays_ = zhouKaLeftDays_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2268,6 +2381,9 @@ public final class VIP {
         if (other.hasYueKaLeftDays()) {
           setYueKaLeftDays(other.getYueKaLeftDays());
         }
+        if (other.hasZhouKaLeftDays()) {
+          setZhouKaLeftDays(other.getZhouKaLeftDays());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -2290,6 +2406,10 @@ public final class VIP {
           return false;
         }
         if (!hasYueKaLeftDays()) {
+          
+          return false;
+        }
+        if (!hasZhouKaLeftDays()) {
           
           return false;
         }
@@ -2325,18 +2445,30 @@ public final class VIP {
       private int vipLevel_ ;
       /**
        * <code>required int32 vipLevel = 1;</code>
+       *
+       * <pre>
+       * vip等级
+       * </pre>
        */
       public boolean hasVipLevel() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required int32 vipLevel = 1;</code>
+       *
+       * <pre>
+       * vip等级
+       * </pre>
        */
       public int getVipLevel() {
         return vipLevel_;
       }
       /**
        * <code>required int32 vipLevel = 1;</code>
+       *
+       * <pre>
+       * vip等级
+       * </pre>
        */
       public Builder setVipLevel(int value) {
         bitField0_ |= 0x00000001;
@@ -2346,6 +2478,10 @@ public final class VIP {
       }
       /**
        * <code>required int32 vipLevel = 1;</code>
+       *
+       * <pre>
+       * vip等级
+       * </pre>
        */
       public Builder clearVipLevel() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -2358,18 +2494,30 @@ public final class VIP {
       private int needYb_ ;
       /**
        * <code>required int32 needYb = 2;</code>
+       *
+       * <pre>
+       * vip升到下一级所需购买元宝数
+       * </pre>
        */
       public boolean hasNeedYb() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required int32 needYb = 2;</code>
+       *
+       * <pre>
+       * vip升到下一级所需购买元宝数
+       * </pre>
        */
       public int getNeedYb() {
         return needYb_;
       }
       /**
        * <code>required int32 needYb = 2;</code>
+       *
+       * <pre>
+       * vip升到下一级所需购买元宝数
+       * </pre>
        */
       public Builder setNeedYb(int value) {
         bitField0_ |= 0x00000002;
@@ -2379,6 +2527,10 @@ public final class VIP {
       }
       /**
        * <code>required int32 needYb = 2;</code>
+       *
+       * <pre>
+       * vip升到下一级所需购买元宝数
+       * </pre>
        */
       public Builder clearNeedYb() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -2391,18 +2543,30 @@ public final class VIP {
       private int hasYb_ ;
       /**
        * <code>required int32 hasYb = 3;</code>
+       *
+       * <pre>
+       * 已经购买的元包数
+       * </pre>
        */
       public boolean hasHasYb() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>required int32 hasYb = 3;</code>
+       *
+       * <pre>
+       * 已经购买的元包数
+       * </pre>
        */
       public int getHasYb() {
         return hasYb_;
       }
       /**
        * <code>required int32 hasYb = 3;</code>
+       *
+       * <pre>
+       * 已经购买的元包数
+       * </pre>
        */
       public Builder setHasYb(int value) {
         bitField0_ |= 0x00000004;
@@ -2412,6 +2576,10 @@ public final class VIP {
       }
       /**
        * <code>required int32 hasYb = 3;</code>
+       *
+       * <pre>
+       * 已经购买的元包数
+       * </pre>
        */
       public Builder clearHasYb() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -2848,6 +3016,55 @@ public final class VIP {
       public Builder clearYueKaLeftDays() {
         bitField0_ = (bitField0_ & ~0x00000040);
         yueKaLeftDays_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 zhouKaLeftDays = 8;
+      private int zhouKaLeftDays_ ;
+      /**
+       * <code>required int32 zhouKaLeftDays = 8;</code>
+       *
+       * <pre>
+       *周卡剩余天数
+       * </pre>
+       */
+      public boolean hasZhouKaLeftDays() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>required int32 zhouKaLeftDays = 8;</code>
+       *
+       * <pre>
+       *周卡剩余天数
+       * </pre>
+       */
+      public int getZhouKaLeftDays() {
+        return zhouKaLeftDays_;
+      }
+      /**
+       * <code>required int32 zhouKaLeftDays = 8;</code>
+       *
+       * <pre>
+       *周卡剩余天数
+       * </pre>
+       */
+      public Builder setZhouKaLeftDays(int value) {
+        bitField0_ |= 0x00000080;
+        zhouKaLeftDays_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 zhouKaLeftDays = 8;</code>
+       *
+       * <pre>
+       *周卡剩余天数
+       * </pre>
+       */
+      public Builder clearZhouKaLeftDays() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        zhouKaLeftDays_ = 0;
         onChanged();
         return this;
       }
@@ -4287,14 +4504,15 @@ public final class VIP {
       "geReq\022\014\n\004type\030\001 \002(\005\022\016\n\006amount\030\002 \002(\005\"j\n\014R" +
       "echargeResp\022\021\n\tisSuccess\030\001 \002(\010\022\021\n\tsumAou" +
       "mnt\030\002 \002(\005\022\020\n\010vipLevel\030\003 \002(\005\022\025\n\ryueKaLeft" +
-      "Days\030\004 \001(\005\022\013\n\003msg\030\005 \001(\t\"\254\001\n\013VipInfoResp\022" +
+      "Days\030\004 \001(\005\022\013\n\003msg\030\005 \001(\t\"\304\001\n\013VipInfoResp\022" +
       "\020\n\010vipLevel\030\001 \002(\005\022\016\n\006needYb\030\002 \002(\005\022\r\n\005has" +
       "Yb\030\003 \002(\005\022\r\n\005isMax\030\004 \002(\010\022,\n\005infos\030\005 \003(\0132\035" +
       ".qxmobile.protobuf.ChongTimes\022\030\n\020getRewa" +
-      "rdVipList\030\006 \003(\005\022\025\n\ryueKaLeftDays\030\007 \002(\005\"\'" +
-      "\n\nChongTimes\022\n\n\002id\030\001 \002(\005\022\r\n\005times\030\002 \002(\005\"",
-      "#\n\017GetVipRewardReq\022\020\n\010vipLevel\030\001 \002(\005\"\"\n\020" +
-      "GetVipRewardResp\022\016\n\006result\030\001 \002(\005B\005B\003VIP"
+      "rdVipList\030\006 \003(\005\022\025\n\ryueKaLeftDays\030\007 \002(\005\022\026" +
+      "\n\016zhouKaLeftDays\030\010 \002(\005\"\'\n\nChongTimes\022\n\n\002",
+      "id\030\001 \002(\005\022\r\n\005times\030\002 \002(\005\"#\n\017GetVipRewardR" +
+      "eq\022\020\n\010vipLevel\030\001 \002(\005\"\"\n\020GetVipRewardResp" +
+      "\022\016\n\006result\030\001 \002(\005B\005B\003VIP"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4318,7 +4536,7 @@ public final class VIP {
           internal_static_qxmobile_protobuf_VipInfoResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_VipInfoResp_descriptor,
-              new java.lang.String[] { "VipLevel", "NeedYb", "HasYb", "IsMax", "Infos", "GetRewardVipList", "YueKaLeftDays", });
+              new java.lang.String[] { "VipLevel", "NeedYb", "HasYb", "IsMax", "Infos", "GetRewardVipList", "YueKaLeftDays", "ZhouKaLeftDays", });
           internal_static_qxmobile_protobuf_ChongTimes_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_qxmobile_protobuf_ChongTimes_fieldAccessorTable = new

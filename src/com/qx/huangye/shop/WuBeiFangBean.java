@@ -16,6 +16,9 @@ public class WuBeiFangBean {
 	public int type1UseTimes; 
 	
 	@Column(nullable = false, columnDefinition = "INT default 0")
+	public int type1TotalTimes; 
+	
+	@Column(nullable = false, columnDefinition = "INT default 0")
 	public int type2UseTimes; 
 	
 	@Column(nullable = false, columnDefinition = "INT default 0")

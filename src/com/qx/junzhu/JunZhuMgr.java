@@ -3,11 +3,10 @@ package com.qx.junzhu;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.apache.commons.collections.bag.HashBag;
 import org.apache.commons.collections.map.LRUMap;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
@@ -18,7 +17,6 @@ import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.BaseItem;
 import com.manu.dynasty.template.CanShu;
-import com.manu.dynasty.template.ChongZhi;
 import com.manu.dynasty.template.ExpTemp;
 import com.manu.dynasty.template.Fuwen;
 import com.manu.dynasty.template.FuwenTab;
@@ -28,7 +26,9 @@ import com.manu.dynasty.template.JunzhuShengji;
 import com.manu.dynasty.template.LianMengKeJi;
 import com.manu.dynasty.template.MiBao;
 import com.manu.dynasty.template.MiBaoExtraAttribute;
+import com.manu.dynasty.template.MiBaoNew;
 import com.manu.dynasty.template.MibaoStar;
+import com.manu.dynasty.template.Mishu;
 import com.manu.dynasty.template.QiangHua;
 import com.manu.dynasty.template.Talent;
 import com.manu.dynasty.template.TalentAttribute;
@@ -50,11 +50,10 @@ import com.qx.alliance.building.JianZhuMgr;
 import com.qx.alliance.building.LMKJBean;
 import com.qx.alliance.building.LMKJJiHuo;
 import com.qx.bag.Bag;
-import com.qx.bag.BagGrid;
-import com.qx.bag.BagMgr;
 import com.qx.bag.EquipGrid;
 import com.qx.bag.EquipMgr;
 import com.qx.equip.domain.UserEquip;
+import com.qx.equip.jewel.JewelMgr;
 import com.qx.equip.web.UEConstant;
 import com.qx.equip.web.UserEquipAction;
 import com.qx.event.ED;
@@ -63,7 +62,6 @@ import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.fuwen.FuWenBean;
 import com.qx.fuwen.FuwenMgr;
-import com.qx.fuwen.FuwenMgr.FushiInBagInfo;
 import com.qx.guojia.GuoJiaMgr;
 import com.qx.hero.HeroMgr;
 import com.qx.hero.WuJiang;
@@ -73,6 +71,7 @@ import com.qx.jinengpeiyang.JNBean;
 import com.qx.jinengpeiyang.JiNengPeiYangMgr;
 import com.qx.mibao.MiBaoDB;
 import com.qx.mibao.MibaoMgr;
+import com.qx.mibao.v2.MiBaoV2Mgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.persistent.MC;
 import com.qx.purchase.PurchaseMgr;
@@ -81,12 +80,10 @@ import com.qx.pvp.PVPConstant;
 import com.qx.pvp.PvpBean;
 import com.qx.ranking.RankingMgr;
 import com.qx.robot.RobotSession;
+import com.qx.timeworker.FunctionID;
 import com.qx.vip.PlayerVipInfo;
 import com.qx.vip.VipMgr;
-import com.qx.vip.VipRechargeRecord;
 import com.qx.world.GameObject;
-import com.qx.yuanbao.YBType;
-import com.qx.yuanbao.YuanBaoMgr;
 
 import log.ActLog;
 import log.CunLiangLog;
@@ -100,6 +97,8 @@ import qxmobile.protobuf.JunZhuProto.JunZhuAttPointRet;
 import qxmobile.protobuf.JunZhuProto.JunZhuInfoRet;
 import qxmobile.protobuf.JunZhuProto.JunZhuInfoSpecifyReq;
 import qxmobile.protobuf.JunZhuProto.TaoZhuangResp;
+import qxmobile.protobuf.MibaoProtos.MibaoInfo;
+import qxmobile.protobuf.MibaoProtos.MibaoInfoResp;
 import qxmobile.protobuf.Ranking.JunZhuInfo;
 
 /**
@@ -323,12 +322,12 @@ public class JunZhuMgr extends EventProc {
 	public void calcLianMengKeJi(JunZhu jz){
 		AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jz.id);
 		if (player == null || player.lianMengId <= 0) {
-			log.info("获取玩家联盟失败，玩家:{}没有联盟", jz.id);
+			//log.info("获取玩家联盟失败，玩家:{}没有联盟", jz.id);
 			return;
 		}
 		AllianceBean guild = HibernateUtil.find(AllianceBean.class, player.lianMengId);
 		if (guild == null) {
-			log.error("获取玩家联盟失败，联盟{}不存在", player.lianMengId);
+			//log.error("获取玩家联盟失败，联盟{}不存在", player.lianMengId);
 			return;
 		}
 		int lmId = guild.id;
@@ -467,6 +466,62 @@ public class JunZhuMgr extends EventProc {
 		calcFuwenAttr(junzhu);
 		// 联盟科技
 		calcLianMengKeJi(junzhu);
+		//
+		calcNewMiBao(junzhu);
+	}
+
+	public void calcNewMiBao(JunZhu jz) {
+		List<MiBaoNew> list = TempletService.listAll(MiBaoNew.class.getSimpleName());
+		if(list==null){
+			return;
+		}
+		IoSession session = AccountManager.sessionMap.get(jz.id);
+		boolean showRed = false;
+		AtomicBoolean optional = new AtomicBoolean(false);
+		MibaoInfoResp.Builder resp = MiBaoV2Mgr.inst.getMibaoInfoResp(jz,optional);
+		int miShuLv = resp.getLevelPoint();
+		//当前秘术等级之前的秘宝，就是上一套秘宝，比如秘术等级是2，则品质是1的秘宝全部由作用。
+		for(MiBaoNew conf : list){
+			if(conf.pinzhi<=miShuLv){
+				jz.gongJi += conf.gongji;
+				jz.fangYu += conf.fangyu;
+				jz.shengMingMax += conf.shengming;
+			}
+		}
+		//
+		List<Mishu> listMS = TempletService.listAll(Mishu.class.getSimpleName());
+		if(listMS==null){
+			listMS = Collections.emptyList();
+		}
+		//秘术，激活的秘术，没有时是0，然后是1...，配置里的品质是从1开始的。
+		for(Mishu conf : listMS){
+			if(conf.pinzhi<=miShuLv){
+				jz.wqSH += conf.wqSH;
+				jz.wqJM += conf.wqJM;
+				jz.gongJi += conf.gongji;
+				jz.fangYu += conf.fangyu;
+				jz.shengMingMax += conf.shengming;
+				//log.info("add mishu att");
+			}
+		}
+		//当前收集中的秘宝，若激活了则增加属性。
+		for(MibaoInfo inf : resp.getMiBaoListList()){
+			if(inf.getStar()>0){//已激活
+				MiBaoNew conf = MiBaoV2Mgr.inst.confMap.get(inf.getMiBaoId());
+				if(conf == null)continue;
+				jz.gongJi += conf.gongji;
+				jz.fangYu += conf.fangyu;
+				jz.shengMingMax += conf.shengming;
+			}else if(inf.getNeedSuipianNum()<=inf.getSuiPianNum()){
+				showRed = true;
+			}
+		}
+		if(!showRed && optional.get()){
+			showRed = true;
+		}
+		if(session != null && showRed){
+			FunctionID.pushCanShowRed(jz.id, session, FunctionID.MiBaoNEW);
+		}
 	}
 
 	public int getAllMibaoProvideZhanli(JunZhu realJZ) {
@@ -619,11 +674,11 @@ public class JunZhuMgr extends EventProc {
 				float chengZhang = mibaoStar.getChengzhang();
 				int level = mid.getLevel();
 				int gongji = MibaoMgr.inst.clacMibaoAttr(chengZhang,
-						mi.getGongji(), mi.getGongjiRate(), level);
+						mibaoStar.gongji, mi.getGongjiRate(), level);
 				int fangyu = MibaoMgr.inst.clacMibaoAttr(chengZhang,
-						mi.getFangyu(), mi.getFangyuRate(), level);
+						mibaoStar.fangyu, mi.getFangyuRate(), level);
 				int shengming = MibaoMgr.inst.clacMibaoAttr(chengZhang,
-						mi.getShengming(), mi.getShengmingRate(), level);
+						mibaoStar.shengming, mi.getShengmingRate(), level);
 				junzhu.gongJi += gongji;
 				junzhu.fangYu += fangyu;
 				junzhu.shengMingMax += shengming;
@@ -759,6 +814,32 @@ public class JunZhuMgr extends EventProc {
 				junzhu.gongJi += qianghua.getGongji();
 				junzhu.fangYu += qianghua.getFangyu();
 				junzhu.shengMingMax += qianghua.getShengming();
+			}
+			//宝石
+			List<Long> jewelList = JewelMgr.inst.getJewelOnEquip(ue);
+			for(long jewelInfo : jewelList){
+				if(jewelInfo >0){
+					int jewelId = (int)(jewelInfo >> 32);
+					Fuwen jewelPeiZhi = JewelMgr.inst.jewelMap.get(jewelId);
+					if (jewelPeiZhi != null ){
+						int shuXingType = jewelPeiZhi.getShuxing();
+						//宝石属性目前只有三种，如有改变，增加case ; 2016-05-24
+						switch (shuXingType){
+							case 1 :
+								junzhu.gongJi += jewelPeiZhi.getShuxingValue();
+								break;
+							case 2 :
+								junzhu.fangYu += jewelPeiZhi.getShuxingValue();
+								break;
+							case 3 :
+								junzhu.shengMingMax +=jewelPeiZhi.getShuxingValue();
+								break;
+							default:
+								log.info("宝石增加属性添加了新的类型{}",shuXingType);
+								break;
+						}
+					}
+				}
 			}
 		}
 		try {
@@ -964,9 +1045,11 @@ public class JunZhuMgr extends EventProc {
 				updateTiLi(jz, shengji.addTili, "升级");
 				// 2015-7-22 16:01 刷新君主榜
 				EventMgr.addEvent(ED.JUN_RANK_REFRESH, jz);
-				if(jz.level==RankingMgr.RANK_MINLEVEL){// 等级达到上榜条件，添加君主到百战榜，过关榜
-					EventMgr.addEvent(ED.BAIZHAN_RANK_REFRESH, jz);
-					EventMgr.addEvent(ED.GUOGUAN_RANK_REFRESH, jz);
+				if(jz.level==RankingMgr.BAIZHAN_JUNZHU_MIN_LEVEL){// 等级达到上榜条件，添加君主到百战榜，过关榜
+					EventMgr.addEvent(ED.BAIZHAN_RANK_REFRESH, new Object[]{jz, jz.guoJiaId});
+				}
+				if(jz.level == RankingMgr.GUOGUAN_JUNZHU_MIN_LEVEL) {
+					EventMgr.addEvent(ED.GUOGUAN_RANK_REFRESH, new Object[]{jz, jz.guoJiaId});
 				}
 				// 2015-9-8 10:86 检查符文解锁事件
 				EventMgr.addEvent(ED.CHECK_FUWEN_UOLOCK, jz);
@@ -1232,37 +1315,7 @@ public class JunZhuMgr extends EventProc {
 		 */
 		int isYuekaInit = CanShu.IS_YUEKA_INIT;
 		if (isYuekaInit == 1) { // 确定要初始月卡
-			int yueKaValid = CanShu.YUEKA_TIME;
-			int chongZhiId = VipMgr.yuekaid;
-			ChongZhi data = VipMgr.chongZhiTemp.get(chongZhiId);
-			if (data == null) {
-				log.error("ChongZhi配置中未找到相关数据条目:{}", chongZhiId);
-				return;
-			}
-			if (vipInfo == null) {
-				vipInfo = new PlayerVipInfo();
-				vipInfo.accId = jid;
-				vipInfo.sumAmount = 0;
-				vipInfo.level = 0;
-				vipInfo.vipExp = 0;
-			}
-			int addYB = VipMgr.INSTANCE.getAddyuanbao(data, true);
-			YuanBaoMgr.inst.diff(jun, addYB, 0, 0, YBType.YB_FENGCE_VIP_YUEKA,
-					"封测初始玩家vip月卡充值");
-			int vipExp = vipInfo.vipExp + data.addVipExp;
-			int vip = VipMgr.INSTANCE.getVipLevel(vipInfo.level, vipExp);
-			jun.vipLevel = vip;
-			HibernateUtil.save(jun);
-
-			vipInfo.level = vip;
-			vipInfo.vipExp = vipExp;
-			HibernateUtil.save(vipInfo);
-
-			VipRechargeRecord r = new VipRechargeRecord(jid, 0, new Date(), 0,
-					vip, chongZhiId, addYB, yueKaValid);
-			HibernateUtil.save(r);
-			log.info("玩家初始化君主：{}，月卡，当前vip等级：{}， 当前元宝数：{}， 月卡持续天数:{}", jid, vip,
-					jun.yuanBao, yueKaValid);
+			//这个不要了。再需要时，用事件去做
 		}
 	}
 

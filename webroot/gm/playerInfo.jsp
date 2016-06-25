@@ -1,3 +1,6 @@
+<%@page import="com.manu.dynasty.template.XianshiHuodong"%>
+<%@page import="com.qx.activity.XianShiConstont"%>
+<%@page import="com.qx.activity.XianShiBean"%>
 <%@page import="com.qx.ranking.RankingGongJinMgr"%>
 <%@page import="com.qx.purchase.TongBi"%>
 <%@page import="com.qx.task.DailyTaskMgr"%>
@@ -13,6 +16,7 @@
 <%@page import="com.qx.yuanbao.YBType"%>
 <%@page import="com.manu.dynasty.hero.service.HeroService"%>
 <%@page import="java.util.Date"%>
+<%@page import="java.util.List"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.qx.junzhu.PlayerTime"%>
 <%@page import="com.qx.world.PosInfo"%>
@@ -44,9 +48,11 @@
 <%@page import="com.manu.dynasty.hero.service.HeroService"%>
 <%@page import="com.qx.purchase.PurchaseMgr"%>
 <%@page import="com.qx.alliance.AllianceMgr"%>
+<%@page import="com.qx.account.SettingsMgr"%>
 <%@include file="/myFuns.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -56,7 +62,6 @@ function go(act){
 	var v = document.getElementById(act).value;
 	location.href = '?action='+act+"&v="+v;
 }
-
 </script>
 <title>Insert title here</title>
 </head>
@@ -71,11 +76,13 @@ if(name == null && accIdStr == null){
 accIdStr = (accIdStr == null ? "":accIdStr.trim());
 name = name == null ? "": name.trim();
 %>
+  <div class="accountSCH">
   	<form action="">
 	  	账号<input type="text" name="account" value="<%=name%>">&nbsp;或&nbsp;
 	  	君主ID<input type="text" name="accId" value="<%=accIdStr%>">
 	  	<button type="submit">查询</button>
 	</form>
+  </div> 	
 <%
 	Account account = null;
 	if(name != null && name.length()>0){
@@ -83,6 +90,7 @@ name = name == null ? "": name.trim();
 	}else if(accIdStr.length()>0){
 		account = HibernateUtil.find(Account.class, (Long.valueOf(accIdStr) - GameServer.serverId) / 1000);
 		if(account != null)name = account.getAccountName();
+		
 	}
 do{
 	long junZhuId = 0;
@@ -98,6 +106,10 @@ do{
 		break;
 	}
 	JunZhu junzhu = HibernateUtil.find(JunZhu.class, junZhuId);
+	long lastChangeNameTM = BigSwitch.inst.settingsMgr.getLastChangNameTM(junZhuId);
+	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	String changeNameTMString = formatter.format(lastChangeNameTM);
+	
 	if(junzhu == null){
 		out.println("没有君主");
 		break;
@@ -164,13 +176,25 @@ do{
 		 XiLian xilian = PurchaseMgr.inst.getXiLian(junzhu.id);
 		 int num = Integer.parseInt(request.getParameter("v"));
 		 xilian.setNum(num);
+		 xilian.setDate(new Date());
 		 HibernateUtil.save(xilian);
 	 }else if("updateXilianShiCount".equals(action)){
 		 XiLian xilian = PurchaseMgr.inst.getXiLian(junzhu.id);
 		 int num = Integer.parseInt(request.getParameter("v"));
 		 xilian.setXlsCount(num);
+		 xilian.setDate(new Date());
 		 HibernateUtil.save(xilian);
-	 }else if("updateTodyHuoYue".equals(action)){
+		 
+	 } 
+	 else if("updateLastChangeNameTM".equals(action)){
+		String lastChangNameTM = request.getParameter("v");
+		lastChangNameTM = lastChangNameTM == null ?"":lastChangNameTM.trim();
+		BigSwitch.inst.settingsMgr.changeLastChangNMTM(junzhu.id,lastChangNameTM);
+	 } 
+	 else if("clearChangNameCd".equals(action)){
+		 BigSwitch.inst.settingsMgr.clearChangNMCD(junzhu.id);
+	 }
+	 else if("updateTodyHuoYue".equals(action)){
 		 DailyTaskActivity acti = HibernateUtil.find(DailyTaskActivity.class, junzhu.id);
 		 int num = Integer.parseInt(request.getParameter("v"));
 		 if(acti==null){
@@ -201,7 +225,8 @@ do{
 			 tongBi.setNum(v);
 		 }
 		 HibernateUtil.save(tongBi);
-	 } else if("updateMianfeiXilianCount".equals(action)){
+	 } 
+	 else if("updateMianfeiXilianCount".equals(action)){
 		 TimeWorker xilianWorker = HibernateUtil.find(TimeWorker.class,junzhu.id);
 	if (xilianWorker == null) {
 		xilianWorker = new TimeWorker();
@@ -217,6 +242,20 @@ do{
 		 int num = Integer.parseInt(request.getParameter("v"));
 		 xilianWorker.setXilianTimes(num);
 		 HibernateUtil.save(xilianWorker);
+	 }else if("update7day".equals(action)){
+		 XianShiActivityMgr.DB.set(XianShiActivityMgr.XIANSHI7DAY_KEY + junzhu.id, request.getParameter("v"));
+		 XianShiBean xsBean=HibernateUtil.find(XianShiBean.class, XianShiConstont.QIRIQIANDAO_TYPE + junzhu.id*100 );
+		 if( xsBean != null ){
+			 int bigId =xsBean.bigId;
+			 XianShiActivityMgr.DB.lrem(XianShiActivityMgr.XIANSHIFINISH_KEY+ junzhu.id, 0, ""+bigId);
+			 List<XianshiHuodong> list = XianShiActivityMgr.bigActivityMap.get(bigId);
+			 if(list != null){
+				 for( XianshiHuodong xs : list ){
+					 int hdId = xs.getId();
+					 XianShiActivityMgr.DB.lrem(XianShiActivityMgr.XIANSHIYILING_KEY+ junzhu.id, 0, ""+hdId);
+				 }
+			 }
+		 }
 	 } else{
 		 sendInfo = false;
 	 }
@@ -226,13 +265,16 @@ do{
 		 	JunZhuMgr.inst.sendMainInfo(u.session);
 		 }
 	 }
+	
 	 JunZhuMgr.inst.calcJunZhuTotalAtt(junzhu);
 	 AlliancePlayer alncPlayer = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
 	 YaBiaoBean ybbean = HibernateUtil.find(YaBiaoBean.class, junzhu.id);
 	 YBBattleBean jbBean =YaBiaoHuoDongMgr.inst.getYBZhanDouInfo(junzhu.id, junzhu.vipLevel);
 	 XiLian xilian = PurchaseMgr.inst.getXiLian(junzhu.id);
+	 
 	 TongBi tongBi = HibernateUtil.find(TongBi.class, junzhu.id);
-	TimeWorker xilianWorker = HibernateUtil.find(TimeWorker.class, junzhu.id);
+	 TimeWorker xilianWorker = HibernateUtil.find(TimeWorker.class, junzhu.id);
+	 
 	//2016年1月19日 活跃度
 	DailyTaskActivity acti = HibernateUtil.find(DailyTaskActivity.class, junzhu.id);
 	 String guojiaName = HeroService.getNameById(junzhu.guoJiaId+"");
@@ -270,6 +312,7 @@ do{
 	 trS();td("当日免费洗练剩余次数");td(xilianWorker.getXilianTimes());td("<input type='text' id='updateMianfeiXilianCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateMianfeiXilianCount\")'/><br/>");trE();
 	 trS();td("当日元宝洗练已使用次数");td(xilian.getNum());td("<input type='text' id='updateXilianCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateXilianCount\")'/><br/>");trE();
 	 trS();td("当日洗练石洗练已使用次数");td(xilian.getXlsCount());td("<input type='text' id='updateXilianShiCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateXilianShiCount\")'/><br/>");trE();
+	 trS();td("上次修改姓名时间");td(changeNameTMString);td("<input type='text' id='updateLastChangeNameTM' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateLastChangeNameTM\")'/><br/>");td("注意时间格式 例如：2016-06-13 08:00:00");trE();
 	 Integer todyHuoYue=new Integer(0);
 	 Integer weekHuoYue=new Integer(0);
 	 Field[] field = DailyTaskActivity.class.getDeclaredFields();  
@@ -287,7 +330,7 @@ do{
 	 trS();td("日活跃度");td((Integer)todyHuoYue);td("<input type='text' id='updateTodyHuoYue' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateTodyHuoYue\")'/><br/>");trE();
 	 trS();td("周活跃度");td((Integer)weekHuoYue);td("<input type='text' id='updateWeekHuoYue' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateWeekHuoYue\")'/><br/>");trE();
 	 trS();td("国家");td(country);trE();
-	 trS();td("七日奖励登录天数");td(loginCount);trE();
+	 trS();td("七日奖励登录天数");td(loginCount);td("<input type='text' id='update7day' value='"+input+"'/><input type='button' value='修改' onclick='go(\"update7day\")'/><br/>");td("修改之后可从第一天领至指定天数");trE();
 	 Double gj = RankingGongJinMgr.DB.zScoreGongJin(RankingGongJinMgr.gongJinPersonalRank, 
 				junzhu.id+"");
 	 trS();td("积分:");td(gj);trE();

@@ -1,3 +1,7 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.lang.reflect.Field"%>
+<%@page import="com.manu.network.PD"%>
 <%@page import="com.qx.log.LogMgr"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -100,6 +104,32 @@
 	</tr>
 	</table>
 	
-	<a href="battlePackageInfo.jsp">查看战斗协议数据包信息</a>
+	<a href="battlePackageInfo.jsp">查看战斗协议数据包信息</a> <br/><br/><br/>
+	<%
+		Map<Short, Short> cmdMap = new HashMap<>();
+		Field[] fields = PD.class.getDeclaredFields();
+		out.println("协议数量：" + fields.length + "<br/><br/>");
+		
+		int repeatCount = 0;
+		for(Field f : fields) {
+			if(f.getType() == short.class) {
+				short cmd = f.getShort(f.getName());
+				Short count = cmdMap.get(cmd);
+				if(count == null) {
+					cmdMap.put(cmd, (short)1);
+				} else {
+					cmdMap.put(cmd, (short)(count + 1));
+					repeatCount++;
+				}
+			}
+		}
+		out.println("协议号重复数量：" + repeatCount + "<br/><br/>");
+		for(Short key : cmdMap.keySet()) {
+			short count = cmdMap.get(key);
+			if(count > 1) {
+				out.println("重复协议号：" + key+"<br/>");
+			}
+		}
+	%>
 </body>
 </html>

@@ -14,7 +14,7 @@ public class CityWarBidClearData implements Job {
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		logger.info("开始,清理竞拍相关记录");
-		BidMgr.inst.refreshBidPrice();
+		BidMgr.inst.regularClearData();
 		logger.info("结束,清理竞拍相关记录");
 	}
 }

@@ -148,6 +148,7 @@ public class CanShu {
 	public static int IS_YUEKA_INIT;
 	// 充值月卡持续天数
 	public static int YUEKA_TIME;
+	public static int ZHOUKA_TIME;
 	
 	/* 排行榜相关参数 */
 	// 排行榜搜索范围
@@ -220,12 +221,21 @@ public class CanShu {
 	public static int CHANGE_COUNTRY_COST; 
 	public static int YUEKA_YUANBAO; //月卡每日领取元宝数
 	public static int ZHONGSHENKA_YUANBAO; //终身卡每日领取元宝数
+	public static int ZHOUKA_YUANBAO; //周卡每日领取元宝数
 	public static int MEIRI_DINGSHIZENGSONG_TILI; //每天定时送体力数
 	public static int CHENGZHANGJIJIN_VIP; //购买成长基金VIP
 	public static int CHENGZHANGJIJIN_COST; //购买成长基金花费元宝数
 	public static int CHENGZHANGJIJIN_REBATE; //购买成长基金返还元宝数
 	public static double LIANMXIAOWU_EXP; 
 	public static String LIEFU_BLUE_FIRSTAWARD; 
+	public static String LIEFU_GREEN_FIRSTAWARD; 
+	public static String ZHUANGBEI_FIRSTAWARD; 
+	public static int CHANGE_COUNTRY_CD; 
+	public static int CHANGE_NAME_CD; 
+	public static int SHILIAN_CLEARCD_COST; 
+	public static int GUOGUAN_RANK_MINLEVEL; 
+	public static int BAIZHAN_RANK_MINLEVEL; 
+	public static int CHONGLOU_RANK_MINLEVEL; 
 	public String key;
 	public String value;
 	public String getKey() {

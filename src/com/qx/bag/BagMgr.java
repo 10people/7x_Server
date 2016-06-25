@@ -34,6 +34,7 @@ import com.manu.dynasty.store.MemcachedCRUD;
 import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.BaseItem;
+import com.manu.dynasty.template.Fuwen;
 import com.manu.dynasty.template.ItemTemp;
 import com.manu.dynasty.template.Jiangli;
 import com.manu.dynasty.template.QiangHua;
@@ -454,6 +455,33 @@ public class BagMgr {
 									item.setShengMing(item.getShengMing() + qianghua.getShengming());
 								}
 							}
+							//宝石属性
+							List<Long> jewelList = JewelMgr.inst.getJewelOnEquip(ue);
+							for(long jewelInfo : jewelList){
+								if(jewelInfo >0){
+									int jewelId = (int)(jewelInfo >> 32);
+									Fuwen jewelPeiZhi = JewelMgr.inst.jewelMap.get(jewelId);
+									if (jewelPeiZhi != null ){
+										int shuXingType = jewelPeiZhi.getShuxing();
+										//宝石属性目前只有三种，如有改变，增加case ; 2016-05-24
+										switch (shuXingType){
+											case 1 :
+												item.setGongJi(item.getGongJi() +  (int)jewelPeiZhi.getShuxingValue());
+												break;
+											case 2 :
+												item.setFangYu(item.getFangYu()+ (int)jewelPeiZhi.getShuxingValue());
+												break;
+											case 3 :
+												item.setShengMing(item.getShengMing() + (int)jewelPeiZhi.getShuxingValue());
+												break;
+											default:
+												log.info("宝石增加属性添加了新的类型{}",shuXingType);
+												break;
+										}
+									}
+								}
+							}
+							//进阶经验
 							item.setJinJieExp( ue.JinJieExp);
 						}
 					}else{

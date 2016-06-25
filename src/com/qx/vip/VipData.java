@@ -27,6 +27,7 @@ public class VipData {
 	static public int clear_lveDuo_CD = 21;
 	static public int can_buy_huagnye_times = 22; //key="22" 购买荒野挑战次数需要的最低vip等级
 	static public int buy_revive_all_life = 23; // 购买满血复活所需VIP等级
+	static public int clear_shilian_cd = 28; // 清除试练cd
 
 	
 	/*
@@ -56,4 +57,5 @@ public class VipData {
 	static public final int buy_revive_times = 21;//购买押镖场景原地复活次数
 	static public final int buy_jianShezhi_times = 22;
 	static public final int buy_Hufu_times =23;
+	static public final int chong_lou_exp_scale =24;
 }

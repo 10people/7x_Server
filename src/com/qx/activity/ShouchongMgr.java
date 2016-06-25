@@ -13,13 +13,21 @@ import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.ShouChong;
 import com.manu.network.PD;
 import com.manu.network.msg.ProtobufMsg;
+import com.qx.account.AccountManager;
 import com.qx.award.AwardMgr;
+import com.qx.event.ED;
+import com.qx.event.Event;
+import com.qx.event.EventMgr;
+import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.timeworker.FunctionID;
+import com.qx.timeworker.FunctionID4Open;
 
-import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import EDU.oswego.cs.dl.util.concurrent.Executor;
 import qxmobile.protobuf.Activity.ActivityGetRewardResp;
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.Explore.Award;
 import qxmobile.protobuf.Explore.ExploreResp;
 
@@ -27,7 +35,7 @@ import qxmobile.protobuf.Explore.ExploreResp;
  * @author hejincheng
  * 
  */
-public class ShouchongMgr {
+public class ShouchongMgr extends EventProc{
 	public Logger logger = LoggerFactory.getLogger(ShouchongMgr.class);
 	public static ShouchongMgr instance;
 	public static final short SUCCESS = 0;// 领取奖励成功
@@ -127,6 +135,7 @@ public class ShouchongMgr {
 			awardresp.addAwardsList(awardInfo);
 			AwardMgr.inst.giveReward(session,awardStr,junZhu);
 		} 
+		FunctionID4Open.pushOpenFunction(junZhu.id, session, -FunctionID.Shouchong);
 		writeByProtoMsg(session, PD.S_USE_ITEM,awardresp);
 		// 更改领取首冲奖励状态
 		info.setHasAward(1);
@@ -205,5 +214,50 @@ public class ShouchongMgr {
 			result = false;
 		}
 		return result;
+	}
+	@Override
+	public void proc(Event event) {
+		switch (event.id) {
+		case ED.JUNZHU_LOGIN:
+			long jzId = (long)event.param;
+			IoSession session = AccountManager.sessionMap.get(jzId);
+			if(session == null){
+				return;
+			}
+			isShowRed(session, jzId);
+			break;
+		case ED.activity_shouchong:
+			IoSession session2 = (IoSession) event.param;
+			if(session2 == null){
+				return;
+			}
+			JunZhu jZhu = JunZhuMgr.inst.getJunZhu(session2);
+			if(jZhu == null){
+				return;
+			}
+			isShowRed(session2, jZhu.id);
+			break;
+		default:
+				break;
+		}
+			
+	}
+	
+	
+	@Override
+	protected void doReg() {
+		EventMgr.regist(ED.activity_shouchong, this);
+		EventMgr.regist(ED.JUNZHU_LOGIN, this);
+	}
+	
+	public void isShowRed(IoSession session,long jzId){
+		//充值成功，判断首冲
+		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class, " where junzhuId=" + jzId);
+		if(session == null){
+			return;
+		}
+		if(ShouchongMgr.instance.getShouChongState(info) == 1){ //为领奖
+			FunctionID.pushCanShowRed(jzId, session,FunctionID.activity_shouchong);
+		}
 	}
 }

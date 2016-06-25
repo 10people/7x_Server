@@ -485,9 +485,9 @@ public class MibaoMgr extends EventProc{
 //		mibaoInfo.setIsLock(lock);
 		mibaoInfo.setSuiPianNum(miBaoDB.getSuiPianNum());
 		mibaoInfo.setNeedSuipianNum(needSuipianNum);
-		int gongJi = clacMibaoAttr(chengZhang, miBaoCfg.getGongji(), miBaoCfg.getGongjiRate(), level);
-		int fangYu = clacMibaoAttr(chengZhang, miBaoCfg.getFangyu(), miBaoCfg.getFangyuRate(), level);
-		int shengMing = clacMibaoAttr(chengZhang, miBaoCfg.getShengming(), miBaoCfg.getShengmingRate(), level);
+		int gongJi = clacMibaoAttr(chengZhang, starCfg.gongji, miBaoCfg.getGongjiRate(), level);
+		int fangYu = clacMibaoAttr(chengZhang, starCfg.fangyu, miBaoCfg.getFangyuRate(), level);
+		int shengMing = clacMibaoAttr(chengZhang, starCfg.shengming, miBaoCfg.getShengmingRate(), level);
 		mibaoInfo.setGongJi(gongJi);
 		mibaoInfo.setFangYu(fangYu);
 		mibaoInfo.setShengMing(shengMing);
@@ -505,7 +505,7 @@ public class MibaoMgr extends EventProc{
 	 * @return
 	 */
 	public int clacMibaoAttr(float chengZhang, double attrValue, double attrRate, int level) {
-		return (int)(chengZhang * attrRate * level + attrValue * chengZhang);
+		return (int)(chengZhang * attrRate * level + attrValue);
 	}
 	
 	public void starUpgrade(int cmd, IoSession session, Builder builder) {
@@ -1378,7 +1378,7 @@ public class MibaoMgr extends EventProc{
 			}
 			boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.mibao, jz.id, jz.level);
 			if(!isOpen){
-				logger.info("君主：{}--秘宝升级：{}的功能---未开启,不推送",jz.id,FunctionID.mibao);
+//				logger.info("君主：{}--秘宝升级：{}的功能---未开启,不推送",jz.id,FunctionID.mibao);
 				break;
 			}
 			// 秘宝升级

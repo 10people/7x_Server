@@ -2935,6 +2935,31 @@ public final class XianShi {
      * </pre>
      */
     int getResult();
+
+    // repeated .qxmobile.protobuf.Award awardList = 3;
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+     */
+    java.util.List<qxmobile.protobuf.Explore.Award> 
+        getAwardListList();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+     */
+    qxmobile.protobuf.Explore.Award getAwardList(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+     */
+    int getAwardListCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+     */
+    java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+        getAwardListOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+     */
+    qxmobile.protobuf.Explore.AwardOrBuilder getAwardListOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.ReturnAward}
@@ -3001,6 +3026,14 @@ public final class XianShi {
               result_ = input.readInt32();
               break;
             }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                awardList_ = new java.util.ArrayList<qxmobile.protobuf.Explore.Award>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              awardList_.add(input.readMessage(qxmobile.protobuf.Explore.Award.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3009,6 +3042,9 @@ public final class XianShi {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          awardList_ = java.util.Collections.unmodifiableList(awardList_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -3089,9 +3125,46 @@ public final class XianShi {
       return result_;
     }
 
+    // repeated .qxmobile.protobuf.Award awardList = 3;
+    public static final int AWARDLIST_FIELD_NUMBER = 3;
+    private java.util.List<qxmobile.protobuf.Explore.Award> awardList_;
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+     */
+    public java.util.List<qxmobile.protobuf.Explore.Award> getAwardListList() {
+      return awardList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+     */
+    public java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+        getAwardListOrBuilderList() {
+      return awardList_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+     */
+    public int getAwardListCount() {
+      return awardList_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+     */
+    public qxmobile.protobuf.Explore.Award getAwardList(int index) {
+      return awardList_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+     */
+    public qxmobile.protobuf.Explore.AwardOrBuilder getAwardListOrBuilder(
+        int index) {
+      return awardList_.get(index);
+    }
+
     private void initFields() {
       huodongId_ = 0;
       result_ = 0;
+      awardList_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3106,6 +3179,12 @@ public final class XianShi {
         memoizedIsInitialized = 0;
         return false;
       }
+      for (int i = 0; i < getAwardListCount(); i++) {
+        if (!getAwardList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -3118,6 +3197,9 @@ public final class XianShi {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(2, result_);
+      }
+      for (int i = 0; i < awardList_.size(); i++) {
+        output.writeMessage(3, awardList_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -3135,6 +3217,10 @@ public final class XianShi {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, result_);
+      }
+      for (int i = 0; i < awardList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, awardList_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3248,6 +3334,7 @@ public final class XianShi {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getAwardListFieldBuilder();
         }
       }
       private static Builder create() {
@@ -3260,6 +3347,12 @@ public final class XianShi {
         bitField0_ = (bitField0_ & ~0x00000001);
         result_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
+        if (awardListBuilder_ == null) {
+          awardList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          awardListBuilder_.clear();
+        }
         return this;
       }
 
@@ -3296,6 +3389,15 @@ public final class XianShi {
           to_bitField0_ |= 0x00000002;
         }
         result.result_ = result_;
+        if (awardListBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            awardList_ = java.util.Collections.unmodifiableList(awardList_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.awardList_ = awardList_;
+        } else {
+          result.awardList_ = awardListBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3318,6 +3420,32 @@ public final class XianShi {
         if (other.hasResult()) {
           setResult(other.getResult());
         }
+        if (awardListBuilder_ == null) {
+          if (!other.awardList_.isEmpty()) {
+            if (awardList_.isEmpty()) {
+              awardList_ = other.awardList_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureAwardListIsMutable();
+              awardList_.addAll(other.awardList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.awardList_.isEmpty()) {
+            if (awardListBuilder_.isEmpty()) {
+              awardListBuilder_.dispose();
+              awardListBuilder_ = null;
+              awardList_ = other.awardList_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              awardListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getAwardListFieldBuilder() : null;
+            } else {
+              awardListBuilder_.addAllMessages(other.awardList_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -3330,6 +3458,12 @@ public final class XianShi {
         if (!hasResult()) {
           
           return false;
+        }
+        for (int i = 0; i < getAwardListCount(); i++) {
+          if (!getAwardList(i).isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -3449,6 +3583,246 @@ public final class XianShi {
         result_ = 0;
         onChanged();
         return this;
+      }
+
+      // repeated .qxmobile.protobuf.Award awardList = 3;
+      private java.util.List<qxmobile.protobuf.Explore.Award> awardList_ =
+        java.util.Collections.emptyList();
+      private void ensureAwardListIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          awardList_ = new java.util.ArrayList<qxmobile.protobuf.Explore.Award>(awardList_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder> awardListBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Explore.Award> getAwardListList() {
+        if (awardListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(awardList_);
+        } else {
+          return awardListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public int getAwardListCount() {
+        if (awardListBuilder_ == null) {
+          return awardList_.size();
+        } else {
+          return awardListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public qxmobile.protobuf.Explore.Award getAwardList(int index) {
+        if (awardListBuilder_ == null) {
+          return awardList_.get(index);
+        } else {
+          return awardListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public Builder setAwardList(
+          int index, qxmobile.protobuf.Explore.Award value) {
+        if (awardListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAwardListIsMutable();
+          awardList_.set(index, value);
+          onChanged();
+        } else {
+          awardListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public Builder setAwardList(
+          int index, qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          awardList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          awardListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public Builder addAwardList(qxmobile.protobuf.Explore.Award value) {
+        if (awardListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAwardListIsMutable();
+          awardList_.add(value);
+          onChanged();
+        } else {
+          awardListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public Builder addAwardList(
+          int index, qxmobile.protobuf.Explore.Award value) {
+        if (awardListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAwardListIsMutable();
+          awardList_.add(index, value);
+          onChanged();
+        } else {
+          awardListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public Builder addAwardList(
+          qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          awardList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          awardListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public Builder addAwardList(
+          int index, qxmobile.protobuf.Explore.Award.Builder builderForValue) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          awardList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          awardListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public Builder addAllAwardList(
+          java.lang.Iterable<? extends qxmobile.protobuf.Explore.Award> values) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          super.addAll(values, awardList_);
+          onChanged();
+        } else {
+          awardListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public Builder clearAwardList() {
+        if (awardListBuilder_ == null) {
+          awardList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          awardListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public Builder removeAwardList(int index) {
+        if (awardListBuilder_ == null) {
+          ensureAwardListIsMutable();
+          awardList_.remove(index);
+          onChanged();
+        } else {
+          awardListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder getAwardListBuilder(
+          int index) {
+        return getAwardListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public qxmobile.protobuf.Explore.AwardOrBuilder getAwardListOrBuilder(
+          int index) {
+        if (awardListBuilder_ == null) {
+          return awardList_.get(index);  } else {
+          return awardListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public java.util.List<? extends qxmobile.protobuf.Explore.AwardOrBuilder> 
+           getAwardListOrBuilderList() {
+        if (awardListBuilder_ != null) {
+          return awardListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(awardList_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder addAwardListBuilder() {
+        return getAwardListFieldBuilder().addBuilder(
+            qxmobile.protobuf.Explore.Award.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public qxmobile.protobuf.Explore.Award.Builder addAwardListBuilder(
+          int index) {
+        return getAwardListFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.Explore.Award.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.Award awardList = 3;</code>
+       */
+      public java.util.List<qxmobile.protobuf.Explore.Award.Builder> 
+           getAwardListBuilderList() {
+        return getAwardListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder> 
+          getAwardListFieldBuilder() {
+        if (awardListBuilder_ == null) {
+          awardListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.Explore.Award, qxmobile.protobuf.Explore.Award.Builder, qxmobile.protobuf.Explore.AwardOrBuilder>(
+                  awardList_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          awardList_ = null;
+        }
+        return awardListBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ReturnAward)
@@ -7963,7 +8337,7 @@ public final class XianShi {
      * <code>required int32 yuanbao = 1;</code>
      *
      * <pre>
-     *奖励元宝数目
+     *奖励元宝数目  值为-1表示活动未开启
      * </pre>
      */
     boolean hasYuanbao();
@@ -7971,7 +8345,7 @@ public final class XianShi {
      * <code>required int32 yuanbao = 1;</code>
      *
      * <pre>
-     *奖励元宝数目
+     *奖励元宝数目  值为-1表示活动未开启
      * </pre>
      */
     int getYuanbao();
@@ -8043,8 +8417,8 @@ public final class XianShi {
    * Protobuf type {@code qxmobile.protobuf.HongBaoResp}
    *
    * <pre>
-   *public static final short C_HONGBAONFO_REQ = 4020;请求红包福利信息
-   *public static final short S_HONGBAONFO_RESP = 4021;//请求红包福利信息返回
+   *public static final short C_HONGBAONFO_REQ = 4032;请求红包福利信息
+   *public static final short S_HONGBAONFO_RESP = 4033;//请求红包福利信息返回
    * </pre>
    */
   public static final class HongBaoResp extends
@@ -8162,7 +8536,7 @@ public final class XianShi {
      * <code>required int32 yuanbao = 1;</code>
      *
      * <pre>
-     *奖励元宝数目
+     *奖励元宝数目  值为-1表示活动未开启
      * </pre>
      */
     public boolean hasYuanbao() {
@@ -8172,7 +8546,7 @@ public final class XianShi {
      * <code>required int32 yuanbao = 1;</code>
      *
      * <pre>
-     *奖励元宝数目
+     *奖励元宝数目  值为-1表示活动未开启
      * </pre>
      */
     public int getYuanbao() {
@@ -8435,8 +8809,8 @@ public final class XianShi {
      * Protobuf type {@code qxmobile.protobuf.HongBaoResp}
      *
      * <pre>
-     *public static final short C_HONGBAONFO_REQ = 4020;请求红包福利信息
-     *public static final short S_HONGBAONFO_RESP = 4021;//请求红包福利信息返回
+     *public static final short C_HONGBAONFO_REQ = 4032;请求红包福利信息
+     *public static final short S_HONGBAONFO_RESP = 4033;//请求红包福利信息返回
      * </pre>
      */
     public static final class Builder extends
@@ -8605,7 +8979,7 @@ public final class XianShi {
        * <code>required int32 yuanbao = 1;</code>
        *
        * <pre>
-       *奖励元宝数目
+       *奖励元宝数目  值为-1表示活动未开启
        * </pre>
        */
       public boolean hasYuanbao() {
@@ -8615,7 +8989,7 @@ public final class XianShi {
        * <code>required int32 yuanbao = 1;</code>
        *
        * <pre>
-       *奖励元宝数目
+       *奖励元宝数目  值为-1表示活动未开启
        * </pre>
        */
       public int getYuanbao() {
@@ -8625,7 +8999,7 @@ public final class XianShi {
        * <code>required int32 yuanbao = 1;</code>
        *
        * <pre>
-       *奖励元宝数目
+       *奖励元宝数目  值为-1表示活动未开启
        * </pre>
        */
       public Builder setYuanbao(int value) {
@@ -8638,7 +9012,7 @@ public final class XianShi {
        * <code>required int32 yuanbao = 1;</code>
        *
        * <pre>
-       *奖励元宝数目
+       *奖励元宝数目  值为-1表示活动未开启
        * </pre>
        */
       public Builder clearYuanbao() {
@@ -8924,29 +9298,31 @@ public final class XianShi {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rXianShi.proto\022\021qxmobile.protobuf\"#\n\021Xi" +
-      "nShouXSActivity\022\016\n\006typeId\030\001 \002(\005\"y\n\022XinSh" +
-      "ouXianShiInfo\022/\n\007huodong\030\001 \003(\0132\036.qxmobil" +
-      "e.protobuf.HuoDongInfo\022\016\n\006beizhu\030\002 \002(\005\022\022" +
-      "\n\nremainTime\030\003 \002(\005\022\016\n\006typeId\030\004 \002(\005\"S\n\013Hu" +
-      "oDongInfo\022\021\n\thuodongId\030\001 \002(\005\022\r\n\005state\030\002 " +
-      "\002(\005\022\017\n\007jiangli\030\003 \002(\t\022\021\n\tshengTime\030\004 \002(\005\"" +
-      ".\n\tGainAward\022\016\n\006typeId\030\001 \002(\005\022\021\n\thuodongI" +
-      "d\030\002 \002(\005\"0\n\013ReturnAward\022\021\n\thuodongId\030\001 \002(" +
-      "\005\022\016\n\006result\030\002 \002(\005\"B\n\017OpenXianShiResp\022/\n\007",
-      "xianshi\030\001 \003(\0132\036.qxmobile.protobuf.OpenXi" +
-      "anShi\"^\n\013OpenXianShi\022\016\n\006typeId\030\001 \002(\005\022\014\n\004" +
-      "name\030\002 \002(\t\022\016\n\006shunxu\030\003 \002(\005\022\r\n\005state\030\004 \002(" +
-      "\005\022\022\n\nisNewAward\030\005 \002(\010\"B\n\017FuLiHuoDongResp" +
-      "\022/\n\007xianshi\030\001 \003(\0132\036.qxmobile.protobuf.Fu" +
-      "LiHuoDong\"T\n\013FuLiHuoDong\022\016\n\006typeId\030\001 \002(\005" +
-      "\022\017\n\007content\030\002 \002(\t\022\020\n\010isCanGet\030\003 \002(\010\022\022\n\nr" +
-      "emainTime\030\004 \001(\005\"\'\n\023FuLiHuoDongAwardReq\022\020" +
-      "\n\010fuLiType\030\001 \002(\005\"J\n\024FuLiHuoDongAwardResp" +
-      "\022\020\n\010fuLiType\030\001 \002(\005\022\016\n\006result\030\002 \002(\t\022\020\n\010ne",
-      "xtShow\030\003 \001(\t\"R\n\013HongBaoResp\022\017\n\007yuanbao\030\001" +
-      " \002(\005\022\022\n\nremainTime\030\002 \002(\005\022\013\n\003day\030\003 \002(\005\022\021\n" +
-      "\tawardTime\030\004 \002(\tB\tB\007XianShi"
+      "\n\rXianShi.proto\022\021qxmobile.protobuf\032\rExpl" +
+      "ore.proto\"#\n\021XinShouXSActivity\022\016\n\006typeId" +
+      "\030\001 \002(\005\"y\n\022XinShouXianShiInfo\022/\n\007huodong\030" +
+      "\001 \003(\0132\036.qxmobile.protobuf.HuoDongInfo\022\016\n" +
+      "\006beizhu\030\002 \002(\005\022\022\n\nremainTime\030\003 \002(\005\022\016\n\006typ" +
+      "eId\030\004 \002(\005\"S\n\013HuoDongInfo\022\021\n\thuodongId\030\001 " +
+      "\002(\005\022\r\n\005state\030\002 \002(\005\022\017\n\007jiangli\030\003 \002(\t\022\021\n\ts" +
+      "hengTime\030\004 \002(\005\".\n\tGainAward\022\016\n\006typeId\030\001 " +
+      "\002(\005\022\021\n\thuodongId\030\002 \002(\005\"]\n\013ReturnAward\022\021\n" +
+      "\thuodongId\030\001 \002(\005\022\016\n\006result\030\002 \002(\005\022+\n\tawar",
+      "dList\030\003 \003(\0132\030.qxmobile.protobuf.Award\"B\n" +
+      "\017OpenXianShiResp\022/\n\007xianshi\030\001 \003(\0132\036.qxmo" +
+      "bile.protobuf.OpenXianShi\"^\n\013OpenXianShi" +
+      "\022\016\n\006typeId\030\001 \002(\005\022\014\n\004name\030\002 \002(\t\022\016\n\006shunxu" +
+      "\030\003 \002(\005\022\r\n\005state\030\004 \002(\005\022\022\n\nisNewAward\030\005 \002(" +
+      "\010\"B\n\017FuLiHuoDongResp\022/\n\007xianshi\030\001 \003(\0132\036." +
+      "qxmobile.protobuf.FuLiHuoDong\"T\n\013FuLiHuo" +
+      "Dong\022\016\n\006typeId\030\001 \002(\005\022\017\n\007content\030\002 \002(\t\022\020\n" +
+      "\010isCanGet\030\003 \002(\010\022\022\n\nremainTime\030\004 \001(\005\"\'\n\023F" +
+      "uLiHuoDongAwardReq\022\020\n\010fuLiType\030\001 \002(\005\"J\n\024",
+      "FuLiHuoDongAwardResp\022\020\n\010fuLiType\030\001 \002(\005\022\016" +
+      "\n\006result\030\002 \002(\t\022\020\n\010nextShow\030\003 \001(\t\"R\n\013Hong" +
+      "BaoResp\022\017\n\007yuanbao\030\001 \002(\005\022\022\n\nremainTime\030\002" +
+      " \002(\005\022\013\n\003day\030\003 \002(\005\022\021\n\tawardTime\030\004 \002(\tB\tB\007" +
+      "XianShi"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -8982,7 +9358,7 @@ public final class XianShi {
           internal_static_qxmobile_protobuf_ReturnAward_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_ReturnAward_descriptor,
-              new java.lang.String[] { "HuodongId", "Result", });
+              new java.lang.String[] { "HuodongId", "Result", "AwardList", });
           internal_static_qxmobile_protobuf_OpenXianShiResp_descriptor =
             getDescriptor().getMessageTypes().get(5);
           internal_static_qxmobile_protobuf_OpenXianShiResp_fieldAccessorTable = new
@@ -9031,6 +9407,7 @@ public final class XianShi {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          qxmobile.protobuf.Explore.getDescriptor(),
         }, assigner);
   }
 

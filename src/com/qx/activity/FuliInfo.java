@@ -23,4 +23,5 @@ public class FuliInfo  {
 	public Date getFengCeHongBaoTime2;// 上次获取封测红包时间2
 	public Date getYuKaFuLiTime;// 上次获取月卡时间
 	public Date getZhongShenKaTime;// 上次获取月卡时间
+	public Date getZhouKaTime;// 上次获取月卡时间
 }

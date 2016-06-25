@@ -14,7 +14,7 @@ public class FunctionID4Open {
 	public static final int fuli = 311;
 	//推送某功能开启 和前段约定code为负数时红点消失
 	public static void pushOpenFunction(long jzId,IoSession session,int Code){
-		log.info("向君主{}推送某功能开启--<{}>可以出现",jzId,Code);
+//		log.info("向君主{}推送某功能开启--<{}>可以出现",jzId,Code);
 		ErrorMessage.Builder resp=ErrorMessage.newBuilder();
 		resp.setErrorCode(Code);
 		ProtobufMsg pm = new ProtobufMsg();

@@ -78,7 +78,7 @@ String type = get("type");
 <tr><td>奖励：</td><td><input type="text" name="award" value="<%=award%>"/></td><td>type:itemId:count#type:itemId:count</td></tr>
 <tr><td>长度：</td><td><input type="number" name="codeLen"  value="<%=codeLen%>"/></td><td>包含前缀</td></tr>
 <tr><td>批次：</td><td><input type="number" name="type"  value="<%=type%>"/></td><td>填0表示随意领，大于0则同一玩家只能领一次此批次礼包</td></tr>
-<tr><td>有效期至：</td><td><input type="text" name="dt" value="2016-4-21 20:40:26"/></td><td>格式:2016-3-21 20:40:26</td></tr>
+<tr><td>有效期至：</td><td><input type="text" name="dt" value="2016-8-1 20:40:26"/></td><td>格式:2016-3-21 20:40:26</td></tr>
 <tr><td>数量：</td><td><input type="text" name="cnt" value="1"/></td><td>此次生成多少个</td></tr>
 <tr><td></td><td><input type="submit" value="生成"/></td><td></td></tr>
 </table>

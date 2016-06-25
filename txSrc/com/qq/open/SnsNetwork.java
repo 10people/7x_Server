@@ -131,7 +131,7 @@ public class SnsNetwork
         catch (IOException e) 
         {
             //发生网络异常
-            throw new OpensnsException(ErrorCode.NETWORK_ERROR, "Request [" + url + "] failed:" +  e.getMessage());
+            throw new OpensnsException(ErrorCode.NETWORK_ERROR,  e.getMessage()+" Request [" + url + "] " );
         } 
     }
 	

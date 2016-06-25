@@ -64,7 +64,7 @@ public class MyClient {
 	public String startServerSendRequest(String page, String message) {
 		HttpClient client = new HttpClient();
 		client.getHostConfiguration().setHost(host, port, "http");
-		log.info("pre request url:{}",page);
+		log.info("pre request url:{}:{}//{}",host,port,page);
 		HttpMethod method = getPostMethod(page, message);
 		String responseMess = null;
 		try {

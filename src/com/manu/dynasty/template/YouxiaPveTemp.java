@@ -2,7 +2,7 @@ package com.manu.dynasty.template;
 
 public class YouxiaPveTemp {
 	public int id;
-//	public int bigName;
+	public int bigName;
 //	public int bigDesc;
 	public int bigId;
 //	public int smaName;

@@ -31,6 +31,8 @@ import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.timeworker.FunctionID;
+import com.qx.timeworker.FunctionID4Open;
+import com.qx.vip.VipRechargeRecord;
 import com.qx.yuanbao.BillHist;
 
 public class ActivityMgr extends EventProc{
@@ -199,8 +201,11 @@ public class ActivityMgr extends EventProc{
 	 */
 	public void pushShouchongAvailable(long junZhuId,IoSession session){
 		int count = HibernateUtil.getColumnValueMaxOnWhere(BillHist.class, "save_amt", "where jzId="+junZhuId);
-		if (count <= 0) {
-			FunctionID.pushCanShowRed(junZhuId, session, FunctionID.Shouchong);
+		int count2 = HibernateUtil.getColumnValueMaxOnWhere(VipRechargeRecord.class, "sumAmount", "where accId="+junZhuId);
+		if (count <= 0 && count2<=0) {
+			FunctionID4Open.pushOpenFunction(junZhuId, session, FunctionID.Shouchong);
+		} else {
+			FunctionID4Open.pushOpenFunction(junZhuId, session, -FunctionID.Shouchong);
 		}
 	}
 	
@@ -239,7 +244,7 @@ public class ActivityMgr extends EventProc{
 	public void proc(Event event) {
 		switch (event.id) {
 		case ED.REFRESH_TIME_WORK:
-			logger.info("定时刷新活动列表");
+//			logger.info("定时刷新活动列表");
 			IoSession session=(IoSession) event.param;
 			if(session==null){
 				logger.error("定时刷新活动列表错误，session为null");

@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,21 +17,24 @@ import com.manu.dynasty.base.TempletService;
 import com.manu.dynasty.template.Action;
 import com.manu.dynasty.template.Buff;
 import com.manu.dynasty.template.CanShu;
+import com.manu.dynasty.template.Chenghao;
 import com.manu.dynasty.template.Skill;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
-import com.manu.network.SessionAttKey;
 import com.manu.network.SessionManager;
 import com.manu.network.SessionUser;
 import com.manu.network.msg.ProtobufMsg;
+import com.qx.junzhu.ChenghaoMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.util.RandomUtil;
 import com.qx.world.CallbacMission;
+import com.qx.world.FenShenNPC;
 import com.qx.world.FightNPC;
 import com.qx.world.FightScene;
 import com.qx.world.Player;
 import com.qx.world.Scene;
+import com.qx.world.TowerNPC;
 
 import qxmobile.protobuf.AllianceFightProtos.BufferInfo;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
@@ -160,6 +162,7 @@ public class BuffMgr {
 					processPlayerBuffer(buffer);
 					if(buffer.stop) {
 						iterator.remove();
+						notifyStopBuff(buffer, buffer.sc);
 					}
 				}
 				if(bufferList.isEmpty()){
@@ -211,17 +214,11 @@ public class BuffMgr {
 				target = buffer.carryJunzhu;
 			}
 			
-			IoSession session = SessionManager.getInst().getIoSession(target.id);
-			if(session == null) {
-				buffer.stop = true;
-				return ;
-			}
 			//更新上次扣除的时间
 			buffer.lastCalcTime += effectCycle;
-			Scene scene = (Scene) session.getAttribute(SessionAttKey.Scene);
+			Scene scene = buffer.sc;
 			if(endTime <= buffer.lastCalcTime) {
 				buffer.stop = true;
-				notifyStopBuff(buffer, scene);
 			}else{
 				switch(buffer.buffConf.BuffId){
 				case 151:
@@ -268,6 +265,9 @@ public class BuffMgr {
 				//友方
 				continue;
 			}
+			if(cp instanceof TowerNPC){
+				continue;
+			}
 			float dx = Math.abs(p.posX - cp.posX);
 			float dz = Math.abs(p.posZ - cp.posZ);
 			if(dx>range || dz>range){
@@ -298,8 +298,10 @@ public class BuffMgr {
 			buffer.stop = true;
 			return;
 		}
+		Player attackerPlayer = scene.getPlayerByJunZhuId(caster.id);
 		int totalDamage = 0;	
-		totalDamage += (calcSkillDamage(caster, target, skill, buffer.sceneUid) * effectCount);
+		totalDamage += (calcSkillDamage(caster, target, attackerPlayer, targetPlayer,
+				skill, buffer.sceneUid, buffer.sc) * effectCount);
 		
 		if(scene != null){ 
 			processSkillEffect(totalDamage, targetPlayer, skill);
@@ -313,7 +315,7 @@ public class BuffMgr {
 				if(attackPlayer!=null){
 					atkUid = attackPlayer.userId;
 				}
-				scene.playerDie(target, targetPlayer.userId, atkUid);
+				scene.playerDie(targetPlayer,  atkUid);
 			}
 		}
 	}
@@ -355,7 +357,9 @@ public class BuffMgr {
 		return player;
 	}
 	
-	public long calcSkillDamage(JunZhu attacker, JunZhu defender, Skill skill, int uid) {
+	public long calcSkillDamage(JunZhu attacker, JunZhu defender, 
+			Player attackerPlayer, Player targetPlayer,
+			Skill skill, int uid, Scene scene) {
 		long damageValue = 0;
 		Action action = getActionById(skill.Action1);
 		if(action == null) {
@@ -372,19 +376,23 @@ public class BuffMgr {
 		}
 		
 		if(4 == action.TypeKey || 5 == action.TypeKey) {// 表示是buff效果
-			processBuff4Skill(attacker, defender, action, uid);
+			processBuff4Skill(attacker, defender, action, uid, scene);
 		} else if(1 == action.TypeKey) {
-			damageValue = calcWeaponDamage4Skill(attacker, defender, skill, action);
+			damageValue = calcWeaponDamage4Skill(attacker, defender, attackerPlayer, targetPlayer, skill, action);
 		} else if(2 == action.TypeKey) {
-			damageValue = calcSkillDamage4Skill(attacker, defender, skill, action);
+			damageValue = calcSkillDamage4Skill(attacker, defender, attackerPlayer, targetPlayer, skill, action);
 		} else if(3 == action.TypeKey) {
 			damageValue = calcSkillTreatLife(attacker, defender, skill, action);
 		}
+		if(attackerPlayer instanceof FenShenNPC){
+			damageValue = damageValue * FightScene.fenShenDmgP / 100;
+		}
+		//damageValue = 1;
 		return damageValue;
 	}
 
 	protected void processBuff4Skill(JunZhu attacker, JunZhu defender,
-			Action action, int uid) {
+			Action action, int uid, Scene scene) {
 		int buffId = (int) action.Param1;									// buffId
 		int buffDuration = (int) action.Param2;									// buff持续时间
 		Buff buff = getBuffById(buffId);
@@ -400,9 +408,15 @@ public class BuffMgr {
 		if(action.Id == 151){
 			buffOnPid = attacker.id;
 			buffer.carryJunzhu = attacker;
+			Player atkP = scene.players.get(uid);
+			if(atkP instanceof FenShenNPC){
+				buffOnPid = atkP.jzId;
+				buffer.carryPlayer = atkP;
+			}
 		}else{
 			buffOnPid = defender.id;
 		}
+		buffer.sc = scene;
 		BigSwitch.inst.buffMgr.addBuffer(buffOnPid, buffer);
 	}
 	
@@ -413,7 +427,8 @@ public class BuffMgr {
 		return addLife;
 	}
 
-	public long calcWeaponDamage4Skill(JunZhu attacker, JunZhu defender, Skill skill, Action action) {
+	public long calcWeaponDamage4Skill(JunZhu attacker, JunZhu defender,
+			Player attackerPlayer, Player targetPlayer, Skill skill, Action action) {
 		long damage = 0;
 		//JC = (a*A攻击*(A攻击+k)/(A攻击+B防御+k)*((A生命/c+k)* (B生命/c+k))^0.5/(B防御+k)*H
 		//H=If(A生命>B生命){arctan(A生命/ B生命)*1.083+0.15}  else{1}
@@ -450,8 +465,25 @@ public class BuffMgr {
 		double SJ = RandomUtil.getRandomNum(0.9, 1.1);
 		double X = action.Param1 / 1000;
 		double GD = action.Param2;
-		// 武器未暴击伤害=INT((JC*X+ GD) *WM*SJ)
-		damage = (long) ((JC * X + GD) * WM * SJ); 
+		// 计算称号相关, RA=(1+AS)/(1+RS)
+		double attackerChenghaoAddInjuryScale = 0;
+		if(attackerPlayer != null&&attackerPlayer.chengHaoId!=null) {
+			Chenghao attackCH = getPlayerChengHao(attackerPlayer);
+			if(attackCH != null) {
+				attackerChenghaoAddInjuryScale = attackCH.add_injury_scale / 100;
+			}
+		}
+		double targetChenghaoReduceInjuryScale = 0;
+		if(targetPlayer != null && targetPlayer.chengHaoId != null) {
+			Chenghao targetCH = getPlayerChengHao(targetPlayer);
+			if(targetCH != null) {
+				targetChenghaoReduceInjuryScale = targetCH.reduce_injury_scale / 100;
+			}
+		}
+		double RA = (1 + attackerChenghaoAddInjuryScale)/(1 + targetChenghaoReduceInjuryScale);
+		
+		// 武器未暴击伤害=INT((JC*X+ GD) *WM*SJ * RA) 
+		damage = (long) ((JC * X + GD) * WM * SJ * RA); 
 		damage = Math.max(1, damage);
 //		logger.info("攻击者君主:{},被攻击者:{}",attacker.id, defender.id);
 //		logger.info("普通攻击,攻击者id:{},被攻击者id:{},未暴击--a:{},c:{},k:{},H:{},jc:{},L:{},WM:{},SJ:{},X:{},GD:{},damage:{},attacker.wqSH:{},defender.wqJM:{}",
@@ -467,17 +499,31 @@ public class BuffMgr {
 			critical = true;
 		}
 		if(critical) {
-			//武器暴击伤害=武器未暴击伤害+INT(JC*X*WB*SJ)
+			//武器暴击伤害=武器未暴击伤害+INT(JC*X*WB*SJ  * RA)
 			//WB = (M +A武器暴击加深)/( M +B武器暴击减免), M=100
 			double M = 100;
 			double WB = (M + attacker.wqBJ) / (M + defender.wqRX);
-			long addValue = (long) (JC * X * WB * SJ);
+			long addValue = (long) (JC * X * WB * SJ * RA);
 			damage += addValue;
 //			logger.info("普通攻击,攻击者id:{},被攻击者id:{},造成暴击--M:{},WB:{},addValue:{},damage:{},,attacker.wqSH:{},defender.wqJM:{}",
 //					attacker.id, defender.id,M,WB,addValue,damage,attacker.wqSH,defender.wqJM);
 		}
 		return damage;
 	}
+
+	public Chenghao getPlayerChengHao(Player player) {
+		if(player == null || player.chengHaoId == null) {
+			return null;
+		}
+		Chenghao targetCH = null;
+		try {
+			targetCH = ChenghaoMgr.inst.chenghaoMap.get(Integer.parseInt(player.chengHaoId));
+		} catch(Exception e) {
+			logger.error("获取player称号错误，Exception:{}", e);
+		}
+		return targetCH;
+	}
+
 	public int getLMZBuff(JunZhu jz){
 		SessionUser ss = SessionManager.inst.sessionMap.get(jz.id);
 		if(ss != null){
@@ -488,7 +534,8 @@ public class BuffMgr {
 		}
 		return 0;
 	}
-	public long calcSkillDamage4Skill(JunZhu attacker, JunZhu defender, Skill skill, Action action) {
+	public long calcSkillDamage4Skill(JunZhu attacker, JunZhu defender, 
+			Player attackerPlayer, Player targetPlayer, Skill skill, Action action) {
 		long damage = 0;
 		//JC = (a*A攻击*(A攻击+k)/(A攻击+B防御+k)*((A生命/c+k)* (B生命/c+k))^0.5/(B防御+k)*If(A生命>B生命，arctan(A生命/ B生命)*1.083+0.15，1)
 		//浮点型四舍五入，保留2位小数。 a=1; c=20; k=10.
@@ -525,8 +572,25 @@ public class BuffMgr {
 		double SJ = RandomUtil.getRandomNum(0.9, 1.1);
 		double Y = action.Param1 / 1000;
 		double GD = action.Param2;
-		// 技能未暴击伤害=INT((JC*Y+ GD) *JM*SJ)
-		damage = (long) ((JC * Y + GD) * JM * SJ); 
+		
+		double attackerChenghaoAddInjuryScale = 0;
+		if(attackerPlayer != null && attackerPlayer.chengHaoId != null) {
+			Chenghao attackCH = getPlayerChengHao(attackerPlayer);
+			if(attackCH != null) {
+				attackerChenghaoAddInjuryScale = attackCH.add_injury_scale / 100;
+			}
+		}
+		double targetChenghaoReduceInjuryScale = 0;
+		if(targetPlayer != null && targetPlayer.chengHaoId !=null) {
+			Chenghao targetCH = getPlayerChengHao(targetPlayer);
+			if(targetCH != null) {
+				targetChenghaoReduceInjuryScale = targetCH.reduce_injury_scale / 100;
+			}
+		}
+		double RA = (1 + attackerChenghaoAddInjuryScale)/(1 + targetChenghaoReduceInjuryScale);
+		
+		// 技能未暴击伤害=INT((JC*Y+ GD) *JM*SJ * RA)
+		damage = (long) ((JC * Y + GD) * JM * SJ * RA); 
 		damage = Math.max(1, damage);
 //		logger.info("致命一击，攻击者id:{},被攻击者id:{},未暴击--a:{},c:{},k:{},H:{},jc:{},L:{},JM:{},SJ:{},Y:{},GD:{},damage:{}",
 //				attacker.id, defender.id,a,c,k,H,JC,L,JM	,SJ,Y,GD,damage);
@@ -541,11 +605,11 @@ public class BuffMgr {
 			critical = true;
 		}
 		if(critical) {
-			//技能暴击伤害 = 技能未暴击伤害+INT((JC*Y+ GD) *JB*SJ)
+			//技能暴击伤害 = 技能未暴击伤害+INT((JC*Y+ GD) *JB*SJ  * RA)
 			//JB = (M+A技能暴击加深)/(M+B技能暴击减免), M=100
 			double M = 100;
 			double JB = (M + attacker.jnBJ) / (M + defender.jnRX);
-			long addValue = (long) (JC * Y * JB * SJ);
+			long addValue = (long) (JC * Y * JB * SJ * RA);
 			damage += addValue;
 //			logger.info("致命一击，攻击者id:{},被攻击者id:{},造成暴击--M:{},JB:{},addValue:{},damage:{},",
 //					attacker.id, defender.id,M,JB,addValue,damage);

@@ -6042,7 +6042,7 @@ public final class YouXiaProtos {
      * <code>required bool saoDang = 2;</code>
      *
      * <pre>
-     *是否可以扫荡
+     *是否可以扫荡,关，true-通关并可以扫荡，false-未通过不可以扫荡
      * </pre>
      */
     boolean hasSaoDang();
@@ -6050,7 +6050,7 @@ public final class YouXiaProtos {
      * <code>required bool saoDang = 2;</code>
      *
      * <pre>
-     *是否可以扫荡
+     *是否可以扫荡,关，true-通关并可以扫荡，false-未通过不可以扫荡
      * </pre>
      */
     boolean getSaoDang();
@@ -6202,7 +6202,7 @@ public final class YouXiaProtos {
      * <code>required bool saoDang = 2;</code>
      *
      * <pre>
-     *是否可以扫荡
+     *是否可以扫荡,关，true-通关并可以扫荡，false-未通过不可以扫荡
      * </pre>
      */
     public boolean hasSaoDang() {
@@ -6212,7 +6212,7 @@ public final class YouXiaProtos {
      * <code>required bool saoDang = 2;</code>
      *
      * <pre>
-     *是否可以扫荡
+     *是否可以扫荡,关，true-通关并可以扫荡，false-未通过不可以扫荡
      * </pre>
      */
     public boolean getSaoDang() {
@@ -6567,7 +6567,7 @@ public final class YouXiaProtos {
        * <code>required bool saoDang = 2;</code>
        *
        * <pre>
-       *是否可以扫荡
+       *是否可以扫荡,关，true-通关并可以扫荡，false-未通过不可以扫荡
        * </pre>
        */
       public boolean hasSaoDang() {
@@ -6577,7 +6577,7 @@ public final class YouXiaProtos {
        * <code>required bool saoDang = 2;</code>
        *
        * <pre>
-       *是否可以扫荡
+       *是否可以扫荡,关，true-通关并可以扫荡，false-未通过不可以扫荡
        * </pre>
        */
       public boolean getSaoDang() {
@@ -6587,7 +6587,7 @@ public final class YouXiaProtos {
        * <code>required bool saoDang = 2;</code>
        *
        * <pre>
-       *是否可以扫荡
+       *是否可以扫荡,关，true-通关并可以扫荡，false-未通过不可以扫荡
        * </pre>
        */
       public Builder setSaoDang(boolean value) {
@@ -6600,7 +6600,7 @@ public final class YouXiaProtos {
        * <code>required bool saoDang = 2;</code>
        *
        * <pre>
-       *是否可以扫荡
+       *是否可以扫荡,关，true-通关并可以扫荡，false-未通过不可以扫荡
        * </pre>
        */
       public Builder clearSaoDang() {
@@ -8747,6 +8747,862 @@ public final class YouXiaProtos {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.YXSaoDangAwardItem)
   }
 
+  public interface ClearCooltimeOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 type = 1;
+    /**
+     * <code>required int32 type = 1;</code>
+     */
+    boolean hasType();
+    /**
+     * <code>required int32 type = 1;</code>
+     */
+    int getType();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ClearCooltime}
+   *
+   * <pre>
+   *C_YOUXIA_CLEAR_COOLTIME = 617;
+   * </pre>
+   */
+  public static final class ClearCooltime extends
+      com.google.protobuf.GeneratedMessage
+      implements ClearCooltimeOrBuilder {
+    // Use ClearCooltime.newBuilder() to construct.
+    private ClearCooltime(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ClearCooltime(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ClearCooltime defaultInstance;
+    public static ClearCooltime getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ClearCooltime getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ClearCooltime(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              type_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_ClearCooltime_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_ClearCooltime_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.YouXiaProtos.ClearCooltime.class, qxmobile.protobuf.YouXiaProtos.ClearCooltime.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ClearCooltime> PARSER =
+        new com.google.protobuf.AbstractParser<ClearCooltime>() {
+      public ClearCooltime parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ClearCooltime(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ClearCooltime> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 type = 1;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private int type_;
+    /**
+     * <code>required int32 type = 1;</code>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 type = 1;</code>
+     */
+    public int getType() {
+      return type_;
+    }
+
+    private void initFields() {
+      type_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, type_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, type_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltime parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltime parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltime parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltime parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltime parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltime parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltime parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltime parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltime parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltime parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.YouXiaProtos.ClearCooltime prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ClearCooltime}
+     *
+     * <pre>
+     *C_YOUXIA_CLEAR_COOLTIME = 617;
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.YouXiaProtos.ClearCooltimeOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_ClearCooltime_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_ClearCooltime_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.YouXiaProtos.ClearCooltime.class, qxmobile.protobuf.YouXiaProtos.ClearCooltime.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.YouXiaProtos.ClearCooltime.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        type_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_ClearCooltime_descriptor;
+      }
+
+      public qxmobile.protobuf.YouXiaProtos.ClearCooltime getDefaultInstanceForType() {
+        return qxmobile.protobuf.YouXiaProtos.ClearCooltime.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.YouXiaProtos.ClearCooltime build() {
+        qxmobile.protobuf.YouXiaProtos.ClearCooltime result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.YouXiaProtos.ClearCooltime buildPartial() {
+        qxmobile.protobuf.YouXiaProtos.ClearCooltime result = new qxmobile.protobuf.YouXiaProtos.ClearCooltime(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.YouXiaProtos.ClearCooltime) {
+          return mergeFrom((qxmobile.protobuf.YouXiaProtos.ClearCooltime)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.YouXiaProtos.ClearCooltime other) {
+        if (other == qxmobile.protobuf.YouXiaProtos.ClearCooltime.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.YouXiaProtos.ClearCooltime parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.YouXiaProtos.ClearCooltime) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 type = 1;
+      private int type_ ;
+      /**
+       * <code>required int32 type = 1;</code>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       */
+      public int getType() {
+        return type_;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       */
+      public Builder setType(int value) {
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 type = 1;</code>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ClearCooltime)
+    }
+
+    static {
+      defaultInstance = new ClearCooltime(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ClearCooltime)
+  }
+
+  public interface ClearCooltimeRespOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 result = 1;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-成功，1-失败vip等级不足，2-失败元宝不足，3-失败，不在cd时间
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-成功，1-失败vip等级不足，2-失败元宝不足，3-失败，不在cd时间
+     * </pre>
+     */
+    int getResult();
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.ClearCooltimeResp}
+   *
+   * <pre>
+   *S_YOUXIA_CLEAR_COOLTIME_RESP = 618
+   * </pre>
+   */
+  public static final class ClearCooltimeResp extends
+      com.google.protobuf.GeneratedMessage
+      implements ClearCooltimeRespOrBuilder {
+    // Use ClearCooltimeResp.newBuilder() to construct.
+    private ClearCooltimeResp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ClearCooltimeResp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ClearCooltimeResp defaultInstance;
+    public static ClearCooltimeResp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ClearCooltimeResp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ClearCooltimeResp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_ClearCooltimeResp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_ClearCooltimeResp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp.class, qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ClearCooltimeResp> PARSER =
+        new com.google.protobuf.AbstractParser<ClearCooltimeResp>() {
+      public ClearCooltimeResp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ClearCooltimeResp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ClearCooltimeResp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private int result_;
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-成功，1-失败vip等级不足，2-失败元宝不足，3-失败，不在cd时间
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 1;</code>
+     *
+     * <pre>
+     *0-成功，1-失败vip等级不足，2-失败元宝不足，3-失败，不在cd时间
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
+    private void initFields() {
+      result_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, result_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, result_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.ClearCooltimeResp}
+     *
+     * <pre>
+     *S_YOUXIA_CLEAR_COOLTIME_RESP = 618
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.YouXiaProtos.ClearCooltimeRespOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_ClearCooltimeResp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_ClearCooltimeResp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp.class, qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.YouXiaProtos.internal_static_qxmobile_protobuf_ClearCooltimeResp_descriptor;
+      }
+
+      public qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp getDefaultInstanceForType() {
+        return qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp build() {
+        qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp buildPartial() {
+        qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp result = new qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp) {
+          return mergeFrom((qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp other) {
+        if (other == qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.YouXiaProtos.ClearCooltimeResp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 result = 1;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-成功，1-失败vip等级不足，2-失败元宝不足，3-失败，不在cd时间
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-成功，1-失败vip等级不足，2-失败元宝不足，3-失败，不在cd时间
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-成功，1-失败vip等级不足，2-失败元宝不足，3-失败，不在cd时间
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 1;</code>
+       *
+       * <pre>
+       *0-成功，1-失败vip等级不足，2-失败元宝不足，3-失败，不在cd时间
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.ClearCooltimeResp)
+    }
+
+    static {
+      defaultInstance = new ClearCooltimeResp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.ClearCooltimeResp)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_YouXiaInfoResp_descriptor;
   private static
@@ -8812,6 +9668,16 @@ public final class YouXiaProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_YXSaoDangAwardItem_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ClearCooltime_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ClearCooltime_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_ClearCooltimeResp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_ClearCooltimeResp_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -8843,8 +9709,9 @@ public final class YouXiaProtos {
       "Ret\022\021\n\tguanQiaId\030\001 \002(\005\0225\n\006awards\030\002 \003(\0132%",
       ".qxmobile.protobuf.YXSaoDangAwardItem\"G\n" +
       "\022YXSaoDangAwardItem\022\020\n\010itemType\030\001 \002(\005\022\016\n" +
-      "\006itemId\030\002 \002(\005\022\017\n\007itemNum\030\003 \002(\005B\016B\014YouXia" +
-      "Protos"
+      "\006itemId\030\002 \002(\005\022\017\n\007itemNum\030\003 \002(\005\"\035\n\rClearC" +
+      "ooltime\022\014\n\004type\030\001 \002(\005\"#\n\021ClearCooltimeRe" +
+      "sp\022\016\n\006result\030\001 \002(\005B\016B\014YouXiaProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -8929,6 +9796,18 @@ public final class YouXiaProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_YXSaoDangAwardItem_descriptor,
               new java.lang.String[] { "ItemType", "ItemId", "ItemNum", });
+          internal_static_qxmobile_protobuf_ClearCooltime_descriptor =
+            getDescriptor().getMessageTypes().get(13);
+          internal_static_qxmobile_protobuf_ClearCooltime_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ClearCooltime_descriptor,
+              new java.lang.String[] { "Type", });
+          internal_static_qxmobile_protobuf_ClearCooltimeResp_descriptor =
+            getDescriptor().getMessageTypes().get(14);
+          internal_static_qxmobile_protobuf_ClearCooltimeResp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_ClearCooltimeResp_descriptor,
+              new java.lang.String[] { "Result", });
           return null;
         }
       };

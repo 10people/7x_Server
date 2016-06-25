@@ -22,6 +22,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>城池信息</title>
+<script type="text/javascript">
+	function hideAwardInfo(){
+		var node = document.getElementById("awardInfo");
+		if(node.style.display == "block"){
+			node.style.display = "none";
+		}  else {
+			node.style.display = "block";
+		}
+	}
+</script>
 </head>
 <body>
 	<%
@@ -103,10 +113,11 @@ do{
 						cityBean.atckLmId = lmId;
 						HibernateUtil.insert(cityBean);
 					}else{
-						cityBean.atckLmId = lmId;
-						HibernateUtil.update(cityBean);
+						if(cityBean.lmId != lmId){
+							cityBean.atckLmId = lmId;
+							HibernateUtil.update(cityBean);
+						}
 					}
-					alert("设置联盟Id成功");
 				}
 			}
 			redirect("cityWar.jsp");
@@ -128,23 +139,30 @@ do{
 				alert("输入为空设置失败");
 			}
 		}else if("clearBidData".equals(act)){
-			String sql = "delete from " + BidBean.class.getSimpleName();
+// 			String sql = "delete from " + BidBean.class.getSimpleName();
+// 			HibernateUtil.executeSql(sql);
+// 			//重置结算数据
+// 			List<CityBean> cityList = HibernateUtil.list(CityBean.class,"where 1=1");
+// 			if(cityList != null){
+// 				for (CityBean cityBean : cityList) {
+// 					cityBean.atckLmId = 0;
+// 					HibernateUtil.update(cityBean);
+// 				}
+// 			}
+// 			//重置进入战场数据
+// 			List<EnterWarTimeBean> enterWarTimeList = HibernateUtil.list(EnterWarTimeBean.class,"where 1=1");
+// 			if(enterWarTimeList != null){
+// 				for (EnterWarTimeBean enterWarTimeBean : enterWarTimeList) {
+// 					HibernateUtil.delete(enterWarTimeBean);
+// 				}
+// 			}
+			BidMgr.inst.regularClearData();
+			//野城战斗时间修改，每天只能打一次，重复测试清数据要把时间修改到今天之前
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(Calendar.DAY_OF_MONTH,-1);//今天之前的日期
+			String dt = DateUtils.datetime2Text(calendar.getTime());
+			String sql = "update " + WildCityBean.class.getSimpleName() + " set winTime='" + dt + "'";
 			HibernateUtil.executeSql(sql);
-			//重置结算数据
-			List<CityBean> cityList = HibernateUtil.list(CityBean.class,"where 1=1");
-			if(cityList != null){
-				for (CityBean cityBean : cityList) {
-					cityBean.atckLmId = 0;
-					HibernateUtil.update(cityBean);
-				}
-			}
-			//重置进入战场数据
-			List<EnterWarTimeBean> enterWarTimeList = HibernateUtil.list(EnterWarTimeBean.class,"where 1=1");
-			if(enterWarTimeList != null){
-				for (EnterWarTimeBean enterWarTimeBean : enterWarTimeList) {
-					HibernateUtil.delete(enterWarTimeBean);
-				}
-			}
 		}
 		
 		//显示城池列表
@@ -174,7 +192,7 @@ do{
 					continue;
 				trS();
 					td(jczCity.getId());
-					td(HeroService.getNameById(""+jczCity.getName()));
+					td("<a href='../gm/allianceFight.jsp?scId="+jczCity.id+"'>"+HeroService.getNameById(""+jczCity.getName())+"</a>");
 					td(jczCity.getAllianceLv());
 					CityBean cityb = citiesStateMap.get(jczCity.getId());
 					if(cityb != null && cityb.lmId > 0){ //被占领
@@ -246,7 +264,7 @@ do{
 						continue;
 					trS();
 						td(jczCity.getId());
-						td(jczCity.getName());
+						td(HeroService.getNameById(""+jczCity.getName()));
 						td(jczCity.getAllianceLv());
 						if(wildCityMap.containsKey(jczCity.id) && wildCityMap.get(jczCity.id).winTime != null){
 							td("已战胜");
@@ -268,7 +286,7 @@ do{
 		}	
 	%>
 	<br>
-	<strong>奖励信息：</strong>
+	<strong>奖励信息：</strong><input type="button" value="隐藏/显示" onclick='hideAwardInfo()'/>
 	<br>
 	<br>
 	<%
@@ -280,6 +298,7 @@ do{
 			String dt = DateUtils.datetime2Text(calendar.getTime());
 			List<LMZAwardBean> list = HibernateUtil.list(LMZAwardBean.class,
 					"where jzId=" + junzhuId + " and dt>'" +dt+ "' order by dt desc,fromType asc");
+			out.print("<div id='awardInfo'>");
 			tableStart();
 			trS();
 				ths("奖励ID");
@@ -325,6 +344,7 @@ do{
 				trE();
 			}
 			tableEnd();
+			out.print("</div>");
 		}	
 	%>
 	

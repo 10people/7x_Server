@@ -17,4 +17,5 @@ public class BaiZhan{
 	public int xishu;
 	public String dayAward;
 	public int produceSpeed;
+	public String jibieName;
 }

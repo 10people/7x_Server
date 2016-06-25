@@ -106,6 +106,10 @@ public class XG extends EventProc{
 	
 	public void clientReportToken(int id, IoSession session, Builder builder){
 		ErrorMessage.Builder msg = (qxmobile.protobuf.ErrorMessageProtos.ErrorMessage.Builder) builder;
+		if(msg == null){
+			log.error("消息是null");
+			return;
+		}
 		String token = msg.getErrorDesc();
 		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
 		if (junZhuId == null) {

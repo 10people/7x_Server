@@ -1,3 +1,5 @@
+<%@page import="qxmobile.protobuf.XianShi.OpenXianShiResp"%>
+<%@page import="com.manu.dynasty.util.ProtobufUtils"%>
 <%@page import="com.qx.world.SceneMgr"%>
 <%@page import="com.qx.account.AccountManager"%>
 <%@page import="com.qx.world.Scene"%>
@@ -18,6 +20,13 @@
 <title>监控</title>
 </head>
 <body>
+<%
+//out("id:");
+//Object o = ProtobufUtils.protoClassToIdMap.get(OpenXianShiResp.getDefaultInstance().getClass());
+//out(o);
+//int id = 4034;
+//ProtobufUtils.protoClassToIdMap.put(OpenXianShiResp.getDefaultInstance().getClass(),id);
+%>
 <%String act = request.getParameter("act");
 if("modSizePerSc".equals(act)){
 	String size = request.getParameter("sizePerSc");
@@ -95,7 +104,7 @@ while(fightki.hasMoreElements()){
 		out.append("<td>");		out.append(acc);		out.append("</td>");
 		out.append("<td>");		out.append(p.pState.name());		out.append("</td>");
 		td(p.getPosX()+","+p.getPosY()+","+p.getPosZ());
-		td("HP:"+p.currentLife);
+		td("HP:"+p.currentLife+"/"+p.totalLife);
 		out.append("<tr>");
 	}
 }

@@ -67,15 +67,15 @@ public class YBRobotMgr implements Runnable{
 			}
 			if(i+1==lsize){
 				distMap.put(pathId,distance4All);
-				log.info("路线--{}的路程为--{}。。。",pathId,distance4All);
-				log.info("所有路线路程计算完成");
+//				log.info("路线--{}的路程为--{}。。。",pathId,distance4All);
+//				log.info("所有路线路程计算完成");
 				break;
 			}
 			CartPath cNext = list.get(i+1);
 			if(c.id!=cNext.id){
 				if(distance4All>0){
 					distMap.put(pathId,distance4All);
-					log.info("路线--{}的路程为--{}",pathId,distance4All);
+//					log.info("路线--{}的路程为--{}",pathId,distance4All);
 				}
 				pathId=cNext.id;
 				distance4All=0;

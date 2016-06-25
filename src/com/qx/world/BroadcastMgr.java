@@ -2,6 +2,7 @@ package com.qx.world;
 
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +33,7 @@ import com.qx.event.Event;
 import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.fuwen.FuwenMgr;
+import com.qx.junzhu.ChengHaoBean;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.mibao.MibaoMgr;
@@ -66,17 +68,23 @@ type	完成条件
 	public static Logger log = LoggerFactory.getLogger(BroadcastMgr.class.getSimpleName());
 	public static BroadcastMgr inst = new BroadcastMgr();
 	public void send(String text){
-		ProtobufMsg msg = buildMsg(text);
+		send(text, 0);
+	}
+	public void send(String text, int code){
+		ProtobufMsg msg = buildMsg(text,code);
 		Set<WriteFuture> receivers = TXSocketMgr.inst.acceptor.broadcast(msg);
 		log.info("发送广播 ：{}，目标数量{}", text, receivers.size());
 	}
 
 	public ProtobufMsg buildMsg(String text) {
+		return buildMsg(text, 0);
+	}
+	public ProtobufMsg buildMsg(String text, int code) {
 		ProtobufMsg msg = new ProtobufMsg();
 		msg.id = PD.S_Broadcast;
 		Builder em = ErrorMessage.newBuilder();
 		em.setCmd(0);
-		em.setErrorCode(0);
+		em.setErrorCode(code);//2000表示GM广播，后台手动的。
 		em.setErrorDesc(text);
 		msg.builder = em;
 		return msg;
@@ -126,6 +134,9 @@ type	完成条件
 	@Override
 	public void proc(Event param) {
 		switch(param.id){
+		case ED.CHONGLOU_BROADCAST:
+			checkChongLou(param);
+			break;
 		case ED.MIBAO_HECHENG_BROADCAST:
 			checkMiBaoActive(param);
 			checkMiBaoCnt(param);
@@ -181,9 +192,108 @@ type	完成条件
 		case ED.JIAPIAN_DUIHUAN_FUWEN:
 			checkDuiHuanFuwen(param);
 			break;
+		case ED.CITY_WAR_ZHAN_LING:
+			zhanLingCity(param);
+			break;
+		case ED.LIANMENG_UPGRADE_LEVEL:
+			checkAllianceLevel(param);
+			break;
+		case ED.PLAYER_CHENHAO_DUIHUAN:
+			playerChenHaoDuiHuanBrdC(param);
+			break;
 		}
 	}
-	
+	/**
+	 * 玩家称号兑换 广播
+	 * @param param
+	 */
+	public void playerChenHaoDuiHuanBrdC(Event param) {
+		//new Object[]{junZhu, layer}
+		Object[] obj = (Object[]) param.param;
+		Long id = (Long) obj[0];
+		int chenHaoId = (int) obj[1];
+		JunZhu jz = HibernateUtil.find(JunZhu.class, id);
+		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
+		if(confList == null){
+			return;
+		}
+		AnnounceTemp targetConf = null;
+		for(AnnounceTemp conf : confList){
+			if(conf.type != 36){// 
+				continue;
+			}
+			if(String.valueOf(chenHaoId).equals(conf.condition)){
+				targetConf = conf;
+				break;
+			}
+		}
+		if(targetConf == null){
+			return;
+		}
+		//[[ffffff]恭喜玩家[-][dbba8f]*玩家名字七个字*[-][[ffffff]通过了千重楼[-][d80202]50[-][[ffffff]层，略有小成！[-]
+		String template = targetConf.announcement;
+		template = template.replace("玩家名字七个字",jz.name);
+		send(template);
+	}
+
+    /**
+     * 联盟升级广播
+     * @param param
+     */
+	public void checkAllianceLevel(Event param) {
+		//new Object[]{junZhu, layer}
+		Integer id = (Integer) param.param;
+		AllianceBean alnc = HibernateUtil.find(AllianceBean.class, id);
+		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
+		if(confList == null){
+			return;
+		}
+		AnnounceTemp targetConf = null;
+		for(AnnounceTemp conf : confList){
+			if(conf.type != 37){// 
+				continue;
+			}
+			if(String.valueOf(alnc.level).equals(conf.condition)){
+				targetConf = conf;
+				break;
+			}
+		}
+		if(targetConf == null){
+			return;
+		}
+		String template = targetConf.announcement;
+		template = template.replace("#联盟名字七个字#", alnc.name);
+		send(template);
+	}
+
+	public void checkChongLou(Event param) {
+		//new Object[]{junZhu, layer}
+		Object[] arr = (Object[]) param.param;
+		JunZhu jz = (JunZhu) arr[0];
+		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
+		if(confList == null){
+			return;
+		}
+		Integer layer = (Integer) arr[1];
+		AnnounceTemp targetConf = null;
+		for(AnnounceTemp conf : confList){
+			if(conf.type != 35){// 
+				continue;
+			}
+			if(layer.toString().equals(conf.condition)){
+				targetConf = conf;
+				break;
+			}
+		}
+		if(targetConf == null){
+			return;
+		}
+		//[[ffffff]恭喜玩家[-][dbba8f]*玩家名字七个字*[-][[ffffff]通过了千重楼[-][d80202]50[-][[ffffff]层，略有小成！[-]
+		String template = targetConf.announcement;
+		template = template.replace("XXXXXX", jz.name);
+		send(template);
+	}
+
 	public void checkLieFu(Event event) {
 		broadLiefuAndDuihuan(event, 31);
 	}
@@ -276,7 +386,7 @@ type	完成条件
 			if(conf.type != 16){//
 				continue;
 			}
-			String con[] =  conf.condition.split(":");
+			/*String con[] =  conf.condition.split(":");
 			int cnt = 0;
 			if(con.length==2){
 				cnt = Integer.parseInt(con[1]);
@@ -285,7 +395,7 @@ type	完成条件
 					targetConf = conf;
 					break;
 				}
-			}
+			}*/
 			if(strCon.equals(conf.condition)){
 				targetConf = conf;
 				break;
@@ -295,11 +405,15 @@ type	完成条件
 			return;
 		}
 		String template = targetConf.announcement;
-		//[ffffff]恭喜[-][dbba8f]*玩家名字七个字*[-][ffffff]在[-]06de34]联盟祭拜[-][ffffff]时获得[-][f5aa29]鎏金钱匣[-][ffffff]！[-]
+		//[1389f6]*玩家名字七个字*[-]在#联盟名字七个字#联盟宗庙祭拜获得[eca50d]1000元宝[-]！" announceObject="1,2" />
 		JunZhu jz = HibernateUtil.find(JunZhu.class, jzId);
 		if(jz == null)return;
+		AlliancePlayer alliancePlayer = HibernateUtil.find(AlliancePlayer.class, jz.id);
+		if(null == alliancePlayer) return;
+		AllianceBean allianceBean = HibernateUtil.find(AllianceBean.class, alliancePlayer.lianMengId);
+		if(null == allianceBean	) return; 
 		template = template.replace("*玩家名字七个字*", jz.name);
-		template = template.replace("×**", "x"+arr[2]);
+		template = template.replace("#联盟名字七个字#", allianceBean.name);
 		send(template,targetConf);
 	}
 	public void checkLM_ShopBuy(Event param) {
@@ -415,9 +529,11 @@ type	完成条件
 		//[ffffff]恭喜[-][dbba8f]*玩家名字七个字*[-][e5e205]合成[-][0dbce8]3星[-][ffffff]秘宝[-][f5aa29]#秘宝名字#[-][ffffff]！[-]
 		JunZhu jz = (JunZhu) arr[0];
 		template = template.replace("*玩家名字七个字*", jz.name);
-		template = template.replace("#秘宝名字#", HeroService.getNameById(String.valueOf(miBaoCfg.nameId)));
+		template = template.replace("#将魂名字#", HeroService.getNameById(String.valueOf(miBaoCfg.nameId)));
 		send(template);
 	}
+	
+	
 	protected void checkBaiZhan(Event param) {
 		//new Object[]{jz.name, otherJun.name, bean.highestRank}
 		Object[] arr = (Object[]) param.param;
@@ -691,8 +807,13 @@ type	完成条件
 		if(confList == null){
 			return;
 		}
-		String hql = "select count(1) from MiBaoDB where ownerId="+jz.id+" and level>=1";
-		int cnt = HibernateUtil.getCount(hql);
+		int cnt = 0;
+		if(arr.length >= 3 && arr[2] instanceof Integer){
+			cnt = (int)arr[2];
+		}else{
+			String hql = "select count(1) from MiBaoDB where ownerId="+jz.id+" and level>=1";
+			cnt = HibernateUtil.getCount(hql);
+		}
 		if(cnt<=0){
 			return;
 		}
@@ -713,10 +834,16 @@ type	完成条件
 		//恭喜*玩家名字七个字*收集到了#N#个秘宝
 		String template = targetConf.announcement;
 		template = template.replace("*玩家名字七个字*", jz.name);
+		
 		//template = template.replace("#N#", String.valueOf(cnt));
 		if(session.containsAttribute("inTanBaoGiveReward")){
 			//2016年1月26日13:30:26 客户端点击界面时才发广播，先存起来你。
-			session.setAttribute("MiBaoBDCache", template);
+			List<String> broadList = (List<String>) session.getAttribute("MiBaoBDCache");
+			if(broadList == null){
+				broadList = new LinkedList<String>();
+			}
+			broadList.add(template);
+			session.setAttribute("MiBaoBDCache", broadList);
 		}else{
 			send(template);
 		}
@@ -737,7 +864,7 @@ type	完成条件
 		String starStr = String.valueOf(curStarCfg.getStar()+1);
 		AnnounceTemp targetConf = null;
 		for(AnnounceTemp conf : confList){
-			if(conf.type != 2){//2	合成得到N星秘宝
+			if(conf.type != 2){//2	升星得到N星秘宝
 				continue;
 			}
 			if(starStr.equals(conf.condition)){
@@ -748,10 +875,9 @@ type	完成条件
 		if(targetConf == null){
 			return;
 		}
-		//恭喜*玩家名字七个字*合成了3星秘宝#秘宝名字#
 		String template = targetConf.announcement;
 		template = template.replace("*玩家名字七个字*", jz.name);
-		template = template.replace("#秘宝名字#", HeroService.getNameById(String.valueOf(mibao.nameId)));
+		template = template.replace("#将魂名字#", HeroService.getNameById(String.valueOf(mibao.nameId)));
 		send(template);
 	}
 	protected void checkTanBao(Event param) {
@@ -797,10 +923,15 @@ type	完成条件
 			//恭喜*玩家名字七个字*探宝获得3星秘宝#秘宝名字#
 			String template = targetConf.announcement;
 			template = template.replace("*玩家名字七个字*", jz.name);
-			template = template.replace("#秘宝名字#", HeroService.getNameById(String.valueOf(mibao.nameId)));
+			template = template.replace("#将魂名字#", HeroService.getNameById(String.valueOf(mibao.nameId)));
 			//send(template);
 			//2016年1月26日13:30:26 客户端点击界面时才发广播，先存起来你。
-			session.setAttribute("MiBaoBDCache", template);
+			List<String> broadList = (List<String>) session.getAttribute("MiBaoBDCache");
+			if(broadList == null){
+				broadList = new LinkedList<String>();
+			}
+			broadList.add(template);
+			session.setAttribute("MiBaoBDCache", broadList);
 		}
 	}
 	protected void checkMiBaoStarCnt(JunZhu jz, IoSession session) {
@@ -833,13 +964,56 @@ type	完成条件
 		//template = template.replace("#N#", String.valueOf(cnt));
 		if(session.containsAttribute("inTanBaoGiveReward")){
 			//2016年1月26日13:30:26 客户端点击界面时才发广播，先存起来你。
-			session.setAttribute("MiBaoBDCache", template);
+			List<String> broadList = (List<String>) session.getAttribute("MiBaoBDCache");
+			if(broadList == null){
+				broadList = new LinkedList<String>();
+			}
+			broadList.add(template);
+			session.setAttribute("MiBaoBDCache", broadList);
 		}else{
 			send(template);
 		}
 	}
+	
+	protected void zhanLingCity(Event param) {
+		//new Object[] { jz.id,		jz.level, jz })
+		Object[] arr = (Object[]) param.param;
+		String JGlmName = (String) arr[0];
+		String  FSLmName = (String) arr[1];
+		boolean isNPCCity = (boolean) arr[2];
+		String cityName = (String) arr[3];
+		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
+		AnnounceTemp targetConf = null;
+		for(AnnounceTemp conf : confList){
+			if(isNPCCity){//npc
+				if(conf.type == 34){
+					targetConf = conf;
+					break;
+				}
+			}else if(conf.type == 33){ //联盟镇守
+				targetConf = conf;
+				break;
+			}
+		}
+		if(targetConf == null){
+			return;
+		}
+		//发送郡城战广播
+		String template = targetConf.announcement;
+		template = template.replace("#联盟名字七个字#",JGlmName);
+		if(isNPCCity){
+			template = template.replace("%守军名字七个字%",FSLmName);
+		}else{
+			template = template.replace("%联盟名字七个字%",JGlmName);
+		}
+		template = template.replace("@@",cityName);
+		send(template);
+	}
+	
 	@Override
 	protected void doReg() {
+//		EventMgr.regist(ED.CHONGLOU_RANK_REFRESH, this);
+		EventMgr.regist(ED.CHONGLOU_BROADCAST, this);
 		EventMgr.regist(ED.TAN_BAO_JIANG_LI, this);
 		EventMgr.regist(ED.MIBAO_UP_STAR, this);
 		EventMgr.regist(ED.GAIN_MIBAO, this);
@@ -852,11 +1026,14 @@ type	完成条件
 		EventMgr.regist(ED.YOU_XIA_SUCCESS, this);
 		EventMgr.regist(ED.BAI_ZHAN_RANK_UP, this);
 		EventMgr.regist(ED.MIBAO_HECHENG_BROADCAST, this);
-		EventMgr.regist(ED.LM_SHOP_BUY, this);
+//		EventMgr.regist(ED.LM_SHOP_BUY, this);
 		EventMgr.regist(ED.jibai, this);
 		EventMgr.regist(ED.BUY_TongBi_BaoJi, this);
 		EventMgr.regist(ED.BIAOCHE_CUIHUI, this);
 		EventMgr.regist(ED.LIEFU_GET_FUWEN, this);
 		EventMgr.regist(ED.JIAPIAN_DUIHUAN_FUWEN, this);
+		EventMgr.regist(ED.CITY_WAR_ZHAN_LING, this);
+		EventMgr.regist(ED.LIANMENG_UPGRADE_LEVEL, this);
+		EventMgr.regist(ED.PLAYER_CHENHAO_DUIHUAN, this);
 	}
 }

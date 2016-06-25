@@ -3396,6 +3396,24 @@ public final class Qiandao {
      * </pre>
      */
     int getIsDouble();
+
+    // optional int32 pieceNum = 11;
+    /**
+     * <code>optional int32 pieceNum = 11;</code>
+     *
+     * <pre>
+     *秘宝可分解 时发送;
+     * </pre>
+     */
+    boolean hasPieceNum();
+    /**
+     * <code>optional int32 pieceNum = 11;</code>
+     *
+     * <pre>
+     *秘宝可分解 时发送;
+     * </pre>
+     */
+    int getPieceNum();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.QiandaoAward}
@@ -3500,6 +3518,11 @@ public final class Qiandao {
             case 80: {
               bitField0_ |= 0x00000200;
               isDouble_ = input.readInt32();
+              break;
+            }
+            case 88: {
+              bitField0_ |= 0x00000400;
+              pieceNum_ = input.readInt32();
               break;
             }
           }
@@ -3782,6 +3805,30 @@ public final class Qiandao {
       return isDouble_;
     }
 
+    // optional int32 pieceNum = 11;
+    public static final int PIECENUM_FIELD_NUMBER = 11;
+    private int pieceNum_;
+    /**
+     * <code>optional int32 pieceNum = 11;</code>
+     *
+     * <pre>
+     *秘宝可分解 时发送;
+     * </pre>
+     */
+    public boolean hasPieceNum() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional int32 pieceNum = 11;</code>
+     *
+     * <pre>
+     *秘宝可分解 时发送;
+     * </pre>
+     */
+    public int getPieceNum() {
+      return pieceNum_;
+    }
+
     private void initFields() {
       id_ = 0;
       month_ = 0;
@@ -3793,6 +3840,7 @@ public final class Qiandao {
       vipDouble_ = 0;
       bottomColor_ = 0;
       isDouble_ = 0;
+      pieceNum_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3848,6 +3896,9 @@ public final class Qiandao {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeInt32(10, isDouble_);
       }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeInt32(11, pieceNum_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -3896,6 +3947,10 @@ public final class Qiandao {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(10, isDouble_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(11, pieceNum_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4037,6 +4092,8 @@ public final class Qiandao {
         bitField0_ = (bitField0_ & ~0x00000100);
         isDouble_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
+        pieceNum_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -4105,6 +4162,10 @@ public final class Qiandao {
           to_bitField0_ |= 0x00000200;
         }
         result.isDouble_ = isDouble_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.pieceNum_ = pieceNum_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4150,6 +4211,9 @@ public final class Qiandao {
         }
         if (other.hasIsDouble()) {
           setIsDouble(other.getIsDouble());
+        }
+        if (other.hasPieceNum()) {
+          setPieceNum(other.getPieceNum());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4676,6 +4740,55 @@ public final class Qiandao {
       public Builder clearIsDouble() {
         bitField0_ = (bitField0_ & ~0x00000200);
         isDouble_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 pieceNum = 11;
+      private int pieceNum_ ;
+      /**
+       * <code>optional int32 pieceNum = 11;</code>
+       *
+       * <pre>
+       *秘宝可分解 时发送;
+       * </pre>
+       */
+      public boolean hasPieceNum() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional int32 pieceNum = 11;</code>
+       *
+       * <pre>
+       *秘宝可分解 时发送;
+       * </pre>
+       */
+      public int getPieceNum() {
+        return pieceNum_;
+      }
+      /**
+       * <code>optional int32 pieceNum = 11;</code>
+       *
+       * <pre>
+       *秘宝可分解 时发送;
+       * </pre>
+       */
+      public Builder setPieceNum(int value) {
+        bitField0_ |= 0x00000400;
+        pieceNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 pieceNum = 11;</code>
+       *
+       * <pre>
+       *秘宝可分解 时发送;
+       * </pre>
+       */
+      public Builder clearPieceNum() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        pieceNum_ = 0;
         onChanged();
         return this;
       }
@@ -5699,14 +5812,14 @@ public final class Qiandao {
       " \002(\005\"_\n\013QiandaoResp\022\016\n\006result\030\001 \002(\005\022\020\n\010v" +
       "ipCount\030\002 \002(\005\022.\n\005award\030\003 \003(\0132\037.qxmobile." +
       "protobuf.QiandaoAward\"\035\n\017GetVipDoubleReq" +
-      "\022\n\n\002id\030\001 \002(\005\"\265\001\n\014QiandaoAward\022\n\n\002id\030\001 \002(" +
+      "\022\n\n\002id\030\001 \002(\005\"\307\001\n\014QiandaoAward\022\n\n\002id\030\001 \002(" +
       "\005\022\r\n\005month\030\002 \002(\005\022\013\n\003day\030\003 \002(\005\022\r\n\005state\030\004",
       " \001(\005\022\021\n\tawardType\030\005 \001(\005\022\017\n\007awardId\030\006 \001(\005" +
       "\022\020\n\010awardNum\030\007 \001(\005\022\021\n\tvipDouble\030\010 \001(\005\022\023\n" +
-      "\013bottomColor\030\t \001(\005\022\020\n\010isDouble\030\n \001(\005\"\037\n\020" +
-      "GetVipPresentReq\022\013\n\003vip\030\001 \002(\005\"1\n\021GetVipP" +
-      "resentResp\022\013\n\003vip\030\001 \002(\005\022\017\n\007success\030\002 \002(\005" +
-      "B\tB\007Qiandao"
+      "\013bottomColor\030\t \001(\005\022\020\n\010isDouble\030\n \001(\005\022\020\n\010" +
+      "pieceNum\030\013 \001(\005\"\037\n\020GetVipPresentReq\022\013\n\003vi" +
+      "p\030\001 \002(\005\"1\n\021GetVipPresentResp\022\013\n\003vip\030\001 \002(" +
+      "\005\022\017\n\007success\030\002 \002(\005B\tB\007Qiandao"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5736,7 +5849,7 @@ public final class Qiandao {
           internal_static_qxmobile_protobuf_QiandaoAward_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_QiandaoAward_descriptor,
-              new java.lang.String[] { "Id", "Month", "Day", "State", "AwardType", "AwardId", "AwardNum", "VipDouble", "BottomColor", "IsDouble", });
+              new java.lang.String[] { "Id", "Month", "Day", "State", "AwardType", "AwardId", "AwardNum", "VipDouble", "BottomColor", "IsDouble", "PieceNum", });
           internal_static_qxmobile_protobuf_GetVipPresentReq_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_qxmobile_protobuf_GetVipPresentReq_fieldAccessorTable = new

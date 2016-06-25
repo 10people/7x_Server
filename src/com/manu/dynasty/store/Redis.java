@@ -144,6 +144,25 @@ public class Redis {
 		this.pool.returnResource(redis);
 	}
 	
+	public void hset(byte[] key, byte[] field, MessageLite msg) {
+		if (msg == null || key == null || field == null) {
+			return;
+		}
+		Jedis redis = this.pool.getResource();
+		redis.hset(key, field, msg.toByteArray());
+		this.pool.returnResource(redis);
+	}
+	
+	public byte[] hget(byte[] key, byte[] field) {
+		if (key == null || field == null) {
+			return null;
+		}
+		Jedis redis = this.pool.getResource();
+		byte[] value = redis.hget(key, field);
+		this.pool.returnResource(redis);
+		return value;
+	}
+	
 	public String hget(String key, String field) {
 		if (key == null || field == null) {
 			return "";
@@ -154,6 +173,25 @@ public class Redis {
 		return value;
 	}
 	
+	public Map<byte[], byte[]> hgetAll(byte[] key) {
+		if (key == null) {
+			return null;
+		}
+		Jedis redis = this.pool.getResource();
+		Map<byte[], byte[]> map = redis.hgetAll(key);
+		this.pool.returnResource(redis);
+		return map;
+	}
+	
+	public void hdel(byte[] key, byte[] field) {
+		if (key == null || field == null) {
+			return;
+		}
+		Jedis redis = this.pool.getResource();
+		redis.hdel(key, field);
+		this.pool.returnResource(redis);
+	}
+	
 	public void hdel(String key, String field) {
 		if (key == null || field == null) {
 			return;
@@ -161,6 +199,26 @@ public class Redis {
 		Jedis redis = this.pool.getResource();
 		redis.hdel(key, field);
 		this.pool.returnResource(redis);
+	}
+	
+	public long hlen(String key) {
+		if (key == null) {
+			return 0;
+		}
+		Jedis redis = this.pool.getResource();
+		long len = redis.hlen(key);
+		this.pool.returnResource(redis);
+		return len;
+	}
+	
+	public Long hlen(byte[] key) {
+		if (key == null) {
+			return new Long(0);
+		}
+		Jedis redis = this.pool.getResource();
+		Long len = redis.hlen(key);
+		this.pool.returnResource(redis);
+		return len;
 	}
 	
 	
@@ -238,6 +296,13 @@ public class Redis {
 	public String get(String key) {
 		Jedis redis = this.pool.getResource();
 		String ret = redis.get(key);
+		this.pool.returnResource(redis);
+		return ret;
+	}
+	
+	public List<String> mget(String... key) {
+		Jedis redis = this.pool.getResource();
+		List<String> ret = redis.mget(key);
 		this.pool.returnResource(redis);
 		return ret;
 	}

@@ -213,12 +213,10 @@ public class XunHanCheng extends GameObject{
 	}
 	@Override
 	public int getGuoJiaId(int i) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	@Override
 	public int getRoleId(int i) {
-		// TODO Auto-generated method stub
-		return 0;
+		return model;
 	}
 }

@@ -1,3 +1,6 @@
+<%@page import="com.manu.network.SessionManager"%>
+<%@page import="com.manu.network.SessionUser"%>
+<%@page import="qxmobile.protobuf.GameTask.GetTaskReward"%>
 <%@page import="com.qx.account.AccountManager"%>
 <%@page import="com.qx.account.FunctionOpenMgr"%>
 <%@page import="com.qx.award.AwardMgr"%>
@@ -108,39 +111,17 @@ function go(act, id, type){
 					HibernateUtil.delete(o);
 				} else if("addProg".equals(action)) {
 					//领奖
-			        WorkTaskBean taskBean = HibernateUtil.find(WorkTaskBean.class, " where dbId="+request.getParameter("dbId"));
+			        WorkTaskBean taskBean = HibernateUtil.find(WorkTaskBean.class, " where dbId=" + request.getParameter("dbId"));
 			        if(taskBean != null){
-				        int taskId = taskBean.tid;
-				        if(taskBean != null && taskBean.progress == -1){
-					        ZhuXian zhuXian = GameTaskMgr.inst.zhuxianTaskMap.get(taskId);
-					        out("啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊竟然删除了222222222！！！！");out(taskId);
-					        HibernateUtil.delete(taskBean);
-					        String awardStr = zhuXian.getAward();
-					        StringBuffer mess = new StringBuffer();
-					        boolean allSucc = true;
-					        if(awardStr != null && !awardStr.equals("")){
-					            String[] goodsList = awardStr.split("#");
-					            for(String goods : goodsList){
-					                String[] goodsInfo = goods.split(":");
-					                AwardTemp awardTemp = new AwardTemp();
-					                int itemType = Integer.parseInt(goodsInfo[0]);
-					                int itemId = Integer.parseInt(goodsInfo[1]);
-					                int itemNum = Integer.parseInt(goodsInfo[2]);
-					                awardTemp.setItemType(itemType);
-					                awardTemp.setItemId(itemId);
-					                awardTemp.setItemNum(itemNum);
-					                RobotSession ss = new RobotSession();
-					                ss.setAttribute("junzhuId", junzhu.id);
-					                boolean success = AwardMgr.inst.giveReward(ss, awardTemp, junzhu);
-					                }
-					         }
-					        if(zhuXian.type == GameTaskMgr.zhuXianType){
-					            MemcachedCRUD.getMemCachedClient().set(FunctionOpenMgr.awardRenWuOverIdKey+junzhu.id, taskId);
-					        }
-				        }
+			        	int taskId = taskBean.tid;
+			        	GetTaskReward.Builder req = GetTaskReward.newBuilder();
+			        	req.setTaskId(taskId);
+			        	SessionUser su = SessionManager.inst.findByJunZhuId(junzhu.id);
+						if(su != null){
+							GameTaskMgr.inst.getReward(0, su.session, req);
+						}
 			        }
-			        IoSession ss = AccountManager.getIoSession(junzhu.id);
-					if(ss != null)GameTaskMgr.inst.sendTaskList(0, ss, null);
+			        
 				} else if("subProg".equals(action)) {
 					WorkTaskBean o = HibernateUtil.find(WorkTaskBean.class, " where dbId="+request.getParameter("dbId"));
 					if(o!=null)
@@ -148,6 +129,7 @@ function go(act, id, type){
 						o.progress = -1;
 						HibernateUtil.save(o);
 	                    MemcachedCRUD.getMemCachedClient().set("RenWuOverId#"+junzhu.id, o.tid);
+	                    GameTaskMgr.inst.fireNextOutTrigger100Task(o.jzid, o.tid);
 					}
 					IoSession ss = AccountManager.getIoSession(junzhu.id);
 					if(ss != null)GameTaskMgr.inst.sendTaskList(0, ss, null);
@@ -190,7 +172,7 @@ function go(act, id, type){
 					out.append("<td>"+bean.tid+"</td>");	
 					ZhuXian t = GameTaskMgr.inst.zhuxianTaskMap.get(bean.tid);
 					out.append("<td>"+(t==null ? "not found":t.getTitle())+"</td>");		
-					out.append("<td>"+bean.progress+"</td>");
+					out.append("<td>"+(bean.progress == 0? "未完成" : bean.progress == -1 ?"已完成":"已领奖")+"</td>");
 					out.append("<td>&nbsp;<a href='?action=subProg&dbId="+bean.dbId+"'>完成任务</a>&nbsp;<a href='?action=addProg&dbId="+bean.dbId+"'>领奖</a></td>");
 					out.append("<td><a href='?action=delete&dbId="+bean.dbId+"'>删除</a></td>");
 					out.append("<tr>\n");

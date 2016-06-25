@@ -1,3 +1,4 @@
+<%@page import="java.util.HashMap"%>
 <%@page import="java.util.Collection"%>
 <%@page import="com.qx.alliancefight.CampsiteInfo"%>
 <%@page import="com.qx.world.FightScene"%>
@@ -48,8 +49,24 @@ do{
 		out("not found:"+scId);
 		break;
 	}
-	if("clearPrepareTime".equals(act)) {
+	if("clearFenShenCD".equals(act)) {
+		fs.fenShenCDMap = new HashMap();
+	}else if("clearPrepareTime".equals(act)) {
 		fs.prepareMS = 0;
+		//
+		/*
+		int winLmId = fs.blueLmId;
+		int gxAll = 999;
+		int gxGJ = 10;
+		//fs.cityId = 510302;//ming
+		fs.cityId = 510110;//ye
+		fs.makeLMAward(winLmId, fs.redLmId, gxAll, gxGJ);
+		fs.makeLMAward(winLmId, fs.blueLmId, gxAll, gxGJ);
+		//
+		winLmId = fs.redLmId;
+		fs.makeLMAward(winLmId, fs.redLmId, gxAll, gxGJ);
+		fs.makeLMAward(winLmId, fs.blueLmId, gxAll, gxGJ);
+		*/
 	}
 	br();
 	out("状态：(-1准备；10比赛中;500结束;)"+fs.step);br();
@@ -91,6 +108,8 @@ do{
 		BigSwitch.inst.cdTimeMgr.start();
 	} else if("fixTakeTowerSpeed".equals(act)) {
 		FightScene.fixTakeTowerSpeed = Integer.parseInt(request.getParameter("v"));
+		FightScene.fenShenCD = Integer.parseInt(request.getParameter("fenShenCD"));
+		FightScene.dayFreeFuHuoTimes = Integer.parseInt(request.getParameter("dayFreeFuHuoTimes"));
 	} else if("updateState".equals(act)) {
 	} else if("updateDayState".equals(act)) {
 	} else if("broadcastBattleInfo".equals(act)) {
@@ -112,14 +131,17 @@ tableEnd();
 %>
 <br/>
 <br/>
-<a href='?scId=<%=scId %>&act=clearPrepareTime'>结束准备时间</a>
+<a href='?scId=<%=scId %>&act=clearPrepareTime'>结束准备时间</a>--
+<a href='?scId=<%=scId %>&act=clearFenShenCD'>清空分身CD</a>--
 <br/>
 <br/>
 <form action="allianceFight.jsp">
 		额外增加占塔速度<input type="text" name="v" value="<%=FightScene.fixTakeTowerSpeed%>"/>
+<br/>		分身CD<input type="text" name="fenShenCD" value="<%=FightScene.fenShenCD%>"/>
+<br/>		原地复活次数<input type="text" name="dayFreeFuHuoTimes" value="<%=FightScene.dayFreeFuHuoTimes%>"/>
 		<input type="hidden" name="act" value="fixTakeTowerSpeed"/>
 		<input type="hidden" name="scId" value="<%=scId%>"/>
-		<input type="submit" value="修改"/>
+<br/>		<input type="submit" value="修改"/>
 </form>
 <br/>
 <br/>

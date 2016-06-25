@@ -151,6 +151,7 @@
 	<file name="data/ChonglouNpcTemp.xml"/>
 	<file name="data/LieFuTemp.xml"/>
 
+	<file name="data/Mishu.xml"/>
 	<file name="data/MiBaoNew.xml"/>
 	<file name="data/MiBaoNewSuiPian.xml"/>
 
@@ -167,5 +168,7 @@
 	<file name="data/WuBeiFang.xml"/>
 	<file name="data/JCZPersonalAward.xml"/>
 	<file name="data/LianmengJuanxian.xml"/>
-	
+	<file name="data/JCZTemp.xml"/>
+	<file name="data/PuGong.xml"/>
+	<file name="data/BuweiRank.xml"/>
 </config>

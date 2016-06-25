@@ -56,6 +56,8 @@ import com.qx.purchase.PurchaseMgr;
 import com.qx.pve.PveMgr;
 import com.qx.ranking.RankingGongJinMgr;
 import com.qx.ranking.RankingMgr;
+import com.qx.task.DailyTaskCondition;
+import com.qx.task.DailyTaskConstants;
 import com.qx.timeworker.FunctionID;
 import com.qx.util.TableIDCreator;
 import com.qx.vip.VipData;
@@ -105,7 +107,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 	public static Mission exit = new Mission(0, null, null);
 	public LinkedBlockingQueue<Mission> missions = new LinkedBlockingQueue<Mission>();
 	
-	public static Map<Long, Long> fightingLock = new HashMap<Long, Long>();
+	public static Map<Long, BattleInfo4Pvp> fightingLock = new HashMap<Long, BattleInfo4Pvp>();
 	public static Map<Long, Long[]> prepareLock = new HashMap<Long, Long[]>();
 	public static Map<Integer, GuYongBing> bingMap = new HashMap<Integer, GuYongBing>();
 	public static int lveduoOpenId = 211;
@@ -128,8 +130,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 	
 	public LveDuoMgr(){
 		inst = this;
-		List<GuYongBing> guYongBingList = TempletService
-				.listAll(GuYongBing.class.getSimpleName());
+		List<GuYongBing> guYongBingList = TempletService.listAll(GuYongBing.class.getSimpleName());
 		for (GuYongBing elem : guYongBingList) {
 			bingMap.put(elem.id, elem);
 		}
@@ -241,7 +242,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		if(lve.getGongJinTime != null && DateUtils.isSameDay(lve.getGongJinTime)){
 			resp.setTimeToNight(-1); // 今日奖励已经领取过了
 		}else{
-			int timeDistance = DateUtils.timeDistanceTodayOclock(21, 0);
+			int timeDistance = DateUtils.timeDistanceTodayOclock(22, 0);
 			resp.setTimeToNight(timeDistance / 1000);
 		}
 		long rank = RankingGongJinMgr.DB.zrevrank(RankingGongJinMgr.gongJinPersonalRank, jzid+"");
@@ -406,7 +407,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			guoinfo2.setGuojiaId(key);
 			guoinfo2.setHate(value);
 			resp.addGuoLianInfos(guoinfo2);
-			log.info("key is:{}, value is:{}", key, value);
+//			log.info("key is:{}, value is:{}", key, value);
 		});
 //		for(Map.Entry<Integer,Integer> intMap: arrayList){
 //			Integer key =  intMap.getKey();
@@ -499,13 +500,6 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		long enemyId = req.getEnemyId();
 		
 		LveGoLveDuoResp.Builder resp = LveGoLveDuoResp.newBuilder();
-		// -1 不能掠夺自己
-		if(enemyId == jz.id){
-			log.error("君主：{}掠夺失败，玩家不能掠夺自己", jz.id);
-			resp.setIsCanLveDuo(-1);
-			session.write(resp);
-			return;
-		}
 		// 掠夺活动是否开始
 		boolean yes = DateUtils.isInDeadline(CanShu.OPENTIME_LUEDUO, CanShu.CLOSETIME_LUEDUO);
 		if(!yes){
@@ -514,61 +508,34 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			session.write(resp);
 			return;
 		}
-		// 对手情况
-		JunZhu oppo = HibernateUtil.find(JunZhu.class, enemyId); 
-		if(oppo == null){
-			resp.setIsCanLveDuo(6);
-			session.write(resp);
-			return;
-		}
-		// 对手是否开启掠夺
-		boolean isEnemyCanLve = FunctionOpenMgr.inst.isFunctionOpen(FunctionID.lveDuo, enemyId, oppo.level);
-		if(!isEnemyCanLve){
-			resp.setIsCanLveDuo(8);
-			session.write(resp);
-			return;
-		}
-		// 同联盟不能掠夺 且 无联盟不可掠夺和被掠夺
+		
+		// 无联盟不可掠夺和被掠夺
 		AlliancePlayer playerA = HibernateUtil.find(AlliancePlayer.class, jz.id);
-		AlliancePlayer playerB = HibernateUtil.find(AlliancePlayer.class, enemyId);
 		if(playerA == null || playerA.lianMengId <= 0){
 			log.error("玩家：{}无联盟，不能掠夺别人", jz.id);
-			//sendError(session, id, "未加入联盟，不能掠夺");
 			resp.setIsCanLveDuo(9);
 			session.write(resp);
 			return;
 		}
-		if(playerB == null || playerB.lianMengId <= 0){
-			log.error("玩家：{}无联盟，不能被人掠夺", enemyId);
-			//sendError(session, id, "被掠夺玩家未加入联盟，不能被掠夺");
-			resp.setIsCanLveDuo(10);
+		
+		
+		// -1 不能掠夺自己
+		if(enemyId == jz.id){
+			log.error("君主：{}掠夺失败，玩家不能掠夺自己", jz.id);
+			resp.setIsCanLveDuo(-1);
 			session.write(resp);
 			return;
 		}
-//		// A玩家有联盟
-//		if(playerA != null && playerA.lianMengId > 0){
-//			// B玩家有联盟
-//			if(playerB != null && playerB.lianMengId > 0){
-				// A 和 B联盟
-		// 同联盟不能被掠夺
-		if (playerA.lianMengId == playerB.lianMengId) {
-			log.error("玩家：{}和被掠夺者：{}，同联盟，无法掠夺", jz.id, enemyId);
-			resp.setIsCanLveDuo(1);
-			session.write(resp);
-			return;
-		}
-//			}
-//		}
-
-		/*
-		 * 是否重设数据
-		 */
+		
+		
 		LveDuoBean myBean = HibernateUtil.find(LveDuoBean.class, jz.id);
 		if (myBean == null) {
 			myBean = new LveDuoBean(jz.id);
 		}else{
 			resetLveDuoBean(myBean);
 		}
+		
+		
 		// 次数不够
 		if(myBean.todayTimes == myBean.usedTimes){
 			log.error("玩家：{}掠夺次数：{}已用完，请求掠夺失败", jz.id, myBean.usedTimes);
@@ -576,10 +543,55 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			session.write(resp);
 			return;
 		}
+		
+		
 		// CD未到
 		if(getLeftCD(myBean) > 0){
 			log.error("玩家：{}CD时间没到，请求掠夺失败", jz.id);
 			resp.setIsCanLveDuo(2);
+			session.write(resp);
+			return;
+		}
+	
+		// 对手情况
+		JunZhu oppo = HibernateUtil.find(JunZhu.class, enemyId); 
+		if(oppo == null){
+			resp.setIsCanLveDuo(6);
+			session.write(resp);
+			return;
+		}
+		
+		//对手未开启联盟，不能掠夺
+		boolean isEnemyLmOpen = FunctionOpenMgr.inst.isFunctionOpen(FunctionID.LianMeng, enemyId, oppo.level);
+		if(!isEnemyLmOpen){
+			log.error("玩家：{}未开启联盟功能，不能被人掠夺", enemyId);
+			resp.setIsCanLveDuo(11);
+			session.write(resp);
+			return;
+		}
+		
+		// 对手未加入联盟，不能掠夺
+		AlliancePlayer playerB = HibernateUtil.find(AlliancePlayer.class, enemyId);
+		if(playerB == null || playerB.lianMengId <= 0){
+			log.error("玩家：{}无联盟，不能被人掠夺", enemyId);
+			resp.setIsCanLveDuo(10);
+			session.write(resp);
+			return;
+		}
+		
+		// 同联盟不能掠夺
+		if (playerA.lianMengId == playerB.lianMengId) {
+			log.error("玩家：{}和被掠夺者：{}，同联盟，无法掠夺", jz.id, enemyId);
+			resp.setIsCanLveDuo(1);
+			session.write(resp);
+			return;
+		}
+		
+		
+		//对手加入联盟，但是等级不够开启掠夺，不能掠夺
+		boolean isEnemyCanLve = FunctionOpenMgr.inst.isFunctionOpen(FunctionID.lveDuo, enemyId, oppo.level);
+		if(!isEnemyCanLve){
+			resp.setIsCanLveDuo(8);
 			session.write(resp);
 			return;
 		}
@@ -588,18 +600,10 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		if(enemyBean == null){
 			enemyBean = new LveDuoBean(enemyId);
 		}
-		// 对手保护期间
-		yes = isPassProtectPoint(enemyBean.lastBattleEndTime);
-		if(!yes){
-			log.error("玩家：{}请求掠夺失败，对手:{}处于保护期", jz.id, enemyId);
-			resp.setIsCanLveDuo(4);
-			session.write(resp);
-			return;
-		}
 		// 对手正在被略
-		Long fightTime = fightingLock.get(enemyId);
-		if(fightTime != null){
-			if(System.currentTimeMillis() > (CanShu.MAXTIME_LUEDUO *1000 + fightTime) ){
+		BattleInfo4Pvp battleInfo4Pvp = fightingLock.get(enemyId);
+		if(battleInfo4Pvp != null){
+			if(System.currentTimeMillis() > ((CanShu.MAXTIME_LUEDUO+PvpMgr.inst.PVP_BATTLE_DELAY_TIME) *1000 + battleInfo4Pvp.startTime) ){
 				fightingLock.remove(enemyId);
 				log.info("掠夺防守玩家：{}战斗非一场结束，时间过长，从fightingLock中remove掉", enemyId);
 			}else{
@@ -615,13 +619,23 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		if(info != null){
 			if (new Date().getTime() <= Long.valueOf(info[1]) / 1000 + 30) {
 				log.error("玩家：{}请求掠夺失败，对手：{}正在和别人战斗的准备阶段", jz.id, enemyId);
-				resp.setIsCanLveDuo(6);
+				resp.setIsCanLveDuo(12);
 				session.write(resp);
 				return;
 			}else{
 				// 超时
 				prepareLock.remove(enemyId);
 			}
+		}
+		
+		
+		// 对手保护期间
+		yes = isPassProtectPoint(enemyBean.lastBattleEndTime);
+		if(!yes){
+			log.error("玩家：{}请求掠夺失败，对手:{}处于保护期", jz.id, enemyId);
+			resp.setIsCanLveDuo(4);
+			session.write(resp);
+			return;
 		}
 		
 		int myGongJin = RankingGongJinMgr.inst.getJunZhuGongJin(jz.id);
@@ -917,7 +931,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		Node.Builder enemyNode = Node.newBuilder();
 		// 添加装备
 		List<Integer> zbIdList = EquipMgr.inst.getEquipCfgIdList(enemy);
-		PveMgr.inst.fillZhuangbei4Player(enemyNode, zbIdList, enemy.id);
+		PveMgr.inst.fillZhuangbei4Player(enemyNode, zbIdList, enemy);
 		// 添加flag,添加君主基本信息（暴击、类型、读表类型、视野）
 		enemyNode.addFlagIds(101);
 		enemyNode.setNodeType(NodeType.PLAYER);
@@ -935,6 +949,9 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		enemyNode.setNuQiZhi(MibaoMgr.inst.getChuShiNuQi(enemy.id));
 		enemyNode.setMibaoCount(MibaoMgr.inst.getActivateMiBaoCount(enemy.id));
 		enemyNode.setMibaoPower(JunZhuMgr.inst.getAllMibaoProvideZhanli(enemy));
+		enemyNode.setArmor(0);
+		enemyNode.setArmorMax(0);
+		enemyNode.setArmorRatio(0);
 		enemys.add(enemyNode.build());
 		
 		
@@ -1025,8 +1042,9 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		HibernateUtil.save(bean);
 		log.info("君主：{}主动参加一次掠夺， 掠夺相关数据变为：已用掠夺次数：{}， 历史战斗次数：{}， 战斗时间：{}",
 				bean.usedTimes, bean.hisAllBattle, bean.lastBattleTime);
-
-		fightingLock.put(enemyId, System.currentTimeMillis());
+		 
+		BattleInfo4Pvp battleInfo4Pvp = new BattleInfo4Pvp(jz.id, System.currentTimeMillis());
+		fightingLock.put(enemyId, battleInfo4Pvp);
 		log.info("防守方：{}，战斗锁定", enemyId);
 
 		/*（A B 不同联盟）
@@ -1220,6 +1238,13 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		long winId = req.getWinId();
 		int zhandouId = req.getZhandouId();
 		List<Bing.Builder> bings = req.getBingsBuilderList();
+		
+		BattleInfo4Pvp battleInfo4Pvp = fightingLock.remove(enemyId);
+		if(battleInfo4Pvp == null || 
+				(System.currentTimeMillis() - battleInfo4Pvp.startTime)/1000 > CanShu.MAXTIME_LUEDUO + PvpMgr.inst.PVP_BATTLE_DELAY_TIME) {
+			winId = enemyId;
+		}
+		
 		
 		int num =0;
 //		boolean isR = isRollBackAll(enemyId);
@@ -1459,14 +1484,13 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		HibernateUtil.save(fangshouLve);
 		HibernateUtil.save(zhanr);
 
-		fightingLock.remove(enemyId);
 		willLostGongJin.remove(jId);
 		LveBattleEndResp.Builder resp = LveBattleEndResp.newBuilder();
 		resp.setJifen(zhanr.gongJiGetGongjin);
 		resp.setShengwang(zhanr.gongjiGetGuoSW);
 		resp.setBuild(zhanr.gongJiGetMengJianShe);
 		session.write(resp.build());
-		
+		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(junZhu.id , DailyTaskConstants.lueDuo, 1));
 //		int anweiJiang = (int) Math.round(CanShu.LUEDUO_COMFORTED_AWARD_K *
 //				fangshouFangSuishi + CanShu.LUEDUO_COMFORTED_AWARD_B);
 		

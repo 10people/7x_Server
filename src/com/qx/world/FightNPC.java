@@ -8,5 +8,5 @@ public class FightNPC extends Player{
 	public Player target;
 	public long preSkillTime;
 	public JunZhu fakeJz;
-	public int state = 0;//2归位;1追击;0空闲
+	public int state = 0;//2归位;1追击;11站立攻击;0空闲
 }

@@ -1,11 +1,18 @@
 package com.qx.account;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.apache.commons.codec.language.RefinedSoundex;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.protobuf.MessageLite.Builder;
+import com.manu.dynasty.boot.GameServer;
 import com.manu.dynasty.store.Redis;
+import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.DangpuCommon;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
@@ -46,7 +53,7 @@ import xg.push.XGTagTask;
  */
 public class SettingsMgr {
 	public static int buyModelPrice = 500;
-	public static long changeModelCD = 3600*24*1000;
+	public static long changeModelCD = 3600*24*1000*5;
 	public static Logger log = LoggerFactory.getLogger(SettingsMgr.class);
 	public static int changeNameCost = 100;
 	public static int ZHUANGUOLING = 910001;
@@ -55,6 +62,7 @@ public class SettingsMgr {
 	public static int ERROR_IN_LIANMENG = 101;// 转国失败，在联盟中
 	public static int ERROR_IN_YUANBAO = 103;//  103-元宝不足
 	public static int ERROR_GUOJIA_NOT_EXIST = 104;//  104-国家不存在
+	public static final String Key  = "CHANGE_NAME" + GameServer.serverId;
 
 	public void get(int id, IoSession session, Builder builder) {
 		Long v = (Long) session.getAttribute(SessionAttKey.junZhuId);
@@ -97,7 +105,31 @@ public class SettingsMgr {
 		ChangeName.Builder req = (qxmobile.protobuf.Settings.ChangeName.Builder) builder;
 		ChangeNameBack.Builder ret = ChangeNameBack.newBuilder();
 		ret.setName(req.getName());
-		boolean open = BigSwitch.inst.vipMgr.isVipPermit(VipData.change_name, jz.vipLevel);
+		boolean open = BigSwitch.inst.vipMgr.isVipPermit(VipData.change_name, jz.vipLevel);	
+		long currentTime = System.currentTimeMillis();
+		String record = Redis.getInstance().get(Key+jz.id) ;
+		long remainCdTime = 0 ;
+		if(record != null ){
+			long lastCurrentTime = Long.parseLong(record);
+			remainCdTime = (CanShu.CHANGE_NAME_CD*60*60*1000L) - (currentTime - lastCurrentTime) ;
+		}
+		String newName = req.getName();
+		remainCdTime = remainCdTime < 0 ? 0 : remainCdTime ;
+		if(newName == null || newName.length() == 0){
+			if(!open){
+				return;
+			}
+			ret.setCode(-700);
+			ret.setMsg(""+(remainCdTime));
+			session.write(ret.build());
+			return;
+		}
+		if(remainCdTime > 0 ){
+			ret.setCode(-600);
+			ret.setMsg(""+(remainCdTime));
+			session.write(ret.build());
+			return;
+		}
 		if (!open) {
 			ret.setCode(-400);
 			ret.setMsg("VIP等级不足");
@@ -138,14 +170,16 @@ public class SettingsMgr {
 		}
 		
 		jz.name = req.getName();
+		Redis.getInstance().set(Key+jz.id, currentTime+"");
 		YuanBaoMgr.inst.diff(jz, -changeNameCost, 0, changeNameCost, YBType.YB_MOD_NAME, "修改名字");
 		HibernateUtil.update(jz);
 		JunZhuMgr.inst.sendMainInfo(session,jz);
-		log.info("君主修改名字成功，君主:{}花费{}元宝将名字从{}改为{}", jz.id, oldName, req.getName());
+		log.info("君主修改名字成功，君主:{}花费{}元宝将名字从{}改为{}", jz.id, changeNameCost, oldName, req.getName());
 		ActLog.log.KingChange(jz.id, oldName, jz.name, ActLog.vopenid);
 		ret.setCode(0);
 		ret.setMsg("改名成功");
 		session.write(ret.build());
+		EventMgr.addEvent(ED.JUNZHU_CHANGE_NAME, new Object[]{oldName, jz.id});
 		//同步玩家名字
 		do{
 			Scene scene = (Scene) session.getAttribute(SessionAttKey.Scene);
@@ -198,6 +232,30 @@ public class SettingsMgr {
 		return cd;
 	}
 	
+	public void clearChangNMCD(long jzId) {
+		Redis.getInstance().del(Key+jzId);
+	}
+	public long getLastChangNameTM(long jzId) {
+		String time = Redis.getInstance().get(Key+jzId);
+		long lastChangeNameTM = 0;
+		if(null != time){
+			lastChangeNameTM = Long.valueOf(time);
+		}
+		return lastChangeNameTM;
+	}
+	
+	public void changeLastChangNMTM(long jzId,String lastChangNameTM) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+ 		Date date = null;
+ 		try {
+			date = formatter.parse(lastChangNameTM);
+			Long time = date.getTime();
+			Redis.getInstance().set(Key+jzId, String.valueOf(time));
+		} catch (ParseException e) {
+			log.info("{}日期格式错误", jzId);
+		}
+	}
+
 	/**
 	 * 转换国家
 	 * 

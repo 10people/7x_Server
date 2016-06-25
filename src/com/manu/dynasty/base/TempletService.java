@@ -17,6 +17,7 @@ import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.ExpTemp;
 import com.manu.dynasty.template.Fengcefuli;
 import com.manu.dynasty.template.ItemTemp;
+import com.manu.dynasty.template.JCZTemp;
 import com.manu.dynasty.template.QiangHua;
 import com.manu.dynasty.template.YunbiaoTemp;
 import com.manu.dynasty.template.ZhuangBei;
@@ -158,6 +159,7 @@ public class TempletService {
 		loadCanShu();
 		loadYunbiaoTemp();
 		 loadFengcefuli();
+		 loadJCZTemp();
 	}
 	//加载押镖配置
 	public void loadYunbiaoTemp() {
@@ -203,6 +205,7 @@ public class TempletService {
 		YunbiaoTemp.yunbiao_end_broadcast=map.get("yunbiao_end_broadcast").value;
 		YunbiaoTemp.yunbiao_comforted_award_k=Double.parseDouble(map.get("yunbiao_comforted_award_k").value);
 		YunbiaoTemp.yunbiao_comforted_award_b=Integer.parseInt(map.get("yunbiao_comforted_award_b").value);
+		YunbiaoTemp.yunbiao_comforted_award_Num=Integer.parseInt(map.get("yunbiao_comforted_award_Num").value);
 		YunbiaoTemp.cartAI_appear_interval=Integer.parseInt(map.get("cartAI_appear_interval").value);
 		YunbiaoTemp.killFoeAward_k=Double.parseDouble(map.get("killFoeAward_k").value);
 		YunbiaoTemp.killFoeAward_b=Double.parseDouble(map.get("killFoeAward_b").value);
@@ -317,6 +320,7 @@ public class TempletService {
 		
 		
 		CanShu.YUEKA_TIME = Integer.parseInt(map.get("YUEKA_TIME").value);
+		CanShu.ZHOUKA_TIME = Integer.parseInt(map.get("ZHOUKA_TIME").value);
 		CanShu.VIPLV_ININT = Integer.parseInt(map.get("VIPLV_ININT").value);
 		CanShu.IS_YUEKA_INIT = Integer.parseInt(map.get("IS_YUEKA_INIT").value);
 		//高级房屋参数
@@ -437,12 +441,34 @@ public class TempletService {
 		CanShu.JINGQI_FREETIMES = Integer.parseInt(map.get("JINGQI_FREETIMES").value);
 		CanShu.YUEKA_YUANBAO = Integer.parseInt(map.get("YUEKA_YUANBAO").value);
 		CanShu.ZHONGSHENKA_YUANBAO = Integer.parseInt(map.get("ZHONGSHENKA_YUANBAO").value);
+		CanShu.ZHOUKA_YUANBAO = Integer.parseInt(map.get("ZHOUKA_YUANBAO").value);
 		CanShu.MEIRI_DINGSHIZENGSONG_TILI = Integer.parseInt(map.get("MEIRI_DINGSHIZENGSONG_TILI").value);
 		CanShu.CHENGZHANGJIJIN_VIP = Integer.parseInt(map.get("CHENGZHANGJIJIN_VIP").value);
 		CanShu.CHENGZHANGJIJIN_COST = Integer.parseInt(map.get("CHENGZHANGJIJIN_COST").value);
 		CanShu.CHENGZHANGJIJIN_REBATE = Integer.parseInt(map.get("CHENGZHANGJIJIN_REBATE").value);
 		CanShu.LIANMXIAOWU_EXP = Double.parseDouble(map.get("LIANMXIAOWU_EXP").value);
 		CanShu.LIEFU_BLUE_FIRSTAWARD = map.get("LIEFU_BLUE_FIRSTAWARD").value;
+		CanShu.LIEFU_GREEN_FIRSTAWARD = map.get("LIEFU_GREEN_FIRSTAWARD").value;
+		CanShu.ZHUANGBEI_FIRSTAWARD = map.get("ZHUANGBEI_FIRSTAWARD").value;
+		CanShu.CHANGE_COUNTRY_CD = Integer.parseInt(map.get("CHANGE_COUNTRY_CD").value);
+		CanShu.CHANGE_NAME_CD = Integer.parseInt(map.get("CHANGE_NAME_CD").value);
+		CanShu.SHILIAN_CLEARCD_COST = Integer.parseInt(map.get("SHILIAN_CLEARCD_COST").value);
+		CanShu.GUOGUAN_RANK_MINLEVEL = Integer.parseInt(map.get("GUOGUAN_RANK_MINLEVEL").value);
+		CanShu.BAIZHAN_RANK_MINLEVEL = Integer.parseInt(map.get("BAIZHAN_RANK_MINLEVEL").value);
+		CanShu.CHONGLOU_RANK_MINLEVEL = Integer.parseInt(map.get("CHONGLOU_RANK_MINLEVEL").value);
+	}
+	
+	public void loadJCZTemp(){
+		List<JCZTemp> list = listAll(JCZTemp.class.getSimpleName());
+		Map<String, JCZTemp> map = new HashMap<String, JCZTemp>();
+		for(JCZTemp jTemp : list){
+			map.put(jTemp.getKey(), jTemp);
+		}
+		JCZTemp.declaration_startTime  = map.get("declaration_startTime").value;
+		JCZTemp.preparation_startTime = map.get("preparation_startTime").value;
+		JCZTemp.fighting_startTime = map.get("fighting_startTime").value;
+		JCZTemp.fighting_endTime = map.get("fighting_endTime").value;
+		JCZTemp.buyfenshen_price = map.get("buyfenshen_price").value;
 	}
 
 	public ZhuangBei getZhuangBei(int id) {

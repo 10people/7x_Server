@@ -53,6 +53,7 @@ import com.qx.junzhu.JunZhuMgr;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.pve.PveMgr;
+import com.qx.pvp.BattleInfo4Pvp;
 import com.qx.pvp.LveDuoBean;
 import com.qx.pvp.LveDuoMgr;
 import com.qx.pvp.PvpMgr;
@@ -97,7 +98,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 	public static Map<Integer, ReportTemp> reportMap;
 	public static int tongbiCODE = AwardMgr.ITEM_TONGBI_ID;
 	public static int gongxianCODE = 900015;
-	public static Map<Integer, Long> fightingLock = new HashMap<Integer, Long>();
+	public static Map<Long, BattleInfo4Pvp> fightingLock = new HashMap<Long, BattleInfo4Pvp>();
 //	public static Map<Long, Long[]> prepareLock = new HashMap<Long, Long[]>();
 //	public static Map<Integer, GuYongBing> bingMap = new HashMap<Integer, GuYongBing>();
 	public AtomicInteger zhandouIdMgr = new AtomicInteger(1);
@@ -586,27 +587,39 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			pin = new PromptInfo();
 			pin.jId = jz.id;
 		}
+		ReportTemp reportConf = reportMap.get(msg.configId);
 		boolean mustGet = false;
 		switch(msg.eventId){
 			case SuBaoConstant.been_lveDuo_event: //被掠夺 产生一个安慰速报
-				if(pin.ldComfortCount >= CanShu.LUEDUO_AWARDEDCOMFORT_MAXTIMES){
+				if(pin.ldComfortCount < CanShu.LUEDUO_AWARDEDCOMFORT_MAXTIMES){
 					mustGet = true;
 				}
 				pin.ldComfortCount ++;
 				HibernateUtil.save(pin);
 				break;
 			case SuBaoConstant.qiuaw4yb:
-				if(pin.ybComfortCount >= CanShu.YUNBIAO_AWARDEDCOMFORT_MAXTIMES){
-					mustGet = true;
+				if(pin.ybComfortCount < CanShu.YUNBIAO_AWARDEDCOMFORT_MAXTIMES){
+					if(reportConf != null){
+						String award = reportConf.clickAward;
+						if(award!=null&&award.contains(":")){
+							AwardMgr.inst.giveReward(session, award, jz);
+						}
+					}
 				}
 				pin.ybComfortCount++;
 				HibernateUtil.save(pin);
+				if(msg.anWeiTimes<YunbiaoTemp.yunbiao_comforted_award_Num){
+					String award = msg.award;
+					if(award!=null&&award.contains(":")){
+						AwardMgr.inst.giveReward(session, award, jz);
+					}
+				}
 				break;
 			default: log.error("未知的安慰类型：{}" , msg.eventId); break;
 		}
 		if(mustGet){
 			String award = msg.award;
-			if(award!=null&&!"".equals(award)&&award.contains(":")){
+			if(award!=null&&award.contains(":")){
 				AwardMgr.inst.giveReward(session, award, jz);
 				log.info("玩家：{}因为事件：{}，安慰了玩家：{}，掠夺安慰次数：{}， 押镖安慰次数：{}"
 						+ "获得了奖励:{}" ,
@@ -640,8 +653,9 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			makeSuBaoMSG(subao2, msg2);;
 			su.session.write(subao2.build());
 		}
-		//删除速报
-		HibernateUtil.delete(msg);
+		//
+		msg.anWeiTimes += 1;
+		HibernateUtil.update(msg);
 		resp.setSubaoId(subaoId);
 		resp.setResult(10);
 		resp.setSubaoType(SuBaoConstant.comfort);
@@ -1076,7 +1090,6 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 				AnnounceTemp t = conf.get();
 				String c = t.announcement.replace("XXX", mengyouName)
 						.replace("*玩家名字七个字*", name2)
-						.replace("00:00", "30:00")
 						.replace("M", m+"");
 				return c;
 			}
@@ -1476,9 +1489,9 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			info.setEnemyZhanLi(JunZhuMgr.inst.getZhanli(enemy));
 			info.setEnemyRoleId(enemy.roleId);
 			int state = 0; // 0 没有     1 正在被驱逐
-			Long yes  = fightingLock.get(mi.zhanDouIdFromLveDuo);
-			if(yes != null){
-				if(System.currentTimeMillis() > (yes + 3 * 60 * 1000)){
+			BattleInfo4Pvp battleInfo4Pvp  = fightingLock.get(mi.lveDuoJunId);
+			if(battleInfo4Pvp != null){
+				if(System.currentTimeMillis() > (battleInfo4Pvp.startTime + PvpMgr.inst.PVP_BATTLE_DELAY_TIME * 1000)){
 					fightingLock.remove(mi.zhanDouIdFromLveDuo);
 				}else{
 					state = 1;
@@ -1551,10 +1564,10 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 //			log.error("君主：{}驱逐敌人：{}失败，敌人退出联盟", jid, enemyId);
 //			return;
 //		}
-		Long yes = fightingLock.get(zhanDouIdFromLveDuo);
-		if(yes != null){
-			if(System.currentTimeMillis() > (yes + 3 * 60 * 1000)){
-				fightingLock.remove(zhanDouIdFromLveDuo);
+		BattleInfo4Pvp battleInfo4Pvp = fightingLock.get(enemyId);
+		if(battleInfo4Pvp != null){
+			if(System.currentTimeMillis() > (battleInfo4Pvp.startTime + PvpMgr.inst.PVP_BATTLE_DELAY_TIME * 1000)){
+				fightingLock.remove(enemyId);
 			}else{
 				ZhanDouInitError.Builder errresp = ZhanDouInitError.newBuilder();
 				errresp.setResult("对手正在被驱逐");
@@ -1596,7 +1609,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		JunZhuMgr.inst.calcJunZhuTotalAtt(enemy);
 		Node.Builder enemyNode = Node.newBuilder();
 		List<Integer> zbIdList = EquipMgr.inst.getEquipCfgIdList(enemy);
-		PveMgr.inst.fillZhuangbei4Player(enemyNode, zbIdList, enemy.id);
+		PveMgr.inst.fillZhuangbei4Player(enemyNode, zbIdList, enemy);
 		enemyNode.addFlagIds(101);
 		enemyNode.setNodeType(NodeType.PLAYER);
 		enemyNode.setNodeProfession(NodeProfession.NULL);
@@ -1615,6 +1628,9 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		enemyNode.setNuQiZhi(MibaoMgr.inst.getChuShiNuQi(enemy.id));
 		enemyNode.setMibaoCount(0);
 		enemyNode.setMibaoPower(JunZhuMgr.inst.getAllMibaoProvideZhanli(enemy));
+		enemyNode.setArmor(0);
+		enemyNode.setArmorMax(0);
+		enemyNode.setArmorRatio(0);
 		enemys.add(enemyNode.build());
 		// 敌人雇佣兵
 		enemyIndex += 1;
@@ -1667,7 +1683,8 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		bean.lastHelpTime = new Date();
 		bean.todayRemainHelp  -= 1;
 		HibernateUtil.save(bean);
-		fightingLock.put(zhanDouIdFromLveDuo, System.currentTimeMillis());
+		BattleInfo4Pvp battleInfo4Pvp = new BattleInfo4Pvp(bean.junzhuId, System.currentTimeMillis());
+		fightingLock.put(enemyId, battleInfo4Pvp);
 		log.info("防守方：{}，战斗锁定", zhanDouIdFromLveDuo);
 //		EventMgr.addEvent(ED.lve_duo , new Object[] { jz.id});
 	}
@@ -1701,6 +1718,11 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		}else{
 			long winId = req.getWinId();
 			long enemyId = lvMI.lveDuoJunId;
+			BattleInfo4Pvp battleInfo4Pvp = fightingLock.remove(lvMI.lveDuoJunId);
+			if(battleInfo4Pvp == null || battleInfo4Pvp.junzhuId != jId
+					|| (System.currentTimeMillis()-battleInfo4Pvp.startTime) > (CanShu.MAXTIME_LUEDUO+PvpMgr.inst.PVP_BATTLE_DELAY_TIME)*1000) {
+				winId = oldZhandouId;
+			}
 			if(winId == oldZhandouId){
 				// 驱逐失败 不挽回建设值 do nothing
 				lvMI.remainHp = req.getRemainHp();
@@ -1719,8 +1741,6 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			}else{
 				log.error("战斗结果winId 有问题：{},需要问大王！！！", winId );
 			}
-			
-			fightingLock.remove(oldZhandouId);
 		}
 		QuZhuBattleEndResp.Builder resp = QuZhuBattleEndResp.newBuilder();
 		resp.setOk(1);
@@ -1762,9 +1782,9 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 //			log.error("君主：{}驱逐敌人：{}失败，敌人退出联盟", jid, enemyId);
 //			return;
 //		}
-		Long yes = fightingLock.get(enemyId);
-		if(yes != null){
-			if(System.currentTimeMillis() > (yes + 3 * 60 * 1000)){
+		BattleInfo4Pvp battleInfo4Pvp = fightingLock.get(enemyId);
+		if(battleInfo4Pvp != null){
+			if(System.currentTimeMillis() > (battleInfo4Pvp.startTime + PvpMgr.inst.PVP_BATTLE_DELAY_TIME * 1000)){
 				fightingLock.remove(enemyId);
 			}else{
 				DailyTaskMgr.INSTANCE.sendError(session, 4, PD.go_qu_zhu_resp, 4);

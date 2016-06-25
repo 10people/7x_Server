@@ -41,6 +41,9 @@ public class LieFuBean {
 	public Date lastActionTime;
 	
 	@Column(nullable = false, columnDefinition = "INT default 0")
+	public int dayUseTimes; 	
+	
+	@Column(nullable = false, columnDefinition = "INT default 0")
 	public int totalTimes;
 
 }

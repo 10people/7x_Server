@@ -31,6 +31,11 @@ public class DailyTaskConstants {
 	public static final int moBai = 18;
 	public static final int give_gongJin    = 80;
 	public static final int buy_tili = 19;
+	public static final int wuBeiFang = 20;
+	public static final int qianChongLou = 21;
+	public static final int lieFu = 22;
+	public static final int lueDuo = 23;
+	public static final int junChengZhan = 24;
 	
 	public static final int show_tili_clock_12 = 12;
 	public static final int show_tili_clock_14 = 14;

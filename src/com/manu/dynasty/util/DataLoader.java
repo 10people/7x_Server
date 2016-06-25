@@ -158,7 +158,7 @@ public class DataLoader {
 							ok = true;
 						}catch(Exception e){
 							logger.error("类名称是" + className + "的属性" +
-									fieldName +"没有被成功赋予静态数据");
+									fieldName +"没有被成功赋予静态数据,"+fieldValue+":"+e);
 							continue;
 						}
 					}

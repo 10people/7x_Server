@@ -16,6 +16,10 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%-- <%response.setHeader("Pragma","No-cache"); 
+response.setHeader("Cache-Control","no-cache"); 
+response.setDateHeader("Expires", 0); 
+response.flushBuffer();%> --%>
 <%!
 SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 Date getTime(String key, HttpServletRequest request){
@@ -33,7 +37,7 @@ String act = request.getParameter("act");
 if("send".equals(act)){
 	String content = request.getParameter("content");
 	if(content != null){
-		BroadcastMgr.inst.send(content);
+		BroadcastMgr.inst.send(content,2000);
 		out("发送成功");
 	}
 }else if("add".equals(act)){
@@ -43,7 +47,7 @@ if("send".equals(act)){
 	be.endTime = getTime("endTime",request);
 	be.intervalMinutes = Integer.parseInt(request.getParameter("intervalMinutes"));
 	be.content = request.getParameter("content");
-	if(be.startTime == null || be.endTime == null || be.content == null){
+	if(be.startTime == null || be.endTime == null || be.content == null || be.content.equals("")){
 		out("参数错误");
 	}else{
 		HibernateUtil.save(be);
@@ -68,8 +72,9 @@ if("send".equals(act)){
 		}
 	}
 }
+String temp ="a=s"+Math.random();
 %>
-<form action="" method="post">
+<form id="sd" action="?<%=temp %>" method="post">
 <input type="text" name='content'>
 <input type="hidden" name="act" value="send">
 <input type="submit" value="推送给所有在线玩家">

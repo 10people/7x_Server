@@ -11,8 +11,10 @@
 <%@page import="com.qx.account.Account"%>
 <%@page import="com.qx.persistent.HibernateUtil"%>
 <%@page import="com.qx.junzhu.JunZhu"%>
+<%@page import="java.util.*"%>
 <%@include file="/myFuns.jsp"%>
-<%@ page language="java" import="java.util.*" pageEncoding="utf8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";

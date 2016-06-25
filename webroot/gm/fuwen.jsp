@@ -264,7 +264,7 @@
 				out.append("<td>");
 				tableStart();
 					trS();td("符文页签:" + tab);trE();
-					trS();td("栏位id");td("itemId");td("经验值");td("是否有红点");td("加成属性");td("属性加成值");trE();
+					trS();td("栏位id");td("itemId");td("符文名字");td("经验值");td("是否有红点");td("加成属性");td("属性加成值");trE();
 					
 					List<JunzhuAttr> attrList = resp.getAttrList();
 					JunzhuAttr attrInf = null;
@@ -285,9 +285,10 @@
 					List<FuwenLanwei> lanweiList = resp.getLanweiList();					
 					for(FuwenLanwei fuwenLanwei : lanweiList) {
 						trS();
-							td(fuwenLanwei.getLanweiId());td(fuwenLanwei.getItemId());
-							td(fuwenLanwei.getExp());td(fuwenLanwei.getFlag());
 							Fuwen fuwenCfg = FuwenMgr.inst.fuwenMap.get(fuwenLanwei.getItemId()); 
+							td(fuwenLanwei.getLanweiId());td(fuwenLanwei.getItemId());
+							td(HeroService.getNameById(fuwenCfg == null ? "无":fuwenCfg.getName()+""));
+							td(fuwenLanwei.getExp());td(fuwenLanwei.getFlag());
 							if(fuwenCfg == null) {
 								td("无");td("无");
 							} else {

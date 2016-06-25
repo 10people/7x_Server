@@ -129,6 +129,15 @@ public class GreetMgr extends EventProc{
 		}
 		//广播表情
 		broadcastFace(jzId, session);
+		//生成并发送通知
+		Boolean isBlack = Redis.getInstance().sexist(ChatMgr.CACHE_BLACKLIST_OF_JUNZHU + jzId, "" + targetjzId);
+		if(isBlack){
+			return;
+		}
+		Boolean inTargetBlack = Redis.getInstance().sexist(ChatMgr.CACHE_BLACKLIST_OF_JUNZHU + targetjzId, "" + jzId);
+		if(inTargetBlack){
+			return;
+		}
 		//发送系统广播
 //		<AnnounceTemp id="231" type="17" condition="-1" announcement="[dbba8f]*玩家名字七个字*[-][ffffff]发现您器宇不凡，一时起了亲近之心，向您抱拳致意。[-]" announceObject="4" />
 		String msg=getBroadString(GreetConstant.greet);
@@ -136,11 +145,6 @@ public class GreetMgr extends EventProc{
 			msg=msg.replace("*玩家名字七个字*", jz.name);
 			log.info("向--{} 发送系统广播--{}", targetjzId,msg);
 			BroadcastMgr.inst.send2JunZhu(msg, targetjzId);
-		}
-		//生成并发送通知
-		Boolean isBlack = Redis.getInstance().sexist(ChatMgr.inst.CACHE_BLACKLIST_OF_JUNZHU + jzId, "" + targetjzId);
-		if(isBlack){
-			return;
 		}
 		sendGreetPrompt(targetSession, jzId, jz.name, targetjzId);
 	}

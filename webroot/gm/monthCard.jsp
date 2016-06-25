@@ -53,15 +53,15 @@
     	if("setShouChongStatus1".equals(action)){
     		String scstatus = request.getParameter("scstatus1");
     		if(scstatus != ""){
-    			MonthCard.minth_card1_status = Integer.parseInt(scstatus);
-        		redirect("monthCard.jsp");
+    			MonthCardMgr.minth_card1_status = Integer.parseInt(scstatus);
+        		redirect("MonthCardMgr.jsp");
     		}
     	}
     if("setShouChongStatus2".equals(action)){
 		String scstatus = request.getParameter("scstatus2");
 		if(scstatus != ""){
-			MonthCard.minth_card2_status = Integer.parseInt(scstatus);
-    		redirect("monthCard.jsp");
+			MonthCardMgr.minth_card2_status = Integer.parseInt(scstatus);
+    		redirect("MonthCardMgr.jsp");
 		}
 	}
     %>
@@ -71,7 +71,7 @@
     			ths("月卡状态");
     		trE();
     		trS();
-    			int status = MonthCard.minth_card1_status;
+    			int status = MonthCardMgr.minth_card1_status;
     			//0没充值 1充值没领取 2已领取
     			if(status == 0){
     				td("没有充值");
@@ -102,7 +102,7 @@
 			ths("终身卡状态");
 		trE();
 		trS();
-			int status2 = MonthCard.minth_card2_status;
+			int status2 = MonthCardMgr.minth_card2_status;
 			//0没充值 1充值没领取 2已领取
 			if(status2 == 0){
 				td("没有充值");

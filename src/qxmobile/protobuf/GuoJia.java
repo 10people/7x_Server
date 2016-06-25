@@ -2051,6 +2051,24 @@ public final class GuoJia {
   public interface GuoJiaMainInfoRespOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
+    // required int32 result = 14;
+    /**
+     * <code>required int32 result = 14;</code>
+     *
+     * <pre>
+     * 返回结果:0-成功，只有成功其他数据才有效，1失败-表示还没有联盟
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>required int32 result = 14;</code>
+     *
+     * <pre>
+     * 返回结果:0-成功，只有成功其他数据才有效，1失败-表示还没有联盟
+     * </pre>
+     */
+    int getResult();
+
     // required int32 guojiaId = 1;
     /**
      * <code>required int32 guojiaId = 1;</code>
@@ -2300,74 +2318,79 @@ public final class GuoJia {
               break;
             }
             case 8: {
-              bitField0_ |= 0x00000001;
+              bitField0_ |= 0x00000002;
               guojiaId_ = input.readInt32();
               break;
             }
             case 16: {
-              bitField0_ |= 0x00000002;
+              bitField0_ |= 0x00000004;
               kingId_ = input.readInt64();
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
                 nowRank_ = new java.util.ArrayList<qxmobile.protobuf.GuoJia.GuojiaRankInfo>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000008;
               }
               nowRank_.add(input.readMessage(qxmobile.protobuf.GuoJia.GuojiaRankInfo.PARSER, extensionRegistry));
               break;
             }
             case 32: {
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000008;
               todayGive_ = input.readInt32();
               break;
             }
             case 40: {
-              bitField0_ |= 0x00000008;
+              bitField0_ |= 0x00000010;
               thisWeekGive_ = input.readInt32();
               break;
             }
             case 48: {
-              bitField0_ |= 0x00000010;
+              bitField0_ |= 0x00000020;
               hateGuoId1_ = input.readInt32();
               break;
             }
             case 56: {
-              bitField0_ |= 0x00000020;
+              bitField0_ |= 0x00000040;
               hateGuoId2_ = input.readInt32();
               break;
             }
             case 66: {
-              bitField0_ |= 0x00000040;
+              bitField0_ |= 0x00000080;
               kingName_ = input.readBytes();
               break;
             }
             case 72: {
-              bitField0_ |= 0x00000080;
+              bitField0_ |= 0x00000100;
               isCanGive_ = input.readBool();
               break;
             }
             case 82: {
-              if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+              if (!((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
                 lastRank_ = new java.util.ArrayList<qxmobile.protobuf.GuoJia.GuojiaRankInfo>();
-                mutable_bitField0_ |= 0x00000200;
+                mutable_bitField0_ |= 0x00000400;
               }
               lastRank_.add(input.readMessage(qxmobile.protobuf.GuoJia.GuojiaRankInfo.PARSER, extensionRegistry));
               break;
             }
             case 88: {
-              bitField0_ |= 0x00000100;
+              bitField0_ |= 0x00000200;
               myGongJin_ = input.readInt32();
               break;
             }
             case 96: {
-              bitField0_ |= 0x00000200;
+              bitField0_ |= 0x00000400;
               shouldGive_ = input.readInt32();
               break;
             }
             case 106: {
-              bitField0_ |= 0x00000400;
+              bitField0_ |= 0x00000800;
               guojiaAward_ = input.readBytes();
+              break;
+            }
+            case 112: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readInt32();
               break;
             }
           }
@@ -2378,10 +2401,10 @@ public final class GuoJia {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
           nowRank_ = java.util.Collections.unmodifiableList(nowRank_);
         }
-        if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+        if (((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
           lastRank_ = java.util.Collections.unmodifiableList(lastRank_);
         }
         this.unknownFields = unknownFields.build();
@@ -2416,6 +2439,30 @@ public final class GuoJia {
     }
 
     private int bitField0_;
+    // required int32 result = 14;
+    public static final int RESULT_FIELD_NUMBER = 14;
+    private int result_;
+    /**
+     * <code>required int32 result = 14;</code>
+     *
+     * <pre>
+     * 返回结果:0-成功，只有成功其他数据才有效，1失败-表示还没有联盟
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 result = 14;</code>
+     *
+     * <pre>
+     * 返回结果:0-成功，只有成功其他数据才有效，1失败-表示还没有联盟
+     * </pre>
+     */
+    public int getResult() {
+      return result_;
+    }
+
     // required int32 guojiaId = 1;
     public static final int GUOJIAID_FIELD_NUMBER = 1;
     private int guojiaId_;
@@ -2423,7 +2470,7 @@ public final class GuoJia {
      * <code>required int32 guojiaId = 1;</code>
      */
     public boolean hasGuojiaId() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>required int32 guojiaId = 1;</code>
@@ -2439,7 +2486,7 @@ public final class GuoJia {
      * <code>required int64 kingId = 2;</code>
      */
     public boolean hasKingId() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>required int64 kingId = 2;</code>
@@ -2491,7 +2538,7 @@ public final class GuoJia {
      * <code>required int32 todayGive = 4;</code>
      */
     public boolean hasTodayGive() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>required int32 todayGive = 4;</code>
@@ -2507,7 +2554,7 @@ public final class GuoJia {
      * <code>required int32 thisWeekGive = 5;</code>
      */
     public boolean hasThisWeekGive() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <code>required int32 thisWeekGive = 5;</code>
@@ -2523,7 +2570,7 @@ public final class GuoJia {
      * <code>required int32 hate_guoId1 = 6;</code>
      */
     public boolean hasHateGuoId1() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
      * <code>required int32 hate_guoId1 = 6;</code>
@@ -2539,7 +2586,7 @@ public final class GuoJia {
      * <code>required int32 hate_guoId2 = 7;</code>
      */
     public boolean hasHateGuoId2() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
      * <code>required int32 hate_guoId2 = 7;</code>
@@ -2555,7 +2602,7 @@ public final class GuoJia {
      * <code>optional string kingName = 8;</code>
      */
     public boolean hasKingName() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
      * <code>optional string kingName = 8;</code>
@@ -2602,7 +2649,7 @@ public final class GuoJia {
      * </pre>
      */
     public boolean hasIsCanGive() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
      * <code>required bool isCanGive = 9;</code>
@@ -2658,7 +2705,7 @@ public final class GuoJia {
      * <code>required int32 myGongJin = 11;</code>
      */
     public boolean hasMyGongJin() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
+      return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
      * <code>required int32 myGongJin = 11;</code>
@@ -2674,7 +2721,7 @@ public final class GuoJia {
      * <code>required int32 shouldGive = 12;</code>
      */
     public boolean hasShouldGive() {
-      return ((bitField0_ & 0x00000200) == 0x00000200);
+      return ((bitField0_ & 0x00000400) == 0x00000400);
     }
     /**
      * <code>required int32 shouldGive = 12;</code>
@@ -2694,7 +2741,7 @@ public final class GuoJia {
      * </pre>
      */
     public boolean hasGuojiaAward() {
-      return ((bitField0_ & 0x00000400) == 0x00000400);
+      return ((bitField0_ & 0x00000800) == 0x00000800);
     }
     /**
      * <code>required string guojiaAward = 13;</code>
@@ -2739,6 +2786,7 @@ public final class GuoJia {
     }
 
     private void initFields() {
+      result_ = 0;
       guojiaId_ = 0;
       kingId_ = 0L;
       nowRank_ = java.util.Collections.emptyList();
@@ -2758,6 +2806,10 @@ public final class GuoJia {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasGuojiaId()) {
         memoizedIsInitialized = 0;
         return false;
@@ -2817,44 +2869,47 @@ public final class GuoJia {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(1, guojiaId_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt64(2, kingId_);
       }
       for (int i = 0; i < nowRank_.size(); i++) {
         output.writeMessage(3, nowRank_.get(i));
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(4, todayGive_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeInt32(5, thisWeekGive_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeInt32(6, hateGuoId1_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeInt32(7, hateGuoId2_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeBytes(8, getKingNameBytes());
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeBool(9, isCanGive_);
       }
       for (int i = 0; i < lastRank_.size(); i++) {
         output.writeMessage(10, lastRank_.get(i));
       }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeInt32(11, myGongJin_);
       }
-      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
         output.writeInt32(12, shouldGive_);
       }
-      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
         output.writeBytes(13, getGuojiaAwardBytes());
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(14, result_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2865,11 +2920,11 @@ public final class GuoJia {
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, guojiaId_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(2, kingId_);
       }
@@ -2877,27 +2932,27 @@ public final class GuoJia {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, nowRank_.get(i));
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, todayGive_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(5, thisWeekGive_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(6, hateGuoId1_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(7, hateGuoId2_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(8, getKingNameBytes());
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(9, isCanGive_);
       }
@@ -2905,17 +2960,21 @@ public final class GuoJia {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(10, lastRank_.get(i));
       }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(11, myGongJin_);
       }
-      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(12, shouldGive_);
       }
-      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(13, getGuojiaAwardBytes());
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(14, result_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3042,40 +3101,42 @@ public final class GuoJia {
 
       public Builder clear() {
         super.clear();
-        guojiaId_ = 0;
+        result_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        kingId_ = 0L;
+        guojiaId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
+        kingId_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000004);
         if (nowRankBuilder_ == null) {
           nowRank_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000008);
         } else {
           nowRankBuilder_.clear();
         }
         todayGive_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        thisWeekGive_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
-        hateGuoId1_ = 0;
+        thisWeekGive_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
-        hateGuoId2_ = 0;
+        hateGuoId1_ = 0;
         bitField0_ = (bitField0_ & ~0x00000040);
-        kingName_ = "";
+        hateGuoId2_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
-        isCanGive_ = false;
+        kingName_ = "";
         bitField0_ = (bitField0_ & ~0x00000100);
+        isCanGive_ = false;
+        bitField0_ = (bitField0_ & ~0x00000200);
         if (lastRankBuilder_ == null) {
           lastRank_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000200);
+          bitField0_ = (bitField0_ & ~0x00000400);
         } else {
           lastRankBuilder_.clear();
         }
         myGongJin_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000400);
-        shouldGive_ = 0;
         bitField0_ = (bitField0_ & ~0x00000800);
-        guojiaAward_ = "";
+        shouldGive_ = 0;
         bitField0_ = (bitField0_ & ~0x00001000);
+        guojiaAward_ = "";
+        bitField0_ = (bitField0_ & ~0x00002000);
         return this;
       }
 
@@ -3107,63 +3168,67 @@ public final class GuoJia {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.guojiaId_ = guojiaId_;
+        result.result_ = result_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
+        result.guojiaId_ = guojiaId_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
         result.kingId_ = kingId_;
         if (nowRankBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
             nowRank_ = java.util.Collections.unmodifiableList(nowRank_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000008);
           }
           result.nowRank_ = nowRank_;
         } else {
           result.nowRank_ = nowRankBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.todayGive_ = todayGive_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.thisWeekGive_ = thisWeekGive_;
+        result.todayGive_ = todayGive_;
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.hateGuoId1_ = hateGuoId1_;
+        result.thisWeekGive_ = thisWeekGive_;
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000020;
         }
-        result.hateGuoId2_ = hateGuoId2_;
+        result.hateGuoId1_ = hateGuoId1_;
         if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000040;
         }
-        result.kingName_ = kingName_;
+        result.hateGuoId2_ = hateGuoId2_;
         if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000080;
         }
+        result.kingName_ = kingName_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000100;
+        }
         result.isCanGive_ = isCanGive_;
         if (lastRankBuilder_ == null) {
-          if (((bitField0_ & 0x00000200) == 0x00000200)) {
+          if (((bitField0_ & 0x00000400) == 0x00000400)) {
             lastRank_ = java.util.Collections.unmodifiableList(lastRank_);
-            bitField0_ = (bitField0_ & ~0x00000200);
+            bitField0_ = (bitField0_ & ~0x00000400);
           }
           result.lastRank_ = lastRank_;
         } else {
           result.lastRank_ = lastRankBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
-          to_bitField0_ |= 0x00000100;
-        }
-        result.myGongJin_ = myGongJin_;
         if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
           to_bitField0_ |= 0x00000200;
         }
-        result.shouldGive_ = shouldGive_;
+        result.myGongJin_ = myGongJin_;
         if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
           to_bitField0_ |= 0x00000400;
+        }
+        result.shouldGive_ = shouldGive_;
+        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+          to_bitField0_ |= 0x00000800;
         }
         result.guojiaAward_ = guojiaAward_;
         result.bitField0_ = to_bitField0_;
@@ -3182,6 +3247,9 @@ public final class GuoJia {
 
       public Builder mergeFrom(qxmobile.protobuf.GuoJia.GuoJiaMainInfoResp other) {
         if (other == qxmobile.protobuf.GuoJia.GuoJiaMainInfoResp.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
         if (other.hasGuojiaId()) {
           setGuojiaId(other.getGuojiaId());
         }
@@ -3192,7 +3260,7 @@ public final class GuoJia {
           if (!other.nowRank_.isEmpty()) {
             if (nowRank_.isEmpty()) {
               nowRank_ = other.nowRank_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000008);
             } else {
               ensureNowRankIsMutable();
               nowRank_.addAll(other.nowRank_);
@@ -3205,7 +3273,7 @@ public final class GuoJia {
               nowRankBuilder_.dispose();
               nowRankBuilder_ = null;
               nowRank_ = other.nowRank_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000008);
               nowRankBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getNowRankFieldBuilder() : null;
@@ -3227,7 +3295,7 @@ public final class GuoJia {
           setHateGuoId2(other.getHateGuoId2());
         }
         if (other.hasKingName()) {
-          bitField0_ |= 0x00000080;
+          bitField0_ |= 0x00000100;
           kingName_ = other.kingName_;
           onChanged();
         }
@@ -3238,7 +3306,7 @@ public final class GuoJia {
           if (!other.lastRank_.isEmpty()) {
             if (lastRank_.isEmpty()) {
               lastRank_ = other.lastRank_;
-              bitField0_ = (bitField0_ & ~0x00000200);
+              bitField0_ = (bitField0_ & ~0x00000400);
             } else {
               ensureLastRankIsMutable();
               lastRank_.addAll(other.lastRank_);
@@ -3251,7 +3319,7 @@ public final class GuoJia {
               lastRankBuilder_.dispose();
               lastRankBuilder_ = null;
               lastRank_ = other.lastRank_;
-              bitField0_ = (bitField0_ & ~0x00000200);
+              bitField0_ = (bitField0_ & ~0x00000400);
               lastRankBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getLastRankFieldBuilder() : null;
@@ -3267,7 +3335,7 @@ public final class GuoJia {
           setShouldGive(other.getShouldGive());
         }
         if (other.hasGuojiaAward()) {
-          bitField0_ |= 0x00001000;
+          bitField0_ |= 0x00002000;
           guojiaAward_ = other.guojiaAward_;
           onChanged();
         }
@@ -3276,6 +3344,10 @@ public final class GuoJia {
       }
 
       public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
         if (!hasGuojiaId()) {
           
           return false;
@@ -3350,13 +3422,62 @@ public final class GuoJia {
       }
       private int bitField0_;
 
+      // required int32 result = 14;
+      private int result_ ;
+      /**
+       * <code>required int32 result = 14;</code>
+       *
+       * <pre>
+       * 返回结果:0-成功，只有成功其他数据才有效，1失败-表示还没有联盟
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 result = 14;</code>
+       *
+       * <pre>
+       * 返回结果:0-成功，只有成功其他数据才有效，1失败-表示还没有联盟
+       * </pre>
+       */
+      public int getResult() {
+        return result_;
+      }
+      /**
+       * <code>required int32 result = 14;</code>
+       *
+       * <pre>
+       * 返回结果:0-成功，只有成功其他数据才有效，1失败-表示还没有联盟
+       * </pre>
+       */
+      public Builder setResult(int value) {
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 result = 14;</code>
+       *
+       * <pre>
+       * 返回结果:0-成功，只有成功其他数据才有效，1失败-表示还没有联盟
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = 0;
+        onChanged();
+        return this;
+      }
+
       // required int32 guojiaId = 1;
       private int guojiaId_ ;
       /**
        * <code>required int32 guojiaId = 1;</code>
        */
       public boolean hasGuojiaId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>required int32 guojiaId = 1;</code>
@@ -3368,7 +3489,7 @@ public final class GuoJia {
        * <code>required int32 guojiaId = 1;</code>
        */
       public Builder setGuojiaId(int value) {
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         guojiaId_ = value;
         onChanged();
         return this;
@@ -3377,7 +3498,7 @@ public final class GuoJia {
        * <code>required int32 guojiaId = 1;</code>
        */
       public Builder clearGuojiaId() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         guojiaId_ = 0;
         onChanged();
         return this;
@@ -3389,7 +3510,7 @@ public final class GuoJia {
        * <code>required int64 kingId = 2;</code>
        */
       public boolean hasKingId() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>required int64 kingId = 2;</code>
@@ -3401,7 +3522,7 @@ public final class GuoJia {
        * <code>required int64 kingId = 2;</code>
        */
       public Builder setKingId(long value) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         kingId_ = value;
         onChanged();
         return this;
@@ -3410,7 +3531,7 @@ public final class GuoJia {
        * <code>required int64 kingId = 2;</code>
        */
       public Builder clearKingId() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         kingId_ = 0L;
         onChanged();
         return this;
@@ -3420,9 +3541,9 @@ public final class GuoJia {
       private java.util.List<qxmobile.protobuf.GuoJia.GuojiaRankInfo> nowRank_ =
         java.util.Collections.emptyList();
       private void ensureNowRankIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
           nowRank_ = new java.util.ArrayList<qxmobile.protobuf.GuoJia.GuojiaRankInfo>(nowRank_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000008;
          }
       }
 
@@ -3571,7 +3692,7 @@ public final class GuoJia {
       public Builder clearNowRank() {
         if (nowRankBuilder_ == null) {
           nowRank_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000008);
           onChanged();
         } else {
           nowRankBuilder_.clear();
@@ -3648,7 +3769,7 @@ public final class GuoJia {
           nowRankBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               qxmobile.protobuf.GuoJia.GuojiaRankInfo, qxmobile.protobuf.GuoJia.GuojiaRankInfo.Builder, qxmobile.protobuf.GuoJia.GuojiaRankInfoOrBuilder>(
                   nowRank_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000008) == 0x00000008),
                   getParentForChildren(),
                   isClean());
           nowRank_ = null;
@@ -3662,7 +3783,7 @@ public final class GuoJia {
        * <code>required int32 todayGive = 4;</code>
        */
       public boolean hasTodayGive() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>required int32 todayGive = 4;</code>
@@ -3674,7 +3795,7 @@ public final class GuoJia {
        * <code>required int32 todayGive = 4;</code>
        */
       public Builder setTodayGive(int value) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         todayGive_ = value;
         onChanged();
         return this;
@@ -3683,7 +3804,7 @@ public final class GuoJia {
        * <code>required int32 todayGive = 4;</code>
        */
       public Builder clearTodayGive() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         todayGive_ = 0;
         onChanged();
         return this;
@@ -3695,7 +3816,7 @@ public final class GuoJia {
        * <code>required int32 thisWeekGive = 5;</code>
        */
       public boolean hasThisWeekGive() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
        * <code>required int32 thisWeekGive = 5;</code>
@@ -3707,7 +3828,7 @@ public final class GuoJia {
        * <code>required int32 thisWeekGive = 5;</code>
        */
       public Builder setThisWeekGive(int value) {
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000020;
         thisWeekGive_ = value;
         onChanged();
         return this;
@@ -3716,7 +3837,7 @@ public final class GuoJia {
        * <code>required int32 thisWeekGive = 5;</code>
        */
       public Builder clearThisWeekGive() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000020);
         thisWeekGive_ = 0;
         onChanged();
         return this;
@@ -3728,7 +3849,7 @@ public final class GuoJia {
        * <code>required int32 hate_guoId1 = 6;</code>
        */
       public boolean hasHateGuoId1() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
        * <code>required int32 hate_guoId1 = 6;</code>
@@ -3740,7 +3861,7 @@ public final class GuoJia {
        * <code>required int32 hate_guoId1 = 6;</code>
        */
       public Builder setHateGuoId1(int value) {
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000040;
         hateGuoId1_ = value;
         onChanged();
         return this;
@@ -3749,7 +3870,7 @@ public final class GuoJia {
        * <code>required int32 hate_guoId1 = 6;</code>
        */
       public Builder clearHateGuoId1() {
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000040);
         hateGuoId1_ = 0;
         onChanged();
         return this;
@@ -3761,7 +3882,7 @@ public final class GuoJia {
        * <code>required int32 hate_guoId2 = 7;</code>
        */
       public boolean hasHateGuoId2() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
        * <code>required int32 hate_guoId2 = 7;</code>
@@ -3773,7 +3894,7 @@ public final class GuoJia {
        * <code>required int32 hate_guoId2 = 7;</code>
        */
       public Builder setHateGuoId2(int value) {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
         hateGuoId2_ = value;
         onChanged();
         return this;
@@ -3782,7 +3903,7 @@ public final class GuoJia {
        * <code>required int32 hate_guoId2 = 7;</code>
        */
       public Builder clearHateGuoId2() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         hateGuoId2_ = 0;
         onChanged();
         return this;
@@ -3794,7 +3915,7 @@ public final class GuoJia {
        * <code>optional string kingName = 8;</code>
        */
       public boolean hasKingName() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
        * <code>optional string kingName = 8;</code>
@@ -3834,7 +3955,7 @@ public final class GuoJia {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000080;
+  bitField0_ |= 0x00000100;
         kingName_ = value;
         onChanged();
         return this;
@@ -3843,7 +3964,7 @@ public final class GuoJia {
        * <code>optional string kingName = 8;</code>
        */
       public Builder clearKingName() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000100);
         kingName_ = getDefaultInstance().getKingName();
         onChanged();
         return this;
@@ -3856,7 +3977,7 @@ public final class GuoJia {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000080;
+  bitField0_ |= 0x00000100;
         kingName_ = value;
         onChanged();
         return this;
@@ -3872,7 +3993,7 @@ public final class GuoJia {
        * </pre>
        */
       public boolean hasIsCanGive() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
        * <code>required bool isCanGive = 9;</code>
@@ -3892,7 +4013,7 @@ public final class GuoJia {
        * </pre>
        */
       public Builder setIsCanGive(boolean value) {
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000200;
         isCanGive_ = value;
         onChanged();
         return this;
@@ -3905,7 +4026,7 @@ public final class GuoJia {
        * </pre>
        */
       public Builder clearIsCanGive() {
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000200);
         isCanGive_ = false;
         onChanged();
         return this;
@@ -3915,9 +4036,9 @@ public final class GuoJia {
       private java.util.List<qxmobile.protobuf.GuoJia.GuojiaRankInfo> lastRank_ =
         java.util.Collections.emptyList();
       private void ensureLastRankIsMutable() {
-        if (!((bitField0_ & 0x00000200) == 0x00000200)) {
+        if (!((bitField0_ & 0x00000400) == 0x00000400)) {
           lastRank_ = new java.util.ArrayList<qxmobile.protobuf.GuoJia.GuojiaRankInfo>(lastRank_);
-          bitField0_ |= 0x00000200;
+          bitField0_ |= 0x00000400;
          }
       }
 
@@ -4066,7 +4187,7 @@ public final class GuoJia {
       public Builder clearLastRank() {
         if (lastRankBuilder_ == null) {
           lastRank_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000200);
+          bitField0_ = (bitField0_ & ~0x00000400);
           onChanged();
         } else {
           lastRankBuilder_.clear();
@@ -4143,7 +4264,7 @@ public final class GuoJia {
           lastRankBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               qxmobile.protobuf.GuoJia.GuojiaRankInfo, qxmobile.protobuf.GuoJia.GuojiaRankInfo.Builder, qxmobile.protobuf.GuoJia.GuojiaRankInfoOrBuilder>(
                   lastRank_,
-                  ((bitField0_ & 0x00000200) == 0x00000200),
+                  ((bitField0_ & 0x00000400) == 0x00000400),
                   getParentForChildren(),
                   isClean());
           lastRank_ = null;
@@ -4157,7 +4278,7 @@ public final class GuoJia {
        * <code>required int32 myGongJin = 11;</code>
        */
       public boolean hasMyGongJin() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
+        return ((bitField0_ & 0x00000800) == 0x00000800);
       }
       /**
        * <code>required int32 myGongJin = 11;</code>
@@ -4169,7 +4290,7 @@ public final class GuoJia {
        * <code>required int32 myGongJin = 11;</code>
        */
       public Builder setMyGongJin(int value) {
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000800;
         myGongJin_ = value;
         onChanged();
         return this;
@@ -4178,7 +4299,7 @@ public final class GuoJia {
        * <code>required int32 myGongJin = 11;</code>
        */
       public Builder clearMyGongJin() {
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000800);
         myGongJin_ = 0;
         onChanged();
         return this;
@@ -4190,7 +4311,7 @@ public final class GuoJia {
        * <code>required int32 shouldGive = 12;</code>
        */
       public boolean hasShouldGive() {
-        return ((bitField0_ & 0x00000800) == 0x00000800);
+        return ((bitField0_ & 0x00001000) == 0x00001000);
       }
       /**
        * <code>required int32 shouldGive = 12;</code>
@@ -4202,7 +4323,7 @@ public final class GuoJia {
        * <code>required int32 shouldGive = 12;</code>
        */
       public Builder setShouldGive(int value) {
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00001000;
         shouldGive_ = value;
         onChanged();
         return this;
@@ -4211,7 +4332,7 @@ public final class GuoJia {
        * <code>required int32 shouldGive = 12;</code>
        */
       public Builder clearShouldGive() {
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00001000);
         shouldGive_ = 0;
         onChanged();
         return this;
@@ -4227,7 +4348,7 @@ public final class GuoJia {
        * </pre>
        */
       public boolean hasGuojiaAward() {
-        return ((bitField0_ & 0x00001000) == 0x00001000);
+        return ((bitField0_ & 0x00002000) == 0x00002000);
       }
       /**
        * <code>required string guojiaAward = 13;</code>
@@ -4279,7 +4400,7 @@ public final class GuoJia {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00001000;
+  bitField0_ |= 0x00002000;
         guojiaAward_ = value;
         onChanged();
         return this;
@@ -4292,7 +4413,7 @@ public final class GuoJia {
        * </pre>
        */
       public Builder clearGuojiaAward() {
-        bitField0_ = (bitField0_ & ~0x00001000);
+        bitField0_ = (bitField0_ & ~0x00002000);
         guojiaAward_ = getDefaultInstance().getGuojiaAward();
         onChanged();
         return this;
@@ -4309,7 +4430,7 @@ public final class GuoJia {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00001000;
+  bitField0_ |= 0x00002000;
         guojiaAward_ = value;
         onChanged();
         return this;
@@ -4953,17 +5074,18 @@ public final class GuoJia {
       "bile.protobuf.GuoJiaMainInfoResp\"^\n\024Juan" +
       "XianDayAwardResp\022\016\n\006result\030\001 \002(\005\022\r\n\005awar" +
       "d\030\002 \002(\t\022\021\n\tguojiRank\030\003 \002(\005\022\024\n\014lianMengRa" +
-      "nk\030\004 \002(\005\"\323\002\n\022GuoJiaMainInfoResp\022\020\n\010guoji" +
-      "aId\030\001 \002(\005\022\016\n\006kingId\030\002 \002(\003\0222\n\007nowRank\030\003 \003",
-      "(\0132!.qxmobile.protobuf.GuojiaRankInfo\022\021\n" +
-      "\ttodayGive\030\004 \002(\005\022\024\n\014thisWeekGive\030\005 \002(\005\022\023" +
-      "\n\013hate_guoId1\030\006 \002(\005\022\023\n\013hate_guoId2\030\007 \002(\005" +
-      "\022\020\n\010kingName\030\010 \001(\t\022\021\n\tisCanGive\030\t \002(\010\0223\n" +
-      "\010lastRank\030\n \003(\0132!.qxmobile.protobuf.Guoj" +
-      "iaRankInfo\022\021\n\tmyGongJin\030\013 \002(\005\022\022\n\nshouldG" +
-      "ive\030\014 \002(\005\022\023\n\013guojiaAward\030\r \002(\t\"C\n\016Guojia" +
-      "RankInfo\022\020\n\010guojiaId\030\001 \002(\005\022\014\n\004rank\030\002 \002(\005" +
-      "\022\021\n\tshengwang\030\003 \002(\005B\010B\006GuoJia"
+      "nk\030\004 \002(\005\"\343\002\n\022GuoJiaMainInfoResp\022\016\n\006resul" +
+      "t\030\016 \002(\005\022\020\n\010guojiaId\030\001 \002(\005\022\016\n\006kingId\030\002 \002(",
+      "\003\0222\n\007nowRank\030\003 \003(\0132!.qxmobile.protobuf.G" +
+      "uojiaRankInfo\022\021\n\ttodayGive\030\004 \002(\005\022\024\n\014this" +
+      "WeekGive\030\005 \002(\005\022\023\n\013hate_guoId1\030\006 \002(\005\022\023\n\013h" +
+      "ate_guoId2\030\007 \002(\005\022\020\n\010kingName\030\010 \001(\t\022\021\n\tis" +
+      "CanGive\030\t \002(\010\0223\n\010lastRank\030\n \003(\0132!.qxmobi" +
+      "le.protobuf.GuojiaRankInfo\022\021\n\tmyGongJin\030" +
+      "\013 \002(\005\022\022\n\nshouldGive\030\014 \002(\005\022\023\n\013guojiaAward" +
+      "\030\r \002(\t\"C\n\016GuojiaRankInfo\022\020\n\010guojiaId\030\001 \002" +
+      "(\005\022\014\n\004rank\030\002 \002(\005\022\021\n\tshengwang\030\003 \002(\005B\010B\006G" +
+      "uoJia"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4987,7 +5109,7 @@ public final class GuoJia {
           internal_static_qxmobile_protobuf_GuoJiaMainInfoResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_GuoJiaMainInfoResp_descriptor,
-              new java.lang.String[] { "GuojiaId", "KingId", "NowRank", "TodayGive", "ThisWeekGive", "HateGuoId1", "HateGuoId2", "KingName", "IsCanGive", "LastRank", "MyGongJin", "ShouldGive", "GuojiaAward", });
+              new java.lang.String[] { "Result", "GuojiaId", "KingId", "NowRank", "TodayGive", "ThisWeekGive", "HateGuoId1", "HateGuoId2", "KingName", "IsCanGive", "LastRank", "MyGongJin", "ShouldGive", "GuojiaAward", });
           internal_static_qxmobile_protobuf_GuojiaRankInfo_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_qxmobile_protobuf_GuojiaRankInfo_fieldAccessorTable = new

@@ -13,6 +13,10 @@ import org.slf4j.LoggerFactory;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.qx.account.AccountManager;
+import com.qx.event.ED;
+import com.qx.event.Event;
+import com.qx.event.EventMgr;
+import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
@@ -22,7 +26,7 @@ import com.qx.util.TableIDCreator;
  * @author 
  * 
  */
-public class YuanBaoMgr {
+public class YuanBaoMgr extends EventProc{
 	public static YuanBaoMgr inst;
 	public Logger logger = LoggerFactory.getLogger(YuanBaoMgr.class);
 
@@ -113,29 +117,66 @@ public class YuanBaoMgr {
 		b.wantYB = amt;
 		b.buyItemId = Integer.parseInt(req.getErrorDesc());
 		b.dt = new Date();
-		if(type == 10){//发起
+		if(type == 40){//sdk充值结束后，如果成功了，发40
+			b.type = "客户端充值成功";
+			addTask(session, jz, b,8);//在2分钟之内间隔15秒多次调用
+		}else if(type == 10){
+			b.type = "例行查询";
+			addTask(session, jz, b, 1);
+		}else if(type == 20){//请查余额,弹sdk界面前，发20
 			b.type = "发起充值";
-		}else if(type == 20){//请查余额
-			b.type = "请查余额";
-			try{
-				TXQuery tq = new TXQuery();
-				tq.pre_save_amt = HibernateUtil.getColumnValueMaxOnWhere(BillHist.class,
-						"save_amt", "where jzId="+jz.id);
-				tq.jzId = jz.id;
-				tq.params = (String) session.getAttribute("TXClientInfo");
-				TXQueryMgr.inst.q.add(tq);
-			}catch(Exception e){
-				logger.error(jz.id+"创建查询请求失败 {}", e);
-			}
-		}else if(type == 50){//
+		}else if(type == 50){//充值取消发50，失败发60
 			b.type = "取消";
-		}else if(type == 60){//
+		}else if(type == 60){//充值取消发50，失败发60
 			b.type = "失败";
 		}else{
+			b.type = "未知:"+req.getErrorCode();
 			logger.error("未知类型 {} amt{} of jz {}",type, amt,jz.id);
-			return;
 		}
 		HibernateUtil.insert(b);
-		logger.info("{} {}", jz.id, b.type);
+		logger.info("{} 汇报 {} buy {}", jz.id, b.type, b.buyItemId);
+	}
+
+	public void addTask(IoSession session, JunZhu jz, BillHist b, int times) {
+		try{
+			TXQuery tq = new TXQuery();
+			tq.pre_save_amt = HibernateUtil.getColumnValueMaxOnWhere(BillHist.class,
+					"save_amt", "where jzId="+jz.id);
+			tq.jzId = jz.id;
+			tq.buyItemId = b.buyItemId;
+			tq.params = (String) session.getAttribute("TXClientInfo");
+			tq.retry = times;
+			TXQueryMgr.inst.q.add(tq);
+		}catch(Exception e){
+			logger.error(jz.id+"创建查询请求失败 {}", e);
+		}
+	}
+
+	@Override
+	public void proc(Event event) {
+		switch (event.id) {
+		case ED.ACC_LOGIN:{
+			long junZhuId = (long)event.param;
+			addQuery(junZhuId);
+			break;
+		}
+		}
+	}
+
+	public void addQuery(long junZhuId) {
+		IoSession ss = AccountManager.sessionMap.get(junZhuId);
+		if(ss == null){
+			return;
+		}
+		ErrorMessage.Builder req = ErrorMessage.newBuilder();
+		req.setCmd(10);
+		req.setErrorCode(0);
+		req.setErrorDesc("-20160525");
+		checkCharge(0,ss,req);
+	}
+
+	@Override
+	protected void doReg() {
+		EventMgr.regist(ED.ACC_LOGIN, this);		
 	}
 }

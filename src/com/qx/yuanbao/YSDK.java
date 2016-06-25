@@ -22,7 +22,7 @@ Appkey：XDLyqqD3yYHNz9r4
 [微信] AppId：wx2494776da74da632
 Appkey：203eba963304272bb9ffa8dcb9dda268
 
-米大师
+米大师  http://midas.qq.com/jr  3286074930  youxiguwushuang QQ卡
 http://wiki.open.qq.com/wiki/%E8%85%BE%E8%AE%AF%E7%A7%BB%E5%8A%A8%E6%94%AF%E4%BB%98%E6%8F%92%E4%BB%B6Midas%E7%99%BD%E7%9A%AE%E4%B9%A6
 
 QQ卡卡号:113625146   QQ卡密码:733640186479 QQ卡面值:100 Q币
@@ -250,7 +250,7 @@ public class YSDK {
     	{
     		String scriptName = "/v3/r/mpay/present_m";
 			String resp = present_m(scriptName, sdk, ck, params);
-			log.info(resp);
+			log.info("{} ret {}",scriptName,resp);
             ret.put("ysdkRet", resp);
     		return ;
     	}
@@ -373,7 +373,7 @@ public class YSDK {
     	int type = ret.optInt("type");
     	switch(type){
     	case 1:
-    		ret.put("appid",appid_wx);
+    		ret.put("appid",appid_qq);//支付要用QQ的app id
     		//appkey = appkey_wx;
     		ck.put("session_id", "hy_gameid");
     		ck.put("session_type", "wc_actoken");
