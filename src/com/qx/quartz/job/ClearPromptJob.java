@@ -12,7 +12,7 @@ import com.qx.prompt.PromptMsgMgr;
 import com.qx.prompt.SuBaoConstant;
 
 public class ClearPromptJob implements Job {
-	private Logger log = LoggerFactory.getLogger(ClearPromptJob.class);
+	private Logger log = LoggerFactory.getLogger(ClearPromptJob.class.getSimpleName());
 	public 	 StringBuffer sql=  new StringBuffer();
 	public static boolean doIt = true;
 	@Override

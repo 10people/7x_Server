@@ -26,6 +26,7 @@ public class XGParam {
 //		channels.get("PP").env = XingeApp.IOSENV_DEV;//见bug http://bugfree.youxigu.net:81/index.php/bug/27926
 		
 		channels.put("TX", 		new XGParam(2100172721L, "9ddc56da653412ec346f0aaa8b8aea52", "TX"));
+		//同样的平台不能放多个，否则会多次发送领取体力。
 	}
 	public String channel;
 	public long accessId;// = 2200135874L;

@@ -97,7 +97,6 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 	public static Mission exit = new Mission(0, null, null);
 	public static Map<Integer, ReportTemp> reportMap;
 	public static int tongbiCODE = AwardMgr.ITEM_TONGBI_ID;
-	public static int gongxianCODE = 900015;
 	public static Map<Long, BattleInfo4Pvp> fightingLock = new HashMap<Long, BattleInfo4Pvp>();
 //	public static Map<Long, Long[]> prepareLock = new HashMap<Long, Long[]>();
 //	public static Map<Integer, GuYongBing> bingMap = new HashMap<Integer, GuYongBing>();
@@ -349,7 +348,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 					int gongxian=Integer.valueOf(ybAward[1]); 
 					award="0:"+tongbiCODE+":"+ybAward[0];
 					if(gongxian>0){
-						award+="#0:"+gongxianCODE +":"+ybAward[1];
+						award+="#0:"+AwardMgr.ITEM_LIAN_MENG_GONGXIAN +":"+ybAward[1];
 					}
 					jiangli=shouru;//2016年3月12日 现在没用 谁知道啥时候会加回来
 				}
@@ -630,30 +629,33 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		/*
 		 * 产生新的速报
 		 */
+		
 		PromptMSG msg2 = null;
 		switch(msg.eventId){
-	
-			case SuBaoConstant.been_lveDuo_event: //被掠夺 产生一个安慰速报
-				 msg2 = saveLMKBByCondition(msg.otherJzId, jz.id, 
-						 new String[]{msg.jzName1, jz.name, msg.cartWorth},
-						SuBaoConstant.lveDuo_comfort_event, -1);
-				
-				break;
-			case SuBaoConstant.qiuaw4yb:
-				 msg2 =saveLMKBByCondition(msg.otherJzId, msg.jzId, new String[]{jz.name ,"",null,null,msg.cartWorth},
-						SuBaoConstant.sbaw4yb, msg.realCondition);
-			default:
-				break;
-					
+		case SuBaoConstant.been_lveDuo_event: //被掠夺 产生一个安慰速报
+		{
+			msg2 = saveLMKBByCondition(msg.otherJzId, jz.id, 
+					new String[]{msg.jzName1, jz.name, msg.cartWorth},
+					SuBaoConstant.lveDuo_comfort_event, -1);
 		}
-
+			break;
+		case SuBaoConstant.qiuaw4yb:
+		{
+			if(msg.anWeiTimes > YunbiaoTemp.yunbiao_comforted_award_Num) {
+				break;
+			}
+			msg2 =saveLMKBByCondition(msg.otherJzId, msg.jzId, new String[]{jz.name ,"",null,null,msg.cartWorth},
+					SuBaoConstant.sbaw4yb, msg.realCondition);
+		}
+		default:
+			break;
+		}
 		SessionUser su = SessionManager.inst.findByJunZhuId(msg.otherJzId);
 		if (su != null && msg2 != null){
 			SuBaoMSG.Builder subao2=SuBaoMSG.newBuilder();
 			makeSuBaoMSG(subao2, msg2);;
 			su.session.write(subao2.build());
 		}
-		//
 		msg.anWeiTimes += 1;
 		HibernateUtil.update(msg);
 		resp.setSubaoId(subaoId);

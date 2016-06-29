@@ -1114,7 +1114,7 @@ public class GameTaskMgr extends EventProc{
 		   }else if(firstParam instanceof JunZhu){
 			   junZhuId = ((JunZhu)firstParam).id;
 		   }
-		   log.info("junzhuId：{}主线任务事件处理调用", junZhuId);
+//		   log.info("junzhuId：{}主线任务事件处理调用", junZhuId);
 		   switch (event.id) {
 		   case ED.EQUIP_ADD:
 			    // 增加判断穿装备任务 和 进阶品质任务是否完成
@@ -1650,8 +1650,8 @@ public class GameTaskMgr extends EventProc{
 	 * @author wangZhuan
 	 */
 	public void recordTaskProcess(Long junZhuId, short type, String conditionInfo){
-		log.info("recordTaskProcess被调用,参数是：junZhuId:{}, 和type:{}, condittionInfo:{}",
-				junZhuId, type, conditionInfo);
+//		log.info("recordTaskProcess被调用,参数是：junZhuId:{}, 和type:{}, condittionInfo:{}",
+//				junZhuId, type, conditionInfo);
 		List<WorkTaskBean> list = getTaskList(junZhuId);
 		if(list == null){
 			return;

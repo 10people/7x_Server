@@ -881,7 +881,8 @@ public class BagMgr {
 		msg.builder = ret;
 		session.write(msg);
 		//
-		sendBagInfo(session,bag);
+		bag = loadBag(junZhu.id);//发奖过程中使用的bag和当前的不一样，需要重新载入。
+		sendBagInfo(session,bag);//
 		JunZhuMgr.inst.sendMainInfo(session,junZhu);//同步铜币
 	}
 

@@ -2,6 +2,7 @@ package com.qx.activity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -1075,7 +1076,7 @@ public class XianShiActivityMgr  extends EventProc{
 			xsBean=initXianShiInfo(jzId,XianShiConstont.ZAIXIANLIBAO_TYPE);
 		}
 		int bigId=xsBean.bigId;
-		log.info("获取{}首日限时活动-{}数据", jzId,bigId);
+//		log.info("获取{}首日限时活动-{}数据", jzId,bigId);
 		List<XianshiHuodong> xsList=bigActivityMap.get(bigId);
 		if(xsList==null){
 			log.error("玩家{}获取首日活动{}数据出错，XianshiHuodong-List为空",jzId,bigId);
@@ -1282,7 +1283,7 @@ public class XianShiActivityMgr  extends EventProc{
 	 */
 	public void getOtherXianShiInfo(long jzId,int jzLevel,	XianshiControl	xsControl,XianShiBean xianshiBean,XinShouXianShiInfo.Builder resp,List<String>isYilingList,List<String>isKelingList) {
 		int bigId=xsControl.getId();
-		log.info("获取{}限时活动-{}数据", jzId,bigId);
+//		log.info("获取{}限时活动-{}数据", jzId,bigId);
 		List<XianshiHuodong> xsList=bigActivityMap.get(bigId);
 		if(xsList==null){
 			log.error("玩家{}获取活动{}数据出错，XianshiHuodong-List为空",jzId,bigId);
@@ -1302,7 +1303,7 @@ public class XianShiActivityMgr  extends EventProc{
 //		}
 		//返回整个活动剩余领奖时间
 		if(resp!=null){
-			log.info("玩家{}活动-{}剩余延迟领奖时间为-{}",jzId,bigId,remainTime);
+//			log.info("玩家{}活动-{}剩余延迟领奖时间为-{}",jzId,bigId,remainTime);
 			resp.setRemainTime(remainTime);
 		}
 		int hdSize=xsList.size();
@@ -1826,7 +1827,16 @@ public class XianShiActivityMgr  extends EventProc{
 			hd.setHuodongId(huoDongId);
 			resp.addHuodong(hd);
 		}
-		int timeDistance=DateUtils.timeDistanceBySecond();
+		Calendar calendar = Calendar.getInstance();
+		Date nowDate = calendar.getTime();
+		calendar.set(Calendar.HOUR_OF_DAY,4); //四点重置
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		if(nowDate.getTime() > calendar.getTimeInMillis()){
+			calendar.add(Calendar.DATE,1);
+		}
+		int timeDistance=DateUtils.timeDistanceBySecond(calendar.getTime(),nowDate);
 		//七日活动 2015年12月3日 返回现在时间离明天4点的时间间隔
 		resp.setBeizhu(timeDistance);
 		//返回整个活动剩余时间 首日和七日无限时返回-1
@@ -2034,6 +2044,7 @@ public class XianShiActivityMgr  extends EventProc{
 			for (int i = 0; i < xsSize; i++) {
 				XianshiHuodong xshd=xsList.get(i);
 				int huoDongId=xshd.getId();
+				if(huoDongId != hdId) continue;
 				boolean isKeling = DB.lexist((XIANSHIKELING_KEY + jzId), huoDongId + "");
 				if(isKeling){
 //					condition=huoDongId;

@@ -43,7 +43,6 @@ import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
-import com.qx.huangye.shop.ShopMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
@@ -663,7 +662,7 @@ public class HYMgr extends EventProc{
 				return;
 			}
 			// 是否是否挑战条件没问题
-			int guanqiaId = huangyePveCfg.pveId;
+			/*int guanqiaId = huangyePveCfg.pveId;
 			PveRecord r = HibernateUtil.find(PveRecord.class,
 					"where guanQiaId=" + guanqiaId + " and uid=" + junzhu.id);
 			if(r == null){
@@ -671,7 +670,7 @@ public class HYMgr extends EventProc{
 						junzhu.id, hyTreasure.id, guanqiaId);
 				PveMgr.inst.sendZhanDouInitError(session, "挑战条件不够：必须通关："+ guanqiaId);
 				return;
-			}
+			}*/
 			// 挑战次数是否足够
 			hyTimes = HibernateUtil.find(HYTreasureTimes.class, junzhu.id);
 			if(hyTimes == null){
@@ -851,16 +850,16 @@ public class HYMgr extends EventProc{
 		fillTreasureNpcResp(response, treasureNpcList);
 	
 		response.setJindu(hyTreasure.progress);
-		response.setRemainTime(getKuaiSuPassRemainTime(hyTreasure));
+		response.setRemainTime(getKuaiSuPassRemainTime(hyTreasure, hyPveCfg));
 		// 挑战条件
-		int guanqiaId = hyPveCfg.pveId;
-		PveRecord r = HibernateUtil.find(PveRecord.class,
-				"where guanQiaId=" + guanqiaId + " and uid=" + junzhu.id);
-		if(r == null){
-			response.setConditionIsOk(false);
-		}else{
+//		int guanqiaId = hyPveCfg.pveId;
+//		PveRecord r = HibernateUtil.find(PveRecord.class,
+//				"where guanQiaId=" + guanqiaId + " and uid=" + junzhu.id);
+//		if(r == null){
+//			response.setConditionIsOk(false);
+//		}else{
 			response.setConditionIsOk(true);
-		}
+//		}
 		// 是否有人正在挑战
 		boolean has = hasSomeOneInBattle(hyTreasure);
 		if(has) {
@@ -931,8 +930,8 @@ public class HYMgr extends EventProc{
 	/*
 	 * 返回单位是秒
 	 */
-	public int getKuaiSuPassRemainTime(HYTreasure hyTreasure){
-		int time = CanShu.HUANGYEPVE_FASTCLEAR_TIME;
+	public int getKuaiSuPassRemainTime(HYTreasure hyTreasure, HuangyePve hyPveCfg){
+		int time = hyPveCfg.fastTimeLimit * 60 * 60;//单位秒
 		if(hyTreasure == null || hyTreasure.openTime == null){
 			return -1;
 		}
@@ -1102,8 +1101,6 @@ public class HYMgr extends EventProc{
 		List<AwardTemp> getAwardList = new ArrayList<AwardTemp>();
 		BattleResult.Builder response = BattleResult.newBuilder();
 		//2. 更新npc血量 ， 计算获得铜币，掉落奖励。发现npc剩余血量为0，表示这个怪被打死，则要计算是否掉落物品
-		float getTongbi = 0;
-		float getHyebi = 0;
 		Map<Integer, HYPveNpcInfo>  npcRemainHpMap = new HashMap<Integer, HYPveNpcInfo>();
 		for(HYPveNpcInfo remainHpInfo: npcInfoList){
 			npcRemainHpMap.put(remainHpInfo.getNpcId(), remainHpInfo);
@@ -1119,8 +1116,6 @@ public class HYMgr extends EventProc{
 			logger.info("荒野点：{}被玩家：{}攻打，npc：{}在被打之前血量是：{}，攻打之后血量是：{}",
 					treasureId, junzhu.name, hyNpc.npcId, hyNpc.remainHp, curRemainHp);
 			hurtValue = hurtValue < 0 ? 0 : hurtValue;
-			getTongbi += hurtValue * CanShu.HUANGYEPVE_AWARD_X;
-			getHyebi += hurtValue;
 			hyNpc.remainHp = curRemainHp;
 			HibernateUtil.save(hyNpc);
 			if(curRemainHp > 0) {
@@ -1154,36 +1149,20 @@ public class HYMgr extends EventProc{
 		hyTreasure.battleJunzhuId = 0;
 		hyTreasure.battleBeginTime = null;
 		HibernateUtil.save(hyTreasure);
-		
-		//增加荒野币
-		int h = (int)Math.floor(getHyebi * hyPveCfg.huangYeBi_scale); 
-		if(h > 0){
-			ShopMgr.inst.addMoney(ShopMgr.Money.huangYeBi, 
-					ShopMgr.huangYe_shop_type, junzhu.id, h);
-			ShopMgr.inst.sendMainIfo(session,junzhu.id,ShopMgr.Money.huangYeBi);
-		}
-		
-		
-		logger.info("玩家:{} , 打完荒野求生获取荒野币：{}", junzhu.id,  h);
-
-		junzhu.tongBi += getTongbi;
-		logger.info("玩家:{} , 打完荒野求生获取铜币：{}", junzhu.id,  getTongbi);
-		HibernateUtil.save(junzhu);
+		int getLianMengGongxian = 0;
 		getAwardList.addAll(AwardMgr.inst.parseAwardConf(hyPveCfg.fightAward));
 		for(AwardTemp award : getAwardList) {
-			if(award.getItemId() == AwardMgr.ITEM_TONGBI_ID) {
-				getTongbi += award.getItemNum();
+			if(award.getItemId() == AwardMgr.ITEM_LIAN_MENG_GONGXIAN) {//联盟贡献不放在奖励物品上
+				getLianMengGongxian += award.getItemNum();
+			} else {
+				AwardMgr.inst.fillBattleAwardInfo(response, award);
 			}
-			AwardMgr.inst.fillBattleAwardInfo(response, award);
 		}
-		response.setMoney(h);
+		response.setMoney(getLianMengGongxian);
 		response.setExp(0);
-		response.setTongbi((int)getTongbi);
+		response.setTongbi(0);
 		session.write(response.build());
 		for(AwardTemp award : getAwardList) {
-			if(award.getItemId() == AwardMgr.ITEM_TONGBI_ID) {
-				continue;
-			}
 			AwardMgr.inst.giveReward(session, award, junzhu, false);
 		}
 		JunZhuMgr.inst.sendMainInfo(session,junzhu);
@@ -1217,13 +1196,14 @@ public class HYMgr extends EventProc{
 			mailConfig = EmailMgr.INSTANCE.getMailConfig(20002);
 			String fujian = "";
 			if(mailConfig != null) {
-				float awardRatio = getPassGuanQiaAward(rank++, hyTreasure.guanQiaId);
+				float awardRatio = getPassGuanQiaAward(rank, hyTreasure.guanQiaId);
 				for(AwardTemp award : tongGuanAwardList) {
 					fujian += award.getItemType() + ":" + award.getItemId()
 							+":" + (int)(Math.ceil(award.getItemNum()*awardRatio))+"#";
 				}
 				String content = mailConfig.content.replace("***", treaName)
 													.replace("A", rank+"");
+				rank++;
 				fujian = fujian.substring(0, fujian.length() - 1);
 				sendOK = EmailMgr.INSTANCE.sendMail(getJunzhu.name, content, fujian, mailConfig.sender, mailConfig,"");
 				logger.info("藏宝点通关奖励，以邮件发送奖励, 结果:{}", sendOK);

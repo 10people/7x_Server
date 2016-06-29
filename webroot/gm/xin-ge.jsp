@@ -23,6 +23,9 @@ if("send".equals(act)){
 }else if("tiliGive18".equals(act)){
 	XG.inst.pushGetTili(20);
 	out("发送完毕");
+}else if("tiliGive90".equals(act)){
+	XG.inst.pushGetTili(90);
+	out("发送完毕");
 }else if("switchOpenClose".equals(act)){
 	XG.pushOpen = !XG.pushOpen;
 }
@@ -36,5 +39,6 @@ if("send".equals(act)){
 </form>
 <a href='?act=tiliGive12'>推送中午领体力</a><br/>
 <a href='?act=tiliGive18'>推送晚饭领体力</a><br/>
+<a href='?act=tiliGive90'>推送百战</a><br/>
 </body>
 </html>

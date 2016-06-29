@@ -431,7 +431,7 @@ public class GrowUpMgr {
 							int maxJnSH=UserEquipAction.instance.getXiLianMaxValue(v, zhuangBeiTmp, dbUe == null? 0 :dbUe.getLevel());
 							singleMax += maxJnSH > 0 ? maxJnSH : 0;
 							singleJinDu += Math.abs(v2);
-							log.info("{},{},{}", ms[ff].getName(), maxJnSH, v2 );
+//							log.info("{},{},{}", ms[ff].getName(), maxJnSH, v2 );
 						//}
 					}
 					if(singleMax>0){

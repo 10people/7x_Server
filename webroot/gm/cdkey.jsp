@@ -40,9 +40,10 @@
 	String numStr = request.getParameter("num");
 	String awards = request.getParameter("awards");
 	String action = request.getParameter("action");
-	
+	int cnt = HibernateUtil.getCount("select count(1) from CDKeyInfo where jzId>0");
 	%>
 	<h3>兑换CDKey物品</h3>
+	已领取：<%=cnt %>---<a href='?action=reset'>重置领取记录</a>
 	<script type="text/javascript">
 		function checkGetAward(){
 			var key = document.getElementById("key").value;
@@ -188,6 +189,10 @@
 					break;
 				}
 			}
+		} else if(action.equals("reset")){
+			String sql = "update CDKeyInfo set jzId=0";
+			HibernateUtil.executeSql(sql);
+			out("已重置");
 		} else if(action.equals("generate")){
 			int chanId = Integer.parseInt(chanIdStr);
 			Date deadDate = new Date(Integer.parseInt(deadDateStr.split("-")[0])-1900,Integer.parseInt(deadDateStr.split("-")[1])-1,Integer.parseInt(deadDateStr.split("-")[2]));

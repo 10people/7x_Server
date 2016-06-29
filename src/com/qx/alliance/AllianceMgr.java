@@ -1536,6 +1536,7 @@ public class AllianceMgr extends EventProc{
 		alncPlayer.lianMengId = lianmengId;
 		alncPlayer.getTitleTime = date;
 		alncPlayer.joinTime = date;
+		alncPlayer.title = TITLE_MEMBER;
 		HibernateUtil.save(alncPlayer);
 		initAllianceGongXianRecord(applyJzId);
 		
@@ -2093,11 +2094,6 @@ public class AllianceMgr extends EventProc{
 		}
 
 		AllianceApply applyer = HibernateUtil.find(AllianceApply.class, junZhu.id);
-		if (applyer != null && applyer.getAllianceNum() >= AllianceConstants.APPPLY_NUM_MAX) {
-			logger.error("{}失败，申请的联盟数量已满，申请了{}个， 最大申请{}个", logHead,applyer.getAllianceNum(), AllianceConstants.APPPLY_NUM_MAX);
-			sendImmediatelyJoinResp(session, 3, null, responseCmd,lianMengId,guojia,remainTime);
-			return false;
-		}
 		Date date = new Date();
 		AlliancePlayer alncPlayer = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
 		if (alncPlayer == null) {
@@ -2112,6 +2108,7 @@ public class AllianceMgr extends EventProc{
 
 		alncPlayer.lianMengId = alncBean.id;
 		alncPlayer.joinTime = date;
+		alncPlayer.title = TITLE_MEMBER;
 		HibernateUtil.save(alncPlayer);
 		Redis.getInstance().sadd(CACHE_MEMBERS_OF_ALLIANCE + alncBean.id,
 				"" + alncPlayer.junzhuId);
@@ -3277,6 +3274,17 @@ public class AllianceMgr extends EventProc{
 			String eventStr = lmEvent.str.replaceFirst("%a", junZhu.name).replace("%b", guojiaName);
 			addAllianceEvent(alncBean.id, eventStr);
 		}
+		processChangeCountry4Members(alncBean, beforeCountry);
+		EventMgr.addEvent(ED.LIAN_MENG_CHANGE_GUOJIA, new Object[]{alncBean.id, junZhu.id});
+		EventMgr.addEvent(ED.LIANMENG_RANK_REFRESH, new Object[]{alncBean.id, beforeCountry});
+	}
+	
+	/**
+	 * 联盟转国后，对盟员的信息处理
+	 * @param alncBean
+	 * @param beforeCountry
+	 */
+	public void processChangeCountry4Members(AllianceBean alncBean, int beforeCountry) {
 		List<AlliancePlayer> memberList = getAllianceMembers(alncBean.id);
 		for (AlliancePlayer member : memberList) {
 			SessionUser su = SessionManager.inst.findByJunZhuId(member.junzhuId);
@@ -3290,14 +3298,16 @@ public class AllianceMgr extends EventProc{
 			memberJz.guoJiaId = alncBean.country;
 			HibernateUtil.save(memberJz);
 			JunZhuMgr.inst.sendMainInfo(su.session);
-			sendAllianceInfo(junZhu, session, member, alncBean);
+			sendAllianceInfo(memberJz, su.session, member, alncBean);
 			refreshJunZhuPerRank(memberJz, beforeCountry);
 		}
-
-		EventMgr.addEvent(ED.LIAN_MENG_CHANGE_GUOJIA, new Object[]{alncBean.id, junZhu.id});
-		EventMgr.addEvent(ED.LIANMENG_RANK_REFRESH, new Object[]{alncBean.id, beforeCountry});
 	}
-
+	
+	/**
+	 * 联盟转国后，刷新所有成员在排行榜的国家信息
+	 * @param junZhu
+	 * @param beforeCountry
+	 */
 	public void refreshJunZhuPerRank(JunZhu junZhu, int beforeCountry) {
 		EventMgr.addEvent(ED.BAIZHAN_RANK_REFRESH, new Object[]{junZhu, beforeCountry});
 		EventMgr.addEvent(ED.CHONGLOU_RANK_REFRESH, new Object[]{junZhu, beforeCountry});

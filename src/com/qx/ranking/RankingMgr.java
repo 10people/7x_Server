@@ -575,8 +575,36 @@ public class RankingMgr extends EventProc{
 		long rank = 0;
 		if(key.startsWith(BAIZHAN_RANK)){
 			rank = DB.zrank(key+"_"+gjId, junzhuId+"");
+		} else if(key.startsWith(CHONGLOU_RANK)) {
+			rank = getRankInChongLouByGuojia(gjId, junzhuId, rank);
 		} else{
 			rank = DB.zrevrank(key+"_"+gjId, junzhuId+"");
+		}
+		return rank;
+	}
+	
+	/**
+	 * 获取某个国家君主所在重楼排行榜的排名
+	 * @param gjId
+	 * @param junzhuId
+	 * @param rank
+	 * @return
+	 */
+	public long getRankInChongLouByGuojia(int gjId, long junzhuId, long rank) {
+		Set<String> memberList = DB.zrange(CHONGLOU_RANK + "_" + gjId);;
+		if(memberList == null) {
+			return rank;
+		}
+		for(String member : memberList) {
+			String[] memberArray = member.split("_");
+			if(member.length() < 2) {
+				continue;
+			}
+			long jzId = Long.parseLong(memberArray[1]);
+			if(jzId == junzhuId) {
+				rank = DB.zrevrank(CHONGLOU_RANK + "_" + gjId, member);// 移除旧排名
+				return rank;
+			}
 		}
 		return rank;
 	}

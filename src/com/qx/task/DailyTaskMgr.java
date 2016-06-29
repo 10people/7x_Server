@@ -759,6 +759,8 @@ public class DailyTaskMgr extends EventProc {
 		setGet(acti, huodongid, true);
 		HibernateUtil.save(acti);
 		sendError(session,huodongid, PD.dailyTask_get_huoYue_award_resp, 0);
+		JunZhuMgr.inst.sendMainInfo(session);
+		BagMgr.inst.sendBagInfo(session,BagMgr.inst.loadBag(junzhu.id));
 	}
 
 	public void sendGetAward4Common(IoSession session, JunZhu junzhu, List<AwardTemp> getAwardList) {

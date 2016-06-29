@@ -321,8 +321,9 @@ public class FightScene extends VisionScene {
 		}
 		List<VIP> list = TempletService.listAll(VIP.class.getSimpleName());
 		int maxTimes = 0;
-		if(jz.vipLevel>0&&list!=null && list.size()>jz.vipLevel-1){
-			VIP vip = list.get(jz.vipLevel-1);
+		Optional<VIP> op = list.stream().filter(t->t.lv==jz.vipLevel).findAny();
+		if(op.isPresent()){
+			VIP vip = op.get();
 			maxTimes = vip.JCZBloodVial;
 		}
 		int leftTimes = Math.max(0, maxTimes - usedTimes);

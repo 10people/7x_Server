@@ -103,6 +103,11 @@ public class Scene implements Runnable{
 		if(this != scene) {
 			session.setAttribute(SessionAttKey.Scene, this);
 		}
+		String key = "EXCEPTION_OR_CLOSE";
+		if(session.containsAttribute(key) && builder instanceof ExitScene.Builder==false){
+			log.info("此客户端已掉线,sid{},code{}",session.getId(),code);
+			return;
+		}
 		missions.add(mission);
 	}
 

@@ -108,7 +108,7 @@ public class OurLog {
 				);
 	}
 	/////////////////////////
-	public void MoneyFlow(int level, int AfterMoney,int iMoney, int Reason,int add0sub1, int MONEYTYPE_pay1_free0, String RoleId){
+	public void MoneyFlow(int level, int AfterMoney,int iMoney, int Reason,int add0sub1, int MONEYTYPE_pay1_free0, String RoleId,int rmb){
 		//				{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 		MoneyFlow.info("{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}",
 		// <struct  name="MoneyFlow" version="1" desc="(必填)货币流水">
@@ -128,7 +128,7 @@ public class OurLog {
 		MONEYTYPE_pay1_free0,//14<entry  name="iMoneyType"        type="int"											desc="(必填)钱的类型MONEYTYPE" />
 		chCode.getChCodeByRoleId(RoleId),//15<entry  name="LoginChannel"		type="int"						defaultvalue="0"		desc="(必填)登录渠道"/>
 		RoleId,//16<entry  name="RoleId"			type="string"		size="64"						desc="(必填)角色ID" />
-	    0//17<entry  name="Rmb"			type="int"						desc="(可选)充值的RMB数量" />
+	    rmb//17<entry  name="Rmb"			type="int"						desc="(可选)充值的RMB数量" />
 
 		//  </struct>
 				);

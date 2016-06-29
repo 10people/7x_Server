@@ -108,6 +108,10 @@ function ff(){
 	        			bean.jundu = 0;
 	        			bean.time = new Date();
 	        			HibernateUtil.update(bean);
+	        			IoSession su = SessionManager.inst.getIoSession(junZhuId);
+	        			if(su != null ){
+	        				DailyTaskMgr.INSTANCE.taskListRequest(1, su);
+	        			}
 	        		}
 	        	}
 	        	

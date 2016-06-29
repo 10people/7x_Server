@@ -213,6 +213,7 @@ public class LieFuMgr {
 		}
 		
 		List<AwardTemp> getAwardList = new ArrayList<>(0);
+		getAwardList = AwardMgr.inst.getHitAwardList(lieFuTemp.awardID, ",", "=");
 		if(type == 2 /*&& getTotalTimes(2, lieFuBean) <= 0*/) {// 蓝色猎符类型第一次，获得特定的符文
 			WorkTaskBean taskBean = GameTaskMgr.inst.getTask(junZhu.id, 200065); 
 			if(taskBean != null) {
@@ -225,10 +226,7 @@ public class LieFuMgr {
 				getAwardList = AwardMgr.inst.getHitAwardList(CanShu.LIEFU_GREEN_FIRSTAWARD, ",", "=");
 				logger.info("君主:{}第一次猎符绿色 操作，获得奖励:{}", junZhu.id, getAwardList);
 			}
-		} else {
-			getAwardList = AwardMgr.inst.getHitAwardList(lieFuTemp.awardID, ",", "=");
-		}
-		
+		} 
 		// 是否会触发下一个
 		int nextType = -1;
 		int type1First = getTotalTimes(1, lieFuBean);

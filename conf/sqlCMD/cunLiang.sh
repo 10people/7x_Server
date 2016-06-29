@@ -1,9 +1,11 @@
+#crontab -e 配置
+#1 0 * * * /data/wushuang/test-server/cunLiang.sh >>/data/qxcron.log & 2>&1
 #游戏库配置
-gameDBHost="localhost";
+gameDBHost="10.66.143.160";
 gameDBPort="3306";
-gameDBUser='cunliang';
-gameDBPwd='cunliang';
-gameDBName='test_qxmobile';
+gameDBUser='111';
+gameDBPwd='111';
+gameDBName='ws01';
 dateStr=`date -d last-day +%Y%m%d_%H%M%S`;
 newTableName="cunliang_$dateStr";
 #-----------------------
@@ -15,18 +17,18 @@ logDBPwd='5xAsus9bWxdX6AaA';
 logDBName='sourcedata_tlog_qxws';
 
 #复制表
-cmd="mysql -h$gameDBHost -P$gameDBPort -u$gameDBUser -p$gameDBPwd -D$gameDBName -e 'create table $newTableName (select * from CunLiang)'";
+cmd="mysql -h$gameDBHost -P$gameDBPort -u$gameDBUser -p'$gameDBPwd' -D$gameDBName -e 'create table $newTableName (select * from CunLiang)'";
 echo "$cmd" | sh;
 echo "执行复制表 结果 $?";
 if [ $? = 0 ]; then
 	echo "复制成功，刷新数据";
-	cmd="mysql -h$gameDBHost -P$gameDBPort -u$gameDBUser -p$gameDBPwd -D$gameDBName -e 'update CunLiang set islogin=0,todayonlinetime=0'";
+	cmd="mysql -h$gameDBHost -P$gameDBPort -u$gameDBUser -p'$gameDBPwd' -D$gameDBName -e 'update CunLiang set islogin=0,todayonlinetime=0'";
 	echo "$cmd" | sh;
 	echo "刷新数据 结果 $?";
 fi
 
 #导出表
-cmd="mysqldump --skip-opt --no-create-info  -h$gameDBHost -P$gameDBPort -u$gameDBUser -p$gameDBPwd $gameDBName $newTableName>$newTableName.sql";
+cmd="mysqldump --skip-opt --no-create-info  -h$gameDBHost -P$gameDBPort -u$gameDBUser -p'$gameDBPwd' $gameDBName $newTableName>$newTableName.sql";
 echo "$cmd"|sh; 
 echo "执行dump 结果 $?";
 
@@ -37,6 +39,7 @@ sql="CREATE TABLE $newTableName ( \
   CareerId int(11) NOT NULL, \
   Fight int(11) NOT NULL, \
   LoginChannel int(11) NOT NULL,\
+  PlatId int(11) NOT NULL, \
   RoleName varchar(255) DEFAULT NULL, \
   VipPoint int(11) NOT NULL, \
   diamondandroid int(11) NOT NULL, \
@@ -59,7 +62,7 @@ cmd="mysql -h$logDBHost -P$logDBPort -u$logDBUser -p$logDBPwd -D$logDBName -e '$
 echo "$cmd" | sh;
 echo "创建表 结果 $?";
 
-cmd="mysql -h$logDBHost -P$logDBPort -u$logDBUser -p$logDBPwd -D$logDBName<$newTableName.sql";
+cmd="mysql -h$logDBHost -P$logDBPort -u$logDBUser -p$logDBPwd -D$logDBName --default-character-set=utf8<$newTableName.sql";
 echo "$cmd" ;
 echo "$cmd" |sh;
 echo "导入到日志库结果 $?";

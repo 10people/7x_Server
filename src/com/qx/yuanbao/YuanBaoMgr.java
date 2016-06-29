@@ -67,6 +67,7 @@ public class YuanBaoMgr extends EventProc{
 				junzhu.id, junzhu.name, yuanbaoBefore, change, yuanbaoAfter,
 				reason);
 		//
+		int rmb = 0;
 		if(type != YBType.YB_YSDK){
 			TXQuery t = new TXQuery();
 			t.jzId = junzhu.id;
@@ -78,6 +79,8 @@ public class YuanBaoMgr extends EventProc{
 				t.params = (String) session.getAttribute("TXClientInfo");
 				TXQueryMgr.inst.q.add(t);
 			}
+		}else{
+			rmb = change/10;
 		}
 		// 存到数据库
 		YuanBaoInfo info = new YuanBaoInfo();
@@ -99,7 +102,7 @@ public class YuanBaoMgr extends EventProc{
 		HibernateUtil.save(info);
 		//
 		int Reason = ReasonMgr.inst.getId(reason);
-		OurLog.log.MoneyFlow(junzhu.level, junzhu.yuanBao, change, Reason, change>0?0:1, 1, String.valueOf(junzhu.id));
+		OurLog.log.MoneyFlow(junzhu.level, junzhu.yuanBao, change, Reason, change>0?0:1, 1, String.valueOf(junzhu.id),rmb);
 		CunLiangLog.inst.yuanBaoChange(junzhu.id, junzhu.yuanBao);
 	}
 

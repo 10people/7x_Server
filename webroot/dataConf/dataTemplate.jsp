@@ -124,6 +124,12 @@ if("item".equals(type)){
 		out.append("<tr>");
 	}
 	out.append("</table>");
+	out("<pre>");
+	for(ItemTemp t : list){
+		out.print(t.id);
+		out(",");out(HeroService.getNameById(t.name));out("\n");
+	}
+	out("</pre>");
 }else if("sensitiveWord".equals(type)){
 	for(String v:BigSwitch.inst.accMgr.getSensitiveWord()){
 		out(v);br();
@@ -322,8 +328,8 @@ if("item".equals(type)){
 		out.append("<tr>");
 		out.append("<td>");		out.println(t.getBigId());		out.append("</td>");
 		out.append("<td>");		out.println(t.getId());		out.append("</td>");
-		out.append("<td>");		out.println(""+t.getBigName());		out.append("</td>");
-		out.append("<td>");		out.println(""+t.getSmaName());		out.append("</td>");
+		out.append("<td>");		out.println(HeroService.getNameById(t.bigName));		out.append("</td>");
+		out.append("<td>");		out.println(HeroService.getNameById(t.getSmaName()));		out.append("</td>");
 		out.append("<td>");		out.println(t.getChapType() == 1 ? "是" : "");		out.append("</td>");
 		out.append("<td>");		out.println(t.getNpcId());		out.append("</td>");
 		out.append("<td>");		out.println(t.getMoney());		out.append("</td>");
@@ -348,8 +354,8 @@ if("item".equals(type)){
 		out.append("<tr>");
 		out.append("<td>");		out.println(t.getBigId());		out.append("</td>");
 		out.append("<td>");		out.println(t.getId());		out.append("</td>");
-		out.append("<td>");		out.println(""+t.getBigName());		out.append("</td>");
-		out.append("<td>");		out.println(""+t.getSmaName());		out.append("</td>");
+		out.append("<td>");		out.println(HeroService.getNameById(t.getBigName()));		out.append("</td>");
+		out.append("<td>");		out.println(HeroService.getNameById(t.getSmaName()));		out.append("</td>");
 		out.append("<td>");		out.println(t.getChapType() == 1 ? "是" : "");		out.append("</td>");
 		out.append("<td>");		out.println(t.getNpcId());		out.append("</td>");
 		out.append("<td>");		out.println(t.getMoney());		out.append("</td>");

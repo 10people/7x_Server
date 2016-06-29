@@ -266,10 +266,8 @@ public class MonthCardMgr extends EventProc{
 		calendar.set(Calendar.MILLISECOND, 0);
 		if(now > calendar.getTimeInMillis()){
 			calendar.add(Calendar.DATE,1);
-			return (int)(calendar.getTimeInMillis() - now) / 1000;
-		}else{
-			return (int)(now - calendar.getTimeInMillis() / 1000);
 		}
+		return (int)(calendar.getTimeInMillis() - now) / 1000;
 	}
 	@Override
 	public void proc(Event param) {

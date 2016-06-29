@@ -123,7 +123,7 @@ public class SceneMgr extends EventProc{
 			default:
 				Scene sc = (Scene) session.getAttribute(SessionAttKey.Scene);
 				if(sc == null){
-					logger.info("未找到{}所在的场景",junZhuId);
+					logger.info("未找到{}所在的场景, pd:{}",junZhuId,code);
 				}else{
 					sc.exec(code, session, builder);
 				}

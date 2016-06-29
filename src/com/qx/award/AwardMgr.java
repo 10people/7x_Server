@@ -58,18 +58,18 @@ public class AwardMgr {
 	public static Logger log = LoggerFactory.getLogger(AwardMgr.class.getSimpleName());
 	public static Random rnd = new Random();
 	public Map<Integer, List<AwardTemp>> awardId2Award;
-	public static int ITEM_TONGBI_ID = 900001; 		//铜币
-	public static int ITEM_EXP_ID = 900006;			//经验
-	public static int ITEM_HU_FU_ID = 910000;		//虎符itemId
-	public static int ITEM_WEI_WANG = 900011;	// 威望
-	public static int item_gong_jin = 900028; //贡金
-	public static int item_huang_ye_bi = 900026; //荒野币
-	public static int vip_exp = 900029; // vip经验
-	public static int item_yuan_bao = 900002;  // 元宝
-	public static int ITEM_ALLIANCE_EXP = 900032;  // 联盟经验
-	public static int ITEM_TILI_ID = 900003;  // 体力
-	public static int ITEM_GONG_XUN = 900027;	// 功勋
-
+	public static int ITEM_TONGBI_ID = 900001; 			//铜币
+	public static int ITEM_EXP_ID = 900006;				//经验
+	public static int ITEM_HU_FU_ID = 910000;			//虎符itemId
+	public static int ITEM_WEI_WANG = 900011;			// 威望
+	public static int item_gong_jin = 900028; 			//贡金
+	public static int item_huang_ye_bi = 900026;		//荒野币
+	public static int vip_exp = 900029; 				// vip经验
+	public static int item_yuan_bao = 900002;  			// 元宝
+	public static int ITEM_ALLIANCE_EXP = 900032;  		// 联盟经验
+	public static int ITEM_TILI_ID = 900003;  			// 体力
+	public static int ITEM_GONG_XUN = 900027;			// 功勋
+	public static int ITEM_LIAN_MENG_GONGXIAN = 900015;	// 联盟贡献
 	
 	/** 物品奖励 */
 	public static final int TYPE_ITEM = 0;
@@ -192,7 +192,7 @@ public class AwardMgr {
 				for (Integer awardId : fistHitAwardIdList) {
 					AwardTemp calcV = calcAwardTemp(awardId);
 					if(calcV != null) {
-						getAwardList.add(calcV);
+						AwardMgr.inst.battleAwardCounting(getAwardList, calcV);
 						log.info("给予 {}关卡首次奖励type {} id {}, 关卡id:{} 传奇:{} ",
 								jz.name, calcV.getItemType(), calcV.getItemId(),
 								conf.getId(), chuanQiMark);
@@ -206,11 +206,11 @@ public class AwardMgr {
 		for (Integer awardId : hitAwardIdList) {
 			AwardTemp calcV = calcAwardTemp(awardId);
 			if(calcV != null) {
-				getAwardList.add(calcV);
+				AwardMgr.inst.battleAwardCounting(getAwardList, calcV);
 			}
 		}
 		// npc掉落的物品
-		getAwardList.addAll(getNpcAwardList);
+		AwardMgr.inst.battleAwardCounting(getAwardList, getNpcAwardList);
 		
 		int getTongBiTotal = conf.getMoney();
 		int getExpTotal = conf.getExp();
@@ -273,12 +273,12 @@ public class AwardMgr {
 					bean.win += 1;
 					bean.fixScore += hitNum;
 					bean.fixScore -= 100;
-					log.info("fix {}->{} v {} to {}",jzId,awardId, -100, bean.fixScore);
+//					log.info("fix {}->{} v {} to {}",jzId,awardId, -100, bean.fixScore);
 				}
 			}else if(bean != null){
 				bean.lose += 1;//不掉，概率累加
 				bean.fixScore += hitNum;
-				log.info("fix {}->{} v {} to {}",jzId,awardId, hitNum, bean.fixScore);
+//				log.info("fix {}->{} v {} to {}",jzId,awardId, hitNum, bean.fixScore);
 			}
 			if(dbOp == 'I'){
 				HibernateUtil.insert(bean);
@@ -564,7 +564,7 @@ public class AwardMgr {
 					log.info("发放君主--{}建设值奖励--{}，所在联盟{}", jz.id, a.getItemNum(),alliance.id);
 					AllianceMgr.inst.sendAllianceInfo(jz, session, null, alliance);
 				}
-			} else if (a.getItemId() == 900015) {// 联盟贡献值
+			} else if (a.getItemId() == ITEM_LIAN_MENG_GONGXIAN) {// 联盟贡献值
 				AlliancePlayer member = HibernateUtil.find(
 						AlliancePlayer.class, jz.id);
 				if (member != null) {

@@ -9,11 +9,10 @@
 </head>
 <body>
 	<%
-		XGParam before = XGParam.channels.get("TongBu");
-		out.println("before :" + before+" , accessId - " + before.accessId + ", secretKey - " + before.secretKey);
-		XGParam after = new XGParam(2200142040L, "03fa6c4bee7fa2c2ae44407e1ead5437", "TongBu");
-		XGParam.channels.put("TongBu", after);
-		out.println("after :" + XGParam.channels.get("TongBu"));
+	if(XGParam.channels.containsKey("GuangFang")){	
+		XGParam.channels.remove("GuangFang");
+	}
+		out.println("after :" + XGParam.channels.size());
 	%>
 	
 </body>

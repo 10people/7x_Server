@@ -150,6 +150,7 @@ do{
 		 alncPlayer.junzhuId + "");
 		 int nowAllianceId = Integer.parseInt(request.getParameter("v"));
 		 alncPlayer.lianMengId = nowAllianceId;
+		 alncPlayer.title = AllianceMgr.TITLE_MEMBER;
 		 HibernateUtil.save(alncPlayer);
 		 if(nowAllianceId > 0) {
 	 Redis.getInstance().sadd(AllianceMgr.inst.CACHE_MEMBERS_OF_ALLIANCE + alncPlayer.lianMengId,
@@ -307,6 +308,7 @@ do{
 	 trS();td("剩余劫镖次数");td(jbBean != null ?jbBean.remainJB4Award : "未开启");td("<input type='text' id='updateJieBiaoCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateJieBiaoCount\")'/><br/>");trE();
 	 trS();td("本日购买血瓶总数");td(jbBean != null ?jbBean.buyblood4Vip : "未开启");trE();
 	 trS();td("本日购买血瓶次数数");td(jbBean != null ?jbBean.bloodTimes4Vip : "未开启");trE();
+	 trS();td("今日满血复活次数");td(jbBean != null ? YaBiaoHuoDongMgr.inst.getFuhuoTimes(junzhu) : "未开启");trE();
 	 trS();td("今日已用血瓶数,改完相关数据清零");td(jbBean != null ?jbBean.xueping4uesd : "未开启");td("<input type='text' id='updateBloodCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateBloodCount\")'/><br/>");trE();
 	 trS();td("今日已购买铜币次数");td(tongBi != null ?tongBi.getNum():"还没有购买过");td("<input type='text' id='updateTongBiTimes' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateTongBiTimes\")'/><br/>");trE();
 	 trS();td("当日免费洗练剩余次数");td(xilianWorker.getXilianTimes());td("<input type='text' id='updateMianfeiXilianCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateMianfeiXilianCount\")'/><br/>");trE();

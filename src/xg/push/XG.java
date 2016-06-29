@@ -317,10 +317,12 @@ public class XG extends EventProc{
 				}
 				XGTokenBean bean = HibernateUtil.find(XGTokenBean.class, loseId);
 				if(bean == null){
+					log.info("null token bean for {}", loseId);
 					return;
 				}
 				CunLiang cl = HibernateUtil.find(CunLiang.class, loseId);
 				if(cl == null){
+					log.info("null cunLiang for {}", loseId);
 					return;
 				}
 				String chName = null;
@@ -350,6 +352,7 @@ public class XG extends EventProc{
 					}
 				}
 				if(cc == null){
+					log.info("null conf for {}",loseId);
 					return;
 				}
 				cc = cc.replace("YYY", win.name);

@@ -425,5 +425,6 @@ public class SettingsMgr {
 		HibernateUtil.update(bean);
 		session.write(PD.UNLOCK_MODEL);//解锁成功
 		getModelInfo(0, session, null);
+		JunZhuMgr.inst.sendMainInfo(session,jz);
 	}
 }

@@ -15,6 +15,7 @@ import com.manu.dynasty.template.LianmengMobai;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.SessionAttKey;
 import com.qx.account.FunctionOpenMgr;
+import com.qx.alliance.building.JianZhuLvBean;
 import com.qx.award.AwardMgr;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
@@ -214,7 +215,8 @@ public class MoBaiMgr extends EventProc{
 		for (int yuId : ids) {
 			int cnt = BagMgr.inst.getItemCount(bag, yuId);
 			if (cnt <= 0) {
-				sendError(0, session, "缺少所需的物品" + yuId);
+				//sendError(0, session, "缺少所需的物品" + yuId);
+				log.info("{}缺少玉珏{}",bag.ownerId, yuId);
 				return;
 			}
 		}
@@ -631,7 +633,12 @@ public class MoBaiMgr extends EventProc{
 			sendError(id, session, "您不在联盟中。");
 			return;
 		}
-		int tuTengLv = 1;//FIXME 
+		JianZhuLvBean jianZhu = HibernateUtil.find(JianZhuLvBean.class, member.lianMengId);
+		if(jianZhu == null){
+			log.error("JianZhuLvBean is null , {}",member.lianMengId);
+			return;
+		}
+		int tuTengLv = jianZhu.tuTengLv; 
 		LianMengTuTeng conf = getTuTengConf(tuTengLv);
 		if(conf == null){
 			log.error("LianMengTuTeng not found for lv {}, lm {}", tuTengLv, member.lianMengId);
