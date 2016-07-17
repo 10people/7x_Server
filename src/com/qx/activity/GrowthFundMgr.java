@@ -89,7 +89,7 @@ public class GrowthFundMgr extends EventProc{
 		}
 		//扣元宝
 		YuanBaoMgr.inst.diff(jz,-costYuanbao,0,0,0,"购买成长基金");
-		JunZhuMgr.inst.sendMainInfo(session,jz); //通知前端
+		JunZhuMgr.inst.sendMainInfo(session,jz,false); //通知前端
 		//更新数据库
 		gBuyBean = new GrowthFundBuyBean();
 		gBuyBean.buyTime = new Date();

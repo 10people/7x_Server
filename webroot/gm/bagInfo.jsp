@@ -1,3 +1,4 @@
+<%@page import="java.util.Optional"%>
 <%@page import="com.qx.util.TableIDCreator"%>
 <%@page import="qxmobile.protobuf.Explore.Award"%>
 <%@page import="com.qx.equip.web.UEConstant"%>
@@ -125,7 +126,7 @@
 		Bag<BagGrid> bag = BigSwitch.getInst().bagMgr.loadBag(junzhuId);
 		Bag<EquipGrid> equips = BigSwitch.getInst().equipMgr.loadEquips(junzhuId);
 				if ("wear".equals(action)) {
-					int idx = Integer.parseInt(request.getParameter("bagIndex"));
+					long idx = Long.parseLong(request.getParameter("bagIndex"));
 					SessionUser su = SessionManager.inst.findByJunZhuId(junzhuId);
 					if(su!=null){
 						BigSwitch.inst.equipMgr.equipAdd(su.session,equips, bag, idx);
@@ -137,10 +138,14 @@
 						BigSwitch.inst.equipMgr.equipRemove(su.session, equips, bag, idx);
 					}
 				}else if ("delete".equals(action)) {
-					int idx = Integer.parseInt(request.getParameter("bagIndex"));
-					BagGrid bg = bag.grids.get(idx);
-					bg.instId = bg.itemId = bg.cnt = 0;
-					HibernateUtil.save(bg);
+					long idx = Long.parseLong(request.getParameter("bagIndex"));
+					BagGrid bg = BagMgr.inst.getBagGrid(bag, idx);
+					IoSession ioSession = SessionManager.inst.getIoSession(junzhu.id);
+					if(bg != null) {
+						BagMgr.inst.removeItemByBagdbId(ioSession, bag, "jsp页面删除", idx, bg.cnt, junzhu.level);
+						bg.instId = bg.itemId = bg.cnt = 0;
+						HibernateUtil.save(bg);
+					}
 				}
 				else if ("clearUnUsedBags".equals(action)) {
 				List<BagGrid> list = bag.grids;
@@ -392,12 +397,12 @@
 						if(fuwen != null && fuwen.getType() != JewelMgr.Jewel_Type_Id) {
 							instId = 0;
 						}
-						BigSwitch.inst.bagMgr
-								.addItem(bag, iid, cnt, instId,  junzhu.level, "jsp页面添加");
-								//addItem(bag, iid, cnt, instId, junzhu.level);
 						SessionUser su = SessionManager.inst.findByJunZhuId(bag.ownerId);
+						BigSwitch.inst.bagMgr
+								.addItem(su.session,bag, iid, cnt, instId,  junzhu.level, "jsp页面添加");
+								//addItem(bag, iid, cnt, instId, junzhu.level);
 						if(su!=null && su.session != null){
-							BigSwitch.inst.bagMgr.sendBagInfo(0, su.session, null);
+							//BigSwitch.inst.bagMgr.sendBagInfo(0, su.session, null);
 							JunZhuMgr.inst.sendMainInfo(su.session);
 						}
 						out.println("<br/>已添加"+Integer.valueOf(itemNum)+"个<bar/>" + it.getName());
@@ -432,8 +437,8 @@
 								.getItemName(bg.itemId)%></td>
 			<td><%=bg.cnt==0?"没有啦":bg.cnt%></td>
 			<td>
-			<a href="?action=wear&jzId=<%=jzId%>&bagIndex=<%=i%>">穿上</a>|
-			---<a href="?action=delete&jzId=<%=jzId%>&bagIndex=<%=i%>">删</a>---|
+			<a href="?action=wear&jzId=<%=jzId%>&bagIndex=<%=bg.dbId%>">穿上</a>|
+			---<a href="?action=delete&jzId=<%=jzId%>&bagIndex=<%=bg.dbId%>">删</a>---|
 			</td>
 			<%
 			   Long instId=bg.instId;

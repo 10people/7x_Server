@@ -59,10 +59,14 @@
 							for (YuanBaoInfo info : list) {
 								Account account = HibernateUtil.find(Account.class,
 									(info.getOwnerid() - GameServer.serverId) / 1000);// 获取账号
+								String accountName = "";
+								if(null != account){
+									accountName = account.getAccountName();
+								}
 					%><tr>
 						<td><%=info.getDbId()%></td>
 						<td><%=info.getOwnerid()%></td>
-						<td><%=account.getAccountName()%></td>
+						<td><%=accountName%></td>
 						<td><%=info.getYuanbaoBefore()%></td>
 						<td><%=info.getYuanbaoChange()%></td>
 						<td><%=info.getYuanbaoAfter()%></td>

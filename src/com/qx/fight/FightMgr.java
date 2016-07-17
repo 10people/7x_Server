@@ -186,6 +186,12 @@ public class FightMgr {
 	}
 
 	public long fixDamageValue(Player targetPlayer, Skill skill, long damageValue) {
+		if(targetPlayer.session != null) {
+			Object scene = targetPlayer.session.getAttribute(SessionAttKey.Scene);
+			if(scene instanceof FightScene) {
+				return damageValue;
+			}
+		}
 		if(skill != null) {
 			if(101 == skill.SkillId) {
 				damageValue = Math.min(damageValue, (int)(targetPlayer.totalLife * YunbiaoTemp.damage_amend_X));
@@ -475,7 +481,7 @@ public class FightMgr {
 		scene.broadCastEvent(reviveNotify.build(), 0);
 		
 		YaBiaoHuoDongMgr.inst.kouchuFuhuoTimes(junzhu);
-		JunZhuMgr.inst.sendMainInfo(session,junzhu);
+		JunZhuMgr.inst.sendMainInfo(session,junzhu,false);
 	}
 
 	public void sendPlayerReviveNotifyError(IoSession session, int result, Player player) {

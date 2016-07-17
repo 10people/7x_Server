@@ -154,7 +154,7 @@ public class PurchaseMgr {
 			log.info("玩家{}第{}次购买体力成功", junZhuId, tiLi.getNum());
 			HibernateUtil.save(tiLi);
 			HibernateUtil.update(junZhu);
-			JunZhuMgr.inst.sendMainInfo(session,junZhu);
+			JunZhuMgr.inst.sendMainInfo(session,junZhu,false);
 			// 主线任务：购买1次体力
 			EventMgr.addEvent(ED.buy_tili_1_times, new Object[] { junZhu.id });
 			// 每日任务中记录完成一次购买体力
@@ -243,7 +243,7 @@ public class PurchaseMgr {
 		tbResp.setShumu(getTongbi);
 		sendBuyTongbiResp(session, 0, tbResp);
 		sendTongBiData(0, session, null);
-		JunZhuMgr.inst.sendMainInfo(session,junZhu);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu,false);
 		// 主线任务：购买1次铜币
 		EventMgr.addEvent(ED.buy_tongbi_1_times, new Object[] { junZhu.id });
 		// 每日任务中记录完成一次购买铜币
@@ -364,7 +364,7 @@ public class PurchaseMgr {
 		resp.setResult(0);
 		session.write(resp.build());
 		sendTongBiData(0, session, null);
-		JunZhuMgr.inst.sendMainInfo(session,junZhu);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu,false);
 		log.info("玩家{}连续--{}次购买铜币成功,花费--{}，收益--{}", junZhu.id, buyCount,cost4all,shouyi);
 		// 主线任务：购买1次铜币
 		EventMgr.addEvent(ED.buy_tongbi_1_times, new Object[] { junZhu.id });
@@ -1125,7 +1125,7 @@ public class PurchaseMgr {
 				.diff(junZhu, -costYuanBao, 0, getPriceConf(MIBAO_POINT_CODE),
 						YBType.YB_BUY_WUPIN, "购买秘宝升级点数");
 		HibernateUtil.update(junZhu);
-		JunZhuMgr.inst.sendMainInfo(session,junZhu);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu,false);
 
 		log.info("秘宝升级点数购买成功，玩家{}第{}次购买秘宝升级点数，花费:{}元宝,得到{}点,舍去{}点", junZhu.id,
 				levelPoint.dayTimes, costYuanBao, getValue, subValue);

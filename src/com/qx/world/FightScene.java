@@ -11,12 +11,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
+import org.aspectj.apache.bcel.generic.POP2;
+import org.aspectj.apache.bcel.generic.RETURN;
+import org.hibernate.loader.plan.exec.process.spi.ReturnReader;
+import org.springframework.web.context.request.NativeWebRequest;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
@@ -67,9 +72,11 @@ import com.qx.ranking.RankingMgr;
 import com.qx.robot.RobotSession;
 import com.qx.task.DailyTaskCondition;
 import com.qx.task.DailyTaskConstants;
+import com.qx.util.RandomUtil;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
 
+import qxmobile.protobuf.AllianceFightProtos;
 import qxmobile.protobuf.AllianceFightProtos.ABResult;
 import qxmobile.protobuf.AllianceFightProtos.AOESkill;
 import qxmobile.protobuf.AllianceFightProtos.BattleData;
@@ -284,9 +291,9 @@ public class FightScene extends VisionScene {
 			}
 			YuanBaoMgr.inst.diff(jz,-pay, 0, zhaoHuanPrice, YBType.LMZ_zhaoHuan,"购买召唤令lmz");
 			HibernateUtil.update(jz);
-			JunZhuMgr.inst.sendMainInfo(session, jz);
-			BagMgr.inst.addItem(bag, zhaoHuanFuId, buyCnt, 0, 0, "购买召唤令lmz");
-			BagMgr.inst.sendBagInfo(session, bag);
+			JunZhuMgr.inst.sendMainInfo(session, jz,false);
+			BagMgr.inst.addItem(session, bag, zhaoHuanFuId, buyCnt, 0, 0, "购买召唤令lmz");
+			//BagMgr.inst.sendBagInfo(session, bag);
 			sendBuyBloodResp(PD.LMZ_BUY_ZhaoHuan,session, resp, 10, zhaoHuanPrice, -1, remainXuePing+buyCnt, 1);
 			break;
 		case 2:
@@ -349,9 +356,9 @@ public class FightScene extends VisionScene {
 			if(pay>0 && jz.yuanBao>pay){
 				YuanBaoMgr.inst.diff(jz,-pay, 0, price, YBType.LMZ_XueP,"购买血瓶lmz");
 				HibernateUtil.update(jz);
-				JunZhuMgr.inst.sendMainInfo(session, jz);
-				BagMgr.inst.addItem(bag, xuePingId, buyCnt, 0, 0, "购买血瓶lmz");
-				BagMgr.inst.sendBagInfo(session, bag);
+				JunZhuMgr.inst.sendMainInfo(session, jz,false);
+				BagMgr.inst.addItem(session, bag, xuePingId, buyCnt, 0, 0, "购买血瓶lmz");
+				//BagMgr.inst.sendBagInfo(session, bag);
 				buyXPTimes.put(jz.id, usedTimes+1);
 			}
 			sendXuePingInfo(session, jz, 3);//重复利用此方法来发送信息。
@@ -411,7 +418,7 @@ public class FightScene extends VisionScene {
 		fenShenCDMap.put(jz.id, curMS);
 		YuanBaoMgr.inst.diff(jz, -fenShenPrice, 0, fenShenPrice, YBType.LMZ_FenShen, "分身");
 		HibernateUtil.update(jz);
-		JunZhuMgr.inst.sendMainInfo(ss, jz);
+		JunZhuMgr.inst.sendMainInfo(ss, jz,false);
 		//
 		FenShenNPC p = new FenShenNPC();
 		p.pState = State.State_LEAGUEOFCITY;
@@ -479,8 +486,8 @@ public class FightScene extends VisionScene {
 			log.warn("{}召唤符不足", jzId);
 			return;
 		}
-		BagMgr.inst.removeItem(bag, zhaoHuanFuId, 1, "召唤", 1);
-		BagMgr.inst.sendBagInfo(session,bag);
+		BagMgr.inst.removeItem(session, bag, zhaoHuanFuId, 1, "召唤", 1);
+		//BagMgr.inst.sendBagInfo(session,bag);
 		//------------
 //		ErrorMessage.Builder req = ErrorMessage.newBuilder();
 //		req.setErrorCode(uidObject);
@@ -632,7 +639,7 @@ public class FightScene extends VisionScene {
 				HibernateUtil.update(jz);
 				log.info("{}元宝复活",jz.id);
 				freeFuHuoUsedTimes.put(jz.id, usedTimes+1);
-				JunZhuMgr.inst.sendMainInfo(session,jz);
+				JunZhuMgr.inst.sendMainInfo(session,jz,false);
 			}else{
 				ok = false;
 			}
@@ -750,8 +757,9 @@ public class FightScene extends VisionScene {
 			log.warn("{}召唤符不足", jzId);
 			return false;
 		}
-		BagMgr.inst.removeItem(bag, xuePingId, 1, "使用血瓶", 1);
-		BagMgr.inst.sendBagInfo(attackPlayer.session,bag);
+		IoSession session = SessionManager.inst.getIoSession(attacker.id);
+		BagMgr.inst.removeItem(session, bag, xuePingId, 1, "使用血瓶", 1);
+		//BagMgr.inst.sendBagInfo(attackPlayer.session,bag);
 		return true;
 	}
 	public void prepareSkill(IoSession session, Builder builder) {
@@ -1401,6 +1409,10 @@ public class FightScene extends VisionScene {
 			cityBean.atckLmId = -100;
 			HibernateUtil.update(cityBean);
 			BidMgr.inst.saveLog(cityBean.lmId,preHoldId,cityId,date); //保存战报
+			if(preHoldId > 0) {
+				EventMgr.addEvent(ED.LIANMENG_RANK_REFRESH, new Integer(preHoldId));
+			}
+			EventMgr.addEvent(ED.LIANMENG_RANK_REFRESH, new Integer(winLmId));
 		}
 		log.info("{}从{}获得城池{}",winLmId,preHoldId,cityId);
 		//
@@ -1943,10 +1955,8 @@ public class FightScene extends VisionScene {
 		}
 		o.setLianSha(o.getLianSha()+1);
 		o.setKillCnt(o.getKillCnt()+1);
-		
 		int jiFen = killOneJiFen+die.worth;
 		o.setJiFen(o.getJiFen()+jiFen);
-		//
 		sortScore();
 		if(killer != null){//可能是分身杀人，真身不在。
 			sendOneScore(killer, o);
@@ -1954,10 +1964,9 @@ public class FightScene extends VisionScene {
 			checkChengHao(killer.userId,o.getLianSha() , 1);
 		}
 	}
-	public void sortScore() {
+/*	public void sortScore() {
 		ArrayList<PlayerScore.Builder> list = new ArrayList<>(personalScoreMap.values());
 		Collections.sort(list, new Comparator<PlayerScore.Builder>(){
-
 			@Override
 			public int compare(qxmobile.protobuf.AllianceFightProtos.PlayerScore.Builder o1,
 					qxmobile.protobuf.AllianceFightProtos.PlayerScore.Builder o2) {
@@ -1974,6 +1983,51 @@ public class FightScene extends VisionScene {
 				b.setRank(blue++);
 			}
 		}
+	}*/
+	/**
+	 * 排名
+	 * @param personalScoreMap1
+	 */
+	public void sortScore() {
+//		long start = System.currentTimeMillis();
+		ArrayList<PlayerScore.Builder> list = new ArrayList<>(personalScoreMap.values());
+		Comparator<PlayerScore.Builder> cmp = new Comparator<AllianceFightProtos.PlayerScore.Builder>() {
+			@Override
+			public int compare(qxmobile.protobuf.AllianceFightProtos.PlayerScore.Builder o1,
+					qxmobile.protobuf.AllianceFightProtos.PlayerScore.Builder o2) {
+				if(o1.getJiFen() != o2.getJiFen()){
+					return o2.getJiFen()-o1.getJiFen();
+				}else{
+					if(o1.getKillCnt() != o2.getKillCnt()){
+						return o2.getKillCnt()-o1.getKillCnt();
+					}else{
+						if(o1.getLianSha()!=o2.getLianSha()){
+							return o2.getLianSha()-o1.getLianSha();
+						}else{
+							JunZhu jz1 = HibernateUtil.find(JunZhu.class, o1.getJzId());
+							JunZhu jz2 = HibernateUtil.find(JunZhu.class, o2.getJzId());
+							int level1=jz1.getLevel();
+							int level2= jz2.getLevel();
+							if(level1 != level2){
+								return level2-level1;
+							}else{
+								  return (jz2.exp-jz1.exp)>=0 ? 1:-1;
+								}
+						}
+					}
+				}
+			}
+		};
+	    Collections.sort(list, cmp);
+	    int i= 1;
+	    for(PlayerScore.Builder a:list){
+	    	a.setRank(i++);
+	    }
+	   /* for(PlayerScore.Builder b:list){
+	    	JunZhu jZhu = HibernateUtil.find(JunZhu.class,b.getJzId());
+	    	System.out.println("排名："+b.getRank()+"积分:"+b.getJiFen()+"击杀数:"+b.getKillCnt()+"连杀数"+b.getLianSha()+"君主等级"+jZhu.getLevel()+"经验"+jZhu.exp);
+	    }*/
+//	    System.out.println("耗时：" + (System.currentTimeMillis()-start)+"毫秒");
 	}
 	public void sendOneScore(Player killer, PlayerScore.Builder o) {
 		ErrorMessage.Builder eb = ErrorMessage.newBuilder();

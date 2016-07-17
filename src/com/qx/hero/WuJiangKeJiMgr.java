@@ -352,7 +352,7 @@ public class WuJiangKeJiMgr {
 		HibernateUtil.update(junZhu);
 		EventMgr.addEvent(ED.ACHIEVEMENT_PROCESS, new AchievementCondition(
 				junZhu.id, AchievementConstants.type_keji_low, 1));
-		JunZhuMgr.inst.sendMainInfo(session,junZhu);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu,false);
 		return true;
 	}
 

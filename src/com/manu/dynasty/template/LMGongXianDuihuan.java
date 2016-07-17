@@ -9,7 +9,6 @@ public class LMGongXianDuihuan extends BaseDuiHuan{
 		return max;
 	}
 	public int getNeedLv(){
-		System.out.print("是的，调用了：needLv =  " + needLv);
 		return needLv;
 	}
 }

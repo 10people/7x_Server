@@ -759,7 +759,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 	
 		YuanBaoMgr.inst.diff(jz, -buyCost, 0,buyCost, YBType.YB_SHENGJI_YABIAO_MAPI, "押镖购买血瓶");
 		HibernateUtil.update(jz);
-		JunZhuMgr.inst.sendMainInfo(session,jz);
+		JunZhuMgr.inst.sendMainInfo(session,jz,false);
 		int addTimes=buyConf.getNumber();
 		log.info("增加君主{} 的vip购买的血瓶次数{},花费元宝:{},已用次数{}",jzId,addTimes,buyCost,zdbean.xueping4uesd);
 		zdbean.bloodTimes4Vip+=addTimes;
@@ -957,9 +957,8 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		int curHp=jz.shengMing;
 		LastExitYBInfo lastExitInfo = HibernateUtil.find(LastExitYBInfo.class, jzId);
 		if(lastExitInfo != null) {
-			lastExitInfo.remainLife = lastExitInfo.remainLife;
 			curHp = lastExitInfo.remainLife <= 0 ? 1: lastExitInfo.remainLife;
-			curHp=curHp>jz.shengMingMax?jz.shengMingMax:curHp;
+			curHp = curHp > jz.shengMingMax ? jz.shengMingMax : curHp;
 		}
 		AskYaBiaoHelpResp.Builder resp2Asker = AskYaBiaoHelpResp.newBuilder();
 		XieZhuJunZhu.Builder xzJz = XieZhuJunZhu.newBuilder();
@@ -1553,7 +1552,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			}
 			YuanBaoMgr.inst.diff(jz, -cost, 0, cost,YBType.YB_SHENGJI_YABIAO_MAPI, "升级押镖马匹");
 			HibernateUtil.update(jz);
-			JunZhuMgr.inst.sendMainInfo(session,jz);// 推送元宝信息
+			JunZhuMgr.inst.sendMainInfo(session,jz,false);// 推送元宝信息
 			log.info("junzhu:{}不是第一次升级马匹，升级{}马匹为{}，要花费元宝", jz.id, ybBean.horseType - 1,ybBean.horseType);
 		}
 		ybBean.horseType = targetType;
@@ -1668,7 +1667,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 
 		YuanBaoMgr.inst.diff(jz, -cost, 0, cost,YBType.YB_SHENGJI_YABIAO_MAPI, "购买马车保底收益道具");
 		HibernateUtil.save(jz);
-		JunZhuMgr.inst.sendMainInfo(session,jz);// 推送元宝信息
+		JunZhuMgr.inst.sendMainInfo(session,jz,false);// 推送元宝信息
 		zdbean.baodi = MaJuConstant.baodi;
 		HibernateUtil.save(zdbean);
 		log.info("{}请求购买马车保底收益道具:{},花费:{},剩余元宝{}", jz.id,zdbean.baodi,cost,jz.yuanBao);
@@ -1718,7 +1717,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			}
 			YuanBaoMgr.inst.diff(jz, -cost, 0, cost,YBType.YB_SHENGJI_YABIAO_MAPI, "购买马车加速道具");
 			HibernateUtil.update(jz);
-			JunZhuMgr.inst.sendMainInfo(session,jz);// 推送元宝信息
+			JunZhuMgr.inst.sendMainInfo(session,jz,false);// 推送元宝信息
 		}
 		zdbean.jiasu = MaJuConstant.gaojimabian;
 		HibernateUtil.save(zdbean);
@@ -1765,7 +1764,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 
 		YuanBaoMgr.inst.diff(jz, -cost, 0, cost,YBType.YB_SHENGJI_YABIAO_MAPI, "购买马车保护道具");
 		HibernateUtil.save(jz);
-		JunZhuMgr.inst.sendMainInfo(session,jz);// 推送元宝信息
+		JunZhuMgr.inst.sendMainInfo(session,jz,false);// 推送元宝信息
 		zdbean.baohu = MaJuConstant.baohu;
 		HibernateUtil.save(zdbean);
 		log.info("{}请求购买马车保护道具:{},花费:{},剩余元宝{}", jz.id,zdbean.baohu,cost,jz.yuanBao);
@@ -3309,9 +3308,12 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			robCartXishu=robCartXishuMap.get(0);
 		}
 		double w=robCartXishu.xishu;
+		double shengjiXishu = 1;
 		JunzhuShengji ss = JunZhuMgr.inst.getJunzhuShengjiByLevel(shouyiLevel);
 		if(ss==null){
 			log.error("产生系统机器人:{}出错,未找到JunzhuShengji配置",shouyiLevel );
+		}else {
+			shengjiXishu = ss.xishu;
 		}
 		//2016年1月25日 加入马具收益加成
 		double majujiacheng=0;
@@ -3326,9 +3328,9 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 				majujiacheng+=maju.profitPara;
 			}
 		}
-		int baseDaJieShouyi = (int) (ss.xishu *( cart.profitPara+majujiacheng)* cart.robProfit) ;
+		int baseDaJieShouyi = (int) (shengjiXishu *( cart.profitPara+majujiacheng)* cart.robProfit) ;
 		log.info("君主:{}劫镖结算JunzhuShengji系数:{},profitPara:{},robProfit:{},仇人加成:{},系统多倍收益率:{}%，马车价值:{}",
-				djJz.id,ss.xishu,cart.profitPara,cart.robProfit,enemyJiaCheng,SHOUYI_PROFIT,ybr.worth);
+				djJz.id,shengjiXishu,cart.profitPara,cart.robProfit,enemyJiaCheng,SHOUYI_PROFIT,ybr.worth);
 		int dajieshouyi = (int) ((baseDaJieShouyi*w)*(enemyJiaCheng/100)*SHOUYI_PROFIT/100);
 		return dajieshouyi;
 	}
@@ -3501,7 +3503,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		zdBean.jiasu = 0;
 		HibernateUtil.save(zdBean);
 		if (su != null) {
-			JunZhuMgr.inst.sendMainInfo(su.session,jz);// 推送铜币信息
+			JunZhuMgr.inst.sendMainInfo(su.session,jz,false);// 推送铜币信息
 		} 
 	
 		//2016年3月7日 策划加入运镖联盟相关数值
@@ -3872,7 +3874,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		}
 		YuanBaoMgr.inst.diff(jz, -yuanbao, 0, yuanbao,YBType.YB_BUY_YABIAO_CISHU, "押镖次数购买");
 		HibernateUtil.update(jz);
-		JunZhuMgr.inst.sendMainInfo(session,jz);
+		JunZhuMgr.inst.sendMainInfo(session,jz,false);
 
 		// 保存够买次数
 		bean.remainYB += count;
@@ -4229,7 +4231,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		
 		YuanBaoMgr.inst.diff(jz, -purchase.getYuanbao(), purchase.getYuanbao(), 0, YBType.YB_All_LIFE_REVIVE, "购买押镖满血复活次数");
 		HibernateUtil.update(jz);
-		JunZhuMgr.inst.sendMainInfo(session,jz);
+		JunZhuMgr.inst.sendMainInfo(session,jz,false);
 		log.info("君主:{}购买满血复活次数第{}次，花费元宝:{}得到次数:{}",jz.id, dayTimes+1, purchase.getYuanbao(), purchase.getNumber());
 		int	remainTimes	=YunbiaoTemp.resurgenceTimes+zdbean.fuhuoTimes4Vip-zdbean.fuhuo4uesd;
 		sendBuyReviveAllLifeTimesReponse(session, 100, remainTimes, purchase.getNumber(), purchase.getYuanbao(),needVipLevel);

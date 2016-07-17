@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -194,16 +195,14 @@ public class RankingMgr extends EventProc{
 		}
 		int guojiaId = jz.guoJiaId;
 		if(guojiaId != oldGuoJiaId) {
-			// 移除旧国家排名
-			removeChongLouPreRank(jz, oldGuoJiaId);
+			DB.zrem(CHONGLOU_RANK + "_" + oldGuoJiaId, jz.id+"");
 		}
-		removeChongLouPreRank(jz, 0);
-		removeChongLouPreRank(jz, guojiaId);
 		
 		long finishTime = record.highestLevelFirstTime == null ? System.currentTimeMillis() : record.highestLevelFirstTime.getTime();
-		finishTime = Long.MAX_VALUE - finishTime;
-		DB.zadd(CHONGLOU_RANK+"_0", record.highestLevel, finishTime + "_" +jz.id);// 添加到全部排名
-		DB.zadd(CHONGLOU_RANK+"_"+guojiaId, record.highestLevel, finishTime + "_" +jz.id);// 添加在相应国家排名
+		long scoreTime = 9999999999999L - finishTime;
+		long score = record.highestLevel * 10000000000000L + scoreTime;
+		DB.zadd(CHONGLOU_RANK + "_0", score, jz.id +"");			// 添加到全部排名
+		DB.zadd(CHONGLOU_RANK + "_" + guojiaId, score,jz.id+"");	// 添加在相应国家排名
 		log.info("重楼榜==>君主：{} 重楼挑战层数：{} 添加到周国排名中,key={}", jz.name, record.highestLevel, CHONGLOU_RANK+"_0");
 		log.info("重楼榜==>君主：{} 重楼挑战层数：{} 添加到国家{}排名中,key={}", jz.name, record.highestLevel, guojiaId,CHONGLOU_RANK+"_"+guojiaId);
 		int allSize = (int) DB.zcard_(CHONGLOU_RANK+"_0");
@@ -219,7 +218,7 @@ public class RankingMgr extends EventProc{
 		}
 		for(String member : memberList) {
 			String[] memberArray = member.split("_");
-			if(member.length() < 2) {
+			if(memberArray.length < 2) {
 				continue;
 			}
 			long jzId = Long.parseLong(memberArray[1]);
@@ -252,6 +251,9 @@ public class RankingMgr extends EventProc{
 			log.error("resetLianMengRankRedis 参数为null");
 			return;
 		}
+		if (lianmeng.creatorId % 1000 != GameServer.serverId){
+			return;// 过滤掉不是本服务器的联盟//正式服务器数据库分开就没有这个问题。
+		}
 		if(obj instanceof Object[]) {
 			Object[] params = (Object[]) obj;
 			Integer oldGuoJiaId = (Integer) params[1];
@@ -259,18 +261,21 @@ public class RankingMgr extends EventProc{
 				DB.zrem(LIANMENG_RANK+"_" + oldGuoJiaId, lianmengId+"");// 移除旧国家的排名
 			}
 		}
-		long level = lianmeng.level;
-		long reputation = lianmeng.reputation;
-		long members = lianmeng.members;
-		// Redis存储score计算为：等级*1000000000000+声望*1000+成员数量
-		long score = level*1000000000000L+reputation*1000+members;
+		
+		// 1.3版本改为 （占领名城数量[给两位字符]+ 等级[给两位字符] +　升级时间[给13位字符]），先把这部分字符串数位补齐，再相加，最后得出分数
+		int cityCount = AllianceMgr.inst.getCaptureCityCount(lianmengId);
+		String second = StringUtils.leftPad(lianmeng.level+"", 2, "0");
+		long scoreTime = 9999999999999L - (lianmeng.upgradeCurLevelTime == null ? lianmeng.createTime.getTime() : lianmeng.upgradeCurLevelTime.getTime());
+		String scoreStr = "" + cityCount + second +"" + scoreTime;
+		long score = Long.parseLong(scoreStr);
+		
 		int guojiaId = lianmeng.country;
 		long allRet = DB.zadd(LIANMENG_RANK+"_0", score, lianmengId+"");// 联盟全服榜
 		long gjRet = DB.zadd(LIANMENG_RANK+"_"+guojiaId, score, lianmengId+"");// 联盟国家榜
 		log.info("联盟榜==>联盟:{},等级是:{}添加到key={}的redis中, 排名是:{}",
-				lianmengId, level, LIANMENG_RANK+"_0", allRet);
+				lianmengId, lianmeng.level, LIANMENG_RANK+"_0", allRet);
 		log.info("联盟榜==>联盟:{},等级是:{}添加到key={}的redis中, 排名是:{}",
-				lianmengId, level, LIANMENG_RANK+"_"+guojiaId, gjRet);
+				lianmengId, lianmeng.level, LIANMENG_RANK+"_"+guojiaId, gjRet);
 	}
 	
 	/** 
@@ -597,7 +602,7 @@ public class RankingMgr extends EventProc{
 		}
 		for(String member : memberList) {
 			String[] memberArray = member.split("_");
-			if(member.length() < 2) {
+			if(memberArray.length < 2) {
 				continue;
 			}
 			long jzId = Long.parseLong(memberArray[1]);
@@ -720,13 +725,14 @@ public class RankingMgr extends EventProc{
 	 */
 	public void getRank(int cmd, IoSession session, Builder builder){
 		RankingReq.Builder request = (RankingReq.Builder)builder;
-		RankingResp.Builder response = RankingResp.newBuilder();
 		int pageNo = request.getPageNo();
 		int guojiaId = request.getGuojiaId();
 		int type = request.getRankType();
-		response.setRankType(type);
 		String name = request.getName();
 		name = (null==name||name.length()==0)?null:name;
+		
+		RankingResp.Builder response = RankingResp.newBuilder();
+		response.setRankType(type);
 		if(name!=null){
 			log.info("查询排行字符串处理前为---{}",name);
 			name=name.replace("'", "").replace("\"", "");
@@ -960,8 +966,7 @@ public class RankingMgr extends EventProc{
 		}
 		List<ChongLouInfo.Builder> chonglouList = new ArrayList<ChongLouInfo.Builder>();
 		for(String member : junSet){
-			String[] memberArray = member.split("_");
-			long jzId = Long.parseLong(memberArray[1]);
+			long jzId = Long.parseLong(member);
 			ChongLouInfo.Builder chonglouBuilder = ChongLouInfo.newBuilder();
 			JunZhu jz = HibernateUtil.find(JunZhu.class, jzId);
 			if(jz==null){

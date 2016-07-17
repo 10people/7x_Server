@@ -20,6 +20,7 @@ public class AllianceBean{// implements MCSupport {
 	public String name;
 	public long creatorId;// 创建者君主Id
 	public Date createTime;
+	public Date upgradeCurLevelTime;
 	public int country;
 	public int level;
 	public int exp;// 当前经验

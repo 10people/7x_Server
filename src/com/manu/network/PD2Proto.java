@@ -23,6 +23,7 @@ import qxmobile.protobuf.AllianceFightProtos.CityWarRewardResp;
 import qxmobile.protobuf.AllianceFightProtos.CityWarScoreResultReq;
 import qxmobile.protobuf.AllianceFightProtos.CityWarScoreResultResp;
 import qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest;
+import qxmobile.protobuf.BagOperProtos.BagChangeInfo;
 import qxmobile.protobuf.BattlePveResult.BattleResult;
 import qxmobile.protobuf.Chat.ChatSettings;
 import qxmobile.protobuf.ChengHaoProto.ChengHaoList;
@@ -139,6 +140,8 @@ public class PD2Proto extends PD{
 			return ErrorMessage.getDefaultInstance();
 		case PD.S_SEND_MIBAO_INFO:
 			return MibaoInfoResp.getDefaultInstance();
+		case PD.S_BAG_CHANGE_INFO:
+			return BagChangeInfo.getDefaultInstance();
 		}
 		return null;
 	}

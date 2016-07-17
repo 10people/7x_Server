@@ -5677,26 +5677,832 @@ public final class BagOperProtos {
     // @@protoc_insertion_point(class_scope:qxmobile.protobuf.BagItem)
   }
 
+  public interface BagChangeInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .qxmobile.protobuf.BagItem items = 1;
+    /**
+     * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+     *
+     * <pre>
+     * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+     * </pre>
+     */
+    java.util.List<qxmobile.protobuf.BagOperProtos.BagItem> 
+        getItemsList();
+    /**
+     * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+     *
+     * <pre>
+     * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+     * </pre>
+     */
+    qxmobile.protobuf.BagOperProtos.BagItem getItems(int index);
+    /**
+     * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+     *
+     * <pre>
+     * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+     * </pre>
+     */
+    int getItemsCount();
+    /**
+     * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+     *
+     * <pre>
+     * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+     * </pre>
+     */
+    java.util.List<? extends qxmobile.protobuf.BagOperProtos.BagItemOrBuilder> 
+        getItemsOrBuilderList();
+    /**
+     * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+     *
+     * <pre>
+     * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+     * </pre>
+     */
+    qxmobile.protobuf.BagOperProtos.BagItemOrBuilder getItemsOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code qxmobile.protobuf.BagChangeInfo}
+   *
+   * <pre>
+   * short S_BAG_CHANGE_INFO = 23707; 背包变化信息
+   * </pre>
+   */
+  public static final class BagChangeInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements BagChangeInfoOrBuilder {
+    // Use BagChangeInfo.newBuilder() to construct.
+    private BagChangeInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private BagChangeInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final BagChangeInfo defaultInstance;
+    public static BagChangeInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public BagChangeInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BagChangeInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                items_ = new java.util.ArrayList<qxmobile.protobuf.BagOperProtos.BagItem>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              items_.add(input.readMessage(qxmobile.protobuf.BagOperProtos.BagItem.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          items_ = java.util.Collections.unmodifiableList(items_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return qxmobile.protobuf.BagOperProtos.internal_static_qxmobile_protobuf_BagChangeInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return qxmobile.protobuf.BagOperProtos.internal_static_qxmobile_protobuf_BagChangeInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              qxmobile.protobuf.BagOperProtos.BagChangeInfo.class, qxmobile.protobuf.BagOperProtos.BagChangeInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<BagChangeInfo> PARSER =
+        new com.google.protobuf.AbstractParser<BagChangeInfo>() {
+      public BagChangeInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BagChangeInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BagChangeInfo> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .qxmobile.protobuf.BagItem items = 1;
+    public static final int ITEMS_FIELD_NUMBER = 1;
+    private java.util.List<qxmobile.protobuf.BagOperProtos.BagItem> items_;
+    /**
+     * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+     *
+     * <pre>
+     * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+     * </pre>
+     */
+    public java.util.List<qxmobile.protobuf.BagOperProtos.BagItem> getItemsList() {
+      return items_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+     *
+     * <pre>
+     * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+     * </pre>
+     */
+    public java.util.List<? extends qxmobile.protobuf.BagOperProtos.BagItemOrBuilder> 
+        getItemsOrBuilderList() {
+      return items_;
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+     *
+     * <pre>
+     * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+     * </pre>
+     */
+    public int getItemsCount() {
+      return items_.size();
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+     *
+     * <pre>
+     * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+     * </pre>
+     */
+    public qxmobile.protobuf.BagOperProtos.BagItem getItems(int index) {
+      return items_.get(index);
+    }
+    /**
+     * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+     *
+     * <pre>
+     * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+     * </pre>
+     */
+    public qxmobile.protobuf.BagOperProtos.BagItemOrBuilder getItemsOrBuilder(
+        int index) {
+      return items_.get(index);
+    }
+
+    private void initFields() {
+      items_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getItemsCount(); i++) {
+        if (!getItems(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < items_.size(); i++) {
+        output.writeMessage(1, items_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < items_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, items_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static qxmobile.protobuf.BagOperProtos.BagChangeInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.BagOperProtos.BagChangeInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.BagOperProtos.BagChangeInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static qxmobile.protobuf.BagOperProtos.BagChangeInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static qxmobile.protobuf.BagOperProtos.BagChangeInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.BagOperProtos.BagChangeInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.BagOperProtos.BagChangeInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static qxmobile.protobuf.BagOperProtos.BagChangeInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static qxmobile.protobuf.BagOperProtos.BagChangeInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static qxmobile.protobuf.BagOperProtos.BagChangeInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(qxmobile.protobuf.BagOperProtos.BagChangeInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code qxmobile.protobuf.BagChangeInfo}
+     *
+     * <pre>
+     * short S_BAG_CHANGE_INFO = 23707; 背包变化信息
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements qxmobile.protobuf.BagOperProtos.BagChangeInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return qxmobile.protobuf.BagOperProtos.internal_static_qxmobile_protobuf_BagChangeInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return qxmobile.protobuf.BagOperProtos.internal_static_qxmobile_protobuf_BagChangeInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                qxmobile.protobuf.BagOperProtos.BagChangeInfo.class, qxmobile.protobuf.BagOperProtos.BagChangeInfo.Builder.class);
+      }
+
+      // Construct using qxmobile.protobuf.BagOperProtos.BagChangeInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getItemsFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (itemsBuilder_ == null) {
+          items_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          itemsBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return qxmobile.protobuf.BagOperProtos.internal_static_qxmobile_protobuf_BagChangeInfo_descriptor;
+      }
+
+      public qxmobile.protobuf.BagOperProtos.BagChangeInfo getDefaultInstanceForType() {
+        return qxmobile.protobuf.BagOperProtos.BagChangeInfo.getDefaultInstance();
+      }
+
+      public qxmobile.protobuf.BagOperProtos.BagChangeInfo build() {
+        qxmobile.protobuf.BagOperProtos.BagChangeInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public qxmobile.protobuf.BagOperProtos.BagChangeInfo buildPartial() {
+        qxmobile.protobuf.BagOperProtos.BagChangeInfo result = new qxmobile.protobuf.BagOperProtos.BagChangeInfo(this);
+        int from_bitField0_ = bitField0_;
+        if (itemsBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            items_ = java.util.Collections.unmodifiableList(items_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.items_ = items_;
+        } else {
+          result.items_ = itemsBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof qxmobile.protobuf.BagOperProtos.BagChangeInfo) {
+          return mergeFrom((qxmobile.protobuf.BagOperProtos.BagChangeInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(qxmobile.protobuf.BagOperProtos.BagChangeInfo other) {
+        if (other == qxmobile.protobuf.BagOperProtos.BagChangeInfo.getDefaultInstance()) return this;
+        if (itemsBuilder_ == null) {
+          if (!other.items_.isEmpty()) {
+            if (items_.isEmpty()) {
+              items_ = other.items_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureItemsIsMutable();
+              items_.addAll(other.items_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.items_.isEmpty()) {
+            if (itemsBuilder_.isEmpty()) {
+              itemsBuilder_.dispose();
+              itemsBuilder_ = null;
+              items_ = other.items_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              itemsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getItemsFieldBuilder() : null;
+            } else {
+              itemsBuilder_.addAllMessages(other.items_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getItemsCount(); i++) {
+          if (!getItems(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        qxmobile.protobuf.BagOperProtos.BagChangeInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (qxmobile.protobuf.BagOperProtos.BagChangeInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .qxmobile.protobuf.BagItem items = 1;
+      private java.util.List<qxmobile.protobuf.BagOperProtos.BagItem> items_ =
+        java.util.Collections.emptyList();
+      private void ensureItemsIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          items_ = new java.util.ArrayList<qxmobile.protobuf.BagOperProtos.BagItem>(items_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.BagOperProtos.BagItem, qxmobile.protobuf.BagOperProtos.BagItem.Builder, qxmobile.protobuf.BagOperProtos.BagItemOrBuilder> itemsBuilder_;
+
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.BagOperProtos.BagItem> getItemsList() {
+        if (itemsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(items_);
+        } else {
+          return itemsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public int getItemsCount() {
+        if (itemsBuilder_ == null) {
+          return items_.size();
+        } else {
+          return itemsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public qxmobile.protobuf.BagOperProtos.BagItem getItems(int index) {
+        if (itemsBuilder_ == null) {
+          return items_.get(index);
+        } else {
+          return itemsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public Builder setItems(
+          int index, qxmobile.protobuf.BagOperProtos.BagItem value) {
+        if (itemsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsIsMutable();
+          items_.set(index, value);
+          onChanged();
+        } else {
+          itemsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public Builder setItems(
+          int index, qxmobile.protobuf.BagOperProtos.BagItem.Builder builderForValue) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          items_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public Builder addItems(qxmobile.protobuf.BagOperProtos.BagItem value) {
+        if (itemsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsIsMutable();
+          items_.add(value);
+          onChanged();
+        } else {
+          itemsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public Builder addItems(
+          int index, qxmobile.protobuf.BagOperProtos.BagItem value) {
+        if (itemsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsIsMutable();
+          items_.add(index, value);
+          onChanged();
+        } else {
+          itemsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public Builder addItems(
+          qxmobile.protobuf.BagOperProtos.BagItem.Builder builderForValue) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          items_.add(builderForValue.build());
+          onChanged();
+        } else {
+          itemsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public Builder addItems(
+          int index, qxmobile.protobuf.BagOperProtos.BagItem.Builder builderForValue) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          items_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public Builder addAllItems(
+          java.lang.Iterable<? extends qxmobile.protobuf.BagOperProtos.BagItem> values) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          super.addAll(values, items_);
+          onChanged();
+        } else {
+          itemsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public Builder clearItems() {
+        if (itemsBuilder_ == null) {
+          items_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          itemsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public Builder removeItems(int index) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          items_.remove(index);
+          onChanged();
+        } else {
+          itemsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public qxmobile.protobuf.BagOperProtos.BagItem.Builder getItemsBuilder(
+          int index) {
+        return getItemsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public qxmobile.protobuf.BagOperProtos.BagItemOrBuilder getItemsOrBuilder(
+          int index) {
+        if (itemsBuilder_ == null) {
+          return items_.get(index);  } else {
+          return itemsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public java.util.List<? extends qxmobile.protobuf.BagOperProtos.BagItemOrBuilder> 
+           getItemsOrBuilderList() {
+        if (itemsBuilder_ != null) {
+          return itemsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(items_);
+        }
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public qxmobile.protobuf.BagOperProtos.BagItem.Builder addItemsBuilder() {
+        return getItemsFieldBuilder().addBuilder(
+            qxmobile.protobuf.BagOperProtos.BagItem.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public qxmobile.protobuf.BagOperProtos.BagItem.Builder addItemsBuilder(
+          int index) {
+        return getItemsFieldBuilder().addBuilder(
+            index, qxmobile.protobuf.BagOperProtos.BagItem.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .qxmobile.protobuf.BagItem items = 1;</code>
+       *
+       * <pre>
+       * 根据dbId，更新物品信息。发现没有dbId，代表是新加的物品，需要读所有属性
+       * </pre>
+       */
+      public java.util.List<qxmobile.protobuf.BagOperProtos.BagItem.Builder> 
+           getItemsBuilderList() {
+        return getItemsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          qxmobile.protobuf.BagOperProtos.BagItem, qxmobile.protobuf.BagOperProtos.BagItem.Builder, qxmobile.protobuf.BagOperProtos.BagItemOrBuilder> 
+          getItemsFieldBuilder() {
+        if (itemsBuilder_ == null) {
+          itemsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              qxmobile.protobuf.BagOperProtos.BagItem, qxmobile.protobuf.BagOperProtos.BagItem.Builder, qxmobile.protobuf.BagOperProtos.BagItemOrBuilder>(
+                  items_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          items_ = null;
+        }
+        return itemsBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.BagChangeInfo)
+    }
+
+    static {
+      defaultInstance = new BagChangeInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:qxmobile.protobuf.BagChangeInfo)
+  }
+
   public interface EquipAddReqOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 gridIndex = 1;
+    // required int64 bagDBId = 1;
     /**
-     * <code>required int32 gridIndex = 1;</code>
+     * <code>required int64 bagDBId = 1;</code>
      *
      * <pre>
-     *装备在背包中的格子下标
+     *装备在背包中的dbId
      * </pre>
      */
-    boolean hasGridIndex();
+    boolean hasBagDBId();
     /**
-     * <code>required int32 gridIndex = 1;</code>
+     * <code>required int64 bagDBId = 1;</code>
      *
      * <pre>
-     *装备在背包中的格子下标
+     *装备在背包中的dbId
      * </pre>
      */
-    int getGridIndex();
+    long getBagDBId();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.EquipAddReq}
@@ -5755,7 +6561,7 @@ public final class BagOperProtos {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              gridIndex_ = input.readInt32();
+              bagDBId_ = input.readInt64();
               break;
             }
           }
@@ -5798,39 +6604,39 @@ public final class BagOperProtos {
     }
 
     private int bitField0_;
-    // required int32 gridIndex = 1;
-    public static final int GRIDINDEX_FIELD_NUMBER = 1;
-    private int gridIndex_;
+    // required int64 bagDBId = 1;
+    public static final int BAGDBID_FIELD_NUMBER = 1;
+    private long bagDBId_;
     /**
-     * <code>required int32 gridIndex = 1;</code>
+     * <code>required int64 bagDBId = 1;</code>
      *
      * <pre>
-     *装备在背包中的格子下标
+     *装备在背包中的dbId
      * </pre>
      */
-    public boolean hasGridIndex() {
+    public boolean hasBagDBId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 gridIndex = 1;</code>
+     * <code>required int64 bagDBId = 1;</code>
      *
      * <pre>
-     *装备在背包中的格子下标
+     *装备在背包中的dbId
      * </pre>
      */
-    public int getGridIndex() {
-      return gridIndex_;
+    public long getBagDBId() {
+      return bagDBId_;
     }
 
     private void initFields() {
-      gridIndex_ = 0;
+      bagDBId_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasGridIndex()) {
+      if (!hasBagDBId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -5842,7 +6648,7 @@ public final class BagOperProtos {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, gridIndex_);
+        output.writeInt64(1, bagDBId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -5855,7 +6661,7 @@ public final class BagOperProtos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, gridIndex_);
+          .computeInt64Size(1, bagDBId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5977,7 +6783,7 @@ public final class BagOperProtos {
 
       public Builder clear() {
         super.clear();
-        gridIndex_ = 0;
+        bagDBId_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
@@ -6010,7 +6816,7 @@ public final class BagOperProtos {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.gridIndex_ = gridIndex_;
+        result.bagDBId_ = bagDBId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6027,15 +6833,15 @@ public final class BagOperProtos {
 
       public Builder mergeFrom(qxmobile.protobuf.BagOperProtos.EquipAddReq other) {
         if (other == qxmobile.protobuf.BagOperProtos.EquipAddReq.getDefaultInstance()) return this;
-        if (other.hasGridIndex()) {
-          setGridIndex(other.getGridIndex());
+        if (other.hasBagDBId()) {
+          setBagDBId(other.getBagDBId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasGridIndex()) {
+        if (!hasBagDBId()) {
           
           return false;
         }
@@ -6061,51 +6867,51 @@ public final class BagOperProtos {
       }
       private int bitField0_;
 
-      // required int32 gridIndex = 1;
-      private int gridIndex_ ;
+      // required int64 bagDBId = 1;
+      private long bagDBId_ ;
       /**
-       * <code>required int32 gridIndex = 1;</code>
+       * <code>required int64 bagDBId = 1;</code>
        *
        * <pre>
-       *装备在背包中的格子下标
+       *装备在背包中的dbId
        * </pre>
        */
-      public boolean hasGridIndex() {
+      public boolean hasBagDBId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int32 gridIndex = 1;</code>
+       * <code>required int64 bagDBId = 1;</code>
        *
        * <pre>
-       *装备在背包中的格子下标
+       *装备在背包中的dbId
        * </pre>
        */
-      public int getGridIndex() {
-        return gridIndex_;
+      public long getBagDBId() {
+        return bagDBId_;
       }
       /**
-       * <code>required int32 gridIndex = 1;</code>
+       * <code>required int64 bagDBId = 1;</code>
        *
        * <pre>
-       *装备在背包中的格子下标
+       *装备在背包中的dbId
        * </pre>
        */
-      public Builder setGridIndex(int value) {
+      public Builder setBagDBId(long value) {
         bitField0_ |= 0x00000001;
-        gridIndex_ = value;
+        bagDBId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 gridIndex = 1;</code>
+       * <code>required int64 bagDBId = 1;</code>
        *
        * <pre>
-       *装备在背包中的格子下标
+       *装备在背包中的dbId
        * </pre>
        */
-      public Builder clearGridIndex() {
+      public Builder clearBagDBId() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        gridIndex_ = 0;
+        bagDBId_ = 0L;
         onChanged();
         return this;
       }
@@ -6146,7 +6952,7 @@ public final class BagOperProtos {
    * Protobuf type {@code qxmobile.protobuf.EquipRemoveReq}
    *
    * <pre>
-   *穿上装备
+   *脱下装备
    * </pre>
    */
   public static final class EquipRemoveReq extends
@@ -6383,7 +7189,7 @@ public final class BagOperProtos {
      * Protobuf type {@code qxmobile.protobuf.EquipRemoveReq}
      *
      * <pre>
-     *穿上装备
+     *脱下装备
      * </pre>
      */
     public static final class Builder extends
@@ -9547,6 +10353,11 @@ public final class BagOperProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_qxmobile_protobuf_BagItem_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_qxmobile_protobuf_BagChangeInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_qxmobile_protobuf_BagChangeInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_qxmobile_protobuf_EquipAddReq_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -9598,20 +10409,21 @@ public final class BagOperProtos {
       "\022\014\n\004jnJM\030\031 \001(\005\022\014\n\004jnBJ\030\032 \001(\005\022\014\n\004jnRX\030\033 \001" +
       "(\005\022\r\n\005jnBJL\030\034 \001(\005\022\r\n\005wqMBL\030\036 \001(\002\022\r\n\005jnMB" +
       "L\030\037 \001(\002\022\022\n\njnCDReduce\030  \001(\002\022\021\n\tjinJieExp" +
-      "\030! \001(\005\" \n\013EquipAddReq\022\021\n\tgridIndex\030\001 \002(\005" +
-      "\"#\n\016EquipRemoveReq\022\021\n\tgridIndex\030\001 \002(\005\"0\n",
-      "\016EquipDetailReq\022\016\n\006itemId\030\001 \002(\005\022\016\n\006instI" +
-      "d\030\002 \002(\003\"\340\001\n\013EquipDetail\022\016\n\006itemId\030\001 \002(\005\022" +
-      "\016\n\006instId\030\002 \002(\003\022\014\n\004name\030\003 \001(\t\022\014\n\004desc\030\004 " +
-      "\001(\t\022\016\n\006gongJi\030\005 \001(\005\022\016\n\006fangYu\030\006 \001(\005\022\021\n\ts" +
-      "hengMing\030\007 \001(\005\022\021\n\ttongShuai\030\010 \001(\005\022\014\n\004wuY" +
-      "i\030\t \001(\005\022\016\n\006needLv\030\n \001(\005\022\022\n\nqiangHuaLv\030\013 " +
-      "\001(\005\022\016\n\006pinZhi\030\014 \001(\005\022\r\n\005mouLi\030\r \001(\005\"?\n\022Yu" +
-      "JueHeChengResult\022)\n\005items\030\001 \003(\0132\032.qxmobi" +
-      "le.protobuf.BagItem*f\n\017EnumItemQuality\022\017" +
-      "\n\013Quality_Bai\020\001\022\016\n\nQuality_Lv\020\002\022\017\n\013Quali",
-      "ty_Lan\020\003\022\016\n\nQuality_Zi\020\004\022\021\n\rQuality_Chen" +
-      "g\020\005B\017B\rBagOperProtos"
+      "\030! \001(\005\":\n\rBagChangeInfo\022)\n\005items\030\001 \003(\0132\032" +
+      ".qxmobile.protobuf.BagItem\"\036\n\013EquipAddRe",
+      "q\022\017\n\007bagDBId\030\001 \002(\003\"#\n\016EquipRemoveReq\022\021\n\t" +
+      "gridIndex\030\001 \002(\005\"0\n\016EquipDetailReq\022\016\n\006ite" +
+      "mId\030\001 \002(\005\022\016\n\006instId\030\002 \002(\003\"\340\001\n\013EquipDetai" +
+      "l\022\016\n\006itemId\030\001 \002(\005\022\016\n\006instId\030\002 \002(\003\022\014\n\004nam" +
+      "e\030\003 \001(\t\022\014\n\004desc\030\004 \001(\t\022\016\n\006gongJi\030\005 \001(\005\022\016\n" +
+      "\006fangYu\030\006 \001(\005\022\021\n\tshengMing\030\007 \001(\005\022\021\n\ttong" +
+      "Shuai\030\010 \001(\005\022\014\n\004wuYi\030\t \001(\005\022\016\n\006needLv\030\n \001(" +
+      "\005\022\022\n\nqiangHuaLv\030\013 \001(\005\022\016\n\006pinZhi\030\014 \001(\005\022\r\n" +
+      "\005mouLi\030\r \001(\005\"?\n\022YuJueHeChengResult\022)\n\005it" +
+      "ems\030\001 \003(\0132\032.qxmobile.protobuf.BagItem*f\n",
+      "\017EnumItemQuality\022\017\n\013Quality_Bai\020\001\022\016\n\nQua" +
+      "lity_Lv\020\002\022\017\n\013Quality_Lan\020\003\022\016\n\nQuality_Zi" +
+      "\020\004\022\021\n\rQuality_Cheng\020\005B\017B\rBagOperProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9642,32 +10454,38 @@ public final class BagOperProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_BagItem_descriptor,
               new java.lang.String[] { "ItemId", "ItemType", "Name", "InstId", "Cnt", "GongJi", "FangYu", "ShengMing", "BuWei", "PinZhi", "DbId", "BagIndex", "TongShuai", "WuYi", "MouLi", "QiangHuaLv", "QiangHuaExp", "Desc", "QianghuaHighestLv", "WqSH", "WqJM", "WqBJ", "WqRX", "WqBJL", "JnSH", "JnJM", "JnBJ", "JnRX", "JnBJL", "WqMBL", "JnMBL", "JnCDReduce", "JinJieExp", });
-          internal_static_qxmobile_protobuf_EquipAddReq_descriptor =
+          internal_static_qxmobile_protobuf_BagChangeInfo_descriptor =
             getDescriptor().getMessageTypes().get(4);
+          internal_static_qxmobile_protobuf_BagChangeInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_qxmobile_protobuf_BagChangeInfo_descriptor,
+              new java.lang.String[] { "Items", });
+          internal_static_qxmobile_protobuf_EquipAddReq_descriptor =
+            getDescriptor().getMessageTypes().get(5);
           internal_static_qxmobile_protobuf_EquipAddReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_EquipAddReq_descriptor,
-              new java.lang.String[] { "GridIndex", });
+              new java.lang.String[] { "BagDBId", });
           internal_static_qxmobile_protobuf_EquipRemoveReq_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_qxmobile_protobuf_EquipRemoveReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_EquipRemoveReq_descriptor,
               new java.lang.String[] { "GridIndex", });
           internal_static_qxmobile_protobuf_EquipDetailReq_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(7);
           internal_static_qxmobile_protobuf_EquipDetailReq_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_EquipDetailReq_descriptor,
               new java.lang.String[] { "ItemId", "InstId", });
           internal_static_qxmobile_protobuf_EquipDetail_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(8);
           internal_static_qxmobile_protobuf_EquipDetail_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_EquipDetail_descriptor,
               new java.lang.String[] { "ItemId", "InstId", "Name", "Desc", "GongJi", "FangYu", "ShengMing", "TongShuai", "WuYi", "NeedLv", "QiangHuaLv", "PinZhi", "MouLi", });
           internal_static_qxmobile_protobuf_YuJueHeChengResult_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(9);
           internal_static_qxmobile_protobuf_YuJueHeChengResult_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_YuJueHeChengResult_descriptor,

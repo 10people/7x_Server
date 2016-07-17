@@ -1,3 +1,7 @@
+<%@page import="com.qx.alliance.HouseMgr"%>
+<%@page import="java.util.Set"%>
+<%@page import="java.util.HashSet"%>
+<%@page import="java.util.List"%>
 <%@page import="qxmobile.protobuf.House.HouseExpInfo"%>
 <%@page import="com.qx.alliance.HouseBean"%>
 <%@page import="com.qx.ranking.RankingGongJinMgr"%>
@@ -40,95 +44,127 @@
 <%@page import="com.manu.dynasty.boot.GameServer"%>
 <%@page import="com.manu.dynasty.hero.service.HeroService"%>
 <%@page import="com.qx.purchase.PurchaseMgr"%>
-<%@include file="/myFuns.jsp" %>
+<%@include file="/myFuns.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript">
-function go(act){
-	var v = document.getElementById(act).value;
-	location.href = '?action='+act+"&v="+v;
-}
-
+	function go(act) {
+		var v = document.getElementById(act).value;
+		location.href = '?action=' + act + "&v=" + v;
+	}
 </script>
 </head>
 <body>
-<%
-setOut(out);
-Logger log = LoggerFactory.getLogger(GuoJiaMgr.class);
-String name = request.getParameter("account");
-name = name == null ? "": name.trim();
-String accIdStr = request.getParameter("accId");// 用户id
-accIdStr = (accIdStr == null ? "":accIdStr.trim());
-if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()==0){
-	name = (String)session.getAttribute("name");
-}
-%>
-  	<form action="">
-	  	账号<input type="text" name="account" value="<%=name%>">&nbsp;或&nbsp;
-	  	君主ID<input type="text" name="accId" value="<%=accIdStr%>">
-	  	<button type="submit">查询</button>
+	<%
+		setOut(out);
+		Logger log = LoggerFactory.getLogger(GuoJiaMgr.class);
+		String name = request.getParameter("account");
+		name = name == null ? "" : name.trim();
+		String accIdStr = request.getParameter("accId");// 用户id
+		accIdStr = (accIdStr == null ? "" : accIdStr.trim());
+		if (session.getAttribute("name") != null && name.length() == 0 && accIdStr.length() == 0) {
+			name = (String) session.getAttribute("name");
+		}
+	%>
+	<form action="">
+		账号<input type="text" name="account" value="<%=name%>">&nbsp;或&nbsp;
+		君主ID<input type="text" name="accId" value="<%=accIdStr%>">
+		<button type="submit">查询</button>
 	</form>
-<%
-	Account account = null;
-	if(name != null && name.length()>0){
-		account = HibernateUtil.getAccount(name);
-	}else if(accIdStr.length()>0){
-		account = HibernateUtil.find(Account.class, (Long.valueOf(accIdStr) - GameServer.serverId) / 1000);
-		if(account != null)name = account.getAccountName();
-	}
-do{
-	if(account == null){
-		out("没有找到");
-		break;
-	}
-	session.setAttribute("name", name);
-	long jzId = account.getAccountId() * 1000 + GameServer.serverId;
-	JunZhu junzhu = HibernateUtil.find(JunZhu.class, jzId);
-	if(junzhu == null){
-		out.println("没有君主");
-		break;
-	}
-	HouseBean hsBean = HibernateUtil.find(HouseBean.class, jzId);
-	if(hsBean!=null){
-	 String action = request.getParameter("action");
-	 boolean sendInfo = true;
-	 if("upHouseExp".equals(action)){
-		 int v = Integer.parseInt(request.getParameter("v"));
-		 System.out.println(v);
-		HouseBean bean = HibernateUtil.find(HouseBean.class, jzId);
-		bean.cunchuExp=v;
-		HibernateUtil.save(bean);
-	 }
-		int v = 0;
-		HouseBean hsBean2 = HibernateUtil.find(HouseBean.class, jzId);
-		HouseExpInfo.Builder expInfo = HouseExpInfo.newBuilder();
-		expInfo =BigSwitch.inst.houseMgr.makeHouseExpInfo(hsBean2);
-		tableStart();
-		trS();
-		td("经验");
-		td("<input type='text' id='upHouseExp' value='"
-				+expInfo.getCur()
-				+ "'/><input type='button' value='修改' onclick='go(\"upHouseExp\")'/><br/>");
-		trE();
-		trS();
-		td("经验上限");
-		td("<input type='text'  value='"
-				+expInfo.getMax()
-				+ "'/><br/>");
-		trE();
-		trS();
-		td("存储经验");
-		td("<input type='text'  value='"
-				+hsBean2.cunchuExp
-				+ "'/><br/>");
-		trE();
-		tableEnd();
-	}else{
-		out("当前君主房屋未开启"+jzId);
-	}
-}while(false);
-%>
+	<%
+		Account account = null;
+		if (name != null && name.length() > 0) {
+			account = HibernateUtil.getAccount(name);
+		} else if (accIdStr.length() > 0) {
+			account = HibernateUtil.find(Account.class, (Long.valueOf(accIdStr) - GameServer.serverId) / 1000);
+			if (account != null)
+				name = account.getAccountName();
+		}
+		do {
+			if (account == null) {
+				out("没有找到");
+				break;
+			}
+			session.setAttribute("name", name);
+			long jzId = account.getAccountId() * 1000 + GameServer.serverId;
+			JunZhu junzhu = HibernateUtil.find(JunZhu.class, jzId);
+			if (junzhu == null) {
+				out.println("没有君主");
+				break;
+			}
+			HouseBean hsBean = HibernateUtil.find(HouseBean.class, jzId);
+			if (hsBean != null) {
+				String action = request.getParameter("action");
+				boolean sendInfo = true;
+				if ("upHouseExp".equals(action)) {
+					int v = Integer.parseInt(request.getParameter("v"));
+					System.out.println(v);
+					HouseBean bean = HibernateUtil.find(HouseBean.class, jzId);
+					bean.cunchuExp = v;
+					HibernateUtil.save(bean);
+				}
+				int v = 0;
+				HouseBean hsBean2 = HibernateUtil.find(HouseBean.class, jzId);
+				HouseExpInfo.Builder expInfo = HouseExpInfo.newBuilder();
+				expInfo = BigSwitch.inst.houseMgr.makeHouseExpInfo(hsBean2);
+				tableStart();
+				trS();
+				td("经验");
+				td("<input type='text' id='upHouseExp' value='" + expInfo.getCur()
+						+ "'/><input type='button' value='修改' onclick='go(\"upHouseExp\")'/><br/>");
+				trE();
+				trS();
+				td("经验上限");
+				td("<input type='text'  value='" + expInfo.getMax() + "'/><br/>");
+				trE();
+				trS();
+				td("存储经验");
+				td("<input type='text'  value='" + hsBean2.cunchuExp + "'/><br/>");
+				trE();
+				tableEnd();
+			} else {
+				out("当前君主房屋未开启" + jzId);
+			}
+		} while (false);
+	%>
+
+	<form action="">
+		<input type="hidden" name="action" value="chaxun" /> <input
+			type="submit" value="查询有联盟却没有小屋的玩家" />
+	</form>
+
+	<form action="">
+		<input type="hidden" name="action" value="fixhouse" /> <input
+			type="submit" value="修正所有玩家小屋异常" />
+	</form>
+	<%
+		String action = request.getParameter("action");
+		if ("chaxun".equals(action)) {
+			Set<Long> set = new HashSet();
+			List<AlliancePlayer> list = HibernateUtil.list(AlliancePlayer.class, " where lianMengId > 0");
+			for(AlliancePlayer member : list) {
+				HouseBean house = HibernateUtil.find(HouseBean.class, member.junzhuId);
+				if(house == null) {
+					BigSwitch.inst.houseMgr.giveDefaultHouse(member.lianMengId, member.junzhuId);
+					set.add(member.junzhuId);
+					out.println("君主id:" + member.junzhuId);
+				}
+			}
+			out.println("异常总人数:" + set.size());
+		}
+		else if ("fixhouse".equals(action)) {
+			Set<Long> set = new HashSet();
+			List<AlliancePlayer> list = HibernateUtil.list(AlliancePlayer.class, " where lianMengId > 0");
+			for(AlliancePlayer member : list) {
+				HouseBean house = HibernateUtil.find(HouseBean.class, member.junzhuId);
+				if(house == null) {
+					BigSwitch.inst.houseMgr.giveDefaultHouse(member.lianMengId, member.junzhuId);
+				}
+			}
+		}
+	%>
+</body>

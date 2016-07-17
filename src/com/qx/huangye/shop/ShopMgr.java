@@ -875,18 +875,13 @@ public class ShopMgr extends EventProc {
 		int second = cal.get(Calendar.SECOND);
 		int todayTime = hour * 3600 + min * 60 + second;
 
-		if (hour < 9) {
-			int leftTime = (9 * 3600 - todayTime) * 1000;
+		if (hour < 4) {
+			int leftTime = (4 * 3600 - todayTime) * 1000;
 			time += leftTime;
 			return new Date(time);
 		}
-		if (hour >= 9 && hour < 21) {
-			int leftTime = (21 * 3600 - todayTime) * 1000;
-			time += leftTime;
-			return new Date(time);
-		}
-		if (hour >= 21) {
-			int leftTime = (24 * 3600 - todayTime + 9 * 3600) * 1000;
+		if (hour >=4) {
+			int leftTime = (24 * 3600 - todayTime + 4 * 3600) * 1000;
 			time += leftTime;
 			return new Date(time);
 		}
@@ -1008,7 +1003,7 @@ public class ShopMgr extends EventProc {
 //						YBType.YB_PAWN_SELL, "当铺出售商品");
 				junZhu.tongBi += totalSellPrice;
 				// 扣除背包物品
-				BagMgr.inst.removeItem(bag, bagGrid.itemId, sellCount, "当铺典当物品",junZhu.level);
+				BagMgr.inst.removeItem(session, bag, bagGrid.itemId, sellCount, "当铺典当物品",junZhu.level);
 			
 				logger.info("君主:{}在当铺典当物品itemId:{},数量:{},时间:{},获得铜币:{}",
 						junZhu.name, bagGrid.itemId, sellCount, date,
@@ -1035,10 +1030,10 @@ public class ShopMgr extends EventProc {
 			}
 		}
 		HibernateUtil.update(junZhu);
-		JunZhuMgr.inst.sendMainInfo(session,junZhu);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu,false);
 		session.write(PD.PAWN_SHOP_GOODS_SELL_OK);
 
-		if(selBagGoods) BagMgr.inst.sendBagInfo(session, bag);
+		//if(selBagGoods) BagMgr.inst.sendBagInfo(session, bag);
 		if(sellMibaoS) MibaoMgr.inst.mibaoInfosRequest(PD.C_MIBAO_INFO_REQ, session);
 	}
 
@@ -1453,7 +1448,7 @@ public class ShopMgr extends EventProc {
 		}
 		JunZhuMgr.inst.sendMainInfo(session);
 		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
-		BagMgr.inst.sendBagInfo(session, bag);
+		//BagMgr.inst.sendBagInfo(session, bag);
 		
 		EventMgr.addEvent(ED.done_wuBeiChouJiang, new Object[]{junZhu.id});
 		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(junZhu.id , DailyTaskConstants.wuBeiFang, 1));

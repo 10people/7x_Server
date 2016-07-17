@@ -1680,8 +1680,8 @@ public class XianShiActivityMgr  extends EventProc{
 			xianshi4ShouRi.setIsNewAward(false);
 			openResp.addXianshi(xianshi4ShouRi);
 			session.write(openResp.build());
-			Bag<BagGrid> bag = BagMgr.inst.loadBag(jz.id);
-			BagMgr.inst.sendBagInfo(session, bag);
+			//Bag<BagGrid> bag = BagMgr.inst.loadBag(jz.id);
+			//BagMgr.inst.sendBagInfo(session, bag);
 		}
 		HibernateUtil.save(xsBean);
 		resp.setHuodongId(huodongId);
@@ -1888,8 +1888,8 @@ public class XianShiActivityMgr  extends EventProc{
 			resp.setHuodongId(huodongId);
 			resp.setResult(10);
 			session.write(resp.build());
-			Bag<BagGrid> bag = BagMgr.inst.loadBag(jz.id);
-			BagMgr.inst.sendBagInfo(session, bag);
+			//Bag<BagGrid> bag = BagMgr.inst.loadBag(jz.id);
+			//BagMgr.inst.sendBagInfo(session, bag);
 			return;
 		}else{
 			resp.setHuodongId(huodongId);
@@ -2005,8 +2005,8 @@ public class XianShiActivityMgr  extends EventProc{
 			}
 			//判断限时活动是否可以完成关闭
 			finishXianShiActivity(bigId, jzId, xsBean,session);
-			Bag<BagGrid> bag = BagMgr.inst.loadBag(jz.id);
-			BagMgr.inst.sendBagInfo(session, bag);
+			//Bag<BagGrid> bag = BagMgr.inst.loadBag(jz.id);
+			//BagMgr.inst.sendBagInfo(session, bag);
 		}else{ 
 			//条件未达成
 			resp.setHuodongId(huodongId);
@@ -3119,8 +3119,8 @@ public class XianShiActivityMgr  extends EventProc{
 			}
 			//判断限时活动是否可以完成关闭
 			finishXianShiActivity(bigId, jzId, xsBean,session);
-			Bag<BagGrid> bag = BagMgr.inst.loadBag(jz.id);
-			BagMgr.inst.sendBagInfo(session, bag);
+			//Bag<BagGrid> bag = BagMgr.inst.loadBag(jz.id);
+			//BagMgr.inst.sendBagInfo(session, bag);
 		}else{ 
 			//条件未达成
 			resp.setResult(1);

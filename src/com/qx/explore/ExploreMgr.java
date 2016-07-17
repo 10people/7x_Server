@@ -812,7 +812,8 @@ public class ExploreMgr extends EventProc{
 		log.info("玩家id{},姓名 {}, 购买 探宝, 花费铜币{}个", jz.id, jz.name,
 				 money);
 		// 同步君主元宝信息
-		JunZhuMgr.inst.sendMainInfo(session,jz);
+		//JunZhuMgr.inst.sendMainInfo(session,jz);
+		//外面会同步。
 		return true;
 	}
 	

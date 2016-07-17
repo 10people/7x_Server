@@ -3,29 +3,14 @@ package com.qx.bag;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
-import log.OurLog;
-import log.parser.ReasonMgr;
-
-import org.apache.commons.collections.map.LRUMap;
 import org.apache.mina.core.session.IoSession;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import qxmobile.protobuf.BagOperProtos.BagInfo;
-import qxmobile.protobuf.BagOperProtos.BagItem;
-import qxmobile.protobuf.BagOperProtos.EquipInfo;
-import qxmobile.protobuf.BagOperProtos.EquipInfoOtherReq;
-import qxmobile.protobuf.BagOperProtos.YuJueHeChengResult;
-import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
-import qxmobile.protobuf.Explore.Award;
-import qxmobile.protobuf.Explore.ExploreResp;
-import qxmobile.protobuf.Explore.TypeInfo;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
@@ -41,8 +26,6 @@ import com.manu.dynasty.template.QiangHua;
 import com.manu.dynasty.template.ZhuangBei;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
-import com.manu.network.SessionManager;
-import com.manu.network.SessionUser;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.award.AwardMgr;
 import com.qx.award.DailyAwardMgr;
@@ -53,12 +36,26 @@ import com.qx.equip.web.UserEquipAction;
 import com.qx.event.ED;
 import com.qx.event.EventMgr;
 import com.qx.explore.TanBaoData;
-import com.qx.hero.HeroMgr; 
+import com.qx.hero.HeroMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.persistent.MC;
 import com.qx.purchase.PurchaseMgr;
+
+import log.OurLog;
+import log.parser.ReasonMgr;
+import org.apache.commons.collections.map.LRUMap;
+
+import qxmobile.protobuf.BagOperProtos.BagChangeInfo;
+import qxmobile.protobuf.BagOperProtos.BagInfo;
+import qxmobile.protobuf.BagOperProtos.BagItem;
+import qxmobile.protobuf.BagOperProtos.EquipInfo;
+import qxmobile.protobuf.BagOperProtos.EquipInfoOtherReq;
+import qxmobile.protobuf.BagOperProtos.YuJueHeChengResult;
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import qxmobile.protobuf.Explore.Award;
+import qxmobile.protobuf.Explore.ExploreResp;
 
 /**
  * 背包管理器
@@ -74,8 +71,23 @@ public class BagMgr {
 	public BagMgr(){
 		inst = this;
 	}
-	
+	public static boolean useCache = true;
+	public static Map<Long, Bag<BagGrid>> bagCache = Collections.synchronizedMap(new LRUMap(1000));
 	public Bag<BagGrid> loadBag(long pid){
+		if(useCache){
+			Bag<BagGrid> cache = bagCache.get(pid);
+			if(cache != null){
+//				Thread.dumpStack();
+				return cache;
+			}
+		}
+		Bag<BagGrid> ret = loadBagNoCache(pid);
+		if(useCache){
+			bagCache.put(pid, ret);
+		}
+		return ret;
+	}
+	public Bag<BagGrid> loadBagNoCache(long pid){
 		final long start = pid * spaceFactor;
 		final long end = start + maxGridCount - 1;
 		String bagCntKey = "BagCnt#"+pid;
@@ -132,6 +144,26 @@ public class BagMgr {
 		}
 		return count;
 	}
+	
+	
+	/**
+	 * 获取背包格子
+	 * 
+	 * @param bag		玩家背包对象
+	 * @param dbId		背包的dbId
+	 * @return
+	 */
+	public BagGrid getBagGrid(Bag<BagGrid> bag, long dbId){
+		BagGrid bagGrid = null;
+		List<BagGrid> gridList = bag.grids;
+		for(BagGrid grid : gridList){
+			if(grid.dbId ==  dbId){
+				bagGrid = grid;
+				break;
+			}
+		}
+		return bagGrid;
+	}
 
 	/**
 	 *  获取玩家背包中 某一套东东，当前已经获得了其中的几类
@@ -162,7 +194,8 @@ public class BagMgr {
 	 * @param cnt
 	 * @param instId
 	 */
-	public void addItem(Bag<BagGrid> bag, int itemId, int cnt, long instId, int jzLevel, String reason){
+	public void addItem(IoSession session, Bag<BagGrid> bag, int itemId, int cnt, 
+			long instId, int jzLevel, String reason){
 		if(bag.ownerId<=0){
 			throw new IllegalArgumentException("Bag的ownerId不正确！"+bag.ownerId);
 		}
@@ -196,12 +229,14 @@ public class BagMgr {
 							gg.cnt += remainNum;
 							remainNum = 0;
 							HibernateUtil.save(gg);
+							sendBagChangeInfo(session, gg, cnt);
 							break;
 						} else if(gg.cnt < bi.getRepeatNum()){
 							int addCnt = bi.getRepeatNum() - gg.cnt;
 							remainNum -= addCnt;
 							gg.cnt += addCnt;
 							HibernateUtil.save(gg);
+							sendBagChangeInfo(session, gg, addCnt);
 						}
 						gg.cnt = Math.max(0, gg.cnt);//防止个数是负数，修正为0。
 					}
@@ -223,6 +258,7 @@ public class BagMgr {
 							gg.instId = instId;
 							gg.type = bi.getType();
 							HibernateUtil.save(gg);
+							sendBagChangeInfo(session, gg, cnt);
 							slot = Math.max(slot, gg.dbId);
 							if(remainNum <= 0) {
 								break;
@@ -252,6 +288,7 @@ public class BagMgr {
 				bg.type = bi.getType();
 				MC.add(bg, bg.dbId);
 				HibernateUtil.insert(bg);
+				sendBagChangeInfo(session, bg, cnt);
 				log.info("插入背包 dbId:{}, itemId{}, cnt{}", bg.dbId, bg.itemId, bg.cnt);
 				String bagCntKey = "BagCnt#"+bag.ownerId;
 				//Object mcO = MemcachedCRUD.getMemCachedClient().get(bagCntKey);
@@ -284,6 +321,22 @@ public class BagMgr {
 			EventMgr.addEvent(ED.get_BaoShi, jz);
 		}
 	}
+	
+	public void sendBagChangeInfo(IoSession session, BagGrid bagGrid, int count) {
+		if(session == null) {
+			return;
+		}
+		BagChangeInfo.Builder response = BagChangeInfo.newBuilder();
+		BagItem.Builder item = BagItem.newBuilder();
+		fillBagItenBuilder(bagGrid, item);
+		response.addItems(item);
+		
+		ProtobufMsg pm = new ProtobufMsg();
+		pm.id = PD.S_BAG_CHANGE_INFO;
+		pm.builder = response;
+		session.write(pm);
+	}
+
 	public String getItemName(int id){
 		BaseItem o = TempletService.itemMap.get(id);
 		if(o == null){
@@ -315,54 +368,58 @@ public class BagMgr {
 		for(int i=0; i<cnt; i++){
 			BagGrid gd = list.get(i);
 			BagItem.Builder item = BagItem.newBuilder();
-			item.setDbId(gd == null ? -1 : gd.dbId);
-			if(gd == null || gd.itemId<=0 || gd.cnt<=0){
-				item.setItemId(-1);
-			}else{
-				BaseItem o = TempletService.itemMap.get(gd.itemId);
-				if(o == null){
-					log.error("背包中的物品ID错误 {}", gd.itemId);
-					item.setItemId(-1);
-				}else{
-					item.setItemId(gd.itemId);
-					item.setItemType(o.getType());
-					item.setName(HeroService.getNameById(o.getName()));
-					item.setPinZhi(o.getPinZhi());
-					item.setInstId(gd.instId);
-					item.setCnt(gd.cnt);
-					if(item.getItemType() == BaseItem.TYPE_EQUIP){
-						ZhuangBei zb = (ZhuangBei) o;
-						item.setGongJi(zb.getGongji());
-						item.setFangYu(zb.getFangyu());
-						item.setShengMing(zb.getShengming());
-						item.setBuWei(zb.getBuWei());
-						//FIXME 需要计算强化加成。
-						item.setTongShuai(zb.getTongli());
-						item.setWuYi(zb.getWuli());
-						item.setMouLi(zb.getMouli());
-						UserEquip ue=null;
-						if(gd.instId>0){
-							ue = HibernateUtil.find(UserEquip.class, gd.instId);
-							item.setQiangHuaLv(ue == null ? 0 : ue.getLevel());
-							item.setJinJieExp(ue == null ? 0 :ue.JinJieExp);
-						}else{
-							item.setQiangHuaLv(0);
-						}
-						fillEquipAtt(item, zb,ue);
-						//不发描述了，客户端查表
-						//item.setDesc(HeroService.getNameById(zb.getFunDesc()));
-						item.setQianghuaHighestLv(zb.getQianghuaMaxLv());
-					//}else if(o instanceof ItemTemp){
-						//item.setDesc(HeroService.getNameById(((ItemTemp)o).funDesc));
-					}
-					if(item.getItemType() == JewelMgr.Jewel_Type_Id){
-						item.setQiangHuaExp((int)(gd.instId<0 ? 0 : gd.instId));
-					}
-				}
-			}
+			fillBagItenBuilder(gd, item);
 			b.addItems(item);
 		}
 		return b;
+	}
+
+	public void fillBagItenBuilder(BagGrid gd, BagItem.Builder item) {
+		item.setDbId(gd == null ? -1 : gd.dbId);
+		if(gd == null || gd.itemId<=0 || gd.cnt<=0){
+			item.setItemId(-1);
+		}else{
+			BaseItem o = TempletService.itemMap.get(gd.itemId);
+			if(o == null){
+				log.error("背包中的物品ID错误 {}", gd.itemId);
+				item.setItemId(-1);
+			}else{
+				item.setItemId(gd.itemId);
+				item.setItemType(o.getType());
+				item.setName(HeroService.getNameById(o.getName()));
+				item.setPinZhi(o.getPinZhi());
+				item.setInstId(gd.instId);
+				item.setCnt(gd.cnt);
+				if(item.getItemType() == BaseItem.TYPE_EQUIP){
+					ZhuangBei zb = (ZhuangBei) o;
+					item.setGongJi(zb.getGongji());
+					item.setFangYu(zb.getFangyu());
+					item.setShengMing(zb.getShengming());
+					item.setBuWei(zb.getBuWei());
+					//FIXME 需要计算强化加成。
+					item.setTongShuai(zb.getTongli());
+					item.setWuYi(zb.getWuli());
+					item.setMouLi(zb.getMouli());
+					UserEquip ue=null;
+					if(gd.instId>0){
+						ue = HibernateUtil.find(UserEquip.class, gd.instId);
+						item.setQiangHuaLv(ue == null ? 0 : ue.getLevel());
+						item.setJinJieExp(ue == null ? 0 :ue.JinJieExp);
+					}else{
+						item.setQiangHuaLv(0);
+					}
+					fillEquipAtt(item, zb,ue);
+					//不发描述了，客户端查表
+					//item.setDesc(HeroService.getNameById(zb.getFunDesc()));
+					item.setQianghuaHighestLv(zb.getQianghuaMaxLv());
+				//}else if(o instanceof ItemTemp){
+					//item.setDesc(HeroService.getNameById(((ItemTemp)o).funDesc));
+				}
+				if(item.getItemType() == JewelMgr.Jewel_Type_Id){
+					item.setQiangHuaExp((int)(gd.instId<0 ? 0 : gd.instId));
+				}
+			}
+		}
 	}
 
 	public void sendEquipInfo(int id, IoSession session, Builder builder) {
@@ -703,7 +760,7 @@ public class BagMgr {
 			return;
 		}
 		for(int yuJueId : yuJueIds){
-			removeItem(bag, yuJueId, yuJueNeedCnt, "玉玦合成",jz.level);
+			removeItem(session, bag, yuJueId, yuJueNeedCnt, "玉玦合成",jz.level);
 		}
 		List<AwardTemp> awardList = DailyAwardMgr.inst.giveAward(session, awardConf, jz);
 		YuJueHeChengResult.Builder ret = YuJueHeChengResult.newBuilder();
@@ -715,7 +772,7 @@ public class BagMgr {
 			bi.setDbId(0);
 			ret.addItems(bi);
 		}
-		sendBagInfo(session, bag);
+		//sendBagInfo(session, bag);
 		session.write(ret.build());
 	}
 	/**
@@ -724,7 +781,7 @@ public class BagMgr {
 	 * @param itemId
 	 * @param subNum
 	 */
-	public void removeItem(Bag<BagGrid> bag, int itemId, int subNum, String reason,int jzLevel){
+	public void removeItem(IoSession session, Bag<BagGrid> bag, int itemId, int subNum, String reason,int jzLevel){
 		int Reason=ReasonMgr.inst.getId(reason);
 		for(BagGrid grid : bag.grids){
 			if(grid.itemId == itemId) {
@@ -741,6 +798,7 @@ public class BagMgr {
 					int SubReason=0;
 					OurLog.log.ItemFlow(jzLevel, grid.type, itemId, subNum, grid.cnt, Reason, SubReason, 0, 0, 1,
 							String.valueOf(bag.ownerId));
+					sendBagChangeInfo(session, grid, -subNum);
 					break;
 				} else {
 					int curCnt = grid.cnt;
@@ -754,6 +812,7 @@ public class BagMgr {
 					int SubReason=0;
 					OurLog.log.ItemFlow(jzLevel, grid.type, itemId, curCnt, 0, Reason, SubReason, 0, 0, 1,
 							String.valueOf(bag.ownerId));
+					sendBagChangeInfo(session, grid, -subNum);
 				}
 			}
 		}
@@ -767,7 +826,7 @@ public class BagMgr {
 	 * @param reason
 	 * @param jzLevel
 	 */
-	public boolean removeItemByBagdbId(Bag<BagGrid> bag, String reason, long dbId, int subNum, int jzLevel){
+	public boolean removeItemByBagdbId(IoSession session, Bag<BagGrid> bag, String reason, long dbId, int subNum, int jzLevel){
 		int Reason=ReasonMgr.inst.getId(reason);
 		for(BagGrid grid : bag.grids){
 			if(grid.dbId == dbId) {
@@ -786,6 +845,7 @@ public class BagMgr {
 				int SubReason=0;
 				OurLog.log.ItemFlow(jzLevel, grid.type, grid.itemId, subNum, grid.cnt, Reason, SubReason, 0, 0, 1,
 						String.valueOf(bag.ownerId));
+				sendBagChangeInfo(session, grid, -subNum);
 				return true;
 			}
 		}
@@ -805,19 +865,19 @@ public class BagMgr {
 	int[] yuJueIds = new int[]{950001,950002,950003,950004,950005};
 	int yuJueNeedCnt = 1;
 	public  void useItem(IoSession session, Bag<BagGrid> bag,
-			int indexInBag, BaseItem o, JunZhu junZhu) {
+			long bagDBId, BaseItem o, JunZhu junZhu) {
 		if(o.getType() == BaseItem.TYPE_BAO_XIANG 
 				){
-			useItemBaoXiang(session, bag, indexInBag, o, junZhu);
+			useItemBaoXiang(session, bag, bagDBId, o, junZhu);
 		}else if(o.getType() == BaseItem.TYPE_YUAN_BAO_TAN_BAO){
-			tanBao(session,bag,indexInBag,o, junZhu, TanBaoData.tongBi_normal_awardId);
+			tanBao(session,bag,bagDBId,o, junZhu, TanBaoData.tongBi_normal_awardId);
 		}else if(o.getType() == BaseItem.TYPE_TONG_BI_TAN_BAO){
-			tanBao(session,bag,indexInBag,o, junZhu, TanBaoData.yuanBao_normal_awardId);
+			tanBao(session,bag,bagDBId,o, junZhu, TanBaoData.yuanBao_normal_awardId);
 		}else{
 			log.error("物品不能使用 ， id {}",o.getId());
 		}
 	}
-	public void tanBao(IoSession session, Bag<BagGrid> bag, int indexInBag,
+	public void tanBao(IoSession session, Bag<BagGrid> bag, long bagDBId,
 			BaseItem o, JunZhu junZhu, int awardId) {
 		AwardTemp award = AwardMgr.inst.calcAwardTemp(awardId);
 		if(award == null){
@@ -825,11 +885,13 @@ public class BagMgr {
 			return;
 		}
 		ItemTemp it = (ItemTemp) o;
-		BagGrid bg = bag.grids.get(indexInBag);
+		Optional<BagGrid> optional = bag.grids.stream().filter(item -> item.dbId == bagDBId).findFirst();
+		BagGrid bg = optional.get();
 		final int cnt = bg.cnt;
-		bg.cnt = 0;
-		bg.itemId = 0;
-		HibernateUtil.update(bg);
+//		bg.cnt = 0;
+//		bg.itemId = 0;
+//		HibernateUtil.update(bg);
+		removeItem(session, bag, bg.itemId, bg.cnt, "使用物品-探宝", junZhu.level);
 		log.info("{} 物品探宝 {} x {}，先删除该物品，下面给奖励",
 				junZhu.id, it.id, cnt);
 		AwardMgr.inst.giveReward(session, award, junZhu);
@@ -845,11 +907,11 @@ public class BagMgr {
 		msg.builder = ret;
 		session.write(msg);
 		//
-		sendBagInfo(session, bag);
+		//sendBagInfo(session, bag);
 	}
 
 	public  void useItemBaoXiang(IoSession session, Bag<BagGrid> bag,
-			int indexInBag, BaseItem o, JunZhu junZhu) {
+			long bagDBId, BaseItem o, JunZhu junZhu) {
 		ItemTemp it = (ItemTemp) o;
 		String drops = it.awardID;
 		if(drops == null || drops.isEmpty()){
@@ -857,11 +919,13 @@ public class BagMgr {
 			return;
 		}
 		int[] awardConf = TempletService.parseAwardString(drops);
-		BagGrid bg = bag.grids.get(indexInBag);
+		Optional<BagGrid> optional = bag.grids.stream().filter(item -> item.dbId == bagDBId).findFirst();
+		BagGrid bg = optional.get();
 		final int cnt = bg.cnt;
-		bg.cnt = 0;
-		bg.itemId = 0;
-		HibernateUtil.update(bg);
+//		bg.cnt = 0;
+//		bg.itemId = 0;
+//		HibernateUtil.update(bg);
+		removeItem(session, bag, bg.itemId, bg.cnt, "使用物品宝箱", junZhu.level);
 		log.info("{} 开宝箱 {} x {}，先删除该物品，下面给奖励",
 				junZhu.id, it.id, cnt);
 		//
@@ -881,8 +945,8 @@ public class BagMgr {
 		msg.builder = ret;
 		session.write(msg);
 		//
-		bag = loadBag(junZhu.id);//发奖过程中使用的bag和当前的不一样，需要重新载入。
-		sendBagInfo(session,bag);//
+//		bag = loadBag(junZhu.id);//发奖过程中使用的bag和当前的不一样，需要重新载入。
+//		sendBagInfo(session,bag);//
 		JunZhuMgr.inst.sendMainInfo(session,junZhu);//同步铜币
 	}
 
@@ -983,10 +1047,10 @@ public class BagMgr {
 	 * @param jzId
 	 */
 	public  void sendBagAgain(Bag<BagGrid> bag) {
-		SessionUser su = SessionManager.inst.findByJunZhuId(bag.ownerId);
-		if (su != null) {
-			log.info("从{}移除物品，推送背包信息给玩家", bag.ownerId);
-			BagMgr.inst.sendBagInfo(su.session, bag);
-		}
+//		SessionUser su = SessionManager.inst.findByJunZhuId(bag.ownerId);
+//		if (su != null) {
+//			log.info("从{}移除物品，推送背包信息给玩家", bag.ownerId);
+//			BagMgr.inst.sendBagInfo(su.session, bag);
+//		}
 	}
 }

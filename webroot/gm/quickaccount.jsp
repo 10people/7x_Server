@@ -1,3 +1,4 @@
+<%@page import="com.manu.network.SessionManager"%>
 <%@page import="com.qx.bag.EquipGrid"%>
 <%@page import="com.qx.bag.EquipMgr"%>
 <%@page import="com.qx.junzhu.JunZhuMgr"%>
@@ -476,7 +477,8 @@
 							Bag<BagGrid> newBag = BagMgr.inst.loadBag(newJunZhu.id);
 							for(BagGrid grid : oldBag.grids){
 								if(grid.itemId>0){
-									BagMgr.inst.addItem(newBag, grid.itemId, grid.cnt, grid.instId, newJunZhu.level, "复制帐号背包信息");
+									IoSession newJunZhuSession = SessionManager.inst.getIoSession(newJunZhu.id);
+									BagMgr.inst.addItem(newJunZhuSession, newBag, grid.itemId, grid.cnt, grid.instId, newJunZhu.level, "复制帐号背包信息");
 								}
 							}
 							/*装备*/

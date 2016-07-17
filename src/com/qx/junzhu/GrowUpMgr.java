@@ -574,31 +574,32 @@ public class GrowUpMgr {
 			}
 			Page2Data.Builder mb = Page2Data.newBuilder();
 			mb.setMaxLevel(maxProg);
-//			int[] ids = new int[9];
-			String[] ids = new String[9];
-			Arrays.fill(ids, "0000,0");
-			for(int i=0;i<9;i++){
-				MibaoInfo m = resp.getMiBaoList(i);
-				if(m.getStar()>0){
-					ids[i] = "####,"+m.getMiBaoId();//已激活
-					curProg++;
-				}else{
-					//投机：同一级别的秘宝所需碎片数量相同，所以碎片越多的需要碎片越少
-					ids[i] = String.format("%04d", m.getSuiPianNum())+","+m.getMiBaoId();
+			if(curProg < maxProg ){//当前进度大于等于最大进度，表示所有开放的秘宝都已收集，就不再推荐
+				String[] ids = new String[9];
+				Arrays.fill(ids, "0000,0");
+				for(int i=0;i<9;i++){
+					MibaoInfo m = resp.getMiBaoList(i);
+					if(m.getStar()>0){
+						ids[i] = "####,"+m.getMiBaoId();//已激活
+						curProg++;
+					}else{
+						//投机：同一级别的秘宝所需碎片数量相同，所以碎片越多的需要碎片越少
+						ids[i] = String.format("%04d", m.getSuiPianNum())+","+m.getMiBaoId();
+					}
+				}
+				Arrays.sort(ids,Collections.reverseOrder());
+				for(int i=0;i<3;i++){
+					if(ids[i].startsWith("####,")){
+						break;
+					}
+					String idStr = ids[i].split(",")[1];
+					int id = Integer.parseInt(idStr);
+					mb.addMibaoDataId(id);
 				}
 			}
-			mb.setCurLevel(curProg);
-			Arrays.sort(ids,Collections.reverseOrder());
-			for(int i=0;i<3;i++){
-				if(ids[i].startsWith("####,")){
-					break;
-				}
-				String idStr = ids[i].split(",")[1];
-				int id = Integer.parseInt(idStr);
-				mb.addMibaoDataId(id);
-			}
+			mb.setCurLevel(Math.min(curProg, maxProg) );
 			ret.setMibaoNew(mb);
-		}//
+		}
 		ProtobufMsg msg = new ProtobufMsg();
 		msg.id = PD.S_UPACTION_DATA_0;
 		msg.builder = ret;

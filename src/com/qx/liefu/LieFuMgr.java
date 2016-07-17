@@ -255,7 +255,7 @@ public class LieFuMgr {
 		}
 		JunZhuMgr.inst.sendMainInfo(session);
 		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
-		BagMgr.inst.sendBagInfo(session, bag);
+		//BagMgr.inst.sendBagInfo(session, bag);
 		
 		
 		response.setResult(0);

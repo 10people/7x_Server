@@ -328,7 +328,7 @@ public class ChatMgr implements Runnable {
 			YuanBaoMgr.inst.diff(jz, -worldPrice, 0, worldPrice, YBType.YB_CHAT_WORLD, "世界聊天");
 			HibernateUtil.update(jz);
 			if(worldPrice > 0){
-				JunZhuMgr.inst.sendMainInfo(session,jz);// 推送元宝信息
+				JunZhuMgr.inst.sendMainInfo(session,jz,false);// 推送元宝信息
 			}
 			log.info("junzhu:{}世界聊天,花费元宝:{}", jz.name, worldPrice);
 		} else {
@@ -357,7 +357,7 @@ public class ChatMgr implements Runnable {
 		session.setAttribute(SessionAttKey.LAST_BROADCAST_CHAT_KEY, System.currentTimeMillis());
 		YuanBaoMgr.inst.diff(jz, -CanShu.BROADCAST_PRICE, CanShu.BROADCAST_PRICE, 0, YBType.WORLD_CHAT, "广播频道聊天");
 		HibernateUtil.update(jz);
-		JunZhuMgr.inst.sendMainInfo(session,jz);
+		JunZhuMgr.inst.sendMainInfo(session,jz,false);
 		broadcast(cm, allUser);
 		chBroadcast.saveChatRecord(cm);
 	}
@@ -634,7 +634,8 @@ public class ChatMgr implements Runnable {
 				chatChLog = ChatMgr.inst.chLianMeng;
 				break;
 			default:
-				break;
+				log.error("请求语音信息失败，找不到请求的频道,channel:{}", channel);
+				return;
 		}
 
 		String key = chatChLog.key;

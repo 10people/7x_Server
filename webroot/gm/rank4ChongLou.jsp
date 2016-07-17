@@ -95,12 +95,13 @@
 		td("等级");
 		td("最高重楼层");
 		td("时间");
+		td("cache member");
+		td("cache score");
 		trE();
 		int rank = 0;
 		try{
 			for (String member : rankList) {
-				String[] memberArray = member.split("_");
-				JunZhu jz = HibernateUtil.find(JunZhu.class, Long.parseLong(memberArray[1]));
+				JunZhu jz = HibernateUtil.find(JunZhu.class, Long.parseLong(member));
 				if (jz == null) {
 					continue;
 				}
@@ -114,6 +115,8 @@
 					td(jz.level);
 					td(chongLouRecord.highestLevel);
 					td(DateUtils.date2Text(chongLouRecord.highestLevelFirstTime, "yyyy-MM-dd HH:mm:ss"));
+					td(member);
+					td(Redis.getInstance().zscore(RankingMgr.CHONGLOU_RANK + "_" + guojiaId, member));
 				}
 				trE();
 			}

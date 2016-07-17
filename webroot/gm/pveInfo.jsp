@@ -1,3 +1,10 @@
+<%@page import="qxmobile.protobuf.PveLevel.Section"%>
+<%@page import="com.manu.network.PD"%>
+<%@page import="com.manu.network.SessionAttKey"%>
+<%@page import="org.apache.mina.core.future.WriteFuture"%>
+<%@page import="org.apache.mina.core.session.IoSession"%>
+<%@page import="com.manu.dynastyBackup.chat.domain.SysMessage"%>
+<%@page import="qxmobile.protobuf.PveLevel.PvePageReq"%>
 <%@page import="com.qx.util.TableIDCreator"%>
 <%@page import="com.manu.dynasty.template.PveTemp"%>
 <%@page import="java.util.Map"%>
@@ -49,10 +56,12 @@
 	<!-- 		<button type="submit">添加</button> -->
 	<!-- 		&nbsp;<a href='../dataConf/dataTemplate.jsp?type=equip' target="_blank">装备列表</a> -->
 	<!-- 	</form> -->
+	<%!Account account = null;
+	%>
 	<%
 	long pid = 0;
 		if (name != null && name.length() > 0) {
-			Account account = HibernateUtil.getAccount(name);
+			account = HibernateUtil.getAccount(name);
 			if (account == null) {
 	%>没有找到<%
 		//HibernateUtil.saveAccount(name);
@@ -166,6 +175,40 @@
 			out.print(bean.pos5);
 		}
 		}
+	%>
+	
+	<form action="">
+		章节id:<input type="text" name="zhangjieId"/>
+		<input type="hidden" value="reqZhangjieTime" name="action"/>
+		<input type="submit" value="请求该章节信息"/>
+	</form>
+	
+	<%
+		if("reqZhangjieTime".equals(action)) {
+			String zhangjieStr = request.getParameter("zhangjieId");
+			
+			final IoSession fs = new RobotSession(){
+				public WriteFuture write(Object message){
+					setAttachment(message);
+					synchronized(this){
+						this.notify();
+					}
+					return null;
+				}
+			};
+			fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account.getAccountId()*1000+GameServer.serverId));
+			long startTime = System.currentTimeMillis();
+			synchronized(fs){
+				PvePageReq.Builder req = PvePageReq.newBuilder();
+				req.setSSection(Integer.parseInt(zhangjieStr));
+				BigSwitch.inst.route(PD.PVE_PAGE_REQ, req, fs);
+			}
+			Section b = (Section)fs.getAttachment();
+			if(b != null) {
+				out.println("请求第"+zhangjieStr+"章的信息，花费了"+(System.currentTimeMillis()- startTime) +"毫秒");
+			}
+		}
+		
 	%>
 </body>
 </html>

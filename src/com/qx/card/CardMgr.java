@@ -154,7 +154,7 @@ public class CardMgr implements Runnable{
 			}
 			ret.addItems(item);
 		}
-		BagMgr.inst.sendBagInfo(session, bag);
+		//BagMgr.inst.sendBagInfo(session, bag);
 		session.write(ret.build());
 	}
 	public void sendError(IoSession session, String msg) {
@@ -177,11 +177,11 @@ public class CardMgr implements Runnable{
 		if(jz == null)return;
 		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhuId);
 		int cnt = 1;
-		BagMgr.inst.addItem(bag, cardId, cnt, -1,jz.level, "购买卡包");
+		BagMgr.inst.addItem(session, bag, cardId, cnt, -1,jz.level, "购买卡包");
 		BuyCardBagResp.Builder ret = BuyCardBagResp.newBuilder();
 		ret.setRet(1);
 		ret.setMsg("购买成功");
-		BagMgr.inst.sendBagInfo(session, bag);
+		//BagMgr.inst.sendBagInfo(session, bag);
 		session.write(ret.build());
 	}
 }

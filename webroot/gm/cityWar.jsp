@@ -163,6 +163,64 @@ do{
 			String dt = DateUtils.datetime2Text(calendar.getTime());
 			String sql = "update " + WildCityBean.class.getSimpleName() + " set winTime='" + dt + "'";
 			HibernateUtil.executeSql(sql);
+		}else if("setWildZhanLing".equals(act)){
+			String wildCityIdStr = request.getParameter("wildCityId");
+			if(wildCityIdStr != null){
+				int wildCityId = Integer.parseInt(wildCityIdStr);
+				if(BidMgr.inst.jczmap.get(wildCityId) != null){
+					redirect("cityWar.jsp");
+				}
+				AllianceBean  allianceBean = AllianceMgr.inst.getAllianceByJunZid(junzhu.id);
+				if(allianceBean == null){
+					redirect("cityWar.jsp");
+				}
+				WildCityBean wildCityBean = HibernateUtil.find(WildCityBean.class, "where lmId="+ allianceBean.id + " and cityId=" + wildCityId);
+				if(wildCityBean == null){
+					wildCityBean = new WildCityBean();
+					wildCityBean.cityId = wildCityId;
+					wildCityBean.lmId = allianceBean.id;
+					wildCityBean.winTime = new Date();
+					wildCityBean.isWin = 1;
+					HibernateUtil.insert(wildCityBean);
+				}else{
+					if(wildCityBean.isWin != 1){
+						wildCityBean.isWin = 1;
+						HibernateUtil.update(wildCityBean);
+					}
+				}
+			}
+		}else if("setCityLmId".equals(act)){
+			if(request.getParameter("cityId") == "" || request.getParameter("lmId") == ""){
+				return;
+			}else{
+				boolean isEx = false;
+				int cityId = Integer.parseInt(request.getParameter("cityId"));
+				int lmId = Integer.parseInt(request.getParameter("lmId"));
+				for(JCZCity jczCity:citySettings){
+					if(jczCity.id == cityId){
+						isEx = true;
+						break;
+					}
+				}
+				if(!isEx || "".equals(AllianceMgr.inst.getAllianceName(lmId))){
+					alert("联盟ID或城池id不存在请检查");
+				}else{
+					CityBean cityBean = HibernateUtil.find(CityBean.class,cityId);
+					if(cityBean == null){
+						cityBean = new CityBean();
+						cityBean.cityId = cityId;
+						cityBean.lmId = 0; //没人占领
+						cityBean.atckLmId = lmId;
+						HibernateUtil.insert(cityBean);
+					}else{
+						if(cityBean.atckLmId != lmId){
+							cityBean.lmId = lmId;
+							HibernateUtil.update(cityBean);
+						}
+					}
+				}
+			}
+			redirect("cityWar.jsp");
 		}
 		
 		//显示城池列表
@@ -229,6 +287,22 @@ do{
 		
 %>
 
+<br><br>
+	<strong>设置城池进攻联盟</strong>
+	<form action="" method="post">
+		<input type="hidden" name="action" value="setBidLmId"/>
+		城池ID<input type="text" name="cityId" value="<%=request.getParameter("cityId") == null ? "":request.getParameter("cityId")%>"/>
+		进攻联盟ID<input type="text" name="lmId" value="<%=request.getParameter("lmId") == null ? "" : request.getParameter("lmId") %>"/>
+		<button >设置</button>
+	</form><br><br>
+	<strong>设置城池占领</strong>
+	<form action="" method="post">
+		<input type="hidden" name="action" value="setCityLmId"/>
+		城池ID<input type="text" name="cityId" value="<%=request.getParameter("cityId") == null ? "":request.getParameter("cityId")%>"/>
+		占领联盟ID<input type="text" name="lmId" value="<%=request.getParameter("lmId") == null ? "" : request.getParameter("lmId") %>"/>
+		<button >设置</button>
+	</form>
+
 <br>
 	<strong>野城竞拍信息：</strong>
 	<br>
@@ -258,6 +332,7 @@ do{
 				ths("是否战胜");
 				ths("宣战状态");
 				ths("宣战时间");
+				ths("设置已经战胜");
 				trE();
 				for(JCZCity jczCity : citySettings){
 					if(jczCity.getType() == 1) //普通
@@ -279,6 +354,7 @@ do{
 							td("-");
 							td("-");
 						}
+						td("<a href='?action=setWildZhanLing&wildCityId="+jczCity.id+"'>设置战胜</a>");
 					trE();
 				}
 				tableEnd();
@@ -348,15 +424,6 @@ do{
 		}	
 	%>
 	
-	<br><br>
-	<strong>竞拍相关操作</strong><br><br>
-	<form action="" method="post">
-		<input type="hidden" name="action" value="setBidLmId"/>
-		设置城池进攻联盟id：  城池ID<input type="text" name="cityId" value="<%=request.getParameter("cityId") == null ? "":request.getParameter("cityId")%>"/>
-		进攻联盟ID<input type="text" name="lmId" value="<%=request.getParameter("lmId") == null ? "" : request.getParameter("lmId") %>"/>
-		<button >设置</button>
-	</form>
-	<br>
 	<br>
 	<br>
 	<strong>当前郡城战时间段:</strong><br><br>

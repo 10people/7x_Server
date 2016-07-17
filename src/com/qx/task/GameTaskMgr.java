@@ -104,6 +104,7 @@ public class GameTaskMgr extends EventProc{
 	public static int maxZhuRenWuOrderIdx = 1;
 	
 	public static int first_task_id = 100000;
+	public static int talk_task_type = 4 ;
 	/*
 	 * 普通关卡的2-5关卡id
 	 */
@@ -991,7 +992,10 @@ public class GameTaskMgr extends EventProc{
 		session.write(response.build());
 		// 只记录主线的完成，记录领奖
 		if(zhuXian.type == zhuXianType){
-			MemcachedCRUD.getMemCachedClient().set(FunctionOpenMgr.awardRenWuOverIdKey+junZhuId, taskId);
+			//最大领奖任务id存入君主信息，不再放入缓存，2016-07-01
+//			MemcachedCRUD.getMemCachedClient().set(FunctionOpenMgr.awardRenWuOverIdKey+junZhuId, taskId);
+			jz.maxTaskAwardId = zhuXian.getId();
+			HibernateUtil.save(jz);
 			log.info("君主：{}AwardRenWuOverId是：{}", junZhuId, taskId);
 		}
 		//添加触发事件，玩家开启了联盟功能 
@@ -1007,40 +1011,37 @@ public class GameTaskMgr extends EventProc{
 	 * @param builder
 	 */
 	public void clientUpdateProgress(int id, IoSession session, Builder builder) {
-		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
-		if(junZhuId == null){
-			log.error("junZhuId为null");
-			return;
+		JunZhu  junZhu = JunZhuMgr.inst.getJunZhu(session);
+		if(junZhu == null ){
+			log.error("更新任务失败：君主不存在");
 		}
 		TaskProgress.Builder req = (TaskProgress.Builder)builder;
 		TaskInfo reqInfo = req.getTask();
-		WorkTaskBean b = getTask(junZhuId, reqInfo.getId());
+		WorkTaskBean b = getTask(junZhu.id, reqInfo.getId());
 		if(b == null){
-			log.error("task not found for pid {} tid {}",junZhuId, reqInfo.getId());
+			log.error("task not found for pid {} tid {}",junZhu.id, reqInfo.getId());
 			return;
 		}
-		/*
-		List<WorkTaskBean> list = getTaskList(junZhuId);
-		for(WorkTaskBean b : list){
-			if(b.tid == reqInfo.getId()){
-			*/
-				//目前只有对话任务，进度为1 就完成了。
-				if(b.progress == 0 && reqInfo.getProgress() == 1){
-					b.progress = -1;
-					HibernateUtil.save(b);
-					log.info("{}完成任务{}",junZhuId, b.tid);
-					OurLog.log.RoundFlow(ActLog.vopenid, b.tid, 1, 0, 0, 2, String.valueOf(junZhuId));
-					fireNextOutTrigger100Task(junZhuId, b.tid);
-					ZhuXian zhuXian = zhuxianTaskMap.get(b.tid);
-					if(zhuXian.type == zhuXianType){
-						MemcachedCRUD.getMemCachedClient().set(FunctionOpenMgr.REN_WU_OVER_ID+junZhuId, b.tid);
-					}
-				}
-				/*
-				break;
+		ZhuXian task = zhuxianTaskMap.get(b.tid);
+		if(task == null || task.getDoneType() != talk_task_type){
+			log.error("君主{}试图修改非对话任务的完成进度，任务id:{}", junZhu.id ,b.tid);
+			return ;
+		}
+		if(b.progress == 0 && reqInfo.getProgress() == 1){
+			b.progress = -1;
+			HibernateUtil.save(b);
+			log.info("{}完成任务{}",junZhu.id, b.tid);
+			OurLog.log.RoundFlow(ActLog.vopenid, b.tid, 1, 0, 0, 2, String.valueOf(junZhu.id));
+			fireNextOutTrigger100Task(junZhu.id, b.tid);
+			ZhuXian zhuXian = zhuxianTaskMap.get(b.tid);
+			if(zhuXian.type == zhuXianType){
+				//最大完成任务id存入君主信息，不再放入缓存，2016-07-01
+//				MemcachedCRUD.getMemCachedClient().set(FunctionOpenMgr.REN_WU_OVER_ID + junZhu.id, b.tid);
+				junZhu.maxTaskOverId = b.tid ;
+				HibernateUtil.save(junZhu);
 			}
 		}
-		*/
+		
 		sendTaskList(id, session, builder);
 	}
 
@@ -1243,13 +1244,14 @@ public class GameTaskMgr extends EventProc{
 			   recordTaskProcess(junZhuId, TaskData.finish_jiebiao_x, 1+"");
 			   break;
 		   case ED.go_youxia:
-			   Integer allBattleTimes = (Integer)obs[1];
-			   Integer pveBigId = (Integer)obs[2];
-			   isYouXiaOk(junZhuId, allBattleTimes, pveBigId);
+			   log.info("君主：{},主线任务完成游侠活动",junZhuId);
+			   recordTaskProcess(junZhuId, TaskData.go_youxia, 1+"");
 			   break;
 		   case ED.finish_youxia_x:
-			   log.info("君主：{},主线任务完成游侠活动",junZhuId);
-			   recordTaskProcess(junZhuId, TaskData.finish_youxia_x, 1+"");
+			   Integer allBattleTimes = (Integer)obs[1];
+			   Integer pveBigId = (Integer)obs[2];
+			   log.info("君主：{},主线任务完成游侠X次活动",junZhuId);
+			   isYouXiaOk(junZhuId, allBattleTimes, pveBigId);
 			   break;
 		   case ED.tianfu_level_up_x:
 			    //  0.99增加天赋等级的任务
@@ -1398,10 +1400,10 @@ public class GameTaskMgr extends EventProc{
 				continue;
 			}
 			short type = task.getDoneType();
-			if(type == TaskData.go_youxia){
+			if(type == TaskData.finish_youxia_x){
 				if(allBattleTimes >= Integer.parseInt(condi)){
 					dealTask(junZhuId, b, type, task);
-					log.info("君主：{}，去玩任意X次游侠任务完成", junZhuId);
+					log.info("君主：{}，去玩任意{}次游侠任务完成", junZhuId, condi);
 					toSend = true;
 					continue;
 				}
@@ -1634,8 +1636,16 @@ public class GameTaskMgr extends EventProc{
 		OurLog.log.RoundFlow(ActLog.vopenid, b.tid, 1, 0, 0, 2, String.valueOf(junZhuId));
 		fireNextOutTrigger100Task(junZhuId, b.tid);
 		if(task.type == zhuXianType){
-			MemcachedCRUD.getMemCachedClient().set(FunctionOpenMgr.REN_WU_OVER_ID+junZhuId, b.tid);
+			//最大完成任务id存入君主信息，不再放入缓存，2016-07-01
+//			MemcachedCRUD.getMemCachedClient().set(FunctionOpenMgr.REN_WU_OVER_ID+junZhuId, b.tid);
 			log.info("君主：{}RenWuOverId是：{}", junZhuId, b.tid);
+			JunZhu junZhu = HibernateUtil.find(JunZhu.class, junZhuId);
+			if( junZhu != null ){
+				junZhu.maxTaskOverId = b.tid ;
+				HibernateUtil.save(junZhu);
+			}else{
+				log.error("更新君主最大完成任务失败，君主id:{}",junZhuId);
+			}
 		}
 	}
 	/**

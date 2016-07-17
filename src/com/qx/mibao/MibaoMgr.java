@@ -49,8 +49,6 @@ import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.task.DailyTaskCondition;
 import com.qx.task.DailyTaskConstants;
-import com.qx.task.GameTaskMgr;
-import com.qx.task.TaskData;
 import com.qx.timeworker.FunctionID;
 import com.qx.vip.VipData;
 import com.qx.vip.VipMgr;

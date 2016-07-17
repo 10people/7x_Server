@@ -167,18 +167,23 @@ public class JunZhuMgr extends EventProc {
 		sendMainInfo(session, junzhu);
 	}
 	public void sendMainInfo(IoSession session, JunZhu junzhu) {
+		sendMainInfo(session, junzhu, true);
+	}
+	public void sendMainInfo(IoSession session, JunZhu junzhu,boolean calcAtt) {
 		if (junzhu == null)
 			return;
-		JunZhuInfoRet.Builder b = buildMainInfo(junzhu,session);
+		JunZhuInfoRet.Builder b = buildMainInfo(junzhu,session,calcAtt);
 		session.write(b.build());
 		jzInfoCache.put(junzhu.id, b);
 		log.info("send junzhu info {} hp {}", junzhu.name, b.getShengMing());
 		HibernateUtil.update(junzhu);
 	}
 
-	public JunZhuInfoRet.Builder buildMainInfo(JunZhu junzhu, IoSession session) {
+	public JunZhuInfoRet.Builder buildMainInfo(JunZhu junzhu, IoSession session,boolean calcAtt) {
 		// 以后需要缓存，不用总是计算
-		calcJunZhuTotalAtt(junzhu);
+		if(calcAtt){
+			calcJunZhuTotalAtt(junzhu);
+		}
 		JunZhuInfoRet.Builder b = JunZhuInfoRet.newBuilder();
 		b.setExp(junzhu.exp);
 		b.setGender(junzhu.gender);
@@ -798,23 +803,6 @@ public class JunZhuMgr extends EventProc {
 			//TODO战力计算规则 会因为新增5个洗练属性改变
 			//以上1.0版本改变洗练逻辑
 			
-			// 强化
-			UserEquip userEquip = ue;
-			int lv = userEquip.getLevel();
-			if (lv <= 0) {
-				minQHlv = 0;
-				continue;
-			}
-			minQHlv = Math.min(minQHlv, lv);
-			int qianghuaId = zb.getQianghuaId();
-			QiangHua qianghua = template.getQiangHua(qianghuaId, lv);
-			if (qianghua == null) {
-				log.error("强化配置没有找到 id {} lv {}", qianghuaId, lv);
-			} else {
-				junzhu.gongJi += qianghua.getGongji();
-				junzhu.fangYu += qianghua.getFangyu();
-				junzhu.shengMingMax += qianghua.getShengming();
-			}
 			//宝石
 			List<Long> jewelList = JewelMgr.inst.getJewelOnEquip(ue);
 			for(long jewelInfo : jewelList){
@@ -841,6 +829,25 @@ public class JunZhuMgr extends EventProc {
 					}
 				}
 			}
+			
+			// 强化
+			UserEquip userEquip = ue;
+			int lv = userEquip.getLevel();
+			if (lv <= 0) {
+				minQHlv = 0;
+				continue;
+			}
+			minQHlv = Math.min(minQHlv, lv);
+			int qianghuaId = zb.getQianghuaId();
+			QiangHua qianghua = template.getQiangHua(qianghuaId, lv);
+			if (qianghua == null) {
+				log.error("强化配置没有找到 id {} lv {}", qianghuaId, lv);
+			} else {
+				junzhu.gongJi += qianghua.getGongji();
+				junzhu.fangYu += qianghua.getFangyu();
+				junzhu.shengMingMax += qianghua.getShengming();
+			}
+
 		}
 		try {
 			AcitvitedTaoZhuang taozhuang = 
@@ -1072,10 +1079,10 @@ public class JunZhuMgr extends EventProc {
 //		if (levelChange) {
 //			calcJunZhuTotalAtt(jz);
 //		}
-		HibernateUtil.save(jz);
+		HibernateUtil.update(jz);
 		SessionUser su = SessionManager.inst.findByJunZhuId(jz.id);
 		if (su != null) {
-			sendMainInfo(su.session,jz);
+			sendMainInfo(su.session,jz, levelChange);
 		}
 		int Time = 0;//升级所用时间
 		int Reason = 0;

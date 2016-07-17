@@ -18,6 +18,8 @@ import com.qx.world.GameObject;
 @Entity
 @Table(name = "JunZhu")
 public class JunZhu extends GameObject implements MCSupport, Cloneable{
+	
+
 	/**
 	 * 
 	 */
@@ -80,7 +82,16 @@ public class JunZhu extends GameObject implements MCSupport, Cloneable{
 	public int vipLevel;
 	@Column(nullable = false, columnDefinition = "INT default 5")
 	public int guoJiaId;
-
+	@Column(nullable = false, columnDefinition = "INT default 0")
+	public int legendChptrMaxId;
+	@Column(nullable = false, columnDefinition = "INT default 0")
+	public int commonChptrMaxId;
+	
+	@Column(nullable = false, columnDefinition = "INT default 100000")
+	public int maxTaskOverId;
+	@Column(nullable = false, columnDefinition = "INT default 100000")
+	public int maxTaskAwardId;
+	
 	@Override
 	public long getIdentifier() {
 		return id;
@@ -94,6 +105,22 @@ public class JunZhu extends GameObject implements MCSupport, Cloneable{
 	@Override
 	public int getGongji() {
 		return gongJi;
+	}
+
+	public int getLegendChptrMaxId() {
+		return legendChptrMaxId;
+	}
+
+	public void setLegendChptrMaxId(int legendChptrMaxId) {
+		this.legendChptrMaxId = legendChptrMaxId;
+	}
+
+	public int getCommonChptrMaxId() {
+		return commonChptrMaxId;
+	}
+
+	public void setCommonChptrMaxId(int commonChptrMaxId) {
+		this.commonChptrMaxId = commonChptrMaxId;
 	}
 
 	@Override
@@ -179,6 +206,22 @@ public class JunZhu extends GameObject implements MCSupport, Cloneable{
 	@Override
 	public int getLevel() {
 		return level;
+	}
+	
+	public int getMaxTaskOverId() {
+		return maxTaskOverId;
+	}
+
+	public void setMaxTaskOverId(int maxTaskOverId) {
+		this.maxTaskOverId = maxTaskOverId;
+	}
+
+	public int getMaxTaskAwardId() {
+		return maxTaskAwardId;
+	}
+
+	public void setMaxTaskAwardId(int maxTaskAwardId) {
+		this.maxTaskAwardId = maxTaskAwardId;
 	}
 	
 	public JunZhu clone(){

@@ -268,7 +268,7 @@ public class PvpMgr extends EventProc implements Runnable {
 		}
 		if (bean == null) {
 			bean = initJunZhuPVPInfo(jid, junRank, jz.level);
-			log.info("从有军衔开始就进行贡金的记录");
+			log.info("君主{}请求百战主界面信息，没有Pvp数据，创建PVPbean",jid);
 			// 从有军衔开始就进行贡金的记录 去掉20160324
 //			EventMgr.addEvent(ED.GET_JUNXIAN, new Object[]{jz.id,bean});
 		} else {
@@ -315,6 +315,7 @@ public class PvpMgr extends EventProc implements Runnable {
 				resp.setNextTimeTo21(timeDistance / 1000);
 			}
 			session.write(resp.build());
+			log.info("君主{}请求百战主界面信息：剩余次数{}；总次数{}",jid,resp.getLeftTimes(),resp.getTotalTimes());
 			return;
 		}
 /*================================本方法以下内容理论上不会调用======================================================*/
@@ -1295,7 +1296,7 @@ public class PvpMgr extends EventProc implements Runnable {
 			return false;
 		YuanBaoMgr.inst.diff(jz, -yuanbao, 0, yuanbao, type, describe);
 		HibernateUtil.update(jz);
-		JunZhuMgr.inst.sendMainInfo(session,jz);
+		JunZhuMgr.inst.sendMainInfo(session,jz,false);
 		return true;
 	}
 
@@ -1717,9 +1718,11 @@ public class PvpMgr extends EventProc implements Runnable {
 			log.error("百战请求换一批，君主信息错误");
 			return ;
 		}
+		int rank = getRankById(jz.id);
 		PvpBean bean = HibernateUtil.find(PvpBean.class, jz.id);
 		if(bean == null){
-			log.error("君主：{}获取百战数据失败" ,jz.id);
+			log.error("君主：{}获取百战数据失败，重新创建pvpbean" ,jz.id);
+			bean = initJunZhuPVPInfo(jz.id, rank, jz.level);
 		}
 		int pay = PurchaseMgr.inst.getNeedYuanBao(
 				PurchaseConstants.BAIZHAN_REFRESH_ENEMYS,

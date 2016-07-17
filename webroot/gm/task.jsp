@@ -78,6 +78,10 @@ function go(act, id, type){
 		任务模板ID<input type="text" name="tid"/>
 		<button type="submit" name="" >添加</button>
 	</form>
+	<form action="">
+		<input type="hidden" name="action" value="fix">
+		<button type="submit" name="" >修复任务完成记录</button>
+	</form>
 	<%
 	long jid = account.getAccountId()*1000+GameServer.serverId;
 		JunZhu junzhu = HibernateUtil.find(JunZhu.class, jid);
@@ -126,13 +130,43 @@ function go(act, id, type){
 					WorkTaskBean o = HibernateUtil.find(WorkTaskBean.class, " where dbId="+request.getParameter("dbId"));
 					if(o!=null)
 					{
-						o.progress = -1;
-						HibernateUtil.save(o);
-	                    MemcachedCRUD.getMemCachedClient().set("RenWuOverId#"+junzhu.id, o.tid);
-	                    GameTaskMgr.inst.fireNextOutTrigger100Task(o.jzid, o.tid);
+						ZhuXian task = GameTaskMgr.inst.zhuxianTaskMap.get(o.tid);
+						if(task != null ){
+							GameTaskMgr.inst.dealTask(jid, o, (short)0, task);
+						}
 					}
 					IoSession ss = AccountManager.getIoSession(junzhu.id);
 					if(ss != null)GameTaskMgr.inst.sendTaskList(0, ss, null);
+				} else if("fix".equals(action)) {
+					Object mcV = MemcachedCRUD.getMemCachedClient().get("RenWuOverId#"+junzhu.id);
+					Object AwardRenWuOverId = MemcachedCRUD.getMemCachedClient().get("AwardRenWuOverId#"+junzhu.id);
+					if(mcV != null && AwardRenWuOverId != null){
+						junzhu.maxTaskOverId = Integer.parseInt((String)mcV);
+						junzhu.maxTaskAwardId = Integer.parseInt((String)AwardRenWuOverId);
+						HibernateUtil.save(junzhu);
+						out("啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊，任务记录已经修复");
+						br();
+						MemcachedCRUD.getMemCachedClient().delete("RenWuOverId#"+junzhu.id);
+						MemcachedCRUD.getMemCachedClient().delete("AwardRenWuOverId#"+junzhu.id);
+					}
+				}else if("fixall".equals(action)) {
+					Date begin = new Date();
+					List<JunZhu> allJunZhu = HibernateUtil.list(JunZhu.class, "");
+					for(JunZhu junZhu : allJunZhu ){
+						Object mcV = MemcachedCRUD.getMemCachedClient().get("RenWuOverId#"+junZhu.id);
+						Object AwardRenWuOverId = MemcachedCRUD.getMemCachedClient().get("AwardRenWuOverId#"+junZhu.id);
+						if(mcV != null && AwardRenWuOverId != null){
+							junzhu.maxTaskOverId = Integer.parseInt((String)mcV);
+							junzhu.maxTaskAwardId = Integer.parseInt((String)AwardRenWuOverId);
+							HibernateUtil.save(junZhu);
+							br();
+							MemcachedCRUD.getMemCachedClient().delete("RenWuOverId#"+junZhu.id);
+							MemcachedCRUD.getMemCachedClient().delete("AwardRenWuOverId#"+junZhu.id);
+						}
+					}
+					Date over = new Date();
+					int time =(int)(over.getTime() - begin.getTime())/1000;
+					out("所有人的任务都已修复，共耗时" + time + "秒");
 				}
 				JunZhuMgr.inst.calcJunZhuTotalAtt(junzhu);
 				out.println("&nbsp;君主id：" + junzhu.id);
@@ -140,11 +174,11 @@ function go(act, id, type){
 				out.println("等级：" + junzhu.level + "");
 				//
 				br();
-				Object mcV = MemcachedCRUD.getMemCachedClient().get("RenWuOverId#"+junzhu.id);
-				out("缓存中已《完成》任务最大次序号RenWuOverId:"+mcV);
+				
+				out("缓存中已《完成》任务最大次序号RenWuOverId:"+junzhu.maxTaskOverId);
 				br();
-				Object AwardRenWuOverId = MemcachedCRUD.getMemCachedClient().get("AwardRenWuOverId#"+junzhu.id);
-				out("缓存中已《领奖》任务最大次序号AwardRenWuOverId:"+AwardRenWuOverId);
+				
+				out("缓存中已《领奖》任务最大次序号AwardRenWuOverId:"+junzhu.maxTaskAwardId);
 				br();
 				//
 				out.append("<table border='1'>");
@@ -199,5 +233,9 @@ function go(act, id, type){
 	}
 	out.append("</table>");
 	 %>
+	 <form action="">
+		<input type="hidden" name="action" value="fixall">
+		<button type="submit" name="" >修复所有任务完成记录</button>可能会巨卡，不要乱点！！！！！！！！！
+	</form>
 </body>
 </html>

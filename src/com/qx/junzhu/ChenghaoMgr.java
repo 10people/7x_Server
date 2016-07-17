@@ -78,6 +78,9 @@ public class ChenghaoMgr extends EventProc{
 				b.setId(-1);
 				b.setName("");
 				b.setState(0);
+				JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+				sendMail(jz,bean.tid);
+				broadNewChengHao(session,jz.id,"-1");
 			}else{
 				leftMs /= 1000;
 				b.setLeftSec(leftMs);
@@ -138,6 +141,19 @@ public class ChenghaoMgr extends EventProc{
 			}
 			//通知其他玩家
 			EventMgr.addEvent(ED.PLAYER_CHENGHAO_USE, new Object[]{session,junZhuId,"-1"});
+			//更新称号（修复wpe卸下称号君主面板称号不卸下）
+			List<Chenghao> confList = TempletService.listAll(Chenghao.class.getSimpleName());
+			Chenghao fakeOne = confList.get(0);
+			ChengHaoData.Builder b = ChengHaoData.newBuilder();
+			fillConf(b,fakeOne);//只是为了匹配协议
+			b.setId(-1);
+			b.setName("");
+			b.setState(0);
+			session.setAttribute(SessionAttKey.CHENG_HAO_ID, String.valueOf(b.getId()));
+			ProtobufMsg msg = new ProtobufMsg();
+			msg.builder = b;
+			msg.id = PD.S_GET_CUR_CHENG_HAO;
+			session.write(msg);
 			return;
 		}
 		ChengHaoBean want = HibernateUtil.find(ChengHaoBean.class, "where jzId="+junZhuId+" and tid="+which);
@@ -517,6 +533,9 @@ public class ChenghaoMgr extends EventProc{
 				long leftMs = endMs - curMs;
 				if(leftMs<0){
 					log.info("{} 称号过期 {}",junZhuId, bean.tid);
+					if(bean.state == 'U'){
+						broadNewChengHao(session,jz.id,"-1");
+					}
 					HibernateUtil.delete(bean);
 					ss = 0; //更新状态
 					sendMail(jz,conf.id);

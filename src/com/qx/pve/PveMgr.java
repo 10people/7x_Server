@@ -3,10 +3,12 @@ package com.qx.pve;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.mina.core.session.IoSession;
@@ -522,7 +524,7 @@ public class PveMgr extends EventProc {
 			//进入战斗扣1点体力
 			JunZhuMgr.inst.updateTiLi(junZhu, -1, "PVE");
 			HibernateUtil.update(junZhu);
-			JunZhuMgr.inst.sendMainInfo(session,junZhu);
+			JunZhuMgr.inst.sendMainInfo(session,junZhu,false);
 			logger.info("junzhu:{}进入战斗，扣除1点体力，关卡类型{}", junZhu.name,req.getLevelType());
 		}
 		
@@ -1243,6 +1245,10 @@ public class PveMgr extends EventProc {
 				// 改主键不自增
 				r.dbId = TableIDCreator.getTableID(PveRecord.class, 1L);
 				r.guanQiaId = guanQiaId;
+				//wxh
+				if(guanQiaId > junZhu.commonChptrMaxId){
+					junZhu.setCommonChptrMaxId(guanQiaId);
+				}
 				r.uid = junZhuId;
 				resultForLog = 2;
 			}else{
@@ -1250,6 +1256,10 @@ public class PveMgr extends EventProc {
 			}
 			if (chuanQiMark != null && chuanQiMark) {
 				r.chuanQiPass = true;
+				//wxh
+				if(guanQiaId >junZhu.legendChptrMaxId){
+					junZhu.setLegendChptrMaxId(guanQiaId);
+				}
 				r.cqPassTimes += 1;
 				r.cqWinLevel = Math.max(r.cqWinLevel, request.getStar());
 				r.cqStar = r.cqStar | request.getAchievement();
@@ -1265,29 +1275,33 @@ public class PveMgr extends EventProc {
 			HibernateUtil.save(r);
 			
 			List<Integer> droppenList = request.getDropeenItemNpcsList();
+			Set<Integer> giveSet = new HashSet<>(droppenList.size());
 			Map<Integer, List<AwardTemp>> npcDropAwardMap = dropAwardMapBefore.get(junZhu.id);
 			for (Integer npcPos : droppenList) {
+				if(giveSet.contains(npcPos)) {
+					continue;
+				}
 				List<AwardTemp> posNpcDropAward = npcDropAwardMap.get(npcPos);
 				if(posNpcDropAward != null) {
 					// 根据掉落类型获取应该获得的奖励
 					getNpcAwardList.addAll(posNpcDropAward);
 				}
+				giveSet.add(npcPos);
 			}
 			
 			//限时活动精英集星
 			EventMgr.addEvent(ED.JINGYINGJIXING, junZhuId);
-
 			// 战斗胜利扣除剩余应该消耗的体力
 			int useTili = pveTemp.getUseHp();
 			useTili -= 1;
 			JunZhuMgr.inst.updateTiLi(junZhu, -useTili, "关卡胜利");
-			HibernateUtil.save(junZhu);
-			JunZhuMgr.inst.sendMainInfo(session,junZhu);
+			HibernateUtil.update(junZhu);
+			JunZhuMgr.inst.sendMainInfo(session,junZhu,false);
 			logger.info("junzhu:{}在关卡zhangjieId:{}战斗胜利扣除体力:{}", junZhu.name,
 					guanQiaId, useTili);
 			Integer bigLastGuanQiaId = lastGuanQiaOfZhang.get(pveTemp.bigId);
 			if(bigLastGuanQiaId != null) {
-				if(!r.isGetAward && bigLastGuanQiaId != guanQiaId){
+				if(!r.isGetAward && bigLastGuanQiaId.equals(guanQiaId)){
 					FunctionID.pushCanShowRed(junZhuId, session, FunctionID.PVE_PASS_ZHANGJIE_GET_AWARD);
 				}
 			}

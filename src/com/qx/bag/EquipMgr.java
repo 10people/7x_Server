@@ -154,7 +154,7 @@ public class EquipMgr extends EventProc{
 		EquipAddReq.Builder b = (qxmobile.protobuf.BagOperProtos.EquipAddReq.Builder) builder;
 		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhuId);
 		Bag<EquipGrid> equips = loadEquips(junZhuId);
-		equipAdd(session, equips, bag, b.getGridIndex());
+		equipAdd(session, equips, bag, b.getBagDBId());
 	}
 	public void equipRemove(IoSession session, Bag<EquipGrid> equips, Bag<BagGrid> bag, int indexInEquip){
 		if(indexInEquip<0 || indexInEquip>= equips.grids.size()){
@@ -183,7 +183,7 @@ public class EquipMgr extends EventProc{
 		eg.instId = -1;
 		HibernateUtil.save(eg);
 		log.info("remove equip {} instId {} from {}",preTid,instId, bag.ownerId);
-		BagMgr.inst.addItem(bag, preTid, 1, instId,jz.level,"脱下装备");
+		BagMgr.inst.addItem(session, bag, preTid, 1, instId,jz.level,"脱下装备");
 		log.info("add  {} instId {} to bag {}",preTid, instId, equips.ownerId);
 		BagMgr.inst.sendBagInfo(session, bag);
 		BagMgr.inst.sendEquipInfo(session, equips);
@@ -199,25 +199,22 @@ public class EquipMgr extends EventProc{
 	 * @param session 
 	 * @param equips
 	 * @param bag
-	 * @param indexInBag
+	 * @param bagDBId
 	 */
-	public void equipAdd(IoSession session, Bag<EquipGrid> equips, Bag<BagGrid> bag, int indexInBag){
+	public void equipAdd(IoSession session, Bag<EquipGrid> equips, Bag<BagGrid> bag, long bagDBId){
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
 		if(junZhu == null) {
 			return;
 		}
-		if(indexInBag<0 || indexInBag>= bag.grids.size()){
-			log.error("数据错误，bagIndex {}", indexInBag);
-			return;
-		}
-		BagGrid bg = bag.grids.get(indexInBag);
+		Optional<BagGrid> optional = bag.grids.stream().filter(item -> item.dbId == bagDBId).findFirst();
+		BagGrid bg = optional.get();
 		if(bg == null){
-			log.error("grid is null at {},空的格1", indexInBag);
+			log.error("grid is null at dbId:{},空的格1", bagDBId);
 //			sendError(session, "空的格子，号码"+indexInBag);
 			return;
 		}
 		if(bg.cnt<=0){
-			log.error("grid is empty cnt {} at {},空的格子2", bg.cnt, indexInBag);
+			log.error("grid is empty cnt {} at dbId:{},空的格子2", bg.cnt, bagDBId);
 //			sendError(session, "空的格子，号码"+indexInBag);
 			return;
 		}
@@ -232,12 +229,12 @@ public class EquipMgr extends EventProc{
 				|| o.getType() == BaseItem.TYPE_TONG_BI_TAN_BAO
 				|| o.getType() == BaseItem.TYPE_YUAN_BAO_TAN_BAO
 				){
-			BagMgr.inst.useItem(session,bag,indexInBag,o, junZhu);
+			BagMgr.inst.useItem(session,bag,bagDBId,o, junZhu);
 			return;
 		}
 		if(o.getType() != BaseItem.TYPE_EQUIP){
 //			sendError(session, "不是装备："+o.getName());
-			log.error("位置{}不是装备{}", indexInBag, HeroService.getNameById(o.getName()));
+			log.error("dbId:{}不是装备, 是:{}", bagDBId, HeroService.getNameById(o.getName()));
 			return;
 		}
 		ZhuangBei zb = (ZhuangBei) o;
@@ -273,19 +270,21 @@ public class EquipMgr extends EventProc{
 			HibernateUtil.insert(eg);
 			equips.grids.set(slot, eg);
 			
-			bg.instId = bg.itemId = bg.cnt = 0;
-			HibernateUtil.save(bg);
+//			bg.instId = bg.itemId = bg.cnt = 0;
+//			HibernateUtil.save(bg);
+			BagMgr.inst.removeItemByBagdbId(session, bag, "穿戴装备", bg.dbId, 1, junZhu.level);
 			log.info("remove {} {} from {}",eg.itemId, eg.instId, bag.ownerId);
 		}else if(preEg.itemId<=0){
 			第一次得到弓配合刘畅播放语音(junZhu, zb);
 			preEg.instId = bg.instId;
 			preEg.itemId = bg.itemId;
 			
-			bg.instId = bg.itemId = bg.cnt = 0;
-			HibernateUtil.save(bg);
+//			bg.instId = bg.itemId = bg.cnt = 0;
+//			HibernateUtil.save(bg);
 			
 			log.info("remove {} {} from {}",bg.itemId, bg.instId, bag.ownerId);
 			eg = preEg;
+			BagMgr.inst.removeItemByBagdbId(session, bag, "穿戴装备", bg.dbId, 1, junZhu.level);
 		}else{// 表示装备替换
 			if(!isChangeEquip(preEg.itemId, bg.itemId)) {
 				log.error( "装备替换失败1：reEg.itemId-{}，bg.itemId--{}" ,preEg.itemId, bg.itemId);
@@ -356,12 +355,12 @@ public class EquipMgr extends EventProc{
 			eg = preEg;
 			eg.itemId = targetZb.getId();
 			log.info("之前有装备 {} 替换成 {} , 当前强化等级:{} 经验:{}", beforeZbId, targetZb.getId(), afterLevel, afterExp);
-			BagMgr.inst.removeItem(bag, bg.itemId, 1, "装备替换", junZhu.level);
+			BagMgr.inst.removeItem(session, bag, bg.itemId, 1, "装备替换", junZhu.level);
 		}
 		HibernateUtil.save(eg);
 		log.info("add equip {} {} to {}",eg.itemId, eg.instId, equips.ownerId);
 		BagMgr.inst.sendEquipInfo(session, equips);
-		BagMgr.inst.sendBagInfo(session, bag);
+		//BagMgr.inst.sendBagInfo(session, bag);
 		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		// 事件管理中添加穿装备事件
 		EventMgr.addEvent(ED.EQUIP_ADD, new Object[]{equips.ownerId, zb.getId(), equips});

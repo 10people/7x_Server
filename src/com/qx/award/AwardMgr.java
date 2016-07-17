@@ -232,7 +232,7 @@ public class AwardMgr {
 		for(AwardTemp award : getAwardList) {
 			giveReward(session, award, jz, false,false);
 		}
-		BagMgr.inst.sendBagInfo(0, session, null);
+		//BagMgr.inst.sendBagInfo(0, session, null);
 		JunZhuMgr.inst.sendMainInfo(session,jz);
 	}
 
@@ -599,14 +599,14 @@ public class AwardMgr {
 						a.getItemNum());
 				log.info("{} 获得武艺精气{},达到{}", jz.id, a.getItemNum(), all);
 //				TalentMgr.instance.sendTalentInfo(session);
-				if(sendMainInfo)JunZhuMgr.inst.sendMainInfo(session,jz);
+				if(sendMainInfo)JunZhuMgr.inst.sendMainInfo(session,jz,false);
 				break;
 			} else if (a.getItemId() == 900019) {// 体魄精气
 				int all = TalentMgr.instance.addTiPoJingQi(jz.id,
 						a.getItemNum());
 				log.info("{} 获得体魄精气{},达到{}", jz.id, a.getItemNum(), all);
 //				TalentMgr.instance.sendTalentInfo(session);
-				if(sendMainInfo)JunZhuMgr.inst.sendMainInfo(session,jz);
+				if(sendMainInfo)JunZhuMgr.inst.sendMainInfo(session,jz,false);
 				break;
 			} else if(a.getItemId() == ITEM_WEI_WANG){ // 添加威望奖励
 				int all = ShopMgr.inst.addMoney(ShopMgr.Money.weiWang,
@@ -657,13 +657,13 @@ public class AwardMgr {
 				BaseItem bi = TempletService.itemMap.get(a.getItemId());
 				if (bi != null) {// 如果属于背包物品
 					bag = BagMgr.inst.loadBag(junZhuId);
-					BagMgr.inst.addItem(bag, a.getItemId(), a.getItemNum(), -1,jz.level, "发奖:"+a.getId());
+					BagMgr.inst.addItem(session, bag, a.getItemId(), a.getItemNum(), -1,jz.level, "发奖:"+a.getId());
 					/*
 					 * 判断是否集齐一套古卷
 					 */
 					isCollectASuitOfGuJuan(junZhuId, bag, bi.getType(), a.getItemId());
 					if(sendBagInfo){
-						BagMgr.inst.sendBagInfo(session, bag);
+						//BagMgr.inst.sendBagInfo(session, bag);
 					}
 					EventMgr.addEvent(ED.GAIN_ITEM, new Object[]{bag.ownerId, a.getItemId()});
 				}
@@ -679,21 +679,21 @@ public class AwardMgr {
 				return false;
 			}
 			bag = BagMgr.inst.loadBag(junZhuId);
-			BagMgr.inst.addItem(bag, a.getItemId(), a.getItemNum(), 0, jz.level, "发奖:"+a.getId());
-			if(sendBagInfo)BagMgr.inst.sendBagInfo(0, session, null);
+			BagMgr.inst.addItem(session, bag, a.getItemId(), a.getItemNum(), 0, jz.level, "发奖:"+a.getId());
+			//if(sendBagInfo)BagMgr.inst.sendBagInfo(0, session, null);
 			break;
 		case TYPE_ZHUANG_BEI:		// 装备 装进背包
 		case TYPE_YU_JUE:			// 玉玦
 		case TYPE_JIN_JIE:			// 进阶材料 装进背包
 		case TYPE_QIANG_HUA:		// 强化材料
 			bag = BagMgr.inst.loadBag(junZhuId);
-			BagMgr.inst.addItem(bag, a.getItemId(), a.getItemNum(), -1, jz.level, "发奖:"+a.getId());
-			if(sendBagInfo)BagMgr.inst.sendBagInfo(0, session, null);
+			BagMgr.inst.addItem(session, bag, a.getItemId(), a.getItemNum(), -1, jz.level, "发奖:"+a.getId());
+			//if(sendBagInfo)BagMgr.inst.sendBagInfo(0, session, null);
 			break;
 		case type_baoShi:
 			bag = BagMgr.inst.loadBag(junZhuId);
-			BagMgr.inst.addItem(bag, a.getItemId(), a.getItemNum(), -1,jz.level, "发奖:"+a.getId());
-			if(sendBagInfo)BagMgr.inst.sendBagInfo(0, session, null);
+			BagMgr.inst.addItem(session, bag, a.getItemId(), a.getItemNum(), -1,jz.level, "发奖:"+a.getId());
+			//if(sendBagInfo)BagMgr.inst.sendBagInfo(0, session, null);
 			break;
 //		case TYPE_NEW_MI_BAO:
 //			MiBaoV2Mgr.inst.addMiBao(jz,a);
@@ -865,8 +865,10 @@ public class AwardMgr {
 			log.error("未知奖励类型 {}, awardId{}", a.getItemType(), a.getId());
 			return false;
 		}
-		EventMgr.addEvent(ED.get_item_finish, new Object[] { junZhuId,
-				a.getItemId() });
+		if( a.getItemId() == 301011 || a.getItemId() == 920118 ){
+			EventMgr.addEvent(ED.get_item_finish, new Object[] { junZhuId,
+					a.getItemId() });
+		}
 		return true;
 	}
 

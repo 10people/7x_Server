@@ -173,7 +173,7 @@ public class SettingsMgr {
 		Redis.getInstance().set(Key+jz.id, currentTime+"");
 		YuanBaoMgr.inst.diff(jz, -changeNameCost, 0, changeNameCost, YBType.YB_MOD_NAME, "修改名字");
 		HibernateUtil.update(jz);
-		JunZhuMgr.inst.sendMainInfo(session,jz);
+		JunZhuMgr.inst.sendMainInfo(session,jz,false);
 		log.info("君主修改名字成功，君主:{}花费{}元宝将名字从{}改为{}", jz.id, changeNameCost, oldName, req.getName());
 		ActLog.log.KingChange(jz.id, oldName, jz.name, ActLog.vopenid);
 		ret.setCode(0);
@@ -299,8 +299,7 @@ public class SettingsMgr {
 				writeByProtoMsg(session, PD.S_ZHUANGGUO_RESP, response);
 				return;
 			}
-			BagMgr.inst.removeItem(bag, ZHUANGUOLING, 1, "使用转国令转换国家",jz.level);
-			BagMgr.inst.sendBagInfo(session, bag);
+			BagMgr.inst.removeItem(session, bag, ZHUANGUOLING, 1, "使用转国令转换国家",jz.level);
 			// 消耗转国卡
 			log.info("{}使用一张转国令成功转换国家到{}", jz.id, jz.guoJiaId);
 			
@@ -326,7 +325,7 @@ public class SettingsMgr {
 		EventMgr.addEvent(ED.CHANGE_GJ_RANK_REFRESH, new Object[]{jz.id,oldGjId,newGjId, jz.level});
 		response.setResult(SUCCESS);
 		writeByProtoMsg(session, PD.S_ZHUANGGUO_RESP, response);
-		JunZhuMgr.inst.sendMainInfo(session,jz);
+		JunZhuMgr.inst.sendMainInfo(session,jz,false);
 		return;
 	}
 
@@ -388,7 +387,7 @@ public class SettingsMgr {
 			ProtobufMsg m = new ProtobufMsg(PD.BD_CHANGE_MODEL, ret);
 			sc.broadCastEvent(m, 0);
 		}
-		JunZhuMgr.inst.sendMainInfo(session, jz);
+		JunZhuMgr.inst.sendMainInfo(session, jz,false);
 	}
 
 	public void unlockModel(int id, IoSession session, Builder builder) {
@@ -425,6 +424,6 @@ public class SettingsMgr {
 		HibernateUtil.update(bean);
 		session.write(PD.UNLOCK_MODEL);//解锁成功
 		getModelInfo(0, session, null);
-		JunZhuMgr.inst.sendMainInfo(session,jz);
+		JunZhuMgr.inst.sendMainInfo(session,jz,false);
 	}
 }

@@ -823,7 +823,7 @@ public class UserEquipAction  extends EventProc {
 			XiLian xiLian = PurchaseMgr.inst.getXiLian(junZhu.id);
 			//当有洗练石且本日洗练石使用次数小于最大使用次数
 			if (cnt >0&&xiLian.getXlsCount()<CanShu.XILIANSHI_MAXTIMES) {
-				BagMgr.inst.removeItem(bag, xilianshi, 1, "高级洗练", junZhu.level);
+				BagMgr.inst.removeItem(session, bag, xilianshi, 1, "高级洗练", junZhu.level);
 				// 删除物品后推送背包信息给玩家
 				BagMgr.inst.sendBagAgain(bag);
 				//洗练石每日使用个数限制  CanShu.XILIANSHI_MAXTIMES
@@ -1723,7 +1723,7 @@ public class UserEquipAction  extends EventProc {
 			sendError(cmd, session, "所需的物品不足，请收集齐全后再来！");
 			return;
 		}
-		BagMgr.inst.removeItem(bag, jinJieItemId, subNum, "装备进阶",junZhu.level);
+		BagMgr.inst.removeItem(session, bag, jinJieItemId, subNum, "装备进阶",junZhu.level);
 //		BagMgr.inst.sendBagInfo(cmd, session, builder); 2015年10月9日优化去掉 下面也会发
 		target.itemId = jinJieZb.getId();
 		dbUe.setTemplateId(jinJieZb.getId());
@@ -1761,7 +1761,7 @@ public class UserEquipAction  extends EventProc {
 		response.setShengMingAdd(Math.max(shengMingAfter - shengMingBefore, 0));
 		//2015年10月9日优化    先返进阶回结果再推送其他信息
 		session.write(response.build());
-		BagMgr.inst.sendBagInfo(session, bag);
+		//BagMgr.inst.sendBagInfo(session, bag);
 		BagMgr.inst.sendEquipInfo(session, equipBag);
 		// 主线任务：完成特定的武器进阶一次
 		EventMgr.addEvent(ED.JINJIE_ONE_GONG, new Object[] { junZhu.id,
@@ -1865,7 +1865,7 @@ public class UserEquipAction  extends EventProc {
 			int cailiaoNum = reqCailiaoMap.get(bg.dbId);
 			addExp = perExp * cailiaoNum ;
 			totalExp += addExp;
-			BagMgr.inst.removeItemByBagdbId(bag, "装备进阶，吞噬材料", bg.dbId, cailiaoNum, junZhu.level);
+			BagMgr.inst.removeItemByBagdbId(session, bag, "装备进阶，吞噬材料", bg.dbId, cailiaoNum, junZhu.level);
 		}
 		log.info("玩家：{}请求进阶装备，请求材料总经验：{}",junZhu.id,totalExp);
 		
@@ -1939,7 +1939,7 @@ public class UserEquipAction  extends EventProc {
 		response.setGongJiAdd(Math.max(gongJiAfter - gongJiBefore, 0));
 		response.setFangYuAdd(Math.max(fangYuAfter - fangYuBefore, 0));
 		response.setShengMingAdd(Math.max(shengMingAfter - shengMingBefore, 0));
-		BagMgr.inst.sendBagInfo(session, bag);
+		//BagMgr.inst.sendBagInfo(session, bag);
 		BagMgr.inst.sendEquipInfo(session, equipBag);
 		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		session.write(response.build());	

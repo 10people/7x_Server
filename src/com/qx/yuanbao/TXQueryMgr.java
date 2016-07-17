@@ -238,7 +238,7 @@ public class TXQueryMgr {
 		//否则就是充值元宝，到账了就结束。 
 		if (conf.id == VipMgr.yuekaid) {
 		}else if(conf.id == VipMgr.zhongShenKa){
-		}else if(conf.id == VipMgr.yuekaid){
+		}else if(conf.id == VipMgr.zhoukaid){
 		}else{
 			boolean first = false;
 			if(conf.extraFirst>0){

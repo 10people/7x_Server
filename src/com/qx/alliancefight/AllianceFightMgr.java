@@ -868,6 +868,6 @@ public class AllianceFightMgr {
 		}
 		
 		YaBiaoHuoDongMgr.inst.kouchuFuhuoTimes(junzhu);
-		JunZhuMgr.inst.sendMainInfo(session,junzhu);
+		JunZhuMgr.inst.sendMainInfo(session,junzhu,false);
 	}
 }

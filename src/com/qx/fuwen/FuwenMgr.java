@@ -228,7 +228,7 @@ public class FuwenMgr extends EventProc {
 		if (actionSucceed) {
 			HibernateUtil.update(junZhu);
 			JunZhuMgr.inst.sendMainInfo(session,junZhu);
-			BagMgr.inst.sendBagInfo(session, bag);
+			//BagMgr.inst.sendBagInfo(session, bag);
 			// 刷新君主榜
 			EventMgr.addEvent(ED.JUN_RANK_REFRESH, junZhu);
 			response.setZhanli(PvpMgr.inst.getZhanli(junZhu));
@@ -417,6 +417,10 @@ public class FuwenMgr extends EventProc {
 		
 		boolean replace = false;
 		FuWenBean fwBean = getFuwenBeanByLanweiId(lanweiId, fuWenBeanList);
+		if(fwBean == null) {
+			logger.info("镶嵌符文失败，找不到君主:{} lanweiId:{}的FuwenBean", junZhu.id, lanweiId);
+			return false;
+		}
 		if (fwBean != null && fwBean.itemId > 0) {
 			logger.info("镶嵌符文操作，符文栏位{}已经有符文，本次为替换符文", lanweiId);
 			replace = true;
@@ -450,9 +454,9 @@ public class FuwenMgr extends EventProc {
 		HibernateUtil.save(fwBean);
 		logger.info("君主{}镶嵌符文{}到栏位{}", junZhu.id, itemId, lanweiId);
 		// 从背包消耗一个符文
-		BagMgr.inst.removeItemByBagdbId(bag, "镶嵌消耗一个符文", bagId, 1, junZhu.level);
+		BagMgr.inst.removeItemByBagdbId(session, bag, "镶嵌消耗一个符文", bagId, 1, junZhu.level);
 		if(replace) {
-			BagMgr.inst.addItem(bag, beforeItemId, 1, beforeExp, junZhu.level, "镶嵌符文替换下的");
+			BagMgr.inst.addItem(session, bag, beforeItemId, 1, beforeExp, junZhu.level, "镶嵌符文替换下的");
 		}
 		sendFuwenInBagInfo(session, junZhu);
 		// 主线任务: 装备任意一个符文 20190916
@@ -531,8 +535,8 @@ public class FuwenMgr extends EventProc {
 					fwBean.itemId = grid.itemId;
 					fwBean.exp = (int) grid.instId;
 					HibernateUtil.save(fwBean);
-					BagMgr.inst.removeItemByBagdbId(bag, "镶嵌消耗一个符文", grid.dbId, 1, junZhu.level);
-					BagMgr.inst.addItem(bag, beforeItemId, 1, beforeExp, junZhu.level, "镶嵌符文替换下的");
+					BagMgr.inst.removeItemByBagdbId(session, bag, "镶嵌消耗一个符文", grid.dbId, 1, junZhu.level);
+					BagMgr.inst.addItem(session, bag, beforeItemId, 1, beforeExp, junZhu.level, "镶嵌符文替换下的");
 					performed = true;
 				}		
 			} else {										// 表示当前位置还没有镶嵌符文
@@ -578,7 +582,7 @@ public class FuwenMgr extends EventProc {
 					fwBean.itemId = maxExpGrid.itemId;
 					fwBean.exp = (int) maxExpGrid.instId;
 					HibernateUtil.save(fwBean);
-					BagMgr.inst.removeItemByBagdbId(bag, "镶嵌消耗一个符文", maxExpGrid.dbId, 1, junZhu.level);
+					BagMgr.inst.removeItemByBagdbId(session, bag, "镶嵌消耗一个符文", maxExpGrid.dbId, 1, junZhu.level);
 					performed = true;
 				}
 			}
@@ -613,7 +617,7 @@ public class FuwenMgr extends EventProc {
 		response.setResult(1);
 		session.write(response.build());
 		int itemExp = fwBean.exp; 
-		BagMgr.inst.addItem(bag, fwBean.itemId, 1, itemExp, junZhu.level, "卸下符文");
+		BagMgr.inst.addItem(session, bag, fwBean.itemId, 1, itemExp, junZhu.level, "卸下符文");
 		fwBean.itemId = 0;
 		fwBean.exp = 0;
 		HibernateUtil.save(fwBean);
@@ -658,7 +662,7 @@ public class FuwenMgr extends EventProc {
 			if(fwBean.itemId <= 0) {
 				continue;
 			}
-			BagMgr.inst.addItem(bag, fwBean.itemId, 1, fwBean.exp, junZhu.level, "卸下符文");
+			BagMgr.inst.addItem(session, bag, fwBean.itemId, 1, fwBean.exp, junZhu.level, "卸下符文");
 			fwBean.itemId = 0;
 			fwBean.exp = 0;
 			HibernateUtil.save(fwBean);
@@ -680,6 +684,7 @@ public class FuwenMgr extends EventProc {
 	// 合成符文
 	public boolean combineFuwen(JunZhu junZhu, int itemId, int lanweiId,
 			FuwenResp.Builder response,Bag<BagGrid> bag) {
+		IoSession session = SessionManager.inst.getIoSession(junZhu.id);
 		// lock
 		if (redis.lexist(CACHE_FUWEN_LOCK + junZhu.id, String.valueOf(itemId))) {
 			logger.info("君主{}的符文{}已锁定，不能合成", junZhu.id, itemId);
@@ -704,9 +709,9 @@ public class FuwenMgr extends EventProc {
 				response.setReason("符文数量不足最低合成数量。");
 				return false;
 			}
-			BagMgr.inst.removeItem(bag, itemId, COMBINE_NUM, "普通合成消耗"
+			BagMgr.inst.removeItem(session, bag, itemId, COMBINE_NUM, "普通合成消耗"
 					+ COMBINE_NUM + "个符文", junZhu.level);
-			BagMgr.inst.addItem(bag, fuwenNext.getFuwenID(), 1, -1,
+			BagMgr.inst.addItem(session, bag, fuwenNext.getFuwenID(), 1, -1,
 					junZhu.level, "合成符文");
 			logger.info("君主{}成功消耗{}个符文{}合成一个高级符文{}", junZhu.id, COMBINE_NUM,
 					itemId, fuwenNext.getFuwenID());
@@ -719,7 +724,7 @@ public class FuwenMgr extends EventProc {
 				response.setReason("符文数量不足最低合成数量。");
 				return false;
 			}
-			BagMgr.inst.removeItem(bag, itemId, COMBINE_NUM - 1, "普通合成消耗"
+			BagMgr.inst.removeItem(session, bag, itemId, COMBINE_NUM - 1, "普通合成消耗"
 					+ (COMBINE_NUM - 1) + "个符文", junZhu.level);
 			redis.lrem(CACHE_FUWEN_LANWEI + junZhu.id, 0, lanweiId + "#"
 					+ itemId);
@@ -736,6 +741,7 @@ public class FuwenMgr extends EventProc {
 	// 一键合成符文
 	public boolean yijianCombineFuwen(JunZhu junZhu, int itemId,
 			FuwenResp.Builder response,Bag<BagGrid> bag) {
+		IoSession session = SessionManager.inst.getIoSession(junZhu.id);
 		// lock
 		if (redis.lexist(CACHE_FUWEN_LOCK + junZhu.id, String.valueOf(itemId))) {
 			logger.info("君主{}的符文{}已锁定，不能合成", junZhu.id, itemId);
@@ -761,9 +767,9 @@ public class FuwenMgr extends EventProc {
 		}
 		int combineNum = num / COMBINE_NUM;
 		int costNum = num - num % COMBINE_NUM;
-		BagMgr.inst.removeItem(bag, itemId, costNum,
+		BagMgr.inst.removeItem(session, bag, itemId, costNum,
 				"一键合成消耗" + costNum + "个符文", junZhu.level);
-		BagMgr.inst.addItem(bag, fuwenNext.getFuwenID(), combineNum, -1,
+		BagMgr.inst.addItem(session, bag, fuwenNext.getFuwenID(), combineNum, -1,
 				junZhu.level, "一键合成符文");
 		logger.info("君主{}成功消耗{}个符文{}合成{}个高级符文{}", junZhu.id, costNum, itemId,
 				combineNum, fuwenNext.getFuwenID());
@@ -1454,7 +1460,7 @@ public class FuwenMgr extends EventProc {
 			}
 		}
 		for(FuwenInBag fuwenInBag : bagList) {
-			BagMgr.inst.removeItemByBagdbId(bag, "符文融合被消耗", fuwenInBag.getBagId(), fuwenInBag.getCnt(), junZhu.level);
+			BagMgr.inst.removeItemByBagdbId(session, bag, "符文融合被消耗", fuwenInBag.getBagId(), fuwenInBag.getCnt(), junZhu.level);
 		}
 		fwBean.exp += expTotal;
 		Fuwen zhudongFWTemp = zhudongFuwen;
@@ -1468,8 +1474,8 @@ public class FuwenMgr extends EventProc {
 			}
 		}
 		HibernateUtil.save(fwBean);
-		logger.info("符文融合成功，符文tab:{},lanweiId:{}获得经验{}，等级变为:{}", tab, lanweiId, expTotal, zhudongFWTemp.getFuwenLevel());
-		BagMgr.inst.sendBagInfo(session, bag);
+		logger.info("符文融合成功，符文tab:{},lanweiId:{}获得经验{}，itemId变为:{}", tab, lanweiId, expTotal, fwBean.itemId);
+		//BagMgr.inst.sendBagInfo(session, bag);
 		sendFuwenInBagInfo(session, junZhu);
 		response.setResult(0);
 		response.setItemId(fwBean.itemId);
@@ -1511,9 +1517,9 @@ public class FuwenMgr extends EventProc {
 			return;
 		}
 		
-		BagMgr.inst.removeItem(bag, fuwenDuihuan.itemID, fuwenDuihuan.cost, "符文甲片兑换了符文", junZhu.level);
-		BagMgr.inst.addItem(bag, fuwenCfg.getFuwenID(), fuwenDuihuan.num, 0, junZhu.level, "符文甲片兑换的符文");
-		BagMgr.inst.sendBagInfo(session, bag);
+		BagMgr.inst.removeItem(session, bag, fuwenDuihuan.itemID, fuwenDuihuan.cost, "符文甲片兑换了符文", junZhu.level);
+		BagMgr.inst.addItem(session, bag, fuwenCfg.getFuwenID(), fuwenDuihuan.num, 0, junZhu.level, "符文甲片兑换的符文");
+		//BagMgr.inst.sendBagInfo(session, bag);
 		sendFuwenInBagInfo(session, junZhu);
 		response.setResult(0);
 		session.write(response.build());

@@ -1,19 +1,17 @@
+<%@page import="com.qx.world.FightScene"%>
+<%@page import="com.qx.util.RandomUtil"%>
+<%@page import="java.util.Random"%>
+<%@page import="com.qx.junzhu.JunZhu"%>
+<%@page import="qxmobile.protobuf.AllianceFightProtos.PlayerScore"%>
 <%@page import="java.math.BigInteger"%>
 <%@page import="java.math.BigDecimal"%>
-<%@page import="java.util.Calendar"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="java.sql.PreparedStatement"%>
 <%@page import="org.hibernate.dialect.MySQL5Dialect"%>
 <%@page import="com.qx.persistent.HibernateUtil"%>
 <%@ page import="java.util.List"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.sql.Connection"%>
-<%@page import="java.sql.DriverManager"%>
-<%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.SQLException"%>
-<%@page import="java.sql.Statement"%>
 <%@ page import="java.util.Map"%>
 <%@include file="/myFuns.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -61,6 +59,23 @@ setOut(out);
 			 trS();td("<font color='blue'>注册日期</font>");td(sdf.format(a.get("c")));td("<font color='blue'>注册人数</font>");td(a.get("d"));td("<font color='blue'>所占百分比</font>");td(bd+"%");trE();
 		}
 	tableEnd();
+	
+	  /* Map<Long, PlayerScore.Builder> personalScoreMap1 = new HashMap<>();
+	   long s = 1000;
+	   List<JunZhu> jzList = HibernateUtil.list(JunZhu.class, "where 1=1");
+	   for(int i=0;i<30;i++){
+		PlayerScore.Builder p = PlayerScore.newBuilder();
+		p.setRank(i);
+		p.setRoleName("大侠"+i);
+		p.setKillCnt(RandomUtil.getRandomNum(2));
+		p.setLianSha(RandomUtil.getRandomNum(2));
+		p.setJiFen(RandomUtil.getRandomNum(2));
+		p.setJzId(jzList.get(i).getId());
+		int k = RandomUtil.getRandomNum(2);
+		p.setSide(k==0?1:k);
+		personalScoreMap1.put(s+i, p);
+	}
+	     FightScene.sortScore(personalScoreMap1); */
 %>
 </body>
 </html>

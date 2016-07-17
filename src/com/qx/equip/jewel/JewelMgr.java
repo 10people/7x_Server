@@ -277,11 +277,11 @@ public class JewelMgr extends EventProc{
 		//装备和宝石的判断均通过，开始镶嵌操作
 		
 		
-		boolean xiangqianSucces = doXiangQian( bag, jewelinBag, equipInfo, possionId) ;		
+		boolean xiangqianSucces = doXiangQian(session, bag, jewelinBag, equipInfo, possionId) ;		
 		//如果镶嵌操作成功，存储镶嵌操作装备的信息，推送背包信息，返回协议
 		if(xiangqianSucces){
 			HibernateUtil.save(equipInfo) ;
-			BagMgr.inst.sendBagInfo(session, bag);
+			//BagMgr.inst.sendBagInfo(session, bag);
 			JunZhuMgr.inst.sendMainInfo(session);
 			BagMgr.inst.sendEquipInfo(session, equips);
 		}else{
@@ -364,12 +364,12 @@ public class JewelMgr extends EventProc{
 		//放入背包前判断一下宝石的经验是否为初始经验
 		jewelExp = jewelExp == 0 ? -1 : jewelExp ;
 		
-		BagMgr.inst.addItem(bag, jewelId, 1, jewelExp , junZhu.level, "玩家卸下宝石");
+		BagMgr.inst.addItem(session, bag, jewelId, 1, jewelExp , junZhu.level, "玩家卸下宝石");
 			
 		//更新装备信息，推送背包信息
 		equipInfo = updateEquipHole(equipInfo, possionId, -1);
 		HibernateUtil.save(equipInfo);
-		BagMgr.inst.sendBagInfo(session, bag);
+		//BagMgr.inst.sendBagInfo(session, bag);
 		JunZhuMgr.inst.sendMainInfo(session);
 		BagMgr.inst.sendEquipInfo(session, equips);
 		log.info("君主{}卸下宝石成功，装备：{}，孔：{}" ,junZhu.id,equipDbId,possionId);
@@ -438,7 +438,7 @@ public class JewelMgr extends EventProc{
 			int jewelExp = (int)(jewelInfo & Integer.MAX_VALUE);
 			//放入背包前判断一下宝石的经验是否为初始经验
 			jewelExp = jewelExp == 0 ? -1 : jewelExp ;
-			BagMgr.inst.addItem(bag, jewelId, 1, jewelExp, junZhu.level, "玩家卸下宝石");
+			BagMgr.inst.addItem(session, bag, jewelId, 1, jewelExp, junZhu.level, "玩家卸下宝石");
 			
 			//每卸下一颗宝石，保存一次装备强化信息，防止掉坑
 			equipInfo = updateEquipHole(equipInfo, possionId, -1);
@@ -471,7 +471,7 @@ public class JewelMgr extends EventProc{
 				if( jewelPeiZhi.inlayColor == holeColour && jewelIdBefore <=0){
 					//装备上的孔未镶嵌
 					//因为不确定镶嵌能不能成功，所以不从这里跳出循环，只是修改成功标记
-					succes = doXiangQian(bag, bg, equipInfo, i );
+					succes = doXiangQian(session, bag, bg, equipInfo, i );
 				}
 			}
 			if(succes){
@@ -501,7 +501,7 @@ public class JewelMgr extends EventProc{
 			resp.setJewelList(list);
 			//更新背包信息
 			JunZhuMgr.inst.sendMainInfo(session);
-			BagMgr.inst.sendBagInfo(session, bag);
+			//BagMgr.inst.sendBagInfo(session, bag);
 			BagMgr.inst.sendEquipInfo(session, equips);
 		}else{
 			//一颗宝石都没镶上，无需更新背包信息
@@ -566,7 +566,7 @@ public class JewelMgr extends EventProc{
 			int jewelExp = (int)(jewelInfo & Integer.MAX_VALUE);
 			//放入背包前判断一下宝石的经验是否为初始经验
 			jewelExp = jewelExp == 0 ? -1 : jewelExp ;
-			BagMgr.inst.addItem(bag, jewelId, 1, jewelExp, junZhu.level, "玩家卸下宝石");
+			BagMgr.inst.addItem(session, bag, jewelId, 1, jewelExp, junZhu.level, "玩家卸下宝石");
 			
 			//每卸下一颗宝石，保存一次装备强化信息，防止掉坑
 			equipInfo = updateEquipHole(equipInfo, possionId, -1);
@@ -576,7 +576,7 @@ public class JewelMgr extends EventProc{
 		
 		log.info("玩家{}一键卸下宝石成功，装备：{}",junZhu.id , equipDbId);
 		//遍历结束，推送背包信息
-		BagMgr.inst.sendBagInfo(session, bag);
+		//BagMgr.inst.sendBagInfo(session, bag);
 		JunZhuMgr.inst.sendMainInfo(session);
 		BagMgr.inst.sendEquipInfo(session, equips);
 		//发送返回协议
@@ -680,7 +680,7 @@ public class JewelMgr extends EventProc{
 			//加入总经验，扣除道具
 			addExp = perExp * cailiaoNum ;
 			totalExp += addExp;
-			BagMgr.inst.removeItemByBagdbId(bag, "宝石合成", bg.dbId, cailiaoNum, junZhu.level);
+			BagMgr.inst.removeItemByBagdbId(session, bag, "宝石合成", bg.dbId, cailiaoNum, junZhu.level);
 		}
 		if( totalExp <= 0 ){
 			log.error("合成失败，请求道具列表全部不合法");
@@ -716,7 +716,7 @@ public class JewelMgr extends EventProc{
 		resp.setType(6);
 		resp.setOneJewel(b);
 		//推送背包信息
-		BagMgr.inst.sendBagInfo(session, bag);
+		//BagMgr.inst.sendBagInfo(session, bag);
 		JunZhuMgr.inst.sendMainInfo(session);
 		BagMgr.inst.sendEquipInfo(session, equips);
 		//返回协议
@@ -918,13 +918,13 @@ public class JewelMgr extends EventProc{
 	
 	/**镶嵌操作，镶嵌成功返回true，失败返回false
 	 * 操作之后需要自行存储equipInfo变更*/
-	public boolean doXiangQian(Bag<BagGrid> bag ,BagGrid jewelinBag , UserEquip equipInfo , int possionId){
+	public boolean doXiangQian(IoSession session, Bag<BagGrid> bag ,BagGrid jewelinBag , UserEquip equipInfo , int possionId){
 		boolean xiangqianSucces = false ;
 		
 		
 		int jewelId = jewelinBag.itemId;
 		int jewelExp = jewelinBag.instId > 0 ? (int)jewelinBag.instId : 0 ;
-		boolean isRemoved = BagMgr.inst.removeItemByBagdbId(bag, "宝石镶嵌", jewelinBag.dbId, 1, 0);
+		boolean isRemoved = BagMgr.inst.removeItemByBagdbId(session, bag, "宝石镶嵌", jewelinBag.dbId, 1, 0);
 		if(isRemoved){
 			//移除成功，则更新镶嵌孔信息
 			List<Long> jewelList = getJewelOnEquip( equipInfo );
@@ -932,7 +932,7 @@ public class JewelMgr extends EventProc{
 			if ( jewelInfoBefore > 0 ){
 				int jewelIdBefore = (int)( jewelInfoBefore>> 32);
 				int jewelExpBefore = (int)(jewelInfoBefore&Integer.MAX_VALUE);
-				BagMgr.inst.addItem(bag, jewelIdBefore, 1, jewelExpBefore == 0 ? -1:jewelExpBefore , 1, "宝石卸下");
+				BagMgr.inst.addItem(session, bag, jewelIdBefore, 1, jewelExpBefore == 0 ? -1:jewelExpBefore , 1, "宝石卸下");
 			}
 			
 			long jewelInfo = jewelId;

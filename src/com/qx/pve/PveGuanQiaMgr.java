@@ -100,7 +100,7 @@ public class PveGuanQiaMgr {
 	public PveRecordDao recordMgr;
 	public static PveRecord nullRecord;
 	public static Map<Integer, PveStar> starMap;
-	public static byte DEFAULT_CAN_FIGHT_CHUANQI = 1;	// 默认可以攻打的传奇关卡章节id
+	public static byte DEFAULT_CAN_FIGHT_CHUANQI = 1; // 默认可以攻打的传奇关卡章节id
 
 	public PveGuanQiaMgr() {
 		nullRecord = new PveRecord();
@@ -188,10 +188,9 @@ public class PveGuanQiaMgr {
 		default:
 			break;
 		}
-		EventMgr.addEvent(ED.ACHIEVEMENT_PROCESS, new AchievementCondition(pid,
-				acheType, star));
-		EventMgr.addEvent(ED.ACHIEVEMENT_PROCESS, new AchievementCondition(pid,
-				AchievementConstants.type_guoguan_times, 1));
+		EventMgr.addEvent(ED.ACHIEVEMENT_PROCESS, new AchievementCondition(pid, acheType, star));
+		EventMgr.addEvent(ED.ACHIEVEMENT_PROCESS,
+				new AchievementCondition(pid, AchievementConstants.type_guoguan_times, 1));
 
 	}
 
@@ -201,8 +200,7 @@ public class PveGuanQiaMgr {
 	}
 
 	public int findBigIndex(int id) {
-		List<PveTemp> list = TempletService.listAll(PveTemp.class
-				.getSimpleName());
+		List<PveTemp> list = TempletService.listAll(PveTemp.class.getSimpleName());
 		int idx = -1;
 		for (PveTemp p : list) {
 			idx++;
@@ -273,7 +271,7 @@ public class PveGuanQiaMgr {
 			curCqBigId = Math.min(curGuanQiaBigId, curCqBigId);
 			curCqBigId = Math.max(DEFAULT_CAN_FIGHT_CHUANQI, curCqBigId);
 		}
-		
+
 		int zhangJieIdMax = getZhangJieIdMax(list, rMap);
 		if (rMap.size() == 0) {
 			if (reqSection <= 0) {
@@ -283,13 +281,13 @@ public class PveGuanQiaMgr {
 			reqSection = zhangJieIdMax;
 			// 如果有未领取通关奖励的章节id，则发送最小的章节信息
 			int realZhangJieId = reqSection;
-			for(int i = 1; i < reqSection; i++) {
+			for (int i = 1; i < reqSection; i++) {
 				Integer lastGuanQiaId = PveMgr.lastGuanQiaOfZhang.get(i);
-				for(Map.Entry<Integer, PveRecord> entry : rMap.entrySet()) {
+				for (Map.Entry<Integer, PveRecord> entry : rMap.entrySet()) {
 					Integer zhangJieId = entry.getKey();
-					if(lastGuanQiaId != null && zhangJieId.equals(lastGuanQiaId)) {
+					if (lastGuanQiaId != null && zhangJieId.equals(lastGuanQiaId)) {
 						PveRecord record = entry.getValue();
-						if(!record.isGetAward) {
+						if (!record.isGetAward) {
 							realZhangJieId = Math.min(realZhangJieId, i);
 						}
 					}
@@ -317,8 +315,7 @@ public class PveGuanQiaMgr {
 			if (r == null) {
 				r = nullRecord;
 			}
-			qxmobile.protobuf.PveLevel.Level.Builder lb = qxmobile.protobuf.PveLevel.Level
-					.newBuilder();
+			qxmobile.protobuf.PveLevel.Level.Builder lb = qxmobile.protobuf.PveLevel.Level.newBuilder();
 			lb.setSLevel(pveTemp.getMonarchLevel());
 			lb.setSPass(r.star >= 0);
 			lb.setType(pveTemp.getChapType());
@@ -358,7 +355,7 @@ public class PveGuanQiaMgr {
 			String cqStarRewardStateStr = String.valueOf(r.cqStarRewardState);
 			cqStarRewardStateStr = StringUtils.leftPad(cqStarRewardStateStr, 3, "0");
 			LegendPveTemp legendPveTemp = PveMgr.inst.legendId2Pve.get(pveTemp.id);
-			if(legendPveTemp != null) {
+			if (legendPveTemp != null) {
 				for (int index = 0; index < 3; index++) {
 					StarInfo.Builder starInfo = StarInfo.newBuilder();
 					if (index == 0) {
@@ -381,14 +378,13 @@ public class PveGuanQiaMgr {
 					lb.addCqStarInfo(starInfo);
 				}
 			}
-			
+
 			lb.setChuanQiPass(r.chuanQiPass);// 传奇关卡信息
 			lb.setPingJia(r.cqWinLevel);// 传奇关卡星级评价
 			if (pveTemp.RenWuLimit <= 0) {
 				lb.setRenWuId(0);
 			} else {
-				ZhuXian rwConf = GameTaskMgr.inst.zhuxianTaskMap
-						.get(pveTemp.RenWuLimit);
+				ZhuXian rwConf = GameTaskMgr.inst.zhuxianTaskMap.get(pveTemp.RenWuLimit);
 				if (rwConf == null) {
 					lb.setRenWuId(0);// 没有该任务，可以攻打。
 				} else if (rwConf.orderIdx <= maxRwIdx) {
@@ -492,15 +488,14 @@ public class PveGuanQiaMgr {
 			log.error("君主不存在");
 			return;
 		}
-		PveRecord r = HibernateUtil.find(PveRecord.class, "where guanQiaId="
-				+ guanQiaId + " and uid=" + junZhuId);
+		PveRecord r = HibernateUtil.find(PveRecord.class, "where guanQiaId=" + guanQiaId + " and uid=" + junZhuId);
 		if (r == null) {
 			sendError(session, "您没有完成此关卡 " + guanQiaId);
 			return;
 		}
 		log.info("{}请求领取星级奖励guanQiaId-{},星级id-{},", junZhuId, guanQiaId, starId);
 		PveTemp pveTemp = null;
-		if(chuanQiMark) {
+		if (chuanQiMark) {
 			pveTemp = PveMgr.inst.legendId2Pve.get(guanQiaId);
 		} else {
 			pveTemp = PveMgr.inst.getId2Pve().get(guanQiaId);
@@ -526,14 +521,12 @@ public class PveGuanQiaMgr {
 			return;
 		}
 		if ((key & getStar) != key) {
-			log.info("星级数据错误key {}, match {} star {}", key, (key & getStar),
-					getStar);
+			log.info("星级数据错误key {}, match {} star {}", key, (key & getStar), getStar);
 			sendError(session, "您还没有获得这个星星。");
 			return;
 		}
 		if ((key & starRewardState) == key) {
-			log.info("已领数据错误key {}, match {} startRewardState {}", key,
-					(key & starRewardState), starRewardState);
+			log.info("已领数据错误key {}, match {} startRewardState {}", key, (key & starRewardState), starRewardState);
 			PveStarGetSuccess.Builder ret = PveStarGetSuccess.newBuilder();
 			ret.setGuanQiaId(guanQiaId);
 			ret.setSResult(false);
@@ -541,7 +534,7 @@ public class PveGuanQiaMgr {
 			session.write(ret.build());
 			return;
 		}
-		if(chuanQiMark) {
+		if (chuanQiMark) {
 			r.cqStarRewardState += key;
 		} else {
 			r.achieveRewardState += key;
@@ -563,8 +556,7 @@ public class PveGuanQiaMgr {
 		session.write(ret.build());
 		log.info("ling qu start reward {}", b.getSStarNum());
 		// 添加完成精英领取奖励任务
-		EventMgr.addEvent(ED.GET_START_PVE_AWARD, new Object[] { junZhuId,
-				guanQiaId });
+		EventMgr.addEvent(ED.GET_START_PVE_AWARD, new Object[] { junZhuId, guanQiaId });
 	}
 
 	public void addAward(PveStar ps, IoSession session, JunZhu jz) {
@@ -583,8 +575,7 @@ public class PveGuanQiaMgr {
 		}
 		for (AwardTemp award : awardList) {
 			AwardMgr.inst.giveReward(session, award, jz);
-			log.info("君主:{}, 领取星级奖励物品:{}, 数量：{}", jz.id, award.getItemId(),
-					award.getItemNum());
+			log.info("君主:{}, 领取星级奖励物品:{}, 数量：{}", jz.id, award.getItemId(), award.getItemNum());
 		}
 	}
 
@@ -595,7 +586,7 @@ public class PveGuanQiaMgr {
 		switch (type) {
 		case 10:// type为10时，ginfo[1]表示的是AwardTemp表的awardId
 			AwardTemp temp = AwardMgr.inst.calcAwardTemp(Integer.parseInt(gInfo[1]));
-			if(temp != null) {
+			if (temp != null) {
 				awardTemp.setItemId(temp.getItemId());
 				awardTemp.setItemType(temp.getItemType());
 			}
@@ -662,13 +653,13 @@ public class PveGuanQiaMgr {
 			sendError(session, "体力不足");
 			return;
 		}
-		PveRecord r = HibernateUtil.find(PveRecord.class, "where uid = "
-				+ junzhu.id + " and guanQiaId=" + guanQiaId);
+		PveRecord r = HibernateUtil.find(PveRecord.class, "where uid = " + junzhu.id + " and guanQiaId=" + guanQiaId);
 		if (r == null || r.star < 0) {
 			sendError(session, "请先打通此关卡。");
 			return;
 		}
-		if (cq && (r.cqPassTimes >= CanShu.DAYTIMES_LEGENDPVE || r.cqPassTimes + saoDangTimes > CanShu.DAYTIMES_LEGENDPVE)) {
+		if (cq && (r.cqPassTimes >= CanShu.DAYTIMES_LEGENDPVE
+				|| r.cqPassTimes + saoDangTimes > CanShu.DAYTIMES_LEGENDPVE)) {
 			log.info("传奇关:{}今日通关次数已满", guanQiaId);
 			sendPveAndYouxiaSaoDangFail(PD.S_PVE_SAO_DANG, session, 2, guanQiaId, 0, 0);
 			return;
@@ -687,13 +678,14 @@ public class PveGuanQiaMgr {
 			vip.saodangFree = 10;
 		}
 		// change 20150901
-		if(DateUtils.isTimeToReset(sd.saoDangResetTime, CanShu.REFRESHTIME_PURCHASE)){
+		if (DateUtils.isTimeToReset(sd.saoDangResetTime, CanShu.REFRESHTIME_PURCHASE)) {
 			sd.jySaoDangTimes = 0;
 			sd.saoDangResetTime = today;
-		}else{
-			// 今日已扫荡次数是否已经超过最大次数							今日已扫荡次数加上本次扫荡次数是否超过最大次数
+		} else {
+			// 今日已扫荡次数是否已经超过最大次数 今日已扫荡次数加上本次扫荡次数是否超过最大次数
 			if (sd.jySaoDangTimes >= vip.saodangFree || sd.jySaoDangTimes + saoDangTimes > vip.saodangFree) {
-				sendPveAndYouxiaSaoDangFail(PD.S_PVE_SAO_DANG,session, 1, guanQiaId, vip.saodangFree, sd.jySaoDangTimes);
+				sendPveAndYouxiaSaoDangFail(PD.S_PVE_SAO_DANG, session, 1, guanQiaId, vip.saodangFree,
+						sd.jySaoDangTimes);
 				return;
 			}
 		}
@@ -722,18 +714,18 @@ public class PveGuanQiaMgr {
 			int getExp = conf.getExp();
 			int getTongbi = conf.getMoney();
 			int[] arr = conf.awardConf;
-			if(guanQiaId == 100203 && first){//新手引导要求必须出道具
+			if (guanQiaId == 100203 && first) {// 新手引导要求必须出道具
 				first = false;
-				int[] force = Arrays.copyOf(arr, arr.length+2);
+				int[] force = Arrays.copyOf(arr, arr.length + 2);
 				force[arr.length] = 10000;
-				force[arr.length+1] = 100;
+				force[arr.length + 1] = 100;
 				arr = force;
-				log.info("{} 首次扫荡，强制掉落",junzhu.id);
+				log.info("{} 首次扫荡，强制掉落", junzhu.id);
 			}
 			List<Integer> hitAwardIdList = AwardMgr.inst.getHitAwardId(arr, junzhu.id);
 			for (Integer awardId : hitAwardIdList) {
 				AwardTemp calcV = AwardMgr.inst.calcAwardTemp(awardId);
-				if(calcV == null) {
+				if (calcV == null) {
 					continue;
 				}
 				if (calcV.getItemId() == AwardMgr.ITEM_TONGBI_ID) {// 铜币
@@ -757,30 +749,28 @@ public class PveGuanQiaMgr {
 		JunZhuMgr.inst.addExp(junzhu, getExpTotal);
 		JunZhuMgr.inst.updateTiLi(junzhu, -costTiLi, "扫荡");
 		HibernateUtil.update(junzhu);
-		JunZhuMgr.inst.sendMainInfo(session,junzhu);
+		JunZhuMgr.inst.sendMainInfo(session, junzhu);
+		//BagMgr.inst.sendBagInfo(0, session, null);
+		JunZhuMgr.inst.sendMainInfo(session, junzhu);
 		BagMgr.inst.sendBagInfo(0, session, null);
 		session.write(ret.build());
-		log.info("{}扫荡[{}]关卡{}次数{}", junzhu.id, cq ? "传奇" : "精英", guanQiaId,
-				req.getTimes());
+		log.info("{}扫荡[{}]关卡{}次数{}", junzhu.id, cq ? "传奇" : "精英", guanQiaId, req.getTimes());
 		//
 		if (cq) {
 			// 每日任务中记录完成传奇关卡一次（不论输赢）
-			EventMgr.addEvent(
-					ED.DAILY_TASK_PROCESS,
-					new DailyTaskCondition(junzhu.id,
-							DailyTaskConstants.chuanqi_guanqia_3, req
-									.getTimes()));
+			EventMgr.addEvent(ED.DAILY_TASK_PROCESS,
+					new DailyTaskCondition(junzhu.id, DailyTaskConstants.chuanqi_guanqia_3, req.getTimes()));
 		} else {
 			// 每日任务中记录完成过关斩将1次(无论输赢)
-			EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
-					junzhu.id, DailyTaskConstants.guoguan_5_id, req.getTimes()));
+			EventMgr.addEvent(ED.DAILY_TASK_PROCESS,
+					new DailyTaskCondition(junzhu.id, DailyTaskConstants.guoguan_5_id, req.getTimes()));
 			// 主线任务: 扫荡1次普通关卡（任意关卡都行） 20190916
-			EventMgr.addEvent(ED.saoDang  , new Object[] {junzhu.id});
+			EventMgr.addEvent(ED.saoDang, new Object[] { junzhu.id });
 		}
 	}
-	
-	public void sendPveAndYouxiaSaoDangFail(int cmd, IoSession session, int result, 
-			int guanQiaId, int allTimes, int endTimes) {
+
+	public void sendPveAndYouxiaSaoDangFail(int cmd, IoSession session, int result, int guanQiaId, int allTimes,
+			int endTimes) {
 		PveSaoDangRet.Builder ret = PveSaoDangRet.newBuilder();
 		ret.setResult(result);
 		ret.setGuanQiaId(guanQiaId);
@@ -797,8 +787,7 @@ public class PveGuanQiaMgr {
 			// 如果有重复的奖励，则直接增加奖励的数量
 			List<SaoDangAwardItem.Builder> haveAwardList = award.getAwardItemsBuilderList();
 			for (SaoDangAwardItem.Builder item : haveAwardList) {
-				if (item.getItemType() == calcV.getItemType()
-						&& item.getItemId() == calcV.getItemId()) {
+				if (item.getItemType() == calcV.getItemType() && item.getItemId() == calcV.getItemId()) {
 					item.setItemNum(item.getItemNum() + calcV.getItemNum());
 					item.build();
 					return;
@@ -837,15 +826,14 @@ public class PveGuanQiaMgr {
 		pm.builder = test;
 		session.write(pm);
 	}
-	
+
 	public void sendGuanQiaInfo(int id, IoSession session, Builder builder) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 		if (jz == null) {
 			log.error("请求关卡信息错误1，找不到君主");
 			return;
 		}
-		qxmobile.protobuf.PveLevel.GuanQiaInfo.Builder ret = GuanQiaInfo
-				.newBuilder();
+		qxmobile.protobuf.PveLevel.GuanQiaInfo.Builder ret = GuanQiaInfo.newBuilder();
 		GuanQiaInfoRequest.Builder req = (qxmobile.protobuf.PveLevel.GuanQiaInfoRequest.Builder) builder;
 		int guanQiaId = req.getGuanQiaId();
 		ret.setGuanQiaId(guanQiaId);
@@ -862,8 +850,7 @@ public class PveGuanQiaMgr {
 		ret.setDesc(HeroService.getNameById(conf.getSmaDesc()));
 		ret.setTili(conf.getUseHp());
 		long junZhuId = jz.id;
-		BuZhenMibaoBean mibaoBean = HibernateUtil.find(BuZhenMibaoBean.class,
-				junZhuId);
+		BuZhenMibaoBean mibaoBean = HibernateUtil.find(BuZhenMibaoBean.class, junZhuId);
 		int zuheId = mibaoBean == null ? -1 : mibaoBean.zuheId;
 		ret.setZuheId(zuheId);
 		// FIXME 0.97不需要了，但先留着
@@ -871,8 +858,7 @@ public class PveGuanQiaMgr {
 			ret.addMibaoIds(-1L);
 		}
 		//
-		PveRecord r = HibernateUtil.find(PveRecord.class, " where uid=" + jz.id
-				+ " and guanQiaId=" + guanQiaId);
+		PveRecord r = HibernateUtil.find(PveRecord.class, " where uid=" + jz.id + " and guanQiaId=" + guanQiaId);
 		if (r == null) {
 			r = nullRecord;
 		}
@@ -880,8 +866,7 @@ public class PveGuanQiaMgr {
 		if (sd == null) {
 			sd = new SaoDangBean();
 		}
-		Purchase purchaseCfg = PurchaseMgr.inst.getPurchaseCfg(
-				PurchaseConstants.CHUANQI_REST, r.cqResetTimes + 1);
+		Purchase purchaseCfg = PurchaseMgr.inst.getPurchaseCfg(PurchaseConstants.CHUANQI_REST, r.cqResetTimes + 1);
 		if (purchaseCfg == null) {
 			log.error("找不到purchase配置，type:{}", PurchaseConstants.CHUANQI_REST);
 			return;
@@ -889,7 +874,7 @@ public class PveGuanQiaMgr {
 
 		Date today = new Date();
 		// change 20150901
-		if(DateUtils.isTimeToReset(r.cqResetDate, CanShu.REFRESHTIME_PURCHASE)){
+		if (DateUtils.isTimeToReset(r.cqResetDate, CanShu.REFRESHTIME_PURCHASE)) {
 			r.cqResetTimes = 0;
 			r.cqPassTimes = 0;
 			r.cqResetDate = today;
@@ -899,13 +884,13 @@ public class PveGuanQiaMgr {
 		int cqResetLeft = 0;
 		int jySaoDangDayTimes = 10;
 		int cqSaoDangDayTimes = 10;
-		if(vip != null) {
+		if (vip != null) {
 			cqResetLeft = Math.max(0, vip.legendPveRefresh - r.cqResetTimes);
 			jySaoDangDayTimes = Math.max(0, vip.saodangFree);
 			cqSaoDangDayTimes = Math.max(0, vip.saodangFree);
 		}
 		// change 20150901
-		if(DateUtils.isTimeToReset(sd.saoDangResetTime, CanShu.REFRESHTIME_PURCHASE)){
+		if (DateUtils.isTimeToReset(sd.saoDangResetTime, CanShu.REFRESHTIME_PURCHASE)) {
 			sd.jySaoDangTimes = 0;
 			HibernateUtil.save(sd);
 		}
@@ -922,8 +907,7 @@ public class PveGuanQiaMgr {
 		lb.setAcheive(r.achieve);
 		lb.setAcheiveRewardState(r.achieveRewardState);
 		session.write(ret.build());
-		log.info("{} 关卡id {} 类型 {} 消耗体力 {}",jz.id, guanQiaId, req.getType(),
-				conf.getUseHp());
+		log.info("{} 关卡id {} 类型 {} 消耗体力 {}", jz.id, guanQiaId, req.getType(), conf.getUseHp());
 	}
 
 	/**
@@ -978,7 +962,7 @@ public class PveGuanQiaMgr {
 		int battleType = req.getType();
 		List<Long> mibaoIds = req.getMibaoIdsList();
 		int zuheId = req.getZuheSkill();
-		if(zuheId <= 0){
+		if (zuheId <= 0) {
 			sendMibaoSelectResp(0, battleType, session, zuheId);
 			log.error("玩家选择了无效的秘宝技能id", zuheId);
 			return;
@@ -1002,13 +986,13 @@ public class PveGuanQiaMgr {
 		// }
 		// 君主秘宝技能有可能没有手动激活
 		MiBaoSkillDB sd = MibaoMgr.inst.getActiveSkillFromDB(junzhu.id, zuheId);
-		if(sd == null){
+		if (sd == null) {
 			sendMibaoSelectResp(0, battleType, session, zuheId);
-			log.error("君主{}该秘宝技能{}未激活", junzhu.id,zuheId);
+			log.error("君主{}该秘宝技能{}未激活", junzhu.id, zuheId);
 			return;
 		}
-		//1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，
-		//8-游侠金币关，9-游侠材料关，10-游侠精气关，13-游侠完璧归赵，14-游侠横扫六和,11-掠夺防守，12-掠夺攻击
+		// 1-过关斩将，2-百战千军，3-荒野藏宝点，4-荒野资源点,5-百战攻击， 6-押镖防守，7-押镖攻击，
+		// 8-游侠金币关，9-游侠材料关，10-游侠精气关，13-游侠完璧归赵，14-游侠横扫六和,11-掠夺防守，12-掠夺攻击
 		switch (battleType) {
 		case 1:
 			saveMibao4Pve(session, mibaoIds, junzhu, zuheId);
@@ -1041,7 +1025,7 @@ public class PveGuanQiaMgr {
 			saveMibao4YouXia(battleType, junzhu.id, zuheId);
 			break;
 		case 11:
-			LveDuoMgr.inst.saveLveDuoFSZuheId(zuheId,  junzhu.id);
+			LveDuoMgr.inst.saveLveDuoFSZuheId(zuheId, junzhu.id);
 			break;
 		case 12:
 			LveDuoMgr.inst.saveLveDuoGJZuheId(zuheId, junzhu.id);
@@ -1086,10 +1070,8 @@ public class PveGuanQiaMgr {
 		HibernateUtil.save(buzhen);
 	}
 
-	public void saveMibao4HYPve(IoSession session, List<Long> mibaoIds,
-			long junzhuId, int zuheId) {
-		BuZhenHYPve buzhenHYpve = HibernateUtil.find(BuZhenHYPve.class,
-				junzhuId);
+	public void saveMibao4HYPve(IoSession session, List<Long> mibaoIds, long junzhuId, int zuheId) {
+		BuZhenHYPve buzhenHYpve = HibernateUtil.find(BuZhenHYPve.class, junzhuId);
 		if (buzhenHYpve == null) {
 			buzhenHYpve = new BuZhenHYPve();
 			buzhenHYpve.junzhuId = junzhuId;
@@ -1100,10 +1082,8 @@ public class PveGuanQiaMgr {
 
 	}
 
-	public void saveMibao4HYPvp(IoSession session, List<Long> mibaoIds,
-			long junzhuId, int zuheId) {
-		BuZhenHYPvp buzhenHYpvp = HibernateUtil.find(BuZhenHYPvp.class,
-				junzhuId);
+	public void saveMibao4HYPvp(IoSession session, List<Long> mibaoIds, long junzhuId, int zuheId) {
+		BuZhenHYPvp buzhenHYpvp = HibernateUtil.find(BuZhenHYPvp.class, junzhuId);
 		if (buzhenHYpvp == null) {
 			buzhenHYpvp = new BuZhenHYPvp();
 			buzhenHYpvp.junzhuId = junzhuId;
@@ -1113,8 +1093,7 @@ public class PveGuanQiaMgr {
 		log.info("君主id:{}设置了荒野资源点秘宝选择", junzhuId);
 	}
 
-	public void sendMibaoSelectResp(int result, int type, IoSession session,
-			int zuheId) {
+	public void sendMibaoSelectResp(int result, int type, IoSession session, int zuheId) {
 		MibaoSelectResp.Builder response = MibaoSelectResp.newBuilder();
 		response.setSuccess(result);
 		response.setType(type);
@@ -1122,15 +1101,13 @@ public class PveGuanQiaMgr {
 		session.write(response.build());
 	}
 
-	public void saveMibao4Pve(IoSession session, List<Long> list, JunZhu jz,
-			int zuheId) {
+	public void saveMibao4Pve(IoSession session, List<Long> list, JunZhu jz, int zuheId) {
 		session.setAttribute(SessionAttKey.buZhenMibaoIds, list);
 		BuZhenMibaoBean bean = HibernateUtil.find(BuZhenMibaoBean.class, jz.id);
 		if (bean == null) {
 			bean = new BuZhenMibaoBean();
 			bean.id = jz.id;
-			MemcachedCRUD.getMemCachedClient().set(
-					BuZhenMibaoBean.class.getSimpleName() + "#" + jz.id, bean);
+			MemcachedCRUD.getMemCachedClient().set(BuZhenMibaoBean.class.getSimpleName() + "#" + jz.id, bean);
 			HibernateUtil.insert(bean);
 		}
 		bean.zuheId = zuheId;
@@ -1166,29 +1143,26 @@ public class PveGuanQiaMgr {
 		}
 		ResetCQTimesReq.Builder req = (qxmobile.protobuf.PveLevel.ResetCQTimesReq.Builder) builder;
 		int guanQiaId = req.getGuanQiaId();
-		PveRecord r = HibernateUtil.find(PveRecord.class, "where uid=" + jz.id
-				+ " and guanQiaId=" + guanQiaId);
+		PveRecord r = HibernateUtil.find(PveRecord.class, "where uid=" + jz.id + " and guanQiaId=" + guanQiaId);
 		if (r == null || r.chuanQiPass == false) {
 			sendError(session, "您还没有打通这一关:" + guanQiaId);
 			return;
 		}
 
-		Purchase purchaseCfg = PurchaseMgr.inst.getPurchaseCfg(
-				PurchaseConstants.CHUANQI_REST, r.cqResetTimes + 1);
+		Purchase purchaseCfg = PurchaseMgr.inst.getPurchaseCfg(PurchaseConstants.CHUANQI_REST, r.cqResetTimes + 1);
 		if (purchaseCfg == null) {
 			log.error("找不到purchase配置，type:{}", PurchaseConstants.CHUANQI_REST);
 			return;
 		}
 		int needYuanBao = purchaseCfg.getYuanbao();
 		if (jz.yuanBao < needYuanBao) {
-			log.error("元宝不足:{}， 不能进行第{}次 传奇关卡重置", needYuanBao,
-					r.cqResetTimes + 1);
+			log.error("元宝不足:{}， 不能进行第{}次 传奇关卡重置", needYuanBao, r.cqResetTimes + 1);
 			return;
 		}
-		YuanBaoMgr.inst.diff(jz, -needYuanBao, 0, needYuanBao,
-				YBType.YB_CHUANQI_RESET, "进行第" + (r.cqResetTimes + 1) + "次传奇关卡次数重置");
+		YuanBaoMgr.inst.diff(jz, -needYuanBao, 0, needYuanBao, YBType.YB_CHUANQI_RESET,
+				"进行第" + (r.cqResetTimes + 1) + "次传奇关卡次数重置");
 		HibernateUtil.update(jz);
-		JunZhuMgr.inst.sendMainInfo(session,jz);
+		JunZhuMgr.inst.sendMainInfo(session, jz, false);
 
 		r.cqPassTimes = 0;
 		r.cqResetTimes += 1;
@@ -1196,8 +1170,7 @@ public class PveGuanQiaMgr {
 		HibernateUtil.save(r);
 		log.info("{} 重置传奇关卡{}次数", jz.id, guanQiaId);
 		ResetCQTimesBack.Builder ret = ResetCQTimesBack.newBuilder();
-		Purchase nextPurchaseCfg = PurchaseMgr.inst.getPurchaseCfg(
-				PurchaseConstants.CHUANQI_REST, r.cqResetTimes + 1);
+		Purchase nextPurchaseCfg = PurchaseMgr.inst.getPurchaseCfg(PurchaseConstants.CHUANQI_REST, r.cqResetTimes + 1);
 		ret.setGuanQiaId(guanQiaId);
 		int nextCost = needYuanBao;
 		if (nextPurchaseCfg == null) {
@@ -1210,19 +1183,16 @@ public class PveGuanQiaMgr {
 	}
 
 	public int getGuanQiaMaxId(long junzhuId) {
-		List<PveRecord> list = HibernateUtil.list(PveRecord.class, "where uid=" + junzhuId);
-		int maxId = 0;
-		if (list == null || list.size() == 0) {
-			return maxId;
+		JunZhu jz = HibernateUtil.find(JunZhu.class, junzhuId);
+		if (null != jz) {
+			return jz.commonChptrMaxId;
 		}
-		for (PveRecord record : list) {
-			maxId = Math.max(maxId, record.guanQiaId);
-		}
-		return maxId;
+		return 0;
 	}
 
 	/**
 	 * 获取所有 普通关卡星星数
+	 * 
 	 * @param junzhuId
 	 * @return
 	 */
@@ -1234,13 +1204,14 @@ public class PveGuanQiaMgr {
 		}
 		for (PveRecord record : list) {
 			int start = record.achieve;
-			sum +=calcStarNum(start);
+			sum += calcStarNum(start);
 		}
 		return sum;
 	}
 
 	/**
 	 * 获取传奇关卡+普通关卡 总星星数
+	 * 
 	 * @param list
 	 * @return
 	 */
@@ -1251,7 +1222,7 @@ public class PveGuanQiaMgr {
 		}
 		for (PveRecord record : list) {
 			sum += calcStarNum(record.achieve);
-			if(record.chuanQiPass){
+			if (record.chuanQiPass) {
 				sum += calcStarNum(record.cqStar);
 			}
 		}
@@ -1279,20 +1250,21 @@ public class PveGuanQiaMgr {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 请求过关斩将最大id
+	 * 
 	 * @param id
 	 * @param session
 	 * @param builder
 	 */
 	public void getPveMaxId(int id, IoSession session, Builder builder) {
 		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
-		if(junzhu == null) {
+		if (junzhu == null) {
 			log.error("找不到君主");
 			return;
 		}
-		Map<Integer, PveRecord> rMap = recordMgr.getRecords(junzhu.id);
+		/*Map<Integer, PveRecord> rMap = recordMgr.getRecords(junzhu.id);
 		int maxCqPassId = 0;
 		int maxGuanQiaId = 0;
 		Iterator<PveRecord> it = rMap.values().iterator();
@@ -1302,40 +1274,39 @@ public class PveGuanQiaMgr {
 			if (pr.chuanQiPass) {
 				maxCqPassId = Math.max(pr.guanQiaId, maxCqPassId);
 			}
-		}
+		}*/
 		GuanQiaMaxId.Builder response = GuanQiaMaxId.newBuilder();
-		response.setChuanQiId(maxCqPassId);
-		response.setCommonId(maxGuanQiaId);
+		response.setChuanQiId(junzhu.legendChptrMaxId);
+		response.setCommonId(junzhu.commonChptrMaxId);
 		session.write(response.build());
 	}
-	
+
 	/**
 	 * 
 	 * @param session
 	 * @param builder
-	 * 1: 配置错误， 2： 没有通关, 3: 已经领取了奖励， 4 可以领奖
+	 *            1: 配置错误， 2： 没有通关, 3: 已经领取了奖励， 4 可以领奖
 	 */
-	public void hasGetPassZhangJieAward(IoSession session, Builder builder){
+	public void hasGetPassZhangJieAward(IoSession session, Builder builder) {
 		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
-		if(junzhu == null) {
+		if (junzhu == null) {
 			log.error("找不到君主");
 			return;
 		}
-		GetPassZhangJieAwardReq.Builder b = (GetPassZhangJieAwardReq.Builder)builder;
+		GetPassZhangJieAwardReq.Builder b = (GetPassZhangJieAwardReq.Builder) builder;
 		int zhangjieId = b.getZhangJieId();
 		Integer guanqiaID = PveMgr.lastGuanQiaOfZhang.get(zhangjieId);
-		if(guanqiaID == null){
+		if (guanqiaID == null) {
 			sendError(session, "配置错误", PD.has_get_zhangJie_award_resp, 1);
 			return;
 		}
-		PveRecord r = HibernateUtil.find(PveRecord.class, "where uid = "
-				+ junzhu.id + " and guanQiaId=" + guanqiaID);
-		if(r == null){
+		PveRecord r = HibernateUtil.find(PveRecord.class, "where uid = " + junzhu.id + " and guanQiaId=" + guanqiaID);
+		if (r == null) {
 			// 没有通关
 			sendError(session, "章节没有通关", PD.has_get_zhangJie_award_resp, 2);
 			return;
 		}
-		if(r.isGetAward){
+		if (r.isGetAward) {
 			// 已经领取了通章奖励
 			sendError(session, "已经领取通章奖励", PD.has_get_zhangJie_award_resp, 3);
 			return;
@@ -1344,37 +1315,36 @@ public class PveGuanQiaMgr {
 	}
 
 	/**
-	 *  * 1: 配置错误， 2： 没有通关, 3: 已经领取了奖励， 4 可以领奖
-	 * 	5: 领取失败， 6， 领取成功
+	 * * 1: 配置错误， 2： 没有通关, 3: 已经领取了奖励， 4 可以领奖 5: 领取失败， 6， 领取成功
+	 * 
 	 * @param id
 	 * @param session
 	 * @param builder
 	 */
-	public void getPassZhangJieAward(int id, IoSession session, Builder builder){
+	public void getPassZhangJieAward(int id, IoSession session, Builder builder) {
 		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
-		if(junzhu == null) {
+		if (junzhu == null) {
 			log.error("找不到君主");
 			return;
 		}
-		GetPassZhangJieAwardReq.Builder b = (GetPassZhangJieAwardReq.Builder)builder;
+		GetPassZhangJieAwardReq.Builder b = (GetPassZhangJieAwardReq.Builder) builder;
 		int zhangjieId = b.getZhangJieId();
 		Integer guanqiaID = PveMgr.lastGuanQiaOfZhang.get(zhangjieId);
-		if(guanqiaID == null){
+		if (guanqiaID == null) {
 			sendError(session, "配置错误", PD.get_passZhangJie_award_resp, 1);
 			log.error("玩家：{}领取通章：{}奖励领取失败，没有获得相关章节的关卡", junzhu.id, zhangjieId);
 			return;
 		}
-		PveRecord r = HibernateUtil.find(PveRecord.class, "where uid = "
-				+ junzhu.id + " and guanQiaId=" + guanqiaID);
+		PveRecord r = HibernateUtil.find(PveRecord.class, "where uid = " + junzhu.id + " and guanQiaId=" + guanqiaID);
 		// 已经通关
-		if(r == null){
+		if (r == null) {
 			// 没有通关
 			sendError(session, "章节没有通关", PD.get_passZhangJie_award_resp, 2);
 			log.error("玩家：{}领取通章：{}奖励领取失败，没有通过最后一关", junzhu.id, zhangjieId);
 			return;
 		}
 		// 是不是已经领取
-		if(r.isGetAward){
+		if (r.isGetAward) {
 			// 已经领取了通章奖励
 			sendError(session, "已经领取通章奖励", PD.get_passZhangJie_award_resp, 3);
 			log.error("玩家：{}领取通章：{}奖励领取失败，已经领取通章奖励", junzhu.id, zhangjieId);
@@ -1382,14 +1352,14 @@ public class PveGuanQiaMgr {
 		}
 		// 领奖配置
 		PveBigAward p = PveMgr.passAwardMap.get(zhangjieId);
-		if(p == null){
+		if (p == null) {
 			sendError(session, "奖励配置错误", PD.get_passZhangJie_award_resp, 1);
 			log.error("玩家：{}领取通章：{}奖励领取失败，PveBigAward配置错误", junzhu.id, zhangjieId);
 			return;
 		}
 		// 领奖
 		boolean ok = AwardMgr.inst.giveReward(session, p.award, junzhu);
-		if(!ok){
+		if (!ok) {
 			sendError(session, "领奖失败", PD.get_passZhangJie_award_resp, 5);
 			log.error("玩家：{}领取通章：{}奖励领取失败，AwardMgr加奖励失败", junzhu.id, zhangjieId);
 			return;
@@ -1399,12 +1369,12 @@ public class PveGuanQiaMgr {
 		log.info("玩家：{}领取章节：{}，通章奖励：{},领取成功", junzhu.id, zhangjieId, p.award);
 		sendError(session, "领奖成功", PD.get_passZhangJie_award_resp, 0);
 		// 通章奖励时间
-		EventMgr.addEvent(ED.get_pass_PVE_zhang_award, new Object[] {junzhu.id});
+		EventMgr.addEvent(ED.get_pass_PVE_zhang_award, new Object[] { junzhu.id });
 	}
 
 	public void notGetAwardZhangJieRequest(int id, IoSession session, Builder builder) {
 		JunZhu junzhu = JunZhuMgr.inst.getJunZhu(session);
-		if(junzhu == null) {
+		if (junzhu == null) {
 			log.error("找不到君主");
 			return;
 		}
@@ -1412,13 +1382,13 @@ public class PveGuanQiaMgr {
 		List<PveTemp> list = TempletService.listAll(PveTemp.class.getSimpleName());
 		Map<Integer, PveRecord> rMap = recordMgr.getRecords(junzhu.id);
 		int zhangJieIdMax = getZhangJieIdMax(list, rMap);
-		for(int i = 1; i <= zhangJieIdMax; i++) {
+		for (int i = 1; i <= zhangJieIdMax; i++) {
 			Integer lastGuanQiaId = PveMgr.lastGuanQiaOfZhang.get(i);
-			for(Map.Entry<Integer, PveRecord> entry : rMap.entrySet()) {
+			for (Map.Entry<Integer, PveRecord> entry : rMap.entrySet()) {
 				Integer zhangJieId = entry.getKey();
-				if(lastGuanQiaId != null && zhangJieId.equals(lastGuanQiaId)) {
+				if (lastGuanQiaId != null && zhangJieId.equals(lastGuanQiaId)) {
 					PveRecord record = entry.getValue();
-					if(!record.isGetAward) {
+					if (!record.isGetAward) {
 						response.addZhangJiaId(i);
 					}
 				}

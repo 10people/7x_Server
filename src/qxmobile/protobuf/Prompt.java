@@ -896,6 +896,16 @@ public final class Prompt {
      */
     com.google.protobuf.ByteString
         getAwardBytes();
+
+    // optional int32 cdTime = 7;
+    /**
+     * <code>optional int32 cdTime = 7;</code>
+     */
+    boolean hasCdTime();
+    /**
+     * <code>optional int32 cdTime = 7;</code>
+     */
+    int getCdTime();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.SuBaoMSG}
@@ -981,6 +991,11 @@ public final class Prompt {
             case 50: {
               bitField0_ |= 0x00000020;
               award_ = input.readBytes();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000040;
+              cdTime_ = input.readInt32();
               break;
             }
           }
@@ -1181,6 +1196,22 @@ public final class Prompt {
       }
     }
 
+    // optional int32 cdTime = 7;
+    public static final int CDTIME_FIELD_NUMBER = 7;
+    private int cdTime_;
+    /**
+     * <code>optional int32 cdTime = 7;</code>
+     */
+    public boolean hasCdTime() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional int32 cdTime = 7;</code>
+     */
+    public int getCdTime() {
+      return cdTime_;
+    }
+
     private void initFields() {
       subaoId_ = 0L;
       otherJzId_ = 0L;
@@ -1188,6 +1219,7 @@ public final class Prompt {
       eventId_ = 0;
       configId_ = 0;
       award_ = "";
+      cdTime_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1239,6 +1271,9 @@ public final class Prompt {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeBytes(6, getAwardBytes());
       }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt32(7, cdTime_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1271,6 +1306,10 @@ public final class Prompt {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(6, getAwardBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, cdTime_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1405,6 +1444,8 @@ public final class Prompt {
         bitField0_ = (bitField0_ & ~0x00000010);
         award_ = "";
         bitField0_ = (bitField0_ & ~0x00000020);
+        cdTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -1457,6 +1498,10 @@ public final class Prompt {
           to_bitField0_ |= 0x00000020;
         }
         result.award_ = award_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.cdTime_ = cdTime_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1494,6 +1539,9 @@ public final class Prompt {
           bitField0_ |= 0x00000020;
           award_ = other.award_;
           onChanged();
+        }
+        if (other.hasCdTime()) {
+          setCdTime(other.getCdTime());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1834,6 +1882,39 @@ public final class Prompt {
   }
   bitField0_ |= 0x00000020;
         award_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 cdTime = 7;
+      private int cdTime_ ;
+      /**
+       * <code>optional int32 cdTime = 7;</code>
+       */
+      public boolean hasCdTime() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional int32 cdTime = 7;</code>
+       */
+      public int getCdTime() {
+        return cdTime_;
+      }
+      /**
+       * <code>optional int32 cdTime = 7;</code>
+       */
+      public Builder setCdTime(int value) {
+        bitField0_ |= 0x00000040;
+        cdTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 cdTime = 7;</code>
+       */
+      public Builder clearCdTime() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        cdTime_ = 0;
         onChanged();
         return this;
       }
@@ -8187,31 +8268,32 @@ public final class Prompt {
     java.lang.String[] descriptorData = {
       "\n\014prompt.proto\022\021qxmobile.protobuf\"=\n\rPro" +
       "mptMSGResp\022,\n\007msgList\030\001 \003(\0132\033.qxmobile.p" +
-      "rotobuf.SuBaoMSG\"o\n\010SuBaoMSG\022\017\n\007subaoId\030" +
+      "rotobuf.SuBaoMSG\"\177\n\010SuBaoMSG\022\017\n\007subaoId\030" +
       "\001 \002(\003\022\021\n\totherJzId\030\002 \002(\003\022\r\n\005subao\030\003 \002(\t\022" +
       "\017\n\007eventId\030\004 \002(\005\022\020\n\010configId\030\005 \002(\005\022\r\n\005aw" +
-      "ard\030\006 \001(\t\"3\n\017PromptActionReq\022\017\n\007reqType\030" +
-      "\001 \002(\005\022\017\n\007suBaoId\030\002 \002(\003\"\201\001\n\020PromptActionR" +
-      "esp\022\017\n\007subaoId\030\001 \002(\003\022\016\n\006result\030\002 \002(\005\022\021\n\t" +
-      "subaoType\030\003 \002(\005\022\016\n\006fujian\030\004 \001(\t\022\r\n\005ybuid" +
-      "\030\005 \001(\003\022\014\n\004posX\030\006 \001(\002\022\014\n\004posZ\030\007 \001(\002\"\032\n\nJu",
-      "nQingReq\022\014\n\004type\030\001 \002(\005\"\213\001\n\013JunQingResp\022\014" +
-      "\n\004type\030\001 \002(\005\0223\n\005infos\030\002 \003(\0132$.qxmobile.p" +
-      "rotobuf.HistoryBattleInfo\022\027\n\017todayRemain" +
-      "Help\030\003 \001(\005\022\024\n\014todayAllHelp\030\004 \001(\005\022\n\n\002cd\030\005" +
-      " \001(\005\"\324\003\n\021HistoryBattleInfo\022\016\n\006itemId\030\023 \002" +
-      "(\005\022\020\n\010enemyJid\030\001 \002(\003\022\021\n\tenemyName\030\002 \002(\t\022" +
-      "\026\n\016enemyCountryId\030\003 \002(\005\022\022\n\nenemyAllHP\030\004 " +
-      "\002(\005\022\025\n\renemyRemainHP\030\005 \002(\005\022\031\n\021enemyAllia" +
-      "nceName\030\006 \002(\t\022\023\n\013enemyZhanLi\030\007 \002(\005\022\023\n\013en" +
-      "emyRoleId\030\010 \002(\005\022\022\n\nenemyLevel\030\022 \002(\005\022\021\n\tf",
-      "riendJid\030\t \002(\003\022\022\n\nfriendName\030\n \002(\t\022\024\n\014fr" +
-      "iendRoleId\030\013 \002(\005\022\023\n\013happendTime\030\014 \001(\003\022\022\n" +
-      "\nremainTime\030\r \001(\005\022\025\n\rwillLostBuild\030\016 \001(\005" +
-      "\022\r\n\005state\030\024 \001(\005\022\023\n\013friendAllHP\030\017 \001(\005\022\026\n\016" +
-      "friendRemainHP\030\020 \001(\005\022\031\n\021friendHorseRoleI" +
-      "d\030\021 \001(\005\022\014\n\004posX\030\025 \001(\002\022\014\n\004posZ\030\026 \001(\002\"\032\n\010Q" +
-      "uZhuReq\022\016\n\006itemId\030\023 \002(\005B\010B\006Prompt"
+      "ard\030\006 \001(\t\022\016\n\006cdTime\030\007 \001(\005\"3\n\017PromptActio" +
+      "nReq\022\017\n\007reqType\030\001 \002(\005\022\017\n\007suBaoId\030\002 \002(\003\"\201" +
+      "\001\n\020PromptActionResp\022\017\n\007subaoId\030\001 \002(\003\022\016\n\006" +
+      "result\030\002 \002(\005\022\021\n\tsubaoType\030\003 \002(\005\022\016\n\006fujia" +
+      "n\030\004 \001(\t\022\r\n\005ybuid\030\005 \001(\003\022\014\n\004posX\030\006 \001(\002\022\014\n\004",
+      "posZ\030\007 \001(\002\"\032\n\nJunQingReq\022\014\n\004type\030\001 \002(\005\"\213" +
+      "\001\n\013JunQingResp\022\014\n\004type\030\001 \002(\005\0223\n\005infos\030\002 " +
+      "\003(\0132$.qxmobile.protobuf.HistoryBattleInf" +
+      "o\022\027\n\017todayRemainHelp\030\003 \001(\005\022\024\n\014todayAllHe" +
+      "lp\030\004 \001(\005\022\n\n\002cd\030\005 \001(\005\"\324\003\n\021HistoryBattleIn" +
+      "fo\022\016\n\006itemId\030\023 \002(\005\022\020\n\010enemyJid\030\001 \002(\003\022\021\n\t" +
+      "enemyName\030\002 \002(\t\022\026\n\016enemyCountryId\030\003 \002(\005\022" +
+      "\022\n\nenemyAllHP\030\004 \002(\005\022\025\n\renemyRemainHP\030\005 \002" +
+      "(\005\022\031\n\021enemyAllianceName\030\006 \002(\t\022\023\n\013enemyZh" +
+      "anLi\030\007 \002(\005\022\023\n\013enemyRoleId\030\010 \002(\005\022\022\n\nenemy",
+      "Level\030\022 \002(\005\022\021\n\tfriendJid\030\t \002(\003\022\022\n\nfriend" +
+      "Name\030\n \002(\t\022\024\n\014friendRoleId\030\013 \002(\005\022\023\n\013happ" +
+      "endTime\030\014 \001(\003\022\022\n\nremainTime\030\r \001(\005\022\025\n\rwil" +
+      "lLostBuild\030\016 \001(\005\022\r\n\005state\030\024 \001(\005\022\023\n\013frien" +
+      "dAllHP\030\017 \001(\005\022\026\n\016friendRemainHP\030\020 \001(\005\022\031\n\021" +
+      "friendHorseRoleId\030\021 \001(\005\022\014\n\004posX\030\025 \001(\002\022\014\n" +
+      "\004posZ\030\026 \001(\002\"\032\n\010QuZhuReq\022\016\n\006itemId\030\023 \002(\005B" +
+      "\010B\006Prompt"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -8229,7 +8311,7 @@ public final class Prompt {
           internal_static_qxmobile_protobuf_SuBaoMSG_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_SuBaoMSG_descriptor,
-              new java.lang.String[] { "SubaoId", "OtherJzId", "Subao", "EventId", "ConfigId", "Award", });
+              new java.lang.String[] { "SubaoId", "OtherJzId", "Subao", "EventId", "ConfigId", "Award", "CdTime", });
           internal_static_qxmobile_protobuf_PromptActionReq_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_qxmobile_protobuf_PromptActionReq_fieldAccessorTable = new

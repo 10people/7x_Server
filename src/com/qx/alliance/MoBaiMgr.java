@@ -226,7 +226,7 @@ public class MoBaiMgr extends EventProc{
 			jo.put("name", ""+yuId);
 			jo.put("num", 1);
 			spend.add(jo);
-			BagMgr.inst.removeItem(bag, yuId, 1, "膜拜",jz.level);
+			BagMgr.inst.removeItem(session, bag, yuId, 1, "膜拜",jz.level);
 		}
 		Date today = new Date();
 		//BagMgr.inst.sendBagInfo(0, session, null);//下面会发
@@ -241,7 +241,7 @@ public class MoBaiMgr extends EventProc{
 		
 		//2016年3月30日11:55:13，修改为统一的发奖调用
 		AwardMgr.inst.giveReward(session, conf.award, jz);
-		BagMgr.inst.sendBagInfo(session, bag);//扣了物品，所以要发
+		//BagMgr.inst.sendBagInfo(session, bag);//扣了物品，所以要发
 		/*
 		ExploreResp.Builder list = ExploreResp.newBuilder();
 		{// 计算奖励

@@ -81,8 +81,10 @@ if("changeModelCD".equals(act)){
 }else if("ysdk".equals(act)){
 	if("ysdktest.qq.com".equals(com.qx.yuanbao.YSDK.serverName)){
 		com.qx.yuanbao.YSDK.serverName = "ysdk.qq.com";
+		com.qx.yuanbao.YSDK.appkey_pay = "ISNJdn2BFLRZhdmz8cE6t0cuNpC9FpGU";
 	}else{
 		com.qx.yuanbao.YSDK.serverName = "ysdktest.qq.com";
+		com.qx.yuanbao.YSDK.appkey_pay = "kISosZBMXjentmMNfZGYKp1332zwQzK4";
 	}
 }
  %>
@@ -93,7 +95,9 @@ if("changeModelCD".equals(act)){
  切换形象CD时间（秒）：:<input  type='number' name='sizePerSc' value='<%=SettingsMgr.changeModelCD/1000 %>'/>
 <button type='submit' >修改</button>
 </form>
-<%=com.qx.yuanbao.YSDK.serverName %><a href='?act=ysdk'>切换</a>
+<%=com.qx.yuanbao.YSDK.serverName %>
+<%=com.qx.yuanbao.YSDK.appkey_pay %>
+<a href='?act=ysdk'>切换</a>
 </body>
 </html>
 <%

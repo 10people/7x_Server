@@ -342,6 +342,7 @@ public class PD {
 	public static final short S_BagInfo = 23704;
 	public static final short C_BagInfo = 23705;
 	public static final short C_EquipInfo = 23706;//装备列表
+	public static final short S_BAG_CHANGE_INFO = 23707;		// 背包变化信息
 	
 	public static final short C_EquipDetailReq = 23710;
 	public static final short S_EquipDetail = 23711;

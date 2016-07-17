@@ -122,11 +122,15 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			reportMap.put(r.ID, r);
 		}
 		PromptMsgMgr.reportMap=reportMap;
-		
-		DescId desc = ActivityMgr.descMap.get(6000001);
-		if(desc != null){
-			beanLveContent = desc.getDescription();
+		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
+		if(confList !=null ){
+			Optional<AnnounceTemp> conf = confList.stream().filter(t->t.type==28).findFirst();
+			if(conf.isPresent()){
+				AnnounceTemp t = conf.get();
+				beanLveContent = t.announcement ;
+			}
 		}
+		
 		//TODO 带策划加入配置
 		SuBaoConstant.clearShortDistance=8;
 		SuBaoConstant.clearLongDistance = 48;
@@ -585,6 +589,10 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		if(pin == null){
 			pin = new PromptInfo();
 			pin.jId = jz.id;
+			pin.lastTime = new Date();
+		}else if(!DateUtils.isSameSideOfFour(pin.lastTime, new Date())){
+			pin.ybComfortCount = 0;
+			pin.ldComfortCount = 0;
 		}
 		ReportTemp reportConf = reportMap.get(msg.configId);
 		boolean mustGet = false;
@@ -594,6 +602,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 					mustGet = true;
 				}
 				pin.ldComfortCount ++;
+				pin.lastTime = new Date();
 				HibernateUtil.save(pin);
 				break;
 			case SuBaoConstant.qiuaw4yb:
@@ -606,13 +615,15 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 					}
 				}
 				pin.ybComfortCount++;
+				pin.lastTime = new Date();
 				HibernateUtil.save(pin);
-				if(msg.anWeiTimes<YunbiaoTemp.yunbiao_comforted_award_Num){
-					String award = msg.award;
-					if(award!=null&&award.contains(":")){
-						AwardMgr.inst.giveReward(session, award, jz);
-					}
-				}
+				//TODO 这里奖励发重了吧
+//				if(msg.anWeiTimes<YunbiaoTemp.yunbiao_comforted_award_Num){
+//					String award = msg.award;
+//					if(award!=null&&award.contains(":")){
+//						AwardMgr.inst.giveReward(session, award, jz);
+//					}
+//				}
 				break;
 			default: log.error("未知的安慰类型：{}" , msg.eventId); break;
 		}
@@ -656,8 +667,9 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			makeSuBaoMSG(subao2, msg2);;
 			su.session.write(subao2.build());
 		}
-		msg.anWeiTimes += 1;
-		HibernateUtil.update(msg);
+//		msg.anWeiTimes += 1;
+//		HibernateUtil.update(msg);
+		HibernateUtil.delete(msg); //只安慰一次，删除速报
 		resp.setSubaoId(subaoId);
 		resp.setResult(10);
 		resp.setSubaoType(SuBaoConstant.comfort);
@@ -1054,7 +1066,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			// 红点
 			try{
 				// 广播
-				String c = getBroadCastContent(jz1.name, jz2.name, willLostbuild);
+				String c = getBroadCastContent(jz1.name, jz2.name, willLostbuild,mi.battleHappendTime);
 				ProtobufMsg msg = BroadcastMgr.inst.buildMsg(c);
 				tellAllMembers(beanLveDjId, lmBean.id, true, FunctionID.lianmengJunQingLveDuo, msg);
 			}catch(Exception ex){
@@ -1064,9 +1076,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			try{
 				SessionUser user = SessionManager.inst.findByJunZhuId(jz1.id);
 				if(user == null) return;
-				String  chatContent = beanLveContent.replace("XXX", jz1.name).
-						replace("*玩家名字七个字*", jz2.name).
-						replace("00:00", "30:00").replace("M", willLostbuild+"");
+				String  chatContent =  getBroadCastContent(jz1.name, jz2.name, willLostbuild,mi.battleHappendTime);
 				ChatPct.Builder b = ChatPct.newBuilder();
 				Channel value = Channel.valueOf(1);// 联盟频道1
 				b.setChannel(value);
@@ -1082,21 +1092,20 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		}
 	}
 
-	public String getBroadCastContent(String mengyouName, String name2, int m){
-		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
-		if(confList != null){
+	public String getBroadCastContent(String mengyouName, String name2, int m,Date date){
+		
 			//"您的盟友[dbba8f]XXX[-]遭到[d80202]*玩家名字七个字*[-]的掠夺！
 			//联盟将在[f5aa29]00:00[-]后损失M建设值！请速去驱逐敌人！
-			Optional<AnnounceTemp> conf = confList.stream().filter(t->t.type==28).findFirst();
-			if(conf.isPresent()){
-				AnnounceTemp t = conf.get();
-				String c = t.announcement.replace("XXX", mengyouName)
-						.replace("*玩家名字七个字*", name2)
-						.replace("M", m+"");
-				return c;
-			}
-		}
-		return "";
+			
+			int remainTime =( int )( System.currentTimeMillis() - date.getTime());
+			int min = remainTime/1000/60;
+			int sec = remainTime/1000%60;
+			String time = ""+ (min>30?30:min)+":"+(sec >= 60?59:min);
+			String c = beanLveContent.replace("XXX", mengyouName)
+					.replace("*玩家名字七个字*", name2)
+					.replace("00:00", time)
+					.replace("M", m+"");
+			return c;
 	}
 	public void handleBeanLveDuoAttack(Event e) {
 		if(e == null || e.param == null){
@@ -1339,6 +1348,14 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		subao.setOtherJzId(msg.otherJzId);
 		subao.setSubao(msg.content);
 		subao.setEventId(msg.eventId);
+		if(msg.eventId == SuBaoConstant.mccf_toOther || 
+		msg.eventId == SuBaoConstant.zdqz ||
+		msg.eventId == SuBaoConstant.askgh4baizhan || 
+		msg.eventId == SuBaoConstant.askgh4lm2leader || 
+		msg.eventId == SuBaoConstant.askgh4lm2other){
+			long cdTime = msg.addTime.getTime() + SuBaoConstant.clearSecondsDistance * 1000 - System.currentTimeMillis();
+			subao.setCdTime(((int)cdTime)>=0?((int)cdTime)/1000:0);
+		}
 		if(msg.award!=null){
 			subao.setAward(msg.award);
 		}
@@ -1494,7 +1511,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			BattleInfo4Pvp battleInfo4Pvp  = fightingLock.get(mi.lveDuoJunId);
 			if(battleInfo4Pvp != null){
 				if(System.currentTimeMillis() > (battleInfo4Pvp.startTime + PvpMgr.inst.PVP_BATTLE_DELAY_TIME * 1000)){
-					fightingLock.remove(mi.zhanDouIdFromLveDuo);
+					fightingLock.remove(mi.lveDuoJunId);
 				}else{
 					state = 1;
 				}
@@ -1729,6 +1746,12 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 				// 驱逐失败 不挽回建设值 do nothing
 				lvMI.remainHp = req.getRemainHp();
 				HibernateUtil.save(lvMI);
+				try{
+					// 广播
+					tellAllMembers(lvMI.beanLveDuoJunId, lvMI.lmId, true, FunctionID.lianmengJunQingLveDuo, null);
+				}catch(Exception ex){
+					ex.printStackTrace();
+				}
 			}else if(winId == jId){
 				// 驱逐成功
 				HibernateUtil.delete(lvMI);

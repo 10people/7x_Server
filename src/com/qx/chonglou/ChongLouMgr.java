@@ -3,8 +3,10 @@ package com.qx.chonglou;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
@@ -130,11 +132,17 @@ public class ChongLouMgr {
 			return;
 		}
 		
-		
-		ChongLouSaoDangResp.Builder response = ChongLouSaoDangResp.newBuilder();
-		
-		// TODO 玩法是否开启
+		YouxiaOpenTime openTimeCfg = YouXiaMgr.inst.youxiaOpenTimeMap.get(101);//101代表千重楼
+		if(openTimeCfg == null) {
+			logger.error("千重楼扫荡失败，配置错误youxiaOpenTime找不到千重楼配置，id=101");
+			return;
+		}
+		if(junZhu.level < openTimeCfg.openLevel) {
+			logger.error("千重楼扫荡失败配置错误，君主:{}的此功能还未开启", junZhu.id);
+			return;
+		}
 
+		ChongLouSaoDangResp.Builder response = ChongLouSaoDangResp.newBuilder();
 		ChongLouRecord record = HibernateUtil.find(ChongLouRecord.class, junZhu.id);
 		if(record == null) {
 			logger.error("重楼扫荡失败，还未打过任何楼层，不能扫荡");
@@ -375,6 +383,7 @@ public class ChongLouMgr {
 		BattleResult.Builder response = BattleResult.newBuilder();
 		int getTongbi = 0;
 		int getExp = 0;
+		boolean refreshChongLouRank = false;
 		if(result) {
 			if(layer > record.highestLevel) {
 				List<AwardTemp> firstAwardList = AwardMgr.inst.getHitAwardList(pveTemp.firstAwardID, ",", "=");
@@ -384,17 +393,23 @@ public class ChongLouMgr {
 				record.highestLevelFirstTime = new Date();
 				Redis.getInstance().set(CACHE_CHONGLOU_HIGHEST_LAYER + junZhu.id, String.valueOf(record.highestLevel));
 				if(junZhu.level >= RankingMgr.CHONGLOU_JUNZHU_MIN_LEVEL) {
-					EventMgr.addEvent(ED.CHONGLOU_RANK_REFRESH, new Object[]{junZhu, junZhu.guoJiaId});
+					refreshChongLouRank = true;
 				}
 				EventMgr.addEvent(ED.CHONGLOU_BROADCAST, new Object[]{junZhu, layer});
 			}
 			List<Integer> droppenList = request.getDropeenItemNpcsList();
+			Set<Integer> giveSet = new HashSet<>(droppenList.size());
+			logger.warn("掉落奖励posLIst:{}", droppenList);
 			Map<Integer, List<AwardTemp>> npcDropAwardMap = dropAwardMapBefore.get(junZhu.id);
 			for (Integer npcPos : droppenList) {
+				if(giveSet.contains(npcPos)){
+					continue;
+				}
 				List<AwardTemp> posNpcDropAward = npcDropAwardMap.get(npcPos);
 				if(posNpcDropAward != null) {
 					AwardMgr.inst.battleAwardCounting(getAwardList, posNpcDropAward);
 				}
+				giveSet.add(npcPos);
 			}
 			int scale = VipMgr.INSTANCE.getValueByVipLevel(junZhu.vipLevel, VipData.chong_lou_exp_scale);  
 			scale = scale <= 0 ? 1 : scale;
@@ -437,6 +452,9 @@ public class ChongLouMgr {
 		protobufMsg.id = PD.CHONG_LOU_BATTLE_REPORT_REQP;
 		session.write(protobufMsg);
 		JunZhuMgr.inst.sendMainInfo(session,junZhu);
+		if(refreshChongLouRank) {
+			EventMgr.addEvent(ED.CHONGLOU_RANK_REFRESH, new Object[]{junZhu, junZhu.guoJiaId});
+		}
 		EventMgr.addEvent(ED.done_qianChongLou, new Object[]{junZhu.id});
 		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(junZhu.id , DailyTaskConstants.qianChongLou, 1));
 	}

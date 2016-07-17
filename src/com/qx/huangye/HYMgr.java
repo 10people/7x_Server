@@ -1572,13 +1572,7 @@ public class HYMgr extends EventProc{
 						if(huangyePveCfg == null) {
 							continue;
 						}
-						// 是否是否挑战条件没问题
-						int guanqiaId = huangyePveCfg.pveId;
-						PveRecord r = HibernateUtil.find(PveRecord.class,
-								"where guanQiaId=" + guanqiaId + " and uid=" + jz.id);
-						if(r == null){
-							continue;
-						}
+						
 						// 挑战次数是否足够
 						HYTreasureTimes hyTimes = HibernateUtil.find(HYTreasureTimes.class, jz.id);
 						boolean ok = false;

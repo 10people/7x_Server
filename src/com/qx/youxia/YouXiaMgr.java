@@ -838,7 +838,7 @@ public class YouXiaMgr extends EventProc {
 
 		YuanBaoMgr.inst.diff(junZhu, -needMoney, 0, needMoney, YBType.YB_BUY_YOUXIA_CISHU, "购买游侠玩法次数");
 		HibernateUtil.update(junZhu);
-		JunZhuMgr.inst.sendMainInfo(session,junZhu);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu,false);
 
 		response.setResult(0);
 		response.setType(type);
@@ -970,8 +970,8 @@ public class YouXiaMgr extends EventProc {
 		 */
 		EventMgr.addEvent(ED.DAILY_TASK_PROCESS,
 				new DailyTaskCondition(junZhu.id, DailyTaskConstants.youXia_activity, 1));
-		EventMgr.addEvent(ED.finish_youxia_x, new Object[] { junZhu.id, allwin + 1 });
-		EventMgr.addEvent(ED.go_youxia, new Object[] { junZhu.id, allBattle + 1, pveTempCfg.bigId });
+		EventMgr.addEvent(ED.finish_youxia_x, new Object[] { junZhu.id, allwin + 1 , pveTempCfg.bigId });
+		EventMgr.addEvent(ED.go_youxia, new Object[] { junZhu.id, allBattle + 1 });
 	}
 
 	public void requestGuanQiaInfo(int id, IoSession session, Builder builder) {

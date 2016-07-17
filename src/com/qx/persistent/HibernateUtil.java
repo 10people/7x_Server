@@ -16,6 +16,8 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import org.hibernate.transform.AliasToEntityMapResultTransformer;
+import org.hibernate.transform.ResultTransformer;
 import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -389,13 +391,25 @@ public class HibernateUtil {
     	}
     	return id;
 	}
-	public static List<Map<String, Object>> querySql(String hql){
+	public static List<?> querySql(String hql){
+		//Map<String, Object>
+		ResultTransformer transform = ArrayTransformer.inst;
+		return querySql(hql,transform);
+	}
+	/**
+	 * Map<String, Object>
+	 * List<Object>
+	 * @param hql
+	 * @param transform
+	 * @return
+	 */
+	public static List<?> querySql(String hql,ResultTransformer transform){
 		Session session = sessionFactory.getCurrentSession();
     	Transaction tr = session.beginTransaction();
     	List list = Collections.emptyList();
     	try{
 	    	SQLQuery query = session.createSQLQuery(hql);
-	    	query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+			query.setResultTransformer(transform);
 	    	list = query.list();
 	    	tr.commit();
     	}catch(Exception e){

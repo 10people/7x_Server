@@ -323,9 +323,9 @@ function changeAlncName(obj){
 					long setTime = lianmeng.upgradeTime.getTime() + Integer.parseInt(time)*1000;
 					out.println("setTime ：" +setTime/1000);
 					if(setTime <= 0) {
-						lianmeng.upgradeTime.setTime(setTime);
-					} else {
 						lianmeng.upgradeTime = null;
+					} else {
+						lianmeng.upgradeTime.setTime(setTime);
 					}
 				}else {
 					out.print("联盟< " + lianmeng.name + " >还未处在升级状态中");

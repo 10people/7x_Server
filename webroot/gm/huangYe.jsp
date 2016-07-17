@@ -181,7 +181,7 @@ function go(act,id){
             	td(treasure.passTimes);
                 td(openTime==null?"没有开启":openTime);
                 td(openTime==null?"已经通关":treasure.progress);
-                td(openTime==null?"无":HYMgr.inst.getKuaiSuPassRemainTime(treasure));
+                td(openTime==null?"无":HYMgr.inst.getKuaiSuPassRemainTime(treasure,hy));
                 td(treasure.battleJunzhuId<=0?"无人在挑战": treasure.battleJunzhuId);
                 td(treasure.battleJunzhuId<=0?"无":treasure.battleBeginTime);
             }else{

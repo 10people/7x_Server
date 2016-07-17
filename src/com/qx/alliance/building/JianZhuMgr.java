@@ -781,7 +781,7 @@ public class JianZhuMgr extends EventProc{
 		log.info("{}抽中{},内容{}",junZhuId,hit,hitO.toString());
 		if(session.containsAttribute("don'tSync")==false){
 			JunZhuMgr.inst.sendMainInfo(session,jz);
-			BagMgr.inst.sendBagInfo(0, session, null);
+			//BagMgr.inst.sendBagInfo(0, session, null);
 		}
 		EventMgr.addEvent(ED.jibai , new Object[] {junZhuId, hitO.optInt("id"), hitO.optInt("n",1)});
 	}
@@ -856,7 +856,7 @@ public class JianZhuMgr extends EventProc{
 		AllianceMgr.inst.processHaveAlliance(jz, PD.ALLIANCE_INFO_REQ, session, member);
 		log.info("{}连续祭拜结束，获得{}", jz.id, gain);
 		JunZhuMgr.inst.sendMainInfo(session,jz);
-		BagMgr.inst.sendBagInfo(0, session, null);
+		//BagMgr.inst.sendBagInfo(0, session, null);
 	}
 
 	public void sendChouJiangInfo(int id, IoSession session, Builder builder) {
@@ -941,7 +941,7 @@ public class JianZhuMgr extends EventProc{
 			bean.todayLeftTimes = maxJiBaiTimes;
 			bean.str = json.toString();
 			HibernateUtil.insert(bean);
-		}else if(!DateUtils.isSameDay(bean.createTime)){
+		}else if(!DateUtils.isSameSideOfFour(bean.createTime, new Date())){
 			JSONArray json = fillChouJiangBean();
 			bean.createTime = new Date();
 			bean.str = json.toString();

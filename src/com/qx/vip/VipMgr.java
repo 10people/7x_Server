@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.mina.core.session.IoSession;
+import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -168,7 +169,7 @@ public class VipMgr {
 	public void fillVIPinfo(VipInfoResp.Builder resp, long jzId) {
 		ChongTimes.Builder chongInfo = null;
 		String sql = "select type, count(1) as cnt from VipRechargeRecord where accId =" + jzId + " group by type";
-		List<Map<String, Object>> list = HibernateUtil.querySql(sql);
+		List<Map<String, Object>> list = (List<Map<String, Object>>) HibernateUtil.querySql(sql,Transformers.ALIAS_TO_ENTITY_MAP);
 		Map<Integer, Integer> cntMap = new HashMap<Integer, Integer>(list.size());
 		for(Map<String, Object> db: list){
 			cntMap.put((Integer)db.get("type"), ((BigInteger)db.get("cnt")).intValue());
@@ -251,7 +252,7 @@ public class VipMgr {
 		jz.vipLevel = vip;
 		HibernateUtil.update(jz);
 		// 刷新首页玩家信息
-		JunZhuMgr.inst.sendMainInfo(session,jz);
+		JunZhuMgr.inst.sendMainInfo(session,jz,false);
 
 		/*
 		 * 说明： PlayerVipInfo,VipRechargeRecord,JunZhu 三张表中的vipLeve的值都表示vip等级 ,

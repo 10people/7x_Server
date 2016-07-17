@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -525,9 +526,9 @@ public class BuffMgr {
 	}
 
 	public int getLMZBuff(JunZhu jz){
-		SessionUser ss = SessionManager.inst.sessionMap.get(jz.id);
-		if(ss != null){
-			Integer percent = (Integer)ss.session.getAttribute("fixTowerBuff");
+		IoSession session = SessionManager.inst.getIoSession(jz.id);
+		if(session != null){
+			Integer percent = (Integer)session.getAttribute("fixTowerBuff");
 			if(percent != null){
 				return percent;
 			}

@@ -21,6 +21,7 @@ import com.manu.dynasty.template.FunctionOpen;
 import com.manu.dynasty.template.ZhuXian;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.SessionAttKey;
+import com.qx.junzhu.JunZhu;
 import com.qx.persistent.HibernateUtil;
 import com.qx.pvp.LveDuoBean;
 import com.qx.pvp.LveStaticData;
@@ -80,13 +81,18 @@ public class FunctionOpenMgr {
 		int maxRenWuOrderIdx = getMaxRenWuOrderIdx(pid);//注意！这一行和下面一行的顺序不能变！
 		int maxAwardOrderIdx = getMaxAwardRenWuOrderIdx(pid);
 		if(maxRenWuOrderIdx>0 && maxAwardOrderIdx==0){//memcached清除后，修正maxAwardRenWuId
-			//如果有当前最大任务id，但没有领奖任务id，则用最大任务id减一（即前一个任务）来作为领奖任务id。
+//			//如果有当前最大任务id，但没有领奖任务id，则用最大任务id减一（即前一个任务）来作为领奖任务id。
+			//君主信息中的maxTaskAwardId只要完成任何一个任务就会刷新
+			//修改为数据库存储之后，几乎不会触发此判断，为减轻数据库压力所以不在这里进行存储
 			maxAwardOrderIdx = maxRenWuOrderIdx-1;
+			log.error("君主{}的主线任务领奖记录丢失",pid);
+//			//注意！！取当前任务的前一个任务的orderIdx，并保存其【id】到缓存。
+//			List<ZhuXian> list = TempletService.listAll(ZhuXian.class.getSimpleName());
+//			ZhuXian conf = list.get(maxRenWuOrderIdx-1);
+//			MemcachedCRUD.getMemCachedClient().set(awardRenWuOverIdKey+pid, conf.orderIdx);
+//			ZhuXian conf = GameTaskMgr.inst.zhuxianTaskMap.get(maxRenWuOrderIdx);
+//			maxAwardOrderIdx = conf == null ? 0 : Integer.parseInt(conf.getTriggerCond());
 			
-			//注意！！取当前任务的前一个任务的orderIdx，并保存其【id】到缓存。
-			List<ZhuXian> list = TempletService.listAll(ZhuXian.class.getSimpleName());
-			ZhuXian conf = list.get(maxRenWuOrderIdx-1);
-			MemcachedCRUD.getMemCachedClient().set(awardRenWuOverIdKey+pid, conf.orderIdx);
 		}
 		for(int i=0; i<len; i++){
 			//
@@ -109,28 +115,32 @@ public class FunctionOpenMgr {
 		}
 	}
 	public  int getMaxAwardRenWuOrderIdx(long pid){
-		Object mcV = MemcachedCRUD.getMemCachedClient().get(awardRenWuOverIdKey+pid); 
+//		Object mcV = MemcachedCRUD.getMemCachedClient().get(awardRenWuOverIdKey+pid); 
 		int maxAwardRenWuId = 0;// 领奖的最大任务id
-		if(mcV != null){
-			maxAwardRenWuId = Integer.valueOf(mcV.toString());
-		}else{
-			List<WorkTaskBean> rwlist = GameTaskMgr.inst.getTaskList(pid);
-			// 找到数据库中存储的主线任务的最大id
-			for(WorkTaskBean b : rwlist){
-				ZhuXian conf = GameTaskMgr.inst.zhuxianTaskMap.get(b.tid);
-				if(conf != null && conf.type == GameTaskMgr.zhuXianType){
-					maxAwardRenWuId = Math.max(maxAwardRenWuId, b.tid);
-				}
-			}
-			// maxAwardRenWuId(!=0)的触发任务一定是领了奖励的主线任务
-			ZhuXian conf = GameTaskMgr.inst.zhuxianTaskMap.get(maxAwardRenWuId);
-			if(conf != null){
-				// 第一条任务
-				if(maxAwardRenWuId != 100000){
-					maxAwardRenWuId = Integer.parseInt(conf.getTriggerCond());
-				}
-				MemcachedCRUD.getMemCachedClient().set(awardRenWuOverIdKey+pid, maxAwardRenWuId);
-			}
+//		if(mcV != null){
+//			maxAwardRenWuId = Integer.valueOf(mcV.toString());
+//		}else{
+//			List<WorkTaskBean> rwlist = GameTaskMgr.inst.getTaskList(pid);
+//			// 找到数据库中存储的主线任务的最大id
+//			for(WorkTaskBean b : rwlist){
+//				ZhuXian conf = GameTaskMgr.inst.zhuxianTaskMap.get(b.tid);
+//				if(conf != null && conf.type == GameTaskMgr.zhuXianType){
+//					maxAwardRenWuId = Math.max(maxAwardRenWuId, b.tid);
+//				}
+//			}
+//			// maxAwardRenWuId(!=0)的触发任务一定是领了奖励的主线任务
+//			ZhuXian conf = GameTaskMgr.inst.zhuxianTaskMap.get(maxAwardRenWuId);
+//			if(conf != null){
+//				// 第一条任务
+//				if(maxAwardRenWuId != 100000){
+//					maxAwardRenWuId = Integer.parseInt(conf.getTriggerCond());
+//				}
+//				MemcachedCRUD.getMemCachedClient().set(awardRenWuOverIdKey+pid, maxAwardRenWuId);
+//			}
+//		}
+		JunZhu junZhu = HibernateUtil.find(JunZhu.class, pid);
+		if( junZhu != null ){
+			maxAwardRenWuId = junZhu.maxTaskAwardId;
 		}
 		ZhuXian conf = GameTaskMgr.inst.zhuxianTaskMap.get(maxAwardRenWuId);
 		if(conf == null){
@@ -143,20 +153,28 @@ public class FunctionOpenMgr {
 	}
 
 	public  int getMaxRenWuOrderIdx(long pid) {
-		Object mcV = MemcachedCRUD.getMemCachedClient().get(REN_WU_OVER_ID+pid); 
+//		Object mcV = MemcachedCRUD.getMemCachedClient().get(REN_WU_OVER_ID+pid); 
+		
+//		if(mcV != null){
+//			maxRenWuId = Integer.valueOf(mcV.toString());
+//		}else{
+//			List<WorkTaskBean> rwlist = GameTaskMgr.inst.getTaskList(pid);
+//			for(WorkTaskBean b : rwlist){
+//				maxRenWuId = Math.max(maxRenWuId, b.tid);
+//			}
+//			MemcachedCRUD.getMemCachedClient().set(REN_WU_OVER_ID+pid, maxRenWuId);
+//		}
+//		if(maxRenWuId==0){
+//			return maxRenWuId;
+//		}
+		
 		int maxRenWuId = 0;//已完成的最大任务ID。
-		if(mcV != null){
-			maxRenWuId = Integer.valueOf(mcV.toString());
-		}else{
-			List<WorkTaskBean> rwlist = GameTaskMgr.inst.getTaskList(pid);
-			for(WorkTaskBean b : rwlist){
-				maxRenWuId = Math.max(maxRenWuId, b.tid);
-			}
-			MemcachedCRUD.getMemCachedClient().set(REN_WU_OVER_ID+pid, maxRenWuId);
-		}
-		if(maxRenWuId==0){
+		
+		JunZhu junZhu = HibernateUtil.find(JunZhu.class, pid);
+		if( junZhu == null ){
 			return maxRenWuId;
 		}
+		maxRenWuId = junZhu.maxTaskOverId ;
 		ZhuXian maxRenWuConf = GameTaskMgr.inst.zhuxianTaskMap.get(maxRenWuId);
 		if(maxRenWuConf == null){
 			log.error("没有找到任务配置{} of pid {}",maxRenWuId, pid);

@@ -638,6 +638,7 @@ public class HouseMgr extends EventProc implements Runnable {
 		if (jz == null) {
 			sendError(session, id, "未发现君主");
 			log.error("cmd:{},未发现君主,获取联盟房屋信息，未找到请求君主id信息", id); 
+			return;
 		}
 		long jzId=jz.id;
 
@@ -652,9 +653,8 @@ public class HouseMgr extends EventProc implements Runnable {
 		}
 		HouseBean selfBean = HibernateUtil.find(HouseBean.class, jz.id);
 		if (selfBean == null) {
-			sendError(session, id, "未发现君主的房子信息");
-			log.error("获取联盟房屋信息，未找到君主的小房子信息{}", jz.id);
-			return;
+			giveDefaultHouse(ap.lianMengId, jzId);
+			log.error("获取联盟房屋信息，未找到君主的小房子信息{},初始化房屋", jz.id);
 		}
 		BatchSimpleInfo.Builder ret = BatchSimpleInfo.newBuilder();
 		HouseSimpleInfo.Builder sf = HouseSimpleInfo.newBuilder();
@@ -1248,8 +1248,9 @@ public class HouseMgr extends EventProc implements Runnable {
 	 */
 	public void reduceBagSendEmail(Bag<BagGrid> bag, String receiverName,
 			int targetLoc, JunZhu buyer) {
+		IoSession session = SessionManager.getInst().getIoSession(buyer.id);
 		// 扣除购买者的换房卡
-		BagMgr.inst.removeItem(bag, huanFangKa, 1, "换房", buyer.level);
+		BagMgr.inst.removeItem(session, bag, huanFangKa, 1, "换房", buyer.level);
 		// 删除物品后推送背包信息给玩家
 		BagMgr.inst.sendBagAgain(bag);
 		// ======================================
@@ -1455,9 +1456,9 @@ public class HouseMgr extends EventProc implements Runnable {
 		log.info("完成{}与{}的房屋交换，原位置{}-{}", targetJz.id, curJz.id, targetLoc,
 				buyerLoc);
 		// 扣除购买者的换房卡
-		BagMgr.inst.removeItem(bag, huanFangKa, 1, "换房", curJz.level);
+		BagMgr.inst.removeItem(session, bag, huanFangKa, 1, "换房", curJz.level);
 		// 删除物品后推送背包信息给玩家
-		BagMgr.inst.sendBagInfo(session, bag);
+		//BagMgr.inst.sendBagInfo(session, bag);
 		// ======================================
 		{// 给买家发邮件
 			// 恭喜主人与xxx成功交换被荒废已久的房屋aaa，快去大肆修葺一番吧！
@@ -1520,9 +1521,9 @@ public class HouseMgr extends EventProc implements Runnable {
 		log.info("完成{}与{}的房屋交换，原位置{}-{}", targetJz.id, curJz.id, targetLoc,
 				buyerLoc);
 		// 扣除购买者的换房卡
-		BagMgr.inst.removeItem(bag, huanFangKa, 1, "换房", curJz.level);
+		BagMgr.inst.removeItem(session, bag, huanFangKa, 1, "换房", curJz.level);
 		// 删除物品后推送背包信息给玩家
-		BagMgr.inst.sendBagInfo(session, bag);
+		//BagMgr.inst.sendBagInfo(session, bag);
 		{// 给盟主发邮件
 			// 恭喜主人与xxx换房成功，我们快去新家看看吧！
 			Mail cfg = EmailMgr.INSTANCE.getMailConfig(10002);
@@ -2066,7 +2067,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			}
 		}
 		for (int i = 1; i <= 5; i++) {
-			BagMgr.inst.removeItem(bag, base + i, 1, "兑换残卷", jz.level);
+			BagMgr.inst.removeItem(session, bag, base + i, 1, "兑换残卷", jz.level);
 		}
 		int awardId = 200 + code * 10;
 		Jiangli awardConf = PurchaseMgr.inst.jiangliMap.get(awardId);
@@ -2084,7 +2085,7 @@ public class HouseMgr extends EventProc implements Runnable {
 		pm.builder = msg;
 		session.write(pm);
 		// 删除物品后推送背包信息给玩家
-		BagMgr.inst.sendBagInfo(session, bag);
+		//BagMgr.inst.sendBagInfo(session, bag);
 		pushDuiHuanGuJuan(jz, session);
 	}
 
@@ -2231,7 +2232,7 @@ public class HouseMgr extends EventProc implements Runnable {
 				}
 				bean.lmId = ap.lianMengId;
 				setGrid(1, bean, itemId);
-				BagMgr.inst.removeItem(bag, itemId, 1, "放入换物箱", jz.level);
+				BagMgr.inst.removeItem(session, bag, itemId, 1, "放入换物箱", jz.level);
 				HibernateUtil.save(bean);
 				log.info("{}将{}放入换物箱{}", curJzId, itemId, boxIdx);
 			} else {
@@ -2251,22 +2252,22 @@ public class HouseMgr extends EventProc implements Runnable {
 				String preOne = getBoxGridItem(gridIdx, bean);
 				if (preOne == null || preOne.equals("0")) {// || );
 					setGrid(gridIdx, bean, itemId);
-					BagMgr.inst.removeItem(bag, itemId, 1, "放入换物箱", jz.level);
+					BagMgr.inst.removeItem(session, bag, itemId, 1, "放入换物箱", jz.level);
 					HibernateUtil.save(bean);
 					log.info("{}将{}放入换物箱{}，之前是空格子。", curJzId, itemId, gridIdx);
 				} else if (preOne.equals(String.valueOf(itemId))) {// 和之前的一样，不做处理
 
 				} else {// 之前的拿下来，新的放上去。
 					int preItemId = Integer.parseInt(preOne);
-					BagMgr.inst.addItem(bag, preItemId, 1, -1, jz.level,"放入换物箱");
+					BagMgr.inst.addItem(session, bag, preItemId, 1, -1, jz.level,"放入换物箱");
 					setGrid(gridIdx, bean, itemId);
-					BagMgr.inst.removeItem(bag, itemId, 1, "放入换物箱", jz.level);
+					BagMgr.inst.removeItem(session, bag, itemId, 1, "放入换物箱", jz.level);
 					HibernateUtil.save(bean);
 					log.info("{}将{}放入换物箱{}，之前是{}。", curJzId, itemId, boxIdx,
 							preItemId);
 				}
 			}
-			BagMgr.inst.sendBagInfo(session, bag);
+			//BagMgr.inst.sendBagInfo(session, bag);
 			sendHuanWu(0, session, null);
 		}
 			break;
@@ -2282,7 +2283,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			}
 			;// 空格子
 			int preItemId = Integer.parseInt(preOne);
-			BagMgr.inst.addItem(bag, preItemId, 1, -1, jz.level,"换物箱替换");
+			BagMgr.inst.addItem(session, bag, preItemId, 1, -1, jz.level,"换物箱替换");
 			switch (gridIdx) {
 			case 1:
 				bean.slot1 = "0";
@@ -2302,7 +2303,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			}
 			HibernateUtil.save(bean);
 			log.info("{}将换物箱位置{}的{}取下", curJzId, boxIdx, itemId);
-			BagMgr.inst.sendBagInfo(session, bag);
+			//BagMgr.inst.sendBagInfo(session, bag);
 			sendHuanWu(0, session, null);
 			break;
 		}
@@ -2809,8 +2810,9 @@ public class HouseMgr extends EventProc implements Runnable {
 		if (cnt <= 0) {
 			log.error("买家{}缺少换房卡,完成与{}的换房交易", buyerId, curJzId);
 		}
-
-		BagMgr.inst.removeItem(bag, huanFangKa, 1, "换房", buyer.level);
+		
+		IoSession buyerSession = SessionManager.inst.getIoSession(buyer.id);
+		BagMgr.inst.removeItem(buyerSession, bag, huanFangKa, 1, "换房", buyer.level);
 		// 删除物品后推送背包信息给玩家
 		BagMgr.inst.sendBagAgain(bag);
 		// ======================================
@@ -2851,7 +2853,7 @@ public class HouseMgr extends EventProc implements Runnable {
 	 * @param buyerId
 	 * @param code
 	 */
-	public void leaderAnswerEx(long curJzId, long targetId, long buyerId,
+	public void leaderAnswerEx(IoSession session, long curJzId, long targetId, long buyerId,
 			int code) {
 		HouseApplyBean app = HibernateUtil.find(HouseApplyBean.class, buyerId);
 		if (app == null) {
@@ -2922,7 +2924,8 @@ public class HouseMgr extends EventProc implements Runnable {
 				buyerLoc);
 		// 扣除购买者的换房卡
 		Bag<BagGrid> bag = BagMgr.inst.loadBag(buyerId);
-		BagMgr.inst.removeItem(bag, huanFangKa, 1, "换房", buyer.level);
+		IoSession buyerSession = SessionManager.inst.getIoSession(buyerId);
+		BagMgr.inst.removeItem(buyerSession, bag, huanFangKa, 1, "换房", buyer.level);
 		// 删除物品后推送背包信息给玩家
 		BagMgr.inst.sendBagAgain(bag);
 		// ======================================
@@ -3091,7 +3094,7 @@ public class HouseMgr extends EventProc implements Runnable {
 		}
 		String buyerId = param.split(",")[0].split(":")[1];
 		String keeperId = param.split(",")[1].split(":")[1];
-		leaderAnswerEx(junZhu.id, Long.parseLong(keeperId),
+		leaderAnswerEx(session, junZhu.id, Long.parseLong(keeperId),
 				Long.parseLong(buyerId), operCode * 10);
 	}
 

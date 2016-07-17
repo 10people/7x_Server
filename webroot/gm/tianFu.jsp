@@ -1,3 +1,6 @@
+<%@page import="com.qx.junzhu.JzKeji"%>
+<%@page import="com.manu.network.SessionManager"%>
+<%@page import="qxmobile.protobuf.JunZhuProto.TalentUpLevelReq"%>
 <%@page import="com.qx.junzhu.TalentMgr"%>
 <%@page import="com.qx.persistent.MC"%>
 <%@page import="com.qx.junzhu.TalentPoint"%>
@@ -113,6 +116,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     HibernateUtil.save(ta);
                  }
                  TalentMgr.instance.noticeTalentCanLevUp(junzhu.id);
+             } else if("upgradePointId".equals(action)) {
+                 int v = Integer.parseInt(request.getParameter("v"));
+            	 TalentUpLevelReq.Builder upgradeReq = TalentUpLevelReq.newBuilder();
+            	 upgradeReq.setPointId(v);
+            	 IoSession ioSession = SessionManager.inst.getIoSession(junzhu.id);
+            	 if(ioSession == null) {
+            		 ioSession = new RobotSession();
+            	 }
+            	 TalentMgr.instance.doTalentUpLevel(ioSession, upgradeReq);
              }
             br();
              
@@ -139,6 +151,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
              else out(ta.fangShouDianShu);
              out.println("&nbsp<input type='text' id='addfangshoudianshu' value='"+input
                      +"'/>&nbsp<input type='button' value='增加' onclick='go(\"addfangshoudianshu\")'/><br/>");
+             br();
+             br();
+             out.println("pointId：&nbsp<input type='text' id='upgradePointId' value='"+input
+                     +"'/>&nbsp<input type='button' value='升级' onclick='go(\"upgradePointId\")'/><br/>");
              br();
              out("拥有的天赋列表：");
              br();

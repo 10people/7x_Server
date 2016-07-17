@@ -88,11 +88,6 @@ public class JiNengPeiYangMgr extends EventProc{
 			session.write(resp.build());
 			return;
 		}
-		// 扣除铜币
-		junZhu.tongBi = junZhu.tongBi - p.getNeedNum();
-		HibernateUtil.save(junZhu);
-//		JunZhuMgr.inst.sendMainInfo(session);
-		// 技能突破
 		JNBean bean = HibernateUtil.find(JNBean.class, junZhu.id);
 		boolean insert = false;
 		if(bean == null){
@@ -100,6 +95,19 @@ public class JiNengPeiYangMgr extends EventProc{
 			bean.jzId = junZhu.id;
 			insert = true;
 		}
+		if(!isPreSkillActivated(bean, p)) {
+			log.info("技能突破失败，君主:{}的技能:{}的前置技能:{}还未突破", junZhu.id, jnId, p.preId);
+			return;
+		}
+		if(isCurSkillActivated(bean, p)) {
+			log.info("技能突破失败，君主:{}的技能:{}已经被突破了", junZhu.id, jnId);
+			return;
+		}
+		// 扣除铜币
+		junZhu.tongBi = junZhu.tongBi - p.getNeedNum();
+		HibernateUtil.save(junZhu);
+//		JunZhuMgr.inst.sendMainInfo(session);
+		// 技能突破
 		setIdToBean(bean,p);
 		if(insert){
 			HibernateUtil.insert(bean);
@@ -113,8 +121,49 @@ public class JiNengPeiYangMgr extends EventProc{
 		EventMgr.addEvent(ED.jinJie_jueSe_jiNeng, new Object[]{junZhu.id});
 		// 2016年3月18日 15:13:40  战斗中技能提示，现在只是发送新解锁的，突破的技能暂时不发
 //		addNewJn(junZhu, p);
-		JunZhuMgr.inst.sendMainInfo(session,junZhu);
+		JunZhuMgr.inst.sendMainInfo(session,junZhu,false);
 		
+	}
+
+	private boolean isPreSkillActivated(JNBean bean, JiNengPeiYang p) {
+		return isActivated(bean, p.wuqiType, p.jinengType, p.preId);
+	}
+
+	public boolean isCurSkillActivated(JNBean bean, JiNengPeiYang p) {
+		return isActivated(bean, p.wuqiType, p.jinengType, p.id);
+	}
+
+	public boolean isActivated(JNBean bean, int wuqiType, int jinengType, int skillId) {
+		switch(wuqiType){
+		case 0:{
+			switch(jinengType){
+			case 0:		return bean.wq1_1 == skillId ? true : false;
+			case 1:		return bean.wq1_2 == skillId ? true : false;
+			case 2:		return bean.wq1_3 == skillId ? true : false; 
+			default:	log.error("miss skill id 1A {}", skillId); 		return true;
+			}
+		}
+		case 1:{
+			switch(jinengType){
+			case 0:		return bean.wq2_1 == skillId ? true : false;
+			case 1:		return bean.wq2_2 == skillId ? true : false;
+			case 2:		return bean.wq2_3 == skillId ? true : false;
+			default:log.error("miss skill id 2A {}", skillId);			return true;
+			}
+		}
+		case 2:{
+			switch(jinengType){
+			case 0:		return bean.wq3_1 == skillId ? true : false;
+			case 1:		return bean.wq3_2 == skillId ? true : false;
+			case 2:		return bean.wq3_3 == skillId ? true : false;
+			default:log.error("miss skill id 3A {}", skillId);			return true;
+			}
+		}
+		default:
+			log.error("miss skill wuqi type BB {}",  skillId);
+			break;
+		}
+		return true;
 	}
 
 	/**

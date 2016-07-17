@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
+import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.MiBaoNew;
 import com.manu.dynasty.template.MiBaoNewSuiPian;
@@ -32,6 +33,7 @@ public class MiBaoV2Mgr {
 	public static Logger log = LoggerFactory.getLogger(MiBaoV2Mgr.class.getSimpleName());
 	public static MiBaoV2Mgr inst;
 	public Map<Integer, MiBaoNew> confMap;
+	public String MI_SHU_PINZHI = "miShuPinZhi_";		// 当前秘术解锁品质
 	public MiBaoV2Mgr(){
 		inst = this;
 		initData();
@@ -74,6 +76,7 @@ public class MiBaoV2Mgr {
 		list.stream().forEach(b->dbMap.put(b.miBaoId%100, b));
 		boolean doJiHuo=true;//默认可激活秘术
 		int minLv = -1;
+		int curMiShuPinZhi = 1;
 		for(int i : initialIds){
 			MibaoInfo.Builder mibaoInfo = MibaoInfo.newBuilder();
 			int tempId = i%100;
@@ -127,6 +130,11 @@ public class MiBaoV2Mgr {
 			mibaoInfo.setShengMing(conf.shengming);
 //			log.info("id is {}", mibaoInfo.getMiBaoId());
 			resp.addMiBaoList(mibaoInfo);
+			curMiShuPinZhi = conf.pinzhi;
+		}
+		String cacheMiShuPinZhi = Redis.getInstance().get(MI_SHU_PINZHI + jz.id);
+		if(cacheMiShuPinZhi == null) {
+			Redis.getInstance().set(MI_SHU_PINZHI + jz.id, curMiShuPinZhi+"");
 		}
 		int activeMiShuLv = minLv - 1;//秘术等级比秘宝等级低1级，因为要激活所有秘宝才能激活秘术.
 		resp.setLevelPoint(activeMiShuLv);//已激活了几个秘术
@@ -203,16 +211,26 @@ public class MiBaoV2Mgr {
 			return;
 		}
 		if(bean.ownerId != jz.id){
+			log.error("新秘宝激活失败，激活的秘宝:{}不是自己的-君主:{}, 是君主:{}的", jz.id, bean.ownerId);
 			return;
 		}
 		if(bean.active){
+			log.error("新秘宝激活失败，当前秘宝:{}已经激活过了", bean.miBaoId);
 			return;
 		}
 		MiBaoNew conf = confMap.get(bean.miBaoId);
 		if(conf == null){
+			log.error("新秘宝激活失败，找不到秘宝:{}的配置", bean.miBaoId);
 			return;
 		}
+		String curMiShuPinZhi = Redis.getInstance().get(MI_SHU_PINZHI + jz.id);
+		if(curMiShuPinZhi != null && Integer.parseInt(curMiShuPinZhi) != conf.pinzhi) {
+			log.error("新秘宝激活失败，激活的秘宝品质是:{},当前只能激活的秘宝品质是:{}", conf.pinzhi, Integer.parseInt(curMiShuPinZhi));
+			return;
+		}
+		
 		if(bean.suiPianNum<conf.jinjieNum){
+			log.error("新秘宝激活失败，碎片数量不足", bean.miBaoId);
 			return;
 		}
 		bean.suiPianNum-=conf.jinjieNum;
@@ -240,11 +258,15 @@ public class MiBaoV2Mgr {
 			log.error("秘宝激活数据有误{},{}",jz.id,list.size());
 			return;
 		}
+		boolean succeed = true;
+		int curPinZhi = 1;
 		for(MiBaoV2Bean bean : list){
 			if(bean.miBaoId/1000==211){//满了
+				succeed = false;
 				break;
 			}
 			MiBaoNew conf = confMap.get(bean.miBaoId);
+			curPinZhi = conf.pinzhi;
 			//查下一等级的是否已经有了
 			String hql = "where ownerId="+jz.id+" and miBaoId="+(bean.miBaoId+100) ;
 			log.error(hql);
@@ -262,6 +284,13 @@ public class MiBaoV2Mgr {
 			}
 			bean.main = false;
 			HibernateUtil.update(bean);
+		}
+		if(succeed) {
+			String curMiShuPinZhi = Redis.getInstance().get(MI_SHU_PINZHI + jz.id);
+			if(curMiShuPinZhi == null) {
+				Redis.getInstance().set(MI_SHU_PINZHI + jz.id, curPinZhi+"");
+			} 
+			Redis.getInstance().set(MI_SHU_PINZHI + jz.id, (Integer.parseInt(curMiShuPinZhi)+1)+"");
 		}
 		JunZhuMgr.inst.sendMainInfo(session,jz);
 	}

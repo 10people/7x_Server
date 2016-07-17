@@ -123,8 +123,9 @@
 		<a href="gm/rank4junlevel.jsp" style="color: #FF0000">查看君主等级榜</a> &nbsp;&nbsp;&nbsp; 
 		<a href="gm/rank4ChongLou.jsp" style="color: #FF0000">查看重楼排行榜</a> &nbsp;&nbsp;&nbsp; 
 		<a href="gm/rank4baizhan.jsp" style="color: #FF0000">查看百战排行榜</a> &nbsp;&nbsp;&nbsp; 
-		<a href="gm/baizhanRankN.jsp" style="color: #FF0000" target='target'>百战名次排行榜</a> &nbsp;&nbsp;&nbsp;
-		<a href="gm/baizhanRankN.jsp" style="color: #FF0000" target='target'>个人贡金/联盟贡金排行榜</a><br />
+		<a href="gm/rank4alliance.jsp" style="color: #FF0000">查看联盟排行榜</a> &nbsp;&nbsp;&nbsp; 
+		<!-- <a href="gm/baizhanRankN.jsp" style="color: #FF0000" target='target'>百战名次排行榜</a> &nbsp;&nbsp;&nbsp; -->
+		<!-- <a href="gm/baizhanRankN.jsp" style="color: #FF0000" target='target'>个人贡金/联盟贡金排行榜</a><br /> -->
 	</p>
 	<hr />
 	<form action="">
