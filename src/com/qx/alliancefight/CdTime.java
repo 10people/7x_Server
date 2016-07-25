@@ -1,9 +1,9 @@
 package com.qx.alliancefight;
 
 public class CdTime {
-	private long junzhuId;
+	public long junzhuId;
 	
-	private long endTime;
+	public long endTime;
 	
 	public CdTime() {
 		super();

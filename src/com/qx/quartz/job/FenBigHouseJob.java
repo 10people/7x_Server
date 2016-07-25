@@ -13,7 +13,7 @@ import com.qx.alliance.AllianceBean;
 import com.qx.persistent.HibernateUtil;
 
 public class FenBigHouseJob implements Job {
-	private Logger log = LoggerFactory.getLogger(FenBigHouseJob.class);
+	public Logger log = LoggerFactory.getLogger(FenBigHouseJob.class);
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		//分配大房子

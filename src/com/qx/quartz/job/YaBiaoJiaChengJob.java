@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.qx.yabiao.YaBiaoHuoDongMgr;
 
 public class YaBiaoJiaChengJob implements Job {
-	private Logger log = LoggerFactory.getLogger(YaBiaoJiaChengJob.class);
+	public Logger log = LoggerFactory.getLogger(YaBiaoJiaChengJob.class);
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 //		log.info("更新押镖活动--多收益参数开始");

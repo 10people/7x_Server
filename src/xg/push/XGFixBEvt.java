@@ -33,7 +33,7 @@ public class XGFixBEvt extends EventProc {
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.ACC_LOGIN, this);
 	}
 

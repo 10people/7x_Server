@@ -1,6 +1,7 @@
 package com.qx.persistent;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 
 import net.sf.json.JSONObject;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -15,10 +17,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.hibernate.transform.ResultTransformer;
-import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +40,14 @@ public class HibernateUtil {
     }
     
     public static Throwable insert(Object o){
+    	if(o instanceof DBHash){
+    		DBSaver.inst.insert((DBHash) o);;
+    		return null;
+    	}else{
+    		return insertDB(o);
+    	}
+    }
+    public static Throwable insertDB(Object o){
     	Session session = sessionFactory.getCurrentSession();
     	session.beginTransaction();
     	try {
@@ -58,6 +67,14 @@ public class HibernateUtil {
      * @return
      */
     public static Throwable save(Object o){
+    	if(o instanceof DBHash){
+    		DBSaver.inst.save((DBHash) o);;
+    		return null;
+    	}else{
+    		return saveMCDB(o);
+    	}
+    }
+    public static Throwable saveMCDB(Object o){
     	Session session = sessionFactory.getCurrentSession();
     	Transaction t = session.beginTransaction();
     	boolean mcOk = false;
@@ -83,6 +100,14 @@ public class HibernateUtil {
     	return null;
     }
     public static Throwable update(Object o){
+    	if(o instanceof DBHash){
+    		DBSaver.inst.update((DBHash) o);;
+    		return null;
+    	}else{
+    		return updateMCDB(o);
+    	}
+    }
+    public static Throwable updateMCDB(Object o){
     	Session session = sessionFactory.getCurrentSession();
     	Transaction t = session.beginTransaction();
     	try {
@@ -121,6 +146,69 @@ public class HibernateUtil {
     	}
     }
     public static <T> T find(Class<T> t,long id){
+    	Map cacheMap = Cache.caCheMap.get(t);
+    	if(cacheMap!= null){
+    		T o = (T)cacheMap.get(id);
+    		if( o != null ){
+    			return o ;
+//    		}else{
+//    			if(cacheMap.containsKey(id)){
+//    				return null ;
+//    			}
+    		}
+    	}
+//    	if(t == JunZhu.class){
+//    		JunZhu jz = Cache.jzCache.get(id);
+//    		if(jz != null){
+//    			return (T)jz;
+//    		}
+//    	}
+//    	if(t == QiandaoInfo.class){
+//    		QiandaoInfo qiandaoInfo = Cache.qdCache.get(id);
+//    		if(qiandaoInfo != null){
+//    			return (T)qiandaoInfo;
+//    		}
+//    	}
+//    	if(t == YaBiaoBean.class){
+//    		YaBiaoBean yaBiaoBean = Cache.ybCache.get(id);
+//    		if(yaBiaoBean != null){
+//    			return (T)yaBiaoBean;
+//    		}
+//    	}
+//    	if(t == JNBean.class) {
+//    		JNBean jnBean = Cache.jnBeanCache.get(id);
+//    		if(jnBean != null) {
+//    			return (T) jnBean;
+//    		}
+//    	}
+//    	if(t == JunzhuPveInfo.class) {
+//    		JunzhuPveInfo jzPveInfo = Cache.jzPveInfoCache.get(id);
+//    		if(jzPveInfo != null) {
+//    			return (T) jzPveInfo;
+//    		}
+//    	}
+    	T o = findMCDB(t, id);
+//    	if(t == JunZhu.class && o != null){
+//    		Cache.jzCache.put(id, (JunZhu) o);
+//    	}
+//    	if(t == QiandaoInfo.class && o != null){
+//    		Cache.qdCache.put(id, (QiandaoInfo) o);
+//    	}
+//    	if(t == YaBiaoBean.class && o != null){
+//    		Cache.ybCache.put(id, (YaBiaoBean) o);
+//    	}
+//    	if(t == JNBean.class && o != null) {
+//    		Cache.jnBeanCache.put(id, (JNBean) o);
+//    	}
+//    	if(t == JunzhuPveInfo.class && o != null) {
+//    		Cache.jzPveInfoCache.put(id, (JunzhuPveInfo) o);
+//    	}
+    	if(cacheMap!= null && o !=null){
+    		cacheMap.put(id, o);
+    	}
+    	return o;
+    }
+    public static <T> T findMCDB(Class<T> t,long id){
     	String keyField = getKeyField(t);
     	if(keyField == null){
     		throw new RuntimeException("类型"+t+"没有标注主键");
@@ -267,7 +355,15 @@ public class HibernateUtil {
         }
     }
 
-	public static Throwable delete(Object o) {
+    public static Throwable delete(Object o) {
+    	if(o instanceof DBHash){
+    		DBSaver.inst.delete((DBHash) o);;
+    		return null;
+    	}else{
+    		return deleteMCDB(o);
+    	}
+    }
+	public static Throwable deleteMCDB(Object o) {
 		if(o == null){
 			return null;
 		}
@@ -453,9 +549,9 @@ public class HibernateUtil {
 				int accId = o.optInt("accId", -1);
 				if(accId != -1){
 					ret = new Account();
-					ret.setAccountName(name);
-					ret.setAccountId(accId);
-					ret.setAccountPwd(o.optString("pwd",""));
+					ret.accountName = name;
+					ret.accountId = accId;
+					ret.accountPwd = o.optString("pwd","");
 					HibernateUtil.insert(ret);
 				}
 			}
@@ -479,5 +575,25 @@ public class HibernateUtil {
     	} 
 		return true; 
 	}
+	
+	/**
+	 * 未经检验，不要乱用。江源 2016-07-18
+	 * */
+	public static<T> List<T> list( Class<T> t,String keyName , Collection values){
+		List<T> res  = Collections.emptyList() ;
+		Session session = sessionFactory.getCurrentSession();
+		Transaction tr = session.beginTransaction();
+		try{
+			Criteria cr = session.createCriteria(t);
+			cr=cr.add(Restrictions.in(keyName, values));
+			res = cr.list();
+			tr.commit();
+		}catch(Exception e){
+			tr.rollback();
+			log.error("查询失败 class:{} keyName:{}",t.getSimpleName(), keyName);
+		}
+		return res ;
+	}
+	
 	
 }

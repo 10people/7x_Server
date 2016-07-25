@@ -12,7 +12,7 @@ import com.manu.dynasty.boot.GameServer;
  *
  */
 public class MMap {
-	private static MappedByteBuffer memory;
+	public static MappedByteBuffer memory;
 	public static final int size = 4 * 1024;
 	
 	public static void create() throws IOException{

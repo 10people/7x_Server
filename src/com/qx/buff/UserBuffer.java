@@ -7,10 +7,10 @@ import java.util.List;
 public class UserBuffer {
 	
 	/** buff作用的君主Id */
-	private long junzhuId;
+	public long junzhuId;
 	
 	/** 君主身上的buff列表 */
-	private List<Buffer> bufferList = Collections.synchronizedList(new LinkedList<Buffer>());
+	public List<Buffer> bufferList = Collections.synchronizedList(new LinkedList<Buffer>());
 	
 	public UserBuffer(long junzhuId) {
 		super();

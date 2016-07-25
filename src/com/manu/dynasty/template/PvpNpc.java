@@ -52,8 +52,8 @@ public class PvpNpc extends GameObject {
 	public int modelApID;
 	
 	// npc 的国家
-	private int guoJia;
-	private int roleId;
+	public int guoJia;
+	public int roleId;
 	
 	public int pugongHeavy;
 	public int skill1Heavy;

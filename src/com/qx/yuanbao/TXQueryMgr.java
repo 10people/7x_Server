@@ -170,6 +170,8 @@ public class TXQueryMgr {
 			task.balance = balance;
 			//
 			b.type = "充值到账";
+			int diff = task.new_save_amt - task.pre_save_amt;
+			b.wantYB = diff;
 			//
 			updateYB(task);
 		}
@@ -230,6 +232,11 @@ public class TXQueryMgr {
 				log.error("{}购买{}没有找到配置",jz.id,task.buyItemId);
 				return;
 			}
+			if(conf.needNum * 10 > diff){
+				log.error("{} 虚假buy {} 充值,need {}, real {}",
+						task.jzId,task.buyItemId, conf.needNum, diff);
+				return;
+			}
 			deal(session, conf, jz,task);
 		}
 	}
@@ -247,7 +254,7 @@ public class TXQueryMgr {
 				if(buyCnt == 0){
 					first = true;
 					log.info("{}首充赠送{},购买的是{}:{}",jz.id,conf.extraFirst,conf.id,conf.name);
-					YuanBaoMgr.inst.diff(jz, conf.extraFirst, 0, 0, YBType.YB_YSDK, "道具首充赠送"+conf.name);
+					YuanBaoMgr.inst.diff(jz, conf.extraFirst, 0, 0, YBType.YB_YSDK_ZENGSONG, "道具首充赠送"+conf.name);
 					HibernateUtil.update(jz);
 				}
 			}

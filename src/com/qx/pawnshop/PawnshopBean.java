@@ -11,12 +11,12 @@
 //@Table(name = "pawnshop")
 //public class PawnshopBean {
 //	@Id
-//	private long junzhuId;
+//	public long junzhuId;
 //	@Column(length = 10000)
-//	private String goodsInfo;
-//	private Date lastRefreshTime;	// 上次手动刷新事件
-//	private int refreshTimes; 		// 当日手动刷新累计次数
-//	private Date autoRefreshTime;	// 上次自动刷新时间
+//	public String goodsInfo;
+//	public Date lastRefreshTime;	// 上次手动刷新事件
+//	public int refreshTimes; 		// 当日手动刷新累计次数
+//	public Date autoRefreshTime;	// 上次自动刷新时间
 //
 //	public long getJunzhuId() {
 //		return junzhuId;

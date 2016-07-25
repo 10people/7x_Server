@@ -59,7 +59,7 @@ public class WuJiangTest {
 
 	public static JunZhuInfoRet.Builder readJunZhuInfo(IoSession session, Builder builder) {
 		JunZhuInfoRet.Builder ret = (qxmobile.protobuf.JunZhuProto.JunZhuInfoRet.Builder) builder;
-		System.out.println("收到君主将信息:铜币"+ret.getJinBi()+" 元宝:"+ret.getYuanBao());
+//		System.out.println("收到君主将信息:铜币"+ret.getJinBi()+" 元宝:"+ret.getYuanBao());
 		return ret;
 	}
 

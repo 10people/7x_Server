@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
@@ -64,16 +66,18 @@ public class MiBaoV2Mgr {
 		}
 		ProtobufMsg msg = new ProtobufMsg(PD.NEW_MIBAO_INFO, resp);
 		session.write(msg);
-		EventMgr.addEvent(ED.get_miShu_pinZhi_y, new Object[]{jz.id , resp.getLevelPoint() });
+		EventMgr.addEvent(jz.id ,ED.get_miShu_pinZhi_y, new Object[]{jz.id , resp.getLevelPoint() });
 	}
 	
 	public MibaoInfoResp.Builder getMibaoInfoResp(JunZhu jz, AtomicBoolean optional) {
-		List<MiBaoV2Bean> list = HibernateUtil.list(MiBaoV2Bean.class, 
-				"where ownerId="+jz.id+" and main=true");
+		Stream<MiBaoV2Bean> list = MiBaoV2Dao.inst.getMap(jz.id).values().stream()
+				.filter(t->t.main);
+//				HibernateUtil.list(MiBaoV2Bean0.class, 
+//				"where ownerId="+jz.id+" and main=true");
 		MibaoInfoResp.Builder resp = MibaoInfoResp.newBuilder();
 		resp.setRemainTime(0);
-		Map<Integer, MiBaoV2Bean> dbMap = new HashMap<>(list.size());
-		list.stream().forEach(b->dbMap.put(b.miBaoId%100, b));
+		Map<Integer, MiBaoV2Bean> dbMap = new HashMap<>();
+		list.forEach(b->dbMap.put(b.miBaoId%100, b));
 		boolean doJiHuo=true;//默认可激活秘术
 		int minLv = -1;
 		int curMiShuPinZhi = 1;
@@ -144,57 +148,61 @@ public class MiBaoV2Mgr {
 	
 	/**不要调用直接添加秘宝的方法*/
 	public void addMiBao(JunZhu jz, AwardTemp a) {
-		MiBaoNew conf = confMap.get(a.getItemId());
+		MiBaoNew conf = confMap.get(a.itemId);
 		if(conf == null){
-			log.error("未知整体{}x{} give to {}",a.getItemId(),
-					a.getItemNum(), jz.id);
+			log.error("未知整体{}x{} give to {}",a.itemId,
+					a.itemNum, jz.id);
 			return;
 		}
-		MiBaoV2Bean bean = HibernateUtil.find(MiBaoV2Bean.class, "where ownerId="+jz.id
-				+" and miBaoId="+a.getItemId());
+		MiBaoV2Bean bean = MiBaoV2Dao.inst.get(jz.id, a.itemId);
+//				HibernateUtil.find(MiBaoV2Bean0.class, "where ownerId="+jz.id
+//				+" and miBaoId="+a.itemId);
 		if(bean == null){
 			bean = new MiBaoV2Bean();
 			bean.ownerId = jz.id;
-			bean.miBaoId = a.getItemId();
-			bean.suiPianNum=a.getItemNum()*conf.jinjieNum;
+			bean.miBaoId = a.itemId;
+			bean.suiPianNum=a.itemNum*conf.jinjieNum;
 			bean.main = ( (bean.miBaoId / 100) % 10  ) == 1;//等级1的设置为主线.
+			MiBaoV2Dao.inst.getMap(jz.id).put(bean.miBaoId, bean);
 			HibernateUtil.insert(bean);
 		}else{
 			//转换为碎片
-			bean.suiPianNum+=a.getItemNum()*conf.jinjieNum;
+			bean.suiPianNum+=a.itemNum*conf.jinjieNum;
 			HibernateUtil.update(bean);
-			EventMgr.addEvent(ED.get_mbSuiPian_x_y, new Object[]{jz.id});
+			EventMgr.addEvent(jz.id ,ED.get_mbSuiPian_x_y, new Object[]{jz.id});
 		}
 	}
 	public void addMiBaoSuiPian(JunZhu jz,final AwardTemp a) {
 		List<MiBaoNewSuiPian> list = TempletService.listAll(MiBaoNewSuiPian.class.getSimpleName());		
-		Optional<MiBaoNewSuiPian> op = list.stream().filter(c->c.getId()==a.getItemId()).findAny();
+		Optional<MiBaoNewSuiPian> op = list.stream().filter(c->c.id==a.itemId).findAny();
 		if(op.isPresent()==false){
-			log.error("未知碎片{}x{} give to {}",a.getItemId(),
-					a.getItemNum(), jz.id);
+			log.error("未知碎片{}x{} give to {}",a.itemId,
+					a.itemNum, jz.id);
 			return;
 		}
 		int mibaoID = op.get().mibaoID;
 		
-		MiBaoV2Bean bean = HibernateUtil.find(MiBaoV2Bean.class, "where ownerId="+jz.id
-				+" and miBaoId="+mibaoID);
+		MiBaoV2Bean bean =  MiBaoV2Dao.inst.get(jz.id, mibaoID);
+//				HibernateUtil.find(MiBaoV2Bean0.class, "where ownerId="+jz.id
+//				+" and miBaoId="+mibaoID);
 		if(bean == null){
 			bean = new MiBaoV2Bean();
 			bean.ownerId = jz.id;
 			bean.miBaoId = mibaoID;
-			bean.suiPianNum=a.getItemNum();
+			bean.suiPianNum=a.itemNum;
 			bean.main = ( (bean.miBaoId / 100) % 10 ) == 1;//等级1的设置为主线.
+			MiBaoV2Dao.inst.getMap(jz.id).put(bean.miBaoId, bean);
 			HibernateUtil.insert(bean);
 		}else{
 			//转换为碎片
-			bean.suiPianNum+=a.getItemNum();
+			bean.suiPianNum+=a.itemNum;
 			HibernateUtil.update(bean);
 		}
 		IoSession session = SessionManager.inst.getIoSession(jz.id);
 		if(session != null) {
 			sendMainInfo(0, session, null);
 		}
-		EventMgr.addEvent(ED.get_mbSuiPian_x_y, new Object[]{jz.id});
+		EventMgr.addEvent(jz.id ,ED.get_mbSuiPian_x_y, new Object[]{jz.id});
 		//实际是检查红点
 		JunZhuMgr.inst.calcNewMiBao(jz);
 	}
@@ -202,12 +210,13 @@ public class MiBaoV2Mgr {
 		ErrorMessage.Builder req = (ErrorMessage.Builder)builder;
 		String str = req.getErrorDesc();
 		long dbId = Long.parseLong(str);
-		MiBaoV2Bean bean = HibernateUtil.find(MiBaoV2Bean.class, dbId);
-		if(bean == null){
-			return;
-		}
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 		if(jz == null){
+			return;
+		}
+		MiBaoV2Bean bean = MiBaoV2Dao.inst.getByDBId(jz.id, dbId);
+//				HibernateUtil.find(MiBaoV2Bean0.class, dbId);
+		if(bean == null){
 			return;
 		}
 		if(bean.ownerId != jz.id){
@@ -238,7 +247,7 @@ public class MiBaoV2Mgr {
 		bean.active=true;
 		//这里有问题，如有有提前已获得的高级秘宝
 		HibernateUtil.update(bean);
-		EventMgr.addEvent(ED.get_miBao_x_pinZhi_y, new Object[]{jz.id});
+		EventMgr.addEvent(jz.id,ED.get_miBao_x_pinZhi_y, new Object[]{jz.id});
 		JunZhuMgr.inst.sendMainInfo(session,jz);
 	}
 	public void miShuJiHuo(int id, IoSession session, Builder builder) {
@@ -252,8 +261,10 @@ public class MiBaoV2Mgr {
 			return;
 		}
 		//条件里需要加上主线判断。
-		List<MiBaoV2Bean> list = HibernateUtil.list(MiBaoV2Bean.class,
-				"where ownerId="+jz.id+" and main=true");
+		List<MiBaoV2Bean> list = MiBaoV2Dao.inst.getMap(jz.id).values().stream()
+				.filter(t->t.main).collect(Collectors.toList());
+//				HibernateUtil.list(MiBaoV2Bean0.class,
+//				"where ownerId="+jz.id+" and main=true");
 		if(list.size() != 9){
 			log.error("秘宝激活数据有误{},{}",jz.id,list.size());
 			return;
@@ -268,15 +279,17 @@ public class MiBaoV2Mgr {
 			MiBaoNew conf = confMap.get(bean.miBaoId);
 			curPinZhi = conf.pinzhi;
 			//查下一等级的是否已经有了
-			String hql = "where ownerId="+jz.id+" and miBaoId="+(bean.miBaoId+100) ;
-			log.error(hql);
-			MiBaoV2Bean nextBean = HibernateUtil.find(MiBaoV2Bean.class, 
-					hql );
+//			String hql = "where ownerId="+jz.id+" and miBaoId="+(bean.miBaoId+100) ;
+//			log.error(hql);
+			MiBaoV2Bean nextBean = MiBaoV2Dao.inst.get(jz.id, bean.miBaoId+100);
+//					HibernateUtil.find(MiBaoV2Bean0.class, 
+//					hql );
 			if(nextBean == null){
 				nextBean = new MiBaoV2Bean();
 				nextBean.ownerId = jz.id;
 				nextBean.main = true;
 				nextBean.miBaoId = bean.miBaoId+100;
+				MiBaoV2Dao.inst.getMap(jz.id).put(nextBean.miBaoId, nextBean);
 				HibernateUtil.insert(nextBean);
 			}else{
 				nextBean.main =  true;
@@ -297,8 +310,10 @@ public class MiBaoV2Mgr {
 	/**传入玩家ID和秘宝品质，返回不低于秘宝品质的秘宝数量*/
 	public int getMiBaoNum(int pinZhi , long junZhuId){
 		int res = 0;
-		String hql = "where ownerId = "+junZhuId +" and active=true";
-		List<MiBaoV2Bean> miBaoList = HibernateUtil.list(MiBaoV2Bean.class, hql ) ;
+//		String hql = "where ownerId = "+junZhuId +" and active=true";
+		List<MiBaoV2Bean> miBaoList =  MiBaoV2Dao.inst.getMap(junZhuId).values().stream()
+				.filter(t->t.active).collect(Collectors.toList());
+//				HibernateUtil.list(MiBaoV2Bean.class, hql ) ;
 		for(MiBaoV2Bean miBao :miBaoList){
 			if(miBao != null){
 				MiBaoNew miBaoTemp = confMap.get(miBao.miBaoId);
@@ -323,8 +338,9 @@ public class MiBaoV2Mgr {
 	 * */
 	public int getMiBaoSuiPianNum(long junZhuId , int miBaoId){
 		int res = 0 ;
-		String hql = "where ownerId = "+junZhuId +" and miBaoId = " + miBaoId ;
-		MiBaoV2Bean bean =  HibernateUtil.find(MiBaoV2Bean.class, hql);
+//		String hql = "where ownerId = "+junZhuId +" and miBaoId = " + miBaoId ;
+		MiBaoV2Bean bean =  MiBaoV2Dao.inst.get(junZhuId, miBaoId);
+//				HibernateUtil.find(MiBaoV2Bean0.class, hql);
 		if(bean != null){
 			if(bean.active){
 				res = confMap.get(bean.miBaoId).jinjieNum ;

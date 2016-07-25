@@ -189,6 +189,7 @@ public class FightScene extends VisionScene {
 	public static long cmdTime[] = {0,0};
 	public FightScene(String sceneName, long fightEndTime, int id){
 		super(sceneName);
+		visibleCnt = 999;
 		this.id = id;
 		long currentTimeMillis = System.currentTimeMillis();
 		this.fightEndTime = fightEndTime;
@@ -339,7 +340,7 @@ public class FightScene extends VisionScene {
 		if(purchase == null) {
 			log.error("BBB找不到类型为:{}的purchase配置, {}", 33,usedTimes+1);
 		} else {
-			price = purchase.getYuanbao();
+			price = purchase.yuanbao;
 		}
 		BuyXuePingResp.Builder resp=BuyXuePingResp.newBuilder();
 		if(leftTimes<=0){
@@ -497,7 +498,7 @@ public class FightScene extends VisionScene {
 		subao.setSubaoId(0);
 		subao.setConfigId(48);
 		subao.setOtherJzId(uidObject);
-		subao.setSubao(desc == null ? "联盟官员发起了联盟召集令，是否前往？" : desc.getDescription());
+		subao.setSubao(desc == null ? "联盟官员发起了联盟召集令，是否前往？" : desc.description);
 		subao.setEventId(501);
 		ProtobufMsg p = new ProtobufMsg(PD.LMZ_ZhaoHuan, subao);
 		for(Player player : players.values()){
@@ -632,7 +633,7 @@ public class FightScene extends VisionScene {
 				log.error("找不到类型为:{}的purchase配置, {}", 32,usedTimes+1);
 				break;
 			} else {
-				fuHuoYuanBaoPrice = purchase.getYuanbao();
+				fuHuoYuanBaoPrice = purchase.yuanbao;
 			}
 			if(jz.yuanBao>=fuHuoYuanBaoPrice && fuHuoYuanBaoPrice>0){
 				YuanBaoMgr.inst.diff(jz, -fuHuoYuanBaoPrice, 0, fuHuoYuanBaoPrice, YBType.LMZ_FUHUO, "联盟战复活");
@@ -878,8 +879,8 @@ public class FightScene extends VisionScene {
 			personalScoreMap.put(p.jzId,o);
 			sortScore();
 		}
-		EventMgr.addEvent(ED.done_junChengZhan_x, new Object[]{jz.id});
-		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(jz.id , DailyTaskConstants.junChengZhan, 1));
+		EventMgr.addEvent(jz.id,ED.done_junChengZhan_x, new Object[]{jz.id});
+		EventMgr.addEvent(jz.id,ED.DAILY_TASK_PROCESS, new DailyTaskCondition(jz.id , DailyTaskConstants.junChengZhan, 1));
 	}
 	public PlayerScore.Builder initDefaultScore(Player p) {
 		PlayerScore.Builder o;
@@ -1299,7 +1300,7 @@ public class FightScene extends VisionScene {
 		JCZCity city = op.get();
 		String awardStr = city.award;
 		List<AwardTemp> alist = AwardMgr.inst.parseAwardConf(awardStr);
-		int cityGX = alist.get(0).getItemNum();
+		int cityGX = alist.get(0).itemNum;
 		int gxGongJi = Math.round( cityGX * sumScale );
 		//Optional<AwardTemp> gx = alist.stream().filter(t->t.getItemId()==900027).findAny();
 		//2016年5月9日14:49:40 峰清确认只给功勋。
@@ -1410,9 +1411,9 @@ public class FightScene extends VisionScene {
 			HibernateUtil.update(cityBean);
 			BidMgr.inst.saveLog(cityBean.lmId,preHoldId,cityId,date); //保存战报
 			if(preHoldId > 0) {
-				EventMgr.addEvent(ED.LIANMENG_RANK_REFRESH, new Integer(preHoldId));
+				EventMgr.addEvent(preHoldId,ED.LIANMENG_RANK_REFRESH, new Integer(preHoldId));
 			}
-			EventMgr.addEvent(ED.LIANMENG_RANK_REFRESH, new Integer(winLmId));
+			EventMgr.addEvent(winLmId,ED.LIANMENG_RANK_REFRESH, new Integer(winLmId));
 		}
 		log.info("{}从{}获得城池{}",winLmId,preHoldId,cityId);
 		//
@@ -1434,7 +1435,7 @@ public class FightScene extends VisionScene {
 			if(rankList != null && rankIdx<rankList.size()){
 				JCZPersonalAward pa = rankList.get(rankIdx);
 				List<AwardTemp> a = AwardMgr.inst.parseAwardConf(pa.award);
-				rankAdd = a.get(0).getItemNum();
+				rankAdd = a.get(0).itemNum;
 			}
 			rankO.setGx(rankAdd);
 			//
@@ -1450,7 +1451,7 @@ public class FightScene extends VisionScene {
 			HibernateUtil.insert(b);
 			jzIdList.add(jzId);
 		}
-		EventMgr.inst.addEvent(ED.CITY_WAR_FIGHT_JIESUAN,new Object[]{jzIdList,2});
+		EventMgr.inst.addEvent(winLmId,ED.CITY_WAR_FIGHT_JIESUAN,new Object[]{jzIdList,2});
 	}
 	public int makeLMAward(int winLmId, int lmId, int cityGX, int gxGongJi) {
 		if(lmId<100)return 0;//NPC 
@@ -1508,7 +1509,7 @@ public class FightScene extends VisionScene {
 			mailConfig.taitou = preT;
 			jzIdList.add(member.junzhuId);
 		}
-		EventMgr.inst.addEvent(ED.CITY_WAR_FIGHT_JIESUAN,new Object[]{jzIdList,1});
+		EventMgr.inst.addEvent(winLmId,ED.CITY_WAR_FIGHT_JIESUAN,new Object[]{jzIdList,1});
 		return num;
 	}
 	public String combMail(int winLmId, int lmId, int cityGX, int gxGongJi, StringBuffer title, StringBuffer body
@@ -1778,7 +1779,7 @@ public class FightScene extends VisionScene {
 		return s;
 	}
 
-	protected boolean isBattleOver() {
+	public boolean isBattleOver() {
 		boolean battleOver = false;
 		for(Map.Entry<Integer,ScoreInfo> entry : scoreInfoMap.entrySet()) {
 			ScoreInfo scoreInfo = entry.getValue();
@@ -1897,7 +1898,7 @@ public class FightScene extends VisionScene {
 				log.error("找不到类型为:{}的purchase配置", 32);
 				remainReviveTimes = 0;
 			} else {
-				fuHuoYuanBaoPrice = purchase.getYuanbao();
+				fuHuoYuanBaoPrice = purchase.yuanbao;
 			}
 		}
 		
@@ -2023,7 +2024,7 @@ public class FightScene extends VisionScene {
 	    for(PlayerScore.Builder a:list){
 	    	a.setRank(i++);
 	    }
-	   /* for(PlayerScore.Builder b:list){
+	 /*   for(PlayerScore.Builder b:list){
 	    	JunZhu jZhu = HibernateUtil.find(JunZhu.class,b.getJzId());
 	    	System.out.println("排名："+b.getRank()+"积分:"+b.getJiFen()+"击杀数:"+b.getKillCnt()+"连杀数"+b.getLianSha()+"君主等级"+jZhu.getLevel()+"经验"+jZhu.exp);
 	    }*/
@@ -2068,7 +2069,7 @@ public class FightScene extends VisionScene {
 	 * @return true 已经离开联盟
 	 */
 	public boolean isLeaveLm(long jzId){
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class,jzId);
+		AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(jzId);
 		if (member == null || member.lianMengId <= 0) {
 			return true;
 		}else{

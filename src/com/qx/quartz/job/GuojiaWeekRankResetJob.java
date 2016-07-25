@@ -12,11 +12,11 @@ import com.qx.event.ED;
 import com.qx.event.EventMgr;
 
 public class GuojiaWeekRankResetJob implements Job {
-	private Logger log = LoggerFactory.getLogger(GuojiaWeekRankResetJob.class);
+	public Logger log = LoggerFactory.getLogger(GuojiaWeekRankResetJob.class);
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		// 国家周榜重置
-		EventMgr.addEvent(ED.GUOJIA_WEEK_RANK_RESET, null);
+		EventMgr.addEvent(1,ED.GUOJIA_WEEK_RANK_RESET, null);
 		log.info("国家周榜开始重置");
 	}
 }

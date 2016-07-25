@@ -15,7 +15,7 @@ import com.qx.persistent.HibernateUtil;
 
 public class CommonService {
 	public static Logger log = LoggerFactory.getLogger(CommonService.class);
-	private static CommonService instance;
+	public static CommonService instance;
 	
 	public static CommonService getInstance(){
 		if (instance == null) {

@@ -73,11 +73,11 @@
 				long instId=eg.instId;
 				UserEquip dbUe = HibernateUtil.find(UserEquip.class, instId);
 				if(dbUe!=null){
-					xilianzhi=dbUe.getXianlianzhi();
+					xilianzhi=dbUe.xianlianzhi;
 				}
 				XiLianRes.Builder ret=UserEquipAction.instance.getXiLianInfoByInstId(dbId);
 				EquipXiLian equipXiLian = HibernateUtil.find(EquipXiLian.class,
-						" where equipId=" + eg.dbId + " and junZhuId=" +dbUe.getUserId());
+						" where equipId=" + eg.dbId + " and junZhuId=" +dbUe.userId);
 // 				out.print("&nbsp;equipXiLian:" + (equipXiLian!=null?equipXiLian.getEquipId():equipXiLian));
 			%>
 			<tr>

@@ -7,11 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 @Entity
 @Table(name = "Alliance")
-public class AllianceBean{// implements MCSupport {
+public class AllianceBean implements DBHash{// implements MCSupport {
 
-	private static final long serialVersionUID = -3613633650658686833L;
+	public static final long serialVersionUID = -3613633650658686833L;
 
 	@Id
 	public int id;
@@ -53,6 +55,10 @@ public class AllianceBean{// implements MCSupport {
 	public int todayUpgradeSpeedTimes;
 	@Column(columnDefinition = "INT default 0")
 	public int hufuNum;
+	@Override
+	public long hash() {
+		return id;
+	}
 	
 //	@Override
 //	public long getIdentifier() {

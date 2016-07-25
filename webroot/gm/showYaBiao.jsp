@@ -44,7 +44,7 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		account = HibernateUtil.getAccount(name);
 	}else if(accIdStr.length()>0){
 		account = HibernateUtil.find(Account.class, (Long.valueOf(accIdStr) - GameServer.serverId) / 1000);
-		if(account != null)name = account.getAccountName();
+		if(account != null)name = account.accountName;
 	}
 do{
 	if(account == null){
@@ -52,7 +52,7 @@ do{
 		break;
 	}
 	session.setAttribute("name", name);
-	long jzId = account.getAccountId() * 1000 + GameServer.serverId;
+	long jzId = account.accountId * 1000 + GameServer.serverId;
 	JunZhu junzhu = HibernateUtil.find(JunZhu.class, jzId);
 	if(junzhu == null){
 		out.println("没有君主");

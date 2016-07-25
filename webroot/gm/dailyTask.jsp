@@ -66,9 +66,9 @@ function ff(){
 	    %>没有找到<%
     }else{
         session.setAttribute("name", name);
-        %><br>注册账号：<%=account.getAccountName()%>
+        %><br>注册账号：<%=account.accountName%>
         <%
-         long junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+         long junZhuId = account.accountId * 1000 + GameServer.serverId;
          JunZhu junzhu = HibernateUtil.find(JunZhu.class, junZhuId);
          if(junzhu == null){
             out("没有君主");
@@ -137,7 +137,7 @@ function ff(){
 				 <td><%= dtBean.dbId %></td>
 				 <td><%= dtBean.dbId % 100 %></td>
 				 <td><%= dtBean.jundu %></td>
-				 <td><%= desc == null ?"":desc.getDescription() %></td>
+				 <td><%= desc == null ?"":desc.description %></td>
 				 <td><%= dtBean.isFinish ?"已完成":"未完成" %></td>
 				 <td><%= dtBean.isGetReward ?"已领奖":"未领奖" %></td>
 				 <td>
@@ -174,7 +174,7 @@ function ff(){
 			td(r.id);td(r.name); //td(r.funDesc);
 			DescId desc = ActivityMgr.descMap.get(r.funDesc);
 	        if(desc != null){
-	        	td(desc.getDescription());
+	        	td(desc.description);
 	        }
 			//td(r.type);
 			td(r.condition);td(/*r.jiangli*/"");td(r.LmGongxian);

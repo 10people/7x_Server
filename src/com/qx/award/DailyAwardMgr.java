@@ -41,7 +41,7 @@ public class DailyAwardMgr {
 	public DailyAwardMgr(){
 		setInst();
 	}
-	protected void setInst() {
+	public void setInst() {
 		inst = this;
 	}
 	public void sendInfo(int id, IoSession session, Builder builder) {
@@ -77,7 +77,7 @@ public class DailyAwardMgr {
 		for(int i=1; i<cnt; i++){
 			DailyAwardArr.Builder loginArr = DailyAwardArr.newBuilder();
 			Jiangli conf = list.get(i);
-			if(conf.getAwardtype() != 1){
+			if(conf.awardtype != 1){
 				continue;
 			}
 			fillContent(loginArr, conf);
@@ -90,13 +90,13 @@ public class DailyAwardMgr {
 		msg.builder = ret;
 		session.write(msg);
 	}
-	protected void fillContent(
+	public void fillContent(
 			qxmobile.protobuf.DailyAwardProto.DailyAwardArr.Builder everyDayArr,
 			Jiangli jiangli) {
 		//TODO 注意后期将这个解析缓存起来。
-		String txt = jiangli.getItem();
+		String txt = jiangli.item;
 		String[] parts = txt.split("#");
-		everyDayArr.setName(HeroService.getNameById(jiangli.getName()));
+		everyDayArr.setName(HeroService.getNameById(jiangli.name));
 		for(String v : parts){
 			String[] nums = v.split(":");
 			if(nums.length !=3 ){
@@ -124,8 +124,8 @@ public class DailyAwardMgr {
 					log.error("没有找到武将 {}", v);
 					continue;
 				}
-				da.setAwardName(HeroService.getNameById(proto.getHeroName()+""));
-				da.setAwardIconId(proto.getIcon());
+				da.setAwardName(HeroService.getNameById(proto.heroName+""));
+				da.setAwardIconId(proto.icon);
 				break;
 			default:
 				log.error("未知类型:{}",v);
@@ -225,7 +225,7 @@ public class DailyAwardMgr {
 			log.error("奖励是null");
 			return ret;
 		}
-		String txt = jiangli.getItem();
+		String txt = jiangli.item;
 		String[] parts = txt.split("#");
 		for(String v : parts){
 			String[] nums = v.split(":");
@@ -237,9 +237,9 @@ public class DailyAwardMgr {
 			int id = Integer.parseInt(nums[1]);
 			int cnt = Integer.parseInt(nums[2]);
 			AwardTemp a = new AwardTemp();
-			a.setItemType(t);
-			a.setItemId(id);
-			a.setItemNum(cnt);
+			a.itemType = t;
+			a.itemId = id;
+			a.itemNum = cnt;
 			AwardMgr.inst.giveReward(session, a, jz);
 			log.info("给予{}奖励 type {} id {} cnt{}",
 					jz.id,t,id,cnt);

@@ -185,7 +185,7 @@ public class YaBiaoRobotProduceMgr  implements Runnable {
 	 * @param pathId 安全区编号/路线编号
 	 * @param cartNo  产生马车编号 0-19
 	 */
-	protected void produceXiTongMaChe(YaBiaoScene ybsc,int ybScId,int pathId,int cartNo) {
+	public void produceXiTongMaChe(YaBiaoScene ybsc,int ybScId,int pathId,int cartNo) {
 		boolean res=YaBiaoHuoDongMgr.inst.initSysYBRobots(ybsc, pathId,ybScId,cartNo);
 		log.info("产生编号--{}系统马车结果isOK?==={}",cartNo,res);
 	}

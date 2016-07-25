@@ -5,9 +5,11 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.qx.persistent.DBHash;
 @Entity
 @Table(name="resource_gongjin")
-public class ResourceGongJin {
+public class ResourceGongJin implements DBHash{
 	@Id
 	public long junzhuId;
 //	/**拥有的贡金: 调用无效*/
@@ -34,4 +36,8 @@ public class ResourceGongJin {
 	public Date getWeekAwardTime;
 	/**获取日奖励的时间*/
 	public Date getDayAwardTime;
+	@Override
+	public long hash() {
+		return junzhuId;
+	}
 }

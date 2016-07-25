@@ -58,17 +58,17 @@ public class CDKeyMgr {
 			return;
 		}
 		
-		if (keyInfo.getJzId() != 0
-				|| keyInfo.getDeadDate().getTime() < new Date().getTime()) {
+		if (keyInfo.jzId != 0
+				|| keyInfo.deadDate.getTime() < new Date().getTime()) {
 			resp.setResult(1);
 			resp.setErrorMsg("礼包码已失效");
 			logger.error("君主{}兑换的礼包码 {} 已失效", junZhu.id, key);
 			session.write(resp.build());
 			return;
 		}
-		if(keyInfo.getChanId()>0){
+		if(keyInfo.chanId>0){
 			List<CDKeyInfo> size = HibernateUtil.list(CDKeyInfo.class, 
-					"where jzId="+junZhu.id+"and chanId="+keyInfo.getChanId());
+					"where jzId="+junZhu.id+"and chanId="+keyInfo.chanId);
 			if(size.size()>0){
 				resp.setResult(2);
 				resp.setErrorMsg("您已领取过此类型礼包。");
@@ -77,14 +77,14 @@ public class CDKeyMgr {
 				return;
 			}
 		}
-		keyInfo.setJzId(junZhu.id);
+		keyInfo.jzId = junZhu.id;
 		HibernateUtil.save(keyInfo);
 		logger.info("{} 领取礼包 {},{},{}",
-				junZhu.id, keyInfo.getKeyId(),keyInfo.getCdkey(),keyInfo.getAwards());
+				junZhu.id, keyInfo.keyId,keyInfo.cdkey,keyInfo.awards);
 		resp.setResult(0);
-		AwardMgr.inst.giveReward(session, keyInfo.getAwards(), junZhu);
+		AwardMgr.inst.giveReward(session, keyInfo.awards, junZhu);
 		
-		String[] awards = keyInfo.getAwards().split("#");
+		String[] awards = keyInfo.awards.split("#");
 		for (String award : awards) {
 			int awardType = Integer.parseInt(award.split(":")[0]);
 			int awardId = Integer.parseInt(award.split(":")[1]);
@@ -126,12 +126,12 @@ public class CDKeyMgr {
 			} while (HibernateUtil.find(CDKeyInfo.class, "where cdkey='" + tmp
 					+ "'") != null);
 			CDKeyInfo keyInfo = new CDKeyInfo();
-			keyInfo.setKeyId(TableIDCreator.getTableID(CDKeyInfo.class, 1));
-			keyInfo.setCdkey(tmp);
-			keyInfo.setChanId(chanId);
-			keyInfo.setDeadDate(deadDate);
-			keyInfo.setCreateDate(now);
-			keyInfo.setAwards(awards);
+			keyInfo.keyId = TableIDCreator.getTableID(CDKeyInfo.class, 1);
+			keyInfo.cdkey = tmp;
+			keyInfo.chanId = chanId;
+			keyInfo.deadDate = deadDate;
+			keyInfo.createDate = now;
+			keyInfo.awards = awards;
 			keyList.add(keyInfo);
 			HibernateUtil.insert(keyInfo);
 		}

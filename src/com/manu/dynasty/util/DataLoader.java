@@ -32,9 +32,9 @@ import com.manu.dynasty.template.SelfBuilder;
  * 
  */
 public class DataLoader {
-	private String packageName;
-	private String config; // 每一行就是一个配置文件名字
-	private static Logger logger = LoggerFactory.getLogger(DataLoader.class);
+	public String packageName;
+	public String config; // 每一行就是一个配置文件名字
+	public static Logger logger = LoggerFactory.getLogger(DataLoader.class);
 	public static int ActivityMaxValue;
 	public DataLoader(String packageName, String config) {
 		this.packageName = packageName;
@@ -76,7 +76,7 @@ public class DataLoader {
 		}
 	}
 
-	private List<?> loadFile(String file, boolean exitWhenFail) {
+	public List<?> loadFile(String file, boolean exitWhenFail) {
 		try {
 			file = GameServer.confFileBasePath + file;
 //			logger.info("load file: {}", file);
@@ -186,7 +186,7 @@ public class DataLoader {
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	private void setField(Object obj, Field f, String v)
+	public void setField(Object obj, Field f, String v)
 			throws IllegalArgumentException, IllegalAccessException {
 		f.setAccessible(true);
 		if (f.getType() == int.class) {

@@ -46,8 +46,8 @@ import java.util.Map;
  */
 public class ObjectComparator implements Comparator<Object>{
 	
-	private List<String> columnList;//排序的字段名，此list的字段顺序即为排序优先顺序
-	private List<Integer> columnOrder;//字段升序或降序，顺序与columnList中字段对应，顺序一致
+	public List<String> columnList;//排序的字段名，此list的字段顺序即为排序优先顺序
+	public List<Integer> columnOrder;//字段升序或降序，顺序与columnList中字段对应，顺序一致
 	
 	/**
 	 * 升序
@@ -93,7 +93,7 @@ public class ObjectComparator implements Comparator<Object>{
 		this(getColumnListPara(column), order);
 	}
 	
-	private static List<String> getColumnListPara(String column){
+	public static List<String> getColumnListPara(String column){
 		List<String> list = new ArrayList<String>();
 		list.add(column);
 		return list;
@@ -118,7 +118,7 @@ public class ObjectComparator implements Comparator<Object>{
 		this.columnOrder = columnOrder;
 	}
 	
-	private static List<Integer> orderList(int order, int length){
+	public static List<Integer> orderList(int order, int length){
 		List<Integer> list = new ArrayList<Integer>();
 		for(int i = 0; i < length; i++){
 			list.add(order);

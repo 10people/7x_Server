@@ -48,8 +48,8 @@ public class LevelUpGiftMgr extends EventProc{
 		List<XianshiHuodong> list = TempletService.getInstance().listAll(XianshiHuodong.class.getSimpleName());
 		chongjiMap = new HashMap<Integer,XianshiHuodong>();
 		for (XianshiHuodong xianshiHuodong : list) {
-			if(xianshiHuodong.getDoneType() != 1) continue; //只初始化冲级
-			chongjiMap.put(Integer.parseInt(xianshiHuodong.getDoneCondition()),xianshiHuodong);
+			if(xianshiHuodong.doneType != 1) continue; //只初始化冲级
+			chongjiMap.put(Integer.parseInt(xianshiHuodong.doneCondition),xianshiHuodong);
 		}
 	}
 	/**
@@ -72,16 +72,16 @@ public class LevelUpGiftMgr extends EventProc{
 		List<XianshiHuodong> settings = TempletService.getInstance().listAll(XianshiHuodong.class.getSimpleName());
 		ActivitLevelGiftResp.Builder resp = ActivitLevelGiftResp.newBuilder();
 		for (XianshiHuodong xianshiHuodong : settings) {
-			if(xianshiHuodong.getDoneType() != 1) continue; //过滤掉其他配置
-			if(searchMap.containsKey(Integer.parseInt(xianshiHuodong.getDoneCondition()))) continue; //领取不显示
+			if(xianshiHuodong.doneType != 1) continue; //过滤掉其他配置
+			if(searchMap.containsKey(Integer.parseInt(xianshiHuodong.doneCondition))) continue; //领取不显示
 			GrowLevel.Builder oneInfo = GrowLevel.newBuilder();
-			oneInfo.setId(Integer.parseInt(xianshiHuodong.getDoneCondition()));
-			oneInfo.setDes(xianshiHuodong.getDesc());
+			oneInfo.setId(Integer.parseInt(xianshiHuodong.doneCondition));
+			oneInfo.setDes(xianshiHuodong.desc);
 			oneInfo.setProcess(jz.level);
-			oneInfo.setMaxProcess(Integer.parseInt(xianshiHuodong.getDoneCondition()));
+			oneInfo.setMaxProcess(Integer.parseInt(xianshiHuodong.doneCondition));
 			oneInfo.setFunctionid(-1); //不跳转
 			//奖励
-			String[] awardsArr = xianshiHuodong.getAward().split("#"); //0:900018:2000#0:900019:2000#0:900002:550
+			String[] awardsArr = xianshiHuodong.Award.split("#"); //0:900018:2000#0:900019:2000#0:900002:550
 			List<String> awardList = Arrays.asList(awardsArr);
 			for (String awardStr : awardList) {
 				//0:900018:2000
@@ -143,7 +143,7 @@ public class LevelUpGiftMgr extends EventProc{
 		levelUpGiftBean.getTime = new Date();
 		HibernateUtil.insert(levelUpGiftBean);
 		//道具加到身上
-		String[] awardsArr = chongjiMap.get(level).getAward().split("#"); //0:900018:2000#0:900019:2000#0:900002:550
+		String[] awardsArr = chongjiMap.get(level).Award.split("#"); //0:900018:2000#0:900019:2000#0:900002:550
 		List<String> awardList = Arrays.asList(awardsArr);
 		ExploreResp.Builder awardresp = ExploreResp.newBuilder();//奖励弹窗消息
 		awardresp.setSuccess(0);
@@ -183,8 +183,8 @@ public class LevelUpGiftMgr extends EventProc{
 		List<XianshiHuodong> settings = TempletService.getInstance().listAll(XianshiHuodong.class.getSimpleName());
 		ActivitLevelGiftResp.Builder resp = ActivitLevelGiftResp.newBuilder();
 		for (XianshiHuodong xianshiHuodong : settings) {
-			if(xianshiHuodong.getDoneType() != 1) continue; //过滤掉其他配置
-			if(searchMap.containsKey(Integer.parseInt(xianshiHuodong.getDoneCondition()))) continue; //领取不显示
+			if(xianshiHuodong.doneType != 1) continue; //过滤掉其他配置
+			if(searchMap.containsKey(Integer.parseInt(xianshiHuodong.doneCondition))) continue; //领取不显示
 			isShow = true;
 		}
 		return isShow;
@@ -193,12 +193,11 @@ public class LevelUpGiftMgr extends EventProc{
 	public void proc(Event event) {
 		switch (event.id) {
 		case ED.JUNZHU_LOGIN:{
-			long jzId = (long)event.param;
-			IoSession session = AccountManager.sessionMap.get(jzId);
+			JunZhu jz = (JunZhu) event.param;
+			IoSession session = AccountManager.sessionMap.get(jz.id);
 			if(session == null){
 				return;
 			}
-			JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 			isShowRed(session,jz);
 		}
 		break;
@@ -219,7 +218,7 @@ public class LevelUpGiftMgr extends EventProc{
 		
 	}
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.JUNZHU_LOGIN, this);
 		EventMgr.regist(ED.junzhu_level_up, this);
 	}
@@ -235,9 +234,9 @@ public class LevelUpGiftMgr extends EventProc{
 		}
 		List<XianshiHuodong> settings = TempletService.getInstance().listAll(XianshiHuodong.class.getSimpleName());
 		for (XianshiHuodong xianshiHuodong : settings) {
-			if(xianshiHuodong.getDoneType() != 1) continue; //过滤掉其他配置
-			if(searchMap.containsKey(Integer.parseInt(xianshiHuodong.getDoneCondition()))) continue; //领取不显示
-			if(jz.level >= Integer.parseInt(xianshiHuodong.getDoneCondition())){
+			if(xianshiHuodong.doneType != 1) continue; //过滤掉其他配置
+			if(searchMap.containsKey(Integer.parseInt(xianshiHuodong.doneCondition))) continue; //领取不显示
+			if(jz.level >= Integer.parseInt(xianshiHuodong.doneCondition)){
 				FunctionID.pushCanShowRed(jz.id,session,FunctionID.activity_levelAward);
 				break;
 			}

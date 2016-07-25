@@ -522,7 +522,7 @@ public class Scene implements Runnable{
 
 
 
-//	protected void exitFightScene(ExitFightScene.Builder exitFight, IoSession session) {
+//	public void exitFightScene(ExitFightScene.Builder exitFight, IoSession session) {
 //		Integer uid = (Integer) session.getAttribute(SessionAttKey.playerId_Scene);
 //		Player player = players.get(uid);
 //		if(player == null) {
@@ -678,11 +678,11 @@ public class Scene implements Runnable{
 		return distance;
 	}
 	
-	protected void enterFightScene(IoSession session, final EnterScene.Builder enterFightScene) {
+	public void enterFightScene(IoSession session, final EnterScene.Builder enterFightScene) {
 		// sub class implement
 	}
 
-	protected void informOtherFightScene(IoSession session, Player skip) {
+	public void informOtherFightScene(IoSession session, Player skip) {
 		// sub class implement
 	}
 	

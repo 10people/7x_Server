@@ -7,7 +7,7 @@ public enum SkillActionType {
 	ATTR_BUFF(4),
 	ATTR_DEBUFF(5);
 	
-	private int actionType;
+	public int actionType;
 	
 	private SkillActionType(int actionType) {
 		this.actionType = actionType;

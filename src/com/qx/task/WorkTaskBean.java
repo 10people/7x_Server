@@ -4,12 +4,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
+
+import com.manu.dynasty.template.ZhuXian;
+import com.qx.persistent.DBHash;
 
 
 @Entity
-@Table(name="WorkTask")
-public class WorkTaskBean {
+@Table(name = "WorkTask",indexes={@Index(name="jzid",columnList="jzid")})
+public class WorkTaskBean implements DBHash{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	
@@ -29,17 +33,28 @@ public class WorkTaskBean {
 	 */
 	public int progress;
 	
-	
-	/*之前复制表用代码，无视之
-	public static void copy(){
-		List<WorkTaskBean> list =  HibernateUtil.list(WorkTaskBean.class, "") ;
-		for(WorkTaskBean b : list){
-			WorkTaskBean2 b2 = new WorkTaskBean2();
-			b2.jzid = b.dbId/100;
-			b2.tid = b.tid;
-			b2.progress = b .progress ;
-			HibernateUtil.save(b2);
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null){
+			return false ;
 		}
+		if( obj instanceof WorkTaskBean){
+			WorkTaskBean tar = (WorkTaskBean)obj;
+			if( tar.dbId == this.dbId){
+				return true;
+			}
+		}
+		return false;
 	}
-*/	 
+
+	@Override
+	public long hash() {
+		return jzid;
+	}
+	
+	@Override
+	public String toString() {
+		ZhuXian conf = GameTaskMgr.inst.zhuxianTaskMap.get(tid);
+		return conf == null ? String.valueOf(tid):conf.title;
+	}
 }

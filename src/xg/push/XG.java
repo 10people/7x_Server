@@ -295,7 +295,7 @@ public class XG extends EventProc{
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.ACC_LOGIN, this);
 		EventMgr.regist(ED.BAI_ZHAN_A_WIN_B, this);
 	}

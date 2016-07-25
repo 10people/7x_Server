@@ -4,14 +4,14 @@ import com.qx.gm.util.CodeUtil;
 import com.qx.gm.util.MD5Util;
 
 public class OperateConsumeReq {
-	private int type;// 协议编号
-	private int firm;// 表示厂商ID
-	private int zone;// 大区号
-	private String uin;// 账号ID
-	private String rolename;// 角色名称
-	private String start;// 查询开始时间
-	private String end;// 查询结束时间
-	private String md5;// 加密
+	public int type;// 协议编号
+	public int firm;// 表示厂商ID
+	public int zone;// 大区号
+	public String uin;// 账号ID
+	public String rolename;// 角色名称
+	public String start;// 查询开始时间
+	public String end;// 查询结束时间
+	public String md5;// 加密
 
 	public boolean checkMd5() {
 		StringBuffer sBuffer = new StringBuffer();

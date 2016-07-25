@@ -8,24 +8,15 @@ package com.manu.dynasty.template;
  * 
  */
 public class HeroSkillDelayEffect implements java.io.Serializable {
-	private int delayRound;
-//	private CombatSkillEffect effect;
-//	private FireSkillAction action;
+	public int delayRound;
+//	public CombatSkillEffect effect;
+//	public FireSkillAction action;
 //	
 //	public HeroSkillDelayEffect(int delayRound,CombatSkillEffect effect,FireSkillAction action){
 //		this.delayRound = delayRound;
 //		this.effect = effect;
 //		this.action = action;
 //	}
-
-	public int getDelayRound() {
-		return delayRound;
-	}
-
-	public void setDelayRound(int delayRound) {
-		this.delayRound = delayRound;
-	}
-
 //	public CombatSkillEffect getEffect() {
 //		return effect;
 //	}

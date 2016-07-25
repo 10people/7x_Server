@@ -27,6 +27,8 @@ import com.manu.network.TXSocketMgr;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.account.AccountManager;
 import com.qx.alliance.AllianceBean;
+import com.qx.alliance.AllianceBeanDao;
+import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.event.ED;
 import com.qx.event.Event;
@@ -36,6 +38,7 @@ import com.qx.fuwen.FuwenMgr;
 import com.qx.junzhu.ChengHaoBean;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.mibao.MiBaoDao;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
 
@@ -98,12 +101,12 @@ type	完成条件
 	public void send2JunZhu(String text,long targetJzId){
 		ProtobufMsg msg = buildMsg(text);
 		
-		SessionUser su = SessionManager.inst.findByJunZhuId(targetJzId);
-		if(su==null||su.session==null){
+		IoSession su = SessionManager.inst.findByJunZhuId(targetJzId);
+		if(su==null){
 			log.info("取消给君主---{}发送广播 ，目标下线了",targetJzId, text);
 			return;
 		}
-		su.session.write(msg);
+		su.write(msg);
 		log.info("给君主---{}发送广播 ",targetJzId, text);
 	}
 	public void check() {
@@ -243,7 +246,7 @@ type	完成条件
 	public void checkAllianceLevel(Event param) {
 		//new Object[]{junZhu, layer}
 		Integer id = (Integer) param.param;
-		AllianceBean alnc = HibernateUtil.find(AllianceBean.class, id);
+		AllianceBean alnc = AllianceBeanDao.inst.getAllianceBean(id);
 		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
 		if(confList == null){
 			return;
@@ -314,7 +317,7 @@ type	完成条件
 				return;
 			}
 			AnnounceTemp targetConf = null;
-			String strCon = String.valueOf(fuwenCfg.getColor());
+			String strCon = String.valueOf(fuwenCfg.color);
 			List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
 			if(confList == null){
 				return;
@@ -331,7 +334,7 @@ type	完成条件
 			if(targetConf == null){
 				return;
 			}
-			String fuwenName = HeroService.getNameById(fuwenCfg.getName()+"");
+			String fuwenName = HeroService.getNameById(fuwenCfg.name+"");
 			String template = targetConf.announcement;
 			//[dbba8f]*玩家名字七个字*[-][ffffff]获得了[-][e15a00]橙色[-][ffffff]符文[-][e15a00]*符文名字*[-][ffffff]，运气超群！[-]
 			template = template.replaceFirst("\\*玩家名字七个字\\*", junzhuName);
@@ -408,9 +411,9 @@ type	完成条件
 		//[1389f6]*玩家名字七个字*[-]在#联盟名字七个字#联盟宗庙祭拜获得[eca50d]1000元宝[-]！" announceObject="1,2" />
 		JunZhu jz = HibernateUtil.find(JunZhu.class, jzId);
 		if(jz == null)return;
-		AlliancePlayer alliancePlayer = HibernateUtil.find(AlliancePlayer.class, jz.id);
+		AlliancePlayer alliancePlayer = AllianceMgr.inst.getAlliancePlayer(jz.id);
 		if(null == alliancePlayer) return;
-		AllianceBean allianceBean = HibernateUtil.find(AllianceBean.class, alliancePlayer.lianMengId);
+		AllianceBean allianceBean = AllianceBeanDao.inst.getAllianceBean(alliancePlayer.lianMengId);
 		if(null == allianceBean	) return; 
 		template = template.replace("*玩家名字七个字*", jz.name);
 		template = template.replace("#联盟名字七个字#", allianceBean.name);
@@ -426,7 +429,7 @@ type	完成条件
 			return;
 		}
 		AnnounceTemp targetConf = null;
-		String strCon = String.valueOf(at.getItemId());
+		String strCon = String.valueOf(at.itemId);
 		for(AnnounceTemp conf : confList){
 			if(conf.type != 15){//
 				continue;
@@ -503,7 +506,7 @@ type	完成条件
 		template = template.replace("*玩家名字七个字*", jz.name);
 		send(template);
 	}
-	protected void checkMiBaoActive(Event param) {
+	public void checkMiBaoActive(Event param) {
 		//junZhu,session,miBaoCfg
 		Object[] arr = (Object[]) param.param;
 		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
@@ -534,7 +537,7 @@ type	完成条件
 	}
 	
 	
-	protected void checkBaiZhan(Event param) {
+	public void checkBaiZhan(Event param) {
 		//new Object[]{jz.name, otherJun.name, bean.highestRank}
 		Object[] arr = (Object[]) param.param;
 		String winName =  (String) arr[0];
@@ -564,7 +567,7 @@ type	完成条件
 		template = template.replace("$N$", rank.toString());
 		send(template);
 	}
-	protected void checkYouXia(Event param) {
+	public void checkYouXia(Event param) {
 		//new Object[]{junZhu, zhangJieId}
 		Object[] arr = (Object[]) param.param;
 		JunZhu jz = (JunZhu) arr[0];
@@ -592,7 +595,7 @@ type	完成条件
 		template = template.replace("*玩家名字七个字*", jz.name);
 		send(template);
 	}
-	protected void checkYaBiao(Event param) {
+	public void checkYaBiao(Event param) {
 		//new Object[]{jz,ybbean.horseType}
 		Object[] arr = (Object[]) param.param;
 		JunZhu jz = (JunZhu) arr[0];
@@ -620,7 +623,7 @@ type	完成条件
 		template = template.replace("*玩家名字七个字*", jz.name);
 		send(template);
 	}
-	protected void checkYuMoBai(Event param) {
+	public void checkYuMoBai(Event param) {
 		Object[] arr = (Object[]) param.param;
 		JunZhu jz = (JunZhu) arr[0];
 		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
@@ -639,11 +642,11 @@ type	完成条件
 			return;
 		}
 		//*玩家名字七个字*于#联盟名字七个字#盟主雕像处完成顶礼膜拜，获得大量奖励
-		AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, jz.id);
+		AlliancePlayer ap = AllianceMgr.inst.getAlliancePlayer(jz.id);
 		if(ap == null){
 			return;
 		}
-		AllianceBean ab = HibernateUtil.find(AllianceBean.class, ap.lianMengId);
+		AllianceBean ab = AllianceBeanDao.inst.getAllianceBean(ap.lianMengId);
 		if(ab == null){
 			return;
 		}
@@ -652,7 +655,7 @@ type	完成条件
 		template = template.replace("#联盟名字七个字#", ab.name);
 		send(template);
 	}
-	protected void checkGongJinTimes(Event param) {
+	public void checkGongJinTimes(Event param) {
 		//new Object[]{jz, session, gongjinBean.todayJXTimes,AllianceBean}
 		Object[] arr = (Object[]) param.param;
 		JunZhu jz = (JunZhu) arr[0];
@@ -682,7 +685,7 @@ type	完成条件
 		template = template.replace("#联盟名字七个字#", lm.name);
 		send(template);
 	}
-	protected void checkChengHao(Event param) {
+	public void checkChengHao(Event param) {
 		//new Object[]{pid, want}
 		Object[] arr = (Object[]) param.param;
 		Long jzId = (Long) arr[0];
@@ -718,7 +721,7 @@ type	完成条件
 		template = template.replace("*玩家名字七个字*", jz.name);
 		send(template);
 	}
-	protected void checkLvUp(Event param) {
+	public void checkLvUp(Event param) {
 		//new Object[] { jz.id,		jz.level, jz })
 		Object[] arr = (Object[]) param.param;
 		Integer lv = (Integer) arr[1];
@@ -757,7 +760,7 @@ type	完成条件
 		template = template.replace("*玩家名字七个字*", jz.name);
 		send(template);
 	}
-	protected void checkGainItem(Event param) {
+	public void checkGainItem(Event param) {
 		Object[] arr = (Object[]) param.param;
 		Long jzId = (Long) arr[0];
 		IoSession session = AccountManager.sessionMap.get(jzId);
@@ -773,8 +776,11 @@ type	完成条件
 		if(confList == null){
 			return;
 		}
-		String hql = "select count(1) from MiBaoDB where ownerId="+jz.id+" and level>=1";
-		int cnt = HibernateUtil.getCount(hql);
+//		String hql = "select count(1) from MiBaoDB where ownerId="+jz.id
+//				+" and level>=1";
+//		int cnt = HibernateUtil.getCount(hql);
+		long cnt = MiBaoDao.inst.getMap(jz.id).values().stream()
+				.filter(t->t.level>=1).count();
 		if(cnt<=0){
 			return;
 		}
@@ -797,7 +803,7 @@ type	完成条件
 		template = template.replace("*玩家名字七个字*", jz.name);
 		send(template);
 	}
-	protected void checkMiBaoCnt(Event param) {
+	public void checkMiBaoCnt(Event param) {
 		//new Object[]{jz,session});
 		Object[] arr = (Object[]) param.param;
 		JunZhu jz =  (JunZhu) arr[0];
@@ -807,12 +813,14 @@ type	完成条件
 		if(confList == null){
 			return;
 		}
-		int cnt = 0;
+		long cnt = 0;
 		if(arr.length >= 3 && arr[2] instanceof Integer){
 			cnt = (int)arr[2];
 		}else{
-			String hql = "select count(1) from MiBaoDB where ownerId="+jz.id+" and level>=1";
-			cnt = HibernateUtil.getCount(hql);
+//			String hql = "select count(1) from MiBaoDB where ownerId="+jz.id+" and level>=1";
+//			cnt = HibernateUtil.getCount(hql);
+			 cnt = MiBaoDao.inst.getMap(jz.id).values().stream()
+					.filter(t->t.level>=1).count();
 		}
 		if(cnt<=0){
 			return;
@@ -849,7 +857,7 @@ type	完成条件
 		}
 //		send(template);
 	}
-	protected void checkMiBaoUpStart(Event param) {
+	public void checkMiBaoUpStart(Event param) {
 		//new Object[]{junZhu,session,miBaoCfg}
 		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
 		if(confList == null){
@@ -861,7 +869,7 @@ type	完成条件
 		checkMiBaoStarCnt(jz,session);
 		MiBao mibao = (MiBao) arr[2];
 		MibaoStar curStarCfg = (MibaoStar) arr[3];
-		String starStr = String.valueOf(curStarCfg.getStar()+1);
+		String starStr = String.valueOf(curStarCfg.star+1);
 		AnnounceTemp targetConf = null;
 		for(AnnounceTemp conf : confList){
 			if(conf.type != 2){//2	升星得到N星秘宝
@@ -880,7 +888,7 @@ type	完成条件
 		template = template.replace("#将魂名字#", HeroService.getNameById(String.valueOf(mibao.nameId)));
 		send(template);
 	}
-	protected void checkTanBao(Event param) {
+	public void checkTanBao(Event param) {
 		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
 		if(confList == null){
 			return;
@@ -898,10 +906,10 @@ type	完成条件
 		}
 		for (AwardTemp a : awards) {
 			// 4 表示 秘宝的itemType是4,
-			if (a.getItemType() != 4) {
+			if (a.itemType != 4) {
 				continue;
 			}
-			MiBao mibao = MibaoMgr.mibaoMap.get(a.getItemId());
+			MiBao mibao = MibaoMgr.mibaoMap.get(a.itemId);
 			if(mibao == null){
 				//不是秘宝
 				continue;
@@ -934,7 +942,7 @@ type	完成条件
 			session.setAttribute("MiBaoBDCache", broadList);
 		}
 	}
-	protected void checkMiBaoStarCnt(JunZhu jz, IoSession session) {
+	public void checkMiBaoStarCnt(JunZhu jz, IoSession session) {
 		List<AnnounceTemp> confList = TempletService.listAll(AnnounceTemp.class.getSimpleName());
 		if(confList == null){
 			return;
@@ -975,7 +983,7 @@ type	完成条件
 		}
 	}
 	
-	protected void zhanLingCity(Event param) {
+	public void zhanLingCity(Event param) {
 		//new Object[] { jz.id,		jz.level, jz })
 		Object[] arr = (Object[]) param.param;
 		String JGlmName = (String) arr[0];
@@ -1011,7 +1019,7 @@ type	完成条件
 	}
 	
 	@Override
-	protected void doReg() {
+	public void doReg() {
 //		EventMgr.regist(ED.CHONGLOU_RANK_REFRESH, this);
 		EventMgr.regist(ED.CHONGLOU_BROADCAST, this);
 		EventMgr.regist(ED.TAN_BAO_JIANG_LI, this);

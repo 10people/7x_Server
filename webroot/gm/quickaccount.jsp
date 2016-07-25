@@ -172,7 +172,7 @@
 								return null;
 							}
 						};
-						fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account.getAccountId()*1000+GameServer.serverId));
+						fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account.accountId*1000+GameServer.serverId));
 						CreateRoleRequest.Builder builder = CreateRoleRequest.newBuilder();
 						builder.setGuoJiaId(junzhu.guoJiaId);
 						builder.setRoleId(junzhu.roleId);
@@ -194,7 +194,7 @@
 									//HibernateUtil.find(JunZhu.class,  " where name='" + newJunzhuName +"'", false);
 							try{
 							/**复制角色信息**/
-							long newId = account.getAccountId() * 1000 + GameServer.serverId;
+							long newId = account.accountId * 1000 + GameServer.serverId;
 							newJunZhu = junzhu.clone();
 							newJunZhu.id = newId;
 							newJunZhu.name = newJunzhuName;
@@ -244,9 +244,9 @@
 							AllianceGongXianRecord allianceGongXianRecord = HibernateUtil.find(AllianceGongXianRecord.class, junzhu.id);
 							if(allianceGongXianRecord!=null){
 								AllianceGongXianRecord newAllianceGongXianRecord = new AllianceGongXianRecord();
-								newAllianceGongXianRecord.setJunZhuId(newJunZhu.id);
-								newAllianceGongXianRecord.setCurMonthFirstTime(allianceGongXianRecord.getCurMonthFirstTime());
-								newAllianceGongXianRecord.setCurMonthGongXian(allianceGongXianRecord.getCurMonthGongXian());
+								newAllianceGongXianRecord.junZhuId = newJunZhu.id;
+								newAllianceGongXianRecord.curMonthFirstTime = allianceGongXianRecord.curMonthFirstTime;
+								newAllianceGongXianRecord.curMonthGongXian = allianceGongXianRecord.curMonthGongXian;
 								HibernateUtil.insert(newAllianceGongXianRecord);
 							}
 							/**复制荒野PVE布阵信息**/
@@ -293,16 +293,16 @@
 							List<Email> emailBeans = HibernateUtil.list(Email.class, "where receiverId="+junzhu.id+"");
 							if(emailBeans!=null){
 								for(Email bean:emailBeans){
-									bean.setId(TableIDCreator.getTableID(Email.class, 1));
-									bean.setReceiverId(newJunZhu.id);
+									bean.id = TableIDCreator.getTableID(Email.class, 1);
+									bean.receiverId = newJunZhu.id;
 									HibernateUtil.insert(bean);
 								}
 							}
 							/**复制EquipXiLian信息**/
 							EquipXiLian equipXiLian = HibernateUtil.find(EquipXiLian.class, "where junZhuId="+junzhu.id+"");
 							if(equipXiLian!=null){
-								equipXiLian.setId(TableIDCreator.getTableID(EquipXiLian.class, 1));
-								equipXiLian.setJunZhuId(newJunZhu.id);
+								equipXiLian.id =TableIDCreator.getTableID(EquipXiLian.class, 1);
+								equipXiLian.junZhuId = newJunZhu.id;
 								HibernateUtil.insert(equipXiLian);
 							}
 							/**复制HouseBean信息**/
@@ -333,8 +333,8 @@
 							/**mibao**/
 							List<MiBaoDB> mibaos = HibernateUtil.list(MiBaoDB.class,"where ownerId="+junzhu.id+"");
 							for(MiBaoDB mibao:mibaos){
-								mibao.setDbId(TableIDCreator.getTableID(MiBaoDB.class, 1));
-								mibao.setOwnerId(newJunZhu.id);
+								mibao.dbId =TableIDCreator.getTableID(MiBaoDB.class, 1);
+								mibao.ownerId = newJunZhu.id;
 								HibernateUtil.insert(mibao);
 							}
 							MiBaoSkillDB mk = HibernateUtil.find(MiBaoSkillDB.class,"where jId="+junzhu.id);
@@ -403,7 +403,7 @@
 							/**ShouchongInfo**/
 							ShouchongInfo shouchongInfo = HibernateUtil.find(ShouchongInfo.class,"where junzhuId="+junzhu.id+"");
 							if(shouchongInfo!=null){
-								shouchongInfo.setJunzhuId(newJunZhu.id);
+								shouchongInfo.junzhuId = newJunZhu.id;
 								HibernateUtil.insert(shouchongInfo);
 							}
 							/**TalentAttr**/
@@ -427,7 +427,7 @@
 							/**UserEquip**/
 							List<UserEquip> userEquips = HibernateUtil.list(UserEquip.class, "where userId="+junzhu.id+"");
 							for(UserEquip userEquip:userEquips){
-								userEquip.setUserId(newJunZhu.id);
+								userEquip.userId = newJunZhu.id;
 								HibernateUtil.insert(userEquip);
 							}
 							/**VipRechargeRecord**/
@@ -454,15 +454,15 @@
 							/**YouXiaRecord**/
 							List<YouXiaRecord> youXiaRecords = HibernateUtil.list(YouXiaRecord.class, "where junZhuId="+junzhu.id+"");
 							for(YouXiaRecord youXiaRecord:youXiaRecords){
-								youXiaRecord.setId(TableIDCreator.getTableID(YouXiaRecord.class, 1));
-								youXiaRecord.setJunzhuId(newJunZhu.id);
+								youXiaRecord.id = TableIDCreator.getTableID(YouXiaRecord.class, 1);
+								youXiaRecord.junzhuId = newJunZhu.id;
 								HibernateUtil.insert(youXiaRecord);
 							}
 							/**YouXiaRecord**/
 							List<YuanBaoInfo> yuanBaoInfos = HibernateUtil.list(YuanBaoInfo.class, "where ownerid="+junzhu.id+"");
 							for(YuanBaoInfo yuanBaoInfo:yuanBaoInfos){
-								yuanBaoInfo.setDbId(TableIDCreator.getTableID(YuanBaoInfo.class, 1));
-								yuanBaoInfo.setOwnerid(newJunZhu.id);
+								yuanBaoInfo.dbId = TableIDCreator.getTableID(YuanBaoInfo.class, 1);
+								yuanBaoInfo.ownerid = newJunZhu.id;
 								HibernateUtil.insert(yuanBaoInfo);
 							}
 							/**YouXiaRecord**/

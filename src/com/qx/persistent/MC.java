@@ -3,8 +3,10 @@ package com.qx.persistent;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.manu.dynasty.noSQLCache.CahceObject;
 import com.manu.dynasty.store.MemcachedCRUD;
 import com.qx.achievement.Achievement;
+import com.qx.activity.QiandaoInfo;
 import com.qx.activity.XianShiBean;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.award.DailyAwardBean;
@@ -22,8 +24,11 @@ import com.qx.purchase.TiLi;
 import com.qx.purchase.TongBi;
 import com.qx.purchase.XiLian;
 import com.qx.pve.BuZhenBean;
+import com.qx.pve.JunzhuPveInfo;
 import com.qx.task.DailyTaskBean;
 import com.qx.timeworker.TimeWorker;
+import com.qx.yabiao.YBBattleBean;
+import com.qx.yabiao.YaBiaoBean;
 import com.qx.yabiao.YunBiaoHistory;
 
 /**
@@ -67,9 +72,12 @@ public class MC {
 		// 天赋
 		cachedClass.add(TalentAttr.class);
 		//押镖
-//		cachedClass.add(YaBiaoBean.class);
+		cachedClass.add(YaBiaoBean.class);
+		cachedClass.add(YBBattleBean.class);
 		//限时活动
 		cachedClass.add(XianShiBean.class);
+		cachedClass.add(QiandaoInfo.class);
+		cachedClass.add(JunzhuPveInfo.class);
 	}
 	public static <T> T get(Class<T> t, long id){
 		if(!cachedClass.contains(t)){

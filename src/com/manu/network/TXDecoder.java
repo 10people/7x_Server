@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 public class TXDecoder extends ProtoBuffDecoder{
 	public static Logger log = LoggerFactory.getLogger(TXDecoder.class);
 	public static final byte[] headBytes = "tgw_l7_forward\r\nHost:app12345.qzoneapp.com:80\r\n\r\n".getBytes();
-	protected boolean doDecode(IoSession ses, IoBuffer in,
+	public boolean doDecode(IoSession ses, IoBuffer in,
 			ProtocolDecoderOutput arg2) throws Exception {
 		//检查是否已经发送过socket头。
 		//tgw_l7_forward\r\nHost:app12345.qzoneapp.com:80\r\n\r\n

@@ -4,24 +4,33 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.qx.persistent.DBHash;
 
 
 
 
 @Entity
 @Table(name = "public_shop")
-public class PublicShop{
+public class PublicShop implements DBHash {
 
-	// id = junzhuId * 10 + type 
 	// 荒野商店
 	//public static final int huangYe_shop_type = 1;
 	// 联盟商店
 	//public static final int lianMeng_shop_type=  2;
 	// 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public long id;
+	
+	public long junZhuId;
+	
+	public int type;
+	
 	@Column(name = "goodsInfo", nullable = true, columnDefinition = "varchar(10240)")
 	public String goodsInfo; // 商品info
 
@@ -31,7 +40,7 @@ public class PublicShop{
 	 * 联盟战商店：功勋
 	 * 百战商店: 威望
 	 */
-	private int money = 0; 
+	public int money = 0; 
 
 	public Date nextAutoRefreshTime; // 下次自动刷新时间
 
@@ -42,10 +51,8 @@ public class PublicShop{
 	@Column(nullable = true)
 	public Date openTime;
 
-	protected int getMoney(){
-		return money;
-	}
-	protected void setMoney(int money){
-		this.money = money;
+	@Override
+	public long hash() {
+		return junZhuId;
 	}
 }

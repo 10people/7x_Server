@@ -6,8 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.qx.alliance.AllianceBean;
+import com.qx.alliance.AllianceBeanDao;
+import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.junzhu.ChengHaoBean;
+import com.qx.junzhu.ChengHaoDao;
 import com.qx.junzhu.JunZhu;
 import com.qx.persistent.HibernateUtil;
 import com.qx.world.YaBiaoScene;
@@ -42,18 +45,19 @@ public class YaBiaoRestoreMgr {
 					continue;
 				}
 				YaBiaoScene sc=getYaBiaoScene();
-				AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jzId);
+				AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(jzId);
 				int zhiWu=0;
 				String lmName="***";
 				if(member!= null&&member.lianMengId>0){
 					zhiWu= member.title;
-					AllianceBean acBean = HibernateUtil.find(AllianceBean.class, member.lianMengId);
+					AllianceBean acBean = AllianceBeanDao.inst.getAllianceBean(member.lianMengId);
 					if (acBean != null) {
 						lmName=acBean.name;
 					}
 				}
 				int chenghao=-1;
-				ChengHaoBean bean = HibernateUtil.find(ChengHaoBean.class, "where jzId="+jzId+" and state='U'");
+				//ChengHaoBean bean = HibernateUtil.find(ChengHaoBean.class, "where jzId="+jzId+" and state='U'");
+				ChengHaoBean bean = ChengHaoDao.inst.getChengHaoBeanByState(jzId,'U');
 				if(bean!=null){
 					chenghao=bean.tid;
 				}

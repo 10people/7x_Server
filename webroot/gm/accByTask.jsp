@@ -92,8 +92,8 @@ function go(act, id, type){
 		}
 	%>
 	<tr>
-	<td><%=accId %></td><td><%=acc==null ? "null":acc.getAccountName() %></td><td><%=acc==null ? "null":acc.getAccountPwd() %></td>
-	<td><%=task==null ? "null":task.getTitle() %></td>
+	<td><%=accId %></td><td><%=acc==null ? "null":acc.accountName %></td><td><%=acc==null ? "null":acc.accountPwd %></td>
+	<td><%=task==null ? "null":task.title %></td>
 	<td><%=svrName %>
 	<tr>
 	<%} %>

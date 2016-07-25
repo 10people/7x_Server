@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
+import com.manu.dynasty.boot.GameServer;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.ChongZhi;
@@ -29,6 +30,7 @@ import com.qx.event.ED;
 import com.qx.event.EventMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.task.DailyTaskMgr;
 import com.qx.yuanbao.YBType;
@@ -43,7 +45,7 @@ import qxmobile.protobuf.VIP.VipInfoResp;
 import qxmobile.protobuf.ZhangHao.RegRet;
 
 public class VipMgr {
-
+	public static boolean allowFakeCharge = false;
 	public static VipMgr INSTANCE;
 	/** VIP配置文件信息，<vip等级，vip信息> **/
 	public static Map<Integer, VIP> vipTemp;
@@ -66,6 +68,7 @@ public class VipMgr {
 
 	public VipMgr() {
 		INSTANCE = this;
+		allowFakeCharge = GameServer.cfg.get("loginServer").contains("192.168.3.80");
 		initData();
 	}
 
@@ -214,6 +217,7 @@ public class VipMgr {
 		Date date = new Date();
 		String reason = "??";
 		//各种卡是扣钱去买，其他则是充值，配合真正的充值调用。首冲和赠送在真实的充值中处理，这里不计算
+		int type = 0;
 		if (data.id == yuekaid) {
 			remainTotalDays = CanShu.YUEKA_TIME + playerVipInfo.yueKaRemianDay;
 			playerVipInfo.yueKaRemianDay += CanShu.YUEKA_TIME;
@@ -221,6 +225,7 @@ public class VipMgr {
 				playerVipInfo.lastUpdateYuekaTime = date;
 			}
 			reason = "购买月卡";
+			type = YBType.YB_BUY_YUEKA; 
 		} else if(data.id == zhongShenKa){
 			if(playerVipInfo.haveZhongShenKa == 1) {
 				resp.setIsSuccess(false);
@@ -232,6 +237,7 @@ public class VipMgr {
 			}
 			playerVipInfo.haveZhongShenKa = 1;
 			reason = "购买终身卡";
+			type = YBType.YB_BUY_ZHONGSHENKA;
 		} else if(data.id == zhoukaid){
 			remainTotalDays = CanShu.ZHOUKA_TIME + playerVipInfo.zhouKaRemianDay;
 			playerVipInfo.zhouKaRemianDay += CanShu.ZHOUKA_TIME;
@@ -239,11 +245,13 @@ public class VipMgr {
 				playerVipInfo.lastUpdateZhoukaTime = date;
 			}
 			reason = "购买周卡";
+			type = YBType.YB_BUY_ZHOUKA;
 		}else{
 			reason = "vip充值";
+			type = YBType.YB_VIP_CHONGZHI;
 		}
 		if(doAdd){
-			YuanBaoMgr.inst.diff(jz, addYB, data.addNum, 0, YBType.YB_VIP_CHONGZHI, reason);
+			YuanBaoMgr.inst.diff(jz, addYB, data.addNum, 0, type, reason);
 		}
 		int vipExp = playerVipInfo.vipExp + data.addVipExp;
 		log.info("玩家：{}，充值之前的vipExp：{}， 充值之后的vipExp：{}", jz.id, playerVipInfo.vipExp, vipExp);
@@ -284,7 +292,7 @@ public class VipMgr {
 			DailyTaskMgr.INSTANCE.taskListRequest(PD.C_DAILY_TASK_LIST_REQ, session);
 		}
 		if(data.id== yuekaid || data.id == zhoukaid){ //月卡周卡
-			EventMgr.addEvent(ED.ACTIVITY_MONTHCARD_REFRESH,session);//刷新月卡活动
+			EventMgr.addEvent(jz.id,ED.ACTIVITY_MONTHCARD_REFRESH,session);//刷新月卡活动
 		}
 	}
 
@@ -296,6 +304,7 @@ public class VipMgr {
 			vipInfo.sumAmount = 0;
 			vipInfo.level = 0;
 			vipInfo.vipExp = 0;
+			Cache.playerVipInfoCaChe.put(vipInfo.accId, vipInfo);
 			HibernateUtil.insert(vipInfo);
 		} else { 
 			// 更新月卡剩余天数

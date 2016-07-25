@@ -1,5 +1,7 @@
 package com.manu.network;
 
+import java.security.PublicKey;
+
 public class SessionAttKey {
 	public static final String socketHeadReceived = "socketHeadReceived";
 	public static final String sessionAccount = "sAccount";
@@ -7,6 +9,7 @@ public class SessionAttKey {
 	public static final String Scene = "Scene";
 	public static final String playerId = "PlayerId";
 	public static final String junZhuId = "junzhuId";
+	public static final String jzKey = "redisJzKey";
 	public static final String antiCheatPass = "antiCheatPass";
 	public static final String guanQiaId = "guanQiaId";
 	public static final String chuanQiMark = "chuanQiMark";
@@ -25,6 +28,7 @@ public class SessionAttKey {
 	public static final String XG_TOKEN= "XG_TOKEN";
 	public static final String LM_NAME = "LM_NAME";
 	public static final String LM_ZHIWU = "LM_ZHIWU";
+	public static final String LM_INFO = "LM_INFO";			// 玩家的联盟信息，要是查询为null表示没有联盟
 	public static final String VIP_LEVEL = "VIP_LEVEL";
 	public static final String CHENG_HAO_ID = "CHENG_HAO_ID";
 	public static final String RobotType="ROBOT_TYPE";
@@ -32,4 +36,6 @@ public class SessionAttKey {
 	public static final String SceneID = "SCENE_ID";
 	public static final String LAST_GREETED_KEY = "lastGreetedKey";
 	public static final String Chosed_Scene = "setlmid";
+	public static final String JUN_XIAN_ID = "JUN_XIAN_ID";
+	public static final String TalentAttr = "TalentAttr";
 }

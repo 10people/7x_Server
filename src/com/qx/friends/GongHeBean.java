@@ -4,13 +4,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 
 @Entity
 @Table(name = "GongHeBean2")
 /**
  * @deprecated 恭贺
  */
-public class GongHeBean {
+public class GongHeBean implements DBHash{
 	@Id
 	public long jzId;
 	/**
@@ -37,5 +39,10 @@ public class GongHeBean {
 	/*联盟功能开启被恭贺奖励
 	 */
 	public int award4LM;
+	@Override
+	public long hash() {
+		// TODO Auto-generated method stub
+		return jzId;
+	}
 	
 }

@@ -1,5 +1,6 @@
 package com.qx.alliance;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,7 @@ import com.qx.email.EmailMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.pvp.LveDuoMgr;
 
 public class AllianceVoteMgr {
 	public Logger logger = LoggerFactory.getLogger(AllianceMgr.class);
@@ -37,13 +39,11 @@ public class AllianceVoteMgr {
 		}
 		MengZhuApplyResp.Builder response = MengZhuApplyResp.newBuilder();
 
-		AlliancePlayer mgrMember = HibernateUtil.find(AlliancePlayer.class,
-				junZhu.id);
+		AlliancePlayer mgrMember = AllianceMgr.inst.getAlliancePlayer(junZhu.id);
 		if (mgrMember == null) {
 			return;
 		}
-		AllianceBean alncBean = HibernateUtil.find(AllianceBean.class,
-				mgrMember.lianMengId);
+		AllianceBean alncBean = AllianceBeanDao.inst.getAllianceBean(mgrMember.lianMengId);
 		if (alncBean == null) {
 			sendError(cmd, session, "该联盟不存在");
 			logger.error("未发现联盟，id:{}", mgrMember.lianMengId);
@@ -81,8 +81,7 @@ public class AllianceVoteMgr {
 			return;
 		}
 		// 进行投票操作的成员
-		AlliancePlayer mgrMember = HibernateUtil.find(AlliancePlayer.class,
-				junZhu.id);
+		AlliancePlayer mgrMember = AllianceMgr.inst.getAlliancePlayer(junZhu.id);
 		if (mgrMember == null) {
 			return;
 		}
@@ -95,7 +94,7 @@ public class AllianceVoteMgr {
 			votedMember = mgrMember;
 		} else {
 			votedJunZhu = HibernateUtil.find(JunZhu.class, id);
-			votedMember = HibernateUtil.find(AlliancePlayer.class, id);
+			votedMember = AllianceMgr.inst.getAlliancePlayer(id);
 		}
 		if (votedJunZhu == null) {
 			logger.error("未发现君主，cmd:{}", cmd);
@@ -105,8 +104,7 @@ public class AllianceVoteMgr {
 		if (votedMember == null) {
 			return;
 		}
-		AllianceBean alncBean = HibernateUtil.find(AllianceBean.class,
-				mgrMember.lianMengId);
+		AllianceBean alncBean = AllianceBeanDao.inst.getAllianceBean(mgrMember.lianMengId);
 		if (alncBean == null) {
 			sendError(cmd, session, "该联盟不存在");
 			logger.error("未发现联盟，id:{}", mgrMember.lianMengId);
@@ -149,13 +147,11 @@ public class AllianceVoteMgr {
 			logger.error("未发现君主，cmd:{}", cmd);
 			return;
 		}
-		AlliancePlayer mgrMember = HibernateUtil.find(AlliancePlayer.class,
-				junZhu.id);
+		AlliancePlayer mgrMember = AllianceMgr.inst.getAlliancePlayer(junZhu.id);
 		if (mgrMember == null) {
 			return;
 		}
-		AllianceBean alncBean = HibernateUtil.find(AllianceBean.class,
-				mgrMember.lianMengId);
+		AllianceBean alncBean = AllianceBeanDao.inst.getAllianceBean(mgrMember.lianMengId);
 		if (alncBean == null) {
 			sendError(cmd, session, "该联盟不存在");
 			logger.error("未发现联盟，id:{}", mgrMember.lianMengId);
@@ -176,8 +172,7 @@ public class AllianceVoteMgr {
 	}
 
 	public void voteOver(int lianMengId) {
-		AllianceBean alncBean = HibernateUtil.find(AllianceBean.class,
-				lianMengId);
+		AllianceBean alncBean = AllianceBeanDao.inst.getAllianceBean(lianMengId);
 		if (alncBean == null) {
 			logger.error("联盟选举结束，未发现联盟，id:{}", lianMengId);
 			return;
@@ -261,15 +256,24 @@ public class AllianceVoteMgr {
 			HibernateUtil.save(member);
 		}
 		// 发送联盟选举结束邮件通知
+		List<Object[]> aList = LveDuoMgr.inst.getAllAllianceMberName(alncBean.id);
 		if(isChange) {
 			Mail mailConfig = null;				
-			for(AlliancePlayer member : members) { 
+			/*for(AlliancePlayer member : members) { 
 				mailConfig = EmailMgr.INSTANCE.getMailConfig(30010);				
 				String content = mailConfig.content.replace("***", retJunzhu.name).replace("XXX", mengzhuJZ.name);
 				JunZhu memberJunzhu = HibernateUtil.find(JunZhu.class, member.junzhuId);
 				if(member.junzhuId != mengzhuJZ.id && member.junzhuId != retJunzhu.id) {
 					EmailMgr.INSTANCE.sendMail(memberJunzhu.name, content, "", mailConfig.sender, mailConfig,"");
-				}
+				}*/
+			for(Object[] a:aList){
+				long jzId = ((BigInteger)a[1]).longValue();
+				String mName = (String) a[0];
+				mailConfig = EmailMgr.INSTANCE.getMailConfig(30010);				
+				String content = mailConfig.content.replace("***", retJunzhu.name).replace("XXX", mengzhuJZ.name);
+				if(jzId != mengzhuJZ.id && jzId != retJunzhu.id) {
+					EmailMgr.INSTANCE.sendMail(mName, content, "", mailConfig.sender, mailConfig,"");
+			}
 			}
 			// 发给原盟主
 			mailConfig = EmailMgr.INSTANCE.getMailConfig(30008);
@@ -280,7 +284,7 @@ public class AllianceVoteMgr {
 			content = mailConfig.content.replace("***", mengzhuJZ.name);
 			EmailMgr.INSTANCE.sendMail(retJunzhu.name, content, "", mailConfig.sender, mailConfig,"");
 		} else {
-			for(AlliancePlayer member : members) { 
+			/*for(AlliancePlayer member : members) { 
 				Mail mailConfig = null;				
 				JunZhu memberJunzhu = HibernateUtil.find(JunZhu.class, member.junzhuId);
 				String content = "";
@@ -292,6 +296,21 @@ public class AllianceVoteMgr {
 					content = mailConfig.content.replace("***", mengzhuJZ.name);
 				}
 				EmailMgr.INSTANCE.sendMail(memberJunzhu.name, content, "", mailConfig.sender, mailConfig,"");
+			}*/
+			for(Object[] a:aList){
+				long jzId = ((BigInteger)a[1]).longValue();
+				String mName = (String) a[0];
+				int title = (int) a[2];
+				Mail mailConfig = null;				
+				String content = "";
+				if(title == AllianceMgr.TITLE_LEADER) {
+					mailConfig = EmailMgr.INSTANCE.getMailConfig(30011);				
+					content = mailConfig.content;
+				} else {
+					mailConfig = EmailMgr.INSTANCE.getMailConfig(30012);				
+					content = mailConfig.content.replace("***", mengzhuJZ.name);
+				}
+				EmailMgr.INSTANCE.sendMail(mName, content, "", mailConfig.sender, mailConfig,"");
 			}
 		}
 	}

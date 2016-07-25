@@ -4,14 +4,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
 import java.util.Properties;
+import java.util.concurrent.Executor;
 
 import org.apache.mina.core.service.IoHandler;
+import org.apache.mina.core.service.IoProcessor;
+import org.apache.mina.core.service.SimpleIoProcessorPool;
+import org.apache.mina.core.session.AbstractIoSession;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
+import org.apache.mina.transport.socket.nio.NioProcessor;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.apache.mina.util.ExceptionMonitor;
 import org.slf4j.Logger;
@@ -48,7 +56,7 @@ public class TXSocketMgr {
 		IoHandler handler = new TXIoHandler();
 		TXCodecFactory codecFactory = new TXCodecFactory();
 		//
-		acceptor = new NioSocketAcceptor();
+		acceptor = new NioSocketAcceptor(16);
 //		OrderedThreadPoolExecutor orderedThreadPoolExecutor = new OrderedThreadPoolExecutor();
 //		ExecutorFilter executorFilter = new ExecutorFilter( orderedThreadPoolExecutor );
 //		acceptor.getFilterChain().addLast("executor", executorFilter);
@@ -63,14 +71,62 @@ public class TXSocketMgr {
 		//ip = "0.0.0.0";//腾讯要求
 		acceptor.bind(new InetSocketAddress("0.0.0.0", port));
 		log.info("启动socket，端口 {}", port);
-		
-//		server = new WolfServer();
-//		server.ip = "0.0.0.0";//腾讯要求
-//		server.port = port;
-//		server.handler = handler;
-//		server.codecFactory = codecFactory;
-//		server.serverName = "腾讯网关";
-//		
-//		server.start();
+		//
+		try{
+			parseProcessorPool();
+		}catch(Exception e){
+			log.error("解析错误",e);
+		}
+	}
+	/* ----------------下面的代码是给从后台修改处理器个数用的 ----------------*/
+	public SimpleIoProcessorPool<AbstractIoSession> pool;
+	public Field poolArrField;
+	public IoProcessor<?>[] procsArr;
+	public void parseProcessorPool()throws Exception{
+		NioSocketAcceptor acc = TXSocketMgr.inst.acceptor;
+		Class<?> clz = acc.getClass().getSuperclass();
+		Field f = clz.getDeclaredField("processor");
+		f.setAccessible(true);
+		pool = (SimpleIoProcessorPool<AbstractIoSession>)f.get(acc);
+		poolArrField = SimpleIoProcessorPool.class.getDeclaredField("pool");
+		poolArrField.setAccessible(true);
+		procsArr = (IoProcessor<?>[])poolArrField.get(pool);
+		//fixPoolSize(pool, poolArrField, procs);
+	}
+
+	public void fixPoolSize(int want)throws Exception{
+		fixPoolSize(procsArr, want);
+	}
+	
+	public void fixPoolSize(IoProcessor<?>[] procs,int want)
+			throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InstantiationException,
+			InvocationTargetException {
+		//int want = 30;
+		if(want<1){
+			return;
+		}
+		if(procs.length<want){
+			Field ef = SimpleIoProcessorPool.class.getDeclaredField("executor");
+			ef.setAccessible(true);
+			Executor executor = (Executor) ef.get(pool);
+			IoProcessor<?>[] nps = new IoProcessor<?>[want];
+			System.arraycopy(procs, 0, nps, 0, procs.length);
+			for(int n=procs.length;n<want;n++){
+				nps[n] = new NioProcessor(executor);
+			}
+			//
+			poolArrField.set(pool,nps);
+			procsArr = nps;
+		}else if(procs.length == want){
+			
+		}else{
+			IoProcessor<?>[] nps = new IoProcessor<?>[want];
+			System.arraycopy(procs, 0, nps, 0, want);
+			poolArrField.set(pool,nps);
+			for(int i=want;i<procs.length; i++){
+				procs[i].dispose();
+			}
+			procsArr = nps;
+		}
 	}
 }

@@ -5,8 +5,10 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.qx.persistent.DBHash;
+
 @Entity
-public class MoBaiBean {
+public class MoBaiBean implements DBHash{
 	@Id
 	public long junZhuId;
 	public Date tongBiTime;
@@ -20,4 +22,8 @@ public class MoBaiBean {
 	public Date step1time;//阶段性奖励领取时间，有值且是当天，则表示领取过了。
 	public Date step2time;//阶段性奖励领取时间，有值且是当天，则表示领取过了。
 	public Date step3time;//阶段性奖励领取时间，有值且是当天，则表示领取过了。
+	@Override
+	public long hash() {
+		return junZhuId;
+	}
 }

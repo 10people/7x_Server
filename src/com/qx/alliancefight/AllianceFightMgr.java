@@ -31,6 +31,7 @@ import com.manu.dynasty.util.DateUtils;
 import com.manu.network.BigSwitch;
 import com.manu.network.SessionAttKey;
 import com.qx.alliance.AllianceBean;
+import com.qx.alliance.AllianceBeanDao;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.buff.BuffMgr;
@@ -70,7 +71,7 @@ import qxmobile.protobuf.AllianceFightProtos.Result;
 public class AllianceFightMgr {
 	public static AllianceFightMgr inst;
 		
-	protected static Logger logger = LoggerFactory.getLogger(AllianceFightMgr.class);
+	public static Logger logger = LoggerFactory.getLogger(AllianceFightMgr.class);
 	
 	public final String RULE_FIGHT_SEASON = "season";
 	
@@ -80,7 +81,7 @@ public class AllianceFightMgr {
 	public static Map<Integer, List<LMZBuildingTemp>> lmzBuildMap = null;
 	
 	/** 时间格式解析，联盟战文件配置的时间格式应是HH:mm，例如：9:00, 23:30 */
-	protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+	public SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
 	
 	/** 玩家技能冷却map  <junzhuId, map<skillId, endTime>> */
 	public Map<Long, Map<Integer, Long>> skillCDTimeMap = new HashMap<Long, Map<Integer,Long>>();
@@ -135,8 +136,8 @@ public class AllianceFightMgr {
 		//如果数据库找不到该条记录，表示从没进行过联盟战，下一届应该是第一届
 		if(fightRule == null) {		
 			fightRule = new AllianceFightRules();
-			fightRule.setRuleName(RULE_FIGHT_SEASON);
-			fightRule.setRuleValue(String.valueOf(1));
+			fightRule.ruleName = RULE_FIGHT_SEASON;
+			fightRule.ruleValue = String.valueOf(1);
 			HibernateUtil.insert(fightRule);
 		}
 		int fightNum = HibernateUtil.getColumnValueMax(AllianceFightApply.class, "fightNum");
@@ -148,12 +149,12 @@ public class AllianceFightMgr {
 //		}
 		
 		
-		AlliancePlayer alliancePlayer = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
+		AlliancePlayer alliancePlayer = AllianceMgr.inst.getAlliancePlayer(junZhu.id);
 		if(alliancePlayer == null) {
 			logger.error("联盟战信息请求失败，君主:{}还不是联盟成员", junZhu.id);
 			return;
 		}
-		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, alliancePlayer.lianMengId);
+		AllianceBean alliance = AllianceBeanDao.inst.getAllianceBean( alliancePlayer.lianMengId);
 		if(alliance == null) {
 			logger.error("联盟战信息请求失败，找不到君主:{}所在联盟:{}", junZhu.id, alliancePlayer.lianMengId);
 			return;
@@ -353,7 +354,7 @@ public class AllianceFightMgr {
 		}
 		//报名结果0-成功，1-不是联盟成员，2-没有报名权限，3-找不到所在联盟，4-联盟等级不足，5-联盟成员数不足，
 		//6-联盟建设值不足，7-现在不是报名时间，8-已经报名
-		AlliancePlayer alliancePlayer = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
+		AlliancePlayer alliancePlayer = AllianceMgr.inst.getAlliancePlayer(junZhu.id);
 		if(alliancePlayer == null) {
 			sendApplyFightResult(session, 1);
 			logger.error("联盟战报名失败，君主:{}还不是联盟成员", junZhu.id);
@@ -365,7 +366,7 @@ public class AllianceFightMgr {
 			return;
 		}
 		
-		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, alliancePlayer.lianMengId);
+		AllianceBean alliance = AllianceBeanDao.inst.getAllianceBean(alliancePlayer.lianMengId);
 		if(alliance == null) {
 			logger.error("联盟战报名失败，找不到君主:{}所在联盟:{}", junZhu.id, alliancePlayer.lianMengId);
 			sendApplyFightResult(session, 3);
@@ -506,11 +507,11 @@ public class AllianceFightMgr {
 		return false;
 	}
 
-	protected boolean isTargetIsSelf(int targetUid, int attackUid) {
+	public boolean isTargetIsSelf(int targetUid, int attackUid) {
 		return attackUid== targetUid;
 	}
 
-	protected boolean isTeammate(Player targetPlayer, Player attackPlayer) {
+	public boolean isTeammate(Player targetPlayer, Player attackPlayer) {
 		int attackerLmId = attackPlayer.allianceId;
 		int defenderLmId = targetPlayer.allianceId;
 		if((attackerLmId > 0 && defenderLmId > 0) && attackerLmId == defenderLmId) {
@@ -568,11 +569,11 @@ public class AllianceFightMgr {
 		return Result.SUCCESS;
 	}
 	
-	protected void sendAttackError(Result result, Scene scene, int attackUid) {
+	public void sendAttackError(Result result, Scene scene, int attackUid) {
 		sendAttackResponse(attackUid, 0, result, 0, scene, 0, 0, false);
 	}
 
-	protected void sendAttackResponse(int attackUid, int targetUid, Result result,
+	public void sendAttackResponse(int attackUid, int targetUid, Result result,
 			int skillId, Scene scene, long damageValue, int remainLife, boolean succeed) {
 		FightAttackResp.Builder response = FightAttackResp.newBuilder();
 		response.setResult(result);
@@ -655,7 +656,7 @@ public class AllianceFightMgr {
 	 * @param defender		防守者
 	 * @return
 	 */
-	protected int getDamage(JunZhu attacker, JunZhu defender) {
+	public int getDamage(JunZhu attacker, JunZhu defender) {
 		return RandomUtils.nextInt(100);
 	}
 	
@@ -685,12 +686,12 @@ public class AllianceFightMgr {
 			return;
 		}
 		
-		AlliancePlayer alliancePlayer = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
+		AlliancePlayer alliancePlayer = AllianceMgr.inst.getAlliancePlayer(junzhu.id);
 		if(alliancePlayer == null) {
 			logger.error("请求战场信息失败，君主:{}还不是联盟成员", junzhu.id);
 			return;
 		}
-		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, alliancePlayer.lianMengId);
+		AllianceBean alliance =AllianceBeanDao.inst.getAllianceBean(alliancePlayer.lianMengId);
 		if(alliance == null) {
 			logger.error("请求战场信息失败，找不到君主:{}所在联盟:{}", junzhu.id, alliancePlayer.lianMengId);
 			return;
@@ -842,15 +843,15 @@ public class AllianceFightMgr {
 		} else if(type == 1) {//原地安全复活
 			int costYuanBao = 10;
 			if(junzhu.yuanBao < costYuanBao) {
-				logger.error("押镖场景，原地复活失败，元宝不足");
+				logger.error("郡城战场景，原地复活失败，元宝不足");
 				return;
 			}
 			reviveNotify.setPosX(player.posX);
 			reviveNotify.setPosZ(player.posZ);
-			YuanBaoMgr.inst.diff(junzhu, -costYuanBao, 0, costYuanBao, YBType.YB_DEAD_POS_REVIVE, "押镖场景原地安全复活");
+			YuanBaoMgr.inst.diff(junzhu, -costYuanBao, 0, costYuanBao, YBType.LMZHAN_DEAD_POS_REVIVE, "郡城战场景原地安全复活");
 			HibernateUtil.save(junzhu);
 		}else{		
-			logger.error("押镖场景复活失败，没有该复活类型type:{}, jzId:{}", type, junzhu.id);
+			logger.error("郡城战场景复活失败，没有该复活类型type:{}, jzId:{}", type, junzhu.id);
 			return;
 		}
 		if(allLifeReviveTimes > 0) {

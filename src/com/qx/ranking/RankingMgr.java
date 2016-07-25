@@ -1,15 +1,23 @@
 package com.qx.ranking;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.mina.core.session.IoSession;
+import org.aspectj.apache.bcel.generic.Select;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,9 +26,9 @@ import com.manu.dynasty.boot.GameServer;
 import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.util.DateUtils;
-import com.manu.network.BigSwitch;
 import com.manu.network.SessionManager;
 import com.qx.alliance.AllianceBean;
+import com.qx.alliance.AllianceBeanDao;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.bag.Bag;
@@ -35,12 +43,12 @@ import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.guojia.GuoJiaBean;
 import com.qx.guojia.GuoJiaMgr;
-import com.qx.huangye.shop.ShopMgr;
 import com.qx.junzhu.ChengHaoBean;
+import com.qx.junzhu.ChengHaoDao;
 import com.qx.junzhu.JunZhu;
 import com.qx.mibao.v2.MiBaoV2Mgr;
 import com.qx.persistent.HibernateUtil;
-import com.qx.pve.PveRecord;
+import com.qx.pve.JunzhuPveInfo;
 import com.qx.pvp.PvpBean;
 import com.qx.pvp.PvpMgr;
 
@@ -171,7 +179,7 @@ public class RankingMgr extends EventProc{
 		}
 		long zhanli = PvpMgr.inst.getZhanli(jz);
 		long level = jz.level;
-		long junxianLevel = PvpMgr.getJunxianLevel(jz.id);
+		long junxianLevel = PvpMgr.inst.getJunxianLevel(jz.id);
 		// Redis存储score计算为：战力*100000+等级*100+军衔
 		long score = zhanli*100000+level*100+junxianLevel;
 		int guojiaId = jz.guoJiaId;
@@ -246,7 +254,7 @@ public class RankingMgr extends EventProc{
 			lianmengId = (Integer) params[0];
 		}
 		
-		AllianceBean lianmeng = HibernateUtil.find(AllianceBean.class, lianmengId);
+		AllianceBean lianmeng = AllianceBeanDao.inst.getAllianceBean(lianmengId);
 		if(lianmeng==null){
 			log.error("resetLianMengRankRedis 参数为null");
 			return;
@@ -300,7 +308,7 @@ public class RankingMgr extends EventProc{
 		if(jz.guoJiaId != oldGuoJiaId) {
 			DB.zrem(BAIZHAN_RANK+"_"+oldGuoJiaId, jz.id + "");// 移除旧国家排名
 		}
-		long junxianLevel = PvpMgr.getJunxianLevel(jz.id);
+		long junxianLevel = PvpMgr.inst.getJunxianLevel(jz.id);
 		long junxianRank = PvpMgr.inst.getPvpRankById(jz.id);
 		if(junxianRank <= 0) {
 			return;
@@ -338,17 +346,17 @@ public class RankingMgr extends EventProc{
 		if(jz.guoJiaId != oldGuoJiaId) {
 			DB.zrem(GUOGUAN_RANK+"_"+oldGuoJiaId, jz.id + "");// 全国百战榜
 		}
-		List<PveRecord> pveList = HibernateUtil.list(PveRecord.class,"where uid="+jz.id+" order by guanQiaId DESC");
-		long starCount = BigSwitch.pveGuanQiaMgr.getAllGuanQiaStartSum(pveList);
-		long ptMax=0;
-		long cqMax=0;
-		for(PveRecord pve:pveList){// 计算总星数和最高传奇关卡最高普通关卡
-//			starCount=starCount+pve.star+pve.cqStar;
-			ptMax = Math.max(ptMax, pve.guanQiaId);
-			if(pve.chuanQiPass){
-				cqMax = Math.max(cqMax, pve.guanQiaId);
-			}
-		}
+		JunzhuPveInfo jzPveInfo = HibernateUtil.find(JunzhuPveInfo.class, jz.id);
+		int starCount =jzPveInfo.starCount;
+		long ptMax=jzPveInfo.commonChptMaxId;
+		long cqMax=jzPveInfo.legendChptMaxId;
+//		for(PveRecord pve:pveList){// 计算总星数和最高传奇关卡最高普通关卡
+////			starCount=starCount+pve.star+pve.cqStar;
+//			ptMax = Math.max(ptMax, pve.guanQiaId);
+//			if(pve.chuanQiPass){
+//				cqMax = Math.max(cqMax, pve.guanQiaId);
+//			}
+//		}
 		ptMax = ptMax%10000;
 		cqMax = cqMax%10000;
 		// Redis存储score计算为：普通*100000000+传奇*10000+评星
@@ -642,13 +650,50 @@ public class RankingMgr extends EventProc{
 		int mengId = request.getMengId();
 
 		AlliancePlayerResp.Builder response = AlliancePlayerResp.newBuilder();
-		List<AlliancePlayer> playerList = AllianceMgr.inst.getAllianceMembers(mengId);
-		if(playerList==null||playerList.size()==0){
-			session.write(response.build());
+//		List<AlliancePlayer> playerList = AllianceMgr.inst.getAllianceMembers(mengId);
+//		if(playerList==null||playerList.size()==0){
+//			session.write(response.build());
+//			return;
+//		}
+        String sql = "select jz.id,jz.name,jz.level,jz.guoJiaId,ap.gongXian,ap.title from JunZhu jz "
+        		+ "join AlliancePlayer ap where ap.lianMengId = '"+mengId+"' and ap.junzhuId = jz.id";
+        List<Object[]> aList = (List<Object[]>) HibernateUtil.querySql(sql);
+        if(null != aList && aList.size() >0){
+        	List<RankAlliancePlayer> rankPlayerList = new ArrayList<RankAlliancePlayer>();
+        	for(Object[] a:aList){
+        		JunZhuInfo.Builder jzBuilder = JunZhuInfo.newBuilder();
+        		long junzhuId = ((BigInteger)a[0]).longValue();
+        		jzBuilder.setJunZhuId(junzhuId);
+        		jzBuilder.setName((String) a[1]);
+        		jzBuilder.setJob((int) a[5]);
+        		jzBuilder.setLevel((int) a[2]);
+        		jzBuilder.setGongxian((int) a[4]);
+        		jzBuilder.setChongLouLayer(ChongLouMgr.inst.getChongLouHighestLayer(junzhuId));
+        		jzBuilder.setZhanli(getZhanliInRedis(junzhuId,(int) a[3]));
+        		jzBuilder.setGongjin(RankingGongJinMgr.inst.getJunZhuGongJin(junzhuId));
+        		int junxianLevel = PvpMgr.inst.getJunxianLevel(junzhuId);
+        		jzBuilder.setJunxianLevel(junxianLevel==-1?1:junxianLevel);
+        		jzBuilder.setJunxianRank(PvpMgr.inst.getPvpRankById(junzhuId));
+        		jzBuilder.setJunxian(PvpMgr.inst.getJunXianName(junzhuId));
+        		RankAlliancePlayer rankPlayer = new RankAlliancePlayer(jzBuilder);
+        		rankPlayerList.add(rankPlayer);
+        	}
+        	Collections.sort(rankPlayerList);// 对联盟成员进行排序
+        	Collections.reverse(rankPlayerList);// 倒序排列
+        	for(RankAlliancePlayer player:rankPlayerList){
+        		response.addPlayer(player.jzBuilder);
+        	}
+        	session.write(response.build());
+        }else{
+        	session.write(response.build());
 			return;
-		}
-		List<RankAlliancePlayer> rankPlayerList = new ArrayList<RankAlliancePlayer>();
+        }
+        
+        
+        
+/*
 		for(AlliancePlayer player:playerList){
+			
 			JunZhu jz = HibernateUtil.find(JunZhu.class, player.junzhuId);
 			JunZhuInfo.Builder jzBuilder = JunZhuInfo.newBuilder();
 			jzBuilder.setJunZhuId(jz.id);
@@ -659,22 +704,16 @@ public class RankingMgr extends EventProc{
 			jzBuilder.setChongLouLayer(ChongLouMgr.inst.getChongLouHighestLayer(jz));
 			jzBuilder.setZhanli(getZhanliInRedis(jz));
 			jzBuilder.setGongjin(RankingGongJinMgr.inst.getJunZhuGongJin(jz.id));
-			int junxianLevel = PvpMgr.getJunxianLevel(jz.id);
+			int junxianLevel = PvpMgr.inst.getJunxianLevel(jz.id);
 			jzBuilder.setJunxianLevel(junxianLevel==-1?1:junxianLevel);
 			jzBuilder.setJunxianRank(PvpMgr.inst.getPvpRankById(jz.id));
-			jzBuilder.setJunxian(PvpMgr.inst.getJunxian(jz));
+			jzBuilder.setJunxian(PvpMgr.inst.getJunXianName(jz));
 //			if(GuoJiaMgr.inst.isCanShangjiao(jz.id)){
 //				GuoJiaMgr.inst.pushCanShangjiao(jz.id);
 //			}
 			RankAlliancePlayer rankPlayer = new RankAlliancePlayer(jzBuilder);
 			rankPlayerList.add(rankPlayer);
-		}
-		Collections.sort(rankPlayerList);// 对联盟成员进行排序
-		Collections.reverse(rankPlayerList);// 倒序排列
-		for(RankAlliancePlayer player:rankPlayerList){
-			response.addPlayer(player.jzBuilder);
-		}
-		session.write(response.build());
+		}*/
 	}
 	
 	/** 
@@ -776,7 +815,7 @@ public class RankingMgr extends EventProc{
 			List<LianMengInfo.Builder> mengList = getLianMengRank(pageNo, guojiaId, name, type);
 			if(mengList!=null&&mengList.size()!=0){
 				for(LianMengInfo.Builder meng:mengList){
-					meng.setShengWang(AllianceMgr.inst.getCaptureCityCount(meng.getMengId()));
+//					meng.setShengWang(AllianceMgr.inst.getCaptureCityCount(meng.getMengId()));
 					response.addMengList(meng);
 				}
 				if(name!=null){// 如果是按名字搜索，计算当前页码
@@ -928,11 +967,11 @@ public class RankingMgr extends EventProc{
 				jzBuilder.setName(jz.name);
 				jzBuilder.setLianMeng(AllianceMgr.inst.getAlliance(jz));
 				// jzBuilder.setZhanli(PvpMgr.inst.getZhanli(jz));
-				int zhanli = getZhanliInRedis(jz);
+				int zhanli = getZhanliInRedis(jz.id,jz.guoJiaId);
 				jzBuilder.setZhanli(zhanli);
 				jzBuilder.setLevel(jz.level);
-				jzBuilder.setJunxian(PvpMgr.inst.getJunxian(jz));
-				int junxianLevel = PvpMgr.getJunxianLevel(jz.id);
+				jzBuilder.setJunxian(PvpMgr.inst.getJunXianName(jz.id));
+				int junxianLevel = PvpMgr.inst.getJunxianLevel(jz.id);
 				jzBuilder.setJunxianLevel(junxianLevel==-1?1:junxianLevel);
 				jzBuilder.setJunxianRank(PvpMgr.inst.getPvpRankById(jzId));
 				junList.add(jzBuilder);
@@ -960,31 +999,38 @@ public class RankingMgr extends EventProc{
 		}
 		int end = start + PAGE_SIZE;
 		Set<String> junSet = DB.ztop(CHONGLOU_RANK+"_"+guojiaId, start, end);
-		if(null==junSet||junSet.size()==0){
-			loadChongLouRank();
-			junSet = DB.ztop(CHONGLOU_RANK+"_"+guojiaId, start, end);
+		if(junSet == null || junSet.size() == 0) {
+			return null;
 		}
+		Map<Long, Object[]> resultMap = Collections.EMPTY_MAP;
+		String jzIds = junSet.stream().collect(Collectors.joining(","));
+		String hql = "SELECT jz.id,jz.name,jz.level,jz.guojiaId,c.highestLevel,c.highestLevelFirstTime "//
+				+ " FROM JunZhu jz,ChongLouRecord c "//
+				+ " WHERE jz.id IN ("+ jzIds +") AND jz.id = c.junzhuId";
+		List<Object[]> list = (List<Object[]>) HibernateUtil.querySql(hql);
+		resultMap = list.stream().//
+				collect(Collectors.toMap(item->((BigInteger)item[0]).longValue(), (item) -> item));
 		List<ChongLouInfo.Builder> chonglouList = new ArrayList<ChongLouInfo.Builder>();
 		for(String member : junSet){
 			long jzId = Long.parseLong(member);
 			ChongLouInfo.Builder chonglouBuilder = ChongLouInfo.newBuilder();
-			JunZhu jz = HibernateUtil.find(JunZhu.class, jzId);
-			if(jz==null){
+			Object[] objArr = resultMap.get(jzId);
+			if(objArr == null) {
+				log.error("找不到君主:{}的排名", jzId);
 				continue;
 			}
-			ChongLouRecord chongLouRecord = ChongLouMgr.inst.getChongLouRecord(jz); 
 			int rank =0;
 			// 去掉等级限制，否则会出排行榜数据显示排行和redis中数据不符合的bug
 			if(rank<=RANK_MAXNUM){// 过滤筛选范围
 				rank = ++start;
 				chonglouBuilder.setJunZhuId(jzId);
 				chonglouBuilder.setRank(rank);
-				chonglouBuilder.setGuojiaId(jz.guoJiaId);
-				chonglouBuilder.setName(jz.name);
-				chonglouBuilder.setLevel(jz.level);
-				chonglouBuilder.setLianMeng(AllianceMgr.inst.getAlliance(jz));
-				chonglouBuilder.setLayer(chongLouRecord.highestLevel);
-				chonglouBuilder.setTime(DateUtils.date2Text(chongLouRecord.highestLevelFirstTime, "yyyy-MM-dd"));
+				chonglouBuilder.setGuojiaId((Integer)objArr[3]);
+				chonglouBuilder.setName((String)objArr[1]);
+				chonglouBuilder.setLevel((Integer)objArr[2]);
+				chonglouBuilder.setLianMeng("");//玩家的联盟数据，前端没用到，所以设置为""
+				chonglouBuilder.setLayer((Integer)objArr[4]);
+				chonglouBuilder.setTime(DateUtils.date2Text((Date)objArr[5], "yyyy-MM-dd"));
 				chonglouList.add(chonglouBuilder);
 			}
 		}
@@ -992,7 +1038,9 @@ public class RankingMgr extends EventProc{
 	}
 
 	public void loadChongLouRank() {
-		List<ChongLouRecord> recordList = HibernateUtil.list(ChongLouRecord.class, " where highestLevel>0");
+		String where = " WHERE highestLevel>0 AND junzhuId "//
+				+ " IN (SELECT jz.id FROM JunZhu jz WHERE jz.level >="+CHONGLOU_JUNZHU_MIN_LEVEL+")";		
+		List<ChongLouRecord> recordList = HibernateUtil.list(ChongLouRecord.class, where);
 		for(ChongLouRecord record : recordList) {
 			if(record.junzhuId % 1000 != GameServer.serverId) {
 				continue;
@@ -1014,8 +1062,8 @@ public class RankingMgr extends EventProc{
 	}
 	
 	
-	public int getZhanliInRedis(JunZhu jz){
-		double score = DB.zscore(JUNZHU_RANK+"_"+jz.guoJiaId,String.valueOf(jz.id));
+	public int getZhanliInRedis(long jzId,int guoJiaId){
+		double score = DB.zscore(JUNZHU_RANK+"_"+guoJiaId,String.valueOf(jzId));
 		int zhanli = (int)(score/100000d);
 		return zhanli;
 	}
@@ -1071,23 +1119,34 @@ public class RankingMgr extends EventProc{
 			return null;
 		}
 		List<LianMengInfo.Builder> mengList = new ArrayList<LianMengInfo.Builder>();
+		String[] lmIdArr = new String[mengSet.size()];
+		mengSet.toArray(lmIdArr);
+		String allianceSql = "select id,country,name,level,members,count(CityBean.lmId) from "
+				+ "(select * from Alliance where id in (" + String.join(",",lmIdArr) + "))allianceTmp "
+				+ "left join CityBean on allianceTmp.id=CityBean.lmId group by allianceTmp.id"; 
+		List<Object[]> list = (List<Object[]>) HibernateUtil.querySql(allianceSql);
+		Map<Long,Object[]> allianceMap = new HashMap<Long,Object[]>();
+		for (Object[] objects : list) {
+			allianceMap.put(((Integer)objects[0]).longValue(),objects);
+		}
 		for(String lianmengIdStr:mengSet){
 			long lianmengId = Long.parseLong(lianmengIdStr);
 			LianMengInfo.Builder mengBuilder = LianMengInfo.newBuilder();
-			AllianceBean alliance = HibernateUtil.find(AllianceBean.class, lianmengId);
+//			AllianceBean alliance = HibernateUtil.find(AllianceBean.class, lianmengId);
+			Object[] alliance = allianceMap.get(lianmengId);
 			if(alliance==null){
 				continue;
 			}
 			int rank = ++start;
 			if(true){// 过滤筛选范围(联盟暂无筛选条件)
-				mengBuilder.setMengId(alliance.id);
+				mengBuilder.setMengId((Integer)alliance[0]);
 				mengBuilder.setRank(rank);
-				mengBuilder.setGuoJiaId(alliance.country);
-				mengBuilder.setMengName(alliance.name);
-				mengBuilder.setLevel(alliance.level);
-				mengBuilder.setShengWang(alliance.reputation);
-				mengBuilder.setMember(alliance.members);
-				mengBuilder.setAllMember(AllianceMgr.inst.getAllianceMemberMax(alliance.level));
+				mengBuilder.setGuoJiaId(((Integer) alliance[1]));
+				mengBuilder.setMengName((String) alliance[2]);
+				mengBuilder.setLevel((Integer) alliance[3]);
+				mengBuilder.setShengWang(((BigInteger) alliance[5]).intValue());
+				mengBuilder.setMember((Integer) alliance[4]);
+				mengBuilder.setAllMember(AllianceMgr.inst.getAllianceMemberMax((Integer) alliance[3]));
 				mengList.add(mengBuilder);
 			}
 		}
@@ -1141,33 +1200,53 @@ public class RankingMgr extends EventProc{
 		if(baiZhanSet==null||baiZhanSet.size()==0){
 			return null;
 		}
+		String strjz = baiZhanSet.stream().collect(Collectors.joining(","));
+		String hqljz = "select JunZhu.id,JunZhu.guoJiaId,JunZhu.name,AlliancePlayer.lianMengId,pvp_bean.allWin,shop.money"
+				+ " from JunZhu left join pvp_bean  on JunZhu.id = pvp_bean.junZhuId "
+				+" left join (select * from public_shop where public_shop.type = 4 )shop  on JunZhu.id = shop.junZhuId "
+				+" left join AlliancePlayer  on JunZhu.id = AlliancePlayer.junzhuId"
+				+" where JunZhu.id in ("+strjz+")";
+		List<Object[]> list = (List<Object[]>) HibernateUtil.querySql(hqljz);
+		List<Integer> allIdList = new LinkedList<Integer>();
+		Map<Long, Object[]> jzMap = list.stream()
+				.collect(Collectors.toMap(arr->((BigInteger)arr[0]).longValue(), 
+						arr->{ long jzid = ((BigInteger)arr[0]).longValue();
+							arr[0] = jzid;
+							if(arr[3] != null){
+								allIdList.add((Integer)arr[3]);
+							}
+							return arr ;
+						}));
+		List<AllianceBean> allList = HibernateUtil.list(AllianceBean.class, "id", allIdList) ;
+		Map<Integer,String> allMap = allList.stream()
+				.collect(Collectors.toMap(all ->all.id , all-> all.name));
+		
 		List<BaiZhanInfo.Builder> baiZhanList = new ArrayList<BaiZhanInfo.Builder>();
 		for(String jzIdStr:baiZhanSet){
 			long jzId = Long.parseLong(jzIdStr);
 			BaiZhanInfo.Builder bzBuilder = BaiZhanInfo.newBuilder();
-			JunZhu jz = HibernateUtil.find(JunZhu.class, jzId);
-			if(jz==null){
+			Object[] infos = jzMap.get(jzId);
+			if( infos ==null){
 				continue;
 			}
 			int rank = 0;
 			if(rank<=RANK_MAXNUM){// 过滤筛选范围
 				rank = ++start;
 				bzBuilder.setRank(rank);
-				bzBuilder.setGuojiaId(jz.guoJiaId);
+				bzBuilder.setGuojiaId(infos[1] == null ?7:(int)infos[1]);
 				bzBuilder.setJunZhuId(jzId);
-				bzBuilder.setName(jz.name);
-				bzBuilder.setLianmeng(AllianceMgr.inst.getAlliance(jz));
-				bzBuilder.setJunxian(PvpMgr.inst.getJunxian(jz));
-				int junxianLevel = PvpMgr.getJunxianLevel(jzId);
-				bzBuilder.setJunxianLevel(junxianLevel==-1?1:junxianLevel);
-				bzBuilder.setJunxianRank(PvpMgr.inst.getPvpRankById(jzId));
-				PvpBean bean = HibernateUtil.find(PvpBean.class, jzId);
-				if(bean!=null){
-					bzBuilder.setWinCount(bean.allWin);
-					bzBuilder.setWeiwang(bean.showWeiWang);
-				}
-				int wei = ShopMgr.inst.getMoney(ShopMgr.Money.weiWang, jz.id, null);
-				bzBuilder.setWeiwang(wei);
+				bzBuilder.setName(infos[2] == null ?"":(String)infos[2]);
+				int allId = infos[3] == null ? -1 :(int)infos[3];
+				String name = allMap.get(allId)==null?"":allMap.get(allId);
+				bzBuilder.setLianmeng(name);
+				
+				int junZhuRank = PvpMgr.inst.getPvpRankById(jzId);
+				int junxianLevel = PvpMgr.inst.getJunXianByRank(junZhuRank);
+				bzBuilder.setJunxian(PvpMgr.inst.getJunXianName(junxianLevel));
+				bzBuilder.setJunxianLevel(junxianLevel==-1?1:junxianLevel/100);
+				bzBuilder.setJunxianRank(junZhuRank);
+				bzBuilder.setWinCount(infos[4] == null ?0:(int)infos[4]);
+				bzBuilder.setWeiwang(infos[5] == null ?0:(int)infos[5]);
 				baiZhanList.add(bzBuilder);
 			}
 		}
@@ -1215,36 +1294,55 @@ public class RankingMgr extends EventProc{
 			return null;
 		}
 		List<GuoGuanInfo.Builder> guoGuanList = new ArrayList<GuoGuanInfo.Builder>();
+		String ids = "";
 		for(String jzIdStr:guoGuanSet){
-			long jzId = Long.parseLong(jzIdStr);
+			ids+=jzIdStr+",";
+		}
+		String hql = "select jz.id,jz.name,jz.guojiaId,jzPveInfo.commonChptMaxId,jzPveInfo.legendChptMaxId,jzPveInfo.starCount"
+				+ " from JunZhu jz join JunzhuPveInfo jzPveInfo where jz.id = jzPveInfo.junzhuId and id in ("+ids.replaceAll("^,*|,*$", "")+")";
+		String  sql = "select ap.junzhuId,ap.lianMengId,ac.name from AlliancePlayer ap "
+				+ "join Alliance ac where ap.lianMengId = ac.id "
+				+ "and ap.lianMengId > 0 and ap.junzhuId in ("+ids.replaceAll("^,*|,*$", "")+")";
+		List<Object[]> jzList = (List<Object[]>) HibernateUtil.querySql(hql);
+		List<Object[]> aList = (List<Object[]>) HibernateUtil.querySql(sql);
+		Map<Long, Object[]> aMap = aList.stream()
+				.collect(Collectors.toMap(arr->((BigInteger)arr[0]).longValue(),
+					p->p
+					));
+		for(Object[] a:jzList){
 			GuoGuanInfo.Builder ggBuilder = GuoGuanInfo.newBuilder();
-			JunZhu jz = HibernateUtil.find(JunZhu.class, jzId);
-			if(jz==null){
-				continue;
-			}
 			int rank = 0;
 			if(rank<=RANK_MAXNUM){// 过滤筛选范围
 				rank =++start;
+				long jzId = ((BigInteger)a[0]).longValue();
 				ggBuilder.setJunZhuId(jzId);
 				ggBuilder.setRank(rank);
-				ggBuilder.setName(jz.name);
-				ggBuilder.setLianmeng(AllianceMgr.inst.getAlliance(jz));
-				ggBuilder.setGuojiaId(jz.guoJiaId);
-				// pve列表
-				List<PveRecord> pveList = HibernateUtil.list(PveRecord.class,"where uid="+jz.id+" order by guanQiaId DESC");
+				ggBuilder.setName((String) a[1]);
+//				ggBuilder.setLianmeng(AllianceMgr.inst.getAllianceByJzId(jzId));
+				Object[] allianceInfo =aMap.get(jzId);
+				String lianmeng = "";
+				if(null != allianceInfo && allianceInfo.length>2){
+					lianmeng = (String) allianceInfo[2];
+				}
+				ggBuilder.setLianmeng(lianmeng);
+				ggBuilder.setGuojiaId((int) a[2]);
+				
 				// 总星数
 				int starCount = 0;
 				long ptMax=0;
 				long cqMax=0;
-				starCount=BigSwitch.inst.pveGuanQiaMgr.getAllGuanQiaStartSum(pveList);
-				for(PveRecord pve:pveList){// 计算总星数和最高传奇关卡最高普通关卡
-					ptMax = Math.max(ptMax, pve.guanQiaId);
-					// 普通关卡
-					if(pve.chuanQiPass){
-						// 传奇关卡
-						cqMax = Math.max(cqMax, pve.guanQiaId);
-					}
-				}
+				starCount = (int)a[5];
+					ptMax =	((int)a[3]);
+					cqMax = ((int)a[4]);
+//				starCount=BigSwitch.inst.pveGuanQiaMgr.getAllGuanQiaStartSum(pveList);
+//				for(PveRecord pve:pveList){// 计算总星数和最高传奇关卡最高普通关卡
+//					ptMax = Math.max(ptMax, pve.guanQiaId);
+//					// 普通关卡
+//					if(pve.chuanQiPass){
+//						// 传奇关卡
+//						cqMax = Math.max(cqMax, pve.guanQiaId);
+//					}
+//				}
 				// set 普通关卡
 				if(ptMax!=0){
 					String ptStr = String.valueOf(ptMax);
@@ -1310,7 +1408,7 @@ public class RankingMgr extends EventProc{
 			return null;
 		}
 		for(String mengId:mengIds){
-			AllianceBean alliance = HibernateUtil.find(AllianceBean.class, Integer.parseInt(mengId));
+			AllianceBean alliance = AllianceBeanDao.inst.getAllianceBean(Integer.parseInt(mengId));
 			if(alliance!=null){
 				alliance.reputation = (int)DB.zscore(key+"_"+gjId, mengId);
 				allianceList.add(alliance);
@@ -1360,14 +1458,15 @@ public class RankingMgr extends EventProc{
 		junBuilder.setFangyu(jz.fangYu);
 		junBuilder.setRemainHp(jz.shengMingMax);
 		junBuilder.setGuojiaId(jz.guoJiaId);
-		junBuilder.setJunxian(PvpMgr.inst.getJunxian(jz));
-		int junxianLevel = PvpMgr.getJunxianLevel(jz.id);
+		junBuilder.setJunxian(PvpMgr.inst.getJunXianName(jz.id));
+		int junxianLevel = PvpMgr.inst.getJunxianLevel(jz.id);
 		junBuilder.setJunxianLevel(junxianLevel==-1?1:junxianLevel);
 		junBuilder.setGongjin(RankingGongJinMgr.inst.getJunZhuGongJin(jz.id));
 //		if(GuoJiaMgr.inst.isCanShangjiao(jz.id)){
 //			GuoJiaMgr.inst.pushCanShangjiao(jz.id);
 //		}
-		ChengHaoBean cur = HibernateUtil.find(ChengHaoBean.class, "where jzId="+jz.id+" and state='U'");
+//		ChengHaoBean cur = HibernateUtil.find(ChengHaoBean.class, "where jzId="+jz.id+" and state='U'");
+		ChengHaoBean cur = ChengHaoDao.inst.getChengHaoBeanByState(jz.id,'U');
 		if(cur != null){
 			junBuilder.setChenghao(cur.tid);
 		}		
@@ -1510,9 +1609,6 @@ public class RankingMgr extends EventProc{
 			log.info("排行榜刷新事件无参数");
 		}
 		switch (event.id) {
-		case ED.JUN_RANK_REFRESH:
-			resetJunzhuRankRedis(jz);
-			break;
 		case ED.LIANMENG_RANK_REFRESH:
 			resetLianMengRankRedis(event.param);
 			break;
@@ -1607,8 +1703,7 @@ public class RankingMgr extends EventProc{
 	}
 
 	@Override
-	protected void doReg() {// 注册榜刷新事件
-		EventMgr.regist(ED.JUN_RANK_REFRESH, this);
+	public void doReg() {// 注册榜刷新事件
 		EventMgr.regist(ED.LIANMENG_RANK_REFRESH, this);
 		EventMgr.regist(ED.BAIZHAN_RANK_REFRESH, this);
 		EventMgr.regist(ED.GUOGUAN_RANK_REFRESH, this);

@@ -19,7 +19,7 @@ import com.qx.prompt.SuBaoConstant;
 import com.qx.world.BroadcastMgr;
 
 public class RefreshGongHeInfo  implements Job {
-	private Logger log = LoggerFactory.getLogger(RefreshGongHeInfo.class.getSimpleName());
+	public Logger log = LoggerFactory.getLogger(RefreshGongHeInfo.class.getSimpleName());
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		if(ClearPromptJob.doIt==false)return;

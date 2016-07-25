@@ -62,18 +62,18 @@
 		} else if (accIdStr.length() > 0) {
 			account = HibernateUtil.find(Account.class, (Long.valueOf(accIdStr) - GameServer.serverId) / 1000);
 			if (account != null)
-				name = account.getAccountName();
+				name = account.accountName;
 		}
 		long junZhuId = 0;
 		if (account != null) {
 			session.setAttribute("name", name);
 			out("账号");
-			out(account.getAccountId());
+			out(account.accountId);
 			out("：");
-			out(account.getAccountName());
+			out(account.accountName);
 			out(", 密码：");
-			out(account.getAccountPwd());
-			junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+			out(account.accountPwd);
+			junZhuId = account.accountId * 1000 + GameServer.serverId;
 		} else if (accIdStr.matches("\\d+")) {
 			junZhuId = Long.parseLong(accIdStr);
 		} else {
@@ -107,7 +107,7 @@
 	
 		ChongLouRecord record = HibernateUtil.find(ChongLouRecord.class, junZhu.id);
 		if(record == null) {
-			record = ChongLouMgr.inst.insertChongLouRecord(junZhu);
+			record = ChongLouMgr.inst.insertChongLouRecord(junZhu.id);
 		}
 		String action = request.getParameter("action");
 		if("saodang".equals(action)) {
@@ -120,7 +120,7 @@
 					return null;
 				}
 			};
-			fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account.getAccountId()*1000+GameServer.serverId));
+			fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account.accountId*1000+GameServer.serverId));
 			synchronized(fs){
 				BigSwitch.inst.route(PD.CHONG_LOU_SAO_DANG_REQ, null, fs);
 			//	fs.wait();

@@ -68,7 +68,7 @@ public class GameServerInit {
 	}
 	
 	
-	private static void init1000(){
+	public static void init1000(){
 		ProtobufUtils.register(Buildings.getDefaultInstance(), 1001);
 		ProtobufUtils.register(Account.getDefaultInstance(), 1002);
 		ProtobufUtils.register(User.getDefaultInstance(), 1003);
@@ -91,15 +91,15 @@ public class GameServerInit {
 		ProtobufUtils.register(Mails.getDefaultInstance(), 1020);
 	}
 	
-	private static void init2000(){
+	public static void init2000(){
 		
 	}
 
-	private static void init3000(){
+	public static void init3000(){
 		
 	}
 	
-	private static void initData(){
+	public static void initData(){
 		DataLoader dl = new DataLoader("com.manu.dynasty.template.", "/dataConfig.xml");
 		dl.load();
 	}

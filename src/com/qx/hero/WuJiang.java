@@ -15,7 +15,7 @@ public class WuJiang implements MCSupport {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -9023310186462522324L;
+	public static final long serialVersionUID = -9023310186462522324L;
 
 	@Id
 	@Column(name = "db_id", unique = true, nullable = false)

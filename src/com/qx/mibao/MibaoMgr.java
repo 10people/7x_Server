@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
@@ -46,6 +47,7 @@ import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.task.DailyTaskCondition;
 import com.qx.task.DailyTaskConstants;
@@ -56,7 +58,7 @@ import com.qx.vip.VipMgr;
 
 public class MibaoMgr extends EventProc{
 	public static MibaoMgr inst;
-	protected Logger logger = LoggerFactory.getLogger(MibaoMgr.class);
+	public Logger logger = LoggerFactory.getLogger(MibaoMgr.class.getSimpleName());
 	
 	/**
 	 *	秘宝升级点数初始值 
@@ -112,7 +114,7 @@ public class MibaoMgr extends EventProc{
 		Map<Integer, MiBao> mibaoMapTemp = new HashMap<Integer, MiBao>();
 //		Map<Integer,List<MiBao>> zuheListMap = new HashMap<Integer, List<MiBao>>(7);
 		for(MiBao miBao : mibaoList) {
-			mibaoMapTemp.put(miBao.getId(), miBao);
+			mibaoMapTemp.put(miBao.id, miBao);
 //			int zuheId = miBao.getZuheId();
 //			List<MiBao> typeList = zuheListMap.get(zuheId);
 //			if(typeList == null){
@@ -143,8 +145,8 @@ public class MibaoMgr extends EventProc{
 		Map<Integer, MibaoStar> mibaoStarMap = new HashMap<Integer, MibaoStar>();
 		List<MibaoStar> starList = TempletService.listAll(MibaoStar.class.getSimpleName());
 		for(MibaoStar mibaoStar : starList) {
-			mibaoStarMap.put(mibaoStar.getStar(), mibaoStar);
-			mibao_first_full_star = MathUtils.getMax(mibaoStar.getStar(), mibao_first_full_star);
+			mibaoStarMap.put(mibaoStar.star, mibaoStar);
+			mibao_first_full_star = MathUtils.getMax(mibaoStar.star, mibao_first_full_star);
 		}
 		this.mibaoStarMap = mibaoStarMap;
 		
@@ -152,8 +154,8 @@ public class MibaoMgr extends EventProc{
 		Map<Integer, MibaoSuiPian> mibaoSuipianMap_2 = new HashMap<Integer, MibaoSuiPian>();
 		List<MibaoSuiPian> suipianList = TempletService.listAll(MibaoSuiPian.class.getSimpleName());
 		for(MibaoSuiPian suipian : suipianList) {
-			mibaoSuipianMap.put(suipian.getTempId(), suipian);
-			mibaoSuipianMap_2.put(suipian.getId(), suipian);
+			mibaoSuipianMap.put(suipian.tempId, suipian);
+			mibaoSuipianMap_2.put(suipian.id, suipian);
 		}
 		this.mibaoSuipianMap = mibaoSuipianMap;
 		this.mibaoSuipianMap_2 = mibaoSuipianMap_2;
@@ -220,13 +222,13 @@ public class MibaoMgr extends EventProc{
 			logger.error("cmd:{},秘宝类型错误，找不到该类型的秘宝碎片配置",cmd);
 			return;
 		}
-		MiBaoDB miBaoDB = HibernateUtil.find(MiBaoDB.class, " where tempId=" + tempId+" and ownerId="+junZhu.id);
+		MiBaoDB miBaoDB = MiBaoDao.inst.get(junZhu.id, tempId);
 		if(miBaoDB == null) {
 			logger.error("cmd:{},db中未找到类型tempId:{}的秘宝数据",cmd, tempId);
 			return;
 		}
-		if(miBaoDB.getLevel() > 0) {
-			logger.error("该秘宝已经激活，dbId:{}", miBaoDB.getDbId());
+		if(miBaoDB.level > 0) {
+			logger.error("该秘宝已经激活，dbId:{}", miBaoDB.dbId);
 			return;
 		}
 		MiBao miBaoCfg = null;
@@ -241,10 +243,10 @@ public class MibaoMgr extends EventProc{
 			return;
 		}
 		
-		int star = miBaoCfg.getInitialStar();
+		int star = miBaoCfg.initialStar;
 		MibaoStar curStarCfg = mibaoStarMap.get(star);
 		if(curStarCfg == null) {
-			logger.error("cmd:{},秘宝星级表 配置错误，star:{}", cmd, miBaoCfg.getInitialStar());
+			logger.error("cmd:{},秘宝星级表 配置错误，star:{}", cmd, miBaoCfg.initialStar);
 			return;
 		}
 ////		boolean lock = !miBaoDB.isClear();
@@ -259,24 +261,24 @@ public class MibaoMgr extends EventProc{
 //			}
 //		}
 		MibaoActivateResp.Builder resp = MibaoActivateResp.newBuilder();
-		if(miBaoDB.getSuiPianNum() < mibaoSuiPian.getHechengNum()) {
+		if(miBaoDB.suiPianNum < mibaoSuiPian.hechengNum) {
 			resp.setResult(1);
 			session.write(resp.build());
 			logger.error("cmd:{},碎片数量不足，不能激活，tempId:{}",cmd, tempId);
 			return;
 		}
-		if(junZhu.tongBi < mibaoSuiPian.getMoney()) {
+		if(junZhu.tongBi < mibaoSuiPian.money) {
 			resp.setResult(2);
 			session.write(resp.build());
 			logger.error("cmd:{},铜币数量不足，不能激活，tempId:{}",cmd, tempId);
 			return;
 		}
 		
-		logger.info("junzhuId:{},成功激活秘宝tempId:{},消耗碎片{}张", junZhu.id, tempId, mibaoSuiPian.getHechengNum());
-		miBaoDB.setMiBaoId(miBaoCfg.getId());
-		miBaoDB.setSuiPianNum(miBaoDB.getSuiPianNum() - mibaoSuiPian.getHechengNum());
-		miBaoDB.setLevel(MIBAO_LEVEL_INIT);
-		miBaoDB.setStar(star);
+		logger.info("junzhuId:{},成功激活秘宝tempId:{},消耗碎片{}张", junZhu.id, tempId, mibaoSuiPian.hechengNum);
+		miBaoDB.miBaoId = miBaoCfg.id;
+		miBaoDB.suiPianNum = miBaoDB.suiPianNum - mibaoSuiPian.hechengNum;
+		miBaoDB.level = MIBAO_LEVEL_INIT;
+		miBaoDB.star = star;
 		HibernateUtil.save(miBaoDB);
 		
 		MibaoInfo.Builder mibaoInfo = MibaoInfo.newBuilder();
@@ -285,24 +287,22 @@ public class MibaoMgr extends EventProc{
 		resp.setMibaoInfo(mibaoInfo);
 		session.write(resp.build());
 
-		junZhu.tongBi -= mibaoSuiPian.getMoney();
+		junZhu.tongBi -= mibaoSuiPian.money;
 		HibernateUtil.update(junZhu);
 		JunZhuMgr.inst.sendMainInfo(session,junZhu);
-		EventMgr.addEvent(ED.MIBAO_HECHENG_BROADCAST, new Object[]{junZhu,session,miBaoCfg});
+		EventMgr.addEvent(junZhu.id,ED.MIBAO_HECHENG_BROADCAST, new Object[]{junZhu,session,miBaoCfg});
 		// 主线任务：秘宝合成完成一次
-		EventMgr.addEvent(ED.MIBAO_HECHENG, new Object[]{junZhu.id, miBaoCfg.getId()});
-		// 刷新君主榜 2015-7-30 14：44
-		EventMgr.addEvent(ED.JUN_RANK_REFRESH, junZhu);
+		EventMgr.addEvent(junZhu.id,ED.MIBAO_HECHENG, new Object[]{junZhu.id, miBaoCfg.id});
 		int mibaoCount = getActivateMiBaoCount(junZhu.id);
 		if(mibaoCount > 0){
-			EventMgr.addEvent(ED.get_x_mibao, new Object[]{junZhu.id, mibaoCount});
+			EventMgr.addEvent(junZhu.id,ED.get_x_mibao, new Object[]{junZhu.id, mibaoCount});
 		}
 		
 		//  主线任务：秘寶星级
-		EventMgr.addEvent(ED.mibao_shengStar_x, new Object[]{junZhu.id, miBaoDB.getStar()});
+		EventMgr.addEvent(junZhu.id,ED.mibao_shengStar_x, new Object[]{junZhu.id, miBaoDB.star});
 		//  主线任务：秘寶等级
-		EventMgr.addEvent(ED.mibao_shengji_x, new Object[]{junZhu.id, miBaoDB.getLevel()});
-		EventMgr.addEvent(ED.miabao_x_star_n, new Object[]{junZhu.id});
+		EventMgr.addEvent(junZhu.id,ED.mibao_shengji_x, new Object[]{junZhu.id, miBaoDB.level});
+		EventMgr.addEvent(junZhu.id,ED.miabao_x_star_n, new Object[]{junZhu.id});
 		// 判断是否发送是否秘宝技能可以显示
 		if(mibaoCount > 0){
 			isCanMiBaoJiNengOpen(junZhu, session, mibaoCount);
@@ -328,12 +328,8 @@ public class MibaoMgr extends EventProc{
 		mibaoInfoRequest(session, junZhu, PD.S_MIBAO_INFO_RESP);
 	}
 
-	protected void mibaoInfoRequest(IoSession session, JunZhu junZhu, short respCmd) {
-		List<MiBaoDB> miBaoDBList = HibernateUtil.list(MiBaoDB.class, " where ownerId=" + junZhu.id);
-		Map<Integer, MiBaoDB> dbMap = new HashMap<Integer, MiBaoDB>(miBaoDBList.size());
-		for(MiBaoDB bean : miBaoDBList){
-			dbMap.put(bean.getTempId(), bean);
-		}
+	public void mibaoInfoRequest(IoSession session, JunZhu junZhu, short respCmd) {
+		Map<Integer, MiBaoDB> dbMap = MiBaoDao.inst.getMap(junZhu.id);
 		Date date = new Date();
 		MibaoLevelPoint levelPoint = HibernateUtil.find(MibaoLevelPoint.class, junZhu.id);
 		if(levelPoint == null) {
@@ -346,6 +342,7 @@ public class MibaoMgr extends EventProc{
 			levelPoint.dayTimes = 0;
 //			levelPoint.needAllStar = mibao_first_full_star;
 			HibernateUtil.save(levelPoint);
+			Cache.mbLevelPointCache.put(junZhu.id,levelPoint);
 		} else {
 			refreshLevelPoint(levelPoint, date, junZhu.vipLevel);
 		}
@@ -361,7 +358,7 @@ public class MibaoMgr extends EventProc{
 		session.write(resp.build());
 	}
 	
-	protected void addSkillInfoList(MibaoInfoResp.Builder resp, long jId) {
+	public void addSkillInfoList(MibaoInfoResp.Builder resp, long jId) {
 		List<MiBaoSkillDB> list = getSkillDBList(jId);
 		SkillInfo.Builder sInfo = SkillInfo.newBuilder();
 		for(MiBaoSkillDB d: list){
@@ -391,7 +388,7 @@ public class MibaoMgr extends EventProc{
 	 * @param dbMap
 	 * @param resp
 	 */
-	protected void addMibaoInfoList(Map<Integer, MiBaoDB> dbMap,
+	public void addMibaoInfoList(Map<Integer, MiBaoDB> dbMap,
 			MibaoInfoResp.Builder resp, JunZhu junzhu) {
 		if(mibaoList == null){
 			logger.info("Mibao.xml的数据没有加载到 mibaoList中，请程序同学查看！");
@@ -416,13 +413,13 @@ public class MibaoMgr extends EventProc{
 				mibaoInfo.setGongJi(0);
 				mibaoInfo.setFangYu(0);
 				mibaoInfo.setShengMing(0);
-			}else if(miBaoDB.getLevel() <= 0){//秘宝在DB中，但未激活
+			}else if(miBaoDB.level <= 0){//秘宝在DB中，但未激活
 				fillMibaoDBNoActivate(mibaoInfo, miBaoDB);
 			} else {//秘宝在DB中，并已经激活
-				MibaoStar mibaoStar = mibaoStarMap.get(miBaoDB.getStar());
+				MibaoStar mibaoStar = mibaoStarMap.get(miBaoDB.star);
 				boolean isConfigError = false;
 				if(mibaoStar == null) {
-					logger.error("找不到秘宝星级配置，mibaoDbId:{},星级:{}", miBaoDB.getDbId(), miBaoDB.getStar());
+					logger.error("找不到秘宝星级配置，mibaoDbId:{},星级:{}", miBaoDB.dbId, miBaoDB.star);
 					isConfigError = true;
 				}
 				if(isConfigError) {
@@ -454,43 +451,43 @@ public class MibaoMgr extends EventProc{
 			
 	}
 
-	protected void fillMibaoDBNoActivate(MibaoInfo.Builder mibaoInfo, MiBaoDB miBaoDB) {
-		mibaoInfo.setDbId(miBaoDB.getDbId());
+	public void fillMibaoDBNoActivate(MibaoInfo.Builder mibaoInfo, MiBaoDB miBaoDB) {
+		mibaoInfo.setDbId(miBaoDB.dbId);
 		mibaoInfo.setStar(0);
 		mibaoInfo.setLevel(0);
-		mibaoInfo.setSuiPianNum(miBaoDB.getSuiPianNum());
+		mibaoInfo.setSuiPianNum(miBaoDB.suiPianNum);
 		mibaoInfo.setNeedSuipianNum(0);
 		mibaoInfo.setGongJi(0);
 		mibaoInfo.setFangYu(0);
 		mibaoInfo.setShengMing(0);
 	}
 	
-	protected void fillMibaoInfoBuilder(JunZhu junzhu, MibaoInfo.Builder mibaoInfo,
+	public void fillMibaoInfoBuilder(JunZhu junzhu, MibaoInfo.Builder mibaoInfo,
 			MiBaoDB miBaoDB, MiBao miBaoCfg, MibaoStar starCfg, boolean lock) {
-		float chengZhang = starCfg.getChengzhang();
-		int level = miBaoDB.getLevel();
-		int needSuipianNum = starCfg.getNeedNum();
+		float chengZhang = starCfg.chengzhang;
+		int level = miBaoDB.level;
+		int needSuipianNum = starCfg.needNum;
 		int starMax = mibaoStarMap.size();
-		if(miBaoDB.getStar() >= starMax) {
+		if(miBaoDB.star >= starMax) {
 			MibaoStar lastSub1 = mibaoStarMap.get(starMax - 1);
-			needSuipianNum = lastSub1.getNeedNum();
+			needSuipianNum = lastSub1.needNum;
 		}
-		mibaoInfo.setDbId(miBaoDB.getDbId());
-		mibaoInfo.setTempId(miBaoCfg.getTempId());
-		mibaoInfo.setMiBaoId(miBaoDB.getMiBaoId());
-		mibaoInfo.setStar(miBaoDB.getStar());
+		mibaoInfo.setDbId(miBaoDB.dbId);
+		mibaoInfo.setTempId(miBaoCfg.tempId);
+		mibaoInfo.setMiBaoId(miBaoDB.miBaoId);
+		mibaoInfo.setStar(miBaoDB.star);
 		mibaoInfo.setLevel(level);
 //		mibaoInfo.setIsLock(lock);
-		mibaoInfo.setSuiPianNum(miBaoDB.getSuiPianNum());
+		mibaoInfo.setSuiPianNum(miBaoDB.suiPianNum);
 		mibaoInfo.setNeedSuipianNum(needSuipianNum);
-		int gongJi = clacMibaoAttr(chengZhang, starCfg.gongji, miBaoCfg.getGongjiRate(), level);
-		int fangYu = clacMibaoAttr(chengZhang, starCfg.fangyu, miBaoCfg.getFangyuRate(), level);
-		int shengMing = clacMibaoAttr(chengZhang, starCfg.shengming, miBaoCfg.getShengmingRate(), level);
+		int gongJi = clacMibaoAttr(chengZhang, starCfg.gongji, miBaoCfg.gongjiRate, level);
+		int fangYu = clacMibaoAttr(chengZhang, starCfg.fangyu, miBaoCfg.fangyuRate, level);
+		int shengMing = clacMibaoAttr(chengZhang, starCfg.shengming, miBaoCfg.shengmingRate, level);
 		mibaoInfo.setGongJi(gongJi);
 		mibaoInfo.setFangYu(fangYu);
 		mibaoInfo.setShengMing(shengMing);
 		int zhanLi = JunZhuMgr.inst.calcMibaoZhanLi(gongJi, fangYu, shengMing, 
-				miBaoDB.getMiBaoId(), miBaoDB.getLevel());
+				miBaoDB.miBaoId, miBaoDB.level);
 		mibaoInfo.setZhanLi(zhanLi);
 	}
 	
@@ -514,20 +511,20 @@ public class MibaoMgr extends EventProc{
 			logger.error("cmd:{},未发现君主", cmd);
 			return;
 		}
-		MiBaoDB miBaoDB = HibernateUtil.find(MiBaoDB.class, " where ownerId=" + junZhu.id + " and mibaoId=" + mibaoId);
+		MiBaoDB miBaoDB = MiBaoDao.inst.getByMiBaoId(junZhu.id, mibaoId);
 		if(miBaoDB == null) {
 			logger.error("cmd:{},db中找不到对应的秘宝记录，ownerId:{},mibaoId:{}", cmd, junZhu.id, mibaoId);
 			return;
 		}
-		MibaoStar curStarCfg = mibaoStarMap.get(miBaoDB.getStar());
-		MibaoStar nextStarCfg = mibaoStarMap.get(miBaoDB.getStar() + 1);
+		MibaoStar curStarCfg = mibaoStarMap.get(miBaoDB.star);
+		MibaoStar nextStarCfg = mibaoStarMap.get(miBaoDB.star + 1);
 		if(nextStarCfg == null) {
 			logger.error("cmd:{}, 秘宝星级已满级，不能进行升星操作，mibaoId:{}", cmd, mibaoId);
 			return;
 		}
-		MiBao miBaoCfg = mibaoMap.get(miBaoDB.getMiBaoId());
+		MiBao miBaoCfg = mibaoMap.get(miBaoDB.miBaoId);
 		if(miBaoCfg == null) {
-			logger.error("找不到秘宝配置信息，mibaoId:{}", miBaoDB.getMiBaoId());
+			logger.error("找不到秘宝配置信息，mibaoId:{}", miBaoDB.miBaoId);
 			return;
 		}
 //		boolean lock = !miBaoDB.isClear();
@@ -542,21 +539,21 @@ public class MibaoMgr extends EventProc{
 //			}
 //		}
 //		
-		if(miBaoDB.getSuiPianNum() < curStarCfg.getNeedNum()) {
+		if(miBaoDB.suiPianNum < curStarCfg.needNum) {
 			logger.error("cmd:{}, 碎片数量不足，不能进行升星操作，mibaoId:{}", cmd, mibaoId);
 			return;
 		}
-		if(junZhu.tongBi < curStarCfg.getNeedMoney()){
+		if(junZhu.tongBi < curStarCfg.needMoney){
 			logger.error("cmd:{}, 铜币数量不足，不能进行升星操作，mibaoId:{}", cmd, mibaoId);
 			return;
 		}
 		logger.info("junzhuId:{},秘宝升星成功。mibaoId:{},消耗碎片:{},消耗铜币:{}", 
-				junZhu.id, mibaoId, curStarCfg.getNeedNum(), curStarCfg.getNeedMoney());
-		miBaoDB.setStar(miBaoDB.getStar() + 1);
-		miBaoDB.setSuiPianNum(miBaoDB.getSuiPianNum() - curStarCfg.getNeedNum());
+				junZhu.id, mibaoId, curStarCfg.needNum, curStarCfg.needMoney);
+		miBaoDB.star = miBaoDB.star + 1;
+		miBaoDB.suiPianNum = miBaoDB.suiPianNum - curStarCfg.needNum;
 		miBaoDB.hasShengXing = true;
 		HibernateUtil.save(miBaoDB);
-		EventMgr.addEvent(ED.MIBAO_UP_STAR, new Object[]{junZhu,session,miBaoCfg,curStarCfg});
+		EventMgr.addEvent(junZhu.id,ED.MIBAO_UP_STAR, new Object[]{junZhu,session,miBaoCfg,curStarCfg});
 		
 		MibaoStarUpResp.Builder resp = MibaoStarUpResp.newBuilder();
 		
@@ -564,27 +561,25 @@ public class MibaoMgr extends EventProc{
 		fillMibaoInfoBuilder(junZhu, mibaoInfo, miBaoDB, miBaoCfg, nextStarCfg, false);
 		resp.setMibaoInfo(mibaoInfo);
 		session.write(resp.build());
-		junZhu.tongBi = junZhu.tongBi - curStarCfg.getNeedMoney();
+		junZhu.tongBi = junZhu.tongBi - curStarCfg.needMoney;
 		HibernateUtil.update(junZhu);
 		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		
 		// 主线任务：秘宝升级星级完成一次
 //		if(miBao.getId() == TaskData.shengXing_mibao){
-			EventMgr.addEvent(ED.MIBAO_SEHNGXING, new Object[]{junZhu.id, miBaoCfg.getId()});
+			EventMgr.addEvent(junZhu.id,ED.MIBAO_SEHNGXING, new Object[]{junZhu.id, miBaoCfg.id});
 //		}
 		// 主线任务：秘宝升级星级到x星级
 //		if(TaskData.mibao_star_x_1 == miBaoDB.getStar() ||
 //				TaskData.mibao_star_x_2 == miBaoDB.getStar()){
-			EventMgr.addEvent(ED.mibao_shengStar_x, new Object[]{junZhu.id, miBaoDB.getStar()});
+			EventMgr.addEvent(junZhu.id,ED.mibao_shengStar_x, new Object[]{junZhu.id, miBaoDB.star});
 		/*
 		 * 对指定秘宝升星一次
 		 */
-			EventMgr.addEvent(ED.mibao_shengStar, new Object[]{junZhu.id, miBaoDB.getMiBaoId()});
+			EventMgr.addEvent(junZhu.id,ED.mibao_shengStar, new Object[]{junZhu.id, miBaoDB.miBaoId});
 			//		}
 		// 秘宝升星	
-		EventMgr.addEvent(ED.miabao_x_star_n, new Object[]{junZhu.id});
-		// 刷新君主榜 2015-7-30 14：44
-		EventMgr.addEvent(ED.JUN_RANK_REFRESH, junZhu);
+		EventMgr.addEvent(junZhu.id,ED.miabao_x_star_n, new Object[]{junZhu.id});
 	}
 
 	public void levelUpgrade(int cmd, IoSession session, Builder builder) {
@@ -595,28 +590,28 @@ public class MibaoMgr extends EventProc{
 			logger.error("cmd:{},未发现君主", cmd);
 			return;
 		}
-		MiBaoDB miBaoDB = HibernateUtil.find(MiBaoDB.class, " where ownerId=" + junZhu.id + " and mibaoId=" + mibaoId);
+		MiBaoDB miBaoDB = MiBaoDao.inst.getByMiBaoId(junZhu.id, mibaoId);
 		if(miBaoDB == null) {
 			logger.error("cmd:{},db中找不到对应的秘宝记录，ownerId:{},mibaoId:{}", cmd, junZhu.id, mibaoId);
 			return;
 		}
-		if(miBaoDB.getLevel() == junZhu.level) {
-			logger.error("秘宝:{}等级:{}不能超过君主等级:{}", miBaoDB.getMiBaoId(), miBaoDB.getLevel(), junZhu.level);
+		if(miBaoDB.level == junZhu.level) {
+			logger.error("秘宝:{}等级:{}不能超过君主等级:{}", miBaoDB.miBaoId, miBaoDB.level, junZhu.level);
 			return;
 		}
-		MiBao miBaoCfg = mibaoMap.get(miBaoDB.getMiBaoId());
+		MiBao miBaoCfg = mibaoMap.get(miBaoDB.miBaoId);
 		if(miBaoCfg == null) {
-			logger.error("找不到秘宝id为:{}的配置", miBaoDB.getMiBaoId());
+			logger.error("找不到秘宝id为:{}的配置", miBaoDB.miBaoId);
 			return;
 		}
-		ExpTemp expTemp = TempletService.templetService.getExpTemp(miBaoCfg.getExpId(), miBaoDB.getLevel());
+		ExpTemp expTemp = TempletService.templetService.getExpTemp(miBaoCfg.expId, miBaoDB.level);
 		if(expTemp == null){
-			logger.error("cmd:{},经验配置错误，expId:{},level:{}", cmd, miBaoCfg.getExpId(), miBaoDB.getLevel());
+			logger.error("cmd:{},经验配置错误，expId:{},level:{}", cmd, miBaoCfg.expId, miBaoDB.level);
 			return;
 		}
-		MibaoStar mibaoStar = mibaoStarMap.get(miBaoDB.getStar());
+		MibaoStar mibaoStar = mibaoStarMap.get(miBaoDB.star);
 		if(mibaoStar == null) {
-			logger.error("找不到mibaostar配置，star:{}, 秘宝id:{}", miBaoDB.getStar(), mibaoId);
+			logger.error("找不到mibaostar配置，star:{}, 秘宝id:{}", miBaoDB.star, mibaoId);
 			return;
 		}
 //		boolean lock = !miBaoDB.isClear();
@@ -631,31 +626,31 @@ public class MibaoMgr extends EventProc{
 //			}
 //		}
 
-		if(junZhu.tongBi < expTemp.getNeedExp()) {
-			logger.error("cmd:{},铜币不足不能进行升级操作expId:{},秘宝等级:{}", cmd, miBaoCfg.getExpId(), miBaoDB.getLevel());
+		if(junZhu.tongBi < expTemp.needExp) {
+			logger.error("cmd:{},铜币不足不能进行升级操作expId:{},秘宝等级:{}", cmd, miBaoCfg.expId, miBaoDB.level);
 			return;
 		}
 		// 升级点数初始化肯定在升级之前
 		MibaoLevelPoint levelPoint = HibernateUtil.find(MibaoLevelPoint.class, junZhu.id);
 		if(levelPoint == null || levelPoint.point <= 0) {
-			logger.error("cmd:{},没有升级点数不能进行升级操作 ,秘宝等级:{}", cmd, miBaoDB.getLevel());
+			logger.error("cmd:{},没有升级点数不能进行升级操作 ,秘宝等级:{}", cmd, miBaoDB.level);
 			return;
 		}
 		
-		List<ExpTemp> expTemps = TempletService.templetService.getExpTemps(miBaoCfg.getExpId());
+		List<ExpTemp> expTemps = TempletService.templetService.getExpTemps(miBaoCfg.expId);
 		int maxLevel = 1;
 		if(expTemps == null || expTemps.size() == 0) {
-			logger.error("cmd:{},经验配置为空，expId:{}", cmd, miBaoCfg.getExpId());
+			logger.error("cmd:{},经验配置为空，expId:{}", cmd, miBaoCfg.expId);
 			return;
 		} 
 		maxLevel = expTemps.size();
-		if(miBaoDB.getLevel() >= maxLevel) {//表示满级了
-			miBaoDB.setLevel(maxLevel);
+		if(miBaoDB.level >= maxLevel) {//表示满级了
+			miBaoDB.level = maxLevel;
 			HibernateUtil.save(miBaoDB);
 			return;
 		} else {
-			int newLevel = miBaoDB.getLevel() + 1;
-			miBaoDB.setLevel(newLevel);
+			int newLevel = miBaoDB.level + 1;
+			miBaoDB.level = newLevel;
 			HibernateUtil.save(miBaoDB);
 			
 			int maxPointValue = VipMgr.INSTANCE.getValueByVipLevel(junZhu.vipLevel, VipData.mibaoCountLimit);
@@ -673,7 +668,7 @@ public class MibaoMgr extends EventProc{
 				// 主线任务：任意秘宝升级到x等级
 	//		if(newLevel == TaskData.mibao_level_x_1 ||
 	//					newLevel == TaskData.mibao_level_x_2){
-				EventMgr.addEvent(ED.mibao_shengji_x, new Object[]{junZhu.id, newLevel});
+				EventMgr.addEvent(junZhu.id,ED.mibao_shengji_x, new Object[]{junZhu.id, newLevel});
 	//		}
 		}
 		MibaoLevelupResp.Builder resp = MibaoLevelupResp.newBuilder();
@@ -681,14 +676,12 @@ public class MibaoMgr extends EventProc{
 		fillMibaoInfoBuilder(junZhu, mibaoInfo, miBaoDB, miBaoCfg, mibaoStar, false);
 		resp.setMibaoInfo(mibaoInfo);
 		session.write(resp.build());
-		junZhu.tongBi = junZhu.tongBi - expTemp.getNeedExp();
+		junZhu.tongBi = junZhu.tongBi - expTemp.needExp;
 		HibernateUtil.save(junZhu);
 		JunZhuMgr.inst.sendMainInfo(session,junZhu);
-		logger.info("junzhuId:{},秘宝升级成功。mibaoId:{},消耗铜币:{}", junZhu.id, mibaoId, expTemp.getNeedExp());
+		logger.info("junzhuId:{},秘宝升级成功。mibaoId:{},消耗铜币:{}", junZhu.id, mibaoId, expTemp.needExp);
 		// 每日任务中记录完成秘宝升级1次
-		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(junZhu.id, DailyTaskConstants.mibao_shengji_id, 1));
-		// 刷新君主榜 2015-7-30 14：44
-		EventMgr.addEvent(ED.JUN_RANK_REFRESH, junZhu);
+		EventMgr.addEvent(junZhu.id,ED.DAILY_TASK_PROCESS, new DailyTaskCondition(junZhu.id, DailyTaskConstants.mibao_shengji_id, 1));
 	}
 	
 	/**
@@ -746,18 +739,7 @@ public class MibaoMgr extends EventProc{
 //		return zuheSkillId;
 //	}
 	
-//	public List<MiBaoDB> getMiBaoDBs(List<Long> dbIds){
-//		List<MiBaoDB> mibaoList = new ArrayList<MiBaoDB>();
-//		for(Long id : dbIds) {
-//			if(id >= 0) {
-//				MiBaoDB mibaoDB = HibernateUtil.find(MiBaoDB.class, id);
-//				if(mibaoDB != null) {
-//					mibaoList.add(mibaoDB);
-//				}
-//			}
-//		}
-//		return mibaoList;
-//	}
+
 	
 //	public int getShowSkills(int zuheId, int mibaoCount) {
 //		if(mibaoCount < 2) {
@@ -826,8 +808,9 @@ public class MibaoMgr extends EventProc{
 		if(zuheId <= 0){
 			return null;
 		}
-		MiBaoSkillDB skillD = HibernateUtil.find(MiBaoSkillDB.class,
-				" where jId = " + jId +" and zuHeId = " + zuheId);
+		/*MiBaoSkillDB skillD = HibernateUtil.find(MiBaoSkillDB.class,
+				" where jId = " + jId +" and zuHeId = " + zuheId);*/
+		MiBaoSkillDB skillD = MiBaoSkillDao.inst.getMibaoSkillDBySkillId(jId, zuheId);
 		return skillD;
 	}
 
@@ -835,8 +818,9 @@ public class MibaoMgr extends EventProc{
 		if(zuheId <= 0){
 			return -1;
 		}
-		MiBaoSkillDB skillD = HibernateUtil.find(MiBaoSkillDB.class,
-				" where jId = " + jId +" and zuHeId = " + zuheId);
+		/*MiBaoSkillDB skillD = HibernateUtil.find(MiBaoSkillDB.class,
+				" where jId = " + jId +" and zuHeId = " + zuheId);*/
+		MiBaoSkillDB skillD = getActiveSkillFromDB(jId, zuheId);
 		// 没有手动激活
 		return skillD == null? -1: skillD.level;
 	}
@@ -872,48 +856,81 @@ public class MibaoMgr extends EventProc{
 		return c.nuqiRatioc;
 	}
 	public List<MiBaoDB> getActiveMibaosFromDB(long junzhuId) {
-		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB.class,
+		List<MiBaoDB> mibaoDBList = MiBaoDao.inst.getMap(junzhuId).values()
+			.stream().filter(t->t.level>0 && t.miBaoId>0)
+			.collect(Collectors.toList());
+		/*
+		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB0.class,
 				"where ownerId = " + junzhuId + " and level > 0 and miBaoId > 0");
+				*/
 		return mibaoDBList;
 	}
 	public boolean isMibaoLevelOk(long junzhuId, int x_number, int l_level){
-		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB.class,
-				"where ownerId = " + junzhuId + " and level >= " + l_level +  " and miBaoId > 0");
-		return mibaoDBList.size() >= x_number;
+		long cnt = MiBaoDao.inst.getMap(junzhuId).values()
+				.stream().filter(t->t.level>l_level && t.miBaoId>0)
+				.count();
+		/*
+		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB0.class,
+				"where ownerId = " + junzhuId 
+				+ " and level >= " + l_level +  " and miBaoId > 0");
+				*/
+		return cnt >= x_number;
 	}
 	public int getMaxMibaoLevel(long junzhuId){
 		List<MiBaoDB> mibaoDBList=getActiveMibaosFromDB(junzhuId);
 		int maxLevel=0;
 		for (MiBaoDB miBaoDB : mibaoDBList) {
-			if(miBaoDB.getLevel()>maxLevel){
-				maxLevel=miBaoDB.getLevel();
+			if(miBaoDB.level>maxLevel){
+				maxLevel=miBaoDB.level;
 			}
 		}
 		return maxLevel;
 	}
 	
 	public boolean isMibaoStarOk(long junzhuId, int x_number, int star){
-		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB.class,
-				"where ownerId = " + junzhuId + " and star >= " + star +  " and miBaoId > 0");
-		return mibaoDBList.size() >= x_number;
+		long cnt = getMibaoStarNum(junzhuId, x_number, star);
+		/*
+		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB0.class,
+				"where ownerId = " + junzhuId 
+				+ " and star >= " + star +  " and miBaoId > 0");
+				*/
+		return cnt >= x_number;
 	}
 	
 	//有几个
-	public int getMibaoStarNum(long junzhuId, int x_number, int star){
-		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB.class,
-				"where ownerId = " + junzhuId + " and star >= " + star +  " and miBaoId > 0");
-		return mibaoDBList.size();
+	public long getMibaoStarNum(long junzhuId, int x_number, int star){
+		long cnt = MiBaoDao.inst.getMap(junzhuId).values()
+				.stream().filter(t->t.star>=star && t.miBaoId>0)
+				.count();
+		/*
+		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB0.class,
+				"where ownerId = " + junzhuId 
+				+ " and star >= " + star +  " and miBaoId > 0");
+				*/
+		return cnt;
 	}
 	
 	public boolean isMibaoCountOk(long junzhuId, int x_number){
-		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB.class,
+		long cnt = MiBaoDao.inst.getMap(junzhuId).values()
+				.stream().filter(t->t.miBaoId>0)
+				.count();
+		/*
+		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB0.class,
 				"where ownerId = " + junzhuId +  " and miBaoId > 0");
-		return mibaoDBList.size() >= x_number;
+				*/
+		return cnt >= x_number;
 	}
 	
 	public int getActivateMiBaoCount(long junzhuId) {
-		List<MiBaoDB> mibaoDBList = getActiveMibaosFromDB(junzhuId);
-		return mibaoDBList.size();
+		long cnt = MiBaoDao.inst.getMap(junzhuId).values()
+				.stream().filter(t->t.level>0 && t.miBaoId>0)
+				.count();
+//		int cnt = HibernateUtil.getCount(
+//				"SELECT count(*) FROM MiBaoDB WHERE ownerId = " + junzhuId 
+//				+ " AND level > 0 AND miBaoId > 0");
+		return (int)cnt;
+//		List<MiBaoDB> mibaoDBList = getActiveMibaosFromDB(junzhuId);
+//		return mibaoDBList.size();
 	}
 	
 //	/**
@@ -935,13 +952,13 @@ public class MibaoMgr extends EventProc{
 //				}
 //				break;
 //			case 2:	// 过关斩将关卡
-//				PveRecord record = HibernateUtil.find(PveRecord.class, " where uid=" + junzhu.id + " and guanQiaId = "+ unlockValue);
+//				PveRecord record = HibernateUtil.find(PveRecord0.class, " where uid=" + junzhu.id + " and guanQiaId = "+ unlockValue);
 //				if(record != null) {
 //					lock = false;
 //				}
 //				break;
 //			case 3: // 传奇关卡
-//				PveRecord cqRecord = HibernateUtil.find(PveRecord.class, " where uid=" + junzhu.id + " and guanQiaId = "+ unlockValue);
+//				PveRecord cqRecord = HibernateUtil.find(PveRecord0.class, " where uid=" + junzhu.id + " and guanQiaId = "+ unlockValue);
 //				if(cqRecord != null && cqRecord.chuanQiPass) {
 //					lock = false;
 //				}
@@ -985,7 +1002,7 @@ public class MibaoMgr extends EventProc{
 		HibernateUtil.save(levelPoint);
 	}
 	
-	protected int getLevelPointRemainSeconds(MibaoLevelPoint levelPoint, Date curDate, int vipLevel) {
+	public int getLevelPointRemainSeconds(MibaoLevelPoint levelPoint, Date curDate, int vipLevel) {
 		Date lastDate = levelPoint.lastAddTime;
 		int maxValue = VipMgr.INSTANCE.getValueByVipLevel(vipLevel, VipData.mibaoCountLimit);
 		if(levelPoint.point >= maxValue) {
@@ -1045,6 +1062,7 @@ public class MibaoMgr extends EventProc{
 		skillD.jId = junzhuId;
 		skillD.zuHeId = zuheid;
 		skillD.level = skilConf.lv; //技能初始等级
+		MiBaoSkillDao.inst.save(skillD);
 		HibernateUtil.save(skillD);
 		// 其他技能等级自动加1 ----(from 策划要求)
 		for(MiBaoSkillDB lastskill: list){
@@ -1067,7 +1085,7 @@ public class MibaoMgr extends EventProc{
 
 		logger.info("君主：{}手动激活秘宝技能成功，MibaoSkill,id是：{}", junzhuId, zuheid);
 		// 主线任务: 激活1次秘宝技能 20190916
-		EventMgr.addEvent(ED.active_mibao_skill , new Object[] {junzhuId});
+		EventMgr.addEvent(junzhuId,ED.active_mibao_skill , new Object[] {junzhuId});
 
 		resp.setMessage(0);
 		session.write(resp.build());
@@ -1146,11 +1164,11 @@ public class MibaoMgr extends EventProc{
 	public void isCanMiBaoShengJi(JunZhu junZhu, IoSession session){
 		List<MiBaoDB> list= getActiveMibaosFromDB(junZhu.id);
 		for(MiBaoDB miBaoDB: list){
-			int level = miBaoDB.getLevel();
+			int level = miBaoDB.level;
 			if(level <= 0 || level >= junZhu.level) {
 				continue;
 			}
-			MiBao miBaoCfg = mibaoMap.get(miBaoDB.getMiBaoId());
+			MiBao miBaoCfg = mibaoMap.get(miBaoDB.miBaoId);
 			if(miBaoCfg == null) {
 				continue;
 			}
@@ -1160,8 +1178,8 @@ public class MibaoMgr extends EventProc{
 //					continue;
 //				}
 //			}
-			ExpTemp expTemp = TempletService.templetService.getExpTemp(miBaoCfg.getExpId(), level);
-			if(expTemp == null || junZhu.tongBi < expTemp.getNeedExp()) {
+			ExpTemp expTemp = TempletService.templetService.getExpTemp(miBaoCfg.expId, level);
+			if(expTemp == null || junZhu.tongBi < expTemp.needExp) {
 				continue;
 			}
 			// 升级点数初始化肯定在升级之前
@@ -1169,7 +1187,7 @@ public class MibaoMgr extends EventProc{
 			if(levelPoint == null || levelPoint.point <= 0) {
 				continue;
 			}
-			List<ExpTemp> expTemps = TempletService.templetService.getExpTemps(miBaoCfg.getExpId());
+			List<ExpTemp> expTemps = TempletService.templetService.getExpTemps(miBaoCfg.expId);
 			int maxLevel = 1;
 			if(expTemps == null || expTemps.size() == 0) {
 				continue;
@@ -1191,11 +1209,12 @@ public class MibaoMgr extends EventProc{
 		if(count <= 0){
 			return;
 		}
-		List<MiBaoSkillDB> dblist = getSkillDBList(junZhu.id);
+		/*List<MiBaoSkillDB> dblist = getSkillDBList(junZhu.id);
 		Map<Integer,  MiBaoSkillDB>  dbmap = new HashMap<Integer, MiBaoSkillDB>();
 		for(MiBaoSkillDB d: dblist){
 			dbmap.put(d.zuHeId, d);
-		}
+		}*/
+		Map<Integer,  MiBaoSkillDB>  dbmap = MiBaoSkillDao.inst.getMap(junZhu.id);
 		for(Map.Entry<Integer, MibaoSkill> e: mibaoSkillMap.entrySet()){
 			MibaoSkill confSkill = e.getValue();
 			if(count >= confSkill.needNum){
@@ -1212,22 +1231,22 @@ public class MibaoMgr extends EventProc{
 	public void isMiBaoCanUpStar(JunZhu junZhu, IoSession session){
 		List<MiBaoDB> list= getActiveMibaosFromDB(junZhu.id);
 		for(MiBaoDB miBaoDB: list){
-			MibaoStar curStarCfg = mibaoStarMap.get(miBaoDB.getStar());
+			MibaoStar curStarCfg = mibaoStarMap.get(miBaoDB.star);
 			if(curStarCfg == null){
 				continue;
 			}
-			MibaoStar nextStarCfg = mibaoStarMap.get(miBaoDB.getStar() + 1);
+			MibaoStar nextStarCfg = mibaoStarMap.get(miBaoDB.star + 1);
 			if(nextStarCfg == null) {
 				continue;
 			}
-			MiBao miBaoCfg = mibaoMap.get(miBaoDB.getMiBaoId());
+			MiBao miBaoCfg = mibaoMap.get(miBaoDB.miBaoId);
 			if(miBaoCfg == null) {
 				continue;
 			}
-			if(miBaoDB.getSuiPianNum() < curStarCfg.getNeedNum()) {
+			if(miBaoDB.suiPianNum < curStarCfg.needNum) {
 				continue;
 			}
-			if(junZhu.tongBi < curStarCfg.getNeedMoney()){
+			if(junZhu.tongBi < curStarCfg.needMoney){
 				continue;
 			}
 			FunctionID.pushCanShowRed(junZhu.id, session, FunctionID.MiBaoShengXing);
@@ -1236,23 +1255,22 @@ public class MibaoMgr extends EventProc{
 	}
 	
 	public void isMiBaoCanHeCheng(JunZhu junZhu, IoSession session){
-		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB.class,
-				"where ownerId = " + junZhu.id);
-		for(MiBaoDB miBaoDB: mibaoDBList){
-			if(miBaoDB.getLevel() > 0) {
+		Map<Integer, MiBaoDB> mibaoDBList = MiBaoDao.inst.getMap(junZhu.id);
+		for(MiBaoDB miBaoDB: mibaoDBList.values()){
+			if(miBaoDB.level > 0) {
 				continue;
 			}
-			if(miBaoDB.getMiBaoId() > 0){
+			if(miBaoDB.miBaoId > 0){
 				continue;
 			}
-			MibaoSuiPian mibaoSuiPian = mibaoSuipianMap.get(miBaoDB.getTempId());
+			MibaoSuiPian mibaoSuiPian = mibaoSuipianMap.get(miBaoDB.tempId);
 			if(mibaoSuiPian == null) {
 				continue;
 			}
 			
 			MiBao miBaoCfg = null;
 			for(Map.Entry<Integer, MiBao> entry : mibaoMap.entrySet()) {
-				if(entry.getValue().tempId == miBaoDB.getTempId()) {
+				if(entry.getValue().tempId == miBaoDB.tempId) {
 					miBaoCfg = entry.getValue();
 					break;
 				}
@@ -1260,15 +1278,15 @@ public class MibaoMgr extends EventProc{
 			if(miBaoCfg == null) {
 				continue;
 			}
-			int star = miBaoCfg.getInitialStar();
+			int star = miBaoCfg.initialStar;
 			MibaoStar curStarCfg = mibaoStarMap.get(star);
 			if(curStarCfg == null) {
 				continue;
 			}
-			if(miBaoDB.getSuiPianNum() < mibaoSuiPian.getHechengNum()) {
+			if(miBaoDB.suiPianNum < mibaoSuiPian.hechengNum) {
 				continue;
 			}
-			if(junZhu.tongBi < mibaoSuiPian.getMoney()) {
+			if(junZhu.tongBi < mibaoSuiPian.money) {
 				continue;
 			}
 			FunctionID.pushCanShowRed(junZhu.id, session, FunctionID.MiBaoHeCheng);
@@ -1395,13 +1413,18 @@ public class MibaoMgr extends EventProc{
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 	}
 	
 	public List<MiBaoSkillDB> getSkillDBList(long jId){
-		List<MiBaoSkillDB> list = HibernateUtil.list(MiBaoSkillDB.class,
-				"where jId =" + jId);
+		/*List<MiBaoSkillDB> list = HibernateUtil.list(MiBaoSkillDB.class,
+				"where jId =" + jId);*/
+		List<MiBaoSkillDB> list = new ArrayList<MiBaoSkillDB>();
+		Map<Integer,MiBaoSkillDB> m = MiBaoSkillDao.inst.getMap(jId);
+		for(Integer key:m.keySet()){
+			list.add(m.get(key));
+		}
 		return list;
 	}
 }

@@ -40,6 +40,7 @@ import com.qx.explore.treasure.BaoXiangScene;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.junzhu.PlayerTime;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.yabiao.YaBiaoHuoDongMgr;
 import com.qx.yabiao.YaBiaoRobot;
@@ -135,7 +136,7 @@ public class SceneMgr extends EventProc{
 		
 	}
 
-//	private void enterTBBXScene(int code, IoSession session, Builder builder) {
+//	public void enterTBBXScene(int code, IoSession session, Builder builder) {
 //		//离开原来的场景
 //		playerExitScene(session);
 //		// 进入押镖场景进行押镖
@@ -242,7 +243,7 @@ public class SceneMgr extends EventProc{
 		if (jzId == null) {
 			return;
 		}
-		AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jzId);
+		AlliancePlayer player = AllianceMgr.inst.getAlliancePlayer(jzId);
 		if(player == null || player.lianMengId<=0){
 			return;
 		}
@@ -295,12 +296,13 @@ public class SceneMgr extends EventProc{
 		fightScene.exec(code, session, builder);
 	}
 	
-	protected void enterScene(int code, IoSession session, Builder builder,
+	public void enterScene(int code, IoSession session, Builder builder,
 			Long junZhuId, Integer lmId) {
 		PlayerTime playerTime = HibernateUtil.find(PlayerTime.class, junZhuId);
 		if (playerTime != null) {
-			if(playerTime.getZhunchengTime() == null){
-				playerTime.setZhunchengTime(new Date());
+			if(playerTime.zhunchengTime == null){
+				playerTime.zhunchengTime = new Date();
+				Cache.playerTimeCache.put(junZhuId, playerTime);
 				HibernateUtil.save(playerTime);
 				logger.info(" 记录玩家{}进入主城时间",junZhuId);
 			}
@@ -324,7 +326,7 @@ public class SceneMgr extends EventProc{
 		sc.exec(code, session, builder);
 	}
 	
-	protected void exitHouse(int code, IoSession session, Builder builder,
+	public void exitHouse(int code, IoSession session, Builder builder,
 			Long junZhuId) {
 		Scene houseScene = (Scene) session.getAttribute(SessionAttKey.Scene);
 		if (houseScene != null) {
@@ -334,7 +336,7 @@ public class SceneMgr extends EventProc{
 		}
 	}
 	
-	protected void enterHouse(int code, IoSession session, Builder builder,
+	public void enterHouse(int code, IoSession session, Builder builder,
 			Long junZhuId, Integer lmId) {
 		if(lmId <= 0){
 			logger.info("用户:{}无联盟，无法进入小屋", junZhuId);
@@ -480,7 +482,7 @@ public class SceneMgr extends EventProc{
 	}
 	
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.Join_LM, this);
 		EventMgr.regist(ED.Leave_LM, this);
 	}

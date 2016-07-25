@@ -6,9 +6,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 @Entity
 @Table(name="mibao_skill")
-public class MiBaoSkillDB {
+public class MiBaoSkillDB implements DBHash{
 	@Id 
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	public long id;
@@ -20,6 +22,10 @@ public class MiBaoSkillDB {
 //	public boolean hasClear = false;
 //	/**是否手动进阶过： true：已经进阶了，false：没有**/
 //	public boolean hasJinjie = false;
+	@Override
+	public long hash() {
+		return id;
+	}
 
 	
 }

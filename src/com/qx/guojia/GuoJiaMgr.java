@@ -27,6 +27,7 @@ import com.manu.dynasty.util.MathUtils;
 import com.manu.network.PD;
 import com.qx.account.FunctionOpenMgr;
 import com.qx.alliance.AllianceBean;
+import com.qx.alliance.AllianceBeanDao;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.award.AwardMgr;
@@ -37,6 +38,7 @@ import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.ranking.RankingMgr;
 import com.qx.timeworker.FunctionID;
@@ -91,7 +93,7 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 		 Map<Integer, ShangJiaoTemp> shangJiaoMap = new HashMap<Integer, ShangJiaoTemp>();
 		List<ShangJiaoTemp> list=TempletService.listAll(ShangJiaoTemp.class.getSimpleName());
 		for (ShangJiaoTemp s : list) {
-			shangJiaoMap.put(s.getTimes(), s);
+			shangJiaoMap.put(s.times, s);
 		}
 		GuoJiaMgr.shangJiaoMap=shangJiaoMap;
 		//每日奖励配置
@@ -100,21 +102,21 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 		int tempCountryRank=0;
 		List<LueduoUnionRank> tempList=null;
 		for (LueduoUnionRank l : awardlist) { 
-			if(tempCountryRank!=l.getCountryRank()){
-				tempCountryRank=l.getCountryRank();
+			if(tempCountryRank!=l.countryRank){
+				tempCountryRank=l.countryRank;
 				tempList=new ArrayList<LueduoUnionRank>();
 				tempList.add(l);
 			}else{
 				tempList.add(l);
 			}
-			dayAwardMap.put(l.getCountryRank(), tempList);
+			dayAwardMap.put(l.countryRank, tempList);
 		}
 		this.dayAwardMap=dayAwardMap;
 		//仇恨结算权重配置
 		Map<Integer,Double> chouHenJiSuanMap = new HashMap<Integer, Double>();
 		List<ChouHenJiSuan> chlist=TempletService.listAll(ChouHenJiSuan.class.getSimpleName());
 		for (ChouHenJiSuan ch : chlist) {
-			chouHenJiSuanMap.put(ch.getTerm(), ch.getWeight());
+			chouHenJiSuanMap.put(ch.term, ch.weight);
 		}
 		this.chouHenJiSuanMap=chouHenJiSuanMap;
 
@@ -187,11 +189,11 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 		long jzId=jz.id;
 		log.info("君主{}获取国家主页信息",jzId);
 		int result = 0;
-		AlliancePlayer alliancePlayer = HibernateUtil.find(AlliancePlayer.class, jzId);
+		AlliancePlayer alliancePlayer = AllianceMgr.inst.getAlliancePlayer(jzId);
 		if(alliancePlayer == null || alliancePlayer.lianMengId <= 0) {
 			result = 1;
 		} else {
-			AllianceBean alliance = HibernateUtil.find(AllianceBean.class, alliancePlayer.lianMengId);
+			AllianceBean alliance = AllianceBeanDao.inst.getAllianceBean(alliancePlayer.lianMengId);
 			if(alliance == null) {
 				result = 1;
 			}
@@ -203,6 +205,7 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 		if(gongjinBean==null){
 			gongjinBean = new ResourceGongJin();
 			gongjinBean.junzhuId = jzId;
+			Cache.caCheMap.get(ResourceGongJin.class).put(jzId, gongjinBean);
 		}
 		GuoJiaBean gjBean = HibernateUtil.find(GuoJiaBean.class, jz.guoJiaId);
 		if (gjBean == null) {
@@ -238,6 +241,7 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 //			return;
 			gongjinBean = new ResourceGongJin();
 			gongjinBean.junzhuId = jzId;
+			Cache.caCheMap.get(ResourceGongJin.class).put(jzId,gongjinBean);
 		}else{
 //			resetResourceGongJin(gongjinBean);
 //			if(gongjinBean.lastJX<CanShu.LUEDUO_HAND_DAYMINNUM){
@@ -262,7 +266,7 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 				return;
 			}
 		}
-		AlliancePlayer apBean = HibernateUtil.find(AlliancePlayer.class, jzId);
+		AlliancePlayer apBean = AllianceMgr.inst.getAlliancePlayer(jzId);
 		if (apBean == null) {
 			log.error("请求领取国家声望日奖励出错：君主{}无联盟",jzId);
 			resp.setResult(50);
@@ -272,7 +276,7 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 			session.write(resp.build());
 			return;
 		}
-		AllianceBean aBean = HibernateUtil.find(AllianceBean.class, apBean.lianMengId);
+		AllianceBean aBean = AllianceBeanDao.inst.getAllianceBean(apBean.lianMengId);
 		if (aBean == null) {
 			log.error("君主:{}请求领取国家声望日奖励出错,联盟：{}不存在", jzId,apBean.lianMengId);
 			resp.setResult(50);
@@ -298,9 +302,9 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 		List<LueduoUnionRank> awardList=dayAwardMap.get(guojiRank);
 		String award=null;
 		for (LueduoUnionRank dayAward : awardList) {
-			if(lianMengRank >= dayAward.getUnionRankMin() && 
-					lianMengRank <= dayAward.getUnionRankMax()){
-				award=dayAward.getAward();
+			if(lianMengRank >= dayAward.unionRankMin && 
+					lianMengRank <= dayAward.unionRankMax){
+				award=dayAward.award;
 			}
 		}
 		
@@ -333,12 +337,12 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 				return false;
 			}
 		}
-		AlliancePlayer alBean = HibernateUtil.find(AlliancePlayer.class, gongjinBean.junzhuId);
+		AlliancePlayer alBean = AllianceMgr.inst.getAlliancePlayer(gongjinBean.junzhuId);
 		if (alBean == null || alBean.lianMengId <=0 ) {
 			log.info("君主{}没有国家声望每日排行奖励可领，无联盟", gongjinBean.junzhuId);
 			return false;
 		}
-		AllianceBean aBean = HibernateUtil.find(AllianceBean.class, alBean.lianMengId);
+		AllianceBean aBean = AllianceBeanDao.inst.getAllianceBean(alBean.lianMengId);
 		if (aBean == null) {
 			log.info("君主{}没有国家声望每日排行奖励可领，联盟{}不存在", gongjinBean.junzhuId,alBean.lianMengId);
 			return false;
@@ -355,8 +359,8 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 		List<LueduoUnionRank> awardList=dayAwardMap.get(guojiRank);
 		String award=null;
 		for (LueduoUnionRank dayAward : awardList) {
-			if(lianMengRank>=dayAward.getUnionRankMin()&&lianMengRank<=dayAward.getUnionRankMax()){
-				award=dayAward.getAward();
+			if(lianMengRank>=dayAward.unionRankMin&&lianMengRank<=dayAward.unionRankMax){
+				award=dayAward.award;
 			}
 		}
 		if(award==null){
@@ -374,9 +378,9 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 		for (String g : goodsArray) {
 			String[] ginfo = g.split(":");
 			AwardTemp award = new AwardTemp();
-			award.setItemType(Integer.parseInt(ginfo[0]));
-			award.setItemId(Integer.parseInt(ginfo[1]));
-			award.setItemNum(Integer.parseInt(ginfo[2]));
+			award.itemType = Integer.parseInt(ginfo[0]);
+			award.itemId = Integer.parseInt(ginfo[1]);
+			award.itemNum = Integer.parseInt(ginfo[2]);
 			AwardMgr.inst.giveReward(session, award, jz);
 		}
 
@@ -665,8 +669,8 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 		}
 		if(change){
 			// 添加国家声望榜刷新事件 @何金成
-			EventMgr.addEvent(ED.GUOJIA_DAY_RANK_REFRESH, new Object[]{gjBean,changeValue});
-			EventMgr.addEvent(ED.GUOJIA_WEEK_RANK_REFRESH, new Object[]{gjBean,changeValue});
+			EventMgr.addEvent(gjBean.guoJiaId,ED.GUOJIA_DAY_RANK_REFRESH, new Object[]{gjBean,changeValue});
+			EventMgr.addEvent(gjBean.guoJiaId,ED.GUOJIA_WEEK_RANK_REFRESH, new Object[]{gjBean,changeValue});
 		}
 		return gjBean.shengWang;
 	}
@@ -1009,7 +1013,7 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 //			log.error("玩家：{}上周缴纳的贡金值太少，所以没有周排行奖励");
 //			return; 
 //		}
-		AlliancePlayer pl = HibernateUtil.find(AlliancePlayer.class, jId);
+		AlliancePlayer pl = AllianceMgr.inst.getAlliancePlayer(jId);
 		if(pl == null){
 			log.info("玩家:{}国家声望周排行奖励方法return，不是联盟玩家", jId);
 			return;
@@ -1028,8 +1032,8 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 		List<LueduoUnionRank> awardList = dayAwardMap.get(guojiRank);
 		String award = null;
 		for (LueduoUnionRank dayAward : awardList) {
-			if(lianMengRank >= dayAward.getUnionRankMin() &&
-					lianMengRank <= dayAward.getUnionRankMax()){
+			if(lianMengRank >= dayAward.unionRankMin &&
+					lianMengRank <= dayAward.unionRankMax){
 				// 周奖励
 				award = dayAward.bigAward;
 				break;
@@ -1244,7 +1248,7 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 	}
 	
 	@Override
-	protected void doReg() {
+	public void doReg() {
 //		EventMgr.regist(ED.GET_JUNXIAN, this);
 //		//定时刷新 2015年9月17日
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);

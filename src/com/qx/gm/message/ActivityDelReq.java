@@ -4,12 +4,12 @@ import com.qx.gm.util.CodeUtil;
 import com.qx.gm.util.MD5Util;
 
 public class ActivityDelReq {
-	private int type;// 协议编号
-	private int firm;// 表示厂商ID
-	private int zone;// 大区号
-	private int actid;// 活动记录ID
-	private int acttype;// 活动类型(1-7)
-	private String md5;// 加密
+	public int type;// 协议编号
+	public int firm;// 表示厂商ID
+	public int zone;// 大区号
+	public int actid;// 活动记录ID
+	public int acttype;// 活动类型(1-7)
+	public String md5;// 加密
 
 	/*
 	 * 注解：活动类型： 1: 全服补偿配置 2：限时登录配置 3: 累计充值配置 4: 累计消费配置 5: 充值排行配置 6: 消费排行配置 7:

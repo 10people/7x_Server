@@ -18,7 +18,7 @@ public class XianShiBean implements MCSupport {
 	/**
 	 * @Fields serialVersionUID : TODO
 	 */
-	private static final long serialVersionUID = 123122L;
+	public static final long serialVersionUID = 123122L;
 	@Id
 	public long id;//jzId*100+bigId;
 	

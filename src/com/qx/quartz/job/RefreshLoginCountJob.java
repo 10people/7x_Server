@@ -15,7 +15,7 @@ import com.qx.junzhu.PlayerTime;
 import com.qx.persistent.HibernateUtil;
 
 public class RefreshLoginCountJob   implements Job {
-	private Logger log = LoggerFactory.getLogger(RefreshLoginCountJob.class);
+	public Logger log = LoggerFactory.getLogger(RefreshLoginCountJob.class);
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		log.info("开始刷新登录天数");
@@ -32,7 +32,7 @@ public class RefreshLoginCountJob   implements Job {
 					continue;
 				}else{
 					XianShiActivityMgr.instance.updateLoginDate(jzId);
-					playerTime.setLoginTime(new Date());
+					playerTime.loginTime = new Date();
 					HibernateUtil.update(playerTime);
 				}
 			}

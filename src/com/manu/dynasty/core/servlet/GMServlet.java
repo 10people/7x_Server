@@ -21,7 +21,7 @@ import com.qx.util.JsonUtils;
  * Servlet implementation class GMServlet
  */
 public class GMServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 1L;
 	public static Logger logger = LoggerFactory.getLogger(GMServlet.class);
 
 	/**
@@ -36,7 +36,7 @@ public class GMServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
+	public void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		ServletInputStream is = request.getInputStream();
 		BufferedReader bReader = new BufferedReader(new InputStreamReader(is));
@@ -80,7 +80,7 @@ public class GMServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
+	public void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}

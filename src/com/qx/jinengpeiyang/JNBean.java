@@ -3,6 +3,7 @@ package com.qx.jinengpeiyang;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.qx.persistent.DBHash;
 import com.qx.persistent.MCSupport;
 
 /**
@@ -11,7 +12,11 @@ import com.qx.persistent.MCSupport;
  *
  */
 @Entity
-public class JNBean implements MCSupport{
+public class JNBean implements MCSupport, DBHash,Cloneable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5509762696074703090L;
 	@Id
 	public long jzId;
 	//三个武器，每个武器三个技能
@@ -30,5 +35,15 @@ public class JNBean implements MCSupport{
 	public long getIdentifier() {
 		// TODO Auto-generated method stub
 		return jzId;
+	}
+	
+	@Override
+	public long hash() {
+		return jzId;
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 }

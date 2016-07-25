@@ -70,7 +70,7 @@ public class TempletService {
 		itemMap = map;
 	}
 
-	protected  void addList(List<BaseItem> list, Map<Integer, BaseItem> map) {
+	public  void addList(List<BaseItem> list, Map<Integer, BaseItem> map) {
 		for(BaseItem o : list){
 			int id = o.getId();
 			if(map.containsKey(id)){
@@ -98,7 +98,7 @@ public class TempletService {
 
 
 	@SuppressWarnings("unchecked")
-	private void add(String key, Object data, Map<String, List<?>> dataMap) {
+	public void add(String key, Object data, Map<String, List<?>> dataMap) {
 		List list = dataMap.get(key);
 		if (list == null) {
 			list = new ArrayList();
@@ -124,7 +124,7 @@ public class TempletService {
 		expTempMaps.clear();
 		if (expTemps != null) {
 			for (ExpTemp o : expTemps) {
-				int expId = o.getExpId();
+				int expId = o.expId;
 				List<ExpTemp> subs = expTempMaps.get(expId);
 				if (subs == null) {
 					subs = new ArrayList<ExpTemp>();
@@ -139,7 +139,7 @@ public class TempletService {
 		qiangHuaMaps.clear();
 		if (qiangHuas != null) {
 			for (QiangHua o : qiangHuas) {
-				int qianghuaId = o.getQianghuaId();
+				int qianghuaId = o.qianghuaId;
 				List<QiangHua> subs = qiangHuaMaps.get(qianghuaId);
 				if (subs == null) {
 					subs = new ArrayList<QiangHua>();
@@ -166,7 +166,7 @@ public class TempletService {
 		List<YunbiaoTemp> list = listAll(YunbiaoTemp.class.getSimpleName());
 		Map<String, YunbiaoTemp> map = new HashMap<String, YunbiaoTemp>();
 		for(YunbiaoTemp yb: list){
-			map.put(yb.getKey(), yb);
+			map.put(yb.key, yb);
 		}
 
 		YunbiaoTemp.saveArea_recoveryPro=Float.parseFloat(map.get("saveArea_recoveryPro").value);
@@ -226,7 +226,7 @@ public class TempletService {
 		List<Fengcefuli> list = listAll(Fengcefuli.class.getSimpleName());
 		Map<String, Fengcefuli> map = new HashMap<String, Fengcefuli>();
 		for(Fengcefuli fl: list){
-			map.put(fl.getKey(), fl);
+			map.put(fl.key, fl);
 		}
 		Fengcefuli.YBTitle=map.get("YBTitle").value;
 		Fengcefuli.YBStartTime1=map.get("YBStartTime1").value;
@@ -252,7 +252,7 @@ public class TempletService {
 		List<CanShu> list = listAll(CanShu.class.getSimpleName());
 		Map<String, CanShu> map = new HashMap<String, CanShu>();
 		for(CanShu c : list){
-			map.put(c.getKey(), c);
+			map.put(c.key, c);
 		}
 		CanShu.JUNZHU_PUGONG_QUANZHONG = Double.parseDouble(map.get("JUNZHU_PUGONG_QUANZHONG").value);
 		CanShu.JUNZHU_PUGONG_BEISHU = Double.parseDouble(map.get("JUNZHU_PUGONG_BEISHU").value);
@@ -462,7 +462,7 @@ public class TempletService {
 		List<JCZTemp> list = listAll(JCZTemp.class.getSimpleName());
 		Map<String, JCZTemp> map = new HashMap<String, JCZTemp>();
 		for(JCZTemp jTemp : list){
-			map.put(jTemp.getKey(), jTemp);
+			map.put(jTemp.key, jTemp);
 		}
 		JCZTemp.declaration_startTime  = map.get("declaration_startTime").value;
 		JCZTemp.preparation_startTime = map.get("preparation_startTime").value;
@@ -479,7 +479,7 @@ public class TempletService {
 		List<ExpTemp> subs = expTempMaps.get(expId);
 		if (subs != null) {
 			for (ExpTemp o : subs) {
-				if (o.getLevel() == level) {
+				if (o.level == level) {
 					return o;
 				}
 			}
@@ -496,7 +496,7 @@ public class TempletService {
 		List<QiangHua> subs = qiangHuaMaps.get(qianghuaId);
 		if (subs != null) {
 			for (QiangHua o : subs) {
-				if (o.getLevel() == level) {
+				if (o.level == level) {
 					return o;
 				}
 			}

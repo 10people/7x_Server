@@ -7,9 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+import com.qx.persistent.MCSupport;
+
 @Entity
 @Table(name = "YBBattleBean29")
-public class YBBattleBean {//押镖战斗相关数据存储
+public class YBBattleBean implements MCSupport,DBHash{//押镖战斗相关数据存储
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1061797357025152345L;
 	@Id
 	public long jzId;
 	/**当然杀死仇人数目*/
@@ -42,5 +49,13 @@ public class YBBattleBean {//押镖战斗相关数据存储
 	public int baodi;//0表示没有 大于0表示此道具配置Id
 	public int jiasu;//0表示没有 大于0表示此道具配置Id
 	public int baohu;//0表示没有 大于0表示此道具配置Id
+	@Override
+	public long hash() {
+		return jzId;
+	}
+	@Override
+	public long getIdentifier() {
+		return jzId;
+	}
 	
 }

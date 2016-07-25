@@ -12,7 +12,7 @@ public enum FightProgress {
 	 RANK_INFNL(7),
 	 APPLY(8);
 	 
-	 private int code;
+	 public int code;
 	 
 	 private FightProgress(int code) {
 		 this.code = code;

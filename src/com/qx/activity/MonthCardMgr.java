@@ -22,6 +22,7 @@ import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.mibao.MibaoMgr;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.timeworker.FunctionID;
 import com.qx.vip.PlayerVipInfo;
@@ -144,6 +145,7 @@ public class MonthCardMgr extends EventProc{
 						fuliInfo = new FuliInfo();
 						fuliInfo.jzId = jz.id;
 						fuliInfo.getZhouKaTime = new Date();
+						Cache.fuliInfoCache.put(jz.id, fuliInfo);
 						HibernateUtil.insert(fuliInfo);
 					}else{
 						fuliInfo.getZhouKaTime = new Date();
@@ -167,6 +169,7 @@ public class MonthCardMgr extends EventProc{
 						fuliInfo = new FuliInfo();
 						fuliInfo.jzId = jz.id;
 						fuliInfo.getYuKaFuLiTime = new Date();
+						Cache.fuliInfoCache.put(jz.id, fuliInfo);
 						HibernateUtil.insert(fuliInfo);
 					}else{
 						fuliInfo.getYuKaFuLiTime = new Date();
@@ -190,6 +193,7 @@ public class MonthCardMgr extends EventProc{
 						fuliInfo = new FuliInfo();
 						fuliInfo.jzId = jz.id;
 						fuliInfo.getZhongShenKaTime = new Date();
+						Cache.fuliInfoCache.put(jz.id, fuliInfo);
 						HibernateUtil.insert(fuliInfo);
 					}else{
 						fuliInfo.getZhongShenKaTime = new Date();
@@ -284,7 +288,7 @@ public class MonthCardMgr extends EventProc{
 		}
 	}
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.ACTIVITY_MONTHCARD_REFRESH, this);
 	}
 }

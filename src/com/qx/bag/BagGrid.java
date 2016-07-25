@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
 import com.qx.persistent.MCSupport;
 
 /**
@@ -13,11 +14,11 @@ import com.qx.persistent.MCSupport;
  */
 @Entity
 @Table(name = "BagGrid")
-public class BagGrid implements MCSupport{
+public class BagGrid implements MCSupport,DBHash{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3720156301351793689L;
+	public static final long serialVersionUID = 3720156301351793689L;
 	@Id
 	public long dbId;
 	/**
@@ -37,5 +38,9 @@ public class BagGrid implements MCSupport{
 	@Override
 	public long getIdentifier() {
 		return dbId;
+	}
+	@Override
+	public long hash() {
+		return dbId / 1000;
 	}
 }

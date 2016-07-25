@@ -43,17 +43,17 @@ public class RobotProtoType implements Runnable{
 			d.session = new RobotSession();
 			d.move = SpriteMove.newBuilder();
 			
-			d.move.setPosX(d.getPosX());
-			d.move.setPosY(d.getPosY());
-			d.move.setPosZ(d.getPosZ());
+			d.move.setPosX(d.posX);
+			d.move.setPosY(d.posY);
+			d.move.setPosZ(d.posZ);
 			
 			EnterScene.Builder enter = EnterScene.newBuilder();
 			enter.setUid(0);
-			enter.setSenderName(d.getName());
+			enter.setSenderName(d.name);
 			
-			enter.setPosX(d.getPosX());
-			enter.setPosY(d.getPosY());
-			enter.setPosZ(d.getPosZ());
+			enter.setPosX(d.posX);
+			enter.setPosY(d.posY);
+			enter.setPosZ(d.posZ);
 			
 			this.scene.exec(PD.Enter_Scene, d.session, enter);
 		}
@@ -79,10 +79,10 @@ public class RobotProtoType implements Runnable{
 	}
 	public void move(RobotInitData d) {
 		speed = 0.0075f;
-		float max = d.getMax();
-		float min = d.getMin();
+		float max = d.max;
+		float min = d.min;
 		scene.exec(PD.Spirite_Move, d.session, d.move);
-		switch (d.getDirection()) {
+		switch (d.direction) {
 			case DIRECT_X:
 				moveX(d,max, min);
 				break;
@@ -93,14 +93,14 @@ public class RobotProtoType implements Runnable{
 				moveZ(d,max, min);
 				break;
 			default:
-				log.error("unkown direction code {}", d.getDirection());
+				log.error("unkown direction code {}", d.direction);
 				break;
 		}
 	}
 	
 	
 	
-	protected void moveZ(RobotInitData d, float max, float min) {
+	public void moveZ(RobotInitData d, float max, float min) {
 		float moveRatio = -1;
 				if (d.directionB) {
 					if (d.move.getPosZ() <= max) {
@@ -121,11 +121,11 @@ public class RobotProtoType implements Runnable{
 				
 	}
 
-	protected void moveY(Builder move, float max, float min) {
+	public void moveY(Builder move, float max, float min) {
 		log.error("暂时不会有Y移动");
 	}
 
-	protected void moveX(RobotInitData d, float max, float min) {
+	public void moveX(RobotInitData d, float max, float min) {
 		boolean direction = d.directionB;
 		Builder move = d.move;
 				int moveRatio;
@@ -154,7 +154,7 @@ public class RobotProtoType implements Runnable{
 				
 	}
 
-	protected static final byte DIRECT_X = 0;
-	protected static final byte DIRECT_Y = 1;
-	protected static final byte DIRECT_Z = 2;
+	public static final byte DIRECT_X = 0;
+	public static final byte DIRECT_Y = 1;
+	public static final byte DIRECT_Z = 2;
 }

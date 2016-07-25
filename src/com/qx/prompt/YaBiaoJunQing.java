@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 /**
  * 押镖军情
  * @author 
@@ -15,7 +17,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "YaBiaoJunQing")
-public class YaBiaoJunQing{
+public class YaBiaoJunQing implements DBHash{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	public long id;
@@ -25,4 +27,8 @@ public class YaBiaoJunQing{
 	public int ybjzUid;//押镖君主Uid
 	public int jbjzUid;//劫镖君主Uid
 	public Date happenTime;
+	@Override
+	public long hash() {
+		return id;
+	}
 }

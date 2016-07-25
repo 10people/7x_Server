@@ -302,6 +302,21 @@
 			<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
 		</antcall>
 	</target>
+	
+	<target name='GenJunzhuInfo'>
+			<antcall target="protoHandle">
+				<param name="proto" value="JunzhuInfo.proto" />
+				<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+			</antcall>
+	</target>
+	
+	<target name='GetAllianceMemmber'>
+				<antcall target="protoHandle">
+					<param name="proto" value="AllianceMemmber.proto" />
+					<param name="protoSrc" value="../Design Doc/protocolDoc_2014" />
+				</antcall>
+		</target>
+	
 	<target name='GenAllianceFight'>
 		<antcall target="protoHandle">
 			<param name="proto" value="AllianceFight.proto" />

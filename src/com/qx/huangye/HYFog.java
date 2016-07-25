@@ -23,10 +23,10 @@ public class HYFog {
 	public String openFogIds;
 	
 	@Transient
-	private Set<Integer> haveFogIdSet;
+	public Set<Integer> haveFogIdSet;
 	
 	@Transient
-	private Set<Integer> openFogIdSet;
+	public Set<Integer> openFogIdSet;
 	
 	@Transient
 	public static String SPLIT_SYMBOL = "_";

@@ -28,8 +28,9 @@
 			<td>类名</td>
 			<td>包名</td>
 			<td>主键</td>
-			<td>主键是否自增</td>
-			<td>实现MCSupport接口</td>
+			<td>主键自增</td>
+			<td>MC</td>
+			<td>HDHash</td>
 		</tr>
 	<%
   	 SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -45,9 +46,12 @@
 	        }
 	        Class<?> face[]=className.getInterfaces();
 	      	boolean  isMCSupport=false;
+	      	boolean  isDBHash=false;
 	        for (int i = 0; i < face.length; i++) {
 	        	if("com.qx.persistent.MCSupport".equals(face[i].getName())){
 	        		isMCSupport=true;
+	        	}else if("com.qx.persistent.DBHash".equals(face[i].getName())){
+	        		isDBHash = true;
 	        	}
 	        }
 	        String idName=null;
@@ -88,7 +92,7 @@
 			out.print("<td>");
 			out.print(isMCSupport?"<font color='green'>是</font>":"<font color='red'>否</font>");
 			out.print("</td>");
-			
+			td(isDBHash ? "Yes": "No");
 			out.print("</tr>");
 	        }
 %>

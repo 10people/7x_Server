@@ -13,7 +13,7 @@ public class BuZhenBean implements MCSupport{
 	/**
 	 * @Fields serialVersionUID : TODO
 	 */
-	private static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 1L;
 	@Id
 	public long id;
 	public long pos1;

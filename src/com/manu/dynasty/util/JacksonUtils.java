@@ -3,7 +3,7 @@ package com.manu.dynasty.util;
 import org.codehaus.jackson.map.ObjectMapper;
 
 public class JacksonUtils {
-	private static ObjectMapper mapper = new ObjectMapper();
+	public static ObjectMapper mapper = new ObjectMapper();
 
 	public static String toJson(Object value) {
 		try {

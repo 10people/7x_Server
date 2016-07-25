@@ -17,46 +17,22 @@ import com.qx.persistent.MCSupport;
 @Table(name = "accounts")
 public class Account implements  MCSupport{
 	
-	private static final long serialVersionUID = -342820533566541836L;
+	public static final long serialVersionUID = -342820533566541836L;
 	
 	@Id
 	@Column(name = "account_id", unique = true, nullable = false)
-	private int accountId;
+	public int accountId;
 	
 	@Column(name = "account_name", unique = true, nullable = false)
-	private String accountName;
+	public String accountName;
 	
 	@Column(name = "account_pwd", nullable = false)
-	private String accountPwd;
+	public String accountPwd;
 	
 	public Account(){}
-	
-	public int getAccountId() {
-		return accountId;
-	}
 
-	public void setAccountId(int accountId) {
-		this.accountId = accountId;
-	}
-
-	public String getAccountName() {
-		return accountName;
-	}
-
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
-	}
-
-	
 	@Override
 	public long getIdentifier() {
 		return accountId;
 	}
-	public String getAccountPwd() {
-		return accountPwd;
-	}
-
-	public void setAccountPwd(String accountPwd) {
-		this.accountPwd = accountPwd;
-	}	
 }

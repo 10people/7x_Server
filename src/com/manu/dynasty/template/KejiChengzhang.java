@@ -6,33 +6,8 @@ package com.manu.dynasty.template;
  *
  */
 public class KejiChengzhang {
-	private int id;
-	private int quality;
-	private int level;
-	private float chengzhang;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public int getQuality() {
-		return quality;
-	}
-	public void setQuality(int quality) {
-		this.quality = quality;
-	}
-	public int getLevel() {
-		return level;
-	}
-	public void setLevel(int level) {
-		this.level = level;
-	}
-	public float getChengzhang() {
-		return chengzhang;
-	}
-	public void setChengzhang(float chengzhang) {
-		this.chengzhang = chengzhang;
-	}
-	
+	public int id;
+	public int quality;
+	public int level;
+	public float chengzhang;
 }

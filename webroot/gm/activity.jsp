@@ -67,7 +67,7 @@ function changeActivityName(id,obj){
 					XianshiControl xsControl = XianShiActivityMgr.xsControlMap.get(Integer.parseInt(huodongId));
 					if(xsControl!=null){
 // 						Name= new String(Name.toString().getBytes("iso8859-1"), "utf-8");
-						xsControl.setName(Name);
+						xsControl.Name = Name;
 					}
 				}
 
@@ -94,23 +94,23 @@ function changeActivityName(id,obj){
 	Map<Integer, HuoDong> activityMap = ActivityMgr.activityMap;
 	if(key.length()>0&&state.length()>0){// 更改活动开启关闭状态 
 		HuoDong tmp = activityMap.get(Integer.valueOf(key));
-		tmp.setHuoDongStatus(Integer.valueOf(state));
+		tmp.HuoDongStatus = Integer.valueOf(state);
 		activityMap.put(Integer.valueOf(key),tmp);
 	}
 	for(Integer id:activityMap.keySet()){
 		HuoDong huoDong = activityMap.get(id);
 		%>
 		<tr>
-		<td><%=huoDong.getId() %></td>
-		<td><%=huoDong.getTitle() %></td>
-		<td><%=huoDong.getDesc() %></td>
-		<td><%=huoDong.getAwardDesc() %></td>
+		<td><%=huoDong.id %></td>
+		<td><%=huoDong.title %></td>
+		<td><%=huoDong.desc%></td>
+		<td><%=huoDong.awardDesc %></td>
 		<td>
 		<%
-		switch(huoDong.getId()){
+		switch(huoDong.id){
 		case ActivityMgr.ACT_QIANDAO:
 		case ActivityMgr.ACT_SHOUCHONG:
-			if(huoDong.getHuoDongStatus()==0){
+			if(huoDong.HuoDongStatus==0){
 				%><a href="activity.jsp?key=<%=id%>&state=<%=1%>">开启</a>|关闭<%
 			}else{
 				%>开启|<a href="activity.jsp?key=<%=id%>&state=<%=0%>">关闭</a><%
@@ -124,7 +124,7 @@ function changeActivityName(id,obj){
 		</td>
 		<td>
 		<%
-		switch(huoDong.getId()){
+		switch(huoDong.id){
 		case ActivityMgr.ACT_QIANDAO:
 			%><a href="qiandao.jsp">管理</a><%
 			break;
@@ -191,14 +191,14 @@ function changeActivityName(id,obj){
 			QiriQiandaoControl huoDong = xs7DaysMap.get(id);
 	%>
 		<tr>
-		<td><%=huoDong.getId() %></td>
-		<td><%=huoDong.getName()%></td>
-		<td><%=huoDong.getName()%></td>
-		<td><%=huoDong.getDesc()%></td>
+		<td><%=huoDong.id %></td>
+		<td><%=huoDong.Name%></td>
+		<td><%=huoDong.Name%></td>
+		<td><%=huoDong.Desc%></td>
 		<td>
 		<%
 	
-			if(XianShiActivityMgr.xshdCloseList.contains(huoDong.getId())){
+			if(XianShiActivityMgr.xshdCloseList.contains(huoDong.id)){
 				%><a href="activity.jsp?xsKey=<%=id%>&xianshistate=<%=10%>">开启</a>|关闭<%
 			}else{
 				%>开启|<a href="activity.jsp?xsKey=<%=id%>&xianshistate=<%=20%>">关闭</a><%
@@ -227,14 +227,14 @@ function changeActivityName(id,obj){
 			XianshiControl huoDong = xsControlMap.get(id);
 	%>
 		<tr>
-		<td><%=huoDong.getId() %></td>
-		<td><%="<input style='color:blue' type='text'value='" +huoDong.getName()+"'/>"%></td>
-		<td><%=huoDong.getName()%></td>
-		<td><%=huoDong.getDesc()%></td>
+		<td><%=huoDong.id %></td>
+		<td><%="<input style='color:blue' type='text'value='" +huoDong.Name+"'/>"%></td>
+		<td><%=huoDong.Name%></td>
+		<td><%=huoDong.Desc%></td>
 		<td>
 		<%
 	
-			if(XianShiActivityMgr.xshdCloseList.contains(huoDong.getId())){
+			if(XianShiActivityMgr.xshdCloseList.contains(huoDong.id)){
 				%><a href="activity.jsp?xsKey=<%=id%>&xianshistate=<%=10%>">开启</a>|关闭<%
 			}else{
 				%>开启|<a href="activity.jsp?xsKey=<%=id%>&xianshistate=<%=20%>">关闭</a><%

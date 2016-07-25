@@ -1,8 +1,8 @@
 package com.manu.dynasty.util;
 
 public class EffectValue {
-	private int absValue;
-	private int perValue;
+	public int absValue;
+	public int perValue;
 
 	public EffectValue(){
 		

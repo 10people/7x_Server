@@ -15,7 +15,6 @@
 <%@page import="qxmobile.protobuf.AllianceProtos.CreateAlliance.Builder"%>
 <%@page import="qxmobile.protobuf.AllianceProtos.DismissAlliance"%>
 <%@page import="org.apache.mina.core.session.IoSession"%>
-<%@page import="com.qx.robot.RobotSession"%>
 <%@page import="com.manu.network.SessionAttKey"%>
 <%@page import="qxmobile.protobuf.AllianceProtos.ExitAlliance"%>
 <%@page import="qxmobile.protobuf.AllianceProtos.FindAlliance"%>

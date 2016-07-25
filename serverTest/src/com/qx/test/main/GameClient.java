@@ -1,6 +1,8 @@
 package com.qx.test.main;
 
 import java.net.InetSocketAddress;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -11,8 +13,26 @@ import org.apache.mina.core.future.IoFutureListener;
 import org.apache.mina.core.service.IoConnector;
 import org.apache.mina.core.session.IoSession;
 
+import pct.S_GetTaskRwardResult;
+import pct.TestAllianceInfo;
 import pct.TestBase;
-import qxmobile.protobuf.BagOperProtos.EquipAddReq;
+import pct.TestBuyTili;
+import pct.TestChengJiuPage;
+import pct.TestEnterPVE;
+import pct.TestExplore;
+import pct.TestGuanQiaInfo;
+import pct.TestJiangHunInfo;
+import pct.TestJzInfo;
+import pct.TestLieFu;
+import pct.TestTask;
+import qxmobile.protobuf.Activity.ActivityAchievementResp;
+import qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp;
+import qxmobile.protobuf.Activity.GrowLevel;
+import qxmobile.protobuf.AllianceFightProtos.PlayerReviveRequest;
+import qxmobile.protobuf.BagOperProtos.BagChangeInfo;
+import qxmobile.protobuf.BagOperProtos.BagInfo;
+import qxmobile.protobuf.BagOperProtos.BagItem;
+import qxmobile.protobuf.BagOperProtos.EquipInfo;
 import qxmobile.protobuf.BattleProg.InProgress;
 import qxmobile.protobuf.BattleProg.InitProc;
 import qxmobile.protobuf.Chat.ChatPct;
@@ -22,12 +42,16 @@ import qxmobile.protobuf.Explore.ExploreResp;
 import qxmobile.protobuf.GameTask.TaskInfo;
 import qxmobile.protobuf.GameTask.TaskProgress;
 import qxmobile.protobuf.JewelProtos.EquipOperationReq;
+import qxmobile.protobuf.MibaoProtos.MibaoInfoResp;
+import qxmobile.protobuf.MibaoProtos.MibaoLevelupReq;
 import qxmobile.protobuf.MoBaiProto.MoBaiInfo;
 import qxmobile.protobuf.MoBaiProto.MoBaiReq;
 import qxmobile.protobuf.PlayerData.PlayerState;
 import qxmobile.protobuf.PlayerData.State;
 import qxmobile.protobuf.PveLevel.GuanQiaInfoRequest;
+import qxmobile.protobuf.PveLevel.PvePageReq;
 import qxmobile.protobuf.PvpProto.ConfirmExecuteReq;
+import qxmobile.protobuf.Ranking.RankingReq;
 import qxmobile.protobuf.Scene.EnterScene;
 import qxmobile.protobuf.Scene.EnterSceneConfirm;
 import qxmobile.protobuf.Scene.ExitScene;
@@ -43,9 +67,13 @@ import qxmobile.protobuf.ZhangHao.RoleNameRequest;
 import qxmobile.protobuf.ZhangHao.RoleNameResponse;
 
 import com.google.protobuf.MessageLite.Builder;
+import com.manu.dynasty.template.BaseItem;
 import com.manu.dynasty.util.ProtobufUtils;
 import com.manu.network.PD;
 import com.manu.network.msg.ProtobufMsg;
+import com.qx.bag.Bag;
+import com.qx.bag.BagGrid;
+import com.qx.bag.EquipGrid;
 import com.qx.pvp.PVPConstant;
 import com.qx.test.message.MessageDispatcher;
 
@@ -146,6 +174,7 @@ public class GameClient {
 		case 100:
 		case 1:
 			ChoseScene(Main.sceneid);
+			reqJzInfo();
 			enterScene();
 			break;
 		case 2:
@@ -250,10 +279,12 @@ public class GameClient {
 		if(log)System.out.println("创建角色结果:"+ret.getIsSucceed()+":"+ret.getMsg());
 		if(ret.getIsSucceed()){
 			ChoseScene(Main.sceneid);
-//			enterScene();
+//			reqJzInfo();
+			enterScene();
+			reqPve();
 //			enterShiLian();
 //			enterYBScene();
-			enterLMZ();
+//			enterLMZ();
 			Main.createRoleOkCnt.incrementAndGet();
 		}else{
 			createRole(getRandomString(6));
@@ -368,6 +399,13 @@ public class GameClient {
 	 * 测试协议
 	 */
 	private void oper() {
+		reqPve();
+		reqRank();
+		reqTask();
+//		reqAlliance();
+//		reqAllianceMembers();
+//		reqAlliance();
+//		reqAllianceMembers();
 //		wuJiangInfo();//请求武将图鉴
 //		guanQianInfo();
 //		wuJiangKeJi();
@@ -382,7 +420,92 @@ public class GameClient {
 //		聊天广播();
 //		getMoBaiInfo();
 //		getMoBaiAward();
+//		chengjiuList();
 	}
+	TestTask testTask;
+	public void reqTask(){
+		if(testTask == null){
+			testTask = new TestTask();
+			MessageDispatcher.listen(PD.S_TaskList, testTask);	
+			MessageDispatcher.listen(PD.S_GetTaskRwardResult, new S_GetTaskRwardResult());	
+			MessageDispatcher.listen(PD.ZHANDOU_INIT_RESP, new TestEnterPVE());	
+			MessageDispatcher.listen(PD.PVE_GuanQia_Info, new TestGuanQiaInfo());	
+			MessageDispatcher.listen(PD.S_MIBAO_INFO_RESP, new TestJiangHunInfo());
+			MessageDispatcher.listen(PD.EXPLORE_RESP, new TestExplore());
+			MessageDispatcher.listen(PD.S_ZHANDOU_INIT_ERROR, new TestBuyTili());
+			MessageDispatcher.listen(PD.LieFu_Action_Info_Resp, new TestLieFu());
+		}
+		testTask.req(this);
+	}
+	public void reqJzInfo(){
+		TestJzInfo t = new TestJzInfo();
+		MessageDispatcher.listen(PD.JunZhuInfoRet, t);
+		System.out.println("TestJzInfo注册"+TestJzInfo.cnt++);
+		session.write(PD.JunZhuInfoReq);
+//		t.req(this);
+	}
+	long prePveTime;
+	public void reqPve() {
+		PvePageReq.Builder req = PvePageReq.newBuilder();
+		req.setSSection(1);
+		ProtobufMsg msg = new ProtobufMsg(PD.PVE_PAGE_REQ, req);
+		session.write(msg);
+		prePveTime = System.currentTimeMillis();
+	}
+	
+	TestAllianceInfo testAllianceInfo;
+	public void reqAlliance() {
+		if(testAllianceInfo == null) {
+			testAllianceInfo = new TestAllianceInfo();
+			MessageDispatcher.listen(PD.ALLIANCE_NON_RESP, testAllianceInfo);
+		}
+		testAllianceInfo.req(this);
+	}
+	
+	long lookMemberStartTime = 0;
+	public void reqAllianceMembers() {
+		lookMemberStartTime = System.currentTimeMillis();
+		session.write(PD.LOOK_MEMBERS);
+	}
+	
+	public void procReqMembersResp() {
+		long cur = System.currentTimeMillis();
+		long diff = cur - lookMemberStartTime;
+		//if(diff > 100) {
+			System.out.println("------- 请求联盟所有成员信息时间 :"+diff+" 毫秒");
+		//}
+	}
+	
+	long preRankTime;
+	//7://重楼排行榜   4:// 过关榜 			3:// 百战榜			2:// 联盟榜
+	int preRankIdx = 0;
+	int[] rankType = {2,3,4,7};
+	public void reqRank(){
+		preRankTime = System.currentTimeMillis();
+		RankingReq.Builder request = RankingReq.newBuilder();
+		request.setGuojiaId(0);
+		request.setName("");
+		request.setPageNo(1);
+		request.setRankType(rankType[preRankIdx]);
+		session.write(new ProtobufMsg(PD.RANKING_REP, request));
+	}
+	public void rcvRank(){
+		long cur = System.currentTimeMillis();
+		long diff = cur - preRankTime;
+		if(diff>100)
+			System.out.println("----#-----请求排行耗时"+diff+",类型:"+rankType[preRankIdx]);
+		preRankIdx+=1;
+		preRankIdx = preRankIdx%rankType.length;
+//		reqRank();
+	}
+	public void pveRet(Builder builder) {
+		long cur = System.currentTimeMillis();
+		long diff = cur - prePveTime;
+		if(diff>100)
+			System.out.println("------- pve diff :"+diff);
+//		reqPve();
+	}
+
 	public void enterLMZ() {
 		session.write(PD.C_ENTER_LMZ);
 		//报告状态
@@ -390,7 +513,15 @@ public class GameClient {
 		b.setSState(State.State_LEAGUEOFCITY);
 		session.write(b.build());
 		//
+		//lmzFuHuo();
 	}
+	public void lmzFuHuo() {
+		PlayerReviveRequest.Builder req = PlayerReviveRequest.newBuilder();
+		req.setType(40);
+		ProtobufMsg msg = new ProtobufMsg(PD.LMZ_FuHuo, req);
+		session.write(msg);
+	}
+
 	public void enterYBScene() {
 		//先退出主城
 //		exitMainCity();
@@ -422,7 +553,7 @@ public class GameClient {
 		ProtobufUtils.prototypeMap.put(Integer.valueOf(PD.S_LM_CHOU_JIANG_INFO), ExploreResp.getDefaultInstance());
 		MessageDispatcher.listen(PD.S_LM_CHOU_JIANG_INFO, new TestBase(){
 			@Override
-			public void handle(int id, IoSession session, Builder builder) {
+			public void handle(int id, IoSession session, Builder builder,GameClient cl) {
 				ExploreResp.Builder c = (ExploreResp.Builder)builder;
 				System.out.println("剩余次数:"+c.getInfo().getRemainFreeCount());
 			}
@@ -433,7 +564,7 @@ public class GameClient {
 	public void 聊天广播() {
 		MessageDispatcher.listen(PD.S_Send_Chat, new TestBase(){
 			@Override
-			public void handle(int id, IoSession session, Builder builder) {
+			public void handle(int id, IoSession session, Builder builder,GameClient cl) {
 				ChatPct.Builder c = (ChatPct.Builder)builder;
 				System.out.println(c.getSenderName()+" say: "+ c.getContent());
 			}
@@ -451,15 +582,15 @@ public class GameClient {
 	}
 
 	private void useItem() {
-		EquipAddReq.Builder req = EquipAddReq.newBuilder();
-		req.setGridIndex(12);
-		session.write(req);
+//		EquipAddReq.Builder req = EquipAddReq.newBuilder();
+//		req.setGridIndex(12);
+//		session.write(req);
 	}
 
 	private void getMoBaiInfo() {
 		MessageDispatcher.listen(PD.S_MoBai_Info, new TestBase(){
 			@Override
-			public void handle(int id, IoSession session, Builder builder) {
+			public void handle(int id, IoSession session, Builder builder,GameClient cl) {
 				MoBaiInfo.Builder mb = (qxmobile.protobuf.MoBaiProto.MoBaiInfo.Builder) builder;
 				System.out.println(mb.build().toString());
 			}
@@ -543,6 +674,7 @@ public class GameClient {
 	
 	
 	
+	
 	//跳转至指定ID的主城副本
 	public void JumpN(String string){
 		String idstr = string.substring("jump".length());//截取字符串形式的场景ID
@@ -603,4 +735,86 @@ public class GameClient {
 		req.setEqulpId(290400903);
 		session.write(req.build());
 	}
+	
+//	public void chengjiuList(){
+//		TestChengJiuPage t = new TestChengJiuPage();
+//		MessageDispatcher.listen(PD.S_ACTIVITY_ACHIEVEMENT_INFO_RESP, t);
+//		t.req(this);
+//	}
+	
+	public long equipDbId;
+	public void readBag(Builder builder) {
+		BagChangeInfo.Builder ret = (BagChangeInfo.Builder)builder;
+		BagItem item = ret.getItems(0);
+		if(item.getItemType() == BaseItem.TYPE_EQUIP){
+			equipDbId = item.getDbId();
+			System.out.println("收到装备:"+equipDbId);
+		}
+	}
+
+	public void readMBV2(Builder builder) {
+		MibaoInfoResp.Builder ret = (MibaoInfoResp.Builder)builder;
+		ret.getMiBaoListList().stream().forEach(t->{
+			if(t.getNeedSuipianNum()<=t.getSuiPianNum()){
+				testTask.jiHuoMiBao(this, t.getDbId());
+			}
+		});
+	}
+
+	public void readMB(Builder builder) {
+		MibaoInfoResp.Builder ret = (MibaoInfoResp.Builder)builder;
+		ret.getMiBaoListList().stream().forEach(m->{
+			if(ret.getLevelPoint()>0){
+				MibaoLevelupReq.Builder req = MibaoLevelupReq.newBuilder();
+				req.setMibaoId(m.getMiBaoId());
+				testTask.send(this, PD.C_MIBAO_LEVELUP_REQ, req);
+			}
+		});
+	}
+
+	public void readChengJiuList(Builder builder) {
+		ActivityAchievementResp.Builder ret = (ActivityAchievementResp.Builder)builder;
+		GrowLevel lv = ret.getLeveListList().stream().findFirst().get();
+		//////////
+		ActivityGrowthFundRewardResp.Builder req = ActivityGrowthFundRewardResp.newBuilder();
+		req.setLevel(lv.getId());
+//		1519001
+		this.session.write(new ProtobufMsg(PD.C_ACTIVITY_ACHIEVEMENT_GET_REQ, req));
+		System.out.println("请求领取成就奖励:"+lv.getId());
+	}
+	
+	public void saveBag(Builder builder){
+		List<BagGrid> bag = new LinkedList<BagGrid>();
+		BagInfo.Builder resp = (BagInfo.Builder)builder ;
+		List<BagItem.Builder> bagList = resp.getItemsBuilderList();
+		for( BagItem.Builder info : bagList){
+			BagGrid bg = new BagGrid();
+			bg.dbId = info.getDbId();
+			bg.instId = info.getInstId();
+			bg.cnt = info.getCnt();
+			bg.itemId = info.getItemId();
+			bg.type = info.getItemType();
+			bag.add(bg);
+		}
+		this.session.setAttribute("BAG" , bag);
+		session.write(PD.C_TaskReq);
+	}
+	
+	
+	public void saveEquip(Builder builder){
+		List<EquipGrid> equips = new LinkedList<EquipGrid>();
+		EquipInfo.Builder resp = (EquipInfo.Builder)builder ;
+		List<BagItem.Builder> bagList = resp.getItemsBuilderList();
+		for( BagItem.Builder info : bagList){
+			EquipGrid bg = new EquipGrid();
+			bg.dbId = info.getDbId();
+			bg.instId = info.getInstId();
+			bg.itemId = info.getItemId();
+			equips.add(bg);
+		}
+		session.setAttribute("EQUIP" , equips);
+		session.write(PD.C_TaskReq);
+	}
+	
+	
 }

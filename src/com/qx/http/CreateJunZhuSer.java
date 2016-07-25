@@ -10,7 +10,7 @@ import com.manu.dynasty.boot.GameServer;
 import com.qx.junzhu.JunZhu;
 
 
-public class CreateJunZhuSer implements Runnable{
+public class CreateJunZhuSer {
 
 	public static Logger log = LoggerFactory.getLogger(CreateJunZhuSer.class);
 	public static String host;
@@ -24,12 +24,8 @@ public class CreateJunZhuSer implements Runnable{
 		name = name0;
 	}
 	public void start(){
-		new Thread(this, "createJunZS").start();
+		LoginServ.es.submit(()->notifyCreateJunZhu());
 	}
-	@Override
-	public void run() {
-		notifyCreateJunZhu();
-	} 
 	public boolean notifyCreateJunZhu(){
 			int serverId = GameServer.serverId;
 			JSONObject p = new JSONObject();

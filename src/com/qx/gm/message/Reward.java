@@ -1,24 +1,24 @@
 package com.qx.gm.message;
 
 public class Reward {
-	private int rankMin;
-	private int rankMax;
-	private String gold;
-	private String day;
-	private String item;
-	private int num;
-	private String item1;
-	private int num1;
-	private String item2;
-	private int num2;
-	private String item3;
-	private int num3;
-	private String item4;
-	private int num4;
-	private String item5;
-	private int num5;
-	private String item6;
-	private int num6;
+	public int rankMin;
+	public int rankMax;
+	public String gold;
+	public String day;
+	public String item;
+	public int num;
+	public String item1;
+	public int num1;
+	public String item2;
+	public int num2;
+	public String item3;
+	public int num3;
+	public String item4;
+	public int num4;
+	public String item5;
+	public int num5;
+	public String item6;
+	public int num6;
 
 	public int getRankMin() {
 		return rankMin;

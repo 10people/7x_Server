@@ -103,7 +103,7 @@ public class YaBiaoScene  extends VisionScene{
 	/**
 	 * @Description 安全区回血
 	 */
-	private void bloodReturnInSafeArea() {
+	public void bloodReturnInSafeArea() {
 		for(Player player : players.values()) {
 			if(player.jzId <= 0 || player.roleId == Scene.YBRobot_RoleId) {
 				continue;
@@ -160,7 +160,7 @@ public class YaBiaoScene  extends VisionScene{
 		}
 	}
 	
-	protected void saveExitYBInfo(Player player) {
+	public void saveExitYBInfo(Player player) {
 		if(player.jzId>0 && player.roleId != Scene.YBRobot_RoleId){//马车不保存
 			int currentLife = player.currentLife;
 			if(currentLife <= 0) {
@@ -394,7 +394,7 @@ public class YaBiaoScene  extends VisionScene{
 			if(purchase == null) {
 				log.error("找不到类型为:{}的purchase配置", PurchaseConstants.YB_REVIVE_DEAD_POS);
 			} else {
-				onSiteReviveCost = purchase.getYuanbao();
+				onSiteReviveCost = purchase.yuanbao;
 			}
 			remainReviveTimes = YaBiaoHuoDongMgr.inst.getFuhuoTimes(defender.jz);
 		}

@@ -22,6 +22,7 @@ import com.manu.network.ProtoBuffDecoder;
 import com.manu.network.TXCodecFactory;
 import com.manu.network.msg.ProtobufMsg;
 
+import pct.TestTask;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 
 
@@ -47,33 +48,25 @@ public class Main {
 	static String head;
 	static  InetSocketAddress addr;
 	static int port;
+	static String forceName;
 	static int sceneid = 1 ; 	//客户端默认指定服务器主城副本ID，大于零时无效
 	public static void main(String[] args) throws Exception{
 		net = setup();
-//		InetSocketAddress addr = new InetSocketAddress("192.168.3.80", 8586);
-		GameClient.routerIP = "192.168.3.80:8090";
-		hostname = "192.168.3.80";
-		hostname = "192.168.0.83";
-//		hostname = "127.0.0.1";
-		port = 8586;
-//		hostname="192.168.1.25";
-		hostname = "192.168.1.96";
+		/*内网*/
+//		GameClient.routerIP = "192.168.3.80:8090";hostname = "192.168.3.80";port=8586;
+		//康建虎 
+		GameClient.routerIP = "192.168.3.80:8090";hostname = "192.168.0.83";port=8586;TestTask.which=0;
+		//江源
+//		GameClient.routerIP = "192.168.3.80:8090";hostname = "192.168.1.96";port=8586;TestTask.which=3;
+		/*体验*/
+//		GameClient.routerIP = "203.195.230.100:9090";hostname = "203.195.204.128";port=8587;
+		/*测试*/
+//		GameClient.routerIP = "203.195.230.100:9091";hostname = "203.195.230.100";port=8587;
 		int cnt = 1;
-		head = "8JY2"+new Random().nextInt(99999);
-		addr = new InetSocketAddress(hostname, 8586);
-		head = "18test";
-		if(args != null || true){
-			if(args != null && args.length>0)head = args[0];
-//		hostname ="203.195.204.128";// 
-//			hostname ="203.195.230.100";//
-//			hostname = "127.0.0.1";
-//			GameClient.routerIP = "203.195.230.100:9091";
-//			GameClient.routerIP = "203.195.230.100:9090";
-//			port = 8587;
-		}
+//		forceName = "719est358501";
+		head = "719est";
 		head +=new Random().nextInt(99999);
 		addr = new InetSocketAddress(hostname, port);//外网测试服8587
-//		addr = new InetSocketAddress(hostname, 8587);//外网测试服8587
 		startTime = System.currentTimeMillis();
 //		if(args != null && args.length==1){
 //			cnt = Integer.parseInt(args[0]);
@@ -118,6 +111,11 @@ public class Main {
 		if(line == null){
 		}else if(line.matches("\\d+")){
 			makeClient(Integer.parseInt(line), head, addr);
+		}else if(line.startsWith("run")){
+			String pre = forceName;
+			forceName = line.substring(3);
+			makeClient(1, head, addr);
+			forceName = pre;
 		}else if(line.startsWith("bx")){
 			ErrorMessage.Builder m = ErrorMessage.newBuilder();
 			m.setCmd(0);
@@ -135,7 +133,7 @@ public class Main {
 				it.next().close(false);
 			}
 		}else if(line.equals("mc")){
-//			GameClient.useWhenSingle.enterScene();
+			GameClient.useWhenSingle.enterScene();
 		}else if(line.equals("sl")){
 			GameClient.useWhenSingle.enterShiLian();
 		}else if(line.startsWith("chose")){
@@ -151,8 +149,24 @@ public class Main {
 			loginByAccount();//尝试登陆玩家账号
 		}else if(line.startsWith("baoshi")){
 			GameClient.useWhenSingle.AskForBaoShi();//尝试登陆玩家账号
+		}else if(line.equals("lmz")){
+			GameClient.useWhenSingle.enterLMZ();
+		}else if(line.equals("fh")){
+			GameClient.useWhenSingle.lmzFuHuo();
 		}else if(line.equals("move")){
 			GameClient.useWhenSingle.move();
+		}else if(line.equals("rank")){
+			GameClient.useWhenSingle.reqRank();
+		}else if(line.equalsIgnoreCase("jzInfo")){
+			GameClient.useWhenSingle.reqJzInfo();
+		}else if(line.equals("tanbao")){
+			GameClient.useWhenSingle.testTask.tryGetItem(GameClient.useWhenSingle);
+		}else if(line.equals("task")){
+			GameClient.useWhenSingle.reqTask();
+		}else if(line.equals("accinfo")){
+			System.out.println(GameClient.useWhenSingle.accountName);
+		}else if(line.equals("pve")){
+			GameClient.useWhenSingle.reqPve();
 		}
 		else{
 			System.out.println("输入的不是数字");
@@ -161,20 +175,17 @@ public class Main {
 
 	public static void makeClient(int cnt, String head, final InetSocketAddress addr) {
 		watchCnt.addAndGet(cnt);
-		final Phaser p = new Phaser(1);
 		for(int i = 0; i < cnt; i++) {
-			final GameClient c = new GameClient(head+totalLaunch.incrementAndGet());
-			//c.log = false;//i<2;
-			Runnable r = new Runnable() {
-				public void run() {
-					p.arriveAndAwaitAdvance();
-					c.launch(net, addr);;
-				}
-			};
-			p.register();
-			new Thread(r,c.accountName).start();
+			String accName = head+totalLaunch.incrementAndGet();
+			if(forceName != null){
+				accName = forceName;
+			}
+			final GameClient c = new GameClient(accName);
+			c.launch(net, addr);
+			if(forceName != null){
+				break;
+			}
 		}
-		p.arrive();
 	}
 	
 	public static void loginByAccount(){
@@ -213,7 +224,7 @@ public class Main {
 
 	public static IoConnector setup() {
 		PD.init();
-		final IoConnector connector = new NioSocketConnector();
+		final IoConnector connector = new NioSocketConnector(10);
 		connector.setConnectTimeoutMillis(5000);
 		final ProtoBuffDecoder protoBuffDecoder = new ProtoBuffDecoder();
 		ProtocolCodecFactory codecFactory = new TXCodecFactory(){

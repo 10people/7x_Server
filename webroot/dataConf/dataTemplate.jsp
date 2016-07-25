@@ -147,7 +147,7 @@ if("item".equals(type)){
 		out.append("<td>");		out.println(t.lv);	out.append("</td>");
 		out.append("<td>");		out.println(t.gongji);		out.append("</td>");
 		out.append("<td>");		out.println(t.fangyu);		out.append("</td>");
-		out.append("<td>");		out.println(t.getShengming());	out.append("</td>");
+		out.append("<td>");		out.println(t.shengming);	out.append("</td>");
 		out.append("<tr>");
 	}
 	out.append("</table>");
@@ -161,10 +161,10 @@ if("item".equals(type)){
 		out.append("<tr>");
 		out.append("<td>");		out.println(t.getId());	out.append("</td>");
 		td(t.orderIdx);
-		out.append("<td>");		out.println(t.getTitle());		out.append("</td>");
-		out.append("<td>");		out.println(t.getTriggerType());		out.append("</td>");
-		out.append("<td>");		out.println(t.getTriggerCond());	out.append("</td>");
-		out.append("<td>");		out.println(t.getAward());	out.append("</td>");
+		out.append("<td>");		out.println(t.title);		out.append("</td>");
+		out.append("<td>");		out.println(t.triggerType);		out.append("</td>");
+		out.append("<td>");		out.println(t.triggerCond);	out.append("</td>");
+		out.append("<td>");		out.println(t.award);	out.append("</td>");
 		out.append("<tr>");
 	}
 	out.append("</table>");
@@ -172,7 +172,7 @@ if("item".equals(type)){
 	out("<pre>");
 	for(ZhuXian t : list){
 		if(t.type != 0)continue;
-		String ss = t.getTitle();
+		String ss = t.title;
 		ss = ss.substring(ss.indexOf("[-]")+4);
 		out(t.getId());out(",");out(ss);out("\n");
 	}
@@ -199,8 +199,8 @@ if("item".equals(type)){
 	out.append("</tr>");
 	for(Keji t : list){
 		out.append("<tr>");
-		out.append("<td>");		out.println(t.getId());	out.append("</td>");
-		out.append("<td>");		out.println(HeroService.getNameById(t.getName()));		out.append("</td>");
+		out.append("<td>");		out.println(t.id);	out.append("</td>");
+		out.append("<td>");		out.println(HeroService.getNameById(t.name));		out.append("</td>");
 		out.append("<tr>");
 	}
 	out.append("</table>");
@@ -212,9 +212,9 @@ if("item".equals(type)){
 	out.append("</tr>");
 	for(ShiBing t : list){
 		out.append("<tr>");
-		out.append("<td>");		out.println(t.getId());	out.append("</td>");
-		out.append("<td>");		out.println(t.getMoveSpeed());	out.append("</td>");
-		out.append("<td>");		out.println(t.getNum());	out.append("</td>");
+		out.append("<td>");		out.println(t.id);	out.append("</td>");
+		out.append("<td>");		out.println(t.moveSpeed);	out.append("</td>");
+		out.append("<td>");		out.println(t.num);	out.append("</td>");
 		out.append("<tr>");
 	}
 	out.append("</table>");
@@ -225,8 +225,8 @@ if("item".equals(type)){
 	out.append("<th>ID</th><th>名称</th><th>个数</th>");
 	out.append("</tr>");
 	for(Jiangli t0 : list){
-		out.append("<tr><td colspan='3'>"+HeroService.getNameById(t0.getName())+"</td>");out.append("</tr>");
-		String txt = t0.getItem();
+		out.append("<tr><td colspan='3'>"+HeroService.getNameById(t0.name)+"</td>");out.append("</tr>");
+		String txt = t0.item;
 		String[] parts = txt.split("#");
 		for(String v:parts){
 			String[] nums = v.split(":");
@@ -245,7 +245,7 @@ if("item".equals(type)){
 			case 7:
 				HeroProtoType proto = HeroMgr.tempId2HeroProto.get(id);
 				if(proto != null){
-					iName = proto.getHeroName()+"";
+					iName = proto.heroName+"";
 				}
 				break;
 			}
@@ -297,11 +297,11 @@ if("item".equals(type)){
 	out.append("<th>ID</th><th>名称</th><th>star</th>");
 	out.append("</tr>");
 	for(HeroGrow t : list){
-		HeroProtoType proto = HeroMgr.id2Hero.get(t.getHeroId());
+		HeroProtoType proto = HeroMgr.id2Hero.get(t.heroId);
 		out.append("<tr>");
-		out.append("<td>");		out.println(t.getId());		out.append("</td>");
+		out.append("<td>");		out.println(t.id);		out.append("</td>");
 		out.append("<td>");		out.println(HeroService.getNameById(proto.getName()));	out.append("</td>");
-		out.append("<td>");		out.println(t.getStar());		out.append("</td>");
+		out.append("<td>");		out.println(t.star);		out.append("</td>");
 		out.append("<tr>");
 	}
 	out.append("</table>");
@@ -326,21 +326,21 @@ if("item".equals(type)){
 	out.append("</tr>");
 	for(PveTemp t : list){
 		out.append("<tr>");
-		out.append("<td>");		out.println(t.getBigId());		out.append("</td>");
-		out.append("<td>");		out.println(t.getId());		out.append("</td>");
+		out.append("<td>");		out.println(t.bigId);		out.append("</td>");
+		out.append("<td>");		out.println(t.id);		out.append("</td>");
 		out.append("<td>");		out.println(HeroService.getNameById(t.bigName));		out.append("</td>");
-		out.append("<td>");		out.println(HeroService.getNameById(t.getSmaName()));		out.append("</td>");
-		out.append("<td>");		out.println(t.getChapType() == 1 ? "是" : "");		out.append("</td>");
-		out.append("<td>");		out.println(t.getNpcId());		out.append("</td>");
-		out.append("<td>");		out.println(t.getMoney());		out.append("</td>");
-		out.append("<td>");		out.println(t.getExp());		out.append("</td>");
+		out.append("<td>");		out.println(HeroService.getNameById(t.smaName));		out.append("</td>");
+		out.append("<td>");		out.println(t.chapType == 1 ? "是" : "");		out.append("</td>");
+		out.append("<td>");		out.println(t.npcId);		out.append("</td>");
+		out.append("<td>");		out.println(t.money);		out.append("</td>");
+		out.append("<td>");		out.println(t.exp);		out.append("</td>");
 		out.append("<tr>");
 	}
 	out.append("</table>");
 	br();
 	out("<pre>");
 	for(PveTemp t : list){
-		out(t.getId());out(",");out(HeroService.getNameById(t.getSmaName()));out("\n");
+		out(t.id);out(",");out(HeroService.getNameById(t.smaName));out("\n");
 	}
 	out("</pre>");
 	br();
@@ -352,14 +352,14 @@ if("item".equals(type)){
 	out.append("</tr>");
 	for(PveTemp t : list){
 		out.append("<tr>");
-		out.append("<td>");		out.println(t.getBigId());		out.append("</td>");
-		out.append("<td>");		out.println(t.getId());		out.append("</td>");
-		out.append("<td>");		out.println(HeroService.getNameById(t.getBigName()));		out.append("</td>");
-		out.append("<td>");		out.println(HeroService.getNameById(t.getSmaName()));		out.append("</td>");
-		out.append("<td>");		out.println(t.getChapType() == 1 ? "是" : "");		out.append("</td>");
-		out.append("<td>");		out.println(t.getNpcId());		out.append("</td>");
-		out.append("<td>");		out.println(t.getMoney());		out.append("</td>");
-		out.append("<td>");		out.println(t.getExp());		out.append("</td>");
+		out.append("<td>");		out.println(t.bigId);		out.append("</td>");
+		out.append("<td>");		out.println(t.id);		out.append("</td>");
+		out.append("<td>");		out.println(HeroService.getNameById(t.bigName));		out.append("</td>");
+		out.append("<td>");		out.println(HeroService.getNameById(t.smaName));		out.append("</td>");
+		out.append("<td>");		out.println(t.chapType == 1 ? "是" : "");		out.append("</td>");
+		out.append("<td>");		out.println(t.npcId);		out.append("</td>");
+		out.append("<td>");		out.println(t.money);		out.append("</td>");
+		out.append("<td>");		out.println(t.exp);		out.append("</td>");
 		out.append("<tr>");
 	}
 	out.append("</table>");

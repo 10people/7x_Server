@@ -34,7 +34,7 @@
 			if(null!=name&&!"".equals(name)){// 按账号查询 
 				Account account = HibernateUtil.getAccount(name);
 				if(null!=account){
-					where.append(" and ownerid="+(account.getAccountId()*1000+GameServer.serverId)+"");
+					where.append(" and ownerid="+(account.accountId*1000+GameServer.serverId)+"");
 				} else{
 					where = new StringBuffer("1!=1");
 				}
@@ -58,20 +58,20 @@
 						<%
 							for (YuanBaoInfo info : list) {
 								Account account = HibernateUtil.find(Account.class,
-									(info.getOwnerid() - GameServer.serverId) / 1000);// 获取账号
+									(info.ownerid - GameServer.serverId) / 1000);// 获取账号
 								String accountName = "";
 								if(null != account){
-									accountName = account.getAccountName();
+									accountName = account.accountName;
 								}
 					%><tr>
-						<td><%=info.getDbId()%></td>
-						<td><%=info.getOwnerid()%></td>
+						<td><%=info.dbId%></td>
+						<td><%=info.ownerid%></td>
 						<td><%=accountName%></td>
-						<td><%=info.getYuanbaoBefore()%></td>
-						<td><%=info.getYuanbaoChange()%></td>
-						<td><%=info.getYuanbaoAfter()%></td>
-						<td><%=info.getTimestamp()%></td>
-						<td><%=info.getReason()%></td>
+						<td><%=info.yuanbaoBefore%></td>
+						<td><%=info.yuanbaoChange%></td>
+						<td><%=info.yuanbaoAfter%></td>
+						<td><%=info.timestamp%></td>
+						<td><%=info.reason%></td>
 					</tr>
 					<%
 							}

@@ -12762,6 +12762,24 @@ public final class AllianceFightProtos {
      * </pre>
      */
     int getSkillId();
+
+    // required bool isBaoJi = 8;
+    /**
+     * <code>required bool isBaoJi = 8;</code>
+     *
+     * <pre>
+     * 是否产生暴击，true-表示产生暴击， false-表示没有暴击
+     * </pre>
+     */
+    boolean hasIsBaoJi();
+    /**
+     * <code>required bool isBaoJi = 8;</code>
+     *
+     * <pre>
+     * 是否产生暴击，true-表示产生暴击， false-表示没有暴击
+     * </pre>
+     */
+    boolean getIsBaoJi();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.FightAttackResp}
@@ -12852,6 +12870,11 @@ public final class AllianceFightProtos {
             case 56: {
               bitField0_ |= 0x00000020;
               skillId_ = input.readInt32();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000040;
+              isBaoJi_ = input.readBool();
               break;
             }
           }
@@ -13038,6 +13061,30 @@ public final class AllianceFightProtos {
       return skillId_;
     }
 
+    // required bool isBaoJi = 8;
+    public static final int ISBAOJI_FIELD_NUMBER = 8;
+    private boolean isBaoJi_;
+    /**
+     * <code>required bool isBaoJi = 8;</code>
+     *
+     * <pre>
+     * 是否产生暴击，true-表示产生暴击， false-表示没有暴击
+     * </pre>
+     */
+    public boolean hasIsBaoJi() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>required bool isBaoJi = 8;</code>
+     *
+     * <pre>
+     * 是否产生暴击，true-表示产生暴击， false-表示没有暴击
+     * </pre>
+     */
+    public boolean getIsBaoJi() {
+      return isBaoJi_;
+    }
+
     private void initFields() {
       result_ = qxmobile.protobuf.AllianceFightProtos.Result.SUCCESS;
       attackUid_ = 0;
@@ -13045,6 +13092,7 @@ public final class AllianceFightProtos {
       damage_ = 0L;
       remainLife_ = 0;
       skillId_ = 0;
+      isBaoJi_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -13075,6 +13123,10 @@ public final class AllianceFightProtos {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasIsBaoJi()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -13099,6 +13151,9 @@ public final class AllianceFightProtos {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeInt32(7, skillId_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBool(8, isBaoJi_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -13132,6 +13187,10 @@ public final class AllianceFightProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(7, skillId_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(8, isBaoJi_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -13265,6 +13324,8 @@ public final class AllianceFightProtos {
         bitField0_ = (bitField0_ & ~0x00000010);
         skillId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
+        isBaoJi_ = false;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -13317,6 +13378,10 @@ public final class AllianceFightProtos {
           to_bitField0_ |= 0x00000020;
         }
         result.skillId_ = skillId_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.isBaoJi_ = isBaoJi_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -13351,6 +13416,9 @@ public final class AllianceFightProtos {
         if (other.hasSkillId()) {
           setSkillId(other.getSkillId());
         }
+        if (other.hasIsBaoJi()) {
+          setIsBaoJi(other.getIsBaoJi());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -13377,6 +13445,10 @@ public final class AllianceFightProtos {
           return false;
         }
         if (!hasSkillId()) {
+          
+          return false;
+        }
+        if (!hasIsBaoJi()) {
           
           return false;
         }
@@ -13695,6 +13767,55 @@ public final class AllianceFightProtos {
       public Builder clearSkillId() {
         bitField0_ = (bitField0_ & ~0x00000020);
         skillId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required bool isBaoJi = 8;
+      private boolean isBaoJi_ ;
+      /**
+       * <code>required bool isBaoJi = 8;</code>
+       *
+       * <pre>
+       * 是否产生暴击，true-表示产生暴击， false-表示没有暴击
+       * </pre>
+       */
+      public boolean hasIsBaoJi() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>required bool isBaoJi = 8;</code>
+       *
+       * <pre>
+       * 是否产生暴击，true-表示产生暴击， false-表示没有暴击
+       * </pre>
+       */
+      public boolean getIsBaoJi() {
+        return isBaoJi_;
+      }
+      /**
+       * <code>required bool isBaoJi = 8;</code>
+       *
+       * <pre>
+       * 是否产生暴击，true-表示产生暴击， false-表示没有暴击
+       * </pre>
+       */
+      public Builder setIsBaoJi(boolean value) {
+        bitField0_ |= 0x00000040;
+        isBaoJi_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool isBaoJi = 8;</code>
+       *
+       * <pre>
+       * 是否产生暴击，true-表示产生暴击， false-表示没有暴击
+       * </pre>
+       */
+      public Builder clearIsBaoJi() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        isBaoJi_ = false;
         onChanged();
         return this;
       }
@@ -39945,91 +40066,91 @@ public final class AllianceFightProtos {
       "\n\005jiFen\030\005 \002(\005\022\014\n\004side\030\006 \002(\005\022\014\n\004jzId\030\007 \001(" +
       "\003\022\n\n\002gx\030\010 \001(\005\022\016\n\006roleId\030\t \001(\005\022\016\n\006lmName\030" +
       "\n \001(\t\"4\n\016FightAttackReq\022\021\n\ttargetUid\030\001 \002" +
-      "(\005\022\017\n\007skillId\030\002 \002(\005\"\227\001\n\017FightAttackResp\022" +
+      "(\005\022\017\n\007skillId\030\002 \002(\005\"\250\001\n\017FightAttackResp\022" +
       ")\n\006result\030\001 \002(\0162\031.qxmobile.protobuf.Resu" +
       "lt\022\021\n\tattackUid\030\002 \002(\005\022\021\n\ttargetUid\030\004 \002(\005" +
       "\022\016\n\006damage\030\005 \002(\003\022\022\n\nremainLife\030\006 \002(\005\022\017\n\007" +
-      "skillId\030\007 \002(\005\"\206\001\n\020PlayerDeadNotify\022\013\n\003ui",
-      "d\030\001 \002(\005\022\021\n\tkillerUid\030\002 \002(\005\022\032\n\022remainAllL" +
-      "ifeTimes\030\003 \001(\005\022\034\n\024autoReviveRemainTime\030\004" +
-      " \001(\005\022\030\n\020onSiteReviveCost\030\005 \001(\005\"[\n\022Player" +
-      "ReviveNotify\022\016\n\006result\030\005 \002(\005\022\013\n\003uid\030\001 \002(" +
-      "\005\022\014\n\004posX\030\002 \002(\002\022\014\n\004posZ\030\003 \002(\002\022\014\n\004life\030\004 " +
-      "\002(\005\"#\n\023PlayerReviveRequest\022\014\n\004type\030\001 \002(\005" +
-      "\"M\n\020FightHistoryResp\0229\n\014historyInfos\030\001 \003" +
-      "(\0132#.qxmobile.protobuf.FightHistoryInfo\"" +
-      "r\n\020FightHistoryInfo\022\r\n\005times\030\001 \002(\005\022\r\n\005lm" +
-      "1Id\030\002 \002(\005\022\017\n\007lm1Name\030\003 \002(\t\022\r\n\005lm2Id\030\004 \002(",
-      "\005\022\017\n\007lm2Name\030\005 \002(\t\022\017\n\007winLmId\030\006 \002(\005\"L\n\025F" +
-      "ightLasttimeRankResp\0223\n\trankInfos\030\001 \003(\0132" +
-      " .qxmobile.protobuf.FightRankInfo\";\n\rFig" +
-      "htRankInfo\022\014\n\004lmId\030\001 \002(\005\022\016\n\006lmName\030\002 \002(\t" +
-      "\022\014\n\004rank\030\003 \002(\005\"S\n\nBufferInfo\022\020\n\010bufferId" +
-      "\030\001 \002(\005\022\020\n\010targetId\030\002 \002(\005\022\r\n\005value\030\003 \002(\005\022" +
-      "\022\n\nremainLife\030\004 \002(\005\"K\n\023SafeAreaBloodRetu" +
-      "rn\022\013\n\003uid\030\001 \002(\005\022\023\n\013returnValue\030\002 \002(\005\022\022\n\n" +
-      "remainLife\030\003 \002(\005\"a\n\010AOESkill\022\016\n\006srcUid\030\001" +
-      " \002(\005\022\021\n\ttargetUid\030\002 \002(\005\022\024\n\014affectedUids\030",
-      "\003 \003(\005\022\017\n\007damages\030\004 \003(\005\022\013\n\003hps\030\005 \003(\005\" \n\020C" +
-      "ityFightInfoReq\022\014\n\004type\030\001 \002(\005\"\337\001\n\021CityFi" +
-      "ghtInfoResp\022\014\n\004type\030\001 \002(\005\022\020\n\010interval\030\002 " +
-      "\001(\005\022-\n\010cityList\030\003 \003(\0132\033.qxmobile.protobu" +
-      "f.CityInfo\022\023\n\013myCityCount\030\004 \001(\005\022\021\n\trecCi" +
-      "tyId\030\005 \002(\005\022\021\n\tcountDown\030\006 \002(\005\022.\n\007bidList" +
-      "\030\007 \003(\0132\035.qxmobile.protobuf.BidMsgInfo\022\020\n" +
-      "\010haveHufu\030\010 \001(\005\"\206\001\n\010CityInfo\022\016\n\006cityId\030\001" +
-      " \002(\005\022\021\n\tcityState\030\002 \002(\005\022\020\n\010lmIconId\030\003 \001(" +
-      "\005\022\r\n\005lmNum\030\004 \001(\005\022\022\n\ncityState2\030\005 \001(\005\022\020\n\010",
-      "guojiaId\030\006 \001(\005\022\020\n\010ocLmName\030\007 \001(\t\"&\n\020City" +
-      "WarRewardReq\022\022\n\nrewardType\030\001 \002(\005\"a\n\021City" +
-      "WarRewardResp\022\022\n\nrewardType\030\001 \002(\005\0228\n\nrew" +
-      "ardList\030\002 \003(\0132$.qxmobile.protobuf.CityWa" +
-      "rRewardInfo\"\203\001\n\021CityWarRewardInfo\022\n\n\002id\030" +
-      "\001 \002(\005\022\016\n\006cityId\030\002 \002(\005\022\017\n\007warType\030\003 \002(\005\022\016" +
-      "\n\006result\030\004 \002(\005\022\021\n\trewardNum\030\005 \002(\005\022\014\n\004tim" +
-      "e\030\006 \002(\005\022\020\n\010getState\030\007 \002(\005\"J\n\020CityWarGran" +
-      "dResp\0226\n\tgrandList\030\001 \003(\0132#.qxmobile.prot" +
-      "obuf.CityWarGrandInfo\"\204\001\n\020CityWarGrandIn",
-      "fo\022\025\n\rallianceName1\030\001 \002(\t\022\021\n\tnationId1\030\002" +
-      " \002(\005\022\025\n\rallianceName2\030\003 \002(\t\022\021\n\tnationId2" +
-      "\030\004 \002(\005\022\016\n\006cityId\030\005 \002(\005\022\014\n\004time\030\006 \002(\003\"\037\n\r" +
-      "CityWarBidReq\022\016\n\006cityId\030\001 \002(\005\"\261\001\n\016CityWa" +
-      "rBidResp\022\017\n\007general\030\001 \001(\t\022\024\n\014allianceNam" +
-      "e\030\002 \001(\t\022\020\n\010bidState\030\003 \002(\005\0220\n\nrecordList\030" +
-      "\004 \003(\0132\034.qxmobile.protobuf.BidRecord\022\023\n\013r" +
-      "efreshTime\030\005 \002(\005\022\r\n\005lmNum\030\006 \001(\005\022\020\n\010haveH" +
-      "ufu\030\007 \001(\005\"@\n\tBidRecord\022\024\n\014allianceName\030\001" +
-      " \002(\t\022\017\n\007huFuNum\030\002 \002(\005\022\014\n\004time\030\003 \002(\003\"}\n\021C",
-      "ityWarOperateReq\0227\n\013operateType\030\001 \002(\0162\"." +
-      "qxmobile.protobuf.CityOperateType\022\016\n\006cit" +
-      "yId\030\002 \001(\005\022\r\n\005price\030\003 \001(\005\022\020\n\010rewardId\030\004 \001" +
-      "(\005\"e\n\022CityWarOperateResp\022\016\n\006result\030\001 \002(\005" +
-      "\022/\n\tbidRecord\030\002 \001(\0132\034.qxmobile.protobuf." +
-      "BidRecord\022\016\n\006cdTime\030\003 \001(\005\"C\n\nBidMsgInfo\022" +
-      "\024\n\014allianceName\030\001 \002(\t\022\016\n\006cityId\030\002 \002(\005\022\017\n" +
-      "\007bidTime\030\003 \002(\003\"\213\001\n\010ABResult\022\021\n\tIsSucceed" +
-      "\030\001 \002(\010\022\026\n\016AllianceResult\030\002 \002(\005\022\025\n\rPerson" +
-      "alScore\030\003 \002(\005\022\014\n\004Rank\030\004 \002(\005\022\017\n\007KillNum\030\005",
-      " \002(\005\022\020\n\010GainItem\030\006 \002(\t\022\014\n\004lmGX\030\007 \002(\005\"\'\n\025" +
-      "CityWarScoreResultReq\022\016\n\006cityId\030\001 \002(\005\"x\n" +
-      "\026CityWarScoreResultResp\022/\n\tscoreList\030\001 \003" +
-      "(\0132\034.qxmobile.protobuf.ScoreInfo\022\014\n\004date" +
-      "\030\002 \001(\003\022\020\n\010cityName\030\003 \001(\t\022\r\n\005isNpc\030\004 \001(\005\"" +
-      "\253\001\n\tScoreInfo\022\014\n\004rank\030\001 \002(\005\022\016\n\006jzName\030\002 " +
-      "\002(\t\022\r\n\005score\030\003 \002(\005\022\017\n\007KillNum\030\004 \002(\005\022\022\n\nl" +
-      "ianShaNum\030\005 \002(\005\022\017\n\007gongXun\030\006 \002(\005\022\016\n\006lmNa" +
-      "me\030\007 \002(\t\022\014\n\004jzId\030\010 \002(\003\022\017\n\007isEnemy\030\t \002(\005\022" +
-      "\014\n\004side\030\n \002(\005*\261\002\n\006Result\022\013\n\007SUCCESS\020\000\022\030\n",
-      "\024SKILL_DISTANCE_ERROR\020\001\022\023\n\017SKILL_COOL_TI" +
-      "ME\020\002\022\023\n\017SKILL_NOT_EXIST\020\003\022\024\n\020TARGET_NOT_" +
-      "EXIST\020\004\022\027\n\023TARGET_IN_SAFE_AREA\020\005\022\031\n\025SKIL" +
-      "L_TARGET_NOT_SELF\020\006\022\032\n\026SKILL_TARGET_NOT_" +
-      "OTHER\020\007\022\035\n\031SKILL_TARGET_NOT_TEAMMATE\020\010\022\032" +
-      "\n\026SKILL_TARGET_NOT_ENEMY\020\t\022\030\n\024CART_IN_PR" +
-      "OTECT_TIME\020\n\022\033\n\027DAY_NOT_GET_AWARD_TIMES\020" +
-      "\013*;\n\017CityOperateType\022\016\n\nGET_REWARD\020\000\022\007\n\003" +
-      "BID\020\001\022\017\n\013ENTER_FIGHT\020\002B\025B\023AllianceFightP" +
-      "rotos"
+      "skillId\030\007 \002(\005\022\017\n\007isBaoJi\030\010 \002(\010\"\206\001\n\020Playe",
+      "rDeadNotify\022\013\n\003uid\030\001 \002(\005\022\021\n\tkillerUid\030\002 " +
+      "\002(\005\022\032\n\022remainAllLifeTimes\030\003 \001(\005\022\034\n\024autoR" +
+      "eviveRemainTime\030\004 \001(\005\022\030\n\020onSiteReviveCos" +
+      "t\030\005 \001(\005\"[\n\022PlayerReviveNotify\022\016\n\006result\030" +
+      "\005 \002(\005\022\013\n\003uid\030\001 \002(\005\022\014\n\004posX\030\002 \002(\002\022\014\n\004posZ" +
+      "\030\003 \002(\002\022\014\n\004life\030\004 \002(\005\"#\n\023PlayerReviveRequ" +
+      "est\022\014\n\004type\030\001 \002(\005\"M\n\020FightHistoryResp\0229\n" +
+      "\014historyInfos\030\001 \003(\0132#.qxmobile.protobuf." +
+      "FightHistoryInfo\"r\n\020FightHistoryInfo\022\r\n\005" +
+      "times\030\001 \002(\005\022\r\n\005lm1Id\030\002 \002(\005\022\017\n\007lm1Name\030\003 ",
+      "\002(\t\022\r\n\005lm2Id\030\004 \002(\005\022\017\n\007lm2Name\030\005 \002(\t\022\017\n\007w" +
+      "inLmId\030\006 \002(\005\"L\n\025FightLasttimeRankResp\0223\n" +
+      "\trankInfos\030\001 \003(\0132 .qxmobile.protobuf.Fig" +
+      "htRankInfo\";\n\rFightRankInfo\022\014\n\004lmId\030\001 \002(" +
+      "\005\022\016\n\006lmName\030\002 \002(\t\022\014\n\004rank\030\003 \002(\005\"S\n\nBuffe" +
+      "rInfo\022\020\n\010bufferId\030\001 \002(\005\022\020\n\010targetId\030\002 \002(" +
+      "\005\022\r\n\005value\030\003 \002(\005\022\022\n\nremainLife\030\004 \002(\005\"K\n\023" +
+      "SafeAreaBloodReturn\022\013\n\003uid\030\001 \002(\005\022\023\n\013retu" +
+      "rnValue\030\002 \002(\005\022\022\n\nremainLife\030\003 \002(\005\"a\n\010AOE" +
+      "Skill\022\016\n\006srcUid\030\001 \002(\005\022\021\n\ttargetUid\030\002 \002(\005",
+      "\022\024\n\014affectedUids\030\003 \003(\005\022\017\n\007damages\030\004 \003(\005\022" +
+      "\013\n\003hps\030\005 \003(\005\" \n\020CityFightInfoReq\022\014\n\004type" +
+      "\030\001 \002(\005\"\337\001\n\021CityFightInfoResp\022\014\n\004type\030\001 \002" +
+      "(\005\022\020\n\010interval\030\002 \001(\005\022-\n\010cityList\030\003 \003(\0132\033" +
+      ".qxmobile.protobuf.CityInfo\022\023\n\013myCityCou" +
+      "nt\030\004 \001(\005\022\021\n\trecCityId\030\005 \002(\005\022\021\n\tcountDown" +
+      "\030\006 \002(\005\022.\n\007bidList\030\007 \003(\0132\035.qxmobile.proto" +
+      "buf.BidMsgInfo\022\020\n\010haveHufu\030\010 \001(\005\"\206\001\n\010Cit" +
+      "yInfo\022\016\n\006cityId\030\001 \002(\005\022\021\n\tcityState\030\002 \002(\005" +
+      "\022\020\n\010lmIconId\030\003 \001(\005\022\r\n\005lmNum\030\004 \001(\005\022\022\n\ncit",
+      "yState2\030\005 \001(\005\022\020\n\010guojiaId\030\006 \001(\005\022\020\n\010ocLmN" +
+      "ame\030\007 \001(\t\"&\n\020CityWarRewardReq\022\022\n\nrewardT" +
+      "ype\030\001 \002(\005\"a\n\021CityWarRewardResp\022\022\n\nreward" +
+      "Type\030\001 \002(\005\0228\n\nrewardList\030\002 \003(\0132$.qxmobil" +
+      "e.protobuf.CityWarRewardInfo\"\203\001\n\021CityWar" +
+      "RewardInfo\022\n\n\002id\030\001 \002(\005\022\016\n\006cityId\030\002 \002(\005\022\017" +
+      "\n\007warType\030\003 \002(\005\022\016\n\006result\030\004 \002(\005\022\021\n\trewar" +
+      "dNum\030\005 \002(\005\022\014\n\004time\030\006 \002(\005\022\020\n\010getState\030\007 \002" +
+      "(\005\"J\n\020CityWarGrandResp\0226\n\tgrandList\030\001 \003(" +
+      "\0132#.qxmobile.protobuf.CityWarGrandInfo\"\204",
+      "\001\n\020CityWarGrandInfo\022\025\n\rallianceName1\030\001 \002" +
+      "(\t\022\021\n\tnationId1\030\002 \002(\005\022\025\n\rallianceName2\030\003" +
+      " \002(\t\022\021\n\tnationId2\030\004 \002(\005\022\016\n\006cityId\030\005 \002(\005\022" +
+      "\014\n\004time\030\006 \002(\003\"\037\n\rCityWarBidReq\022\016\n\006cityId" +
+      "\030\001 \002(\005\"\261\001\n\016CityWarBidResp\022\017\n\007general\030\001 \001" +
+      "(\t\022\024\n\014allianceName\030\002 \001(\t\022\020\n\010bidState\030\003 \002" +
+      "(\005\0220\n\nrecordList\030\004 \003(\0132\034.qxmobile.protob" +
+      "uf.BidRecord\022\023\n\013refreshTime\030\005 \002(\005\022\r\n\005lmN" +
+      "um\030\006 \001(\005\022\020\n\010haveHufu\030\007 \001(\005\"@\n\tBidRecord\022" +
+      "\024\n\014allianceName\030\001 \002(\t\022\017\n\007huFuNum\030\002 \002(\005\022\014",
+      "\n\004time\030\003 \002(\003\"}\n\021CityWarOperateReq\0227\n\013ope" +
+      "rateType\030\001 \002(\0162\".qxmobile.protobuf.CityO" +
+      "perateType\022\016\n\006cityId\030\002 \001(\005\022\r\n\005price\030\003 \001(" +
+      "\005\022\020\n\010rewardId\030\004 \001(\005\"e\n\022CityWarOperateRes" +
+      "p\022\016\n\006result\030\001 \002(\005\022/\n\tbidRecord\030\002 \001(\0132\034.q" +
+      "xmobile.protobuf.BidRecord\022\016\n\006cdTime\030\003 \001" +
+      "(\005\"C\n\nBidMsgInfo\022\024\n\014allianceName\030\001 \002(\t\022\016" +
+      "\n\006cityId\030\002 \002(\005\022\017\n\007bidTime\030\003 \002(\003\"\213\001\n\010ABRe" +
+      "sult\022\021\n\tIsSucceed\030\001 \002(\010\022\026\n\016AllianceResul" +
+      "t\030\002 \002(\005\022\025\n\rPersonalScore\030\003 \002(\005\022\014\n\004Rank\030\004",
+      " \002(\005\022\017\n\007KillNum\030\005 \002(\005\022\020\n\010GainItem\030\006 \002(\t\022" +
+      "\014\n\004lmGX\030\007 \002(\005\"\'\n\025CityWarScoreResultReq\022\016" +
+      "\n\006cityId\030\001 \002(\005\"x\n\026CityWarScoreResultResp" +
+      "\022/\n\tscoreList\030\001 \003(\0132\034.qxmobile.protobuf." +
+      "ScoreInfo\022\014\n\004date\030\002 \001(\003\022\020\n\010cityName\030\003 \001(" +
+      "\t\022\r\n\005isNpc\030\004 \001(\005\"\253\001\n\tScoreInfo\022\014\n\004rank\030\001" +
+      " \002(\005\022\016\n\006jzName\030\002 \002(\t\022\r\n\005score\030\003 \002(\005\022\017\n\007K" +
+      "illNum\030\004 \002(\005\022\022\n\nlianShaNum\030\005 \002(\005\022\017\n\007gong" +
+      "Xun\030\006 \002(\005\022\016\n\006lmName\030\007 \002(\t\022\014\n\004jzId\030\010 \002(\003\022" +
+      "\017\n\007isEnemy\030\t \002(\005\022\014\n\004side\030\n \002(\005*\261\002\n\006Resul",
+      "t\022\013\n\007SUCCESS\020\000\022\030\n\024SKILL_DISTANCE_ERROR\020\001" +
+      "\022\023\n\017SKILL_COOL_TIME\020\002\022\023\n\017SKILL_NOT_EXIST" +
+      "\020\003\022\024\n\020TARGET_NOT_EXIST\020\004\022\027\n\023TARGET_IN_SA" +
+      "FE_AREA\020\005\022\031\n\025SKILL_TARGET_NOT_SELF\020\006\022\032\n\026" +
+      "SKILL_TARGET_NOT_OTHER\020\007\022\035\n\031SKILL_TARGET" +
+      "_NOT_TEAMMATE\020\010\022\032\n\026SKILL_TARGET_NOT_ENEM" +
+      "Y\020\t\022\030\n\024CART_IN_PROTECT_TIME\020\n\022\033\n\027DAY_NOT" +
+      "_GET_AWARD_TIMES\020\013*;\n\017CityOperateType\022\016\n" +
+      "\nGET_REWARD\020\000\022\007\n\003BID\020\001\022\017\n\013ENTER_FIGHT\020\002B" +
+      "\025B\023AllianceFightProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -40101,7 +40222,7 @@ public final class AllianceFightProtos {
           internal_static_qxmobile_protobuf_FightAttackResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_FightAttackResp_descriptor,
-              new java.lang.String[] { "Result", "AttackUid", "TargetUid", "Damage", "RemainLife", "SkillId", });
+              new java.lang.String[] { "Result", "AttackUid", "TargetUid", "Damage", "RemainLife", "SkillId", "IsBaoJi", });
           internal_static_qxmobile_protobuf_PlayerDeadNotify_descriptor =
             getDescriptor().getMessageTypes().get(11);
           internal_static_qxmobile_protobuf_PlayerDeadNotify_fieldAccessorTable = new

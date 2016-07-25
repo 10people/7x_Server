@@ -14,7 +14,7 @@
 //	/**
 //	 * @Fields serialVersionUID : 
 //	 */
-//	private static final long serialVersionUID = 1L;
+//	public static final long serialVersionUID = 1L;
 //	@Id
 //	public long junZhuId;
 //	

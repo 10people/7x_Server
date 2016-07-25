@@ -46,8 +46,8 @@ if(session.getAttribute("name") != null && name.length()==0){
 	//HibernateUtil.saveAccount(name);
 	}else{
 		session.setAttribute("name", name);
-%>账号<%=account.getAccountId()%>:<%=account.getAccountName()%><%
-		JunZhu junzhu = HibernateUtil.find(JunZhu.class, (long)account.getAccountId()*1000+GameServer.serverId);
+%>账号<%=account.accountId%>:<%=account.accountName%><%
+		JunZhu junzhu = HibernateUtil.find(JunZhu.class, (long)account.accountId*1000+GameServer.serverId);
 		PlayerVipInfo playerVipInfo = null;
 		 if(junzhu == null){
 			 out.println("没有君主");

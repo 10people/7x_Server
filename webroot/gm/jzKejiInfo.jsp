@@ -49,11 +49,11 @@
 		//HibernateUtil.saveAccount(name);
 			} else {
 				session.setAttribute("name", name);
-	%><%=account.getAccountId()%>:<%=account.getAccountName()%>
+	%><%=account.accountId%>:<%=account.accountName%>
 	<br /> 君主科技--------------
 	<br />
 	<%
-	long start = account.getAccountId() * KeJiMgr.spaceFactor;
+	long start = account.accountId * KeJiMgr.spaceFactor;
 	long end = start + KeJiMgr.keJiCnt;
 	List<JzKeji> list0 = HibernateUtil.list(JzKeji.class, "where dbId>="+start+" and dbId<"+end);
 	%>个数:<%=list0.size() %><br/>

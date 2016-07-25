@@ -36,7 +36,6 @@
 <%@page import="com.qx.alliance.AlliancePlayer"%>
 <%@page import="qxmobile.protobuf.TimeWorkerProtos.TimeWorkerResponse"%>
 <%@page import="com.manu.dynasty.boot.GameServer"%>
-<%@page import="com.manu.dynasty.hero.service.HeroService"%>
 <%@page import="com.qx.purchase.PurchaseMgr"%>
 <%@include file="/myFuns.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -81,7 +80,7 @@ out("掠夺开启时间为"+CanShu.OPENTIME_LUEDUO+"到"+CanShu.CLOSETIME_LUEDUO
 		account = HibernateUtil.getAccount(name);
 	}else if(accIdStr.length()>0){
 		account = HibernateUtil.find(Account.class, (Long.valueOf(accIdStr) - GameServer.serverId) / 1000);
-		if(account != null)name = account.getAccountName();
+		if(account != null)name = account.accountName;
 	}
 do{
 	if(account == null){
@@ -89,7 +88,7 @@ do{
 		break;
 	}
 	session.setAttribute("name", name);
-	long junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+	long junZhuId = account.accountId * 1000 + GameServer.serverId;
 	JunZhu junzhu = HibernateUtil.find(JunZhu.class, junZhuId);
 	if(junzhu == null){
 		out.println("没有君主");

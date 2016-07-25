@@ -22,7 +22,7 @@ import com.qx.junzhu.JunZhu;
  */
 public class GMLogMgr {
 	public static GMLogMgr inst;
-	private Logger logger = LoggerFactory.getLogger(GMLogMgr.class);
+	public Logger logger = LoggerFactory.getLogger(GMLogMgr.class);
 
 	public GMLogMgr() {
 		inst = this;

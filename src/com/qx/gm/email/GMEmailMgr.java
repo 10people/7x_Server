@@ -31,6 +31,7 @@ import com.qx.gm.util.CodeUtil;
 import com.qx.gm.util.MD5Util;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.PlayerTime;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.util.TableIDCreator;
 
@@ -43,7 +44,7 @@ import com.qx.util.TableIDCreator;
  */
 public class GMEmailMgr extends EventProc {
 	public static GMEmailMgr inst;
-	private Logger logger = LoggerFactory.getLogger(GMEmailMgr.class);
+	public Logger logger = LoggerFactory.getLogger(GMEmailMgr.class);
 	public static final int GM_MAIL_TYPE = 60002;// GM带附件邮件类型
 	public static final int GM_BARE_MAIL_TYPE = 60001;// GM普通邮件类型
 	public static Map<Integer, AwardTemp> awardMap = new HashMap<Integer, AwardTemp>();
@@ -59,12 +60,12 @@ public class GMEmailMgr extends EventProc {
 		List<AwardTemp> awardList = TempletService.listAll(AwardTemp.class
 				.getSimpleName());
 		for (AwardTemp award : awardList) {
-			awardMap.put(award.getItemId(), award);
+			awardMap.put(award.itemId, award);
 		}
 		List<CommonItem> commonItems = TempletService.listAll(CommonItem.class
 				.getSimpleName());
 		for (CommonItem commonItem : commonItems) {
-			commonItemMap.put(commonItem.getId(), commonItem);
+			commonItemMap.put(commonItem.id, commonItem);
 		}
 	}
 
@@ -148,9 +149,9 @@ public class GMEmailMgr extends EventProc {
 			if (tmp == null) {
 				// BaseItem o = TempletService.itemMap.get(prop.getItemId());
 				CommonItem o = commonItemMap.get(prop.getItemId());
-				sBuilder.append(o.getItemType());
+				sBuilder.append(o.itemType);
 			} else {
-				sBuilder.append(awardMap.get(prop.getItemId()).getItemType());
+				sBuilder.append(awardMap.get(prop.getItemId()).itemType);
 			}
 			sBuilder.append(":" + prop.getItemId());
 			sBuilder.append(":" + prop.getItemcount() + "#");
@@ -188,8 +189,8 @@ public class GMEmailMgr extends EventProc {
 						EmailMgr.INSTANCE.sendMail(revName, content, fujian,
 								mailConfig.sender, mailConfig, param);
 						GMEmailSendRecord sendRecord = new GMEmailSendRecord();
-						sendRecord.setMailId(mailInfo.getId());
-						sendRecord.setJzId(junZhu.id);
+						sendRecord.mailId = mailInfo.id;
+						sendRecord.jzId = junZhu.id;
 						HibernateUtil.insert(sendRecord);
 					}
 					logger.info("gm doSendEmail:所有邮件全部发送完成");
@@ -214,8 +215,8 @@ public class GMEmailMgr extends EventProc {
 						EmailMgr.INSTANCE.sendMail(junZhu.name, content,
 								fujian, mailConfig.sender, mailConfig, param);
 						GMEmailSendRecord sendRecord = new GMEmailSendRecord();
-						sendRecord.setMailId(mailInfo.getId());
-						sendRecord.setJzId(junZhu.id);
+						sendRecord.mailId = mailInfo.id;
+						sendRecord.jzId = junZhu.id;
 						HibernateUtil.insert(sendRecord);
 					}
 					logger.info("gm doSendEmail:所有邮件全部发送完成");
@@ -324,8 +325,8 @@ public class GMEmailMgr extends EventProc {
 						EmailMgr.INSTANCE.sendMail(revName, content, "",
 								mailConfig.sender, mailConfig, param);
 						GMEmailSendRecord sendRecord = new GMEmailSendRecord();
-						sendRecord.setMailId(mailInfo.getId());
-						sendRecord.setJzId(junZhu.id);
+						sendRecord.mailId = mailInfo.id;
+						sendRecord.jzId = junZhu.id;
 						HibernateUtil.insert(sendRecord);
 					}
 					logger.info("gm doSendBareMail:所有邮件全部发送完成");
@@ -350,8 +351,8 @@ public class GMEmailMgr extends EventProc {
 						EmailMgr.INSTANCE.sendMail(junZhu.name, content, "",
 								mailConfig.sender, mailConfig, param);
 						GMEmailSendRecord sendRecord = new GMEmailSendRecord();
-						sendRecord.setMailId(mailInfo.getId());
-						sendRecord.setJzId(junZhu.id);
+						sendRecord.mailId = mailInfo.id;
+						sendRecord.jzId = junZhu.id;
 						HibernateUtil.insert(sendRecord);
 					}
 					logger.info("gm doSendBareMail:所有邮件全部发送完成");
@@ -362,7 +363,7 @@ public class GMEmailMgr extends EventProc {
 		GMServlet.write(response, writer);
 	}
 
-	protected void sendGMEMail(final long jzId) {
+	public void sendGMEMail(final long jzId) {
 		final JunZhu jz = HibernateUtil.find(JunZhu.class, jzId);
 		if (null == jz) {
 			logger.info("发送离线邮件事件参数错误，君主不存在");
@@ -375,17 +376,18 @@ public class GMEmailMgr extends EventProc {
 		}
 		for (GMEMailInfo mail : mailList) {
 			GMEmailSendRecord sendRecord = HibernateUtil.find(
-					GMEmailSendRecord.class, "where mailId=" + mail.getId()
+					GMEmailSendRecord.class, "where mailId=" + mail.id
 							+ " and jzId=" + jzId + "");
 			if (sendRecord == null) {
 				PlayerTime playerTime = HibernateUtil.find(PlayerTime.class,
 						jzId);
 				if (null == playerTime) {
 					playerTime = new PlayerTime(jzId);
+					Cache.playerTimeCache.put(jzId, playerTime);
 					return;
 				}
-				if (compareDate(mail.getSendDate(),
-						playerTime.getCreateRoleTime()) >= 0) {
+				if (compareDate(mail.sendDate,
+						playerTime.createRoleTime) >= 0) {
 					//if (Arrays.asList(mail.name.split(",")).contains(jz.name)
 					if (ArrayUtils.indexOf(mail.name.split(","),jz.name)>=0
 							|| (mail.minLevel <= jz.level && mail.maxLevel >= jz.level)) {
@@ -399,8 +401,8 @@ public class GMEmailMgr extends EventProc {
 								mailConfig.sender, mailConfig, param);
 					}
 					sendRecord = new GMEmailSendRecord();
-					sendRecord.setMailId(mail.getId());
-					sendRecord.setJzId(jz.id);
+					sendRecord.mailId = mail.id;
+					sendRecord.jzId = jz.id;
 					HibernateUtil.insert(sendRecord);
 				}
 			}
@@ -445,7 +447,7 @@ public class GMEmailMgr extends EventProc {
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.CHECK_EMAIL, this);
 	}
 

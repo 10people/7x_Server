@@ -26,6 +26,7 @@ import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.task.DailyTaskCondition;
 import com.qx.task.DailyTaskConstants;
@@ -64,7 +65,7 @@ public class MoBaiMgr extends EventProc{
 			return;
 		}
 		MoBaiBean bean = HibernateUtil.find(MoBaiBean.class, jzId);
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jzId);
+		AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(jzId);
 		if (member == null) {
 			sendError(id, session, "您不在联盟中。");
 			return;
@@ -136,12 +137,12 @@ public class MoBaiMgr extends EventProc{
 		if (jzId == null) {
 			return;
 		}
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jzId);
+		AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(jzId);
 		if (member == null || member.lianMengId <= 0) {
 			sendError(id, session, "您不在联盟中。");
 			return;
 		}
-		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, member.lianMengId);
+		AllianceBean alliance = AllianceBeanDao.inst.getAllianceBean(member.lianMengId);
 		if(alliance == null) {
 			sendError(id, session, "联盟已经解散。");
 			return;
@@ -151,6 +152,8 @@ public class MoBaiMgr extends EventProc{
 		if (bean == null) {// 没有膜拜过
 			bean = new MoBaiBean();
 			bean.junZhuId = member.junzhuId;
+			Cache.moBaiBeanCache.put(member.junzhuId, bean);
+			HibernateUtil.insert(bean);
 			session.setAttribute("MoBaiMgr.firstTime", Boolean.TRUE);
 		}
 		MoBaiReq.Builder req = (qxmobile.protobuf.MoBaiProto.MoBaiReq.Builder) builder;
@@ -182,7 +185,7 @@ public class MoBaiMgr extends EventProc{
 		}
 	}
 
-	protected void yuDo(JunZhu jz,int cmd, IoSession session, MoBaiBean bean,
+	public void yuDo(JunZhu jz,int cmd, IoSession session, MoBaiBean bean,
 			AlliancePlayer member, AllianceBean alliance) {
 		// change 20150901
 		if(DateUtils.isTimeToReset(bean.yuTime, CanShu.REFRESHTIME_PURCHASE)){
@@ -264,23 +267,23 @@ public class MoBaiMgr extends EventProc{
 		log.info("{}玉膜拜", bean.junZhuId);
 		ActLog.log.Worship(jz.id, jz.name, ActLog.vopenid, "3", spend);
 		member.gongXian += conf.gongxian;
+		AllianceMgr.inst.changeGongXianRecord(member, conf.gongxian);
 		HibernateUtil.save(member);
 		JunZhuMgr.inst.updateTiLi(jz, conf.tili, "玉膜拜");
 		HibernateUtil.update(jz);
 		alliance.build += conf.jianshe;
 		HibernateUtil.save(alliance);
 		
-		JunZhuMgr.inst.sendMainInfo(session,jz);
+		JunZhuMgr.inst.sendMainInfo(session,jz,false);
 		sendMoBaiInfo(0, session, null);
-		AllianceMgr.inst.changeGongXianRecord(jz.id, conf.gongxian);
 		
 		recordMobaiEvent(jz.name, "顶礼", conf.jianshe, member.lianMengId);
 		// 每日任务：膜拜
-		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
+		EventMgr.addEvent(jz.id,ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
 				jz.id, DailyTaskConstants.moBai, 1));
 		// 主线任务: 任意膜拜1次（免费  元宝）的都算完成任务 20190916
-		EventMgr.addEvent(ED.mobai , new Object[] { jz.id});
-		EventMgr.addEvent(ED.YU_MO_BAI, new Object[]{jz});
+		EventMgr.addEvent(jz.id,ED.mobai , new Object[] { jz.id});
+		EventMgr.addEvent(jz.id,ED.YU_MO_BAI, new Object[]{jz});
 	}
 
 	public int parseExp(LianmengMobai conf) {
@@ -296,7 +299,7 @@ public class MoBaiMgr extends EventProc{
 		return exp;
 	}
 
-	protected boolean timeFail(IoSession session, Date time) {
+	public boolean timeFail(IoSession session, Date time) {
 		// change 20150901
 		if (DateUtils.isTimeToReset(time, CanShu.REFRESHTIME_PURCHASE)) {
 			return false;
@@ -313,7 +316,7 @@ public class MoBaiMgr extends EventProc{
 	 *            增加的buff层数
 	 * @param time
 	 */
-	protected synchronized int updateMobaiLevel(int lmId, int buffNum, Date time) {
+	public synchronized int updateMobaiLevel(int lmId, int buffNum, Date time) {
 		{//增加联盟累计膜拜次数
 			LmTuTeng tt = HibernateUtil.find(LmTuTeng.class, lmId);
 			if(tt == null){
@@ -330,7 +333,7 @@ public class MoBaiMgr extends EventProc{
 		}
 	}
 
-	protected void yuanBaoDo(JunZhu jz,int cmd, IoSession session, MoBaiBean bean,
+	public void yuanBaoDo(JunZhu jz,int cmd, IoSession session, MoBaiBean bean,
 			AlliancePlayer member, AllianceBean alliance) {
 		if (timeFail(session, bean.yuanBaoTime)) {
 			return;
@@ -361,7 +364,7 @@ public class MoBaiMgr extends EventProc{
 		JunZhuMgr.inst.updateTiLi(jz, conf.tili, "联盟膜拜");
 		HibernateUtil.update(jz);
 		log.info("膜拜扣除{}:{}元宝{}", jz.id, jz.name, conf.needNum);
-		JunZhuMgr.inst.sendMainInfo(session,jz);
+		JunZhuMgr.inst.sendMainInfo(session,jz,false);
 
 		Date today = new Date();
 		bean.yuanBaoTime = today;
@@ -381,9 +384,9 @@ public class MoBaiMgr extends EventProc{
 		spend.add(jo);
 		ActLog.log.Worship(jz.id, jz.name, ActLog.vopenid, "2", spend);
 		member.gongXian += conf.gongxian;
+		AllianceMgr.inst.changeGongXianRecord(member, conf.gongxian);
 		HibernateUtil.save(member);
 		sendMoBaiInfo(0, session, null);
-		AllianceMgr.inst.changeGongXianRecord(jz.id, conf.gongxian);
 		
 		//加联盟经验奖励
 		AwardMgr.inst.giveReward(session, conf.award, jz);
@@ -392,13 +395,13 @@ public class MoBaiMgr extends EventProc{
 		recordMobaiEvent(jz.name, "虔诚", conf.jianshe, member.lianMengId );
 		
 		// 每日任务：膜拜
-		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
+		EventMgr.addEvent(jz.id,ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
 				jz.id, DailyTaskConstants.moBai, 1));
 		// 主线任务: 任意膜拜1次（免费  元宝）的都算完成任务 20190916
-		EventMgr.addEvent(ED.mobai , new Object[] { jz.id});
+		EventMgr.addEvent(jz.id,ED.mobai , new Object[] { jz.id});
 	}
 
-	protected void tongBiDo(JunZhu jz,IoSession session, MoBaiBean bean,
+	public void tongBiDo(JunZhu jz,IoSession session, MoBaiBean bean,
 			AlliancePlayer member, AllianceBean alliance) {
 		if (timeFail(session, bean.tongBiTime)) {
 			log.error("君主{}尝试膜拜失败，原因：次数不足",bean.junZhuId);
@@ -434,7 +437,7 @@ public class MoBaiMgr extends EventProc{
 		jo.put("num", moneyNeed);
 		spend.add(jo);
 		ActLog.log.Worship(jz.id, jz.name, ActLog.vopenid, "1", spend);
-		JunZhuMgr.inst.sendMainInfo(session,jz);
+		JunZhuMgr.inst.sendMainInfo(session,jz,false);
 
 		Date today = new Date();
 		bean.tongBiTime = today;
@@ -448,9 +451,9 @@ public class MoBaiMgr extends EventProc{
 		// conf.buffNum);
 		log.info("{}铜币膜拜", bean.junZhuId);
 		member.gongXian += conf.gongxian;
+		AllianceMgr.inst.changeGongXianRecord(member, conf.gongxian);
 		HibernateUtil.save(member);
 		sendMoBaiInfo(0, session, null);
-		AllianceMgr.inst.changeGongXianRecord(jz.id, conf.gongxian);
 		
 		// 加 联盟经验 award
 		AwardMgr.inst.giveReward(session, conf.award, jz);
@@ -459,10 +462,10 @@ public class MoBaiMgr extends EventProc{
 		recordMobaiEvent(jz.name, "普通", conf.jianshe, member.lianMengId);
 		
 		// 每日任务：膜拜
-		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
+		EventMgr.addEvent(jz.id,ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
 				jz.id, DailyTaskConstants.moBai, 1));
 		// 主线任务: 任意膜拜1次（免费  元宝）的都算完成任务 20190916
-		EventMgr.addEvent(ED.mobai , new Object[] { jz.id});
+		EventMgr.addEvent(jz.id,ED.mobai , new Object[] { jz.id});
 	}
 
 	public void recordMobaiEvent(String jzName, String mobaiType, int getBuildValue, int allianceId ) {
@@ -592,11 +595,11 @@ public class MoBaiMgr extends EventProc{
 //				log.info("君主：{}--铜币膜拜：{}的功能---未开启,不推送",jz.id,FunctionID.LianMeng);
 				break;
 			}
-			AlliancePlayer alliancePlayer = HibernateUtil.find(AlliancePlayer.class, jz.id);
+			AlliancePlayer alliancePlayer = AllianceMgr.inst.getAlliancePlayer(jz.id);
 			if(alliancePlayer == null) {
 				break;
 			}
-			AllianceBean alliance = HibernateUtil.find(AllianceBean.class, alliancePlayer.lianMengId);
+			AllianceBean alliance = AllianceBeanDao.inst.getAllianceBean(alliancePlayer.lianMengId);
 			if(alliance == null) {
 				break;
 			}
@@ -613,7 +616,7 @@ public class MoBaiMgr extends EventProc{
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 	}
 
@@ -628,7 +631,7 @@ public class MoBaiMgr extends EventProc{
 		if (jz == null) {
 			return;
 		}
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jz.id);
+		AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(jz.id);
 		if (member == null) {
 			sendError(id, session, "您不在联盟中。");
 			return;
@@ -675,6 +678,7 @@ public class MoBaiMgr extends EventProc{
 		if (bean == null) {// 没有膜拜过
 			bean = new MoBaiBean();
 			bean.junZhuId = member.junzhuId;
+			Cache.moBaiBeanCache.put(member.junzhuId, bean);
 			HibernateUtil.insert(bean);
 		}
 		Date preTime = null;

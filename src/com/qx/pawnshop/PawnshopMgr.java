@@ -55,7 +55,7 @@
 //import com.qx.yuanbao.YuanBaoMgr;
 //
 //public class PawnshopMgr {
-//	protected Logger logger = LoggerFactory.getLogger(PawnshopMgr.class);
+//	public Logger logger = LoggerFactory.getLogger(PawnshopMgr.class);
 //
 //	public static PawnshopMgr inst;
 //
@@ -83,7 +83,7 @@
 //	}
 //
 //	// map按值比较器
-//	protected class MapKeyComparator implements Comparator<Integer> {
+//	public class MapKeyComparator implements Comparator<Integer> {
 //		@Override
 //		public int compare(Integer o1, Integer o2) {
 //			int i = o1;
@@ -193,7 +193,7 @@
 //		sendShopGoodsInfo(session, goodsList, needYuanBao, seconds, junZhu.id);
 //	}
 //
-//	protected void sendShopGoodsInfo(IoSession session,List<GoodsInfo> goodsList, 
+//	public void sendShopGoodsInfo(IoSession session,List<GoodsInfo> goodsList, 
 //			int needYuanBao, int seconds, long junzhuId) {
 //		PawnshopGoodsList.Builder response = PawnshopGoodsList.newBuilder();
 //		// 神秘物品
@@ -230,7 +230,7 @@
 //	 * @param date
 //	 * @return
 //	 */
-//	protected boolean isRefresh(PawnshopBean shopBean, Date date) {
+//	public boolean isRefresh(PawnshopBean shopBean, Date date) {
 //		boolean isRefresh = false;
 //		Date lastRefreshTime = shopBean.getAutoRefreshTime();
 //		if(lastRefreshTime == null) {
@@ -255,7 +255,7 @@
 //		return isRefresh;
 //	}
 //
-//	protected int getRefreshRemainSeconds(Date last, Date now) {
+//	public int getRefreshRemainSeconds(Date last, Date now) {
 //		int second = -1;
 //		Calendar cal = Calendar.getInstance();
 //		second = getSeconds(cal, last, now);
@@ -267,7 +267,7 @@
 //		return second;
 //	}
 //
-//	protected int getSeconds(Calendar cal, Date last, Date now) {
+//	public int getSeconds(Calendar cal, Date last, Date now) {
 //		int second = -1;
 //		String timeStr = CanShu.REFRESHTIME_DANGPU;
 //		String[] splitRetime = timeStr.split(",");
@@ -293,7 +293,7 @@
 //	 * @param junZhu
 //	 * @return
 //	 */
-//	protected List<GoodsInfo> getGoodsList(JunZhu junZhu) {
+//	public List<GoodsInfo> getGoodsList(JunZhu junZhu) {
 //		Map<Integer, List<Dangpu>> map = new TreeMap<Integer, List<Dangpu>>(
 //				new MapKeyComparator());
 //		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class,
@@ -345,7 +345,7 @@
 //
 //	}
 //
-//	protected void buyCommon(int cmd, IoSession session, JunZhu junZhu,
+//	public void buyCommon(int cmd, IoSession session, JunZhu junZhu,
 //			int dangpuId) {
 //		DangpuCommon commonCfg = null;
 //		for(DangpuCommon common : commonGoodsList) {
@@ -387,7 +387,7 @@
 //		sendPawnshopGoodsBuyResp(session, 0, 0, dangpuId, -1, junZhu.id);
 //	}
 //
-//	protected void buyMysterious(int cmd, IoSession session, JunZhu junZhu,
+//	public void buyMysterious(int cmd, IoSession session, JunZhu junZhu,
 //			int dangpuId) {
 //		PawnshopBean shopBean = HibernateUtil.find(PawnshopBean.class,
 //				junZhu.id);
@@ -506,7 +506,7 @@
 //	}
 //
 //	// 添加参数mysteryType（神秘物品类型）和junzhuid
-//	protected void sendPawnshopGoodsBuyResp(IoSession session, int result,
+//	public void sendPawnshopGoodsBuyResp(IoSession session, int result,
 //			int type, int id, int mysteryType, long junZhuId) {
 //		PawnshopGoodsBuyResp.Builder response = PawnshopGoodsBuyResp
 //				.newBuilder();

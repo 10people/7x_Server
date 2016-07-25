@@ -7,9 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 @Entity
 @Table
-public class PlayerVipInfo {
+public class PlayerVipInfo implements DBHash {
 	// 玩家id 也就是junzhuId
 	@Id
 	public long accId;
@@ -32,4 +34,9 @@ public class PlayerVipInfo {
 	@Column(columnDefinition = "INT default 0")
 	/** 是否购买了终身卡：0-没有，1-购买了 **/
 	public int haveZhongShenKa;
+
+	@Override
+	public long hash() {
+		return accId;
+	}
 }

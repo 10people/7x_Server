@@ -17,8 +17,8 @@ public class AlarmTool {
 	public static String ALARM_DB_ASYNC = "asyncdb";	
 	public static String ALARM_DCAGENT = "dcagent";	
 	public static boolean shutdown = false;
-	private static String cmd = "/usr/local/services/CloudDCAgent_L5-1.0/alarm/cloud_alarm ";
-	private static ConcurrentHashMap<String, Alarm> alarmMap = null;
+	public static String cmd = "/usr/local/services/CloudDCAgent_L5-1.0/alarm/cloud_alarm ";
+	public static ConcurrentHashMap<String, Alarm> alarmMap = null;
 
 	static {
 		alarmMap = new ConcurrentHashMap<String, Alarm>();
@@ -54,20 +54,20 @@ public class AlarmTool {
 		/**
 		 * 多长时间(秒)内报警达到 alarmNum才开始报警
 		 */
-		private int alarmPeriod = 300;
+		public int alarmPeriod = 300;
 		/**
 		 * 报警多少次才发送报警数据
 		 */
-		private int alarmNum = 5;
+		public int alarmNum = 5;
 
 		/**
 		 * 报警时间：秒
 		 */
-		private long dttm;
+		public long dttm;
 		/**
 		 * 报警实际次数
 		 */
-		private int num;
+		public int num;
 
 		public Alarm() {
 

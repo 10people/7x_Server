@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.qx.yabiao.YaBiaoHuoDongMgr;
 
 public class YaBiaoManageJob implements Job {
-	private Logger log = LoggerFactory.getLogger(YaBiaoManageJob.class);
+	public Logger log = LoggerFactory.getLogger(YaBiaoManageJob.class);
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		log.info("更新押镖活动标记开始");

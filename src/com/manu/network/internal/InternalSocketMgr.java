@@ -22,8 +22,8 @@ import com.manu.network.TXSocketMgr;
  *
  */
 public class InternalSocketMgr {
-	private static Logger eLog = LoggerFactory.getLogger("exception");
-	private static Logger log = LoggerFactory.getLogger("stdout");
+	public static Logger eLog = LoggerFactory.getLogger("exception");
+	public static Logger log = LoggerFactory.getLogger("stdout");
 	public static InternalSocketMgr inst;
 	/**
 	 * 运营活动服务器

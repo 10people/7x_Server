@@ -33,7 +33,7 @@ public class TimeWorkerMgr extends EventProc {
 	public static TimeWorkerMgr instance;
 	public static boolean showLog = false;
 
-	private static Logger logger = LoggerFactory.getLogger(TimeWorkerMgr.class);
+	public static Logger logger = LoggerFactory.getLogger(TimeWorkerMgr.class);
 
 	/** 请求添加体力 **/
 	public static int TYPE_ADD_TILI = 1;
@@ -70,7 +70,10 @@ public class TimeWorkerMgr extends EventProc {
 				sendError(session, id, "unkonw operation code " + id + ", type:" + type);
 				break;
 		}
-		EventMgr.addEvent(ED.REFRESH_TIME_WORK, session);
+		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+		if(jz != null){
+			EventMgr.addEvent(jz.id,ED.REFRESH_TIME_WORK, session);
+		}
 	}
 
 	/**
@@ -80,7 +83,7 @@ public class TimeWorkerMgr extends EventProc {
 	 * @param code
 	 * @param msg
 	 */
-	private void sendError(IoSession session, int code, String msg) {
+	public void sendError(IoSession session, int code, String msg) {
 		ErrorMessage.Builder test = ErrorMessage.newBuilder();
 		test.setErrorCode(code);
 		test.setErrorDesc(msg);
@@ -124,7 +127,7 @@ public class TimeWorkerMgr extends EventProc {
 		}
 		
 		long nowTime = System.currentTimeMillis();
-		long lastTime = tiLiWorker.getLastAddTiliTime().getTime();
+		long lastTime = tiLiWorker.lastAddTiliTime.getTime();
 
 		if ((nowTime - lastTime) < needTime) {
 			logger.info("距离（" + junZhu.name + "）上次增加体力时间间隔不到{}毫秒", needTime);
@@ -142,7 +145,7 @@ public class TimeWorkerMgr extends EventProc {
 			JunZhuMgr.inst.updateTiLi(junZhu, addTili, "按时送");
 		}
 		Date date = new Date();
-		tiLiWorker.setLastAddTiliTime(date);
+		tiLiWorker.lastAddTiliTime = date;
 		HibernateUtil.update(junZhu);
 		HibernateUtil.save(tiLiWorker);
 		JunZhuMgr.inst.sendMainInfo(session,junZhu,false);
@@ -160,7 +163,7 @@ public class TimeWorkerMgr extends EventProc {
 	 * @param msg 携带消息
 	 * @param time 剩余时间，单位：秒
 	 */
-	private TimeWorkerResponse.Builder fillTimeWorkerResponse(int type,
+	public TimeWorkerResponse.Builder fillTimeWorkerResponse(int type,
 			int value, int status, String msg, int time) {
 		TimeWorkerResponse.Builder response = TimeWorkerResponse.newBuilder();
 		response.setType(type);
@@ -195,32 +198,32 @@ public class TimeWorkerMgr extends EventProc {
 			return fillTimeWorkerResponse(TYPE_ADD_XILIAN, freeTimesMax,
 					OPR_FAIL, "免费洗练次数已达上限", needTime / 1000);
 		} else {
-			if (xilianWorker.getXilianTimes() >= freeTimesMax) {
+			if (xilianWorker.xilianTimes >= freeTimesMax) {
 				logger.info("（" + junZhu.name + "）免费洗练次数已达上限");
 				return fillTimeWorkerResponse(TYPE_ADD_XILIAN,
-						xilianWorker.getXilianTimes(), OPR_FAIL, "免费洗练次数已达上限",
+						xilianWorker.xilianTimes, OPR_FAIL, "免费洗练次数已达上限",
 						needTime / 1000);
 			}
 			// 间隔时间是否达到 1 小时
 			long nowTime = System.currentTimeMillis();
-			long lastTime = xilianWorker.getLastAddXilianTime().getTime();
+			long lastTime = xilianWorker.lastAddXilianTime.getTime();
 			if ((nowTime - lastTime) < needTime) {
 				int countDown = (int) ((needTime - (nowTime - lastTime)) / 1000);
 				logger.info("（" + junZhu.name + "）增加免费洗练次数时间间隔不到{}毫秒,剩余{}秒",
 						needTime, countDown);
 				return fillTimeWorkerResponse(TYPE_ADD_XILIAN,
-						xilianWorker.getXilianTimes(), OPR_FAIL,
+						xilianWorker.xilianTimes, OPR_FAIL,
 						"增加免费洗练次数时间间隔不到1小时", countDown);
 			}
-			int times = xilianWorker.getXilianTimes() + CanShu.ADD_XILIAN_VALUE;
+			int times = xilianWorker.xilianTimes + CanShu.ADD_XILIAN_VALUE;
 			times = times > freeTimesMax ? freeTimesMax : times;
-			xilianWorker.setXilianTimes(times);
-			xilianWorker.setLastAddXilianTime(date);
+			xilianWorker.xilianTimes = times;
+			xilianWorker.lastAddXilianTime = date;
 			logger.info("（" + junZhu.name + "）增加免费洗练次数值:{}, 时间:{}",
 					CanShu.ADD_TILI_INTERVAL_VALUE, date);
 			HibernateUtil.save(xilianWorker);
 			return fillTimeWorkerResponse(TYPE_ADD_XILIAN,
-					xilianWorker.getXilianTimes(), OPR_SUCCEED, "增加免费洗练成功",
+					xilianWorker.xilianTimes, OPR_SUCCEED, "增加免费洗练成功",
 					needTime);
 		}
 	}
@@ -238,13 +241,13 @@ public class TimeWorkerMgr extends EventProc {
 		if (xilianWorker == null) {
 			xilianWorker = initTimeWorker(junZhuId);
 		}
-		int times = xilianWorker.getXilianTimes();
+		int times = xilianWorker.xilianTimes;
 		if(times == CanShu.FREE_XILIAN_TIMES_MAX) {
-			xilianWorker.setLastAddXilianTime(new Date());
+			xilianWorker.lastAddXilianTime= new Date();
 		}
 		times = times - value;
 		times = times < 0 ? 0 : times;
-		xilianWorker.setXilianTimes(times);
+		xilianWorker.xilianTimes = times;
 		HibernateUtil.save(xilianWorker);
 		return times;
 	}
@@ -266,7 +269,7 @@ public class TimeWorkerMgr extends EventProc {
 //			xilianWorker = initTimeWorker(junZhu.id);
 //		}
 		TimeWorker	xilianWorker=calcOfflineXilian(junZhu.id);
-		return xilianWorker.getXilianTimes();
+		return xilianWorker.xilianTimes;
 	}
 
 	/**
@@ -274,7 +277,7 @@ public class TimeWorkerMgr extends EventProc {
 	 * 
 	 * @param account
 	 */
-	private void calcOfflineTili(long junZhuId) {
+	public void calcOfflineTili(long junZhuId) {
 		JunZhu junZhu = HibernateUtil.find(JunZhu.class, junZhuId);
 		if (junZhu == null) {
 			logger.error("not find junzhu by junZhuId:" + junZhuId);
@@ -288,7 +291,7 @@ public class TimeWorkerMgr extends EventProc {
 			tiliWorker = initTimeWorker(junZhuId);
 		}
 		long nowTime = System.currentTimeMillis();
-		long lastTime = tiliWorker.getLastAddTiliTime().getTime();
+		long lastTime = tiliWorker.lastAddTiliTime.getTime();
 		int needTime = CanShu.ADD_TILI_INTERVAL_TIME;// 毫秒
 		int addTili = (int) ((nowTime - lastTime) / needTime);
 		lastTime = lastTime + addTili * needTime;
@@ -300,7 +303,7 @@ public class TimeWorkerMgr extends EventProc {
 			JunZhuMgr.inst.updateTiLi(junZhu, addTili, "离线得");
 			logger.info("[{}]离线期间获得体力{}, 添加时间{}", junZhu.name, addTili, date);
 		}
-		tiliWorker.setLastAddTiliTime(date);
+		tiliWorker.lastAddTiliTime = date;
 		HibernateUtil.save(junZhu);
 		HibernateUtil.save(tiliWorker);
 	}
@@ -318,7 +321,7 @@ public class TimeWorkerMgr extends EventProc {
 			xilianWorker = initTimeWorker(junZhuId);
 		}
 		long nowTime = System.currentTimeMillis();
-		long lastTime = xilianWorker.getLastAddXilianTime().getTime();
+		long lastTime = xilianWorker.lastAddXilianTime.getTime();
 		int needTime = CanShu.ADD_XILIAN_INTERVAL_TIME;// 毫秒
 		int countDown = (int) ((needTime - (nowTime - lastTime)) / 1000);
 		logger.info("距离junzhuID:{}下一次增加洗练次数还剩{}秒", junZhuId, countDown);
@@ -337,15 +340,15 @@ public class TimeWorkerMgr extends EventProc {
 			return xilianWorker;
 		}
 		long nowTime = System.currentTimeMillis();
-		long lastTime = xilianWorker.getLastAddXilianTime().getTime();
+		long lastTime = xilianWorker.lastAddXilianTime.getTime();
 		int needTime = CanShu.ADD_XILIAN_INTERVAL_TIME;// 毫秒
 		int freeTimesMax = CanShu.FREE_XILIAN_TIMES_MAX;
 		int addTimes = (int) ((nowTime - lastTime) / needTime);
-		int times = xilianWorker.getXilianTimes() + addTimes;
+		int times = xilianWorker.xilianTimes + addTimes;
 		times = times > freeTimesMax ? freeTimesMax : times;
 		lastTime = lastTime + addTimes * needTime;
-		xilianWorker.setXilianTimes(times);
-		xilianWorker.setLastAddXilianTime(new Date(lastTime));
+		xilianWorker.xilianTimes = times;
+		xilianWorker.lastAddXilianTime = new Date(lastTime);
 		logger.info("离线增加洗练次数 :{}, junzhuId:{}", addTimes, junZhuId);
 		HibernateUtil.save(xilianWorker);
 		return xilianWorker;
@@ -357,13 +360,13 @@ public class TimeWorkerMgr extends EventProc {
 	 * @param junzhuId
 	 * @return
 	 */
-	private TimeWorker initTimeWorker(long junzhuId) {
+	public TimeWorker initTimeWorker(long junzhuId) {
 		TimeWorker timeWorker = new TimeWorker();
-		timeWorker.setJunzhuId(junzhuId);
+		timeWorker.junzhuId = junzhuId;
 		Date date = new Date(System.currentTimeMillis());
-		timeWorker.setLastAddTiliTime(date);
-		timeWorker.setLastAddXilianTime(date);
-		timeWorker.setXilianTimes(CanShu.FREE_XILIAN_TIMES_MAX);
+		timeWorker.lastAddTiliTime = date;
+		timeWorker.lastAddXilianTime = date;
+		timeWorker.xilianTimes = CanShu.FREE_XILIAN_TIMES_MAX;
 		// 添加缓存
 		MC.add(timeWorker, junzhuId);
 		HibernateUtil.insert(timeWorker);
@@ -383,7 +386,7 @@ public class TimeWorkerMgr extends EventProc {
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.ACC_LOGIN, this);
 	}
 

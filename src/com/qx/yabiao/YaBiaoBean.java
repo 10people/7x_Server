@@ -7,9 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+import com.qx.persistent.MCSupport;
+
 @Entity
 @Table(name = "YaBiaoBean01")
-public class YaBiaoBean {// implements MCSupport
+public class YaBiaoBean implements MCSupport,DBHash{/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2861714591142910239L;
+// implements MCSupport
 	@Id
 	public long junZhuId;
 	/*当日已经参加押镖的次数*/
@@ -57,5 +64,13 @@ public class YaBiaoBean {// implements MCSupport
 				+ horseType + ", todayBuyYBTimes=" + todayBuyYBTimes
 				+ ", lastShowTime=" + lastShowTime + ", isNew4History="
 				+ isNew4History + ", isNew4Enemy=" + isNew4Enemy + "]";
+	}
+	@Override
+	public long hash() {
+		return junZhuId;
+	}
+	@Override
+	public long getIdentifier() {
+		return junZhuId;
 	}
 }

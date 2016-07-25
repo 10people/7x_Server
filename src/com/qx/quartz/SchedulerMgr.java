@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.template.YunbiaoTemp;
+import com.qx.activity.StrengthGetMgr;
 import com.qx.alliancefight.BidMgr;
 import com.qx.quartz.job.AllianceResouceOutputJob;
 import com.qx.quartz.job.AllianceRewardStoreJob;
@@ -30,6 +31,7 @@ import com.qx.quartz.job.CityWarBidClearData;
 import com.qx.quartz.job.CleanLMSBJob;
 import com.qx.quartz.job.ClearPromptJob;
 import com.qx.quartz.job.DailyTaskJob;
+import com.qx.quartz.job.DailyTiliJob;
 import com.qx.quartz.job.GuojiaChouhenJieSuanJob;
 import com.qx.quartz.job.GuojiaDayRankResetJob;
 import com.qx.quartz.job.GuojiaSetDiDuiGuoJob;
@@ -80,7 +82,7 @@ public class SchedulerMgr {
 	public void doSchedule(){
 	//	addScheduler(TestJob.class, "0/10 * * * * ?");
 		// 每天晚上23:58 发送在线且没有领奖的百战日奖励邮件, 掠夺也会在23:58发送每日奖励邮件，因此都加在这个任务中
-		addScheduler(BaiZhanDailyAwardJob.class, "0 58 23 * * ?");
+		addScheduler(BaiZhanDailyAwardJob.class, "0 58 3am * * ?");
 		//每周一到周六晚上22点衰减高级房屋价值
 		StringBuffer shuaijianTime=new StringBuffer();
 		shuaijianTime.append("0 0 ").append(String.valueOf(CanShu.REFRESHTIME_GAOJIFANGWU)).append(" ? * 2-7");
@@ -206,6 +208,18 @@ public class SchedulerMgr {
 		StringBuilder bidJobTime = new StringBuilder();
 		bidJobTime.append("0 ").append(bidTimeArr[1]).append(" ").append(bidTimeArr[0]).append(" * * ?");
 		addScheduler(CityBidBillingJob.class,bidJobTime.toString());
+		/*
+		 * 每日体力 固定时间更新体力红点
+		 */
+		String[] s1 = StrengthGetMgr.STRENGTH_GET_TIME1_START.split(":");
+		String[] s2 = StrengthGetMgr.STRENGTH_GET_TIME2_START.split(":");
+		String[] s3 = StrengthGetMgr.STRENGTH_GET_TIME3_START.split(":");
+		addScheduler(DailyTiliJob.class, "0 0 " + s1[0] +"," + s2[0] + "," + s3[0] + " * * ?");
+		String[] e1 = StrengthGetMgr.STRENGTH_GET_TIME1_END.split(":");
+		String[] e2 = StrengthGetMgr.STRENGTH_GET_TIME2_END.split(":");
+		String[] e3 = StrengthGetMgr.STRENGTH_GET_TIME3_END.split(":");
+		if("24".equals(e3[0])) e3[0] = "0";
+		addScheduler(DailyTiliJob.class, "0 0 " + e1[0] +"," + e2[0] + "," + e3[0] + " * * ?");
 	}
 	/**
 	 * 任务列表

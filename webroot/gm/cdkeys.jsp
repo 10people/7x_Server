@@ -79,12 +79,12 @@
 		for(CDKeyInfo keyInfo:keyList){
 			%>
 			<tr>
-				<td><%=keyInfo.getChanId() %></td>
-				<td><%=keyInfo.getCreateDate().toLocaleString() %></td>
-				<td><%=keyInfo.getDeadDate().toLocaleString() %></td>
-				<td><%=keyInfo.getJzId() %></td>
-				<td><%=keyInfo.getCdkey()%></td>
-				<td><%=keyInfo.getAwards() %></td>
+				<td><%=keyInfo.chanId %></td>
+				<td><%=keyInfo.createDate.toLocaleString() %></td>
+				<td><%=keyInfo.deadDate.toLocaleString() %></td>
+				<td><%=keyInfo.jzId %></td>
+				<td><%=keyInfo.cdkey%></td>
+				<td><%=keyInfo.awards %></td>
 			</tr>
 			<%
 		}
@@ -116,12 +116,12 @@
 			for(CDKeyInfo keyInfo:keyList){
 				%>
 				<tr>
-					<td><%=keyInfo.getChanId() %></td>
-					<td><%=keyInfo.getCreateDate().toLocaleString() %></td>
-					<td><%=keyInfo.getDeadDate().toLocaleString() %></td>
-					<td><%=keyInfo.getJzId() %></td>
-					<td><%=keyInfo.getCdkey()%></td>
-					<td><%=keyInfo.getAwards() %></td>
+					<td><%=keyInfo.chanId %></td>
+					<td><%=keyInfo.createDate.toLocaleString() %></td>
+					<td><%=keyInfo.deadDate.toLocaleString() %></td>
+					<td><%=keyInfo.jzId %></td>
+					<td><%=keyInfo.cdkey%></td>
+					<td><%=keyInfo.awards %></td>
 				</tr>
 				<%
 			}

@@ -4,17 +4,17 @@ import com.qx.gm.util.CodeUtil;
 import com.qx.gm.util.MD5Util;
 
 public class OperateLogReq {
-	private int type;// 协议编号
-	private int firm;// 表示厂商ID
-	private int zone;// 大区号
-	private String uin;// 账号ID
-	private String roleid;// 角色ID
-	private String rolename;// 角色名称
-	private int system;// 查询系统id
-	private int action;// 查询行为id
-	private int start;// 查询开始时间
-	private int end;// 查询结束时间
-	private String md5;// 加密
+	public int type;// 协议编号
+	public int firm;// 表示厂商ID
+	public int zone;// 大区号
+	public String uin;// 账号ID
+	public String roleid;// 角色ID
+	public String rolename;// 角色名称
+	public int system;// 查询系统id
+	public int action;// 查询行为id
+	public int start;// 查询开始时间
+	public int end;// 查询结束时间
+	public String md5;// 加密
 
 	public boolean checkMd5() {
 		StringBuffer sBuffer = new StringBuffer();

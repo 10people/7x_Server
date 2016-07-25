@@ -228,7 +228,7 @@ out.print(s+":"+guildName);
 						if(acc == null){
 							out("没有找到帐号，accId:"+jz.id/1000);							
 						} else {
-							out(acc.getAccountName());
+							out(acc.accountName);
 						}
 						tdE();
 						tdS();

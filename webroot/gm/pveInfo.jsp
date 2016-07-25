@@ -67,8 +67,8 @@
 		//HibernateUtil.saveAccount(name);
 			} else {
 				session.setAttribute("name", name);
-				pid = account.getAccountId()*1000+GameServer.serverId;
-	%><%=pid%>:<%=account.getAccountName()%>
+				pid = account.accountId*1000+GameServer.serverId;
+	%><%=pid%>:<%=account.accountName%>
 	<br/>
 	<br/>
 	进度调整，输入关卡id，之前的都会通过：
@@ -108,7 +108,7 @@
 								r.starLevel = 1;
 								r.uid = pid;
 								r.achieve = 0;
-								if(entry.getValue().getChapType() == 1) {
+								if(entry.getValue().chapType == 1) {
 									r.chuanQiPass = true;
 								} else {
 									r.chuanQiPass = false;
@@ -196,7 +196,7 @@
 					return null;
 				}
 			};
-			fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account.getAccountId()*1000+GameServer.serverId));
+			fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account.accountId*1000+GameServer.serverId));
 			long startTime = System.currentTimeMillis();
 			synchronized(fs){
 				PvePageReq.Builder req = PvePageReq.newBuilder();

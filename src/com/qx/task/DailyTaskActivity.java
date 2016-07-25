@@ -21,18 +21,18 @@ public class DailyTaskActivity {
 	/*
 	 * 这两个字段是变化的，所以调用的时候需要 调用 DailyTaskMgr.getTodayHuoYueDu
 	 */
-	protected int todyHuoYue;
+	public int todyHuoYue;
 	
-	protected int weekHuoYue;
+	public int weekHuoYue;
 	public Date lastResetDaily;
 	public Date lastResetWeek;
-	protected boolean isGet1;// true 已经领取，fasle没有
-	protected boolean isGet2;
-	protected boolean isGet3;
-	protected boolean isGet4;
-	protected boolean isGet5;
-	protected boolean isGet6;
-	protected boolean isGet7;
+	public boolean isGet1;// true 已经领取，fasle没有
+	public boolean isGet2;
+	public boolean isGet3;
+	public boolean isGet4;
+	public boolean isGet5;
+	public boolean isGet6;
+	public boolean isGet7;
 	
 	
 	public int getTodyHuoYue() {

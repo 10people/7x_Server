@@ -4,7 +4,10 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
+
+import com.qx.persistent.DBHash;
 
 /**
  * 对于战斗记录，记录的是全服战斗，以zhandouId为主键，每一条记录，并不区分junzhu  和  enemy的区别，
@@ -16,8 +19,8 @@ import javax.persistence.Table;
  *       9.0, 2015年1月19日 下午7:37:16
  */
 @Entity
-@Table(name = "zhandou_record")
-public class ZhanDouRecord{
+@Table(name = "zhandou_record",indexes={@Index(name="junzhuId",columnList="junzhuId")})
+public class ZhanDouRecord implements DBHash{
 	@Id
 	public int zhandouId;
 	public long junzhuId; // 挑战者（攻击方）
@@ -48,6 +51,10 @@ public class ZhanDouRecord{
 		this.enemyRankChangeV = enemyRankChangeV;
 		this.getWeiWang = getWeiWang;
 		this.lostBuild = lostBuild;
+	}
+	@Override
+	public long hash() {
+		return junzhuId;
 	}
 
 }

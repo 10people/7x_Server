@@ -20,13 +20,13 @@ import com.qx.yuanbao.YuanBaoInfo;
 
 public class AdminServlet extends HttpServlet {
 	public static Logger log = LoggerFactory.getLogger(AdminServlet.class);
-	private static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 1L;
 
 	public AdminServlet() {
 		super();
 	}
 
-	protected void service(HttpServletRequest request,
+	public void service(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		if (action == null) {
@@ -54,7 +54,7 @@ public class AdminServlet extends HttpServlet {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	private void list(HttpServletRequest request, HttpServletResponse response)
+	public void list(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		List<Admin> list = HibernateUtil.list(Admin.class, "where 1=1");
 		request.setAttribute("list", list);
@@ -70,17 +70,17 @@ public class AdminServlet extends HttpServlet {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	private void update(HttpServletRequest request, HttpServletResponse response)
+	public void update(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String id = request.getParameter("id");
 		String name = request.getParameter("name");
 		String pwd = request.getParameter("pwd");
 		Admin admin = HibernateUtil.find(Admin.class, Long.valueOf(id));
-		admin.setName(name);
-		admin.setPwd(pwd);
-		admin.setUpdatetime(new Date());
-		admin.setCreateuser(((Admin) request.getSession().getAttribute("admin"))
-				.getId());
+		admin.name = name;
+		admin.pwd = pwd;
+		admin.updatetime = new Date();
+		admin.createuser = ((Admin) request.getSession().getAttribute("admin"))
+				.id;
 		HibernateUtil.save(admin);
 		request.getRequestDispatcher("admin?action=list").forward(request,
 				response);
@@ -94,7 +94,7 @@ public class AdminServlet extends HttpServlet {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	private void delete(HttpServletRequest request, HttpServletResponse response)
+	public void delete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String id = request.getParameter("id");
 		HibernateUtil.delete(HibernateUtil.find(Admin.class, Long.valueOf(id)));
@@ -110,7 +110,7 @@ public class AdminServlet extends HttpServlet {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	private void regist(HttpServletRequest request, HttpServletResponse response)
+	public void regist(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String name = request.getParameter("name");
 		String pwd = request.getParameter("pwd");
@@ -118,20 +118,20 @@ public class AdminServlet extends HttpServlet {
 				.find(Admin.class, "where name='" + name + "'");
 		if (null != name && null != pwd) {
 			if (null != tmp) {// 用户名已存在，直接修改用户
-				tmp.setName(name);
-				tmp.setPwd(pwd);
-				tmp.setUpdatetime(new Date());
-				tmp.setCreateuser(((Admin) request.getSession().getAttribute(
-						"admin")).getId());
+				tmp.name = name;
+				tmp.pwd = pwd;
+				tmp.updatetime = new Date();
+				tmp.createuser = ((Admin) request.getSession().getAttribute(
+						"admin")).id;
 				HibernateUtil.save(tmp);
 			} else {// 用户不存在
 				Admin admin = new Admin();
-				admin.setId(TableIDCreator.getTableID(Admin.class, 1L));
-				admin.setName(name);
-				admin.setPwd(pwd);
-				admin.setUpdatetime(new Date());
-				admin.setCreateuser(((Admin) request.getSession().getAttribute(
-						"admin")).getId());
+				admin.id = (TableIDCreator.getTableID(Admin.class, 1L));
+				admin.name = name;
+				admin.pwd = pwd;
+				admin.updatetime = new Date();
+				admin.createuser = (((Admin) request.getSession().getAttribute(
+						"admin")).id);
 				HibernateUtil.insert(admin);
 			}
 		}
@@ -147,7 +147,7 @@ public class AdminServlet extends HttpServlet {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	private void logout(HttpServletRequest request, HttpServletResponse response)
+	public void logout(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.getSession().removeAttribute("admin");// 移除session中的用户信息
 		response.sendRedirect("login.jsp");// 回到登录页

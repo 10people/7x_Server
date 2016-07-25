@@ -6,9 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 @Entity
 @Table(name = "SaoDang")
-public class SaoDangBean {
+public class SaoDangBean implements DBHash {
 	@Id
 	public long jzId;
 	
@@ -16,4 +18,9 @@ public class SaoDangBean {
 	
 	public int jySaoDangTimes;//今日扫了几次
 	public int jyAllSaoDangTimes = 0;// 历史扫荡普通关卡总次数 
+	
+	@Override
+	public long hash() {
+		return jzId;
+	}
 }

@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ZhuangBei extends BaseItem implements SelfBuilder{
-	private Logger logger = LoggerFactory.getLogger(ZhuangBei.class);
+	public Logger logger = LoggerFactory.getLogger(ZhuangBei.class);
 
 	public int id;
 	public String name;
@@ -299,7 +299,7 @@ public class ZhuangBei extends BaseItem implements SelfBuilder{
 	public void setSxJiaCheng(int sxJiaCheng) {
 		this.sxJiaCheng = sxJiaCheng;
 	}
-	private void setXishuArray() {
+	public void setXishuArray() {
 		if(xishu == null || xishu.equals("")) {
 			logger.error("装备xishu不能为空");
 			return;

@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class LMMoBaiInfo implements  Serializable {
-	private static final long serialVersionUID = 1L;
-	private Date lastDate;
-	private int buffLevel;
+	public static final long serialVersionUID = 1L;
+	public Date lastDate;
+	public int buffLevel;
 	public Date getLastDate() {
 		return lastDate;
 	}

@@ -10,7 +10,7 @@ import com.qx.persistent.HibernateUtil;
 
 public class TableIDCreator { 
 	
-	private static Logger logger = LoggerFactory.getLogger(TableIDCreator.class);
+	public static Logger logger = LoggerFactory.getLogger(TableIDCreator.class);
 	public static String poolName = "TableIdDbPool";
 	public static SockIOPool sockIoPool = MemcachedCRUD.init(poolName, "routerCacheServers");
 	public static MemCachedClient memCachedClient = new MemCachedClient(poolName);

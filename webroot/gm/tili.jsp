@@ -23,7 +23,7 @@
 		List<JCZCity> citySettings = TempletService.getInstance().listAll(JCZCity.class.getSimpleName());
 		Map<Integer,JCZCity>jczmap = new HashMap<Integer,JCZCity>();
 		for (JCZCity jczCity : citySettings) {
-			jczmap.put(jczCity.getId(),jczCity);
+			jczmap.put(jczCity.id,jczCity);
 		}
 		String act = request.getParameter("action"); 
 		if("setBidTime".equals(act)){ //设置时间段

@@ -16,49 +16,25 @@ import org.apache.commons.lang.StringUtils;
 public class AllianceFightApply {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	public int id;
 	
 	/** 第几届比赛 */
-	private int fightNum;
+	public int fightNum;
 	
 	/** 报名联盟 格式 id_id_id */
-	private String applyIds;
+	public String applyIds;
 	
 	/** 联盟 格式 id_id_id */
-	private String outIds;
+	public String outIds;
 	
 	@Transient
 	public static final String SPLIT_SYMBOL = "_";
 	
 	@Transient
-	private Set<Integer> applyIdSet = null;
+	public Set<Integer> applyIdSet = null;
 
 	@Transient
-	private Set<Integer> outIdSet = null;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getFightNum() {
-		return fightNum;
-	}
-
-	public void setFightNum(int fightNum) {
-		this.fightNum = fightNum;
-	}
-
-	public String getAllianceIds() {
-		return applyIds;
-	}
-
-	public void setAllianceIds(String allianceIds) {
-		this.applyIds = allianceIds;
-	}
+	public Set<Integer> outIdSet = null;
 
 	public Set<Integer> getApplyIdSet() {
 		if (applyIdSet != null) {

@@ -19,7 +19,7 @@ import com.qx.task.DailyTaskConstants;
 import com.qx.task.DailyTaskMgr;
 
 public class DailyTaskJob implements Job {
-	private Logger log = LoggerFactory.getLogger(DailyTaskJob.class);
+	public Logger log = LoggerFactory.getLogger(DailyTaskJob.class);
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		log.info("开始刷新每日任务");

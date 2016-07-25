@@ -93,7 +93,7 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		account = HibernateUtil.getAccount(name);
 	}else if(accIdStr.length()>0){
 		account = HibernateUtil.find(Account.class, Long.valueOf(accIdStr));
-		if(account != null)name = account.getAccountName();
+		if(account != null)name = account.accountName;
 	}
 	{
 	if(account == null){
@@ -101,8 +101,8 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 	//HibernateUtil.saveAccount(name);
 	}else{
 		session.setAttribute("name", name);
-%>账号<%=account.getAccountId()%>:<%=account.getAccountName()%><%
-	long junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+%>账号<%=account.accountId%>:<%=account.accountName%><%
+	long junZhuId = account.accountId * 1000 + GameServer.serverId;
 	JunZhu junzhu = HibernateUtil.find(JunZhu.class, junZhuId);
 	 AlliancePlayer member = null;
 	 member = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
@@ -164,9 +164,9 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		 sendInfo = false;
 	 }
 	 if(sendInfo){
-		 SessionUser u = SessionManager.getInst().findByJunZhuId(junzhu.id);
-		 if(u!= null){
-		 	JunZhuMgr.inst.sendMainInfo(u.session);
+		 IoSession jzSession = SessionManager.getInst().findByJunZhuId(junzhu.id);
+		 if(jzSession!= null){
+		 	JunZhuMgr.inst.sendMainInfo(jzSession);
 		 }
 	 }
 	 

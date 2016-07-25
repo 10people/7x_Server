@@ -50,7 +50,7 @@ import com.qx.task.DailyTaskConstants;
  */
 public class UserEquipService {
 	public static Logger log = LoggerFactory.getLogger(UserEquipService.class.getSimpleName());
-	private static UserEquipService instance = new UserEquipService();
+	public static UserEquipService instance = new UserEquipService();
 	public TempletService template = TempletService.getInstance();
 	public static UserEquipService getInstance() {
 		return instance;
@@ -92,7 +92,7 @@ public class UserEquipService {
 			targetItemId = source.itemId;
 			targetInstId = source.instId;
 		}else if(equipWhere == 2){//身上穿戴装备
-			EquipGrid source = HibernateUtil.find(EquipGrid.class, equipId);
+			EquipGrid source = EquipMgr.inst.findEquip(junZhu.id, equipId);
 			if (source == null) {
 				throw new BaseException("强化装备不存在 2");
 			}
@@ -117,14 +117,14 @@ public class UserEquipService {
 			}
 		}else{
 			dbUe = new UserEquip();
-			dbUe.setUserId(junZhuId);
-			dbUe.setTemplateId(zhuangbeiCfg.getId());
+			dbUe.userId = junZhuId;
+			dbUe.templateId = zhuangbeiCfg.getId();
 		}
-		int curExp = dbUe.getExp();
-		int currLv = dbUe.getLevel();
-		int curTongli = dbUe.getTongli();
-		int curMouli = dbUe.getMouli();
-		int curWuli =  dbUe.getWuli();
+		int curExp = dbUe.exp;
+		int currLv = dbUe.level;
+		int curTongli = dbUe.tongli;
+		int curMouli = dbUe.mouli;
+		int curWuli =  dbUe.wuli;
 		if (doIt && currLv >= zhuangbeiCfg.qianghuaMaxLv) {
 			log.error("强化等级已经达到满级, equipId:{}", equipId);
 			return ;
@@ -238,7 +238,7 @@ public class UserEquipService {
 		int toEqJzLevelNeedExp = 0;//升到与君主等级一样所需的最大经验值
 		for (int i = currLv; i < junzhulevel; i++) {
 			ExpTemp	expTemp = expTemps.get(i);
-			toEqJzLevelNeedExp += expTemp.getNeedExp();
+			toEqJzLevelNeedExp += expTemp.needExp;
 		}
 		toEqJzLevelNeedExp -= curExp;
 		
@@ -258,13 +258,13 @@ public class UserEquipService {
 					// TODO 这里是为了控制消耗的材料总经验超过所需最大经验，减少扣除的材料数量。
 					// 暂时这个版本先不考虑一并扣除，等策划确定需要这需求再做处理
 //					if(gainExp<nowMaxNeedExp){
-						curExp += it.getEffectId();
+						curExp += it.effectId;
 						canUseCount++;
 //					}
 				}
 				log.info("可消耗物品个数为{}",canUseCount);
 				bagGrid.cnt -= canUseCount;
-				log.info("强化材料使用成功,[{}]使用强化材料{} x {} 获得经验{}，剩余个数{}",junZhuId,it.getId(),canUseCount,canUseCount*it.getEffectId(),bagGrid.cnt);
+				log.info("强化材料使用成功,[{}]使用强化材料{} x {} 获得经验{}，剩余个数{}",junZhuId,it.getId(),canUseCount,canUseCount*it.effectId,bagGrid.cnt);
 				addLogJsonCaiLiao(logCaiLiao, it.getId(), canUseCount);
 				HibernateUtil.save(bagGrid);
 
@@ -302,10 +302,10 @@ public class UserEquipService {
 
 
 		if(doIt){
-			final int preLv = dbUe.getLevel();
-			int newLv = dbUe.getLevel();
+			final int preLv = dbUe.level;
+			int newLv = dbUe.level;
 			while(curExp > 0){
-				int upNeed = expTemps.get(newLv).getNeedExp();
+				int upNeed = expTemps.get(newLv).needExp;
 				if(upNeed<=0){
 					// FIXME 假如经验，满级后能否进行强化
 					upNeed = 10 * newLv+1;
@@ -325,16 +325,16 @@ public class UserEquipService {
 				curExp -= upNeed;
 				if(newLv>(expTemps.size()-1)){//2015年9月17日 1.0expTempsl里面的参数从0开始计算  ExpTemp只有100级
 					newLv=expTemps.size()-1;
-					log.info("君主--{}装备UserEquip--equipId---{}已达到最大等级",junZhuId,dbUe.getEquiped());
+					log.info("君主--{}装备UserEquip--equipId---{}已达到最大等级",junZhuId,dbUe.equipId);
 					break;
 				}
 			}
 			
-			dbUe.setExp(curExp);
-			dbUe.setLevel(newLv);
-			dbUe.setTongli(curTongli);
-			dbUe.setMouli(curMouli);
-			dbUe.setWuli(curWuli);
+			dbUe.exp = curExp ;
+			dbUe.level = newLv;
+			dbUe.tongli = curTongli;
+			dbUe.mouli = curMouli;
+			dbUe.wuli = curWuli;
 			if(targetInstId<=0){
 				HibernateUtil.insert(dbUe);
 				MC.add(dbUe, dbUe.getIdentifier());
@@ -348,96 +348,94 @@ public class UserEquipService {
 				HibernateUtil.save(dbUe);
 			}
 			log.info("装备强化成功,junzhuId:{},强化装备-dbUe.equipId:{},由LV:{}升级至 LV:{} exp {}, tongli {}, mouli {}, wuli {}",
-					junZhu.id, dbUe.getEquipId(),currLv, newLv, curExp, curTongli, curMouli, curWuli);
-			ActLog.log.EquipStrength(junZhu.id, junZhu.name, ActLog.vopenid, dbUe.getEquiped(), zhuangbeiCfg.getName(), preLv, newLv, logCaiLiao);
+					junZhu.id, dbUe.equipId,currLv, newLv, curExp, curTongli, curMouli, curWuli);
+			ActLog.log.EquipStrength(junZhu.id, junZhu.name, ActLog.vopenid, (int)dbUe.equipId, zhuangbeiCfg.getName(), preLv, newLv, logCaiLiao);
 			// 主线任务：完成一次强化
-			EventMgr.addEvent(ED.QIANG_HUA_FINISH, new Object[]{junZhuId, newLv});
+			EventMgr.addEvent(junZhu.id,ED.QIANG_HUA_FINISH, new Object[]{junZhuId, newLv, junZhu});
 			// 每日任务中记录完成强化装备1次
-			EventMgr.addEvent(ED.DAILY_TASK_PROCESS, 
+			EventMgr.addEvent(junZhu.id,ED.DAILY_TASK_PROCESS, 
 					new DailyTaskCondition(junZhuId, DailyTaskConstants.qianghua_id, 1));
-			// 君主榜刷新 2015-7-25 17:00
-			EventMgr.addEvent(ED.JUN_RANK_REFRESH, junZhu);
 		}
 		EquipStrengthResp.Builder resp = EquipStrengthResp.newBuilder();
 		resp.setEquipId(equipId);
-		resp.setExp(dbUe.getExp());
-		resp.setLevel(dbUe.getLevel());
-		if(dbUe.getLevel() >= zhuangbeiCfg.qianghuaMaxLv){
+		resp.setExp(dbUe.exp);
+		resp.setLevel(dbUe.level);
+		if(dbUe.level >= zhuangbeiCfg.qianghuaMaxLv){
 			resp.setExpMax(-1);
 		}else{
-			resp.setExpMax(expTemps.get(dbUe.getLevel()).getNeedExp());
+			resp.setExpMax(expTemps.get(dbUe.level).needExp);
 		}
 		//计算最大强化数值
 		List<QiangHua> qhConfList = TempletService.qiangHuaMaps.get(zhuangbeiCfg.getQianghuaId());
 		QiangHua qhConf = qhConfList.get(qhConfList.size()-1);
-		resp.setGongJiMax(zhuangbeiCfg.getGongji()+qhConf.getGongji());
-		resp.setFangYuMax(zhuangbeiCfg.getFangyu()+qhConf.getFangyu());
-		resp.setShengMingMax(zhuangbeiCfg.getShengming()+qhConf.getShengming());
+		resp.setGongJiMax(zhuangbeiCfg.gongji+qhConf.gongji);
+		resp.setFangYuMax(zhuangbeiCfg.fangyu+qhConf.fangyu);
+		resp.setShengMingMax(zhuangbeiCfg.getShengming()+qhConf.shengming);
 		QiangHua qianghua = null;
-		if(dbUe.getLevel()>0){
-			qianghua = template.getQiangHua(zhuangbeiCfg.getQianghuaId(), dbUe.getLevel());
+		if(dbUe.level>0){
+			qianghua = template.getQiangHua(zhuangbeiCfg.getQianghuaId(), dbUe.level);
 		}
 		if(qianghua == null){
-			resp.setGongJi(zhuangbeiCfg.getGongji());
-			resp.setFangYu(zhuangbeiCfg.getFangyu());
+			resp.setGongJi(zhuangbeiCfg.gongji);
+			resp.setFangYu(zhuangbeiCfg.fangyu);
 			resp.setShengMing(zhuangbeiCfg.getShengming());
-			log.info("没有强化配置 {} lv {}", zhuangbeiCfg.getId(), dbUe.getLevel());
+			log.info("没有强化配置 {} lv {}", zhuangbeiCfg.getId(), dbUe.level);
 		}else{
-			resp.setGongJi(zhuangbeiCfg.getGongji()+qianghua.getGongji());
-			resp.setFangYu(zhuangbeiCfg.getFangyu()+qianghua.getFangyu());
-			resp.setShengMing(zhuangbeiCfg.getShengming()+qianghua.getShengming());
+			resp.setGongJi(zhuangbeiCfg.gongji+qianghua.gongji);
+			resp.setFangYu(zhuangbeiCfg.fangyu+qianghua.fangyu);
+			resp.setShengMing(zhuangbeiCfg.getShengming()+qianghua.shengming);
 		}
-		if(dbUe.getLevel()<zhuangbeiCfg.getQianghuaMaxLv()){
-			qianghua = template.getQiangHua(zhuangbeiCfg.getQianghuaId(), dbUe.getLevel()+1);
+		if(dbUe.level<zhuangbeiCfg.getQianghuaMaxLv()){
+			qianghua = template.getQiangHua(zhuangbeiCfg.getQianghuaId(), dbUe.level+1);
 			if(qianghua == null){
-				log.error("没有找到 下一级 强化配置 {} lv {}", zhuangbeiCfg.getId(), dbUe.getLevel());
+				log.error("没有找到 下一级 强化配置 {} lv {}", zhuangbeiCfg.getId(), dbUe.level);
 			}
 		}
 		if(qianghua != null){
-			resp.setGongJiAdd(qianghua.getGongji());
-			resp.setFangYuAdd(qianghua.getFangyu());
-			resp.setShengMingAdd(qianghua.getShengming());
+			resp.setGongJiAdd(qianghua.gongji);
+			resp.setFangYuAdd(qianghua.fangyu);
+			resp.setShengMingAdd(qianghua.shengming);
 		}
 		
 		
 		//以下1.0版本改变洗练逻辑
 		if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.wqSH)) {
-			resp.setWqSH(zhuangbeiCfg.getWqSH() + dbUe.getWqSH());
+			resp.setWqSH(zhuangbeiCfg.getWqSH() + dbUe.wqSH);
 		}else{
 			resp.setWqSH(0);
 		}
 		if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.wqJM)) {
-			resp.setWqJM(zhuangbeiCfg.getWqJM() + dbUe.getWqJM());
+			resp.setWqJM(zhuangbeiCfg.getWqJM() + dbUe.wqJM);
 		}else{
 			resp.setWqJM(0);
 		}
 		if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.wqBJ)) {
-			resp.setWqBJ(zhuangbeiCfg.getWqBJ() + dbUe.getWqBJ());
+			resp.setWqBJ(zhuangbeiCfg.getWqBJ() + dbUe.wqBJ);
 		}else{
 			resp.setWqBJ(0);
 		}
 		if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.wqRX)) {
-			resp.setWqRX(zhuangbeiCfg.getWqRX() + dbUe.getWqRX());
+			resp.setWqRX(zhuangbeiCfg.getWqRX() + dbUe.wqRX);
 		}else{
 			resp.setWqRX(0);
 		}
 		if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.jnSH)) {
-			resp.setJnSH(zhuangbeiCfg.getJnSH() + dbUe.getJnSH());
+			resp.setJnSH(zhuangbeiCfg.getJnSH() + dbUe.jnSH);
 		}else{
 			resp.setJnSH(0);
 		}
 		if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.jnJM)) {
-			resp.setJnJM(zhuangbeiCfg.getJnJM() + dbUe.getJnJM());
+			resp.setJnJM(zhuangbeiCfg.getJnJM() + dbUe.jnJM);
 		}else{
 			resp.setJnJM(0);
 		}
 		if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.jnBJ)) {
-			resp.setJnBJ(zhuangbeiCfg.getJnBJ() + dbUe.getJnBJ());
+			resp.setJnBJ(zhuangbeiCfg.getJnBJ() + dbUe.jnBJ);
 		}else{
 			resp.setJnBJ(0);
 		}
 		if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.jnRX)) {
-			resp.setJnRX(zhuangbeiCfg.getJnRX() + dbUe.getJnRX());
+			resp.setJnRX(zhuangbeiCfg.getJnRX() + dbUe.jnRX);
 		}else{
 			resp.setJnRX(0);
 		}
@@ -539,12 +537,10 @@ public class UserEquipService {
 		//返回一键强化信息
 		sendQianhuaInfo4YiJian(junZhuId,session,equips);
 		//主线任务：完成一次强化, 参数定为-1， 在GameTaskMgr中获取一个最大的newLevel作为条件判断
-		EventMgr.addEvent(ED.QIANG_HUA_FINISH, new Object[]{junZhuId, -1});
+		EventMgr.addEvent(junZhu.id,ED.QIANG_HUA_FINISH, new Object[]{junZhuId, -1, junZhu});
 		// 每日任务中记录完成强化装备1次
-		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, 
+		EventMgr.addEvent(junZhu.id,ED.DAILY_TASK_PROCESS, 
 				new DailyTaskCondition(junZhuId, DailyTaskConstants.qianghua_id, 1));
-		// 君主榜刷新 2015-7-25 17:00
-		EventMgr.addEvent(ED.JUN_RANK_REFRESH, junZhu);
 	}
 	
 	/**
@@ -577,8 +573,8 @@ public class UserEquipService {
 				log.error("找不到装备equipId:{}的强化数据instId:{}",  eg.dbId,  eg.instId);
 				continue;
 			}else{
-				curExp=dbUe.getExp();
-				curLevel=dbUe.getLevel();
+				curExp=dbUe.exp;
+				curLevel=dbUe.level;
 			}
 			resp.setEquipId(equipId);
 			resp.setExp(curExp);
@@ -597,29 +593,29 @@ public class UserEquipService {
 						log.error("使用经验ID {}错误，未找到最大经验值ExpMax", expId);
 						resp.setExpMax(Integer.MAX_VALUE);
 					}else{
-						resp.setExpMax(et.getNeedExp());
+						resp.setExpMax(et.needExp);
 					}
 				}
 			}
 			//计算最大强化数值
 			List<QiangHua> qhConfList = TempletService.qiangHuaMaps.get(zhuangbeiCfg.getQianghuaId());
 			QiangHua qhConf = qhConfList.get(qhConfList.size()-1);
-			resp.setGongJiMax(zhuangbeiCfg.getGongji()+qhConf.getGongji());
-			resp.setFangYuMax(zhuangbeiCfg.getFangyu()+qhConf.getFangyu());
-			resp.setShengMingMax(zhuangbeiCfg.getShengming()+qhConf.getShengming());
+			resp.setGongJiMax(zhuangbeiCfg.gongji+qhConf.gongji);
+			resp.setFangYuMax(zhuangbeiCfg.fangyu+qhConf.fangyu);
+			resp.setShengMingMax(zhuangbeiCfg.getShengming()+qhConf.shengming);
 			QiangHua qianghua = null;
 			if(curLevel>0){
 				qianghua = template.getQiangHua(zhuangbeiCfg.getQianghuaId(),curLevel);
 			}
 			if(qianghua == null){
-				resp.setGongJi(zhuangbeiCfg.getGongji());
-				resp.setFangYu(zhuangbeiCfg.getFangyu());
+				resp.setGongJi(zhuangbeiCfg.gongji);
+				resp.setFangYu(zhuangbeiCfg.fangyu);
 				resp.setShengMing(zhuangbeiCfg.getShengming());
 				log.info("没有强化配置 {} lv {}", zhuangbeiCfg.getId(),curLevel);
 			}else{
-				resp.setGongJi(zhuangbeiCfg.getGongji()+qianghua.getGongji());
-				resp.setFangYu(zhuangbeiCfg.getFangyu()+qianghua.getFangyu());
-				resp.setShengMing(zhuangbeiCfg.getShengming()+qianghua.getShengming());
+				resp.setGongJi(zhuangbeiCfg.gongji+qianghua.gongji);
+				resp.setFangYu(zhuangbeiCfg.fangyu+qianghua.fangyu);
+				resp.setShengMing(zhuangbeiCfg.getShengming()+qianghua.shengming);
 			}
 			if(curLevel<zhuangbeiCfg.getQianghuaMaxLv()){
 				qianghua = template.getQiangHua(zhuangbeiCfg.getQianghuaId(),curLevel+1);
@@ -628,49 +624,49 @@ public class UserEquipService {
 				}
 			}
 			if(qianghua != null){
-				resp.setGongJiAdd(qianghua.getGongji());
-				resp.setFangYuAdd(qianghua.getFangyu());
-				resp.setShengMingAdd(qianghua.getShengming());
+				resp.setGongJiAdd(qianghua.gongji);
+				resp.setFangYuAdd(qianghua.fangyu);
+				resp.setShengMingAdd(qianghua.shengming);
 			}
 			
 			//以下1.0版本改变洗练逻辑
 			if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.wqSH)) {
-				resp.setWqSH(zhuangbeiCfg.getWqSH() + dbUe.getWqSH());
+				resp.setWqSH(zhuangbeiCfg.getWqSH() + dbUe.wqSH);
 			}else{
 				resp.setWqSH(0);
 			}
 			if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.wqJM)) {
-				resp.setWqJM(zhuangbeiCfg.getWqJM() + dbUe.getWqJM());
+				resp.setWqJM(zhuangbeiCfg.getWqJM() + dbUe.wqJM);
 			}else{
 				resp.setWqJM(0);
 			}
 			if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.wqBJ)) {
-				resp.setWqBJ(zhuangbeiCfg.getWqBJ() + dbUe.getWqBJ());
+				resp.setWqBJ(zhuangbeiCfg.getWqBJ() + dbUe.wqBJ);
 			}else{
 				resp.setWqBJ(0);
 			}
 			if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.wqRX)) {
-				resp.setWqRX(zhuangbeiCfg.getWqRX() + dbUe.getWqRX());
+				resp.setWqRX(zhuangbeiCfg.getWqRX() + dbUe.wqRX);
 			}else{
 				resp.setWqRX(0);
 			}
 			if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.jnSH)) {
-				resp.setJnSH(zhuangbeiCfg.getJnSH() + dbUe.getJnSH());
+				resp.setJnSH(zhuangbeiCfg.getJnSH() + dbUe.jnSH);
 			}else{
 				resp.setJnSH(0);
 			}
 			if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.jnJM)) {
-				resp.setJnJM(zhuangbeiCfg.getJnJM() + dbUe.getJnJM());
+				resp.setJnJM(zhuangbeiCfg.getJnJM() + dbUe.jnJM);
 			}else{
 				resp.setJnJM(0);
 			}
 			if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.jnBJ)) {
-				resp.setJnBJ(zhuangbeiCfg.getJnBJ() + dbUe.getJnBJ());
+				resp.setJnBJ(zhuangbeiCfg.getJnBJ() + dbUe.jnBJ);
 			}else{
 				resp.setJnBJ(0);
 			}
 			if (UserEquipAction.instance.hasEquipTalent(dbUe,zhuangbeiCfg.getId(),UEConstant.jnRX)) {
-				resp.setJnRX(zhuangbeiCfg.getJnRX() + dbUe.getJnRX());
+				resp.setJnRX(zhuangbeiCfg.getJnRX() + dbUe.jnRX);
 			}else{
 				resp.setJnRX(0);
 			}
@@ -739,14 +735,14 @@ public class UserEquipService {
 				dbUe = HibernateUtil.find(UserEquip.class, eg.instId);
 				if(dbUe == null){
 					dbUe = new UserEquip();
-					dbUe.setUserId(junZhuId);
-					dbUe.setTemplateId(eg.itemId);
+					dbUe.userId = junZhuId;
+					dbUe.templateId = eg.itemId;
 					log.error("找不到装备equipId:{}的强化数据instId:{}",  eg.dbId,  eg.instId);
 				}
 			}else{
 				dbUe = new UserEquip();
-				dbUe.setUserId(junZhuId);
-				dbUe.setTemplateId(eg.itemId);
+				dbUe.userId = junZhuId;
+				dbUe.templateId = eg.itemId;
 			}
 			int needExp = calcNeedExp(equips,dbUe,lowIdx,junZhu.level);
 			if(needExp<=0){
@@ -754,14 +750,14 @@ public class UserEquipService {
 			}
 			Map<Integer, Integer> buweiMap=getBuWeiMap(equips);
 			Object [] param =new Object[] {dbUe,lowIdx,isWuQi,needExp,buweiMap};
-			int curLevel=dbUe.getLevel();
-			int curExp=dbUe.getExp();
+			int curLevel=dbUe.level;
+			int curExp=dbUe.exp;
 			UserEquip dbUeResult=doUpOneEquip(junZhu,equips,bag,param);
 			if(dbUeResult==null){
 				log.error("君主{}一键强化出错，Exception", junZhuId);
 				break;
 			}
-			if(curLevel==dbUeResult.getLevel()&&curExp==dbUeResult.getExp()){
+			if(curLevel==dbUeResult.level&&curExp==dbUeResult.exp){
 				log.info("君主{}一键强化结束，材料耗光，循环次数--{}", junZhuId,100-safeTick);
 				break;
 			}else{
@@ -797,9 +793,9 @@ public class UserEquipService {
 	 */
 	public int calcNeedExp(Bag<EquipGrid> equips, UserEquip dbUe, int lowIdx, int junzhulevel) {
 		int ret=Integer.MAX_VALUE;
-		int currLv=dbUe.getLevel();
+		int currLv=dbUe.level;
 		EquipGrid eg=equips.grids.get(lowIdx);
-		int curExp = dbUe.getExp();
+		int curExp = dbUe.exp;
 		log.info("装备原有经验为 {}", curExp);
 		ZhuangBei zhuangbeiCfg = template.getZhuangBei(eg.itemId);
 		if(zhuangbeiCfg == null){
@@ -823,7 +819,7 @@ public class UserEquipService {
 		int needExp = 0;//所需的最大经验值
 		for (int i = currLv; i < currLv+1; i++) {
 			ExpTemp	expTemp = expTemps.get(i);
-			needExp += expTemp.getNeedExp();
+			needExp += expTemp.needExp;
 		}
 		needExp -= curExp;
 		log.info("所需的最大经验值==={}",needExp);
@@ -857,8 +853,8 @@ public class UserEquipService {
 		int needExp=(Integer) param[3];
 		int junzhulevel=junZhu.level;
 		long targetInstId = target.instId; //等于UserEquip的主键equipId
-		int curExp = dbUe.getExp();
-		int currLv = dbUe.getLevel();
+		int curExp = dbUe.exp;
+		int currLv = dbUe.level;
 		//2015年9月18日 低级装备只能吞噬同级以及以下的装备
 		//进阶材料/装备的品质  小于  对应部位 穿戴的装备品质，可以吃
 		int curPinzhi=zhuangbeiCfg.pinZhi;
@@ -922,8 +918,8 @@ public class UserEquipService {
 					// 暂时这个版本先不考虑一并扣除，等策划确定需要这需求再做处理
 					if(needExp>0){
 						canUseCount++;
-						needExp-=it.getEffectId();
-						curExp+=it.getEffectId();
+						needExp-=it.effectId;
+						curExp+=it.effectId;
 					}else{
 						break;
 					}
@@ -931,7 +927,7 @@ public class UserEquipService {
 				log.info("物品id=={}可消耗物品个数为{}",bagGrid.itemId,canUseCount);
 				bagGrid.cnt -= canUseCount;
 				log.info("强化材料使用成功,[{}]使用强化材料{} x {} 获得经验{},剩余个数{},还需要的经验为{}",
-						junZhuId,it.getId(),canUseCount,canUseCount*it.getEffectId(),bagGrid.cnt,needExp);
+						junZhuId,it.getId(),canUseCount,canUseCount*it.effectId,bagGrid.cnt,needExp);
 				HibernateUtil.save(bagGrid);
 			}else{
 				// 使用的武器强化，可获得的经验数
@@ -947,9 +943,9 @@ public class UserEquipService {
 					// FIXME 武器是否强化过，计算数值不对，应把之前等级所耗掉的经验都加上 把消耗的武器身上的强化经验加到现有武器上
 					UserEquip mUe = HibernateUtil.find(UserEquip.class, bagGrid.instId);
 					if(mUe != null){
-						curExp += mUe.getExp();
+						curExp += mUe.exp;
 						//洗练继承操作 （还要考虑有损继承）
-						log.info("材料之前强化经验{}，洗练统力{}，谋力{}，武力{}",mUe.getExp(),mUe.getTongli(), mUe.getMouli(), mUe.getWuli());
+						log.info("材料之前强化经验{}，洗练统力{}，谋力{}，武力{}",mUe.exp,mUe.tongli, mUe.mouli, mUe.wuli);
 						HibernateUtil.delete(mUe);
 					}else{
 						log.warn("之前强化信息未找到{}",bagGrid.instId);
@@ -962,9 +958,9 @@ public class UserEquipService {
 		}
 
 
-		int newLv = dbUe.getLevel();
+		int newLv = dbUe.level;
 		while(curExp > 0){
-			int upNeed = expTemps.get(newLv).getNeedExp();
+			int upNeed = expTemps.get(newLv).needExp;
 			if(upNeed<=0){
 				// FIXME 假如经验，满级后能否进行强化
 				upNeed = 10 * newLv+1;
@@ -982,17 +978,17 @@ public class UserEquipService {
 			newLv++;
 			curExp -= upNeed;
 			if(newLv>90){
-				log.info("君主--{}装备UserEquip--equipId---{}等级--{}  超过90级 进行一键强化中",junZhuId,dbUe.getEquiped(),newLv);	
+				log.info("君主--{}装备UserEquip--equipId---{}等级--{}  超过90级 进行一键强化中",junZhuId,dbUe.equipId,newLv);	
 			}
 			if(newLv>(expTemps.size()-1)){//2015年9月17日 1.0expTempsl里面的参数从0开始计算  ExpTemp只有100级
 				newLv=expTemps.size()-1;
-				log.info("君主--{}装备UserEquip--equipId---{}已达到最大等级",junZhuId,dbUe.getEquiped());
+				log.info("君主--{}装备UserEquip--equipId---{}已达到最大等级",junZhuId,dbUe.equipId);
 				break;
 			}
 		}
 
-		dbUe.setExp(curExp);
-		dbUe.setLevel(newLv);
+		dbUe.exp = curExp;
+		dbUe.level = newLv;
 		if(targetInstId<=0){
 			HibernateUtil.insert(dbUe);
 			MC.add(dbUe, dbUe.getIdentifier());
@@ -1004,7 +1000,7 @@ public class UserEquipService {
 		}else{
 			HibernateUtil.save(dbUe);
 		}
-		log.info("装备强化成功,junzhuId:{},强化装备-dbUe.equipId:{},由LV:{}升级至 LV:{} exp {}",junZhu.id, dbUe.getEquipId(),currLv, newLv, curExp);
+		log.info("装备强化成功,junzhuId:{},强化装备-dbUe.equipId:{},由LV:{}升级至 LV:{} exp {}",junZhu.id, dbUe.equipId,currLv, newLv, curExp);
 		//TODO 强化日志
 		return dbUe;
 	}
@@ -1100,7 +1096,7 @@ public class UserEquipService {
 				lowLevel = 0;
 				ExpTemp qhExp = TempletService.getInstance().getExpTemp(t.expId, 0);
 				if(qhExp == null)continue;
-				int needExp = qhExp.getNeedExp();
+				int needExp = qhExp.needExp;
 				if(needExp < lowNeedExp){
 					ret = i;
 					lowNeedExp = needExp ;
@@ -1118,19 +1114,19 @@ public class UserEquipService {
 				log.error("强化信息丢失 {}", eg.instId);
 				continue;
 			}
-			if(ue.getLevel()>=junZhu.level){
+			if(ue.level>=junZhu.level){
 				continue;
 			}
 			//判断等级最低
-			ExpTemp qhExp = TempletService.getInstance().getExpTemp(t.expId, ue.getLevel());
+			ExpTemp qhExp = TempletService.getInstance().getExpTemp(t.expId, ue.level);
 			if(qhExp == null)continue ;
-			int needExp = qhExp.getNeedExp() - ue.getExp();
-			if(ue.getLevel()<lowLevel){
+			int needExp = qhExp.needExp - ue.exp;
+			if(ue.level<lowLevel){
 				ret = i;
-				lowLevel = ue.getLevel();
+				lowLevel = ue.level;
 				lowNeedExp = needExp ;
 				minBuWei = t.buWei;
-			}else if(ue.getLevel()==lowLevel){//强化等级相同，判断经验
+			}else if(ue.level ==lowLevel){//强化等级相同，判断经验
 				if( needExp < lowNeedExp){
 					ret = i;
 					lowNeedExp = needExp ;
@@ -1262,7 +1258,7 @@ public class UserEquipService {
 					for (int i = 0; i < cnt; i++) {
 						// TODO 这里是为了控制消耗的材料总经验超过所需最大经验，减少扣除的材料数量。
 						// 暂时这个版本先不考虑一并扣除，等策划确定需要这需求再做处理
-						produceExp += it.getEffectId();
+						produceExp += it.effectId;
 					}
 				}else{
 					log.warn("强化材料没有找到:"+bagGrid.itemId+"不是强化材料");
@@ -1275,7 +1271,7 @@ public class UserEquipService {
 					// FIXME 武器是否强化过，计算数值不对，应把之前等级所耗掉的经验都加上
 					UserEquip mUe = HibernateUtil.find(UserEquip.class, bagGrid.instId);
 					if(mUe != null){
-						produceExp += mUe.getExp();
+						produceExp += mUe.exp;
 						// TODO 洗练继承操作 （还要考虑有损继承）
 //						log.info("材料之前强化经验{}，洗练统力{}，谋力{}，武力{}",mUe.getExp(),mUe.getTongli(), mUe.getMouli(), mUe.getWuli());
 					}else{
@@ -1288,7 +1284,7 @@ public class UserEquipService {
 	}
 	
 	
-	protected void addLogJsonCaiLiao(JSONArray logCaiLiao, int id, int canUseCount) {
+	public void addLogJsonCaiLiao(JSONArray logCaiLiao, int id, int canUseCount) {
 		JSONObject o = new JSONObject();
 		o.put("name", id);
 		o.put("num", canUseCount);
@@ -1302,7 +1298,7 @@ public class UserEquipService {
 		int size = expTemps.size() - 1;//最后一个不检查
 		for(int i=0; i<size; i++){
 			ExpTemp e = expTemps.get(i);
-			if(e.getNeedExp()<=0){
+			if(e.needExp<=0){
 				return true;
 			}
 		}
@@ -1335,24 +1331,24 @@ public class UserEquipService {
 //		TempletService template = TempletService.getInstance();
 		int[] effect = new int[6];
 
-		int templateId = userEquip.getTemplateId();
+		int templateId = userEquip.templateId;
 		ZhuangBei zhuangbeiTemp = template.getZhuangBei(templateId);
 		// 基础效果
-		effect[0] = zhuangbeiTemp.getGongji();
-		effect[1] = zhuangbeiTemp.getFangyu();
+		effect[0] = zhuangbeiTemp.gongji;
+		effect[1] = zhuangbeiTemp.fangyu;
 		effect[2] = zhuangbeiTemp.getShengming();
 		//加洗练效果
-		effect[3] = zhuangbeiTemp.getTongli() + userEquip.getTongli();
-		effect[4] = zhuangbeiTemp.getWuli() + userEquip.getWuli();
-		effect[5] = zhuangbeiTemp.getMouli() + userEquip.getMouli();
+		effect[3] = zhuangbeiTemp.getTongli() + userEquip.tongli;
+		effect[4] = zhuangbeiTemp.getWuli() + userEquip.wuli;
+		effect[5] = zhuangbeiTemp.getMouli() + userEquip.mouli;
 		// 强化效果
-		int lv = userEquip.getLevel();
+		int lv = userEquip.level;
 		if (lv > 0) {
 			int qianghuaId = zhuangbeiTemp.getQianghuaId();
 			QiangHua qianghua = template.getQiangHua(qianghuaId, lv);
-			effect[0] = effect[0] + qianghua.getGongji();
-			effect[1] = effect[1] + qianghua.getFangyu();
-			effect[2] = effect[2] + qianghua.getShengming();
+			effect[0] = effect[0] + qianghua.gongji;
+			effect[1] = effect[1] + qianghua.fangyu;
+			effect[2] = effect[2] + qianghua.shengming;
 		}
 
 		return effect;

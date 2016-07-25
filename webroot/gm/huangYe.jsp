@@ -16,7 +16,6 @@
 <%@page import="com.qx.account.FunctionOpenMgr"%>
 <%@page import="com.qx.robot.RobotSession"%>
 <%@page import="com.manu.network.SessionAttKey"%>
-<%@page import="com.manu.network.SessionAttKey"%>
 <%@page import="com.manu.network.SessionUser"%>
 <%@page import="com.manu.network.SessionManager"%>
 <%@page import="com.manu.network.PD"%>
@@ -297,7 +296,7 @@ junid =request.getParameter("junzhuID");
             session.setAttribute("jac", accountN);
               Account ac  = HibernateUtil.getAccount(accountN);
               if(ac!=null){
-                 jz = HibernateUtil.find(JunZhu.class, ac.getAccountId() * 1000 + GameServer.serverId);
+                 jz = HibernateUtil.find(JunZhu.class, ac.accountId * 1000 + GameServer.serverId);
                 if(jz != null) session.setAttribute("junzhu2", jz);
               }
           }

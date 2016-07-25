@@ -72,9 +72,9 @@
 					return null;
 				}
 			};
-			fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account.getAccountId()*1000+GameServer.serverId));
+			fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account.accountId*1000+GameServer.serverId));
 			AddFriendReq.Builder builder = AddFriendReq.newBuilder();
-			builder.setJunzhuId(addAccount.getAccountId()*1000+GameServer.serverId);
+			builder.setJunzhuId(addAccount.accountId*1000+GameServer.serverId);
 			synchronized(fs){
 				BigSwitch.inst.route(PD.C_FRIEND_ADD_REQ, builder, fs);
 			//	fs.wait();
@@ -151,7 +151,7 @@
 	if(name != null && name.length()>0){
 		account = HibernateUtil.getAccount(name);
 		if(account!=null){
-			ownerid = ""+(account.getAccountId()*1000+GameServer.serverId);
+			ownerid = ""+(account.accountId*1000+GameServer.serverId);
 		}
 	}else if(ownerid != null && ownerid.length()>0){
 		account = HibernateUtil.find(Account.class, (Long.valueOf(ownerid) - GameServer.serverId) / 1000);
@@ -159,10 +159,10 @@
 	if(account == null){
 		%><p>没有找到账号</p><%
 	}else if(pageNo != null && pageNo.length()>0&&pageSize != null || pageSize.length()>0){ 
-		%>账号<%=ownerid%>:<%=account.getAccountName()%>
+		%>账号<%=ownerid%>:<%=account.accountName%>
 		<% 
 		session.setAttribute("name", name);
-		long junzhuId = account.getAccountId()* 1000 + GameServer.serverId;
+		long junzhuId = account.accountId* 1000 + GameServer.serverId;
 		JunZhu junzhu = HibernateUtil.find(JunZhu.class, junzhuId);
 		if(junzhu == null){
 			out.append("没有君主");

@@ -77,6 +77,7 @@
 <a href="gm/versionNotice.jsp" target='target'>获取版本公告</a><br/>
 <a href="dataConf/setKeFuInfo.jsp" target='target'>QQ客服常见问题</a><br/>
 <a href="gm/countNewUser.jsp" target='target'>统计登录用户的注册信息</a><br/>
+<a href="gm/countJunZhuPveInfo.jsp" target='target'>计算并保存君主过关信息</a><br/>
  <br/>以下是老版本相关----<br/>
 <a href="gm/addWuJiang.jsp" target='target'>添加武将</a><br/>
 <a href="gm/showWuJiangInfo.jsp" target='target'>武将信息</a><br/>

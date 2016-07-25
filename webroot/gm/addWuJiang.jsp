@@ -90,8 +90,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    		      	     		      	     	  		out.append("没有对应的heroGrow,请确认id<br>");
    		      	     		      	     	  	}else{
    		      	     		      	     	  	
-   		      	     		      	     	  	long junZhuId = account.getAccountId() * 1000 + GameServer.serverId ;
-   		      	     		      	     	  	int heroId = heroGrow.getHeroId();
+   		      	     		      	     	  	long junZhuId = account.accountId * 1000 + GameServer.serverId ;
+   		      	     		      	     	  	int heroId = heroGrow.heroId;
    		      	     		      	     	  	//不管输入哪个星级的heroGrow，只给它0级的那个。
    		      	     		      	     	List<HeroGrow> list = HeroMgr.heroId2HeroGrow.get(heroId);
    		      	     		      	     	heroGrow = list.get(0);
@@ -121,16 +121,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	out.append("</tr>");
 	int lastHeroId = 0;
 	for(HeroGrow t : list2){
-		if(t.getId()<31000)continue;
-		if(t.getHeroId() == lastHeroId){
+		if(t.id<31000)continue;
+		if(t.heroId == lastHeroId){
 			continue;
 		}
-		lastHeroId = t.getHeroId();
-		HeroProtoType proto = HeroMgr.id2Hero.get(t.getHeroId());
+		lastHeroId = t.heroId;
+		HeroProtoType proto = HeroMgr.id2Hero.get(t.heroId);
 		out.append("<tr>");
-		out.append("<td>");		out.println(t.getId());		out.append("</td>");
+		out.append("<td>");		out.println(t.id);		out.append("</td>");
 		out.append("<td>");		out.println(HeroService.getNameById(proto.getName()));	out.append("</td>");
-		out.append("<td>");		out.println(t.getHeroId());		out.append("</td>");
+		out.append("<td>");		out.println(t.heroId);		out.append("</td>");
 		out.append("<tr>");
 	}
 	out.append("</table>");

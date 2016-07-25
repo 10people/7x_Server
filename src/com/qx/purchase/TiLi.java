@@ -15,31 +15,13 @@ public class TiLi implements MCSupport {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8779102259388395353L;
+	public static final long serialVersionUID = 8779102259388395353L;
 	
 	@Id
 	@Column(name = "db_id", unique = true, nullable = false)
-	private long dbId;
-	private Date date;
-	private int num;
-	public long getDbId() {
-		return dbId;
-	}
-	public void setDbId(long dbId) {
-		this.dbId = dbId;
-	}
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	public int getNum() {
-		return num;
-	}
-	public void setNum(int num) {
-		this.num = num;
-	}
+	public long dbId;
+	public Date date;
+	public int num;
 	@Override
 	public long getIdentifier() {
 		return dbId;

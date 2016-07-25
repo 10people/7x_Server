@@ -121,7 +121,7 @@ public class ED {
 	
 	/**排行榜刷新事件**/
 	// 君主榜刷新事件
-	public static final int JUN_RANK_REFRESH = 10147;
+//	public static final int JUN_RANK_REFRESH = 10147;
 	// 联盟榜刷新事件
 	public static final int LIANMENG_RANK_REFRESH = 10148;
 	// 百战榜刷新事件

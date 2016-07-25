@@ -1,3 +1,5 @@
+<%@page import="java.util.LinkedList"%>
+<%@page import="com.qx.pve.PveRecord"%>
 <%@page import="com.manu.network.SessionManager"%>
 <%@page import="com.manu.network.SessionUser"%>
 <%@page import="qxmobile.protobuf.GameTask.GetTaskReward"%>
@@ -56,6 +58,36 @@ function go(act, id, type){
 </head>
 <body>
 	<%
+	
+String action = request.getParameter("action");
+	
+	if("fixTask".equals(action)) {
+		out("111111111111111111111");
+		String jzIdStr = request.getParameter("fixjzId").trim();
+		if(jzIdStr != null && jzIdStr.length() != 0 ){
+			List<WorkTaskBean> taskList = HibernateUtil.list(WorkTaskBean.class, "where jzid = " + jzIdStr );
+			out(jzIdStr);
+			for(WorkTaskBean bean : taskList){
+				ZhuXian zx = GameTaskMgr.inst.zhuxianTaskMap.get(bean.tid);
+				if(zx.doneType == 2 && bean.progress != -1){
+					out("找到任务"+bean.tid +"需求关卡："+zx.doneCond);
+					PveRecord pr = HibernateUtil.find(PveRecord.class, 
+							"where guanQiaId = " + zx.doneCond +" and uid = " + bean.jzid);
+					if (pr != null ){
+						out("找到关卡记录"+pr.guanQiaId);
+						GameTaskMgr.inst.dealTask(bean.jzid , bean, (short)0, zx);
+						IoSession jzsession = SessionManager.inst.findByJunZhuId(bean.jzid);
+						if(jzsession != null ){
+							out("更新任务记录");
+							GameTaskMgr.inst.sendTaskList(0, jzsession, null);
+						}
+					}
+				}
+			}
+		}
+	}else if("remove".equals(action)){
+		GameTaskMgr.GameTaskCache.clear();
+	}
 		String name = request.getParameter("account");
 			name = name == null ? "" : name;
 			if (session.getAttribute("name") != null && name.length() == 0) {
@@ -73,7 +105,7 @@ function go(act, id, type){
 		//HibernateUtil.saveAccount(name);
 		} else {
 			session.setAttribute("name", name);
-	%>账号<%=account.getAccountId()%>:<%=account.getAccountName()%>
+	%>账号<%=account.accountId%>:<%=account.accountName%>
 	<form action="?action=addBean" method="POST">
 		任务模板ID<input type="text" name="tid"/>
 		<button type="submit" name="" >添加</button>
@@ -82,36 +114,41 @@ function go(act, id, type){
 		<input type="hidden" name="action" value="fix">
 		<button type="submit" name="" >修复任务完成记录</button>
 	</form>
+	<form action="">
+		<input type="hidden" name="action" value="remove">
+		<button type="submit" name="" >清除任务缓存</button>
+	</form>
 	<%
-	long jid = account.getAccountId()*1000+GameServer.serverId;
+	
+	
+	long jid = account.accountId*1000+GameServer.serverId;
 		JunZhu junzhu = HibernateUtil.find(JunZhu.class, jid);
 			if (junzhu == null) {
 				out.println("没有君主");
 			} else {
-				long start = junzhu.id*100;
-				long end = start + 100;
 				if (junzhu.level == 0 || junzhu.shengMingMax == 0) {
 					JunZhuMgr.inst.fixCreateJunZhu((int)junzhu.id, junzhu.name, junzhu.roleId, junzhu.guoJiaId);
 				}
-				String action = request.getParameter("action");
+				action = request.getParameter("action");
 				
 				if ("addBean".equals(action)) {
 					String v = request.getParameter("tid");
 					if(v != null & v.length()>0){
-						List<WorkTaskBean> list = HibernateUtil.list(WorkTaskBean.class, 
-								"where jzId>="+junzhu.id);
-						WorkTaskBean b = new WorkTaskBean();
-						//b.dbId = junzhu.id*100 + list.size();
-						b.jzid = junzhu.id;
-						b.tid = Integer.valueOf(v);
-						b.progress = 0;
-						HibernateUtil.save(b);
+						int taskId = Integer.valueOf(v);
+						ZhuXian zx = GameTaskMgr.inst.zhuxianTaskMap.get(taskId);
+						GameTaskMgr.inst.addTask(junzhu.id, taskId, zx);
 						IoSession ss = AccountManager.getIoSession(junzhu.id);
 						if(ss != null)GameTaskMgr.inst.sendTaskList(0, ss, null);
 					}
 				} else if("delete".equals(action)) {
 					WorkTaskBean o = HibernateUtil.find(WorkTaskBean.class, " where dbId="+request.getParameter("dbId"));
-					out("啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊竟然删除了！！！！");out(o.tid);
+					List<WorkTaskBean> taskList =  GameTaskMgr.GameTaskCache.get(junzhu.id);
+					if(taskList != null ){
+						out.print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+						if(taskList.remove(o)){
+							out.print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+						};
+					}
 					HibernateUtil.delete(o);
 				} else if("addProg".equals(action)) {
 					//领奖
@@ -120,14 +157,15 @@ function go(act, id, type){
 			        	int taskId = taskBean.tid;
 			        	GetTaskReward.Builder req = GetTaskReward.newBuilder();
 			        	req.setTaskId(taskId);
-			        	SessionUser su = SessionManager.inst.findByJunZhuId(junzhu.id);
-						if(su != null){
-							GameTaskMgr.inst.getReward(0, su.session, req);
+			        	IoSession jzSession = SessionManager.inst.findByJunZhuId(junzhu.id);
+						if(jzSession != null){
+							GameTaskMgr.inst.getReward(0,jzSession, req);
 						}
 			        }
 			        
 				} else if("subProg".equals(action)) {
-					WorkTaskBean o = HibernateUtil.find(WorkTaskBean.class, " where dbId="+request.getParameter("dbId"));
+					String tidStr = request.getParameter("dbId");
+					WorkTaskBean o = GameTaskMgr.inst.getTask(jid, Integer.parseInt(tidStr));
 					if(o!=null)
 					{
 						ZhuXian task = GameTaskMgr.inst.zhuxianTaskMap.get(o.tid);
@@ -138,35 +176,87 @@ function go(act, id, type){
 					IoSession ss = AccountManager.getIoSession(junzhu.id);
 					if(ss != null)GameTaskMgr.inst.sendTaskList(0, ss, null);
 				} else if("fix".equals(action)) {
-					Object mcV = MemcachedCRUD.getMemCachedClient().get("RenWuOverId#"+junzhu.id);
-					Object AwardRenWuOverId = MemcachedCRUD.getMemCachedClient().get("AwardRenWuOverId#"+junzhu.id);
-					if(mcV != null && AwardRenWuOverId != null){
-						junzhu.maxTaskOverId = Integer.parseInt((String)mcV);
-						junzhu.maxTaskAwardId = Integer.parseInt((String)AwardRenWuOverId);
-						HibernateUtil.save(junzhu);
-						out("啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊，任务记录已经修复");
-						br();
-						MemcachedCRUD.getMemCachedClient().delete("RenWuOverId#"+junzhu.id);
-						MemcachedCRUD.getMemCachedClient().delete("AwardRenWuOverId#"+junzhu.id);
-					}
+				//	Object mcV = MemcachedCRUD.getMemCachedClient().get("RenWuOverId#"+junzhu.id);
+				//	Object AwardRenWuOverId = MemcachedCRUD.getMemCachedClient().get("AwardRenWuOverId#"+junzhu.id);
+				//	if(mcV != null && AwardRenWuOverId != null){
+				//		junzhu.maxTaskOverId = Integer.parseInt((String)mcV);
+				//		junzhu.maxTaskAwardId = Integer.parseInt((String)AwardRenWuOverId);
+				//		HibernateUtil.save(junzhu);
+				//		out("啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊，任务记录已经修复");
+				//		br();
+				//		MemcachedCRUD.getMemCachedClient().delete("RenWuOverId#"+junzhu.id);
+				//		MemcachedCRUD.getMemCachedClient().delete("AwardRenWuOverId#"+junzhu.id);
+				//	}
 				}else if("fixall".equals(action)) {
-					Date begin = new Date();
-					List<JunZhu> allJunZhu = HibernateUtil.list(JunZhu.class, "");
-					for(JunZhu junZhu : allJunZhu ){
-						Object mcV = MemcachedCRUD.getMemCachedClient().get("RenWuOverId#"+junZhu.id);
-						Object AwardRenWuOverId = MemcachedCRUD.getMemCachedClient().get("AwardRenWuOverId#"+junZhu.id);
-						if(mcV != null && AwardRenWuOverId != null){
-							junzhu.maxTaskOverId = Integer.parseInt((String)mcV);
-							junzhu.maxTaskAwardId = Integer.parseInt((String)AwardRenWuOverId);
-							HibernateUtil.save(junZhu);
-							br();
-							MemcachedCRUD.getMemCachedClient().delete("RenWuOverId#"+junZhu.id);
-							MemcachedCRUD.getMemCachedClient().delete("AwardRenWuOverId#"+junZhu.id);
+				//	Date begin = new Date();
+				//	List<JunZhu> allJunZhu = HibernateUtil.list(JunZhu.class, "");
+				//	for(JunZhu junZhu : allJunZhu ){
+				//		Object mcV = MemcachedCRUD.getMemCachedClient().get("RenWuOverId#"+junZhu.id);
+				//		Object AwardRenWuOverId = MemcachedCRUD.getMemCachedClient().get("AwardRenWuOverId#"+junZhu.id);
+				//		if(mcV != null && AwardRenWuOverId != null){
+				//			junzhu.maxTaskOverId = Integer.parseInt((String)mcV);
+				//			junzhu.maxTaskAwardId = Integer.parseInt((String)AwardRenWuOverId);
+				//			HibernateUtil.save(junZhu);
+				//			br();
+				//			MemcachedCRUD.getMemCachedClient().delete("RenWuOverId#"+junZhu.id);
+				//			MemcachedCRUD.getMemCachedClient().delete("AwardRenWuOverId#"+junZhu.id);
+				//		}
+				//	}
+				//	Date over = new Date();
+				//	int time =(int)(over.getTime() - begin.getTime())/1000;
+				//	out("所有人的任务都已修复，共耗时" + time + "秒");
+				}else if("fixTask".equals(action)) {
+					out("11111111");
+					String jzIdStr = request.getParameter("fixjzId").trim();
+					if(jzIdStr != null && jzIdStr.length() != 0 ){
+						List<WorkTaskBean> taskList = HibernateUtil.list(WorkTaskBean.class, "where jzid = " + jzIdStr );
+						out(jzIdStr);
+						for(WorkTaskBean bean : taskList){
+							ZhuXian zx = GameTaskMgr.inst.zhuxianTaskMap.get(bean.tid);
+							if(zx.doneType == 2 && bean.progress != -1){
+								out("找到任务"+bean.tid +"需求关卡："+zx.doneCond);
+								PveRecord pr = HibernateUtil.find(PveRecord.class, 
+										"where guanQiaId = " + zx.doneCond +" and uid = " + bean.jzid);
+								if (pr != null ){
+									out("找到关卡记录"+pr.guanQiaId);
+									GameTaskMgr.inst.dealTask(jid, bean, (short)0, zx);
+									IoSession jzSession = SessionManager.inst.findByJunZhuId(bean.jzid);
+									if(jzSession != null){
+										out("更新任务记录");
+										GameTaskMgr.inst.sendTaskList(0, jzSession, null);
+									}
+								}
+							}
 						}
 					}
-					Date over = new Date();
-					int time =(int)(over.getTime() - begin.getTime())/1000;
-					out("所有人的任务都已修复，共耗时" + time + "秒");
+				}else if("getName".equals(action)) {
+					List<JunZhu> nameList = new LinkedList<JunZhu>();
+					List<WorkTaskBean> taskList = HibernateUtil.list(WorkTaskBean.class, "");
+					for(WorkTaskBean bean : taskList){
+						ZhuXian zx = GameTaskMgr.inst.zhuxianTaskMap.get(bean.tid);
+						if(zx.doneType == 2 && bean.progress != -1){
+							PveRecord pr = HibernateUtil.find(PveRecord.class, 
+									"where guanQiaId = " + zx.doneCond +" and uid = " + bean.jzid);
+							if (pr != null ){
+								JunZhu jz = HibernateUtil.find(JunZhu.class, bean.jzid);
+								if(jz != null ){
+									nameList.add(jz);
+								}
+								
+								
+							//	bean.progress = -1 ;
+							//	HibernateUtil.save(bean);
+							//	SessionUser su = SessionManager.inst.findByJunZhuId(bean.jzid);
+							//	if(su != null && su.session != null ){
+							//		GameTaskMgr.inst.sendTaskList(0, su.session, null);
+							//	}
+							}
+						}
+					}
+					for(JunZhu jz : nameList){
+						out("君主ID："+jz.id+"   君主名字："+jz.name);
+						br();
+					}
 				}
 				JunZhuMgr.inst.calcJunZhuTotalAtt(junzhu);
 				out.println("&nbsp;君主id：" + junzhu.id);
@@ -175,11 +265,11 @@ function go(act, id, type){
 				//
 				br();
 				
-				out("缓存中已《完成》任务最大次序号RenWuOverId:"+junzhu.maxTaskOverId);
-				br();
+			//	out("缓存中已《完成》任务最大次序号RenWuOverId:"+junzhu.maxTaskOverId);
+			//	br();
 				
-				out("缓存中已《领奖》任务最大次序号AwardRenWuOverId:"+junzhu.maxTaskAwardId);
-				br();
+			//	out("缓存中已《领奖》任务最大次序号AwardRenWuOverId:"+junzhu.maxTaskAwardId);
+			//	br();
 				//
 				out.append("<table border='1'>");
 				out.append("<tr>");
@@ -205,9 +295,9 @@ function go(act, id, type){
 					out.append("<td>"+bean.dbId+"</td>");		
 					out.append("<td>"+bean.tid+"</td>");	
 					ZhuXian t = GameTaskMgr.inst.zhuxianTaskMap.get(bean.tid);
-					out.append("<td>"+(t==null ? "not found":t.getTitle())+"</td>");		
+					out.append("<td>"+(t==null ? "not found":t.title)+"</td>");		
 					out.append("<td>"+(bean.progress == 0? "未完成" : bean.progress == -1 ?"已完成":"已领奖")+"</td>");
-					out.append("<td>&nbsp;<a href='?action=subProg&dbId="+bean.dbId+"'>完成任务</a>&nbsp;<a href='?action=addProg&dbId="+bean.dbId+"'>领奖</a></td>");
+					out.append("<td>&nbsp;<a href='?action=subProg&dbId="+bean.tid+"'>完成任务</a>&nbsp;<a href='?action=addProg&dbId="+bean.dbId+"'>领奖</a></td>");
 					out.append("<td><a href='?action=delete&dbId="+bean.dbId+"'>删除</a></td>");
 					out.append("<tr>\n");
 				}
@@ -228,14 +318,22 @@ function go(act, id, type){
 		out.append("<tr>");
 		out.append("<td>");		out.println(t.getId());	out.append("</td>");
 		out.append("<td>");		out.println(t.orderIdx);	out.append("</td>");
-		out.append("<td>");		out.println(t.getTitle());		out.append("</td>");
+		out.append("<td>");		out.println(t.title);		out.append("</td>");
 		out.append("<tr>");
 	}
 	out.append("</table>");
 	 %>
-	 <form action="">
-		<input type="hidden" name="action" value="fixall">
-		<button type="submit" name="" >修复所有任务完成记录</button>可能会巨卡，不要乱点！！！！！！！！！
+	
+	<form action="">
+		<input type="text" name="fixjzId" value="">
+		<input type="hidden" name="action" value="fixTask">
+		<button type="submit" name="" >修复任务</button>
 	</form>
+	<br>
+	<form action="">
+		<input type="hidden" name="action" value="getName">
+		<button type="submit" name="" >获取错误账号</button>
+	</form>
+	
 </body>
 </html>

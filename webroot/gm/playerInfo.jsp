@@ -45,7 +45,6 @@
 <%@page import="com.qx.alliance.AlliancePlayer"%>
 <%@page import="qxmobile.protobuf.TimeWorkerProtos.TimeWorkerResponse"%>
 <%@page import="com.manu.dynasty.boot.GameServer"%>
-<%@page import="com.manu.dynasty.hero.service.HeroService"%>
 <%@page import="com.qx.purchase.PurchaseMgr"%>
 <%@page import="com.qx.alliance.AllianceMgr"%>
 <%@page import="com.qx.account.SettingsMgr"%>
@@ -89,16 +88,16 @@ name = name == null ? "": name.trim();
 		account = HibernateUtil.getAccount(name);
 	}else if(accIdStr.length()>0){
 		account = HibernateUtil.find(Account.class, (Long.valueOf(accIdStr) - GameServer.serverId) / 1000);
-		if(account != null)name = account.getAccountName();
+		if(account != null)name = account.accountName;
 		
 	}
 do{
 	long junZhuId = 0;
 	if(account != null){
 		session.setAttribute("name", name);
-		out("账号");out(account.getAccountId());out("：");out(account.getAccountName());
-		out("密码：");out(account.getAccountPwd());
-		junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+		out("账号");out(account.accountId);out("：");out(account.accountName);
+		out("密码：");out(account.accountPwd);
+		junZhuId = account.accountId * 1000 + GameServer.serverId;
 	}else if(accIdStr.matches("\\d+")){
 		junZhuId = Long.parseLong(accIdStr);
 	}else{
@@ -176,14 +175,14 @@ do{
 	 }else if("updateXilianCount".equals(action)){
 		 XiLian xilian = PurchaseMgr.inst.getXiLian(junzhu.id);
 		 int num = Integer.parseInt(request.getParameter("v"));
-		 xilian.setNum(num);
-		 xilian.setDate(new Date());
+		 xilian.num = num;
+		 xilian.date = new Date();
 		 HibernateUtil.save(xilian);
 	 }else if("updateXilianShiCount".equals(action)){
 		 XiLian xilian = PurchaseMgr.inst.getXiLian(junzhu.id);
 		 int num = Integer.parseInt(request.getParameter("v"));
-		 xilian.setXlsCount(num);
-		 xilian.setDate(new Date());
+		 xilian.xlsCount = num;
+		 xilian.date = new Date();
 		 HibernateUtil.save(xilian);
 		 
 	 } 
@@ -223,7 +222,7 @@ do{
 		 TongBi tongBi = HibernateUtil.find(TongBi.class, junzhu.id);
 		 if(tongBi != null) {
 			 int v = Integer.parseInt(request.getParameter("v"));
-			 tongBi.setNum(v);
+			 tongBi.num = v;
 		 }
 		 HibernateUtil.save(tongBi);
 	 } 
@@ -231,17 +230,17 @@ do{
 		 TimeWorker xilianWorker = HibernateUtil.find(TimeWorker.class,junzhu.id);
 	if (xilianWorker == null) {
 		xilianWorker = new TimeWorker();
-		xilianWorker.setJunzhuId(junzhu.id);
+		xilianWorker.junzhuId = junzhu.id;
 		Date date = new Date(System.currentTimeMillis());
-		xilianWorker.setLastAddTiliTime(date);
-		xilianWorker.setLastAddXilianTime(date);
-		xilianWorker.setXilianTimes(CanShu.FREE_XILIAN_TIMES_MAX);
+		xilianWorker.lastAddTiliTime = date;
+		xilianWorker.lastAddXilianTime = date;
+		xilianWorker.xilianTimes = CanShu.FREE_XILIAN_TIMES_MAX;
 		// 添加缓存
 		MC.add(xilianWorker, junzhu.id);
 		HibernateUtil.insert(xilianWorker);
 	}
 		 int num = Integer.parseInt(request.getParameter("v"));
-		 xilianWorker.setXilianTimes(num);
+		 xilianWorker.xilianTimes = num;
 		 HibernateUtil.save(xilianWorker);
 	 }else if("update7day".equals(action)){
 		 XianShiActivityMgr.DB.set(XianShiActivityMgr.XIANSHI7DAY_KEY + junzhu.id, request.getParameter("v"));
@@ -252,7 +251,7 @@ do{
 			 List<XianshiHuodong> list = XianShiActivityMgr.bigActivityMap.get(bigId);
 			 if(list != null){
 				 for( XianshiHuodong xs : list ){
-					 int hdId = xs.getId();
+					 int hdId = xs.id;
 					 XianShiActivityMgr.DB.lrem(XianShiActivityMgr.XIANSHIYILING_KEY+ junzhu.id, 0, ""+hdId);
 				 }
 			 }
@@ -261,9 +260,9 @@ do{
 		 sendInfo = false;
 	 }
 	 if(sendInfo){
-		 SessionUser u = SessionManager.getInst().findByJunZhuId(junzhu.id);
-		 if(u!= null){
-		 	JunZhuMgr.inst.sendMainInfo(u.session);
+		 IoSession jzsession = SessionManager.getInst().findByJunZhuId(junzhu.id);
+		 if(jzsession!= null){
+		 	JunZhuMgr.inst.sendMainInfo(jzsession);
 		 }
 	 }
 	
@@ -275,7 +274,7 @@ do{
 	 
 	 TongBi tongBi = HibernateUtil.find(TongBi.class, junzhu.id);
 	 TimeWorker xilianWorker = HibernateUtil.find(TimeWorker.class, junzhu.id);
-	 
+	 if(xilianWorker==null) xilianWorker = new TimeWorker();
 	//2016年1月19日 活跃度
 	DailyTaskActivity acti = HibernateUtil.find(DailyTaskActivity.class, junzhu.id);
 	 String guojiaName = HeroService.getNameById(junzhu.guoJiaId+"");
@@ -285,7 +284,7 @@ do{
 	 ExpTemp expTemp = TempletService.getInstance().getExpTemp(1, junzhu.level);
 	 out.println("等级："+junzhu.level+"<br/>");
 	 int v = 0;
-	 if(expTemp != null)v =expTemp.getNeedExp();
+	 if(expTemp != null)v =expTemp.needExp;
 	 String input = request.getParameter("v");
 	 if(input == null)input = "1";
 	 String country = HeroService.getNameById(junzhu.guoJiaId+"");
@@ -310,10 +309,10 @@ do{
 	 trS();td("本日购买血瓶次数数");td(jbBean != null ?jbBean.bloodTimes4Vip : "未开启");trE();
 	 trS();td("今日满血复活次数");td(jbBean != null ? YaBiaoHuoDongMgr.inst.getFuhuoTimes(junzhu) : "未开启");trE();
 	 trS();td("今日已用血瓶数,改完相关数据清零");td(jbBean != null ?jbBean.xueping4uesd : "未开启");td("<input type='text' id='updateBloodCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateBloodCount\")'/><br/>");trE();
-	 trS();td("今日已购买铜币次数");td(tongBi != null ?tongBi.getNum():"还没有购买过");td("<input type='text' id='updateTongBiTimes' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateTongBiTimes\")'/><br/>");trE();
-	 trS();td("当日免费洗练剩余次数");td(xilianWorker.getXilianTimes());td("<input type='text' id='updateMianfeiXilianCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateMianfeiXilianCount\")'/><br/>");trE();
-	 trS();td("当日元宝洗练已使用次数");td(xilian.getNum());td("<input type='text' id='updateXilianCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateXilianCount\")'/><br/>");trE();
-	 trS();td("当日洗练石洗练已使用次数");td(xilian.getXlsCount());td("<input type='text' id='updateXilianShiCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateXilianShiCount\")'/><br/>");trE();
+	 trS();td("今日已购买铜币次数");td(tongBi != null ?tongBi.num:"还没有购买过");td("<input type='text' id='updateTongBiTimes' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateTongBiTimes\")'/><br/>");trE();
+	 trS();td("当日免费洗练剩余次数");td(xilianWorker.xilianTimes);td("<input type='text' id='updateMianfeiXilianCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateMianfeiXilianCount\")'/><br/>");trE();
+	 trS();td("当日元宝洗练已使用次数");td(xilian.num);td("<input type='text' id='updateXilianCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateXilianCount\")'/><br/>");trE();
+	 trS();td("当日洗练石洗练已使用次数");td(xilian.xlsCount);td("<input type='text' id='updateXilianShiCount' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateXilianShiCount\")'/><br/>");trE();
 	 trS();td("上次修改姓名时间");td(changeNameTMString);td("<input type='text' id='updateLastChangeNameTM' value='"+input+"'/><input type='button' value='修改' onclick='go(\"updateLastChangeNameTM\")'/><br/>");td("注意时间格式 例如：2016-06-13 08:00:00");trE();
 	 Integer todyHuoYue=new Integer(0);
 	 Integer weekHuoYue=new Integer(0);
@@ -401,16 +400,16 @@ do{
 	out("体力剩余"+info.getTiLi()+"次,下次花费"+info.getTiLiHuaFei()+"购买"+info.getTiLiHuoDe());br();
 	//
 	PlayerTime pt = HibernateUtil.find(PlayerTime.class,junzhu.id);
-	if(pt != null && pt.getLoginTime() != null){
+	if(pt != null && pt.loginTime != null){
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String setV = request.getParameter("loginTime");
 		if(setV!=null){
 	Date dt = sf.parse(setV);
-	pt.setLoginTime(dt);
+	pt.loginTime = dt;
 	HibernateUtil.save(pt);
 		}
 		out("<form action=''>");
-		out("上次登录时间:<input type='text' name='loginTime' value='"+sf.format(pt.getLoginTime())+"'/>");
+		out("上次登录时间:<input type='text' name='loginTime' value='"+sf.format(pt.loginTime)+"'/>");
 		out("<input type='submit' value='修改'/>");
 		out("</form>");
 	}else{

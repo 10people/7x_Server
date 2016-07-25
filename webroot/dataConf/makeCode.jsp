@@ -89,7 +89,7 @@ if(list != null){
 	out.append("生成成功，请拿一个去测试下奖励是否正确\n");
 	for(int i=0;i<list.size();i++){
 		CDKeyInfo info = list.get(i);
-		out.append(info.getCdkey());out.append("\n");
+		out.append(info.cdkey);out.append("\n");
 	}
 }
 %>

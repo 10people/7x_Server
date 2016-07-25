@@ -22,9 +22,9 @@ import org.slf4j.LoggerFactory;
  * @version 9.0, 2014年10月23日 下午3:37:01
  */
 public class MyClient {
-	public static Logger log = LoggerFactory.getLogger(MyClient.class);
-	private String host;
-	private int port;
+	public static Logger log = LoggerFactory.getLogger(MyClient.class.getSimpleName());
+	public String host;
+	public int port;
 
 	public MyClient(String host, int port) {
 		this.host = host;
@@ -93,7 +93,7 @@ public class MyClient {
 	 * @throws
 	 * @author wangZhuan
 	 */
-	private HttpMethod getGetMethod(String page) {
+	public HttpMethod getGetMethod(String page) {
 		return new GetMethod(page);
 	}
 
@@ -106,7 +106,7 @@ public class MyClient {
 	 * @throws
 	 * @author wangZhuan
 	 */
-	private HttpMethod getPostMethod(String page, String message) {
+	public HttpMethod getPostMethod(String page, String message) {
 		PostMethod post = new PostMethod(page);
 		post.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET, "UTF-8");
 		NameValuePair nvl = new NameValuePair("message", message);

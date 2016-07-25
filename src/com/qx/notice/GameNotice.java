@@ -10,12 +10,12 @@ import java.util.Date;
  * 
  */
 public class GameNotice {
-	private int id;
-	private int serverId;
-	private Date starttime;
-	private Date endtime;
-	private int timeInterval;
-	private String content;
+	public int id;
+	public int serverId;
+	public Date starttime;
+	public Date endtime;
+	public int timeInterval;
+	public String content;
 
 	public int getServerId() {
 		return serverId;

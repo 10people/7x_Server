@@ -22,6 +22,7 @@ import com.manu.network.SessionAttKey;
 import com.qx.alliance.building.JianZhuMgr;
 import com.qx.buff.BuffMgr;
 import com.qx.buff.SkillActionType;
+import com.qx.buff.SkillDamageInfo;
 import com.qx.event.ED;
 import com.qx.event.EventMgr;
 import com.qx.junzhu.JunZhu;
@@ -83,7 +84,7 @@ public class FightMgr {
 			return;
 		}
 		if(attackPlayer.safeArea > 0&&skillId!=121) {//2015年12月30日安全区可以用血瓶
-			sendAttackResponse(attackUid, -1, Result.SUCCESS, skillId, scene, 0, targetPlayer.currentLife, true);
+			sendAttackResponse(attackUid, -1, Result.SUCCESS, skillId, scene, new SkillDamageInfo(0, false), targetPlayer.currentLife, true);
 			return;
 		}
 		//if(targetPlayer.currentLife <= 0 && skillId == 171){
@@ -152,9 +153,10 @@ public class FightMgr {
 			return;
 		}
 		
-		long damageValue = 0;
+		SkillDamageInfo skillDamageInfo = null;
 		//if(targetPlayer.roleId == Scene.TOWER_RoleId){
 		if(targetPlayer instanceof TowerNPC){
+			long damageValue = 0;
 			TowerNPC t = (TowerNPC)targetPlayer;
 			FightScene fs = (FightScene) scene;
 			if(fs.preTowerDie(t) == false){
@@ -166,16 +168,17 @@ public class FightMgr {
 					t.preHurtMS = ms;
 				}
 			}
+			skillDamageInfo = new SkillDamageInfo(damageValue, false);
 		}else{
-			damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, attackPlayer, targetPlayer, skill, targetUid, scene);
-			damageValue = fixDamageValue(targetPlayer, skill, damageValue);
+			skillDamageInfo = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, attackPlayer, targetPlayer, skill, targetUid, scene);
+			fixDamageValue(targetPlayer, skill, skillDamageInfo);
 		}
 //		damageValue+=8888;
 		updateSkillCdTime(attackPlayer.jzId, skill);
-		BigSwitch.inst.buffMgr.processSkillEffect(damageValue, targetPlayer, skill);
+		BigSwitch.inst.buffMgr.processSkillEffect(skillDamageInfo.damageValue, targetPlayer, skill);
 	
-		logger.info("uid{},jz:{}攻击了jz:{},使用技能:{},造成伤害值:{}",attackUid, attacker.id, targetPlayer.jzId, skillId, damageValue);
-		sendAttackResponse(attackUid, targetUid, Result.SUCCESS, skillId, scene, damageValue, targetPlayer.currentLife, true);
+		logger.info("uid{},jz:{}攻击了jz:{},使用技能:{},造成伤害值:{}",attackUid, attacker.id, targetPlayer.jzId, skillId, skillDamageInfo.damageValue);
+		sendAttackResponse(attackUid, targetUid, Result.SUCCESS, skillId, scene, skillDamageInfo, targetPlayer.currentLife, true);
 		if(targetPlayer.currentLife <= 0) {
 			scene.playerDie(targetPlayer,  attackPlayer.userId);
 			if(scene instanceof YaBiaoScene) {
@@ -185,21 +188,20 @@ public class FightMgr {
 		}
 	}
 
-	public long fixDamageValue(Player targetPlayer, Skill skill, long damageValue) {
+	public void fixDamageValue(Player targetPlayer, Skill skill, SkillDamageInfo skillDamageInfo) {
 		if(targetPlayer.session != null) {
 			Object scene = targetPlayer.session.getAttribute(SessionAttKey.Scene);
 			if(scene instanceof FightScene) {
-				return damageValue;
+				return;
 			}
 		}
 		if(skill != null) {
 			if(101 == skill.SkillId) {
-				damageValue = Math.min(damageValue, (int)(targetPlayer.totalLife * YunbiaoTemp.damage_amend_X));
+				skillDamageInfo.damageValue = Math.min(skillDamageInfo.damageValue, (int)(targetPlayer.totalLife * YunbiaoTemp.damage_amend_X));
 			} else if(111 == skill.SkillId) {
-				damageValue = Math.min(damageValue, (int)(targetPlayer.totalLife * YunbiaoTemp.damage_amend_Y));
+				skillDamageInfo.damageValue = Math.min(skillDamageInfo.damageValue, (int)(targetPlayer.totalLife * YunbiaoTemp.damage_amend_Y));
 			}
 		}
-		return damageValue;
 	}
 
 	public void processAttackCart(JunZhu attacker, IoSession session, Scene scene, 
@@ -246,13 +248,13 @@ public class FightMgr {
 			return;
 		}
 		
-		long damageValue = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, attackPlayer, targetPlayer, skill, targetUid,scene);
-		damageValue = fixDamageValue(targetPlayer, skill, damageValue);
+		SkillDamageInfo skillDamageInfo = BigSwitch.inst.buffMgr.calcSkillDamage(attacker, defender, attackPlayer, targetPlayer, skill, targetUid,scene);
+		fixDamageValue(targetPlayer, skill, skillDamageInfo);
 		updateSkillCdTime(attacker.id, skill);
-		BigSwitch.inst.buffMgr.processSkillEffect(damageValue, targetPlayer, skill);
+		BigSwitch.inst.buffMgr.processSkillEffect(skillDamageInfo.damageValue, targetPlayer, skill);
 
-		logger.info("发生打架事件：jz:{}攻击了jz:{},使用技能:{},造成伤害值:{}", attacker.id, defender.id, skillId, damageValue);
-		sendAttackResponse(attackUid, targetUid, Result.SUCCESS, skillId, scene, damageValue, targetPlayer.currentLife, true);
+		logger.info("发生打架事件：jz:{}攻击了jz:{},使用技能:{},造成伤害值:{}", attacker.id, defender.id, skillId, skillDamageInfo.damageValue);
+		sendAttackResponse(attackUid, targetUid, Result.SUCCESS, skillId, scene, skillDamageInfo, targetPlayer.currentLife, true);
 		// 第一次被攻击 ， 需要发送速报
 		if(isPlayerCart) {
 			Set<Long> firstInjuredSet = cartInjuredFirstRecord.get(targetPlayer.jzId);
@@ -261,7 +263,7 @@ public class FightMgr {
 				cartInjuredFirstRecord.put(targetPlayer.jzId, firstInjuredSet);
 			}
 			if(!firstInjuredSet.contains(attackPlayer.jzId)) {
-				EventMgr.addEvent(ED.BIAOCHE_BEIDA, new Object[] {attacker.id, defender.id, attackPlayer.userId, targetPlayer.userId});
+				EventMgr.addEvent(attacker.id,ED.BIAOCHE_BEIDA, new Object[] {attacker.id, defender.id, attackPlayer.userId, targetPlayer.userId});
 				firstInjuredSet.add(attackPlayer.jzId);
 			}
 		}
@@ -299,10 +301,10 @@ public class FightMgr {
 			keJiRate = lmKeJiConf.value1;
 		}
 		defenderClone.gongJi = (int) (defenderClone.gongJi + defender.gongJi * (keJiRate / 100));
-		
-		long beatBackDamage = BigSwitch.inst.buffMgr.calcSkillDamage(defenderClone, attacker, attackPlayer, targetPlayer,beatBackSkill, attackUid,scene);
-		BigSwitch.inst.buffMgr.processSkillEffect(beatBackDamage, attackPlayer, beatBackSkill);
-		sendAttackResponse(targetUid,attackUid, Result.SUCCESS, 101, scene, beatBackDamage, attackPlayer.currentLife, true);
+		 
+		SkillDamageInfo skillDamageInfo = BigSwitch.inst.buffMgr.calcSkillDamage(defenderClone, attacker, attackPlayer, targetPlayer,beatBackSkill, attackUid,scene);
+		BigSwitch.inst.buffMgr.processSkillEffect(skillDamageInfo.damageValue, attackPlayer, beatBackSkill);
+		sendAttackResponse(targetUid,attackUid, Result.SUCCESS, 101, scene, skillDamageInfo, attackPlayer.currentLife, true);
 		if(attackPlayer.currentLife <= 0) {
 			scene.playerDie(attackPlayer,  targetUid);
 		}
@@ -374,19 +376,19 @@ public class FightMgr {
 	}
 	
 	public void sendAttackError(Result result, Scene scene, int attackUid) {
-		sendAttackResponse(attackUid, 0, result, 0, scene, 0, 0, false);
+		sendAttackResponse(attackUid, 0, result, 0, scene, new SkillDamageInfo(0, false), 0, false);
 	}
 
 	public void sendAttackResponse(int attackUid, int targetUid, Result result,
-			int skillId, Scene scene, long damageValue, int remainLife, boolean succeed) {
+			int skillId, Scene scene, SkillDamageInfo skillDamageInfo, int remainLife, boolean succeed) {
 		FightAttackResp.Builder response = FightAttackResp.newBuilder();
 		response.setResult(result);
 		response.setAttackUid(attackUid);
 		response.setTargetUid(targetUid);
 		response.setSkillId(skillId);
-		response.setDamage(damageValue);		
+		response.setDamage(skillDamageInfo.damageValue);		
 		response.setRemainLife(remainLife);
-		
+		response.setIsBaoJi(skillDamageInfo.isBaoji);
 		if(succeed) {
 			scene.broadCastEvent(response.build(), 0);
 		} else {
@@ -450,7 +452,7 @@ public class FightMgr {
 			if(purchase == null) {
 				logger.error("找不到类型为:{}的purchase配置", PurchaseConstants.YB_REVIVE_DEAD_POS);
 			} else {
-				costYuanBao = purchase.getYuanbao();
+				costYuanBao = purchase.yuanbao;
 			}
 			if(junzhu.yuanBao < costYuanBao) {
 				logger.error("押镖场景复活失败，原地复活失败，元宝不足");

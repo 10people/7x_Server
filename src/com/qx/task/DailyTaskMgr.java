@@ -1,13 +1,16 @@
 package com.qx.task;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import log.ActLog;
 
+import org.apache.commons.collections.map.LRUMap;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +40,7 @@ import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
 import com.qx.award.AwardMgr;
 import com.qx.bag.BagMgr;
+import com.qx.equip.domain.EquipXiLian;
 import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
@@ -68,6 +72,9 @@ public class DailyTaskMgr extends EventProc {
 	public static Map<Integer, HuoYueTemp> HuoYueTempMap = new HashMap<Integer, HuoYueTemp>();
 	public static int weekHuoYue = 1;
 	public static int dailyHuoYue = 0;
+	
+	public static boolean useCaChe = true;
+	public static Map<Long,List<DailyTaskBean>> dailyTaskCache = Collections.synchronizedMap(new LRUMap(5000));
 	
 	public DailyTaskMgr() {
 		INSTANCE = this;
@@ -111,15 +118,10 @@ public class DailyTaskMgr extends EventProc {
 			logger.error("请求每日任务列表失败君主不在线， cmd:{}", cmd);
 			return;
 		}
-//		boolean isOpen =FunctionOpenMgr.inst.isFunctionOpen(dailyTaskOpenRowId, jId, -1);
-//		if(!isOpen){
-//			logger.error("请求每日任务列表失败：君主：{}，主线任务尚未完成到可以开启此功能", jId);
-//			return;
-//		}
 		List<DailyTaskBean> tasks  = getDailyTasks(jId);
 		if(tasks == null || tasks.size() == 0){
 			// 减小压力不存数据库
-			tasks = initTaskList(jId);
+			tasks = initTaskList(jId , tasks);
 		}else{
 			List<DailyTaskBean> removList = new ArrayList<DailyTaskBean>();
 			for(DailyTaskBean b: tasks){
@@ -347,12 +349,12 @@ public class DailyTaskMgr extends EventProc {
 		HibernateUtil.save(taskBean);
 		logger.info("{}完成任务{}",jzId,rwId);
 		ActLog.log.DailyTask(jzId, "", ActLog.vopenid, "", rwId);
-		SessionUser user = SessionManager.inst.findByJunZhuId(jzId);
+		IoSession user = SessionManager.inst.findByJunZhuId(jzId);
 		if(user == null){
 			logger.error("找不到相对应的 userjunzhuId:{},可能是从jsp页面上访问该方法", jzId);
 			return;
 		}
-		IoSession session = user.session;
+		IoSession session = user;
 		if(session != null){
 			DailyTaskFinishInform.Builder response = DailyTaskFinishInform.newBuilder();
 			DailyTaskInfo.Builder taskInfo = DailyTaskInfo.newBuilder();
@@ -476,9 +478,9 @@ public class DailyTaskMgr extends EventProc {
 			int itemId = Integer.parseInt(infos[1]);
 			int count = Integer.parseInt(infos[2]);
 			AwardTemp a = new AwardTemp();
-			a.setItemType(type);
-			a.setItemId(itemId);
-			a.setItemNum(count);
+			a.itemType = type;
+			a.itemId = itemId;
+			a.itemNum = count;
 			AwardMgr.inst.giveReward(session, a, junzhu);
 			logger.info("给予{}奖励 type {} id {} cnt{}", junzhu.id,type,itemId,count);
 		}
@@ -565,16 +567,27 @@ public class DailyTaskMgr extends EventProc {
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.DAILY_TASK_PROCESS, this);
 	}
 	
 	public List<DailyTaskBean> getDailyTasks(long jzId){
+		if(useCaChe){
+			List<DailyTaskBean> tasks = dailyTaskCache.get(jzId);
+			if(tasks != null ){
+				return tasks;
+			}
+		}
 		long start = jzId * space;
 		long end = start + maxTaskId;
 		String where = "where id >= " + start + "and id <= " + end;
 		List<DailyTaskBean> tasks = HibernateUtil.list(DailyTaskBean.class, where);
-		return tasks;
+		List<DailyTaskBean> caCheList  = Collections.synchronizedList(new LinkedList<DailyTaskBean>());
+		caCheList.addAll(tasks);
+		if(useCaChe){
+			dailyTaskCache.put(jzId, caCheList);
+		}
+		return caCheList;
 	}
 
 	/**
@@ -584,8 +597,7 @@ public class DailyTaskMgr extends EventProc {
 	 * @param jId
 	 * @return
 	 */
-	public List<DailyTaskBean> initTaskList(long jId){
-		List<DailyTaskBean> tasks = new ArrayList<DailyTaskBean>();
+	public List<DailyTaskBean> initTaskList(long jId , List<DailyTaskBean> tasks) {
 		DailyTaskBean task = null;
 		for (Integer id: taskIdArr){
 			task = initTask(jId, id);
@@ -594,6 +606,9 @@ public class DailyTaskMgr extends EventProc {
 			}
 			tasks.add(task);
 		}
+//		if(useCaChe){
+//			dailyTaskCache.put(jId, tasks);
+//		}
 		return tasks;
 	}
 
@@ -626,19 +641,39 @@ public class DailyTaskMgr extends EventProc {
 		task.isGetReward = false;
 		task.type = rw.type;
 		task.time = new Date();
+		MC.add(task, dbId);
+		HibernateUtil.insert(task);
+		if(useCaChe){
+			List<DailyTaskBean> taskList = getDailyTasks(jId);
+			taskList.add(task);
+		}
 		return task;
 	}
 	public DailyTaskBean getTaskByTaskId(long jzId, int renWuId){
 		long dbId = jzId * space + renWuId;
-		DailyTaskBean task = HibernateUtil.find(DailyTaskBean.class, dbId);
+		DailyTaskBean task = null;
+		if(useCaChe){
+			List<DailyTaskBean> taskList = getDailyTasks(jzId);
+			for(DailyTaskBean dtb : taskList){
+				if( (int)(dtb.dbId%100) == renWuId){
+					task = dtb;
+				}
+			}
+		}else{
+			task = HibernateUtil.find(DailyTaskBean.class, dbId);
+		}
 		if(task == null){
 			task = initTask(jzId, renWuId);
 			if(task == null){
 				return null ;
 			}
 			// 向缓存中添加
-			MC.add(task, dbId);
-			HibernateUtil.insert(task);
+//			MC.add(task, dbId);
+//			HibernateUtil.insert(task);
+//			if(useCaChe){
+//				List<DailyTaskBean> taskList = getDailyTasks(jzId);
+//				taskList.add(task);
+//			}
 		}
 		return task;
 	}
@@ -659,14 +694,8 @@ public class DailyTaskMgr extends EventProc {
 					continue;
 				}
 				tasks.add(task);
-			}else if(isTimeToReset(task.time)){
-				tasks.remove(task);
-				task = initTask(jzId, taskId);
-				if(task == null){
-					continue;
-				}
-				tasks.add(task);
-				HibernateUtil.save(task);
+			}else {
+				resetOneTask(jzId , task , taskId );
 			}
 		}
 	}

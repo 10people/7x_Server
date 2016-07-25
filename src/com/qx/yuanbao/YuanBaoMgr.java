@@ -20,6 +20,7 @@ import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.util.DelayedSQLMgr;
 import com.qx.util.TableIDCreator;
 
 /**
@@ -68,7 +69,7 @@ public class YuanBaoMgr extends EventProc{
 				reason);
 		//
 		int rmb = 0;
-		if(type != YBType.YB_YSDK){
+		if(type != YBType.YB_YSDK && change != 0){
 			TXQuery t = new TXQuery();
 			t.jzId = junzhu.id;
 			t.pre_save_amt = yuanbaoBefore;
@@ -84,22 +85,18 @@ public class YuanBaoMgr extends EventProc{
 		}
 		// 存到数据库
 		YuanBaoInfo info = new YuanBaoInfo();
-
-		// 改自增主键为指定
-		// 2015年4月17日16:57:30int改为long
-		long dbId = (TableIDCreator.getTableID(YuanBaoInfo.class, 1L));
-		info.setDbId(dbId);
-
-		info.setYuanbaoBefore(yuanbaoBefore);
-		info.setYuanbaoAfter(yuanbaoAfter);
-		info.setYuanbaoChange(change);
-		info.setOwnerid(junzhu.id);
-		info.setTimestamp(new Date());
-		info.setReason(reason);
-		info.setCostMoney(money);
-		info.setPrice(price);
-		info.setType(type);
-		HibernateUtil.save(info);
+		info.yuanbaoBefore = yuanbaoBefore;
+		info.yuanbaoAfter = yuanbaoAfter;
+		info.yuanbaoChange = change;
+		info.ownerid = junzhu.id;
+		info.timestamp = new Date();
+		info.reason = reason;
+		info.costMoney = money;
+		info.price = price;
+		info.type = type;
+		DelayedSQLMgr.es.submit(()->
+			HibernateUtil.save(info)
+		);
 		//
 		int Reason = ReasonMgr.inst.getId(reason);
 		OurLog.log.MoneyFlow(junzhu.level, junzhu.yuanBao, change, Reason, change>0?0:1, 1, String.valueOf(junzhu.id),rmb);
@@ -179,7 +176,7 @@ public class YuanBaoMgr extends EventProc{
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.ACC_LOGIN, this);		
 	}
 }

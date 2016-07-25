@@ -12,9 +12,9 @@ import javax.servlet.ServletResponse;
 //import com.youxigu.cache.CacheFacade;
 
 public class AuthorityFilter implements Filter {
-	protected String encoding = null;
-	protected FilterConfig filterConfig = null;
-	protected boolean ignore = true;
+	public String encoding = null;
+	public FilterConfig filterConfig = null;
+	public boolean ignore = true;
 	public static FilterMgr filterMgr = new FilterMgr();
 	
 	public void destroy() {
@@ -40,7 +40,7 @@ public class AuthorityFilter implements Filter {
 			this.ignore = false;
 	}
 
-	protected String selectEncoding(ServletRequest request) {
+	public String selectEncoding(ServletRequest request) {
 		return encoding;
 	}
 }

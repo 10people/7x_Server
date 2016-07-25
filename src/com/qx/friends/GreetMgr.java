@@ -1,11 +1,15 @@
 package com.qx.friends;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.collections.map.LRUMap;
+import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +19,7 @@ import qxmobile.protobuf.Greet.GreetReq;
 import qxmobile.protobuf.Greet.GreetResp;
 import qxmobile.protobuf.Greet.InviteResp;
 import qxmobile.protobuf.Prompt.PromptActionResp;
+import qxmobile.protobuf.Prompt.SuBaoMSG;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
@@ -22,13 +27,18 @@ import com.manu.dynasty.chat.ChatMgr;
 import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.AnnounceTemp;
 import com.manu.dynasty.template.CanShu;
+import com.manu.dynasty.template.DescId;
+import com.manu.dynasty.template.ReportTemp;
 import com.manu.network.PD;
+import com.manu.network.ProtoBuffEncoder;
 import com.manu.network.SessionAttKey;
 import com.manu.network.SessionManager;
 import com.manu.network.SessionUser;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.account.FunctionOpenMgr;
+import com.qx.activity.ActivityMgr;
 import com.qx.alliance.AllianceBean;
+import com.qx.alliance.AllianceBeanDao;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.event.ED;
@@ -37,6 +47,7 @@ import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.prompt.PromptMSG;
 import com.qx.prompt.PromptMsgMgr;
@@ -50,6 +61,8 @@ import com.qx.world.Scene;
  *
  */
 public class GreetMgr extends EventProc{
+	public static Map<Long, PromptMSG> msgCache = Collections.synchronizedMap(new LRUMap(5000));
+	public static AtomicInteger key = new AtomicInteger(1);
 	
 	/**
 	 * 被打招呼冷却时间
@@ -61,7 +74,7 @@ public class GreetMgr extends EventProc{
 	public static  int SETTLE_GONGHE_TIME = 3*60*1000;
 	public static GreetMgr inst;
 	public static Map<Integer, AnnounceTemp> annnounceMap;
-	public Logger log = LoggerFactory.getLogger(GreetMgr.class);
+	public Logger log = LoggerFactory.getLogger(GreetMgr.class.getSimpleName());
 	public GreetMgr() {
 		inst = this;
 		initData();
@@ -101,12 +114,12 @@ public class GreetMgr extends EventProc{
 			log.error("君主--{}对---{}打招呼并添加好友失败，不能对自己打招呼",jzId,targetjzId);
 			return;
 		}
-		SessionUser su = SessionManager.inst.findByJunZhuId(targetjzId);
+		IoSession su = SessionManager.inst.getIoSession(targetjzId);
 		if(su==null){
 			log.info("君主--{}对---{}打招呼并添加好友失败，目标已下线",jzId,targetjzId);
 			return;
 		}
-		IoSession targetSession=su.session;
+		IoSession targetSession=su;
 		Long greetedCdTime = (Long) targetSession.getAttribute(SessionAttKey.LAST_GREETED_KEY);
 		long currentMillis = System.currentTimeMillis();
 		if (greetedCdTime == null || greetedCdTime <= currentMillis) {
@@ -357,14 +370,14 @@ public class GreetMgr extends EventProc{
 	public void Invite2LM(long jzId,String jzName,	long targetjzId, IoSession session) {
 		InviteResp.Builder resp=InviteResp.newBuilder();
 		// 判断你没有权限邀请别人加入联盟 
-		AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jzId);
+		AlliancePlayer player = AllianceMgr.inst.getAlliancePlayer(jzId);
 		if (player == null || player.lianMengId <= 0||player.title<1) {
 			log.error("{}邀请别人入盟失败,玩家没有权限邀请别人入盟", jzId);
 			resp.setResCode(5);
 			session.write(resp.build());
 			return ;
 		}
-		AllianceBean  playerAlliance= HibernateUtil.find(AllianceBean.class, player.lianMengId);
+		AllianceBean  playerAlliance= AllianceBeanDao.inst.getAllianceBean(player.lianMengId);
 		if (playerAlliance == null) {
 			log.error("{}邀请别人入盟失败,联盟{}不存在", jzId,player.lianMengId);
 			resp.setResCode(5);
@@ -409,7 +422,7 @@ public class GreetMgr extends EventProc{
 		//生成邀请通知
 		sendInvitePrompt(targetjzId,jzId,jzName,lmId,playerAlliance.name);
 		//触发邀请事件
-		EventMgr.addEvent(ED.Invite_LM, new Object[] { targetjzId, jzId});
+		EventMgr.addEvent(jzId,ED.Invite_LM, new Object[] { targetjzId, jzId});
 	}
 	/**
 	 * @Description 生成邀请通知
@@ -420,18 +433,18 @@ public class GreetMgr extends EventProc{
 	 * @param lmName 
 	 */
 	public void sendInvitePrompt(long targetjzId, long invitejzId, String  invitejzName, int lmId, String lmName) {
-		log.info("生成并发送君主--{}对--{}邀请加入联盟--{}通知", invitejzId, targetjzId,lmId);
+//		log.info("生成并发送君主--{}对--{}邀请加入联盟--{}通知", invitejzId, targetjzId,lmId);
 		int eventId=SuBaoConstant.invite;
 		//说明 ：new String[]{lmName,invitejzName} 只是按照属性向savePromptMSG4ChangjingHudong 传递2个要替换的字符串
 		PromptMSG msg=PromptMsgMgr.inst.savePromptMSG4ChangjingHudong(targetjzId,invitejzId, eventId, lmId, new String[]{lmName,invitejzName});
 		if (msg!=null){
-			SessionUser su = SessionManager.inst.findByJunZhuId(targetjzId);
+			IoSession su = SessionManager.inst.findByJunZhuId(targetjzId);
 			if(su==null){
-				log.info("取消发送君主--{}对--{}邀请加入联盟--{}通知，目标下线", invitejzId, targetjzId,lmId);
+//				log.info("取消发送君主--{}对--{}邀请加入联盟--{}通知，目标下线", invitejzId, targetjzId,lmId);
 				return;
 			}
-			IoSession targetSession=su.session;
-			log.info("发送君主--{}对--{}邀请加入联盟--{}通知", invitejzId, targetjzId,lmId);
+			IoSession targetSession=su;
+//			log.info("发送君主--{}对--{}邀请加入联盟--{}通知", invitejzId, targetjzId,lmId);
 			PromptMsgMgr.inst.pushSubao(targetSession, msg);
 		}
 	}
@@ -512,7 +525,7 @@ public class GreetMgr extends EventProc{
 
 	
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		//第一次百战
 		EventMgr.regist(ED.first_baiZhan_success, this);
 		//联盟开启
@@ -554,8 +567,7 @@ public class GreetMgr extends EventProc{
 				log.info("向所有人发送系统广播--{}",msg);
 				BroadcastMgr.inst.send(msg);
 			}
-			int eventId =SuBaoConstant.askgh4baizhan;
-			sendYaoQingGongHe2All4BaiZhan(jzId,jz.name,eventId);
+			sendYaoQingGongHe2All4BaiZhan(jzId,jz.name);
 		}
 	}
 	
@@ -574,6 +586,7 @@ public class GreetMgr extends EventProc{
 			gongheInfo=new GongHeBean();
 		}
 		gongheInfo.jzId=jzId;
+		Cache.gongHeBeanCacahe.put(jzId, gongheInfo);
 		if(gongheInfo.start4firstBZ==0){
 			gongheInfo.start4firstBZ=new Date().getTime();
 		}else{
@@ -596,6 +609,7 @@ public class GreetMgr extends EventProc{
 			log.info("玩家--{}开启联盟,邀请恭贺新信息初始化",jzId); 
 		}
 		gongheInfo.jzId=jzId;
+		Cache.gongHeBeanCacahe.put(jzId, gongheInfo);
 		if(gongheInfo.start4LM==0){
 			gongheInfo.start4LM=new Date().getTime();
 		}else{
@@ -608,7 +622,10 @@ public class GreetMgr extends EventProc{
 	 * @Description 刷新恭贺计数
 	 */
 	public void refreshGongheTimes2JunZhu(long subaoId, JunZhu jz) {
-		PromptMSG msg = HibernateUtil.find(PromptMSG.class,subaoId);
+		PromptMSG msg = msgCache.get(subaoId);
+		if(msg==null){
+			msg = HibernateUtil.find(PromptMSG.class,subaoId);
+		}
 		if(msg==null){
 			log.error("{}刷新恭贺计数失败，速报--{}不存在",jz.id,subaoId);
 			return;
@@ -637,6 +654,7 @@ public class GreetMgr extends EventProc{
 			gongheInfo=new GongHeBean();
 			gongheInfo.jzId=targetJzId;
 			gongheInfo.start4LM = date.getTime();
+			Cache.gongHeBeanCacahe.put(targetJzId, gongheInfo);
 		}
 		if(gongheInfo.start4LM<0){
 			log.info("{}不刷新--{}联盟功能恭贺计数 ,超过三分钟",jz.id,targetJzId);
@@ -676,6 +694,7 @@ public class GreetMgr extends EventProc{
 			gongheInfo=new GongHeBean();
 			gongheInfo.jzId=targetJzId;
 			gongheInfo.start4firstBZ=date.getTime();
+			Cache.gongHeBeanCacahe.put(targetJzId, gongheInfo);
 		}
 		if(gongheInfo.start4firstBZ<0){
 			log.info("{}不刷新--{}打完第一次百战千军恭贺计数 ,超过三分钟",jz.id,targetJzId);
@@ -717,9 +736,9 @@ public class GreetMgr extends EventProc{
 		int eventId=SuBaoConstant.firstgh2baizhan;
 		PromptMSG msg=PromptMsgMgr.inst.saveLMKBByCondition(targetJzId,jzId, new String[]{jz.name,""}, eventId, 1);
 		if (msg!=null){
-			SessionUser su = SessionManager.inst.findByJunZhuId(targetJzId);
+			IoSession su = SessionManager.inst.findByJunZhuId(targetJzId);
 			if(su==null){
-				log.info("发送--{}首次恭贺通知给--{}失败，目标已下线",jzId,targetJzId);
+//				log.info("发送--{}首次恭贺通知给--{}失败，目标已下线",jzId,targetJzId);
 				return;
 			}
 //			<AnnounceTemp id="239" type="25" condition="-1" announcement="[dbba8f]*玩家名字七个字*[-][ffffff]恭贺你击败了[-][e5e205]竞技[-][ffffff]中的对手！他是首个恭贺你的玩家！快去领取奖励吧！[-]" announceObject="3" />
@@ -730,7 +749,7 @@ public class GreetMgr extends EventProc{
 				BroadcastMgr.inst.send2JunZhu(content, targetJzId);
 			}
 			log.info("发送--{}首次恭贺通知给--{}",jzId,targetJzId);
-			PromptMsgMgr.inst.pushSubao(su.session, msg);
+			PromptMsgMgr.inst.pushSubao(su, msg);
 		}
 	}
 
@@ -757,41 +776,64 @@ public class GreetMgr extends EventProc{
 		}
 		sendYaoQingGongHe2All(jzId,jzName);
 	}
-	
+	public IoBuffer pack(long targertId, String[] param,  int eventId){
+		PromptMSG msgLeader = PromptMsgMgr.inst.
+				makeBean(0, targertId, param, eventId);
+		if(msgLeader == null){
+			return null;
+		}
+		msgLeader.id = key.getAndIncrement();
+		SuBaoMSG.Builder subao = 
+				PromptMsgMgr.inst.makeSuBaoMSG(SuBaoMSG.newBuilder(), msgLeader);
+		if(subao == null){
+			return null;
+		}
+		msgCache.put(msgLeader.id, msgLeader);
+		IoBuffer buf2 = IoBuffer.wrap(ProtoBuffEncoder.toByteArray(subao.build(), PD.S_MengYouKuaiBao_PUSH));
+		return buf2;
+		
+	}
 	/**
 	 * @Description 给所有在线玩家推送邀请联盟开启恭贺通知
 	 * @param targertId
 	 * @param targetjzName
 	 */
 	public void sendYaoQingGongHe2All(long targertId, String targetjzName) {
-		log.info("玩家:{}开启了联盟功能,触发恭贺广播开始",targertId); 
 		List<SessionUser> list = SessionManager.inst.getAllSessions();
 		if(list == null){
 			return;
 		}
+		String[] param = {targetjzName};
+		IoBuffer bufLeader = pack(targertId, param, SuBaoConstant.askgh4lm2leader);
+		IoBuffer bufNormal = pack(targertId, param, SuBaoConstant.askgh4lm2other);
+		
 		for (SessionUser su: list){
 			if(su==null){
 				continue;
 			}
 			IoSession session = su.session;
-			JunZhu jz =  JunZhuMgr.inst.getJunZhu(session);
-			if(jz==null||jz.id==targertId){
+			Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
+			if(junZhuId == null){
 				continue;
 			}
-			long jzId=jz.id;
-			int eventId=SuBaoConstant.askgh4lm2other;
-			AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jzId);
-			if (player != null && player.lianMengId >0 &&
-					(player.title == AllianceMgr.TITLE_LEADER || player.title == AllianceMgr.TITLE_DEPUTY_LEADER)) {
-				log.info("邀功联盟玩家:{}-职位:{}来恭贺玩家:{}开启的联盟功能",jzId, targertId);
-				eventId=SuBaoConstant.askgh4lm2leader;
-				sendGongHePrompt(jz.id, targertId, targetjzName, eventId,session);
-			}else{
-				log.info("邀功联盟玩家:{} 来恭贺玩家:{}开启的联盟功能",jzId, targertId);
-				sendGongHePrompt(jz.id, targertId, targetjzName, eventId,session);
+			if(junZhuId==targertId){
+				continue;
+			}
+			int zhiwu = (Integer)session.getAttribute(SessionAttKey.LM_ZHIWU, -1);
+			switch(zhiwu){
+			case AllianceMgr.TITLE_LEADER:
+			case AllianceMgr.TITLE_DEPUTY_LEADER:
+				if(bufLeader!=null){
+					session.write(bufLeader.duplicate());
+				}
+				break;
+			default:
+				if(bufNormal!=null){
+					session.write(bufNormal.duplicate());
+				}
+				break;
 			}
 		}
-		log.info("玩家:{}开启了联盟功能,触发恭贺广播结束",targertId); 
 	}
 	/**
 	 * @Description 给所有在线玩家推送邀请百战恭贺通知
@@ -799,36 +841,38 @@ public class GreetMgr extends EventProc{
 	 * @param targetjzName
 	 * @param eventId
 	 */
-	public void sendYaoQingGongHe2All4BaiZhan(long targertId, String targetjzName,int eventId) {
+	public void sendYaoQingGongHe2All4BaiZhan(long targertId, String targetjzName) {
 		log.info("玩家--{}打完第一次百战千军,触发恭贺广播开始",targertId); 
 		List<SessionUser> list = SessionManager.inst.getAllSessions();
 		if(list == null){
 			return;
 		}
+		IoBuffer buf = pack(targertId, new String[]{targetjzName}, SuBaoConstant.askgh4baizhan);
 		for (SessionUser su: list){
 			if(su==null){
 				continue;
 			}
 			IoSession session = su.session;
-			JunZhu jz =  JunZhuMgr.inst.getJunZhu(session);
-			if(jz==null||jz.id==targertId){
+			Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
+			if (junZhuId == null) {
 				continue;
 			}
-			sendGongHePrompt(jz.id, targertId, targetjzName, eventId,session);
+			if(junZhuId==targertId){
+				continue;
+			}
+			session.write(buf.duplicate());
 		}
 		log.info("玩家--{}打完第一次百战千军,触发恭贺广播结束",targertId); 
 	}
 	/**
 	 * @Description 生成邀请恭贺通知
 	 */
-	public void sendGongHePrompt(long jzId, long targertId, String  targetjzName, int eventId, IoSession session) { 
-		 log.info("生成并发送邀请---{}恭贺---{}通知  ，eventId=={}",jzId, targertId,eventId);
+	public PromptMSG sendGongHePrompt(long jzId, long targertId, String  targetjzName, int eventId, IoSession session) { 
 		 PromptMSG msg=PromptMsgMgr.inst.savePromptMSG4GongHe(jzId,targertId, eventId, new String[]{targetjzName});
 		if (msg!=null){
-			log.info("向--{}推送邀请恭贺--{}通知",  jzId, targertId);
 			PromptMsgMgr.inst.pushSubao(session, msg);
 		}
-		 log.info("生成并发送邀请---{}恭贺---{}通知  ，eventId=={}完成",jzId, targertId,eventId);
+		return msg;
 	}
 	
 	/**

@@ -1,9 +1,9 @@
 package com.qx.gm.message;
 
 public class RoleEquip {
-	private String name;
-	private int id;
-	private int level;
+	public String name;
+	public int id;
+	public int level;
 
 	public String getName() {
 		return name;

@@ -78,8 +78,8 @@ public class JewelMgr extends EventProc{
 		Map<Integer, Integer> itemmap = new HashMap<Integer, Integer>() ;
 		
 		for(Fuwen fuwen: fuwenList){
-			if(fuwen.getType() == Jewel_Type_Id){
-				jewelmap.put(fuwen.getFuwenID() , fuwen);
+			if(fuwen.type == Jewel_Type_Id){
+				jewelmap.put(fuwen.fuwenID , fuwen);
 			}
 		}
 		for(ZhuangBei zhuangbei : zhuangbeiList ){
@@ -269,7 +269,7 @@ public class JewelMgr extends EventProc{
 		}
 		
 		//查看宝石的颜色是否符合镶嵌孔的颜色
-		if(holesInfo[possionId] != jewelPeiZhi.getInlayColor()){
+		if(holesInfo[possionId] != jewelPeiZhi.inlayColor){
 			log.error("玩家{}请求镶嵌的宝石颜色和孔的颜色不符",junZhu.id);
 			return ;
 		}
@@ -305,7 +305,7 @@ public class JewelMgr extends EventProc{
 		makeRedPointInfo(resp, junZhu.id);
 		session.write(resp.build());
 		int[] jewelEvent =getJewelEvent(junZhu.id);
-		EventMgr.addEvent(ED.use_baoshi, new Object[]{junZhu.id ,jewelEvent[0],jewelEvent[1]});
+		EventMgr.addEvent(junZhu.id,ED.use_baoshi, new Object[]{junZhu.id ,jewelEvent[0],jewelEvent[1]});
 	}
 	
 	/**响应客户端请求卸下一颗宝石操作*/
@@ -442,8 +442,8 @@ public class JewelMgr extends EventProc{
 			
 			//每卸下一颗宝石，保存一次装备强化信息，防止掉坑
 			equipInfo = updateEquipHole(equipInfo, possionId, -1);
-			HibernateUtil.save(equipInfo);
 		}
+		HibernateUtil.save(equipInfo);
 		
 		//重新加载背包
 		bag = BagMgr.inst.loadBag(junZhu.id);
@@ -475,17 +475,16 @@ public class JewelMgr extends EventProc{
 				}
 			}
 			if(succes){
-				//如果镶嵌成功，记录+1，并存储装备信息变更，防止掉坑
+				//如果镶嵌成功，记录+1
 				xiangQianCnt ++ ;
-				HibernateUtil.save(equipInfo);
 			}
 		}
-		
 		
 		//装备空格子遍历结束，一键镶嵌完成，开始构建返回协议
 		EquipOperationResp.Builder resp = EquipOperationResp.newBuilder();
 		resp.setType(2);
 		if( xiangQianCnt > 0 ){
+			HibernateUtil.save(equipInfo);
 			//一键镶嵌成功（只要镶上一颗宝石就算成功）
 			log.info("玩家{}一键镶嵌宝石成功，装备：{}",junZhu.id , equipDbId);
 			resp.setSucces(true);
@@ -510,7 +509,7 @@ public class JewelMgr extends EventProc{
 		makeRedPointInfo(resp, junZhu.id);
 		session.write(resp.build());
 		int[] jewelEvent =getJewelEvent(junZhu.id);
-		EventMgr.addEvent(ED.use_baoshi, new Object[]{junZhu.id ,jewelEvent[0],jewelEvent[1]});
+		EventMgr.addEvent(junZhu.id,ED.use_baoshi, new Object[]{junZhu.id ,jewelEvent[0],jewelEvent[1]});
 	}
 	
 	/**响应客户端一键卸下请求*/
@@ -568,12 +567,10 @@ public class JewelMgr extends EventProc{
 			jewelExp = jewelExp == 0 ? -1 : jewelExp ;
 			BagMgr.inst.addItem(session, bag, jewelId, 1, jewelExp, junZhu.level, "玩家卸下宝石");
 			
-			//每卸下一颗宝石，保存一次装备强化信息，防止掉坑
 			equipInfo = updateEquipHole(equipInfo, possionId, -1);
-			HibernateUtil.save(equipInfo);
 			xieXiaCnt ++ ;
 		}
-		
+		HibernateUtil.save(equipInfo);
 		log.info("玩家{}一键卸下宝石成功，装备：{}",junZhu.id , equipDbId);
 		//遍历结束，推送背包信息
 		//BagMgr.inst.sendBagInfo(session, bag);
@@ -648,7 +645,7 @@ public class JewelMgr extends EventProc{
 			log.error("合成失败，玩家合成目标位置镶嵌的宝石获取不到配置");
 			return;
 		}
-		if(jewelPeiZhi.getFuwenLevel() == jewelPeiZhi.getLevelMax()){
+		if(jewelPeiZhi.fuwenLevel == jewelPeiZhi.levelMax){
 			log.error("合成失败，合成的目标位置镶嵌的宝石等级是最高级");
 			return;
 		}
@@ -691,7 +688,7 @@ public class JewelMgr extends EventProc{
 		
 		//宝石升级判断
 		while( jewelExp >= jewelPeiZhi.lvlupExp ){	
-			jewelId = jewelPeiZhi.getFuwenNext();
+			jewelId = jewelPeiZhi.fuwenNext;
 			jewelExp -= jewelPeiZhi.lvlupExp;
 			jewelPeiZhi = jewelMap.get(jewelId);
 			if( jewelPeiZhi.lvlupExp == -1 ){
@@ -723,7 +720,7 @@ public class JewelMgr extends EventProc{
 		session.write(resp.build());
 		//添加镶嵌事件
 		int[] jewelEvent =getJewelEvent(junZhu.id);
-		EventMgr.addEvent(ED.use_baoshi, new Object[]{junZhu.id ,jewelEvent[0],jewelEvent[1]});
+		EventMgr.addEvent(junZhu.id,ED.use_baoshi, new Object[]{junZhu.id ,jewelEvent[0],jewelEvent[1]});
 	}
 	
 	
@@ -775,7 +772,7 @@ public class JewelMgr extends EventProc{
 	}
 	
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.get_BaoShi, this);					//监听获取宝石事件
 		EventMgr.regist(ED.JINJIE_ONE_GONG, this);		//监听装备进阶事件
 		EventMgr.regist(ED.EQUIP_ADD, this);					//监听更换装备事件
@@ -839,8 +836,8 @@ public class JewelMgr extends EventProc{
 	/**初始化玩家的装备强化信息并保存、返回*/
 	public UserEquip initUserEquipInfo(EquipGrid equip , long jzid ){
 		UserEquip equipInfo = new UserEquip();
-		equipInfo.setUserId(jzid);
-		equipInfo.setTemplateId(equip.itemId);
+		equipInfo.userId = jzid;
+		equipInfo.templateId = equip.itemId;
 		HibernateUtil.insert(equipInfo);
 		MC.add(equipInfo, equipInfo.getIdentifier());
 		equip.instId = equipInfo.getIdentifier() ;
@@ -891,13 +888,13 @@ public class JewelMgr extends EventProc{
 				Boolean isPutIn = false ;
 				for(int i=0 ; i < res.size() ; i++){
 					BagGrid bl = res.get(i);
-					if(jewelMap.get(bg.itemId).getFuwenLevel() > jewelMap.get(bl.itemId).getFuwenLevel() ){
+					if(jewelMap.get(bg.itemId).fuwenLevel > jewelMap.get(bl.itemId).fuwenLevel ){
 						//宝石等级判断，防坑爹配置，所以由配置中读取等级进行比较
 						//等级高，插入列表
 						res.add(i, bg);
 						isPutIn = true ; 
 						break;
-					}else if( jewelMap.get(bg.itemId).getFuwenLevel() == jewelMap.get(bl.itemId).getFuwenLevel() ){
+					}else if( jewelMap.get(bg.itemId).fuwenLevel == jewelMap.get(bl.itemId).fuwenLevel ){
 						//等级相同，判断经验，插入列表
 						 if(bg.instId > bl.instId){
 							res.add(i, bg);
@@ -985,7 +982,7 @@ public class JewelMgr extends EventProc{
 				//道具不是宝石，跳过
 				continue;
 			}
-			if(jewelMap.get(bg.itemId).getShuxing() != jewelMap.get(itemId).getShuxing()){
+			if(jewelMap.get(bg.itemId).fuwenID != jewelMap.get(itemId).fuwenID){
 				//属性不同，跳过
 				//FIXME 风险：如果道具的type是宝石，但是不在宝石表里，会报空指针，可以去找策划改表
 				continue;
@@ -1012,7 +1009,7 @@ public class JewelMgr extends EventProc{
 						if(jewelInfo > 0){
 							res[0] ++;
 							int jewelId = (int)(jewelInfo >> 32);
-							res[1] = Math.max(jewelMap.get(jewelId).getFuwenLevel(), res[1] );
+							res[1] = Math.max(jewelMap.get(jewelId).fuwenLevel, res[1] );
 						}
 					}
 				}
@@ -1052,7 +1049,7 @@ public class JewelMgr extends EventProc{
 						for(long jewelInfo : jewelList){
 							if(jewelInfo > 0 ){
 								int jewelId = (int)(jewelInfo>>32);
-								equipJewelLv += jewelMap.get(jewelId).getFuwenLevel();//宝石等级加入单件装备宝石等级之和
+								equipJewelLv += jewelMap.get(jewelId).fuwenLevel;//宝石等级加入单件装备宝石等级之和
 							}
 						}
 					}
@@ -1115,9 +1112,9 @@ public class JewelMgr extends EventProc{
 							if(jewelInfo > 0 ){
 								//孔镶嵌了宝石，获取宝石等级，看是否是最低的
 								int jewelId = (int)(jewelInfo>>32);
-								if(minJewelLevel > jewelMap.get(jewelId).getFuwenLevel()){
+								if(minJewelLevel > jewelMap.get(jewelId).fuwenLevel){
 									//如果宝石等级低于最低等级记录，返回结果指向此装备，更新最低等级记录
-									minJewelLevel = jewelMap.get(jewelId).getFuwenLevel();
+									minJewelLevel = jewelMap.get(jewelId).fuwenLevel;
 									res = eg;
 								}
 							}else if(holesInfo[i] > 0){
@@ -1162,7 +1159,7 @@ public class JewelMgr extends EventProc{
 		List<UserEquip> ueList = HibernateUtil.list(UserEquip.class, "where userId  = " + junZhuId);
 		Map<Long , UserEquip> ueMap = new HashMap<Long , UserEquip>();
 		for(UserEquip ue : ueList ){
-			ueMap.put((long)ue.getEquipId(), ue);
+			ueMap.put(ue.equipId, ue);
 		}
 		for(EquipGrid eg: equips.grids){
 			if(eg == null ){
@@ -1211,7 +1208,7 @@ public class JewelMgr extends EventProc{
 								//镶嵌红点判断：颜色相同，计算经验
 								//取巧：背包宝石等级高于镶嵌宝石，同样会触发经验足以合成的的判断
 								addExp += (jewelPeiZhi.exp +(bg.instId>0? bg.instId:0)) *bg.cnt;
-								if(addExp >= jewelOnEquip.lvlupExp && jewelOnEquip.getFuwenLevel() < jewelOnEquip.getLevelMax()){
+								if(addExp >= jewelOnEquip.lvlupExp && jewelOnEquip.fuwenLevel < jewelOnEquip.levelMax){
 									//发现经验足以升级，并且不是9级宝石，直接推送红点，结束
 									log.info("君主{}有可镶嵌宝石，发送镶嵌推送",junZhuId);
 									FunctionID.pushCanShowRed(junZhuId, session, FunctionID.XiangQian);
@@ -1238,7 +1235,7 @@ public class JewelMgr extends EventProc{
 		List<UserEquip> ueList = HibernateUtil.list(UserEquip.class, "where userId  = " + junZhuId);
 		Map<Long , UserEquip> ueMap = new HashMap<Long , UserEquip>();
 		for(UserEquip ue : ueList ){
-			ueMap.put((long)ue.getEquipId(), ue);
+			ueMap.put(ue.equipId, ue);
 		}
 		for(EquipGrid eg: equips.grids){
 			if(eg == null ){
@@ -1292,7 +1289,7 @@ public class JewelMgr extends EventProc{
 								//镶嵌红点判断：颜色相同，计算经验
 								//取巧：背包宝石等级高于镶嵌宝石，同样会触发经验足以合成的的判断
 								addExp += (jewelPeiZhi.exp +(bg.instId>0? bg.instId:0)) *bg.cnt;
-								if(addExp >= jewelOnEquip.lvlupExp && jewelOnEquip.getFuwenLevel() < jewelOnEquip.getLevelMax() ){
+								if(addExp >= jewelOnEquip.lvlupExp && jewelOnEquip.fuwenLevel < jewelOnEquip.levelMax ){
 									//添加经验足够升级，并且宝石等级不是最高，装备id加入协议，结束此装备的检查
 									resp.addRedPoint(eg.dbId);
 									break check;

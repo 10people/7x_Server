@@ -3,35 +3,35 @@ package com.manu.dynasty.template;
 import com.qx.world.GameObject;
 
 public class EnemyTemp extends GameObject{
-	private int id;
-	private int icon;
-	private int zhiye;
-	private String name;
-	private String description;
-	private int quality;
-	private int level;
-	private int gongji;
-	private int fangyu;
-	private int shengming;
-	private int shuxing1;
+	public int id;
+	public int icon;
+	public int zhiye;
+	public String name;
+	public String description;
+	public int quality;
+	public int level;
+	public int gongji;
+	public int fangyu;
+	public int shengming;
+	public int shuxing1;
 	public String yuansu;
-	private int shuxing2;
-	private int shuxing3;
-	private String skills;
-	private int skill1;
-	private int skill2;
-	private int skill3;
-	private int skill4;
-	private int skill5;
-	private int power;
-	private int wqSH;		//附加属性
-	private int wqJM;
-	private int wqBJ;
-	private int wqRX;
-	private int jnSH;
-	private int jnJM;
-	private int jnBJ;
-	private int jnRX;
+	public int shuxing2;
+	public int shuxing3;
+	public String skills;
+	public int skill1;
+	public int skill2;
+	public int skill3;
+	public int skill4;
+	public int skill5;
+	public int power;
+	public int wqSH;		//附加属性
+	public int wqJM;
+	public int wqBJ;
+	public int wqRX;
+	public int jnSH;
+	public int jnJM;
+	public int jnBJ;
+	public int jnRX;
 	
 	public long getId() {
 		return id;

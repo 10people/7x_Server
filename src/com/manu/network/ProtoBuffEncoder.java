@@ -28,9 +28,9 @@ import com.manu.network.msg.ProtobufMsg;
  * 
  */
 public class ProtoBuffEncoder implements ProtocolEncoder {
-	private static Logger log = LoggerFactory.getLogger(ProtoBuffEncoder.class);
-	private static boolean battleInfoRecord = false;
-	private static List<Map<Integer, Integer>> battleInfoList = new ArrayList<Map<Integer,Integer>>();
+	public static Logger log = LoggerFactory.getLogger(ProtoBuffEncoder.class);
+	public static boolean battleInfoRecord = false;
+	public static List<Map<Integer, Integer>> battleInfoList = new ArrayList<Map<Integer,Integer>>();
 	
 	@Override
 	public void dispose(IoSession arg0) throws Exception {
@@ -81,7 +81,7 @@ public class ProtoBuffEncoder implements ProtocolEncoder {
 		}
 	}
 
-	protected void encode(ProtocolEncoderOutput out,
+	public void encode(ProtocolEncoderOutput out,
 			MessageLite lite, int protoId) {
 		/*
 		byte[] body = lite.toByteArray();

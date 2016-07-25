@@ -3,6 +3,8 @@ package com.qx.http;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import net.sf.json.JSONObject;
 
@@ -18,7 +20,8 @@ import com.manu.network.BigSwitch;
 import com.manu.network.SessionAttKey;
 
 
-public class LoginServ implements Runnable{
+public class LoginServ{
+	public static ExecutorService es = Executors.newCachedThreadPool();
 	public static Map<String, Integer> chName2id = new HashMap<String, Integer>();
 	static{
 		//数字不能改，在/qxrouter/WebContent/channel/checkLogin.jsp里写死了
@@ -47,13 +50,10 @@ public class LoginServ implements Runnable{
 		name = accName;
 		session = ss;
 	}
-	@Override
-	public void run() {
-		notifyAccountLogin();
-	} 
 
 	public void start(){
-		new Thread(this, "checkLogin").start();
+		es.submit(()->notifyAccountLogin());
+//		new Thread(this, "checkLogin").start();
 	}
 	public void notifyAccountLogin(){
 			JSONObject o = sendRequest();
@@ -117,7 +117,7 @@ public class LoginServ implements Runnable{
 		}
 		return o;
 	}
-	private void fail() {
+	public void fail() {
 		LoginRet.Builder ret = LoginRet.newBuilder();
 		ret.setCode(3);
 		ret.setMsg("用户名错误。");

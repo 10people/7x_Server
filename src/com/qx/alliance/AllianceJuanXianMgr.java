@@ -59,11 +59,11 @@ public class AllianceJuanXianMgr extends EventProc {
 		}
 		
 		for(Purchase p : jiansheList ){
-			if(p.getType() == juanXianConf.get(1).type){
-				jiansheConf.put(p.getTime(), p);
+			if(p.type == juanXianConf.get(1).type){
+				jiansheConf.put(p.time, p);
 			}
-			if(p.getType() == juanXianConf.get(2).type){
-				hufuConf.put(p.getTime(), p);
+			if(p.type == juanXianConf.get(2).type){
+				hufuConf.put(p.time, p);
 			}
 		}
 	}
@@ -74,7 +74,7 @@ public class AllianceJuanXianMgr extends EventProc {
 			log.error("捐献信息查询失败，无法找到君主信息");
 			return ;
 		}
-		AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
+		AlliancePlayer ap = AllianceMgr.inst.getAlliancePlayer(junZhu.id);
 		if(ap == null | ap.lianMengId <= 0){
 			log.error("捐献信息查询失败，君主不在联盟中");
 		}
@@ -98,13 +98,13 @@ public class AllianceJuanXianMgr extends EventProc {
 		jianshe.setConfId(1);
 		jianshe.setUsedTimes(bean.jianSheTimes);
 		jianshe.setTotalTimes(jsTotalTimes);
-		jianshe.setNeedYuanBao(jiansheConf.get(bean.jianSheTimes+1).getYuanbao());
+		jianshe.setNeedYuanBao(jiansheConf.get(bean.jianSheTimes+1).yuanbao);
 	
 		//军政建设信息
 		hufu.setConfId(2);
 		hufu.setUsedTimes(bean.huFuTimes);
 		hufu.setTotalTimes(hfTotalTimes);
-		hufu.setNeedYuanBao(hufuConf.get(bean.huFuTimes+1).getYuanbao());
+		hufu.setNeedYuanBao(hufuConf.get(bean.huFuTimes+1).yuanbao);
 		
 		//添加联盟虔诚度信息，之前的huoyue字段不再需要，所以用于发送虔诚度信息
 		resp.addFsInfo(jianshe);
@@ -120,7 +120,7 @@ public class AllianceJuanXianMgr extends EventProc {
 			log.error("捐献失败，无法找到君主信息");
 			return ;
 		}
-		AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
+		AlliancePlayer ap = AllianceMgr.inst.getAlliancePlayer(junZhu.id);
 		if(ap == null | ap.lianMengId <= 0){
 			log.error("捐献失败，君主不在联盟中");
 		}
@@ -151,7 +151,7 @@ public class AllianceJuanXianMgr extends EventProc {
 				log.error("无法获取基础建设次数：{}的消耗元宝配置" ,bean.jianSheTimes+1);
 				return ;
 			}
-			int needYb = yuanBaoConf.getYuanbao();
+			int needYb = yuanBaoConf.yuanbao;
 			//判断元宝足够，扣除，不够，返回
 			if( junZhu.yuanBao >= needYb ){
 				YuanBaoMgr.inst.diff(junZhu, -1*needYb , 0 , 0 , YBType.LIAN_MENG_JUAN_XIAN, "基础建设");
@@ -173,7 +173,7 @@ public class AllianceJuanXianMgr extends EventProc {
 			info.setUsedTimes(bean.jianSheTimes);
 			info.setTotalTimes(jsTotalTimes);
 			Purchase nextConf = jiansheConf.get(bean.jianSheTimes+1);
-			info.setNeedYuanBao(nextConf == null ? 0 : nextConf.getYuanbao());
+			info.setNeedYuanBao(nextConf == null ? 0 : nextConf.yuanbao);
 			log.info("君主{}进行联盟基础建设捐献",junZhu.id);
 			//保存联盟事件信息
 			saveAllianceEvent(ap.lianMengId, jianSheEventId, junZhu.name, awardNum);
@@ -193,7 +193,7 @@ public class AllianceJuanXianMgr extends EventProc {
 				log.error("无法获取军政建设次数：{}的消耗元宝配置" ,bean.jianSheTimes+1);
 				return ;
 			}
-			int needYb = yuanBaoConf.getYuanbao();
+			int needYb = yuanBaoConf.yuanbao;
 			//判断元宝足够，扣除，不够，返回
 			if( junZhu.yuanBao >= needYb ){
 				YuanBaoMgr.inst.diff(junZhu, -1*needYb , 0 , 0 , YBType.LIAN_MENG_JUAN_XIAN, "军政建设");
@@ -214,7 +214,7 @@ public class AllianceJuanXianMgr extends EventProc {
 			info.setUsedTimes(bean.huFuTimes);
 			info.setTotalTimes(hfTotalTimes);
 			Purchase nextConf = hufuConf.get(bean.huFuTimes+1);
-			info.setNeedYuanBao(nextConf == null ? 0 : nextConf.getYuanbao());
+			info.setNeedYuanBao(nextConf == null ? 0 : nextConf.yuanbao);
 			log.info("君主{}进行联盟军政建设捐献",junZhu.id);
 			//保存联盟事件信息
 			saveAllianceEvent(ap.lianMengId, hufuEventId, junZhu.name, awardNum);
@@ -276,7 +276,7 @@ public class AllianceJuanXianMgr extends EventProc {
 		if(bean.jianSheTimes < jsTotalTimes ){
 			Purchase yuanBaoConf = jiansheConf.get(bean.jianSheTimes+1);
 			if(yuanBaoConf != null){
-				if(yuanBaoConf.getYuanbao() <= junZhu.yuanBao){
+				if(yuanBaoConf.yuanbao <= junZhu.yuanBao){
 					log.info("君主{}基础建设满足红点推送，发送推送消息",junZhu.id);
 					FunctionID.pushCanShowRed(junZhu.id , session, FunctionID.FengShanDaDian);
 				}
@@ -286,7 +286,7 @@ public class AllianceJuanXianMgr extends EventProc {
 		if(bean.huFuTimes < hfTotalTimes ){
 			Purchase yuanBaoConf = hufuConf.get(bean.huFuTimes+1);
 			if(yuanBaoConf != null ){
-				if(yuanBaoConf.getYuanbao() <= junZhu.yuanBao){
+				if(yuanBaoConf.yuanbao <= junZhu.yuanBao){
 					log.info("君主{}军政建设满足红点推送，发送推送消息",junZhu.id);
 					FunctionID.pushCanShowRed(junZhu.id, session, FunctionID.FengShanShengDian);
 				}
@@ -322,7 +322,7 @@ public class AllianceJuanXianMgr extends EventProc {
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 //		// TODO Auto-generated method stub
 //		EventMgr.regist(ED.ACC_LOGIN, this);
 //		EventMgr.regist(ED.REFRESH_TIME_WORK, this);

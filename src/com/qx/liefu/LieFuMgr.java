@@ -211,7 +211,6 @@ public class LieFuMgr {
 			HibernateUtil.save(junZhu);
 			logger.info("猎符操作成功，君主:{}花费了铜币:{}进行的type:{}的猎符操作", junZhu.id, lieFuTemp.cost, type);
 		}
-		
 		List<AwardTemp> getAwardList = new ArrayList<>(0);
 		getAwardList = AwardMgr.inst.getHitAwardList(lieFuTemp.awardID, ",", "=");
 		if(type == 2 /*&& getTotalTimes(2, lieFuBean) <= 0*/) {// 蓝色猎符类型第一次，获得特定的符文
@@ -250,13 +249,10 @@ public class LieFuMgr {
 		HibernateUtil.save(lieFuBean);
 		List<Integer> fuwenIdList = new ArrayList<>();		// 用于检测是否发送广播
 		for(AwardTemp getAward : getAwardList) {
-			fuwenIdList.add(getAward.getItemId());
+			fuwenIdList.add(getAward.itemId);
 			AwardMgr.inst.giveReward(session, getAward, junZhu, false, false);
 		}
-		JunZhuMgr.inst.sendMainInfo(session);
-		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
-		//BagMgr.inst.sendBagInfo(session, bag);
-		
+		JunZhuMgr.inst.sendMainInfo(session, junZhu, false);
 		
 		response.setResult(0);
 		response.setType(type);
@@ -265,15 +261,15 @@ public class LieFuMgr {
 		response.setNextTypeState(getActionState(nextType, lieFuBean));
 		for(AwardTemp getAward : getAwardList) {
 			LieFuAward.Builder awardBuilder = LieFuAward.newBuilder();
-			awardBuilder.setItemType(getAward.getItemType());
-			awardBuilder.setItemId(getAward.getItemId());
-			awardBuilder.setItemNum(getAward.getItemNum());
+			awardBuilder.setItemType(getAward.itemType);
+			awardBuilder.setItemId(getAward.itemId);
+			awardBuilder.setItemNum(getAward.itemNum);
 			response.addLieFuAwardList(awardBuilder);
 		}
 		session.write(response.build());		
-		EventMgr.addEvent(ED.done_lieFu_x, new Object[]{junZhu.id , lieFuBean.totalTimes});
-		EventMgr.addEvent(ED.LIEFU_GET_FUWEN, new Object[]{junZhu.name , fuwenIdList});
-		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(junZhu.id , DailyTaskConstants.lieFu, 1));
+		EventMgr.addEvent(junZhu.id ,ED.done_lieFu_x, new Object[]{junZhu.id , lieFuBean.totalTimes});
+		EventMgr.addEvent(junZhu.id ,ED.LIEFU_GET_FUWEN, new Object[]{junZhu.name , fuwenIdList});
+		EventMgr.addEvent(junZhu.id ,ED.DAILY_TASK_PROCESS, new DailyTaskCondition(junZhu.id , DailyTaskConstants.lieFu, 1));
 	}
 
 	public void changeTypeUseTimes(LieFuBean lieFuBean, int type, int times) {

@@ -7,10 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 
 @Entity
 @Table(name = "pvp_bean")
-public class PvpBean{
+public class PvpBean implements DBHash{
 
 	@Id
 	public long junZhuId;
@@ -81,5 +83,10 @@ public class PvpBean{
 
 //	public int dailyaward;
 	public int rankAward; // 累计的最高排名奖励
+
+@Override
+public long hash() {
+	return junZhuId;
+}
 	
 }

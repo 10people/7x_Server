@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.qx.persistent.HibernateUtil;
+import com.qx.util.DelayedSQLMgr;
 
 import log.ReasonBean;
 
@@ -30,7 +31,10 @@ public class ReasonMgr {
 		}
 		bean = new ReasonBean();
 		bean.reason = reason;
-		HibernateUtil.insert(bean);
+		ReasonBean ref = bean;
+		DelayedSQLMgr.es.submit(()->
+			HibernateUtil.insert(ref)
+		);
 		map.put(reason, bean);
 		return bean.id;
 	}

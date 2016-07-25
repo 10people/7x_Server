@@ -1,3 +1,4 @@
+<%@page import="org.apache.mina.core.session.IoSession"%>
 <%@page import="com.manu.network.SessionManager"%>
 <%@page import="com.manu.network.SessionUser"%>
 <%@page import="com.manu.network.PD"%>
@@ -63,13 +64,13 @@
 			account = HibernateUtil.getAccount(name);
 		}else if(accIdStr != null && accIdStr.length()>0){
 			account = HibernateUtil.find(Account.class, Long.valueOf(accIdStr));
-			if(account != null)name = account.getAccountName();
+			if(account != null)name = account.accountName;
 		}
 		if(account == null){
 			%>没有找到<%
 		}else{
 			session.setAttribute("name", name);
-			long junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+			long junZhuId = account.accountId * 1000 + GameServer.serverId;
 			jz = HibernateUtil.find(JunZhu.class, junZhuId);
 		}
 
@@ -103,7 +104,7 @@
 						}
 					}
 				}
-				SessionUser su = SessionManager.inst.findByJunZhuId(jz.id);
+				IoSession su = SessionManager.inst.findByJunZhuId(jz.id);
 				if(su != null){
 					if(actionStr.equals("xiangqian")){
 						if( jewelDbIdStr != null && equipDbIdStr != null && possionIdStr != null
@@ -113,7 +114,7 @@
 							req.setJewelId(Long.parseLong(jewelDbIdStr));
 							req.setEqulpId(Long.parseLong(equipDbIdStr));
 							req.setPossionId(Integer.parseInt(possionIdStr));
-							JewelMgr.inst.handle((int)PD.C_EQUIP_BAOSHI_REQ, su.session, req);
+							JewelMgr.inst.handle((int)PD.C_EQUIP_BAOSHI_REQ, su, req);
 						}
 					}else if (actionStr.equals("xiexia")){
 						if( equipDbIdStr != null && possionIdStr != null
@@ -122,21 +123,21 @@
 							req.setType(5);
 							req.setEqulpId(Long.parseLong(equipDbIdStr));
 							req.setPossionId(Integer.parseInt(possionIdStr));
-							JewelMgr.inst.handle((int)PD.C_EQUIP_BAOSHI_REQ, su.session, req);
+							JewelMgr.inst.handle((int)PD.C_EQUIP_BAOSHI_REQ, su, req);
 						}
 					}else if(actionStr.equals("yijianxiangqian")){
 						if( equipDbIdStr != null && equipDbIdStr.length() != 0 ){
 							EquipOperationReq.Builder req = EquipOperationReq.newBuilder();
 							req.setType(2);
 							req.setEqulpId(Long.parseLong(equipDbIdStr));
-							JewelMgr.inst.handle((int)PD.C_EQUIP_BAOSHI_REQ, su.session, req);
+							JewelMgr.inst.handle((int)PD.C_EQUIP_BAOSHI_REQ, su, req);
 						}
 					}else if(actionStr.equals("yijianxiexia")){
 						if( equipDbIdStr != null && equipDbIdStr.length() != 0 ){
 							EquipOperationReq.Builder req = EquipOperationReq.newBuilder();
 							req.setType(3);
 							req.setEqulpId(Long.parseLong(equipDbIdStr));
-							JewelMgr.inst.handle((int)PD.C_EQUIP_BAOSHI_REQ, su.session, req);
+							JewelMgr.inst.handle((int)PD.C_EQUIP_BAOSHI_REQ, su, req);
 						}
 					}else if(actionStr.equals("hecheng")){
 						if( equipDbIdStr != null && possionIdStr != null && cailiaoListStr != null
@@ -159,9 +160,9 @@
 								}
 							}
 							out.print(PD.C_EQUIP_BAOSHI_REQ);
-							out.print(su.session);
+							out.print(su);
 							out.print(req);
-							BigSwitch.inst.jewelMgr.handle((int)PD.C_EQUIP_BAOSHI_REQ, su.session, req);
+							BigSwitch.inst.jewelMgr.handle((int)PD.C_EQUIP_BAOSHI_REQ, su, req);
 						}
 					}
 				}
@@ -251,7 +252,7 @@
 			if(peizhi == null ){
 				continue;
 			}
-			int color = peizhi.getInlayColor();
+			int color = peizhi.inlayColor;
 			%>
 			<tr>
 				<td><%=bg.dbId %></td>

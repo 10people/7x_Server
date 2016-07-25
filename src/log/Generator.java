@@ -95,7 +95,7 @@ public class Generator {
 		bw.close();
 	}
 
-	private static void appendParams(BufferedWriter bw, ArrayList<String> params) throws IOException {
+	public static void appendParams(BufferedWriter bw, ArrayList<String> params) throws IOException {
 		for(String s: params){
 			bw.write(s);
 		}
@@ -126,7 +126,7 @@ public class Generator {
 		entryS.append("//");
 	}
 	
-	private static String getTag(String line, String tag) {
+	public static String getTag(String line, String tag) {
 		int s = line.indexOf(tag);
 		s = line.indexOf("\"", s)+1;
 		int e = line.indexOf("\"", s);

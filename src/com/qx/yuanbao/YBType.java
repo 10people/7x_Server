@@ -9,6 +9,7 @@ package com.qx.yuanbao;
  */
 public class YBType {
 	public static final int YB_YSDK = 8;// ysdk充值
+	public static final int YB_YSDK_ZENGSONG = 152;// ysdk充值,首冲赠送
 	public static final int YB_VIP_CHONGZHI = 101;// vip充值
 	public static final int YB_CHUANGJIAN_LIANGMENG = 102;// 创建联盟
 	public static final int YB_PAWN_BUY_SHANGPIN = 103;// 当铺购买商品
@@ -39,15 +40,32 @@ public class YBType {
 	public static final int YB_BUY_LVE_DUO_BATTLE = 128; // 掠夺购买战斗机会
 	public static final int YB_BUY_HUANGYE__BATTLE = 129;
 	public static final int YB_CHANGE_COUNTRY = 130;	//转国购买转国令
-	public static final int YB_DEAD_POS_REVIVE = 131;	//死亡地点复活
+	public static final int YB_DEAD_POS_REVIVE = 131;	//押镖场景死亡地点复活
 	public static final int YB_All_LIFE_REVIVE = 132;	//满血复活
 	public static final int WORLD_CHAT = 133;	//广播频道聊天
-	public static final int CLEAR_SHILIAN_CD = 134;	//广播频道聊天
-	public static final int ShiLianBaoXiang = 233;	//广播频道聊天
+	public static final int CLEAR_SHILIAN_CD = 134;	//清除试练cd时间
+	public static final int ShiLianBaoXiang = 233;	//十连副本开宝箱
 	public static final int YB_PVP_RANK_GAIN = 334;				//pvp排名上升
 	public static final int LMZ_FUHUO = 335;				//联盟战复活
 	public static final int LIAN_MENG_JUAN_XIAN = 336;//联盟捐献基础建设或者军政建设
 	public static final int LMZ_zhaoHuan = 435;				//联盟战召唤
 	public static final int LMZ_XueP = 436;				//联盟血瓶
-	public static final int LMZ_FenShen = 438;				//联盟血瓶
+	public static final int LMZ_FenShen = 438;				//分身
+	public static final int ACTIVITY_BUYJIJIN = 135;	 //活动-购买成长基金
+	public static final int ACTIVITY_TILIBULING = 136;	 //活动-体力补领
+	public static final int LMZHAN_DEAD_POS_REVIVE = 137;	//郡城战死亡地点复活
+	public static final int SHOP_BUY_WUBEIFANG = 138;	//进行武备坊购买
+	public static final int YB_BUY_MIBAOPOINT = 139;	//购买秘宝升级点数
+	public static final int YB_BUY_TONGBI = 140;// 购买铜币
+	public static final int YB_BUY_TONGBI_LIANXU = 141;// 连续购买铜币
+	public static final int YB_BUY_TILI = 142;// 购买体力
+	public static final int SHOP_BUY_SHENMI = 143;	//元宝购买神秘商店物品
+	public static final int SHOP_BUY_NORMAL = 144;	//元宝购买普通商店物品
+	public static final int YB_BUY_YUEKA = 145;//购买月卡
+	public static final int YB_BUY_ZHOUKA = 146;//购买周卡
+	public static final int YB_BUY_ZHONGSHENKA = 147;//购买终身卡
+	public static final int YB_YABIAO_BUY_JIASU = 148;// 购买马车加速道具
+	public static final int YB_YABIAO_BUY_BLOOD = 149;// 押镖购买血瓶
+	public static final int YB_YABIAO_BUY_HUJU = 150;// 购买马车保护道具
+	public static final int YB_YABIAO_BUY_BAODISHOUYI = 151;// 购买马车保底收益道具
 }

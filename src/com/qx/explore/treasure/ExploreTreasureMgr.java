@@ -162,7 +162,7 @@ public class ExploreTreasureMgr extends EventProc {
 		return msg;
 	}
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.tanbao_tenTimes, this);//探宝10连抽
 	}
 	public void baoXiangPicked(){

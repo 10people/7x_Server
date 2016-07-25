@@ -10,7 +10,7 @@ public class StringUtils {
 	/**
 	 * 一个静态的模式仓库，减少Pattern的compile 次数
 	 */
-	private static final Map<String, Pattern> patterns = new HashMap<String, Pattern>();
+	public static final Map<String, Pattern> patterns = new HashMap<String, Pattern>();
 	static {
 		patterns.put(",", Pattern.compile(","));
 		patterns.put(":", Pattern.compile(":"));

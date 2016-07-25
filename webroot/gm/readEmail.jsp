@@ -42,9 +42,9 @@
 		//HibernateUtil.saveAccount(name);
 		} else {
 			session.setAttribute("name", name);
-	%>账号<%=account.getAccountId()%>:<%=account.getAccountName()%>
+	%>账号<%=account.accountId%>:<%=account.accountName%>
 	<%
-		JunZhu junzhu = HibernateUtil.find(JunZhu.class, account.getAccountId() * 1000 + GameServer.serverId);
+		JunZhu junzhu = HibernateUtil.find(JunZhu.class, account.accountId * 1000 + GameServer.serverId);
 			List<Email> mailList = null;
 			if (junzhu == null) {
 				out.println("没有君主");
@@ -63,7 +63,7 @@
 					if(mail == null){
 						return;
 					}
-					mail.setIsDelete(2);
+					mail.isDelete = 2;
 					HibernateUtil.save(mail);
 				} 
 				JunZhuMgr.inst.calcJunZhuTotalAtt(junzhu);
@@ -74,7 +74,7 @@
 				out.println("等级：" + junzhu.level + "<br/>");
 				int v = 0;
 				if (expTemp != null)
-					v = expTemp.getNeedExp();
+					v = expTemp.needExp;
 				String input = request.getParameter("v");
 				if (input == null)
 					input = "1";
@@ -93,14 +93,14 @@
 					int lastHeroId = 0;
 					for(Email mail : mailList){
 						out.append("<tr>");
-						out.append("<td>");		out.println(mail.getId());		out.append("</td>");
-						out.append("<td>");		out.println(mail.getTitle());	out.append("</td>");
-						out.append("<td>");		out.println(mail.getContent());		out.append("</td>");
+						out.append("<td>");		out.println(mail.id);		out.append("</td>");
+						out.append("<td>");		out.println(mail.title);	out.append("</td>");
+						out.append("<td>");		out.println(mail.content);		out.append("</td>");
 						out.append("<td>");		out.println(mail.sendTime);		out.append("</td>");
-						out.append("<td>");		out.println(mail.getSenderName());		out.append("</td>");
+						out.append("<td>");		out.println(mail.senderName);		out.append("</td>");
 						out.append("<td>");		out.println(mail.isReaded);		out.append("</td>");
 						out.append("<td>");		out.println("<a href='?action=deleteMail&value=" );
-	%><%=mail.getId()%> <% out.append("'>删除</a>");		out.append("</td>");
+	%><%=mail.id%> <% out.append("'>删除</a>");		out.append("</td>");
 							out.append("<tr>");
 						}
 						out.append("</table>");

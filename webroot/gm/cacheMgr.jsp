@@ -1,7 +1,6 @@
 <%@page import="com.qx.account.FunctionOpenMgr"%>
 <%@page import="com.qx.robot.RobotSession"%>
 <%@page import="com.manu.network.SessionAttKey"%>
-<%@page import="com.manu.network.SessionAttKey"%>
 <%@page import="com.manu.network.SessionUser"%>
 <%@page import="com.manu.network.SessionManager"%>
 <%@page import="com.manu.network.PD"%>

@@ -1431,5 +1431,5 @@ public class PD {
 	public static final short C_ACTIVITY_ACHIEVEMENT_GET_REQ = 7035;
 	/**领取返回*/
 	public static final short S_ACTIVITY_ACHIEVEMENT_GET_RESP = 7036;
-	
+
 }

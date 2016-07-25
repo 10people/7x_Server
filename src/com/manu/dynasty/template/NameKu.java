@@ -8,10 +8,10 @@ import javax.persistence.Table;
 @Table(name="RoleName")
 public class NameKu {
 	@Id
-	private int id;
-	private String name;
-	private int sex;
-	private byte isUse;
+	public int id;
+	public String name;
+	public int sex;
+	public byte isUse;
 	
 	public NameKu() {
 		super();
@@ -21,30 +21,6 @@ public class NameKu {
 		this.id = id;
 		this.name = name;
 		this.sex = sex;
-		this.isUse = isUse;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public int getSex() {
-		return sex;
-	}
-	public void setSex(int sex) {
-		this.sex = sex;
-	}
-	public byte getIsUse() {
-		return isUse;
-	}
-	public void setIsUse(byte isUse) {
 		this.isUse = isUse;
 	}
 }

@@ -845,7 +845,7 @@ public class DateUtils {
 	 *         ed., Cambridge University Press 1992
 	 */
 
-	private static int toJulian(int aiDay, int aiMonth, int aiYear) {
+	public static int toJulian(int aiDay, int aiMonth, int aiYear) {
 		int liJulianYear = aiYear;
 		if (aiYear < 0)
 			liJulianYear++;
@@ -1238,17 +1238,16 @@ public class DateUtils {
 		Timestamp now = new Timestamp(c.getTimeInMillis());
 		return now;
 	}
-
+	/**获取昨天10点的时间*/
 	public static Date getLast10(){
-		Date now = new Date();
-		int year=now.getYear();
-		int month=now.getMonth();
-		int date =now.getDate();
-		int hrs=-2;
-		int min=now.getMinutes();
-		int ss=now.getSeconds();
-		Date nextDay=new Date(year, month, date, hrs, min,ss);
-		return nextDay;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.DAY_OF_YEAR, -1);
+		cal.set(Calendar.HOUR_OF_DAY, 22);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		Date res = cal.getTime();
+		return res;
 	}
 	/**
 	 * 返回 距离现在最近的一个21点的具体时间点。

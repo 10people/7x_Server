@@ -5,8 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.qx.persistent.DBHash;
+
 @Entity
-public class FuWenBean {
+public class FuWenBean implements DBHash {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int id;
@@ -15,4 +17,9 @@ public class FuWenBean {
 	public int tab;
 	public int itemId;
 	public int exp;
+	
+	@Override
+	public long hash() {
+		return junzhuId;
+	}
 }

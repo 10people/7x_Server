@@ -47,7 +47,7 @@
 					return null;
 				}
 			};
-			fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account.getAccountId()*1000+GameServer.serverId));
+			fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account.accountId*1000+GameServer.serverId));
 			ChangeGuojiaReq.Builder builder = ChangeGuojiaReq.newBuilder();
 			builder.setGuojiaId(Integer.valueOf(guojiaId));
 			synchronized(fs){

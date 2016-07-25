@@ -39,7 +39,7 @@ public class MathUtils {
         return Math.max(min, Math.min(produce, max));
     }
 
-    private static Random random = new Random();
+    public static Random random = new Random();
 
     static {
         random.setSeed(System.currentTimeMillis());

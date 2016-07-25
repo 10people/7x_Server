@@ -21,7 +21,7 @@ import com.qx.junzhu.JunZhu;
 import com.qx.persistent.HibernateUtil;
 
 public class AllianceRewardStoreJob implements Job {
-	private Logger logger = LoggerFactory.getLogger(AllianceRewardStoreJob.class);
+	public Logger logger = LoggerFactory.getLogger(AllianceRewardStoreJob.class);
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {

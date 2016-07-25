@@ -36,9 +36,9 @@ public class CardMgr implements Runnable{
 	public static int[] packageIds = new int[]{901,901,901,902,903};
 	public static Logger log = LoggerFactory.getLogger(CardMgr.class);
 	
-	private static Logger eLogger = LoggerFactory.getLogger(CardMgr.class);
-	private LinkedBlockingQueue<Mission> missions = new LinkedBlockingQueue<Mission>();
-	private static Mission exit = new Mission(0,null,null);
+	public static Logger eLogger = LoggerFactory.getLogger(CardMgr.class);
+	public LinkedBlockingQueue<Mission> missions = new LinkedBlockingQueue<Mission>();
+	public static Mission exit = new Mission(0,null,null);
 	
 	public CardMgr(){
 		inst = this;
@@ -78,7 +78,7 @@ public class CardMgr implements Runnable{
 		log.info("退出CardMgr");
 	}
 
-	private void completeMission(Mission mission) {
+	public void completeMission(Mission mission) {
 		if (mission == null) {
 			eLogger.error("mission is null...");
 			return;
@@ -134,20 +134,20 @@ public class CardMgr implements Runnable{
 				continue;
 			}
 			CardItem.Builder item = CardItem.newBuilder();
-			item.setType(calcV.getItemType());
-			item.setNum(calcV.getItemNum());
-			item.setItemId(calcV.getItemId());
+			item.setType(calcV.itemType);
+			item.setNum(calcV.itemNum);
+			item.setItemId(calcV.itemId);
 			mgr.giveReward(session, calcV, jz);
-			if(calcV.getItemType() == 7){//武将
-				log.info("武将protoId {}",calcV.getItemId());
-				HeroProtoType proto = HeroMgr.tempId2HeroProto.get(calcV.getItemId());
+			if(calcV.itemType == 7){//武将
+				log.info("武将protoId {}",calcV.itemId);
+				HeroProtoType proto = HeroMgr.tempId2HeroProto.get(calcV.itemId);
 				if(proto == null){
-					log.error("武将没有找到{}",calcV.getItemId());
+					log.error("武将没有找到{}",calcV.itemId);
 				}else{
-					item.setName(HeroService.getNameById(proto.getHeroName()+""));
+					item.setName(HeroService.getNameById(proto.heroName+""));
 				}
 			}else{
-				BaseItem it = TempletService.itemMap.get(calcV.getItemId());
+				BaseItem it = TempletService.itemMap.get(calcV.itemId);
 				if(it != null){
 					item.setName(HeroService.getNameById(it.getName()));
 				}

@@ -13,7 +13,7 @@ import com.qx.alliance.AllianceBean;
 import com.qx.persistent.HibernateUtil;
 
 public class BigHouseWorthReduceJob implements Job {
-	private Logger log = LoggerFactory.getLogger(BigHouseWorthReduceJob.class);
+	public Logger log = LoggerFactory.getLogger(BigHouseWorthReduceJob.class);
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		log.info("衰减大房子价值开始");

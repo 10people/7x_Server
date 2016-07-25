@@ -29,6 +29,7 @@ import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.timeworker.FunctionID;
 import com.qx.vip.VipMgr;
+import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
 
 import qxmobile.protobuf.Activity.ActivityCardGetRewardReq;
@@ -193,7 +194,7 @@ public class StrengthGetMgr extends EventProc{
 					return;
 				}
 				//扣元宝
-				YuanBaoMgr.inst.diff(jz,-costYuanbao,0,0,0,"补领体力");
+				YuanBaoMgr.inst.diff(jz,-costYuanbao,0,0,YBType.ACTIVITY_TILIBULING,"补领体力");
 				JunZhuMgr.inst.sendMainInfo(session,jz); //通知前端
 			}
 			resp.setResult(0);
@@ -273,36 +274,35 @@ public class StrengthGetMgr extends EventProc{
 	public void proc(Event event) {
 		switch (event.id) {
 		case ED.JUNZHU_LOGIN:{
-			long jzId = (long)event.param;
-			IoSession session = AccountManager.sessionMap.get(jzId);
+			JunZhu jz = (JunZhu) event.param;
+			IoSession session = AccountManager.sessionMap.get(jz.id);
 			if(session == null){
 				return;
 			}
-			JunZhu jZhu = JunZhuMgr.inst.getJunZhu(session);
-			isShowRed(session,jZhu);
+			isShowRed(session,jz);
 		}
 		break;
-		case ED.REFRESH_TIME_WORK:{
-			IoSession session = (IoSession) event.param;
-			if(session == null){
-				return;
-			}
-			JunZhu jZhu = JunZhuMgr.inst.getJunZhu(session);
-			if(jZhu == null){
-				return;
-			}
-			isShowRed(session, jZhu);
-		}
-		break;
+//		case ED.REFRESH_TIME_WORK:{
+//			IoSession session = (IoSession) event.param;
+//			if(session == null){
+//				return;
+//			}
+//			JunZhu jZhu = JunZhuMgr.inst.getJunZhu(session);
+//			if(jZhu == null){
+//				return;
+//			}
+//			isShowRed(session, jZhu);
+//		}
+//		break;
 		default:
 				break;
 		}
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.JUNZHU_LOGIN,this);
-		EventMgr.regist(ED.REFRESH_TIME_WORK,this);
+//		EventMgr.regist(ED.REFRESH_TIME_WORK,this);
 	}
 	
 	public void isShowRed(IoSession session,JunZhu jz){

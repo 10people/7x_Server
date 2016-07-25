@@ -166,7 +166,7 @@ public class HeroMgr implements Runnable{
 		Map<Integer, HeroProtoType> id2Hero = new HashMap<Integer, HeroProtoType>();;
 		for(Object o : heros){
 			HeroProtoType hero = (HeroProtoType)o;
-			id2Hero.put(hero.getHeroId(), hero);
+			id2Hero.put(hero.heroId, hero);
 			tempId2HeroProto.put(hero.getTempId(), hero);
 		}
 		this.id2Hero = id2Hero;
@@ -175,12 +175,12 @@ public class HeroMgr implements Runnable{
 		Map<Integer, HeroGrow> id2HeroGrow = new HashMap<Integer, HeroGrow>();;
 		for(Object o : heroGrows){
 			HeroGrow heroGrow = (HeroGrow)o;
-			id2HeroGrow.put(heroGrow.getId(), heroGrow);
+			id2HeroGrow.put(heroGrow.id, heroGrow);
 			
-			List<HeroGrow> list = heroId2HeroGrow.get(heroGrow.getHeroId());
+			List<HeroGrow> list = heroId2HeroGrow.get(heroGrow.heroId);
 			if (list == null) {
 				list = new ArrayList<HeroGrow>();
-				heroId2HeroGrow.put(heroGrow.getHeroId(), list);
+				heroId2HeroGrow.put(heroGrow.heroId, list);
 			}
 			list.add(heroGrow);
 		}
@@ -190,7 +190,7 @@ public class HeroMgr implements Runnable{
 		Map<Integer, ZhuangBei> id2ZhuangBei = new HashMap<Integer, ZhuangBei>();
 		for(Object o : Zhuangbeis){
 			ZhuangBei zhuangBei = (ZhuangBei)o;
-			id2ZhuangBei.put(zhuangBei.getId(), zhuangBei);
+			id2ZhuangBei.put(zhuangBei.id, zhuangBei);
 		}
 		this.id2ZhuangBei = id2ZhuangBei;
 		/*
@@ -198,7 +198,7 @@ public class HeroMgr implements Runnable{
 		Map<Integer, ShuXingXiShu> heroId2ShuXingXiShu = new HashMap<Integer, ShuXingXiShu>();
 		for(Object o : tmp){
 			ShuXingXiShu shuXingXiShu = (ShuXingXiShu)o;
-			heroId2ShuXingXiShu.put(shuXingXiShu.getHeroId(), shuXingXiShu);
+			heroId2ShuXingXiShu.put(shuXingXiShu.heroId, shuXingXiShu);
 		}
 		this.heroId2ShuXingXiShu = heroId2ShuXingXiShu;
 		
@@ -217,7 +217,7 @@ public class HeroMgr implements Runnable{
 		}else{
 			for(Object o : stars){
 				HeroStar star = (HeroStar)o;
-				id2HeroStar.put(star.getId(), star);
+				id2HeroStar.put(star.id, star);
 			}
 		}
 		this.id2HeroStar = id2HeroStar;
@@ -229,7 +229,7 @@ public class HeroMgr implements Runnable{
 		}else {
 			for(Object o : jingPos){
 				JingPo jingPo = (JingPo)o;
-				id2JingPo.put(jingPo.getId(), jingPo);
+				id2JingPo.put(jingPo.id, jingPo);
 			}
 		}
 		this.id2JingPo = id2JingPo;
@@ -299,7 +299,7 @@ public class HeroMgr implements Runnable{
 				log.error("装备不存在，id是: " + String.valueOf(bg.itemId));
 				continue;
 			}
-			//attack = attack+item.getGongji();
+			//attack = attack+item.gongji;
 			//defense = defense + item.getFangyu();
 			//hp = hp + item.getShengming();
 			HeroWeapon.Builder ziTai;
@@ -337,16 +337,16 @@ public class HeroMgr implements Runnable{
 			return nullZiTai();
 		}
 		
-		int heroId = grow.getHeroId();
+		int heroId = grow.heroId;
 		HeroProtoType hero = id2Hero.get(heroId);
 		if (hero == null) {
 			log.error("没有找到相应的heroprototype，本次的heroid是  {}", heroId);
 			return nullZiTai();
 		}
-		GongjiType gongjiType = PveMgr.inst.getId2GongjiType().get(hero.getGongjiType());
-		ziTai.setAttackRange(gongjiType.getAttackRange());
-		ziTai.setAttackSpeed(gongjiType.getAttackSpeed());
-		ziTai.setMoveSpeed(gongjiType.getMoveSpeed());
+		GongjiType gongjiType = PveMgr.inst.getId2GongjiType().get(hero.gongjiType);
+		ziTai.setAttackRange(gongjiType.attackRange);
+		ziTai.setAttackSpeed(gongjiType.attackSpeed);
+		ziTai.setMoveSpeed(gongjiType.moveSpeed);
 		ziTai.setWeaponRatio(weapon.getXishuArray()[0]);//应该是数组，用不到暂时这样写，2015年6月15日 11:26:47
 		log.info("初始化完成");
 		return ziTai;
@@ -371,23 +371,23 @@ public class HeroMgr implements Runnable{
 	 * @return
 	 */
 	public boolean initHero(WuJiang wujiang, Hero.Builder hero){
-		int heroId = wujiang.getHeroId();
+		int heroId = wujiang.heroId;
 		HeroProtoType heroType = id2Hero.get(heroId);
 		if (heroType == null) {
 			log.error("没有这个id对应的heroprototype{}", heroId);
 			return false;
 		}
-		GongjiType gongjiType = PveMgr.inst.getId2GongjiType().get(heroType.getGongjiType());
+		GongjiType gongjiType = PveMgr.inst.getId2GongjiType().get(heroType.gongjiType);
 		
 		hero.setAttackValue(wujiang.getAttack());
 		hero.setDefenceValue(wujiang.getDefense());
 		hero.setHpMax(wujiang.getHp());
 		hero.setHeroId(wujiang.getHeroGrowId());
 		hero.setHeroTempId(wujiang.getHeroGrowId());
-		//eLogger.info("this hero ownerId {}, heroId {}, heroGrowId {}", wujiang.getOwnerId(), wujiang.getHeroId(), wujiang.getHeroGrowId());
-		hero.setAttackRange(gongjiType.getAttackRange());
-		hero.setAttackSpeed(gongjiType.getAttackSpeed());
-		hero.setMoveSpeed(gongjiType.getMoveSpeed());
+		//eLogger.info("this hero ownerId {}, heroId {}, heroGrowId {}", wujiang.getOwnerId(), wujiang.heroId, wujiang.getHeroGrowId());
+		hero.setAttackRange(gongjiType.attackRange);
+		hero.setAttackSpeed(gongjiType.attackRange);
+		hero.setMoveSpeed(gongjiType.moveSpeed);
 		hero.setZhimou(wujiang.getZhimou());
 		hero.setWuyi(wujiang.getWuyi());
 		hero.setTongshuai(wujiang.getTongshuai());
@@ -402,9 +402,9 @@ public class HeroMgr implements Runnable{
 	//*************************工具方法****************************
 
 	public void addWuJiangNum(WuJiang wuJiang) {
-		int jingPoId = id2Hero.get(wuJiang.getHeroId()).getJingpoId();
+		int jingPoId = id2Hero.get(wuJiang.heroId).jingpoId;
 		JingPo jingPo = id2JingPo.get(jingPoId);
-		wuJiang.setNum(wuJiang.getNum() + jingPo.getFenjieNum());
+		wuJiang.setNum(wuJiang.getNum() + jingPo.fenjieNum);
 		HibernateUtil.save(wuJiang);
 	}
 	
@@ -412,8 +412,8 @@ public class HeroMgr implements Runnable{
 		WuJiang w = new WuJiang();
 		w.setOwnerId(pid);
 		w.setCombine(false);
-		w.setHeroGrowId(hg.getId());
-		w.setHeroId(hg.getHeroId());
+		w.setHeroGrowId(hg.id);
+		w.setHeroId(hg.heroId);
 		return w;
 	}
 	public void addNewWuJiang(WuJiang wuJiang, long junZhuId){
@@ -448,12 +448,12 @@ public class HeroMgr implements Runnable{
 			return;
 		}
 		
-		HeroProtoType heroProtoType = id2Hero.get(heroGrow.getHeroId());
+		HeroProtoType heroProtoType = id2Hero.get(heroGrow.heroId);
 		if (heroProtoType == null) {
-			log.error("{}武将不存在，heroId:", heroGrow.getHeroId());
+			log.error("{}武将不存在，heroId:", heroGrow.heroId);
 			return ;
 		}
-		int wujiangQuality = heroProtoType.getQuality();
+		int wujiangQuality = heroProtoType.quality;
 		int attack = getAttr(heroGrow, ATTACK, keJi, wujiangQuality);
 		if (attack < 0) {
 			log.error("获取武将攻击异常");
@@ -482,11 +482,11 @@ public class HeroMgr implements Runnable{
 		wuJiang.tongshuai=tongshuai;
 		wuJiang.wuyi=wuyi;
 		wuJiang.hp=hp;
-		wuJiang.label=heroProtoType.getLabel();
-		wuJiang.quality=heroProtoType.getQuality();
+		wuJiang.label=heroProtoType.label;
+		wuJiang.quality=heroProtoType.quality;
 		log.info(
 				"战斗武将heroId:{},attack:{},defense:{},zhimou:{},tongshuai:{},wuyi:{},hp:{}",
-				heroGrow.getHeroId(), attack, defense, zhimou, tongshuai, wuyi,
+				heroGrow.heroId, attack, defense, zhimou, tongshuai, wuyi,
 				hp);		
 	}
 
@@ -498,9 +498,9 @@ public class HeroMgr implements Runnable{
 	 */
 	public int getAttr(HeroGrow heroGrow, int type, WjKeJi techs, int wujiangQuality) {
 		
-		ShuXingXiShu shuXingXiShu = heroId2ShuXingXiShu.get(heroGrow.getHeroId());
+		ShuXingXiShu shuXingXiShu = heroId2ShuXingXiShu.get(heroGrow.heroId);
 		if (shuXingXiShu == null) {
-			log.error("{}武将没有对应的属性系数", heroGrow.getHeroId());
+			log.error("{}武将没有对应的属性系数", heroGrow.heroId);
 			return -1;
 		}
 		
@@ -510,35 +510,35 @@ public class HeroMgr implements Runnable{
 		Keji keJi = null;
 		switch (type) {
 			case ATTACK:
-				buffRatio = shuXingXiShu.getRatioA();
-				baseAttr = heroGrow.getGongji();
-				keJi = WuJiangKeJiMgr.inst.getKeJi(techs.getAttack());
-				kejiJiacheng = heroGrow.getGongjijiacheng();
+				buffRatio = shuXingXiShu.ratioA;
+				baseAttr = heroGrow.gongji;
+				keJi = WuJiangKeJiMgr.inst.getKeJi(techs.attack);
+				kejiJiacheng = heroGrow.gongjijiacheng;
 				break;
 			case DEFENSE:
-				buffRatio = shuXingXiShu.getRatioB();
-				baseAttr = heroGrow.getFangyu();
-				keJi = WuJiangKeJiMgr.inst.getKeJi(techs.getDefense());
-				kejiJiacheng = heroGrow.getFangyujiacheng();
+				buffRatio = shuXingXiShu.ratioB;
+				baseAttr = heroGrow.fangyu;
+				keJi = WuJiangKeJiMgr.inst.getKeJi(techs.defense);
+				kejiJiacheng = heroGrow.fangyujiacheng;
 				break;
 			case HP:
-				buffRatio = shuXingXiShu.getRatioC();
-				baseAttr = heroGrow.getShengming();
-				keJi = WuJiangKeJiMgr.inst.getKeJi(techs.getHp());
-				kejiJiacheng = heroGrow.getShengmingjiacheng();
+				buffRatio = shuXingXiShu.ratioC;
+				baseAttr = heroGrow.shengming;
+				keJi = WuJiangKeJiMgr.inst.getKeJi(techs.hp);
+				kejiJiacheng = heroGrow.shengmingjiacheng;
 				break;
 
 			default:
 				log.error("unkown type {}", type);
 				return -1;
 		}
-		float grow = heroGrow.getChengzhang();// + getAttachChengzhang(wujiangQuality, keJi.getLevel());
+		float grow = heroGrow.chengzhang;// + getAttachChengzhang(wujiangQuality, keJi.getLevel());
 		if(keJi != null){
 //			eLogger.error("没有找到KeJi数据");
-			grow += getAttachChengzhang(wujiangQuality, keJi.getLevel());
+			grow += getAttachChengzhang(wujiangQuality, keJi.level);
 		}
 		float attrBuff = 1.0f + kejiJiacheng;					// 属性加成
-		int techLevel = (keJi == null) ? 0 : keJi.getValue();	// 科技等级
+		int techLevel = (keJi == null) ? 0 : keJi.value;	// 科技等级
 		// 【最终面版属性】=(【基础属性】+【科技等级】*【成长】*【系数】)*【属性加成】
 		float tmpFinalAttr = (baseAttr + techLevel * grow * buffRatio) * attrBuff;
 		int finalAttr = (int)tmpFinalAttr;
@@ -557,16 +557,16 @@ public class HeroMgr implements Runnable{
 		Keji keji = null;
 		switch (type) {
 			case ZHIMOU:
-				keji = WuJiangKeJiMgr.inst.getKeJi(tech.getZhiMou());
-				tmpAttr = heroGrow.getZhimou();
+				keji = WuJiangKeJiMgr.inst.getKeJi(tech.zhiMou);
+				tmpAttr = heroGrow.zhimou;
 				break;
 			case WUYI:
-				keji = WuJiangKeJiMgr.inst.getKeJi(tech.getWuYi());
-				tmpAttr = heroGrow.getWuyi();
+				keji = WuJiangKeJiMgr.inst.getKeJi(tech.wuYi);
+				tmpAttr = heroGrow.wuyi;
 				break;
 			case TONGSHUAI:
-				keji = WuJiangKeJiMgr.inst.getKeJi(tech.getTongShuai());
-				tmpAttr = heroGrow.getTongshui();
+				keji = WuJiangKeJiMgr.inst.getKeJi(tech.tongShuai);
+				tmpAttr = heroGrow.tongshui;
 				break;
 
 			default:
@@ -580,7 +580,7 @@ public class HeroMgr implements Runnable{
 				log.error("该类型的科技不存在{}", type);
 			}else{
 				if (keji == null) {
-					log.error("不存在对应武将科技{}", tech.getJunZhuId());
+					log.error("不存在对应武将科技{}", tech.junZhuId);
 					keji = new Keji();
 				}
 				tmpAttr = tmpAttr + keji.value;
@@ -669,14 +669,14 @@ public class HeroMgr implements Runnable{
 			return;
 		}
 		// 检查武将星级是否已满
-		HeroStar currentHeroStar = id2HeroStar.get(currentHeroGrow.getStarId());
+		HeroStar currentHeroStar = id2HeroStar.get(currentHeroGrow.starId);
 		if(currentHeroStar == null){
 			log.error("武将星级已满");
 			error(session, code, "武将星级已满");
 			return;
 		}
-		int nextStar = currentHeroStar.getNextStar();
-		HeroGrow nextHeroGrow = getHeroGrowByHeroIdAndStar(wuJiang.getHeroId(), nextStar);
+		int nextStar = currentHeroStar.nextStar;
+		HeroGrow nextHeroGrow = getHeroGrowByHeroIdAndStar(wuJiang.heroId, nextStar);
 		// 武将下一星级的数据
 		if(nextHeroGrow == null){
 			log.error("武将数据异常，没有对应 heroGrow数据，star:{}", nextStar);
@@ -700,7 +700,7 @@ public class HeroMgr implements Runnable{
 		ret = WuJiangShengXing(code, session, wuJiang, nextHeroGrow, currentHeroStar, jm);
 
 		if (ret) {
-			wuJiang.setHeroGrowId(nextHeroGrow.getId());
+			wuJiang.setHeroGrowId(nextHeroGrow.id);
 			HibernateUtil.save(jm);
 			HibernateUtil.save(wuJiang);
 			log.info("武将升星成功");
@@ -738,7 +738,7 @@ public class HeroMgr implements Runnable{
 		}
 		HeroGrow heroGrow = null;
 		for(HeroGrow grow : heroGrowList){
-			if(grow.getStar() == star){
+			if(grow.star == star){
 				heroGrow = grow;
 				break;
 			}
@@ -751,26 +751,26 @@ public class HeroMgr implements Runnable{
 	 * @param wuJiang
 	 */
 	public boolean WuJiangShengXing(int code, IoSession session, WuJiang wuJiang, HeroGrow grow, HeroStar star, JmBean jm) {
-		HeroProtoType type = id2Hero.get(grow.getHeroId());
+		HeroProtoType type = id2Hero.get(grow.heroId);
 		if (type == null) {
-			log.error("没有对应的herotype数据，heroId为{}", grow.getHeroId());
+			log.error("没有对应的herotype数据，heroId为{}", grow.heroId);
 			return false;
 		}
 		
-		JingPo jingPo = id2JingPo.get(type.getJingpoId());
+		JingPo jingPo = id2JingPo.get(type.jingpoId);
 		if (jingPo == null) {
-			log.error("该武将没有对应的精魄id，武将的heroId为{}", type.getHeroId());
+			log.error("该武将没有对应的精魄id，武将的heroId为{}", type.heroId);
 			return false;
 		}
 		
-		if (wuJiang.getNum() < star.getExp()) {
+		if (wuJiang.getNum() < star.exp) {
 			log.error("精魄不足");
 			error(session, code, "升星失败，精魄不足");
 			return false;
 		}
-		jm.point = jm.point + star.getJingmaidian();
-		wuJiang.setNum(wuJiang.getNum() - star.getExp());
-		log.info("玩家id为{}的玩家获得了{}经脉点", wuJiang.getOwnerId(), star.getJingmaidian());
+		jm.point = jm.point + star.jingmaidian;
+		wuJiang.setNum(wuJiang.getNum() - star.exp);
+		log.info("玩家id为{}的玩家获得了{}经脉点", wuJiang.getOwnerId(), star.jingmaidian);
 		return true;
 	}
 
@@ -977,28 +977,28 @@ public class HeroMgr implements Runnable{
 		JingPo jingPo = null;
 		for(Map.Entry<Integer, JingPo> entry : id2JingPo.entrySet()){
 			JingPo jp = entry.getValue();
-			if(jp.getHeroId() == wuJiang.getHeroId()){
+			if(jp.heroId == wuJiang.heroId){
 				jingPo = jp;
 				break;
 			}
 		}
 		
 		if(jingPo == null){
-			log.error("找不到对应的精魄配置，HeroId:{}", wuJiang.getHeroId());
-			error(session, id, "找不到对应的精魄配置，HeroId:" + wuJiang.getHeroId());
+			log.error("找不到对应的精魄配置，HeroId:{}", wuJiang.heroId);
+			error(session, id, "找不到对应的精魄配置，HeroId:" + wuJiang.heroId);
 			return;
 		}
 		int jingPoNum = wuJiang.getNum();
-		if(jingPoNum < jingPo.getHechengNum()){
+		if(jingPoNum < jingPo.hechengNum){
 			log.error("所需的精魄数量不足");
 			error(session, id, "所需的精魄数量不足");
 			return;
 		}
 		
-		wuJiang.setNum(jingPoNum - jingPo.getHechengNum());
+		wuJiang.setNum(jingPoNum - jingPo.hechengNum);
 		wuJiang.setCombine(true);
 		HibernateUtil.save(wuJiang);
-		log.info("junzhuid:{},激活武将id：{}",wuJiang.getOwnerId(),wuJiang.getHeroId());
+		log.info("junzhuid:{},激活武将id：{}",wuJiang.getOwnerId(),wuJiang.heroId);
 		
 		HeroActivatResp.Builder activatResp = HeroActivatResp.newBuilder();
 		HeroDate.Builder hero = HeroDate.newBuilder();
@@ -1015,8 +1015,8 @@ public class HeroMgr implements Runnable{
 		hero.setActivated(wuJiang.isCombine());
 		activatResp.setHero(hero);
 		session.write(activatResp.build());
-		int heroId = id2HeroGrow.get(heroGrowId).getHeroId();
-		addAcheJindu(junZhuId, id2Hero.get(heroId).getQuality());
+		int heroId = id2HeroGrow.get(heroGrowId).heroId;
+		addAcheJindu(junZhuId, id2Hero.get(heroId).quality);
 	}
 	
 	public void addAcheJindu(long junzhuId, int quality) {
@@ -1040,9 +1040,9 @@ public class HeroMgr implements Runnable{
 		default:
 			break;
 		}
-		EventMgr.addEvent(ED.DAILY_TASK_PROCESS,
+		EventMgr.addEvent(junzhuId,ED.DAILY_TASK_PROCESS,
 				new AchievementCondition(junzhuId, acheType, 1));
-		EventMgr.addEvent(ED.DAILY_TASK_PROCESS,
+		EventMgr.addEvent(junzhuId,ED.DAILY_TASK_PROCESS,
 				new AchievementCondition(junzhuId, AchievementConstants.type_wujiang_total_nums, 1));
 	}
 	
@@ -1060,8 +1060,8 @@ public class HeroMgr implements Runnable{
 			MC.add(wjKeJi, junZhuId);
 			HibernateUtil.insert(wjKeJi);
 		}
-		int goldenJingPo = wjKeJi.getGoldenJingPo();
-		wjKeJi.setGoldenJingPo(goldenJingPo + number);
+		int goldenJingPo = wjKeJi.goldenJingPo;
+		wjKeJi.goldenJingPo = goldenJingPo + number;
 		HibernateUtil.save(wjKeJi);
 		log.info("君主:{},获得金色精魄数量:{}",junZhuId, number);
 		
@@ -1080,8 +1080,8 @@ public class HeroMgr implements Runnable{
 		float attachChengzhang = 0;
 		List<KejiChengzhang> kjczList = qualityToKejiChengzhang.get(quality);
 		for(KejiChengzhang kjcz : kjczList){
-			if(level <= kjcz.getLevel()){
-				attachChengzhang = kjcz.getChengzhang();
+			if(level <= kjcz.level){
+				attachChengzhang = kjcz.chengzhang;
 			}
 		}
 		return attachChengzhang;
@@ -1097,15 +1097,15 @@ public class HeroMgr implements Runnable{
 		List<WuJiang> wuJiangList = HibernateUtil.list(WuJiang.class, 
 				" where owner_id = " + junZhuId + " and combine = 1");
 		for(WuJiang w : wuJiangList){
-			HeroProtoType proto = id2Hero.get(w.getHeroId());
+			HeroProtoType proto = id2Hero.get(w.heroId);
 			BuZhenHero.Builder h = BuZhenHero.newBuilder();
-			h.setProtoId(w.getHeroId());
+			h.setProtoId(w.heroId);
 			h.setGrowId(w.getHeroGrowId());
 			h.setName(HeroService.getNameById(proto.getName()));
 			h.setPinZhi(proto.getPinZhi());
-			h.setZhiYe(proto.getHeroType());
+			h.setZhiYe(proto.heroType);
 			HeroGrow grow = id2HeroGrow.get(w.getHeroGrowId());
-			h.setStar(grow.getStar());
+			h.setStar(grow.star);
 			ret.addList(h);
 		}
 		session.write(ret.build());

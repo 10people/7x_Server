@@ -46,6 +46,7 @@ import com.qx.gm.util.CodeUtil;
 import com.qx.gm.util.MD5Util;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.PlayerTime;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoInfo;
@@ -59,7 +60,7 @@ import com.qx.yuanbao.YuanBaoInfo;
  */
 public class GMRoleMgr {
 	public static GMRoleMgr inst;
-	private Logger logger = LoggerFactory.getLogger(GMRoleMgr.class);
+	public Logger logger = LoggerFactory.getLogger(GMRoleMgr.class);
 	public static String CACHE_ROLE_BAN_USER = "GMRoleBanUser:id:";// 角色封停信息
 	public static String CACHE_ROLE_BAN_USER_SPEAK = "GMRoleBanUserSpeak:id:";// 角色禁言信息
 
@@ -142,15 +143,15 @@ public class GMRoleMgr {
 		List<TopupRecords> recordList = new ArrayList<TopupRecords>();
 		for (YuanBaoInfo yuanbao : yuanbaoList) {
 			TopupRecords records = new TopupRecords();
-			records.setMoney(yuanbao.getCostMoney());
-			if (yuanbao.getCostMoney() == 0 && yuanbao.getYuanbaoChange() > 0) {
+			records.setMoney(yuanbao.costMoney);
+			if (yuanbao.costMoney == 0 && yuanbao.yuanbaoChange > 0) {
 				// 消费了金钱没有元宝变化则充值失败
-				records.setStatus(yuanbao.getReason());
+				records.setStatus(yuanbao.reason);
 			} else {
 				records.setStatus("充值成功");
 			}
-			records.setTop_time(yuanbao.getTimestamp().toLocaleString());
-			records.setVcoin(yuanbao.getYuanbaoChange());
+			records.setTop_time(yuanbao.timestamp.toLocaleString());
+			records.setVcoin(yuanbao.yuanbaoChange);
 			recordList.add(records);
 		}
 		response.setRecords(recordList);
@@ -223,10 +224,10 @@ public class GMRoleMgr {
 		List<ConsumeRecords> recordList = new ArrayList<ConsumeRecords>();
 		for (YuanBaoInfo yuanbao : yuanbaoList) {
 			ConsumeRecords records = new ConsumeRecords();
-			records.setDttm(yuanbao.getTimestamp().toLocaleString());
-			records.setFuncname(yuanbao.getReason());
-			records.setMoney(String.valueOf(Math.abs(yuanbao.getYuanbaoChange())));
-			records.setPrice(yuanbao.getPrice());
+			records.setDttm(yuanbao.timestamp.toLocaleString());
+			records.setFuncname(yuanbao.reason);
+			records.setMoney(String.valueOf(Math.abs(yuanbao.yuanbaoChange)));
+			records.setPrice(yuanbao.price);
 			recordList.add(records);
 		}
 		response.setRecords(recordList);
@@ -286,13 +287,14 @@ public class GMRoleMgr {
 		PlayerTime playerTime = HibernateUtil.find(PlayerTime.class, junZhu.id);
 		if (null == playerTime) {
 			playerTime = new PlayerTime(junZhu.id);
+			Cache.playerTimeCache.put(junZhu.id, playerTime);
 			HibernateUtil.insert(playerTime);
 		}
-		response.setRegistertime(null == playerTime.getCreateRoleTime() ? new Date()
-				.toLocaleString() : playerTime.getCreateRoleTime()
+		response.setRegistertime(null == playerTime.createRoleTime ? new Date()
+				.toLocaleString() : playerTime.createRoleTime
 				.toLocaleString());
-		response.setLastlogintime(null == playerTime.getLoginTime() ? new Date()
-				.toLocaleString() : playerTime.getLoginTime().toLocaleString());
+		response.setLastlogintime(null == playerTime.loginTime ? new Date()
+				.toLocaleString() : playerTime.loginTime.toLocaleString());
 		// 查找背包
 		response.setBackpack(getBackpackList(junZhu));
 		// 查找装备
@@ -668,12 +670,13 @@ public class GMRoleMgr {
 	 * @return long
 	 * @throws
 	 */
-	private long getTotalOnlineTime(JunZhu junZhu) {
+	public long getTotalOnlineTime(JunZhu junZhu) {
 		long minutes = 0;
 		int isOnline = isJunzhuOnline(junZhu);
 		PlayerTime playerTime = HibernateUtil.find(PlayerTime.class, junZhu.id);
 		if (null == playerTime) {
 			playerTime = new PlayerTime(junZhu.id);
+			Cache.playerTimeCache.put(junZhu.id, playerTime);
 			HibernateUtil.insert(playerTime);
 		}
 		long loginTime = 0;
@@ -682,14 +685,14 @@ public class GMRoleMgr {
 		loginTime = (null == loginTimeStr) ? new Date().getTime() : Long
 				.valueOf(loginTimeStr);
 		long nowTime = new Date().getTime();
-		if (0 == playerTime.getTotalOnlineTime()) {// 尚未统计在线时间，直接计算
+		if (0 == playerTime.totalOnlineTime) {// 尚未统计在线时间，直接计算
 			minutes = ((nowTime - loginTime) % (1000 * 60 * 60)) / (1000 * 60);
 		} else {
 			if (isOnline == 1) {// 当前在线，获取db记录时间加上本次上线时间
-				minutes = ((playerTime.getTotalOnlineTime() + (nowTime - loginTime)) % (1000 * 60 * 60))
+				minutes = ((playerTime.totalOnlineTime + (nowTime - loginTime)) % (1000 * 60 * 60))
 						/ (1000 * 60);
 			} else {// 当前不在线，直接获取db记录时间
-				minutes = (playerTime.getTotalOnlineTime() % (1000 * 60 * 60))
+				minutes = (playerTime.totalOnlineTime % (1000 * 60 * 60))
 						/ (1000 * 60);
 			}
 		}
@@ -710,7 +713,7 @@ public class GMRoleMgr {
 						+ YBType.YB_VIP_CHONGZHI + " and yuanbaoChange>0");
 		int topup = 0;
 		for (YuanBaoInfo yuanbao : yuanbaoList) {
-			topup += yuanbao.getYuanbaoChange();
+			topup += yuanbao.yuanbaoChange;
 		}
 		return topup;
 	}

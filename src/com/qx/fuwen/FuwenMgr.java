@@ -50,6 +50,7 @@ import qxmobile.protobuf.FuWen.JunzhuAttr;
 import qxmobile.protobuf.FuWen.OperateFuwenReq;
 import qxmobile.protobuf.FuWen.QueryFuwen;
 import qxmobile.protobuf.FuWen.QueryFuwenResp;
+import qxmobile.protobuf.JunZhuProto.JunZhuInfoRet;
 
 public class FuwenMgr extends EventProc {
 	public static FuwenMgr inst;
@@ -82,7 +83,7 @@ public class FuwenMgr extends EventProc {
 		List<Fuwen> fuwenList = TempletService.listAll(Fuwen.class .getSimpleName());
 		Map<Integer, Fuwen> fuwenMap = new HashMap<Integer, Fuwen>(fuwenList.size());
 		for (Fuwen fuwen : fuwenList) {
-			fuwenMap.put(fuwen.getFuwenID(), fuwen);
+			fuwenMap.put(fuwen.fuwenID, fuwen);
 		}
 		this.fuwenMap = fuwenMap;
 		
@@ -229,9 +230,9 @@ public class FuwenMgr extends EventProc {
 			HibernateUtil.update(junZhu);
 			JunZhuMgr.inst.sendMainInfo(session,junZhu);
 			//BagMgr.inst.sendBagInfo(session, bag);
-			// 刷新君主榜
-			EventMgr.addEvent(ED.JUN_RANK_REFRESH, junZhu);
-			response.setZhanli(PvpMgr.inst.getZhanli(junZhu));
+			JunZhuInfoRet.Builder jzB = JunZhuMgr.jzInfoCache.get(junZhu.id);
+			int zhanLi = jzB==null?0:jzB.getZhanLi();
+			response.setZhanli(zhanLi);
 		} else {
 			response.setResult(2);
 		}
@@ -241,12 +242,14 @@ public class FuwenMgr extends EventProc {
 	// 查询符文
 	public void queryFuwen(JunZhu jz, QueryFuwenResp.Builder response, int tab) {
 		// 战力
-		long zhanli = PvpMgr.inst.getZhanli(jz);
-		response.setZhanli(zhanli);
+		JunZhuInfoRet.Builder jzB = JunZhuMgr.jzInfoCache.get(jz.id);
+		int zhanLi = jzB==null?0:jzB.getZhanLi();
+		response.setZhanli(zhanLi);
 		// 对应符文页签上的栏位
-		List<FuWenBean> fuWenBeanList = getFuWenBeanInTab(jz.id, tab);
+		List<FuWenBean> fuWenBeanList = FuWenDao.inst.getFuwenByTab(jz.id, tab);
 		if (fuWenBeanList == null || fuWenBeanList.size() == 0) {// 符文栏位初始化
 			fuWenBeanList = initFuwenLanwei(jz, tab);
+			FuWenDao.inst.fuwenCache.put(jz.id, fuWenBeanList);
 		}
 		
 		Bag<BagGrid> bag = BagMgr.inst.loadBag(jz.id);
@@ -310,7 +313,7 @@ public class FuwenMgr extends EventProc {
 					}
 					FuwenInBag.Builder fuwenBuilder = FuwenInBag.newBuilder();
 					fuwenBuilder.setBagId(bagItem.dbId);
-					fuwenBuilder.setItemId(fuwen.getFuwenID());
+					fuwenBuilder.setItemId(fuwen.fuwenID);
 					fuwenBuilder.setExp((int) bagItem.instId);
 					fuwenBuilder.setCnt(bagItem.cnt);
 					response.addFuwenList(fuwenBuilder);
@@ -320,11 +323,7 @@ public class FuwenMgr extends EventProc {
 		session.write(response.build());
 	}
 
-	public List<FuWenBean> getFuWenBeanInTab(long id, int tab) {
-		return HibernateUtil.list(FuWenBean.class, " where junzhuId=" + id + " and tab=" + tab);
-	}
-
-	protected FuwenInBag.Builder isFuwenInList(List<FuwenInBag.Builder> list, int itemId) {
+	public FuwenInBag.Builder isFuwenInList(List<FuwenInBag.Builder> list, int itemId) {
 		for (FuwenInBag.Builder fuwen : list) {
 			if (fuwen.getItemId() == itemId) {
 				return fuwen;
@@ -401,7 +400,7 @@ public class FuwenMgr extends EventProc {
 			return false;
 		}
 
-		List<FuWenBean> fuWenBeanList = getFuWenBeanInTab(junZhu.id, tab);
+		List<FuWenBean> fuWenBeanList = FuWenDao.inst.getFuwenByTab(junZhu.id, tab);
 		if (fuWenBeanList == null || fuWenBeanList.size() == 0) {
 			logger.error("镶嵌符文失败，君主{}未开启符文页签:{}", junZhu.id,tab);
 			response.setResult(3);
@@ -410,7 +409,7 @@ public class FuwenMgr extends EventProc {
 		
 		// 判断同属性栏位
 		if (fuwen.inlayColor != lanweiCfg.inlayColor) {
-			logger.info("镶嵌符文失败，符文栏位{}属性与符文属性不一致，不能镶嵌", lanweiId, fuwen.getFuwenID());
+			logger.info("镶嵌符文失败，符文栏位{}属性与符文属性不一致，不能镶嵌", lanweiId, fuwen.fuwenID);
 			response.setResult(4);
 			return false;
 		}
@@ -431,13 +430,13 @@ public class FuwenMgr extends EventProc {
 				logger.error("镶嵌符文失败，找不到fuwen表id为:{}的配置2", itemId);
 				return false;
 			}
-			if(equipedFuwenCfg.getColor() > fuwen.getColor()) {
+			if(equipedFuwenCfg.color > fuwen.color) {
 				logger.error("镶嵌符文失败，被替换的符文的品质大于要镶嵌的符文");
 				response.setResult(6);
 				return false;
 			}
-			if(equipedFuwenCfg.getColor() == fuwen.getColor() 
-					&& equipedFuwenCfg.getShuxingValue() >= fuwen.getShuxingValue()) {
+			if(equipedFuwenCfg.color == fuwen.color
+					&& equipedFuwenCfg.shuxingValue >= fuwen.shuxingValue) {
 				logger.error("镶嵌符文失败，被替换的符文的等级或者经验值大于要镶嵌的符文");
 				response.setResult(4);
 				return false;
@@ -449,7 +448,7 @@ public class FuwenMgr extends EventProc {
 		
 		int beforeItemId = fwBean.itemId;
 		int beforeExp = fwBean.exp;
-		fwBean.itemId = fuwen.getFuwenID();
+		fwBean.itemId = fuwen.fuwenID;
 		fwBean.exp = itemExp;
 		HibernateUtil.save(fwBean);
 		logger.info("君主{}镶嵌符文{}到栏位{}", junZhu.id, itemId, lanweiId);
@@ -460,7 +459,7 @@ public class FuwenMgr extends EventProc {
 		}
 		sendFuwenInBagInfo(session, junZhu);
 		// 主线任务: 装备任意一个符文 20190916
-		EventMgr.addEvent(ED.wear_fushi, new Object[] { junZhu.id });
+		EventMgr.addEvent(junZhu.id, ED.wear_fushi, new Object[] { junZhu.id });
 		return true;
 	}
 
@@ -498,7 +497,7 @@ public class FuwenMgr extends EventProc {
 			}
 		}
 		
-		List<FuWenBean> fuWenBeanList = getFuWenBeanInTab(junZhu.id, tab);
+		List<FuWenBean> fuWenBeanList = FuWenDao.inst.getFuwenByTab(junZhu.id, tab);
 		for(FuWenBean fwBean : fuWenBeanList) {
 			FuwenOpen fuwenOpenCfg = fuwenOpenMap.get(fwBean.lanWeiId);
 			if(fuwenOpenCfg == null) {
@@ -522,12 +521,12 @@ public class FuwenMgr extends EventProc {
 						continue;
 					}
 					// 低于当前符文的品质的不能替换
-					if(fuwenCfgInBag.getColor() < fuwen.getColor()) {				
+					if(fuwenCfgInBag.color < fuwen.color) {				
 						continue;
 					}
 					// 品质相同时，提供的属性值比当前的小，不能替换
-					if(fuwenCfgInBag.getColor() == fuwen.getColor() &&
-							fuwenCfgInBag.getShuxingValue() <= fuwen.getShuxingValue()) {
+					if(fuwenCfgInBag.color == fuwen.color &&
+							fuwenCfgInBag.shuxingValue <= fuwen.shuxingValue) {
 						continue;
 					}
 					int beforeItemId = fwBean.itemId;
@@ -560,18 +559,18 @@ public class FuwenMgr extends EventProc {
 						continue;
 					}
 					// 选择品质较大的
-					if(fuwenCfg.getColor() > fuwenCfg4Grid.getColor()) {
+					if(fuwenCfg.color > fuwenCfg4Grid.color) {
 						maxExpGrid = grid;
 						continue;
 					} 
 					// 品质相同，选择等级最大的
-					if(fuwenCfg.getColor() == fuwenCfg4Grid.getColor()) {
-						if(fuwenCfg.getFuwenLevel() > fuwenCfg4Grid.getFuwenLevel()) {
+					if(fuwenCfg.color == fuwenCfg4Grid.color) {
+						if(fuwenCfg.fuwenLevel > fuwenCfg4Grid.fuwenLevel) {
 							maxExpGrid = grid;
 							continue;
 						}
 						// 提供属性值相同，选择经验值最大的
-						if(fuwenCfg.getFuwenLevel() == fuwenCfg4Grid.getFuwenLevel()) {
+						if(fuwenCfg.fuwenLevel == fuwenCfg4Grid.fuwenLevel) {
 							if(grid.instId > maxExpGrid.instId) {
 								maxExpGrid = grid;
 							}
@@ -592,6 +591,7 @@ public class FuwenMgr extends EventProc {
 //		sendQueryFuwenResp(session, junZhu, tab);
 		if(performed) {
 			response.setResult(0);
+			EventMgr.addEvent(junZhu.id, ED.wear_fushi, new Object[] { junZhu.id });
 		} else {
 			response.setResult(1);
 		}
@@ -602,7 +602,7 @@ public class FuwenMgr extends EventProc {
 	// 卸下符文
 	public boolean unloadFuwen(IoSession session, JunZhu junZhu, int tab, int lanweiId,
 			FuwenResp.Builder response,Bag<BagGrid> bag) {
-		List<FuWenBean> fuWenBeanList = getFuWenBeanInTab(junZhu.id, tab);
+		List<FuWenBean> fuWenBeanList = FuWenDao.inst.getFuwenByTab(junZhu.id, tab);
 		if (fuWenBeanList == null || fuWenBeanList.size() == 0) {
 			logger.info("君主{}未开启符文系统", junZhu.id);
 			response.setResult(6);
@@ -650,7 +650,7 @@ public class FuwenMgr extends EventProc {
 			return;
 		}
 		
-		List<FuWenBean> fuWenBeanList = getFuWenBeanInTab(junZhu.id, tab);
+		List<FuWenBean> fuWenBeanList = FuWenDao.inst.getFuwenByTab(junZhu.id, tab);
 		if (fuWenBeanList == null || fuWenBeanList.size() == 0) {
 			logger.info("君主{}未开启符文系统", junZhu.id);
 			return;
@@ -693,13 +693,13 @@ public class FuwenMgr extends EventProc {
 		}
 		// level
 		Fuwen fuwen = fuwenMap.get(itemId);
-		if (fuwen.getFuwenNext() == -1) {
+		if (fuwen.fuwenNext == -1) {
 			logger.info("君主{}合成符文{}失败，符文已是最高等级{}", junZhu.id, itemId,
-					fuwen.getFuwenLevel());
+					fuwen.fuwenLevel);
 			response.setReason("符文已达到最高等级。");
 			return false;
 		}
-		Fuwen fuwenNext = fuwenMap.get(fuwen.getFuwenNext());
+		Fuwen fuwenNext = fuwenMap.get(fuwen.fuwenNext);
 		// Bag
 		int num = BagMgr.inst.getItemCount(bag, itemId);
 		if (lanweiId == 0) {// 从背包合成
@@ -711,12 +711,12 @@ public class FuwenMgr extends EventProc {
 			}
 			BagMgr.inst.removeItem(session, bag, itemId, COMBINE_NUM, "普通合成消耗"
 					+ COMBINE_NUM + "个符文", junZhu.level);
-			BagMgr.inst.addItem(session, bag, fuwenNext.getFuwenID(), 1, -1,
+			BagMgr.inst.addItem(session, bag, fuwenNext.fuwenID, 1, -1,
 					junZhu.level, "合成符文");
 			logger.info("君主{}成功消耗{}个符文{}合成一个高级符文{}", junZhu.id, COMBINE_NUM,
-					itemId, fuwenNext.getFuwenID());
-			EventMgr.addEvent(ED.GAIN_ITEM,
-					new Object[] { junZhu.id, fuwenNext.getFuwenID() });
+					itemId, fuwenNext.fuwenID);
+			EventMgr.addEvent(junZhu.id, ED.GAIN_ITEM,
+					new Object[] { junZhu.id, fuwenNext.fuwenID });
 		} else {// 从装备的栏位直接合成
 			if (num < COMBINE_NUM - 1) {
 				logger.info("君主{}要合成的符文{}数量{}不足最低数量{}", junZhu.id, itemId,
@@ -729,11 +729,11 @@ public class FuwenMgr extends EventProc {
 			redis.lrem(CACHE_FUWEN_LANWEI + junZhu.id, 0, lanweiId + "#"
 					+ itemId);
 			redis.lpush_(CACHE_FUWEN_LANWEI + junZhu.id, lanweiId + "#"
-					+ fuwenNext.getFuwenID());
+					+ fuwenNext.fuwenID);
 			logger.info("君主{}成功消耗{}个符文{}合成一个高级符文{}", junZhu.id,
-					COMBINE_NUM - 1, itemId, fuwenNext.getFuwenID());
-			EventMgr.addEvent(ED.GAIN_ITEM,
-					new Object[] { junZhu.id, fuwenNext.getFuwenID() });
+					COMBINE_NUM - 1, itemId, fuwenNext.fuwenID);
+			EventMgr.addEvent(junZhu.id, ED.GAIN_ITEM,
+					new Object[] { junZhu.id, fuwenNext.fuwenID });
 		}
 		return true;
 	}
@@ -750,13 +750,13 @@ public class FuwenMgr extends EventProc {
 		}
 		// level
 		Fuwen fuwen = fuwenMap.get(itemId);
-		if (fuwen.getFuwenNext() == -1) {
+		if (fuwen.fuwenNext == -1) {
 			logger.info("君主{}合成符文{}失败，符文已是最高等级{}", junZhu.id, itemId,
-					fuwen.getFuwenLevel());
+					fuwen.fuwenLevel);
 			response.setReason("符文已达到最高等级");
 			return false;
 		}
-		Fuwen fuwenNext = fuwenMap.get(fuwen.getFuwenNext());
+		Fuwen fuwenNext = fuwenMap.get(fuwen.fuwenNext);
 		// Bag
 		int num = BagMgr.inst.getItemCount(bag, itemId);
 		if (num < COMBINE_NUM * 2) {// 背包没有符文
@@ -769,12 +769,13 @@ public class FuwenMgr extends EventProc {
 		int costNum = num - num % COMBINE_NUM;
 		BagMgr.inst.removeItem(session, bag, itemId, costNum,
 				"一键合成消耗" + costNum + "个符文", junZhu.level);
-		BagMgr.inst.addItem(session, bag, fuwenNext.getFuwenID(), combineNum, -1,
+		BagMgr.inst.addItem(session, bag, fuwenNext.fuwenID, combineNum, -1,
 				junZhu.level, "一键合成符文");
 		logger.info("君主{}成功消耗{}个符文{}合成{}个高级符文{}", junZhu.id, costNum, itemId,
-				combineNum, fuwenNext.getFuwenID());
-		EventMgr.addEvent(ED.GAIN_ITEM,
-				new Object[] { junZhu.id, fuwenNext.getFuwenID() });
+				combineNum, fuwenNext.fuwenID);
+
+		EventMgr.addEvent(junZhu.id, ED.GAIN_ITEM,
+				new Object[] { junZhu.id, fuwenNext.fuwenID });
 		return true;
 	}
 
@@ -847,8 +848,8 @@ public class FuwenMgr extends EventProc {
 					logger.error("找不到符文id为:{}的配置", itemId);
 					continue;
 				}
-				double addValue = fuwen.getShuxingValue();
-				switch (fuwen.getShuxing()) {
+				double addValue = fuwen.shuxingValue;
+				switch (fuwen.shuxing) {
 				case 1:
 					gongji += addValue;
 					break;
@@ -921,8 +922,8 @@ public class FuwenMgr extends EventProc {
 						logger.error("找不到符文id为:{}的配置", itemiId);
 						continue;
 					}
-					minLevel = fuwen.getFuwenLevel() <= minLevel ? fuwen
-							.getFuwenLevel() : minLevel;
+					minLevel = fuwen.fuwenLevel <= minLevel ? fuwen
+							.fuwenLevel : minLevel;
 				}
 			}
 			if (flag) {
@@ -941,19 +942,6 @@ public class FuwenMgr extends EventProc {
 			if (fwBean.lanWeiId == lanweiId) {
 				return fwBean;
 			}
-		}
-		return null;
-	}
-
-	// 获取符文所在的栏位id
-	public Integer getLanweiIdByItemId(int itemId, List<String> lanweiList) {
-		for (String lanwei : lanweiList) {// 遍历君主所有符文栏位
-			int lanweiId = Integer.parseInt(lanwei.split("#")[0]);
-			int tmpItemId = Integer.parseInt(lanwei.split("#")[1]);
-			if (tmpItemId == itemId) {
-				return lanweiId;
-			}
-			break;
 		}
 		return null;
 	}
@@ -995,24 +983,22 @@ public class FuwenMgr extends EventProc {
 		}
 		
 		int totalProgress = 0;
-		for(Map.Entry<Integer, List<FuwenOpen>> entry : fuwenOpenMapByTab.entrySet()) {
-			List<FuWenBean> fuWenBeanList = getFuWenBeanInTab(junZhu.id, entry.getKey());
-			if (fuWenBeanList == null || fuWenBeanList.size() == 0) {
+		List<FuWenBean> fuWenBeanList = FuWenDao.inst.getFuwenAll(junZhu.id);
+		if (fuWenBeanList == null || fuWenBeanList.size() == 0) {
+			return 0;
+		}
+		
+		for(FuWenBean fwBean : fuWenBeanList) {
+			Fuwen fuwenCfg = null;
+			if(fwBean.itemId <= 0) {
+				continue;
+			} 
+			fuwenCfg = fuwenMap.get(fwBean.itemId);
+			if(fuwenCfg == null) {
 				continue;
 			}
-			
-			for(FuWenBean fwBean : fuWenBeanList) {
-				Fuwen fuwenCfg = null;
-				if(fwBean.itemId <= 0) {
-					continue;
-				} 
-				fuwenCfg = fuwenMap.get(fwBean.itemId);
-				if(fuwenCfg == null) {
-					continue;
-				}
-				int curProgress = fuwenCfg.getFuwenLevel() * fuwenCfg.pinzhi;
-				totalProgress += curProgress;
-			}
+			int curProgress = fuwenCfg.fuwenLevel * fuwenCfg.pinzhi;
+			totalProgress += curProgress;
 		}
 		return totalProgress;
 	}
@@ -1079,10 +1065,10 @@ public class FuwenMgr extends EventProc {
 			int itemId = Integer.parseInt(lanwei.split("#")[1]);
 			Fuwen fuwen = fuwenMap.get(itemId);
 			if (fuwen != null) {
-				if (type == 1 && fuwen.getShuxing() > 3
+				if (type == 1 && fuwen.shuxing > 3
 						&& !fuwenList.contains(fuwen)) {// 符文
 					fuwenList.add(fuwen);
-				} else if (type == 2 && fuwen.getShuxing() <= 3
+				} else if (type == 2 && fuwen.shuxing <= 3
 						&& !fuwenList.contains(fuwen)) {// 宝石
 					fuwenList.add(fuwen);
 				}
@@ -1091,10 +1077,10 @@ public class FuwenMgr extends EventProc {
 		// 添加背包中的符文
 		/*List<Fuwen> fushiBag = getFushiInBag(jzId);
 		for (Fuwen fuwen : fushiBag) {
-			if (type == 1 && fuwen.getShuxing() > 3
+			if (type == 1 && fuwen.shuxing > 3
 					&& !fuwenList.contains(fuwen)) {// 符文
 				fuwenList.add(fuwen);
-			} else if (type == 2 && fuwen.getShuxing() <= 3
+			} else if (type == 2 && fuwen.shuxing <= 3
 					&& !fuwenList.contains(fuwen)) {// 宝石
 				fuwenList.add(fuwen);
 			}
@@ -1102,9 +1088,9 @@ public class FuwenMgr extends EventProc {
 		Collections.sort(fuwenList, new Comparator<Fuwen>() {// 排序
 					@Override
 					public int compare(Fuwen f1, Fuwen f2) {
-						if (f1.getFuwenLevel() < f2.getFuwenLevel()) {
+						if (f1.fuwenLevel < f2.fuwenLevel) {
 							return -1;
-						} else if (f1.getFuwenLevel() == f2.getFuwenLevel()) {
+						} else if (f1.fuwenLevel == f2.fuwenLevel) {
 							return 0;
 						} else {
 							return 1;
@@ -1115,7 +1101,7 @@ public class FuwenMgr extends EventProc {
 		if (size > 3) {
 			fuwenList = fuwenList.subList(0, 3);
 		}
-		if(size > 0 && fuwenList.get(0).getFuwenLevel() == 11){
+		if(size > 0 && fuwenList.get(0).fuwenLevel == 11){
 			fuwenList = new ArrayList<Fuwen>();
 		}
 		return fuwenList;
@@ -1126,25 +1112,17 @@ public class FuwenMgr extends EventProc {
 	 * @Description: 获取已装备的符文
 	 * @param jzId
 	 * @return
-	 * @return List<Fuwen>
 	 * @throws
 	 */
 	public boolean  getFushiEquiped(long jzId) {
-//		JunZhu jz = HibernateUtil.find(JunZhu.class, jzId);
-//		if (null == jz) {
-//			logger.info("君主不存在");
-//			return false;
-//		} 
-		for(Map.Entry<Integer, FuwenTab> entry : fuwenTabMap.entrySet()) {
-			List<FuWenBean> fuWenBeanList = getFuWenBeanInTab(jzId, entry.getKey());
-			if (fuWenBeanList == null || fuWenBeanList.size() == 0) {
-				logger.info("君主{}未开启符文系统", jzId);
-				continue;
-			}
-			for (FuWenBean fwBean : fuWenBeanList) {
-				if(fwBean.itemId > 0) {
-					return true;
-				}
+		List<FuWenBean> fuWenBeanList = FuWenDao.inst.getFuwenAll(jzId);
+		if (fuWenBeanList == null || fuWenBeanList.size() == 0) {
+			logger.info("君主{}未开启符文系统", jzId);
+			return false;
+		}
+		for (FuWenBean fwBean : fuWenBeanList) {
+			if(fwBean.itemId > 0) {
+				return true;
 			}
 		}
 		return false ;
@@ -1255,9 +1233,12 @@ public class FuwenMgr extends EventProc {
 		
 		int ret = 0;
 		for(Map.Entry<Integer, FuwenTab> entry : fuwenTabMap.entrySet()) {
-			List<FuWenBean> fuWenBeanList = getFuWenBeanInTab(junZhu.id, entry.getKey());
+			if(junZhu.level < entry.getValue().level) {
+				logger.info("君主{} tab:{}的符文为解锁", jzId, entry.getKey());
+				continue;
+			}
+			List<FuWenBean> fuWenBeanList = FuWenDao.inst.getFuwenByTab(junZhu.id, entry.getKey());
 			if (fuWenBeanList == null || fuWenBeanList.size() == 0) {
-				logger.info("君主{}未开启符文系统", jzId);
 				continue;
 			}
 			for (FuWenBean fwBean : fuWenBeanList) {
@@ -1273,17 +1254,17 @@ public class FuwenMgr extends EventProc {
 					continue;
 				}
 				for(FushiInBagInfo fsInfo : fuwens) {
-					if(fsInfo.fuwen == null || fsInfo.fuwen.getFuwenLevel() == fsInfo.fuwen.levelMax) {
+					if(fsInfo.fuwen == null || fsInfo.fuwen.fuwenLevel == fsInfo.fuwen.levelMax) {
 						continue;
 					}
-					if(fsInfo.fuwen.getInlayColor() != equipFuwen.getInlayColor()) {
+					if(fsInfo.fuwen.inlayColor != equipFuwen.inlayColor) {
 						continue;
 					}
-					if(fsInfo.fuwen.getColor() > equipFuwen.getColor()) {
+					if(fsInfo.fuwen.color > equipFuwen.color) {
 						ret = ret | RED_IS_CAN_REPLACE;
 					}
-					if(fsInfo.fuwen.getColor() == equipFuwen.getColor() &&
-							fsInfo.fuwen.getFuwenLevel() > equipFuwen.getFuwenLevel()) {
+					if(fsInfo.fuwen.color == equipFuwen.color &&
+							fsInfo.fuwen.fuwenLevel > equipFuwen.fuwenLevel) {
 						ret = ret | RED_IS_CAN_REPLACE;
 					}
 				}
@@ -1322,8 +1303,8 @@ public class FuwenMgr extends EventProc {
 				logger.error("获取栏位推送状态错误，找不到符文id为:{}的配置", itemId);
 				return 0;
 			}
-			if(fuwenEquiped.getFuwenLevel() == MaxFuwenLevel){
-				logger.info("栏位有符文itemId--{},等级达到--{}级,返回0",itemId,fuwenEquiped.getFuwenLevel());
+			if(fuwenEquiped.fuwenLevel == MaxFuwenLevel){
+				logger.info("栏位有符文itemId--{},等级达到--{}级,返回0",itemId,fuwenEquiped.fuwenLevel);
 				return 0;
 			}
 			int provideExpTotal = 0;
@@ -1333,12 +1314,12 @@ public class FuwenMgr extends EventProc {
 					logger.error("获取栏位推送状态错误，找不到符文id为:{}的配置", itemId);
 					continue;
 				}
-				if(fuwenEquiped.getColor() < fuwen.getColor()){
+				if(fuwenEquiped.color < fuwen.color){
 					continue;
 				}
 				provideExpTotal += (fuwen.exp * fsInBag.count);
 				/*if (fuwen.inlayColor == fuwenEquiped.inlayColor
-						&& fuwen.getFuwenLevel() > fuwenEquiped.getFuwenLevel()) {// 背包中有相同属性更高级的符文
+						&& fuwen.fuwenLevel > fuwenEquiped.fuwenLevel) {// 背包中有相同属性更高级的符文
 					return 2;
 				}*/
 				//  2016年5月21日 21:38:38 改为只要可以升级就提示红点
@@ -1369,7 +1350,7 @@ public class FuwenMgr extends EventProc {
 		case ED.CHECK_FUWEN_UOLOCK:
 			checkFuwenUnlock(jz);
 			break;
-		case ED.FUSHI_PUSH:
+		case ED.JUNZHU_LOGIN:
 			pushFushi(jz);
 			break;
 		default:
@@ -1378,9 +1359,9 @@ public class FuwenMgr extends EventProc {
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.CHECK_FUWEN_UOLOCK, this);
-		EventMgr.regist(ED.FUSHI_PUSH, this);
+		EventMgr.regist(ED.JUNZHU_LOGIN, this);
 	}
 
 	public void rongHeFuwen(int id, IoSession session, Builder builder) {
@@ -1396,7 +1377,7 @@ public class FuwenMgr extends EventProc {
 		}
 		
 		FuWenBean fwBean = null;
-		List<FuWenBean> fuWenBeanList = getFuWenBeanInTab(junZhu.id, tab);
+		List<FuWenBean> fuWenBeanList = FuWenDao.inst.getFuwenByTab(junZhu.id, tab);
 		for(FuWenBean fwb : fuWenBeanList) {
 			if(fwb.lanWeiId == lanweiId) {
 				fwBean = fwb;
@@ -1450,7 +1431,7 @@ public class FuwenMgr extends EventProc {
 					logger.error("符文融合失败，找不到itemId为{}的符文配置2", xiaoHaoGrid.itemId);
 					return;
 				}
-				if(xiaoHaoFuwen.getColor() > zhudongFuwen.getColor()) {
+				if(xiaoHaoFuwen.color > zhudongFuwen.color) {
 					response.setResult(4);
 					session.write(response.build());
 					logger.error("符文融合失败，融合时选择的符文品质不能比当前的符文品质高", xiaoHaoGrid.itemId);
@@ -1464,10 +1445,10 @@ public class FuwenMgr extends EventProc {
 		}
 		fwBean.exp += expTotal;
 		Fuwen zhudongFWTemp = zhudongFuwen;
-		while(fwBean.exp >= zhudongFWTemp.lvlupExp && zhudongFWTemp.getFuwenLevel() < zhudongFWTemp.levelMax) {
-			fwBean.itemId = zhudongFWTemp.getFuwenNext();
+		while(fwBean.exp >= zhudongFWTemp.lvlupExp && zhudongFWTemp.fuwenLevel < zhudongFWTemp.levelMax) {
+			fwBean.itemId = zhudongFWTemp.fuwenNext;
 			fwBean.exp -= zhudongFWTemp.lvlupExp;
-			zhudongFWTemp = fuwenMap.get(zhudongFWTemp.getFuwenNext());
+			zhudongFWTemp = fuwenMap.get(zhudongFWTemp.fuwenNext);
 			if(zhudongFWTemp == null) {
 				logger.error("符文融合操作错误，找不到itemId为{}的符文配置3");
 				break;
@@ -1518,7 +1499,7 @@ public class FuwenMgr extends EventProc {
 		}
 		
 		BagMgr.inst.removeItem(session, bag, fuwenDuihuan.itemID, fuwenDuihuan.cost, "符文甲片兑换了符文", junZhu.level);
-		BagMgr.inst.addItem(session, bag, fuwenCfg.getFuwenID(), fuwenDuihuan.num, 0, junZhu.level, "符文甲片兑换的符文");
+		BagMgr.inst.addItem(session, bag, fuwenCfg.fuwenID, fuwenDuihuan.num, 0, junZhu.level, "符文甲片兑换的符文");
 		//BagMgr.inst.sendBagInfo(session, bag);
 		sendFuwenInBagInfo(session, junZhu);
 		response.setResult(0);
@@ -1526,7 +1507,7 @@ public class FuwenMgr extends EventProc {
 		if(true) {//表示是橙色符文
 			List<Integer> itemIdList = new ArrayList<>();
 			itemIdList.add(fuwenItemId);
-			EventMgr.addEvent(ED.JIAPIAN_DUIHUAN_FUWEN, new Object[]{junZhu.name, itemIdList});
+			EventMgr.addEvent(junZhu.id, ED.JIAPIAN_DUIHUAN_FUWEN, new Object[]{junZhu.name, itemIdList});
 		}
 	}
 }

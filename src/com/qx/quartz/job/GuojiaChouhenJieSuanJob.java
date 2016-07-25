@@ -11,7 +11,7 @@ import com.qx.guojia.GuoJiaBean;
 import com.qx.persistent.HibernateUtil;
 
 public class GuojiaChouhenJieSuanJob implements Job {
-	private Logger log = LoggerFactory.getLogger(GuojiaChouhenJieSuanJob.class);
+	public Logger log = LoggerFactory.getLogger(GuojiaChouhenJieSuanJob.class);
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {

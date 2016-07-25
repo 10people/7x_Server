@@ -42,7 +42,7 @@ public class LiuShi {
 		/////////
 		parseTimeGap(pMap);
 	}
-	protected static void parseTimeGap(Map<Long, P> pMap2) {
+	public static void parseTimeGap(Map<Long, P> pMap2) {
 		Iterator<P> it = pMap2.values().iterator();
 		HashBag bag = new HashBag();
 		while(it.hasNext()){
@@ -74,7 +74,7 @@ public class LiuShi {
 			System.out.println(minute+","+bag.getCount(minute));
 		}
 	}
-	protected static void procLine(String line)throws Exception {
+	public static void procLine(String line)throws Exception {
 		if(line.contains("\"accId\":")){//登录成功
 			JSONObject o = new JSONObject(line.substring(line.indexOf("{")));
 			Long accId = o.getLong("accId");
@@ -120,13 +120,13 @@ public class LiuShi {
 			}
 		}
 	}
-	private static void breakPoint(Long accId) {
+	public static void breakPoint(Long accId) {
 		if(accId.longValue() == 947001){
 			System.out.println();
 		}
 	}
 	public static SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	protected static Date parseTime(String line) throws Exception {
+	public static Date parseTime(String line) throws Exception {
 		String sub = line.substring(0,14);
 		String sub2 = "2015-"+sub;
 		Date t = fmt.parse(sub2);

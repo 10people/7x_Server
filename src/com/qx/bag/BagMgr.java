@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import org.apache.commons.collections.map.LRUMap;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,8 +46,6 @@ import com.qx.purchase.PurchaseMgr;
 
 import log.OurLog;
 import log.parser.ReasonMgr;
-import org.apache.commons.collections.map.LRUMap;
-
 import qxmobile.protobuf.BagOperProtos.BagChangeInfo;
 import qxmobile.protobuf.BagOperProtos.BagInfo;
 import qxmobile.protobuf.BagOperProtos.BagItem;
@@ -313,12 +312,12 @@ public class BagMgr {
 		// 添加符石推送检测 2015-9-22
 		if(bi.getType() == AwardMgr.type_fuWen){
 			JunZhu jz = HibernateUtil.find(JunZhu.class, bag.ownerId);
-			EventMgr.addEvent(ED.FUSHI_PUSH, jz);
+			EventMgr.addEvent(jz.id,ED.FUSHI_PUSH, jz);
 		}
 		//添加宝石镶嵌推送检测 2016-05-19
 		if(bi.getType() == JewelMgr.Jewel_Type_Id){
 			JunZhu jz = HibernateUtil.find(JunZhu.class, bag.ownerId);
-			EventMgr.addEvent(ED.get_BaoShi, jz);
+			EventMgr.addEvent(jz.id,ED.get_BaoShi, jz);
 		}
 	}
 	
@@ -392,9 +391,9 @@ public class BagMgr {
 				item.setCnt(gd.cnt);
 				if(item.getItemType() == BaseItem.TYPE_EQUIP){
 					ZhuangBei zb = (ZhuangBei) o;
-					item.setGongJi(zb.getGongji());
-					item.setFangYu(zb.getFangyu());
-					item.setShengMing(zb.getShengming());
+					item.setGongJi(zb.gongji);
+					item.setFangYu(zb.fangyu);
+					item.setShengMing(zb.shengming);
 					item.setBuWei(zb.getBuWei());
 					//FIXME 需要计算强化加成。
 					item.setTongShuai(zb.getTongli());
@@ -403,7 +402,7 @@ public class BagMgr {
 					UserEquip ue=null;
 					if(gd.instId>0){
 						ue = HibernateUtil.find(UserEquip.class, gd.instId);
-						item.setQiangHuaLv(ue == null ? 0 : ue.getLevel());
+						item.setQiangHuaLv(ue == null ? 0 : ue.level);
 						item.setJinJieExp(ue == null ? 0 :ue.JinJieExp);
 					}else{
 						item.setQiangHuaLv(0);
@@ -469,31 +468,31 @@ public class BagMgr {
 					item.setInstId(gd.instId);
 					item.setPinZhi(zb.getPinZhi());
 					item.setCnt(1);
-					item.setGongJi(zb.getGongji());
-					item.setFangYu(zb.getFangyu());
-					item.setShengMing(zb.getShengming());
+					item.setGongJi(zb.gongji);
+					item.setFangYu(zb.fangyu);
+					item.setShengMing(zb.shengming);
 					item.setTongShuai(zb.getTongli());
 					item.setWuYi(zb.getWuli());
 					item.setMouLi(zb.getMouli());
 					UserEquip ue = gd.instId > 0 ? HibernateUtil.find(UserEquip.class, gd.instId) : null;
 					fillEquipAtt(item, zb,ue);//先把基础值放上，强化、洗练的值后面再加
 					if(gd.instId>0){
-						item.setQiangHuaLv(ue == null ? 0 : ue.getLevel());
-						item.setQiangHuaExp(ue == null ? 0 : ue.getExp());
+						item.setQiangHuaLv(ue == null ? 0 : ue.level);
+						item.setQiangHuaExp(ue == null ? 0 : ue.exp);
 						if(ue != null){
 							//洗练加成
-							item.setMouLi(item.getMouLi()+ue.getMouli());
-							item.setWuYi(item.getWuYi()+ue.getWuli());
-							item.setTongShuai(item.getTongShuai()+ue.getTongli());
+							item.setMouLi(item.getMouLi()+ue.mouli);
+							item.setWuYi(item.getWuYi()+ue.wuli);
+							item.setTongShuai(item.getTongShuai()+ue.tongli);
 							//以下1.0版本改变洗练逻辑
-							item.setWqSH(item.getWqSH() + ue.getWqSH());
-							item.setWqJM(item.getWqJM() + ue.getWqJM());
-							item.setWqBJ(item.getWqBJ() + ue.getWqBJ());
-							item.setWqRX(item.getWqRX() + ue.getWqRX());
-							item.setJnSH(item.getJnSH() + ue.getJnSH());
-							item.setJnJM(item.getJnJM() + ue.getJnJM());
-							item.setJnBJ(item.getJnBJ() + ue.getJnBJ());
-							item.setJnRX(item.getJnRX() + ue.getJnRX());
+							item.setWqSH(item.getWqSH() + ue.wqSH);
+							item.setWqJM(item.getWqJM() + ue.wqJM);
+							item.setWqBJ(item.getWqBJ() + ue.wqBJ);
+							item.setWqRX(item.getWqRX() + ue.wqRX);
+							item.setJnSH(item.getJnSH() + ue.jnSH);
+							item.setJnJM(item.getJnJM() + ue.jnJM);
+							item.setJnBJ(item.getJnBJ() + ue.jnBJ);
+							item.setJnRX(item.getJnRX() + ue.jnRX);
 							
 							//TODO +5个属性 1.0暂时不做
 //							item.setWqBJL(item.getWqBJL()+ ue.getWqBJL());  
@@ -504,12 +503,12 @@ public class BagMgr {
 							
 							//强化加成
 							int qianghuaId = zb.getQianghuaId();
-							if(ue.getLevel()>0){
-								QiangHua qianghua = template.getQiangHua(qianghuaId, ue.getLevel());
+							if(ue.level>0){
+								QiangHua qianghua = template.getQiangHua(qianghuaId, ue.level);
 								if(qianghua != null){
-									item.setGongJi(item.getGongJi() + qianghua.getGongji());
-									item.setFangYu(item.getFangYu()+ qianghua.getFangyu());
-									item.setShengMing(item.getShengMing() + qianghua.getShengming());
+									item.setGongJi(item.getGongJi() + qianghua.gongji);
+									item.setFangYu(item.getFangYu()+ qianghua.fangyu);
+									item.setShengMing(item.getShengMing() + qianghua.shengming);
 								}
 							}
 							//宝石属性
@@ -519,17 +518,17 @@ public class BagMgr {
 									int jewelId = (int)(jewelInfo >> 32);
 									Fuwen jewelPeiZhi = JewelMgr.inst.jewelMap.get(jewelId);
 									if (jewelPeiZhi != null ){
-										int shuXingType = jewelPeiZhi.getShuxing();
+										int shuXingType = jewelPeiZhi.shuxing;
 										//宝石属性目前只有三种，如有改变，增加case ; 2016-05-24
 										switch (shuXingType){
 											case 1 :
-												item.setGongJi(item.getGongJi() +  (int)jewelPeiZhi.getShuxingValue());
+												item.setGongJi(item.getGongJi() +  (int)jewelPeiZhi.shuxingValue);
 												break;
 											case 2 :
-												item.setFangYu(item.getFangYu()+ (int)jewelPeiZhi.getShuxingValue());
+												item.setFangYu(item.getFangYu()+ (int)jewelPeiZhi.shuxingValue);
 												break;
 											case 3 :
-												item.setShengMing(item.getShengMing() + (int)jewelPeiZhi.getShuxingValue());
+												item.setShengMing(item.getShengMing() + (int)jewelPeiZhi.shuxingValue);
 												break;
 											default:
 												log.info("宝石增加属性添加了新的类型{}",shuXingType);
@@ -600,31 +599,31 @@ public class BagMgr {
 						item.setInstId(gd.instId);
 						item.setPinZhi(zb.getPinZhi());
 						item.setCnt(1);
-						item.setGongJi(zb.getGongji());
-						item.setFangYu(zb.getFangyu());
-						item.setShengMing(zb.getShengming());
+						item.setGongJi(zb.gongji);
+						item.setFangYu(zb.fangyu);
+						item.setShengMing(zb.shengming);
 						item.setTongShuai(zb.getTongli());
 						item.setWuYi(zb.getWuli());
 						item.setMouLi(zb.getMouli());
 						UserEquip ue = gd.instId>0 ? HibernateUtil.find(UserEquip.class, gd.instId) : null;
 						fillEquipAtt(item, zb,ue);//先把基础值放上，强化、洗练的值后面再加
 						if(gd.instId>0){
-							item.setQiangHuaLv(ue == null ? 0 : ue.getLevel());
+							item.setQiangHuaLv(ue == null ? 0 : ue.level);
 							if(ue != null){
 								//洗练加成
-								item.setMouLi(item.getMouLi()+ue.getMouli());
-								item.setWuYi(item.getWuYi()+ue.getWuli());
-								item.setTongShuai(item.getTongShuai()+ue.getTongli());
+								item.setMouLi(item.getMouLi()+ue.mouli);
+								item.setWuYi(item.getWuYi()+ue.wuli);
+								item.setTongShuai(item.getTongShuai()+ue.tongli);
 								
 								//以下1.0版本改变洗练逻辑
-								item.setWqSH(item.getWqSH() + ue.getWqSH());
-								item.setWqJM(item.getWqJM() + ue.getWqJM());
-								item.setWqBJ(item.getWqBJ() + ue.getWqBJ());
-								item.setWqRX(item.getWqRX() + ue.getWqRX());
-								item.setJnSH(item.getJnSH() + ue.getJnSH());
-								item.setJnJM(item.getJnJM() + ue.getJnJM());
-								item.setJnBJ(item.getJnBJ() + ue.getJnBJ());
-								item.setJnRX(item.getJnRX() + ue.getJnRX());
+								item.setWqSH(item.getWqSH() + ue.wqSH);
+								item.setWqJM(item.getWqJM() + ue.wqJM);
+								item.setWqBJ(item.getWqBJ() + ue.wqBJ);
+								item.setWqRX(item.getWqRX() + ue.wqRX);
+								item.setJnSH(item.getJnSH() + ue.jnSH);
+								item.setJnJM(item.getJnJM() + ue.jnJM);
+								item.setJnBJ(item.getJnBJ() + ue.jnBJ);
+								item.setJnRX(item.getJnRX() + ue.jnRX);
 								//TODO 5个新属性 1.0暂时不做
 //								item.setWqBJL(item.getWqBJL()+ ue.getWqBJL());  
 //								item.setJnBJL(item.getJnBJL()+ ue.getJnBJL());  
@@ -637,12 +636,12 @@ public class BagMgr {
 								
 								//强化加成
 								int qianghuaId = zb.getQianghuaId();
-								if(ue.getLevel()>0){
-									QiangHua qianghua = template.getQiangHua(qianghuaId, ue.getLevel());
+								if(ue.level>0){
+									QiangHua qianghua = template.getQiangHua(qianghuaId, ue.level);
 									if(qianghua != null){
-										item.setGongJi(item.getGongJi() + qianghua.getGongji());
-										item.setFangYu(item.getFangYu()+ qianghua.getFangyu());
-										item.setShengMing(item.getShengMing() + qianghua.getShengming());
+										item.setGongJi(item.getGongJi() + qianghua.gongji);
+										item.setFangYu(item.getFangYu()+ qianghua.fangyu);
+										item.setShengMing(item.getShengMing() + qianghua.shengming);
 									}
 								}
 								item.setJinJieExp(ue.JinJieExp);
@@ -766,9 +765,9 @@ public class BagMgr {
 		YuJueHeChengResult.Builder ret = YuJueHeChengResult.newBuilder();
 		for(AwardTemp a : awardList){
 			BagItem.Builder bi = BagItem.newBuilder();
-			bi.setItemId(a.getItemId());
-			bi.setItemType(a.getItemType());
-			bi.setCnt(a.getItemNum());
+			bi.setItemId(a.itemId);
+			bi.setItemType(a.itemType);
+			bi.setCnt(a.itemNum);
 			bi.setDbId(0);
 			ret.addItems(bi);
 		}
@@ -931,7 +930,7 @@ public class BagMgr {
 		//
 		ExploreResp.Builder ret = ExploreResp.newBuilder();
 		ret.setSuccess(0);//
-		//
+		//Map<Integer, DropRateBean> dropRateMap = AwardMgr.inst.getDropRateBeanMap(awardConf, junZhu.id);
 		for(int i=0; i<cnt; i++){
 			log.info("pid {}, id {} 第 {} 遍",junZhu.id,it.id, i+1);
 			List<AwardTemp> hits = drop(session, junZhu, it, awardConf);
@@ -962,9 +961,9 @@ public class BagMgr {
 	public void award2msg(qxmobile.protobuf.Explore.ExploreResp.Builder ret,
 			AwardTemp o) {
 		Award.Builder a = Award.newBuilder();
-		a.setItemType(o.getItemType());
-		a.setItemId(o.getItemId());
-		a.setItemNumber(o.getItemNum());
+		a.setItemType(o.itemType);
+		a.setItemId(o.itemId);
+		a.setItemNumber(o.itemNum);
 		ret.addAwardsList(a);
 	}
 
@@ -978,7 +977,7 @@ public class BagMgr {
 				continue;
 			}
 			AwardMgr.inst.giveReward(session, calcV, junZhu,false,false);
-			log.info("{} 开宝箱 {} 得到 {} x {}", junZhu.id,it.id,calcV.getId(),calcV.getItemNum());
+			log.info("{} 开宝箱 {} 得到 {} x {}", junZhu.id,it.id,calcV.getId(),calcV.itemNum);
 			hitList.add(calcV);
 		}
 		return hitList;

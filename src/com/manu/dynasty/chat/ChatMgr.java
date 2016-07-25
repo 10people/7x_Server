@@ -4,12 +4,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.stream.Collectors;
 
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
@@ -29,6 +31,7 @@ import com.manu.network.SessionManager;
 import com.manu.network.SessionUser;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.alliance.AllianceBean;
+import com.qx.alliance.AllianceBeanDao;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.friends.FriendMgr;
@@ -36,6 +39,7 @@ import com.qx.gm.role.GMRoleMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.pvp.PVPConstant;
 import com.qx.pvp.PvpMgr;
 import com.qx.vip.VipData;
 import com.qx.world.Mission;
@@ -57,6 +61,7 @@ import qxmobile.protobuf.Chat.RecentContacts;
 import qxmobile.protobuf.Chat.SChatLogList;
 import qxmobile.protobuf.Chat.SGetYuYing;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import qxmobile.protobuf.JunZhuProto.JunZhuInfoRet;
 
 //FIXME 需要使用单独的线程来处理聊天。
 /**
@@ -67,7 +72,7 @@ import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 public class ChatMgr implements Runnable {
 	public static Logger log = LoggerFactory.getLogger(ChatMgr.class);
 	public LinkedBlockingQueue<Mission> missions = new LinkedBlockingQueue<Mission>();
-	private static Mission exit = new Mission(0, null, null);
+	public static Mission exit = new Mission(0, null, null);
 	public static ChatMgr inst;
 	public static int MAX_BlACK_NUM = 100;// 屏蔽玩家数量上限
 	public static final int SUCCESS = 0;// 屏蔽玩家成功
@@ -166,7 +171,7 @@ public class ChatMgr implements Runnable {
 		missions.add(exit);
 	}
 
-	protected void setInst() {
+	public void setInst() {
 		inst = this;
 	}
 
@@ -290,12 +295,13 @@ public class ChatMgr implements Runnable {
 			return;
 		}
 		if(cm.getType() == 2) {// 表示联盟招募
-			AlliancePlayer mgrMember = HibernateUtil.find(AlliancePlayer.class, jz.id);
+			AlliancePlayer mgrMember = AllianceMgr.inst.getAlliancePlayer(jz.id);
 			if (mgrMember == null || mgrMember.lianMengId <= 0) {
 				log.error("发送联盟招募聊天信息失败-君主:{}还未加入联盟", jz.id);
 				return;
 			}
-			AllianceBean alncBean = HibernateUtil.find(AllianceBean.class, mgrMember.lianMengId);
+//			AllianceBean alncBean = HibernateUtil.find(AllianceBean.class, mgrMeber.lianMengId);
+			AllianceBean alncBean = AllianceBeanDao.inst.getAllianceBean(mgrMember.lianMengId);
 			if (alncBean == null) {
 				log.error("发送联盟招募聊天信息失败-联盟:{}未找到", mgrMember.lianMengId);
 				return;
@@ -388,7 +394,7 @@ public class ChatMgr implements Runnable {
 	}
 
 	// FIXME 这个方法的效率有待考核
-	protected void lianMeng(IoSession session,
+	public void lianMeng(IoSession session,
 			qxmobile.protobuf.Chat.ChatPct.Builder cm,
 			ConcurrentHashMap<Long, SessionUser> allUser2, int cmd) {
 		Long jzId = (Long) session.getAttribute(SessionAttKey.junZhuId);
@@ -396,19 +402,20 @@ public class ChatMgr implements Runnable {
 			return;
 		}
 		
-		AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, jzId);
+		AlliancePlayer ap = AllianceMgr.inst.getAlliancePlayer(jzId);
 		if (ap == null) {
 			sendChatError(session, cmd, 3, "还不是联盟成员");
 			log.error("联盟成员信息没有找到：{}", jzId);
 			return;
 		}
-		long lmId = ap.lianMengId;
+		Integer lmId = ap.lianMengId;
 		if (lmId <= 0) {
 			sendChatError(session, cmd, 3, "还不是联盟成员");
 			log.warn("{}已不在联盟中", jzId);
 			return;
 		}
-		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, lmId);
+//		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, lmId);
+		AllianceBean alliance = AllianceBeanDao.inst.getAllianceBean(lmId);
 		if(alliance == null) {
 			sendChatError(session, cmd, 3, "还不是联盟成员");
 			log.error("找不到君主:{}所在的联盟:{}",jzId, lmId);
@@ -421,9 +428,9 @@ public class ChatMgr implements Runnable {
 		ChatPct pct = cm.build();
 		List<AlliancePlayer> memberList = AllianceMgr.inst.getAllianceMembers(alliance.id);
 		for (AlliancePlayer member : memberList) {
-			SessionUser su = SessionManager.inst.findByJunZhuId(member.junzhuId);
-			if (su != null && su.session != null) {
-				su.session.write(pct);
+			IoSession su = SessionManager.inst.findByJunZhuId(member.junzhuId);
+			if (su != null) {
+				su.write(pct);
 			}
 		}
 	}
@@ -432,7 +439,7 @@ public class ChatMgr implements Runnable {
 
 	}
 
-	protected void fixSendTime(ChatPct.Builder cm) {
+	public void fixSendTime(ChatPct.Builder cm) {
 		cm.setDateTime(dateFormat.format(Calendar.getInstance().getTime()));
 		if(cm.getContent().length() > CanShu.CHAT_MAX_WORDS) {
 			cm.setContent(cm.getContent().substring(0, CanShu.CHAT_MAX_WORDS));
@@ -751,16 +758,14 @@ public class ChatMgr implements Runnable {
 		blackInfo.setName(blackJunzhu.name);
 		blackInfo.setLevel(blackJunzhu.level);
 		blackInfo.setIconId(blackJunzhu.roleId);
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class,
-				blackJunzhu.id);
+		AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(blackJunzhu.id);
 		if (member == null || member.lianMengId <= 0) {
 			blackInfo.setLianMengName("");
 		} else {
-			AllianceBean alnc = HibernateUtil.find(AllianceBean.class,
-					member.lianMengId);
+			AllianceBean alnc = AllianceBeanDao.inst.getAllianceBean( member.lianMengId);
 			blackInfo.setLianMengName(alnc == null ? "" : alnc.name);
 		}
-		blackInfo.setJunXian(String.valueOf(PvpMgr.getJunxianLevel(blackJunzhu.id)));
+		blackInfo.setJunXian(String.valueOf(PvpMgr.inst.getJunxianLevel(blackJunzhu.id)));
 		blackInfo.setVipLv(blackJunzhu.vipLevel);
 		blackInfo.setZhanLi(PvpMgr.inst.getZhanli(blackJunzhu));
 		// FIXME 之前跟陈雷庆约定国家为0-6，需要前台统一为1-7
@@ -798,29 +803,33 @@ public class ChatMgr implements Runnable {
 			return;
 		}
 		GetBlacklistResp.Builder response = GetBlacklistResp.newBuilder();
-		Set<String> ids = Redis.getInstance().sget(
+		Set<String> idsStr = Redis.getInstance().sget(
 				CACHE_BLACKLIST_OF_JUNZHU + junzhu.id);
-		if (ids != null && ids.size() > 0) {
-			for (String id : ids) {
-				JunZhu blacker = HibernateUtil.find(JunZhu.class,
-						Long.parseLong(id));
+		Set<Long> jzIds = new HashSet<>(idsStr.size());
+		for(String idStr : idsStr) {
+			jzIds.add(Long.parseLong(idStr));
+		}
+		if (idsStr != null && idsStr.size() > 0) {
+			List<JunZhu> blackerList = HibernateUtil.list(JunZhu.class, "id", jzIds);
+			for (JunZhu blacker : blackerList) {
 				BlackJunzhuInfo.Builder bjz = BlackJunzhuInfo.newBuilder();
 				bjz.setJunzhuId(blacker.id);
 				bjz.setName(blacker.name);
 				bjz.setLevel(blacker.level);
 				bjz.setIconId(blacker.roleId);
-				AlliancePlayer member = HibernateUtil.find(
-						AlliancePlayer.class, blacker.id);
+				AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(blacker.id);
 				if (member == null || member.lianMengId <= 0) {
 					bjz.setLianMengName("");
 				} else {
-					AllianceBean alnc = HibernateUtil.find(AllianceBean.class,
-							member.lianMengId);
+					AllianceBean alnc =AllianceBeanDao.inst.getAllianceBean(member.lianMengId);
 					bjz.setLianMengName(alnc == null ? "" : alnc.name);
 				}
-				bjz.setJunXian(PvpMgr.getJunxianLevel(blacker.id)+"");
+				JunZhuInfoRet.Builder jzB = JunZhuMgr.jzInfoCache.get(blacker.id);
+				int junXian = jzB == null ? PVPConstant.XIAO_ZU_JI_BIE : jzB.getJunXian();
+				bjz.setJunXian(PvpMgr.getJunxianLevel(junXian)+"");
 				bjz.setVipLv(blacker.vipLevel);
-				bjz.setZhanLi(PvpMgr.inst.getZhanli(blacker));
+				int zhanLi = jzB==null?0:jzB.getZhanLi();
+				bjz.setZhanLi(zhanLi);
 				// FIXME 之前跟陈雷庆约定国家为0-6，需要前台统一为1-7
 				bjz.setGuojia(blacker.guoJiaId);
 				response.addJunzhuInfo(bjz.build());
@@ -883,7 +892,7 @@ public class ChatMgr implements Runnable {
 	 * @param senderName
 	 * @return
 	 */
-	private boolean isSenderBlack(long receiverId, String senderName) {
+	public boolean isSenderBlack(long receiverId, String senderName) {
 		log.info("判断邮件发送方是否在黑名单中,发送人为{}", senderName);
 		JunZhu sender = HibernateUtil.findByName(JunZhu.class, senderName,
 				" where name='" + senderName + "'");
@@ -900,7 +909,7 @@ public class ChatMgr implements Runnable {
 	 * @param response
 	 * @return
 	 */
-	private void writeByProtoMsg(IoSession session, int prototype,
+	public void writeByProtoMsg(IoSession session, int prototype,
 			Builder response) {
 		ProtobufMsg msg = new ProtobufMsg();
 		msg.id = prototype;
@@ -980,7 +989,7 @@ public class ChatMgr implements Runnable {
 		session.write(request.build());
 	}
 
-	private ChatSetting getChatSetting(long junzhuId) {
+	public ChatSetting getChatSetting(long junzhuId) {
 		ChatSetting chatSetting = HibernateUtil.find(ChatSetting.class, junzhuId);
 		if(chatSetting == null) {
 			chatSetting = new ChatSetting();

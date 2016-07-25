@@ -17,7 +17,7 @@ import com.qx.persistent.MCSupport;
 @Table(name = "AllianceApply")
 public class AllianceApply implements MCSupport {
 	
-	private static final long serialVersionUID = 7057558954854094852L;
+	public static final long serialVersionUID = 7057558954854094852L;
 	
 	@Id
 	public long junzhuId;
@@ -27,7 +27,7 @@ public class AllianceApply implements MCSupport {
 	
 	/** 申请的联盟ID列表 */
 	@Transient
-	private transient Set<Integer> allianceIdSet = null;
+	public transient Set<Integer> allianceIdSet = null;
 
 	/**
 	 * 更新字符串

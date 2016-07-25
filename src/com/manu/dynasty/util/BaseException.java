@@ -14,8 +14,8 @@ package com.manu.dynasty.util;
  */
 public class BaseException extends RuntimeException {
 
-	private int errCode = -10001;// 异常代号
-	private String errMsg = null;
+	public int errCode = -10001;// 异常代号
+	public String errMsg = null;
 	public BaseException(){
 		super();
 	}

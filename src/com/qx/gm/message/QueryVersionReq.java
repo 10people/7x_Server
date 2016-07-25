@@ -4,13 +4,13 @@ import com.qx.gm.util.CodeUtil;
 import com.qx.gm.util.MD5Util;
 
 public class QueryVersionReq {
-	private int type;// 协议编号
-	private int firm;// 表示厂商ID
-	private int zone;// 大区号
-	private String title;// 公告标题
-	private String content;// 公告的文字内容
-	private int orders;// 公告顺序
-	private String md5;// 加密
+	public int type;// 协议编号
+	public int firm;// 表示厂商ID
+	public int zone;// 大区号
+	public String title;// 公告标题
+	public String content;// 公告的文字内容
+	public int orders;// 公告顺序
+	public String md5;// 加密
 
 	public boolean checkMd5() {
 		StringBuffer sBuffer = new StringBuffer();

@@ -18,9 +18,10 @@ import com.qx.email.EmailMgr;
 import com.qx.huangye.HYResource;
 import com.qx.junzhu.JunZhu;
 import com.qx.persistent.HibernateUtil;
+import com.qx.pvp.LveDuoMgr;
 
 public class AllianceResouceOutputJob implements Job {
-	private Logger logger = LoggerFactory.getLogger(AllianceResouceOutputJob.class);
+	public Logger logger = LoggerFactory.getLogger(AllianceResouceOutputJob.class);
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -37,7 +38,7 @@ public class AllianceResouceOutputJob implements Job {
 				}
 				int hours = DateUtils.timeDistanceByHour(nowDate, lastAllotTime);
 				int getTongbi = (int) (hours * CanShu.HUANGYEPVP_PRODUCE_P);
-				List<AlliancePlayer> memberAll = HibernateUtil.list(AlliancePlayer.class, " where lianMengId="+alliance.id);
+//				List<AlliancePlayer> memberAll = HibernateUtil.list(AlliancePlayer.class, " where lianMengId="+alliance.id);
 				Mail mailConfig = null;
 				String fujian = "";
 				boolean sendOK = false;
@@ -47,11 +48,16 @@ public class AllianceResouceOutputJob implements Job {
 				} else {
 					mailConfig = EmailMgr.INSTANCE.getMailConfig(21003);
 				}
-				for(AlliancePlayer ap : memberAll) {
+				List<Object[]> aList =LveDuoMgr.inst.getAllAllianceMberName(alliance.id);
+			    for(Object[] a:aList){
+			    	sendOK = EmailMgr.INSTANCE.sendMail((String) a[0], mailConfig.content, fujian, mailConfig.sender, mailConfig,"");
+					logger.info("定时发送联盟:{}资源点:{}奖励，以邮件发送奖励, 结果:{}", alliance.id, resource.id, sendOK);
+			    }
+				/*for(AlliancePlayer ap : memberAll) {
 					JunZhu getJunzhu = HibernateUtil.find(JunZhu.class, ap.junzhuId);
 					sendOK = EmailMgr.INSTANCE.sendMail(getJunzhu.name, mailConfig.content, fujian, mailConfig.sender, mailConfig,"");
 					logger.info("定时发送联盟:{}资源点:{}奖励，以邮件发送奖励, 结果:{}", alliance.id, resource.id, sendOK);
-				}
+				}*/
 			}
 		}
 		logger.info("定时发放联盟资源点产出奖励结束");

@@ -11,5 +11,5 @@ public abstract class EventProc {
 		doReg();
 	}
 	public abstract void proc(Event param);
-	protected abstract void doReg();
+	public abstract void doReg();
 }

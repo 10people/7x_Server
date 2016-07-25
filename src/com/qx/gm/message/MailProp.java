@@ -1,9 +1,9 @@
 package com.qx.gm.message;
 
 public class MailProp {
-	private int itemId;// 道具id
-	private String itemname;// 道具名称
-	private int itemcount;// 道具个数
+	public int itemId;// 道具id
+	public String itemname;// 道具名称
+	public int itemcount;// 道具个数
 
 	public int getItemId() {
 		return itemId;

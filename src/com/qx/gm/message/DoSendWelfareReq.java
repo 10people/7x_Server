@@ -4,13 +4,13 @@ import com.qx.gm.util.CodeUtil;
 import com.qx.gm.util.MD5Util;
 
 public class DoSendWelfareReq {
-	private int type;// 协议编号
-	private int firm;// 表示厂商ID
-	private int zone;// 大区号
-	private String roleid;// 角色id
-	private String rolename;// 角色名,玩家名称
-	private int gamegole;// 元宝数量
-	private String md5;// 加密
+	public int type;// 协议编号
+	public int firm;// 表示厂商ID
+	public int zone;// 大区号
+	public String roleid;// 角色id
+	public String rolename;// 角色名,玩家名称
+	public int gamegole;// 元宝数量
+	public String md5;// 加密
 
 	public boolean checkMd5() {
 		StringBuffer sBuffer = new StringBuffer();

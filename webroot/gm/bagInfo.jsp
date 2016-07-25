@@ -127,15 +127,15 @@
 		Bag<EquipGrid> equips = BigSwitch.getInst().equipMgr.loadEquips(junzhuId);
 				if ("wear".equals(action)) {
 					long idx = Long.parseLong(request.getParameter("bagIndex"));
-					SessionUser su = SessionManager.inst.findByJunZhuId(junzhuId);
+					IoSession su = SessionManager.inst.findByJunZhuId(junzhuId);
 					if(su!=null){
-						BigSwitch.inst.equipMgr.equipAdd(su.session,equips, bag, idx);
+						BigSwitch.inst.equipMgr.equipAdd(su,equips, bag, idx);
 					}
 				}else if ("takeoff".equals(action)) {
 					int idx = Integer.parseInt(request.getParameter("bagIndex"));
-					SessionUser su = SessionManager.inst.findByJunZhuId(junzhuId);
+					IoSession su = SessionManager.inst.findByJunZhuId(junzhuId);
 					if(su!=null){
-						BigSwitch.inst.equipMgr.equipRemove(su.session, equips, bag, idx);
+						BigSwitch.inst.equipMgr.equipRemove(su, equips, bag, idx);
 					}
 				}else if ("delete".equals(action)) {
 					long idx = Long.parseLong(request.getParameter("bagIndex"));
@@ -160,11 +160,11 @@
 						HibernateUtil.delete(bg);
 					}
 		   		}else if("pushBagsInfo".equals(action)){
-					SessionUser su = SessionManager.inst.findByJunZhuId(junzhuId);
+					IoSession su = SessionManager.inst.findByJunZhuId(junzhuId);
 					if(su!=null){
-						BagMgr.inst.sendBagInfo(0, su.session, null);
-						BagMgr.inst.sendEquipInfo(0, su.session, null);
-						JunZhuMgr.inst.sendMainInfo(su.session);
+						BagMgr.inst.sendBagInfo(0, su, null);
+						BagMgr.inst.sendEquipInfo(0, su, null);
+						JunZhuMgr.inst.sendMainInfo(su);
 					}
 		   		}else if("addExp".equals(action)){
 		   			if(equipStr!=null && equipStr.length()> 0){
@@ -173,8 +173,8 @@
 			   			if(ue != null){
 			   				if(qianghuaStr!=null &&qianghuaStr.length()>0){
 			   					int addExp = Integer.parseInt(qianghuaStr);
-			   					int totalExp = ue.getExp()+addExp;
-			   					ue.setExp(totalExp);
+			   					int totalExp = ue.exp+addExp;
+			   					ue.exp = totalExp;
 			   				}
 			   				if(jinJieStr != null&& jinJieStr.length()>0){
 			   					int addExp = Integer.parseInt(jinJieStr);
@@ -199,12 +199,12 @@
 		   		}else if("addFuWen".equals(action)){
 		   			List<Fuwen> fuWenList = TempletService.getInstance().listAll(Fuwen.class.getSimpleName());
 		   			for(Fuwen f : fuWenList){
-		   				if(f.getType() == 8){
+		   				if(f.type == 8){
 		   					AwardTemp a = new AwardTemp();
-			   				a.setAwardId(0);
-			   				a.setItemId(f.getFuwenID());
-			   				a.setItemNum(1);
-			   				a.setItemType(8);
+			   				a.awardId = 0;
+			   				a.itemId = f.fuwenID;
+			   				a.itemNum = 1;
+			   				a.itemType = 8;
 			   				AwardMgr.inst.giveReward(null, a, junzhu, false, false);
 		   				}
 		   			}
@@ -220,8 +220,8 @@
 		   			EquipXiLian xilian = HibernateUtil.find(EquipXiLian.class, "where junZhuId= " + xlJzId );
 		   			if(xilian == null ){
 		   				xilian = new EquipXiLian();
-		   				xilian.setEquipId(xlEquipDbId);
-		   				xilian.setJunZhuId(xlJzId);
+		   				xilian.equipId = xlEquipDbId;
+		   				xilian.junZhuId = xlJzId;
 		   				ZhuangBei equipTemp = TempletService.getInstance().getZhuangBei(xlEquipId);
 		   				UserEquip xlUe = HibernateUtil.find(UserEquip.class, xlInstId);
 		   				List<ZhuangbeiPinzhi> pinZhiList = TempletService.listAll(ZhuangbeiPinzhi.class.getSimpleName());
@@ -232,10 +232,10 @@
 		   						break ;
 		   					}
 		   				}
-		   				if(pinZhiTemp != null && xlUe != null && xlUe.getHasXilian() != null ){
+		   				if(pinZhiTemp != null && xlUe != null && xlUe.hasXilian != null ){
 		   					int maxXiLianZhi = new Double(pinZhiTemp.paraX).intValue();
 			   				
-			   				String xilianStr = xlUe.getHasXilian();
+			   				String xilianStr = xlUe.hasXilian;
 			   				String names[] = {"wqSH","wqJM","wqBJ","wqRX",
 									"jnSH","jnJM","jnBJ","jnRX"};
 			   				Field[] fs = new Field[names.length];
@@ -286,7 +286,7 @@
 				   				}
 			   				}
 			   				long equipXiLianId = (TableIDCreator.getTableID(EquipXiLian.class, 1L));
-			   				xilian.setId(equipXiLianId);
+			   				xilian.id = equipXiLianId;
 			   				HibernateUtil.insert(xilian);
 		   				}
 		   			}else{
@@ -320,8 +320,8 @@
 						int jinJieExp = 0;
 						if(bg.dbId!=0){
 							xilianStr = ue == null ? "没洗练信息" : ue
-									.getHasXilian() == null ? "没洗练信息" : ue
-									.getHasXilian();
+									.hasXilian == null ? "没洗练信息" : ue
+									.hasXilian;
 							if ("".equals(xilianStr)) {
 								xilianStr = "没洗练信息";
 							}
@@ -359,8 +359,8 @@
 			   }
 			%>
 			<td><%=jinJieExp%></td>
-			<td><%=ue==null?"没强化信息":ue.getLevel()%> </td>
-			<td><%=ue==null?"没强化信息":ue.getExp()%> </td>
+			<td><%=ue==null?"没强化信息":ue.level%> </td>
+			<td><%=ue==null?"没强化信息":ue.exp%> </td>
 		<%
 			   if(instId>0){
 			%>
@@ -394,16 +394,16 @@
 						out.println("<br/>数量太大，最大888<bar/>");
 					}else if (it != null) {
 						Fuwen fuwen = FuwenMgr.inst.fuwenMap.get(iid);
-						if(fuwen != null && fuwen.getType() != JewelMgr.Jewel_Type_Id) {
+						if(fuwen != null && fuwen.type != JewelMgr.Jewel_Type_Id) {
 							instId = 0;
 						}
-						SessionUser su = SessionManager.inst.findByJunZhuId(bag.ownerId);
+						IoSession su = SessionManager.inst.findByJunZhuId(bag.ownerId);
 						BigSwitch.inst.bagMgr
-								.addItem(su.session,bag, iid, cnt, instId,  junzhu.level, "jsp页面添加");
+								.addItem(su,bag, iid, cnt, instId,  junzhu.level, "jsp页面添加");
 								//addItem(bag, iid, cnt, instId, junzhu.level);
-						if(su!=null && su.session != null){
+						if(su!=null && su != null){
 							//BigSwitch.inst.bagMgr.sendBagInfo(0, su.session, null);
-							JunZhuMgr.inst.sendMainInfo(su.session);
+							JunZhuMgr.inst.sendMainInfo(su);
 						}
 						out.println("<br/>已添加"+Integer.valueOf(itemNum)+"个<bar/>" + it.getName());
 					} else {
@@ -479,8 +479,8 @@
 		if(xiLian == null){
 			out("没有洗练数据。");
 		}else{
-			out("上次洗练时间:");out(xiLian.getDate());
-			out("元宝洗练次数:");out(xiLian.getNum());
+			out("上次洗练时间:");out(xiLian.date);
+			out("元宝洗练次数:");out(xiLian.num);
 		}
 		if (cnt == 0) {
 					//BigSwitch.getInst().bagMgr.addItem(bag, 100001, 1, 1);//test codes

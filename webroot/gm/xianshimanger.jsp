@@ -40,7 +40,6 @@
 <%@page import="com.qx.alliance.AlliancePlayer"%>
 <%@page import="qxmobile.protobuf.TimeWorkerProtos.TimeWorkerResponse"%>
 <%@page import="com.manu.dynasty.boot.GameServer"%>
-<%@page import="com.manu.dynasty.hero.service.HeroService"%>
 <%@page import="com.qx.purchase.PurchaseMgr"%>
 <%@include file="/myFuns.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -108,7 +107,7 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		account = HibernateUtil.getAccount(name);
 	}else if(accIdStr.length()>0){
 		account = HibernateUtil.find(Account.class, (Long.valueOf(accIdStr) - GameServer.serverId) / 1000);
-		if(account != null)name = account.getAccountName();
+		if(account != null)name = account.accountName;
 	}
 do{
 	if(account == null){
@@ -116,7 +115,7 @@ do{
 		break;
 	}
 	session.setAttribute("name", name);
-	long junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+	long junZhuId = account.accountId * 1000 + GameServer.serverId;
 	JunZhu junzhu = HibernateUtil.find(JunZhu.class, junZhuId);
 	if(junzhu == null){
 		out.println("没有君主");
@@ -133,8 +132,8 @@ do{
 	 if("upLoginTime".equals(action)){
 		 String time = request.getParameter("v");
 		 if (time != null) {
-				log.info("修改君主{}的上次登录时间为{}===》{}",junzhu.id, playerTime.getLoginTime(),time);
-				playerTime.setLoginTime(sdf.parse(time));
+				log.info("修改君主{}的上次登录时间为{}===》{}",junzhu.id, playerTime.loginTime,time);
+				playerTime.loginTime = sdf.parse(time);
 				HibernateUtil.save(playerTime);
 			}
 	 }
@@ -158,7 +157,7 @@ do{
 			out("君主没有登录时间数据<br>");
 			return;
 		}else{
-			Date lastLogInTime = playerTime.getLoginTime();
+			Date lastLogInTime = playerTime.loginTime;
 		String dayCount=	XianShiActivityMgr.DB.get(XianShiActivityMgr.XIANSHI7DAY_KEY + junZhuId);
 // 	boolean	isExist =XianShiActivityMgr.DB.lexist((XianShiActivityMgr.XIANSHIFINISH_KEY + junZhuId), XianShiConstont.QIRIQIANDAO_TYPE + "");
 		if(lastLogInTime!=null){
@@ -201,22 +200,22 @@ do{
 		out("<br><br>");
 		List<XianshiControl> xsControlList = TempletService.listAll(XianshiControl.class.getSimpleName());
 		for (XianshiControl xianshiControl : xsControlList) {
-			if(xianshiControl.getDoneType() == 1) continue;
+			if(xianshiControl.doneType == 1) continue;
 			trS();
-			td("<strong>" + xianshiControl.getDesc() + "↓</strong>");
+			td("<strong>" + xianshiControl.Desc + "↓</strong>");
 			td("");
 			td("");
 			trE();
-			List<XianshiHuodong> xsList=XianShiActivityMgr.instance.bigActivityMap.get(xianshiControl.getId());
+			List<XianshiHuodong> xsList=XianShiActivityMgr.instance.bigActivityMap.get(xianshiControl.id);
 			for(XianshiHuodong xs : xsList){
 				if(xs!=null){
 				boolean	isYiling=false;
-				boolean isKeling = XianShiActivityMgr.instance.DB.lexist((XianShiActivityMgr.XIANSHIKELING_KEY + junzhu.id), xs.getId()+ "");
-	 			isYiling = XianShiActivityMgr.instance.DB.lexist((XianShiActivityMgr.XIANSHIYILING_KEY + junzhu.id), xs.getId()+ "");
+				boolean isKeling = XianShiActivityMgr.instance.DB.lexist((XianShiActivityMgr.XIANSHIKELING_KEY + junzhu.id), xs.id+ "");
+	 			isYiling = XianShiActivityMgr.instance.DB.lexist((XianShiActivityMgr.XIANSHIYILING_KEY + junzhu.id), xs.id+ "");
 				trS();
-				td(xs.getDesc());
-				td(xs.getDoneCondition());
-				td(isYiling?"已领":(isKeling?"可领":"不可领"+ xs.getId()+"---"+XianShiActivityMgr.XIANSHIKELING_KEY + junzhu.id));
+				td(xs.desc);
+				td(xs.doneCondition);
+				td(isYiling?"已领":(isKeling?"可领":"不可领"+ xs.id+"---"+XianShiActivityMgr.XIANSHIKELING_KEY + junzhu.id));
 				trE();
 				}
 			}

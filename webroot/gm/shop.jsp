@@ -1,3 +1,4 @@
+<%@page import="com.qx.huangye.shop.PublicShopDao"%>
 <%@page import="com.qx.huangye.shop.WuBeiFangBean"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.qx.pvp.PvpMgr"%>
@@ -9,7 +10,6 @@
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.qx.robot.RobotSession"%>
-<%@page import="com.manu.network.SessionAttKey"%>
 <%@page import="com.manu.network.SessionAttKey"%>
 <%@page import="com.manu.network.SessionUser"%>
 <%@page import="com.manu.network.SessionManager"%>
@@ -67,8 +67,8 @@ function go(act,myid){
 <%
     }else{
         session.setAttribute("name", name);
-        %><br>注册账号：<%=account.getAccountName()%><br> 账号id：<%=account.getAccountId()%><%
-         long junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+        %><br>注册账号：<%=account.accountName%><br> 账号id：<%=account.accountId%><%
+         long junZhuId = account.accountId * 1000 + GameServer.serverId;
          JunZhu junzhu = HibernateUtil.find(JunZhu.class, junZhuId);
         
          
@@ -79,7 +79,7 @@ function go(act,myid){
           <%
            if(action != null && action.equals("updateMoneyrrr")){
         	   int v = Integer.parseInt(request.getParameter("v"));
-               PublicShop shop = HibernateUtil.find(PublicShop.class, junzhu.id * ShopMgr.shop_space + 1);
+               PublicShop shop = PublicShopDao.inst.getShopByType(junzhu.id, 1);
                if(shop == null){
                    shop = ShopMgr.inst.initShopInfo(junzhu.id, 1);
               }
@@ -94,7 +94,7 @@ function go(act,myid){
           }
            else if(action != null && action.equals("updateMoneyccc")){
               int v = Integer.parseInt(request.getParameter("v"));
-              PublicShop shop = HibernateUtil.find(PublicShop.class, junzhu.id * ShopMgr.shop_space + 3);
+              PublicShop shop = PublicShopDao.inst.getShopByType(junzhu.id, 3);
               if(shop == null){
                   shop = ShopMgr.inst.initShopInfo(junzhu.id, 3);
              }
@@ -103,7 +103,7 @@ function go(act,myid){
           }
            else if(action != null && action.equals("updateMoneyddd")){
         	   int v = Integer.parseInt(request.getParameter("v"));
-               PublicShop shop = HibernateUtil.find(PublicShop.class, junzhu.id * ShopMgr.shop_space + 4);
+               PublicShop shop = PublicShopDao.inst.getShopByType(junzhu.id, 4);
                if(shop == null){
                    shop = ShopMgr.inst.initShopInfo(junzhu.id, 4);
               }
@@ -171,7 +171,7 @@ function go(act,myid){
 				 //   public static final int common_shop_type = 5;
 				    // 神秘商店
 				 //   public static final int mysterious_shop_type = 6;
-				 PublicShop shop = HibernateUtil.find(PublicShop.class, junzhu.id * ShopMgr.shop_space + index);
+				 PublicShop shop = PublicShopDao.inst.getShopByType(junzhu.id, index);
 				 String s ="";
 				 String sM = "";
 				  if(shop == null){

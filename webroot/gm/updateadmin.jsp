@@ -31,9 +31,9 @@
 	%>
 	<form action="../admin" method="post" onsubmit="return check()">
 		<table>
-			<tr><td>用户名：</td><td><input type="text" id="name" name="name" value="<%=admin.getName()%>"/></td></tr>
-			<tr><td>密   码：</td><td><input type="password" id="pwd" name="pwd" value="<%=admin.getPwd()%>"/></td></tr>
-			<tr><td colspan="2"><button type="submit">修改</button><input type="hidden" name="action" value="update"/><input type="hidden" name="id" value="<%=admin.getId()%>"/></td></tr>
+			<tr><td>用户名：</td><td><input type="text" id="name" name="name" value="<%=admin.name%>"/></td></tr>
+			<tr><td>密   码：</td><td><input type="password" id="pwd" name="pwd" value="<%=admin.pwd%>"/></td></tr>
+			<tr><td colspan="2"><button type="submit">修改</button><input type="hidden" name="action" value="update"/><input type="hidden" name="id" value="<%=admin.id%>"/></td></tr>
 		</table>
 	</form>
 	</center>

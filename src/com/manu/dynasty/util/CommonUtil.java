@@ -180,8 +180,8 @@ public class CommonUtil {
 		return null == obj;
 	}
 	
-	private final static Pattern pattern = Pattern.compile("【\\w+】");
-	private final static Pattern NumberPattern = Pattern.compile("[0-9]*");
+	public final static Pattern pattern = Pattern.compile("【\\w+】");
+	public final static Pattern NumberPattern = Pattern.compile("[0-9]*");
 	public static String formatString(String message, Map para){
 	    String msg = message;
 	    Matcher matcher = pattern.matcher(msg);

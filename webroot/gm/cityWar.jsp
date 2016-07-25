@@ -49,16 +49,16 @@
 		account = HibernateUtil.getAccount(name);
 	}else if(accIdStr.length()>0){
 		account = HibernateUtil.find(Account.class, (Long.valueOf(accIdStr) - GameServer.serverId) / 1000);
-		if(account != null)name = account.getAccountName();
+		if(account != null)name = account.accountName;
 	}
 	JunZhu junzhu = null;
 do{
 	long junZhuId = 0;
 	if(account != null){
 		session.setAttribute("name", name);
-		out("账号");out(account.getAccountId());out("：");out(account.getAccountName());
-		out("密码：");out(account.getAccountPwd());
-		junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+		out("账号");out(account.accountId);out("：");out(account.accountName);
+		out("密码：");out(account.accountPwd);
+		junZhuId = account.accountId * 1000 + GameServer.serverId;
 	}else if(accIdStr.matches("\\d+")){
 		junZhuId = Long.parseLong(accIdStr);
 	}else{
@@ -83,7 +83,7 @@ do{
 		List<JCZCity> citySettings = TempletService.getInstance().listAll(JCZCity.class.getSimpleName());
 		Map<Integer,JCZCity>jczmap = new HashMap<Integer,JCZCity>();
 		for (JCZCity jczCity : citySettings) {
-			jczmap.put(jczCity.getId(),jczCity);
+			jczmap.put(jczCity.id,jczCity);
 		}
 		String act = request.getParameter("action"); 
 		if("bidJieSuan".equals(act)){ //结算
@@ -246,18 +246,18 @@ do{
 		}
 		if(citySettings != null){
 			for(JCZCity jczCity : citySettings){
-				if(jczCity.getType() == 2) //野城
+				if(jczCity.type == 2) //野城
 					continue;
 				trS();
-					td(jczCity.getId());
-					td("<a href='../gm/allianceFight.jsp?scId="+jczCity.id+"'>"+HeroService.getNameById(""+jczCity.getName())+"</a>");
-					td(jczCity.getAllianceLv());
-					CityBean cityb = citiesStateMap.get(jczCity.getId());
+					td(jczCity.id);
+					td("<a href='../gm/allianceFight.jsp?scId="+jczCity.id+"'>"+HeroService.getNameById(""+jczCity.name)+"</a>");
+					td(jczCity.allianceLv);
+					CityBean cityb = citiesStateMap.get(jczCity.id);
 					if(cityb != null && cityb.lmId > 0){ //被占领
 						td("联盟占领");
 						td(cityb.lmId);
 						td(AllianceMgr.inst.getAllianceName(cityb.lmId));
-						Date date = ((CityBean)citiesStateMap.get(jczCity.getId())).occupyTime;
+						Date date = ((CityBean)citiesStateMap.get(jczCity.id)).occupyTime;
 						td(DateUtils.formatDateTime(date,"yyyy/MM/dd HH:MM:ss"));
 					}else{
 						td("NPC");
@@ -277,7 +277,7 @@ do{
 						td("无人宣战");
 					}
 					tdS();
-					atag("竞拍详情","cityBidInfo.jsp?cityId="+jczCity.getId());
+					atag("竞拍详情","cityBidInfo.jsp?cityId="+jczCity.id);
 					tdE();
 					td("<a href='../gm/allianceFight.jsp?scId="+jczCity.id+"'>详情</a>");
 				trE();
@@ -335,18 +335,18 @@ do{
 				ths("设置已经战胜");
 				trE();
 				for(JCZCity jczCity : citySettings){
-					if(jczCity.getType() == 1) //普通
+					if(jczCity.type == 1) //普通
 						continue;
 					trS();
-						td(jczCity.getId());
-						td(HeroService.getNameById(""+jczCity.getName()));
-						td(jczCity.getAllianceLv());
+						td(jczCity.id);
+						td(HeroService.getNameById(""+jczCity.name));
+						td(jczCity.allianceLv);
 						if(wildCityMap.containsKey(jczCity.id) && wildCityMap.get(jczCity.id).winTime != null){
 							td("已战胜");
 						}else{
 							td("未战胜");
 						}
-						BidBean bean = HibernateUtil.find(BidBean.class,"where cityId=" + jczCity.getId() + " and lmId=" + allianceBean.id);
+						BidBean bean = HibernateUtil.find(BidBean.class,"where cityId=" + jczCity.id + " and lmId=" + allianceBean.id);
 						if(bean != null){
 							td("已经宣战");
 							td(DateUtils.date2Text(bean.bidTime, "yyyy-MM-dd HH:MM:ss"));

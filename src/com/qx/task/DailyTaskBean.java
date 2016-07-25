@@ -7,12 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
 import com.qx.persistent.MCSupport;
 
 @Entity
 @Table
-public class DailyTaskBean implements MCSupport{
-	private static final long serialVersionUID = 1L;
+public class DailyTaskBean implements MCSupport ,DBHash{
+	public static final long serialVersionUID = 1L;
 	@Id
 	// id = id * 100 + renWuId;
 	// renWuId = id % 100;
@@ -35,5 +36,22 @@ public class DailyTaskBean implements MCSupport{
 
 	public long getIdentifier() {
 		return dbId;
+	}
+
+	@Override
+	public long hash() {
+		return dbId/DailyTaskMgr.space;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if( obj == null ){
+			return false;
+		}
+		if(obj instanceof DailyTaskBean){
+			if(((DailyTaskBean) obj).dbId == dbId){
+				return true;
+			}
+		}
+		return false;
 	}
 }

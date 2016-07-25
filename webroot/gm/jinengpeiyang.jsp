@@ -54,7 +54,7 @@
 			account = HibernateUtil.find(Account.class,
 					(Long.valueOf(accIdStr) - GameServer.serverId) / 1000);
 			if (account != null)
-				name = account.getAccountName();
+				name = account.accountName;
 		}
 
 		/**突破技能**/
@@ -70,7 +70,7 @@
 			};
 			fs.setAttribute(
 					SessionAttKey.junZhuId,
-					Long.valueOf(account.getAccountId() * 1000
+					Long.valueOf(account.accountId* 1000
 							+ GameServer.serverId));
 			UpgradeJiNengReq.Builder builder = UpgradeJiNengReq
 					.newBuilder();
@@ -95,12 +95,12 @@
 			if (account != null) {
 				session.setAttribute("name", name);
 				out("账号");
-				out(account.getAccountId());
+				out(account.accountId);
 				out("：");
-				out(account.getAccountName());
+				out(account.accountName);
 				out("密码：");
-				out(account.getAccountPwd());
-				junZhuId = account.getAccountId() * 1000
+				out(account.accountPwd);
+				junZhuId = account.accountId * 1000
 						+ GameServer.serverId;
 			} else if (accIdStr.matches("\\d+")) {
 				junZhuId = Long.parseLong(accIdStr);
@@ -125,7 +125,7 @@
 			};
 			fs.setAttribute(
 					SessionAttKey.junZhuId,
-					Long.valueOf(account.getAccountId() * 1000
+					Long.valueOf(account.accountId * 1000
 							+ GameServer.serverId));
 			synchronized (fs) {
 				BigSwitch.inst.route(PD.C_GET_JINENG_PEIYANG_QUALITY_REQ,

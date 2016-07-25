@@ -116,7 +116,7 @@
 		account = HibernateUtil.getAccount(name);
 	}else if(accIdStr.length()>0){
 		account = HibernateUtil.find(Account.class, (Long.valueOf(accIdStr) - GameServer.serverId) / 1000);
-		if(account != null)name = account.getAccountName();
+		if(account != null)name = account.accountName;
 	}
 	if(action==null){
 		return;
@@ -126,9 +126,9 @@
 			long junZhuId = 0;
 			if(account != null){
 				session.setAttribute("name", name);
-				out("账号");out(account.getAccountId());out("：");out(account.getAccountName());
-				out("密码：");out(account.getAccountPwd());
-				junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+				out("账号");out(account.accountId);out("：");out(account.accountName);
+				out("密码：");out(account.accountPwd);
+				junZhuId = account.accountId * 1000 + GameServer.serverId;
 			}else if(accIdStr.matches("\\d+")){
 				junZhuId = Long.parseLong(accIdStr);
 			}else{
@@ -152,7 +152,7 @@
 						return null;
 					}
 				};
-				fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account.getAccountId()*1000+GameServer.serverId));
+				fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account.accountId*1000+GameServer.serverId));
 				GetCDKeyAwardReq.Builder builder = GetCDKeyAwardReq.newBuilder();
 				builder.setCdkey(key);
 				synchronized(fs){
@@ -208,7 +208,7 @@
 			out.println("物品："+awards+"<br/>");
 			out.println("key："+"<br/>");
 			for(CDKeyInfo keyInfo:keyList){
-				out.println(keyInfo.getCdkey()+"<br/>");
+				out.println(keyInfo.cdkey+"<br/>");
 			}
 		}
 	}while(false);

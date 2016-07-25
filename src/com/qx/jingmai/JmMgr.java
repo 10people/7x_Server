@@ -124,7 +124,7 @@ public class JmMgr {
 		List<Jingmai> list = TempletService.listAll(Jingmai.class.getSimpleName());
 		int[] arr = bean.xueWei;
 		for(Jingmai m : list){
-			if(m.getJingmai() > bean.daMai){
+			if(m.jingmai > bean.daMai){
 				//配置是有序的，大脉超出，则后面的没开启。
 				break;
 			}

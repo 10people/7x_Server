@@ -12,7 +12,7 @@ import com.google.protobuf.MessageLite.Builder;
 import com.manu.network.PD2Proto;
 
 public class ProtobufUtils {
-	private static Logger eLogger = LoggerFactory.getLogger(ProtobufUtils.class.getSimpleName());
+	public static Logger eLogger = LoggerFactory.getLogger(ProtobufUtils.class.getSimpleName());
 	public static Map<Integer, MessageLite> prototypeMap = new HashMap<Integer, MessageLite>();
 
 	@SuppressWarnings("unchecked")

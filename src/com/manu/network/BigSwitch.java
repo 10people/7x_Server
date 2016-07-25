@@ -78,6 +78,7 @@ import com.qx.log.LogMgr;
 import com.qx.mibao.MibaoMgr;
 import com.qx.mibao.v2.MiBaoV2Mgr;
 import com.qx.notice.NoticeMgr;
+import com.qx.persistent.Cache;
 import com.qx.prompt.PromptMsgMgr;
 import com.qx.purchase.PurchaseMgr;
 import com.qx.pve.PveGuanQiaMgr;
@@ -111,7 +112,7 @@ import com.yy.YYMgr;
  * 
  */
 public class BigSwitch {
-	public static Logger log = LoggerFactory.getLogger(BigSwitch.class);
+	public static Logger log = LoggerFactory.getLogger(BigSwitch.class.getSimpleName());
 	/**
 	 * 服务器启动逻辑中保证初始化。
 	 */
@@ -122,9 +123,9 @@ public class BigSwitch {
 	public GuoJiaMgr gjMgr;
 	public LveDuoMgr lveDuoMgr;
 	public YBRobotMgr ybrobotMgr;
-	// private NationalWarMgrInterface warMgrProxy;
+	// public NationalWarMgrInterface warMgrProxy;
 	public YuanBaoMgr yuanbaoMgr;
-	protected Scene scene;
+	public Scene scene;
 	public SceneMgr scMgr;
 	public PveMgr pveMgr;
 	public AccountManager accMgr;
@@ -209,10 +210,12 @@ public class BigSwitch {
 		initProxy();
 	}
 
-	protected void initProxy() {
+	public void initProxy() {
+		Cache.init();
 		new ReasonMgr();
 		new MiBaoV2Mgr();
 		new TXQueryMgr().start();
+		awardMgr = new AwardMgr();
 		eventMgr = new EventMgr();
 		yuanbaoMgr = new YuanBaoMgr();
 		settingsMgr = new SettingsMgr();
@@ -240,7 +243,6 @@ public class BigSwitch {
 		List list = TempletService.listAll(RobotInitData.class.getSimpleName());// TODO
 		RobotProtoType robot = new RobotProtoType(list, scene);
 		new Thread(robot, "robot").start();
-		awardMgr = new AwardMgr();
 		mailMgr = new EmailMgr();
 		heroMgr = new HeroMgr();
 		heroMgr.startMissionThread();
@@ -346,7 +348,7 @@ public class BigSwitch {
 		strengthGetMgr.init();
 	}
 
-	protected void setInst() {
+	public void setInst() {
 		inst = this;
 	}
 

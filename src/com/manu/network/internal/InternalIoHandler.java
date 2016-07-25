@@ -16,7 +16,7 @@ import com.manu.network.SessionManager;
  *
  */
 public class InternalIoHandler  extends IoHandlerAdapter {
-	private static Logger eLogger = LoggerFactory.getLogger("exception");
+	public static Logger eLogger = LoggerFactory.getLogger("exception");
 	public static Logger log = LoggerFactory.getLogger("stdout");
 	@Override
 	public void messageReceived(IoSession session, Object message)

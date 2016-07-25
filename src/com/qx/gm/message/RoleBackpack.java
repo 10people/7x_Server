@@ -1,9 +1,9 @@
 package com.qx.gm.message;
 
 public class RoleBackpack {
-	private String name;
-	private int id;
-	private int num;
+	public String name;
+	public int id;
+	public int num;
 
 	public String getName() {
 		return name;

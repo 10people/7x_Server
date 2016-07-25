@@ -1,7 +1,7 @@
 package com.qx.gm.message;
 
 public class BaseResp {
-	private int code;
+	public int code;
 
 	public int getCode() {
 		return code;

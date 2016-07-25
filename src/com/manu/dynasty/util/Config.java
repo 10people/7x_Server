@@ -80,7 +80,7 @@ public class Config {
 			}
 		}
 	}
-	private void loadServerId(){
+	public void loadServerId(){
 		String host =  get("loginServer");
 		int port = get("loginPort", 8090);
 		String msg = "{" + "\"msg\" : \"SERVERID\" }";
@@ -137,7 +137,7 @@ public class Config {
 			}
 		}
 	}
-	private  void printConf(){
+	public  void printConf(){
 		logger.warn("===================Server Conf==========================");
 		Set<Entry<Object, Object>> entrySet = data.entrySet();
 		for (Entry<Object, Object> entry : entrySet) {

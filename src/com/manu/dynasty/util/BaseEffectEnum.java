@@ -15,7 +15,7 @@ public enum BaseEffectEnum {
 	HURTDEEP("hurtDeep");//伤害加深
 	
 	
-	private String value;
+	public String value;
 
 	private BaseEffectEnum(String value){
 		this.value = value;

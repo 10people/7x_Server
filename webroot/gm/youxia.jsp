@@ -32,7 +32,6 @@
 <%@page import="com.manu.dynasty.boot.GameServer"%>
 <%@page import="com.qx.youxia.YouXiaBean"%>
 <%@page import="com.qx.youxia.YouXiaMgr"%>
-<%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
 <%@page import="com.qx.util.TableIDCreator"%>
 <%@include file="/myFuns.jsp" %>
@@ -87,7 +86,7 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		account = HibernateUtil.getAccount(name);
 	}else if(accIdStr.length()>0){
 		account = HibernateUtil.find(Account.class, (Long.valueOf(accIdStr) - GameServer.serverId) / 1000);
-		if(account != null)name = account.getAccountName();
+		if(account != null)name = account.accountName;
 	}
 do{
 	if(account == null){
@@ -95,9 +94,9 @@ do{
 		break;
 	}
 	session.setAttribute("name", name);
-	out("账号");out(account.getAccountId());out("：");out(account.getAccountName());
-	out("密码：");out(account.getAccountPwd());
-	long junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+	out("账号");out(account.accountId);out("：");out(account.accountName);
+	out("密码：");out(account.accountPwd);
+	long junZhuId = account.accountId * 1000 + GameServer.serverId;
 	JunZhu junzhu = HibernateUtil.find(JunZhu.class, junZhuId);
 	if(junzhu == null){
 		out.println("没有君主");
@@ -184,9 +183,9 @@ do{
 		 sendInfo = false;
 	 }
 	 if(sendInfo){
-		 SessionUser u = SessionManager.getInst().findByJunZhuId(junzhu.id);
+		 IoSession u = SessionManager.getInst().findByJunZhuId(junzhu.id);
 		 if(u!= null){
-		 	JunZhuMgr.inst.sendMainInfo(u.session);
+		 	JunZhuMgr.inst.sendMainInfo(u);
 		 }
 	 }
 	 JunZhuMgr.inst.calcJunZhuTotalAtt(junzhu);
@@ -197,7 +196,7 @@ do{
 	 ExpTemp expTemp = TempletService.getInstance().getExpTemp(1, junzhu.level);
 	 out.println("等级："+junzhu.level+"<br/>");
 	 int v = 0;
-	 if(expTemp != null)v =expTemp.getNeedExp();
+	 if(expTemp != null)v =expTemp.needExp;
 	 String input = request.getParameter("v");
 	 if(input == null)input = "1";
 	 String country = HeroService.getNameById(junzhu.guoJiaId+"");
@@ -237,16 +236,16 @@ do{
 	//	fs.wait();
 	//
 	PlayerTime pt = HibernateUtil.find(PlayerTime.class,junzhu.id);
-	if(pt != null && pt.getLoginTime() != null){
+	if(pt != null && pt.loginTime != null){
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String setV = request.getParameter("loginTime");
 		if(setV!=null){
 			Date dt = sf.parse(setV);
-			pt.setLoginTime(dt);
+			pt.loginTime = dt;
 			HibernateUtil.save(pt);
 		}
 		out("<form action=''>");
-		out("上次登录时间:<input type='text' name='loginTime' value='"+sf.format(pt.getLoginTime())+"'/>");
+		out("上次登录时间:<input type='text' name='loginTime' value='"+sf.format(pt.loginTime)+"'/>");
 		out("<input type='submit' value='修改'/>");
 		out("</form>");
 	}else{

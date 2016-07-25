@@ -3,6 +3,7 @@ package com.qx.junzhu;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -56,7 +57,8 @@ public class ChenghaoMgr extends EventProc{
 		if (junZhuId == null) {
 			return;
 		}
-		ChengHaoBean bean = HibernateUtil.find(ChengHaoBean.class, "where jzId="+junZhuId+" and state='U'");
+		//ChengHaoBean bean = HibernateUtil.find(ChengHaoBean.class, "where jzId="+junZhuId+" and state='U'");
+		ChengHaoBean bean = ChengHaoDao.inst.getChengHaoBeanByState(junZhuId, 'U');
 		sendCur(session, bean);
 	}
 	public void sendCur(IoSession session, ChengHaoBean bean) {
@@ -74,6 +76,7 @@ public class ChenghaoMgr extends EventProc{
 			long leftMs = endMs - curMs;
 			if(leftMs<=0){
 				HibernateUtil.delete(bean);
+				ChengHaoDao.inst.delete(bean);
 				b.setLeftSec(0);
 				b.setId(-1);
 				b.setName("");
@@ -131,7 +134,8 @@ public class ChenghaoMgr extends EventProc{
 		}
 		int which = req.getPointId();
 		if(which <= 0){//卸下
-			ChengHaoBean cur = HibernateUtil.find(ChengHaoBean.class, "where jzId="+junZhuId+" and state='U'");
+			//ChengHaoBean cur = HibernateUtil.find(ChengHaoBean.class, "where jzId="+junZhuId+" and state='U'");
+			ChengHaoBean cur = ChengHaoDao.inst.getChengHaoBeanByState(junZhuId, 'U');
 			if(cur != null){
 				cur.state = 'G';
 				HibernateUtil.save(cur);
@@ -140,7 +144,7 @@ public class ChenghaoMgr extends EventProc{
 				log.info("{} 卸下 {} , not found ",junZhuId, which);
 			}
 			//通知其他玩家
-			EventMgr.addEvent(ED.PLAYER_CHENGHAO_USE, new Object[]{session,junZhuId,"-1"});
+			EventMgr.addEvent(junZhuId,ED.PLAYER_CHENGHAO_USE, new Object[]{session,junZhuId,"-1"});
 			//更新称号（修复wpe卸下称号君主面板称号不卸下）
 			List<Chenghao> confList = TempletService.listAll(Chenghao.class.getSimpleName());
 			Chenghao fakeOne = confList.get(0);
@@ -156,12 +160,14 @@ public class ChenghaoMgr extends EventProc{
 			session.write(msg);
 			return;
 		}
-		ChengHaoBean want = HibernateUtil.find(ChengHaoBean.class, "where jzId="+junZhuId+" and tid="+which);
+		//ChengHaoBean want = HibernateUtil.find(ChengHaoBean.class, "where jzId="+junZhuId+" and tid="+which);
+		ChengHaoBean want = ChengHaoDao.inst.getChengHaoBeanById(junZhuId,which);
 		if(want == null){
 			log.warn("{}要使用未获得的称号{}",junZhuId,which);
 			return;
 		}
-		ChengHaoBean preUse = HibernateUtil.find(ChengHaoBean.class, "where jzId="+junZhuId+" and state='U'");
+		//ChengHaoBean preUse = HibernateUtil.find(ChengHaoBean.class, "where jzId="+junZhuId+" and state='U'");
+		ChengHaoBean preUse = ChengHaoDao.inst.getChengHaoBeanByState(junZhuId, 'U');
 		if(preUse != null){
 			preUse.state = 'G';
 			HibernateUtil.save(preUse);
@@ -171,19 +177,18 @@ public class ChenghaoMgr extends EventProc{
 		sendCur(session, want);
 		if(which > 0){
 			Chenghao chenghao = chenghaoMap.get(which);
-			EventMgr.addEvent(ED.PLAYER_CHENGHAO_USE, new Object[]{session,junZhuId,chenghao.id});
+			EventMgr.addEvent(junZhuId,ED.PLAYER_CHENGHAO_USE, new Object[]{session,junZhuId,chenghao.id});
 		}
 	}
 	@Override
 	public void proc(Event event) {
 		switch(event.id){
 		case ED.JUNZHU_LOGIN:{
-			long jzId = (long)event.param;
-			IoSession session = AccountManager.sessionMap.get(jzId);
+			JunZhu jz = (JunZhu) event.param;
+			IoSession session = AccountManager.sessionMap.get(jz.id);
 			if(session == null){
 				return;
 			}
-			JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 			refreshChengHaoRed(event, session, jz);
 		}
 		break;
@@ -231,7 +236,7 @@ public class ChenghaoMgr extends EventProc{
 //			break;
 		}		
 	}
-	protected void checkGet(Object[] data) {
+	public void checkGet(Object[] data) {
 		/* 老称号不要了
 		Integer guanQiaId = (Integer) data[1];
 		Long pid = (Long) data[0];
@@ -279,13 +284,14 @@ public class ChenghaoMgr extends EventProc{
 		c.add(Calendar.DAY_OF_MONTH, conf.validityPeriod);
 		want.expireTime = c.getTime();
 		HibernateUtil.insert(want);
+		ChengHaoDao.inst.save(want);
 		log.info("{}获得称号{} {}",pid,conf.id,conf.name);
-		EventMgr.addEvent(ED.GAIN_CHENG_HAO, new Object[]{pid, conf});
+		EventMgr.addEvent(pid,ED.GAIN_CHENG_HAO, new Object[]{pid, conf});
 		IoSession ss = AccountManager.sessionMap.get(pid);
 		return ss;
 	}
 	@Override
-	protected void doReg() {
+	public void doReg() {
 //		EventMgr.regist(ED.PVE_GUANQIA, this);
 		EventMgr.regist(ED.JUNZHU_LOGIN, this);
 		EventMgr.regist(ED.CHANGE_GONGXUN, this);
@@ -302,9 +308,9 @@ public class ChenghaoMgr extends EventProc{
 		TalentUpLevelReq.Builder req = (TalentUpLevelReq.Builder)builder;
 		int which = req.getPointId();
 		List<Chenghao> confList = TempletService.listAll(Chenghao.class.getSimpleName());
-		List<ChengHaoBean> list = HibernateUtil.list(ChengHaoBean.class,
-				"where jzId="+jz.id+" and tid="+which);
-		if(list.size()>0){
+//		List<ChengHaoBean> list = HibernateUtil.list(ChengHaoBean.class,"where jzId="+jz.id+" and tid="+which);
+		ChengHaoBean chengHaoBean = ChengHaoDao.inst.getChengHaoBeanById(jz.id, which);
+		if(chengHaoBean  != null){
 			return;
 		}
 		Optional<Chenghao> op = confList.stream().filter(c->c.id==which).findAny();
@@ -340,7 +346,7 @@ public class ChenghaoMgr extends EventProc{
 		req2.setType(type);
 		sendList(0, session, req2);
 		//添加广播事件
-		EventMgr.addEvent(ED.PLAYER_CHENHAO_DUIHUAN, new Object[]{jz.id,which});
+		EventMgr.addEvent(jz.id,ED.PLAYER_CHENHAO_DUIHUAN, new Object[]{jz.id,which});
 	}
 	
 	/**
@@ -359,6 +365,7 @@ public class ChenghaoMgr extends EventProc{
 			long leftMs = endMs - Calendar.getInstance().getTimeInMillis();
 			if(leftMs<0){
 				HibernateUtil.delete(bean);
+				ChengHaoDao.inst.delete(bean);
 				return true;
 			}else{
 				return false;
@@ -393,7 +400,8 @@ public class ChenghaoMgr extends EventProc{
 	}
 	
 	public Chenghao getCurEquipCfg(long junZhuId) {
-		ChengHaoBean bean = HibernateUtil.find(ChengHaoBean.class, "where jzId="+junZhuId+" and state='U'");
+		//ChengHaoBean bean = HibernateUtil.find(ChengHaoBean.class, "where jzId="+junZhuId+" and state='U'");
+		ChengHaoBean bean = ChengHaoDao.inst.getChengHaoBeanByState(junZhuId, 'U');
 		if(bean == null) {
 			return null;
 		}
@@ -403,12 +411,13 @@ public class ChenghaoMgr extends EventProc{
 	}
 	
 	public void refreshChengHaoRed(Event event,IoSession session,JunZhu jz){
-		List<ChengHaoBean> list = HibernateUtil.list(ChengHaoBean.class, "where jzId="+jz.id);
-		Map<Integer, ChengHaoBean> m = new HashMap<Integer, ChengHaoBean>(list.size());
+//		List<ChengHaoBean> list = HibernateUtil.list(ChengHaoBean.class, "where jzId="+jz.id);
+		Map<Integer,ChengHaoBean> chenghaoBeanMap = ChengHaoDao.inst.getMap(jz.id);
 		int chenghaoId1 = 0; //郡城战
 		int chenghaoId2 = 0; //百战
 		long curMs = System.currentTimeMillis();
-		for(ChengHaoBean b : list){
+		for (Integer key : chenghaoBeanMap.keySet()) {
+			ChengHaoBean b = chenghaoBeanMap.get(key);
 			long endMs = b.expireTime.getTime();
 			long leftMs = endMs - curMs;
 			if(leftMs<0){//称号过期
@@ -503,11 +512,8 @@ public class ChenghaoMgr extends EventProc{
 	 */
 	public void getNewChengHaoList(IoSession session,JunZhu jz,int type,ChengHaoList.Builder ret){
 		Long junZhuId = jz.id;
-		List<ChengHaoBean> list = HibernateUtil.list(ChengHaoBean.class, "where jzId="+junZhuId);
-		Map<Integer, ChengHaoBean> m = new HashMap<Integer, ChengHaoBean>(list.size());
-		for(ChengHaoBean b : list){
-			m.put(b.tid, b);
-		}
+		//List<ChengHaoBean> list = HibernateUtil.list(ChengHaoBean.class, "where jzId="+junZhuId);
+		Map<Integer, ChengHaoBean> m = ChengHaoDao.inst.getMap(junZhuId);
 		List<Chenghao> confList = TempletService.listAll(Chenghao.class.getSimpleName());
 		if(confList == null){
 			confList = Collections.emptyList();
@@ -537,6 +543,7 @@ public class ChenghaoMgr extends EventProc{
 						broadNewChengHao(session,jz.id,"-1");
 					}
 					HibernateUtil.delete(bean);
+					ChengHaoDao.inst.delete(bean);
 					ss = 0; //更新状态
 					sendMail(jz,conf.id);
 				}else{

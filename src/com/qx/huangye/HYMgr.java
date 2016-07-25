@@ -1,6 +1,7 @@
 package com.qx.huangye;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,6 +36,7 @@ import com.manu.dynasty.util.MathUtils;
 import com.manu.network.BigSwitch;
 import com.qx.account.FunctionOpenMgr;
 import com.qx.alliance.AllianceBean;
+import com.qx.alliance.AllianceBeanDao;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.award.AwardMgr;
@@ -50,6 +52,7 @@ import com.qx.purchase.PurchaseConstants;
 import com.qx.purchase.PurchaseMgr;
 import com.qx.pve.PveMgr;
 import com.qx.pve.PveRecord;
+import com.qx.pvp.LveDuoMgr;
 import com.qx.pvp.PvpMgr;
 import com.qx.task.DailyTaskCondition;
 import com.qx.task.DailyTaskConstants;
@@ -233,7 +236,7 @@ public class HYMgr extends EventProc{
 			return;
 		}
 
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
+		AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(junzhu.id);
 		// 注意 lianMengId <= 0表示没有加入或者退出联盟
 		if (member == null || member.lianMengId <= 0) {
 			sendError(session, cmd, "你还没有加入联盟");
@@ -241,7 +244,7 @@ public class HYMgr extends EventProc{
 			return;
 		}
 		int lianMengId = member.lianMengId;
-		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, lianMengId);
+		AllianceBean alliance = AllianceBeanDao.inst.getAllianceBean(lianMengId);
 		if (alliance == null) {
 			sendError(session, cmd, "请求信息有误");
 			logger.error("找不到联盟信息，不能进行荒野求生，联盟Id:{}", lianMengId);
@@ -409,13 +412,13 @@ public class HYMgr extends EventProc{
 			logger.error("未找到君主，cmd:{}", cmd);
 			return;
 		}
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
+		AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(junzhu.id);
 		if (member == null || member.lianMengId <= 0) {
 			sendError(session, cmd, "你还没有加入联盟");
 			logger.error("君主:{} 未加入联盟，不能开启藏宝点1", junzhu.name);
 			return;
 		}
-		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, member.lianMengId);
+		AllianceBean alliance = AllianceBeanDao.inst.getAllianceBean(member.lianMengId);
 		if (alliance == null) {
 			sendError(session, cmd, "请求信息有误");
 			logger.error("找不到联盟信息，不能开启藏宝点2，联盟Id:{}", member.lianMengId);
@@ -492,14 +495,15 @@ public class HYMgr extends EventProc{
 			response.setBuildValue(alliance.build);
 			session.write(response.build());
 			// 向所有联盟成员发送邮件
-			List<AlliancePlayer>  men = AllianceMgr.inst.getAllianceMembers(member.lianMengId);
+			List<Object[]> aList = LveDuoMgr.inst.getAllAllianceMberName(member.lianMengId);
+//			List<AlliancePlayer>  men = AllianceMgr.inst.getAllianceMembers(member.lianMengId);
 			Mail f = EmailMgr.INSTANCE.getMailConfig(31001);
 			String guanqiaN = HeroService.getNameById(hyPveCfg.nameId+"");
 			String zhiWei = member.title == AllianceMgr.TITLE_LEADER?"盟主": "副盟主";
 			String content = f.content.replace("AAA", guanqiaN).replace("N", zhiWei)
 					.replace("XXX", junzhu.name);
 			if(f != null){
-				for(AlliancePlayer pla: men){
+			/*for(AlliancePlayer pla: men){
 					if(pla.junzhuId == junzhu.id){
 						continue;
 					}
@@ -508,7 +512,19 @@ public class HYMgr extends EventProc{
 								"", junzhu.name, f ,"");
 					logger.info("藏宝点:{}被玩家：{}重置，向盟员：{}发送邮件通知, 结果:{}",hyTrea.id,
 							junzhu.name, getj.name, sendOK);
+				}*/
+			for(Object[] a:aList){
+				Long  jzId = ((BigInteger)a[1]).longValue();
+				String mName = (String) a[0];
+				if(jzId == junzhu.id){
+					continue;
 				}
+				boolean sendOK = EmailMgr.INSTANCE.sendMail(mName, content,
+						"", junzhu.name, f ,"");
+			   logger.info("藏宝点:{}被玩家：{}重置，向盟员：{}发送邮件通知, 结果:{}",hyTrea.id,
+					junzhu.name, mName, sendOK);
+			}
+			
 			}
 			HuangyePve hyCfg = huangyePveMap.get(hyPveCfg.id);
 			String treaName = HeroService.getNameById(hyCfg == null ? "" : hyCfg.nameId+"");
@@ -530,13 +546,13 @@ public class HYMgr extends EventProc{
 			logger.error("未找到君主，cmd:{}", cmd);
 			return;
 		}
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
+		AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(junzhu.id);
 		if (member == null || member.lianMengId <= 0) {
 			sendError(session, cmd, "你还没有加入联盟");
 			logger.error("君主:{} 未加入联盟，不能激活藏宝点1", junzhu.name);
 			return;
 		}
-		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, member.lianMengId);
+		AllianceBean alliance =AllianceBeanDao.inst.getAllianceBean(member.lianMengId);
 		if (alliance == null) {
 			sendError(session, cmd, "请求信息有误");
 			logger.error("找不到联盟信息，不能激活藏宝点2，联盟Id:{}", member.lianMengId);
@@ -661,16 +677,6 @@ public class HYMgr extends EventProc{
 				PveMgr.inst.sendZhanDouInitError(session, "数据配置有误1");
 				return;
 			}
-			// 是否是否挑战条件没问题
-			/*int guanqiaId = huangyePveCfg.pveId;
-			PveRecord r = HibernateUtil.find(PveRecord.class,
-					"where guanQiaId=" + guanqiaId + " and uid=" + junzhu.id);
-			if(r == null){
-				logger.warn("玩家：{}荒野挑战藏宝点treasureId:{}, pve关卡id：{}没有通关，无法挑战",
-						junzhu.id, hyTreasure.id, guanqiaId);
-				PveMgr.inst.sendZhanDouInitError(session, "挑战条件不够：必须通关："+ guanqiaId);
-				return;
-			}*/
 			// 挑战次数是否足够
 			hyTimes = HibernateUtil.find(HYTreasureTimes.class, junzhu.id);
 			if(hyTimes == null){
@@ -721,7 +727,7 @@ public class HYMgr extends EventProc{
 			}
 
 			Node.Builder node = Node.newBuilder();
-			node.addFlagIds(hyNpcCfg.getPosition());
+			node.addFlagIds(hyNpcCfg.position);
 			node.setNodeType(nodeType);
 			node.setNodeProfession(NodeProfession.valueOf(hyNpcCfg.profession));
 			node.setModleId(hyNpcCfg.modelId);
@@ -755,8 +761,8 @@ public class HYMgr extends EventProc{
 				AwardTemp awardTemp = awardList.get(i);
 				DroppenItem.Builder dropItem = DroppenItem.newBuilder();
 				dropItem.setId(index);
-				dropItem.setCommonItemId(awardTemp.getItemId());
-				dropItem.setNum(awardTemp.getItemNum());
+				dropItem.setCommonItemId(awardTemp.itemId);
+				dropItem.setNum(awardTemp.itemNum);
 				node.addDroppenItems(dropItem);
 				index++;
 			}
@@ -796,9 +802,9 @@ public class HYMgr extends EventProc{
 			logger.info("君主：{}打荒野，新new HYTreasureDamage , hyTreasureId:{}", hyTimes.junzhuId, hyTreasureId);
 		}
 		// 主线任务: 输赢不计，攻打了任何一次荒野 20190916
-		EventMgr.addEvent(ED.battle_huang_ye , new Object[] {hyTimes.junzhuId});
+		EventMgr.addEvent(hyTimes.junzhuId,ED.battle_huang_ye , new Object[] {hyTimes.junzhuId});
 		// 荒野战添加到每日任务中
-		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, 
+		EventMgr.addEvent(hyTimes.junzhuId,ED.DAILY_TASK_PROCESS, 
 				new DailyTaskCondition(hyTimes.junzhuId, DailyTaskConstants.huangye_2_id, 1));
 	}
 
@@ -816,7 +822,7 @@ public class HYMgr extends EventProc{
 			logger.error("点击藏宝点失败，找不到君主");
 			return;
 		}
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
+		AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(junzhu.id);
 		if(member == null || member.lianMengId <= 0) {
 			logger.error("点击藏宝点失败，不是联盟成员, junzhuid:{}", junzhu.id);
 			return;
@@ -851,15 +857,7 @@ public class HYMgr extends EventProc{
 	
 		response.setJindu(hyTreasure.progress);
 		response.setRemainTime(getKuaiSuPassRemainTime(hyTreasure, hyPveCfg));
-		// 挑战条件
-//		int guanqiaId = hyPveCfg.pveId;
-//		PveRecord r = HibernateUtil.find(PveRecord.class,
-//				"where guanQiaId=" + guanqiaId + " and uid=" + junzhu.id);
-//		if(r == null){
-//			response.setConditionIsOk(false);
-//		}else{
-			response.setConditionIsOk(true);
-//		}
+		
 		// 是否有人正在挑战
 		boolean has = hasSomeOneInBattle(hyTreasure);
 		if(has) {
@@ -884,6 +882,7 @@ public class HYMgr extends EventProc{
 		response.setTimesOfDay(hyTimes.times - hyTimes.used);
 		response.setTotalTimes(TREASURE_DAY_TIMES);
 		response.setBuyCiShuInfo(3);
+		response.setConditionIsOk(true);
 		session.write(response.build());
 		/*
 		VipFuncOpen vipData = VipMgr.vipFuncOpenTemp.get(VipData.can_buy_huagnye_times);
@@ -1057,14 +1056,14 @@ public class HYMgr extends EventProc{
 			return;
 		}
 		boolean hasLianmeng = true;
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
+		AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(junzhu.id);
 		if(member == null || member.lianMengId <= 0){
 			// 玩家已不再联盟中
 			hasLianmeng = false;
 			logger.info("玩家：{}荒野战, treasureId:{}战斗结束，发现自己已不是联盟:{}成员，物是人非。", junzhu.id, treasureId, hyTreasure.lianMengId);
 		}
 		boolean lianmengOk = true;
-		AllianceBean alli = HibernateUtil.find(AllianceBean.class, hyTreasure.lianMengId);
+		AllianceBean alli = AllianceBeanDao.inst.getAllianceBean(hyTreasure.lianMengId);
 		if(alli == null){
 			// 联盟被解散了
 			lianmengOk = false;
@@ -1152,8 +1151,8 @@ public class HYMgr extends EventProc{
 		int getLianMengGongxian = 0;
 		getAwardList.addAll(AwardMgr.inst.parseAwardConf(hyPveCfg.fightAward));
 		for(AwardTemp award : getAwardList) {
-			if(award.getItemId() == AwardMgr.ITEM_LIAN_MENG_GONGXIAN) {//联盟贡献不放在奖励物品上
-				getLianMengGongxian += award.getItemNum();
+			if(award.itemId == AwardMgr.ITEM_LIAN_MENG_GONGXIAN) {//联盟贡献不放在奖励物品上
+				getLianMengGongxian += award.itemNum;
 			} else {
 				AwardMgr.inst.fillBattleAwardInfo(response, award);
 			}
@@ -1165,7 +1164,7 @@ public class HYMgr extends EventProc{
 		for(AwardTemp award : getAwardList) {
 			AwardMgr.inst.giveReward(session, award, junzhu, false);
 		}
-		JunZhuMgr.inst.sendMainInfo(session,junzhu);
+		JunZhuMgr.inst.sendMainInfo(session,junzhu,false);
 		dropAwardMapBefore.remove(junzhu.id);
 	}
 
@@ -1198,8 +1197,8 @@ public class HYMgr extends EventProc{
 			if(mailConfig != null) {
 				float awardRatio = getPassGuanQiaAward(rank, hyTreasure.guanQiaId);
 				for(AwardTemp award : tongGuanAwardList) {
-					fujian += award.getItemType() + ":" + award.getItemId()
-							+":" + (int)(Math.ceil(award.getItemNum()*awardRatio))+"#";
+					fujian += award.itemType + ":" + award.itemId
+							+":" + (int)(Math.ceil(award.itemNum*awardRatio))+"#";
 				}
 				String content = mailConfig.content.replace("***", treaName)
 													.replace("A", rank+"");
@@ -1258,7 +1257,7 @@ public class HYMgr extends EventProc{
 		String eventStr = AllianceMgr.inst.lianmengEventMap.get(12).str
 				.replaceFirst("%d", treaName);
 		AllianceMgr.inst.addAllianceEvent(member.lianMengId, eventStr);
-		EventMgr.addEvent(ED.HY_PASS_GUAN_QIA, new Object[]{member.lianMengId, hyPveCfg.nextGuanqiaID});
+		EventMgr.addEvent(member.lianMengId,ED.HY_PASS_GUAN_QIA, new Object[]{member.lianMengId, hyPveCfg.nextGuanqiaID});
 	}
 	
 	public float getPassGuanQiaAward(int rank, int pointId){
@@ -1398,7 +1397,7 @@ public class HYMgr extends EventProc{
 			logger.error("未找到君主，cmd:{}", cmd);
 			return;
 		}
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, junzhu.id);
+		AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(junzhu.id);
 		if (member == null || member.lianMengId <= 0) {
 			sendError(session, cmd, "你还没有加入联盟");
 			logger.error("君主:{} 未加入联盟，", junzhu.name);
@@ -1416,7 +1415,7 @@ public class HYMgr extends EventProc{
 			if(other == null){
 				continue;
 			}
-			AlliancePlayer otherPlayer = HibernateUtil.find(AlliancePlayer.class, treaDa.junzhuId);
+			AlliancePlayer otherPlayer = AllianceMgr.inst.getAlliancePlayer(treaDa.junzhuId);
 			if(otherPlayer == null || otherPlayer.lianMengId != member.lianMengId){
 				HibernateUtil.delete(treaDa);
 				continue;
@@ -1436,7 +1435,7 @@ public class HYMgr extends EventProc{
 			logger.error("荒野购买挑战次数失败：君主不存在");
 			return;
 		}
-		AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, jz.id);
+		AlliancePlayer p = AllianceMgr.inst.getAlliancePlayer(jz.id);
 		if(p == null || p.lianMengId <= 0){
 			logger.error("荒野购买挑战次数失败：君主：{}没有联盟", jz.id);
 			return;
@@ -1542,12 +1541,12 @@ public class HYMgr extends EventProc{
 						break;
 					}
 					// FIXME 有没有别的方法。
-					AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jz.id);
+					AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(jz.id);
 					if (member == null || member.lianMengId <= 0) {
 						break;
 					}
 					int lianMengId = member.lianMengId;
-					AllianceBean alliance = HibernateUtil.find(AllianceBean.class, lianMengId);
+					AllianceBean alliance = AllianceBeanDao.inst.getAllianceBean(lianMengId);
 					if (alliance == null) {
 						break;
 					}
@@ -1595,7 +1594,7 @@ public class HYMgr extends EventProc{
 					if(allianceId == null) {
 						return;
 					}
-					AllianceBean bean = HibernateUtil.find(AllianceBean.class, allianceId);
+					AllianceBean bean =AllianceBeanDao.inst.getAllianceBean(allianceId);
 					if (bean.level < open_HY_lianMeng_level) {
 						return;
 					}
@@ -1607,7 +1606,7 @@ public class HYMgr extends EventProc{
 						HibernateUtil.insert(treasure);
 					}
 					if (bean.level == open_HY_lianMeng_level) {
-						EventMgr.addEvent(ED.HY_PASS_GUAN_QIA, new Object[]{bean.id, huangYePve_first_pointId});
+						EventMgr.addEvent(bean.id,ED.HY_PASS_GUAN_QIA, new Object[]{bean.id, huangYePve_first_pointId});
 					}
 					break;
 				case ED.HY_PASS_GUAN_QIA:
@@ -1622,13 +1621,21 @@ public class HYMgr extends EventProc{
 					Mail mailCfg = EmailMgr.INSTANCE.getMailConfig(21005);
 					if(mailCfg != null){
 						String content = mailCfg.content.replace("***", guanQiaName);
-						List<AlliancePlayer> memberList = AllianceMgr.inst.getAllianceMembers(lmId);
+						List<Object[]> aList = LveDuoMgr.inst.getAllAllianceMberName(lmId);
+						for(Object[] a:aList){
+							String mName = (String) a[0];
+							long jzId = ((BigInteger)a[1]).longValue();
+							boolean sendOK = EmailMgr.INSTANCE.sendMail(mName, content,
+									"", mailCfg.sender, mailCfg ,"");
+						    logger.info("荒野求生通关邮件通知，发送给玩家：{}, 结果:{}", jzId, sendOK);
+						}
+						/*List<AlliancePlayer> memberList = AllianceMgr.inst.getAllianceMembers(lmId);
 						for(AlliancePlayer pla: memberList){
 							JunZhu junzhu = HibernateUtil.find(JunZhu.class, pla.junzhuId);
 							boolean sendOK = EmailMgr.INSTANCE.sendMail(junzhu.name, content,
 										"", mailCfg.sender, mailCfg ,"");
 							logger.info("荒野求生通关邮件通知，发送给玩家：{}, 结果:{}", junzhu.id, sendOK);
-						}
+						}*/
 					}
 					// 添加联盟事件
 					LianmengEvent lmEvent = AllianceMgr.inst.lianmengEventMap.get(11);
@@ -1643,7 +1650,7 @@ public class HYMgr extends EventProc{
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 		EventMgr.regist(ED.LIANMENG_UPGRADE_LEVEL, this);
 		EventMgr.regist(ED.HY_PASS_GUAN_QIA, this);

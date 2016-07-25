@@ -1,7 +1,7 @@
 package com.qx.pawnshop;
 
 public class GoodsInfo {
-	private int id;			// dangpu配置文件的id
+	public int id;			// dangpu配置文件的id
 //	public int  boolean isSell;	//是否已售出，true-以售完
 	public int num; //剩余签到次数
 	

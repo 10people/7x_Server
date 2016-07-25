@@ -40,8 +40,8 @@ if(session.getAttribute("name") != null && name.length()==0){
 	//HibernateUtil.saveAccount(name);
 	}else{
 		session.setAttribute("name", name);
-%>账号<%=account.getAccountId()%>:<%=account.getAccountName()%><%
-	JunZhu junzhu = HibernateUtil.find(JunZhu.class, (long)account.getAccountId());
+%>账号<%=account.accountId%>:<%=account.accountName%><%
+	JunZhu junzhu = HibernateUtil.find(JunZhu.class, (long)account.accountId);
 		 if(junzhu == null){
 	 out.println("没有君主");
 		 }else{
@@ -61,7 +61,7 @@ if(session.getAttribute("name") != null && name.length()==0){
 	 ExpTemp expTemp = TempletService.getInstance().getExpTemp(1, junzhu.level);
 	 out.println("等级："+junzhu.level+"<br/>");
 	 int v = 0;
-	 if(expTemp != null)v =expTemp.getNeedExp();
+	 if(expTemp != null)v =expTemp.needExp;
 	 String input = request.getParameter("v");
 	 if(input == null)input = "1";
 	 out.println("体力："+junzhu.tiLi);out.println("<input type='text' id='addTiLi' value='"+input+"'/><input type='button' value='增加' onclick='go(\"addTiLi\")'/><br/>");//out.println("<a href='?action=addTiLi'>+100</a><br/>");

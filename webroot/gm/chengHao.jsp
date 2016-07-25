@@ -1,3 +1,5 @@
+<%@page import="java.util.Map"%>
+<%@page import="com.qx.junzhu.ChengHaoDao"%>
 <%@page import="com.qx.award.AwardMgr"%>
 <%@page import="com.manu.dynasty.util.DateUtils"%>
 <%@page import="com.qx.junzhu.ChenghaoMgr"%>
@@ -37,7 +39,6 @@
 <%@page import="com.qx.alliance.AlliancePlayer"%>
 <%@page import="qxmobile.protobuf.TimeWorkerProtos.TimeWorkerResponse"%>
 <%@page import="com.manu.dynasty.boot.GameServer"%>
-<%@page import="com.manu.dynasty.hero.service.HeroService"%>
 <%@page import="com.qx.purchase.PurchaseMgr"%>
 <%@page import="com.qx.alliance.AllianceMgr"%>
 <%@include file="/myFuns.jsp" %>
@@ -75,7 +76,8 @@ if("add".equals(act)){
 				break;
 			}
 		}
-		ChengHaoBean bean = HibernateUtil.find(ChengHaoBean.class, "where jzId="+idStr+" and tid="+chIdStr);
+		//ChengHaoBean bean = HibernateUtil.find(ChengHaoBean.class, "where jzId="+idStr+" and tid="+chIdStr);
+		ChengHaoBean bean = ChengHaoDao.inst.getChengHaoBeanById(Long.parseLong(idStr),Integer.parseInt(chIdStr));
 		if(bean == null && cc != null){
 			long jzId = Long.parseLong(idStr);
 			ChenghaoMgr.inst.add(jzId, cc);
@@ -94,13 +96,15 @@ out("玩家ID:"+idStr);br();
 
 已有称号：
 <%
-List<ChengHaoBean> list = HibernateUtil.list(ChengHaoBean.class, "where jzId="+idStr);
-out("数量:"+list.size());br();
+//List<ChengHaoBean> list = HibernateUtil.list(ChengHaoBean.class, "where jzId="+idStr);
+Map<Integer,ChengHaoBean> m = ChengHaoDao.inst.getMap(Long.parseLong(idStr));
+out("数量:"+m.size());br();
 out("状态说明:G 已获得；U使用中");br();
 tableStart();
 ths("dbId,模板id,状态,失效时间");
 
-for(ChengHaoBean bean : list){
+for(Integer key:m.keySet()){
+	ChengHaoBean bean = m.get(key);
 	String dbId = request.getParameter("dbId");
 	if("modExpire".equals(act) && String.valueOf(bean.dbId).equals(dbId)){
 		String v = request.getParameter("v");

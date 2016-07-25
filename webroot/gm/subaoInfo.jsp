@@ -1,3 +1,6 @@
+<%@page import="com.qx.prompt.SuBaoConstant"%>
+<%@page import="com.manu.dynasty.util.DateUtils"%>
+<%@page import="java.util.Calendar"%>
 <%@page import="com.qx.prompt.PromptMsgMgr"%>
 <%@page import="qxmobile.protobuf.Prompt.SuBaoMSG"%>
 <%@page import="com.manu.network.SessionManager"%>
@@ -50,18 +53,26 @@
 				String[] params=param.split(",");
 				PromptMSG msg = PromptMsgMgr.inst.saveLMKBByCondition(JzId1, JzId2, params, Integer.parseInt(eventId), Integer.parseInt(horseType) );
 				if(msg!=null) {
-					SessionUser su = SessionManager.inst.findByJunZhuId(JzId1);
+					IoSession su = SessionManager.inst.findByJunZhuId(JzId1);
 					if (su != null){
 						// 联盟成员的君主id
 						SuBaoMSG.Builder subao = SuBaoMSG.newBuilder();
 						subao=PromptMsgMgr.inst.makeSuBaoMSG(subao, msg);
-						su.session.write(subao.build());
+						su.write(subao.build());
 					}
 					out.println("<font color='red'>发送成功！</font>");
 				}else{
 					out.println("<font color='red'>发送失败！</font>");
 				}
 			}
+	}else if(action != null && action.equals("del8HourAgoSubao")){
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.HOUR_OF_DAY,-8);
+		String delsql = "delete from PromptMSG21 where addTime<'" + DateUtils.datetime2Text(calendar.getTime())+ "'";
+		HibernateUtil.executeSql(delsql);
+	}else if(action != null && action.equals("delyunBiaoAnWeiSubao")){
+		String delsql = "delete from PromptMSG21 where anWeiTimes>0 and eventId=" + SuBaoConstant.qiuaw4yb;
+		HibernateUtil.executeSql(delsql);
 	}
 	%>
 	<form action="">
@@ -138,5 +149,15 @@
 		<%}%>
 	</table>
 	<%} %>
+	<br>
+	<form name="" action="">
+		<input type="hidden" name="action" value="del8HourAgoSubao"/>
+		<input type="submit" name="" value="清除8小时之前过期速报"/>
+	</form>
+	<br>
+	<form name="" action="">
+		<input type="hidden" name="action" value="delyunBiaoAnWeiSubao"/>
+		<input type="submit" name="" value="清除已经安慰过的押镖安慰通知"/>
+	</form>
 </body>
 </html>

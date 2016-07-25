@@ -23,29 +23,4 @@ public class NpcTemp {
 	public int armor;
 	public int armorMax;
 	public float armorRatio;
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public int getNpcId() {
-		return npcId;
-	}
-	public void setNpcId(int npcId) {
-		this.npcId = npcId;
-	}
-	public int getEnemyId() {
-		return enemyId;
-	}
-	public void setEnemyId(int enemyId) {
-		this.enemyId = enemyId;
-	}
-	public int getPosition() {
-		return position;
-	}
-	public void setPosition(int position) {
-		this.position = position;
-	}
 }

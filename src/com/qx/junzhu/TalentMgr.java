@@ -1,12 +1,16 @@
 package com.qx.junzhu;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import log.ActLog;
 
+import org.apache.commons.collections.map.LRUMap;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,13 +23,14 @@ import com.manu.dynasty.template.TalentAttribute;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
 import com.qx.account.AccountManager;
-import com.qx.account.FunctionOpenMgr;
 import com.qx.event.ED;
+import com.qx.event.Event;
 import com.qx.event.EventMgr;
+import com.qx.event.EventProc;
 import com.qx.persistent.HibernateUtil;
-import com.qx.persistent.MC;
 import com.qx.task.DailyTaskCondition;
 import com.qx.task.DailyTaskConstants;
+import com.qx.util.DelayedSQLMgr;
 import com.google.protobuf.MessageLite.Builder;
 
 import qxmobile.protobuf.JunZhuProto.PointInfo;
@@ -40,7 +45,7 @@ import qxmobile.protobuf.JunZhuProto.TalentUpLevelResp;
  * @version   
  *       9.0, 2015年6月12日 上午11:43:50
  */
-public class TalentMgr {
+public class TalentMgr extends EventProc{
 
 	/*
 	 * 防御类型
@@ -68,7 +73,42 @@ public class TalentMgr {
 	public static TalentMgr instance;
 	public static Logger log = LoggerFactory.getLogger(TalentMgr.class);
 	public static List<Talent> listTalent = null;
+	public static Map<Long,List<TalentPoint>> talentPointCaChe = Collections.synchronizedMap(new LRUMap(5000));
+
+	public List<TalentPoint> getTalentPointList( long junZhuId ){
+		List<TalentPoint>  res = talentPointCaChe.get(junZhuId) ;
+		if(res != null ){
+			return res;
+		}
+		List<TalentPoint> list = HibernateUtil.list(TalentPoint.class, "where junZhuId = " + junZhuId ) ;
+		res = Collections.synchronizedList(new LinkedList<TalentPoint>());
+		res.addAll(list);
+		talentPointCaChe.put(junZhuId, res) ;
+		return res;
+	}
 	
+	public TalentPoint getTalentPoint(long jzId,int point){
+		List<TalentPoint> list = getTalentPointList(jzId);
+		Optional<TalentPoint> optional = list.stream().filter(item -> item.point == point).findFirst();
+		if(optional.isPresent()){
+			return optional.get();
+		}
+		return null;
+	}
+	
+	public void delete( TalentPoint talentPoint ){
+		List<TalentPoint>  list = getTalentPointList( talentPoint.junZhuId );
+		list.remove(talentPoint);
+		HibernateUtil.delete(talentPoint);
+	}
+	
+	public void save( TalentPoint talentPoint ){
+		List<TalentPoint>  list = getTalentPointList( talentPoint.junZhuId );
+		list.add(talentPoint);
+		HibernateUtil.insert(talentPoint);
+	}
+	
+
 	public TalentMgr(){
 		@SuppressWarnings("unchecked")
 		List<Talent> list = TempletService.listAll(
@@ -113,7 +153,7 @@ public class TalentMgr {
 		}
 		return null;
 	}
-	public Map<Integer, TalentPoint> getJunZhuTalentPoints(long jzId){
+	/*public Map<Integer, TalentPoint> getJunZhuTalentPoints(long jzId){
 		String where = "where junZhuId = " + jzId;
 		List<TalentPoint> listT = HibernateUtil.list(TalentPoint.class, where);
 		Map<Integer, TalentPoint> ret = new HashMap<Integer, TalentPoint>(listT.size());
@@ -121,7 +161,7 @@ public class TalentMgr {
 			ret.put(t.point, t);
 		}
 		return ret;
-	}
+	}*/
 	/*
 	 * 发送天赋信息
 	 */
@@ -136,7 +176,8 @@ public class TalentMgr {
 //			log.error("天赋功能没有开启");
 //			return;
 //		}
-		TalentAttr ta = HibernateUtil.find(TalentAttr.class, jId);
+//		TalentAttr ta = HibernateUtil.find(TalentAttr.class, jId);
+		TalentAttr ta = (TalentAttr) session.getAttribute(SessionAttKey.TalentAttr);
 		if(ta == null){
 			ta = new TalentAttr(jId);
 		}
@@ -149,14 +190,15 @@ public class TalentMgr {
 		TalentAttribute taAttr = null;
 		int level = 0;
 		String where = "";
-		Map<Integer, TalentPoint> map = getJunZhuTalentPoints(jId);
+		List<TalentPoint> list = getTalentPointList(jId);
 		for(Talent t: listTalent){
 //			where = "where junZhuId=" + jId + " and point =" + t.point;
 //			TalentPoint talentBean = HibernateUtil.find(TalentPoint.class, where);
 			//避免多次查询
-			TalentPoint talentBean = map.get(t.point);
+			
+			Optional<TalentPoint> optional = list.stream().filter(item -> item.point == t.point).findFirst();
+			TalentPoint talentBean = optional.isPresent()?optional.get():null;
 			level = talentBean == null? 0:talentBean.level;
-	
 			point= PointInfo.newBuilder();
 			point.setPointId(t.point);
 			point.setPointLev(level);
@@ -167,7 +209,7 @@ public class TalentMgr {
 			if(level < t.maxLv){
 				ExpTemp expTemp = 
 						TempletService.getInstance().getExpTemp(t.expId, level);
-				int needJingQi = expTemp == null? Integer.MAX_VALUE: expTemp.getNeedExp();
+				int needJingQi = expTemp == null? Integer.MAX_VALUE: expTemp.needExp;
 				point.setNeedJingQi(needJingQi);
 			}
 			resp.addPoints(point);
@@ -178,37 +220,34 @@ public class TalentMgr {
 	/* 
 	 * 增加武艺精气
 	 */
-	public int addWuYiJingQi(long junzhuId, int addValue){
-		TalentAttr attr = HibernateUtil.find(TalentAttr.class, junzhuId);
+	public int addWuYiJingQi(IoSession session,JunZhu jz, int addValue){
+		TalentAttr attr = (TalentAttr) session.getAttribute(SessionAttKey.TalentAttr);
 		if(attr == null){
-			attr = new TalentAttr(junzhuId);
-			attr.wuYiJingQi = addValue;
-			MC.add(attr, junzhuId);
-			HibernateUtil.insert(attr);
-		}else{
-			attr.wuYiJingQi += addValue;
-			HibernateUtil.save(attr);
+			return 0;
 		}
+		attr.wuYiJingQi += addValue;
+		DelayedSQLMgr.es.submit(()->{
+			HibernateUtil.update(attr);
+			noticeTalentCanLevUp(jz);
+		});
 		// 检查是否存在天赋可以满足升级条件
-		noticeTalentCanLevUp(junzhuId);
 		return attr.wuYiJingQi;
 	}
 	/*
 	 * 增加体魄精气
 	 */
-	public int addTiPoJingQi(long junzhuId, int addValue){
-		TalentAttr attr = HibernateUtil.find(TalentAttr.class, junzhuId);
+	public int addTiPoJingQi(IoSession session,JunZhu jz, int addValue){
+		TalentAttr attr = (TalentAttr) session.getAttribute(SessionAttKey.TalentAttr);
 		if(attr == null){
-			attr = new TalentAttr(junzhuId);
-			attr.tiPoJingQi = addValue;
-			MC.add(attr, junzhuId);
-			HibernateUtil.insert(attr);
-		}else{
-			attr.tiPoJingQi += addValue;
-			HibernateUtil.save(attr);
+			return 0;
 		}
+		attr.tiPoJingQi+=addValue;
+		DelayedSQLMgr.es.submit(()->{
+			HibernateUtil.update(attr);
+			noticeTalentCanLevUp(jz);
+		}
+		);
 		// 检查是否存在天赋可以满足升级条件
-		noticeTalentCanLevUp(junzhuId);
 		return attr.tiPoJingQi;
 	}
 
@@ -227,8 +266,9 @@ public class TalentMgr {
 			log.error("Talent数据:{}是null", pointId);
 			return;
 		}
-		String where = "where junZhuId=" + jId + " and point =" + pointId;
-		TalentPoint talentBean = HibernateUtil.find(TalentPoint.class, where);
+//		String where = "where junZhuId=" + jId + " and point =" + pointId;
+//		TalentPoint talentBean = HibernateUtil.find(TalentPoint.class, where);
+		TalentPoint talentBean = getTalentPoint(jId, pointId);
 		if(talentBean == null){
 			talentBean = initTalentPoint(junZhuId, pointId);
 		}
@@ -255,8 +295,9 @@ public class TalentMgr {
 			for(int i = 0; i < ss.length; i++){
 				int id = Integer.parseInt(ss[i]);
 				if(id != 0){
-					where = "where junZhuId=" + jId + " and point =" + id;
-					TalentPoint p = HibernateUtil.find(TalentPoint.class, where);
+//					where = "where junZhuId=" + jId + " and point =" + id;
+//					TalentPoint p = HibernateUtil.find(TalentPoint.class, where);
+					TalentPoint p = getTalentPoint(jId, id);
 					if(p.level < talentData.frontLv){
 						log.error("节点:{}不能升级，因为前一个节点等级的限制", pointId);
 						resp.setMsg("it is front point level little");
@@ -267,15 +308,17 @@ public class TalentMgr {
 				}
 			}
 		}
-		TalentAttr attr = HibernateUtil.find(TalentAttr.class, jId);
+//		TalentAttr attr = HibernateUtil.find(TalentAttr.class, jId);
+		TalentAttr attr = (TalentAttr) session.getAttribute(SessionAttKey.TalentAttr);
 		if(attr == null){
-			attr = new TalentAttr(jId);
-			MC.add(attr, jId);
-			HibernateUtil.insert(attr);
+			attr = HibernateUtil.find(TalentAttr.class, jz.id);;
+			if(attr == null){
+				return;
+			}
 		}
 		ExpTemp expTemp = 
 				TempletService.getInstance().getExpTemp(talentData.expId, talentBean.level);
-		int needJingQi = expTemp == null? Integer.MAX_VALUE: expTemp.getNeedExp();
+		int needJingQi = expTemp == null? Integer.MAX_VALUE: expTemp.needExp;
 		switch(talentData.type){
 			case fangYuType:
 				if(attr.tiPoJingQi < needJingQi){
@@ -343,8 +386,11 @@ public class TalentMgr {
 					break;
 			}
 		}
-
-		HibernateUtil.save(attr);
+		final TalentAttr attBean = attr;
+		DelayedSQLMgr.es.submit(()->
+			HibernateUtil.update(attBean)
+		);
+		session.setAttribute(SessionAttKey.TalentAttr, attr);
 		log.info("玩家：{}升级天赋：{}成功, 当前等级是：{}, 防守点数是：{}， 进攻点数是：{}",
 				jId, pointId, talentBean.level, attr.fangShouDianShu, attr.jinGongDianShu);
 		ActLog.log.KingTalent(jz.id, jz.name, ActLog.vopenid, pointId, talentData.name, talentBean.level, talentData.type, 1);
@@ -352,16 +398,14 @@ public class TalentMgr {
 		// update君主属性列表
 		JunZhuMgr.inst.sendMainInfo(session,jz);
 		// 主线任务完成: 升级天赋
-		EventMgr.addEvent(ED.tianfu_level_up_x, new Object[]{jId, talentBean.level});
+		EventMgr.addEvent(jId, ED.tianfu_level_up_x, new Object[]{jId, talentBean.level});
 		// 每日任务
-		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, 
+		EventMgr.addEvent(jId, ED.DAILY_TASK_PROCESS, 
 				new DailyTaskCondition(jId, DailyTaskConstants.level_up_tianFu, 1));
-		// 刷新君主榜 2015-7-30 14：44
-		EventMgr.addEvent(ED.JUN_RANK_REFRESH, jz);
 		/*
 		 * 检查是否要进行升级提示
 		 */
-		boolean can = isTalentCanUpLevel(jId);
+		boolean can = isTalentCanUpLevel(jz);
 		if(can){
 			session.write(PD.NOTICE_TALENT_CAN_UP);
 		}else{
@@ -374,6 +418,7 @@ public class TalentMgr {
 		point.junZhuId = junZhuId;
 		point.point = pointId;
 		point.level = 0;
+		save(point);
 		return point;
 	}
 	public int addDianShuByUpLevel(int pointId, int level){
@@ -391,28 +436,24 @@ public class TalentMgr {
 		return 0;
 	}
 
-	public void noticeTalentCanLevUp(long jId){
-		IoSession session = AccountManager.getIoSession(jId);
-		if(session!=null&&isTalentCanUpLevel(jId)){
+	public void noticeTalentCanLevUp(JunZhu jz){
+		IoSession session = AccountManager.getIoSession(jz.id);
+		if(session!=null&&isTalentCanUpLevel(jz)){
 			session.write(PD.NOTICE_TALENT_CAN_UP);
 		}
 	}
-	public boolean isTalentCanUpLevel(long jId){
-		JunZhu jz = HibernateUtil.find(JunZhu.class, jId);
-		if(jz == null){
-			return false;
-		}
+	public boolean isTalentCanUpLevel(JunZhu jz){
 //		boolean yes = FunctionOpenMgr.inst.isFunctionOpen(functionOpenId, jId, jz.level);
 //		if(! yes){
 //			return false;
 //		}
-		Map<Integer, TalentPoint> map = getJunZhuTalentPoints(jId);
+		long jId = jz.id;
 		for(Talent talentData: listTalent){
 			int pointId = talentData.point;
 //			String where = "where junZhuId=" + jId + " and point =" + pointId;
 //			TalentPoint talentBean = HibernateUtil.find(TalentPoint.class, where);
 			//避免多次查询
-			TalentPoint talentBean = map.get(pointId);
+			TalentPoint talentBean = getTalentPoint(jId, pointId);
 			if(talentBean == null){
 				talentBean = initTalentPoint(jId, pointId);
 			}
@@ -432,7 +473,7 @@ public class TalentMgr {
 					if(id != 0){
 //						where = "where junZhuId=" + jId + " and point =" + id;
 //						TalentPoint p = HibernateUtil.find(TalentPoint.class, where);
-						TalentPoint p = map.get(id);
+						TalentPoint p = getTalentPoint(jId, id);
 						if(p == null || p.level < talentData.frontLv){
 							can = true;
 							break;
@@ -443,14 +484,13 @@ public class TalentMgr {
 					continue;
 				}
 			}
-			
 			TalentAttr attr = HibernateUtil.find(TalentAttr.class, jId);
 			if(attr == null){
 				attr = new TalentAttr(jId);
 			}
 			ExpTemp expTemp = 
 					TempletService.getInstance().getExpTemp(talentData.expId, talentBean.level);
-			int needJingQi = expTemp == null? Integer.MAX_VALUE: expTemp.getNeedExp();
+			int needJingQi = expTemp == null? Integer.MAX_VALUE: expTemp.needExp;
 			if(talentData.type == fangYuType){
 				if(attr.tiPoJingQi < needJingQi){
 					continue;
@@ -474,5 +514,31 @@ public class TalentMgr {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void proc(Event event) {
+		switch (event.id) {
+		case ED.junzhu_level_up:
+			//new Object[] { jz.id,jz.level, jz }
+			Object arr[] = (Object[]) event.param;
+			noticeTalentCanLevUp((JunZhu) arr[2]);
+			break;
+		case ED.JUNZHU_LOGIN:{
+			JunZhu jz = (JunZhu) event.param;
+			IoSession session = AccountManager.sessionMap.get(jz.id);
+			if(session == null){
+				return;
+			}
+			noticeTalentCanLevUp(jz);
+			break;
+		}
+		}
+	}
+
+	@Override
+	public void doReg() {
+		EventMgr.regist(ED.JUNZHU_LOGIN, this);		
+		EventMgr.regist(ED.junzhu_level_up, this);		
 	}
 }

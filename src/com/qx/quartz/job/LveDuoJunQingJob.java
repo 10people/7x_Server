@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.manu.dynasty.template.LianmengEvent;
 import com.qx.alliance.AllianceBean;
+import com.qx.alliance.AllianceBeanDao;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.junzhu.JunZhu;
@@ -19,7 +20,7 @@ import com.qx.persistent.HibernateUtil;
 import com.qx.prompt.LveDuoMI;
 
 public class LveDuoJunQingJob implements Job {
-	private Logger log = LoggerFactory.getLogger(LveDuoJunQingJob.class);
+	public Logger log = LoggerFactory.getLogger(LveDuoJunQingJob.class);
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		log.info("开始刷新掠夺军情");
@@ -35,7 +36,7 @@ public class LveDuoJunQingJob implements Job {
 			deleteLveDuoMI(mi);
 			AllianceBean enemyAlli  = allianceMap.get(mi.lmId);
 			if(enemyAlli == null){
-				enemyAlli = HibernateUtil.find(AllianceBean.class, mi.lmId);
+				enemyAlli = AllianceBeanDao.inst.getAllianceBean( mi.lmId);
 			}
 			if(enemyAlli == null){
 				continue;

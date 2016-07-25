@@ -6,9 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 @Entity
 @Table(name="MibaoLevelPoint")
-public class MibaoLevelPoint {
+public class MibaoLevelPoint implements DBHash{
 	@Id
 	public long junzhuId;
 	public int point;
@@ -24,6 +26,11 @@ public class MibaoLevelPoint {
 		return "MibaoLevelPoint [junzhuId=" + junzhuId + ", point=" + point
 				+ ", lastAddTime=" + lastAddTime + ", dayTimes=" + dayTimes
 				+ ", lastBuyTime=" + lastBuyTime + "]";
+	}
+
+	@Override
+	public long hash() {
+		return junzhuId;
 	}
 	
 }

@@ -12,6 +12,6 @@ public class YBCartAttr4Fight extends JunZhu{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3237283124212837119L;
+	public static final long serialVersionUID = -3237283124212837119L;
 	
 }

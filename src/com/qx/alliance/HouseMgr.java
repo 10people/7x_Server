@@ -55,6 +55,7 @@ import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.junzhu.PlayerTime;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.PurchaseMgr;
 import com.qx.pvp.PvpMgr;
@@ -93,7 +94,7 @@ public class HouseMgr extends EventProc implements Runnable {
 	public ConcurrentHashMap<Integer, Date> lastGetHouse = new ConcurrentHashMap<Integer, Date>();
 	public ConcurrentHashMap<Long, Long> inWhichHouse = new ConcurrentHashMap<Long, Long>();
 	public Set<Integer> houseLocations;
-	private static Mission exit = new Mission(0, null, null);
+	public static Mission exit = new Mission(0, null, null);
 	public static ThreadLocal<Boolean> sentIsComplete = new ThreadLocal<Boolean>();
 	public static int huanFangKa = 900016;
 	public static int fangwuSum = 280;// 2016年3月22日 房子上限数改成280（此时10级联盟最高有140人）  50个小房子  2015年9月7日 房屋50改为20个 
@@ -159,8 +160,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			// 设置小房子状态
 			boolean needSave = false;
 			if (req.hasState()) {
-				AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class,
-						curJzId);
+				AlliancePlayer ap = AllianceMgr.inst.getAlliancePlayer(curJzId);
 				if (ap == null) {
 					log.info("未找到设置房屋状态的君主的联盟信息{}", targetId);
 					return;
@@ -293,7 +293,7 @@ public class HouseMgr extends EventProc implements Runnable {
 		log.info("{}领取房屋经验{}", jz.id, exp);
 		HouseExpInfo.Builder expInfo = makeHouseExpInfo(selfBean);
 		//2015年9月8日 返回君主当前贡献值
-		AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, jz.id);
+		AlliancePlayer ap = AllianceMgr.inst.getAlliancePlayer(jz.id);
 		if (ap == null || ap.lianMengId <= 0){
 			expInfo.setCurGongxian(0);
 		}else{
@@ -301,7 +301,7 @@ public class HouseMgr extends EventProc implements Runnable {
 		}
 		session.write(expInfo.build());
 		// 主线任务: 成功领取1次房屋存储的君主经验算完成任务 20190916
-		EventMgr.addEvent(ED.get_house_exp  , new Object[] { jz.id});
+		EventMgr.addEvent(jz.id,ED.get_house_exp  , new Object[] { jz.id});
 	}
 
 	/**
@@ -343,7 +343,7 @@ public class HouseMgr extends EventProc implements Runnable {
 				selfBean, 1);
 		session.write(expInfo.build());
 		// 主线任务: 成功领取1次房屋存储的君主经验算完成任务 20190916
-		EventMgr.addEvent(ED.get_house_exp  , new Object[] { jz.id});
+		EventMgr.addEvent(jz.id,ED.get_house_exp  , new Object[] { jz.id});
 	}
 
 	/**
@@ -364,7 +364,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			log.error("获取自己的房屋信息，未找到君主信息{}", jzId);
 			return;
 		}
-		AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, jzId);
+		AlliancePlayer ap = AllianceMgr.inst.getAlliancePlayer(jzId);
 		if (ap == null) {
 			log.error("获取自己的房屋信息，未找到君主联盟信息{}", jzId);
 			return;
@@ -402,7 +402,7 @@ public class HouseMgr extends EventProc implements Runnable {
 	public LianMengKeJi getKejiConf2FangWu(long jzId,int lmId) {
 		LianMengKeJi kjConf=JianZhuMgr.inst.getKeJiConfForFangWu(lmId);
 		LianMengKeJi retConf=kjConf;
-		AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jzId);
+		AlliancePlayer player = AllianceMgr.inst.getAlliancePlayer(jzId);
 		if(player==null){
 			log.error("{}得到房屋的有效房屋科技配置异常，没有找到AlliancePlayer,联盟房屋科技等级--{}，君主激活的房屋科技等级--{}",jzId, kjConf.level);
 			return retConf;
@@ -510,10 +510,9 @@ public class HouseMgr extends EventProc implements Runnable {
 		FangWu fwConf = (FangWu) fwList.get(hb.level - 1);
 		int bigType = bh.location - 100;
 		// 查询玩家的联盟成员自身
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jzId);
+		AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(jzId);
 		// 查询联盟信息
-		AllianceBean alncBean = HibernateUtil.find(AllianceBean.class,
-				member.lianMengId);
+		AllianceBean alncBean = AllianceBeanDao.inst.getAllianceBean(member.lianMengId);
 		int lmLevel = alncLevel;
 		if (alncBean != null) {
 			lmLevel = alncBean.level;
@@ -600,17 +599,17 @@ public class HouseMgr extends EventProc implements Runnable {
 		}
 	}
 
-	private void ignore() {
+	public void ignore() {
 		// TODO Auto-generated method stub
 
 	}
 
-	private void reject() {
+	public void reject() {
 		// TODO Auto-generated method stub
 
 	}
 
-	private void agree() {
+	public void agree() {
 		// TODO Auto-generated method stub
 
 	}
@@ -621,7 +620,7 @@ public class HouseMgr extends EventProc implements Runnable {
 	 * @param cmd
 	 * @param msg
 	 */
-	private void sendError(IoSession session, int cmd, String msg) {
+	public void sendError(IoSession session, int cmd, String msg) {
 		ErrorMessage.Builder test = ErrorMessage.newBuilder();
 		test.setErrorCode(cmd);
 		test.setErrorDesc(msg);
@@ -642,7 +641,7 @@ public class HouseMgr extends EventProc implements Runnable {
 		}
 		long jzId=jz.id;
 
-		AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, jzId);
+		AlliancePlayer ap = AllianceMgr.inst.getAlliancePlayer(jzId);
 		if (ap == null) {
 			log.error("获取联盟房屋信息，未找到请求君主的联盟信息{}", jzId);
 			return;
@@ -692,7 +691,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			log.error("获取联盟房屋信息，未找到请求君主id信息");
 			return;
 		}
-		AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, jzId);
+		AlliancePlayer ap = AllianceMgr.inst.getAlliancePlayer(jzId);
 		if (ap == null) {
 			log.error("获取联盟房屋信息，未找到请求君主的联盟信息{}", jzId);
 			return;
@@ -801,12 +800,13 @@ public class HouseMgr extends EventProc implements Runnable {
 			PlayerTime pt = HibernateUtil.find(PlayerTime.class, bean.jzId);
 			if (null == pt) {
 				pt = new PlayerTime(bean.jzId);
+				Cache.playerTimeCache.put(bean.jzId, pt);
 				HibernateUtil.insert(pt);
 			}
 			Date now = new Date();
-			if (pt.getLoginTime() == null)
+			if (pt.loginTime == null)
 				continue;
-			long cha = (now.getTime() - pt.getLoginTime().getTime());
+			long cha = (now.getTime() - pt.loginTime.getTime());
 			if (cha * 1.0 / (1000 * 60 * 60) > 168) {
 				log.info("荒废{}的初级房屋{}", bean.jzId, bean.location);
 				bean.state = HouseBean.Drop;
@@ -881,7 +881,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			HibernateUtil.save(bean);
 		}
 		
-		AllianceBean alliance = HibernateUtil.find(AllianceBean.class, lmId);
+		AllianceBean alliance = AllianceBeanDao.inst.getAllianceBean(lmId);
 		if(alliance == null) {
 			log.error("找不到联盟,id:{}", lmId);
 			return null;
@@ -894,7 +894,7 @@ public class HouseMgr extends EventProc implements Runnable {
 		if(alliance.creatorId != jzId) {
 			Mail cfg = EmailMgr.INSTANCE.getMailConfig(10021);
 			String content = cfg.content.replace("***",
-					HibernateUtil.find(AllianceBean.class, bean.lmId).name);
+					AllianceBeanDao.inst.getAllianceBean(lmId).name);
 			content = content.replace("aaa", getFWName(loc, 101));
 			String fuJian = "";
 			boolean ok = EmailMgr.INSTANCE.sendMail(jz.name, content, fuJian,
@@ -1045,8 +1045,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			//由于策划去掉大房屋以下代码理论上不会执行
 			if (bh.previousId > 0) {
 				// 返还贡献发送邮件
-				AlliancePlayer curMember = HibernateUtil.find(
-						AlliancePlayer.class, jzId);
+				AlliancePlayer curMember = AllianceMgr.inst.getAlliancePlayer(jzId);
 				double returnWorth = bh.previousWorth * CanShu.FANGWUJINGPAI_2
 						/ 100;// 竞拍价值*贡献与价值转化率
 				// 返还贡献*返还贡献比率
@@ -1058,7 +1057,7 @@ public class HouseMgr extends EventProc implements Runnable {
 				// 您拥有的普通房屋的数据将被保存，在您加入新的联盟后将会被随机分配到某块土地上重建。
 				Mail cfg = EmailMgr.INSTANCE.getMailConfig(10014);
 				String content = cfg.content.replace("****",
-						HibernateUtil.find(AllianceBean.class, (long)lmId).name);
+                AllianceBeanDao.inst.getAllianceBean(lmId).name);
 				content = content.replace("aaa",
 						getFWName(bh.location - 100, bh.location - 100));
 				content = content
@@ -1105,7 +1104,7 @@ public class HouseMgr extends EventProc implements Runnable {
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.Join_LM, this);
 		EventMgr.regist(ED.Leave_LM, this);
 		//定时刷新 2015年9月17日
@@ -1191,8 +1190,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			return;
 		}
 		// 判断入盟是否超过3天
-		AlliancePlayer buyerMember = HibernateUtil.find(AlliancePlayer.class,
-				curJzId);
+		AlliancePlayer buyerMember = AllianceMgr.inst.getAlliancePlayer(curJzId);
 		if (isThreeDays(buyerMember)) {
 			// 入盟3天后,才可以进行房屋交换
 			sendApplyResult(session, 300, PD.S_EHOUSE_EXCHANGE_RESULT);
@@ -1288,7 +1286,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			return;
 		}
 		// 判断入盟是否超过3天
-		AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, curJzId);
+		AlliancePlayer ap = AllianceMgr.inst.getAlliancePlayer(curJzId);
 		if (ap == null) {
 			log.error("没有找到申请小房屋交换的君主的联盟信息{}", curJzId);
 			return;
@@ -1378,8 +1376,7 @@ public class HouseMgr extends EventProc implements Runnable {
 				// 您的部下yyy向您申请与xxx交换房屋，xxx的房屋是由您亲自强行挂牌待售的，
 				// 您确定以一枚虎符作为给xxx的补偿批准这次交易吗？
 
-				AllianceBean abean = HibernateUtil.find(AllianceBean.class,
-						curJzId);
+				AllianceBean abean = AllianceBeanDao.inst.getAllianceBean(ap.lianMengId);
 				long mzId = abean.creatorId;
 				JunZhu mz = HibernateUtil.find(JunZhu.class, mzId);
 				Mail cfg = EmailMgr.INSTANCE.getMailConfig(10004);
@@ -1410,7 +1407,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			app.buyerId = curJzId;
 			app.keeperId = targetJzId;
 			app.dt = Calendar.getInstance().getTime();
-			app.emailId = EmailMgr.sentMail.get().getId();
+			app.emailId = EmailMgr.sentMail.get().id;
 			HibernateUtil.save(app);
 			log.info("申请成功,发起者[{}]:[{}],目标[{}]:[{}]", curJzId, curHb.lmId,
 					targetJzId, targetHb.lmId);
@@ -1731,8 +1728,7 @@ public class HouseMgr extends EventProc implements Runnable {
 		}
 
 		// 查询玩家的联盟成员自身
-		AlliancePlayer buyerMember = HibernateUtil.find(AlliancePlayer.class,
-				buyerJz.id);
+		AlliancePlayer buyerMember = AllianceMgr.inst.getAlliancePlayer(buyerJz.id);
 		// 查询目标高级房屋配置
 		int zenglv = CanShu.FANGWUJINGPAI_3;// 竞拍价格相对房屋价值比率
 		int jingpaiPrice = (int) Math.rint(((double) targetBh.hworth) * zenglv
@@ -1992,7 +1988,7 @@ public class HouseMgr extends EventProc implements Runnable {
 					fwConf.lv, lv);
 			return;
 		}
-		AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, curJzId);
+		AlliancePlayer ap = AllianceMgr.inst.getAlliancePlayer(curJzId);
 		if (ap == null || ap.lianMengId <= 0)
 			return;
 		if (ap.gongXian < fwConf.needNum) {
@@ -2039,7 +2035,7 @@ public class HouseMgr extends EventProc implements Runnable {
 		session.write(info.build());
 		AllianceMgr.inst.requestAllianceInfo(0, session, null);
 		// 主线任务: 成功装修1次房屋算完成任务（房屋升级） 20190916
-		EventMgr.addEvent(ED.fix_house , new Object[] {curJzId});
+		EventMgr.addEvent(curJzId,ED.fix_house , new Object[] {curJzId});
 	}
 	
 	/** 残卷交换奖励操作*/
@@ -2141,7 +2137,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			log.error("残卷交换错误，找不到item配置，itemId:{}", selfItemId);
 			return;
 		}
-		if(targetItemCfg.getItemType() != selfItemCfg.getItemType()) {
+		if(targetItemCfg.itemType != selfItemCfg.itemType) {
 			log.error("残卷交换失败，交换的残卷不是同一类型targetItemId:{},selfItemId:{}", targetItemId, selfItemId);
 			ExItemResult.Builder em = ExItemResult.newBuilder();
 			em.setCode(3);
@@ -2167,7 +2163,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			log.error("没有找到请求换物箱列表的君主id");
 			return;
 		}
-		AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, curJzId);
+		AlliancePlayer ap = AllianceMgr.inst.getAlliancePlayer(curJzId);
 		if (ap == null || ap.lianMengId <= 0) {
 			log.error("请求换物箱列表的君主联盟信息有误{}", curJzId);
 			return;
@@ -2224,8 +2220,7 @@ public class HouseMgr extends EventProc implements Runnable {
 				bean = new HuanWu();
 				bean.jzId = curJzId;
 				bean.jzName = HibernateUtil.find(JunZhu.class, curJzId).name;
-				AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class,
-						curJzId);
+				AlliancePlayer ap = AllianceMgr.inst.getAlliancePlayer(curJzId);
 				if (ap == null) {
 					log.error("没有找到设置换物箱的君主联盟信息{}", curJzId);
 					return;
@@ -2458,10 +2453,9 @@ public class HouseMgr extends EventProc implements Runnable {
 				JunZhu jz = HibernateUtil.find(JunZhu.class, jzid);
 				visitor.setJzName(jz.name);
 				visitor.setLevel(jz.level);
-				visitor.setJunxian(PvpMgr.getJunxianLevel(jzid));
+				visitor.setJunxian(PvpMgr.inst.getJunxianLevel(jzid));
 
-				AlliancePlayer abean = HibernateUtil.find(AlliancePlayer.class,
-						jzid);
+				AlliancePlayer abean = AllianceMgr.inst.getAlliancePlayer(jzid);
 				if (abean != null) {
 					visitor.setGuanxian(abean.title);// 官衔
 					visitor.setGongxian(abean.gongXian);// 贡献
@@ -2502,7 +2496,7 @@ public class HouseMgr extends EventProc implements Runnable {
 				switch (req.getCode()) {
 				case 20:
 					set.remove(visitorId);
-					SessionUser su = SessionManager.inst
+					IoSession su = SessionManager.inst
 							.findByJunZhuId(visitorId);
 					if (su != null) {
 						OffVisitorInfo.Builder vs = OffVisitorInfo.newBuilder();
@@ -2512,7 +2506,7 @@ public class HouseMgr extends EventProc implements Runnable {
 						ProtobufMsg msg = new ProtobufMsg();
 						msg.id = PD.S_ShotOffVisitor;
 						msg.builder = vs;
-						su.session.write(msg);
+						su.write(msg);
 					}
 					log.info("{}被逐出{}房屋", visitorId, houseId);
 					break;
@@ -2540,7 +2534,7 @@ public class HouseMgr extends EventProc implements Runnable {
 				AlliancePlayer.class, "where lianMengId=" + lmId);
 		for (AlliancePlayer member : memberList) {
 			if (hb.jzId != member.junzhuId) {
-				SessionUser su = SessionManager.inst
+				IoSession su = SessionManager.inst
 						.findByJunZhuId(member.junzhuId);
 				if (su != null) {
 					HouseUpdateInfo.Builder ret = HouseUpdateInfo.newBuilder();
@@ -2552,7 +2546,7 @@ public class HouseMgr extends EventProc implements Runnable {
 					ProtobufMsg pm = new ProtobufMsg();
 					pm.id = PD.S_LM_UPHOUSE_INFO;
 					pm.builder = ret;
-					su.session.write(pm);
+					su.write(pm);
 				}
 			}
 		}
@@ -2569,7 +2563,7 @@ public class HouseMgr extends EventProc implements Runnable {
 		List<AlliancePlayer> memberList = HibernateUtil.list(
 				AlliancePlayer.class, "where lianMengId=" + lmId);
 		for (AlliancePlayer member : memberList) {
-			SessionUser su = SessionManager.inst
+			IoSession su = SessionManager.inst
 					.findByJunZhuId(member.junzhuId);
 			if (su != null) {
 				HouseUpdateInfo.Builder ret = HouseUpdateInfo.newBuilder();
@@ -2589,7 +2583,7 @@ public class HouseMgr extends EventProc implements Runnable {
 				ProtobufMsg pm = new ProtobufMsg();
 				pm.id = PD.S_LM_UPHOUSE_INFO;
 				pm.builder = ret;
-				su.session.write(pm);
+				su.write(pm);
 			}
 		}
 	}
@@ -2646,18 +2640,18 @@ public class HouseMgr extends EventProc implements Runnable {
 		}
 		ret.setCode(code);
 		for (AlliancePlayer member : memberList) {
-			SessionUser su = SessionManager.inst
+			IoSession su = SessionManager.inst
 					.findByJunZhuId(member.junzhuId);
 			if (su != null) {
 				ProtobufMsg pm = new ProtobufMsg();
 				pm.id = PD.S_LM_UPHOUSE_INFO;
 				pm.builder = ret;
-				su.session.write(pm);
+				su.write(pm);
 			}
 		}
 	}
 
-	private HouseSimpleInfo.Builder addHouseBeanInf(HouseBean hb) {
+	public HouseSimpleInfo.Builder addHouseBeanInf(HouseBean hb) {
 		HouseSimpleInfo.Builder sf = HouseSimpleInfo.newBuilder();
 		sf.setLocationId(hb.location);
 		sf.setJzId(hb.jzId);
@@ -2678,7 +2672,7 @@ public class HouseMgr extends EventProc implements Runnable {
 		return sf;
 	}
 
-	private HouseSimpleInfo.Builder addBigHouseInf(BigHouse bh) {
+	public HouseSimpleInfo.Builder addBigHouseInf(BigHouse bh) {
 		HouseSimpleInfo.Builder sf = HouseSimpleInfo.newBuilder();
 		sf.setLocationId(bh.location);
 		sf.setJzId(bh.jzId);
@@ -2860,8 +2854,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			log.info("请求不存在 {}", buyerId);
 			return;
 		}
-		AlliancePlayer aPlayer = HibernateUtil.find(AlliancePlayer.class,
-				buyerId);
+		AlliancePlayer aPlayer = AllianceMgr.inst.getAlliancePlayer(buyerId);
 		if (aPlayer.title != AllianceMgr.TITLE_LEADER) {
 			log.info("当前批复人 {} 不是盟主", curJzId);
 			return;
@@ -3078,7 +3071,7 @@ public class HouseMgr extends EventProc implements Runnable {
 		// "buyerId:"+app.buyerId
 		String param = email.param;
 		if (param == null || param.startsWith("buyerId:") == false) {
-			log.error("answerApply 邮件参数不对{},{}", email.getId(), param);
+			log.error("answerApply 邮件参数不对{},{}", email.id, param);
 			return;
 		}
 		param = param.split(":")[1];
@@ -3089,7 +3082,7 @@ public class HouseMgr extends EventProc implements Runnable {
 			Email email, int operCode) {
 		String param = email.param;
 		if (param == null || param.startsWith("buyerId:") == false) {
-			log.error("answerQiangShouApply 邮件参数不对{},{}", email.getId(), param);
+			log.error("answerQiangShouApply 邮件参数不对{},{}", email.id, param);
 			return;
 		}
 		String buyerId = param.split(",")[0].split(":")[1];
@@ -3134,7 +3127,7 @@ public class HouseMgr extends EventProc implements Runnable {
 		Date today = new Date();
 
 		// 查询联盟信息
-		AllianceBean alncBean = HibernateUtil.find(AllianceBean.class, lmId);
+		AllianceBean alncBean = AllianceBeanDao.inst.getAllianceBean(lmId);
 		int lmLevel = alncBean.level;
 
 		// 高级房子列表
@@ -3213,7 +3206,7 @@ public class HouseMgr extends EventProc implements Runnable {
 	 */
 	public boolean isCanLingqufangwuExp(JunZhu jz) {
 		long jzId=jz.id;
-		AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, jzId);
+		AlliancePlayer ap = AllianceMgr.inst.getAlliancePlayer(jzId);
 		if (ap == null) {
 //			log.info("君主{}无联盟，不刷新房屋经验，ap == null", jzId);
 			return false;
@@ -3255,7 +3248,7 @@ public class HouseMgr extends EventProc implements Runnable {
 	// * @Description: 删除所有邮件
 	// * @param applyBean
 	// */
-	// private void delEmail(){
+	// public void delEmail(){
 	// List<Email> email = HibernateUtil.list(Email.class, "");
 	// for (Email email2 : email) {
 	// HibernateUtil.delete(email2);

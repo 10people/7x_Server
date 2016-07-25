@@ -6,18 +6,20 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 @Entity
 @Table(name = "PlayerTime")
-public class PlayerTime {
+public class PlayerTime implements DBHash{
 	@Id
-	private long junzhuId;
-	private Date createRoleTime; // 创建角色时间
-	private Date zhunchengTime; // 进入主城时间  2015年7月28日加
-	private Date dayFirstTime; // 当日首次登陆时间
-	private Date loginTime; // 本次登录时间
-	private Date logoutTime; // 本次退出时间
+	public long junzhuId;
+	public Date createRoleTime; // 创建角色时间
+	public Date zhunchengTime; // 进入主城时间  2015年7月28日加
+	public Date dayFirstTime; // 当日首次登陆时间
+	public Date loginTime; // 本次登录时间
+	public Date logoutTime; // 本次退出时间
 	// 2015年7月4日 更改Date为long，记录在线毫秒数
-	private long totalOnlineTime; // 总在线时间
+	public long totalOnlineTime; // 总在线时间
 
 	public PlayerTime() {
 	}
@@ -30,60 +32,8 @@ public class PlayerTime {
 		this.loginTime = date;
 	}
 
-	public long getJunzhuId() {
-		return junzhuId;
+	@Override
+	public long hash() {
+        return junzhuId;
 	}
-
-	public void setJunzhuId(long junzhuId) {
-		this.junzhuId = junzhuId;
-	}
-
-	public Date getDayFirstTime() {
-		return dayFirstTime;
-	}
-
-	public void setDayFirstTime(Date dayFirstTime) {
-		this.dayFirstTime = dayFirstTime;
-	}
-
-	public Date getLoginTime() {
-		return loginTime;
-	}
-
-	public void setLoginTime(Date loginTime) {
-		this.loginTime = loginTime;
-	}
-
-	public Date getLogoutTime() {
-		return logoutTime;
-	}
-
-	public void setLogoutTime(Date logoutTime) {
-		this.logoutTime = logoutTime;
-	}
-
-	public long getTotalOnlineTime() {
-		return totalOnlineTime;
-	}
-
-	public void setTotalOnlineTime(long totalOnlineTime) {
-		this.totalOnlineTime = totalOnlineTime;
-	}
-
-	public Date getCreateRoleTime() {
-		return createRoleTime;
-	}
-
-	public void setCreateRoleTime(Date createRoleTime) {
-		this.createRoleTime = createRoleTime;
-	}
-
-	public Date getZhunchengTime() {
-		return zhunchengTime;
-	}
-
-	public void setZhunchengTime(Date zhunchengTime) {
-		this.zhunchengTime = zhunchengTime;
-	}
-
 }

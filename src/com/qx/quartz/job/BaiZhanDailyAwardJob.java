@@ -18,7 +18,7 @@ import com.qx.pvp.PvpMgr;
 import com.qx.timeworker.FunctionID;
 
 public class BaiZhanDailyAwardJob implements Job {
-	private Logger logger = LoggerFactory.getLogger(BaiZhanDailyAwardJob.class);
+	public Logger logger = LoggerFactory.getLogger(BaiZhanDailyAwardJob.class);
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		logger.info("BaiZhanDailyAwardJob 开始");

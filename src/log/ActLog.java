@@ -687,7 +687,7 @@ FineGem.info("{},{},{},{},{},{},{},{},{},{},{},{}"
 );//</struct>
 }
 
-protected String fixJson(JSONArray arr){
+public String fixJson(JSONArray arr){
 	if(arr == null){
 		return "[]";
 	};

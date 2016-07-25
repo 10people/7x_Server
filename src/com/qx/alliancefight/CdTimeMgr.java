@@ -46,7 +46,7 @@ public class CdTimeMgr implements Runnable {
 		}
 	}
 
-	protected void checkQueue() {
+	public void checkQueue() {
 		while(!cdQueue.isEmpty()) {
 			CdTime cdTime = cdQueue.peek();
 			if(cdTime == null) {

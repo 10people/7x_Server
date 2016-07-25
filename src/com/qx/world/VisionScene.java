@@ -15,7 +15,7 @@ import qxmobile.protobuf.Scene.ExitScene;
 public abstract class VisionScene extends Scene{
 
 	public float visibleDist = 20;
-	public int visibleCnt = 30;
+	public int visibleCnt = 40;
 
 	public VisionScene(String key) {
 		super(key);

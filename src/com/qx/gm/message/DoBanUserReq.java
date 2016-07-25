@@ -4,14 +4,14 @@ import com.qx.gm.util.CodeUtil;
 import com.qx.gm.util.MD5Util;
 
 public class DoBanUserReq {
-	private int type; // 协议编号
-	private int firm; // 表示厂商ID
-	private int zone; // 大区号
-	private String uin; // 用户名
-	private String rolename; // 角色名
-	private int times;// 封号时长，秒单位
-	private String banreason; // 封号原因
-	private String md5; // 加密
+	public int type; // 协议编号
+	public int firm; // 表示厂商ID
+	public int zone; // 大区号
+	public String uin; // 用户名
+	public String rolename; // 角色名
+	public int times;// 封号时长，秒单位
+	public String banreason; // 封号原因
+	public String md5; // 加密
 
 	public boolean checkMd5() {
 		StringBuffer sBuffer = new StringBuffer();

@@ -6,15 +6,15 @@ import com.qx.gm.util.CodeUtil;
 import com.qx.gm.util.MD5Util;
 
 public class DoSendMailReq {
-	private int type;// 协议编号
-	private int firm;// 表示厂商ID
-	private int zone;// 大区号
-	private String rolename;// 角色名,玩家名称
-	private int levlemin;// 等级最小值
-	private int levlemax;// 等级最大值
-	private String subject;// 主题
-	private String text;// 正文信息
-	private List<MailProp> prop;// 道具信息数组
+	public int type;// 协议编号
+	public int firm;// 表示厂商ID
+	public int zone;// 大区号
+	public String rolename;// 角色名,玩家名称
+	public int levlemin;// 等级最小值
+	public int levlemax;// 等级最大值
+	public String subject;// 主题
+	public String text;// 正文信息
+	public List<MailProp> prop;// 道具信息数组
 
 	public boolean checkMd5(String prop4Md5) {
 		StringBuffer sBuffer = new StringBuffer();
@@ -44,7 +44,7 @@ public class DoSendMailReq {
 		this.prop = prop;
 	}
 
-	private String md5;// 加密
+	public String md5;// 加密
 
 	public int getType() {
 		return type;

@@ -14,7 +14,7 @@ import com.qx.prompt.PromptMSG;
 import com.qx.prompt.SuBaoConstant;
 
 public class CleanLMSBJob implements Job {
-	private Logger log = LoggerFactory.getLogger(CleanLMSBJob.class);
+	public Logger log = LoggerFactory.getLogger(CleanLMSBJob.class);
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		log.info("清理联盟速报开始");
@@ -33,14 +33,7 @@ public class CleanLMSBJob implements Job {
 	
 	public void clearMsgByTime(String clearDistance,String condition) {
 		try {
-			List<PromptMSG> promptMsgList = HibernateUtil.list(PromptMSG.class,condition );
-			for (PromptMSG msg: promptMsgList) {
-				if (msg!=null) {
-					log.info("删除君主{}的联盟速报，速报Id--{}",msg.jzId,msg.id);
-					HibernateUtil.delete(msg);
-				}
-			}
-			
+			HibernateUtil.executeSql("delete from PromptMSG "+condition);
 		} catch (Exception e) {
 			log.error("清理联盟速报异常",e);
 		}

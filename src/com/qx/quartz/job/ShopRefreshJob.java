@@ -17,7 +17,7 @@ import com.qx.junzhu.JunZhuMgr;
 import com.qx.timeworker.FunctionID;
 
 public class ShopRefreshJob implements Job {
-	private Logger log = LoggerFactory.getLogger(ShopRefreshJob.class);
+	public Logger log = LoggerFactory.getLogger(ShopRefreshJob.class);
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		log.info("商铺刷新， 发送红点");

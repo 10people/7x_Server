@@ -34,8 +34,8 @@ if(name != null && name.length()>0){
 		//HibernateUtil.saveAccount(name);
 	}else{
 		session.setAttribute("name", name);
-		 %>账号<%=account.getAccountId()%>:<%=account.getAccountName()%><br/><%
-		 DailyAwardBean bean = HibernateUtil.find(DailyAwardBean.class, account.getAccountId());
+		 %>账号<%=account.accountId%>:<%=account.accountName%><br/><%
+		 DailyAwardBean bean = HibernateUtil.find(DailyAwardBean.class, account.accountId);
 		 if(bean == null){
 			 out.println("没有相关记录");
 		 }else{

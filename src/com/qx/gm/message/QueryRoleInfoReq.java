@@ -5,12 +5,12 @@ import com.qx.gm.util.MD5Util;
 
 public class QueryRoleInfoReq {
 
-	private int type;// 协议编号
-	private int firm;// 厂商ID
-	private int zone;// 大区号
-	private String uin;// 账号ID
-	private String rolename;// 角色名
-	private String md5;// 加密
+	public int type;// 协议编号
+	public int firm;// 厂商ID
+	public int zone;// 大区号
+	public String uin;// 账号ID
+	public String rolename;// 角色名
+	public String md5;// 加密
 
 	public boolean checkMd5() {
 		StringBuffer sBuffer = new StringBuffer();

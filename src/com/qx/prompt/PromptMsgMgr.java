@@ -10,10 +10,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import javax.persistence.Table;
 
 import org.apache.mina.core.session.IoSession;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +38,7 @@ import com.manu.network.SessionAttKey;
 import com.manu.network.SessionManager;
 import com.manu.network.SessionUser;
 import com.manu.network.msg.ProtobufMsg;
+import com.qx.account.AccountManager;
 import com.qx.account.FunctionOpenMgr;
 import com.qx.activity.ActivityMgr;
 import com.qx.alliance.AllianceBean;
@@ -63,6 +66,7 @@ import com.qx.world.BroadcastMgr;
 import com.qx.world.Mission;
 import com.qx.world.Player;
 import com.qx.world.Scene;
+import com.qx.yabiao.YaBiaoDao;
 import com.qx.yabiao.YaBiaoHuoDongMgr;
 import com.qx.yabiao.YaBiaoRobot;
 
@@ -281,7 +285,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			content = "未找到描述配置，不知道说啥了,languageId :"+ languageId;
 			return content;
 		}
-		content = desc.getDescription();
+		content = desc.description;
 		if(!"".equals(name1)){
 			content = content.replace("XX", name1);
 		}
@@ -452,54 +456,70 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 	 * @Description 	删除盟友jzId对ybJzID的速报 
 	 */
 	public void deleteLMSB(long jzId,long ybJzID) {
-		List<PromptMSG> promptMsgList = HibernateUtil.list(PromptMSG.class, "where otherJzId='"+ybJzID+"' and jzId='"
+		/*List<PromptMSG> promptMsgList = HibernateUtil.list(PromptMSG.class, "where otherJzId='"+ybJzID+"' and jzId='"
 				+jzId+"' and eventId in ("+SuBaoConstant.mccf_toSelf+","+SuBaoConstant.mcbd_toSelf+")");
 		for (PromptMSG msg : promptMsgList) {
 			if (msg!=null) {
 				log.info("删除君主{}的联盟速报Id--{}",msg.jzId,msg.id);
 				HibernateUtil.delete(msg);
 			}
-		}
+		}*/
+		Table table = PromptMSG.class.getAnnotation(Table.class);
+		String hsql = "delete from " + table.name() + " where otherJzId='"+ybJzID+"' and jzId='"
+				+jzId+"' and eventId in ("+SuBaoConstant.mccf_toSelf+","+SuBaoConstant.mcbd_toSelf+")";
+		HibernateUtil.executeSql(hsql);
 	}
 	
 	/**
 	 * @Description 清理君主 对应类型的速报
 	 */
 	public void deleteLMSBByEventId(long jzId,int eventId) {
-		List<PromptMSG> promptMsgList = HibernateUtil.list(PromptMSG.class, "where  jzId='"
+		/*List<PromptMSG> promptMsgList = HibernateUtil.list(PromptMSG.class, "where  jzId='"
 				+jzId+"' and eventId ="+eventId+"");
 		for (PromptMSG msg : promptMsgList) {
 			if (msg!=null) {
 				log.info("删除君主{}的速报Id--{},类型--{},内容为---《{}》",msg.jzId,msg.id,eventId,msg.content);
 				HibernateUtil.delete(msg);
 			}
-		}
+		}*/
+		Table table = PromptMSG.class.getAnnotation(Table.class);
+		String hsql = "delete from " + table.name() + " where  jzId="
+				+jzId+" and eventId ="+eventId+"";
+		HibernateUtil.executeSql(hsql);
 	}
 	/**
 	 * @Description 清理君主 根据 两个君主的Id 和 eventId
 	 */
 	public void deleteMsgByEventIdAndOtherJzId(long jzId,long otherJzId,int eventId) {
-		List<PromptMSG> promptMsgList = HibernateUtil.list(PromptMSG.class, "where  jzId='"
+		/*List<PromptMSG> promptMsgList = HibernateUtil.list(PromptMSG.class, "where  jzId='"
 				+jzId+"' and eventId ="+eventId+"  and otherJzId ="+otherJzId);
 		for (PromptMSG msg : promptMsgList) {
 			if (msg!=null) {
 				log.info("删除君主{}的速报Id--{},类型--{},内容为---《{}》",msg.jzId,msg.id,eventId,msg.content);
 				HibernateUtil.delete(msg);
 			}
-		}
+		}*/
+		Table table = PromptMSG.class.getAnnotation(Table.class);
+		String hsql = "delete from " + table.name() + " where jzId='"
+				+jzId+"' and eventId ="+eventId+"  and otherJzId ="+otherJzId;
+		HibernateUtil.executeSql(hsql);
 	}
 	/**
 	 * @Description 拒绝邀请时清理当前lmId对jzId的所有邀请通知
 	 */
 	public void deleteMsgByEventIdAndLmId(long jzId,int lmId,int eventId) {
-		List<PromptMSG> promptMsgList = HibernateUtil.list(PromptMSG.class, "where  jzId='"
+		/*List<PromptMSG> promptMsgList = HibernateUtil.list(PromptMSG.class, "where  jzId='"
 				+jzId+"' and eventId ="+eventId+"  and realCondition ="+lmId);
 		for (PromptMSG msg : promptMsgList) {
 			if (msg!=null) {
 				log.info("删除君主{}的速报Id--{},类型--{},内容为---《{}》",msg.jzId,msg.id,eventId,msg.content);
 				HibernateUtil.delete(msg);
 			}
-		}
+		}*/
+		Table table = PromptMSG.class.getAnnotation(Table.class);
+		String hsql = "delete from " + table.name() + " where  jzId='"
+				+jzId+"' and eventId ="+eventId+"  and realCondition ="+lmId;
+		HibernateUtil.executeSql(hsql);
 	}
 	/**
 	 * @Description 忽略速报
@@ -543,11 +563,11 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		}
 		//生成祝福快报
 		PromptMSG msg2= saveLMKBByCondition(msg.otherJzId,jz.id, new String[]{jz.name },SuBaoConstant.myzf, msg.realCondition);
-		SessionUser su = SessionManager.inst.findByJunZhuId(msg.otherJzId);
+		IoSession su = AccountManager.sessionMap.get(msg.otherJzId);
 		if (su != null){
 			SuBaoMSG.Builder subao = SuBaoMSG.newBuilder();
 			subao = makeSuBaoMSG(subao, msg2);
-			su.session.write(subao.build());
+			su.write(subao.build());
 		}
 		//删除速报
 		HibernateUtil.delete(msg);
@@ -661,11 +681,11 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		default:
 			break;
 		}
-		SessionUser su = SessionManager.inst.findByJunZhuId(msg.otherJzId);
+		IoSession su = AccountManager.sessionMap.get(msg.otherJzId);
 		if (su != null && msg2 != null){
 			SuBaoMSG.Builder subao2=SuBaoMSG.newBuilder();
 			makeSuBaoMSG(subao2, msg2);;
-			su.session.write(subao2.build());
+			su.write(subao2.build());
 		}
 //		msg.anWeiTimes += 1;
 //		HibernateUtil.update(msg);
@@ -685,7 +705,12 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			IoSession session, 
 			PromptActionResp.Builder resp,
 			JunZhu jz)  {
-		PromptMSG msg = HibernateUtil.find(PromptMSG.class,subaoId);
+		boolean fromDB = false;
+		PromptMSG msg = GreetMgr.msgCache.get(subaoId);
+		if(msg == null){
+			msg = HibernateUtil.find(PromptMSG.class,subaoId);
+			fromDB = true;
+		}
 		if(msg==null){
 			log.error("{}领取速报的奖励失败，速报--{}不存在",jz.id,subaoId);
 			resp.setSubaoId(subaoId);
@@ -701,7 +726,9 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			AwardMgr.inst.giveReward(session, award, jz);
 		}
 		//删除速报
-		HibernateUtil.delete(msg);
+		if(fromDB){
+			HibernateUtil.delete(msg);
+		}
 		resp.setSubaoId(subaoId);
 		resp.setResult(10);
 		resp.setSubaoType(SuBaoConstant.getAward);
@@ -758,13 +785,21 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			return false;
 		}
 		String chufaName=chufaJz.name;
+		//查询所有君主
+		String ids = aplayersList.stream().map(m -> String.valueOf(m.junzhuId)).collect(Collectors.joining(","));
+		String where = " where id in ("+ ids +")";
+		List<JunZhu> junzhuList = HibernateUtil.list(JunZhu.class, where);
+		Map<Long, JunZhu> junzhuMap = new HashMap<Long,JunZhu>();
+		for (JunZhu junZhu : junzhuList) {
+			junzhuMap.put(junZhu.id,junZhu);
+		}
 		for (AlliancePlayer aplayer : aplayersList) {
 			long jzId=aplayer.junzhuId;
 			if(jzId==chufaJzId){
-				
 				continue;
 			}
-			JunZhu jz=HibernateUtil.find(JunZhu.class, jzId);
+			//JunZhu jz=HibernateUtil.find(JunZhu.class, jzId);
+			JunZhu jz = junzhuMap.get(jzId);
 			if(jz==null){
 				log.error("向联盟---{}的所有成员推送盟友速报失败，未找到押镖君主--{}", lmId,jzId);
 				continue;
@@ -774,12 +809,12 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 				log.error("向联盟---{}的所有成员推送盟友速报失败,保存速报失败", lmId,jzId);
 				continue;
 			}
-			SessionUser su = SessionManager.inst.findByJunZhuId(jzId);
+			IoSession su = SessionManager.inst.findByJunZhuId(jzId);
 			if (su != null){
 				// 联盟成员的君主id
 				SuBaoMSG.Builder subao = SuBaoMSG.newBuilder();
 				subao=makeSuBaoMSG(subao, msg);
-				su.session.write(subao.build());
+				su.write(subao.build());
 			}
 		}
 		log.info("向联盟---{}的所有成员推送押镖盟友速报结束",lmId);
@@ -808,9 +843,21 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			return false;
 		}
 		HashSet<Long> xzSet = YaBiaoHuoDongMgr.xieZhuCache4YBJZ.get(chufaJzId);
+		String ids = aplayersList.stream().map(m -> String.valueOf(m.junzhuId)).collect(Collectors.joining(","));
+		String where = " where id in ("+ ids +")";
+		List<JunZhu> junzhuList = HibernateUtil.list(JunZhu.class, where);
+		Map<Long, JunZhu> junzhuMap = new HashMap<Long,JunZhu>();
+		for (JunZhu junZhu : junzhuList) {
+			junzhuMap.put(junZhu.id,junZhu);
+		}
 		for (AlliancePlayer aplayer : aplayersList) {
 			long jzId=aplayer.junzhuId;
-			SessionUser su = SessionManager.inst.findByJunZhuId(jzId);
+			//判断功能是否开启
+			boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.yabiao,jzId, 0); //第三个参数没有用到，没有查询君主level
+			if(!isOpen){
+				continue; //没有开启运镖功能不发协助
+			}
+			IoSession su = SessionManager.inst.findByJunZhuId(jzId);
 			if (su != null){
 				//押镖君主自己不发
 				if(jzId==chufaJzId){
@@ -820,7 +867,8 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 				if(xzSet!=null&&xzSet.contains(jzId)){
 					continue;
 				}
-				JunZhu jz=HibernateUtil.find(JunZhu.class, jzId);
+				//JunZhu jz=HibernateUtil.find(JunZhu.class, jzId);
+				JunZhu jz = junzhuMap.get(jzId);
 				if(jz==null){
 					log.error("向联盟---{}的未协助押镖成员推送盟友速报失败，未找到押镖君主--{}", lmId,jzId);
 					continue;
@@ -833,10 +881,10 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 				// 联盟成员的君主id
 				SuBaoMSG.Builder subao = SuBaoMSG.newBuilder();
 				subao = makeSuBaoMSG(subao, msg);
-				su.session.write(subao.build());
+				su.write(subao.build());
 			}
 		}
-		log.info("向联盟---{}的未协助押镖成员推送押镖盟友速报结束",lmId);
+//		log.info("向联盟---{}的未协助押镖成员推送押镖盟友速报结束",lmId);
 		return true;
 	}
 
@@ -847,7 +895,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			Integer horseType, Integer eventId) {
 		Long jzId=jz.id;
 		Long otherJzId=jz.id;
-		log.info("推送联盟快报给自己--{}开始",jzId);
+//		log.info("推送联盟快报给自己--{}开始",jzId);
 		int function=310;
 		ReportTemp rt= getReportTempByCondition( eventId, horseType);
 		if(rt==null){
@@ -859,14 +907,14 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		if(msg==null){
 			return;
 		}
-		SessionUser su = SessionManager.inst.findByJunZhuId(jzId);
+		IoSession su = SessionManager.inst.findByJunZhuId(jzId);
 		if (su != null){
 			// 联盟成员的君主id
 			SuBaoMSG.Builder subao = SuBaoMSG.newBuilder();
 			subao = makeSuBaoMSG(subao, msg);
-			su.session.write(subao.build());
+			su.write(subao.build());
 		}
-		log.info("推送联盟快报给自己--{}结束",jzId);
+//		log.info("推送联盟快报给自己--{}结束",jzId);
 	}
 
 
@@ -962,14 +1010,14 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 				if(!isOpen2){
 					break;
 				}
-				AlliancePlayer allianceMember = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
+				AlliancePlayer allianceMember = AllianceMgr.inst.getAlliancePlayer(junZhu.id);
 				if(allianceMember != null && allianceMember.lianMengId > 0){
 					List<YaBiaoJunQing> list = HibernateUtil.list(YaBiaoJunQing.class,
 							" where lmId="+allianceMember.lianMengId);
 					if(list != null && list.size() > 0) {
-						SessionUser su = SessionManager.inst.findByJunZhuId(junZhu.id);
+						IoSession su = SessionManager.inst.findByJunZhuId(junZhu.id);
 						if(su != null){
-							FunctionID.pushCanShowRed(junZhu.id, su.session, FunctionID.lianmengJunQingYabiao);
+							FunctionID.pushCanShowRed(junZhu.id, su, FunctionID.lianmengJunQingYabiao);
 						}
 					}
 				}
@@ -1074,7 +1122,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			}
 			// 聊天
 			try{
-				SessionUser user = SessionManager.inst.findByJunZhuId(jz1.id);
+				IoSession user = SessionManager.inst.findByJunZhuId(jz1.id);
 				if(user == null) return;
 				String  chatContent =  getBroadCastContent(jz1.name, jz2.name, willLostbuild,mi.battleHappendTime);
 				ChatPct.Builder b = ChatPct.newBuilder();
@@ -1083,7 +1131,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 				b.setContent(chatContent);
 				b.setSenderId(jz1.id);
 				b.setSenderName(jz1.name);
-				ChatMgr.inst.addMission(PD.C_Send_Chat, user.session, b);
+				ChatMgr.inst.addMission(PD.C_Send_Chat, user, b);
 			}catch(Exception e2){
 				e2.printStackTrace();
 				log.error("被掠夺 发送聊天报错",e2);
@@ -1107,7 +1155,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 					.replace("M", m+"");
 			return c;
 	}
-	public void handleBeanLveDuoAttack(Event e) {
+	/*public void handleBeanLveDuoAttack(Event e) {
 		if(e == null || e.param == null){
 			return;
 		}
@@ -1138,7 +1186,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 						+ "向玩家：{}所在的联盟的所有联盟成员发送报消息成功", firstJzId, secondJzId, secondJzId);
 			}
 		}
-	}
+	}*/
 	
 	/** 
 	 * @Description 镖车被攻击事件处理
@@ -1157,7 +1205,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		if (lmBean != null) {
 			YaBiaoJunQing msg=saveYaBiaoJunQing(ybjzId, jbJzId,ybjzUid,jbJzUid,lmBean.id);
 			//添加新押镖联盟军情事件
-			EventMgr.addEvent(ED.NEW_LIANMENG_YB_JUQING,msg);
+			EventMgr.addEvent(ybjzId,ED.NEW_LIANMENG_YB_JUQING,msg);
 		}
 	}
 	/**
@@ -1173,6 +1221,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		msg.lmId=lmId;
 		msg.happenTime=new Date();
 		HibernateUtil.save(msg);
+		YaBiaoDao.inst.saveYaBiaoJunQing(msg); //缓存更新
 		log.info("保存联盟---{}联盟军情,押镖君主--{}，劫镖君主---{}", lmId,ybJzId,jbJzId);
 		return msg;
 	}
@@ -1281,18 +1330,18 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			if(jzId == juid && !isIncludeSelf){
 				continue;
 			}
-			SessionUser su = SessionManager.inst.findByJunZhuId(jzId);
+			IoSession su = SessionManager.inst.findByJunZhuId(jzId);
 			if (su != null){
-				FunctionID.pushCanShowRed(jzId, su.session, redId);
+				FunctionID.pushCanShowRed(jzId, su, redId);
 
 				// 在线玩家发送广播
 				if(msg != null){
-					su.session.write(msg);
+					su.write(msg);
 				}
 			}
 		}
 	}
-	public boolean tell(long juid, int lmId, int reportTemp_event, String[] param ) {
+	/*public boolean tell(long juid, int lmId, int reportTemp_event, String[] param ) {
 		List<AlliancePlayer> aplayersList = AllianceMgr.inst.getAllianceMembers(lmId);
 		if(aplayersList == null || aplayersList.size() == 0){
 			log.error("向联盟---{}的所有成员 推送速报失败，联盟无成员", lmId);
@@ -1305,12 +1354,20 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			return false;
 		}
 	
+		String ids = aplayersList.stream().map(m -> String.valueOf(m.junzhuId)).collect(Collectors.joining(","));
+		String where = " where id in ("+ ids +")";
+		List<JunZhu> junzhuList = HibernateUtil.list(JunZhu.class, where);
+		Map<Long, JunZhu> junzhuMap = new HashMap<Long,JunZhu>();
+		for (JunZhu junZhu : junzhuList) {
+			junzhuMap.put(junZhu.id,junZhu);
+		}
 		for (AlliancePlayer aplayer : aplayersList) {
 			long jzId = aplayer.junzhuId;
 			if(jzId == juid){
 				continue;
 			}
-			JunZhu jz=HibernateUtil.find(JunZhu.class, jzId);
+//			JunZhu jz=HibernateUtil.find(JunZhu.class, jzId);
+			JunZhu jz = junzhuMap.get(jzId);
 			if(jz == null){
 				log.error("向联盟---{}的所有成员推送速报失败，未找到联盟中的--{}", lmId,jzId);
 				continue;
@@ -1320,17 +1377,17 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 				log.error("向联盟---{}的所有成员推送速报失败,保存速报失败", lmId,jzId);
 				continue;
 			}
-			SessionUser su = SessionManager.inst.findByJunZhuId(jzId);
+			IoSession su = SessionManager.inst.findByJunZhuId(jzId);
 			if (su != null){
 				// 联盟成员的君主id
 				SuBaoMSG.Builder subao = SuBaoMSG.newBuilder();
 				subao = makeSuBaoMSG(subao, msg);
-				su.session.write(subao.build());
+				su.write(subao.build());
 			}
 		}
 		log.info("向联盟---{}的所有成员推送 速报结束",lmId);
 		return true;
-	}
+	}*/
 	/**
 	 * @Description 推送通知/速报
 	 * @param session
@@ -1359,23 +1416,23 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		if(msg.award!=null){
 			subao.setAward(msg.award);
 		}
-		//TODO 删掉删掉！！！
-		if(true){
-			log.info("君主--{}的速报=={}，内容为---《{}》,配置id=={}，otherJzId=={},奖励=={}",msg.jzId,msg.id,msg.content,msg.configId,msg.otherJzId,msg.award);
-		}
 		return subao;
 	}
 	
 	public boolean deleteLMSB2AllMengYou(int lmId, Long chufaJzId) {
 		log.info("清理联盟---{}的所有成员的联盟速报开始",lmId);
-		List<PromptMSG> promptMsgList = HibernateUtil.list(PromptMSG.class, "where otherJzId='"+chufaJzId+"' and eventId in("
+		/*List<PromptMSG> promptMsgList = HibernateUtil.list(PromptMSG.class, "where otherJzId='"+chufaJzId+"' and eventId in("
 				+SuBaoConstant.mccf_toOther+","	+SuBaoConstant.jionxz_toSelf+","	+SuBaoConstant.mcbd_toOther+","+SuBaoConstant.zdqz+")");
 		for (PromptMSG msg : promptMsgList) {
 			if (msg!=null) {
 				log.info("删除联盟---{}的 成员--{}的联盟速报Id--{}",lmId,msg.jzId,msg.id);
 				HibernateUtil.delete(msg);
 			}
-		}
+		}*/
+		Table table = PromptMSG.class.getAnnotation(Table.class);
+		String hsql = "delete from " + table.name() + " where otherJzId='"+chufaJzId+"' and eventId in("
+				+SuBaoConstant.mccf_toOther+","	+SuBaoConstant.jionxz_toSelf+"," +SuBaoConstant.mcbd_toOther+","+SuBaoConstant.zdqz+")";
+		HibernateUtil.executeSql(hsql);
 		log.info("清理联盟---{}的所有成员的联盟速报结束",lmId);
 		return true;
 	}
@@ -1388,13 +1445,21 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 	 */
 	public boolean deleteLMJQ2AllMengYou(int lmId, Long chufaJzId) {
 		log.info("清理联盟---{}的关于--{}的联盟军情开始",lmId,chufaJzId);
-		List<YaBiaoJunQing> msgList = HibernateUtil.list(YaBiaoJunQing.class, "where ybjzId='"+chufaJzId+"'");
+		/*List<YaBiaoJunQing> msgList = HibernateUtil.list(YaBiaoJunQing.class, "where ybjzId='"+chufaJzId+"'");
 		for (YaBiaoJunQing msg : msgList) {
 			if (msg!=null) {
 				log.info("删除联盟---{}的 成员--{}的联盟军情Id--{}",lmId,chufaJzId,msg.id);
 				HibernateUtil.delete(msg);
 			}
+		}*/
+		Table table = YaBiaoJunQing.class.getAnnotation(Table.class);
+		String tableName = YaBiaoJunQing.class.getSimpleName();
+		if(table != null && !"".equals(table.name()) ){
+			tableName = table.name();
 		}
+		String hsql = "delete from " + tableName + " where ybjzId='"+chufaJzId+"'";
+		HibernateUtil.executeSql(hsql);
+		YaBiaoDao.inst.delJunQingByYbJzId(chufaJzId);//清理缓存
 		log.info("清理联盟---{}的关于--{}的联盟军情结束",lmId,chufaJzId);
 		return true;
 	}
@@ -1408,7 +1473,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		long jId = jz.id;
 		JunQingReq.Builder req = (JunQingReq.Builder)builder;
 		int type = req.getType();
-		AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jId);
+		AlliancePlayer player = AllianceMgr.inst.getAlliancePlayer(jId);
 		if(player == null || player.lianMengId <=0 ){
 			return;
 		}
@@ -1434,12 +1499,15 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		 */
 //		lmId
 		String where = " where lmId = " +lmid;
-		List<YaBiaoJunQing> list = HibernateUtil.list(YaBiaoJunQing.class, where);
+		//List<YaBiaoJunQing> list = HibernateUtil.list(YaBiaoJunQing.class, where);
+		Map<Long, YaBiaoJunQing> yMap = YaBiaoDao.inst.getJunQingMap(lmid);
 		HistoryBattleInfo.Builder info = null;
 		Player enemy = null;
 		Player friend = null;
 		Integer horseType = null;
-		for(YaBiaoJunQing mi: list){
+		if(yMap == null) return;
+		for(Long dbid: yMap.keySet()){
+			YaBiaoJunQing mi = yMap.get(dbid);
 			List<Object> pli = getLianMengJunQing4YB(mi);
 			if(pli.size() == 0){
 				continue;
@@ -1482,14 +1550,23 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		HistoryBattleInfo.Builder info = null;
 		JunZhu enemy = null;
 		JunZhu friend = null;
+		String ids = list.stream().map(m ->(m.lveDuoJunId + "," + m.beanLveDuoJunId)).collect(Collectors.joining(","));
+		String where1 = " where id in ("+ ids +")";
+		List<JunZhu> junzhuList = HibernateUtil.list(JunZhu.class, where1);
+		Map<Long, JunZhu> junzhuMap = new HashMap<Long,JunZhu>();
+		for (JunZhu junZhu : junzhuList) {
+			junzhuMap.put(junZhu.id,junZhu);
+		}
 		for(LveDuoMI mi: list){
 			info = HistoryBattleInfo.newBuilder();
 			info.setEnemyJid(mi.lveDuoJunId);
-			enemy = HibernateUtil.find(JunZhu.class, mi.lveDuoJunId);
+			//enemy = HibernateUtil.find(JunZhu.class, mi.lveDuoJunId);
+			enemy = junzhuMap.get(mi.lveDuoJunId);
 			if(enemy == null){
 				continue;
 			}
-			friend = HibernateUtil.find(JunZhu.class, mi.beanLveDuoJunId);
+			//friend = HibernateUtil.find(JunZhu.class, mi.beanLveDuoJunId);
+			friend = junzhuMap.get(mi.beanLveDuoJunId);
 			if(friend == null){
 				continue;
 			}
@@ -1566,7 +1643,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			return;
 		}
 		long enemyId = lveMi.lveDuoJunId;
-		AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, jid);
+		AlliancePlayer p = AllianceMgr.inst.getAlliancePlayer(jid);
 		if(p == null || p.lianMengId <= 0){
 			ZhanDouInitError.Builder errresp = ZhanDouInitError.newBuilder();
 			errresp.setResult("您已退出联盟，无法驱逐");
@@ -1675,7 +1752,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		selfFlagIndex += 1;
 		setBingData(selfs, selfFlagIndex,jlevel);
 		selfTroop.addAllNodes(selfs);
-		selfTroop.setMaxLevel(BigSwitch.pveGuanQiaMgr.getGuanQiaMaxId(jId));
+		selfTroop.setMaxLevel((int) BigSwitch.pveGuanQiaMgr.getGuanQiaMaxId(jId));
 		resp.setSelfTroop(selfTroop);
 		resp.setZhandouId(newZhandouId);
 		resp.setMapId(mapId);
@@ -1794,7 +1871,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			return;
 		}
 		long enemyId = lveMi.lveDuoJunId;
-		AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, jid);
+		AlliancePlayer p = AllianceMgr.inst.getAlliancePlayer(jid);
 		if(p == null || p.lianMengId <= 0){
 			DailyTaskMgr.INSTANCE.sendError(session, 2, PD.go_qu_zhu_resp, 2);
 			log.error("君主：{}驱逐敌人：{}失败，君主退出联盟", jid, enemyId);
@@ -1838,7 +1915,7 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		DailyTaskMgr.INSTANCE.sendError(session, 0, PD.go_qu_zhu_resp, 0);
 	}
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.BIAOCHE_CHUFA, this);
 		EventMgr.regist(ED.BIAOCHE_BEIDA, this);
 		EventMgr.regist(ED.BIAOCHE_CUIHUI, this);
@@ -1859,19 +1936,28 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 	 */
 	public PromptMSG savePromptMSG4GongHe(long jzId, long otherJzId,
 			int eventId, String[] param) {
+		PromptMSG msg = makeBean(jzId, otherJzId, param,eventId);
+		if(msg == null){
+			return msg;
+		}
+		List<PromptMSG> msgList=HibernateUtil.list(PromptMSG.class, "where otherJzId='"+otherJzId+"' and jzId='"
+				+jzId+"' and eventId = "+eventId+"");
+		int lsize=msgList.size();
+		if(lsize>0){
+			log.info("jzId={} ,otherJzId={} , eventId ={}的快报已存在了{}条，不保存了",jzId,otherJzId,eventId,lsize);
+			return msgList.get(0);
+		}
+		HibernateUtil.save(msg);
+		return msg;
+	}
+
+	public PromptMSG makeBean(long jzId, long otherJzId, String[] param, int eventId) {
 		ReportTemp rt = getReportTempByCondition(eventId, -1);
 		if(rt==null){
 			log.error("保存恭贺 {}--{}交互通知失败,未找到ReportTemp配置,eventId=={}, lmId=={}",jzId,otherJzId, eventId);
 			return null;
 		}
 		PromptMSG msg =null;
-		List<PromptMSG> msgList=HibernateUtil.list(PromptMSG.class, "where otherJzId='"+otherJzId+"' and jzId='"
-				+jzId+"' and eventId = "+rt.event+"");
-		int lsize=msgList.size();
-		if(lsize>0){
-			log.info("jzId={} ,otherJzId={} , eventId ={}的快报已存在了{}条，不保存了",jzId,otherJzId,rt.event,lsize);
-			return msgList.get(0);
-		}
 		msg = new PromptMSG();
 		msg.jzId=jzId;
 		msg.otherJzId=otherJzId;
@@ -1902,7 +1988,6 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 		}
 		msg.award=award;
 		msg.content= getContent(rt.DescID, msg.jzName1,msg.jzName2,jiangli);
-		HibernateUtil.save(msg);
 		return msg;
 	}
 }

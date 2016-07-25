@@ -19,7 +19,7 @@ import com.qx.persistent.HibernateUtil;
  * Servlet implementation class LoginServlet
  */
 public class LoginServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 1L;
 	public static Logger log = LoggerFactory.getLogger(LoginServlet.class);
 
 	public LoginServlet() {
@@ -27,7 +27,7 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	protected void service(HttpServletRequest request,
+	public void service(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		if (action == null) {
@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	private void login(HttpServletRequest request, HttpServletResponse response)
+	public void login(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String name = request.getParameter("name");
 		String pwd = request.getParameter("pwd");
@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet {
 			String hql = "where name='" + name + "' and pwd='" + pwd + "'";
 			Admin admin = HibernateUtil.find(Admin.class, hql);
 			if (null != admin) {
-				admin.setPredate(new Date());
+				admin.predate = new Date();
 				HibernateUtil.save(admin);
 				request.getSession().setMaxInactiveInterval(14400);
 				request.getSession().setAttribute("admin", admin);

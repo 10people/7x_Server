@@ -18,6 +18,7 @@ import com.manu.network.BigSwitch;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
 import com.manu.network.msg.ProtobufMsg;
+import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
@@ -179,7 +180,7 @@ public class SettingsMgr {
 		ret.setCode(0);
 		ret.setMsg("改名成功");
 		session.write(ret.build());
-		EventMgr.addEvent(ED.JUNZHU_CHANGE_NAME, new Object[]{oldName, jz.id});
+		EventMgr.addEvent(jz.id, ED.JUNZHU_CHANGE_NAME, new Object[]{oldName, jz.id});
 		//同步玩家名字
 		do{
 			Scene scene = (Scene) session.getAttribute(SessionAttKey.Scene);
@@ -270,7 +271,7 @@ public class SettingsMgr {
 			return;
 		}
 		ChangeGuojiaResp.Builder response = ChangeGuojiaResp.newBuilder();
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jz.id);
+		AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(jz.id);
 		if (member != null && member.lianMengId > 0) {
 			// 联盟不为空，不能转换国家
 			response.setResult(ERROR_IN_LIANMENG);
@@ -322,7 +323,7 @@ public class SettingsMgr {
 		int newGjId = jz.guoJiaId;
 		HibernateUtil.update(jz);
 		// 2015-7-31 9:58 添加排行榜国家榜刷新
-		EventMgr.addEvent(ED.CHANGE_GJ_RANK_REFRESH, new Object[]{jz.id,oldGjId,newGjId, jz.level});
+		EventMgr.addEvent(jz.id, ED.CHANGE_GJ_RANK_REFRESH, new Object[]{jz.id,oldGjId,newGjId, jz.level});
 		response.setResult(SUCCESS);
 		writeByProtoMsg(session, PD.S_ZHUANGGUO_RESP, response);
 		JunZhuMgr.inst.sendMainInfo(session,jz,false);
@@ -337,7 +338,7 @@ public class SettingsMgr {
 	 * @param response
 	 * @return
 	 */
-	protected void writeByProtoMsg(IoSession session, int prototype,
+	public void writeByProtoMsg(IoSession session, int prototype,
 			Builder response) {
 		ProtobufMsg msg = new ProtobufMsg();
 		msg.id = prototype;

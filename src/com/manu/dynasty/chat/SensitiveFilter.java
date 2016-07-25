@@ -18,7 +18,7 @@ import com.manu.network.BigSwitch;
  */
 public class SensitiveFilter {
 
-	private Map sensitiveWordMap = null;
+	public Map sensitiveWordMap = null;
 
 	// 最小匹配规则
 	public static int minMatchTYpe = 1;
@@ -49,7 +49,7 @@ public class SensitiveFilter {
 		// 将敏感词库加入到HashMap中  
 		sensitiveWordMap= addSensitiveWordToHashMap(wordSet);  
 	} 
-	private Map addSensitiveWordToHashMap(Set<String> wordSet) {  
+	public Map addSensitiveWordToHashMap(Set<String> wordSet) {  
 		// 初始化敏感词容器，减少扩容操作  
 		Map wordMap = new HashMap(wordSet.size());  
 		for (String word : wordSet) {  
@@ -187,7 +187,7 @@ public class SensitiveFilter {
 	 * @param length
 	 * @return
 	 */
-	private String getReplaceChars(String replaceChar, int length) {
+	public String getReplaceChars(String replaceChar, int length) {
 		String resultReplace = replaceChar;
 		for (int i = 1; i < length; i++) {
 			resultReplace += replaceChar;

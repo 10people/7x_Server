@@ -51,7 +51,7 @@ public abstract class ChatChLog {
 		}
 	}
 	
-	protected void saveChatRecord(ChatPct.Builder cm) {
+	public void saveChatRecord(ChatPct.Builder cm) {
 		//存库。
 		cm.setSeq(chatIdGen.incrementAndGet());
 		// 没有语音数据，不保存

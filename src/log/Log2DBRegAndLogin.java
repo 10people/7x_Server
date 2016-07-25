@@ -56,7 +56,7 @@ public class Log2DBRegAndLogin implements Runnable{
 			makeChannelReport(regMap, loginMap, onlineMap, e, dtEventTime);
 		}
 	}
-	protected void makeChannelReport(Map<String, Integer> regMap,
+	public void makeChannelReport(Map<String, Integer> regMap,
 			Map<String, Integer> loginMap, HashBag onlineMap,
 			Entry<String, Integer> e, String dtEventTime) {
 		String sql = "insert into PlayerOnline values(num,reg,login,'dtEventTime',PlatID,'GameSvrId',LoginChannel)";
@@ -87,12 +87,12 @@ public class Log2DBRegAndLogin implements Runnable{
         }
 		log.info("执行结果 {}", result);
 	}
-	protected int getInt(Map<String, Integer> onlineMap, String key) {
+	public int getInt(Map<String, Integer> onlineMap, String key) {
 		Integer v = onlineMap.get(key);
 		if(v == null)return 0;
 		return v;
 	}
-	protected HashBag calcOnlineMap() {
+	public HashBag calcOnlineMap() {
 		HashBag bag = new HashBag();
 		synchronized(AccountManager.sessionMap){
 			Iterator<Entry<Long, IoSession>> it = AccountManager.sessionMap.entrySet().iterator();
@@ -107,7 +107,7 @@ public class Log2DBRegAndLogin implements Runnable{
 		}
 		return bag;
 	}
-	protected Map<String, Integer> toMap(JSONObject jsonObject) {
+	public Map<String, Integer> toMap(JSONObject jsonObject) {
 		JSONArray data = jsonObject.getJSONArray("data");
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		int cnt = data.size();

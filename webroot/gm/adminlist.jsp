@@ -30,24 +30,24 @@
 			%>
 			<tr>
 				<td><%=i+1 %></td>
-				<td><%=admin.getName() %></td>
+				<td><%=admin.name %></td>
 				<td><%
-						if(null==admin.getPredate()){%>
+						if(null==admin.predate){%>
 						未登录
 						<%} 
 						else{%>
-						<%=admin.getPredate()%>
+						<%=admin.predate%>
 						<%}%></td>
-				<td><%=admin.getUpdatetime()%></td>
+				<td><%=admin.updatetime%></td>
 				<td>
 				<%
-				Admin tmp = HibernateUtil.find(Admin.class, admin.getCreateuser());
+				Admin tmp = HibernateUtil.find(Admin.class, admin.createuser);
 				if(null==tmp){%>
 					用户不存在
 				<%}else{%>
-					<%=tmp.getName() %></td>
+					<%=tmp.name %></td>
 				<%}%>
-				<td><a href="gm/updateadmin.jsp?id=<%=admin.getId() %>" target="target">修改</a>|<a href="#" onclick="del('<%=admin.getId() %>')">删除</a></td>
+				<td><a href="gm/updateadmin.jsp?id=<%=admin.id %>" target="target">修改</a>|<a href="#" onclick="del('<%=admin.id %>')">删除</a></td>
 			</tr>
 			<%
 		}

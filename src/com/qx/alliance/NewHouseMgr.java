@@ -35,7 +35,7 @@ import qxmobile.protobuf.House.HouseExpInfo;
 public class NewHouseMgr  extends EventProc implements Runnable {
 	public Logger log = LoggerFactory.getLogger(NewHouseMgr.class.getSimpleName());
 	public LinkedBlockingQueue<Mission> missions = new LinkedBlockingQueue<Mission>();
-	private static Mission exit = new Mission(0, null, null);
+	public static Mission exit = new Mission(0, null, null);
 	public static int fangwuSum = 280;
 	public Map<Integer, FangWu> houseTemp = null ;
 	
@@ -219,7 +219,7 @@ public class NewHouseMgr  extends EventProc implements Runnable {
 	
 	public boolean refreshHouseExp(JunZhu junzhu , HouseExpInfo.Builder expInfo){
 		long jzId=junzhu.id;
-		AlliancePlayer ap = HibernateUtil.find(AlliancePlayer.class, jzId);
+		AlliancePlayer ap = AllianceMgr.inst.getAlliancePlayer(jzId);
 		if (ap == null) {
 			log.info("君主{}无联盟，不刷新房屋经验，ap == null", jzId);
 			return false;
@@ -284,7 +284,7 @@ public class NewHouseMgr  extends EventProc implements Runnable {
 	public LianMengKeJi getKejiConf2FangWu(long jzId,int lmId) {
 		LianMengKeJi kjConf=JianZhuMgr.inst.getKeJiConfForFangWu(lmId);
 		LianMengKeJi retConf=kjConf;
-		AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jzId);
+		AlliancePlayer player = AllianceMgr.inst.getAlliancePlayer(jzId);
 		if(player==null){
 			log.error("{}得到房屋的有效房屋科技配置异常，没有找到AlliancePlayer,联盟房屋科技等级--{}，君主激活的房屋科技等级--{}",jzId, kjConf.level);
 			return retConf;
@@ -309,7 +309,7 @@ public class NewHouseMgr  extends EventProc implements Runnable {
 	
 	
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.Join_LM, this); //监听加入联盟
 		EventMgr.regist(ED.Leave_LM, this); //监听离开联盟
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this); //监听定时刷新

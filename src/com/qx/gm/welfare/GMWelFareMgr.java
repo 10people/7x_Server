@@ -28,7 +28,7 @@ import com.qx.yuanbao.YuanBaoMgr;
 
 public class GMWelFareMgr {
 	public static GMWelFareMgr inst;
-	private Logger logger = LoggerFactory.getLogger(GMWelFareMgr.class);
+	public Logger logger = LoggerFactory.getLogger(GMWelFareMgr.class);
 
 	public GMWelFareMgr() {
 		inst = this;

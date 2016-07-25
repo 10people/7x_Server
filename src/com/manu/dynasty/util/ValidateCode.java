@@ -30,17 +30,17 @@ public class ValidateCode {
 		fontNames = gEnv.getAvailableFontFamilyNames();// 所有系统字体名称
 	}
 
-	private int width = 160;// 图片宽度
-	private int height = 40;// 图片长度
-	private int codeCount = 4;// 验证码长度
-	private int lineCount = 150;// 干扰线数量
-	private char[] codeSequence = { 'A', 'C', 'D', 'E', 'F', 'H', 'J', 'K',
+	public int width = 160;// 图片宽度
+	public int height = 40;// 图片长度
+	public int codeCount = 4;// 验证码长度
+	public int lineCount = 150;// 干扰线数量
+	public char[] codeSequence = { 'A', 'C', 'D', 'E', 'F', 'H', 'J', 'K',
 			'M', 'N', 'P', 'R', 'S', 'T', 'U', 'X', 'Y', 'Z', 'a', 'c', 'd',
 			'e', 'f', 'g', 'h', 'k', 'm', 'n', 'p', 'r', 's', 't', 'u', 'x',
 			'y', 'z', '2', '3', '4', '5', '6', '7' };
 
-	private String code = null;
-	private byte[] datas = null;
+	public String code = null;
+	public byte[] datas = null;
 
 	public static ValidateCode getValidateCode() {
 		ValidateCode vc = new ValidateCode();
@@ -78,13 +78,13 @@ public class ValidateCode {
 		createCode();
 	}
 
-	private static Font getFont(int fontHeight) {
+	public static Font getFont(int fontHeight) {
 		return Font.decode(fontNames[random.nextInt(fontNames.length)])
 				.deriveFont(fontType[random.nextInt(fontType.length)],
 						fontHeight);
 	}
 
-	private void createCode() {
+	public void createCode() {
 		int x = 0;
 		int fontHeight = 0;
 		int codeY = 0;

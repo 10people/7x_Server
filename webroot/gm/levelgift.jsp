@@ -9,7 +9,6 @@
 <%@page import="java.util.*"%>
 <%@page import="com.manu.dynasty.template.*"%>
 <%@page import="com.manu.dynasty.base.TempletService"%>
-<%@page import="com.qx.junzhu.JunZhu"%>
     <%@include file="/myFuns.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -50,12 +49,12 @@
     			ths("奖励状态");
     		trE();
     		for(XianshiHuodong xianshiHuodong:list){
-    			if(xianshiHuodong.getDoneType() != 1) continue;
+    			if(xianshiHuodong.doneType != 1) continue;
     			trS();
-    			td("君主达到" + xianshiHuodong.getDoneCondition());
+    			td("君主达到" + xianshiHuodong.doneCondition);
     			td(junZhu.level);
-    			td(xianshiHuodong.getDoneCondition());
-    			LevelUpGiftBean gBean = HibernateUtil.find(LevelUpGiftBean.class,"where jzId=" + jzid + " and level=" + xianshiHuodong.getDoneCondition());
+    			td(xianshiHuodong.doneCondition);
+    			LevelUpGiftBean gBean = HibernateUtil.find(LevelUpGiftBean.class,"where jzId=" + jzid + " and level=" + xianshiHuodong.doneCondition);
     			if(gBean == null){
     				td("未领取");
     			}else{

@@ -18,6 +18,7 @@ import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.timeworker.FunctionID;
 
@@ -28,7 +29,7 @@ import qxmobile.protobuf.JiNengPeiYang.UpgradeJiNengResp;
 
 public class JiNengPeiYangMgr extends EventProc{
 	public static JiNengPeiYangMgr inst;
-	public Logger log = LoggerFactory.getLogger(JiNengPeiYangMgr.class);
+	public Logger log = LoggerFactory.getLogger(JiNengPeiYangMgr.class.getSimpleName());
 	public Map<Integer, JiNengPeiYang> jiNengPeiYangMap = new HashMap<Integer, JiNengPeiYang>();
 
 	public JiNengPeiYangMgr() {
@@ -42,7 +43,7 @@ public class JiNengPeiYangMgr extends EventProc{
 				.listAll(JiNengPeiYang.class.getSimpleName());
 		Map<Integer, JiNengPeiYang> jiNengPeiYangMap = new HashMap<Integer, JiNengPeiYang>();
 		for (JiNengPeiYang jiNengPeiYang : jiNengPeiYangList) {
-			jiNengPeiYangMap.put(jiNengPeiYang.getId(), jiNengPeiYang);
+			jiNengPeiYangMap.put(jiNengPeiYang.id, jiNengPeiYang);
 		}
 		this.jiNengPeiYangMap = jiNengPeiYangMap;
 	}
@@ -72,17 +73,17 @@ public class JiNengPeiYangMgr extends EventProc{
 //			return;
 //		}
 		
-		if (junZhu.level < p.getNeedLv()) {
+		if (junZhu.level < p.needLv) {
 			log.info("君主 {} 等级未达到技能培养 {} 突破要求的等级 {}", junZhu.id,
-					p.getId(), p.getNeedLv());
+					p.id, p.needLv);
 			resp.setResult(1);
 			resp.setErrorMsg("技能突破未解锁");
 			session.write(resp.build());
 			return;
 		}
-		if (junZhu.tongBi < p.getNeedNum()) {
+		if (junZhu.tongBi < p.needNum) {
 			log.info("君主 {} 铜币 {} 不足技能 {} 培养需要的 {} 铜币" , junZhu.id,
-					junZhu.tongBi, p.getId(), p.getNeedNum());
+					junZhu.tongBi, p.id, p.needNum);
 			resp.setResult(101);
 			resp.setErrorMsg("铜币不足");
 			session.write(resp.build());
@@ -95,7 +96,7 @@ public class JiNengPeiYangMgr extends EventProc{
 			bean.jzId = junZhu.id;
 			insert = true;
 		}
-		if(!isPreSkillActivated(bean, p)) {
+		if(p.quality>1 && !isPreSkillActivated(bean, p)) {
 			log.info("技能突破失败，君主:{}的技能:{}的前置技能:{}还未突破", junZhu.id, jnId, p.preId);
 			return;
 		}
@@ -104,28 +105,29 @@ public class JiNengPeiYangMgr extends EventProc{
 			return;
 		}
 		// 扣除铜币
-		junZhu.tongBi = junZhu.tongBi - p.getNeedNum();
+		junZhu.tongBi = junZhu.tongBi - p.needNum;
 		HibernateUtil.save(junZhu);
 //		JunZhuMgr.inst.sendMainInfo(session);
 		// 技能突破
 		setIdToBean(bean,p);
 		if(insert){
+			Cache.jnBeanCache.put(junZhu.id, bean);
 			HibernateUtil.insert(bean);
 		}else{
 			HibernateUtil.update(bean);
 		}
-		log.info("{} get skill {}, pay tongBi {}", junZhu.id, p.id, p.getNeedNum());
+		log.info("{} get skill {}, pay tongBi {}", junZhu.id, p.id, p.needNum);
 		resp.setResult(0);
 		session.write(resp.build());
 		// 进阶角色技能
-		EventMgr.addEvent(ED.jinJie_jueSe_jiNeng, new Object[]{junZhu.id});
+		EventMgr.addEvent(junZhu.id,ED.jinJie_jueSe_jiNeng, new Object[]{junZhu.id , bean});
 		// 2016年3月18日 15:13:40  战斗中技能提示，现在只是发送新解锁的，突破的技能暂时不发
 //		addNewJn(junZhu, p);
 		JunZhuMgr.inst.sendMainInfo(session,junZhu,false);
 		
 	}
 
-	private boolean isPreSkillActivated(JNBean bean, JiNengPeiYang p) {
+	public boolean isPreSkillActivated(JNBean bean, JiNengPeiYang p) {
 		return isActivated(bean, p.wuqiType, p.jinengType, p.preId);
 	}
 
@@ -229,7 +231,12 @@ public class JiNengPeiYangMgr extends EventProc{
 			break;
 		}
 	}
-
+	public void addCache(long jzId){
+		JNBean bean = getDefaultBean();
+		bean.jzId = jzId;
+		Cache.caCheMap.get(JNBean.class).put(jzId, bean);
+		HibernateUtil.insert(bean);
+	}
 	public JNBean getDefaultBean(){
 		//不要共享
 		JNBean bean = new JNBean();
@@ -390,7 +397,7 @@ public class JiNengPeiYangMgr extends EventProc{
 				.listAll(JiNengPeiYang.class.getSimpleName());
 		boolean hit = false;
 		for (JiNengPeiYang p : jiNengPeiYangList) {
-			if(levelUp && p.getQuality()==0){
+			if(levelUp && p.quality==0){
 				if(p.needLv == jz.level){
 					//品质为0，且等级刚好达到，则是新获得技能
 					addNewJn(jz, p);
@@ -418,7 +425,7 @@ public class JiNengPeiYangMgr extends EventProc{
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.junzhu_level_up, this);
 		EventMgr.regist(ED.JUNZHU_LEVEL_RANK_REFRESH, this);
 	}

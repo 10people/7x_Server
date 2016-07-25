@@ -16,8 +16,8 @@ import com.qx.persistent.HibernateUtil;
 
 public class RewardStoreTask implements Runnable {
 	public static RewardStoreTask INSTANCE = null;
-	private Logger logger = LoggerFactory.getLogger(RewardStoreTask.class);
-	private ConcurrentLinkedQueue<HYRewardStore> rewardStoreQueue = new ConcurrentLinkedQueue<HYRewardStore>(); 
+	public Logger logger = LoggerFactory.getLogger(RewardStoreTask.class);
+	public ConcurrentLinkedQueue<HYRewardStore> rewardStoreQueue = new ConcurrentLinkedQueue<HYRewardStore>(); 
 	
 	public RewardStoreTask() {
 		INSTANCE = this;

@@ -169,9 +169,12 @@ public class YYMgr extends EventProc{
 			break;
 		}
 		case ED.JUNZHU_LOGIN:
-			Long jzId = (Long) param.param;
-			JunZhu junZhu = HibernateUtil.find(JunZhu.class, jzId);
-			checkRedNotice(jzId, junZhu.level);
+			JunZhu jz = (JunZhu) param.param;
+			IoSession session = AccountManager.sessionMap.get(jz.id);
+			if(session == null){
+				return;
+			}
+			checkRedNotice(jz.id, jz.level);
 			break;
 		}
 	}
@@ -206,7 +209,7 @@ public class YYMgr extends EventProc{
 		FunctionID.pushCanShowRed(jzId, session, FunctionID.level_reward);
 	}
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.junzhu_level_up, this);
 		EventMgr.regist(ED.JUNZHU_LOGIN, this);
 	}

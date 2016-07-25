@@ -4,12 +4,12 @@ import com.qx.gm.util.CodeUtil;
 import com.qx.gm.util.MD5Util;
 
 public class DoSendTestCodeReq {
-	private int type;
-	private int firm;
-	private int zone;
-	private String roleid;
-	private String rolename;
-	private String md5;
+	public int type;
+	public int firm;
+	public int zone;
+	public String roleid;
+	public String rolename;
+	public String md5;
 
 	public boolean checkMd5() {
 		StringBuffer sBuffer = new StringBuffer();

@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -12,7 +14,7 @@ import javax.persistence.Table;
 @Table(name = "PveRecord",indexes={@Index(name="uid",columnList="uid")})
 public class PveRecord {
 	@Id
-//	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public long dbId;//2015年4月17日16:57:30int改为long
 	
 	public long uid;

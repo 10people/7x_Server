@@ -54,12 +54,12 @@ public class NoticeMgr {
 		for (VersionNotice notice : noticeList) {
 			VersionNoticeInfo.Builder versionNotice = VersionNoticeInfo
 					.newBuilder();
-			versionNotice.setTitle(notice.getTitle());
-			if (null != notice.getTag()) {
-				versionNotice.setTag(notice.getTag());
+			versionNotice.setTitle(notice.title);
+			if (null != notice.tag) {
+				versionNotice.setTag(notice.tag);
 			}
-			versionNotice.setContent(notice.getContent());
-			versionNotice.setOrder(notice.getNotice_order());
+			versionNotice.setContent(notice.content);
+			versionNotice.setOrder(notice.notice_order);
 			response.addNotice(versionNotice);
 		}
 		writeByProtoMsg(session, PD.S_GET_VERSION_NOTICE_RESP, response);

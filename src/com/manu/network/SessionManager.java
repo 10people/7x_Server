@@ -53,20 +53,13 @@ public class SessionManager {
 	}
 	
 	public IoSession getIoSession(Long junZhuId) {
-		SessionUser su = findByJunZhuId(junZhuId);
-		if(su == null) {
-			return null;
-		}
-		return su.session;
+		IoSession su = AccountManager.sessionMap.get(junZhuId);
+		return su;
 	}
 
-	public SessionUser findByJunZhuId(Long junZhuId) {
+	public IoSession findByJunZhuId(Long junZhuId) {
 		IoSession ss = AccountManager.sessionMap.get(junZhuId);
-		SessionUser su=null;
-		if(ss != null){
-			su = sessionMap.get(ss.getId());
-		}
-		return su;
+		return ss;
 	}
 	
 	/**
@@ -75,7 +68,7 @@ public class SessionManager {
 	 * @return	true-在线，false-不在线
 	 */
 	public boolean isOnline(long junZhuId) {
-		SessionUser sessionUser = findByJunZhuId(junZhuId);
+		IoSession sessionUser = findByJunZhuId(junZhuId);
 		return sessionUser != null;
 	}
 	
@@ -87,7 +80,7 @@ public class SessionManager {
 			Long id = (Long) ses.getAttribute(SessionAttKey.junZhuId);
 			// 2015年7月4日 14：09 添加在线时间统计
 			if (id != null) {
-				EventMgr.addEvent(ED.ACC_LOGOUT, id);
+				EventMgr.addEvent(id,ED.ACC_LOGOUT, id);
 			}
 		}
 		if (ret == null) {
@@ -113,7 +106,7 @@ public class SessionManager {
 			return 0;
 		}
 		Date date = new Date();
-		Date logoutDate = playerTime.getLogoutTime();
+		Date logoutDate = playerTime.logoutTime;
 		if(logoutDate == null) {
 			return 0;
 		}

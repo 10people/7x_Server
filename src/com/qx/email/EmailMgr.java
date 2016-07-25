@@ -79,7 +79,7 @@ public class EmailMgr extends EventProc implements Runnable {
 	public static int EMAIL_COLD_TIME = 1 * 60 * 1000;
 
 	public static ThreadLocal<Email> sentMail = new ThreadLocal<Email>();
-	protected SimpleDateFormat simpleDateFormat;
+	public SimpleDateFormat simpleDateFormat;
 
 	public ConcurrentLinkedQueue<Mission> missions = new ConcurrentLinkedQueue<Mission>();
 	public Map<Integer, Mail> mailConfigMap;
@@ -139,7 +139,7 @@ public class EmailMgr extends EventProc implements Runnable {
 		}
 	}
 
-	protected void completeMission(Mission mission) {
+	public void completeMission(Mission mission) {
 		if (mission == null) {
 			log.error("mission is null...");
 			return;
@@ -247,7 +247,7 @@ public class EmailMgr extends EventProc implements Runnable {
 
 	}
 
-	protected void sendSendEmailResp(IoSession session, int result) {
+	public void sendSendEmailResp(IoSession session, int result) {
 		SendEmailResp.Builder response = SendEmailResp.newBuilder();
 		response.setResult(result);
 		session.write(response.build());
@@ -296,14 +296,14 @@ public class EmailMgr extends EventProc implements Runnable {
 		// 改自增主键为指定
 		// 2015年4月17日16:57:30int改为long
 		long eId = TableIDCreator.getTableID(Email.class, 1L);
-		email.setId(eId);
+		email.id = eId;
 		email.senderJzId = senderId;
-		email.setReceiverId(receiver.id);
+		email.receiverId = receiver.id;
 		email.setContent(content);
-		email.setTitle(mailConfig.title);
-		email.setGoods(fujian);
-		email.setIsDelete(DELETE_FALSE);
-		email.setSenderName(senderName);
+		email.title = mailConfig.title;
+		email.goods = fujian;
+		email.isDelete = DELETE_FALSE;
+		email.senderName = senderName;
 		email.sendTime = sendTime;
 		email.type = mailConfig.type;
 		email.isReaded = READED_FALSE;
@@ -317,13 +317,13 @@ public class EmailMgr extends EventProc implements Runnable {
 		HibernateUtil.save(email);
 		sentMail.set(email);
 		log.info("{} 发送给 {} 一封邮件，邮件id：{}, 时间{}", senderName, revName,
-				email.getId(), sendTime);
+				email.id, sendTime);
 
 		IoSession revSession = AccountManager.getIoSession(receiver.id);
 		if (revSession != null) {
 			NewMailResponse.Builder newResp = NewMailResponse.newBuilder();
 			EmailInfo.Builder emailInfo = EmailInfo.newBuilder();
-			emailInfo.setId(email.getId());
+			emailInfo.setId(email.id);
 			emailInfo.setTitle(mailConfig.title);
 			emailInfo.setContent(content);
 			emailInfo.setSenderName(senderName);
@@ -332,11 +332,11 @@ public class EmailMgr extends EventProc implements Runnable {
 			emailInfo.setIsRead(READED_FALSE);
 			emailInfo.setTaiTou(email.taitou == null ? "" : email.taitou);
 			if (email.type == EMAIL_PLAYER) {
-				String sql = " where name='" + email.getSenderName() + "'";
+				String sql = " where name='" + email.senderName + "'";
 				JunZhu junzhu = HibernateUtil.findByName(JunZhu.class,
-						email.getSenderName(), sql);
+						email.senderName, sql);
 				if (junzhu == null) {
-					log.error("没有找到君主 {}", email.getSenderName());
+					log.error("没有找到君主 {}", email.senderName);
 				} else {
 					//	2015年8月28日 optional int64 jzId = 11;//私信用到junzhuID
 					emailInfo.setJzId(senderId);
@@ -369,7 +369,7 @@ public class EmailMgr extends EventProc implements Runnable {
 		return true;
 	}
 
-	protected void sendError(IoSession session, int code, String msg) {
+	public void sendError(IoSession session, int code, String msg) {
 		ErrorMessage.Builder test = ErrorMessage.newBuilder();
 		test.setErrorCode(code);
 		test.setErrorDesc(msg);
@@ -397,19 +397,19 @@ public class EmailMgr extends EventProc implements Runnable {
 		for (Email mail : emailList) {
 			if (mail.expireTime != null && mail.sendTime != mail.expireTime
 					&& curTime.after(mail.expireTime)) {
-				mail.setIsDelete(DELETE_TRUE);
+				mail.isDelete = DELETE_TRUE;
 				HibernateUtil.save(mail);
 				continue;
 			}
 			EmailInfo.Builder emailInfo = EmailInfo.newBuilder();
-			emailInfo.setId(mail.getId());
+			emailInfo.setId(mail.id);
 			emailInfo.setType(mail.type);
 			if (mail.type == EMAIL_PLAYER) {
-				String sql = " where name='" + mail.getSenderName() + "'";
+				String sql = " where name='" + mail.senderName + "'";
 				JunZhu junzhu = HibernateUtil.findByName(JunZhu.class,
-						mail.getSenderName(), sql);
+						mail.senderName, sql);
 				if (junzhu == null) {
-					log.error("没有找到君主 {}", mail.getSenderName());
+					log.error("没有找到君主 {}", mail.senderName);
 					continue;
 				}
 				//	2015年8月28日 optional int64 jzId = 11;//私信用到junzhuID
@@ -419,13 +419,13 @@ public class EmailMgr extends EventProc implements Runnable {
 			if (isSenderBlack(junZhu.id, mail.senderJzId)) {// 如果发送人在君主屏蔽列表内
 				continue;// 不添加此封邮件到列表
 			}
-			emailInfo.setSenderName(mail.getSenderName());
-			emailInfo.setTitle(mail.getTitle());
-			emailInfo.setContent(mail.getContent());
+			emailInfo.setSenderName(mail.senderName);
+			emailInfo.setTitle(mail.title);
+			emailInfo.setContent(mail.content);
 			emailInfo.setTime(mail.sendTime.getTime());
 			emailInfo.setIsRead(mail.isReaded);
 			emailInfo.setTaiTou(mail.taitou == null ? "" : mail.taitou);
-			String goodsList = mail.getGoods();
+			String goodsList = mail.goods;
 			try {
 				if (goodsList != null && !goodsList.equals("")) {
 					String[] goods = goodsList.split("#");
@@ -455,7 +455,7 @@ public class EmailMgr extends EventProc implements Runnable {
 	 * @param senderName
 	 * @return
 	 */
-	protected boolean isSenderBlack(long receiverId, long senderid) {
+	public boolean isSenderBlack(long receiverId, long senderid) {
 			return Redis.getInstance().sexist(
 					ChatMgr.CACHE_BLACKLIST_OF_JUNZHU + receiverId,
 					String.valueOf(senderid));
@@ -477,12 +477,12 @@ public class EmailMgr extends EventProc implements Runnable {
 		GetRewardRequest.Builder request = (qxmobile.protobuf.EmailProtos.GetRewardRequest.Builder) builder;
 		long emailId = request.getId();
 		Email email = HibernateUtil.find(Email.class, emailId);
-		if (email == null || email.getIsDelete() == DELETE_TRUE) {
+		if (email == null || email.isDelete == DELETE_TRUE) {
 			log.error("找不到对应的邮件，邮件id:{},junzhuId:{}", emailId, junZhu.id);
 			sendGetRewardResponse(session, emailId, 1);
 			return;
 		}
-		String goods = email.getGoods();
+		String goods = email.goods;
 		if (goods == null || goods.equals("")) {
 			log.error("该邮件没有附件可以领取，emailId:{}", emailId);
 			sendGetRewardResponse(session, emailId, 2);
@@ -497,13 +497,13 @@ public class EmailMgr extends EventProc implements Runnable {
 		for (String g : goodsArray) {
 			String[] ginfo = g.split(":");
 			AwardTemp award = new AwardTemp();
-			award.setItemType(Integer.parseInt(ginfo[0]));
-			award.setItemId(Integer.parseInt(ginfo[1]));
-			award.setItemNum(Integer.parseInt(ginfo[2]));
+			award.itemType = Integer.parseInt(ginfo[0]);
+			award.itemId = Integer.parseInt(ginfo[1]);
+			award.itemNum = (Integer.parseInt(ginfo[2]));
 			AwardMgr.inst.giveReward(session, award, junZhu);
 		}
 		// 删除邮件
-		email.setIsDelete(DELETE_TRUE);
+		email.isDelete = DELETE_TRUE;
 		email.isGetReward = GET_REWARD_TRUE;
 		log.info("邮件id:{}领取奖励成功，并删除", emailId);
 		HibernateUtil.save(email);
@@ -511,13 +511,13 @@ public class EmailMgr extends EventProc implements Runnable {
 		sendDeleteEmailNotify(session, emailId);
 	}
 
-	protected void sendDeleteEmailNotify(IoSession session, long emailId) {
+	public void sendDeleteEmailNotify(IoSession session, long emailId) {
 		DeleteEmailResp.Builder response = DeleteEmailResp.newBuilder();
 		response.setId(emailId);
 		session.write(response.build());
 	}
 
-	protected void sendGetRewardResponse(IoSession session, long emailId,
+	public void sendGetRewardResponse(IoSession session, long emailId,
 			int result) {
 		GetRewardResponse.Builder response = GetRewardResponse.newBuilder();
 		response.setIsSuccess(result);
@@ -551,7 +551,7 @@ public class EmailMgr extends EventProc implements Runnable {
 		session.write(response.build());
 		email.isReaded = READED_TRUE;
 		if (mailConfig.mailType == OPER_READ_DELETE) {
-			email.setIsDelete(DELETE_TRUE);
+			email.isDelete = DELETE_TRUE;
 			sendDeleteEmailNotify(session, emailId);
 			log.info("邮件id:{}为阅后即焚类型，在此删除", emailId);
 		}
@@ -587,8 +587,8 @@ public class EmailMgr extends EventProc implements Runnable {
 		case 5:// 屏蔽玩家
 			JoinToBlacklist.Builder blackReq = JoinToBlacklist.newBuilder();
 			JunZhu blackJunzhu = HibernateUtil.findByName(JunZhu.class,
-					email.getSenderName(),
-					" where name='" + email.getSenderName() + "'");
+					email.senderName,
+					" where name='" + email.senderName + "'");
 			blackReq.setJunzhuId(blackJunzhu.id);
 			boolean isSuccess = ChatMgr.inst.joinBlacklist(cmd, session, blackReq, false);
 			if (!isSuccess) {
@@ -659,7 +659,7 @@ public class EmailMgr extends EventProc implements Runnable {
 			}
 	}
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 	}
 

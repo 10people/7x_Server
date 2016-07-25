@@ -17,12 +17,12 @@ import com.manu.network.msg.ProtobufMsg;
  */
 public class ProtoBuffDecoder extends CumulativeProtocolDecoder{
 	public static Logger log = LoggerFactory.getLogger(ProtoBuffDecoder.class);
-	private static final int MAX_PACKET_SIZE = Integer.MAX_VALUE;//350K
+	public static final int MAX_PACKET_SIZE = Integer.MAX_VALUE;//350K
 	/** 
 	 * 接口规定：返回true，表示buff里还有数据，需要再次解析。
 	 * 底层就会再次调用此方法。
 	 */
-	protected boolean doDecode(IoSession ses, IoBuffer in,
+	public boolean doDecode(IoSession ses, IoBuffer in,
 			ProtocolDecoderOutput out) throws Exception {
 		//
 		int cnt = 1;
@@ -52,7 +52,7 @@ public class ProtoBuffDecoder extends CumulativeProtocolDecoder{
 		}
 		return false;
 	}
-	protected void dump(IoBuffer in) {
+	public void dump(IoBuffer in) {
 		int pos = in.position();
 		int len = in.remaining();
 		byte[] arr = new byte[len];

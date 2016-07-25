@@ -36,6 +36,7 @@ import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.mibao.MiBaoDB;
+import com.qx.mibao.MiBaoDao;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.task.DailyTaskCondition;
@@ -90,12 +91,12 @@ public class ExploreMgr extends EventProc{
 		List<Purchase> purchaseList = TempletService.listAll(Purchase.class
 				.getSimpleName());
 		for (Purchase p : purchaseList) {
-			int id = p.getId();
+			int id = p.id;
 			if (id == TanBaoData.tongBi_pay_sigle
 					|| id == TanBaoData.tongBi_pay_ten
 					|| id == TanBaoData.yuanBao_pay_sigle
 					|| id == TanBaoData.yuanBao_pay_ten) {
-				purchasesMap.put(p.getId(), p);
+				purchasesMap.put(p.id, p);
 			}
 		}
 		this.itemTempMap = itemTempMap;
@@ -320,7 +321,7 @@ public class ExploreMgr extends EventProc{
 		session.setAttribute("inTanBaoGiveReward");
 		for (AwardTemp awa : awards) {
 			AwardMgr.inst.giveReward(session, awa, jz, false);
-			log.info("{}探宝奖励{}:{}:{}",jz.id,awa.getItemType(),awa.getItemId(),awa.getItemNum());
+			log.info("{}探宝奖励{}:{}:{}",jz.id,awa.itemType,awa.itemId,awa.itemNum);
 		}
 		/*
 		 *  增加探宝额外奖励 20160411
@@ -357,20 +358,20 @@ public class ExploreMgr extends EventProc{
 //			}
 //		}
 		// 每日任务中记录探宝成功chouCishu次
-		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
+		EventMgr.addEvent(jz.id,ED.DAILY_TASK_PROCESS, new DailyTaskCondition(
 				jz.id, DailyTaskConstants.tanbao_5_id, chouCishu));
-		EventMgr.addEvent(ED.TAN_BAO_JIANG_LI, new Object[]{jz,session,awards});
+		EventMgr.addEvent(jz.id,ED.TAN_BAO_JIANG_LI, new Object[]{jz,session,awards});
 		/*
 		 * 限时活动（成就）触发事件
 		 */
 		if(chouType == 21 || chouType == 22){
-			EventMgr.addEvent(ED.tanbao_oneTimes, new Object[]{jz.id, mine.danChouClickNumber});
+			EventMgr.addEvent(jz.id,ED.tanbao_oneTimes, new Object[]{jz.id, mine.danChouClickNumber});
 		}else if(chouType == 23){
-			EventMgr.addEvent(ED.tanbao_tenTimes, new Object[]{jz.id, mine.tenChouClickNumber});
+			EventMgr.addEvent(jz.id,ED.tanbao_tenTimes, new Object[]{jz.id, mine.tenChouClickNumber});
 		}else if(chouType == 11 || chouType == 12){
-			EventMgr.addEvent(ED.tongbi_oneTimes, new Object[]{jz.id, mine.danChouClickNumber});
+			EventMgr.addEvent(jz.id,ED.tongbi_oneTimes, new Object[]{jz.id, mine.danChouClickNumber});
 		}else if(chouType == 13){
-			EventMgr.addEvent(ED.tongbi_tenTimes, new Object[]{jz.id, mine.tenChouClickNumber});
+			EventMgr.addEvent(jz.id,ED.tongbi_tenTimes, new Object[]{jz.id, mine.tenChouClickNumber});
 		}
 	}
 
@@ -403,13 +404,13 @@ public class ExploreMgr extends EventProc{
 		}
 		AwardTemp award = new AwardTemp();
 		ItemTemp certainItem = itemTempMap.get(itemid);
-		award.setAwardId(11111);
-		award.setItemId(certainItem.getId());
-		award.setItemType(AwardMgr.TYPE_QIANG_HUA);
-		award.setItemNum(all);
+		award.awardId = 11111;
+		award.itemId = certainItem.getId();
+		award.itemType = AwardMgr.TYPE_QIANG_HUA;
+		award.itemNum = all;
 		AwardMgr.inst.giveReward(session, award, jz, false);
 		log.info("{}探宝额外奖励{}:{}:{}",jz.id,
-				award.getItemType(),award.getItemId(),award.getItemNum());
+				award.itemType,award.itemId,award.itemNum);
 	}
 	
 	/**
@@ -609,7 +610,7 @@ public class ExploreMgr extends EventProc{
 //	 * @param type
 //	 * @return
 //	 */
-//	protected AwardTemp getCertainAward(int type) {
+//	public AwardTemp getCertainAward(int type) {
 //		int cerItemId = 0;
 //		AwardTemp certainAward = new AwardTemp();
 //		if (type == ExploreConstant.FREE) {
@@ -637,7 +638,7 @@ public class ExploreMgr extends EventProc{
 //	 * @param number
 //	 * @return
 //	 */
-//	protected AwardTemp getTrulyAwards(int type, int number, ExploreMine mine) {
+//	public AwardTemp getTrulyAwards(int type, int number, ExploreMine mine) {
 //		AwardTemp choiceAward = new AwardTemp();
 //		switch (type) {
 //		case TanBaoData.FREE:
@@ -875,7 +876,7 @@ public class ExploreMgr extends EventProc{
 		Purchase p = purchasesMap.get(purchaseId);
 		if (p == null)
 			return 0;
-		return p.getYuanbao();
+		return p.yuanbao;
 	}
 
 //	/**
@@ -887,7 +888,7 @@ public class ExploreMgr extends EventProc{
 //	 * @param number
 //	 * @return
 //	 */
-//	protected List<AwardTemp> getAwards(int type, int number, ExploreMine mine) {
+//	public List<AwardTemp> getAwards(int type, int number, ExploreMine mine) {
 //		List<AwardTemp> awards = new ArrayList<AwardTemp>();
 ////	awards.add(getCertainAward(type));
 //		if (type == TanBaoData.PAY || type == TanBaoData.GUILD_2) {
@@ -900,22 +901,20 @@ public class ExploreMgr extends EventProc{
 
 
 
-	protected Map<Integer, int[]> mibaoAward(List<AwardTemp> awards, JunZhu jz) {
+	public Map<Integer, int[]> mibaoAward(List<AwardTemp> awards, JunZhu jz) {
 		Map<Integer, int[]> fenjieM = new HashMap<Integer, int[]>();
 		if (awards == null || awards.size() == 0)
 			return null;
 		for (AwardTemp a : awards) {
 			// 4 表示 秘宝的itemType是4,
-			if (a.getItemType() == 4) {
-				MiBao mibao = MibaoMgr.mibaoMap.get(a.getItemId());
+			if (a.itemType == 4) {
+				MiBao mibao = MibaoMgr.mibaoMap.get(a.itemId);
 				MibaoSuiPian suipian = MibaoMgr.inst.mibaoSuipianMap_2
-						.get(mibao.getSuipianId());
-				String hql = "where ownerId = " + jz.id + " and tempId="
-						+ mibao.getTempId();
-				MiBaoDB mibaoDB = HibernateUtil.find(MiBaoDB.class, hql);
-				if (mibaoDB != null && mibaoDB.getMiBaoId() > 0) {
-					int number = suipian.getFenjieNum();
-					fenjieM.put(a.getItemId(), new int[] { suipian.getId(),
+						.get(mibao.suipianId);
+				MiBaoDB mibaoDB = MiBaoDao.inst.get(jz.id, mibao.tempId);
+				if (mibaoDB != null && mibaoDB.miBaoId > 0) {
+					int number = suipian.fenjieNum;
+					fenjieM.put(a.itemId, new int[] { suipian.id,
 							number, 5 }); // 5 表示 碎片的itemType是5,
 				}
 			}
@@ -941,8 +940,8 @@ public class ExploreMgr extends EventProc{
 		for (int index = 0; index < size; index++) {
 			AwardTemp awa = awards.get(index);
 			award = qxmobile.protobuf.Explore.Award.newBuilder();
-			award.setItemId(awa.getItemId());
-			award.setItemType(awa.getItemType());
+			award.setItemId(awa.itemId);
+			award.setItemType(awa.itemType);
 			int[] piece = fenjieM.get(award.getItemId());
 			if (isHave && piece != null) {
 //				// 分解的碎片id
@@ -955,9 +954,9 @@ public class ExploreMgr extends EventProc{
 			// 只是秘宝的星级(读表产生的初始星级)
 			if (award.getItemType() == 4) {
 				MiBao mibao = MibaoMgr.mibaoMap.get(award.getItemId());
-				award.setMiBaoStar(mibao.getInitialStar());
+				award.setMiBaoStar(mibao.initialStar);
 			}
-			award.setItemNumber(awa.getItemNum());
+			award.setItemNumber(awa.itemNum);
 			resp.addAwardsList(award);
 		}
 	}
@@ -969,7 +968,7 @@ public class ExploreMgr extends EventProc{
 	 * @Description:
 	 * @param session
 	 */
-	protected void sendExploreFailedMessage(IoSession session, int failedType) {
+	public void sendExploreFailedMessage(IoSession session, int failedType) {
 		ExploreResp.Builder resp = ExploreResp.newBuilder();
 		resp.setSuccess(failedType);
 		session.write(resp.build());
@@ -983,7 +982,7 @@ public class ExploreMgr extends EventProc{
 //	 * @param junzhuId
 //	 * @return
 //	 */
-//	protected List<ExploreMine> initMines(long junzhuId) {
+//	public List<ExploreMine> initMines(long junzhuId) {
 //		List<ExploreMine> mines = new ArrayList<ExploreMine>();
 //		mines.add(new ExploreMine(junzhuId * space + TanBaoData.FREE,
 //				TanBaoData.FREE));
@@ -1011,14 +1010,15 @@ public class ExploreMgr extends EventProc{
 		mine.totalProbability = 0;
 		mine.usedFreeNumber = 0;
 		mine.tenChouClickNumber = 0;
-		HibernateUtil.insert(mine);
+		ExploreMineDao.inst.save(mine);
+//		HibernateUtil.insert(mine);
 		log.info("君主id:{}, 初始化并且持久化类型是:{}的探宝数据成功", jzI, sqlType);
 		return mine;
 	}
 
 	public ExploreMine getMineByType(long junzhuId, int type) {
 		long id = junzhuId * space + type;
-		ExploreMine mine = HibernateUtil.find(ExploreMine.class, id);
+		ExploreMine mine = ExploreMineDao.inst.getExploreMine(id);
 		return mine;
 	}
 
@@ -1151,7 +1151,7 @@ public class ExploreMgr extends EventProc{
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 	}
 }

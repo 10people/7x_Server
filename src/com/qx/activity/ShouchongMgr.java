@@ -55,9 +55,9 @@ public class ShouchongMgr extends EventProc{
 			logger.error("cmd:{},没有首冲配置");
 		}
 		ShouChong shouChong = shouChongSetting.get(0);
-		awardList.add(shouChong.getAward1());
-		awardList.add(shouChong.getAward2());
-		awardList.add(shouChong.getAward3());
+		awardList.add(shouChong.award1);
+		awardList.add(shouChong.award2);
+		awardList.add(shouChong.award3);
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class ShouchongMgr extends EventProc{
 		FunctionID4Open.pushOpenFunction(junZhu.id, session, -FunctionID.Shouchong);
 		writeByProtoMsg(session, PD.S_USE_ITEM,awardresp);
 		// 更改领取首冲奖励状态
-		info.setHasAward(1);
+		info.hasAward = 1;
 		HibernateUtil.save(info);
 		writeByProtoMsg(session, PD.ACTIVITY_FIRST_CHARGE_GETREWARD_RESP,resp);
 	}
@@ -154,9 +154,9 @@ public class ShouchongMgr extends EventProc{
 //				"where junzhuId=" + junzhuId + "");
 		if (null == info) {// 没有首冲记录
 			return STATE_NULL;
-		} else if (info.getHasAward() == 0) {// 没有领取奖励
+		} else if (info.hasAward == 0) {// 没有领取奖励
 			return STATE_AWARD;
-		} else if (info.getHasAward() == 1) { // 完成首冲并已领取奖励
+		} else if (info.hasAward == 1) { // 完成首冲并已领取奖励
 			return STATE_FINISHED;
 		}
 		return 0;
@@ -169,9 +169,9 @@ public class ShouchongMgr extends EventProc{
 	 */
 	public void finishShouchong(long junZhuId) {
 		ShouchongInfo info = new ShouchongInfo();
-		info.setDate(new Date());
-		info.setHasAward(0);
-		info.setJunzhuId(junZhuId);
+		info.date = new Date();
+		info.hasAward = 0;
+		info.junzhuId = junZhuId;
 		HibernateUtil.insert(info);
 		logger.info("玩家:{}完成首冲记录", junZhuId);
 	}
@@ -219,12 +219,12 @@ public class ShouchongMgr extends EventProc{
 	public void proc(Event event) {
 		switch (event.id) {
 		case ED.JUNZHU_LOGIN:
-			long jzId = (long)event.param;
-			IoSession session = AccountManager.sessionMap.get(jzId);
+			JunZhu jz = (JunZhu) event.param;
+			IoSession session = AccountManager.sessionMap.get(jz.id);
 			if(session == null){
 				return;
 			}
-			isShowRed(session, jzId);
+			isShowRed(session, jz.id);
 			break;
 		case ED.activity_shouchong:
 			IoSession session2 = (IoSession) event.param;
@@ -245,7 +245,7 @@ public class ShouchongMgr extends EventProc{
 	
 	
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.activity_shouchong, this);
 		EventMgr.regist(ED.JUNZHU_LOGIN, this);
 	}

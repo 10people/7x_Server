@@ -3,7 +3,9 @@ package com.qx.junzhu;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -53,6 +55,7 @@ import com.qx.equip.web.UEConstant;
 import com.qx.equip.web.UserEquipAction;
 import com.qx.fuwen.FuwenMgr;
 import com.qx.mibao.MiBaoDB;
+import com.qx.mibao.MiBaoDao;
 import com.qx.mibao.MibaoMgr;
 import com.qx.mibao.v2.MiBaoV2Bean;
 import com.qx.mibao.v2.MiBaoV2Mgr;
@@ -129,12 +132,13 @@ public class GrowUpMgr {
 		msg.builder = ret;
 		session.write(msg);
 	}
-	protected void sendMiBao(IoSession session) {
+	public void sendMiBao(IoSession session) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 		if(jz == null){
 			return;
 		}
-		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB.class, " where ownerId = " + jz.id);
+		List<MiBaoDB> mibaoDBList = new ArrayList<>(MiBaoDao.inst.getMap(jz.id).values());
+//				HibernateUtil.list(MiBaoDB0.class, " where ownerId = " + jz.id);
 		UpAction_S_getData2.Builder ret = UpAction_S_getData2.newBuilder();
 		{/////////秘宝等级计算
 			int curLevel = 0;
@@ -143,10 +147,10 @@ public class GrowUpMgr {
 			int sumLv = 0;
 			int lvGt0Cnt = 0;
 			for(MiBaoDB db : mibaoDBList){
-				if(db.getLevel()<=0)continue;
+				if(db.level<=0)continue;
 //				if(db.isClear()==false)continue;
 				lvGt0Cnt++;
-				sumLv += db.getLevel();
+				sumLv += db.level;
 			}
 			if(lvGt0Cnt>0){
 				curLevel = Math.round(sumLv*100.0f/lvGt0Cnt/jz.level);
@@ -159,7 +163,7 @@ public class GrowUpMgr {
 				@Override
 				public int compare(MiBaoDB o1, MiBaoDB o2) {
 					//没有激活的往后排
-					return o1.getLevel()-o2.getLevel();
+					return o1.level-o2.level;
 				}
 				
 			});
@@ -169,12 +173,12 @@ public class GrowUpMgr {
 				for(int i=0;i<mibaoDBList.size(); i++){
 					if(i>=mibaoDBList.size())break;
 					MiBaoDB d = mibaoDBList.get(i);
-					if(d.getLevel() >= jz.level || d.getMiBaoId()<=0){
+					if(d.level >= jz.level || d.miBaoId<=0){
 						continue;
 //					}else if(d.isClear()==false){
 //						continue;
 					}
-					b.addMibaoDataId(d.getMiBaoId());
+					b.addMibaoDataId(d.miBaoId);
 					tuiJian++;
 					if(tuiJian>=3)break;
 				}
@@ -191,8 +195,8 @@ public class GrowUpMgr {
 			// X/Y
 			int sumStar = 0;
 			for(MiBaoDB db : mibaoDBList){
-				if(db.getMiBaoId()<=0)continue;
-				sumStar += db.getStar();
+				if(db.miBaoId<=0)continue;
+				sumStar += db.star;
 			}
 			b.setCurLevel(sumStar);// = 1;//当前等级(进度)
 			b.setMaxLevel(105);// = 2;//最大等级(进度)
@@ -207,12 +211,12 @@ public class GrowUpMgr {
 				}
 
 				public int get(MiBaoDB o1) {
-					if(o1.getMiBaoId()<=0){
-						MibaoSuiPian mibaoSuiPian1 = MibaoMgr.inst.mibaoSuipianMap.get(o1.getTempId());
-						return mibaoSuiPian1.getHechengNum() - o1.getSuiPianNum();
+					if(o1.miBaoId<=0){
+						MibaoSuiPian mibaoSuiPian1 = MibaoMgr.inst.mibaoSuipianMap.get(o1.tempId);
+						return mibaoSuiPian1.hechengNum - o1.suiPianNum;
 					}else{
-						MibaoStar starConf = MibaoMgr.inst.mibaoStarMap.get(o1.getStar());
-						return (starConf==null ? 900 : starConf.getNeedNum()) - o1.getSuiPianNum();
+						MibaoStar starConf = MibaoMgr.inst.mibaoStarMap.get(o1.star);
+						return (starConf==null ? 900 : starConf.needNum) - o1.suiPianNum;
 					}
 				}
 				
@@ -225,15 +229,15 @@ public class GrowUpMgr {
 //					if(d.getLevel() >= jz.level ){
 //						continue;
 //					}
-					if(d.getStar()>=5){//满了 
+					if(d.star>=5){//满了 
 						continue;
 					}
 //					if(d.isClear()==false){
 //						continue;//未解锁
 //					}
-					int miBaoId = d.getMiBaoId();
+					int miBaoId = d.miBaoId;
 					if(miBaoId<=0){
-						miBaoId = 301000+(d.getTempId()/100*10)+(d.getTempId()%10);
+						miBaoId = 301000+(d.tempId/100*10)+(d.tempId%10);
 					}
 					b.addMibaoDataId(miBaoId);
 					log.info("add mibao {}", miBaoId);
@@ -290,11 +294,11 @@ public class GrowUpMgr {
 				continue;
 			}
 			ues[idx] = ue;
-			int ue_level = ue.getLevel();
+			int ue_level = ue.level;
 			sumQHlv+=ue_level;
 			if(ue_level<jz.level){
-				qhSort[idx] = String.format("%05d",ue.getLevel() )+":"
-									+ String.format("%05d",ue.getExp() )+":"
+				qhSort[idx] = String.format("%05d",ue.level )+":"
+									+ String.format("%05d",ue.exp )+":"
 									+ String.format("%05d",equipTemp.buWei)+":"
 									+ idx;
 			}
@@ -323,9 +327,9 @@ public class GrowUpMgr {
 			ret.addPageData(b.build());
 			///////////////////////////////////强化处理结束
 		}
-		Map<Integer,UserEquip> ueMap = new HashMap<Integer,UserEquip>();
+		Map<Long,UserEquip> ueMap = new HashMap<Long,UserEquip>();
 		Arrays.asList(ues).stream().filter(u -> u != null )
-		.forEach(u -> ueMap.put(u.getEquipId(), u));
+		.forEach(u -> ueMap.put(u.equipId, u));
 		TempletService template = TempletService.getInstance();
 		{
 			Page1Data.Builder b = Page1Data.newBuilder();
@@ -428,7 +432,7 @@ public class GrowUpMgr {
 								log.error("反射出错C", e);
 								continue;
 							}
-							int maxJnSH=UserEquipAction.instance.getXiLianMaxValue(v, zhuangBeiTmp, dbUe == null? 0 :dbUe.getLevel());
+							int maxJnSH=UserEquipAction.instance.getXiLianMaxValue(v, zhuangBeiTmp, dbUe == null? 0 :dbUe.level);
 							singleMax += maxJnSH > 0 ? maxJnSH : 0;
 							singleJinDu += Math.abs(v2);
 //							log.info("{},{},{}", ms[ff].getName(), maxJnSH, v2 );
@@ -605,7 +609,7 @@ public class GrowUpMgr {
 		msg.builder = ret;
 		session.write(msg);
 	}
-	protected int getTalentSum(JunZhu jz) {
+	public int getTalentSum(JunZhu jz) {
 		String sql = "select sum(level) from TalentPoint where junZhuId="+jz.id;
 		int ret = HibernateUtil.getCount(sql);
 		return ret;

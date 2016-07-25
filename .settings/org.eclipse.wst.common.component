@@ -3,6 +3,7 @@
         <wb-resource deploy-path="/" source-path="/webroot" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/conf"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/txSrc"/>
         <property name="context-root" value="qxmobile"/>
         <property name="java-output-path" value="/qxmobile/build/classes"/>
     </wb-module>

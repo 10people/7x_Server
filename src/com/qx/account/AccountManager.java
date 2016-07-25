@@ -7,9 +7,12 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -42,14 +45,17 @@ import com.manu.dynasty.boot.GameServer;
 import com.manu.dynasty.store.MemcachedCRUD;
 import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.AwardTemp;
+import com.manu.dynasty.template.JiNengPeiYang;
 import com.manu.dynasty.template.Jiangli;
 import com.manu.dynasty.template.NameKu;
 import com.manu.dynasty.template.ZhuceRenwu;
 import com.manu.dynasty.util.DateUtils;
+import com.manu.network.BigSwitch;
 import com.manu.network.IOHandlerImpl;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
 import com.qx.alliance.AllianceBean;
+import com.qx.alliance.AllianceBeanDao;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.award.AwardMgr;
@@ -62,12 +68,22 @@ import com.qx.gm.role.GMRoleMgr;
 import com.qx.guojia.GuoJiaMgr;
 import com.qx.http.CreateJunZhuSer;
 import com.qx.http.LoginServ;
+import com.qx.junzhu.ChengHaoBean;
+import com.qx.junzhu.ChengHaoDao;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.junzhu.PlayerTime;
 import com.qx.junzhu.PrepareJz;
+import com.qx.junzhu.TalentAttr;
+import com.qx.mibao.MiBaoDB;
+import com.qx.mibao.MiBaoDao;
 import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.PurchaseMgr;
+import com.qx.pve.PveRecord;
+import com.qx.pve.PveRecordDao;
+import com.qx.pvp.PVPConstant;
+import com.qx.task.GameTaskMgr;
+import com.qx.util.DelayedSQLMgr;
 import com.qx.util.RandomUtil;
 import com.qx.world.PosInfo;
 
@@ -115,7 +131,7 @@ public class AccountManager {
 	public void initData() {
 		initRoleInfo();
 		initSensitiveWordAndIllegalityName();
-		initRoleNameList();
+//		initRoleNameList();
 		FunctionOpenMgr.inst.init();
 	}
 
@@ -123,10 +139,10 @@ public class AccountManager {
 		List<NameKu> dbList = HibernateUtil.list(NameKu.class, "");
 		Map<Integer, List<NameKu>> roleNameMap = new HashMap<Integer, List<NameKu>>();
 		for (NameKu nameKu : dbList) {
-			List<NameKu> ramList = roleNameMap.get(nameKu.getSex());
+			List<NameKu> ramList = roleNameMap.get(nameKu.sex);
 			if (ramList == null) {
 				ramList = new ArrayList<NameKu>();
-				roleNameMap.put(nameKu.getSex(), ramList);
+				roleNameMap.put(nameKu.sex, ramList);
 			}
 			ramList.add(nameKu);
 		}
@@ -205,7 +221,7 @@ public class AccountManager {
 			return;
 		}
 		for (ZhuceRenwu renwu : list) {
-			roleInfoList.put(renwu.getId(), renwu);
+			roleInfoList.put(renwu.id, renwu);
 		}
 		this.roleInfoList = roleInfoList;
 	}
@@ -259,6 +275,7 @@ public class AccountManager {
 		// 将accId 全部替换为junZhuId
 		// 保存帐号id
 		session.setAttribute(SessionAttKey.junZhuId, junZhuId);
+		session.setAttribute(SessionAttKey.jzKey, SessionAttKey.jzKey+"#"+junZhuId);
 		JunZhu junZhu = HibernateUtil.find(JunZhu.class, junZhuId);
 		ret.addAllOpenFunctionID(FunctionOpenMgr.initIds);
 //		String ip = getIp(session);
@@ -277,8 +294,9 @@ public class AccountManager {
 		} else {
 			ret.setCode(1);
 			AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
+			session.setAttribute(SessionAttKey.LM_INFO, member);
 			if(member != null && member.lianMengId > 0) {
-				AllianceBean alliance = HibernateUtil.find(AllianceBean.class, member.lianMengId);
+				AllianceBean alliance = AllianceBeanDao.inst.getAllianceBean(member.lianMengId);
 				if(alliance != null){
 					session.setAttribute(SessionAttKey.LM_ZHIWU, member == null ? 0 : member.title);
 					session.setAttribute(SessionAttKey.LM_NAME, alliance.name);
@@ -304,20 +322,20 @@ public class AccountManager {
 			log.info("登录成功 {} ， 已有角色，联盟 {}", accName, ret.getCode() == 100 ? "有"
 					: "无");
 			FunctionOpenMgr.inst.fillOther(ret, junZhu.level, junZhu.id);
-			EventMgr.addEvent(ED.JUNZHU_LOGIN, junZhuId);
-			EventMgr.addEvent(ED.CHECK_EMAIL, Long.valueOf(junZhuId));
+			EventMgr.addEvent(junZhuId,ED.JUNZHU_LOGIN, junZhu);
+			EventMgr.addEvent(junZhuId,ED.CHECK_EMAIL, Long.valueOf(junZhuId));
 			ret.setSerTime((new Date()).getHours());
 
 			//TODO 目前阶段等级排行榜不完整，加入  登录时君主等级榜刷新，优化的时候可以删掉删掉 删掉 删掉
-			EventMgr.addEvent(ED.JUNZHU_LEVEL_RANK_REFRESH, junZhu);
+			EventMgr.addEvent(junZhuId,ED.JUNZHU_LEVEL_RANK_REFRESH, junZhu);
 		}
 
 		ret.setMsg("登录成功");
 		String serverTime=	DateUtils.datetime2Text(new Date());
 		ret.setServerTime(serverTime);
 		PlayerTime playerTime = HibernateUtil.find(PlayerTime.class, junZhuId);
-		if(playerTime != null&&playerTime.getCreateRoleTime()!=null) {
-			String createRoleTime=	DateUtils.datetime2Text(playerTime.getCreateRoleTime());
+		if(playerTime != null&&playerTime.createRoleTime!=null) {
+			String createRoleTime=	DateUtils.datetime2Text(playerTime.createRoleTime);
 			ret.setAccountRegisterTime(createRoleTime);
 		}else{
 			ret.setAccountRegisterTime(serverTime);
@@ -325,7 +343,7 @@ public class AccountManager {
 
 		session.write(ret.build());
 
-		EventMgr.addEvent(ED.ACC_LOGIN, junZhuId);
+		EventMgr.addEvent(junZhuId,ED.ACC_LOGIN, junZhuId);
 		final IoSession previous = sessionMap.put(junZhuId, session);
 		if (previous != null) {
 			previous.write(PD.S_ACC_login_kick);
@@ -417,17 +435,19 @@ public class AccountManager {
 		}
 		createRoleSync(roleName, response, session, roleId, guoJiaId);
 	}
-	public synchronized void createRoleSync(String roleName,CreateRoleResponse.Builder response,IoSession session, int roleId, int guoJiaId){
+	public void createRoleSync(String roleName,CreateRoleResponse.Builder response,IoSession session, int roleId, int guoJiaId){
 //		log.info("--------1---{}", System.currentTimeMillis() - time);
 		long time = System.currentTimeMillis();
 		// 名字是否已存在
 		// mysql 记录不区分大小写，所以，若用memcached（区分）查询会出问题 20150826
-		JunZhu junZhu = HibernateUtil.find(JunZhu.class,  " where name='" + roleName +"'", false);
+//		JunZhu junZhu = HibernateUtil.find(JunZhu.class,  " where name='" + roleName +"'", false);
 //		 JunZhu junZhu = HibernateUtil.findByName(JunZhu.class, roleName,
 //		 " where name='" + roleName +"'");
+		String nameKey = "NameCheck:"+roleName.toLowerCase();
+		boolean ok = MemcachedCRUD.getMemCachedClient().add(nameKey, 1);
 //		boolean exists = MemcachedCRUD.getInstance().getMemCachedClient()
 //				.keyExists("JunZhu:" + roleName);
-		if (junZhu != null) {
+		if (ok == false) {
 			response.setIsSucceed(false);
 			response.setMsg("该名称已被其他玩家使用！");
 			session.write(response.build());
@@ -453,9 +473,18 @@ public class AccountManager {
 		if (newJunZhu == null) {
 			return;
 		}
+		PveRecordDao.cache.put(junZhuId,Collections.synchronizedMap(new LinkedHashMap<Integer, PveRecord>()));
+		MiBaoDao.cache.put(junZhuId,Collections.synchronizedMap(new LinkedHashMap<Integer, MiBaoDB>()));
+		GameTaskMgr.GameTaskCache.put(junZhuId, new LinkedList<>());
+		BigSwitch.inst.jiNengPeiYangMgr.addCache(junZhuId);
+		ChengHaoDao.cache.put(junZhuId,Collections.synchronizedMap(new LinkedHashMap<Integer, ChengHaoBean>()));
+		TalentAttr attr = new TalentAttr(junZhuId);
+		DelayedSQLMgr.es.submit(()->HibernateUtil.insert(attr));
+		session.setAttribute(SessionAttKey.TalentAttr, attr);
 		int channel = OurLog.chCode.getChCodeByRoleId(junZhuId);
-		CunLiangLog.inst.add(junZhuId, channel, roleName, roleId);
+		DelayedSQLMgr.inst.cunLiangAdd(junZhuId, channel, roleName, roleId);
 		log.info("------fixCreateJunZhu-----{}", System.currentTimeMillis() - time);
+		session.setAttribute(SessionAttKey.JUN_XIAN_ID, PVPConstant.XIAO_ZU_JI_BIE);
 		time = System.currentTimeMillis();
 		response.setIsSucceed(true);
 		response.setMsg("角色创建成功");
@@ -470,25 +499,26 @@ public class AccountManager {
 		GuoJiaMgr.setGuoJiaPlayerNumber(guoJiaId);
 		log.info("------5-----{}", System.currentTimeMillis() - time);
 		time = System.currentTimeMillis();
-		Integer guoJiaTuijian = (Integer) session.getAttribute(SessionAttKey.NEW_PLAYER_GUOJIA_TUIJIAN);
-		if(guoJiaTuijian != null && guoJiaTuijian == guoJiaId) {
-			session.removeAttribute(SessionAttKey.NEW_PLAYER_GUOJIA_TUIJIAN);
-			Jiangli guojiaJiangli = PurchaseMgr.inst.jiangliMap.get(1);
-			if(guojiaJiangli == null) {
-				log.error("找不到推荐国家奖励：jiangliId:{}", 1);
-			} else {
-				List<AwardTemp> awardList = AwardMgr.inst.parseAwardConf(guojiaJiangli.item, "#", ":");
-				log.info("选择推荐国家奖励:{},发放给玩家:{}", awardList, junZhuId);
-				for(AwardTemp at : awardList) {
-					AwardMgr.inst.giveReward(session, at, newJunZhu);
-				}
-			}
-		}
+		//创建角色不选国家了。
+//		Integer guoJiaTuijian = (Integer) session.getAttribute(SessionAttKey.NEW_PLAYER_GUOJIA_TUIJIAN);
+//		if(guoJiaTuijian != null && guoJiaTuijian == guoJiaId) {
+//			session.removeAttribute(SessionAttKey.NEW_PLAYER_GUOJIA_TUIJIAN);
+//			Jiangli guojiaJiangli = PurchaseMgr.inst.jiangliMap.get(1);
+//			if(guojiaJiangli == null) {
+//				log.error("找不到推荐国家奖励：jiangliId:{}", 1);
+//			} else {
+//				List<AwardTemp> awardList = AwardMgr.inst.parseAwardConf(guojiaJiangli.item, "#", ":");
+//				log.info("选择推荐国家奖励:{},发放给玩家:{}", awardList, junZhuId);
+//				for(AwardTemp at : awardList) {
+//					AwardMgr.inst.giveReward(session, at, newJunZhu);
+//				}
+//			}
+//		}
 
 		// 向登录服务器发送成功创建的角色相关情况
-		EventMgr.addEvent(ED.CREATE_JUNZHU_SUCCESS, newJunZhu);
+		EventMgr.addEvent(junZhuId, ED.CREATE_JUNZHU_SUCCESS, newJunZhu);
 		// 君主登陆
-		EventMgr.addEvent(ED.JUNZHU_LOGIN, junZhuId);
+		EventMgr.addEvent(junZhuId, ED.JUNZHU_LOGIN, newJunZhu);
 		CreateJunZhuSer s = new CreateJunZhuSer(newJunZhu.id, newJunZhu.name);
 		s.start();
 	}
@@ -521,14 +551,14 @@ public class AccountManager {
 			log.error("选择的玩家角色不存在");
 			return;
 		}
-		List<NameKu> list = roleNameMap.get(role.getSex());
+		List<NameKu> list = roleNameMap.get(role.sex);
 		if (list.size() == 0) {
 			log.error("nameKu配置信息不正确");
 			return;
 		}
 		int index = RandomUtil.getRandomNum(list.size());
 		NameKu nameKu = list.get(index);
-		String roleName = nameKu.getName();
+		String roleName = nameKu.name;
 		RoleNameResponse.Builder response = RoleNameResponse.newBuilder();
 		response.setRoleName(roleName);
 		session.write(response.build());

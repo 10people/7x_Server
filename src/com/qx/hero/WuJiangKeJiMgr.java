@@ -36,12 +36,12 @@ import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
 
 public class WuJiangKeJiMgr {
-	private static final int TONGBI = 900001;
-	private static final int GOLDEN_JINGPO = 900007;
+	public static final int TONGBI = 900001;
+	public static final int GOLDEN_JINGPO = 900007;
 	public static Logger log = LoggerFactory.getLogger(WuJiangKeJiMgr.class);
 	public static WuJiangKeJiMgr inst;
 	/** 初始化的武将科技信息 **/
-	private List<KeJiInfo> initTech;
+	public List<KeJiInfo> initTech;
 	/** 武将科技信息表， <id,Keji> **/
 	public Map<Integer, Keji> id2Keji;
 
@@ -86,37 +86,37 @@ public class WuJiangKeJiMgr {
 	public void addWuJiangTech(long junZhuId) {
 		WjKeJi techs = new WjKeJi();
 		int cdTime = 0;
-		techs.setJunZhuId(junZhuId);
+		techs.junZhuId = junZhuId;
 		for (KeJiInfo tmp : initTech) {
-			int kejiId = tmp.getKejiId();
-			switch (tmp.getKejiType()) {
+			int kejiId = tmp.kejiId;
+			switch (tmp.kejiType) {
 			case HeroMgr.ATTACK:
-				techs.setAttack(kejiId);
-				cdTime += getKeJi(kejiId).getCostTime();
+				techs.attack = kejiId;
+				cdTime += getKeJi(kejiId).costTime;
 				break;
 			case HeroMgr.DEFENSE:
-				techs.setDefense(kejiId);
-				cdTime += getKeJi(kejiId).getCostTime();
+				techs.defense = kejiId;
+				cdTime += getKeJi(kejiId).costTime;
 				break;
 			case HeroMgr.HP:
-				techs.setHp(kejiId);
-				cdTime += getKeJi(kejiId).getCostTime();
+				techs.hp = kejiId;
+				cdTime += getKeJi(kejiId).costTime;
 				break;
 			case HeroMgr.ZHIMOU:
-				techs.setZhiMou(kejiId);
+				techs.zhiMou = kejiId;
 				break;
 			case HeroMgr.WUYI:
-				techs.setWuYi(kejiId);
+				techs.wuYi = kejiId;
 				break;
 			case HeroMgr.TONGSHUAI:
-				techs.setTongShuai(kejiId);
+				techs.tongShuai = kejiId;
 				break;
 
 			default:
 				break;
 			}
 		}
-		techs.setCD(System.currentTimeMillis() + cdTime * 1000);
+		techs.CD = System.currentTimeMillis() + cdTime * 1000;
 		MC.add(techs, junZhuId);
 		Throwable t = HibernateUtil.insert(techs);
 		if (t != null) {
@@ -146,7 +146,7 @@ public class WuJiangKeJiMgr {
 	 * @param session
 	 * @param builder
 	 */
-	private void levelUpTech(int code, IoSession session, Builder builder) {
+	public void levelUpTech(int code, IoSession session, Builder builder) {
 		WuJiangTechLevelupReq.Builder req = (WuJiangTechLevelupReq.Builder) builder;
 		long junZhuId = getJunZhuIdBySession(session);
 		int kejiId = req.getTechType();
@@ -184,7 +184,7 @@ public class WuJiangKeJiMgr {
 			}
 			Keji kj = id2Keji.get(preId);
 			int dbKjId = wjKeJi.getTechIdByType(kj.kejiType);
-			if (dbKjId < kj.getId()) {
+			if (dbKjId < kj.id) {
 				log.error("升级科技type:{},id:{}时，科技type:{},未达到条件需要大于id:{}",
 						kejiCfg.kejiType, kejiId, kj.kejiType, preId);
 				error(session, code, "升级该科技，有条件未满足");
@@ -232,10 +232,10 @@ public class WuJiangKeJiMgr {
 	 * @param data
 	 * @return
 	 */
-	private boolean upgradeAdvancedKeji(int kejiType, WjKeJi wjKeJi,
+	public boolean upgradeAdvancedKeji(int kejiType, WjKeJi wjKeJi,
 			IoSession session, int code, Keji kejiCfg,
 			WuJiangTechnologyDate.Builder data) {
-		int goldenJingpo = wjKeJi.getGoldenJingPo();
+		int goldenJingpo = wjKeJi.goldenJingPo;
 		if (goldenJingpo == 0) {
 			log.error("高级科技升级失败，没有可用的金色精魄");
 			error(session, code, "没有可用的金色精魄");
@@ -250,18 +250,18 @@ public class WuJiangKeJiMgr {
 				}
 				if (goldenJingpo < kejiCfg.nums[i]) {
 					log.error("金色精魄不足，数量:{}，不能升级该高级科技,当前等级id:{}", goldenJingpo,
-							kejiCfg.getId());
+							kejiCfg.id);
 					return false;
 				}
-				wjKeJi.setGoldenJingPo(goldenJingpo - kejiCfg.nums[i]);
+				wjKeJi.goldenJingPo = goldenJingpo - kejiCfg.nums[i];
 				updateTechInfo(wjKeJi, kejiType, kejiCfg.posId);
-				log.info("{}升级高级武将科技{}到{} 消耗 {}", wjKeJi.getJunZhuId(),
+				log.info("{}升级高级武将科技{}到{} 消耗 {}", wjKeJi.junZhuId,
 						kejiCfg.id, kejiCfg.posId, kejiCfg.nums[i]);
 			}
 		}
 		// data.setExp(exp);
-		EventMgr.addEvent(ED.ACHIEVEMENT_PROCESS, new AchievementCondition(
-				wjKeJi.getJunZhuId(), AchievementConstants.type_keji_low, 1));
+		EventMgr.addEvent(wjKeJi.junZhuId,ED.ACHIEVEMENT_PROCESS, new AchievementCondition(
+				wjKeJi.junZhuId, AchievementConstants.type_keji_low, 1));
 		return true;
 	}
 
@@ -276,36 +276,36 @@ public class WuJiangKeJiMgr {
 	 * @param junZhu
 	 * @return
 	 */
-	private boolean upgradeLowKeji(int kejiType, Keji kejiCfg, WjKeJi wjKeJi,
+	public boolean upgradeLowKeji(int kejiType, Keji kejiCfg, WjKeJi wjKeJi,
 			IoSession session, int code, JunZhu junZhu) {
 		// 检查君主等级是否达到升级科技的条件
-		if (junZhu.level < kejiCfg.getLimitLevel()) {
+		if (junZhu.level < kejiCfg.limitLevel) {
 			log.error("君主等级不够，不能继续升级该技能");
 			error(session, code, "君主等级不够，不能继续升级该技能");
 			return false;
 		}
 
-		int levelLimit = (kejiCfg.getLevel() / 5) * kejiCfg.getLevel();
+		int levelLimit = (kejiCfg.level / 5) * kejiCfg.level;
 		int other1level = 0;
 		int other2level = 0;
 		switch (kejiType) {
 		case HeroMgr.ATTACK:
 			other1level = id2Keji.get(wjKeJi.getTechIdByType(HeroMgr.DEFENSE))
-					.getLevel();
+					.level;
 			other2level = id2Keji.get(wjKeJi.getTechIdByType(HeroMgr.HP))
-					.getLevel();
+					.level;
 			break;
 		case HeroMgr.DEFENSE:
 			other1level = id2Keji.get(wjKeJi.getTechIdByType(HeroMgr.ATTACK))
-					.getLevel();
+					.level;
 			other2level = id2Keji.get(wjKeJi.getTechIdByType(HeroMgr.HP))
-					.getLevel();
+					.level;
 			break;
 		case HeroMgr.HP:
 			other1level = id2Keji.get(wjKeJi.getTechIdByType(HeroMgr.DEFENSE))
-					.getLevel();
+					.level;
 			other2level = id2Keji.get(wjKeJi.getTechIdByType(HeroMgr.ATTACK))
-					.getLevel();
+					.level;
 			break;
 		}
 		// 检查其他两个技能是否满足 升级该科技技能的条件
@@ -315,9 +315,9 @@ public class WuJiangKeJiMgr {
 			return false;
 		}
 		// 检查升级冷却时间是否满足升级条件
-		long span = wjKeJi.getCD() - System.currentTimeMillis();
+		long span = wjKeJi.CD- System.currentTimeMillis();
 		if (span <= 0) {
-			wjKeJi.setCD(System.currentTimeMillis());
+			wjKeJi.CD = System.currentTimeMillis();
 		} else if (span > 1 * 3600 * 1000) {
 			log.error("冷却时间太长，不能升级科技");
 			error(session, code, "冷却时间太长，不能升级科技");
@@ -335,7 +335,7 @@ public class WuJiangKeJiMgr {
 				needTongbi = kejiCfg.nums[i];
 				if (junZhu.tongBi < needTongbi) {
 					log.error("铜币不足，数量:{}，不能升级该低级科技,当前等级id:{}", needTongbi,
-							kejiCfg.getId());
+							kejiCfg.id);
 					error(session, 0, "铜币不足");
 					return false;
 				}
@@ -344,13 +344,13 @@ public class WuJiangKeJiMgr {
 		// if(!checkConditions(wjKeJi, session, kejiCfg)){
 		// return false;
 		// }
-		wjKeJi.setCD(wjKeJi.getCD() + kejiCfg.getCostTime());
+		wjKeJi.CD =wjKeJi.CD + kejiCfg.costTime;
 		updateTechInfo(wjKeJi, kejiType, kejiCfg.posId);
-		log.info("{}升级低级武将科技{}到{} 消耗铜币: {}", wjKeJi.getJunZhuId(), kejiCfg.id,
+		log.info("{}升级低级武将科技{}到{} 消耗铜币: {}", wjKeJi.junZhuId, kejiCfg.id,
 				kejiCfg.posId, needTongbi);
 		junZhu.tongBi = junZhu.tongBi - needTongbi;
 		HibernateUtil.update(junZhu);
-		EventMgr.addEvent(ED.ACHIEVEMENT_PROCESS, new AchievementCondition(
+		EventMgr.addEvent(junZhu.id,ED.ACHIEVEMENT_PROCESS, new AchievementCondition(
 				junZhu.id, AchievementConstants.type_keji_low, 1));
 		JunZhuMgr.inst.sendMainInfo(session,junZhu,false);
 		return true;
@@ -359,45 +359,45 @@ public class WuJiangKeJiMgr {
 	public void updateTechInfo(WjKeJi wjKeJi, int type, int techId) {
 		switch (type) {
 		case HeroMgr.ATTACK:
-			wjKeJi.setAttack(techId);
+			wjKeJi.attack = techId;
 			break;
 		case HeroMgr.DEFENSE:
-			wjKeJi.setDefense(techId);
+			wjKeJi.defense = techId;
 			break;
 		case HeroMgr.HP:
-			wjKeJi.setHp(techId);
+			wjKeJi.hp = techId;
 			break;
 		case HeroMgr.ZHIMOU:
-			wjKeJi.setZhiMou(techId);
+			wjKeJi.zhiMou = techId;
 			break;
 		case HeroMgr.WUYI:
-			wjKeJi.setWuYi(techId);
+			wjKeJi.wuYi = techId;
 			break;
 		case HeroMgr.TONGSHUAI:
-			wjKeJi.setTongShuai(techId);
+			wjKeJi.tongShuai = techId;
 			break;
 		default:
-			log.error("{}武将科技升级失败{}{}{}", wjKeJi.getJunZhuId(), type, techId);
+			log.error("{}武将科技升级失败{}{}{}", wjKeJi.junZhuId, type, techId);
 			break;
 		}
 	}
 
-	private boolean checkConditions(WjKeJi tech, IoSession session, Keji keji) {
+	public boolean checkConditions(WjKeJi tech, IoSession session, Keji keji) {
 		boolean ret = false;
-		switch (keji.getKejiType()) {
+		switch (keji.kejiType) {
 		case HeroMgr.ATTACK:
 		case HeroMgr.DEFENSE:
 		case HeroMgr.HP:
 			ret = checkTongBi(session, keji);
 			break;
 		default:
-			log.error("位置的类型id", keji.getKejiType());
+			log.error("位置的类型id", keji.kejiType);
 			break;
 		}
 		return ret;
 	}
 
-	private boolean checkTongBi(IoSession session, Keji keji) {
+	public boolean checkTongBi(IoSession session, Keji keji) {
 		boolean ret = false;
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
 		for (int i = 0; i < keji.items.length; i++) {
@@ -420,7 +420,7 @@ public class WuJiangKeJiMgr {
 	 * @param session
 	 * @param builder
 	 */
-	private void getTechInfo(int code, IoSession session, Builder builder) {
+	public void getTechInfo(int code, IoSession session, Builder builder) {
 		long junZhuId = getJunZhuIdBySession(session);
 		WjKeJi techs = HibernateUtil.find(WjKeJi.class, junZhuId);
 		if (techs == null) {
@@ -431,38 +431,38 @@ public class WuJiangKeJiMgr {
 
 		WuJiangTechnologyDate.Builder tech = WuJiangTechnologyDate.newBuilder();
 
-		tech.setTechType(techs.getAttack());
+		tech.setTechType(techs.attack);
 		resp.addTechnologyList(tech);
 
 		tech = WuJiangTechnologyDate.newBuilder();
-		tech.setTechType(techs.getDefense());
+		tech.setTechType(techs.defense);
 		resp.addTechnologyList(tech);
 
 		tech = WuJiangTechnologyDate.newBuilder();
-		tech.setTechType(techs.getHp());
+		tech.setTechType(techs.hp);
 		resp.addTechnologyList(tech);
 
 		tech = WuJiangTechnologyDate.newBuilder();
-		tech.setTechType(techs.getZhiMou());
-		tech.setExp(techs.getZhiMouExp());
+		tech.setTechType(techs.zhiMou);
+		tech.setExp(techs.zhiMouExp);
 		resp.addTechnologyList(tech);
 
 		tech = WuJiangTechnologyDate.newBuilder();
-		tech.setTechType(techs.getWuYi());
-		tech.setExp(techs.getWuYiExp());
+		tech.setTechType(techs.wuYi);
+		tech.setExp(techs.wuYiExp);
 		resp.addTechnologyList(tech);
 
 		tech = WuJiangTechnologyDate.newBuilder();
-		tech.setTechType(techs.getTongShuai());
-		tech.setExp(techs.getTongShuaiExp());
+		tech.setTechType(techs.tongShuai);
+		tech.setExp(techs.tongShuaiExp);
 		resp.addTechnologyList(tech);
 
 		// 初始化该数值为0，但是应该是改为插入记录时的时间。为了兼容之前的旧账号。
-		if (techs.getCD() == 0) {
-			techs.setCD(System.currentTimeMillis());
+		if (techs.CD == 0) {
+			techs.CD = System.currentTimeMillis();
 		}
-		long timeSpan = System.currentTimeMillis() - techs.getCD();
-		resp.setGoldJingPo(techs.getGoldenJingPo());
+		long timeSpan = System.currentTimeMillis() - techs.CD;
+		resp.setGoldJingPo(techs.goldenJingPo);
 		resp.setCold(timeSpan >= 0 ? 0 : -timeSpan);
 
 		session.write(resp.build());
@@ -471,17 +471,17 @@ public class WuJiangKeJiMgr {
 	public WjKeJi createDefaultBean(long junZhuId) {
 		WjKeJi techs;
 		techs = new WjKeJi();
-		techs.setAttack(1000);
-		techs.setDefense(2000);
-		techs.setHp(3000);
-		techs.setWuYi(4000);
-		techs.setZhiMou(5000);
-		techs.setTongShuai(6000);
-		techs.setJunZhuId(junZhuId);
+		techs.attack = 1000;
+		techs.defense = 2000;
+		techs.hp = 3000;
+		techs.wuYi = 4000;
+		techs.zhiMou = 5000;
+		techs.tongShuai = 6000;
+		techs.junZhuId = junZhuId;
 		return techs;
 	}
 
-	private long getJunZhuIdBySession(IoSession session) {
+	public long getJunZhuIdBySession(IoSession session) {
 		Long id = (Long) session.getAttribute(SessionAttKey.junZhuId);
 		if (id == null) {
 			return -1;
@@ -496,7 +496,7 @@ public class WuJiangKeJiMgr {
 	 * @param code
 	 * @param msg
 	 */
-	private void error(IoSession session, int code, String msg) {
+	public void error(IoSession session, int code, String msg) {
 		ErrorMessage.Builder test = ErrorMessage.newBuilder();
 		test.setErrorCode(code);
 		test.setErrorDesc(msg);
@@ -530,7 +530,7 @@ public class WuJiangKeJiMgr {
 			error(session, 0, "你尚未开启武将科技。");
 			return;
 		}
-		int remainSeconds = (int) ((wjKeJi.getCD() - System.currentTimeMillis()) / 1000);
+		int remainSeconds = (int) ((wjKeJi.CD - System.currentTimeMillis()) / 1000);
 		if (remainSeconds == 0) {
 			log.error("低级武将科技升级剩余cd时间为0，不需要加速");
 			return;
@@ -542,7 +542,7 @@ public class WuJiangKeJiMgr {
 		}
 		YuanBaoMgr.inst.diff(junZhu, -needYuanBao, 0, needYuanBao,
 				YBType.YB_JIASU_WJGKEJI_CD, "加速武将科技CD时间");
-		wjKeJi.setCD(System.currentTimeMillis());
+		wjKeJi.CD = System.currentTimeMillis();
 		HibernateUtil.save(junZhu);
 		HibernateUtil.save(wjKeJi);
 		WuJiangTechSpeedupResp.Builder resp = WuJiangTechSpeedupResp

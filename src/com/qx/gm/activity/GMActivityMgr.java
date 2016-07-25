@@ -22,7 +22,7 @@ import com.qx.gm.util.CodeUtil;
 
 public class GMActivityMgr {
 	public static GMActivityMgr inst;
-	private Logger logger = LoggerFactory.getLogger(GMActivityMgr.class);
+	public Logger logger = LoggerFactory.getLogger(GMActivityMgr.class);
 
 	public GMActivityMgr() {
 		inst = this;

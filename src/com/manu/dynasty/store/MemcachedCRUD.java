@@ -22,10 +22,10 @@ import com.manu.dynasty.util.ProtobufUtils;
  */
 public class MemcachedCRUD {
 	
-	protected static Logger logger = LoggerFactory.getLogger(MemcachedCRUD.class);
+	public static Logger logger = LoggerFactory.getLogger(MemcachedCRUD.class);
 	public static String poolName = "gameDBPool";
-	protected static MemCachedClient memCachedClient;
-	protected static MemcachedCRUD memcachedCRUD = new MemcachedCRUD();
+	public static MemCachedClient memCachedClient;
+	public static MemcachedCRUD memcachedCRUD = new MemcachedCRUD();
 	public static SockIOPool sockIoPool;
 	static{
 		sockIoPool = init(poolName,"cacheServers");
@@ -97,7 +97,7 @@ public class MemcachedCRUD {
 		return success;
 	}
 	
-	private static final long INTERVAL = 100;
+	public static final long INTERVAL = 100;
 	public boolean add(String key , Object o){
 		return memCachedClient.add(key, o);
 	}

@@ -15,6 +15,7 @@ import com.manu.dynasty.template.LueduoPersonRank;
 import com.manu.dynasty.util.MathUtils;
 import com.qx.account.FunctionOpenMgr;
 import com.qx.alliance.AllianceBean;
+import com.qx.alliance.AllianceBeanDao;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.junzhu.JunZhu;
@@ -127,7 +128,7 @@ public class RankingGongJinMgr {
 				String id = entry.getKey();
 				double value = entry.getValue();
 				needId = Integer.parseInt(id == null? "-1" : id);
-				AllianceBean alncBean = HibernateUtil.find(AllianceBean.class, needId);
+				AllianceBean alncBean = AllianceBeanDao.inst.getAllianceBean(needId);
 				if(alncBean == null){
 					DB.zrem(gongJinAllianceRank, needId+"");
 					continue;
@@ -202,7 +203,7 @@ public class RankingGongJinMgr {
 
 	public void addGongJin(long junZhuId, int addValue){
 		// 查看是否有联盟，否则不添加
-		AlliancePlayer a = HibernateUtil.find(AlliancePlayer.class, junZhuId);
+		AlliancePlayer a = AllianceMgr.inst.getAlliancePlayer(junZhuId);
 		if(a == null || a.lianMengId <= 0){
 			return;
 		}
@@ -312,8 +313,7 @@ public class RankingGongJinMgr {
 				 */
 				i++;
 				DB.zadd(gongJinPersonalRank, newData + (0.1 - (i * 0.1 / 10000) -(j * 0.1 / 100)), junzId);
-				AlliancePlayer a = HibernateUtil.find(AlliancePlayer.class,
-							Long.parseLong(junzId));
+				AlliancePlayer a = AllianceMgr.inst.getAlliancePlayer(Long.parseLong(junzId));
 				if(a!= null && a.lianMengId > 0){
 					int all = getAllianceGongJin(a.lianMengId);
 					if(all != -1){

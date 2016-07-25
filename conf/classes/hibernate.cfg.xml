@@ -47,19 +47,19 @@
 	<property name="javax.persistence.validation.mode">none</property> 
 
 	<mapping class="com.qx.pve.PveRecord" />
-	<mapping class="com.qx.hero.WuJiang" /><!-- MC ok -->
+	<!-- mapping class="com.qx.hero.WuJiang" / --><!-- MC ok -->
 	<mapping class="com.qx.junzhu.JunZhu" /><!-- MC ok -->
 	<mapping class="com.qx.bag.BagGrid" /><!-- MC ok -->
 	<mapping class="com.qx.bag.EquipGrid" /><!-- MC ok -->
-	<mapping class="com.qx.junzhu.JzKeji" />
-	<mapping class="com.qx.jingmai.JmBean" /><!-- MC 20141013 -->
+	<!--mapping class="com.qx.junzhu.JzKeji" /-->
+	<!--mapping class="com.qx.jingmai.JmBean" /--><!-- MC 20141013 -->
 	<mapping class="com.qx.equip.domain.UserEquip" /> <!-- MC IS OK -->
 	<mapping class="com.qx.award.DailyAwardBean" /><!-- MC 20141013 -->
 	<mapping class="com.qx.timeworker.TimeWorker" /><!-- MC 20141013 -->
 	<mapping class="com.qx.purchase.TiLi" /><!-- MC 20141013 -->
 	<mapping class="com.qx.purchase.TongBi" /><!-- MC 20141013 -->
 	<mapping class="com.qx.purchase.XiLian" /><!-- MC 20141013 -->
-	<mapping class="com.qx.hero.WjKeJi" /><!-- MC ok -->
+	<!--mapping class="com.qx.hero.WjKeJi" /--><!-- MC ok -->
 	<mapping class="com.qx.email.Email" />
 	<mapping class="com.qx.achievement.Achievement" /> <!-- MC IS OK -->
 	<mapping class="com.qx.equip.domain.EquipXiLian" />
@@ -69,10 +69,9 @@
 	<mapping class="com.qx.vip.PlayerVipInfo" />
 	<mapping class="com.qx.task.DailyTaskBean" /><!-- MC 20141013 -->
 	<mapping class="com.qx.task.DailyTaskActivity" />
-	<mapping class="com.qx.purchase.Treasure" />
-	<mapping class="com.manu.dynasty.template.NameKu" />
+	<!--mapping class="com.manu.dynasty.template.NameKu" /-->
 	<mapping class="com.qx.task.WorkTaskBean" />
-	<mapping class="com.qx.pve.BuZhenBean" /><!-- MC 20141013 -->
+	<!--mapping class="com.qx.pve.BuZhenBean" /--><!-- MC 20141013 -->
 	<mapping class="com.qx.mibao.MiBaoDB" />
 	<mapping class="com.qx.mibao.MibaoLevelPoint" />
 	<mapping class="com.qx.mibao.MiBaoSkillDB" />
@@ -84,7 +83,6 @@
 	 <mapping class="com.qx.prompt.PromptMSG"/>
 	 <mapping class="com.qx.friends.GongHeBean"/>
 	 <mapping class="com.qx.prompt.YaBiaoJunQing"/>
-	 <mapping class="com.qx.yabiao.YunBiaoHistory"/>
 	 <mapping class="com.qx.yabiao.YunBiaoHistory"/>
 	 <mapping class="com.qx.pvp.ZhanDouRecord"/>
     <mapping class="com.qx.explore.ExploreMine"/>
@@ -132,8 +130,8 @@
     <mapping class="com.qx.junzhu.TalentAttr"/>
     <mapping class="com.qx.activity.QiandaoInfo"/>
     <mapping class="com.qx.activity.FuliInfo"/>
-     <mapping class="com.qx.activity.GlobalActivityBean"/>
-     <mapping class="com.qx.activity.QianDaoPresent"/>
+    <mapping class="com.qx.activity.GlobalActivityBean"/>
+    <mapping class="com.qx.activity.QianDaoPresent"/>
     <mapping class="com.qx.activity.ShouchongInfo"/>
     <mapping class="com.qx.world.ProblemPlayer"/>
     <mapping class="com.qx.youxia.YouXiaBean"/>
@@ -157,7 +155,7 @@
     <mapping class="com.qx.award.DropRateBean"/>
     <mapping class="log.ReasonBean"/>
     <mapping class="com.qx.junzhu.ChengHaoBean"/>
-    <mapping class="com.qx.junzhu.AcitvitedTaoZhuang"/>
+    <!--mapping class="com.qx.junzhu.AcitvitedTaoZhuang"/-->
     <mapping class="com.qx.cdkey.CDKeyInfo"/>
     <mapping class="com.qx.jinengpeiyang.JNBean"/>
     <mapping class="com.qx.alliance.building.JianZhuLvBean"/>
@@ -194,6 +192,8 @@
     <mapping class="com.qx.alliancefight.WildCityBean"/>
     <mapping class="com.qx.alliance.JuanXianBean"/>
     <mapping class="com.qx.yuanbao.BillHist"/>
+    <mapping class="com.qx.util.SlowAct"/>
+    <mapping class="com.qx.pve.JunzhuPveInfo"/>
 </session-factory>
 
 </hibernate-configuration>

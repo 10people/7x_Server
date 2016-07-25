@@ -73,8 +73,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }else{
 
     	session.setAttribute("name", name);
-    	%><br>注册账号：<%=account.getAccountName()%><br> 账号id：<%=account.getAccountId()%><%
-    	 long junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+    	%><br>注册账号：<%=account.accountName%><br> 账号id：<%=account.accountId%><%
+    	 long junZhuId = account.accountId * 1000 + GameServer.serverId;
     	 JunZhu junzhu = HibernateUtil.find(JunZhu.class, junZhuId);
     	
     	 

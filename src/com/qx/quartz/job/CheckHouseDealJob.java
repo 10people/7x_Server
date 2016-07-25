@@ -17,7 +17,7 @@ import com.qx.alliance.HouseMgr;
 import com.qx.persistent.HibernateUtil;
 
 public class CheckHouseDealJob implements Job {
-	private Logger log = LoggerFactory.getLogger(CheckHouseDealJob.class);
+	public Logger log = LoggerFactory.getLogger(CheckHouseDealJob.class);
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		log.info("自动完成大房子交易开始");

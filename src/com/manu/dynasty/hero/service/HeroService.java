@@ -14,8 +14,8 @@ public class HeroService {
 	public static Logger log = LoggerFactory.getLogger(HeroService.class);
 	public static Map<String, NameId> heroNameMap = new HashMap<String, NameId>();
 	
-	private static HeroService heroService ;
-	private HeroService(){
+	public static HeroService heroService ;
+	public HeroService(){
 	}
 
 	public static void initNameMap() {
@@ -30,11 +30,11 @@ public class HeroService {
 		if(nameId == null){
 			log.error("找不到key:{}的NameId配置", key);
 			return key;
-		}else if(nameId.getHeroName() == null){
+		}else if(nameId.Name == null){
 			log.error("名字配置错误 {}",key);
 			return key;
 		}else{
-			return nameId.getHeroName();
+			return nameId.Name;
 		}
 	}
 	

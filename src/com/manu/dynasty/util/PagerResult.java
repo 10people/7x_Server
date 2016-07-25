@@ -7,11 +7,11 @@ import java.util.List;
  */
 public class PagerResult implements java.io.Serializable {
 
-	private int pageNo;//页码
-	private int pageSize = 10;//每页显示的行数
-	private int total;//总记录数
+	public int pageNo;//页码
+	public int pageSize = 10;//每页显示的行数
+	public int total;//总记录数
 
-	private List<? extends Object> datas;
+	public List<? extends Object> datas;
 
 	public int getPageNo() {
 		return pageNo;

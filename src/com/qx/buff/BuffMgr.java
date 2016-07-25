@@ -148,7 +148,7 @@ public class BuffMgr {
 		};
 	}
 	
-	protected void processUserBuffer() {
+	public void processUserBuffer() {
 		synchronized (userBufferMap) {
 			Set<Map.Entry<Long, UserBuffer>> entrySet = userBufferMap.entrySet();
 			Iterator<Entry<Long, UserBuffer>> it = entrySet.iterator();
@@ -301,9 +301,9 @@ public class BuffMgr {
 		}
 		Player attackerPlayer = scene.getPlayerByJunZhuId(caster.id);
 		int totalDamage = 0;	
-		totalDamage += (calcSkillDamage(caster, target, attackerPlayer, targetPlayer,
-				skill, buffer.sceneUid, buffer.sc) * effectCount);
-		
+		SkillDamageInfo skillDamageInfo = calcSkillDamage(caster, target, attackerPlayer, targetPlayer,
+				skill, buffer.sceneUid, buffer.sc);
+		totalDamage += (skillDamageInfo.damageValue * effectCount);
 		if(scene != null){ 
 			processSkillEffect(totalDamage, targetPlayer, skill);
 			if(effectCount > 0) {
@@ -358,41 +358,43 @@ public class BuffMgr {
 		return player;
 	}
 	
-	public long calcSkillDamage(JunZhu attacker, JunZhu defender, 
+	public SkillDamageInfo calcSkillDamage(JunZhu attacker, JunZhu defender, 
 			Player attackerPlayer, Player targetPlayer,
 			Skill skill, int uid, Scene scene) {
+		SkillDamageInfo skillDamageInfo = new SkillDamageInfo(0, false);
 		long damageValue = 0;
 		Action action = getActionById(skill.Action1);
 		if(action == null) {
-			return 0;
+			return skillDamageInfo;
 		}
 		SkillActionType skillActionType = SkillActionType.getSkillActionType(action.TypeKey);
 		if(skillActionType == null) {
-			return 0;
+			return skillDamageInfo;
 		}
 		// 计算技能效果概率
 		int prob = RandomUtil.getRandomNum(1000);
 		if(prob > action.Prob) {
-			return 0;
+			return skillDamageInfo;
 		}
-		
 		if(4 == action.TypeKey || 5 == action.TypeKey) {// 表示是buff效果
 			processBuff4Skill(attacker, defender, action, uid, scene);
 		} else if(1 == action.TypeKey) {
-			damageValue = calcWeaponDamage4Skill(attacker, defender, attackerPlayer, targetPlayer, skill, action);
+			skillDamageInfo = calcWeaponDamage4Skill(attacker, defender, attackerPlayer, targetPlayer, skill, action);
 		} else if(2 == action.TypeKey) {
-			damageValue = calcSkillDamage4Skill(attacker, defender, attackerPlayer, targetPlayer, skill, action);
+			skillDamageInfo = calcSkillDamage4Skill(attacker, defender, attackerPlayer, targetPlayer, skill, action);
 		} else if(3 == action.TypeKey) {
 			damageValue = calcSkillTreatLife(attacker, defender, skill, action);
+			skillDamageInfo.damageValue = damageValue;
 		}
 		if(attackerPlayer instanceof FenShenNPC){
 			damageValue = damageValue * FightScene.fenShenDmgP / 100;
+			skillDamageInfo.damageValue = damageValue;
 		}
 		//damageValue = 1;
-		return damageValue;
+		return skillDamageInfo;
 	}
 
-	protected void processBuff4Skill(JunZhu attacker, JunZhu defender,
+	public void processBuff4Skill(JunZhu attacker, JunZhu defender,
 			Action action, int uid, Scene scene) {
 		int buffId = (int) action.Param1;									// buffId
 		int buffDuration = (int) action.Param2;									// buff持续时间
@@ -428,7 +430,7 @@ public class BuffMgr {
 		return addLife;
 	}
 
-	public long calcWeaponDamage4Skill(JunZhu attacker, JunZhu defender,
+	public SkillDamageInfo calcWeaponDamage4Skill(JunZhu attacker, JunZhu defender,
 			Player attackerPlayer, Player targetPlayer, Skill skill, Action action) {
 		long damage = 0;
 		//JC = (a*A攻击*(A攻击+k)/(A攻击+B防御+k)*((A生命/c+k)* (B生命/c+k))^0.5/(B防御+k)*H
@@ -509,7 +511,8 @@ public class BuffMgr {
 //			logger.info("普通攻击,攻击者id:{},被攻击者id:{},造成暴击--M:{},WB:{},addValue:{},damage:{},,attacker.wqSH:{},defender.wqJM:{}",
 //					attacker.id, defender.id,M,WB,addValue,damage,attacker.wqSH,defender.wqJM);
 		}
-		return damage;
+		SkillDamageInfo skillDamageInfo = new SkillDamageInfo(damage, critical);
+		return skillDamageInfo;
 	}
 
 	public Chenghao getPlayerChengHao(Player player) {
@@ -535,7 +538,7 @@ public class BuffMgr {
 		}
 		return 0;
 	}
-	public long calcSkillDamage4Skill(JunZhu attacker, JunZhu defender, 
+	public SkillDamageInfo calcSkillDamage4Skill(JunZhu attacker, JunZhu defender, 
 			Player attackerPlayer, Player targetPlayer, Skill skill, Action action) {
 		long damage = 0;
 		//JC = (a*A攻击*(A攻击+k)/(A攻击+B防御+k)*((A生命/c+k)* (B生命/c+k))^0.5/(B防御+k)*If(A生命>B生命，arctan(A生命/ B生命)*1.083+0.15，1)
@@ -615,7 +618,8 @@ public class BuffMgr {
 //			logger.info("致命一击，攻击者id:{},被攻击者id:{},造成暴击--M:{},JB:{},addValue:{},damage:{},",
 //					attacker.id, defender.id,M,JB,addValue,damage);
 		}
-		return damage; 
+		SkillDamageInfo skillDamageInfo = new SkillDamageInfo(damage, critical);
+		return skillDamageInfo; 
 	}
 	
 }

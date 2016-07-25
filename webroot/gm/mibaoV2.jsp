@@ -58,13 +58,13 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		account = HibernateUtil.getAccount(name);
 	}else if(accIdStr.length()>0){
 		account = HibernateUtil.find(Account.class, Long.valueOf(accIdStr));
-		if(account != null)name = account.getAccountName();
+		if(account != null)name = account.accountName;
 	}
 	if(account == null){
 		%>没有找到<%
 	}else{
 		session.setAttribute("name", name);
-		%>账号<%=account.getAccountId()%>:<%=account.getAccountName()%>
+		%>账号<%=account.accountId%>:<%=account.accountName%>
 		<br/>
 		<table>
 			<tr>
@@ -75,7 +75,7 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		</table>
 		<%
 		//--------------------------------------
-		long junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+		long junZhuId = account.accountId * 1000 + GameServer.serverId;
 		%>君主id:<%= junZhuId%><% 
 		JunZhu jz= HibernateUtil.find(JunZhu.class, junZhuId);
 		if(jz != null){
@@ -84,13 +84,13 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 				int mibaoId = Integer.parseInt(request.getParameter("mibaoId").trim());
 				//int num = Integer.parseInt(request.getParameter("num"));
 				AwardTemp a = new AwardTemp();
-				a.setAwardId(0);
-				a.setItemId(mibaoId);
-				a.setItemNum(1);
-				a.setItemType(AwardMgr.TYPE_NEW_MI_BAO);
-				SessionUser su = SessionManager.inst.findByJunZhuId(junZhuId);
+				a.awardId = 0;
+				a.itemId = mibaoId;
+				a.itemNum = 1;
+				a.itemType = AwardMgr.TYPE_NEW_MI_BAO;
+				IoSession su = SessionManager.inst.findByJunZhuId(junZhuId);
                 if(su!=null){
-                    AwardMgr.inst.giveReward(su.session, a, jz, false, false);
+                    AwardMgr.inst.giveReward(su, a, jz, false, false);
                 }else{
                 	AwardMgr.inst.giveReward(null, a, jz, false, false);
                 }
@@ -99,13 +99,13 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 				int suipianId = Integer.parseInt(request.getParameter("spId"));
                 int num = 1;
                 AwardTemp a = new AwardTemp();
-                a.setAwardId(0);
-                a.setItemId(suipianId);
-                a.setItemNum(num);
-                a.setItemType(AwardMgr.TYPE_NEW_MOBAI_SUIPIAN);
-                SessionUser su = SessionManager.inst.findByJunZhuId(junZhuId);
+                a.awardId = 0;
+                a.itemId = suipianId;
+                a.itemNum = num;
+                a.itemType = AwardMgr.TYPE_NEW_MOBAI_SUIPIAN;
+                IoSession su = SessionManager.inst.findByJunZhuId(junZhuId);
                 if(su!=null){
-                    AwardMgr.inst.giveReward(su.session, a, jz, false, false);
+                    AwardMgr.inst.giveReward(su, a, jz, false, false);
                 }else{
                     AwardMgr.inst.giveReward(null, a, jz, false, false);
                 }
@@ -117,13 +117,13 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 	                MiBaoNew mbTemp = MiBaoV2Mgr.inst.confMap.get(mbId);
 	                if(mbTemp != null ){
 	                	AwardTemp a = new AwardTemp();
-		                a.setAwardId(0);
-		                a.setItemId(mbId+10000);
-		                a.setItemNum(num);
-		                a.setItemType(AwardMgr.TYPE_NEW_MOBAI_SUIPIAN);
-		                SessionUser su = SessionManager.inst.findByJunZhuId(junZhuId);
+	                	a.awardId = 0;
+	                	a.itemId = mbId + 10000;
+	                	a.itemNum = num;
+	                	a.itemType = AwardMgr.TYPE_NEW_MOBAI_SUIPIAN;
+		                IoSession su = SessionManager.inst.findByJunZhuId(junZhuId);
 		                if(su!=null){
-		                    AwardMgr.inst.giveReward(su.session, a, jz, false, false);
+		                    AwardMgr.inst.giveReward(su, a, jz, false, false);
 		                }else{
 		                    AwardMgr.inst.giveReward(null, a, jz, false, false);
 		                }
@@ -134,7 +134,7 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 				int tempId = Integer.parseInt(request.getParameter("tempId"));
 				int mibaoId = Integer.parseInt(request.getParameter("mibaoId"));
 				MiBaoDB miBaoDB = HibernateUtil.find(MiBaoDB.class, " where tempId=" + tempId+" and ownerId="+junZhuId);
-				miBaoDB.setMiBaoId(mibaoId);
+				miBaoDB.miBaoId = mibaoId;
 				HibernateUtil.save(miBaoDB);
 			} else if("jiHuo".equals(action)) {
 				IoSession ss = createSession(jz.id);

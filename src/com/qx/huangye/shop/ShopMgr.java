@@ -44,6 +44,7 @@ import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.mibao.MiBaoDB;
+import com.qx.mibao.MiBaoDao;
 import com.qx.mibao.MibaoMgr;
 import com.qx.pawnshop.GoodsInfo;
 import com.qx.persistent.HibernateUtil;
@@ -294,7 +295,7 @@ public class ShopMgr extends EventProc {
 			return;
 		}
 		
-		PublicShop bean = HibernateUtil.find(PublicShop.class, jz.id * shop_space + bigType);
+		PublicShop bean = PublicShopDao.inst.getShopByType(jz.id, bigType);
 		if (bean == null) {
 			bean = initShopInfo(jz.id, bigType);
 		} else {
@@ -379,7 +380,7 @@ public class ShopMgr extends EventProc {
 		}
 		// 联盟商铺发送联盟商铺等级
 		if(bigType == lianMeng_shop_type){
-			AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jz.id);
+			AlliancePlayer player = AllianceMgr.inst.getAlliancePlayer(jz.id);
 			if (player == null || player.lianMengId <= 0) {
 				resp.setLmshopLv(0);
 			}else{
@@ -416,13 +417,16 @@ public class ShopMgr extends EventProc {
 
 	public PublicShop initShopInfo(long jid, int shop_type) {
 		PublicShop bean = new PublicShop();
-		bean.id = jid * shop_space + shop_type;
+//		bean.id = jid * shop_space + shop_type;
+		bean.junZhuId = jid;
+		bean.type = shop_type;
 		bean.goodsInfo = setGoodsInfo(getRandomGoodsList(shop_type));
 		bean.nextAutoRefreshTime = getNextNineTime(new Date());
 		bean.lastResetShopTime = new Date();
 		bean.buyNumber = 0;
-		bean.setMoney(0);
+		bean.money = 0;
 		HibernateUtil.save(bean);
+		PublicShopDao.inst.insertShop(jid, bean);
 		logger.info("玩家：{}商店类型：{}数据生成成功", jid, shop_type);
 		return bean;
 	}
@@ -438,7 +442,7 @@ public class ShopMgr extends EventProc {
 	/*
 	 * 随机刷新荒野商店列表
 	 */
-	protected List<GoodsInfo> getRandomGoodsList(int shop_type) {
+	public List<GoodsInfo> getRandomGoodsList(int shop_type) {
 		List<GoodsInfo> goodsList = new ArrayList<GoodsInfo>();
 
 		if(shop_type == common_shop_type){
@@ -592,7 +596,7 @@ public class ShopMgr extends EventProc {
 		 */
 		if(bigType == lianMeng_shop_type){
 			int levle = 0;
-			AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jz.id);
+			AlliancePlayer player = AllianceMgr.inst.getAlliancePlayer(jz.id);
 			if(player == null || player.lianMengId <= 0) {
 				logger.error("联盟商店购买失败，君主:{}还没有加入联盟", jz.id);
 				return;
@@ -647,7 +651,7 @@ public class ShopMgr extends EventProc {
 //		 */
 		int oldMoney = 0;
 		
-		PublicShop bean = HibernateUtil.find(PublicShop.class, jz.id * shop_space + bigType);
+		PublicShop bean = PublicShopDao.inst.getShopByType(jz.id, bigType);
 		if (bean == null) {
 			bean = initShopInfo(jz.id, bigType);
 		}else{
@@ -695,14 +699,14 @@ public class ShopMgr extends EventProc {
 			if(bigType == mysterious_shop_type && dh.type == tongBi_buy){
 				jz.tongBi -= money;
 				HibernateUtil.update(jz);
-				JunZhuMgr.inst.sendMainInfo(session,jz);
+				JunZhuMgr.inst.sendMainInfo(session,jz,false);
 				oldMoney = jz.tongBi;
 			}else if(bigType == mysterious_shop_type && dh.type == yuanBao_buy){
 				// 普通商店元宝购买或者神秘商店元宝购买
-				PvpMgr.inst.isBuySuccess(jz, money, session, YBType.YB_BUY_WUPIN, "元宝购买神秘商店物品");
+				PvpMgr.inst.isBuySuccess(jz, money, session, YBType.SHOP_BUY_SHENMI, "元宝购买神秘商店物品");
 				oldMoney = jz.yuanBao;
 			}else if(bigType == common_shop_type){
-				PvpMgr.inst.isBuySuccess(jz, money, session, YBType.YB_BUY_WUPIN, "元宝购买普通商店物品");
+				PvpMgr.inst.isBuySuccess(jz, money, session, YBType.SHOP_BUY_NORMAL, "元宝购买普通商店物品");
 				oldMoney = jz.yuanBao;
 			}else{
 				// 其他类型购买
@@ -717,10 +721,10 @@ public class ShopMgr extends EventProc {
 
 			// 添加物品
 			AwardTemp a = new AwardTemp();
-			a.setId(111);
-			a.setItemId(dh.itemId);
-			a.setItemType(dh.itemType);
-			a.setItemNum(dh.itemNum);
+			a.id = 111;
+			a.itemId = dh.itemId;
+			a.itemType = dh.itemType;
+			a.itemNum = dh.itemNum;
 			AwardMgr.inst.giveReward(session, a, jz);
 
 			/* 购买成功 */
@@ -734,15 +738,15 @@ public class ShopMgr extends EventProc {
 					dh.itemId, itemName, dh.itemNum, preV, oldMoney);
 			if(bigType == baizhan_shop_type){
 				// 主线任务: 消耗一次威望（在威望商店里购买1次物品）20190916
-				EventMgr.addEvent(ED.pay_weiWang , new Object[] { jz.id});
+				EventMgr.addEvent(jz.id, ED.pay_weiWang , new Object[] { jz.id});
 				sendMainIfo(session, jz.id, ShopMgr.Money.weiWang);
 			}
 			// 购买的要是宝石，就判定是否有任务完成
-			else if(bigType == mysterious_shop_type && a.getItemType() == AwardMgr.type_fuWen){
-				EventMgr.addEvent(ED.pawnshop_buy, new Object[] { jz.id});
-				logger.info("君主:{}在神秘商铺购买符文,符文id：{}成功, 判定是否有购买符文任务", jz.id, a.getItemId());
+			else if(bigType == mysterious_shop_type && a.itemType == AwardMgr.type_fuWen){
+				EventMgr.addEvent(jz.id, ED.pawnshop_buy, new Object[] { jz.id});
+				logger.info("君主:{}在神秘商铺购买符文,符文id：{}成功, 判定是否有购买符文任务", jz.id, a.itemId);
 			}else if(bigType == lianMeng_shop_type){
-				EventMgr.addEvent(ED.LM_SHOP_BUY, new Object[]{jz, a, itemName});
+				EventMgr.addEvent(jz.id, ED.LM_SHOP_BUY, new Object[]{jz, a, itemName});
 			}else if(bigType == huangYe_shop_type){
 				sendMainIfo(session, jz.id, ShopMgr.Money.huangYeBi);
 			}
@@ -779,17 +783,17 @@ public class ShopMgr extends EventProc {
 		case lianmeng_battle_shop_type: // 联盟战：功勋
 		case baizhan_shop_type: // 百战:威望
 			if(bean == null){
-				bean = HibernateUtil.find(PublicShop.class, jzId * shop_space + bigType);
+				bean = PublicShopDao.inst.getShopByType(jzId, bigType);
 				if(bean == null){
 					bean = initShopInfo(jzId, bigType);
 				}
 			}
-			bean.setMoney(newMoney);
+			bean.money = newMoney;
 			HibernateUtil.save(bean);
 			logger.info("玩家id{},获取类型：{}的货币：{}", jzId, bigType, newMoney);
 			break;
 		case lianMeng_shop_type: // 联盟商店是贡献值
-			AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, jzId);
+			AlliancePlayer p = AllianceMgr.inst.getAlliancePlayer(jzId);
 			if(p == null){
 				p = new AlliancePlayer();
 				AllianceMgr.inst.initAlliancePlayerInfo(jzId, -1, p, 0);
@@ -820,11 +824,11 @@ public class ShopMgr extends EventProc {
 		case lianmeng_battle_shop_type: // 联盟战：功勋
 		case baizhan_shop_type: // 百战商店： 威望
 			if(bean == null){
-				bean = HibernateUtil.find(PublicShop.class, jzId * shop_space + bigType);
+				bean = PublicShopDao.inst.getShopByType(jz.id, bigType);
 			}
-			return bean == null? 0: bean.getMoney();
+			return bean == null? 0: bean.money;
 		case lianMeng_shop_type: // 联盟商店是贡献值
-			AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, jzId);
+			AlliancePlayer p = AllianceMgr.inst.getAlliancePlayer(jzId);
 			return p == null? 0: p.gongXian;
 		case mysterious_shop_type:
 			return jz.yuanBao;
@@ -846,14 +850,14 @@ public class ShopMgr extends EventProc {
 			type = baizhan_shop_type;
 			break;
 		case lianMengGongXian:
-			AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, jzId);
+			AlliancePlayer p = AllianceMgr.inst.getAlliancePlayer(jzId);
 			return p == null? 0: p.gongXian;
 		}
 		if(type != -1){
 			if(bean == null){
-				bean = HibernateUtil.find(PublicShop.class, jzId * shop_space + type);
+				bean = PublicShopDao.inst.getShopByType(jzId, type);
 			}
-			return bean == null? 0: bean.getMoney();
+			return bean == null? 0: bean.money;
 		}
 		return 0;
 	}
@@ -933,7 +937,7 @@ public class ShopMgr extends EventProc {
 							return;
 						}
 
-						int itemType = item.getItemType();
+						int itemType = item.itemType;
 						if (itemType != SELL_TYPE) {
 							logger.error("当铺出售的物品类型错误，itemType:{}", itemType);
 							//sendError(cmd, session, "当铺只能出售玉诀");
@@ -956,19 +960,20 @@ public class ShopMgr extends EventProc {
 					return;
 				}
 			}else if(goodsType == 2){ // 秘宝碎片
-				MiBaoDB m = HibernateUtil.find(MiBaoDB.class, bagId);
+				MiBaoDB m = MiBaoDao.inst.getByDBId(junZhu.id, bagId);
+//						HibernateUtil.find(MiBaoDB0.class, bagId);
 				if(m == null){
 					logger.error("指定典当秘宝碎片不存在dbId:{}", bagId);
 					//sendError(cmd, session, "指定典当秘宝碎片不存在");
 					return;
 				}
-				if(m.getSuiPianNum() < sellCount){
-					logger.error("指定典当秘宝碎片数量不足,数量有:{},出售数量:{}", m.getSuiPianNum(), sellCount);
+				if(m.suiPianNum < sellCount){
+					logger.error("指定典当秘宝碎片数量不足,数量有:{},出售数量:{}", m.suiPianNum, sellCount);
 					//sendError(cmd, session, "指定典当秘宝碎片数量不足");
 					return;
 				}
-				if(m.getStar() < MibaoMgr.mibao_first_full_star){
-					logger.error("指定典当秘宝碎片星级不足,碎片星级:{},需要达到星级{}", m.getStar(), MibaoMgr.mibao_first_full_star);
+				if(m.star < MibaoMgr.mibao_first_full_star){
+					logger.error("指定典当秘宝碎片星级不足,碎片星级:{},需要达到星级{}", m.star, MibaoMgr.mibao_first_full_star);
 					//sendError(cmd, session, "指定典当秘宝碎片星级不足");
 					return;
 				}
@@ -996,7 +1001,7 @@ public class ShopMgr extends EventProc {
 				}
 				ItemTemp itemTemp = TempletService.getInstance().getItemTemp(
 						bagGrid.itemId);
-				int sellPrice = itemTemp.getSellNum();
+				int sellPrice = itemTemp.sellNum;
 				int totalSellPrice = sellCount * sellPrice;
 				// 改为铜币， 20160126
 //				YuanBaoMgr.inst.diff(junZhu, totalSellPrice, 0, sellPrice,
@@ -1015,17 +1020,17 @@ public class ShopMgr extends EventProc {
 				if(m == null){
 					continue;
 				}
-				MibaoSuiPian s =   MibaoMgr.inst.mibaoSuipianMap.get(m.getTempId());
+				MibaoSuiPian s =   MibaoMgr.inst.mibaoSuipianMap.get(m.tempId);
 				if(s == null){
 					continue;
 				}
 				int tong = sellCount * s.recyclePrice;
 				junZhu.tongBi += tong;
-				m.setSuiPianNum(m.getSuiPianNum() - sellCount);
+				m.suiPianNum = m.suiPianNum - sellCount;
 				HibernateUtil.save(m);
 				logger.info("君主:{}在当铺典当秘宝碎片，碎片item:{},数量:{},时间:{},获得铜币:{}",
-						junZhu.name, m.getTempId(), sellCount, date, tong);
-				ActLog.log.Pawn(junZhu.id, junZhu.name, ActLog.vopenid, m.getTempId(), "秘宝碎片", sellCount, 0, tong);
+						junZhu.name, m.tempId, sellCount, date, tong);
+				ActLog.log.Pawn(junZhu.id, junZhu.name, ActLog.vopenid, m.tempId, "秘宝碎片", sellCount, 0, tong);
 				sellMibaoS = true;
 			}
 		}
@@ -1050,7 +1055,7 @@ public class ShopMgr extends EventProc {
 
 	public void sendShopRed(JunZhu jz, IoSession session, int funcId){
 		if(funcId == FunctionID.lianMeng_shop || funcId == FunctionID.huangYe_shop){
-			AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, jz.id);
+			AlliancePlayer p = AllianceMgr.inst.getAlliancePlayer(jz.id);
 			if(p ==null || p.lianMengId<=0) {
 				return;
 			}
@@ -1073,16 +1078,16 @@ public class ShopMgr extends EventProc {
 				if (junZhu == null) {
 					break;
 				}
-				SessionUser su = SessionManager.inst.findByJunZhuId(junZhu.id);
+				IoSession su = SessionManager.inst.findByJunZhuId(junZhu.id);
 				if(su == null){
 					break;
 				}
 				// 发送红点信息
-				sendRedNotice(jzid, junZhu.level, su.session);
+				sendRedNotice(jzid, junZhu.level, su);
 				// 发送威望值
-				sendMainIfo(su.session,jzid,ShopMgr.Money.weiWang);
+				sendMainIfo(su,jzid,ShopMgr.Money.weiWang);
 				// 发送荒野币
-				sendMainIfo(su.session,jzid,ShopMgr.Money.huangYeBi);
+				sendMainIfo(su,jzid,ShopMgr.Money.huangYeBi);
 				break;
 			}
 		}
@@ -1195,7 +1200,7 @@ public class ShopMgr extends EventProc {
 		return funcid;
 	}
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.ACC_LOGIN, this);
 	}
 
@@ -1423,9 +1428,9 @@ public class ShopMgr extends EventProc {
 		logger.info("武备坊购买成功，君主:{}购买的type:{},获得:{}", junZhu.id, type, awardList);
 		for(AwardTemp award : awardList) {
 			WubeiFangAwardInfo.Builder awardBuilder = WubeiFangAwardInfo.newBuilder();
-			awardBuilder.setItemType(award.getItemType());
-			awardBuilder.setItemId(award.getItemId());
-			awardBuilder.setItemNum(award.getItemNum());
+			awardBuilder.setItemType(award.itemType);
+			awardBuilder.setItemId(award.itemId);
+			awardBuilder.setItemNum(award.itemNum);
 			response.addAwardList(awardBuilder);
 		}
 		
@@ -1443,15 +1448,15 @@ public class ShopMgr extends EventProc {
 			AwardMgr.inst.giveReward(session, award, junZhu, false, false);
 		}
 		if(!free) {
-			YuanBaoMgr.inst.diff(junZhu, -needCost, 0, 0, 0, "进行武备坊购买");
+			YuanBaoMgr.inst.diff(junZhu, -needCost, 0, 0, YBType.SHOP_BUY_WUBEIFANG, "进行武备坊购买");
 			HibernateUtil.save(junZhu);
 		}
 		JunZhuMgr.inst.sendMainInfo(session);
 		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
 		//BagMgr.inst.sendBagInfo(session, bag);
 		
-		EventMgr.addEvent(ED.done_wuBeiChouJiang, new Object[]{junZhu.id});
-		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(junZhu.id , DailyTaskConstants.wuBeiFang, 1));
+		EventMgr.addEvent( junZhu.id, ED.done_wuBeiChouJiang, new Object[]{junZhu.id});
+		EventMgr.addEvent( junZhu.id, ED.DAILY_TASK_PROCESS, new DailyTaskCondition(junZhu.id , DailyTaskConstants.wuBeiFang, 1));
 	}
 
 	public void changeTimes(WuBeiFangBean wuBeiFang, int type, int times) {
@@ -1491,11 +1496,11 @@ public class ShopMgr extends EventProc {
 			break;
 		case gongXun:
 			type= lianmeng_battle_shop_type;
-			EventMgr.addEvent(ED.CHANGE_GONGXUN,new Object[]{session,jz});
+			EventMgr.addEvent(jz.id,ED.CHANGE_GONGXUN,new Object[]{session,jz});
 			break;
 		case weiWang:
 			type = baizhan_shop_type;
-			EventMgr.addEvent(ED.CHANGE_WEIWANG,new Object[]{session,jz});
+			EventMgr.addEvent(jz.id,ED.CHANGE_WEIWANG,new Object[]{session,jz});
 			break;
 		default:
 			break;

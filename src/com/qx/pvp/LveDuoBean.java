@@ -13,7 +13,7 @@ public class LveDuoBean  {//implements MCSupport {
 	/**
 	 * @Fields serialVersionUID : TODO
 	 */
-	private static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 1L;
 	@Id
 	public long junzhuId;
 	/**当日已掠夺次数*/

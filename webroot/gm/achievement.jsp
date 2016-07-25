@@ -59,9 +59,9 @@ function go(act, id, type){
 		//HibernateUtil.saveAccount(name);
 		} else {
 			session.setAttribute("name", name);
-	%>账号<%=account.getAccountId()%>:<%=account.getAccountName()%>
+	%>账号<%=account.accountId%>:<%=account.accountName%>
 	<%
-		JunZhu junzhu = HibernateUtil.find(JunZhu.class, (long) account.getAccountId());
+		JunZhu junzhu = HibernateUtil.find(JunZhu.class, (long) account.accountId);
 			List<Achievement> acheList = null;
 			if (junzhu == null) {
 				out.println("没有君主");
@@ -101,15 +101,15 @@ function go(act, id, type){
 				
 				for(Achievement ache : acheList){
 					out.append("<tr>");
-					out.append("<td>"+ache.getId()+"</td>");		
-					out.append("<td>"+ache.getChengjiuId()+"</td>");
-					out.append("<td>"+ache.getJunZhuId()+"</td>");
-					out.append("<td>"+ache.isFinish()+"</td>");
-					out.append("<td>"+ache.isGetReward()+"</td>");
-					out.append("<td>"+ache.getJindu()+"</td>");
-					out.append("<td>"+ache.getType()+"</td>");
-					out.append("<td><input type='text' value='' id='addJindu"+ache.getId()+"'/>");
-					out.append("<input type='button' value='增加' onclick='go(\"addJindu\","+ache.getId() +"," + ache.getType() +")'/>");
+					out.append("<td>"+ache.id+"</td>");		
+					out.append("<td>"+ache.chengjiuId+"</td>");
+					out.append("<td>"+ache.junZhuId+"</td>");
+					out.append("<td>"+ache.isFinish+"</td>");
+					out.append("<td>"+ache.isGetReward+"</td>");
+					out.append("<td>"+ache.jindu+"</td>");
+					out.append("<td>"+ache.type+"</td>");
+					out.append("<td><input type='text' value='' id='addJindu"+ache.id+"'/>");
+					out.append("<input type='button' value='增加' onclick='go(\"addJindu\","+ache.id +"," + ache.type +")'/>");
 					out.append("<tr>\n");
 				}
 				out.append("</table>");

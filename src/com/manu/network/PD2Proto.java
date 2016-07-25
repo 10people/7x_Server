@@ -11,6 +11,8 @@ import qxmobile.protobuf.Activity.ActivityGetRewardResp;
 import qxmobile.protobuf.Activity.ActivityGetStrengthResp;
 import qxmobile.protobuf.Activity.ActivityGrowthFundResp;
 import qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp;
+import qxmobile.protobuf.AlliaceMemmber.AllianceMemmberList;
+import qxmobile.protobuf.AlliaceMemmber.GetMemmbersReq;
 import qxmobile.protobuf.AllianceFightProtos.CityFightInfoReq;
 import qxmobile.protobuf.AllianceFightProtos.CityFightInfoResp;
 import qxmobile.protobuf.AllianceFightProtos.CityWarBidReq;
@@ -142,7 +144,11 @@ public class PD2Proto extends PD{
 			return MibaoInfoResp.getDefaultInstance();
 		case PD.S_BAG_CHANGE_INFO:
 			return BagChangeInfo.getDefaultInstance();
-		}
+//		case PD.C_ALLIANCE_MEMMBERS_REQ:
+//            return GetMemmbersReq.getDefaultInstance();
+//	    case PD.S_ALLIANCE_MEMMBERS_RESP:
+//            return AllianceMemmberList.getDefaultInstance();
+	}
 		return null;
 	}
 }

@@ -1,10 +1,10 @@
 package com.qx.gm.message;
 
 public class ConsumeRecords {
-	private String funcname;// 功能名称
-	private int price;// 功能单价
-	private String money;// 消费元宝
-	private String dttm;// 消费时间
+	public String funcname;// 功能名称
+	public int price;// 功能单价
+	public String money;// 消费元宝
+	public String dttm;// 消费时间
 
 	public String getFuncname() {
 		return funcname;

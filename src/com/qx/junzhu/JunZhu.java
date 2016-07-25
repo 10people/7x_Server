@@ -5,9 +5,11 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.qx.persistent.DBHash;
 import com.qx.persistent.MCSupport;
 import com.qx.world.GameObject;
 
@@ -16,14 +18,14 @@ import com.qx.world.GameObject;
  * 
  */
 @Entity
-@Table(name = "JunZhu")
-public class JunZhu extends GameObject implements MCSupport, Cloneable{
+@Table(name = "JunZhu",indexes={@Index(name="name",columnList="name")})
+public class JunZhu extends GameObject implements MCSupport, Cloneable, DBHash{
 	
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2374597839959110796L;
+	public static final long serialVersionUID = -2374597839959110796L;
 	@Id
 	public long id;
 	@Column(unique = true, nullable = false)
@@ -82,10 +84,6 @@ public class JunZhu extends GameObject implements MCSupport, Cloneable{
 	public int vipLevel;
 	@Column(nullable = false, columnDefinition = "INT default 5")
 	public int guoJiaId;
-	@Column(nullable = false, columnDefinition = "INT default 0")
-	public int legendChptrMaxId;
-	@Column(nullable = false, columnDefinition = "INT default 0")
-	public int commonChptrMaxId;
 	
 	@Column(nullable = false, columnDefinition = "INT default 100000")
 	public int maxTaskOverId;
@@ -105,22 +103,6 @@ public class JunZhu extends GameObject implements MCSupport, Cloneable{
 	@Override
 	public int getGongji() {
 		return gongJi;
-	}
-
-	public int getLegendChptrMaxId() {
-		return legendChptrMaxId;
-	}
-
-	public void setLegendChptrMaxId(int legendChptrMaxId) {
-		this.legendChptrMaxId = legendChptrMaxId;
-	}
-
-	public int getCommonChptrMaxId() {
-		return commonChptrMaxId;
-	}
-
-	public void setCommonChptrMaxId(int commonChptrMaxId) {
-		this.commonChptrMaxId = commonChptrMaxId;
 	}
 
 	@Override
@@ -232,6 +214,11 @@ public class JunZhu extends GameObject implements MCSupport, Cloneable{
 				e.printStackTrace();
 		}
 		return o;
+	}
+
+	@Override
+	public long hash() {
+		return id;
 	}
 	
 }

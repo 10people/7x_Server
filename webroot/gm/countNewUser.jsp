@@ -1,12 +1,9 @@
+<%@page import="java.math.BigDecimal"%>
+<%@page import="org.hibernate.transform.Transformers"%>
 <%@page import="com.qx.world.FightScene"%>
 <%@page import="com.qx.util.RandomUtil"%>
-<%@page import="java.util.Random"%>
 <%@page import="com.qx.junzhu.JunZhu"%>
 <%@page import="qxmobile.protobuf.AllianceFightProtos.PlayerScore"%>
-<%@page import="java.math.BigInteger"%>
-<%@page import="java.math.BigDecimal"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.ArrayList"%>
 <%@page import="org.hibernate.dialect.MySQL5Dialect"%>
 <%@page import="com.qx.persistent.HibernateUtil"%>
 <%@ page import="java.util.List"%>
@@ -41,7 +38,7 @@ setOut(out);
     }
     dateTime = (dateTime == null ? "":dateTime.trim());
     String sql = "select DATE(a.reportDate) as c,count(DISTINCT a.id) as d  from qxaccounts.ClientReg a ,qxaccounts.LoginHistory b where Date(b.loginTime)=Date('"+dateTime+"') and a.id = b.accId GROUP BY c";
-    List<Map<String,Object>> list = HibernateUtil.querySql(sql);
+    List<Map<String,Object>> list = (List<Map<String,Object>>)HibernateUtil.querySql(sql,Transformers.ALIAS_TO_ENTITY_MAP);
     int counter =0;
     if(null == list || list.size() <=0){
     	out.println("没有相关数据");

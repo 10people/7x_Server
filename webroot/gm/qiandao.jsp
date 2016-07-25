@@ -107,7 +107,7 @@
 	if(name != null && name.length()>0){
 		account = HibernateUtil.getAccount(name);
 		if(account!=null){
-			ownerid = ""+(account.getAccountId()*1000+GameServer.serverId);
+			ownerid = ""+(account.accountId*1000+GameServer.serverId);
 		}
 	}else if(ownerid != null && ownerid.length()>0){
 		account = HibernateUtil.find(Account.class, (Long.valueOf(ownerid) - GameServer.serverId) / 1000);
@@ -125,7 +125,7 @@
 				return null;
 			}
 		};
-		fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account.getAccountId()*1000+GameServer.serverId));
+		fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account.accountId*1000+GameServer.serverId));
 		synchronized(fs){
 			BigSwitch.inst.route(PD.C_GET_QIANDAO_REQ, null, fs);
 		//	fs.wait();
@@ -136,8 +136,8 @@
 		<table border="1">
 			<tr><th>君主id</th><th>君主名字</th><th>累计签到天数</th><th>今天日期</th></tr>
 			<tr>
-			<td><%=account.getAccountId()*1000+GameServer.serverId %></td>
-			<td><%=account.getAccountName() %></td>
+			<td><%=account.accountId*1000+GameServer.serverId %></td>
+			<td><%=account.accountName %></td>
 			<td><%=resp.getCnt() %></td>
 			<td><%=""+resp.getCurDate() +"号"%></td>
 			</tr>
@@ -171,7 +171,7 @@
 	if(qname != null && qname.length()>0){
 		account2 = HibernateUtil.getAccount(qname);
 		if(account2!=null){
-			qownerid = ""+(account2.getAccountId()*1000+GameServer.serverId);
+			qownerid = ""+(account2.accountId*1000+GameServer.serverId);
 		}
 	}else if(qownerid != null && qownerid.length()>0){
 		account2 = HibernateUtil.find(Account.class, (Long.valueOf(qownerid) - GameServer.serverId) / 1000);
@@ -188,7 +188,7 @@
 				return null;
 			}
 		};
-		fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account2.getAccountId()*1000+GameServer.serverId));
+		fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account2.accountId*1000+GameServer.serverId));
 		synchronized(fs){
 			BigSwitch.inst.route(PD.C_QIANDAO_REQ, null, fs);
 		//	fs.wait();

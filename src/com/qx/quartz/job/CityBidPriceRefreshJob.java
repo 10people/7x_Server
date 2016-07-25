@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.qx.alliancefight.BidMgr;
 
 public class CityBidPriceRefreshJob implements Job {
-	private Logger logger = LoggerFactory.getLogger(CityBidPriceRefreshJob.class);
+	public Logger logger = LoggerFactory.getLogger(CityBidPriceRefreshJob.class);
 	
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {

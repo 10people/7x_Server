@@ -3,9 +3,9 @@ package com.qx.gm.message;
 import java.util.List;
 
 public class OperateConsumeResp extends BaseResp{
-	private String uin;// 账号ID
-	private String rolename;// 角色名称
-	private List<ConsumeRecords> records;// 消费信息
+	public String uin;// 账号ID
+	public String rolename;// 角色名称
+	public List<ConsumeRecords> records;// 消费信息
 
 	public String getUin() {
 		return uin;

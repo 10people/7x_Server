@@ -41,7 +41,7 @@ public class KeJiMgr {
 		sendListInfo(session, list);
 	}
 
-	protected void sendListInfo(IoSession session, List<JzKeji> list) {
+	public void sendListInfo(IoSession session, List<JzKeji> list) {
 		KeJiInfoRet.Builder ret = KeJiInfoRet.newBuilder();
 //		List<Keji> list = TempletService.listAll(Keji.class.getSimpleName());
 		long time = System.currentTimeMillis();
@@ -71,7 +71,7 @@ public class KeJiMgr {
 		}
 		JunzhuKeji conf = null;
 		for(JunzhuKeji k : list){
-			if(k.getId() == kejiId){
+			if(k.id == kejiId){
 				conf = k;
 				break;
 			}
@@ -85,12 +85,12 @@ public class KeJiMgr {
 			sendError(session, "君主没有初始化");
 			return;
 		}
-		if(jz.tongBi<conf.getMoney()){
-			sendError(session, "金币不足，需要"+conf.getMoney()+"，拥有"+jz.tongBi);
+		if(jz.tongBi<conf.money){
+			sendError(session, "金币不足，需要"+conf.money+"，拥有"+jz.tongBi);
 			return;
 		}
-		if(jz.level<conf.getLimitLevel()){
-			sendError(session, "等级不足，需要"+conf.getLimitLevel()+"级，当前"+jz.level+"级");
+		if(jz.level<conf.limitLevel){
+			sendError(session, "等级不足，需要"+conf.limitLevel+"级，当前"+jz.level+"级");
 			return;
 		}
 		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
@@ -128,7 +128,7 @@ public class KeJiMgr {
 		dblist.add(preDb);
 		sendListInfo(session, dblist);
 		// 君主科技升级完成
-		EventMgr.addEvent(ED.JUNZHU_KEJI_PROMOTE, new Object[]{junZhuId, kejiId});
+		EventMgr.addEvent(junZhuId,ED.JUNZHU_KEJI_PROMOTE, new Object[]{junZhuId, kejiId});
 	}
 	public void sendError(IoSession session, String msg) {
 		if(session == null){

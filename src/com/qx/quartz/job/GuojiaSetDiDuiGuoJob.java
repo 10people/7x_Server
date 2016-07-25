@@ -13,7 +13,7 @@ import com.qx.guojia.GuoJiaMgr;
 import com.qx.persistent.HibernateUtil;
 
 public class GuojiaSetDiDuiGuoJob implements Job {
-	private Logger log = LoggerFactory.getLogger(GuojiaSetDiDuiGuoJob.class);
+	public Logger log = LoggerFactory.getLogger(GuojiaSetDiDuiGuoJob.class);
 	public double qz4Month1=GuoJiaMgr.inst.chouHenJiSuanMap.get(0); 
 	public double qz4Month2=GuoJiaMgr.inst.chouHenJiSuanMap.get(1);
 	public double qz4Month3=GuoJiaMgr.inst.chouHenJiSuanMap.get(2);

@@ -142,6 +142,9 @@ public class FunctionOpenMgr {
 		if( junZhu != null ){
 			maxAwardRenWuId = junZhu.maxTaskAwardId;
 		}
+		if(maxAwardRenWuId == 0){
+			return maxAwardRenWuId; 
+		}
 		ZhuXian conf = GameTaskMgr.inst.zhuxianTaskMap.get(maxAwardRenWuId);
 		if(conf == null){
 			log.error("没有找到任务配置{} of pid {}",maxAwardRenWuId, pid);
@@ -182,7 +185,7 @@ public class FunctionOpenMgr {
 			List<ZhuXian> list = TempletService.listAll(ZhuXian.class.getSimpleName());
 			int pre = 0;
 			for(ZhuXian z : list){
-				if(z.getId()>=maxRenWuId){
+				if(z.id>=maxRenWuId){
 					break;
 				}
 				pre = z.orderIdx;

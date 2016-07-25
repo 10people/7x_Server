@@ -40,7 +40,9 @@ import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.junzhu.JzKeji;
 import com.qx.mibao.MiBaoDB;
+import com.qx.mibao.MiBaoDao;
 import com.qx.mibao.MibaoMgr;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 
 /**
@@ -81,7 +83,7 @@ public class QiandaoMgr {
 				.getSimpleName());
 		Map<Integer, List<QianDao>> awardMap = new HashMap<Integer, List<QianDao>>();
 		for (QianDao tmp : awardList) {
-			int month = tmp.getMonth();// 月份
+			int month = tmp.month;// 月份
 			List<QianDao> tmpList = null;
 			if (awardMap.containsKey(month)) {// map中已存在这个月数据
 				tmpList = awardMap.get(month);
@@ -97,7 +99,7 @@ public class QiandaoMgr {
 		List<QianDaoDesc> descList = TempletService.listAll(QianDaoDesc.class.getSimpleName());
 		Map<Integer, QianDaoDesc> qianDaoDescMap = new HashMap<Integer, QianDaoDesc>();
 		for(QianDaoDesc desc : descList) {
-			qianDaoDescMap.put(desc.getMonth(), desc);
+			qianDaoDescMap.put(desc.month, desc);
 		}
 		this.qianDaoDescMap = qianDaoDescMap;
 		
@@ -105,7 +107,7 @@ public class QiandaoMgr {
 				.getSimpleName());
 		Map<Integer, QianDaoMonth> qianDaoMonthMap = new HashMap<Integer, QianDaoMonth>();
 		for (QianDaoMonth qianDaoMonth : qianDaoMonthList) {
-			qianDaoMonthMap.put(qianDaoMonth.getMonth(), qianDaoMonth);
+			qianDaoMonthMap.put(qianDaoMonth.month, qianDaoMonth);
 		}
 		this.qianDaoMonthMap = qianDaoMonthMap;
 		
@@ -153,13 +155,13 @@ public class QiandaoMgr {
 			int leijiQiandao = 0;
 			if (null != qiandaoInfo) {
 				// 进入到了第二个月
-				if (isNextMonth(qiandaoInfo.getPreQiandao(), date)) {
-					qiandaoInfo.setLeijiQiandao(0);// 累计天数归0
-					qiandaoInfo.setQiandaoDate(""); // 签到日期清空
-					qiandaoInfo.setGetDoubleDate("");// 领取双倍奖励日期清空
+				if (isNextMonth(qiandaoInfo.preQiandao, date)) {
+					qiandaoInfo.leijiQiandao = 0;// 累计天数归0
+					qiandaoInfo.qiandaoDate = ""; // 签到日期清空
+					qiandaoInfo.getDoubleDate = "";// 领取双倍奖励日期清空
 					HibernateUtil.save(qiandaoInfo);
 				}
-				leijiQiandao = qiandaoInfo.getLeijiQiandao();
+				leijiQiandao = qiandaoInfo.leijiQiandao;
 			}
 			response.setCnt(leijiQiandao);
 			String[] qiandaoDayArr = qiandaoInfo ==null || qiandaoInfo.qiandaoDate == null || "".equals(qiandaoInfo.qiandaoDate) ? null : qiandaoInfo.qiandaoDate.split("#");
@@ -167,33 +169,33 @@ public class QiandaoMgr {
 			int index = 0;
 			for (QianDao qianDao : awardList) {
 				QiandaoAward.Builder award = QiandaoAward.newBuilder();
-				award.setAwardId(qianDao.getAwardId());
-				award.setAwardNum(qianDao.getAwardNum());
-				award.setAwardType(qianDao.getAwardType());
-				award.setDay(qianDao.getDay());
-				award.setId(qianDao.getId());
-				award.setMonth(qianDao.getMonth());
-				award.setVipDouble(qianDao.getVipDouble());
-				award.setBottomColor(qianDao.getBottomColor());
+				award.setAwardId(qianDao.awardId);
+				award.setAwardNum(qianDao.awardNum);
+				award.setAwardType(qianDao.awardType);
+				award.setDay(qianDao.day);
+				award.setId(qianDao.id);
+				award.setMonth(qianDao.month);
+				award.setVipDouble(qianDao.vipDouble);
+				award.setBottomColor(qianDao.bottomColor);
 				if (hasAlreadyQiandao(qiandaoInfo)) {// 今天已签到
 					/*
 					 *  20160218  改为 不能补签
 					 */
-//					if (qianDao.getDay() == leijiQiandao && getBuqianState(qiandaoInfo, qianDao, junZhu) == 1) {
+//					if (qianDao.day == leijiQiandao && getBuqianState(qiandaoInfo, qianDao, junZhu) == 1) {
 //						award.setState(1);
 //					} else {
 						award.setState(0);
 //					}
 				} else {// 今天未签到
-					if (qianDao.getDay() == leijiQiandao + 1) {
+					if (qianDao.day == leijiQiandao + 1) {
 						award.setState(1);
 					} else {
 						award.setState(0);
 					}
 				}
 				//计算是否领取双倍
-				if(qianDao.getVipDouble() > 0){ //有双倍奖励
-					if(junZhu.vipLevel < qianDao.getVipDouble()){ //vip等级不足一定没有双倍奖励
+				if(qianDao.vipDouble > 0){ //有双倍奖励
+					if(junZhu.vipLevel < qianDao.vipDouble){ //vip等级不足一定没有双倍奖励
 						award.setIsDouble(GET_DOUBLE_STATUS_0);
 					}else if(qiandaoDayArr != null && qiandaoDayArr.length > index){
 						String[] dateArr1 = qiandaoDayArr[index].split(":"); 
@@ -211,8 +213,8 @@ public class QiandaoMgr {
 				index++;
 				response.addAward(award);
 			}
-			response.setIcon(this.qianDaoMonthMap.get(getMonth(tmpDate)).getIcon());
-			response.setDesc(this.qianDaoMonthMap.get(getMonth(tmpDate)).getDesc());
+			response.setIcon(this.qianDaoMonthMap.get(getMonth(tmpDate)).icon);
+			response.setDesc(this.qianDaoMonthMap.get(getMonth(tmpDate)).desc);
 			response.setCurDate(getDate(date));
 			QianDaoPresent pre = HibernateUtil.find(QianDaoPresent.class, junZhu.id);
 			if(pre == null){
@@ -226,7 +228,7 @@ public class QiandaoMgr {
 			 * if 语句是因为有些旧号（添加次功能之前建立的号） 可能数据不对，为了测试，所以暂且赋值为累计签到。
 			 */
 			if(qiandaoInfo != null && qiandaoInfo.historyQianDao == 0){
-				qiandaoInfo.historyQianDao = qiandaoInfo.getLeijiQiandao();
+				qiandaoInfo.historyQianDao = qiandaoInfo.leijiQiandao;
 				HibernateUtil.update(qiandaoInfo);
 			}
 			response.setAllQianNum(qiandaoInfo == null? 0: qiandaoInfo.historyQianDao);
@@ -272,13 +274,14 @@ public class QiandaoMgr {
 			if (qiandaoInfo == null) {// DB没有签到信息
 				qiandaoInfo = new QiandaoInfo();
 				qiandaoInfo.id = junZhu.id;
-				qiandaoInfo.setLeijiQiandao(1);
-				qiandaoInfo.setPreQiandao(date);
-				qiandaoInfo.setQiandaoDate(getMonth(date) + ":" + getDate(date));
+				qiandaoInfo.leijiQiandao = 1;
+				qiandaoInfo.preQiandao = date;
+				qiandaoInfo.qiandaoDate = getMonth(date) + ":" + getDate(date);
 				qiandaoInfo.historyQianDao += 1;
 				HibernateUtil.insert(qiandaoInfo);
+				Cache.qdCache.put(junZhu.id, qiandaoInfo);
 			} else {// DB已有有签到信息
-				if (isSameDate(date, qiandaoInfo.getPreQiandao())) {
+				if (isSameDate(date, qiandaoInfo.preQiandao)) {
 					// 今日已经签过
 					if (!canBuQian(junZhu.id,qiandaoInfo)) {
 						// 不能补签
@@ -295,63 +298,63 @@ public class QiandaoMgr {
 				} else {
 					// 今日未签到
 					qiandaoInfo
-							.setLeijiQiandao(qiandaoInfo.getLeijiQiandao() + 1);
-					if (null == qiandaoInfo.getQiandaoDate()
-							|| "".equals(qiandaoInfo.getQiandaoDate())) {
-						qiandaoInfo.setQiandaoDate(getMonth(tmpDate) + ":"
-								+ getDate(tmpDate));
+							.leijiQiandao = qiandaoInfo.leijiQiandao + 1;
+					if (null == qiandaoInfo.qiandaoDate
+							|| "".equals(qiandaoInfo.qiandaoDate)) {
+						qiandaoInfo.qiandaoDate = getMonth(tmpDate) + ":"
+								+ getDate(tmpDate);
 					} else {
-						qiandaoInfo.setQiandaoDate(qiandaoInfo.getQiandaoDate()
-								+ "#" + getMonth(tmpDate) + ":" + getDate(tmpDate));
+						qiandaoInfo.qiandaoDate = qiandaoInfo.qiandaoDate
+								+ "#" + getMonth(tmpDate) + ":" + getDate(tmpDate);
 					}
-					qiandaoInfo.setPreQiandao(date);
+					qiandaoInfo.preQiandao = date;
 					qiandaoInfo.historyQianDao += 1;
 				}
 				HibernateUtil.save(qiandaoInfo);
 			}
 			/* 计算奖励是否双倍 */
-			int leijiQiandao = qiandaoInfo.getLeijiQiandao();
+			int leijiQiandao = qiandaoInfo.leijiQiandao;
 			QianDao qianDao = awardList.get(leijiQiandao - 1);// 获取签到的那一天的奖励
 			int awardCount = 1;// 奖励份数
 
-			if (qianDao.getVipDouble() != 0
-					&& junZhu.vipLevel >= qianDao.getVipDouble()) {
+			if (qianDao.vipDouble != 0
+					&& junZhu.vipLevel >= qianDao.vipDouble) {
 				// 达成如下条件，可领取双倍数量奖励
 				// 1、双倍等级不为0，为0代表没有双倍
 				// 2、君主等级大于等于双倍领取等级
 				if (!isBuqian) {
 					awardCount = 2;// 除了补签情况外，领取双倍奖励
 				}
-				if (null == qiandaoInfo.getGetDoubleDate()
-						|| "".equals(qiandaoInfo.getGetDoubleDate())) {
-					qiandaoInfo.setGetDoubleDate(getMonth(tmpDate) + ":"
+				if (null == qiandaoInfo.getDoubleDate
+						|| "".equals(qiandaoInfo.getDoubleDate)) {
+					qiandaoInfo.getDoubleDate = (getMonth(tmpDate) + ":"
 							+ getDate(tmpDate));
 				} else {
 					qiandaoInfo
-							.setGetDoubleDate(qiandaoInfo.getGetDoubleDate()
+							.getDoubleDate = qiandaoInfo.getDoubleDate
 									+ "#" + getMonth(tmpDate) + ":"
-									+ getDate(tmpDate));
+									+ getDate(tmpDate);
 				}
 				HibernateUtil.save(qiandaoInfo);
 			}
 			response.setVipCount(awardCount);
 			/* 添加奖励到君主 */
 			QiandaoAward.Builder award = QiandaoAward.newBuilder();
-			award.setAwardId(qianDao.getAwardId());
-			award.setAwardNum(qianDao.getAwardNum());
-			award.setAwardType(qianDao.getAwardType());
-			award.setDay(qianDao.getDay());
-			award.setId(qianDao.getId());
-			award.setMonth(qianDao.getMonth());
-			award.setVipDouble(qianDao.getVipDouble());
+			award.setAwardId(qianDao.awardId);
+			award.setAwardNum(qianDao.awardNum);
+			award.setAwardType(qianDao.awardType);
+			award.setDay(qianDao.day);
+			award.setId(qianDao.id);
+			award.setMonth(qianDao.month);
+			award.setVipDouble(qianDao.vipDouble);
 			setReturnAwardPieceNum(junZhu,award,qianDao);
 			// award.setState(isQiandaoByDate(qiandaoInfo, junZhu.id,
-			// qianDao.getMonth(), qianDao.getDay()));
+			// qianDao.month, qianDao.day));
 			// 添加奖励到账户
 			AwardTemp tmp = new AwardTemp();
-			tmp.setItemType(award.getAwardType());
-			tmp.setItemId(award.getAwardId());
-			tmp.setItemNum(award.getAwardNum());
+			tmp.itemType = award.getAwardType();
+			tmp.itemId = award.getAwardId();
+			tmp.itemNum = award.getAwardNum();
 			for (int i = 1; i <= awardCount; i++) {
 				response.addAward(award);// 添加到消息体
 				AwardMgr.inst.giveReward(session, tmp, junZhu);// 添加到账户
@@ -364,7 +367,7 @@ public class QiandaoMgr {
 			response.setResult(SUCCESS);
 			writeByProtoMsg(session, PD.S_QIANDAO_RESP, response);
 			// 签到任务
-			EventMgr.addEvent(ED.qiandao, new Object[]{junZhu.id});
+			EventMgr.addEvent(junZhu.id,ED.qiandao, new Object[]{junZhu.id});
 		}
 	}
 	
@@ -406,18 +409,18 @@ public class QiandaoMgr {
 		QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,jz.id);
 		if (null != qiandaoInfo) {
 			// 进入到了第二个月
-			if (isNextMonth(qiandaoInfo.getPreQiandao(), date)) {
-				qiandaoInfo.setLeijiQiandao(0);// 累计天数归0
-				qiandaoInfo.setQiandaoDate(""); // 签到日期清空
-				qiandaoInfo.setGetDoubleDate("");// 领取双倍奖励日期清空
+			if (isNextMonth(qiandaoInfo.preQiandao, date)) {
+				qiandaoInfo.leijiQiandao = 0;// 累计天数归0
+				qiandaoInfo.qiandaoDate = ""; // 签到日期清空
+				qiandaoInfo.getDoubleDate ="";// 领取双倍奖励日期清空
 				HibernateUtil.save(qiandaoInfo);
 			}
 		}
 		String[] qiandaoDayArr = qiandaoInfo.qiandaoDate == null ? null : qiandaoInfo.qiandaoDate.split("#");
 		//计算是否领取双倍
 		int result = 0; //成功
-		if(qianDao.getVipDouble() > 0){ //有双倍奖励
-			if(jz.vipLevel < qianDao.getVipDouble()){ //VIP等级不足一定没有双倍奖励
+		if(qianDao.vipDouble > 0){ //有双倍奖励
+			if(jz.vipLevel < qianDao.vipDouble){ //VIP等级不足一定没有双倍奖励
 				result = 1;
 			}else if(qiandaoDayArr != null && qiandaoDayArr.length > index){
 				String[] dateArr1 = qiandaoDayArr[index].split(":"); 
@@ -435,10 +438,10 @@ public class QiandaoMgr {
 		if(result == 0){ //领双倍
 			String[] dayArr = qiandaoDayArr[index].split(":");
 			//更新数据库
-			if(qiandaoInfo.getGetDoubleDate() == null || "".equals(qiandaoInfo.getDoubleDate)){
-				qiandaoInfo.setGetDoubleDate(dayArr[0] + ":"+ dayArr[1]);
+			if(qiandaoInfo.getDoubleDate == null || "".equals(qiandaoInfo.getDoubleDate)){
+				qiandaoInfo.getDoubleDate = dayArr[0] + ":"+ dayArr[1];
 			}else{
-				qiandaoInfo.setGetDoubleDate(qiandaoInfo.getGetDoubleDate()+ "#" + dayArr[0] + ":"+ dayArr[1]);
+				qiandaoInfo.getDoubleDate = qiandaoInfo.getDoubleDate+ "#" + dayArr[0] + ":"+ dayArr[1];
 			}
 			HibernateUtil.update(qiandaoInfo);
 			QiandaoAward.Builder award = QiandaoAward.newBuilder();
@@ -446,16 +449,16 @@ public class QiandaoMgr {
 			award.setId(index);
 			award.setMonth(Integer.parseInt(dayArr[0]));
 			award.setDay(Integer.parseInt(dayArr[1]));
-			award.setAwardType(awardList.get(index).getAwardType());
-			award.setAwardNum(awardList.get(index).getAwardNum());
-			award.setAwardId(awardList.get(index).getAwardId());
-			award.setBottomColor(awardList.get(index).getBottomColor());
+			award.setAwardType(awardList.get(index).awardType);
+			award.setAwardNum(awardList.get(index).awardNum);
+			award.setAwardId(awardList.get(index).awardId);
+			award.setBottomColor(awardList.get(index).bottomColor);
 			setReturnAwardPieceNum(jz,award,qianDao);
 			// 添加奖励到账户
 			AwardTemp tmp = new AwardTemp();
-			tmp.setItemType(award.getAwardType());
-			tmp.setItemId(award.getAwardId());
-			tmp.setItemNum(award.getAwardNum());
+			tmp.itemType = award.getAwardType();
+			tmp.itemId = award.getAwardId();
+			tmp.itemNum = award.getAwardNum();
 			resp.addAward(award);// 添加到消息体
 			AwardMgr.inst.giveReward(session, tmp, jz);// 添加到账户
 			logger.info("{}领取到奖励 type {}, itemId {}, itemNum {}",jz.id, award.getAwardType(), award.getAwardId(),award.getAwardNum());
@@ -509,15 +512,15 @@ public class QiandaoMgr {
 //	 * @param junZhu
 //	 * @return 0-不能补签；1-可以补签
 //	 */
-//	protected int getBuqianState(QiandaoInfo qiandaoInfo, QianDao qianDao,
+//	public int getBuqianState(QiandaoInfo qiandaoInfo, QianDao qianDao,
 //			JunZhu junZhu) {
 //		if (null == qiandaoInfo) {
 //			return 0;
 //		}
 //		int state = 0;
-//		if (junZhu.vipLevel >= qianDao.getVipDouble()
-//				&& !isGetDoubleByDate(qiandaoInfo, qianDao.getMonth(),
-//						qianDao.getDay())&&qianDao.getVipDouble()!=0) {
+//		if (junZhu.vipLevel >= qianDao.vipDouble
+//				&& !isGetDoubleByDate(qiandaoInfo, qianDao.month,
+//						qianDao.day)&&qianDao.vipDouble!=0) {
 //			// 满足条件
 //			// 1、vip等级满足双倍条件
 //			// 2、当天的没有领过双倍奖励
@@ -535,16 +538,16 @@ public class QiandaoMgr {
 	 * @param day
 	 * @return
 	 */
-	protected boolean isGetDoubleByDate(QiandaoInfo qiandaoInfo, int month,
+	public boolean isGetDoubleByDate(QiandaoInfo qiandaoInfo, int month,
 			int day) {
-		if (null == qiandaoInfo || qiandaoInfo.getQiandaoDate().equals("")) {
+		if (null == qiandaoInfo || qiandaoInfo.qiandaoDate.equals("")) {
 			return false;
 		}
-		if (null == qiandaoInfo.getGetDoubleDate()
-				|| qiandaoInfo.getGetDoubleDate().equals("")) {
+		if (null == qiandaoInfo.getDoubleDate
+				|| qiandaoInfo.getDoubleDate.equals("")) {
 			return false;
 		}
-		String[] dates = StringUtils.split(qiandaoInfo.getGetDoubleDate(), "#");// 获取领过双倍奖励的日期
+		String[] dates = StringUtils.split(qiandaoInfo.getDoubleDate, "#");// 获取领过双倍奖励的日期
 		for (String str : dates) {
 			if (null != str && str.length() > 0) {
 				int m = Integer.parseInt(StringUtils.split(str, ":")[0]);
@@ -571,7 +574,7 @@ public class QiandaoMgr {
 		}
 		if (null == qiandaoInfo) {// 签到信息为空，没有签到过
 			return false;
-		} else if (isSameDate(qiandaoInfo.getPreQiandao(), date)) {// 如果当前日期和上次签到日期是同一天
+		} else if (isSameDate(qiandaoInfo.preQiandao, date)) {// 如果当前日期和上次签到日期是同一天
 			return true;
 		}
 		return false;
@@ -584,7 +587,7 @@ public class QiandaoMgr {
 	 * @param after
 	 * @return
 	 */
-	protected boolean isNextMonth(Date pre, Date after) {
+	public boolean isNextMonth(Date pre, Date after) {
 		long preTmp = pre.getTime();
 		long afterTmp = after.getTime();
 		
@@ -609,14 +612,14 @@ public class QiandaoMgr {
 	 * @param b
 	 * @return
 	 */
-	protected boolean isSameDate(Date a, Date b) {
+	public boolean isSameDate(Date a, Date b) {
 		if (a == null || b == null) {
 			return false;
 		}
 		if(a.getMonth()!=b.getMonth()&&(b.getHours()<RESET_TIME||a.getHours()<RESET_TIME)){
 			return true;
 		}
-//		return a.getYear() == b.getYear() && a.getMonth() == b.getMonth()
+//		return a.getYear() == b.getYear() && a.month == b.month
 //				&& a.getDate() == b.getDate();
 		Date aTmp = new Date(a.getTime());
 		Date bTmp = new Date(b.getTime());
@@ -644,7 +647,7 @@ public class QiandaoMgr {
 	 * @param response
 	 * @return
 	 */
-	protected void writeByProtoMsg(IoSession session, int prototype,
+	public void writeByProtoMsg(IoSession session, int prototype,
 			Builder response) {
 		ProtobufMsg msg = new ProtobufMsg();
 		msg.id = prototype;
@@ -660,7 +663,7 @@ public class QiandaoMgr {
 	 * @param cmd
 	 * @param msg
 	 */
-	protected void sendError(IoSession session, int cmd, String msg) {
+	public void sendError(IoSession session, int cmd, String msg) {
 		ErrorMessage.Builder test = ErrorMessage.newBuilder();
 		test.setErrorCode(cmd);
 		test.setErrorDesc(msg);
@@ -698,7 +701,7 @@ public class QiandaoMgr {
 	 * 
 	 * @return
 	 */
-	protected int getYear(Date date) {
+	public int getYear(Date date) {
 		return date.getYear() + 1900;
 	}
 
@@ -707,7 +710,7 @@ public class QiandaoMgr {
 	 * 
 	 * @return
 	 */
-	protected int getMonth(Date date) {
+	public int getMonth(Date date) {
 		return date.getMonth() + 1;
 	}
 
@@ -716,24 +719,24 @@ public class QiandaoMgr {
 	 * 
 	 * @return
 	 */
-	protected int getDate(Date date) {
+	public int getDate(Date date) {
 		return date.getDate();
 	}
 
 	/**
 	 * 奖励排序比较器
 	 */
-	protected Comparator<QianDao> comparator = new Comparator<QianDao>() {
+	public Comparator<QianDao> comparator = new Comparator<QianDao>() {
 		public int compare(QianDao q1, QianDao q2) {
 			// 先排月份
-			if (q1.getMonth() != q2.getMonth()) {
-				return q1.getMonth() - q2.getMonth();
-			} else if (q1.getDay() != q2.getDay()) {
+			if (q1.month != q2.month) {
+				return q1.month - q2.month;
+			} else if (q1.day != q2.day) {
 				// 月份相同则按日期排序
-				return q1.getDay() - q2.getDay();
+				return q1.day - q2.day;
 			} else {
 				// 日期也相同则按id排序
-				return q1.getId() - q2.getId();
+				return q1.id - q2.id;
 			}
 		}
 	};
@@ -788,7 +791,7 @@ public class QiandaoMgr {
 		resp.setSuccess(0);
 		writeByProtoMsg(session, PD.qianDao_get_vip_present_resp, resp);
 		// 领取签到特权任务
-		EventMgr.addEvent(ED.qiandao_get_v, new Object[]{junZhu.id});
+		EventMgr.addEvent(junZhu.id,ED.qiandao_get_v, new Object[]{junZhu.id});
 	}
 
 	public boolean isGet(QianDaoPresent pre, int vip){
@@ -830,16 +833,19 @@ public class QiandaoMgr {
 	}
 	
 	public void setReturnAwardPieceNum(JunZhu jz,QiandaoAward.Builder resp,QianDao qianDao){
-		if(qianDao.getAwardType() == 4){ //将魂
-			MiBao mibao = MibaoMgr.mibaoMap.get(qianDao.getAwardId()); 
-			MibaoSuiPian suipian = MibaoMgr.inst.mibaoSuipianMap_2.get(mibao.getSuipianId());
-			String hql = "where ownerId = " + jz.id + " and tempId="+ mibao.getTempId() + " and level>0 and miBaoId>0";
-			MiBaoDB mibaoDB = HibernateUtil.find(MiBaoDB.class, hql);
+		if(qianDao.awardType == 4){ //将魂
+			final MiBao mibao = MibaoMgr.mibaoMap.get(qianDao.awardId); 
+			MibaoSuiPian suipian = MibaoMgr.inst.mibaoSuipianMap_2.get(mibao.suipianId);
+			/*
+			String hql = "where ownerId = " + jz.id 
+					+ " and tempId="+ mibao.tempId + " and level>0 and miBaoId>0";
+					*/
+			boolean has = MiBaoDao.inst.getMap(jz.id).values().stream()
+					.anyMatch(t->t.tempId==mibao.tempId && t.level>0 && t.miBaoId>0);
+					//HibernateUtil.find(MiBaoDB0.class, hql);
 			//判断将魂
-			if(qianDao.getAwardType() == 4){
-				if(mibaoDB != null){ //存在秘宝转为碎片
-					resp.setPieceNum(suipian.getFenjieNum());
-				}
+			if(has){ //存在秘宝转为碎片
+				resp.setPieceNum(suipian.fenjieNum);
 			}
 		}
 	}

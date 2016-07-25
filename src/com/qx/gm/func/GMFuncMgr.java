@@ -14,7 +14,7 @@ import com.qx.gm.util.CodeUtil;
 
 public class GMFuncMgr {
 	public static GMFuncMgr inst;
-	private Logger logger = LoggerFactory.getLogger(GMFuncMgr.class);
+	public Logger logger = LoggerFactory.getLogger(GMFuncMgr.class);
 
 	public GMFuncMgr() {
 		inst = this;

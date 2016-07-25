@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
 import com.qx.persistent.MCSupport;
 
 /**
@@ -13,11 +14,11 @@ import com.qx.persistent.MCSupport;
  */
 @Entity
 @Table(name = "EquipGrid")
-public class EquipGrid implements MCSupport {
+public class EquipGrid implements MCSupport ,DBHash {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1193514388284900931L;
+	public static final long serialVersionUID = 1193514388284900931L;
 	@Id
 	public long dbId;
 	/**
@@ -31,5 +32,9 @@ public class EquipGrid implements MCSupport {
 	@Override
 	public long getIdentifier() {
 		return dbId;
+	}
+	@Override
+	public long hash() {
+		return dbId/EquipMgr.spaceFactor;
 	}
 }

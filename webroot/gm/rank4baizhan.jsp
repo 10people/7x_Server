@@ -122,7 +122,7 @@
 			trS();
 			td(rank);
 			td(jz.name);
-			td(PvpMgr.inst.getJunxian(jz));
+			td(PvpMgr.inst.getJunXianName(jz.id));
 			td(PvpMgr.inst.getPvpRankById(jzId));
 			PvpBean bean = HibernateUtil.find(PvpBean.class, jzId);
 			if(bean!=null){

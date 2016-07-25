@@ -134,7 +134,7 @@
 		Account account = HibernateUtil.getAccount(actName);
 		if(account!=null){
 			session.setAttribute("name",actName);
-			long junzhuId = account.getAccountId()* 1000 + GameServer.serverId;
+			long junzhuId = account.accountId* 1000 + GameServer.serverId;
 			JunZhu junzhu = HibernateUtil.find(JunZhu.class, junzhuId);
 			if(junzhu == null) {
 				out.println("找不到君主，junzhuId:" + junzhuId);
@@ -287,12 +287,12 @@
 						trS();
 							Fuwen fuwenCfg = FuwenMgr.inst.fuwenMap.get(fuwenLanwei.getItemId()); 
 							td(fuwenLanwei.getLanweiId());td(fuwenLanwei.getItemId());
-							td(HeroService.getNameById(fuwenCfg == null ? "无":fuwenCfg.getName()+""));
+							td(HeroService.getNameById(fuwenCfg == null ? "无":fuwenCfg.name+""));
 							td(fuwenLanwei.getExp());td(fuwenLanwei.getFlag());
 							if(fuwenCfg == null) {
 								td("无");td("无");
 							} else {
-								td(HeroService.getNameById(fuwenCfg.getShuxingName()+""));td(fuwenCfg.getShuxingValue());
+								td(HeroService.getNameById(fuwenCfg.shuxingName+""));td(fuwenCfg.shuxingValue);
 							}
 						trE();
 					}

@@ -106,7 +106,7 @@
 					continue;
 				}
 				trS();
-				ChongLouRecord chongLouRecord = ChongLouMgr.inst.getChongLouRecord(jz);
+				ChongLouRecord chongLouRecord = ChongLouMgr.inst.getChongLouRecord(jz.id);
 				// 去掉等级限制，否则会出排行榜数据显示排行和redis中数据不符合的bug
 				if (rank <= RankingMgr.RANK_MAXNUM) {// 过滤筛选范围
 					rank += 1;

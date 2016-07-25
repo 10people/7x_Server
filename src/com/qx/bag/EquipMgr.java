@@ -3,8 +3,10 @@ package com.qx.bag;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.collections.map.LRUMap;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,10 +53,19 @@ public class EquipMgr extends EventProc{
 	public static EquipMgr inst;
 	/** 装备部位：头部*/
 	public static final byte EQUIP_HEAD = 11;
+	public static boolean useCache = true;
+	public static Map<Long, Bag<EquipGrid>> equipCache = Collections.synchronizedMap(new LRUMap(1000));
+	
 	public EquipMgr(){
 		inst = this;
 	}
 	public Bag<EquipGrid> loadEquips(long pid){
+		if(useCache){
+			Bag<EquipGrid> bag = equipCache.get(pid);
+			if( bag!= null ){
+				return bag;
+			}
+		}
 		long base = pid * spaceFactor;
 		long start = base;
 		long end = start + maxGridCount - 1;
@@ -86,8 +97,35 @@ public class EquipMgr extends EventProc{
 		Bag<EquipGrid> bag = new Bag<EquipGrid>();
 		bag.grids = list;
 		bag.ownerId = pid;
+		if(useCache){
+			equipCache.put(pid, bag);
+		}
 		return bag;
 	}
+	public EquipGrid findEquip(long pid , long equipDbId ){
+		EquipGrid res = null ;
+		Bag<EquipGrid> equips =  loadEquips( pid );
+		for(EquipGrid eg: equips.grids){
+			if(eg != null && eg.dbId == equipDbId){
+				res = eg;
+				break;
+			}
+		}
+		return res;
+	}
+	
+	public EquipGrid findEquip(long pid , int equipTempId ){
+		EquipGrid res = null ;
+		Bag<EquipGrid> equips =  loadEquips( pid );
+		for(EquipGrid eg: equips.grids){
+			if(eg != null && eg.itemId == equipTempId){
+				res = eg;
+				break;
+			}
+		}
+		return res;
+	}
+	
 	public Bag<EquipGrid> initEquip(long pid){
 		long base = pid * spaceFactor;
 		List<EquipGrid> list = new ArrayList<EquipGrid>(9);
@@ -118,6 +156,9 @@ public class EquipMgr extends EventProc{
 		Bag<EquipGrid> bag = new Bag<EquipGrid>();
 		bag.grids = list;
 		bag.ownerId = pid;
+		if(useCache){
+			equipCache.put(pid, bag);
+		}
 		return bag;
 	}
 	public List<EquipGrid> loadFromDB(long base, long start, long end) {
@@ -188,8 +229,6 @@ public class EquipMgr extends EventProc{
 		BagMgr.inst.sendBagInfo(session, bag);
 		BagMgr.inst.sendEquipInfo(session, equips);
 		JunZhuMgr.inst.sendMainInfo(session,jz);
-		// 刷新君主榜
-		EventMgr.addEvent(ED.JUN_RANK_REFRESH, jz);
 	}
 	public boolean isBagFull(Bag<BagGrid> bag){
 		return bag.grids.size()>=BagMgr.maxGridCount;
@@ -207,6 +246,10 @@ public class EquipMgr extends EventProc{
 			return;
 		}
 		Optional<BagGrid> optional = bag.grids.stream().filter(item -> item.dbId == bagDBId).findFirst();
+		if(optional.isPresent()==false){
+			log.error("grid not exists at dbId:{},", bagDBId);
+			return;
+		}
 		BagGrid bg = optional.get();
 		if(bg == null){
 			log.error("grid is null at dbId:{},空的格1", bagDBId);
@@ -268,6 +311,10 @@ public class EquipMgr extends EventProc{
 			eg.itemId = bg.itemId;
 			MC.add(eg, eg.dbId);
 			HibernateUtil.insert(eg);
+			if(useCache){
+				Bag<EquipGrid> equipBag = loadEquips(junZhu.id);
+				equipBag.grids.add(eg);
+			}
 			equips.grids.set(slot, eg);
 			
 //			bg.instId = bg.itemId = bg.cnt = 0;
@@ -304,12 +351,12 @@ public class EquipMgr extends EventProc{
 			int afterLevel = 0; // 初始等級為0
 			int afterExp = qhTotalExp;
 			for (ExpTemp temp : expTemps) {
-				if (temp.getNeedExp() == -1) {// 表示满级
+				if (temp.needExp == -1) {// 表示满级
 					break;
 				}
-				if (afterExp >= temp.getNeedExp()) {
+				if (afterExp >= temp.needExp) {
 					afterLevel += 1;
-					afterExp -= temp.getNeedExp();
+					afterExp -= temp.needExp;
 				}
 			}
 			// 获取强化洗练信息
@@ -323,18 +370,18 @@ public class EquipMgr extends EventProc{
 				} 
 				//记录旧的进阶经验，并且加上被替换的装备的进阶经验
 				int jinjieExp = dbUe.JinJieExp+TempletService.getInstance().getZhuangBei(preEg.itemId).exp;
-				dbUe.setTemplateId(targetZb.getId());
-				dbUe.setLevel(afterLevel);	
-				dbUe.setExp(afterExp);
+				dbUe.templateId = targetZb.getId();
+				dbUe.level = afterLevel;	
+				dbUe.exp = afterExp;
 				dbUe.JinJieExp = jinjieExp ;
 				HibernateUtil.save(dbUe);
 			}else{
 				dbUe = new UserEquip();
 				int jinjieExp = TempletService.getInstance().getZhuangBei(preEg.itemId).exp;
-				dbUe.setUserId(junZhu.id);
-				dbUe.setTemplateId(targetZb.getId());
-				dbUe.setLevel(afterLevel);	
-				dbUe.setExp(afterExp);
+				dbUe.userId = junZhu.id;
+				dbUe.templateId = targetZb.getId();
+				dbUe.level = afterLevel;	
+				dbUe.exp = afterExp;
 				dbUe.JinJieExp = jinjieExp ;
 				HibernateUtil.insert(dbUe);
 				MC.add(dbUe, dbUe.getIdentifier());
@@ -363,9 +410,7 @@ public class EquipMgr extends EventProc{
 		//BagMgr.inst.sendBagInfo(session, bag);
 		JunZhuMgr.inst.sendMainInfo(session,junZhu);
 		// 事件管理中添加穿装备事件
-		EventMgr.addEvent(ED.EQUIP_ADD, new Object[]{equips.ownerId, zb.getId(), equips});
-		// 刷新君主榜
-		EventMgr.addEvent(ED.JUN_RANK_REFRESH, junZhu);
+		EventMgr.addEvent(junZhu.id,ED.EQUIP_ADD, new Object[]{equips.ownerId, zb.getId(), equips});
 	}
 	public void 第一次得到弓配合刘畅播放语音(JunZhu junZhu, ZhuangBei zb) {
 		try{
@@ -382,7 +427,7 @@ public class EquipMgr extends EventProc{
 		}
 	}
 	
-	protected boolean isChangeEquip(int curItemId, int targetItemId) {
+	public boolean isChangeEquip(int curItemId, int targetItemId) {
 		ZhuangBei curZb = TempletService.equipMaps.get(curItemId);
 		if(curZb == null) {
 			log.error("找不到zhuangbei配置，zhuangBeiId:{}", curItemId);
@@ -405,7 +450,7 @@ public class EquipMgr extends EventProc{
 	}
 	
 	
-	protected int getQiangHuaTotalExp(int zhuangBeiId, long instId){
+	public int getQiangHuaTotalExp(int zhuangBeiId, long instId){
 		ZhuangBei zbCfg = TempletService.equipMaps.get(zhuangBeiId);
 		if(zbCfg == null) {
 			log.error("找不到zhuangbei配置，zhuangBeiId:{}", zhuangBeiId);
@@ -421,13 +466,13 @@ public class EquipMgr extends EventProc{
 			log.error("找不到ExpTemp id为{}的配置信息", zbCfg.getExpId());
 			return 0;
 		}
-		int curQHLevel = ue.getLevel();
+		int curQHLevel = ue.level;
 		for(ExpTemp et : expCfgList) {
-			if(et.getLevel() < curQHLevel) {
-				totalExp += et.getNeedExp();
+			if(et.level < curQHLevel) {
+				totalExp += et.needExp;
 			}
 		}
-		totalExp += ue.getExp();
+		totalExp += ue.exp;
 		return totalExp;
 	}
 	
@@ -510,9 +555,9 @@ public class EquipMgr extends EventProc{
 				break;
 			}
 		}
-		SessionUser su = SessionManager.inst.findByJunZhuId(pid);
-		if(su != null && su.session!=null && su.session.isConnected()==true){
-			BagMgr.inst.sendEquipInfo(0, su.session, null);
+		IoSession su = SessionManager.inst.findByJunZhuId(pid);
+		if(su != null &&  su.isConnected()==true){
+			BagMgr.inst.sendEquipInfo(0, su, null);
 		}
 	}
 	
@@ -544,7 +589,7 @@ public class EquipMgr extends EventProc{
 	}
 	
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.PVE_GUANQIA, this);
 	}
 	

@@ -13,7 +13,7 @@ public class YaBiaoHistory implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 1L;
 	public long junzhuId;
 	public int junzhuZhanLi;
 	public int junzhuLevel;

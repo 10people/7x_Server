@@ -57,13 +57,13 @@ public class ActivityMgr extends EventProc{
 		List<HuoDong> activityList = TempletService.listAll(HuoDong.class
 				.getSimpleName());
 		for (HuoDong huoDong : activityList) {
-			activityMap.put(huoDong.getId(), huoDong);
+			activityMap.put(huoDong.id, huoDong);
 		}
 		// 加载活动描述
 		List<DescId> descList = TempletService.listAll(DescId.class
 				.getSimpleName());
 		for (DescId desc : descList) {
-			descMap.put(desc.getDescId(), desc);
+			descMap.put(desc.descId, desc);
 		}
 	}
 
@@ -264,7 +264,7 @@ public class ActivityMgr extends EventProc{
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 	}
 	

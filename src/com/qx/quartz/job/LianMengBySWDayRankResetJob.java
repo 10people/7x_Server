@@ -10,11 +10,11 @@ import com.qx.event.ED;
 import com.qx.event.EventMgr;
 
 public class LianMengBySWDayRankResetJob implements Job {
-	private Logger log = LoggerFactory.getLogger(LianMengBySWDayRankResetJob.class);
+	public Logger log = LoggerFactory.getLogger(LianMengBySWDayRankResetJob.class);
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		// 联盟声望榜日榜重置
-		EventMgr.addEvent(ED.LIANMENG_DAY_RANK_RESET, null);
+		EventMgr.addEvent(2,ED.LIANMENG_DAY_RANK_RESET, null);
 		log.info("联盟声望日榜开始重置");
 	}
 }

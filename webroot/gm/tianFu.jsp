@@ -55,8 +55,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     %>没有找到<%
     }else{
         session.setAttribute("name", name);
-        %><br>注册账号：<%=account.getAccountName()%><br> 账号id：<%=account.getAccountId()%><%
-         long junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+        %><br>注册账号：<%=account.accountName%><br> 账号id：<%=account.accountId%><%
+         long junZhuId = account.accountId * 1000 + GameServer.serverId;
          JunZhu junzhu = HibernateUtil.find(JunZhu.class, junZhuId);
          if(junzhu == null){
             out.println("没有君主");
@@ -76,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 	ta.wuYiJingQi += v;
                 	HibernateUtil.save(ta);
                  }
-                 TalentMgr.instance.noticeTalentCanLevUp(junzhu.id);
+                 TalentMgr.instance.noticeTalentCanLevUp(junzhu);
              }
              if("addjingongdianshu".equals(action)){
                  int v = Integer.parseInt(request.getParameter("v"));
@@ -89,7 +89,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     ta.jinGongDianShu += v;
                     HibernateUtil.save(ta);
                  }
-                 TalentMgr.instance.noticeTalentCanLevUp(junzhu.id);
+                 TalentMgr.instance.noticeTalentCanLevUp(junzhu);
              }
              if("addtipojingqi".equals(action)){
                  int v = Integer.parseInt(request.getParameter("v"));
@@ -102,7 +102,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     ta.tiPoJingQi += v;
                     HibernateUtil.save(ta);
                  }
-                 TalentMgr.instance.noticeTalentCanLevUp(junzhu.id);
+                 TalentMgr.instance.noticeTalentCanLevUp(junzhu);
              }
              if("addfangshoudianshu".equals(action)){
                  int v = Integer.parseInt(request.getParameter("v"));
@@ -115,7 +115,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     ta.fangShouDianShu += v;
                     HibernateUtil.save(ta);
                  }
-                 TalentMgr.instance.noticeTalentCanLevUp(junzhu.id);
+                 TalentMgr.instance.noticeTalentCanLevUp(junzhu);
              } else if("upgradePointId".equals(action)) {
                  int v = Integer.parseInt(request.getParameter("v"));
             	 TalentUpLevelReq.Builder upgradeReq = TalentUpLevelReq.newBuilder();

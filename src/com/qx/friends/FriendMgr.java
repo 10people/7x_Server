@@ -22,6 +22,8 @@ import com.manu.network.SessionAttKey;
 import com.manu.network.SessionManager;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.alliance.AllianceBean;
+import com.qx.alliance.AllianceBeanDao;
+import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
@@ -212,19 +214,17 @@ public class FriendMgr {
 					// String jxStr = bz == null ? "???" : HeroService
 					// .getNameById(bz.name);
 					// fjz.setJunXian(jxStr);
-					fjz.setJunXian(String.valueOf(PvpMgr.getJunxianLevel(friend.id)));
+					fjz.setJunXian(String.valueOf(PvpMgr.inst.getJunxianLevel(friend.id)));
 					fjz.setName(friend.name);
 					fjz.setLevel(friend.level);
 					fjz.setOwnerid(friend.id);
 					fjz.setVipLv(friend.vipLevel);
 					fjz.setZhanLi(PvpMgr.inst.getZhanli(friend));
-					AlliancePlayer member = HibernateUtil.find(
-							AlliancePlayer.class, friend.id);
+					AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(friend.id);
 					if (member == null || member.lianMengId <= 0) {
 						fjz.setLianMengName("");
 					} else {
-						AllianceBean alnc = HibernateUtil.find(
-								AllianceBean.class, member.lianMengId);
+						AllianceBean alnc = AllianceBeanDao.inst.getAllianceBean(member.lianMengId);
 						fjz.setLianMengName(alnc == null ? "" : alnc.name);
 					}
 					//2016年3月25日 加入是否在线 和离线时间显示 但是明确不要按照离线时间相关的排序 只按照加入好友的时间排序 最新的好友在上面

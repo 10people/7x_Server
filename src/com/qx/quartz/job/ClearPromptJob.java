@@ -1,5 +1,7 @@
 package com.qx.quartz.job;
 
+import java.io.File;
+
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -12,11 +14,13 @@ import com.qx.prompt.PromptMsgMgr;
 import com.qx.prompt.SuBaoConstant;
 
 public class ClearPromptJob implements Job {
-	private Logger log = LoggerFactory.getLogger(ClearPromptJob.class.getSimpleName());
+	public Logger log = LoggerFactory.getLogger(ClearPromptJob.class.getSimpleName());
 	public 	 StringBuffer sql=  new StringBuffer();
 	public static boolean doIt = true;
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
+		//windows服务器不执行这里的逻辑。doIt会变为false
+		doIt = File.separatorChar == '/';
 		if(doIt == false)return;
 		log.info("开始清理3分钟失效的通知");
  		String timeStr=DateUtils.getNSecondsAgo(SuBaoConstant.clearSecondsDistance);

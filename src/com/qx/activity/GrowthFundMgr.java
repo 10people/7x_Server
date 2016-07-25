@@ -25,6 +25,7 @@ import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.timeworker.FunctionID;
+import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
 
 import EDU.oswego.cs.dl.util.concurrent.Executor;
@@ -49,7 +50,7 @@ public class GrowthFundMgr extends EventProc{
 		czMap = new HashMap<Integer,ChengZhangJiJin>();
 		if(list != null){
 			for (ChengZhangJiJin chengZhangJiJin : list) {
-				czMap.put(chengZhangJiJin.getLevel(),chengZhangJiJin);
+				czMap.put(chengZhangJiJin.level,chengZhangJiJin);
 			}
 		}
 	}
@@ -88,7 +89,7 @@ public class GrowthFundMgr extends EventProc{
 			return;
 		}
 		//扣元宝
-		YuanBaoMgr.inst.diff(jz,-costYuanbao,0,0,0,"购买成长基金");
+		YuanBaoMgr.inst.diff(jz,-costYuanbao,0,0,YBType.ACTIVITY_BUYJIJIN,"购买成长基金");
 		JunZhuMgr.inst.sendMainInfo(session,jz,false); //通知前端
 		//更新数据库
 		gBuyBean = new GrowthFundBuyBean();
@@ -96,7 +97,7 @@ public class GrowthFundMgr extends EventProc{
 		gBuyBean.jzId = jz.id;
 		HibernateUtil.insert(gBuyBean);
 		//刷新红点
-		EventMgr.addEvent(ED.activity_chengzhangjijin, new Object[]{session,jz});
+		EventMgr.addEvent(jz.id,ED.activity_chengzhangjijin, new Object[]{session,jz});
 		//成功返回
 		resp.setResult(0);//返回  0-成功
 		msgSend(PD.ACTIVITY_GROWTHFUND_BUY_RESP,session,resp);
@@ -121,16 +122,16 @@ public class GrowthFundMgr extends EventProc{
 		}
 		List<ChengZhangJiJin> list = TempletService.getInstance().listAll(ChengZhangJiJin.class.getSimpleName());
 		for (ChengZhangJiJin chengZhangJiJin : list) {
-			if(searchMap.containsKey(chengZhangJiJin.getLevel())) continue; //领取不显示
+			if(searchMap.containsKey(chengZhangJiJin.level)) continue; //领取不显示
 			GrowLevel.Builder oneInfo = GrowLevel.newBuilder();
-			oneInfo.setId(chengZhangJiJin.getLevel());
-			oneInfo.setDes(chengZhangJiJin.getDesc());
+			oneInfo.setId(chengZhangJiJin.level);
+			oneInfo.setDes(chengZhangJiJin.desc);
 			oneInfo.setProcess(jz.level);
-			oneInfo.setMaxProcess(chengZhangJiJin.getLevel());
+			oneInfo.setMaxProcess(chengZhangJiJin.level);
 			oneInfo.setFunctionid(-1); //不跳转
 			//奖励
 			Award.Builder award = Award.newBuilder();
-			String[] itemArr = chengZhangJiJin.getAward().split(":");
+			String[] itemArr = chengZhangJiJin.award.split(":");
 			award.setItemType(Integer.parseInt(itemArr[0]));
 			award.setItemId(Integer.parseInt(itemArr[1]));
 			award.setItemNumber(Integer.parseInt(itemArr[2]));
@@ -216,7 +217,7 @@ public class GrowthFundMgr extends EventProc{
 		String[] itemArr = czMap.get(level).award.split(":");
 		AwardMgr.inst.giveReward(session,czMap.get(level).award,jz);
 		//刷新红点
-		EventMgr.addEvent(ED.activity_chengzhangjijin, new Object[]{session,jz});
+		EventMgr.addEvent(jz.id,ED.activity_chengzhangjijin, new Object[]{session,jz});
 		//奖励弹窗消息
 		ExploreResp.Builder awardresp = ExploreResp.newBuilder();
 		awardresp.setSuccess(0);
@@ -258,7 +259,7 @@ public class GrowthFundMgr extends EventProc{
 		}
 		boolean isShow = false;
 		for (ChengZhangJiJin chengZhangJiJin : list) {
-			if(searchMap.containsKey(chengZhangJiJin.getLevel())) continue; //领取不显示
+			if(searchMap.containsKey(chengZhangJiJin.level)) continue; //领取不显示
 			isShow =true;
 		}
 		return isShow;
@@ -267,12 +268,11 @@ public class GrowthFundMgr extends EventProc{
 	public void proc(Event event) {
 		switch (event.id) {
 		case ED.JUNZHU_LOGIN:{
-			long jzId = (long)event.param;
-			IoSession session = AccountManager.sessionMap.get(jzId);
+			JunZhu jz = (JunZhu) event.param;
+			IoSession session = AccountManager.sessionMap.get(jz.id);
 			if(session == null){
 				return;
 			}
-			JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 			isShowRed(session,jz);
 		}
 		break;
@@ -302,7 +302,7 @@ public class GrowthFundMgr extends EventProc{
 		}
 	}
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.JUNZHU_LOGIN,this);
 		EventMgr.regist(ED.junzhu_level_up,this);
 		EventMgr.regist(ED.activity_chengzhangjijin, this);
@@ -328,8 +328,8 @@ public class GrowthFundMgr extends EventProc{
 		}
 		List<ChengZhangJiJin> list = TempletService.getInstance().listAll(ChengZhangJiJin.class.getSimpleName());
 		for (ChengZhangJiJin chengZhangJiJin : list) {
-			if(searchMap.containsKey(chengZhangJiJin.getLevel())) continue; //领取不显示
-			if(jz.level >= chengZhangJiJin.getLevel()){
+			if(searchMap.containsKey(chengZhangJiJin.level)) continue; //领取不显示
+			if(jz.level >= chengZhangJiJin.level){
 				FunctionID.pushCanShowRed(jz.id,session,FunctionID.activity_chengzhangjijin);
 				break;
 			}

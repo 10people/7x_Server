@@ -61,7 +61,7 @@ public class FengShanMgr extends EventProc{
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.HUOYUE_CHANGE, this);
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 	}
@@ -152,7 +152,7 @@ public class FengShanMgr extends EventProc{
 			return;
 		}
 		long jzId=jz.id;
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jzId);
+		AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(jzId);
 		if (member == null || member.lianMengId <= 0) {
 			sendError(id, session, "您不在联盟中。");
 			return;
@@ -211,7 +211,7 @@ public class FengShanMgr extends EventProc{
 			return;
 		}
 		long jzId=jz.id;
-		AlliancePlayer member = HibernateUtil.find(AlliancePlayer.class, jzId);
+		AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(jzId);
 		if (member == null || member.lianMengId <= 0) {
 			sendError(id, session, "您不在联盟中。");
 			return;
@@ -329,21 +329,20 @@ public class FengShanMgr extends EventProc{
 		if(!isOpen){
 			return;
 		}
-		SessionUser su = SessionManager.inst.findByJunZhuId(jzId);
+		IoSession su = SessionManager.inst.findByJunZhuId(jzId);
+		if(su == null){
+			return;
+		}
 		//封禅活动1
 		LianmengFengshan fsConf1=LianmengFengshanMap.get(1);
 		FengshanBean fsBean =getFengShanBean(jzId);
 		if(huoyue>=fsConf1.huoyuedu&&!fsBean.isGetFengShan1){
-			if(su.session!=null){
-				FunctionID.pushCanShowRed(jzId,su.session, FunctionID.FengShanDaDian);
-			}
+			FunctionID.pushCanShowRed(jzId,su, FunctionID.FengShanDaDian);
 		}
 		//刷新封禅活动2
 		LianmengFengshan fsConf2=LianmengFengshanMap.get(2);
 		if(huoyue>=fsConf2.huoyuedu&&!fsBean.isGetFengShan2){
-			if(su.session!=null){
-				FunctionID.pushCanShowRed(jzId,su.session, FunctionID.FengShanShengDian);
-			}
+			FunctionID.pushCanShowRed(jzId,su, FunctionID.FengShanShengDian);
 		}
 	}
 

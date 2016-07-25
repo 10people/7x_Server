@@ -52,7 +52,7 @@ public class GameServer {
 	public static int SAVE_DB_INTERVAL = 30 * 1000; // 定时回写周期
 	public static int userDataExpiredTime = 30 * 60 * 1000; // 30min
 	public static Config cfg;
-	protected static Logger log = LoggerFactory.getLogger(GameServer.class);
+	public static Logger log = LoggerFactory.getLogger(GameServer.class);
 	// 服务器名称
 	public static String serverName = "";
 	

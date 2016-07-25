@@ -1,9 +1,9 @@
 package com.qx.util;
 
 public class MySysTime {
-	private  long timeCount;
-	private static MySysTime instance;  
-	private MySysTime (){
+	public  long timeCount;
+	public static MySysTime instance;  
+	public MySysTime (){
 		this.setTimeCount(0);
 	}
 	public static synchronized MySysTime getInstance() {  

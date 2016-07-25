@@ -11,7 +11,7 @@ import java.nio.charset.Charset;
  */
 public class ByteBufferUtil {
 
-	private static final String NULL_STR = "";
+	public static final String NULL_STR = "";
 
 	/**
 	 * 将String对象放入ByteBuffer中

@@ -12,7 +12,7 @@ public class TalentAttr implements MCSupport{
 	/**
 	 * @Fields serialVersionUID : TODO x
 	 */
-	private static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 1L;
 	@Id
 	public long junId;
 	// 武艺精气值

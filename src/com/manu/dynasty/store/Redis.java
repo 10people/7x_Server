@@ -25,10 +25,10 @@ import com.manu.dynasty.boot.GameServer;
 import com.manu.dynasty.util.ProtobufUtils;
 
 public class Redis {
-	private static Redis instance;
+	public static Redis instance;
 	public static Logger log = LoggerFactory.getLogger(Redis.class);
 
-	private RedisPubSubListener redisListener;
+	public RedisPubSubListener redisListener;
 
 	public static Redis getInstance() {
 		if (instance == null) {
@@ -39,7 +39,7 @@ public class Redis {
 		return instance;
 	}
 
-	private JedisPool pool;
+	public JedisPool pool;
 
 	public String host;
 
@@ -54,7 +54,7 @@ public class Redis {
 		return this.pool.getResource();
 	}
 
-	private void init() {
+	public void init() {
 		String redisServer = GameServer.cfg.get("redisServer");
 		if (redisServer == null) {
 			redisServer = "localhost:6379";

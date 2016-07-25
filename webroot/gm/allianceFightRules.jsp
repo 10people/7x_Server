@@ -45,7 +45,7 @@
 			tableStart();
 				trS();td("规则id");td("规则名称");td("规则值");trE();
 				for(AllianceFightRules rule : ruleList) {
-					trS();td(rule.getId());td(rule.getRuleName());td(rule.getRuleValue());trE();
+					trS();td(rule.id);td(rule.ruleName);td(rule.ruleValue);trE();
 				}
 			tableEnd();
 		}

@@ -13,10 +13,11 @@ import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceConstants;
 import com.qx.alliance.AllianceVoteMgr;
 import com.qx.junzhu.PlayerTime;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 
 public class AllianceVoteJob implements Job {
-	private Logger logger = LoggerFactory.getLogger(AllianceVoteJob.class);
+	public Logger logger = LoggerFactory.getLogger(AllianceVoteJob.class);
 	
 	@Override
 	public void execute(JobExecutionContext context) {
@@ -30,9 +31,10 @@ public class AllianceVoteJob implements Job {
 				PlayerTime playerTime = HibernateUtil.find(PlayerTime.class, junzhuId);
 				if (null == playerTime) {
 					playerTime = new PlayerTime(junzhuId);
+					Cache.playerTimeCache.put(junzhuId, playerTime);
 					HibernateUtil.insert(playerTime);
 				}
-				Date lastLogoutTime = playerTime.getLogoutTime();
+				Date lastLogoutTime = playerTime.logoutTime;
 				differDays = DateUtils.daysBetween(lastLogoutTime, curDate);
 				if (differDays >= 7) {
 					ab.status = AllianceConstants.STATUS_APPLY;

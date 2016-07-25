@@ -49,17 +49,17 @@
 	if(name != null && name.length()>0){
 		account = HibernateUtil.getAccount(name);
 		if(account!=null){
-			ownerid = ""+(account.getAccountId()*1000+GameServer.serverId);
+			ownerid = ""+(account.accountId*1000+GameServer.serverId);
 		}
 	}else if(ownerid != null && ownerid.length()>0){
 		account = HibernateUtil.find(Account.class, (Long.valueOf(ownerid) - GameServer.serverId) / 1000);
-		if(account != null)name = account.getAccountName();
+		if(account != null)name = account.accountName;
 	}
 	if(account == null){
 		%><p>没有找到账号</p><%
 	}else{
 		session.setAttribute("name", name);
-		SessionUser sessionUser = SessionManager.inst.findByJunZhuId(Long.valueOf(ownerid));
+		IoSession sessionUser = SessionManager.inst.findByJunZhuId(Long.valueOf(ownerid));
 		if(null==sessionUser){
 			%>
 			<p>用户未登录</p>
@@ -75,7 +75,7 @@
 				<th>协议内容</th>
 			</tr>
 			<%
-			List list = LogMgr.inst.getSendProtoLog(sessionUser.session);
+			List list = LogMgr.inst.getSendProtoLog(sessionUser);
 			if(null==list){
 				%>
 				<tr><td colspan="4"><p>没有协议号记录</p></td></tr>
@@ -117,7 +117,7 @@
 						<td>
 							<form action="sendProtoMsg.jsp" method="post">
 								<input type="hidden" name="index" value='<%=i %>'>
-								<input type="hidden" name="sessionId" value='<%=sessionUser.session.getId() %>'>
+								<input type="hidden" name="sessionId" value='<%=sessionUser.getId() %>'>
 								<button type="submit">查看</button>
 							</form>
 						</td>

@@ -62,17 +62,17 @@ function go(act){
 		//HibernateUtil.saveAccount(name);
 			} else {
 				session.setAttribute("name", name);
-	%><%=account.getAccountId()%>:<%=account.getAccountName()%>
+	%><%=account.accountId%>:<%=account.accountName%>
 	<br /> 经脉--------------
 	<br />
 	<%
-		JmBean bean = HibernateUtil.find(JmBean.class, account.getAccountId());
+		JmBean bean = HibernateUtil.find(JmBean.class, account.accountId);
 		if(bean == null){
 			out.println("没有经脉数据。<br/>");
 			out.println("<a href='?action=createBean'>创建</a>");
 			if("createBean".equals(request.getParameter("action"))){
 				bean = new JmBean();
-				bean.dbId = account.getAccountId();
+				bean.dbId = account.accountId;
 				bean.daMai = 1;
 				bean.zhouTian = 1;
 				bean.xueWei = new int[20];

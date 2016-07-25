@@ -17,11 +17,11 @@
 //Scene.getInstance().exec(PD.Enter_Scene, null, null);
 //out.println("22");
 
-SessionUser ss = SessionManager.getInst().findByJunZhuId(553002L   );
+IoSession ss = SessionManager.getInst().findByJunZhuId(553002L   );
 if(ss == null){
 	out("null");
 }else{
-	ss.session.write(PD.S_ACC_login_kick);
+	ss.write(PD.S_ACC_login_kick);
 	out("kick");
 }
 %>

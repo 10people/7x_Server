@@ -25,10 +25,13 @@ import com.qx.activity.XianShiActivityMgr;
 import com.qx.event.EventMgr;
 import com.qx.guojia.GuoJiaMgr;
 import com.qx.http.EndServ;
+import com.qx.persistent.DBSaver;
 import com.qx.persistent.HibernateUtil;
 import com.qx.prompt.PromptMsgMgr;
 import com.qx.pvp.LveDuoMgr;
 import com.qx.quartz.SchedulerMgr;
+import com.qx.task.GameTaskMgr;
+import com.qx.util.DelayedSQLMgr;
 import com.qx.util.TableIDCreator;
 import com.qx.yuanbao.TXQueryMgr;
 
@@ -59,7 +62,6 @@ public class InitServlet implements Servlet{
 		EndServ ser = new EndServ();
 		ser.start();
 		log.info("================game server begin to shutdown================");
-		EventMgr.inst.work = false;
 		EventMgr.shutdown();
 		BigSwitch.inst.houseMgr.shutdown();
 		BigSwitch.inst.ybMgr.shutdown();
@@ -79,6 +81,9 @@ public class InitServlet implements Servlet{
 		PromptMsgMgr.inst.shutdown();
 		Redis.destroy(); 
 		HibernateUtil.getSessionFactory().close();
+		DBSaver.inst.shutdown();
+		DelayedSQLMgr.es.shutdown();
+		GameTaskMgr.es.shutdown();
 		log.info("================game server shutdown ok================");
 	}
 

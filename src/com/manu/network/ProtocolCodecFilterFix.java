@@ -96,8 +96,8 @@ public class ProtocolCodecFilterFix extends ProtocolCodecFilter{
             throw pee;
         }
     }
-	 private final AttributeKey ENCODER_OUT = new AttributeKey(ProtocolCodecFilter.class, "encoderOut");
-	private ProtocolEncoderOutput getEncoderOut(IoSession session, NextFilter nextFilter, WriteRequest writeRequest) {
+	 public final AttributeKey ENCODER_OUT = new AttributeKey(ProtocolCodecFilter.class, "encoderOut");
+	public ProtocolEncoderOutput getEncoderOut(IoSession session, NextFilter nextFilter, WriteRequest writeRequest) {
         ProtocolEncoderOutput out = (ProtocolEncoderOutput) session.getAttribute(ENCODER_OUT);
 
         if (out == null) {
@@ -108,13 +108,13 @@ public class ProtocolCodecFilterFix extends ProtocolCodecFilter{
 
         return out;
     }
-	private static class ProtocolEncoderOutputImpl extends AbstractProtocolEncoderOutput {
-        private final IoSession session;
+	public static class ProtocolEncoderOutputImpl extends AbstractProtocolEncoderOutput {
+        public final IoSession session;
 
-        private final NextFilter nextFilter;
+        public final NextFilter nextFilter;
 
         /** The WriteRequest destination */
-        private final SocketAddress destination;
+        public final SocketAddress destination;
 
         public ProtocolEncoderOutputImpl(IoSession session, NextFilter nextFilter, WriteRequest writeRequest) {
             this.session = session;
@@ -152,7 +152,7 @@ public class ProtocolCodecFilterFix extends ProtocolCodecFilter{
             return future;
         }
     }
-	private static class EncodedWriteRequest extends DefaultWriteRequest {
+	public static class EncodedWriteRequest extends DefaultWriteRequest {
         public EncodedWriteRequest(Object encodedMessage, WriteFuture future, SocketAddress destination) {
             super(encodedMessage, future, destination);
         }
@@ -162,7 +162,7 @@ public class ProtocolCodecFilterFix extends ProtocolCodecFilter{
         }
     }
 
-    private static class MessageWriteRequest extends WriteRequestWrapper {
+    public static class MessageWriteRequest extends WriteRequestWrapper {
         public MessageWriteRequest(WriteRequest writeRequest) {
             super(writeRequest);
         }
@@ -177,7 +177,7 @@ public class ProtocolCodecFilterFix extends ProtocolCodecFilter{
             return "MessageWriteRequest, parent : " + super.toString();
         }
     }
-    private static final IoBuffer EMPTY_BUFFER = IoBuffer.wrap(new byte[0]);
+    public static final IoBuffer EMPTY_BUFFER = IoBuffer.wrap(new byte[0]);
     @Override
     public void messageSent(NextFilter nextFilter, IoSession session, WriteRequest writeRequest) throws Exception {
         if (writeRequest instanceof EncodedWriteRequest) {

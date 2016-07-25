@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class SerializeUtil {
-	private static Logger log = LoggerFactory.getLogger(SerializeUtil.class);
+	public static Logger log = LoggerFactory.getLogger(SerializeUtil.class);
 	public static byte[] encode(Object o) throws IOException{
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		ObjectOutputStream os = new ObjectOutputStream(bos);

@@ -1,13 +1,13 @@
 package com.manu.dynasty.store;
 
 public class MyLock {
-	private String upperLock;
-	private String curLock;
-	private Object value;
-	private String debugMsg;
-	private byte retCode;
-	private long timeOut = 5 * 1000; 
-	private boolean isLocked = false;
+	public String upperLock;
+	public String curLock;
+	public Object value;
+	public String debugMsg;
+	public byte retCode;
+	public long timeOut = 5 * 1000; 
+	public boolean isLocked = false;
 	
 	public static final String NULLOREMPTY = "can't be null or empty!"; 
 	public static final String NOTINGAME = "not in game..."; 
@@ -102,7 +102,7 @@ public class MyLock {
 		debugMsg = NOTINGAME;
 	}
 	
-	private boolean isNullOrEmpty(String str){
+	public boolean isNullOrEmpty(String str){
 		boolean result = (curLock == null);
 		if(result){
 			debugMsg = NULLOREMPTY;

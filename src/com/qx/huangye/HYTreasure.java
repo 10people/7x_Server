@@ -16,7 +16,7 @@ import com.qx.util.TableIDCreator;
 @Entity
 public class HYTreasure {
 
-	private static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 1L;
 
 	@Id
 	public long id;

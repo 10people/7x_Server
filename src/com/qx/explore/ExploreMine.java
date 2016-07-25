@@ -6,10 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 
 @Entity
 @Table(name="tan_bao")
-public class ExploreMine{
+public class ExploreMine implements DBHash{
 
 	@Id
 	// id = junzhuId * 100 + type
@@ -38,10 +40,10 @@ public class ExploreMine{
 	
 	public int danChouClickNumber; //单抽点击次数
 	public int tenChouClickNumber; //十连抽点击次数
-	
-	
-	
-
+	@Override
+	public long hash() {
+		return id;
+	}
 //	// 免费单抽或者联盟单抽是否已经领取过好的奖励了: 
 //	// add 包括10连抽是否已经领过好的奖励
 //	@Column(columnDefinition = "boolean default false")

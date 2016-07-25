@@ -4,15 +4,15 @@ import com.qx.gm.util.CodeUtil;
 import com.qx.gm.util.MD5Util;
 
 public class QueryRoleListReq {
-	private int type;// 协议编号
-	private int firm;// 表示厂商ID
-	private int zone;// 大区号
-	private int noticeid;// 公告id
-	private String content;// 公告的文字内容
-	private int start_time;// 公告起始时间
-	private int end_time;// 公告结束时间
-	private int interval_time;// 轮播间隔时间
-	private String md5;// 加密
+	public int type;// 协议编号
+	public int firm;// 表示厂商ID
+	public int zone;// 大区号
+	public int noticeid;// 公告id
+	public String content;// 公告的文字内容
+	public int start_time;// 公告起始时间
+	public int end_time;// 公告结束时间
+	public int interval_time;// 轮播间隔时间
+	public String md5;// 加密
 
 	public boolean checkMd5() {
 		StringBuffer sBuffer = new StringBuffer();

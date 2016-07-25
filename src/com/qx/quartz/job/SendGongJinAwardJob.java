@@ -11,7 +11,7 @@ import com.qx.pvp.LveDuoMgr;
 
 
 public class SendGongJinAwardJob implements Job{
-	private Logger log = LoggerFactory.getLogger(SendGongJinAwardJob.class);
+	public Logger log = LoggerFactory.getLogger(SendGongJinAwardJob.class);
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 //		log.info("每日22点, 总结贡金排行榜，发送贡金个人奖励");

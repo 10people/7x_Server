@@ -58,7 +58,7 @@ if("switchOpen".equals(act)){
 			List<YunbiaoTemp> list = TempletService.listAll(YunbiaoTemp.class.getSimpleName());
 			Map<String, YunbiaoTemp> map = new HashMap<String, YunbiaoTemp>();
 			for(YunbiaoTemp yb: list){
-				map.put(yb.getKey(), yb);
+				map.put(yb.key, yb);
 			}
 			YunbiaoTemp.incomeAdd_startTime2=map.get("incomeAdd_startTime2").value;
 			YunbiaoTemp.incomeAdd_endTime2=map.get("incomeAdd_endTime2").value;

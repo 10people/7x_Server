@@ -44,43 +44,4 @@ public class HuangyePve{
 	public String perFastAward;
 	public int fastTimeLimit; 
 	public String fightAward;
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getOpenCost() {
-		return openCost;
-	}
-	public void setOpenCost(int openCost) {
-		this.openCost = openCost;
-	}
-
-	public int getNpcId() {
-		return npcId;
-	}
-	public void setNpcId(int npcId) {
-		this.npcId = npcId;
-	}
-	public String getAward() {
-		return award;
-	}
-
-	public int getSceneId() {
-		return sceneId;
-	}
-	public void setSceneId(int sceneId) {
-		this.sceneId = sceneId;
-	}
-	public int getPower() {
-		return power;
-	}
-	public void setPower(int power) {
-		this.power = power;
-	}
-
-	
 }

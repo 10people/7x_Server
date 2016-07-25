@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.stream.Collectors;
 
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
@@ -36,6 +39,7 @@ import com.manu.network.SessionUser;
 import com.qx.account.FunctionOpenMgr;
 import com.qx.activity.ActivityMgr;
 import com.qx.alliance.AllianceBean;
+import com.qx.alliance.AllianceBeanDao;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.award.AwardMgr;
@@ -137,7 +141,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		//2015年8月10日 1500436 ==》730001
 		DescId desc = ActivityMgr.descMap.get(730001);
 		if(desc != null){
-			helpContent = desc.getDescription();
+			helpContent = desc.description;
 		}
 		// 开启线程
 		new Thread(this, "LveDuoMgr").start();
@@ -149,7 +153,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			log.error("掠夺主页出错：君主不存在");
 			return;
 		}
-		AlliancePlayer player = HibernateUtil.find(AlliancePlayer.class, jz.id);
+		AlliancePlayer player = AllianceMgr.inst.getAlliancePlayer(jz.id);
 		if(player == null || player.lianMengId <= 0){
 			log.error("玩家：{}无联盟，不能掠夺别人", jz.id);
 			sendError(session, id, "未加入联盟，不能掠夺");
@@ -250,7 +254,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			log.error("玩家:{}没有贡金排名", jz.id);
 		}
 		resp.setGongJinRank((int)rank);
-		AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, jzid);
+		AlliancePlayer p = AllianceMgr.inst.getAlliancePlayer(jzid);
 		if(p != null && p.lianMengId > 0){
 			long mengRank = RankingGongJinMgr.DB.zrevrank(RankingGongJinMgr.gongJinAllianceRank,
 					p.lianMengId+"");
@@ -263,6 +267,12 @@ public class LveDuoMgr extends EventProc implements Runnable{
 	}
 	public List<JunZhuInfo.Builder> fillJunZhuInfo(int didui1, int didui2,  int showMengId){
 		List<AlliancePlayer> aplayers = AllianceMgr.inst.getAllianceMembers(showMengId);
+		Set<Long> apIdSet = new HashSet<Long>();
+		aplayers.stream().forEach(ap -> apIdSet.add(ap.junzhuId));
+		List<JunZhu> aplayersList = HibernateUtil.list(JunZhu.class, "id", apIdSet);
+		List<LveDuoBean> lveList = HibernateUtil.list(LveDuoBean.class, "junzhuId", apIdSet);
+		Map<Long , JunZhu> aplayersMap = aplayersList.stream().collect(Collectors.toMap( ap-> ap.id, ap->ap));
+		Map<Long , LveDuoBean> lveMap = lveList.stream().collect(Collectors.toMap( lve-> lve.junzhuId, lve->lve));
 		List<JunZhuInfo.Builder> list = new ArrayList<JunZhuInfo.Builder>();
 		for(AlliancePlayer ap: aplayers){
 			if(ap == null || ap.lianMengId <= 0){
@@ -270,7 +280,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 				continue;
 			}
 			JunZhuInfo.Builder b = JunZhuInfo.newBuilder();
-			JunZhu zhu = HibernateUtil.find(JunZhu.class, ap.junzhuId);
+			JunZhu zhu = aplayersMap.get(ap.junzhuId);
 			if(zhu == null){
 				continue;
 			}
@@ -315,7 +325,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 //				b.setRemainHp(zhu.shengMingMax);
 //			}
 			b.setShengMingMax(zhu.shengMingMax);
-			LveDuoBean zhulve = HibernateUtil.find(LveDuoBean.class, zhu.id);
+			LveDuoBean zhulve = lveMap.get(zhu.id) ;
 			if(zhulve == null || zhulve.lastBattleEndTime == null){
 				b.setLeftProtectTime(0);
 			}else{
@@ -510,7 +520,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		}
 		
 		// 无联盟不可掠夺和被掠夺
-		AlliancePlayer playerA = HibernateUtil.find(AlliancePlayer.class, jz.id);
+		AlliancePlayer playerA = AllianceMgr.inst.getAlliancePlayer(jz.id);
 		if(playerA == null || playerA.lianMengId <= 0){
 			log.error("玩家：{}无联盟，不能掠夺别人", jz.id);
 			resp.setIsCanLveDuo(9);
@@ -571,7 +581,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		}
 		
 		// 对手未加入联盟，不能掠夺
-		AlliancePlayer playerB = HibernateUtil.find(AlliancePlayer.class, enemyId);
+		AlliancePlayer playerB = AllianceMgr.inst.getAlliancePlayer(enemyId);
 		if(playerB == null || playerB.lianMengId <= 0){
 			log.error("玩家：{}无联盟，不能被人掠夺", enemyId);
 			resp.setIsCanLveDuo(10);
@@ -803,7 +813,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		
 		PvpZhanDouInitReq.Builder req = (PvpZhanDouInitReq.Builder) builder;
 		long enemyId = req.getUserId();
-		AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
+		AlliancePlayer p = AllianceMgr.inst.getAlliancePlayer(junZhu.id);
 		if(p == null || p.lianMengId <= 0){
 			ZhanDouInitError.Builder errresp = ZhanDouInitError.newBuilder();
 			errresp.setResult("您已退出联盟，无法掠夺。");
@@ -811,7 +821,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			log.error("君主：{}掠夺敌人：{}失败，君主退出联盟", junZhu.id, enemyId);
 			return;
 		}
-		AlliancePlayer p2 = HibernateUtil.find(AlliancePlayer.class, enemyId);
+		AlliancePlayer p2 = AllianceMgr.inst.getAlliancePlayer(enemyId);
 		if(p2 == null || p2.lianMengId <= 0){
 			ZhanDouInitError.Builder errresp = ZhanDouInitError.newBuilder();
 			errresp.setResult("对手已退出联盟，无法掠夺。");
@@ -991,7 +1001,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		}
 		PvpMgr.inst.fillGuYongBingDataInfo(selfs, selfFlagIndex, bingList);
 		selfTroop.addAllNodes(selfs);
-		selfTroop.setMaxLevel(BigSwitch.pveGuanQiaMgr.getGuanQiaMaxId(jId));
+		selfTroop.setMaxLevel((int) BigSwitch.pveGuanQiaMgr.getGuanQiaMaxId(jId));
 		resp.setSelfTroop(selfTroop);
 		resp.setZhandouId(zhandouId);
 		resp.setMapId(mapId);
@@ -1071,7 +1081,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			HibernateUtil.save(eb);
 		}
 		// 主线任务: 输赢不计，掠夺1次 20190916
-		EventMgr.addEvent(ED.lve_duo , new Object[] { jz.id});
+		EventMgr.addEvent(jz.id, ED.lve_duo , new Object[] { jz.id});
 	}
 	public void doConfirm(int id, IoSession session, Builder builder){
 		LveConfirmReq.Builder req = (LveConfirmReq.Builder)builder;
@@ -1383,7 +1393,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			if(enemyAlli != null){
 				// 掠夺成功enemy 是被掠夺的人
 				int lostBuild = alliaceJianShe;
-				EventMgr.addEvent(ED.been_lve_duo , new Object[] {junZhu.id, 
+				EventMgr.addEvent(junZhu.id, ED.been_lve_duo , new Object[] {junZhu.id, 
 						enemy.id, lostBuild, zhandouId, enemyAlli.id});
 //				// 损失建设值
 //				//<LianmengEvent ID="14" str="%d被%d掠夺成功，联盟损失%d建设值！" />
@@ -1490,7 +1500,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		resp.setShengwang(zhanr.gongjiGetGuoSW);
 		resp.setBuild(zhanr.gongJiGetMengJianShe);
 		session.write(resp.build());
-		EventMgr.addEvent(ED.DAILY_TASK_PROCESS, new DailyTaskCondition(junZhu.id , DailyTaskConstants.lueDuo, 1));
+		EventMgr.addEvent(junZhu.id ,ED.DAILY_TASK_PROCESS, new DailyTaskCondition(junZhu.id , DailyTaskConstants.lueDuo, 1));
 //		int anweiJiang = (int) Math.round(CanShu.LUEDUO_COMFORTED_AWARD_K *
 //				fangshouFangSuishi + CanShu.LUEDUO_COMFORTED_AWARD_B);
 		
@@ -1556,6 +1566,13 @@ public class LveDuoMgr extends EventProc implements Runnable{
 				LveZhanDouRecord.class, where);
 		LveBattleRecordResp.Builder resp = LveBattleRecordResp.newBuilder();
 		LveBattleItem.Builder info = null;
+		Set<Long> otherJzId = new HashSet<Long>();
+				recordList.stream().forEach(re ->{ 
+					otherJzId.add(re.fangShouJunId) ; 
+					otherJzId.add(re.gongJiJunId);});
+		otherJzId.remove(jId);
+		List<JunZhu> otherJzList = HibernateUtil.list(JunZhu.class , "id" , otherJzId ) ;
+		Map<Long , JunZhu> otherJzMap = otherJzList.stream().collect(Collectors.toMap(jun->jun.id, jun->jun));
 		int passTime = 0;
 		if (recordList == null || recordList.size() == 0) {
 			session.write(resp.build());
@@ -1577,10 +1594,10 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			int gongJinChange = 0;
 			JunZhu other = null;
 			if (jId == reco.gongJiJunId) {
-				other = HibernateUtil.find(JunZhu.class, reco.fangShouJunId);
+				other = otherJzMap.get(reco.fangShouJunId);
 				gongJinChange = reco.gongJiGetGongjin;
 			} else if(jId == reco.fangShouJunId){
-				other = HibernateUtil.find(JunZhu.class, reco.gongJiJunId);
+				other = otherJzMap.get(reco.gongJiJunId);
 				if(reco.result1 == PVPConstant.GONG_JI_WIN){
 					gongJinChange = reco.gongJiGetGongjin - (int)CanShu.LUEDUO_CANSHU_L;
 				}else gongJinChange = 0;
@@ -1617,7 +1634,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 			return;
 		}
 		long jId = jz.id;
-		AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, jId);
+		AlliancePlayer p = AllianceMgr.inst.getAlliancePlayer(jId);
 		// 玩家可能在战斗过程中退出了联盟
 		if(p == null || p.lianMengId <= 0){
 			log.error("掠夺求助出错， 君主已经退出联盟");
@@ -1843,7 +1860,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 					continue;
 				}
 				int lmId = Integer.parseInt(lmIdStr);
-				AllianceBean alli = HibernateUtil.find(AllianceBean.class, lmId);
+				AllianceBean alli = AllianceBeanDao.inst.getAllianceBean(lmId);
 				if(alli == null){
 					continue;
 				}
@@ -1864,7 +1881,19 @@ public class LveDuoMgr extends EventProc implements Runnable{
 							     .replace("***b", r.award+"");
 				
 				long mengzhuid = alli.creatorId;
-				List<AlliancePlayer> memberList = AllianceMgr.inst.getAllianceMembers(lmId);
+		        List<Object[]> aList = getAllAllianceMberName(lmId);
+		        for(Object[] a:aList){
+		        	String mName = (String) a[0];
+		        	boolean suc = EmailMgr.INSTANCE.sendMail(mName, content, 
+							"", senderName, mailConfig, "");
+					if (suc) {
+						log.info("掠夺积分联盟排行奖励发送了，发送通知：{}邮件成功，发送时间是：{}", 
+								mengzhuid, r.award, new Date());
+					} else {
+						log.error("掠夺积分排行奖励发送了，发送通知：{}邮件失败，", mName);
+					}
+		        }
+			/*	List<AlliancePlayer> memberList = AllianceMgr.inst.getAllianceMembers(lmId);
 				for(AlliancePlayer member : memberList) {
 					JunZhu mengZhu = HibernateUtil.find(JunZhu.class, member.junzhuId);
 					if(mengZhu == null ){
@@ -1878,7 +1907,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 					} else {
 						log.error("掠夺积分排行奖励发送了，发送通知：{}邮件失败，", mengZhu.name);
 					}
-				}
+				}*/
 			}
 		}
 	}
@@ -1967,15 +1996,15 @@ public class LveDuoMgr extends EventProc implements Runnable{
 	}
 
 	public void showLveDuoRed(JunZhu junZhu){
-		AlliancePlayer p = HibernateUtil.find(AlliancePlayer.class, junZhu.id);
+		AlliancePlayer p = AllianceMgr.inst.getAlliancePlayer(junZhu.id);
 		if(p != null && p.lianMengId > 0){
 			String where = " select count(*) from LveDuoMI where lmId = " + p.lianMengId + " "
 					+ " and willLostBuildTime != null and willLostBuildTime <= now()";
 			int c = HibernateUtil.getCount(where);
 			if(c > 0){
-				SessionUser su = SessionManager.inst.findByJunZhuId(junZhu.id);
+				IoSession su = SessionManager.inst.findByJunZhuId(junZhu.id);
 				if(su != null)
-				FunctionID.pushCanShowRed(junZhu.id, su.session, FunctionID.lianmengJunQingLveDuo);
+				FunctionID.pushCanShowRed(junZhu.id, su, FunctionID.lianmengJunQingLveDuo);
 			}
 		}
 	}
@@ -2051,11 +2080,18 @@ public class LveDuoMgr extends EventProc implements Runnable{
 	}
 	
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 		EventMgr.regist(ED.ACC_LOGIN, this);
 	}
 	public int getGongJin(){
 		return 0;
+	}
+	
+	public List<Object[]> getAllAllianceMberName(int lMId) {
+		String sql = "select jz.name,ap.junzhuId,ap.title from JunZhu jz " + "join AlliancePlayer ap where ap.lianMengId = '" + lMId
+				+ "' and ap.junzhuId = jz.id";
+		List<Object[]> aList = (List<Object[]>) HibernateUtil.querySql(sql);
+		return aList;
 	}
 }

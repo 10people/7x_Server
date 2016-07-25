@@ -21,12 +21,14 @@ import com.qx.huangye.HYTreasure;
 import com.qx.junzhu.JunZhu;
 import com.qx.log.LogMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.util.DelayedSQLMgr;
 import com.qx.world.Scene;
 import com.qx.world.YaBiaoScene;
 
 public class IOHandlerImpl implements IoHandler  {
 	public static IOHandlerImpl inst = new IOHandlerImpl();
 	public boolean closeIdleSession = true;
+	public static long procTimeLimit = 50;
 	public static Logger log = LoggerFactory.getLogger(IOHandlerImpl.class.getSimpleName());
 	public IOHandlerImpl(){
 		inst = this;
@@ -78,7 +80,14 @@ public class IOHandlerImpl implements IoHandler  {
 			if (LogMgr.receiveLog) {
 				LogMgr.inst.setReceiveProtoIdLog(session, mf);// 记录协议号
 			}
+//			log.info("thread is {}, id is {}", Thread.currentThread().getName(),mf.id);
+			long cur = System.currentTimeMillis();
 			BigSwitch.getInst().route(mf.id, mf.builder, session);
+			long end = System.currentTimeMillis();
+			long diff = end - cur;
+			if(diff>procTimeLimit){
+				DelayedSQLMgr.inst.slowAct(mf.id, diff);
+			}
 		} else if (message instanceof AbstractMessage) {
 			BigSwitch.getInst().route((AbstractMessage) message);
 		} else {

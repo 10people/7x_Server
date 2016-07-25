@@ -28,10 +28,10 @@ function go(act){
   <body>
   <%!  
   String wuJiangCell(int a) {  
-	  return HeroService.getNameById(WuJiangKeJiMgr.inst.getKeJi(a).getName());
+	  return HeroService.getNameById(WuJiangKeJiMgr.inst.getKeJi(a).name);
   }
   int wuJiangCellLevel(int a) {  
-	  return WuJiangKeJiMgr.inst.id2Keji.get(a).getLevel();
+	  return WuJiangKeJiMgr.inst.id2Keji.get(a).level;
   }
 %>
   <% 
@@ -55,7 +55,7 @@ function go(act){
     }
     else{
     	session.setAttribute("name",name);
-    	long junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+    	long junZhuId = account.accountId * 1000 + GameServer.serverId;
     	IoSession fs = new DummySession();
     	fs.setAttribute(SessionAttKey.junZhuId, junZhuId);
     	List<WuJiang> list = HeroMgr.inst.getWuJiangList(fs);
@@ -86,9 +86,9 @@ function go(act){
     			if(hero != null){%>
     			<tr>
     				<td><%= wuJiang.dbId %></td>
-    			  <td><%= HeroService.getNameById(String.valueOf(hero.getHeroName())) %></td>
+    			  <td><%= HeroService.getNameById(String.valueOf(hero.heroName)) %></td>
     			  <td><%= wuJiang.getHeroGrowId() %></td>
-    			  <td><%= hero.getHeroId() %></td>
+    			  <td><%= hero.heroId %></td>
     			  <td><%= wuJiang.getHeroGrowId()%10 %></td>
     			  <td><%= wuJiang.isCombine() ? "是" : "否" %></td>
     			  <td><%= wuJiang.getNum() %></td>
@@ -119,36 +119,36 @@ function go(act){
     	 	String action = request.getParameter("action");
     		 if("addGoldenJingPo".equals(action)){
     			 int v = Integer.parseInt(request.getParameter("v"));
-    			 wjKeJi.setGoldenJingPo(wjKeJi.getGoldenJingPo() + v);
+    			 wjKeJi.goldenJingPo = wjKeJi.goldenJingPo + v;
     			 HibernateUtil.save(wjKeJi);
     		 }
     	 	%>
     	 	<tr>
-    	 	  <td><%= wjKeJi.getAttack()%></td>
-    	 	  <td><%= wjKeJi.getDefense()%></td>
-    	 	  <td><%= wjKeJi.getHp()%></td>
-    	 	  <td><%= wjKeJi.getZhiMou()%></td>
-    	 	  <td><%= wjKeJi.getWuYi() %></td>
-    	 	  <td><%= wjKeJi.getTongShuai()%></td>
+    	 	  <td><%= wjKeJi.attack%></td>
+    	 	  <td><%= wjKeJi.defense%></td>
+    	 	  <td><%= wjKeJi.hp%></td>
+    	 	  <td><%= wjKeJi.zhiMou%></td>
+    	 	  <td><%= wjKeJi.wuYi %></td>
+    	 	  <td><%= wjKeJi.tongShuai%></td>
     	 	</tr>
     	 	<tr>
-    	 	  <td><%= wuJiangCell(wjKeJi.getAttack()) %></td>
-    	 	  <td><%= wuJiangCell(wjKeJi.getDefense()) %></td>
-    	 	  <td><%= wuJiangCell(wjKeJi.getHp()) %></td>
-    	 	  <td><%= wuJiangCell(wjKeJi.getZhiMou()) %></td>
-    	 	  <td><%= wuJiangCell(wjKeJi.getWuYi()) %></td>
-    	 	  <td><%= wuJiangCell(wjKeJi.getTongShuai()) %></td>
+    	 	  <td><%= wuJiangCell(wjKeJi.attack) %></td>
+    	 	  <td><%= wuJiangCell(wjKeJi.defense) %></td>
+    	 	  <td><%= wuJiangCell(wjKeJi.hp) %></td>
+    	 	  <td><%= wuJiangCell(wjKeJi.zhiMou) %></td>
+    	 	  <td><%= wuJiangCell(wjKeJi.wuYi) %></td>
+    	 	  <td><%= wuJiangCell(wjKeJi.tongShuai) %></td>
     	 	</tr>
     	 	<tr>
-    	 	  <td><%= wuJiangCellLevel(wjKeJi.getAttack()) %></td>
-    	 	  <td><%= wuJiangCellLevel(wjKeJi.getDefense()) %></td>
-    	 	  <td><%= wuJiangCellLevel(wjKeJi.getHp()) %></td>
-    	 	  <td><%= wuJiangCellLevel(wjKeJi.getZhiMou()) %></td>
-    	 	  <td><%= wuJiangCellLevel(wjKeJi.getWuYi()) %></td>
-    	 	  <td><%= wuJiangCellLevel(wjKeJi.getTongShuai()) %></td>
+    	 	  <td><%= wuJiangCellLevel(wjKeJi.attack) %></td>
+    	 	  <td><%= wuJiangCellLevel(wjKeJi.defense) %></td>
+    	 	  <td><%= wuJiangCellLevel(wjKeJi.hp) %></td>
+    	 	  <td><%= wuJiangCellLevel(wjKeJi.zhiMou) %></td>
+    	 	  <td><%= wuJiangCellLevel(wjKeJi.wuYi) %></td>
+    	 	  <td><%= wuJiangCellLevel(wjKeJi.tongShuai) %></td>
     	 	</tr>
     		</table>
-    		金色精魄个数:<%= wjKeJi.getGoldenJingPo()%>
+    		金色精魄个数:<%= wjKeJi.goldenJingPo%>
     		<input type='text' id='addGoldenJingPo' value='10'/><input type='button' value='增加' onclick='go("addGoldenJingPo")'/><br/>
 		<%}%>
   </body>

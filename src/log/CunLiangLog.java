@@ -7,6 +7,7 @@ import qxmobile.protobuf.JunZhuProto.JunZhuInfoRet.Builder;
 
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.util.DelayedSQLMgr;
 
 /**
  * 每次有注册就加入一条，相关数据有变动就更新下。
@@ -46,14 +47,21 @@ public class CunLiangLog {
 		HibernateUtil.insert(cl);
 	}
 	public void levelChange(long jzId, int lv){
-		CunLiang cl = HibernateUtil.find(CunLiang.class, jzId);
-		if(cl == null){
-			return;
-		}
-		cl.level = lv;
-		HibernateUtil.save(cl);
+		DelayedSQLMgr.es.submit(()->{
+			CunLiang cl = HibernateUtil.find(CunLiang.class, jzId);
+			if(cl == null){
+				return;
+			}
+			cl.level = lv;
+			HibernateUtil.save(cl);
+		});
 	}
 	public void yuanBaoChange(long jzId,int yuanBao){
+		DelayedSQLMgr.es.submit(()->
+			yuanBaoChange0(jzId, yuanBao)
+		);
+	}
+	public void yuanBaoChange0(long jzId,int yuanBao){
 		CunLiang cl = HibernateUtil.find(CunLiang.class, jzId);
 		if(cl == null){
 			return;
@@ -63,6 +71,11 @@ public class CunLiangLog {
 	}
 	public void zhangLiChange(long jzId, long zhanLi){};
 	public void logout(long jzId, long onlinetime, int tongBi){
+		DelayedSQLMgr.es.submit(()->
+			logout0(jzId, onlinetime, tongBi)
+		);
+	}
+	public void logout0(long jzId, long onlinetime, int tongBi){
 		CunLiang cl = HibernateUtil.find(CunLiang.class, jzId);
 		if(cl == null){
 			return;
@@ -71,7 +84,7 @@ public class CunLiangLog {
 		cl.totaltime += onlinetime;
 		cl.todayonlinetime+=onlinetime;
 		cl.moneyios = tongBi;
-		Builder b = JunZhuMgr.inst.jzInfoCache.get(jzId);
+		Builder b = JunZhuMgr.jzInfoCache.get(jzId);
 		if(b != null){
 			cl.Fight = b.getZhanLi();
 		}

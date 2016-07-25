@@ -1,10 +1,10 @@
 package com.qx.gm.message;
 
 public class TopupRecords {
-	private int money;// 充值金额
-	private int vcoin;// 获得元宝
-	private String top_time;// 充值时间
-	private String status;// 充值状态（是否充值成功）
+	public int money;// 充值金额
+	public int vcoin;// 获得元宝
+	public String top_time;// 充值时间
+	public String status;// 充值状态（是否充值成功）
 
 	public int getMoney() {
 		return money;

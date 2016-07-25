@@ -42,7 +42,6 @@
 <%@page import="com.qx.alliance.AlliancePlayer"%>
 <%@page import="qxmobile.protobuf.TimeWorkerProtos.TimeWorkerResponse"%>
 <%@page import="com.manu.dynasty.boot.GameServer"%>
-<%@page import="com.manu.dynasty.hero.service.HeroService"%>
 <%@page import="com.qx.purchase.PurchaseMgr"%>
 <%@include file="/myFuns.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -82,7 +81,7 @@
 		} else if (accIdStr.length() > 0) {
 			account = HibernateUtil.find(Account.class, (Long.valueOf(accIdStr) - GameServer.serverId) / 1000);
 			if (account != null)
-				name = account.getAccountName();
+				name = account.accountName;
 		}
 		do {
 			if (account == null) {
@@ -90,7 +89,7 @@
 				break;
 			}
 			session.setAttribute("name", name);
-			long jzId = account.getAccountId() * 1000 + GameServer.serverId;
+			long jzId = account.accountId * 1000 + GameServer.serverId;
 			JunZhu junzhu = HibernateUtil.find(JunZhu.class, jzId);
 			if (junzhu == null) {
 				out.println("没有君主");

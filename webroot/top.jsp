@@ -13,6 +13,6 @@
 &nbsp;<a href='http://192.168.3.80/' target='top'>路由</a>
 &nbsp;服务器启动时间：<%=System.getProperty("serverStartTime") %>-可作为服务器更新时间的参考
 &nbsp;&nbsp;&nbsp;&nbsp;
-欢迎<%=admin.getName() %>登录&nbsp;&nbsp;<a style="margin-right:0px" href="admin?action=list" target='target'>后台用户管理</a>|<a style="margin-right:5px" href="admin?action=logout" target='_parent'>注销</a>
+欢迎<%=admin.name %>登录&nbsp;&nbsp;<a style="margin-right:0px" href="admin?action=list" target='target'>后台用户管理</a>|<a style="margin-right:5px" href="admin?action=logout" target='_parent'>注销</a>
 </body>
 </html>

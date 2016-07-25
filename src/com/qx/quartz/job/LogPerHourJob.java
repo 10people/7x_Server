@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class LogPerHourJob  implements Job{
-	private Logger logger = LoggerFactory.getLogger(LogPerHourJob.class);
+	public Logger logger = LoggerFactory.getLogger(LogPerHourJob.class);
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {

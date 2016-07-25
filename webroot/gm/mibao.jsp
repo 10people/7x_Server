@@ -46,13 +46,13 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		account = HibernateUtil.getAccount(name);
 	}else if(accIdStr.length()>0){
 		account = HibernateUtil.find(Account.class, Long.valueOf(accIdStr));
-		if(account != null)name = account.getAccountName();
+		if(account != null)name = account.accountName;
 	}
 	if(account == null){
 		%>没有找到<%
 	}else{
 		session.setAttribute("name", name);
-		%>账号<%=account.getAccountId()%>:<%=account.getAccountName()%>
+		%>账号<%=account.accountId%>:<%=account.accountName%>
 		<br/>
 		<table>
 			<tr>
@@ -76,7 +76,7 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		</table>
 		<%
 		//--------------------------------------
-		long junZhuId = account.getAccountId() * 1000 + GameServer.serverId;
+		long junZhuId = account.accountId * 1000 + GameServer.serverId;
 		JunZhu jz= HibernateUtil.find(JunZhu.class, junZhuId);
 		if(jz != null){
 			String action = request.getParameter("action");
@@ -84,13 +84,13 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 				int mibaoId = Integer.parseInt(request.getParameter("mibaoId").trim());
 				//int num = Integer.parseInt(request.getParameter("num"));
 				AwardTemp a = new AwardTemp();
-				a.setAwardId(0);
-				a.setItemId(mibaoId);
-				a.setItemNum(1);
-				a.setItemType(AwardMgr.TYPE_MI_BAO);
-				SessionUser su = SessionManager.inst.findByJunZhuId(junZhuId);
+				a.awardId = 0;
+				a.itemId = mibaoId;
+				a.itemNum  = 1;
+				a.itemType = AwardMgr.TYPE_MI_BAO; 
+				IoSession su = SessionManager.inst.findByJunZhuId(junZhuId);
                 if(su!=null){
-                    AwardMgr.inst.giveReward(su.session, a, jz, false, false);
+                    AwardMgr.inst.giveReward(su, a, jz, false, false);
                 }else{
                 	AwardMgr.inst.giveReward(null, a, jz, false, false);
                 }
@@ -99,13 +99,13 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 				int suipianId = Integer.parseInt(request.getParameter("mibaoSuiPianId"));
                 int num = Integer.parseInt(request.getParameter("num"));
                 AwardTemp a = new AwardTemp();
-                a.setAwardId(0);
-                a.setItemId(suipianId);
-                a.setItemNum(num);
-                a.setItemType(AwardMgr.TYPE_MOBAI_SUIPIAN);
-                SessionUser su = SessionManager.inst.findByJunZhuId(junZhuId);
+                a.awardId = 0;
+                a.itemId = suipianId;
+                a.itemNum = num;
+                a.itemType = AwardMgr.TYPE_MOBAI_SUIPIAN;
+                IoSession su = SessionManager.inst.findByJunZhuId(junZhuId);
                 if(su!=null){
-                    AwardMgr.inst.giveReward(su.session, a, jz, false, false);
+                    AwardMgr.inst.giveReward(su, a, jz, false, false);
                 }else{
                     AwardMgr.inst.giveReward(null, a, jz, false, false);
                 }
@@ -141,7 +141,7 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 				int tempId = Integer.parseInt(request.getParameter("tempId"));
 				int mibaoId = Integer.parseInt(request.getParameter("mibaoId"));
 				MiBaoDB miBaoDB = HibernateUtil.find(MiBaoDB.class, " where tempId=" + tempId+" and ownerId="+junZhuId);
-				miBaoDB.setMiBaoId(mibaoId);
+				miBaoDB.miBaoId = mibaoId;
 				HibernateUtil.save(miBaoDB);
 			} else if("delMibao".equals(action)) {
 				long dbId = Long.parseLong(request.getParameter("dbId"));
@@ -160,12 +160,12 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 		<% 
 		for(MiBaoDB bean : miBaoDBList){
 			String mibaoName = "";
-			if(bean.getMiBaoId()  > 0) {
-				MiBao mibao = MibaoMgr.inst.mibaoMap.get(bean.getMiBaoId());
+			if(bean.miBaoId  > 0) {
+				MiBao mibao = MibaoMgr.inst.mibaoMap.get(bean.miBaoId);
 				mibaoName = HeroService.getNameById(mibao.nameId+"");
 			}else{
 				for(Map.Entry<Integer, MiBao> entry : MibaoMgr.inst.mibaoMap.entrySet()) {
-					if(entry.getValue().tempId == bean.getTempId()) {
+					if(entry.getValue().tempId == bean.tempId) {
 						MiBao mibao = entry.getValue();
 						mibaoName = HeroService.getNameById(mibao.nameId+"");
 						break;
@@ -173,25 +173,25 @@ if(session.getAttribute("name") != null && name.length()==0 && accIdStr.length()
 				}
 			}
 
-			MibaoSuiPian spConf = MibaoMgr.inst.mibaoSuipianMap.get(bean.getTempId());
+			MibaoSuiPian spConf = MibaoMgr.inst.mibaoSuipianMap.get(bean.tempId);
 			%>
 			<tr>
-			<td><%=bean.getDbId() %></td>
-			<td><%=bean.getMiBaoId() %></td>
-			<td><%=bean.getTempId() %></td>
-			<td><%=spConf.getId() %></td>
+			<td><%=bean.dbId %></td>
+			<td><%=bean.miBaoId %></td>
+			<td><%=bean.tempId %></td>
+			<td><%=spConf.id %></td>
 			<td><%=mibaoName %></td>
-			<td><%=bean.getSuiPianNum() %></td>
+			<td><%=bean.suiPianNum %></td>
 			<td><%
-			out.append(""+(spConf == null ? 0 : spConf.getHechengNum()));
+			out.append(""+(spConf == null ? 0 : spConf.hechengNum));
 			%></td>
 			<td><%
-			MibaoStar starConf = MibaoMgr.inst.mibaoStarMap.get(bean.getStar());
-			out.append(""+(starConf == null ? 0 : starConf.getNeedNum()));
+			MibaoStar starConf = MibaoMgr.inst.mibaoStarMap.get(bean.star);
+			out.append(""+(starConf == null ? 0 : starConf.needNum));
 			%></td>
-			<td><%=bean.getLevel()%></td>
-			<td><%=bean.getStar()%></td>
-			<td><% out.append("<a href=mibao.jsp?dbId=" + bean.getDbId() + "&action=delMibao>删除</a>"); %></td>
+			<td><%=bean.level%></td>
+			<td><%=bean.star%></td>
+			<td><% out.append("<a href=mibao.jsp?dbId=" + bean.dbId + "&action=delMibao>删除</a>"); %></td>
 			</tr>
 			<%
 		}

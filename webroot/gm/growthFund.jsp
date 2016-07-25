@@ -9,7 +9,6 @@
 <%@page import="java.util.*"%>
 <%@page import="com.manu.dynasty.template.*"%>
 <%@page import="com.manu.dynasty.base.TempletService"%>
-<%@page import="com.qx.junzhu.JunZhu"%>
     <%@include file="/myFuns.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -68,10 +67,10 @@
 	    		trE();
 	    		for(ChengZhangJiJin chengZhangJiJin:list){
 	    			trS();
-	    			td("角色达到" + chengZhangJiJin.getLevel());
+	    			td("角色达到" + chengZhangJiJin.level);
 	    			td(junZhu.level);
-	    			td(chengZhangJiJin.getLevel());
-	    			GrowthFundBean gBean = HibernateUtil.find(GrowthFundBean.class,"where jzId=" + jzid + " and level=" + chengZhangJiJin.getLevel());
+	    			td(chengZhangJiJin.level);
+	    			GrowthFundBean gBean = HibernateUtil.find(GrowthFundBean.class,"where jzId=" + jzid + " and level=" + chengZhangJiJin.level);
 	    			if(gBean == null){
 	    				td("未领取");
 	    			}else{

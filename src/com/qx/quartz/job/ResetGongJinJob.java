@@ -11,7 +11,7 @@ import com.qx.ranking.RankingGongJinMgr;
 
 
 public class ResetGongJinJob implements Job{
-	private Logger log = LoggerFactory.getLogger(ResetGongJinJob.class);
+	public Logger log = LoggerFactory.getLogger(ResetGongJinJob.class);
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		log.info("每日8点, 更新贡金排行");

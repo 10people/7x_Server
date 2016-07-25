@@ -40,7 +40,7 @@ if(name != null && name.length()>0){
 		//HibernateUtil.saveAccount(name);
 	}else{
 		session.setAttribute("name", name);
-		 %>账号<%=account.getAccountId()%>:<%=account.getAccountName()%><br/><%
+		 %>账号<%=account.accountId%>:<%=account.accountName%><br/><%
 			long junZhuId = account.getIdentifier()*1000+GameServer.serverId;
 		 List<Treasure> treasureList = HibernateUtil.list(Treasure.class, " where junZhuId=" + junZhuId);
 		 %>

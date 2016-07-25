@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 /**
  *  @Description 福利的数据库实体类
  *
@@ -13,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "FuliInfo")
 
-public class FuliInfo  {
+public class FuliInfo implements DBHash{
 	@Id
 	public long jzId;//用作君主id
 	public Date getTiLiTime1;// 上次获取体力时间1
@@ -24,4 +26,8 @@ public class FuliInfo  {
 	public Date getYuKaFuLiTime;// 上次获取月卡时间
 	public Date getZhongShenKaTime;// 上次获取月卡时间
 	public Date getZhouKaTime;// 上次获取月卡时间
+	@Override
+	public long hash() {
+		return jzId;
+	}
 }

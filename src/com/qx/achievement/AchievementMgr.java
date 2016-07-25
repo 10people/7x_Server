@@ -38,14 +38,14 @@ import com.qx.yuanbao.YuanBaoMgr;
  */
 public class AchievementMgr extends EventProc {
 
-	private Logger logger = LoggerFactory.getLogger(Achievement.class);
+	public Logger logger = LoggerFactory.getLogger(Achievement.class);
 	public static AchievementMgr instance;
 
 	/** 成就列表 <成就类型, 该成就类型List<Chengjiu>> **/
-	private Map<Integer, List<Chengjiu>> type2chengjiu;
+	public Map<Integer, List<Chengjiu>> type2chengjiu;
 
 	/** 需要功能开放才显示的成就类型 **/
-	private int[] needOpenConditionAcheType = { 2, 3, 4, 12, 14, 15, 16, 17,
+	public int[] needOpenConditionAcheType = { 2, 3, 4, 12, 14, 15, 16, 17,
 			19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35 };
 
 	public AchievementMgr() {
@@ -63,10 +63,10 @@ public class AchievementMgr extends EventProc {
 		}
 		Map<Integer, List<Chengjiu>> type2chengjiu = new HashMap<Integer, List<Chengjiu>>();
 		for (Chengjiu chengjiu : list) {
-			List<Chengjiu> typeList = type2chengjiu.get(chengjiu.getType());
+			List<Chengjiu> typeList = type2chengjiu.get(chengjiu.type);
 			if (typeList == null) {
 				typeList = new ArrayList<Chengjiu>();
-				type2chengjiu.put(chengjiu.getType(), typeList);
+				type2chengjiu.put(chengjiu.type, typeList);
 			}
 			typeList.add(chengjiu);
 		}
@@ -94,10 +94,10 @@ public class AchievementMgr extends EventProc {
 		for (Map.Entry<Integer, Achievement> entry : initAcheMap.entrySet()) {
 			Achievement ache = entry.getValue();
 			AcheInfo.Builder acheInfo = AcheInfo.newBuilder();
-			acheInfo.setAchvId(ache.getChengjiuId());
-			acheInfo.setIsFinish(ache.isFinish());
-			acheInfo.setIsGet(ache.isGetReward());
-			acheInfo.setJindu(ache.getJindu());
+			acheInfo.setAchvId(ache.chengjiuId);
+			acheInfo.setIsFinish(ache.isFinish);
+			acheInfo.setIsGet(ache.isGetReward);
+			acheInfo.setJindu(ache.jindu);
 			response.addAcheInfo(acheInfo.build());
 		}
 		session.write(response.build());
@@ -119,20 +119,20 @@ public class AchievementMgr extends EventProc {
 			List<Chengjiu> list = entry.getValue();
 			for (Chengjiu cj : list) {
 				// 配置表preId为0，表示是该类中的第一个成就
-				if (cj.getPreId() == 0) {
+				if (cj.preId == 0) {
 					chengjiuList.add(cj);
 				}
 			}
 		}
 		for (Chengjiu cj : chengjiuList) {
 			Achievement achievement = new Achievement();
-			achievement.setChengjiuId(cj.getId());
-			achievement.setJindu(0);
-			achievement.setGetReward(false);
-			achievement.setJunZhuId(junZhuId);
-			achievement.setFinish(false);
-			achievement.setType(cj.getType());
-			initAcheList.put(cj.getType(), achievement);
+			achievement.chengjiuId = cj.id;
+			achievement.jindu = 0;
+			achievement.isGetReward =false;
+			achievement.junZhuId = junZhuId;
+			achievement.isFinish = false;
+			achievement.type = cj.type;
+			initAcheList.put(cj.type, achievement);
 		}
 
 		// 移除未开放的成就
@@ -161,7 +161,7 @@ public class AchievementMgr extends EventProc {
 	 *            君主id
 	 * @return
 	 */
-	private Map<Integer, Achievement> getDBAchvs(long junZhuId) {
+	public Map<Integer, Achievement> getDBAchvs(long junZhuId) {
 		List<Achievement> dbAcheList = HibernateUtil.list(Achievement.class,
 				" where junZhuId =" + junZhuId);
 		if (dbAcheList == null) {
@@ -169,7 +169,7 @@ public class AchievementMgr extends EventProc {
 		}
 		Map<Integer, Achievement> dbAchvs = new HashMap<Integer, Achievement>();
 		for (Achievement ache : dbAcheList) {
-			dbAchvs.put(ache.getType(), ache);
+			dbAchvs.put(ache.type, ache);
 		}
 		return dbAchvs;
 	}
@@ -180,7 +180,7 @@ public class AchievementMgr extends EventProc {
 	 * @param type
 	 * @return true-需要,false-不需要
 	 */
-	private boolean isHaveOpenCondition(int type) {
+	public boolean isHaveOpenCondition(int type) {
 		for (int element : needOpenConditionAcheType) {
 			if (element == type) {
 				return true;
@@ -190,7 +190,7 @@ public class AchievementMgr extends EventProc {
 	}
 
 	@Override
-	protected void doReg() {
+	public void doReg() {
 		EventMgr.regist(ED.ACHIEVEMENT_PROCESS, this);
 	}
 
@@ -222,7 +222,7 @@ public class AchievementMgr extends EventProc {
 	 */
 	public void acheProcess(AchievementCondition achvCondition) {
 		long junZhuId = achvCondition.getJunzhuId();
-		int achvType = achvCondition.getType();
+		int achvType = achvCondition.type;
 
 		Achievement achievement = HibernateUtil.find(Achievement.class,
 				" where junZhuId = " + junZhuId + " and type=" + achvType,
@@ -234,11 +234,11 @@ public class AchievementMgr extends EventProc {
 		}
 		if (achievement == null) {
 			for (Chengjiu chengjiu : list) {
-				if (chengjiu.getPreId() == 0) {
+				if (chengjiu.preId == 0) {
 					achievement = new Achievement();
-					achievement.setChengjiuId(chengjiu.getId());
-					achievement.setJunZhuId(junZhuId);
-					achievement.setType(achvType);
+					achievement.chengjiuId = chengjiu.id;
+					achievement.junZhuId = junZhuId;
+					achievement.type = achvType;
 					break;
 				}
 			}
@@ -247,23 +247,23 @@ public class AchievementMgr extends EventProc {
 			logger.error("沒有在配置文件中找到該成就類型的初始成就，achvType:{}", achvType);
 			return;
 		}
-		int condition = achievement.getJindu() + achvCondition.getJinduAdd();
-		achievement.setJindu(condition);
+		int condition = achievement.jindu + achvCondition.getJinduAdd();
+		achievement.jindu = condition;
 		Chengjiu chengjiu = null;
 		for (Chengjiu cj : list) {
-			if (achievement.getChengjiuId() == cj.getId()) {
+			if (achievement.chengjiuId == cj.id) {
 				chengjiu = cj;
 				break;
 			}
 		}
 		if (chengjiu == null) {
 			logger.error("在配置文件中找不到该成就。chengjiuId:{}",
-					achievement.getChengjiuId());
+					achievement.chengjiuId);
 			return;
 		}
 		// 判断是否完成
-		if (condition >= chengjiu.getCondition()) {
-			achievement.setFinish(true);
+		if (condition >= chengjiu.condition) {
+			achievement.isFinish = true;
 		}
 		HibernateUtil.save(achievement);
 
@@ -271,10 +271,10 @@ public class AchievementMgr extends EventProc {
 		if (session != null) {
 			AcheFinishInform.Builder response = AcheFinishInform.newBuilder();
 			AcheInfo.Builder acheInfo = AcheInfo.newBuilder();
-			acheInfo.setAchvId(achievement.getChengjiuId());
-			acheInfo.setIsGet(achievement.isGetReward());
+			acheInfo.setAchvId(achievement.chengjiuId);
+			acheInfo.setIsGet(achievement.isGetReward);
 			acheInfo.setJindu(condition);
-			acheInfo.setIsFinish(achievement.isFinish());
+			acheInfo.setIsFinish(achievement.isFinish);
 			response.setAcheInfo(acheInfo.build());
 			session.write(response.build());
 		} else {
@@ -306,14 +306,14 @@ public class AchievementMgr extends EventProc {
 					junZhuId);
 			return;
 		}
-		if (!achievement.isFinish()) {
+		if (!achievement.isFinish) {
 			logger.error("还未完成成就，chengjiuId:{}", chengjiuId);
 			return;
 		}
 		Chengjiu chengjiu = null;
-		List<Chengjiu> list = type2chengjiu.get(achievement.getType());
+		List<Chengjiu> list = type2chengjiu.get(achievement.type);
 		for (Chengjiu cj : list) {
-			if (chengjiuId == cj.getId()) {
+			if (chengjiuId == cj.id) {
 				chengjiu = cj;
 				break;
 			}
@@ -322,10 +322,10 @@ public class AchievementMgr extends EventProc {
 			logger.error("在成就配置文件中找不到该条成就信息, chengjiuId:{}", chengjiuId);
 			return;
 		}
-		int getYuanBao = chengjiu.getYuanbao();
+		int getYuanBao = chengjiu.yuanbao;
 		YuanBaoMgr.inst.diff(junzhu, getYuanBao, 0, 0, YBType.YB_GET_REWARD,
 				"领取成就奖励");
-		achievement.setGetReward(true);
+		achievement.isGetReward = true;
 
 		AcheGetRewardResponse.Builder response = AcheGetRewardResponse
 				.newBuilder();
@@ -334,15 +334,15 @@ public class AchievementMgr extends EventProc {
 		response.setMsg("领取成功");
 		response.setYuanbao(getYuanBao);
 		// 判断是否还有下一个成就
-		if (chengjiu.getNextId() != 0) {
-			achievement.setChengjiuId(chengjiu.getNextId());
-			achievement.setFinish(false);
-			achievement.setGetReward(false);
+		if (chengjiu.nextId != 0) {
+			achievement.chengjiuId = chengjiu.nextId;
+			achievement.isFinish = false;
+			achievement.isGetReward = false;
 			AcheInfo.Builder acheInfo = AcheInfo.newBuilder();
-			acheInfo.setAchvId(chengjiu.getNextId());
-			acheInfo.setJindu(achievement.getJindu());
-			acheInfo.setIsFinish(achievement.isFinish());
-			acheInfo.setIsGet(achievement.isGetReward());
+			acheInfo.setAchvId(chengjiu.nextId);
+			acheInfo.setJindu(achievement.jindu);
+			acheInfo.setIsFinish(achievement.isFinish);
+			acheInfo.setIsGet(achievement.isGetReward);
 			response.setAcheInfo(acheInfo.build());
 		}
 		session.write(response.build());

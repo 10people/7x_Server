@@ -6,9 +6,9 @@ package com.qx.achievement;
  *
  */
 public class AchievementCondition {
-	private long junzhuId;
-	private int type;
-	private int jinduAdd;
+	public long junzhuId;
+	public int type;
+	public int jinduAdd;
 	/**
 	 * @param junzhuId		君主id
 	 * @param type			成就类型

@@ -44,7 +44,7 @@
 	if(name != null && name.length()>0){
 		account = HibernateUtil.getAccount(name);
 		if(account!=null){
-			ownerid = ""+(account.getAccountId()*1000+GameServer.serverId);
+			ownerid = ""+(account.accountId*1000+GameServer.serverId);
 		}
 	}else if(ownerid != null && ownerid.length()>0){
 		account = HibernateUtil.find(Account.class, (Long.valueOf(ownerid) - GameServer.serverId) / 1000);
@@ -62,7 +62,7 @@
 				return null;
 			}
 		};
-		fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account.getAccountId()*1000+GameServer.serverId));
+		fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account.accountId*1000+GameServer.serverId));
 		synchronized(fs){
 			BigSwitch.inst.route(PD.C_GET_SHOUCHONG_REQ, null, fs);
 		//	fs.wait();
@@ -132,7 +132,7 @@
 				return null;
 			}
 		};
-		fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account2.getAccountId()*1000+GameServer.serverId));
+		fs.setAttribute(SessionAttKey.junZhuId, Long.valueOf(account2.accountId*1000+GameServer.serverId));
 		synchronized(fs){
 			BigSwitch.inst.route(PD.C_SHOUCHONG_AWARD_REQ, null, fs);
 		//	fs.wait();
