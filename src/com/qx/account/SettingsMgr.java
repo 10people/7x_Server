@@ -70,33 +70,29 @@ public class SettingsMgr {
 		if (v == null) {
 			return;
 		}
-		SettingsBean bean = HibernateUtil.find(SettingsBean.class, v);
+		String settingsBean = Redis.instance.hget("SettingsBean", String.valueOf(v));
 		ConfGet.Builder ret = ConfGet.newBuilder();
-		if (bean == null) {
+		if (settingsBean == null || settingsBean.isEmpty()) {
 			ret.setJson("{}");
 		} else {
-			ret.setJson(bean.str);
+			ret.setJson(settingsBean);
 		}
 		session.write(ret.build());
 		log.info("{}请求设置{}", v, ret.getJson());
 	}
 
-	public void save(int id, IoSession session, Builder builder) {
-		Long v = (Long) session.getAttribute(SessionAttKey.junZhuId);
-		if (v == null) {
-			return;
+		public void save(int id, IoSession session, Builder builder) {
+			Long v = (Long) session.getAttribute(SessionAttKey.junZhuId);
+			if (v == null) {
+				return;
+			}
+			ConfSave.Builder req = (qxmobile.protobuf.Settings.ConfSave.Builder) builder;
+			String jzId = String.valueOf(v);
+			String settingsBean = req.getJson();
+			Redis.instance.hset("SettingsBean", String.valueOf(v),settingsBean);
+			log.info("{}保存设置{}", v, settingsBean);
+			new Thread(new XGTagTask(session, settingsBean),"XGTAG:"+v).start();
 		}
-		ConfSave.Builder req = (qxmobile.protobuf.Settings.ConfSave.Builder) builder;
-		SettingsBean bean = HibernateUtil.find(SettingsBean.class, v);
-		if (bean == null) {
-			bean = new SettingsBean();
-			bean.id = v;
-		}
-		bean.str = req.getJson();
-		HibernateUtil.save(bean);
-		log.info("{}保存设置{}", v, bean.str);
-		new Thread(new XGTagTask(session, bean.str),"XGTAG:"+v).start();
-	}
 
 	public synchronized void changeName(int id, IoSession session, Builder builder) {
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
@@ -176,7 +172,7 @@ public class SettingsMgr {
 		HibernateUtil.update(jz);
 		JunZhuMgr.inst.sendMainInfo(session,jz,false);
 		log.info("君主修改名字成功，君主:{}花费{}元宝将名字从{}改为{}", jz.id, changeNameCost, oldName, req.getName());
-		ActLog.log.KingChange(jz.id, oldName, jz.name, ActLog.vopenid);
+		ActLog.log.KingChange(jz.id, oldName, jz.name);
 		ret.setCode(0);
 		ret.setMsg("改名成功");
 		session.write(ret.build());

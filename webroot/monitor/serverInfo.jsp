@@ -1,3 +1,4 @@
+<%@page import="com.qx.persistent.Cache"%>
 <%@page import="com.qx.vip.VipMgr"%>
 <%@page import="com.qx.util.DelayedSQLMgr"%>
 <%@page import="com.qx.task.GameTaskMgr"%>
@@ -107,7 +108,8 @@ if("changeModelCD".equals(act)){
  NIOProcessor个数:<input  type='number' name='sizePerSc' value='<%=TXSocketMgr.inst.procsArr.length %>'/>
 <button type='submit' >修改</button>
 </form>
-EventQ:<br/>
+jzCache:<%=Cache.jzCache.size() %><br/>
+EventQ[<%=EventMgr.es.length %>]:<br/>
 <%
 for(ThreadPoolExecutor e : EventMgr.es){
 %>
@@ -116,7 +118,7 @@ for(ThreadPoolExecutor e : EventMgr.es){
 	排队中:<%=e.getQueue().size() %>
 	<br/>
 <%} %>
-DBSaver:<br/>
+DBSaver[<%=DBSaver.es.length %>]:<br/>
 <%
 for(ThreadPoolExecutor e : DBSaver.es){
 %>
@@ -125,11 +127,15 @@ for(ThreadPoolExecutor e : DBSaver.es){
 	排队中:<%=e.getQueue().size() %>
 	<br/>
 <%} %>
-任务处理器:
-	最高线程数:<%=GameTaskMgr.es.getLargestPoolSize() %>
-已调度:<%=GameTaskMgr.es.getTaskCount() %>,
-	已完成:<%=GameTaskMgr.es.getCompletedTaskCount() %>,
-	排队中:<%=GameTaskMgr.es.getQueue().size() %>
+任务处理器[<%=GameTaskMgr.es.length %>]:<br/>
+<%
+for(ThreadPoolExecutor e : GameTaskMgr.es){
+%>
+	已调度:<%=e.getTaskCount() %>,
+	已完成:<%=e.getCompletedTaskCount() %>,
+	排队中:<%=e.getQueue().size() %>
+	<br/>
+<%} %>
  <br/>
 DelayedSQLMgr:
 	最高线程数:<%=DelayedSQLMgr.es.getLargestPoolSize() %>

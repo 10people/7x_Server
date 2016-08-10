@@ -203,9 +203,7 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 		resp.setResult(result);
 		ResourceGongJin gongjinBean =HibernateUtil.find(ResourceGongJin.class, jzId);
 		if(gongjinBean==null){
-			gongjinBean = new ResourceGongJin();
-			gongjinBean.junzhuId = jzId;
-			Cache.caCheMap.get(ResourceGongJin.class).put(jzId, gongjinBean);
+			gongjinBean = initResourceGongJin(jzId);
 		}
 		GuoJiaBean gjBean = HibernateUtil.find(GuoJiaBean.class, jz.guoJiaId);
 		if (gjBean == null) {
@@ -239,9 +237,7 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 //			resp.setLianMengRank(-1);
 //			session.write(resp.build());
 //			return;
-			gongjinBean = new ResourceGongJin();
-			gongjinBean.junzhuId = jzId;
-			Cache.caCheMap.get(ResourceGongJin.class).put(jzId,gongjinBean);
+			gongjinBean = initResourceGongJin(jzId);
 		}else{
 //			resetResourceGongJin(gongjinBean);
 //			if(gongjinBean.lastJX<CanShu.LUEDUO_HAND_DAYMINNUM){
@@ -1060,8 +1056,7 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 			log.error("玩家:{}发送国家声望周排行奖励邮件失败", jz.name);
 		}
 		if(gongjinBean == null){
-			gongjinBean = new ResourceGongJin();
-			gongjinBean.junzhuId = jz.id;
+			gongjinBean = initResourceGongJin(jz.id);
 		}
 		gongjinBean.getWeekAwardTime = new Date();
 		HibernateUtil.save(gongjinBean);
@@ -1089,6 +1084,14 @@ public class GuoJiaMgr  extends EventProc implements Runnable{
 		int maxhate2= MathUtils.getMax4Map(hateMap); 
 		log.info("计算国家{}敌对国为{}和{}",guojiaId,maxhate1,maxhate2);
 		return new Integer[]{maxhate1,maxhate2};
+	}
+	
+	public ResourceGongJin initResourceGongJin(long jzId){
+		ResourceGongJin gongjinBean = new ResourceGongJin();
+		gongjinBean.junzhuId = jzId;
+		HibernateUtil.insert(gongjinBean);
+		Cache.caCheMap.get(ResourceGongJin.class).put(jzId, gongjinBean);
+		return gongjinBean;
 	}
 
 //	/**

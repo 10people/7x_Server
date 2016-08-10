@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.util.CopyOnWriteMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +32,6 @@ import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
-import com.qx.pvp.PvpMgr;
 import com.qx.timeworker.FunctionID;
 
 import qxmobile.protobuf.FuWen.FuwenDuiHuan;
@@ -249,7 +249,6 @@ public class FuwenMgr extends EventProc {
 		List<FuWenBean> fuWenBeanList = FuWenDao.inst.getFuwenByTab(jz.id, tab);
 		if (fuWenBeanList == null || fuWenBeanList.size() == 0) {// 符文栏位初始化
 			fuWenBeanList = initFuwenLanwei(jz, tab);
-			FuWenDao.inst.fuwenCache.put(jz.id, fuWenBeanList);
 		}
 		
 		Bag<BagGrid> bag = BagMgr.inst.loadBag(jz.id);
@@ -489,11 +488,10 @@ public class FuwenMgr extends EventProc {
 		boolean performed = false;
 		// 获取背包物品是符文的格子
 		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
-		List<BagGrid> fuwenGridList = new ArrayList<>();
-		List<BagGrid> gridList = bag.grids;
-		for(BagGrid grid : gridList){
-			if(grid.type == AwardMgr.type_fuWen){
-				fuwenGridList.add(grid);
+		Map<Long, BagGrid> fuwenGridMap = new CopyOnWriteMap<>();
+		for(BagGrid grid : bag.grids){
+			if(grid.type == AwardMgr.type_fuWen && grid.itemId > 0){
+				fuwenGridMap.put(grid.dbId, grid);
 			}
 		}
 		
@@ -510,10 +508,10 @@ public class FuwenMgr extends EventProc {
 				if(fuwen == null) {
 					continue;
 				}
-				for(BagGrid grid : fuwenGridList){
+				for(BagGrid grid : fuwenGridMap.values()){//使用了 CopyOnWriteMap，否则出现ConcurrentModificationException异常
 					Fuwen fuwenCfgInBag = fuwenMap.get(grid.itemId);
 					if(fuwenCfgInBag == null) {
-						logger.error("一键镶嵌符文失败，找不到fuwen表id为:{}的配置", grid.itemId);
+						logger.error("一键镶嵌符文失败，找不到fuwen表id为:{}的配置1", grid.itemId);
 						continue;
 					}
 					// 提供的属性不一致的不能替换
@@ -536,14 +534,15 @@ public class FuwenMgr extends EventProc {
 					HibernateUtil.save(fwBean);
 					BagMgr.inst.removeItemByBagdbId(session, bag, "镶嵌消耗一个符文", grid.dbId, 1, junZhu.level);
 					BagMgr.inst.addItem(session, bag, beforeItemId, 1, beforeExp, junZhu.level, "镶嵌符文替换下的");
+					fuwenGridMap.remove(grid.dbId);
 					performed = true;
 				}		
 			} else {										// 表示当前位置还没有镶嵌符文
 				BagGrid maxExpGrid = null;	// 当前符文经验最大的
-				for(BagGrid grid : fuwenGridList){
+				for(BagGrid grid : fuwenGridMap.values()){
 					Fuwen fuwenCfg = fuwenMap.get(grid.itemId);
 					if(fuwenCfg == null) {
-						logger.error("一键镶嵌符文失败，找不到fuwen表id为:{}的配置", grid.itemId);
+						logger.error("一键镶嵌符文失败，找不到fuwen表id为:{}的配置2", grid.itemId);
 						continue;
 					}
 					if(fuwenCfg.inlayColor != fuwenOpenCfg.inlayColor) {
@@ -582,6 +581,7 @@ public class FuwenMgr extends EventProc {
 					fwBean.exp = (int) maxExpGrid.instId;
 					HibernateUtil.save(fwBean);
 					BagMgr.inst.removeItemByBagdbId(session, bag, "镶嵌消耗一个符文", maxExpGrid.dbId, 1, junZhu.level);
+					fuwenGridMap.remove(maxExpGrid.dbId);
 					performed = true;
 				}
 			}
@@ -800,7 +800,7 @@ public class FuwenMgr extends EventProc {
 			fuWenBean.lanWeiId = openCfg.id;
 			fuWenBean.exp = 0;
 			HibernateUtil.insert(fuWenBean);
-			fuWenBeanList.add(fuWenBean);
+			FuWenDao.inst.insert(jz.id, fuWenBean);
 		}
 		logger.info("初始化君主:{}所有符文栏位", jz.id);
 		return fuWenBeanList;
@@ -1351,6 +1351,7 @@ public class FuwenMgr extends EventProc {
 			checkFuwenUnlock(jz);
 			break;
 		case ED.JUNZHU_LOGIN:
+		case ED.FUSHI_PUSH:
 			pushFushi(jz);
 			break;
 		default:
@@ -1362,6 +1363,7 @@ public class FuwenMgr extends EventProc {
 	public void doReg() {
 		EventMgr.regist(ED.CHECK_FUWEN_UOLOCK, this);
 		EventMgr.regist(ED.JUNZHU_LOGIN, this);
+		EventMgr.regist(ED.FUSHI_PUSH, this);
 	}
 
 	public void rongHeFuwen(int id, IoSession session, Builder builder) {

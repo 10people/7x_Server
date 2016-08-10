@@ -8,6 +8,7 @@ import javax.persistence.Table;
 
 import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.util.DateUtils;
+import com.qx.persistent.DBHash;
 import com.qx.persistent.HibernateUtil;
 
 /**
@@ -15,7 +16,7 @@ import com.qx.persistent.HibernateUtil;
  */
 @Entity
 @Table(name="DailyTaskActivity")
-public class DailyTaskActivity {
+public class DailyTaskActivity implements DBHash{
 	@Id
 	public long jid;
 	/*
@@ -56,5 +57,9 @@ public class DailyTaskActivity {
 	}
 	public void setWeekHuoYue(int weekHuoYue) {
 		this.weekHuoYue = weekHuoYue;
+	}
+	@Override
+	public long hash() {
+		return this.jid;
 	}
 }

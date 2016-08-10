@@ -5,13 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
 import com.qx.persistent.MCSupport;
 
 @Entity
-@Table(name = "UserEquip")
-public class UserEquip implements MCSupport{
+@Table(name = "UserEquip",indexes={@Index(name="userId",columnList="userId")})
+public class UserEquip implements MCSupport , DBHash{
 	/**
 	 * 
 	 */
@@ -20,7 +22,7 @@ public class UserEquip implements MCSupport{
 	// @GenericGenerator(name = "generator", strategy = "native", parameters = {
 	// @Parameter(name = "unsaved-value", value = "0") })
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+//	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "equipId", unique = true, nullable = false)
 	public long equipId;
 
@@ -122,6 +124,10 @@ public class UserEquip implements MCSupport{
 	@Override
 	public long getIdentifier() {
 		return equipId;
+	}
+	@Override
+	public long hash() {
+		return userId;
 	}
 
 

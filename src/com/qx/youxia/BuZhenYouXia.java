@@ -5,9 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 @Entity
 @Table(name = "BuZhenYouXia")
-public class BuZhenYouXia {
+public class BuZhenYouXia implements DBHash {
 	@Id
 	public long junzhuId;
 
@@ -30,4 +32,9 @@ public class BuZhenYouXia {
 	/** 横扫六合 */
 	@Column(columnDefinition = "INT default -1")
 	public int type5;		//横扫六合
+
+	@Override
+	public long hash() {
+		return junzhuId;
+	}
 }

@@ -7,9 +7,11 @@ import java.util.Map;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.context.request.NativeWebRequest;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
+import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.JiNengPeiYang;
 import com.manu.network.SessionManager;
 import com.qx.event.ED;
@@ -20,6 +22,7 @@ import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
+import com.qx.persistent.MC;
 import com.qx.timeworker.FunctionID;
 
 import qxmobile.protobuf.JiNengPeiYang.GetJiNengPeiYangQuality;
@@ -112,6 +115,7 @@ public class JiNengPeiYangMgr extends EventProc{
 		setIdToBean(bean,p);
 		if(insert){
 			Cache.jnBeanCache.put(junZhu.id, bean);
+			MC.add(bean, junZhu.id);
 			HibernateUtil.insert(bean);
 		}else{
 			HibernateUtil.update(bean);
@@ -180,8 +184,10 @@ public class JiNengPeiYangMgr extends EventProc{
 		forceAddNewJn(junZhu,p);
 	}
 	public void forceAddNewJn(JunZhu junZhu, JiNengPeiYang p) {
-		NewJNBean nb = HibernateUtil.find(NewJNBean.class, junZhu.id);
-		if(nb == null){
+//		NewJNBean nb = HibernateUtil.find(NewJNBean.class, junZhu.id);
+		String jzId = String.valueOf(junZhu.id);
+		String newJnBean = Redis.instance.hget("NewJNBean", jzId);
+		/*if(nb == null){
 			nb = new NewJNBean();
 			nb.ids="";
 			nb.jzId = junZhu.id;
@@ -193,9 +199,17 @@ public class JiNengPeiYangMgr extends EventProc{
 			if(!nb.ids.contains(p.id+"")) {
 				nb.ids += "#"+p.id;
 			}
+		}*/
+		if(null == newJnBean || newJnBean.isEmpty()){
+			newJnBean = ""+p.id;
+		}else{
+			if(newJnBean.contains(p.id+"")){
+				newJnBean += "#"+p.id;
+			}
 		}
 		log.info("君主:{},等级:{},新技能:{}解锁", junZhu.id, junZhu.level, p.id);
-		HibernateUtil.update(nb);
+//		HibernateUtil.update(nb);
+		Redis.instance.hset("NewJNBean", jzId, newJnBean);
 	}
 	public void setIdToBean(JNBean bean, JiNengPeiYang next) {
 		switch(next.wuqiType){
@@ -346,17 +360,24 @@ public class JiNengPeiYangMgr extends EventProc{
 	}
 	
 	public int[] getNewJNIds(long jzId){
-		NewJNBean bean = HibernateUtil.find(NewJNBean.class, jzId);
-		if(bean == null || bean.ids == null || bean.ids.isEmpty()){
+//		NewJNBean bean = HibernateUtil.find(NewJNBean.class, jzId);
+		String junZhuId = String.valueOf(jzId);
+		String ids = Redis.instance.hget("NewJNBean", junZhuId);
+		/*if(bean == null || bean.ids == null || bean.ids.isEmpty()){
+			return new int[0];
+		}*/
+		if(null == ids || ids.isEmpty()){
 			return new int[0];
 		}
-		String arr[] = bean.ids.split("#");
+		String arr[] = ids.split("#");
 		int[] ret = new int[arr.length];
 		for(int i=0;i<arr.length;i++){
 			ret[i] = Integer.parseInt(arr[i]);
 		}
-		bean.ids="";
-		HibernateUtil.update(bean);
+//		ids="";
+//		HibernateUtil.update(bean);
+		Redis.instance.hdel("NewJNBean", junZhuId);
+//		Redis.instance.hset("NewJNBean", junZhuId, ids);
 		return ret;
 	}
 

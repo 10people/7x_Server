@@ -64,16 +64,18 @@ public class LevelUpGiftMgr extends EventProc{
 			logger.error("未找到君主信息");
 			return;
 		}
-		List<LevelUpGiftBean> chongjiList = HibernateUtil.list(LevelUpGiftBean.class,"where jzId=" + jz.id + " and getState=1");
+		/*List<LevelUpGiftBean> chongjiList = HibernateUtil.list(LevelUpGiftBean.class,"where jzId=" + jz.id + " and getState=1");
 		Map<Integer,LevelUpGiftBean> searchMap = new HashMap<Integer,LevelUpGiftBean>();
 		for (LevelUpGiftBean levelUpGiftBean : chongjiList) {
 			searchMap.put(levelUpGiftBean.level,levelUpGiftBean);
-		}
+		}*/
+		Map<Integer,LevelUpGiftBean> searchMap = levelUpGiftBeanDao.inst.getMap(jz.id);
 		List<XianshiHuodong> settings = TempletService.getInstance().listAll(XianshiHuodong.class.getSimpleName());
 		ActivitLevelGiftResp.Builder resp = ActivitLevelGiftResp.newBuilder();
 		for (XianshiHuodong xianshiHuodong : settings) {
 			if(xianshiHuodong.doneType != 1) continue; //过滤掉其他配置
-			if(searchMap.containsKey(Integer.parseInt(xianshiHuodong.doneCondition))) continue; //领取不显示
+			LevelUpGiftBean tmp = searchMap.get(Integer.parseInt(xianshiHuodong.doneCondition));
+			if(tmp != null && tmp.getState == 1) continue; //领取不显示
 			GrowLevel.Builder oneInfo = GrowLevel.newBuilder();
 			oneInfo.setId(Integer.parseInt(xianshiHuodong.doneCondition));
 			oneInfo.setDes(xianshiHuodong.desc);
@@ -127,7 +129,9 @@ public class LevelUpGiftMgr extends EventProc{
 			return;
 		}
 		//校验是否已经领取该等级对应奖励
-		LevelUpGiftBean levelUpGiftBean =  HibernateUtil.find(LevelUpGiftBean.class,"where jzId=" + jz.id + " and level=" + level + " and getState=1");
+		/*LevelUpGiftBean levelUpGiftBean =  HibernateUtil.find(LevelUpGiftBean.class,"where jzId=" + jz.id + " and level=" + level + " and getState=1");*/
+		Map<Integer,LevelUpGiftBean> searchMap = levelUpGiftBeanDao.inst.getMap(jz.id);
+		LevelUpGiftBean levelUpGiftBean = searchMap.get(level);
 		if(levelUpGiftBean != null){
 			logger.info("阶段奖励已经领取");
 			resp.setResult(2);
@@ -141,6 +145,7 @@ public class LevelUpGiftMgr extends EventProc{
 		levelUpGiftBean.level = level;
 		levelUpGiftBean.getState = 1; //已经领取
 		levelUpGiftBean.getTime = new Date();
+		levelUpGiftBeanDao.inst.save(levelUpGiftBean);
 		HibernateUtil.insert(levelUpGiftBean);
 		//道具加到身上
 		String[] awardsArr = chongjiMap.get(level).Award.split("#"); //0:900018:2000#0:900019:2000#0:900002:550
@@ -175,16 +180,18 @@ public class LevelUpGiftMgr extends EventProc{
 	 */
 	public boolean isShow(JunZhu jz){
 		boolean isShow = false;
-		List<LevelUpGiftBean> chongjiList = HibernateUtil.list(LevelUpGiftBean.class,"where jzId=" + jz.id + " and getState=1");
+		/*List<LevelUpGiftBean> chongjiList = HibernateUtil.list(LevelUpGiftBean.class,"where jzId=" + jz.id + " and getState=1");
 		Map<Integer,LevelUpGiftBean> searchMap = new HashMap<Integer,LevelUpGiftBean>();
 		for (LevelUpGiftBean levelUpGiftBean : chongjiList) {
 			searchMap.put(levelUpGiftBean.level,levelUpGiftBean);
-		}
+		}*/
+		Map<Integer,LevelUpGiftBean> searchMap = levelUpGiftBeanDao.inst.getMap(jz.id);
 		List<XianshiHuodong> settings = TempletService.getInstance().listAll(XianshiHuodong.class.getSimpleName());
 		ActivitLevelGiftResp.Builder resp = ActivitLevelGiftResp.newBuilder();
 		for (XianshiHuodong xianshiHuodong : settings) {
 			if(xianshiHuodong.doneType != 1) continue; //过滤掉其他配置
-			if(searchMap.containsKey(Integer.parseInt(xianshiHuodong.doneCondition))) continue; //领取不显示
+			LevelUpGiftBean tmp = searchMap.get(Integer.parseInt(xianshiHuodong.doneCondition));
+			if(tmp != null && tmp.getState == 1) continue; //领取不显示
 			isShow = true;
 		}
 		return isShow;
@@ -227,15 +234,17 @@ public class LevelUpGiftMgr extends EventProc{
 		if(jz == null){
 			return;
 		}
-		List<LevelUpGiftBean> chongjiList = HibernateUtil.list(LevelUpGiftBean.class,"where jzId=" + jz.id + " and getState=1");
+		/*List<LevelUpGiftBean> chongjiList = HibernateUtil.list(LevelUpGiftBean.class,"where jzId=" + jz.id + " and getState=1");
 		Map<Integer,LevelUpGiftBean> searchMap = new HashMap<Integer,LevelUpGiftBean>();
 		for (LevelUpGiftBean levelUpGiftBean : chongjiList) {
 			searchMap.put(levelUpGiftBean.level,levelUpGiftBean);
-		}
+		}*/
+		Map<Integer,LevelUpGiftBean> searchMap = levelUpGiftBeanDao.inst.getMap(jz.id);
 		List<XianshiHuodong> settings = TempletService.getInstance().listAll(XianshiHuodong.class.getSimpleName());
 		for (XianshiHuodong xianshiHuodong : settings) {
 			if(xianshiHuodong.doneType != 1) continue; //过滤掉其他配置
-			if(searchMap.containsKey(Integer.parseInt(xianshiHuodong.doneCondition))) continue; //领取不显示
+			LevelUpGiftBean tmp = searchMap.get(Integer.parseInt(xianshiHuodong.doneCondition));
+			if(tmp != null && tmp.getState == 1) continue; //领取不显示
 			if(jz.level >= Integer.parseInt(xianshiHuodong.doneCondition)){
 				FunctionID.pushCanShowRed(jz.id,session,FunctionID.activity_levelAward);
 				break;

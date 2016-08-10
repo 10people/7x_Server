@@ -7,11 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
 import com.qx.persistent.MCSupport;
 
 @Entity
 @Table(name = "TiLi")
-public class TiLi implements MCSupport {
+public class TiLi implements MCSupport,DBHash{
 	/**
 	 * 
 	 */
@@ -24,6 +25,10 @@ public class TiLi implements MCSupport {
 	public int num;
 	@Override
 	public long getIdentifier() {
+		return dbId;
+	}
+	@Override
+	public long hash() {
 		return dbId;
 	}
 }

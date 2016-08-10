@@ -32,7 +32,7 @@ public class ZhuXian {
 	public int finishType;
 
 	public int[] getBranchRenWuIds(){
-		if(this.nextGroup == null || "".equals(this.nextGroup)){
+		if(this.nextGroup == null || "".equals(this.nextGroup) ||"0".equals(this.nextGroup)){
 			return emptyArr;
 		}
 		String[] ids = this.nextGroup.split(":");

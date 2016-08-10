@@ -49,22 +49,27 @@ public class TestAllianceInfo extends TestBase{
 		System.out.println("联盟数量：" + response.getAlincInfoCount());
 		List<NonAllianceInfo> infoList = response.getAlincInfoList();
 		JunZhuInfoRet.Builder jzInfo = (qxmobile.protobuf.JunZhuProto.JunZhuInfoRet.Builder) cl.session.getAttachment();
+		if(jzInfo == null){
+//			req(cl);
+			System.out.println("君主信息为空");
+			return;
+		}
 		int state = 0;// 0-没有能加入的联盟，1-立刻加入了一个联盟，2-申请了一个联盟
 		for(NonAllianceInfo info : infoList) {
-			if(info.getApplyLevel() > jzInfo.getLevel() || info.getJunXian() > jzInfo.getJunXian()) {
-				continue;
-			}
+//			if(info.getApplyLevel() > jzInfo.getLevel() || info.getJunXian() > jzInfo.getJunXian()) {
+//				continue;
+//			}
 			ProtobufMsg msg = new ProtobufMsg();
 			if(info.getIsShenPi() == 1) {
 				immediatelyJoin.Builder request = immediatelyJoin.newBuilder();
-				request.setLianMengId(info.getId());
+				request.setLianMengId(10014);//10014梁斌指定的联盟
 				msg.id = PD.IMMEDIATELY_JOIN;
 				msg.builder = request;
 				cl.session.write(msg);
 				state = 1;
 			} else {
 				ApplyAlliance.Builder request = ApplyAlliance.newBuilder();
-				request.setId(info.getId());
+				request.setId(10014);
 				msg.id = PD.APPLY_ALLIANCE;
 				msg.builder = request;
 				state = 2;

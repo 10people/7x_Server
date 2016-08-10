@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.qx.task.GameTaskMgr;
 import com.qx.util.DelayedSQLMgr;
+import com.qx.util.TPE;
 
 /**
  * 服务器内部事件处理器；用于断开模块之间耦合。
@@ -28,7 +29,7 @@ import com.qx.util.DelayedSQLMgr;
 public class EventMgr{
 	public static ThreadPoolExecutor[] es;
 	public static Set<Integer> taskCareIds = new HashSet<>();
-	public static Logger log = LoggerFactory.getLogger(EventMgr.class);
+	public static Logger log = LoggerFactory.getLogger(EventMgr.class.getSimpleName());
 	public static Map<Integer,List<EventProc>> procs = new HashMap<Integer, List<EventProc>>();;
 	public static EventMgr inst;
 	public EventMgr(){
@@ -36,7 +37,7 @@ public class EventMgr{
 		int len = 50;
 		es = new ThreadPoolExecutor[len];
 		for(int i=0;i<len;i++){
-			es[i] = new ThreadPoolExecutor(1, 1,
+			es[i] = new TPE(1, 1,
                     0L, TimeUnit.MILLISECONDS,
                     new LinkedBlockingQueue<Runnable>());
 		}
@@ -46,20 +47,21 @@ public class EventMgr{
 			s.shutdown();
 		}
 	}
+	public static void submit(long jzId, Runnable r){
+		long hash = jzId/1000;
+		hash = hash % es.length;
+		int grid = (int) hash;
+		es[grid].submit(r);
+	}
 	public static void addEvent(long jzId, int id, Object param){
 		Event evt = new Event();
 		evt.id = id;
 		evt.param = param;
 		if(taskCareIds.contains(id)){
-			GameTaskMgr.inst.fireEvent(evt);
+			GameTaskMgr.inst.fireEvent(jzId,evt);
 		}
 		//有些事件不止是任务关心，所以任然要添加。
-		long hash = jzId/1000;
-		hash = hash % es.length;
-		int grid = (int) hash;
-		es[grid].submit(()->
-			inst.handle(evt)
-		);
+		submit(jzId,()->inst.handle(evt));
 	}
 	public void handle(Event evt) {
 		List<EventProc> list = procs.get(evt.id);

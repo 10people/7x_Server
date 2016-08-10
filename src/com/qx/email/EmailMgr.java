@@ -239,8 +239,8 @@ public class EmailMgr extends EventProc implements Runnable {
 			sendSendEmailResp(session, 0);
 			String jzId = String.valueOf(sender.id);
 			OurLog.log.SnsFlow(jzId, 1, 4, 0, jzId);
-			ActLog.log.EmailLog(sender.id, sender.name, ActLog.vopenid, 2, 
-					ActLog.vopenid, receiverJzId.get().longValue(), receiverName, "Title", content, new JSONArray());
+			ActLog.log.EmailLog(sender.id, sender.name, 2, 
+					receiverJzId.get().longValue(), receiverName, "Title", content, new JSONArray());
 		} else {
 			log.error("玩家邮件发送失败！！");
 		}

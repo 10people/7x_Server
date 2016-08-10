@@ -2617,7 +2617,7 @@ public class HouseMgr extends EventProc implements Runnable {
 	 * @param code
 	 */
 	public void passBigHouseInfo(int lmId, List<BigHouse> bHList, int code) {
-		List<AlliancePlayer> memberList = BigSwitch.inst.allianceMgr
+		Set<AlliancePlayer> memberList = BigSwitch.inst.allianceMgr
 				.getAllianceMembers(lmId);
 		HouseUpdateInfo.Builder ret = HouseUpdateInfo.newBuilder();
 		// 高级房子列表

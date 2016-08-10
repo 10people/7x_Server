@@ -7,7 +7,9 @@ import java.util.Map;
 import org.apache.mina.core.session.IoSession;
 
 import pct.TestBase;
+import pct.TestBuyTili;
 import pct.TestJiNengPeiYang;
+import pct.TestSaoDang;
 import qxmobile.protobuf.ErrorMessageProtos.DataList;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.JewelProtos.EquipOperationResp;
@@ -15,20 +17,21 @@ import qxmobile.protobuf.JewelProtos.JewelInfo;
 import qxmobile.protobuf.JewelProtos.JewelList;
 import qxmobile.protobuf.JunZhuProto.JunZhuInfoRet;
 import qxmobile.protobuf.LieFuProto.LieFuActionResp;
+import qxmobile.protobuf.Qiandao.QiandaoResp;
 import qxmobile.protobuf.Scene.EnterScene;
 import qxmobile.protobuf.Scene.EnterSceneCache;
 import qxmobile.protobuf.Scene.ExitScene;
 import qxmobile.protobuf.Scene.SpriteMove;
 import qxmobile.protobuf.VIP.RechargeReq;
+import qxmobile.protobuf.XianShi.ReturnAward;
+import qxmobile.protobuf.ZhanDou.ZhanDouInitError;
 
 import com.google.protobuf.MessageLite.Builder;
-import com.manu.dynasty.util.BaseException;
 import com.manu.network.PD;
 import com.manu.network.ParsePD;
 import com.manu.network.msg.ProtobufMsg;
-import com.qx.hero.WuJiang;
+import com.qx.activity.XianShiConstont;
 import com.qx.test.main.GameClient;
-import com.qx.test.main.Main;
 import com.qx.test.main.WuJiangTest;
 
 
@@ -39,10 +42,6 @@ public class MessageDispatcher {
 		super();
 		this.client = c;
 	}
-	public static Map<Integer, TestBase> handlerMap = new HashMap<Integer, TestBase>();
-	public static void listen(int id, TestBase tb){
-		handlerMap.put(id, tb);
-	}
 	public  void msgDispatcher(int id, Builder builder, IoSession session) {
 		try {
 			switch (id) {
@@ -52,18 +51,19 @@ public class MessageDispatcher {
 				if("今天购买次数达到最大，不能再次购买体力".equals(em.getErrorDesc())){
 					System.out.println("尝试获取君主信息");
 					JunZhuInfoRet.Builder jzInfo = (JunZhuInfoRet.Builder)session.getAttachment();
-					if( jzInfo != null ){
-						System.out.println("获取到君主信息，君主VIP等级为"+jzInfo.getVipLv());
-					}
-					int vip = jzInfo == null ?0 : jzInfo.getVipLv();
-					if(vip < 7 ){
-						RechargeReq.Builder czreq = RechargeReq.newBuilder();
-						czreq.setType(9);
-						czreq.setAmount(648);
-						ProtobufMsg msg = new ProtobufMsg(PD.C_RECHARGE_REQ, czreq);
-						session.write(czreq.build());
+					if( jzInfo == null ){
+						session.write(PD.JunZhuInfoReq);
 					}else{
-						session.setAttribute("OVER", true);
+						int vip = jzInfo.getVipLv();
+						if(vip < 7 ){
+							RechargeReq.Builder czreq = RechargeReq.newBuilder();
+							czreq.setType(9);
+							czreq.setAmount(648);
+							ProtobufMsg msg = new ProtobufMsg(PD.C_RECHARGE_REQ, czreq);
+							session.write(czreq.build());
+						}else{
+							session.setAttribute("OVER", true);
+						}
 					}
 				}
 				break;
@@ -92,6 +92,8 @@ public class MessageDispatcher {
 				fakeMove(client,builder);
 			}
 //				System.out.println("move");
+				break;
+			case PD.RED_NOTICE:
 				break;
 			case PD.Enter_Scene:{
 //				EnterScene.Builder enterSc = (EnterScene.Builder )builder;
@@ -148,6 +150,7 @@ public class MessageDispatcher {
 			}
 				break;
 			case PD.PVE_PAGE_RET:
+//				new TestSaoDang().getChptGuanQiaList(session, builder);
 				client.pveRet(builder);
 				break;
 			case PD.S_HEAD_INFO:
@@ -158,6 +161,12 @@ public class MessageDispatcher {
 				break;
 			case PD.S_Broadcast:
 				System.out.println("S_Broadcast");
+				client.testTask.tryIds.clear();
+				client.lasdPveId=0;
+				client.reqTask();//防止卡任务，触发重试。
+				break;
+			case PD.S_BUY_TIMES_INFO://防止卡任务，触发重试。
+				//Main.autoDone(client);
 				break;
 			case PD.S_CHOOSE_SCENE:
 			{
@@ -197,6 +206,7 @@ public class MessageDispatcher {
 			case PD.S_BAG_CHANGE_INFO:
 				client.readBag(builder);
 				break;
+			case PD.NEW_MIBAO_INFO:
 			case PD.S_SEND_MIBAO_INFO:
 				client.readMBV2(builder);
 				break;
@@ -214,6 +224,11 @@ public class MessageDispatcher {
 				System.out.println("收到装备信息");
 				client.saveEquip(builder);
 				break;
+			case PD.S_ZHANDOU_INIT_ERROR:
+				ZhanDouInitError.Builder ret = (ZhanDouInitError.Builder) builder;
+				System.out.println(ret.getResult());
+				new TestBuyTili().handle(id, session, builder, client);
+				break;
 			case PD.LieFu_Action_req:
 				LieFuActionResp.Builder resp = (LieFuActionResp.Builder)builder;
 				if(resp.getResult() == 1){
@@ -221,16 +236,73 @@ public class MessageDispatcher {
 				}
 				client.session.write(PD.C_TaskReq);
 				break;
+			case PD.S_QIANDAO_RESP:{
+					QiandaoResp.Builder qiandaoResp = (QiandaoResp.Builder) builder;
+					//返回结果0-成功，101-已经签过，102-奖励不存在
+					//required int32 vipCount=2;// 领取奖励份数
+					int result = qiandaoResp.getResult();
+					if(result == 0){
+						System.out.println("立即签到成功，领取["+ qiandaoResp.getVipCount() + "]倍奖励");
+					}else if(result == 101){
+						System.out.println("立即签到失败，已经签过！");
+					}else if(result == 102){
+						System.out.println("立即签到失败，奖励不存在！");
+					}
+				}
+				break;
+			case PD.S_GET_QIANDAO_DOUBLE_RESP:{
+					QiandaoResp.Builder qiandaoResp = (QiandaoResp.Builder) builder;
+					//0-成功 ，1-vip等级不足 ，2-已经领取，3-先签到，4-没有双倍
+					int result = qiandaoResp.getResult();
+					if(result == 0){
+						System.out.println("补领奖励成功");
+					}else{
+						//失败
+						String[] reason = {"vip等级不足","","已经领取","先签到","没有双倍"}; 
+						System.out.println("补领签到双倍奖励失败，" + reason[result - 1]);
+					}
+				}
+				break;
+		/*	case PD.S_DAILY_TASK_LIST_RESP:
+				TestDailyTask.getDailyTaskList(session, builder);
+				break;*/
+			/*case PD.S_DAILY_TASK_GET_REWARD_RESP:
+				TestDailyTask.getDailyTaskAward(session, builder);
+				break;*/
+			case PD.S_XINSHOU_XIANSHI_AWARD_RESP:{
+				ReturnAward.Builder qiriresp = (ReturnAward.Builder) builder;
+				//结果 10:成功 20：已领取 30：活动已关闭 40:活动未开启 超时不可领取50:条件未达成 
+				int result = qiriresp.getResult();
+				//失败
+				int bidId = qiriresp.getHuodongId() / 1000 * 1000;
+				if(bidId == XianShiConstont.QIRIQIANDAO_TYPE){ //七日
+					String[] reason = {"七日奖励领取成功!","","七日奖励领取失败，已领取!","七日奖励领取失败，活动未开启 超时不可领取!","七日奖励领取失败，条件未达成!"}; 
+					System.out.println(reason[result/10 - 1]);
+				}else if(bidId == XianShiConstont.ZAIXIANLIBAO_TYPE){ //在线
+					
+				}
+			}
+			break;
 			default:
-				TestBase tb = handlerMap.get(id);
+				TestBase tb = client.handlerMap.get(id);
+//				if(builder != null){
+//					String jsonStr = JsonFormat.printToString((Message) builder.build());
+//					jsonStr = utils.JsonUtils.format(jsonStr);
+//					System.out.println("-------------------------协议号["+ id +"]-----------------------------");
+//					System.out.println(jsonStr);
+//					System.out.println("-----------------------------------------------------------------");
+//				}
 				if(tb != null){
 					tb.handle(id, session, builder,client);
 					break;
 				}
-				if(client.log)System.out.println("未处理的消息:"+id+"->"+ParsePD.getName(id) +"-->"+ (builder == null ? "" : 
+				client.log = false;
+				if(client.log){System.out.print("未处理的消息:"+id+"->"+ParsePD.getName(id) +"-->"+ (builder == null ? "" : 
 					builder.getDefaultInstanceForType().getClass().getSimpleName())
 					);
-				if(builder != null)System.out.println(builder.toString());
+					if(builder != null)System.out.print(":"+builder.toString());
+					System.out.println();
+				}
 				break;
 			}
 		} catch (Exception e) {
@@ -258,12 +330,12 @@ public class MessageDispatcher {
 		}else{
 			c.lastMoveTime = m;
 //			c.move();
-			return;
+//			return;
 		}
-//		move.setPosX(move.getPosX()-(c.uid-c.masterUid)/80f);
-//		c.lastMoveTime = m;
-//		c.session.write(builder.build());
-//		c.session.write(builder.build());
+		move.setPosX(move.getPosX()-(c.uid-c.masterUid)/80f);
+		c.lastMoveTime = m;
+		c.session.write(builder.build());
+		c.session.write(builder.build());
 		
 		//System.out.println(c.accountName+" fake move:"+move.getPosX()+" -->"+c.masterUid);
 	}

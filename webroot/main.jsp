@@ -17,12 +17,7 @@ if("203.195.230.100".equals(name)){
 	name = "正式";
 }else{
 	switch(sid){
-	case 1: name="建虎";break;
-	case 2: name="照文";break;
-	case 3: name="内网";break;
-	case 35: name="王转";break;
-	case 37: name="测试专用";break;
-	case 38: name="峻宇";break;
+	case 1: name="内网";break;
 	}
 }
 

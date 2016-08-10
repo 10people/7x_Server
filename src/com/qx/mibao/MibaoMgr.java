@@ -333,16 +333,7 @@ public class MibaoMgr extends EventProc{
 		Date date = new Date();
 		MibaoLevelPoint levelPoint = HibernateUtil.find(MibaoLevelPoint.class, junZhu.id);
 		if(levelPoint == null) {
-			levelPoint = new MibaoLevelPoint();
-			levelPoint.junzhuId = junZhu.id;
-			levelPoint.point = 
-				VipMgr.INSTANCE.getValueByVipLevel(junZhu.vipLevel, VipData.mibaoCountLimit);
-			levelPoint.lastAddTime = date;
-			levelPoint.lastBuyTime = date;
-			levelPoint.dayTimes = 0;
-//			levelPoint.needAllStar = mibao_first_full_star;
-			HibernateUtil.save(levelPoint);
-			Cache.mbLevelPointCache.put(junZhu.id,levelPoint);
+			levelPoint = getDefaultMibaoLevelPoint(junZhu);
 		} else {
 			refreshLevelPoint(levelPoint, date, junZhu.vipLevel);
 		}
@@ -356,6 +347,21 @@ public class MibaoMgr extends EventProc{
 		msg.builder = resp;
 		msg.id = respCmd;
 		session.write(resp.build());
+	}
+	
+	public MibaoLevelPoint getDefaultMibaoLevelPoint(JunZhu jz){
+		if(jz == null) return null;
+		Date date = new Date();
+		MibaoLevelPoint levelPoint = new MibaoLevelPoint();
+		levelPoint.junzhuId = jz.id;
+		levelPoint.point = VipMgr.INSTANCE.getValueByVipLevel(jz.vipLevel, VipData.mibaoCountLimit);
+		levelPoint.lastAddTime = date;
+		levelPoint.lastBuyTime = date;
+		levelPoint.dayTimes = 0;
+//		levelPoint.needAllStar = mibao_first_full_star;
+		HibernateUtil.save(levelPoint);
+		Cache.mbLevelPointCache.put(jz.id,levelPoint);
+		return levelPoint;
 	}
 	
 	public void addSkillInfoList(MibaoInfoResp.Builder resp, long jId) {
@@ -675,6 +681,9 @@ public class MibaoMgr extends EventProc{
 		MibaoInfo.Builder mibaoInfo = MibaoInfo.newBuilder();
 		fillMibaoInfoBuilder(junZhu, mibaoInfo, miBaoDB, miBaoCfg, mibaoStar, false);
 		resp.setMibaoInfo(mibaoInfo);
+		Date date = new Date();
+		refreshLevelPoint(levelPoint, date, junZhu.vipLevel);
+		resp.setRemainTime(getLevelPointRemainSeconds(levelPoint, date, junZhu.vipLevel));
 		session.write(resp.build());
 		junZhu.tongBi = junZhu.tongBi - expTemp.needExp;
 		HibernateUtil.save(junZhu);
@@ -866,9 +875,13 @@ public class MibaoMgr extends EventProc{
 		return mibaoDBList;
 	}
 	public boolean isMibaoLevelOk(long junzhuId, int x_number, int l_level){
-		long cnt = MiBaoDao.inst.getMap(junzhuId).values()
-				.stream().filter(t->t.level>l_level && t.miBaoId>0)
-				.count();
+		Map<Integer, MiBaoDB> map = MiBaoDao.inst.getMap(junzhuId);
+		long cnt = 0;
+		synchronized (map) {
+			cnt = map.values()
+					.stream().filter(t->t.level>=l_level && t.miBaoId>0)
+					.count();
+		}
 		/*
 		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB0.class,
 				"where ownerId = " + junzhuId 
@@ -899,9 +912,13 @@ public class MibaoMgr extends EventProc{
 	
 	//有几个
 	public long getMibaoStarNum(long junzhuId, int x_number, int star){
-		long cnt = MiBaoDao.inst.getMap(junzhuId).values()
+		Map<Integer, MiBaoDB> map = MiBaoDao.inst.getMap(junzhuId);
+		long cnt = 0;
+		synchronized (map) {
+				cnt=map.values()
 				.stream().filter(t->t.star>=star && t.miBaoId>0)
 				.count();
+		}
 		/*
 		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB0.class,
 				"where ownerId = " + junzhuId 
@@ -911,9 +928,13 @@ public class MibaoMgr extends EventProc{
 	}
 	
 	public boolean isMibaoCountOk(long junzhuId, int x_number){
-		long cnt = MiBaoDao.inst.getMap(junzhuId).values()
+		Map<Integer, MiBaoDB> map = MiBaoDao.inst.getMap(junzhuId);
+		long cnt = 0;
+		synchronized (map) {
+		cnt = map.values()
 				.stream().filter(t->t.miBaoId>0)
 				.count();
+		}
 		/*
 		List<MiBaoDB> mibaoDBList = HibernateUtil.list(MiBaoDB0.class,
 				"where ownerId = " + junzhuId +  " and miBaoId > 0");

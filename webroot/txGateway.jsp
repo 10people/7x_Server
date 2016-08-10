@@ -1,3 +1,4 @@
+<%@page import="com.manu.dynasty.core.servlet.InitServlet"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.net.InetSocketAddress"%>
 <%@page import="com.manu.network.SessionManager"%>
@@ -22,6 +23,9 @@
 </head>
 <body>
 <%
+if(request.getParameter("close")!=null){
+	//InitServlet.closeNet();
+}
 if(TXSocketMgr.getInst().acceptor == null){
 	out("之前未启动");
 }else{

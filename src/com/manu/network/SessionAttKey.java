@@ -37,5 +37,5 @@ public class SessionAttKey {
 	public static final String LAST_GREETED_KEY = "lastGreetedKey";
 	public static final String Chosed_Scene = "setlmid";
 	public static final String JUN_XIAN_ID = "JUN_XIAN_ID";
-	public static final String TalentAttr = "TalentAttr";
+//	public static final String TalentAttr = "TalentAttr";
 }

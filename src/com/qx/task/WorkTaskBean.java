@@ -32,29 +32,10 @@ public class WorkTaskBean implements DBHash{
 	 * 已领奖的任务客户端看不到。
 	 */
 	public int progress;
-	
-	@Override
-	public boolean equals(Object obj) {
-		if(obj == null){
-			return false ;
-		}
-		if( obj instanceof WorkTaskBean){
-			WorkTaskBean tar = (WorkTaskBean)obj;
-			if( tar.dbId == this.dbId){
-				return true;
-			}
-		}
-		return false;
-	}
 
 	@Override
 	public long hash() {
 		return jzid;
 	}
 	
-	@Override
-	public String toString() {
-		ZhuXian conf = GameTaskMgr.inst.zhuxianTaskMap.get(tid);
-		return conf == null ? String.valueOf(tid):conf.title;
-	}
 }

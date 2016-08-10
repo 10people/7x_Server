@@ -55,6 +55,7 @@ public class ChengHaoDao {
 		Map<Integer, ChengHaoBean> ret = cache.get(chengHaoBean.jzId);
 		if(ret == null){
 			ret = Collections.synchronizedMap(new LinkedHashMap<Integer, ChengHaoBean>());
+			cache.put(chengHaoBean.jzId, ret);
 		}
 		ret.put(chengHaoBean.tid, chengHaoBean);
 	}

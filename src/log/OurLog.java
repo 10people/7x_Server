@@ -85,7 +85,7 @@ public class OurLog {
 				vGameAppid,//	    <entry  name="vGameAppid"          type="string"		size="32"							desc="(必填)游戏APPID" />
 				PlatID,//	    <entry  name="PlatID"			 type="int"						defaultvalue="0"		desc="(必填)ios 0/android 1"/>
 				ZoneID,//	    <entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
-				"0",//	    <entry  name="vopenid"             type="string"		size="64"							desc="(必填)用户OPENID号" />
+				String.valueOf(RoleId),//	    <entry  name="vopenid"             type="string"		size="64"							desc="(必填)用户OPENID号" />
 				OnlineTime,	//	    <entry  name="OnlineTime"		 type="int"												desc="(必填)本次登录在线时间(秒)" />
 				level,	//	    <entry  name="Level"				 type="int"												desc="(必填)等级" />
 				PlayerFriendsNum,	//	    <entry  name="PlayerFriendsNum"   type="int"												desc="(必填)玩家好友数量"/>
@@ -117,7 +117,7 @@ public class OurLog {
 		vGameAppid,//3<entry  name="vGameAppid"        type="string"      size="32"							desc="(必填)游戏APPID" />
 		PlatID,//4<entry  name="PlatID"		   type="int"						defaultvalue="0"	desc="(必填)ios 0/android 1"/>
 		ZoneID,//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
-		"0",//6<entry  name="vopenid"           type="string"      size="64"							desc="(必填)用户OPENID号" />
+		RoleId,//6<entry  name="vopenid"           type="string"      size="64"							desc="(必填)用户OPENID号" />
 		"0",//7<entry  name="Sequence"		   type="int"											desc="(可选)用于关联一次动作产生多条不同类型的货币流动日志" />
 		level,//8<entry  name="Level"            type="int"											desc="(必填)玩家等级" />
 		AfterMoney,//9<entry  name="AfterMoney"       type="int"       									desc="(可选)动作后的金钱数" />
@@ -141,7 +141,7 @@ public class OurLog {
 		vGameAppid,//<entry  name="vGameAppid"      type="string"       size="32"							desc="(必填)游戏APPID" />
 		PlatID,//<entry  name="PlatID"         type="int"							defaultvalue="0"    desc="(必填)ios 0/android 1"/>
 		ZoneID,//<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
-		"0",//<entry  name="vopenid"         type="string"       size="64"							desc="(必填)玩家" />
+		String.valueOf(RoleId),//<entry  name="vopenid"         type="string"       size="64"							desc="(必填)玩家" />
 		level,//<entry  name="Level"          type="int"												desc="(必填)玩家等级" />
 		0,//<entry  name="Sequence"			 type="int"												desc="(必填)用于关联一次购买产生多条不同类型的货币日志" />
 		iGoodsType,//<entry  name="iGoodsType"       type="int"												desc="(必填)道具类型" />
@@ -167,7 +167,7 @@ public class OurLog {
 		vGameAppid,//<entry  name="vGameAppid"          type="string"		  size="32"						desc="(必填)游戏APPID" />
 		PlatID,//<entry  name="PlatID"			       type="int"						defaultvalue="0"	desc="(必填)ios 0/android 1"/>
 		ZoneID,//<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
-		"0",//<entry  name="vopenid"             type="string"        size="64"						desc="(必填)玩家" />
+		String.valueOf(RoleId),//<entry  name="vopenid"             type="string"        size="64"						desc="(必填)玩家" />
 		ExpChange,//<entry  name="ExpChange"          type="int"											desc="(必填)经验变化" />
 		BeforeLevel,//<entry  name="BeforeLevel"        type="int"											desc="(可选)动作前等级" />
 		AfterLevel,//<entry  name="AfterLevel"         type="int"											desc="(必填)动作后等级" />
@@ -217,7 +217,7 @@ public class OurLog {
    Result   关卡 Result=2首次通关 Result=3不是首次通关
 
 	 */
-	public void RoundFlow(String vopenid,int BattleID, int BattleType,int RoundScore, int RoundTime,int Result,String RoleId){
+	public void RoundFlow(int BattleID, int BattleType,int RoundScore, int RoundTime,int Result,String RoleId){
 		RoundFlow.info("{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}",
 		//  <struct name="RoundFlow" version="1" desc="(必填)单局结束数据流水">
 		GameServer.cfg.get("serverId"),//<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
@@ -225,7 +225,7 @@ public class OurLog {
 		vGameAppid,//<entry  name="vGameAppid"          type="string"		  size="32"				desc="(必填)游戏APPID" />
 		PlatID,//<entry  name="PlatID"			 type="int"							defaultvalue="0"	desc="(必填)ios 0/android 1"/>
 		ZoneID,//<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
-		vopenid,//<entry  name="vopenid"             type="string"        size="64"			desc="(必填)玩家" />
+		RoleId,//<entry  name="vopenid"             type="string"        size="64"			desc="(必填)玩家" />
 		BattleID,//<entry  name="BattleID"           type="int"												desc="(必填)本局id" />
 		BattleType,//<entry  name="BattleType"         type="int"						desc="(必填)战斗类型 对应BATTLETYPE" />
 		RoundScore,//<entry  name="RoundScore"         type="int"												desc="(必填)本局分数" />

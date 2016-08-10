@@ -277,15 +277,14 @@ public class TimeWorkerMgr extends EventProc {
 	 * 
 	 * @param account
 	 */
-	public void calcOfflineTili(long junZhuId) {
-		JunZhu junZhu = HibernateUtil.find(JunZhu.class, junZhuId);
+	public void calcOfflineTili(JunZhu junZhu) {
 		if (junZhu == null) {
-			logger.error("not find junzhu by junZhuId:" + junZhuId);
 			return;
 		}
 		if (junZhu.tiLi >= junZhu.tiLiMax) {
 			return;
 		}
+		long junZhuId = junZhu.id;
 		TimeWorker tiliWorker = HibernateUtil.find(TimeWorker.class, junZhuId);
 		if (tiliWorker == null) {
 			tiliWorker = initTimeWorker(junZhuId);
@@ -304,7 +303,7 @@ public class TimeWorkerMgr extends EventProc {
 			logger.info("[{}]离线期间获得体力{}, 添加时间{}", junZhu.name, addTili, date);
 		}
 		tiliWorker.lastAddTiliTime = date;
-		HibernateUtil.save(junZhu);
+		HibernateUtil.update(junZhu);
 		HibernateUtil.save(tiliWorker);
 	}
 
@@ -376,8 +375,8 @@ public class TimeWorkerMgr extends EventProc {
 	@Override
 	public void proc(Event param) {
 		switch (param.id) {
-			case ED.ACC_LOGIN:
-				calcOfflineTili((Long) param.param);
+			case ED.JUNZHU_LOGIN:
+				calcOfflineTili((JunZhu) param.param);
 				break;
 			default:
 				logger.error("触发了没有注册过的事件类型,id:{}", param.id);
@@ -387,7 +386,7 @@ public class TimeWorkerMgr extends EventProc {
 
 	@Override
 	public void doReg() {
-		EventMgr.regist(ED.ACC_LOGIN, this);
+		EventMgr.regist(ED.JUNZHU_LOGIN, this);
 	}
 
 }

@@ -34,6 +34,8 @@ import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceBeanDao;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
+import com.qx.event.ED;
+import com.qx.event.EventMgr;
 import com.qx.friends.FriendMgr;
 import com.qx.gm.role.GMRoleMgr;
 import com.qx.junzhu.JunZhu;
@@ -41,6 +43,8 @@ import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.pvp.PVPConstant;
 import com.qx.pvp.PvpMgr;
+import com.qx.task.DailyTaskCondition;
+import com.qx.task.DailyTaskConstants;
 import com.qx.vip.VipData;
 import com.qx.world.Mission;
 import com.qx.yuanbao.YBType;
@@ -346,6 +350,8 @@ public class ChatMgr implements Runnable {
 		chWorld.saveChatRecord(cm);
 		cm.clearSoundData();// 去除声音信息。
 		broadcast(cm, allUser);
+		EventMgr.addEvent(jz.id, ED.DAILY_TASK_PROCESS,
+				new DailyTaskCondition(jz.id, DailyTaskConstants.liaoTian, 1));
 	}
 
 	/**
@@ -366,6 +372,8 @@ public class ChatMgr implements Runnable {
 		JunZhuMgr.inst.sendMainInfo(session,jz,false);
 		broadcast(cm, allUser);
 		chBroadcast.saveChatRecord(cm);
+		EventMgr.addEvent(jz.id, ED.DAILY_TASK_PROCESS,
+				new DailyTaskCondition(jz.id, DailyTaskConstants.liaoTian, 1));
 	}
 
 	public void xiaoWu(IoSession session,
@@ -391,6 +399,8 @@ public class ChatMgr implements Runnable {
 			IoSession ioSession = (IoSession) it.next();
 			ioSession.write(b);
 		}
+		EventMgr.addEvent(jzId, ED.DAILY_TASK_PROCESS,
+				new DailyTaskCondition(jzId, DailyTaskConstants.liaoTian, 1));
 	}
 
 	// FIXME 这个方法的效率有待考核
@@ -426,13 +436,15 @@ public class ChatMgr implements Runnable {
 		chLianMeng.saveChatRecord(cm);
 		cm.clearSoundData();
 		ChatPct pct = cm.build();
-		List<AlliancePlayer> memberList = AllianceMgr.inst.getAllianceMembers(alliance.id);
+		Set<AlliancePlayer> memberList = AllianceMgr.inst.getAllianceMembers(alliance.id);
 		for (AlliancePlayer member : memberList) {
 			IoSession su = SessionManager.inst.findByJunZhuId(member.junzhuId);
 			if (su != null) {
 				su.write(pct);
 			}
 		}
+		EventMgr.addEvent(jzId, ED.DAILY_TASK_PROCESS,
+				new DailyTaskCondition(jzId, DailyTaskConstants.liaoTian, 1));
 	}
 
 	public void sendGuoJia(qxmobile.protobuf.Chat.ChatPct.Builder cm) {
@@ -474,6 +486,8 @@ public class ChatMgr implements Runnable {
 			recvSession.write(cm.build());
 			session.write(cm.build());
 		}
+		EventMgr.addEvent(cm.getSenderId(), ED.DAILY_TASK_PROCESS,
+				new DailyTaskCondition(cm.getSenderId(), DailyTaskConstants.liaoTian, 1));
 	}
 
 	public boolean isCooltime(qxmobile.protobuf.Chat.ChatPct.Builder cm, IoSession session) {

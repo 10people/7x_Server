@@ -42,7 +42,7 @@ public class ExploreMine implements DBHash{
 	public int tenChouClickNumber; //十连抽点击次数
 	@Override
 	public long hash() {
-		return id;
+		return id/100;
 	}
 //	// 免费单抽或者联盟单抽是否已经领取过好的奖励了: 
 //	// add 包括10连抽是否已经领过好的奖励

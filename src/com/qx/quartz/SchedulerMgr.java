@@ -174,7 +174,7 @@ public class SchedulerMgr {
 		StringBuilder resOutputJobTime = new StringBuilder();
 		resOutputJobTime.append("0 ").append(timeArray[1]).append(" ").append(timeArray[0]).append(" ").append(" * * ?");
 		addScheduler(AllianceResouceOutputJob.class, resOutputJobTime.toString());
-		addScheduler(AllianceRewardStoreJob.class, "0 0 * * * ?");
+		//addScheduler(AllianceRewardStoreJob.class, "0 0 * * * ?");//没有荒野奖励库了
 		//
 		addScheduler(LogPerMinuteJob.class,"1 * * * * ?");
 		addScheduler(LogPerHourJob.class,"0 30 * * * ?");

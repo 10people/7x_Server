@@ -34,9 +34,12 @@ public class LveDuoJunQingJob implements Job {
 		for(LveDuoMI mi: list){
 			// TODO hiber先删除应该是可以的吧
 			deleteLveDuoMI(mi);
-			AllianceBean enemyAlli  = allianceMap.get(mi.lmId);
-			if(enemyAlli == null){
-				enemyAlli = AllianceBeanDao.inst.getAllianceBean( mi.lmId);
+			AllianceBean enemyAlli = null;
+			if(mi.lmId > 0) {
+				enemyAlli = allianceMap.get(mi.lmId);
+				if(enemyAlli == null){
+					enemyAlli = AllianceBeanDao.inst.getAllianceBean(mi.lmId);
+				}
 			}
 			if(enemyAlli == null){
 				continue;

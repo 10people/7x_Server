@@ -50,6 +50,7 @@ import com.qx.bag.BagMgr;
 import com.qx.bag.EquipGrid;
 import com.qx.bag.EquipMgr;
 import com.qx.equip.domain.UserEquip;
+import com.qx.equip.domain.UserEquipDao;
 import com.qx.equip.jewel.JewelMgr;
 import com.qx.equip.web.UEConstant;
 import com.qx.equip.web.UserEquipAction;
@@ -288,7 +289,7 @@ public class GrowUpMgr {
 				qhSort[idx] = "00000:00000:"+equipTemp.buWei+":"+idx;
 				continue;
 			}
-			UserEquip ue = HibernateUtil.find(UserEquip.class, bg.instId);
+			UserEquip ue = UserEquipDao.find(jz.id, bg.instId);
 			if(ue == null){
 				qhSort[idx] = "00000:00000:"+equipTemp.buWei+":"+idx;
 				continue;
@@ -363,7 +364,7 @@ public class GrowUpMgr {
 						"jnSH","jnJM","jnBJ","jnRX"};
 				Field[] fs = new Field[names.length];
 				Method ms[] = new Method[fs.length];
-				Method msUE[] = new Method[fs.length];
+				Field fUE[] = new Field[fs.length];
 				
 				for(int fIdx = 0; fIdx<names.length; fIdx++){
 					Field f = null;
@@ -378,15 +379,15 @@ public class GrowUpMgr {
 					String name = f.getName();
 					String mName = "get"+name.substring(0,1).toUpperCase()+name.substring(1);
 					Method m = null;
-					Method mUE = null;
+					Field mUE = null;
 					try {
 						m = ZhuangBei.class.getDeclaredMethod(mName);
-						mUE = UserEquip.class.getDeclaredMethod(mName);
+						mUE = UserEquip.class.getDeclaredField(name);
 					} catch (Exception e) {
 						log.error("反射出错",e);
 					}
 					ms[fIdx] = m;
-					msUE[fIdx] = mUE;
+					fUE[fIdx] = mUE;
 					//
 				}
 				idx=-1;
@@ -424,7 +425,7 @@ public class GrowUpMgr {
 							Integer v2 = 0;
 							try {
 								v = (Integer) ms[ff].invoke(zhuangBeiTmp);
-								v2 = dbUe == null ? 0 : (Integer) msUE[ff].invoke(dbUe);
+								v2 = dbUe == null ? 0 : fUE[ff].getInt(dbUe);
 								if(UserEquipAction.instance.hasEquipTalent(dbUe, zhuangBeiTmp.id, (String)fs[ff].get(null)) ){
 									v2+=v;
 								}

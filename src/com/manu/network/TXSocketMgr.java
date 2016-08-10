@@ -56,7 +56,7 @@ public class TXSocketMgr {
 		IoHandler handler = new TXIoHandler();
 		TXCodecFactory codecFactory = new TXCodecFactory();
 		//
-		acceptor = new NioSocketAcceptor(16);
+		acceptor = new NioSocketAcceptor(20);
 //		OrderedThreadPoolExecutor orderedThreadPoolExecutor = new OrderedThreadPoolExecutor();
 //		ExecutorFilter executorFilter = new ExecutorFilter( orderedThreadPoolExecutor );
 //		acceptor.getFilterChain().addLast("executor", executorFilter);

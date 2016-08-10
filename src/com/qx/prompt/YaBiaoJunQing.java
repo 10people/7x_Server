@@ -29,6 +29,6 @@ public class YaBiaoJunQing implements DBHash{
 	public Date happenTime;
 	@Override
 	public long hash() {
-		return id;
+		return ybjzId;
 	}
 }

@@ -25,6 +25,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
+import com.manu.dynasty.boot.GameServer;
 import com.manu.dynasty.hero.service.HeroService;
 import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.AwardTemp;
@@ -52,9 +53,11 @@ import com.qx.alliancefight.AllianceFightMgr;
 import com.qx.alliancefight.BidMgr;
 import com.qx.alliancefight.CampsiteInfo;
 import com.qx.alliancefight.CityBean;
+import com.qx.alliancefight.CityBeanDao;
 import com.qx.alliancefight.LMZAwardBean;
 import com.qx.alliancefight.ScoreInfo;
 import com.qx.alliancefight.WildCityBean;
+import com.qx.alliancefight.WildCityBeanDao;
 import com.qx.award.AwardMgr;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
@@ -187,6 +190,7 @@ public class FightScene extends VisionScene {
 	public long lastBuffTime;
 	public static long cmdCD = 10*1000;
 	public static long cmdTime[] = {0,0};
+	public static final String CityWarIsJiaoXuePlay = "CityWarIsJiaoXuePlay" + GameServer.serverId;//存储是否播放郡城战教学动画
 	public FightScene(String sceneName, long fightEndTime, int id){
 		super(sceneName);
 		visibleCnt = 999;
@@ -946,8 +950,8 @@ public class FightScene extends VisionScene {
 	}
 	public void sendZhaoHuanCD(Player p) {
 		//一并计算是否打过联盟战
-		String hql = "select count(1) from LMZAwardBean where jzId="+p.jzId;
-		int cnt = HibernateUtil.getCount(hql);
+		//String hql = "select count(1) from LMZAwardBean where jzId="+p.jzId;
+		//int cnt = HibernateUtil.getCount(hql);
 		//发送召唤CD
 		long curMS = System.currentTimeMillis();
 		
@@ -956,15 +960,18 @@ public class FightScene extends VisionScene {
 		if(preMS != null){
 			cd = zhaoHuanCD - (curMS - preMS);
 			cd = Math.max(0, cd);
-		}
+		} 
+		boolean isPlay = Redis.getInstance().lexist(CityWarIsJiaoXuePlay,p.jzId + "");
 		SuBaoMSG.Builder subao = SuBaoMSG.newBuilder();
 		subao.setSubaoId(0);
-		subao.setConfigId(cnt>0 ? 1 : 0);
+		subao.setConfigId(isPlay ? 1 : 0);
 		subao.setOtherJzId(-999);
 		subao.setSubao(String.valueOf(cd));
 		subao.setEventId(-501);
 		ProtobufMsg pcd = new ProtobufMsg(PD.LMZ_ZhaoHuan, subao);
 		p.session.write(pcd);
+		Redis.getInstance().rpush_(CityWarIsJiaoXuePlay, p.jzId+ "");
+		
 	}
 	
 	@Override
@@ -1382,6 +1389,7 @@ public class FightScene extends VisionScene {
 				wildCityBean.cityId = cityId;
 				wildCityBean.lmId = winLmId;
 				wildCityBean.isWin = 0;
+				WildCityBeanDao.inst.save(wildCityBean);
 				HibernateUtil.insert(wildCityBean);
 			}
 			if(winSide == TEAM_RED && redLmId == TEAM_RED){
@@ -1392,10 +1400,11 @@ public class FightScene extends VisionScene {
 			wildCityBean.winTime = new Date();
 			HibernateUtil.update(wildCityBean);
 		}else{
-			CityBean cityBean = HibernateUtil.find(CityBean.class,cityId);
+			CityBean cityBean = CityBeanDao.inst.getCityBeanById(cityId);
 			if(cityBean == null){
 				cityBean = new CityBean();
 				cityBean.cityId = cityId;
+				CityBeanDao.inst.getMap().put(cityId,cityBean);
 				HibernateUtil.insert(cityBean);
 			}else{
 				preHoldId = cityBean.lmId;
@@ -1464,7 +1473,7 @@ public class FightScene extends VisionScene {
 		String tail = "";
 		tail = combMail(winLmId, lmId, cityGX, gxGongJi, title, body);
 		Mail mailConfig = EmailMgr.INSTANCE.getMailConfig(110001);
-		List<AlliancePlayer> memberList = AllianceMgr.inst.getAllianceMembers(lmId);
+		Set<AlliancePlayer> memberList = AllianceMgr.inst.getAllianceMembers(lmId);
 		Date t = new Date();
 		String mt = title.toString();
 		String mb = body.toString();
@@ -1892,7 +1901,7 @@ public class FightScene extends VisionScene {
 		remainReviveTimes = remainReviveTimes * 1000;// + dayFreeFuHuoTimes;
 		int fuHuoYuanBaoPrice = 0;
 		//低3位是每日免费次数，其余高位时剩余次数。
-		if(defender.jzId > 0 && remainReviveTimes>0) {// 表示是真实玩家
+		if(defender.jzId > 0 && (remainReviveTimes>0 || (usedTimes == 0 && remainReviveTimes == 0))) {// 表示是真实玩家
 			Purchase purchase = PurchaseMgr.inst.getPurchaseCfg(32, usedTimes+1);
 			if(purchase == null) {
 				log.error("找不到类型为:{}的purchase配置", 32);

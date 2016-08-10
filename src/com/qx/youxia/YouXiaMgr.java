@@ -204,7 +204,7 @@ public class YouXiaMgr extends EventProc {
 			// YouXiaBean yxBean = HibernateUtil.find(YouXiaBean.class,
 			// " where junzhuId=" + junZhu.id + " and type ="
 			// + pveTemp.bigId);
-			List<YouXiaBean> youXiaInfoList = HibernateUtil.list(YouXiaBean.class, " where junzhuId = " + junZhu.id);
+			List<YouXiaBean> youXiaInfoList = YouXiaBeanDao.list( junZhu.id);
 			int allwin = 0;
 			YouXiaBean yxBean = null;
 			for (YouXiaBean you : youXiaInfoList) {
@@ -270,13 +270,13 @@ public class YouXiaMgr extends EventProc {
 				dropList4NpcPos.size(), getTongbi, getExp, win);
 		switch (pveTemp.bigId) {
 		case 1:
-			ActLog.log.LootRich(junZhu.id, junZhu.name, ActLog.vopenid, "", guanQiaId, win == 1 ? 1 : 2, 1, getTongbi);
+			ActLog.log.LootRich(junZhu.id, junZhu.name, "", guanQiaId, win == 1 ? 1 : 2, 1, getTongbi);
 			break;
 		case 2:
-			ActLog.log.KillRobber(junZhu.id, junZhu.name, ActLog.vopenid, "", guanQiaId, win == 1 ? 1 : 2, 1, 0, 0);
+			ActLog.log.KillRobber(junZhu.id, junZhu.name,  "", guanQiaId, win == 1 ? 1 : 2, 1, 0, 0);
 			break;
 		case 3:
-			ActLog.log.KillRebelArmy(junZhu.id, junZhu.name, ActLog.vopenid, "", guanQiaId, win == 1 ? 1 : 2, 1, 0, 0);
+			ActLog.log.KillRebelArmy(junZhu.id, junZhu.name, "", guanQiaId, win == 1 ? 1 : 2, 1, 0, 0);
 			break;
 		}
 
@@ -401,7 +401,7 @@ public class YouXiaMgr extends EventProc {
 		// 判断今日挑战次数
 		// YouXiaBean yxBean = HibernateUtil.find(YouXiaBean.class,
 		// " where junzhuId=" + junZhu.id + " and type =" + pveTemp.bigId);
-		List<YouXiaBean> youXiaInfoList = HibernateUtil.list(YouXiaBean.class, " where junzhuId = " + junZhu.id);
+		List<YouXiaBean> youXiaInfoList = YouXiaBeanDao.list( junZhu.id);
 		YouXiaBean yxBean = null;
 		for (YouXiaBean you : youXiaInfoList) {
 			if (you.type == pveTemp.bigId) {
@@ -568,10 +568,8 @@ public class YouXiaMgr extends EventProc {
 		int zuheId = 0;
 		BuZhenYouXia buzhen = HibernateUtil.find(BuZhenYouXia.class, junzhuId);
 		if (buzhen == null) {
-			buzhen = new BuZhenYouXia();
-			buzhen.junzhuId = junzhuId;
-			HibernateUtil.save(buzhen);
-			return zuheId;
+			buzhen = BigSwitch.pveGuanQiaMgr.insertBuZhenYouXia(junzhuId);
+			return -1;
 		}
 		switch (type) {
 		case 1:
@@ -602,7 +600,6 @@ public class YouXiaMgr extends EventProc {
 			logger.error("找不到君主，junZhuId:{}", session.getAttribute(SessionAttKey.junZhuId));
 			return;
 		}
-		List<YouXiaBean> youXiaInfoList = HibernateUtil.list(YouXiaBean.class, " where junzhuId = " + junZhu.id);
 		YouXiaInfoResp.Builder response = YouXiaInfoResp.newBuilder();
 		Date date = new Date();
 
@@ -615,13 +612,7 @@ public class YouXiaMgr extends EventProc {
 			youxiaInfo.setId(openTimeCfg.id);
 			youxiaInfo.setOpenDay(openTimeCfg.OpenDay);
 			youxiaInfo.setOpenTime(openTimeCfg.OpenTime);
-			YouXiaBean beanInfo = null;
-			for (YouXiaBean bean : youXiaInfoList) {
-				if (bean.type == openTimeCfg.id) {
-					beanInfo = bean;
-					break;
-				}
-			}
+			YouXiaBean beanInfo = YouXiaBeanDao.find(junZhu.id, openTimeCfg.id);
 			if (beanInfo == null) {
 				beanInfo = new YouXiaBean();
 				beanInfo.id = TableIDCreator.getTableID(YouXiaBean.class, 1L);
@@ -630,7 +621,7 @@ public class YouXiaMgr extends EventProc {
 				beanInfo.times = openTimeCfg.maxTimes;
 				beanInfo.lastBattleTime = null;
 				beanInfo.lastBuyTime = date;
-				HibernateUtil.insert(beanInfo);
+				YouXiaBeanDao.insert(beanInfo);
 			} else {
 				refreshTimes(openTimeCfg, beanInfo);
 			}
@@ -768,7 +759,7 @@ public class YouXiaMgr extends EventProc {
 			logger.error("找不到君主，junZhuId:{}", session.getAttribute(SessionAttKey.junZhuId));
 			return;
 		}
-		YouXiaBean yxBean = HibernateUtil.find(YouXiaBean.class, " where junzhuId=" + junZhu.id + " and type =" + type);
+		YouXiaBean yxBean = YouXiaBeanDao.find(junZhu.id, type);
 		if (yxBean == null) {
 			logger.error("游侠次数请求失败，未找到游侠数据，type:{}", type);
 			return;
@@ -805,7 +796,7 @@ public class YouXiaMgr extends EventProc {
 			logger.error("找不到君主，junZhuId:{}", session.getAttribute(SessionAttKey.junZhuId));
 			return;
 		}
-		YouXiaBean yxBean = HibernateUtil.find(YouXiaBean.class, " where junzhuId=" + junZhu.id + " and type =" + type);
+		YouXiaBean yxBean = YouXiaBeanDao.find(junZhu.id, type);
 		if (yxBean == null) {
 			logger.error("游侠购买次数失败，未找到游侠数据，type:{}", type);
 			return;
@@ -867,7 +858,7 @@ public class YouXiaMgr extends EventProc {
 			return;
 		}
 
-		List<YouXiaBean> youXiaInfoList = HibernateUtil.list(YouXiaBean.class, " where junzhuId = " + junZhu.id);
+		List<YouXiaBean> youXiaInfoList = YouXiaBeanDao.list(junZhu.id);
 		int allwin = 0;
 		int allBattle = 0;
 		YouXiaBean yxBean = null;
@@ -994,8 +985,7 @@ public class YouXiaMgr extends EventProc {
 			return;
 		}
 
-		YouXiaBean yxBean = HibernateUtil.find(YouXiaBean.class,
-				" where junzhuId=" + junZhu.id + " and type =" + pveTempCfg.bigId);
+		YouXiaBean yxBean = YouXiaBeanDao.find(junZhu.id, pveTempCfg.bigId) ;
 		if (yxBean == null) {
 			logger.error("游侠关卡信息请求失败，youxiaBean初始化失败， junzhuId:{} type:{}", junZhu.id, pveTempCfg.bigId);
 			return;
@@ -1034,7 +1024,7 @@ public class YouXiaMgr extends EventProc {
 		if (junZhu == null) {
 			return;
 		}
-		List<YouXiaBean> list = HibernateUtil.list(YouXiaBean.class, " where junzhuId=" + junZhu.id);
+		List<YouXiaBean> list = YouXiaBeanDao.list(junZhu.id);
 		HashMap<Integer, YouXiaBean> typeMap = new HashMap<Integer, YouXiaBean>();
 		list.forEach(b -> typeMap.put(b.type, b));
 		Date date = new Date();
@@ -1160,8 +1150,7 @@ public class YouXiaMgr extends EventProc {
 			return;
 		}
 		
-		YouXiaBean yxBean = HibernateUtil.find(YouXiaBean.class,
-				" where junzhuId=" + junZhu.id + " and type =" + type);
+		YouXiaBean yxBean = YouXiaBeanDao.find(junZhu.id, type);
 		if (yxBean == null) {
 			logger.error("清除游侠cd时间请求失败,youxiaBean初始化失败， junzhuId:{} type:{}", junZhu.id, type);
 			return;

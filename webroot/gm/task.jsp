@@ -75,7 +75,7 @@ String action = request.getParameter("action");
 							"where guanQiaId = " + zx.doneCond +" and uid = " + bean.jzid);
 					if (pr != null ){
 						out("找到关卡记录"+pr.guanQiaId);
-						GameTaskMgr.inst.dealTask(bean.jzid , bean, (short)0, zx);
+						GameTaskMgr.inst.dealTask(bean.jzid , bean, zx);
 						IoSession jzsession = SessionManager.inst.findByJunZhuId(bean.jzid);
 						if(jzsession != null ){
 							out("更新任务记录");
@@ -141,7 +141,8 @@ String action = request.getParameter("action");
 						if(ss != null)GameTaskMgr.inst.sendTaskList(0, ss, null);
 					}
 				} else if("delete".equals(action)) {
-					WorkTaskBean o = HibernateUtil.find(WorkTaskBean.class, " where dbId="+request.getParameter("dbId"));
+					int tid = Integer.parseInt(request.getParameter("dbId"));
+					WorkTaskBean o = GameTaskMgr.inst.getTask(junzhu.id, tid);
 					List<WorkTaskBean> taskList =  GameTaskMgr.GameTaskCache.get(junzhu.id);
 					if(taskList != null ){
 						out.print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
@@ -170,7 +171,7 @@ String action = request.getParameter("action");
 					{
 						ZhuXian task = GameTaskMgr.inst.zhuxianTaskMap.get(o.tid);
 						if(task != null ){
-							GameTaskMgr.inst.dealTask(jid, o, (short)0, task);
+							GameTaskMgr.inst.dealTask(jid, o, task);
 						}
 					}
 					IoSession ss = AccountManager.getIoSession(junzhu.id);
@@ -219,7 +220,7 @@ String action = request.getParameter("action");
 										"where guanQiaId = " + zx.doneCond +" and uid = " + bean.jzid);
 								if (pr != null ){
 									out("找到关卡记录"+pr.guanQiaId);
-									GameTaskMgr.inst.dealTask(jid, bean, (short)0, zx);
+									GameTaskMgr.inst.dealTask(jid, bean, zx);
 									IoSession jzSession = SessionManager.inst.findByJunZhuId(bean.jzid);
 									if(jzSession != null){
 										out("更新任务记录");
@@ -298,7 +299,7 @@ String action = request.getParameter("action");
 					out.append("<td>"+(t==null ? "not found":t.title)+"</td>");		
 					out.append("<td>"+(bean.progress == 0? "未完成" : bean.progress == -1 ?"已完成":"已领奖")+"</td>");
 					out.append("<td>&nbsp;<a href='?action=subProg&dbId="+bean.tid+"'>完成任务</a>&nbsp;<a href='?action=addProg&dbId="+bean.dbId+"'>领奖</a></td>");
-					out.append("<td><a href='?action=delete&dbId="+bean.dbId+"'>删除</a></td>");
+					out.append("<td><a href='?action=delete&dbId="+bean.tid+"'>删除</a></td>");
 					out.append("<tr>\n");
 				}
 				out.append("</table>");

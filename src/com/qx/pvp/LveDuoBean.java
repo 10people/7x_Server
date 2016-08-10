@@ -7,9 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 @Entity
 @Table(name="lve_duo")
-public class LveDuoBean  {//implements MCSupport {
+public class LveDuoBean implements DBHash {//implements MCSupport {
 	/**
 	 * @Fields serialVersionUID : TODO
 	 */
@@ -52,5 +54,9 @@ public class LveDuoBean  {//implements MCSupport {
 		this.fangShouZuHeId = -1;
 		this.gongJiZuHeId = -1;
 		
+	}
+	@Override
+	public long hash() {
+		return junzhuId;
 	} 
 }

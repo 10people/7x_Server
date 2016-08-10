@@ -13,6 +13,7 @@ import com.manu.dynasty.template.CanShu;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.PD;
 import com.manu.network.msg.ProtobufMsg;
+import com.qx.account.AccountManager;
 import com.qx.account.FunctionOpenMgr;
 import com.qx.award.AwardMgr;
 import com.qx.event.ED;
@@ -273,15 +274,39 @@ public class MonthCardMgr extends EventProc{
 		}
 		return (int)(calendar.getTimeInMillis() - now) / 1000;
 	}
+	
+	public void isShowRed(JunZhu jz){
+		IoSession session = AccountManager.sessionMap.get(jz.id);
+		PlayerVipInfo playerVipInfo = VipMgr.INSTANCE.getPlayerVipInfo(jz.id);
+		//校验是否已经领取过
+		FuliInfo fuliInfo = HibernateUtil.find(FuliInfo.class,jz.id);
+		if(playerVipInfo.zhouKaRemianDay > 0 && isMonthCardReward(fuliInfo,0)){ 
+			FunctionID.pushCanShowRed(jz.id, session, FunctionID.yuekafuli);
+		}
+		if(playerVipInfo.yueKaRemianDay > 0 && isMonthCardReward(fuliInfo,1)){
+			FunctionID.pushCanShowRed(jz.id, session, FunctionID.yuekafuli);
+		}
+	}
+	
 	@Override
 	public void proc(Event param) {
 		switch (param.id) {
-		case ED.ACTIVITY_MONTHCARD_REFRESH:
-			IoSession session=(IoSession)param.param;
-			if(session == null){
-				break;
+		case ED.ACTIVITY_MONTHCARD_REFRESH:{
+				IoSession session=(IoSession)param.param;
+				if(session == null){
+					break;
+				}
+				monthCardInfo(PD.ACTIVITY_MONTH_CARD_INFO_REQ, session,null);
+				JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
+				if(jz != null){
+					FunctionID.pushCanShowRed(jz.id, session, FunctionID.yuekafuli);	
+				}
 			}
-			monthCardInfo(PD.ACTIVITY_MONTH_CARD_INFO_REQ, session,null);
+			break;
+		case ED.JUNZHU_LOGIN:{
+			JunZhu jz = (JunZhu) param.param;
+				isShowRed(jz);
+			}
 			break;
 		default:
 			break;
@@ -290,5 +315,6 @@ public class MonthCardMgr extends EventProc{
 	@Override
 	public void doReg() {
 		EventMgr.regist(ED.ACTIVITY_MONTHCARD_REFRESH, this);
+		EventMgr.regist(ED.JUNZHU_LOGIN, this);
 	}
 }

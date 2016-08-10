@@ -73,7 +73,6 @@ public class MC {
 		cachedClass.add(TalentAttr.class);
 		//押镖
 		cachedClass.add(YaBiaoBean.class);
-		cachedClass.add(YBBattleBean.class);
 		//限时活动
 		cachedClass.add(XianShiBean.class);
 		cachedClass.add(QiandaoInfo.class);

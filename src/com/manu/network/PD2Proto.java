@@ -34,6 +34,7 @@ import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.Explore.ExploreResp;
 import qxmobile.protobuf.JunZhuProto.TalentUpLevelReq;
 import qxmobile.protobuf.MibaoProtos.MibaoInfoResp;
+import qxmobile.protobuf.Qiandao.GetQiandaoResp;
 import qxmobile.protobuf.Qiandao.GetVipDoubleReq;
 import qxmobile.protobuf.Qiandao.QiandaoResp;
 import qxmobile.protobuf.Yabiao.BuyXuePingReq;
@@ -144,6 +145,10 @@ public class PD2Proto extends PD{
 			return MibaoInfoResp.getDefaultInstance();
 		case PD.S_BAG_CHANGE_INFO:
 			return BagChangeInfo.getDefaultInstance();
+		case PD.S_GET_QIANDAO_RESP:
+			return GetQiandaoResp.getDefaultInstance();
+		case PD.S_QIANDAO_RESP:
+			return QiandaoResp.getDefaultInstance();
 //		case PD.C_ALLIANCE_MEMMBERS_REQ:
 //            return GetMemmbersReq.getDefaultInstance();
 //	    case PD.S_ALLIANCE_MEMMBERS_RESP:

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import log.ActLog;
 
@@ -47,6 +48,7 @@ import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.persistent.MC;
 import com.qx.vip.VipMgr;
@@ -118,25 +120,12 @@ public class DailyTaskMgr extends EventProc {
 			logger.error("请求每日任务列表失败君主不在线， cmd:{}", cmd);
 			return;
 		}
-		List<DailyTaskBean> tasks  = getDailyTasks(jId);
-		if(tasks == null || tasks.size() == 0){
-			// 减小压力不存数据库
-			tasks = initTaskList(jId , tasks);
-		}else{
-			List<DailyTaskBean> removList = new ArrayList<DailyTaskBean>();
-			for(DailyTaskBean b: tasks){
-				int id = (int)(b.dbId % 100L);
-				if(renWuMap.get(id) == null){
-					removList.add(b);
-					HibernateUtil.delete(b);
-				}
-			}
-			tasks.removeAll(removList);
-			
-			// 重置 task
-			resetOrAddTaskList(jId, tasks);
-		}
-		List<DailyTaskInfo> taskInfoList = fillTaskInfo(tasks, jId);
+		List<DailyTaskBean> taskList  = getDailyTasks(jId);
+		Map<Integer , DailyTaskBean> taskMap = taskList.stream().collect(
+				Collectors.toMap(task->(int)(task.dbId%100), t->t));
+		resetTaskList(jId, taskList);
+		
+		List<DailyTaskInfo> taskInfoList = fillTaskInfo(taskMap, jId);
 		DailyTaskListResponse.Builder response = DailyTaskListResponse.newBuilder();
 		for(DailyTaskInfo taskInfo : taskInfoList) {
 			response.addTaskInfo(taskInfo);
@@ -149,6 +138,8 @@ public class DailyTaskMgr extends EventProc {
 		if(acti == null){
 			acti = new DailyTaskActivity();
 			acti.jid = jId;
+			Cache.dailyTaskActivityCache.put(jId, acti);
+			HibernateUtil.save(acti);
 		}else{
 			resetDailyTaskActivity(acti);
 		}
@@ -199,56 +190,59 @@ public class DailyTaskMgr extends EventProc {
 			HibernateUtil.save(acti);
 		}
 	}
-	public List<DailyTaskInfo> fillTaskInfo(List<DailyTaskBean> tasks, long jid){
+	public List<DailyTaskInfo> fillTaskInfo(Map<Integer , DailyTaskBean> taskMap , long jid){
 		List<DailyTaskInfo> taskInfoList = new ArrayList<DailyTaskInfo>();
-		if(tasks == null) return taskInfoList;
+		
 		DailyTaskInfo.Builder taskInfo = null;
-		int taskId = 0;
-		for(DailyTaskBean task: tasks){
-			if(task.isFinish && task.isGetReward){
-				continue;
-			}
-			/*
-			 * 每日任务中已经去掉（1.1版本）：领取体力、领取月卡、缴纳贡金，但是代码中没有去掉！20160411
-			 */
-			/*
-			 * 判断是不是要显示领取体力
-			 */
-			taskId = getRenWuIdBydbId(task.dbId);
-			if(taskId == DailyTaskConstants.get_tili_id_11 && 
-					!isShowTiliTask(DailyTaskConstants.get_tili_id_11)){
+		for(int taskId : taskIdArr){
+			DailyTaskBean task = taskMap.get(taskId);
+			if(task == null ){
+				//任务没有记录，表示没有做过相关任务操作，信息填写为初始值
+				taskInfo = DailyTaskInfo.newBuilder();
+				taskInfo.setTaskId(taskId);
+				taskInfo.setJindu(0);
+				taskInfo.setIsFinish(false);
+				taskInfo.setIsGet(false);
+				taskInfoList.add(taskInfo.build());
+			}else{
+				if(task.isFinish && task.isGetReward){
 					continue;
+				}
+				taskId = getRenWuIdBydbId(task.dbId);
+				if(taskId == DailyTaskConstants.get_tili_id_11 && 
+						!isShowTiliTask(DailyTaskConstants.get_tili_id_11)){
+						continue;
+				}
+				if(taskId == DailyTaskConstants.get_tili_id_12 && 
+						!isShowTiliTask(DailyTaskConstants.get_tili_id_12)){
+						continue;
+				}
+				if(taskId == DailyTaskConstants.get_tili_id_13 && 
+						!isShowTiliTask(DailyTaskConstants.get_tili_id_13)){
+						continue;
+				}
+				taskInfo = DailyTaskInfo.newBuilder();
+				taskInfo.setTaskId(taskId);
+				taskInfo.setJindu(task.jundu);
+				taskInfo.setIsFinish(task.isFinish);
+				/*
+				 * 判断月卡任务完成状态
+				 */
+				if(taskId == DailyTaskConstants.get_yueka_money_id 
+						&& isYuekaTaskFinish(jid)){
+					taskInfo.setIsFinish(true);
+				}
+				taskInfo.setIsGet(task.isGetReward);
+				/*
+				 * 缴纳贡金总数
+				 */
+				if(taskId == DailyTaskConstants.give_gongJin){
+					int taskCon = task.gongJinCondition;
+					taskInfo.setTaskId(taskId + taskCon -1);
+				}
+				// 添加
+				taskInfoList.add(taskInfo.build());
 			}
-			if(taskId == DailyTaskConstants.get_tili_id_12 && 
-					!isShowTiliTask(DailyTaskConstants.get_tili_id_12)){
-					continue;
-			}
-			if(taskId == DailyTaskConstants.get_tili_id_13 && 
-					!isShowTiliTask(DailyTaskConstants.get_tili_id_13)){
-					continue;
-			}
-	
-			taskInfo = DailyTaskInfo.newBuilder();
-			taskInfo.setTaskId(taskId);
-			taskInfo.setJindu(task.jundu);
-			taskInfo.setIsFinish(task.isFinish);
-			/*
-			 * 判断月卡任务完成状态
-			 */
-			if(taskId == DailyTaskConstants.get_yueka_money_id 
-					&& isYuekaTaskFinish(jid)){
-				taskInfo.setIsFinish(true);
-			}
-			taskInfo.setIsGet(task.isGetReward);
-			/*
-			 * 缴纳贡金总数
-			 */
-			if(taskId == DailyTaskConstants.give_gongJin){
-				int taskCon = task.gongJinCondition;
-				taskInfo.setTaskId(taskId + taskCon -1);
-			}
-			// 添加
-			taskInfoList.add(taskInfo.build());
 		}
 		return taskInfoList;
 	}
@@ -328,6 +322,7 @@ public class DailyTaskMgr extends EventProc {
 			logger.error("taskProcess执行，找不到对应任务的配置信息，renwuId:{}", rwId);
 			return;
 		}
+		taskBean.time = new Date();
 		taskBean.jundu += taskCondition.jinduAdd;
 		int condition = renWu.condition;
 		/*
@@ -345,16 +340,10 @@ public class DailyTaskMgr extends EventProc {
 		// 判断是否完成每日任务,完成则次数设为 需要完成次数
 		if(taskBean.jundu >= condition) {
 			taskBean.isFinish = true;
+			logger.info("{}完成任务{}",jzId,rwId);
+			ActLog.log.DailyTask(jzId, "", "", rwId);
 		}
-		HibernateUtil.save(taskBean);
-		logger.info("{}完成任务{}",jzId,rwId);
-		ActLog.log.DailyTask(jzId, "", ActLog.vopenid, "", rwId);
-		IoSession user = SessionManager.inst.findByJunZhuId(jzId);
-		if(user == null){
-			logger.error("找不到相对应的 userjunzhuId:{},可能是从jsp页面上访问该方法", jzId);
-			return;
-		}
-		IoSession session = user;
+		IoSession session = SessionManager.inst.findByJunZhuId(jzId);
 		if(session != null){
 			DailyTaskFinishInform.Builder response = DailyTaskFinishInform.newBuilder();
 			DailyTaskInfo.Builder taskInfo = DailyTaskInfo.newBuilder();
@@ -500,6 +489,7 @@ public class DailyTaskMgr extends EventProc {
 		if(acti == null){
 			acti = new DailyTaskActivity();
 			acti.jid = junzhu.id;
+			Cache.dailyTaskActivityCache.put(junzhu.id, acti);
 		}else{
 			resetDailyTaskActivity(acti);
 		}
@@ -606,9 +596,6 @@ public class DailyTaskMgr extends EventProc {
 			}
 			tasks.add(task);
 		}
-//		if(useCaChe){
-//			dailyTaskCache.put(jId, tasks);
-//		}
 		return tasks;
 	}
 
@@ -640,40 +627,26 @@ public class DailyTaskMgr extends EventProc {
 		}
 		task.isGetReward = false;
 		task.type = rw.type;
-		task.time = new Date();
-		MC.add(task, dbId);
-		HibernateUtil.insert(task);
-		if(useCaChe){
-			List<DailyTaskBean> taskList = getDailyTasks(jId);
-			taskList.add(task);
-		}
+		
 		return task;
 	}
 	public DailyTaskBean getTaskByTaskId(long jzId, int renWuId){
-		long dbId = jzId * space + renWuId;
 		DailyTaskBean task = null;
-		if(useCaChe){
-			List<DailyTaskBean> taskList = getDailyTasks(jzId);
-			for(DailyTaskBean dtb : taskList){
-				if( (int)(dtb.dbId%100) == renWuId){
-					task = dtb;
-				}
+		List<DailyTaskBean> taskList = getDailyTasks(jzId);
+		for(DailyTaskBean dtb : taskList){
+			if( (int)(dtb.dbId%100) == renWuId){
+				task = dtb;
+				break;
 			}
-		}else{
-			task = HibernateUtil.find(DailyTaskBean.class, dbId);
 		}
 		if(task == null){
 			task = initTask(jzId, renWuId);
 			if(task == null){
 				return null ;
 			}
-			// 向缓存中添加
-//			MC.add(task, dbId);
-//			HibernateUtil.insert(task);
-//			if(useCaChe){
-//				List<DailyTaskBean> taskList = getDailyTasks(jzId);
-//				taskList.add(task);
-//			}
+			taskList.add(task);
+			MC.add(task, task.dbId);
+			HibernateUtil.insert(task);
 		}
 		return task;
 	}
@@ -681,21 +654,10 @@ public class DailyTaskMgr extends EventProc {
 		return (int)(dbId % 100L);
 	}
 
-	public void resetOrAddTaskList(long jzId, List<DailyTaskBean> tasks){
-		Map<Integer, DailyTaskBean> map = new HashMap<Integer, DailyTaskBean>();
+	public void resetTaskList(long jzId, List<DailyTaskBean> tasks){
 		for(DailyTaskBean task: tasks){
-			map.put((int)(task.dbId % 100L), task);
-		}
-		for(Integer taskId: taskIdArr){
-			DailyTaskBean task = map.get(taskId);
-			if(task == null){
-				task = initTask(jzId, taskId);
-				if(task == null){
-					continue;
-				}
-				tasks.add(task);
-			}else {
-				resetOneTask(jzId , task , taskId );
+			if(task != null){
+				resetOneTask(jzId , task , (int)(task.dbId%100));
 			}
 		}
 	}

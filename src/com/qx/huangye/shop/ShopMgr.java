@@ -33,6 +33,7 @@ import com.qx.account.FunctionOpenMgr;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.alliance.building.JianZhuLvBean;
+import com.qx.alliance.building.JianZhuLvBeanDao;
 import com.qx.award.AwardMgr;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
@@ -47,6 +48,7 @@ import com.qx.mibao.MiBaoDB;
 import com.qx.mibao.MiBaoDao;
 import com.qx.mibao.MibaoMgr;
 import com.qx.pawnshop.GoodsInfo;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.PurchaseConstants;
 import com.qx.purchase.PurchaseMgr;
@@ -384,7 +386,7 @@ public class ShopMgr extends EventProc {
 			if (player == null || player.lianMengId <= 0) {
 				resp.setLmshopLv(0);
 			}else{
-				JianZhuLvBean jianzhu = HibernateUtil.find(JianZhuLvBean.class, player.lianMengId);
+				JianZhuLvBean jianzhu = JianZhuLvBeanDao.inst.getJianZhuBean(player.lianMengId);
 				resp.setLmshopLv(jianzhu == null ? 1: jianzhu.shangPuLv);
 			}
 		}
@@ -602,7 +604,7 @@ public class ShopMgr extends EventProc {
 				return;
 			}
 			if (player != null && player.lianMengId > 0) {
-				JianZhuLvBean jianzhu = HibernateUtil.find(JianZhuLvBean.class, player.lianMengId);
+				JianZhuLvBean jianzhu = JianZhuLvBeanDao.inst.getJianZhuBean(player.lianMengId);
 				levle = jianzhu == null ? 1: jianzhu.shangPuLv;
 			}
 			if(levle < dh.getNeedLv()){
@@ -734,7 +736,7 @@ public class ShopMgr extends EventProc {
 			logger.info("玩家id{},姓名 {}, 商店类型:{}用货币购买物品[{}]成功 货币{}", jz.id, jz.name,
 					bigType, dh.itemId, money);
 			String itemName = BagMgr.inst.getItemName(dh.itemId);
-			ActLog.log.ChallengeExchange(jz.id, jz.name, ActLog.vopenid,
+			ActLog.log.ChallengeExchange(jz.id, jz.name, 
 					dh.itemId, itemName, dh.itemNum, preV, oldMoney);
 			if(bigType == baizhan_shop_type){
 				// 主线任务: 消耗一次威望（在威望商店里购买1次物品）20190916
@@ -1013,7 +1015,7 @@ public class ShopMgr extends EventProc {
 				logger.info("君主:{}在当铺典当物品itemId:{},数量:{},时间:{},获得铜币:{}",
 						junZhu.name, bagGrid.itemId, sellCount, date,
 						totalSellPrice);
-				ActLog.log.Pawn(junZhu.id, junZhu.name, ActLog.vopenid, bagGrid.itemId, itemTemp.getName(), sellCount, 0, totalSellPrice);
+				ActLog.log.Pawn(junZhu.id, junZhu.name, bagGrid.itemId, itemTemp.getName(), sellCount, 0, totalSellPrice);
 				selBagGoods = true;
 			}else if(goodsType == 2){
 				MiBaoDB m = mibaoData.get(bagId);
@@ -1030,7 +1032,7 @@ public class ShopMgr extends EventProc {
 				HibernateUtil.save(m);
 				logger.info("君主:{}在当铺典当秘宝碎片，碎片item:{},数量:{},时间:{},获得铜币:{}",
 						junZhu.name, m.tempId, sellCount, date, tong);
-				ActLog.log.Pawn(junZhu.id, junZhu.name, ActLog.vopenid, m.tempId, "秘宝碎片", sellCount, 0, tong);
+				ActLog.log.Pawn(junZhu.id, junZhu.name, m.tempId, "秘宝碎片", sellCount, 0, tong);
 				sellMibaoS = true;
 			}
 		}
@@ -1071,7 +1073,7 @@ public class ShopMgr extends EventProc {
 	@Override
 	public void proc(Event e) {
 		switch(e.id){
-		case ED.ACC_LOGIN:
+		case ED.JUNZHU_LOGIN:
 			if (e.param != null && e.param instanceof Long) {
 				long jzid = (Long) e.param;
 				JunZhu junZhu = HibernateUtil.find(JunZhu.class, jzid);
@@ -1127,7 +1129,7 @@ public class ShopMgr extends EventProc {
 		WuBeiFangBean wuBeiFang = getWuBeiFangBean(jzid);
 		for(Integer type : wuBeiFangMapById.keySet()) {
 			int remainFreeTimes = getRemainFreeTimes(type, wuBeiFang);
-			if(remainFreeTimes > 1) {
+			if(remainFreeTimes >= 1) {
 				FunctionID.pushCanShowRed(jzid, session, 900);
 				break;
 			}
@@ -1201,7 +1203,7 @@ public class ShopMgr extends EventProc {
 	}
 	@Override
 	public void doReg() {
-		EventMgr.regist(ED.ACC_LOGIN, this);
+		EventMgr.regist(ED.JUNZHU_LOGIN, this);
 	}
 
 	public void requestWuBeiFangInfo(int cmd, Builder builder, IoSession session) {
@@ -1368,6 +1370,7 @@ public class ShopMgr extends EventProc {
 		if(wuBeiFang == null) {
 			wuBeiFang = new WuBeiFangBean();
 			wuBeiFang.junzhuId = junZhuId;
+			Cache.wuBeiFangBeanCache.put(junZhuId, wuBeiFang);
 			HibernateUtil.insert(wuBeiFang);
 		}
 		return wuBeiFang;
@@ -1452,7 +1455,7 @@ public class ShopMgr extends EventProc {
 			HibernateUtil.save(junZhu);
 		}
 		JunZhuMgr.inst.sendMainInfo(session);
-		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
+		//Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
 		//BagMgr.inst.sendBagInfo(session, bag);
 		
 		EventMgr.addEvent( junZhu.id, ED.done_wuBeiChouJiang, new Object[]{junZhu.id});

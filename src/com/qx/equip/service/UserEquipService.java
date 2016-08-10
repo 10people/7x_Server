@@ -33,6 +33,7 @@ import com.qx.bag.BagMgr;
 import com.qx.bag.EquipGrid;
 import com.qx.bag.EquipMgr;
 import com.qx.equip.domain.UserEquip;
+import com.qx.equip.domain.UserEquipDao;
 import com.qx.equip.web.UEConstant;
 import com.qx.equip.web.UserEquipAction;
 import com.qx.event.ED;
@@ -94,6 +95,7 @@ public class UserEquipService {
 		}else if(equipWhere == 2){//身上穿戴装备
 			EquipGrid source = EquipMgr.inst.findEquip(junZhu.id, equipId);
 			if (source == null) {
+				log.error("强化失败：君主{}的装备{}不存在",junZhu.id,equipId);
 				throw new BaseException("强化装备不存在 2");
 			}
 			target = source;
@@ -110,7 +112,7 @@ public class UserEquipService {
 		
 		UserEquip dbUe = null;
 		if(targetInstId > 0){
-			dbUe = HibernateUtil.find(UserEquip.class, targetInstId);
+			dbUe = UserEquipDao.find(junZhuId, targetInstId);
 			if(dbUe == null){
 				log.error("找不到装备equipId:{}的强化数据instId:{}", equipId, targetInstId);
 				return ;
@@ -336,7 +338,7 @@ public class UserEquipService {
 			dbUe.mouli = curMouli;
 			dbUe.wuli = curWuli;
 			if(targetInstId<=0){
-				HibernateUtil.insert(dbUe);
+				UserEquipDao.insert(dbUe);
 				MC.add(dbUe, dbUe.getIdentifier());
 				targetInstId = dbUe.getIdentifier();
 				if(equipWhere == 1){ ((BagGrid)target).instId = targetInstId;}
@@ -349,7 +351,7 @@ public class UserEquipService {
 			}
 			log.info("装备强化成功,junzhuId:{},强化装备-dbUe.equipId:{},由LV:{}升级至 LV:{} exp {}, tongli {}, mouli {}, wuli {}",
 					junZhu.id, dbUe.equipId,currLv, newLv, curExp, curTongli, curMouli, curWuli);
-			ActLog.log.EquipStrength(junZhu.id, junZhu.name, ActLog.vopenid, (int)dbUe.equipId, zhuangbeiCfg.getName(), preLv, newLv, logCaiLiao);
+			ActLog.log.EquipStrength(junZhu.id, junZhu.name, (int)dbUe.equipId, zhuangbeiCfg.getName(), preLv, newLv, logCaiLiao);
 			// 主线任务：完成一次强化
 			EventMgr.addEvent(junZhu.id,ED.QIANG_HUA_FINISH, new Object[]{junZhuId, newLv, junZhu});
 			// 每日任务中记录完成强化装备1次
@@ -566,7 +568,7 @@ public class UserEquipService {
 				log.error("装备配置找不到 zhuangBeiId:{}", targetItemId);
 				continue;
 			}
-			UserEquip dbUe = HibernateUtil.find(UserEquip.class, eg.instId);
+			UserEquip dbUe = UserEquipDao.find(junZhuId, eg.instId);
 			int curExp=-1;
 			int curLevel=0;
 			if(dbUe==null){
@@ -727,12 +729,13 @@ public class UserEquipService {
 //			}
 			int lowIdx = findLow(equips, junZhu, isWuQi);
 			if(lowIdx<0 || lowIdx == Integer.MAX_VALUE){
+				log.error("君主{}一键强化出错：无法获取最差装备{}",junZhu.id,equips.grids);
 				break;
 			}
 			EquipGrid eg=equips.grids.get(lowIdx);
 			UserEquip dbUe = null;
 			if(eg.instId > 0){
-				dbUe = HibernateUtil.find(UserEquip.class, eg.instId);
+				dbUe = UserEquipDao.find(junZhuId, eg.instId);
 				if(dbUe == null){
 					dbUe = new UserEquip();
 					dbUe.userId = junZhuId;
@@ -941,7 +944,7 @@ public class UserEquipService {
 				}
 				if(bagGrid.instId > 0) {
 					// FIXME 武器是否强化过，计算数值不对，应把之前等级所耗掉的经验都加上 把消耗的武器身上的强化经验加到现有武器上
-					UserEquip mUe = HibernateUtil.find(UserEquip.class, bagGrid.instId);
+					UserEquip mUe = UserEquipDao.find(junZhu.id, bagGrid.instId);
 					if(mUe != null){
 						curExp += mUe.exp;
 						//洗练继承操作 （还要考虑有损继承）
@@ -989,8 +992,8 @@ public class UserEquipService {
 
 		dbUe.exp = curExp;
 		dbUe.level = newLv;
-		if(targetInstId<=0){
-			HibernateUtil.insert(dbUe);
+		if(dbUe.equipId == 0){
+			UserEquipDao.insert(dbUe);
 			MC.add(dbUe, dbUe.getIdentifier());
 			targetInstId = dbUe.getIdentifier();
 			target.instId = targetInstId;
@@ -1109,7 +1112,7 @@ public class UserEquipService {
 				}
 				continue ;
 			}
-			UserEquip ue = HibernateUtil.find(UserEquip.class, eg.instId);
+			UserEquip ue = UserEquipDao.find(junZhu.id, eg.instId);
 			if(ue == null){
 				log.error("强化信息丢失 {}", eg.instId);
 				continue;
@@ -1269,7 +1272,7 @@ public class UserEquipService {
 				produceExp += t.getExp();
 				if(bagGrid.instId > 0) {
 					// FIXME 武器是否强化过，计算数值不对，应把之前等级所耗掉的经验都加上
-					UserEquip mUe = HibernateUtil.find(UserEquip.class, bagGrid.instId);
+					UserEquip mUe = UserEquipDao.find(junZhuId, bagGrid.instId);
 					if(mUe != null){
 						produceExp += mUe.exp;
 						// TODO 洗练继承操作 （还要考虑有损继承）

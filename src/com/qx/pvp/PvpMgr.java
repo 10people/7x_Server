@@ -273,7 +273,7 @@ public class PvpMgr extends EventProc implements Runnable {
 			return;
 		}
 		if (bean == null) {
-			bean = initJunZhuPVPInfo(jid, junRank, jz.level);
+			bean = initJunZhuPVPInfo(jid, junRank);
 			log.info("君主{}请求百战主界面信息，没有Pvp数据，创建PVPbean",jid);
 			// 从有军衔开始就进行贡金的记录 去掉20160324
 //			EventMgr.addEvent(ED.GET_JUNXIAN, new Object[]{jz.id,bean});
@@ -522,7 +522,6 @@ public class PvpMgr extends EventProc implements Runnable {
 						log.error("无法获取玩家{}的百战千军信息",jzid);
 						return null; 
 					}
-					//FIXME 如果无君主的PVP信息，需特殊处理
 					if(bean.allBattleTimes == 0){
 						yinDaoChuLi(res);
 					}
@@ -854,7 +853,7 @@ public class PvpMgr extends EventProc implements Runnable {
 				you.setJunZhuId(jzId);
 				you.setJunZhuName((String)jzInfo[2]);
 				you.setRank(rankTemp);
-				you.setJunXianLevel(getJunXianByRank(rankTemp));
+				you.setJunXianLevel(getBaiZhanTempByRank(rankTemp).jibie);
 				IoSession session = SessionManager.inst.getIoSession(jzId);
 				if(session != null){
 					String LmName = (String)session.getAttribute(SessionAttKey.LM_NAME);
@@ -1407,7 +1406,7 @@ public class PvpMgr extends EventProc implements Runnable {
 		PvpBean bean = HibernateUtil.find(PvpBean.class, jz.id);
 		if(bean == null){
 			log.error("君主：{}获取百战数据失败，重新创建pvpbean" ,jz.id);
-			bean = initJunZhuPVPInfo(jz.id, rank, jz.level);
+			bean = initJunZhuPVPInfo(jz.id, rank);
 		}
 		int pay = PurchaseMgr.inst.getNeedYuanBao(
 				PurchaseConstants.BAIZHAN_REFRESH_ENEMYS,
@@ -1638,7 +1637,7 @@ public class PvpMgr extends EventProc implements Runnable {
 		}
 		int rank = getPvpRankById(jId);
 		int jibie = getBaiZhanTempByRank(rank).jibie;
-		ActLog.log.Challenge(jz.id, jz.name, ActLog.vopenid, "OpposName", otherId, winId==jz.id?1:2, rank, rank);
+		ActLog.log.Challenge(jz.id, jz.name, "OpposName", otherId, winId==jz.id?1:2, rank, rank);
 		
 		/*
 		 * 1.1版本要求首次百战必须胜利： 数据记录已经在进入战斗时处理
@@ -1919,7 +1918,7 @@ public class PvpMgr extends EventProc implements Runnable {
 			zhanR.lostBuild = 0;
 		}
 		ZhanDouRecordDao.insert(zhanR);
-		log.error("数据库保存一场战斗：{}", zhandouId);
+		log.info("数据库保存一场战斗：{}", zhandouId);
 		log.info("玩家：{},挑战对手：{}，记录进入战斗(默认记录是输场)", jId, enemyId);
 		bingsCache.remove(jId);
 		armyCache.remove(jId);//需求变更，无需记录玩家队形2016-04-21
@@ -1964,7 +1963,7 @@ public class PvpMgr extends EventProc implements Runnable {
 		bean.leiJiWeiWang += values[0];
 		bean.lastCalculateAward = new Date();
 		HibernateUtil.save(bean);
-		ActLog.log.ChallengeAward(jz.id, jz.name, ActLog.vopenid, 2, values[0]);
+		ActLog.log.ChallengeAward(jz.id, jz.name,2, values[0]);
 	}
 
 	/*
@@ -2147,7 +2146,7 @@ public class PvpMgr extends EventProc implements Runnable {
 	@Override
 	public void proc(Event event) {
 		switch (event.id) {
-		case ED.ACC_LOGIN:
+		case ED.JUNZHU_LOGIN:
 			if (event.param != null && event.param instanceof Long) {
 				long jzid = (Long) event.param;
 				//君主是否在线
@@ -2236,11 +2235,11 @@ public class PvpMgr extends EventProc implements Runnable {
 
 	@Override
 	public void doReg() {
-		EventMgr.regist(ED.ACC_LOGIN, this);
+		EventMgr.regist(ED.JUNZHU_LOGIN, this);
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
 	}
 
-	public PvpBean initJunZhuPVPInfo(long jzId, int rank, int jzLevel) {
+	public PvpBean initJunZhuPVPInfo(long jzId, int rank) {
 		// 根据参数创建一个一个新的PVP数据，会覆盖原有数据
 		PvpBean bean = new PvpBean();
 		bean.junZhuId = jzId;
@@ -2337,11 +2336,12 @@ public class PvpMgr extends EventProc implements Runnable {
 				}
 			}
 			// 玩家离线天数计算，超过1天可以获取离线奖励
-			int offLineDays = (int) (new Date().getTime() / (24*3600*1000) - ( last.getTime() / (24*3600*1000) ) );
+			int offLineDays = (int) (System.currentTimeMillis()/ (24*3600*1000) - ( last.getTime() / (24*3600*1000) ) );
 			if( offLineDays >1 ){
+				log.info("玩家{}离线{}天，发送百战千军离线奖励", id,offLineDays);
 				offLineDays = MathUtils.getMin(offLineDays, 15) ;
-				sendoffLineAward( offLineDays );
-				return;
+				sendoffLineAward( offLineDays ,junZhu,bean );
+//				return;
 			}
 		}else if(sendType == PVPConstant.ONLINE_SEND_EMAIL){
 			// 玩家在线发送奖励
@@ -2387,9 +2387,54 @@ public class PvpMgr extends EventProc implements Runnable {
 		}
 	}
 	
-	public void sendoffLineAward( int offLineDays ){
+	public void sendoffLineAward( int offLineDays , JunZhu junZhu , PvpBean bean){
 		//TODO 发送离线天数奖励逻辑
-		
+		int rank =getRankById(junZhu.id); 
+		BaiZhan baiZhanTemp = getBaiZhanTempByRank(rank);
+		if (baiZhanTemp == null) {
+			log.error("BaiZhan表中没有找到rank是：{}的奖励配置信息", rank);
+			return;
+		}
+		StringBuilder awardBuilder = new StringBuilder();
+		String[] s = baiZhanTemp.dayAward.split("#");
+		if (s != null) {
+			int len = s.length;
+			for (int i = 0; i < len; i++) {
+				String[] award = s[i].split(":");
+				if (award != null) {
+					int type = Integer.parseInt(award[0]);
+					int tempId = Integer.parseInt(award[1]);
+					int number = Integer.parseInt(award[2]);
+					if (type == 10) {
+						AwardTemp a = AwardMgr.inst.calcAwardTemp(tempId);
+						if(a != null) {
+							type = a.itemType;
+							tempId = a.itemId;
+							number = a.itemNum;
+						}
+					}
+					number *= offLineDays ;
+					awardBuilder.append("#").append(type).append(":").append(tempId)
+							.append(":").append(number);
+				}
+			}
+			awardBuilder = new StringBuilder(awardBuilder.substring(1));
+		}
+		//TODO 目前策划没有提出具体的邮件配置，暂时套用旧的
+		Mail mailConfig = EmailMgr.INSTANCE.getMailConfig(40002);
+		if (mailConfig == null) {
+			log.error("mail.xml配置文件找不到type=40002的数据, cmd:{}", junZhu.id);
+			return;
+		}
+		String content = mailConfig.content;
+		String senderName = mailConfig.sender;
+		boolean succes = EmailMgr.INSTANCE.sendMail(junZhu.name, content,
+				awardBuilder.toString(), senderName, mailConfig, "");
+		if(succes){
+			bean.lastAwardTime = DateUtils.getLast10();
+			HibernateUtil.save(bean);
+			log.info("玩家{}离线{}天之后登录，发送百战千军离线奖励邮件:{}",junZhu.id,offLineDays,awardBuilder.toString());
+		}
 	}
 	
 	

@@ -1,3 +1,6 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="qxmobile.protobuf.DailyTaskProtos.DailyTaskInfo"%>
+<%@page import="java.util.stream.Collectors"%>
 <%@page import="com.manu.network.SessionManager"%>
 <%@page import="com.qx.activity.ActivityMgr"%>
 <%@page import="com.manu.dynasty.template.DescId"%>
@@ -82,12 +85,11 @@ function ff(){
 	        String action = request.getParameter("action");
 	        if(action != null){
 	        	if("done".equals(action)){
-	        		String dbIdStr = request.getParameter("taskId");
-	        		if(dbIdStr != null){
-	        			long dbId = Long.parseLong(dbIdStr);
-	        			int renwuID = (int) dbId%100;
-	        			RenWu renwu = DailyTaskMgr.renWuMap.get(renwuID);
-	        			DailyTaskBean bean = HibernateUtil.find(DailyTaskBean.class, dbId);
+	        		String taskIdStr = request.getParameter("taskId");
+	        		if(taskIdStr != null){
+	        			int taskId = Integer.parseInt(taskIdStr);
+	        			RenWu renwu = DailyTaskMgr.renWuMap.get(taskId);
+	        			DailyTaskBean bean = DailyTaskMgr.INSTANCE.getTaskByTaskId(junzhu.id, taskId);
 	        			bean.jundu = renwu == null ? 1 :renwu.condition;
 	        			bean.isFinish = true;
 	        			bean.time = new Date();
@@ -99,10 +101,11 @@ function ff(){
 	        		}
 	        	}else if("reset".equals(action)){
 	        		
-	        		String dbIdStr = request.getParameter("taskId");
-	        		if(dbIdStr != null){
-	        			long dbId = Long.parseLong(dbIdStr);
-	        			DailyTaskBean bean = HibernateUtil.find(DailyTaskBean.class, dbId);
+	        		String taskIdStr = request.getParameter("taskId");
+	        		if(taskIdStr != null){
+	        			int taskId = Integer.parseInt(taskIdStr);
+	        			RenWu renwu = DailyTaskMgr.renWuMap.get(taskId);
+	        			DailyTaskBean bean = DailyTaskMgr.INSTANCE.getTaskByTaskId(junzhu.id, taskId);
 	        			bean.isFinish = false;
 	        			bean.isGetReward = false;
 	        			bean.jundu = 0;
@@ -119,30 +122,31 @@ function ff(){
 	        long start = junZhuId * DailyTaskMgr.space ;
 	        long end = start + DailyTaskMgr.space - 1;
 	        List<DailyTaskBean> taskList = DailyTaskMgr.INSTANCE.getDailyTasks(junZhuId);
+	        Map<Integer , DailyTaskBean>taskMap= new HashMap<Integer , DailyTaskBean>();
+	        for(DailyTaskBean bean : taskList){
+	        	taskMap.put((int)bean.dbId%100, bean);
+	        }
+	        List<DailyTaskInfo> taskInfoList = DailyTaskMgr.INSTANCE.fillTaskInfo(taskMap, junZhuId);
 	        %>
 	        <table border="1">
 	        <%
 	        if(taskList != null && taskList.size() > 0){
 	        %>
-	        <tr><th>dbId</th><th>任务id</th><th>任务进度</th><th>任务描述</th><th>是否完成</th><th>是否领奖</th><th>操作</th></tr>
+	        <tr><th>任务id</th><th>任务进度</th><th>任务描述</th><th>是否完成</th><th>是否领奖</th><th>操作</th></tr>
 	        <%
-				for(DailyTaskBean dtBean : taskList){
-					RenWu r = DailyTaskMgr.renWuMap.get((int)dtBean.dbId % 100);
-					DescId desc = null ;
-					if(r != null){
-						desc = ActivityMgr.descMap.get(r.funDesc);
-					}
+				for(DailyTaskInfo dtInfo : taskInfoList){
+					RenWu task = DailyTaskMgr.renWuMap.get(dtInfo.getTaskId());
+					DescId desc = ActivityMgr.descMap.get(task.funDesc);
 				%>
 				 <tr>
-				 <td><%= dtBean.dbId %></td>
-				 <td><%= dtBean.dbId % 100 %></td>
-				 <td><%= dtBean.jundu %></td>
-				 <td><%= desc == null ?"":desc.description %></td>
-				 <td><%= dtBean.isFinish ?"已完成":"未完成" %></td>
-				 <td><%= dtBean.isGetReward ?"已领奖":"未领奖" %></td>
+				 <td><%= dtInfo.getTaskId() %></td>
+				 <td><%= dtInfo.getJindu() %></td>
+				 <td><%= desc.description%></td>
+				 <td><%= dtInfo.getIsFinish()?"已完成":"未完成" %></td>
+				 <td><%= dtInfo.getIsGet() ?"已领奖":"未领奖" %></td>
 				 <td>
-				 <a href="?action=done&taskId=<%=dtBean.dbId%>">完成</a>
-				 <a href="?action=reset&taskId=<%=dtBean.dbId%>">重置</a>
+				 <a href="?action=done&taskId=<%=dtInfo.getTaskId()%>">完成</a>
+				 <a href="?action=reset&taskId=<%=dtInfo.getTaskId()%>">重置</a>
 				 </td>
 				 </tr>
 				 <%

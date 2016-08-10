@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
 import com.qx.persistent.MCSupport;
 
 /**
@@ -14,7 +15,7 @@ import com.qx.persistent.MCSupport;
  */
 @Entity
 @Table(name = "XianShiBean")
-public class XianShiBean implements MCSupport {
+public class XianShiBean implements MCSupport,DBHash{
 	/**
 	 * @Fields serialVersionUID : TODO
 	 */
@@ -33,6 +34,10 @@ public class XianShiBean implements MCSupport {
 	public int huoDongId;
 	@Override
 	public long getIdentifier() {
+		return id;
+	}
+	@Override
+	public long hash() {
 		return id;
 	}
 }

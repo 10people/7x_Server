@@ -210,8 +210,8 @@ public class YYMgr extends EventProc{
 	}
 	@Override
 	public void doReg() {
-		EventMgr.regist(ED.junzhu_level_up, this);
-		EventMgr.regist(ED.JUNZHU_LOGIN, this);
+//		EventMgr.regist(ED.junzhu_level_up, this);
+//		EventMgr.regist(ED.JUNZHU_LOGIN, this);
 	}
 	
 }

@@ -61,6 +61,20 @@ public class ClientHandler extends IoHandlerAdapter{
 		super.sessionIdle(session, status);
 		//System.out.println("ClientHandler.sessionIdle()");
 		session.write(PD.TEST_CONN);
+		GameClient cl = (GameClient) session.getAttribute("CL", null);
+		if(cl!=null){
+			cl.lasdPveId = 0;
+			cl.testTask.tryIds.clear();
+			System.out.println("===========reset sid "+session.getId());
+		}
+		Integer times = (Integer) session.getAttribute("TIMES", 0);
+		times++;
+		if(times>5){
+			System.out.println("================================!!!!!!!!!!!!!!===cut off sid "+session.getId());
+			Main.autoDone(cl);
+		}
+		session.setAttribute("TIMES", times);
+		session.write(PD.C_TaskReq);
 	}
 
 	@Override

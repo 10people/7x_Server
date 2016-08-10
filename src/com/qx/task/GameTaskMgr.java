@@ -1,21 +1,19 @@
 package com.qx.task;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
 import log.ActLog;
 import log.OurLog;
@@ -33,7 +31,6 @@ import qxmobile.protobuf.GameTask.TaskProgress;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
-import com.manu.dynasty.store.MemcachedCRUD;
 import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.AwardTemp;
 import com.manu.dynasty.template.BaseItem;
@@ -45,7 +42,6 @@ import com.manu.dynasty.template.ZhuangBei;
 import com.manu.network.BigSwitch;
 import com.manu.network.SessionAttKey;
 import com.manu.network.SessionManager;
-import com.manu.network.SessionUser;
 import com.qx.account.FunctionOpenMgr;
 import com.qx.activity.QianDaoPresent;
 import com.qx.activity.QiandaoInfo;
@@ -65,6 +61,7 @@ import com.qx.bag.EquipGrid;
 import com.qx.bag.EquipMgr;
 import com.qx.chonglou.ChongLouRecord;
 import com.qx.equip.domain.UserEquip;
+import com.qx.equip.domain.UserEquipDao;
 import com.qx.equip.jewel.JewelMgr;
 import com.qx.event.ED;
 import com.qx.event.Event;
@@ -91,16 +88,20 @@ import com.qx.mibao.MiBaoDao;
 import com.qx.mibao.MiBaoSkillDB;
 import com.qx.mibao.MibaoMgr;
 import com.qx.mibao.v2.MiBaoV2Mgr;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.TiLi;
 import com.qx.purchase.TongBi;
+import com.qx.pve.PveGuanQiaMgr;
 import com.qx.pve.PveRecord;
 import com.qx.pve.SaoDangBean;
 import com.qx.pvp.LveDuoBean;
 import com.qx.pvp.PvpBean;
 import com.qx.pvp.PvpMgr;
+import com.qx.util.TPE;
 import com.qx.yabiao.YunBiaoHistory;
 import com.qx.youxia.YouXiaBean;
+import com.qx.youxia.YouXiaBeanDao;
 
 /**
  * 任务进度，负数表示已完成，但未领奖；已领奖的任务客户端看不到。
@@ -114,9 +115,7 @@ public class GameTaskMgr extends EventProc{
 	 * 任务由多线程来检查完成，如果同样的事件被连续触发，则可能会导致多个线程处理，造成任务数据错误。
 	 * 实际的话，一个任务由一个条件（事件）来完成，一个事件应当不会连续触发，如果多线程处理，总会有一个线程的处理结果是正确的。
 	 */
-	public static ThreadPoolExecutor es = new ThreadPoolExecutor(0, Integer.MAX_VALUE,
-            60L, TimeUnit.SECONDS,
-            new SynchronousQueue<Runnable>());
+	public static ThreadPoolExecutor es[];
 	public static int spaceFactor = 100;
 	public static GameTaskMgr inst;
 	public static Logger log = LoggerFactory.getLogger(GameTaskMgr.class.getSimpleName());
@@ -138,6 +137,14 @@ public class GameTaskMgr extends EventProc{
 	public GameTaskMgr(){
 		inst = this;
 		initData();
+		//
+		int len = 10;
+		es = new ThreadPoolExecutor[len];
+		for(int i=0;i<len;i++){
+			es[i] = new TPE(1, 1,
+                    0L, TimeUnit.MILLISECONDS,
+                    new LinkedBlockingQueue<Runnable>());
+		}
 	}
 	
 	public void initData() {
@@ -197,7 +204,7 @@ public class GameTaskMgr extends EventProc{
 	 * @return
 	 */
 	public WorkTaskBean getTask(long pid, int tid){
-		Optional<WorkTaskBean> op = getTaskList(pid).stream().filter(t->t.tid==tid).findAny();
+		Optional<WorkTaskBean> op = getTaskList(pid).stream().filter(t-> t!=null&&t.tid==tid).findAny();
 		WorkTaskBean res = null;
 		if(op.isPresent()){
 			res = op.get();
@@ -220,14 +227,15 @@ public class GameTaskMgr extends EventProc{
 	
 	public List<WorkTaskBean> getTaskList(long pid){
 		if( useGameTaskCache ){
-			List<WorkTaskBean> list = GameTaskCache.get(pid);
-			if(list != null){
-				return list;
+			List<WorkTaskBean> res = GameTaskCache.get(pid);
+			if(res != null){
+				return res;
 			}else{
-				list = HibernateUtil.list(WorkTaskBean.class, "where jzid="+pid);
-				LinkedList<WorkTaskBean> ll = new LinkedList<>(list);
-				GameTaskCache.put(pid, ll);
-				return ll ;
+				List<WorkTaskBean> list = HibernateUtil.list(WorkTaskBean.class, "where jzid="+pid);
+				res = Collections.synchronizedList(new LinkedList<WorkTaskBean>());
+				res.addAll(list);
+				GameTaskCache.put(pid, res);
+				return res ;
 			}
 		}
 		List<WorkTaskBean> list = HibernateUtil.list(WorkTaskBean.class, "where jzid="+pid);
@@ -250,7 +258,6 @@ public class GameTaskMgr extends EventProc{
 	public void sendTaskList(IoSession session, JunZhu jz){
 		long junZhuId = jz.id;
 		List<WorkTaskBean> list = getTaskList(junZhuId);
-		log.error("获取到任务列表的长度为："+list.size());
 		if(list.size()==0 && jz.level<=1){
 			addTask(junZhuId, first_task_id, null);
 		}
@@ -258,31 +265,47 @@ public class GameTaskMgr extends EventProc{
 		 *  之前的配置任务都已完成
 		 *  根据策划向后新添加的任务配置，接着做任务
 		 */
-		boolean succes = false;
-		for(WorkTaskBean b: list){
-			if(b.progress == -2){
-				succes = fireNextTrigger100Task(junZhuId, b.tid);
-				if(succes){
-					log.error("成功触发下一任务，删除progress为-2的任务");
-					list.remove(b);
-					HibernateUtil.delete(b);
+		
+		WorkTaskBean bean = null;
+		List<WorkTaskBean> fireList = new LinkedList<WorkTaskBean>();
+		Iterator< WorkTaskBean> it;
+		synchronized (list) {
+			it = list.iterator();
+			while (it.hasNext()) {
+				bean = it.next();
+				if(bean.progress == -2){
+					fireList.add(bean);
 				}
-				break;
 			}
 		}
-		if(succes){
-			log.info("君主{}成功触发下一任务,刷新任务列表",junZhuId);
-			list = getTaskList(junZhuId);
+		it = fireList.iterator();
+		while (it.hasNext()) {
+			boolean succes = false;
+			bean = it.next();
+			succes = fireNextTrigger100Task(junZhuId, bean.tid);
+			if(succes){
+				synchronized (list) {
+					list.remove(bean);
+				}
+				HibernateUtil.delete(bean);
+				log.error("成功触发下一任务，删除progress为-2的任务");
+			}
 		}
 		TaskList.Builder  ret = TaskList.newBuilder();
-		for(WorkTaskBean b : list){
-			if(b.progress == -2){
-				continue;
+		synchronized (list) {
+			for(WorkTaskBean b : list){
+				if(b == null ){
+					log.error("任务列表中的任务信息为null，任务列表：{}",list);
+					continue;
+				}
+				if(b.progress == -2){
+					continue;
+				}
+				TaskInfo.Builder t = TaskInfo.newBuilder();
+				t.setId(b.tid);
+				t.setProgress(b.progress);
+				ret.addList(t);
 			}
-			TaskInfo.Builder t = TaskInfo.newBuilder();
-			t.setId(b.tid);
-			t.setProgress(b.progress);
-			ret.addList(t);
 		}
 		session.write(ret.build());
 	}
@@ -522,7 +545,7 @@ public class GameTaskMgr extends EventProc{
 				case TaskData.qianghua_level_x:
 					donCond = Integer.parseInt(zx.doneCond);
 					where = "where userId = " + junZhuId;
-					List<UserEquip> equipList = HibernateUtil.list(UserEquip.class, where);
+					List<UserEquip> equipList = UserEquipDao.list(junZhuId);
 					for(UserEquip e: equipList){
 						if(e.level >= donCond){
 							b.progress = -1;
@@ -559,7 +582,7 @@ public class GameTaskMgr extends EventProc{
 				 */
 				case TaskData.ONE_QIANG_HAU:
 					where = "where userId = " + junZhuId;
-					equipList = HibernateUtil.list(UserEquip.class, where);
+					equipList = UserEquipDao.list(junZhuId);
 					for(UserEquip e: equipList){
 						if(e.level == 0 && e.exp == 0){
 							continue;
@@ -637,8 +660,7 @@ public class GameTaskMgr extends EventProc{
 					 * 是否花威望购买过东西
 					 */
 				case TaskData.pay_weiWang:
-					PublicShop s = HibernateUtil.find(PublicShop.class, 
-							junZhuId * ShopMgr.shop_space + ShopMgr.baizhan_shop_type);
+					PublicShop s = PublicShopDao.inst.getShopByType(junZhuId,  ShopMgr.baizhan_shop_type);
 					if(s!=null && s.buyGoodTimes >= 1){
 						b.progress = -1;
 					}
@@ -648,6 +670,9 @@ public class GameTaskMgr extends EventProc{
 					 */
 				case TaskData.saoDang :
 					SaoDangBean sd = HibernateUtil.find(SaoDangBean.class, junZhuId);
+					if (sd == null) {
+						sd = BigSwitch.pveGuanQiaMgr.insertSaoDangBean(junZhuId);
+					}
 					if(sd != null && sd.jyAllSaoDangTimes >= 1){
 						b.progress = -1;
 					}
@@ -802,10 +827,9 @@ public class GameTaskMgr extends EventProc{
 						break;
 					}
 					break;
-				case TaskData.finish_youxia_x:
+				case TaskData.finish_youxia_x:{
 					donCond = Integer.parseInt(zx.doneCond);
-					List<YouXiaBean> youXiaInfoList = HibernateUtil.list(YouXiaBean.class,
-							" where junzhuId = " +junZhuId);
+					List<YouXiaBean> youXiaInfoList = YouXiaBeanDao.list(junZhuId);
 					int allwin = 0;
 					for(YouXiaBean you: youXiaInfoList){
 						allwin += you.allWinTimes;
@@ -813,11 +837,11 @@ public class GameTaskMgr extends EventProc{
 					if(allwin >= donCond){
 						b.progress = -1;
 					}
+				}
 					break;
-				case TaskData.go_youxia:
+				case TaskData.go_youxia:{
 					donCond = Integer.parseInt(zx.doneCond);
-					youXiaInfoList = HibernateUtil.list(YouXiaBean.class,
-							" where junzhuId = " +junZhuId);
+					List<YouXiaBean> youXiaInfoList =  YouXiaBeanDao.list(junZhuId);
 					int allBattle = 0;
 					for(YouXiaBean you: youXiaInfoList){
 						allBattle += you.allBattleTimes;
@@ -825,11 +849,11 @@ public class GameTaskMgr extends EventProc{
 					if(allBattle >= donCond){
 						b.progress = -1;
 					}
+				}
 					break;
 				case TaskData.battle_shiLian_II:
-					String donCondstring = zx.doneCond;
-					YouXiaBean yxBean = HibernateUtil.find(YouXiaBean.class,
-					" where junzhuId=" + junZhuId + " and type =" + donCondstring);
+					int bigId = Integer.parseInt(zx.doneCond);
+					YouXiaBean yxBean = YouXiaBeanDao.find(junZhuId, bigId);
 					if(yxBean != null && yxBean.lastBattleTime != null){
 						b.progress = -1;
 						log.info("君主：{}提前完成攻打试练II难度1次（拿符石），加载任务，并设置为完成", junZhuId);
@@ -968,17 +992,17 @@ public class GameTaskMgr extends EventProc{
 			}
 		}
 		HibernateUtil.save(b);
-		List<WorkTaskBean> taskList = GameTaskCache.get(junZhuId);
-		if(taskList == null ){
-			taskList = getTaskList(junZhuId);
-			GameTaskCache.put(junZhuId, taskList);
+		if(useGameTaskCache){
+			List<WorkTaskBean> taskList = getTaskList(junZhuId);
+			synchronized (taskList) {
+				taskList.add(b);
+			}
 		}
-		taskList.add(b);
 		log.info("{}增加任务:{}, dbid:{}, progress:{}",junZhuId,b.tid, b.dbId, b.progress);
-		OurLog.log.RoundFlow(ActLog.vopenid, b.tid, 1, 0, 0, 1, String.valueOf(junZhuId));
+		OurLog.log.RoundFlow(b.tid, 1, 0, 0, 1, String.valueOf(junZhuId));
 		if(b.progress == -1){
 			fireNextOutTrigger100Task(junZhuId, b.tid);
-			OurLog.log.RoundFlow(ActLog.vopenid, b.tid, 1, 0, 0, 2, String.valueOf(junZhuId));
+			OurLog.log.RoundFlow(b.tid, 1, 0, 0, 2, String.valueOf(junZhuId));
 		}
 		return b;
 	}
@@ -989,21 +1013,12 @@ public class GameTaskMgr extends EventProc{
 		GetTaskRwardResult.Builder response = GetTaskRwardResult.newBuilder();
 		response.setTaskId(taskId);
 		Long junZhuId = (Long) session.getAttribute(SessionAttKey.junZhuId);
-		if(junZhuId == null){
-			log.error("junZhuId为null");
+		JunZhu jz = HibernateUtil.find(JunZhu.class, junZhuId);
+		if(jz == null){
+			log.error("领取奖励失败，君主为null");
 			return;
 		}
-		JunZhu jz = HibernateUtil.find(JunZhu.class, junZhuId);
 		WorkTaskBean taskBean = getTask(junZhuId, taskId);
-		/*
-		List<WorkTaskBean> taskList0 = getTaskList(junZhuId);
-		for(WorkTaskBean bean : taskList){
-			if(bean.tid == taskId){
-				taskBean = bean;
-				break;
-			}
-		}
-		*/
 		if(taskBean == null ){
 			log.error("该玩家没有此条任务，junzhuId:{},taskId:{}", junZhuId, taskId);
 			return;
@@ -1022,9 +1037,11 @@ public class GameTaskMgr extends EventProc{
 		// 没有下一条任务的时候，nextGroup填0，需保留此条任务用作记录
 		if(!zhuXian.nextGroup.equals("0")){
 			log.info("正确删除了任务id是：{}",taskBean.tid );
-			List<WorkTaskBean> list = GameTaskCache.get(junZhuId);
-			if(list != null){
-				list.remove(taskBean);
+			if(useGameTaskCache){
+				List<WorkTaskBean> list = getTaskList(junZhuId);
+				synchronized (list) {
+					list.remove(taskBean);
+				}
 			}
 			HibernateUtil.delete(taskBean);
 		}else{
@@ -1033,6 +1050,7 @@ public class GameTaskMgr extends EventProc{
 		}
 		StringBuffer mess = new StringBuffer();
 		boolean allSucc = true;
+		boolean giveExp = false ;
 		if(zhuXian.parsedArr!=null && zhuXian.parsedArr.length>0){
 			for(AwardTemp awardTemp : zhuXian.parsedArr){
 				int itemId = awardTemp.itemId;
@@ -1044,8 +1062,13 @@ public class GameTaskMgr extends EventProc{
 				}else{
 					mess.append("领取奖励: " + itemId +"成功;");
 				}
+				if( itemId == 900006){
+					giveExp = true ;
+				}
 			}
-			
+			if( giveExp){
+				JunZhuMgr.inst.sendMainInfo(session);
+			}
 			response.setMsg(allSucc?"success":"fail");
 			log.info("{},完成主线任务id:{},并且成功领取奖励： {}" ,junZhuId, taskId, mess);
 		}else {
@@ -1102,7 +1125,7 @@ public class GameTaskMgr extends EventProc{
 			b.progress = -1;
 			HibernateUtil.save(b);
 			log.info("{}完成任务{}",junZhu.id, b.tid);
-			OurLog.log.RoundFlow(ActLog.vopenid, b.tid, 1, 0, 0, 2, String.valueOf(junZhu.id));
+			OurLog.log.RoundFlow(b.tid, 1, 0, 0, 2, String.valueOf(junZhu.id));
 			fireNextOutTrigger100Task(junZhu.id, b.tid);
 			ZhuXian zhuXian = zhuxianTaskMap.get(b.tid);
 			if(zhuXian.type == zhuXianType){
@@ -1455,34 +1478,45 @@ public class GameTaskMgr extends EventProc{
 		}
 		ZhuXian task = null;
 		boolean toSend = false;
-		for (WorkTaskBean b: list){
-			task = zhuxianTaskMap.get(b.tid);
-			if(task == null){
-				continue;
-			}
-			if(b.progress != 0){
-				continue;
-			}
-			String condi = task.doneCond;
-			if(condi == null){
-				continue;
-			}
-			short type = task.doneType;
-			if(type == TaskData.finish_youxia_x){
-				if(allBattleTimes >= Integer.parseInt(condi)){
-					dealTask(junZhuId, b, type, task);
-					log.info("君主：{}，去玩任意{}次游侠任务完成", junZhuId, condi);
-					toSend = true;
+		List<WorkTaskBean> dealList = new LinkedList<WorkTaskBean>();
+		synchronized (list) {
+			for (WorkTaskBean b: list){
+				if(b == null ){
+					log.error("任务列表中的任务信息为null，任务列表：{}",list);
 					continue;
 				}
-			}else if(type == TaskData.battle_shiLian_II){
-				if(condi.equals(pveBigId+"")){
-					dealTask(junZhuId, b, type, task);
-					log.info("君主：{}，攻打试练II难度1次（拿符石）任务完成", junZhuId);
-					toSend = true;
+				task = zhuxianTaskMap.get(b.tid);
+				if(task == null){
 					continue;
 				}
+				if(b.progress != 0){
+					continue;
+				}
+				String condi = task.doneCond;
+				if(condi == null){
+					continue;
+				}
+				short type = task.doneType;
+				if(type == TaskData.finish_youxia_x){
+					if(allBattleTimes >= Integer.parseInt(condi)){
+						dealList.add(b);
+						log.info("君主：{}，去玩任意{}次游侠任务完成", junZhuId, condi);
+						toSend = true;
+						continue;
+					}
+				}else if(type == TaskData.battle_shiLian_II){
+					if(condi.equals(pveBigId+"") ){
+						dealList.add(b);
+						log.info("君主：{}，攻打试练II难度1次（拿符石）任务完成", junZhuId);
+						toSend = true;
+						continue;
+					}
+				}
 			}
+		}
+		for(WorkTaskBean bean:dealList){
+			task = zhuxianTaskMap.get(bean.tid);
+			dealTask(junZhuId, bean,task);
 		}
 		toSendTask(toSend, junZhuId);
 	}
@@ -1493,29 +1527,40 @@ public class GameTaskMgr extends EventProc{
 		}
 		ZhuXian task = null;
 		boolean toSend = false;
-		for (WorkTaskBean b: list){
-			task = zhuxianTaskMap.get(b.tid);
-			if(task == null){
-				continue;
-			}
-			if(b.progress != 0){
-				continue;
-			}
-			short type = task.doneType;
-			if(type == TaskData.miabao_x_star_n){
-				String[] condis = task.doneCond.split(":");
-				if(condis != null && condis.length == 2){
-					boolean yes = MibaoMgr.inst.isMibaoStarOk(junZhuId, 
-							Integer.parseInt(condis[0]),
-							Integer.parseInt(condis[1]));
-					if(yes){
-						dealTask(junZhuId, b, type, task);
-						log.info("君主：{}，x个秘宝到n星级的主线任务完成", junZhuId);
-						toSend = true;
-						break;
+		List<WorkTaskBean> dealList = new LinkedList<WorkTaskBean>();
+		synchronized (list) {
+			for (WorkTaskBean b: list){
+				if(b == null ){
+					log.error("任务列表中的任务信息为null，任务列表：{}",list);
+					continue;
+				}
+				task = zhuxianTaskMap.get(b.tid);
+				if(task == null){
+					continue;
+				}
+				if(b.progress != 0){
+					continue;
+				}
+				short type = task.doneType;
+				if(type == TaskData.miabao_x_star_n){
+					String[] condis = task.doneCond.split(":");
+					if(condis != null && condis.length == 2){
+						boolean yes = MibaoMgr.inst.isMibaoStarOk(junZhuId, 
+								Integer.parseInt(condis[0]),
+								Integer.parseInt(condis[1]));
+						if(yes){
+							dealList.add(b);
+							log.info("君主：{}，x个秘宝到n星级的主线任务完成", junZhuId);
+							toSend = true;
+							break;
+						}
 					}
 				}
 			}
+		}
+		for(WorkTaskBean bean:dealList){
+			task = zhuxianTaskMap.get(bean.tid);
+			dealTask(junZhuId, bean,task);
 		}
 		toSendTask(toSend, junZhuId);
 	}
@@ -1526,37 +1571,45 @@ public class GameTaskMgr extends EventProc{
 		}
 		ZhuXian task = null;
 		boolean toSend = false;
-		for (WorkTaskBean b: list){
-			task = zhuxianTaskMap.get(b.tid);
-			if(task == null){
-				continue;
-			}
-			if(b.progress != 0){
-				continue;
-			}
-			short type = task.doneType;
-			switch(type){
-				case TaskData.jinJie_jueSe_jiNeng:
-					dealTask(junZhuId, b, type, task);
-					toSend = true;
-					break;
-				case TaskData.jueSe_x_jiNeng_n:
-					String[] condis = task.doneCond.split(":");
-					if(condis != null && condis.length == 2){
-						boolean yes = isJueSeJiNengOk(bean,
-								Integer.parseInt(condis[0]),
-								Integer.parseInt(condis[1]));
-						if(yes){
-							dealTask(junZhuId, b, type, task);
-							toSend = true;
-							log.info("君主：{}，x个技能升级到n等级的主线任务完成", junZhuId);
+		List<WorkTaskBean> dealList = new LinkedList<WorkTaskBean>();
+		synchronized (list) {
+			for (WorkTaskBean b: list){
+				if(b == null ){
+					log.error("任务列表中的任务信息为null，任务列表：{}",list);
+					continue;
+				}
+				task = zhuxianTaskMap.get(b.tid);
+				if(task == null){
+					continue;
+				}
+				if(b.progress != 0){
+					continue;
+				}
+				short type = task.doneType;
+				switch(type){
+					case TaskData.jinJie_jueSe_jiNeng:
+						dealList.add(b);
+						toSend = true;
+						break;
+					case TaskData.jueSe_x_jiNeng_n:
+						String[] condis = task.doneCond.split(":");
+						if(condis != null && condis.length == 2){
+							boolean yes = isJueSeJiNengOk(bean,
+									Integer.parseInt(condis[0]),
+									Integer.parseInt(condis[1]));
+							if(yes){
+								dealList.add(b);
+								toSend = true;
+								log.info("君主：{}，x个技能升级到n等级的主线任务完成", junZhuId);
+							}
 						}
-					}
-					break;
+						break;
+				}
 			}
-			if(toSend){
-				break;
-			}
+		}
+		for(WorkTaskBean taskBean:dealList){
+			task = zhuxianTaskMap.get(taskBean.tid);
+			dealTask(junZhuId, taskBean,task);
 		}
 		toSendTask(toSend, junZhuId);
 	}
@@ -1595,30 +1648,38 @@ public class GameTaskMgr extends EventProc{
 		}
 		ZhuXian task = null;
 		boolean toSend = false;
-		for (WorkTaskBean b: list){
-			task = zhuxianTaskMap.get(b.tid);
-			if(task == null){
-				continue;
-			}
-			if(b.progress != 0){
-				continue;
-			}
-			short type = task.doneType;
-			switch(type){
-				case TaskData.tianfu_level_up:
-					dealTask(junZhuId, b, type, task);
-					toSend = true;
-					break;
-				case TaskData.tianfu_level_x:
-					if(pointLevel >= Integer.parseInt(task.doneCond)){
-						dealTask(junZhuId, b, type, task);
+		List<WorkTaskBean> dealList = new LinkedList<WorkTaskBean>();
+		synchronized (list) {
+			for (WorkTaskBean b: list){
+				if(b == null ){
+					log.error("任务列表中的任务信息为null，任务列表：{}",list);
+					continue;
+				}
+				task = zhuxianTaskMap.get(b.tid);
+				if(task == null){
+					continue;
+				}
+				if(b.progress != 0){
+					continue;
+				}
+				short type = task.doneType;
+				switch(type){
+					case TaskData.tianfu_level_up:
+						dealList.add(b);
 						toSend = true;
-					}
-					break;
+						break;
+					case TaskData.tianfu_level_x:
+						if(pointLevel >= Integer.parseInt(task.doneCond)){
+							dealList.add(b);
+							toSend = true;
+						}
+						break;
+				}
 			}
-			if(toSend){
-				break;
-			}
+		}
+		for(WorkTaskBean taskBean:dealList){
+			task = zhuxianTaskMap.get(taskBean.tid);
+			dealTask(junZhuId, taskBean,task);
 		}
 		toSendTask(toSend, junZhuId);
 	}
@@ -1630,51 +1691,62 @@ public class GameTaskMgr extends EventProc{
 		}
 		ZhuXian task = null;
 		boolean toSend = false;
-		for (WorkTaskBean b: list){
-			task = zhuxianTaskMap.get(b.tid);
-			if(task == null){
-				continue;
-			}
-			if(b.progress != 0){
-				continue;
-			}
-			short type = task.doneType;
-			switch(type){
-				case TaskData.ONE_QIANG_HAU:
-					dealTask(junZhuId, b, type, task);
-					toSend = true;
-					break;
-				case TaskData.qianghua_level_x:
-					//2015年11月2日王转+
-					// 一键强化传递的参数，所以获取当前玩家强化装备最大等级
-					if(qianghuaLevel == -1){
-						String where = "where userId = " + junZhuId;
-						List<UserEquip> equipList = HibernateUtil.list(UserEquip.class, where);
-						for(UserEquip e: equipList){
-							if(e != null){
-								qianghuaLevel = Math.max(e.level, qianghuaLevel);
+		List<WorkTaskBean> dealList = new LinkedList<WorkTaskBean>();
+		synchronized (list) {
+			for (WorkTaskBean b: list){
+				if(b == null ){
+					log.error("任务列表中的任务信息为null，任务列表：{}",list);
+					continue;
+				}
+				task = zhuxianTaskMap.get(b.tid);
+				if(task == null){
+					continue;
+				}
+				if(b.progress != 0){
+					continue;
+				}
+				short type = task.doneType;
+				switch(type){
+					case TaskData.ONE_QIANG_HAU:
+						dealList.add(b);
+						toSend = true;
+						break;
+					case TaskData.qianghua_level_x:
+						//2015年11月2日王转+
+						// 一键强化传递的参数，所以获取当前玩家强化装备最大等级
+						if(qianghuaLevel == -1){
+							String where = "where userId = " + junZhuId;
+							List<UserEquip> equipList = UserEquipDao.list(junZhuId);
+							for(UserEquip e: equipList){
+								if(e != null){
+									qianghuaLevel = Math.max(e.level, qianghuaLevel);
+								}
 							}
 						}
-					}
-					//2015年11月2日王转+
-					if(qianghuaLevel >= Integer.parseInt(task.doneCond)){
-						dealTask(junZhuId, b, type, task);
-						toSend = true;
-					}
-					break;
-				case TaskData.zhuangBei_x_qiangHua_N:
-					String[] condis = task.doneCond.split(":");
-					if(condis != null && condis.length == 2){
-						boolean yes = isQiangHua_X_N(junZhuId,
-								Integer.parseInt(condis[0]),
-								Integer.parseInt(condis[1]));
-						if(yes){
-							dealTask(junZhuId, b, type, task);
+						//2015年11月2日王转+
+						if(qianghuaLevel >= Integer.parseInt(task.doneCond)){
+							dealList.add(b);
 							toSend = true;
 						}
-					}
-					break;
+						break;
+					case TaskData.zhuangBei_x_qiangHua_N:
+						String[] condis = task.doneCond.split(":");
+						if(condis != null && condis.length == 2){
+							boolean yes = isQiangHua_X_N(junZhuId,
+									Integer.parseInt(condis[0]),
+									Integer.parseInt(condis[1]));
+							if(yes){
+								dealList.add(b);
+								toSend = true;
+							}
+						}
+						break;
+				}
 			}
+		}
+		for(WorkTaskBean taskBean:dealList){
+			task = zhuxianTaskMap.get(taskBean.tid);
+			dealTask(junZhuId, taskBean,task);
 		}
 		toSendTask(toSend, junZhuId);
 	}
@@ -1688,11 +1760,11 @@ public class GameTaskMgr extends EventProc{
 		}
 	}
 	
-	public void dealTask(long junZhuId, WorkTaskBean b, short type, ZhuXian task){
+	public void dealTask(long junZhuId, WorkTaskBean b, ZhuXian task){
 		b.progress = -1;
 		HibernateUtil.save(b);
-		log.info("君主：{}完成type：{}的主线(支线)任务id:{}， progress被赋值为-1(完成)", junZhuId, type, b.tid);
-		OurLog.log.RoundFlow(ActLog.vopenid, b.tid, 1, 0, 0, 2, String.valueOf(junZhuId));
+		log.info("君主：{}完成type：{}的主线(支线)任务id:{}， progress被赋值为-1(完成)", junZhuId, task.doneType, b.tid);
+		OurLog.log.RoundFlow(b.tid, 1, 0, 0, 2, String.valueOf(junZhuId));
 		fireNextOutTrigger100Task(junZhuId, b.tid);
 		if(task.type == zhuXianType){
 			//最大完成任务id存入君主信息，不再放入缓存，2016-07-01
@@ -1727,50 +1799,63 @@ public class GameTaskMgr extends EventProc{
 		}
 		ZhuXian task = null;
 		boolean toSend = false;
-		for (WorkTaskBean b: list){
-			//不能用conditionInfo 但前面有重复的任务是会把 conditionInfo值改变后面的应该完成的任务就不能完成了
-			String conditionInfo4Temp=conditionInfo;
-			task = zhuxianTaskMap.get(b.tid);
-			if(task == null){
-				continue;
-			}
-			if(task.doneType != type){
-				continue;
-			}
-			// 百战名次要求超过x名次，就算完成任务
-			if(type == TaskData.baizhan_rank_n){
-				if(task.doneCond != null && conditionInfo4Temp != null &&
-						Integer.parseInt(task.doneCond) >= Integer.parseInt(conditionInfo4Temp))
+		List<WorkTaskBean> dealList = new LinkedList<WorkTaskBean>();
+		synchronized (list) {
+			for (WorkTaskBean b: list){
+				if(b == null ){
+					log.error("任务列表中的任务信息为null，任务列表：{}",list);
+					continue;
+				}
+				//不能用conditionInfo 但前面有重复的任务是会把 conditionInfo值改变后面的应该完成的任务就不能完成了
+				String conditionInfo4Temp=conditionInfo;
+				task = zhuxianTaskMap.get(b.tid);
+				if(task == null){
+					continue;
+				}
+				if(task.doneType != type){
+					continue;
+				}
+				if(b.progress != 0){
+					continue;
+				}
+				// 百战名次要求超过x名次，就算完成任务
+				if(type == TaskData.baizhan_rank_n){
+					if(task.doneCond != null && conditionInfo4Temp != null &&
+							Integer.parseInt(task.doneCond) >= Integer.parseInt(conditionInfo4Temp))
+					{
+						conditionInfo4Temp = task.doneCond;
+					}
+				}
+				// 获得的秘宝个数要求超过x个，就算完成任务
+				// 君主等级升级大于等于x级,就算任务完成
+				// 秘宝星级大于等于x级，就算完成任务
+				// 秘宝等级大于等于X级，就算完成任务
+				// 宝石数量多于X个，就算完成任务
+				// 宝石品质高于X级，就算完成任务
+				if(type == TaskData.get_x_mibao || 
+						type == TaskData.junzhu_level_up ||
+						type == TaskData.mibao_shengStar_x ||
+						type == TaskData.mibao_shengji_x||
+						type == TaskData.use_baoShi_x ||
+						type == TaskData.use_baoShi_one_pinZhi_y||
+						type == TaskData.get_miShu_pinZhi_y ||
+						type == TaskData.done_lieFu_x){
+					if(task.doneCond != null && conditionInfo4Temp != null &&
+							Integer.parseInt(conditionInfo4Temp) >= Integer.parseInt(task.doneCond))
+					{
+						conditionInfo4Temp = task.doneCond;
+					}
+				}
+				if (task.doneCond.equals(conditionInfo4Temp))
 				{
-					conditionInfo4Temp = task.doneCond;
+					dealList.add(b);
+					toSend = true;
 				}
 			}
-			// 获得的秘宝个数要求超过x个，就算完成任务
-			// 君主等级升级大于等于x级,就算任务完成
-			// 秘宝星级大于等于x级，就算完成任务
-			// 秘宝等级大于等于X级，就算完成任务
-			// 宝石数量多于X个，就算完成任务
-			// 宝石品质高于X级，就算完成任务
-			if(type == TaskData.get_x_mibao || 
-					type == TaskData.junzhu_level_up ||
-					type == TaskData.mibao_shengStar_x ||
-					type == TaskData.mibao_shengji_x||
-					type == TaskData.use_baoShi_x ||
-					type == TaskData.use_baoShi_one_pinZhi_y||
-					type == TaskData.get_miShu_pinZhi_y ||
-					type == TaskData.done_lieFu_x){
-				if(task.doneCond != null && conditionInfo4Temp != null &&
-						Integer.parseInt(conditionInfo4Temp) >= Integer.parseInt(task.doneCond))
-				{
-					conditionInfo4Temp = task.doneCond;
-				}
-			}
-			if (task.doneCond.equals(conditionInfo4Temp) && b.progress == 0)
-			{
-				dealTask(junZhuId, b, type, task);
-				toSend = true;
-				break;	
-			}
+		}
+		for(WorkTaskBean taskBean:dealList){
+			task = zhuxianTaskMap.get(taskBean.tid);
+			dealTask(junZhuId, taskBean,task);
 		}
 		toSendTask(toSend, junZhuId);
 	}
@@ -1869,25 +1954,39 @@ public class GameTaskMgr extends EventProc{
 		}
 		ZhuXian task = null;
 		boolean toSend = false;
-		for (WorkTaskBean b: list){
-			task = zhuxianTaskMap.get(b.tid);
-			if(task == null){
-				continue;
+		List<WorkTaskBean> dealList = new LinkedList<WorkTaskBean>();
+		synchronized (list) {
+			for (WorkTaskBean b: list){
+				if(b == null ){
+					log.error("任务列表中的任务信息为null，任务列表：{}",list);
+					continue;
+				}
+				task = zhuxianTaskMap.get(b.tid);
+				if(task == null){
+					continue;
+				}
+				if(b.progress != 0){
+					continue;
+				}
+				short type = task.doneType;
+				boolean yes = false;
+				if(type == TaskData.EQUIP_ADD && which == 1){
+					yes = task.doneCond.equals(param1);
+				}else if( type == TaskData.one_quality_ok || type == TaskData.N_quality_ok){
+					equips =  EquipMgr.inst.loadEquips(junZhuId);
+					yes = isPinZhiOk(type, task.doneCond, equips);
+				}else if(type == TaskData.JINJIE_ONE_GONG && which == 2){
+					yes = task.doneCond.equals(param1);
+				}
+				if(yes){
+					dealList.add(b);
+					toSend = true;
+				}
 			}
-			short type = task.doneType;
-			boolean yes = false;
-			if(type == TaskData.EQUIP_ADD && which == 1){
-				yes = task.doneCond.equals(param1);
-			}else if( type == TaskData.one_quality_ok || type == TaskData.N_quality_ok){
-				equips =  EquipMgr.inst.loadEquips(junZhuId);
-				yes = isPinZhiOk(type, task.doneCond, equips);
-			}else if(type == TaskData.JINJIE_ONE_GONG && which == 2){
-				yes = task.doneCond.equals(param1);
-			}
-			if(yes && b.progress == 0){
-				dealTask(junZhuId, b, type, task);
-				toSend = true;
-			}
+		}
+		for(WorkTaskBean taskBean:dealList){
+			task = zhuxianTaskMap.get(taskBean.tid);
+			dealTask(junZhuId, taskBean,task);
 		}
 		toSendTask(toSend, junZhuId);
 	}
@@ -1959,7 +2058,7 @@ public class GameTaskMgr extends EventProc{
 	public boolean isQiangHua_X_N(long jzId, int xCount, int nLevel){
 		String where = "where userId = " + jzId;
 		int realCount = 0;
-		List<UserEquip> equipList = HibernateUtil.list(UserEquip.class, where);
+		List<UserEquip> equipList = UserEquipDao.list(jzId);
 		for(UserEquip e: equipList){
 			if(e != null && e.level >= nLevel){
 				realCount ++;
@@ -1978,39 +2077,59 @@ public class GameTaskMgr extends EventProc{
 		}
 		ZhuXian task = null;
 		boolean toSend = false;
-		for (WorkTaskBean b: list){
-			task = zhuxianTaskMap.get(b.tid);
-			if(task == null){
-				continue;
-			}
-			short type = task.doneType;
-			boolean yes = false;
-			if(type == TaskData.get_miBao_x_pinZhi_y){
-				String[] DoneCond =  task.doneCond.split(":");
-				int pinZhi = Integer.parseInt(DoneCond[1]);
-				int num = MiBaoV2Mgr.inst.getMiBaoNum(pinZhi, junZhuId);
-				if(num >= Integer.parseInt(DoneCond[0])){
-					yes = true;
+		List<WorkTaskBean> dealList = new LinkedList<WorkTaskBean>();
+		synchronized (list) {
+			for (WorkTaskBean b: list){
+				if(b == null ){
+					log.error("任务列表中的任务信息为null，任务列表：{}",list);
+					continue;
 				}
-			}
-			if(type == TaskData.get_mbSuiPian_x_y){
-				String[] DoneCond =  task.doneCond.split(":");
-				int needNum = Integer.parseInt(DoneCond[0]);
-				int miBaoId = Integer.parseInt(DoneCond[1]);
-				int hasNum = MiBaoV2Mgr.inst.getMiBaoSuiPianNum(junZhuId, miBaoId);
-				if(hasNum >= needNum){
-					yes = true;
+				task = zhuxianTaskMap.get(b.tid);
+				if(task == null){
+					continue;
 				}
-			}
-			if(yes && b.progress == 0){
-				dealTask(junZhuId, b, type, task);
-				toSend = true;
+				short type = task.doneType;
+				boolean yes = false;
+				if(type == TaskData.get_miBao_x_pinZhi_y){
+					String[] DoneCond =  task.doneCond.split(":");
+					int pinZhi = Integer.parseInt(DoneCond[1]);
+					int num = MiBaoV2Mgr.inst.getMiBaoNum(pinZhi, junZhuId);
+					if(num >= Integer.parseInt(DoneCond[0]) && b.progress == 0 ){
+						dealList.add(b);
+						toSend = true;
+					}
+				}
+				if(type == TaskData.get_mbSuiPian_x_y){
+					String[] DoneCond =  task.doneCond.split(":");
+					int needNum = Integer.parseInt(DoneCond[0]);
+					int miBaoId = Integer.parseInt(DoneCond[1]);
+					int hasNum = MiBaoV2Mgr.inst.getMiBaoSuiPianNum(junZhuId, miBaoId);
+					if(hasNum >= needNum && b.progress == 0){
+						dealList.add(b);
+						toSend = true;
+					}
+				}
 			}
 		}
+		for( WorkTaskBean bean: dealList){
+			task = zhuxianTaskMap.get(bean.tid);
+			dealTask(junZhuId, bean, task);
+		}
+		
 		toSendTask(toSend, junZhuId);
 	}
 
-	public void fireEvent(Event evt) {
-		es.submit(()->proc(evt));
+	public void fireEvent(long jzId, Event evt) {
+		long hash = jzId/1000;
+		hash = hash % es.length;
+		int grid = (int) hash;
+		es[grid].submit(()->proc(evt));
+	}
+
+	public static void shutdown() {
+		int len = es.length;
+		for(int i=0;i<len; i++){
+			es[i].shutdown();
+		}
 	}
 }

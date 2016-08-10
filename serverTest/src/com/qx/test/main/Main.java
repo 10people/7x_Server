@@ -17,11 +17,13 @@ import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
+import com.manu.dynasty.util.ProtobufUtils;
 import com.manu.network.PD;
 import com.manu.network.ProtoBuffDecoder;
 import com.manu.network.TXCodecFactory;
 import com.manu.network.msg.ProtobufMsg;
 
+import pct.TestDailyTask;
 import pct.TestTask;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 
@@ -53,18 +55,29 @@ public class Main {
 	public static void main(String[] args) throws Exception{
 		net = setup();
 		/*内网*/
-//		GameClient.routerIP = "192.168.3.80:8090";hostname = "192.168.3.80";port=8586;
-		//康建虎 
-		GameClient.routerIP = "192.168.3.80:8090";hostname = "192.168.0.83";port=8586;TestTask.which=0;
+		System.out.println("请选择服务器：0内网；1kjh；");
+		int i = System.in.read();
+		switch(i){
+		case '0':
+			GameClient.routerIP = "192.168.3.80:8090";hostname = "192.168.3.80";port=8586;TestTask.which=0;
+			break;
+		case '1':
+			//康建虎 
+			GameClient.routerIP = "192.168.3.80:8090";hostname = "192.168.0.83";port=8586;TestTask.which=0;
+			break;
+		}
+		System.in.read();System.in.read();//读回车
 		//江源
 //		GameClient.routerIP = "192.168.3.80:8090";hostname = "192.168.1.96";port=8586;TestTask.which=3;
 		/*体验*/
 //		GameClient.routerIP = "203.195.230.100:9090";hostname = "203.195.204.128";port=8587;
 		/*测试*/
 //		GameClient.routerIP = "203.195.230.100:9091";hostname = "203.195.230.100";port=8587;
+		/*万旭宏*/
+//		GameClient.routerIP = "192.168.3.80:8090";hostname = "192.168.1.100";port=8586;TestTask.which=2;
 		int cnt = 1;
 //		forceName = "719est358501";
-		head = "719est";
+		head = "82A";
 		head +=new Random().nextInt(99999);
 		addr = new InetSocketAddress(hostname, port);//外网测试服8587
 		startTime = System.currentTimeMillis();
@@ -132,6 +145,8 @@ public class Main {
 				cnt --;
 				it.next().close(false);
 			}
+		}else if(line.equals("lm")){
+			GameClient.useWhenSingle.reqAlliance();
 		}else if(line.equals("mc")){
 			GameClient.useWhenSingle.enterScene();
 		}else if(line.equals("sl")){
@@ -163,10 +178,28 @@ public class Main {
 			GameClient.useWhenSingle.testTask.tryGetItem(GameClient.useWhenSingle);
 		}else if(line.equals("task")){
 			GameClient.useWhenSingle.reqTask();
+			GameClient.useWhenSingle.testTask.tryIds.clear();
+			GameClient.useWhenSingle.lasdPveId = 0;
 		}else if(line.equals("accinfo")){
 			System.out.println(GameClient.useWhenSingle.accountName);
+		}else if(line.startsWith("slow")){
+			int cnt = Integer.parseInt(line.substring(4));
+			for(int i=0;i<cnt;i++){
+				makeClient(1, head, addr);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}else if(line.equals("pve")){
 			GameClient.useWhenSingle.reqPve();
+		}else if(line.equalsIgnoreCase("autoNext")){
+			autoNext = ! autoNext;
+			System.out.println("自动开启下个机器人:"+autoNext);
+		}else if(line.equalsIgnoreCase("dailytask")){
+//			GameClient.useWhenSingle.reqDailyTask();
 		}
 		else{
 			System.out.println("输入的不是数字");
@@ -176,7 +209,7 @@ public class Main {
 	public static void makeClient(int cnt, String head, final InetSocketAddress addr) {
 		watchCnt.addAndGet(cnt);
 		for(int i = 0; i < cnt; i++) {
-			String accName = head+totalLaunch.incrementAndGet();
+			String accName = head+watchCnt.incrementAndGet();
 			if(forceName != null){
 				accName = forceName;
 			}
@@ -224,6 +257,7 @@ public class Main {
 
 	public static IoConnector setup() {
 		PD.init();
+		ProtobufUtils.prototypeMap.put((int)PD.RED_NOTICE, ErrorMessage.getDefaultInstance());
 		final IoConnector connector = new NioSocketConnector(10);
 		connector.setConnectTimeoutMillis(5000);
 		final ProtoBuffDecoder protoBuffDecoder = new ProtoBuffDecoder();
@@ -236,7 +270,7 @@ public class Main {
 		connector.getFilterChain().addLast("codec", new ProtocolCodecFilter(codecFactory));
 		ClientHandler clientHandler = new ClientHandler();
 		connector.setHandler(clientHandler);
-		connector.getSessionConfig().setBothIdleTime(60);
+		connector.getSessionConfig().setBothIdleTime(5);
 		return connector;
 	}
 	
@@ -249,5 +283,14 @@ public class Main {
 		}else{
 			System.out.println("场景ID输入错误，正确格式为：chose+id 中间无空格");//为空输出调试信息
 		}
+	}
+
+	public static boolean autoNext = false;
+	public static void autoDone(GameClient cl) {
+		if(autoNext==false){
+			return;
+		}
+		cl.session.close(false);
+		makeClient(1, head, addr);
 	}
 }

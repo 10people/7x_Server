@@ -44,7 +44,11 @@ public class EquipXiLianDao {
 	
 	public void save( EquipXiLian equipXiLian ){
 		List<EquipXiLian>  list = get( equipXiLian.junZhuId );
-		list.add(equipXiLian);
-		HibernateUtil.insert(equipXiLian);
+		if(!list.contains(equipXiLian)){
+			list.add(equipXiLian);
+			HibernateUtil.insert(equipXiLian);
+		}else{
+			HibernateUtil.save(equipXiLian);
+		}
 	}
 }

@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,12 +26,15 @@ import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.boot.GameServer;
 import com.manu.dynasty.store.Redis;
 import com.manu.dynasty.template.CanShu;
+import com.manu.dynasty.template.LegendPveTemp;
+import com.manu.dynasty.template.PveTemp;
 import com.manu.dynasty.util.DateUtils;
 import com.manu.network.SessionManager;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceBeanDao;
 import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
+import com.qx.alliance.AlliancePlayerDao;
 import com.qx.bag.Bag;
 import com.qx.bag.BagMgr;
 import com.qx.bag.EquipGrid;
@@ -43,12 +47,17 @@ import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.guojia.GuoJiaBean;
 import com.qx.guojia.GuoJiaMgr;
+import com.qx.huangye.shop.PublicShop;
+import com.qx.huangye.shop.PublicShopDao;
 import com.qx.junzhu.ChengHaoBean;
 import com.qx.junzhu.ChengHaoDao;
 import com.qx.junzhu.JunZhu;
+import com.qx.junzhu.JunZhuMgr;
 import com.qx.mibao.v2.MiBaoV2Mgr;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.pve.JunzhuPveInfo;
+import com.qx.pve.PveMgr;
 import com.qx.pvp.PvpBean;
 import com.qx.pvp.PvpMgr;
 
@@ -1146,7 +1155,7 @@ public class RankingMgr extends EventProc{
 				mengBuilder.setLevel((Integer) alliance[3]);
 				mengBuilder.setShengWang(((BigInteger) alliance[5]).intValue());
 				mengBuilder.setMember((Integer) alliance[4]);
-				mengBuilder.setAllMember(AllianceMgr.inst.getAllianceMemberMax((Integer) alliance[3]));
+				mengBuilder.setAllMember(AllianceMgr.inst.getAllianceMemberMax((Integer)alliance[0]));
 				mengList.add(mengBuilder);
 			}
 		}
@@ -1200,27 +1209,46 @@ public class RankingMgr extends EventProc{
 		if(baiZhanSet==null||baiZhanSet.size()==0){
 			return null;
 		}
-		String strjz = baiZhanSet.stream().collect(Collectors.joining(","));
-		String hqljz = "select JunZhu.id,JunZhu.guoJiaId,JunZhu.name,AlliancePlayer.lianMengId,pvp_bean.allWin,shop.money"
-				+ " from JunZhu left join pvp_bean  on JunZhu.id = pvp_bean.junZhuId "
-				+" left join (select * from public_shop where public_shop.type = 4 )shop  on JunZhu.id = shop.junZhuId "
-				+" left join AlliancePlayer  on JunZhu.id = AlliancePlayer.junzhuId"
-				+" where JunZhu.id in ("+strjz+")";
-		List<Object[]> list = (List<Object[]>) HibernateUtil.querySql(hqljz);
-		List<Integer> allIdList = new LinkedList<Integer>();
-		Map<Long, Object[]> jzMap = list.stream()
+		List<Object[]> caChelist = new LinkedList<Object[]>();
+		
+//		Iterator<String> it = baiZhanSet.iterator();
+//		while(it.hasNext()){
+//			String keyStr = it.next();
+//			long key = Long.parseLong(keyStr);
+//			boolean isCaChed = true;
+//			isCaChed = isCaChed&&Cache.jzCache.containsKey(key);
+//			isCaChed = isCaChed&&Cache.pvpBeanCaChe.containsKey(key);
+//			isCaChed = isCaChed&&AlliancePlayerDao.inst.alliancePlayerCache.containsKey(key);
+//			if(isCaChed){
+//				JunZhu jz = HibernateUtil.find(JunZhu.class, key);
+//				PvpBean pvpBean = HibernateUtil.find(PvpBean.class, key);
+//				AlliancePlayer alBean = AlliancePlayerDao.inst.getAlliancePlayer(key);
+//				Object[] objs = new Object[6];
+//				objs[0] =jz.id;
+//				objs[1] =jz.guoJiaId;
+//				objs[2] =jz.name;
+//				objs[3] =alBean.lianMengId;
+//				objs[4] =pvpBean.allWin;
+//				objs[5] =pvpBean.showWeiWang;
+//				caChelist.add(objs);
+//				it.remove();
+//			}
+//		}
+		if(baiZhanSet.size() > 0){
+			String strjz = baiZhanSet.stream().collect(Collectors.joining(","));
+			String hqljz = "select JunZhu.id,JunZhu.guoJiaId,JunZhu.name,AlliancePlayer.lianMengId,pvp_bean.allWin,pvp_bean.showWeiWang"
+					+ " from JunZhu left join pvp_bean  on JunZhu.id = pvp_bean.junZhuId "
+					+" left join AlliancePlayer  on JunZhu.id = AlliancePlayer.junzhuId"
+					+" where JunZhu.id in ("+strjz+")";
+			List<Object[]> list = (List<Object[]>) HibernateUtil.querySql(hqljz);
+			caChelist.addAll(list);
+		}
+		Map<Long, Object[]> jzMap = caChelist.stream()
 				.collect(Collectors.toMap(arr->((BigInteger)arr[0]).longValue(), 
 						arr->{ long jzid = ((BigInteger)arr[0]).longValue();
 							arr[0] = jzid;
-							if(arr[3] != null){
-								allIdList.add((Integer)arr[3]);
-							}
 							return arr ;
 						}));
-		List<AllianceBean> allList = HibernateUtil.list(AllianceBean.class, "id", allIdList) ;
-		Map<Integer,String> allMap = allList.stream()
-				.collect(Collectors.toMap(all ->all.id , all-> all.name));
-		
 		List<BaiZhanInfo.Builder> baiZhanList = new ArrayList<BaiZhanInfo.Builder>();
 		for(String jzIdStr:baiZhanSet){
 			long jzId = Long.parseLong(jzIdStr);
@@ -1233,13 +1261,16 @@ public class RankingMgr extends EventProc{
 			if(rank<=RANK_MAXNUM){// 过滤筛选范围
 				rank = ++start;
 				bzBuilder.setRank(rank);
-				bzBuilder.setGuojiaId(infos[1] == null ?7:(int)infos[1]);
+				bzBuilder.setGuojiaId(infos[1] == null ?0:(int)infos[1]);
 				bzBuilder.setJunZhuId(jzId);
 				bzBuilder.setName(infos[2] == null ?"":(String)infos[2]);
 				int allId = infos[3] == null ? -1 :(int)infos[3];
-				String name = allMap.get(allId)==null?"":allMap.get(allId);
-				bzBuilder.setLianmeng(name);
-				
+				if( infos[3] == null ||(int)infos[3] <= 0 ){
+					bzBuilder.setLianmeng("");
+				}else{
+					AllianceBean alliance = AllianceBeanDao.inst.getAllianceBean(allId);
+					bzBuilder.setLianmeng(alliance.name);
+				}
 				int junZhuRank = PvpMgr.inst.getPvpRankById(jzId);
 				int junxianLevel = PvpMgr.inst.getJunXianByRank(junZhuRank);
 				bzBuilder.setJunxian(PvpMgr.inst.getJunXianName(junxianLevel));
@@ -1294,31 +1325,32 @@ public class RankingMgr extends EventProc{
 			return null;
 		}
 		List<GuoGuanInfo.Builder> guoGuanList = new ArrayList<GuoGuanInfo.Builder>();
-		String ids = "";
-		for(String jzIdStr:guoGuanSet){
-			ids+=jzIdStr+",";
-		}
+		Map<Long,Integer> map = new HashMap<Long,Integer>();
+		int i = 0;
+//		String ids = ids.replaceAll("^,*|,*$", "");
+		String ids = guoGuanSet.stream().collect(Collectors.joining(","));
 		String hql = "select jz.id,jz.name,jz.guojiaId,jzPveInfo.commonChptMaxId,jzPveInfo.legendChptMaxId,jzPveInfo.starCount"
-				+ " from JunZhu jz join JunzhuPveInfo jzPveInfo where jz.id = jzPveInfo.junzhuId and id in ("+ids.replaceAll("^,*|,*$", "")+")";
+				+ " from JunZhu jz join JunzhuPveInfo jzPveInfo where jz.id = jzPveInfo.junzhuId and id in ("+ids+")";
 		String  sql = "select ap.junzhuId,ap.lianMengId,ac.name from AlliancePlayer ap "
 				+ "join Alliance ac where ap.lianMengId = ac.id "
-				+ "and ap.lianMengId > 0 and ap.junzhuId in ("+ids.replaceAll("^,*|,*$", "")+")";
+				+ "and ap.lianMengId > 0 and ap.junzhuId in ("+ids+")";
 		List<Object[]> jzList = (List<Object[]>) HibernateUtil.querySql(hql);
 		List<Object[]> aList = (List<Object[]>) HibernateUtil.querySql(sql);
+		Map<Long, Object[]> bMap = jzList.stream().collect(Collectors.toMap(arr->((BigInteger)arr[0]).longValue(), p->p));
 		Map<Long, Object[]> aMap = aList.stream()
 				.collect(Collectors.toMap(arr->((BigInteger)arr[0]).longValue(),
 					p->p
 					));
-		for(Object[] a:jzList){
+		for(String id:guoGuanSet){
+			Long jzId = Long.parseLong(id);
+			Object[] a = bMap.get(jzId);
 			GuoGuanInfo.Builder ggBuilder = GuoGuanInfo.newBuilder();
 			int rank = 0;
 			if(rank<=RANK_MAXNUM){// 过滤筛选范围
 				rank =++start;
-				long jzId = ((BigInteger)a[0]).longValue();
 				ggBuilder.setJunZhuId(jzId);
 				ggBuilder.setRank(rank);
 				ggBuilder.setName((String) a[1]);
-//				ggBuilder.setLianmeng(AllianceMgr.inst.getAllianceByJzId(jzId));
 				Object[] allianceInfo =aMap.get(jzId);
 				String lianmeng = "";
 				if(null != allianceInfo && allianceInfo.length>2){
@@ -1326,11 +1358,10 @@ public class RankingMgr extends EventProc{
 				}
 				ggBuilder.setLianmeng(lianmeng);
 				ggBuilder.setGuojiaId((int) a[2]);
-				
 				// 总星数
 				int starCount = 0;
-				long ptMax=0;
-				long cqMax=0;
+				int ptMax=0;
+				int cqMax=0;
 				starCount = (int)a[5];
 					ptMax =	((int)a[3]);
 					cqMax = ((int)a[4]);
@@ -1345,15 +1376,13 @@ public class RankingMgr extends EventProc{
 //				}
 				// set 普通关卡
 				if(ptMax!=0){
-					String ptStr = String.valueOf(ptMax);
-					ptStr = ptStr.substring(ptStr.length()-4);
-					ggBuilder.setPutong(ptStr.substring(0,2)+"-"+ptStr.substring(3,4));
+					 PveTemp temp = PveMgr.inst.id2Pve.get(ptMax);
+					 ggBuilder.setPutong(temp.bigId+"-"+temp.smaId);
 				}
 				// set传奇关卡
 				if(cqMax!=0){
-					String cqStr = String.valueOf(cqMax);
-					cqStr = cqStr.substring(cqStr.length()-4);
-					ggBuilder.setChuanqi(cqStr.substring(0,2)+"-"+cqStr.substring(3,4));
+					LegendPveTemp temp = PveMgr.inst.legendId2Pve.get(cqMax);
+					ggBuilder.setChuanqi(temp.bigId+"-"+temp.smaId);
 				}
 				// set starCount
 				ggBuilder.setStarCount(starCount);
@@ -1378,12 +1407,21 @@ public class RankingMgr extends EventProc{
 		if(gjIds==null){
 			return null;
 		}
+		String[] ids = new String[gjIds.size()];
+		gjIds.toArray(ids);
+		String where = " where guoJiaId in(" + String.join(",", ids) + ")";
+		List<GuoJiaBean> list = HibernateUtil.list(GuoJiaBean.class, where);
+		Map<Integer,GuoJiaBean> guojiaMap = new HashMap<Integer,GuoJiaBean>();
+		for(GuoJiaBean gBean : list){
+			guojiaMap.put(gBean.guoJiaId,gBean);
+		}
 		for(String gjId:gjIds){
 			if(p.matcher(gjId).matches()==false){
 				log.warn("错误的Redis数据 {} for {}",gjId,key);
 				continue;
 			}
-			GuoJiaBean bean = HibernateUtil.find(GuoJiaBean.class, Integer.parseInt(gjId));
+			//GuoJiaBean bean = HibernateUtil.find(GuoJiaBean.class, Integer.parseInt(gjId));
+			GuoJiaBean bean = guojiaMap.get(Integer.parseInt(gjId));
 			if(bean!=null){
 				bean.shengWang = (int)DB.zscore(key, gjId);
 				guojiaList.add(bean);

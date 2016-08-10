@@ -62,7 +62,6 @@
 <%@page import="com.qx.pve.BuZhenMibaoBean"%>
 <%@page import="com.qx.huangye.BuZhenHYPvp"%>
 <%@page import="com.qx.huangye.BuZhenHYPve"%>
-<%@page import="com.qx.alliance.AllianceGongXianRecord"%>
 <%@page import="qxmobile.protobuf.ZhangHao.CreateRoleResponse"%>
 <%@page import="com.manu.network.PD"%>
 <%@page import="com.manu.network.BigSwitch"%>
@@ -240,15 +239,6 @@
 								}
 							}
 							
-							/**复制联盟贡献**/
-							AllianceGongXianRecord allianceGongXianRecord = HibernateUtil.find(AllianceGongXianRecord.class, junzhu.id);
-							if(allianceGongXianRecord!=null){
-								AllianceGongXianRecord newAllianceGongXianRecord = new AllianceGongXianRecord();
-								newAllianceGongXianRecord.junZhuId = newJunZhu.id;
-								newAllianceGongXianRecord.curMonthFirstTime = allianceGongXianRecord.curMonthFirstTime;
-								newAllianceGongXianRecord.curMonthGongXian = allianceGongXianRecord.curMonthGongXian;
-								HibernateUtil.insert(newAllianceGongXianRecord);
-							}
 							/**复制荒野PVE布阵信息**/
 							BuZhenHYPve buZhenHYPve = HibernateUtil.find(BuZhenHYPve.class, junzhu.id);
 							if(buZhenHYPve!=null){

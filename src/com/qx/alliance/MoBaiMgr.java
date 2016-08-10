@@ -16,6 +16,7 @@ import com.manu.dynasty.util.DateUtils;
 import com.manu.network.SessionAttKey;
 import com.qx.account.FunctionOpenMgr;
 import com.qx.alliance.building.JianZhuLvBean;
+import com.qx.alliance.building.JianZhuLvBeanDao;
 import com.qx.award.AwardMgr;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
@@ -265,7 +266,7 @@ public class MoBaiMgr extends EventProc{
 		}
 		*/
 		log.info("{}玉膜拜", bean.junZhuId);
-		ActLog.log.Worship(jz.id, jz.name, ActLog.vopenid, "3", spend);
+		ActLog.log.Worship(jz.id, jz.name, "3", spend);
 		member.gongXian += conf.gongxian;
 		AllianceMgr.inst.changeGongXianRecord(member, conf.gongxian);
 		HibernateUtil.save(member);
@@ -382,7 +383,7 @@ public class MoBaiMgr extends EventProc{
 		jo.put("name", "元宝");
 		jo.put("num", conf.needNum);
 		spend.add(jo);
-		ActLog.log.Worship(jz.id, jz.name, ActLog.vopenid, "2", spend);
+		ActLog.log.Worship(jz.id, jz.name, "2", spend);
 		member.gongXian += conf.gongxian;
 		AllianceMgr.inst.changeGongXianRecord(member, conf.gongxian);
 		HibernateUtil.save(member);
@@ -436,7 +437,7 @@ public class MoBaiMgr extends EventProc{
 		jo.put("name", "铜币");
 		jo.put("num", moneyNeed);
 		spend.add(jo);
-		ActLog.log.Worship(jz.id, jz.name, ActLog.vopenid, "1", spend);
+		ActLog.log.Worship(jz.id, jz.name, "1", spend);
 		JunZhuMgr.inst.sendMainInfo(session,jz,false);
 
 		Date today = new Date();
@@ -596,7 +597,7 @@ public class MoBaiMgr extends EventProc{
 				break;
 			}
 			AlliancePlayer alliancePlayer = AllianceMgr.inst.getAlliancePlayer(jz.id);
-			if(alliancePlayer == null) {
+			if(alliancePlayer == null || alliancePlayer.lianMengId <= 0) {
 				break;
 			}
 			AllianceBean alliance = AllianceBeanDao.inst.getAllianceBean(alliancePlayer.lianMengId);
@@ -636,7 +637,7 @@ public class MoBaiMgr extends EventProc{
 			sendError(id, session, "您不在联盟中。");
 			return;
 		}
-		JianZhuLvBean jianZhu = HibernateUtil.find(JianZhuLvBean.class, member.lianMengId);
+		JianZhuLvBean jianZhu = JianZhuLvBeanDao.inst.getJianZhuBean(member.lianMengId);
 		if(jianZhu == null){
 			log.error("JianZhuLvBean is null , {}",member.lianMengId);
 			return;

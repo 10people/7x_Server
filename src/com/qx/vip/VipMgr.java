@@ -33,6 +33,7 @@ import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.task.DailyTaskMgr;
+import com.qx.util.DelayedSQLMgr;
 import com.qx.yuanbao.YBType;
 import com.qx.yuanbao.YuanBaoMgr;
 
@@ -273,13 +274,13 @@ public class VipMgr {
 		playerVipInfo.vipExp = vipExp;
 		HibernateUtil.save(playerVipInfo);
 
-		VipRechargeRecord r = new VipRechargeRecord(jz.id, data.addNum, date,
+		final VipRechargeRecord r = new VipRechargeRecord(jz.id, data.addNum, date,
 				sumRmb, vip, data.id, addYB, remainTotalDays);
-		HibernateUtil.save(r);
+		HibernateUtil.insert(r);
 		log.info("玩家:{},充值人民币:{},成功，元宝数量:{}，现在玩家的元宝数:{}", jz.id, data.addNum,
 				addYB, jz.yuanBao);
 		// 充值成功，判断首冲 TODO int count = HibernateUtil.getColumnValueMaxOnWhere(BillHist.class, "save_amt", "where jzId="+junZhuId);>0
-		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class, " where junzhuId=" + jz.id);
+		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class,jz.id);
 		if (ShouchongMgr.instance.getShouChongState(info) == 0) {// 未完成首冲
 			ShouchongMgr.instance.finishShouchong(jz.id);
 		}
@@ -563,7 +564,7 @@ public class VipMgr {
 		// GM工具充钱是-1
 		VipRechargeRecord r = new VipRechargeRecord(jid, rmb, new Date(),
 				sumRmb, vip, -1, addYB, 0);
-		HibernateUtil.save(r);
+		HibernateUtil.insert(r);
 		log.info("GM:玩家:{},充值人民币:{},成功，一次性增加了元宝:{}，现在玩家的元宝数:{}", jid, rmb,
 				addYB, jz.yuanBao);
 		return true;

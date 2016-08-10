@@ -348,7 +348,7 @@ public class ExploreMgr extends EventProc{
 		resp.setInfo(inf);
 		session.write(resp.build());
 		log.info("君主{}探宝，类型{},成功", jz.id, reqType);
-		ActLog.log.FineGem(jz.id, jz.name, ActLog.vopenid, reqType, 0, "0", 0, "0", 0);
+		ActLog.log.FineGem(jz.id, jz.name, reqType, 0, "0", 0, "0", 0);
 
 		// 一次探宝任务完成
 //		for (AwardTemp a : awards) {

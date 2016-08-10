@@ -9,6 +9,7 @@ import log.OurLog;
 import org.apache.mina.core.service.IoHandler;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.core.write.WriteToClosedSessionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +19,7 @@ import com.manu.network.msg.AbstractMessage;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.account.AccountManager;
 import com.qx.huangye.HYTreasure;
+import com.qx.huangye.HYTreasureDao;
 import com.qx.junzhu.JunZhu;
 import com.qx.log.LogMgr;
 import com.qx.persistent.HibernateUtil;
@@ -28,7 +30,7 @@ import com.qx.world.YaBiaoScene;
 public class IOHandlerImpl implements IoHandler  {
 	public static IOHandlerImpl inst = new IOHandlerImpl();
 	public boolean closeIdleSession = true;
-	public static long procTimeLimit = 50;
+	public static long procTimeLimit = 150;
 	public static Logger log = LoggerFactory.getLogger(IOHandlerImpl.class.getSimpleName());
 	public IOHandlerImpl(){
 		inst = this;
@@ -60,7 +62,10 @@ public class IOHandlerImpl implements IoHandler  {
 	public void exceptionCaught(IoSession session, Throwable cause)
 			throws Exception {
 		if (cause instanceof IOException) {
-			log.warn("IOException {} {}", session, cause);
+			if(cause instanceof WriteToClosedSessionException){
+			}else{
+				log.warn("IOException {} {}", session, cause);
+			}
 			playerExitScene(session);
 			return;
 		}
@@ -131,8 +136,7 @@ public class IOHandlerImpl implements IoHandler  {
 				//多重登录，此时map里放的已经不是当前参数中的session
 			}
 			// 是否在藏宝点挑战
-			List<HYTreasure> treasureList = HibernateUtil.list(
-					HYTreasure.class, " where battleJunzhuId=" + junZhuId);
+			List<HYTreasure> treasureList = HYTreasureDao.inst.getByJunZhuId(junZhuId);
 			for (HYTreasure t : treasureList) {
 				t.battleJunzhuId = 0;
 				HibernateUtil.save(t);

@@ -35,10 +35,12 @@ import com.manu.network.msg.ProtobufMsg;
 import com.qx.account.AccountManager;
 import com.qx.alliance.AllianceMgr;
 import com.qx.email.EmailMgr;
+import com.qx.event.EventMgr;
 import com.qx.explore.treasure.ExploreTreasureMgr;
 import com.qx.junzhu.ChenghaoMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.robot.RobotSession;
 
@@ -600,15 +602,24 @@ public class Scene implements Runnable{
 	public void savePosInfo(Player ep) {
 		//宝箱场景不保存坐标，子类会覆盖此方法
 		if(ep != null){
-			PosInfo pi = new PosInfo();
-			pi.jzId = ep.jzId;
-			pi.x = ep.posX;
-			pi.y = ep.posY;
-			pi.z = ep.posZ;
-			HibernateUtil.save(pi);
-			if(ep.posX == 0 && ep.posY == -2.5f && ep.posZ == 0){
-				System.out.println();
-			}
+			EventMgr.submit(ep.jzId, ()->{
+				PosInfo pi = HibernateUtil.find(PosInfo.class, ep.jzId);
+				boolean insert = false;
+				if(pi==null){
+					pi = new PosInfo();
+					insert = true;
+				}
+				pi.jzId = ep.jzId;
+				pi.x = ep.posX;
+				pi.y = ep.posY;
+				pi.z = ep.posZ;
+				if(insert){
+					HibernateUtil.insert(pi);
+					Cache.posInfoCache.put(pi.jzId, pi);
+				}else{
+					HibernateUtil.update(pi);
+				}
+			});
 		}
 	}
 	public void ExitHouseScene(ExitScene.Builder exit, IoSession session) {

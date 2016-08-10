@@ -4,11 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
 import com.qx.persistent.MCSupport;
 
 @Entity
 @Table(name="talent_attr")
-public class TalentAttr implements MCSupport{
+public class TalentAttr implements MCSupport,DBHash{
 	/**
 	 * @Fields serialVersionUID : TODO x
 	 */
@@ -32,5 +33,10 @@ public class TalentAttr implements MCSupport{
 	}
 	public TalentAttr(long junId){
 		this.junId = junId;
+	}
+
+	@Override
+	public long hash() {
+		return junId;
 	}
 }

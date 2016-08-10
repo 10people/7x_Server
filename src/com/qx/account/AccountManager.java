@@ -77,8 +77,11 @@ import com.qx.junzhu.PrepareJz;
 import com.qx.junzhu.TalentAttr;
 import com.qx.mibao.MiBaoDB;
 import com.qx.mibao.MiBaoDao;
+import com.qx.mibao.MibaoMgr;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.PurchaseMgr;
+import com.qx.pve.PveGuanQiaMgr;
 import com.qx.pve.PveRecord;
 import com.qx.pve.PveRecordDao;
 import com.qx.pvp.PVPConstant;
@@ -86,6 +89,7 @@ import com.qx.task.GameTaskMgr;
 import com.qx.util.DelayedSQLMgr;
 import com.qx.util.RandomUtil;
 import com.qx.world.PosInfo;
+import com.qx.yabiao.YaBiaoHuoDongMgr;
 
 /**
  * 重构需求：改造成多线程处理。
@@ -281,9 +285,13 @@ public class AccountManager {
 //		String ip = getIp(session);
 		if (junZhu == null) {
 			ret.setCode(2);//无君主
-			PrepareJz preJz = HibernateUtil.find(PrepareJz.class, junZhuId);
+			/*PrepareJz preJz = HibernateUtil.find(PrepareJz.class, junZhuId);
 			if(preJz != null){
 				log.info("{} 重新进入创建君主",preJz);
+				ret.setCode(2016);//之前已进入创建角色界面
+			}*/
+			if(Redis.instance.sexist("PrepareJz", String.valueOf(junZhuId))){
+				log.info("{} 重新进入创建君主",junZhuId);
 				ret.setCode(2016);//之前已进入创建角色界面
 			}
 			int guojia = 1;//GuoJiaMgr.getLeastCountGuoJiaId();
@@ -477,10 +485,16 @@ public class AccountManager {
 		MiBaoDao.cache.put(junZhuId,Collections.synchronizedMap(new LinkedHashMap<Integer, MiBaoDB>()));
 		GameTaskMgr.GameTaskCache.put(junZhuId, new LinkedList<>());
 		BigSwitch.inst.jiNengPeiYangMgr.addCache(junZhuId);
+		YaBiaoHuoDongMgr.inst.initYaBiaoBeanInfo(junZhuId,newJunZhu.vipLevel);
+		YaBiaoHuoDongMgr.inst.initYBBattleInfo(junZhuId, newJunZhu.vipLevel);
 		ChengHaoDao.cache.put(junZhuId,Collections.synchronizedMap(new LinkedHashMap<Integer, ChengHaoBean>()));
 		TalentAttr attr = new TalentAttr(junZhuId);
-		DelayedSQLMgr.es.submit(()->HibernateUtil.insert(attr));
-		session.setAttribute(SessionAttKey.TalentAttr, attr);
+		HibernateUtil.insert(attr);
+		Cache.talentAttrCache.put(junZhuId, attr);
+		Cache.allianceApplyCache.put(junZhuId, AllianceMgr.defaultAllianceApply);
+		PurchaseMgr.inst.getDefaultTili(junZhuId);
+		MibaoMgr.inst.getDefaultMibaoLevelPoint(newJunZhu);
+		GuoJiaMgr.inst.initResourceGongJin(junZhuId);
 		int channel = OurLog.chCode.getChCodeByRoleId(junZhuId);
 		DelayedSQLMgr.inst.cunLiangAdd(junZhuId, channel, roleName, roleId);
 		log.info("------fixCreateJunZhu-----{}", System.currentTimeMillis() - time);
@@ -518,7 +532,8 @@ public class AccountManager {
 		// 向登录服务器发送成功创建的角色相关情况
 		EventMgr.addEvent(junZhuId, ED.CREATE_JUNZHU_SUCCESS, newJunZhu);
 		// 君主登陆
-		EventMgr.addEvent(junZhuId, ED.JUNZHU_LOGIN, newJunZhu);
+		//2016年7月29日10:45:46，创建君主时不触发这个了。只有再次登录才触发。新建的角色应该没有什么事儿要做。
+//		EventMgr.addEvent(junZhuId, ED.JUNZHU_LOGIN, newJunZhu);
 		CreateJunZhuSer s = new CreateJunZhuSer(newJunZhu.id, newJunZhu.name);
 		s.start();
 	}
@@ -596,14 +611,19 @@ public class AccountManager {
 			log.error("null jz id {}",session);
 			return;
 		}
-		PrepareJz bean = HibernateUtil.find(PrepareJz.class, junZhuId);
+		String jzId = String.valueOf(junZhuId);
+		/*PrepareJz bean = HibernateUtil.find(PrepareJz.class, junZhuId);
 		if(bean != null){
 			return;
+		}*/
+		if(Redis.instance.sexist("PrepareJz", jzId)){
+			return;
 		}
-		bean = new PrepareJz();
-		bean.dt = new Date();
-		bean.jzId = junZhuId;
-		HibernateUtil.insert(bean);
+//		bean = new PrepareJz();
+//		bean.dt = new Date();
+//		bean.jzId = junZhuId;
+//		HibernateUtil.insert(bean);
+		Redis.instance.sadd("PrepareJz", jzId);
 		log.info("{} enter create role",junZhuId);
 	}
 }

@@ -12,11 +12,7 @@ import com.qx.persistent.MCSupport;
 
 @Entity
 @Table(name = "YBBattleBean29")
-public class YBBattleBean implements MCSupport,DBHash{//押镖战斗相关数据存储
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1061797357025152345L;
+public class YBBattleBean implements DBHash{//押镖战斗相关数据存储
 	@Id
 	public long jzId;
 	/**当然杀死仇人数目*/
@@ -53,9 +49,4 @@ public class YBBattleBean implements MCSupport,DBHash{//押镖战斗相关数据
 	public long hash() {
 		return jzId;
 	}
-	@Override
-	public long getIdentifier() {
-		return jzId;
-	}
-	
 }

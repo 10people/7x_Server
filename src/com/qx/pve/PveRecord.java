@@ -10,11 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 @Entity
 @Table(name = "PveRecord",indexes={@Index(name="uid",columnList="uid")})
-public class PveRecord {
+public class PveRecord implements DBHash {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+//	@GeneratedValue(strategy=GenerationType.AUTO)
 	public long dbId;//2015年4月17日16:57:30int改为long
 	
 	public long uid;
@@ -47,4 +49,9 @@ public class PveRecord {
 	
 	/**该字段只针对章节的最后一关： 是否已经领取通章奖励*/
 	public boolean isGetAward = false;
+
+	@Override
+	public long hash() {
+		return uid;
+	}
 }

@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.collections.map.LRUMap;
 
@@ -20,7 +21,7 @@ public class MiBaoDao {
 			return ret;
 		}
 		List<MiBaoDB> list = HibernateUtil.list(MiBaoDB.class, "where ownerId=" + pid);
-		ret = Collections.synchronizedMap(new LinkedHashMap<Integer, MiBaoDB>(list.size()));
+		ret = new ConcurrentHashMap<Integer, MiBaoDB>(list.size());
 
 		for (MiBaoDB v : list) {
 			ret.put(v.tempId, v);

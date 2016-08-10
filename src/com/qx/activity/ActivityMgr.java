@@ -183,12 +183,17 @@ public class ActivityMgr extends EventProc{
 	public void pushQiandaoAvailable(long junZhuId,IoSession session){
 		QiandaoInfo qiandaoInfo = HibernateUtil.find(QiandaoInfo.class,	junZhuId);
 		if (QiandaoMgr.instance.hasAlreadyQiandao(qiandaoInfo)) {
-			if (QiandaoMgr.instance.canBuQian(junZhuId,qiandaoInfo)) {// 今天是否可以补签
-				FunctionID.pushCanShowRed(junZhuId, session, FunctionID.Qiandao);
+			if(QiandaoMgr.instance.hasDoubleAwardGet(qiandaoInfo,junZhuId)){
+				FunctionID.pushCanShowRed(junZhuId, session, FunctionID.LingQuShuangBei);
 			}
 		} else {
 			FunctionID.pushCanShowRed(junZhuId, session, FunctionID.Qiandao);
+			FunctionID.pushCanShowRed(junZhuId, session, FunctionID.LiJiQiandao);//立即签到推送
+			if(QiandaoMgr.instance.hasDoubleAwardGet(qiandaoInfo,junZhuId)){
+				FunctionID.pushCanShowRed(junZhuId, session, FunctionID.LingQuShuangBei);
+			}
 		}
+			
 	}
 	
 	/** 
@@ -199,13 +204,13 @@ public class ActivityMgr extends EventProc{
 	 * @return void
 	 * @throws 
 	 */
-	public void pushShouchongAvailable(long junZhuId,IoSession session){
-		int count = HibernateUtil.getColumnValueMaxOnWhere(BillHist.class, "save_amt", "where jzId="+junZhuId);
-		int count2 = HibernateUtil.getColumnValueMaxOnWhere(VipRechargeRecord.class, "sumAmount", "where accId="+junZhuId);
-		if (count <= 0 && count2<=0) {
-			FunctionID4Open.pushOpenFunction(junZhuId, session, FunctionID.Shouchong);
+	public void pushShouchongAvailable(JunZhu jz,IoSession session){
+		/*int count = HibernateUtil.getColumnValueMaxOnWhere(BillHist.class, "save_amt", "where jzId="+junZhuId);
+		int count2 = HibernateUtil.getColumnValueMaxOnWhere(VipRechargeRecord.class, "sumAmount", "where accId="+junZhuId);*/
+		if (jz.vipLevel <= 0) {
+			FunctionID4Open.pushOpenFunction(jz.id, session, FunctionID.Shouchong);
 		} else {
-			FunctionID4Open.pushOpenFunction(junZhuId, session, -FunctionID.Shouchong);
+			FunctionID4Open.pushOpenFunction(jz.id, session, -FunctionID.Shouchong);
 		}
 	}
 	
@@ -256,7 +261,7 @@ public class ActivityMgr extends EventProc{
 				break;
 			}
 			pushQiandaoAvailable(jz.id,session);
-			pushShouchongAvailable(jz.id,session);
+			pushShouchongAvailable(jz,session);
 			break;
 		default:
 			break;

@@ -38,6 +38,7 @@ import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.mibao.MibaoLevelPoint;
 import com.qx.mibao.MibaoMgr;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.persistent.MC;
 import com.qx.task.DailyTaskCondition;
@@ -107,6 +108,9 @@ public class PurchaseMgr {
 			}
 			list.add(p);
 		}
+		for(List<Purchase> list:purchaseMap.values()){
+			Collections.sort(list);
+		}
 
 		Map<Integer, Jiangli> jiangliMap = new HashMap<Integer, Jiangli>();
 		List<Jiangli> jiangliList = TempletService.listAll(Jiangli.class.getSimpleName());
@@ -125,13 +129,7 @@ public class PurchaseMgr {
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
 		TiLi tiLi = HibernateUtil.find(TiLi.class, junZhuId);
 		if (tiLi == null) {
-			tiLi = new TiLi();
-			tiLi.dbId = junZhuId;
-			tiLi.date = new Date(System.currentTimeMillis());
-			tiLi.num =0;
-			// 添加缓存
-			MC.add(tiLi, junZhuId);
-			HibernateUtil.insert(tiLi);
+			tiLi = getDefaultTili(junZhuId);
 		}
 
 		Date lastDate = tiLi.date;
@@ -165,6 +163,18 @@ public class PurchaseMgr {
 			log.info("玩家{}第{}次购买体力失败", junZhuId, tiLi.num);
 		}
 		sendInfo(0, session, null);
+	}
+	
+	public TiLi getDefaultTili(long jzId) {
+		TiLi tiLi = new TiLi();
+		tiLi.dbId = jzId;
+		tiLi.date = new Date();
+		tiLi.num = 0;
+		// 添加缓存
+		MC.add(tiLi, jzId);
+		HibernateUtil.insert(tiLi);
+		Cache.caCheMap.get(TiLi.class).put(jzId, tiLi);
+		return tiLi;
 	}
 	
 	/**
@@ -525,7 +535,8 @@ public class PurchaseMgr {
 			return null;
 		}
 		int size = list.size();
-		Collections.sort(list);
+//		在初始化时排好序
+		//Collections.sort(list);
 		if (times > size) {
 			return list.get(size - 1);
 		}
@@ -901,7 +912,8 @@ public class PurchaseMgr {
 			log.error("未找到type:{}的purchase配置", type);
 			return Integer.MAX_VALUE;
 		}
-		Collections.sort(list);
+		//在初始化时排好序
+//		Collections.sort(list);
 		int size = list.size();
 		if (times >= size) {
 			return list.get(size - 1).yuanbao;

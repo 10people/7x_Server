@@ -5606,6 +5606,24 @@ public final class MibaoProtos {
      * </pre>
      */
     qxmobile.protobuf.MibaoProtos.MibaoInfoOrBuilder getMibaoInfoOrBuilder();
+
+    // required int32 remainTime = 2;
+    /**
+     * <code>required int32 remainTime = 2;</code>
+     *
+     * <pre>
+     * 将魂升级点数下次增长剩余时间，单位-秒 ， 发送-1表示升级点数已满
+     * </pre>
+     */
+    boolean hasRemainTime();
+    /**
+     * <code>required int32 remainTime = 2;</code>
+     *
+     * <pre>
+     * 将魂升级点数下次增长剩余时间，单位-秒 ， 发送-1表示升级点数已满
+     * </pre>
+     */
+    int getRemainTime();
   }
   /**
    * Protobuf type {@code qxmobile.protobuf.MibaoLevelupResp}
@@ -5669,6 +5687,11 @@ public final class MibaoProtos {
                 mibaoInfo_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000001;
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              remainTime_ = input.readInt32();
               break;
             }
           }
@@ -5745,8 +5768,33 @@ public final class MibaoProtos {
       return mibaoInfo_;
     }
 
+    // required int32 remainTime = 2;
+    public static final int REMAINTIME_FIELD_NUMBER = 2;
+    private int remainTime_;
+    /**
+     * <code>required int32 remainTime = 2;</code>
+     *
+     * <pre>
+     * 将魂升级点数下次增长剩余时间，单位-秒 ， 发送-1表示升级点数已满
+     * </pre>
+     */
+    public boolean hasRemainTime() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 remainTime = 2;</code>
+     *
+     * <pre>
+     * 将魂升级点数下次增长剩余时间，单位-秒 ， 发送-1表示升级点数已满
+     * </pre>
+     */
+    public int getRemainTime() {
+      return remainTime_;
+    }
+
     private void initFields() {
       mibaoInfo_ = qxmobile.protobuf.MibaoProtos.MibaoInfo.getDefaultInstance();
+      remainTime_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5754,6 +5802,10 @@ public final class MibaoProtos {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasMibaoInfo()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRemainTime()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -5771,6 +5823,9 @@ public final class MibaoProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeMessage(1, mibaoInfo_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, remainTime_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -5783,6 +5838,10 @@ public final class MibaoProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, mibaoInfo_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, remainTime_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5907,6 +5966,8 @@ public final class MibaoProtos {
           mibaoInfoBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000001);
+        remainTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -5943,6 +6004,10 @@ public final class MibaoProtos {
         } else {
           result.mibaoInfo_ = mibaoInfoBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.remainTime_ = remainTime_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5962,12 +6027,19 @@ public final class MibaoProtos {
         if (other.hasMibaoInfo()) {
           mergeMibaoInfo(other.getMibaoInfo());
         }
+        if (other.hasRemainTime()) {
+          setRemainTime(other.getRemainTime());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasMibaoInfo()) {
+          
+          return false;
+        }
+        if (!hasRemainTime()) {
           
           return false;
         }
@@ -6148,6 +6220,55 @@ public final class MibaoProtos {
           mibaoInfo_ = null;
         }
         return mibaoInfoBuilder_;
+      }
+
+      // required int32 remainTime = 2;
+      private int remainTime_ ;
+      /**
+       * <code>required int32 remainTime = 2;</code>
+       *
+       * <pre>
+       * 将魂升级点数下次增长剩余时间，单位-秒 ， 发送-1表示升级点数已满
+       * </pre>
+       */
+      public boolean hasRemainTime() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 remainTime = 2;</code>
+       *
+       * <pre>
+       * 将魂升级点数下次增长剩余时间，单位-秒 ， 发送-1表示升级点数已满
+       * </pre>
+       */
+      public int getRemainTime() {
+        return remainTime_;
+      }
+      /**
+       * <code>required int32 remainTime = 2;</code>
+       *
+       * <pre>
+       * 将魂升级点数下次增长剩余时间，单位-秒 ， 发送-1表示升级点数已满
+       * </pre>
+       */
+      public Builder setRemainTime(int value) {
+        bitField0_ |= 0x00000002;
+        remainTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 remainTime = 2;</code>
+       *
+       * <pre>
+       * 将魂升级点数下次增长剩余时间，单位-秒 ， 发送-1表示升级点数已满
+       * </pre>
+       */
+      public Builder clearRemainTime() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        remainTime_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:qxmobile.protobuf.MibaoLevelupResp)
@@ -8124,14 +8245,14 @@ public final class MibaoProtos {
       "\rMibaoActivate\022\016\n\006tempId\030\001 \002(\005\"T\n\021MibaoA" +
       "ctivateResp\022\016\n\006result\030\001 \002(\005\022/\n\tmibaoInfo" +
       "\030\002 \001(\0132\034.qxmobile.protobuf.MibaoInfo\"\"\n\017" +
-      "MibaoLevelupReq\022\017\n\007mibaoId\030\001 \002(\005\"C\n\020Miba" +
+      "MibaoLevelupReq\022\017\n\007mibaoId\030\001 \002(\005\"W\n\020Miba" +
       "oLevelupResp\022/\n\tmibaoInfo\030\001 \002(\0132\034.qxmobi" +
-      "le.protobuf.MibaoInfo\"!\n\016MibaoStarUpReq\022" +
-      "\017\n\007mibaoId\030\001 \002(\005\"B\n\017MibaoStarUpResp\022/\n\tm" +
-      "ibaoInfo\030\001 \002(\0132\034.qxmobile.protobuf.Mibao",
-      "Info\"#\n\021MiBaoDealSkillReq\022\016\n\006zuheId\030\001 \002(" +
-      "\005\"%\n\022MiBaoDealSkillResp\022\017\n\007message\030\001 \002(\005" +
-      "B\rB\013MibaoProtos"
+      "le.protobuf.MibaoInfo\022\022\n\nremainTime\030\002 \002(" +
+      "\005\"!\n\016MibaoStarUpReq\022\017\n\007mibaoId\030\001 \002(\005\"B\n\017" +
+      "MibaoStarUpResp\022/\n\tmibaoInfo\030\001 \002(\0132\034.qxm",
+      "obile.protobuf.MibaoInfo\"#\n\021MiBaoDealSki" +
+      "llReq\022\016\n\006zuheId\030\001 \002(\005\"%\n\022MiBaoDealSkillR" +
+      "esp\022\017\n\007message\030\001 \002(\005B\rB\013MibaoProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -8185,7 +8306,7 @@ public final class MibaoProtos {
           internal_static_qxmobile_protobuf_MibaoLevelupResp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_qxmobile_protobuf_MibaoLevelupResp_descriptor,
-              new java.lang.String[] { "MibaoInfo", });
+              new java.lang.String[] { "MibaoInfo", "RemainTime", });
           internal_static_qxmobile_protobuf_MibaoStarUpReq_descriptor =
             getDescriptor().getMessageTypes().get(8);
           internal_static_qxmobile_protobuf_MibaoStarUpReq_fieldAccessorTable = new

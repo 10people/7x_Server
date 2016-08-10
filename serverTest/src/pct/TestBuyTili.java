@@ -14,8 +14,10 @@ public class TestBuyTili extends TestBase{
 	public void handle(int id, IoSession session, Builder builder, GameClient cl) {
 		ZhanDouInitError.Builder resp = (ZhanDouInitError.Builder)builder;
 		if("体力不足，无法进入战斗".equals(resp.getResult())){
+			cl.testTask.tryIds.clear();
+			cl.lasdPveId = 0;
 			cl.session.write(PD.C_BUY_TiLi);
+			cl.session.write(PD.C_TaskReq);
 		}
-		cl.session.write(PD.C_TaskReq);
 	}
 }

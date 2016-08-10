@@ -23,6 +23,7 @@ import com.qx.bag.BagMgr;
 import com.qx.bag.EquipGrid;
 import com.qx.bag.EquipMgr;
 import com.qx.equip.domain.UserEquip;
+import com.qx.equip.domain.UserEquipDao;
 import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
@@ -372,6 +373,7 @@ public class JewelMgr extends EventProc{
 		//BagMgr.inst.sendBagInfo(session, bag);
 		JunZhuMgr.inst.sendMainInfo(session);
 		BagMgr.inst.sendEquipInfo(session, equips);
+		EventMgr.addEvent(junZhu.id,ED.get_BaoShi, junZhu);
 		log.info("君主{}卸下宝石成功，装备：{}，孔：{}" ,junZhu.id,equipDbId,possionId);
 		//构建返回协议
 		EquipOperationResp.Builder resp = EquipOperationResp.newBuilder();
@@ -440,11 +442,10 @@ public class JewelMgr extends EventProc{
 			jewelExp = jewelExp == 0 ? -1 : jewelExp ;
 			BagMgr.inst.addItem(session, bag, jewelId, 1, jewelExp, junZhu.level, "玩家卸下宝石");
 			
-			//每卸下一颗宝石，保存一次装备强化信息，防止掉坑
+			//更新装备强化信息，因为做了缓存，所以不用每次变更都保存
 			equipInfo = updateEquipHole(equipInfo, possionId, -1);
 		}
 		HibernateUtil.save(equipInfo);
-		
 		//重新加载背包
 		bag = BagMgr.inst.loadBag(junZhu.id);
 		
@@ -502,6 +503,7 @@ public class JewelMgr extends EventProc{
 			JunZhuMgr.inst.sendMainInfo(session);
 			//BagMgr.inst.sendBagInfo(session, bag);
 			BagMgr.inst.sendEquipInfo(session, equips);
+			EventMgr.addEvent(junZhu.id,ED.get_BaoShi, junZhu);
 		}else{
 			//一颗宝石都没镶上，无需更新背包信息
 			resp.setSucces(false);
@@ -576,6 +578,7 @@ public class JewelMgr extends EventProc{
 		//BagMgr.inst.sendBagInfo(session, bag);
 		JunZhuMgr.inst.sendMainInfo(session);
 		BagMgr.inst.sendEquipInfo(session, equips);
+		EventMgr.addEvent(junZhu.id,ED.get_BaoShi, junZhu);
 		//发送返回协议
 		EquipOperationResp.Builder resp = EquipOperationResp.newBuilder();
 		resp.setType(3);
@@ -760,7 +763,7 @@ public class JewelMgr extends EventProc{
 			}
 		}
 		break;
-		case ED.ACC_LOGIN:{
+		case ED.JUNZHU_LOGIN:{
 			if(event.param instanceof Long){
 				long junZhuId = (long)event.param;
 				xiangQianRedPointPush(junZhuId);	
@@ -777,7 +780,7 @@ public class JewelMgr extends EventProc{
 		EventMgr.regist(ED.JINJIE_ONE_GONG, this);		//监听装备进阶事件
 		EventMgr.regist(ED.EQUIP_ADD, this);					//监听更换装备事件
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);	//监听定时刷新事件
-		EventMgr.regist(ED.ACC_LOGIN, this);
+		EventMgr.regist(ED.JUNZHU_LOGIN, this);
 	}
 	
 	
@@ -826,7 +829,7 @@ public class JewelMgr extends EventProc{
 		if(equip.instId <= 0){
 			return null;
 		}else{
-			res  = HibernateUtil.find(UserEquip.class, equip.instId);
+			res  = UserEquipDao.find(jzid, equip.instId);
 			if(res == null){
 				log.error("数据出错，无法找到玩家{}的装备信息，装备ID：{}" , jzid , equip.dbId );
 			}
@@ -838,10 +841,10 @@ public class JewelMgr extends EventProc{
 		UserEquip equipInfo = new UserEquip();
 		equipInfo.userId = jzid;
 		equipInfo.templateId = equip.itemId;
-		HibernateUtil.insert(equipInfo);
+		UserEquipDao.insert(equipInfo);
 		MC.add(equipInfo, equipInfo.getIdentifier());
 		equip.instId = equipInfo.getIdentifier() ;
-		HibernateUtil.save(equip) ;
+		HibernateUtil.save(equip);
 		log.info("玩家{}创建装备强化信息，装备ID：{}", jzid , equip.dbId );
 		return equipInfo;
 	}
@@ -877,7 +880,8 @@ public class JewelMgr extends EventProc{
 	/**按照宝石的itemId，经验进行排序的背包宝石列表*/
 	public List<BagGrid> getAllJewel( Bag<BagGrid> bag){
 		List<BagGrid> res = new LinkedList<BagGrid>() ;
-		for(BagGrid bg : bag.grids){
+		List<BagGrid> bagGrids = new LinkedList<BagGrid>(bag.grids);
+		for(BagGrid bg : bagGrids){
 			if(bg == null){
 				continue ;
 			}
@@ -982,7 +986,7 @@ public class JewelMgr extends EventProc{
 				//道具不是宝石，跳过
 				continue;
 			}
-			if(jewelMap.get(bg.itemId).fuwenID != jewelMap.get(itemId).fuwenID){
+			if(jewelMap.get(bg.itemId).shuxing != jewelMap.get(itemId).shuxing){
 				//属性不同，跳过
 				//FIXME 风险：如果道具的type是宝石，但是不在宝石表里，会报空指针，可以去找策划改表
 				continue;
@@ -1002,7 +1006,7 @@ public class JewelMgr extends EventProc{
 		Bag<EquipGrid> equips = EquipMgr.inst.loadEquips(junZhuId);
 		for(EquipGrid eg : equips.grids ){
 			if( eg != null && eg.instId > 0){
-				UserEquip ue = HibernateUtil.find(UserEquip.class, eg.instId);
+				UserEquip ue = UserEquipDao.find(junZhuId, eg.instId);
 				if(ue != null ){
 					List<Long> jewelList = getJewelOnEquip(ue);
 					for( long jewelInfo : jewelList){
@@ -1039,7 +1043,7 @@ public class JewelMgr extends EventProc{
 				int equipHolesNum =equipPeiZhi.holeNum; //单件装备的孔数量				
 				if(eg.instId > 0){
 					//获取玩家的装备强化信息
-					UserEquip equipInfo = HibernateUtil.find(UserEquip.class, eg.instId);
+					UserEquip equipInfo = UserEquipDao.find(eg.dbId/EquipMgr.spaceFactor, eg.instId);
 					if(equipInfo == null ){
 						log.error("无法获取玩家{}的装备强化信息，装备{}",junZhuId , eg.dbId);
 						continue;
@@ -1068,7 +1072,7 @@ public class JewelMgr extends EventProc{
 		res[0] = totalProgress;
 		
 		// 获取镶嵌最差的3件装备
-		List<EquipGrid> equipList = equips.grids;
+		List<EquipGrid> equipList = new LinkedList<EquipGrid>(equips.grids) ;
 		int[] worstXiangQians = new int[3];
 		int retIdx = 0;
 		for( int i = 0 ; i < 9 ;i++ ){
@@ -1098,7 +1102,7 @@ public class JewelMgr extends EventProc{
 					//FIXME 风险：如果装备设计无孔，在没有强化的时候，同样会返回此装备
 					return eg;
 				}else{
-					UserEquip equipInfo = HibernateUtil.find(UserEquip.class, eg.instId);
+					UserEquip equipInfo = UserEquipDao.find(eg.dbId/EquipMgr.spaceFactor, eg.instId);
 					if(equipInfo != null ){
 						//获取宝石信息和装备镶嵌孔信息
 						List<Long> jewelList = getJewelOnEquip(equipInfo);
@@ -1156,7 +1160,7 @@ public class JewelMgr extends EventProc{
 		}
 		//加载装备
 		Bag<EquipGrid> equips = EquipMgr.inst.loadEquips(junZhuId);
-		List<UserEquip> ueList = HibernateUtil.list(UserEquip.class, "where userId  = " + junZhuId);
+		List<UserEquip> ueList = UserEquipDao.list(junZhuId);
 		Map<Long , UserEquip> ueMap = new HashMap<Long , UserEquip>();
 		for(UserEquip ue : ueList ){
 			ueMap.put(ue.equipId, ue);
@@ -1232,7 +1236,7 @@ public class JewelMgr extends EventProc{
 			//如果背包中没有宝石，结束
 			return;
 		}
-		List<UserEquip> ueList = HibernateUtil.list(UserEquip.class, "where userId  = " + junZhuId);
+		List<UserEquip> ueList = UserEquipDao.list(junZhuId);
 		Map<Long , UserEquip> ueMap = new HashMap<Long , UserEquip>();
 		for(UserEquip ue : ueList ){
 			ueMap.put(ue.equipId, ue);

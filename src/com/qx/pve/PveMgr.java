@@ -40,7 +40,6 @@ import com.manu.dynasty.template.ZhuangBei;
 import com.manu.dynasty.util.MathUtils;
 import com.manu.network.BigSwitch;
 import com.manu.network.SessionAttKey;
-import com.manu.network.internal.SK;
 import com.qx.award.AwardMgr;
 import com.qx.bag.EquipMgr;
 import com.qx.event.ED;
@@ -57,11 +56,12 @@ import com.qx.junzhu.JunZhuMgr;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
+import com.qx.persistent.MC;
 import com.qx.secure.AntiCheatMgr;
 import com.qx.task.DailyTaskCondition;
 import com.qx.task.DailyTaskConstants;
 import com.qx.timeworker.FunctionID;
-import com.qx.util.DelayedSQLMgr;
+import com.qx.util.TableIDCreator;
 import com.qx.world.GameObject;
 
 import log.ActLog;
@@ -95,7 +95,7 @@ import qxmobile.protobuf.ZhanDou.ZhanDouInitResp;
 public class PveMgr extends EventProc {
 	public static PveMgr inst;
 	public static long godId = 0;
-	public static Logger logger = LoggerFactory.getLogger(PveMgr.class);
+	public static Logger logger = LoggerFactory.getLogger(PveMgr.class.getSimpleName());
 	public AtomicInteger troopIdMgr = new AtomicInteger(1);
 	public static AtomicInteger battleIdMgr = new AtomicInteger(1);
 	public static int PVE_CHONG_LOU = 100001;
@@ -494,7 +494,6 @@ public class PveMgr extends EventProc {
 			sendZhanDouInitError(session, "找不到君主");
 			return;
 		}
-		
 		int star = 0;
 		PveRecord r = BigSwitch
 				.pveGuanQiaMgr.recordMgr.get(junZhu.id, zhangJieId);
@@ -541,6 +540,9 @@ public class PveMgr extends EventProc {
 		Group.Builder selfTroop = Group.newBuilder();
 		List<Node> selfs = new ArrayList<Node>();
 		BuZhenMibaoBean mibaoBean = HibernateUtil.find(BuZhenMibaoBean.class, junZhu.id);
+		if (mibaoBean == null) {
+			mibaoBean = BigSwitch.pveGuanQiaMgr.insertBuZhenMibaoBean(junZhu);
+		}
 		int zuheId = mibaoBean == null ? -1 : mibaoBean.zuheId;
 		fillJunZhuDataInfo(resp, session, selfs, junZhu, selfFlagId, zuheId,selfTroop);
 		selfTroop.setMaxLevel(BigSwitch.pveGuanQiaMgr.getGuanQiaMaxId(junZhu.id));
@@ -659,9 +661,6 @@ public class PveMgr extends EventProc {
 		Map<Integer, List<AwardTemp>> npcDropAward = new HashMap<Integer, List<AwardTemp>>();
 		int index = 0;
 		for (NpcTemp npcTemp : npcList) {
-			if(310 == npcTemp.position) {
-				System.out.println();
-			}
 			NodeType nodeType = NodeType.valueOf(npcTemp.type);
 			if(nodeType == null){
 				logger.error("nodeType与npcTemp的type值不一致，npcTemp.type:{}", npcTemp.type);
@@ -1225,15 +1224,13 @@ public class PveMgr extends EventProc {
 			}
 		}
 		Long junZhuId = junZhu.id;
-		JunzhuPveInfo jzPveInfo = (JunzhuPveInfo) session.getAttribute(SK.JunzhuPveInfo);
-		if(null == jzPveInfo){
-			jzPveInfo = HibernateUtil.find(JunzhuPveInfo.class, junZhuId);
-			if(jzPveInfo == null){
-				jzPveInfo = new JunzhuPveInfo(junZhuId);
-				HibernateUtil.insert(jzPveInfo);
-	            Cache.jzPveInfoCache.put(junZhuId, jzPveInfo);
-			}
-			session.setAttribute(SK.JunzhuPveInfo,jzPveInfo);
+//		JunzhuPveInfo jzPveInfo = (JunzhuPveInfo) session.getAttribute(SK.JunzhuPveInfo);
+		JunzhuPveInfo jzPveInfo = HibernateUtil.find(JunzhuPveInfo.class, junZhuId);
+		if(jzPveInfo == null){
+		    jzPveInfo = new JunzhuPveInfo(junZhuId);
+		    Cache.jzPveInfoCache.put(junZhuId, jzPveInfo);
+		    MC.add(jzPveInfo, junZhuId);
+			HibernateUtil.insert(jzPveInfo);
 		}
 		Boolean chuanQiMark = (Boolean) session
 				.getAttribute(SessionAttKey.chuanQiMark);
@@ -1253,7 +1250,7 @@ public class PveMgr extends EventProc {
 			logger.error("请求pve章节id错误，zhangJieId:{}", guanQiaId);
 			return;
 		}
-		ActLog.log.HeroBattle(junZhuId, junZhu.name, ActLog.vopenid, guanQiaId, pveTemp.smaName, win?1:2, 1);
+		ActLog.log.HeroBattle(junZhuId, junZhu.name, guanQiaId, pveTemp.smaName, win?1:2, 1);
 		List<AwardTemp> getNpcAwardList = new ArrayList<AwardTemp>();
 		int resultForLog;//0 失败；2首次；3再次
 		if (win) {
@@ -1261,6 +1258,7 @@ public class PveMgr extends EventProc {
 					.pveGuanQiaMgr.recordMgr.get(junZhuId, guanQiaId);;
 			if (r == null) {
 				r = new PveRecord();
+				r.dbId = (TableIDCreator.getTableID(PveRecord.class, 1L));
 				r.guanQiaId = guanQiaId;
 				Map<Integer, PveRecord> map = BigSwitch
 				.pveGuanQiaMgr.recordMgr.getRecords(junZhuId);
@@ -1269,6 +1267,7 @@ public class PveMgr extends EventProc {
 					jzPveInfo.commonChptMaxId = guanQiaId;
 				}
 				r.uid = junZhuId;
+				HibernateUtil.insert(r);
 				resultForLog = 2;
 			}else{
 				resultForLog = 3;
@@ -1302,7 +1301,8 @@ public class PveMgr extends EventProc {
 			}
 			logger.info("junZhuId {} 关卡{} 战斗结束 , 成功", junZhuId, guanQiaId);
 			logger.info("获得星级 star {}", request.getStar());
-			DelayedSQLMgr.inst.pveInfo(r,jzPveInfo);
+			HibernateUtil.update(r);
+			HibernateUtil.update(jzPveInfo);
 			List<Integer> droppenList = request.getDropeenItemNpcsList();
 			Set<Integer> giveSet = new HashSet<>(droppenList.size());
 			Map<Integer, List<AwardTemp>> npcDropAwardMap = dropAwardMapBefore.get(junZhu.id);
@@ -1337,7 +1337,7 @@ public class PveMgr extends EventProc {
 			logger.info("{} pve fail at {}", junZhuId, guanQiaId);
 			resultForLog = 0;
 		}
-		OurLog.log.RoundFlow(ActLog.vopenid,guanQiaId.intValue(), 2, request.getStar(), 0, resultForLog,String.valueOf(junZhuId));
+		OurLog.log.RoundFlow(guanQiaId.intValue(), 2, request.getStar(), 0, resultForLog,String.valueOf(junZhuId));
 		AwardMgr.inst.getAward(guanQiaId, chuanQiMark, win, session, getNpcAwardList, junZhu);
 		JunZhuMgr.inst.sendMainInfo(session,junZhu, false);
 		if (chuanQiMark != null && chuanQiMark) {

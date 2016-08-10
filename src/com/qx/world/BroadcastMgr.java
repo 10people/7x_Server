@@ -4,8 +4,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.future.WriteFuture;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
@@ -20,6 +22,7 @@ import com.manu.dynasty.template.Fuwen;
 import com.manu.dynasty.template.MiBao;
 import com.manu.dynasty.template.MibaoStar;
 import com.manu.network.PD;
+import com.manu.network.ProtoBuffEncoder;
 import com.manu.network.SessionAttKey;
 import com.manu.network.SessionManager;
 import com.manu.network.SessionUser;
@@ -38,6 +41,7 @@ import com.qx.fuwen.FuwenMgr;
 import com.qx.junzhu.ChengHaoBean;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.mibao.MiBaoDB;
 import com.qx.mibao.MiBaoDao;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.HibernateUtil;
@@ -75,7 +79,8 @@ type	完成条件
 	}
 	public void send(String text, int code){
 		ProtobufMsg msg = buildMsg(text,code);
-		Set<WriteFuture> receivers = TXSocketMgr.inst.acceptor.broadcast(msg);
+		IoBuffer buf2 = IoBuffer.wrap(ProtoBuffEncoder.toByteArray(msg.builder.build(), (short)msg.id));
+		Set<WriteFuture> receivers = TXSocketMgr.inst.acceptor.broadcast(buf2);
 		log.info("发送广播 ：{}，目标数量{}", text, receivers.size());
 	}
 
@@ -453,13 +458,14 @@ type	完成条件
 			send(template);
 		}else if(targets.equals("2")){//发给无联盟
 			ProtobufMsg msg = buildMsg(template);
+			IoBuffer buf2 = IoBuffer.wrap(ProtoBuffEncoder.toByteArray(msg.builder.build(), (short)msg.id));
 			Iterator<IoSession> it = TXSocketMgr.inst.acceptor.getManagedSessions().values().iterator();
 			while(it.hasNext()){
 				IoSession session;
 				session = it.next();
 				Object lmName=session.getAttribute(SessionAttKey.LM_NAME, "***");
 				if("***".equals(lmName)){
-					session.write(msg);
+					session.write(buf2);
 				}
 			}
 		}else if(targets.equals("1")){//发给有联盟的人
@@ -468,9 +474,10 @@ type	完成条件
 			while(it.hasNext()){
 				IoSession session;
 				session = it.next();
+				IoBuffer buf2 = IoBuffer.wrap(ProtoBuffEncoder.toByteArray(msg.builder.build(), (short)msg.id));
 				Object lmName=session.getAttribute(SessionAttKey.LM_NAME, "***");
 				if(!"***".equals(lmName)){
-					session.write(msg);
+					session.write(buf2);
 				}
 			}
 		}else{
@@ -819,8 +826,11 @@ type	完成条件
 		}else{
 //			String hql = "select count(1) from MiBaoDB where ownerId="+jz.id+" and level>=1";
 //			cnt = HibernateUtil.getCount(hql);
-			 cnt = MiBaoDao.inst.getMap(jz.id).values().stream()
+			Map<Integer, MiBaoDB> map = MiBaoDao.inst.getMap(jz.id);
+			synchronized (map) {
+			 cnt = map.values().stream()
 					.filter(t->t.level>=1).count();
+			}
 		}
 		if(cnt<=0){
 			return;

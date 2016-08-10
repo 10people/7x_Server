@@ -138,8 +138,7 @@ public class GMWelFareMgr {
 		// amount, addYB, nowYB);
 		
 		// 充值成功，判断首冲
-		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class,
-				"where junzhuId=" + junZhuId + "");
+		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class,junZhuId);
 		if (ShouchongMgr.instance.getShouChongState(info) == 0) {// 未完成首冲
 			ShouchongMgr.instance.finishShouchong(junZhuId);
 		}

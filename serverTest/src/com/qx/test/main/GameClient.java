@@ -1,8 +1,11 @@
 package com.qx.test.main;
 
 import java.net.InetSocketAddress;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -18,12 +21,17 @@ import pct.TestAllianceInfo;
 import pct.TestBase;
 import pct.TestBuyTili;
 import pct.TestChengJiuPage;
+import pct.TestDailyTask;
 import pct.TestEnterPVE;
 import pct.TestExplore;
 import pct.TestGuanQiaInfo;
 import pct.TestJiangHunInfo;
 import pct.TestJzInfo;
 import pct.TestLieFu;
+import pct.TestLookMemmbers;
+import pct.TestQiRiAward;
+import pct.TestQiandao;
+import pct.TestSaoDang;
 import pct.TestTask;
 import qxmobile.protobuf.Activity.ActivityAchievementResp;
 import qxmobile.protobuf.Activity.ActivityGrowthFundRewardResp;
@@ -42,6 +50,7 @@ import qxmobile.protobuf.Explore.ExploreResp;
 import qxmobile.protobuf.GameTask.TaskInfo;
 import qxmobile.protobuf.GameTask.TaskProgress;
 import qxmobile.protobuf.JewelProtos.EquipOperationReq;
+import qxmobile.protobuf.MibaoProtos.MibaoInfo;
 import qxmobile.protobuf.MibaoProtos.MibaoInfoResp;
 import qxmobile.protobuf.MibaoProtos.MibaoLevelupReq;
 import qxmobile.protobuf.MoBaiProto.MoBaiInfo;
@@ -57,6 +66,7 @@ import qxmobile.protobuf.Scene.EnterSceneConfirm;
 import qxmobile.protobuf.Scene.ExitScene;
 import qxmobile.protobuf.Scene.SpriteMove;
 import qxmobile.protobuf.WuJiangProtos.HeroInfoReq;
+import qxmobile.protobuf.XianShi.XinShouXSActivity;
 import qxmobile.protobuf.ZhanDou.PveZhanDouInitReq;
 import qxmobile.protobuf.ZhangHao.CreateRoleRequest;
 import qxmobile.protobuf.ZhangHao.CreateRoleResponse;
@@ -71,6 +81,7 @@ import com.manu.dynasty.template.BaseItem;
 import com.manu.dynasty.util.ProtobufUtils;
 import com.manu.network.PD;
 import com.manu.network.msg.ProtobufMsg;
+import com.qx.activity.XianShiConstont;
 import com.qx.bag.Bag;
 import com.qx.bag.BagGrid;
 import com.qx.bag.EquipGrid;
@@ -87,9 +98,14 @@ public class GameClient {
 	public long lastMoveTime;
 	public int masterUid;
 	public IoSession session;
+	public int lasdPveId;
 	public boolean log = true;
 	public int uid;
 	public static GameClient useWhenSingle;
+	public Map<Integer, TestBase> handlerMap = new HashMap<Integer, TestBase>();
+	public void listen(int id, TestBase tb){
+		handlerMap.put(id, tb);
+	}
 	
 	public GameClient(String accountName) {
 		useWhenSingle = this;
@@ -129,6 +145,11 @@ public class GameClient {
 			hc.executeMethod(gm);
 			String responseMess = gm.getResponseBodyAsString().trim();
 			System.out.println(responseMess);
+			if(responseMess.contains("用户名已被注册")){
+				Main.autoDone(this);
+				session.close(true);
+				return;
+			}
 			login(session);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -178,6 +199,7 @@ public class GameClient {
 			enterScene();
 			break;
 		case 2:
+		case 2016:
 //			createRole();
 //			randomNameFromServer();
 			createRole(getRandomString(6));
@@ -279,7 +301,7 @@ public class GameClient {
 		if(log)System.out.println("创建角色结果:"+ret.getIsSucceed()+":"+ret.getMsg());
 		if(ret.getIsSucceed()){
 			ChoseScene(Main.sceneid);
-//			reqJzInfo();
+			reqJzInfo();
 			enterScene();
 			reqPve();
 //			enterShiLian();
@@ -399,11 +421,10 @@ public class GameClient {
 	 * 测试协议
 	 */
 	private void oper() {
-		reqPve();
-		reqRank();
-		reqTask();
+//		reqPve();
 //		reqAlliance();
-//		reqAllianceMembers();
+//		reqRank();
+		reqTask();
 //		reqAlliance();
 //		reqAllianceMembers();
 //		wuJiangInfo();//请求武将图鉴
@@ -420,26 +441,36 @@ public class GameClient {
 //		聊天广播();
 //		getMoBaiInfo();
 //		getMoBaiAward();
-//		chengjiuList();
+//		reqQiandao();
+//		reqAllianceMembers();
+		reqQiRi(); 
+//		reqDailyTask();
+//		reqAutoSaoDang();
 	}
-	TestTask testTask;
+	public TestTask testTask;
 	public void reqTask(){
 		if(testTask == null){
+			session.setAttribute("CL", this);
 			testTask = new TestTask();
-			MessageDispatcher.listen(PD.S_TaskList, testTask);	
-			MessageDispatcher.listen(PD.S_GetTaskRwardResult, new S_GetTaskRwardResult());	
-			MessageDispatcher.listen(PD.ZHANDOU_INIT_RESP, new TestEnterPVE());	
-			MessageDispatcher.listen(PD.PVE_GuanQia_Info, new TestGuanQiaInfo());	
-			MessageDispatcher.listen(PD.S_MIBAO_INFO_RESP, new TestJiangHunInfo());
-			MessageDispatcher.listen(PD.EXPLORE_RESP, new TestExplore());
-			MessageDispatcher.listen(PD.S_ZHANDOU_INIT_ERROR, new TestBuyTili());
-			MessageDispatcher.listen(PD.LieFu_Action_Info_Resp, new TestLieFu());
+			ProtobufUtils.prototypeMap.put((int)PD.NEW_MIBAO_INFO, MibaoInfoResp.getDefaultInstance());
+			listen(PD.S_TaskList, testTask);	
+			listen(PD.S_GetTaskRwardResult, new S_GetTaskRwardResult());	
+			listen(PD.ZHANDOU_INIT_RESP, new TestEnterPVE());	
+			listen(PD.PVE_GuanQia_Info, new TestGuanQiaInfo());	
+			listen(PD.S_MIBAO_INFO_RESP, new TestJiangHunInfo());
+			listen(PD.EXPLORE_RESP, new TestExplore());
+			listen(PD.S_ZHANDOU_INIT_ERROR, new TestBuyTili());
+			listen(PD.LieFu_Action_Info_Resp, new TestLieFu());
+			listen(PD.S_DAILY_TASK_FINISH_INFORM, new TestDailyTask());
+			listen(PD.S_PVE_SAO_DANG, new TestSaoDang());
+			listen(PD.IMMEDIATELY_JOIN_RESP, new TestLookMemmbers());
+			listen(PD.LOOK_MEMBERS_RESP, new TestLookMemmbers());
 		}
 		testTask.req(this);
 	}
 	public void reqJzInfo(){
 		TestJzInfo t = new TestJzInfo();
-		MessageDispatcher.listen(PD.JunZhuInfoRet, t);
+		listen(PD.JunZhuInfoRet, t);
 		System.out.println("TestJzInfo注册"+TestJzInfo.cnt++);
 		session.write(PD.JunZhuInfoReq);
 //		t.req(this);
@@ -457,7 +488,8 @@ public class GameClient {
 	public void reqAlliance() {
 		if(testAllianceInfo == null) {
 			testAllianceInfo = new TestAllianceInfo();
-			MessageDispatcher.listen(PD.ALLIANCE_NON_RESP, testAllianceInfo);
+			listen(PD.ALLIANCE_NON_RESP, testAllianceInfo);
+			listen(PD.ALLIANCE_HAVE_RESP, testAllianceInfo);
 		}
 		testAllianceInfo.req(this);
 	}
@@ -466,6 +498,7 @@ public class GameClient {
 	public void reqAllianceMembers() {
 		lookMemberStartTime = System.currentTimeMillis();
 		session.write(PD.LOOK_MEMBERS);
+		listen(PD.LOOK_MEMBERS_RESP, new TestLookMemmbers());
 	}
 	
 	public void procReqMembersResp() {
@@ -551,7 +584,7 @@ public class GameClient {
 
 	public void 联盟抽奖信息() {
 		ProtobufUtils.prototypeMap.put(Integer.valueOf(PD.S_LM_CHOU_JIANG_INFO), ExploreResp.getDefaultInstance());
-		MessageDispatcher.listen(PD.S_LM_CHOU_JIANG_INFO, new TestBase(){
+		listen(PD.S_LM_CHOU_JIANG_INFO, new TestBase(){
 			@Override
 			public void handle(int id, IoSession session, Builder builder,GameClient cl) {
 				ExploreResp.Builder c = (ExploreResp.Builder)builder;
@@ -562,7 +595,7 @@ public class GameClient {
 	}
 
 	public void 聊天广播() {
-		MessageDispatcher.listen(PD.S_Send_Chat, new TestBase(){
+		listen(PD.S_Send_Chat, new TestBase(){
 			@Override
 			public void handle(int id, IoSession session, Builder builder,GameClient cl) {
 				ChatPct.Builder c = (ChatPct.Builder)builder;
@@ -588,7 +621,7 @@ public class GameClient {
 	}
 
 	private void getMoBaiInfo() {
-		MessageDispatcher.listen(PD.S_MoBai_Info, new TestBase(){
+		listen(PD.S_MoBai_Info, new TestBase(){
 			@Override
 			public void handle(int id, IoSession session, Builder builder,GameClient cl) {
 				MoBaiInfo.Builder mb = (qxmobile.protobuf.MoBaiProto.MoBaiInfo.Builder) builder;
@@ -738,7 +771,7 @@ public class GameClient {
 	
 //	public void chengjiuList(){
 //		TestChengJiuPage t = new TestChengJiuPage();
-//		MessageDispatcher.listen(PD.S_ACTIVITY_ACHIEVEMENT_INFO_RESP, t);
+//		listen(PD.S_ACTIVITY_ACHIEVEMENT_INFO_RESP, t);
 //		t.req(this);
 //	}
 	
@@ -753,18 +786,31 @@ public class GameClient {
 	}
 
 	public void readMBV2(Builder builder) {
+		Long pre = (Long) session.getAttribute("LastMBID", -1L);
 		MibaoInfoResp.Builder ret = (MibaoInfoResp.Builder)builder;
-		ret.getMiBaoListList().stream().forEach(t->{
-			if(t.getNeedSuipianNum()<=t.getSuiPianNum()){
-				testTask.jiHuoMiBao(this, t.getDbId());
+		Optional<MibaoInfo> op = ret.getMiBaoListList().stream().filter(t->
+			t.getNeedSuipianNum()<=t.getSuiPianNum() && t.getStar()==0
+			&& t.getDbId() != pre && t.getSuiPianNum()>0
+		).findAny();
+		if(op.isPresent()){
+			MibaoInfo t = op.get();
+			if(t.getDbId()<=0){
+				//还没有保存到数据库，所以dbid没有
+				session.write(PD.NEW_MIBAO_INFO);
+				return;
 			}
-		});
+			testTask.jiHuoMiBao(this, op.get().getDbId());
+			if(op.get().getMiBaoId()%10==9){
+				testTask.activeMiShu(this);
+			}
+		}
 	}
 
 	public void readMB(Builder builder) {
+		if(testTask == null)return;
 		MibaoInfoResp.Builder ret = (MibaoInfoResp.Builder)builder;
 		ret.getMiBaoListList().stream().forEach(m->{
-			if(ret.getLevelPoint()>0){
+			if(ret.getLevelPoint()>0 && m.getLevel()>0){
 				MibaoLevelupReq.Builder req = MibaoLevelupReq.newBuilder();
 				req.setMibaoId(m.getMiBaoId());
 				testTask.send(this, PD.C_MIBAO_LEVELUP_REQ, req);
@@ -816,5 +862,33 @@ public class GameClient {
 		session.write(PD.C_TaskReq);
 	}
 	
+	public void reqQiandao(){
+		listen(PD.S_GET_QIANDAO_RESP, new TestQiandao());
+		session.write(PD.C_GET_QIANDAO_REQ);
+	}
+	
+	public void reqDailyTask(){
+		session.write(PD.C_DAILY_TASK_LIST_REQ);
+		listen(PD.S_DAILY_TASK_LIST_RESP, new TestDailyTask());
+		listen(PD.S_DAILY_TASK_GET_REWARD_RESP, new TestDailyTask());
+		listen(PD.S_DAILY_TASK_FINISH_INFORM, new TestDailyTask());
+	}
+	public void reqQiRi(){
+		listen(PD.S_XINSHOU_XIANSHI_INFO_RESP, new TestQiRiAward());
+		ProtobufMsg msg = new ProtobufMsg();
+		msg.id = PD.C_XINSHOU_XIANSHI_INFO_REQ;
+		XinShouXSActivity.Builder req = XinShouXSActivity.newBuilder();
+		req.setTypeId(XianShiConstont.QIRIQIANDAO_TYPE);
+		msg.builder = req;
+		session.write(msg);
+		reqQiandao();
+	}
+	
+	public void reqAutoSaoDang(){
+     	listen(PD.PVE_PAGE_RET, new TestSaoDang());
+     	listen(PD.S_PVE_SAO_DANG, new TestSaoDang());
+		new TestSaoDang().reqGuanQiaList(session);
+		listen(PD.JunZhuInfoRet, new TestSaoDang());
+	}
 	
 }

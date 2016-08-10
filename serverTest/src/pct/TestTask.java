@@ -2,6 +2,8 @@ package pct;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -9,6 +11,7 @@ import java.util.stream.Collectors;
 import org.apache.mina.core.session.IoSession;
 
 import com.google.protobuf.MessageLite.Builder;
+import com.manu.dynasty.template.PveTemp;
 import com.manu.dynasty.template.ZhuXian;
 import com.manu.dynasty.util.DataLoader;
 import com.manu.network.PD;
@@ -54,7 +57,9 @@ public class TestTask extends TestBase{
 			"E:/workspace/Design Doc/data/ZhuXian.xml",//wxh 2
 			"F:/Design Doc/data/ZhuXian.xml",//jy 3
 	};
+	public HashMap<Integer,Integer> tryIds = new HashMap<>();//已尝试过的任务id，避免重复尝试。
 	public static Map<Integer, ZhuXian> map;
+	public static Map<Integer, PveTemp> pveMap = new HashMap<>();
 	public TestTask() {
 		if(map != null){
 			return;
@@ -66,6 +71,11 @@ public class TestTask extends TestBase{
 			taskConf = (List<ZhuXian>) dl.loadFromStream(in);
 			in.close();
 			map = taskConf.stream().collect(Collectors.toMap(ZhuXian::getId, t->t));
+			//
+			in = new FileInputStream(path[which].replace("ZhuXian", "PveTemp"));
+			List<PveTemp> ptl = (List<PveTemp>) dl.loadFromStream(in);
+			in.close();
+			pveMap = ptl.stream().collect(Collectors.toMap(t->t.id, t->t));
 		}catch(Exception e){
 			e.printStackTrace();
 			System.exit(1);
@@ -81,17 +91,35 @@ public class TestTask extends TestBase{
 	public void handle(int id, IoSession session, Builder builder, GameClient cl) {
 		//super.handle(id, session, builder, cl);
 		TaskList.Builder ret = (TaskList.Builder)builder;
+		System.out.println(session.getId()+"收到任务信息:"+ret.getListCount());
 		if(ret.getListCount()==0)return;
 		ret.getListList().stream()
 			.forEach(t->{
 				ZhuXian conf = map.get(t.getId());
+				if(conf == null){
+					System.out.println("任务没有找到:"+t.getId());
+					System.exit(0);
+				}
 				if(conf.type==0){//主线
 					tryZhuXian(conf, t,cl);
 				}
 			});
 	}
 	public void tryZhuXian(ZhuXian conf, TaskInfo t, GameClient cl) {
+		if(conf.id == 100404){
+			conf.id+=0;
+		}
+		Integer preProg = tryIds.get(conf.id);
+		if(preProg != null && preProg.intValue() == t.getProgress()){
+			return;
+		}
+		tryIds.put(conf.id, t.getProgress());
 		System.out.println(conf.title+"--- 进度  -- "+t.getProgress()+"--- TYPE  -- "+conf.doneType);
+		if(conf.title.contains("升至25级")){
+			System.out.println("到此为止。");
+			Main.autoDone(cl);
+			return;
+		}
 		if(t.getProgress() == -1){
 			GetTaskReward.Builder request = GetTaskReward.newBuilder();
 			request.setTaskId(t.getId());
@@ -103,6 +131,7 @@ public class TestTask extends TestBase{
 			}
 			cl.session.write(new ProtobufMsg(PD.C_GetTaskReward, request));
 			System.out.println("尝试领取奖励");
+			cl.session.removeAttribute("TIMES");
 			return;
 		}
 		switch(conf.doneType){
@@ -119,18 +148,21 @@ public class TestTask extends TestBase{
 			qiangHua(cl,conf);
 			break;
 		case TaskData.GET_PVE_AWARD:
-			lingQuStarAward(cl,conf);
+			lingQuStarAward(cl,100103,1013);
 			break;
 		case TaskData.get_miBao_x_pinZhi_y:
 //			jiHuoMiBao(cl,conf);
+			cl.session.write(PD.NEW_MIBAO_INFO);
+			System.out.println("获取秘宝信息");
 			break;
 		case TaskData.get_item:
 			tryGetItem(cl,conf);
 			break;
 		case TaskData.mibao_shengji_x:
+			cl.session.write(PD.C_MIBAO_INFO_REQ);
 			break;
 		case TaskData.get_pass_PVE_zhang_award:
-			getZhangJieJL(cl);
+			getZhangJieJL(cl,1);
 			break;
 		case TaskData.FINISH_BAIZHAN_N:
 			reqPvpMainInfo(cl);
@@ -162,13 +194,14 @@ public class TestTask extends TestBase{
 			youXiaPass(cl, 300401);
 			break;
 		case TaskData.battle_shiLian_II:
-			youXiaPass(cl, 300301);
+			youXiaPass(cl, conf);
 			break;
 		case TaskData.tianfu_level_up:
 			upTianFu(cl);
 			break;
 		case TaskData.done_qianChongLou:
 			doneChongLou(cl);
+			cl.reqAlliance();
 			break;
 		case TaskData.use_baoShi_x:
 			XQBaoShi(cl);
@@ -187,7 +220,7 @@ public class TestTask extends TestBase{
 			jiangHunStarUp(cl);
 			break;
 		case TaskData.junzhu_level_up:
-			int guanQiaId = TestEnterPVE.lastId == 0 ? 100307 : TestEnterPVE.lastId;
+			int guanQiaId = cl.lasdPveId == 0 ? 100307 : cl.lasdPveId;
 			tryGuanQia(cl, guanQiaId, false);
 			break;
 		case TaskData.done_lieFu_x:
@@ -196,9 +229,9 @@ public class TestTask extends TestBase{
 		case TaskData.wear_fushi:
 			useFuWen(cl);
 			break;
-//		case TaskData.get_mbSuiPian_x_y:
-//			tryGuanQia(cl, 100207, false);
-//			break;
+		case TaskData.get_mbSuiPian_x_y:
+			tryGuanQia(cl, 100207, false);
+			break;
 		}
 		
 	}
@@ -260,6 +293,8 @@ public class TestTask extends TestBase{
 		ExploreReq.Builder req = ExploreReq.newBuilder();
 		req.setType(4);
 		send(cl,PD.EXPLORE_REQ,req);
+		tryIds.clear();
+		req(cl);
 		System.out.println("请求元宝十连探宝");
 	}
 	public void doneChongLou(GameClient cl ){
@@ -278,6 +313,7 @@ public class TestTask extends TestBase{
 		cl.session.write(req.build());
 		System.out.println("发送升级天赋");
 	}
+	
 	public void youXiaPass(GameClient cl , int youXiaId){
 		BattleYouXiaResultReq.Builder request = BattleYouXiaResultReq.newBuilder();
 		request.setId(youXiaId);
@@ -286,10 +322,20 @@ public class TestTask extends TestBase{
 		cl.session.write(request.build());
 		System.out.println("发送游侠通关"+youXiaId);
 	}
+	public void youXiaPass(GameClient cl , ZhuXian conf){
+		String youXiaStr = "300"+conf.doneCond+"01";
+		int youXiaId = Integer.parseInt(youXiaStr);
+		BattleYouXiaResultReq.Builder request = BattleYouXiaResultReq.newBuilder();
+		request.setId(youXiaId);
+		request.setResult(1);
+		request.setScore(80);
+		cl.session.write(request.build());
+		System.out.println("发送游侠通关"+youXiaId);
+	}
 	public void activeMiShu(GameClient cl){
-		cl.session.write(PD.NEW_MIBAO_INFO);
+		cl.session.write(PD.NEW_MIBAO_INFO);//请求这个，服务器需要打标记。
 		cl.session.write(PD.NEW_MISHU_JIHUO);
-		cl.session.write(PD.NEW_MIBAO_INFO);
+//		cl.session.write(PD.NEW_MIBAO_INFO);
 		System.out.println("发送秘术激活信息");
 	}
 	public void askForJiNeng(GameClient cl , int jiNengId){
@@ -300,6 +346,8 @@ public class TestTask extends TestBase{
 	}
 	public void getChJiuPage(GameClient cl) {
 		cl.session.write(PD.C_ACTIVITY_ACHIEVEMENT_INFO_REQ);
+		tryIds.clear();
+		req(cl);
 		System.out.println("请求成就列表");
 	}
 	public void activeMB(GameClient cl) {
@@ -331,11 +379,11 @@ public class TestTask extends TestBase{
 		send(cl,PD.ZHANDOU_INIT_PVP_REQ,req);		
 		System.out.println("请求进入百战");
 	}
-	public void getZhangJieJL(GameClient cl) {
+	public void getZhangJieJL(GameClient cl,int i) {
 		GetPassZhangJieAwardReq.Builder req = GetPassZhangJieAwardReq.newBuilder();
-		req.setZhangJieId(1);
+		req.setZhangJieId(i);
 		send(cl,PD.get_passZhangJie_award_req,req);		
-		System.out.println("尝试领取章节奖励");
+		System.out.println("尝试领取章节奖励:"+i);
 	}
 	public void tryGetItem(GameClient cl , ZhuXian conf) {
 		if( "301011".equals(conf.doneCond)){
@@ -356,6 +404,10 @@ public class TestTask extends TestBase{
 		System.out.println("请求元宝单抽，探宝。");
 	}
 	public void jiHuoMiBao(GameClient cl, long l) {
+		if(l==0){
+			cl.session.write(PD.S_SEND_MIBAO_INFO);
+			return;
+		}
 		ErrorMessage.Builder req = (ErrorMessage.newBuilder());
 //		String str = req.getErrorDesc();
 //		long dbId = Long.parseLong(str);
@@ -363,12 +415,17 @@ public class TestTask extends TestBase{
 		req.setErrorCode(0);
 		req.setErrorDesc(""+l);
 		send(cl,PD.NEW_MIBAO_JIHUO,req);
+//		cl.session.write(PD.NEW_MIBAO_INFO);
+		cl.session.setAttribute("LastMBID", l);
+		System.out.println("尝试激活秘宝"+l);
 	}
-	public void lingQuStarAward(GameClient cl, ZhuXian conf) {
+	public void lingQuStarAward(GameClient cl, int id, int star) {
 		GetPveStarAward.Builder b = GetPveStarAward.newBuilder();
-		b.setGuanQiaId(TestEnterPVE.lastId);
+		b.setGuanQiaId(id);
+//		b.setGuanQiaId(100103);
 		b.setIsChuanQi(false);
-		b.setSStarNum(1013);
+//		b.setSStarNum(1013);
+		b.setSStarNum(star);
 		send(cl,PD.PVE_STAR_REWARD_GET , b);
 	}
 	public void qiangHua(GameClient cl, ZhuXian conf) {
@@ -405,7 +462,9 @@ public class TestTask extends TestBase{
 						msg.builder = req ;
 						if(cnt>0){
 							cl.session.write(msg);
+							System.out.println("尝试进阶");
 						}else{
+							tryIds.clear();
 							cl.session.write(PD.C_BagInfo);
 						}
 					}else{

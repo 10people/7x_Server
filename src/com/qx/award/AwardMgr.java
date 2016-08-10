@@ -299,12 +299,16 @@ public class AwardMgr {
 		Map<Integer, DropRateBean> dropRateMap = DropRateDao.inst.getMap(jzId);
 		awardIdList =  getHitAwardId(awardArray, jzId, dropRateMap);
 		for(DropRateBean bean : dropRateMap.values()) {
-			if(bean.dbOp == 'I'){
+			switch(bean.dbOp){
+			case 'I':{
 				HibernateUtil.insert(bean);
 				bean.dbOp = 'N';
-			}else if(bean.dbOp == 'U'){
+				break;
+			}
+			case 'U':{
 				HibernateUtil.update(bean);
 				bean.dbOp = 'N';
+			}
 			}
 		}
 		return awardIdList;
@@ -781,7 +785,10 @@ public class AwardMgr {
 				mibaoDB.dbId = dbId;
 
 				mibaoDB.ownerId = jz.id;
-				MiBaoDao.inst.getMap(jz.id).put(tempId, mibaoDB);
+				Map<Integer, MiBaoDB> mbMap = MiBaoDao.inst.getMap(jz.id);
+				synchronized (mbMap) {
+					mbMap.put(tempId, mibaoDB);
+				}
 				mibaoDB.tempId = tempId;
 				mibaoDB.miBaoId = realMiBaoId;
 				mibaoDB.star = initialStar;
@@ -838,7 +845,7 @@ public class AwardMgr {
 				EventMgr.addEvent(junZhuId,ED.GAIN_MIBAO, new Object[]{jz,session,cnt});
 				// 写在后面，怕有异常导致后面代码无法执行
 				doRenWuForMiBao(mibaoDB, jz, session);
-				if(isCalcJzAttr){JunZhuMgr.inst.sendMainInfo(session, jz);} 
+				//if(isCalcJzAttr){JunZhuMgr.inst.sendMainInfo(session, jz);} 
 			}
 			break;
 			/*

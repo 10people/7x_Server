@@ -49,11 +49,14 @@ import com.qx.alliance.AllianceMgr;
 import com.qx.alliance.AlliancePlayer;
 import com.qx.alliance.building.JianZhuMgr;
 import com.qx.alliance.building.LMKJBean;
+import com.qx.alliance.building.LMKJBeanDao;
 import com.qx.alliance.building.LMKJJiHuo;
 import com.qx.bag.Bag;
+import com.qx.bag.BagMgr;
 import com.qx.bag.EquipGrid;
 import com.qx.bag.EquipMgr;
 import com.qx.equip.domain.UserEquip;
+import com.qx.equip.domain.UserEquipDao;
 import com.qx.equip.jewel.JewelMgr;
 import com.qx.equip.web.UEConstant;
 import com.qx.equip.web.UserEquipAction;
@@ -69,6 +72,7 @@ import com.qx.hero.HeroMgr;
 import com.qx.hero.WuJiang;
 import com.qx.huangye.HYResourceNpc;
 import com.qx.huangye.HYTreasure;
+import com.qx.huangye.HYTreasureDao;
 import com.qx.jinengpeiyang.JNBean;
 import com.qx.jinengpeiyang.JiNengPeiYangMgr;
 import com.qx.mibao.MiBaoDB;
@@ -160,7 +164,7 @@ public class JunZhuMgr extends EventProc {
 		JunZhu jz = HibernateUtil.find(JunZhu.class, junZhuId.longValue());
 		sendMainInfo(session,jz);
 		// 天赋的显示通知
-		TalentMgr.instance.noticeTalentCanLevUp(jz);
+//		TalentMgr.instance.noticeTalentCanLevUp(jz);
 		// 符文的显示通知
 		EventMgr.addEvent(jz.id,ED.FUSHI_PUSH, jz);
 	}
@@ -233,11 +237,7 @@ public class JunZhuMgr extends EventProc {
 		b.setVipLv(junzhu.vipLevel);
 		b.setGuoJiaId(junzhu.guoJiaId);
 		b.setNuQiValue(MibaoMgr.inst.getShowChuShiNuQi(junzhu.id));
-		TalentAttr ta = (TalentAttr) session.getAttribute(SessionAttKey.TalentAttr);
-		if(null == ta){
-			ta = HibernateUtil.find(TalentAttr.class, junzhu.id);
-			session.setAttribute(SessionAttKey.TalentAttr, ta);
-		}
+		TalentAttr ta = HibernateUtil.find(TalentAttr.class, junzhu.id);
 		b.setWuYiJingQi(ta == null?0: ta.wuYiJingQi);
 		b.setTiPoJingQi(ta == null?0: ta.tiPoJingQi);
 		/*
@@ -339,10 +339,10 @@ public class JunZhuMgr extends EventProc {
 			return;
 		}
 		int lmId = guild.id;
-		LMKJBean bean = HibernateUtil.find(LMKJBean.class, lmId);
+		LMKJBean bean =LMKJBeanDao.inst.getBean(lmId);
 		if(bean == null){
 			bean = new LMKJBean();
-			JianZhuMgr.inst.fillDefaultLevel(bean);
+			JianZhuMgr.inst.fillDefaultLevel(lmId, bean);
 		}
 		List<LianMengKeJi> list = TempletService.listAll(LianMengKeJi.class.getSimpleName());
 		if(list == null){
@@ -761,7 +761,7 @@ public class JunZhuMgr extends EventProc {
 			junzhu.fangYu += zb.getFangyu();
 			junzhu.shengMingMax += zb.getShengming();
 			//以下1.0版本改变洗练逻辑
-			UserEquip ue = gd.instId>0 ? HibernateUtil.find(UserEquip.class, gd.instId) : null;
+			UserEquip ue = gd.instId>0 ? UserEquipDao.find(junzhu.id, gd.instId) : null;
 			if (UserEquipAction.instance.hasEquipTalent(ue,zb.getId(),UEConstant.wqSH)) {
 				junzhu.wqSH += zb.getWqSH();
 			}
@@ -1047,7 +1047,7 @@ public class JunZhuMgr extends EventProc {
 				jz.exp -= expTemp.needExp;
 				jz.level += 1;
 				log.info("{} 升级至{}", jz.name, jz.level);
-				ActLog.log.KingLvup(jz.id, jz.name, ActLog.vopenid, jz.level, jz.exp);
+				ActLog.log.KingLvup(jz.id, jz.name, jz.level, jz.exp);
 				CunLiangLog.inst.levelChange(jz.id, jz.level);
 				// EventMgr.addEvent(ED.ACHIEVEMENT_PROCESS, new
 				// AchievementCondition(
@@ -1077,7 +1077,8 @@ public class JunZhuMgr extends EventProc {
 				EventMgr.addEvent(jz.id,ED.JUNZHU_LEVEL_RANK_REFRESH, jz);
 				IoSession user = SessionManager.inst.findByJunZhuId(jz.id);
 				if(user != null){
-					EventMgr.addEvent(jz.id,ED.REFRESH_TIME_WORK, user);
+					//2016年8月9日11:49:52 放这里就太频繁了。
+					//EventMgr.addEvent(jz.id,ED.REFRESH_TIME_WORK, user);
 				}
 			} else {
 				break;
@@ -1087,16 +1088,17 @@ public class JunZhuMgr extends EventProc {
 //			calcJunZhuTotalAtt(jz);
 //		}
 		HibernateUtil.update(jz);
-		IoSession su = SessionManager.inst.findByJunZhuId(jz.id);
-		if (su != null) {
-			sendMainInfo(su,jz, levelChange);
-		}
+		//不在这里发，谁用谁在外面发。
+//		IoSession su = SessionManager.inst.findByJunZhuId(jz.id);
+//		if (su != null) {
+//			sendMainInfo(su,jz, levelChange);
+//		}
 		int Time = 0;//升级所用时间
 		int Reason = 0;
 		int SubReason = 0;
 		OurLog.log.PlayerExpFlow(v, beforeLv, jz.level, Time, Reason, SubReason,
 				String.valueOf(jz.id));
-		ActLog.log.GetExp(jz.id, jz.name, ActLog.vopenid, ActLog.Reason, v, jz.exp);
+		ActLog.log.GetExp(jz.id, jz.name, ActLog.Reason, v, jz.exp);
 	}
 
 	/**
@@ -1115,7 +1117,7 @@ public class JunZhuMgr extends EventProc {
 		} else {
 			junzhu.tiLi = Math.min(junzhu.tiLi, TiLiMax);
 		}
-		ActLog.log.PhysicalPower(junzhu.id, junzhu.name, ActLog.vopenid, preV, changeValue, junzhu.tiLi, reason);
+		ActLog.log.PhysicalPower(junzhu.id, junzhu.name, preV, changeValue, junzhu.tiLi, reason);
 	}
 
 	public JunZhu getJunZhu(IoSession session) {
@@ -1232,7 +1234,7 @@ public class JunZhuMgr extends EventProc {
 						playerTime.totalOnlineTime = playerTime.totalOnlineTime
 								+ (logoutTime - loginTime);
 					}
-					HibernateUtil.save(playerTime);
+					HibernateUtil.update(playerTime);
 					// Redis中在线时间统计清空
 					Redis.getInstance().set(
 							AccountManager.CACHE_ONLINETIME + jzId,"0");
@@ -1251,10 +1253,9 @@ public class JunZhuMgr extends EventProc {
 				HibernateUtil.insert(playerTime);
 			} else {
 				playerTime.loginTime = date;
-				HibernateUtil.save(playerTime);
+				HibernateUtil.update(playerTime);
 			}
-			List<HYTreasure> treasureList = HibernateUtil.list(
-					HYTreasure.class, " where battleJunzhuId=" + junZhu.id);
+			List<HYTreasure> treasureList = HYTreasureDao.inst.getByJunZhuId(junZhu.id);
 			for (HYTreasure t : treasureList) {
 				t.battleJunzhuId = 0;
 				HibernateUtil.save(t);
@@ -1356,13 +1357,17 @@ public class JunZhuMgr extends EventProc {
 		}
 		junzhu.roleId = roleId;
 		junzhu.guoJiaId = 0;//guoJiaId;
+		JunZhu pre = Cache.jzCache.putIfAbsent(junZhuId, junzhu);
+		if(pre != null){
+			log.warn("之前已创建 {}",junZhuId);
+			return pre;
+		}
 		Bag<EquipGrid> equips = EquipMgr.inst.initEquip(junZhuId);
 		log.info("------init equip-----{}", System.currentTimeMillis() - time);
 		time = System.currentTimeMillis();
 		calcTotalJunZhuAtt(junzhu, equips);
 //		log.info("------calcAtt-----{}", System.currentTimeMillis() - time);
 		time = System.currentTimeMillis();
-		Cache.jzCache.put(junZhuId, junzhu);
 		MC.add(junzhu, junzhu.id);
 		Throwable e = HibernateUtil.insert(junzhu);
 //		log.info("------add junzhu-----{}", System.currentTimeMillis() - time);
@@ -1372,6 +1377,7 @@ public class JunZhuMgr extends EventProc {
 		} else {
 			log.info("创建君主失败", e);
 		}
+		BagMgr.inst.addCache(junzhu.id);
 		time = System.currentTimeMillis();
 		if(2>1){//关闭武将
 			HeroMgr heroMgr = HeroMgr.getInstance();
@@ -1754,7 +1760,7 @@ public class JunZhuMgr extends EventProc {
 			if (gd == null || gd.instId <= 0) {
 				continue;
 			}
-			UserEquip userEquip = HibernateUtil.find(UserEquip.class, gd.instId);
+			UserEquip userEquip = UserEquipDao.find(jid, gd.instId);
 			if (userEquip == null) {
 				continue;
 			}
@@ -1937,7 +1943,7 @@ public class JunZhuMgr extends EventProc {
 				if (gd == null || gd.instId <= 0) {
 					continue;
 				}
-				UserEquip userEquip = HibernateUtil.find(UserEquip.class, gd.instId);
+				UserEquip userEquip = UserEquipDao.find(junzhu.id, gd.instId);
 				if (userEquip == null) {
 					continue;
 				}

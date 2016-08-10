@@ -24,7 +24,7 @@ public class MiBaoSkillDB implements DBHash{
 //	public boolean hasJinjie = false;
 	@Override
 	public long hash() {
-		return id;
+		return jId;
 	}
 
 	

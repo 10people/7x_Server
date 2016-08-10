@@ -56,6 +56,7 @@ import com.qx.bag.EquipGrid;
 import com.qx.bag.EquipMgr;
 import com.qx.equip.domain.EquipXiLian;
 import com.qx.equip.domain.UserEquip;
+import com.qx.equip.domain.UserEquipDao;
 import com.qx.equip.domain.XilianFirstRecord;
 import com.qx.equip.service.UserEquipService;
 import com.qx.event.ED;
@@ -325,7 +326,7 @@ public class UserEquipAction  extends EventProc {
 		}
 		UserEquip dbUe = null;
 		if (targetInstId > 0) {
-			dbUe = HibernateUtil.find(UserEquip.class, targetInstId);
+			dbUe = UserEquipDao.find(junZhu.id, targetInstId);
 			if (dbUe == null) {
 				log.error("洗练结果确认失败，没有找到已经洗练的装备数据，equipId:{}", targetInstId);
 				sendError(id, session, "洗练结果确认失败，没有找到已经洗练的装备数据，equipId:{}"
@@ -436,7 +437,7 @@ public class UserEquipAction  extends EventProc {
 		//以上1.0版本改变洗练逻辑
 		
 		if (dbUe.equipId == 0) {
-			HibernateUtil.insert(dbUe);
+			UserEquipDao.insert(dbUe);
 			MC.add(dbUe, dbUe.getIdentifier());
 		} else {
 			HibernateUtil.save(dbUe);
@@ -489,7 +490,7 @@ public class UserEquipAction  extends EventProc {
 		}
 		UserEquip dbUe = null;
 		if (target.instId > 0) {
-			dbUe = HibernateUtil.find(UserEquip.class, target.instId);
+			dbUe = UserEquipDao.find(junZhu.id, target.instId);
 			if (dbUe == null) {
 				log.error("没有找到已经洗练的装备数据，equipId:{}", target.instId);
 				sendError(id, session, "没有找到已经洗练的装备数据，equipId:{}"
@@ -500,6 +501,7 @@ public class UserEquipAction  extends EventProc {
 			dbUe = new UserEquip();
 			dbUe.userId = junZhu.id;
 			dbUe.templateId = zhuangBeiTmp.getId();
+			UserEquipDao.insert(dbUe);
 		}
 		log.info("属性锁定状态码 :tongli {}, mouli {}, wuli {}", req.getLockTongli(),
 				req.getLockMouli(), req.getLockWuli());
@@ -780,7 +782,7 @@ public class UserEquipAction  extends EventProc {
 		//以上1.1版本改变洗练逻辑
 
 		if (dbUe.equipId == 0) {
-			HibernateUtil.insert(dbUe);
+			UserEquipDao.insert(dbUe);
 			MC.add(dbUe, dbUe.getIdentifier());
 		} else {
 			HibernateUtil.save(dbUe);
@@ -996,7 +998,7 @@ public class UserEquipAction  extends EventProc {
 		}
 		UserEquip dbUe = null;
 		if (targetInstId > 0) {
-			dbUe = HibernateUtil.find(UserEquip.class, targetInstId);
+			dbUe = UserEquipDao.find(junZhu.id, targetInstId);
 			if (dbUe == null) {
 				log.error("已经强化的数据丢失了,equipId;{}", targetInstId);
 				sendError(id, session, "已经强化的数据丢失了,equipId;{}" + targetInstId);
@@ -1006,7 +1008,7 @@ public class UserEquipAction  extends EventProc {
 			dbUe = new UserEquip();
 			dbUe.userId = (int) junZhu.id;
 			dbUe.templateId = zb.getId();
-			HibernateUtil.insert(dbUe);
+			UserEquipDao.insert(dbUe);
 			MC.add(dbUe, dbUe.getIdentifier());
 		}
 //		TimeWorkerMgr.instance.calcOfflineXilian(junZhu.id);
@@ -1173,7 +1175,7 @@ public class UserEquipAction  extends EventProc {
 		XiLianRes.Builder ret = XiLianRes.newBuilder();
 		EquipGrid eg=EquipMgr.inst.findEquip(dbId/100, dbId);
 		long instId=eg.instId;
-		UserEquip dbUe = HibernateUtil.find(UserEquip.class, instId);
+		UserEquip dbUe = UserEquipDao.find(eg.dbId/EquipMgr.spaceFactor, instId);
 		if(dbUe==null){
 			return ret;
 		}
@@ -1422,7 +1424,7 @@ public class UserEquipAction  extends EventProc {
 
 		UserEquip dbUe = null;
 		if (targetInstId > 0) {
-			dbUe = HibernateUtil.find(UserEquip.class, targetInstId);
+			dbUe = UserEquipDao.find(junZhu.id, targetInstId);
 			if (dbUe == null) {
 				log.error("已经强化的数据丢失了,equipId;{}", targetInstId);
 				sendError(cmd, session, "已经强化的数据丢失了,equipId;{}" + targetInstId);
@@ -1432,7 +1434,7 @@ public class UserEquipAction  extends EventProc {
 			dbUe = new UserEquip();
 			dbUe.userId = (int) junZhu.id;
 			dbUe.templateId = zhuangBeiTmp.getId();
-			HibernateUtil.insert(dbUe);
+			UserEquipDao.insert(dbUe);
 			MC.add(dbUe, dbUe.getIdentifier());
 		}
 
@@ -1503,7 +1505,7 @@ public class UserEquipAction  extends EventProc {
 
 		log.info("{}将装备{}成功进阶为{}", junZhu.id, target.itemId, jinJieZb.getId());
 		EventMgr.addEvent(junZhu.id,ED.GAIN_ITEM, new Object[]{junZhu.id, jinJieZb.getId()});
-		ActLog.log.EquipLvup(junZhu.id, junZhu.name, ActLog.vopenid, jinJieZb.getId(), jinJieZb.getName(), target.itemId, zhuangBeiTmp.getName(), 
+		ActLog.log.EquipLvup(junZhu.id, junZhu.name, jinJieZb.getId(), jinJieZb.getName(), target.itemId, zhuangBeiTmp.getName(), 
 				jinJieItemId + "", jinJieNum);
 
 		// 发送进阶后的装备信息
@@ -1775,14 +1777,15 @@ public class UserEquipAction  extends EventProc {
 	public UserEquip getUserEquipInfo( EquipGrid equip , long junZhuId){
 		UserEquip res = null ;
 		if(equip.instId > 0){
-			res = HibernateUtil.find(UserEquip.class, equip.instId) ;
+			res = UserEquipDao.find(junZhuId, equip.instId);
 		}
 		//不安全，equip.instId大于0却无法找到装备强化信息时，会导致玩家装备强化信息丢失
 		if(res == null ){
 			res = new UserEquip();
 			res.userId = junZhuId;
 			res.templateId = equip.itemId;
-			HibernateUtil.insert(res);
+			UserEquipDao.insert(res);
+			MC.add(res, res.getIdentifier());
 			equip.instId = res.equipId;
 		}
 		return res ;
@@ -1807,7 +1810,7 @@ public class UserEquipAction  extends EventProc {
 		}
 		Bag<EquipGrid> equipBag = EquipMgr.inst.loadEquips(jzId);
 		Bag<BagGrid> bag = BagMgr.inst.loadBag(junZhu.id);
-		List<UserEquip> ueList = HibernateUtil.list(UserEquip.class,"where userId = "+ jzId);
+		List<UserEquip> ueList = UserEquipDao.list(jzId);
 		Map<Long , UserEquip> ueMap = new HashMap<Long , UserEquip>();
 		for(UserEquip ue : ueList){
 			if(ue == null )continue;
@@ -1846,7 +1849,9 @@ public class UserEquipAction  extends EventProc {
 		}
 		UserEquip ue = ueMap.get(target.instId);
 		int hasExp = ue == null ? 0 : ue.JinJieExp ;
-		for(BagGrid bg : bag.grids){
+		int len = bag.grids.size();
+		for(int i=0; i<len; i++){
+			BagGrid bg = bag.grids.get(i);
 			if(bg == null)continue;
 			BaseItem bi = TempletService.itemMap.get(bg.itemId);
 			if(bi == null)continue;
@@ -1923,7 +1928,7 @@ public class UserEquipAction  extends EventProc {
 	 */
 	public boolean isXiMan4All(long jzId ) {
 		Bag<EquipGrid> equips = EquipMgr.inst.loadEquips(jzId);
-		List<UserEquip> ueList = HibernateUtil.list(UserEquip.class, "where userId = " + jzId );
+		List<UserEquip> ueList = UserEquipDao.list(jzId);
 		Map<Long ,UserEquip > ueMap = ueList.stream().collect(Collectors.toMap(ue ->ue.equipId, ue->ue));
 		for (EquipGrid eg : equips.grids) {
 			if(eg== null ||eg.instId<=0){

@@ -45,6 +45,7 @@ import com.qx.huangye.BuZhenHYPve;
 import com.qx.huangye.BuZhenHYPvp;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.junzhu.JzKeji;
 import com.qx.mibao.MiBaoSkillDB;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.Cache;
@@ -663,8 +664,7 @@ public class PveGuanQiaMgr {
 		SaoDangBean sd = HibernateUtil.find(SaoDangBean.class, junzhu.id);
 		boolean first = false;
 		if (sd == null) {
-			sd = new SaoDangBean();
-			sd.jzId = junzhu.id;
+			sd = insertSaoDangBean(junzhu.id);
 			first = true;
 		}
 		Date today = new Date();
@@ -872,6 +872,9 @@ public class PveGuanQiaMgr {
 		ret.setTili(conf.useHp);
 		long junZhuId = jz.id;
 		BuZhenMibaoBean mibaoBean = HibernateUtil.find(BuZhenMibaoBean.class, junZhuId);
+		if (mibaoBean == null) {
+			mibaoBean = insertBuZhenMibaoBean(jz);
+		}
 		int zuheId = mibaoBean == null ? -1 : mibaoBean.zuheId;
 		ret.setZuheId(zuheId);
 		// FIXME 0.97不需要了，但先留着
@@ -885,7 +888,7 @@ public class PveGuanQiaMgr {
 		}
 		SaoDangBean sd = HibernateUtil.find(SaoDangBean.class, jz.id);
 		if (sd == null) {
-			sd = new SaoDangBean();
+			sd = insertSaoDangBean(jz.id);
 		}
 		Purchase purchaseCfg = PurchaseMgr.inst.getPurchaseCfg(PurchaseConstants.CHUANQI_REST, r.cqResetTimes + 1);
 		if (purchaseCfg == null) {
@@ -929,6 +932,15 @@ public class PveGuanQiaMgr {
 		lb.setAcheiveRewardState(r.achieveRewardState);
 		session.write(ret.build());
 		log.info("{} 关卡id {} 类型 {} 消耗体力 {}", jz.id, guanQiaId, req.getType(), conf.useHp);
+	}
+
+	public SaoDangBean insertSaoDangBean(long junzhuId) {
+		SaoDangBean sd = new SaoDangBean();
+		sd.jzId = junzhuId;
+		sd.saoDangResetTime = new Date();
+		HibernateUtil.insert(sd);
+		Cache.saoDangCache.put(junzhuId, sd);
+		return sd;
 	}
 
 	/**
@@ -1055,8 +1067,7 @@ public class PveGuanQiaMgr {
 	public void saveMibao4YouXia(int battleType, long junzhuId, int zuheId) {
 		BuZhenYouXia buzhen = HibernateUtil.find(BuZhenYouXia.class, junzhuId);
 		if (buzhen == null) {
-			buzhen = new BuZhenYouXia();
-			buzhen.junzhuId = junzhuId;
+			buzhen = insertBuZhenYouXia(junzhuId);
 		}
 		switch (battleType) {
 		case 8:
@@ -1081,11 +1092,23 @@ public class PveGuanQiaMgr {
 		HibernateUtil.save(buzhen);
 	}
 
+	public BuZhenYouXia insertBuZhenYouXia(long junzhuId) {
+		BuZhenYouXia buzhen = new BuZhenYouXia();
+		buzhen.junzhuId = junzhuId;
+		buzhen.caiLiaoZuheId = -1;
+		buzhen.jinBiZuheId = -1;
+		buzhen.jingQiZuheId = -1;
+		buzhen.type4 = -1;
+		buzhen.type5 = -1;
+		HibernateUtil.insert(buzhen);
+		Cache.buZhenYouXiaCache.put(junzhuId, buzhen);
+		return buzhen;
+	}
+
 	public void saveMibao4HYPve(IoSession session, List<Long> mibaoIds, long junzhuId, int zuheId) {
 		BuZhenHYPve buzhenHYpve = HibernateUtil.find(BuZhenHYPve.class, junzhuId);
 		if (buzhenHYpve == null) {
-			buzhenHYpve = new BuZhenHYPve();
-			buzhenHYpve.junzhuId = junzhuId;
+			buzhenHYpve = insertBuZhenHYPve(junzhuId);
 		}
 		buzhenHYpve.zuheId = zuheId;
 		HibernateUtil.save(buzhenHYpve);
@@ -1093,15 +1116,30 @@ public class PveGuanQiaMgr {
 
 	}
 
+	public BuZhenHYPve insertBuZhenHYPve(long junzhuId) {
+		BuZhenHYPve buzhenHYpve;
+		buzhenHYpve = new BuZhenHYPve();
+		buzhenHYpve.junzhuId = junzhuId;
+		Cache.buZhenHYPve.put(junzhuId, buzhenHYpve);
+		return buzhenHYpve;
+	}
+
 	public void saveMibao4HYPvp(IoSession session, List<Long> mibaoIds, long junzhuId, int zuheId) {
 		BuZhenHYPvp buzhenHYpvp = HibernateUtil.find(BuZhenHYPvp.class, junzhuId);
 		if (buzhenHYpvp == null) {
-			buzhenHYpvp = new BuZhenHYPvp();
-			buzhenHYpvp.junzhuId = junzhuId;
+			buzhenHYpvp = insetBuZhenHYPvp(junzhuId);
 		}
 		buzhenHYpvp.zuheId = zuheId;
 		HibernateUtil.save(buzhenHYpvp);
 		log.info("君主id:{}设置了荒野资源点秘宝选择", junzhuId);
+	}
+
+	public BuZhenHYPvp insetBuZhenHYPvp(long junzhuId) {
+		BuZhenHYPvp buzhenHYpvp;
+		buzhenHYpvp = new BuZhenHYPvp();
+		buzhenHYpvp.junzhuId = junzhuId;
+		Cache.buZhenHYPvp.put(junzhuId, buzhenHYpvp);
+		return buzhenHYpvp;
 	}
 
 	public void sendMibaoSelectResp(int result, int type, IoSession session, int zuheId) {
@@ -1116,17 +1154,23 @@ public class PveGuanQiaMgr {
 		session.setAttribute(SessionAttKey.buZhenMibaoIds, list);
 		BuZhenMibaoBean bean = HibernateUtil.find(BuZhenMibaoBean.class, jz.id);
 		if (bean == null) {
-			bean = new BuZhenMibaoBean();
-			bean.id = jz.id;
-			MemcachedCRUD.getMemCachedClient().set(BuZhenMibaoBean.class.getSimpleName() + "#" + jz.id, bean);
-			Cache.buZhenMiBaoCache.put(jz.id, bean);
-			HibernateUtil.insert(bean);
+			bean = insertBuZhenMibaoBean(jz);
 		}
 		bean.zuheId = zuheId;
 		HibernateUtil.save(bean);
 		log.info("设置布阵秘宝信息{}", list);
 		// 刷新PVE战力数据
 		JunZhuMgr.inst.sendPveMibaoZhanli_2(jz, session, bean);
+	}
+
+	public BuZhenMibaoBean insertBuZhenMibaoBean(JunZhu jz) {
+		BuZhenMibaoBean bean = new BuZhenMibaoBean();
+		bean.id = jz.id;
+		bean.zuheId = -1;
+		MemcachedCRUD.getMemCachedClient().set(BuZhenMibaoBean.class.getSimpleName() + "#" + jz.id, bean);
+		Cache.buZhenMiBaoCache.put(jz.id, bean);
+		HibernateUtil.insert(bean);
+		return bean;
 	}
 
 	public void sendYuanJunList(int id, Builder builder, IoSession session) {

@@ -16,7 +16,6 @@ import com.manu.dynasty.boot.GameServer;
  *
  */
 public class ActLog {
-	public static String vopenid = "0";
 	public static int Reason = 0;
 	public static ActLog log = new ActLog();
 	public SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -56,12 +55,12 @@ public class ActLog {
 	//<!--//////////////////////////////////////////////
 /////////君主改名日志///////////////////////////////
 ///////////////////////////////////////////////////-->
-public void KingChange(long RoleId, String oldName, String newName, String vopenid){
+public void KingChange(long RoleId, String oldName, String newName){
 //<struct  name="KingChange"  version="1" desc="(必填)君主升级日志">
 	KingChange.info("{},{},{},{},{},{},{}"
 	//KingChange.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"         type="string"		size="25"							desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+,String.valueOf(RoleId)//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
 ,RoleId//3<entry  name="RoleId"			type="int"								desc="(必填) 角色id" />
 ,oldName//4<entry  name="oldName"			type="string"		size="64"						desc="(必填) 旧名称" />
 ,newName//5<entry  name="newName"			type="string"		size="64"						desc="(必填)新名称" />
@@ -72,12 +71,12 @@ public void KingChange(long RoleId, String oldName, String newName, String vopen
 //<!--//////////////////////////////////////////////
 /////////君主升级日志///////////////////////////////
 ///////////////////////////////////////////////////-->
-public void KingLvup(long RoleId, String RoleName, String vopenid, int Level, long Exp){
+public void KingLvup(long RoleId, String RoleName, int Level, long Exp){
 	//<struct  name="KingLvup"  version="1" desc="(必填)君主升级日志">
 	KingLvup.info("{},{},{},{},{},{},{},{}"
 	//KingLvup.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 	,GameSvrId//1<entry  name="GameSvrId"         type="string"		size="25"							desc="(必填)登录的游戏服务器编号" />
-	,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	,String.valueOf(RoleId)//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
 	,RoleId//3<entry  name="RoleId"			type="int"								desc="(必填) 角色id" />
 	,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
 	,Level//5<entry  name="Level"			type="string"		size="64"						desc="(必填)角色升级后等级" />
@@ -90,12 +89,12 @@ public void KingLvup(long RoleId, String RoleName, String vopenid, int Level, lo
 //<!--//////////////////////////////////////////////
 /////////经验获得日志///////////////////////////////
 ///////////////////////////////////////////////////-->
-public void GetExp(long RoleId, String RoleName, String vopenid, int Reason, int Num, long CurNum){
+public void GetExp(long RoleId, String RoleName, int Reason, int Num, long CurNum){
 	//<struct  name="GetExp"  version="1" desc="(必填)经验获得日志">
 			GetExp.info("{},{},{},{},{},{},{},{},{}"
 			//GetExp.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 	,GameSvrId//1<entry  name="GameSvrId"         type="string"		size="25"							desc="(必填)登录的游戏服务器编号" />
-	,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	,String.valueOf(RoleId)//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
 	,RoleId//3<entry  name="RoleId"			type="string"		size="64"							desc="(必填) 角色id" />
 	,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
 	,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -114,12 +113,12 @@ public void GetExp(long RoleId, String RoleName, String vopenid, int Reason, int
 //<macro name="bvigour"      value="2" desc="体魄精气"/>
 //</macrosgroup>
 //
-public void KingTalent(long RoleId, String RoleName, String vopenid,int Talentid,String Talents,int Level,int VigourType,int Num){
+public void KingTalent(long RoleId, String RoleName, int Talentid,String Talents,int Level,int VigourType,int Num){
 //</struct>
 KingTalent.info("{},{},{},{},{},{},{},{},{},{},{}"
 //KingTalent.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"         type="string"		size="25"							desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+,RoleId//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
 ,RoleId//3<entry  name="RoleId"			type="string"		size="64"							desc="(必填) 角色id" />
 ,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
 ,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -136,12 +135,12 @@ KingTalent.info("{},{},{},{},{},{},{},{},{},{},{}"
 /////////装备进阶日志///////////////////////////////
 ///////////////////////////////////////////////////-->
 //
-public void EquipLvup(long RoleId, String RoleName, String vopenid,int EquipId,String Equips,int oldEquipId,String oldEquips,String iGoods,int iGoodsnum){
+public void EquipLvup(long RoleId, String RoleName, int EquipId,String Equips,int oldEquipId,String oldEquips,String iGoods,int iGoodsnum){
 //</struct>
 EquipLvup.info("{},{},{},{},{},{},{},{},{},{},{},{}"
 //EquipLvup.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+,String.valueOf(RoleId)//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
 ,RoleId//3<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
 ,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
 ,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -158,13 +157,13 @@ EquipLvup.info("{},{},{},{},{},{},{},{},{},{},{},{}"
 //<!--//////////////////////////////////////////////
 /////////装备强化///////////////////////////////
 ///////////////////////////////////////////////////-->
-public void EquipStrength(long RoleId, String RoleName, String vopenid,int EquipId,String Equips,int BeforeLevel,int EquipLevel,JSONArray Consumes0){
+public void EquipStrength(long RoleId, String RoleName, int EquipId,String Equips,int BeforeLevel,int EquipLevel,JSONArray Consumes0){
 	String Consumes = fixJson(Consumes0);
 //</struct>
 EquipStrength.info("{},{},{},{},{},{},{},{},{},{},{}"
 //EquipStrength.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+,String.valueOf(RoleId)//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
 ,RoleId//3<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
 ,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
 ,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -229,12 +228,12 @@ EquipStrength.info("{},{},{},{},{},{},{},{},{},{},{}"
 	//<!--//////////////////////////////////////////////
 /////////典当物品日志///////////////////////////////
 ///////////////////////////////////////////////////-->
-public void Pawn(long RoleId, String RoleName, String vopenid,int iGoodsid,String iGoods,int Num,int Renum,int Money){
+public void Pawn(long RoleId, String RoleName, int iGoodsid,String iGoods,int Num,int Renum,int Money){
 //</struct>
 	Pawn.info("{},{},{},{},{},{},{},{},{},{},{}"
 	//Pawn.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"         type="string"        size="25"							desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+,RoleId//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
 ,RoleId//3<entry  name="RoleId"			type="string"		size="64"						desc="(必填) 角色id" />
 ,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
 ,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -251,12 +250,12 @@ public void Pawn(long RoleId, String RoleName, String vopenid,int iGoodsid,Strin
 //<!--//////////////////////////////////////////////
 /////////体力日志///////////////////////////////
 ///////////////////////////////////////////////////-->
-public void PhysicalPower(long RoleId, String RoleName, String vopenid,int OldPower,int Num,int Power,String Reason){
+public void PhysicalPower(long RoleId, String RoleName, int OldPower,int Num,int Power,String Reason){
 //</struct>
 PhysicalPower.info("{},{},{},{},{},{},{},{},{},{}"
 //PhysicalPower.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+,String.valueOf(RoleId)//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
 ,RoleId//3<entry  name="RoleId"			type="string"		size="64"				desc="(必填) 角色id" />
 ,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
 ,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -274,19 +273,19 @@ PhysicalPower.info("{},{},{},{},{},{},{},{},{},{}"
 //<macro name="system"       value="1" desc="系统邮件"/>
 //<macro name="player"      value="2" desc="玩家邮件"/>
 //</macrosgroup>
-public void EmailLog(long RoleId, String RoleName, String vopenid,int LogType,
-		String Recopenid,long Recrid,String Recrname,String Title,String Content,JSONArray Attach0){
+public void EmailLog(long RoleId, String RoleName, int LogType,
+		long Recrid,String Recrname,String Title,String Content,JSONArray Attach0){
 	String Attach = fixJson(Attach0);
 //</struct>
 EmailLog.info("{},{},{},{},{},{},{},{},{},{},{},{},{}"
 //EmailLog.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
 ,LogType//2<entry  name="LogType"			type="int"								desc="(必填)log类型 1:系统邮件  2:玩家邮件" />
-,vopenid//3<entry  name="vopenid"			type="string"		size="64"						desc="(必填)发件人 OPENID号" />
+,String.valueOf(RoleId)//3<entry  name="vopenid"			type="string"		size="64"						desc="(必填)发件人 OPENID号" />
 ,RoleId//4<entry  name="RoleId"		type="string"		size="64"			desc="(必填) 发件人 角色id" />
 ,RoleName//5<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 发件人 角色名称" />
 ,ZoneID//6<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
-,Recopenid//7<entry  name="Recopenid"			type="string"		size="64"						desc="(必填)收件人 OPENID号" />
+,String.valueOf(Recrid)//7<entry  name="Recopenid"			type="string"		size="64"						desc="(必填)收件人 OPENID号" />
 ,Recrid//8<entry  name="Recrid"		type="string"		size="64"			desc="(必填) 收件人 角色id" />
 ,Recrname//9<entry  name="Recrname"			type="string"		size="64"						desc="(必填) 收件人 角色名称" />
 ,Title//10<entry  name="Title"			type="string"		size="128"							desc="(必填) 邮件标题" />
@@ -302,12 +301,12 @@ EmailLog.info("{},{},{},{},{},{},{},{},{},{},{},{},{}"
 //<macro name="victory"       value="1" desc="胜利"/>
 //<macro name="lose"       value="2" desc="失败"/>
 //</macrosgroup>
-public void HeroBattle(long RoleId, String RoleName, String vopenid,int GateId,String Gates,int Win,int Num){
+public void HeroBattle(long RoleId, String RoleName,int GateId,String Gates,int Win,int Num){
 //</struct>
 HeroBattle.info("{},{},{},{},{},{},{},{},{},{}"
 //HeroBattle.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+,String.valueOf(RoleId)//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
 ,RoleId//3<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
 ,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
 ,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -325,12 +324,12 @@ HeroBattle.info("{},{},{},{},{},{},{},{},{},{}"
 //<macro name="victory"       value="1" desc="胜利"/>
 //<macro name="lose"       value="2" desc="失败"/>
 //</macrosgroup>
-public void Challenge(long RoleId, String RoleName, String vopenid,String OpposName,long OpposId,int Win,int OldRank,int Rank){
+public void Challenge(long RoleId, String RoleName, String OpposName,long OpposId,int Win,int OldRank,int Rank){
 //</struct>
 Challenge.info("{},{},{},{},{},{},{},{},{},{},{}"
 //Challenge.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+,RoleId//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
 ,RoleId//3<entry  name="RoleId"			type="string"		size="64"				desc="(必填) 角色id" />
 ,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
 ,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -349,12 +348,12 @@ Challenge.info("{},{},{},{},{},{},{},{},{},{},{}"
 //<macro name="copper"       value="1" desc="铜币"/>
 //<macro name="prestige"       value="2" desc="威望"/>
 //</macrosgroup>
-public void ChallengeAward(long RoleId, String RoleName, String vopenid,int AwardType,int Num){
+public void ChallengeAward(long RoleId, String RoleName, int AwardType,int Num){
 //</struct>
 ChallengeAward.info("{},{},{},{},{},{},{},{}"
 //ChallengeAward.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+,RoleId//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
 ,RoleId//3<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
 ,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
 ,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -367,12 +366,12 @@ ChallengeAward.info("{},{},{},{},{},{},{},{}"
 
 /////////百战千军兑换日志///////////////////////////////
 ///////////////////////////////////////////////////-->
-public void ChallengeExchange(long RoleId, String RoleName, String vopenid,int iGoodsid,String iGoods,int Num,int OldPrestige,int Prestige){
+public void ChallengeExchange(long RoleId, String RoleName, int iGoodsid,String iGoods,int Num,int OldPrestige,int Prestige){
 //</struct>
 ChallengeExchange.info("{},{},{},{},{},{},{},{},{},{},{}"
 //ChallengeExchange.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+,RoleId//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
 ,RoleId//3<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
 ,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
 ,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -393,13 +392,13 @@ ChallengeExchange.info("{},{},{},{},{},{},{},{},{},{},{}"
 //<macro name="join "       value="JOIN" desc="加入"/>
 //<macro name="out "       value="OUT" desc="离开"/>
 //</macrosgroup>
-public void Guild(long RoleId, String RoleName, String vopenid,String LogType,int Guildid,String GuildName,int GuildLv,String Reason){
+public void Guild(long RoleId, String RoleName, String LogType,int Guildid,String GuildName,int GuildLv,String Reason){
 //</struct>
 Guild.info("{},{},{},{},{},{},{},{},{},{},{}"
 //Guild.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
 ,LogType//2<entry  name="LogType"			type="string"  size="16"								desc="(必填)日志类型 CREATE：创建; JOIN:加入 OUT:离开" />
-,vopenid//3<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+,String.valueOf(RoleId)//3<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
 ,RoleId//4<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
 ,RoleName//5<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
 ,ZoneID//6<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -414,18 +413,18 @@ Guild.info("{},{},{},{},{},{},{},{},{},{},{}"
 /////////踢出联盟///////////////////////////////
 ///////////////////////////////////////////////////-->
 //
-public void GuildOut(long RoleId, String RoleName, String vopenid,int GuildId,String GuildName,String KickOpenid,long KickrId,String KickrName){
+public void GuildOut(long RoleId, String RoleName, int GuildId,String GuildName,long KickrId,String KickrName){
 	//</struct>
 			GuildOut.info("{},{},{},{},{},{},{},{},{},{},{}"
 			//GuildOut.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 	,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
-	,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+	,String.valueOf(RoleId)//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
 	,RoleId//3<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
 	,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
 	,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
 	,GuildId//6<entry  name="GuildId"			type="int"								desc="(必填) 联盟id" />
 	,GuildName//7<entry  name="GuildName"			type="string"		size="64"				desc="(必填) 联盟名称" />
-	,KickOpenid//8<entry  name="KickOpenid"			type="string"		size="64"						desc="(必填)踢出玩家openid" />
+	,KickrId//8<entry  name="KickOpenid"			type="string"		size="64"						desc="(必填)踢出玩家openid" />
 	,KickrId//9<entry  name="KickrId"			type="string"		size="64"					desc="(必填) 踢出玩家角色id" />
 	,KickrName//10<entry  name="KickrName"			type="string"		size="64"						desc="(必填) 踢出玩家角色名称" />
 	,fmt.format(Calendar.getInstance().getTime())//11<entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
@@ -436,12 +435,12 @@ public void GuildOut(long RoleId, String RoleName, String vopenid,int GuildId,St
 /////////解散联盟///////////////////////////////
 ///////////////////////////////////////////////////-->
 //
-public void GuildBreak(long RoleId, String RoleName, String vopenid,int GuildId,String GuildName,int GuildLv,int GuildExp,int GuildBuild){
+public void GuildBreak(long RoleId, String RoleName, int GuildId,String GuildName,int GuildLv,int GuildExp,int GuildBuild){
 //</struct>
 GuildBreak.info("{},{},{},{},{},{},{},{},{},{},{}"
 //GuildBreak.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
+,String.valueOf(RoleId)//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)用户OPENID号" />
 ,RoleId//3<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
 ,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 角色名称" />
 ,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -459,18 +458,18 @@ GuildBreak.info("{},{},{},{},{},{},{},{},{},{},{}"
 /////////转让联盟///////////////////////////////
 ///////////////////////////////////////////////////-->
 //
-public void GuildTransfer(long RoleId, String RoleName, String vopenid,int GuildId,String GuildName,String oldOpenid,long oldRid,String oldRname){
+public void GuildTransfer(long RoleId, String RoleName, int GuildId,String GuildName,long oldRid,String oldRname){
 //</struct>
 GuildTransfer.info("{},{},{},{},{},{},{},{},{},{},{}"
 //GuildTransfer.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)盟主 OPENID" />
+,RoleId//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)盟主 OPENID" />
 ,RoleId//3<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 盟主角色id" />
 ,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填) 盟主角色名称" />
 ,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
 ,GuildId//6<entry  name="GuildId"			type="int"								desc="(必填) 联盟id" />
 ,GuildName//7<entry  name="GuildName"			type="string"		size="64"				desc="(必填) 联盟名称" />
-,oldOpenid//8<entry  name="oldOpenid"			type="string"		size="64"						desc="(必填)原盟主 OPENID" />
+,oldRid//8<entry  name="oldOpenid"			type="string"		size="64"						desc="(必填)原盟主 OPENID" />
 ,oldRid//9<entry  name="oldRid"			type="string"		size="64"					desc="(必填) 原盟主角色id" />
 ,oldRname//10<entry  name="oldRname"			type="string"		size="64"						desc="(必填) 原盟主角色名称" />
 ,fmt.format(Calendar.getInstance().getTime())//11<entry  name="dtEventTime"        type="datetime"										desc="(必填)游戏事件的时间, 格式 YYYY-MM-DD HH:MM:SS" />
@@ -481,12 +480,12 @@ GuildTransfer.info("{},{},{},{},{},{},{},{},{},{},{}"
 /////////联盟捐献///////////////////////////////
 ///////////////////////////////////////////////////-->
 //
-public void GuildDonate(long RoleId, String RoleName, String vopenid,int GuildId,String GuildName,int Tigernum,int Contribute){
+public void GuildDonate(long RoleId, String RoleName, int GuildId,String GuildName,int Tigernum,int Contribute){
 //</struct>
 GuildDonate.info("{},{},{},{},{},{},{},{},{},{}"
 //GuildDonate.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)OPENID" />
+,String.valueOf(RoleId)//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)OPENID" />
 ,RoleId//3<entry  name="RoleId"			type="string"		size="64"					desc="(必填) 角色id" />
 ,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填)角色名称" />
 ,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -507,14 +506,14 @@ GuildDonate.info("{},{},{},{},{},{},{},{},{},{}"
 //<macro name="bow "       value="3" desc="顶礼"/>
 //</macrosgroup>
 //
-public void Worship(long RoleId, String RoleName, String vopenid,String wsType,JSONArray Consumes0){
+public void Worship(long RoleId, String RoleName, String wsType,JSONArray Consumes0){
 	String Consumes = fixJson(Consumes0);
 //</struct>
 Worship.info("{},{},{},{},{},{},{},{}"
 //Worship.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
 ,wsType//2<entry  name="wsType"          type="string"		  size="25"					desc="(必填)膜拜方式" />
-,vopenid//3<entry  name="vopenid"			type="string"		size="64"						desc="(必填) OPENID" />
+,String.valueOf(RoleId)//3<entry  name="vopenid"			type="string"		size="64"						desc="(必填) OPENID" />
 ,RoleId//4<entry  name="RoleId"			type="string"		size="64"					desc="(必填)角色id" />
 ,RoleName//5<entry  name="RoleName"			type="string"		size="64"						desc="(必填)角色名称" />
 ,ZoneID//6<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -526,12 +525,12 @@ Worship.info("{},{},{},{},{},{},{},{}"
 //<!--//////////////////////////////////////////////
 /////////每日任务日志///////////////////////////////
 ///////////////////////////////////////////////////-->
-public void DailyTask(long RoleId, String RoleName, String vopenid,String Task,int Taskid){
+public void DailyTask(long RoleId, String RoleName, String Task,int Taskid){
 //</struct>
 DailyTask.info("{},{},{},{},{},{},{},{}"
 //DailyTask.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填) OPENID" />
+,String.valueOf(RoleId)//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填) OPENID" />
 ,RoleId//3<entry  name="RoleId"			type="string"		size="64"					desc="(必填)角色id" />
 ,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填)角色名称" />
 ,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -548,12 +547,12 @@ DailyTask.info("{},{},{},{},{},{},{},{}"
 //<macro name="victory"       value="1" desc="胜利"/>
 //<macro name="lose"       value="2" desc="失败"/>
 //</macrosgroup>
-public void LootRich(long RoleId, String RoleName, String vopenid,String Gates,int GateId,int Win,int Count,int Copper){
+public void LootRich(long RoleId, String RoleName, String Gates,int GateId,int Win,int Count,int Copper){
 //</struct>
 LootRich.info("{},{},{},{},{},{},{},{},{},{},{}"
 //LootRich.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填) OPENID" />
+,RoleId//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填) OPENID" />
 ,RoleId//3<entry  name="RoleId"			type="string"		size="64"					desc="(必填)角色id" />
 ,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填)角色名称" />
 ,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -577,12 +576,12 @@ LootRich.info("{},{},{},{},{},{},{},{},{},{},{}"
 //<macro name="crys"       value="1" desc="陨铁仙晶"/>
 //<macro name="spirit"       value="2" desc="陨铁真元"/>
 //</macrosgroup>
-public void KillRobber(long RoleId, String RoleName, String vopenid,String Gates,int Gateid,int Win,int Count,int Awardtype,int Num){
+public void KillRobber(long RoleId, String RoleName, String Gates,int Gateid,int Win,int Count,int Awardtype,int Num){
 //</struct>
 KillRobber.info("{},{},{},{},{},{},{},{},{},{},{},{}"
 //KillRobber.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填) OPENID" />
+,RoleId//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填) OPENID" />
 ,RoleId//3<entry  name="RoleId"			type="string"		size="64"					desc="(必填)角色id" />
 ,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填)角色名称" />
 ,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -607,12 +606,12 @@ KillRobber.info("{},{},{},{},{},{},{},{},{},{},{},{}"
 //<macro name="svigour"       value="1" desc="武艺精气"/>
 //<macro name="bvigour"      value="2" desc="体魄精气"/>
 //</macrosgroup>
-public void KillRebelArmy(long RoleId, String RoleName, String vopenid,String Gates,int GateId,int Win,int Count,int AwardType,int Num){
+public void KillRebelArmy(long RoleId, String RoleName, String Gates,int GateId,int Win,int Count,int AwardType,int Num){
 //</struct>
 KillRebelArmy.info("{},{},{},{},{},{},{},{},{},{},{},{}"
 //KillRebelArmy.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填) OPENID" />
+,RoleId//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填) OPENID" />
 ,RoleId//3<entry  name="RoleId"			type="string"		size="64"					desc="(必填)角色id" />
 ,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填)角色名称" />
 ,ZoneID//5<entry  name="ZoneID"			type="int"						defaultvalue="0"	desc="(必填)针对分区分服的游戏填写分区id，用来唯一标示一个区；非分区分服游戏请填写0"/>
@@ -648,15 +647,15 @@ ConveyDart.info("{},{},{},{},{},{},{},{},{}"
 //<!--//////////////////////////////////////////////
 /////////劫镖日志//////////////////////////////
 ///////////////////////////////////////////////////-->
-public void LootDart(long RoleId, String RoleName, String vopenid,String RobedOpenid,long RobedRid,String Robedrname,int Copper,int Count){
+public void LootDart(long RoleId, String RoleName, long RobedRid,String Robedrname,int Copper,int Count){
 //</struct>
 LootDart.info("{},{},{},{},{},{},{},{},{},{},{}"
 //LootDart.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
-,vopenid//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)劫镖君主 OPENID" />
+,String.valueOf(RoleId)//2<entry  name="vopenid"			type="string"		size="64"						desc="(必填)劫镖君主 OPENID" />
 ,RoleId//3<entry  name="RoleId"			type="string"		size="64"					desc="(必填)劫镖君主id" />
 ,RoleName//4<entry  name="RoleName"			type="string"		size="64"						desc="(必填)劫镖君主名称" />
-,RobedOpenid//5<entry  name="RobedOpenid"			type="string"		size="64"						desc="(必填)被劫镖君主 OPENID" />
+,String.valueOf(RobedRid)//5<entry  name="RobedOpenid"			type="string"		size="64"						desc="(必填)被劫镖君主 OPENID" />
 ,RobedRid//6<entry  name="RobedRid"			type="string"		size="64"					desc="(必填)被劫镖君主id" />
 ,Robedrname//7<entry  name="Robedrname"			type="string"		size="64"						desc="(必填)被劫镖君主名称" />
 ,Copper//8<entry  name="Copper"			type="int"								desc="(必填) 收益 铜币数量" />
@@ -668,13 +667,13 @@ LootDart.info("{},{},{},{},{},{},{},{},{},{},{}"
 
 /////////探宝日志//////////////////////////////
 ///////////////////////////////////////////////////-->
-public void FineGem(long RoleId, String RoleName, String vopenid,int SeekType,int iGoodsid,String iGoods,int Num,String DeliGoods,int DelNum){
+public void FineGem(long RoleId, String RoleName, int SeekType,int iGoodsid,String iGoods,int Num,String DeliGoods,int DelNum){
 //</struct>
 FineGem.info("{},{},{},{},{},{},{},{},{},{},{},{}"
 //FineGem.info{1,{2,{3,{4,{5,{6,{7,{8,{9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 ,GameSvrId//1<entry  name="GameSvrId"          type="string"		  size="25"					desc="(必填)登录的游戏服务器编号" />
 ,SeekType//2<entry  name="SeekType"			type="int"							desc="(必填) 探宝方式" />
-,vopenid//3<entry  name="vopenid"			type="string"		size="64"						desc="(必填)君主 OPENID" />
+,String.valueOf(RoleId)//3<entry  name="vopenid"			type="string"		size="64"						desc="(必填)君主 OPENID" />
 ,RoleId//4<entry  name="RoleId"			type="string"		size="64"					desc="(必填)君主id" />
 ,RoleName//5<entry  name="RoleName"			type="string"		size="64"						desc="(必填)君主名称" />
 ,iGoodsid//6<entry  name="iGoodsid"			type="int"								desc="(必填) 获得 物品id" />

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.collections.map.LRUMap;
 import org.apache.mina.core.session.IoSession;
@@ -31,6 +32,7 @@ import com.manu.network.msg.ProtobufMsg;
 import com.qx.award.AwardMgr;
 import com.qx.award.DailyAwardMgr;
 import com.qx.equip.domain.UserEquip;
+import com.qx.equip.domain.UserEquipDao;
 import com.qx.equip.jewel.JewelMgr;
 import com.qx.equip.web.UEConstant;
 import com.qx.equip.web.UserEquipAction;
@@ -71,7 +73,8 @@ public class BagMgr {
 		inst = this;
 	}
 	public static boolean useCache = true;
-	public static Map<Long, Bag<BagGrid>> bagCache = Collections.synchronizedMap(new LRUMap(1000));
+	public static Map<Long, Bag<BagGrid>> bagCache = Collections.synchronizedMap(new LRUMap(5000));
+	public static ConcurrentHashMap<Long, Object> loadLock = new ConcurrentHashMap<>();
 	public Bag<BagGrid> loadBag(long pid){
 		if(useCache){
 			Bag<BagGrid> cache = bagCache.get(pid);
@@ -80,9 +83,21 @@ public class BagMgr {
 				return cache;
 			}
 		}
-		Bag<BagGrid> ret = loadBagNoCache(pid);
-		if(useCache){
-			bagCache.put(pid, ret);
+		Object lock = new Object();
+		Object preLock = loadLock.putIfAbsent(pid, lock);
+		if(preLock != null){
+			lock = preLock;
+		}
+		Bag<BagGrid> ret;
+		synchronized (lock) {
+			ret = bagCache.get(pid);
+			if(ret == null){
+				ret = loadBagNoCache(pid);
+			}
+			if(useCache){
+				bagCache.put(pid, ret);
+			}
+//			loadLock.remove(pid);
 		}
 		return ret;
 	}
@@ -93,16 +108,7 @@ public class BagMgr {
 		Object mcO = MemcachedCRUD.getMemCachedClient().get(bagCntKey);
 		List<BagGrid> list = null;
 		if(mcO == null){ 
-			//MC中没有bag信息
-			list = HibernateUtil.list(BagGrid.class, "where dbId >= "+start+" and dbId<="+end);
-			long max = 0;
-			for(BagGrid bg : list){
-				max = Math.max(max, bg.dbId);
-				boolean ret = MC.add(bg, bg.dbId);
-				//log.info("add ret {}", ret);
-			}
-			Integer bagCnt = max==0 ? 0 : (int)((max-start)+1);//从0开始的，所以加1.
-			MC.addKeyValue(bagCntKey, bagCnt);
+			list = loadFromDB(bagCntKey,start,end);
 		}else{
 			Integer bagCnt = Integer.valueOf(mcO.toString());
 			list = new ArrayList<BagGrid>(bagCnt);
@@ -112,11 +118,17 @@ public class BagMgr {
 					keys[i] = "BagGrid#"+(start+i);
 				}
 				Object[] mcArr = MemcachedCRUD.getMemCachedClient().getMultiArray(keys);
+				boolean anyMiss = false;
 				for(Object o : mcArr){
 					if(o==null){
-						continue;
+						anyMiss = true;
+						break;
 					}
 					list.add((BagGrid)o);
+				}
+				if(anyMiss){
+					list.clear();
+					list = loadFromDB(bagCntKey, start, end);
 				}
 			}
 		}
@@ -126,6 +138,19 @@ public class BagMgr {
 		return bag;
 	}
 	
+	public List<BagGrid> loadFromDB(String bagCntKey, long start, long end) {
+		//MC中没有bag信息
+		List<BagGrid> list = HibernateUtil.list(BagGrid.class, "where dbId >= "+start+" and dbId<="+end);
+		long max = 0;
+		for(BagGrid bg : list){
+			max = Math.max(max, bg.dbId);
+			boolean ret = MC.add(bg, bg.dbId);
+			//log.info("add ret {}", ret);
+		}
+		Integer bagCnt = max==0 ? 0 : (int)((max-start)+1);//从0开始的，所以加1.
+		MC.addKeyValue(bagCntKey, bagCnt);
+		return list;
+	}
 	/**
 	 * 获取玩家背包某物品的总数量
 	 * 
@@ -288,7 +313,7 @@ public class BagMgr {
 				MC.add(bg, bg.dbId);
 				HibernateUtil.insert(bg);
 				sendBagChangeInfo(session, bg, cnt);
-				log.info("插入背包 dbId:{}, itemId{}, cnt{}", bg.dbId, bg.itemId, bg.cnt);
+				log.info("插入背包 dbId:{}, itemId{}, cnt{}, bagHash{}", bg.dbId, bg.itemId, bg.cnt,bag.hashCode());
 				String bagCntKey = "BagCnt#"+bag.ownerId;
 				//Object mcO = MemcachedCRUD.getMemCachedClient().get(bagCntKey);
 				MemcachedCRUD.getMemCachedClient().set(bagCntKey, Long.valueOf(slot-start).intValue()+1);
@@ -315,7 +340,7 @@ public class BagMgr {
 			EventMgr.addEvent(jz.id,ED.FUSHI_PUSH, jz);
 		}
 		//添加宝石镶嵌推送检测 2016-05-19
-		if(bi.getType() == JewelMgr.Jewel_Type_Id){
+		if(bi.getType() == JewelMgr.Jewel_Type_Id && !"玩家卸下宝石".equals(reason)){
 			JunZhu jz = HibernateUtil.find(JunZhu.class, bag.ownerId);
 			EventMgr.addEvent(jz.id,ED.get_BaoShi, jz);
 		}
@@ -401,7 +426,7 @@ public class BagMgr {
 					item.setMouLi(zb.getMouli());
 					UserEquip ue=null;
 					if(gd.instId>0){
-						ue = HibernateUtil.find(UserEquip.class, gd.instId);
+						ue = UserEquipDao.find(gd.dbId/spaceFactor, gd.instId);
 						item.setQiangHuaLv(ue == null ? 0 : ue.level);
 						item.setJinJieExp(ue == null ? 0 :ue.JinJieExp);
 					}else{
@@ -474,7 +499,7 @@ public class BagMgr {
 					item.setTongShuai(zb.getTongli());
 					item.setWuYi(zb.getWuli());
 					item.setMouLi(zb.getMouli());
-					UserEquip ue = gd.instId > 0 ? HibernateUtil.find(UserEquip.class, gd.instId) : null;
+					UserEquip ue = gd.instId > 0 ? UserEquipDao.find(gd.dbId/EquipMgr.spaceFactor, gd.instId) : null;
 					fillEquipAtt(item, zb,ue);//先把基础值放上，强化、洗练的值后面再加
 					if(gd.instId>0){
 						item.setQiangHuaLv(ue == null ? 0 : ue.level);
@@ -605,7 +630,7 @@ public class BagMgr {
 						item.setTongShuai(zb.getTongli());
 						item.setWuYi(zb.getWuli());
 						item.setMouLi(zb.getMouli());
-						UserEquip ue = gd.instId>0 ? HibernateUtil.find(UserEquip.class, gd.instId) : null;
+						UserEquip ue = gd.instId>0 ? UserEquipDao.find(gd.dbId/EquipMgr.spaceFactor, gd.instId) : null;
 						fillEquipAtt(item, zb,ue);//先把基础值放上，强化、洗练的值后面再加
 						if(gd.instId>0){
 							item.setQiangHuaLv(ue == null ? 0 : ue.level);
@@ -839,7 +864,7 @@ public class BagMgr {
 					grid.cnt = 0;
 					grid.instId = 0;
 				}
-				HibernateUtil.save(grid);
+				HibernateUtil.update(grid);
 				log.info("从{}移除物品{}x{} 原因[{}]", bag.ownerId,grid.itemId,subNum,reason);
 				int SubReason=0;
 				OurLog.log.ItemFlow(jzLevel, grid.type, grid.itemId, subNum, grid.cnt, Reason, SubReason, 0, 0, 1,
@@ -1051,5 +1076,11 @@ public class BagMgr {
 //			log.info("从{}移除物品，推送背包信息给玩家", bag.ownerId);
 //			BagMgr.inst.sendBagInfo(su.session, bag);
 //		}
+	}
+	public void addCache(long id) {
+		Bag<BagGrid> bag = new Bag<BagGrid>();
+		bag.ownerId = id;
+		bag.grids = new ArrayList<>();		
+		bagCache.putIfAbsent(id, bag);
 	}
 }

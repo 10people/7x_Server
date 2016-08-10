@@ -5,11 +5,14 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 @Entity
-@Table(name = "YouXiaBean")
-public class YouXiaBean {
+@Table(name = "YouXiaBean",indexes={@Index(name="junzhuId",columnList="junzhuId")})
+public class YouXiaBean implements DBHash {
 	@Id
 	public long id;
 	public long junzhuId;
@@ -42,5 +45,9 @@ public class YouXiaBean {
 	 */
 	public int allWinTimes;
 	public int allBattleTimes;
+	@Override
+	public long hash() {
+		return junzhuId;
+	}
 	
 }

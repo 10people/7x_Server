@@ -4,16 +4,11 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import qxmobile.protobuf.AllianceProtos.GiveUpVoteResp;
-import qxmobile.protobuf.AllianceProtos.MengZhuApplyResp;
-import qxmobile.protobuf.AllianceProtos.MengZhuVote;
-import qxmobile.protobuf.AllianceProtos.MengZhuVoteResp;
-import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.template.Mail;
@@ -22,6 +17,12 @@ import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
 import com.qx.pvp.LveDuoMgr;
+
+import qxmobile.protobuf.AllianceProtos.GiveUpVoteResp;
+import qxmobile.protobuf.AllianceProtos.MengZhuApplyResp;
+import qxmobile.protobuf.AllianceProtos.MengZhuVote;
+import qxmobile.protobuf.AllianceProtos.MengZhuVoteResp;
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 
 public class AllianceVoteMgr {
 	public Logger logger = LoggerFactory.getLogger(AllianceMgr.class);
@@ -247,7 +248,7 @@ public class AllianceVoteMgr {
 		}
 		alncBean.status = AllianceConstants.STATUS_NORMAL;
 		HibernateUtil.save(alncBean);
-		List<AlliancePlayer> members = AllianceMgr.inst.getAllianceMembers(alncBean.id);
+		Set<AlliancePlayer> members = AllianceMgr.inst.getAllianceMembers(alncBean.id);
 		for(AlliancePlayer member : members) {
 			member.isVoteDialog = AllianceConstants.VOTE_DIALOG;
 			member.isBaoming = AllianceConstants.BAOMING_FALSE;

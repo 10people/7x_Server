@@ -12,9 +12,9 @@ import com.sun.org.apache.commons.collections.LRUMap;
 
 public class YaBiaoDao {
 	public static YaBiaoDao inst = new YaBiaoDao();
-	public static Map<Long, Map<Long, YaBiaoJunQing>> junQingCache = Collections.synchronizedMap(new LRUMap(5000));
+	public static Map<Integer, Map<Long, YaBiaoJunQing>> junQingCache = Collections.synchronizedMap(new LRUMap(5000));
 
-	public Map<Long, YaBiaoJunQing> getJunQingMap(long pid) {
+	public Map<Long, YaBiaoJunQing> getJunQingMap(int pid) {
 		Map<Long, YaBiaoJunQing> ret = junQingCache.get(pid);
 		if (ret != null) {
 			return ret;
@@ -31,11 +31,14 @@ public class YaBiaoDao {
 
 	public void saveYaBiaoJunQing(YaBiaoJunQing yaBiaoJunQing) {
 		Map<Long, YaBiaoJunQing> ret = junQingCache.get(yaBiaoJunQing.lmId);
+		if(ret == null){
+			ret = Collections.synchronizedMap(new LinkedHashMap<Long, YaBiaoJunQing>());
+		}
 		ret.put(yaBiaoJunQing.id, yaBiaoJunQing);
 	}
 
 	public void delJunQingByYbJzId(long jzId) {
-		for (Long lmId : junQingCache.keySet()) {
+		for (Integer lmId : junQingCache.keySet()) {
 			Map<Long, YaBiaoJunQing> ret = junQingCache.get(lmId);
 			for (Long dbid : ret.keySet()) {
 				if (ret.get(dbid).ybjzId == jzId) {

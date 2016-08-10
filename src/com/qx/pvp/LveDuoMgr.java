@@ -266,7 +266,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		session.write(resp.build());
 	}
 	public List<JunZhuInfo.Builder> fillJunZhuInfo(int didui1, int didui2,  int showMengId){
-		List<AlliancePlayer> aplayers = AllianceMgr.inst.getAllianceMembers(showMengId);
+		Set<AlliancePlayer> aplayers = AllianceMgr.inst.getAllianceMembers(showMengId);
 		Set<Long> apIdSet = new HashSet<Long>();
 		aplayers.stream().forEach(ap -> apIdSet.add(ap.junzhuId));
 		List<JunZhu> aplayersList = HibernateUtil.list(JunZhu.class, "id", apIdSet);
@@ -2011,7 +2011,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 	@Override
 	public void proc(Event e) {
 		switch (e.id) {
-			case ED.ACC_LOGIN:
+			case ED.JUNZHU_LOGIN:
 				// 掠夺登陆奖励领取
 				if (e.param != null && e.param instanceof Long) {
 					long jzid = (Long) e.param;
@@ -2082,7 +2082,7 @@ public class LveDuoMgr extends EventProc implements Runnable{
 	@Override
 	public void doReg() {
 		EventMgr.regist(ED.REFRESH_TIME_WORK, this);
-		EventMgr.regist(ED.ACC_LOGIN, this);
+		EventMgr.regist(ED.JUNZHU_LOGIN, this);
 	}
 	public int getGongJin(){
 		return 0;

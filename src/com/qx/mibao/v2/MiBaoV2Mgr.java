@@ -21,11 +21,13 @@ import com.manu.dynasty.template.MiBaoNewSuiPian;
 import com.manu.network.PD;
 import com.manu.network.SessionManager;
 import com.manu.network.msg.ProtobufMsg;
+import com.qx.account.AccountManager;
 import com.qx.event.ED;
 import com.qx.event.EventMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.HibernateUtil;
+import com.qx.timeworker.FunctionID;
 
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 import qxmobile.protobuf.MibaoProtos.MibaoInfo;
@@ -70,14 +72,17 @@ public class MiBaoV2Mgr {
 	}
 	
 	public MibaoInfoResp.Builder getMibaoInfoResp(JunZhu jz, AtomicBoolean optional) {
-		Stream<MiBaoV2Bean> list = MiBaoV2Dao.inst.getMap(jz.id).values().stream()
-				.filter(t->t.main);
+		Map<Integer, MiBaoV2Bean> map = MiBaoV2Dao.inst.getMap(jz.id);
+		Map<Integer, MiBaoV2Bean> dbMap = new HashMap<>();
+		synchronized (map) {
+			map.values().stream()
+					.filter(t->t.main)	
+					.forEach(b->dbMap.put(b.miBaoId%100, b));
+		}
 //				HibernateUtil.list(MiBaoV2Bean0.class, 
 //				"where ownerId="+jz.id+" and main=true");
 		MibaoInfoResp.Builder resp = MibaoInfoResp.newBuilder();
 		resp.setRemainTime(0);
-		Map<Integer, MiBaoV2Bean> dbMap = new HashMap<>();
-		list.forEach(b->dbMap.put(b.miBaoId%100, b));
 		boolean doJiHuo=true;//默认可激活秘术
 		int minLv = -1;
 		int curMiShuPinZhi = 1;
@@ -109,7 +114,7 @@ public class MiBaoV2Mgr {
 				conf = confMap.get(miBaoDB.miBaoId);
 				if(minLv<0)minLv = conf.pinzhi;
 				if(miBaoDB.active==false)doJiHuo = false;//有未激活秘宝，不能激活秘术
-				mibaoInfo.setDbId(miBaoDB.dbId);
+				mibaoInfo.setDbId(miBaoDB.miBaoId);//由于缓存了，所以dbid可能是0，不能用。
 				mibaoInfo.setTempId(miBaoDB.miBaoId);
 				mibaoInfo.setMiBaoId(miBaoDB.miBaoId);
 				mibaoInfo.setStar(miBaoDB.active?1:0);//是否已激活
@@ -204,17 +209,18 @@ public class MiBaoV2Mgr {
 		}
 		EventMgr.addEvent(jz.id ,ED.get_mbSuiPian_x_y, new Object[]{jz.id});
 		//实际是检查红点
-		JunZhuMgr.inst.calcNewMiBao(jz);
+		checkRed(jz.id);
 	}
 	public void jiHuo(int id, IoSession session, Builder builder) {
 		ErrorMessage.Builder req = (ErrorMessage.Builder)builder;
 		String str = req.getErrorDesc();
-		long dbId = Long.parseLong(str);
+		int dbId = Integer.parseInt(str);
 		JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
 		if(jz == null){
 			return;
 		}
-		MiBaoV2Bean bean = MiBaoV2Dao.inst.getByDBId(jz.id, dbId);
+		//由于缓存了，所以dbId不能及时获得，给客户端发的dbId实际是秘宝id
+		MiBaoV2Bean bean = MiBaoV2Dao.inst.get(jz.id, (int)dbId);
 //				HibernateUtil.find(MiBaoV2Bean0.class, dbId);
 		if(bean == null){
 			return;
@@ -366,4 +372,22 @@ public class MiBaoV2Mgr {
 		msg.builder = MiBaoV2Mgr.inst.getMibaoInfoResp(junZhu, optional);
 		session.write(msg);
 	}
+	
+	public void checkRed(long jzId) {
+		Map<Integer, MiBaoV2Bean> miBaoMap = MiBaoV2Dao.inst.getMap(jzId);
+		for(MiBaoV2Bean bean : miBaoMap.values()){
+			MiBaoNew conf = confMap.get(bean.miBaoId);
+			if(conf == null) {
+				continue;
+			}
+			if(!bean.active && bean.suiPianNum >= conf.jinjieNum){//可以激活
+				IoSession session = AccountManager.getIoSession(jzId);
+				if(session != null ){
+					FunctionID.pushCanShowRed(jzId, session, FunctionID.MiBaoNEW);
+				}
+			}
+		}
+		
+	}
+	
 }

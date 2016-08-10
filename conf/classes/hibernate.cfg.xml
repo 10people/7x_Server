@@ -90,29 +90,29 @@
     <mapping class="com.qx.alliance.AllianceBean"/>
     <mapping class="com.qx.alliance.AllianceApply"/>
     <mapping class="com.qx.alliance.AlliancePlayer"/>
-    <mapping class="com.qx.alliance.AllianceGongXianRecord"/>
     <mapping class="com.qx.junzhu.PlayerTime"/>
     <mapping class="com.qx.alliance.MoBaiBean"/>
     <mapping class="com.qx.alliance.LmTuTeng"/>
-    <mapping class="com.qx.account.SettingsBean"/>
+   <!--  <mapping class="com.qx.account.SettingsBean"/> -->
+    <!-- 
     <mapping class="com.qx.huangye.HYFog"/>
     <mapping class="com.qx.huangye.HYResource"/>
-    <mapping class="com.qx.huangye.HYTreasureTimes"/>
     <mapping class="com.qx.huangye.HYResourceTimes"/>
-    <mapping class="com.qx.huangye.HYTreasure"/>
-    <mapping class="com.qx.huangye.HYTreasureNpc"/>
-    <mapping class="com.qx.huangye.HYTreasureDamage"/>
     <mapping class="com.qx.huangye.HYResourceAlliance"/>
     <mapping class="com.qx.huangye.HYRewardStore"/>
     <mapping class="com.qx.huangye.HYResourceNpc"/>
     <mapping class="com.qx.huangye.HYResourceJZYongbing"/>
+     -->
+    <mapping class="com.qx.huangye.HYTreasureTimes"/>
+    <mapping class="com.qx.huangye.HYTreasure"/>
+    <mapping class="com.qx.huangye.HYTreasureNpc"/>
+    <mapping class="com.qx.huangye.HYTreasureDamage"/>
+    <mapping class="com.qx.huangye.HYTreasureRecord"/>
     <mapping class="com.qx.huangye.shop.PublicShop"/>
     <mapping class="com.qx.huangye.shop.WuBeiFangBean"/>
     <mapping class="com.qx.huangye.BuZhenHYPvp"/>
     <mapping class="com.qx.huangye.BuZhenYaBiao"/>
     <mapping class="com.qx.huangye.BuZhenHYPve"/>
-    <mapping class="com.qx.huangye.HYRewardStore"/>
-    <mapping class="com.qx.huangye.HYTreasureRecord"/>
     <mapping class="com.qx.alliance.HouseBean"/>
     <mapping class="com.qx.alliance.HouseApplyBean"/>
     <mapping class="com.qx.world.PosInfo"/>
@@ -160,7 +160,7 @@
     <mapping class="com.qx.jinengpeiyang.JNBean"/>
     <mapping class="com.qx.alliance.building.JianZhuLvBean"/>
     <mapping class="com.qx.alliance.building.LMKJBean"/>
-    <mapping class="com.qx.jinengpeiyang.NewJNBean"/>
+    <!-- <mapping class="com.qx.jinengpeiyang.NewJNBean"/> -->
     <mapping class="com.qx.alliance.building.ChouJiangBean"/>
     <mapping class="com.qx.prompt.PromptInfo"/>
     <mapping class="com.qx.yabiao.LastExitYBInfo"/>
@@ -171,7 +171,7 @@
     <mapping class="com.manu.dynasty.chat.ChatSetting"/>
     <mapping class="com.qx.explore.treasure.BaoXiangBean"/>
     <mapping class="com.qx.alliance.AllianceInviteBean"/>
-    <mapping class="com.qx.junzhu.PrepareJz"/>
+    <!-- <mapping class="com.qx.junzhu.PrepareJz"/> -->
     <mapping class="com.yy.YYLvRewardInfo"/>
     <mapping class="com.qx.explore.treasure.BXRecord"/>
     <mapping class="com.qx.account.UnlockModel"/>

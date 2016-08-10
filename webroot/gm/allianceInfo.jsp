@@ -1,3 +1,4 @@
+<%@page import="com.qx.alliance.AllianceBeanDao"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.manu.dynasty.template.LianMeng"%>
 <%@page import="com.qx.ranking.RankingMgr"%>
@@ -202,7 +203,7 @@ function changeAlncName(obj){
 					return;
 				}
 				int id = Integer.parseInt(idString);
-				lianmeng = HibernateUtil.find(AllianceBean.class, id);
+				lianmeng = AllianceBeanDao.inst.getAllianceBean(id);
 			} else if("findByName".equals(action)) {
 				String name = request.getParameter("name");
 				if(name == null || "".equals(name)) {
@@ -233,7 +234,7 @@ function changeAlncName(obj){
 				if(exp == null || "".equals(exp)) {
 					return;
 				}
-				AllianceBean allianceBean = HibernateUtil.find(AllianceBean.class, Long.parseLong(lmId));
+				AllianceBean allianceBean = AllianceBeanDao.inst.getAllianceBean(Integer.parseInt(lmId));
 				AllianceMgr.inst.addAllianceExp(Integer.parseInt(exp), allianceBean);
 			}else if("updateHufu".equals(action)) {
 				String lmId = request.getParameter("lmId");
@@ -244,7 +245,7 @@ function changeAlncName(obj){
 				if(hufuNum == null || "".equals(hufuNum)) {
 					return;
 				}
-				AllianceBean allianceBean = HibernateUtil.find(AllianceBean.class, Long.parseLong(lmId));
+				AllianceBean allianceBean = AllianceBeanDao.inst.getAllianceBean(Integer.parseInt(lmId));
 				if(allianceBean == null) {
 					out.println("找不到联盟，id:"+lmId);
 					return;
@@ -261,7 +262,7 @@ function changeAlncName(obj){
 				if(upgradeRemainTM == null || "".equals(upgradeRemainTM)) {
 					return;
 				}
-				AllianceBean allianceBean = HibernateUtil.find(AllianceBean.class, Long.parseLong(lmId));
+				AllianceBean allianceBean = AllianceBeanDao.inst.getAllianceBean(Integer.parseInt(lmId));
 				if(allianceBean == null) {
 					out.println("找不到联盟，id:"+lmId);
 					return;
@@ -299,7 +300,7 @@ function changeAlncName(obj){
 						|| have == null || have.equals("")) {
 					return;
 				}
-				lianmeng = HibernateUtil.find(AllianceBean.class, Integer.parseInt(lmId));
+				lianmeng = AllianceBeanDao.inst.getAllianceBean(Integer.parseInt(lmId));
 				if(lianmeng == null) {
 					return;
 				}
@@ -312,7 +313,7 @@ function changeAlncName(obj){
 						|| time == null || time.equals("")) {
 					return;
 				}
-				lianmeng = HibernateUtil.find(AllianceBean.class, Integer.parseInt(lmId));
+				lianmeng = AllianceBeanDao.inst.getAllianceBean(Integer.parseInt(lmId));
 				if(lianmeng == null) {
 					return;
 				}
@@ -337,11 +338,12 @@ function changeAlncName(obj){
 						|| level == null || level.equals("")) {
 					return;
 				}
-				lianmeng = HibernateUtil.find(AllianceBean.class, Integer.parseInt(lmId));
+				lianmeng = AllianceBeanDao.inst.getAllianceBean(Integer.parseInt(lmId));
 				if(lianmeng == null) {
 					return;
 				}
 				lianmeng.level = Integer.parseInt(level);
+				AllianceMgr.inst.changeAllianceApplyState(lianmeng);
 				HibernateUtil.save(lianmeng);
 				RankingMgr.inst.resetLianMengLevelRedis(lianmeng.id, lianmeng.level);
 				RankingMgr.inst.resetLianMengRankRedis(lianmeng.id);
@@ -352,7 +354,7 @@ function changeAlncName(obj){
 						|| build == null || build.equals("")) {
 					return;
 				}
-				lianmeng = HibernateUtil.find(AllianceBean.class, Integer.parseInt(lmId));
+				lianmeng = AllianceBeanDao.inst.getAllianceBean(Integer.parseInt(lmId));
 				if(lianmeng == null) {
 					return;
 				}
@@ -378,7 +380,7 @@ function changeAlncName(obj){
 				String lmName = request.getParameter("lmName");
 				if(!"".equals(lmId)&&!"".equals(lmName)){
 					lmName=new String(lmName.getBytes("ISO-8859-1"),"UTF-8");
- 					lianmeng = HibernateUtil.find(AllianceBean.class, Integer.parseInt(lmId));
+ 					lianmeng = AllianceBeanDao.inst.getAllianceBean(Integer.parseInt(lmId));
 					lianmeng.name=lmName;
 					HibernateUtil.save(lianmeng);
 				}

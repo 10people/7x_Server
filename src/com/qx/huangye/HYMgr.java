@@ -47,6 +47,7 @@ import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.purchase.PurchaseConstants;
 import com.qx.purchase.PurchaseMgr;
@@ -263,17 +264,16 @@ public class HYMgr extends EventProc{
 //		}
 	
 		
-		HYTreasureRecord record = HibernateUtil.find(HYTreasureRecord.class, lianMengId);
+		HYTreasureRecord record = HYTreasureRecordDao.inst.getTreasureRecord(lianMengId);
 		if(record == null) {
 			record = new HYTreasureRecord();
 			record.lianMengId = lianMengId;
 			record.curGuanQiaId = huangYePve_first_pointId;
 			HibernateUtil.insert(record);
+			HYTreasureRecordDao.inst.insert(lianMengId, record);
 		}
 		
-		HYTreasure hyTreasure = HibernateUtil.find(HYTreasure.class, 
-				" where lianMengId=" + alliance.id +" and guanQiaId=" + record.curGuanQiaId
-				, false);
+		HYTreasure hyTreasure = HYTreasureDao.inst.getByGuanQiaId(alliance.id, record.curGuanQiaId);
 		if(hyTreasure == null) {
 			hyTreasure = initHYTreasure(alliance.id, record.curGuanQiaId);
 		}
@@ -289,10 +289,7 @@ public class HYMgr extends EventProc{
 
 		HYTreasureTimes times = HibernateUtil.find(HYTreasureTimes.class, junzhu.id);
 		if(times == null){
-			times = new HYTreasureTimes();
-			times.junzhuId = junzhu.id;
-			times.times = TREASURE_DAY_TIMES;
-			HibernateUtil.insert(times);
+			times = initHYTreasureTimes(junzhu.id, alliance.id);
 		}else{
 			resetHYTreasureTimes(times, lianMengId);
 		}
@@ -326,9 +323,17 @@ public class HYMgr extends EventProc{
 		*/
 	}
 
+	public HYTreasureTimes initHYTreasureTimes(long junzhuId, int lianMengId) {
+		HYTreasureTimes times = new HYTreasureTimes(junzhuId, TREASURE_DAY_TIMES, lianMengId);
+		HibernateUtil.insert(times);
+		Cache.treasureTimesCache.put(junzhuId, times);
+		return times;
+	}
+
 	public HYTreasure initHYTreasure(int lianMengId, int guanQiaId) {
 		HYTreasure hyTreasure = new HYTreasure(lianMengId, guanQiaId);
 		HibernateUtil.insert(hyTreasure);
+		HYTreasureDao.inst.insert(lianMengId, hyTreasure);
 		return hyTreasure;
 	}
 
@@ -433,7 +438,7 @@ public class HYMgr extends EventProc{
 		OpenHuangYeTreasureResp.Builder response = OpenHuangYeTreasureResp.newBuilder();
 		HYTreasure hyTrea = null;
 		synchronized (openTreasureLock) {
-			hyTrea = HibernateUtil.find(HYTreasure.class, id);
+			hyTrea = HYTreasureDao.inst.getByTreasureId(alliance.id, id);
 			if (hyTrea == null) {
 				// 0-成功，1-建设值不足, 2-还没有被激活过，3-已经开启了 
 				response.setResult(2);
@@ -476,14 +481,13 @@ public class HYMgr extends EventProc{
 			HibernateUtil.save(hyTrea);
 			
 			//打开藏宝点初始化npc
-			List<HYTreasureNpc> treasureNpcList = HibernateUtil.list(HYTreasureNpc.class, " where treasureId=" + hyTrea.id);
+			List<HYTreasureNpc> treasureNpcList = HYTreasureNpcDao.inst.getTreasureNpcList(hyTrea.id);
 			if(treasureNpcList != null && treasureNpcList.size() != 0 ){
 				refreshHYTreasureNpcData(treasureNpcList);
 				logger.info("重新开启藏宝点：{}，重新设置npsList数据成功", hyTrea.id);
 			}
 			// 清除该关卡所有玩家的输出伤害数据
-			List<HYTreasureDamage> damageList = HibernateUtil.list(
-					HYTreasureDamage.class, " where treasureId = " + hyTrea.id);
+			List<HYTreasureDamage> damageList = HYTreasureDamageDao.inst.getDamageList(hyTrea.id);
 			for(HYTreasureDamage damage : damageList) {
 				logger.info("重新开启藏宝点：{}，则删除该藏宝点玩家：{}的伤害数据", hyTrea.id, damage.junzhuId);
 				HibernateUtil.delete(damage);
@@ -526,8 +530,8 @@ public class HYMgr extends EventProc{
 			}
 			
 			}
-			HuangyePve hyCfg = huangyePveMap.get(hyPveCfg.id);
-			String treaName = HeroService.getNameById(hyCfg == null ? "" : hyCfg.nameId+"");
+//			HuangyePve hyCfg = huangyePveMap.get(hyPveCfg.id);
+//			String treaName = HeroService.getNameById(hyCfg == null ? "" : hyCfg.nameId+"");
 		}
 	}
 
@@ -571,9 +575,9 @@ public class HYMgr extends EventProc{
 			 * 判断上一关卡是否通关，否则不能激活 
 			 */
 			if(guanQiaId > huangYePve_first_pointId){
-				String where = "where lianMengId = " + member.lianMengId + 
-						" and guanQiaId = " + (guanQiaId -1);
-				HYTreasure lastTr = HibernateUtil.find(HYTreasure.class, where, false);
+//				String where = "where lianMengId = " + member.lianMengId + 
+//						" and guanQiaId = " + (guanQiaId -1);
+				HYTreasure lastTr = HYTreasureDao.inst.getByGuanQiaId(member.lianMengId, (guanQiaId -1));
 				if (lastTr == null || lastTr.passTimes <= 0) {
 					//0-成功，1-建设值不足, 2-上一关没有通关，3-已经处于激活状态
 					response.setResult(2);
@@ -583,9 +587,9 @@ public class HYMgr extends EventProc{
 					return;
 				}
 			}
-			String where = "where lianMengId = " + member.lianMengId + 
-					" and guanQiaId = " + guanQiaId;
-			hyTrea = HibernateUtil.find(HYTreasure.class, where, false);
+//			String where = "where lianMengId = " + member.lianMengId + 
+//					" and guanQiaId = " + guanQiaId;
+			hyTrea = HYTreasureDao.inst.getByGuanQiaId(member.lianMengId, guanQiaId);
 			if (hyTrea != null) {
 				response.setResult(3);
 				session.write(response.build());
@@ -610,6 +614,7 @@ public class HYMgr extends EventProc{
 			int openCost = hyPveCfg.openCost;
 			hyTrea = new HYTreasure(member.lianMengId, guanQiaId);
 			HibernateUtil.insert(hyTrea);
+			HYTreasureDao.inst.insert(member.lianMengId, hyTrea);
 			// 应该不会死锁
 			AllianceMgr.inst.changeAlianceBuild(alliance, -openCost);
 	
@@ -619,9 +624,9 @@ public class HYMgr extends EventProc{
 			response.setBuildValue(alliance.build);
 			session.write(response.build());
 
-			String zhiWei = member.title == AllianceMgr.TITLE_LEADER ? "盟主": "副盟主";
-			HuangyePve hyCfg = huangyePveMap.get(hyPveCfg.id);
-			String treaName = HeroService.getNameById(hyCfg == null ? "" : hyCfg.nameId+"");
+//			String zhiWei = member.title == AllianceMgr.TITLE_LEADER ? "盟主": "副盟主";
+//			HuangyePve hyCfg = huangyePveMap.get(hyPveCfg.id);
+//			String treaName = HeroService.getNameById(hyCfg == null ? "" : hyCfg.nameId+"");
 		}
 		
 	}
@@ -635,12 +640,17 @@ public class HYMgr extends EventProc{
 		}
 		HuangYePveReq.Builder request = (qxmobile.protobuf.ZhanDou.HuangYePveReq.Builder) builder;
 		long treasureId = request.getId();
-
+		AlliancePlayer alliancePlayer = AllianceMgr.inst.getAlliancePlayer(junzhu.id);
+		if(alliancePlayer == null || alliancePlayer.lianMengId <= 0) {
+			logger.error("君主:{}不是联盟成员，不能进行荒野求生", junzhu.id);
+			PveMgr.inst.sendZhanDouInitError(session, "不是联盟成员");
+			return;
+		}
 		HYTreasure hyTreasure = null;
 		HuangyePve huangyePveCfg = null;
 		HYTreasureTimes hyTimes = null;
 		synchronized(treasureBattleLock) {
-			hyTreasure = HibernateUtil.find(HYTreasure.class, treasureId);
+			hyTreasure = HYTreasureDao.inst.getByTreasureId(alliancePlayer.lianMengId, treasureId);
 			if(hyTreasure == null) {
 				logger.error("请求的藏宝点没有被激活hyTreasureID:{}", treasureId);
 				PveMgr.inst.sendZhanDouInitError(session, "请求的藏宝点信息有误");
@@ -656,7 +666,7 @@ public class HYMgr extends EventProc{
 				PveMgr.inst.sendZhanDouInitError(session, "藏宝点已通关");
 				return;
 			}
-			HYTreasureRecord record = HibernateUtil.find(HYTreasureRecord.class, hyTreasure.lianMengId);
+			HYTreasureRecord record = HYTreasureRecordDao.inst.getTreasureRecord(hyTreasure.lianMengId);
 			if(record == null || record.curGuanQiaId != hyTreasure.guanQiaId) {
 				logger.info("藏宝点已关闭1,hyTreasureID：{}", treasureId);
 				PveMgr.inst.sendZhanDouInitError(session, "请求的关卡未开启");
@@ -680,7 +690,7 @@ public class HYMgr extends EventProc{
 			// 挑战次数是否足够
 			hyTimes = HibernateUtil.find(HYTreasureTimes.class, junzhu.id);
 			if(hyTimes == null){
-				hyTimes = new HYTreasureTimes(junzhu.id, TREASURE_DAY_TIMES, hyTreasure.lianMengId);
+				hyTimes = initHYTreasureTimes(junzhu.id, hyTreasure.lianMengId);
 			}else{
 				resetHYTreasureTimes(hyTimes, hyTreasure.lianMengId);
 			}
@@ -704,7 +714,7 @@ public class HYMgr extends EventProc{
 		response.setLimitTime(CanShu.MAXTIME_HUANGYE_PVE);
 		// 填充敌方数据
 		Group.Builder enemyTroop = Group.newBuilder();
-		List<HYTreasureNpc> treasureNpcList = HibernateUtil.list(HYTreasureNpc.class, " where treasureId=" + hyTreasure.id);
+		List<HYTreasureNpc> treasureNpcList = HYTreasureNpcDao.inst.getTreasureNpcList(hyTreasure.id);
 		for (HYTreasureNpc npc : treasureNpcList) {
 			if(npc.remainHp <= 0) {		//该npc已经死亡，不要再发给客户端
 				continue;
@@ -777,6 +787,9 @@ public class HYMgr extends EventProc{
 		Group.Builder selfTroop = Group.newBuilder();
 		List<Node> selfs = new ArrayList<ZhanDou.Node>();
 		BuZhenHYPve buZhenHYPve = HibernateUtil.find(BuZhenHYPve.class, junzhu.id);
+		if (buZhenHYPve == null) {
+			buZhenHYPve = BigSwitch.pveGuanQiaMgr.insertBuZhenHYPve(junzhu.id);
+		}
 		int zuheId = buZhenHYPve == null ? -1 : buZhenHYPve.zuheId;
 		PveMgr.inst.fillJunZhuDataInfo(response, session, selfs, junzhu, 1, zuheId, selfTroop);
 		selfTroop.setMaxLevel(BigSwitch.pveGuanQiaMgr.getGuanQiaMaxId(junzhu.id));
@@ -795,10 +808,11 @@ public class HYMgr extends EventProc{
 		// 防止异常中断战斗，记录战斗伤害，默认0。
 		String where = " where treasureId = " + hyTreasureId + 
 				" and junzhuId = " + hyTimes.junzhuId;
-		HYTreasureDamage treasureDamage = HibernateUtil.find(HYTreasureDamage.class, where);
+		HYTreasureDamage treasureDamage = HYTreasureDamageDao.inst.getDamageByJunZhuId(hyTreasureId, hyTimes.junzhuId);
 		if(treasureDamage == null){
 			treasureDamage = new HYTreasureDamage(hyTreasureId, hyTimes.junzhuId,0);
 			HibernateUtil.save(treasureDamage);
+			HYTreasureDamageDao.inst.insert(hyTreasureId, treasureDamage);
 			logger.info("君主：{}打荒野，新new HYTreasureDamage , hyTreasureId:{}", hyTimes.junzhuId, hyTreasureId);
 		}
 		// 主线任务: 输赢不计，攻打了任何一次荒野 20190916
@@ -838,7 +852,7 @@ public class HYMgr extends EventProc{
 			return;
 		}
 		
-		HYTreasureRecord record = HibernateUtil.find(HYTreasureRecord.class, member.lianMengId);
+		HYTreasureRecord record = HYTreasureRecordDao.inst.getTreasureRecord(member.lianMengId);
 		if(record == null) {
 			logger.error("找不到联盟:{}的荒野记录", member.lianMengId);
 			return;
@@ -849,7 +863,7 @@ public class HYMgr extends EventProc{
 			return;
 		}
 		HYTreasureBattleResp.Builder response = HYTreasureBattleResp.newBuilder();
-		List<HYTreasureNpc> treasureNpcList = HibernateUtil.list(HYTreasureNpc.class, " where treasureId=" + hyTreasure.id);
+		List<HYTreasureNpc> treasureNpcList = HYTreasureNpcDao.inst.getTreasureNpcList(treasureId);
 		if(treasureNpcList == null || treasureNpcList.size() == 0){
 			treasureNpcList = initTreasureNpc(hyTreasure, hyPveCfg);
 		}
@@ -869,13 +883,15 @@ public class HYMgr extends EventProc{
 		}
 		//我方秘宝id，MiBao配置文件中的id
 		BuZhenHYPve mibaoList = HibernateUtil.find(BuZhenHYPve.class, junzhu.id);
+		if (mibaoList == null) {
+			mibaoList = BigSwitch.pveGuanQiaMgr.insertBuZhenHYPve(junzhu.id);
+		}
 		int zuheId = mibaoList == null ? -1 : mibaoList.zuheId;
 		response.setZuheId(zuheId);
 
 		HYTreasureTimes hyTimes = HibernateUtil.find(HYTreasureTimes.class, junzhu.id);
 		if(hyTimes == null){
-			hyTimes = new HYTreasureTimes();
-			hyTimes.times = TREASURE_DAY_TIMES;
+			hyTimes = initHYTreasureTimes(junzhu.id, member.lianMengId);
 		}else{
 			resetHYTreasureTimes(hyTimes, member.lianMengId);
 		}
@@ -1018,6 +1034,7 @@ public class HYMgr extends EventProc{
 			HYTreasureNpc treasureNpc = new HYTreasureNpc(npcCfg.position, 
 					hyTreasure.id, npcCfg.id, enemyCfg.getShengming() * npcCfg.lifebarNum, npcCfg.boCi); 
 			HibernateUtil.insert(treasureNpc);
+			HYTreasureNpcDao.inst.insertTreasureNpc(treasureNpc, hyTreasure.id);
 			treasureNpcList.add(treasureNpc);
 		}
 		return treasureNpcList;
@@ -1045,7 +1062,12 @@ public class HYMgr extends EventProc{
 			logger.error("找不到君主");
 			return;
 		}
-		HYTreasure hyTreasure = HibernateUtil.find(HYTreasure.class, treasureId);
+		AlliancePlayer alliancePlayer = AllianceMgr.inst.getAlliancePlayer(junzhu.id);
+		if(alliancePlayer == null || alliancePlayer.lianMengId <= 0) {
+			logger.error("君主:{}不是联盟成员，不能进行荒野求生", junzhu.id);
+			return;
+		}
+		HYTreasure hyTreasure = HYTreasureDao.inst.getByTreasureId(alliancePlayer.lianMengId, treasureId);
 		if(hyTreasure == null) {
 			logger.error("请求的藏宝点不存在hyTreasureID:{}", treasureId);
 			return;
@@ -1077,8 +1099,7 @@ public class HYMgr extends EventProc{
 		}
 		
 		//1.更新玩家本次挑战全程总伤害值
-		HYTreasureDamage treasureDamage = HibernateUtil.find(HYTreasureDamage.class, 
-				" where treasureId="+hyTreasure.id+" and junzhuId="+junzhu.id);
+		HYTreasureDamage treasureDamage = HYTreasureDamageDao.inst.getDamageByJunZhuId(hyTreasure.id, junzhu.id);
 		if(treasureDamage == null) {
 			logger.error("服务器有错，进入战斗前已经new 并且记录了伤害记录, junzhuId:{}", junzhu.id );
 		} else {
@@ -1104,7 +1125,7 @@ public class HYMgr extends EventProc{
 		for(HYPveNpcInfo remainHpInfo: npcInfoList){
 			npcRemainHpMap.put(remainHpInfo.getNpcId(), remainHpInfo);
 		}
-		List<HYTreasureNpc> treasureNpcList = HibernateUtil.list(HYTreasureNpc.class, " where treasureId=" + treasureId);
+		List<HYTreasureNpc> treasureNpcList = HYTreasureNpcDao.inst.getTreasureNpcList(treasureId);
 		for(HYTreasureNpc hyNpc : treasureNpcList) {
 			HYPveNpcInfo npcInfo = npcRemainHpMap.get(hyNpc.position);
 			if(npcInfo == null) {
@@ -1115,8 +1136,10 @@ public class HYMgr extends EventProc{
 			logger.info("荒野点：{}被玩家：{}攻打，npc：{}在被打之前血量是：{}，攻打之后血量是：{}",
 					treasureId, junzhu.name, hyNpc.npcId, hyNpc.remainHp, curRemainHp);
 			hurtValue = hurtValue < 0 ? 0 : hurtValue;
-			hyNpc.remainHp = curRemainHp;
-			HibernateUtil.save(hyNpc);
+			if(hyNpc.remainHp != curRemainHp && isPass != 1 ) {//如果是已经胜利了，会重置所有npc血量，就不需要在这里在更新了
+				hyNpc.remainHp = curRemainHp;
+				HibernateUtil.update(hyNpc);
+			}
 			if(curRemainHp > 0) {
 				continue;
 			}
@@ -1184,8 +1207,8 @@ public class HYMgr extends EventProc{
 			}
 		}
 		//通关奖，有伤害记录均获得奖励
-		String where = " where treasureId=" + hyTreasure.id + " ORDER BY damage DESC";
-		List<HYTreasureDamage> list = HibernateUtil.list(HYTreasureDamage.class, where);
+//		String where = " where treasureId=" + hyTreasure.id + " ORDER BY damage DESC";
+		List<HYTreasureDamage> list = HYTreasureDamageDao.inst.getDamageList(hyTreasure.id);
 		Collections.sort(list);
 		int rank = 1;
 		String treaName = HeroService.getNameById(hyPveCfg == null ? "" : hyPveCfg.nameId+"");
@@ -1239,18 +1262,16 @@ public class HYMgr extends EventProc{
 		hyTreasure.passTimes += 1;
 		HibernateUtil.save(hyTreasure);
 		// 开启下一个关卡
-		HYTreasure nextGuanQia = HibernateUtil.find(HYTreasure.class,
-				" where lianMengId="+ member.lianMengId + " and guanQiaId=" + hyPveCfg.nextGuanqiaID);
+		HYTreasure nextGuanQia = HYTreasureDao.inst.getByGuanQiaId(member.lianMengId, hyPveCfg.nextGuanqiaID);
 		if(nextGuanQia == null) {
-			nextGuanQia = new HYTreasure(member.lianMengId, hyPveCfg.nextGuanqiaID);
-			HibernateUtil.insert(nextGuanQia);
+			nextGuanQia = initHYTreasure(member.lianMengId, hyPveCfg.nextGuanqiaID);
 		} else {
 			nextGuanQia.openTime = new Date();
 			nextGuanQia.progress = 100;
 			HibernateUtil.save(nextGuanQia);
 		}
 		// 更新关卡进度记录
-		HYTreasureRecord record = HibernateUtil.find(HYTreasureRecord.class, member.lianMengId);
+		HYTreasureRecord record = HYTreasureRecordDao.inst.getTreasureRecord(member.lianMengId);
 		record.curGuanQiaId = hyPveCfg.nextGuanqiaID;
 		HibernateUtil.save(record);
 		
@@ -1286,7 +1307,7 @@ public class HYMgr extends EventProc{
 				continue;
 			}
 			treaNpc.remainHp = enemyTemp.getShengming() * hyNpcCfg.lifebarNum;
-			HibernateUtil.save(treaNpc);
+			HibernateUtil.update(treaNpc);
 		}
 	}
 
@@ -1359,27 +1380,31 @@ public class HYMgr extends EventProc{
 	}
 	
 	public void delHYInfo(int lianmengId) {
-		HYFog huangyeFog = HibernateUtil.find(HYFog.class, lianmengId);
-		List<HYTreasure> hyTreasureList = HibernateUtil.list(HYTreasure.class, " where lianMengId="+lianmengId);
-		List<HYTreasureTimes> hyTreasureTimesList = HibernateUtil.list(HYTreasureTimes.class, " where lianmengId="+lianmengId);
-		List<HYResourceAlliance> hyResAlncList = HibernateUtil.list(HYResourceAlliance.class, " where lianMengId="+lianmengId);
-		if(huangyeFog != null) {
-			HibernateUtil.delete(huangyeFog);
-		}
+		List<HYTreasure> hyTreasureList = HYTreasureDao.inst.getTreasure(lianmengId);
 		for(HYTreasure hyTrea : hyTreasureList) {
 			HibernateUtil.delete(hyTrea);
-			List<HYTreasureNpc> npcList = HibernateUtil.list(HYTreasureNpc.class, " where treasureId="+hyTrea.id);
+			// 删除关卡npc
+			List<HYTreasureNpc> npcList = HYTreasureNpcDao.inst.getTreasureNpcList(hyTrea.id);
 			for(HYTreasureNpc npc : npcList) {
 				HibernateUtil.delete(npc);
 			}
-			List<HYTreasureDamage> damageList = HibernateUtil.list(HYTreasureDamage.class, " where treasureId="+hyTrea.id);
+			HYTreasureNpcDao.inst.deleteTreasureNpc(hyTrea.id);
+			// 删除关卡伤害记录
+			List<HYTreasureDamage> damageList = HYTreasureDamageDao.inst.getDamageList(hyTrea.id);
 			for(HYTreasureDamage damage : damageList) {
 				HibernateUtil.delete(damage);
 			}
+			HYTreasureDamageDao.inst.deleteByTreasureId(hyTrea.id);
 		}
+		// 删除联盟荒野进度记录
+		HYTreasureRecord record = HYTreasureRecordDao.inst.getTreasureRecord(lianmengId);
+		HibernateUtil.delete(record);
+		HYTreasureRecordDao.inst.delete(lianmengId);
+		/*// 次数与玩家自身绑定，退出联盟不重置次数
+		List<HYTreasureTimes> hyTreasureTimesList = HibernateUtil.list(HYTreasureTimes.class, " where lianmengId="+lianmengId);
 		for(HYTreasureTimes hyTimes : hyTreasureTimesList) {
 			HibernateUtil.delete(hyTimes);
-		}
+		}*/
 	}
 
 
@@ -1403,8 +1428,7 @@ public class HYMgr extends EventProc{
 			logger.error("君主:{} 未加入联盟，", junzhu.name);
 			return;
 		}
-		String where = " where treasureId="+dbId;
-		List<HYTreasureDamage> list = HibernateUtil.list(HYTreasureDamage.class, where);
+		List<HYTreasureDamage> list = HYTreasureDamageDao.inst.getDamageList(dbId);
 		Collections.sort(list);
 		int rank = 1;
 		MaxDamageRankResp.Builder resp = MaxDamageRankResp.newBuilder();
@@ -1442,7 +1466,7 @@ public class HYMgr extends EventProc{
 		}
 		HYTreasureTimes hyTimes = HibernateUtil.find(HYTreasureTimes.class, jz.id);
 		if(hyTimes == null){
-			hyTimes = new HYTreasureTimes(jz.id, TREASURE_DAY_TIMES, p.lianMengId);
+			hyTimes = initHYTreasureTimes(jz.id, p.lianMengId);
 		}else{
 			resetHYTreasureTimes(hyTimes, p.lianMengId);
 		}
@@ -1553,8 +1577,7 @@ public class HYMgr extends EventProc{
 					if (alliance.level < open_HY_lianMeng_level) {
 						break;
 					}
-					List<HYTreasure> hyTreaList = HibernateUtil.list(HYTreasure.class,
-							" where lianMengId=" + lianMengId);
+					List<HYTreasure> hyTreaList = HYTreasureDao.inst.getTreasure(lianMengId);
 					for(HYTreasure t: hyTreaList){
 						if(!t.isOpen()) {
 							continue;

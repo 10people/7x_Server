@@ -15,10 +15,10 @@ import qxmobile.protobuf.MibaoProtos.MibaoStarUpReq;
 public class TestJiangHunInfo extends TestBase{
 	@Override
 	public void handle(int id, IoSession session, Builder builder, GameClient cl){
-		Object obj = cl.session.getAttribute("STARUP");
+		Object obj = cl.session.removeAttribute("STARUP");
 		if(obj == null ){
 			System.out.println("没有升星标记，开始升级");
-			GameClient.useWhenSingle.readMB(builder);
+			cl.readMB(builder);
 		}else{
 			System.out.println("有升星标记，开始升星");
 			MibaoInfoResp.Builder resp = (MibaoInfoResp.Builder) builder;
@@ -26,10 +26,10 @@ public class TestJiangHunInfo extends TestBase{
 			MibaoStarUpReq.Builder request = MibaoStarUpReq.newBuilder();
 			System.out.println("收到将魂信息返回，准备升星");
 			for( MibaoInfo.Builder jiangHunInfo : jiangHunList ){
-				if(jiangHunInfo.getLevel() > 0){
+				if(jiangHunInfo.getSuiPianNum() >= jiangHunInfo.getNeedSuipianNum() ){
 					request.setMibaoId(jiangHunInfo.getMiBaoId());
 					cl.session.write(request.build());
-					break;
+					return;
 				}
 			}
 			cl.session.write(PD.C_TaskReq);

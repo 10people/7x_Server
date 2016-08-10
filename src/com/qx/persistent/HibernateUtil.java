@@ -54,8 +54,8 @@ public class HibernateUtil {
    			session.save(o);
         	session.getTransaction().commit();
 		} catch (Throwable e) {
-			log.error("0要insert的数据{}", o == null ? "null" : JSONObject.fromObject(o).toString());
-			log.error("0保存出错", e);
+			Object info = o == null ? "null" : o.getClass().getSimpleName()+JSONObject.fromObject(o).toString();
+			log.error("0保存出错"+info, e);
 			session.getTransaction().rollback();
 			return e;
 		}
@@ -93,7 +93,7 @@ public class HibernateUtil {
 			if(mcOk){
 				log.error("MC保存成功后报错，可能是数据库条目丢失。");
 			}
-			log.error("1保存出错", e);
+			log.error((o==null?"":o.getClass().getSimpleName())+"1保存出错", e);
 			t.rollback();
 			return e;
 		}
@@ -151,10 +151,8 @@ public class HibernateUtil {
     		T o = (T)cacheMap.get(id);
     		if( o != null ){
     			return o ;
-//    		}else{
-//    			if(cacheMap.containsKey(id)){
-//    				return null ;
-//    			}
+    		}else if(cacheMap.containsKey(id)){
+    				return null ;
     		}
     	}
 //    	if(t == JunZhu.class){
@@ -203,7 +201,7 @@ public class HibernateUtil {
 //    	if(t == JunzhuPveInfo.class && o != null) {
 //    		Cache.jzPveInfoCache.put(id, (JunzhuPveInfo) o);
 //    	}
-    	if(cacheMap!= null && o !=null){
+    	if(cacheMap!= null/* && o !=null*/){
     		cacheMap.put(id, o);
     	}
     	return o;

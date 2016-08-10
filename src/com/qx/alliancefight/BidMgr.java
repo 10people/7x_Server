@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Set;
 
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
@@ -27,7 +27,6 @@ import com.manu.dynasty.util.DateUtils;
 import com.manu.network.BigSwitch;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
-import com.manu.network.SessionManager;
 import com.manu.network.TXSocketMgr;
 import com.manu.network.msg.ProtobufMsg;
 import com.qx.account.AccountManager;
@@ -224,8 +223,9 @@ public class BidMgr extends EventProc{
 		AllianceBean allianceBean = AllianceMgr.inst.getAllianceByJunZid(jz.id);
 		if(jczmap.get(city).type == 1){ //普通城池需要校验
 			//校验是否是自己占领的城池,不能对自己领土宣战
-			CityBean cityBean = HibernateUtil.find(CityBean.class,"where cityId=" + city + " and lmId=" + alliancePlayer.lianMengId);
-			if(cityBean != null){
+			/*CityBean cityBean = HibernateUtil.find(CityBean.class,"where cityId=" + city + " and lmId=" + alliancePlayer.lianMengId);*/
+			CityBean cityBean = CityBeanDao.inst.getCityBeanById(city);
+			if(cityBean != null && cityBean.lmId == alliancePlayer.lianMengId){
 				log.error("不能对自己的领土宣战");
 				cwop.setResult(city_war_operate_result4);
 				msgSend(PD.S_CITYWAR_OPERATE_RESP,session,cwop);
@@ -343,14 +343,14 @@ public class BidMgr extends EventProc{
 		//初始化城池配置
 		List<JCZCity> cityListSetting = TempletService.listAll(JCZCity.class.getSimpleName());
 		//查询所有城池状态信息
-		List<CityBean> citiesState = HibernateUtil.list(CityBean.class,"");
+		/*List<CityBean> citiesState = HibernateUtil.list(CityBean.class,"");
 		Map<Integer,CityBean> citiesStateMap = new HashMap<Integer,CityBean>();
 		//转换一下格式方便处理
 		if(citiesState != null){
 			for(CityBean cityBean:citiesState){ 
 				citiesStateMap.put(cityBean.cityId,cityBean);
 			}
-		}
+		}*/
 		//创建返回协议
 		CityFightInfoResp.Builder info = CityFightInfoResp.newBuilder();
 		//获取联盟ID
@@ -382,8 +382,8 @@ public class BidMgr extends EventProc{
 			CityInfo.Builder cityInfo = CityInfo.newBuilder();
 			cityInfo.setCityId(jczCity.id); //设置cityId
 			int state2 = 0; //0-无、1-宣战、2-防守,3- 进攻状态
-			if(citiesStateMap.containsKey(jczCity.id) && citiesStateMap.get(jczCity.id).lmId > 0){ //玩家占领
-				if(citiesStateMap.get(jczCity.id).lmId == myAlliance.id){ //乙方占领
+			if(CityBeanDao.inst.getMap().containsKey(jczCity.id) && CityBeanDao.inst.getMap().get(jczCity.id).lmId > 0){ //玩家占领
+				if(CityBeanDao.inst.getMap().get(jczCity.id).lmId == myAlliance.id){ //乙方占领
 					cityInfo.setCityState(city_state_own_occupation); //设置城池状态
 					cityInfo.setLmIconId(myAlliance.icon); //设置占领城池联盟icon
 					cityInfo.setGuojiaId(myAlliance.country);
@@ -393,9 +393,9 @@ public class BidMgr extends EventProc{
 					}
 					cityInfo.setOcLmName(myAlliance.name);
 				}else{
-					AllianceBean allianceBean = AllianceBeanDao.inst.getAllianceBean(citiesStateMap.get(jczCity.id).lmId);
+					AllianceBean allianceBean = AllianceBeanDao.inst.getAllianceBean(CityBeanDao.inst.getMap().get(jczCity.id).lmId);
 					if(allianceBean == null){ //联盟被解散
-						CityBean cityBean = citiesStateMap.get(jczCity.id);
+						CityBean cityBean = CityBeanDao.inst.getMap().get(jczCity.id);
 						cityBean.lmId = 0; //默认为NPC占领
 						HibernateUtil.update(cityBean); //更新
 						cityInfo.setCityState(city_state_npc_occupation); //设置城池状态
@@ -413,12 +413,13 @@ public class BidMgr extends EventProc{
 				cityInfo.setCityState(city_state_npc_occupation); //设置城池状态
 				cityInfo.setLmIconId(jczCity.icon); //设置占领城池联盟icon
 			}
-			CityBean cityBean = citiesStateMap.get(jczCity.id);
+			CityBean cityBean = CityBeanDao.inst.getMap().get(jczCity.id);
 			if(cityBean == null){
 				cityBean = new CityBean();
 				cityBean.cityId = jczCity.id;
 				cityBean.lmId = 0;
 				cityBean.atckLmId = 0;
+				CityBeanDao.inst.getMap().put(jczCity.id,cityBean);
 				HibernateUtil.insert(cityBean);
 			}
 			//联盟宣战的城池，蓝色箭头（宣战）一直指向被宣战的城池图标上方，
@@ -539,11 +540,12 @@ public class BidMgr extends EventProc{
 		List<JCZCity> cityListSetting = TempletService.getInstance().listAll(JCZCity.class.getSimpleName());
 		CityFightInfoResp.Builder info = CityFightInfoResp.newBuilder();
 		//查出野城信息
-		List<WildCityBean> wildCityBeanList = HibernateUtil.list(WildCityBean.class,"where lmId=" + myAlliance.id);
+		/*List<WildCityBean> wildCityBeanList = HibernateUtil.list(WildCityBean.class,"where lmId=" + myAlliance.id);
 		Map<Integer,WildCityBean> wildCityBeanMap = new HashMap<Integer,WildCityBean>();
 		for (WildCityBean wildCityBeanTmp : wildCityBeanList) {
 			wildCityBeanMap.put(wildCityBeanTmp.cityId, wildCityBeanTmp);//每个联盟cityId不会重复
-		}
+		}*/
+		Map<Integer,WildCityBean> wildCityBeanMap = WildCityBeanDao.inst.getMap(myAlliance.id);
 		List<BidBean> bidBeanList = HibernateUtil.list(BidBean.class,"where lmId=" + myAlliance.id + " and bidTime>'" + dayStart() + "' and bidTime<'" + dayEnd() + "'");
 		Map<Integer, BidBean> bidBeanMap = new HashMap<Integer,BidBean>();
 		for (BidBean bidBeanTmp : bidBeanList) {
@@ -704,7 +706,7 @@ public class BidMgr extends EventProc{
 		}
 		//计算bidState
 		int bidState = 0;
-		CityBean cityBean = HibernateUtil.find(CityBean.class,cityId);
+		CityBean cityBean = CityBeanDao.inst.getCityBeanById(cityId);
 		if(DateUtils.isInDeadline4Start(city_war_declaration_startTime,city_war_preparation_startTime)){ //在宣战时间段内
 			if(isBid){
 				bidState = 1;
@@ -897,7 +899,7 @@ public class BidMgr extends EventProc{
 		
 		CityWarOperateReq.Builder req = (CityWarOperateReq.Builder)builder;
 		int cityId = req.getCityId();
-		CityBean cityBean = HibernateUtil.find(CityBean.class,cityId);
+		CityBean cityBean = CityBeanDao.inst.getCityBeanById(cityId);
 		int lmId = aBean.id;
 		int result = 0; //成功
 		CityWarOperateResp.Builder resp = CityWarOperateResp.newBuilder();
@@ -945,8 +947,17 @@ public class BidMgr extends EventProc{
 				return;
 			}
 		}else if(jczmap.get(cityId).type == 2){ //野城战斗结束后不让进
-			WildCityBean wildCityBean = HibernateUtil.find(WildCityBean.class,"where lmId=" + aBean.id + " and winTime>'" + dayStart() + "' and winTime<'" + dayEnd() +"'"); 
-			if(wildCityBean != null){//今日战斗过结算了
+			//WildCityBean wildCityBean = HibernateUtil.find(WildCityBean.class,"where lmId=" + aBean.id + " and winTime>'" + dayStart() + "' and winTime<'" + dayEnd() +"'"); 
+			Map<Integer,WildCityBean> wildCityBeanMap = WildCityBeanDao.inst.getMap(aBean.id);
+			boolean isEnd = false;
+			for(Integer dbId:wildCityBeanMap.keySet()){
+				WildCityBean tmp = wildCityBeanMap.get(dbId);
+				if(tmp.winTime.getTime() > dayStart().getTime() && tmp.winTime.getTime() < dayEnd().getTime()){
+					isEnd = true;
+					break;
+				}
+			}
+			if(isEnd){//今日战斗过结算了
 				result = 4;//战斗结束,上场结束，下一场未开始
 				resp.setResult(result); 
 				msgSend(PD.S_CITYWAR_OPERATE_RESP,session,resp);
@@ -1213,14 +1224,14 @@ public class BidMgr extends EventProc{
 		refreshBidPrice(); //刷新竞拍缓存
 		List<JCZCity> citylist = TempletService.getInstance().listAll(JCZCity.class.getSimpleName());
 		Map<Integer,Integer>  hufuMap = new HashMap<Integer,Integer>(); //缓存返还护符数
-		List<CityBean> cityBeanList = HibernateUtil.list(CityBean.class,"");
+		/*List<CityBean> cityBeanList = HibernateUtil.list(CityBean.class,"");
 		Map<Integer,CityBean> cityBeanMap = new HashMap<Integer,CityBean>();
 		//转换一下格式方便处理
 		if(cityBeanList != null){
 			for(CityBean cityBeanTmp:cityBeanList){ 
 				cityBeanMap.put(cityBeanTmp.cityId,cityBeanTmp);
 			}
-		}
+		}*/
 		Map<Integer, List<BidBean>> bidbeanListMapReal = new HashMap<Integer,List<BidBean>>();
 		List<BidBean> AllBidList = HibernateUtil.list(BidBean.class, "where priceReal>0 and bidTime>='" + dayStart() + "' and bidTime<='" + dayEnd() + "' order by priceReal desc,bidTime asc");
 		Map<Integer, Integer> lmIdMap = new HashMap<>(); //用于红点推送
@@ -1240,7 +1251,7 @@ public class BidMgr extends EventProc{
 			if(jczCity.type == 2) continue;//野城
 //			List<BidBean> beans = HibernateUtil.list(BidBean.class, "where cityId=" + jczCity.id + " and bidTime>='" + dayStart() + "' and bidTime<='" + dayEnd() + "' order by priceReal desc,bidTime asc");
 			List<BidBean> beans = bidbeanListMapReal.get(jczCity.id);
-			CityBean cityBean = cityBeanMap.get(jczCity.id);
+			CityBean cityBean = CityBeanDao.inst.getCityBeanById(jczCity.id);
 			if(beans != null && beans.size() > 0){
 				//竞拍失败返还虎符
 				int atckLmid = 0;
@@ -1265,6 +1276,7 @@ public class BidMgr extends EventProc{
 						cityBean.cityId = jczCity.id;
 						cityBean.lmId = 0; //没人占领
 						cityBean.atckLmId = atckLmid;
+						CityBeanDao.inst.getMap().put(jczCity.id, cityBean);
 						HibernateUtil.insert(cityBean);
 					}else{
 						cityBean.atckLmId = atckLmid;
@@ -1283,7 +1295,7 @@ public class BidMgr extends EventProc{
 					String awardStr = jczCity.award;
 					List<AwardTemp> alist = AwardMgr.inst.parseAwardConf(awardStr);
 					int cityGX = alist.get(0).itemNum;
-					List<AlliancePlayer> memberList = AllianceMgr.inst.getAllianceMembers(cityBean.lmId);
+					Set<AlliancePlayer> memberList = AllianceMgr.inst.getAllianceMembers(cityBean.lmId);
 					Date t = new Date();
 					for (AlliancePlayer member : memberList) {
 						LMZAwardBean b = new LMZAwardBean();
@@ -1311,7 +1323,7 @@ public class BidMgr extends EventProc{
 		FightScene.buyXPTimes.clear();
 		//推送红点
 		for (Integer key:lmIdMap.keySet()){
-			List<AlliancePlayer> aList = AllianceMgr.inst.getAllianceMembers(key);
+			Set<AlliancePlayer> aList = AllianceMgr.inst.getAllianceMembers(key);
 			for (AlliancePlayer alliancePlayer : aList) {
 				IoSession sessionTmp = AccountManager.getIoSession(alliancePlayer.junzhuId);
 				if(sessionTmp != null){
@@ -1414,12 +1426,18 @@ public class BidMgr extends EventProc{
 		log.info("定时重置结算数据开始...");
 		String sql2 = "update " + CityBean.class.getSimpleName() + " set atckLmId=0";
 		HibernateUtil.executeSql(sql2);
+		for(Integer cityId : jczmap.keySet()){
+			if(jczmap.get(cityId).type == 2) continue;
+			CityBean cityBean = CityBeanDao.inst.getMap().get(cityId);
+			if(cityBean == null) continue;
+			cityBean.atckLmId = 0;
+		}
 		log.info("定时重置结算数据结束...");
-		//重置进入战场数据
+		/*//重置进入战场数据
 		log.info("定时重置进入战场数据开始...");
 		String sql3 = "delete from " + EnterWarTimeBean.class.getSimpleName() + " where enterTime<'"+ new Date()+"'";
 		HibernateUtil.executeSql(sql3);
-		log.info("定时重置进入战场数据结束...");
+		log.info("定时重置进入战场数据结束...");*/
 		//清理过期奖励
 		log.info("定时清理过期奖励开始...");
 		Calendar calendar = Calendar.getInstance();
@@ -1497,8 +1515,10 @@ public class BidMgr extends EventProc{
 		if(allianceBean == null) return;
 		List<EnterWarTimeBean> eBeanList = HibernateUtil.list(EnterWarTimeBean.class,"where jzId=" + jz.id + " and enterTime>'" + dayStart() + "' and enterTime<'" + dayEnd() +"'");
 		if(eBeanList == null || eBeanList.size() <=0){ //今天没进入过战场
-			List<CityBean> AllBidList = HibernateUtil.list(CityBean.class, "");
-			for (CityBean cityBean : AllBidList) {
+			/*List<CityBean> AllBidList = HibernateUtil.list(CityBean.class, "");*/
+			Map<Integer, CityBean> m = CityBeanDao.inst.getMap();
+			for (Integer cityId : m.keySet()) {
+				CityBean cityBean = m.get(cityId);
 				if(DateUtils.isInDeadline4Start(city_war_preparation_startTime,city_war_fighting_endTime)){
 					if(cityBean.atckLmId >0 && (cityBean.atckLmId == allianceBean.id || cityBean.lmId == allianceBean.id)){ //攻方或守方可以进入战场
 						FunctionID.pushCanShowRed(jz.id,session, FunctionID.city_war_can_enter);
@@ -1565,7 +1585,7 @@ public class BidMgr extends EventProc{
 	
 	public void sendCanEnterWarRedToAllMembers(AllianceBean allianceBean){
 		if(allianceBean == null) return;
-		List<AlliancePlayer> aList = AllianceMgr.inst.getAllianceMembers(allianceBean.id);
+		Set<AlliancePlayer> aList = AllianceMgr.inst.getAllianceMembers(allianceBean.id);
 		List<EnterWarTimeBean> enterWarTimeBeans = HibernateUtil.list(EnterWarTimeBean.class,"where lmId=" + allianceBean.id + " and enterTime>'" + dayStart() + "' and enterTime<'" + dayEnd() +"'");
 		Map<Long, EnterWarTimeBean> enterMap = new HashMap<Long,EnterWarTimeBean>();
 		for (EnterWarTimeBean enterWarTimeBean : enterWarTimeBeans) {
@@ -1574,7 +1594,8 @@ public class BidMgr extends EventProc{
 		if(aList != null){
 			for (AlliancePlayer alliancePlayer : aList) {
 				IoSession sessionTmp = AccountManager.getIoSession(alliancePlayer.junzhuId);
-				if(enterMap.get(alliancePlayer.junzhuId) == null && sessionTmp != null){
+				EnterWarTimeBean enterWarTimeBean = enterMap.get(alliancePlayer.junzhuId); 
+				if((enterWarTimeBean == null || !DateUtils.isSameDay(enterWarTimeBean.enterTime)) && sessionTmp != null){
 					FunctionID.pushCanShowRed(alliancePlayer.junzhuId,sessionTmp,FunctionID.city_war_can_enter);
 				}
 			}

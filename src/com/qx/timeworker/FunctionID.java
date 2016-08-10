@@ -17,6 +17,8 @@ public class FunctionID {
 	public static int guojiaAward = 500022;
 	// 签到
 	public static int Qiandao=140;
+	public static int LiJiQiandao=150;
+	public static int LingQuShuangBei=160;
 	// 首冲
 	public static int Shouchong=142;
 	

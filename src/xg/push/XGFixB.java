@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
 
 import com.google.protobuf.MessageLite.Builder;
+import com.manu.dynasty.store.Redis;
 import com.manu.network.SessionAttKey;
 import com.qx.account.SettingsBean;
 import com.qx.persistent.HibernateUtil;
@@ -60,8 +61,9 @@ public class XGFixB extends XG{
 		}
 		log.info("XG param {}, {},token {}",xgParam.accessId,xgParam.secretKey, token);
 		//客户端先登录，服务器会从router取到channel，根据该取到参数，去设置tag
-		SettingsBean confBean = HibernateUtil.find(SettingsBean.class, junZhuId);
-		if(confBean == null || confBean.str == null || confBean.str.isEmpty()){
+//		SettingsBean confBean = HibernateUtil.find(SettingsBean.class, junZhuId);
+		String settingsBean = Redis.instance.hget("SettingsBean", String.valueOf(junZhuId));
+		if(settingsBean == null || settingsBean.isEmpty()){
 			XingeApp push = new XingeApp(xgParam.accessId, xgParam.secretKey);
 			//客户端没有保存过设置，全部开启.
 			List<TagTokenPair> pairs = new ArrayList<TagTokenPair>();

@@ -32,6 +32,7 @@ import com.qx.alliance.AlliancePlayer;
 import com.qx.alliancefight.AllianceFightMatch;
 import com.qx.alliancefight.AllianceFightMgr;
 import com.qx.alliancefight.CityBean;
+import com.qx.alliancefight.CityBeanDao;
 import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
@@ -50,7 +51,7 @@ public class SceneMgr extends EventProc{
 	public Logger logger = LoggerFactory.getLogger(SceneMgr.class);
 	//TODO 联盟改变时修改缓存
 	public Map<Long, Integer> jzId2lmId = Collections.synchronizedMap(new LRUMap(5000));
-	public Map<Long, Long> jzId2houseId = Collections.synchronizedMap(new LRUMap(50));
+	public Map<Long, Long> jzId2houseId = Collections.synchronizedMap(new LRUMap(5000));
 	public ConcurrentHashMap<Integer, Scene> lmCities;
 	public ConcurrentHashMap<Long, Scene> houseScenes;
 	public ConcurrentHashMap<Integer, FightScene> fightScenes;
@@ -259,7 +260,7 @@ public class SceneMgr extends EventProc{
 				}
 			}
 		}else{
-			CityBean cityBean = HibernateUtil.find(CityBean.class,cityId);
+			CityBean cityBean = CityBeanDao.inst.getCityBeanById(cityId);
 			if(cityBean == null){
 				logger.warn("no city bean for {}", cityId);
 				return;
@@ -303,7 +304,7 @@ public class SceneMgr extends EventProc{
 			if(playerTime.zhunchengTime == null){
 				playerTime.zhunchengTime = new Date();
 				Cache.playerTimeCache.put(junZhuId, playerTime);
-				HibernateUtil.save(playerTime);
+				HibernateUtil.update(playerTime);
 				logger.info(" 记录玩家{}进入主城时间",junZhuId);
 			}
 		}

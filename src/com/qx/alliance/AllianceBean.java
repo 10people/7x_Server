@@ -57,7 +57,8 @@ public class AllianceBean implements DBHash{// implements MCSupport {
 	public int hufuNum;
 	@Override
 	public long hash() {
-		return id;
+		//处理时会被除1000
+		return id*1000;
 	}
 	
 //	@Override

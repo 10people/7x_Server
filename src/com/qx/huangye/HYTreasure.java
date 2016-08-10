@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.qx.persistent.DBHash;
 import com.qx.persistent.MCSupport;
 import com.qx.util.TableIDCreator;
 
@@ -14,7 +15,7 @@ import com.qx.util.TableIDCreator;
  *
  */
 @Entity
-public class HYTreasure {
+public class HYTreasure implements DBHash {
 
 	public static final long serialVersionUID = 1L;
 
@@ -70,6 +71,11 @@ public class HYTreasure {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public long hash() {
+		return lianMengId * 1000;
 	}
 
 	

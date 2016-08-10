@@ -4,10 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 
 @Entity
 @Table(name = "BuZhenHYPve")
-public class BuZhenHYPve {
+public class BuZhenHYPve implements DBHash {
 	
 	@Id
 	public long junzhuId;
@@ -15,4 +17,9 @@ public class BuZhenHYPve {
 	public long pos2;
 	public long pos3;
 	public int zuheId;
+	
+	@Override
+	public long hash() {
+		return junzhuId;
+	}
 }

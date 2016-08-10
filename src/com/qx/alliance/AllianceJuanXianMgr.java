@@ -304,9 +304,8 @@ public class AllianceJuanXianMgr extends EventProc {
 
 	@Override
 	public void proc(Event event) {
-		// TODO Auto-generated method stub
 		switch (event.id) {
-		case ED.ACC_LOGIN:{
+		case ED.JUNZHU_LOGIN:{
 			IoSession session = SessionManager.inst.getIoSession((long)event.param);
 			pushRedPoint(session);
 		}

@@ -4,9 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 @Entity
 @Table(name = "YunBiaoHistory123")
-public class YunBiaoHistory{
+public class YunBiaoHistory implements DBHash{
 	/**
 	 * @Fields serialVersionUID : TODO
 	 */
@@ -23,6 +25,10 @@ public class YunBiaoHistory{
 	public int historyYB;
 	/*劫镖历史次数*/
 	public int historyJB;
+	@Override
+	public long hash() {
+		return junZhuId;
+	}
 	
 
 }

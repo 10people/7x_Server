@@ -21,6 +21,7 @@ import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.timeworker.FunctionID;
 import com.qx.timeworker.FunctionID4Open;
@@ -75,7 +76,7 @@ public class ShouchongMgr extends EventProc{
 			return;
 		}
 		//充值成功，判断首冲
-		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class, " where junzhuId=" + junZhu.id);
+		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class,junZhu.id);
 		ExploreResp.Builder resp = ExploreResp.newBuilder();
 		if (ShouchongMgr.instance.getShouChongState(info) == 0) {// 未完成首冲
 			resp.setSuccess(STATE_NULL);
@@ -109,7 +110,7 @@ public class ShouchongMgr extends EventProc{
 			logger.error("cmd:{},未发现君主", cmd);
 			return;
 		}
-		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class,"where junzhuId=" + junZhu.id + "");
+		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class,junZhu.id);
 		ActivityGetRewardResp.Builder resp = ActivityGetRewardResp.newBuilder();
 		if (getShouChongState(info) == 0) {
 			logger.info("君主{}没有首冲",junZhu.id);
@@ -173,6 +174,7 @@ public class ShouchongMgr extends EventProc{
 		info.hasAward = 0;
 		info.junzhuId = junZhuId;
 		HibernateUtil.insert(info);
+		Cache.caCheMap.get(ShouchongInfo.class).put(junZhuId,info);
 		logger.info("玩家:{}完成首冲记录", junZhuId);
 	}
 
@@ -209,7 +211,7 @@ public class ShouchongMgr extends EventProc{
 	
 	public boolean isShow(JunZhu jz){
 		boolean result = true;
-		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class, " where junzhuId=" + jz.id);
+		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class,jz.id);
 		if(getShouChongState(info)== 2){ //领取后消失
 			result = false;
 		}
@@ -252,7 +254,7 @@ public class ShouchongMgr extends EventProc{
 	
 	public void isShowRed(IoSession session,long jzId){
 		//充值成功，判断首冲
-		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class, " where junzhuId=" + jzId);
+		ShouchongInfo info = HibernateUtil.find(ShouchongInfo.class,jzId);
 		if(session == null){
 			return;
 		}

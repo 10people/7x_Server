@@ -11,11 +11,12 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.qx.persistent.DBHash;
 import com.qx.persistent.MCSupport;
 
 @Entity
 @Table(name = "AllianceApply")
-public class AllianceApply implements MCSupport {
+public class AllianceApply implements MCSupport,DBHash {
 	
 	public static final long serialVersionUID = 7057558954854094852L;
 	
@@ -143,6 +144,11 @@ public class AllianceApply implements MCSupport {
 
 	@Override
 	public long getIdentifier() {
+		return junzhuId;
+	}
+
+	@Override
+	public long hash() {
 		return junzhuId;
 	}
 	

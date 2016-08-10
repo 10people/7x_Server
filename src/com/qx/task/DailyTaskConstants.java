@@ -36,6 +36,7 @@ public class DailyTaskConstants {
 	public static final int lieFu = 22;
 	public static final int lueDuo = 23;
 	public static final int junChengZhan = 24;
+	public static final int liaoTian = 25;
 	
 	public static final int show_tili_clock_12 = 12;
 	public static final int show_tili_clock_14 = 14;

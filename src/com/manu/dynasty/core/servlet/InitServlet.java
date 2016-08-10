@@ -55,12 +55,10 @@ public class InitServlet implements Servlet{
 	}
 	
 	public void destroy() {
-		// 通知登陆服：关服
-		TXSocketMgr.getInst().acceptor.unbind();
-		SessionManager.inst.closeAll();
-		TXSocketMgr.getInst().acceptor.dispose();
-		EndServ ser = new EndServ();
-		ser.start();
+		close();
+	}
+	public static void close(){
+		closeNet();
 		log.info("================game server begin to shutdown================");
 		EventMgr.shutdown();
 		BigSwitch.inst.houseMgr.shutdown();
@@ -80,11 +78,20 @@ public class InitServlet implements Servlet{
 		TableIDCreator.sockIoPool.shutDown();
 		PromptMsgMgr.inst.shutdown();
 		Redis.destroy(); 
-		HibernateUtil.getSessionFactory().close();
 		DBSaver.inst.shutdown();
 		DelayedSQLMgr.es.shutdown();
-		GameTaskMgr.es.shutdown();
+		GameTaskMgr.shutdown();
+		HibernateUtil.getSessionFactory().close();
 		log.info("================game server shutdown ok================");
+	}
+
+	public static void closeNet() {
+		// 通知登陆服：关服
+		TXSocketMgr.getInst().acceptor.unbind();
+		SessionManager.inst.closeAll();
+		TXSocketMgr.getInst().acceptor.dispose();
+		EndServ ser = new EndServ();
+		ser.start();
 	}
 
 	public ServletConfig getServletConfig() {

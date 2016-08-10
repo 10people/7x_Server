@@ -393,7 +393,7 @@ public class GreetMgr extends EventProc{
 			return ; 
 		}
 		//1)第一步，联盟人数是否已满。
-		int memberMax =AllianceMgr.inst.getAllianceMemberMax(playerAlliance.level);
+		int memberMax =AllianceMgr.inst.getAllianceMemberMax(playerAlliance.id);
 		if (playerAlliance.members >= memberMax) {
 			log.error("邀请别人入盟失败，联盟:{}人数已满,数量:{}等级:{}", playerAlliance.id, playerAlliance.members, playerAlliance.level);
 			resp.setResCode(2);
@@ -776,19 +776,19 @@ public class GreetMgr extends EventProc{
 		}
 		sendYaoQingGongHe2All(jzId,jzName);
 	}
-	public IoBuffer pack(long targertId, String[] param,  int eventId){
-		PromptMSG msgLeader = PromptMsgMgr.inst.
-				makeBean(0, targertId, param, eventId);
-		if(msgLeader == null){
+	public IoBuffer pack(long targertId, String[] param,  int eventId,int type){
+		PromptMSG msgBean = PromptMsgMgr.inst.
+				makeBean(0, targertId, param, eventId,type);
+		if(msgBean == null){
 			return null;
 		}
-		msgLeader.id = key.getAndIncrement();
+		msgBean.id = key.getAndIncrement();
 		SuBaoMSG.Builder subao = 
-				PromptMsgMgr.inst.makeSuBaoMSG(SuBaoMSG.newBuilder(), msgLeader);
+				PromptMsgMgr.inst.makeSuBaoMSG(SuBaoMSG.newBuilder(), msgBean);
 		if(subao == null){
 			return null;
 		}
-		msgCache.put(msgLeader.id, msgLeader);
+		msgCache.put(msgBean.id, msgBean);
 		IoBuffer buf2 = IoBuffer.wrap(ProtoBuffEncoder.toByteArray(subao.build(), PD.S_MengYouKuaiBao_PUSH));
 		return buf2;
 		
@@ -804,8 +804,8 @@ public class GreetMgr extends EventProc{
 			return;
 		}
 		String[] param = {targetjzName};
-		IoBuffer bufLeader = pack(targertId, param, SuBaoConstant.askgh4lm2leader);
-		IoBuffer bufNormal = pack(targertId, param, SuBaoConstant.askgh4lm2other);
+		IoBuffer bufLeader = pack(targertId, param, SuBaoConstant.askgh4lm2leader,-1);
+		IoBuffer bufNormal = pack(targertId, param, SuBaoConstant.askgh4lm2other,-1);
 		
 		for (SessionUser su: list){
 			if(su==null){
@@ -847,7 +847,7 @@ public class GreetMgr extends EventProc{
 		if(list == null){
 			return;
 		}
-		IoBuffer buf = pack(targertId, new String[]{targetjzName}, SuBaoConstant.askgh4baizhan);
+		IoBuffer buf = pack(targertId, new String[]{targetjzName}, SuBaoConstant.askgh4baizhan,-1);
 		for (SessionUser su: list){
 			if(su==null){
 				continue;
@@ -864,16 +864,6 @@ public class GreetMgr extends EventProc{
 		}
 		log.info("玩家--{}打完第一次百战千军,触发恭贺广播结束",targertId); 
 	}
-	/**
-	 * @Description 生成邀请恭贺通知
-	 */
-	public PromptMSG sendGongHePrompt(long jzId, long targertId, String  targetjzName, int eventId, IoSession session) { 
-		 PromptMSG msg=PromptMsgMgr.inst.savePromptMSG4GongHe(jzId,targertId, eventId, new String[]{targetjzName});
-		if (msg!=null){
-			PromptMsgMgr.inst.pushSubao(session, msg);
-		}
-		return msg;
-	}
 	
 	/**
 	 * @Description 处理从速报过来的邀请入盟
@@ -881,7 +871,10 @@ public class GreetMgr extends EventProc{
 	public void Invite2LM4GongHe(JunZhu jz,long subaoId, int type,IoSession session) {
 		long jzId=jz.id;
 		String jzName=jz.name;
-		PromptMSG msg = HibernateUtil.find(PromptMSG.class,subaoId);
+		PromptMSG msg = msgCache.get(subaoId);
+		if(msg == null){
+			msg = HibernateUtil.find(PromptMSG.class,subaoId);
+		}
 		PromptActionResp.Builder resp=PromptActionResp.newBuilder();
 		resp.setSubaoType(type);
 		if(msg==null){
@@ -895,7 +888,7 @@ public class GreetMgr extends EventProc{
 		log.info("君主{}从通知邀请别人加入联盟 ，邀请目标--{}",jzId,targetJzId);
 		Invite2LM(jzId, jzName, targetJzId, session);
 		//删除速报
-		HibernateUtil.delete(msg);
+		//HibernateUtil.delete(msg);
 		log.info("君主{}从通知邀请别人加入联盟,不发奖,删除速报--{} 结束",jzId,subaoId);
 	}
 

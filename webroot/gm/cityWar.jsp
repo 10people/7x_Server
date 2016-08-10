@@ -105,12 +105,13 @@ do{
 				if(!isEx || "".equals(AllianceMgr.inst.getAllianceName(lmId))){
 					alert("联盟ID或城池id不存在请检查");
 				}else{
-					CityBean cityBean = HibernateUtil.find(CityBean.class,cityId);
+					CityBean cityBean = CityBeanDao.inst.getCityBeanById(cityId);
 					if(cityBean == null){
 						cityBean = new CityBean();
 						cityBean.cityId = cityId;
 						cityBean.lmId = 0; //没人占领
 						cityBean.atckLmId = lmId;
+						CityBeanDao.inst.getMap().put(cityId,cityBean);
 						HibernateUtil.insert(cityBean);
 					}else{
 						if(cityBean.lmId != lmId){
@@ -162,6 +163,13 @@ do{
 			calendar.add(Calendar.DAY_OF_MONTH,-1);//今天之前的日期
 			String dt = DateUtils.datetime2Text(calendar.getTime());
 			String sql = "update " + WildCityBean.class.getSimpleName() + " set winTime='" + dt + "'";
+			for(Integer pid : WildCityBeanDao.inst.cache.keySet()){
+				Map<Integer, WildCityBean> ret = WildCityBeanDao.inst.cache.get(pid);
+				if(ret == null) continue;
+				for(Integer cityId:ret.keySet()){
+					ret.get(cityId).winTime = calendar.getTime();
+				}
+			}
 			HibernateUtil.executeSql(sql);
 		}else if("setWildZhanLing".equals(act)){
 			String wildCityIdStr = request.getParameter("wildCityId");
@@ -174,13 +182,15 @@ do{
 				if(allianceBean == null){
 					redirect("cityWar.jsp");
 				}
-				WildCityBean wildCityBean = HibernateUtil.find(WildCityBean.class, "where lmId="+ allianceBean.id + " and cityId=" + wildCityId);
+				//WildCityBean wildCityBean = HibernateUtil.find(WildCityBean.class, "where lmId="+ allianceBean.id + " and cityId=" + wildCityId);
+				WildCityBean wildCityBean = WildCityBeanDao.inst.getMap(allianceBean.id).get(wildCityId);
 				if(wildCityBean == null){
 					wildCityBean = new WildCityBean();
 					wildCityBean.cityId = wildCityId;
 					wildCityBean.lmId = allianceBean.id;
 					wildCityBean.winTime = new Date();
 					wildCityBean.isWin = 1;
+					WildCityBeanDao.inst.save(wildCityBean);
 					HibernateUtil.insert(wildCityBean);
 				}else{
 					if(wildCityBean.isWin != 1){
@@ -205,12 +215,13 @@ do{
 				if(!isEx || "".equals(AllianceMgr.inst.getAllianceName(lmId))){
 					alert("联盟ID或城池id不存在请检查");
 				}else{
-					CityBean cityBean = HibernateUtil.find(CityBean.class,cityId);
+					CityBean cityBean = CityBeanDao.inst.getCityBeanById(cityId);
 					if(cityBean == null){
 						cityBean = new CityBean();
 						cityBean.cityId = cityId;
 						cityBean.lmId = 0; //没人占领
 						cityBean.atckLmId = lmId;
+						CityBeanDao.inst.getMap().put(cityId, cityBean);
 						HibernateUtil.insert(cityBean);
 					}else{
 						if(cityBean.atckLmId != lmId){

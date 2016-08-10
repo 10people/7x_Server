@@ -4,8 +4,10 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
 import com.qx.util.TableIDCreator;
 
 
@@ -15,8 +17,8 @@ import com.qx.util.TableIDCreator;
  *
  */
 @Entity
-@Table
-public class VipRechargeRecord {
+@Table(indexes={@Index(name="accId",columnList="accId")})
+public class VipRechargeRecord implements DBHash{
 	@Id
 //	@GeneratedValue(strategy=GenerationType.AUTO)
 	public long id;//2015年4月17日16:57:30int改为long
@@ -56,5 +58,9 @@ public class VipRechargeRecord {
 		this.type = type;
 		this.addYB = addYB;
 		this.yueKaValid = yueKaValid;
+	}
+	@Override
+	public long hash() {
+		return accId;
 	}
 }

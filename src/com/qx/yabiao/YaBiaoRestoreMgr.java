@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.manu.dynasty.boot.GameServer;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceBeanDao;
 import com.qx.alliance.AllianceMgr;
@@ -39,6 +40,9 @@ public class YaBiaoRestoreMgr {
 		try{
 			for (YaBiaoBackUp bcUp : backupList) {
 				long jzId=bcUp.jzId;
+				if(jzId % 1000 != GameServer.serverId){
+					continue;
+				}
 				JunZhu jz = HibernateUtil.find(JunZhu.class, jzId);
 				if (jz == null) {
 					log.error("恢复押镖场景的玩家--{}马车失败，玩家不存在",jzId);

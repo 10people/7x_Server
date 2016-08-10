@@ -8,17 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.functors.ForClosure;
+import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
-import qxmobile.protobuf.Qiandao.GetQiandaoResp;
-import qxmobile.protobuf.Qiandao.GetVipDoubleReq;
-import qxmobile.protobuf.Qiandao.GetVipPresentReq;
-import qxmobile.protobuf.Qiandao.GetVipPresentResp;
-import qxmobile.protobuf.Qiandao.QiandaoAward;
-import qxmobile.protobuf.Qiandao.QiandaoResp;
 
 import com.google.protobuf.MessageLite.Builder;
 import com.manu.dynasty.base.TempletService;
@@ -33,23 +27,34 @@ import com.manu.dynasty.util.MathUtils;
 import com.manu.dynasty.util.StringUtils;
 import com.manu.network.PD;
 import com.manu.network.msg.ProtobufMsg;
+import com.qx.account.AccountManager;
 import com.qx.award.AwardMgr;
 import com.qx.event.ED;
+import com.qx.event.Event;
 import com.qx.event.EventMgr;
+import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.junzhu.JzKeji;
-import com.qx.mibao.MiBaoDB;
 import com.qx.mibao.MiBaoDao;
 import com.qx.mibao.MibaoMgr;
 import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
+import com.qx.timeworker.FunctionID;
+
+import qxmobile.protobuf.ErrorMessageProtos.ErrorMessage;
+import qxmobile.protobuf.Qiandao.GetQiandaoResp;
+import qxmobile.protobuf.Qiandao.GetVipDoubleReq;
+import qxmobile.protobuf.Qiandao.GetVipPresentReq;
+import qxmobile.protobuf.Qiandao.GetVipPresentResp;
+import qxmobile.protobuf.Qiandao.QiandaoAward;
+import qxmobile.protobuf.Qiandao.QiandaoResp;
 
 /**
  * @author hejincheng
  * 
  */
-public class QiandaoMgr {
+public class QiandaoMgr{
 	public Logger logger = LoggerFactory.getLogger(QiandaoMgr.class);
 	public static QiandaoMgr instance;
 	public static final short SUCCESS = 0;// 签到成功并领取一份奖励
@@ -185,10 +190,12 @@ public class QiandaoMgr {
 //						award.setState(1);
 //					} else {
 						award.setState(0);
+						
 //					}
 				} else {// 今天未签到
 					if (qianDao.day == leijiQiandao + 1) {
 						award.setState(1);
+						
 					} else {
 						award.setState(0);
 					}
@@ -236,6 +243,48 @@ public class QiandaoMgr {
 		}
 	}
 
+	public boolean hasDoubleAwardGet(QiandaoInfo qiandaoInfo, long jzId) {
+		boolean flag = false;
+		JunZhu jz = HibernateUtil.find(JunZhu.class, jzId);
+		if(qiandaoInfo == null){
+			return flag;
+		}
+		int vipLevel = jz.vipLevel;
+		String qianDaoDate = qiandaoInfo.qiandaoDate;
+		String getDoubleDate = qiandaoInfo.getDoubleDate;
+		Date tmpDate = new Date();
+		List<QianDao> list = awardMap.get(getMonth(tmpDate));
+		if (null == qianDaoDate || "".equals(qianDaoDate)) {
+			return flag;
+		}
+		String[] a = qianDaoDate.split("#");
+		for (int i = 0; i < a.length; i++) {
+			if (isHave(getDoubleDate, a[i])) {
+				continue;
+			}
+			QianDao qianDao = list.get(i);
+			if (null != qianDao) {
+				if (qianDao.vipDouble > 0 && qianDao.vipDouble <= vipLevel) {
+					flag = true;
+				}
+			}
+		}
+		return flag;
+	}
+	
+	public boolean isHave(String getDoubleDate,String date){
+		boolean flag = false;
+		if(null == getDoubleDate || "".equals(getDoubleDate)){
+			return flag;
+		}
+		String[] b = getDoubleDate.split("#");
+		for(int i =0;i<b.length;i++){
+			if(b[i].equals(date)){
+				flag = true;
+			}
+		}
+		return flag;
+	}
 	/**
 	 * 签到
 	 * 
@@ -309,6 +358,7 @@ public class QiandaoMgr {
 					}
 					qiandaoInfo.preQiandao = date;
 					qiandaoInfo.historyQianDao += 1;
+//					sendRedNotice(junZhu.id, session);
 				}
 				HibernateUtil.save(qiandaoInfo);
 			}

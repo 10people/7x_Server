@@ -417,6 +417,8 @@
 				String bagCntKey = "BagCnt#"+bag.ownerId;
 				Object mcO = com.manu.dynasty.store.MemcachedCRUD.getMemCachedClient().get(bagCntKey);
 				out.print("&nbsp;MemoryCache保存的BagCnt:" + mcO);
+				out.print("&nbsp;内存里有吗:" + BagMgr.bagCache.containsKey(bag.ownerId));
+				//BagMgr.inst.loadBagNoCache(bag.ownerId);
 	%><table border='1'>
 		<tr>
 			<th>dbId</th>

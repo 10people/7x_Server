@@ -6,9 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.qx.persistent.DBHash;
+
 //type类型(与配置文件必须一样):1：装备铺,2：珍宝行,3：石料店,4：益精堂
 @Entity
-public class WuBeiFangBean {
+public class WuBeiFangBean implements DBHash {
 	@Id
 	public long junzhuId;
 	
@@ -29,4 +31,9 @@ public class WuBeiFangBean {
 	
 	/** 最后一次购买时间，用于判断次数是否需要重置 **/
 	public Date lastBuyTime;
+
+	@Override
+	public long hash() {
+		return junzhuId;
+	}
 }

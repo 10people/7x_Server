@@ -3,8 +3,10 @@ package com.qx.alliance.building;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.qx.persistent.DBHash;
+
 @Entity
-public class LMKJJiHuo {
+public class LMKJJiHuo implements DBHash{
 	@Id
 	public long junzhuId;
 	
@@ -24,4 +26,9 @@ public class LMKJJiHuo {
 	public int type_301;
 	public int type_204;
 	public int type_205;
+	@Override
+	public long hash() {
+		// TODO Auto-generated method stub
+		return junzhuId;
+	}
 }

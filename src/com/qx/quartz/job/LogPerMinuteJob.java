@@ -19,7 +19,8 @@ public class LogPerMinuteJob  implements Job{
 		int minuteCnt = Calendar.getInstance().get(Calendar.MINUTE);
 		minuteCnt %= 5;//每5分钟生成一次在线数量
 		if(minuteCnt == 0){
-			OurLog.log.PlayerOnline();
+			//2016年8月8日16:31:43  不要了。 
+//			OurLog.log.PlayerOnline();
 		}
 		OurLog.log.GameSvrState();
 	}

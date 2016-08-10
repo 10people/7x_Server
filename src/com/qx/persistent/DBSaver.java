@@ -6,6 +6,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import com.qx.util.TPE;
+
 public class DBSaver {
 	public static ThreadPoolExecutor[] es;
 	public static DBSaver inst = new DBSaver();
@@ -14,7 +16,7 @@ public class DBSaver {
 		es = new ThreadPoolExecutor[20];
 		int len = es.length;
 		for(int i=0;i<len; i++){
-			es[i] = new ThreadPoolExecutor(1, 1,
+			es[i] = new TPE(1, 1,
                     0L, TimeUnit.MILLISECONDS,
                     new LinkedBlockingQueue<Runnable>());
 		}

@@ -27,6 +27,8 @@ import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
+import com.qx.persistent.Cache;
+import com.qx.persistent.DBSaver;
 import com.qx.persistent.HibernateUtil;
 import com.qx.task.DailyTaskCondition;
 import com.qx.task.DailyTaskConstants;
@@ -176,10 +178,11 @@ public class TalentMgr extends EventProc{
 //			log.error("天赋功能没有开启");
 //			return;
 //		}
-//		TalentAttr ta = HibernateUtil.find(TalentAttr.class, jId);
-		TalentAttr ta = (TalentAttr) session.getAttribute(SessionAttKey.TalentAttr);
+		TalentAttr ta = HibernateUtil.find(TalentAttr.class, jId);
 		if(ta == null){
 			ta = new TalentAttr(jId);
+			Cache.talentAttrCache.put(jId, ta);
+			HibernateUtil.insert(ta);
 		}
 		TalentInfoResp.Builder resp = TalentInfoResp.newBuilder();
 		resp.setWuYiJingQi(ta.wuYiJingQi);
@@ -221,15 +224,15 @@ public class TalentMgr extends EventProc{
 	 * 增加武艺精气
 	 */
 	public int addWuYiJingQi(IoSession session,JunZhu jz, int addValue){
-		TalentAttr attr = (TalentAttr) session.getAttribute(SessionAttKey.TalentAttr);
+		TalentAttr attr = HibernateUtil.find(TalentAttr.class, jz.id);
 		if(attr == null){
 			return 0;
 		}
 		attr.wuYiJingQi += addValue;
-		DelayedSQLMgr.es.submit(()->{
-			HibernateUtil.update(attr);
-			noticeTalentCanLevUp(jz);
-		});
+		DBSaver.inst.update(attr);
+		EventMgr.submit(jz.id, ()->
+			noticeTalentCanLevUp(jz)
+		);
 		// 检查是否存在天赋可以满足升级条件
 		return attr.wuYiJingQi;
 	}
@@ -237,15 +240,14 @@ public class TalentMgr extends EventProc{
 	 * 增加体魄精气
 	 */
 	public int addTiPoJingQi(IoSession session,JunZhu jz, int addValue){
-		TalentAttr attr = (TalentAttr) session.getAttribute(SessionAttKey.TalentAttr);
+		TalentAttr attr = HibernateUtil.find(TalentAttr.class, jz.id);
 		if(attr == null){
 			return 0;
 		}
 		attr.tiPoJingQi+=addValue;
-		DelayedSQLMgr.es.submit(()->{
-			HibernateUtil.update(attr);
-			noticeTalentCanLevUp(jz);
-		}
+		DBSaver.inst.update(attr);
+		EventMgr.submit(jz.id, ()->
+			noticeTalentCanLevUp(jz)
 		);
 		// 检查是否存在天赋可以满足升级条件
 		return attr.tiPoJingQi;
@@ -271,6 +273,7 @@ public class TalentMgr extends EventProc{
 		TalentPoint talentBean = getTalentPoint(jId, pointId);
 		if(talentBean == null){
 			talentBean = initTalentPoint(junZhuId, pointId);
+			save(talentBean);
 		}
 		TalentUpLevelResp.Builder resp = TalentUpLevelResp.newBuilder();
 		if(talentBean.level == talentData.maxLv){
@@ -308,13 +311,9 @@ public class TalentMgr extends EventProc{
 				}
 			}
 		}
-//		TalentAttr attr = HibernateUtil.find(TalentAttr.class, jId);
-		TalentAttr attr = (TalentAttr) session.getAttribute(SessionAttKey.TalentAttr);
+		TalentAttr attr = HibernateUtil.find(TalentAttr.class, jId);
 		if(attr == null){
-			attr = HibernateUtil.find(TalentAttr.class, jz.id);;
-			if(attr == null){
 				return;
-			}
 		}
 		ExpTemp expTemp = 
 				TempletService.getInstance().getExpTemp(talentData.expId, talentBean.level);
@@ -386,14 +385,10 @@ public class TalentMgr extends EventProc{
 					break;
 			}
 		}
-		final TalentAttr attBean = attr;
-		DelayedSQLMgr.es.submit(()->
-			HibernateUtil.update(attBean)
-		);
-		session.setAttribute(SessionAttKey.TalentAttr, attr);
+		DBSaver.inst.update(attr);
 		log.info("玩家：{}升级天赋：{}成功, 当前等级是：{}, 防守点数是：{}， 进攻点数是：{}",
 				jId, pointId, talentBean.level, attr.fangShouDianShu, attr.jinGongDianShu);
-		ActLog.log.KingTalent(jz.id, jz.name, ActLog.vopenid, pointId, talentData.name, talentBean.level, talentData.type, 1);
+		ActLog.log.KingTalent(jz.id, jz.name, pointId, talentData.name, talentBean.level, talentData.type, 1);
 		sendTalentInfo(session);
 		// update君主属性列表
 		JunZhuMgr.inst.sendMainInfo(session,jz);
@@ -418,7 +413,6 @@ public class TalentMgr extends EventProc{
 		point.junZhuId = junZhuId;
 		point.point = pointId;
 		point.level = 0;
-		save(point);
 		return point;
 	}
 	public int addDianShuByUpLevel(int pointId, int level){
@@ -487,6 +481,8 @@ public class TalentMgr extends EventProc{
 			TalentAttr attr = HibernateUtil.find(TalentAttr.class, jId);
 			if(attr == null){
 				attr = new TalentAttr(jId);
+				Cache.talentAttrCache.put(jId, attr);
+				HibernateUtil.insert(attr);
 			}
 			ExpTemp expTemp = 
 					TempletService.getInstance().getExpTemp(talentData.expId, talentBean.level);

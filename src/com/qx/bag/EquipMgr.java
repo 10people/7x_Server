@@ -24,6 +24,7 @@ import com.manu.network.SessionAttKey;
 import com.manu.network.SessionManager;
 import com.manu.network.SessionUser;
 import com.qx.equip.domain.UserEquip;
+import com.qx.equip.domain.UserEquipDao;
 import com.qx.event.ED;
 import com.qx.event.Event;
 import com.qx.event.EventMgr;
@@ -54,7 +55,7 @@ public class EquipMgr extends EventProc{
 	/** 装备部位：头部*/
 	public static final byte EQUIP_HEAD = 11;
 	public static boolean useCache = true;
-	public static Map<Long, Bag<EquipGrid>> equipCache = Collections.synchronizedMap(new LRUMap(1000));
+	public static Map<Long, Bag<EquipGrid>> equipCache = Collections.synchronizedMap(new LRUMap(5000));
 	
 	public EquipMgr(){
 		inst = this;
@@ -78,14 +79,25 @@ public class EquipMgr extends EventProc{
 		}
 		Object[] mcArr = MemcachedCRUD.getMemCachedClient().getMultiArray(keys);
 		List<EquipGrid> list = null; 
-		if(mcArr[4] == null){//第一个取不到，认为MC里没有。
+		boolean missAny = false;
+		for(Object o : mcArr){
+			if(o==null){
+				missAny = true;
+				break;
+			}
+		}
+		if(missAny){//MC会执行LUR，数据可能不全
 			long time = System.currentTimeMillis();
-			list = loadFromDB(base, start, end);
+			list = new ArrayList<EquipGrid>(9);
+			for(int i=0;i<9;i++){
+				list.add(null);
+			}
+			List<EquipGrid> dblist = loadFromDB(base, start, end);
 			log.info("11------loadEquipFrom Db -----{}", System.currentTimeMillis() - time);
-			for(EquipGrid eg : list){//逐个放入MC
-				if(eg != null){
-					MC.add(eg, eg.dbId);
-				}
+			for(EquipGrid eg : dblist){//逐个放入MC
+				MC.add(eg, eg.dbId);
+				long idx = eg.dbId%spaceFactor;
+				list.set((int)idx, eg);
 			}
 		}else{
 			//FIXME 避免总是创建ArrayList，考虑内存缓存。
@@ -263,6 +275,7 @@ public class EquipMgr extends EventProc{
 		}
 		//===========
 		BaseItem o = TempletService.itemMap.get(bg.itemId);
+		log.error(""+bg.itemId);
 		if(o == null){
 			log.error("物品没有找到 {}",bg.itemId);
 			return;
@@ -313,7 +326,7 @@ public class EquipMgr extends EventProc{
 			HibernateUtil.insert(eg);
 			if(useCache){
 				Bag<EquipGrid> equipBag = loadEquips(junZhu.id);
-				equipBag.grids.add(eg);
+				equipBag.grids.set(slot, eg);
 			}
 			equips.grids.set(slot, eg);
 			
@@ -339,7 +352,7 @@ public class EquipMgr extends EventProc{
 				return;
 			}
 			
-			int qhTotalExp = getQiangHuaTotalExp(preEg.itemId, preEg.instId);
+			int qhTotalExp = getQiangHuaTotalExp(preEg.itemId, preEg.instId ,junZhu.id);
 			ZhuangBei targetZb = TempletService.equipMaps.get(bg.itemId);
 			if(targetZb == null) {
 				log.error( "装备替换失败2：targetZb == null,reEg.itemId-{}，bg.itemId--{}" ,preEg.itemId, bg.itemId);
@@ -362,7 +375,7 @@ public class EquipMgr extends EventProc{
 			// 获取强化洗练信息
 			UserEquip dbUe = null;
 			if(preEg.instId > 0){
-				dbUe = HibernateUtil.find(UserEquip.class, preEg.instId);
+				dbUe = UserEquipDao.find(preEg.dbId/EquipMgr.spaceFactor, preEg.instId);
 				if(dbUe == null){
 					log.error( "已经强化的数据丢失了,preEg.instId-{}" ,preEg.instId);
 //					sendError(session, "已经强化的数据丢失了。");
@@ -383,7 +396,7 @@ public class EquipMgr extends EventProc{
 				dbUe.level = afterLevel;	
 				dbUe.exp = afterExp;
 				dbUe.JinJieExp = jinjieExp ;
-				HibernateUtil.insert(dbUe);
+				UserEquipDao.insert(dbUe);
 				MC.add(dbUe, dbUe.getIdentifier());
 			}
 			
@@ -450,13 +463,13 @@ public class EquipMgr extends EventProc{
 	}
 	
 	
-	public int getQiangHuaTotalExp(int zhuangBeiId, long instId){
+	public int getQiangHuaTotalExp(int zhuangBeiId, long instId ,long junZhuId ){
 		ZhuangBei zbCfg = TempletService.equipMaps.get(zhuangBeiId);
 		if(zbCfg == null) {
 			log.error("找不到zhuangbei配置，zhuangBeiId:{}", zhuangBeiId);
 			return 0;
 		}
-		UserEquip ue = HibernateUtil.find(UserEquip.class, instId);
+		UserEquip ue = UserEquipDao.find(junZhuId, instId);
 		if(ue == null) {
 			return 0;
 		}

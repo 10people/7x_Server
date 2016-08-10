@@ -99,6 +99,7 @@ import com.qx.event.Event;
 import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.fight.FightMgr;
+import com.qx.friends.GreetMgr;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
 import com.qx.persistent.Cache;
@@ -801,7 +802,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 	 */
 	public void move2BiaoChe4KB(long subaoId, JunZhu jz , IoSession session) {
 		log.info("{}请求前往镖车",jz.id);
-		PromptMSG msg = HibernateUtil.find(PromptMSG.class,subaoId);
+		PromptMSG msg = GreetMgr.msgCache.get(subaoId);
 		PromptActionResp.Builder resp=PromptActionResp.newBuilder();
 		resp.setSubaoType(105);//默认返回105 前端传送处理
 		if(msg==null){
@@ -817,7 +818,6 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		if(msg.eventId==SuBaoConstant.mccf_toOther||msg.eventId==SuBaoConstant.zdqz){
 			log.info("{}请求加入{}协助队伍",jz.id,ybjzId);
 			jionHelp2YB(jz, msg, session);
-			HibernateUtil.delete(msg);
 			return;
 		}
 		
@@ -854,7 +854,6 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		resp.setPosZ(ybr.posZ);
 		session.write(resp.build());
 		log.info("{}请求前往{}镖车成功，镖车坐标x:{},z:{}",jz.id,ybjzId,ybr.posX,ybr.posZ);
-		HibernateUtil.delete(msg);
 	}
 	
 	/**
@@ -2550,7 +2549,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		boolean ret3=false;
 		int horseType=ybr.horseType;
 		//2015年12月14日 改完配置  明确只向未协助盟友求助   没有向协助盟友、所有盟友求助操作求助 
-		ret3=PromptMsgMgr.inst.pushKB2WeiXieZhuMengYou(jz, aBean.id, horseType, eventId, "");
+		ret3=PromptMsgMgr.inst.pushKB2WeiXieZhuMengYou(jz, aBean.id, horseType, eventId);
 		log.info("镖车出发事件处理结果ret3=={} ，{}请求押镖协助成功",ret3, ybJzId);
 		resp.setCode(10);
 		session.write(resp.build());
@@ -2976,7 +2975,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 	
 		bean.lastJBDate = null;
 		bean.lastResetTime=new Date();
-		HibernateUtil.save(bean);
+		HibernateUtil.insert(bean);
 		Cache.ybBattleCache.put(jzId, bean);//更新缓存
 		log.info("玩家id是 ：{}的 押镖数据库记录YaBiaoInfo生成成功", jzId);
 		return bean;
@@ -3142,7 +3141,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		jbBattleBean.remainJB4Award-=1;//到这里还能减成负数，前面是怎么进行的
 		HibernateUtil.save(jbBattleBean);
 		log.info("劫镖者{}劫镖成功，仇人加成:{}，收益{},劫镖次数{}，剩余次数{}", dajieJz.id,enemyJiaCheng/100,dajieshouyi,jbBattleBean.usedJB,jbBattleBean.remainJB4Award);
-		ActLog.log.LootDart(dajieJz.id, dajieJz.name, ActLog.vopenid, ActLog.vopenid, ybJzId, "", dajieshouyi, ybHis.successJB);
+		ActLog.log.LootDart(dajieJz.id, dajieJz.name, ybJzId, "", dajieshouyi, ybHis.successJB);
 		// 劫镖成功，加入劫镖人的记录
 		saveYaBiaoHistory(dajieJz, yabiaoJz, 3, dajieshouyi, ybr.horseType);
 	
@@ -3382,7 +3381,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 		
 		//系统镖车死亡， 移除运镖君主信息
 		removeYBJzInfo(ybr);
-		ActLog.log.LootDart(dajieJz.id, dajieJz.name, ActLog.vopenid, ActLog.vopenid, ybJzId, "", dajieshouyi, ybHis.successJB);
+		ActLog.log.LootDart(dajieJz.id, dajieJz.name, ybJzId, "", dajieshouyi, ybHis.successJB);
 
 	}
 	//2015年12月12日 1.1版本  结算国家仇恨废弃
@@ -3933,6 +3932,7 @@ public class YaBiaoHuoDongMgr extends EventProc implements Runnable {
 			ybHis.historyYB = 0;
 			ybHis.junZhuId=jzId;
 			HibernateUtil.insert(ybHis);
+			Cache.yunBiaoHistoryCache.put(jzId, ybHis);
 		}
 		return ybHis;
 	}

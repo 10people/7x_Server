@@ -27,7 +27,6 @@
 <a href="gm/tianFu.jsp" target='target'>天赋</a><br/>
 <a href="gm/xin-ge.jsp" target='target'>信鸽</a><br/>
 <a href="gm/dailyAward.jsp" target='target'>每日奖励</a><br/>
-<a href="gm/baoXiang.jsp" target='target'>宝箱</a><br/>
 <a href="gm/pveInfo.jsp" target='target'>pve进度</a><br/>
 <a href="gm/chonglou.jsp" target='target'>千重楼</a><br/>
 <a href="gm/timeworker.jsp" target='target'>定时请求任务</a><br/>

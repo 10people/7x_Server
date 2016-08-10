@@ -42,6 +42,7 @@ import com.qx.event.EventMgr;
 import com.qx.event.EventProc;
 import com.qx.junzhu.JunZhu;
 import com.qx.junzhu.JunZhuMgr;
+import com.qx.persistent.Cache;
 import com.qx.persistent.HibernateUtil;
 import com.qx.timeworker.FunctionID;
 import com.qx.util.RandomUtil;
@@ -79,7 +80,7 @@ public class JianZhuMgr extends EventProc{
 			sendError(id, session, "您不在联盟中。");
 			return;
 		}
-		JianZhuLvBean bean = HibernateUtil.find(JianZhuLvBean.class, member.lianMengId);
+		JianZhuLvBean bean = JianZhuLvBeanDao.inst.getJianZhuBean(member.lianMengId);
 		if(bean == null){
 			bean = insertJianZhuLvBean(member.lianMengId, bean);
 		}
@@ -130,11 +131,10 @@ public class JianZhuMgr extends EventProc{
 			sendError(1,session,"没有联盟数据");
 			return;
 		}
-		JianZhuLvBean bean = HibernateUtil.find(JianZhuLvBean.class, member.lianMengId);
+		JianZhuLvBean bean = JianZhuLvBeanDao.inst.getJianZhuBean(member.lianMengId);
 		if(bean == null) {
 			bean = insertJianZhuLvBean(member.lianMengId, bean);
 		}
-//		AllianceBean lmBean = HibernateUtil.find(AllianceBean.class, member.lianMengId);
 		AllianceBean lmBean = AllianceBeanDao.inst.getAllianceBean(member.lianMengId);
 		if(lmBean == null){
 			sendError(3,session,"没有联盟数据");
@@ -362,6 +362,7 @@ public class JianZhuMgr extends EventProc{
 			bean.lmId = lianMengId;
 			bean.keZhanLv=bean.shuYuanLv=bean.shangPuLv=bean.zongMiaoLv=bean.tuTengLv=1;
 			HibernateUtil.insert(bean);
+			JianZhuLvBeanDao.inst.insertJianZhuBean(lianMengId, bean);
 		}
 		return bean;
 	}
@@ -374,7 +375,7 @@ public class JianZhuMgr extends EventProc{
 	}
 
 	public LianMengKeJi getKeJiConfByType(int lmId, int type) {
-		LMKJBean bean = HibernateUtil.find(LMKJBean.class, lmId);
+		LMKJBean bean = LMKJBeanDao.inst.getBean(lmId);
 		int curLevel = 0;
 		if(bean != null){
 			curLevel = getKeJiLv(bean, type);
@@ -407,7 +408,7 @@ public class JianZhuMgr extends EventProc{
 		if(req == null){
 			return;
 		}
-		LMKJBean bean = HibernateUtil.find(LMKJBean.class, member.lianMengId);
+		LMKJBean bean = LMKJBeanDao.inst.getBean(member.lianMengId);
 		int curLevel = 0;
 		int type = req.getErrorCode();
 		if(bean != null){
@@ -440,7 +441,7 @@ public class JianZhuMgr extends EventProc{
 			return;
 		}
 		
-		JianZhuLvBean jianZhuBean = HibernateUtil.find(JianZhuLvBean.class, member.lianMengId);
+		JianZhuLvBean jianZhuBean = JianZhuLvBeanDao.inst.getJianZhuBean(member.lianMengId);
 		if(jianZhuBean == null) {
 			jianZhuBean = insertJianZhuLvBean(member.lianMengId, jianZhuBean);
 		}
@@ -452,9 +453,7 @@ public class JianZhuMgr extends EventProc{
 		//
 		if(bean == null){
 			bean = new LMKJBean();
-			bean.lmId = member.lianMengId;
-			fillDefaultLevel(bean);
-			HibernateUtil.insert(bean);
+			fillDefaultLevel(member.lianMengId, bean);
 		}
 		lmBean.build -= conf.lvUpValue;
 		HibernateUtil.update(lmBean);
@@ -494,7 +493,7 @@ public class JianZhuMgr extends EventProc{
 		JiHuoLMKJReq.Builder request = (qxmobile.protobuf.JianZhu.JiHuoLMKJReq.Builder) builder;
 		int type = request.getKeJiType();
 		
-		LMKJBean bean = HibernateUtil.find(LMKJBean.class, member.lianMengId);
+		LMKJBean bean = LMKJBeanDao.inst.getBean(member.lianMengId);
 		int kjLevel = 0;
 		if(bean != null){
 			kjLevel = getKeJiLv(bean, type);
@@ -505,6 +504,7 @@ public class JianZhuMgr extends EventProc{
 			lmkjJiHuo = new LMKJJiHuo();
 			lmkjJiHuo.junzhuId = jz.id;
 			fillDefaultLMKJJiHuo(lmkjJiHuo);
+			Cache.lMKJJiHuoCache.put(jz.id, lmkjJiHuo);
 			HibernateUtil.insert(lmkjJiHuo);
 		}
 		
@@ -574,7 +574,8 @@ public class JianZhuMgr extends EventProc{
 		}
 	}
 
-	public void fillDefaultLevel(LMKJBean bean) {
+	public void fillDefaultLevel(int lianMengId, LMKJBean bean) {
+		bean.lmId = lianMengId;
 		bean.type_101=0;
 		bean.type_102=0;
 		bean.type_103=0;
@@ -591,6 +592,7 @@ public class JianZhuMgr extends EventProc{
 		bean.type_301=0;
 		bean.type_204=0;
 		bean.type_205=0;
+		LMKJBeanDao.inst.insertBean(lianMengId, bean);
 	}
 
 	public void fillDefaultLMKJJiHuo(LMKJJiHuo lmkjJiHuo) {
@@ -682,10 +684,10 @@ public class JianZhuMgr extends EventProc{
 			sendError(id, session, "您不在联盟中。");
 			return;
 		}
-		LMKJBean bean = HibernateUtil.find(LMKJBean.class, member.lianMengId);
+		LMKJBean bean = LMKJBeanDao.inst.getBean(member.lianMengId);
 		if(bean == null){
 			bean = new LMKJBean();
-			fillDefaultLevel(bean);
+			fillDefaultLevel(member.lianMengId, bean);
 		}
 		LMKJJiHuo lmkjJiHuo = HibernateUtil.find(LMKJJiHuo.class, jz.id);
 		if(lmkjJiHuo == null){
@@ -907,7 +909,7 @@ public class JianZhuMgr extends EventProc{
 
 	public int getMaxJiBaiTimes(AlliancePlayer member) {
 		int zongMiaoLv = 1;
-		JianZhuLvBean jianZhuBean = HibernateUtil.find(JianZhuLvBean.class, member.lianMengId);
+		JianZhuLvBean jianZhuBean = JianZhuLvBeanDao.inst.getJianZhuBean(member.lianMengId);
 		if(jianZhuBean != null && jianZhuBean.zongMiaoLv>0){
 			zongMiaoLv = jianZhuBean.zongMiaoLv;
 		}
@@ -1020,11 +1022,10 @@ public class JianZhuMgr extends EventProc{
 				FunctionID.pushCanShowRed(jz.id, session, FunctionID.YiJianJiBai);
 			}
 
-			LMKJBean bean2 = HibernateUtil.find(LMKJBean.class, member.lianMengId);
+			LMKJBean bean2 = LMKJBeanDao.inst.getBean(member.lianMengId);
 			if(bean2 == null){
 				bean2 = new LMKJBean();
-				bean2.lmId = member.lianMengId;
-				fillDefaultLevel(bean2);
+				fillDefaultLevel(member.lianMengId, bean2);
 			}
 			/*
 			 * 成员激活
@@ -1052,7 +1053,7 @@ public class JianZhuMgr extends EventProc{
 				}
 				// 盟主副盟主 研究
 			}else if(member.title == AllianceMgr.TITLE_LEADER || member.title == AllianceMgr.TITLE_DEPUTY_LEADER){
-				JianZhuLvBean jianZhuBean = HibernateUtil.find(JianZhuLvBean.class, member.lianMengId);
+				JianZhuLvBean jianZhuBean = JianZhuLvBeanDao.inst.getJianZhuBean(member.lianMengId);
 				if(jianZhuBean == null) {
 					return;
 				}

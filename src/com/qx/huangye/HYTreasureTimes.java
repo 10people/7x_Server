@@ -6,14 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.qx.persistent.DBHash;
+
 
 /**
  * 每个联盟中的每个玩家对所有关卡共用每日挑战次数
  *
  */
 @Entity
-@Table(name="hy_treasure_times")
-public class HYTreasureTimes {
+public class HYTreasureTimes implements DBHash {
 	@Id
 	public long junzhuId;
 	public int lianmengId;
@@ -35,6 +36,11 @@ public class HYTreasureTimes {
 		this.used = 0;
 		this.buyBattleHuiShu = 0;
 		this.allBattleTimes = 0;
+	}
+
+	@Override
+	public long hash() {
+		return junzhuId;
 	}
 	
 }
