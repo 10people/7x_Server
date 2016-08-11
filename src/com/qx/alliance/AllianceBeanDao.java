@@ -21,7 +21,7 @@ public class AllianceBeanDao {
 		if(aBean != null ){
 			return aBean;
 		}
-		aBean = HibernateUtil.find(AllianceBean.class, "where id = " + lmId ) ;
+		aBean = HibernateUtil.find(AllianceBean.class, lmId ) ;
 		allianceBeanCache.put(lmId, aBean) ;
 		return aBean;
 	}

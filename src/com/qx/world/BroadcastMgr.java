@@ -786,8 +786,12 @@ type	完成条件
 //		String hql = "select count(1) from MiBaoDB where ownerId="+jz.id
 //				+" and level>=1";
 //		int cnt = HibernateUtil.getCount(hql);
-		long cnt = MiBaoDao.inst.getMap(jz.id).values().stream()
+		Map<Integer, MiBaoDB> map = MiBaoDao.inst.getMap(jz.id);
+		long cnt = 0;
+		synchronized(map){
+			cnt = map.values().stream()
 				.filter(t->t.level>=1).count();
+		}
 		if(cnt<=0){
 			return;
 		}

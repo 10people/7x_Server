@@ -1,6 +1,7 @@
 package com.manu.dynasty.store;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.Tuple;
 
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -768,6 +770,17 @@ public class Redis {
 		return ss;
 	}
 	
+	public List<Object> zrangeAllbyscore(String key, Collection<Long> scores){
+		Jedis redis = this.pool.getResource();
+		Pipeline pi = redis.pipelined();
+		for(Long score:scores){
+			pi.zrangeByScore(key, score, score);
+		}
+		List<Object> res =  pi.syncAndReturnAll();
+		this.pool.returnResource(redis);
+		return res;
+	}
+	
 	public Set<String> zrange(String key){
 		Jedis redis = this.pool.getResource();
 
@@ -971,12 +984,23 @@ public class Redis {
 		}
 
 		Jedis redis = this.pool.getResource();
-
+		
 		Set<String> ret = redis.zrange(key, start, end - 1);
 
 		this.pool.returnResource(redis);
 
 		return ret;
+	}
+	
+	public List<Object> zscoreAll(String key, Collection<String> members ){
+		Jedis redis = this.pool.getResource();
+		Pipeline pipe = redis.pipelined();
+		for(String mem:members){
+			pipe.zscore(key, mem);
+		}
+		List<Object> res = pipe.syncAndReturnAll();
+		this.pool.returnResource(redis);
+		return res ;
 	}
 
 	/**

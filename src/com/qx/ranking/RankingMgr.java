@@ -1206,6 +1206,9 @@ public class RankingMgr extends EventProc{
 		}
 		int end = start + PAGE_SIZE;
 		Set<String> baiZhanSet = DB.zrange(BAIZHAN_RANK+"_"+guojiaId, start, end);
+		List<Long> baiZhanIds = new LinkedList<Long>();
+		baiZhanSet.stream().forEach(str -> baiZhanIds.add(Long.parseLong(str)));;
+		List<Integer> baiZhanRanks = PvpMgr.inst.getAllRank(baiZhanIds);
 		if(baiZhanSet==null||baiZhanSet.size()==0){
 			return null;
 		}
@@ -1236,9 +1239,10 @@ public class RankingMgr extends EventProc{
 //		}
 		if(baiZhanSet.size() > 0){
 			String strjz = baiZhanSet.stream().collect(Collectors.joining(","));
-			String hqljz = "select JunZhu.id,JunZhu.guoJiaId,JunZhu.name,AlliancePlayer.lianMengId,pvp_bean.allWin,pvp_bean.showWeiWang"
+			String hqljz = "select JunZhu.id,JunZhu.guoJiaId,JunZhu.name,AlliancePlayer.lianMengId,pvp_bean.allWin,public_shop.money"
 					+ " from JunZhu left join pvp_bean  on JunZhu.id = pvp_bean.junZhuId "
 					+" left join AlliancePlayer  on JunZhu.id = AlliancePlayer.junzhuId"
+					+" left join public_shop on public_shop.junZhuId = JunZhu.id and public_shop.type = 4"
 					+" where JunZhu.id in ("+strjz+")";
 			List<Object[]> list = (List<Object[]>) HibernateUtil.querySql(hqljz);
 			caChelist.addAll(list);
@@ -1250,6 +1254,7 @@ public class RankingMgr extends EventProc{
 							return arr ;
 						}));
 		List<BaiZhanInfo.Builder> baiZhanList = new ArrayList<BaiZhanInfo.Builder>();
+		int cnt = 0;
 		for(String jzIdStr:baiZhanSet){
 			long jzId = Long.parseLong(jzIdStr);
 			BaiZhanInfo.Builder bzBuilder = BaiZhanInfo.newBuilder();
@@ -1271,7 +1276,16 @@ public class RankingMgr extends EventProc{
 					AllianceBean alliance = AllianceBeanDao.inst.getAllianceBean(allId);
 					bzBuilder.setLianmeng(alliance.name);
 				}
-				int junZhuRank = PvpMgr.inst.getPvpRankById(jzId);
+				if(cnt >= baiZhanRanks.size()){
+					log.error("获取到的百战名次列表长度小于上榜人数列表:{}<{}"
+							,baiZhanRanks.size(),baiZhanSet.size());
+					break;
+				}
+				Integer junZhuRank =   baiZhanRanks.get(cnt++);
+				if(junZhuRank == null){
+					log.error("获取到得君主百战rank是null，君主id:{}",jzId);
+					continue;
+				}
 				int junxianLevel = PvpMgr.inst.getJunXianByRank(junZhuRank);
 				bzBuilder.setJunxian(PvpMgr.inst.getJunXianName(junxianLevel));
 				bzBuilder.setJunxianLevel(junxianLevel==-1?1:junxianLevel/100);

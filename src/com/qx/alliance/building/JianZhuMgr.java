@@ -592,7 +592,8 @@ public class JianZhuMgr extends EventProc{
 		bean.type_301=0;
 		bean.type_204=0;
 		bean.type_205=0;
-		LMKJBeanDao.inst.insertBean(lianMengId, bean);
+		if(lianMengId>0)
+			LMKJBeanDao.inst.insertBean(lianMengId, bean);
 	}
 
 	public void fillDefaultLMKJJiHuo(LMKJJiHuo lmkjJiHuo) {

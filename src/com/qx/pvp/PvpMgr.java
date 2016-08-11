@@ -3,6 +3,7 @@ package com.qx.pvp;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,7 +46,6 @@ import com.manu.network.BigSwitch;
 import com.manu.network.PD;
 import com.manu.network.SessionAttKey;
 import com.manu.network.SessionManager;
-import com.manu.network.SessionUser;
 import com.qx.account.FunctionOpenMgr;
 import com.qx.alliance.AllianceBean;
 import com.qx.alliance.AllianceMgr;
@@ -787,25 +787,20 @@ public class PvpMgr extends EventProc implements Runnable {
 		
 		List<OpponentInfo.Builder> enemyBuilderList = new ArrayList<OpponentInfo.Builder>();
 		List<Long> jzIdList = new LinkedList<Long>();
-		for (Integer rankTemp : tenRanks) {
-			if (rankTemp < 1) {
-				continue;
-			}
-			Set<String> elem = DB.zrangebyscore_(KEY, rankTemp - 1,
-					rankTemp - 1);
-			if (elem == null) {
-				continue;
-			}
+		List<Long> tenScores = new  LinkedList<Long>();
+		tenRanks.stream().forEach(rank -> tenScores.add(rank -1L));
+		List<Object> retList =  DB.zrangeAllbyscore(KEY, tenScores);
+		retList.stream().forEach(ret ->{
 			String s = null;
-			for (String str : elem) {
+			for(String str : (Set<String>)ret){
 				if (str != null) {
 					s = str;
 					break;
 				}
 			}
 			if (s == null) {
-				log.error("zrangebyscore_有问题:{}", rankTemp - 1);
-				continue;
+				log.error("无法找到敌人排名列表对应的敌人{}",tenRanks);
+				return;
 			}
 			String[] sss = s.split("_");
 			long playerId = Long.parseLong(sss[1]);
@@ -814,6 +809,10 @@ public class PvpMgr extends EventProc implements Runnable {
 			} else {
 				jzIdList.add(playerId);
 			}
+		});
+		if(jzIdList== null || jzIdList.size() == 0){
+			log.error("玩家请求的目标排名没有玩家占据{}",tenRanks);
+			return enemyBuilderList;
 		}
 		String str = jzIdList.stream().map( jz-> String.valueOf(jz)).collect(Collectors.joining(","));
 		String hql =  "select JunZhu.id , JunZhu.guoJiaId , JunZhu.name , JunZhu.roleId , JunZhu.level ,pvp_bean.gongJiZuHeId"
@@ -2440,10 +2439,14 @@ public class PvpMgr extends EventProc implements Runnable {
 	
 	/**通过玩家的排名获取玩家军衔*/
 	public int getJunXianByRank(int rank){
-		for(int id : baiZhanMap.keySet()){
-			BaiZhan b = baiZhanMap.get(id);
+		@SuppressWarnings("unchecked")
+		List<BaiZhan> baizhanList = TempletService.listAll(BaiZhan.class
+				.getSimpleName());
+		for(BaiZhan b:baizhanList){
+//		for(int id : baiZhanMap.keySet()){
+//			BaiZhan b = baiZhanMap.get(id);
 			if(rank >= b.minRank && rank <=b.maxRank){
-				return id;
+				return b.id;
 			}
 		}
 		return PVPConstant.XIAO_ZU_JI_BIE;
@@ -2999,6 +3002,28 @@ public class PvpMgr extends EventProc implements Runnable {
 				return rank ;
 	}
 	
+	public List<Integer> getAllRank(Collection<Long> ids){
+		List<Integer> res = new LinkedList<Integer>();
+		List<String> idStrList = new LinkedList<String>();
+		for(Long id:ids){
+			if(id<0){
+				idStrList.add("npc_" + (-id));
+			}else if (id>0) {
+				idStrList.add("jun_" + id);
+			}else{
+				log.error("批量获取百战排名出错，请求的君主id是0");
+			}
+		}
+		List<Object> ranks = DB.zscoreAll(KEY, idStrList);
+		for(Object rank :ranks){
+			if(rank != null){
+				res.add( (int)((Double)rank).doubleValue()+1);
+			}else{
+				res.add(null);
+			}
+		}
+		return res;
+	}
 	@Override
 	public void run() {
 		while (GameServer.shutdown == false) {
