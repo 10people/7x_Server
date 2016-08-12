@@ -2146,38 +2146,37 @@ public class PvpMgr extends EventProc implements Runnable {
 	public void proc(Event event) {
 		switch (event.id) {
 		case ED.JUNZHU_LOGIN:
-			if (event.param != null && event.param instanceof Long) {
-				long jzid = (Long) event.param;
+			if (event.param != null && event.param instanceof JunZhu) {
+				JunZhu junZhu = (JunZhu) event.param;
 				//君主是否在线
-				IoSession session = SessionManager.getInst().getIoSession(jzid);
-				JunZhu jz = JunZhuMgr.inst.getJunZhu(session);
-				if(jz == null){
+				IoSession session = SessionManager.getInst().getIoSession(junZhu.id);
+				if(junZhu == null || session == null){
 					break;
 				}
 				//君主是否开启百战
-				boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.baizhan, jz.id, jz.level);
+				boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.baizhan, junZhu.id, junZhu.level);
 				if(!isOpen){
 					break;
 				}
 				
 				//登录的时候领奖邮件判断
-				addDailyAward(jz, PVPConstant.LOGIN_SEND_EMAIL);
+				addDailyAward(junZhu, PVPConstant.LOGIN_SEND_EMAIL);
 				
 				//登录的时候各种百战相关的红点推送
 				// 百战历史记录（被人打了）
-				PvpBean bean = HibernateUtil.find(PvpBean.class, jz.id);
+				PvpBean bean = HibernateUtil.find(PvpBean.class, junZhu.id);
 				if(bean != null && !bean.isLook){
-					FunctionID.pushCanShowRed(jz.id, session, FunctionID.baiZhanRecord);
+					FunctionID.pushCanShowRed(junZhu.id, session, FunctionID.baiZhanRecord);
 				}
 				// 百战次数（有没用的次数）
 				if (bean == null ||
 						(bean.remain > 0 && getCountDown(bean) <= 0)){
-					FunctionID.pushCanShowRed(jz.id, session, FunctionID.baizhanCount);
+					FunctionID.pushCanShowRed(junZhu.id, session, FunctionID.baizhanCount);
 				}
 				//未领取排名奖励
 				if(bean != null && bean.rankAward > 0 ){
 					//TODO 添加排名奖励红点推送，等待策划配参数
-					FunctionID.pushCanShowRed(jz.id, session, FunctionID.baizhan);
+					FunctionID.pushCanShowRed(junZhu.id, session, FunctionID.baizhan);
 				}
 				//未领取每日奖励（21点到24点之间）
 				if(bean != null && 
@@ -2185,7 +2184,7 @@ public class PvpMgr extends EventProc implements Runnable {
 					int timeDistance = DateUtils.timeDistanceTodayOclock(21, 0);
 					if(timeDistance <= 0 ){
 						//TODO 添加每日奖励红点推送，等待策划配置参数
-						FunctionID.pushCanShowRed(jz.id, session, FunctionID.baiLingJiang);
+						FunctionID.pushCanShowRed(junZhu.id, session, FunctionID.baiLingJiang);
 					}
 				} 
 			}

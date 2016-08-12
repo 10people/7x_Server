@@ -1517,12 +1517,14 @@ public class BidMgr extends EventProc{
 		if(eBeanList == null || eBeanList.size() <=0){ //今天没进入过战场
 			/*List<CityBean> AllBidList = HibernateUtil.list(CityBean.class, "");*/
 			Map<Integer, CityBean> m = CityBeanDao.inst.getMap();
-			for (Integer cityId : m.keySet()) {
-				CityBean cityBean = m.get(cityId);
-				if(DateUtils.isInDeadline4Start(city_war_preparation_startTime,city_war_fighting_endTime)){
-					if(cityBean.atckLmId >0 && (cityBean.atckLmId == allianceBean.id || cityBean.lmId == allianceBean.id)){ //攻方或守方可以进入战场
-						FunctionID.pushCanShowRed(jz.id,session, FunctionID.city_war_can_enter);
-						return;
+			synchronized (m) {
+				for (Integer cityId : m.keySet()) {
+					CityBean cityBean = m.get(cityId);
+					if(DateUtils.isInDeadline4Start(city_war_preparation_startTime,city_war_fighting_endTime)){
+						if(cityBean.atckLmId >0 && (cityBean.atckLmId == allianceBean.id || cityBean.lmId == allianceBean.id)){ //攻方或守方可以进入战场
+							FunctionID.pushCanShowRed(jz.id,session, FunctionID.city_war_can_enter);
+							return;
+						}
 					}
 				}
 			}

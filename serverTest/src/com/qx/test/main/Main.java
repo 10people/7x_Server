@@ -55,7 +55,7 @@ public class Main {
 	public static void main(String[] args) throws Exception{
 		net = setup();
 		/*内网*/
-		System.out.println("请选择服务器：0内网；1kjh；");
+		System.out.println("请选择服务器：0内网；1kjh；3外网测试");
 		int i = System.in.read();
 		switch(i){
 		case '0':
@@ -64,6 +64,9 @@ public class Main {
 		case '1':
 			//康建虎 
 			GameClient.routerIP = "192.168.3.80:8090";hostname = "192.168.0.83";port=8586;TestTask.which=0;
+			break;
+		case '3':
+			GameClient.routerIP = "203.195.230.100:9091";hostname = "203.195.230.100";port=8587;TestTask.which=0;
 			break;
 		}
 		System.in.read();System.in.read();//读回车
@@ -77,7 +80,7 @@ public class Main {
 //		GameClient.routerIP = "192.168.3.80:8090";hostname = "192.168.1.100";port=8586;TestTask.which=2;
 		int cnt = 1;
 //		forceName = "719est358501";
-		head = "82A";
+		head = "811A";
 		head +=new Random().nextInt(99999);
 		addr = new InetSocketAddress(hostname, port);//外网测试服8587
 		startTime = System.currentTimeMillis();
@@ -258,6 +261,8 @@ public class Main {
 	public static IoConnector setup() {
 		PD.init();
 		ProtobufUtils.prototypeMap.put((int)PD.RED_NOTICE, ErrorMessage.getDefaultInstance());
+		ProtobufUtils.prototypeMap.put((int)PD.S_Broadcast, ErrorMessage.getDefaultInstance());
+		ProtobufUtils.prototypeMap.put((int)PD.FUNCTION_OPEN_NOTICE, ErrorMessage.getDefaultInstance());
 		final IoConnector connector = new NioSocketConnector(10);
 		connector.setConnectTimeoutMillis(5000);
 		final ProtoBuffDecoder protoBuffDecoder = new ProtoBuffDecoder();

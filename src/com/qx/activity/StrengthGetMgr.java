@@ -101,6 +101,7 @@ public class StrengthGetMgr extends EventProc{
 		ActivityGetStrengthResp.Builder resp = ActivityGetStrengthResp.newBuilder();
 		PeriodInfo.Builder pBuilder = PeriodInfo.newBuilder();
 		int[] stateArr = getState(session, jz);
+		if(stateArr == null) return;
 		//阶段1
 		pBuilder.setId(TYPE_1);
 		pBuilder.setTime(STRENGTH_GET_TIME1_START + "~" + STRENGTH_GET_TIME1_END);
@@ -306,7 +307,9 @@ public class StrengthGetMgr extends EventProc{
 	}
 	
 	public void isShowRed(IoSession session,JunZhu jz){
+		if(jz == null) return;
 		int[] stateArr = getState(session, jz);
+		if(stateArr == null) return; 
 		if(DateUtils.isInDeadline4Start(STRENGTH_GET_TIME1_START,STRENGTH_GET_TIME1_END) && stateArr[0] == 1) { //1阶段
 			FunctionID.pushCanShowRed(jz.id, session, FunctionID.activity_tili);
 		}else if (DateUtils.isInDeadline4Start(STRENGTH_GET_TIME2_START, STRENGTH_GET_TIME2_END) && stateArr[1] == 1) { //2阶段
@@ -319,6 +322,10 @@ public class StrengthGetMgr extends EventProc{
 	}
 	
 	public int[] getState(IoSession session,JunZhu jz){
+		if (jz == null) {
+			logger.error("未找到君主信息");
+			return null;
+		}
 		List<StrengthGetBean> getlist = HibernateUtil.list(StrengthGetBean.class, "where jzId=" + jz.id + " and getTime>'" + dayStart() + "' and getTime<'" + dayEnd() + "'");
 		Map<Integer,StrengthGetBean> getMap = new HashMap<Integer,StrengthGetBean>();
 		for (StrengthGetBean strengthGetBean : getlist) {

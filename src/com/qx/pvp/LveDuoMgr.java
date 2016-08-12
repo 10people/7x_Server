@@ -2013,14 +2013,13 @@ public class LveDuoMgr extends EventProc implements Runnable{
 		switch (e.id) {
 			case ED.JUNZHU_LOGIN:
 				// 掠夺登陆奖励领取
-				if (e.param != null && e.param instanceof Long) {
-					long jzid = (Long) e.param;
-					JunZhu junZhu = HibernateUtil.find(JunZhu.class, jzid);
+				if (e.param != null && e.param instanceof JunZhu) {
+					JunZhu junZhu= (JunZhu) e.param;
 					if (junZhu == null) {
 						break;
 					}
 					// 看 掠夺功能是否开启
-					boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.lveDuo, jzid, junZhu.level);
+					boolean isOpen=FunctionOpenMgr.inst.isFunctionOpen(FunctionID.lveDuo, junZhu.id, junZhu.level);
 					if(!isOpen){
 						break;
 					}

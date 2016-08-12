@@ -681,8 +681,9 @@ public class JianZhuMgr extends EventProc{
 			return;
 		}
 		AlliancePlayer member = AllianceMgr.inst.getAlliancePlayer(jz.id);
-		if (member == null) {
-			sendError(id, session, "您不在联盟中。");
+		if (member == null || member.lianMengId <= 0) {
+			//sendError(id, session, "您不在联盟中。");
+			log.info("请求联盟科技信息失败，君主:{}还没有联盟", jz.id);
 			return;
 		}
 		LMKJBean bean = LMKJBeanDao.inst.getBean(member.lianMengId);

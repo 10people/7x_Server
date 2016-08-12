@@ -1074,9 +1074,8 @@ public class ShopMgr extends EventProc {
 	public void proc(Event e) {
 		switch(e.id){
 		case ED.JUNZHU_LOGIN:
-			if (e.param != null && e.param instanceof Long) {
-				long jzid = (Long) e.param;
-				JunZhu junZhu = HibernateUtil.find(JunZhu.class, jzid);
+			if (e.param != null && e.param instanceof JunZhu) {
+				JunZhu junZhu = (JunZhu) e.param;
 				if (junZhu == null) {
 					break;
 				}
@@ -1085,11 +1084,11 @@ public class ShopMgr extends EventProc {
 					break;
 				}
 				// 发送红点信息
-				sendRedNotice(jzid, junZhu.level, su);
+				sendRedNotice(junZhu.id, junZhu.level, su);
 				// 发送威望值
-				sendMainIfo(su,jzid,ShopMgr.Money.weiWang);
+				sendMainIfo(su,junZhu.id,ShopMgr.Money.weiWang);
 				// 发送荒野币
-				sendMainIfo(su,jzid,ShopMgr.Money.huangYeBi);
+				sendMainIfo(su,junZhu.id,ShopMgr.Money.huangYeBi);
 				break;
 			}
 		}

@@ -23,6 +23,6 @@ public class TestJzInfo extends TestBase{
 		JunZhuInfoRet.Builder jzInfo = WuJiangTest.readJunZhuInfo(session, builder);
 		cl.jzId = jzInfo.getId();
 		cl.session.setAttachment(jzInfo);
-		System.out.println("TestJzInfo调用"+TestJzInfo.cnt++);
+//		System.out.println("TestJzInfo调用"+TestJzInfo.cnt++);
 	}
 }

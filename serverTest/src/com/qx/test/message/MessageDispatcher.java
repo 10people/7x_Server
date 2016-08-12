@@ -89,7 +89,7 @@ public class MessageDispatcher {
 				client.enterSceneRet(builder);
 				break;
 			case PD.Spirite_Move:{
-				fakeMove(client,builder);
+//				fakeMove(client,builder);
 			}
 //				System.out.println("move");
 				break;
@@ -160,10 +160,12 @@ public class MessageDispatcher {
 				System.out.println("S_Send_Chat");
 				break;
 			case PD.S_Broadcast:
-				System.out.println("S_Broadcast");
-				client.testTask.tryIds.clear();
-				client.lasdPveId=0;
-				client.reqTask();//防止卡任务，触发重试。
+//				System.out.println("S_Broadcast");
+				if(client != null && client.testTask!=null){
+					client.testTask.tryIds.clear();
+					client.lasdPveId=0;
+//					client.reqTask();//防止卡任务，触发重试。
+				}
 				break;
 			case PD.S_BUY_TIMES_INFO://防止卡任务，触发重试。
 				//Main.autoDone(client);
@@ -322,20 +324,20 @@ public class MessageDispatcher {
 //		c.masterUid = 5401;
 		//跟着固定的主人走。
 		if(c.masterUid != move.getUid()){
-//			return;
+			return;
 		}
 		long m = System.currentTimeMillis();
 		if(m - c.lastMoveTime<200){
 			return;
 		}else{
 			c.lastMoveTime = m;
-//			c.move();
-//			return;
+			c.move();
+			return;
 		}
-		move.setPosX(move.getPosX()-(c.uid-c.masterUid)/80f);
-		c.lastMoveTime = m;
-		c.session.write(builder.build());
-		c.session.write(builder.build());
+//		move.setPosX(move.getPosX()-(c.uid-c.masterUid)/80f);
+//		c.lastMoveTime = m;
+//		c.session.write(builder.build());
+//		c.session.write(builder.build());
 		
 		//System.out.println(c.accountName+" fake move:"+move.getPosX()+" -->"+c.masterUid);
 	}

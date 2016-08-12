@@ -306,7 +306,8 @@ public class AllianceJuanXianMgr extends EventProc {
 	public void proc(Event event) {
 		switch (event.id) {
 		case ED.JUNZHU_LOGIN:{
-			IoSession session = SessionManager.inst.getIoSession((long)event.param);
+			JunZhu junZhu = (JunZhu)event.param;
+			IoSession session = SessionManager.inst.getIoSession((junZhu.id));
 			pushRedPoint(session);
 		}
 		break;

@@ -229,9 +229,9 @@ public class GameClient {
 		req.setUid(1);
 		req.setSenderName(accountName);
 		req.setJzId(0);
-		req.setPosX(-7.998339f);
-		req.setPosY(4.7422743f);
-		req.setPosZ(-18.933374f);
+		req.setPosX(-96f+next(5));
+		req.setPosY(21f);
+		req.setPosZ(14.933374f+next(5));
 		session.write(req.build());
 		ProtobufUtils.prototypeMap.put(Integer.valueOf(PD.OPEN_ShiLian_FuBen), ErrorMessage.getDefaultInstance());
 		if(log)System.out.println("发起进入主城。");
@@ -277,7 +277,7 @@ public class GameClient {
 	public void createRole(String name) {
 		CreateRoleRequest.Builder req =  CreateRoleRequest.newBuilder();
 		req.setRoleName(name);
-		req.setRoleId(1);
+		req.setRoleId(next(4)+1);
 		req.setGuoJiaId(next(7)+1);
 		session.write(req.build());
 	}
@@ -392,10 +392,10 @@ public class GameClient {
 		Integer dir = (Integer) session.getAttribute("dirX", 1);
 		if(dir == 1){
 			x+=0.5f;
-			if(x>255)session.setAttribute("dirX", -1);
+			if(x>5)session.setAttribute("dirX", -1);
 		}else{
 			x -=0.5f;
-			if(x<150)session.setAttribute("dirX", 1);
+			if(x<-3)session.setAttribute("dirX", 1);
 		}
 		if( ((int)x) % 20 == 0 ){dir = -dir; session.setAttribute("dirX", dir);}
 		//
@@ -403,10 +403,10 @@ public class GameClient {
 		if(dir == null || ((int)z) % 20 == 0){dir = -dir; session.setAttribute("dirZ", dir);}
 		if(dir == 1){
 			z+=0.5f;
-			if(z>131)session.setAttribute("dirZ", -1);
+			if(z>-5)session.setAttribute("dirZ", -1);
 		}else{
 			z -=0.5f;
-			if(z<-1)session.setAttribute("dirZ", 1);
+			if(z<-19)session.setAttribute("dirZ", 1);
 		}
 		move.setPosX(x);
 		move.setPosY(4);

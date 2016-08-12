@@ -764,9 +764,9 @@ public class JewelMgr extends EventProc{
 		}
 		break;
 		case ED.JUNZHU_LOGIN:{
-			if(event.param instanceof Long){
-				long junZhuId = (long)event.param;
-				xiangQianRedPointPush(junZhuId);	
+			if(event.param instanceof JunZhu){
+				JunZhu junZhu = (JunZhu)event.param;
+				xiangQianRedPointPush(junZhu.id);	
 			}
 		}
 		break;

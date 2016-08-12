@@ -1,3 +1,4 @@
+<%@page import="java.util.Set"%>
 <%@page import="com.qx.alliance.AlliancePlayerDao"%>
 <%@page import="com.qx.account.Account"%>
 <%@page import="com.qx.alliance.BigHouse"%>
@@ -221,7 +222,7 @@ out.print(s+":"+guildName);
 				// 直接从数据库里查询，现在是要先从缓存里获取
 				//List<AlliancePlayer> list = HibernateUtil.list(AlliancePlayer.class, "where lianMengId= " + guildId);
 				// 从缓存里获取成员列表
-				List<AlliancePlayer> list = AlliancePlayerDao.inst.getMembers(guildId);
+				Set<AlliancePlayer> list = AlliancePlayerDao.inst.getMembers(guildId);
 				if (list != null) {
 					for (AlliancePlayer ap : list) {
 						JunZhu jz = HibernateUtil.find(JunZhu.class, ap.junzhuId);

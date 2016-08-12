@@ -188,6 +188,7 @@ public class AllianceMgr extends EventProc{
 	public static final Object buildLock = new Object();
 	public static final Object reputationLock  = new Object();
 	public static final Object hufuLock = new Object();
+	public static final Object membersNumLock = new Object();
 	
 	/** 联盟等级奖励默认开始等级 **/
 	public static final int LEVEL_AWARD_DEFAULT = 2;
@@ -915,7 +916,7 @@ public class AllianceMgr extends EventProc{
 		session.write(response.build());
 	}
 
-	public synchronized void exitAlliance(int cmd, IoSession session, Builder builder) {
+	public void exitAlliance(int cmd, IoSession session, Builder builder) {
 		// code:0-成功，1-失败:没有该联盟，2-失败:不是该联盟成员,3-失败:盟主不能退盟
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
 		if (junZhu == null) {
@@ -948,26 +949,22 @@ public class AllianceMgr extends EventProc{
 		// resetAlliancePlayer 之前，总结计算一次贡金 add 20150915
 //		GuoJiaMgr.inst.calculateGongJinBeforeQuitAlliance(exitMember.junzhuId);
 		// 退出联盟。贡金为0
-		RankingGongJinMgr.inst.setGongJinTo0(exitMember.junzhuId, alncBean.id);
-
-		resetAlliancePlayer(alncBean, exitMember);
-		AlliancePlayerDao.inst.exitAlliance(exitMember.junzhuId, alncBean.id);
-		HibernateUtil.save(exitMember);
-		alncBean.members -= 1;
-		changeAllianceApplyState(alncBean);
-		HibernateUtil.save(alncBean);
-		Redis.getInstance().sremove(CACHE_MEMBERS_OF_ALLIANCE + alncBean.id,
-				exitMember.junzhuId + "");
-		// 移除在荒野奖励库的申请
-		String jzCacheKey = HYMgr.CACHE_HYSTORE_APPLY + alncBean.id + "_" + junZhu.id;
-		String site = Redis.getInstance().get(jzCacheKey);
-		if(site != null) {
-			Redis.getInstance().del(jzCacheKey);
-			Redis.getInstance().del(jzCacheKey);
-			Redis.getInstance().lrem(
-					HYMgr.CACHE_HYSTORE_APPLY + alncBean.id + "_" + site,
-					0, "" + junZhu.id);
+		synchronized (membersNumLock) {
+			if (exitMember == null || exitMember.lianMengId <= 0) {
+				return;
+			}
+			RankingGongJinMgr.inst.setGongJinTo0(exitMember.junzhuId, alncBean.id);
+			
+			resetAlliancePlayer(alncBean, exitMember);
+			AlliancePlayerDao.inst.exitAlliance(exitMember.junzhuId, alncBean.id);
+			HibernateUtil.save(exitMember);
+			alncBean.members -= 1;
+			changeAllianceApplyState(alncBean);
+			HibernateUtil.save(alncBean);
+			Redis.getInstance().sremove(CACHE_MEMBERS_OF_ALLIANCE + alncBean.id,
+					exitMember.junzhuId + "");
 		}
+
 		Date date = new Date();
 		logger.info("退出联盟成功，君主:{} 退出联盟:{},时间:{}", junZhu.name, alncBean.name, date);
 		session.removeAttribute(SessionAttKey.LM_NAME);
@@ -1142,7 +1139,7 @@ public class AllianceMgr extends EventProc{
 		int offlineTime = (int) ((date.getTime() - logoutDate.getTime()) / 1000);
 		return offlineTime;
 	}
-	public synchronized void fireMember(int cmd, IoSession session, Builder builder) {
+	public void fireMember(int cmd, IoSession session, Builder builder) {
 		FireMember.Builder request = (qxmobile.protobuf.AllianceProtos.FireMember.Builder) builder;
 		long memberId = request.getJunzhuId();
 
@@ -1168,28 +1165,30 @@ public class AllianceMgr extends EventProc{
 			return;
 		}
 		AlliancePlayer target = AllianceMgr.inst.getAlliancePlayer(memberId);
-		if (target == null) {
-			logger.error("开除联盟成员失败，君主成员Id:{}不在联盟:{}中不能开除操作", memberId, alncBean.name);
-			sendFireMemberResp(session, 1, alncBean.id, memberId);
-			return;
+		synchronized (membersNumLock) {
+			if (target == null || target.lianMengId <= 0) {
+				logger.error("开除联盟成员失败，君主成员Id:{}不在联盟:{}中不能开除操作", memberId, alncBean.name);
+				sendFireMemberResp(session, 1, alncBean.id, memberId);
+				return;
+			}
+			if (target.lianMengId != mengZhu.lianMengId) {
+				logger.error("开除联盟成员失败，该成员id:{}已经退出联盟:{}", memberId, alncBean.id);
+				sendFireMemberResp(session, 1, alncBean.id, memberId);
+				return;
+			}
+			// resetAlliancePlayer 之前，总结计算一次贡金 add 20150915
+			//	GuoJiaMgr.inst.calculateGongJinBeforeQuitAlliance(target.junzhuId);
+			RankingGongJinMgr.inst.setGongJinTo0(target.junzhuId, alncBean.id);
+			
+			resetAlliancePlayer(alncBean, target);
+			AlliancePlayerDao.inst.exitAlliance(target.junzhuId, alncBean.id);
+			HibernateUtil.save(target);
+			alncBean.members -= 1;
+			changeAllianceApplyState(alncBean);
+			HibernateUtil.save(alncBean);
+			Redis.getInstance().sremove(CACHE_MEMBERS_OF_ALLIANCE + alncBean.id,
+					"" + target.junzhuId);
 		}
-		if (target.lianMengId != mengZhu.lianMengId) {
-			logger.error("开除联盟成员失败，该成员id:{}已经退出联盟:{}", memberId, alncBean.id);
-			sendFireMemberResp(session, 1, alncBean.id, memberId);
-			return;
-		}
-		// resetAlliancePlayer 之前，总结计算一次贡金 add 20150915
-	//	GuoJiaMgr.inst.calculateGongJinBeforeQuitAlliance(target.junzhuId);
-		RankingGongJinMgr.inst.setGongJinTo0(target.junzhuId, alncBean.id);
-
-		resetAlliancePlayer(alncBean, target);
-		AlliancePlayerDao.inst.exitAlliance(target.junzhuId, alncBean.id);
-		HibernateUtil.save(target);
-		alncBean.members -= 1;
-		changeAllianceApplyState(alncBean);
-		HibernateUtil.save(alncBean);
-		Redis.getInstance().sremove(CACHE_MEMBERS_OF_ALLIANCE + alncBean.id,
-				"" + target.junzhuId);
 		Date date = new Date();
 		logger.info("开除联盟成员成功，{}开除成员{},时间:{}", mengZhu.junzhuId, target.junzhuId, date);
 		ActLog.log.Guild(target.junzhuId, "", "OUT", alncBean.id, alncBean.name, alncBean.level, "开除");
@@ -1809,8 +1808,6 @@ public class AllianceMgr extends EventProc{
 			HibernateUtil.save(member);
 			logger.info("解散联盟成功，联盟{}解散，删除成员 {}", alncBean.id, member.junzhuId);
 			ActLog.log.Guild(member.junzhuId, "", "OUT", alncBean.id, alncBean.name, alncBean.level, "解散");
-			String jzCacheKey = HYMgr.CACHE_HYSTORE_APPLY + member.lianMengId + "_" + member.junzhuId;
-			Redis.getInstance().del(jzCacheKey);
 			JunZhu jz = HibernateUtil.find(JunZhu.class, member.junzhuId);
 			int beforeGuojia = jz.guoJiaId;
 			jz.guoJiaId = 0;
@@ -2127,7 +2124,7 @@ public class AllianceMgr extends EventProc{
 		return false;
 	}
 	
-	public synchronized void immidiatelyJoin(int cmd, IoSession session, Builder builder) {
+	public void immidiatelyJoin(int cmd, IoSession session, Builder builder) {
 		JunZhu junZhu = JunZhuMgr.inst.getJunZhu(session);
 		if (junZhu == null) {
 			logger.error("未发现君主，cmd:{}", cmd);
@@ -2139,7 +2136,7 @@ public class AllianceMgr extends EventProc{
 		agreeInviteAndImmiJoinAlliance(PD.IMMEDIATELY_JOIN_RESP, session, junZhu, lianMengId);
 	}
 
-	public synchronized boolean agreeInviteAndImmiJoinAlliance(int responseCmd, IoSession session, JunZhu junZhu, int lianMengId) {
+	public boolean agreeInviteAndImmiJoinAlliance(int responseCmd, IoSession session, JunZhu junZhu, int lianMengId) {
 		String logHead = "";
 		if(responseCmd == PD.IMMEDIATELY_JOIN_RESP) {
 			logHead = "立刻加入联盟";
@@ -2200,12 +2197,6 @@ public class AllianceMgr extends EventProc{
 			}
 			
 		}
-		int memberMax = getAllianceMemberMax(alncBean.id);
-		if (alncBean.members >= memberMax) {
-			logger.error("{}失败，联盟:{}人数已满，等级:{}", logHead, lianMengId, alncBean.level);
-			sendImmediatelyJoinResp(session, 5, null, responseCmd,lianMengId,guojia,remainTime);
-			return false;
-		}
 
 		AllianceApply applyer = HibernateUtil.find(AllianceApply.class, junZhu.id);
 		Date date = new Date();
@@ -2218,22 +2209,31 @@ public class AllianceMgr extends EventProc{
 			logger.error("{}失败，申请者 jzId:{},已经加入了联盟:{}", logHead,junZhu.id, alncPlayer.lianMengId);
 			return false;
 		}
-
-		alncPlayer.lianMengId = alncBean.id;
-		alncPlayer.joinTime = date;
-		alncPlayer.title = TITLE_MEMBER;
-		AlliancePlayerDao.inst.joinAlliance(alncPlayer, alncBean.id);
-		HibernateUtil.save(alncPlayer);
-		Redis.getInstance().sadd(CACHE_MEMBERS_OF_ALLIANCE + alncBean.id,
-				"" + alncPlayer.junzhuId);
-		logger.info("{}成功，junzhu:{}，在时间:{},加入联盟:{}", logHead, junZhu.name, date, alncBean.name);
-		session.setAttribute(SessionAttKey.LM_NAME, alncBean.name);
-		session.setAttribute(SessionAttKey.LM_ZHIWU, alncPlayer.title);
-		session.setAttribute(SessionAttKey.LM_INFO, alncPlayer);
-		ActLog.log.Guild(junZhu.id, junZhu.name, "JOIN", alncBean.id, alncBean.name, alncBean.level, "");
-		alncBean.members = alncBean.members + 1;
-		changeAllianceApplyState(alncBean);
-		HibernateUtil.save(alncBean);
+		synchronized (membersNumLock) {
+			int memberMax = getAllianceMemberMax(alncBean.id);
+			if (alncBean.members >= memberMax) {
+				logger.error("{}失败，联盟:{}人数已满，等级:{}", logHead, lianMengId, alncBean.level);
+				sendImmediatelyJoinResp(session, 5, null, responseCmd,lianMengId,guojia,remainTime);
+				return false;
+			}
+			
+			alncPlayer.lianMengId = alncBean.id;
+			alncPlayer.joinTime = date;
+			alncPlayer.title = TITLE_MEMBER;
+			AlliancePlayerDao.inst.joinAlliance(alncPlayer, alncBean.id);
+			HibernateUtil.save(alncPlayer);
+			Redis.getInstance().sadd(CACHE_MEMBERS_OF_ALLIANCE + alncBean.id,
+					"" + alncPlayer.junzhuId);
+			logger.info("{}成功，junzhu:{}，在时间:{},加入联盟:{}", logHead, junZhu.name, date, alncBean.name);
+			session.setAttribute(SessionAttKey.LM_NAME, alncBean.name);
+			session.setAttribute(SessionAttKey.LM_ZHIWU, alncPlayer.title);
+			session.setAttribute(SessionAttKey.LM_INFO, alncPlayer);
+			ActLog.log.Guild(junZhu.id, junZhu.name, "JOIN", alncBean.id, alncBean.name, alncBean.level, "");
+			alncBean.members = alncBean.members + 1;
+			changeAllianceApplyState(alncBean);
+			HibernateUtil.save(alncBean);
+		}
+		
 		// 批准成功操作，删除申请的其他联盟
 		if (applyer != null && applyer != defaultAllianceApply) {
 			clearApplyAllianceCache(applyer);

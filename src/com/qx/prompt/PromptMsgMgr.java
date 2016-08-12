@@ -957,13 +957,12 @@ public class PromptMsgMgr extends EventProc implements Runnable {
 			tellAllMembers(jzId, lmId, true, FunctionID.lianmengJunQingYabiao, null);
 			break;
 		case ED.JUNZHU_LOGIN:
-			if (e.param != null && e.param instanceof Long) {
-				long jzid = (Long) e.param;
-				JunZhu junZhu = HibernateUtil.find(JunZhu.class, jzid);
+			if (e.param != null && e.param instanceof JunZhu) {
+				JunZhu junZhu  = (JunZhu) e.param;
 				if (junZhu == null) {
 					break;
 				}
-				boolean isOpen2 = FunctionOpenMgr.inst.isFunctionOpen(FunctionID.yabiao, jzid, junZhu.level);
+				boolean isOpen2 = FunctionOpenMgr.inst.isFunctionOpen(FunctionID.yabiao, junZhu.id, junZhu.level);
 				if(!isOpen2){
 					break;
 				}

@@ -56,13 +56,13 @@ public class TestAllianceInfo extends TestBase{
 		}
 		int state = 0;// 0-没有能加入的联盟，1-立刻加入了一个联盟，2-申请了一个联盟
 		for(NonAllianceInfo info : infoList) {
-//			if(info.getApplyLevel() > jzInfo.getLevel() || info.getJunXian() > jzInfo.getJunXian()) {
-//				continue;
-//			}
+			if(info.getApplyLevel() > jzInfo.getLevel() || info.getJunXian() > jzInfo.getJunXian()) {
+				continue;
+			}
 			ProtobufMsg msg = new ProtobufMsg();
 			if(info.getIsShenPi() == 1) {
 				immediatelyJoin.Builder request = immediatelyJoin.newBuilder();
-				request.setLianMengId(10014);//10014梁斌指定的联盟
+				request.setLianMengId(info.getId());
 				msg.id = PD.IMMEDIATELY_JOIN;
 				msg.builder = request;
 				cl.session.write(msg);

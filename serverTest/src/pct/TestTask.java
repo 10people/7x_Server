@@ -132,6 +132,9 @@ public class TestTask extends TestBase{
 			cl.session.write(new ProtobufMsg(PD.C_GetTaskReward, request));
 			System.out.println("尝试领取奖励");
 			cl.session.removeAttribute("TIMES");
+			if(conf.doneType == TaskData.finish_yunbiao_x){
+				cl.enterScene();//运镖结束回主城，防止运镖场景太多人。
+			}
 			return;
 		}
 		switch(conf.doneType){
